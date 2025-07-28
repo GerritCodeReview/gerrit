@@ -195,6 +195,24 @@
       "parentUuid": "365cc46e_94360baf",
       "revId": "e920039b4093da17efdc10ea8c1d9b52ef24ba2d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d649b043_9c5ed986",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-07-28T14:19:19Z",
+      "side": 1,
+      "message": "Thanks much for your invaluable input. I feel like this is understood well enough now so that we could try implementing this in Gerrit (hooking in our own SigningKeyDatabase). To conclude this discussion I summarised the findings in a feature request [1]. I\u0027m not sure if/when we will pick it up, but I like that we clarified this enough, so that we could start working on this any time.\n\n[1] https://g-issues.gerritcodereview.com/issues/434664943",
+      "parentUuid": "7b218e6c_768ba840",
+      "revId": "e920039b4093da17efdc10ea8c1d9b52ef24ba2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

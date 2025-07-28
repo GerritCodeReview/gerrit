@@ -4680,6 +4680,18 @@ be deleted.
 deleted.
 |==========================
 
+[[delete-changes-input]]
+=== DeleteChangesInput
+The `DeleteChangesInput` entity contains information about changes that should
+be deleted.
+
+[options="header",width="50%",cols="1,6"]
+|==========================
+|Field Name   |Description
+|`changes`    |
+A list of changes (Change-Id or Change-Number) that identify the changes that should be deleted.
+|==========================
+
 [[delete-tags-input]]
 === DeleteTagsInput
 The `DeleteTagsInput` entity contains information about tags that should

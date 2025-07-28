@@ -16,7 +16,7 @@ import {resolve} from '../../../models/dependency';
 import {configModelToken} from '../../../models/config/config-model';
 import {GrSuggestionDiffPreview} from '../gr-suggestion-diff-preview/gr-suggestion-diff-preview';
 import {changeModelToken} from '../../../models/change/change-model';
-import {Comment, PatchSetNumber} from '../../../types/common';
+import {Comment, isDraft, PatchSetNumber} from '../../../types/common';
 import {OpenFixPreviewEventDetail} from '../../../types/events';
 import {pluginLoaderToken} from '../gr-js-api-interface/gr-plugin-loader';
 import {SuggestionsProvider} from '../../../api/suggestions';
@@ -27,6 +27,7 @@ import {storageServiceToken} from '../../../services/storage/gr-storage_impl';
 import {getAppContext} from '../../../services/app-context';
 import {Interaction} from '../../../constants/reporting';
 import {ChangeStatus, FixSuggestionInfo} from '../../../api/rest-api';
+import {stringToReplacements} from '../../../utils/comment-util';
 import {ReportSource} from '../../../services/suggestions/suggestions-service';
 
 export const COLLAPSE_SUGGESTION_STORAGE_KEY = 'collapseSuggestionStorageKey';
@@ -50,6 +51,8 @@ export class GrFixSuggestions extends LitElement {
   @state() private docsBaseUrl = '';
 
   @state() private applyingFix = false;
+
+  @state() private isEditingSuggestion = false;
 
   @state() latestPatchNum?: PatchSetNumber;
 
@@ -200,6 +203,9 @@ export class GrFixSuggestions extends LitElement {
   override render() {
     const fix_suggestions = this.getFixSuggestions();
     if (!fix_suggestions) return;
+    const editableSuggestionEnabled = this.flagsService.isEnabled(
+      KnownExperimentId.ML_SUGGESTED_EDIT_EDITABLE_SUGGESTION
+    );
     return html`<div class="header">
         <div class="title">
           <span
@@ -267,19 +273,23 @@ export class GrFixSuggestions extends LitElement {
             Show Edit
           </gr-button>
           ${when(
-            this.isOwner && !this.collapsed,
-            () =>
-              html`<gr-button
-                secondary
-                flatten
-                .loading=${this.applyingFix}
-                .disabled=${this.isApplyEditDisabled()}
-                class="action show-fix"
-                @click=${this.handleApplyFix}
-                .title=${this.computeApplyEditTooltip()}
-              >
-                Apply Edit
-              </gr-button>`
+            !this.collapsed &&
+              editableSuggestionEnabled &&
+              this.isEditingSuggestion,
+            () => this.renderEditingButtons()
+          )}
+          ${when(
+            !this.collapsed &&
+              editableSuggestionEnabled &&
+              !this.isEditingSuggestion &&
+              isDraft(this.comment),
+            () => this.renderChangeEditButton()
+          )}
+          ${when(
+            this.isOwner &&
+              !this.collapsed &&
+              !(editableSuggestionEnabled && this.isEditingSuggestion),
+            () => this.renderApplyEditButton()
           )}
           ${this.renderToggle()}
         </div>
@@ -288,8 +298,59 @@ export class GrFixSuggestions extends LitElement {
         .fixSuggestionInfo=${this.getFixSuggestions()?.[0]}
         .patchSet=${this.comment?.patch_set}
         .commentId=${this.comment?.id}
+        .editable=${editableSuggestionEnabled && this.isEditingSuggestion}
         @preview-loaded=${() => (this.previewLoaded = true)}
       ></gr-suggestion-diff-preview>`;
+  }
+
+  private renderChangeEditButton() {
+    return html`<gr-button
+      secondary
+      flatten
+      class="action edit-fix"
+      @click=${this.handleEditFix}
+    >
+      Change Edit
+    </gr-button>`;
+  }
+
+  private renderEditingButtons() {
+    return html`<gr-button
+        secondary
+        flatten
+        class="action cancel-fix"
+        @click=${this.handleCancelFix}
+      >
+        Cancel </gr-button
+      ><gr-button
+        secondary
+        flatten
+        class="action reset-fix"
+        @click=${this.handleResetFix}
+      >
+        Reset </gr-button
+      ><gr-button
+        secondary
+        flatten
+        class="action save-fix"
+        @click=${this.handleSaveFix}
+      >
+        Save
+      </gr-button>`;
+  }
+
+  private renderApplyEditButton() {
+    return html`<gr-button
+      secondary
+      flatten
+      .loading=${this.applyingFix}
+      .disabled=${this.isApplyEditDisabled()}
+      class="action apply-fix"
+      @click=${this.handleApplyFix}
+      .title=${this.computeApplyEditTooltip()}
+    >
+      Apply Edit
+    </gr-button>`;
   }
 
   private renderToggle() {
@@ -361,6 +422,42 @@ export class GrFixSuggestions extends LitElement {
     fire(this, 'open-fix-preview', eventDetail);
   }
 
+  handleCancelFix() {
+    this.isEditingSuggestion = false;
+    this.suggestionDiffPreview?.reset();
+  }
+
+  handleEditFix() {
+    this.isEditingSuggestion = true;
+  }
+
+  handleResetFix() {
+    this.suggestionDiffPreview?.reset();
+  }
+
+  handleSaveFix() {
+    this.isEditingSuggestion = false;
+
+    const newContent = this.suggestionDiffPreview?.getEditedContent();
+    if (newContent === undefined) return;
+
+    const suggestions = this.getFixSuggestions();
+    if (!suggestions || !suggestions.length) return;
+
+    const newReplacements = stringToReplacements(newContent);
+    const newSuggestions = [
+      {
+        ...suggestions[0],
+        replacements: newReplacements,
+      },
+      ...suggestions.slice(1),
+    ];
+    if (this.comment) {
+      this.comment.fix_suggestions = newSuggestions;
+    }
+    fire(this, 'generated-suggestion-changed', {suggestions: newSuggestions});
+  }
+
   async handleApplyFix() {
     if (!this.getFixSuggestions()) return;
     this.applyingFix = true;
@@ -415,5 +512,10 @@ export class GrFixSuggestions extends LitElement {
 declare global {
   interface HTMLElementTagNameMap {
     'gr-fix-suggestions': GrFixSuggestions;
+  }
+  interface HTMLElementEventMap {
+    'generated-suggestion-changed': CustomEvent<{
+      suggestions: FixSuggestionInfo[];
+    }>;
   }
 }

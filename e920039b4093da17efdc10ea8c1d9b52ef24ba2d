@@ -249,6 +249,24 @@
       "parentUuid": "c9dd6ed3_eacea3ce",
       "revId": "e920039b4093da17efdc10ea8c1d9b52ef24ba2d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1504cea8_3b07cad6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-07-28T15:30:25Z",
+      "side": 1,
+      "message": "Ah, got it now! Thanks much for clarifying! I fix this passage in the feature request.",
+      "parentUuid": "f62feefa_193440cb",
+      "revId": "e920039b4093da17efdc10ea8c1d9b52ef24ba2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

@@ -2474,6 +2474,20 @@ metadata entries with the same name may be returned.
 link:rest-api-changes.html#web-link-info[WebLinkInfo] entities.
 |==========================
 
+[[Ai-Models-info]]
+=== AiModelsInfo
+The `AiModels` entity contains information about Gerrit supported AI model
+for the code review.
+
+[options="header",cols="1,^1,5"]
+|==========================
+|Field Name           ||Description
+|`plugin_name`                  ||
+Name of the plugin which provide the AI API connection implementation.
+|`ai_model_name`                  ||
+AI model name to which you are requesting for a code review.
+|==========================
+
 [[plugin-config-info]]
 === PluginConfigInfo
 The `PluginConfigInfo` entity contains information about Gerrit
@@ -2583,6 +2597,9 @@ requirements.
 |`metadata`                ||
 Optional server metadata as a list of link:#metadata-info[MetadataInfo]
 entities. If and which metadata is provided depends on the Gerrit setup.
+|`ai_models`                    ||
+Information about the supported AI models in Gerrit as
+link:#Ai-Models-info[AiModelsInfo] entity.
 |=======================================
 
 [[snapshot-index-input]]

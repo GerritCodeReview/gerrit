@@ -6736,6 +6736,40 @@ describes the resulting cherry-pick change.
   }
 ----
 
+[[Get-AI-Review]]
+=== Get AI Review
+--
+'POST /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/ai-review'
+--
+
+This API will take AI prompt (containing change information) and
+a list of AI models as input, send the prompt to the selected
+AI model, and return the response from the AI model.
+
+The inputs must be provided in the request body, inside a
+link:#Ai-Code-Review-Input[AiCodeReviewInput] entity.
+
+.Request
+----
+  POST /changes/1/revisions/2/ai-review HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+    {
+      "models":       ["<my-ai-model-foo>"],
+      "prompt":      "<Please review following code...>",
+      "plugin_name": "<Name of the AI plugin>"
+    }
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {"response":"Here is the review of the code you provided..."}
+----
+
 [[revision-reviewer-endpoints]]
 == Revision Reviewer Endpoints
 
@@ -7180,6 +7214,23 @@ or link:access-control.html#category_rebase[Rebase] permission.
 |===================================
 
 For all other REST views no options are returned.
+
+[[Ai-Code-Review-Input]]
+=== AiCodeReviewInput
+The `AiCodeReviewInput` entity describes parameters needed for
+AI to review the code.
+
+[options="header",cols="1,5"]
+|===========================
+|Field Name      |Description
+|`models`        |List of AI models to be used to request AI
+code review for the current change.
+|`prompt`        |Prompt containing information about a request
+for AI to perform a code review, including details of the change.
+|`plugin_name`   |The AI plugin to request a code review from.
+This enables installing multiple plugins implementing the
+AICodeReview extension point simultaneously.
+|===========================
 
 [[applypatch-input]]
 === ApplyPatchInput

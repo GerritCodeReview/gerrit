@@ -23,6 +23,7 @@ public class AuthTokenModule extends FactoryModule {
   @Override
   protected void configure() {
     factory(HttpPasswordFallbackAuthTokenAccessor.Factory.class);
+    factory(MaxAuthTokenLifetimeApplier.Factory.class);
   }
 
   @Provides

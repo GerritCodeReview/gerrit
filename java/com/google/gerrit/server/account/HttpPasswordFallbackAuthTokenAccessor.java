@@ -97,6 +97,12 @@ public class HttpPasswordFallbackAuthTokenAccessor implements AuthTokenAccessor 
     accessor.deleteAllTokens(accountId);
   }
 
+  @Override
+  public void updateToken(Account.Id accountId, AuthToken token)
+      throws IOException, ConfigInvalidException, InvalidAuthTokenException {
+    accessor.updateToken(accountId, token);
+  }
+
   ImmutableList<AuthToken> fallBackToLegacyHttpPassword(Account.Id accountId) {
     AccountState accountState = accountCache.getEvenIfMissing(accountId);
     Optional<ExternalId> optUser =

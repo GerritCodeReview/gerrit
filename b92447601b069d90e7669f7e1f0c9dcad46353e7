@@ -40,6 +40,30 @@
       ],
       "revId": "b92447601b069d90e7669f7e1f0c9dcad46353e7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "778b3bc6_6d79eede",
+        "filename": "java/com/google/gerrit/extensions/api/projects/TagInput.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-07-28T08:00:32Z",
+      "side": 1,
+      "message": "Good point, but wrong issue?\n\nI copied the comment that we use in other places (e.g. in TagInfo) to be consistent.",
+      "parentUuid": "751063c4_322a81d1",
+      "range": {
+        "startLine": 24,
+        "startChar": 2,
+        "endLine": 24,
+        "endChar": 24
+      },
+      "revId": "b92447601b069d90e7669f7e1f0c9dcad46353e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

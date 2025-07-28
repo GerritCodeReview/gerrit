@@ -31,7 +31,7 @@ suite('gr-ai-prompt-dialog test', () => {
     assert.shadowDom.equal(
       element,
       ` <section>
-          <h3 class="heading-3">Create AI Prompt (experimental)</h3>
+          <h3 class="heading-3">Copy AI Prompt (experimental)</h3>
         </section>
         <section class="flexContainer">
           <div class="content">

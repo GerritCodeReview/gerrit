@@ -585,7 +585,7 @@ export class GrChangeSummary extends LitElement {
                   this.flagsService.isEnabled(KnownExperimentId.GET_AI_PROMPT),
                   () =>
                     html`<gr-button link @click=${this.handleOpenAiPromptDialog}
-                      >Help Me Review</gr-button
+                      >Create AI Review Prompt</gr-button
                     >`
                 )}
               </div>

@@ -156,7 +156,7 @@ export class GrAiPromptDialog extends LitElement {
   override render() {
     return html`
       <section>
-        <h3 class="heading-3">Create AI Prompt (experimental)</h3>
+        <h3 class="heading-3">Copy AI Prompt (experimental)</h3>
       </section>
       ${when(
         this.loading,

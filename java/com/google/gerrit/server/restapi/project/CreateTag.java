@@ -24,7 +24,6 @@ import com.google.gerrit.extensions.api.projects.TagInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.IdString;
-import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -47,6 +46,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.time.ZoneId;
+import java.util.regex.Pattern;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.TagCommand;
 import org.eclipse.jgit.api.errors.ConcurrentRefUpdateException;
@@ -61,6 +61,10 @@ import org.eclipse.jgit.revwalk.RevWalk;
 @Singleton
 public class CreateTag implements RestCollectionCreateView<ProjectResource, TagResource, TagInput> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
+  private static final Pattern SIGNATURE_PATTERN =
+      Pattern.compile(Pattern.quote("-----BEGIN") + ".*" + Pattern.quote("SIGNATURE-----\n"));
+
   private final PermissionBackend permissionBackend;
   private final GitRepositoryManager repoManager;
   private final TagCache tagCache;
@@ -91,6 +95,9 @@ public class CreateTag implements RestCollectionCreateView<ProjectResource, TagR
     if (input.ref != null && !ref.equals(input.ref)) {
       throw new BadRequestException("ref must match URL");
     }
+    if (input.date != null && TimeUtil.now().isBefore(input.date.toInstant())) {
+      throw new BadRequestException("date cannot be in the future");
+    }
     if (input.revision != null) {
       input.revision = input.revision.trim();
     }
@@ -111,14 +118,15 @@ public class CreateTag implements RestCollectionCreateView<ProjectResource, TagR
         RevObject object = rw.parseAny(revid);
         rw.reset();
         boolean isAnnotated = Strings.emptyToNull(input.message) != null;
-        boolean isSigned = isAnnotated && input.message.contains("-----BEGIN PGP SIGNATURE-----\n");
+        boolean isSigned = isAnnotated && SIGNATURE_PATTERN.matcher(input.message).find();
         if (isSigned) {
-          throw new MethodNotAllowedException("Cannot create signed tag \"" + ref + "\"");
+          if (!check(perm, RefPermission.CREATE_SIGNED_TAG)) {
+            throw new AuthException("Cannot create signed tag \"" + ref + "\"");
+          }
         } else if (isAnnotated) {
           if (!check(perm, RefPermission.CREATE_TAG)) {
             throw new AuthException("Cannot create annotated tag \"" + ref + "\"");
           }
-
         } else {
           perm.check(RefPermission.CREATE);
         }
@@ -132,7 +140,7 @@ public class CreateTag implements RestCollectionCreateView<ProjectResource, TagR
                   .setObjectId(object)
                   .setName(ref.substring(R_TAGS.length()))
                   .setAnnotated(isAnnotated)
-                  .setSigned(isSigned);
+                  .setSigned(false);
 
           if (isAnnotated) {
             tag.setMessage(input.message)
@@ -140,7 +148,9 @@ public class CreateTag implements RestCollectionCreateView<ProjectResource, TagR
                     resource
                         .getUser()
                         .asIdentifiedUser()
-                        .newCommitterIdent(TimeUtil.now(), ZoneId.systemDefault()));
+                        .newCommitterIdent(
+                            input.date != null ? input.date.toInstant() : TimeUtil.now(),
+                            ZoneId.systemDefault()));
           }
 
           try {

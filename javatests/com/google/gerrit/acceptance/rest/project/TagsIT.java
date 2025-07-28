@@ -39,12 +39,13 @@ import com.google.gerrit.extensions.api.projects.TagInput;
 import com.google.gerrit.extensions.common.ListTagSortOption;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
-import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.project.ProjectConfig;
+import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
+import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.Arrays;
 import java.util.List;
@@ -57,8 +58,11 @@ public class TagsIT extends AbstractDaemonTest {
   private static final ImmutableList<String> testTags =
       ImmutableList.of("tag-A", "tag-B", "tag-C", "tag-D", "tag-E", "tag-F", "tag-G", "tag-H");
 
+  private static final String ANNOTATION = "annotation";
+
   private static final String SIGNED_ANNOTATION =
-      "annotation\n"
+      ANNOTATION
+          + "\n"
           + "-----BEGIN PGP SIGNATURE-----\n"
           + "Version: GnuPG v1\n"
           + "\n"
@@ -344,13 +348,68 @@ public class TagsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void createSignedTagNotSupported() throws Exception {
+  public void createSignedTag() throws Exception {
     TagInput input = new TagInput();
     input.ref = "test";
     input.message = SIGNED_ANNOTATION;
-    MethodNotAllowedException thrown =
-        assertThrows(MethodNotAllowedException.class, () -> tag(input.ref).create(input));
+    input.revision = projectOperations.project(project).getHead("master").name();
+
+    AuthException thrown = assertThrows(AuthException.class, () -> tag(input.ref).create(input));
     assertThat(thrown).hasMessageThat().contains("Cannot create signed tag \"" + R_TAGS + "test\"");
+
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.CREATE_SIGNED_TAG).ref(R_TAGS + "*").group(REGISTERED_USERS))
+        .update();
+
+    TagInfo tagInfo = tag(input.ref).create(input).get();
+    assertThat(tagInfo.ref).isEqualTo("refs/tags/" + input.ref);
+    assertThat(tagInfo.object).isEqualTo(input.revision);
+    assertThat(tagInfo.message).isEqualTo(ANNOTATION);
+    assertThat(tagInfo.tagger.name).isEqualTo(admin.fullName());
+    assertThat(tagInfo.tagger.email).isEqualTo(admin.email());
+    assertThat(tagInfo.created).isEqualTo(tagInfo.tagger.date);
+  }
+
+  @Test
+  @UseClockStep
+  public void createTagWithDate() throws Exception {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.CREATE_TAG).ref(R_TAGS + "*").group(REGISTERED_USERS))
+        .update();
+
+    TagInput input = new TagInput();
+    input.ref = "test";
+    input.message = "annotated";
+    input.date = Timestamp.from(TimeUtil.now());
+
+    TagInfo tagInfo = tag(input.ref).create(input).get();
+    assertThat(tagInfo.message).isEqualTo(input.message);
+    assertThat(tagInfo.tagger.name).isEqualTo(admin.fullName());
+    assertThat(tagInfo.tagger.email).isEqualTo(admin.email());
+    assertThat(tagInfo.tagger.date).isEqualTo(input.date);
+    assertThat(tagInfo.created).isEqualTo(tagInfo.tagger.date);
+  }
+
+  @Test
+  public void createTagWithDateInTheFuture() throws Exception {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.CREATE_TAG).ref(R_TAGS + "*").group(REGISTERED_USERS))
+        .update();
+
+    TagInput input = new TagInput();
+    input.ref = "test";
+    input.message = "annotated";
+    input.date = Timestamp.valueOf("9999-12-31 23:59:59.999");
+
+    BadRequestException thrown =
+        assertThrows(BadRequestException.class, () -> tag(input.ref).create(input));
+    assertThat(thrown).hasMessageThat().contains("date cannot be in the future");
   }
 
   @Test

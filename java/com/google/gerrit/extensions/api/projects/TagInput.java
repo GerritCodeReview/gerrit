@@ -15,9 +15,14 @@
 package com.google.gerrit.extensions.api.projects;
 
 import com.google.gerrit.extensions.restapi.DefaultInput;
+import java.sql.Timestamp;
 
 public class TagInput {
   @DefaultInput public String ref;
   public String revision;
   public String message;
+
+  // TODO(issue-40014498): Migrate timestamp fields in *Info/*Input classes from type Timestamp to
+  // Instant
+  public Timestamp date;
 }

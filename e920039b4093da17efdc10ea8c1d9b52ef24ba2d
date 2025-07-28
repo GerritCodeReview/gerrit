@@ -231,6 +231,24 @@
       "parentUuid": "d649b043_9c5ed986",
       "revId": "e920039b4093da17efdc10ea8c1d9b52ef24ba2d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f62feefa_193440cb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149436
+      },
+      "writtenOn": "2025-07-28T15:13:48Z",
+      "side": 1,
+      "message": "I notice you wrote in the feature request \"When doing this we must make sure that the message and the signature are separated by a newline\". Note that this is not good enough. The newline must be part of the blob that got signed; it really must be part of the tag message. C git does that at [1]; `strbuf_stripspace` adds a newline to the message if it doesn\u0027t end in one already.\n\nAs an aside: it is possible with C git to create a signed tag that git itself cannot verify if this newline is missing:\n```\n$ git tag -s -m \u0027No newline\u0027 --cleanup\u003dverbatim myBrokenTag\n$ git tag -v myBrokenTag\nobject cc329bc72e04dbf86327f0b7f53d2e9f7b3d10c3\ntype commit\ntag myBrokenTag\ntagger Thomas Wolf \u003ctwolf@apache.org\u003e 1753709990 +0200\n\nNo newline-----BEGIN SSH SIGNATURE-----\nU1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgQbPz9Yv3atUX4tkMRuMbKDlYGA\nzW4YpOxNwA4WQMNZ0AAAADZ2l0AAAAAAAAAAZzaGE1MTIAAABTAAAAC3NzaC1lZDI1NTE5\nAAAAQP6take2zoNDQGjRccP4KArqIrEiwc4S404Y0110d+VF/g5YhiVoiePVdN9X20gSI1\nf46kmuQL3KjtWfzI1DhgQ\u003d\n-----END SSH SIGNATURE-----\nerror: no signature found\n```\n\n(Looks like a bug in C git. It should either add the missing newline even in verbatim mode, or error out on an non-empty message that doesn\u0027t end in a newline when signing is requested.)\n\n[1] https://github.com/git/git/blob/e4ef0485fd78fcb05866ea78df35796b904e4a8e/builtin/tag.c#L369",
+      "parentUuid": "c9dd6ed3_eacea3ce",
+      "revId": "e920039b4093da17efdc10ea8c1d9b52ef24ba2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

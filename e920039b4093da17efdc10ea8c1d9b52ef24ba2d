@@ -141,6 +141,24 @@
       "parentUuid": "5829d9d3_2fbfcebe",
       "revId": "e920039b4093da17efdc10ea8c1d9b52ef24ba2d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2a6007ed_665f1ce4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-07-28T11:10:45Z",
+      "side": 1,
+      "message": "\u003e Well, did you check the return value of the \"git verify-tag\" command you gave?\n\u003e I suspect it\u0027s non-zero, indicating a failed signature verification.\n\nI didn\u0027t check this before. You are right that it\u0027s non-zero:\n\n```\n$ ssh-keygen -t rsa -q -P \"\" -f id_rsa\n$ git config gpg.format ssh\n$ git config user.signingkey id_rsa.pub  \n$ git tag -s my-signed-tag\n$ git -c gpg.ssh.allowedSignersFile\u003d/dev/null verify-tag refs/tags/my-signed-tag\nGood \"git\" signature with RSA key SHA256:OCiTv40IRSCDABWjuGVvfCwX4eqHyED8/UecPwGWKTE\nNo principal matched.\n$ echo $?\n1\n```\n\n\u003e The signature contains the public key used to create the signature already. See [1]\n\nThanks, I wasn\u0027t aware of this.\n\n\u003e Gerrit could, for SSH signatures, extract that key and fake an allowedSigners\n\u003e file with the identity of the currently-logged-in user and that key.\n\nI did consider faking an allowedSigners file, but the problem is that our servers don\u0027t have access to a regular file system. So I\u0027m not sure this is feasible for us.\n\n\u003e Or Gerrit hooks in its own SigningKeyDatabase.\n\nThis looks interesting. On first sight this looks like it could work. Thanks for suggesting this.\n\n\u003e It could even require that the SSH key used for tagging be one of the SSH keys \n\u003e associated with the account.\n\nYes, this sounds like a good idea.\n\n\u003e BTW, should the REST API only accept SSH signatures, or would it also accept\n\u003e openpgp or x509 signatures?\n\nAFAIK our use case is only for SSH signatures. Earlier I thought, if we allow one signature, we should allow all [1], but maybe it\u0027s better to restrict this to SSH signatures.\n\nAs additional context, it\u0027s the go team that wants to be able to create signed tags via REST. While our documentation says that this is not supported [2], they managed to do this using this script [3] (I just realised that this is public). So we were discussing how we can make that support more official, and having Gerrit be able to verify the signature is the missing piece here.\n\n[1] https://gerrit-review.git.corp.google.com/c/gerrit/+/494162\n\n[2] https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#create-tag\n\n[3] https://github.com/rsc/tmp/blob/master/signre2/main.go",
+      "parentUuid": "719c75c9_79d91d82",
+      "revId": "e920039b4093da17efdc10ea8c1d9b52ef24ba2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

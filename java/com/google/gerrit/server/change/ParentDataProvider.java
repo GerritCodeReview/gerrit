@@ -53,19 +53,17 @@ public class ParentDataProvider {
    */
   public ParentCommitData get(
       Project.NameKey project, Repository repo, ObjectId parentCommitId, String targetBranch) {
-    boolean inTargetBranch = isMergedInTargetBranch(project, repo, parentCommitId, targetBranch);
     Optional<ParentCommitData> fromGerritChange =
         getFromGerritChange(project, parentCommitId, targetBranch);
     if (fromGerritChange.isEmpty()) {
+      boolean inTargetBranch = isMergedInTargetBranch(project, repo, parentCommitId, targetBranch);
       return ParentCommitData.builder()
           .branchName(Optional.of(targetBranch))
           .commitId(Optional.of(parentCommitId))
           .isMergedInTargetBranch(inTargetBranch)
           .autoBuild();
     }
-    return fromGerritChange
-        .map(f -> f.toBuilder().isMergedInTargetBranch(inTargetBranch).autoBuild())
-        .get();
+    return fromGerritChange.get();
   }
 
   /** Returns true if the parent commit {@code parentCommitId} is merged in the target branch. */
@@ -123,6 +121,7 @@ public class ParentDataProvider {
             .changeNumber(Optional.of(singleData.getId().get()))
             .patchSetNumber(Optional.of(patchSetNumber))
             .changeStatus(Optional.of(singleData.change().getStatus()))
+            .isMergedInTargetBranch(singleData.change().isMerged())
             .autoBuild());
   }
 }

@@ -285,6 +285,24 @@
       "parentUuid": "a274a60f_2ab299f1",
       "revId": "c90a46a5d8c6e1044cceb4bc96256735657bc2af",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "49fb58cb_d0f4be6d",
+        "filename": "java/com/google/gerrit/server/notedb/RepoSequence.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2025-07-29T23:29:33Z",
+      "side": 1,
+      "message": "If we think it might be transitional, then you could add a retry and when it eventually fails (after enough time that you wouldn\u0027t considered it transitional), then delete the ref?",
+      "parentUuid": "1145dccc_584f6223",
+      "revId": "c90a46a5d8c6e1044cceb4bc96256735657bc2af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

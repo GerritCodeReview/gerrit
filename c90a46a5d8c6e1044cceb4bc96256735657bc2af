@@ -231,6 +231,24 @@
       "parentUuid": "b4168f17_ced97fa4",
       "revId": "c90a46a5d8c6e1044cceb4bc96256735657bc2af",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ebbc6dd_8e59fd9d",
+        "filename": "java/com/google/gerrit/server/notedb/RepoSequence.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2025-07-29T21:30:19Z",
+      "side": 1,
+      "message": "Unsetting the value seems a bit too drastic, I think, because this state may be transient and could auto-recover. For example, if the sequence ref is loose but temporarily not found due to NFS issues, we might fall back to the value from packed-refs, which would likely be outdated (non-incremental). However, the next time a read is attempted, it may return the latest value from the loose ref.\n\nWe are in a way flagging the value as bad by not allowing it to be used. However, I can\u0027t think of a good way to persist this behavior across service restarts.",
+      "parentUuid": "b6579969_331561c0",
+      "revId": "c90a46a5d8c6e1044cceb4bc96256735657bc2af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -16,6 +16,23 @@
       "message": "Bump :)",
       "revId": "9933364dcebe5cbb47e8913a093c37e5ef36461f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a44e58b1_bab0275d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-07-29T11:31:57Z",
+      "side": 1,
+      "message": "I would leave this to @brohlfs@google.com who introduced gr-textarea component. I would prefer wrapper over gr-textarea or fork of gr-textarea because gr-textarea was introduced only for comments with ai completion and I would like to leave it simple.",
+      "revId": "9933364dcebe5cbb47e8913a093c37e5ef36461f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -5474,6 +5474,19 @@ By default 25.
 [[performance]]
 === Section performance
 
+[[performance.maxOperationsToLog]]performance.maxOperationsToLog::
++
+If a request is traced a performance summary with the most expensive
+operations is logged at the end of a request. This setting controls
+the maximum number of operations for which the latency should be
+included into the logged performance summary.
++
+Note the performance summary is only logged if the request is traced
+and performance logging is enabled (see
+link:#tracing.performanceLogging[tracing.performanceLogging] setting).
++
+By default 25.
+
 [[performance.metric]]
 ==== Subsection performance.metric
 

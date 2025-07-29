@@ -169,6 +169,7 @@ eslint(
         "@npm//eslint-plugin-n",
         "@npm//eslint-plugin-prettier",
         "@npm//eslint-plugin-regex",
+        "@npm//eslint-plugin-es-x",
         "@npm//gts",
     ],
 )

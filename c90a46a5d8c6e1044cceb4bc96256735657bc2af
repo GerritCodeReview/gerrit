@@ -249,6 +249,24 @@
       "parentUuid": "b6579969_331561c0",
       "revId": "c90a46a5d8c6e1044cceb4bc96256735657bc2af",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a274a60f_2ab299f1",
+        "filename": "java/com/google/gerrit/server/notedb/RepoSequence.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2025-07-29T21:36:17Z",
+      "side": 1,
+      "message": "If jgit whould fall back to packed-refs, the update should fail on its own since it would still try to update the loose-ref. I think that if you have a sequence # that decrements, you want something drastic, you do not want any chance that the wrong value is used. Do you have a specific concern about unsetting the value? Are you concerned that it will be lost? If so, we could always set a \"bad\" value ref to save it so the admin at least knows what it was.",
+      "parentUuid": "4ebbc6dd_8e59fd9d",
+      "revId": "c90a46a5d8c6e1044cceb4bc96256735657bc2af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -235,6 +235,12 @@ export class GrFileList extends LitElement {
   @state()
   files: NormalizedFileInfo[] = [];
 
+  @state()
+  private modifiedFiles: NormalizedFileInfo[] = [];
+
+  @state()
+  private unmodifiedFiles: NormalizedFileInfo[] = [];
+
   // Private but used in tests.
   @state() filesLeftBase: NormalizedFileInfo[] = [];
 
@@ -400,6 +406,19 @@ export class GrFileList extends LitElement {
           /* Has to visible above the diff view, and by default has a lower
             z-index. setting to 1 places it directly above. */
           z-index: 1;
+        }
+        .separator-row {
+          background-color: var(--background-color-secondary);
+          border-top: 1px solid var(--border-color);
+          color: var(--deemphasized-text-color);
+          padding: var(--spacing-l);
+        }
+        .separator-row .path {
+          color: var(--deemphasized-text-color);
+          font-style: italic;
+        }
+        .separator-row .path gr-icon {
+          margin-left: var(--spacing-s);
         }
         .file-row:hover {
           background-color: var(--hover-background-color);
@@ -807,7 +826,13 @@ export class GrFileList extends LitElement {
       this,
       () => this.getFilesModel().filesIncludingUnmodified$,
       files => {
-        this.files = [...files];
+        this.modifiedFiles = files.filter(
+          f => f.status !== FileInfoStatus.UNMODIFIED
+        );
+        this.unmodifiedFiles = files.filter(
+          f => f.status === FileInfoStatus.UNMODIFIED
+        );
+        this.files = [...this.modifiedFiles, ...this.unmodifiedFiles];
       }
     );
     subscribe(
@@ -1067,22 +1092,48 @@ export class GrFileList extends LitElement {
     );
   }
 
+  private renderSeparator() {
+    const text = 'Unmodified Files';
+    const tooltipText =
+      'Files not modified in this patchset, but referenced by a check or a comment.' +
+      ' May include files outside of this change, also virtual or generated files.';
+    return html`
+      <div class="row separator-row" role="row">
+        <div class="path" role="gridcell">
+          <span>${text}</span>
+          <gr-tooltip-content .title=${tooltipText} has-tooltip>
+            <gr-icon icon="info"></gr-icon>
+          </gr-tooltip-content>
+        </div>
+      </div>
+    `;
+  }
+
   private renderShownFiles() {
     const showDynamicColumns = this.computeShowDynamicColumns();
     const showPrependedDynamicColumns =
       this.computeShowPrependedDynamicColumns();
     const sizeBarLayout = this.computeSizeBarLayout();
 
+    const separatorIndex = this.modifiedFiles.length;
+
     return incrementalRepeat({
       values: this.files,
-      mapFn: (f, i) =>
-        this.renderFileRow(
+      mapFn: (f, i) => html`
+        ${when(
+          i === separatorIndex &&
+            this.modifiedFiles.length > 0 &&
+            this.unmodifiedFiles.length > 0,
+          () => this.renderSeparator()
+        )}
+        ${this.renderFileRow(
           f as NormalizedFileInfo,
           i,
           sizeBarLayout,
           showDynamicColumns,
           showPrependedDynamicColumns
-        ),
+        )}
+      `,
       initialCount: this.fileListIncrement,
       targetFrameRate: 1,
       startAt: 0,

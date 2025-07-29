@@ -55,6 +55,7 @@ import {normalize} from '../../../models/change/files-model';
 import {GrDiffHost} from '../../diff/gr-diff-host/gr-diff-host';
 import {GrEditFileControls} from '../../edit/gr-edit-file-controls/gr-edit-file-controls';
 import {GrIcon} from '../../shared/gr-icon/gr-icon';
+import {GrTooltipContent} from '../../shared/gr-tooltip-content/gr-tooltip-content';
 import {assert, fixture, html} from '@open-wc/testing';
 import {Modifier} from '../../../utils/dom-util';
 import {testResolver} from '../../../test/common-test-setup';
@@ -1716,6 +1717,59 @@ suite('gr-file-list tests', () => {
       // Only commit message file
       element.files = [normalize({}, '/COMMIT_MSG')];
       assert.equal(element.computeShowAllText(), 'Show All 0 Files');
+    });
+  });
+
+  suite('unmodified files separator', () => {
+    setup(async () => {
+      element = await fixture(html`<gr-file-list></gr-file-list>`);
+    });
+
+    test('should not show separator if no unmodified files', async () => {
+      (element as any).modifiedFiles = createFiles(2);
+      (element as any).unmodifiedFiles = [];
+      await element.updateComplete;
+
+      const separator = query(element, '.separator-row');
+      assert.isNotOk(separator);
+    });
+
+    test('should not show separator if no modified files', async () => {
+      (element as any).modifiedFiles = [];
+      (element as any).unmodifiedFiles = createFiles(2);
+      await element.updateComplete;
+
+      const separator = query(element, '.separator-row');
+      assert.isNotOk(separator);
+    });
+
+    test('should show separator if modified and unmodified files', async () => {
+      (element as any).modifiedFiles = createFiles(2);
+      (element as any).unmodifiedFiles = createFiles(3);
+      element.files = [
+        ...(element as any).modifiedFiles,
+        ...(element as any).unmodifiedFiles,
+      ];
+      await element.updateComplete;
+
+      const separator = queryAndAssert(element, '.separator-row');
+      assert.isOk(separator);
+
+      const text = queryAndAssert(separator, 'span');
+      assert.equal(text.textContent?.trim(), 'Unmodified Files');
+
+      const icon = queryAndAssert<GrIcon>(separator, 'gr-icon');
+      assert.equal(icon.icon, 'info');
+
+      const tooltip = queryAndAssert<GrTooltipContent>(
+        separator,
+        'gr-tooltip-content'
+      );
+      assert.equal(
+        tooltip.title,
+        'Files not modified in this patchset, but referenced by a check or a comment.' +
+          ' May include files outside of this change, also virtual or generated files.'
+      );
     });
   });
 

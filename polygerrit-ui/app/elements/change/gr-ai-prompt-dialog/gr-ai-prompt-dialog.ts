@@ -206,8 +206,8 @@ export class GrAiPromptDialog extends LitElement {
                 </div>`,
               () => html`
                 <div class="info-text">
-                  This change has multiple parents. Currently, the "Help me
-                  review" feature does not support multiple parents.
+                  This change has multiple parents. Currently, the "Create AI
+                  Review Prompt" feature does not support multiple parents.
                 </div>
               `
             )}

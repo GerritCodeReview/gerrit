@@ -51,6 +51,24 @@
       "parentUuid": "a44e58b1_bab0275d",
       "revId": "9933364dcebe5cbb47e8913a093c37e5ef36461f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3de263fb_8ab40353",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-07-29T13:50:32Z",
+      "side": 1,
+      "message": "There’s no workarounds i think. And it happens in both chrome and safari. It doesn’t affect much gr-suggestion-textarea, but it does when I’m trying to replace iron-autogrow-textareas with it. The issue in gr-suggestion-textarea is placeholder won’t show when you delete all the text. This is because \u003cbr\u003e is in it.\n\nI can just introduce a new component if you want for the replacement for iron-autogrow-textareas? So we can replace all usage of iron-autogrow-textareas with this new component that uses lit.",
+      "parentUuid": "7bd381fb_00def1bf",
+      "revId": "9933364dcebe5cbb47e8913a093c37e5ef36461f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

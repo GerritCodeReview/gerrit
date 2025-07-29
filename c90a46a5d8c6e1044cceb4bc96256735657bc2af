@@ -267,6 +267,24 @@
       "parentUuid": "4ebbc6dd_8e59fd9d",
       "revId": "c90a46a5d8c6e1044cceb4bc96256735657bc2af",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1145dccc_584f6223",
+        "filename": "java/com/google/gerrit/server/notedb/RepoSequence.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2025-07-29T23:27:05Z",
+      "side": 1,
+      "message": "No, I am not concerned about it being lost. We have logs to show the sequence values being stored. I was thinking this state could be transitional. If we know for sure it won\u0027t be, then I suppose we can unset the sequence (by deleting the ref?) when we go into this state.",
+      "parentUuid": "a274a60f_2ab299f1",
+      "revId": "c90a46a5d8c6e1044cceb4bc96256735657bc2af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

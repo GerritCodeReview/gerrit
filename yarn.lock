@@ -1865,6 +1865,15 @@ eslint-plugin-es-x@^7.8.0:
     "@eslint-community/regexpp" "^4.11.0"
     eslint-compat-utils "^0.5.1"
 
+eslint-plugin-es-x@^9.0.0:
+  version "9.0.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-es-x/-/eslint-plugin-es-x-9.0.0.tgz#415f1703cce4b3178798b4ddd4fdb686727ad59e"
+  integrity sha512-Z7zemBrzn0RA1M/RrUSq/a/Xb0xEyp5Qu+ow+RUOHTGaQihp8OxmvTD/JvLyzEjyodz1RRadLfvhRNQ9lwvdsw==
+  dependencies:
+    "@eslint-community/eslint-utils" "^4.1.2"
+    "@eslint-community/regexpp" "^4.12.1"
+    eslint-type-tracer "^0.4.0"
+
 eslint-plugin-es@^4.1.0:
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/eslint-plugin-es/-/eslint-plugin-es-4.1.0.tgz#f0822f0c18a535a97c3e714e89f88586a7641ec9"
@@ -1986,6 +1995,13 @@ eslint-scope@^8.3.0:
   dependencies:
     esrecurse "^4.3.0"
     estraverse "^5.2.0"
+
+eslint-type-tracer@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/eslint-type-tracer/-/eslint-type-tracer-0.4.0.tgz#4152ef79002162b03ff7b2833fc277522003eb99"
+  integrity sha512-SmCKyT/435tmJC1p9rnaqvx7UtJJjUPI3G5mS0BXaWYxDlzB/N2EZqF98xEjJ1PWe4+ZzhUEW5rWuIrEYSrAww==
+  dependencies:
+    "@eslint-community/eslint-utils" "^4.7.0"
 
 eslint-utils@^2.0.0:
   version "2.1.0"

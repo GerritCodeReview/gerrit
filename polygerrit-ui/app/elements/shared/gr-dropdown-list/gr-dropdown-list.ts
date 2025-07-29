@@ -159,6 +159,7 @@ export class GrDropdownList extends LitElement {
         }
         .dropdown {
           position: relative;
+          z-index: 120;
         }
         .bottomContent {
           color: var(--deemphasized-text-color);
@@ -265,7 +266,7 @@ export class GrDropdownList extends LitElement {
   };
 
   override render() {
-    return html`<div class="dropdown">
+    return html`
       <gr-button
         id="trigger"
         ?disabled=${!!this.disabled}
@@ -306,6 +307,7 @@ export class GrDropdownList extends LitElement {
           .text=${this.text}
         ></gr-copy-clipboard>
       </gr-button>
+      <div class="dropdown">
       <md-menu
         id="dropdown"
         anchor="trigger"
@@ -314,6 +316,7 @@ export class GrDropdownList extends LitElement {
         .menuCorner=${'start-start'}
         ?quick=${true}
         .skipRestoreFocus=${true}
+        positioning="fixed"
         @click=${this.handleDropdownClick}
         @opened=${(e: Event) => {
           this.opened = true;

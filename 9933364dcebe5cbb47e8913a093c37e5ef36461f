@@ -33,6 +33,24 @@
       "message": "I would leave this to @brohlfs@google.com who introduced gr-textarea component. I would prefer wrapper over gr-textarea or fork of gr-textarea because gr-textarea was introduced only for comments with ai completion and I would like to leave it simple.",
       "revId": "9933364dcebe5cbb47e8913a093c37e5ef36461f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7bd381fb_00def1bf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-07-29T12:02:13Z",
+      "side": 1,
+      "message": "Sorry, I cannot prioritize reviewing this larger change at the moment. I don\u0027t know how well this is tested, but it feels like it could easily break some corner cases, and we can currently not afford a release rollback.\n\nThe mentioned issues have not really come up with our users so far. So either they are really rare, or maybe this is a browser related issue?\n\nAre there workarounds?",
+      "parentUuid": "a44e58b1_bab0275d",
+      "revId": "9933364dcebe5cbb47e8913a093c37e5ef36461f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -298,7 +298,7 @@ public class TraceContextTest {
 
   @Test
   public void metadataForTraceTimerCannotBeNull() throws Exception {
-    assertThrows(NullPointerException.class, () -> TraceContext.newTimer("test", null));
+    assertThrows(NullPointerException.class, () -> TraceContext.newTimer("test", (Metadata) null));
   }
 
   private void assertTags(ImmutableMap<String, ImmutableSet<String>> expectedTagMap) {

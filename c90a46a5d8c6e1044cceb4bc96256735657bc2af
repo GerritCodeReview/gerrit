@@ -195,6 +195,24 @@
       "parentUuid": "6a6465af_b310cb5c",
       "revId": "c90a46a5d8c6e1044cceb4bc96256735657bc2af",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b4168f17_ced97fa4",
+        "filename": "java/com/google/gerrit/server/notedb/RepoSequence.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2025-07-29T18:49:23Z",
+      "side": 1,
+      "message": "I believe it still provides value, even when we fail. When failures occur, we now at-least alert admins instead of silently rewinding the sequence. Dealing with duplicates is painful because we not only require fixing the corruption in Gerrit but also fix external systems that reference this data.\n\nYour concern is valid, though. However, I’d expect most admins to set the sequence (using the sequence set command) to a known good value, rather than restarting the service and hoping for the best. That said, if we were to choose a new value, something like `lastStoredSequence + batchSize * 1000` might be reasonable.\n\nChoosing a new value without knowing how far ahead the sequence is can be difficult, so I believe it\u0027s best to delegate this decision to the admins rather than make assumptions.",
+      "parentUuid": "d335383f_da63629f",
+      "revId": "c90a46a5d8c6e1044cceb4bc96256735657bc2af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

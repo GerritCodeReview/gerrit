@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7485d083_ecfbf715",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-07-29T18:51:41Z",
+      "side": 1,
+      "message": "Hmm, this doesn\u0027t fix it. because now under mobile, when the sidebar is open, the more button on the change screen now shows through.",
+      "revId": "7175545fa111e5f5f8523de805152cb2cd469a4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "af0dba5f_0ff778dc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-07-29T18:48:51Z",
+      "side": 1,
+      "message": "@milutin@google.com I\u0027ve set a fixed max-height for now, per my comment in https://issues.gerritcodereview.com/issues/433953332#comment5, could you look at integrating the dynamic max-height from iron-dropdown please?",
+      "revId": "fba640f3efd73fe4270cd9a35e0f88fed7fd96df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

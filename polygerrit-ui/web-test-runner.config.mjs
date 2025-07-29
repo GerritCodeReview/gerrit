@@ -111,7 +111,7 @@ const config = {
   plugins: [
     esbuildPlugin({
       ts: true,
-      target: 'es2020',
+      target: 'es2022',
       tsconfig: tsConfig,
     }),
     visualRegressionPlugin({

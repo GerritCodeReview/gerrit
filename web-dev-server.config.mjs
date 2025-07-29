@@ -9,7 +9,7 @@ export default {
   plugins: [
     esbuildPlugin({
       ts: true,
-      target: "es2020",
+      target: "es2022",
       tsconfig: "polygerrit-ui/app/tsconfig.json",
     }),
   ],

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0cf0d929_a1d24099",
+        "filename": "java/com/google/gerrit/server/change/ParentDataProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-07-29T13:23:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "348408c6_ac558a88",
+      "range": {
+        "startLine": 58,
+        "startChar": 4,
+        "endLine": 58,
+        "endChar": 37
+      },
+      "revId": "2ac387af2b0ed189571d06f8632021d202e1fd69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "492a023e_543bf011",
@@ -61,6 +85,30 @@
       "side": 1,
       "message": "Good catch!",
       "parentUuid": "492a023e_543bf011",
+      "range": {
+        "startLine": 124,
+        "startChar": 12,
+        "endLine": 124,
+        "endChar": 67
+      },
+      "revId": "2ac387af2b0ed189571d06f8632021d202e1fd69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "61e6a9b6_f8c74a9c",
+        "filename": "java/com/google/gerrit/server/change/ParentDataProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-07-29T13:23:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "423a7263_8a09f97a",
       "range": {
         "startLine": 124,
         "startChar": 12,

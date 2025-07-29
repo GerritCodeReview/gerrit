@@ -159,6 +159,7 @@ export class GrDropdownList extends LitElement {
         }
         .dropdown {
           position: relative;
+          z-index: 120;
         }
         .bottomContent {
           color: var(--deemphasized-text-color);
@@ -174,6 +175,7 @@ export class GrDropdownList extends LitElement {
         gr-button {
           font-family: var(--trigger-style-font-family);
           --gr-button-text-color: var(--trigger-style-text-color);
+          z-index: unset;
         }
         gr-date-formatter {
           color: var(--deemphasized-text-color);

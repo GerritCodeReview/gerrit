@@ -58,6 +58,7 @@ export class GrDropdown extends LitElement {
         }
         .container {
           position: relative;
+          z-index: 120;
         }
         .dropdown-trigger {
           text-decoration: none;
@@ -76,6 +77,7 @@ export class GrDropdown extends LitElement {
         }
         gr-button {
           vertical-align: top;
+          z-index: unset;
         }
         gr-avatar {
           height: 2em;

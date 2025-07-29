@@ -58,6 +58,7 @@ export class GrDropdown extends LitElement {
         }
         .container {
           position: relative;
+          z-index: 120;
         }
         .dropdown-trigger {
           text-decoration: none;
@@ -235,7 +236,7 @@ export class GrDropdown extends LitElement {
   };
 
   override render() {
-    return html`<div class="container">
+    return html`
       <gr-button
         id="trigger"
         ?link=${this.link}
@@ -265,11 +266,13 @@ export class GrDropdown extends LitElement {
       >
         <slot></slot>
       </gr-button>
+      <div class="container">
       <md-menu
         default-focus="none"
         id="dropdown"
         anchor="trigger"
         tabindex="-1"
+        positioning="fixed"
         .menuCorner=${this.horizontalAlign === 'left'
           ? 'start-start'
           : this.horizontalAlign === 'center'
@@ -281,12 +284,14 @@ export class GrDropdown extends LitElement {
         @opened=${() => {
           this.opened = true;
         }}
-        @closed=${() => {
+        @closed=${(e: Event) => {
           this.opened = false;
           this.hadKeyboardEvent = false;
           // This is an ugly hack but works.
           this.cursor.target?.removeAttribute('selected');
-          this.cursor.target?.blur();
+          // For some reason this is needed, otherwise a console warning is thrown,
+          // with something about aria-hidden can't be set because md-menu is focused already.
+          e.currentTarget && (e.currentTarget as HTMLElement).blur();
         }}
       >
         ${this.renderDropdownContent()}
@@ -420,12 +425,10 @@ export class GrDropdown extends LitElement {
   /**
    * Handle a click on the button to open the dropdown.
    */
-  dropdownTriggerTapHandler(e?: MouseEvent) {
+  dropdownTriggerTapHandler(e: MouseEvent) {
     assertIsDefined(this.dropdown);
-    if (e) {
-      e.preventDefault();
-      e.stopPropagation();
-    }
+    e.preventDefault();
+    e.stopPropagation();
 
     this.dropdown.open = !this.dropdown.open;
   }

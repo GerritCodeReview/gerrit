@@ -159,6 +159,7 @@ export class GrDropdownList extends LitElement {
         }
         .dropdown {
           position: relative;
+          z-index: 120;
         }
         .bottomContent {
           color: var(--deemphasized-text-color);
@@ -265,7 +266,7 @@ export class GrDropdownList extends LitElement {
   };
 
   override render() {
-    return html`<div class="dropdown">
+    return html`
       <gr-button
         id="trigger"
         ?disabled=${!!this.disabled}
@@ -306,6 +307,7 @@ export class GrDropdownList extends LitElement {
           .text=${this.text}
         ></gr-copy-clipboard>
       </gr-button>
+      <div class="dropdown">
       <md-menu
         id="dropdown"
         anchor="trigger"
@@ -314,9 +316,18 @@ export class GrDropdownList extends LitElement {
         .menuCorner=${'start-start'}
         ?quick=${true}
         .skipRestoreFocus=${true}
+        positioning="fixed"
         @click=${this.handleDropdownClick}
         @opened=${(e: Event) => {
           this.opened = true;
+  /*const menuSurface = e.currentTarget as MdMenu;
+  if (menuSurface) {
+    const rect = menu.getBoundingClientRect();
+    const viewportHeight = window.innerHeight;
+    const availableHeight = viewportHeight - rect.top - 16; // 16px margin from bottom
+    menuSurface.style.maxHeight = `${availableHeight}px`;
+    menuSurface.style.overflowY = 'auto';
+  }*/
           this.scrollToSelected(e);
         }}
         @closed=${() => {
@@ -327,12 +338,14 @@ export class GrDropdownList extends LitElement {
           this.cursor.target?.blur();
         }}
       >
+        <div class="dropdown-content">
         ${incrementalRepeat({
           values: this.items ?? [],
           initialCount: this.initialCount,
           mapFn: (item, index) =>
             this.renderMdMenuItem(item as DropdownItem, index),
         })}
+        </div>
       </md-menu>
     </div> `;
   }

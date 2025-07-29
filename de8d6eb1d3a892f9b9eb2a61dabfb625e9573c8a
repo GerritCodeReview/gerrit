@@ -16,6 +16,114 @@
       "message": "This is similar to https://gerrit-review.git.corp.google.com/c/gerrit/+/466704\ndone same as for gr-repo-submit-requirements",
       "revId": "de8d6eb1d3a892f9b9eb2a61dabfb625e9573c8a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bd51371f_8586130f",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-labels/gr-repo-labels.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-07-29T11:12:54Z",
+      "side": 1,
+      "message": "The `branches` property of the labels seems to be missing.\n\nhttps://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#label-definition-info",
+      "revId": "de8d6eb1d3a892f9b9eb2a61dabfb625e9573c8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "52b60273_2116d303",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-labels/gr-repo-labels.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-07-29T11:12:54Z",
+      "side": 1,
+      "message": "FYI, all functions except NoBlock/NoOp and the special PatchSetLock are deprecated, see [1].\n\n[optional] Should the UI show a deprecation warning if a deprecated function is used?\n\nI don\u0027t think this should block this change. We can also do this in a follow-up or wait until this gets fixed when we remove the deprecated functions.\n\n[1] https://gerrit-review.googlesource.com/Documentation/config-labels.html#label_function",
+      "revId": "de8d6eb1d3a892f9b9eb2a61dabfb625e9573c8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f949ed85_7b1739f3",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-labels/gr-repo-labels.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-07-29T11:12:54Z",
+      "side": 1,
+      "message": "FYI, this field is deprecated [1].\n\n[optional] Should the UI show a deprecation warning if this property is set?\n\nI don\u0027t think this should block this change. We can also do this in a follow-up or wait until this gets fixed when we remove this property.\n\n[1] https://gerrit-review.googlesource.com/Documentation/config-labels.html#label_ignoreSelfApproval",
+      "revId": "de8d6eb1d3a892f9b9eb2a61dabfb625e9573c8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9c312cd9_ca634436",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-labels/gr-repo-labels.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-07-29T11:12:54Z",
+      "side": 1,
+      "message": "The dialog is missing fields to edit the boolean properties (can_override, allow_post_submit, ignore_self_approval).",
+      "revId": "de8d6eb1d3a892f9b9eb2a61dabfb625e9573c8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e02e4980_567099a9",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-labels/gr-repo-labels.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-07-29T11:12:54Z",
+      "side": 1,
+      "message": "FYI, when pushing changes to the project.config file we reject creating/updating labels with deprecated label functions [1], but I found that this rejection is not working when using the REST API (b/434863999). Not sure if the UI can/should do anything about it though.\n\n[1] https://gerrit-review.googlesource.com/Documentation/config-labels.html#label_function",
+      "revId": "de8d6eb1d3a892f9b9eb2a61dabfb625e9573c8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b44dee1_27185f37",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-labels/gr-repo-labels.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-07-29T11:12:54Z",
+      "side": 1,
+      "message": "function is an enum, should we maybe offer dropdown list with the allowed values here?",
+      "range": {
+        "startLine": 433,
+        "startChar": 51,
+        "endLine": 433,
+        "endChar": 55
+      },
+      "revId": "de8d6eb1d3a892f9b9eb2a61dabfb625e9573c8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

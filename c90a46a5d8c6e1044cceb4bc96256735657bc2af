@@ -213,6 +213,24 @@
       "parentUuid": "d335383f_da63629f",
       "revId": "c90a46a5d8c6e1044cceb4bc96256735657bc2af",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b6579969_331561c0",
+        "filename": "java/com/google/gerrit/server/notedb/RepoSequence.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2025-07-29T20:20:36Z",
+      "side": 1,
+      "message": "Agreed with everything you said. Would there be some way to address my concern by flagging the value as bad then? Should we unset the value if we don\u0027t have a safe value to set it to?",
+      "parentUuid": "b4168f17_ced97fa4",
+      "revId": "c90a46a5d8c6e1044cceb4bc96256735657bc2af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -235,6 +235,15 @@ export class GrFileList extends LitElement {
   @state()
   files: NormalizedFileInfo[] = [];
 
+  @state()
+  private modifiedFiles: NormalizedFileInfo[] = [];
+
+  @state()
+  private unmodifiedFiles: NormalizedFileInfo[] = [];
+
+  @state()
+  private numMagicFiles = 0;
+
   // Private but used in tests.
   @state() filesLeftBase: NormalizedFileInfo[] = [];
 
@@ -400,6 +409,16 @@ export class GrFileList extends LitElement {
           /* Has to visible above the diff view, and by default has a lower
             z-index. setting to 1 places it directly above. */
           z-index: 1;
+        }
+        .separator-row {
+          background-color: var(--background-color-secondary);
+          border-top: 1px solid var(--border-color);
+          color: var(--deemphasized-text-color);
+          padding: var(--spacing-s) var(--spacing-l);
+        }
+        .separator-row .path {
+          color: var(--deemphasized-text-color);
+          font-style: italic;
         }
         .file-row:hover {
           background-color: var(--hover-background-color);
@@ -807,7 +826,20 @@ export class GrFileList extends LitElement {
       this,
       () => this.getFilesModel().filesIncludingUnmodified$,
       files => {
-        this.files = [...files];
+        const magicFiles = files.filter(f => isMagicPath(f.__path));
+        const normalFiles = files.filter(f => !isMagicPath(f.__path));
+        this.numMagicFiles = magicFiles.length;
+        this.modifiedFiles = normalFiles.filter(
+          f => f.status !== FileInfoStatus.UNMODIFIED
+        );
+        this.unmodifiedFiles = normalFiles.filter(
+          f => f.status === FileInfoStatus.UNMODIFIED
+        );
+        this.files = [
+          ...magicFiles,
+          ...this.modifiedFiles,
+          ...this.unmodifiedFiles,
+        ];
       }
     );
     subscribe(
@@ -1067,22 +1099,42 @@ export class GrFileList extends LitElement {
     );
   }
 
+  private renderSeparator() {
+    const text = `Unmodified files added by a check or comment (${this.unmodifiedFiles.length})`;
+    return html`
+      <div class="row separator-row" role="row">
+        <div class="path" role="gridcell">
+          ${text}
+        </div>
+      </div>
+    `;
+  }
+
   private renderShownFiles() {
     const showDynamicColumns = this.computeShowDynamicColumns();
     const showPrependedDynamicColumns =
       this.computeShowPrependedDynamicColumns();
     const sizeBarLayout = this.computeSizeBarLayout();
 
+    const separatorIndex = this.numMagicFiles + this.modifiedFiles.length;
+
     return incrementalRepeat({
       values: this.files,
-      mapFn: (f, i) =>
-        this.renderFileRow(
+      mapFn: (f, i) => html`
+        ${when(
+          i === separatorIndex &&
+            this.modifiedFiles.length > 0 &&
+            this.unmodifiedFiles.length > 0,
+          () => this.renderSeparator()
+        )}
+        ${this.renderFileRow(
           f as NormalizedFileInfo,
           i,
           sizeBarLayout,
           showDynamicColumns,
           showPrependedDynamicColumns
-        ),
+        )}
+      `,
       initialCount: this.fileListIncrement,
       targetFrameRate: 1,
       startAt: 0,

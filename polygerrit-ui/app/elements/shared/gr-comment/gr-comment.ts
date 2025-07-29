@@ -1675,7 +1675,7 @@ export class GrComment extends LitElement {
     if (!this.comment || !isDraft(this.comment)) return;
     if (!this.previewedGeneratedFixSuggestion) return;
     // Since it's user edited suggestion, it's already previewed.
-    this.previewedGeneratedFixSuggestion = e.detail.suggestions.at(0);
+    this.previewedGeneratedFixSuggestion = e.detail.suggestions?.[0];
     this.rawSave({showToast: false});
   }
 

@@ -27,6 +27,7 @@
     "test:coverage": "web-test-runner --coverage",
     "test:watch": "web-test-runner --watch",
     "test:single": "web-test-runner --watch --group default --files",
+    "test:single:nowatch": "web-test-runner --group default --files",
     "test:single:coverage": "web-test-runner --watch --coverage --files"
   },
   "license": "Apache-2.0",

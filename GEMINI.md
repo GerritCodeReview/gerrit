@@ -35,6 +35,45 @@ Java tests are located in the `javatests/` directory, mirroring the structure of
 - `server`: Tests for the core server logic.
 - `git`: Tests for Git-related operations.
 
+### Running Tests
+
+You can run tests using `bazel test`.
+
+**Run a specific test:**
+```bash
+bazel test //javatests/com/google/gerrit/acceptance/rest/project:ListLabelsIT
+```
+
+**Run a test suite:**
+```bash
+bazel test //javatests/com/google/gerrit/httpd:httpd_tests
+```
+```bash
+bazel test //javatests/com/google/gerrit/acceptance/server/change:server_change
+```
+
+**Run a specific test method:**
+This command runs a single test method and streams the output.
+```bash
+bazel test --test_output=streamed --test_filter=com.google.gerrit.server.fixes.fixCalculator.FixCalculatorVariousTest.intraline //javatests/com/google/gerrit/server:server_tests
+```
+
+**Run tests with a filter:**
+```bash
+bazel test //javatests/com/google/gerrit/acceptance/rest/change:rest_change_other --test_filter=SuggestReviewersIT
+```
+
+## Code Formatting (Java)
+
+The project uses `google-java-format` to format Java code, via the wrapper script `tools/gjf.sh`.
+
+### Formatting modified Java files
+
+To format all modified Java files:
+```bash
+tools/gjf.sh run
+```
+
 ## Documentation
 
 The `Documentation/` directory contains a wealth of information about Gerrit, including:

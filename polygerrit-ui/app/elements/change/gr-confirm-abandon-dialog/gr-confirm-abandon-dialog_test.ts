@@ -28,14 +28,13 @@ suite('gr-confirm-abandon-dialog tests', () => {
           <div class="header" slot="header">Abandon Change</div>
           <div class="main" slot="main">
             <label for="messageInput"> Abandon Message </label>
-            <iron-autogrow-textarea
-              aria-disabled="false"
+            <gr-autogrow-textarea
               autocomplete="on"
               class="message"
               id="messageInput"
               placeholder="<Insert reasoning here>"
             >
-            </iron-autogrow-textarea>
+            </gr-autogrow-textarea>
           </div>
         </gr-dialog>
       `

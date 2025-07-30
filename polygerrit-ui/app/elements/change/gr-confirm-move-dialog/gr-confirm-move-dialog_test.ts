@@ -49,12 +49,11 @@ suite('gr-confirm-move-dialog tests', () => {
             <gr-autocomplete id="branchInput" placeholder="Destination branch">
             </gr-autocomplete>
             <label for="messageInput"> Move Change Message </label>
-            <iron-autogrow-textarea
-              aria-disabled="false"
+            <gr-autogrow-textarea
               id="messageInput"
               class="message"
               autocomplete="on"
-            ></iron-autogrow-textarea>
+            ></gr-autogrow-textarea>
           </div>
         </gr-dialog>
       `

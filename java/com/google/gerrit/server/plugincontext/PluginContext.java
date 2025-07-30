@@ -112,6 +112,8 @@ public class PluginContext<T> {
 
   @Singleton
   public static class PluginMetrics {
+    public static final String PLUGIN_LATENCY_NAME = "plugin/latency";
+
     public static final PluginMetrics DISABLED_INSTANCE =
         new PluginMetrics(new DisabledMetricMaker());
 
@@ -135,7 +137,7 @@ public class PluginContext<T> {
 
       this.latency =
           metricMaker.newTimer(
-              "plugin/latency",
+              PLUGIN_LATENCY_NAME,
               new Description("Latency for plugin invocation")
                   .setCumulative()
                   .setUnit(Units.MILLISECONDS),

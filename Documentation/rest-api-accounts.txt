@@ -71,8 +71,7 @@ name, avatars, status, state and tags for each account.
 [[all-emails]]
 --
 * `ALL_EMAILS`: Includes all registered emails. Requires the caller
-to have the link:access-control.html#capability_modifyAccount[Modify
-Account] global capability.
+to have the link:access-control.html#capability_viewSecondaryEmails[View Secondary Emails] global capability.
 --
 
 [[suggest-account]]
@@ -89,7 +88,7 @@ link:#all-emails[all emails] are always returned.
 ----
 
 Secondary emails are only included if the calling user has the
-link:access-control.html#capability_modifyAccount[Modify Account]
+link:access-control.html#capability_viewSecondaryEmails[View Secondary Emails]
 capability.
 
 .Response

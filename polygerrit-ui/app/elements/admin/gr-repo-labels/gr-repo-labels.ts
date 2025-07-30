@@ -27,6 +27,7 @@ import {
   LabelDefinitionInfo,
   LabelDefinitionInfoFunction,
   LabelDefinitionInput,
+  LabelValueToDescriptionMap,
 } from '../../../api/rest-api';
 
 @customElement('gr-repo-labels')
@@ -647,7 +648,9 @@ export class GrRepoLabels extends LitElement {
                           try {
                             this.newLabel = {
                               ...this.newLabel,
-                              values: JSON.parse(target.value),
+                              values: JSON.parse(
+                                target.value
+                              ) as LabelValueToDescriptionMap,
                             };
                           } catch (err) {
                             fireError(this, 'Invalid JSON');

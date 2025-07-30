@@ -161,6 +161,10 @@ export class GrDropdownList extends LitElement {
         .dropdown {
           position: relative;
         }
+        .dropdown-menu {
+          position: relative;
+          z-index: 120;
+        }
         .bottomContent {
           color: var(--deemphasized-text-color);
           white-space: pre-wrap;
@@ -307,34 +311,37 @@ export class GrDropdownList extends LitElement {
           .text=${this.text}
         ></gr-copy-clipboard>
       </gr-button>
-      <md-menu
-        id="dropdown"
-        anchor="trigger"
-        default-focus="none"
-        tabindex="-1"
-        .menuCorner=${'start-start'}
-        ?quick=${true}
-        .skipRestoreFocus=${true}
-        @click=${this.handleDropdownClick}
-        @opened=${(e: Event) => {
-          this.opened = true;
-          this.scrollToSelected(e);
-        }}
-        @closed=${() => {
-          this.opened = false;
-          this.hadKeyboardEvent = false;
-          // This is an ugly hack but works.
-          this.cursor.target?.removeAttribute('selected');
-          this.cursor.target?.blur();
-        }}
-      >
-        ${incrementalRepeat({
-          values: this.items ?? [],
-          initialCount: this.initialCount,
-          mapFn: (item, index) =>
-            this.renderMdMenuItem(item as DropdownItem, index),
-        })}
-      </md-menu>
+      <div class="dropdown-menu">
+        <md-menu
+          id="dropdown"
+          anchor="trigger"
+          default-focus="none"
+          tabindex="-1"
+          .menuCorner=${'start-start'}
+          ?quick=${true}
+          .skipRestoreFocus=${true}
+          positioning="fixed"
+          @click=${this.handleDropdownClick}
+          @opened=${(e: Event) => {
+            this.opened = true;
+            this.scrollToSelected(e);
+          }}
+          @closed=${() => {
+            this.opened = false;
+            this.hadKeyboardEvent = false;
+            // This is an ugly hack but works.
+            this.cursor.target?.removeAttribute('selected');
+            this.cursor.target?.blur();
+          }}
+        >
+          ${incrementalRepeat({
+            values: this.items ?? [],
+            initialCount: this.initialCount,
+            mapFn: (item, index) =>
+              this.renderMdMenuItem(item as DropdownItem, index),
+          })}
+        </md-menu>
+      </div>
     </div> `;
   }
 

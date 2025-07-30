@@ -25,7 +25,7 @@ import {SinonStubbedMember} from 'sinon';
 import {RestApiService} from '../../../services/gr-rest-api/gr-rest-api';
 import {EditableAccountField} from '../../../api/rest-api';
 import {assert, fixture, html} from '@open-wc/testing';
-import {IronAutogrowTextareaElement} from '@polymer/iron-autogrow-textarea';
+import {GrAutogrowTextarea} from '../../shared/gr-autogrow-textarea/gr-autogrow-textarea';
 
 suite('gr-account-info tests', () => {
   let element!: GrAccountInfo;
@@ -121,11 +121,7 @@ suite('gr-account-info tests', () => {
               <div class="lengthCounter">0/140</div>
             </span>
             <span class="value">
-              <iron-autogrow-textarea
-                aria-disabled="false"
-                id="statusInput"
-                maxlength="140"
-              />
+              <gr-autogrow-textarea id="statusInput" maxlength="140" />
             </span>
           </section>
           <section>
@@ -296,11 +292,14 @@ suite('gr-account-info tests', () => {
     test('status', async () => {
       assert.isFalse(element.hasUnsavedChanges);
 
-      const statusTextarea = queryAndAssert<IronAutogrowTextareaElement>(
+      const statusTextarea = queryAndAssert<GrAutogrowTextarea>(
         element,
         '#statusInput'
       );
       statusTextarea.value = 'new status';
+      statusTextarea.dispatchEvent(
+        new Event('input', {bubbles: true, composed: true})
+      );
       await element.updateComplete;
       assert.isFalse(element.hasNameChange);
       assert.isTrue(element.hasStatusChange);
@@ -343,11 +342,14 @@ suite('gr-account-info tests', () => {
       await element.updateComplete;
       assert.isTrue(element.hasNameChange);
 
-      const statusTextarea = queryAndAssert<IronAutogrowTextareaElement>(
+      const statusTextarea = queryAndAssert<GrAutogrowTextarea>(
         element,
         '#statusInput'
       );
       statusTextarea.value = 'new status';
+      statusTextarea.dispatchEvent(
+        new Event('input', {bubbles: true, composed: true})
+      );
       await element.updateComplete;
       assert.isTrue(element.hasStatusChange);
 
@@ -392,11 +394,14 @@ suite('gr-account-info tests', () => {
       assert.equal(displaySpan.textContent, account.name);
       assert.isUndefined(inputSpan);
 
-      const statusTextarea = queryAndAssert<IronAutogrowTextareaElement>(
+      const statusTextarea = queryAndAssert<GrAutogrowTextarea>(
         element,
         '#statusInput'
       );
       statusTextarea.value = 'new status';
+      statusTextarea.dispatchEvent(
+        new Event('input', {bubbles: true, composed: true})
+      );
       await element.updateComplete;
       assert.isTrue(element.hasStatusChange);
 

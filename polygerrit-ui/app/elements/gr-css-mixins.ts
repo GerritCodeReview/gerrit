@@ -63,10 +63,6 @@ export class GrCssMixins extends PolymerElement {
           --paper-listbox: {
             padding: 0;
           };
-          --iron-autogrow-textarea: {
-            box-sizing: border-box;
-            padding: var(--spacing-s);
-          };
         }
       </style>
     `;

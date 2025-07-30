@@ -3,7 +3,7 @@
  * Copyright 2016 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
+import '../gr-autogrow-textarea/gr-autogrow-textarea';
 import '../../../styles/shared-styles';
 import '../gr-button/gr-button';
 import '../gr-icon/gr-icon';
@@ -17,7 +17,6 @@ import {fire, fireAlert} from '../../../utils/event-util';
 import {getAppContext} from '../../../services/app-context';
 import {debounce, DelayedTask} from '../../../utils/async-util';
 import {assertIsDefined} from '../../../utils/common-util';
-import {IronAutogrowTextareaElement} from '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
 import {Interaction} from '../../../constants/reporting';
 import {html, LitElement} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
@@ -25,7 +24,6 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {css} from 'lit';
 import {PropertyValues} from 'lit';
 import {
-  BindValueChangeEvent,
   EditableContentSaveEvent,
   ValueChangedEvent,
 } from '../../../types/events';
@@ -52,6 +50,7 @@ import {
   FormattingError,
 } from '../../../utils/commit-message-formatter-util';
 import {modalStyles} from '../../../styles/gr-modal-styles';
+import {GrAutogrowTextarea} from '../gr-autogrow-textarea/gr-autogrow-textarea';
 
 const RESTORED_MESSAGE = 'Content restored from a previous edit.';
 const STORAGE_DEBOUNCE_INTERVAL_MS = 400;
@@ -76,8 +75,8 @@ declare global {
  */
 @customElement('gr-editable-content')
 export class GrEditableContent extends LitElement {
-  @query('iron-autogrow-textarea')
-  private textarea?: IronAutogrowTextareaElement;
+  @query('gr-autogrow-textarea')
+  private textarea?: GrAutogrowTextarea;
 
   @query('#uploaderConfirmDialog')
   private readonly uploaderConfirmDialog?: HTMLDialogElement;
@@ -221,7 +220,7 @@ export class GrEditableContent extends LitElement {
         :host {
           display: block;
         }
-        :host([disabled]) iron-autogrow-textarea {
+        :host([disabled]) gr-autogrow-textarea {
           opacity: 0.5;
         }
         .viewer {
@@ -236,15 +235,15 @@ export class GrEditableContent extends LitElement {
           max-height: var(--collapsed-max-height, 300px);
           overflow: hidden;
         }
-        .editor iron-autogrow-textarea,
+        .editor gr-autogrow-textarea,
         .viewer {
           min-height: 100px;
         }
-        .editor iron-autogrow-textarea {
+        .editor gr-autogrow-textarea {
           background-color: var(--view-background-color);
           width: 100%;
           display: block;
-          --iron-autogrow-textarea_-_padding: var(--spacing-m);
+          --gr-autogrow-textarea-padding: var(--spacing-m);
         }
         .editButtons {
           display: flex;
@@ -338,14 +337,15 @@ export class GrEditableContent extends LitElement {
     return html`
       <div class="editor">
         <div>
-          <iron-autogrow-textarea
+          <gr-autogrow-textarea
             autocomplete="on"
-            .bindValue=${this.newContent}
+            .value=${this.newContent}
             ?disabled=${this.disabled}
-            @bind-value-changed=${(e: BindValueChangeEvent) => {
-              this.newContent = e.detail.value ?? '';
+            @input=${(e: InputEvent) => {
+              const value = (e.target as GrAutogrowTextarea).value ?? '';
+              this.newContent = value;
             }}
-          ></iron-autogrow-textarea>
+          ></gr-autogrow-textarea>
         </div>
       </div>
     `;
@@ -488,7 +488,7 @@ export class GrEditableContent extends LitElement {
   }
 
   focusTextarea() {
-    this.textarea?.textarea.focus();
+    this.textarea?.focus();
   }
 
   /**
@@ -693,7 +693,7 @@ export class GrEditableContent extends LitElement {
   handleFormat(e: Event) {
     e.preventDefault();
 
-    const textarea = this.textarea?.textarea;
+    const textarea = this.textarea?.nativeElement;
     if (!textarea) return;
 
     // If we have lastFormattedContent, we're undoing
@@ -757,7 +757,7 @@ export class GrEditableContent extends LitElement {
   }
 
   private getCurrentCursorLine(): number {
-    const textarea = this.textarea?.textarea;
+    const textarea = this.textarea?.nativeElement;
     if (!textarea) return -1;
 
     // Calculate which line the cursor is on

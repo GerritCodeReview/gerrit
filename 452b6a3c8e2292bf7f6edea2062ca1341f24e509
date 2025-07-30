@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "47b24d5f_c5327ade",
+        "filename": "java/com/google/gerrit/server/notedb/RepoSequence.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2025-07-30T21:53:54Z",
+      "side": 1,
+      "message": "Are you intentionally checking incremental here? Is this the API path to set the sequence?",
+      "revId": "452b6a3c8e2292bf7f6edea2062ca1341f24e509",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "312a0df9_ac9c9241",
+        "filename": "java/com/google/gerrit/server/notedb/RepoSequence.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2025-07-30T21:53:54Z",
+      "side": 1,
+      "message": "Use store() here?",
+      "revId": "452b6a3c8e2292bf7f6edea2062ca1341f24e509",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

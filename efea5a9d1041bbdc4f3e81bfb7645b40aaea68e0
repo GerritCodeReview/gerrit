@@ -16,6 +16,23 @@
       "message": "Hacking an Investigator that works with the US Marshall\u0027s is not smart. I do have all of your information for your contribution to helping this action. We will be in touch",
       "revId": "efea5a9d1041bbdc4f3e81bfb7645b40aaea68e0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5047faa3_2a7f34b4",
+        "filename": "WORKSPACE",
+        "patchSetId": 1
+      },
+      "lineNbr": 640,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-07-30T13:45:38Z",
+      "side": 1,
+      "message": "Meanwhile we use 2.15.0, and this dependency should be moved to `tools/nongoogle.bzl`, there you can use `SSHD_VERS` to define the version.\n\nhttps://central.sonatype.com/artifact/org.apache.sshd/sshd-contrib/2.15.0",
+      "revId": "efea5a9d1041bbdc4f3e81bfb7645b40aaea68e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

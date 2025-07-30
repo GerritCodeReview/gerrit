@@ -6,12 +6,11 @@
 import '../gr-dialog/gr-dialog';
 import {css, html, LitElement} from 'lit';
 import {customElement, property, query} from 'lit/decorators.js';
-import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
-import {IronAutogrowTextareaElement} from '@polymer/iron-autogrow-textarea';
+import '../gr-autogrow-textarea/gr-autogrow-textarea';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {assertIsDefined} from '../../../utils/common-util';
-import {BindValueChangeEvent} from '../../../types/events';
 import {fireNoBubble} from '../../../utils/event-util';
+import {GrAutogrowTextarea} from '../gr-autogrow-textarea/gr-autogrow-textarea';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -34,7 +33,7 @@ export class GrConfirmDeleteCommentDialog extends LitElement {
    */
 
   @query('#messageInput')
-  messageInput?: IronAutogrowTextareaElement;
+  messageInput?: GrAutogrowTextarea;
 
   @property({type: String})
   message = '';
@@ -63,7 +62,7 @@ export class GrConfirmDeleteCommentDialog extends LitElement {
           display: block;
           width: 100%;
         }
-        iron-autogrow-textarea {
+        gr-autogrow-textarea {
           font-family: var(--monospace-font-family);
           font-size: var(--font-size-mono);
           line-height: var(--line-height-mono);
@@ -87,23 +86,24 @@ export class GrConfirmDeleteCommentDialog extends LitElement {
           circumstances.
         </p>
         <label for="messageInput">Enter comment delete reason</label>
-        <iron-autogrow-textarea
+        <gr-autogrow-textarea
           id="messageInput"
           class="message"
           autocomplete="on"
           placeholder="&lt;Insert reasoning here&gt;"
-          .bindValue=${this.message}
-          @bind-value-changed=${(e: BindValueChangeEvent) => {
-            this.message = e.detail.value ?? '';
+          .value=${this.message}
+          @input=${(e: InputEvent) => {
+            const value = (e.target as GrAutogrowTextarea).value ?? '';
+            this.message = value;
           }}
-        ></iron-autogrow-textarea>
+        ></gr-autogrow-textarea>
       </div>
     </gr-dialog>`;
   }
 
   resetFocus() {
     assertIsDefined(this.messageInput, 'messageInput');
-    this.messageInput.textarea.focus();
+    this.messageInput.focus();
   }
 
   private handleConfirmTap(e: Event) {

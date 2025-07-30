@@ -34,14 +34,13 @@ suite('gr-confirm-delete-comment-dialog tests', () => {
           circumstances.
           </p>
           <label for="messageInput"> Enter comment delete reason </label>
-          <iron-autogrow-textarea
-            aria-disabled="false"
+          <gr-autogrow-textarea
             autocomplete="on"
             class="message"
             id="messageInput"
             placeholder="<Insert reasoning here>"
           >
-          </iron-autogrow-textarea>
+          </gr-autogrow-textarea>
         </div>
       </gr-dialog>
     `

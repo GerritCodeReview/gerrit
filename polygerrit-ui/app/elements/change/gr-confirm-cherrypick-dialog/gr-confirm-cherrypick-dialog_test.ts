@@ -136,14 +136,12 @@ suite('gr-confirm-cherrypick-dialog tests', () => {
                 />
               </iron-input>
               <label for="messageInput"> Cherry Pick Commit Message </label>
-              <iron-autogrow-textarea
-                aria-disabled="false"
+              <gr-autogrow-textarea
                 autocomplete="on"
                 class="message"
                 id="messageInput"
-                rows="4"
               >
-              </iron-autogrow-textarea>
+              </gr-autogrow-textarea>
               <gr-endpoint-slot name="bottom"></gr-endpoint-slot>
             </gr-endpoint-decorator>
           </div>

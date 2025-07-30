@@ -1,5 +1,57 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a662e395_92a546a4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4264094
+      },
+      "writtenOn": "2025-07-30T12:20:06Z",
+      "side": 1,
+      "message": "git commit",
+      "revId": "60c6a272284690f04e7612735f8e15b0bda5758b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2297df55_ac426338",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 491,
+      "author": {
+        "id": 4264094
+      },
+      "writtenOn": "2025-07-30T12:20:06Z",
+      "side": 1,
+      "message": "Comment removed by: Milutin Kristofic; Reason: spam",
+      "revId": "60c6a272284690f04e7612735f8e15b0bda5758b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "05bbb8a0_be72d654",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 493,
+      "author": {
+        "id": 4264094
+      },
+      "writtenOn": "2025-07-30T12:20:06Z",
+      "side": 1,
+      "message": "Comment removed by: Milutin Kristofic; Reason: spam",
+      "revId": "60c6a272284690f04e7612735f8e15b0bda5758b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

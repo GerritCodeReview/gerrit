@@ -82,7 +82,7 @@ export const grFormStyles = css`
   .gr-form-styles td:last-child gr-button {
     width: 100%;
   }
-  .gr-form-styles iron-autogrow-textarea {
+  .gr-form-styles gr-autogrow-textarea {
     height: auto;
     min-height: 4em;
   }

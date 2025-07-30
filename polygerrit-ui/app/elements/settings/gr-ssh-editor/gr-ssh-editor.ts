@@ -3,20 +3,19 @@
  * Copyright 2016 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
+import '../../shared/gr-autogrow-textarea/gr-autogrow-textarea';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-copy-clipboard/gr-copy-clipboard';
 import {SshKeyInfo} from '../../../types/common';
 import {GrButton} from '../../shared/gr-button/gr-button';
-import {IronAutogrowTextareaElement} from '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
 import {getAppContext} from '../../../services/app-context';
 import {css, html, LitElement, PropertyValues} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {grFormStyles} from '../../../styles/gr-form-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {fire} from '../../../utils/event-util';
-import {BindValueChangeEvent} from '../../../types/events';
 import {modalStyles} from '../../../styles/gr-modal-styles';
+import {GrAutogrowTextarea} from '../../shared/gr-autogrow-textarea/gr-autogrow-textarea';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -44,7 +43,7 @@ export class GrSshEditor extends LitElement {
 
   @query('#addButton') addButton!: GrButton;
 
-  @query('#newKey') newKeyEditor!: IronAutogrowTextareaElement;
+  @query('#newKey') newKeyEditor!: GrAutogrowTextarea;
 
   @query('#viewKeyModal') viewKeyModal!: HTMLDialogElement;
 
@@ -86,7 +85,7 @@ export class GrSshEditor extends LitElement {
           min-width: 27em;
           width: auto;
         }
-        iron-autogrow-textarea {
+        gr-autogrow-textarea {
           background-color: var(--view-background-color);
         }
       `,
@@ -154,15 +153,16 @@ export class GrSshEditor extends LitElement {
           <section>
             <span class="title">New SSH key</span>
             <span class="value">
-              <iron-autogrow-textarea
+              <gr-autogrow-textarea
                 id="newKey"
                 autocomplete="on"
                 placeholder="New SSH Key"
-                .bindValue=${this.newKey}
-                @bind-value-changed=${(e: BindValueChangeEvent) => {
-                  this.newKey = e.detail.value ?? '';
+                .value=${this.newKey}
+                @input=${(e: InputEvent) => {
+                  const value = (e.target as GrAutogrowTextarea).value ?? '';
+                  this.newKey = value;
                 }}
-              ></iron-autogrow-textarea>
+              ></gr-autogrow-textarea>
             </span>
           </section>
           <gr-button

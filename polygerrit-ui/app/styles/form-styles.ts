@@ -18,18 +18,18 @@ export const formStyles = css`
   }
   /* prettier formatter removes semi-colons after css mixins. */
   /* prettier-ignore */
-  iron-autogrow-textarea {
+  gr-autogrow-textarea {
     background-color: inherit;
     color: var(--primary-text-color);
     border: 1px solid var(--border-color);
     border-radius: var(--border-radius);
     padding: 0;
     box-sizing: border-box;
-    /* iron-autogrow-textarea has a "-webkit-appearance: textarea" :host
+    /* gr-autogrow-textarea has a "-webkit-appearance: textarea" :host
         css rule, which prevents overriding the border color. Clear that. */
     -webkit-appearance: none;
-    --iron-autogrow-textarea_-_box-sizing: border-box;
-    --iron-autogrow-textarea_-_padding: var(--spacing-s);
+    --gr-autogrow-textarea-box-sizing: border-box;
+    --gr-autogrow-textarea-padding: var(--spacing-s);
   }
   input,
   textarea,

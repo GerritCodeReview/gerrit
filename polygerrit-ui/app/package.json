@@ -7,7 +7,6 @@
     "@polymer/decorators": "^3.0.0",
     "@polymer/font-roboto-local": "^3.0.2",
     "@polymer/iron-a11y-announcer": "^3.2.0",
-    "@polymer/iron-autogrow-textarea": "^3.0.3",
     "@polymer/iron-input": "^3.0.1",
     "@polymer/paper-button": "^3.0.1",
     "@polymer/paper-input": "^3.2.1",

@@ -170,13 +170,12 @@ suite('gr-gpg-editor tests', () => {
           <section>
             <span class="title"> New GPG key </span>
             <span class="value">
-              <iron-autogrow-textarea
-                aria-disabled="false"
+              <gr-autogrow-textarea
                 autocomplete="on"
                 id="newKey"
                 placeholder="New GPG Key"
               >
-              </iron-autogrow-textarea>
+              </gr-autogrow-textarea>
             </span>
           </section>
           <gr-button

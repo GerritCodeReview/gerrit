@@ -39,6 +39,7 @@ js-to-ts.sh
 /polygerrit-ui/coverage/
 /polygerrit-ui/app/plugins/*
 /polygerrit-ui/screenshots/Chrome/failed/
+/polygerrit-ui/screenshots/Chromium/failed/
 !/plugins/.eslintignore
 !/plugins/.eslintrc.js
 !/plugins/.prettierrc.js

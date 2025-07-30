@@ -3,7 +3,7 @@
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
+import '../../shared/gr-autogrow-textarea/gr-autogrow-textarea';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-select/gr-select';
 import {encodeURL, getBaseUrl} from '../../../utils/url-util';
@@ -18,6 +18,7 @@ import {ifDefined} from 'lit/directives/if-defined.js';
 import {EditablePermissionRuleInfo} from '../gr-repo-access/gr-repo-access-interfaces';
 import {PermissionAction} from '../../../constants/constants';
 import {formStyles} from '../../../styles/form-styles';
+import {GrAutogrowTextarea} from '../../shared/gr-autogrow-textarea/gr-autogrow-textarea';
 
 const PRIORITY_OPTIONS = [PermissionAction.BATCH, PermissionAction.INTERACTIVE];
 
@@ -174,7 +175,7 @@ export class GrRuleEditor extends LitElement {
         .groupPath {
           color: var(--deemphasized-text-color);
         }
-        iron-autogrow-textarea {
+        gr-autogrow-textarea {
           width: 14em;
         }
       `,
@@ -288,28 +289,46 @@ export class GrRuleEditor extends LitElement {
     if (!this.hasRange) return;
 
     return html`
-      <iron-autogrow-textarea
+      <gr-autogrow-textarea
         id="minInput"
         class="min"
         autocomplete="on"
         placeholder="Min value"
-        .bindValue=${this.rule?.value?.min}
+        .value=${this.rule?.value?.min}
         ?disabled=${!this.editing}
-        @bind-value-changed=${(e: BindValueChangeEvent) => {
-          this.handleMinBindValueChanged(e);
+        @input=${(e: InputEvent) => {
+          const value = (e.target as GrAutogrowTextarea).value ?? '';
+          if (
+            !this.rule?.value ||
+            value === undefined ||
+            this.rule.value.min === Number(value)
+          )
+            return;
+          this.rule.value.min = Number(value);
+
+          this.handleValueChange();
         }}
-      ></iron-autogrow-textarea>
-      <iron-autogrow-textarea
+      ></gr-autogrow-textarea>
+      <gr-autogrow-textarea
         id="maxInput"
         class="max"
         autocomplete="on"
         placeholder="Max value"
-        .bindValue=${this.rule?.value?.max}
+        .value=${this.rule?.value?.max}
         ?disabled=${!this.editing}
-        @bind-value-changed=${(e: BindValueChangeEvent) => {
-          this.handleMaxBindValueChanged(e);
+        @input=${(e: InputEvent) => {
+          const value = (e.target as GrAutogrowTextarea).value ?? '';
+          if (
+            !this.rule?.value ||
+            value === undefined ||
+            this.rule.value.max === Number(value)
+          )
+            return;
+          this.rule.value.max = Number(value);
+
+          this.handleValueChange();
         }}
-      ></iron-autogrow-textarea>
+      ></gr-autogrow-textarea>
     `;
   }
 

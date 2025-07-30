@@ -6,7 +6,7 @@
 import '../../shared/gr-dialog/gr-dialog';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '../gr-validation-options/gr-validation-options';
-import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
+import '../../shared/gr-autogrow-textarea/gr-autogrow-textarea';
 import {css, html, LitElement, nothing} from 'lit';
 import {customElement, query, state} from 'lit/decorators.js';
 import {
@@ -17,7 +17,6 @@ import {
 } from '../../../types/common';
 import {fire, fireAlert} from '../../../utils/event-util';
 import {sharedStyles} from '../../../styles/shared-styles';
-import {BindValueChangeEvent} from '../../../types/events';
 import {resolve} from '../../../models/dependency';
 import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {createSearchUrl} from '../../../models/views/search';
@@ -25,6 +24,7 @@ import {ParsedChangeInfo} from '../../../types/types';
 import {formStyles} from '../../../styles/form-styles';
 import {GrValidationOptions} from '../gr-validation-options/gr-validation-options';
 import {parseCommitMessageString} from '../../../utils/commit-message-formatter-util';
+import {GrAutogrowTextarea} from '../../shared/gr-autogrow-textarea/gr-autogrow-textarea';
 
 const ERR_COMMIT_NOT_FOUND = 'Unable to find the commit hash of this change.';
 const SPECIFY_REASON_STRING = '<MUST SPECIFY REASON HERE>';
@@ -106,7 +106,7 @@ export class GrConfirmRevertDialog
         .label {
           margin-left: var(--spacing-m);
         }
-        iron-autogrow-textarea {
+        gr-autogrow-textarea {
           font-family: var(--monospace-font-family);
           font-size: var(--font-size-mono);
           line-height: var(--line-height-mono);
@@ -168,14 +168,17 @@ export class GrConfirmRevertDialog
             : nothing}
           <gr-endpoint-decorator name="confirm-revert-change">
             <label for="messageInput"> Revert Commit Message </label>
-            <iron-autogrow-textarea
+            <gr-autogrow-textarea
               id="messageInput"
               class="message"
               .autocomplete=${'on'}
               .maxRows=${15}
-              .bindValue=${this.message}
-              @bind-value-changed=${this.handleBindValueChanged}
-            ></iron-autogrow-textarea>
+              .value=${this.message}
+              @input=${(e: InputEvent) => {
+                const value = (e.target as GrAutogrowTextarea).value ?? '';
+                this.message = value;
+              }}
+            ></gr-autogrow-textarea>
           </gr-endpoint-decorator>
           <gr-validation-options
             .validationOptions=${this.validationOptions}
@@ -314,10 +317,6 @@ export class GrConfirmRevertDialog
     this.revertMessages[this.revertType] = this.message;
     this.originalRevertMessages[this.revertType] = this.message;
     this.showRevertSubmission = true;
-  }
-
-  private handleBindValueChanged(e: BindValueChangeEvent) {
-    this.message = e.detail.value ?? '';
   }
 
   private handleRevertSingleChangeClicked() {

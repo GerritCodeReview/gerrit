@@ -63,7 +63,7 @@ suite('admin links', () => {
 
     if (expected.projectPageShown) {
       assert.isOk(res.links[0].subsection);
-      assert.equal(res.links[0].subsection.children!.length, 7);
+      assert.equal(res.links[0].subsection.children!.length, 8);
     } else {
       assert.isNotOk(res.links[0].subsection);
     }
@@ -103,7 +103,7 @@ suite('admin links', () => {
     }
     if (expected.projectPageShown) {
       assert.equal(res.expandedSection!.name, 'my-repo');
-      assert.equal(res.expandedSection!.children!.length, 7);
+      assert.equal(res.expandedSection!.children!.length, 8);
     } else if (expected.groupPageShown) {
       assert.equal(res.expandedSection!.name, 'my-group');
       assert.equal(

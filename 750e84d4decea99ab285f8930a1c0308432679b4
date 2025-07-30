@@ -1,0 +1,62 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0c22fa90_10ce19a5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-07-30T12:02:34Z",
+      "side": 1,
+      "message": "❤️",
+      "revId": "750e84d4decea99ab285f8930a1c0308432679b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "44de19c1_6947a8ff",
+        "filename": "polygerrit-ui/GEMINI.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-07-30T12:02:34Z",
+      "side": 1,
+      "message": "remove :nowatch here and in the line below",
+      "range": {
+        "startLine": 47,
+        "startChar": 17,
+        "endLine": 47,
+        "endChar": 24
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "5d48e3e6_ad903e14",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/GEMINI.md",
+              "range": {
+                "startLine": 47,
+                "startChar": 0,
+                "endLine": 49,
+                "endChar": 0
+              },
+              "replacement": "yarn test:single \"**/gr-account-list_test.ts\"\nyarn test:single \"**/gr-user-suggestion_test.ts\"\n"
+            }
+          ]
+        }
+      ],
+      "revId": "750e84d4decea99ab285f8930a1c0308432679b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

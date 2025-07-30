@@ -77,6 +77,7 @@ The following metrics are reported.
 === Performance
 
 * `performance/operations`: Latency of performing operations
+  (what's the latency of an operation)
 ** `operation_name`:
    The operation that was performed.
 ** `request`:
@@ -85,6 +86,15 @@ The following metrics are reported.
 ** `plugin`:
    The name of the plugin that performed the operation.
 * `performance/operations_count`: Number of performed operations
+** `operation_name`:
+   The operation that was performed.
+** `request`:
+   The request for which the operation was performed (format = '<request-type>
+   <redacted-request-uri>').
+** `plugin`:
+   The name of the plugin that performed the operation.
+* `performance/operations-per-endpoint`: Per endpoint latency of performing operations
+   (how much latency does calling an operation contribute to the latency of an endpoint)
 ** `operation_name`:
    The operation that was performed.
 ** `request`:

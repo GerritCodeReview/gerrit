@@ -10,7 +10,7 @@ import {BranchName, ChangeActionDialog, RepoName} from '../../../types/common';
 import {getAppContext} from '../../../services/app-context';
 import '../../shared/gr-autocomplete/gr-autocomplete';
 import '../../shared/gr-dialog/gr-dialog';
-import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
+import '../../shared/gr-autogrow-textarea/gr-autogrow-textarea';
 import {Key, Modifier} from '../../../utils/dom-util';
 import {ValueChangedEvent} from '../../../types/events';
 import {ShortcutController} from '../../lit/shortcut-controller';
@@ -18,6 +18,7 @@ import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-
 import {fireNoBubble} from '../../../utils/event-util';
 import {formStyles} from '../../../styles/form-styles';
 import {branchName} from '../../../utils/patch-set-util';
+import {GrAutogrowTextarea} from '../../shared/gr-autogrow-textarea/gr-autogrow-textarea';
 
 const SUGGESTIONS_LIMIT = 15;
 
@@ -130,14 +131,18 @@ export class GrConfirmMoveDialog
           >
           </gr-autocomplete>
           <label for="messageInput"> Move Change Message </label>
-          <iron-autogrow-textarea
+          <gr-autogrow-textarea
             id="messageInput"
             class="message"
             autocomplete="on"
             .rows=${4}
             .maxRows=${15}
-            .bindValue=${this.message}
-          ></iron-autogrow-textarea>
+            .value=${this.message}
+            @input=${(e: InputEvent) => {
+              const value = (e.target as GrAutogrowTextarea).value ?? '';
+              this.message = value;
+            }}
+          ></gr-autogrow-textarea>
         </div>
       </gr-dialog>
     `;

@@ -57,6 +57,30 @@
       ],
       "revId": "750e84d4decea99ab285f8930a1c0308432679b4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "51c9d66a_4afeab81",
+        "filename": "polygerrit-ui/GEMINI.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-07-30T12:07:36Z",
+      "side": 1,
+      "message": "No, actually I added nowatch because ai agent doesn\u0027t work well with watch - since it doesn\u0027t end.",
+      "parentUuid": "44de19c1_6947a8ff",
+      "range": {
+        "startLine": 47,
+        "startChar": 17,
+        "endLine": 47,
+        "endChar": 24
+      },
+      "revId": "750e84d4decea99ab285f8930a1c0308432679b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

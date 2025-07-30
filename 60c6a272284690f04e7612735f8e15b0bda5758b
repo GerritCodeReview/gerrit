@@ -54,6 +54,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "5ba35681_6f2ba148",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-07-30T14:39:54Z",
+      "side": 1,
+      "message": "That would be nice. We can follow up with more improvements. I just wanted to do basics for now.",
+      "parentUuid": "7e2325d2_240ecb1c",
+      "revId": "60c6a272284690f04e7612735f8e15b0bda5758b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "2297df55_ac426338",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.ts",
         "patchSetId": 9

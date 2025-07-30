@@ -26,6 +26,7 @@ import com.google.gerrit.extensions.common.ApplyProvidedFixInput;
 import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.MergeConflictException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
@@ -125,9 +126,17 @@ public class ApplyProvidedFix implements RestModifyView<RevisionResource, ApplyP
       CommitModification commitModification =
           getCommitModification(
               repository, projectState, originPatchSetForFix, targetPatchSet, fixReplacements);
-      ChangeEdit changeEdit =
-          changeEditModifier.combineWithModifiedPatchSetTree(
-              repository, changeNotes, targetPatchSet, commitModification);
+      ChangeEdit changeEdit;
+      try {
+        changeEdit =
+            changeEditModifier.combineWithModifiedPatchSetTree(
+                repository, changeNotes, targetPatchSet, commitModification);
+      } catch (MergeConflictException e) {
+        throw new ResourceConflictException(
+            "The suggested fix could not be applied because it conflicts with the existing change"
+                + " edit. Please apply the fix locally.",
+            e);
+      }
 
       return Response.ok(changeEditJson.toEditInfo(changeEdit, false));
     } catch (InvalidChangeOperationException e) {

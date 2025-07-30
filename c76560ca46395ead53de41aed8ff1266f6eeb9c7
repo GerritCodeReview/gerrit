@@ -16,6 +16,23 @@
       "message": "@milutin@google.com i dunno if there\u0027s a better fix, but this is what i\u0027ve come up with. It works. I dunno about gr-dropdown or how to add a z-index 103, and some form of max-height should be added, can you have a look at both of those please? I\u0027ve done this https://gerrit-review.googlesource.com/c/gerrit/+/495102 but it\u0027s not dynamic and is fixed. Also it\u0027s not great but prevents it from showing it all if you scroll down to the bottom on a change view screen and it\u0027s big enough.",
       "revId": "c76560ca46395ead53de41aed8ff1266f6eeb9c7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c562fd4d_a0903998",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-07-30T14:53:17Z",
+      "side": 1,
+      "message": "Thank you - it fixed the issue with \npatchset selection box cut off",
+      "revId": "c76560ca46395ead53de41aed8ff1266f6eeb9c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

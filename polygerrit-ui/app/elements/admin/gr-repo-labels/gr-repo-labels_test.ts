@@ -104,7 +104,13 @@ suite('gr-repo-labels tests', () => {
                 <tr class="table">
                   <td class="name">Code-Review</td>
                   <td class="description">This is a cool label</td>
-                  <td class="function">MaxWithBlock</td>
+                  <td class="function">
+                    MaxWithBlock
+                    <gr-icon
+                      icon="warning"
+                      title="This function is deprecated."
+                    ></gr-icon>
+                  </td>
                   <td class="defaultValue">0</td>
                   <td class="copyCondition">is:MIN</td>
                   <td class="allowPostSubmit">✓</td>
@@ -148,7 +154,13 @@ suite('gr-repo-labels tests', () => {
                 <tr class="table">
                   <td class="name">Code-Review</td>
                   <td class="description">This is a cool label</td>
-                  <td class="function">MaxWithBlock</td>
+                  <td class="function">
+                    MaxWithBlock
+                    <gr-icon
+                      icon="warning"
+                      title="This function is deprecated."
+                    ></gr-icon>
+                  </td>
                   <td class="defaultValue">0</td>
                   <td class="copyCondition">is:MIN</td>
                   <td class="allowPostSubmit">✓</td>
@@ -280,7 +292,7 @@ suite('gr-repo-labels tests', () => {
                       </div>
                       <div class="value-flex">
                         <span class="value">
-                          <input id="ignoreSelfApproval" checked="" type="checkbox" />
+                          <input id="ignoreSelfApproval" type="checkbox" />
                         </span>
                       </div>
                     </section>

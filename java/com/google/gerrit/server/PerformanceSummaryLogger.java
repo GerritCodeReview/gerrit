@@ -25,6 +25,7 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.PerformanceLogger;
 import com.google.gerrit.server.logging.TraceContext;
+import com.google.gerrit.server.plugincontext.PluginContext.PluginMetrics;
 import com.google.inject.Inject;
 import java.time.Instant;
 import java.util.HashMap;
@@ -64,9 +65,14 @@ public class PerformanceSummaryLogger implements PerformanceLogger {
             .filter(v -> !PluginName.GERRIT.equals(v))
             .map(v -> v + "~")
             .orElse("");
+    String pluginClass =
+        PluginMetrics.PLUGIN_LATENCY_NAME.equals(operation)
+            ? metadata.className().map(clazz -> " (" + clazz + ")").orElse("")
+            : "";
     PerformanceInfo info =
         perRequestPerformanceInfo.computeIfAbsent(
-            pluginTag + operation, operationName -> new PerformanceInfo(operationName));
+            pluginTag + operation + pluginClass,
+            operationName -> new PerformanceInfo(operationName));
     info.add(durationNanos);
   }
 

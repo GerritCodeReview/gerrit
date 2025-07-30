@@ -145,6 +145,54 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d5f2cf9d_0e85849a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-07-30T16:01:24Z",
+      "side": 1,
+      "message": "It would still be important to describe the problem, even if you do not have exact steps on how to reproduce it.\n\nYou can document the investigations you\u0027ve made to conclude that it was the NFS not showing it. Also, it would be important to state how often did this happen to you and which NFS implementation you were using and associated JGit config.",
+      "parentUuid": "21ab8c14_6971f316",
+      "range": {
+        "startLine": 11,
+        "startChar": 4,
+        "endLine": 12,
+        "endChar": 16
+      },
+      "revId": "2d95a16f8aefe0988f9184ca6ebd109340936b7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "167d0088_c8fcd3b9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-07-30T16:01:24Z",
+      "side": 1,
+      "message": "Sure, it is still worth creating it IMHO.",
+      "parentUuid": "f83acbcd_dfb33ee0",
+      "range": {
+        "startLine": 12,
+        "startChar": 20,
+        "endLine": 12,
+        "endChar": 50
+      },
+      "revId": "2d95a16f8aefe0988f9184ca6ebd109340936b7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "61303b80_0af4c17a",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4

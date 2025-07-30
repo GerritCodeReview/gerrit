@@ -3,7 +3,7 @@
  * Copyright 2016 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
+import '../../shared/gr-autogrow-textarea/gr-autogrow-textarea';
 import '@polymer/iron-input/iron-input';
 import '../../../styles/shared-styles';
 import '../../shared/gr-autocomplete/gr-autocomplete';
@@ -48,6 +48,7 @@ import {ParsedChangeInfo} from '../../../types/types';
 import {formStyles} from '../../../styles/form-styles';
 import {branchName} from '../../../utils/patch-set-util';
 import {changeModelToken} from '../../../models/change/change-model';
+import {GrAutogrowTextarea} from '../../shared/gr-autogrow-textarea/gr-autogrow-textarea';
 
 const SUGGESTIONS_LIMIT = 15;
 const CHANGE_SUBJECT_LIMIT = 50;
@@ -209,7 +210,7 @@ export class GrConfirmCherrypickDialog
           display: block;
           width: 100%;
         }
-        iron-autogrow-textarea {
+        gr-autogrow-textarea {
           font-family: var(--monospace-font-family);
           font-size: var(--font-size-mono);
           line-height: var(--line-height-mono);
@@ -354,16 +355,18 @@ export class GrConfirmCherrypickDialog
         />
       </iron-input>
       <label for="messageInput"> Cherry Pick Commit Message </label>
-      <iron-autogrow-textarea
+      <gr-autogrow-textarea
         id="messageInput"
         class="message"
         autocomplete="on"
-        rows="4"
+        .rows=${4}
         .maxRows=${15}
-        .bindValue=${this.message}
-        @bind-value-changed=${(e: BindValueChangeEvent) =>
-          (this.message = e.detail.value ?? '')}
-      ></iron-autogrow-textarea>
+        .value=${this.message}
+        @input=${(e: InputEvent) => {
+          const value = (e.target as GrAutogrowTextarea).value ?? '';
+          this.message = value;
+        }}
+      ></gr-autogrow-textarea>
       ${when(
         this.canShowEmailDropdown(),
         () => html`<div id="cherryPickEmailDropdown">Cherry Pick Committer Email

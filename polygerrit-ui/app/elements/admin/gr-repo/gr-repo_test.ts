@@ -152,7 +152,7 @@ suite('gr-repo tests', () => {
 
   function getFormFields() {
     const selects = Array.from(queryAll(element, 'select'));
-    const textareas = Array.from(queryAll(element, 'iron-autogrow-textarea'));
+    const textareas = Array.from(queryAll(element, 'gr-autogrow-textarea'));
     const inputs = Array.from(queryAll(element, 'input'));
     return inputs.concat(textareas).concat(selects);
   }

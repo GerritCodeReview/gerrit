@@ -16,6 +16,24 @@
       "message": "When creating/edit labels there is an alignment problem. Due to the vertical scrollbar the input boxes are not fully shown and it adds an unnecessary horizontal scrollbar.\n\nhttps://i.imgur.com/ZBa97rX.png",
       "revId": "352165471d4bbbe397d511ad0b1a14c0271da7ae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fab4cf7e_8df6d135",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-07-30T12:03:27Z",
+      "side": 1,
+      "message": "Thanks. I fixed it - https://imgur.com/a/u0DI0gY",
+      "parentUuid": "8fa1a61a_0e46f30b",
+      "revId": "352165471d4bbbe397d511ad0b1a14c0271da7ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

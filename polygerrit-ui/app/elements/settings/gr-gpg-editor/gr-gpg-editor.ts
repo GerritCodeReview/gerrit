@@ -3,7 +3,7 @@
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
+import '../../shared/gr-autogrow-textarea/gr-autogrow-textarea';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-copy-clipboard/gr-copy-clipboard';
 import {GpgKeyId, GpgKeyInfo} from '../../../types/common';
@@ -15,10 +15,10 @@ import {customElement, property, query, state} from 'lit/decorators.js';
 import {grFormStyles} from '../../../styles/gr-form-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {assertIsDefined} from '../../../utils/common-util';
-import {BindValueChangeEvent} from '../../../types/events';
 import {fire} from '../../../utils/event-util';
 import {modalStyles} from '../../../styles/gr-modal-styles';
 import {formStyles} from '../../../styles/form-styles';
+import {GrAutogrowTextarea} from '../../shared/gr-autogrow-textarea/gr-autogrow-textarea';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -75,8 +75,19 @@ export class GrGpgEditor extends LitElement {
         #existing {
           margin-bottom: var(--spacing-l);
         }
-        iron-autogrow-textarea {
+        gr-autogrow-textarea {
           background-color: var(--view-background-color);
+          position: relative;
+          height: auto;
+          min-height: 4em;
+          --gr-autogrow-textarea-border-width: 0px;
+          --gr-autogrow-textarea-border-color: var(--border-color);
+          --input-field-bg: var(--view-background-color);
+          --input-field-disabled-bg: var(--view-background-color);
+          --secondary-bg-color: var(--background-color-secondary);
+          --text-default: var(--primary-text-color);
+          --text-disabled: var(--deemphasized-text-color);
+          --text-secondary: var(--deemphasized-text-color);
         }
       `,
     ];
@@ -128,14 +139,13 @@ export class GrGpgEditor extends LitElement {
           <section>
             <span class="title">New GPG key</span>
             <span class="value">
-              <iron-autogrow-textarea
+              <gr-autogrow-textarea
                 id="newKey"
                 autocomplete="on"
-                .bindValue=${this.newKey}
-                @bind-value-changed=${(e: BindValueChangeEvent) =>
-                  this.handleNewKeyChanged(e)}
+                .value=${this.newKey}
+                @input=${(e: InputEvent) => this.handleNewKeyChanged(e)}
                 placeholder="New GPG Key"
-              ></iron-autogrow-textarea>
+              ></gr-autogrow-textarea>
             </span>
           </section>
           <gr-button
@@ -208,8 +218,9 @@ export class GrGpgEditor extends LitElement {
     this.viewKeyModal?.showModal();
   }
 
-  private handleNewKeyChanged(e: BindValueChangeEvent) {
-    this.newKey = e.detail.value ?? '';
+  private handleNewKeyChanged(e: InputEvent) {
+    const rawValue = (e.target as GrAutogrowTextarea).value ?? '';
+    this.newKey = rawValue;
   }
 
   private handleDeleteKey(index: number) {

@@ -3,8 +3,8 @@
  * Copyright 2016 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
 import '@polymer/iron-input/iron-input';
+import '../../shared/gr-autogrow-textarea/gr-autogrow-textarea';
 import '../../shared/gr-avatar/gr-avatar';
 import '../../shared/gr-date-formatter/gr-date-formatter';
 import '../../shared/gr-tooltip-content/gr-tooltip-content';
@@ -27,6 +27,7 @@ import {getDocUrl} from '../../../utils/url-util';
 import {subscribe} from '../../lit/subscription-controller';
 import {resolve} from '../../../models/dependency';
 import {configModelToken} from '../../../models/config/config-model';
+import {GrAutogrowTextarea} from '../../shared/gr-autogrow-textarea/gr-autogrow-textarea';
 
 @customElement('gr-account-info')
 export class GrAccountInfo extends LitElement {
@@ -93,7 +94,7 @@ export class GrAccountInfo extends LitElement {
           border-radius: var(--border-radius);
           box-shadow: var(--elevation-level-5);
         }
-        iron-autogrow-textarea {
+        gr-autogrow-textarea {
           background-color: var(--view-background-color);
           color: var(--primary-text-color);
         }
@@ -243,19 +244,20 @@ export class GrAccountInfo extends LitElement {
           </div>
         </span>
         <span class="value">
-          <iron-autogrow-textarea
+          <gr-autogrow-textarea
             id="statusInput"
             .label=${'statusInput'}
             ?disabled=${this.saving}
             maxlength="140"
             .value=${this.account?.status}
-            @bind-value-changed=${(e: BindValueChangeEvent) => {
+            @input=${(e: InputEvent) => {
               const oldAccount = this.account;
-              if (!oldAccount || oldAccount.status === e.detail.value) return;
-              this.account = {...oldAccount, status: e.detail.value};
+              const value = (e.target as GrAutogrowTextarea).value ?? '';
+              if (!oldAccount || oldAccount.status === value) return;
+              this.account = {...oldAccount, status: value};
               this.hasStatusChange = true;
             }}
-          ></iron-autogrow-textarea>
+          ></gr-autogrow-textarea>
         </span>
       </section>
       <section>

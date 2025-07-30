@@ -5,7 +5,6 @@
  */
 import '../gr-autocomplete-dropdown/gr-autocomplete-dropdown';
 import '../gr-cursor-manager/gr-cursor-manager';
-import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
 import '../../../styles/shared-styles';
 import '../../../embed/gr-textarea';
 import {getAppContext} from '../../../services/app-context';
@@ -252,7 +251,6 @@ export class GrSuggestionTextarea extends LitElement {
           --text-default: var(--primary-text-color);
           --text-disabled: var(--deemphasized-text-color);
           --text-secondary: var(--deemphasized-text-color);
-          --iron-autogrow-textarea_-_padding: var(--spacing-s);
         }
         #hiddenText #emojiSuggestions {
           visibility: visible;

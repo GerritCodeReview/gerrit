@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b1e0f354_e6747789",
+        "filename": "java/com/google/gerrit/server/PerformanceSummaryLogger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-07-30T10:26:17Z",
+      "side": 1,
+      "message": "Yes, good idea. I added a config option and also increased the default to 25.",
+      "parentUuid": "138cec14_270eb87d",
+      "range": {
+        "startLine": 39,
+        "startChar": 27,
+        "endLine": 39,
+        "endChar": 41
+      },
+      "revId": "cf097d944c290ad695c7ff62ff733f5dba20ce13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e8bd6a37_a4fc84fb",
@@ -37,6 +61,30 @@
       "writtenOn": "2025-07-30T09:33:31Z",
       "side": 1,
       "message": "nit: maybe slightly simpler\n\n```suggestion\n    String pluginTag \u003d TraceContext.getPluginTag().map(v -\u003e v + \"~\").orElse(\"\");\n    PerformanceInfo info \u003d perRequestPerformanceInfo.computeIfAbsent(\n        pluginTag + operation,\n        (operationName) -\u003e new PerformanceInfo(operationName));\n    info.add(durationNanos);\n```\n\nAnd make a constructor that initializes with duration and count equal to 0",
+      "range": {
+        "startLine": 49,
+        "startChar": 4,
+        "endLine": 55,
+        "endChar": 54
+      },
+      "revId": "cf097d944c290ad695c7ff62ff733f5dba20ce13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7528215e_9832e8ac",
+        "filename": "java/com/google/gerrit/server/PerformanceSummaryLogger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-07-30T10:26:17Z",
+      "side": 1,
+      "message": "Nice, thanks for suggesting this.\n\nI only made a slight modification since TraceContext.getPluginTag() returns \"gerrit\" by default and in this case we don\u0027t want to add the prefix.\n\nDone.",
+      "parentUuid": "e8bd6a37_a4fc84fb",
       "range": {
         "startLine": 49,
         "startChar": 4,

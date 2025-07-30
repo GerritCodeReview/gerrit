@@ -125,9 +125,17 @@ public class ApplyProvidedFix implements RestModifyView<RevisionResource, ApplyP
       CommitModification commitModification =
           getCommitModification(
               repository, projectState, originPatchSetForFix, targetPatchSet, fixReplacements);
-      ChangeEdit changeEdit =
-          changeEditModifier.combineWithModifiedPatchSetTree(
-              repository, changeNotes, targetPatchSet, commitModification);
+      ChangeEdit changeEdit;
+      try {
+        changeEdit =
+            changeEditModifier.combineWithModifiedPatchSetTree(
+                repository, changeNotes, targetPatchSet, commitModification);
+      } catch (MergeConflictException e) {
+        throw new ResourceConflictException(
+            "The suggested fix could not be applied because it conflicts with the existing change"
+                + " edit. Please apply the fix locally.",
+            e);
+      }
 
       return Response.ok(changeEditJson.toEditInfo(changeEdit, false));
     } catch (InvalidChangeOperationException e) {

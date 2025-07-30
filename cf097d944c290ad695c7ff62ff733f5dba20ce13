@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "138cec14_270eb87d",
+        "filename": "java/com/google/gerrit/server/PerformanceSummaryLogger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-07-30T09:33:31Z",
+      "side": 1,
+      "message": "Would it make sense to make this a config option/flag?\n\n20 is probably enough, but I am imagining a situation, where it ends up capturing overarching groups (entire request latency, entire submit requirement calculation, etc.), but doesn\u0027t go into granularity of why, and we might want to have it easily adjusted.",
+      "range": {
+        "startLine": 39,
+        "startChar": 27,
+        "endLine": 39,
+        "endChar": 41
+      },
+      "revId": "cf097d944c290ad695c7ff62ff733f5dba20ce13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e8bd6a37_a4fc84fb",
+        "filename": "java/com/google/gerrit/server/PerformanceSummaryLogger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-07-30T09:33:31Z",
+      "side": 1,
+      "message": "nit: maybe slightly simpler\n\n```suggestion\n    String pluginTag \u003d TraceContext.getPluginTag().map(v -\u003e v + \"~\").orElse(\"\");\n    PerformanceInfo info \u003d perRequestPerformanceInfo.computeIfAbsent(\n        pluginTag + operation,\n        (operationName) -\u003e new PerformanceInfo(operationName));\n    info.add(durationNanos);\n```\n\nAnd make a constructor that initializes with duration and count equal to 0",
+      "range": {
+        "startLine": 49,
+        "startChar": 4,
+        "endLine": 55,
+        "endChar": 54
+      },
+      "revId": "cf097d944c290ad695c7ff62ff733f5dba20ce13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

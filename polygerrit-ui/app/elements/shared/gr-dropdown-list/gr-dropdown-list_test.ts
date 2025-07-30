@@ -71,55 +71,58 @@ suite('gr-dropdown-list tests', () => {
             <gr-copy-clipboard class="copyClipboard" hidden="" hideinput="">
             </gr-copy-clipboard>
           </gr-button>
-          <md-menu
-            anchor="trigger"
-            default-focus="none"
-            aria-hidden="true"
-            id="dropdown"
-            quick=""
-            tabindex="-1"
-          >
-            <md-menu-item md-menu-item="" tabindex="0">
-              <div class="topContent">
-                <div>
-                <span class="desktopText">
-                   Top Text 1
-                </span>
-                <span class="mobileText">
-                  Top Text 1
+          <div class="dropdown-menu">
+            <md-menu
+              anchor="trigger"
+              default-focus="none"
+              aria-hidden="true"
+              id="dropdown"
+              positioning="fixed"
+              quick=""
+              tabindex="-1"
+            >
+              <md-menu-item md-menu-item="" tabindex="0">
+                <div class="topContent">
+                  <div>
+                  <span class="desktopText">
+                    Top Text 1
+                  </span>
+                  <span class="mobileText">
+                    Top Text 1
+                  </div>
                 </div>
-              </div>
-            </md-menu-item>
-            <md-divider role="separator" tabindex="-1"> </md-divider>
-            <md-menu-item active="" md-menu-item="" selected="" tabindex="-1">
-              <div class="topContent">
-                <div>
-                <span class="desktopText">
-                  Top Text 2
-                </span>
-                  <span class="mobileText"> Mobile Text 2 </span>
+              </md-menu-item>
+              <md-divider role="separator" tabindex="-1"> </md-divider>
+              <md-menu-item active="" md-menu-item="" selected="" tabindex="-1">
+                <div class="topContent">
+                  <div>
+                  <span class="desktopText">
+                    Top Text 2
+                  </span>
+                    <span class="mobileText"> Mobile Text 2 </span>
+                  </div>
                 </div>
-              </div>
-              <div class="bottomContent">
-                <div>Bottom Text 2</div>
-              </div>
-            </md-menu-item>
-            <md-divider role="separator" tabindex="-1"> </md-divider>
-            <md-menu-item disabled="" md-menu-item="" tabindex="-1">
-              <div class="topContent">
-                <div>
-                <span class="desktopText">
-                  Top Text 3
-                </span>
-                  <span class="mobileText"> Mobile Text 3 </span>
+                <div class="bottomContent">
+                  <div>Bottom Text 2</div>
                 </div>
-                <gr-date-formatter> </gr-date-formatter>
-              </div>
-              <div class="bottomContent">
-                <div>Bottom Text 3</div>
-              </div>
-            </md-menu-item>
-          </md-menu>
+              </md-menu-item>
+              <md-divider role="separator" tabindex="-1"> </md-divider>
+              <md-menu-item disabled="" md-menu-item="" tabindex="-1">
+                <div class="topContent">
+                  <div>
+                  <span class="desktopText">
+                    Top Text 3
+                  </span>
+                    <span class="mobileText"> Mobile Text 3 </span>
+                  </div>
+                  <gr-date-formatter> </gr-date-formatter>
+                </div>
+                <div class="bottomContent">
+                  <div>Bottom Text 3</div>
+                </div>
+              </md-menu-item>
+            </md-menu>
+          </div>
         </div>
       `
     );

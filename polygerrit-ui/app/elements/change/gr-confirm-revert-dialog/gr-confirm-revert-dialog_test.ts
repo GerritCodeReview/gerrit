@@ -32,11 +32,10 @@ suite('gr-confirm-revert-dialog tests', () => {
             </div>
             <gr-endpoint-decorator name="confirm-revert-change">
               <label for="messageInput"> Revert Commit Message </label>
-              <iron-autogrow-textarea
+              <gr-autogrow-textarea
                 id="messageInput"
                 class="message"
-                aria-disabled="false"
-              ></iron-autogrow-textarea>
+              ></gr-autogrow-textarea>
             </gr-endpoint-decorator>
             <gr-validation-options></gr-validation-options>
           </div>

@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4ea52695_30011290",
+        "filename": "java/com/google/gerrit/server/notedb/RepoSequence.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2025-07-30T23:32:35Z",
+      "side": 1,
+      "message": "Admins may not be knowledgeable enough (as we discussed in another comment thread), so I believe enforcing this policy even when setting the sequence would be valuable. I can split this into a separate change if you think it\u0027s out of scope for this one.",
+      "parentUuid": "425ee0f6_7222100c",
+      "revId": "452b6a3c8e2292bf7f6edea2062ca1341f24e509",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "312a0df9_ac9c9241",
         "filename": "java/com/google/gerrit/server/notedb/RepoSequence.java",
         "patchSetId": 6

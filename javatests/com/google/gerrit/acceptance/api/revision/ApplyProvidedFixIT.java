@@ -557,6 +557,26 @@ public class ApplyProvidedFixIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void applyProvidedFixWithConflictOnChangeEditCannotBeApplied() throws Exception {
+    // Create a change edit with a modification.
+    gApi.changes().id(changeId).edit().modifyFile(FILE_NAME, "a change edit modification");
+
+    // Attempt to apply a fix which conflicts with the change edit.
+    ApplyProvidedFixInput applyProvidedFixInput =
+        createApplyProvidedFixInput(FILE_NAME, "a conflicting fix", 1, 0, 2, 0);
+
+    ResourceConflictException thrown =
+        assertThrows(
+            ResourceConflictException.class,
+            () -> gApi.changes().id(changeId).current().applyFix(applyProvidedFixInput));
+    assertThat(thrown)
+        .hasMessageThat()
+        .isEqualTo(
+            "The suggested fix could not be applied because it conflicts with the existing change"
+                + " edit. Please apply the fix locally.");
+  }
+
+  @Test
   public void applyProvidedFixOnCurrentPatchSetWithChangeEditOnPreviousPatchSetCannotBeApplied()
       throws Exception {
     // Create an empty change edit.

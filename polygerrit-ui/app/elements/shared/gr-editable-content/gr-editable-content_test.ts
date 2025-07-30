@@ -22,8 +22,8 @@ import {
   RevisionPatchSetNum,
 } from '../../../api/rest-api';
 import {changeViewModelToken} from '../../../models/views/change';
-import {IronAutogrowTextareaElement} from '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
 import {GrDialog} from '../gr-dialog/gr-dialog';
+import {GrAutogrowTextarea} from '../gr-autogrow-textarea/gr-autogrow-textarea';
 
 const emails = [
   {
@@ -428,10 +428,10 @@ suite('gr-editable-content tests', () => {
       );
 
       element.newContent = 'line1\nline2    \nline3';
-      const textarea = queryAndAssert<IronAutogrowTextareaElement>(
+      const textarea = queryAndAssert<GrAutogrowTextarea>(
         element,
-        'iron-autogrow-textarea'
-      ).textarea;
+        'gr-autogrow-textarea'
+      ).nativeElement!;
 
       textarea.setSelectionRange(7, 7); // Position cursor after "line2"
       await element.updateComplete;
@@ -451,10 +451,10 @@ suite('gr-editable-content tests', () => {
       );
 
       element.newContent = 'line1    \nline2    \nline3    ';
-      const textarea = queryAndAssert<IronAutogrowTextareaElement>(
+      const textarea = queryAndAssert<GrAutogrowTextarea>(
         element,
-        'iron-autogrow-textarea'
-      ).textarea;
+        'gr-autogrow-textarea'
+      ).nativeElement!;
 
       textarea.setSelectionRange(7, 7); // Position cursor after "line2"
       await element.updateComplete;

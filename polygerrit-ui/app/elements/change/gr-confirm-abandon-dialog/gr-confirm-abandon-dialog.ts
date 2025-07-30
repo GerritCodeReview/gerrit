@@ -3,19 +3,18 @@
  * Copyright 2016 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
+import '../../shared/gr-autogrow-textarea/gr-autogrow-textarea';
 import '../../shared/gr-dialog/gr-dialog';
-import {IronAutogrowTextareaElement} from '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
 import {Key, Modifier} from '../../../utils/dom-util';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {css, html, LitElement} from 'lit';
 import {customElement, property, query} from 'lit/decorators.js';
 import {assertIsDefined} from '../../../utils/common-util';
-import {BindValueChangeEvent} from '../../../types/events';
 import {ShortcutController} from '../../lit/shortcut-controller';
 import {ChangeActionDialog} from '../../../types/common';
 import {fireNoBubble} from '../../../utils/event-util';
 import {formStyles} from '../../../styles/form-styles';
+import {GrAutogrowTextarea} from '../../shared/gr-autogrow-textarea/gr-autogrow-textarea';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -40,7 +39,7 @@ export class GrConfirmAbandonDialog
    * @event cancel
    */
 
-  @query('#messageInput') private messageInput?: IronAutogrowTextareaElement;
+  @query('#messageInput') private messageInput?: GrAutogrowTextarea;
 
   @property({type: String})
   message = '';
@@ -82,7 +81,7 @@ export class GrConfirmAbandonDialog
           display: block;
           width: 100%;
         }
-        iron-autogrow-textarea {
+        gr-autogrow-textarea {
           font-family: var(--monospace-font-family);
           font-size: var(--font-size-mono);
           line-height: var(--line-height-mono);
@@ -106,16 +105,14 @@ export class GrConfirmAbandonDialog
         <div class="header" slot="header">Abandon Change</div>
         <div class="main" slot="main">
           <label for="messageInput">Abandon Message</label>
-          <iron-autogrow-textarea
+          <gr-autogrow-textarea
             id="messageInput"
             class="message"
             autocomplete="on"
             placeholder="&lt;Insert reasoning here&gt;"
-            .bindValue=${this.message}
-            @bind-value-changed=${(e: BindValueChangeEvent) => {
-              this.handleBindValueChanged(e);
-            }}
-          ></iron-autogrow-textarea>
+            .value=${this.message}
+            @input=${this.handleInputChanged}
+          ></gr-autogrow-textarea>
         </div>
       </gr-dialog>
     `;
@@ -123,7 +120,7 @@ export class GrConfirmAbandonDialog
 
   resetFocus() {
     assertIsDefined(this.messageInput, 'messageInput');
-    this.messageInput.textarea.focus();
+    this.messageInput.focus();
   }
 
   // private but used in test
@@ -145,7 +142,8 @@ export class GrConfirmAbandonDialog
     fireNoBubble(this, 'cancel', {});
   }
 
-  private handleBindValueChanged(e: BindValueChangeEvent) {
-    this.message = e.detail.value ?? '';
+  private handleInputChanged(e: InputEvent) {
+    const value = (e.target as GrAutogrowTextarea).value ?? '';
+    this.message = value;
   }
 }

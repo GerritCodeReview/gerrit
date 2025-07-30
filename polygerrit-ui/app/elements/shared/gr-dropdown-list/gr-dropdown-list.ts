@@ -127,6 +127,7 @@ export class GrDropdownList extends LitElement {
           --md-menu-top-space: 0px;
           --md-menu-bottom-space: 0px;
           --md-focus-ring-duration: 0s;
+          max-height: calc(100vh - 48px);
         }
         md-divider {
           margin: auto;

@@ -1,0 +1,86 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a414abba_c8a4e9bf",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1098,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-07-30T12:16:30Z",
+      "side": 1,
+      "message": "Maybe \"referenced by\" a comment instead?",
+      "range": {
+        "startLine": 1098,
+        "startChar": 48,
+        "endLine": 1098,
+        "endChar": 53
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "d7b66df1_8869c50e",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+              "range": {
+                "startLine": 1098,
+                "startChar": 0,
+                "endLine": 1099,
+                "endChar": 0
+              },
+              "replacement": "      \u0027Files not modified in this patchset, but referenced by a\u0027 +\n"
+            }
+          ]
+        }
+      ],
+      "revId": "8ba4b415e1453675076194a900f776b08bf5073f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ff46938_b3e9f6f5",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1099,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-07-30T12:16:30Z",
+      "side": 1,
+      "message": "`check, a comment, or generated.`\n-\u003e\n`check or a comment. May include files outside of this change, also virtual or generated files.`",
+      "range": {
+        "startLine": 1099,
+        "startChar": 8,
+        "endLine": 1099,
+        "endChar": 39
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "9eb0108b_ce2d2c5d",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+              "range": {
+                "startLine": 1098,
+                "startChar": 0,
+                "endLine": 1100,
+                "endChar": 0
+              },
+              "replacement": "      \u0027Files not modified in this patchset, but added by a check or a comment.\u0027 +\n      \u0027 May include files outside of this change, also virtual or generated files.\u0027;\n"
+            }
+          ]
+        }
+      ],
+      "revId": "8ba4b415e1453675076194a900f776b08bf5073f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1796,7 +1796,7 @@ export class GrChecksResults extends LitElement {
       const end = run.finishedTimestamp;
       let duration = '';
       if (start && end) {
-        duration = ` in ${durationString(start, end, true)}`;
+        duration = ` ${durationString(start, end, 'in')}`;
       }
       adaptedRun.message = `Completed without results${duration}.`;
     }

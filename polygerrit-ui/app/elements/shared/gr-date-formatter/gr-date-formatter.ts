@@ -8,11 +8,11 @@ import {css, html, LitElement} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
 import {
   formatDate,
-  fromNow,
   isValidDate,
   isWithinDay,
   isWithinHalfYear,
   parseDate,
+  relative,
   utcOffsetString,
   wasYesterday,
 } from '../../../utils/date-util';
@@ -192,7 +192,7 @@ export class GrDateFormatter extends LitElement {
       return '';
     }
     if (this.relative) {
-      return fromNow(date, this.relativeOptionNoAgo);
+      return relative(date, this.relativeOptionNoAgo);
     }
     const now = new Date();
     let format = this.dateFormat.full;

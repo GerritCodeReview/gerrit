@@ -25,36 +25,57 @@ export function isValidDate(date: any): date is Date {
 }
 
 // similar to fromNow from moment.js
-export function fromNow(date: Date, noAgo = false) {
-  return durationString(date, new Date(), noAgo);
+export function relative(date: Date, affix = false) {
+  const now = new Date();
+  if (now > date) {
+    return fromNow(date, affix);
+  } else {
+    return toNow(date, affix);
+  }
 }
 
 // similar to fromNow from moment.js
-export function durationString(from: Date, to: Date, noAgo = false) {
-  const ago = noAgo ? '' : ' ago';
-  const secondsAgo = Math.floor((to.valueOf() - from.valueOf()) / 1000);
-  if (secondsAgo <= 59) {
-    if (noAgo) return `${secondsAgo} seconds`;
+export function fromNow(date: Date, noAgo = false) {
+  return durationString(date, new Date(), '', noAgo ? '' : 'ago');
+}
+
+// similar to toNow from moment.js
+export function toNow(date: Date, noIn = false) {
+  return durationString(new Date(), date, noIn ? '' : 'in', '');
+}
+
+// similar to fromNow from moment.js
+export function durationString(
+  from: Date,
+  to: Date,
+  prefix: string = '',
+  suffix: string = ''
+) {
+  prefix = prefix ? `${prefix.trim()} ` : '';
+  suffix = suffix ? ` ${suffix.trim()}` : '';
+  const seconds = Math.floor((to.valueOf() - from.valueOf()) / 1000);
+  if (seconds <= 59) {
+    if (!prefix && !suffix) return `${seconds} seconds`;
     return 'just now';
   }
-  if (secondsAgo <= 119) return `1 minute${ago}`;
-  const minutesAgo = Math.floor(secondsAgo / 60);
-  if (minutesAgo <= 59) return `${minutesAgo} minutes${ago}`;
-  if (minutesAgo === 60) return `1 hour${ago}`;
-  if (minutesAgo <= 119) return `1 hour ${minutesAgo - 60} min${ago}`;
-  const hoursAgo = Math.floor(minutesAgo / 60);
-  if (hoursAgo <= 23) return `${hoursAgo} hours${ago}`;
-  if (hoursAgo === 24) return `1 day${ago}`;
-  if (hoursAgo <= 47) return `1 day ${hoursAgo - 24} hr${ago}`;
-  const daysAgo = Math.floor(hoursAgo / 24);
-  if (daysAgo <= 30) return `${daysAgo} days${ago}`;
-  if (daysAgo <= 60) return `1 month${ago}`;
-  const monthsAgo = Math.floor(daysAgo / 30);
-  if (monthsAgo <= 11) return `${monthsAgo} months${ago}`;
-  if (monthsAgo === 12) return `1 year${ago}`;
-  if (monthsAgo <= 24) return `1 year ${monthsAgo - 12} m${ago}`;
-  const yearsAgo = Math.floor(daysAgo / 365);
-  return `${yearsAgo} years${ago}`;
+  if (seconds <= 119) return `${prefix}1 minute${suffix}`;
+  const minutes = Math.floor(seconds / 60);
+  if (minutes <= 59) return `${prefix}${minutes} minutes${suffix}`;
+  if (minutes === 60) return `${prefix}1 hour${suffix}`;
+  if (minutes <= 119) return `${prefix}1 hour ${minutes - 60} min${suffix}`;
+  const hours = Math.floor(minutes / 60);
+  if (hours <= 23) return `${prefix}${hours} hours${suffix}`;
+  if (hours === 24) return `${prefix}1 day${suffix}`;
+  if (hours <= 47) return `${prefix}1 day ${hours - 24} hr${suffix}`;
+  const days = Math.floor(hours / 24);
+  if (days <= 30) return `${prefix}${days} days${suffix}`;
+  if (days <= 60) return `${prefix}1 month${suffix}`;
+  const months = Math.floor(days / 30);
+  if (months <= 11) return `${prefix}${months} months${suffix}`;
+  if (months === 12) return `${prefix}1 year${suffix}`;
+  if (months <= 24) return `${prefix}1 year ${months - 12} m${suffix}`;
+  const years = Math.floor(days / 365);
+  return `${prefix}${years} years${suffix}`;
 }
 
 /**

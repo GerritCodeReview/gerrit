@@ -264,7 +264,7 @@ export class GrSubmitRequirements extends LitElement {
       return html`<span class="error">Error</span>`;
     }
 
-    const requirementLabels = extractAssociatedLabels(requirement);
+    const requirementLabels = extractAssociatedLabels(requirement, 'all');
     const allLabels = this.change?.labels ?? {};
     const associatedLabels = Object.keys(allLabels).filter(label =>
       requirementLabels.includes(label)

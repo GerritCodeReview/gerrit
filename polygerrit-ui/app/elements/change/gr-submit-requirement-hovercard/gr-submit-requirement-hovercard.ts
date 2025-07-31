@@ -197,7 +197,7 @@ export class GrSubmitRequirementHovercard extends base {
 
   private renderLabelSection() {
     if (!this.requirement) return;
-    const requirementLabels = extractAssociatedLabels(this.requirement);
+    const requirementLabels = extractAssociatedLabels(this.requirement, 'all');
     const allLabels = this.change?.labels ?? {};
     const labels: string[] = [];
     for (const label of Object.keys(allLabels)) {

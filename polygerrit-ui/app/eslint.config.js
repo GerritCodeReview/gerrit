@@ -432,6 +432,16 @@ module.exports = {
         'lit/quoted-expressions': ['error', 'never'],
       },
     },
+    {
+      files: ['**/*.ts'],
+      rules: {
+        'es-x/no-array-prototype-at': 'error',
+        'es-x/no-object-hasown': 'error',
+        'es-x/no-regexp-d-flag': 'error',
+        'es-x/no-string-prototype-at': 'error',
+        'es-x/no-error-cause': 'error',
+      },
+    },
   ],
   plugins: [
     'html',
@@ -440,6 +450,7 @@ module.exports = {
     'lit',
     'prettier',
     'regex',
+    'es-x',
   ],
   settings: {
     'html/report-bad-indent': 'error',

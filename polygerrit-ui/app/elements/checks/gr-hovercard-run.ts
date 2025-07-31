@@ -283,6 +283,7 @@ export class GrHovercardRun extends base {
               ${durationString(
                 this.run.startedTimestamp,
                 this.run.finishedTimestamp,
+                true,
                 true
               )}
             </div>
@@ -294,7 +295,12 @@ export class GrHovercardRun extends base {
         ? html`<div class="row">
             <div class="title">ETA</div>
             <div>
-              ${durationString(new Date(), this.run.finishedTimestamp, true)}
+              ${durationString(
+                new Date(),
+                this.run.finishedTimestamp,
+                true,
+                true
+              )}
             </div>
           </div>`
         : '';

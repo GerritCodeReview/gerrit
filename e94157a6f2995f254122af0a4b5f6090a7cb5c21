@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "e48b7a7d_6e1c70a8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-07-31T16:16:52Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "568c6b6c_9ab87fb3",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 60
+      },
+      "revId": "e94157a6f2995f254122af0a4b5f6090a7cb5c21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "5ba6fdbc_9b40df6e",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 12
@@ -54,6 +78,30 @@
       "writtenOn": "2025-07-31T10:58:11Z",
       "side": 1,
       "message": "Can you please add how this was created - is this iron-autogrow-textarea rewritten to lit?",
+      "range": {
+        "startLine": 33,
+        "startChar": 1,
+        "endLine": 33,
+        "endChar": 2
+      },
+      "revId": "e94157a6f2995f254122af0a4b5f6090a7cb5c21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "521d0e35_ba3a4129",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autogrow-textarea/gr-autogrow-textarea.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-07-31T16:16:52Z",
+      "side": 1,
+      "message": "Yes. Updated commit message to say that. Although doesn\u0027t contain the validator bit. We can always add that later if needed (not sure how tho).",
+      "parentUuid": "2b6fa5f2_31cd2b63",
       "range": {
         "startLine": 33,
         "startChar": 1,

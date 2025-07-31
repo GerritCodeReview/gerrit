@@ -11,8 +11,8 @@ import {BranchName, GitRef, RepoName} from '../../../types/common';
 import {InheritedBooleanInfoConfiguredValue} from '../../../constants/constants';
 import {createChange} from '../../../test/test-data-generators';
 import {queryAndAssert, stubRestApi} from '../../../test/test-utils';
-import {IronAutogrowTextareaElement} from '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
 import {assert, fixture, html} from '@open-wc/testing';
+import {GrAutogrowTextarea} from '../../shared/gr-autogrow-textarea/gr-autogrow-textarea';
 
 suite('gr-create-change-dialog tests', () => {
   let element: GrCreateChangeDialog;
@@ -119,11 +119,14 @@ suite('gr-create-change-dialog tests', () => {
     element.subject = 'first change created with polygerrit ui';
     assert.isFalse(element.privateChangeCheckBox.checked);
 
-    const messageInput = queryAndAssert<IronAutogrowTextareaElement>(
+    const messageInput = queryAndAssert<GrAutogrowTextarea>(
       element,
       '#messageInput'
     );
-    messageInput.bindValue = configInputObj.subject;
+    messageInput.value = configInputObj.subject;
+    messageInput.dispatchEvent(
+      new Event('input', {bubbles: true, composed: true})
+    );
 
     await element.handleCreateChange();
     // Private change
@@ -159,11 +162,14 @@ suite('gr-create-change-dialog tests', () => {
     element.subject = 'first change created with polygerrit ui';
     assert.isTrue(element.privateChangeCheckBox.checked);
 
-    const messageInput = queryAndAssert<IronAutogrowTextareaElement>(
+    const messageInput = queryAndAssert<GrAutogrowTextarea>(
       element,
       '#messageInput'
     );
-    messageInput.bindValue = configInputObj.subject;
+    messageInput.value = configInputObj.subject;
+    messageInput.dispatchEvent(
+      new Event('input', {bubbles: true, composed: true})
+    );
 
     await element.handleCreateChange();
     // Private change

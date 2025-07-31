@@ -16,6 +16,24 @@
       "message": "You could add an option to continue with creating the edit with conflicts, similar to change edits.",
       "revId": "f8302457852648c229e7e5820cb33305abeebb2f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "51605c63_cc23cb0b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-07-31T05:22:10Z",
+      "side": 1,
+      "message": "That\u0027s good idea to offer edit with conflicts when it fails. I would not do it be default because user would be surprised why there are conflicts markers in file. \n\nI will think about it. Failing applying fixes is less than 10% of all applying so it\u0027s not big deal, but any effort to decrease this failure rate would be great.",
+      "parentUuid": "63badf18_58f2b471",
+      "revId": "f8302457852648c229e7e5820cb33305abeebb2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

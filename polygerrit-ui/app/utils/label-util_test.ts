@@ -528,6 +528,17 @@ suite('label-util', () => {
       const labels = extractAssociatedLabels(submitRequirement);
       assert.deepEqual(labels, ['Verified', 'Build-cop-override']);
     });
+    test('overridden label when override expression is unfulfilled', () => {
+      const submitRequirement = {
+        ...createSubmitRequirementResultInfo(),
+        override_expression_result: {
+          ...createSubmitRequirementExpressionInfo('label:Build-cop-override'),
+          fulfilled: false,
+        },
+      };
+      const labels = extractAssociatedLabels(submitRequirement);
+      assert.deepEqual(labels, ['Verified']);
+    });
   });
 
   suite('extractLabelsWithCountFrom', () => {

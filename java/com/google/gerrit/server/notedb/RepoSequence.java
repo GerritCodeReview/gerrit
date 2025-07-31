@@ -372,6 +372,7 @@ public class RepoSequence implements Sequence {
 
   @Override
   public void storeNew(int value) {
+    checkIsIncremental(value);
     counterLock.lock();
     try (RefUpdateContext ctx = RefUpdateContext.open(REPO_SEQ)) {
       try (Repository repo = repoManager.openRepository(projectName);

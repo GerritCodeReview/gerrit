@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "63badf18_58f2b471",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-07-31T00:31:13Z",
+      "side": 1,
+      "message": "You could add an option to continue with creating the edit with conflicts, similar to change edits.",
+      "revId": "f8302457852648c229e7e5820cb33305abeebb2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4dcf7886_0af6aacf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-07-31T09:52:12Z",
+      "side": 1,
+      "message": "Looks great, just few nits.",
+      "revId": "f62950373d8cd7fdb09685864dd5aa2312f35b69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aea246ca_4c40af4f",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1799,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-07-31T09:52:12Z",
+      "side": 1,
+      "message": "This is also in future, so it can be actually ` ${durationString(start, end, /* noPrependIn */ false, /* noAppendAgo */ true)",
+      "range": {
+        "startLine": 1799,
+        "startChar": 20,
+        "endLine": 1799,
+        "endChar": 64
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "d4425a89_c5708438",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+              "range": {
+                "startLine": 1799,
+                "startChar": 0,
+                "endLine": 1800,
+                "endChar": 0
+              },
+              "replacement": "        duration \u003d ` in ${durationString(\n          start,\n          end,\n          /* noPrependIn */ false,\n          /* noAppendAgo */ true\n        )}`;\n"
+            }
+          ]
+        }
+      ],
+      "revId": "f62950373d8cd7fdb09685864dd5aa2312f35b69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d28b0a2_6f0a4e03",
+        "filename": "polygerrit-ui/app/utils/date-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-07-31T09:52:12Z",
+      "side": 1,
+      "message": "NIT: I would rename it to \u0027noAppendAgo\u0027 and \u0027noPrependIn\u0027 to make it more readable so it\u0027s more precise",
+      "range": {
+        "startLine": 51,
+        "startChar": 1,
+        "endLine": 52,
+        "endChar": 18
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "e935739f_a3e5b25e",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/utils/date-util.ts",
+              "range": {
+                "startLine": 51,
+                "startChar": 0,
+                "endLine": 53,
+                "endChar": 0
+              },
+              "replacement": "  noPrependIn \u003d false,\n  noAppendAgo \u003d false\n"
+            },
+            {
+              "path": "polygerrit-ui/app/utils/date-util.ts",
+              "range": {
+                "startLine": 54,
+                "startChar": 0,
+                "endLine": 56,
+                "endChar": 0
+              },
+              "replacement": "  const ago \u003d noAppendAgo ? \u0027\u0027 : \u0027 ago\u0027;\n  const inPrefix \u003d noPrependIn ? \u0027\u0027 : \u0027in \u0027;\n"
+            },
+            {
+              "path": "polygerrit-ui/app/utils/date-util.ts",
+              "range": {
+                "startLine": 58,
+                "startChar": 0,
+                "endLine": 59,
+                "endChar": 0
+              },
+              "replacement": "    if (noPrependIn \u0026\u0026 noAppendAgo) return `${seconds} seconds`;\n"
+            }
+          ]
+        }
+      ],
+      "revId": "f62950373d8cd7fdb09685864dd5aa2312f35b69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

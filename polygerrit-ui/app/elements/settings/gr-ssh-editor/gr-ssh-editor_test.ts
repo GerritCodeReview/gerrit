@@ -165,13 +165,12 @@ suite('gr-ssh-editor tests', () => {
             <section>
               <span class="title"> New SSH key </span>
               <span class="value">
-                <iron-autogrow-textarea
-                  aria-disabled="false"
+                <gr-autogrow-textarea
                   autocomplete="on"
                   id="newKey"
                   placeholder="New SSH Key"
                 >
-                </iron-autogrow-textarea>
+                </gr-autogrow-textarea>
               </span>
             </section>
             <gr-button

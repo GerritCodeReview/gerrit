@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '@polymer/iron-input/iron-input';
-import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
+import '../../shared/gr-autogrow-textarea/gr-autogrow-textarea';
 import '../../../styles/gr-form-styles';
 import '../../../styles/shared-styles';
 import '../../shared/gr-autocomplete/gr-autocomplete';
@@ -32,6 +32,7 @@ import {createChangeUrl} from '../../../models/views/change';
 import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 import {formStyles} from '../../../styles/form-styles';
 import {branchName} from '../../../utils/patch-set-util';
+import {GrAutogrowTextarea} from '../../../api/embed';
 
 const SUGGESTIONS_LIMIT = 15;
 
@@ -101,7 +102,7 @@ export class GrCreateChangeDialog extends LitElement {
       css`
         input:not([type='checkbox']),
         gr-autocomplete,
-        iron-autogrow-textarea {
+        gr-autogrow-textarea {
           width: 100%;
         }
         .value {
@@ -177,19 +178,20 @@ export class GrCreateChangeDialog extends LitElement {
         <section id="description">
           <span class="title">Description</span>
           <span class="value">
-            <iron-autogrow-textarea
+            <gr-autogrow-textarea
               id="messageInput"
               class="message"
               autocomplete="on"
-              rows="4"
-              maxRows="15"
-              .bindValue=${this.subject}
+              .rows=${'4'}
+              .maxRows=${'15'}
+              .value=${this.subject}
               placeholder="Insert the description of the change."
-              @bind-value-changed=${(e: BindValueChangeEvent) => {
-                this.subject = e.detail.value ?? '';
+              @input=${(e: InputEvent) => {
+                const value = (e.target as GrAutogrowTextarea).value ?? '';
+                this.subject = value;
               }}
             >
-            </iron-autogrow-textarea>
+            </gr-autogrow-textarea>
           </span>
         </section>
         <section class=${this.privateChangesEnabled ? 'hide' : ''}>

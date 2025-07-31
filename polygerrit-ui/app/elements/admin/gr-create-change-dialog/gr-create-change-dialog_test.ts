@@ -79,16 +79,13 @@ suite('gr-create-change-dialog tests', () => {
           <section id="description">
             <span class="title"> Description </span>
             <span class="value">
-              <iron-autogrow-textarea
-                aria-disabled="false"
+              <gr-autogrow-textarea
                 autocomplete="on"
                 class="message"
                 id="messageInput"
-                maxrows="15"
                 placeholder="Insert the description of the change."
-                rows="4"
               >
-              </iron-autogrow-textarea>
+              </gr-autogrow-textarea>
             </span>
           </section>
           <section>

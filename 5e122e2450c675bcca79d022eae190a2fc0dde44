@@ -16,6 +16,24 @@
       "message": "I have chosen a slightly different, less opinionated way. The current version would also allow `since` for example.",
       "revId": "5e122e2450c675bcca79d022eae190a2fc0dde44",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "23d8de48_32749233",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-07-31T11:48:32Z",
+      "side": 1,
+      "message": "I think it\u0027s better now, thanks",
+      "parentUuid": "da1481be_8a2c00f2",
+      "revId": "5e122e2450c675bcca79d022eae190a2fc0dde44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

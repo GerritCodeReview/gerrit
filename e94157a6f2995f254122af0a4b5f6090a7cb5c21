@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "568c6b6c_9ab87fb3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-07-31T10:58:11Z",
+      "side": 1,
+      "message": "Can you please add more details how this was created, why this approach was chosen - so we can come back to it.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 60
+      },
+      "revId": "e94157a6f2995f254122af0a4b5f6090a7cb5c21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5ba6fdbc_9b40df6e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-07-31T10:58:11Z",
+      "side": 1,
+      "message": "It looks good. Thank you for the change. I like how it is simpler than gr-textarea.",
+      "revId": "e94157a6f2995f254122af0a4b5f6090a7cb5c21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2b6fa5f2_31cd2b63",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autogrow-textarea/gr-autogrow-textarea.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-07-31T10:58:11Z",
+      "side": 1,
+      "message": "Can you please add how this was created - is this iron-autogrow-textarea rewritten to lit?",
+      "range": {
+        "startLine": 33,
+        "startChar": 1,
+        "endLine": 33,
+        "endChar": 2
+      },
+      "revId": "e94157a6f2995f254122af0a4b5f6090a7cb5c21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

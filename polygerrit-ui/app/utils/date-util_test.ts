@@ -13,6 +13,7 @@ import {
   isWithinDay,
   isWithinHalfYear,
   parseDate,
+  toNow,
   wasYesterday,
 } from './date-util';
 import {assert} from '@open-wc/testing';
@@ -59,6 +60,31 @@ suite('date-util tests', () => {
       const fakeNow = new Date('May 08 2020 12:00:00');
       sinon.useFakeTimers(fakeNow.getTime());
       assert.equal('2 hours ago', fromNow(new Date('May 08 2020 9:30:00')));
+    });
+  });
+
+  suite('toNow', () => {
+    test('test all variants', () => {
+      const fakeNow = new Date('May 08 2020 12:00:00');
+      sinon.useFakeTimers(fakeNow.getTime());
+      assert.equal('just now', toNow(new Date('May 08 2020 12:00:30')));
+      assert.equal('in 1 minute', toNow(new Date('May 08 2020 12:01:00')));
+      assert.equal('in 5 minutes', toNow(new Date('May 08 2020 12:05:00')));
+      assert.equal('in 1 hour', toNow(new Date('May 08 2020 13:00:00')));
+      assert.equal('in 1 hour 5 min', toNow(new Date('May 08 2020 13:05:00')));
+      assert.equal('in 3 hours', toNow(new Date('May 08 2020 15:00:00')));
+      assert.equal('in 1 day', toNow(new Date('May 09 2020 12:00:00')));
+      assert.equal('in 1 day 2 hr', toNow(new Date('May 09 2020 14:00:00')));
+      assert.equal('in 3 days', toNow(new Date('May 11 2020 12:00:00')));
+      assert.equal('in 1 month', toNow(new Date('Jun 08 2020 12:00:00')));
+      assert.equal('in 2 months', toNow(new Date('Jul 08 2020 12:00:00')));
+      assert.equal('in 1 year', toNow(new Date('May 08 2021 12:00:00')));
+      assert.equal('in 10 years', toNow(new Date('May 08 2030 12:00:00')));
+    });
+    test('rounding error', () => {
+      const fakeNow = new Date('May 08 2020 12:00:00');
+      sinon.useFakeTimers(fakeNow.getTime());
+      assert.equal('in 2 hours', toNow(new Date('May 08 2020 14:30:00')));
     });
   });
 

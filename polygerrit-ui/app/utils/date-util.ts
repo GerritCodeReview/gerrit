@@ -25,6 +25,16 @@ export function isValidDate(date: any): date is Date {
 }
 
 // similar to fromNow from moment.js
+export function relative(date: Date, affix = false) {
+  const now = new Date();
+  if (now > date) {
+    return fromNow(date, affix);
+  } else {
+    return toNow(date, affix);
+  }
+}
+
+// similar to fromNow from moment.js
 export function fromNow(date: Date, noAgo = false) {
   return durationString(date, new Date(), noAgo);
 }
@@ -55,6 +65,39 @@ export function durationString(from: Date, to: Date, noAgo = false) {
   if (monthsAgo <= 24) return `1 year ${monthsAgo - 12} m${ago}`;
   const yearsAgo = Math.floor(daysAgo / 365);
   return `${yearsAgo} years${ago}`;
+}
+
+// similar to toNow from moment.js
+export function toNow(date: Date, noIn = false) {
+  return forwardDurationString(new Date(), date, noIn);
+}
+
+// similar to fromNow from moment.js
+export function forwardDurationString(from: Date, to: Date, noIn = false) {
+  const inPrefix = noIn ? '' : 'in ';
+  const inSeconds = Math.floor((to.valueOf() - from.valueOf()) / 1000);
+  if (inSeconds <= 59) {
+    if (noIn) return `${inSeconds} seconds`;
+    return 'just now';
+  }
+  if (inSeconds <= 119) return `${inPrefix}1 minute`;
+  const inMinutes = Math.floor(inSeconds / 60);
+  if (inMinutes <= 59) return `${inPrefix}${inMinutes} minutes`;
+  if (inMinutes === 60) return `${inPrefix}1 hour`;
+  if (inMinutes <= 119) return `${inPrefix}1 hour ${inMinutes - 60} min`;
+  const inHours = Math.floor(inMinutes / 60);
+  if (inHours <= 23) return `${inPrefix}${inHours} hours`;
+  if (inHours === 24) return `${inPrefix}1 day`;
+  if (inHours <= 47) return `${inPrefix}1 day ${inHours - 24} hr`;
+  const inDays = Math.floor(inHours / 24);
+  if (inDays <= 30) return `${inPrefix}${inDays} days`;
+  if (inDays <= 60) return `${inPrefix}1 month`;
+  const inMonths = Math.floor(inDays / 30);
+  if (inMonths <= 11) return `${inPrefix}${inMonths} months`;
+  if (inMonths === 12) return `${inPrefix}1 year`;
+  if (inMonths <= 24) return `${inPrefix}1 year ${inMonths - 12} m`;
+  const inYears = Math.floor(inDays / 365);
+  return `${inPrefix}${inYears} years`;
 }
 
 /**

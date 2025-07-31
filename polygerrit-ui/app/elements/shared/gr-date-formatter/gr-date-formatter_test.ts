@@ -433,7 +433,7 @@ suite('gr-date-formatter tests', () => {
       sinon.stub(element, 'getUtcOffsetString').returns('');
     });
 
-    test('Within 24 hours on same day', async () => {
+    test('Within 24 hours on same day (Past)', async () => {
       await testDates(
         '2015-07-29 20:34:14.985000000',
         '2015-07-29 15:34:14.985000000',
@@ -443,13 +443,33 @@ suite('gr-date-formatter tests', () => {
       );
     });
 
-    test('More than six months', async () => {
+    test('Within 24 hours on same day (Future)', async () => {
+      await testDates(
+        '2015-07-29 20:34:14.985000000',
+        '2015-07-29 23:34:14.985000000',
+        'in 3 hours',
+        'in 3 hours',
+        'Wednesday, Jul 29, 2015, 11:34:14 PM'
+      );
+    });
+
+    test('More than six months (Past)', async () => {
       await testDates(
         '2015-09-15 20:34:00.000000000',
         '2015-01-15 03:25:00.000000000',
         '8 months ago',
         '8 months ago',
         'Thursday, Jan 15, 2015, 3:25:00 AM'
+      );
+    });
+
+    test('More than six months (Future)', async () => {
+      await testDates(
+        '2015-01-15 20:34:00.000000000',
+        '2015-09-15 03:25:00.000000000',
+        'in 8 months',
+        'in 8 months',
+        'Tuesday, Sep 15, 2015, 3:25:00 AM'
       );
     });
   });

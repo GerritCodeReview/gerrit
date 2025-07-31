@@ -45,7 +45,6 @@ import {
 } from '../../../types/common';
 import {ActionType, RevisionActions} from '../../../api/change-actions';
 import {SinonFakeTimers, SinonStubbedMember} from 'sinon';
-import {IronAutogrowTextareaElement} from '@polymer/iron-autogrow-textarea';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
 import {UIActionInfo} from '../../shared/gr-js-api-interface/gr-change-actions-js-api';
@@ -68,6 +67,7 @@ import {
   changeModelToken,
 } from '../../../models/change/change-model';
 import {assertIsDefined} from '../../../utils/common-util';
+import {GrAutogrowTextarea} from '../../shared/gr-autogrow-textarea/gr-autogrow-textarea';
 
 // TODO(dhruvsri): remove use of _populateRevertMessage as it's private
 suite('gr-change-actions tests', () => {
@@ -1083,7 +1083,7 @@ suite('gr-change-actions tests', () => {
         element.handleCherrypickConfirm();
         await element.updateComplete;
 
-        const autogrowEl = queryAndAssert<IronAutogrowTextareaElement>(
+        const autogrowEl = queryAndAssert<GrAutogrowTextarea>(
           queryAndAssert<GrConfirmCherrypickDialog>(
             element,
             '#confirmCherrypick'

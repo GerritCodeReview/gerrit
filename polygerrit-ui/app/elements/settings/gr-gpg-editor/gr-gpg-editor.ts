@@ -8,7 +8,6 @@ import '../../shared/gr-button/gr-button';
 import '../../shared/gr-copy-clipboard/gr-copy-clipboard';
 import {GpgKeyId, GpgKeyInfo} from '../../../types/common';
 import {GrButton} from '../../shared/gr-button/gr-button';
-import {IronAutogrowTextareaElement} from '@polymer/iron-autogrow-textarea';
 import {getAppContext} from '../../../services/app-context';
 import {css, html, LitElement} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
@@ -31,7 +30,7 @@ export class GrGpgEditor extends LitElement {
 
   @query('#addButton') addButton?: GrButton;
 
-  @query('#newKey') newKeyTextarea?: IronAutogrowTextareaElement;
+  @query('#newKey') newKeyTextarea?: GrAutogrowTextarea;
 
   @property({type: Boolean})
   hasUnsavedChanges = false;

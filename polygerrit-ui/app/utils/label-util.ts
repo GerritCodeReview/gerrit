@@ -287,7 +287,11 @@ export function extractAssociatedLabels(
       extractLabelsFrom(requirement.submittability_expression_result.expression)
     );
   }
-  if (requirement.override_expression_result && type !== 'onlySubmittability') {
+  if (
+    requirement.override_expression_result &&
+    type !== 'onlySubmittability' &&
+    requirement.override_expression_result.fulfilled
+  ) {
     labels = labels.concat(
       extractLabelsFrom(requirement.override_expression_result.expression)
     );

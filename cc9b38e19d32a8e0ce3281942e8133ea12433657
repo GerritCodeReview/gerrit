@@ -250,6 +250,24 @@
       "parentUuid": "2c028da4_7e5150ba",
       "revId": "cc9b38e19d32a8e0ce3281942e8133ea12433657",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "122c552c_9eaa9234",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-07-31T16:29:24Z",
+      "side": 1,
+      "message": "@milutin@google.com Do you know when you can look? Really would like to get rid of paper-button for good.",
+      "parentUuid": "e5c8d178_2c599cf6",
+      "revId": "cc9b38e19d32a8e0ce3281942e8133ea12433657",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

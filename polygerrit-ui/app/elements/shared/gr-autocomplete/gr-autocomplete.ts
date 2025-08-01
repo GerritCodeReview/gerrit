@@ -3,7 +3,6 @@
  * Copyright 2016 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '@polymer/paper-input/paper-input';
 import '../gr-autocomplete-dropdown/gr-autocomplete-dropdown';
 import '../gr-cursor-manager/gr-cursor-manager';
 import '../../../styles/shared-styles';
@@ -22,11 +21,11 @@ import {
 import {PropertyType} from '../../../types/common';
 import {modifierPressed} from '../../../utils/dom-util';
 import {sharedStyles} from '../../../styles/shared-styles';
-import {css, html, LitElement, PropertyValues} from 'lit';
+import {css, html, LitElement, nothing, PropertyValues} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {ValueChangedEvent} from '../../../types/events';
-import {PaperInputElement} from '@polymer/paper-input/paper-input';
-import {IronInputElement} from '@polymer/iron-input';
+import '@material/web/textfield/outlined-text-field';
+import {MdOutlinedTextField} from '@material/web/textfield/outlined-text-field';
 
 const TOKENIZE_REGEX = /(?:[^\s"]+|"[^"]*")+/g;
 const DEBOUNCE_WAIT_MS = 200;
@@ -82,7 +81,7 @@ export class GrAutocomplete extends LitElement {
   @property({type: Object})
   query?: AutocompleteQuery = () => Promise.resolve([]);
 
-  @query('#input') input?: PaperInputElement;
+  @query('#input') input?: MdOutlinedTextField;
 
   @query('#suggestions') suggestionsDropdown?: GrAutocompleteDropdown;
 
@@ -163,12 +162,8 @@ export class GrAutocomplete extends LitElement {
   @property({type: Number})
   debounceWait = DEBOUNCE_WAIT_MS;
 
-  /**
-   * Invisible label for input element. This label is exposed to
-   * screen readers by paper-input
-   */
   @property({type: String})
-  label = '';
+  label? = '';
 
   @state() suggestions: AutocompleteSuggestion[] = [];
 
@@ -212,63 +207,85 @@ export class GrAutocomplete extends LitElement {
   }
 
   get nativeInput() {
-    return (this.input!.inputElement as IronInputElement)
-      .inputElement as HTMLInputElement;
+    return this.input!.shadowRoot!.querySelector('input')!;
   }
 
   static override get styles() {
     return [
       sharedStyles,
       css`
-        paper-input.borderless {
+        md-outlined-text-field {
+          width: 100%;
+          background-color: var(--view-background-color);
+          color: var(--primary-text-color);
+          --md-sys-color-primary: var(--primary-text-color);
+          --md-sys-color-on-surface: var(--primary-text-color);
+          --md-sys-color-on-surface-variant: var(--deemphasized-text-color);
+          --md-outlined-text-field-label-text-color: var(
+            --deemphasized-text-color
+          );
+          --md-outlined-text-field-focus-label-text-color: var(
+            --deemphasized-text-color
+          );
+          --md-outlined-text-field-hover-label-text-color: var(
+            --deemphasized-text-color
+          );
+          border-radius: var(
+            --gr-autocomplete-text-field-border-radius,
+            var(--border-radius)
+          );
+          --md-outlined-text-field-container-shape: var(
+            --gr-autocomplete-text-field-border-radius,
+            var(--border-radius)
+          );
+          --md-outlined-text-field-focus-outline-color: var(
+            --prominent-border-color,
+            var(--border-color)
+          );
+          --md-outlined-text-field-outline-color: var(
+            --prominent-border-color,
+            var(--border-color)
+          );
+          --md-outlined-text-field-hover-outline-color: var(
+            --prominent-border-color,
+            var(--border-color)
+          );
+          --md-sys-color-outline: var(
+            --prominent-border-color,
+            var(--border-color)
+          );
+          --md-outlined-field-top-space: var(--spacing-s);
+          --md-outlined-field-bottom-space: var(--spacing-s);
+          --md-outlined-text-field-outline-width: 1px;
+          --md-outlined-text-field-hover-outline-width: 1px;
+          --md-outlined-text-field-focus-outline-width: 0;
+          --md-outlined-field-leading-space: 8px;
+        }
+        md-outlined-text-field.borderless {
+          --md-outlined-text-field-outline-width: 0;
+          --md-outlined-text-field-hover-outline-width: 0;
+          --md-outlined-text-field-focus-outline-width: 0;
           border: none;
           padding: 0;
         }
-        paper-input {
-          background-color: var(--view-background-color);
-          color: var(--primary-text-color);
-          border: 1px solid var(--prominent-border-color, var(--border-color));
-          border-radius: var(--border-radius);
-          padding: var(--spacing-s);
-          --paper-input-container_-_padding: 0;
-          --paper-input-container-input_-_font-size: var(--font-size-normal);
-          --paper-input-container-input_-_line-height: var(
-            --line-height-normal
+        md-outlined-text-field.showBlueFocusBorder:focus {
+          --md-outlined-text-field-focus-outline-width: 2px;
+          --md-outlined-text-field-focus-outline-color: var(
+            --input-focus-border-color
           );
-          /* This is a hack for not being able to set height:0 on the underline
-            of a paper-input 2.2.3 element. All the underline fixes below only
-            actually work in 3.x.x, so the height must be adjusted directly as
-            a workaround until we are on Polymer 3. */
-          height: var(--line-height-normal);
-          --paper-input-container-underline-height: 0;
-          --paper-input-container-underline-wrapper-height: 0;
-          --paper-input-container-underline-focus-height: 0;
-          --paper-input-container-underline-legacy-height: 0;
-          --paper-input-container-underline_-_height: 0;
-          --paper-input-container-underline_-_display: none;
-          --paper-input-container-underline-focus_-_height: 0;
-          --paper-input-container-underline-focus_-_display: none;
-          --paper-input-container-underline-disabled_-_height: 0;
-          --paper-input-container-underline-disabled_-_display: none;
-          /* Hide label for input. The label is still visible for
-           screen readers. Workaround found at:
-           https://github.com/PolymerElements/paper-input/issues/478 */
-          --paper-input-container-label_-_display: none;
-        }
-        paper-input.showBlueFocusBorder:focus {
-          border: 2px solid var(--input-focus-border-color);
           /*
-         * The goal is to have a thicker blue border when focused and a thinner
-         * gray border when blurred. To avoid shifting neighboring elements
-         * around when the border size changes, a negative margin is added to
-         * compensate. box-sizing: border-box; will not work since there is
-         * important padding to add around the content.
-         */
+           * The goal is to have a thicker blue border when focused and a thinner
+           * gray border when blurred. To avoid shifting neighboring elements
+           * around when the border size changes, a negative margin is added to
+           * compensate. box-sizing: border-box; will not work since there is
+           * important padding to add around the content.
+           */
           margin: -1px;
         }
-        paper-input.warnUncommitted {
-          --paper-input-container-input_-_color: var(--error-text-color);
-          --paper-input-container-input_-_font-size: inherit;
+        md-outlined-text-field.warnUncommitted {
+          --md-outlined-text-field-input-text-size: 16px;
+          --md-sys-color-primary: var(--error-text-color);
+          --md-sys-color-on-surface: var(--error-text-color);
         }
       `,
     ];
@@ -303,16 +320,28 @@ export class GrAutocomplete extends LitElement {
     }
   }
 
+  /**
+   * There's an issue where if an element doesn't use leading-icon/trailing-icon
+   * then a blank space is inserted where such icon should be.
+   * This function checks that an element contains either leading-icon or trailing-icon.
+   * @param name string
+   * @return bool
+   */
+  private hasNamedSlot(name: string): boolean {
+    const slot = this.querySelectorAll(`[slot="${name}"]`);
+    return !!slot && slot.length > 0;
+  }
+
   override render() {
     return html`
-      <paper-input
-        .noLabelFloat=${true}
+      <md-outlined-text-field
         id="input"
         class=${this.computeClass()}
         ?disabled=${this.disabled}
         .value=${this.text}
-        @value-changed=${(e: ValueChangedEvent) => {
-          this.text = e.detail.value;
+        @input=${(e: InputEvent) => {
+          const target = e.target as HTMLInputElement;
+          this.text = target.value;
         }}
         .placeholder=${this.placeholder}
         @keydown=${this.handleKeydown}
@@ -320,15 +349,23 @@ export class GrAutocomplete extends LitElement {
         @blur=${this.onInputBlur}
         autocomplete="off"
         .label=${this.label}
+        aria-label=${this.label || this.placeholder || nothing}
       >
-        <div slot="prefix">
-          <slot name="prefix"></slot>
-        </div>
-
-        <div slot="suffix">
-          <slot name="suffix"></slot>
-        </div>
-      </paper-input>
+        ${this.hasNamedSlot('leading-icon')
+          ? html`
+              <div slot="leading-icon">
+                <slot name="leading-icon"></slot>
+              </div>
+            `
+          : nothing}
+        ${this.hasNamedSlot('trailing-icon')
+          ? html`
+              <div slot="trailing-icon">
+                <slot name="trailing-icon"></slot>
+              </div>
+            `
+          : nothing}
+      </md-outlined-text-field>
       <gr-autocomplete-dropdown
         .verticalOffset=${this.verticalOffset}
         id="suggestions"
@@ -420,8 +457,6 @@ export class GrAutocomplete extends LitElement {
     this.setFocus(true);
     this.updateSuggestions();
     this.input?.classList.remove('warnUncommitted');
-    // Needed so that --paper-input-container-input updated style is applied.
-    this.requestUpdate();
   }
 
   onInputBlur() {
@@ -429,8 +464,6 @@ export class GrAutocomplete extends LitElement {
       'warnUncommitted',
       this.warnUncommitted && !!this.text.length && !this.focused
     );
-    // Needed so that --paper-input-container-input updated style is applied.
-    this.requestUpdate();
   }
 
   updateSuggestions() {

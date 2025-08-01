@@ -18,9 +18,9 @@ import {
   AutocompleteQueryStatusType,
   GrAutocompleteDropdown,
 } from '../gr-autocomplete-dropdown/gr-autocomplete-dropdown';
-import {PaperInputElement} from '@polymer/paper-input/paper-input';
 import {assert, fixture, html} from '@open-wc/testing';
 import {Key, Modifier} from '../../../utils/dom-util';
+import {MdOutlinedTextField} from '@material/web/textfield/outlined-text-field';
 
 suite('gr-autocomplete tests', () => {
   let element: GrAutocomplete;
@@ -43,25 +43,14 @@ suite('gr-autocomplete tests', () => {
     assert.shadowDom.equal(
       element,
       /* HTML */ `
-        <paper-input
-          aria-disabled="false"
+        <md-outlined-text-field
           autocomplete="off"
           id="input"
-          tabindex="0"
+          inputmode=""
+          type="text"
         >
-          <div slot="prefix">
-            <slot name="prefix"> </slot>
-          </div>
-          <div slot="suffix">
-            <slot name="suffix"> </slot>
-          </div>
-        </paper-input>
-        <gr-autocomplete-dropdown
-          id="suggestions"
-          is-hidden=""
-          role="listbox"
-          style="position: fixed; top: 300px; left: 392.5px; box-sizing: border-box; max-height: 600px; max-width: 785px;"
-        >
+        </md-outlined-text-field>
+        <gr-autocomplete-dropdown id="suggestions" is-hidden="" role="listbox">
         </gr-autocomplete-dropdown>
       `,
       {
@@ -93,19 +82,13 @@ suite('gr-autocomplete tests', () => {
     assert.shadowDom.equal(
       element,
       /* HTML */ `
-        <paper-input
-          aria-disabled="false"
+        <md-outlined-text-field
           autocomplete="off"
           id="input"
-          tabindex="0"
+          inputmode=""
+          type="text"
         >
-          <div slot="prefix">
-            <slot name="prefix"> </slot>
-          </div>
-          <div slot="suffix">
-            <slot name="suffix"> </slot>
-          </div>
-        </paper-input>
+        </md-outlined-text-field>
         <gr-autocomplete-dropdown id="suggestions" role="listbox">
         </gr-autocomplete-dropdown>
       `,
@@ -132,19 +115,13 @@ suite('gr-autocomplete tests', () => {
     assert.shadowDom.equal(
       element,
       /* HTML */ `
-        <paper-input
-          aria-disabled="false"
+        <md-outlined-text-field
           autocomplete="off"
           id="input"
-          tabindex="0"
+          inputmode=""
+          type="text"
         >
-          <div slot="prefix">
-            <slot name="prefix"> </slot>
-          </div>
-          <div slot="suffix">
-            <slot name="suffix"> </slot>
-          </div>
-        </paper-input>
+        </md-outlined-text-field>
         <gr-autocomplete-dropdown id="suggestions" role="listbox">
         </gr-autocomplete-dropdown>
       `,
@@ -616,7 +593,10 @@ suite('gr-autocomplete tests', () => {
   test('focused flag properly triggered', async () => {
     await element.updateComplete;
     assert.isFalse(element.focused);
-    const input = queryAndAssert<PaperInputElement>(element, 'paper-input');
+    const input = queryAndAssert<MdOutlinedTextField>(
+      element,
+      'md-outlined-text-field'
+    );
     input.focus();
     assert.isTrue(element.focused);
   });
@@ -736,6 +716,7 @@ suite('gr-autocomplete tests', () => {
     assert.isTrue(keydownSpy.calledOnce);
 
     pressKey(inputEl(), Key.ENTER);
+    inputEl().dispatchEvent(new Event('input'));
     await element.updateComplete;
     assert.isTrue(keydownSpy.calledTwice);
 

@@ -51,7 +51,7 @@ export class GrPluginActionContext {
   }
 
   textfield(): HTMLElement {
-    return document.createElement('paper-input');
+    return document.createElement('md-outlined-text-field');
   }
 
   br() {

@@ -22,7 +22,6 @@ import {getAppContext} from '../../../services/app-context';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {css, html, LitElement, nothing, PropertyValues} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
-import {fire} from '../../../utils/event-util';
 import {resolve} from '../../../models/dependency';
 import {configModelToken} from '../../../models/config/config-model';
 import {userModelToken} from '../../../models/user/user-model';
@@ -35,6 +34,8 @@ import '@material/web/list/list-item';
 import '@material/web/labs/item/item';
 import '@material/web/icon/icon';
 import '@material/web/iconbutton/icon-button';
+import {when} from 'lit/directives/when.js';
+import {isElementTarget} from '../../../utils/dom-util';
 
 type MainHeaderLink = RequireProperties<DropdownLink, 'url' | 'name'>;
 
@@ -120,9 +121,6 @@ declare global {
   interface HTMLElementTagNameMap {
     'gr-main-header': GrMainHeader;
   }
-  interface HTMLElementEventMap {
-    'mobile-search': CustomEvent<{}>;
-  }
 }
 
 @customElement('gr-main-header')
@@ -136,9 +134,6 @@ export class GrMainHeader extends LitElement {
   @state() loginUrl = '';
 
   @state() loginText = '';
-
-  @property({type: Boolean})
-  mobileSearchHidden = false;
 
   // private but used in test
   @state() account?: AccountDetailInfo;
@@ -162,6 +157,8 @@ export class GrMainHeader extends LitElement {
   @state() feedbackURL = '';
 
   @state() hamburgerClose? = false;
+
+  @state() mobileSearch? = false;
 
   @query('.nav-sidebar') navSidebar?: HTMLDivElement;
 
@@ -210,8 +207,26 @@ export class GrMainHeader extends LitElement {
 
   override connectedCallback() {
     super.connectedCallback();
+    document.addEventListener('click', this.handleBodyClick);
     this.loadAccount();
   }
+
+  override disconnectedCallback() {
+    document.removeEventListener('click', this.handleBodyClick);
+    super.disconnectedCallback();
+  }
+
+  private readonly handleBodyClick = (e: Event) => {
+    const eventPath = e.composedPath();
+    if (!eventPath) return;
+
+    const headerEl = eventPath.find(
+      el => isElementTarget(el) && el.tagName.toUpperCase() === 'GR-MAIN-HEADER'
+    ) as HTMLAnchorElement | undefined;
+    if (headerEl) return;
+
+    this.mobileSearch = false;
+  };
 
   static override get styles() {
     return [
@@ -449,7 +464,6 @@ export class GrMainHeader extends LitElement {
               var(--header-title-content)
             );
           }
-          gr-smart-search,
           .browse,
           .rightItems .hideOnMobile,
           .links > li.hideOnMobile {
@@ -505,6 +519,9 @@ export class GrMainHeader extends LitElement {
             overflow: none;
             z-index: 199;
             width: 100%;
+          }
+          .transparent {
+            background: rgba(0, 0, 0, 0);
           }
           .hideOnDesktop {
             display: block;
@@ -661,83 +678,109 @@ export class GrMainHeader extends LitElement {
 
     return html`
       <nav class="hideOnDesktop">
-        <div class="nav-header">
-          <md-icon-button
-            touch-target="none"
-            aria-label="${!this.hamburgerClose ? 'Open' : 'Close'} hamburger"
-            @click=${() => {
-              this.handleSidebar();
-            }}
-          >
-            <md-icon filled
-              >${!this.hamburgerClose ? 'menu' : 'menu_open'}</md-icon
-            >
-          </md-icon-button>
-          <div class="mobileTitleWrapper">
-            <a
-              href=${`//${window.location.host}${getBaseUrl()}/`}
-              class="bigTitle"
-              @click=${() => {
-                if (this.hamburgerClose) {
-                  this.handleSidebar();
-                }
-              }}
-            >
-              <gr-endpoint-decorator name="header-mobile-title">
-                <div class="titleText"></div>
-              </gr-endpoint-decorator>
-            </a>
-          </div>
-          <div class="mobileRightItems">
+        ${when(
+          this.mobileSearch,
+          () => html` <div class="nav-header">
             <md-icon-button
               touch-target="none"
-              title="Search"
-              aria-label=${this.mobileSearchHidden
-                ? 'Show Searchbar'
-                : 'Hide Searchbar'}
-              @click=${(e: Event) => {
-                this.onMobileSearchTap(e);
-
-                if (this.hamburgerClose) {
-                  this.handleSidebar();
-                }
-              }}
-            >
-              <md-icon filled>search</md-icon>
-            </md-icon-button>
-            <gr-dropdown
-              class="moreMenu"
-              link=""
-              .items=${moreMenu}
-              .horizontalAlign=${'right'}
-              .verticalOffset=${40}
+              aria-label="Back"
               @click=${() => {
-                if (this.hamburgerClose) {
-                  this.handleSidebar();
-                }
+                this.mobileSearch = false;
               }}
             >
-              <span class="linksTitle">
-                <md-icon filled>more_horiz</md-icon>
-              </span>
-            </gr-dropdown>
-            ${this.renderAccountDropdown(true)}
-          </div>
-        </div>
-        <div class="nav-sidebar">
-          <md-list aria-label="menu links">
-            ${linkGroups.map((linkGroup, index) =>
-              this.renderLinkGroupMobile(linkGroup, index, linkGroups.length)
-            )}
-          </md-list>
-        </div>
+              <md-icon filled>arrow_back</md-icon>
+            </md-icon-button>
+            <gr-smart-search id="search"></gr-smart-search>
+          </div>`
+        )}
+        ${when(
+          !this.mobileSearch,
+          () => html`
+            <div class="nav-header">
+              <md-icon-button
+                touch-target="none"
+                aria-label="${!this.hamburgerClose
+                  ? 'Open'
+                  : 'Close'} hamburger"
+                @click=${() => {
+                  this.handleSidebar();
+                }}
+              >
+                <md-icon filled
+                  >${!this.hamburgerClose ? 'menu' : 'menu_open'}</md-icon
+                >
+              </md-icon-button>
+              <div class="mobileTitleWrapper">
+                <a
+                  href=${`//${window.location.host}${getBaseUrl()}/`}
+                  class="bigTitle"
+                  @click=${() => {
+                    if (this.hamburgerClose) {
+                      this.handleSidebar();
+                    }
+                  }}
+                >
+                  <gr-endpoint-decorator name="header-mobile-title">
+                    <div class="titleText"></div>
+                  </gr-endpoint-decorator>
+                </a>
+              </div>
+              <div class="mobileRightItems">
+                <md-icon-button
+                  touch-target="none"
+                  title="Search"
+                  aria-label=${this.mobileSearch
+                    ? 'Hide Search Bar'
+                    : 'Show Search Bar'}
+                  @click=${() => {
+                    this.mobileSearch = !this.mobileSearch;
+
+                    if (this.hamburgerClose) {
+                      this.handleSidebar();
+                    }
+                  }}
+                >
+                  <md-icon filled>search</md-icon>
+                </md-icon-button>
+                <gr-dropdown
+                  class="moreMenu"
+                  link=""
+                  .items=${moreMenu}
+                  .horizontalAlign=${'right'}
+                  .verticalOffset=${40}
+                  @click=${() => {
+                    if (this.hamburgerClose) {
+                      this.handleSidebar();
+                    }
+                  }}
+                >
+                  <span class="linksTitle">
+                    <md-icon filled>more_horiz</md-icon>
+                  </span>
+                </gr-dropdown>
+                ${this.renderAccountDropdown(true)}
+              </div>
+            </div>
+            <div class="nav-sidebar">
+              <md-list aria-label="menu links">
+                ${linkGroups.map((linkGroup, index) =>
+                  this.renderLinkGroupMobile(
+                    linkGroup,
+                    index,
+                    linkGroups.length
+                  )
+                )}
+              </md-list>
+            </div>
+            ${this.hamburgerClose
+              ? html`<div
+                  class="modelBackground"
+                  @click=${() => this.handleSidebar()}
+                ></div>`
+              : nothing}
+          `
+        )}
       </nav>
-      ${this.hamburgerClose
-        ? html`<div
-            class="modelBackground"
-            @click=${() => this.handleSidebar()}
-          ></div>`
-        : nothing}
     `;
   }
 
@@ -968,12 +1011,6 @@ export class GrMainHeader extends LitElement {
     }
 
     return headerLink;
-  }
-
-  private onMobileSearchTap(e: Event) {
-    e.preventDefault();
-    e.stopPropagation();
-    fire(this, 'mobile-search', {});
   }
 
   /**

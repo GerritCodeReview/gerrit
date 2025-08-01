@@ -448,16 +448,16 @@ suite('gr-account-list tests', () => {
       await element.updateComplete;
       // Next line is a workaround for Firefox not moving cursor
       // on input field update
-      assert.equal(element.getOwnNativeInput(input.input!).selectionStart, 0);
+      assert.equal(input.nativeInput.selectionStart, 0);
       input.text = 'test';
       input.input!.focus();
       await element.updateComplete;
       assert.equal(element.accounts.length, 2);
-      pressKey(element.getOwnNativeInput(input.input!), 'Backspace');
+      pressKey(input.nativeInput, 'Backspace');
       await waitUntil(() => element.accounts.length === 2);
       input.text = '';
       await input.updateComplete;
-      pressKey(element.getOwnNativeInput(input.input!), 'Backspace');
+      pressKey(input.nativeInput, 'Backspace');
       await waitUntil(() => element.accounts.length === 1);
     });
 

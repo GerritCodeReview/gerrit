@@ -2940,7 +2940,6 @@ Polymer-2015
 ** update-fonts.sh
 * @polymer/iron-a11y-announcer
 * @polymer/iron-a11y-keys-behavior
-* @polymer/iron-autogrow-textarea
 * @polymer/iron-behaviors
 * @polymer/iron-checked-element-behavior
 * @polymer/iron-flex-layout
@@ -2950,7 +2949,6 @@ Polymer-2015
 * @polymer/iron-validatable-behavior
 * @polymer/paper-behaviors
 * @polymer/paper-button
-* @polymer/paper-input
 * @polymer/paper-item
 
 [[Polymer-2015_license]]

@@ -20,6 +20,7 @@ import com.google.common.cache.Cache;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.GroupReference;
+import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.SubmitRequirement;
 import com.google.gerrit.extensions.api.projects.CommentLinkInfo;
 import com.google.gerrit.extensions.common.AccountVisibility;
@@ -223,7 +224,8 @@ public class BatchProgramModule extends FactoryModule {
     modules.add(new IgnoreSelfApprovalRuleModule());
     modules.add(new SkipCurrentRulesEvaluationOnClosedChangesModule());
 
-    // Global submit requirements
+    // Global labels & submit requirements
+    DynamicSet.setOf(binder(), LabelType.class);
     DynamicSet.setOf(binder(), SubmitRequirement.class);
 
     factory(FileEditsPredicate.Factory.class);

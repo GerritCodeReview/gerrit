@@ -255,6 +255,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a1a32824_5eb3eadd",
+        "filename": "java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-08-01T14:19:33Z",
+      "side": 1,
+      "message": "That constructor has `public PluginSetContext(DynamicSet\u003cT\u003e dynamicSet` so then that means `DynamicSet\u003cLabelType\u003e` needs to be provided somewhere?\n\nI guess that is `DynamicSet.setOf(binder(), LabelType.class);`?",
+      "parentUuid": "e92ba89e_dde9cfc2",
+      "range": {
+        "startLine": 109,
+        "startChar": 6,
+        "endLine": 109,
+        "endChar": 32
+      },
+      "revId": "d4e36571586ad37f6b5279c85ad9249dd36cdcd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a1d5d280_67741ea5",
         "filename": "javatests/com/google/gerrit/acceptance/config/GlobalLabelIT.java",
         "patchSetId": 2
@@ -290,6 +314,30 @@
       "side": 1,
       "message": "This doesn\u0027t fail. This call successfully adds a label definition to the project. \n\nWhen reading the label definitions in ProjectState label definitions that have the same name as an inherited label definition get ignored if the inherited label definition disallows overrides.",
       "parentUuid": "a1d5d280_67741ea5",
+      "range": {
+        "startLine": 96,
+        "startChar": 4,
+        "endLine": 96,
+        "endChar": 15
+      },
+      "revId": "d4e36571586ad37f6b5279c85ad9249dd36cdcd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b7e0bbf7_781e6126",
+        "filename": "javatests/com/google/gerrit/acceptance/config/GlobalLabelIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-08-01T14:19:33Z",
+      "side": 1,
+      "message": "\u003e This call successfully adds a label definition to the project.\n\nThis is hard to follow.\n\n`LabelType globalLabelType \u003d `\n\nHere we set some values for `1, 0, -1`\n\nThen we pass different values for `1` here\n\nFrom `Approved` to `LGTM`\n\nThat does not matter here?  \n\n```\n    LabelType globalLabelType \u003d\n        LabelType.builder(\n                \"Global-Label\",\n                ImmutableList.of(\n                    LabelValue.create((short) 1, \"Approved\"),\n                    LabelValue.create((short) 0, \"No vote\"),\n                    LabelValue.create((short) -1, \"Rejected\")))\n            .setDescription(\"A global label\")\n            .setFunction(LabelFunction.NO_OP)\n            .setCanOverride(false)\n            .build();\n```\n\nThis only creates a label without adding to `project`?\n\n`configLabel(` adds the actual `label` to the `project`?\n\nSo where do we attempt to actually override this label?",
+      "parentUuid": "9b0e3533_3d871b87",
       "range": {
         "startLine": 96,
         "startChar": 4,

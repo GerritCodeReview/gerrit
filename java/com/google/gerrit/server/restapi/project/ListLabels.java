@@ -32,6 +32,7 @@ import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.permissions.RefPermission;
+import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.project.LabelDefinitionJson;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.project.ProjectState;
@@ -50,15 +51,18 @@ public class ListLabels implements RestReadView<ProjectResource> {
   private final Provider<CurrentUser> user;
   private final PermissionBackend permissionBackend;
   private final GitRepositoryManager repoManager;
+  private final PluginSetContext<LabelType> globalLabelTypes;
 
   @Inject
   public ListLabels(
       Provider<CurrentUser> user,
       PermissionBackend permissionBackend,
-      GitRepositoryManager repoManager) {
+      GitRepositoryManager repoManager,
+      PluginSetContext<LabelType> globalLabelTypes) {
     this.user = user;
     this.permissionBackend = permissionBackend;
     this.repoManager = repoManager;
+    this.globalLabelTypes = globalLabelTypes;
   }
 
   @Option(name = "--inherited", usage = "to include inherited label definitions")
@@ -94,6 +98,11 @@ public class ListLabels implements RestReadView<ProjectResource> {
 
     if (inherited) {
       List<LabelDefinitionInfo> allLabels = new ArrayList<>();
+
+      globalLabelTypes.runEach(
+          globalLabelType ->
+              allLabels.add(LabelDefinitionJson.format(/* projectName= */ null, globalLabelType)));
+
       for (ProjectState projectState : rsrc.getProjectState().treeInOrder()) {
         try {
           permissionBackend

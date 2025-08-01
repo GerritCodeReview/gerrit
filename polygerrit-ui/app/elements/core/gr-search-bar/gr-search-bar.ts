@@ -202,16 +202,29 @@ export class GrSearchBar extends LitElement {
       sharedStyles,
       css`
         gr-icon.searchIcon {
-          margin: 0 var(--spacing-xs);
+          //margin: 0 var(--spacing-xs);
         }
         form {
           display: flex;
         }
         gr-autocomplete {
           background-color: var(--view-background-color);
-          border-radius: var(--border-radius);
+          border-radius: 50px;
+          --gr-autocomplete-text-field-border-radius: 50px;
           flex: 1;
           outline: none;
+
+          /*--md-outlined-text-field-container-color: var(
+            --md-sys-color-surface-container-highest
+          );*/
+          --md-outlined-text-field-container-shape: 50px;
+          //--md-outlined-text-field-outline-width: 0;
+          //--md-outlined-text-field-hover-outline-width: 0;
+          //--md-outlined-text-field-focus-outline-width: 0;
+
+          //--md-sys-typescale-body-large-line-height
+          //--md-outlined-field-top-space: 4px;
+          //--md-outlined-field-bottom-space: 4px;
         }
       `,
     ];
@@ -222,7 +235,7 @@ export class GrSearchBar extends LitElement {
       <form>
         <gr-autocomplete
           id="searchInput"
-          label="Search for changes"
+          placeholder="Search for changes"
           .text=${this.inputVal}
           .query=${this.query}
           allow-non-suggested-values
@@ -238,10 +251,14 @@ export class GrSearchBar extends LitElement {
             this.handleSearchTextChanged(e);
           }}
         >
-          <gr-icon icon="search" class="searchIcon" slot="prefix"></gr-icon>
+          <gr-icon
+            icon="search"
+            class="searchIcon"
+            slot="leading-icon"
+          ></gr-icon>
           <a
             class="help"
-            slot="suffix"
+            slot="trailing-icon"
             href=${getDocUrl(this.docsBaseUrl, 'user-search.html')}
             target="_blank"
             rel="noopener noreferrer"

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "163247b2_07fb3d0b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-08-01T08:54:36Z",
+      "side": 1,
+      "message": "I think it\u0027s fine either way. Entities as a package only storing data classes seems fine to me to be depended on by anything.",
+      "revId": "be4d9e54a85717f51a67baa2c026990cf9ed99d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

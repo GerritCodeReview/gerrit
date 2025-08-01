@@ -25,12 +25,16 @@ import static java.util.stream.Collectors.toList;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.ExtensionRegistry;
+import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.LabelFunction;
 import com.google.gerrit.entities.LabelId;
+import com.google.gerrit.entities.LabelType;
+import com.google.gerrit.entities.LabelValue;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
@@ -46,6 +50,7 @@ import org.junit.Test;
 public class ListLabelsIT extends AbstractDaemonTest {
   @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private ProjectOperations projectOperations;
+  @Inject private ExtensionRegistry extensionRegistry;
 
   @Test
   public void anonymous() throws Exception {
@@ -238,6 +243,30 @@ public class ListLabelsIT extends AbstractDaemonTest {
     assertThat(labels.get(2).projectName).isEqualTo(project.get());
     assertThat(labels.get(3).name).isEqualTo("foo");
     assertThat(labels.get(3).projectName).isEqualTo(project.get());
+  }
+
+  @Test
+  public void withInheritedLabelsIncludesGlobalLabel() throws Exception {
+    LabelType globalLabelType =
+        LabelType.builder(
+                "Global-Label",
+                ImmutableList.of(
+                    LabelValue.create((short) 1, "Approved"),
+                    LabelValue.create((short) 0, "No vote"),
+                    LabelValue.create((short) -1, "Rejected")))
+            .setDescription("A global label")
+            .setFunction(LabelFunction.NO_OP)
+            .build();
+
+    try (Registration registration = extensionRegistry.newRegistration().add(globalLabelType)) {
+      List<LabelDefinitionInfo> labels =
+          gApi.projects().name(project.get()).labels().withInherited(true).get();
+      assertThat(labelNames(labels))
+          .containsExactly(globalLabelType.getName(), LabelId.CODE_REVIEW)
+          .inOrder();
+      assertThat(labels.get(0).projectName).isNull();
+      LabelAssert.assertCodeReviewLabel(labels.get(1));
+    }
   }
 
   @Test

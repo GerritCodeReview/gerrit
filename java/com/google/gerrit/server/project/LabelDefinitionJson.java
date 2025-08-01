@@ -23,11 +23,19 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.common.LabelDefinitionInfo;
 
 public class LabelDefinitionJson {
-  public static LabelDefinitionInfo format(Project.NameKey projectName, LabelType labelType) {
+  /**
+   * Formats the given {@link LabelType} as a {@link LabelDefinitionInfo}.
+   *
+   * @param projectName the name of the project that defines the label, {@code null} if the label is
+   *     globally defined (by implementing the {@link LabelType} extension point)
+   * @param labelType the label type that should be formatted
+   */
+  public static LabelDefinitionInfo format(
+      @Nullable Project.NameKey projectName, LabelType labelType) {
     LabelDefinitionInfo label = new LabelDefinitionInfo();
     label.name = labelType.getName();
     label.description = labelType.getDescription().orElse(null);
-    label.projectName = projectName.get();
+    label.projectName = projectName != null ? projectName.get() : null;
     label.function = labelType.getFunction().getFunctionName();
     label.values =
         labelType.getValues().stream().collect(toMap(LabelValue::formatValue, LabelValue::getText));

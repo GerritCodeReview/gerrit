@@ -22,10 +22,12 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.extensions.annotations.ExtensionPoint;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@ExtensionPoint
 @AutoValue
 public abstract class LabelType {
   public static final boolean DEF_ALLOW_POST_SUBMIT = true;
@@ -205,6 +207,8 @@ public abstract class LabelType {
     public abstract Builder setName(String name);
 
     public abstract Builder setDescription(Optional<String> description);
+
+    public abstract Builder setDescription(String description);
 
     /**
      * @deprecated All label functions except {@code PATCH_SET_LOCK} are deprecated in favour of

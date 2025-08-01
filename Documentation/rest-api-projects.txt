@@ -4762,8 +4762,9 @@ review label].
 The link:config-labels.html#label_name[name] of the label.
 |`description`   |optional|
 The description of the label.
-|`project_name`  ||
-The name of the project in which this label is defined.
+|`project_name`  |optional|
+The name of the project in which this label is defined. Not set for globally
+defined labels.
 |`function`      ||
 The link:config-labels.html#label_function[function] of the label (can be
 `MaxWithBlock`, `AnyWithBlock`, `MaxNoBlock`, `NoBlock`, `NoOp` and `PatchSetLock`.

@@ -50,6 +50,7 @@ import com.google.gerrit.server.config.PluginConfig;
 import com.google.gerrit.server.config.RepositoryConfig;
 import com.google.gerrit.server.git.TransferConfig;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.util.ArrayList;
@@ -88,6 +89,8 @@ public class ProjectState {
   private final long globalMaxObjectSizeLimit;
   private final boolean inheritProjectMaxObjectSizeLimit;
 
+  private final PluginSetContext<LabelType> globalLabelTypes;
+
   /** Local access sections, wrapped in SectionMatchers for faster evaluation. */
   private volatile List<SectionMatcher> localAccessSections;
 
@@ -103,6 +106,7 @@ public class ProjectState {
       List<CommentLinkInfo> commentLinks,
       CapabilityCollection.Factory limitsFactory,
       TransferConfig transferConfig,
+      PluginSetContext<LabelType> globalLabelTypes,
       @Assisted CachedProjectConfig cachedProjectConfig) {
     this.repositoryConfig = repositoryConfig;
     this.projectCache = projectCache;
@@ -120,6 +124,7 @@ public class ProjectState {
             : null;
     this.globalMaxObjectSizeLimit = transferConfig.getMaxObjectSizeLimit();
     this.inheritProjectMaxObjectSizeLimit = transferConfig.inheritProjectMaxObjectSizeLimit();
+    this.globalLabelTypes = globalLabelTypes;
 
     if (isAllProjects && !Permission.canBeOnAllProjects(AccessSection.ALL, Permission.OWNER)) {
       localOwners = Collections.emptySet();
@@ -417,6 +422,7 @@ public class ProjectState {
   /** All available label types. */
   public LabelTypes getLabelTypes() {
     Map<String, LabelType> types = new LinkedHashMap<>();
+    globalLabelTypes.forEach(e -> types.put(e.get().getName().toLowerCase(Locale.US), e.get()));
     for (ProjectState s : treeInOrder()) {
       for (LabelType type : s.getConfig().getLabelSections().values()) {
         String lower = type.getName().toLowerCase(Locale.US);

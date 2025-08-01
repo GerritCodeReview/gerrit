@@ -28,6 +28,7 @@ import com.google.gerrit.entities.SubmitRequirementResult;
 import com.google.gerrit.index.query.MatchResult;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
+import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
@@ -123,7 +124,9 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
 
   private SubmitRequirementResult evaluateRequirementInternal(SubmitRequirement sr, ChangeData cd) {
     try (TraceTimer timer =
-        TraceContext.newTimer("Evaluate submit requirement " + sr.name(), cd.change())) {
+        TraceContext.newTimer(
+            "Evaluate submit requirement " + sr.name(),
+            Metadata.builder().changeId(cd.change().getId().get()).build())) {
       Optional<SubmitRequirementExpressionResult> applicabilityResult =
           sr.applicabilityExpression().isPresent()
               ? Optional.of(evaluateExpression(sr.applicabilityExpression().get(), cd))
@@ -189,11 +192,16 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
    * SubmitRequirement#allowOverrideInChildProjects} of global {@link SubmitRequirement}.
    */
   private ImmutableMap<SubmitRequirement, SubmitRequirementResult> getRequirements(ChangeData cd) {
-    try (TraceTimer timer = TraceContext.newTimer("Get submit requirements", cd.change())) {
+    try (TraceTimer timer =
+        TraceContext.newTimer(
+            "Get submit requirements",
+            Metadata.builder().changeId(cd.change().getId().get()).build())) {
       ImmutableMap<String, SubmitRequirement> globalRequirements;
       Map<String, SubmitRequirement> projectConfigRequirements;
       try (TraceTimer timer2 =
-          TraceContext.newTimer("Read submit requirement definitions", cd.change())) {
+          TraceContext.newTimer(
+              "Read submit requirement definitions",
+              Metadata.builder().changeId(cd.change().getId().get()).build())) {
         globalRequirements = getGlobalRequirements();
         ProjectState state = projectCache.get(cd.project()).orElseThrow(illegalState(cd.project()));
         projectConfigRequirements = state.getSubmitRequirements();

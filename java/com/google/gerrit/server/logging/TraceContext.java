@@ -26,7 +26,6 @@ import com.google.common.collect.Table;
 import com.google.common.flogger.FluentLogger;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.entities.Change;
 import com.google.gerrit.server.cancellation.RequestStateContext;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
@@ -175,20 +174,6 @@ public class TraceContext implements AutoCloseable {
     return new TraceTimer(
         requireNonNull(operation, "operation is required"),
         requireNonNull(metadata, "metadata is required"));
-  }
-
-  /**
-   * Opens a new timer that logs the time for an operation related to a change.
-   *
-   * @param operation the name of operation the is being performed
-   * @return the trace timer
-   */
-  public static TraceTimer newTimer(String operation, Change change) {
-    return newTimer(
-        requireNonNull(operation, "operation is required"),
-        Metadata.builder()
-            .changeId(requireNonNull(change, "change is required").getId().get())
-            .build());
   }
 
   public static class TraceTimer implements AutoCloseable {

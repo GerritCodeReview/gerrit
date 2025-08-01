@@ -675,7 +675,6 @@ export class GrChangeMetadata extends LitElement {
           () =>
             html` <gr-editable-label
               class="topicEditableLabel"
-              labelText="Set topic"
               .confirmLabel=${'Set Topic'}
               .value=${this.change?.topic}
               maxLength="1024"
@@ -764,7 +763,6 @@ export class GrChangeMetadata extends LitElement {
           !this.hashtagReadOnly,
           () => html`
             <gr-editable-label
-              labelText="Add a hashtag"
               .placeholder=${this.computeHashtagPlaceholder()}
               .readOnly=${this.hashtagReadOnly}
               @changed=${this.handleHashtagChanged}

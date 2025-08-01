@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "1912258e_932b5cf0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-08-01T13:25:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f72fb19f_34a12191",
+      "range": {
+        "startLine": 22,
+        "startChar": 13,
+        "endLine": 22,
+        "endChar": 19
+      },
+      "revId": "d4e36571586ad37f6b5279c85ad9249dd36cdcd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "7c57d1bd_664f060d",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
@@ -64,6 +88,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cda51f24_29fb825f",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 3203,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-08-01T13:25:42Z",
+      "side": 1,
+      "message": "It depends what\u0027s the intention of the integration. If it wants to enforce a label for everyone, overriding the label should not be allowed. If it wants to add an optional default label, it can be overridable.\n\nIn the case that we have in mind, it will not be overridable.\n\nThis is no different from defining a label in All-Projects. When adding the label definition there you also need to decide if it should be overridable or not.",
+      "parentUuid": "5558961e_776a1f79",
+      "range": {
+        "startLine": 3201,
+        "startChar": 60,
+        "endLine": 3203,
+        "endChar": 14
+      },
+      "revId": "d4e36571586ad37f6b5279c85ad9249dd36cdcd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dc3eec09_15dc2923",
@@ -77,6 +125,30 @@
       "writtenOn": "2025-08-01T12:54:03Z",
       "side": 1,
       "message": "are these the global labels?\n\nThen maybe the word `global` as a prefix is useful?",
+      "range": {
+        "startLine": 196,
+        "startChar": 9,
+        "endLine": 196,
+        "endChar": 19
+      },
+      "revId": "d4e36571586ad37f6b5279c85ad9249dd36cdcd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "81cd073f_2567570f",
+        "filename": "java/com/google/gerrit/acceptance/ExtensionRegistry.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-08-01T13:25:42Z",
+      "side": 1,
+      "message": "Yes, but I prefer to keep the name, so that it matches with the extension point class name, which is LabelType. This is also consistent with all the other names in this class, e.g. `submitRequirements` is also not prefixed with `global` although it provides the global submit requirements.",
+      "parentUuid": "dc3eec09_15dc2923",
       "range": {
         "startLine": 196,
         "startChar": 9,
@@ -110,6 +182,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "69d6b236_8251a008",
+        "filename": "java/com/google/gerrit/pgm/util/BatchProgramModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-08-01T13:25:42Z",
+      "side": 1,
+      "message": "This binding doesn\u0027t make anything global.\n\nThe code that makes labels global is in ProjectState, where we get the LabelType extensions injected. There we add them to the labels list before adding labels from the project hierarchy (i.e. before adding labels that are defined in All-Projects).\n\nThe BatchProgramModule defines the Guice stack for the Gerrit standalone programs [1]. So this makes the implementations that are bound to the LabelType/SubmitRequirement extension points available when running these standalone programs.\n\n[1] https://gerrit-review.googlesource.com/Documentation/pgm-index.html",
+      "parentUuid": "262d719d_4a091c65",
+      "range": {
+        "startLine": 228,
+        "startChar": 4,
+        "endLine": 229,
+        "endChar": 56
+      },
+      "revId": "d4e36571586ad37f6b5279c85ad9249dd36cdcd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6ff9c022_bde3962c",
@@ -133,6 +229,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e92ba89e_dde9cfc2",
+        "filename": "java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-08-01T13:25:42Z",
+      "side": 1,
+      "message": "PluginSetContext has a constructor that is annotated with @Inject. So Guice creates a PluginSetContext instance automatically when we inject it here. To create this instance Guice invokes the PluginSetContext constructor and injects what it needs there.",
+      "parentUuid": "6ff9c022_bde3962c",
+      "range": {
+        "startLine": 109,
+        "startChar": 6,
+        "endLine": 109,
+        "endChar": 32
+      },
+      "revId": "d4e36571586ad37f6b5279c85ad9249dd36cdcd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a1d5d280_67741ea5",
@@ -146,6 +266,30 @@
       "writtenOn": "2025-08-01T12:54:03Z",
       "side": 1,
       "message": "this just fails silently?\n\nShould we throw an error instead if overriding is not allowed?\n\nOne definition I saw in `AbstractDaemonTest` does throw an Exception in some case.",
+      "range": {
+        "startLine": 96,
+        "startChar": 4,
+        "endLine": 96,
+        "endChar": 15
+      },
+      "revId": "d4e36571586ad37f6b5279c85ad9249dd36cdcd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9b0e3533_3d871b87",
+        "filename": "javatests/com/google/gerrit/acceptance/config/GlobalLabelIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-08-01T13:25:42Z",
+      "side": 1,
+      "message": "This doesn\u0027t fail. This call successfully adds a label definition to the project. \n\nWhen reading the label definitions in ProjectState label definitions that have the same name as an inherited label definition get ignored if the inherited label definition disallows overrides.",
+      "parentUuid": "a1d5d280_67741ea5",
       "range": {
         "startLine": 96,
         "startChar": 4,

@@ -1,0 +1,159 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f72fb19f_34a12191",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-08-01T12:54:03Z",
+      "side": 1,
+      "message": "```suggestion\nAt Google we intend to use this to define labels consistenly across all\n```",
+      "range": {
+        "startLine": 22,
+        "startChar": 13,
+        "endLine": 22,
+        "endChar": 19
+      },
+      "revId": "d4e36571586ad37f6b5279c85ad9249dd36cdcd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c57d1bd_664f060d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-08-01T12:54:03Z",
+      "side": 1,
+      "message": "Really nice test coverage",
+      "revId": "d4e36571586ad37f6b5279c85ad9249dd36cdcd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5558961e_776a1f79",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 3203,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-08-01T12:54:03Z",
+      "side": 1,
+      "message": "so then the integration we build on top of it would misbehave?",
+      "range": {
+        "startLine": 3201,
+        "startChar": 60,
+        "endLine": 3203,
+        "endChar": 14
+      },
+      "revId": "d4e36571586ad37f6b5279c85ad9249dd36cdcd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc3eec09_15dc2923",
+        "filename": "java/com/google/gerrit/acceptance/ExtensionRegistry.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-08-01T12:54:03Z",
+      "side": 1,
+      "message": "are these the global labels?\n\nThen maybe the word `global` as a prefix is useful?",
+      "range": {
+        "startLine": 196,
+        "startChar": 9,
+        "endLine": 196,
+        "endChar": 19
+      },
+      "revId": "d4e36571586ad37f6b5279c85ad9249dd36cdcd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "262d719d_4a091c65",
+        "filename": "java/com/google/gerrit/pgm/util/BatchProgramModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-08-01T12:54:03Z",
+      "side": 1,
+      "message": "how is this binding making it global?\n\nIs it because it\u0027s inside `BatchProgramModule`?",
+      "range": {
+        "startLine": 228,
+        "startChar": 4,
+        "endLine": 229,
+        "endChar": 56
+      },
+      "revId": "d4e36571586ad37f6b5279c85ad9249dd36cdcd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6ff9c022_bde3962c",
+        "filename": "java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-08-01T12:54:03Z",
+      "side": 1,
+      "message": "where is the provider for this injection?",
+      "range": {
+        "startLine": 109,
+        "startChar": 6,
+        "endLine": 109,
+        "endChar": 32
+      },
+      "revId": "d4e36571586ad37f6b5279c85ad9249dd36cdcd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a1d5d280_67741ea5",
+        "filename": "javatests/com/google/gerrit/acceptance/config/GlobalLabelIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-08-01T12:54:03Z",
+      "side": 1,
+      "message": "this just fails silently?\n\nShould we throw an error instead if overriding is not allowed?\n\nOne definition I saw in `AbstractDaemonTest` does throw an Exception in some case.",
+      "range": {
+        "startLine": 96,
+        "startChar": 4,
+        "endLine": 96,
+        "endChar": 15
+      },
+      "revId": "d4e36571586ad37f6b5279c85ad9249dd36cdcd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

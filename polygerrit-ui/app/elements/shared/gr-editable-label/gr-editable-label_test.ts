@@ -8,7 +8,6 @@ import '../../../test/common-test-setup';
 import './gr-editable-label';
 import {GrEditableLabel} from './gr-editable-label';
 import {queryAndAssert} from '../../../utils/common-util';
-import {PaperInputElement} from '@polymer/paper-input/paper-input';
 import {GrButton} from '../gr-button/gr-button';
 import {assert, fixture, html} from '@open-wc/testing';
 import {
@@ -17,8 +16,8 @@ import {
 } from '../gr-autocomplete/gr-autocomplete';
 import {Key} from '../../../utils/dom-util';
 import {pressKey, waitEventLoop, waitUntil} from '../../../test/test-utils';
-import {IronInputElement} from '@polymer/iron-input';
 import {MdMenu} from '@material/web/menu/menu';
+import {MdFilledTextField} from '@material/web/textfield/filled-text-field';
 
 suite('gr-editable-label tests', () => {
   let element: GrEditableLabel;
@@ -38,9 +37,11 @@ suite('gr-editable-label tests', () => {
       <gr-editable-label value=""></gr-editable-label>
     `);
 
-    const paperInput = queryAndAssert<PaperInputElement>(element, '#input');
-    input = (paperInput.inputElement as IronInputElement)
-      .inputElement as HTMLInputElement;
+    const mdFilledTextField = queryAndAssert<MdFilledTextField>(
+      element,
+      '#input'
+    );
+    input = mdFilledTextField.shadowRoot!.querySelector('input')!;
   });
 
   test('renders', () => {
@@ -67,12 +68,15 @@ suite('gr-editable-label tests', () => {
               class="inputContainer"
               part="input-container"
             >
-              <paper-input
-                aria-disabled="false"
+              <md-filled-text-field
+                autocomplete=""
+                data-aria-label="label text"
                 id="input"
-                tabindex="0"
+                inputmode=""
+                placeholder="label text"
+                type="text"
               >
-              </paper-input>
+              </md-filled-text-field>
               <div class="buttons">
                 <gr-button
                   aria-disabled="false"

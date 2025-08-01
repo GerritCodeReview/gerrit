@@ -17,8 +17,8 @@ import {
   BindValueChangeEvent,
 } from '../../../types/events';
 import {SuggestedReviewerInfo} from '../../../types/common';
-import {PaperInputElement} from '@polymer/paper-input/paper-input';
 import {fire} from '../../../utils/event-util';
+import {MdOutlinedTextField} from '@material/web/textfield/outlined-text-field';
 
 /**
  * gr-account-entry is an element for entering account
@@ -81,7 +81,7 @@ export class GrAccountEntry extends LitElement {
     }
   }
 
-  get focusStart(): PaperInputElement | undefined {
+  get focusStart(): MdOutlinedTextField | undefined {
     return this.input!.focusStart;
   }
 

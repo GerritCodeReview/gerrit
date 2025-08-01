@@ -9,7 +9,6 @@
     "@polymer/iron-a11y-announcer": "^3.2.0",
     "@polymer/iron-input": "^3.0.1",
     "@polymer/paper-button": "^3.0.1",
-    "@polymer/paper-input": "^3.2.1",
     "@polymer/paper-item": "^3.0.1",
     "@polymer/paper-styles": "^3.0.1",
     "@polymer/polymer": "3.5.2",

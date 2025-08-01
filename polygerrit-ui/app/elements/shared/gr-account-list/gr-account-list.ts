@@ -39,8 +39,6 @@ import {
 } from '../gr-autocomplete/gr-autocomplete';
 import {ValueChangedEvent} from '../../../types/events';
 import {difference, queryAndAssert} from '../../../utils/common-util';
-import {PaperInputElement} from '@polymer/paper-input/paper-input';
-import {IronInputElement} from '@polymer/iron-input';
 import {ReviewerState} from '../../../api/rest-api';
 import {repeat} from 'lit/directives/repeat.js';
 
@@ -336,16 +334,10 @@ export class GrAccountList extends LitElement {
     return false;
   }
 
-  // private but used in test
-  getOwnNativeInput(paperInput: PaperInputElement) {
-    return (paperInput.inputElement as IronInputElement)
-      .inputElement as HTMLInputElement;
-  }
-
   private handleInputKeydown(e: KeyboardEvent) {
     const target = e.target as GrAccountEntry;
     const entryInput = queryAndAssert<GrAutocomplete>(target, '#input');
-    const input = this.getOwnNativeInput(entryInput.input!);
+    const input = entryInput.nativeInput;
     if (
       input.selectionStart !== input.selectionEnd ||
       input.selectionStart !== 0

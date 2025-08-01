@@ -88,6 +88,7 @@ import com.google.gerrit.server.patch.PatchListKey;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.SubmitRequirementsAdapter;
 import com.google.gerrit.server.project.SubmitRequirementsEvaluator;
@@ -1589,6 +1590,34 @@ public class ChangeData {
 
   public void setRefStatePatterns(Iterable<byte[]> refStatePatterns) {
     this.refStatePatterns = ImmutableList.copyOf(refStatePatterns);
+  }
+
+  public void checkStatePermitsWrite() throws ResourceConflictException {
+    ProjectState projectState = projectCache.get(project()).orElseThrow(illegalState(project()));
+    if (isProjectConfigOnlyChange()) {
+      return;
+    }
+    projectState.checkStatePermitsWrite();
+  }
+
+  public boolean projectStatePermitsRead() {
+    ProjectState projectState = projectCache.get(project()).orElseThrow(illegalState(project()));
+    return projectState.statePermitsRead() || isProjectConfigOnlyChange();
+  }
+
+  public void checkProjectStatePermitsRead() throws ResourceConflictException {
+    ProjectState projectState = projectCache.get(project()).orElseThrow(illegalState(project()));
+    if (isProjectConfigOnlyChange()) {
+      return;
+    }
+    projectState.checkStatePermitsRead();
+  }
+
+  private boolean isProjectConfigOnlyChange() {
+    return change().isNew()
+        && change().getDest().branch().equals(RefNames.REFS_CONFIG)
+        && currentFilePaths().size() == 1
+        && currentFilePaths().contains(ProjectConfig.PROJECT_CONFIG);
   }
 
   private void throwIfNotLazyLoad(String field) {

@@ -7,8 +7,6 @@ import * as sinon from 'sinon';
 import '../../../test/common-test-setup';
 import './gr-repo';
 import {GrRepo} from './gr-repo';
-import {createChange} from '../../../test/test-data-generators';
-import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {mockPromise} from '../../../test/test-utils';
 import {
   addListenerForTest,
@@ -20,7 +18,6 @@ import {
   createInheritedBoolean,
   createServerInfo,
 } from '../../../test/test-data-generators';
-import {testResolver} from '../../../test/common-test-setup';
 import {
   ConfigInfo,
   GitRef,
@@ -51,9 +48,6 @@ import {GrSelect} from '../../shared/gr-select/gr-select';
 import {GrSuggestionTextarea} from '../../shared/gr-suggestion-textarea/gr-suggestion-textarea';
 import {IronInputElement} from '@polymer/iron-input/iron-input';
 import {assert, fixture, html} from '@open-wc/testing';
-import {getAppContext} from '../../../services/app-context';
-import {KnownExperimentId} from '../../../services/flags/flags';
-import {ChangeInfo} from '../../../api/rest-api';
 
 suite('gr-repo tests', () => {
   let element: GrRepo;
@@ -675,15 +669,9 @@ suite('gr-repo tests', () => {
       } as RepoAccessGroups,
       config_web_links: [{name: 'gitiles', url: 'test'}],
     };
-    let getRepoAccessStub: sinon.SinonStub;
     setup(() => {
       element.repo = REPO as RepoName;
       loggedInStub.returns(Promise.resolve(true));
-      getRepoAccessStub = stubRestApi('getRepoAccess').callsFake(() =>
-        Promise.resolve({
-          'test-repo': testRepoAccess,
-        } as RepoAccessInfoMap)
-      );
     });
 
     test('all form elements are enabled', async () => {
@@ -822,77 +810,6 @@ suite('gr-repo tests', () => {
       );
       assert.isTrue(
         saveStub.lastCall.calledWithExactly(REPO as RepoName, configInputObj)
-      );
-    });
-
-    test('saveReviewBtn visible when experiment is enabled', async () => {
-      const flagsService = getAppContext().flagsService;
-      sinon
-        .stub(flagsService, 'isEnabled')
-        .callsFake(
-          id => id === KnownExperimentId.SAVE_PROJECT_CONFIG_FOR_REVIEW
-        );
-      await element.loadRepo();
-      await element.updateComplete;
-      const button = queryAndAssert<GrButton>(
-        element,
-        'gr-button#saveReviewBtn'
-      );
-      assert.isFalse(button.hasAttribute('hidden'));
-    });
-
-    test('saveBtn remains disabled when require_change_for_config_update is set', async () => {
-      const flagsService = getAppContext().flagsService;
-      sinon
-        .stub(flagsService, 'isEnabled')
-        .callsFake(
-          id => id === KnownExperimentId.SAVE_PROJECT_CONFIG_FOR_REVIEW
-        );
-      getRepoAccessStub.callsFake(() =>
-        Promise.resolve({
-          'test-repo': {
-            ...testRepoAccess,
-            require_change_for_config_update: true,
-          },
-        } as RepoAccessInfoMap)
-      );
-      await element.loadRepo();
-      await element.updateComplete;
-      const button = queryAndAssert<GrButton>(element, 'gr-button#saveBtn');
-      assert.isTrue(button.hasAttribute('disabled'));
-    });
-
-    test('saveReviewBtn', async () => {
-      const flagsService = getAppContext().flagsService;
-      sinon
-        .stub(flagsService, 'isEnabled')
-        .callsFake(
-          id => id === KnownExperimentId.SAVE_PROJECT_CONFIG_FOR_REVIEW
-        );
-      let resolver: (value: ChangeInfo | PromiseLike<ChangeInfo>) => void;
-      const saveForReviewStub = stubRestApi('saveRepoConfigForReview').returns(
-        new Promise(r => (resolver = r))
-      );
-      resolver!(createChange());
-      const setUrlStub = sinon.stub(testResolver(navigationToken), 'setUrl');
-
-      await element.loadRepo();
-      await element.updateComplete;
-      const input = queryAndAssert<GrSuggestionTextarea>(
-        element,
-        '#descriptionInput'
-      );
-      input.text = 'New description';
-      await input.updateComplete;
-      await element.updateComplete;
-      const button = queryAndAssert<GrButton>(element, 'gr-button#saveBtn');
-      assert.isFalse(button.hasAttribute('disabled'));
-      queryAndAssert<GrButton>(element, 'gr-button#saveReviewBtn').click();
-      await element.updateComplete;
-      assert.isTrue(saveForReviewStub.called);
-      assert.isTrue(setUrlStub.called);
-      assert.isTrue(
-        setUrlStub.lastCall.args?.[0]?.includes(`${createChange()._number}`)
       );
     });
   });

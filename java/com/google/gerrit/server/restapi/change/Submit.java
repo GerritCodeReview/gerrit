@@ -16,7 +16,6 @@ package com.google.gerrit.server.restapi.change;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.git.ObjectIds.abbreviateName;
-import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static java.util.stream.Collectors.joining;
 
 import com.google.common.base.MoreObjects;
@@ -127,6 +126,7 @@ public class Submit
   private final PatchSetUtil psUtil;
   private final ProjectCache projectCache;
   private final ChangeJson.Factory json;
+  private final ChangeData.Factory changeDataFactory;
 
   private final boolean useMergeabilityCheck;
 
@@ -141,7 +141,8 @@ public class Submit
       Provider<InternalChangeQuery> queryProvider,
       PatchSetUtil psUtil,
       ProjectCache projectCache,
-      ChangeJson.Factory json) {
+      ChangeJson.Factory json,
+      ChangeData.Factory changeDataFactory) {
     this.repoManager = repoManager;
     this.permissionBackend = permissionBackend;
     this.mergeOpProvider = mergeOpProvider;
@@ -176,6 +177,7 @@ public class Submit
     this.psUtil = psUtil;
     this.projectCache = projectCache;
     this.json = json;
+    this.changeDataFactory = changeDataFactory;
     this.useMergeabilityCheck = MergeabilityComputationBehavior.fromConfig(cfg).includeInApi();
   }
 
@@ -198,10 +200,7 @@ public class Submit
     if (input.onBehalfOf != null) {
       submitter = onBehalfOf(rsrc, input);
     }
-    projectCache
-        .get(rsrc.getProject())
-        .orElseThrow(illegalState(rsrc.getProject()))
-        .checkStatePermitsWrite();
+    changeDataFactory.create(rsrc.getChange()).checkStatePermitsWrite();
 
     return Response.ok(json.noOptions().format(mergeChange(rsrc, submitter, input)));
   }

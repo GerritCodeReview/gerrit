@@ -291,7 +291,7 @@ public class EqualsLabelPredicates {
       // Check the user has 'READ' permission.
       try {
         PermissionBackend.ForChange perm = permissionBackend.absentUser(approver).change(cd);
-        if (!projectCache.get(cd.project()).map(ProjectState::statePermitsRead).orElse(false)) {
+        if (!cd.projectStatePermitsRead()) {
           logger.atFine().log(
               "vote %s on change %s doesn't match since the project %s doesn't permit read",
               psa, cd.change().getChangeId(), cd.project().get());

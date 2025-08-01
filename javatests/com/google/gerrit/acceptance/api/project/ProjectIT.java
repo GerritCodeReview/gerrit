@@ -53,6 +53,7 @@ import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.annotations.Exports;
+import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.api.projects.CommentLinkInfo;
 import com.google.gerrit.extensions.api.projects.CommentLinkInput;
@@ -64,6 +65,7 @@ import com.google.gerrit.extensions.api.projects.ProjectInput;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ProjectState;
 import com.google.gerrit.extensions.client.SubmitType;
+import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.events.ChangeIndexedListener;
@@ -526,6 +528,29 @@ public class ProjectIT extends AbstractDaemonTest {
     gApi.projects().name(project.get()).config(ci2);
     // ACTIVE is represented as null in the API
     assertThat(gApi.projects().name(project.get()).config().state).isNull();
+  }
+
+  @Test
+  public void nonActiveProjectCanBeMadeActiveThroughCodeReview() throws Exception {
+    for (ProjectState nonActiveState :
+        ImmutableList.of(ProjectState.READ_ONLY, ProjectState.HIDDEN)) {
+      // ACTIVE => NON_ACTIVE
+      ConfigInput ci1 = new ConfigInput();
+      ci1.state = nonActiveState;
+      gApi.projects().name(project.get()).config(ci1);
+      assertThat(gApi.projects().name(project.get()).config().state).isEqualTo(nonActiveState);
+      // NON_ACTIVE => ACTIVE
+      ConfigInput ci2 = new ConfigInput();
+      ci2.state = ProjectState.ACTIVE;
+      ChangeInfo changeInfo = gApi.projects().name(project.get()).configReview(ci2);
+      ReviewInput reviewInput = new ReviewInput();
+      reviewInput.label("Code-Review", 2);
+      gApi.changes().id(changeInfo.project, changeInfo._number).current().review(reviewInput);
+      gApi.changes().id(changeInfo.project, changeInfo._number).current().submit();
+
+      // ACTIVE is represented as null in the API
+      assertThat(gApi.projects().name(project.get()).config().state).isNull();
+    }
   }
 
   @Test

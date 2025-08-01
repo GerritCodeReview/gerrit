@@ -47,7 +47,6 @@ import {createSearchUrl} from '../../../models/views/search';
 import {userModelToken} from '../../../models/user/user-model';
 import {resolve} from '../../../models/dependency';
 import {GrButton} from '../../shared/gr-button/gr-button';
-import {KnownExperimentId} from '../../../services/flags/flags';
 import {Command} from '../../shared/gr-download-commands/gr-download-commands';
 
 const STATES = {
@@ -106,8 +105,6 @@ export class GrRepo extends LitElement {
   // private but used in test
   @state() readOnly = true;
 
-  @state() showSaveForReviewButton = false;
-
   // private but used in test
   @state() disableSaveWithoutReview = true;
 
@@ -123,8 +120,6 @@ export class GrRepo extends LitElement {
   @state() private weblinks: WebLinkInfo[] = [];
 
   @state() private pluginConfigChanged = false;
-
-  private readonly flagsService = getAppContext().flagsService;
 
   private readonly getUserModel = resolve(this, userModelToken);
 
@@ -219,7 +214,6 @@ export class GrRepo extends LitElement {
                 <gr-button
                   id="saveReviewBtn"
                   ?disabled=${this.readOnly || !configChanged}
-                  ?hidden=${!this.showSaveForReviewButton}
                   @click=${this.handleSaveRepoConfigForReview}
                   >Save For Review</gr-button
                 >
@@ -805,9 +799,6 @@ export class GrRepo extends LitElement {
 
             // If the user is not an owner, is_owner is not a property.
             this.readOnly = !access[repo]?.is_owner;
-            this.showSaveForReviewButton = this.flagsService.isEnabled(
-              KnownExperimentId.SAVE_PROJECT_CONFIG_FOR_REVIEW
-            );
             this.disableSaveWithoutReview =
               !!access[repo]?.require_change_for_config_update;
           });

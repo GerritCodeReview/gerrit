@@ -396,7 +396,6 @@ suite('gr-repo tests', () => {
                 id="saveReviewBtn"
                 aria-disabled="true"
                 disabled=""
-                hidden=""
                 role="button"
                 tabindex="-1"
               >

@@ -132,6 +132,19 @@ export class GrRepoLabels extends LitElement {
         gr-dialog {
           width: 36em;
         }
+        .warning {
+          color: var(--warning-foreground);
+          margin-top: var(--spacing-s);
+        }
+        .warning gr-icon {
+          color: var(--warning-icon-color);
+          vertical-align: bottom;
+          margin-right: var(--spacing-s);
+        }
+        td gr-icon {
+          vertical-align: bottom;
+          margin-left: var(--spacing-s);
+        }
       `,
     ];
   }
@@ -200,7 +213,18 @@ export class GrRepoLabels extends LitElement {
                     <tr class="table">
                       <td class="name">${item.name}</td>
                       <td class="description">${item.description}</td>
-                      <td class="function">${item.function}</td>
+                      <td class="function">
+                        ${item.function}
+                        ${when(
+                          this.isFunctionDeprecated(item.function),
+                          () => html`
+                            <gr-icon
+                              icon="warning"
+                              title="This function is deprecated."
+                            ></gr-icon>
+                          `
+                        )}
+                      </td>
                       <td class="defaultValue">${item.default_value}</td>
                       <td class="copyCondition">${item.copy_condition}</td>
                       <td class="allowPostSubmit">
@@ -211,6 +235,15 @@ export class GrRepoLabels extends LitElement {
                       </td>
                       <td class="ignoreSelfApproval">
                         ${this.renderCheckmark(item.ignore_self_approval)}
+                        ${when(
+                          item.ignore_self_approval,
+                          () => html`
+                            <gr-icon
+                              icon="warning"
+                              title="ignoreSelfApproval is deprecated."
+                            ></gr-icon>
+                          `
+                        )}
                       </td>
                       <td class="branches">
                         ${(item.branches ?? []).join(', ')}
@@ -300,6 +333,15 @@ export class GrRepoLabels extends LitElement {
       });
   }
 
+  private isFunctionDeprecated(fun?: LabelDefinitionInfoFunction) {
+    if (!fun) return false;
+    return (
+      fun !== LabelDefinitionInfoFunction.NoBlock &&
+      fun !== LabelDefinitionInfoFunction.Noop &&
+      fun !== LabelDefinitionInfoFunction.PatchSetLock
+    );
+  }
+
   private renderCheckmark(check?: boolean) {
     return check ? '✓' : '';
   }
@@ -382,7 +424,7 @@ export class GrRepoLabels extends LitElement {
       unset_copy_condition: false,
       allow_post_submit: false,
       can_override: true,
-      ignore_self_approval: true,
+      ignore_self_approval: false,
       values: {
         ' 0': 'No score',
         '-1': 'I would prefer this is not submitted as is',
@@ -481,6 +523,15 @@ export class GrRepoLabels extends LitElement {
                           };
                         }}
                       ></gr-dropdown-list>
+                      ${when(
+                        this.isFunctionDeprecated(this.newLabel.function),
+                        () => html`
+                          <div class="warning">
+                            <gr-icon icon="warning"></gr-icon>
+                            This function is deprecated.
+                          </div>
+                        `
+                      )}
                     </span>
                   </div>
                 </section>
@@ -607,6 +658,15 @@ export class GrRepoLabels extends LitElement {
                           };
                         }}
                       />
+                      ${when(
+                        this.newLabel.ignore_self_approval,
+                        () => html`
+                          <div class="warning">
+                            <gr-icon icon="warning"></gr-icon>
+                            ignoreSelfApproval is deprecated.
+                          </div>
+                        `
+                      )}
                     </span>
                   </div>
                 </section>

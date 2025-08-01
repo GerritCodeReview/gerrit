@@ -3,7 +3,7 @@
  * Copyright 2016 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '@polymer/paper-input/paper-input';
+
 import '../gr-button/gr-button';
 import '../gr-icon/gr-icon';
 import '../../shared/gr-autocomplete/gr-autocomplete';
@@ -13,16 +13,16 @@ import {
 } from '../gr-autocomplete/gr-autocomplete';
 import {Key} from '../../../utils/dom-util';
 import {queryAndAssert} from '../../../utils/common-util';
-import {css, html, LitElement} from 'lit';
+import {css, html, LitElement, nothing} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {sharedStyles} from '../../../styles/shared-styles';
-import {PaperInputElement} from '@polymer/paper-input/paper-input';
-import {IronInputElement} from '@polymer/iron-input';
 import {ShortcutController} from '../../lit/shortcut-controller';
 import {ValueChangedEvent} from '../../../types/events';
 import {fire} from '../../../utils/event-util';
 import '@material/web/menu/menu';
 import {MdMenu} from '@material/web/menu/menu';
+import '@material/web/textfield/filled-text-field';
+import {MdFilledTextField} from '@material/web/textfield/filled-text-field';
 
 const AWAIT_MAX_ITERS = 10;
 const AWAIT_STEP = 5;
@@ -78,7 +78,7 @@ export class GrEditableLabel extends LitElement {
   query: AutocompleteQuery = () => Promise.resolve([]);
 
   @query('#input')
-  input?: PaperInputElement;
+  input?: MdFilledTextField;
 
   @query('#autocomplete')
   grAutocomplete?: GrAutocomplete;
@@ -127,17 +127,30 @@ export class GrEditableLabel extends LitElement {
         .buttons gr-button {
           margin-left: var(--spacing-m);
         }
-        /* prettier formatter removes semi-colons after css mixins. */
-        /* prettier-ignore */
-        paper-input {
-          --paper-input-container: {
-            padding: 0;
-            min-width: 15em;
-          };
-          --paper-input-container-input: {
-            font-size: inherit;
-          };
-          --paper-input-container-focus-color: var(--link-color);
+        md-filled-text-field {
+          min-width: 15em;
+          --md-filled-text-field-container-color: rgba(0, 0, 0, 0);
+          --md-filled-text-field-focus-active-indicator-color: var(
+            --link-color
+          );
+          --md-filled-text-field-hover-state-layer-color: rgba(0, 0, 0, 0);
+          --md-filled-field-top-space: var(--spacing-m);
+          --md-filled-field-bottom-space: var(--spacing-m);
+          --md-filled-field-leading-space: 8px;
+          --md-filled-field-active-indicator-color: var(--link-color);
+          --md-filled-field-hover-active-indicator-color: var(--link-color);
+          --md-sys-color-primary: var(--primary-text-color);
+          --md-sys-color-on-surface: var(--primary-text-color);
+          --md-sys-color-on-surface-variant: var(--deemphasized-text-color);
+          --md-filled-text-field-label-text-color: var(
+            --deemphasized-text-color
+          );
+          --md-filled-text-field-focus-label-text-color: var(
+            --deemphasized-text-color
+          );
+          --md-filled-text-field-hover-label-text-color: var(
+            --deemphasized-text-color
+          );
         }
         gr-button gr-icon {
           color: inherit;
@@ -211,6 +224,7 @@ export class GrEditableLabel extends LitElement {
     if (this.autocomplete) {
       return html`<gr-autocomplete
         .label=${this.labelText}
+        .placeholder=${this.placeholder}
         id="autocomplete"
         .text=${this.inputText}
         .query=${this.query}
@@ -221,12 +235,17 @@ export class GrEditableLabel extends LitElement {
       >
       </gr-autocomplete>`;
     } else {
-      return html`<paper-input
-        id="input"
-        .label=${this.labelText}
-        .maxlength=${this.maxLength}
-        .value=${this.inputText}
-      ></paper-input>`;
+      return html`
+        <md-filled-text-field
+          id="input"
+          .label=${this.labelText}
+          .placeholder=${this.placeholder}
+          .maxlength=${this.maxLength}
+          .value=${this.inputText}
+          aria-label=${this.labelText || this.placeholder || nothing}
+        >
+        </md-filled-text-field>
+      `;
     }
   }
 
@@ -333,8 +352,7 @@ export class GrEditableLabel extends LitElement {
     if (this.autocomplete) {
       return this.grAutocomplete!.nativeInput;
     } else {
-      return (this.input!.inputElement as IronInputElement)
-        .inputElement as HTMLInputElement;
+      return this.input!.shadowRoot!.querySelector('input')!;
     }
   }
 

@@ -59,7 +59,7 @@ suite('gr-plugin-action-context tests', () => {
   });
 
   test('textfield', () => {
-    assert.equal(instance.textfield().tagName, 'PAPER-INPUT');
+    assert.equal(instance.textfield().tagName, 'MD-OUTLINED-TEXT-FIELD');
   });
 
   test('br', () => {

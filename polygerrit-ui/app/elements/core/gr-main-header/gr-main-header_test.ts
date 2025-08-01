@@ -128,7 +128,7 @@ suite('gr-main-header tests', () => {
             </div>
             <div class="mobileRightItems">
               <md-icon-button
-                data-aria-label="Hide Searchbar"
+                data-aria-label="Show Search Bar"
                 title="Search"
                 touch-target="none"
                 value=""

@@ -30,6 +30,7 @@ import {
 } from '../../../types/events';
 import {fireNoBubbleNoCompose} from '../../../utils/event-util';
 import {getDocUrl} from '../../../utils/url-util';
+import '@material/web/iconbutton/icon-button';
 
 // Possible static search options for auto complete, without negations.
 const SEARCH_OPERATORS: ReadonlyArray<string> = [
@@ -201,17 +202,19 @@ export class GrSearchBar extends LitElement {
     return [
       sharedStyles,
       css`
-        gr-icon.searchIcon {
-          margin: 0 var(--spacing-xs);
-        }
         form {
           display: flex;
         }
         gr-autocomplete {
           background-color: var(--view-background-color);
-          border-radius: var(--border-radius);
+          border-radius: 50px;
+          --gr-autocomplete-text-field-border-radius: 50px;
           flex: 1;
           outline: none;
+        }
+
+        md-icon-button {
+          --md-icon-button-icon-size: 20px;
         }
       `,
     ];
@@ -222,7 +225,7 @@ export class GrSearchBar extends LitElement {
       <form>
         <gr-autocomplete
           id="searchInput"
-          label="Search for changes"
+          placeholder="Search for changes"
           .text=${this.inputVal}
           .query=${this.query}
           allow-non-suggested-values
@@ -238,16 +241,22 @@ export class GrSearchBar extends LitElement {
             this.handleSearchTextChanged(e);
           }}
         >
-          <gr-icon icon="search" class="searchIcon" slot="prefix"></gr-icon>
+          <gr-icon
+            icon="search"
+            slot="leading-icon"
+            aria-hidden="true"
+          ></gr-icon>
           <a
             class="help"
-            slot="suffix"
+            slot="trailing-icon"
             href=${getDocUrl(this.docsBaseUrl, 'user-search.html')}
             target="_blank"
             rel="noopener noreferrer"
             tabindex="-1"
           >
-            <gr-icon icon="help" title="read documentation"></gr-icon>
+            <md-icon-button touch-target="none">
+              <gr-icon icon="help" title="read documentation"></gr-icon>
+            </md-icon-button>
           </a>
         </gr-autocomplete>
       </form>

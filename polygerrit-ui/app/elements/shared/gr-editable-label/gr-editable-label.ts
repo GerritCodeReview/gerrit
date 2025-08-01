@@ -211,6 +211,7 @@ export class GrEditableLabel extends LitElement {
     if (this.autocomplete) {
       return html`<gr-autocomplete
         .label=${this.labelText}
+        .placeholder=${this.placeholder}
         id="autocomplete"
         .text=${this.inputText}
         .query=${this.query}

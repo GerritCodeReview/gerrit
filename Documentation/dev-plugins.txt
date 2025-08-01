@@ -3427,6 +3427,7 @@ Implementors can write logic to validate the diff before it's returned on the
 API.
 
 [[flow-service]]
+== Flow Service
 
 `com.google.gerrit.server.flow.FlowService` is an extension point to plug in a
 service to manage flows.

@@ -1708,6 +1708,13 @@ and included in the comment text using Markdown image syntax.
 +
 When enabled, the Gerrit UI will detect and render these inline images.
 +
+[NOTE]
+====
+The size of Base64 encoded images is not counted against the
+link:#change.commentSizeLimit[comment size limit] and
+link:#change.cumulativeCommentSizeLimit[cumulative comment size limit].
+====
++
 By default `false`.
 
 [[change.propagateSubmitRequirementErrors]]change.propagateSubmitRequirementErrors::

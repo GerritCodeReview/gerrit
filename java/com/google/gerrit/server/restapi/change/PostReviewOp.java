@@ -75,6 +75,7 @@ import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.CommentsRejectedException;
 import com.google.gerrit.server.update.PostUpdateContext;
 import com.google.gerrit.server.util.LabelVote;
+import com.google.gerrit.server.util.MarkdownImagesUtil;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
@@ -234,6 +235,7 @@ public class PostReviewOp implements BatchUpdateOp {
   private final CommentAdded commentAdded;
   private final PluginSetContext<CommentValidator> commentValidators;
   private final PluginSetContext<OnPostReview> onPostReviews;
+  private final MarkdownImagesUtil markdownImagesUtil;
 
   private final ProjectState projectState;
   private final PatchSet.Id psId;
@@ -268,6 +270,7 @@ public class PostReviewOp implements BatchUpdateOp {
       CommentAdded commentAdded,
       PluginSetContext<CommentValidator> commentValidators,
       PluginSetContext<OnPostReview> onPostReviews,
+      MarkdownImagesUtil markdownImagesUtil,
       @Assisted ProjectState projectState,
       @Assisted PatchSet.Id psId,
       @Assisted ReviewInput in,
@@ -285,6 +288,7 @@ public class PostReviewOp implements BatchUpdateOp {
     this.onPostReviews = onPostReviews;
     this.publishPatchSetLevelComment =
         gerritConfig.getBoolean("event", "comment-added", "publishPatchSetLevelComment", true);
+    this.markdownImagesUtil = markdownImagesUtil;
 
     this.projectState = projectState;
     this.psId = psId;
@@ -484,18 +488,24 @@ public class PostReviewOp implements BatchUpdateOp {
             ctx.getChange().getChangeId(),
             ctx.getChange().getProject().get(),
             ctx.getChange().getDest().branch());
-    String changeMessage = Strings.nullToEmpty(in.message).trim();
+    String changeMessage = markdownImagesUtil.stripImages(Strings.nullToEmpty(in.message).trim());
     ImmutableList<CommentForValidation> draftsForValidation =
         Stream.concat(
                 comments.map(
-                    comment ->
-                        CommentForValidation.create(
-                            CommentForValidation.CommentSource.HUMAN,
-                            comment.lineNbr > 0
-                                ? CommentForValidation.CommentType.INLINE_COMMENT
-                                : CommentForValidation.CommentType.FILE_COMMENT,
-                            comment.message,
-                            comment.getApproximateSize())),
+                    comment -> {
+                      String strippedMessage = markdownImagesUtil.stripImages(comment.message);
+                      int size =
+                          comment.getApproximateSize()
+                              - comment.message.length()
+                              + strippedMessage.length();
+                      return CommentForValidation.create(
+                          CommentForValidation.CommentSource.HUMAN,
+                          comment.lineNbr > 0
+                              ? CommentForValidation.CommentType.INLINE_COMMENT
+                              : CommentForValidation.CommentType.FILE_COMMENT,
+                          strippedMessage,
+                          size);
+                    }),
                 Stream.of(
                     CommentForValidation.create(
                         CommentForValidation.CommentSource.HUMAN,

@@ -22,7 +22,6 @@ import {
 import {MergeabilityComputationBehavior} from '../../../constants/constants';
 import {queryAndAssert} from '../../../test/test-utils';
 import {GrAutocomplete} from '../../shared/gr-autocomplete/gr-autocomplete';
-import {PaperInputElement} from '@polymer/paper-input/paper-input';
 import {assert, fixture, html} from '@open-wc/testing';
 import {Key} from '../../../utils/dom-util';
 import {getAppContext} from '../../../services/app-context';
@@ -33,6 +32,7 @@ import {
 } from '../../../models/config/config-model';
 import {wrapInProvider} from '../../../models/di-provider-element';
 import {testResolver} from '../../../test/common-test-setup';
+import {MdOutlinedTextField} from '@material/web/textfield/outlined-text-field';
 
 suite('gr-search-bar tests', () => {
   let element: GrSearchBar;
@@ -70,22 +70,25 @@ suite('gr-search-bar tests', () => {
         <form>
           <gr-autocomplete
             allow-non-suggested-values=""
-            skip-commit-on-item-select=""
             id="searchInput"
-            label="Search for changes"
             multi=""
+            placeholder="Search for changes"
+            skip-commit-on-item-select=""
             tab-complete=""
           >
-            <gr-icon icon="search" class="searchIcon" slot="prefix"></gr-icon>
+            <gr-icon aria-hidden="true" icon="search" slot="leading-icon">
+            </gr-icon>
             <a
               class="help"
               href="https://mydocumentationurl.google.com/user-search.html"
-              slot="suffix"
+              rel="noopener noreferrer"
+              slot="trailing-icon"
               tabindex="-1"
               target="_blank"
-              rel="noopener noreferrer"
             >
-              <gr-icon icon="help" title="read documentation"></gr-icon>
+              <md-icon-button touch-target="none" value="">
+                <gr-icon icon="help" title="read documentation"> </gr-icon>
+              </md-icon-button>
             </a>
           </gr-autocomplete>
         </form>
@@ -117,7 +120,7 @@ suite('gr-search-bar tests', () => {
     await element.updateComplete;
     const searchInput = queryAndAssert<GrAutocomplete>(element, '#searchInput');
     pressKey(
-      queryAndAssert<PaperInputElement>(searchInput, '#input'),
+      queryAndAssert<MdOutlinedTextField>(searchInput, '#input'),
       Key.ENTER
     );
     await promise;
@@ -130,7 +133,7 @@ suite('gr-search-bar tests', () => {
     await element.updateComplete;
     const searchInput = queryAndAssert<GrAutocomplete>(element, '#searchInput');
     pressKey(
-      queryAndAssert<PaperInputElement>(searchInput, '#input'),
+      queryAndAssert<MdOutlinedTextField>(searchInput, '#input'),
       Key.ENTER
     );
     assert.isFalse(searchSpy.called);
@@ -143,7 +146,7 @@ suite('gr-search-bar tests', () => {
     await element.updateComplete;
     const searchInput = queryAndAssert<GrAutocomplete>(element, '#searchInput');
     pressKey(
-      queryAndAssert<PaperInputElement>(searchInput, '#input'),
+      queryAndAssert<MdOutlinedTextField>(searchInput, '#input'),
       Key.ENTER
     );
     assert.isFalse(searchSpy.called);
@@ -156,7 +159,7 @@ suite('gr-search-bar tests', () => {
     await element.updateComplete;
     const searchInput = queryAndAssert<GrAutocomplete>(element, '#searchInput');
     pressKey(
-      queryAndAssert<PaperInputElement>(searchInput, '#input'),
+      queryAndAssert<MdOutlinedTextField>(searchInput, '#input'),
       Key.ENTER
     );
     await waitUntil(() => searchSpy.called);
@@ -169,7 +172,7 @@ suite('gr-search-bar tests', () => {
     await element.updateComplete;
     const searchInput = queryAndAssert<GrAutocomplete>(element, '#searchInput');
     pressKey(
-      queryAndAssert<PaperInputElement>(searchInput, '#input'),
+      queryAndAssert<MdOutlinedTextField>(searchInput, '#input'),
       Key.ENTER
     );
     await waitUntil(() => searchSpy.called);
@@ -182,7 +185,7 @@ suite('gr-search-bar tests', () => {
     await element.updateComplete;
     const searchInput = queryAndAssert<GrAutocomplete>(element, '#searchInput');
     pressKey(
-      queryAndAssert<PaperInputElement>(searchInput, '#input'),
+      queryAndAssert<MdOutlinedTextField>(searchInput, '#input'),
       Key.ENTER
     );
     await waitUntil(() => searchSpy.called);

@@ -31,7 +31,7 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -47,8 +47,8 @@ public class ChangesCollection implements RestCollection<TopLevelResource, Chang
   private final ChangeFinder changeFinder;
   private final ChangeResource.Factory changeResourceFactory;
   private final PermissionBackend permissionBackend;
-  private final ProjectCache projectCache;
   private final ChangeNotes.Factory changeNotesFactory;
+  private final ChangeData.Factory changeDataFactory;
 
   @Inject
   public ChangesCollection(
@@ -58,8 +58,8 @@ public class ChangesCollection implements RestCollection<TopLevelResource, Chang
       ChangeFinder changeFinder,
       ChangeResource.Factory changeResourceFactory,
       PermissionBackend permissionBackend,
-      ProjectCache projectCache,
-      ChangeNotes.Factory changeNotesFactory) {
+      ChangeNotes.Factory changeNotesFactory,
+      ChangeData.Factory changeDataFactory) {
     this.changeNotesFactory = changeNotesFactory;
     this.user = user;
     this.queryFactory = queryFactory;
@@ -67,7 +67,7 @@ public class ChangesCollection implements RestCollection<TopLevelResource, Chang
     this.changeFinder = changeFinder;
     this.changeResourceFactory = changeResourceFactory;
     this.permissionBackend = permissionBackend;
-    this.projectCache = projectCache;
+    this.changeDataFactory = changeDataFactory;
   }
 
   @Override
@@ -96,7 +96,7 @@ public class ChangesCollection implements RestCollection<TopLevelResource, Chang
     }
 
     ChangeNotes change = notes.get(0);
-    checkProjectStatePermitsRead(change.getProjectName());
+    checkProjectStatePermitsRead(change);
     if (!canRead(change)) {
       throw new ResourceNotFoundException(id);
     }
@@ -112,8 +112,8 @@ public class ChangesCollection implements RestCollection<TopLevelResource, Chang
    */
   public ChangeResource parse(Project.NameKey project, Change.Id id, ObjectId metaRevId)
       throws ResourceConflictException, ResourceNotFoundException, PermissionBackendException {
-    checkProjectStatePermitsRead(project);
     ChangeNotes change = changeNotesFactory.createChecked(project, id, metaRevId);
+    checkProjectStatePermitsRead(change);
     if (!canRead(change)) {
       throw new ResourceNotFoundException(toIdString(id));
     }
@@ -136,7 +136,7 @@ public class ChangesCollection implements RestCollection<TopLevelResource, Chang
     }
 
     ChangeNotes change = notes.get(0);
-    checkProjectStatePermitsRead(change.getProjectName());
+    checkProjectStatePermitsRead(change);
     if (!canRead(change)) {
       throw new ResourceNotFoundException(toIdString(id));
     }
@@ -155,11 +155,8 @@ public class ChangesCollection implements RestCollection<TopLevelResource, Chang
     return permissionBackend.currentUser().change(notes).test(ChangePermission.READ);
   }
 
-  private void checkProjectStatePermitsRead(Project.NameKey project)
-      throws ResourceNotFoundException, ResourceConflictException {
-    projectCache
-        .get(project)
-        .orElseThrow(() -> new ResourceNotFoundException("project not found: " + project.get()))
-        .checkStatePermitsRead();
+  private void checkProjectStatePermitsRead(ChangeNotes changeNotes)
+      throws ResourceConflictException {
+    changeDataFactory.create(changeNotes).checkProjectStatePermitsRead();
   }
 }

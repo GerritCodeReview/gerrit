@@ -34,8 +34,6 @@ import com.google.gerrit.server.edit.ChangeEditUtil;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
@@ -51,20 +49,17 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
   private final ChangeEditUtil editUtil;
   private final PatchSetUtil psUtil;
   private final PermissionBackend permissionBackend;
-  private final ProjectCache projectCache;
 
   @Inject
   Revisions(
       DynamicMap<RestView<RevisionResource>> views,
       ChangeEditUtil editUtil,
       PatchSetUtil psUtil,
-      PermissionBackend permissionBackend,
-      ProjectCache projectCache) {
+      PermissionBackend permissionBackend) {
     this.views = views;
     this.editUtil = editUtil;
     this.psUtil = psUtil;
     this.permissionBackend = permissionBackend;
-    this.projectCache = projectCache;
   }
 
   @Override
@@ -108,7 +103,7 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
             .user(change.getUser())
             .change(change.getNotes())
             .test(ChangePermission.READ)
-        && projectCache.get(change.getProject()).map(ProjectState::statePermitsRead).orElse(false);
+        && change.getChangeData().projectStatePermitsRead();
   }
 
   private ImmutableList<RevisionResource> find(ChangeResource change, String id)

@@ -116,7 +116,7 @@ public class MergeSuperSet {
       ChangeData cd = changeDataFactory.create(change.getProject(), change.getId());
       boolean visible = false;
       if (cd != null) {
-        if (projectCache.get(cd.project()).map(ProjectState::statePermitsRead).orElse(false)) {
+        if (cd.projectStatePermitsRead()) {
           try {
             permissionBackend.user(user).change(cd).check(ChangePermission.READ);
             visible = true;

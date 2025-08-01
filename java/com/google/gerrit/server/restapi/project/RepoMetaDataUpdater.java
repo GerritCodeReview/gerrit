@@ -16,7 +16,6 @@ package com.google.gerrit.server.restapi.project;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
-import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.CHANGE_MODIFICATION;
 
 import com.google.common.base.Strings;
@@ -30,7 +29,6 @@ import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
-import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.CurrentUser;
@@ -126,11 +124,7 @@ public class RepoMetaDataUpdater {
   @MustBeClosed
   public ConfigChangeCreator configChangeCreator(
       Project.NameKey projectName, @Nullable String message, String defaultMessage)
-      throws PermissionBackendException,
-          AuthException,
-          ResourceConflictException,
-          IOException,
-          ConfigInvalidException {
+      throws PermissionBackendException, AuthException, IOException, ConfigInvalidException {
     message = validateMessage(message, defaultMessage);
     PermissionBackend.ForProject forProject =
         permissionBackend.user(user.get()).project(projectName);
@@ -144,7 +138,6 @@ public class RepoMetaDataUpdater {
         throw new AuthException("cannot create change for " + RefNames.REFS_CONFIG, denied);
       }
     }
-    projectCache.get(projectName).orElseThrow(illegalState(projectName)).checkStatePermitsWrite();
     // The MetaDataUpdate instance gets closed in the ConfigChangeCreator.close() method.
     MetaDataUpdate md = metaDataUpdateFactory.get().create(projectName);
     try {

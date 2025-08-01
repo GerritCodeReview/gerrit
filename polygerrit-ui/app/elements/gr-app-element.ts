@@ -130,8 +130,6 @@ export class GrAppElement extends LitElement {
 
   @state() private settingsUrl?: string;
 
-  @state() private mobileSearch = false;
-
   @state() private loadRegistrationDialog = false;
 
   @state() private loadKeyboardShortcutsDialog = false;
@@ -357,8 +355,7 @@ export class GrAppElement extends LitElement {
       <gr-endpoint-decorator name="banner"></gr-endpoint-decorator>
       ${this.renderHeader()}
       <main>
-        ${this.renderMobileSearch()} ${this.renderChangeListView()}
-        ${this.renderDashboardView()}
+        ${this.renderChangeListView()} ${this.renderDashboardView()}
         ${
           // `keyed(this.changeNum, ...)` makes sure that these views are not
           // re-used across changes, which is a precaution, because we have run
@@ -393,9 +390,7 @@ export class GrAppElement extends LitElement {
     return html`
       <gr-main-header
         id="mainHeader"
-        @mobile-search=${this.mobileSearchToggle}
         @show-keyboard-shortcuts=${this.showKeyboardShortcuts}
-        .mobileSearchHidden=${!this.mobileSearch}
       >
       </gr-main-header>
     `;
@@ -429,11 +424,6 @@ export class GrAppElement extends LitElement {
       this.view === GerritView.PLUGIN_SCREEN &&
       ALLOW_LISTED_FULL_SCREEN_PLUGINS.includes(this.pluginScreenName)
     );
-  }
-
-  private renderMobileSearch() {
-    if (!this.mobileSearch) return nothing;
-    return html`<gr-smart-search id="search"></gr-smart-search>`;
   }
 
   private renderChangeListView() {
@@ -719,10 +709,6 @@ export class GrAppElement extends LitElement {
    */
   private handleRpcLog(e: RpcLogEvent) {
     this.reporting.reportRpcTiming(e.detail.anonymizedUrl, e.detail.elapsed);
-  }
-
-  private mobileSearchToggle() {
-    this.mobileSearch = !this.mobileSearch;
   }
 }
 

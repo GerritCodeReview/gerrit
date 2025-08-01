@@ -1119,16 +1119,7 @@ public class ChangeField {
   /** Summary or inline comment. */
   public static final IndexedField<ChangeData, Iterable<String>> COMMENT_FIELD =
       IndexedField.<ChangeData>iterableStringBuilder("Comment")
-          .build(
-              cd ->
-                  Stream.concat(
-                          cd.publishedComments().stream().map(c -> c.message),
-                          // Some endpoint allow passing user message in input, and we still want to
-                          // search by that. Index on message template with placeholders for user
-                          // data, so we don't
-                          // persist user identifiable information data in index.
-                          cd.messages().stream().map(ChangeMessage::getMessage))
-                      .collect(toSet()));
+          .build(cd -> cd.getCommentsForIndex());
 
   public static final IndexedField<ChangeData, Iterable<String>>.SearchSpec COMMENT_SPEC =
       COMMENT_FIELD.fullText(ChangeQueryBuilder.FIELD_COMMENT);

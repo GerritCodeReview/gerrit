@@ -94,6 +94,7 @@ import com.google.gerrit.server.project.SubmitRequirementsEvaluator;
 import com.google.gerrit.server.project.SubmitRequirementsUtil;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.project.SubmitRuleOptions;
+import com.google.gerrit.server.util.MarkdownImagesUtil;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -111,6 +112,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -349,6 +351,7 @@ public class ChangeData {
             null,
             virtualIdAlgo,
             false,
+            null,
             project,
             id,
             null,
@@ -388,6 +391,7 @@ public class ChangeData {
   private final SubmitRequirementsUtil submitRequirementsUtil;
   private final SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory;
   private final boolean skipCurrentRulesEvaluationOnClosedChanges;
+  private final MarkdownImagesUtil markdownImagesUtil;
 
   // Required assisted injected fields.
   private final Project.NameKey project;
@@ -485,6 +489,7 @@ public class ChangeData {
       SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory,
       ChangeNumberVirtualIdAlgorithm virtualIdFunc,
       @SkipCurrentRulesEvaluationOnClosedChanges Boolean skipCurrentRulesEvaluationOnClosedChange,
+      MarkdownImagesUtil markdownImagesUtil,
       @Assisted Project.NameKey project,
       @Assisted("changeId") Change.Id id,
       @Assisted("virtualId") @Nullable Change.Id virtualId,
@@ -513,6 +518,7 @@ public class ChangeData {
     this.submitRequirementsUtil = submitRequirementsUtil;
     this.submitRuleEvaluatorFactory = submitRuleEvaluatorFactory;
     this.skipCurrentRulesEvaluationOnClosedChanges = skipCurrentRulesEvaluationOnClosedChange;
+    this.markdownImagesUtil = markdownImagesUtil;
 
     this.project = project;
     this.legacyId = id;
@@ -1125,6 +1131,14 @@ public class ChangeData {
       publishedComments = commentsUtil.publishedHumanCommentsByChange(notes());
     }
     return publishedComments;
+  }
+
+  public Collection<String> getCommentsForIndex() {
+    return Stream.concat(
+            publishedComments().stream().map(c -> c.message),
+            messages().stream().map(ChangeMessage::getMessage))
+        .map(markdownImagesUtil::replaceImagesWithPlaceholder)
+        .collect(Collectors.toSet());
   }
 
   @Nullable

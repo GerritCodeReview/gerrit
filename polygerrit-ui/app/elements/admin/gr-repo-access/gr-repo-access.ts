@@ -207,11 +207,9 @@ export class GrRepoAccess extends LitElement {
               @commit=${(e: AutocompleteCommitEvent) => {
                 this.handleUpdateInheritFrom(e);
               }}
-              @bind-value-changed=${(e: ValueChangedEvent) => {
-                this.handleUpdateInheritFrom(e);
-              }}
               @text-changed=${(e: ValueChangedEvent) => {
                 this.handleEditInheritFromTextChanged(e);
+                this.handleUpdateInheritFrom(e);
               }}
             ></gr-autocomplete>
           </h3>

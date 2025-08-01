@@ -1122,7 +1122,7 @@ public class ChangeField {
           .build(
               cd ->
                   Stream.concat(
-                          cd.publishedComments().stream().map(c -> c.message),
+                          cd.getCommentsForIndex().stream(),
                           // Some endpoint allow passing user message in input, and we still want to
                           // search by that. Index on message template with placeholders for user
                           // data, so we don't

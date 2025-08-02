@@ -514,12 +514,14 @@ export class GrRepoLabels extends LitElement {
                             };
                           }
                         )}
-                        .value=${this.newLabel.function}
+                        .value=${this.newLabel.function ?? ''}
                         @value-change=${(e: CustomEvent<{value: string}>) => {
+                          const value = e.detail.value;
                           this.newLabel = {
                             ...this.newLabel,
-                            function: e.detail
-                              .value as LabelDefinitionInfoFunction,
+                            function: value
+                              ? (value as LabelDefinitionInfoFunction)
+                              : undefined,
                           };
                         }}
                       ></gr-dropdown-list>
@@ -542,7 +544,7 @@ export class GrRepoLabels extends LitElement {
                   <div class="value-flex">
                     <span class="value">
                       <iron-input
-                        .bindValue=${this.newLabel.default_value}
+                        .bindValue=${this.newLabel.default_value?.toString()}
                         @bind-value-changed=${(e: Event) => {
                           this.newLabel = {
                             ...this.newLabel,
@@ -586,7 +588,7 @@ export class GrRepoLabels extends LitElement {
                       <input
                         id="unsetCopyCondition"
                         type="checkbox"
-                        ?checked=${this.newLabel.unset_copy_condition}
+                        ?checked=${this.newLabel.unset_copy_condition ?? false}
                         @change=${(e: Event) => {
                           this.newLabel = {
                             ...this.newLabel,
@@ -607,7 +609,7 @@ export class GrRepoLabels extends LitElement {
                       <input
                         id="canOverride"
                         type="checkbox"
-                        ?checked=${this.newLabel.can_override}
+                        ?checked=${this.newLabel.can_override ?? false}
                         @change=${(e: Event) => {
                           this.newLabel = {
                             ...this.newLabel,
@@ -628,7 +630,7 @@ export class GrRepoLabels extends LitElement {
                       <input
                         id="allowPostSubmit"
                         type="checkbox"
-                        ?checked=${this.newLabel.allow_post_submit}
+                        ?checked=${this.newLabel.allow_post_submit ?? false}
                         @change=${(e: Event) => {
                           this.newLabel = {
                             ...this.newLabel,
@@ -649,7 +651,7 @@ export class GrRepoLabels extends LitElement {
                       <input
                         id="ignoreSelfApproval"
                         type="checkbox"
-                        ?checked=${this.newLabel.ignore_self_approval}
+                        ?checked=${this.newLabel.ignore_self_approval ?? false}
                         @change=${(e: Event) => {
                           this.newLabel = {
                             ...this.newLabel,

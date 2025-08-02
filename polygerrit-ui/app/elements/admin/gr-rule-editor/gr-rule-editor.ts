@@ -294,7 +294,7 @@ export class GrRuleEditor extends LitElement {
         class="min"
         autocomplete="on"
         placeholder="Min value"
-        .value=${this.rule?.value?.min}
+        .value=${this.rule?.value?.min?.toString() ?? ''}
         ?disabled=${!this.editing}
         @input=${(e: InputEvent) => {
           const value = (e.target as GrAutogrowTextarea).value ?? '';
@@ -314,7 +314,7 @@ export class GrRuleEditor extends LitElement {
         class="max"
         autocomplete="on"
         placeholder="Max value"
-        .value=${this.rule?.value?.max}
+        .value=${this.rule?.value?.max?.toString() ?? ''}
         ?disabled=${!this.editing}
         @input=${(e: InputEvent) => {
           const value = (e.target as GrAutogrowTextarea).value ?? '';

@@ -182,8 +182,8 @@ export class GrCreateChangeDialog extends LitElement {
               id="messageInput"
               class="message"
               autocomplete="on"
-              .rows=${'4'}
-              .maxRows=${'15'}
+              .rows=${4}
+              .maxRows=${15}
               .value=${this.subject}
               placeholder="Insert the description of the change."
               @input=${(e: InputEvent) => {

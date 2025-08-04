@@ -15,6 +15,7 @@
 package com.google.gerrit.server.restapi.project;
 
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.entities.SubmitRequirement;
 import com.google.gerrit.extensions.common.SubmitRequirementInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.Response;
@@ -23,6 +24,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
+import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.SubmitRequirementJson;
@@ -36,11 +38,16 @@ import org.kohsuke.args4j.Option;
 public class ListSubmitRequirements implements RestReadView<ProjectResource> {
   private final Provider<CurrentUser> user;
   private final PermissionBackend permissionBackend;
+  private final PluginSetContext<SubmitRequirement> globalSubmitRequirements;
 
   @Inject
-  public ListSubmitRequirements(Provider<CurrentUser> user, PermissionBackend permissionBackend) {
+  public ListSubmitRequirements(
+      Provider<CurrentUser> user,
+      PermissionBackend permissionBackend,
+      PluginSetContext<SubmitRequirement> globalSubmitRequirements) {
     this.user = user;
     this.permissionBackend = permissionBackend;
+    this.globalSubmitRequirements = globalSubmitRequirements;
   }
 
   @Option(name = "--inherited", usage = "to include inherited submit requirements")
@@ -60,6 +67,12 @@ public class ListSubmitRequirements implements RestReadView<ProjectResource> {
 
     if (inherited) {
       List<SubmitRequirementInfo> allSubmitRequirements = new ArrayList<>();
+
+      globalSubmitRequirements.runEach(
+          globalSubmitRequirement ->
+              allSubmitRequirements.add(
+                  SubmitRequirementJson.format(/* projectName= */ null, globalSubmitRequirement)));
+
       for (ProjectState projectState : rsrc.getProjectState().treeInOrder()) {
         try {
           permissionBackend
@@ -80,7 +93,9 @@ public class ListSubmitRequirements implements RestReadView<ProjectResource> {
 
   private ImmutableList<SubmitRequirementInfo> listSubmitRequirements(ProjectState projectState) {
     return projectState.getConfig().getSubmitRequirementSections().values().stream()
-        .map(SubmitRequirementJson::format)
+        .map(
+            submitRequirement ->
+                SubmitRequirementJson.format(projectState.getNameKey(), submitRequirement))
         .collect(ImmutableList.toImmutableList());
   }
 }

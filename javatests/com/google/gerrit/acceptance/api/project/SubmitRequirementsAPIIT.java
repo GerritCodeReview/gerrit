@@ -22,11 +22,15 @@ import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.ExtensionRegistry;
+import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.entities.Permission;
+import com.google.gerrit.entities.SubmitRequirement;
+import com.google.gerrit.entities.SubmitRequirementExpression;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.common.BatchSubmitRequirementInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -46,6 +50,7 @@ import org.junit.Test;
 public class SubmitRequirementsAPIIT extends AbstractDaemonTest {
   @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private ProjectOperations projectOperations;
+  @Inject private ExtensionRegistry extensionRegistry;
 
   @Test
   public void cannotGetANonExistingSR() throws Exception {
@@ -270,6 +275,7 @@ public class SubmitRequirementsAPIIT extends AbstractDaemonTest {
 
     assertThat(info.name).isEqualTo("code-review");
     assertThat(info.description).isEqualTo(input.description);
+    assertThat(info.projectName).isEqualTo(project.get());
     assertThat(info.applicabilityExpression).isEqualTo(input.applicabilityExpression);
     assertThat(info.applicabilityExpression).isEqualTo(input.applicabilityExpression);
     assertThat(info.submittabilityExpression).isEqualTo(input.submittabilityExpression);
@@ -589,7 +595,43 @@ public class SubmitRequirementsAPIIT extends AbstractDaemonTest {
     infos = gApi.projects().name(project.get()).submitRequirements().withInherited(true).get();
 
     assertThat(names(infos))
-        .containsExactly("No-Unresolved-Comments", "Code-Review", "base-sr", "sr-1", "sr-2");
+        .containsExactly("Code-Review", "No-Unresolved-Comments", "base-sr", "sr-1", "sr-2")
+        .inOrder();
+    assertThat(infos.get(0).name).isEqualTo("Code-Review");
+    assertThat(infos.get(0).projectName).isEqualTo(allProjects.get());
+    assertThat(infos.get(1).name).isEqualTo("No-Unresolved-Comments");
+    assertThat(infos.get(1).projectName).isEqualTo(allProjects.get());
+    assertThat(infos.get(2).name).isEqualTo("base-sr");
+    assertThat(infos.get(2).projectName).isEqualTo(allProjects.get());
+    assertThat(infos.get(3).name).isEqualTo("sr-1");
+    assertThat(infos.get(3).projectName).isEqualTo(project.get());
+    assertThat(infos.get(4).name).isEqualTo("sr-2");
+    assertThat(infos.get(4).projectName).isEqualTo(project.get());
+  }
+
+  @Test
+  public void listSRsWithInheritanceIncludesGlobalSubmitRequirements() throws Exception {
+    SubmitRequirement globalSubmitRequirement =
+        SubmitRequirement.builder()
+            .setName("Global-Submit-Requirement")
+            .setSubmittabilityExpression(SubmitRequirementExpression.create("topic:test"))
+            .setAllowOverrideInChildProjects(false)
+            .build();
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(globalSubmitRequirement)) {
+      List<SubmitRequirementInfo> infos =
+          gApi.projects().name(project.get()).submitRequirements().withInherited(true).get();
+
+      assertThat(names(infos))
+          .containsExactly("Global-Submit-Requirement", "Code-Review", "No-Unresolved-Comments")
+          .inOrder();
+      assertThat(infos.get(0).name).isEqualTo("Global-Submit-Requirement");
+      assertThat(infos.get(0).projectName).isNull();
+      assertThat(infos.get(1).name).isEqualTo("Code-Review");
+      assertThat(infos.get(1).projectName).isEqualTo(allProjects.get());
+      assertThat(infos.get(2).name).isEqualTo("No-Unresolved-Comments");
+      assertThat(infos.get(2).projectName).isEqualTo(allProjects.get());
+    }
   }
 
   @Test

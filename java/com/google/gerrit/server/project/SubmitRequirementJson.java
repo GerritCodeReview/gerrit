@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.gerrit.common.Nullable;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.SubmitRequirement;
 import com.google.gerrit.extensions.common.SubmitRequirementInfo;
 import com.google.inject.Singleton;
@@ -21,9 +23,19 @@ import com.google.inject.Singleton;
 /** Converts a {@link SubmitRequirement} to a {@link SubmitRequirementInfo}. */
 @Singleton
 public class SubmitRequirementJson {
-  public static SubmitRequirementInfo format(SubmitRequirement sr) {
+  /**
+   * Formats the given {@link SubmitRequirement} as a {@link SubmitRequirementInfo}.
+   *
+   * @param projectName the name of the project that defines the submit requirement, {@code null} if
+   *     the submit requirement is globally defined (by implementing the {@link SubmitRequirement}
+   *     extension point)
+   * @param sr the submit requirement that should be formatted
+   */
+  public static SubmitRequirementInfo format(
+      @Nullable Project.NameKey projectName, SubmitRequirement sr) {
     SubmitRequirementInfo info = new SubmitRequirementInfo();
     info.name = sr.name();
+    info.projectName = projectName != null ? projectName.get() : null;
     info.description = sr.description().orElse(null);
     if (sr.applicabilityExpression().isPresent()) {
       info.applicabilityExpression = sr.applicabilityExpression().get().expressionString();

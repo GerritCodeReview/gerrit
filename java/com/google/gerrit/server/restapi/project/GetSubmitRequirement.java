@@ -26,6 +26,7 @@ import com.google.inject.Singleton;
 public class GetSubmitRequirement implements RestReadView<SubmitRequirementResource> {
   @Override
   public Response<SubmitRequirementInfo> apply(SubmitRequirementResource rsrc) {
-    return Response.ok(SubmitRequirementJson.format(rsrc.getSubmitRequirement()));
+    return Response.ok(
+        SubmitRequirementJson.format(rsrc.getProject().getNameKey(), rsrc.getSubmitRequirement()));
   }
 }

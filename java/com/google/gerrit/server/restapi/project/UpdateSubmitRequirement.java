@@ -82,7 +82,8 @@ public class UpdateSubmitRequirement
 
       configUpdater.commitConfigUpdate();
 
-      return Response.created(SubmitRequirementJson.format(submitRequirement));
+      return Response.created(
+          SubmitRequirementJson.format(rsrc.getProject().getNameKey(), submitRequirement));
     } catch (ConfigInvalidException e) {
       throw new IOException("Failed to read project config", e);
     }

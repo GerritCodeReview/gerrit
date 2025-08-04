@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.restapi.project;
 
+import static java.util.Comparator.comparing;
+
 import com.google.common.collect.ImmutableCollection;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.LabelType;
@@ -99,9 +101,12 @@ public class ListLabels implements RestReadView<ProjectResource> {
     if (inherited) {
       List<LabelDefinitionInfo> allLabels = new ArrayList<>();
 
-      globalLabelTypes.runEach(
-          globalLabelType ->
-              allLabels.add(LabelDefinitionJson.format(/* projectName= */ null, globalLabelType)));
+      globalLabelTypes.stream()
+          .sorted(comparing(LabelType::getName))
+          .forEach(
+              globalLabelType ->
+                  allLabels.add(
+                      LabelDefinitionJson.format(/* projectName= */ null, globalLabelType)));
 
       for (ProjectState projectState : rsrc.getProjectState().treeInOrder()) {
         try {

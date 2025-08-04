@@ -7,9 +7,9 @@ import '../../../test/common-test-setup';
 import './gr-included-in-dialog';
 import {GrIncludedInDialog} from './gr-included-in-dialog';
 import {BranchName, IncludedInInfo, TagName} from '../../../types/common';
-import {IronInputElement} from '@polymer/iron-input';
 import {queryAndAssert} from '../../../test/test-utils';
 import {assert, fixture, html} from '@open-wc/testing';
+import {MdOutlinedTextField} from '@material/web/textfield/outlined-text-field';
 
 suite('gr-included-in-dialog', () => {
   let element: GrIncludedInDialog;
@@ -37,9 +37,8 @@ suite('gr-included-in-dialog', () => {
               Close
             </gr-button>
           </span>
-          <iron-input id="filterInput">
-            <input placeholder="Filter" />
-          </iron-input>
+          <md-outlined-text-field id="filterInput" placeholder="Filter">
+          </md-outlined-text-field>
         </header>
         <div>Loading...</div>
       `
@@ -92,8 +91,14 @@ suite('gr-included-in-dialog', () => {
   });
 
   test('computeGroups with .bindValue', async () => {
-    queryAndAssert<IronInputElement>(element, '#filterInput').bindValue =
-      'stable-3.2';
+    const filterInput = queryAndAssert<MdOutlinedTextField>(
+      element,
+      '#filterInput'
+    );
+    filterInput.value = 'stable-3.2';
+    filterInput.dispatchEvent(
+      new Event('input', {bubbles: true, composed: true})
+    );
     element.includedIn = {branches: [], tags: []} as IncludedInInfo;
     element.includedIn.branches.push(
       'master' as BranchName,

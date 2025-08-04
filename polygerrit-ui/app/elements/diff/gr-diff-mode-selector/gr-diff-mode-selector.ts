@@ -3,7 +3,6 @@
  * Copyright 2018 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '@polymer/iron-a11y-announcer/iron-a11y-announcer';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-icon/gr-icon';
 import '../../shared/gr-tooltip-content/gr-tooltip-content';
@@ -15,7 +14,7 @@ import {resolve} from '../../../models/dependency';
 import {css, html, LitElement} from 'lit';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {userModelToken} from '../../../models/user/user-model';
-import {ironAnnouncerRequestAvailability} from '../../polymer-util';
+import {grAnnouncerRequestAvailability} from '../../lit-util';
 import {subscribe} from '../../lit/subscription-controller';
 
 @customElement('gr-diff-mode-selector')
@@ -47,7 +46,8 @@ export class GrDiffModeSelector extends LitElement {
 
   override connectedCallback() {
     super.connectedCallback();
-    ironAnnouncerRequestAvailability();
+
+    grAnnouncerRequestAvailability();
   }
 
   static override get styles() {

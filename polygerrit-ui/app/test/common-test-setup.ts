@@ -133,7 +133,7 @@ export function removeRequestDependencyListener() {
 // Very simple function to catch unexpected elements in documents body.
 // It can't catch everything, but in most cases it is enough.
 function checkChildAllowed(element: Element) {
-  const allowedTags = ['SCRIPT', 'IRON-A11Y-ANNOUNCER', 'LINK'];
+  const allowedTags = ['SCRIPT', 'GR-A11Y-ANNOUNCER', 'LINK'];
   if (allowedTags.includes(element.tagName)) {
     return;
   }

@@ -206,14 +206,23 @@ suite('gr-menu-editor tests', () => {
               <tfoot>
                 <tr>
                   <th>
-                    <iron-input>
-                      <input is="iron-input" placeholder="New Title" />
-                    </iron-input>
+                    <md-outlined-text-field
+                      autocomplete=""
+                      inputmode=""
+                      placeholder="New Title"
+                      type="text"
+                    >
+                    </md-outlined-text-field>
                   </th>
                   <th>
-                    <iron-input>
-                      <input class="newUrlInput" placeholder="New URL" />
-                    </iron-input>
+                    <md-outlined-text-field
+                      autocomplete=""
+                      class="newUrlInput"
+                      inputmode=""
+                      placeholder="New URL"
+                      type="text"
+                    >
+                    </md-outlined-text-field>
                   </th>
                   <th>
                     <input type="checkbox" />

@@ -154,6 +154,9 @@ export class GrAutogrowTextarea
           padding: var(--gr-autogrow-textarea-padding);
           box-sizing: var(--gr-autogrow-textarea-box-sizing);
         }
+        textarea::placeholder {
+          color: var(--deemphasized-text-color);
+        }
         textarea:focus-visible {
           border-color: var(--gr-textarea-focus-outline-color, black);
           outline: none;

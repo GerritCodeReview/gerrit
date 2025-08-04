@@ -6,7 +6,7 @@
 import '../gr-shell-command/gr-shell-command';
 import {queryAndAssert} from '../../../utils/common-util';
 import {GrShellCommand} from '../gr-shell-command/gr-shell-command';
-import {paperStyles} from '../../../styles/gr-paper-styles';
+import {materialStyles} from '../../../styles/gr-material-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {css, html, LitElement, nothing} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
@@ -79,7 +79,7 @@ export class GrDownloadCommands extends LitElement {
 
   static override get styles() {
     return [
-      paperStyles,
+      materialStyles,
       sharedStyles,
       css`
         md-tabs {

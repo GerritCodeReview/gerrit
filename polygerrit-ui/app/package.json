@@ -6,8 +6,6 @@
     "@material/web": "^2.3.0",
     "@polymer/decorators": "^3.0.0",
     "@polymer/font-roboto-local": "^3.0.2",
-    "@polymer/iron-a11y-announcer": "^3.2.0",
-    "@polymer/iron-input": "^3.0.1",
     "@polymer/paper-button": "^3.0.1",
     "@polymer/paper-item": "^3.0.1",
     "@polymer/paper-styles": "^3.0.1",

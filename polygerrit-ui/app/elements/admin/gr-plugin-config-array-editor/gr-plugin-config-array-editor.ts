@@ -3,7 +3,6 @@
  * Copyright 2018 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '@polymer/iron-input/iron-input';
 import '../../shared/gr-button/gr-button';
 import {
   ArrayPluginOption,
@@ -13,8 +12,9 @@ import {grFormStyles} from '../../../styles/gr-form-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {css, html, LitElement} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
-import {BindValueChangeEvent} from '../../../types/events';
 import {fireNoBubbleNoCompose} from '../../../utils/event-util';
+import '@material/web/textfield/outlined-text-field';
+import {materialStyles} from '../../../styles/gr-material-styles';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -40,6 +40,7 @@ export class GrPluginConfigArrayEditor extends LitElement {
 
   static override get styles() {
     return [
+      materialStyles,
       sharedStyles,
       grFormStyles,
       css`
@@ -79,6 +80,9 @@ export class GrPluginConfigArrayEditor extends LitElement {
           color: var(--deemphasized-text-color);
           padding-top: var(--spacing-m);
         }
+        md-outlined-text-field {
+          flex-grow: 1;
+        }
       `,
     ];
   }
@@ -88,16 +92,18 @@ export class GrPluginConfigArrayEditor extends LitElement {
       <div class="wrapper gr-form-styles">
         ${this.renderPluginOptions()}
         <div class="row ${this.disabled ? 'hide' : ''}">
-          <iron-input
-            .bindValue=${this.newValue}
-            @bind-value-changed=${this.handleBindValueChangedNewValue}
+          <md-outlined-text-field
+            id="input"
+            class="showBlueFocusBorder"
+            .value=${this.newValue ?? ''}
+            ?disabled=${this.disabled}
+            @input=${(e: InputEvent) => {
+              const target = e.target as HTMLInputElement;
+              this.newValue = target.value;
+            }}
+            @keydown=${this.handleInputKeydown}
           >
-            <input
-              id="input"
-              @keydown=${this.handleInputKeydown}
-              ?disabled=${this.disabled}
-            />
-          </iron-input>
+          </md-outlined-text-field>
           <gr-button
             id="addButton"
             ?disabled=${!this.newValue.length}
@@ -173,9 +179,5 @@ export class GrPluginConfigArrayEditor extends LitElement {
       notifyPath: `${_key}.values`,
     };
     fireNoBubbleNoCompose(this, 'plugin-config-option-changed', detail);
-  }
-
-  private handleBindValueChangedNewValue(e: BindValueChangeEvent) {
-    this.newValue = e.detail.value ?? '';
   }
 }

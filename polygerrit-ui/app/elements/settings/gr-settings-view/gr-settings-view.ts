@@ -3,7 +3,6 @@
  * Copyright 2016 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '@polymer/iron-input/iron-input';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '../gr-change-table-editor/gr-change-table-editor';
 import '../../shared/gr-button/gr-button';
@@ -39,11 +38,11 @@ import {GrGpgEditor} from '../gr-gpg-editor/gr-gpg-editor';
 import {GrEmailEditor} from '../gr-email-editor/gr-email-editor';
 import {fire, fireAlert, fireTitleChange} from '../../../utils/event-util';
 import {getAppContext} from '../../../services/app-context';
-import {BindValueChangeEvent, ValueChangedEvent} from '../../../types/events';
+import {ValueChangedEvent} from '../../../types/events';
 import {css, html, LitElement} from 'lit';
 import {customElement, query, queryAsync, state} from 'lit/decorators.js';
 import {sharedStyles} from '../../../styles/shared-styles';
-import {paperStyles} from '../../../styles/gr-paper-styles';
+import {materialStyles} from '../../../styles/gr-material-styles';
 import {fontStyles} from '../../../styles/gr-font-styles';
 import {when} from 'lit/directives/when.js';
 import {pageNavStyles} from '../../../styles/gr-page-nav-styles';
@@ -61,6 +60,7 @@ import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {rootUrl} from '../../../utils/url-util';
 import {GrEditPreferences} from '../gr-edit-preferences/gr-edit-preferences';
 import {GrAuthToken} from '../gr-auth-token/gr-auth-token';
+import '@material/web/textfield/outlined-text-field';
 
 const HTTP_AUTH = ['HTTP', 'HTTP_LDAP'];
 
@@ -268,7 +268,7 @@ export class GrSettingsView extends LitElement {
   static override get styles() {
     return [
       sharedStyles,
-      paperStyles,
+      materialStyles,
       fontStyles,
       grFormStyles,
       modalStyles,
@@ -570,22 +570,18 @@ ${this.accountState}</textarea
             <section>
               <span class="title">New email address</span>
               <span class="value">
-                <iron-input
-                  class="newEmailInput"
-                  .bindValue=${this.newEmail}
-                  @bind-value-changed=${(e: BindValueChangeEvent) => {
-                    this.newEmail = e.detail.value;
+                <md-outlined-text-field
+                  class="newEmailInput showBlueFocusBorder"
+                  placeholder="email@example.com"
+                  ?disabled=${this.addingEmail}
+                  .value=${this.newEmail ?? ''}
+                  @input=${(e: InputEvent) => {
+                    const target = e.target as HTMLInputElement;
+                    this.newEmail = target.value;
                   }}
                   @keydown=${this.handleNewEmailKeydown}
                 >
-                  <input
-                    class="newEmailInput"
-                    type="text"
-                    ?disabled=${this.addingEmail}
-                    @keydown=${this.handleNewEmailKeydown}
-                    placeholder="email@example.com"
-                  />
-                </iron-input>
+                </md-outlined-text-field>
               </span>
             </section>
             <section

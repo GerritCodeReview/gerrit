@@ -90,9 +90,13 @@ suite('gr-access-section tests', () => {
                     <gr-icon icon="edit" id="icon" small filled></gr-icon>
                   </gr-button>
                 </div>
-                <iron-input class="editRefInput">
-                  <input class="editRefInput" type="text" />
-                </iron-input>
+                <md-outlined-text-field
+                  autocomplete=""
+                  class="editRefInput showBlueFocusBorder"
+                  inputmode=""
+                  type="text"
+                >
+                </md-outlined-text-field>
                 <gr-button
                   aria-disabled="false"
                   id="deleteBtn"
@@ -651,7 +655,10 @@ suite('gr-access-section tests', () => {
         );
         assert.isFalse(element.editingRef);
         queryAndAssert<GrButton>(element, '#editBtn').click();
-        element.editRefInput().bindValue = 'new/ref';
+        element.editRefInput().value = 'new/ref';
+        element
+          .editRefInput()
+          .dispatchEvent(new Event('input', {bubbles: true, composed: true}));
         await element.updateComplete;
         assert.equal(element.section.id, 'new/ref');
         assert.isTrue(element.editingRef);

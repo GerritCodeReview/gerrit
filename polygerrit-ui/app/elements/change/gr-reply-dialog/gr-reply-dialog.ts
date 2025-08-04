@@ -126,7 +126,7 @@ import {userModelToken} from '../../../models/user/user-model';
 import {accountsModelToken} from '../../../models/accounts/accounts-model';
 import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {modalStyles} from '../../../styles/gr-modal-styles';
-import {ironAnnouncerRequestAvailability} from '../../polymer-util';
+import {grAnnouncerRequestAvailability} from '../../lit-util';
 import {GrReviewerUpdatesParser} from '../../shared/gr-rest-api-interface/gr-reviewer-updates-parser';
 import {formStyles} from '../../../styles/form-styles';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
@@ -690,7 +690,7 @@ export class GrReplyDialog extends LitElement {
 
   override connectedCallback() {
     super.connectedCallback();
-    ironAnnouncerRequestAvailability();
+    grAnnouncerRequestAvailability();
 
     this.getPluginLoader().jsApiService.addElement(
       TargetElement.REPLY_DIALOG,

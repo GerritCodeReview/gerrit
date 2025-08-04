@@ -62,18 +62,26 @@ suite('gr-auth-token tests', () => {
                 <tfoot>
                   <tr>
                     <th style="vertical-align: top;">
-                      <iron-input id="newToken">
-                        <input is="iron-input" placeholder="New Token ID" />
-                      </iron-input>
+                    <md-outlined-text-field
+                      autocomplete=""
+                      class="showBlueFocusBorder"
+                      id="newToken"
+                      inputmode=""
+                      placeholder="New Token ID"
+                      type="text"
+                    >
+                    </md-outlined-text-field>
                     </th>
                     <th style="vertical-align: top;">
-                      <iron-input>
-                        <input
-                          class="lifeTimeInput"
-                          is="iron-input"
-                          placeholder="Lifetime (e.g. 30d)"
-                        />
-                      </iron-input>
+                    <md-outlined-text-field
+                      autocomplete=""
+                      class="lifeTimeInput showBlueFocusBorder"
+                      id="lifetime"
+                      inputmode=""
+                      placeholder="Lifetime (e.g. 30d)"
+                      type="text"
+                    >
+                    </md-outlined-text-field>
                       </br>
                       (Max. allowed lifetime: unlimited)
                     </th>
@@ -169,7 +177,8 @@ suite('gr-auth-token tests', () => {
 
     assert.isNotOk(element.generatedAuthToken);
 
-    element.tokenInput.bindValue = nextToken.id;
+    element.tokenInput.value = nextToken.id;
+    element.tokenInput.dispatchEvent(new Event('input', {bubbles: true}));
 
     await element.updateComplete;
 

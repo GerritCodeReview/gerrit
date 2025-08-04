@@ -3,7 +3,6 @@
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '@polymer/iron-input/iron-input';
 import '../../../styles/gr-form-styles';
 import '../../../styles/shared-styles';
 import {GroupName} from '../../../types/common';
@@ -12,11 +11,12 @@ import {grFormStyles} from '../../../styles/gr-form-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {css, html, LitElement, PropertyValues} from 'lit';
 import {customElement, property, query} from 'lit/decorators.js';
-import {BindValueChangeEvent} from '../../../types/events';
 import {fire} from '../../../utils/event-util';
 import {createGroupUrl} from '../../../models/views/group';
 import {resolve} from '../../../models/dependency';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
+import '@material/web/textfield/outlined-text-field';
+import {materialStyles} from '../../../styles/gr-material-styles';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -40,6 +40,7 @@ export class GrCreateGroupDialog extends LitElement {
 
   static override get styles() {
     return [
+      materialStyles,
       grFormStyles,
       sharedStyles,
       css`
@@ -47,6 +48,9 @@ export class GrCreateGroupDialog extends LitElement {
           display: inline-block;
         }
         input {
+          width: 20em;
+        }
+        md-outlined-text-field {
           width: 20em;
         }
       `,
@@ -59,12 +63,15 @@ export class GrCreateGroupDialog extends LitElement {
         <div id="form">
           <section>
             <span class="title">Group name</span>
-            <iron-input
-              .bindValue=${this.name}
-              @bind-value-changed=${this.handleGroupNameBindValueChanged}
+            <md-outlined-text-field
+              class="showBlueFocusBorder"
+              .value=${this.name ?? ''}
+              @input=${(e: InputEvent) => {
+                const target = e.target as HTMLInputElement;
+                this.name = target.value as GroupName;
+              }}
             >
-              <input />
-            </iron-input>
+            </md-outlined-text-field>
           </section>
         </div>
       </div>
@@ -94,9 +101,5 @@ export class GrCreateGroupDialog extends LitElement {
         this.getNavigation().setUrl(createGroupUrl({groupId: group.id}));
       });
     });
-  }
-
-  private handleGroupNameBindValueChanged(e: BindValueChangeEvent) {
-    this.name = e.detail.value as GroupName;
   }
 }

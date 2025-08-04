@@ -35,9 +35,14 @@ suite('gr-create-repo-dialog tests', () => {
               <div class="title-flex">
                 <span class="title"> Repository Name </span>
               </div>
-              <iron-input>
-                <input autocomplete="on" id="repoNameInput" />
-              </iron-input>
+              <md-outlined-text-field
+                autocomplete="on"
+                class="showBlueFocusBorder"
+                id="repoNameInput"
+                inputmode=""
+                type="text"
+              >
+              </md-outlined-text-field>
             </section>
             <section>
               <div class="title-flex">
@@ -45,9 +50,9 @@ suite('gr-create-repo-dialog tests', () => {
                   <gr-tooltip-content
                     has-tooltip=""
                     title="Only serve as a parent repository for other repositories
-to inheright access rights and configs.
-If 'true', then you cannot push code to this repo.
-It will only have a 'refs/meta/config' branch."
+                  to inheright access rights and configs.
+                  If 'true', then you cannot push code to this repo.
+                  It will only have a 'refs/meta/config' branch."
                   >
                     Parent Repo Only
                     <gr-icon icon="info"> </gr-icon>
@@ -70,7 +75,15 @@ It will only have a 'refs/meta/config' branch."
                 <span class="title"> Default Branch </span>
               </div>
               <span class="value">
-                <gr-autocomplete id="defaultBranchNameInput"> </gr-autocomplete>
+                <md-outlined-text-field
+                  autocomplete=""
+                  class="showBlueFocusBorder"
+                  id="defaultBranchNameInput"
+                  inputmode=""
+                  placeholder="Optional, defaults to 'master'"
+                  type="text"
+                >
+                </md-outlined-text-field>
               </span>
             </section>
             <section>

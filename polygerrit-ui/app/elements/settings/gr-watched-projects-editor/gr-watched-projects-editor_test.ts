@@ -10,11 +10,11 @@ import {GrWatchedProjectsEditor} from './gr-watched-projects-editor';
 import {stubRestApi, waitUntil} from '../../../test/test-utils';
 import {ProjectWatchInfo} from '../../../types/common';
 import {queryAndAssert} from '../../../test/test-utils';
-import {IronInputElement} from '@polymer/iron-input';
 import {assertIsDefined} from '../../../utils/common-util';
 import {assert, fixture, html} from '@open-wc/testing';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrAutocomplete} from '../../shared/gr-autocomplete/gr-autocomplete';
+import {MdOutlinedTextField} from '@material/web/textfield/outlined-text-field';
 
 suite('gr-watched-projects-editor tests', () => {
   let element: GrWatchedProjectsEditor;
@@ -243,13 +243,15 @@ suite('gr-watched-projects-editor tests', () => {
                   </gr-autocomplete>
                 </th>
                 <th colspan="5">
-                  <iron-input class="newFilterInput" id="newFilterInput">
-                    <input
-                      class="newFilterInput"
-                      id="newFilter"
-                      placeholder="branch:name, or other search expression"
-                    />
-                  </iron-input>
+                  <md-outlined-text-field
+                    autocomplete=""
+                    class="newFilterInput showBlueFocusBorder"
+                    id="newFilter"
+                    inputmode=""
+                    placeholder="branch:name, or other search expression"
+                    type="text"
+                  >
+                  </md-outlined-text-field>
                 </th>
                 <th>
                   <gr-button
@@ -347,7 +349,7 @@ suite('gr-watched-projects-editor tests', () => {
     assertIsDefined(element.newProject, 'newProject');
     element.newProject.value = 'project d';
     element.newProject.setText('project d');
-    queryAndAssert<IronInputElement>(element, '#newFilterInput').bindValue = '';
+    queryAndAssert<MdOutlinedTextField>(element, '#newFilter').value = '';
 
     element.handleAddProject();
 
@@ -362,7 +364,7 @@ suite('gr-watched-projects-editor tests', () => {
     assertIsDefined(element.newProject, 'newProject');
     element.newProject.value = 'project b';
     element.newProject.setText('project b');
-    queryAndAssert<IronInputElement>(element, '#newFilterInput').bindValue =
+    queryAndAssert<MdOutlinedTextField>(element, '#newFilter').value =
       'filter 1';
     assertIsDefined(element.newFilter, 'newFilter');
     element.newFilter.value = 'filter 1';

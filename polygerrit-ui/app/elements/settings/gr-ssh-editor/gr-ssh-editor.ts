@@ -16,6 +16,7 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {fire} from '../../../utils/event-util';
 import {modalStyles} from '../../../styles/gr-modal-styles';
 import {GrAutogrowTextarea} from '../../shared/gr-autogrow-textarea/gr-autogrow-textarea';
+import {formStyles} from '../../../styles/form-styles';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -52,6 +53,7 @@ export class GrSshEditor extends LitElement {
   static override get styles() {
     return [
       grFormStyles,
+      formStyles,
       sharedStyles,
       modalStyles,
       css`
@@ -87,6 +89,11 @@ export class GrSshEditor extends LitElement {
         }
         gr-autogrow-textarea {
           background-color: var(--view-background-color);
+          --gr-autogrow-textarea-border-width: 0px;
+          --gr-autogrow-textarea-border-color: var(--border-color);
+        }
+        gr-autogrow-textarea:focus {
+          border: 2px solid var(--input-focus-border-color);
         }
       `,
     ];
@@ -167,7 +174,6 @@ export class GrSshEditor extends LitElement {
           </section>
           <gr-button
             id="addButton"
-            link=""
             ?disabled=${!this.newKey.length}
             @click=${() => this.handleAddKey()}
             >Add New SSH Key</gr-button

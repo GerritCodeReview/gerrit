@@ -38,9 +38,14 @@ suite('gr-plugin-config-array-editor tests', () => {
         <div class="gr-form-styles wrapper">
           <div class="placeholder row">None configured.</div>
           <div class="row">
-            <iron-input>
-              <input id="input" />
-            </iron-input>
+            <md-outlined-text-field
+              autocomplete=""
+              class="showBlueFocusBorder"
+              id="input"
+              inputmode=""
+              type="text"
+            >
+            </md-outlined-text-field>
             <gr-button
               aria-disabled="true"
               disabled=""

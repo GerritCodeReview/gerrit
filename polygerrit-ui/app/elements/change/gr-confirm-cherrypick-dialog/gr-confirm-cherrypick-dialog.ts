@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../../shared/gr-autogrow-textarea/gr-autogrow-textarea';
-import '@polymer/iron-input/iron-input';
 import '../../../styles/shared-styles';
 import '../../shared/gr-autocomplete/gr-autocomplete';
 import '../../shared/gr-dialog/gr-dialog';
@@ -49,6 +48,8 @@ import {formStyles} from '../../../styles/form-styles';
 import {branchName} from '../../../utils/patch-set-util';
 import {changeModelToken} from '../../../models/change/change-model';
 import {GrAutogrowTextarea} from '../../shared/gr-autogrow-textarea/gr-autogrow-textarea';
+import '@material/web/textfield/outlined-text-field';
+import {materialStyles} from '../../../styles/gr-material-styles';
 
 const SUGGESTIONS_LIMIT = 15;
 const CHANGE_SUBJECT_LIMIT = 50;
@@ -187,6 +188,7 @@ export class GrConfirmCherrypickDialog
 
   static override get styles() {
     return [
+      materialStyles,
       formStyles,
       sharedStyles,
       css`
@@ -215,6 +217,9 @@ export class GrConfirmCherrypickDialog
           font-size: var(--font-size-mono);
           line-height: var(--line-height-mono);
           width: 73ch; /* Add a char to account for the border. */
+        }
+        gr-autogrow-textarea:focus {
+          border: 2px solid var(--input-focus-border-color);
         }
         .cherryPickTopicLayout {
           display: flex;
@@ -285,6 +290,7 @@ export class GrConfirmCherrypickDialog
               .text=${this.branch}
               .query=${this.query}
               placeholder="Destination branch"
+              .showBlueFocusBorder=${true}
               @text-changed=${(e: BindValueChangeEvent) =>
                 (this.branch = e.detail.value as BranchName)}
             >
@@ -342,18 +348,18 @@ export class GrConfirmCherrypickDialog
   private renderCherrypickSingleChangeInputs() {
     return html`
       <label for="baseInput"> Provide base commit sha1 for cherry-pick </label>
-      <iron-input
-        .bindValue=${this.baseCommit}
-        @bind-value-changed=${(e: BindValueChangeEvent) =>
-          (this.baseCommit = e.detail.value)}
+      <md-outlined-text-field
+        id="baseCommitInput"
+        class="showBlueFocusBorder"
+        maxlength="40"
+        placeholder="(optional)"
+        .value=${this.baseCommit ?? ''}
+        @input=${(e: InputEvent) => {
+          const target = e.target as HTMLInputElement;
+          this.baseCommit = target.value;
+        }}
       >
-        <input
-          is="iron-input"
-          id="baseCommitInput"
-          maxlength="40"
-          placeholder="(optional)"
-        />
-      </iron-input>
+      </md-outlined-text-field>
       <label for="messageInput"> Cherry Pick Commit Message </label>
       <gr-autogrow-textarea
         id="messageInput"

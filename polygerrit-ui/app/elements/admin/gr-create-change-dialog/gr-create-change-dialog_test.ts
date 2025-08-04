@@ -55,25 +55,31 @@ suite('gr-create-change-dialog tests', () => {
           <section>
             <span class="title"> Provide base commit sha1 for change </span>
             <span class="value">
-              <iron-input>
-                <input
-                  id="baseCommitInput"
-                  maxlength="40"
-                  placeholder="(optional)"
-                />
-              </iron-input>
+              <md-outlined-text-field
+                autocomplete=""
+                class="showBlueFocusBorder"
+                id="baseCommitInput"
+                inputmode=""
+                maxlength="40"
+                placeholder="(optional)"
+                type="text"
+              >
+              </md-outlined-text-field>
             </span>
           </section>
           <section>
             <span class="title"> Enter topic for new change </span>
             <span class="value">
-              <iron-input>
-                <input
-                  id="tagNameInput"
-                  maxlength="1024"
-                  placeholder="(optional)"
-                />
-              </iron-input>
+              <md-outlined-text-field
+                autocomplete=""
+                class="showBlueFocusBorder"
+                id="tagNameInput"
+                inputmode=""
+                maxlength="1024"
+                placeholder="(optional)"
+                type="text"
+              >
+              </md-outlined-text-field>
             </span>
           </section>
           <section id="description">

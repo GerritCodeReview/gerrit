@@ -20,21 +20,22 @@ import {
   createPreferences,
   createServerInfo,
 } from '../../../test/test-data-generators';
-import {IronInputElement} from '@polymer/iron-input';
 import {SinonStubbedMember} from 'sinon';
 import {RestApiService} from '../../../services/gr-rest-api/gr-rest-api';
 import {EditableAccountField} from '../../../api/rest-api';
 import {assert, fixture, html} from '@open-wc/testing';
 import {GrAutogrowTextarea} from '../../shared/gr-autogrow-textarea/gr-autogrow-textarea';
+import {MdOutlinedTextField} from '@material/web/textfield/outlined-text-field';
 
 suite('gr-account-info tests', () => {
   let element!: GrAccountInfo;
   let account: AccountDetailInfo;
   let config: ServerInfo;
 
-  function queryIronInput(selector: string): IronInputElement {
-    const input = query<IronInputElement>(element, selector);
-    if (!input) assert.fail(`<iron-input> with id ${selector} not found.`);
+  function queryInput(selector: string): MdOutlinedTextField {
+    const input = query<MdOutlinedTextField>(element, selector);
+    if (!input)
+      assert.fail(`<md-outlined-text-field> with id ${selector} not found.`);
     return input;
   }
 
@@ -110,9 +111,14 @@ suite('gr-account-info tests', () => {
           <section>
             <label class="title" for="displayNameInput">Display name</label>
             <span class="value">
-              <iron-input>
-                <input id="displayNameInput" />
-              </iron-input>
+              <md-outlined-text-field
+                autocomplete=""
+                class="showBlueFocusBorder"
+                id="displayNameInput"
+                inputmode=""
+                type="text"
+              >
+              </md-outlined-text-field>
             </span>
           </section>
           <section>
@@ -178,7 +184,7 @@ suite('gr-account-info tests', () => {
     const inputSpan = section.querySelectorAll('.value')[0];
 
     assert.isTrue(element.nameMutable);
-    assert.equal(queryIronInput('#nameIronInput').bindValue, account.name);
+    assert.equal(queryInput('#nameInput').value, account.name);
     assert.isFalse(inputSpan.hasAttribute('hidden'));
   });
 
@@ -210,10 +216,7 @@ suite('gr-account-info tests', () => {
     const inputSpan = section.querySelectorAll('.value')[0];
 
     assert.isTrue(element.computeUsernameEditable());
-    assert.equal(
-      queryIronInput('#usernameIronInput').bindValue,
-      account.username
-    );
+    assert.equal(queryInput('#usernameInput').value, account.username);
     assert.isFalse(inputSpan.hasAttribute('hidden'));
   });
 
@@ -244,8 +247,11 @@ suite('gr-account-info tests', () => {
       assert.isTrue(element.nameMutable);
       assert.isFalse(element.hasUnsavedChanges);
 
-      const statusInputEl = queryIronInput('#nameIronInput');
-      statusInputEl.bindValue = 'new name';
+      const statusInputEl = queryInput('#nameInput');
+      statusInputEl.value = 'new name';
+      statusInputEl.dispatchEvent(
+        new Event('input', {bubbles: true, composed: true})
+      );
       await element.updateComplete;
       assert.isTrue(element.hasNameChange);
       assert.isFalse(element.hasStatusChange);
@@ -273,8 +279,11 @@ suite('gr-account-info tests', () => {
       await element.updateComplete;
       assert.isTrue(element.computeUsernameEditable());
 
-      const statusInputEl = queryIronInput('#usernameIronInput');
-      statusInputEl.bindValue = 'new username';
+      const statusInputEl = queryInput('#usernameInput');
+      statusInputEl.value = 'new username';
+      statusInputEl.dispatchEvent(
+        new Event('input', {bubbles: true, composed: true})
+      );
       await element.updateComplete;
       assert.isTrue(element.hasUsernameChange);
       assert.isFalse(element.hasNameChange);
@@ -337,8 +346,11 @@ suite('gr-account-info tests', () => {
       assert.isTrue(element.nameMutable);
       assert.isFalse(element.hasUnsavedChanges);
 
-      const inputEl = queryIronInput('#nameIronInput');
-      inputEl.bindValue = 'new name';
+      const inputEl = queryInput('#nameInput');
+      inputEl.value = 'new name';
+      inputEl.dispatchEvent(
+        new Event('input', {bubbles: true, composed: true})
+      );
       await element.updateComplete;
       assert.isTrue(element.hasNameChange);
 
@@ -431,8 +443,9 @@ suite('gr-account-info tests', () => {
     await element.updateComplete;
     assert.isFalse(element.hasUsernameChange);
 
-    const inputEl = queryIronInput('#usernameIronInput');
-    inputEl.bindValue = 'test';
+    const inputEl = queryInput('#usernameInput');
+    inputEl.value = 'test';
+    inputEl.dispatchEvent(new Event('input', {bubbles: true, composed: true}));
     await element.updateComplete;
 
     assert.isTrue(element.hasUsernameChange);

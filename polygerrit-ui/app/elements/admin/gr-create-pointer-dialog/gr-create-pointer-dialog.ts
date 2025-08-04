@@ -3,7 +3,6 @@
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '@polymer/iron-input/iron-input';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-select/gr-select';
 import {BranchName, RepoName} from '../../../types/common';
@@ -12,10 +11,11 @@ import {grFormStyles} from '../../../styles/gr-form-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {css, html, LitElement, PropertyValues} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
-import {BindValueChangeEvent} from '../../../types/events';
 import {ValueChangedEvent} from '../../../types/events';
 import {fire, fireAlert, fireReload} from '../../../utils/event-util';
 import {RepoDetailView} from '../../../models/views/repo';
+import '@material/web/textfield/outlined-text-field';
+import {materialStyles} from '../../../styles/gr-material-styles';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -52,6 +52,7 @@ export class GrCreatePointerDialog extends LitElement {
 
   static override get styles() {
     return [
+      materialStyles,
       grFormStyles,
       sharedStyles,
       css`
@@ -59,6 +60,9 @@ export class GrCreatePointerDialog extends LitElement {
           display: inline-block;
         }
         input {
+          width: 20em;
+        }
+        md-outlined-text-field {
           width: 20em;
         }
       `,
@@ -71,12 +75,16 @@ export class GrCreatePointerDialog extends LitElement {
         <div id="form">
           <section id="itemNameSection">
             <span class="title">${this.detailType} name</span>
-            <iron-input
-              .bindValue=${this.itemName}
-              @bind-value-changed=${this.handleItemNameBindValueChanged}
+            <md-outlined-text-field
+              class="showBlueFocusBorder"
+              placeholder="${this.detailType} Name"
+              .value=${this.itemName ?? ''}
+              @input=${(e: InputEvent) => {
+                const target = e.target as HTMLInputElement;
+                this.itemName = target.value as BranchName;
+              }}
             >
-              <input placeholder="${this.detailType} Name" />
-            </iron-input>
+            </md-outlined-text-field>
           </section>
           <section
             id="createEmptyCommitSection"
@@ -103,24 +111,32 @@ export class GrCreatePointerDialog extends LitElement {
           </section>
           <section id="itemRevisionSection" ?hidden=${!!this.createEmptyCommit}>
             <span class="title">Initial Revision</span>
-            <iron-input
-              .bindValue=${this.itemRevision}
-              @bind-value-changed=${this.handleItemRevisionBindValueChanged}
+            <md-outlined-text-field
+              class="showBlueFocusBorder"
+              placeholder="Revision (Branch or SHA-1)"
+              .value=${this.itemRevision ?? ''}
+              @input=${(e: InputEvent) => {
+                const target = e.target as HTMLInputElement;
+                this.itemRevision = target.value;
+              }}
             >
-              <input placeholder="Revision (Branch or SHA-1)" />
-            </iron-input>
+            </md-outlined-text-field>
           </section>
           <section
             id="itemAnnotationSection"
             ?hidden=${this.itemDetail === RepoDetailView.BRANCHES}
           >
             <span class="title">Annotation</span>
-            <iron-input
-              .bindValue=${this.itemAnnotation}
-              @bind-value-changed=${this.handleItemAnnotationBindValueChanged}
+            <md-outlined-text-field
+              class="showBlueFocusBorder"
+              placeholder="Annotation (Optional)"
+              .value=${this.itemAnnotation ?? ''}
+              @input=${(e: InputEvent) => {
+                const target = e.target as HTMLInputElement;
+                this.itemAnnotation = target.value;
+              }}
             >
-              <input placeholder="Annotation (Optional)" />
-            </iron-input>
+            </md-outlined-text-field>
           </section>
         </div>
       </div>
@@ -172,18 +188,6 @@ export class GrCreatePointerDialog extends LitElement {
         });
     }
     throw new Error(`Invalid itemDetail: ${this.itemDetail}`);
-  }
-
-  private handleItemNameBindValueChanged(e: BindValueChangeEvent) {
-    this.itemName = e.detail.value as BranchName;
-  }
-
-  private handleItemRevisionBindValueChanged(e: BindValueChangeEvent) {
-    this.itemRevision = e.detail.value;
-  }
-
-  private handleItemAnnotationBindValueChanged(e: BindValueChangeEvent) {
-    this.itemAnnotation = e.detail.value;
   }
 
   private handleCreateEmptyCommitBindValueChanged(

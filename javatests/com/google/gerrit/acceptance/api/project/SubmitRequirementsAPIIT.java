@@ -22,11 +22,15 @@ import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.ExtensionRegistry;
+import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.entities.Permission;
+import com.google.gerrit.entities.SubmitRequirement;
+import com.google.gerrit.entities.SubmitRequirementExpression;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.common.BatchSubmitRequirementInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -46,6 +50,7 @@ import org.junit.Test;
 public class SubmitRequirementsAPIIT extends AbstractDaemonTest {
   @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private ProjectOperations projectOperations;
+  @Inject private ExtensionRegistry extensionRegistry;
 
   @Test
   public void cannotGetANonExistingSR() throws Exception {
@@ -590,6 +595,24 @@ public class SubmitRequirementsAPIIT extends AbstractDaemonTest {
 
     assertThat(names(infos))
         .containsExactly("No-Unresolved-Comments", "Code-Review", "base-sr", "sr-1", "sr-2");
+  }
+
+  @Test
+  public void listSRsWithInheritanceIncludesGlobalSubmitRequirements() throws Exception {
+    SubmitRequirement globalSubmitRequirement =
+        SubmitRequirement.builder()
+            .setName("Global-Submit-Requirement")
+            .setSubmittabilityExpression(SubmitRequirementExpression.create("topic:test"))
+            .setAllowOverrideInChildProjects(false)
+            .build();
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(globalSubmitRequirement)) {
+      List<SubmitRequirementInfo> infos =
+          gApi.projects().name(project.get()).submitRequirements().withInherited(true).get();
+
+      assertThat(names(infos))
+          .containsExactly("Global-Submit-Requirement", "Code-Review", "No-Unresolved-Comments");
+    }
   }
 
   @Test

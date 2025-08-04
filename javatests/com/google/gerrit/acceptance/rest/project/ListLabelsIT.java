@@ -14,6 +14,7 @@
 
 package com.google.gerrit.acceptance.rest.project;
 
+import static com.google.common.collect.ImmutableMap.toImmutableMap;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowLabel;
@@ -300,6 +301,36 @@ public class ListLabelsIT extends AbstractDaemonTest {
     assertThat(labels.get(1).projectName).isEqualTo(project.get());
     assertThat(labels.get(2).name).isEqualTo("bar");
     assertThat(labels.get(2).projectName).isEqualTo(childProject.get());
+  }
+
+  @Test
+  public void globalLabels() throws Exception {
+    LabelType globalLabelType =
+        LabelType.builder(
+                "Global-Label",
+                ImmutableList.of(
+                    LabelValue.create((short) 1, "Approved"),
+                    LabelValue.create((short) 0, "No vote"),
+                    LabelValue.create((short) -1, "Rejected")))
+            .setDescription("A global label")
+            .setFunction(LabelFunction.NO_OP)
+            .build();
+
+    try (Registration registration = extensionRegistry.newRegistration().add(globalLabelType)) {
+      ImmutableList<LabelDefinitionInfo> labels = gApi.config().server().listGlobalLabels().get();
+      assertThat(labelNames(labels)).containsExactly(globalLabelType.getName());
+
+      LabelDefinitionInfo globalLabel = Iterables.getOnlyElement(labels);
+      assertThat(globalLabel.projectName).isNull();
+      assertThat(globalLabel.description).isEqualTo(globalLabelType.getDescription().get());
+      assertThat(globalLabel.values)
+          .containsExactlyEntriesIn(
+              globalLabelType.getValues().stream()
+                  .collect(
+                      toImmutableMap(
+                          labelValue -> LabelValue.formatValue(labelValue.getValue()),
+                          LabelValue::getText)));
+    }
   }
 
   @Test

@@ -3,7 +3,6 @@
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '@polymer/iron-input/iron-input';
 import '../../../styles/gr-form-styles';
 import '../../../styles/shared-styles';
 import {GroupName} from '../../../types/common';
@@ -12,11 +11,11 @@ import {grFormStyles} from '../../../styles/gr-form-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {css, html, LitElement, PropertyValues} from 'lit';
 import {customElement, property, query} from 'lit/decorators.js';
-import {BindValueChangeEvent} from '../../../types/events';
 import {fire} from '../../../utils/event-util';
 import {createGroupUrl} from '../../../models/views/group';
 import {resolve} from '../../../models/dependency';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
+import '@material/web/textfield/outlined-text-field';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -49,6 +48,47 @@ export class GrCreateGroupDialog extends LitElement {
         input {
           width: 20em;
         }
+        md-outlined-text-field {
+          width: 20em;
+          background-color: var(--view-background-color);
+          color: var(--primary-text-color);
+          --md-sys-color-primary: var(--primary-text-color);
+          --md-sys-color-on-surface: var(--primary-text-color);
+          --md-sys-color-on-surface-variant: var(--deemphasized-text-color);
+          --md-outlined-text-field-label-text-color: var(
+            --deemphasized-text-color
+          );
+          --md-outlined-text-field-focus-label-text-color: var(
+            --deemphasized-text-color
+          );
+          --md-outlined-text-field-hover-label-text-color: var(
+            --deemphasized-text-color
+          );
+          border-radius: var(--border-radius);
+          --md-outlined-text-field-container-shape: var(--border-radius);
+          --md-outlined-text-field-focus-outline-color: var(
+            --prominent-border-color,
+            var(--border-color)
+          );
+          --md-outlined-text-field-outline-color: var(
+            --prominent-border-color,
+            var(--border-color)
+          );
+          --md-outlined-text-field-hover-outline-color: var(
+            --prominent-border-color,
+            var(--border-color)
+          );
+          --md-sys-color-outline: var(
+            --prominent-border-color,
+            var(--border-color)
+          );
+          --md-outlined-field-top-space: var(--spacing-s);
+          --md-outlined-field-bottom-space: var(--spacing-s);
+          --md-outlined-text-field-outline-width: 1px;
+          --md-outlined-text-field-hover-outline-width: 1px;
+          --md-outlined-text-field-focus-outline-width: 0;
+          --md-outlined-field-leading-space: 8px;
+        }
       `,
     ];
   }
@@ -59,12 +99,14 @@ export class GrCreateGroupDialog extends LitElement {
         <div id="form">
           <section>
             <span class="title">Group name</span>
-            <iron-input
-              .bindValue=${this.name}
-              @bind-value-changed=${this.handleGroupNameBindValueChanged}
+            <md-outlined-text-field
+              .value=${this.name ?? ''}
+              @input=${(e: InputEvent) => {
+                const target = e.target as HTMLInputElement;
+                this.name = target.value as GroupName;
+              }}
             >
-              <input />
-            </iron-input>
+            </md-outlined-text-field>
           </section>
         </div>
       </div>
@@ -94,9 +136,5 @@ export class GrCreateGroupDialog extends LitElement {
         this.getNavigation().setUrl(createGroupUrl({groupId: group.id}));
       });
     });
-  }
-
-  private handleGroupNameBindValueChanged(e: BindValueChangeEvent) {
-    this.name = e.detail.value as GroupName;
   }
 }

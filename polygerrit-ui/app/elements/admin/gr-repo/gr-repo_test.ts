@@ -49,9 +49,9 @@ import {PageErrorEvent} from '../../../types/events';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrSelect} from '../../shared/gr-select/gr-select';
 import {GrSuggestionTextarea} from '../../shared/gr-suggestion-textarea/gr-suggestion-textarea';
-import {IronInputElement} from '@polymer/iron-input/iron-input';
 import {assert, fixture, html} from '@open-wc/testing';
 import {ChangeInfo} from '../../../api/rest-api';
+import {MdOutlinedTextField} from '@material/web/textfield/outlined-text-field';
 
 suite('gr-repo tests', () => {
   let element: GrRepo;
@@ -334,9 +334,15 @@ suite('gr-repo tests', () => {
                 <section>
                   <span class="title"> Maximum Git object size limit </span>
                   <span class="value">
-                    <iron-input id="maxGitObjSizeIronInput">
-                      <input disabled="" id="maxGitObjSizeInput" type="text" />
-                    </iron-input>
+                    <md-outlined-text-field
+                      autocomplete=""
+                      disabled=""
+                      id="maxGitObjSizeInput"
+                      inputmode=""
+                      min="0"
+                      type="number"
+                    >
+                    </md-outlined-text-field>
                   </span>
                 </section>
                 <section>
@@ -781,10 +787,14 @@ suite('gr-repo tests', () => {
         element,
         '#matchAuthoredDateWithCommitterDateSelect'
       ).bindValue = configInputObj.match_author_to_committer_date;
-      queryAndAssert<IronInputElement>(
+      queryAndAssert<MdOutlinedTextField>(
         element,
-        '#maxGitObjSizeIronInput'
-      ).bindValue = String(configInputObj.max_object_size_limit);
+        '#maxGitObjSizeInput'
+      ).value = String(configInputObj.max_object_size_limit);
+      queryAndAssert<MdOutlinedTextField>(
+        element,
+        '#maxGitObjSizeInput'
+      ).dispatchEvent(new Event('input', {bubbles: true, composed: true}));
       queryAndAssert<GrSelect>(
         element,
         '#contributorAgreementSelect'

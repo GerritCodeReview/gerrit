@@ -26,6 +26,7 @@ import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.exceptions.GerritNoMergeBaseException;
 import com.google.gerrit.exceptions.InvalidMergeStrategyException;
 import com.google.gerrit.exceptions.MergeWithConflictsNotSupportedException;
 import com.google.gerrit.extensions.client.ListChangesOption;
@@ -35,6 +36,7 @@ import com.google.gerrit.extensions.common.MergePatchSetInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MergeConflictException;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -255,6 +257,8 @@ public class CreateMergePatchSet implements RestModifyView<ChangeResource, Merge
       return Response.ok(changeInfo);
     } catch (InvalidMergeStrategyException | MergeWithConflictsNotSupportedException e) {
       throw new BadRequestException(e.getMessage());
+    } catch (GerritNoMergeBaseException e) {
+      throw new ResourceConflictException(e.getMessage(), e);
     }
   }
 
@@ -288,7 +292,9 @@ public class CreateMergePatchSet implements RestModifyView<ChangeResource, Merge
       throws ResourceNotFoundException,
           MergeIdenticalTreeException,
           MergeConflictException,
-          IOException {
+          IOException,
+          InvalidMergeStrategyException,
+          GerritNoMergeBaseException {
 
     ObjectId parentCommit;
     if (in.inheritParent) {

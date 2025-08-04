@@ -43,6 +43,7 @@ import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
+import com.google.gerrit.exceptions.GerritNoMergeBaseException;
 import com.google.gerrit.exceptions.InvalidMergeStrategyException;
 import com.google.gerrit.exceptions.MergeWithConflictsNotSupportedException;
 import com.google.gerrit.exceptions.StorageException;
@@ -470,6 +471,7 @@ public class MergeUtil {
       CodeReviewRevWalk rw,
       boolean diff3Format)
       throws IOException,
+          GerritNoMergeBaseException,
           MergeIdenticalTreeException,
           MergeConflictException,
           InvalidMergeStrategyException {
@@ -492,7 +494,15 @@ public class MergeUtil {
     ObjectId tree;
     ImmutableSet<String> filesWithGitConflicts;
     MergeBase mergeBase;
-    if (m.merge(false, mergeTip, originalCommit)) {
+
+    boolean couldMerge;
+    try {
+      couldMerge = m.merge(false, mergeTip, originalCommit);
+    } catch (NoMergeBaseException e) {
+      throw new GerritNoMergeBaseException(e);
+    }
+
+    if (couldMerge) {
       mergeBase = MergeBase.create(rw, mergeStrategy, m.getBaseCommitId());
       filesWithGitConflicts = null;
       tree = m.getResultTreeId();

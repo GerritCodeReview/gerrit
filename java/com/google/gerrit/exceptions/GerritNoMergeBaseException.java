@@ -31,7 +31,7 @@ package com.google.gerrit.exceptions;
  * <p>If this exception happens the intended merge is not support. The caller may retry using a
  * different merge strategy.
  */
-public class GerritNoMergeBaseException extends Exception {
+public class GerritNoMergeBaseException extends RuntimeException {
   private static final long serialVersionUID = 1L;
 
   public GerritNoMergeBaseException(

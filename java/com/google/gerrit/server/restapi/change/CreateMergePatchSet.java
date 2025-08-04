@@ -36,7 +36,6 @@ import com.google.gerrit.extensions.common.MergePatchSetInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MergeConflictException;
-import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -257,8 +256,6 @@ public class CreateMergePatchSet implements RestModifyView<ChangeResource, Merge
       return Response.ok(changeInfo);
     } catch (InvalidMergeStrategyException | MergeWithConflictsNotSupportedException e) {
       throw new BadRequestException(e.getMessage());
-    } catch (GerritNoMergeBaseException e) {
-      throw new ResourceConflictException(e.getMessage(), e);
     }
   }
 

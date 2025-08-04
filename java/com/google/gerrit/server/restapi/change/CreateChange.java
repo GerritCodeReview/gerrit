@@ -34,7 +34,6 @@ import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.entities.converter.ChangeInputProtoConverter;
-import com.google.gerrit.exceptions.GerritNoMergeBaseException;
 import com.google.gerrit.exceptions.InvalidMergeStrategyException;
 import com.google.gerrit.exceptions.MergeWithConflictsNotSupportedException;
 import com.google.gerrit.extensions.api.accounts.AccountInput;
@@ -85,7 +84,6 @@ import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
-import com.google.gerrit.server.restapi.change.CreateChange.CommitTreeSupplier;
 import com.google.gerrit.server.restapi.project.CommitsCollection;
 import com.google.gerrit.server.restapi.project.ProjectsCollection;
 import com.google.gerrit.server.update.BatchUpdate;
@@ -780,25 +778,21 @@ public class CreateChange
         firstNonNull(Strings.emptyToNull(merge.strategy), mergeUtil.mergeStrategyName());
     logger.atFine().log("merge strategy = %s", mergeStrategy);
 
-    try {
-      CodeReviewCommit mergeCommit =
-          MergeUtil.createMergeCommit(
-              oi,
-              repo.getConfig(),
-              mergeTip,
-              sourceCommit,
-              mergeStrategy,
-              merge.allowConflicts,
-              authorIdent,
-              committerIdent,
-              commitMessage,
-              rw,
-              this.useDiff3);
-      logger.atFine().log("tree ID of merge commit: %s", mergeCommit.getTree().getId().name());
-      return mergeCommit;
-    } catch (GerritNoMergeBaseException e) {
-      throw new ResourceConflictException(e.getMessage(), e);
-    }
+    CodeReviewCommit mergeCommit =
+        MergeUtil.createMergeCommit(
+            oi,
+            repo.getConfig(),
+            mergeTip,
+            sourceCommit,
+            mergeStrategy,
+            merge.allowConflicts,
+            authorIdent,
+            committerIdent,
+            commitMessage,
+            rw,
+            this.useDiff3);
+    logger.atFine().log("tree ID of merge commit: %s", mergeCommit.getTree().getId().name());
+    return mergeCommit;
   }
 
   private static String messageForNewChange(PatchSet.Id patchSetId, CodeReviewCommit commit) {

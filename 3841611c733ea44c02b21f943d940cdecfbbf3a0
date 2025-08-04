@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ec62f2e1_5563d901",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1125,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-08-04T09:59:19Z",
+      "side": 1,
+      "message": "I didn\u0027t find easy way to get MarkdownImagesUtil to be injected here (ChangeField).",
+      "parentUuid": "a885b8f0_27088c5d",
+      "range": {
+        "startLine": 1125,
+        "startChar": 29,
+        "endLine": 1125,
+        "endChar": 50
+      },
+      "revId": "3841611c733ea44c02b21f943d940cdecfbbf3a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "67cee89f_015bdaee",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "490fc22b_c173ae78",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1139,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-08-04T09:59:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67cee89f_015bdaee",
+      "range": {
+        "startLine": 1139,
+        "startChar": 17,
+        "endLine": 1139,
+        "endChar": 35
+      },
+      "revId": "3841611c733ea44c02b21f943d940cdecfbbf3a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8450087e_3035537b",
@@ -60,6 +108,24 @@
       "writtenOn": "2025-08-04T07:33:41Z",
       "side": 1,
       "message": "Please add a note to the description of this parameter at [1] that explains that the MarkdownBase64Images are excluded from the comment size validation.\n\n[1] https://gerrit-review.googlesource.com/Documentation/config-gerrit.html#change.allowMarkdownBase64ImagesInComments",
+      "revId": "3841611c733ea44c02b21f943d940cdecfbbf3a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e9c69662_037fb861",
+        "filename": "java/com/google/gerrit/server/util/MarkdownImagesUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-08-04T09:59:19Z",
+      "side": 1,
+      "message": "Good idea, added.",
+      "parentUuid": "8450087e_3035537b",
       "revId": "3841611c733ea44c02b21f943d940cdecfbbf3a0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

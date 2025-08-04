@@ -394,6 +394,30 @@
       },
       "revId": "d4e36571586ad37f6b5279c85ad9249dd36cdcd4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce05f23d_8141b58d",
+        "filename": "javatests/com/google/gerrit/acceptance/config/GlobalLabelIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-08-04T12:37:16Z",
+      "side": 1,
+      "message": "\u003e Disallowing to override labels, does not prevent adding label definitions with the same name at a lower level, but if they are added, or pre-exist, they are simply ignored\n\nYeah that was exactly my question. I would have expected some sort of error to be thrown instead of it being ignored.\n\n\u003e Doing this is too expensive and non-atomic, hence we don\u0027t do that and we just allow potentially overriding label definitions\n\nSGTM\n\nThanks for explaining.",
+      "parentUuid": "f05a0915_9d970fe8",
+      "range": {
+        "startLine": 96,
+        "startChar": 4,
+        "endLine": 96,
+        "endChar": 15
+      },
+      "revId": "d4e36571586ad37f6b5279c85ad9249dd36cdcd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

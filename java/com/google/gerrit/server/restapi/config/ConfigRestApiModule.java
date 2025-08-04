@@ -16,6 +16,7 @@ package com.google.gerrit.server.restapi.config;
 
 import static com.google.gerrit.server.config.ConfigResource.CONFIG_KIND;
 import static com.google.gerrit.server.config.ExperimentResource.EXPERIMENT_KIND;
+import static com.google.gerrit.server.config.GlobalLabelResource.GLOBAL_LABEL_KIND;
 import static com.google.gerrit.server.config.IndexResource.INDEX_KIND;
 import static com.google.gerrit.server.config.IndexVersionResource.INDEX_VERSION_KIND;
 import static com.google.gerrit.server.config.TaskResource.TASK_KIND;
@@ -31,6 +32,7 @@ public class ConfigRestApiModule extends RestApiModule {
     DynamicMap.mapOf(binder(), CapabilityResource.CAPABILITY_KIND);
     DynamicMap.mapOf(binder(), CONFIG_KIND);
     DynamicMap.mapOf(binder(), EXPERIMENT_KIND);
+    DynamicMap.mapOf(binder(), GLOBAL_LABEL_KIND);
     DynamicMap.mapOf(binder(), TASK_KIND);
     DynamicMap.mapOf(binder(), TopMenuResource.TOP_MENU_KIND);
     DynamicMap.mapOf(binder(), INDEX_KIND);
@@ -46,6 +48,9 @@ public class ConfigRestApiModule extends RestApiModule {
 
     post(CONFIG_KIND, "index.changes").to(IndexChanges.class);
     get(CONFIG_KIND, "info").to(GetServerInfo.class);
+
+    child(CONFIG_KIND, "labels").to(GlobalLabelsCollection.class);
+
     get(CONFIG_KIND, "preferences").to(GetPreferences.class);
     put(CONFIG_KIND, "preferences").to(SetPreferences.class);
     get(CONFIG_KIND, "preferences.diff").to(GetDiffPreferences.class);

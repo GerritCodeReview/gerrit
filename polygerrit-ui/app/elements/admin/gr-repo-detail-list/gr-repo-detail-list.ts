@@ -3,7 +3,6 @@
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '@polymer/iron-input/iron-input';
 import '../../shared/gr-account-label/gr-account-label';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-date-formatter/gr-date-formatter';
@@ -30,7 +29,6 @@ import {tableStyles} from '../../../styles/gr-table-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {css, html, LitElement, nothing, PropertyValues} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
-import {BindValueChangeEvent} from '../../../types/events';
 import {assertIsDefined} from '../../../utils/common-util';
 import {ifDefined} from 'lit/directives/if-defined.js';
 import {
@@ -39,6 +37,7 @@ import {
   RepoViewState,
 } from '../../../models/views/repo';
 import {modalStyles} from '../../../styles/gr-modal-styles';
+import '@material/web/textfield/outlined-text-field';
 
 const PGP_START = '-----BEGIN PGP SIGNATURE-----';
 
@@ -130,6 +129,46 @@ export class GrRepoDetailList extends LitElement {
         }
         .tagger.hide {
           display: none;
+        }
+        md-outlined-text-field {
+          background-color: var(--view-background-color);
+          color: var(--primary-text-color);
+          --md-sys-color-primary: var(--primary-text-color);
+          --md-sys-color-on-surface: var(--primary-text-color);
+          --md-sys-color-on-surface-variant: var(--deemphasized-text-color);
+          --md-outlined-text-field-label-text-color: var(
+            --deemphasized-text-color
+          );
+          --md-outlined-text-field-focus-label-text-color: var(
+            --deemphasized-text-color
+          );
+          --md-outlined-text-field-hover-label-text-color: var(
+            --deemphasized-text-color
+          );
+          border-radius: var(--border-radius);
+          --md-outlined-text-field-container-shape: var(--border-radius);
+          --md-outlined-text-field-focus-outline-color: var(
+            --prominent-border-color,
+            var(--border-color)
+          );
+          --md-outlined-text-field-outline-color: var(
+            --prominent-border-color,
+            var(--border-color)
+          );
+          --md-outlined-text-field-hover-outline-color: var(
+            --prominent-border-color,
+            var(--border-color)
+          );
+          --md-sys-color-outline: var(
+            --prominent-border-color,
+            var(--border-color)
+          );
+          --md-outlined-field-top-space: var(--spacing-s);
+          --md-outlined-field-bottom-space: var(--spacing-s);
+          --md-outlined-text-field-outline-width: 1px;
+          --md-outlined-text-field-hover-outline-width: 1px;
+          --md-outlined-text-field-focus-outline-width: 0;
+          --md-outlined-field-leading-space: 8px;
         }
       `,
     ];
@@ -259,13 +298,15 @@ export class GrRepoDetailList extends LitElement {
             >
               Edit
             </gr-button>
-            <iron-input
+            <md-outlined-text-field
               class="editItem"
-              .bindValue=${this.revisedRef}
-              @bind-value-changed=${this.handleRevisedRefBindValueChanged}
+              .value=${this.revisedRef ?? ''}
+              @input=${(e: InputEvent) => {
+                const target = e.target as HTMLInputElement;
+                this.revisedRef = target.value as GitRef;
+              }}
             >
-              <input />
-            </iron-input>
+            </md-outlined-text-field>
             <gr-button
               class="cancelBtn editItem"
               link
@@ -604,10 +645,6 @@ export class GrRepoDetailList extends LitElement {
   private handleUpdateItemName() {
     assertIsDefined(this.createNewModal, 'createNewModal');
     this.newItemName = !!this.createNewModal.itemName;
-  }
-
-  private handleRevisedRefBindValueChanged(e: BindValueChangeEvent) {
-    this.revisedRef = e.detail.value as GitRef;
   }
 }
 

@@ -3,7 +3,6 @@
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '@polymer/iron-input/iron-input';
 import '../gr-button/gr-button';
 import '../gr-icon/gr-icon';
 import '../gr-tooltip-content/gr-tooltip-content';
@@ -23,6 +22,8 @@ import {Timing} from '../../../constants/reporting';
 import {when} from 'lit/directives/when.js';
 import {formStyles} from '../../../styles/form-styles';
 import {fire} from '../../../utils/event-util';
+import '@material/web/textfield/outlined-text-field';
+import {materialStyles} from '../../../styles/gr-material-styles';
 
 const COPY_TIMEOUT_MS = 1000;
 
@@ -74,6 +75,7 @@ export class GrCopyClipboard extends LitElement {
 
   static override get styles() {
     return [
+      materialStyles,
       formStyles,
       css`
         .text {
@@ -117,6 +119,17 @@ export class GrCopyClipboard extends LitElement {
           resize: vertical;
           background-color: var(--view-background-color);
           color: var(--primary-text-color);
+          border: 1px solid var(--border-color);
+          border-radius: var(--border-radius);
+          padding: var(--spacing-s);
+        }
+        textarea#input:focus {
+          outline: none;
+          box-shadow: none;
+          border-color: var(--prominent-border-color, var(--border-color));
+        }
+        textarea#input::placeholder {
+          color: var(--deemphasized-text-color);
         }
         gr-icon {
           color: var(
@@ -140,36 +153,27 @@ export class GrCopyClipboard extends LitElement {
           this.label,
           () => html`<label for="input">${this.label}</label>`
         )}
-        <iron-input
-          class="copyText"
-          @click=${this._handleInputClick}
-          .bindValue=${this.text ?? ''}
-          part="text-container-wrapper-style"
-        >
-          ${when(
-            this.multiline,
-            () => html`<textarea
-              id="input"
-              is="iron-input"
-              class=${classMap({hideInput: this.hideInput})}
-              @click=${this._handleInputClick}
-              readonly=""
-              .value=${this.text ?? ''}
-              part="text-container-style"
-            >
-            </textarea>`,
-            () => html`<input
-              id="input"
-              is="iron-input"
-              class=${classMap({hideInput: this.hideInput})}
-              type="text"
-              @click=${this._handleInputClick}
-              readonly=""
-              .value=${this.text ?? ''}
-              part="text-container-style"
-            />`
-          )}
-        </iron-input>
+        ${when(
+          this.multiline,
+          () => html`<textarea
+            id="input"
+            class=${classMap({hideInput: this.hideInput})}
+            @click=${this.handleInputClick}
+            readonly=""
+            .value=${this.text ?? ''}
+            part="text-container-wrapper-style"
+          >
+          </textarea>`,
+          () => html` <md-outlined-text-field
+            id="input"
+            class="copyText ${classMap({hideInput: this.hideInput})}"
+            .value=${this.text ?? ''}
+            ?readOnly=${true}
+            part="text-container-wrapper-style"
+            @click=${this.handleInputClick}
+          >
+          </md-outlined-text-field>`
+        )}
         ${when(
           this.shortcut,
           () => html`<span class="shortcut">${this.shortcut}</span>`
@@ -182,7 +186,7 @@ export class GrCopyClipboard extends LitElement {
             id="copy-clipboard-button"
             link=""
             class="copyToClipboard"
-            @click=${this._copyToClipboard}
+            @click=${this.copyToClipboard}
             aria-label="copy"
             aria-description="Click to copy to clipboard"
           >
@@ -199,13 +203,13 @@ export class GrCopyClipboard extends LitElement {
     queryAndAssert<GrButton>(this, '#copy-clipboard-button').focus();
   }
 
-  _handleInputClick(e: MouseEvent) {
+  private handleInputClick(e: MouseEvent) {
     e.preventDefault();
     const rootTarget = e.composedPath()[0];
     (rootTarget as HTMLInputElement).select();
   }
 
-  _copyToClipboard(e: MouseEvent) {
+  private copyToClipboard(e: MouseEvent) {
     e.preventDefault();
     e.stopPropagation();
 

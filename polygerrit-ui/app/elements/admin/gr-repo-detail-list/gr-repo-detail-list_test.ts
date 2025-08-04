@@ -157,9 +157,13 @@ suite('gr-repo-detail-list', () => {
                         >
                           Edit
                         </gr-button>
-                        <iron-input class="editItem">
-                          <input />
-                        </iron-input>
+                        <md-outlined-text-field
+                          autocomplete=""
+                          class="editItem showBlueFocusBorder"
+                          inputmode=""
+                          type="text"
+                        >
+                        </md-outlined-text-field>
                         <gr-button
                           aria-disabled="false"
                           class="cancelBtn editItem"
@@ -224,9 +228,13 @@ suite('gr-repo-detail-list', () => {
                         >
                           Edit
                         </gr-button>
-                        <iron-input class="editItem">
-                          <input />
-                        </iron-input>
+                        <md-outlined-text-field
+                          autocomplete=""
+                          class="editItem showBlueFocusBorder"
+                          inputmode=""
+                          type="text"
+                        >
+                        </md-outlined-text-field>
                         <gr-button
                           aria-disabled="false"
                           class="cancelBtn editItem"
@@ -252,7 +260,7 @@ suite('gr-repo-detail-list', () => {
                     <td class="hideItem message"></td>
                     <td class="hideItem tagger"></td>
                     <td class="repositoryBrowser">
-                      <gr-weblink imageAndText></gr-weblink>
+                      <gr-weblink imageandtext=""> </gr-weblink>
                     </td>
                     <td class="delete">
                       <gr-button
@@ -293,9 +301,13 @@ suite('gr-repo-detail-list', () => {
                         >
                           Edit
                         </gr-button>
-                        <iron-input class="editItem">
-                          <input />
-                        </iron-input>
+                        <md-outlined-text-field
+                          autocomplete=""
+                          class="editItem showBlueFocusBorder"
+                          inputmode=""
+                          type="text"
+                        >
+                        </md-outlined-text-field>
                         <gr-button
                           aria-disabled="false"
                           class="cancelBtn editItem"
@@ -321,7 +333,7 @@ suite('gr-repo-detail-list', () => {
                     <td class="hideItem message"></td>
                     <td class="hideItem tagger"></td>
                     <td class="repositoryBrowser">
-                      <gr-weblink imageAndText></gr-weblink>
+                      <gr-weblink imageandtext=""> </gr-weblink>
                     </td>
                     <td class="delete">
                       <gr-button
@@ -362,9 +374,13 @@ suite('gr-repo-detail-list', () => {
                         >
                           Edit
                         </gr-button>
-                        <iron-input class="editItem">
-                          <input />
-                        </iron-input>
+                        <md-outlined-text-field
+                          autocomplete=""
+                          class="editItem showBlueFocusBorder"
+                          inputmode=""
+                          type="text"
+                        >
+                        </md-outlined-text-field>
                         <gr-button
                           aria-disabled="false"
                           class="cancelBtn editItem"
@@ -390,7 +406,7 @@ suite('gr-repo-detail-list', () => {
                     <td class="hideItem message"></td>
                     <td class="hideItem tagger"></td>
                     <td class="repositoryBrowser">
-                      <gr-weblink imageAndText></gr-weblink>
+                      <gr-weblink imageandtext=""> </gr-weblink>
                     </td>
                     <td class="delete">
                       <gr-button
@@ -431,9 +447,13 @@ suite('gr-repo-detail-list', () => {
                         >
                           Edit
                         </gr-button>
-                        <iron-input class="editItem">
-                          <input />
-                        </iron-input>
+                        <md-outlined-text-field
+                          autocomplete=""
+                          class="editItem showBlueFocusBorder"
+                          inputmode=""
+                          type="text"
+                        >
+                        </md-outlined-text-field>
                         <gr-button
                           aria-disabled="false"
                           class="cancelBtn editItem"
@@ -459,7 +479,7 @@ suite('gr-repo-detail-list', () => {
                     <td class="hideItem message"></td>
                     <td class="hideItem tagger"></td>
                     <td class="repositoryBrowser">
-                      <gr-weblink imageAndText></gr-weblink>
+                      <gr-weblink imageandtext=""> </gr-weblink>
                     </td>
                     <td class="delete">
                       <gr-button
@@ -500,9 +520,13 @@ suite('gr-repo-detail-list', () => {
                         >
                           Edit
                         </gr-button>
-                        <iron-input class="editItem">
-                          <input />
-                        </iron-input>
+                        <md-outlined-text-field
+                          autocomplete=""
+                          class="editItem showBlueFocusBorder"
+                          inputmode=""
+                          type="text"
+                        >
+                        </md-outlined-text-field>
                         <gr-button
                           aria-disabled="false"
                           class="cancelBtn editItem"
@@ -528,7 +552,7 @@ suite('gr-repo-detail-list', () => {
                     <td class="hideItem message"></td>
                     <td class="hideItem tagger"></td>
                     <td class="repositoryBrowser">
-                      <gr-weblink imageAndText></gr-weblink>
+                      <gr-weblink imageandtext=""> </gr-weblink>
                     </td>
                     <td class="delete">
                       <gr-button
@@ -569,9 +593,13 @@ suite('gr-repo-detail-list', () => {
                         >
                           Edit
                         </gr-button>
-                        <iron-input class="editItem">
-                          <input />
-                        </iron-input>
+                        <md-outlined-text-field
+                          autocomplete=""
+                          class="editItem showBlueFocusBorder"
+                          inputmode=""
+                          type="text"
+                        >
+                        </md-outlined-text-field>
                         <gr-button
                           aria-disabled="false"
                           class="cancelBtn editItem"
@@ -597,7 +625,7 @@ suite('gr-repo-detail-list', () => {
                     <td class="hideItem message"></td>
                     <td class="hideItem tagger"></td>
                     <td class="repositoryBrowser">
-                      <gr-weblink imageAndText></gr-weblink>
+                      <gr-weblink imageandtext=""> </gr-weblink>
                     </td>
                     <td class="delete">
                       <gr-button
@@ -638,9 +666,13 @@ suite('gr-repo-detail-list', () => {
                         >
                           Edit
                         </gr-button>
-                        <iron-input class="editItem">
-                          <input />
-                        </iron-input>
+                        <md-outlined-text-field
+                          autocomplete=""
+                          class="editItem showBlueFocusBorder"
+                          inputmode=""
+                          type="text"
+                        >
+                        </md-outlined-text-field>
                         <gr-button
                           aria-disabled="false"
                           class="cancelBtn editItem"
@@ -666,7 +698,7 @@ suite('gr-repo-detail-list', () => {
                     <td class="hideItem message"></td>
                     <td class="hideItem tagger"></td>
                     <td class="repositoryBrowser">
-                      <gr-weblink imageAndText></gr-weblink>
+                      <gr-weblink imageandtext=""> </gr-weblink>
                     </td>
                     <td class="delete">
                       <gr-button
@@ -707,9 +739,13 @@ suite('gr-repo-detail-list', () => {
                         >
                           Edit
                         </gr-button>
-                        <iron-input class="editItem">
-                          <input />
-                        </iron-input>
+                        <md-outlined-text-field
+                          autocomplete=""
+                          class="editItem showBlueFocusBorder"
+                          inputmode=""
+                          type="text"
+                        >
+                        </md-outlined-text-field>
                         <gr-button
                           aria-disabled="false"
                           class="cancelBtn editItem"
@@ -735,7 +771,7 @@ suite('gr-repo-detail-list', () => {
                     <td class="hideItem message"></td>
                     <td class="hideItem tagger"></td>
                     <td class="repositoryBrowser">
-                      <gr-weblink imageAndText></gr-weblink>
+                      <gr-weblink imageandtext=""> </gr-weblink>
                     </td>
                     <td class="delete">
                       <gr-button
@@ -776,9 +812,13 @@ suite('gr-repo-detail-list', () => {
                         >
                           Edit
                         </gr-button>
-                        <iron-input class="editItem">
-                          <input />
-                        </iron-input>
+                        <md-outlined-text-field
+                          autocomplete=""
+                          class="editItem showBlueFocusBorder"
+                          inputmode=""
+                          type="text"
+                        >
+                        </md-outlined-text-field>
                         <gr-button
                           aria-disabled="false"
                           class="cancelBtn editItem"
@@ -804,7 +844,7 @@ suite('gr-repo-detail-list', () => {
                     <td class="hideItem message"></td>
                     <td class="hideItem tagger"></td>
                     <td class="repositoryBrowser">
-                      <gr-weblink imageAndText></gr-weblink>
+                      <gr-weblink imageandtext=""> </gr-weblink>
                     </td>
                     <td class="delete">
                       <gr-button
@@ -845,9 +885,13 @@ suite('gr-repo-detail-list', () => {
                         >
                           Edit
                         </gr-button>
-                        <iron-input class="editItem">
-                          <input />
-                        </iron-input>
+                        <md-outlined-text-field
+                          autocomplete=""
+                          class="editItem showBlueFocusBorder"
+                          inputmode=""
+                          type="text"
+                        >
+                        </md-outlined-text-field>
                         <gr-button
                           aria-disabled="false"
                           class="cancelBtn editItem"
@@ -873,7 +917,7 @@ suite('gr-repo-detail-list', () => {
                     <td class="hideItem message"></td>
                     <td class="hideItem tagger"></td>
                     <td class="repositoryBrowser">
-                      <gr-weblink imageAndText></gr-weblink>
+                      <gr-weblink imageandtext=""> </gr-weblink>
                     </td>
                     <td class="delete">
                       <gr-button
@@ -914,9 +958,13 @@ suite('gr-repo-detail-list', () => {
                         >
                           Edit
                         </gr-button>
-                        <iron-input class="editItem">
-                          <input />
-                        </iron-input>
+                        <md-outlined-text-field
+                          autocomplete=""
+                          class="editItem showBlueFocusBorder"
+                          inputmode=""
+                          type="text"
+                        >
+                        </md-outlined-text-field>
                         <gr-button
                           aria-disabled="false"
                           class="cancelBtn editItem"
@@ -942,7 +990,7 @@ suite('gr-repo-detail-list', () => {
                     <td class="hideItem message"></td>
                     <td class="hideItem tagger"></td>
                     <td class="repositoryBrowser">
-                      <gr-weblink imageAndText></gr-weblink>
+                      <gr-weblink imageandtext=""> </gr-weblink>
                     </td>
                     <td class="delete">
                       <gr-button
@@ -983,9 +1031,13 @@ suite('gr-repo-detail-list', () => {
                         >
                           Edit
                         </gr-button>
-                        <iron-input class="editItem">
-                          <input />
-                        </iron-input>
+                        <md-outlined-text-field
+                          autocomplete=""
+                          class="editItem showBlueFocusBorder"
+                          inputmode=""
+                          type="text"
+                        >
+                        </md-outlined-text-field>
                         <gr-button
                           aria-disabled="false"
                           class="cancelBtn editItem"
@@ -1011,7 +1063,7 @@ suite('gr-repo-detail-list', () => {
                     <td class="hideItem message"></td>
                     <td class="hideItem tagger"></td>
                     <td class="repositoryBrowser">
-                      <gr-weblink imageAndText></gr-weblink>
+                      <gr-weblink imageandtext=""> </gr-weblink>
                     </td>
                     <td class="delete">
                       <gr-button
@@ -1052,9 +1104,13 @@ suite('gr-repo-detail-list', () => {
                         >
                           Edit
                         </gr-button>
-                        <iron-input class="editItem">
-                          <input />
-                        </iron-input>
+                        <md-outlined-text-field
+                          autocomplete=""
+                          class="editItem showBlueFocusBorder"
+                          inputmode=""
+                          type="text"
+                        >
+                        </md-outlined-text-field>
                         <gr-button
                           aria-disabled="false"
                           class="cancelBtn editItem"
@@ -1080,7 +1136,7 @@ suite('gr-repo-detail-list', () => {
                     <td class="hideItem message"></td>
                     <td class="hideItem tagger"></td>
                     <td class="repositoryBrowser">
-                      <gr-weblink imageAndText></gr-weblink>
+                      <gr-weblink imageandtext=""> </gr-weblink>
                     </td>
                     <td class="delete">
                       <gr-button
@@ -1121,9 +1177,13 @@ suite('gr-repo-detail-list', () => {
                         >
                           Edit
                         </gr-button>
-                        <iron-input class="editItem">
-                          <input />
-                        </iron-input>
+                        <md-outlined-text-field
+                          autocomplete=""
+                          class="editItem showBlueFocusBorder"
+                          inputmode=""
+                          type="text"
+                        >
+                        </md-outlined-text-field>
                         <gr-button
                           aria-disabled="false"
                           class="cancelBtn editItem"
@@ -1149,7 +1209,7 @@ suite('gr-repo-detail-list', () => {
                     <td class="hideItem message"></td>
                     <td class="hideItem tagger"></td>
                     <td class="repositoryBrowser">
-                      <gr-weblink imageAndText></gr-weblink>
+                      <gr-weblink imageandtext=""> </gr-weblink>
                     </td>
                     <td class="delete">
                       <gr-button
@@ -1190,9 +1250,13 @@ suite('gr-repo-detail-list', () => {
                         >
                           Edit
                         </gr-button>
-                        <iron-input class="editItem">
-                          <input />
-                        </iron-input>
+                        <md-outlined-text-field
+                          autocomplete=""
+                          class="editItem showBlueFocusBorder"
+                          inputmode=""
+                          type="text"
+                        >
+                        </md-outlined-text-field>
                         <gr-button
                           aria-disabled="false"
                           class="cancelBtn editItem"
@@ -1218,7 +1282,7 @@ suite('gr-repo-detail-list', () => {
                     <td class="hideItem message"></td>
                     <td class="hideItem tagger"></td>
                     <td class="repositoryBrowser">
-                      <gr-weblink imageAndText></gr-weblink>
+                      <gr-weblink imageandtext=""> </gr-weblink>
                     </td>
                     <td class="delete">
                       <gr-button
@@ -1259,9 +1323,13 @@ suite('gr-repo-detail-list', () => {
                         >
                           Edit
                         </gr-button>
-                        <iron-input class="editItem">
-                          <input />
-                        </iron-input>
+                        <md-outlined-text-field
+                          autocomplete=""
+                          class="editItem showBlueFocusBorder"
+                          inputmode=""
+                          type="text"
+                        >
+                        </md-outlined-text-field>
                         <gr-button
                           aria-disabled="false"
                           class="cancelBtn editItem"
@@ -1287,7 +1355,7 @@ suite('gr-repo-detail-list', () => {
                     <td class="hideItem message"></td>
                     <td class="hideItem tagger"></td>
                     <td class="repositoryBrowser">
-                      <gr-weblink imageAndText></gr-weblink>
+                      <gr-weblink imageandtext=""> </gr-weblink>
                     </td>
                     <td class="delete">
                       <gr-button
@@ -1328,9 +1396,13 @@ suite('gr-repo-detail-list', () => {
                         >
                           Edit
                         </gr-button>
-                        <iron-input class="editItem">
-                          <input />
-                        </iron-input>
+                        <md-outlined-text-field
+                          autocomplete=""
+                          class="editItem showBlueFocusBorder"
+                          inputmode=""
+                          type="text"
+                        >
+                        </md-outlined-text-field>
                         <gr-button
                           aria-disabled="false"
                           class="cancelBtn editItem"
@@ -1356,7 +1428,7 @@ suite('gr-repo-detail-list', () => {
                     <td class="hideItem message"></td>
                     <td class="hideItem tagger"></td>
                     <td class="repositoryBrowser">
-                      <gr-weblink imageAndText></gr-weblink>
+                      <gr-weblink imageandtext=""> </gr-weblink>
                     </td>
                     <td class="delete">
                       <gr-button
@@ -1397,9 +1469,13 @@ suite('gr-repo-detail-list', () => {
                         >
                           Edit
                         </gr-button>
-                        <iron-input class="editItem">
-                          <input />
-                        </iron-input>
+                        <md-outlined-text-field
+                          autocomplete=""
+                          class="editItem showBlueFocusBorder"
+                          inputmode=""
+                          type="text"
+                        >
+                        </md-outlined-text-field>
                         <gr-button
                           aria-disabled="false"
                           class="cancelBtn editItem"
@@ -1425,7 +1501,7 @@ suite('gr-repo-detail-list', () => {
                     <td class="hideItem message"></td>
                     <td class="hideItem tagger"></td>
                     <td class="repositoryBrowser">
-                      <gr-weblink imageAndText></gr-weblink>
+                      <gr-weblink imageandtext=""> </gr-weblink>
                     </td>
                     <td class="delete">
                       <gr-button
@@ -1466,9 +1542,13 @@ suite('gr-repo-detail-list', () => {
                         >
                           Edit
                         </gr-button>
-                        <iron-input class="editItem">
-                          <input />
-                        </iron-input>
+                        <md-outlined-text-field
+                          autocomplete=""
+                          class="editItem showBlueFocusBorder"
+                          inputmode=""
+                          type="text"
+                        >
+                        </md-outlined-text-field>
                         <gr-button
                           aria-disabled="false"
                           class="cancelBtn editItem"
@@ -1494,7 +1574,7 @@ suite('gr-repo-detail-list', () => {
                     <td class="hideItem message"></td>
                     <td class="hideItem tagger"></td>
                     <td class="repositoryBrowser">
-                      <gr-weblink imageAndText></gr-weblink>
+                      <gr-weblink imageandtext=""> </gr-weblink>
                     </td>
                     <td class="delete">
                       <gr-button
@@ -1535,9 +1615,13 @@ suite('gr-repo-detail-list', () => {
                         >
                           Edit
                         </gr-button>
-                        <iron-input class="editItem">
-                          <input />
-                        </iron-input>
+                        <md-outlined-text-field
+                          autocomplete=""
+                          class="editItem showBlueFocusBorder"
+                          inputmode=""
+                          type="text"
+                        >
+                        </md-outlined-text-field>
                         <gr-button
                           aria-disabled="false"
                           class="cancelBtn editItem"
@@ -1563,7 +1647,7 @@ suite('gr-repo-detail-list', () => {
                     <td class="hideItem message"></td>
                     <td class="hideItem tagger"></td>
                     <td class="repositoryBrowser">
-                      <gr-weblink imageAndText></gr-weblink>
+                      <gr-weblink imageandtext=""> </gr-weblink>
                     </td>
                     <td class="delete">
                       <gr-button
@@ -1604,9 +1688,13 @@ suite('gr-repo-detail-list', () => {
                         >
                           Edit
                         </gr-button>
-                        <iron-input class="editItem">
-                          <input />
-                        </iron-input>
+                        <md-outlined-text-field
+                          autocomplete=""
+                          class="editItem showBlueFocusBorder"
+                          inputmode=""
+                          type="text"
+                        >
+                        </md-outlined-text-field>
                         <gr-button
                           aria-disabled="false"
                           class="cancelBtn editItem"
@@ -1632,7 +1720,7 @@ suite('gr-repo-detail-list', () => {
                     <td class="hideItem message"></td>
                     <td class="hideItem tagger"></td>
                     <td class="repositoryBrowser">
-                      <gr-weblink imageAndText></gr-weblink>
+                      <gr-weblink imageandtext=""> </gr-weblink>
                     </td>
                     <td class="delete">
                       <gr-button
@@ -1673,9 +1761,13 @@ suite('gr-repo-detail-list', () => {
                         >
                           Edit
                         </gr-button>
-                        <iron-input class="editItem">
-                          <input />
-                        </iron-input>
+                        <md-outlined-text-field
+                          autocomplete=""
+                          class="editItem showBlueFocusBorder"
+                          inputmode=""
+                          type="text"
+                        >
+                        </md-outlined-text-field>
                         <gr-button
                           aria-disabled="false"
                           class="cancelBtn editItem"
@@ -1701,7 +1793,7 @@ suite('gr-repo-detail-list', () => {
                     <td class="hideItem message"></td>
                     <td class="hideItem tagger"></td>
                     <td class="repositoryBrowser">
-                      <gr-weblink imageAndText></gr-weblink>
+                      <gr-weblink imageandtext=""> </gr-weblink>
                     </td>
                     <td class="delete">
                       <gr-button
@@ -1742,9 +1834,13 @@ suite('gr-repo-detail-list', () => {
                         >
                           Edit
                         </gr-button>
-                        <iron-input class="editItem">
-                          <input />
-                        </iron-input>
+                        <md-outlined-text-field
+                          autocomplete=""
+                          class="editItem showBlueFocusBorder"
+                          inputmode=""
+                          type="text"
+                        >
+                        </md-outlined-text-field>
                         <gr-button
                           aria-disabled="false"
                           class="cancelBtn editItem"
@@ -1770,7 +1866,7 @@ suite('gr-repo-detail-list', () => {
                     <td class="hideItem message"></td>
                     <td class="hideItem tagger"></td>
                     <td class="repositoryBrowser">
-                      <gr-weblink imageAndText></gr-weblink>
+                      <gr-weblink imageandtext=""> </gr-weblink>
                     </td>
                     <td class="delete">
                       <gr-button
@@ -1811,9 +1907,13 @@ suite('gr-repo-detail-list', () => {
                         >
                           Edit
                         </gr-button>
-                        <iron-input class="editItem">
-                          <input />
-                        </iron-input>
+                        <md-outlined-text-field
+                          autocomplete=""
+                          class="editItem showBlueFocusBorder"
+                          inputmode=""
+                          type="text"
+                        >
+                        </md-outlined-text-field>
                         <gr-button
                           aria-disabled="false"
                           class="cancelBtn editItem"
@@ -1839,7 +1939,7 @@ suite('gr-repo-detail-list', () => {
                     <td class="hideItem message"></td>
                     <td class="hideItem tagger"></td>
                     <td class="repositoryBrowser">
-                      <gr-weblink imageAndText></gr-weblink>
+                      <gr-weblink imageandtext=""> </gr-weblink>
                     </td>
                     <td class="delete">
                       <gr-button

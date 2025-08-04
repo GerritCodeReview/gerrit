@@ -3,7 +3,6 @@
  * Copyright 2015 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '@polymer/iron-input/iron-input';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '../../plugins/gr-endpoint-param/gr-endpoint-param';
 import '../../../styles/gr-a11y-styles';
@@ -106,6 +105,7 @@ import {formStyles} from '../../../styles/form-styles';
 import {NormalizedFileInfo} from '../../change/gr-file-list/gr-file-list';
 import {configModelToken} from '../../../models/config/config-model';
 import {trimWithEllipsis} from '../../../utils/string-util';
+import '@material/web/checkbox/checkbox';
 
 const LOADING_BLAME = 'Loading blame information. This may take a while ...';
 const LOADED_BLAME = 'Blame loaded';
@@ -1131,15 +1131,13 @@ export class GrDiffView extends LitElement {
       )}
       <gr-endpoint-decorator name="annotation-toggler">
         <span hidden="" id="annotation-span">
-          <label for="annotation-checkbox" id="annotation-label"></label>
-          <iron-input>
-            <input
-              is="iron-input"
-              type="checkbox"
-              id="annotation-checkbox"
-              disabled=""
-            />
-          </iron-input>
+          <label id="annotation-label" for="annotation-checkbox"></label>
+          <md-checkbox
+            id="annotation-checkbox"
+            touch-target="none"
+            disabled
+            aria-labelledby="annotation-label"
+          ></md-checkbox>
         </span>
       </gr-endpoint-decorator>
     </div>`;

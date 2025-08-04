@@ -6,7 +6,7 @@
 import '@material/web/switch/switch';
 import '../../shared/gr-button/gr-button';
 import '../gr-message/gr-message';
-import '../../../styles/gr-paper-styles';
+import '../../../styles/gr-material-styles';
 import {parseDate} from '../../../utils/date-util';
 import {MessageTag} from '../../../constants/constants';
 import {getAppContext} from '../../../services/app-context';
@@ -35,7 +35,7 @@ import {query, queryAll} from '../../../utils/common-util';
 import {css, html, LitElement, PropertyValues} from 'lit';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {subscribe} from '../../lit/subscription-controller';
-import {paperStyles} from '../../../styles/gr-paper-styles';
+import {materialStyles} from '../../../styles/gr-material-styles';
 import {when} from 'lit/directives/when.js';
 import {ifDefined} from 'lit/directives/if-defined.js';
 import {
@@ -251,7 +251,7 @@ export class GrMessagesList extends LitElement {
   static override get styles() {
     return [
       sharedStyles,
-      paperStyles,
+      materialStyles,
       css`
         :host {
           display: flex;

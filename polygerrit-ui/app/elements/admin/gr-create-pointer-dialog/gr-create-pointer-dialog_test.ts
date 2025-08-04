@@ -12,15 +12,15 @@ import {
   stubRestApi,
 } from '../../../test/test-utils';
 import {BranchName} from '../../../types/common';
-import {IronInputElement} from '@polymer/iron-input';
 import {assert, fixture, html} from '@open-wc/testing';
 import {RepoDetailView} from '../../../models/views/repo';
+import {MdOutlinedTextField} from '@material/web/textfield/outlined-text-field';
 
 suite('gr-create-pointer-dialog tests', () => {
   let element: GrCreatePointerDialog;
 
-  const ironInput = (element: Element) =>
-    queryAndAssert<IronInputElement>(element, 'iron-input');
+  const queryInput = (element: Element) =>
+    queryAndAssert<MdOutlinedTextField>(element, 'md-outlined-text-field');
 
   setup(async () => {
     element = await fixture(
@@ -36,13 +36,18 @@ suite('gr-create-pointer-dialog tests', () => {
           <div id="form">
             <section id="itemNameSection">
               <span class="title"> name </span>
-              <iron-input>
-                <input placeholder=" Name" />
-              </iron-input>
+              <md-outlined-text-field
+                autocomplete=""
+                class="showBlueFocusBorder"
+                inputmode=""
+                placeholder=" Name"
+                type="text"
+              >
+              </md-outlined-text-field>
             </section>
             <section id="createEmptyCommitSection">
               <div>
-                <span class="title">Point to</span>
+                <span class="title"> Point to </span>
               </div>
               <div>
                 <span class="value">
@@ -57,15 +62,25 @@ suite('gr-create-pointer-dialog tests', () => {
             </section>
             <section id="itemRevisionSection">
               <span class="title"> Initial Revision </span>
-              <iron-input>
-                <input placeholder="Revision (Branch or SHA-1)" />
-              </iron-input>
+              <md-outlined-text-field
+                autocomplete=""
+                class="showBlueFocusBorder"
+                inputmode=""
+                placeholder="Revision (Branch or SHA-1)"
+                type="text"
+              >
+              </md-outlined-text-field>
             </section>
             <section id="itemAnnotationSection">
               <span class="title"> Annotation </span>
-              <iron-input>
-                <input placeholder="Annotation (Optional)" />
-              </iron-input>
+              <md-outlined-text-field
+                autocomplete=""
+                class="showBlueFocusBorder"
+                inputmode=""
+                placeholder="Annotation (Optional)"
+                type="text"
+              >
+              </md-outlined-text-field>
             </section>
           </div>
         </div>
@@ -84,10 +99,23 @@ suite('gr-create-pointer-dialog tests', () => {
     element.itemName = 'test-branch' as BranchName;
     element.itemDetail = 'branches' as RepoDetailView.BRANCHES;
 
-    ironInput(queryAndAssert(element, '#itemNameSection')).bindValue =
-      'test-branch2';
-    ironInput(queryAndAssert(element, '#itemRevisionSection')).bindValue =
-      'HEAD';
+    await element.updateComplete;
+
+    const itemNameSection = queryInput(
+      queryAndAssert(element, '#itemNameSection')
+    );
+    itemNameSection.value = 'test-branch2';
+    itemNameSection.dispatchEvent(
+      new Event('input', {bubbles: true, composed: true})
+    );
+
+    const itemRevisionSection = queryInput(
+      queryAndAssert(element, '#itemRevisionSection')
+    );
+    itemRevisionSection.value = 'HEAD';
+    itemRevisionSection.dispatchEvent(
+      new Event('input', {bubbles: true, composed: true})
+    );
 
     await promise;
 
@@ -106,10 +134,21 @@ suite('gr-create-pointer-dialog tests', () => {
     element.itemName = 'test-tag' as BranchName;
     element.itemDetail = 'tags' as RepoDetailView.TAGS;
 
-    ironInput(queryAndAssert(element, '#itemNameSection')).bindValue =
-      'test-tag2';
-    ironInput(queryAndAssert(element, '#itemRevisionSection')).bindValue =
-      'HEAD';
+    const itemNameSection = queryInput(
+      queryAndAssert(element, '#itemNameSection')
+    );
+    itemNameSection.value = 'test-tag2';
+    itemNameSection.dispatchEvent(
+      new Event('input', {bubbles: true, composed: true})
+    );
+
+    const itemRevisionSection = queryInput(
+      queryAndAssert(element, '#itemRevisionSection')
+    );
+    itemRevisionSection.value = 'HEAD';
+    itemRevisionSection.dispatchEvent(
+      new Event('input', {bubbles: true, composed: true})
+    );
 
     await promise;
 
@@ -129,12 +168,29 @@ suite('gr-create-pointer-dialog tests', () => {
     element.itemAnnotation = 'test-message';
     element.itemDetail = 'tags' as RepoDetailView.TAGS;
 
-    ironInput(queryAndAssert(element, '#itemNameSection')).bindValue =
-      'test-tag2';
-    ironInput(queryAndAssert(element, '#itemAnnotationSection')).bindValue =
-      'test-message2';
-    ironInput(queryAndAssert(element, '#itemRevisionSection')).bindValue =
-      'HEAD';
+    const itemNameSection = queryInput(
+      queryAndAssert(element, '#itemNameSection')
+    );
+    itemNameSection.value = 'test-tag2';
+    itemNameSection.dispatchEvent(
+      new Event('input', {bubbles: true, composed: true})
+    );
+
+    const itemAnnotationSection = queryInput(
+      queryAndAssert(element, '#itemAnnotationSection')
+    );
+    itemAnnotationSection.value = 'test-message2';
+    itemAnnotationSection.dispatchEvent(
+      new Event('input', {bubbles: true, composed: true})
+    );
+
+    const itemRevisionSection = queryInput(
+      queryAndAssert(element, '#itemRevisionSection')
+    );
+    itemRevisionSection.value = 'HEAD';
+    itemRevisionSection.dispatchEvent(
+      new Event('input', {bubbles: true, composed: true})
+    );
 
     await promise;
 

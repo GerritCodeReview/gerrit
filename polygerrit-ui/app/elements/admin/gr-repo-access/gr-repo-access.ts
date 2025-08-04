@@ -204,6 +204,7 @@ export class GrRepoAccess extends LitElement {
               id="editInheritFromInput"
               .text=${this.inheritFromFilter ?? ''}
               .query=${this.query}
+              .showBlueFocusBorder=${true}
               @commit=${(e: AutocompleteCommitEvent) => {
                 this.handleUpdateInheritFrom(e);
               }}

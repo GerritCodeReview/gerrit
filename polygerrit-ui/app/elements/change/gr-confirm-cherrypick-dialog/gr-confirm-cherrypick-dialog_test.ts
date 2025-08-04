@@ -127,14 +127,16 @@ suite('gr-confirm-cherrypick-dialog tests', () => {
               <label for="baseInput">
                 Provide base commit sha1 for cherry-pick
               </label>
-              <iron-input>
-                <input
-                  id="baseCommitInput"
-                  is="iron-input"
-                  maxlength="40"
-                  placeholder="(optional)"
-                />
-              </iron-input>
+              <md-outlined-text-field
+                autocomplete=""
+                class="showBlueFocusBorder"
+                id="baseCommitInput"
+                inputmode=""
+                maxlength="40"
+                placeholder="(optional)"
+                type="text"
+              >
+              </md-outlined-text-field>
               <label for="messageInput"> Cherry Pick Commit Message </label>
               <gr-autogrow-textarea
                 autocomplete="on"

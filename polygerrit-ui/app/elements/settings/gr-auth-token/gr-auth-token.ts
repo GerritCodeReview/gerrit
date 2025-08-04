@@ -16,11 +16,12 @@ import {configModelToken} from '../../../models/config/config-model';
 import {userModelToken} from '../../../models/user/user-model';
 import {subscribe} from '../../lit/subscription-controller';
 import {AuthTokenInfo} from '../../../types/common';
-import {BindValueChangeEvent} from '../../../types/events';
 import {GrButton} from '../../shared/gr-button/gr-button';
-import {IronInputElement} from '@polymer/iron-input/iron-input';
 import {fireAlert} from '../../../utils/event-util';
 import {parseDate} from '../../../utils/date-util';
+import {MdOutlinedTextField} from '@material/web/textfield/outlined-text-field';
+import '@material/web/textfield/outlined-text-field';
+import {materialStyles} from '../../../styles/gr-material-styles';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -65,9 +66,9 @@ export class GrAuthToken extends LitElement {
 
   @query('#generateButton') generateButton!: GrButton;
 
-  @query('#newToken') tokenInput!: IronInputElement;
+  @query('#newToken') tokenInput!: MdOutlinedTextField;
 
-  @query('#lifetime') tokenLifetime!: IronInputElement;
+  @query('#lifetime') tokenLifetime!: MdOutlinedTextField;
 
   private readonly restApiService = getAppContext().restApiService;
 
@@ -105,6 +106,7 @@ export class GrAuthToken extends LitElement {
 
   static override get styles() {
     return [
+      materialStyles,
       sharedStyles,
       grFormStyles,
       modalStyles,
@@ -286,34 +288,33 @@ export class GrAuthToken extends LitElement {
     return html`
       <tr>
         <th style="vertical-align: top;">
-          <iron-input
+          <md-outlined-text-field
             id="newToken"
-            .bindValue=${this.newTokenId}
-            @bind-value-changed=${(e: BindValueChangeEvent) => {
-              this.newTokenId = e.detail.value ?? '';
+            class="showBlueFocusBorder"
+            placeholder="New Token ID"
+            .value=${this.newTokenId ?? ''}
+            @input=${(e: InputEvent) => {
+              const target = e.target as HTMLInputElement;
+              this.newTokenId = target.value;
             }}
+            @keydown=${this.handleInputKeydown}
           >
-            <input
-              is="iron-input"
-              placeholder="New Token ID"
-              @keydown=${this.handleInputKeydown}
-            />
-          </iron-input>
+          </md-outlined-text-field>
         </th>
         <th style="vertical-align: top;">
-          <iron-input
-            .bindValue=${this.newLifetime}
-            @bind-value-changed=${(e: BindValueChangeEvent) => {
-              this.newLifetime = e.detail.value ?? '';
+          <md-outlined-text-field
+            id="lifetime"
+            class="lifeTimeInput showBlueFocusBorder"
+            placeholder="Lifetime (e.g. 30d)"
+            .value=${this.newLifetime ?? ''}
+            @input=${(e: InputEvent) => {
+              const target = e.target as HTMLInputElement;
+              this.newLifetime = target.value;
             }}
+            @keydown=${this.handleInputKeydown}
           >
-            <input
-              class="lifeTimeInput"
-              is="iron-input"
-              placeholder="Lifetime (e.g. 30d)"
-              @keydown=${this.handleInputKeydown}
-            />
-          </iron-input></br>
+          </md-outlined-text-field>
+          </br>
           (Max. allowed lifetime: ${this.formatDuration(this.maxLifetime)})
         </th>
         <th>
@@ -371,8 +372,10 @@ export class GrAuthToken extends LitElement {
           this.generatedAuthToken = newToken;
           this.status = undefined;
           this.loadData();
-          this.tokenInput.bindValue = '';
-          this.tokenLifetime.bindValue = '';
+          this.tokenInput.value = '';
+          this.tokenInput.dispatchEvent(new Event('input', {bubbles: true}));
+          this.tokenLifetime.value = '';
+          this.tokenLifetime.dispatchEvent(new Event('input', {bubbles: true}));
         } else {
           this.status = 'Failed to generate';
         }

@@ -260,13 +260,14 @@ suite('gr-settings-view tests', () => {
             <section>
               <span class="title"> New email address </span>
               <span class="value">
-                <iron-input class="newEmailInput">
-                  <input
-                    class="newEmailInput"
-                    placeholder="email@example.com"
-                    type="text"
-                  />
-                </iron-input>
+                <md-outlined-text-field
+                  autocomplete=""
+                  class="newEmailInput showBlueFocusBorder"
+                  inputmode=""
+                  placeholder="email@example.com"
+                  type="text"
+                >
+                </md-outlined-text-field>
               </span>
             </section>
             <section hidden="" id="verificationSentMessage">

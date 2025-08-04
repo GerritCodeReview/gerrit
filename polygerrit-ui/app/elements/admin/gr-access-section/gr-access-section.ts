@@ -3,7 +3,6 @@
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '@polymer/iron-input/iron-input';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-icon/gr-icon';
 import '../gr-permission/gr-permission';
@@ -25,14 +24,16 @@ import {
   RepoName,
 } from '../../../types/common';
 import {fire} from '../../../utils/event-util';
-import {IronInputElement} from '@polymer/iron-input/iron-input';
 import {fontStyles} from '../../../styles/gr-font-styles';
 import {grFormStyles} from '../../../styles/gr-form-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {css, html, LitElement, PropertyValues} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
-import {BindValueChangeEvent, ValueChangedEvent} from '../../../types/events';
+import {ValueChangedEvent} from '../../../types/events';
 import {assertIsDefined, queryAndAssert} from '../../../utils/common-util';
+import {MdOutlinedTextField} from '@material/web/textfield/outlined-text-field';
+import '@material/web/textfield/outlined-text-field';
+import {materialStyles} from '../../../styles/gr-material-styles';
 
 const GLOBAL_NAME = 'GLOBAL_CAPABILITIES';
 
@@ -87,6 +88,7 @@ export class GrAccessSection extends LitElement {
 
   static override get styles() {
     return [
+      materialStyles,
       grFormStyles,
       fontStyles,
       sharedStyles,
@@ -168,18 +170,12 @@ export class GrAccessSection extends LitElement {
                 <gr-icon id="icon" icon="edit" filled small></gr-icon>
               </gr-button>
             </div>
-            <iron-input
-              class="editRefInput"
-              .bindValue=${this.section?.id}
+            <md-outlined-text-field
+              class="editRefInput showBlueFocusBorder"
+              .value=${this.section?.id ?? ''}
               @input=${this.handleValueChange}
-              @bind-value-changed=${this.handleIdBindValueChanged}
             >
-              <input
-                class="editRefInput"
-                type="text"
-                @input=${this.handleValueChange}
-              />
-            </iron-input>
+            </md-outlined-text-field>
             <gr-button link id="deleteBtn" @click=${this.handleRemoveReference}
               >Remove</gr-button
             >
@@ -207,7 +203,7 @@ export class GrAccessSection extends LitElement {
         <!-- end mainContainer -->
         <div id="deletedContainer">
           <span>${this.computeSectionName()} was deleted</span>
-          <gr-button link="" id="undoRemoveBtn" @click=${this._handleUndoRemove}
+          <gr-button link="" id="undoRemoveBtn" @click=${this.handleUndoRemove}
             >Undo</gr-button
           >
         </div>
@@ -275,10 +271,17 @@ export class GrAccessSection extends LitElement {
   }
 
   // private but used in test
-  handleValueChange() {
+  handleValueChange(e?: InputEvent) {
+    if (e) {
+      this.section!.id = (e.target as HTMLInputElement).value as GitRef;
+      this.requestUpdate();
+      fire(this, 'section-changed', {value: this.section!});
+    }
+
     if (!this.section) {
       return;
     }
+
     if (!this.section.value.added) {
       this.section.value.modified = this.section.id !== this.originalId;
       this.requestUpdate();
@@ -434,7 +437,7 @@ export class GrAccessSection extends LitElement {
     fire(this, 'access-modified', {});
   }
 
-  _handleUndoRemove() {
+  private handleUndoRemove() {
     if (!this.section) {
       return;
     }
@@ -444,7 +447,10 @@ export class GrAccessSection extends LitElement {
   }
 
   editRefInput() {
-    return queryAndAssert<IronInputElement>(this, 'iron-input.editRefInput');
+    return queryAndAssert<MdOutlinedTextField>(
+      this,
+      'md-outlined-text-field.editRefInput'
+    );
   }
 
   editReference() {
@@ -510,12 +516,6 @@ export class GrAccessSection extends LitElement {
     this.requestUpdate();
     fire(this, 'section-changed', {value: this.section!});
   }
-
-  private handleIdBindValueChanged = (e: BindValueChangeEvent) => {
-    this.section!.id = e.detail.value as GitRef;
-    this.requestUpdate();
-    fire(this, 'section-changed', {value: this.section!});
-  };
 
   private handlePermissionChanged = (
     e: ValueChangedEvent<PermissionArrayItem<EditablePermissionInfo>>,

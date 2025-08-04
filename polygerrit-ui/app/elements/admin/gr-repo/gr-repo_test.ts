@@ -51,8 +51,6 @@ import {GrSelect} from '../../shared/gr-select/gr-select';
 import {GrSuggestionTextarea} from '../../shared/gr-suggestion-textarea/gr-suggestion-textarea';
 import {IronInputElement} from '@polymer/iron-input/iron-input';
 import {assert, fixture, html} from '@open-wc/testing';
-import {getAppContext} from '../../../services/app-context';
-import {KnownExperimentId} from '../../../services/flags/flags';
 import {ChangeInfo} from '../../../api/rest-api';
 
 suite('gr-repo tests', () => {
@@ -396,7 +394,6 @@ suite('gr-repo tests', () => {
                 id="saveReviewBtn"
                 aria-disabled="true"
                 disabled=""
-                hidden=""
                 role="button"
                 tabindex="-1"
               >
@@ -825,13 +822,7 @@ suite('gr-repo tests', () => {
       );
     });
 
-    test('saveReviewBtn visible when experiment is enabled', async () => {
-      const flagsService = getAppContext().flagsService;
-      sinon
-        .stub(flagsService, 'isEnabled')
-        .callsFake(
-          id => id === KnownExperimentId.SAVE_PROJECT_CONFIG_FOR_REVIEW
-        );
+    test('saveReviewBtn visible', async () => {
       await element.loadRepo();
       await element.updateComplete;
       const button = queryAndAssert<GrButton>(
@@ -841,13 +832,7 @@ suite('gr-repo tests', () => {
       assert.isFalse(button.hasAttribute('hidden'));
     });
 
-    test('saveBtn remains disabled when require_change_for_config_update is set', async () => {
-      const flagsService = getAppContext().flagsService;
-      sinon
-        .stub(flagsService, 'isEnabled')
-        .callsFake(
-          id => id === KnownExperimentId.SAVE_PROJECT_CONFIG_FOR_REVIEW
-        );
+    test('saveBtn is disabled', async () => {
       getRepoAccessStub.callsFake(() =>
         Promise.resolve({
           'test-repo': {
@@ -863,12 +848,6 @@ suite('gr-repo tests', () => {
     });
 
     test('saveReviewBtn', async () => {
-      const flagsService = getAppContext().flagsService;
-      sinon
-        .stub(flagsService, 'isEnabled')
-        .callsFake(
-          id => id === KnownExperimentId.SAVE_PROJECT_CONFIG_FOR_REVIEW
-        );
       let resolver: (value: ChangeInfo | PromiseLike<ChangeInfo>) => void;
       const saveForReviewStub = stubRestApi('saveRepoConfigForReview').returns(
         new Promise(r => (resolver = r))

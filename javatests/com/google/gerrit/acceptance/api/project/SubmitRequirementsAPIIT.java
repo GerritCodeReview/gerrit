@@ -21,6 +21,7 @@ import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.ExtensionRegistry;
 import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
@@ -43,6 +44,7 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.inject.Inject;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import org.junit.Test;
 
@@ -631,6 +633,34 @@ public class SubmitRequirementsAPIIT extends AbstractDaemonTest {
       assertThat(infos.get(1).projectName).isEqualTo(allProjects.get());
       assertThat(infos.get(2).name).isEqualTo("No-Unresolved-Comments");
       assertThat(infos.get(2).projectName).isEqualTo(allProjects.get());
+    }
+  }
+
+  @Test
+  public void listGlobalSubmitRequirements() throws Exception {
+    SubmitRequirement globalSubmitRequirement =
+        SubmitRequirement.builder()
+            .setName("Global-Submit-Requirement")
+            .setDescription(Optional.of("a global submit requirement"))
+            .setSubmittabilityExpression(SubmitRequirementExpression.create("topic:test"))
+            .setAllowOverrideInChildProjects(false)
+            .build();
+
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(globalSubmitRequirement)) {
+      ImmutableList<SubmitRequirementInfo> infos =
+          gApi.config().server().listGlobalSubmitRequirements().get();
+      assertThat(names(infos)).containsExactly(globalSubmitRequirement.name());
+
+      SubmitRequirementInfo submitRequirement = Iterables.getOnlyElement(infos);
+      assertThat(submitRequirement.projectName).isNull();
+      assertThat(submitRequirement.description)
+          .isEqualTo(globalSubmitRequirement.description().get());
+      assertThat(submitRequirement.applicabilityExpression).isNull();
+      assertThat(submitRequirement.submittabilityExpression)
+          .isEqualTo(globalSubmitRequirement.submittabilityExpression().expressionString());
+      assertThat(submitRequirement.overrideExpression).isNull();
+      assertThat(submitRequirement.allowOverrideInChildProjects).isFalse();
     }
   }
 

@@ -177,7 +177,6 @@ suite('gr-ssh-editor tests', () => {
               aria-disabled="true"
               disabled=""
               id="addButton"
-              link=""
               role="button"
               tabindex="-1"
             >

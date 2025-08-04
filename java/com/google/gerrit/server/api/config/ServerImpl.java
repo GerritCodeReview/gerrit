@@ -31,6 +31,7 @@ import com.google.gerrit.extensions.common.CacheInfo;
 import com.google.gerrit.extensions.common.ExperimentInfo;
 import com.google.gerrit.extensions.common.LabelDefinitionInfo;
 import com.google.gerrit.extensions.common.ServerInfo;
+import com.google.gerrit.extensions.common.SubmitRequirementInfo;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.webui.TopMenu;
@@ -45,6 +46,7 @@ import com.google.gerrit.server.restapi.config.GetServerInfo;
 import com.google.gerrit.server.restapi.config.ListCaches;
 import com.google.gerrit.server.restapi.config.ListExperiments;
 import com.google.gerrit.server.restapi.config.ListGlobalLabels;
+import com.google.gerrit.server.restapi.config.ListGlobalSubmitRequirements;
 import com.google.gerrit.server.restapi.config.ListTopMenus;
 import com.google.gerrit.server.restapi.config.SetDiffPreferences;
 import com.google.gerrit.server.restapi.config.SetEditPreferences;
@@ -70,6 +72,7 @@ public class ServerImpl implements Server {
   private final ExperimentsCollection experimentsCollection;
   private final Provider<ListExperiments> listExperimentsProvider;
   private final Provider<ListGlobalLabels> listGlobalLabelsProvider;
+  private final Provider<ListGlobalSubmitRequirements> listGlobalSubmitRequirementsProvider;
   private final CachesApiImpl.Factory cachesApi;
   private final CachesCollection cachesCollection;
   private final Provider<ListCaches> listCachesProvider;
@@ -89,6 +92,7 @@ public class ServerImpl implements Server {
       ExperimentsCollection experimentsCollection,
       Provider<ListExperiments> listExperimentsProvider,
       Provider<ListGlobalLabels> listGlobalLabelsProvider,
+      Provider<ListGlobalSubmitRequirements> listGlobalSubmitRequirementsProvider,
       CachesApiImpl.Factory cachesApi,
       CachesCollection cachesCollection,
       Provider<ListCaches> listCachesProvider) {
@@ -105,6 +109,7 @@ public class ServerImpl implements Server {
     this.experimentsCollection = experimentsCollection;
     this.listExperimentsProvider = listExperimentsProvider;
     this.listGlobalLabelsProvider = listGlobalLabelsProvider;
+    this.listGlobalSubmitRequirementsProvider = listGlobalSubmitRequirementsProvider;
     this.cachesApi = cachesApi;
     this.cachesCollection = cachesCollection;
     this.listCachesProvider = listCachesProvider;
@@ -242,6 +247,23 @@ public class ServerImpl implements Server {
           return listGlobalLabels.apply(new ConfigResource()).value();
         } catch (Exception e) {
           throw asRestApiException("Cannot retrieve global labels", e);
+        }
+      }
+    };
+  }
+
+  @Override
+  public ListGlobalSubmitRequirementsRequest listGlobalSubmitRequirements()
+      throws RestApiException {
+    return new ListGlobalSubmitRequirementsRequest() {
+      @Override
+      public ImmutableList<SubmitRequirementInfo> get() throws RestApiException {
+        try {
+          ListGlobalSubmitRequirements listGlobalSubmitRequirements =
+              listGlobalSubmitRequirementsProvider.get();
+          return listGlobalSubmitRequirements.apply(new ConfigResource()).value();
+        } catch (Exception e) {
+          throw asRestApiException("Cannot retrieve global submit requirements", e);
         }
       }
     };

@@ -982,6 +982,43 @@ The entries in the list are sorted by label name.
   ]
 ----
 
+[[list-global-submit-requirements]]
+=== List Global Submit Requirements
+--
+'GET /config/server/submit-requirements'
+--
+
+Lists the globally defined submit requirements (submit requirements that are
+added programatically via the
+link:dev-plugins.html#submit-requirement[SubmitRequirement] extension point).
+
+As result a list of submit-requirements as
+link:rest-api-projects.html#submit-requirement-info[ SubmitRequirementInfo]
+entities is returned.
+
+The entries in the list are sorted by submit requirement name.
+
+.Request
+----
+  GET /config/server/submit-requirements/ HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  [
+    {
+      "name": "Global-Submit-Requirement",
+      "description": "A global submit requirement",
+      "submittability_expression": "label:Global-Label=+2",
+      "allow_override_in_child_projects": false
+    }
+  ]
+----
+
 [[list-tasks]]
 === List Tasks
 --

@@ -24,6 +24,7 @@ import com.google.gerrit.extensions.common.CacheInfo;
 import com.google.gerrit.extensions.common.ExperimentInfo;
 import com.google.gerrit.extensions.common.LabelDefinitionInfo;
 import com.google.gerrit.extensions.common.ServerInfo;
+import com.google.gerrit.extensions.common.SubmitRequirementInfo;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.webui.TopMenu;
 import java.util.List;
@@ -60,6 +61,8 @@ public interface Server {
 
   ListGlobalLabelsRequest listGlobalLabels() throws RestApiException;
 
+  ListGlobalSubmitRequirementsRequest listGlobalSubmitRequirements() throws RestApiException;
+
   CachesApi caches(String name) throws RestApiException;
 
   Map<String, CacheInfo> listCaches() throws RestApiException;
@@ -81,5 +84,9 @@ public interface Server {
 
   abstract class ListGlobalLabelsRequest {
     public abstract ImmutableList<LabelDefinitionInfo> get() throws RestApiException;
+  }
+
+  abstract class ListGlobalSubmitRequirementsRequest {
+    public abstract ImmutableList<SubmitRequirementInfo> get() throws RestApiException;
   }
 }

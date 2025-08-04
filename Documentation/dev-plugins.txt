@@ -3126,6 +3126,7 @@ The SubmitRule extension point allows you to write complex rules, but writing
 small self-contained rules should be preferred: doing so allows end users to
 compose several rules to form more complex submit checks.
 
+[[submit-requirement]]
 The `SubmitRequirement` class allows rules to communicate what the user needs
 to change in order to be compliant. These requirements should be kept once they
 are met, but marked as `OK`. If the requirements were not displayed, reviewers

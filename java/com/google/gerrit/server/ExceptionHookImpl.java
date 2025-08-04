@@ -18,6 +18,7 @@ import com.google.common.base.Predicate;
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
+import com.google.gerrit.exceptions.GerritNoMergeBaseException;
 import com.google.gerrit.exceptions.MergeUpdateException;
 import com.google.gerrit.git.LockFailureException;
 import com.google.gerrit.server.project.ProjectConfig;
@@ -34,6 +35,8 @@ public class ExceptionHookImpl implements ExceptionHook {
       "Updating a ref failed with LOCK_FAILURE.\n"
           + "This may be a temporary issue due to concurrent updates.\n"
           + "Please retry later.";
+  private static final String NO_MERGE_BASE_USER_MESSAGE =
+      "Cannot create merge commit: No Merge Base";
   private static final String INVALID_PROJECT_CONFIG_USER_MESSAGE =
       "Invalid " + ProjectConfig.PROJECT_CONFIG + " file.";
   private static final String CONTACT_PROJECT_OWNER_USER_MESSAGE =
@@ -46,7 +49,7 @@ public class ExceptionHookImpl implements ExceptionHook {
 
   @Override
   public boolean skipRetryWithTrace(String actionType, String actionName, Throwable throwable) {
-    return isInvalidProjectConfig(throwable);
+    return isInvalidProjectConfig(throwable) || isNoMergeBaseException(throwable);
   }
 
   @Override
@@ -59,6 +62,9 @@ public class ExceptionHookImpl implements ExceptionHook {
     }
     if (isInvalidProjectConfig(throwable)) {
       return Optional.of("invalid_project_config");
+    }
+    if (isNoMergeBaseException(throwable)) {
+      return Optional.of("no_merge_base");
     }
     return Optional.empty();
   }
@@ -74,6 +80,10 @@ public class ExceptionHookImpl implements ExceptionHook {
               + "\n"
               + CONTACT_PROJECT_OWNER_USER_MESSAGE);
     }
+    if (isNoMergeBaseException(throwable)) {
+      return ImmutableList.of(
+          getNoMergeBaseExceptionMessage(throwable).orElse(NO_MERGE_BASE_USER_MESSAGE));
+    }
     if (throwable instanceof MergeUpdateException) {
       return ImmutableList.of(throwable.getMessage());
     }
@@ -84,6 +94,9 @@ public class ExceptionHookImpl implements ExceptionHook {
   public Optional<Status> getStatus(Throwable throwable) {
     if (isLockFailure(throwable)) {
       return Optional.of(Status.create(503, "Lock failure"));
+    }
+    if (isNoMergeBaseException(throwable)) {
+      return Optional.of(Status.create(409, "Conflict"));
     }
     if (isInvalidProjectConfig(throwable)) {
       return Optional.of(Status.create(409, "Conflict"));
@@ -97,6 +110,17 @@ public class ExceptionHookImpl implements ExceptionHook {
 
   private static boolean isMissingObjectException(Throwable throwable) {
     return isMatching(throwable, t -> t instanceof MissingObjectException);
+  }
+
+  private static boolean isNoMergeBaseException(Throwable throwable) {
+    return isMatching(throwable, t -> t instanceof GerritNoMergeBaseException);
+  }
+
+  private Optional<String> getNoMergeBaseExceptionMessage(Throwable throwable) {
+    return Throwables.getCausalChain(throwable).stream()
+        .filter(GerritNoMergeBaseException.class::isInstance)
+        .map(ex -> ex.getMessage())
+        .findFirst();
   }
 
   private static boolean isInvalidProjectConfig(Throwable throwable) {

@@ -940,6 +940,48 @@ It is possible to specify the following options:
 * `enabled-only`: If specified only enabled experiments are listed.
 --
 
+[[list-global-labels]]
+=== List Global Labels
+--
+'GET /config/server/labels'
+--
+
+Lists the globally defined labels (labels that are added programatically via the
+link:dev-plugins.html#label-type[LabelType] extension point).
+
+As result a list of labels as link:rest-api-projects.html#label-definition-info[
+LabelDefinitionInfo] entities is returned.
+
+The entries in the list are sorted by label name.
+
+.Request
+----
+  GET /config/server/labels/ HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  [
+    {
+      "name": "Global-Label",
+      "function": "NoBlock",
+      "values": {
+        " 0": "No score",
+        "-1": "Rejected",
+        "+1": "Approved",
+      },
+      "default_value": 0,
+      "can_override": false,
+      "copy_condition": "changekind:NO_CHANGE OR changekind:TRIVIAL_REBASE or is:MIN",
+      "allow_post_submit": true
+    }
+  ]
+----
+
 [[list-tasks]]
 === List Tasks
 --

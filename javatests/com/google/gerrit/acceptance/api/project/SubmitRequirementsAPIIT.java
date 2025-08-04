@@ -275,6 +275,7 @@ public class SubmitRequirementsAPIIT extends AbstractDaemonTest {
 
     assertThat(info.name).isEqualTo("code-review");
     assertThat(info.description).isEqualTo(input.description);
+    assertThat(info.projectName).isEqualTo(project.get());
     assertThat(info.applicabilityExpression).isEqualTo(input.applicabilityExpression);
     assertThat(info.applicabilityExpression).isEqualTo(input.applicabilityExpression);
     assertThat(info.submittabilityExpression).isEqualTo(input.submittabilityExpression);
@@ -594,7 +595,18 @@ public class SubmitRequirementsAPIIT extends AbstractDaemonTest {
     infos = gApi.projects().name(project.get()).submitRequirements().withInherited(true).get();
 
     assertThat(names(infos))
-        .containsExactly("No-Unresolved-Comments", "Code-Review", "base-sr", "sr-1", "sr-2");
+        .containsExactly("Code-Review", "No-Unresolved-Comments", "base-sr", "sr-1", "sr-2")
+        .inOrder();
+    assertThat(infos.get(0).name).isEqualTo("Code-Review");
+    assertThat(infos.get(0).projectName).isEqualTo(allProjects.get());
+    assertThat(infos.get(1).name).isEqualTo("No-Unresolved-Comments");
+    assertThat(infos.get(1).projectName).isEqualTo(allProjects.get());
+    assertThat(infos.get(2).name).isEqualTo("base-sr");
+    assertThat(infos.get(2).projectName).isEqualTo(allProjects.get());
+    assertThat(infos.get(3).name).isEqualTo("sr-1");
+    assertThat(infos.get(3).projectName).isEqualTo(project.get());
+    assertThat(infos.get(4).name).isEqualTo("sr-2");
+    assertThat(infos.get(4).projectName).isEqualTo(project.get());
   }
 
   @Test
@@ -611,7 +623,14 @@ public class SubmitRequirementsAPIIT extends AbstractDaemonTest {
           gApi.projects().name(project.get()).submitRequirements().withInherited(true).get();
 
       assertThat(names(infos))
-          .containsExactly("Global-Submit-Requirement", "Code-Review", "No-Unresolved-Comments");
+          .containsExactly("Global-Submit-Requirement", "Code-Review", "No-Unresolved-Comments")
+          .inOrder();
+      assertThat(infos.get(0).name).isEqualTo("Global-Submit-Requirement");
+      assertThat(infos.get(0).projectName).isNull();
+      assertThat(infos.get(1).name).isEqualTo("Code-Review");
+      assertThat(infos.get(1).projectName).isEqualTo(allProjects.get());
+      assertThat(infos.get(2).name).isEqualTo("No-Unresolved-Comments");
+      assertThat(infos.get(2).projectName).isEqualTo(allProjects.get());
     }
   }
 

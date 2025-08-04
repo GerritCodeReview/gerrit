@@ -75,7 +75,7 @@ public class CreateSubmitRequirement
       SubmitRequirement submitRequirement = updateConfig(config, id, input);
 
       configUpdater.commitConfigUpdate();
-      return Response.created(SubmitRequirementJson.format(submitRequirement));
+      return Response.created(SubmitRequirementJson.format(rsrc.getNameKey(), submitRequirement));
     } catch (ConfigInvalidException e) {
       throw new IOException("Failed to read project config", e);
     } catch (ResourceConflictException e) {

@@ -3903,6 +3903,7 @@ returned that describes the created submit requirement.
   {
       "name": "Code-Review",
       "description": "At least one maximum vote for the Code-Review label is required",
+      "project": "My-Project",
       "submittability_expression": "label:Code-Review=+2",
       "allow_override_in_child_projects": false
    }
@@ -3948,6 +3949,7 @@ returned that describes the created submit requirement.
   {
       "name": "Code-Review",
       "description": "At least one maximum vote for the Code-Review label is required",
+      "project": "My-Project",
       "submittability_expression": "label:Code-Review=+2",
       "allow_override_in_child_projects": false
    }
@@ -3979,6 +3981,7 @@ project.
   {
       "name": "Code-Review",
       "description": "At least one maximum vote for the Code-Review label is required",
+      "project": "All-Projects",
       "submittability_expression": "label:Code-Review=+2",
       "allow_override_in_child_projects": false
    }
@@ -4016,6 +4019,7 @@ entities is returned.
     {
       "name": "Code-Review",
       "description": "At least one maximum vote for the Code-Review label is required",
+      "project": "All-Projects",
       "submittability_expression": "label:Code-Review=+2",
       "allow_override_in_child_projects": false
     }
@@ -5131,6 +5135,9 @@ The `SubmitRequirementInfo` entity describes a submit requirement.
 The submit requirement name.
 |`description`|optional|
 Description of the submit requirement.
+|`project_name`  |optional|
+The name of the project in which this submit requirement is defined. Not set
+for globally defined submit requirements.
 |`applicability_expression`|optional|
 Query expression that can be evaluated on any change. If evaluated to true on a
 change, the submit requirement is then applicable for this change.

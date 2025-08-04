@@ -70,7 +70,8 @@ public class ListSubmitRequirements implements RestReadView<ProjectResource> {
 
       globalSubmitRequirements.runEach(
           globalSubmitRequirement ->
-              allSubmitRequirements.add(SubmitRequirementJson.format(globalSubmitRequirement)));
+              allSubmitRequirements.add(
+                  SubmitRequirementJson.format(/* projectName= */ null, globalSubmitRequirement)));
 
       for (ProjectState projectState : rsrc.getProjectState().treeInOrder()) {
         try {
@@ -92,7 +93,9 @@ public class ListSubmitRequirements implements RestReadView<ProjectResource> {
 
   private ImmutableList<SubmitRequirementInfo> listSubmitRequirements(ProjectState projectState) {
     return projectState.getConfig().getSubmitRequirementSections().values().stream()
-        .map(SubmitRequirementJson::format)
+        .map(
+            submitRequirement ->
+                SubmitRequirementJson.format(projectState.getNameKey(), submitRequirement))
         .collect(ImmutableList.toImmutableList());
   }
 }

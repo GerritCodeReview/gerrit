@@ -22,6 +22,13 @@ public class SubmitRequirementInfo {
   public String description;
 
   /**
+   * The name of the project that defines this submit requirement.
+   *
+   * <p>{@code null} if the it's a global submit requirement.
+   */
+  public String projectName;
+
+  /**
    * Expression string to be evaluated on a change. Decides if this submit requirement is applicable
    * on the given change.
    */

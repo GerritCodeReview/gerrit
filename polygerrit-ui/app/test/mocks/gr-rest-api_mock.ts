@@ -424,6 +424,9 @@ export const grRestApiMock: RestApiService = {
   updateRepoLabel(): Promise<LabelDefinitionInfo | undefined> {
     return Promise.resolve(undefined);
   },
+  saveRepoLabelsForReview(): Promise<ChangeInfo | undefined> {
+    return Promise.resolve(undefined);
+  },
   deleteRepoLabel(): Promise<Response> {
     return Promise.resolve(new Response());
   },

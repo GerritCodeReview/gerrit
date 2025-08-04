@@ -103,6 +103,7 @@ import {
   FixReplacementInfo,
   LabelDefinitionInfo,
   LabelDefinitionInput,
+  BatchLabelInput,
 } from '../../api/rest-api';
 
 export interface GetDiffCommentsOutput {
@@ -342,6 +343,12 @@ export interface RestApiService extends Finalizable {
     input: LabelDefinitionInput,
     errFn?: ErrorCallback
   ): Promise<LabelDefinitionInfo | undefined>;
+
+  saveRepoLabelsForReview(
+    repoName: RepoName,
+    input: BatchLabelInput,
+    errFn?: ErrorCallback
+  ): Promise<ChangeInfo | undefined>;
 
   deleteRepoLabel(
     repoName: RepoName,

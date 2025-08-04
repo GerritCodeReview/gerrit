@@ -336,12 +336,26 @@ export interface RestApiService extends Finalizable {
     errFn?: ErrorCallback
   ): Promise<LabelDefinitionInfo | undefined>;
 
+  createRepoLabelForReview(
+    repoName: RepoName,
+    labelName: string,
+    input: LabelDefinitionInput,
+    errFn?: ErrorCallback
+  ): Promise<ChangeInfo | undefined>;
+
   updateRepoLabel(
     repoName: RepoName,
     labelName: string,
     input: LabelDefinitionInput,
     errFn?: ErrorCallback
   ): Promise<LabelDefinitionInfo | undefined>;
+
+  updateRepoLabelForReview(
+    repoName: RepoName,
+    labelName: string,
+    input: LabelDefinitionInput,
+    errFn?: ErrorCallback
+  ): Promise<ChangeInfo | undefined>;
 
   deleteRepoLabel(
     repoName: RepoName,

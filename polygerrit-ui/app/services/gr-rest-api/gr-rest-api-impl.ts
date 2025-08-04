@@ -1909,6 +1909,25 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     }) as Promise<LabelDefinitionInfo | undefined>;
   }
 
+  createRepoLabelForReview(
+    repoName: RepoName,
+    labelName: string,
+    input: LabelDefinitionInput,
+    errFn?: ErrorCallback
+  ): Promise<ChangeInfo | undefined> {
+    return this._restApiHelper.fetchJSON({
+      url: `/projects/${encodeURIComponent(
+        repoName
+      )}/labels/${encodeURIComponent(labelName)}:review`,
+      fetchOptions: getFetchOptions({
+        method: HttpMethod.PUT,
+        body: input,
+      }),
+      errFn,
+      anonymizedUrl: '/projects/*/labels/*:review',
+    }) as Promise<ChangeInfo | undefined>;
+  }
+
   updateRepoLabel(
     repoName: RepoName,
     labelName: string,
@@ -1926,6 +1945,25 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       errFn,
       anonymizedUrl: '/projects/*/labels/*',
     }) as Promise<LabelDefinitionInfo | undefined>;
+  }
+
+  updateRepoLabelForReview(
+    repoName: RepoName,
+    labelName: string,
+    input: LabelDefinitionInput,
+    errFn?: ErrorCallback
+  ): Promise<ChangeInfo | undefined> {
+    return this._restApiHelper.fetchJSON({
+      url: `/projects/${encodeURIComponent(
+        repoName
+      )}/labels/${encodeURIComponent(labelName)}:review`,
+      fetchOptions: getFetchOptions({
+        method: HttpMethod.PUT,
+        body: input,
+      }),
+      errFn,
+      anonymizedUrl: '/projects/*/labels/*:review',
+    }) as Promise<ChangeInfo | undefined>;
   }
 
   deleteRepoLabel(

@@ -34,6 +34,7 @@ import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.entities.converter.ChangeInputProtoConverter;
+import com.google.gerrit.exceptions.GerritNoMergeBaseException;
 import com.google.gerrit.exceptions.InvalidMergeStrategyException;
 import com.google.gerrit.exceptions.MergeWithConflictsNotSupportedException;
 import com.google.gerrit.extensions.api.accounts.AccountInput;
@@ -105,7 +106,6 @@ import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.InvalidObjectIdException;
 import org.eclipse.jgit.errors.MissingObjectException;
-import org.eclipse.jgit.errors.NoMergeBaseException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -796,9 +796,8 @@ public class CreateChange
               this.useDiff3);
       logger.atFine().log("tree ID of merge commit: %s", mergeCommit.getTree().getId().name());
       return mergeCommit;
-    } catch (NoMergeBaseException e) {
-      throw new ResourceConflictException(
-          String.format("Cannot create merge commit: %s", e.getMessage()), e);
+    } catch (GerritNoMergeBaseException e) {
+      throw new ResourceConflictException(e.getMessage(), e);
     }
   }
 

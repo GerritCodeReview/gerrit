@@ -3,7 +3,6 @@
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '@polymer/iron-input/iron-input';
 import '../../shared/gr-autogrow-textarea/gr-autogrow-textarea';
 import '../../../styles/gr-form-styles';
 import '../../../styles/shared-styles';
@@ -23,7 +22,7 @@ import {grFormStyles} from '../../../styles/gr-form-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {css, html, LitElement, PropertyValues} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
-import {BindValueChangeEvent, ValueChangedEvent} from '../../../types/events';
+import {ValueChangedEvent} from '../../../types/events';
 import {fire} from '../../../utils/event-util';
 import {subscribe} from '../../lit/subscription-controller';
 import {configModelToken} from '../../../models/config/config-model';
@@ -33,6 +32,7 @@ import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-
 import {formStyles} from '../../../styles/form-styles';
 import {branchName} from '../../../utils/patch-set-util';
 import {GrAutogrowTextarea} from '../../../api/embed';
+import '@material/web/textfield/outlined-text-field';
 
 const SUGGESTIONS_LIMIT = 15;
 
@@ -101,6 +101,7 @@ export class GrCreateChangeDialog extends LitElement {
       sharedStyles,
       css`
         input:not([type='checkbox']),
+        md-outlined-text-field,
         gr-autocomplete,
         gr-autogrow-textarea {
           width: 100%;
@@ -113,6 +114,46 @@ export class GrCreateChangeDialog extends LitElement {
         }
         #messageInput {
           min-width: calc(72ch + 2px + 2 * var(--spacing-m) + 0.4px);
+        }
+        md-outlined-text-field {
+          background-color: var(--view-background-color);
+          color: var(--primary-text-color);
+          --md-sys-color-primary: var(--primary-text-color);
+          --md-sys-color-on-surface: var(--primary-text-color);
+          --md-sys-color-on-surface-variant: var(--deemphasized-text-color);
+          --md-outlined-text-field-label-text-color: var(
+            --deemphasized-text-color
+          );
+          --md-outlined-text-field-focus-label-text-color: var(
+            --deemphasized-text-color
+          );
+          --md-outlined-text-field-hover-label-text-color: var(
+            --deemphasized-text-color
+          );
+          border-radius: var(--border-radius);
+          --md-outlined-text-field-container-shape: var(--border-radius);
+          --md-outlined-text-field-focus-outline-color: var(
+            --prominent-border-color,
+            var(--border-color)
+          );
+          --md-outlined-text-field-outline-color: var(
+            --prominent-border-color,
+            var(--border-color)
+          );
+          --md-outlined-text-field-hover-outline-color: var(
+            --prominent-border-color,
+            var(--border-color)
+          );
+          --md-sys-color-outline: var(
+            --prominent-border-color,
+            var(--border-color)
+          );
+          --md-outlined-field-top-space: var(--spacing-s);
+          --md-outlined-field-bottom-space: var(--spacing-s);
+          --md-outlined-text-field-outline-width: 1px;
+          --md-outlined-text-field-hover-outline-width: 1px;
+          --md-outlined-text-field-focus-outline-width: 0;
+          --md-outlined-field-leading-space: 8px;
         }
         @media only screen and (max-width: 40em) {
           .value {
@@ -144,35 +185,33 @@ export class GrCreateChangeDialog extends LitElement {
         <section class=${this.baseChange ? 'hide' : ''}>
           <span class="title">Provide base commit sha1 for change</span>
           <span class="value">
-            <iron-input
-              .bindValue=${this.baseCommit}
-              @bind-value-changed=${(e: BindValueChangeEvent) => {
-                this.baseCommit = e.detail.value;
+            <md-outlined-text-field
+              id="baseCommitInput"
+              maxlength="40"
+              placeholder="(optional)"
+              .value=${this.baseCommit ?? ''}
+              @input=${(e: InputEvent) => {
+                const target = e.target as HTMLInputElement;
+                this.baseCommit = target.value;
               }}
             >
-              <input
-                id="baseCommitInput"
-                maxlength="40"
-                placeholder="(optional)"
-              />
-            </iron-input>
+            </md-outlined-text-field>
           </span>
         </section>
         <section>
           <span class="title">Enter topic for new change</span>
           <span class="value">
-            <iron-input
-              .bindValue=${this.topic}
-              @bind-value-changed=${(e: BindValueChangeEvent) => {
-                this.topic = e.detail.value;
+            <md-outlined-text-field
+              id="tagNameInput"
+              maxlength="1024"
+              placeholder="(optional)"
+              .value=${this.topic ?? ''}
+              @input=${(e: InputEvent) => {
+                const target = e.target as HTMLInputElement;
+                this.topic = target.value;
               }}
             >
-              <input
-                id="tagNameInput"
-                maxlength="1024"
-                placeholder="(optional)"
-              />
-            </iron-input>
+            </md-outlined-text-field>
           </span>
         </section>
         <section id="description">

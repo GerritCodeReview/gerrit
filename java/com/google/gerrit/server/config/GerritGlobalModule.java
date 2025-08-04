@@ -18,6 +18,7 @@ import static com.google.inject.Scopes.SINGLETON;
 
 import com.google.common.base.Ticker;
 import com.google.common.cache.Cache;
+import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.SubmitRequirement;
 import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.api.changes.ActionVisitor;
@@ -464,6 +465,7 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicSet.setOf(binder(), ActionVisitor.class);
     DynamicItem.itemOf(binder(), MergeSuperSetComputation.class);
     DynamicItem.itemOf(binder(), LockManager.class);
+    DynamicSet.setOf(binder(), LabelType.class);
     DynamicSet.setOf(binder(), SubmitRule.class);
     DynamicSet.setOf(binder(), SubmitRequirement.class);
     DynamicSet.setOf(binder(), QuotaEnforcer.class);

@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance;
 
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.SubmitRequirement;
 import com.google.gerrit.extensions.api.changes.ActionVisitor;
 import com.google.gerrit.extensions.config.CapabilityDefinition;
@@ -86,6 +87,7 @@ public class ExtensionRegistry {
   private final DynamicSet<ExceptionHook> exceptionHooks;
   private final DynamicSet<PerformanceLogger> performanceLoggers;
   private final DynamicSet<ProjectCreationValidationListener> projectCreationValidationListeners;
+  private final DynamicSet<LabelType> labelTypes;
   private final DynamicSet<SubmitRule> submitRules;
   private final DynamicSet<SubmitRequirement> submitRequirements;
   private final DynamicSet<ChangeMessageModifier> changeMessageModifiers;
@@ -141,6 +143,7 @@ public class ExtensionRegistry {
       DynamicSet<ExceptionHook> exceptionHooks,
       DynamicSet<PerformanceLogger> performanceLoggers,
       DynamicSet<ProjectCreationValidationListener> projectCreationValidationListeners,
+      DynamicSet<LabelType> labelTypes,
       DynamicSet<SubmitRule> submitRules,
       DynamicSet<SubmitRequirement> submitRequirements,
       DynamicSet<ChangeMessageModifier> changeMessageModifiers,
@@ -190,6 +193,7 @@ public class ExtensionRegistry {
     this.exceptionHooks = exceptionHooks;
     this.performanceLoggers = performanceLoggers;
     this.projectCreationValidationListeners = projectCreationValidationListeners;
+    this.labelTypes = labelTypes;
     this.submitRules = submitRules;
     this.submitRequirements = submitRequirements;
     this.changeMessageModifiers = changeMessageModifiers;
@@ -283,6 +287,11 @@ public class ExtensionRegistry {
     @CanIgnoreReturnValue
     public Registration add(ProjectCreationValidationListener projectCreationListener) {
       return add(projectCreationValidationListeners, projectCreationListener);
+    }
+
+    @CanIgnoreReturnValue
+    public Registration add(LabelType labelType) {
+      return add(labelTypes, labelType);
     }
 
     @CanIgnoreReturnValue

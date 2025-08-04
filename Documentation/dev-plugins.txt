@@ -3194,6 +3194,39 @@ public class MyPluginModule extends AbstractModule {
 }
 ----
 
+[[label-type]]
+== Label Type
+
+The `com.google.gerrit.entities.LabelType` extension point allows to define a
+global label programmatically that applies to all projects, unless overriding
+the label is allowed and projects override the label by defining a label with
+the same name.
+
+[source, java]
+----
+import com.google.common.collect.ImmutableList;
+import com.google.gerrit.entities.LabelType;
+import com.google.gerrit.entities.LabelValue;
+import com.google.inject.AbstractModule;
+
+public class MyPluginModule extends AbstractModule {
+  @Override
+  protected void configure() {
+    bind(LabelType.class).toInstance(
+        LabelType.builder(
+                "Global-Label",
+                ImmutableList.of(
+                    LabelValue.create((short) 1, "Approved"),
+                    LabelValue.create((short) 0, "No vote"),
+                    LabelValue.create((short) -1, "Rejected")))
+            .setDescription("A global label")
+            .setFunction(LabelFunction.NO_OP)
+            .setCanOverride(false)
+            .build());
+  }
+}
+----
+
 [[change-etag-computation]]
 == Change ETag Computation
 

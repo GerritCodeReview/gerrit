@@ -21,7 +21,6 @@ import {
   RepoDetailView,
   RepoViewState,
 } from '../../../models/views/repo';
-import '@polymer/iron-input/iron-input';
 import {
   BatchLabelInput,
   DeleteLabelInput,
@@ -34,6 +33,7 @@ import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {createChangeUrl} from '../../../models/views/change';
 import {resolve} from '../../../models/dependency';
 import {GrButton} from '../../shared/gr-button/gr-button';
+import '@material/web/textfield/outlined-text-field';
 
 @customElement('gr-repo-labels')
 export class GrRepoLabels extends LitElement {
@@ -138,6 +138,14 @@ export class GrRepoLabels extends LitElement {
           resize: vertical;
           box-sizing: border-box;
         }
+        textarea:focus {
+          outline: none;
+          box-shadow: none;
+          border-color: var(--prominent-border-color, var(--border-color));
+        }
+        textarea::placeholder {
+          color: var(--deemphasized-text-color);
+        }
         gr-dialog .main {
           max-height: 70vh;
           overflow-y: auto;
@@ -162,6 +170,47 @@ export class GrRepoLabels extends LitElement {
         td gr-icon {
           vertical-align: bottom;
           margin-left: var(--spacing-s);
+        }
+        md-outlined-text-field {
+          max-width: 25em;
+          background-color: var(--view-background-color);
+          color: var(--primary-text-color);
+          --md-sys-color-primary: var(--primary-text-color);
+          --md-sys-color-on-surface: var(--primary-text-color);
+          --md-sys-color-on-surface-variant: var(--deemphasized-text-color);
+          --md-outlined-text-field-label-text-color: var(
+            --deemphasized-text-color
+          );
+          --md-outlined-text-field-focus-label-text-color: var(
+            --deemphasized-text-color
+          );
+          --md-outlined-text-field-hover-label-text-color: var(
+            --deemphasized-text-color
+          );
+          border-radius: var(--border-radius);
+          --md-outlined-text-field-container-shape: var(--border-radius);
+          --md-outlined-text-field-focus-outline-color: var(
+            --prominent-border-color,
+            var(--border-color)
+          );
+          --md-outlined-text-field-outline-color: var(
+            --prominent-border-color,
+            var(--border-color)
+          );
+          --md-outlined-text-field-hover-outline-color: var(
+            --prominent-border-color,
+            var(--border-color)
+          );
+          --md-sys-color-outline: var(
+            --prominent-border-color,
+            var(--border-color)
+          );
+          --md-outlined-field-top-space: var(--spacing-s);
+          --md-outlined-field-bottom-space: var(--spacing-s);
+          --md-outlined-text-field-outline-width: 1px;
+          --md-outlined-text-field-hover-outline-width: 1px;
+          --md-outlined-text-field-focus-outline-width: 0;
+          --md-outlined-field-leading-space: 8px;
         }
       `,
     ];
@@ -551,22 +600,20 @@ export class GrRepoLabels extends LitElement {
                   </div>
                   <div class="value-flex">
                     <span class="value">
-                      <iron-input
-                        .bindValue=${this.newLabel.name}
-                        @bind-value-changed=${(e: Event) => {
+                      <md-outlined-text-field
+                        id="name"
+                        ?required=${true}
+                        ?disabled=${this.isEditing}
+                        .value=${this.newLabel.name ?? ''}
+                        @input=${(e: InputEvent) => {
+                          const target = e.target as HTMLInputElement;
                           this.newLabel = {
                             ...this.newLabel,
-                            name: (e as CustomEvent).detail.value,
+                            name: target.value,
                           };
                         }}
                       >
-                        <input
-                          id="name"
-                          type="text"
-                          required
-                          ?disabled=${this.isEditing}
-                        />
-                      </iron-input>
+                      </md-outlined-text-field>
                     </span>
                   </div>
                 </section>
@@ -576,17 +623,18 @@ export class GrRepoLabels extends LitElement {
                   </div>
                   <div class="value-flex">
                     <span class="value">
-                      <iron-input
-                        .bindValue=${this.newLabel.description}
-                        @bind-value-changed=${(e: Event) => {
+                      <md-outlined-text-field
+                        id="description"
+                        .value=${this.newLabel.description ?? ''}
+                        @input=${(e: InputEvent) => {
+                          const target = e.target as HTMLInputElement;
                           this.newLabel = {
                             ...this.newLabel,
-                            description: (e as CustomEvent).detail.value,
+                            description: target.value,
                           };
                         }}
                       >
-                        <input id="description" type="text" />
-                      </iron-input>
+                      </md-outlined-text-field>
                     </span>
                   </div>
                 </section>
@@ -634,19 +682,19 @@ export class GrRepoLabels extends LitElement {
                   </div>
                   <div class="value-flex">
                     <span class="value">
-                      <iron-input
-                        .bindValue=${this.newLabel.default_value?.toString()}
-                        @bind-value-changed=${(e: Event) => {
+                      <md-outlined-text-field
+                        id="defaultValue"
+                        type="number"
+                        .value=${this.newLabel.default_value?.toString() ?? ''}
+                        @input=${(e: InputEvent) => {
+                          const target = e.target as HTMLInputElement;
                           this.newLabel = {
                             ...this.newLabel,
-                            default_value: Number(
-                              (e as CustomEvent).detail.value
-                            ),
+                            default_value: Number(target.value),
                           };
                         }}
                       >
-                        <input id="defaultValue" type="number" />
-                      </iron-input>
+                      </md-outlined-text-field>
                     </span>
                   </div>
                 </section>
@@ -656,17 +704,18 @@ export class GrRepoLabels extends LitElement {
                   </div>
                   <div class="value-flex">
                     <span class="value">
-                      <iron-input
-                        .bindValue=${this.newLabel.copy_condition}
-                        @bind-value-changed=${(e: Event) => {
+                      <md-outlined-text-field
+                        id="copyCondition"
+                        .value=${this.newLabel.copy_condition ?? ''}
+                        @input=${(e: InputEvent) => {
+                          const target = e.target as HTMLInputElement;
                           this.newLabel = {
                             ...this.newLabel,
-                            copy_condition: (e as CustomEvent).detail.value,
+                            copy_condition: target.value,
                           };
                         }}
                       >
-                        <input id="copyCondition" type="text" />
-                      </iron-input>
+                      </md-outlined-text-field>
                     </span>
                   </div>
                 </section>

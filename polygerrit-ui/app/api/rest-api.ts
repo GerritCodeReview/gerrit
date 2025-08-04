@@ -1421,3 +1421,13 @@ export interface LabelDefinitionInput {
 export interface DeleteLabelInput {
   commit_message?: string;
 }
+
+/**
+ * The BatchLabelInput entity describes a batch label input
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#batch-label-input
+ */
+export interface BatchLabelInput {
+  create?: LabelDefinitionInput[];
+  update?: {[labelName: string]: Partial<LabelDefinitionInput>};
+  delete?: string[];
+}

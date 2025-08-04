@@ -3,7 +3,6 @@
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '@polymer/iron-input/iron-input';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '../../plugins/gr-endpoint-param/gr-endpoint-param';
 import '../../shared/gr-button/gr-button';
@@ -48,6 +47,7 @@ import {userModelToken} from '../../../models/user/user-model';
 import {resolve} from '../../../models/dependency';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {Command} from '../../shared/gr-download-commands/gr-download-commands';
+import '@material/web/textfield/outlined-text-field';
 
 const STATES = {
   active: {value: RepoState.ACTIVE, label: 'Active'},
@@ -166,6 +166,46 @@ export class GrRepo extends LitElement {
         }
         #options .repositorySettings.showConfig {
           display: block;
+        }
+        md-outlined-text-field {
+          background-color: var(--view-background-color);
+          color: var(--primary-text-color);
+          --md-sys-color-primary: var(--primary-text-color);
+          --md-sys-color-on-surface: var(--primary-text-color);
+          --md-sys-color-on-surface-variant: var(--deemphasized-text-color);
+          --md-outlined-text-field-label-text-color: var(
+            --deemphasized-text-color
+          );
+          --md-outlined-text-field-focus-label-text-color: var(
+            --deemphasized-text-color
+          );
+          --md-outlined-text-field-hover-label-text-color: var(
+            --deemphasized-text-color
+          );
+          border-radius: var(--border-radius);
+          --md-outlined-text-field-container-shape: var(--border-radius);
+          --md-outlined-text-field-focus-outline-color: var(
+            --prominent-border-color,
+            var(--border-color)
+          );
+          --md-outlined-text-field-outline-color: var(
+            --prominent-border-color,
+            var(--border-color)
+          );
+          --md-outlined-text-field-hover-outline-color: var(
+            --prominent-border-color,
+            var(--border-color)
+          );
+          --md-sys-color-outline: var(
+            --prominent-border-color,
+            var(--border-color)
+          );
+          --md-outlined-field-top-space: var(--spacing-s);
+          --md-outlined-field-bottom-space: var(--spacing-s);
+          --md-outlined-text-field-outline-width: 1px;
+          --md-outlined-text-field-hover-outline-width: 1px;
+          --md-outlined-text-field-focus-outline-width: 0;
+          --md-outlined-field-leading-space: 8px;
         }
       `,
     ];
@@ -600,18 +640,16 @@ export class GrRepo extends LitElement {
       <section>
         <span class="title">Maximum Git object size limit</span>
         <span class="value">
-          <iron-input
-            id="maxGitObjSizeIronInput"
-            .bindValue=${this.repoConfig?.max_object_size_limit
-              ?.configured_value}
-            @bind-value-changed=${this.handleMaxGitObjSizeBindValueChanged}
+          <md-outlined-text-field
+            id="maxGitObjSizeInput"
+            type="number"
+            min="0"
+            ?disabled=${this.readOnly}
+            .value=${this.repoConfig?.max_object_size_limit?.configured_value ??
+            ''}
+            @input=${this.handleMaxGitObjSizeInputChanged}
           >
-            <input
-              id="maxGitObjSizeInput"
-              type="text"
-              ?disabled=${this.readOnly}
-            />
-          </iron-input>
+          </md-outlined-text-field>
           ${this.repoConfig?.max_object_size_limit?.value
             ? `effective: ${this.repoConfig.max_object_size_limit.value} bytes`
             : ''}
@@ -1274,10 +1312,11 @@ export class GrRepo extends LitElement {
     this.requestUpdate();
   }
 
-  private handleMaxGitObjSizeBindValueChanged(e: BindValueChangeEvent) {
+  private handleMaxGitObjSizeInputChanged(e: InputEvent) {
     if (!this.repoConfig?.max_object_size_limit || this.loading) return;
-    this.repoConfig.max_object_size_limit.value = e.detail.value;
-    this.repoConfig.max_object_size_limit.configured_value = e.detail.value;
+    const target = e.target as HTMLInputElement;
+    this.repoConfig.max_object_size_limit.value = target.value;
+    this.repoConfig.max_object_size_limit.configured_value = target.value;
     this.requestUpdate();
   }
 

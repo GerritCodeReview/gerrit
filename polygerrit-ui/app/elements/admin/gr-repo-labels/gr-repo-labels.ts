@@ -23,12 +23,17 @@ import {
 } from '../../../models/views/repo';
 import '@polymer/iron-input/iron-input';
 import {
+  BatchLabelInput,
   DeleteLabelInput,
   LabelDefinitionInfo,
   LabelDefinitionInfoFunction,
   LabelDefinitionInput,
   LabelValueToDescriptionMap,
 } from '../../../api/rest-api';
+import {navigationToken} from '../../core/gr-navigation/gr-navigation';
+import {createChangeUrl} from '../../../models/views/change';
+import {resolve} from '../../../models/dependency';
+import {GrButton} from '../../shared/gr-button/gr-button';
 
 @customElement('gr-repo-labels')
 export class GrRepoLabels extends LitElement {
@@ -56,6 +61,12 @@ export class GrRepoLabels extends LitElement {
   @state() isProjectOwner = false;
 
   @state()
+  disableSaveWithoutReview = true;
+
+  @state()
+  showSaveForReviewButton = false;
+
+  @state()
   newLabel: LabelDefinitionInput = this.getEmptyLabel();
 
   @state() offset = 0;
@@ -74,6 +85,8 @@ export class GrRepoLabels extends LitElement {
 
   @state()
   isEditing = false;
+
+  private readonly getNavigation = resolve(this, navigationToken);
 
   private readonly restApiService = getAppContext().restApiService;
 
@@ -129,6 +142,11 @@ export class GrRepoLabels extends LitElement {
           max-height: 70vh;
           overflow-y: auto;
         }
+        gr-dialog .footer {
+          width: 100%;
+          display: flex;
+          justify-content: flex-end;
+        }
         gr-dialog {
           width: 36em;
         }
@@ -161,6 +179,9 @@ export class GrRepoLabels extends LitElement {
     try {
       const access = await this.restApiService.getRepoAccessRights(this.repo);
       this.isProjectOwner = !!access?.is_owner;
+      this.disableSaveWithoutReview =
+        !!access?.require_change_for_config_update;
+      this.showSaveForReviewButton = true;
     } catch (e) {
       console.error('Failed to check project owner status:', e);
       this.isProjectOwner = false;
@@ -436,18 +457,88 @@ export class GrRepoLabels extends LitElement {
     };
   }
 
+  private async handleSaveForReview(e: Event) {
+    if (!this.repo) return;
+    if (!this.newLabel.name) {
+      return;
+    }
+    const button = e.target as GrButton;
+    button.loading = true;
+
+    const errFn: ErrorCallback = response => {
+      firePageError(response);
+    };
+
+    const input: BatchLabelInput = {};
+    if (this.isEditing && this.labelToEdit) {
+      const updatedLabel: Partial<LabelDefinitionInput> = {};
+      const original = this.labelToEdit;
+      const updated = this.newLabel;
+
+      if (updated.description !== original.description) {
+        updatedLabel.description = updated.description;
+      }
+      if (updated.function !== original.function) {
+        updatedLabel.function = updated.function;
+      }
+      if (JSON.stringify(updated.values) !== JSON.stringify(original.values)) {
+        updatedLabel.values = updated.values;
+      }
+      if (updated.default_value !== original.default_value) {
+        updatedLabel.default_value = updated.default_value;
+      }
+      if (
+        JSON.stringify(updated.branches) !== JSON.stringify(original.branches)
+      ) {
+        updatedLabel.branches = updated.branches;
+      }
+      if (updated.can_override !== original.can_override) {
+        updatedLabel.can_override = updated.can_override;
+      }
+      if (updated.copy_condition !== original.copy_condition) {
+        updatedLabel.copy_condition = updated.copy_condition;
+      }
+      if (updated.allow_post_submit !== original.allow_post_submit) {
+        updatedLabel.allow_post_submit = updated.allow_post_submit;
+      }
+      if (updated.ignore_self_approval !== original.ignore_self_approval) {
+        updatedLabel.ignore_self_approval = updated.ignore_self_approval;
+      }
+      if (updated.unset_copy_condition) {
+        updatedLabel.unset_copy_condition = updated.unset_copy_condition;
+      }
+      input.update = {[this.newLabel.name]: updatedLabel};
+    } else {
+      input.create = [this.newLabel];
+    }
+
+    const promise = this.restApiService.saveRepoLabelsForReview(
+      this.repo,
+      input,
+      errFn
+    );
+
+    try {
+      const change = await promise;
+      if (change) {
+        this.getNavigation().setUrl(createChangeUrl({change}));
+      }
+    } finally {
+      button.loading = false;
+      this.createDialog?.close();
+      this.newLabel = this.getEmptyLabel();
+      this.labelToEdit = undefined;
+      this.isEditing = false;
+      this.getLabels(this.filter, this.offset);
+    }
+  }
+
   private renderCreateDialog() {
     if (!this.isProjectOwner) return nothing;
 
     return html`
       <dialog id="createDialog" tabindex="-1">
-        <gr-dialog
-          confirm-label=${this.isEditing ? 'Save' : 'Create'}
-          cancel-label="Cancel"
-          ?disabled=${!this.newLabel.name}
-          @confirm=${this.handleCreateConfirm}
-          @cancel=${this.handleCreateCancel}
-        >
+        <gr-dialog .cancelLabel=${''} .confirmLabel=${''}>
           <div class="header" slot="header">
             ${this.isEditing ? 'Edit' : 'Create'} Label
           </div>
@@ -725,6 +816,28 @@ export class GrRepoLabels extends LitElement {
               </div>
             </div>
           </div>
+          <div class="footer" slot="footer">
+            <gr-button @click=${this.handleCreateCancel} link>Cancel</gr-button>
+            <gr-button
+              class="action save-button"
+              link
+              primary
+              ?disabled=${!this.newLabel.name || this.disableSaveWithoutReview}
+              @click=${this.handleCreateConfirm}
+            >
+              ${this.isEditing ? 'Save' : 'Create'}
+            </gr-button>
+            <gr-button
+              class="action save-for-review"
+              primary
+              link
+              ?hidden=${!this.showSaveForReviewButton}
+              ?disabled=${!this.newLabel.name}
+              @click=${this.handleSaveForReview}
+            >
+              Save for review
+            </gr-button>
+          </div>
         </gr-dialog>
       </dialog>
     `;
@@ -735,16 +848,31 @@ export class GrRepoLabels extends LitElement {
 
     return html`
       <dialog id="deleteDialog" tabindex="-1">
-        <gr-dialog
-          confirm-label="Delete"
-          cancel-label="Cancel"
-          @confirm=${this.handleDeleteConfirm}
-          @cancel=${this.handleDeleteCancel}
-        >
+        <gr-dialog .cancelLabel=${''} .confirmLabel=${''}>
           <div class="header" slot="header">Delete Label</div>
           <div class="main" slot="main">
             Are you sure you want to delete the label
             "${this.labelToDelete?.name}"?
+          </div>
+          <div class="footer" slot="footer">
+            <gr-button link @click=${this.handleDeleteCancel}>Cancel</gr-button>
+            <gr-button
+              class="action"
+              link
+              ?disabled=${this.disableSaveWithoutReview}
+              @click=${this.handleDeleteConfirm}
+            >
+              Delete
+            </gr-button>
+            <gr-button
+              class="action"
+              primary
+              link
+              ?hidden=${!this.showSaveForReviewButton}
+              @click=${this.handleDeleteForReviewConfirm}
+            >
+              Delete for review
+            </gr-button>
           </div>
         </gr-dialog>
       </dialog>
@@ -761,6 +889,35 @@ export class GrRepoLabels extends LitElement {
     assertIsDefined(this.deleteDialog, 'deleteDialog');
     this.deleteDialog.close();
     this.labelToDelete = undefined;
+  }
+
+  private async handleDeleteForReviewConfirm() {
+    if (!this.repo || !this.labelToDelete) return;
+
+    const errFn: ErrorCallback = response => {
+      firePageError(response);
+    };
+
+    const input: BatchLabelInput = {
+      delete: [this.labelToDelete.name],
+    };
+
+    const promise = this.restApiService.saveRepoLabelsForReview(
+      this.repo,
+      input,
+      errFn
+    );
+
+    try {
+      const change = await promise;
+      if (change) {
+        this.getNavigation().setUrl(createChangeUrl({change}));
+      }
+    } finally {
+      this.deleteDialog?.close();
+      this.labelToDelete = undefined;
+      this.getLabels(this.filter, this.offset);
+    }
   }
 
   private handleDeleteConfirm() {

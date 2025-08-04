@@ -193,7 +193,7 @@ suite('gr-repo-labels tests', () => {
             </table>
           </gr-list-view>
           <dialog id="createDialog" tabindex="-1">
-            <gr-dialog cancel-label="Cancel" confirm-label="Create" disabled="">
+            <gr-dialog>
               <div class="header" slot="header">Create Label</div>
               <div class="main" slot="main">
                 <div class="gr-form-styles">
@@ -228,7 +228,7 @@ suite('gr-repo-labels tests', () => {
                       </div>
                       <div class="value-flex">
                         <span class="value">
-                          <gr-dropdown-list></gr-dropdown-list>
+                          <gr-dropdown-list> </gr-dropdown-list>
                         </span>
                       </div>
                     </section>
@@ -319,14 +319,72 @@ suite('gr-repo-labels tests', () => {
                   </div>
                 </div>
               </div>
+              <div class="footer" slot="footer">
+                <gr-button aria-disabled="false" role="button" link="" 
+                  tabindex="0"
+                  >Cancel</gr-button
+                >
+                <gr-button
+                  aria-disabled="true"
+                  class="action save-button" 
+                  disabled=""
+                  link=""
+                  primary=""
+                  role="button"
+                  tabindex="-1"
+                  >Create</gr-button
+                >
+                <gr-button
+                  aria-disabled="true"
+                  class="action save-for-review"
+                  disabled=""
+                  link=""
+                  primary=""
+                  role="button"
+                  tabindex="-1"
+                  >Save for review</gr-button
+                >
+              </div>
             </gr-dialog>
           </dialog>
           <dialog id="deleteDialog" tabindex="-1">
-            <gr-dialog cancel-label="Cancel" confirm-label="Delete">
+            <gr-dialog>
               <div class="header" slot="header">Delete Label</div>
               <div class="main" slot="main">
                 Are you sure you want to delete the label
             ""?
+              </div>
+              <div
+                class="footer"
+                slot="footer"
+              >
+                <gr-button
+                  aria-disabled="false"
+                  role="button"
+                  link=""
+                  tabindex="0"
+                >
+                  Cancel
+                </gr-button>
+                <gr-button
+                  aria-disabled="false"
+                  class="action"
+                  link=""
+                  role="button"
+                  tabindex="0"
+                >
+                  Delete
+                </gr-button>
+                <gr-button
+                  aria-disabled="false"
+                  class="action"
+                  primary=""
+                  link=""
+                  role="button"
+                  tabindex="0"
+                >
+                  Delete for review
+                </gr-button>
               </div>
             </gr-dialog>
           </dialog>
@@ -412,6 +470,32 @@ suite('gr-repo-labels tests', () => {
       // Verify save button is enabled
       const saveButton = queryAndAssert<HTMLElement>(element, 'gr-dialog');
       assert.isFalse(saveButton.hasAttribute('disabled'));
+    });
+  });
+
+  suite('admin', () => {
+    setup(async () => {
+      element.isProjectOwner = true;
+      await element.updateComplete;
+    });
+
+    test('save button is disabled when require_change_for_config_update is set', async () => {
+      element.disableSaveWithoutReview = true;
+      element.newLabel.name = 'Test';
+      await element.updateComplete;
+
+      const dialog = queryAndAssert<HTMLDialogElement>(
+        element,
+        '#createDialog'
+      );
+      dialog.showModal();
+      await element.updateComplete;
+
+      const saveButton = queryAndAssert<GrButton>(
+        element,
+        'gr-dialog gr-button.action.save-button'
+      );
+      assert.isTrue(saveButton.disabled);
     });
   });
 });

@@ -3,7 +3,6 @@
  * Copyright 2018 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '@polymer/iron-input/iron-input';
 import '../../shared/gr-button/gr-button';
 import {getBaseUrl} from '../../../utils/url-util';
 import {
@@ -18,8 +17,8 @@ import {grFormStyles} from '../../../styles/gr-form-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {css, html, LitElement} from 'lit';
 import {customElement, state} from 'lit/decorators.js';
-import {BindValueChangeEvent} from '../../../types/events';
 import {ifDefined} from 'lit/directives/if-defined.js';
+import '@material/web/textfield/outlined-text-field';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -90,6 +89,46 @@ export class GrClaView extends LitElement {
           margin: var(--spacing-xxl) auto;
           max-width: 50em;
         }
+        md-outlined-text-field {
+          background-color: var(--view-background-color);
+          color: var(--primary-text-color);
+          --md-sys-color-primary: var(--primary-text-color);
+          --md-sys-color-on-surface: var(--primary-text-color);
+          --md-sys-color-on-surface-variant: var(--deemphasized-text-color);
+          --md-outlined-text-field-label-text-color: var(
+            --deemphasized-text-color
+          );
+          --md-outlined-text-field-focus-label-text-color: var(
+            --deemphasized-text-color
+          );
+          --md-outlined-text-field-hover-label-text-color: var(
+            --deemphasized-text-color
+          );
+          border-radius: var(--border-radius);
+          --md-outlined-text-field-container-shape: var(--border-radius);
+          --md-outlined-text-field-focus-outline-color: var(
+            --prominent-border-color,
+            var(--border-color)
+          );
+          --md-outlined-text-field-outline-color: var(
+            --prominent-border-color,
+            var(--border-color)
+          );
+          --md-outlined-text-field-hover-outline-color: var(
+            --prominent-border-color,
+            var(--border-color)
+          );
+          --md-sys-color-outline: var(
+            --prominent-border-color,
+            var(--border-color)
+          );
+          --md-outlined-field-top-space: var(--spacing-s);
+          --md-outlined-field-bottom-space: var(--spacing-s);
+          --md-outlined-text-field-outline-width: 1px;
+          --md-outlined-text-field-hover-outline-width: 1px;
+          --md-outlined-text-field-focus-outline-width: 0;
+          --md-outlined-field-leading-space: 8px;
+        }
       `,
     ];
   }
@@ -158,12 +197,16 @@ export class GrClaView extends LitElement {
     return html`
       <div class="agreementsTextBox">
         <h3 class="heading-3">Complete the agreement:</h3>
-        <iron-input
-          .bindValue=${this.agreementsText}
-          @bind-value-changed=${this.handleBindValueChanged}
+        <md-outlined-text-field
+          id="input-agreements"
+          placeholder="Enter 'I agree' here"
+          .value=${this.agreementsText ?? ''}
+          @input=${(e: InputEvent) => {
+            const target = e.target as HTMLInputElement;
+            this.agreementsText = target.value;
+          }}
         >
-          <input id="input-agreements" placeholder="Enter 'I agree' here" />
-        </iron-input>
+        </md-outlined-text-field>
         <gr-button
           @click=${this.handleSaveAgreements}
           ?disabled=${this.agreementsText?.toLowerCase() !== 'i agree'}
@@ -269,8 +312,4 @@ export class GrClaView extends LitElement {
         !contributorAgreement.auto_verify_group
     );
   }
-
-  private readonly handleBindValueChanged = (e: BindValueChangeEvent) => {
-    this.agreementsText = e.detail.value;
-  };
 }

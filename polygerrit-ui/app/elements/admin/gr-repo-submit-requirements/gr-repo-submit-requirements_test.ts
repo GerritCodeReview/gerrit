@@ -187,13 +187,14 @@ suite('gr-repo-submit-requirements tests', () => {
                   </div>
                   <div class="value-flex">
                     <span class="value">
-                      <iron-input>
-                        <input
-                          id="name"
-                          required=""
-                          type="text"
-                        >
-                      </iron-input>
+                      <md-outlined-text-field
+                        autocomplete=""
+                        id="name"
+                        inputmode=""
+                        required=""
+                        type="text"
+                      >
+                      </md-outlined-text-field>
                     </span>
                   </div>
                 </section>
@@ -221,13 +222,14 @@ suite('gr-repo-submit-requirements tests', () => {
                   </div>
                   <div class="value-flex">
                     <span class="value">
-                      <iron-input>
-                      <input
+                      <md-outlined-text-field
+                        autocomplete=""
                         id="applicability"
+                        inputmode=""
                         placeholder="Optional"
                         type="text"
                       >
-                      </iron-input>
+                      </md-outlined-text-field>
                     </span>
                   </div>
                 </section>
@@ -239,13 +241,14 @@ suite('gr-repo-submit-requirements tests', () => {
                   </div>
                   <div class="value-flex">
                     <span class="value">
-                      <iron-input>
-                      <input
+                      <md-outlined-text-field
+                        autocomplete=""
                         id="submittability"
+                        inputmode=""
                         required=""
                         type="text"
-                        >
-                      </iron-input>
+                      >
+                      </md-outlined-text-field>
                     </span>
                   </div>
                 </section>
@@ -257,13 +260,14 @@ suite('gr-repo-submit-requirements tests', () => {
                   </div>
                   <div class="value-flex">
                     <span class="value">
-                      <iron-input>
-                        <input
-                          id="override"
-                          placeholder="Optional"
-                          type="text"
-                        >
-                      </iron-input>
+                      <md-outlined-text-field
+                        autocomplete=""
+                        id="override"
+                        inputmode=""
+                        placeholder="Optional"
+                        type="text"
+                      >
+                      </md-outlined-text-field>
                     </span>
                   </div>
                 </section>

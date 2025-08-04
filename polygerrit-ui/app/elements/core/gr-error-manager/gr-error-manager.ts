@@ -26,7 +26,6 @@ import {customElement, query, state} from 'lit/decorators.js';
 import {authServiceToken} from '../../../services/gr-auth/gr-auth';
 import {resolve} from '../../../models/dependency';
 import {modalStyles} from '../../../styles/gr-modal-styles';
-import {ironAnnouncerRequestAvailability} from '../../polymer-util';
 
 const HIDE_ALERT_TIMEOUT_MS = 10 * 1000;
 const CHECK_SIGN_IN_INTERVAL_MS = 60 * 1000;
@@ -128,8 +127,6 @@ export class GrErrorManager extends LitElement {
     document.addEventListener('visibilitychange', this.handleVisibilityChange);
     document.addEventListener('show-auth-required', this.handleAuthRequired);
     document.addEventListener('auth-error', this.handleAuthError);
-
-    ironAnnouncerRequestAvailability();
   }
 
   override disconnectedCallback() {

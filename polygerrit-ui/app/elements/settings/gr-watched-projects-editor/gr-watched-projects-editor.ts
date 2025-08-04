@@ -3,7 +3,6 @@
  * Copyright 2016 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '@polymer/iron-input/iron-input';
 import '../../shared/gr-autocomplete/gr-autocomplete';
 import '../../shared/gr-button/gr-button';
 import {customElement, query, state} from 'lit/decorators.js';
@@ -23,6 +22,7 @@ import {fire} from '../../../utils/event-util';
 import {PropertiesOfType} from '../../../utils/type-util';
 import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 import {notDeepEqual} from '../../../utils/deep-util';
+import '@material/web/textfield/outlined-text-field';
 
 type NotificationKey = PropertiesOfType<Required<ProjectWatchInfo>, boolean>;
 
@@ -86,6 +86,46 @@ export class GrWatchedProjectsEditor extends LitElement {
         .newFilterInput {
           width: 100%;
         }
+        md-outlined-text-field {
+          background-color: var(--view-background-color);
+          color: var(--primary-text-color);
+          --md-sys-color-primary: var(--primary-text-color);
+          --md-sys-color-on-surface: var(--primary-text-color);
+          --md-sys-color-on-surface-variant: var(--deemphasized-text-color);
+          --md-outlined-text-field-label-text-color: var(
+            --deemphasized-text-color
+          );
+          --md-outlined-text-field-focus-label-text-color: var(
+            --deemphasized-text-color
+          );
+          --md-outlined-text-field-hover-label-text-color: var(
+            --deemphasized-text-color
+          );
+          border-radius: var(--border-radius);
+          --md-outlined-text-field-container-shape: var(--border-radius);
+          --md-outlined-text-field-focus-outline-color: var(
+            --prominent-border-color,
+            var(--border-color)
+          );
+          --md-outlined-text-field-outline-color: var(
+            --prominent-border-color,
+            var(--border-color)
+          );
+          --md-outlined-text-field-hover-outline-color: var(
+            --prominent-border-color,
+            var(--border-color)
+          );
+          --md-sys-color-outline: var(
+            --prominent-border-color,
+            var(--border-color)
+          );
+          --md-outlined-field-top-space: var(--spacing-s);
+          --md-outlined-field-bottom-space: var(--spacing-s);
+          --md-outlined-text-field-outline-width: 1px;
+          --md-outlined-text-field-hover-outline-width: 1px;
+          --md-outlined-text-field-focus-outline-width: 0;
+          --md-outlined-field-leading-space: 8px;
+        }
       `,
     ];
   }
@@ -117,13 +157,12 @@ export class GrWatchedProjectsEditor extends LitElement {
               ></gr-autocomplete>
             </th>
             <th colspan=${types.length}>
-              <iron-input id="newFilterInput" class="newFilterInput">
-                <input
-                  id="newFilter"
-                  class="newFilterInput"
-                  placeholder="branch:name, or other search expression"
-                />
-              </iron-input>
+              <md-outlined-text-field
+                id="newFilter"
+                class="newFilterInput"
+                placeholder="branch:name, or other search expression"
+              >
+              </md-outlined-text-field>
             </th>
             <th>
               <gr-button link="" @click=${this.handleAddProject}>Add</gr-button>

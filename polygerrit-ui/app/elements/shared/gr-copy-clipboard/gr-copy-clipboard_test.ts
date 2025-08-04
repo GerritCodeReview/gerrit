@@ -10,6 +10,7 @@ import {GrCopyClipboard} from './gr-copy-clipboard';
 import {queryAndAssert} from '../../../test/test-utils';
 import {assert, fixture, html} from '@open-wc/testing';
 import {GrButton} from '../gr-button/gr-button';
+import {MdOutlinedTextField} from '@material/web/textfield/outlined-text-field';
 
 suite('gr-copy-clipboard tests', () => {
   let element: GrCopyClipboard;
@@ -31,20 +32,21 @@ suite('gr-copy-clipboard tests', () => {
       element,
       /* HTML */ `
         <div class="text">
-          <iron-input class="copyText" part="text-container-wrapper-style">
-            <input
-              id="input"
-              is="iron-input"
-              part="text-container-style"
-              readonly=""
-              type="text"
-            />
-          </iron-input>
+          <md-outlined-text-field
+            autocomplete=""
+            class="copyText"
+            id="input"
+            inputmode=""
+            part="text-container-wrapper-style"
+            readonly=""
+            type="text"
+          >
+          </md-outlined-text-field>
           <gr-tooltip-content>
             <gr-button
+              aria-description="Click to copy to clipboard"
               aria-disabled="false"
               aria-label="copy"
-              aria-description="Click to copy to clipboard"
               class="copyToClipboard"
               id="copy-clipboard-button"
               link=""
@@ -52,7 +54,7 @@ suite('gr-copy-clipboard tests', () => {
               tabindex="0"
             >
               <div>
-                <gr-icon icon="content_copy" id="icon" small></gr-icon>
+                <gr-icon icon="content_copy" id="icon" small=""> </gr-icon>
               </div>
             </gr-button>
           </gr-tooltip-content>
@@ -69,22 +71,23 @@ suite('gr-copy-clipboard tests', () => {
       element,
       /* HTML */ `
         <div class="text">
-          <label for="input">Label</label>
-          <iron-input class="copyText" part="text-container-wrapper-style">
-            <input
-              id="input"
-              is="iron-input"
-              part="text-container-style"
-              readonly=""
-              type="text"
-            />
-          </iron-input>
-          <span class="shortcut">l - l</span>
+          <label for="input"> Label </label>
+          <md-outlined-text-field
+            autocomplete=""
+            class="copyText"
+            id="input"
+            inputmode=""
+            part="text-container-wrapper-style"
+            readonly=""
+            type="text"
+          >
+          </md-outlined-text-field>
+          <span class="shortcut"> l - l </span>
           <gr-tooltip-content>
             <gr-button
+              aria-description="Click to copy to clipboard"
               aria-disabled="false"
               aria-label="copy"
-              aria-description="Click to copy to clipboard"
               class="copyToClipboard"
               id="copy-clipboard-button"
               link=""
@@ -92,7 +95,7 @@ suite('gr-copy-clipboard tests', () => {
               tabindex="0"
             >
               <div>
-                <gr-icon icon="content_copy" id="icon" small></gr-icon>
+                <gr-icon icon="content_copy" id="icon" small=""> </gr-icon>
               </div>
             </gr-button>
           </gr-tooltip-content>
@@ -113,29 +116,33 @@ suite('gr-copy-clipboard tests', () => {
     assert.deepEqual(activeElement, button);
   });
 
-  test('_handleInputClick', () => {
+  test('handleInputClick', () => {
     // iron-input as parent should never be hidden as copy won't work
     // on nested hidden elements
-    const ironInputElement = queryAndAssert(element, 'iron-input');
-    assert.notEqual(getComputedStyle(ironInputElement).display, 'none');
+    const mdOutlinedTextField = queryAndAssert<MdOutlinedTextField>(
+      element,
+      'md-outlined-text-field'
+    );
+    assert.notEqual(getComputedStyle(mdOutlinedTextField).display, 'none');
 
-    const inputElement = queryAndAssert<HTMLInputElement>(element, 'input');
-    inputElement.click();
-    assert.equal(inputElement.selectionStart, 0);
-    assert.equal(inputElement.selectionEnd, element.text!.length - 1);
+    mdOutlinedTextField.click();
+    assert.equal(mdOutlinedTextField.selectionStart, 0);
+    assert.equal(mdOutlinedTextField.selectionEnd, element.text!.length - 1);
   });
 
   test('hideInput', async () => {
     // iron-input as parent should never be hidden as copy won't work
     // on nested hidden elements
-    const ironInputElement = queryAndAssert(element, 'iron-input');
-    assert.notEqual(getComputedStyle(ironInputElement).display, 'none');
+    const mdOutlinedTextField = queryAndAssert<MdOutlinedTextField>(
+      element,
+      'md-outlined-text-field'
+    );
+    assert.notEqual(getComputedStyle(mdOutlinedTextField).display, 'none');
 
-    const input = queryAndAssert(element, 'input');
-    assert.notEqual(getComputedStyle(input).display, 'none');
+    assert.notEqual(getComputedStyle(mdOutlinedTextField).display, 'none');
     element.hideInput = true;
     await element.updateComplete;
-    assert.equal(getComputedStyle(input).display, 'none');
+    assert.equal(getComputedStyle(mdOutlinedTextField).display, 'none');
   });
 
   test('stop events propagation', () => {

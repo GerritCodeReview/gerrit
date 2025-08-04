@@ -14,6 +14,7 @@ import {formStyles} from '../../../styles/form-styles';
 import {GrCopyClipboard} from '../../shared/gr-copy-clipboard/gr-copy-clipboard';
 import '@material/web/menu/menu';
 import {MdMenu} from '@material/web/menu/menu';
+import {MdOutlinedTextField} from '@material/web/textfield/outlined-text-field';
 
 export interface CopyLink {
   label: string;
@@ -178,9 +179,9 @@ export class GrCopyLinks extends LitElement {
     this.dropdown?.show();
     this.awaitOpen(() => {
       if (!this.copyClipboardRef?.value) return;
-      queryAndAssert<HTMLInputElement>(
+      queryAndAssert<MdOutlinedTextField>(
         this.copyClipboardRef.value,
-        'input'
+        'md-outlined-text-field'
       )?.select();
     });
   }

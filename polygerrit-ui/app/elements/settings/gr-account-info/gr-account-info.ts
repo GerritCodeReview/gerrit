@@ -3,7 +3,6 @@
  * Copyright 2016 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '@polymer/iron-input/iron-input';
 import '../../shared/gr-autogrow-textarea/gr-autogrow-textarea';
 import '../../shared/gr-avatar/gr-avatar';
 import '../../shared/gr-date-formatter/gr-date-formatter';
@@ -21,13 +20,15 @@ import {customElement, property, state} from 'lit/decorators.js';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {grFormStyles} from '../../../styles/gr-form-styles';
 import {when} from 'lit/directives/when.js';
-import {BindValueChangeEvent, ValueChangedEvent} from '../../../types/events';
+import {ValueChangedEvent} from '../../../types/events';
 import {formStyles} from '../../../styles/form-styles';
 import {getDocUrl} from '../../../utils/url-util';
 import {subscribe} from '../../lit/subscription-controller';
 import {resolve} from '../../../models/dependency';
 import {configModelToken} from '../../../models/config/config-model';
 import {GrAutogrowTextarea} from '../../shared/gr-autogrow-textarea/gr-autogrow-textarea';
+import '@material/web/textfield/outlined-text-field';
+import {materialStyles} from '../../../styles/gr-material-styles';
 
 @customElement('gr-account-info')
 export class GrAccountInfo extends LitElement {
@@ -72,6 +73,7 @@ export class GrAccountInfo extends LitElement {
 
   static override get styles() {
     return [
+      materialStyles,
       sharedStyles,
       grFormStyles,
       formStyles,
@@ -97,6 +99,9 @@ export class GrAccountInfo extends LitElement {
         gr-autogrow-textarea {
           background-color: var(--view-background-color);
           color: var(--primary-text-color);
+        }
+        gr-autogrow-textarea:focus {
+          border: 2px solid var(--input-focus-border-color);
         }
         .lengthCounter {
           font-weight: var(--font-weight-normal);
@@ -167,22 +172,20 @@ export class GrAccountInfo extends LitElement {
         ${when(
           this.computeUsernameEditable(),
           () => html`<span class="value">
-            <iron-input
+            <md-outlined-text-field
+              id="usernameInput"
+              class="showBlueFocusBorder"
+              ?disabled=${this.saving}
               @keydown=${this.handleKeydown}
-              .bindValue=${this.username}
-              @bind-value-changed=${(e: BindValueChangeEvent) => {
-                if (this.username === e.detail.value) return;
-                this.username = e.detail.value;
+              .value=${this.username ?? ''}
+              @input=${(e: InputEvent) => {
+                const target = e.target as HTMLInputElement;
+                if (this.username === target.value) return;
+                this.username = target.value;
                 this.hasUsernameChange = true;
               }}
-              id="usernameIronInput"
             >
-              <input
-                id="usernameInput"
-                ?disabled=${this.saving}
-                @keydown=${this.handleKeydown}
-              />
-            </iron-input>
+            </md-outlined-text-field>
           </span>`,
           () => html`<span class="value">${this.username}</span>`
         )}
@@ -192,23 +195,21 @@ export class GrAccountInfo extends LitElement {
         ${when(
           this.nameMutable,
           () => html`<span class="value">
-            <iron-input
+            <md-outlined-text-field
+              id="nameInput"
+              class="showBlueFocusBorder"
+              ?disabled=${this.saving}
               @keydown=${this.handleKeydown}
-              .bindValue=${this.account?.name}
-              @bind-value-changed=${(e: BindValueChangeEvent) => {
+              .value=${this.account?.name ?? ''}
+              @input=${(e: InputEvent) => {
+                const target = e.target as HTMLInputElement;
                 const oldAccount = this.account;
-                if (!oldAccount || oldAccount.name === e.detail.value) return;
-                this.account = {...oldAccount, name: e.detail.value};
+                if (!oldAccount || oldAccount.name === target.value) return;
+                this.account = {...oldAccount, name: target.value};
                 this.hasNameChange = true;
               }}
-              id="nameIronInput"
             >
-              <input
-                id="nameInput"
-                ?disabled=${this.saving}
-                @keydown=${this.handleKeydown}
-              />
-            </iron-input>
+            </md-outlined-text-field>
           </span>`,
           () => html` <span class="value">${this.account?.name}</span>`
         )}
@@ -216,24 +217,23 @@ export class GrAccountInfo extends LitElement {
       <section>
         <label class="title" for="displayNameInput">Display name</label>
         <span class="value">
-          <iron-input
+          <md-outlined-text-field
+            id="displayNameInput"
+            class="showBlueFocusBorder"
+            ?disabled=${this.saving}
             @keydown=${this.handleKeydown}
-            .bindValue=${this.account.display_name}
-            @bind-value-changed=${(e: BindValueChangeEvent) => {
+            .value=${this.account.display_name ?? ''}
+            @input=${(e: InputEvent) => {
+              const target = e.target as HTMLInputElement;
               const oldAccount = this.account;
-              if (!oldAccount || oldAccount.display_name === e.detail.value) {
+              if (!oldAccount || oldAccount.display_name === target.value) {
                 return;
               }
-              this.account = {...oldAccount, display_name: e.detail.value};
+              this.account = {...oldAccount, display_name: target.value};
               this.hasDisplayNameChange = true;
             }}
           >
-            <input
-              id="displayNameInput"
-              ?disabled=${this.saving}
-              @keydown=${this.handleKeydown}
-            />
-          </iron-input>
+          </md-outlined-text-field>
         </span>
       </section>
       <section>

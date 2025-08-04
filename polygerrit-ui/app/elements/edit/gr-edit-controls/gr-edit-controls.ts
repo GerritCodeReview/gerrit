@@ -3,7 +3,6 @@
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '@polymer/iron-input/iron-input';
 import '../../shared/gr-autocomplete/gr-autocomplete';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-dialog/gr-dialog';
@@ -32,7 +31,6 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {css, html, LitElement} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {BindValueChangeEvent} from '../../../types/events';
-import {IronInputElement} from '@polymer/iron-input/iron-input';
 import {changeViewModelToken} from '../../../models/views/change';
 import {resolve} from '../../../models/dependency';
 import {modalStyles} from '../../../styles/gr-modal-styles';
@@ -42,13 +40,15 @@ import {changeModelToken} from '../../../models/change/change-model';
 import {formStyles} from '../../../styles/form-styles';
 import {spinnerStyles} from '../../../styles/gr-spinner-styles';
 import {formatBytes} from '../../../utils/file-util';
+import {MdOutlinedTextField} from '@material/web/textfield/outlined-text-field';
+import {materialStyles} from '../../../styles/gr-material-styles';
 
 const FILE_UPLOAD_FAILURE = 'File failed to upload.';
 
 @customElement('gr-edit-controls')
 export class GrEditControls extends LitElement {
   // private but used in test
-  @query('#newPathIronInput') newPathIronInput?: IronInputElement;
+  @query('#newPathInput') newPathInput?: MdOutlinedTextField;
 
   @query('#modal') modal?: HTMLDialogElement;
 
@@ -106,6 +106,7 @@ export class GrEditControls extends LitElement {
 
   static override get styles() {
     return [
+      materialStyles,
       formStyles,
       sharedStyles,
       modalStyles,
@@ -129,7 +130,7 @@ export class GrEditControls extends LitElement {
         gr-dialog .main {
           width: 100%;
         }
-        gr-dialog .main > iron-input {
+        gr-dialog .main > md-outlined-text-field {
           width: 100%;
         }
         input {
@@ -168,6 +169,9 @@ export class GrEditControls extends LitElement {
         .disabled {
           pointer-events: none;
           opacity: 0.6;
+        }
+        md-outlined-text-field {
+          margin: var(--spacing-m) 0;
         }
         @media screen and (max-width: 50em) {
           gr-dialog {
@@ -220,6 +224,7 @@ export class GrEditControls extends LitElement {
             placeholder="Enter an existing or new full file path."
             .query=${this.query}
             .text=${this.path}
+            .showBlueFocusBorder=${true}
             @text-changed=${(e: BindValueChangeEvent) =>
               this.handleTextChanged(e)}
           ></gr-autocomplete>
@@ -288,6 +293,7 @@ export class GrEditControls extends LitElement {
             placeholder="Enter an existing full file path."
             .query=${this.query}
             .text=${this.path}
+            .showBlueFocusBorder=${true}
             @text-changed=${(e: BindValueChangeEvent) =>
               this.handleTextChanged(e)}
           ></gr-autocomplete>
@@ -314,17 +320,21 @@ export class GrEditControls extends LitElement {
             placeholder="Enter an existing full file path."
             .query=${this.query}
             .text=${this.path}
+            .showBlueFocusBorder=${true}
             @text-changed=${(e: BindValueChangeEvent) =>
               this.handleTextChanged(e)}
           ></gr-autocomplete>
-          <iron-input
-            id="newPathIronInput"
-            .bindValue=${this.newPath}
-            @bind-value-changed=${(e: BindValueChangeEvent) =>
-              this.handleBindValueChangedNewPath(e)}
+          <md-outlined-text-field
+            id="newPathInput"
+            class="showBlueFocusBorder"
+            placeholder="Enter the new path."
+            .value=${this.newPath ?? ''}
+            @input=${(e: InputEvent) => {
+              const target = e.target as HTMLInputElement;
+              this.newPath = target.value;
+            }}
           >
-            <input id="newPathInput" placeholder="Enter the new path." />
-          </iron-input>
+          </md-outlined-text-field>
         </div>
       </gr-dialog>
     `;
@@ -342,13 +352,16 @@ export class GrEditControls extends LitElement {
       >
         <div class="header" slot="header">Restore this file?</div>
         <div class="main" slot="main">
-          <iron-input
-            .bindValue=${this.path}
-            @bind-value-changed=${(e: BindValueChangeEvent) =>
-              this.handleBindValueChangedPath(e)}
+          <md-outlined-text-field
+            class="showBlueFocusBorder"
+            ?readOnly=${true}
+            .value=${this.path ?? ''}
+            @input=${(e: InputEvent) => {
+              const target = e.target as HTMLInputElement;
+              this.path = target.value;
+            }}
           >
-            <input disabled />
-          </iron-input>
+          </md-outlined-text-field>
         </div>
       </gr-dialog>
     `;
@@ -473,8 +486,9 @@ export class GrEditControls extends LitElement {
         input.text = '';
       });
 
-      dialog.querySelectorAll('iron-input').forEach(input => {
-        input.bindValue = '';
+      dialog.querySelectorAll('md-outlined-text-field').forEach(input => {
+        input.value = '';
+        input.dispatchEvent(new Event('input', {bubbles: true}));
       });
     }
 
@@ -664,14 +678,6 @@ export class GrEditControls extends LitElement {
   }
 
   private handleTextChanged(e: BindValueChangeEvent) {
-    this.path = e.detail.value ?? '';
-  }
-
-  private handleBindValueChangedNewPath(e: BindValueChangeEvent) {
-    this.newPath = e.detail.value ?? '';
-  }
-
-  private handleBindValueChangedPath(e: BindValueChangeEvent) {
     this.path = e.detail.value ?? '';
   }
 

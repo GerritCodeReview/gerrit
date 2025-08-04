@@ -7,7 +7,6 @@ import '../../shared/gr-autocomplete/gr-autocomplete';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-copy-clipboard/gr-copy-clipboard';
 import '../../shared/gr-select/gr-select';
-import '../../shared/gr-suggestion-textarea/gr-suggestion-textarea';
 import {
   AutocompleteQuery,
   AutocompleteSuggestion,
@@ -25,6 +24,9 @@ import {subpageStyles} from '../../../styles/gr-subpage-styles';
 import {css, html, LitElement, PropertyValues} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
 import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
+import '../../shared/gr-autogrow-textarea/gr-autogrow-textarea';
+import {GrAutogrowTextarea} from '../../shared/gr-autogrow-textarea/gr-autogrow-textarea';
+import {formStyles} from '../../../styles/form-styles';
 
 const INTERNAL_GROUP_REGEX = /^[\da-f]{40}$/;
 
@@ -104,12 +106,20 @@ export class GrGroup extends LitElement {
     return [
       fontStyles,
       grFormStyles,
+      formStyles,
       sharedStyles,
       subpageStyles,
       css`
         h3.edited:after {
           color: var(--deemphasized-text-color);
           content: ' *';
+        }
+        gr-autogrow-textarea {
+          background-color: var(--view-background-color);
+          width: 100%;
+        }
+        gr-autogrow-textarea:focus {
+          border: 2px solid var(--input-focus-border-color);
         }
       `,
     ];
@@ -160,6 +170,7 @@ export class GrGroup extends LitElement {
           <gr-autocomplete
             id="groupNameInput"
             .text=${this.groupConfig?.name ?? ''}
+            .showBlueFocusBorder=${true}
             ?disabled=${this.computeGroupDisabled()}
             @text-changed=${this.handleNameTextChanged}
           ></gr-autocomplete>
@@ -194,6 +205,7 @@ export class GrGroup extends LitElement {
             .text=${this.groupConfig?.owner ?? ''}
             .value=${this.groupConfigOwner ?? ''}
             .query=${this.query}
+            .showBlueFocusBorder=${true}
             ?disabled=${this.computeGroupDisabled()}
             @text-changed=${this.handleOwnerTextChanged}
             @value-changed=${this.handleOwnerValueChanged}
@@ -222,15 +234,17 @@ export class GrGroup extends LitElement {
       </h3>
       <fieldset>
         <div>
-          <gr-suggestion-textarea
+          <gr-autogrow-textarea
+            id="descriptionInput"
             class="description"
             autocomplete="on"
-            rows="4"
-            monospace
+            placeholder="&lt;Insert group description here&gt;"
+            .rows=${4}
+            .maxRows=${10}
+            .value=${this.groupConfig?.description ?? ''}
             ?disabled=${this.computeGroupDisabled()}
-            .text=${this.groupConfig?.description ?? ''}
-            @text-changed=${this.handleDescriptionTextChanged}
-          ></gr-suggestion-textarea>
+            @input=${this.handleDescriptionInput}
+          ></gr-autogrow-textarea>
         </div>
         <span class="value">
           <gr-button
@@ -464,9 +478,10 @@ export class GrGroup extends LitElement {
     this.requestUpdate();
   }
 
-  private handleDescriptionTextChanged(e: ValueChangedEvent) {
+  private handleDescriptionInput(e: InputEvent) {
     if (!this.groupConfig || this.loading) return;
-    this.groupConfig.description = e.detail.value;
+    const value = (e.target as GrAutogrowTextarea).value ?? '';
+    this.groupConfig.description = value;
     this.requestUpdate();
   }
 

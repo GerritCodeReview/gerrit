@@ -120,23 +120,40 @@ suite('gr-registration-dialog tests', () => {
         <section>
           <span class="title"> Full Name </span>
           <span class="value">
-            <iron-input>
-              <input id="name">
-            </iron-input>
+              <md-outlined-text-field
+                autocomplete=""
+                class="showBlueFocusBorder"
+                id="name"
+                inputmode=""
+                type="text"
+              >
+              </md-outlined-text-field>
           </span>
         </section>
         <section>
           <span class="title"> Display Name </span>
           <span class="value">
-            <iron-input> <input id="displayName" /> </iron-input>
+              <md-outlined-text-field
+                autocomplete=""
+                class="showBlueFocusBorder"
+                id="displayName"
+                inputmode=""
+                type="text"
+              >
+              </md-outlined-text-field>
           </span>
         </section>
         <section>
           <span class="title"> Username </span>
           <span class="value">
-            <iron-input>
-              <input id="username">
-            </iron-input>
+              <md-outlined-text-field
+                autocomplete=""
+                class="showBlueFocusBorder"
+                id="username"
+                inputmode=""
+                type="text"
+              >
+              </md-outlined-text-field>
           </span>
         </section>
         <hr />

@@ -3,7 +3,6 @@
  * Copyright 2018 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '@polymer/iron-input/iron-input';
 import '../../shared/gr-button/gr-button';
 import {getBaseUrl} from '../../../utils/url-util';
 import {
@@ -18,8 +17,9 @@ import {grFormStyles} from '../../../styles/gr-form-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {css, html, LitElement} from 'lit';
 import {customElement, state} from 'lit/decorators.js';
-import {BindValueChangeEvent} from '../../../types/events';
 import {ifDefined} from 'lit/directives/if-defined.js';
+import '@material/web/textfield/outlined-text-field';
+import {materialStyles} from '../../../styles/gr-material-styles';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -58,6 +58,7 @@ export class GrClaView extends LitElement {
 
   static override get styles() {
     return [
+      materialStyles,
       fontStyles,
       grFormStyles,
       sharedStyles,
@@ -158,12 +159,17 @@ export class GrClaView extends LitElement {
     return html`
       <div class="agreementsTextBox">
         <h3 class="heading-3">Complete the agreement:</h3>
-        <iron-input
-          .bindValue=${this.agreementsText}
-          @bind-value-changed=${this.handleBindValueChanged}
+        <md-outlined-text-field
+          id="input-agreements"
+          class="showBlueFocusBorder"
+          placeholder="Enter 'I agree' here"
+          .value=${this.agreementsText ?? ''}
+          @input=${(e: InputEvent) => {
+            const target = e.target as HTMLInputElement;
+            this.agreementsText = target.value;
+          }}
         >
-          <input id="input-agreements" placeholder="Enter 'I agree' here" />
-        </iron-input>
+        </md-outlined-text-field>
         <gr-button
           @click=${this.handleSaveAgreements}
           ?disabled=${this.agreementsText?.toLowerCase() !== 'i agree'}
@@ -269,8 +275,4 @@ export class GrClaView extends LitElement {
         !contributorAgreement.auto_verify_group
     );
   }
-
-  private readonly handleBindValueChanged = (e: BindValueChangeEvent) => {
-    this.agreementsText = e.detail.value;
-  };
 }

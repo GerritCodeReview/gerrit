@@ -6,7 +6,7 @@
 import {BehaviorSubject} from 'rxjs';
 import '../gr-copy-links/gr-copy-links';
 import '../../../styles/gr-a11y-styles';
-import '../../../styles/gr-paper-styles';
+import '../../../styles/gr-material-styles';
 import '../../../styles/shared-styles';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '../../plugins/gr-endpoint-param/gr-endpoint-param';
@@ -121,7 +121,7 @@ import {checksModelToken} from '../../../models/checks/checks-model';
 import {changeModelToken} from '../../../models/change/change-model';
 import {css, html, LitElement, nothing} from 'lit';
 import {a11yStyles} from '../../../styles/gr-a11y-styles';
-import {paperStyles} from '../../../styles/gr-paper-styles';
+import {materialStyles} from '../../../styles/gr-material-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {ifDefined} from 'lit/directives/if-defined.js';
 import {when} from 'lit/directives/when.js';
@@ -777,7 +777,7 @@ export class GrChangeView extends LitElement {
   static override get styles() {
     return [
       a11yStyles,
-      paperStyles,
+      materialStyles,
       sharedStyles,
       modalStyles,
       css`

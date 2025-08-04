@@ -3,7 +3,6 @@
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '@polymer/iron-input/iron-input';
 import '../gr-button/gr-button';
 import '../gr-icon/gr-icon';
 import {encodeURL, getBaseUrl} from '../../../utils/url-util';
@@ -12,10 +11,11 @@ import {debounce, DelayedTask} from '../../../utils/async-util';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {css, html, LitElement, PropertyValues} from 'lit';
 import {customElement, property} from 'lit/decorators.js';
-import {BindValueChangeEvent} from '../../../types/events';
 import {resolve} from '../../../models/dependency';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {formStyles} from '../../../styles/form-styles';
+import '@material/web/textfield/outlined-text-field';
+import {materialStyles} from '../../../styles/gr-material-styles';
 
 const REQUEST_DEBOUNCE_INTERVAL_MS = 200;
 
@@ -63,15 +63,10 @@ export class GrListView extends LitElement {
 
   static override get styles() {
     return [
+      materialStyles,
       formStyles,
       sharedStyles,
       css`
-        #filter {
-          max-width: 25em;
-        }
-        #filter:focus {
-          outline: none;
-        }
         #topContainer {
           align-items: center;
           display: flex;
@@ -81,6 +76,14 @@ export class GrListView extends LitElement {
         }
         #createNewContainer:not(.show) {
           display: none;
+        }
+        .filterContainer {
+          display: flex;
+          align-items: center;
+          gap: 4px;
+        }
+        .filterContainer label {
+          margin-bottom: 3px;
         }
         a {
           color: var(--primary-text-color);
@@ -101,6 +104,9 @@ export class GrListView extends LitElement {
           font-size: 1.85rem;
           margin-left: 16px;
         }
+        md-outlined-text-field {
+          max-width: 25em;
+        }
       `,
     ];
   }
@@ -110,12 +116,14 @@ export class GrListView extends LitElement {
       <div id="topContainer">
         <div class="filterContainer">
           <label>Filter:</label>
-          <iron-input
-            .bindValue=${this.filter}
-            @bind-value-changed=${this.handleFilterBindValueChanged}
+          <md-outlined-text-field
+            .value=${this.filter ?? ''}
+            @input=${(e: InputEvent) => {
+              const target = e.target as HTMLInputElement;
+              this.filter = target.value;
+            }}
           >
-            <input type="text" id="filter" />
-          </iron-input>
+          </md-outlined-text-field>
         </div>
         <div id="createNewContainer" class=${this.createNew ? 'show' : ''}>
           <gr-button
@@ -218,9 +226,5 @@ export class GrListView extends LitElement {
   // private but used in test
   computePage() {
     return this.offset / this.itemsPerPage + 1;
-  }
-
-  private handleFilterBindValueChanged(e: BindValueChangeEvent) {
-    this.filter = e.detail.value;
   }
 }

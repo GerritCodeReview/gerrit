@@ -104,6 +104,13 @@ export class GrConfirmMoveDialog
         .warning {
           color: var(--error-text-color);
         }
+        gr-autogrow-textarea:focus {
+          border: 2px solid var(--input-focus-border-color);
+        }
+        label[for='branchInput'],
+        label[for='messageInput'] {
+          margin-top: var(--spacing-m);
+        }
       `,
     ];
   }
@@ -124,6 +131,7 @@ export class GrConfirmMoveDialog
           <gr-autocomplete
             id="branchInput"
             .text=${this.branch}
+            .showBlueFocusBorder=${true}
             @text-changed=${(e: ValueChangedEvent) =>
               (this.branch = e.detail.value as BranchName)}
             .query=${(text: string) => this.getProjectBranchesSuggestions(text)}

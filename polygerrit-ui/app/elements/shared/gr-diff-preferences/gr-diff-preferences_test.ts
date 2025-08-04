@@ -14,9 +14,9 @@ import {
 } from '../../../test/test-utils';
 import {DiffPreferencesInfo} from '../../../types/diff';
 import {createDefaultDiffPrefs} from '../../../constants/constants';
-import {IronInputElement} from '@polymer/iron-input';
 import {GrSelect} from '../gr-select/gr-select';
 import {assert, fixture, html} from '@open-wc/testing';
+import {MdOutlinedTextField} from '@material/web/textfield/outlined-text-field';
 
 suite('gr-diff-preferences tests', () => {
   let element: GrDiffPreferences;
@@ -75,25 +75,43 @@ suite('gr-diff-preferences tests', () => {
         <section>
           <label class="title" for="columnsInput">Diff width</label>
           <span class="value">
-            <iron-input>
-              <input id="columnsInput" type="number" />
-            </iron-input>
+            <md-outlined-text-field
+              autocomplete=""
+              class="showBlueFocusBorder"
+              id="columnsInput"
+              inputmode=""
+              step="1"
+              type="number"
+            >
+            </md-outlined-text-field>
           </span>
         </section>
         <section>
           <label class="title" for="tabSizeInput">Tab width</label>
           <span class="value">
-            <iron-input>
-              <input id="tabSizeInput" type="number" />
-            </iron-input>
+            <md-outlined-text-field
+              autocomplete=""
+              class="showBlueFocusBorder"
+              id="tabSizeInput"
+              inputmode=""
+              step="1"
+              type="number"
+            >
+            </md-outlined-text-field>
           </span>
         </section>
         <section>
           <label class="title" for="fontSizeInput">Font size</label>
           <span class="value">
-            <iron-input>
-              <input id="fontSizeInput" type="number" />
-            </iron-input>
+            <md-outlined-text-field
+              autocomplete=""
+              class="showBlueFocusBorder"
+              id="fontSizeInput"
+              inputmode=""
+              step="1"
+              type="number"
+            >
+            </md-outlined-text-field>
           </span>
         </section>
         <section>
@@ -156,7 +174,7 @@ suite('gr-diff-preferences tests', () => {
   test('renders preferences', () => {
     // Rendered with the expected preferences selected.
     const contextInput = valueOf('Context', 'diffPreferences')
-      .firstElementChild as IronInputElement;
+      .firstElementChild as GrSelect;
     assert.equal(contextInput.bindValue, `${diffPreferences.context}`);
 
     const lineWrappingInput = valueOf('Fit to screen', 'diffPreferences')
@@ -164,16 +182,16 @@ suite('gr-diff-preferences tests', () => {
     assert.equal(lineWrappingInput.checked, diffPreferences.line_wrapping);
 
     const lineLengthInput = valueOf('Diff width', 'diffPreferences')
-      .firstElementChild as IronInputElement;
-    assert.equal(lineLengthInput.bindValue, `${diffPreferences.line_length}`);
+      .firstElementChild as MdOutlinedTextField;
+    assert.equal(lineLengthInput.value, `${diffPreferences.line_length}`);
 
     const tabSizeInput = valueOf('Tab width', 'diffPreferences')
-      .firstElementChild as IronInputElement;
-    assert.equal(tabSizeInput.bindValue, `${diffPreferences.tab_size}`);
+      .firstElementChild as MdOutlinedTextField;
+    assert.equal(tabSizeInput.value, `${diffPreferences.tab_size}`);
 
     const fontSizeInput = valueOf('Font size', 'diffPreferences')
-      .firstElementChild as IronInputElement;
-    assert.equal(fontSizeInput.bindValue, `${diffPreferences.font_size}`);
+      .firstElementChild as MdOutlinedTextField;
+    assert.equal(fontSizeInput.value, `${diffPreferences.font_size}`);
 
     const showTabsInput = valueOf('Show tabs', 'diffPreferences')
       .firstElementChild as HTMLInputElement;

@@ -3,12 +3,11 @@
  * Copyright 2018 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '@polymer/iron-input/iron-input';
 import '../../shared/gr-button/gr-button';
 import {EditPreferencesInfo} from '../../../types/common';
 import {grFormStyles} from '../../../styles/gr-form-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
-import {html, LitElement} from 'lit';
+import {css, html, LitElement} from 'lit';
 import {customElement, query, state} from 'lit/decorators.js';
 import {convertToString} from '../../../utils/string-util';
 import {subscribe} from '../../lit/subscription-controller';
@@ -16,6 +15,8 @@ import {resolve} from '../../../models/dependency';
 import {userModelToken} from '../../../models/user/user-model';
 import {fire} from '../../../utils/event-util';
 import {ValueChangedEvent} from '../../../types/events';
+import '@material/web/textfield/outlined-text-field';
+import {materialStyles} from '../../../styles/gr-material-styles';
 
 @customElement('gr-edit-preferences')
 export class GrEditPreferences extends LitElement {
@@ -62,7 +63,16 @@ export class GrEditPreferences extends LitElement {
   }
 
   static override get styles() {
-    return [sharedStyles, grFormStyles];
+    return [
+      materialStyles,
+      sharedStyles,
+      grFormStyles,
+      css`
+        md-outlined-text-field {
+          max-width: 25em;
+        }
+      `,
+    ];
   }
 
   override render() {
@@ -71,37 +81,70 @@ export class GrEditPreferences extends LitElement {
         <section>
           <label for="editTabWidth" class="title">Tab width</label>
           <span class="value">
-            <iron-input
-              .allowedPattern=${'[0-9]'}
-              .bindValue=${convertToString(this.editPrefs?.tab_size)}
-              @change=${this.handleEditTabWidthChanged}
+            <md-outlined-text-field
+              id="editTabWidth"
+              class="showBlueFocusBorder"
+              type="number"
+              step="1"
+              .value=${convertToString(this.editPrefs?.tab_size)}
+              @input=${this.handleEditTabWidthInput}
+              @beforeinput=${(e: InputEvent) => {
+                // In iron-input we had allowedPattern, but this is not supported
+                // in md-outlined-text-field. Which uses native input functionality.
+                // We workaround this.
+                const data = e.data;
+                if (data && !/^[0-9]*$/.test(data)) {
+                  e.preventDefault();
+                }
+              }}
             >
-              <input id="editTabWidth" type="number" />
-            </iron-input>
+            </md-outlined-text-field>
           </span>
         </section>
         <section>
           <label for="editColumns" class="title">Columns</label>
           <span class="value">
-            <iron-input
-              .allowedPattern=${'[0-9]'}
-              .bindValue=${convertToString(this.editPrefs?.line_length)}
-              @change=${this.handleEditLineLengthChanged}
+            <md-outlined-text-field
+              id="editColumns"
+              class="showBlueFocusBorder"
+              type="number"
+              step="1"
+              .value=${convertToString(this.editPrefs?.line_length)}
+              @input=${this.handleEditLineLengthInput}
+              @beforeinput=${(e: InputEvent) => {
+                // In iron-input we had allowedPattern, but this is not supported
+                // in md-outlined-text-field. Which uses native input functionality.
+                // We workaround this.
+                const data = e.data;
+                if (data && !/^[0-9]*$/.test(data)) {
+                  e.preventDefault();
+                }
+              }}
             >
-              <input id="editColumns" type="number" />
-            </iron-input>
+            </md-outlined-text-field>
           </span>
         </section>
         <section>
           <label for="editIndentUnit" class="title">Indent unit</label>
           <span class="value">
-            <iron-input
-              .allowedPattern=${'[0-9]'}
-              .bindValue=${convertToString(this.editPrefs?.indent_unit)}
-              @change=${this.handleEditIndentUnitChanged}
+            <md-outlined-text-field
+              id="editIndentUnit"
+              class="showBlueFocusBorder"
+              type="number"
+              step="1"
+              .value=${convertToString(this.editPrefs?.indent_unit)}
+              @input=${this.handleEditIndentUnitInput}
+              @beforeinput=${(e: InputEvent) => {
+                // In iron-input we had allowedPattern, but this is not supported
+                // in md-outlined-text-field. Which uses native input functionality.
+                // We workaround this.
+                const data = e.data;
+                if (data && !/^[0-9]*$/.test(data)) {
+                  e.preventDefault();
+                }
+              }}
             >
-              <input id="editIndentUnit" type="number" />
-            </iron-input>
+            </md-outlined-text-field>
           </span>
         </section>
         <section>
@@ -191,21 +234,21 @@ export class GrEditPreferences extends LitElement {
     `;
   }
 
-  private readonly handleEditTabWidthChanged = () => {
+  private readonly handleEditTabWidthInput = () => {
     this.editPrefs!.tab_size = Number(this.editTabWidth!.value);
     fire(this, 'has-unsaved-changes-changed', {
       value: this.hasUnsavedChanges(),
     });
   };
 
-  private readonly handleEditLineLengthChanged = () => {
+  private readonly handleEditLineLengthInput = () => {
     this.editPrefs!.line_length = Number(this.editColumns!.value);
     fire(this, 'has-unsaved-changes-changed', {
       value: this.hasUnsavedChanges(),
     });
   };
 
-  private readonly handleEditIndentUnitChanged = () => {
+  private readonly handleEditIndentUnitInput = () => {
     this.editPrefs!.indent_unit = Number(this.editIndentUnit!.value);
     fire(this, 'has-unsaved-changes-changed', {
       value: this.hasUnsavedChanges(),

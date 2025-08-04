@@ -164,9 +164,15 @@ suite('gr-edit-controls tests', () => {
             <div class="main" slot="main">
               <gr-autocomplete placeholder="Enter an existing full file path.">
               </gr-autocomplete>
-              <iron-input id="newPathIronInput">
-                <input id="newPathInput" placeholder="Enter the new path." />
-              </iron-input>
+              <md-outlined-text-field
+                autocomplete=""
+                class="showBlueFocusBorder"
+                id="newPathInput"
+                inputmode=""
+                placeholder="Enter the new path."
+                type="text"
+              >
+              </md-outlined-text-field>
             </div>
           </gr-dialog>
           <gr-dialog
@@ -178,9 +184,14 @@ suite('gr-edit-controls tests', () => {
           >
             <div class="header" slot="header">Restore this file?</div>
             <div class="main" slot="main">
-              <iron-input>
-                <input disabled="" />
-              </iron-input>
+              <md-outlined-text-field
+                autocomplete=""
+                class="showBlueFocusBorder"
+                inputmode=""
+                readonly=""
+                type="text"
+              >
+              </md-outlined-text-field>
             </div>
           </gr-dialog>
         </dialog>
@@ -389,7 +400,10 @@ suite('gr-edit-controls tests', () => {
       assert.isTrue(queryStub.called);
       assert.isTrue(element.renameDialog!.disabled);
 
-      element.newPathIronInput!.bindValue = 'src/test.newPath';
+      element.newPathInput!.value = 'src/test.newPath';
+      element.newPathInput!.dispatchEvent(
+        new Event('input', {bubbles: true, composed: true})
+      );
       await element.updateComplete;
 
       assert.isFalse(element.renameDialog!.disabled);
@@ -426,7 +440,10 @@ suite('gr-edit-controls tests', () => {
       assert.isTrue(queryStub.called);
       assert.isTrue(element.renameDialog!.disabled);
 
-      element.newPathIronInput!.bindValue = 'src/test.newPath';
+      element.newPathInput!.value = 'src/test.newPath';
+      element.newPathInput!.dispatchEvent(
+        new Event('input', {bubbles: true, composed: true})
+      );
       await element.updateComplete;
 
       assert.isFalse(element.renameDialog!.disabled);
@@ -451,7 +468,10 @@ suite('gr-edit-controls tests', () => {
         element.renameDialog,
         'gr-autocomplete'
       ).text = 'src/test.cpp';
-      element.newPathIronInput!.bindValue = 'src/test.newPath';
+      element.newPathInput!.value = 'src/test.newPath';
+      element.newPathInput!.dispatchEvent(
+        new Event('input', {bubbles: true, composed: true})
+      );
       await element.updateComplete;
       assert.isFalse(element.renameDialog!.disabled);
       queryAndAssert<GrButton>(element.renameDialog, 'gr-button').click();

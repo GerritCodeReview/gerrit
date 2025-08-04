@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../../shared/gr-autogrow-textarea/gr-autogrow-textarea';
-import '@polymer/iron-input/iron-input';
 import '../../../styles/shared-styles';
 import '../../shared/gr-autocomplete/gr-autocomplete';
 import '../../shared/gr-dialog/gr-dialog';
@@ -49,6 +48,7 @@ import {formStyles} from '../../../styles/form-styles';
 import {branchName} from '../../../utils/patch-set-util';
 import {changeModelToken} from '../../../models/change/change-model';
 import {GrAutogrowTextarea} from '../../shared/gr-autogrow-textarea/gr-autogrow-textarea';
+import '@material/web/textfield/outlined-text-field';
 
 const SUGGESTIONS_LIMIT = 15;
 const CHANGE_SUBJECT_LIMIT = 50;
@@ -254,6 +254,46 @@ export class GrConfirmCherrypickDialog
           color: var(--error-text-color);
           margin: var(--spacing-m) 0 var(--spacing-m) 0;
         }
+        md-outlined-text-field {
+          background-color: var(--view-background-color);
+          color: var(--primary-text-color);
+          --md-sys-color-primary: var(--primary-text-color);
+          --md-sys-color-on-surface: var(--primary-text-color);
+          --md-sys-color-on-surface-variant: var(--deemphasized-text-color);
+          --md-outlined-text-field-label-text-color: var(
+            --deemphasized-text-color
+          );
+          --md-outlined-text-field-focus-label-text-color: var(
+            --deemphasized-text-color
+          );
+          --md-outlined-text-field-hover-label-text-color: var(
+            --deemphasized-text-color
+          );
+          border-radius: var(--border-radius);
+          --md-outlined-text-field-container-shape: var(--border-radius);
+          --md-outlined-text-field-focus-outline-color: var(
+            --prominent-border-color,
+            var(--border-color)
+          );
+          --md-outlined-text-field-outline-color: var(
+            --prominent-border-color,
+            var(--border-color)
+          );
+          --md-outlined-text-field-hover-outline-color: var(
+            --prominent-border-color,
+            var(--border-color)
+          );
+          --md-sys-color-outline: var(
+            --prominent-border-color,
+            var(--border-color)
+          );
+          --md-outlined-field-top-space: var(--spacing-s);
+          --md-outlined-field-bottom-space: var(--spacing-s);
+          --md-outlined-text-field-outline-width: 1px;
+          --md-outlined-text-field-hover-outline-width: 1px;
+          --md-outlined-text-field-focus-outline-width: 0;
+          --md-outlined-field-leading-space: 8px;
+        }
       `,
     ];
   }
@@ -342,18 +382,17 @@ export class GrConfirmCherrypickDialog
   private renderCherrypickSingleChangeInputs() {
     return html`
       <label for="baseInput"> Provide base commit sha1 for cherry-pick </label>
-      <iron-input
-        .bindValue=${this.baseCommit}
-        @bind-value-changed=${(e: BindValueChangeEvent) =>
-          (this.baseCommit = e.detail.value)}
+      <md-outlined-text-field
+        id="baseCommitInput"
+        maxlength="40"
+        placeholder="(optional)"
+        .value=${this.baseCommit ?? ''}
+        @input=${(e: InputEvent) => {
+          const target = e.target as HTMLInputElement;
+          this.baseCommit = target.value;
+        }}
       >
-        <input
-          is="iron-input"
-          id="baseCommitInput"
-          maxlength="40"
-          placeholder="(optional)"
-        />
-      </iron-input>
+      </md-outlined-text-field>
       <label for="messageInput"> Cherry Pick Commit Message </label>
       <gr-autogrow-textarea
         id="messageInput"

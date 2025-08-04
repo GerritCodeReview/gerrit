@@ -3,7 +3,6 @@
  * Copyright 2016 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '@polymer/iron-input/iron-input';
 import '../../../styles/gr-form-styles';
 import '../../shared/gr-button/gr-button';
 import {AccountDetailInfo, ServerInfo} from '../../../types/common';
@@ -16,7 +15,7 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {grFormStyles} from '../../../styles/gr-form-styles';
 import {when} from 'lit/directives/when.js';
 import {ifDefined} from 'lit/directives/if-defined.js';
-import {BindValueChangeEvent} from '../../../types/events';
+import '@material/web/textfield/outlined-text-field';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -111,6 +110,47 @@ export class GrRegistrationDialog extends LitElement {
         input {
           width: 20em;
         }
+        md-outlined-text-field {
+          width: 20em;
+          background-color: var(--view-background-color);
+          color: var(--primary-text-color);
+          --md-sys-color-primary: var(--primary-text-color);
+          --md-sys-color-on-surface: var(--primary-text-color);
+          --md-sys-color-on-surface-variant: var(--deemphasized-text-color);
+          --md-outlined-text-field-label-text-color: var(
+            --deemphasized-text-color
+          );
+          --md-outlined-text-field-focus-label-text-color: var(
+            --deemphasized-text-color
+          );
+          --md-outlined-text-field-hover-label-text-color: var(
+            --deemphasized-text-color
+          );
+          border-radius: var(--border-radius);
+          --md-outlined-text-field-container-shape: var(--border-radius);
+          --md-outlined-text-field-focus-outline-color: var(
+            --prominent-border-color,
+            var(--border-color)
+          );
+          --md-outlined-text-field-outline-color: var(
+            --prominent-border-color,
+            var(--border-color)
+          );
+          --md-outlined-text-field-hover-outline-color: var(
+            --prominent-border-color,
+            var(--border-color)
+          );
+          --md-sys-color-outline: var(
+            --prominent-border-color,
+            var(--border-color)
+          );
+          --md-outlined-field-top-space: var(--spacing-s);
+          --md-outlined-field-bottom-space: var(--spacing-s);
+          --md-outlined-text-field-outline-width: 1px;
+          --md-outlined-text-field-hover-outline-width: 1px;
+          --md-outlined-text-field-focus-outline-width: 0;
+          --md-outlined-field-leading-space: 8px;
+        }
       `,
     ];
   }
@@ -132,17 +172,19 @@ export class GrRegistrationDialog extends LitElement {
           ${when(
             this.nameMutable,
             () => html`<span class="value">
-              <iron-input
-                .bindValue=${this.account.name}
-                @bind-value-changed=${(e: BindValueChangeEvent) => {
+              <md-outlined-text-field
+                id="name"
+                ?disabled=${this.saving}
+                .value=${this.account.name ?? ''}
+                @input=${(e: InputEvent) => {
+                  const target = e.target as HTMLInputElement;
                   const oldAccount = this.account;
-                  if (!oldAccount || oldAccount.name === e.detail.value) return;
-                  this.account = {...oldAccount, name: e.detail.value};
+                  if (!oldAccount || oldAccount.name === target.value) return;
+                  this.account = {...oldAccount, name: target.value};
                   this.hasNameChange = true;
                 }}
               >
-                <input id="name" ?disabled=${this.saving} />
-              </iron-input>
+              </md-outlined-text-field>
             </span>`,
             () => html`<span class="value">${this.account.name}</span>`
           )}
@@ -150,19 +192,21 @@ export class GrRegistrationDialog extends LitElement {
         <section>
           <span class="title">Display Name</span>
           <span class="value">
-            <iron-input
-              .bindValue=${this.account.display_name}
-              @bind-value-changed=${(e: BindValueChangeEvent) => {
+            <md-outlined-text-field
+              id="displayName"
+              ?disabled=${this.saving}
+              .value=${this.account.display_name ?? ''}
+              @input=${(e: InputEvent) => {
+                const target = e.target as HTMLInputElement;
                 const oldAccount = this.account;
-                if (!oldAccount || oldAccount.display_name === e.detail.value) {
+                if (!oldAccount || oldAccount.display_name === target.value) {
                   return;
                 }
-                this.account = {...oldAccount, display_name: e.detail.value};
+                this.account = {...oldAccount, display_name: target.value};
                 this.hasDisplayNameChange = true;
               }}
             >
-              <input id="displayName" ?disabled=${this.saving} />
-            </iron-input>
+            </md-outlined-text-field>
           </span>
         </section>
         ${when(
@@ -172,17 +216,19 @@ export class GrRegistrationDialog extends LitElement {
             ${when(
               this.usernameMutable,
               () => html` <span class="value">
-                <iron-input
-                  .bindValue=${this.username}
-                  @bind-value-changed=${(e: BindValueChangeEvent) => {
-                    if (!this.usernameInput || this.username === e.detail.value)
+                <md-outlined-text-field
+                  id="username"
+                  ?disabled=${this.saving}
+                  .value=${this.username ?? ''}
+                  @input=${(e: InputEvent) => {
+                    const target = e.target as HTMLInputElement;
+                    if (!this.usernameInput || this.username === target.value)
                       return;
-                    this.username = e.detail.value;
+                    this.username = target.value;
                     this.hasUsernameChange = true;
                   }}
                 >
-                  <input id="username" ?disabled=${this.saving} />
-                </iron-input>
+                </md-outlined-text-field>
               </span>`,
               () => html`<span class="value">${this.username}</span>`
             )}

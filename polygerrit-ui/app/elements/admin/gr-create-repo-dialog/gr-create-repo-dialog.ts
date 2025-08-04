@@ -3,7 +3,6 @@
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '@polymer/iron-input/iron-input';
 import '../../shared/gr-autocomplete/gr-autocomplete';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-select/gr-select';
@@ -29,6 +28,7 @@ import {ValueChangedEvent} from '../../../types/events';
 import {subscribe} from '../../lit/subscription-controller';
 import {configModelToken} from '../../../models/config/config-model';
 import {branchName} from '../../../utils/patch-set-util';
+import '@material/web/textfield/outlined-text-field';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -126,6 +126,47 @@ export class GrCreateRepoDialog extends LitElement {
           display: block;
           width: 20em;
         }
+        md-outlined-text-field {
+          width: 20em;
+          background-color: var(--view-background-color);
+          color: var(--primary-text-color);
+          --md-sys-color-primary: var(--primary-text-color);
+          --md-sys-color-on-surface: var(--primary-text-color);
+          --md-sys-color-on-surface-variant: var(--deemphasized-text-color);
+          --md-outlined-text-field-label-text-color: var(
+            --deemphasized-text-color
+          );
+          --md-outlined-text-field-focus-label-text-color: var(
+            --deemphasized-text-color
+          );
+          --md-outlined-text-field-hover-label-text-color: var(
+            --deemphasized-text-color
+          );
+          border-radius: var(--border-radius);
+          --md-outlined-text-field-container-shape: var(--border-radius);
+          --md-outlined-text-field-focus-outline-color: var(
+            --prominent-border-color,
+            var(--border-color)
+          );
+          --md-outlined-text-field-outline-color: var(
+            --prominent-border-color,
+            var(--border-color)
+          );
+          --md-outlined-text-field-hover-outline-color: var(
+            --prominent-border-color,
+            var(--border-color)
+          );
+          --md-sys-color-outline: var(
+            --prominent-border-color,
+            var(--border-color)
+          );
+          --md-outlined-field-top-space: var(--spacing-s);
+          --md-outlined-field-bottom-space: var(--spacing-s);
+          --md-outlined-text-field-outline-width: 1px;
+          --md-outlined-text-field-hover-outline-width: 1px;
+          --md-outlined-text-field-focus-outline-width: 0;
+          --md-outlined-field-leading-space: 8px;
+        }
       `,
     ];
   }
@@ -138,12 +179,13 @@ export class GrCreateRepoDialog extends LitElement {
             <div class="title-flex">
               <span class="title">Repository Name</span>
             </div>
-            <iron-input
-              .bindValue=${convertToString(this.repoConfig.name)}
-              @bind-value-changed=${this.handleNameBindValueChanged}
+            <md-outlined-text-field
+              id="repoNameInput"
+              autocomplete="on"
+              .value=${convertToString(this.repoConfig.name)}
+              @input=${this.handleNameInput}
             >
-              <input id="repoNameInput" autocomplete="on" />
-            </iron-input>
+            </md-outlined-text-field>
           </section>
           <section>
             <div class="title-flex">
@@ -180,13 +222,16 @@ It will only have a 'refs/meta/config' branch."
               <span class="title">Default Branch</span>
             </div>
             <span class="value">
-              <gr-autocomplete
+              <md-outlined-text-field
                 id="defaultBranchNameInput"
-                .text=${convertToString(this.selectedDefaultBranch)}
-                .placeholder=${`Optional, defaults to '${this.defaultBranch}'`}
-                @text-changed=${this.handleBranchNameBindValueChanged}
+                placeholder=${`Optional, defaults to '${this.defaultBranch}'`}
+                .value=${convertToString(this.selectedDefaultBranch)}
+                @input=${(e: InputEvent) => {
+                  const target = e.target as HTMLInputElement;
+                  this.selectedDefaultBranch = target.value as BranchName;
+                }}
               >
-              </gr-autocomplete>
+              </md-outlined-text-field>
             </span>
           </section>
           <section>
@@ -329,18 +374,15 @@ It will only have a 'refs/meta/config' branch."
     this.repoOwnerId = e.detail.value as GroupId;
   }
 
-  private handleNameBindValueChanged(e: ValueChangedEvent) {
-    this.repoConfig.name = e.detail.value as RepoName;
+  private handleNameInput(e: InputEvent) {
+    const target = e.target as HTMLInputElement;
+    this.repoConfig.name = target.value as RepoName;
     // nameChanged needs to be set before the event is fired,
     // because when the event is fired, gr-repo-list gets
     // the nameChanged value.
-    this.nameChanged = !!e.detail.value;
+    this.nameChanged = !!target.value;
     fire(this, 'new-repo-name', {});
     this.requestUpdate();
-  }
-
-  private handleBranchNameBindValueChanged(e: ValueChangedEvent) {
-    this.selectedDefaultBranch = e.detail.value as BranchName;
   }
 
   private handleCreateEmptyCommitBindValueChanged(

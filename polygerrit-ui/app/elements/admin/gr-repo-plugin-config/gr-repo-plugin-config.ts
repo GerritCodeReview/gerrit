@@ -3,7 +3,6 @@
  * Copyright 2018 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '@polymer/iron-input/iron-input';
 import '@material/web/switch/switch';
 import {grFormStyles} from '../../../styles/gr-form-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
@@ -18,7 +17,6 @@ import {
   ConfigParameterInfo,
   PluginParameterToConfigParameterInfoMap,
 } from '../../../types/common';
-import {IronInputElement} from '@polymer/iron-input/iron-input';
 import {
   PluginConfigOptionsChangedEventDetail,
   PluginOption,
@@ -26,6 +24,7 @@ import {
 import {paperStyles} from '../../../styles/gr-paper-styles';
 import {fire} from '../../../utils/event-util';
 import {MdSwitch} from '@material/web/switch/switch';
+import '@material/web/textfield/outlined-text-field';
 
 export interface ConfigChangeInfo {
   _key: string; // parameterName of PluginParameterToConfigParameterInfoMap
@@ -73,6 +72,46 @@ export class GrRepoPluginConfig extends LitElement {
         }
         section.section.ARRAY .title {
           padding-top: var(--spacing-m);
+        }
+        md-outlined-text-field {
+          background-color: var(--view-background-color);
+          color: var(--primary-text-color);
+          --md-sys-color-primary: var(--primary-text-color);
+          --md-sys-color-on-surface: var(--primary-text-color);
+          --md-sys-color-on-surface-variant: var(--deemphasized-text-color);
+          --md-outlined-text-field-label-text-color: var(
+            --deemphasized-text-color
+          );
+          --md-outlined-text-field-focus-label-text-color: var(
+            --deemphasized-text-color
+          );
+          --md-outlined-text-field-hover-label-text-color: var(
+            --deemphasized-text-color
+          );
+          border-radius: var(--border-radius);
+          --md-outlined-text-field-container-shape: var(--border-radius);
+          --md-outlined-text-field-focus-outline-color: var(
+            --prominent-border-color,
+            var(--border-color)
+          );
+          --md-outlined-text-field-outline-color: var(
+            --prominent-border-color,
+            var(--border-color)
+          );
+          --md-outlined-text-field-hover-outline-color: var(
+            --prominent-border-color,
+            var(--border-color)
+          );
+          --md-sys-color-outline: var(
+            --prominent-border-color,
+            var(--border-color)
+          );
+          --md-outlined-field-top-space: var(--spacing-s);
+          --md-outlined-field-bottom-space: var(--spacing-s);
+          --md-outlined-text-field-outline-width: 1px;
+          --md-outlined-text-field-hover-outline-width: 1px;
+          --md-outlined-text-field-focus-outline-width: 0;
+          --md-outlined-field-leading-space: 8px;
         }
       `,
     ];
@@ -169,19 +208,13 @@ export class GrRepoPluginConfig extends LitElement {
       option.info.type === ConfigParameterInfoType.LONG
     ) {
       return html`
-        <iron-input
-          .bindValue=${option.info.value ?? ''}
-          @input=${this.handleStringChange}
+        <md-outlined-text-field
+          .value=${option.info.value ?? ''}
           data-option-key=${option._key}
+          @input=${this.handleStringChange}
+          ?disabled=${this.disabled || !option.info.editable}
         >
-          <input
-            is="iron-input"
-            .value=${option.info.value ?? ''}
-            @input=${this.handleStringChange}
-            data-option-key=${option._key}
-            ?disabled=${this.disabled || !option.info.editable}
-          />
-        </iron-input>
+        </md-outlined-text-field>
       `;
     } else {
       return html``;
@@ -201,7 +234,7 @@ export class GrRepoPluginConfig extends LitElement {
   }
 
   private handleStringChange(e: Event) {
-    const el = e.target as IronInputElement;
+    const el = e.target as HTMLInputElement;
     // In the template, the data-option-key is assigned to each editor
     const key = el.getAttribute('data-option-key')!;
     const configChangeInfo = this.buildConfigChangeInfo(el.value, key);

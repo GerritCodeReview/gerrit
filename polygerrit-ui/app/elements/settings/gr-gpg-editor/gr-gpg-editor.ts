@@ -88,6 +88,9 @@ export class GrGpgEditor extends LitElement {
           --text-disabled: var(--deemphasized-text-color);
           --text-secondary: var(--deemphasized-text-color);
         }
+        gr-autogrow-textarea:focus {
+          border: 2px solid var(--input-focus-border-color);
+        }
       `,
     ];
   }

@@ -3,7 +3,6 @@
  * Copyright 2018 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '@polymer/iron-input/iron-input';
 import '@material/web/switch/switch';
 import {grFormStyles} from '../../../styles/gr-form-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
@@ -18,14 +17,14 @@ import {
   ConfigParameterInfo,
   PluginParameterToConfigParameterInfoMap,
 } from '../../../types/common';
-import {IronInputElement} from '@polymer/iron-input/iron-input';
 import {
   PluginConfigOptionsChangedEventDetail,
   PluginOption,
 } from './gr-repo-plugin-config-types';
-import {paperStyles} from '../../../styles/gr-paper-styles';
+import {materialStyles} from '../../../styles/gr-material-styles';
 import {fire} from '../../../utils/event-util';
 import {MdSwitch} from '@material/web/switch/switch';
+import '@material/web/textfield/outlined-text-field';
 
 export interface ConfigChangeInfo {
   _key: string; // parameterName of PluginParameterToConfigParameterInfoMap
@@ -58,9 +57,10 @@ export class GrRepoPluginConfig extends LitElement {
 
   static override get styles() {
     return [
+      materialStyles,
       sharedStyles,
       grFormStyles,
-      paperStyles,
+      materialStyles,
       subpageStyles,
       css`
         .inherited {
@@ -169,19 +169,14 @@ export class GrRepoPluginConfig extends LitElement {
       option.info.type === ConfigParameterInfoType.LONG
     ) {
       return html`
-        <iron-input
-          .bindValue=${option.info.value ?? ''}
-          @input=${this.handleStringChange}
+        <md-outlined-text-field
+          class="showBlueFocusBorder"
+          .value=${option.info.value ?? ''}
           data-option-key=${option._key}
+          @input=${this.handleStringChange}
+          ?disabled=${this.disabled || !option.info.editable}
         >
-          <input
-            is="iron-input"
-            .value=${option.info.value ?? ''}
-            @input=${this.handleStringChange}
-            data-option-key=${option._key}
-            ?disabled=${this.disabled || !option.info.editable}
-          />
-        </iron-input>
+        </md-outlined-text-field>
       `;
     } else {
       return html``;
@@ -201,7 +196,7 @@ export class GrRepoPluginConfig extends LitElement {
   }
 
   private handleStringChange(e: Event) {
-    const el = e.target as IronInputElement;
+    const el = e.target as HTMLInputElement;
     // In the template, the data-option-key is assigned to each editor
     const key = el.getAttribute('data-option-key')!;
     const configChangeInfo = this.buildConfigChangeInfo(el.value, key);

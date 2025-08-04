@@ -3,7 +3,6 @@
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '@polymer/iron-input/iron-input';
 import '../../shared/gr-autogrow-textarea/gr-autogrow-textarea';
 import '../../../styles/gr-form-styles';
 import '../../../styles/shared-styles';
@@ -23,7 +22,7 @@ import {grFormStyles} from '../../../styles/gr-form-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {css, html, LitElement, PropertyValues} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
-import {BindValueChangeEvent, ValueChangedEvent} from '../../../types/events';
+import {ValueChangedEvent} from '../../../types/events';
 import {fire} from '../../../utils/event-util';
 import {subscribe} from '../../lit/subscription-controller';
 import {configModelToken} from '../../../models/config/config-model';
@@ -33,6 +32,8 @@ import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-
 import {formStyles} from '../../../styles/form-styles';
 import {branchName} from '../../../utils/patch-set-util';
 import {GrAutogrowTextarea} from '../../../api/embed';
+import '@material/web/textfield/outlined-text-field';
+import {materialStyles} from '../../../styles/gr-material-styles';
 
 const SUGGESTIONS_LIMIT = 15;
 
@@ -96,11 +97,13 @@ export class GrCreateChangeDialog extends LitElement {
 
   static override get styles() {
     return [
+      materialStyles,
       grFormStyles,
       formStyles,
       sharedStyles,
       css`
         input:not([type='checkbox']),
+        md-outlined-text-field,
         gr-autocomplete,
         gr-autogrow-textarea {
           width: 100%;
@@ -113,6 +116,9 @@ export class GrCreateChangeDialog extends LitElement {
         }
         #messageInput {
           min-width: calc(72ch + 2px + 2 * var(--spacing-m) + 0.4px);
+        }
+        gr-autogrow-textarea:focus {
+          border: 2px solid var(--input-focus-border-color);
         }
         @media only screen and (max-width: 40em) {
           .value {
@@ -134,6 +140,7 @@ export class GrCreateChangeDialog extends LitElement {
               .text=${this.branch}
               .query=${this.query}
               placeholder="Destination branch"
+              .showBlueFocusBorder=${true}
               @text-changed=${(e: ValueChangedEvent<BranchName>) => {
                 this.branch = e.detail.value;
               }}
@@ -144,35 +151,35 @@ export class GrCreateChangeDialog extends LitElement {
         <section class=${this.baseChange ? 'hide' : ''}>
           <span class="title">Provide base commit sha1 for change</span>
           <span class="value">
-            <iron-input
-              .bindValue=${this.baseCommit}
-              @bind-value-changed=${(e: BindValueChangeEvent) => {
-                this.baseCommit = e.detail.value;
+            <md-outlined-text-field
+              id="baseCommitInput"
+              class="showBlueFocusBorder"
+              maxlength="40"
+              placeholder="(optional)"
+              .value=${this.baseCommit ?? ''}
+              @input=${(e: InputEvent) => {
+                const target = e.target as HTMLInputElement;
+                this.baseCommit = target.value;
               }}
             >
-              <input
-                id="baseCommitInput"
-                maxlength="40"
-                placeholder="(optional)"
-              />
-            </iron-input>
+            </md-outlined-text-field>
           </span>
         </section>
         <section>
           <span class="title">Enter topic for new change</span>
           <span class="value">
-            <iron-input
-              .bindValue=${this.topic}
-              @bind-value-changed=${(e: BindValueChangeEvent) => {
-                this.topic = e.detail.value;
+            <md-outlined-text-field
+              id="tagNameInput"
+              class="showBlueFocusBorder"
+              maxlength="1024"
+              placeholder="(optional)"
+              .value=${this.topic ?? ''}
+              @input=${(e: InputEvent) => {
+                const target = e.target as HTMLInputElement;
+                this.topic = target.value;
               }}
             >
-              <input
-                id="tagNameInput"
-                maxlength="1024"
-                placeholder="(optional)"
-              />
-            </iron-input>
+            </md-outlined-text-field>
           </span>
         </section>
         <section id="description">

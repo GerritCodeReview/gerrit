@@ -112,6 +112,9 @@ export class GrConfirmRevertDialog
           line-height: var(--line-height-mono);
           width: 73ch; /* Add a char to account for the border. */
         }
+        gr-autogrow-textarea:focus {
+          border: 2px solid var(--input-focus-border-color);
+        }
         .error {
           color: var(--error-text-color);
           margin-bottom: var(--spacing-m);

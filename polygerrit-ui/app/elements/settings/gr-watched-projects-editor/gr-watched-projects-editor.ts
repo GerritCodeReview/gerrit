@@ -3,7 +3,6 @@
  * Copyright 2016 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '@polymer/iron-input/iron-input';
 import '../../shared/gr-autocomplete/gr-autocomplete';
 import '../../shared/gr-button/gr-button';
 import {customElement, query, state} from 'lit/decorators.js';
@@ -23,6 +22,8 @@ import {fire} from '../../../utils/event-util';
 import {PropertiesOfType} from '../../../utils/type-util';
 import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 import {notDeepEqual} from '../../../utils/deep-util';
+import '@material/web/textfield/outlined-text-field';
+import {materialStyles} from '../../../styles/gr-material-styles';
 
 type NotificationKey = PropertiesOfType<Required<ProjectWatchInfo>, boolean>;
 
@@ -60,6 +61,7 @@ export class GrWatchedProjectsEditor extends LitElement {
 
   static override get styles() {
     return [
+      materialStyles,
       sharedStyles,
       grFormStyles,
       css`
@@ -114,16 +116,16 @@ export class GrWatchedProjectsEditor extends LitElement {
                 allow-non-suggested-values
                 tab-complete
                 placeholder="Repo"
+                .showBlueFocusBorder=${true}
               ></gr-autocomplete>
             </th>
             <th colspan=${types.length}>
-              <iron-input id="newFilterInput" class="newFilterInput">
-                <input
-                  id="newFilter"
-                  class="newFilterInput"
-                  placeholder="branch:name, or other search expression"
-                />
-              </iron-input>
+              <md-outlined-text-field
+                id="newFilter"
+                class="newFilterInput showBlueFocusBorder"
+                placeholder="branch:name, or other search expression"
+              >
+              </md-outlined-text-field>
             </th>
             <th>
               <gr-button link="" @click=${this.handleAddProject}>Add</gr-button>

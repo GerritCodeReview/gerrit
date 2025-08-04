@@ -3,7 +3,6 @@
  * Copyright 2018 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '@polymer/iron-input/iron-input';
 import '../../shared/gr-button/gr-button';
 import {IncludedInInfo, NumericChangeId} from '../../../types/common';
 import {getAppContext} from '../../../services/app-context';
@@ -11,12 +10,12 @@ import {fontStyles} from '../../../styles/gr-font-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {css, html, LitElement, PropertyValues} from 'lit';
 import {customElement, state} from 'lit/decorators.js';
-import {BindValueChangeEvent} from '../../../types/events';
 import {fireNoBubble} from '../../../utils/event-util';
 import {resolve} from '../../../models/dependency';
 import {changeModelToken} from '../../../models/change/change-model';
 import {subscribe} from '../../lit/subscription-controller';
 import {formStyles} from '../../../styles/form-styles';
+import {materialStyles} from '../../../styles/gr-material-styles';
 
 interface DisplayGroup {
   title: string;
@@ -45,6 +44,7 @@ export class GrIncludedInDialog extends LitElement {
 
   static override get styles() {
     return [
+      materialStyles,
       formStyles,
       fontStyles,
       sharedStyles,
@@ -120,15 +120,16 @@ export class GrIncludedInDialog extends LitElement {
             >Close</gr-button
           >
         </span>
-        <iron-input
+        <md-outlined-text-field
           id="filterInput"
-          .bindValue=${this.filterText}
-          @bind-value-changed=${(e: BindValueChangeEvent) => {
-            this.filterText = e.detail.value ?? '';
+          placeholder="Filter"
+          .value=${this.filterText ?? ''}
+          @input=${(e: InputEvent) => {
+            const target = e.target as HTMLInputElement;
+            this.filterText = target.value;
           }}
         >
-          <input placeholder="Filter" />
-        </iron-input>
+        </md-outlined-text-field>
       </header>
       ${this.renderLoading()}
       ${this.computeGroups().map(group => this.renderGroup(group))}

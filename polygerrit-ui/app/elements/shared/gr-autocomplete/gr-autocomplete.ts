@@ -26,6 +26,7 @@ import {customElement, property, query, state} from 'lit/decorators.js';
 import {ValueChangedEvent} from '../../../types/events';
 import '@material/web/textfield/outlined-text-field';
 import {MdOutlinedTextField} from '@material/web/textfield/outlined-text-field';
+import {materialStyles} from '../../../styles/gr-material-styles';
 
 const TOKENIZE_REGEX = /(?:[^\s"]+|"[^"]*")+/g;
 const DEBOUNCE_WAIT_MS = 200;
@@ -212,24 +213,11 @@ export class GrAutocomplete extends LitElement {
 
   static override get styles() {
     return [
+      materialStyles,
       sharedStyles,
       css`
         md-outlined-text-field {
           width: 100%;
-          background-color: var(--view-background-color);
-          color: var(--primary-text-color);
-          --md-sys-color-primary: var(--primary-text-color);
-          --md-sys-color-on-surface: var(--primary-text-color);
-          --md-sys-color-on-surface-variant: var(--deemphasized-text-color);
-          --md-outlined-text-field-label-text-color: var(
-            --deemphasized-text-color
-          );
-          --md-outlined-text-field-focus-label-text-color: var(
-            --deemphasized-text-color
-          );
-          --md-outlined-text-field-hover-label-text-color: var(
-            --deemphasized-text-color
-          );
           border-radius: var(
             --gr-autocomplete-text-field-border-radius,
             var(--border-radius)
@@ -238,28 +226,6 @@ export class GrAutocomplete extends LitElement {
             --gr-autocomplete-text-field-border-radius,
             var(--border-radius)
           );
-          --md-outlined-text-field-focus-outline-color: var(
-            --prominent-border-color,
-            var(--border-color)
-          );
-          --md-outlined-text-field-outline-color: var(
-            --prominent-border-color,
-            var(--border-color)
-          );
-          --md-outlined-text-field-hover-outline-color: var(
-            --prominent-border-color,
-            var(--border-color)
-          );
-          --md-sys-color-outline: var(
-            --prominent-border-color,
-            var(--border-color)
-          );
-          --md-outlined-field-top-space: var(--spacing-s);
-          --md-outlined-field-bottom-space: var(--spacing-s);
-          --md-outlined-text-field-outline-width: 1px;
-          --md-outlined-text-field-hover-outline-width: 1px;
-          --md-outlined-text-field-focus-outline-width: 0;
-          --md-outlined-field-leading-space: 8px;
         }
         md-outlined-text-field.borderless {
           --md-outlined-text-field-outline-width: 0;
@@ -267,20 +233,6 @@ export class GrAutocomplete extends LitElement {
           --md-outlined-text-field-focus-outline-width: 0;
           border: none;
           padding: 0;
-        }
-        md-outlined-text-field.showBlueFocusBorder:focus {
-          --md-outlined-text-field-focus-outline-width: 2px;
-          --md-outlined-text-field-focus-outline-color: var(
-            --input-focus-border-color
-          );
-          /*
-           * The goal is to have a thicker blue border when focused and a thinner
-           * gray border when blurred. To avoid shifting neighboring elements
-           * around when the border size changes, a negative margin is added to
-           * compensate. box-sizing: border-box; will not work since there is
-           * important padding to add around the content.
-           */
-          margin: -1px;
         }
         md-outlined-text-field.warnUncommitted {
           --md-outlined-text-field-input-text-size: 16px;

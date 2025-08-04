@@ -194,6 +194,7 @@ export class GrGroupMembers extends LitElement {
                   .text=${this.groupMemberSearchName ?? ''}
                   .value=${`${this.groupMemberSearchId ?? ''}`}
                   .query=${this.queryMembers}
+                  .showBlueFocusBorder=${true}
                   placeholder="Name Or Email"
                   @text-changed=${this.handleGroupMemberTextChanged}
                   @value-changed=${this.handleGroupMemberValueChanged}
@@ -230,6 +231,7 @@ export class GrGroupMembers extends LitElement {
                   .text=${this.includedGroupSearchName ?? ''}
                   .value=${this.includedGroupSearchId ?? ''}
                   .query=${this.queryIncludedGroup}
+                  .showBlueFocusBorder=${true}
                   placeholder="Group Name"
                   @text-changed=${this.handleIncludedGroupTextChanged}
                   @value-changed=${this.handleIncludedGroupValueChanged}

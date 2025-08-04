@@ -130,6 +130,7 @@ import {escapeAndWrapSearchOperatorValue} from '../../utils/string-util';
 import {FlagsService, KnownExperimentId} from '../flags/flags';
 import {RetryScheduler} from '../scheduler/retry-scheduler';
 import {
+  BatchLabelInput,
   DeleteLabelInput,
   FileInfo,
   FixReplacementInfo,
@@ -1907,6 +1908,22 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       errFn,
       anonymizedUrl: '/projects/*/labels/*',
     }) as Promise<LabelDefinitionInfo | undefined>;
+  }
+
+  saveRepoLabelsForReview(
+    repoName: RepoName,
+    input: BatchLabelInput,
+    errFn?: ErrorCallback
+  ): Promise<ChangeInfo | undefined> {
+    return this._restApiHelper.fetchJSON({
+      url: `/projects/${encodeURIComponent(repoName)}/labels:review`,
+      fetchOptions: getFetchOptions({
+        method: HttpMethod.POST,
+        body: input,
+      }),
+      errFn,
+      anonymizedUrl: '/projects/*/labels:review',
+    }) as Promise<ChangeInfo | undefined>;
   }
 
   updateRepoLabel(

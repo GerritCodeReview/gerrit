@@ -23,12 +23,17 @@ import {
 } from '../../../models/views/repo';
 import '@polymer/iron-input/iron-input';
 import {
+  BatchLabelInput,
   DeleteLabelInput,
   LabelDefinitionInfo,
   LabelDefinitionInfoFunction,
   LabelDefinitionInput,
   LabelValueToDescriptionMap,
 } from '../../../api/rest-api';
+import {navigationToken} from '../../core/gr-navigation/gr-navigation';
+import {createChangeUrl} from '../../../models/views/change';
+import {resolve} from '../../../models/dependency';
+import {GrButton} from '../../shared/gr-button/gr-button';
 
 @customElement('gr-repo-labels')
 export class GrRepoLabels extends LitElement {
@@ -56,6 +61,12 @@ export class GrRepoLabels extends LitElement {
   @state() isProjectOwner = false;
 
   @state()
+  disableSaveWithoutReview = true;
+
+  @state()
+  showSaveForReviewButton = false;
+
+  @state()
   newLabel: LabelDefinitionInput = this.getEmptyLabel();
 
   @state() offset = 0;
@@ -74,6 +85,8 @@ export class GrRepoLabels extends LitElement {
 
   @state()
   isEditing = false;
+
+  private readonly getNavigation = resolve(this, navigationToken);
 
   private readonly restApiService = getAppContext().restApiService;
 
@@ -161,6 +174,9 @@ export class GrRepoLabels extends LitElement {
     try {
       const access = await this.restApiService.getRepoAccessRights(this.repo);
       this.isProjectOwner = !!access?.is_owner;
+      this.disableSaveWithoutReview =
+        !!access?.require_change_for_config_update;
+      this.showSaveForReviewButton = true;
     } catch (e) {
       console.error('Failed to check project owner status:', e);
       this.isProjectOwner = false;
@@ -436,18 +452,52 @@ export class GrRepoLabels extends LitElement {
     };
   }
 
+  private async handleSaveForReview(e: Event) {
+    if (!this.repo) return;
+    if (!this.newLabel.name) {
+      return;
+    }
+    const button = e.target as GrButton;
+    button.loading = true;
+
+    const errFn: ErrorCallback = response => {
+      firePageError(response);
+    };
+
+    const input: BatchLabelInput = {};
+    if (this.isEditing) {
+      input.update = [this.newLabel];
+    } else {
+      input.add = [this.newLabel];
+    }
+
+    const promise = this.restApiService.saveRepoLabelsForReview(
+      this.repo,
+      input,
+      errFn
+    );
+
+    try {
+      const change = await promise;
+      if (change) {
+        this.getNavigation().setUrl(createChangeUrl({change}));
+      }
+    } finally {
+      button.loading = false;
+      this.createDialog?.close();
+      this.newLabel = this.getEmptyLabel();
+      this.labelToEdit = undefined;
+      this.isEditing = false;
+      this.getLabels(this.filter, this.offset);
+    }
+  }
+
   private renderCreateDialog() {
     if (!this.isProjectOwner) return nothing;
 
     return html`
       <dialog id="createDialog" tabindex="-1">
-        <gr-dialog
-          confirm-label=${this.isEditing ? 'Save' : 'Create'}
-          cancel-label="Cancel"
-          ?disabled=${!this.newLabel.name}
-          @confirm=${this.handleCreateConfirm}
-          @cancel=${this.handleCreateCancel}
-        >
+        <gr-dialog @cancel=${this.handleCreateCancel}>
           <div class="header" slot="header">
             ${this.isEditing ? 'Edit' : 'Create'} Label
           </div>
@@ -724,6 +774,26 @@ export class GrRepoLabels extends LitElement {
                 </section>
               </div>
             </div>
+          </div>
+          <div class="footer" slot="footer">
+            <gr-button @click=${this.handleCreateCancel}>Cancel</gr-button>
+            <gr-button
+              class="action save-button"
+              primary
+              ?disabled=${!this.newLabel.name || this.disableSaveWithoutReview}
+              @click=${this.handleCreateConfirm}
+            >
+              ${this.isEditing ? 'Save' : 'Create'}
+            </gr-button>
+            <gr-button
+              class="action save-for-review"
+              primary
+              ?hidden=${!this.showSaveForReviewButton}
+              ?disabled=${!this.newLabel.name}
+              @click=${this.handleSaveForReview}
+            >
+              Save for review
+            </gr-button>
           </div>
         </gr-dialog>
       </dialog>

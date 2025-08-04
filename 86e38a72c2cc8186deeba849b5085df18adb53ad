@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2f67c084_01754f5e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-08-04T09:29:07Z",
+      "side": 1,
+      "message": "```suggestion\nRelease-Notes: Add REST API endpoint to reduce auth token lifetime\n```",
+      "revId": "86e38a72c2cc8186deeba849b5085df18adb53ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ef441ad1_db936d99",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-08-04T09:29:07Z",
+      "side": 1,
+      "message": "- document the new API in REST API documentation\n- with this API we can shorten the token lifetime, maybe we should also have a way to prolong the lifetime of existing tokens ?",
+      "revId": "86e38a72c2cc8186deeba849b5085df18adb53ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

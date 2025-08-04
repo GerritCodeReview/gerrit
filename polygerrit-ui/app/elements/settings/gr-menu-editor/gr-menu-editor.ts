@@ -3,14 +3,12 @@
  * Copyright 2016 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '@polymer/iron-input/iron-input';
 import '../../shared/gr-button/gr-button';
 import {PreferencesInfo, TopMenuItemInfo} from '../../../types/common';
 import {css, html, LitElement} from 'lit';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {grFormStyles} from '../../../styles/gr-form-styles';
 import {customElement, state} from 'lit/decorators.js';
-import {BindValueChangeEvent} from '../../../types/events';
 import {subscribe} from '../../lit/subscription-controller';
 import {deepEqual} from '../../../utils/deep-util';
 import {createDefaultPreferences} from '../../../constants/constants';
@@ -19,6 +17,7 @@ import {classMap} from 'lit/directives/class-map.js';
 import {menuPageStyles} from '../../../styles/gr-menu-page-styles';
 import {userModelToken} from '../../../models/user/user-model';
 import {resolve} from '../../../models/dependency';
+import '@material/web/textfield/outlined-text-field';
 
 @customElement('gr-menu-editor')
 export class GrMenuEditor extends LitElement {
@@ -77,6 +76,46 @@ export class GrMenuEditor extends LitElement {
         }
         th {
           white-space: nowrap;
+        }
+        md-outlined-text-field {
+          background-color: var(--view-background-color);
+          color: var(--primary-text-color);
+          --md-sys-color-primary: var(--primary-text-color);
+          --md-sys-color-on-surface: var(--primary-text-color);
+          --md-sys-color-on-surface-variant: var(--deemphasized-text-color);
+          --md-outlined-text-field-label-text-color: var(
+            --deemphasized-text-color
+          );
+          --md-outlined-text-field-focus-label-text-color: var(
+            --deemphasized-text-color
+          );
+          --md-outlined-text-field-hover-label-text-color: var(
+            --deemphasized-text-color
+          );
+          border-radius: var(--border-radius);
+          --md-outlined-text-field-container-shape: var(--border-radius);
+          --md-outlined-text-field-focus-outline-color: var(
+            --prominent-border-color,
+            var(--border-color)
+          );
+          --md-outlined-text-field-outline-color: var(
+            --prominent-border-color,
+            var(--border-color)
+          );
+          --md-outlined-text-field-hover-outline-color: var(
+            --prominent-border-color,
+            var(--border-color)
+          );
+          --md-sys-color-outline: var(
+            --prominent-border-color,
+            var(--border-color)
+          );
+          --md-outlined-field-top-space: var(--spacing-s);
+          --md-outlined-field-bottom-space: var(--spacing-s);
+          --md-outlined-text-field-outline-width: 1px;
+          --md-outlined-text-field-hover-outline-width: 1px;
+          --md-outlined-text-field-focus-outline-width: 0;
+          --md-outlined-field-leading-space: 8px;
         }
       `,
     ];
@@ -173,32 +212,29 @@ export class GrMenuEditor extends LitElement {
     return html`
       <tr>
         <th>
-          <iron-input
-            .bindValue=${this.newName}
-            @bind-value-changed=${(e: BindValueChangeEvent) => {
-              this.newName = e.detail.value ?? '';
+          <md-outlined-text-field
+            placeholder="New Title"
+            .value=${this.newName ?? ''}
+            @input=${(e: InputEvent) => {
+              const target = e.target as HTMLInputElement;
+              this.newName = target.value;
             }}
+            @keydown=${this.handleInputKeydown}
           >
-            <input
-              is="iron-input"
-              placeholder="New Title"
-              @keydown=${this.handleInputKeydown}
-            />
-          </iron-input>
+          </md-outlined-text-field>
         </th>
         <th>
-          <iron-input
-            .bindValue=${this.newUrl}
-            @bind-value-changed=${(e: BindValueChangeEvent) => {
-              this.newUrl = e.detail.value ?? '';
+          <md-outlined-text-field
+            class="newUrlInput"
+            placeholder="New URL"
+            .value=${this.newUrl ?? ''}
+            @input=${(e: InputEvent) => {
+              const target = e.target as HTMLInputElement;
+              this.newUrl = target.value;
             }}
+            @keydown=${this.handleInputKeydown}
           >
-            <input
-              class="newUrlInput"
-              placeholder="New URL"
-              @keydown=${this.handleInputKeydown}
-            />
-          </iron-input>
+          </md-outlined-text-field>
         </th>
         <th>
           <input

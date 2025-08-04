@@ -3,7 +3,6 @@
  * Copyright 2018 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '@polymer/iron-input/iron-input';
 import '../../shared/gr-button/gr-button';
 import {
   ArrayPluginOption,
@@ -13,8 +12,8 @@ import {grFormStyles} from '../../../styles/gr-form-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {css, html, LitElement} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
-import {BindValueChangeEvent} from '../../../types/events';
 import {fireNoBubbleNoCompose} from '../../../utils/event-util';
+import '@material/web/textfield/outlined-text-field';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -79,6 +78,47 @@ export class GrPluginConfigArrayEditor extends LitElement {
           color: var(--deemphasized-text-color);
           padding-top: var(--spacing-m);
         }
+        md-outlined-text-field {
+          flex-grow: 1;
+          background-color: var(--view-background-color);
+          color: var(--primary-text-color);
+          --md-sys-color-primary: var(--primary-text-color);
+          --md-sys-color-on-surface: var(--primary-text-color);
+          --md-sys-color-on-surface-variant: var(--deemphasized-text-color);
+          --md-outlined-text-field-label-text-color: var(
+            --deemphasized-text-color
+          );
+          --md-outlined-text-field-focus-label-text-color: var(
+            --deemphasized-text-color
+          );
+          --md-outlined-text-field-hover-label-text-color: var(
+            --deemphasized-text-color
+          );
+          border-radius: var(--border-radius);
+          --md-outlined-text-field-container-shape: var(--border-radius);
+          --md-outlined-text-field-focus-outline-color: var(
+            --prominent-border-color,
+            var(--border-color)
+          );
+          --md-outlined-text-field-outline-color: var(
+            --prominent-border-color,
+            var(--border-color)
+          );
+          --md-outlined-text-field-hover-outline-color: var(
+            --prominent-border-color,
+            var(--border-color)
+          );
+          --md-sys-color-outline: var(
+            --prominent-border-color,
+            var(--border-color)
+          );
+          --md-outlined-field-top-space: var(--spacing-s);
+          --md-outlined-field-bottom-space: var(--spacing-s);
+          --md-outlined-text-field-outline-width: 1px;
+          --md-outlined-text-field-hover-outline-width: 1px;
+          --md-outlined-text-field-focus-outline-width: 0;
+          --md-outlined-field-leading-space: 8px;
+        }
       `,
     ];
   }
@@ -88,16 +128,17 @@ export class GrPluginConfigArrayEditor extends LitElement {
       <div class="wrapper gr-form-styles">
         ${this.renderPluginOptions()}
         <div class="row ${this.disabled ? 'hide' : ''}">
-          <iron-input
-            .bindValue=${this.newValue}
-            @bind-value-changed=${this.handleBindValueChangedNewValue}
+          <md-outlined-text-field
+            id="input"
+            .value=${this.newValue ?? ''}
+            ?disabled=${this.disabled}
+            @input=${(e: InputEvent) => {
+              const target = e.target as HTMLInputElement;
+              this.newValue = target.value;
+            }}
+            @keydown=${this.handleInputKeydown}
           >
-            <input
-              id="input"
-              @keydown=${this.handleInputKeydown}
-              ?disabled=${this.disabled}
-            />
-          </iron-input>
+          </md-outlined-text-field>
           <gr-button
             id="addButton"
             ?disabled=${!this.newValue.length}
@@ -173,9 +214,5 @@ export class GrPluginConfigArrayEditor extends LitElement {
       notifyPath: `${_key}.values`,
     };
     fireNoBubbleNoCompose(this, 'plugin-config-option-changed', detail);
-  }
-
-  private handleBindValueChangedNewValue(e: BindValueChangeEvent) {
-    this.newValue = e.detail.value ?? '';
   }
 }

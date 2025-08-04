@@ -35,9 +35,13 @@ suite('gr-create-repo-dialog tests', () => {
               <div class="title-flex">
                 <span class="title"> Repository Name </span>
               </div>
-              <iron-input>
-                <input autocomplete="on" id="repoNameInput" />
-              </iron-input>
+              <md-outlined-text-field
+                autocomplete="on"
+                id="repoNameInput"
+                inputmode=""
+                type="text"
+              >
+              </md-outlined-text-field>
             </section>
             <section>
               <div class="title-flex">
@@ -70,7 +74,14 @@ It will only have a 'refs/meta/config' branch."
                 <span class="title"> Default Branch </span>
               </div>
               <span class="value">
-                <gr-autocomplete id="defaultBranchNameInput"> </gr-autocomplete>
+                <md-outlined-text-field
+                  autocomplete=""
+                  id="defaultBranchNameInput"
+                  inputmode=""
+                  placeholder="Optional, defaults to 'master'"
+                  type="text"
+                >
+                </md-outlined-text-field>
               </span>
             </section>
             <section>

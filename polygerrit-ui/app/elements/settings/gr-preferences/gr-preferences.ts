@@ -3,7 +3,6 @@
  * Copyright 2024 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '@polymer/iron-input/iron-input';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-select/gr-select';
 import {AccountDetailInfo, PreferencesInput} from '../../../types/common';

@@ -3,7 +3,6 @@
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '@polymer/iron-input/iron-input';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-icon/gr-icon';
 import '../gr-permission/gr-permission';
@@ -25,14 +24,15 @@ import {
   RepoName,
 } from '../../../types/common';
 import {fire} from '../../../utils/event-util';
-import {IronInputElement} from '@polymer/iron-input/iron-input';
 import {fontStyles} from '../../../styles/gr-font-styles';
 import {grFormStyles} from '../../../styles/gr-form-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {css, html, LitElement, PropertyValues} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
-import {BindValueChangeEvent, ValueChangedEvent} from '../../../types/events';
+import {ValueChangedEvent} from '../../../types/events';
 import {assertIsDefined, queryAndAssert} from '../../../utils/common-util';
+import {MdOutlinedTextField} from '@material/web/textfield/outlined-text-field';
+import '@material/web/textfield/outlined-text-field';
 
 const GLOBAL_NAME = 'GLOBAL_CAPABILITIES';
 
@@ -144,6 +144,46 @@ export class GrAccessSection extends LitElement {
         #undoRemoveBtn {
           padding-right: var(--spacing-m);
         }
+        md-outlined-text-field {
+          background-color: var(--view-background-color);
+          color: var(--primary-text-color);
+          --md-sys-color-primary: var(--primary-text-color);
+          --md-sys-color-on-surface: var(--primary-text-color);
+          --md-sys-color-on-surface-variant: var(--deemphasized-text-color);
+          --md-outlined-text-field-label-text-color: var(
+            --deemphasized-text-color
+          );
+          --md-outlined-text-field-focus-label-text-color: var(
+            --deemphasized-text-color
+          );
+          --md-outlined-text-field-hover-label-text-color: var(
+            --deemphasized-text-color
+          );
+          border-radius: var(--border-radius);
+          --md-outlined-text-field-container-shape: var(--border-radius);
+          --md-outlined-text-field-focus-outline-color: var(
+            --prominent-border-color,
+            var(--border-color)
+          );
+          --md-outlined-text-field-outline-color: var(
+            --prominent-border-color,
+            var(--border-color)
+          );
+          --md-outlined-text-field-hover-outline-color: var(
+            --prominent-border-color,
+            var(--border-color)
+          );
+          --md-sys-color-outline: var(
+            --prominent-border-color,
+            var(--border-color)
+          );
+          --md-outlined-field-top-space: var(--spacing-s);
+          --md-outlined-field-bottom-space: var(--spacing-s);
+          --md-outlined-text-field-outline-width: 1px;
+          --md-outlined-text-field-hover-outline-width: 1px;
+          --md-outlined-text-field-focus-outline-width: 0;
+          --md-outlined-field-leading-space: 8px;
+        }
       `,
     ];
   }
@@ -168,18 +208,12 @@ export class GrAccessSection extends LitElement {
                 <gr-icon id="icon" icon="edit" filled small></gr-icon>
               </gr-button>
             </div>
-            <iron-input
+            <md-outlined-text-field
               class="editRefInput"
-              .bindValue=${this.section?.id}
+              .value=${this.section?.id ?? ''}
               @input=${this.handleValueChange}
-              @bind-value-changed=${this.handleIdBindValueChanged}
             >
-              <input
-                class="editRefInput"
-                type="text"
-                @input=${this.handleValueChange}
-              />
-            </iron-input>
+            </md-outlined-text-field>
             <gr-button link id="deleteBtn" @click=${this.handleRemoveReference}
               >Remove</gr-button
             >
@@ -207,7 +241,7 @@ export class GrAccessSection extends LitElement {
         <!-- end mainContainer -->
         <div id="deletedContainer">
           <span>${this.computeSectionName()} was deleted</span>
-          <gr-button link="" id="undoRemoveBtn" @click=${this._handleUndoRemove}
+          <gr-button link="" id="undoRemoveBtn" @click=${this.handleUndoRemove}
             >Undo</gr-button
           >
         </div>
@@ -275,10 +309,17 @@ export class GrAccessSection extends LitElement {
   }
 
   // private but used in test
-  handleValueChange() {
+  handleValueChange(e?: InputEvent) {
+    if (e) {
+      this.section!.id = (e.target as HTMLInputElement).value as GitRef;
+      this.requestUpdate();
+      fire(this, 'section-changed', {value: this.section!});
+    }
+
     if (!this.section) {
       return;
     }
+
     if (!this.section.value.added) {
       this.section.value.modified = this.section.id !== this.originalId;
       this.requestUpdate();
@@ -434,7 +475,7 @@ export class GrAccessSection extends LitElement {
     fire(this, 'access-modified', {});
   }
 
-  _handleUndoRemove() {
+  private handleUndoRemove() {
     if (!this.section) {
       return;
     }
@@ -444,7 +485,10 @@ export class GrAccessSection extends LitElement {
   }
 
   editRefInput() {
-    return queryAndAssert<IronInputElement>(this, 'iron-input.editRefInput');
+    return queryAndAssert<MdOutlinedTextField>(
+      this,
+      'md-outlined-text-field.editRefInput'
+    );
   }
 
   editReference() {
@@ -510,12 +554,6 @@ export class GrAccessSection extends LitElement {
     this.requestUpdate();
     fire(this, 'section-changed', {value: this.section!});
   }
-
-  private handleIdBindValueChanged = (e: BindValueChangeEvent) => {
-    this.section!.id = e.detail.value as GitRef;
-    this.requestUpdate();
-    fire(this, 'section-changed', {value: this.section!});
-  };
 
   private handlePermissionChanged = (
     e: ValueChangedEvent<PermissionArrayItem<EditablePermissionInfo>>,

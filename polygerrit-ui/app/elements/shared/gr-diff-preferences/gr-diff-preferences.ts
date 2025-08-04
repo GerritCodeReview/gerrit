@@ -3,7 +3,6 @@
  * Copyright 2016 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '@polymer/iron-input/iron-input';
 import '../../../styles/shared-styles';
 import '../gr-button/gr-button';
 import '../gr-select/gr-select';
@@ -11,7 +10,7 @@ import {DiffPreferencesInfo, IgnoreWhitespaceType} from '../../../types/diff';
 import {subscribe} from '../../lit/subscription-controller';
 import {grFormStyles} from '../../../styles/gr-form-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
-import {html, LitElement} from 'lit';
+import {css, html, LitElement} from 'lit';
 import {customElement, query, state} from 'lit/decorators.js';
 import {convertToString} from '../../../utils/string-util';
 import {fire} from '../../../utils/event-util';
@@ -19,6 +18,7 @@ import {ValueChangedEvent} from '../../../types/events';
 import {GrSelect} from '../gr-select/gr-select';
 import {resolve} from '../../../models/dependency';
 import {userModelToken} from '../../../models/user/user-model';
+import '@material/web/textfield/outlined-text-field';
 
 @customElement('gr-diff-preferences')
 export class GrDiffPreferences extends LitElement {
@@ -68,7 +68,53 @@ export class GrDiffPreferences extends LitElement {
   }
 
   static override get styles() {
-    return [sharedStyles, grFormStyles];
+    return [
+      sharedStyles,
+      grFormStyles,
+      css`
+        md-outlined-text-field {
+          max-width: 25em;
+          background-color: var(--view-background-color);
+          color: var(--primary-text-color);
+          --md-sys-color-primary: var(--primary-text-color);
+          --md-sys-color-on-surface: var(--primary-text-color);
+          --md-sys-color-on-surface-variant: var(--deemphasized-text-color);
+          --md-outlined-text-field-label-text-color: var(
+            --deemphasized-text-color
+          );
+          --md-outlined-text-field-focus-label-text-color: var(
+            --deemphasized-text-color
+          );
+          --md-outlined-text-field-hover-label-text-color: var(
+            --deemphasized-text-color
+          );
+          border-radius: var(--border-radius);
+          --md-outlined-text-field-container-shape: var(--border-radius);
+          --md-outlined-text-field-focus-outline-color: var(
+            --prominent-border-color,
+            var(--border-color)
+          );
+          --md-outlined-text-field-outline-color: var(
+            --prominent-border-color,
+            var(--border-color)
+          );
+          --md-outlined-text-field-hover-outline-color: var(
+            --prominent-border-color,
+            var(--border-color)
+          );
+          --md-sys-color-outline: var(
+            --prominent-border-color,
+            var(--border-color)
+          );
+          --md-outlined-field-top-space: var(--spacing-s);
+          --md-outlined-field-bottom-space: var(--spacing-s);
+          --md-outlined-text-field-outline-width: 1px;
+          --md-outlined-text-field-hover-outline-width: 1px;
+          --md-outlined-text-field-focus-outline-width: 0;
+          --md-outlined-field-leading-space: 8px;
+        }
+      `,
+    ];
   }
 
   override render() {
@@ -108,37 +154,67 @@ export class GrDiffPreferences extends LitElement {
         <section>
           <label for="columnsInput" class="title">Diff width</label>
           <span class="value">
-            <iron-input
-              .allowedPattern=${'[0-9]'}
-              .bindValue=${convertToString(this.diffPrefs?.line_length)}
-              @change=${this.handleDiffLineLengthChanged}
+            <md-outlined-text-field
+              id="columnsInput"
+              type="number"
+              step="1"
+              .value=${convertToString(this.diffPrefs?.line_length)}
+              @input=${this.handleDiffLineLengthInput}
+              @beforeinput=${(e: InputEvent) => {
+                // In iron-input we had allowedPattern, but this is not supported
+                // in md-outlined-text-field. Which uses native input functionality.
+                // We workaround this.
+                const data = e.data;
+                if (data && !/^[0-9]*$/.test(data)) {
+                  e.preventDefault();
+                }
+              }}
             >
-              <input id="columnsInput" type="number" />
-            </iron-input>
+            </md-outlined-text-field>
           </span>
         </section>
         <section>
           <label for="tabSizeInput" class="title">Tab width</label>
           <span class="value">
-            <iron-input
-              .allowedPattern=${'[0-9]'}
-              .bindValue=${convertToString(this.diffPrefs?.tab_size)}
-              @change=${this.handleDiffTabSizeChanged}
+            <md-outlined-text-field
+              id="tabSizeInput"
+              type="number"
+              step="1"
+              .value=${convertToString(this.diffPrefs?.tab_size)}
+              @input=${this.handleDiffTabSizeInput}
+              @beforeinput=${(e: InputEvent) => {
+                // In iron-input we had allowedPattern, but this is not supported
+                // in md-outlined-text-field. Which uses native input functionality.
+                // We workaround this.
+                const data = e.data;
+                if (data && !/^[0-9]*$/.test(data)) {
+                  e.preventDefault();
+                }
+              }}
             >
-              <input id="tabSizeInput" type="number" />
-            </iron-input>
+            </md-outlined-text-field>
           </span>
         </section>
         <section>
           <label for="fontSizeInput" class="title">Font size</label>
           <span class="value">
-            <iron-input
-              .allowedPattern=${'[0-9]'}
-              .bindValue=${convertToString(this.diffPrefs?.font_size)}
-              @change=${this.handleDiffFontSizeChanged}
+            <md-outlined-text-field
+              id="fontSizeInput"
+              type="number"
+              step="1"
+              .value=${convertToString(this.diffPrefs?.font_size)}
+              @input=${this.handleDiffFontSizeInput}
+              @beforeinput=${(e: InputEvent) => {
+                // In iron-input we had allowedPattern, but this is not supported
+                // in md-outlined-text-field. Which uses native input functionality.
+                // We workaround this.
+                const data = e.data;
+                if (data && !/^[0-9]*$/.test(data)) {
+                  e.preventDefault();
+                }
+              }}
             >
-              <input id="fontSizeInput" type="number" />
-            </iron-input>
+            </md-outlined-text-field>
           </span>
         </section>
         <section>
@@ -231,21 +307,21 @@ export class GrDiffPreferences extends LitElement {
     });
   };
 
-  private readonly handleDiffLineLengthChanged = () => {
+  private readonly handleDiffLineLengthInput = () => {
     this.diffPrefs!.line_length = Number(this.columnsInput!.value);
     fire(this, 'has-unsaved-changes-changed', {
       value: this.hasUnsavedChanges(),
     });
   };
 
-  private readonly handleDiffTabSizeChanged = () => {
+  private readonly handleDiffTabSizeInput = () => {
     this.diffPrefs!.tab_size = Number(this.tabSizeInput!.value);
     fire(this, 'has-unsaved-changes-changed', {
       value: this.hasUnsavedChanges(),
     });
   };
 
-  private readonly handleDiffFontSizeChanged = () => {
+  private readonly handleDiffFontSizeInput = () => {
     this.diffPrefs!.font_size = Number(this.fontSizeInput!.value);
     fire(this, 'has-unsaved-changes-changed', {
       value: this.hasUnsavedChanges(),

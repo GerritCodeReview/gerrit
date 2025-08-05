@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b0236b64_65ecbbf9",
+        "filename": "version.bzl",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 4265758
+      },
+      "writtenOn": "2025-08-05T04:13:54Z",
+      "side": 0,
+      "message": "Marked as resolved.",
+      "revId": "4429a96f9780302f8770bc1c6e02cd5ea1c5f410",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

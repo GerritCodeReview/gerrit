@@ -121,6 +121,30 @@
       },
       "revId": "0250190541b88c392bcd238f143ca4b38c44da25",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "96e1f06d_b5400649",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-08-05T12:54:31Z",
+      "side": 1,
+      "message": "I don\u0027t think that is correct. Unless I misunderstood: Arrow methods, don\u0027t have their own \"this\", so they use the one from the scope where they are defined. Which in this case would correctly refer to the class instance.\n\nhttps://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions#cannot_be_used_as_methods",
+      "parentUuid": "cbe3d6b1_26d7f3e5",
+      "range": {
+        "startLine": 339,
+        "startChar": 4,
+        "endLine": 339,
+        "endChar": 33
+      },
+      "revId": "0250190541b88c392bcd238f143ca4b38c44da25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -145,6 +145,30 @@
       },
       "revId": "0250190541b88c392bcd238f143ca4b38c44da25",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a60e67e_7cf3fbe0",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-08-05T13:19:30Z",
+      "side": 1,
+      "message": "Sorry, I guess is that issue is that typescript type narrowing doesn\u0027t work there. I just get type issues when compiling if I return to this.message, that\u0027s why previous code had this.message!\n\nThere is no good documentation about that.\nhttps://www.typescriptlang.org/docs/handbook/2/narrowing.html#control-flow-analysis",
+      "parentUuid": "96e1f06d_b5400649",
+      "range": {
+        "startLine": 339,
+        "startChar": 4,
+        "endLine": 339,
+        "endChar": 33
+      },
+      "revId": "0250190541b88c392bcd238f143ca4b38c44da25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

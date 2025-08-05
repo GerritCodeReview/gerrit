@@ -245,7 +245,7 @@ export class GrChangeListReviewerFlow extends LitElement {
         .placeholder=${placeholder}
         .pendingConfirmation=${this.groupPendingConfirmationByReviewerState.get(
           reviewerState
-        )}
+        ) ?? null}
         @accounts-changed=${() => this.onAccountsChanged(reviewerState)}
         @pending-confirmation-changed=${(
           ev: ValueChangedEvent<SuggestedReviewerGroupInfo | null>

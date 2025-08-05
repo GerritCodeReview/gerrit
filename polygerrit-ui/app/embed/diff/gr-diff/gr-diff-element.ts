@@ -224,7 +224,7 @@ export class GrDiffElement extends LitElement {
         <table
           id="diffTable"
           class=${classMap(tableClasses)}
-          ?contenteditable=${isContentEditable}
+          contenteditable=${isContentEditable ? 'true' : 'false'}
         >
           ${this.renderColumns()}
           ${when(!this.showWarning(), () =>

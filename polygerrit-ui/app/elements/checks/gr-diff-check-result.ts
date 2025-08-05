@@ -30,7 +30,11 @@ import {
   ReportSource,
   suggestionsServiceToken,
 } from '../../services/suggestions/suggestions-service';
-import {FixSuggestionInfo, RevisionPatchSetNum} from '../../api/rest-api';
+import {
+  FixSuggestionInfo,
+  PatchSetNumber,
+  RevisionPatchSetNum,
+} from '../../api/rest-api';
 import {when} from 'lit/directives/when.js';
 import {fireAlert} from '../../utils/event-util';
 
@@ -256,7 +260,7 @@ export class GrDiffCheckResult extends LitElement {
     if (!this.suggestion) return nothing;
     return html`<gr-checks-fix-preview
       .fixSuggestionInfos=${[this.suggestion]}
-      .patchSet=${this.result?.patchset}
+      .patchSet=${this.result?.patchset as PatchSetNumber | undefined}
     ></gr-checks-fix-preview>`;
   }
 

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2d92cee5_533be273",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4265758
+      },
+      "writtenOn": "2025-08-05T04:14:45Z",
+      "side": 1,
+      "message": "add money to my account",
+      "revId": "894638f24f7b7f648eb911d514ea90fc993fdb87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

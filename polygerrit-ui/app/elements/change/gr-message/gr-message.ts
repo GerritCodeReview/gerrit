@@ -18,9 +18,12 @@ import {
   AccountInfo,
   BasePatchSetNum,
   ChangeInfo,
-  ChangeMessage,
   ChangeMessageId,
+  ChangeMessageInfo,
+  CombinedMessage,
   CommentThread,
+  isChangeMessageInfo,
+  isFormattedReviewerUpdate,
   LabelNameToInfoMap,
   NumericChangeId,
   ReviewInputTag,
@@ -28,7 +31,6 @@ import {
   ServerInfo,
 } from '../../../types/common';
 import {
-  isFormattedReviewerUpdate,
   isUnresolved,
   LabelExtreme,
   PATCH_SET_PREFIX_PATTERN,
@@ -45,7 +47,6 @@ import {
 import {isServiceUser, replaceTemplates} from '../../../utils/account-util';
 import {assertIsDefined} from '../../../utils/common-util';
 import {when} from 'lit/directives/when.js';
-import {FormattedReviewerUpdateInfo} from '../../../types/types';
 import {resolve} from '../../../models/dependency';
 import {createChangeUrl} from '../../../models/views/change';
 import {fire} from '../../../utils/event-util';
@@ -91,13 +92,19 @@ export class GrMessage extends LitElement {
   changeNum?: NumericChangeId;
 
   @property({type: Object})
-  message?: ChangeMessage | (ChangeMessage & FormattedReviewerUpdateInfo);
+  message?: CombinedMessage;
 
   @property({type: Array})
   commentThreads: CommentThread[] = [];
 
   get author() {
-    return this.message?.author || this.message?.updated_by;
+    if (this.message?.author) {
+      return this.message?.author;
+    }
+    if (this.message && isChangeMessageInfo(this.message)) {
+      return this.message.updated_by;
+    }
+    return undefined;
   }
 
   @property({type: Boolean})
@@ -326,12 +333,14 @@ export class GrMessage extends LitElement {
 
   private renderAuthor() {
     assertIsDefined(this.message, 'message');
+    if (!isChangeMessageInfo(this.message)) return nothing;
+    const message = this.message;
     return html` <div class="author" @click=${this.handleAuthorClick}>
       ${when(
         this.computeShowOnBehalfOf(),
         () => html`
           <span>
-            <span class="name">${this.message?.real_author?.name}</span>
+            <span class="name">${message.real_author?.name}</span>
             on behalf of
           </span>
         `
@@ -399,6 +408,7 @@ export class GrMessage extends LitElement {
   }
 
   private renderMessageContent() {
+    if (!this.message || !isChangeMessageInfo(this.message)) return nothing;
     if (!this.message?.message) return nothing;
     const messageContentCollapsed =
       this.computeMessageContent(
@@ -416,6 +426,7 @@ export class GrMessage extends LitElement {
 
   private renderExpandedMessageContent() {
     if (!this.message?.expanded) return nothing;
+    if (!isChangeMessageInfo(this.message)) return nothing;
     const messageContentExpanded = this.computeMessageContent(
       true,
       this.message.message,
@@ -490,7 +501,7 @@ export class GrMessage extends LitElement {
         `
       )}
       ${when(
-        this.message?.id,
+        this.message && isChangeMessageInfo(this.message) && this.message?.id,
         () => html`
           <span class="date" @click=${this.handleAnchorClick}>
             <gr-date-formatter
@@ -540,6 +551,7 @@ export class GrMessage extends LitElement {
 
   // Private but used in tests.
   patchsetCommentSummary() {
+    if (!this.message || !isChangeMessageInfo(this.message)) return '';
     const id = this.message?.id;
     if (!id) return '';
     const patchsetThreads = (this.commentThreads ?? []).filter(
@@ -565,12 +577,14 @@ export class GrMessage extends LitElement {
 
   private showViewDiffButton() {
     return (
-      this.isNewPatchsetTag(this.message?.tag) ||
-      this.isMergePatchset(this.message)
+      this.message &&
+      isChangeMessageInfo(this.message) &&
+      (this.isNewPatchsetTag(this.message?.tag) ||
+        this.isMergePatchset(this.message))
     );
   }
 
-  private isMergePatchset(message?: ChangeMessage) {
+  private isMergePatchset(message?: ChangeMessageInfo) {
     return (
       message?.tag === MessageTag.TAG_MERGED &&
       message?.message.match(MERGED_PATCHSET_PATTERN)
@@ -587,7 +601,8 @@ export class GrMessage extends LitElement {
 
   // Private but used in tests
   handleViewPatchsetDiff(e: Event) {
-    if (!this.message || !this.change) return;
+    if (!this.message || !this.change || !isChangeMessageInfo(this.message))
+      return;
     let patchNum: RevisionPatchSetNum;
     let basePatchNum: BasePatchSetNum;
     if (this.message.message.match(UPLOADED_NEW_PATCHSET_PATTERN)) {
@@ -684,6 +699,7 @@ export class GrMessage extends LitElement {
   // private but used in tests
   computeShowOnBehalfOf() {
     if (!this.message) return false;
+    if (!isChangeMessageInfo(this.message)) return true;
     return !!(
       this.author &&
       this.message.real_author &&
@@ -712,14 +728,16 @@ export class GrMessage extends LitElement {
   // private but used in tests.
   computeIsAutomated() {
     return !!(
-      this.message?.reviewer ||
+      (this.message &&
+        isChangeMessageInfo(this.message) &&
+        this.message.reviewer) ||
       this.computeIsReviewerUpdate() ||
       (this.message?.tag && this.message.tag.startsWith('autogenerated'))
     );
   }
 
   private computeIsReviewerUpdate() {
-    return this.message?.type === 'REVIEWER_UPDATE';
+    return this.message && isFormattedReviewerUpdate(this.message);
   }
 
   private computeClass() {
@@ -733,6 +751,7 @@ export class GrMessage extends LitElement {
   private handleAnchorClick(e: Event) {
     e.preventDefault();
     assertIsDefined(this.message, 'message');
+    if (!isChangeMessageInfo(this.message)) return;
     // The element which triggers handleAnchorClick is rendered only if
     // message.id defined: the element is wrapped in dom-if if="[[message.id]]"
     const detail: MessageAnchorTapDetail = {
@@ -743,14 +762,16 @@ export class GrMessage extends LitElement {
 
   private handleDeleteMessage(e: Event) {
     e.preventDefault();
-    if (!this.message || !this.message.id || !this.changeNum) return;
+    if (!this.message || !isChangeMessageInfo(this.message)) return;
+    if (!this.message.id || !this.changeNum) return;
+    const message = this.message;
     this.isDeletingChangeMsg = true;
     this.restApiService
       .deleteChangeCommitMessage(this.changeNum, this.message.id)
       .then(() => {
         this.isDeletingChangeMsg = false;
         fire(this, 'change-message-deleted', {
-          message: this.message!,
+          message,
         });
       });
   }

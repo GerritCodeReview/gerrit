@@ -39,6 +39,30 @@
       },
       "revId": "95147d2052313a41b03a92a17b7d8d9631e3daa5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "861507eb_77e3de63",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1925,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-08-05T13:38:26Z",
+      "side": 1,
+      "message": "I changeed it to POST. but it fails with 400\n\n\nhttps://gerrit-review.staging-git.corp.google.com/projects/ghareeb-test/labels:review\n{\"add\":[{\"name\":\"Test 2\",\"description\":\"testing for review\",\"function\":\"NoBlock\",\"default_value\":0,\"copy_condition\":\"is:MIN\",\"unset_copy_condition\":false,\"allow_post_submit\":false,\"can_override\":true,\"ignore_self_approval\":false,\"values\":{\" 0\":\"No score\",\"-1\":\"I would prefer this is not submitted as is\",\"-2\":\"This shall not be submitted\",\"+1\":\"Looks good to me, but someone else must approve\",\"+2\":\"Looks good to me, approved\"},\"branches\":[]}]}\n\nreturn 400 bad request\nwith body - no change\n\nI will check why later.",
+      "parentUuid": "37919f14_404aac6a",
+      "range": {
+        "startLine": 1919,
+        "startChar": 6,
+        "endLine": 1925,
+        "endChar": 9
+      },
+      "revId": "95147d2052313a41b03a92a17b7d8d9631e3daa5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

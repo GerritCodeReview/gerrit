@@ -717,7 +717,7 @@ export class GrResultRow extends LitElement {
     if (!this.suggestion) return nothing;
     return html`<gr-checks-fix-preview
       .fixSuggestionInfos=${[this.suggestion]}
-      .patchSet=${this.result?.patchset}
+      .patchSet=${this.result?.patchset as PatchSetNumber | undefined}
     ></gr-checks-fix-preview>`;
   }
 
@@ -888,7 +888,7 @@ export class GrResultExpanded extends LitElement {
     return html`
       <gr-checks-fix-preview
         .fixSuggestionInfos=${fixSuggestionInfos}
-        .patchSet=${this.result?.patchset}
+        .patchSet=${this.result?.patchset as PatchSetNumber | undefined}
       ></gr-checks-fix-preview>
     `;
   }

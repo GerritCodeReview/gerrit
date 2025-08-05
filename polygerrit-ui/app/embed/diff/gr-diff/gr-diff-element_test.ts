@@ -57,7 +57,7 @@ suite('gr-diff-element tests', () => {
         element,
         /* HTML */ `
           <div class="diffContainer sideBySide">
-            <table id="diffTable">
+            <table id="diffTable" contenteditable="false">
               <colgroup>
                 <col class="left" width="48" />
                 <col class="left" />
@@ -82,7 +82,7 @@ suite('gr-diff-element tests', () => {
         element,
         /* HTML */ `
           <div class="diffContainer unified">
-            <table id="diffTable">
+            <table id="diffTable" contenteditable="false">
               <colgroup>
                 <col class="left" width="48" />
                 <col class="right" width="48" />
@@ -1270,7 +1270,7 @@ suite('gr-diff-element tests', () => {
         element,
         /* HTML */ `
           <div class="diffContainer sideBySide">
-            <table id="diffTable">
+            <table id="diffTable" contenteditable="false">
               <colgroup>
                 <col class="left" width="48" />
                 <col class="left" />
@@ -2759,7 +2759,7 @@ suite('gr-diff-element tests', () => {
             <div class="diffContainer sideBySide">
               <gr-diff-section class="left-FILE right-FILE"> </gr-diff-section>
               <gr-diff-row class="left-FILE right-FILE"> </gr-diff-row>
-              <table id="diffTable">
+              <table id="diffTable" contenteditable="false">
                 <colgroup>
                   <col class="left" width="48" />
                   <col class="left" />

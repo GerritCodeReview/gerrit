@@ -249,7 +249,7 @@ export class GrAccountInfo extends LitElement {
             .label=${'statusInput'}
             ?disabled=${this.saving}
             maxlength="140"
-            .value=${this.account?.status}
+            .value=${this.account?.status ?? ''}
             @input=${(e: InputEvent) => {
               const oldAccount = this.account;
               const value = (e.target as GrAutogrowTextarea).value ?? '';

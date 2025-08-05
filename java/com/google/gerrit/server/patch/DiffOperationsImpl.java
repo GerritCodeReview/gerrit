@@ -246,6 +246,8 @@ public class DiffOperationsImpl implements DiffOperations {
 
   private ImmutableMap<String, FileDiffOutput> getModifiedFiles(
       DiffParameters diffParams, DiffOptions diffOptions) throws DiffNotAvailableException {
+    logger.atFine().log(
+        "getModifiedFiles (diffParams: %s, diffOptions: %s)", diffParams, diffOptions);
     try {
       Project.NameKey project = diffParams.project();
       ObjectId newCommit = diffParams.newCommit();
@@ -431,6 +433,9 @@ public class DiffOperationsImpl implements DiffOperations {
       Config repoConfig,
       boolean enableRenameDetection)
       throws DiffNotAvailableException {
+    logger.atFine().log(
+        "loadModifiedFilesWithoutCacheIfNecessary (diffParams: %s, enableRenameDetection: %s)",
+        diffParams, enableRenameDetection);
     ModifiedFilesCacheKey.Builder cacheKeyBuilder =
         ModifiedFilesCacheKey.builder()
             .project(project)

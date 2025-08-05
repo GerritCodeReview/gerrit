@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ff556235_490334d3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-08-05T07:42:27Z",
+      "side": 1,
+      "message": "The UI looks good, but it\u0027s making a wrong request to the backend which is why saving for review is not working yet (see inline comment in gr-rest-api-impl.ts).",
+      "revId": "95147d2052313a41b03a92a17b7d8d9631e3daa5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "37919f14_404aac6a",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1925,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-08-05T07:42:27Z",
+      "side": 1,
+      "message": "This is making a wrong request and this is why any Save for Review fails.\n\n* The REST endpoint to saves changes to labels for review is POST (not PUT)\n* This REST endpoint handles label creation, update and deletion in one, so it\u0027s request body looks different from a normal label creation/update call [1], see example at [2].\n\n[1] https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#batch-label-input\n\n[2] https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#create-labels-change",
+      "range": {
+        "startLine": 1919,
+        "startChar": 6,
+        "endLine": 1925,
+        "endChar": 9
+      },
+      "revId": "95147d2052313a41b03a92a17b7d8d9631e3daa5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

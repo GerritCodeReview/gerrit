@@ -338,12 +338,9 @@ suite('gr-messages-list tests', () => {
       const messageElements = getMessages();
       // threads
       assertIsDefined(messageElements[0].message, 'message');
-      assert.equal(messageElements[0].message.commentThreads.length, 3);
+      assert.equal(messageElements[0].commentThreads.length, 3);
       // first thread contains 1 comment
-      assert.equal(
-        messageElements[0].message.commentThreads[0].comments.length,
-        1
-      );
+      assert.equal(messageElements[0].commentThreads[0].comments.length, 1);
     });
 
     test('updateTag human message', () => {
@@ -519,7 +516,10 @@ suite('gr-messages-list tests', () => {
       const messageEls = getMessages();
       assert.equal(messageEls.length, 1);
       assertIsDefined(messageEls[0].message, 'message');
-      assert.equal(messageEls[0].message.message, messages[0].message);
+      assert.equal(
+        (messageEls[0].message as ChangeMessageInfo).message,
+        messages[0].message
+      );
     });
   });
 

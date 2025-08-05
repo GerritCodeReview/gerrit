@@ -72,8 +72,16 @@ export type CombinedMessage = Omit<
   tag?: string;
 };
 
-function isChangeMessageInfo(x: CombinedMessage): x is ChangeMessageInfo {
+export function isChangeMessageInfo(
+  x: CombinedMessage
+): x is ChangeMessageInfo {
   return (x as ChangeMessageInfo).id !== undefined;
+}
+
+export function isFormattedReviewerUpdate(
+  message: CombinedMessage
+): message is FormattedReviewerUpdateInfo {
+  return (message as FormattedReviewerUpdateInfo).type === 'REVIEWER_UPDATE';
 }
 
 function getMessageId(x: CombinedMessage): ChangeMessageId | undefined {

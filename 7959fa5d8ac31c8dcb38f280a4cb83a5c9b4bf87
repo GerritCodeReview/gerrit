@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7e63e2b2_cb065351",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-08-05T15:38:05Z",
+      "side": 1,
+      "message": "Added delete https://imgur.com/a/4fQRlYJ",
+      "revId": "7959fa5d8ac31c8dcb38f280a4cb83a5c9b4bf87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "666bff9c_1c922693",
@@ -14,6 +31,30 @@
       "writtenOn": "2025-08-05T14:29:59Z",
       "side": 1,
       "message": "I think this needs to be called \"create\" here:\n\nhttps://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#create-labels-change",
+      "range": {
+        "startLine": 1430,
+        "startChar": 2,
+        "endLine": 1430,
+        "endChar": 5
+      },
+      "revId": "7959fa5d8ac31c8dcb38f280a4cb83a5c9b4bf87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "93ae407a_10da899f",
+        "filename": "polygerrit-ui/app/api/rest-api.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 1430,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-08-05T15:38:05Z",
+      "side": 1,
+      "message": "Thanks!",
+      "parentUuid": "666bff9c_1c922693",
       "range": {
         "startLine": 1430,
         "startChar": 2,

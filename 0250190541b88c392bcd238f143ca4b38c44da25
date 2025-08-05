@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa93f528_29e3b0f5",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-08-05T11:57:55Z",
+      "side": 1,
+      "message": "Can we move this to another file, to avoid unnecessary circular dependencies?",
+      "range": {
+        "startLine": 55,
+        "startChar": 2,
+        "endLine": 57,
+        "endChar": 28
+      },
+      "revId": "0250190541b88c392bcd238f143ca4b38c44da25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d8316b63_22689423",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-08-05T11:57:55Z",
+      "side": 1,
+      "message": "Why is this needed?\n\nAlso below within this method both message and this.message are used.",
+      "range": {
+        "startLine": 339,
+        "startChar": 4,
+        "endLine": 339,
+        "endChar": 33
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "fc04fa96_88ed2fe6",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-message/gr-message.ts",
+              "range": {
+                "startLine": 339,
+                "startChar": 0,
+                "endLine": 340,
+                "endChar": 0
+              },
+              "replacement": ""
+            },
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-message/gr-message.ts",
+              "range": {
+                "startLine": 345,
+                "startChar": 0,
+                "endLine": 346,
+                "endChar": 0
+              },
+              "replacement": "            \u003cspan class\u003d\"name\"\u003e${this.message.real_author?.name}\u003c/span\u003e\n"
+            }
+          ]
+        }
+      ],
+      "revId": "0250190541b88c392bcd238f143ca4b38c44da25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

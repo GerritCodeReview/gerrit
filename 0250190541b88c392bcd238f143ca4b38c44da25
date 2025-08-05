@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9fc322e2_32e9fe28",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-08-05T12:42:27Z",
+      "side": 1,
+      "message": "Sure, I moved it to types/common",
+      "parentUuid": "fa93f528_29e3b0f5",
+      "range": {
+        "startLine": 55,
+        "startChar": 2,
+        "endLine": 57,
+        "endChar": 28
+      },
+      "revId": "0250190541b88c392bcd238f143ca4b38c44da25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d8316b63_22689423",
@@ -71,6 +95,30 @@
           ]
         }
       ],
+      "revId": "0250190541b88c392bcd238f143ca4b38c44da25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cbe3d6b1_26d7f3e5",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-08-05T12:42:27Z",
+      "side": 1,
+      "message": "arrow function with span has different context so the check isChangeMessageInfo would need to be done again in side arrow function.",
+      "parentUuid": "d8316b63_22689423",
+      "range": {
+        "startLine": 339,
+        "startChar": 4,
+        "endLine": 339,
+        "endChar": 33
+      },
       "revId": "0250190541b88c392bcd238f143ca4b38c44da25",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

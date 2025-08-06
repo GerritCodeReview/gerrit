@@ -98,6 +98,7 @@ import {
 import {Finalizable, ParsedChangeInfo} from '../../types/types';
 import {ErrorCallback} from '../../api/rest';
 import {
+  BatchLabelInput,
   DeleteLabelInput,
   FileInfo,
   FixReplacementInfo,
@@ -342,6 +343,12 @@ export interface RestApiService extends Finalizable {
     input: LabelDefinitionInput,
     errFn?: ErrorCallback
   ): Promise<LabelDefinitionInfo | undefined>;
+
+  saveRepoLabelsForReview(
+    repoName: RepoName,
+    input: BatchLabelInput,
+    errFn?: ErrorCallback
+  ): Promise<ChangeInfo | undefined>;
 
   deleteRepoLabel(
     repoName: RepoName,

@@ -14,9 +14,7 @@ import {customElement, property, state} from 'lit/decorators.js';
 import {
   ChangeMessageId,
   ChangeMessageInfo,
-  CombinedMessage,
   CommentThread,
-  isChangeMessageInfo,
   LabelNameToInfoMap,
   NumericChangeId,
   PatchSetNum,
@@ -60,6 +58,22 @@ enum ExpandAllState {
 interface TagsCountReportInfo {
   [tag: string]: number;
   all: number;
+}
+
+export type CombinedMessage = Omit<
+  FormattedReviewerUpdateInfo | ChangeMessageInfo,
+  'tag'
+> & {
+  _revision_number?: PatchSetNum;
+  _index?: number;
+  expanded?: boolean;
+  isImportant?: boolean;
+  commentThreads?: CommentThread[];
+  tag?: string;
+};
+
+function isChangeMessageInfo(x: CombinedMessage): x is ChangeMessageInfo {
+  return (x as ChangeMessageInfo).id !== undefined;
 }
 
 function getMessageId(x: CombinedMessage): ChangeMessageId | undefined {

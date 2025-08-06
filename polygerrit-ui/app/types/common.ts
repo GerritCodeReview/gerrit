@@ -126,7 +126,6 @@ import {
 } from '../api/rest-api';
 import {DiffInfo, IgnoreWhitespaceType} from './diff';
 import {LineNumber, PatchRange} from '../api/diff';
-import {FormattedReviewerUpdateInfo} from './types';
 
 export type {
   AccountId,
@@ -1435,28 +1434,4 @@ export interface MergeableInfo {
 export interface ChangeActionDialog extends HTMLElement {
   resetFocus?(): void;
   init?(): void;
-}
-
-export type CombinedMessage = Omit<
-  FormattedReviewerUpdateInfo | ChangeMessageInfo,
-  'tag'
-> & {
-  _revision_number?: PatchSetNum;
-  _index?: number;
-  expanded?: boolean;
-  isImportant?: boolean;
-  commentThreads?: CommentThread[];
-  tag?: string;
-};
-
-export function isChangeMessageInfo(
-  x: CombinedMessage
-): x is ChangeMessageInfo {
-  return (x as ChangeMessageInfo).id !== undefined;
-}
-
-export function isFormattedReviewerUpdate(
-  message: CombinedMessage
-): message is FormattedReviewerUpdateInfo {
-  return (message as FormattedReviewerUpdateInfo).type === 'REVIEWER_UPDATE';
 }

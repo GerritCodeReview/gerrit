@@ -916,7 +916,7 @@ export class GrRepoLabels extends LitElement {
     } finally {
       this.deleteDialog?.close();
       this.labelToDelete = undefined;
-      this.getLabels(this.filter, this.offset);
+      await this.getLabels(this.filter, this.offset);
     }
   }
 

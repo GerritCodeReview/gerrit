@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "84b41fd9_271cd37b",
+        "filename": "java/com/google/gerrit/server/restapi/config/GlobalLabelsCollection.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-08-06T12:00:51Z",
+      "side": 1,
+      "message": "Just curious: Why not something like `Unimplemented` exception?\n\nor is the pattern to return 404 for unimplemented endpoints?",
+      "range": {
+        "startLine": 50,
+        "startChar": 17,
+        "endLine": 50,
+        "endChar": 38
+      },
+      "revId": "9236b4590ac413a7c5cb8a5fe71ac09c49467b76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

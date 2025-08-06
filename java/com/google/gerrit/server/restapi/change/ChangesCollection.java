@@ -32,13 +32,11 @@ import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 import org.eclipse.jgit.lib.ObjectId;
 
 @Singleton
@@ -98,10 +96,10 @@ public class ChangesCollection implements RestCollection<TopLevelResource, Chang
     }
 
     ChangeNotes change = notes.get(0);
+    checkProjectStatePermitsRead(change.getProjectName());
     if (!canRead(change)) {
       throw new ResourceNotFoundException(id);
     }
-    checkProjectStatePermitsRead(change.getProjectName());
     return changeResourceFactory.create(change, user.get());
   }
 
@@ -138,10 +136,10 @@ public class ChangesCollection implements RestCollection<TopLevelResource, Chang
     }
 
     ChangeNotes change = notes.get(0);
+    checkProjectStatePermitsRead(change.getProjectName());
     if (!canRead(change)) {
       throw new ResourceNotFoundException(toIdString(id));
     }
-    checkProjectStatePermitsRead(change.getProjectName());
     return changeResourceFactory.create(change, user.get());
   }
 
@@ -154,14 +152,7 @@ public class ChangesCollection implements RestCollection<TopLevelResource, Chang
   }
 
   private boolean canRead(ChangeNotes notes) throws PermissionBackendException {
-    if (!permissionBackend.currentUser().change(notes).test(ChangePermission.READ)) {
-      return false;
-    }
-    Optional<ProjectState> projectState = projectCache.get(notes.getProjectName());
-    if (!projectState.isPresent()) {
-      return false;
-    }
-    return projectState.get().statePermitsRead();
+    return permissionBackend.currentUser().change(notes).test(ChangePermission.READ);
   }
 
   private void checkProjectStatePermitsRead(Project.NameKey project)

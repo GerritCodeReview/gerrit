@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7b9c0997_f3e77085",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-08-06T11:00:03Z",
+      "side": 1,
+      "message": "Since I uploaded a new patch set to base this onto my fix, this change now requires an approval from you.",
+      "revId": "ed933b447d4c3ddcfaddc8b9a5fe5a4452b7baa6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

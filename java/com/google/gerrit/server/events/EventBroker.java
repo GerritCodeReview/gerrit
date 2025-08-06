@@ -35,11 +35,9 @@ import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.plugincontext.PluginSetEntryContext;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.project.ProjectState;
 import com.google.gson.Gson;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import java.util.Optional;
 
 /** Distributes Events to listeners if they are allowed to see them */
 @Singleton
@@ -167,11 +165,6 @@ public class EventBroker implements EventDispatcher {
 
   protected boolean isVisibleTo(Project.NameKey project, CurrentUser user) {
     try {
-      Optional<ProjectState> state = projectCache.get(project);
-      if (!state.isPresent() || !state.get().statePermitsRead()) {
-        return false;
-      }
-
       return permissionBackend.user(user).project(project).test(ProjectPermission.ACCESS);
     } catch (PermissionBackendException e) {
       return false;
@@ -182,10 +175,6 @@ public class EventBroker implements EventDispatcher {
     if (change == null) {
       return false;
     }
-    Optional<ProjectState> pe = projectCache.get(change.getProject());
-    if (!pe.isPresent() || !pe.get().statePermitsRead()) {
-      return false;
-    }
     return permissionBackend
         .user(user)
         .change(notesFactory.createChecked(change))
@@ -194,11 +183,6 @@ public class EventBroker implements EventDispatcher {
 
   protected boolean isVisibleTo(BranchNameKey branchName, CurrentUser user)
       throws PermissionBackendException {
-    Optional<ProjectState> pe = projectCache.get(branchName.project());
-    if (!pe.isPresent() || !pe.get().statePermitsRead()) {
-      return false;
-    }
-
     return permissionBackend.user(user).ref(branchName).test(RefPermission.READ);
   }
 

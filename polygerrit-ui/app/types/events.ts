@@ -5,7 +5,7 @@
  */
 import {
   AccountInfo,
-  ChangeMessageInfo,
+  ChangeMessage,
   DropdownLink,
   FixSuggestionInfo,
   PatchSetNum,
@@ -109,7 +109,7 @@ export type ChangeEvent = InputEvent;
 export type ChangedEvent = CustomEvent<string | undefined>;
 
 export interface ChangeMessageDeletedEventDetail {
-  message: ChangeMessageInfo;
+  message: ChangeMessage;
 }
 export type ChangeMessageDeletedEvent =
   CustomEvent<ChangeMessageDeletedEventDetail>;

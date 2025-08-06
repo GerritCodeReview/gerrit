@@ -7,6 +7,7 @@ import {
   AccountDetailInfo,
   AccountInfo,
   BasePatchSetNum,
+  ChangeMessage,
   Comment,
   CommentIdToCommentThreadMap,
   CommentInfo,
@@ -35,9 +36,16 @@ import {parseDate} from './date-util';
 import {specialFilePathCompare} from './path-list-util';
 import {getParentIndex, isMergeParent} from './patch-set-util';
 import {DiffInfo} from '../types/diff';
+import {FormattedReviewerUpdateInfo} from '../types/types';
 import {extractMentionedUsers} from './account-util';
 import {assertIsDefined, uuid} from './common-util';
 import {FILE} from '../api/diff';
+
+export function isFormattedReviewerUpdate(
+  message: ChangeMessage
+): message is ChangeMessage & FormattedReviewerUpdateInfo {
+  return message.type === 'REVIEWER_UPDATE';
+}
 
 export type LabelExtreme = {[labelName: string]: VotingRangeInfo};
 

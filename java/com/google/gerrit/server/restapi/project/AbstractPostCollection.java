@@ -87,11 +87,11 @@ public abstract class AbstractPostCollection<
       configChanged = true;
     }
     if (input.create != null && !input.create.isEmpty()) {
-      for (TItemInput labelInput : input.create) {
-        if (labelInput == null) {
+      for (TItemInput itemInput : input.create) {
+        if (itemInput == null) {
           throw new BadRequestException("The create property contains a null item");
         }
-        createItem(config, labelInput);
+        createItem(config, itemInput);
       }
       configChanged = true;
     }

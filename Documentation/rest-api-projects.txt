@@ -4919,7 +4919,7 @@ List of submit requirements that should be deleted.
 List of link:#submit-requirement-input[SubmitRequirementInput] entities that
 describe submit requirements that should be created.
 |`update`        |optional|
-Map of label names to link:#submit-requirement-input[SubmitRequirementInput]
+Map of submit requirement names to link:#submit-requirement-input[SubmitRequirementInput]
 entities that describe the updates that should be done for the submit requirements.
 |=============================
 

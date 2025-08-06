@@ -4900,6 +4900,7 @@ describe labels that should be created.
 |`update`        |optional|
 Map of label names to link:#label-definition-input[LabelDefinitionInput]
 entities that describe the updates that should be done for the labels.
+The given inputs only need to set the properties that are being changed.
 |=============================
 
 [[batch-submit-requirement-input]]
@@ -4919,8 +4920,9 @@ List of submit requirements that should be deleted.
 List of link:#submit-requirement-input[SubmitRequirementInput] entities that
 describe submit requirements that should be created.
 |`update`        |optional|
-Map of label names to link:#submit-requirement-input[SubmitRequirementInput]
-entities that describe the updates that should be done for the submit requirements.
+Map of submit requirement names to link:#submit-requirement-input[SubmitRequirementInput]
+entities that describe the updates that should be done for the submit requirements. The
+given inputs must set all properties (including those that are not being changed).
 |=============================
 
 [[project-access-input]]

@@ -85,15 +85,37 @@ public class PerformanceSummaryLogger implements PerformanceLogger {
     ImmutableList<PerformanceInfo> performanceInfosWithLongestTotalDuration =
         perRequestPerformanceInfo.values().stream()
             .filter(performanceLogInfo -> performanceLogInfo.totalDurationMillis() > 0)
-            .sorted(comparing(PerformanceInfo::totalDurationNanos).reversed())
+            .sorted(
+                comparing(PerformanceInfo::totalDurationNanos)
+                    .reversed()
+                    .thenComparing(PerformanceInfo::operationName))
             .limit(maxOperationsToLog)
             .collect(toImmutableList());
 
-    if (!performanceInfosWithLongestTotalDuration.isEmpty()) {
-      logger.atFine().log(
-          "[Performance Summery] Operations with the highest latency (max %s):\n%s",
-          maxOperationsToLog, Joiner.on('\n').join(performanceInfosWithLongestTotalDuration));
-    }
+    ImmutableList<PerformanceInfo> performanceInfosForOperationsThatHaveBeenCalledMostOften =
+        perRequestPerformanceInfo.values().stream()
+            .filter(performanceLogInfo -> performanceLogInfo.count() > 1)
+            .sorted(
+                comparing(PerformanceInfo::count)
+                    .reversed()
+                    .thenComparing(PerformanceInfo::operationName))
+            .limit(maxOperationsToLog)
+            .collect(toImmutableList());
+
+    logger.atFine().log(
+        """
+        [Performance Summary]
+
+        Operations with the highest latency (max %s):
+        %s
+
+        Operations which have been called most often (max %s):
+        %s
+        """,
+        maxOperationsToLog,
+        Joiner.on('\n').join(performanceInfosWithLongestTotalDuration),
+        maxOperationsToLog,
+        Joiner.on('\n').join(performanceInfosForOperationsThatHaveBeenCalledMostOften));
   }
 
   static class PerformanceInfo {
@@ -111,6 +133,14 @@ public class PerformanceSummaryLogger implements PerformanceLogger {
     void add(long durationNanos) {
       this.count++;
       this.totalDurationNanos += durationNanos;
+    }
+
+    String operationName() {
+      return operationName;
+    }
+
+    int count() {
+      return count;
     }
 
     long totalDurationNanos() {

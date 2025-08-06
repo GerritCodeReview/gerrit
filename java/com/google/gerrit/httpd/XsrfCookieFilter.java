@@ -18,6 +18,8 @@ import static com.google.common.base.Strings.nullToEmpty;
 
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.logging.TraceContext;
+import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -47,10 +49,12 @@ public class XsrfCookieFilter implements Filter {
   @Override
   public void doFilter(ServletRequest req, ServletResponse rsp, FilterChain chain)
       throws IOException, ServletException {
-    HttpServletRequest httpRequest = (HttpServletRequest) req;
-    if (!GitSmartHttpTools.isGitClient(httpRequest)) {
-      WebSession s = user.get().isIdentifiedUser() ? session.get() : null;
-      setXsrfTokenCookie(httpRequest, (HttpServletResponse) rsp, s);
+    try (TraceTimer ignored = TraceContext.newTimer("XsrfCookieFilter#preprocess")) {
+      HttpServletRequest httpRequest = (HttpServletRequest) req;
+      if (!GitSmartHttpTools.isGitClient(httpRequest)) {
+        WebSession s = user.get().isIdentifiedUser() ? session.get() : null;
+        setXsrfTokenCookie(httpRequest, (HttpServletResponse) rsp, s);
+      }
     }
     chain.doFilter(req, rsp);
   }

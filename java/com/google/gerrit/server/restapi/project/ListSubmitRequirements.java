@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.restapi.project;
 
+import static java.util.Comparator.comparing;
+
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.SubmitRequirement;
 import com.google.gerrit.extensions.common.SubmitRequirementInfo;
@@ -68,10 +70,13 @@ public class ListSubmitRequirements implements RestReadView<ProjectResource> {
     if (inherited) {
       List<SubmitRequirementInfo> allSubmitRequirements = new ArrayList<>();
 
-      globalSubmitRequirements.runEach(
-          globalSubmitRequirement ->
-              allSubmitRequirements.add(
-                  SubmitRequirementJson.format(/* projectName= */ null, globalSubmitRequirement)));
+      globalSubmitRequirements.stream()
+          .sorted(comparing(SubmitRequirement::name))
+          .forEach(
+              globalSubmitRequirement ->
+                  allSubmitRequirements.add(
+                      SubmitRequirementJson.format(
+                          /* projectName= */ null, globalSubmitRequirement)));
 
       for (ProjectState projectState : rsrc.getProjectState().treeInOrder()) {
         try {

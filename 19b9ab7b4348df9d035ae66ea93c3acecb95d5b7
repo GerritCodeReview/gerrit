@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "19cf286c_d2c22277",
+        "filename": "java/com/google/gerrit/server/restapi/config/GlobalLabelsCollection.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-08-06T11:41:04Z",
+      "side": 1,
+      "message": "why does this method always throw an exception?\n\nWill it be implemented in some follow up CL?\n\nMaybe mention either here/commit message/reply to this comment?",
+      "range": {
+        "startLine": 47,
+        "startChar": 2,
+        "endLine": 50,
+        "endChar": 3
+      },
+      "revId": "19b9ab7b4348df9d035ae66ea93c3acecb95d5b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1ddd2e06_8f28f554",
+        "filename": "java/com/google/gerrit/server/restapi/config/ListGlobalLabels.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-08-06T11:41:04Z",
+      "side": 1,
+      "message": "instead of sorting every time you stream, is it possible to inject them in a sorted order?\n\nThen every time you don\u0027t need to remember to do this?",
+      "range": {
+        "startLine": 54,
+        "startChar": 13,
+        "endLine": 54,
+        "endChar": 50
+      },
+      "revId": "19b9ab7b4348df9d035ae66ea93c3acecb95d5b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

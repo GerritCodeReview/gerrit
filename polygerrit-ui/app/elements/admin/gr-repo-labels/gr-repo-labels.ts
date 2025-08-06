@@ -529,7 +529,7 @@ export class GrRepoLabels extends LitElement {
       this.newLabel = this.getEmptyLabel();
       this.labelToEdit = undefined;
       this.isEditing = false;
-      this.getLabels(this.filter, this.offset);
+      await this.getLabels(this.filter, this.offset);
     }
   }
 

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1a65cad7_43b37c42",
+        "filename": "polygerrit-ui/app/api/rest-api.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1454,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-08-06T10:19:20Z",
+      "side": 1,
+      "message": "*sigh* Unfortunately the behaviour of the Batch Update Submit Requirements REST endpoint [1] is different from the Create Labels Change for review REST endpoint [2].\n\nWith [2] the caller only needs to specify the properties that should be updated, but with [1] the caller needs to apply all the properties (even if unchanged).\n\nThat\u0027s why at the moment save for review fails for updates when not all required properties are set (e.g. name, submittability expression).\n\n[1] https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#batch-update-submit-requirements\n\n[2] https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#create-labels-change",
+      "range": {
+        "startLine": 1454,
+        "startChar": 45,
+        "endLine": 1454,
+        "endChar": 77
+      },
+      "revId": "d5581cac113a88a7175aa209e6f0ce6381320bf6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

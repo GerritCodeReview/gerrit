@@ -14,6 +14,7 @@
 
 package com.google.gerrit.extensions.api.config;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
@@ -21,7 +22,9 @@ import com.google.gerrit.extensions.client.EditPreferencesInfo;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.common.CacheInfo;
 import com.google.gerrit.extensions.common.ExperimentInfo;
+import com.google.gerrit.extensions.common.LabelDefinitionInfo;
 import com.google.gerrit.extensions.common.ServerInfo;
+import com.google.gerrit.extensions.common.SubmitRequirementInfo;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.webui.TopMenu;
 import java.util.List;
@@ -56,6 +59,10 @@ public interface Server {
 
   ListExperimentsRequest listExperiments() throws RestApiException;
 
+  ListGlobalLabelsRequest listGlobalLabels() throws RestApiException;
+
+  ListGlobalSubmitRequirementsRequest listGlobalSubmitRequirements() throws RestApiException;
+
   CachesApi caches(String name) throws RestApiException;
 
   Map<String, CacheInfo> listCaches() throws RestApiException;
@@ -73,5 +80,13 @@ public interface Server {
     public boolean getEnabledOnly() {
       return enabledOnly;
     }
+  }
+
+  abstract class ListGlobalLabelsRequest {
+    public abstract ImmutableList<LabelDefinitionInfo> get() throws RestApiException;
+  }
+
+  abstract class ListGlobalSubmitRequirementsRequest {
+    public abstract ImmutableList<SubmitRequirementInfo> get() throws RestApiException;
   }
 }

@@ -16,6 +16,8 @@ package com.google.gerrit.server.restapi.config;
 
 import static com.google.gerrit.server.config.ConfigResource.CONFIG_KIND;
 import static com.google.gerrit.server.config.ExperimentResource.EXPERIMENT_KIND;
+import static com.google.gerrit.server.config.GlobalLabelResource.GLOBAL_LABEL_KIND;
+import static com.google.gerrit.server.config.GlobalSubmitRequirementResource.GLOBAL_SUBMIT_REQUIREMENT_KIND;
 import static com.google.gerrit.server.config.IndexResource.INDEX_KIND;
 import static com.google.gerrit.server.config.IndexVersionResource.INDEX_VERSION_KIND;
 import static com.google.gerrit.server.config.TaskResource.TASK_KIND;
@@ -31,6 +33,8 @@ public class ConfigRestApiModule extends RestApiModule {
     DynamicMap.mapOf(binder(), CapabilityResource.CAPABILITY_KIND);
     DynamicMap.mapOf(binder(), CONFIG_KIND);
     DynamicMap.mapOf(binder(), EXPERIMENT_KIND);
+    DynamicMap.mapOf(binder(), GLOBAL_LABEL_KIND);
+    DynamicMap.mapOf(binder(), GLOBAL_SUBMIT_REQUIREMENT_KIND);
     DynamicMap.mapOf(binder(), TASK_KIND);
     DynamicMap.mapOf(binder(), TopMenuResource.TOP_MENU_KIND);
     DynamicMap.mapOf(binder(), INDEX_KIND);
@@ -45,7 +49,15 @@ public class ConfigRestApiModule extends RestApiModule {
     get(EXPERIMENT_KIND).to(GetExperiment.class);
 
     post(CONFIG_KIND, "index.changes").to(IndexChanges.class);
+
+    child(CONFIG_KIND, "indexes").to(IndexCollection.class);
+    post(INDEX_KIND, "snapshot").to(SnapshotIndex.class);
+    get(INDEX_KIND).to(GetIndex.class);
+
     get(CONFIG_KIND, "info").to(GetServerInfo.class);
+
+    child(CONFIG_KIND, "labels").to(GlobalLabelsCollection.class);
+
     get(CONFIG_KIND, "preferences").to(GetPreferences.class);
     put(CONFIG_KIND, "preferences").to(SetPreferences.class);
     get(CONFIG_KIND, "preferences.diff").to(GetDiffPreferences.class);
@@ -64,9 +76,7 @@ public class ConfigRestApiModule extends RestApiModule {
     child(CONFIG_KIND, "top-menus").to(TopMenuCollection.class);
     get(CONFIG_KIND, "version").to(GetVersion.class);
 
-    child(CONFIG_KIND, "indexes").to(IndexCollection.class);
-    post(INDEX_KIND, "snapshot").to(SnapshotIndex.class);
-    get(INDEX_KIND).to(GetIndex.class);
+    child(CONFIG_KIND, "submit-requirements").to(GlobalSubmitRequirementsCollection.class);
 
     child(INDEX_KIND, "versions").to(IndexVersionsCollection.class);
     get(INDEX_VERSION_KIND).to(GetIndexVersion.class);

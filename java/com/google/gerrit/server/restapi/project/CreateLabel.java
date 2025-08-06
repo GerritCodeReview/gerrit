@@ -140,6 +140,7 @@ public class CreateLabel
       labelType.setCanOverride(input.canOverride);
     }
 
+    input.copyCondition = Strings.emptyToNull(input.copyCondition);
     if (input.copyCondition != null) {
       try {
         @SuppressWarnings("unused")

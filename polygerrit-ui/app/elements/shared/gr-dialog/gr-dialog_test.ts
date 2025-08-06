@@ -8,7 +8,6 @@ import '../../../test/common-test-setup';
 import './gr-dialog';
 import {GrDialog} from './gr-dialog';
 import {
-  isHidden,
   pressKey,
   queryAndAssert,
   waitEventLoop,
@@ -161,12 +160,17 @@ suite('gr-dialog tests', () => {
     });
   });
 
-  test('empty cancel label hides cancel btn', async () => {
-    const cancelButton = queryAndAssert(element, '#cancel');
-    assert.isFalse(isHidden(cancelButton));
+  test('empty labels hide buttons and flex-space', async () => {
+    assert.isNotNull(element.shadowRoot!.querySelector('#cancel'));
+    assert.isNotNull(element.shadowRoot!.querySelector('#confirm'));
+    assert.isNotNull(element.shadowRoot!.querySelector('.flex-space'));
+
     element.cancelLabel = '';
+    element.confirmLabel = '';
     await element.updateComplete;
 
-    assert.isTrue(isHidden(cancelButton));
+    assert.isNull(element.shadowRoot!.querySelector('#cancel'));
+    assert.isNull(element.shadowRoot!.querySelector('#confirm'));
+    assert.isNull(element.shadowRoot!.querySelector('.flex-space'));
   });
 });

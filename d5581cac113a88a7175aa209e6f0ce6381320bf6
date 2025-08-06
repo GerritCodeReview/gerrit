@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "db29c1dc_d0dfb783",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-labels/gr-repo-labels.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 444,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-08-06T10:59:01Z",
+      "side": 0,
+      "message": "Good idea to remove this default. This made me find a bug in the backend code, when the specified copy condition is empty, we still try to parse the string as a change query and parsing an empty string fails. I fixed this in this change:\nhttps://gerrit-review.git.corp.google.com/c/gerrit/+/496582",
+      "revId": "d5581cac113a88a7175aa209e6f0ce6381320bf6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

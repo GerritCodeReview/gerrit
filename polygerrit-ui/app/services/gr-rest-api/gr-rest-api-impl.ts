@@ -131,6 +131,7 @@ import {FlagsService, KnownExperimentId} from '../flags/flags';
 import {RetryScheduler} from '../scheduler/retry-scheduler';
 import {
   BatchLabelInput,
+  BatchSubmitRequirementInput,
   DeleteLabelInput,
   FileInfo,
   FixReplacementInfo,
@@ -1862,6 +1863,24 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       anonymizedUrl: '/projects/*/submit_requirements/*',
       reportServerError: true,
     });
+  }
+
+  saveRepoSubmitRequirementsForReview(
+    repoName: RepoName,
+    input: BatchSubmitRequirementInput,
+    errFn?: ErrorCallback
+  ): Promise<ChangeInfo | undefined> {
+    return this._restApiHelper.fetchJSON({
+      url: `/projects/${encodeURIComponent(
+        repoName
+      )}/submit_requirements:review`,
+      fetchOptions: getFetchOptions({
+        method: HttpMethod.POST,
+        body: input,
+      }),
+      errFn,
+      anonymizedUrl: '/projects/*/submit_requirements:review',
+    }) as Promise<ChangeInfo | undefined>;
   }
 
   getRepoLabels(

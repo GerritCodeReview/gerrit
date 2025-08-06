@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ec47fe3_69fa6cdd",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-labels/gr-repo-labels.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 814,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-08-06T06:45:12Z",
+      "side": 1,
+      "message": "Having these buttons now, we should remove the default \"Cancel\"/\"Confirm\" buttons from the dialog:\n\nhttps://i.imgur.com/P3wm7ak.png",
+      "revId": "f6eec3fdd0ba406ac94720ae9b77dbb7be595f7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

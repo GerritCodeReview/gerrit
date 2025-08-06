@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e7f26d0d_0fcf0d67",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/TraceIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-08-06T09:35:33Z",
+      "side": 1,
+      "message": "These changes were not supposed to be included.",
+      "revId": "869746523c7c06a909dbb6476d5841e2e463e2e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -174,7 +174,7 @@ suite('gr-repo-submit-requirements tests', () => {
             </table>
           </gr-list-view>
           <dialog id="createDialog" tabindex="-1">
-            <gr-dialog cancel-label="Cancel" confirm-label="Create" disabled="">
+            <gr-dialog>
               <div class="header" slot="header">Create Submit Requirement</div>
               <div class="main" slot="main">
                 <div class="gr-form-styles">
@@ -289,16 +289,47 @@ suite('gr-repo-submit-requirements tests', () => {
                   </div>
                 </section>
               </div>
-            </gr-dialog>
-          </dialog>
-          <dialog
+            </div>
+          </div>
+          <div class="footer" slot="footer">
+            <gr-button
+              aria-disabled="false"
+              role="button"
+              tabindex="0"
+              link=""
+            >
+              Cancel
+            </gr-button>
+            <gr-button
+              aria-disabled="true"
+              class="action save-button"
+              disabled=""
+              link=""
+              primary=""
+              role="button"
+              tabindex="-1"
+            >
+              Create
+            </gr-button>
+            <gr-button
+              aria-disabled="true"
+              class="action save-for-review"
+              disabled=""
+              link=""
+              primary=""
+              role="button"
+              tabindex="-1"
+            >
+              Save for review
+            </gr-button>
+          </div>
+        </gr-dialog>
+      </dialog>
+      <dialog
         id="deleteDialog"
         tabindex="-1"
       >
-        <gr-dialog
-          cancel-label="Cancel"
-          confirm-label="Delete"
-        >
+        <gr-dialog>
           <div
             class="header"
             slot="header"
@@ -312,9 +343,38 @@ suite('gr-repo-submit-requirements tests', () => {
           Are you sure you want to delete the submit requirement
             ""?
           </div>
+          <div class="footer" slot="footer">
+            <gr-button
+              aria-disabled="false"
+              role="button"
+              tabindex="0"
+              link=""
+            >
+              Cancel
+            </gr-button>
+            <gr-button
+              aria-disabled="false"
+              class="action"
+              link=""
+              role="button"
+              tabindex="0"
+            >
+              Delete
+            </gr-button>
+            <gr-button
+              aria-disabled="false"
+              class="action"
+              link=""
+              primary=""
+              role="button"
+              tabindex="0"
+            >
+              Delete for review
+            </-button>
+          </div>
         </gr-dialog>
       </dialog>
-        `
+    `
       );
     });
 
@@ -362,8 +422,38 @@ suite('gr-repo-submit-requirements tests', () => {
       );
 
       // Verify save button is enabled
-      const saveButton = queryAndAssert<HTMLElement>(element, 'gr-dialog');
+      const saveButton = queryAndAssert<HTMLElement>(
+        element,
+        'gr-button.save-button'
+      );
       assert.isFalse(saveButton.hasAttribute('disabled'));
+    });
+  });
+
+  suite('admin', () => {
+    setup(async () => {
+      element.isProjectOwner = true;
+      await element.updateComplete;
+    });
+
+    test('save button is disabled when require_change_for_config_update is set', async () => {
+      element.disableSaveWithoutReview = true;
+      element.newRequirement.name = 'Test';
+      element.newRequirement.submittability_expression = 'test';
+      await element.updateComplete;
+
+      const dialog = queryAndAssert<HTMLDialogElement>(
+        element,
+        '#createDialog'
+      );
+      dialog.showModal();
+      await element.updateComplete;
+
+      const saveButton = queryAndAssert<GrButton>(
+        element,
+        'gr-dialog gr-button.action.save-button'
+      );
+      assert.isTrue(saveButton.disabled);
     });
   });
 });

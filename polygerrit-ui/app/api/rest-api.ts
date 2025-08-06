@@ -1367,6 +1367,8 @@ export declare interface FixSuggestionInfo extends FixSuggestionInfoInput {
   log_probability?: number;
 }
 
+import {SubmitRequirementInput} from '../types/common';
+
 /**
  * The LabelDefinitionInfo entity describes a review label.
  *
@@ -1430,4 +1432,15 @@ export interface BatchLabelInput {
   create?: LabelDefinitionInput[];
   update?: {[labelName: string]: Partial<LabelDefinitionInput>};
   delete?: string[];
+}
+
+/**
+ * The BatchSubmitRequirementInput entity describes a batch submit requirement input
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#batch-submit-requirement-input
+ */
+export interface BatchSubmitRequirementInput {
+  create?: SubmitRequirementInput[];
+  update?: {[submitRequirementName: string]: Partial<SubmitRequirementInput>};
+  delete?: string[];
+  commit_message?: string;
 }

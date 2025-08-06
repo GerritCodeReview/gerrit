@@ -407,6 +407,14 @@ export class GrRepoLabels extends LitElement {
       return;
     }
 
+    if (
+      this.isEditing &&
+      this.labelToEdit?.copy_condition &&
+      !this.newLabel.copy_condition
+    ) {
+      this.newLabel.unset_copy_condition = true;
+    }
+
     const errFn: ErrorCallback = response => {
       firePageError(response);
     };
@@ -441,8 +449,7 @@ export class GrRepoLabels extends LitElement {
       description: '',
       function: LabelDefinitionInfoFunction.NoBlock,
       default_value: 0,
-      copy_condition: 'is:MIN',
-      unset_copy_condition: false,
+      copy_condition: '',
       allow_post_submit: false,
       can_override: true,
       ignore_self_approval: false,
@@ -468,6 +475,14 @@ export class GrRepoLabels extends LitElement {
     const errFn: ErrorCallback = response => {
       firePageError(response);
     };
+
+    if (
+      this.isEditing &&
+      this.labelToEdit?.copy_condition &&
+      !this.newLabel.copy_condition
+    ) {
+      this.newLabel.unset_copy_condition = true;
+    }
 
     const input: BatchLabelInput = {};
     if (this.isEditing && this.labelToEdit) {
@@ -667,27 +682,6 @@ export class GrRepoLabels extends LitElement {
                       >
                         <input id="copyCondition" type="text" />
                       </iron-input>
-                    </span>
-                  </div>
-                </section>
-                <section>
-                  <div class="title-flex">
-                    <span class="title">Unset Copy Condition</span>
-                  </div>
-                  <div class="value-flex">
-                    <span class="value">
-                      <input
-                        id="unsetCopyCondition"
-                        type="checkbox"
-                        ?checked=${this.newLabel.unset_copy_condition ?? false}
-                        @change=${(e: Event) => {
-                          this.newLabel = {
-                            ...this.newLabel,
-                            unset_copy_condition: (e.target as HTMLInputElement)
-                              .checked,
-                          };
-                        }}
-                      />
                     </span>
                   </div>
                 </section>

@@ -716,19 +716,6 @@ export interface SubmitRequirementInfo {
 }
 
 /**
- * The SubmitRequirementInput entity describes a submit requirement input.
- * https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#submit-requirement-input
- */
-export interface SubmitRequirementInput {
-  name: string;
-  description?: string;
-  applicability_expression?: string;
-  submittability_expression: string;
-  override_expression?: string;
-  allow_override_in_child_projects?: boolean;
-}
-
-/**
  * The ProjectAccessInfo entity contains information about the access rights for
  * a project.
  * https://gerrit-review.googlesource.com/Documentation/rest-api-access.html#project-access-info

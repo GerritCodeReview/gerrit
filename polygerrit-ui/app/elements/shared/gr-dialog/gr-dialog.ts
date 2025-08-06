@@ -38,6 +38,7 @@ export class GrDialog extends LitElement {
   @query('#confirm')
   confirmButton?: GrButton;
 
+  // Supplying an empty confirm label will hide the button completely.
   @property({type: String, attribute: 'confirm-label'})
   confirmLabel = 'Confirm';
 
@@ -114,9 +115,6 @@ export class GrDialog extends LitElement {
         gr-button {
           margin-left: var(--spacing-l);
         }
-        .hidden {
-          display: none;
-        }
         .loadingSpin {
           width: 18px;
           height: 18px;
@@ -153,26 +151,36 @@ export class GrDialog extends LitElement {
             `
           )}
           <slot name="footer"></slot>
-          <div class="flex-space"></div>
-          <gr-button
-            id="cancel"
-            class=${this.cancelLabel.length ? '' : 'hidden'}
-            link
-            ?disabled=${this.disableCancel}
-            @click=${(e: Event) => this.handleCancelTap(e)}
-          >
-            ${this.cancelLabel}
-          </gr-button>
-          <gr-button
-            id="confirm"
-            link
-            primary
-            @click=${this._handleConfirm}
-            ?disabled=${this.disabled}
-            title=${this.confirmTooltip ?? ''}
-          >
-            ${this.confirmLabel}
-          </gr-button>
+          ${when(
+            this.confirmLabel || this.cancelLabel,
+            () => html`
+              <div class="flex-space"></div>
+              ${when(
+                this.cancelLabel,
+                () => html`<gr-button
+                  id="cancel"
+                  link
+                  ?disabled=${this.disableCancel}
+                  @click=${(e: Event) => this.handleCancelTap(e)}
+                >
+                  ${this.cancelLabel}
+                </gr-button>`
+              )}
+              ${when(
+                this.confirmLabel,
+                () => html`<gr-button
+                  id="confirm"
+                  link
+                  primary
+                  @click=${this._handleConfirm}
+                  ?disabled=${this.disabled}
+                  title=${this.confirmTooltip ?? ''}
+                >
+                  ${this.confirmLabel}
+                </gr-button>`
+              )}
+            `
+          )}
         </footer>
       </div>
     `;

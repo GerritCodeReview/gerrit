@@ -16,6 +16,7 @@ acceptance_tests(
     labels = ["rest"],
     deps = [
         ":submit_util",
+        "//java/com/google/gerrit/entities/converter:converters",
         "//java/com/google/gerrit/mail",
     ],
 )

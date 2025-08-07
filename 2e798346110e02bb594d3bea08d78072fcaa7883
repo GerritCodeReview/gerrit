@@ -16,6 +16,24 @@
       "message": "nit: The @param for the resource parameter is missing.",
       "revId": "2e798346110e02bb594d3bea08d78072fcaa7883",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dbf289f8_d7a4c36e",
+        "filename": "java/com/google/gerrit/extensions/restapi/RestReadView.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-08-07T11:06:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "775a188f_62647138",
+      "revId": "2e798346110e02bb594d3bea08d78072fcaa7883",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

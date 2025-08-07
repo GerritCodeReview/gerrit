@@ -22,6 +22,30 @@
       },
       "revId": "d8660717d8a63b6e056fc9435e57005583bbe306",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a45d857e_b038d358",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-08-07T08:11:52Z",
+      "side": 1,
+      "message": "Makes sense to improve that javadoc. I\u0027ve done this in a separate change that is the new base of this change now:\n\nhttps://gerrit-review.git.corp.google.com/c/gerrit/+/496823",
+      "parentUuid": "f8ace796_a4801fb2",
+      "range": {
+        "startLine": 11,
+        "startChar": 19,
+        "endLine": 13,
+        "endChar": 52
+      },
+      "revId": "d8660717d8a63b6e056fc9435e57005583bbe306",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

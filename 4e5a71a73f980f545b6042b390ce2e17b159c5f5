@@ -1,0 +1,45 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9f18aaf5_b1fae2fa",
+        "filename": "java/com/google/gerrit/exceptions/GerritNoMergeBaseException.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-08-07T09:16:22Z",
+      "side": 1,
+      "message": "Remove extra \u003cli\u003e",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 9
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "0dbc6672_e505c706",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "java/com/google/gerrit/exceptions/GerritNoMergeBaseException.java",
+              "range": {
+                "startLine": 29,
+                "startChar": 0,
+                "endLine": 30,
+                "endChar": 0
+              },
+              "replacement": ""
+            }
+          ]
+        }
+      ],
+      "revId": "4e5a71a73f980f545b6042b390ce2e17b159c5f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

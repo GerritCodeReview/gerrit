@@ -16,6 +16,8 @@ DEPLOY_ENV = [
     "//java/com/google/gerrit/common:annotations",
     "//java/com/google/gerrit/common:server",
     "//java/com/google/gerrit/entities",
+    "//java/com/google/gerrit/entities/converter:converters",
+    "//java/com/google/gerrit/entities/converter:proto_converter",
     "//java/com/google/gerrit/extensions:api",
     "//java/com/google/gerrit/httpd",
     "//java/com/google/gerrit/index",

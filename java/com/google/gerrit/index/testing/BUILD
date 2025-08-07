@@ -10,6 +10,7 @@ java_library(
     deps = [
         "//java/com/google/gerrit/common:annotations",
         "//java/com/google/gerrit/entities",
+        "//java/com/google/gerrit/entities/converter:converters",
         "//java/com/google/gerrit/index",
         "//java/com/google/gerrit/index/project",
         "//java/com/google/gerrit/server",

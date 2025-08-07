@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "f2ab7424_b4d6b413",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-08-07T19:57:50Z",
+      "side": 1,
+      "message": "I believe it isn\u0027t just the tests, but all plugins that declare a persistent cache needs to be adapted to call the `start()` in their lifecycle listener.\n\nI tracked the problem in Issue 437141693.",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 49
+      },
+      "revId": "6f8308fd2b609c1c322de13ab42e9e5212e6c341",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "5912396c_fce784ca",

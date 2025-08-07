@@ -833,7 +833,7 @@ public class RestApiServlet extends HttpServlet {
         traceContext,
         getViewName(viewData),
         ActionType.REST_READ_REQUEST,
-        () -> view.apply(rsrc));
+        () -> view.apply(req, rsrc));
   }
 
   private Response<?> invokeRestModifyViewWithRetry(

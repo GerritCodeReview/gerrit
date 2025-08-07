@@ -33,6 +33,7 @@ java_library(
     deps = [
         "//java/com/google/gerrit/common:annotations",
         "//lib:guava",
+        "//lib:servlet-api",
         "//lib/auto:auto-value-annotations",
         "//lib/errorprone:annotations",
         "//lib/guice",

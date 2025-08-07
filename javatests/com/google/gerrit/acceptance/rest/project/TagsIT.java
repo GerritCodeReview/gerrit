@@ -340,9 +340,7 @@ public class TagsIT extends AbstractDaemonTest {
     input.ref = "test";
     input.message = "annotation";
     AuthException thrown = assertThrows(AuthException.class, () -> tag(input.ref).create(input));
-    assertThat(thrown)
-        .hasMessageThat()
-        .contains("Cannot create annotated tag \"" + R_TAGS + "test\"");
+    assertThat(thrown).hasMessageThat().contains("not permitted: create on " + R_TAGS + "test");
   }
 
   @Test

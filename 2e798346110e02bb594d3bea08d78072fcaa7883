@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "775a188f_62647138",
+        "filename": "java/com/google/gerrit/extensions/restapi/RestReadView.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-08-07T10:05:39Z",
+      "side": 1,
+      "message": "nit: The @param for the resource parameter is missing.",
+      "revId": "2e798346110e02bb594d3bea08d78072fcaa7883",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

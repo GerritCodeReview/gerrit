@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f8ace796_a4801fb2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-08-07T07:36:38Z",
+      "side": 1,
+      "message": "Currently in the description of the EventBroker, it\u0027s not obvious why all events have this property. Can you update the docstring, to indicate where events originate from, so that what you say, becomes more obvious.",
+      "range": {
+        "startLine": 11,
+        "startChar": 19,
+        "endLine": 13,
+        "endChar": 52
+      },
+      "revId": "d8660717d8a63b6e056fc9435e57005583bbe306",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

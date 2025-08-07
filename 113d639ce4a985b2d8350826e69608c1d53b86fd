@@ -16,6 +16,23 @@
       "message": "Need to add test, but wanted initial feedback.",
       "revId": "113d639ce4a985b2d8350826e69608c1d53b86fd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ff53959a_47a29c38",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-08-07T11:28:17Z",
+      "side": 1,
+      "message": "This fix LGTM",
+      "revId": "113d639ce4a985b2d8350826e69608c1d53b86fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

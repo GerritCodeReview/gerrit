@@ -15,7 +15,17 @@
 package com.google.gerrit.server.api;
 
 import com.google.common.base.Throwables;
+import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
+import com.google.gerrit.extensions.restapi.PreconditionFailedException;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
+import com.google.gerrit.server.ExceptionHook.Status;
+import com.google.gerrit.server.ExceptionHookImpl;
+import com.google.gerrit.server.auth.AuthException;
+import java.util.Optional;
 
 /** Static utilities for API implementations. */
 public class ApiUtil {
@@ -31,8 +41,32 @@ public class ApiUtil {
    */
   public static RestApiException asRestApiException(String msg, Exception e)
       throws RuntimeException {
+    e = mapExceptionUsingDefaultExceptionHook(e);
     Throwables.throwIfUnchecked(e);
     return e instanceof RestApiException ? (RestApiException) e : RestApiException.wrap(msg, e);
+  }
+
+  private static Exception mapExceptionUsingDefaultExceptionHook(Exception originalException) {
+    ExceptionHookImpl impl = new ExceptionHookImpl();
+    Optional<Status> status = impl.getStatus(originalException);
+    if (status.isPresent()) {
+      if (status.get().statusCode() == 400) {
+        return new BadRequestException(originalException.getMessage(), originalException);
+      } else if (status.get().statusCode() == 403) {
+        return new AuthException(originalException.getMessage(), originalException);
+      } else if (status.get().statusCode() == 404) {
+        return new ResourceNotFoundException(originalException.getMessage(), originalException);
+      } else if (status.get().statusCode() == 405) {
+        return new MethodNotAllowedException(originalException.getMessage(), originalException);
+      } else if (status.get().statusCode() == 409) {
+        return new ResourceConflictException(originalException.getMessage(), originalException);
+      } else if (status.get().statusCode() == 412) {
+        return new PreconditionFailedException(originalException.getMessage(), originalException);
+      } else if (status.get().statusCode() == 422) {
+        return new UnprocessableEntityException(originalException.getMessage(), originalException);
+      }
+    }
+    return originalException;
   }
 
   private ApiUtil() {}

@@ -26,6 +26,7 @@ import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.exceptions.GerritNoMergeBaseException;
 import com.google.gerrit.exceptions.InvalidMergeStrategyException;
 import com.google.gerrit.exceptions.MergeWithConflictsNotSupportedException;
 import com.google.gerrit.extensions.client.ListChangesOption;
@@ -288,7 +289,9 @@ public class CreateMergePatchSet implements RestModifyView<ChangeResource, Merge
       throws ResourceNotFoundException,
           MergeIdenticalTreeException,
           MergeConflictException,
-          IOException {
+          IOException,
+          InvalidMergeStrategyException,
+          GerritNoMergeBaseException {
 
     ObjectId parentCommit;
     if (in.inheritParent) {

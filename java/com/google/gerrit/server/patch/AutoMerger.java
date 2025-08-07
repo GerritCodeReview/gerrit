@@ -19,6 +19,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.entities.RefNames;
+import com.google.gerrit.exceptions.GerritNoMergeBaseException;
 import com.google.gerrit.metrics.Counter1;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Field;
@@ -37,6 +38,7 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.Optional;
 import org.eclipse.jgit.dircache.DirCache;
+import org.eclipse.jgit.errors.NoMergeBaseException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
@@ -248,7 +250,12 @@ public class AutoMerger {
     DirCache dc = DirCache.newInCore();
     m.setDirCache(dc);
 
-    boolean couldMerge = m.merge(merge.getParents());
+    boolean couldMerge;
+    try {
+      couldMerge = m.merge(merge.getParents());
+    } catch (NoMergeBaseException e) {
+      throw new GerritNoMergeBaseException(e);
+    }
 
     ObjectId treeId;
     if (couldMerge) {

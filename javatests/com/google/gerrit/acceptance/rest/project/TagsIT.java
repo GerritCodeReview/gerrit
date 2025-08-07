@@ -52,7 +52,6 @@ import java.util.List;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 @NoHttpd
@@ -341,9 +340,7 @@ public class TagsIT extends AbstractDaemonTest {
     input.ref = "test";
     input.message = "annotation";
     AuthException thrown = assertThrows(AuthException.class, () -> tag(input.ref).create(input));
-    assertThat(thrown)
-        .hasMessageThat()
-        .contains("Cannot create annotated tag \"" + R_TAGS + "test\"");
+    assertThat(thrown).hasMessageThat().contains("not permitted: create on " + R_TAGS + "test");
   }
 
   @Test
@@ -484,7 +481,6 @@ public class TagsIT extends AbstractDaemonTest {
   }
 
   @Test
-  @Ignore("Added test to highlight how creation of tag on read only project doesn't fail")
   public void cannotCreateTagIfProjectIsReadOnly() throws Exception {
     grantTagPermissions();
     PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo);

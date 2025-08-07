@@ -41,7 +41,18 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.Optional;
 
-/** Distributes Events to listeners if they are allowed to see them */
+/**
+ * Distributes events to {@link EventListener}s if they are allowed to see them.
+ *
+ * <p>Gerrit invokes listeners whenever it does an update. For example the {@link
+ * com.google.gerrit.extensions.events.ChangeAbandonedListener} is invoked when a change gets
+ * abandoned. See the classes in the {@code com.google.gerrit.extensions.events} package for which
+ * listeners exist.
+ *
+ * <p>{@link StreamEventsApiListener} implements all the available listeners and creates an event
+ * whenever any of the listeners is invoked. The events get provided to all {@link
+ * EventDispatcher}s, {@code EventBroker} being one of them.
+ */
 @Singleton
 public class EventBroker implements EventDispatcher {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();

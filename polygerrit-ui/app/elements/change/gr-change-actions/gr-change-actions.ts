@@ -870,7 +870,14 @@ export class GrChangeActions
 
     this.editStatusChanged();
 
-    this.actionsChanged();
+    if (
+      changedProperties.has('actions') ||
+      changedProperties.has('revisionActions') ||
+      changedProperties.has('additionalActions')
+    ) {
+      this.actionsChanged();
+    }
+
     this.allActionValues = this.computeAllActions();
     this.topLevelActions = this.allActionValues.filter(a => {
       if (this.hiddenActions.includes(a.__key)) return false;
@@ -1818,7 +1825,9 @@ export class GrChangeActions
     }
 
     if (this.isOverflowAction(action.__type, buttonKey)) {
-      this.disabledMenuActions.push(buttonKey === '/' ? 'delete' : buttonKey);
+      this.disabledMenuActions.push(
+        buttonKey === '/' ? 'delete-change' : `${buttonKey}-${action.__type}`
+      );
       this.requestUpdate('disabledMenuActions');
       return () => {
         this.inProgressActionKeys.delete(key);

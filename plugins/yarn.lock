@@ -473,7 +473,7 @@
   dependencies:
     "@types/chai" "^4.2.12"
 
-"@gerritcodereview/typescript-api@^3.12.0":
+"@gerritcodereview/typescript-api@3.12.0":
   version "3.12.0"
   resolved "https://registry.yarnpkg.com/@gerritcodereview/typescript-api/-/typescript-api-3.12.0.tgz#c851217a30a665aae1af81c5a050f4ad854298bc"
   integrity sha512-GjPj9gshoN6KhC63e7/oa9sq0OgWbaqY4vOWJzu9Ho0IwG74j/AsB4mXNMdUC26obYwUMrjgWsdWdaAFB09UpQ==
@@ -668,6 +668,14 @@
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/@marijn/find-cluster-break/-/find-cluster-break-1.0.2.tgz#775374306116d51c0c500b8c4face0f9a04752d8"
   integrity sha512-l0h88YhZFyKdXIFNfSWpyjStDjGHwZ/U7iobcK1cQQD8sejsONdQtTVU+1wVN1PBw40PiiHB1vA5S7VTfQiP9g==
+
+"@material/web@^2.3.0":
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/@material/web/-/web-2.3.0.tgz#d0dda48159d148b1a0982b10c2e8b48940da81fe"
+  integrity sha512-r7ccZHthMk5tM05goPJ965hQ99ptMyZt7i8Xi8+RmEqK3ZXaMtjx+s4p+9OVX+vgOS3zpop+g1yGYXtOOlrwUg==
+  dependencies:
+    lit "^2.8.0 || ^3.0.0"
+    tslib "^2.4.0"
 
 "@mdn/browser-compat-data@^4.0.0":
   version "4.2.1"
@@ -2468,6 +2476,15 @@ lit-html@^3.3.0:
     lit-element "^4.1.0"
     lit-html "^3.2.0"
 
+"lit@^2.8.0 || ^3.0.0":
+  version "3.3.1"
+  resolved "https://registry.yarnpkg.com/lit/-/lit-3.3.1.tgz#9dc79be626bc9a3b824de98b107dd662cabdeda6"
+  integrity sha512-Ksr/8L3PTapbdXJCk+EJVB78jDodUMaP54gD24W186zGRARvwrsPfS60wae/SSCTCNZVPd1chXqio1qHQmu4NA==
+  dependencies:
+    "@lit/reactive-element" "^2.1.0"
+    lit-element "^4.2.0"
+    lit-html "^3.3.0"
+
 lit@^3.0.0, lit@^3.3.0:
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/lit/-/lit-3.3.0.tgz#b3037ea94676fb89c3dde9951914efefd0441f17"
@@ -3192,7 +3209,7 @@ tslib@^1.9.0:
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.14.1.tgz#cf2d38bdc34a134bcaf1091c41f6619e2f672d00"
   integrity sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==
 
-tslib@^2.0.1:
+tslib@^2.0.1, tslib@^2.4.0:
   version "2.8.1"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.8.1.tgz#612efe4ed235d567e8aba5f2a5fab70280ade83f"
   integrity sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w==

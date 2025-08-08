@@ -79,6 +79,30 @@
       },
       "revId": "0ba9653160f043d02264fe9acf47bd00aad3c45d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d2a085b_d55286ac",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.ts",
+        "patchSetId": 23
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-08-08T18:39:21Z",
+      "side": 1,
+      "message": "this is used for selectionStart/selectionEnd which isn\u0027t private.",
+      "parentUuid": "f15f8883_32a53c26",
+      "range": {
+        "startLine": 210,
+        "startChar": 23,
+        "endLine": 210,
+        "endChar": 48
+      },
+      "revId": "0ba9653160f043d02264fe9acf47bd00aad3c45d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

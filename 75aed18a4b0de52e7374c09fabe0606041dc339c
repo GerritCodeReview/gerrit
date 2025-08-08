@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "5f6feb74_c03987ed",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-08-08T17:57:39Z",
+      "side": 1,
+      "message": "How can I understand it? That action was never disabled because of this bug?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 9
+      },
+      "revId": "75aed18a4b0de52e7374c09fabe0606041dc339c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "3e17ea91_f236096a",
@@ -14,6 +37,23 @@
       "writtenOn": "2025-08-08T17:57:15Z",
       "side": 1,
       "message": "This bug i think was introduced with https://github.com/GerritCodeReview/gerrit/commit/9369a9fb65c836f7a1f5a1636a4d8a35f3ade4ed ?",
+      "revId": "75aed18a4b0de52e7374c09fabe0606041dc339c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "68bbb8c4_66ce9edc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-08-08T17:57:39Z",
+      "side": 1,
+      "message": "Thanks for fix!",
       "revId": "75aed18a4b0de52e7374c09fabe0606041dc339c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

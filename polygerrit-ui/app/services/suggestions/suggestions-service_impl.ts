@@ -59,6 +59,7 @@ export class GrSuggestionsService implements SuggestionsService {
       !!path &&
       path !== SpecialFilePath.PATCHSET_LEVEL_COMMENTS &&
       path !== SpecialFilePath.COMMIT_MESSAGE &&
+      path !== SpecialFilePath.MERGE_LIST &&
       this.change.is_private !== true &&
       (!this.suggestionsProvider.supportedFileExtensions ||
         this.suggestionsProvider.supportedFileExtensions.includes(

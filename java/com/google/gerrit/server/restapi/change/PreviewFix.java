@@ -96,6 +96,7 @@ public class PreviewFix {
     @Override
     public Response<Map<String, DiffInfo>> apply(FixResource fixResource)
         throws PermissionBackendException,
+            BadRequestException,
             ResourceNotFoundException,
             ResourceConflictException,
             AuthException,
@@ -157,6 +158,7 @@ public class PreviewFix {
   private Map<String, DiffInfo> previewAllFiles(
       Map<String, List<FixReplacement>> fixReplacementsPerFilePath)
       throws PermissionBackendException,
+          BadRequestException,
           ResourceNotFoundException,
           ResourceConflictException,
           AuthException,
@@ -182,6 +184,7 @@ public class PreviewFix {
       Repository git, String fileName, ImmutableList<FixReplacement> fixReplacements)
       throws PermissionBackendException,
           AuthException,
+          BadRequestException,
           LargeObjectException,
           InvalidChangeOperationException,
           IOException,

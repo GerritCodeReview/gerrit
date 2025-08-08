@@ -24,6 +24,7 @@ import com.google.gerrit.entities.FixReplacement;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.server.git.LargeObjectException;
@@ -96,6 +97,7 @@ public class PatchScriptFactoryForAutoFix implements Callable<PatchScript> {
   public PatchScript call()
       throws LargeObjectException,
           AuthException,
+          BadRequestException,
           InvalidChangeOperationException,
           IOException,
           PermissionBackendException,
@@ -115,15 +117,17 @@ public class PatchScriptFactoryForAutoFix implements Callable<PatchScript> {
     return createPatchScript();
   }
 
-  private PatchScript createPatchScript() throws LargeObjectException, ResourceNotFoundException {
+  private PatchScript createPatchScript()
+      throws LargeObjectException, BadRequestException, ResourceNotFoundException {
     checkState(patchSet.id().get() != 0, "edit not supported for left side");
     PatchScriptBuilder b = newBuilder();
     try {
       ObjectId baseId = patchSet.commitId();
       return b.toPatchScript(git, baseId, fileName, fixReplacements);
     } catch (ResourceConflictException e) {
-      logger.atSevere().withCause(e).log("AutoFix replacements is not valid");
-      throw new IllegalStateException("AutoFix replacements is not valid", e);
+      logger.atFine().log("replacement is not valid: %s", e.getMessage());
+      throw new BadRequestException(
+          String.format("replacement is not valid: %s", e.getMessage()), e);
     } catch (IOException e) {
       logger.atSevere().withCause(e).log("File content unavailable");
       throw new NoSuchChangeException(notes.getChangeId(), e);

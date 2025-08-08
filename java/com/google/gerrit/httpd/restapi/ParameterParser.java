@@ -188,7 +188,7 @@ public class ParameterParser {
     pluginOptions.onBeanParseStart();
     try {
       clp.parseOptionMap(in);
-    } catch (CmdLineException | NumberFormatException e) {
+    } catch (CmdLineException | IllegalArgumentException e) {
       if (!clp.wasHelpRequestedByOption()) {
         replyError(req, res, SC_BAD_REQUEST, e.getMessage(), e);
         return false;

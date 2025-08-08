@@ -18,6 +18,7 @@ import static com.google.common.net.HttpHeaders.ORIGIN;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.httpd.restapi.RestApiServlet.X_GERRIT_UPDATED_REF;
 import static com.google.gerrit.httpd.restapi.RestApiServlet.X_GERRIT_UPDATED_REF_ENABLED;
+import static org.apache.http.HttpStatus.SC_BAD_REQUEST;
 import static org.apache.http.HttpStatus.SC_OK;
 
 import com.google.common.collect.ImmutableList;
@@ -25,9 +26,11 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit.Result;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.config.GerritConfig;
+import com.google.gerrit.acceptance.testsuite.change.ChangeOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
+import com.google.gerrit.extensions.api.changes.ChangeIdentifier;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.restapi.Url;
@@ -51,6 +54,7 @@ public class RestApiServletIT extends AbstractDaemonTest {
       new BasicHeader(X_GERRIT_UPDATED_REF_ENABLED, "true");
   private static Pattern ANY_SPACE = Pattern.compile("\\s");
 
+  @Inject private ChangeOperations changeOperations;
   @Inject private ProjectOperations projectOperations;
 
   @Test
@@ -490,6 +494,20 @@ public class RestApiServletIT extends AbstractDaemonTest {
 
     String redirectUri = String.format("/c/%s/+/%d/", project.get(), changeNumber);
     anonymousRestSession.get("/" + changeNumber).assertTemporaryRedirect(redirectUri);
+  }
+
+  @Test
+  public void unrecognizedOptionIsRejectedAsBadRequest() throws Exception {
+    String unrecognizedOption = "@";
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().create();
+    RestResponse response =
+        adminRestSession.get(
+            String.format(
+                "/changes/%s/submitted_together?o=%s", changeIdentifier.id(), unrecognizedOption));
+    assertThat(response.getStatusCode()).isEqualTo(SC_BAD_REQUEST);
+
+    assertThat(response.getEntityContent())
+        .isEqualTo(String.format("option not recognized: %s", unrecognizedOption));
   }
 
   private ObjectId getMetaRefSha1(Result change) {

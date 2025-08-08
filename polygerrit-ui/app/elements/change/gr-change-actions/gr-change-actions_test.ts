@@ -1394,13 +1394,13 @@ suite('gr-change-actions tests', () => {
         label: 'label',
       });
       assert.equal(element.actionLoadingMessage, 'Cherry-picking...');
-      assert.include(element.disabledMenuActions, 'cherrypick');
+      assert.include(element.disabledMenuActions, 'cherrypick-revision');
       assert.isFunction(cleanup);
 
       cleanup();
 
       assert.notOk(element.actionLoadingMessage);
-      assert.notInclude(element.disabledMenuActions, 'cherrypick');
+      assert.notInclude(element.disabledMenuActions, 'cherrypick-revision');
     });
 
     suite('abandon change', () => {

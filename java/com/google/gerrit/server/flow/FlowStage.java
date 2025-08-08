@@ -27,10 +27,10 @@ import java.util.Optional;
 public abstract class FlowStage {
   /** Status of a stage in a {@link Flow}; */
   public enum Status {
-    /** The condition of the stage is not satisfied yet or the action has not been executed yet. */
+    /** All conditions of the stage are not satisfied yet or the action has not been executed yet. */
     PENDING,
 
-    /** The condition of the stage is satisfied and the action has been executed. */
+    /** All conditions of the stage are satisfied and the action has been executed. */
     DONE,
 
     /** The stage has a non-recoverable error, e.g. performing the action has failed. */

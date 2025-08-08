@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d3822b9_0226701e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-08-08T11:08:02Z",
+      "side": 1,
+      "message": "Build failed with the correct exception:\n```\n09:59:13 1) cannotCreateTagIfProjectIsReadOnly(com.google.gerrit.acceptance.rest.project.TagsIT)\n09:59:13 java.lang.AssertionError: expected com.google.gerrit.extensions.restapi.ResourceConflictException but no exception was thrown\n```\n\nDisabling test",
+      "revId": "9dc18cad5cf02656792b796c23fa3a671b4d6e2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

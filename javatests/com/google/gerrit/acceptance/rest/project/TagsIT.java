@@ -23,6 +23,7 @@ import static org.eclipse.jgit.lib.Constants.R_TAGS;
 
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
@@ -36,6 +37,7 @@ import com.google.gerrit.extensions.api.projects.ProjectApi.ListRefsRequest;
 import com.google.gerrit.extensions.api.projects.TagApi;
 import com.google.gerrit.extensions.api.projects.TagInfo;
 import com.google.gerrit.extensions.api.projects.TagInput;
+import com.google.gerrit.extensions.client.ProjectState;
 import com.google.gerrit.extensions.common.ListTagSortOption;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -43,12 +45,16 @@ import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
+import com.google.gerrit.git.testing.PushResultSubject;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.inject.Inject;
 import java.time.Instant;
 import java.util.Arrays;
 import java.util.List;
+
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.transport.PushResult;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -479,6 +485,28 @@ public class TagsIT extends AbstractDaemonTest {
     assertThat(result.ref).isEqualTo(R_TAGS + input.ref);
     assertThat(result.revision).isEqualTo(revision.name());
   }
+
+  @Test
+  public void cannotCreateTagIfProjectIsReadOnly() throws Exception {
+    grantTagPermissions();
+    PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo);
+    PushOneCommit.Result r = push.to("refs/heads/master");
+    r.assertOkStatus();
+
+    try (Repository repo = repoManager.openRepository(project)) {
+      try (ProjectConfigUpdate u = updateProject(project)) {
+        u.getConfig().updateProject(p -> p.setState(ProjectState.READ_ONLY));
+        u.save();
+      }
+    }
+
+    TagInput input = new TagInput();
+    input.ref = "v1.0";
+
+    assertThrows(
+        ResourceConflictException.class, () -> gApi.projects().name(project.get()).tag(input.ref).create(input));
+  }
+
 
   private void assertTagList(FluentIterable<String> expected, List<TagInfo> actual)
       throws Exception {

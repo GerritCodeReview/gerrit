@@ -192,6 +192,7 @@ class H2CacheFactory extends PersistentCacheBaseFactory implements LifecycleList
     synchronized (caches) {
       caches.add(cache);
     }
+    cache.start();
     return cache;
   }
 

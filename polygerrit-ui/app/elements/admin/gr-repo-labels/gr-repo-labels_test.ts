@@ -19,6 +19,7 @@ import {
   LabelDefinitionInfoFunction,
 } from '../../../api/rest-api';
 import {GrDropdownList} from '../../shared/gr-dropdown-list/gr-dropdown-list';
+import {GrListView} from '../../shared/gr-list-view/gr-list-view';
 
 suite('gr-repo-labels tests', () => {
   let element: GrRepoLabels;
@@ -258,16 +259,6 @@ suite('gr-repo-labels tests', () => {
                     </section>
                     <section>
                       <div class="title-flex">
-                        <span class="title">Unset Copy Condition</span>
-                      </div>
-                      <div class="value-flex">
-                        <span class="value">
-                          <input id="unsetCopyCondition" type="checkbox" />
-                        </span>
-                      </div>
-                    </section>
-                    <section>
-                      <div class="title-flex">
                         <span class="title">Can Override</span>
                       </div>
                       <div class="value-flex">
@@ -470,6 +461,74 @@ suite('gr-repo-labels tests', () => {
       // Verify save button is enabled
       const saveButton = queryAndAssert<HTMLElement>(element, 'gr-dialog');
       assert.isFalse(saveButton.hasAttribute('disabled'));
+    });
+
+    test('open create dialog', async () => {
+      await waitEventLoop();
+      element.isProjectOwner = true;
+      await element.updateComplete;
+
+      const listView = queryAndAssert<GrListView>(element, 'gr-list-view');
+      listView.dispatchEvent(
+        new CustomEvent('create-clicked', {
+          bubbles: true,
+          composed: true,
+        })
+      );
+      await element.updateComplete;
+
+      // Verify dialog is open and has correct title
+      const dialog = queryAndAssert<HTMLDialogElement>(
+        element,
+        '#createDialog'
+      );
+      assert.isTrue(dialog.open);
+
+      const dialogTitle = queryAndAssert<HTMLElement>(element, '.header');
+      assert.equal(dialogTitle.textContent?.trim(), 'Create Label');
+
+      const copyConditionInput = queryAndAssert<HTMLInputElement>(
+        element,
+        '#copyCondition'
+      );
+      assert.equal(copyConditionInput.value, '');
+    });
+
+    test('unset_copy_condition is set when copy_condition is cleared', async () => {
+      const updateLabelStub = stubRestApi('updateRepoLabel').returns(
+        Promise.resolve(undefined)
+      );
+      await waitEventLoop();
+      element.isProjectOwner = true;
+      await element.updateComplete;
+
+      const editButton = queryAndAssert<GrButton>(element, '.editBtn');
+      editButton.click();
+      await element.updateComplete;
+
+      const copyConditionInput = queryAndAssert<HTMLInputElement>(
+        element,
+        '#copyCondition'
+      );
+      copyConditionInput.value = '';
+      copyConditionInput.dispatchEvent(
+        new CustomEvent('bind-value-changed', {
+          bubbles: true,
+          composed: true,
+          detail: {value: ''},
+        })
+      );
+      await element.updateComplete;
+
+      const saveButton = queryAndAssert<GrButton>(
+        element,
+        'gr-dialog gr-button.action.save-button'
+      );
+      saveButton.click();
+      await element.updateComplete;
+
+      assert.isTrue(updateLabelStub.calledOnce);
+      assert.isTrue(updateLabelStub.firstCall.args[2].unset_copy_condition);
     });
   });
 

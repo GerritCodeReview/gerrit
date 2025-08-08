@@ -23,7 +23,7 @@
     "highlightjs-structured-text": "https://github.com/highlightjs/highlightjs-structured-text#e68dd7aa829529fb6c40d6287585f43273605a9e",
     "highlightjs-vue": "https://github.com/paladox/highlightjs-vue#44eed074ea0110d1ad03d2cbd77d27027cf7bb04",
     "immer": "^9.0.21",
-    "lit": "^3.2.1",
+    "lit": "^3.3.1",
     "marked": "^0.5.0",
     "polymer-bridges": "file:../../polymer-bridges",
     "polymer-resin": "^2.0.1",

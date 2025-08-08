@@ -170,6 +170,24 @@ public class PreviewProvidedFixIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void previewFixWithBadRange() throws Exception {
+    FixReplacementInfo fixReplacementInfo1 = new FixReplacementInfo();
+    fixReplacementInfo1.path = FILE_NAME;
+    fixReplacementInfo1.replacement = "some replacement code";
+    fixReplacementInfo1.range = createRange(30000, 9, 8, 4);
+
+    List<FixReplacementInfo> fixReplacementInfoList = Arrays.asList(fixReplacementInfo1);
+    ApplyProvidedFixInput applyProvidedFixInput = new ApplyProvidedFixInput();
+    applyProvidedFixInput.fixReplacementInfos = fixReplacementInfoList;
+
+    BadRequestException exception =
+        assertThrows(
+            BadRequestException.class,
+            () -> gApi.changes().id(changeId).current().getFixPreview(applyProvidedFixInput));
+    assertThat(exception).hasMessageThat().startsWith("replacement is not valid: ");
+  }
+
+  @Test
   public void previewFixForDifferentPatchset() throws Exception {
     int previousRevision = gApi.changes().id(changeId).get().currentRevisionNumber;
     amendChange(changeId);

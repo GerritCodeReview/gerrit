@@ -69,6 +69,9 @@ export class GrRelatedChange extends LitElement {
         .indirectRelation {
           color: var(--indirect-relation-text-color);
         }
+        .workInProgress {
+          color: var(--status-wip);
+        }
         .submittableCheck {
           padding-left: var(--spacing-s);
           color: var(--positive-green-text-color);
@@ -149,6 +152,8 @@ export class GrRelatedChange extends LitElement {
       classes.push('indirectRelation');
     } else if (change.submittable) {
       classes.push('submittable');
+    } else if (isChangeInfo(change) && change.work_in_progress) {
+      classes.push('workInProgress');
     } else if (change.status === ChangeStatus.NEW) {
       classes.push('hidden');
     }
@@ -169,6 +174,8 @@ export class GrRelatedChange extends LitElement {
       return 'Not current';
     } else if (!isChangeInfo(change) && this.isIndirectRelation(change)) {
       return 'Indirect relation';
+    } else if (isChangeInfo(change) && change.work_in_progress) {
+      return 'WIP';
     } else if (change.submittable) {
       return 'Submittable';
     }

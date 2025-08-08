@@ -870,7 +870,14 @@ export class GrChangeActions
 
     this.editStatusChanged();
 
-    this.actionsChanged();
+    if (
+      changedProperties.has('actions') ||
+      changedProperties.has('revisionActions') ||
+      changedProperties.has('additionalActions')
+    ) {
+      this.actionsChanged();
+    }
+
     this.allActionValues = this.computeAllActions();
     this.topLevelActions = this.allActionValues.filter(a => {
       if (this.hiddenActions.includes(a.__key)) return false;

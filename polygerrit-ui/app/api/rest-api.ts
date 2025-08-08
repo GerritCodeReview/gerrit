@@ -1431,3 +1431,27 @@ export interface BatchLabelInput {
   update?: {[labelName: string]: Partial<LabelDefinitionInput>};
   delete?: string[];
 }
+
+/**
+ * The SubmitRequirementInput entity describes a submit requirement input.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#submit-requirement-input
+ */
+export interface SubmitRequirementInput {
+  name: string;
+  description?: string;
+  applicability_expression?: string;
+  submittability_expression: string;
+  override_expression?: string;
+  allow_override_in_child_projects?: boolean;
+}
+
+/**
+ * The BatchSubmitRequirementInput entity describes a batch submit requirement input
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#batch-submit-requirement-input
+ */
+export interface BatchSubmitRequirementInput {
+  create?: SubmitRequirementInput[];
+  update?: {[submitRequirementName: string]: Partial<SubmitRequirementInput>};
+  delete?: string[];
+  commit_message?: string;
+}

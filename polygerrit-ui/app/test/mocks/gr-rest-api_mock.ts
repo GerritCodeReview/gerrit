@@ -412,6 +412,9 @@ export const grRestApiMock: RestApiService = {
   deleteSubmitRequirement(): Promise<Response> {
     return Promise.resolve(new Response());
   },
+  saveRepoSubmitRequirementsForReview(): Promise<ChangeInfo | undefined> {
+    return Promise.resolve(undefined);
+  },
   getRepoLabels(): Promise<LabelDefinitionInfo[] | undefined> {
     return Promise.resolve([]);
   },

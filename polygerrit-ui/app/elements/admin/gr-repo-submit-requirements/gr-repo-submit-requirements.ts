@@ -3,11 +3,7 @@
  * Copyright 2025 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {
-  RepoName,
-  SubmitRequirementInfo,
-  SubmitRequirementInput,
-} from '../../../types/common';
+import {RepoName, SubmitRequirementInfo} from '../../../types/common';
 import {firePageError} from '../../../utils/event-util';
 import {getAppContext} from '../../../services/app-context';
 import {ErrorCallback} from '../../../api/rest';
@@ -26,6 +22,14 @@ import {
   RepoViewState,
 } from '../../../models/views/repo';
 import '@polymer/iron-input/iron-input';
+import {resolve} from '../../../models/dependency';
+import {navigationToken} from '../../core/gr-navigation/gr-navigation';
+import {createChangeUrl} from '../../../models/views/change';
+import {
+  BatchSubmitRequirementInput,
+  SubmitRequirementInput,
+} from '../../../api/rest-api';
+import {GrButton} from '../../shared/gr-button/gr-button';
 
 @customElement('gr-repo-submit-requirements')
 export class GrRepoSubmitRequirements extends LitElement {
@@ -53,6 +57,12 @@ export class GrRepoSubmitRequirements extends LitElement {
   @state() isProjectOwner = false;
 
   @state()
+  disableSaveWithoutReview = true;
+
+  @state()
+  showSaveForReviewButton = false;
+
+  @state()
   newRequirement: SubmitRequirementInput = this.getEmptyRequirement();
 
   @state() offset = 0;
@@ -70,6 +80,8 @@ export class GrRepoSubmitRequirements extends LitElement {
 
   @state()
   isEditing = false;
+
+  private readonly getNavigation = resolve(this, navigationToken);
 
   private readonly restApiService = getAppContext().restApiService;
 
@@ -124,6 +136,11 @@ export class GrRepoSubmitRequirements extends LitElement {
         gr-dialog {
           width: 36em;
         }
+        gr-dialog .footer {
+          width: 100%;
+          display: flex;
+          justify-content: flex-end;
+        }
       `,
     ];
   }
@@ -140,6 +157,9 @@ export class GrRepoSubmitRequirements extends LitElement {
     try {
       const access = await this.restApiService.getRepoAccessRights(this.repo);
       this.isProjectOwner = !!access?.is_owner;
+      this.disableSaveWithoutReview =
+        !!access?.require_change_for_config_update;
+      this.showSaveForReviewButton = true;
     } catch (e) {
       console.error('Failed to check project owner status:', e);
       this.isProjectOwner = false;
@@ -376,14 +396,7 @@ export class GrRepoSubmitRequirements extends LitElement {
 
     return html`
       <dialog id="createDialog" tabindex="-1">
-        <gr-dialog
-          confirm-label=${this.isEditing ? 'Save' : 'Create'}
-          cancel-label="Cancel"
-          ?disabled=${!this.newRequirement.name ||
-          !this.newRequirement.submittability_expression}
-          @confirm=${this.handleCreateConfirm}
-          @cancel=${this.handleCreateCancel}
-        >
+        <gr-dialog .cancelLabel=${''} .confirmLabel=${''}>
           <div class="header" slot="header">
             ${this.isEditing ? 'Edit' : 'Create'} Submit Requirement
           </div>
@@ -424,6 +437,13 @@ export class GrRepoSubmitRequirements extends LitElement {
                       <textarea
                         id="description"
                         .value=${this.newRequirement.description ?? ''}
+                        @input=${(e: InputEvent) => {
+                          this.newRequirement = {
+                            ...this.newRequirement,
+                            description: (e.target as HTMLTextAreaElement)
+                              .value,
+                          };
+                        }}
                         placeholder="Optional"
                       ></textarea>
                     </span>
@@ -531,9 +551,77 @@ export class GrRepoSubmitRequirements extends LitElement {
               </div>
             </div>
           </div>
+          <div class="footer" slot="footer">
+            <gr-button @click=${this.handleCreateCancel} link>Cancel</gr-button>
+            <gr-button
+              class="action save-button"
+              link
+              primary
+              ?disabled=${!this.newRequirement.name ||
+              !this.newRequirement.submittability_expression ||
+              this.disableSaveWithoutReview}
+              @click=${this.handleCreateConfirm}
+            >
+              ${this.isEditing ? 'Save' : 'Create'}
+            </gr-button>
+            <gr-button
+              class="action save-for-review"
+              primary
+              link
+              ?hidden=${!this.showSaveForReviewButton}
+              ?disabled=${!this.newRequirement.name ||
+              !this.newRequirement.submittability_expression}
+              @click=${this.handleSaveForReview}
+            >
+              Save for review
+            </gr-button>
+          </div>
         </gr-dialog>
       </dialog>
     `;
+  }
+
+  private async handleSaveForReview(e: Event) {
+    if (!this.repo) return;
+    if (
+      !this.newRequirement.name ||
+      !this.newRequirement.submittability_expression
+    ) {
+      return;
+    }
+    const button = e.target as GrButton;
+    button.loading = true;
+
+    const errFn: ErrorCallback = response => {
+      firePageError(response);
+    };
+
+    const input: BatchSubmitRequirementInput = {};
+    if (this.isEditing && this.requirementToEdit) {
+      input.update = {[this.newRequirement.name]: this.newRequirement};
+    } else {
+      input.create = [this.newRequirement];
+    }
+
+    const promise = this.restApiService.saveRepoSubmitRequirementsForReview(
+      this.repo,
+      input,
+      errFn
+    );
+
+    try {
+      const change = await promise;
+      if (change) {
+        this.getNavigation().setUrl(createChangeUrl({change}));
+      }
+    } finally {
+      button.loading = false;
+      this.createDialog?.close();
+      this.newRequirement = this.getEmptyRequirement();
+      this.requirementToEdit = undefined;
+      this.isEditing = false;
+      this.getSubmitRequirements(this.filter, this.offset);
+    }
   }
 
   private renderDeleteDialog() {
@@ -541,16 +629,31 @@ export class GrRepoSubmitRequirements extends LitElement {
 
     return html`
       <dialog id="deleteDialog" tabindex="-1">
-        <gr-dialog
-          confirm-label="Delete"
-          cancel-label="Cancel"
-          @confirm=${this.handleDeleteConfirm}
-          @cancel=${this.handleDeleteCancel}
-        >
+        <gr-dialog .cancelLabel=${''} .confirmLabel=${''}>
           <div class="header" slot="header">Delete Submit Requirement</div>
           <div class="main" slot="main">
             Are you sure you want to delete the submit requirement
             "${this.requirementToDelete?.name}"?
+          </div>
+          <div class="footer" slot="footer">
+            <gr-button link @click=${this.handleDeleteCancel}>Cancel</gr-button>
+            <gr-button
+              class="action"
+              link
+              ?disabled=${this.disableSaveWithoutReview}
+              @click=${this.handleDeleteConfirm}
+            >
+              Delete
+            </gr-button>
+            <gr-button
+              class="action"
+              primary
+              link
+              ?hidden=${!this.showSaveForReviewButton}
+              @click=${this.handleDeleteForReviewConfirm}
+            >
+              Delete for review
+            </gr-button>
           </div>
         </gr-dialog>
       </dialog>
@@ -567,6 +670,35 @@ export class GrRepoSubmitRequirements extends LitElement {
     assertIsDefined(this.deleteDialog, 'deleteDialog');
     this.deleteDialog.close();
     this.requirementToDelete = undefined;
+  }
+
+  private async handleDeleteForReviewConfirm() {
+    if (!this.repo || !this.requirementToDelete) return;
+
+    const errFn: ErrorCallback = response => {
+      firePageError(response);
+    };
+
+    const input: BatchSubmitRequirementInput = {
+      delete: [this.requirementToDelete.name],
+    };
+
+    const promise = this.restApiService.saveRepoSubmitRequirementsForReview(
+      this.repo,
+      input,
+      errFn
+    );
+
+    try {
+      const change = await promise;
+      if (change) {
+        this.getNavigation().setUrl(createChangeUrl({change}));
+      }
+    } finally {
+      this.deleteDialog?.close();
+      this.requirementToDelete = undefined;
+      this.getSubmitRequirements(this.filter, this.offset);
+    }
   }
 
   private handleDeleteConfirm() {

@@ -620,7 +620,7 @@ export class GrRepoSubmitRequirements extends LitElement {
       this.newRequirement = this.getEmptyRequirement();
       this.requirementToEdit = undefined;
       this.isEditing = false;
-      this.getSubmitRequirements(this.filter, this.offset);
+      void this.getSubmitRequirements(this.filter, this.offset);
     }
   }
 
@@ -697,7 +697,7 @@ export class GrRepoSubmitRequirements extends LitElement {
     } finally {
       this.deleteDialog?.close();
       this.requirementToDelete = undefined;
-      this.getSubmitRequirements(this.filter, this.offset);
+      void this.getSubmitRequirements(this.filter, this.offset);
     }
   }
 

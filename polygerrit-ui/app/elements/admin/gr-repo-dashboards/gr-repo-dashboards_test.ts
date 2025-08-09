@@ -83,20 +83,22 @@ suite('gr-repo-dashboards tests', () => {
       assert.shadowDom.equal(
         element,
         /* HTML */ `
-          <table class="genericList" id="list">
-            <tbody id="dashboards">
-              <tr class="headerRow">
-                <th class="topHeader">Dashboard name</th>
-                <th class="topHeader">Dashboard title</th>
-                <th class="topHeader">Dashboard description</th>
-                <th class="topHeader">Inherited from</th>
-                <th class="topHeader">Default</th>
-              </tr>
-              <tr id="loadingContainer">
-                <td>Loading...</td>
-              </tr>
-            </tbody>
-          </table>
+          <gr-list-view>
+            <table class="genericList" id="list">
+              <tbody id="dashboards">
+                <tr class="headerRow">
+                  <th class="topHeader">Dashboard name</th>
+                  <th class="topHeader">Dashboard title</th>
+                  <th class="topHeader">Dashboard description</th>
+                  <th class="topHeader">Inherited from</th>
+                  <th class="topHeader">Default</th>
+                </tr>
+                <tr id="loadingContainer">
+                  <td>Loading...</td>
+                </tr>
+              </tbody>
+            </table>
+          </gr-list-view>
         `
       );
     });

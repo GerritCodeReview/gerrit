@@ -16,6 +16,12 @@ import {
   DashboardType,
 } from '../../../models/views/dashboard';
 import {when} from 'lit/directives/when.js';
+import '../../shared/gr-list-view/gr-list-view';
+import {
+  createRepoUrl,
+  RepoDetailView,
+  RepoViewState,
+} from '../../../models/views/repo';
 
 interface DashboardRef {
   section: string;
@@ -27,11 +33,20 @@ export class GrRepoDashboards extends LitElement {
   @property({type: String})
   repo?: RepoName;
 
+  @property({type: Object})
+  params?: RepoViewState;
+
   @state()
   loading = true;
 
   @state()
   dashboards?: DashboardRef[];
+
+  @state() offset = 0;
+
+  @state() filter = '';
+
+  @state() itemsPerPage = 25;
 
   private readonly restApiService = getAppContext().restApiService;
 
@@ -49,54 +64,66 @@ export class GrRepoDashboards extends LitElement {
   }
 
   override render() {
-    return html` <table id="list" class="genericList">
-      <tbody id="dashboards">
-        <tr class="headerRow">
-          <th class="topHeader">Dashboard name</th>
-          <th class="topHeader">Dashboard title</th>
-          <th class="topHeader">Dashboard description</th>
-          <th class="topHeader">Inherited from</th>
-          <th class="topHeader">Default</th>
-        </tr>
-        ${when(
-          this.loading,
-          () => html`<tr id="loadingContainer">
-            <td>Loading...</td>
-          </tr>`,
-          () => html`
-            ${(this.dashboards ?? []).map(
-              item => html`
-                <tr class="groupHeader">
-                  <td colspan="5">${item.section}</td>
-                </tr>
-                ${(item.dashboards ?? []).map(
-                  info => html`
-                    <tr class="table">
-                      <td class="name">
-                        <a href=${this.getUrl(info.project, info.id)}
-                          >${info.path}</a
-                        >
-                      </td>
-                      <td class="title">${info.title}</td>
-                      <td class="desc">${info.description}</td>
-                      <td class="inherited">
-                        ${this.computeInheritedFrom(
-                          info.project,
-                          info.defining_project
-                        )}
-                      </td>
-                      <td class="default">
-                        ${this.computeIsDefault(info.is_default)}
-                      </td>
-                    </tr>
-                  `
-                )}
-              `
-            )}
-          `
-        )}
-      </tbody>
-    </table>`;
+    return html` <gr-list-view
+      .filter=${this.filter}
+      .itemsPerPage=${this.itemsPerPage}
+      .items=${this.dashboards}
+      .loading=${this.loading}
+      .offset=${this.offset}
+      .path=${createRepoUrl({
+        repo: this.repo,
+        detail: RepoDetailView.DASHBOARDS,
+      })}
+    >
+      <table id="list" class="genericList">
+        <tbody id="dashboards">
+          <tr class="headerRow">
+            <th class="topHeader">Dashboard name</th>
+            <th class="topHeader">Dashboard title</th>
+            <th class="topHeader">Dashboard description</th>
+            <th class="topHeader">Inherited from</th>
+            <th class="topHeader">Default</th>
+          </tr>
+          ${when(
+            this.loading,
+            () => html`<tr id="loadingContainer">
+              <td>Loading...</td>
+            </tr>`,
+            () => html`
+              ${(this.dashboards ?? []).map(
+                item => html`
+                  <tr class="groupHeader">
+                    <td colspan="5">${item.section}</td>
+                  </tr>
+                  ${(item.dashboards ?? []).map(
+                    info => html`
+                      <tr class="table">
+                        <td class="name">
+                          <a href=${this.getUrl(info.project, info.id)}
+                            >${info.path}</a
+                          >
+                        </td>
+                        <td class="title">${info.title}</td>
+                        <td class="desc">${info.description}</td>
+                        <td class="inherited">
+                          ${this.computeInheritedFrom(
+                            info.project,
+                            info.defining_project
+                          )}
+                        </td>
+                        <td class="default">
+                          ${this.computeIsDefault(info.is_default)}
+                        </td>
+                      </tr>
+                    `
+                  )}
+                `
+              )}
+            `
+          )}
+        </tbody>
+      </table>
+    </gr-list-view>`;
   }
 
   override updated(changedProperties: PropertyValues) {
@@ -105,9 +132,25 @@ export class GrRepoDashboards extends LitElement {
     }
   }
 
-  private repoChanged() {
+  override willUpdate(changedProperties: PropertyValues) {
+    if (changedProperties.has('params')) {
+      this.paramsChanged();
+    }
+  }
+
+  async paramsChanged() {
+    const params = this.params;
+    this.loading = true;
+    this.filter = params?.filter ?? '';
+    this.offset = Number(params?.offset ?? 0);
+
+    await this.repoChanged(this.filter, this.offset);
+  }
+
+  private repoChanged(filter?: string, offset?: number) {
     const repo = this.repo;
     this.loading = true;
+
     if (!repo) {
       return Promise.resolve();
     }
@@ -123,10 +166,18 @@ export class GrRepoDashboards extends LitElement {
           return;
         }
 
-        // Group by ref and sort by id.
-        const dashboards = res.concat
+        let dashboards = res.concat
           .apply([], res)
           .sort((a, b) => (a.id < b.id ? -1 : 1));
+
+        dashboards = dashboards
+          .filter(item =>
+            filter === undefined
+              ? true
+              : item.path.toLowerCase().includes(filter.toLowerCase())
+          )
+          .slice(offset ?? 0, (offset ?? 0) + this.itemsPerPage);
+
         const dashboardsByRef: Record<string, DashboardInfo[]> = {};
         dashboards.forEach(d => {
           if (!dashboardsByRef[d.ref]) {

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0ea9c637_166a3399",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3740672
+      },
+      "writtenOn": "2025-08-09T09:25:31Z",
+      "side": 1,
+      "message": "Building wired suspected area zip code. Setapak 53000. Lot Langkawi block 4-6 Kuala Lumpur Malaysia",
+      "revId": "a7bc50edd6ea1a90f0d05ccace632c2afc0f8838",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

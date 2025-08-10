@@ -35,6 +35,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "642b53d7_35bff008",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-08-10T18:25:41Z",
+      "side": 1,
+      "message": "Can the response be dynamically generated, rather than a hardcoded file? So base urls are supported?",
+      "revId": "0e2d6b6fe38fac147484ec66e70f814bb15b5d3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9787d895_952f8f29",

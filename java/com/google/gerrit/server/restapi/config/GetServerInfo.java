@@ -165,6 +165,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     info.receive = getReceiveInfo();
     info.submitRequirementDashboardColumns = getSubmitRequirementDashboardColumns();
     info.dashboardShowAllLabels = getDashboardShowAllLabels();
+    info.groupsEnableDeleteGroup = getGroupsEnableDeleteGroup();
     info.metadata = getMetadata();
     return Response.ok(info);
   }
@@ -384,6 +385,10 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
 
   private Boolean getDashboardShowAllLabels() {
     return toBoolean(config.getBoolean("dashboard", null, "showAllLabels", false));
+  }
+
+  private Boolean getGroupsEnableDeleteGroup() {
+    return toBoolean(config.getBoolean("groups", null, "enableDeleteGroup", false));
   }
 
   private ImmutableList<MetadataInfo> getMetadata() {

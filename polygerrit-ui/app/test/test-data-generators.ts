@@ -43,6 +43,7 @@ import {
   GroupAuditEventType,
   GroupId,
   GroupInfo,
+  GroupsConfigInfo,
   InheritedBooleanInfo,
   LabelInfo,
   MaxObjectSizeLimitInfo,
@@ -505,6 +506,10 @@ export function createGerritInfo(): GerritInfo {
   };
 }
 
+export function createGroupsInfo(): GroupsConfigInfo {
+  return {};
+}
+
 export function createPluginConfig(): PluginConfigInfo {
   return {
     has_avatars: false,
@@ -531,6 +536,7 @@ export function createServerInfo(): ServerInfo {
     change: createChangeConfig(),
     download: createDownloadInfo(),
     gerrit: createGerritInfo(),
+    groups: createGroupsInfo(),
     plugin: createPluginConfig(),
     suggest: createSuggestInfo(),
     user: createUserConfig(),

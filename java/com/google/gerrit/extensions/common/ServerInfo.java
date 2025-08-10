@@ -23,6 +23,7 @@ public class ServerInfo {
   public ChangeConfigInfo change;
   public DownloadInfo download;
   public GerritInfo gerrit;
+  public GroupsInfo groups;
   public Boolean noteDbEnabled;
   public PluginConfigInfo plugin;
   public SshdInfo sshd;

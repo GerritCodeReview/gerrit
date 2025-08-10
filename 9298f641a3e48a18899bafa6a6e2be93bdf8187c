@@ -161,6 +161,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d31d4fa2_5f9a238f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4275418
+      },
+      "writtenOn": "2025-08-10T22:46:14Z",
+      "side": 1,
+      "message": "488461: AutoMerger: Handle NoMergeBaseException gracefully | https://gerrit-review.googlesource.com/c/gerrit/+/488461",
+      "revId": "9298f641a3e48a18899bafa6a6e2be93bdf8187c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1698f04a_072fceb1",

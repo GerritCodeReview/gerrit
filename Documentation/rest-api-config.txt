@@ -2446,6 +2446,19 @@ link:config-gerrit.html#gerrit.instanceId[Short identifier for this Gerrit insta
 link:config-gerrit.html#gerrit.defaultBranch[Name of the default branch to use on the project creation].
 |=================================
 
+[[groups-config-info]]
+=== GroupsConfigInfo
+The `GroupsConfigInfo` entity contains information about Gerrit
+configuration from the link:config-gerrit.html#groups[groups]
+section.
+
+[options="header",cols="1,6"]
+|=============================
+|Field Name            |Description
+|`enableDeleteGroup`   |
+link:config-gerrit.html#groups.enableDeleteGroup[gerrit.config].
+|=============================
+
 [[index-config-info]]
 === IndexConfigInfo
 The `IndexConfigInfo` entity contains information about Gerrit
@@ -2625,6 +2638,10 @@ information about Gerrit
 Information about the configuration from the
 link:config-gerrit.html#gerrit[gerrit] section as link:#gerrit-info[
 GerritInfo] entity.
+|`groups`                ||
+Information about the configuration from the
+link:config-gerrit.html#groups[groups] section as
+link:#groups-config-info[GroupsConfigInfo] entity.
 |`index`                  ||
 Information about the configuration from the
 link:config-gerrit.html#index[index] section as link:#index[

@@ -1098,6 +1098,7 @@ export declare interface ServerInfo {
   default_theme?: string;
   submit_requirement_dashboard_columns?: string[];
   dashboard_show_all_labels?: boolean;
+  groups_enable_delete_group?: boolean;
   metadata?: MetadataInfo[];
 }
 

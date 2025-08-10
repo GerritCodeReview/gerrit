@@ -2662,6 +2662,8 @@ requirements.
 |`metadata`                ||
 Optional server metadata as a list of link:#metadata-info[MetadataInfo]
 entities. If and which metadata is provided depends on the Gerrit setup.
+|`groups_enable_delete_group` |not set if `false`|
+Whether to allow groups to be deleted.
 |=======================================
 
 [[snapshot-index-input]]

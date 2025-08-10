@@ -331,8 +331,6 @@ export class GrDropdown extends LitElement {
         ?selected=${index === 0}
         ?active=${index === 0}
         ?disabled=${!!link.id && this.disabledIds.includes(link.id)}
-        data-id=${ifDefined(link.id)}
-        @click=${this.handleItemTap}
         @keydown=${(e: KeyboardEvent) => {
           if (e.key === Key.ENTER || e.key === Key.SPACE) {
             e.preventDefault();

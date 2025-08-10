@@ -53,7 +53,6 @@ suite('gr-dropdown tests', () => {
               <span class="itemAction" data-id="foo" tabindex="-1">
                 <md-menu-item
                   active=""
-                  data-id="foo"
                   data-index="0"
                   md-menu-item=""
                   selected=""
@@ -65,7 +64,7 @@ suite('gr-dropdown tests', () => {
             <md-divider role="separator" tabindex="-1"> </md-divider>
             <gr-tooltip-content>
               <a class="itemAction" href="http://bar" tabindex="-1">
-                <md-menu-item data-id="bar" data-index="1" md-menu-item="">
+                <md-menu-item data-index="1" md-menu-item="">
                   item two
                 </md-menu-item>
               </a>

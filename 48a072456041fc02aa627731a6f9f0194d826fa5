@@ -16,6 +16,23 @@
       "message": "Rebased.",
       "revId": "48a072456041fc02aa627731a6f9f0194d826fa5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "07f4b8c2_c7ec3beb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-08-10T00:45:00Z",
+      "side": 1,
+      "message": "https://gerrit-review.googlesource.com/c/gerrit/+/497243 exposes groups.enableDeleteGroup config to ServerInfo.",
+      "revId": "48a072456041fc02aa627731a6f9f0194d826fa5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

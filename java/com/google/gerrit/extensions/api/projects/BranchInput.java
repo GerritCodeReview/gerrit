@@ -37,6 +37,11 @@ import java.util.Map;
  *       initial content, e.g. by merging in another branch, and push the commit for review)..
  *   <li>{@code ref}: The name of the branch. The prefix refs/heads/ can be omitted. If set, must
  *       match the branch ID in the URL.
+ *   <li>{@code sourceRef}: The full name of the source ref where {@code revision} can be found.
+ *       This ref should be visible to the caller. Used when {@code revision} is not a ref name in
+ *       order to check reachability from a specific ref. If not set, then all visible refs under
+ *       refs/heads/ and refs/tags/ are searched (see {@code CreateRefControl#checkCreateCommit} for
+ *       details).
  *   <li>{@code validationOptions}: Map with key-value pairs that are forwarded as options to the
  *       ref operation validation listeners (e.g. can be used to skip certain validations). Which
  *       validation options are supported depends on the installed ref operation validation
@@ -50,5 +55,6 @@ public class BranchInput {
   @DefaultInput public String revision;
   public boolean createEmptyCommit;
   public String ref;
+  public String sourceRef;
   public Map<String, String> validationOptions;
 }

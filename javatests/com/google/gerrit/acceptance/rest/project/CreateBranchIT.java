@@ -374,6 +374,69 @@ public class CreateBranchIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void createWithRevisionAndSourceRef() throws Exception {
+    String sourceRef = "refs/sandbox/master";
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.CREATE).ref(sourceRef).group(REGISTERED_USERS))
+        .add(allow(Permission.PUSH).ref(sourceRef).group(REGISTERED_USERS))
+        .update();
+    // create a new branch outside refs/heads/ to use as the source
+    pushTo(sourceRef);
+    RevCommit revision = projectOperations.project(project).getHead(sourceRef);
+    // update it so that points to a different revision than the revision on which we create the new
+    // branch
+    pushTo(sourceRef);
+    assertThat(projectOperations.project(project).getHead(sourceRef)).isNotEqualTo(revision);
+
+    BranchInput input = new BranchInput();
+    input.revision = revision.name();
+    input.sourceRef = sourceRef;
+    BranchInfo created = branch(testBranch).create(input).get();
+    assertThat(created.ref).isEqualTo(testBranch.branch());
+    assertThat(created.revision).isEqualTo(revision.name());
+    assertThat(projectOperations.project(project).getHead(testBranch.branch())).isEqualTo(revision);
+  }
+
+  @Test
+  public void cannotCreateWithRevisionAndInvisibleSourceRef() throws Exception {
+    String sourceRef = "refs/sandbox/master";
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.CREATE).ref("refs/*").group(REGISTERED_USERS))
+        .add(allow(Permission.PUSH).ref("refs/*").group(REGISTERED_USERS))
+        .update();
+    // create a new branch outside refs/heads/ to use as the source
+    pushTo(sourceRef);
+    RevCommit secretCommit = projectOperations.project(project).getHead(sourceRef);
+    // update it so that points to a different revision than the revision on which we create the new
+    // branch
+    pushTo(sourceRef);
+    assertThat(projectOperations.project(project).getHead(sourceRef)).isNotEqualTo(secretCommit);
+
+    // hide the source branch
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(block(Permission.READ).ref(sourceRef).group(REGISTERED_USERS))
+        .update();
+
+    TestAccount unprivileged =
+        accountCreator.create("unprivileged", "unprivileged@example.com", "unprivileged", null);
+    requestScopeOperations.setApiUser(unprivileged.id());
+    assertThrows(
+        ResourceNotFoundException.class,
+        () -> gApi.projects().name(project.get()).branch(sourceRef).get());
+
+    BranchInput input = new BranchInput();
+    input.revision = secretCommit.name();
+    input.sourceRef = sourceRef;
+    assertThrows(AuthException.class, () -> branch(testBranch).create(input));
+  }
+
+  @Test
   public void createEmptyCommitAndRevisionAreMutuallyExclusive() throws Exception {
     BranchInput input = new BranchInput();
     input.createEmptyCommit = true;
@@ -382,7 +445,7 @@ public class CreateBranchIT extends AbstractDaemonTest {
         assertThrows(BadRequestException.class, () -> branch(testBranch).create(input));
     assertThat(thrown)
         .hasMessageThat()
-        .contains("create_empty_commit and revision are mutually exclusive");
+        .contains("create_empty_commit and revision/source_ref are mutually exclusive");
   }
 
   @Test

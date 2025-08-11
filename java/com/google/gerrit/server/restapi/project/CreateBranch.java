@@ -113,13 +113,24 @@ public class CreateBranch
       if (input.revision != null) {
         input.revision = input.revision.trim();
       }
+      if (input.sourceRef != null) {
+        input.sourceRef = input.sourceRef.trim();
+      }
       if (input.createEmptyCommit) {
-        if (!Strings.isNullOrEmpty(input.revision)) {
-          throw new BadRequestException("create_empty_commit and revision are mutually exclusive");
+        if (!Strings.isNullOrEmpty(input.revision) || !Strings.isNullOrEmpty(input.sourceRef)) {
+          throw new BadRequestException(
+              "create_empty_commit and revision/source_ref are mutually exclusive");
         }
       } else {
         if (Strings.isNullOrEmpty(input.revision)) {
+          if (!Strings.isNullOrEmpty(input.sourceRef)) {
+            throw new BadRequestException("must not provide source_ref if not providing revision");
+          }
           input.revision = Constants.HEAD;
+        } else if (!Strings.isNullOrEmpty(input.sourceRef)) {
+          if (input.revision.startsWith(RefNames.REFS)) {
+            throw new BadRequestException("must not provide source_ref if revision is a ref name");
+          }
         }
       }
 
@@ -255,7 +266,12 @@ public class CreateBranch
     if (input.createEmptyCommit) {
       permissionBackend.user(identifiedUser.get()).ref(branchNameKey).check(RefPermission.CREATE);
     } else {
-      Ref sourceRef = repo.exactRef(input.revision);
+      Ref sourceRef;
+      if (!Strings.isNullOrEmpty(input.sourceRef)) {
+        sourceRef = repo.exactRef(input.sourceRef);
+      } else {
+        sourceRef = repo.exactRef(input.revision);
+      }
       if (sourceRef == null) {
         createRefControl.checkCreateRef(
             identifiedUser, repo, branchNameKey, revObject, /* forPush= */ false);

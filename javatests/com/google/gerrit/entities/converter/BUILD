@@ -11,6 +11,9 @@ junit_tests(
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/proto/testing",
         "//java/com/google/gerrit/server",
+        # We should include flow/converters here, so that they are covered
+        # by the SafeProtoConverterTest.
+        "//java/com/google/gerrit/server/flow/converters",
         "//lib:guava",
         "//lib:guava-testlib",
         "//lib:jgit",

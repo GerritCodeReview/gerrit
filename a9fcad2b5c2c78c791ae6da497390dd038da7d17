@@ -16,6 +16,24 @@
       "message": "Since the parameter in the config is \"groups.enableDeleteGroup\" please add a `groups` field of type `GroupsConfigInfo` here (similar to the `accounts` field) and then make `enable_delete_group` a field in `GroupsConfigInfo`.\n\n(for example adding `dashboard_show_all_labels` directly here was a mistake, it should have been a field under `dashboards`).",
       "revId": "a9fcad2b5c2c78c791ae6da497390dd038da7d17",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0244878b_49143056",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 2665,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-08-11T15:39:44Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "06f31397_89a38522",
+      "revId": "a9fcad2b5c2c78c791ae6da497390dd038da7d17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

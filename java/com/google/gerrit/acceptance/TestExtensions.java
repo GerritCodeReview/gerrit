@@ -40,6 +40,7 @@ import com.google.gerrit.server.flow.FlowKey;
 import com.google.gerrit.server.flow.FlowPermissionDeniedException;
 import com.google.gerrit.server.flow.FlowService;
 import com.google.gerrit.server.flow.FlowStage;
+import com.google.gerrit.server.flow.FlowStageEvaluationStatus;
 import com.google.gerrit.server.flow.InvalidFlowException;
 import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidationInfo;
@@ -220,10 +221,7 @@ public class TestExtensions {
                   flowCreation.stageExpressions().stream()
                       .map(
                           stageExpression ->
-                              FlowStage.builder()
-                                  .expression(stageExpression)
-                                  .status(FlowStage.Status.PENDING)
-                                  .build())
+                              FlowStage.builder().expression(stageExpression).build())
                       .collect(toImmutableList()))
               .build();
       flows.put(flowKey, flow);
@@ -260,30 +258,30 @@ public class TestExtensions {
     /**
      * Updates the specified flow.
      *
-     * <p>Sets the {@code lastEvaluatedOn} timestamp in the flow and updates the statuses and
-     * messages of the stages.
+     * <p>Sets the {@code lastEvaluatedOn} timestamp in the flow and updates the statuses of the
+     * stages.
      *
      * @param flowKey the key of the flow that should be updated
-     * @param stageStatuses statuses to be set for the stages
+     * @param stageStates states to be set for the stages
      * @param stageMessages messages to be set for the stages
      * @throws IllegalStateException thrown if the specified flow is not found, or if the number of
-     *     given statuses/messages doesn't match with the number of stages in the flow
+     *     given states/messages doesn't match with the number of stages in the flow
      * @return the updated flow
      */
     public Flow evaluate(
         FlowKey flowKey,
-        ImmutableList<FlowStage.Status> stageStatuses,
+        ImmutableList<FlowStageEvaluationStatus.State> stageStates,
         ImmutableList<Optional<String>> stageMessages)
         throws IllegalStateException {
       Optional<Flow> flow = getFlow(flowKey);
       if (flow.isEmpty()) {
         throw new IllegalStateException(String.format("Flow %s not found.", flowKey));
       }
-      if (stageStatuses.size() != flow.get().stages().size()) {
+      if (stageStates.size() != flow.get().stages().size()) {
         throw new IllegalStateException(
             String.format(
-                "Invalid number of stage statuses: got %s, expected %s",
-                stageStatuses.size(), flow.get().stages().size()));
+                "Invalid number of stage states: got %s, expected %s",
+                stageStates.size(), flow.get().stages().size()));
       }
       if (stageMessages.size() != flow.get().stages().size()) {
         throw new IllegalStateException(
@@ -294,11 +292,12 @@ public class TestExtensions {
 
       List<FlowStage> stages = new ArrayList<>(flow.get().stages());
       for (int i = 0; i < flow.get().stages().size(); i++) {
-        FlowStage updatedStage =
-            stages.get(i).toBuilder()
-                .status(stageStatuses.get(i))
-                .message(stageMessages.get(i))
-                .build();
+        FlowStageEvaluationStatus.Builder updatedStatus =
+            stages.get(i).status().toBuilder().state(stageStates.get(i));
+        if (stageMessages.get(i).isPresent()) {
+          updatedStatus.message(stageMessages.get(i).get());
+        }
+        FlowStage updatedStage = stages.get(i).toBuilder().status(updatedStatus.build()).build();
         stages.set(i, updatedStage);
       }
 

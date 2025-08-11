@@ -14,8 +14,8 @@
 
 package com.google.gerrit.extensions.common;
 
-/** Status of a stage in a flow in the REST API. */
-public enum FlowStageStatus {
+/** State of a stage in a flow in the REST API. */
+public enum FlowStageState {
   /** The condition of the stage is not satisfied yet or the action has not been executed yet. */
   PENDING,
 

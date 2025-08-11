@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6ac66270_dfeae9bf",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 8933,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-08-11T15:43:20Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "f75ad9cf_8a0e3427",
+      "revId": "47c88d7d52e70f525fabfc9e6451102993a27819",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d24642fa_65ef9066",
@@ -31,6 +49,30 @@
       "writtenOn": "2025-08-11T06:56:26Z",
       "side": 1,
       "message": "Set this field only if the change is work-in-progress, and set it to null otherwise (similar to the submittable field above).",
+      "range": {
+        "startLine": 126,
+        "startChar": 6,
+        "endLine": 126,
+        "endChar": 25
+      },
+      "revId": "47c88d7d52e70f525fabfc9e6451102993a27819",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a3972cf_89e8f809",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetRelated.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-08-11T15:43:20Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "d24642fa_65ef9066",
       "range": {
         "startLine": 126,
         "startChar": 6,

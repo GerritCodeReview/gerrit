@@ -19,10 +19,12 @@ import {
   GitRef,
   ProjectInfo,
   RepoName,
+  ServerInfo,
   TagInfo,
   WebLinkInfo,
 } from '../../../types/common';
 import {firePageError} from '../../../utils/event-util';
+import {computeMainCodeBrowserWeblink} from '../../../utils/weblink-util';
 import {getAppContext} from '../../../services/app-context';
 import {ErrorCallback} from '../../../api/rest';
 import {grFormStyles} from '../../../styles/gr-form-styles';
@@ -33,6 +35,9 @@ import {customElement, query, property, state} from 'lit/decorators.js';
 import {BindValueChangeEvent} from '../../../types/events';
 import {assertIsDefined} from '../../../utils/common-util';
 import {ifDefined} from 'lit/directives/if-defined.js';
+import {subscribe} from '../../../elements/lit/subscription-controller';
+import {configModelToken} from '../../../models/config/config-model';
+import {resolve} from '../../../models/dependency';
 import {
   createRepoUrl,
   RepoDetailView,
@@ -80,7 +85,20 @@ export class GrRepoDetailList extends LitElement {
 
   @state() revisedRef?: GitRef;
 
+  @state() serverConfig?: ServerInfo;
+
   private readonly restApiService = getAppContext().restApiService;
+
+  private readonly getConfigModel = resolve(this, configModelToken);
+
+  constructor() {
+    super();
+    subscribe(
+      this,
+      () => this.getConfigModel().serverConfig$,
+      config => (this.serverConfig = config)
+    );
+  }
 
   static override get styles() {
     return [
@@ -235,7 +253,7 @@ export class GrRepoDetailList extends LitElement {
     return html`
       <tr class="table">
         <td class="${this.detailType} name">
-          <a href=${ifDefined(this.computeFirstWebLink(item))}>
+          <a href=${ifDefined(this.computeFirstWebLink(item)?.url)}>
             ${this.stripRefs(item.ref, this.detailType)}
           </a>
         </td>
@@ -448,9 +466,8 @@ export class GrRepoDetailList extends LitElement {
     return webLinks.length ? webLinks : [];
   }
 
-  private computeFirstWebLink(repo: ProjectInfo | BranchInfo | TagInfo) {
-    const webLinks = this.computeWeblink(repo);
-    return webLinks.length > 0 ? webLinks[0].url : undefined;
+  private computeFirstWebLink(item: ProjectInfo | BranchInfo | TagInfo) {
+    return computeMainCodeBrowserWeblink(item?.web_links, this.serverConfig);
   }
 
   // private but used in test

@@ -35,7 +35,7 @@ import com.google.gerrit.extensions.common.FlowInfo;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.server.flow.Flow;
 import com.google.gerrit.server.flow.FlowService;
-import com.google.gerrit.server.flow.FlowStage;
+import com.google.gerrit.server.flow.FlowStageEvaluationStatus.State;
 import com.google.inject.Inject;
 import java.util.List;
 import java.util.Optional;
@@ -81,9 +81,7 @@ public class ListFlowsIT extends AbstractDaemonTest {
             createTestFlowCreationWithOneStage(accountCreator, project, changeId));
     flow2 =
         testFlowService.evaluate(
-            flow2.key(),
-            ImmutableList.of(FlowStage.Status.DONE),
-            ImmutableList.of(Optional.of("done")));
+            flow2.key(), ImmutableList.of(State.DONE), ImmutableList.of(Optional.of("done")));
     Flow flow3 =
         testFlowService.createFlow(
             createTestFlowCreationWithMultipleStages(accountCreator, project, changeId));
@@ -92,8 +90,7 @@ public class ListFlowsIT extends AbstractDaemonTest {
     flow4 =
         testFlowService.evaluate(
             flow4.key(),
-            ImmutableList.of(
-                FlowStage.Status.DONE, FlowStage.Status.FAILED, FlowStage.Status.TERMINATED),
+            ImmutableList.of(State.DONE, State.FAILED, State.TERMINATED),
             ImmutableList.of(
                 Optional.empty(),
                 Optional.of("error"),

@@ -35,7 +35,7 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.server.flow.Flow;
 import com.google.gerrit.server.flow.FlowCreation;
 import com.google.gerrit.server.flow.FlowService;
-import com.google.gerrit.server.flow.FlowStage;
+import com.google.gerrit.server.flow.FlowStageEvaluationStatus.State;
 import com.google.inject.Inject;
 import java.util.Optional;
 import org.junit.Test;
@@ -94,9 +94,7 @@ public class GetFlowIT extends AbstractDaemonTest {
     Flow flow = testFlowService.createFlow(flowCreation);
     flow =
         testFlowService.evaluate(
-            flow.key(),
-            ImmutableList.of(FlowStage.Status.DONE),
-            ImmutableList.of(Optional.of("done")));
+            flow.key(), ImmutableList.of(State.DONE), ImmutableList.of(Optional.of("done")));
     try (Registration registration = extensionRegistry.newRegistration().set(testFlowService)) {
       FlowInfo flowInfo =
           gApi.changes().id(project.get(), changeId.get()).flow(flow.key().uuid()).get();
@@ -127,8 +125,7 @@ public class GetFlowIT extends AbstractDaemonTest {
     flow =
         testFlowService.evaluate(
             flow.key(),
-            ImmutableList.of(
-                FlowStage.Status.DONE, FlowStage.Status.FAILED, FlowStage.Status.TERMINATED),
+            ImmutableList.of(State.DONE, State.FAILED, State.TERMINATED),
             ImmutableList.of(
                 Optional.empty(),
                 Optional.of("error"),

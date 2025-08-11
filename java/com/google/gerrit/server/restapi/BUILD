@@ -12,6 +12,7 @@ java_library(
         "//java/com/google/gerrit/common:annotations",
         "//java/com/google/gerrit/common:server",
         "//java/com/google/gerrit/entities",
+        "//java/com/google/gerrit/entities/converter:converters",
         "//java/com/google/gerrit/exceptions",
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/git",

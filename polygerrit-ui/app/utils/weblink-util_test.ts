@@ -8,9 +8,8 @@ import '../test/common-test-setup';
 import {createServerInfo, createGerritInfo} from '../test/test-data-generators';
 import {
   getCodeBrowserWeblink,
-  getBrowseCommitWeblink,
+  computeMainCodeBrowserWeblink,
   getChangeWeblinks,
-  getRepoWeblink,
 } from './weblink-util';
 
 suite('weblink util tests', () => {
@@ -34,7 +33,7 @@ suite('weblink util tests', () => {
     );
   });
 
-  test('getBrowseCommitWeblink', () => {
+  test('computeMainCodeBrowserWeblink', () => {
     const browserLink = {name: 'browser', url: 'browser/url'};
     const link = {name: 'gitiles', url: 'test/url'};
     const weblinks = [browserLink, link];
@@ -43,8 +42,11 @@ suite('weblink util tests', () => {
       gerrit: {...createGerritInfo(), primary_weblink_name: browserLink.name},
     };
 
-    assert.deepEqual(getBrowseCommitWeblink(weblinks, config), browserLink);
-    assert.deepEqual(getBrowseCommitWeblink(weblinks), link);
+    assert.deepEqual(
+      computeMainCodeBrowserWeblink(weblinks, config),
+      browserLink
+    );
+    assert.deepEqual(computeMainCodeBrowserWeblink(weblinks), link);
   });
 
   test('getChangeWeblinks', () => {
@@ -66,18 +68,5 @@ suite('weblink util tests', () => {
       name: 'test',
       url: 'https://test/url',
     });
-  });
-
-  test('getRepoWeblink', () => {
-    const browserLink = {name: 'browser', url: 'browser/url'};
-    const link = {name: 'gitiles', url: 'test/url'};
-    const weblinks = [browserLink, link];
-    const config = {
-      ...createServerInfo(),
-      gerrit: {...createGerritInfo(), primary_weblink_name: browserLink.name},
-    };
-
-    assert.deepEqual(getRepoWeblink(weblinks, config), browserLink);
-    assert.deepEqual(getRepoWeblink(weblinks), link);
   });
 });

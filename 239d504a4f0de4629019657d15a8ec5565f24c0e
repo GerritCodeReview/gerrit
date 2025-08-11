@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1978ded9_617dc469",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-08-11T20:07:26Z",
+      "side": 1,
+      "message": "Needs `Forward-Compatible: checked\u0027`",
+      "revId": "239d504a4f0de4629019657d15a8ec5565f24c0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

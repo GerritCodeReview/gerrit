@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a69e881b_985e4ec3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown/gr-dropdown.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-08-11T13:19:29Z",
+      "side": 1,
+      "message": "So this wrapper is doing clicking now",
+      "range": {
+        "startLine": 373,
+        "startChar": 24,
+        "endLine": 373,
+        "endChar": 37
+      },
+      "revId": "c638cdb3e3ded9c005b65ea88cb16df5e05018bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -36,6 +36,7 @@ import com.google.gerrit.extensions.api.projects.ProjectApi.ListRefsRequest;
 import com.google.gerrit.extensions.api.projects.TagApi;
 import com.google.gerrit.extensions.api.projects.TagInfo;
 import com.google.gerrit.extensions.api.projects.TagInput;
+import com.google.gerrit.extensions.client.ProjectState;
 import com.google.gerrit.extensions.common.ListTagSortOption;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -50,6 +51,7 @@ import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.Arrays;
 import java.util.List;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Before;
 import org.junit.Test;
@@ -372,9 +374,7 @@ public class TagsIT extends AbstractDaemonTest {
     input.ref = "test";
     input.message = "annotation";
     AuthException thrown = assertThrows(AuthException.class, () -> tag(input.ref).create(input));
-    assertThat(thrown)
-        .hasMessageThat()
-        .contains("Cannot create annotated tag \"" + R_TAGS + "test\"");
+    assertThat(thrown).hasMessageThat().contains("not permitted: create on " + R_TAGS + "test");
   }
 
   @Test
@@ -595,6 +595,31 @@ public class TagsIT extends AbstractDaemonTest {
     TagInfo result = tag(input.ref).create(input).get();
     assertThat(result.ref).isEqualTo(R_TAGS + input.ref);
     assertThat(result.revision).isEqualTo(revision.name());
+  }
+
+  @Test
+  public void cannotCreateTagIfProjectIsReadOnly() throws Exception {
+    grantTagPermissions();
+    PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo);
+    PushOneCommit.Result r = push.to("refs/heads/master");
+    r.assertOkStatus();
+
+    TagInput input = new TagInput();
+    input.ref = "v1.0";
+    gApi.projects().name(project.get()).tag(input.ref).create(input);
+
+    try (Repository repo = repoManager.openRepository(project)) {
+      try (ProjectConfigUpdate u = updateProject(project)) {
+        u.getConfig().updateProject(p -> p.setState(ProjectState.READ_ONLY));
+        u.save();
+      }
+    }
+
+    TagInput newTag = new TagInput();
+    newTag.ref = "v2.0";
+    assertThrows(
+        ResourceConflictException.class,
+        () -> gApi.projects().name(project.get()).tag(newTag.ref).create(newTag));
   }
 
   private void assertTagList(FluentIterable<String> expected, List<TagInfo> actual)

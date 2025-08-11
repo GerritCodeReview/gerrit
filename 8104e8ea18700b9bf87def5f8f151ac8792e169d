@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "db411aeb_211c50ed",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/TagsIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-08-11T20:12:24Z",
+      "side": 1,
+      "message": "Depending on how you look at this, it either breaks compatibility with previous versions or fixes an issue with recent tests.\n@ekempin@google.com you should probably be aware of this, createRefControl requires create ref permission as well as create tag(or signed tag).\nWill check tomorrow before merging, but wanted to flag it.",
+      "range": {
+        "startLine": 382,
+        "startChar": 4,
+        "endLine": 382,
+        "endChar": 26
+      },
+      "revId": "8104e8ea18700b9bf87def5f8f151ac8792e169d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

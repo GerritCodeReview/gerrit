@@ -19,9 +19,9 @@ import static org.eclipse.jgit.lib.Constants.R_TAGS;
 
 import com.google.common.base.Strings;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.extensions.api.projects.TagInfo;
 import com.google.gerrit.extensions.api.projects.TagInput;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
@@ -30,13 +30,14 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestCollectionCreateView;
 import com.google.gerrit.git.LockFailureException;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.WebLinks;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.permissions.RefPermission;
+import com.google.gerrit.server.project.CreateRefControl;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.project.RefUtil;
@@ -44,6 +45,7 @@ import com.google.gerrit.server.project.TagResource;
 import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.time.ZoneId;
@@ -66,6 +68,8 @@ public class CreateTag implements RestCollectionCreateView<ProjectResource, TagR
   private final TagCache tagCache;
   private final GitReferenceUpdated referenceUpdated;
   private final WebLinks links;
+  private final CreateRefControl createRefControl;
+  private final Provider<IdentifiedUser> identifiedUser;
 
   @Inject
   CreateTag(
@@ -73,12 +77,16 @@ public class CreateTag implements RestCollectionCreateView<ProjectResource, TagR
       GitRepositoryManager repoManager,
       TagCache tagCache,
       GitReferenceUpdated referenceUpdated,
-      WebLinks webLinks) {
+      WebLinks webLinks,
+      CreateRefControl createRefControl,
+      Provider<IdentifiedUser> identifiedUser) {
     this.permissionBackend = permissionBackend;
     this.repoManager = repoManager;
     this.tagCache = tagCache;
     this.referenceUpdated = referenceUpdated;
     this.links = webLinks;
+    this.createRefControl = createRefControl;
+    this.identifiedUser = identifiedUser;
   }
 
   @Override
@@ -114,13 +122,6 @@ public class CreateTag implements RestCollectionCreateView<ProjectResource, TagR
         boolean isSigned = isAnnotated && input.message.contains("-----BEGIN PGP SIGNATURE-----\n");
         if (isSigned) {
           throw new MethodNotAllowedException("Cannot create signed tag \"" + ref + "\"");
-        } else if (isAnnotated) {
-          if (!check(perm, RefPermission.CREATE_TAG)) {
-            throw new AuthException("Cannot create annotated tag \"" + ref + "\"");
-          }
-
-        } else {
-          perm.check(RefPermission.CREATE);
         }
         if (repo.getRefDatabase().exactRef(ref) != null) {
           throw new ResourceConflictException("tag \"" + ref + "\" already exists");
@@ -142,6 +143,10 @@ public class CreateTag implements RestCollectionCreateView<ProjectResource, TagR
                         .asIdentifiedUser()
                         .newCommitterIdent(TimeUtil.now(), ZoneId.systemDefault()));
           }
+
+          BranchNameKey name = BranchNameKey.create(resource.getNameKey(), ref);
+          this.createRefControl.checkCreateRef(
+              identifiedUser, repo, name, tag.getObjectId(), false);
 
           try {
             Ref result = tag.call();
@@ -166,16 +171,6 @@ public class CreateTag implements RestCollectionCreateView<ProjectResource, TagR
         logger.atSevere().withCause(e).log("Cannot create tag \"%s\"", ref);
         throw new IOException(e);
       }
-    }
-  }
-
-  private static boolean check(PermissionBackend.ForRef perm, RefPermission permission)
-      throws PermissionBackendException {
-    try {
-      perm.check(permission);
-      return true;
-    } catch (AuthException e) {
-      return false;
     }
   }
 }

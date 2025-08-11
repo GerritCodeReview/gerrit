@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "06401a63_c4133e95",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-repo-dialog/gr-create-repo-dialog.ts",
+        "patchSetId": 20
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-08-11T19:22:30Z",
+      "side": 0,
+      "message": "It wasn\u0027t needed. We didn\u0027t use the query, so each time you typed, you see under it and then it returned nothing (for obvious reasons).",
+      "parentUuid": "e3f2ebd5_4cc2b7e8",
+      "range": {
+        "startLine": 183,
+        "startChar": 15,
+        "endLine": 183,
+        "endChar": 30
+      },
+      "revId": "a4a14cef252d308c11fc4e8241f322730ff80795",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "83ca9aa2_6b6577f5",
@@ -37,6 +61,30 @@
       "writtenOn": "2025-08-11T15:16:00Z",
       "side": 0,
       "message": "why was link removed?",
+      "range": {
+        "startLine": 170,
+        "startChar": 11,
+        "endLine": 170,
+        "endChar": 19
+      },
+      "revId": "a4a14cef252d308c11fc4e8241f322730ff80795",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "69050d0e_fc24605b",
+        "filename": "polygerrit-ui/app/elements/settings/gr-ssh-editor/gr-ssh-editor.ts",
+        "patchSetId": 20
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-08-11T19:22:30Z",
+      "side": 0,
+      "message": "Matches gpg-editor. Looks nicer.",
+      "parentUuid": "83ca9aa2_6b6577f5",
       "range": {
         "startLine": 170,
         "startChar": 11,

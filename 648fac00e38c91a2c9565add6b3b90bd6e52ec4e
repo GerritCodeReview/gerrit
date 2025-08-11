@@ -58,6 +58,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d6e30090_67deb24f",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-change-dialog.ts",
+        "patchSetId": 20
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-08-11T19:22:30Z",
+      "side": 1,
+      "message": "Yup, thanks, done.",
+      "parentUuid": "d638ffe7_e9fd0192",
+      "range": {
+        "startLine": 118,
+        "startChar": 8,
+        "endLine": 157,
+        "endChar": 9
+      },
+      "revId": "648fac00e38c91a2c9565add6b3b90bd6e52ec4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d7890f3f_ac84eccd",
@@ -71,6 +95,30 @@
       "writtenOn": "2025-08-11T15:16:00Z",
       "side": 1,
       "message": "It looks it\u0027s on many places, very similar. Please consider to move it to style file",
+      "range": {
+        "startLine": 83,
+        "startChar": 12,
+        "endLine": 103,
+        "endChar": 9
+      },
+      "revId": "648fac00e38c91a2c9565add6b3b90bd6e52ec4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "af6a2340_74f973e8",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-pointer-dialog/gr-create-pointer-dialog.ts",
+        "patchSetId": 20
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-08-11T19:22:30Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "d7890f3f_ac84eccd",
       "range": {
         "startLine": 83,
         "startChar": 12,
@@ -104,6 +152,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a4b0aca0_120448c1",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-repo-dialog/gr-create-repo-dialog.ts",
+        "patchSetId": 20
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-08-11T19:22:30Z",
+      "side": 1,
+      "message": "I\u0027ve added showBlueFocusBorder to it. Thanks, done.",
+      "parentUuid": "cbc898e2_7ce58517",
+      "range": {
+        "startLine": 167,
+        "startChar": 7,
+        "endLine": 167,
+        "endChar": 58
+      },
+      "revId": "648fac00e38c91a2c9565add6b3b90bd6e52ec4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bb8bf0a1_6aaf0325",
@@ -117,6 +189,30 @@
       "writtenOn": "2025-08-11T15:16:00Z",
       "side": 1,
       "message": "why there is autocomplete? I haven\u0027t seen it in other places.",
+      "range": {
+        "startLine": 131,
+        "startChar": 16,
+        "endLine": 131,
+        "endChar": 28
+      },
+      "revId": "648fac00e38c91a2c9565add6b3b90bd6e52ec4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c410672b_0c940e23",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog_test.ts",
+        "patchSetId": 20
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-08-11T19:22:30Z",
+      "side": 1,
+      "message": "It is in otherplaces. It\u0027s set within md-outlined-text-field.",
+      "parentUuid": "bb8bf0a1_6aaf0325",
       "range": {
         "startLine": 131,
         "startChar": 16,
@@ -174,6 +270,30 @@
           ]
         }
       ],
+      "revId": "648fac00e38c91a2c9565add6b3b90bd6e52ec4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8a244f96_7677981c",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.ts",
+        "patchSetId": 20
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-08-11T19:22:30Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "fab4309a_b3b9e2d4",
+      "range": {
+        "startLine": 50,
+        "startChar": 11,
+        "endLine": 50,
+        "endChar": 27
+      },
       "revId": "648fac00e38c91a2c9565add6b3b90bd6e52ec4e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

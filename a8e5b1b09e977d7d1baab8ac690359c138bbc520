@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c5bda015_897efde3",
+        "filename": "java/com/google/gerrit/server/flow/FlowStage.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-08-11T07:21:26Z",
+      "side": 1,
+      "message": "This doesn\u0027t match with the fields that we are having. The FlowStage does have a single FlowExpression and there we have a single `condition` field. I think the description here should be consistent with that and hence also talk about condition in a singular form.\n\nIt is true that the condition string in the flow expression can contain logical AND to check multiple things, but it\u0027s still a single condition. \n\nIt\u0027s might be OK if we wanted to change FlowExpression to have a list of conditions instead of a single condition string, if we if we see value in it, but when we initially discussed the design, we explicitly decided against this to avoid unnecessary parsing of the condition string (e.g. the syntax of the condition string and how to represent logical AND in there depends on the flow service implementation).\n\nSo I would just leave this here as it is.",
+      "range": {
+        "startLine": 31,
+        "startChar": 7,
+        "endLine": 31,
+        "endChar": 21
+      },
+      "revId": "a8e5b1b09e977d7d1baab8ac690359c138bbc520",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

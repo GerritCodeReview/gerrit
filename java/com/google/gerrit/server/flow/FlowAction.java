@@ -17,6 +17,7 @@ package com.google.gerrit.server.flow;
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableMap;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.gerrit.common.ConvertibleToProto;
 
 /**
  * An action to be triggered when the condition of a {@link FlowExpression} becomes satisfied.
@@ -24,6 +25,7 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
  * <p>Actions can have arbitrary parameters. For example an {@code AddReviewer} action can have the
  * user to be added as a reviewer as a parameter.
  */
+@ConvertibleToProto
 @AutoValue
 public abstract class FlowAction {
   /** The name of the action. */

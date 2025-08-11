@@ -38,7 +38,6 @@ import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.git.LockFailureException;
 import com.google.gerrit.git.RefUpdateUtil;
 import com.google.gerrit.server.Sequence;
-import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -50,6 +49,7 @@ import com.google.inject.Provider;
 import com.google.inject.Provides;
 import com.google.inject.name.Named;
 import java.io.IOException;
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -59,6 +59,7 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -76,9 +77,12 @@ import org.eclipse.jgit.revwalk.RevWalk;
 public class RepoSequence implements Sequence {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  @FunctionalInterface
-  public interface Seed {
-    int get();
+  public static class NonIncrementingSequenceException extends IllegalStateException {
+    @Serial private static final long serialVersionUID = 1L;
+
+    NonIncrementingSequenceException(String msg) {
+      super(msg);
+    }
   }
 
   public static class RepoSequenceModule extends FactoryModule {
@@ -102,12 +106,7 @@ public class RepoSequence implements Sequence {
               KEY_SEQUENCE_BATCH_SIZE,
               DEFAULT_ACCOUNTS_SEQUENCE_BATCH_SIZE);
       return new RepoSequence(
-          repoManager,
-          gitReferenceUpdated,
-          allUsers,
-          NAME_ACCOUNTS,
-          () -> Sequences.FIRST_ACCOUNT_ID,
-          accountBatchSize);
+          repoManager, gitReferenceUpdated, allUsers, NAME_ACCOUNTS, accountBatchSize);
     }
 
     @Provides
@@ -121,7 +120,6 @@ public class RepoSequence implements Sequence {
           gitReferenceUpdated,
           allUsers,
           NAME_GROUPS,
-          () -> Sequences.FIRST_GROUP_ID,
           DEFAULT_GROUPS_SEQUENCE_BATCH_SIZE);
     }
 
@@ -139,12 +137,7 @@ public class RepoSequence implements Sequence {
               KEY_SEQUENCE_BATCH_SIZE,
               DEFAULT_CHANGES_SEQUENCE_BATCH_SIZE);
       return new RepoSequence(
-          repoManager,
-          gitReferenceUpdated,
-          allProjects,
-          NAME_CHANGES,
-          () -> Sequences.FIRST_CHANGE_ID,
-          changeBatchSize);
+          repoManager, gitReferenceUpdated, allProjects, NAME_CHANGES, changeBatchSize);
     }
   }
 
@@ -169,7 +162,6 @@ public class RepoSequence implements Sequence {
           GitReferenceUpdated.DISABLED,
           allUsers,
           NAME_GROUPS,
-          () -> Sequences.FIRST_GROUP_ID,
           DEFAULT_GROUPS_SEQUENCE_BATCH_SIZE);
     }
   }
@@ -178,7 +170,10 @@ public class RepoSequence implements Sequence {
   static RetryerBuilder<ImmutableList<Integer>> retryerBuilder() {
     return RetryerBuilder.<ImmutableList<Integer>>newBuilder()
         .retryIfException(
-            t -> t instanceof StorageException && t.getCause() instanceof LockFailureException)
+            t ->
+                t instanceof StorageException
+                    && (t.getCause() instanceof LockFailureException
+                        || t.getCause() instanceof NonIncrementingSequenceException))
         .withWaitStrategy(
             WaitStrategies.join(
                 WaitStrategies.exponentialWait(5, TimeUnit.SECONDS),
@@ -192,7 +187,6 @@ public class RepoSequence implements Sequence {
   private final GitReferenceUpdated gitRefUpdated;
   private final Project.NameKey projectName;
   private final String refName;
-  private final Seed seed;
   private final int floor;
   private final int batchSize;
   private final Runnable afterReadRef;
@@ -203,6 +197,7 @@ public class RepoSequence implements Sequence {
 
   private int limit;
   private int counter;
+  private volatile Integer lastStoredSequence;
 
   @VisibleForTesting int acquireCount;
 
@@ -211,14 +206,12 @@ public class RepoSequence implements Sequence {
       GitReferenceUpdated gitRefUpdated,
       Project.NameKey projectName,
       String name,
-      Seed seed,
       int batchSize) {
     this(
         repoManager,
         gitRefUpdated,
         projectName,
         name,
-        seed,
         batchSize,
         Runnables.doNothing(),
         RETRYER,
@@ -231,11 +224,10 @@ public class RepoSequence implements Sequence {
       GitReferenceUpdated gitRefUpdated,
       Project.NameKey projectName,
       String name,
-      Seed seed,
       int batchSize,
       Runnable afterReadRef,
       Retryer<ImmutableList<Integer>> retryer) {
-    this(repoManager, gitRefUpdated, projectName, name, seed, batchSize, afterReadRef, retryer, 0);
+    this(repoManager, gitRefUpdated, projectName, name, batchSize, afterReadRef, retryer, 0);
   }
 
   private RepoSequence(
@@ -243,7 +235,6 @@ public class RepoSequence implements Sequence {
       GitReferenceUpdated gitRefUpdated,
       Project.NameKey projectName,
       String name,
-      Seed seed,
       int batchSize,
       Runnable afterReadRef,
       Retryer<ImmutableList<Integer>> retryer,
@@ -260,7 +251,6 @@ public class RepoSequence implements Sequence {
         name);
     this.refName = RefNames.REFS_SEQUENCES + name;
 
-    this.seed = requireNonNull(seed, "seed");
     this.floor = floor;
 
     checkArgument(batchSize > 0, "expected batchSize > 0, got: %s", batchSize);
@@ -329,6 +319,11 @@ public class RepoSequence implements Sequence {
           });
     } catch (ExecutionException | RetryException e) {
       if (e.getCause() != null) {
+        if (Throwables.getRootCause(e) instanceof NonIncrementingSequenceException) {
+          logger.atWarning().log(
+              "Sequence %s will be deleted as it contains a non-incrementing value", refName);
+          deleteSequenceRef();
+        }
         Throwables.throwIfInstanceOf(e.getCause(), StorageException.class);
       }
       throw new StorageException(e);
@@ -355,21 +350,21 @@ public class RepoSequence implements Sequence {
         afterReadRef.run();
         ObjectId oldId;
         int next;
-        if (!blob.isPresent()) {
-          oldId = ObjectId.zeroId();
-          next = seed.get();
+        if (blob.isEmpty()) {
+          throw new IllegalStateException("Expected " + refName + " to exist");
         } else {
           oldId = blob.get().id();
           next = blob.get().value();
         }
         next = Math.max(floor, next);
-        RefUpdate refUpdate =
-            IntBlob.tryStore(repo, rw, projectName, refName, oldId, next + count, gitRefUpdated);
-        RefUpdateUtil.checkResult(refUpdate);
+
+        checkIsIncremental(next + count);
+        store(repo, rw, oldId, next + count);
+
         counter = next;
         limit = counter + count;
         acquireCount++;
-      } catch (IOException e) {
+      } catch (IOException | NonIncrementingSequenceException e) {
         throw new StorageException(e);
       }
     }
@@ -378,26 +373,28 @@ public class RepoSequence implements Sequence {
   @Override
   public void storeNew(int value) {
     counterLock.lock();
-    try (Repository repo = repoManager.openRepository(projectName);
-        RevWalk rw = new RevWalk(repo)) {
-      Optional<IntBlob> blob = IntBlob.parse(repo, refName, rw);
-      afterReadRef.run();
-      ObjectId oldId;
-      if (!blob.isPresent()) {
-        oldId = ObjectId.zeroId();
-      } else {
-        oldId = blob.get().id();
+    try (RefUpdateContext ctx = RefUpdateContext.open(REPO_SEQ)) {
+      try (Repository repo = repoManager.openRepository(projectName);
+          RevWalk rw = new RevWalk(repo)) {
+        Optional<IntBlob> blob = IntBlob.parse(repo, refName, rw);
+        afterReadRef.run();
+        ObjectId oldId;
+        if (blob.isEmpty()) {
+          oldId = ObjectId.zeroId();
+        } else {
+          oldId = blob.get().id();
+        }
+
+        store(repo, rw, oldId, value + batchSize);
+
+        counter = value;
+        limit = counter + batchSize;
+        acquireCount++;
+      } catch (IOException e) {
+        throw new StorageException(e);
+      } finally {
+        counterLock.unlock();
       }
-      RefUpdate refUpdate =
-          IntBlob.tryStore(repo, rw, projectName, refName, oldId, value + batchSize, gitRefUpdated);
-      RefUpdateUtil.checkResult(refUpdate);
-      counter = value;
-      limit = counter + batchSize;
-      acquireCount++;
-    } catch (IOException e) {
-      throw new StorageException(e);
-    } finally {
-      counterLock.unlock();
     }
   }
 
@@ -408,8 +405,8 @@ public class RepoSequence implements Sequence {
         RevWalk rw = new RevWalk(repo)) {
       Optional<IntBlob> blob = IntBlob.parse(repo, refName, rw);
       int current;
-      if (!blob.isPresent()) {
-        current = seed.get();
+      if (blob.isEmpty()) {
+        throw new IllegalStateException("Expected " + refName + " to exist");
       } else {
         current = blob.get().value();
       }
@@ -433,5 +430,52 @@ public class RepoSequence implements Sequence {
       var unused = next();
     }
     return counter - 1;
+  }
+
+  @VisibleForTesting
+  public void init(int seed) {
+    try (RefUpdateContext ctx = RefUpdateContext.open(REPO_SEQ)) {
+      try (Repository repo = repoManager.openRepository(projectName);
+          RevWalk rw = new RevWalk(repo)) {
+        Ref ref = repo.exactRef(refName);
+        if (ref == null) {
+          store(repo, rw, ObjectId.zeroId(), seed);
+        }
+      } catch (IOException e) {
+        throw new StorageException(e);
+      }
+    }
+  }
+
+  private void store(Repository repo, RevWalk rw, ObjectId oldId, int value) throws IOException {
+    RefUpdate refUpdate =
+        IntBlob.tryStore(repo, rw, projectName, refName, oldId, value, gitRefUpdated);
+    RefUpdateUtil.checkResult(refUpdate);
+    lastStoredSequence = value;
+  }
+
+  private void checkIsIncremental(int value) {
+    if (lastStoredSequence != null && value <= lastStoredSequence) {
+      String msg =
+          String.format(
+              "For %s, expected new value %d to be greater than last stored value %d",
+              refName, value, lastStoredSequence);
+      logger.atWarning().log(msg);
+      throw new NonIncrementingSequenceException(msg);
+    }
+  }
+
+  private void deleteSequenceRef() {
+    try (RefUpdateContext ctx = RefUpdateContext.open(REPO_SEQ)) {
+      try (Repository repo = repoManager.openRepository(projectName)) {
+        RefUpdateUtil.deleteChecked(repo, refName);
+      } catch (IOException ex) {
+        throw new StorageException(ex);
+      }
+    }
+    logger.atWarning().log(
+        "Sequence %s has been deleted as it contains a non-incrementing value. It can be recreated"
+            + " by setting the sequence to an appropriate value using the sequence set command",
+        refName);
   }
 }

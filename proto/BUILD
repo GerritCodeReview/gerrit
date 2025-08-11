@@ -23,3 +23,14 @@ java_proto_library(
     visibility = ["//visibility:public"],
     deps = [":entities_proto"],
 )
+
+proto_library(
+    name = "flow_proto",
+    srcs = ["flow.proto"],
+)
+
+java_proto_library(
+    name = "flow_java_proto",
+    visibility = ["//visibility:public"],
+    deps = [":flow_proto"],
+)

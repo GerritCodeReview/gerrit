@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f66ffe12_74caedd4",
+        "filename": "java/com/google/gerrit/server/restapi/project/CreateBranch.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2025-08-11T23:12:14Z",
+      "side": 1,
+      "message": "Should we also add a check to ensure that the source ref contains the revision?",
+      "revId": "3efff66cbc565700423aba54be0f77eee5fb2b23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -123,6 +123,7 @@ public class GetRelated implements RestReadView<RevisionResource> {
       info._currentRevisionNumber = curr != null ? curr.get() : null;
       info.status = ChangeUtil.status(change).toUpperCase(Locale.US);
       info.submittable = computeSubmittable ? submittable(cd) : null;
+      info.workInProgress = change.isWorkInProgress() ? change.isWorkInProgress() : null;
     }
 
     info.commit = new CommitInfo();

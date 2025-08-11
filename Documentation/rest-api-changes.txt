@@ -8929,6 +8929,8 @@ the change is one of (`NEW`, `MERGED`, `ABANDONED`).
 |`submittable`             |optional|Boolean indicating whether the change is
 submittable. +
 Only populated if link:#get-related-changes-submittable[requested].
+|`work_in_progress`   |optional, not set if `false`|Boolean indicating whether the change is
+work in progress.
 |===========================
 
 [[related-changes-info]]

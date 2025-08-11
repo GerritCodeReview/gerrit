@@ -1369,6 +1369,7 @@ export declare interface RelatedChangeAndCommitInfo {
   // we can bring this feature back. There is a frontend code and CSS styles for
   // it and this property is added here to keep related frontend code unchanged.
   submittable?: boolean;
+  work_in_progress?: boolean;
 }
 
 /**

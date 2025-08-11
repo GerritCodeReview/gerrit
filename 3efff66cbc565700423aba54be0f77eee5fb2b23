@@ -34,6 +34,24 @@
       "parentUuid": "f66ffe12_74caedd4",
       "revId": "3efff66cbc565700423aba54be0f77eee5fb2b23",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c970e6ad_31b691b0",
+        "filename": "java/com/google/gerrit/server/restapi/project/CreateBranch.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2025-08-11T23:35:07Z",
+      "side": 1,
+      "message": "I meant, if user gives `sourceRef` as a branch that they can read and then give `revision` as a sha that is only contained in another branch that they cannot read, we\u0027ll now allow creating a branch with that revision?",
+      "parentUuid": "deb0959d_34f41ccc",
+      "revId": "3efff66cbc565700423aba54be0f77eee5fb2b23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

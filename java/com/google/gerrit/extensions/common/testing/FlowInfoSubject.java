@@ -28,7 +28,7 @@ import com.google.gerrit.extensions.common.FlowExpressionInfo;
 import com.google.gerrit.extensions.common.FlowInfo;
 import com.google.gerrit.extensions.common.FlowInput;
 import com.google.gerrit.extensions.common.FlowStageInfo;
-import com.google.gerrit.extensions.common.FlowStageStatus;
+import com.google.gerrit.extensions.common.FlowStageState;
 import com.google.gerrit.server.flow.Flow;
 import com.google.gerrit.server.flow.FlowStage;
 import com.google.gerrit.server.restapi.flow.FlowJson;
@@ -96,7 +96,7 @@ public class FlowInfoSubject extends Subject {
     for (int i = 0; i < flowInput.stageExpressions.size(); i++) {
       FlowExpressionInfo flowExpressionInfo = flowInput.stageExpressions.get(i);
       FlowStageInfoSubject stageSubject = hasStagesThat().element(i);
-      stageSubject.hasStatusThat().isEqualTo(FlowStageStatus.PENDING);
+      stageSubject.hasStateThat().isEqualTo(FlowStageState.PENDING);
       stageSubject.hasExpressionThat().hasConditionThat().isEqualTo(flowExpressionInfo.condition);
       stageSubject
           .hasExpressionThat()
@@ -130,7 +130,7 @@ public class FlowInfoSubject extends Subject {
       FlowStage flowStage = flow.stages().get(i);
 
       FlowStageInfoSubject stageSubject = hasStagesThat().element(i);
-      stageSubject.hasStatusThat().isEqualTo(FlowJson.mapStatus(flowStage.status()));
+      stageSubject.hasStateThat().isEqualTo(FlowJson.mapState(flowStage.status().state()));
       stageSubject
           .hasExpressionThat()
           .hasConditionThat()

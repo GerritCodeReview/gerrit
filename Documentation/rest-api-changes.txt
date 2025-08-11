@@ -3716,7 +3716,7 @@ implementation.
               "name: "MarkAsReady"
             }
           },
-          "status": "DONE"
+          "state": "DONE"
         }
       ],
       "last_evaluated": "2025-06-03 10:32:12.083000000",
@@ -3738,7 +3738,7 @@ implementation.
               }
             }
           },
-          "status": "FAILED",
+          "state": "FAILED",
           "message": "user foo@example.com not found"
         },
         {
@@ -3751,7 +3751,7 @@ implementation.
               }
             }
           },
-          "status": "TERMINATED",
+          "state": "TERMINATED",
           "message": "stage 1 has failed"
         }
       ],
@@ -3825,7 +3825,7 @@ The created flow is returned as a link:#flow-info[FlowInfo] entity.
             }
           }
         }
-        "status": "PENDING"
+        "state": "PENDING"
       }
     ]
   }
@@ -3877,7 +3877,7 @@ The flow is returned as a link:#flow-info[FlowInfo] entity.
             }
           }
         }
-        "status": "PENDING"
+        "state": "PENDING"
       }
     ]
   }
@@ -8466,7 +8466,7 @@ triggered when a condition becomes satisfied and a status.
 |Field Name   ||Description
 |`expression` ||The expression defining the condition and the action of
 this stage as a link:#flow-expression-info[FlowExpressionInfo] entity.
-|`status`     ||The status for this stage. Can be `PENDING` (the condition of
+|`state`      ||The state for this stage. Can be `PENDING` (the condition of
 the stage is not satisfied yet or the action has not been executed yet), `DONE`
 (the condition of the stage is satisfied and the action has been executed),
 `FAILED` (the stage has a non-recoverable error, e.g. performing the action has

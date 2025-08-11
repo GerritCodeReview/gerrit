@@ -26,8 +26,8 @@ public class FlowStageInfo {
   /** The expression defining the condition and the action of this stage. */
   public FlowExpressionInfo expression;
 
-  /** The status for this stage. */
-  public FlowStageStatus status;
+  /** The state for this stage. */
+  public FlowStageState state;
 
   /**
    * Optional message for the stage.

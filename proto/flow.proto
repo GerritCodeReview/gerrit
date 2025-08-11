@@ -20,3 +20,29 @@ message FlowExpression {
   // The action that should be triggered when the condition is satisfied.
   optional FlowAction action = 2;
 }
+
+message FlowStageEvaluationStatus {
+  enum State {
+    UNKNOWN = 0;
+    // The previous stages are not finished yet, the condition of the stage is
+    // not satisfied yet or the action has not been executed yet.
+    PENDING = 1;
+    // The condition of the stage is satisfied and the action has been executed.
+    DONE = 2;
+    // The stage has a non-recoverable error, e.g. performing the action has
+    // failed.
+    FAILED = 3;
+    // The stage has been terminated without having been executed, e.g. because
+    // a previous stage failed or because it wasn't done within a timeout.
+    TERMINATED = 4;
+  }
+  optional State state = 1;
+  // Message contains extra information about the stage execution. Such as error
+  // details if the stage failed.
+  optional string message = 2;
+  // The timestamp at which all previous stages completed and evaluation of the
+  // current this stage started.
+  optional int64 start_time_millis = 3;
+  // The timestamp at which the stage became DONE/FAILED/TERMINATED.
+  optional int64 end_time_millis = 4;
+}

@@ -50,7 +50,7 @@ import {resolve} from '../../../models/dependency';
 import {configModelToken} from '../../../models/config/config-model';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {KnownExperimentId} from '../../../services/flags/flags';
-import {getRepoWeblink} from '../../../utils/weblink-util';
+import {computeMainCodeBrowserWeblink} from '../../../utils/weblink-util';
 
 const STATES = {
   active: {value: RepoState.ACTIVE, label: 'Active'},
@@ -895,7 +895,7 @@ export class GrRepo extends LitElement {
   }
 
   private getWebLink() {
-    return getRepoWeblink(this.weblinks, this.serverConfig);
+    return computeMainCodeBrowserWeblink(this.weblinks, this.serverConfig);
   }
 
   private formatSubmitTypeSelect(repoConfig?: ConfigInfo) {

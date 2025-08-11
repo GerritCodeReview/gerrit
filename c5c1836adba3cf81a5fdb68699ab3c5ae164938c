@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "821ce4a6_b3177df8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-08-11T07:22:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a9909239_d0b28e4c",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 6
+      },
+      "revId": "c5c1836adba3cf81a5fdb68699ab3c5ae164938c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5d6f085e_bf1930ad",
@@ -37,6 +61,30 @@
       "writtenOn": "2025-08-11T07:06:19Z",
       "side": 1,
       "message": "Rather than checking the *exact string*, which could be flaky, I\u0027d recommend checking in the message:\n- The \"not permitted\" substring\n- The name of the tag\n\nThe exact wording may change in the future, but the above keywords should be a lot more stable.",
+      "range": {
+        "startLine": 343,
+        "startChar": 49,
+        "endLine": 343,
+        "endChar": 94
+      },
+      "revId": "c5c1836adba3cf81a5fdb68699ab3c5ae164938c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3e279a4c_d37702d6",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/TagsIT.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-08-11T07:22:22Z",
+      "side": 1,
+      "message": "This is the same approach we take in `CreateBranchIT.java` and the same approach we had in the previously.\n\nIf we decide to change approach it should be a separate change across both files, no?",
+      "parentUuid": "5d6f085e_bf1930ad",
       "range": {
         "startLine": 343,
         "startChar": 49,

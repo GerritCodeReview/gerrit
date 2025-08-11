@@ -45,3 +45,4 @@ export function getChangeWeblinks(
     weblink => !commitWeblink?.name || weblink.name !== commitWeblink.name
   );
 }
+

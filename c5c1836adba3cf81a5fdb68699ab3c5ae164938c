@@ -93,6 +93,30 @@
       },
       "revId": "c5c1836adba3cf81a5fdb68699ab3c5ae164938c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1ed7751b_8763e4ea",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/TagsIT.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-08-11T08:27:13Z",
+      "side": 1,
+      "message": "Yes, we can do it on both, also as a follow-up change.",
+      "parentUuid": "3e279a4c_d37702d6",
+      "range": {
+        "startLine": 343,
+        "startChar": 49,
+        "endLine": 343,
+        "endChar": 94
+      },
+      "revId": "c5c1836adba3cf81a5fdb68699ab3c5ae164938c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

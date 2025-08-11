@@ -18,7 +18,7 @@ import {subscribe} from '../../lit/subscription-controller';
 import {resolve} from '../../../models/dependency';
 import {configModelToken} from '../../../models/config/config-model';
 import {createSearchUrl} from '../../../models/views/search';
-import {getBrowseCommitWeblink} from '../../../utils/weblink-util';
+import {computeMainCodeBrowserWeblink} from '../../../utils/weblink-util';
 import {shorten} from '../../../utils/patch-set-util';
 import {when} from 'lit/directives/when.js';
 
@@ -92,7 +92,7 @@ export class GrCommitInfo extends LitElement {
   getWeblink(commit: CommitId): WebLinkInfo | undefined {
     if (!commit) return undefined;
     const name = shorten(commit)!;
-    const primaryLink = getBrowseCommitWeblink(
+    const primaryLink = computeMainCodeBrowserWeblink(
       this.commitInfo?.web_links,
       this.serverConfig
     );

@@ -13,6 +13,7 @@ import {queryAndAssert} from '../../../test/test-utils';
 import {GrPluginConfigArrayEditor} from '../gr-plugin-config-array-editor/gr-plugin-config-array-editor';
 import {MdSwitch} from '@material/web/switch/switch';
 import {assert, fixture, html} from '@open-wc/testing';
+import {MdOutlinedTextField} from '@material/web/textfield/outlined-text-field';
 
 suite('gr-repo-plugin-config tests', () => {
   let element: GrRepoPluginConfig;
@@ -43,9 +44,15 @@ suite('gr-repo-plugin-config tests', () => {
                 <span> </span>
               </span>
               <span class="value">
-                <iron-input data-option-key="plugin">
-                  <input data-option-key="plugin" disabled="" is="iron-input" />
-                </iron-input>
+                <md-outlined-text-field
+                  autocomplete=""
+                  class="showBlueFocusBorder"
+                  data-option-key="plugin"
+                  disabled=""
+                  inputmode=""
+                  type="text"
+                >
+                </md-outlined-text-field>
               </span>
             </section>
           </fieldset>
@@ -165,7 +172,10 @@ suite('gr-repo-plugin-config tests', () => {
       };
       await element.updateComplete;
 
-      const input = queryAndAssert<HTMLInputElement>(element, 'input');
+      const input = queryAndAssert<MdOutlinedTextField>(
+        element,
+        'md-outlined-text-field'
+      );
       assert.ok(input);
       input.value = 'newTest';
       input.dispatchEvent(new Event('input'));

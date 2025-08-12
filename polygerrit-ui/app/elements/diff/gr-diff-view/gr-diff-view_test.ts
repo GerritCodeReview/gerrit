@@ -344,15 +344,13 @@ suite('gr-diff-view tests', () => {
                   <span hidden="" id="annotation-span">
                     <label for="annotation-checkbox" id="annotation-label">
                     </label>
-                    <iron-input>
-                      <input
-                        disabled=""
-                        id="annotation-checkbox"
-                        is="iron-input"
-                        type="checkbox"
-                        value=""
-                      />
-                    </iron-input>
+                    <md-checkbox
+                      aria-labelledby="annotation-label"
+                      disabled=""
+                      id="annotation-checkbox"
+                      touch-target="none"
+                    >
+                    </md-checkbox>
                   </span>
                 </gr-endpoint-decorator>
               </div>

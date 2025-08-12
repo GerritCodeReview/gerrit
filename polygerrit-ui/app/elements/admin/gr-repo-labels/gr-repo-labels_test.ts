@@ -205,9 +205,15 @@ suite('gr-repo-labels tests', () => {
                       </div>
                       <div class="value-flex">
                         <span class="value">
-                          <iron-input>
-                            <input id="name" required="" type="text" />
-                          </iron-input>
+                      <md-outlined-text-field
+                        autocomplete=""
+                        class="showBlueFocusBorder"
+                        id="name"
+                        inputmode=""
+                        required=""
+                        type="text"
+                      >
+                      </md-outlined-text-field>
                         </span>
                       </div>
                     </section>
@@ -217,9 +223,14 @@ suite('gr-repo-labels tests', () => {
                       </div>
                       <div class="value-flex">
                         <span class="value">
-                          <iron-input>
-                            <input id="description" type="text" />
-                          </iron-input>
+                      <md-outlined-text-field
+                        autocomplete=""
+                        class="showBlueFocusBorder"
+                        id="description"
+                        inputmode=""
+                        type="text"
+                      >
+                      </md-outlined-text-field>
                         </span>
                       </div>
                     </section>
@@ -239,9 +250,14 @@ suite('gr-repo-labels tests', () => {
                       </div>
                       <div class="value-flex">
                         <span class="value">
-                          <iron-input>
-                            <input id="defaultValue" type="number" />
-                          </iron-input>
+                      <md-outlined-text-field
+                        autocomplete=""
+                        class="showBlueFocusBorder"
+                        id="defaultValue"
+                        inputmode=""
+                        type="number"
+                      >
+                      </md-outlined-text-field>
                         </span>
                       </div>
                     </section>
@@ -251,9 +267,14 @@ suite('gr-repo-labels tests', () => {
                       </div>
                       <div class="value-flex">
                         <span class="value">
-                          <iron-input>
-                            <input id="copyCondition" type="text" />
-                          </iron-input>
+                      <md-outlined-text-field
+                        autocomplete=""
+                        class="showBlueFocusBorder"
+                        id="copyCondition"
+                        inputmode=""
+                        type="text"
+                      >
+                      </md-outlined-text-field>
                         </span>
                       </div>
                     </section>
@@ -512,10 +533,9 @@ suite('gr-repo-labels tests', () => {
       );
       copyConditionInput.value = '';
       copyConditionInput.dispatchEvent(
-        new CustomEvent('bind-value-changed', {
+        new CustomEvent('input', {
           bubbles: true,
           composed: true,
-          detail: {value: ''},
         })
       );
       await element.updateComplete;

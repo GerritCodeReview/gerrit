@@ -3,13 +3,11 @@
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '@polymer/iron-input/iron-input';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '../../plugins/gr-endpoint-param/gr-endpoint-param';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-download-commands/gr-download-commands';
 import '../../shared/gr-select/gr-select';
-import '../../shared/gr-suggestion-textarea/gr-suggestion-textarea';
 import '../gr-repo-plugin-config/gr-repo-plugin-config';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {
@@ -48,6 +46,11 @@ import {userModelToken} from '../../../models/user/user-model';
 import {resolve} from '../../../models/dependency';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {Command} from '../../shared/gr-download-commands/gr-download-commands';
+import '@material/web/textfield/outlined-text-field';
+import {materialStyles} from '../../../styles/gr-material-styles';
+import '../../shared/gr-autogrow-textarea/gr-autogrow-textarea';
+import {GrAutogrowTextarea} from '../../shared/gr-autogrow-textarea/gr-autogrow-textarea';
+import {formStyles} from '../../../styles/form-styles';
 
 const STATES = {
   active: {value: RepoState.ACTIVE, label: 'Active'},
@@ -149,7 +152,9 @@ export class GrRepo extends LitElement {
 
   static override get styles() {
     return [
+      materialStyles,
       fontStyles,
+      formStyles,
       grFormStyles,
       subpageStyles,
       sharedStyles,
@@ -166,6 +171,13 @@ export class GrRepo extends LitElement {
         }
         #options .repositorySettings.showConfig {
           display: block;
+        }
+        gr-autogrow-textarea {
+          background-color: var(--view-background-color);
+          width: 100%;
+        }
+        gr-autogrow-textarea:focus {
+          border: 2px solid var(--input-focus-border-color);
         }
       `,
     ];
@@ -262,17 +274,17 @@ export class GrRepo extends LitElement {
     return html`
       <h3 id="Description" class="heading-3">Description</h3>
       <fieldset>
-        <gr-suggestion-textarea
+        <gr-autogrow-textarea
           id="descriptionInput"
           class="description"
           autocomplete="on"
           placeholder="&lt;Insert repo description here&gt;"
-          rows="4"
-          monospace
+          .rows=${4}
+          .maxRows=${10}
+          .value=${this.repoConfig.description ?? ''}
           ?disabled=${this.readOnly}
-          .text=${this.repoConfig.description ?? ''}
-          @text-changed=${this.handleDescriptionTextChanged}
-        ></gr-suggestion-textarea>
+          @input=${this.handleDescriptionInput}
+        ></gr-autogrow-textarea>
       </fieldset>
     `;
   }
@@ -600,18 +612,17 @@ export class GrRepo extends LitElement {
       <section>
         <span class="title">Maximum Git object size limit</span>
         <span class="value">
-          <iron-input
-            id="maxGitObjSizeIronInput"
-            .bindValue=${this.repoConfig?.max_object_size_limit
-              ?.configured_value}
-            @bind-value-changed=${this.handleMaxGitObjSizeBindValueChanged}
+          <md-outlined-text-field
+            id="maxGitObjSizeInput"
+            class="showBlueFocusBorder"
+            type="number"
+            min="0"
+            ?disabled=${this.readOnly}
+            .value=${this.repoConfig?.max_object_size_limit?.configured_value ??
+            ''}
+            @input=${this.handleMaxGitObjSizeInputChanged}
           >
-            <input
-              id="maxGitObjSizeInput"
-              type="text"
-              ?disabled=${this.readOnly}
-            />
-          </iron-input>
+          </md-outlined-text-field>
           ${this.repoConfig?.max_object_size_limit?.value
             ? `effective: ${this.repoConfig.max_object_size_limit.value} bytes`
             : ''}
@@ -1171,12 +1182,13 @@ export class GrRepo extends LitElement {
     }
   }
 
-  private handleDescriptionTextChanged(e: BindValueChangeEvent) {
+  private handleDescriptionInput(e: InputEvent) {
     if (!this.repoConfig || this.loading) return;
-    if (this.repoConfig.description === e.detail.value) return;
+    const value = (e.target as GrAutogrowTextarea).value ?? '';
+    if (this.repoConfig.description === value) return;
     this.repoConfig = {
       ...this.repoConfig,
-      description: e.detail.value,
+      description: value,
     };
     this.requestUpdate();
   }
@@ -1274,10 +1286,11 @@ export class GrRepo extends LitElement {
     this.requestUpdate();
   }
 
-  private handleMaxGitObjSizeBindValueChanged(e: BindValueChangeEvent) {
+  private handleMaxGitObjSizeInputChanged(e: InputEvent) {
     if (!this.repoConfig?.max_object_size_limit || this.loading) return;
-    this.repoConfig.max_object_size_limit.value = e.detail.value;
-    this.repoConfig.max_object_size_limit.configured_value = e.detail.value;
+    const target = e.target as HTMLInputElement;
+    this.repoConfig.max_object_size_limit.value = target.value;
+    this.repoConfig.max_object_size_limit.configured_value = target.value;
     this.requestUpdate();
   }
 

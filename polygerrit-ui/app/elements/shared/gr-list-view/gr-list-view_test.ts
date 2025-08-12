@@ -27,9 +27,8 @@ suite('gr-list-view tests', () => {
         <div id="topContainer">
           <div class="filterContainer">
             <label> Filter: </label>
-            <iron-input>
-              <input id="filter" type="text" />
-            </iron-input>
+            <md-outlined-text-field autocomplete="" inputmode="" type="text">
+            </md-outlined-text-field>
           </div>
           <div id="createNewContainer">
             <gr-button
@@ -48,10 +47,10 @@ suite('gr-list-view tests', () => {
         <nav>
           Page 1
           <a hidden="" href="" id="prevArrow">
-            <gr-icon icon="chevron_left"></gr-icon>
+            <gr-icon icon="chevron_left"> </gr-icon>
           </a>
           <a hidden="" href=",25" id="nextArrow">
-            <gr-icon icon="chevron_right"></gr-icon>
+            <gr-icon icon="chevron_right"> </gr-icon>
           </a>
         </nav>
       `

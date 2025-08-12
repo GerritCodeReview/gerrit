@@ -35,7 +35,7 @@ import {
 import {getAppContext} from '../../../services/app-context';
 import {fire} from '../../../utils/event-util';
 import {sharedStyles} from '../../../styles/shared-styles';
-import {paperStyles} from '../../../styles/gr-paper-styles';
+import {materialStyles} from '../../../styles/gr-material-styles';
 import {grFormStyles} from '../../../styles/gr-form-styles';
 import {menuPageStyles} from '../../../styles/gr-menu-page-styles';
 import {when} from 'lit/directives/when.js';
@@ -146,7 +146,7 @@ export class GrPermission extends LitElement {
   static override get styles() {
     return [
       sharedStyles,
-      paperStyles,
+      materialStyles,
       grFormStyles,
       menuPageStyles,
       css`

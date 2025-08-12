@@ -3,7 +3,6 @@
  * Copyright 2016 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '@polymer/iron-input/iron-input';
 import '../../../styles/shared-styles';
 import '../gr-button/gr-button';
 import '../gr-select/gr-select';
@@ -11,7 +10,7 @@ import {DiffPreferencesInfo, IgnoreWhitespaceType} from '../../../types/diff';
 import {subscribe} from '../../lit/subscription-controller';
 import {grFormStyles} from '../../../styles/gr-form-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
-import {html, LitElement} from 'lit';
+import {css, html, LitElement} from 'lit';
 import {customElement, query, state} from 'lit/decorators.js';
 import {convertToString} from '../../../utils/string-util';
 import {fire} from '../../../utils/event-util';
@@ -19,6 +18,8 @@ import {ValueChangedEvent} from '../../../types/events';
 import {GrSelect} from '../gr-select/gr-select';
 import {resolve} from '../../../models/dependency';
 import {userModelToken} from '../../../models/user/user-model';
+import '@material/web/textfield/outlined-text-field';
+import {materialStyles} from '../../../styles/gr-material-styles';
 
 @customElement('gr-diff-preferences')
 export class GrDiffPreferences extends LitElement {
@@ -68,7 +69,16 @@ export class GrDiffPreferences extends LitElement {
   }
 
   static override get styles() {
-    return [sharedStyles, grFormStyles];
+    return [
+      materialStyles,
+      sharedStyles,
+      grFormStyles,
+      css`
+        md-outlined-text-field {
+          max-width: 25em;
+        }
+      `,
+    ];
   }
 
   override render() {
@@ -108,37 +118,70 @@ export class GrDiffPreferences extends LitElement {
         <section>
           <label for="columnsInput" class="title">Diff width</label>
           <span class="value">
-            <iron-input
-              .allowedPattern=${'[0-9]'}
-              .bindValue=${convertToString(this.diffPrefs?.line_length)}
-              @change=${this.handleDiffLineLengthChanged}
+            <md-outlined-text-field
+              id="columnsInput"
+              class="showBlueFocusBorder"
+              type="number"
+              step="1"
+              .value=${convertToString(this.diffPrefs?.line_length)}
+              @input=${this.handleDiffLineLengthInput}
+              @beforeinput=${(e: InputEvent) => {
+                // In iron-input we had allowedPattern, but this is not supported
+                // in md-outlined-text-field. Which uses native input functionality.
+                // We workaround this.
+                const data = e.data;
+                if (data && !/^[0-9]*$/.test(data)) {
+                  e.preventDefault();
+                }
+              }}
             >
-              <input id="columnsInput" type="number" />
-            </iron-input>
+            </md-outlined-text-field>
           </span>
         </section>
         <section>
           <label for="tabSizeInput" class="title">Tab width</label>
           <span class="value">
-            <iron-input
-              .allowedPattern=${'[0-9]'}
-              .bindValue=${convertToString(this.diffPrefs?.tab_size)}
-              @change=${this.handleDiffTabSizeChanged}
+            <md-outlined-text-field
+              id="tabSizeInput"
+              class="showBlueFocusBorder"
+              type="number"
+              step="1"
+              .value=${convertToString(this.diffPrefs?.tab_size)}
+              @input=${this.handleDiffTabSizeInput}
+              @beforeinput=${(e: InputEvent) => {
+                // In iron-input we had allowedPattern, but this is not supported
+                // in md-outlined-text-field. Which uses native input functionality.
+                // We workaround this.
+                const data = e.data;
+                if (data && !/^[0-9]*$/.test(data)) {
+                  e.preventDefault();
+                }
+              }}
             >
-              <input id="tabSizeInput" type="number" />
-            </iron-input>
+            </md-outlined-text-field>
           </span>
         </section>
         <section>
           <label for="fontSizeInput" class="title">Font size</label>
           <span class="value">
-            <iron-input
-              .allowedPattern=${'[0-9]'}
-              .bindValue=${convertToString(this.diffPrefs?.font_size)}
-              @change=${this.handleDiffFontSizeChanged}
+            <md-outlined-text-field
+              id="fontSizeInput"
+              class="showBlueFocusBorder"
+              type="number"
+              step="1"
+              .value=${convertToString(this.diffPrefs?.font_size)}
+              @input=${this.handleDiffFontSizeInput}
+              @beforeinput=${(e: InputEvent) => {
+                // In iron-input we had allowedPattern, but this is not supported
+                // in md-outlined-text-field. Which uses native input functionality.
+                // We workaround this.
+                const data = e.data;
+                if (data && !/^[0-9]*$/.test(data)) {
+                  e.preventDefault();
+                }
+              }}
             >
-              <input id="fontSizeInput" type="number" />
-            </iron-input>
+            </md-outlined-text-field>
           </span>
         </section>
         <section>
@@ -231,21 +274,21 @@ export class GrDiffPreferences extends LitElement {
     });
   };
 
-  private readonly handleDiffLineLengthChanged = () => {
+  private readonly handleDiffLineLengthInput = () => {
     this.diffPrefs!.line_length = Number(this.columnsInput!.value);
     fire(this, 'has-unsaved-changes-changed', {
       value: this.hasUnsavedChanges(),
     });
   };
 
-  private readonly handleDiffTabSizeChanged = () => {
+  private readonly handleDiffTabSizeInput = () => {
     this.diffPrefs!.tab_size = Number(this.tabSizeInput!.value);
     fire(this, 'has-unsaved-changes-changed', {
       value: this.hasUnsavedChanges(),
     });
   };
 
-  private readonly handleDiffFontSizeChanged = () => {
+  private readonly handleDiffFontSizeInput = () => {
     this.diffPrefs!.font_size = Number(this.fontSizeInput!.value);
     fire(this, 'has-unsaved-changes-changed', {
       value: this.hasUnsavedChanges(),

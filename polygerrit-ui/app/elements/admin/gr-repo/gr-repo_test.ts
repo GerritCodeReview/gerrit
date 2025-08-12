@@ -48,10 +48,10 @@ import {
 import {PageErrorEvent} from '../../../types/events';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrSelect} from '../../shared/gr-select/gr-select';
-import {GrSuggestionTextarea} from '../../shared/gr-suggestion-textarea/gr-suggestion-textarea';
-import {IronInputElement} from '@polymer/iron-input/iron-input';
 import {assert, fixture, html} from '@open-wc/testing';
 import {ChangeInfo} from '../../../api/rest-api';
+import {MdOutlinedTextField} from '@material/web/textfield/outlined-text-field';
+import {GrAutogrowTextarea} from '../../shared/gr-autogrow-textarea/gr-autogrow-textarea';
 
 suite('gr-repo tests', () => {
   let element: GrRepo;
@@ -206,16 +206,14 @@ suite('gr-repo tests', () => {
             <fieldset>
               <h3 class="heading-3" id="Description">Description</h3>
               <fieldset>
-                <gr-suggestion-textarea
+                <gr-autogrow-textarea
                   autocomplete="on"
-                  class="description monospace"
+                  class="description"
                   disabled=""
                   id="descriptionInput"
-                  monospace=""
                   placeholder="<Insert repo description here>"
-                  rows="4"
                 >
-                </gr-suggestion-textarea>
+                </gr-autogrow-textarea>
               </fieldset>
               <h3 class="heading-3" id="Options">Repository Options</h3>
               <fieldset id="options">
@@ -334,9 +332,16 @@ suite('gr-repo tests', () => {
                 <section>
                   <span class="title"> Maximum Git object size limit </span>
                   <span class="value">
-                    <iron-input id="maxGitObjSizeIronInput">
-                      <input disabled="" id="maxGitObjSizeInput" type="text" />
-                    </iron-input>
+                    <md-outlined-text-field
+                      autocomplete=""
+                      class="showBlueFocusBorder"
+                      disabled=""
+                      id="maxGitObjSizeInput"
+                      inputmode=""
+                      min="0"
+                      type="number"
+                    >
+                    </md-outlined-text-field>
                   </span>
                 </section>
                 <section>
@@ -749,8 +754,14 @@ suite('gr-repo tests', () => {
           '#Title'
         ).classList.contains('edited')
       );
-      queryAndAssert<GrSuggestionTextarea>(element, '#descriptionInput').text =
-        configInputObj.description;
+      const descriptionInput = queryAndAssert<GrAutogrowTextarea>(
+        element,
+        '#descriptionInput'
+      );
+      descriptionInput.value = configInputObj.description;
+      descriptionInput.dispatchEvent(
+        new Event('input', {bubbles: true, composed: true})
+      );
       queryAndAssert<GrSelect>(element, '#stateSelect').bindValue =
         configInputObj.state;
       queryAndAssert<GrSelect>(element, '#submitTypeSelect').bindValue =
@@ -781,10 +792,14 @@ suite('gr-repo tests', () => {
         element,
         '#matchAuthoredDateWithCommitterDateSelect'
       ).bindValue = configInputObj.match_author_to_committer_date;
-      queryAndAssert<IronInputElement>(
+      queryAndAssert<MdOutlinedTextField>(
         element,
-        '#maxGitObjSizeIronInput'
-      ).bindValue = String(configInputObj.max_object_size_limit);
+        '#maxGitObjSizeInput'
+      ).value = String(configInputObj.max_object_size_limit);
+      queryAndAssert<MdOutlinedTextField>(
+        element,
+        '#maxGitObjSizeInput'
+      ).dispatchEvent(new Event('input', {bubbles: true, composed: true}));
       queryAndAssert<GrSelect>(
         element,
         '#contributorAgreementSelect'
@@ -857,11 +872,12 @@ suite('gr-repo tests', () => {
 
       await element.loadRepo();
       await element.updateComplete;
-      const input = queryAndAssert<GrSuggestionTextarea>(
+      const input = queryAndAssert<GrAutogrowTextarea>(
         element,
         '#descriptionInput'
       );
-      input.text = 'New description';
+      input.value = 'New description';
+      input.dispatchEvent(new Event('input', {bubbles: true, composed: true}));
       await input.updateComplete;
       await element.updateComplete;
       const button = queryAndAssert<GrButton>(element, 'gr-button#saveBtn');

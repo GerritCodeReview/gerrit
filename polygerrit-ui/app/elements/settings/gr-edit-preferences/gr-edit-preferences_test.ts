@@ -13,9 +13,9 @@ import {
 } from '../../../test/test-utils';
 import {GrEditPreferences} from './gr-edit-preferences';
 import {EditPreferencesInfo} from '../../../types/common';
-import {IronInputElement} from '@polymer/iron-input';
 import {createDefaultEditPrefs} from '../../../constants/constants';
 import {assert, fixture, html} from '@open-wc/testing';
+import {MdOutlinedTextField} from '@material/web/textfield/outlined-text-field';
 
 suite('gr-edit-preferences tests', () => {
   let element: GrEditPreferences;
@@ -52,25 +52,43 @@ suite('gr-edit-preferences tests', () => {
           <section>
             <label class="title" for="editTabWidth"> Tab width </label>
             <span class="value">
-              <iron-input>
-                <input id="editTabWidth" type="number" />
-              </iron-input>
+              <md-outlined-text-field
+                autocomplete=""
+                class="showBlueFocusBorder"
+                id="editTabWidth"
+                inputmode=""
+                step="1"
+                type="number"
+              >
+              </md-outlined-text-field>
             </span>
           </section>
           <section>
             <label class="title" for="editColumns"> Columns </label>
             <span class="value">
-              <iron-input>
-                <input id="editColumns" type="number" />
-              </iron-input>
+              <md-outlined-text-field
+                autocomplete=""
+                class="showBlueFocusBorder"
+                id="editColumns"
+                inputmode=""
+                step="1"
+                type="number"
+              >
+              </md-outlined-text-field>
             </span>
           </section>
           <section>
             <label class="title" for="editIndentUnit"> Indent unit </label>
             <span class="value">
-              <iron-input>
-                <input id="editIndentUnit" type="number" />
-              </iron-input>
+              <md-outlined-text-field
+                autocomplete=""
+                class="showBlueFocusBorder"
+                id="editIndentUnit"
+                inputmode=""
+                step="1"
+                type="number"
+              >
+              </md-outlined-text-field>
             </span>
           </section>
           <section>
@@ -139,16 +157,16 @@ suite('gr-edit-preferences tests', () => {
   test('input values match preferences', () => {
     // Rendered with the expected preferences selected.
     const tabWidthInput = valueOf('Tab width', 'editPreferences')
-      .firstElementChild as IronInputElement;
-    assert.equal(tabWidthInput.bindValue, `${editPreferences.tab_size}`);
+      .firstElementChild as MdOutlinedTextField;
+    assert.equal(tabWidthInput.value, `${editPreferences.tab_size}`);
 
     const columnsInput = valueOf('Columns', 'editPreferences')
-      .firstElementChild as IronInputElement;
-    assert.equal(columnsInput.bindValue, `${editPreferences.line_length}`);
+      .firstElementChild as MdOutlinedTextField;
+    assert.equal(columnsInput.value, `${editPreferences.line_length}`);
 
     const indentInput = valueOf('Indent unit', 'editPreferences')
-      .firstElementChild as IronInputElement;
-    assert.equal(indentInput.bindValue, `${editPreferences.indent_unit}`);
+      .firstElementChild as MdOutlinedTextField;
+    assert.equal(indentInput.value, `${editPreferences.indent_unit}`);
 
     const syntaxInput = valueOf('Syntax highlighting', 'editPreferences')
       .firstElementChild as HTMLInputElement;

@@ -98,14 +98,14 @@ suite('gr-group tests', () => {
                 <h3 class="heading-3">Description</h3>
                 <fieldset>
                   <div>
-                    <gr-suggestion-textarea
+                    <gr-autogrow-textarea
                       autocomplete="on"
-                      class="description monospace"
+                      class="description"
                       disabled=""
-                      monospace=""
-                      rows="4"
+                      id="descriptionInput"
+                      placeholder="<Insert group description here>"
                     >
-                    </gr-suggestion-textarea>
+                    </gr-autogrow-textarea>
                   </div>
                   <span class="value">
                     <gr-button

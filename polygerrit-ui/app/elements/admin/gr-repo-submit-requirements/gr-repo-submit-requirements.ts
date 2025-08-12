@@ -21,7 +21,7 @@ import {
   RepoDetailView,
   RepoViewState,
 } from '../../../models/views/repo';
-import '@polymer/iron-input/iron-input';
+import '@material/web/textfield/outlined-text-field';
 import {resolve} from '../../../models/dependency';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {createChangeUrl} from '../../../models/views/change';
@@ -30,6 +30,7 @@ import {
   SubmitRequirementInput,
 } from '../../../api/rest-api';
 import {GrButton} from '../../shared/gr-button/gr-button';
+import {materialStyles} from '../../../styles/gr-material-styles';
 
 @customElement('gr-repo-submit-requirements')
 export class GrRepoSubmitRequirements extends LitElement {
@@ -87,6 +88,7 @@ export class GrRepoSubmitRequirements extends LitElement {
 
   static override get styles() {
     return [
+      materialStyles,
       sharedStyles,
       tableStyles,
       grFormStyles,
@@ -132,6 +134,17 @@ export class GrRepoSubmitRequirements extends LitElement {
           min-height: 100px;
           resize: vertical;
           box-sizing: border-box;
+          background-color: var(--view-background-color);
+          color: var(--primary-text-color);
+        }
+        textarea:focus {
+          outline: none;
+          box-shadow: none;
+          border: 2px solid var(--input-focus-border-color);
+          margin: -1px;
+        }
+        textarea::placeholder {
+          color: var(--deemphasized-text-color);
         }
         gr-dialog {
           width: 36em;
@@ -140,6 +153,9 @@ export class GrRepoSubmitRequirements extends LitElement {
           width: 100%;
           display: flex;
           justify-content: flex-end;
+        }
+        md-outlined-text-field {
+          width: 20em;
         }
       `,
     ];
@@ -409,22 +425,20 @@ export class GrRepoSubmitRequirements extends LitElement {
                   </div>
                   <div class="value-flex">
                     <span class="value">
-                      <iron-input
-                        .bindValue=${this.newRequirement.name}
-                        @bind-value-changed=${(e: Event) => {
+                      <md-outlined-text-field
+                        id="name"
+                        class="showBlueFocusBorder"
+                        ?required=${true}
+                        ?disabled=${this.isEditing}
+                        .value=${this.newRequirement.name ?? ''}
+                        @input=${(e: InputEvent) => {
                           this.newRequirement = {
                             ...this.newRequirement,
-                            name: (e as CustomEvent).detail.value,
+                            name: (e.target as HTMLInputElement).value,
                           };
                         }}
                       >
-                        <input
-                          id="name"
-                          type="text"
-                          required
-                          ?disabled=${this.isEditing}
-                        />
-                      </iron-input>
+                      </md-outlined-text-field>
                     </span>
                   </div>
                 </section>
@@ -455,23 +469,22 @@ export class GrRepoSubmitRequirements extends LitElement {
                   </div>
                   <div class="value-flex">
                     <span class="value">
-                      <iron-input
-                        .bindValue=${this.newRequirement
-                          .applicability_expression}
-                        @bind-value-changed=${(e: Event) => {
+                      <md-outlined-text-field
+                        id="applicability"
+                        class="showBlueFocusBorder"
+                        placeholder="Optional"
+                        .value=${this.newRequirement.applicability_expression ??
+                        ''}
+                        @input=${(e: InputEvent) => {
                           this.newRequirement = {
                             ...this.newRequirement,
-                            applicability_expression: (e as CustomEvent).detail
-                              .value,
+                            applicability_expression: (
+                              e.target as HTMLInputElement
+                            ).value,
                           };
                         }}
                       >
-                        <input
-                          id="applicability"
-                          type="text"
-                          placeholder="Optional"
-                        />
-                      </iron-input>
+                      </md-outlined-text-field>
                     </span>
                   </div>
                 </section>
@@ -481,19 +494,22 @@ export class GrRepoSubmitRequirements extends LitElement {
                   </div>
                   <div class="value-flex">
                     <span class="value">
-                      <iron-input
-                        .bindValue=${this.newRequirement
-                          .submittability_expression}
-                        @bind-value-changed=${(e: Event) => {
+                      <md-outlined-text-field
+                        id="submittability"
+                        class="showBlueFocusBorder"
+                        ?required=${true}
+                        .value=${this.newRequirement
+                          .submittability_expression ?? ''}
+                        @input=${(e: InputEvent) => {
                           this.newRequirement = {
                             ...this.newRequirement,
-                            submittability_expression: (e as CustomEvent).detail
-                              .value,
+                            submittability_expression: (
+                              e.target as HTMLInputElement
+                            ).value,
                           };
                         }}
                       >
-                        <input id="submittability" type="text" required />
-                      </iron-input>
+                      </md-outlined-text-field>
                     </span>
                   </div>
                 </section>
@@ -503,22 +519,20 @@ export class GrRepoSubmitRequirements extends LitElement {
                   </div>
                   <div class="value-flex">
                     <span class="value">
-                      <iron-input
-                        .bindValue=${this.newRequirement.override_expression}
-                        @bind-value-changed=${(e: Event) => {
+                      <md-outlined-text-field
+                        id="override"
+                        class="showBlueFocusBorder"
+                        placeholder="Optional"
+                        .value=${this.newRequirement.override_expression ?? ''}
+                        @input=${(e: InputEvent) => {
                           this.newRequirement = {
                             ...this.newRequirement,
-                            override_expression: (e as CustomEvent).detail
+                            override_expression: (e.target as HTMLInputElement)
                               .value,
                           };
                         }}
                       >
-                        <input
-                          id="override"
-                          type="text"
-                          placeholder="Optional"
-                        />
-                      </iron-input>
+                      </md-outlined-text-field>
                     </span>
                   </div>
                 </section>

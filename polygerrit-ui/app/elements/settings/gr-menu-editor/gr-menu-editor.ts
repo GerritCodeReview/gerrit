@@ -3,14 +3,12 @@
  * Copyright 2016 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '@polymer/iron-input/iron-input';
 import '../../shared/gr-button/gr-button';
 import {PreferencesInfo, TopMenuItemInfo} from '../../../types/common';
 import {css, html, LitElement} from 'lit';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {grFormStyles} from '../../../styles/gr-form-styles';
 import {customElement, state} from 'lit/decorators.js';
-import {BindValueChangeEvent} from '../../../types/events';
 import {subscribe} from '../../lit/subscription-controller';
 import {deepEqual} from '../../../utils/deep-util';
 import {createDefaultPreferences} from '../../../constants/constants';
@@ -19,6 +17,8 @@ import {classMap} from 'lit/directives/class-map.js';
 import {menuPageStyles} from '../../../styles/gr-menu-page-styles';
 import {userModelToken} from '../../../models/user/user-model';
 import {resolve} from '../../../models/dependency';
+import '@material/web/textfield/outlined-text-field';
+import {materialStyles} from '../../../styles/gr-material-styles';
 
 @customElement('gr-menu-editor')
 export class GrMenuEditor extends LitElement {
@@ -53,6 +53,7 @@ export class GrMenuEditor extends LitElement {
 
   static override get styles() {
     return [
+      materialStyles,
       grFormStyles,
       sharedStyles,
       fontStyles,
@@ -173,32 +174,30 @@ export class GrMenuEditor extends LitElement {
     return html`
       <tr>
         <th>
-          <iron-input
-            .bindValue=${this.newName}
-            @bind-value-changed=${(e: BindValueChangeEvent) => {
-              this.newName = e.detail.value ?? '';
+          <md-outlined-text-field
+            class="showBlueFocusBorder"
+            placeholder="New Title"
+            .value=${this.newName ?? ''}
+            @input=${(e: InputEvent) => {
+              const target = e.target as HTMLInputElement;
+              this.newName = target.value;
             }}
+            @keydown=${this.handleInputKeydown}
           >
-            <input
-              is="iron-input"
-              placeholder="New Title"
-              @keydown=${this.handleInputKeydown}
-            />
-          </iron-input>
+          </md-outlined-text-field>
         </th>
         <th>
-          <iron-input
-            .bindValue=${this.newUrl}
-            @bind-value-changed=${(e: BindValueChangeEvent) => {
-              this.newUrl = e.detail.value ?? '';
+          <md-outlined-text-field
+            class="newUrlInput showBlueFocusBorder"
+            placeholder="New URL"
+            .value=${this.newUrl ?? ''}
+            @input=${(e: InputEvent) => {
+              const target = e.target as HTMLInputElement;
+              this.newUrl = target.value;
             }}
+            @keydown=${this.handleInputKeydown}
           >
-            <input
-              class="newUrlInput"
-              placeholder="New URL"
-              @keydown=${this.handleInputKeydown}
-            />
-          </iron-input>
+          </md-outlined-text-field>
         </th>
         <th>
           <input

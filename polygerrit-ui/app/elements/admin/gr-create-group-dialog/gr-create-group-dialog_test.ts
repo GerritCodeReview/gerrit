@@ -12,11 +12,11 @@ import {
   queryAndAssert,
   stubRestApi,
 } from '../../../test/test-utils';
-import {IronInputElement} from '@polymer/iron-input';
 import {GroupId} from '../../../types/common';
 import {assert, fixture, html} from '@open-wc/testing';
 import {testResolver} from '../../../test/common-test-setup';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
+import {MdOutlinedTextField} from '@material/web/textfield/outlined-text-field';
 
 suite('gr-create-group-dialog tests', () => {
   let element: GrCreateGroupDialog;
@@ -37,9 +37,13 @@ suite('gr-create-group-dialog tests', () => {
           <div id="form">
             <section>
               <span class="title"> Group name </span>
-              <iron-input>
-                <input />
-              </iron-input>
+              <md-outlined-text-field
+                autocomplete=""
+                class="showBlueFocusBorder"
+                inputmode=""
+                type="text"
+              >
+              </md-outlined-text-field>
             </section>
           </div>
         </div>
@@ -53,8 +57,11 @@ suite('gr-create-group-dialog tests', () => {
       promise.resolve();
     });
 
-    const inputEl = queryAndAssert<IronInputElement>(element, 'iron-input');
-    inputEl.bindValue = GROUP_NAME;
+    const inputEl = queryAndAssert<MdOutlinedTextField>(
+      element,
+      'md-outlined-text-field'
+    );
+    inputEl.value = GROUP_NAME;
     inputEl.dispatchEvent(new Event('input', {bubbles: true, composed: true}));
 
     await promise;

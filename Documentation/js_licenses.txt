@@ -813,13 +813,11 @@ Polymer-2015
 ** package.json
 ** roboto.js
 ** update-fonts.sh
-* @polymer/iron-a11y-announcer
 * @polymer/iron-a11y-keys-behavior
 * @polymer/iron-behaviors
 * @polymer/iron-checked-element-behavior
 * @polymer/iron-flex-layout
 * @polymer/iron-form-element-behavior
-* @polymer/iron-input
 * @polymer/iron-meta
 * @polymer/iron-validatable-behavior
 * @polymer/paper-behaviors

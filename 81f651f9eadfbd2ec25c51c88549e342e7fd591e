@@ -1,0 +1,235 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b2e68ca1_458d4594",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-08-12T19:38:34Z",
+      "side": 1,
+      "message": "Change looks good!",
+      "revId": "81f651f9eadfbd2ec25c51c88549e342e7fd591e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5c8763a9_dec086bd",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 526,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-08-12T19:38:34Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be false if capabilities is undefined? Why not just !!capabilities?.deleteGroup",
+      "range": {
+        "startLine": 526,
+        "startChar": 10,
+        "endLine": 526,
+        "endChar": 42
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "ad61d06d_595c6251",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.ts",
+              "range": {
+                "startLine": 525,
+                "startChar": 0,
+                "endLine": 528,
+                "endChar": 0
+              },
+              "replacement": "        this.canDeleteCapability \u003d !!capabilities?.deleteGroup;\n"
+            }
+          ]
+        }
+      ],
+      "revId": "81f651f9eadfbd2ec25c51c88549e342e7fd591e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "639d7048_f413281e",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-08-12T19:38:34Z",
+      "side": 1,
+      "message": "I would prefer to use when when() instead of css",
+      "range": {
+        "startLine": 346,
+        "startChar": 7,
+        "endLine": 350,
+        "endChar": 15
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "7bc9279e_47384665",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/admin/gr-group/gr-group.ts",
+              "range": {
+                "startLine": 27,
+                "startChar": 0,
+                "endLine": 28,
+                "endChar": 0
+              },
+              "replacement": "import {customElement, property, query, state} from \u0027lit/decorators\u0027;\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/admin/gr-group/gr-group.ts",
+              "range": {
+                "startLine": 36,
+                "startChar": 0,
+                "endLine": 36,
+                "endChar": 0
+              },
+              "replacement": "import {when} from \u0027lit/directives/when\u0027;\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/admin/gr-group/gr-group.ts",
+              "range": {
+                "startLine": 148,
+                "startChar": 0,
+                "endLine": 152,
+                "endChar": 0
+              },
+              "replacement": "          border: 2px solid var(--input-focus-border-color)\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/admin/gr-group/gr-group.ts",
+              "range": {
+                "startLine": 343,
+                "startChar": 0,
+                "endLine": 375,
+                "endChar": 0
+              },
+              "replacement": "    return when(\n      !this.computeGroupDisabled() \u0026\u0026 this.canDelete \u0026\u0026 this.enableDeleteGroup,\n      () \u003d\u003e html`\n        \u003cdiv id\u003d\"deleteGroupContainer\"\u003e\n          \u003ch3\n            id\u003d\"deleteGroup\"\n            class\u003d\"heading-3 ${this.computeHeaderClass(false)}\"\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/admin/gr-group/gr-group.ts",
+              "range": {
+                "startLine": 376,
+                "startChar": 0,
+                "endLine": 383,
+                "endChar": 0
+              },
+              "replacement": "            Delete Group\n          \u003c/h3\u003e\n          \u003cfieldset\u003e\n            \u003cspan class\u003d\"value\"\u003e\n              \u003cgr-button\n                @click\u003d${() \u003d\u003e {\n                  this.deleteGroupModal?.showModal();\n                }}\n              \u003e\n                Delete Group\n              \u003c/gr-button\u003e\n            \u003c/span\u003e\n          \u003c/fieldset\u003e\n          \u003cdialog id\u003d\"deleteGroupModal\"\u003e\n            \u003cgr-dialog\n              id\u003d\"deleteGroupDialog\"\n              confirm-label\u003d\"Delete\"\n              @confirm\u003d${this.handleDeleteGroup}\n              @cancel\u003d${() \u003d\u003e this.deleteGroupModal?.close()}\n            \u003e\n              \u003cdiv class\u003d\"header\" slot\u003d\"header\"\u003e\n                Are you really sure you want to delete the group?\n              \u003c/div\u003e\n            \u003c/gr-dialog\u003e\n          \u003c/dialog\u003e\n        \u003c/div\u003e\n      `\n    );\n"
+            }
+          ]
+        }
+      ],
+      "revId": "81f651f9eadfbd2ec25c51c88549e342e7fd591e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "569daeed_e4ce5d87",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-08-12T19:38:34Z",
+      "side": 1,
+      "message": "Maybe add name `Delete group \"${this.originalName}\"?`",
+      "range": {
+        "startLine": 376,
+        "startChar": 12,
+        "endLine": 378,
+        "endChar": 18
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "bb6e0488_37f10d43",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/admin/gr-group/gr-group.ts",
+              "range": {
+                "startLine": 377,
+                "startChar": 0,
+                "endLine": 378,
+                "endChar": 0
+              },
+              "replacement": "              Are you really sure you want to delete the group\n              \"${this.originalName}\"?\n"
+            }
+          ]
+        }
+      ],
+      "revId": "81f651f9eadfbd2ec25c51c88549e342e7fd591e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2c873f9a_6bd87b94",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 508,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-08-12T19:38:34Z",
+      "side": 1,
+      "message": "Maybe like this:\n```\nthis.getNavigation().setUrl(\n        createAdminUrl({adminView: AdminChildView.GROUPS})\n      )\n```",
+      "range": {
+        "startLine": 508,
+        "startChar": 4,
+        "endLine": 508,
+        "endChar": 64
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "e472eacd_cb8031f0",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/admin/gr-group/gr-group.ts",
+              "range": {
+                "startLine": 33,
+                "startChar": 0,
+                "endLine": 34,
+                "endChar": 0
+              },
+              "replacement": "import {createAdminUrl, AdminChildView} from \u0027../../../utils/url-util\u0027;\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/admin/gr-group/gr-group.ts",
+              "range": {
+                "startLine": 508,
+                "startChar": 0,
+                "endLine": 509,
+                "endChar": 0
+              },
+              "replacement": "    this.getNavigation().setUrl(\n      createAdminUrl({adminView: AdminChildView.GROUPS})\n    );\n"
+            }
+          ]
+        }
+      ],
+      "revId": "81f651f9eadfbd2ec25c51c88549e342e7fd591e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

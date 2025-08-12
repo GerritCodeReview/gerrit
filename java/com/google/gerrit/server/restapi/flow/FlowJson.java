@@ -28,13 +28,14 @@ import com.google.gerrit.extensions.common.FlowExpressionInfo;
 import com.google.gerrit.extensions.common.FlowInfo;
 import com.google.gerrit.extensions.common.FlowInput;
 import com.google.gerrit.extensions.common.FlowStageInfo;
-import com.google.gerrit.extensions.common.FlowStageStatus;
+import com.google.gerrit.extensions.common.FlowStageState;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.server.flow.Flow;
 import com.google.gerrit.server.flow.FlowAction;
 import com.google.gerrit.server.flow.FlowCreation;
 import com.google.gerrit.server.flow.FlowExpression;
 import com.google.gerrit.server.flow.FlowStage;
+import com.google.gerrit.server.flow.FlowStageEvaluationStatus;
 
 /**
  * Produces flow-related entities, like {@link FlowInfo}s, which are serialized to JSON afterwards.
@@ -63,8 +64,8 @@ public class FlowJson {
 
     FlowStageInfo flowStageInfo = new FlowStageInfo();
     flowStageInfo.expression = format(flowStage.expression());
-    flowStageInfo.status = mapStatus(flowStage.status());
-    flowStageInfo.message = flowStage.message().orElse(null);
+    flowStageInfo.state = mapState(flowStage.status().state());
+    flowStageInfo.message = flowStage.status().message().orElse(null);
     return flowStageInfo;
   }
 
@@ -89,18 +90,20 @@ public class FlowJson {
   }
 
   /**
-   * Maps the given {@link com.google.gerrit.server.flow.FlowStage.Status} to a {@link
-   * FlowStageStatus}.
+   * Maps the given {@link com.google.gerrit.server.flow.FlowStageEvaluationStatus.State} to a
+   * {@link FlowStageState}.
    */
   @VisibleForTesting
-  public static FlowStageStatus mapStatus(FlowStage.Status flowStageStatus) {
-    requireNonNull(flowStageStatus, "flowStageStatus");
+  public static FlowStageState mapState(FlowStageEvaluationStatus.State flowStageState) {
+    requireNonNull(flowStageState, "flowStageState");
 
-    return switch (flowStageStatus) {
-      case DONE -> FlowStageStatus.DONE;
-      case PENDING -> FlowStageStatus.PENDING;
-      case FAILED -> FlowStageStatus.FAILED;
-      case TERMINATED -> FlowStageStatus.TERMINATED;
+    return switch (flowStageState) {
+      case UNKNOWN ->
+          throw new IllegalStateException("The flow stage state has not been initialized");
+      case DONE -> FlowStageState.DONE;
+      case PENDING -> FlowStageState.PENDING;
+      case FAILED -> FlowStageState.FAILED;
+      case TERMINATED -> FlowStageState.TERMINATED;
     };
   }
 

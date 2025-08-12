@@ -15,7 +15,6 @@
 package com.google.gerrit.server.flow;
 
 import com.google.auto.value.AutoValue;
-import java.util.Optional;
 
 /**
  * A stage in a flow, consisting out of a flow expression that defines an action that should be
@@ -25,54 +24,26 @@ import java.util.Optional;
  */
 @AutoValue
 public abstract class FlowStage {
-  /** Status of a stage in a {@link Flow}; */
-  public enum Status {
-    /** The condition of the stage is not satisfied yet or the action has not been executed yet. */
-    PENDING,
-
-    /** The condition of the stage is satisfied and the action has been executed. */
-    DONE,
-
-    /** The stage has a non-recoverable error, e.g. performing the action has failed. */
-    FAILED,
-
-    /**
-     * The stage has been terminated without having been executed, e.g. because a previous stage
-     * failed or because it wasn't done within a timeout.
-     */
-    TERMINATED;
-  }
-
   /** The expression defining the condition and the action of this stage. */
   public abstract FlowExpression expression();
 
-  /** The status for this stage. */
-  public abstract Status status();
-
-  /** A message for this stage, e.g. to inform about execution errors. */
-  public abstract Optional<String> message();
+  /** The evaluation status for this stage. */
+  public abstract FlowStageEvaluationStatus status();
 
   /** Creates a {@link Builder} for this flow stage instance. */
   public abstract Builder toBuilder();
 
   public static FlowStage.Builder builder() {
-    return new AutoValue_FlowStage.Builder();
+    return new AutoValue_FlowStage.Builder().status(FlowStageEvaluationStatus.notEvaledStatus());
   }
 
   @AutoValue.Builder
   public abstract static class Builder {
-
     /** Sets the expression defining the condition and the action of this stage. */
     public abstract Builder expression(FlowExpression expression);
 
-    /** Sets the status for this stage. */
-    public abstract Builder status(Status status);
-
-    /** Set a message for this flow stage, e.g. to inform about execution errors. */
-    public abstract Builder message(String message);
-
-    /** Set a message for this flow stage, e.g. to inform about execution errors. */
-    public abstract Builder message(Optional<String> message);
+    /** Sets the evaluation status for this stage. */
+    public abstract Builder status(FlowStageEvaluationStatus status);
 
     /** Builds the {@link FlowStage}. */
     public abstract FlowStage build();

@@ -21,7 +21,7 @@ import com.google.common.truth.ComparableSubject;
 import com.google.common.truth.FailureMetadata;
 import com.google.common.truth.Subject;
 import com.google.gerrit.extensions.common.FlowStageInfo;
-import com.google.gerrit.extensions.common.FlowStageStatus;
+import com.google.gerrit.extensions.common.FlowStageState;
 
 /** A Truth subject for {@link FlowStageInfo} instances. */
 public class FlowStageInfoSubject extends Subject {
@@ -44,8 +44,8 @@ public class FlowStageInfoSubject extends Subject {
     return check("expression()").about(flowExpressions()).that(flowStageInfo().expression);
   }
 
-  public ComparableSubject<FlowStageStatus> hasStatusThat() {
-    return check("status()").that(flowStageInfo().status);
+  public ComparableSubject<FlowStageState> hasStateThat() {
+    return check("state()").that(flowStageInfo().state);
   }
 
   private FlowStageInfo flowStageInfo() {

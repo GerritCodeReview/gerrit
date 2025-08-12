@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.testsuite.project;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.project.ProjectConfig;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevCommit;
 
 /**
@@ -93,5 +94,13 @@ public interface ProjectOperations {
      * @return a builder to invalidate the project
      */
     TestProjectInvalidation.Builder forInvalidation();
+
+    /**
+     * Starts the fluent chain for querying a commit. Please see the methods of {@link
+     * PerCommitOperations} for details on possible operations.
+     *
+     * @return an aggregation of operations on a specific commit
+     */
+    PerCommitOperations commit(ObjectId commitId);
   }
 }

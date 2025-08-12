@@ -50,6 +50,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
@@ -65,6 +66,7 @@ public class ProjectOperationsImpl implements ProjectOperations {
   private final ProjectCache projectCache;
   private final ProjectConfig.Factory projectConfigFactory;
   private final ProjectCreator projectCreator;
+  private final PerCommitOperationsImpl.Factory perCommitOperationsFactory;
 
   @Inject
   ProjectOperationsImpl(
@@ -73,13 +75,15 @@ public class ProjectOperationsImpl implements ProjectOperations {
       MetaDataUpdate.Server metaDataUpdateFactory,
       ProjectCache projectCache,
       ProjectConfig.Factory projectConfigFactory,
-      ProjectCreator projectCreator) {
+      ProjectCreator projectCreator,
+      PerCommitOperationsImpl.Factory perCommitOperationsFactory) {
     this.allProjectsName = allProjectsName;
     this.repoManager = repoManager;
     this.metaDataUpdateFactory = metaDataUpdateFactory;
     this.projectCache = projectCache;
     this.projectConfigFactory = projectConfigFactory;
     this.projectCreator = projectCreator;
+    this.perCommitOperationsFactory = perCommitOperationsFactory;
   }
 
   @Override
@@ -338,6 +342,11 @@ public class ProjectOperationsImpl implements ProjectOperations {
           }
         }
       }
+    }
+
+    @Override
+    public PerCommitOperations commit(ObjectId commitId) {
+      return perCommitOperationsFactory.create(nameKey, commitId);
     }
   }
 

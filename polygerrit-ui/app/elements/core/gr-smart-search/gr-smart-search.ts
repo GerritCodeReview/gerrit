@@ -14,7 +14,7 @@ import {
 import {AutocompleteSuggestion} from '../../shared/gr-autocomplete/gr-autocomplete';
 import {getAppContext} from '../../../services/app-context';
 import {html, LitElement} from 'lit';
-import {customElement, state} from 'lit/decorators.js';
+import {customElement, property, state} from 'lit/decorators.js';
 import {subscribe} from '../../lit/subscription-controller';
 import {resolve} from '../../../models/dependency';
 import {configModelToken} from '../../../models/config/config-model';
@@ -39,6 +39,9 @@ declare global {
 
 @customElement('gr-smart-search')
 export class GrSmartSearch extends LitElement {
+  @property({type: Number})
+  verticalOffset = 31;
+
   @state()
   searchQuery = '';
 
@@ -81,6 +84,7 @@ export class GrSmartSearch extends LitElement {
         .projectSuggestions=${projectSuggestions}
         .groupSuggestions=${groupSuggestions}
         .accountSuggestions=${accountSuggestions}
+        .verticalOffset=${this.verticalOffset}
         @handle-search=${(e: CustomEvent<SearchBarHandleSearchDetail>) => {
           this.handleSearch(e);
         }}

@@ -217,6 +217,7 @@ export class GrAutocomplete extends LitElement {
       sharedStyles,
       css`
         md-outlined-text-field {
+          height: var(--gr-autocomplete-height);
           width: 100%;
           border-radius: var(
             --gr-autocomplete-text-field-border-radius,

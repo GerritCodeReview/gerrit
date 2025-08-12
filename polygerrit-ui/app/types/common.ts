@@ -454,7 +454,7 @@ export interface GroupInput {
   name?: GroupName;
   uuid?: string;
   description?: string;
-  visible_to_all?: string;
+  visible_to_all?: boolean;
   owner_id?: string;
   members?: string[];
 }

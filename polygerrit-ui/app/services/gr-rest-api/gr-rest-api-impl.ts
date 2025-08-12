@@ -410,7 +410,10 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     });
   }
 
-  createGroup(config: GroupInput & {name: string}): Promise<Response> {
+  createGroup(config: GroupInput): Promise<Response> {
+    if (!config.name) {
+      throw new Error('Group name is required');
+    }
     const encodeName = encodeURIComponent(config.name);
     return this._restApiHelper.fetch({
       fetchOptions: getFetchOptions({

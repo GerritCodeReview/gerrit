@@ -35,14 +35,18 @@ suite('gr-create-repo-dialog tests', () => {
               <div class="title-flex">
                 <span class="title"> Repository Name </span>
               </div>
-              <md-outlined-text-field
-                autocomplete="on"
-                class="showBlueFocusBorder"
-                id="repoNameInput"
-                inputmode=""
-                type="text"
-              >
-              </md-outlined-text-field>
+              <div class="value-flex">
+                <span class="value">
+                  <md-outlined-text-field
+                    autocomplete="on"
+                    class="showBlueFocusBorder"
+                    id="repoNameInput"
+                    inputmode=""
+                    type="text"
+                  >
+                  </md-outlined-text-field>
+                </span>
+              </div>
             </section>
             <section>
               <div class="title-flex">
@@ -74,17 +78,19 @@ suite('gr-create-repo-dialog tests', () => {
               <div class="title-flex">
                 <span class="title"> Default Branch </span>
               </div>
-              <span class="value">
-                <md-outlined-text-field
-                  autocomplete=""
-                  class="showBlueFocusBorder"
-                  id="defaultBranchNameInput"
-                  inputmode=""
-                  placeholder="Optional, defaults to 'master'"
-                  type="text"
-                >
-                </md-outlined-text-field>
-              </span>
+              <div class="value-flex">
+                <span class="value">
+                  <md-outlined-text-field
+                    autocomplete=""
+                    class="showBlueFocusBorder"
+                    id="defaultBranchNameInput"
+                    inputmode=""
+                    placeholder="Optional, defaults to 'master'"
+                    type="text"
+                  >
+                  </md-outlined-text-field>
+                </span>
+              </div>
             </section>
             <section>
               <div class="title-flex">
@@ -98,9 +104,12 @@ suite('gr-create-repo-dialog tests', () => {
                   </gr-tooltip-content>
                 </span>
               </div>
-              <span class="value">
-                <gr-autocomplete id="rightsInheritFromInput"> </gr-autocomplete>
-              </span>
+              <div class="value-flex">
+                <span class="value">
+                  <gr-autocomplete id="rightsInheritFromInput">
+                  </gr-autocomplete>
+                </span>
+              </div>
             </section>
             <section>
               <div class="title-flex">
@@ -114,9 +123,11 @@ suite('gr-create-repo-dialog tests', () => {
                   </gr-tooltip-content>
                 </span>
               </div>
-              <span class="value">
-                <gr-autocomplete id="ownerInput"> </gr-autocomplete>
-              </span>
+              <div class="value-flex">
+                <span class="value">
+                  <gr-autocomplete id="ownerInput"> </gr-autocomplete>
+                </span>
+              </div>
             </section>
             <section>
               <div class="title-flex">

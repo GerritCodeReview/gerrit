@@ -46,6 +46,30 @@
       },
       "revId": "8104e8ea18700b9bf87def5f8f151ac8792e169d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a19968b8_62e69066",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/TagsIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-08-12T16:21:33Z",
+      "side": 1,
+      "message": "@ekempin@google.com you\u0027re totally right... unfortunately it looks like we can\u0027t use refControlCreate, i\u0027ll need to revert my change in 3.10 and abandon this.\n\nThanks for the comment.",
+      "parentUuid": "8cbf5b85_87a4514d",
+      "range": {
+        "startLine": 382,
+        "startChar": 4,
+        "endLine": 382,
+        "endChar": 26
+      },
+      "revId": "8104e8ea18700b9bf87def5f8f151ac8792e169d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

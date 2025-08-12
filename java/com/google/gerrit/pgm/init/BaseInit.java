@@ -24,7 +24,6 @@ import com.google.gerrit.common.Die;
 import com.google.gerrit.common.JarUtil;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.exceptions.StorageException;
-import com.google.gerrit.index.IndexType;
 import com.google.gerrit.metrics.DisabledMetricMaker;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.pgm.init.api.ConsoleUI;
@@ -32,16 +31,12 @@ import com.google.gerrit.pgm.init.api.InitFlags;
 import com.google.gerrit.pgm.init.api.InstallAllPlugins;
 import com.google.gerrit.pgm.init.api.InstallPlugins;
 import com.google.gerrit.pgm.init.api.LibraryDownload;
-import com.google.gerrit.pgm.init.index.IndexManagerOnInit;
-import com.google.gerrit.pgm.init.index.IndexModuleOnInit;
-import com.google.gerrit.pgm.init.index.lucene.LuceneIndexModuleOnInit;
 import com.google.gerrit.pgm.util.SiteProgram;
 import com.google.gerrit.server.config.GerritOptions;
 import com.google.gerrit.server.config.GerritServerConfigModule;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.plugins.JarScanner;
 import com.google.gerrit.server.schema.NoteDbSchemaUpdater;
 import com.google.gerrit.server.schema.UpdateUI;
@@ -59,7 +54,6 @@ import com.google.inject.spi.Message;
 import com.google.inject.util.Providers;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -116,22 +110,16 @@ public class BaseInit extends SiteProgram {
       init.flags.deleteOnFailure = false;
 
       Injector sysInjector = createSysInjector(init);
-      IndexManagerOnInit indexManager = sysInjector.getInstance(IndexManagerOnInit.class);
+      run = createSiteRun(init);
       try {
-        indexManager.start();
-        run = createSiteRun(init);
-        try {
-          run.upgradeSchema();
-        } catch (StorageException e) {
-          String msg = "Couldn't upgrade schema. Expected if slave and read-only database";
-          System.err.println(msg);
-          logger.atSevere().withCause(e).log("%s", msg);
-        }
-
-        init.initializer.postRun(sysInjector);
-      } finally {
-        indexManager.stop();
+        run.upgradeSchema();
+      } catch (StorageException e) {
+        String msg = "Couldn't upgrade schema. Expected if slave and read-only database";
+        System.err.println(msg);
+        logger.atSevere().withCause(e).log("%s", msg);
       }
+
+      init.initializer.postRun(sysInjector);
     } catch (Exception | Error failure) {
       if (init.flags.deleteOnFailure) {
         recursiveDelete(getSitePath());
@@ -416,26 +404,6 @@ public class BaseInit extends SiteProgram {
             }
           });
       Injector dbInjector = createDbInjector();
-
-      IndexType indexType = IndexModule.getIndexType(dbInjector);
-      if (indexType.isLucene()) {
-        modules.add(new LuceneIndexModuleOnInit());
-      } else if (indexType.isFake()) {
-        try {
-          Class<?> clazz = Class.forName("com.google.gerrit.index.testing.FakeIndexModuleOnInit");
-          Module indexOnInitModule = (Module) clazz.getDeclaredConstructor().newInstance();
-          modules.add(indexOnInitModule);
-        } catch (InstantiationException
-            | IllegalAccessException
-            | ClassNotFoundException
-            | NoSuchMethodException
-            | InvocationTargetException e) {
-          throw new IllegalStateException("unable to create fake index", e);
-        }
-        modules.add(new IndexModuleOnInit());
-      } else {
-        throw new IllegalStateException("unsupported index.type = " + indexType);
-      }
       sysInjector = dbInjector.createChildInjector(modules);
     }
     return sysInjector;

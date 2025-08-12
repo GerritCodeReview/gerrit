@@ -78,6 +78,8 @@ export class GrAiPromptDialog extends LitElement {
 
   @state() private promptContent = '';
 
+  @state() private promptSize = '';
+
   private readonly getChangeModel = resolve(this, changeModelToken);
 
   private readonly restApiService = getAppContext().restApiService;
@@ -170,6 +172,14 @@ export class GrAiPromptDialog extends LitElement {
           justify-content: space-between;
           align-items: center;
         }
+        .actions {
+          display: flex;
+          align-items: center;
+          gap: var(--spacing-l);
+        }
+        .size {
+          color: var(--deactivated-text-color);
+        }
         .context-selector {
           display: flex;
           align-items: center;
@@ -246,10 +256,13 @@ export class GrAiPromptDialog extends LitElement {
                     You can also use it for an AI Agent as context (a reference
                     to a git change).
                   </div>
-                  <gr-button @click=${this.handleCopyPatch}>
-                    <gr-icon icon="content_copy" small></gr-icon>
-                    Copy Prompt
-                  </gr-button>
+                  <div class="actions">
+                    <div class="size">${this.promptSize}</div>
+                    <gr-button @click=${this.handleCopyPatch}>
+                      <gr-icon icon="content_copy" small></gr-icon>
+                      Copy Prompt
+                    </gr-button>
+                  </div>
                 </div>`,
               () => html`
                 <div class="info-text">
@@ -323,6 +336,7 @@ export class GrAiPromptDialog extends LitElement {
   private updatePromptContent() {
     if (!this.patchContent) {
       this.promptContent = '';
+      this.promptSize = '';
       return;
     }
     const template = PROMPT_TEMPLATES[this.selectedTemplate];
@@ -330,6 +344,20 @@ export class GrAiPromptDialog extends LitElement {
       '{{patch}}',
       this.patchContent
     );
+    // Inserts a space before each capital letter to handle CamelCase
+    const textWithSpaces = this.promptContent.replace(/([A-Z])/g, ' $1');
+
+    // Splits by whitespace, symbols, and now slashes
+    const size = textWithSpaces
+      .split(/["\s.(){}[\]\\/-]+/)
+      .filter(Boolean).length;
+    if (size === 0) {
+      this.promptSize = '';
+    } else if (size < 1000) {
+      this.promptSize = `${size} words`;
+    } else {
+      this.promptSize = `${(size / 1000).toFixed(1)}k words`;
+    }
   }
 
   private async handleCopyPatch(e: Event) {

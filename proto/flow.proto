@@ -1,0 +1,22 @@
+syntax = "proto2";
+
+package devtools.gerritcodereview.flow;
+
+option java_package = "com.google.gerrit.server.flow.proto";
+option java_multiple_files = true;
+
+message FlowAction {
+  // The name of the action.
+  optional string name = 1;
+  // Parameters for the action.
+  map<string, string> parameters = 2;
+}
+
+message FlowExpression {
+  // The condition which must be satisfied for the action to be triggered.
+  //
+  // Can contain multiple obstacles separated by comma.
+  optional string condition = 1;
+  // The action that should be triggered when the condition is satisfied.
+  optional FlowAction action = 2;
+}

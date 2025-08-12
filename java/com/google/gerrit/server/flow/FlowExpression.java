@@ -15,8 +15,10 @@
 package com.google.gerrit.server.flow;
 
 import com.google.auto.value.AutoValue;
+import com.google.gerrit.common.ConvertibleToProto;
 
 /** Expression defining an action that should be triggered when a condition becomes satisfied. */
+@ConvertibleToProto
 @AutoValue
 public abstract class FlowExpression {
   /**

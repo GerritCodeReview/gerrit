@@ -264,7 +264,8 @@ public class SafeProtoConverterTest {
       Message.Builder res = defaultInstance.toBuilder();
       for (FieldDescriptor f : defaultInstance.getDescriptorForType().getFields()) {
         try {
-          if (f.getType().equals(FieldDescriptor.Type.MESSAGE)) {
+          if (f.getType().equals(FieldDescriptor.Type.MESSAGE)
+              && !f.getMessageType().toProto().getOptions().getMapEntry()) {
             if (f.isRepeated()) {
               res.addRepeatedField(
                   f,

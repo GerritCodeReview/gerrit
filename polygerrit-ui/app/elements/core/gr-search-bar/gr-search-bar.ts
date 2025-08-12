@@ -164,6 +164,9 @@ export class GrSearchBar extends LitElement {
   @property({type: Object})
   accountSuggestions: SuggestionProvider = () => Promise.resolve([]);
 
+  @property({type: Number})
+  verticalOffset = 31;
+
   @state()
   mergeabilityComputationBehavior?: MergeabilityComputationBehavior;
 
@@ -234,7 +237,7 @@ export class GrSearchBar extends LitElement {
           skip-commit-on-item-select
           .threshold=${this.threshold}
           tab-complete
-          .verticalOffset=${30}
+          .verticalOffset=${this.verticalOffset}
           @commit=${(e: AutocompleteCommitEvent) => {
             this.handleInputCommit(e);
           }}

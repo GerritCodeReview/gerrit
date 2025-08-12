@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1fc38f0f_661283de",
+        "filename": "java/com/google/gerrit/extensions/common/testing/FlowStageInfoSubject.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-08-12T12:28:28Z",
+      "side": 1,
+      "message": "nit: rename this to hasStateThat",
+      "range": {
+        "startLine": 47,
+        "startChar": 43,
+        "endLine": 47,
+        "endChar": 56
+      },
+      "revId": "672484ac0efd31a31aed17cf2b6652ce01a63d01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

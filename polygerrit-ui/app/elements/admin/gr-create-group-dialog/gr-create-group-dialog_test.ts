@@ -36,14 +36,37 @@ suite('gr-create-group-dialog tests', () => {
         <div class="gr-form-styles">
           <div id="form">
             <section>
-              <span class="title"> Group name </span>
-              <md-outlined-text-field
-                autocomplete=""
-                class="showBlueFocusBorder"
-                inputmode=""
-                type="text"
-              >
-              </md-outlined-text-field>
+              <div class="title-flex">
+                <span class="title"> Group name </span>
+              </div>
+              <div class="value-flex">
+                <span class="value">
+                  <md-outlined-text-field
+                    autocomplete=""
+                    class="showBlueFocusBorder"
+                    inputmode=""
+                    type="text"
+                  >
+                  </md-outlined-text-field>
+                </span>
+              </div>
+            </section>
+            <section>
+              <div class="title-flex">
+                <span class="title">
+                  Make group visible to all registered users
+                </span>
+              </div>
+              <div class="value-flex">
+                <span class="value">
+                  <gr-select id="visibleToAll">
+                    <select>
+                      <option value="false">False</option>
+                      <option value="true">True</option>
+                    </select>
+                  </gr-select>
+                </span>
+              </div>
             </section>
           </div>
         </div>

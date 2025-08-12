@@ -43,6 +43,7 @@ import java.io.IOException;
 import java.time.Instant;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 
 /**
@@ -82,8 +83,25 @@ public class PerPatchsetOperationsImpl implements PerPatchsetOperations {
 
   @Override
   public TestPatchset get() {
-    PatchSet patchset = changeNotes.getPatchSets().get(patchsetId);
-    return TestPatchset.builder().patchsetId(patchsetId).commitId(patchset.commitId()).build();
+    PatchSet patchSet = changeNotes.getPatchSets().get(patchsetId);
+    RevCommit commit = getCommit(patchSet);
+    return TestPatchset.builder()
+        .patchsetId(patchsetId)
+        .commitId(patchSet.commitId())
+        .commit(commit)
+        .build();
+  }
+
+  private RevCommit getCommit(PatchSet patchSet) {
+    try (Repository repository = repositoryManager.openRepository(changeNotes.getProjectName())) {
+      return repository.parseCommit(patchSet.commitId());
+    } catch (Exception e) {
+      throw new IllegalStateException(
+          String.format(
+              "getting commit of patch set %s of change %s failed",
+              patchSet.id().get(), patchSet.id().changeId().get()),
+          e);
+    }
   }
 
   @Override

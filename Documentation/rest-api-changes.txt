@@ -5258,6 +5258,11 @@ for later processing by command line tools.
 If the `path` parameter is set, the returned content is a diff of the single
 file that the path refers to.
 
+Adding query parameter `context` (e.g. `/changes/.../patch?context=10`)
+sets the number of context lines that are displayed in the patch. If the
+context is not set, the default of 3 is used. It can also be abbreviated as
+`U`.
+
 [[get-mergeable]]
 === Get Mergeable
 --

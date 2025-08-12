@@ -76,6 +76,13 @@ public class GetPatch implements RestReadView<RevisionResource> {
   @Option(name = "--parent", metaVar = "parent-number")
   private Integer parentNum;
 
+  @Option(
+      name = "--context",
+      aliases = {"-U"},
+      metaVar = "lines",
+      usage = "number of context lines")
+  private Integer context;
+
   @Inject
   GetPatch(GitRepositoryManager repoManager) {
     this.repoManager = repoManager;
@@ -141,7 +148,7 @@ public class GetPatch implements RestReadView<RevisionResource> {
               if (path == null) {
                 out.write(formatEmailHeader(commit).getBytes(UTF_8));
               }
-              DiffUtil.getFormattedDiff(repo, base, commit, path, out);
+              DiffUtil.getFormattedDiff(repo, base, commit, path, out, getContext());
             }
           }) {
 
@@ -211,5 +218,15 @@ public class GetPatch implements RestReadView<RevisionResource> {
 
   private static String fileName(RevWalk rw, RevCommit commit) throws IOException {
     return abbreviateName(commit, rw.getObjectReader()) + ".diff";
+  }
+
+  private int getContext() {
+    if (context == null) {
+      return 3;
+    }
+    if (context < 0) {
+      return 0;
+    }
+    return context;
   }
 }

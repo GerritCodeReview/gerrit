@@ -43,7 +43,7 @@ declare global {
 
 @customElement('gr-create-repo-dialog')
 export class GrCreateRepoDialog extends LitElement {
-  @query('input')
+  @query('#repoNameInput')
   input?: HTMLInputElement;
 
   @property({type: Boolean})

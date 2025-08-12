@@ -408,8 +408,8 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     });
   }
 
-  createGroup(config: GroupInput & {name: string}): Promise<Response> {
-    const encodeName = encodeURIComponent(config.name);
+  createGroup(config: GroupInput): Promise<Response> {
+    const encodeName = encodeURIComponent(config.name as GroupName);
     return this._restApiHelper.fetch({
       fetchOptions: getFetchOptions({
         method: HttpMethod.PUT,

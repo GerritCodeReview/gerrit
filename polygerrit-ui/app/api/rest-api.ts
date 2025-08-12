@@ -789,7 +789,7 @@ export declare interface GroupInfo {
  * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html#groups-info
  */
 export declare interface GroupsConfigInfo {
-  enableDeleteGroup?: boolean;
+  enable_delete_group?: boolean;
 }
 
 export type GroupName = BrandType<string, '_groupName'>;

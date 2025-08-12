@@ -2455,7 +2455,7 @@ section.
 [options="header",cols="1,6"]
 |=============================
 |Field Name            |Description
-|`enableDeleteGroup`   |
+|`enable_delete_group`   |
 link:config-gerrit.html#groups.enableDeleteGroup[gerrit.config].
 |=============================
 

@@ -183,12 +183,12 @@ public class TagsIT extends AbstractDaemonTest {
 
   @Test
   public void listTagsOfNonVisibleBranch() throws Exception {
-    grantTagPermissions();
-    // Allow creating a new hidden branch
+    // Allow creating a new hidden branch as well as tags
     projectOperations
         .project(project)
         .forUpdate()
         .add(allow(Permission.CREATE).group(REGISTERED_USERS).ref("refs/heads/hidden"))
+        .add(allow(Permission.CREATE).ref(R_TAGS + "*").group(adminGroupUuid()))
         .update();
 
     PushOneCommit push1 = pushFactory.create(admin.newIdent(), testRepo);
@@ -233,7 +233,11 @@ public class TagsIT extends AbstractDaemonTest {
 
   @Test
   public void lightweightTag() throws Exception {
-    grantTagPermissions();
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.CREATE).ref(R_TAGS + "*").group(adminGroupUuid()))
+        .update();
 
     PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo);
     PushOneCommit.Result r = push.to("refs/heads/master");
@@ -265,7 +269,11 @@ public class TagsIT extends AbstractDaemonTest {
 
   @Test
   public void annotatedTag() throws Exception {
-    grantTagPermissions();
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.CREATE_TAG).ref(R_TAGS + "*").group(adminGroupUuid()))
+        .update();
 
     PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo);
     PushOneCommit.Result r = push.to("refs/heads/master");
@@ -304,7 +312,11 @@ public class TagsIT extends AbstractDaemonTest {
 
   @Test
   public void createExistingTag() throws Exception {
-    grantTagPermissions();
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.CREATE).ref(R_TAGS + "*").group(adminGroupUuid()))
+        .update();
 
     TagInput input = new TagInput();
     input.ref = "test";
@@ -368,8 +380,6 @@ public class TagsIT extends AbstractDaemonTest {
 
   @Test
   public void invalidTagName() throws Exception {
-    grantTagPermissions();
-
     TagInput input = new TagInput();
     input.ref = "refs/heads/test";
 
@@ -380,8 +390,6 @@ public class TagsIT extends AbstractDaemonTest {
 
   @Test
   public void invalidTagNameOnlySlashes() throws Exception {
-    grantTagPermissions();
-
     TagInput input = new TagInput();
     input.ref = "//";
 
@@ -392,8 +400,6 @@ public class TagsIT extends AbstractDaemonTest {
 
   @Test
   public void nonExistingBaseRevision() throws Exception {
-    grantTagPermissions();
-
     TagInput input = new TagInput();
     input.ref = "test";
     input.revision = "deadbeefdeadbeefdeadbeefdeadbeefdeadbeef";
@@ -407,8 +413,6 @@ public class TagsIT extends AbstractDaemonTest {
 
   @Test
   public void invalidBaseRevision() throws Exception {
-    grantTagPermissions();
-
     TagInput input = new TagInput();
     input.ref = "test";
     input.revision = "invalid\trevision";
@@ -422,8 +426,6 @@ public class TagsIT extends AbstractDaemonTest {
 
   @Test
   public void nonCommitRevision() throws Exception {
-    grantTagPermissions();
-
     TagInput input = new TagInput();
     input.ref = "test";
     input.revision =
@@ -438,7 +440,11 @@ public class TagsIT extends AbstractDaemonTest {
 
   @Test
   public void noBaseRevision() throws Exception {
-    grantTagPermissions();
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.CREATE).ref(R_TAGS + "*").group(adminGroupUuid()))
+        .update();
 
     // If revision is not specified, the tag is created based on HEAD, which points to master.
     RevCommit expectedRevision = projectOperations.project(project).getHead("master");
@@ -454,7 +460,11 @@ public class TagsIT extends AbstractDaemonTest {
 
   @Test
   public void emptyBaseRevision() throws Exception {
-    grantTagPermissions();
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.CREATE).ref(R_TAGS + "*").group(adminGroupUuid()))
+        .update();
 
     // If revision is not specified, the tag is created based on HEAD, which points to master.
     RevCommit expectedRevision = projectOperations.project(project).getHead("master");
@@ -470,7 +480,11 @@ public class TagsIT extends AbstractDaemonTest {
 
   @Test
   public void baseRevisionIsTrimmed() throws Exception {
-    grantTagPermissions();
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.CREATE).ref(R_TAGS + "*").group(adminGroupUuid()))
+        .update();
 
     RevCommit revision = projectOperations.project(project).getHead("master");
 
@@ -486,7 +500,11 @@ public class TagsIT extends AbstractDaemonTest {
   @Test
   @Ignore("Added test to highlight how creation of tag on read only project doesn't fail")
   public void cannotCreateTagIfProjectIsReadOnly() throws Exception {
-    grantTagPermissions();
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.CREATE).ref(R_TAGS + "*").group(adminGroupUuid()))
+        .update();
     PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo);
     PushOneCommit.Result r = push.to("refs/heads/master");
     r.assertOkStatus();
@@ -520,7 +538,11 @@ public class TagsIT extends AbstractDaemonTest {
   }
 
   private void createTags() throws Exception {
-    grantTagPermissions();
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.CREATE_TAG).ref(R_TAGS + "*").group(adminGroupUuid()))
+        .update();
 
     String revision = pushTo("refs/heads/master").getCommit().name();
     TagInput input = new TagInput();
@@ -548,17 +570,6 @@ public class TagsIT extends AbstractDaemonTest {
 
   private void assertBadRequest(ListRefsRequest<TagInfo> req) throws Exception {
     assertThrows(BadRequestException.class, () -> req.get());
-  }
-
-  private void grantTagPermissions() throws Exception {
-    projectOperations
-        .project(project)
-        .forUpdate()
-        .add(allow(Permission.CREATE).ref(R_TAGS + "*").group(adminGroupUuid()))
-        .add(allow(Permission.DELETE).ref(R_TAGS + "").group(adminGroupUuid()))
-        .add(allow(Permission.CREATE_TAG).ref(R_TAGS + "*").group(adminGroupUuid()))
-        .add(allow(Permission.CREATE_SIGNED_TAG).ref(R_TAGS + "*").group(adminGroupUuid()))
-        .update();
   }
 
   private static void removeAllBranchPermissions(ProjectConfig cfg, String... permissions) {

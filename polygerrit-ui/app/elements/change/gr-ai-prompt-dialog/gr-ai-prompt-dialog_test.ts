@@ -93,10 +93,14 @@ suite('gr-ai-prompt-dialog test', () => {
                     You can also use it for an AI Agent as context (a reference
                     to a git change).
               </div>
-              <gr-button>
-                <gr-icon icon="content_copy" small=""> </gr-icon>
-                Copy Prompt
-              </gr-button>
+              <div class="actions">
+                <div class="size">
+                </div>
+                <gr-button>
+                  <gr-icon icon="content_copy" small=""> </gr-icon>
+                  Copy Prompt
+                </gr-button>
+              </div>
             </div>
           </div>
         </section>

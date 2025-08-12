@@ -78,6 +78,8 @@ export class GrAiPromptDialog extends LitElement {
 
   @state() private promptContent = '';
 
+  @state() private promptSize = '';
+
   private readonly getChangeModel = resolve(this, changeModelToken);
 
   private readonly restApiService = getAppContext().restApiService;
@@ -168,10 +170,21 @@ export class GrAiPromptDialog extends LitElement {
           justify-content: space-between;
           align-items: center;
         }
+<<<<<<< PATCH SET (404c590bd24980a4532dd3335ea27a66dc61230c Show estimated prompt size in words)
+        .actions {
+          display: flex;
+          align-items: center;
+          gap: var(--spacing-l);
+        }
+        .size {
+          color: var(--deactivated-text-color);
+||||||| BASE      (bdd9e58207f9be0b4eb06c0648264402a4f0c248 Allow dragging users between reviewer and CC lists)
+=======
         .context-selector {
           display: flex;
           align-items: center;
           gap: var(--spacing-s);
+>>>>>>> BASE      (a1c679929c704151245f7fa72a9e6cd1bbabf943 Merge "Stop using deprecated test API methods in flow tests")
         }
       `,
     ];
@@ -244,10 +257,13 @@ export class GrAiPromptDialog extends LitElement {
                     You can also use it for an AI Agent as context (a reference
                     to a git change).
                   </div>
-                  <gr-button @click=${this.handleCopyPatch}>
-                    <gr-icon icon="content_copy" small></gr-icon>
-                    Copy Prompt
-                  </gr-button>
+                  <div class="actions">
+                    <div class="size">${this.promptSize}</div>
+                    <gr-button @click=${this.handleCopyPatch}>
+                      <gr-icon icon="content_copy" small></gr-icon>
+                      Copy Prompt
+                    </gr-button>
+                  </div>
                 </div>`,
               () => html`
                 <div class="info-text">
@@ -321,6 +337,7 @@ export class GrAiPromptDialog extends LitElement {
   private updatePromptContent() {
     if (!this.patchContent) {
       this.promptContent = '';
+      this.promptSize = '';
       return;
     }
     const template = PROMPT_TEMPLATES[this.selectedTemplate];
@@ -328,6 +345,20 @@ export class GrAiPromptDialog extends LitElement {
       '{{patch}}',
       this.patchContent
     );
+    // Inserts a space before each capital letter to handle CamelCase
+    const textWithSpaces = this.promptContent.replace(/([A-Z])/g, ' $1');
+
+    // Splits by whitespace, symbols, and now slashes
+    const size = textWithSpaces
+      .split(/[\s.(){}[\]\\/-]+/)
+      .filter(Boolean).length;
+    if (size === 0) {
+      this.promptSize = '';
+    } else if (size < 1000) {
+      this.promptSize = `${size} words`;
+    } else {
+      this.promptSize = `${(size / 1000).toFixed(1)}k words`;
+    }
   }
 
   private async handleCopyPatch(e: Event) {

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9b8b08cb_0da93637",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 21
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-08-12T13:59:35Z",
+      "side": 1,
+      "message": "@milutin@google.com are you able to look into this please? We\u0027re so close to removing polymer! Gotta remove paper-styles and paper-item after (we don\u0027t use paper-item but i think you had an internal test failure which is why it had to be re-added).",
+      "revId": "43acaac4f9995408b98e546be6a92b5e4de02a6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

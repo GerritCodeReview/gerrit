@@ -22,6 +22,30 @@
       },
       "revId": "672484ac0efd31a31aed17cf2b6652ce01a63d01",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6e0c4f6f_b9be0329",
+        "filename": "java/com/google/gerrit/extensions/common/testing/FlowStageInfoSubject.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-08-12T13:34:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1fc38f0f_661283de",
+      "range": {
+        "startLine": 47,
+        "startChar": 43,
+        "endLine": 47,
+        "endChar": 56
+      },
+      "revId": "672484ac0efd31a31aed17cf2b6652ce01a63d01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

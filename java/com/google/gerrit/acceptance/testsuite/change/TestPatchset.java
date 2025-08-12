@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.testsuite.change;
 import com.google.auto.value.AutoValue;
 import com.google.gerrit.entities.PatchSet;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.revwalk.RevCommit;
 
 /** Representation of a patchset used for testing purposes. */
 @AutoValue
@@ -28,6 +29,9 @@ public abstract class TestPatchset {
   /** The commit SHA-1 of the patchset. */
   public abstract ObjectId commitId();
 
+  /** The commit of the patchset. */
+  public abstract RevCommit commit();
+
   static Builder builder() {
     return new AutoValue_TestPatchset.Builder();
   }
@@ -37,6 +41,8 @@ public abstract class TestPatchset {
     abstract Builder patchsetId(PatchSet.Id patchsetId);
 
     abstract Builder commitId(ObjectId commitId);
+
+    abstract Builder commit(RevCommit commit);
 
     abstract TestPatchset build();
   }

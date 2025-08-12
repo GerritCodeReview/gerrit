@@ -38,6 +38,8 @@ import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
 import com.google.gerrit.acceptance.testsuite.change.ChangeOperations;
+import com.google.gerrit.acceptance.testsuite.change.TestChange;
+import com.google.gerrit.acceptance.testsuite.change.TestPatchset;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.entities.Account;
@@ -79,13 +81,18 @@ public class CommitIT extends AbstractDaemonTest {
 
   @Test
   public void getCommitInfo() throws Exception {
-    Result result = createChange();
-    String commitId = result.getCommit().getId().name();
-    CommitInfo info = gApi.projects().name(project.get()).commit(commitId).get();
-    assertThat(info.commit).isEqualTo(commitId);
+    TestChange change = changeOperations.newChange().createAndGet();
+    TestPatchset currentPatchSet = changeOperations.change(change.id()).currentPatchset().get();
+
+    CommitInfo info =
+        gApi.projects()
+            .name(change.project().get())
+            .commit(currentPatchSet.commitId().name())
+            .get();
+    assertThat(info.commit).isEqualTo(currentPatchSet.commitId().name());
     assertThat(info.parents.stream().map(c -> c.commit).collect(toList()))
-        .containsExactly(result.getCommit().getParent(0).name());
-    assertThat(info.subject).isEqualTo(result.getCommit().getShortMessage());
+        .containsExactly(currentPatchSet.commit().getParent(0).name());
+    assertThat(info.subject).isEqualTo(currentPatchSet.commit().getShortMessage());
     assertPerson(info.author, admin);
     assertPerson(info.committer, admin);
     assertThat(info.webLinks).isNull();

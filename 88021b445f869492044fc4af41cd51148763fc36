@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "35407783_608ae7f9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-08-12T09:33:55Z",
+      "side": 1,
+      "message": "I was trying to force to hide hovercard but I will need to heavily modify hovercard implementation. It\u0027s also adding too much complexity. I would skip it for now, it works ok and it\u0027s better UX to move from reviewer to cc than before.",
+      "parentUuid": "22d731c7_e4cd5066",
+      "revId": "88021b445f869492044fc4af41cd51148763fc36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fe1ca027_20413a10",
@@ -37,6 +55,98 @@
         "endLine": 1383,
         "endChar": 23
       },
+      "revId": "88021b445f869492044fc4af41cd51148763fc36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "88cf20ad_bf77b47c",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1383,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-08-12T09:33:55Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "fe1ca027_20413a10",
+      "range": {
+        "startLine": 1383,
+        "startChar": 4,
+        "endLine": 1383,
+        "endChar": 23
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "20d13ab7_46644484",
+          "description": "GET_AI_FIX_FOR_COMMENT prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+              "range": {
+                "startLine": 1367,
+                "startChar": 0,
+                "endLine": 1367,
+                "endChar": 0
+              },
+              "replacement": "    e.stopPropagation();\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+              "range": {
+                "startLine": 1378,
+                "startChar": 0,
+                "endLine": 1378,
+                "endChar": 0
+              },
+              "replacement": "    e.stopPropagation();\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+              "range": {
+                "startLine": 1384,
+                "startChar": 0,
+                "endLine": 1384,
+                "endChar": 0
+              },
+              "replacement": "    e.stopPropagation();\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+              "range": {
+                "startLine": 2024,
+                "startChar": 0,
+                "endLine": 2024,
+                "endChar": 0
+              },
+              "replacement": "    e.stopPropagation();\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+              "range": {
+                "startLine": 2037,
+                "startChar": 0,
+                "endLine": 2037,
+                "endChar": 0
+              },
+              "replacement": "    e.stopPropagation();\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+              "range": {
+                "startLine": 2042,
+                "startChar": 0,
+                "endLine": 2042,
+                "endChar": 0
+              },
+              "replacement": "    e.stopPropagation();\n"
+            }
+          ]
+        }
+      ],
       "revId": "88021b445f869492044fc4af41cd51148763fc36",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -88,6 +198,30 @@
           ]
         }
       ],
+      "revId": "88021b445f869492044fc4af41cd51148763fc36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1fcfdf83_264a739a",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1392,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-08-12T09:33:55Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "3568dbd5_dc90d02d",
+      "range": {
+        "startLine": 1392,
+        "startChar": 6,
+        "endLine": 1392,
+        "endChar": 13
+      },
       "revId": "88021b445f869492044fc4af41cd51148763fc36",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -431,9 +431,8 @@ public class AccountManagerIT extends AbstractDaemonTest {
     AuthRequest who = authRequestFactory.createForEmail(email);
     AccountException thrown =
         assertThrows(AccountException.class, () -> accountManager.authenticate(who));
-    assertThat(thrown)
-        .hasMessageThat()
-        .contains("Email 'foo@example.com' in use by another account");
+    assertThrownContains(
+        thrown, "Email 'foo@example.com' in use by another account", accountId.toString());
   }
 
   @Test
@@ -457,9 +456,8 @@ public class AccountManagerIT extends AbstractDaemonTest {
     who.setEmailAddress(email);
     AccountException thrown =
         assertThrows(AccountException.class, () -> accountManager.authenticate(who));
-    assertThat(thrown)
-        .hasMessageThat()
-        .contains("Email 'foo@example.com' in use by another account");
+    assertThrownContains(
+        thrown, "Email 'foo@example.com' in use by another account", accountId.toString());
   }
 
   @Test
@@ -496,9 +494,8 @@ public class AccountManagerIT extends AbstractDaemonTest {
     who.setEmailAddress(newEmail);
     AccountException thrown =
         assertThrows(AccountException.class, () -> accountManager.authenticate(who));
-    assertThat(thrown)
-        .hasMessageThat()
-        .isEqualTo("Email 'bar@example.com' in use by another account");
+    assertThrownContains(
+        thrown, "Email 'bar@example.com' in use by another account", accountId2.toString());
 
     // Verify that the email in the external ID was not updated.
     Optional<ExternalId> gerritExtId = externalIds.get(gerritExtIdKey);
@@ -745,9 +742,8 @@ public class AccountManagerIT extends AbstractDaemonTest {
     AuthRequest who = authRequestFactory.createForExternalUser(username1);
     AccountException thrown =
         assertThrows(AccountException.class, () -> accountManager.link(accountId2, who));
-    assertThat(thrown)
-        .hasMessageThat()
-        .contains("Identity 'external:foo' in use by another account");
+    assertThrownContains(
+        thrown, "Identity 'external:foo' in use by another account", accountId1.toString());
   }
 
   @Test
@@ -780,9 +776,8 @@ public class AccountManagerIT extends AbstractDaemonTest {
     AuthRequest who = authRequestFactory.createForEmail(email);
     AccountException thrown =
         assertThrows(AccountException.class, () -> accountManager.link(accountId2, who));
-    assertThat(thrown)
-        .hasMessageThat()
-        .contains("Email 'foo@example.com' in use by another account");
+    assertThrownContains(
+        thrown, "Email 'foo@example.com' in use by another account", accountId.toString());
   }
 
   @Test
@@ -885,5 +880,13 @@ public class AccountManagerIT extends AbstractDaemonTest {
     assertThat(authResult.getAccountId()).isEqualTo(expectedAccountId);
     assertThat(authResult.getExternalId()).isEqualTo(expectedExtIdKey);
     assertThat(authResult.isNew()).isFalse();
+  }
+
+  private void assertThrownContains(Throwable thrown, String... expectedMessages) {
+    String message = thrown.getMessage();
+    assertThat(message).isNotNull();
+    for (String expected : expectedMessages) {
+      assertThat(message).contains(expected);
+    }
   }
 }

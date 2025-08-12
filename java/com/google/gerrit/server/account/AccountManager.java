@@ -440,7 +440,9 @@ public class AccountManager {
             externalId.accountId().get(),
             extIdToBeCreated.key().get(),
             extIdToBeCreated.accountId().get());
-        throw new AccountException("Email '" + email + "' in use by another account");
+        throw new AccountException(
+            String.format(
+                "Email '%s' in use by another account (%s)", email, externalId.accountId()));
       }
     }
   }
@@ -478,7 +480,9 @@ public class AccountManager {
       ExternalId extId = optionalExtId.get();
       if (!extId.accountId().equals(to)) {
         throw new AccountException(
-            "Identity '" + extId.key().get() + "' in use by another account");
+            String.format(
+                "Identity '%s' in use by another account (%s)",
+                extId.key().get(), extId.accountId()));
       }
       update(who, extId);
     } else {
@@ -518,7 +522,9 @@ public class AccountManager {
     Optional<ExternalId> optionalExtId = externalIds.get(who.getExternalIdKey());
     if (optionalExtId.filter(extId -> !extId.accountId().equals(to)).isPresent()) {
       throw new AccountException(
-          "Identity '" + optionalExtId.get().key().get() + "' in use by another account");
+          String.format(
+              "Identity '%s' in use by another account (%s)",
+              optionalExtId.get().key().get(), optionalExtId.get().accountId()));
     }
 
     accountsUpdateProvider
@@ -586,7 +592,8 @@ public class AccountManager {
         continue;
       }
       // The externalID is linked to some other account so we throw an error here
-      throw new AccountException("Identity '" + extId + "' in use by another account");
+      throw new AccountException(
+          String.format("Identity '%s' in use by another account (%s)", extId, extId.accountId()));
     }
 
     accountsUpdateProvider
@@ -631,7 +638,10 @@ public class AccountManager {
       Optional<ExternalId> extId = externalIds.get(extIdKey);
       if (extId.isPresent()) {
         if (!extId.get().accountId().equals(from)) {
-          throw new AccountException("Identity '" + extIdKey.get() + "' in use by another account");
+          throw new AccountException(
+              String.format(
+                  "Identity '%s' in use by another account (%s)",
+                  extIdKey.get(), extId.get().accountId()));
         }
         extIds.add(extId.get());
       } else {

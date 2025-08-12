@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7556a681_8ba438de",
+        "filename": "polygerrit-ui/app/api/rest-api.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 792,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-08-12T14:27:45Z",
+      "side": 1,
+      "message": "Whoops, this type is wrong. Fixed with https://gerrit-review.googlesource.com/c/gerrit/+/497821",
+      "revId": "8f63f1e880bfa1fff806de3e5e43cb083789dc2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

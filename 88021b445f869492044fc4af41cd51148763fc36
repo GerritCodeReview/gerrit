@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "22d731c7_e4cd5066",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-08-12T08:32:10Z",
+      "side": 1,
+      "message": "I think we should do something to hide the hovercard, when the account is being dragged. Otherwise it felt very fiddly, when I was testing it",
+      "revId": "88021b445f869492044fc4af41cd51148763fc36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fe1ca027_20413a10",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1383,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-08-12T08:32:10Z",
+      "side": 1,
+      "message": "With this event and the others, should we stop the event from bubling as well?",
+      "range": {
+        "startLine": 1383,
+        "startChar": 4,
+        "endLine": 1383,
+        "endChar": 23
+      },
+      "revId": "88021b445f869492044fc4af41cd51148763fc36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3568dbd5_dc90d02d",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1392,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-08-12T08:32:10Z",
+      "side": 1,
+      "message": "If draggedFrom \u003d\u003d\u003d dropTarget the draggedAccount and draggedFrom should be cleared",
+      "range": {
+        "startLine": 1392,
+        "startChar": 6,
+        "endLine": 1392,
+        "endChar": 13
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "d9833dee_dc960796",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+              "range": {
+                "startLine": 1388,
+                "startChar": 0,
+                "endLine": 1391,
+                "endChar": 0
+              },
+              "replacement": "      !this.draggedAccount || !this.draggedFrom\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+              "range": {
+                "startLine": 1394,
+                "startChar": 0,
+                "endLine": 1394,
+                "endChar": 0
+              },
+              "replacement": "    if (this.draggedFrom \u003d\u003d\u003d dropTarget) {\n      this.draggedAccount \u003d null;\n      this.draggedFrom \u003d null;\n      return;\n    }\n"
+            }
+          ]
+        }
+      ],
+      "revId": "88021b445f869492044fc4af41cd51148763fc36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

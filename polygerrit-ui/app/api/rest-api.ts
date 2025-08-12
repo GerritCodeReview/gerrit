@@ -783,6 +783,15 @@ export declare interface GroupInfo {
   includes?: GroupInfo[];
 }
 
+/**
+ * The GroupsInfo entity contains information about Gerrit configuration from
+ * the gerrit section.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html#groups-info
+ */
+export declare interface GroupsConfigInfo {
+  enableDeleteGroup?: boolean;
+}
+
 export type GroupName = BrandType<string, '_groupName'>;
 
 /**
@@ -1089,6 +1098,7 @@ export declare interface ServerInfo {
   change: ChangeConfigInfo;
   download: DownloadInfo;
   gerrit: GerritInfo;
+  groups: GroupsConfigInfo;
   note_db_enabled?: boolean;
   plugin: PluginConfigInfo;
   receive?: ReceiveInfo;

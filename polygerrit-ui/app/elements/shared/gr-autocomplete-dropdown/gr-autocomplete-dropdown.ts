@@ -175,6 +175,7 @@ export class GrAutocompleteDropdown extends LitElement {
 
   override disconnectedCallback() {
     this.cursor.unsetCursor();
+    this.cleanUpGlobalEventListeners();
     super.disconnectedCallback();
   }
 
@@ -192,9 +193,30 @@ export class GrAutocompleteDropdown extends LitElement {
     ) {
       if (!this.isHidden) {
         this.computeCursorStopsAndRefit();
+        this.setUpGlobalEventListeners();
+      } else {
+        this.cleanUpGlobalEventListeners();
       }
     }
   }
+
+  private setUpGlobalEventListeners() {
+    const passiveOptions: AddEventListenerOptions = {passive: true};
+
+    window.addEventListener('resize', this.onWindowResize, passiveOptions);
+    window.addEventListener('scroll', this.onWindowResize, passiveOptions);
+  }
+
+  private cleanUpGlobalEventListeners() {
+    const passiveOptions: AddEventListenerOptions = {passive: true};
+
+    window.removeEventListener('resize', this.onWindowResize, passiveOptions);
+    window.removeEventListener('scroll', this.onWindowResize, passiveOptions);
+  }
+
+  private readonly onWindowResize = () => {
+    this.fitController?.refit();
+  };
 
   private renderStatus() {
     return html`

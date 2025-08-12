@@ -234,6 +234,7 @@ export class GrMainHeader extends LitElement {
       css`
         :host {
           display: block;
+          min-height: 56px;
         }
         .hideOnDesktop {
           display: none;
@@ -241,6 +242,7 @@ export class GrMainHeader extends LitElement {
         nav.hideOnMobile {
           align-items: center;
           display: flex;
+          min-height: 56px;
         }
         nav.hideOnMobile ul {
           list-style: none;
@@ -350,6 +352,8 @@ export class GrMainHeader extends LitElement {
           margin: 0 var(--spacing-m);
           max-width: 500px;
           min-width: 150px;
+          height: 38px;
+          --gr-autocomplete-height: 38px;
         }
         gr-dropdown,
         .browse {
@@ -432,6 +436,7 @@ export class GrMainHeader extends LitElement {
           border-image: var(--header-border-image);
           box-shadow: var(--header-box-shadow);
           padding: var(--header-padding);
+          min-height: 56px;
         }
         @media screen and (max-width: 50em) {
           .bigTitle {
@@ -606,7 +611,7 @@ export class GrMainHeader extends LitElement {
             class="hideOnMobile"
             name="header-small-banner"
           ></gr-endpoint-decorator>
-          <gr-smart-search id="search"></gr-smart-search>
+          <gr-smart-search id="search" .verticalOffset=${40}></gr-smart-search>
           <gr-endpoint-decorator
             class="hideOnMobile"
             name="header-top-right"
@@ -690,7 +695,10 @@ export class GrMainHeader extends LitElement {
             >
               <md-icon filled>arrow_back</md-icon>
             </md-icon-button>
-            <gr-smart-search id="search"></gr-smart-search>
+            <gr-smart-search
+              id="search"
+              .verticalOffset=${40}
+            ></gr-smart-search>
           </div>`
         )}
         ${when(

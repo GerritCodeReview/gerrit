@@ -346,6 +346,12 @@ export class GrReplyDialog extends LitElement {
   @state()
   isOwner = false;
 
+  @state()
+  private draggedAccount: AccountInfo | null = null;
+
+  @state()
+  private draggedFrom: GrAccountList | null = null;
+
   private readonly restApiService: RestApiService =
     getAppContext().restApiService;
 
@@ -371,6 +377,10 @@ export class GrReplyDialog extends LitElement {
       sharedStyles,
       modalStyles,
       css`
+        gr-account-list.drag-over {
+          background-color: var(--table-header-background-color);
+          outline: 2px dashed var(--border-color);
+        }
         :host {
           background-color: var(--dialog-background-color);
           display: block;
@@ -822,8 +832,13 @@ export class GrReplyDialog extends LitElement {
           .accounts=${[...this.reviewers]}
           .change=${this.change}
           .reviewerState=${ReviewerState.REVIEWER}
+          .chipDraggable=${true}
           @account-added=${this.handleAccountAdded}
           @accounts-changed=${this.handleReviewersChanged}
+          @account-drag-start=${this.handleAccountDragStart}
+          @dragover=${this.handleDragOver}
+          @dragleave=${this.handleDragLeave}
+          @drop=${this.handleDrop}
           .removableValues=${this.change?.removable_reviewers}
           .filter=${this.filterReviewerSuggestion}
           .pendingConfirmation=${this.reviewerPendingConfirmation}
@@ -850,8 +865,13 @@ export class GrReplyDialog extends LitElement {
           .accounts=${[...this.ccs]}
           .change=${this.change}
           .reviewerState=${ReviewerState.CC}
+          .chipDraggable=${true}
           @account-added=${this.handleAccountAdded}
           @accounts-changed=${this.handleCcsChanged}
+          @account-drag-start=${this.handleAccountDragStart}
+          @dragover=${this.handleDragOver}
+          @dragleave=${this.handleDragLeave}
+          @drop=${this.handleDrop}
           .filter=${this.filterCCSuggestion}
           .pendingConfirmation=${this.ccPendingConfirmation}
           @pending-confirmation-changed=${this.handleCcsConfirmationChanged}
@@ -1332,6 +1352,79 @@ export class GrReplyDialog extends LitElement {
       const message = `${id} moved from ${moveFrom} to ${moveTo}.`;
       fireAlert(this, message);
     }
+  }
+
+  private handleAccountDragStart(e: CustomEvent<{account: AccountInfo}>) {
+    const account = e.detail.account;
+    if (!account) return;
+
+    this.draggedAccount = account;
+    this.draggedFrom = e.currentTarget as GrAccountList;
+  }
+
+  private handleDragOver(e: DragEvent) {
+    e.preventDefault();
+    e.stopPropagation();
+    if (e.dataTransfer) {
+      e.dataTransfer.dropEffect = 'move';
+    }
+    const list = e.currentTarget as GrAccountList;
+    if (this.draggedFrom && this.draggedFrom !== list) {
+      list.classList.add('drag-over');
+    }
+  }
+
+  private handleDragLeave(e: DragEvent) {
+    e.preventDefault();
+    e.stopPropagation();
+    const list = e.currentTarget as GrAccountList;
+    list.classList.remove('drag-over');
+  }
+
+  private handleDrop(e: DragEvent) {
+    e.preventDefault();
+    e.stopPropagation();
+    const dropTarget = e.currentTarget as GrAccountList;
+    dropTarget.classList.remove('drag-over');
+
+    if (!this.draggedAccount || !this.draggedFrom) {
+      return;
+    }
+    if (this.draggedFrom === dropTarget) {
+      this.draggedAccount = null;
+      this.draggedFrom = null;
+      return;
+    }
+
+    const accountToMove = this.draggedAccount;
+    const targetIsCcs = dropTarget.id === 'ccs';
+
+    if (targetIsCcs) {
+      this.reviewers = this.reviewers.filter(
+        r => getUserId(r) !== getUserId(accountToMove)
+      );
+      if (!this.ccs.find(cc => getUserId(cc) === getUserId(accountToMove))) {
+        this.ccs = [...this.ccs, accountToMove];
+      }
+    } else {
+      this.ccs = this.ccs.filter(
+        cc => getUserId(cc) !== getUserId(accountToMove)
+      );
+      if (
+        !this.reviewers.find(r => getUserId(r) === getUserId(accountToMove))
+      ) {
+        this.reviewers = [...this.reviewers, accountToMove];
+      }
+    }
+
+    const moveFrom = targetIsCcs ? 'reviewers' : 'CCs';
+    const moveTo = targetIsCcs ? 'CCs' : 'reviewers';
+    const id = accountToMove.name || getUserId(accountToMove);
+    const message = `${id} moved from ${moveFrom} to ${moveTo}.`;
+    fireAlert(this, message);
+
+    this.draggedAccount = null;
+    this.draggedFrom = null;
   }
 
   getUnresolvedPatchsetLevelClass(patchsetLevelDraftIsResolved: boolean) {
@@ -1932,6 +2025,7 @@ export class GrReplyDialog extends LitElement {
 
   cancelTapHandler(e: Event) {
     e.preventDefault();
+    e.stopPropagation();
     this.cancel();
   }
 
@@ -1945,11 +2039,13 @@ export class GrReplyDialog extends LitElement {
 
   private saveClickHandler(e: Event) {
     e.preventDefault();
+    e.stopPropagation();
     this.submit(false);
   }
 
   private sendClickHandler(e: Event) {
     e.preventDefault();
+    e.stopPropagation();
     this.submit(this.canBeStarted);
   }
 

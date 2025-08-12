@@ -59,6 +59,9 @@ export class GrAccountChip extends LitElement {
   @property({type: Boolean, reflect: true})
   removable = false;
 
+  @property({type: Boolean, reflect: true})
+  override draggable = false;
+
   /**
    * Should attention set related features be shown in the component? Note
    * that the information whether the user is in the attention set or not is
@@ -167,6 +170,7 @@ export class GrAccountChip extends LitElement {
         container: true,
         closeShown: this.removable,
       })}
+      ?draggable=${this.draggable}
     >
       <div>
         <gr-account-label

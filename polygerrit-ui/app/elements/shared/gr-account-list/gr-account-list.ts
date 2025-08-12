@@ -11,6 +11,7 @@ import {
   ChangeInfo,
   EmailAddress,
   GroupInfo,
+  isAccount,
   isGroup,
   SuggestedReviewerGroupInfo,
   SuggestedReviewerInfo,
@@ -47,6 +48,7 @@ const VALID_USER_GROUP_ALERT = 'Please input a valid user or group.';
 
 declare global {
   interface HTMLElementEventMap {
+    'account-drag-start': CustomEvent<{account: AccountInfo}>;
     'accounts-changed': ValueChangedEvent<(AccountInfo | GroupInfo)[]>;
     'pending-confirmation-changed': ValueChangedEvent<SuggestedReviewerGroupInfo | null>;
     'account-added': CustomEvent<{account: AccountInfo | GroupInfo}>;
@@ -111,6 +113,9 @@ export class GrAccountList extends LitElement {
   @property({type: Array})
   removableValues?: AccountInput[];
 
+  @property({type: Boolean})
+  chipDraggable = false;
+
   /**
    * Returns suggestion items
    */
@@ -173,7 +178,9 @@ export class GrAccountList extends LitElement {
                 ),
               })}
               ?removable=${this.computeRemovable(account)}
+              ?draggable=${this.chipDraggable}
               @keydown=${this.handleChipKeydown}
+              @dragstart=${this.handleChipDragStart}
               tabindex="-1"
             >
             </gr-account-chip>
@@ -354,6 +361,19 @@ export class GrAccountList extends LitElement {
         }
         break;
     }
+  }
+
+  private handleChipDragStart(e: DragEvent) {
+    const chip = e.target as GrAccountChip;
+    const account = chip.account;
+    if (!account || !isAccount(account)) return;
+
+    if (e.dataTransfer) {
+      e.dataTransfer.setData('text/plain', getUserId(account) as string);
+      e.dataTransfer.effectAllowed = 'move';
+    }
+
+    fire(this, 'account-drag-start', {account});
   }
 
   private handleChipKeydown(e: KeyboardEvent) {

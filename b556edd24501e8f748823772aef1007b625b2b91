@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "633cecf6_2ecd2338",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/TagsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 558,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-08-12T17:38:13Z",
+      "side": 0,
+      "message": "We have no test that needed DELETE permission",
+      "range": {
+        "startLine": 558,
+        "startChar": 8,
+        "endLine": 558,
+        "endChar": 79
+      },
+      "revId": "b556edd24501e8f748823772aef1007b625b2b91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "145bdf3f_2d4f93d9",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/TagsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 560,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-08-12T17:38:13Z",
+      "side": 0,
+      "message": "We had no test that needed CREATE_SIGNED_TAG permission(as it\u0027s not supported anyway, the test doesn\u0027t get as far as requiring this permission to fail.",
+      "range": {
+        "startLine": 560,
+        "startChar": 0,
+        "endLine": 560,
+        "endChar": 91
+      },
+      "revId": "b556edd24501e8f748823772aef1007b625b2b91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

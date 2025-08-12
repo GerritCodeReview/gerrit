@@ -22,6 +22,30 @@
       },
       "revId": "8104e8ea18700b9bf87def5f8f151ac8792e169d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8cbf5b85_87a4514d",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/TagsIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-08-12T07:03:06Z",
+      "side": 1,
+      "message": "\u003e createRefControl requires create ref permission as well as create tag(or signed tag)\n\nI think this is not how the permissions are documented? [1] doesn\u0027t seem to mention anywhere that having the Create permission on refs/tags/ is required for creating annotated or signed tags, is it?\n\nAlso this seems inconsistent with the permissions that are being checked when pushing tags via the git protocol. Looking at AbstractPushTag it only assigns the CreateTag permission when pushing an annotated tag, but not the Create permission.\n\nHence I think this is a problem. I would be okay with if a) it was documented like this in our current documentation and b) it matches the permissions that we check on push. On first sight neither of these seems to be the case?\n\n[1] https://gerrit-review.googlesource.com/Documentation/access-control.html",
+      "parentUuid": "db411aeb_211c50ed",
+      "range": {
+        "startLine": 382,
+        "startChar": 4,
+        "endLine": 382,
+        "endChar": 26
+      },
+      "revId": "8104e8ea18700b9bf87def5f8f151ac8792e169d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

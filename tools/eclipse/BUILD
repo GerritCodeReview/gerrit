@@ -24,6 +24,7 @@ DEPS = [
     "//lib/auto:auto-value",
     "//lib/prolog:compiler-lib",
     "//proto:entities_java_proto",
+    "//proto:flow_java_proto",
 ]
 
 java_library(

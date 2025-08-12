@@ -15,7 +15,6 @@
 package com.google.gerrit.acceptance.api.project;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.gerrit.acceptance.GitUtil.pushHead;
 import static com.google.gerrit.acceptance.PushOneCommit.FILE_NAME;
 import static com.google.gerrit.acceptance.PushOneCommit.SUBJECT;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
@@ -32,7 +31,6 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.truth.Correspondence;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
-import com.google.gerrit.acceptance.PushOneCommit.Result;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.config.GerritConfig;
@@ -46,12 +44,15 @@ import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Permission;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
+import com.google.gerrit.extensions.api.changes.ChangeIdentifier;
 import com.google.gerrit.extensions.api.changes.CherryPickInput;
 import com.google.gerrit.extensions.api.changes.IncludedInInfo;
 import com.google.gerrit.extensions.api.changes.RelatedChangeAndCommitInfo;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.projects.BranchInput;
+import com.google.gerrit.extensions.api.projects.TagInfo;
 import com.google.gerrit.extensions.api.projects.TagInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
@@ -100,86 +101,128 @@ public class CommitIT extends AbstractDaemonTest {
 
   @Test
   public void includedInOpenChange() throws Exception {
-    Result result = createChange();
-    assertThat(getIncludedIn(result.getCommit().getId()).branches).isEmpty();
-    assertThat(getIncludedIn(result.getCommit().getId()).tags).isEmpty();
+    TestChange change = changeOperations.newChange().createAndGet();
+    TestPatchset currentPatchSet = changeOperations.change(change.id()).currentPatchset().get();
+
+    IncludedInInfo includedIn = getIncludedIn(change.project(), currentPatchSet.commitId());
+    assertThat(includedIn.branches).isEmpty();
+    assertThat(includedIn.tags).isEmpty();
   }
 
   @Test
   public void includedInMergedChange() throws Exception {
-    Result result = createChange();
-    gApi.changes()
-        .id(result.getChangeId())
-        .revision(result.getCommit().name())
-        .review(ReviewInput.approve());
-    gApi.changes().id(result.getChangeId()).revision(result.getCommit().name()).submit();
+    TestChange change = changeOperations.newChange().createAndGet();
+    TestPatchset currentPatchSet = changeOperations.change(change.id()).currentPatchset().get();
 
-    assertThat(getIncludedIn(result.getCommit().getId()).branches).containsExactly("master");
-    assertThat(getIncludedIn(result.getCommit().getId()).tags).isEmpty();
+    gApi.changes().id(change.id()).current().review(ReviewInput.approve());
+    gApi.changes().id(change.id()).current().submit();
+
+    IncludedInInfo includedIn = getIncludedIn(change.project(), currentPatchSet.commitId());
+    assertThat(includedIn.branches).containsExactly("master");
+    assertThat(includedIn.tags).isEmpty();
+
+    createBranch(BranchNameKey.create(change.project(), "test-branch"));
 
     projectOperations
         .project(project)
         .forUpdate()
         .add(allow(Permission.CREATE_TAG).ref(R_TAGS + "*").group(adminGroupUuid()))
         .update();
-    gApi.projects().name(result.getChange().project().get()).tag("test-tag").create(new TagInput());
+    gApi.projects().name(change.project().get()).tag("test-tag").create(new TagInput());
 
-    assertThat(getIncludedIn(result.getCommit().getId()).tags).containsExactly("test-tag");
-
-    createBranch(BranchNameKey.create(project, "test-branch"));
-
-    assertThat(getIncludedIn(result.getCommit().getId()).branches)
-        .containsExactly("master", "test-branch");
+    includedIn = getIncludedIn(change.project(), currentPatchSet.commitId());
+    assertThat(includedIn.branches).containsExactly("master", "test-branch");
+    assertThat(includedIn.tags).containsExactly("test-tag");
   }
 
   @Test
   public void includedInMergedChange_filtersOutNonVisibleBranches() throws Exception {
-    Result baseChange = createAndSubmitChange("refs/for/master");
+    TestChange change = changeOperations.newChange().createAndGet();
+    TestPatchset currentPatchSet = changeOperations.change(change.id()).currentPatchset().get();
 
-    createBranch(BranchNameKey.create(project, "test-branch-1"));
-    createBranch(BranchNameKey.create(project, "test-branch-2"));
-    RevCommit changeCommit = createAndSubmitChange("refs/for/test-branch-1").getCommit();
-    // Reset repo back to the original state - otherwise all changes in tests have testChange as a
-    // parent.
-    testRepo.reset(changeCommit.getParent(0));
-    createAndSubmitChange("refs/for/test-branch-2");
+    gApi.changes().id(change.id()).current().review(ReviewInput.approve());
+    gApi.changes().id(change.id()).current().submit();
 
-    assertThat(getIncludedIn(baseChange.getCommit().getId()).branches)
-        .containsExactly("master", "test-branch-1", "test-branch-2");
+    createBranch(BranchNameKey.create(change.project(), "branch-1"));
+    createBranch(BranchNameKey.create(change.project(), "branch-2"));
+
+    assertThat(getIncludedIn(change.project(), currentPatchSet.commitId()).branches)
+        .containsExactly("master", "branch-1", "branch-2");
 
     projectOperations
-        .project(project)
+        .project(change.project())
         .forUpdate()
-        .add(block(Permission.READ).ref("refs/heads/test-branch-1").group(REGISTERED_USERS))
+        .add(block(Permission.READ).ref(RefNames.REFS_HEADS + "branch-1").group(REGISTERED_USERS))
         .update();
 
-    assertThat(getIncludedIn(baseChange.getCommit().getId()).branches)
-        .containsExactly("master", "test-branch-2");
+    assertThat(getIncludedIn(change.project(), currentPatchSet.commitId()).branches)
+        .containsExactly("master", "branch-2");
   }
 
   @Test
   public void includedInMergedChange_filtersOutNonVisibleTags() throws Exception {
-    String tagBase = "tag_base";
-    String tagBranch1 = "tag_1";
+    Project.NameKey project = projectOperations.newProject().create();
 
-    Result baseChange = createAndSubmitChange("refs/for/master");
-    createLightWeightTag(tagBase);
-    assertThat(getIncludedIn(baseChange.getCommit().getId()).tags).containsExactly(tagBase);
+    // Create a change in master and submit it.
+    TestChange change =
+        changeOperations.newChange().project(project).branch("master").createAndGet();
+    TestPatchset currentPatchSet = changeOperations.change(change.id()).currentPatchset().get();
+    gApi.changes().id(change.id()).current().review(ReviewInput.approve());
+    gApi.changes().id(change.id()).current().submit();
 
-    createBranch(BranchNameKey.create(project, "test-branch-1"));
-    createAndSubmitChange("refs/for/test-branch-1");
-    createLightWeightTag(tagBranch1);
-    assertThat(getIncludedIn(baseChange.getCommit().getId()).tags)
-        .containsExactly(tagBase, tagBranch1);
+    // Create a tag on the commit in master.
+    TagInput tagInput = new TagInput();
+    tagInput.ref = "tag-on-commit-in-master";
+    tagInput.revision = currentPatchSet.commitId().name();
+    TagInfo tagOnCommitInMaster =
+        gApi.projects().name(project.get()).tag(tagInput.ref).create(tagInput).get();
 
+    // Verify that the tag is returned when retrieving the refs that include the commit in the
+    // master branch.
+    assertThat(getIncludedIn(project, currentPatchSet.commit()).tags)
+        .containsExactly(tagName(tagOnCommitInMaster));
+
+    // Create another branch.
+    String otherBranch = "other";
+    createBranch(BranchNameKey.create(project, otherBranch));
+
+    // Create a change in the other branch and submit it. The base of this change is the change that
+    // we submitted to the master branch (since the new branch was created based on the master
+    // branch).
+    ChangeIdentifier followUpChange =
+        changeOperations.newChange().project(project).branch(otherBranch).create();
+    TestPatchset currentPatchSetFollowUpChange =
+        changeOperations.change(followUpChange).currentPatchset().get();
+    gApi.changes().id(followUpChange).current().review(ReviewInput.approve());
+    gApi.changes().id(followUpChange).current().submit();
+
+    // Create a tag on the commit in the other branch. This is a follow-up commit to the commit in
+    // the master branch. This means the created tag contains both commits, the commit in the other
+    // branch and its base, the commit in the master branch.
+    tagInput = new TagInput();
+    tagInput.ref = "tag-on-commit-in-other";
+    tagInput.revision = currentPatchSetFollowUpChange.commitId().name();
+    TagInfo tagOnCommitInOther =
+        gApi.projects().name(project.get()).tag(tagInput.ref).create(tagInput).get();
+
+    // Verify that both tags are returned when retrieving the refs that include the commit in the
+    // master branch.
+    assertThat(getIncludedIn(project, currentPatchSet.commit()).tags)
+        .containsExactly(tagName(tagOnCommitInMaster), tagName(tagOnCommitInOther));
+
+    // Block read permissions on the other branch. Tags are only visible if they point to a commit
+    // that is contained in a visible branch. By blocking read permissions on the other branch the
+    // tag that points to the commit in the other branch becomes non-visible.
     projectOperations
         .project(project)
         .forUpdate()
-        // Tag permissions are controlled by read permissions on branches. Blocking read permission
-        // on test-branch-1 so that tagBranch1 becomes non-visible
-        .add(block(Permission.READ).ref("refs/heads/test-branch-1").group(REGISTERED_USERS))
+        .add(block(Permission.READ).ref(RefNames.REFS_HEADS + otherBranch).group(REGISTERED_USERS))
         .update();
-    assertThat(getIncludedIn(baseChange.getCommit().getId()).tags).containsExactly(tagBase);
+
+    // Verify that the tag for the commit in the other branch is no longer returned when retrieving
+    // the refs that include the commit in the master branch (because that tag is not visible).
+    assertThat(getIncludedIn(project, currentPatchSet.commit()).tags)
+        .containsExactly(tagName(tagOnCommitInMaster));
   }
 
   @Test
@@ -882,8 +925,8 @@ public class CommitIT extends AbstractDaemonTest {
                 in.committerEmail, admin.id()));
   }
 
-  private IncludedInInfo getIncludedIn(ObjectId id) throws Exception {
-    return gApi.projects().name(project.get()).commit(id.name()).includedIn();
+  private IncludedInInfo getIncludedIn(Project.NameKey projectName, ObjectId id) throws Exception {
+    return gApi.projects().name(projectName.get()).commit(id.name()).includedIn();
   }
 
   private static void assertPerson(GitPerson actual, TestAccount expected) {
@@ -891,15 +934,9 @@ public class CommitIT extends AbstractDaemonTest {
     assertThat(actual.name).isEqualTo(expected.fullName());
   }
 
-  private Result createAndSubmitChange(String branch) throws Exception {
-    Result r = createChange(branch);
-    approve(r.getChangeId());
-    gApi.changes().id(r.getChangeId()).current().submit();
-    return r;
-  }
-
-  private void createLightWeightTag(String tagName) throws Exception {
-    pushHead(testRepo, RefNames.REFS_TAGS + tagName, false, false);
+  private static String tagName(TagInfo tagInfo) {
+    assertThat(tagInfo.ref).startsWith(RefNames.REFS_TAGS);
+    return tagInfo.ref.substring(RefNames.REFS_TAGS.length());
   }
 
   private static Correspondence<RelatedChangeAndCommitInfo, Integer> hasId() {

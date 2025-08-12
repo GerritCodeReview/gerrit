@@ -37,7 +37,7 @@ public enum FlowActionProtoConverter
   public FlowAction fromProto(com.google.gerrit.server.flow.proto.FlowAction proto) {
     return FlowAction.builder()
         .name(proto.getName())
-        .parameters(ImmutableMap.copyOf(proto.getParameters()))
+        .parameters(ImmutableMap.copyOf(proto.getParametersMap()))
         .build();
   }
 

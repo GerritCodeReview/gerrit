@@ -105,6 +105,24 @@
       "parentUuid": "1a128f20_0cd6bcee",
       "revId": "a7bc50edd6ea1a90f0d05ccace632c2afc0f8838",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a42e54e2_a5aac8d7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-08-13T19:38:38Z",
+      "side": 1,
+      "message": "Change was added to `stable-3.9` after it was officially EOL\u0027ed so not sure if anyone was actually relying on it whereas it clearly modified (broke 😜) the persistent caches for plugins in newer releases (after merge)...",
+      "parentUuid": "89098153_5d2ff2dd",
+      "revId": "a7bc50edd6ea1a90f0d05ccace632c2afc0f8838",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

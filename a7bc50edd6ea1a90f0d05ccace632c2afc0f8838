@@ -87,6 +87,24 @@
       "parentUuid": "04ec594e_8dee81b4",
       "revId": "a7bc50edd6ea1a90f0d05ccace632c2afc0f8838",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "89098153_5d2ff2dd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2025-08-13T19:24:39Z",
+      "side": 1,
+      "message": "i.e. removing this might impact those now relying on larger caches. I am OK with it because we will just run a patched version anyway.",
+      "parentUuid": "1a128f20_0cd6bcee",
+      "revId": "a7bc50edd6ea1a90f0d05ccace632c2afc0f8838",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

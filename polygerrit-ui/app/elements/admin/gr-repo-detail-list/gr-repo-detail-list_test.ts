@@ -42,7 +42,7 @@ function branchGenerator(counter: number) {
     revision: '9c9d08a438e55e52f33b608415e6dddd9b18550d',
     web_links: [
       {
-        name: 'diffusion',
+        name: 'browse',
         url: `https://git.example.org/branch/test;refs/heads/test${counter}`,
       },
     ],
@@ -64,7 +64,7 @@ function tagGenerator(counter: number) {
     can_delete: false,
     web_links: [
       {
-        name: 'diffusion',
+        name: 'browse',
         url: `https://git.example.org/tag/test;refs/tags/test${counter}`,
       },
     ],

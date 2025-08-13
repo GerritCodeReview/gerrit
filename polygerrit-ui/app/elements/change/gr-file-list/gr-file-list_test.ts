@@ -1835,7 +1835,7 @@ suite('gr-file-list tests', () => {
 
       element.files = [];
       await element.updateComplete;
-      assert.deepEqual(element.computeSizeBarLayout(), defaultSizeBarLayout);
+      assert.deepEqual(element.sizeBarLayout, defaultSizeBarLayout);
 
       element.files = [
         {
@@ -1860,7 +1860,7 @@ suite('gr-file-list tests', () => {
         },
       ];
       await element.updateComplete;
-      const layout = element.computeSizeBarLayout();
+      const layout = element.sizeBarLayout;
       assert.equal(layout.maxInserted, 5);
       assert.equal(layout.maxDeleted, 10);
     });

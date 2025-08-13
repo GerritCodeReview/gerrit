@@ -16,6 +16,24 @@
       "message": "Isn\u0027t this redundant? The group is evicted from the cache upon deletion:\nhttps://gerrit-review.googlesource.com/c/gerrit/+/432097/8/java/com/google/gerrit/server/group/db/GroupsUpdate.java#586",
       "revId": "d79f29564e4cf5f4766f54b3c7890ab57ec9adaa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "089d6071_0d266d6d",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 501,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-08-13T06:15:10Z",
+      "side": 1,
+      "message": "This is frontend (in browser) cache invalidation\nhttps://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts?q\u003dinvalidateGroupsCache\u0026ss\u003dgerrit",
+      "parentUuid": "f7fe2e81_d49850a2",
+      "revId": "d79f29564e4cf5f4766f54b3c7890ab57ec9adaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -45,6 +45,29 @@
       },
       "revId": "b556edd24501e8f748823772aef1007b625b2b91",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "23d4d7c1_8d50e69e",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/TagsIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 562,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-08-13T11:18:40Z",
+      "side": 0,
+      "message": "This method should be split into two variants:\n\n1. `grantLightweightTagPermissions()\n2. `grantAnnotatedTagPermission()`\n\nThen the two methods should be used throughout the test.",
+      "range": {
+        "startLine": 553,
+        "startChar": 0,
+        "endLine": 562,
+        "endChar": 3
+      },
+      "revId": "b556edd24501e8f748823772aef1007b625b2b91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

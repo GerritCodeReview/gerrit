@@ -419,6 +419,15 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
 
     boolean mightContain(K key) {
       BloomFilter<K> b = bloomFilter;
+      if (buildBloomFilter && b == null) {
+        synchronized (this) {
+          b = bloomFilter;
+          if (b == null) {
+            buildBloomFilter();
+            b = bloomFilter;
+          }
+        }
+      }
       return b == null || b.mightContain(key);
     }
 
@@ -472,9 +481,6 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
 
     @Nullable
     ValueHolder<V> getIfPresent(K key) {
-      if (bloomFilter == null) {
-        return null;
-      }
       SqlHandle c = null;
       try {
         c = acquire();
@@ -548,9 +554,6 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
     }
 
     private void touch(SqlHandle c, K key) throws IOException, SQLException {
-      if (bloomFilter == null) {
-        return;
-      }
       if (c.touch == null) {
         c.touch = c.conn.prepareStatement("UPDATE data SET accessed=? WHERE k=? AND version=?");
       }
@@ -565,7 +568,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
     }
 
     void put(K key, ValueHolder<V> holder) {
-      if (holder.clean || bloomFilter == null) {
+      if (holder.clean) {
         return;
       }
 

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f4552dcc_aded9dc9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-08-13T06:34:27Z",
+      "side": 1,
+      "message": "Is the linked bug correct?\n\nIt seems to be fixes already. Did some user ask for this modification?",
+      "revId": "404c590bd24980a4532dd3335ea27a66dc61230c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

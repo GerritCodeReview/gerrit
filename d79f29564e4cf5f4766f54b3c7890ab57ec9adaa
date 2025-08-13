@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f7fe2e81_d49850a2",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 501,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2025-08-13T05:59:02Z",
+      "side": 1,
+      "message": "Isn\u0027t this redundant? The group is evicted from the cache upon deletion:\nhttps://gerrit-review.googlesource.com/c/gerrit/+/432097/8/java/com/google/gerrit/server/group/db/GroupsUpdate.java#586",
+      "revId": "d79f29564e4cf5f4766f54b3c7890ab57ec9adaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

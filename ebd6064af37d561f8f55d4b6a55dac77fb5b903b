@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "97eb4ee6_8d115bad",
+        "filename": "java/com/google/gerrit/httpd/ProjectBasicAuthFilter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-08-13T20:50:04Z",
+      "side": 1,
+      "message": "If `accountState` is not defined, the code would end up inside the if() statement at L157. After reaching this line of code, the `accountState` is defined and we are safe to call the `get()` directly without the `.orElse(null)`.\n\n```suggestion\n      AccountState who \u003d accountState.get();\n```",
+      "revId": "ebd6064af37d561f8f55d4b6a55dac77fb5b903b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

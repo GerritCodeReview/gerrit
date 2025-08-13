@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3e9615db_e79e86df",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/GetPatchIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-08-13T10:19:47Z",
+      "side": 1,
+      "message": "Tests should be using the test API, rather than making actual REST calls. We only write tests making REST calls for things that cannot be tested via the test API (e.g. to test things in the REST API layer, or to test the behaviour when the user provides a string where an int is expected which is not possible to test with the typed test API).\n\nI think the main tests for GetPatch are in RevisionIT (patch() and patchWithPath()). Ideally we would add the new test there. For this we would need to extend the test API to allow setting the new context parameter. Instead of adding yet another patch method to RevisionApi with context as a parameter, it\u0027s time to add a getPatch method that returns a GetPatchRequest that allows setting all supported parameters (e.g. path and context). For an example of this pattern, you could look at getMergeList() in RevisionApi that returns MergeListRequest.\n\nLet me know is this is too much work, then I\u0027m also fine with merging this with the current test.",
+      "revId": "877acaf511e8bb601125a8eabae672f1a96f9915",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

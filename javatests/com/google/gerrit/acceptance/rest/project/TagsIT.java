@@ -498,12 +498,11 @@ public class TagsIT extends AbstractDaemonTest {
   }
 
   @Test
-  @Ignore("Added test to highlight how creation of tag on read only project doesn't fail")
   public void cannotCreateTagIfProjectIsReadOnly() throws Exception {
     projectOperations
         .project(project)
         .forUpdate()
-        .add(allow(Permission.CREATE_TAG).ref(R_TAGS + "*").group(adminGroupUuid()))
+        .add(allow(Permission.CREATE).ref(R_TAGS + "*").group(adminGroupUuid()))
         .update();
     PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo);
     PushOneCommit.Result r = push.to("refs/heads/master");

@@ -150,14 +150,15 @@ class ProjectBasicAuthFilter implements Filter {
 
     Optional<AccountState> accountState =
         accountCache.getByUsername(username).filter(a -> a.account().isActive());
-    if (!accountState.isPresent()) {
-      logger.atWarning().log(
-          "Authentication failed for %s: account inactive or not provisioned in Gerrit", username);
-      rsp.sendError(SC_UNAUTHORIZED);
-      return false;
-    }
+    //    if (!accountState.isPresent()) {
+    //      logger.atWarning().log(
+    //          "Authentication failed for %s: account inactive or not provisioned in Gerrit",
+    // username);
+    //      rsp.sendError(SC_UNAUTHORIZED);
+    //      return false;
+    //    }
 
-    AccountState who = accountState.get();
+    AccountState who = accountState.orElse(null);
     GitBasicAuthPolicy gitBasicAuthPolicy = authConfig.getGitBasicAuthPolicy();
     if (gitBasicAuthPolicy == GitBasicAuthPolicy.HTTP
         || gitBasicAuthPolicy == GitBasicAuthPolicy.HTTP_LDAP) {

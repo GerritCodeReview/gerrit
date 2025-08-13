@@ -92,6 +92,52 @@
       },
       "revId": "b556edd24501e8f748823772aef1007b625b2b91",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "63595146_cb4adf59",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/TagsIT.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-08-13T13:44:36Z",
+      "side": 0,
+      "message": "nit: unrelated change.",
+      "range": {
+        "startLine": 322,
+        "startChar": 0,
+        "endLine": 326,
+        "endChar": 18
+      },
+      "revId": "b556edd24501e8f748823772aef1007b625b2b91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2afc3c30_3c600395",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/TagsIT.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-08-13T13:44:36Z",
+      "side": 0,
+      "message": "nit: unrelated change.",
+      "range": {
+        "startLine": 335,
+        "startChar": 0,
+        "endLine": 339,
+        "endChar": 18
+      },
+      "revId": "b556edd24501e8f748823772aef1007b625b2b91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

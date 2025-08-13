@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "83370d90_6e204f88",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/TagsIT.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 502,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-08-13T13:44:36Z",
+      "side": 1,
+      "message": "```suggestion\n  private void createAnnotatedTags() throws Exception {\n```",
+      "range": {
+        "startLine": 502,
+        "startChar": 15,
+        "endLine": 502,
+        "endChar": 25
+      },
+      "revId": "ecfb4047816b7897668c16e25e272ad8f2c0d7d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

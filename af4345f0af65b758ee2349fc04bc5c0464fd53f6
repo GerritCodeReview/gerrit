@@ -46,6 +46,30 @@
       },
       "revId": "af4345f0af65b758ee2349fc04bc5c0464fd53f6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "947de649_6afe5bdd",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/TagsIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-08-13T07:49:36Z",
+      "side": 1,
+      "message": "Yes, but the commented code now also grants the permission to create tags, which is not required for \"creating a hidden branch\". \n\nSo I would either update the comment saying that this code block grants permissions to creating a hidden branch and lightweight tags, or just dropping it is also fine, I guess.",
+      "parentUuid": "1c1c7b42_e8a67d68",
+      "range": {
+        "startLine": 186,
+        "startChar": 7,
+        "endLine": 186,
+        "endChar": 41
+      },
+      "revId": "af4345f0af65b758ee2349fc04bc5c0464fd53f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

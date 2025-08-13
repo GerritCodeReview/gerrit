@@ -148,19 +148,20 @@ class ProjectBasicAuthFilter implements Filter {
       username = username.toLowerCase(Locale.US);
     }
 
-    Optional<AccountState> accountState =
-        accountCache.getByUsername(username).filter(a -> a.account().isActive());
-    if (!accountState.isPresent()) {
-      logger.atWarning().log(
-          "Authentication failed for %s: account inactive or not provisioned in Gerrit", username);
-      rsp.sendError(SC_UNAUTHORIZED);
-      return false;
-    }
-
-    AccountState who = accountState.get();
     GitBasicAuthPolicy gitBasicAuthPolicy = authConfig.getGitBasicAuthPolicy();
     if (gitBasicAuthPolicy == GitBasicAuthPolicy.HTTP
         || gitBasicAuthPolicy == GitBasicAuthPolicy.HTTP_LDAP) {
+      Optional<AccountState> accountState =
+          accountCache.getByUsername(username).filter(a -> a.account().isActive());
+      if (!accountState.isPresent()) {
+        logger.atWarning().log(
+            "Authentication failed for %s: account inactive or not provisioned in Gerrit",
+            username);
+        rsp.sendError(SC_UNAUTHORIZED);
+        return false;
+      }
+
+      AccountState who = accountState.orElse(null);
       if (passwordVerifier.checkPassword(who.externalIds(), username, password)) {
         logger.atFine().log(
             "HTTP:%s %s username/password authentication succeeded",
@@ -183,8 +184,11 @@ class ProjectBasicAuthFilter implements Filter {
           "HTTP:%s %s Realm authentication succeeded", req.getMethod(), req.getRequestURI());
       return true;
     } catch (NoSuchUserException e) {
-      if (passwordVerifier.checkPassword(who.externalIds(), username, password)) {
-        return succeedAuthentication(who, null);
+      Optional<AccountState> who =
+          accountCache.getByUsername(username).filter(a -> a.account().isActive());
+      if (who.isPresent()
+          && passwordVerifier.checkPassword(who.get().externalIds(), username, password)) {
+        return succeedAuthentication(who.get(), null);
       }
       logger.atWarning().withCause(e).log("%s", authenticationFailedMsg(username, req));
       rsp.sendError(SC_UNAUTHORIZED);

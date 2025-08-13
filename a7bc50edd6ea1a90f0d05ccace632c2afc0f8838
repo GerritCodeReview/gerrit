@@ -69,6 +69,24 @@
       "parentUuid": "1e8e709b_b72bea8f",
       "revId": "a7bc50edd6ea1a90f0d05ccace632c2afc0f8838",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1a128f20_0cd6bcee",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2025-08-13T19:22:34Z",
+      "side": 1,
+      "message": "Do we have any hint as to how many plugins are impacted by this. We are running this in prod, and it is a huge win for us. Plugins technically should be starting their own caches and this does not prevent that, it only prevents the lazy start.",
+      "parentUuid": "04ec594e_8dee81b4",
+      "revId": "a7bc50edd6ea1a90f0d05ccace632c2afc0f8838",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

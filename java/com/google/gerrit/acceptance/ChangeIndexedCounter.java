@@ -22,6 +22,7 @@ import com.google.gerrit.extensions.events.ChangeIndexedListener;
 
 public class ChangeIndexedCounter implements ChangeIndexedListener {
   private final AtomicLongMap<Integer> countsByChange = AtomicLongMap.create();
+  private final AtomicLongMap<Integer> deletionsByChange = AtomicLongMap.create();
 
   @Override
   public void onChangeIndexed(String projectName, int id) {
@@ -31,6 +32,7 @@ public class ChangeIndexedCounter implements ChangeIndexedListener {
   @Override
   public void onChangeDeleted(int id) {
     countsByChange.incrementAndGet(id);
+    deletionsByChange.incrementAndGet(id);
   }
 
   public void clear() {
@@ -43,6 +45,10 @@ public class ChangeIndexedCounter implements ChangeIndexedListener {
 
   public long getTotalCount() {
     return countsByChange.asMap().values().stream().reduce(0L, Long::sum);
+  }
+
+  public long getTotalDeletions() {
+    return deletionsByChange.asMap().values().stream().reduce(0L, Long::sum);
   }
 
   public void assertReindexOf(ChangeInfo info) {

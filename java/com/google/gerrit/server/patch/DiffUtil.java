@@ -149,6 +149,25 @@ public class DiffUtil {
 
   public static void getFormattedDiff(
       Repository repo,
+      RevCommit baseCommit,
+      RevCommit childCommit,
+      @Nullable String path,
+      OutputStream out,
+      int context)
+      throws IOException {
+    try (DiffFormatter fmt = new DiffFormatter(out)) {
+      fmt.setRepository(repo);
+      fmt.setContext(context);
+      if (path != null) {
+        fmt.setPathFilter(PathFilter.create(path));
+      }
+      fmt.format(baseCommit, childCommit);
+      fmt.flush();
+    }
+  }
+
+  public static void getFormattedDiff(
+      Repository repo,
       @Nullable ObjectReader reader,
       RevTree baseTree,
       RevTree childTree,

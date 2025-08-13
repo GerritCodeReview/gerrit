@@ -21,6 +21,7 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.common.io.BaseEncoding;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.extensions.api.changes.ReviewInput;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -120,5 +121,33 @@ public class GetPatchIT extends AbstractDaemonTest {
       }
       assertThat(resultingPatch).isEqualTo(patch);
     }
+  }
+
+  @Test
+  public void patchWithContext() throws Exception {
+    String fileName = "a_new_file.txt";
+    String fileContent = "1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20\n";
+    PushOneCommit.Result result = createChange("Add a file", fileName, fileContent);
+    gApi.changes().id(result.getChangeId()).current().review(ReviewInput.approve());
+    gApi.changes().id(result.getChangeId()).current().submit();
+
+    PushOneCommit.Result result2 =
+        createChange(
+            "Amend a file",
+            fileName,
+            "1\n2\n3\n4\n5\n-\n7\n8\n9\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20\n");
+    String triplet = project.get() + "~master~" + result2.getChangeId();
+
+    var apiResult =
+        userRestSession.get("/changes/" + triplet + "/revisions/1/patch?raw&context=10");
+    apiResult.assertOK();
+    String resultingPatch =
+        RawParseUtils.decode(
+            apiResult.getRawContent().array(),
+            apiResult.getRawContent().arrayOffset(),
+            apiResult.getRawContent().limit());
+    assertThat(resultingPatch).contains("@@ -1,16 +1,16 @@");
+    assertThat(resultingPatch).contains("-6");
+    assertThat(resultingPatch).contains("+-\n");
   }
 }

@@ -43,7 +43,7 @@ public enum FlowStageEvaluationStatusProtoConverter
       builder.setStartTimeMillis(status.startTime().get().toEpochMilli());
     }
     if (status.endTime().isPresent()) {
-      builder.setEndTimeMillis(status.startTime().get().toEpochMilli());
+      builder.setEndTimeMillis(status.endTime().get().toEpochMilli());
     }
     return builder.build();
   }

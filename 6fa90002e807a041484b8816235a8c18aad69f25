@@ -34,6 +34,24 @@
       "parentUuid": "f7015332_d5661b86",
       "revId": "6fa90002e807a041484b8816235a8c18aad69f25",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "652c77c1_16ffbd75",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountManagerIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 435,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-08-13T11:23:18Z",
+      "side": 1,
+      "message": "OK, not sure I agree though. This is harder to read and the message doesn\u0027t change that often and if it does doing these updates is trivial.",
+      "parentUuid": "1221a2ec_7cbbc032",
+      "revId": "6fa90002e807a041484b8816235a8c18aad69f25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

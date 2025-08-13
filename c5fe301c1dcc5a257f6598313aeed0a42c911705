@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a95216ca_ee958d7f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-08-13T07:59:50Z",
+      "side": 1,
+      "message": "[optional] if you have a maybe include a reference to the change that added this, or the code that does this",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 49
+      },
+      "revId": "c5fe301c1dcc5a257f6598313aeed0a42c911705",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ffb54857_2282699e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-08-13T07:59:50Z",
+      "side": 1,
+      "message": "Please add a \u0027Release-Notes\u0027 footer to make the \u0027Release-Notes\u0027 submit requirement pass.",
+      "revId": "c5fe301c1dcc5a257f6598313aeed0a42c911705",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

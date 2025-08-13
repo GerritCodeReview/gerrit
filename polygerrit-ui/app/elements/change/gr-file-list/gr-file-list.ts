@@ -300,6 +300,9 @@ export class GrFileList extends LitElement {
   @state()
   private dynamicPrependedContentEndpoints?: string[];
 
+  @state()
+  sizeBarLayout: SizeBarLayout = createDefaultSizeBarLayout();
+
   private readonly reporting = getAppContext().reportingService;
 
   private readonly restApiService = getAppContext().restApiService;
@@ -924,6 +927,7 @@ export class GrFileList extends LitElement {
     if (changedProperties.has('files')) {
       this.filesChanged();
       this.numFilesShown = Math.min(this.files.length, DEFAULT_NUM_FILES_SHOWN);
+      this.updateSizeBarLayout();
       fire(this, 'files-shown-changed', {length: this.numFilesShown});
     }
     if (changedProperties.has('expandedFiles')) {
@@ -931,6 +935,7 @@ export class GrFileList extends LitElement {
     }
     if (changedProperties.has('numFilesShown')) {
       fire(this, 'files-shown-changed', {length: this.numFilesShown});
+      this.updateSizeBarLayout();
     }
   }
 
@@ -1120,7 +1125,6 @@ export class GrFileList extends LitElement {
     const showDynamicColumns = this.computeShowDynamicColumns();
     const showPrependedDynamicColumns =
       this.computeShowPrependedDynamicColumns();
-    const sizeBarLayout = this.computeSizeBarLayout();
 
     const separatorIndex = this.modifiedFiles.length;
 
@@ -1136,7 +1140,6 @@ export class GrFileList extends LitElement {
         ${this.renderFileRow(
           f as NormalizedFileInfo,
           i,
-          sizeBarLayout,
           showDynamicColumns,
           showPrependedDynamicColumns
         )}
@@ -1151,7 +1154,6 @@ export class GrFileList extends LitElement {
   private renderFileRow(
     file: NormalizedFileInfo,
     index: number,
-    sizeBarLayout: SizeBarLayout,
     showDynamicColumns: boolean,
     showPrependedDynamicColumns: boolean
   ) {
@@ -1171,8 +1173,8 @@ export class GrFileList extends LitElement {
         )}
         ${this.renderFileStatus(file)}
         ${this.renderFilePath(file, previousFileName)}
-        ${this.renderFileComments(file)}
-        ${this.renderSizeBar(file, sizeBarLayout)} ${this.renderFileStats(file)}
+        ${this.renderFileComments(file)} ${this.renderSizeBar(file)}
+        ${this.renderFileStats(file)}
         ${when(showDynamicColumns, () =>
           this.renderDynamicContentEndpointsForFile(file)
         )}
@@ -1420,10 +1422,8 @@ export class GrFileList extends LitElement {
     </div>`;
   }
 
-  private renderSizeBar(
-    file: NormalizedFileInfo,
-    sizeBarLayout: SizeBarLayout
-  ) {
+  private renderSizeBar(file: NormalizedFileInfo) {
+    const sizeBarLayout: SizeBarLayout = this.sizeBarLayout;
     return html` <div class="desktop" role="gridcell">
       <!-- The content must be in a separate div. It guarantees, that
           gridcell always visible for screen readers.
@@ -2579,7 +2579,7 @@ export class GrFileList extends LitElement {
    * Compute size bar layout values from the file list.
    * Private but used in tests.
    */
-  computeSizeBarLayout() {
+  updateSizeBarLayout() {
     const stats: SizeBarLayout = createDefaultSizeBarLayout();
     this.files
       .slice(0, this.numFilesShown)
@@ -2600,7 +2600,7 @@ export class GrFileList extends LitElement {
         SIZE_BAR_MAX_WIDTH - SIZE_BAR_GAP_WIDTH - stats.maxAdditionWidth;
       stats.additionOffset = stats.maxDeletionWidth + SIZE_BAR_GAP_WIDTH;
     }
-    return stats;
+    this.sizeBarLayout = stats;
   }
 
   /**

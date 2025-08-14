@@ -34,6 +34,24 @@
       "parentUuid": "00dff335_17fc9c59",
       "revId": "1707aa0f8ae33162265b0831c5f2e6a7f530c517",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cbf0fabc_19667259",
+        "filename": "plugins/yarn.lock",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2025-08-14T15:30:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8b3a3475_358aedb9",
+      "revId": "1707aa0f8ae33162265b0831c5f2e6a7f530c517",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

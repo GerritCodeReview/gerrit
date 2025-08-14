@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "00dff335_17fc9c59",
+        "filename": "plugins/yarn.lock",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2025-08-14T13:29:22Z",
+      "side": 1,
+      "message": "@luca.milanesio@gmail.com @thomasmulhall410@yahoo.com When merging up to 3.12 and doing a `bazelisk build gerrit release` locally the `yarn.lock` is modified.\n\n* Do you know why?\n* I don\u0027t think it is to be included in the merge up. I guess I should do a change before the merge to upgrade it. WDYT?",
+      "revId": "1707aa0f8ae33162265b0831c5f2e6a7f530c517",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

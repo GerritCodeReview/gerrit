@@ -43,7 +43,14 @@ public class DirectAuthTokenAccessorTest {
   public void setUp() throws Exception {
     tokenAccessor =
         new HttpPasswordFallbackAuthTokenAccessor(
-            accountCache, new DirectAuthTokenAccessor(null, authTokenFactory, null, null));
+            accountCache,
+            new DirectAuthTokenAccessor(null, authTokenFactory, null, null),
+            null,
+            null,
+            null,
+            null,
+            null,
+            null);
     tokens =
         ImmutableList.of(
             AuthToken.createWithPlainToken("id1", "hashedToken"),

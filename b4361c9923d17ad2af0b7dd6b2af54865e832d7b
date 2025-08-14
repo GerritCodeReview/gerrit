@@ -272,6 +272,46 @@
       "parentUuid": "737737dc_f9a399cc",
       "revId": "b4361c9923d17ad2af0b7dd6b2af54865e832d7b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9e038958_4114d308",
+        "filename": "javatests/com/google/gerrit/acceptance/server/project/SubmitRequirementsEvaluatorIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-08-14T09:55:00Z",
+      "side": 1,
+      "message": "Notice that the file name contains comma \"file`,`txt\" and not dot ...",
+      "revId": "b4361c9923d17ad2af0b7dd6b2af54865e832d7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fce767d0_b2713db3",
+        "filename": "javatests/com/google/gerrit/acceptance/server/project/SubmitRequirementsEvaluatorIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 518,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-08-14T09:55:00Z",
+      "side": 1,
+      "message": "considering the previous comment on the line 73, how does this test actually ends with `PASS`? The intention here is to match literally `.txt` but the file name ends with `,txt`. Does this point to a deeper issue with the implementation and/or tests?",
+      "range": {
+        "startLine": 518,
+        "startChar": 55,
+        "endLine": 518,
+        "endChar": 61
+      },
+      "revId": "b4361c9923d17ad2af0b7dd6b2af54865e832d7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

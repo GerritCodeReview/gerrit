@@ -306,6 +306,9 @@ export class GrAuthToken extends LitElement {
             id="lifetime"
             class="lifeTimeInput showBlueFocusBorder"
             placeholder="Lifetime (e.g. 30d)"
+            supporting-text="Max. allowed lifetime: ${this.formatDuration(
+              this.maxLifetime
+            )}. Leave empty for unlimited lifetime."
             .value=${this.newLifetime ?? ''}
             @input=${(e: InputEvent) => {
               const target = e.target as HTMLInputElement;
@@ -314,8 +317,6 @@ export class GrAuthToken extends LitElement {
             @keydown=${this.handleInputKeydown}
           >
           </md-outlined-text-field>
-          </br>
-          (Max. allowed lifetime: ${this.formatDuration(this.maxLifetime)})
         </th>
         <th>
           <gr-button

@@ -51,6 +51,9 @@ export class GrCommitInfo extends LitElement {
         gr-weblink {
           margin-right: 0;
         }
+        gr-copy-clipboard {
+          margin-left: var(--spacing-s);
+        }
       `,
     ];
   }

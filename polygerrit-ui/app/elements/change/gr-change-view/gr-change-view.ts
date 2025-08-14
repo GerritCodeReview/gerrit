@@ -848,7 +848,7 @@ export class GrChangeView extends LitElement {
           color: transparent;
         }
         .changeCopyClipboard {
-          margin-left: var(--spacing-s);
+          margin-left: var(--spacing-m);
         }
         .showCopyLinkDialogButton {
           --gr-button-padding: 0 0 0 var(--spacing-s);

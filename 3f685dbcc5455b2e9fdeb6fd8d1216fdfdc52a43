@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "25d47e80_f83f80da",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-08-14T15:26:11Z",
+      "side": 1,
+      "message": "I wonder if something in the UI should tell the user (if the legacy token is there).",
+      "revId": "3f685dbcc5455b2e9fdeb6fd8d1216fdfdc52a43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

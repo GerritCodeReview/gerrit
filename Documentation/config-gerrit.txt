@@ -676,6 +676,17 @@ If not set or if a value <= 0 is used, tokens can have an unlimited lifetime.
 +
 Existing tokens will not be affected by changing this value.
 
+[[auth.httpPasswordFallbackEnabled]]auth.httpPasswordFallbackEnabled::
++
+To provide backward compatibility Gerrit will automatically fall back to
+using the existing HTTP password, if no auth token has been created yet
+for the user account. This does not provide any benefit if all HTTP
+passwords were migrated to authentication tokens or if the Gerrit site
+is new. Thus, this option can be used to disable the fallback, which should
+slightly improve performance during authentication and managing tokens.
++
+By default, `true`, i.e. the fallback is enabled.
+
 [[auth.maxAuthTokensPerAccount]]auth.maxAuthTokensPerAccount::
 +
 The maximum number of authentication tokens a user is allowed to have in their

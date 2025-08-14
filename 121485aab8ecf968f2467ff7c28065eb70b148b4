@@ -22,6 +22,30 @@
       },
       "revId": "121485aab8ecf968f2467ff7c28065eb70b148b4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "21df5cac_99529325",
+        "filename": "java/com/google/gerrit/server/notedb/RepoSequence.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2025-08-14T11:48:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a898caf1_459425b3",
+      "range": {
+        "startLine": 175,
+        "startChar": 23,
+        "endLine": 176,
+        "endChar": 60
+      },
+      "revId": "121485aab8ecf968f2467ff7c28065eb70b148b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

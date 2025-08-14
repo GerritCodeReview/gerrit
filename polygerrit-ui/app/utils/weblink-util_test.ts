@@ -7,7 +7,7 @@ import {assert} from '@open-wc/testing';
 import '../test/common-test-setup';
 import {createGerritInfo, createServerInfo} from '../test/test-data-generators';
 import {
-  getBrowseCommitWeblink,
+  computeMainCodeBrowserWeblink,
   getChangeWeblinks,
   getCodeBrowserWeblink,
 } from './weblink-util';
@@ -33,7 +33,7 @@ suite('weblink util tests', () => {
     );
   });
 
-  test('getBrowseCommitWeblink', () => {
+  test('computeMainCodeBrowserWeblink', () => {
     const browserLink = {name: 'browser', url: 'browser/url'};
     const link = {name: 'gitiles', url: 'test/url'};
     const weblinks = [browserLink, link];
@@ -42,8 +42,11 @@ suite('weblink util tests', () => {
       gerrit: {...createGerritInfo(), primary_weblink_name: browserLink.name},
     };
 
-    assert.deepEqual(getBrowseCommitWeblink(weblinks, config), browserLink);
-    assert.deepEqual(getBrowseCommitWeblink(weblinks), link);
+    assert.deepEqual(
+      computeMainCodeBrowserWeblink(weblinks, config),
+      browserLink
+    );
+    assert.deepEqual(computeMainCodeBrowserWeblink(weblinks), link);
   });
 
   test('getChangeWeblinks', () => {

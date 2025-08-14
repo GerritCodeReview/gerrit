@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d400517a_9942f106",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2025-08-14T18:41:55Z",
+      "side": 1,
+      "message": "This fixes the style error reported by the linter:\n\n```\n./polygerrit-ui/app/elements/admin/gr-repo/gr-repo.ts\n\nThis attribute binds the type \u0027string | undefined\u0027 which can end up binding the string \u0027undefined\u0027. Use the \u0027ifDefined\u0027 directive?\n\t206:  \u003ca href\u003d${this.getWebLink()?.url}\nno-nullable-attribute-binding\n```",
+      "revId": "36a1862275f9f0c35a8f553ed94144ecef5f5ec7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -113,8 +113,7 @@ public class CommitIT extends AbstractDaemonTest {
   public void includedInMergedChange() throws Exception {
     TestChange change = changeOperations.newChange().createAndGet();
     TestPatchset currentPatchSet = changeOperations.change(change.id()).currentPatchset().get();
-
-    gApi.changes().id(change.id()).current().review(ReviewInput.approve());
+    changeOperations.change(change.id()).newVote().codeReviewApproval().create();
     gApi.changes().id(change.id()).current().submit();
 
     IncludedInInfo includedIn = getIncludedIn(change.project(), currentPatchSet.commitId());
@@ -139,8 +138,7 @@ public class CommitIT extends AbstractDaemonTest {
   public void includedInMergedChange_filtersOutNonVisibleBranches() throws Exception {
     TestChange change = changeOperations.newChange().createAndGet();
     TestPatchset currentPatchSet = changeOperations.change(change.id()).currentPatchset().get();
-
-    gApi.changes().id(change.id()).current().review(ReviewInput.approve());
+    changeOperations.change(change.id()).newVote().codeReviewApproval().create();
     gApi.changes().id(change.id()).current().submit();
 
     createBranch(BranchNameKey.create(change.project(), "branch-1"));
@@ -167,7 +165,7 @@ public class CommitIT extends AbstractDaemonTest {
     TestChange change =
         changeOperations.newChange().project(project).branch("master").createAndGet();
     TestPatchset currentPatchSet = changeOperations.change(change.id()).currentPatchset().get();
-    gApi.changes().id(change.id()).current().review(ReviewInput.approve());
+    changeOperations.change(change.id()).newVote().codeReviewApproval().create();
     gApi.changes().id(change.id()).current().submit();
 
     // Create a tag on the commit in master.
@@ -193,7 +191,7 @@ public class CommitIT extends AbstractDaemonTest {
         changeOperations.newChange().project(project).branch(otherBranch).create();
     TestPatchset currentPatchSetFollowUpChange =
         changeOperations.change(followUpChange).currentPatchset().get();
-    gApi.changes().id(followUpChange).current().review(ReviewInput.approve());
+    changeOperations.change(followUpChange).newVote().codeReviewApproval().create();
     gApi.changes().id(followUpChange).current().submit();
 
     // Create a tag on the commit in the other branch. This is a follow-up commit to the commit in

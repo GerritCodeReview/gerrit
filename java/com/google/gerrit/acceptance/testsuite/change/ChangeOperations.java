@@ -127,6 +127,27 @@ public interface ChangeOperations {
     PerPatchsetOperations currentPatchset();
 
     /**
+     * Starts the fluent chain to create a new vote. The returned builder can be used to specify the
+     * attributes of the new vote. To create the vote for real, {@link
+     * TestVoteCreation.Builder#create()} must be called.
+     *
+     * <p>Example:
+     *
+     * <pre>
+     * TestVote testVote = changeOperations
+     *     .change(changeId)
+     *     .newVote()
+     *     .user(user.id())
+     *     .label("Code-Review")
+     *     .value(2)
+     *     .create();
+     * </pre>
+     *
+     * @return builder to create a new vote
+     */
+    TestVoteCreation.Builder newVote();
+
+    /**
      * Starts the fluent chain for querying or modifying a published comment. Please see the methods
      * of {@link PerCommentOperations} for details on possible operations.
      *

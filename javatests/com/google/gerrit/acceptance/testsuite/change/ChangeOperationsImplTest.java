@@ -26,6 +26,8 @@ import static com.google.gerrit.truth.MapSubject.assertThatMap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.ListMultimap;
 import com.google.common.truth.Correspondence;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
@@ -35,7 +37,9 @@ import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.PatchSet;
+import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.changes.ChangeIdentifier;
@@ -46,6 +50,7 @@ import com.google.gerrit.extensions.common.ChangeType;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.common.DiffInfo;
 import com.google.gerrit.extensions.common.FileInfo;
+import com.google.gerrit.extensions.common.LabelDefinitionInput;
 import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -1755,6 +1760,216 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
   }
 
   @Test
+  public void newVoteCanBeCreatedWithoutSpecifyingAnyParameters() throws Exception {
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().create();
+    TestPatchset currentPatchSet =
+        changeOperations.change(changeIdentifier).currentPatchset().get();
+    assertThat(getApprovals(changeIdentifier)).isEmpty();
+
+    changeOperations.change(changeIdentifier).newVote().create();
+    ListMultimap<PatchSet.Id, PatchSetApproval> approvals = getApprovals(changeIdentifier);
+    assertThat(approvals).hasSize(1);
+    assertThat(approvals).containsKey(currentPatchSet.patchsetId());
+    assertThat(approvals.get(currentPatchSet.patchsetId())).hasSize(1);
+  }
+
+  @Test
+  public void createdVoteHasSpecifiedUser_nonChangeOwner() throws Exception {
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().owner(admin.id()).create();
+    TestPatchset currentPatchSet =
+        changeOperations.change(changeIdentifier).currentPatchset().get();
+    assertThat(getApprovals(changeIdentifier)).isEmpty();
+
+    TestVote testVote =
+        changeOperations.change(changeIdentifier).newVote().user(user.id()).create();
+    assertThat(testVote.userId()).isEqualTo(user.id());
+
+    ListMultimap<PatchSet.Id, PatchSetApproval> approvals = getApprovals(changeIdentifier);
+    assertThat(approvals).hasSize(1);
+    assertThat(approvals).containsKey(currentPatchSet.patchsetId());
+    assertThat(approvals.get(currentPatchSet.patchsetId())).hasSize(1);
+
+    assertThat(Iterables.getOnlyElement(approvals.get(currentPatchSet.patchsetId())).accountId())
+        .isEqualTo(user.id());
+  }
+
+  @Test
+  public void createdVoteHasSpecifiedUser_changeOwner() throws Exception {
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().owner(admin.id()).create();
+    TestPatchset currentPatchSet =
+        changeOperations.change(changeIdentifier).currentPatchset().get();
+    assertThat(getApprovals(changeIdentifier)).isEmpty();
+
+    TestVote testVote =
+        changeOperations.change(changeIdentifier).newVote().user(admin.id()).create();
+    assertThat(testVote.userId()).isEqualTo(admin.id());
+
+    ListMultimap<PatchSet.Id, PatchSetApproval> approvals = getApprovals(changeIdentifier);
+    assertThat(approvals).hasSize(1);
+    assertThat(approvals).containsKey(currentPatchSet.patchsetId());
+    assertThat(approvals.get(currentPatchSet.patchsetId())).hasSize(1);
+
+    assertThat(Iterables.getOnlyElement(approvals.get(currentPatchSet.patchsetId())).accountId())
+        .isEqualTo(admin.id());
+  }
+
+  @Test
+  public void createdVoteHasSpecifiedLabelAndValue() throws Exception {
+    Project.NameKey project = projectOperations.newProject().create();
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().project(project).create();
+    TestPatchset currentPatchSet =
+        changeOperations.change(changeIdentifier).currentPatchset().get();
+    assertThat(getApprovals(changeIdentifier)).isEmpty();
+
+    // Create Foo-Review label.
+    LabelDefinitionInput input = new LabelDefinitionInput();
+    input.values = ImmutableMap.of("+1", "Approved", " 0", "No Vote", "-1", "Rejected");
+    gApi.projects().name(project.get()).label("Foo-Review").create(input);
+
+    TestVote testVote =
+        changeOperations.change(changeIdentifier).newVote().label("Foo-Review").value(1).create();
+    assertThat(testVote.label()).isEqualTo("Foo-Review");
+    assertThat(testVote.value()).isEqualTo(1);
+
+    ListMultimap<PatchSet.Id, PatchSetApproval> approvals = getApprovals(changeIdentifier);
+    assertThat(approvals).hasSize(1);
+    assertThat(approvals).containsKey(currentPatchSet.patchsetId());
+    assertThat(approvals.get(currentPatchSet.patchsetId())).hasSize(1);
+
+    assertThat(Iterables.getOnlyElement(approvals.get(currentPatchSet.patchsetId())).label())
+        .isEqualTo("Foo-Review");
+    assertThat(Iterables.getOnlyElement(approvals.get(currentPatchSet.patchsetId())).value())
+        .isEqualTo(1);
+  }
+
+  @Test
+  public void createdVoteHasValidNonZeroValueIfNotSpecified() throws Exception {
+    Project.NameKey project = projectOperations.newProject().create();
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().project(project).create();
+    TestPatchset currentPatchSet =
+        changeOperations.change(changeIdentifier).currentPatchset().get();
+    assertThat(getApprovals(changeIdentifier)).isEmpty();
+
+    // Create Foo-Review label.
+    LabelDefinitionInput input = new LabelDefinitionInput();
+    input.values = ImmutableMap.of("+1", "Approved", " 0", "No Vote", "-1", "Rejected");
+    gApi.projects().name(project.get()).label("Foo-Review").create(input);
+
+    changeOperations.change(changeIdentifier).newVote().label("Foo-Review").create();
+
+    ListMultimap<PatchSet.Id, PatchSetApproval> approvals = getApprovals(changeIdentifier);
+    assertThat(approvals).hasSize(1);
+    assertThat(approvals).containsKey(currentPatchSet.patchsetId());
+    assertThat(approvals.get(currentPatchSet.patchsetId())).hasSize(1);
+
+    assertThat(Iterables.getOnlyElement(approvals.get(currentPatchSet.patchsetId())).label())
+        .isEqualTo("Foo-Review");
+    assertThat(Iterables.getOnlyElement(approvals.get(currentPatchSet.patchsetId())).value())
+        .isIn(ImmutableList.of((short) -1, (short) 1));
+  }
+
+  @Test
+  public void createCodeReviewApproval() throws Exception {
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().create();
+    TestPatchset currentPatchSet =
+        changeOperations.change(changeIdentifier).currentPatchset().get();
+    assertThat(getApprovals(changeIdentifier)).isEmpty();
+
+    TestVote testVote =
+        changeOperations.change(changeIdentifier).newVote().codeReviewApproval().create();
+    assertThat(testVote.label()).isEqualTo(LabelId.CODE_REVIEW);
+    assertThat(testVote.value()).isEqualTo(2);
+
+    ListMultimap<PatchSet.Id, PatchSetApproval> approvals = getApprovals(changeIdentifier);
+    assertThat(approvals).hasSize(1);
+    assertThat(approvals).containsKey(currentPatchSet.patchsetId());
+    assertThat(approvals.get(currentPatchSet.patchsetId())).hasSize(1);
+
+    assertThat(Iterables.getOnlyElement(approvals.get(currentPatchSet.patchsetId())).label())
+        .isEqualTo(LabelId.CODE_REVIEW);
+    assertThat(Iterables.getOnlyElement(approvals.get(currentPatchSet.patchsetId())).value())
+        .isEqualTo(2);
+  }
+
+  @Test
+  public void createCodeReviewVeto() throws Exception {
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().create();
+    TestPatchset currentPatchSet =
+        changeOperations.change(changeIdentifier).currentPatchset().get();
+    assertThat(getApprovals(changeIdentifier)).isEmpty();
+
+    TestVote testVote =
+        changeOperations.change(changeIdentifier).newVote().codeReviewVeto().create();
+    assertThat(testVote.label()).isEqualTo(LabelId.CODE_REVIEW);
+    assertThat(testVote.value()).isEqualTo(-2);
+
+    ListMultimap<PatchSet.Id, PatchSetApproval> approvals = getApprovals(changeIdentifier);
+    assertThat(approvals).hasSize(1);
+    assertThat(approvals).containsKey(currentPatchSet.patchsetId());
+    assertThat(approvals.get(currentPatchSet.patchsetId())).hasSize(1);
+
+    assertThat(Iterables.getOnlyElement(approvals.get(currentPatchSet.patchsetId())).label())
+        .isEqualTo(LabelId.CODE_REVIEW);
+    assertThat(Iterables.getOnlyElement(approvals.get(currentPatchSet.patchsetId())).value())
+        .isEqualTo(-2);
+  }
+
+  @Test
+  public void cannotCreateVoteForNonExistingUser() throws Exception {
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().create();
+    IllegalStateException exception =
+        assertThrows(
+            IllegalStateException.class,
+            () ->
+                changeOperations
+                    .change(changeIdentifier)
+                    .newVote()
+                    .user(Account.id(0))
+                    .value(1)
+                    .create());
+    assertThat(exception).hasMessageThat().contains("account 0 not found");
+  }
+
+  @Test
+  public void cannotCreateVoteForNonExistingLabel() throws Exception {
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().create();
+    IllegalStateException exception =
+        assertThrows(
+            IllegalStateException.class,
+            () ->
+                changeOperations
+                    .change(changeIdentifier)
+                    .newVote()
+                    .label("Non-Existing-Review")
+                    .value(1)
+                    .create());
+    assertThat(exception).hasMessageThat().contains("label Non-Existing-Review not found");
+  }
+
+  @Test
+  public void cannotCreateVoteForNonExistingValue() throws Exception {
+    Project.NameKey project = projectOperations.newProject().create();
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().project(project).create();
+
+    // Create Foo-Review label.
+    LabelDefinitionInput input = new LabelDefinitionInput();
+    input.values = ImmutableMap.of("+1", "Approved", " 0", "No Vote", "-1", "Rejected");
+    gApi.projects().name(project.get()).label("Foo-Review").create(input);
+
+    IllegalStateException exception =
+        assertThrows(
+            IllegalStateException.class,
+            () ->
+                changeOperations
+                    .change(changeIdentifier)
+                    .newVote()
+                    .label("Foo-Review")
+                    .value(2)
+                    .create());
+    assertThat(exception).hasMessageThat().contains("value 2 not found for label Foo-Review");
+  }
+
+  @Test
   public void publishedCommentCanBeRetrieved() {
     Change.Id changeId = changeOperations.newChange().createV1();
     String commentUuid = changeOperations.change(changeId).currentPatchset().newComment().create();
@@ -1861,6 +2076,14 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
         changeOperations.change(changeId).draftComment(childCommentUuid).get();
 
     OptionalSubject.assertThat(comment.parentUuid()).value().isEqualTo(parentCommentUuid);
+  }
+
+  private ListMultimap<PatchSet.Id, PatchSetApproval> getApprovals(
+      ChangeIdentifier changeIdentifier) throws RestApiException {
+    ChangeInfo changeInfo = gApi.changes().id(changeIdentifier).get();
+    Project.NameKey projectName = Project.nameKey(changeInfo.project);
+    Change.Id changeId = Change.id(changeInfo._number);
+    return changeDataFactory.create(projectName, changeId).approvals();
   }
 
   private ChangeInfo getChangeFromServer(Change.Id changeId) throws RestApiException {

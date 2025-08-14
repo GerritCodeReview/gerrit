@@ -16,14 +16,22 @@ package com.google.gerrit.acceptance.testsuite.change;
 
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableList.toImmutableList;
+import static com.google.common.collect.ImmutableSet.toImmutableSet;
+import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static com.google.gerrit.testing.TestActionRefUpdateContext.openTestRefUpdateContext;
 
+import com.google.common.base.Predicate;
+import com.google.common.base.Predicates;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.LabelFunction;
+import com.google.gerrit.entities.LabelType;
+import com.google.gerrit.entities.LabelTypes;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
@@ -35,6 +43,7 @@ import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.Sequences;
+import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.change.ChangeFinder;
 import com.google.gerrit.server.change.ChangeInserter;
@@ -43,7 +52,11 @@ import com.google.gerrit.server.edit.tree.TreeCreator;
 import com.google.gerrit.server.edit.tree.TreeModification;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.update.BatchUpdate;
+import com.google.gerrit.server.update.BatchUpdateOp;
+import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.gerrit.server.util.CommitMessageUtil;
@@ -88,6 +101,8 @@ public class ChangeOperationsImpl implements ChangeOperations {
   private final PerCommentOperationsImpl.Factory perCommentOperationsFactory;
   private final PerDraftCommentOperationsImpl.Factory perDraftCommentOperationsFactory;
   private final ProjectOperations projectOperations;
+  private final ProjectCache projectCache;
+  private final AccountCache accountCache;
 
   @Inject
   public ChangeOperationsImpl(
@@ -103,7 +118,9 @@ public class ChangeOperationsImpl implements ChangeOperations {
       PerPatchsetOperationsImpl.Factory perPatchsetOperationsFactory,
       PerCommentOperationsImpl.Factory perCommentOperationsFactory,
       PerDraftCommentOperationsImpl.Factory perDraftCommentOperationsFactory,
-      ProjectOperations projectOperations) {
+      ProjectOperations projectOperations,
+      ProjectCache projectCache,
+      AccountCache accountCache) {
     this.seq = seq;
     this.changeInserterFactory = changeInserterFactory;
     this.patchsetInserterFactory = patchsetInserterFactory;
@@ -117,6 +134,8 @@ public class ChangeOperationsImpl implements ChangeOperations {
     this.perCommentOperationsFactory = perCommentOperationsFactory;
     this.perDraftCommentOperationsFactory = perDraftCommentOperationsFactory;
     this.projectOperations = projectOperations;
+    this.projectCache = projectCache;
+    this.accountCache = accountCache;
   }
 
   @Override
@@ -209,7 +228,15 @@ public class ChangeOperationsImpl implements ChangeOperations {
   }
 
   private IdentifiedUser getArbitraryUser() throws ConfigInvalidException, IOException {
-    ImmutableSet<Account.Id> foundAccounts = resolver.resolveIgnoreVisibility("").asIdSet();
+    return getArbitraryUser(Predicates.alwaysTrue());
+  }
+
+  private IdentifiedUser getArbitraryUser(Predicate<Account.Id> filter)
+      throws ConfigInvalidException, IOException {
+    ImmutableSet<Account.Id> foundAccounts =
+        resolver.resolveIgnoreVisibility("").asIdSet().stream()
+            .filter(filter)
+            .collect(toImmutableSet());
     checkState(
         !foundAccounts.isEmpty(),
         "At least one user account must be available on the Gerrit server");
@@ -708,6 +735,89 @@ public class ChangeOperationsImpl implements ChangeOperations {
       ChangeNotes changeNotes = getChangeNotes();
       return perPatchsetOperationsFactory.create(
           changeNotes, changeNotes.getChange().currentPatchSetId());
+    }
+
+    @Override
+    public TestVoteCreation.Builder newVote() {
+      return TestVoteCreation.builder(this::createVote);
+    }
+
+    private TestVote createVote(TestVoteCreation voteCreation)
+        throws IOException, RestApiException, UpdateException, ConfigInvalidException {
+      ChangeNotes changeNotes = getChangeNotes();
+      Project.NameKey project = changeNotes.getProjectName();
+      IdentifiedUser voter = getVoter(changeNotes.getChange().getOwner(), voteCreation);
+      LabelType label = getLabel(changeNotes.getChange().getDest(), voteCreation);
+      short value = getLabelValue(label, voteCreation);
+      try (RefUpdateContext ctx = openTestRefUpdateContext();
+          Repository repository = repositoryManager.openRepository(project);
+          ObjectInserter objectInserter = repository.newObjectInserter();
+          RevWalk revWalk = new RevWalk(objectInserter.newReader());
+          BatchUpdate batchUpdate = batchUpdateFactory.create(project, voter, TimeUtil.now())) {
+        batchUpdate.setRepository(repository, revWalk, objectInserter);
+        batchUpdate.addOp(
+            changeNotes.getChangeId(),
+            new BatchUpdateOp() {
+              @Override
+              public boolean updateChange(ChangeContext ctx) throws Exception {
+                ctx.getUpdate(changeNotes.getCurrentPatchSet().id())
+                    .putApproval(label.getName(), value);
+                return true;
+              }
+            });
+        batchUpdate.execute();
+
+        return TestVote.builder()
+            .userId(voter.getAccountId())
+            .label(label.getName())
+            .value(value)
+            .build();
+      }
+    }
+
+    private IdentifiedUser getVoter(Account.Id changeOwnerId, TestVoteCreation voteCreation)
+        throws IOException, ConfigInvalidException {
+      if (voteCreation.user().isPresent()) {
+        checkState(
+            accountCache.get(voteCreation.user().get()).isPresent(),
+            "account %s not found",
+            voteCreation.user().get());
+        return userFactory.create(voteCreation.user().get());
+      }
+
+      return getArbitraryUser(accountId -> !accountId.equals(changeOwnerId));
+    }
+
+    private LabelType getLabel(BranchNameKey dest, TestVoteCreation voteCreation) {
+      ProjectState state =
+          projectCache.get(dest.project()).orElseThrow(illegalState(dest.project()));
+      LabelTypes labelTypes = state.getLabelTypes(dest);
+      if (voteCreation.label().isPresent()) {
+        Optional<LabelType> labelType = labelTypes.byLabel(voteCreation.label().get());
+        checkState(labelType.isPresent(), "label %s not found", voteCreation.label().get());
+        return labelType.get();
+      }
+
+      return labelTypes.getLabelTypes().stream()
+          .filter(labelType -> !LabelFunction.PATCH_SET_LOCK.equals(labelType.getFunction()))
+          .findAny()
+          .orElseThrow(() -> new IllegalStateException("At least one label must be available"));
+    }
+
+    private short getLabelValue(LabelType labelType, TestVoteCreation voteCreation) {
+      if (voteCreation.value().isPresent()) {
+        checkState(
+            labelType.getByValue().keySet().contains(voteCreation.value().get().shortValue()),
+            "value %s not found for label %s",
+            voteCreation.value().get(),
+            labelType.getName());
+        return voteCreation.value().get().shortValue();
+      }
+
+      return labelType.getByValue().keySet().stream()
+          .filter(value -> value != 0)
+          .findAny()
+          .orElseThrow(() -> new IllegalStateException("At least one value must be available"));
     }
 
     @Override

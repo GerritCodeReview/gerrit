@@ -19,7 +19,7 @@ export function getCodeBrowserWeblink(weblinks: WebLinkInfo[]) {
   return undefined;
 }
 
-export function getBrowseCommitWeblink(
+export function computeMainCodeBrowserWeblink(
   weblinks?: WebLinkInfo[],
   config?: ServerInfo
 ): WebLinkInfo | undefined {
@@ -40,7 +40,7 @@ export function getChangeWeblinks(
   config?: ServerInfo
 ): WebLinkInfo[] {
   if (!weblinks?.length) return [];
-  const commitWeblink = getBrowseCommitWeblink(weblinks, config);
+  const commitWeblink = computeMainCodeBrowserWeblink(weblinks, config);
   return weblinks.filter(
     weblink => !commitWeblink?.name || weblink.name !== commitWeblink.name
   );

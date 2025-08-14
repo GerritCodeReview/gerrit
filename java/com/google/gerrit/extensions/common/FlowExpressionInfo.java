@@ -14,6 +14,8 @@
 
 package com.google.gerrit.extensions.common;
 
+import com.google.gerrit.common.Nullable;
+
 /**
  * Representation of a flow expression in the REST API.
  *
@@ -32,6 +34,10 @@ public class FlowExpressionInfo {
    */
   public String condition;
 
-  /** The action that should be triggered when the condition is satisfied. */
-  public FlowActionInfo action;
+  /**
+   * The action that should be triggered when the condition is satisfied.
+   *
+   * <p>If null, no action is performed.
+   */
+  @Nullable public FlowActionInfo action;
 }

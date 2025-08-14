@@ -110,17 +110,15 @@ public class CreateFlowIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void createFlowWithoutActionInStageExpression_badRequest() throws Exception {
+  public void createFlowWithoutActionInStageExpression() throws Exception {
     Change.Id changeId = changeOperations.newChange().project(project).createV1();
     FlowService flowService = new TestExtensions.TestFlowService();
     try (Registration registration = extensionRegistry.newRegistration().set(flowService)) {
+      Instant beforeInstant = Instant.now();
       FlowInput flowInput = createTestFlowInputWithOneStage(accountCreator, changeId);
       Iterables.getOnlyElement(flowInput.stageExpressions).action = null;
-      BadRequestException exception =
-          assertThrows(
-              BadRequestException.class,
-              () -> gApi.changes().id(project.get(), changeId.get()).createFlow(flowInput));
-      assertThat(exception).hasMessageThat().isEqualTo("action in stage expression is required");
+      FlowInfo flowInfo = gApi.changes().id(project.get(), changeId.get()).createFlow(flowInput);
+      assertFlowInfoForNewlyCreatedFlow(flowInfo, flowInput, admin, beforeInstant);
     }
   }
 

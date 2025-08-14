@@ -75,7 +75,9 @@ public class FlowJson {
 
     FlowExpressionInfo flowExpressionInfo = new FlowExpressionInfo();
     flowExpressionInfo.condition = flowExpression.condition();
-    flowExpressionInfo.action = format(flowExpression.action());
+    if (flowExpression.action().isPresent()) {
+      flowExpressionInfo.action = format(flowExpression.action().get());
+    }
     return flowExpressionInfo;
   }
 
@@ -146,14 +148,12 @@ public class FlowJson {
     if (Strings.isNullOrEmpty(flowExpressionInfo.condition)) {
       throw new BadRequestException("condition in stage expression is required");
     }
-    if (flowExpressionInfo.action == null) {
-      throw new BadRequestException("action in stage expression is required");
+    var builder = FlowExpression.builder().condition(flowExpressionInfo.condition);
+    if (flowExpressionInfo.action != null) {
+      builder.action(createFlowAction(flowExpressionInfo.action));
     }
 
-    return FlowExpression.builder()
-        .condition(flowExpressionInfo.condition)
-        .action(createFlowAction(flowExpressionInfo.action))
-        .build();
+    return builder.build();
   }
 
   /**

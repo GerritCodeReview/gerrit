@@ -15,6 +15,7 @@
 package com.google.gerrit.extensions.common.testing;
 
 import static com.google.common.truth.Truth.assertAbout;
+import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.gerrit.extensions.common.testing.FlowActionInfoSubject.flowActions;
 
 import com.google.common.truth.FailureMetadata;
@@ -44,7 +45,16 @@ public class FlowExpressionInfoSubject extends Subject {
     return check("condition()").that(flowExpressionInfo().condition);
   }
 
+  public void hasNoAction() {
+    assertWithMessage("FlowExpressionInfo.action is not null, but no action is expected")
+        .that(flowExpressionInfo().action)
+        .isNull();
+  }
+
   public FlowActionInfoSubject hasActionThat() {
+    assertWithMessage("FlowExpressionInfo.action is null")
+        .that(flowExpressionInfo().action)
+        .isNotNull();
     return check("action()").about(flowActions()).that(flowExpressionInfo().action);
   }
 

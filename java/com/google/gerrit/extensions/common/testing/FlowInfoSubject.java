@@ -98,19 +98,23 @@ public class FlowInfoSubject extends Subject {
       FlowStageInfoSubject stageSubject = hasStagesThat().element(i);
       stageSubject.hasStateThat().isEqualTo(FlowStageState.PENDING);
       stageSubject.hasExpressionThat().hasConditionThat().isEqualTo(flowExpressionInfo.condition);
-      stageSubject
-          .hasExpressionThat()
-          .hasActionThat()
-          .hasNameThat()
-          .isEqualTo(flowExpressionInfo.action.name);
-      stageSubject
-          .hasExpressionThat()
-          .hasActionThat()
-          .hasParametersThat()
-          .isEqualTo(
-              flowExpressionInfo.action.parameters != null
-                  ? flowExpressionInfo.action.parameters
-                  : ImmutableMap.of());
+      if (flowInput.stageExpressions.get(i).action != null) {
+        stageSubject
+            .hasExpressionThat()
+            .hasActionThat()
+            .hasNameThat()
+            .isEqualTo(flowExpressionInfo.action.name);
+        stageSubject
+            .hasExpressionThat()
+            .hasActionThat()
+            .hasParametersThat()
+            .isEqualTo(
+                flowExpressionInfo.action.parameters != null
+                    ? flowExpressionInfo.action.parameters
+                    : ImmutableMap.of());
+      } else {
+        stageSubject.hasExpressionThat().hasNoAction();
+      }
     }
   }
 
@@ -135,16 +139,21 @@ public class FlowInfoSubject extends Subject {
           .hasExpressionThat()
           .hasConditionThat()
           .isEqualTo(flowStage.expression().condition());
-      stageSubject
-          .hasExpressionThat()
-          .hasActionThat()
-          .hasNameThat()
-          .isEqualTo(flowStage.expression().action().name());
-      stageSubject
-          .hasExpressionThat()
-          .hasActionThat()
-          .hasParametersThat()
-          .isEqualTo(flowStage.expression().action().parameters());
+
+      if (flowStage.expression().action().isPresent()) {
+        stageSubject
+            .hasExpressionThat()
+            .hasActionThat()
+            .hasNameThat()
+            .isEqualTo(flowStage.expression().action().get().name());
+        stageSubject
+            .hasExpressionThat()
+            .hasActionThat()
+            .hasParametersThat()
+            .isEqualTo(flowStage.expression().action().get().parameters());
+      } else {
+        stageSubject.hasExpressionThat().hasNoAction();
+      }
     }
   }
 

@@ -162,11 +162,24 @@ public class RepoSequenceTest {
   }
 
   @Test
-  public void startIsIgnoredIfRefIsPresent() throws Exception {
-    writeBlob("id", "1234");
-    RepoSequence s = newSequence("id", 3456, 10);
-    assertThat(s.next()).isEqualTo(1234);
-    assertThat(readBlob("id")).isEqualTo("1244");
+  public void nextFailsWithoutInit() {
+    RepoSequence s = newSequence("id", 10);
+    StorageException thrown = assertThrows(StorageException.class, s::next);
+    assertThat(thrown).hasMessageThat().contains("Expected refs/sequences/id to exist");
+  }
+
+  @Test
+  public void currentFailsWithoutInit() {
+    RepoSequence s = newSequence("id", 10);
+    IllegalStateException thrown = assertThrows(IllegalStateException.class, s::current);
+    assertThat(thrown).hasMessageThat().contains("Expected refs/sequences/id to exist");
+  }
+
+  @Test
+  public void storeNewSucceedsWhenRefDoesNotExist() {
+    RepoSequence s = newSequence("id", 10);
+    s.storeNew(1);
+    assertThat(s.next()).isEqualTo(1);
   }
 
   @Test
@@ -360,6 +373,54 @@ public class RepoSequenceTest {
     assertThat(s2.acquireCount).isEqualTo(1);
   }
 
+  @Test
+  public void failOnNonIncrementingSequence() throws Exception {
+    RepoSequence s = newSequence("id", 10, 1);
+    assertThat(s.next()).isEqualTo(10);
+    writeBlob("id", "5");
+    StorageException thrown = assertThrows(StorageException.class, s::next);
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains(
+            "For refs/sequences/id, expected new value 6 to be greater than last stored value 11");
+
+    // Verify that the sequence ref is deleted
+    assertThat(assertThrows(IllegalStateException.class, s::current))
+        .hasMessageThat()
+        .contains("Expected refs/sequences/id to exist");
+  }
+
+  @Test
+  public void failOnNonIncrementingSequenceWithReadAfterRef() throws Exception {
+    writeBlob("id", "10");
+    AtomicBoolean doUpdate = new AtomicBoolean(false);
+    Runnable bgUpdate =
+        () -> {
+          if (doUpdate.get()) {
+            writeBlob("id", "5");
+            doUpdate.set(false);
+          }
+        };
+
+    RepoSequence s = newSequence("id", 10, 1, bgUpdate, RETRYER);
+    assertThat(s.next()).isEqualTo(10);
+    doUpdate.set(true);
+    StorageException thrown = assertThrows(StorageException.class, s::next);
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains(
+            "For refs/sequences/id, expected new value 6 to be greater than last stored value 11");
+
+    // Verify that the sequence ref is deleted
+    assertThat(assertThrows(IllegalStateException.class, s::current))
+        .hasMessageThat()
+        .contains("Expected refs/sequences/id to exist");
+  }
+
+  private RepoSequence newSequence(String name, int batchSize) {
+    return newSequence(name, batchSize, Runnables.doNothing(), RETRYER);
+  }
+
   private RepoSequence newSequence(String name, int start, int batchSize) {
     return newSequence(name, start, batchSize, Runnables.doNothing(), RETRYER);
   }
@@ -370,15 +431,15 @@ public class RepoSequenceTest {
       int batchSize,
       Runnable afterReadRef,
       Retryer<ImmutableList<Integer>> retryer) {
+    RepoSequence seq = newSequence(name, batchSize, afterReadRef, retryer);
+    seq.init(start);
+    return seq;
+  }
+
+  private RepoSequence newSequence(
+      String name, int batchSize, Runnable afterReadRef, Retryer<ImmutableList<Integer>> retryer) {
     return new RepoSequence(
-        repoManager,
-        GitReferenceUpdated.DISABLED,
-        project,
-        name,
-        () -> start,
-        batchSize,
-        afterReadRef,
-        retryer);
+        repoManager, GitReferenceUpdated.DISABLED, project, name, batchSize, afterReadRef, retryer);
   }
 
   @CanIgnoreReturnValue
@@ -392,7 +453,9 @@ public class RepoSequenceTest {
       ru.setNewObjectId(newId);
       testRefAction(
           () ->
-              assertThat(ru.forceUpdate()).isAnyOf(RefUpdate.Result.NEW, RefUpdate.Result.FORCED));
+              assertThat(ru.forceUpdate())
+                  .isAnyOf(
+                      RefUpdate.Result.NEW, RefUpdate.Result.FORCED, RefUpdate.Result.NO_CHANGE));
       return newId;
     } catch (IOException e) {
       throw new RuntimeException(e);

@@ -93,6 +93,7 @@ public class CreateTag implements RestCollectionCreateView<ProjectResource, TagR
   @Override
   public Response<TagInfo> apply(ProjectResource resource, IdString id, TagInput input)
       throws RestApiException, IOException, PermissionBackendException, NoSuchProjectException {
+    resource.getProjectState().checkStatePermitsWrite();
     String ref = id.get();
     if (input == null) {
       input = new TagInput();

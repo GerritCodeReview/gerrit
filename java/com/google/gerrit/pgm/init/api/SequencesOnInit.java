@@ -17,7 +17,6 @@ package com.google.gerrit.pgm.init.api;
 import static com.google.gerrit.server.Sequence.LightweightAccounts;
 
 import com.google.gerrit.server.Sequence;
-import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
@@ -72,7 +71,6 @@ public class SequencesOnInit {
           GitReferenceUpdated.DISABLED,
           allUsers,
           Sequence.NAME_ACCOUNTS,
-          () -> Sequences.FIRST_ACCOUNT_ID,
           accountBatchSize);
     }
   }

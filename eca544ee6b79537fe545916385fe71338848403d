@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "830ea3ca_ea7aa7c2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2025-08-14T08:02:47Z",
+      "side": 1,
+      "message": "@ekempin@google.com sorry, I forgot to include Release-Notes.\n\nDo you think this change is worth mentioning?",
+      "revId": "eca544ee6b79537fe545916385fe71338848403d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

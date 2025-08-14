@@ -16,6 +16,24 @@
       "message": "@ekempin@google.com sorry, I forgot to include Release-Notes.\n\nDo you think this change is worth mentioning?",
       "revId": "eca544ee6b79537fe545916385fe71338848403d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "da783d05_914fd828",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-08-14T08:04:28Z",
+      "side": 1,
+      "message": "Could be worth, up to you. I\u0027m also fine with \"skip\".",
+      "parentUuid": "830ea3ca_ea7aa7c2",
+      "revId": "eca544ee6b79537fe545916385fe71338848403d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

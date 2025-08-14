@@ -32,18 +32,22 @@ public enum FlowExpressionProtoConverter
 
   @Override
   public com.google.gerrit.server.flow.proto.FlowExpression toProto(FlowExpression expression) {
-    return com.google.gerrit.server.flow.proto.FlowExpression.newBuilder()
-        .setCondition(expression.condition())
-        .setAction(flowActionConverter.toProto(expression.action()))
-        .build();
+    var builder =
+        com.google.gerrit.server.flow.proto.FlowExpression.newBuilder()
+            .setCondition(expression.condition());
+    if (expression.action().isPresent()) {
+      builder.setAction(flowActionConverter.toProto(expression.action().get()));
+    }
+    return builder.build();
   }
 
   @Override
   public FlowExpression fromProto(com.google.gerrit.server.flow.proto.FlowExpression proto) {
-    return FlowExpression.builder()
-        .condition(proto.getCondition())
-        .action(flowActionConverter.fromProto(proto.getAction()))
-        .build();
+    var builder = FlowExpression.builder().condition(proto.getCondition());
+    if (proto.hasAction()) {
+      builder.action(flowActionConverter.fromProto(proto.getAction()));
+    }
+    return builder.build();
   }
 
   @Override

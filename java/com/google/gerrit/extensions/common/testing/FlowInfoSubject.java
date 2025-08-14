@@ -135,16 +135,21 @@ public class FlowInfoSubject extends Subject {
           .hasExpressionThat()
           .hasConditionThat()
           .isEqualTo(flowStage.expression().condition());
-      stageSubject
-          .hasExpressionThat()
-          .hasActionThat()
-          .hasNameThat()
-          .isEqualTo(flowStage.expression().action().name());
-      stageSubject
-          .hasExpressionThat()
-          .hasActionThat()
-          .hasParametersThat()
-          .isEqualTo(flowStage.expression().action().parameters());
+
+      if (flowStage.expression().action().isPresent()) {
+        stageSubject
+            .hasExpressionThat()
+            .hasActionThat()
+            .hasNameThat()
+            .isEqualTo(flowStage.expression().action().get().name());
+        stageSubject
+            .hasExpressionThat()
+            .hasActionThat()
+            .hasParametersThat()
+            .isEqualTo(flowStage.expression().action().get().parameters());
+      } else {
+        stageSubject.hasExpressionThat().hasNoAction();
+      }
     }
   }
 

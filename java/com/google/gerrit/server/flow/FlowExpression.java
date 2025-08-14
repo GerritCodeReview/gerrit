@@ -16,6 +16,7 @@ package com.google.gerrit.server.flow;
 
 import com.google.auto.value.AutoValue;
 import com.google.gerrit.common.ConvertibleToProto;
+import java.util.Optional;
 
 /** Expression defining an action that should be triggered when a condition becomes satisfied. */
 @ConvertibleToProto
@@ -29,7 +30,7 @@ public abstract class FlowExpression {
   public abstract String condition();
 
   /** The action that should be triggered when the condition is satisfied. */
-  public abstract FlowAction action();
+  public abstract Optional<FlowAction> action();
 
   public static FlowExpression.Builder builder() {
     return new AutoValue_FlowExpression.Builder();

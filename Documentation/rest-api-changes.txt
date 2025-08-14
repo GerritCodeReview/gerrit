@@ -8440,11 +8440,11 @@ becomes satisfied.
 
 [options="header",cols="1,6"]
 |========================
-|Field Name  |Description
-|`condition` |The condition which must be satisfied for the action to be
+|Field Name  ||Description
+|`condition` ||The condition which must be satisfied for the action to be
 triggered. Can contain multiple conditions separated by comma. The syntax of the
 condition depends on the flow service implementation.
-|`action`    |The action that should be triggered when the condition is
+|`action`    |optional|The action that should be triggered when the condition is
 satisfied as a link:#flow-action-info[FlowActionInfo] entity.
 |========================
 

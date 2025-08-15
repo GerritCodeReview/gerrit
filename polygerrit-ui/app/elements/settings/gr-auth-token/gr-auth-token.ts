@@ -158,6 +158,11 @@ export class GrAuthToken extends LitElement {
         .lifeTimeInput {
           min-width: 23em;
         }
+        #legacyPasswordNote {
+          width: 100%;
+          background: var(--label-background);
+          padding: 1em;
+        }
       `,
     ];
   }
@@ -168,6 +173,14 @@ export class GrAuthToken extends LitElement {
           <section>
             <span class="title">Username</span>
             <span class="value">${this.username ?? ''}</span>
+          </section>
+
+          <section
+            ?hidden=${!(
+              this.tokens.length === 1 && this.tokens[0].id === 'legacy'
+            )}
+          >
+            ${this.renderLegacyPasswordNote()}
           </section>
 
           <fieldset id="existing">
@@ -260,6 +273,14 @@ export class GrAuthToken extends LitElement {
           </div>
         </gr-dialog>
       </dialog>`;
+  }
+
+  private renderLegacyPasswordNote() {
+    return html`<div id="legacyPasswordNote">
+      This account only has a legacy HTTP password configured. The legacy HTTP
+      password will be accepted until the first authentication token has been
+      created. At this point the HTTP password will be removed from the account.
+    </div>`;
   }
 
   private renderToken(tokenInfo: AuthTokenInfo) {

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3af82f10_529935d9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-08-15T14:45:05Z",
+      "side": 1,
+      "message": "The test failure is unrelated and can be ignored for this change. It\u0027s a flakey test.",
+      "revId": "c9dff303884159cde30148587e74d5b171191c5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

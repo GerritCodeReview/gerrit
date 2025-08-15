@@ -69,6 +69,23 @@
       "message": "https://gerrit-review.googlesource.com/c/gerrit/+/476822",
       "revId": "66339085c713fa346ee09010484e8bc434c1baf9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ae0528cf_5804849b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4286203
+      },
+      "writtenOn": "2025-08-15T03:42:43Z",
+      "side": 1,
+      "message": "https://gerrit-review.googlesource.com/c/gerrit/+/476822/comments/22c6aca5_4a5417cd",
+      "revId": "66339085c713fa346ee09010484e8bc434c1baf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

@@ -15,28 +15,46 @@
 package com.google.gerrit.server.git;
 
 import com.google.auto.value.AutoValue;
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.cache.Cache;
 import com.google.common.cache.Weigher;
+import com.google.common.collect.HashBasedTable;
+import com.google.common.collect.Table;
 import com.google.common.flogger.FluentLogger;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.converter.AccountIdProtoConverter;
+import com.google.gerrit.entities.converter.ChangeProtoConverter;
+import com.google.gerrit.proto.Entities.Project_NameKey;
+import com.google.gerrit.proto.Protos;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.cache.CacheModule;
+import com.google.gerrit.server.cache.proto.Cache.CachedProjectChangesProto;
+import com.google.gerrit.server.cache.proto.Cache.CachedProjectChangesProto.NonPrivateChangesProto;
+import com.google.gerrit.server.cache.proto.Cache.CachedProjectChangesProto.PrivateChangeProto;
+import com.google.gerrit.server.cache.proto.Cache.ReviewerSetProto;
+import com.google.gerrit.server.cache.serialize.CacheSerializer;
+import com.google.gerrit.server.cache.serialize.ObjectIdConverter;
+import com.google.gerrit.server.cache.serialize.ProtobufSerializer;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
+import com.google.protobuf.ByteString;
 import java.io.IOException;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -63,20 +81,25 @@ public class ChangesByProjectCacheImpl implements ChangesByProjectCache {
   public static class Module extends CacheModule {
     @Override
     protected void configure() {
-      cache(CACHE_NAME, Project.NameKey.class, CachedProjectChanges.class)
-          .weigher(ChangesByProjetCacheWeigher.class);
+      persist(CACHE_NAME, Project_NameKey.class, CachedProjectChanges.class)
+          .weigher(ChangesByProjetCacheWeigher.class)
+          .diskLimit(1 << 30) // 1 GiB
+          .keySerializer(new ProtobufSerializer<>(Project_NameKey.parser()))
+          .valueSerializer(CachedProjectChangesSerializer.INSTANCE)
+          .version(1);
+
       bind(ChangesByProjectCache.class).to(ChangesByProjectCacheImpl.class);
     }
   }
 
-  private final Cache<Project.NameKey, CachedProjectChanges> cache;
+  private final Cache<Project_NameKey, CachedProjectChanges> cache;
   private final ChangeData.Factory cdFactory;
   private final UseIndex useIndex;
   private final Provider<InternalChangeQuery> queryProvider;
 
   @Inject
   ChangesByProjectCacheImpl(
-      @Named(CACHE_NAME) Cache<Project.NameKey, CachedProjectChanges> cache,
+      @Named(CACHE_NAME) Cache<Project_NameKey, CachedProjectChanges> cache,
       ChangeData.Factory cdFactory,
       UseIndex useIndex,
       Provider<InternalChangeQuery> queryProvider) {
@@ -90,38 +113,46 @@ public class ChangesByProjectCacheImpl implements ChangesByProjectCache {
   @Override
   public Stream<ChangeData> streamChangeDatas(Project.NameKey project, Repository repo)
       throws IOException {
-    CachedProjectChanges projectChanges = cache.getIfPresent(project);
+    Project_NameKey projectProto = Project_NameKey.newBuilder().setName(project.get()).build();
+    CachedProjectChanges projectChanges = cache.getIfPresent(projectProto);
     if (projectChanges != null) {
-      return projectChanges
-          .getUpdatedChangeDatas(
-              project, cdFactory, ChangeNotes.Factory.scanChangeIds(repo), "Updating")
-          .stream();
+      CachedProjectChanges.ChangeDataUpdateResult result =
+          projectChanges.updateChangeDatas(
+              project, cdFactory, ChangeNotes.Factory.scanChangeIds(repo), "Updating");
+      if (result.anyUpdated()) {
+        cache.put(projectProto, projectChanges);
+      }
+      return result.cds().stream();
     }
     if (UseIndex.TRUE.equals(useIndex)) {
-      return queryChangeDatasAndLoad(project).stream();
+      return queryChangeDatasAndLoad(projectProto).stream();
     }
-    return scanChangeDatasAndLoad(project, repo).stream();
+    return scanChangeDatasAndLoad(projectProto, repo).stream();
   }
 
-  private Collection<ChangeData> scanChangeDatasAndLoad(Project.NameKey project, Repository repo)
-      throws IOException {
+  private Collection<ChangeData> scanChangeDatasAndLoad(
+      Project_NameKey projectProto, Repository repo) throws IOException {
     CachedProjectChanges ours = new CachedProjectChanges();
     CachedProjectChanges projectChanges = ours;
     try {
-      projectChanges = cache.get(project, () -> ours);
+      projectChanges = cache.get(projectProto, () -> ours);
     } catch (ExecutionException e) {
-      logger.atWarning().withCause(e).log("Cannot load %s for %s", CACHE_NAME, project.get());
+      logger.atWarning().withCause(e).log(
+          "Cannot load %s for %s", CACHE_NAME, projectProto.getName());
     }
-    return projectChanges.getUpdatedChangeDatas(
-        project,
-        cdFactory,
-        ChangeNotes.Factory.scanChangeIds(repo),
-        ours == projectChanges ? "Scanning" : "Updating");
+    return projectChanges
+        .updateChangeDatas(
+            Project.NameKey.parse(projectProto.getName()),
+            cdFactory,
+            ChangeNotes.Factory.scanChangeIds(repo),
+            ours == projectChanges ? "Scanning" : "Updating")
+        .cds();
   }
 
-  private List<ChangeData> queryChangeDatasAndLoad(Project.NameKey project) {
+  private List<ChangeData> queryChangeDatasAndLoad(Project_NameKey projectProto) {
+    Project.NameKey project = Project.NameKey.parse(projectProto.getName());
     List<ChangeData> cds = queryChangeDatas(project);
-    cache.put(project, new CachedProjectChanges(cds));
+    cache.put(projectProto, new CachedProjectChanges(cds));
     return cds;
   }
 
@@ -137,7 +168,10 @@ public class ChangesByProjectCacheImpl implements ChangesByProjectCache {
     }
   }
 
-  private static class CachedProjectChanges {
+  @VisibleForTesting
+  public static class CachedProjectChanges {
+    private record ChangeDataUpdateResult(Collection<ChangeData> cds, boolean anyUpdated) {}
+
     Map<String, Map<Change.Id, ObjectId>> metaObjectIdByNonPrivateChangeByBranch =
         new ConcurrentHashMap<>(); // BranchNameKey "normalized" to a String to dedup project
     Map<Change.Id, PrivateChange> privateChangeById = new ConcurrentHashMap<>();
@@ -148,11 +182,12 @@ public class ChangesByProjectCacheImpl implements ChangesByProjectCache {
       cds.stream().forEach(cd -> insert(cd));
     }
 
-    public Collection<ChangeData> getUpdatedChangeDatas(
+    public ChangeDataUpdateResult updateChangeDatas(
         Project.NameKey project,
         ChangeData.Factory cdFactory,
         Map<Change.Id, ObjectId> metaObjectIdByChange,
         String operation) {
+      boolean anyUpdated = false;
       try (TraceTimer timer =
           TraceContext.newTimer(
               operation + " changes of project",
@@ -167,14 +202,16 @@ public class ChangesByProjectCacheImpl implements ChangesByProjectCache {
             if (cd == null || !cached.metaRevisionOrThrow().equals(e.getValue())) {
               cd = cdFactory.create(project, id);
               update(cached, cd);
+              anyUpdated = true;
             }
           } catch (Exception ex) {
+            anyUpdated = true;
             // Do not let a bad change prevent other changes from being available.
             logger.atFinest().withCause(ex).log("Can't load changeData for %s", id);
           }
           cds.add(cd);
         }
-        return cds;
+        return new ChangeDataUpdateResult(cds, anyUpdated);
       }
     }
 
@@ -331,11 +368,11 @@ public class ChangesByProjectCacheImpl implements ChangesByProjectCache {
   }
 
   private static class ChangesByProjetCacheWeigher
-      implements Weigher<Project.NameKey, CachedProjectChanges> {
+      implements Weigher<Project_NameKey, CachedProjectChanges> {
     @Override
-    public int weigh(Project.NameKey project, CachedProjectChanges changes) {
+    public int weigh(Project_NameKey project, CachedProjectChanges changes) {
       int size = 0;
-      size += project.get().length();
+      size += project.getName().length();
       size += changes.weigh();
       return size;
     }
@@ -359,5 +396,137 @@ public class ChangesByProjectCacheImpl implements ChangesByProjectCache {
     public static final int INT = 4;
     public static final int OBJECT = 16;
     public static final int REFERENCE = 8;
+  }
+
+  static class ReviewerSetSerializer {
+    public static ReviewerSetProto serialize(ReviewerSet reviewerSet) {
+      ReviewerSetProto.Builder builder = ReviewerSetProto.newBuilder();
+
+      reviewerSet
+          .asTable()
+          .cellSet()
+          .forEach(
+              cell -> {
+                ReviewerSetProto.ReviewerProto.Builder reviewerBuilder =
+                    ReviewerSetProto.ReviewerProto.newBuilder()
+                        .setAccountId(
+                            AccountIdProtoConverter.INSTANCE.toProto(
+                                Account.id(cell.getColumnKey().get())))
+                        .setState(cell.getRowKey().name())
+                        .setTimestamp(cell.getValue().toEpochMilli());
+
+                builder.addReviewers(reviewerBuilder.build());
+              });
+
+      return builder.build();
+    }
+
+    public static ReviewerSet deserialize(ReviewerSetProto proto) {
+      Table<ReviewerStateInternal, Account.Id, Instant> table = HashBasedTable.create();
+
+      for (ReviewerSetProto.ReviewerProto reviewer : proto.getReviewersList()) {
+        Account.Id accountId = AccountIdProtoConverter.INSTANCE.fromProto(reviewer.getAccountId());
+        ReviewerStateInternal state = ReviewerStateInternal.valueOf(reviewer.getState());
+        Instant timestamp = Instant.ofEpochMilli(reviewer.getTimestamp());
+
+        table.put(state, accountId, timestamp);
+      }
+
+      return ReviewerSet.fromTable(table);
+    }
+  }
+
+  enum CachedProjectChangesSerializer implements CacheSerializer<CachedProjectChanges> {
+    INSTANCE;
+
+    @Override
+    public byte[] serialize(CachedProjectChanges value) {
+      CachedProjectChangesProto.Builder protoBuilder = CachedProjectChangesProto.newBuilder();
+
+      for (Map.Entry<String, Map<Change.Id, ObjectId>> branchEntry :
+          value.metaObjectIdByNonPrivateChangeByBranch.entrySet()) {
+        NonPrivateChangesProto.Builder nonPrivateChangesBuilder =
+            NonPrivateChangesProto.newBuilder();
+
+        for (Map.Entry<Change.Id, ObjectId> changeEntry : branchEntry.getValue().entrySet()) {
+          nonPrivateChangesBuilder.putChanges(
+              changeEntry.getKey().get(),
+              ObjectIdConverter.create().toByteString(changeEntry.getValue()));
+        }
+
+        protoBuilder.putNonPrivateChangesByBranch(
+            branchEntry.getKey(), nonPrivateChangesBuilder.build());
+      }
+
+      for (Map.Entry<Change.Id, PrivateChange> entry : value.privateChangeById.entrySet()) {
+        PrivateChange pc = entry.getValue();
+        PrivateChangeProto.Builder privateChangeBuilder = PrivateChangeProto.newBuilder();
+
+        privateChangeBuilder.setChange(ChangeProtoConverter.INSTANCE.toProto(pc.change()));
+
+        if (pc.reviewers() != null) {
+          privateChangeBuilder.setReviewers(ReviewerSetSerializer.serialize(pc.reviewers()));
+        }
+
+        privateChangeBuilder.setMetaRevision(
+            ObjectIdConverter.create().toByteString(pc.metaRevision()));
+
+        protoBuilder.putPrivateChanges(entry.getKey().get(), privateChangeBuilder.build());
+      }
+
+      return Protos.toByteArray(protoBuilder.build());
+    }
+
+    @Override
+    public CachedProjectChanges deserialize(byte[] in) {
+      try {
+        CachedProjectChangesProto proto =
+            Protos.parseUnchecked(CachedProjectChangesProto.parser(), in);
+
+        CachedProjectChanges result = new CachedProjectChanges();
+
+        for (Map.Entry<String, NonPrivateChangesProto> branchEntry :
+            proto.getNonPrivateChangesByBranchMap().entrySet()) {
+
+          Map<Change.Id, ObjectId> changesMap = new ConcurrentHashMap<>();
+          for (Map.Entry<Integer, ByteString> changeEntry :
+              branchEntry.getValue().getChangesMap().entrySet()) {
+
+            changesMap.put(
+                Change.id(changeEntry.getKey()),
+                ObjectId.fromRaw(changeEntry.getValue().toByteArray()));
+          }
+
+          result.metaObjectIdByNonPrivateChangeByBranch.put(branchEntry.getKey(), changesMap);
+        }
+
+        for (Map.Entry<Integer, PrivateChangeProto> entry :
+            proto.getPrivateChangesMap().entrySet()) {
+          Change.Id id = Change.id(entry.getKey());
+          PrivateChangeProto privateChangeProto = entry.getValue();
+
+          Change change = ChangeProtoConverter.INSTANCE.fromProto(privateChangeProto.getChange());
+
+          ReviewerSet reviewers = null;
+          if (privateChangeProto.hasReviewers()
+              && !privateChangeProto.getReviewers().getReviewersList().isEmpty()) {
+            reviewers = ReviewerSetSerializer.deserialize(privateChangeProto.getReviewers());
+          }
+
+          ObjectId metaRevision =
+              ObjectId.fromRaw(privateChangeProto.getMetaRevision().toByteArray());
+
+          result.privateChangeById.put(
+              id,
+              new AutoValue_ChangesByProjectCacheImpl_PrivateChange(
+                  change, reviewers, metaRevision));
+        }
+
+        return result;
+      } catch (Exception e) {
+        logger.atWarning().withCause(e).log("Failed to deserialize CachedProjectChanges");
+        return new CachedProjectChanges();
+      }
+    }
   }
 }

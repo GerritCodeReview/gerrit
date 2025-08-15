@@ -1020,6 +1020,7 @@ performed once every 24 hours.
 Default is 128 MiB per cache, except:
 +
 * `"change_notes"`: disk storage is disabled by default
+* `"changes_by_project"`: default is `1g` (1 GiB of disk space)
 * `"diff_summary"`: default is `1g` (1 GiB of disk space)
 * `"external_ids_map"`: disk storage is disabled by default
 * `"persisted_projects"`: default is `1g` (1 GiB of disk space)
@@ -1113,10 +1114,11 @@ modified outside of Gerrit.
 
 cache `"changes_by_project"`::
 +
-Ideally, the memorylimit of this cache is large enough to cover all projects.
-This should significantly speed up change ref advertisements and git pushes,
-especially for projects with lots of changes, and particularly on replicas
-where there is no index.
+For the cache to work as expected, if the `memoryLimit` is not large enough to
+cover all projects, then the `diskLimit` should be enabled and set large enough
+for all projects. This should significantly speed up change ref advertisements
+and git pushes, especially for projects with lots of changes, and particularly
+on replicas where there is no index.
 
 cache `"git_modified_files"`::
 +

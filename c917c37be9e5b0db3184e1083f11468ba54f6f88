@@ -16,6 +16,23 @@
       "message": "Failure can be ignored.\n\n```\n ❌ gr-file-list tests \u003e basic tests \u003e correct number of files are shown\n      Error: Timeout of 2000ms exceeded. For async tests and hooks, ensure \"done()\" is called; if returning a Promise, ensure it resolves.\n        at createTimeoutError (__web-test-runner__/test-framework/b/s/w/ir/x/w/rc/checkout/polygerrit-ui/node_modules/@web/test-runner-mocha/dist/autorun.js:1:191472)\n        at ds._timeoutError (__web-test-runner__/test-framework/b/s/w/ir/x/w/rc/checkout/polygerrit-ui/node_modules/@web/test-runner-mocha/dist/autorun.js:1:195705)\n        at s3 (__web-test-runner__/test-framework/b/s/w/ir/x/w/rc/checkout/polygerrit-ui/node_modules/@web/test-runner-mocha/dist/autorun.js:1:194210)\n        at __web-test-runner__/test-framework/b/s/w/ir/x/w/rc/checkout/polygerrit-ui/node_modules/@web/test-runner-mocha/dist/autorun.js:1:195168\n```\n        \nIt\u0027s flakey.",
       "revId": "c917c37be9e5b0db3184e1083f11468ba54f6f88",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "536d7917_d960b703",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-08-15T11:09:33Z",
+      "side": 1,
+      "message": "the css changes are definitely not causing the test failures, must be flaky",
+      "revId": "c917c37be9e5b0db3184e1083f11468ba54f6f88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

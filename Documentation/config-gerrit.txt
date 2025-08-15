@@ -974,6 +974,7 @@ Default is 1024 for most caches, except:
 +
 * `"adv_bases"`: default is `4096`
 * `"change_notes"`: default is `10m` (10 MiB of memory)
+* `"changes_by_project"`: default is `1g` (1 GiB of disk space)
 * `"git_modified_files"`: default is `10m` (10 MiB of memory)
 * `"modified_files"`: default is `10m` (10 MiB of memory)
 * `"git_file_diff"`: default is `10m` (10 MiB of memory)
@@ -1113,7 +1114,7 @@ modified outside of Gerrit.
 
 cache `"changes_by_project"`::
 +
-Ideally, the memorylimit of this cache is large enough to cover all projects.
+Ideally, the disklimit of this cache is large enough to cover all projects.
 This should significantly speed up change ref advertisements and git pushes,
 especially for projects with lots of changes, and particularly on replicas
 where there is no index.

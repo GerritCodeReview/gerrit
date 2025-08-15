@@ -359,6 +359,7 @@ export class GrHovercardRun extends base {
             <gr-checks-action
               context="hovercard"
               .eventTarget=${this._target}
+              .runOrResult=${this.run}
               .action=${action}
             ></gr-checks-action>
           </div>

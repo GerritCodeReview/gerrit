@@ -279,6 +279,7 @@ export class GrChecksRun extends LitElement {
         <div class="right">
           ${action
             ? html`<gr-checks-action
+                .runOrResult=${this.run}
                 context="runs"
                 .action=${action}
               ></gr-checks-action>`

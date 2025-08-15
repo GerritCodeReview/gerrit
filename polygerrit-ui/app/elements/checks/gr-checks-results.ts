@@ -692,6 +692,7 @@ export class GrResultRow extends LitElement {
   private renderAction(action?: Action) {
     if (!action) return;
     return html`<gr-checks-action
+      .runOrResult=${this.result}
       context="result-row"
       .action=${action}
     ></gr-checks-action>`;
@@ -902,10 +903,12 @@ export class GrResultExpanded extends LitElement {
       <div class="useful">
         <div class="title">${this.notUsefulLabel}</div>
         <gr-checks-action
+          .runOrResult=${this.result}
           @click=${() => (this.notUsefulLabel = 'Thanks!')}
           .action=${useful}
         ></gr-checks-action>
         <gr-checks-action
+          .runOrResult=${this.result}
           @click=${() => (this.notUsefulLabel = 'Sorry about that')}
           .action=${notUseful}
         ></gr-checks-action>

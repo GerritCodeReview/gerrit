@@ -330,6 +330,7 @@ export class GrDiffCheckResult extends LitElement {
       <gr-checks-action
         id="please-fix"
         context="diff-fix"
+        .runOrResult=${this.result}
         .action=${action}
       ></gr-checks-action>
     `;
@@ -343,6 +344,7 @@ export class GrDiffCheckResult extends LitElement {
       <gr-checks-action
         id="show-fix"
         context="diff-fix"
+        .runOrResult=${this.result}
         .action=${action}
       ></gr-checks-action>
     `;

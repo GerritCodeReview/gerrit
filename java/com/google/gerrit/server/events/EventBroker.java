@@ -98,13 +98,12 @@ public class EventBroker implements EventDispatcher {
   }
 
   @Override
-  public void postEvent(Change change, ChangeEvent event) throws PermissionBackendException {
+  public void postEvent(Change change, ChangeEvent event) {
     fireEvent(change, event);
   }
 
   @Override
-  public void postEvent(BranchNameKey branchName, RefEvent event)
-      throws PermissionBackendException {
+  public void postEvent(BranchNameKey branchName, RefEvent event) {
     fireEvent(branchName, event);
   }
 
@@ -114,7 +113,7 @@ public class EventBroker implements EventDispatcher {
   }
 
   @Override
-  public void postEvent(Event event) throws PermissionBackendException {
+  public void postEvent(Event event) {
     fireEvent(event);
   }
 
@@ -122,7 +121,7 @@ public class EventBroker implements EventDispatcher {
     unrestrictedListeners.runEach(l -> l.onEvent(event));
   }
 
-  protected void fireEvent(Change change, ChangeEvent event) throws PermissionBackendException {
+  protected void fireEvent(Change change, ChangeEvent event) {
     setInstanceIdWhenEmpty(event);
     for (PluginSetEntryContext<UserScopedEventListener> c : listeners) {
       CurrentUser user = c.call(UserScopedEventListener::getUser);
@@ -145,8 +144,7 @@ public class EventBroker implements EventDispatcher {
     fireEventForUnrestrictedListeners(event);
   }
 
-  protected void fireEvent(BranchNameKey branchName, RefEvent event)
-      throws PermissionBackendException {
+  protected void fireEvent(BranchNameKey branchName, RefEvent event) {
     setInstanceIdWhenEmpty(event);
     for (PluginSetEntryContext<UserScopedEventListener> c : listeners) {
       CurrentUser user = c.call(UserScopedEventListener::getUser);
@@ -157,7 +155,7 @@ public class EventBroker implements EventDispatcher {
     fireEventForUnrestrictedListeners(event);
   }
 
-  protected void fireEvent(Event event) throws PermissionBackendException {
+  protected void fireEvent(Event event) {
     setInstanceIdWhenEmpty(event);
     for (PluginSetEntryContext<UserScopedEventListener> c : listeners) {
       CurrentUser user = c.call(UserScopedEventListener::getUser);
@@ -182,22 +180,29 @@ public class EventBroker implements EventDispatcher {
     }
   }
 
-  protected boolean isVisibleTo(Change change, CurrentUser user) throws PermissionBackendException {
-    if (change == null) {
+  protected boolean isVisibleTo(Change change, CurrentUser user) {
+    try {
+      if (change == null) {
+        return false;
+      }
+      return permissionBackend
+          .user(user)
+          .change(notesFactory.createChecked(change))
+          .test(ChangePermission.READ);
+    } catch (PermissionBackendException e) {
       return false;
     }
-    return permissionBackend
-        .user(user)
-        .change(notesFactory.createChecked(change))
-        .test(ChangePermission.READ);
   }
 
-  protected boolean isVisibleTo(BranchNameKey branchName, CurrentUser user)
-      throws PermissionBackendException {
-    return permissionBackend.user(user).ref(branchName).test(RefPermission.READ);
+  protected boolean isVisibleTo(BranchNameKey branchName, CurrentUser user) {
+    try {
+      return permissionBackend.user(user).ref(branchName).test(RefPermission.READ);
+    } catch (PermissionBackendException e) {
+      return false;
+    }
   }
 
-  protected boolean isVisibleTo(Event event, CurrentUser user) throws PermissionBackendException {
+  protected boolean isVisibleTo(Event event, CurrentUser user) {
     if (event instanceof RefEvent) {
       RefEvent refEvent = (RefEvent) event;
       String ref = refEvent.getRefName();

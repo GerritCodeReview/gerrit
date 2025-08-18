@@ -342,6 +342,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
     private final AtomicLong hitCount = new AtomicLong();
     private final AtomicLong missCount = new AtomicLong();
     private final ConcurrentBloomFilter<K> bloomFilter;
+    private final boolean buildBloomFilter;
     private boolean trackLastAccess;
     private final AtomicBoolean isDiskCacheReadOnly;
 
@@ -365,6 +366,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
       this.maxSize = maxSize;
       this.expireAfterWrite = expireAfterWrite;
       this.refreshAfterWrite = refreshAfterWrite;
+      this.buildBloomFilter = buildBloomFilter;
       this.trackLastAccess = trackLastAccess;
       this.isDiskCacheReadOnly = isDiskCacheReadOnly;
 
@@ -398,8 +400,18 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
       }
     }
 
-    private boolean mightContain(K key) {
-      return bloomFilter.mightContain(key);
+    boolean mightContain(K key) {
+      ConcurrentBloomFilter<K> b = bloomFilter;
+      if (buildBloomFilter && b == null) {
+        synchronized (this) {
+          b = bloomFilter;
+          if (b == null) {
+            buildBloomFilter();
+            b = bloomFilter;
+          }
+        }
+      }
+      return b == null || b.mightContain(key);
     }
 
     private void buildBloomFilter() {
@@ -528,7 +540,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
     }
 
     private void touch(SqlHandle c, K key) throws IOException, SQLException {
-      if (isDiskCacheReadOnly.get() || bloomFilter == null) {
+      if (isDiskCacheReadOnly.get()) {
         return;
       }
       if (c.touch == null) {
@@ -545,7 +557,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
     }
 
     void put(K key, ValueHolder<V> holder) {
-      if (isDiskCacheReadOnly.get() || holder.clean || bloomFilter == null) {
+      if (isDiskCacheReadOnly.get() || holder.clean) {
         return;
       }
 

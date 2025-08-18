@@ -268,7 +268,8 @@ suite('gr-formatted-text tests', () => {
       await checkLinking('https://www.google.com');
       await checkLinking('https://www.google.com/');
       await checkLinking('https://www.google.com/asdf~');
-      await checkLinking('https://www.google.com/asdf-');
+      await checkLinking('https://www.google.com/asdf_');
+      await checkLinking('https://www.google.com/asdf*');
       await checkLinking('https://www.google.com/asdf-');
       await checkLinking('https://www.google.com/asdf)');
       // matches & part as well, even we first linkify and then htmlEscape
@@ -277,8 +278,11 @@ suite('gr-formatted-text tests', () => {
       );
 
       await checkLinking('www.google.com/path');
+      await checkLinking('www.google.com/path_');
+      await checkLinking('www.google.com/path-');
       await checkLinking('www.google-foo.com/path');
       await checkLinking('google.co.uk/path?q=1#frag');
+      await checkLinking('google.com/path-');
 
       // Do not linkify URLs without `/`.
       await checkLinking('google.com', false);

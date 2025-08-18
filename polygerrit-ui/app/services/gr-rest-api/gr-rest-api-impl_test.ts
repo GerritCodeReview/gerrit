@@ -34,6 +34,10 @@ import {
   HttpMethod,
 } from '../../constants/constants';
 import {
+  FlowInfo,
+  FlowInput,
+} from '../../api/rest-api';
+import {
   AccountDetailInfo,
   BasePatchSetNum,
   ChangeInfo,
@@ -1999,6 +2003,63 @@ suite('gr-rest-api-service-impl tests', () => {
       assert.isTrue(Object.keys(body).length === 2);
       assert.deepEqual(body.fix_replacement_infos[0], fixReplacementInfo);
       assert.deepEqual(body.original_patchset_for_fix, 1);
+    });
+  });
+
+  suite('flow api', () => {
+    const changeNum = 123 as NumericChangeId;
+    const flowId = 'test-flow-id';
+    let fetchStub: sinon.SinonStub;
+
+    setup(() => {
+      element.addRepoNameToCache(changeNum, TEST_PROJECT_NAME);
+      fetchStub = sinon.stub(element._restApiHelper, 'fetchJSON').resolves();
+    });
+
+    test('getFlow', async () => {
+      await element.getFlow(changeNum, flowId);
+      assert.isTrue(fetchStub.calledOnce);
+      assert.equal(
+        fetchStub.lastCall.args[0].url,
+        `/changes/test-project~${changeNum}/flow/${flowId}`
+      );
+    });
+
+    test('listFlows', async () => {
+      await element.listFlows(changeNum);
+      assert.isTrue(fetchStub.calledOnce);
+      assert.equal(
+        fetchStub.lastCall.args[0].url,
+        `/changes/test-project~${changeNum}/flow`
+      );
+    });
+
+    test('createFlow', async () => {
+      const flow: FlowInput = {
+        stage_expressions: [{condition: 'branch:refs/heads/main'}],
+      };
+      await element.createFlow(changeNum, flow);
+      assert.isTrue(fetchStub.calledOnce);
+      assert.equal(
+        fetchStub.lastCall.args[0].url,
+        `/changes/test-project~${changeNum}/flow`
+      );
+      assert.equal(fetchStub.lastCall.args[0].fetchOptions.method, 'POST');
+      assert.deepEqual(
+        JSON.parse(fetchStub.lastCall.args[0].fetchOptions.body),
+        flow
+      );
+    });
+
+    test('deleteFlow', async () => {
+      const fetchStub = sinon.stub(element._restApiHelper, 'fetch').resolves();
+      await element.deleteFlow(changeNum, flowId);
+      assert.isTrue(fetchStub.calledOnce);
+      assert.equal(
+        fetchStub.lastCall.args[0].url,
+        `/changes/test-project~${changeNum}/flow/${flowId}`
+      );
+      assert.equal(fetchStub.lastCall.args[0].fetchOptions!.method, 'DELETE');
     });
   });
 });

@@ -3713,7 +3713,7 @@ implementation.
           "expression": {
             "condition": "com.google.gerrit[change:65779 is:merged]",
             "action": {
-              "name: "MarkAsReady"
+              "name": "MarkAsReady"
             }
           },
           "state": "DONE"

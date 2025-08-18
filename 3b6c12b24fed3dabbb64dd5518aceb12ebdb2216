@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bd24ab78_8e95f9db",
+        "filename": "java/com/google/gerrit/server/events/EventBroker.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-08-18T19:54:49Z",
+      "side": 0,
+      "message": "This isn\u0027t safe, because there is no `catch (PermissionBackend e)` as protection from the case the project doesn\u0027t exist, therefore the `isVisibleTo()` would throw an exception instead of returning false.",
+      "range": {
+        "startLine": 196,
+        "startChar": 0,
+        "endLine": 199,
+        "endChar": 5
+      },
+      "revId": "3b6c12b24fed3dabbb64dd5518aceb12ebdb2216",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9d9afb79_2309f5bf",
+        "filename": "java/com/google/gerrit/server/events/EventBroker.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-08-18T19:54:49Z",
+      "side": 0,
+      "message": "This isn\u0027t safe, because there is no `catch (PermissionBackend e)` as protection from the case the project doesn\u0027t exist, therefore the `isVisibleTo()` would throw an exception instead of returning false.",
+      "range": {
+        "startLine": 208,
+        "startChar": 0,
+        "endLine": 211,
+        "endChar": 5
+      },
+      "revId": "3b6c12b24fed3dabbb64dd5518aceb12ebdb2216",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

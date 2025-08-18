@@ -1,5 +1,69 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "54b6d406_b4ea0326",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-08-18T19:54:49Z",
+      "side": 1,
+      "message": "Maybe not directly by Gerrit, but plugins may still generate events. For instance, the pull-replication plugin would still notify that it managed to replicate a project deletion *after* the deletion was completed.\n\nAlso, it looks like Shawn did explicitly check for project existence and returning `false` in `isVisible()` in I478119601.",
+      "range": {
+        "startLine": 10,
+        "startChar": 29,
+        "endLine": 11,
+        "endChar": 17
+      },
+      "revId": "45d977f5436d1e0c7f267e9d4eb95a74bb9ff9ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "06fa6ffb_b99b54f4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-08-18T19:54:49Z",
+      "side": 1,
+      "message": "I believe we still have to, or, alternatively, catching the exception and returning `false`, similarly to what `isVisibleTo(Project.NameKey project, CurrentUser user)` does, catching `PermissionBackendException` and returning false.",
+      "range": {
+        "startLine": 12,
+        "startChar": 68,
+        "endLine": 13,
+        "endChar": 37
+      },
+      "revId": "45d977f5436d1e0c7f267e9d4eb95a74bb9ff9ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d4b2e6cc_d01b3907",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-08-18T19:54:49Z",
+      "side": 1,
+      "message": "After this change, the `pull-replication` plugin is unable to send events after project deletion successfully replicated. See Issue 439554900.",
+      "revId": "45d977f5436d1e0c7f267e9d4eb95a74bb9ff9ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

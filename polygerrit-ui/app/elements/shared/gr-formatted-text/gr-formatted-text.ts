@@ -134,8 +134,9 @@ export class GrFormattedText extends LitElement {
       repoCommentLinks => {
         this.repoCommentLinks = repoCommentLinks;
         // Always linkify URLs starting with https?://
+        // match: '(https?://((?!&(gt|lt|quot|apos);)\\S)+[\\w/~\\)-])',
         this.repoCommentLinks['ALWAYS_LINK_HTTP'] = {
-          match: '(https?://((?!&(gt|lt|quot|apos);)\\S)+[\\w/~\\)-])',
+          match: '(https?://((?!&(gt|lt|quot|apos);)\\S)+[\\w/~\\)\\-])',
           link: '$1',
           enabled: true,
         };
@@ -268,6 +269,7 @@ export class GrFormattedText extends LitElement {
         ) {
           href = `https://${href}`;
         }
+
         /* HTML */
         return `<a
           href="${href}"
@@ -311,6 +313,7 @@ export class GrFormattedText extends LitElement {
       renderer['text'] = boundRewriteText;
     }
 
+    console.log('rendering', this.content);
     // The child with slot is optional but allows us control over the styling.
     // The `callback` property lets us do a final sanitization of the output
     // HTML string before it is rendered by `<gr-marked-element>` in case any

@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
+import {FlowInfo} from '../../api/rest-api';
 import {
   AccountCapabilityInfo,
   AccountDetailInfo,
@@ -615,6 +616,18 @@ export const grRestApiMock: RestApiService = {
     return Promise.resolve(new Response());
   },
   updateIdentityInChangeEdit(): Promise<Response | undefined> {
+    return Promise.resolve(new Response());
+  },
+  getFlow(): Promise<FlowInfo | undefined> {
+    return Promise.resolve(undefined);
+  },
+  listFlows(): Promise<FlowInfo[] | undefined> {
+    return Promise.resolve([]);
+  },
+  createFlow(): Promise<FlowInfo | undefined> {
+    return Promise.resolve(undefined);
+  },
+  deleteFlow(): Promise<Response> {
     return Promise.resolve(new Response());
   },
 };

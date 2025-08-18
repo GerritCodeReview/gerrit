@@ -134,6 +134,8 @@ import {
   DeleteLabelInput,
   FileInfo,
   FixReplacementInfo,
+  FlowInfo,
+  FlowInput,
   LabelDefinitionInfo,
   LabelDefinitionInput,
   SubmitRequirementInput,
@@ -3702,6 +3704,64 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
         body,
       }),
       url: '/accounts/self/drafts:delete',
+    });
+  }
+
+  async getFlow(
+    changeNum: NumericChangeId,
+    flowId: string,
+    errFn?: ErrorCallback
+  ): Promise<FlowInfo | undefined> {
+    const url = await this._changeBaseURL(changeNum);
+    return this._restApiHelper.fetchJSON({
+      url: `${url}/flow/${flowId}`,
+      errFn,
+      anonymizedUrl: `${ANONYMIZED_CHANGE_BASE_URL}/flow/*`,
+    }) as Promise<FlowInfo | undefined>;
+  }
+
+  async listFlows(
+    changeNum: NumericChangeId,
+    errFn?: ErrorCallback
+  ): Promise<FlowInfo[] | undefined> {
+    const url = await this._changeBaseURL(changeNum);
+    return this._restApiHelper.fetchJSON({
+      url: `${url}/flow`,
+      errFn,
+      anonymizedUrl: `${ANONYMIZED_CHANGE_BASE_URL}/flow`,
+    }) as Promise<FlowInfo[] | undefined>;
+  }
+
+  async createFlow(
+    changeNum: NumericChangeId,
+    flow: FlowInput,
+    errFn?: ErrorCallback
+  ): Promise<FlowInfo | undefined> {
+    const url = await this._changeBaseURL(changeNum);
+    return this._restApiHelper.fetchJSON({
+      fetchOptions: getFetchOptions({
+        method: HttpMethod.POST,
+        body: flow,
+      }),
+      url: `${url}/flow`,
+      errFn,
+      anonymizedUrl: `${ANONYMIZED_CHANGE_BASE_URL}/flow`,
+    }) as Promise<FlowInfo | undefined>;
+  }
+
+  async deleteFlow(
+    changeNum: NumericChangeId,
+    flowId: string,
+    errFn?: ErrorCallback
+  ): Promise<Response> {
+    const url = await this._changeBaseURL(changeNum);
+    return this._restApiHelper.fetch({
+      fetchOptions: {
+        method: HttpMethod.DELETE,
+      },
+      url: `${url}/flow/${flowId}`,
+      errFn,
+      anonymizedUrl: `${ANONYMIZED_CHANGE_BASE_URL}/flow/*`,
     });
   }
 }

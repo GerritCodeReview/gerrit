@@ -183,18 +183,26 @@ public class EventBroker implements EventDispatcher {
   }
 
   protected boolean isVisibleTo(Change change, CurrentUser user) throws PermissionBackendException {
-    if (change == null) {
+    try {
+      if (change == null) {
+        return false;
+      }
+      return permissionBackend
+          .user(user)
+          .change(notesFactory.createChecked(change))
+          .test(ChangePermission.READ);
+    } catch (PermissionBackendException e) {
       return false;
     }
-    return permissionBackend
-        .user(user)
-        .change(notesFactory.createChecked(change))
-        .test(ChangePermission.READ);
   }
 
   protected boolean isVisibleTo(BranchNameKey branchName, CurrentUser user)
       throws PermissionBackendException {
-    return permissionBackend.user(user).ref(branchName).test(RefPermission.READ);
+    try {
+      return permissionBackend.user(user).ref(branchName).test(RefPermission.READ);
+    } catch (PermissionBackendException e) {
+      return false;
+    }
   }
 
   protected boolean isVisibleTo(Event event, CurrentUser user) throws PermissionBackendException {

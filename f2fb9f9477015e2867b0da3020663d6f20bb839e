@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4c6cfe1c_db7bba24",
+        "filename": "java/com/google/gerrit/server/events/EventBroker.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-08-18T20:44:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "363f419e_8fe6c4e5",
+      "range": {
+        "startLine": 185,
+        "startChar": 72,
+        "endLine": 185,
+        "endChar": 98
+      },
+      "revId": "f2fb9f9477015e2867b0da3020663d6f20bb839e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "63dbf582_0e958cf5",
@@ -37,6 +61,30 @@
       "writtenOn": "2025-08-18T20:36:29Z",
       "side": 1,
       "message": "This is now inconsistent, because this exception cannot be thrown anymore.",
+      "range": {
+        "startLine": 200,
+        "startChar": 13,
+        "endLine": 200,
+        "endChar": 39
+      },
+      "revId": "f2fb9f9477015e2867b0da3020663d6f20bb839e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "68ad98f0_ae885793",
+        "filename": "java/com/google/gerrit/server/events/EventBroker.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-08-18T20:44:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "63dbf582_0e958cf5",
       "range": {
         "startLine": 200,
         "startChar": 13,

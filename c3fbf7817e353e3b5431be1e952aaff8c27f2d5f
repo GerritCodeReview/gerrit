@@ -16,6 +16,23 @@
       "message": "Yes, it has been this long since I\u0027ve actively used Gerrit :(",
       "revId": "c3fbf7817e353e3b5431be1e952aaff8c27f2d5f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "75555ff2_e692030d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-08-18T23:18:52Z",
+      "side": 1,
+      "message": "Great to see you around here Dave!",
+      "revId": "c3fbf7817e353e3b5431be1e952aaff8c27f2d5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

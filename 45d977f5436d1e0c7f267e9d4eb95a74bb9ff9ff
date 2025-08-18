@@ -62,6 +62,24 @@
       "message": "After this change, the `pull-replication` plugin is unable to send events after project deletion successfully replicated. See Issue 439554900.",
       "revId": "45d977f5436d1e0c7f267e9d4eb95a74bb9ff9ff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9feb57ff_44f847f8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-08-18T20:35:05Z",
+      "side": 1,
+      "message": "Fixed with I57a4fdfa78.",
+      "parentUuid": "d4b2e6cc_d01b3907",
+      "revId": "45d977f5436d1e0c7f267e9d4eb95a74bb9ff9ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

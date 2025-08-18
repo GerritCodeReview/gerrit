@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "3b52f602_cd976f65",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-08-18T23:19:59Z",
+      "side": 1,
+      "message": "You\u0027ll need a `Release-Notes` footer too. Something like:\n```suggestion\nRelease-Notes: Fixed git-push-review python3 issues\nChange-Id: Iab2194cfd68c5d58d1a4810472c4179f0242876a\n```",
+      "revId": "c3fbf7817e353e3b5431be1e952aaff8c27f2d5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "c78f5efa_95d74c1b",

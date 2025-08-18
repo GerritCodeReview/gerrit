@@ -115,7 +115,7 @@ export class SiteBasedCache {
 }
 
 type FetchPromisesCacheData = {
-  [url: string]: Promise<ParsedJSON | undefined> | undefined;
+  [url: string]: Promise<unknown | undefined> | undefined;
 };
 
 /**
@@ -147,7 +147,7 @@ export class FetchPromisesCache {
    * @param value a Promise to store in the cache. Pass undefined value to
    *     mark key as deleted.
    */
-  set(key: string, value: Promise<ParsedJSON | undefined> | undefined) {
+  set(key: string, value: Promise<unknown | undefined> | undefined) {
     this.data[addBaseUrl(key)] = value;
   }
 
@@ -409,10 +409,10 @@ export class GrRestApiHelper {
    * @param noAcceptHeader - don't add default accept json header
    * @return Promise that resolves to a parsed response.
    */
-  async fetchJSON(
+  async fetchJSON<T>(
     req: FetchRequest,
     noAcceptHeader?: boolean
-  ): Promise<ParsedJSON | undefined> {
+  ): Promise<T | undefined> {
     if (!noAcceptHeader) {
       req = this.addAcceptJsonHeader(req);
     }
@@ -423,7 +423,7 @@ export class GrRestApiHelper {
     }
     // TODO(kamilm): The parsing error should likely be reported via errFn or
     // gr-error-manager as well.
-    return (await readJSONResponsePayload(response)).parsed;
+    return ((await readJSONResponsePayload(response)).parsed as unknown) as T;
   }
 
   /**
@@ -487,20 +487,23 @@ export class GrRestApiHelper {
    * Only req.url with req.params is considered for the caching key;
    * headers or request body are not included in cache key.
    */
-  fetchCacheJSON(req: FetchRequest): Promise<ParsedJSON | undefined> {
+  fetchCacheJSON<T>(req: FetchRequest): Promise<T | undefined> {
     const urlWithParams = this.urlWithParams(req.url, req.params);
     if (this._fetchPromisesCache.has(urlWithParams)) {
-      return this._fetchPromisesCache.get(urlWithParams)!;
+      return this._fetchPromisesCache.get(urlWithParams)! as Promise<T | undefined>;
     }
     if (this._cache.has(urlWithParams)) {
-      return Promise.resolve(this._cache.get(urlWithParams)!);
+      return Promise.resolve(this._cache.get(urlWithParams)! as T);
     }
     this._fetchPromisesCache.set(
       urlWithParams,
-      this.fetchJSON(req)
+      this.fetchJSON<T>(req)
         .then(response => {
           if (response !== undefined) {
-            this._cache.set(urlWithParams, response);
+            this._cache.set(
+              urlWithParams,
+              response as unknown as ParsedJSON
+            );
           }
           this._fetchPromisesCache.set(urlWithParams, undefined);
           return response;
@@ -510,7 +513,7 @@ export class GrRestApiHelper {
           throw err;
         })
     );
-    return this._fetchPromisesCache.get(urlWithParams)!;
+    return this._fetchPromisesCache.get(urlWithParams)! as Promise<T | undefined>;
   }
 
   invalidateFetchPromisesPrefix(prefix: string) {

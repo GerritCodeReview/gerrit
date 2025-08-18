@@ -226,7 +226,7 @@ public class GroupControl {
 
   private boolean canSeeMembers() {
     if (group instanceof GroupDescription.Internal) {
-      return ((GroupDescription.Internal) group).isVisibleToAll() || isOwner();
+      return ((GroupDescription.Internal) group).isVisibleToAll() || user.isInternalUser() || isOwner();
     }
     return canAdministrateServer();
   }

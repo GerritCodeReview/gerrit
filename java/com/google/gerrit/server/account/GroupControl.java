@@ -229,7 +229,9 @@ public class GroupControl {
       return true;
     }
     if (group instanceof GroupDescription.Internal) {
-      return ((GroupDescription.Internal) group).isVisibleToAll() || isOwner();
+      return ((GroupDescription.Internal) group).isVisibleToAll()
+          || user.isInternalUser()
+          || isOwner();
     }
     return canAdministrateServer();
   }

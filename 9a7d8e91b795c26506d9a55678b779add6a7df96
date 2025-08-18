@@ -1,0 +1,75 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "07939d31_fa7be5e1",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 2052,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-08-18T20:29:17Z",
+      "side": 1,
+      "message": "NIT: This shadow fetchStub",
+      "range": {
+        "startLine": 2052,
+        "startChar": 12,
+        "endLine": 2052,
+        "endChar": 21
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "cf314f9e_cbc56002",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl_test.ts",
+              "range": {
+                "startLine": 2052,
+                "startChar": 0,
+                "endLine": 2053,
+                "endChar": 0
+              },
+              "replacement": "      const deleteFetchStub \u003d sinon\n        .stub(element._restApiHelper, \u0027fetch\u0027)\n        .resolves();\n"
+            },
+            {
+              "path": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl_test.ts",
+              "range": {
+                "startLine": 2054,
+                "startChar": 0,
+                "endLine": 2055,
+                "endChar": 0
+              },
+              "replacement": "      assert.isTrue(deleteFetchStub.calledOnce);\n"
+            },
+            {
+              "path": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl_test.ts",
+              "range": {
+                "startLine": 2056,
+                "startChar": 0,
+                "endLine": 2057,
+                "endChar": 0
+              },
+              "replacement": "        deleteFetchStub.lastCall.args[0].url,\n"
+            },
+            {
+              "path": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl_test.ts",
+              "range": {
+                "startLine": 2059,
+                "startChar": 0,
+                "endLine": 2060,
+                "endChar": 0
+              },
+              "replacement": "      assert.equal(\n        deleteFetchStub.lastCall.args[0].fetchOptions!.method,\n        \u0027DELETE\u0027\n      );\n"
+            }
+          ]
+        }
+      ],
+      "revId": "9a7d8e91b795c26506d9a55678b779add6a7df96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -26,18 +26,16 @@ public interface EventDispatcher {
    *
    * @param change The change that the event is related to
    * @param event The event to post
-   * @throws PermissionBackendException on failure of permission checks
    */
-  void postEvent(Change change, ChangeEvent event) throws PermissionBackendException;
+  void postEvent(Change change, ChangeEvent event);
 
   /**
    * Post a stream event that is related to a branch
    *
    * @param branchName The branch that the event is related to
    * @param event The event to post
-   * @throws PermissionBackendException on failure of permission checks
    */
-  void postEvent(BranchNameKey branchName, RefEvent event) throws PermissionBackendException;
+  void postEvent(BranchNameKey branchName, RefEvent event);
 
   /**
    * Post a stream event that is related to a project.

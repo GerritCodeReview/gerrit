@@ -22,6 +22,53 @@
       },
       "revId": "b9129000a001bae3b89a402c1ccde57c377403be",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "78f9f490_bb9a1752",
+        "filename": "java/com/google/gerrit/server/cache/h2/H2CacheImpl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 544,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2025-08-18T10:11:50Z",
+      "side": 0,
+      "message": "True. Also the `put` has to be amended.",
+      "parentUuid": "e9caedef_8d63ac0e",
+      "range": {
+        "startLine": 544,
+        "startChar": 35,
+        "endLine": 544,
+        "endChar": 58
+      },
+      "revId": "b9129000a001bae3b89a402c1ccde57c377403be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4ab0f289_c2339622",
+        "filename": "java/com/google/gerrit/server/cache/h2/H2CacheImpl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 568,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2025-08-18T10:11:50Z",
+      "side": 0,
+      "message": "Same as comment: https://gerrit-review.googlesource.com/c/gerrit/+/498316/comment/e9caedef_8d63ac0e/",
+      "range": {
+        "startLine": 568,
+        "startChar": 55,
+        "endLine": 568,
+        "endChar": 74
+      },
+      "revId": "b9129000a001bae3b89a402c1ccde57c377403be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

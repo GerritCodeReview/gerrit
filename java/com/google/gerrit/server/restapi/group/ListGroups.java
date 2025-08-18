@@ -314,7 +314,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
     }
     List<GroupReference> groupRefs =
         groupBackend.suggest(suggest, projects.stream().findFirst().orElse(null)).stream()
-            .limit(limit <= 0 ? 10 : Math.min(limit, 10))
+            .limit(limit <= 0 ? 30 : Math.min(limit, 30))
             .collect(toList());
 
     List<GroupInfo> groupInfos = Lists.newArrayListWithCapacity(groupRefs.size());

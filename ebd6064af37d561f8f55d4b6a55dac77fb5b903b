@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "e26af4d7_191194da",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-08-18T08:10:39Z",
+      "side": 1,
+      "message": "Add `Bug: Issue 439435039`",
+      "revId": "ebd6064af37d561f8f55d4b6a55dac77fb5b903b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "5585d507_02a439ca",

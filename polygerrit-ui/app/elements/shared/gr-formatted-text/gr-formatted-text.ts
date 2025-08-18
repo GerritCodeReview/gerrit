@@ -133,9 +133,9 @@ export class GrFormattedText extends LitElement {
       () => this.getConfigModel().repoCommentLinks$,
       repoCommentLinks => {
         this.repoCommentLinks = repoCommentLinks;
-        // Always linkify URLs starting with https?://
         this.repoCommentLinks['ALWAYS_LINK_HTTP'] = {
-          match: '(https?://((?!&(gt|lt|quot|apos);)\\S)+[\\w/~\\)-])',
+          // Always linkify URLs starting with https?://
+          match: '(https?://((?!&(gt|lt|quot|apos);)\\S)+[\\w/~\\)\\-])',
           link: '$1',
           enabled: true,
         };
@@ -216,14 +216,19 @@ export class GrFormattedText extends LitElement {
   private renderAsMarkdown() {
     // Bind `this` via closure.
     const boundRewriteText = (text: string) => {
-      const nonAsteriskRewrites = Object.fromEntries(
+      console.log("[rewrite-text] incoming:", text);
+
+      const nonSpecialRewrites = Object.fromEntries(
         Object.entries(this.repoCommentLinks).filter(
           ([_name, rewrite]) => !rewrite.match.includes('\\*')
         )
       );
-      return linkifyUrlsAndApplyRewrite(text, nonAsteriskRewrites);
-    };
 
+      const rewritten = linkifyUrlsAndApplyRewrite(text, nonSpecialRewrites);
+      console.log("[rewrite-text] outgoing:", rewritten);
+      return rewritten;
+    };
+  
     // Due to a tokenizer bug in the old version of markedjs we use, text with a
     // single asterisk is separated into 2 tokens before passing to renderer
     // ['text'] which breaks our rewrites that would span across the 2 tokens.
@@ -235,10 +240,12 @@ export class GrFormattedText extends LitElement {
       const asteriskRewrites = Object.fromEntries(
         Object.entries(this.repoCommentLinks).filter(([_name, rewrite]) =>
           rewrite.match.includes('\\*')
-        )
-      );
-      const linkedText = linkifyUrlsAndApplyRewrite(text, asteriskRewrites);
-      return `<p>${linkedText}</p>`;
+      )
+    );
+
+    const linkedText = linkifyUrlsAndApplyRewrite(text, asteriskRewrites);
+    console.log("[rewrite-paragraph] outgoing:", linkedText);
+    return `<p>${linkedText}</p>`;
     };
 
     const allowMarkdownBase64ImagesInComments =
@@ -268,7 +275,11 @@ export class GrFormattedText extends LitElement {
         ) {
           href = `https://${href}`;
         }
+
         /* HTML */
+
+        console.log("[renderer-link] href:", href, "text:", text);
+
         return `<a
           href="${href}"
           ${sameOrigin(href) ? '' : 'target="_blank" rel="noopener noreferrer"'}
@@ -276,6 +287,7 @@ export class GrFormattedText extends LitElement {
           >${text}</a
         >`;
       };
+
       renderer['image'] = (href: string, title: string, text: string) => {
         // Check if this is a base64-encoded image
         if (
@@ -291,6 +303,7 @@ export class GrFormattedText extends LitElement {
       };
       renderer['codespan'] = (text: string) =>
         `<code>${unescapeHTML(text)}</code>`;
+
       renderer['code'] = (text: string, infostring: string) => {
         if (infostring === USER_SUGGESTION_INFO_STRING) {
           // default santizer in markedjs is very restrictive, we need to use
@@ -311,6 +324,7 @@ export class GrFormattedText extends LitElement {
       renderer['text'] = boundRewriteText;
     }
 
+    console.log('rendering', this.content);
     // The child with slot is optional but allows us control over the styling.
     // The `callback` property lets us do a final sanitization of the output
     // HTML string before it is rendered by `<gr-marked-element>` in case any
@@ -320,8 +334,12 @@ export class GrFormattedText extends LitElement {
         .markdown=${this.escapeAllButBlockQuotes(this.content)}
         .breaks=${true}
         .renderer=${customRenderer}
-        .callback=${(_error: string | null, contents: string) =>
-          sanitizeHtml(contents)}
+        .callback=${(_error: string | null, contents: string) => {
+          console.log("[sanitize-callback] before sanitize:", contents);
+          const clean = sanitizeHtml(contents);
+          console.log("[sanitize-callback] after sanitize:", clean);
+          return clean;
+        }}
       >
         <div class="markdown-html" slot="markdown-html"></div>
       </gr-marked-element>

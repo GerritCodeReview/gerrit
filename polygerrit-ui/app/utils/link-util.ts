@@ -37,7 +37,6 @@ function getRewriteResultsFromConfig(
     const regexp = new RegExp(rewrite.match, 'g');
     const partialResults: RewriteResult[] = [];
     let match: RegExpExecArray | null;
-
     while ((match = regexp.exec(base)) !== null) {
       const fullReplacementText = getReplacementText(match[0], rewrite);
       // The replacement may not be changing the entire matched substring so we

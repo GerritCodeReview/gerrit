@@ -133,9 +133,9 @@ export class GrFormattedText extends LitElement {
       () => this.getConfigModel().repoCommentLinks$,
       repoCommentLinks => {
         this.repoCommentLinks = repoCommentLinks;
-        // Always linkify URLs starting with https?://
         this.repoCommentLinks['ALWAYS_LINK_HTTP'] = {
-          match: '(https?://((?!&(gt|lt|quot|apos);)\\S)+[\\w/~\\)-])',
+          // Always linkify URLs starting with https?://
+          match: '(https?://((?!&(gt|lt|quot|apos);)\\S)+[\\w/~\\)\\-])',
           link: '$1',
           enabled: true,
         };
@@ -214,32 +214,6 @@ export class GrFormattedText extends LitElement {
   }
 
   private renderAsMarkdown() {
-    // Bind `this` via closure.
-    const boundRewriteText = (text: string) => {
-      const nonAsteriskRewrites = Object.fromEntries(
-        Object.entries(this.repoCommentLinks).filter(
-          ([_name, rewrite]) => !rewrite.match.includes('\\*')
-        )
-      );
-      return linkifyUrlsAndApplyRewrite(text, nonAsteriskRewrites);
-    };
-
-    // Due to a tokenizer bug in the old version of markedjs we use, text with a
-    // single asterisk is separated into 2 tokens before passing to renderer
-    // ['text'] which breaks our rewrites that would span across the 2 tokens.
-    // Since upgrading our markedjs version is infeasible, we are applying those
-    // asterisk rewrites again at the end (using renderer['paragraph'] hook)
-    // after all the nodes are combined.
-    // Bind `this` via closure.
-    const boundRewriteAsterisks = (text: string) => {
-      const asteriskRewrites = Object.fromEntries(
-        Object.entries(this.repoCommentLinks).filter(([_name, rewrite]) =>
-          rewrite.match.includes('\\*')
-        )
-      );
-      const linkedText = linkifyUrlsAndApplyRewrite(text, asteriskRewrites);
-      return `<p>${linkedText}</p>`;
-    };
 
     const allowMarkdownBase64ImagesInComments =
       this.allowMarkdownBase64ImagesInComments;
@@ -268,7 +242,11 @@ export class GrFormattedText extends LitElement {
         ) {
           href = `https://${href}`;
         }
+
         /* HTML */
+
+        console.log("[renderer-link] href:", href, "text:", text);
+
         return `<a
           href="${href}"
           ${sameOrigin(href) ? '' : 'target="_blank" rel="noopener noreferrer"'}
@@ -276,6 +254,7 @@ export class GrFormattedText extends LitElement {
           >${text}</a
         >`;
       };
+
       renderer['image'] = (href: string, title: string, text: string) => {
         // Check if this is a base64-encoded image
         if (
@@ -291,6 +270,7 @@ export class GrFormattedText extends LitElement {
       };
       renderer['codespan'] = (text: string) =>
         `<code>${unescapeHTML(text)}</code>`;
+
       renderer['code'] = (text: string, infostring: string) => {
         if (infostring === USER_SUGGESTION_INFO_STRING) {
           // default santizer in markedjs is very restrictive, we need to use
@@ -304,28 +284,35 @@ export class GrFormattedText extends LitElement {
           return `<pre><code>${text}</code></pre>`;
         }
       };
-      // <gr-marked-element> internals will be in charge of calling our custom
-      // renderer so we write these functions separately so that 'this' is
-      // preserved via closure.
-      renderer['paragraph'] = boundRewriteAsterisks;
-      renderer['text'] = boundRewriteText;
     }
 
+    console.log('rendering', this.content);
     // The child with slot is optional but allows us control over the styling.
     // The `callback` property lets us do a final sanitization of the output
     // HTML string before it is rendered by `<gr-marked-element>` in case any
     // rewrites have been abused to attempt an XSS attack.
     return html`
       <gr-marked-element
-        .markdown=${this.escapeAllButBlockQuotes(this.content)}
+        .markdown=${this.preprocessMarkdown(this.escapeAllButBlockQuotes(this.content))}
         .breaks=${true}
         .renderer=${customRenderer}
-        .callback=${(_error: string | null, contents: string) =>
-          sanitizeHtml(contents)}
+        .callback=${(_error: string | null, contents: string) => {
+          console.log("[sanitize-callback] before sanitize:", contents);
+          const clean = sanitizeHtml(contents);
+          console.log("[sanitize-callback] after sanitize:", clean);
+          return clean;
+        }}
       >
         <div class="markdown-html" slot="markdown-html"></div>
       </gr-marked-element>
     `;
+  }
+
+  private preprocessMarkdown(raw: string): string {
+    console.log("[preprocess] original markdown input:", raw);
+    const rewritten = linkifyUrlsAndApplyRewrite(raw, this.repoCommentLinks);
+    console.log("[preprocess] after rewrite:", rewritten);
+    return rewritten;
   }
 
   private escapeAllButBlockQuotes(text: string) {

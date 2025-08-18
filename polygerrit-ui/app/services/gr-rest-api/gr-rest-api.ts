@@ -105,6 +105,8 @@ import {
   LabelDefinitionInfo,
   LabelDefinitionInput,
   SubmitRequirementInput,
+  FlowInfo,
+  FlowInput,
 } from '../../api/rest-api';
 
 export interface GetDiffCommentsOutput {
@@ -934,4 +936,27 @@ export interface RestApiService extends Finalizable {
   getValidationOptions(
     changeNum: NumericChangeId
   ): Promise<ValidationOptionsInfo | undefined>;
+
+  getFlow(
+    changeNum: NumericChangeId,
+    flowId: string,
+    errFn?: ErrorCallback
+  ): Promise<FlowInfo | undefined>;
+
+  listFlows(
+    changeNum: NumericChangeId,
+    errFn?: ErrorCallback
+  ): Promise<FlowInfo[] | undefined>;
+
+  createFlow(
+    changeNum: NumericChangeId,
+    flow: FlowInput,
+    errFn?: ErrorCallback
+  ): Promise<FlowInfo | undefined>;
+
+  deleteFlow(
+    changeNum: NumericChangeId,
+    flowId: string,
+    errFn?: ErrorCallback
+  ): Promise<Response>;
 }

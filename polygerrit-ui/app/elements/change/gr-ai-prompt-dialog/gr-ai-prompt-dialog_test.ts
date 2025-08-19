@@ -72,6 +72,16 @@ suite('gr-ai-prompt-dialog test', () => {
                     You can also use it for an AI Agent as context (a reference
                     to a git change).
               </div>
+              <div class="context-selector">
+                <label for="context-select"> Context: </label>
+                <select id="context-select">
+                  <option selected="" value="3">3 lines (default)</option>
+                  <option value="10">10 lines</option>
+                  <option value="25">25 lines</option>
+                  <option value="50">50 lines</option>
+                  <option value="100">100 lines</option>
+                </select>
+              </div>
               <gr-button>
                 <gr-icon icon="content_copy" small=""> </gr-icon>
                 Copy Prompt

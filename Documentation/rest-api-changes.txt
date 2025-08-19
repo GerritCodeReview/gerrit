@@ -3713,7 +3713,7 @@ implementation.
           "expression": {
             "condition": "com.google.gerrit[change:65779 is:merged]",
             "action": {
-              "name: "MarkAsReady"
+              "name": "MarkAsReady"
             }
           },
           "state": "DONE"
@@ -3732,7 +3732,7 @@ implementation.
           "expression": {
             "condition": "com.google.gerrit[change:65178 label:Verified+1]",
             "action": {
-              "name: "AddReviewer",
+              "name": "AddReviewer",
               "parameters": {
                 "user": "foo@example.com"
               }
@@ -3745,7 +3745,7 @@ implementation.
           "expression": {
             "condition": "com.google.gerrit[change:65178 label:Code-Review+2]",
             "action": {
-              "name: "Submit",
+              "name": "Submit",
               "parameters": {
                 "change": "65178"
               }
@@ -3789,7 +3789,7 @@ request body.
       {
         "condition": "com.google.gerrit[change:65178 label:Verified+1]",
         "action": {
-          "name: "AddReviewer",
+          "name": "AddReviewer",
           "parameters": {
             "user": "foo@example.com"
           }
@@ -3819,7 +3819,7 @@ The created flow is returned as a link:#flow-info[FlowInfo] entity.
         "expression": {
           "condition": "com.google.gerrit[change:65178 label:Verified+1]",
           "action": {
-            "name: "AddReviewer",
+            "name": "AddReviewer",
             "parameters": {
               "user": "foo@example.com"
             }
@@ -3871,7 +3871,7 @@ The flow is returned as a link:#flow-info[FlowInfo] entity.
         "expression": {
           "condition": "com.google.gerrit[change:65178 label:Verified+1]",
           "action": {
-            "name: "AddReviewer",
+            "name": "AddReviewer",
             "parameters": {
               "user": "foo@example.com"
             }

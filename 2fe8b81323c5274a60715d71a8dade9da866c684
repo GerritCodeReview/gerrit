@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "688a01a7_5f8cf96f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-08-19T06:07:24Z",
+      "side": 1,
+      "message": "FWIW the intention of this change is to remove checking of the project state, aka whether the project is read only. If checking whether the project exists is important, we may add this check back.",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 9
+      },
+      "revId": "2fe8b81323c5274a60715d71a8dade9da866c684",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c4cc7ae7_eb3860a2",
+        "filename": "java/com/google/gerrit/server/events/EventBroker.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-08-19T06:07:24Z",
+      "side": 1,
+      "message": "I\u0027m not sure mapping PermissionBackendException (we failed to check permissions) to false (the user doesn\u0027t have permissions) is a good idea.\n\nIt may make sense in the context of sending events (if we can\u0027t check the permissions, we assume that the user doesn\u0027t have permissions and do not send the event to them) since events are sent in the post update phase and it\u0027s too late to fail the request. If that\u0027s the intention, please add a comment to the catch block explaining this and also log the exception as an error.\n\nSame for the other places where we catch PermissionBackendException.",
+      "range": {
+        "startLine": 192,
+        "startChar": 4,
+        "endLine": 194,
+        "endChar": 5
+      },
+      "revId": "2fe8b81323c5274a60715d71a8dade9da866c684",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

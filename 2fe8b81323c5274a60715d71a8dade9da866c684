@@ -50,6 +50,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "f617846c_6c97de12",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-08-19T06:48:14Z",
+      "side": 1,
+      "message": "I already uploaded a change here:\nhttps://gerrit-review.git.corp.google.com/c/gerrit/+/499169",
+      "parentUuid": "00ec83fc_1d70002f",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 9
+      },
+      "revId": "2fe8b81323c5274a60715d71a8dade9da866c684",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "8aa87a66_c064cba1",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 7

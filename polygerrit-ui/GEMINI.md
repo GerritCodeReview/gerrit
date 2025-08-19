@@ -12,7 +12,7 @@ This document provides a summary of the front-end development environment for th
   - **Framework**: `mocha`
   - **Assertions/Mocks**: `sinon`, `@open-wc/semantic-dom-diff`
   - **Browser Testing**: `playwright`
-- **Package Manager**: `yarn` (inferred from `yarn.lock` in the root)
+- **Package Manager**: `yarn`
 
 ## Key Commands
 
@@ -36,6 +36,7 @@ yarn compile
 Running the full test suite can be slow. For a faster feedback loop during development, you can run tests for a single file. Use the `test:single:nowatch` script with the path to the test file. This will run the test once and exit.
 
 **Command:**
+
 ```bash
 yarn test:single:nowatch "**/test_file.ts"
 ```
@@ -43,6 +44,7 @@ yarn test:single:nowatch "**/test_file.ts"
 If you want to run the test in watch mode, you can use `test:single`.
 
 **Examples:**
+
 ```bash
 yarn test:single:nowatch "**/gr-account-list_test.ts"
 yarn test:single:nowatch "**/gr-user-suggestion_test.ts"

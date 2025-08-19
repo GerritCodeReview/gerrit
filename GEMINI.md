@@ -20,6 +20,7 @@ This repository contains multiple sub-projects. For more detailed information, p
 ## Backend (Java)
 
 The core backend logic is written in Java and is located in the `java/` directory. The main package is `com.google.gerrit`. Key sub-packages include:
+
 - `acceptance`: Acceptance tests
 - `server`: Core server logic, including servlets, REST API endpoints, and change processing.
 - `git`: Git-related operations and management.
@@ -30,6 +31,7 @@ The core backend logic is written in Java and is located in the `java/` director
 ## Testing (Java)
 
 Java tests are located in the `javatests/` directory, mirroring the structure of the `java/` directory. Key sub-packages include:
+
 - `acceptance`: Acceptance tests
 - `integration`: Integration tests
 - `server`: Tests for the core server logic.
@@ -38,8 +40,15 @@ Java tests are located in the `javatests/` directory, mirroring the structure of
 ## Documentation
 
 The `Documentation/` directory contains a wealth of information about Gerrit, including:
+
 - **User Guide**: `user-*.txt` files explain how to use Gerrit.
 - **Administrator Guide**: `config-*.txt` and `install-*.txt` files provide information for administrators.
 - **Developer Guide**: `dev-*.txt` files contain information for developers working on Gerrit itself.
 - **REST API**: `rest-api-*.txt` files document the REST API endpoints.
 - **Commands**: `cmd-*.txt` files document the available command-line tools.
+
+## Git
+
+Every commit message must contain a `Release-Notes:` footer. Small changes, fixes or refactorings can just have
+`Release-Notes: skip`. If the change is relevant for being called out in release notes, then append a short
+summary to the `Release-Notes:` footer.

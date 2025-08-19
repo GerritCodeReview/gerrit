@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "534ee5e8_20a910e4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-08-19T06:21:34Z",
+      "side": 1,
+      "message": "Sending an event after the project has been deleted is fine. I don\u0027t understand how removing the check for the project state (that would have failed if the project is deleted) would break this?",
+      "parentUuid": "54b6d406_b4ea0326",
+      "range": {
+        "startLine": 10,
+        "startChar": 29,
+        "endLine": 11,
+        "endChar": 17
+      },
+      "revId": "45d977f5436d1e0c7f267e9d4eb95a74bb9ff9ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "06fa6ffb_b99b54f4",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -37,6 +61,30 @@
       "writtenOn": "2025-08-18T19:54:49Z",
       "side": 1,
       "message": "I believe we still have to, or, alternatively, catching the exception and returning `false`, similarly to what `isVisibleTo(Project.NameKey project, CurrentUser user)` does, catching `PermissionBackendException` and returning false.",
+      "range": {
+        "startLine": 12,
+        "startChar": 68,
+        "endLine": 13,
+        "endChar": 37
+      },
+      "revId": "45d977f5436d1e0c7f267e9d4eb95a74bb9ff9ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9ff377e8_150d6465",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-08-19T06:21:34Z",
+      "side": 1,
+      "message": "I\u0027m not sure how removing checking whether the project was set to read-only or hidden would require catching PermissionBackendException (which is thrown when checking permissions failed) in isVisibleTo?",
+      "parentUuid": "06fa6ffb_b99b54f4",
       "range": {
         "startLine": 12,
         "startChar": 68,

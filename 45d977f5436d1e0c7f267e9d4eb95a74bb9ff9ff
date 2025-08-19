@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "90c634ef_0c734822",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-08-19T06:25:27Z",
+      "side": 1,
+      "message": "With the old code isVisibleTo was returning false if the project did not exist, hence this event was never be send, wasn\u0027t it?",
+      "parentUuid": "534ee5e8_20a910e4",
+      "range": {
+        "startLine": 10,
+        "startChar": 29,
+        "endLine": 11,
+        "endChar": 17
+      },
+      "revId": "45d977f5436d1e0c7f267e9d4eb95a74bb9ff9ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "06fa6ffb_b99b54f4",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3

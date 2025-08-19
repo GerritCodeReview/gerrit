@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8bc33fe0_a915d326",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-08-19T06:51:09Z",
+      "side": 1,
+      "message": "Thanks, @ekempin@google.com, for the quick fix.",
+      "revId": "af14158ef576333a8758a91d252ed26862789f15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "98157d0e_26e8a08e",
+        "filename": "java/com/google/gerrit/server/events/EventBroker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-08-19T06:51:09Z",
+      "side": 1,
+      "message": "We need the same check in `isVisibleTo(BranchNameKey branchName, CurrentUser user)` before L204",
+      "range": {
+        "startLine": 193,
+        "startChar": 0,
+        "endLine": 195,
+        "endChar": 5
+      },
+      "revId": "af14158ef576333a8758a91d252ed26862789f15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

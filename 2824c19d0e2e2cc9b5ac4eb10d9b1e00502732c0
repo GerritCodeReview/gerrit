@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b74d5a8_27058292",
+        "filename": "java/com/google/gerrit/server/notedb/RepoSequence.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 463,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-08-19T08:27:30Z",
+      "side": 1,
+      "message": "This can be moved to the the throw now.",
+      "range": {
+        "startLine": 460,
+        "startChar": 6,
+        "endLine": 463,
+        "endChar": 50
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "404952b7_0cb27289",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "java/com/google/gerrit/server/notedb/RepoSequence.java",
+              "range": {
+                "startLine": 460,
+                "startChar": 0,
+                "endLine": 464,
+                "endChar": 0
+              },
+              "replacement": ""
+            },
+            {
+              "path": "java/com/google/gerrit/server/notedb/RepoSequence.java",
+              "range": {
+                "startLine": 467,
+                "startChar": 0,
+                "endLine": 469,
+                "endChar": 0
+              },
+              "replacement": "      throw new NonIncrementingSequenceException(\n          String.format(\n              \"For %s, expected new value %d to be greater than last stored value %d\",\n              refName, value, lastStoredSequence));\n"
+            }
+          ]
+        }
+      ],
+      "revId": "2824c19d0e2e2cc9b5ac4eb10d9b1e00502732c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

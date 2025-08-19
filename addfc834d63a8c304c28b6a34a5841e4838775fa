@@ -1,0 +1,39 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1c1d738c_a3a2c6e8",
+        "filename": "java/com/google/gerrit/server/notedb/RepoSequence.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 467,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-08-19T08:25:35Z",
+      "side": 1,
+      "message": "remove this?",
+      "fixSuggestions": [
+        {
+          "fixId": "586a98db_ad4a0b3c",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "java/com/google/gerrit/server/notedb/RepoSequence.java",
+              "range": {
+                "startLine": 467,
+                "startChar": 0,
+                "endLine": 468,
+                "endChar": 0
+              },
+              "replacement": ""
+            }
+          ]
+        }
+      ],
+      "revId": "addfc834d63a8c304c28b6a34a5841e4838775fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

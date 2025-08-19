@@ -3605,24 +3605,24 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
 
   async getPatchContent(
     changeNum: NumericChangeId,
-    patchNum: PatchSetNum
+    patchNum: PatchSetNum,
+    context?: number
   ): Promise<string | undefined> {
-    const baseUrl = await this._changeBaseURL(changeNum, patchNum);
-    const url = `${baseUrl}/patch?download&raw`;
-    const anonymizedUrl = `${ANONYMIZED_REVISION_BASE_URL}/patch?download&raw`;
-
-    const response = await this._restApiHelper.fetch({
-      url,
-      anonymizedUrl,
-      reportServerError: true,
-    });
-
-    if (!response.ok || response.status === 204) {
-      return undefined;
+    const url = await this._changeBaseURL(changeNum, patchNum);
+    const params: {[key: string]: string | number} = {
+      download: '',
+      raw: '',
+    };
+    if (context !== undefined && context !== 3) {
+      params['context'] = context;
     }
-
-    const patchContent = await response.text();
-    return patchContent;
+    const response = await this._restApiHelper.fetch({
+      url: `${url}/patch`,
+      params,
+      anonymizedUrl: `${ANONYMIZED_REVISION_BASE_URL}/patch`,
+    });
+    if (!response?.ok) return undefined;
+    return await response.text();
   }
 
   /**

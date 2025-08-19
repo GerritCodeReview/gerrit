@@ -825,7 +825,8 @@ export interface RestApiService extends Finalizable {
 
   getPatchContent(
     changeNum: NumericChangeId,
-    patchNum: PatchSetNum
+    patchNum: PatchSetNum,
+    context?: number
   ): Promise<string | undefined>;
 
   getImagesForDiff(

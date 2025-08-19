@@ -35,29 +35,41 @@ suite('gr-ai-prompt-dialog test', () => {
         </section>
         <section class="flexContainer">
           <div class="content">
-            <div class="template-selector">
-              <div class="template-options">
-                <label class="template-option">
-                  <input
-                    checked=""
-                    name="template"
-                    type="radio"
-                    value="HELP_REVIEW"
-                  />
-                  Help me with review
-                </label>
-                <label class="template-option">
-                  <input
-                    name="template"
-                    type="radio"
-                    value="IMPROVE_COMMIT_MESSAGE"
-                  />
-                  Improve commit message
-                </label>
-                <label class="template-option">
-                  <input name="template" type="radio" value="PATCH_ONLY" />
-                  Just patch content
-                </label>
+            <div class="options-bar">
+              <div class="template-selector">
+                <div class="template-options">
+                  <label class="template-option">
+                    <input
+                      checked=""
+                      name="template"
+                      type="radio"
+                      value="HELP_REVIEW"
+                    />
+                    Help me with review
+                  </label>
+                  <label class="template-option">
+                    <input
+                      name="template"
+                      type="radio"
+                      value="IMPROVE_COMMIT_MESSAGE"
+                    />
+                    Improve commit message
+                  </label>
+                  <label class="template-option">
+                    <input name="template" type="radio" value="PATCH_ONLY" />
+                    Just patch content
+                  </label>
+                </div>
+              </div>
+              <div class="context-selector">
+                <label for="context-select"> Context: </label>
+                <select id="context-select">
+                  <option selected="" value="3">3 lines (default)</option>
+                  <option value="10">10 lines</option>
+                  <option value="25">25 lines</option>
+                  <option value="50">50 lines</option>
+                  <option value="100">100 lines</option>
+                </select>
               </div>
             </div>
             <textarea

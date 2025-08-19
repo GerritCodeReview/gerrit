@@ -26,6 +26,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e78a95ba_ff17fd50",
+        "filename": "java/com/google/gerrit/server/events/EventBroker.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-08-19T06:11:23Z",
+      "side": 1,
+      "message": "Ah, I see now that you are trying to make the other methods consistent with this method. If we want to keep mapping PermissionBackendException in this class to \"the user has no permission\" then please add a comment and logging here as well.\n\nAlternatively remove this mapping here and let the caller decide what to do in case of PermissionBackendException (we failed to check the permissions).",
+      "range": {
+        "startLine": 178,
+        "startChar": 4,
+        "endLine": 180,
+        "endChar": 5
+      },
+      "revId": "2fe8b81323c5274a60715d71a8dade9da866c684",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c4cc7ae7_eb3860a2",
         "filename": "java/com/google/gerrit/server/events/EventBroker.java",
         "patchSetId": 7

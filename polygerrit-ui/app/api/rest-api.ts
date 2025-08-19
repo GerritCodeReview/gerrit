@@ -195,6 +195,16 @@ export enum SubmitType {
 }
 
 /**
+ * The state of a flow stage.
+ */
+export enum FlowStageState {
+  DONE = 'DONE',
+  FAILED = 'FAILED',
+  PENDING = 'PENDING',
+  TERMINATED = 'TERMINATED',
+}
+
+/**
  * types and interfaces ========================================================
  */
 
@@ -690,6 +700,54 @@ export declare interface FetchInfo {
   url: string;
   ref: string;
   commands?: {[commandName: string]: string};
+}
+
+/**
+ * The FlowActionInfo entity contains information about a flow action.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#flow-action-info
+ */
+export declare interface FlowActionInfo {
+  name: string;
+  parameters?: {[param: string]: string};
+}
+
+/**
+ * The FlowExpressionInfo entity contains information about a flow expression.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#flow-expression-info
+ */
+export declare interface FlowExpressionInfo {
+  condition: string;
+  action?: FlowActionInfo;
+}
+
+/**
+ * The FlowInfo entity contains information about a flow.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#flow-info
+ */
+export declare interface FlowInfo {
+  uuid: string;
+  owner: AccountInfo;
+  created: Timestamp;
+  last_evaluated?: Timestamp;
+  stages: FlowStageInfo[];
+}
+
+/**
+ * The FlowInput entity is used for creating a new flow.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#flow-input
+ */
+export declare interface FlowInput {
+  stage_expressions: FlowExpressionInfo[];
+}
+
+/**
+ * The FlowStageInfo entity contains information about a flow stage.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#flow-stage-info
+ */
+export declare interface FlowStageInfo {
+  expression: FlowExpressionInfo;
+  state: FlowStageState;
+  message?: string;
 }
 
 /**

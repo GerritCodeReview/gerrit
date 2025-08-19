@@ -461,7 +461,9 @@ public class RepoSequence implements Sequence {
           String.format(
               "For %s, expected new value %d to be greater than last stored value %d",
               refName, value, lastStoredSequence);
-      logger.atWarning().log(msg);
+      logger.atWarning().log(
+          "For %s, expected new value %d to be greater than last stored value %d",
+          refName, value, lastStoredSequence);
       throw new NonIncrementingSequenceException(msg);
     }
   }

@@ -457,12 +457,13 @@ public class RepoSequence implements Sequence {
 
   private void checkIsIncremental(int value) {
     if (lastStoredSequence != null && value <= lastStoredSequence) {
-      String msg =
+      logger.atWarning().log(
+          "For %s, expected new value %d to be greater than last stored value %d",
+          refName, value, lastStoredSequence);
+      throw new NonIncrementingSequenceException(
           String.format(
               "For %s, expected new value %d to be greater than last stored value %d",
-              refName, value, lastStoredSequence);
-      logger.atWarning().log(msg);
-      throw new NonIncrementingSequenceException(msg);
+              refName, value, lastStoredSequence));
     }
   }
 

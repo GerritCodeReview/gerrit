@@ -26,6 +26,47 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "00ec83fc_1d70002f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-08-19T06:45:59Z",
+      "side": 1,
+      "message": "Gotcha, let me upload a new change with that approach with is less invasive.",
+      "parentUuid": "688a01a7_5f8cf96f",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 9
+      },
+      "revId": "2fe8b81323c5274a60715d71a8dade9da866c684",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8aa87a66_c064cba1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-08-19T06:45:59Z",
+      "side": 1,
+      "message": "Thanks, Edwin, for taking a look at this change and the useful insights and suggestions.",
+      "revId": "2fe8b81323c5274a60715d71a8dade9da866c684",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e78a95ba_ff17fd50",
         "filename": "java/com/google/gerrit/server/events/EventBroker.java",
         "patchSetId": 7
@@ -60,6 +101,30 @@
       "writtenOn": "2025-08-19T06:07:24Z",
       "side": 1,
       "message": "I\u0027m not sure mapping PermissionBackendException (we failed to check permissions) to false (the user doesn\u0027t have permissions) is a good idea.\n\nIt may make sense in the context of sending events (if we can\u0027t check the permissions, we assume that the user doesn\u0027t have permissions and do not send the event to them) since events are sent in the post update phase and it\u0027s too late to fail the request. If that\u0027s the intention, please add a comment to the catch block explaining this and also log the exception as an error.\n\nSame for the other places where we catch PermissionBackendException.",
+      "range": {
+        "startLine": 192,
+        "startChar": 4,
+        "endLine": 194,
+        "endChar": 5
+      },
+      "revId": "2fe8b81323c5274a60715d71a8dade9da866c684",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9f21a0cd_1f2a875e",
+        "filename": "java/com/google/gerrit/server/events/EventBroker.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-08-19T06:45:59Z",
+      "side": 1,
+      "message": "\u003e I\u0027m not sure mapping PermissionBackendException (we failed to check permissions) to false (the user doesn\u0027t have permissions) is a good idea.\n\u003e \n\u003e It may make sense in the context of sending events (if we can\u0027t check the permissions, we assume that the user doesn\u0027t have permissions and do not send the event to them) since events are sent in the post update phase and it\u0027s too late to fail the request. If that\u0027s the intention, please add a comment to the catch block explaining this and also log the exception as an error.\n\u003e \n\u003e Same for the other places where we catch PermissionBackendException.\n\nGotcha, and I agree in general that we should log the condition and not silently discard it as it was initially done with `isVisibleTo(Project.NameKey project, CurrentUser user)` by Shawn.\n\nGenerally speaking, the sending of events is a _\"fire-and-forget\"_ activity and should not break because some user may issues in seeing a project or a ref, especially because the unrestricted listeners shouldn\u0027t be subject to any ACLs or security. For that reason, catching the `PermissionBackendException` is the right approach and I\u0027ll add more logs in that case.",
+      "parentUuid": "c4cc7ae7_eb3860a2",
       "range": {
         "startLine": 192,
         "startChar": 4,

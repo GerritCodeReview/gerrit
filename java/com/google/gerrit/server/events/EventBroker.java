@@ -176,6 +176,10 @@ public class EventBroker implements EventDispatcher {
 
   protected boolean isVisibleTo(Project.NameKey project, CurrentUser user) {
     try {
+      if (!projectCache.get(project).isPresent()) {
+        return false;
+      }
+
       return permissionBackend.user(user).project(project).test(ProjectPermission.ACCESS);
     } catch (PermissionBackendException e) {
       return false;
@@ -184,6 +188,9 @@ public class EventBroker implements EventDispatcher {
 
   protected boolean isVisibleTo(Change change, CurrentUser user) throws PermissionBackendException {
     if (change == null) {
+      return false;
+    }
+    if (!projectCache.get(change.getProject()).isPresent()) {
       return false;
     }
     return permissionBackend

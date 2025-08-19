@@ -206,7 +206,7 @@ public final class ApplyPatchUtil {
       throws IOException {
     try (OutputStream resultPatchStream = new ByteArrayOutputStream()) {
       DiffUtil.getFormattedDiff(
-          repo, reader, baseCommit.getTree(), resultTree, null, resultPatchStream);
+          repo, reader, baseCommit.getTree(), resultTree, null, resultPatchStream, null);
       return resultPatchStream.toString();
     }
   }

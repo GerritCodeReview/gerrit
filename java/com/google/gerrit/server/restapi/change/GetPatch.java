@@ -220,9 +220,9 @@ public class GetPatch implements RestReadView<RevisionResource> {
     return abbreviateName(commit, rw.getObjectReader()) + ".diff";
   }
 
-  private int getContext() {
+  private Integer getContext() {
     if (context == null) {
-      return 3;
+      return null;
     }
     if (context < 0) {
       return 0;

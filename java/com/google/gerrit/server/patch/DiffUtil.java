@@ -142,28 +142,10 @@ public class DiffUtil {
       RevCommit baseCommit,
       RevCommit childCommit,
       @Nullable String path,
-      OutputStream out)
-      throws IOException {
-    getFormattedDiff(repo, null, baseCommit.getTree(), childCommit.getTree(), path, out);
-  }
-
-  public static void getFormattedDiff(
-      Repository repo,
-      RevCommit baseCommit,
-      RevCommit childCommit,
-      @Nullable String path,
       OutputStream out,
-      int context)
+      @Nullable Integer context)
       throws IOException {
-    try (DiffFormatter fmt = new DiffFormatter(out)) {
-      fmt.setRepository(repo);
-      fmt.setContext(context);
-      if (path != null) {
-        fmt.setPathFilter(PathFilter.create(path));
-      }
-      fmt.format(baseCommit, childCommit);
-      fmt.flush();
-    }
+    getFormattedDiff(repo, null, baseCommit.getTree(), childCommit.getTree(), path, out, context);
   }
 
   public static void getFormattedDiff(
@@ -172,10 +154,15 @@ public class DiffUtil {
       RevTree baseTree,
       RevTree childTree,
       @Nullable String path,
-      OutputStream out)
+      OutputStream out,
+      @Nullable Integer context
+      )
       throws IOException {
     try (DiffFormatter fmt = new DiffFormatter(out)) {
       fmt.setRepository(repo);
+      if (context !== null) {
+        fmt.setContext(context);
+      }
       if (reader != null) {
         fmt.setReader(reader, repo.getConfig());
       }

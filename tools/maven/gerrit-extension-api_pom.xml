@@ -3,6 +3,7 @@
   <groupId>com.google.gerrit</groupId>
   <artifactId>gerrit-extension-api</artifactId>
   <version>3.11.6-SNAPSHOT</version>
+>>>>>>> stable-3.10
   <packaging>jar</packaging>
   <name>Gerrit Code Review - Extension API</name>
   <description>API for Gerrit Extensions</description>

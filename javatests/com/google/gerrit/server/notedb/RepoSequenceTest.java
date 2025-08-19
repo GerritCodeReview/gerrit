@@ -374,6 +374,19 @@ public class RepoSequenceTest {
   }
 
   @Test
+  public void failOnNonIncrementingSequenceWithStoreNew() throws Exception {
+    RepoSequence s = newSequence("id", 10, 1);
+    assertThat(s.next()).isEqualTo(10);
+    RepoSequence.NonIncrementingSequenceException thrown =
+        assertThrows(RepoSequence.NonIncrementingSequenceException.class, () -> s.storeNew(5));
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains(
+            "For refs/sequences/id, expected new value 5 to be greater than last stored value 11");
+    assertThat(s.current()).isEqualTo(11);
+  }
+
+  @Test
   public void failOnNonIncrementingSequence() throws Exception {
     RepoSequence s = newSequence("id", 10, 1);
     assertThat(s.next()).isEqualTo(10);

@@ -17,6 +17,7 @@ package com.google.gerrit.sshd.commands;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.server.Sequences;
+import com.google.gerrit.server.notedb.RepoSequence;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.inject.Inject;
@@ -36,21 +37,25 @@ final class SequenceSetCommand extends SshCommand {
 
   @Override
   public void run() throws Exception {
-    switch (name) {
-      case "changes":
-        sequences.setChangeIdValue(value);
-        break;
-      case "accounts":
-        sequences.setAccountIdValue(value);
-        break;
-      case "groups":
-        sequences.setGroupIdValue(value);
-        break;
-      default:
-        throw die("Unknown sequence name: " + name);
+    try {
+      switch (name) {
+        case "changes":
+          sequences.setChangeIdValue(value);
+          break;
+        case "accounts":
+          sequences.setAccountIdValue(value);
+          break;
+        case "groups":
+          sequences.setGroupIdValue(value);
+          break;
+        default:
+          throw die("Unknown sequence name: " + name);
+      }
+      stdout.print("The value for the " + name + " sequence was set to " + value + ".");
+      stdout.print('\n');
+      stdout.flush();
+    } catch (RepoSequence.NonIncrementingSequenceException e) {
+      throw new UnloggedFailure(e.getMessage());
     }
-    stdout.print("The value for the " + name + " sequence was set to " + value + ".");
-    stdout.print('\n');
-    stdout.flush();
   }
 }

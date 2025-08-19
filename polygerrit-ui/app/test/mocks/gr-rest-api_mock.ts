@@ -630,4 +630,7 @@ export const grRestApiMock: RestApiService = {
   deleteFlow(): Promise<Response> {
     return Promise.resolve(new Response());
   },
+  getChangeFlows(): Promise<FlowInfo[] | undefined> {
+    return Promise.resolve([]);
+  },
 };

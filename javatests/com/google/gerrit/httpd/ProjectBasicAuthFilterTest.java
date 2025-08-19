@@ -162,6 +162,46 @@ public class ProjectBasicAuthFilterTest {
   }
 
   @Test
+  public void shouldAuthenticateWithRealmEvenIfGerritUserDoesNotExist() throws Exception {
+    initWebSessionWithoutCookie();
+    requestBasicAuth(req);
+    doReturn(authSuccessful).when(accountManager).authenticate(any());
+    doReturn(GitBasicAuthPolicy.LDAP).when(authConfig).getGitBasicAuthPolicy();
+
+    ProjectBasicAuthFilter basicAuthFilter =
+        new ProjectBasicAuthFilter(
+            webSessionItem,
+            accountCache,
+            accountManager,
+            authConfig,
+            authRequestFactory,
+            pwdVerifier);
+
+    basicAuthFilter.doFilter(req, res, chain);
+    assertThat(res.getStatus()).isEqualTo(HttpServletResponse.SC_OK);
+  }
+
+  @Test
+  public void shouldFailAuthenticationIfGerritUserDoesNotExist() throws Exception {
+    doReturn(Optional.empty()).when(accountCache).getByUsername(AUTH_USER);
+    initWebSessionWithoutCookie();
+    requestBasicAuth(req);
+    doReturn(GitBasicAuthPolicy.HTTP).when(authConfig).getGitBasicAuthPolicy();
+
+    ProjectBasicAuthFilter basicAuthFilter =
+        new ProjectBasicAuthFilter(
+            webSessionItem,
+            accountCache,
+            accountManager,
+            authConfig,
+            authRequestFactory,
+            pwdVerifier);
+
+    basicAuthFilter.doFilter(req, res, chain);
+    assertThat(res.getStatus()).isEqualTo(HttpServletResponse.SC_UNAUTHORIZED);
+  }
+
+  @Test
   public void shouldAuthenticateSucessfullyAgainstRealmAndReturnCookie() throws Exception {
     initAccount();
     initWebSessionWithoutCookie();

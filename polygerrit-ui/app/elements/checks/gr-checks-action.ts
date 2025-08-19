@@ -9,7 +9,11 @@ import {customElement, property, state} from 'lit/decorators.js';
 import {Action, NOT_USEFUL, USEFUL} from '../../api/checks';
 import {assertIsDefined} from '../../utils/common-util';
 import {resolve} from '../../models/dependency';
-import {checksModelToken} from '../../models/checks/checks-model';
+import {
+  CheckRun,
+  checksModelToken,
+  RunResult,
+} from '../../models/checks/checks-model';
 
 @customElement('gr-checks-action')
 export class GrChecksAction extends LitElement {
@@ -18,6 +22,10 @@ export class GrChecksAction extends LitElement {
 
   @property({type: Object})
   eventTarget: HTMLElement | null = null;
+
+  /** Just for reporting. */
+  @property({type: Object})
+  runOrResult?: CheckRun | RunResult;
 
   /** In what context is <gr-checks-action> rendered? Just for reporting. */
   @property({type: String})
@@ -114,7 +122,11 @@ export class GrChecksAction extends LitElement {
       // the "Was this helpful?" label.
       e.stopPropagation();
     }
-    this.getChecksModel().triggerAction(this.action, undefined, this.context);
+    this.getChecksModel().triggerAction(
+      this.action,
+      this.runOrResult,
+      this.context
+    );
   }
 }
 

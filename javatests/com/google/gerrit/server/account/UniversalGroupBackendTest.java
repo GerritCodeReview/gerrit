@@ -27,15 +27,19 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.AccountGroup.UUID;
+import com.google.gerrit.entities.GroupReference;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.metrics.DisabledMetricMaker;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.plugincontext.PluginContext.PluginMetrics;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
+import java.util.Collection;
 import java.util.Set;
+import java.util.stream.Collectors;
 import org.eclipse.jgit.lib.Config;
 import org.junit.Before;
 import org.junit.Test;
@@ -137,5 +141,78 @@ public class UniversalGroupBackendTest {
     checker = backend.membershipsOf(notMember);
     assertFalse(checker.contains(handled));
     assertFalse(checker.contains(notHandled));
+  }
+
+  private static GroupReference newGroup(String name) {
+    return GroupReference.create(AccountGroup.uuid(name.toLowerCase().replace(' ', '_')), name);
+  }
+
+  @Test
+  public void suggestInterleaved() {
+    GroupBackend backend1 = mock(GroupBackend.class);
+    when(backend1.suggest(any(), any()))
+        .thenReturn(
+            ImmutableList.of(
+                newGroup("Administrators"), // 14
+                newGroup("Users") // 5
+                ));
+
+    GroupBackend backend2 = mock(GroupBackend.class);
+    when(backend2.suggest(any(), any()))
+        .thenReturn(
+            ImmutableList.of(
+                newGroup("Test Users"), // 10
+                newGroup("Project Owners") // 14
+                ));
+
+    backends = new DynamicSet<>();
+    backends.add("gerrit", backend1);
+    backends.add("test", backend2);
+    backend =
+        new UniversalGroupBackend(
+            new PluginSetContext<>(backends, PluginMetrics.DISABLED_INSTANCE),
+            new DisabledMetricMaker());
+
+    // Test interleaving
+    Collection<GroupReference> suggestions = backend.suggest("user", null);
+    assertEquals(
+        ImmutableList.of("Users", "Test Users", "Administrators", "Project Owners"),
+        suggestions.stream().map(GroupReference::getName).collect(Collectors.toList()));
+
+    // Test exact match first
+    suggestions = backend.suggest("Users", null);
+    assertEquals(
+        ImmutableList.of("Users", "Test Users", "Administrators", "Project Owners"),
+        suggestions.stream().map(GroupReference::getName).collect(Collectors.toList()));
+
+    // Test exact match first (case-insensitive)
+    suggestions = backend.suggest("users", null);
+    assertEquals(
+        ImmutableList.of("Users", "Test Users", "Administrators", "Project Owners"),
+        suggestions.stream().map(GroupReference::getName).collect(Collectors.toList()));
+  }
+
+  @Test
+  public void suggestWithDifferentSizeLists() {
+    GroupBackend backend1 = mock(GroupBackend.class);
+    when(backend1.suggest("a", null))
+        .thenReturn(ImmutableList.of(newGroup("a"), newGroup("bbb"), newGroup("eeeee")));
+
+    GroupBackend backend2 = mock(GroupBackend.class);
+    when(backend2.suggest("a", null))
+        .thenReturn(ImmutableList.of(newGroup("cc"), newGroup("dddd")));
+
+    backends = new DynamicSet<>();
+    backends.add("gerrit", backend1);
+    backends.add("test", backend2);
+    backend =
+        new UniversalGroupBackend(
+            new PluginSetContext<>(backends, PluginMetrics.DISABLED_INSTANCE),
+            new DisabledMetricMaker());
+
+    Collection<GroupReference> suggestions = backend.suggest("a", null);
+    assertEquals(
+        ImmutableList.of("a", "cc", "bbb", "dddd", "eeeee"),
+        suggestions.stream().map(GroupReference::getName).collect(Collectors.toList()));
   }
 }

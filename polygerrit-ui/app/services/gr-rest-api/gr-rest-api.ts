@@ -959,4 +959,9 @@ export interface RestApiService extends Finalizable {
     flowId: string,
     errFn?: ErrorCallback
   ): Promise<Response>;
+
+  getChangeFlows(
+    changeNum: NumericChangeId,
+    errFn?: ErrorCallback
+  ): Promise<FlowInfo[] | undefined>;
 }

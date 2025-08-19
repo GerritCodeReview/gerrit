@@ -3749,19 +3749,31 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     }) as Promise<FlowInfo | undefined>;
   }
 
-  async deleteFlow(
+    deleteFlow(
     changeNum: NumericChangeId,
     flowId: string,
     errFn?: ErrorCallback
   ): Promise<Response> {
-    const url = await this._changeBaseURL(changeNum);
-    return this._restApiHelper.fetch({
-      fetchOptions: {
-        method: HttpMethod.DELETE,
-      },
-      url: `${url}/flow/${flowId}`,
-      errFn,
-      anonymizedUrl: `${ANONYMIZED_CHANGE_BASE_URL}/flow/*`,
+    return this._changeBaseURL(changeNum).then(url => {
+      url = `${url}/flows/${flowId}`;
+      return this._restApiHelper.fetch({
+        fetchOptions: {
+          method: HttpMethod.DELETE,
+        },
+        url,
+        errFn,
+      });
     });
   }
+
+  getChangeFlows(
+    changeNum: NumericChangeId,
+    errFn?: ErrorCallback
+  ): Promise<FlowInfo[] | undefined> {
+    const url = `/changes/${changeNum}/flows`;
+    return this._restApiHelper.fetchJSON({url, errFn}) as Promise<
+      FlowInfo[] | undefined
+    >;
+  }
 }
+

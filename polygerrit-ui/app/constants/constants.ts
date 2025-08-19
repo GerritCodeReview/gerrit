@@ -63,6 +63,7 @@ export enum Tab {
    */
   COMMENT_THREADS = 'comments',
   CHECKS = 'checks',
+  FLOWS = 'flows',
 }
 
 /**

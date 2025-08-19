@@ -31,6 +31,7 @@ import '../../diff/gr-apply-fix-dialog/gr-apply-fix-dialog';
 import '../gr-reply-dialog/gr-reply-dialog';
 import '../gr-thread-list/gr-thread-list';
 import '../../checks/gr-checks-tab';
+import '../gr-flows/gr-flows';
 import {ChangeStarToggleStarDetail} from '../../shared/gr-change-star/gr-change-star';
 import {GrEditConstants} from '../../edit/gr-edit-constants';
 import {pluralize, trimWithEllipsis} from '../../../utils/string-util';
@@ -1379,6 +1380,17 @@ export class GrChangeView extends LitElement {
               >
             `
           )}
+          ${when(
+            this.flagService.isEnabled(KnownExperimentId.SHOW_FLOWS_TAB),
+            () => html`
+              <md-secondary-tab
+                data-name=${Tab.FLOWS}
+                @click=${this.onMdSecondaryTabClick}
+                @keydown=${this.onMdSecondaryTabKeydown}
+                ><span>Flows</span></md-secondary-tab
+              >
+            `
+          )}
           ${this.pluginTabsHeaderEndpoints.map(
             tabHeader => html`
               <md-secondary-tab
@@ -1404,7 +1416,8 @@ export class GrChangeView extends LitElement {
     return html`
       <section class="tabContent">
         ${this.renderFilesTab()} ${this.renderCommentsTab()}
-        ${this.renderChecksTab()} ${this.renderPluginTab()}
+        ${this.renderChecksTab()} ${this.renderFlowsTab()}
+        ${this.renderPluginTab()}
       </section>
     `;
   }
@@ -1471,6 +1484,14 @@ export class GrChangeView extends LitElement {
     return html`
       <h3 class="assistive-tech-only">Checks</h3>
       <gr-checks-tab id="checksTab" .tabState=${this.tabState}></gr-checks-tab>
+    `;
+  }
+
+  private renderFlowsTab() {
+    if (this.activeTab !== Tab.FLOWS) return nothing;
+    return html`
+      <h3 class="assistive-tech-only">Flows</h3>
+      <gr-flows></gr-flows>
     `;
   }
 

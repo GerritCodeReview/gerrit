@@ -72,6 +72,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f253be5c_4d933290",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-08-19T06:51:14Z",
+      "side": 1,
+      "message": "Restoring the old behaviour in regards to checking the project existence in https://gerrit-review.git.corp.google.com/c/gerrit/+/499169.\n\nStill not sure how sending the project deletion event worked at all.",
+      "parentUuid": "90c634ef_0c734822",
+      "range": {
+        "startLine": 10,
+        "startChar": 29,
+        "endLine": 11,
+        "endChar": 17
+      },
+      "revId": "45d977f5436d1e0c7f267e9d4eb95a74bb9ff9ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "06fa6ffb_b99b54f4",
@@ -119,6 +143,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1b83ef1e_f5827656",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-08-19T06:51:14Z",
+      "side": 1,
+      "message": "Should be addressed by https://gerrit-review.git.corp.google.com/c/gerrit/+/499169",
+      "parentUuid": "9ff377e8_150d6465",
+      "range": {
+        "startLine": 12,
+        "startChar": 68,
+        "endLine": 13,
+        "endChar": 37
+      },
+      "revId": "45d977f5436d1e0c7f267e9d4eb95a74bb9ff9ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d4b2e6cc_d01b3907",
@@ -150,6 +198,24 @@
       "side": 1,
       "message": "Fixed with I57a4fdfa78.",
       "parentUuid": "d4b2e6cc_d01b3907",
+      "revId": "45d977f5436d1e0c7f267e9d4eb95a74bb9ff9ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9bc25ccb_da771604",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-08-19T06:51:14Z",
+      "side": 1,
+      "message": "https://gerrit-review.git.corp.google.com/c/gerrit/+/499169 restores the old behaviour in regards to checking the project existence. That should fix this too.",
+      "parentUuid": "9feb57ff_44f847f8",
       "revId": "45d977f5436d1e0c7f267e9d4eb95a74bb9ff9ff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

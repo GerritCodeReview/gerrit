@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "69ea4ff7_27891120",
+        "filename": "java/com/google/gerrit/server/events/EventBroker.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-08-19T06:51:14Z",
+      "side": 0,
+      "message": "Done in https://gerrit-review.git.corp.google.com/c/gerrit/+/499169",
+      "parentUuid": "ebe1bcbe_dc8ae81f",
+      "range": {
+        "startLine": 196,
+        "startChar": 0,
+        "endLine": 199,
+        "endChar": 5
+      },
+      "revId": "3b6c12b24fed3dabbb64dd5518aceb12ebdb2216",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9d9afb79_2309f5bf",
@@ -85,6 +109,30 @@
       "side": 0,
       "message": "OK, we can add back checking whether the project exists and return false if it doesn\u0027t exist.",
       "parentUuid": "9d9afb79_2309f5bf",
+      "range": {
+        "startLine": 208,
+        "startChar": 0,
+        "endLine": 211,
+        "endChar": 5
+      },
+      "revId": "3b6c12b24fed3dabbb64dd5518aceb12ebdb2216",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c6be529_499e969c",
+        "filename": "java/com/google/gerrit/server/events/EventBroker.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-08-19T06:51:14Z",
+      "side": 0,
+      "message": "Done in https://gerrit-review.git.corp.google.com/c/gerrit/+/499169",
+      "parentUuid": "b54d9e83_8ea4b5d4",
       "range": {
         "startLine": 208,
         "startChar": 0,

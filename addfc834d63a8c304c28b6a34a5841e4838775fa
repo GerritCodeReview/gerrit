@@ -34,6 +34,24 @@
       ],
       "revId": "addfc834d63a8c304c28b6a34a5841e4838775fa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "09acd53d_ad237d00",
+        "filename": "java/com/google/gerrit/server/notedb/RepoSequence.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 467,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-08-19T08:43:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c1d738c_a3a2c6e8",
+      "revId": "addfc834d63a8c304c28b6a34a5841e4838775fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

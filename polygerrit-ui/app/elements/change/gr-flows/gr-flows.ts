@@ -22,6 +22,10 @@ export class GrFlows extends LitElement {
 
   @state() private loading = true;
 
+  @state() private stageExpressions: string[] = [];
+
+  @state() private currentStageExpression = '';
+
   private readonly getChangeModel = resolve(this, changeModelToken);
 
   private readonly restApiService = getAppContext().restApiService;
@@ -65,28 +69,83 @@ export class GrFlows extends LitElement {
   }
 
   override render() {
-    return html`${this.renderCreateFlowButton()} ${this.renderFlowsList()}`;
+    return html`${this.renderCreateFlow()} ${this.renderFlowsList()}`;
   }
 
-  private renderCreateFlowButton() {
+  private renderCreateFlow() {
     return html`
-      <gr-button ?disabled=${this.loading} @click=${this.handleCreateFlow}>
+      <div>
+        <ul>
+          ${this.stageExpressions.map(
+            (expr, index) => html`
+              <li>
+                ${expr}
+                <gr-button @click=${() => this.handleRemoveStage(index)}
+                  >x</gr-button
+                >
+              </li>
+            `
+          )}
+        </ul>
+      </div>
+      <div>
+        <input
+          .value=${this.currentStageExpression}
+          @input=${(e: InputEvent) =>
+            (this.currentStageExpression = (
+              e.target as HTMLInputElement
+            ).value)}
+        />
+        <gr-button aria-label="Add Stage" @click=${this.handleAddStage}
+          >+</gr-button
+        >
+      </div>
+      <gr-button
+        aria-label="Create Flow"
+        ?disabled=${this.loading}
+        @click=${this.handleCreateFlow}
+      >
         Create Flow
       </gr-button>
     `;
   }
 
+  private handleAddStage() {
+    if (this.currentStageExpression.trim() === '') return;
+    this.stageExpressions = [
+      ...this.stageExpressions,
+      this.currentStageExpression,
+    ];
+    this.currentStageExpression = '';
+  }
+
+  private handleRemoveStage(index: number) {
+    this.stageExpressions = this.stageExpressions.filter((_, i) => i !== index);
+  }
+
   private async handleCreateFlow() {
     if (!this.changeNum) return;
+
+    const allExpressions = [...this.stageExpressions];
+    if (this.currentStageExpression.trim() !== '') {
+      allExpressions.push(this.currentStageExpression);
+    }
+
+    if (allExpressions.length === 0) return; // Or show an error
+
     this.loading = true;
     const flowInput: FlowInput = {
-      stage_expressions: [],
+      stage_expressions: allExpressions.map(expr => {
+        return {condition: expr};
+      }),
     };
     await this.restApiService.createFlow(this.changeNum, flowInput, e => {
       console.error(e);
       this.loading = false;
     });
     await this.loadFlows();
+    this.stageExpressions = [];
+    this.currentStageExpression = '';
   }
 
   private renderFlowsList() {

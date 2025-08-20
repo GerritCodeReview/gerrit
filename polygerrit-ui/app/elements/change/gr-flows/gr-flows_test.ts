@@ -18,10 +18,17 @@ suite('gr-flows tests', () => {
     element = await fixture<GrFlows>(html`<gr-flows></gr-flows>`);
   });
 
-  test('renders no flows message', () => {
+  test('renders no flows message', async () => {
+    stubRestApi('listFlows').returns(Promise.resolve([]));
+    element['changeNum'] = 123 as NumericChangeId;
+    await element['loadFlows']();
+    await element.updateComplete;
     assert.shadowDom.equal(
       element,
-      /* HTML */ ' <p>No flows found for this change.</p> '
+      /* HTML */ `
+        <gr-button> Create Flow </gr-button>
+        <p>No flows found for this change.</p>
+      `
     );
   });
 
@@ -50,6 +57,7 @@ suite('gr-flows tests', () => {
     assert.shadowDom.equal(
       element,
       /* HTML */ `
+        <gr-button> Create Flow </gr-button>
         <div>
           <div class="flow">
             <div class="flow-id">Flow flow1</div>
@@ -64,5 +72,28 @@ suite('gr-flows tests', () => {
         </div>
       `
     );
+  });
+
+  test('create flow button calls createFlow and reloads', async () => {
+    const createFlowStub = stubRestApi('createFlow').returns(
+      Promise.resolve({} as FlowInfo)
+    );
+    const listFlowsStub = stubRestApi('listFlows').returns(Promise.resolve([]));
+    element['changeNum'] = 123 as NumericChangeId;
+    await element.updateComplete;
+
+    const createButton = element.shadowRoot?.querySelector('gr-button');
+    assert.isOk(createButton);
+    createButton.click();
+
+    await element.updateComplete;
+
+    assert.isTrue(createFlowStub.calledOnce);
+    assert.deepEqual(createFlowStub.lastCall.args, [
+      123 as NumericChangeId,
+      {stage_expressions: []},
+    ]);
+
+    assert.isTrue(listFlowsStub.calledOnce);
   });
 });

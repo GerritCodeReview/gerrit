@@ -35,29 +35,50 @@ suite('gr-ai-prompt-dialog test', () => {
         </section>
         <section class="flexContainer">
           <div class="content">
-            <div class="template-selector">
-              <div class="template-options">
-                <label class="template-option">
-                  <input
-                    checked=""
-                    name="template"
-                    type="radio"
-                    value="HELP_REVIEW"
-                  />
-                  Help me with review
-                </label>
-                <label class="template-option">
-                  <input
-                    name="template"
-                    type="radio"
-                    value="IMPROVE_COMMIT_MESSAGE"
-                  />
-                  Improve commit message
-                </label>
-                <label class="template-option">
-                  <input name="template" type="radio" value="PATCH_ONLY" />
-                  Just patch content
-                </label>
+            <div class="options-bar">
+              <div class="template-selector">
+                <div class="template-options">
+                  <label class="template-option">
+                    <input
+                      checked=""
+                      name="template"
+                      type="radio"
+                      value="HELP_REVIEW"
+                    />
+                    Help me with review
+                  </label>
+                  <label class="template-option">
+                    <input
+                      name="template"
+                      type="radio"
+                      value="IMPROVE_COMMIT_MESSAGE"
+                    />
+                    Improve commit message
+                  </label>
+                  <label class="template-option">
+                    <input name="template" type="radio" value="PATCH_ONLY" />
+                    Just patch content
+                  </label>
+                </div>
+              </div>
+              <div class="context-selector">
+                <md-outlined-select label="Context">
+                  <md-select-option md-menu-item="">
+                    <div slot="headline">3 lines (default)</div>
+                  </md-select-option>
+                  <md-select-option md-menu-item="">
+                    <div slot="headline">10 lines</div>
+                  </md-select-option>
+                  <md-select-option md-menu-item="">
+                    <div slot="headline">25 lines</div>
+                  </md-select-option>
+                  <md-select-option md-menu-item="">
+                    <div slot="headline">50 lines</div>
+                  </md-select-option>
+                  <md-select-option md-menu-item="">
+                    <div slot="headline">100 lines</div>
+                  </md-select-option>
+                </md-outlined-select>
               </div>
             </div>
             <textarea

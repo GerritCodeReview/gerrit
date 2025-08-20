@@ -21,6 +21,10 @@ import {PatchSetNum} from '../../../types/common';
 import {HELP_ME_REVIEW_PROMPT, IMPROVE_COMMIT_MESSAGE} from './prompts';
 import {when} from 'lit/directives/when.js';
 import {copyToClipboard} from '../../../utils/common-util';
+import '@material/web/select/outlined-select.js';
+import '@material/web/select/select-option.js';
+import '@material/web/select/outlined-select.js';
+import '@material/web/select/select-option.js';
 
 const PROMPT_TEMPLATES = {
   HELP_REVIEW: {
@@ -39,6 +43,14 @@ const PROMPT_TEMPLATES = {
     prompt: '{{patch}}',
   },
 };
+
+const CONTEXT_OPTIONS = [
+  {label: '3 lines (default)', value: 3},
+  {label: '10 lines', value: 10},
+  {label: '25 lines', value: 25},
+  {label: '50 lines', value: 50},
+  {label: '100 lines', value: 100},
+];
 
 type PromptTemplateId = keyof typeof PROMPT_TEMPLATES;
 
@@ -61,6 +73,8 @@ export class GrAiPromptDialog extends LitElement {
   @state() loading = false;
 
   @state() selectedTemplate: PromptTemplateId = 'HELP_REVIEW';
+
+  @state() private context = 3;
 
   @state() private promptContent = '';
 
@@ -118,8 +132,13 @@ export class GrAiPromptDialog extends LitElement {
         .content {
           width: 100%;
         }
-        .template-selector {
+        .options-bar {
+          display: flex;
+          justify-content: space-between;
+          align-items: flex-start;
           margin-bottom: var(--spacing-m);
+        }
+        .template-selector {
         }
         .template-options {
           display: flex;
@@ -149,6 +168,11 @@ export class GrAiPromptDialog extends LitElement {
           justify-content: space-between;
           align-items: center;
         }
+        .context-selector {
+          display: flex;
+          align-items: center;
+          gap: var(--spacing-s);
+        }
       `,
     ];
   }
@@ -165,26 +189,47 @@ export class GrAiPromptDialog extends LitElement {
           <div class="content">
             ${when(
               this.getNumParents() === 1,
-              () => html`<div class="template-selector">
-                  <div class="template-options">
-                    ${Object.entries(PROMPT_TEMPLATES).map(
-                      ([key, template]) => html`
-                        <label class="template-option">
-                          <input
-                            type="radio"
-                            name="template"
-                            .value=${key}
-                            ?checked=${this.selectedTemplate === key}
-                            @change=${(e: Event) => {
-                              const input = e.target as HTMLInputElement;
-                              this.selectedTemplate =
-                                input.value as PromptTemplateId;
-                            }}
-                          />
-                          ${template.label}
-                        </label>
-                      `
-                    )}
+              () => html`<div class="options-bar">
+                  <div class="template-selector">
+                    <div class="template-options">
+                      ${Object.entries(PROMPT_TEMPLATES).map(
+                        ([key, template]) => html`
+                          <label class="template-option">
+                            <input
+                              type="radio"
+                              name="template"
+                              .value=${key}
+                              ?checked=${this.selectedTemplate === key}
+                              @change=${(e: Event) => {
+                                const input = e.target as HTMLInputElement;
+                                this.selectedTemplate =
+                                  input.value as PromptTemplateId;
+                              }}
+                            />
+                            ${template.label}
+                          </label>
+                        `
+                      )}
+                    </div>
+                  </div>
+                  <div class="context-selector">
+                    <md-outlined-select
+                      label="Context"
+                      .value=${this.context.toString()}
+                      @change=${(e: Event) => {
+                        const select = e.target as HTMLSelectElement;
+                        this.context = Number(select.value);
+                      }}
+                    >
+                      ${CONTEXT_OPTIONS.map(
+                        option =>
+                          html`<md-select-option
+                            .value=${option.value.toString()}
+                          >
+                            <div slot="headline">${option.label}</div>
+                          </md-select-option>`
+                      )}
+                    </md-outlined-select>
                   </div>
                 </div>
                 <textarea
@@ -241,6 +286,9 @@ export class GrAiPromptDialog extends LitElement {
     ) {
       this.updatePromptContent();
     }
+    if (changedProperties.has('context')) {
+      this.loadPatchContent();
+    }
   }
 
   open() {
@@ -259,7 +307,8 @@ export class GrAiPromptDialog extends LitElement {
     this.loading = true;
     const content = await this.restApiService.getPatchContent(
       this.change._number,
-      this.patchNum
+      this.patchNum,
+      this.context
     );
     this.loading = false;
     if (!content) {

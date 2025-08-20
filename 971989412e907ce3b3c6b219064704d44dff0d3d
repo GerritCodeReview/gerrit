@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3ddd19bb_1e423a0e",
+        "filename": "polygerrit-ui/app/elements/change/gr-ai-prompt-dialog/gr-ai-prompt-dialog.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-08-20T10:49:15Z",
+      "side": 1,
+      "message": "md-select?",
+      "range": {
+        "startLine": 213,
+        "startChar": 21,
+        "endLine": 213,
+        "endChar": 27
+      },
+      "revId": "971989412e907ce3b3c6b219064704d44dff0d3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

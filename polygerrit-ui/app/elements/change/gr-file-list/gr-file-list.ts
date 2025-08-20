@@ -300,7 +300,7 @@ export class GrFileList extends LitElement {
   @state()
   private dynamicPrependedContentEndpoints?: string[];
 
-  @state()
+  // Intentionally not a @state(), because updated in willUpdate() lifecycle method.
   sizeBarLayout: SizeBarLayout = createDefaultSizeBarLayout();
 
   private readonly reporting = getAppContext().reportingService;

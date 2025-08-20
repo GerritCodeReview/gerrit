@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8d7674c2_c4ba4ba8",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2475,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2025-08-20T08:57:32Z",
+      "side": 1,
+      "message": "Past review from `stable-3.5` branch: https://gerrit-review.googlesource.com/c/gerrit/+/356416/comment/e7f6c267_1f47c98e/\n\nWhich is that `gerrit.basePath` default is only used during `init`.",
+      "revId": "a4568282dfb736b6be49afd1abb05a80b6efc981",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

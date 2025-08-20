@@ -50,6 +50,298 @@
       "message": "@milutin@google.com are you able to review please? :)",
       "revId": "e6ad67f62aaf42279efe85529db3106e70500240",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "78e24fe4_6bbf682d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-08-20T11:32:47Z",
+      "side": 1,
+      "message": "Thanks for fixes",
+      "revId": "e6ad67f62aaf42279efe85529db3106e70500240",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4abc1fad_97b9a6a4",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-group-dialog/gr-create-group-dialog.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-08-20T11:32:47Z",
+      "side": 1,
+      "message": "Can you please use import {MdOutlinedTextField} from \u0027@material/web/textfield/outlined-text-field\u0027;",
+      "range": {
+        "startLine": 34,
+        "startChar": 51,
+        "endLine": 34,
+        "endChar": 67
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "781ce8ff_309f8ad4",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/admin/gr-create-group-dialog/gr-create-group-dialog.ts",
+              "range": {
+                "startLine": 18,
+                "startChar": 0,
+                "endLine": 19,
+                "endChar": 0
+              },
+              "replacement": "import {MdOutlinedTextField} from \u0027@material/web/textfield/outlined-text-field\u0027;\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/admin/gr-create-group-dialog/gr-create-group-dialog.ts",
+              "range": {
+                "startLine": 34,
+                "startChar": 0,
+                "endLine": 35,
+                "endChar": 0
+              },
+              "replacement": "  @query(\u0027md-outlined-text-field\u0027) private input!: MdOutlinedTextField;\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/admin/gr-create-group-dialog/gr-create-group-dialog.ts",
+              "range": {
+                "startLine": 88,
+                "startChar": 0,
+                "endLine": 89,
+                "endChar": 0
+              },
+              "replacement": "                    const target \u003d e.target as MdOutlinedTextField;\n"
+            }
+          ]
+        }
+      ],
+      "revId": "e6ad67f62aaf42279efe85529db3106e70500240",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "689029c8_cf01aeb5",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-group-dialog/gr-create-group-dialog.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-08-20T11:32:47Z",
+      "side": 1,
+      "message": "NIT: Shouldn\u0027t this be checkbox?",
+      "range": {
+        "startLine": 104,
+        "startChar": 17,
+        "endLine": 114,
+        "endChar": 27
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "e1d0ad50_f3f7ea11",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/admin/gr-create-group-dialog/gr-create-group-dialog.ts",
+              "range": {
+                "startLine": 20,
+                "startChar": 0,
+                "endLine": 22,
+                "endChar": 0
+              },
+              "replacement": "import \u0027@material/web/checkbox/checkbox\u0027;\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/admin/gr-create-group-dialog/gr-create-group-dialog.ts",
+              "range": {
+                "startLine": 104,
+                "startChar": 0,
+                "endLine": 109,
+                "endChar": 0
+              },
+              "replacement": "                \u003cmd-checkbox\n                  ?checked\u003d${this.visibleToAll}\n                  @change\u003d${() \u003d\u003e {\n                    this.visibleToAll \u003d !this.visibleToAll;\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/admin/gr-create-group-dialog/gr-create-group-dialog.ts",
+              "range": {
+                "startLine": 110,
+                "startChar": 0,
+                "endLine": 116,
+                "endChar": 0
+              },
+              "replacement": "                \u003e\u003c/md-checkbox\u003e\n"
+            }
+          ]
+        }
+      ],
+      "revId": "e6ad67f62aaf42279efe85529db3106e70500240",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d2d464f_1e29a7d1",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-repo-dialog/gr-create-repo-dialog.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-08-20T11:32:47Z",
+      "side": 1,
+      "message": "can you use import {MdOutlinedTextField} from \u0027@material/web/textfield/outlined-text-field\u0027;",
+      "range": {
+        "startLine": 47,
+        "startChar": 10,
+        "endLine": 47,
+        "endChar": 26
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "353e8144_1b9e4f27",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/admin/gr-create-repo-dialog/gr-create-repo-dialog.ts",
+              "range": {
+                "startLine": 31,
+                "startChar": 0,
+                "endLine": 32,
+                "endChar": 0
+              },
+              "replacement": "import {MdOutlinedTextField} from \u0027@material/web/textfield/outlined-text-field\u0027;\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/admin/gr-create-repo-dialog/gr-create-repo-dialog.ts",
+              "range": {
+                "startLine": 47,
+                "startChar": 0,
+                "endLine": 48,
+                "endChar": 0
+              },
+              "replacement": "  input?: MdOutlinedTextField;\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/admin/gr-create-repo-dialog/gr-create-repo-dialog.ts",
+              "range": {
+                "startLine": 201,
+                "startChar": 0,
+                "endLine": 202,
+                "endChar": 0
+              },
+              "replacement": "                    const target \u003d e.target as MdOutlinedTextField;\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/admin/gr-create-repo-dialog/gr-create-repo-dialog.ts",
+              "range": {
+                "startLine": 356,
+                "startChar": 0,
+                "endLine": 357,
+                "endChar": 0
+              },
+              "replacement": "    const target \u003d e.target as MdOutlinedTextField;\n"
+            }
+          ]
+        }
+      ],
+      "revId": "e6ad67f62aaf42279efe85529db3106e70500240",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "813f7450_22069195",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-repo-dialog/gr-create-repo-dialog.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-08-20T11:32:47Z",
+      "side": 1,
+      "message": "Does this input box need to be here? Should we change it to md-outlined-text-field?",
+      "range": {
+        "startLine": 114,
+        "startChar": 8,
+        "endLine": 117,
+        "endChar": 9
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "cf878f6c_741ee7e0",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/admin/gr-create-repo-dialog/gr-create-repo-dialog.ts",
+              "range": {
+                "startLine": 114,
+                "startChar": 0,
+                "endLine": 118,
+                "endChar": 0
+              },
+              "replacement": ""
+            }
+          ]
+        }
+      ],
+      "revId": "e6ad67f62aaf42279efe85529db3106e70500240",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "32e31857_7ddae6ac",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 412,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-08-20T11:32:47Z",
+      "side": 1,
+      "message": "This is little bit sketchy. Can we just throw error? this is typing undefined to GroupName.",
+      "range": {
+        "startLine": 412,
+        "startChar": 42,
+        "endLine": 412,
+        "endChar": 66
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "8013fde5_f5dbfee7",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+              "range": {
+                "startLine": 412,
+                "startChar": 0,
+                "endLine": 413,
+                "endChar": 0
+              },
+              "replacement": "    if (!config.name) {\n      throw new Error(\u0027Group name is required\u0027);\n    }\n    const encodeName \u003d encodeURIComponent(config.name);\n"
+            }
+          ]
+        }
+      ],
+      "revId": "e6ad67f62aaf42279efe85529db3106e70500240",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

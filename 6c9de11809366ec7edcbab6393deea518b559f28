@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf480dbd_0f13c582",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1949,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-08-20T10:51:36Z",
+      "side": 1,
+      "message": "Fixed in https://gerrit-review.googlesource.com/c/gerrit/+/499604",
+      "parentUuid": "d8596a92_99fe5fb7",
+      "revId": "6c9de11809366ec7edcbab6393deea518b559f28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "47755bbf_94e76398",

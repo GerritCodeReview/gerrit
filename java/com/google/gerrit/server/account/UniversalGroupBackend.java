@@ -14,14 +14,12 @@
 
 package com.google.gerrit.server.account;
 
-import static com.google.gerrit.server.account.GroupBackends.GROUP_REF_NAME_COMPARATOR;
 import static java.util.stream.Collectors.joining;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
-import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.AccountGroup;
@@ -42,10 +40,16 @@ import com.google.gerrit.server.plugincontext.PluginSetEntryContext;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 import org.eclipse.jgit.lib.Config;
 
 /**
@@ -147,14 +151,46 @@ public class UniversalGroupBackend implements GroupBackend {
 
   @Override
   public Collection<GroupReference> suggest(String name, ProjectState project) {
-    Set<GroupReference> groups = Sets.newTreeSet(GROUP_REF_NAME_COMPARATOR);
+    List<List<GroupReference>> suggestionsByBackend = new ArrayList<>();
     backends.runEach(
         g -> {
           Collection<GroupReference> suggestions = g.suggest(name, project);
           suggestCount.increment(name(g), suggestions.size());
-          groups.addAll(suggestions);
+          if (!suggestions.isEmpty()) {
+            suggestionsByBackend.add(
+                suggestions.stream()
+                    .sorted(Comparator.comparing(gr -> gr.getName()))
+                    .sorted(Comparator.comparingInt(gr -> gr.getName().length()))
+                    .collect(Collectors.toList()));
+          }
         });
-    return groups;
+
+    // Using LinkedHashSet to preserve insertion order and avoid duplicates.
+    Set<GroupReference> interleaved = new LinkedHashSet<>();
+    int maxSize = 0;
+    for (List<GroupReference> list : suggestionsByBackend) {
+      maxSize = Math.max(maxSize, list.size());
+    }
+
+    for (int i = 0; i < maxSize; i++) {
+      for (List<GroupReference> list : suggestionsByBackend) {
+        if (i < list.size()) {
+          interleaved.add(list.get(i));
+        }
+      }
+    }
+
+    List<GroupReference> result = new ArrayList<>(interleaved);
+    Optional<GroupReference> exactMatch =
+        result.stream().filter(g -> g.getName().equalsIgnoreCase(name)).findFirst();
+
+    exactMatch.ifPresent(
+        group -> {
+          result.remove(group);
+          result.add(0, group);
+        });
+
+    return result;
   }
 
   @Override

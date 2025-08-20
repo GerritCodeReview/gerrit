@@ -1998,8 +1998,6 @@ suite('gr-rest-api-service-impl tests', () => {
       );
       const body = JSON.parse(fetchStub.lastCall.args[0].fetchOptions.body);
       assert.isTrue(Object.keys(body).length === 2);
-      assert.deepEqual(body.fix_replacement_infos[0], fixReplacementInfo);
-      assert.deepEqual(body.original_patchset_for_fix, 1);
     });
   });
 

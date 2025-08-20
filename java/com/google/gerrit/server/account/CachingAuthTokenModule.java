@@ -15,6 +15,7 @@
 package com.google.gerrit.server.account;
 
 import com.google.gerrit.extensions.config.FactoryModule;
+import com.google.gerrit.server.config.AuthConfig;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
 
@@ -31,9 +32,13 @@ public class CachingAuthTokenModule extends FactoryModule {
   @Provides
   @Singleton
   public AuthTokenAccessor createAuthTokenAccessor(
+      AuthConfig authConfig,
       HttpPasswordFallbackAuthTokenAccessor.Factory fallbackFactory,
       CachingAuthTokenAccessor.Factory cachingFactory,
       DirectAuthTokenAccessor directAccessor) {
-    return fallbackFactory.create(cachingFactory.create(directAccessor));
+    if (authConfig.isHttpPasswordFallbackEnabled()) {
+      return fallbackFactory.create(cachingFactory.create(directAccessor));
+    }
+    return cachingFactory.create(directAccessor);
   }
 }

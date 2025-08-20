@@ -49,6 +49,13 @@ suite('gr-auth-token tests', () => {
               <span class="title"> Username </span>
               <span class="value"> user name </span>
             </section>
+            <section hidden="">
+              <div id="legacyPasswordNote">
+                This account only has a legacy HTTP password configured. The legacy HTTP
+      password will be accepted until the first authentication token has been
+      created. At this point the HTTP password will be removed from the account.
+              </div>
+            </section>
             <fieldset id="existing">
               <table>
                 <thead>
@@ -79,11 +86,10 @@ suite('gr-auth-token tests', () => {
                       id="lifetime"
                       inputmode=""
                       placeholder="Lifetime (e.g. 30d)"
+                      supporting-text="Max. allowed lifetime: unlimited. Leave empty for unlimited lifetime."
                       type="text"
                     >
                     </md-outlined-text-field>
-                      </br>
-                      (Max. allowed lifetime: unlimited)
                     </th>
                     <th>
                       <gr-button

@@ -194,6 +194,35 @@ public class SetLabelIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void cannotUpdateToDeprecatedFunction() throws Exception {
+    for (LabelFunction deprecatedLabelFunction :
+        ImmutableList.of(
+            LabelFunction.ANY_WITH_BLOCK,
+            LabelFunction.MAX_NO_BLOCK,
+            LabelFunction.MAX_WITH_BLOCK)) {
+      LabelDefinitionInput input = new LabelDefinitionInput();
+      input.function = deprecatedLabelFunction.getFunctionName();
+
+      BadRequestException exception =
+          assertThrows(
+              BadRequestException.class,
+              () ->
+                  gApi.projects().name(allProjects.get()).label(LabelId.CODE_REVIEW).update(input));
+      assertThat(exception)
+          .hasMessageThat()
+          .isEqualTo(
+              String.format(
+                  "Function %s is deprecated. The function can only be set to %s. Use submit"
+                      + " requirements instead of label functions.",
+                  input.function,
+                  ImmutableList.of(
+                      LabelFunction.NO_BLOCK.getFunctionName(),
+                      LabelFunction.NO_OP.getFunctionName(),
+                      LabelFunction.PATCH_SET_LOCK.getFunctionName())));
+    }
+  }
+
+  @Test
   public void functionIsTrimmed() throws Exception {
     LabelDefinitionInput input = new LabelDefinitionInput();
     input.function = " " + LabelFunction.NO_OP.getFunctionName() + " ";

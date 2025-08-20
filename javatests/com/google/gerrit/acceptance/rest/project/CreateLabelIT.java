@@ -270,6 +270,35 @@ public class CreateLabelIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void cannotCreateWithDeprecatedFunction() throws Exception {
+    for (LabelFunction deprecatedLabelFunction :
+        ImmutableList.of(
+            LabelFunction.ANY_WITH_BLOCK,
+            LabelFunction.MAX_NO_BLOCK,
+            LabelFunction.MAX_WITH_BLOCK)) {
+      LabelDefinitionInput input = new LabelDefinitionInput();
+      input.values = ImmutableMap.of("+1", "Looks Good", " 0", "Don't Know", "-1", "Looks Bad");
+      input.function = deprecatedLabelFunction.getFunctionName();
+
+      BadRequestException exception =
+          assertThrows(
+              BadRequestException.class,
+              () -> gApi.projects().name(project.get()).label("Foo").create(input));
+      assertThat(exception)
+          .hasMessageThat()
+          .isEqualTo(
+              String.format(
+                  "Function %s is deprecated. The function can only be set to %s. Use submit"
+                      + " requirements instead of label functions.",
+                  input.function,
+                  ImmutableList.of(
+                      LabelFunction.NO_BLOCK.getFunctionName(),
+                      LabelFunction.NO_OP.getFunctionName(),
+                      LabelFunction.PATCH_SET_LOCK.getFunctionName())));
+    }
+  }
+
+  @Test
   public void functionEmptyAfterTrim() throws Exception {
     LabelDefinitionInput input = new LabelDefinitionInput();
     input.values = ImmutableMap.of("+1", "Looks Good", " 0", "Don't Know", "-1", "Looks Bad");

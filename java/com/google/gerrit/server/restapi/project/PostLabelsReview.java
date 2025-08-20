@@ -28,6 +28,7 @@ import com.google.gerrit.server.restapi.project.RepoMetaDataUpdater.ConfigChange
 import com.google.gerrit.server.update.UpdateException;
 import com.google.inject.Inject;
 import java.io.IOException;
+import java.util.Map;
 import javax.inject.Singleton;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
@@ -59,6 +60,12 @@ public class PostLabelsReview implements RestModifyView<ProjectResource, BatchLa
         if (labelDefinitionInput.function == null) {
           labelDefinitionInput.function = LabelFunction.NO_OP.getFunctionName();
         }
+        LabelDefinitionInputValidator.validate(labelDefinitionInput.name, labelDefinitionInput);
+      }
+    }
+    if (input.update != null) {
+      for (Map.Entry<String, LabelDefinitionInput> updateEntry : input.update.entrySet()) {
+        LabelDefinitionInputValidator.validate(updateEntry.getKey(), updateEntry.getValue());
       }
     }
 

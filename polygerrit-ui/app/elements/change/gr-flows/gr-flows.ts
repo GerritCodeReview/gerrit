@@ -10,7 +10,7 @@ import {grFormStyles} from '../../../styles/gr-form-styles';
 import {resolve} from '../../../models/dependency';
 import {changeModelToken} from '../../../models/change/change-model';
 import {subscribe} from '../../lit/subscription-controller';
-import {FlowInfo} from '../../../api/rest-api';
+import {FlowInfo, FlowInput} from '../../../api/rest-api';
 import {getAppContext} from '../../../services/app-context';
 import {NumericChangeId} from '../../../types/common';
 
@@ -61,6 +61,25 @@ export class GrFlows extends LitElement {
   }
 
   override render() {
+    return html`${this.renderCreateFlowButton()} ${this.renderFlowsList()}`;
+  }
+
+  private renderCreateFlowButton() {
+    return html`
+      <gr-button @click=${this.handleCreateFlow}> Create Flow </gr-button>
+    `;
+  }
+
+  private async handleCreateFlow() {
+    if (!this.changeNum) return;
+    const flowInput: FlowInput = {
+      stage_expressions: [],
+    };
+    await this.restApiService.createFlow(this.changeNum, flowInput);
+    await this.loadFlows();
+  }
+
+  private renderFlowsList() {
     if (this.flows.length === 0) {
       return html`<p>No flows found for this change.</p>`;
     }

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "539a84b0_6715569c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-08-20T13:51:04Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "558256c1_cefa207c",
+      "range": {
+        "startLine": 20,
+        "startChar": 19,
+        "endLine": 20,
+        "endChar": 26
+      },
+      "revId": "7ab29edb62a8fff1f77c784034cba15ddd2d9808",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5d82cb94_9a095f49",
@@ -65,6 +89,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e32e9d6_4423df8c",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-08-20T13:51:04Z",
+      "side": 1,
+      "message": "Yup, this is intentional. My change to the search bar made it so the dropdown was further from the search bar (only slightly tho). But anyways we set this in main-header to a different value.",
+      "parentUuid": "5d82cb94_9a095f49",
+      "range": {
+        "startLine": 168,
+        "startChar": 19,
+        "endLine": 168,
+        "endChar": 21
+      },
+      "revId": "7ab29edb62a8fff1f77c784034cba15ddd2d9808",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "70c5904b_287b93f8",
@@ -102,6 +150,30 @@
           ]
         }
       ],
+      "revId": "7ab29edb62a8fff1f77c784034cba15ddd2d9808",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f6e8da0b_475a0303",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-08-20T13:51:04Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "70c5904b_287b93f8",
+      "range": {
+        "startLine": 209,
+        "startChar": 10,
+        "endLine": 209,
+        "endChar": 37
+      },
       "revId": "7ab29edb62a8fff1f77c784034cba15ddd2d9808",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

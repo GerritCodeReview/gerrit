@@ -15,6 +15,8 @@
 package com.google.gerrit.server.restapi.project;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableList;
+import com.google.gerrit.entities.LabelFunction;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.extensions.common.LabelDefinitionInfo;
 import com.google.gerrit.extensions.common.LabelDefinitionInput;
@@ -59,6 +61,21 @@ public class SetLabel implements RestModifyView<LabelResource, LabelDefinitionIn
           MethodNotAllowedException {
     if (input == null) {
       input = new LabelDefinitionInput();
+    }
+
+    if (input.function != null
+        && (LabelFunction.ANY_WITH_BLOCK.getFunctionName().equals(input.function)
+            || LabelFunction.MAX_WITH_BLOCK.getFunctionName().equals(input.function)
+            || LabelFunction.MAX_NO_BLOCK.getFunctionName().equals(input.function))) {
+      throw new BadRequestException(
+          String.format(
+              "Label function %s is deprecated. The label function can only be set to %s. Use"
+                  + " submit requirements instead of label functions.",
+              input.function,
+              ImmutableList.of(
+                  LabelFunction.NO_BLOCK.getFunctionName(),
+                  LabelFunction.NO_OP.getFunctionName(),
+                  LabelFunction.NO_OP.getFunctionName())));
     }
 
     LabelType labelType = rsrc.getLabelType();

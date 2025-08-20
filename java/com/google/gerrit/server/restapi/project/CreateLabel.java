@@ -14,10 +14,14 @@
 
 package com.google.gerrit.server.restapi.project;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableList;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.entities.LabelFunction;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.LabelValue;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.common.LabelDefinitionInfo;
 import com.google.gerrit.extensions.common.LabelDefinitionInput;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -68,6 +72,10 @@ public class CreateLabel
       input = new LabelDefinitionInput();
     }
 
+    if (input.name == null) {
+      input.name = id.get();
+    }
+
     if (input.name != null && !input.name.equals(id.get())) {
       throw new BadRequestException("name in input must match name in URL");
     }
@@ -76,11 +84,48 @@ public class CreateLabel
       input.function = LabelFunction.NO_BLOCK.getFunctionName();
     }
 
+    if (LabelFunction.ANY_WITH_BLOCK.getFunctionName().equals(input.function)
+        || LabelFunction.MAX_WITH_BLOCK.getFunctionName().equals(input.function)
+        || LabelFunction.MAX_NO_BLOCK.getFunctionName().equals(input.function)) {
+      throw new BadRequestException(
+          String.format(
+              "Label function %s is deprecated. The label function can only be set to %s. Use"
+                  + " submit requirements instead of label functions.",
+              input.function,
+              ImmutableList.of(
+                  LabelFunction.NO_BLOCK.getFunctionName(),
+                  LabelFunction.NO_OP.getFunctionName(),
+                  LabelFunction.NO_OP.getFunctionName())));
+    }
+
+    return Response.created(createLabelWithoutInputValidation(rsrc.getNameKey(), input));
+  }
+
+  /**
+   * Create label without any input validation.
+   *
+   * <p>This is useful to create labels with deprecated functions from tests.
+   *
+   * @param projectName the name of the project in which the label should be created
+   * @param input the input for creating the input
+   * @return the definition of the created label
+   */
+  @VisibleForTesting
+  @CanIgnoreReturnValue
+  public LabelDefinitionInfo createLabelWithoutInputValidation(
+      Project.NameKey projectName, LabelDefinitionInput input)
+      throws AuthException,
+          BadRequestException,
+          MethodNotAllowedException,
+          PermissionBackendException,
+          ConfigInvalidException,
+          IOException,
+          ResourceConflictException {
     try (var configUpdater =
-        repoMetaDataUpdater.configUpdater(rsrc.getNameKey(), input.commitMessage, "Update label")) {
-      LabelType labelType = createLabel(configUpdater.getConfig(), id.get(), input);
+        repoMetaDataUpdater.configUpdater(projectName, input.commitMessage, "Update label")) {
+      LabelType labelType = createLabelType(configUpdater.getConfig(), input.name, input);
       configUpdater.commitConfigUpdate();
-      return Response.created(LabelDefinitionJson.format(rsrc.getNameKey(), labelType));
+      return LabelDefinitionJson.format(projectName, labelType);
     }
   }
 
@@ -95,7 +140,7 @@ public class CreateLabel
    * @throws ResourceConflictException if the label cannot be created due to a conflict
    */
   @SuppressWarnings("deprecation")
-  public LabelType createLabel(ProjectConfig config, String label, LabelDefinitionInput input)
+  public LabelType createLabelType(ProjectConfig config, String label, LabelDefinitionInput input)
       throws BadRequestException, ResourceConflictException {
     if (config.getLabelSections().containsKey(label)) {
       throw new ResourceConflictException(String.format("label %s already exists", label));

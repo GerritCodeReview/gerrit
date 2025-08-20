@@ -266,6 +266,10 @@ that set `function` to a blocking value {`MaxWithBlock`, `MaxNoBlock`,
 `AnyWithBlock`} will be rejected. Existing label function definitions can only
 be updated to {`NoBlock`, `NoOp`, `PatchSetLock`}.
 
+[IMPORTANT]
+New label definitions should explicitly set the `function` attribute to a
+non-blocking value since the default is `MaxWithBlock`.
+
 If your project has a
 blocking label function, we highly encourage you to change it to `NoBlock` and
 add a submit-requirement for the same label. See the
@@ -281,13 +285,13 @@ ignored and may be treated as optional.
 Valid values are:
 
 [[NoBlock]]
-* `NoBlock`/`NoOp` (default)
+* `NoBlock`/`NoOp`
 +
 The label is purely informational and values are not considered when
 determining whether a change is submittable.
 
 [[MaxWithBlock]]
-* `MaxWithBlock`
+* `MaxWithBlock` (default)
 +
 The lowest possible negative value, if present, blocks a submit, while
 the highest possible positive value is required to enable submit. There

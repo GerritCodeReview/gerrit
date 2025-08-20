@@ -16,6 +16,24 @@
       "message": "Can you please also fix this in the example requests of the documentation?",
       "revId": "f5d3945b23f141a879fc9322e6cb2adc6a1d0be4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c8432ca4_b6a3d207",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-08-20T11:55:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b803f53d_709696fd",
+      "revId": "f5d3945b23f141a879fc9322e6cb2adc6a1d0be4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

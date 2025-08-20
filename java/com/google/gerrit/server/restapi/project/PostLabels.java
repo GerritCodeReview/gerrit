@@ -77,7 +77,7 @@ public class PostLabels
       throw new BadRequestException("commit message on label definition input not supported");
     }
     @SuppressWarnings("unused")
-    var unused = createLabel.createLabel(config, labelInput.name.trim(), labelInput);
+    var unused = createLabel.createLabelType(config, labelInput.name.trim(), labelInput);
   }
 
   @Override

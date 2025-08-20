@@ -81,7 +81,7 @@ public class PostLabels
       labelInput.function = LabelFunction.NO_BLOCK.getFunctionName();
     }
     @SuppressWarnings("unused")
-    var unused = createLabel.createLabel(config, labelInput.name.trim(), labelInput);
+    var unused = createLabel.createLabelType(config, labelInput.name.trim(), labelInput);
   }
 
   @Override

@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d3d83e1c_c4a3ecc8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-08-20T12:30:45Z",
+      "side": 1,
+      "message": "Comment 1",
+      "range": {
+        "startLine": 6,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 52
+      },
+      "revId": "03c06e586cd635737abae5556e268312a323932e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6c96950c_0ddadfdc",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 17
@@ -31,6 +54,47 @@
       "writtenOn": "2025-08-20T12:18:15Z",
       "side": 1,
       "message": "sd",
+      "revId": "03c06e586cd635737abae5556e268312a323932e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8eef5d12_b68f1d89",
+        "filename": "THIS_IS_A_TEST_CHANGE",
+        "patchSetId": 17
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-08-20T12:30:45Z",
+      "side": 1,
+      "message": "Comment  2",
+      "range": {
+        "startLine": 5,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 0
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "c83ccda0_cb4a6a75",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "THIS_IS_A_TEST_CHANGE",
+              "range": {
+                "startLine": 8,
+                "startChar": 0,
+                "endLine": 9,
+                "endChar": 0
+              },
+              "replacement": "Common type: label not defined\n"
+            }
+          ]
+        }
+      ],
       "revId": "03c06e586cd635737abae5556e268312a323932e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

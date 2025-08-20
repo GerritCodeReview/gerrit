@@ -22,6 +22,30 @@
       },
       "revId": "c205a8b6d667932fd113a24ccee9d228317f6678",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "89c96a23_72968ef3",
+        "filename": "polygerrit-ui/app/elements/change/gr-flows/gr-flows.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-08-20T12:55:19Z",
+      "side": 1,
+      "message": "Added error handling method.",
+      "parentUuid": "f0702547_c6ebca98",
+      "range": {
+        "startLine": 81,
+        "startChar": 4,
+        "endLine": 81,
+        "endChar": 24
+      },
+      "revId": "c205a8b6d667932fd113a24ccee9d228317f6678",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

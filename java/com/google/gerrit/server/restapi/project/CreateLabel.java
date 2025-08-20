@@ -71,6 +71,11 @@ public class CreateLabel
     if (input.name != null && !input.name.equals(id.get())) {
       throw new BadRequestException("name in input must match name in URL");
     }
+
+    if (input.function == null) {
+      input.function = LabelFunction.NO_OP.getFunctionName();
+    }
+
     try (var configUpdater =
         repoMetaDataUpdater.configUpdater(rsrc.getNameKey(), input.commitMessage, "Update label")) {
       LabelType labelType = createLabel(configUpdater.getConfig(), id.get(), input);

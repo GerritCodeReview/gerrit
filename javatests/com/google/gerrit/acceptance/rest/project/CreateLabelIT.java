@@ -248,7 +248,7 @@ public class CreateLabelIT extends AbstractDaemonTest {
 
     assertThat(createdLabel.name).isEqualTo("Foo");
     assertThat(createdLabel.projectName).isEqualTo(project.get());
-    assertThat(createdLabel.function).isEqualTo(LabelFunction.MAX_WITH_BLOCK.getFunctionName());
+    assertThat(createdLabel.function).isEqualTo(LabelFunction.NO_OP.getFunctionName());
     assertThat(createdLabel.values).containsExactlyEntriesIn(input.values);
     assertThat(createdLabel.defaultValue).isEqualTo(0);
     assertThat(createdLabel.branches).isNull();

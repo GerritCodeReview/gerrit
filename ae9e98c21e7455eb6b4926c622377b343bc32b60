@@ -270,6 +270,30 @@
       },
       "revId": "ae9e98c21e7455eb6b4926c622377b343bc32b60",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "def6f68f_06ec944a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-label-info/gr-label-info.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-08-20T13:26:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ab8c98fa_d66ce034",
+      "range": {
+        "startLine": 26,
+        "startChar": 2,
+        "endLine": 26,
+        "endChar": 17
+      },
+      "revId": "ae9e98c21e7455eb6b4926c622377b343bc32b60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

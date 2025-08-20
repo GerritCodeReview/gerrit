@@ -2022,7 +2022,7 @@ suite('gr-rest-api-service-impl tests', () => {
       assert.isTrue(fetchJSONStub.calledOnce);
       assert.equal(
         fetchJSONStub.lastCall.args[0].url,
-        `/changes/test-project~${changeNum}/flow/${flowId}`
+        `/changes/test-project~${changeNum}/flows/${flowId}`
       );
     });
 
@@ -2031,7 +2031,7 @@ suite('gr-rest-api-service-impl tests', () => {
       assert.isTrue(fetchJSONStub.calledOnce);
       assert.equal(
         fetchJSONStub.lastCall.args[0].url,
-        `/changes/test-project~${changeNum}/flow`
+        `/changes/test-project~${changeNum}/flows`
       );
     });
 
@@ -2043,7 +2043,7 @@ suite('gr-rest-api-service-impl tests', () => {
       assert.isTrue(fetchJSONStub.calledOnce);
       assert.equal(
         fetchJSONStub.lastCall.args[0].url,
-        `/changes/test-project~${changeNum}/flow`
+        `/changes/test-project~${changeNum}/flows`
       );
       assert.equal(fetchJSONStub.lastCall.args[0].fetchOptions.method, 'POST');
       assert.deepEqual(
@@ -2057,7 +2057,7 @@ suite('gr-rest-api-service-impl tests', () => {
       assert.isTrue(fetchStub.calledOnce);
       assert.equal(
         fetchStub.lastCall.args[0].url,
-        `/changes/test-project~${changeNum}/flow/${flowId}`
+        `/changes/test-project~${changeNum}/flows/${flowId}`
       );
       assert.equal(fetchStub.lastCall.args[0].fetchOptions!.method, 'DELETE');
     });

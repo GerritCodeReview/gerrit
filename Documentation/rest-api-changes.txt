@@ -3848,7 +3848,7 @@ Gets a flow on the change.
 
 .Request
 ----
-  GET /changes/myProject~65178/flow/XvcXrmjM HTTP/1.0
+  GET /changes/myProject~65178/flows/XvcXrmjM HTTP/1.0
 ----
 
 The flow is returned as a link:#flow-info[FlowInfo] entity.
@@ -3900,7 +3900,7 @@ Delete a flow on the change.
 
 .Request
 ----
-  DELETE /changes/myProject~65178/flow/XvcXrmjM HTTP/1.0
+  DELETE /changes/myProject~65178/flows/XvcXrmjM HTTP/1.0
 ----
 
 .Response

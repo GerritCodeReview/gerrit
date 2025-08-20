@@ -10,7 +10,7 @@ import {grFormStyles} from '../../../styles/gr-form-styles';
 import {resolve} from '../../../models/dependency';
 import {changeModelToken} from '../../../models/change/change-model';
 import {subscribe} from '../../lit/subscription-controller';
-import {FlowInfo} from '../../../api/rest-api';
+import {FlowInfo, FlowInput} from '../../../api/rest-api';
 import {getAppContext} from '../../../services/app-context';
 import {NumericChangeId} from '../../../types/common';
 
@@ -19,6 +19,8 @@ export class GrFlows extends LitElement {
   @state() private flows: FlowInfo[] = [];
 
   @state() private changeNum?: NumericChangeId;
+
+  @state() private loading = true;
 
   private readonly getChangeModel = resolve(this, changeModelToken);
 
@@ -56,11 +58,38 @@ export class GrFlows extends LitElement {
 
   private async loadFlows() {
     if (!this.changeNum) return;
+    this.loading = true;
     const flows = await this.restApiService.listFlows(this.changeNum);
     this.flows = flows ?? [];
+    this.loading = false;
   }
 
   override render() {
+    return html`${this.renderCreateFlowButton()} ${this.renderFlowsList()}`;
+  }
+
+  private renderCreateFlowButton() {
+    return html`
+      <gr-button ?disabled=${this.loading} @click=${this.handleCreateFlow}>
+        Create Flow
+      </gr-button>
+    `;
+  }
+
+  private async handleCreateFlow() {
+    if (!this.changeNum) return;
+    this.loading = true;
+    const flowInput: FlowInput = {
+      stage_expressions: [],
+    };
+    await this.restApiService.createFlow(this.changeNum, flowInput, e => {
+      console.error(e);
+      this.loading = false;
+    });
+    await this.loadFlows();
+  }
+
+  private renderFlowsList() {
     if (this.flows.length === 0) {
       return html`<p>No flows found for this change.</p>`;
     }

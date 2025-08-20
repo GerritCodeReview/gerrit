@@ -10,6 +10,7 @@ import {GrFlows} from './gr-flows';
 import {FlowInfo, Timestamp} from '../../../api/rest-api';
 import {
   mockPromise,
+  queryAll,
   queryAndAssert,
   stubRestApi,
 } from '../../../test/test-utils';
@@ -25,25 +26,24 @@ suite('gr-flows tests', () => {
     await element.updateComplete;
   });
 
-  test('renders initially loading', () => {
-    assert.isTrue(element['loading']);
-    const button = queryAndAssert<GrButton>(element, 'gr-button');
-    assert.isTrue(button.hasAttribute('disabled'));
-  });
-
-  test('renders no flows message', async () => {
+  test('renders initially', async () => {
     stubRestApi('listFlows').returns(Promise.resolve([]));
     await element['loadFlows']();
     await element.updateComplete;
     assert.shadowDom.equal(
       element,
       /* HTML */ `
-        <gr-button> Create Flow </gr-button>
+        <div>
+          <ul></ul>
+        </div>
+        <div>
+          <input />
+          <gr-button aria-label="Add Stage">+</gr-button>
+        </div>
+        <gr-button aria-label="Create Flow"> Create Flow </gr-button>
         <p>No flows found for this change.</p>
       `
     );
-    const createButton = queryAndAssert<GrButton>(element, 'gr-button');
-    assert.isFalse(createButton.hasAttribute('disabled'));
   });
 
   test('renders flows', async () => {
@@ -70,7 +70,14 @@ suite('gr-flows tests', () => {
     assert.shadowDom.equal(
       element,
       /* HTML */ `
-        <gr-button> Create Flow </gr-button>
+        <div>
+          <ul></ul>
+        </div>
+        <div>
+          <input />
+          <gr-button aria-label="Add Stage">+ </gr-button>
+        </div>
+        <gr-button aria-label="Create Flow"> Create Flow </gr-button>
         <div>
           <div class="flow">
             <div class="flow-id">Flow flow1</div>
@@ -85,36 +92,141 @@ suite('gr-flows tests', () => {
         </div>
       `
     );
-    const createButton = queryAndAssert<GrButton>(element, 'gr-button');
-    assert.isFalse(createButton.hasAttribute('disabled'));
   });
 
-  test('create flow button calls createFlow and reloads', async () => {
-    const promise = mockPromise<FlowInfo>();
-    const createFlowStub = stubRestApi('createFlow').returns(promise);
-    const listFlowsStub = stubRestApi('listFlows').returns(Promise.resolve([]));
-
-    // Initial load
+  test('adds and removes stages', async () => {
     await element['loadFlows']();
     await element.updateComplete;
 
-    const createButton = queryAndAssert<GrButton>(element, 'gr-button');
-    assert.isFalse(createButton.hasAttribute('disabled'));
+    const input = queryAndAssert<HTMLInputElement>(element, 'input');
+    const addButton = queryAndAssert<GrButton>(
+      element,
+      'gr-button[aria-label="Add Stage"]'
+    );
 
+    input.value = 'stage 1';
+    input.dispatchEvent(new Event('input'));
+    await element.updateComplete;
+    addButton.click();
+    await element.updateComplete;
+
+    assert.deepEqual(element['stageExpressions'], ['stage 1']);
+    assert.equal(element['currentStageExpression'], '');
+
+    input.value = 'stage 2';
+    input.dispatchEvent(new Event('input'));
+    await element.updateComplete;
+    addButton.click();
+    await element.updateComplete;
+
+    assert.deepEqual(element['stageExpressions'], ['stage 1', 'stage 2']);
+
+    let removeButtons = queryAll<GrButton>(element, 'li gr-button');
+    assert.lengthOf(removeButtons, 2);
+
+    removeButtons[0].click();
+    await element.updateComplete;
+
+    assert.deepEqual(element['stageExpressions'], ['stage 2']);
+    removeButtons = queryAll<GrButton>(element, 'li gr-button');
+    assert.lengthOf(removeButtons, 1);
+  });
+
+  test('creates a flow with one stage', async () => {
+    const createFlowStub = stubRestApi('createFlow').returns(mockPromise());
+    await element['loadFlows']();
+    await element.updateComplete;
+
+    const input = queryAndAssert<HTMLInputElement>(element, 'input');
+    input.value = 'single stage';
+    input.dispatchEvent(new Event('input'));
+    await element.updateComplete;
+
+    const createButton = queryAndAssert<GrButton>(
+      element,
+      'gr-button[aria-label="Create Flow"]'
+    );
     createButton.click();
     await element.updateComplete;
 
-    assert.isTrue(createButton.hasAttribute('disabled'));
+    assert.isTrue(createFlowStub.calledOnce);
+    const flowInput = createFlowStub.lastCall.args[1];
+    assert.deepEqual(flowInput.stage_expressions, [
+      {condition: 'single stage'},
+    ]);
+  });
 
-    promise.resolve({} as FlowInfo);
-
-    // Wait for all the async operations to finish.
-    await new Promise(resolve => setTimeout(resolve, 0));
+  test('creates a flow with multiple stages', async () => {
+    const createFlowStub = stubRestApi('createFlow').returns(mockPromise());
+    await element['loadFlows']();
     await element.updateComplete;
 
-    assert.isFalse(createButton.hasAttribute('disabled'));
+    const input = queryAndAssert<HTMLInputElement>(element, 'input');
+    const addButton = queryAndAssert<GrButton>(
+      element,
+      'gr-button[aria-label="Add Stage"]'
+    );
+
+    input.value = 'stage 1';
+    input.dispatchEvent(new Event('input'));
+    await element.updateComplete;
+    addButton.click();
+    await element.updateComplete;
+
+    input.value = 'stage 2';
+    input.dispatchEvent(new Event('input'));
+    await element.updateComplete;
+    addButton.click();
+    await element.updateComplete;
+
+    const createButton = queryAndAssert<GrButton>(
+      element,
+      'gr-button[aria-label="Create Flow"]'
+    );
+    createButton.click();
+    await element.updateComplete;
 
     assert.isTrue(createFlowStub.calledOnce);
-    assert.isTrue(listFlowsStub.calledTwice);
+    const flowInput = createFlowStub.lastCall.args[1];
+    assert.deepEqual(flowInput.stage_expressions, [
+      {condition: 'stage 1'},
+      {condition: 'stage 2'},
+    ]);
+  });
+
+  test('create flow with added stages and current input', async () => {
+    const createFlowStub = stubRestApi('createFlow').returns(mockPromise());
+    await element['loadFlows']();
+    await element.updateComplete;
+
+    const input = queryAndAssert<HTMLInputElement>(element, 'input');
+    const addButton = queryAndAssert<GrButton>(
+      element,
+      'gr-button[aria-label="Add Stage"]'
+    );
+
+    input.value = 'stage 1';
+    input.dispatchEvent(new Event('input'));
+    await element.updateComplete;
+    addButton.click();
+    await element.updateComplete;
+
+    input.value = 'stage 2';
+    input.dispatchEvent(new Event('input'));
+    await element.updateComplete;
+
+    const createButton = queryAndAssert<GrButton>(
+      element,
+      'gr-button[aria-label="Create Flow"]'
+    );
+    createButton.click();
+    await element.updateComplete;
+
+    assert.isTrue(createFlowStub.calledOnce);
+    const flowInput = createFlowStub.lastCall.args[1];
+    assert.deepEqual(flowInput.stage_expressions, [
+      {condition: 'stage 1'},
+      {condition: 'stage 2'},
+    ]);
   });
 });

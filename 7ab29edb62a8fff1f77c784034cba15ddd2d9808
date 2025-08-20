@@ -1,0 +1,109 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "558256c1_cefa207c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-08-20T10:44:34Z",
+      "side": 1,
+      "message": "```suggestion\nRelease-Notes: UI: Visual changes to header + search bar\n```",
+      "range": {
+        "startLine": 20,
+        "startChar": 19,
+        "endLine": 20,
+        "endChar": 26
+      },
+      "revId": "7ab29edb62a8fff1f77c784034cba15ddd2d9808",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d82cb94_9a095f49",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-08-20T10:44:34Z",
+      "side": 1,
+      "message": "Before it was 30 and now it\u0027s 31. Is this intentional?",
+      "range": {
+        "startLine": 168,
+        "startChar": 19,
+        "endLine": 168,
+        "endChar": 21
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "b8b8a218_9d853415",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.ts",
+              "range": {
+                "startLine": 168,
+                "startChar": 0,
+                "endLine": 169,
+                "endChar": 0
+              },
+              "replacement": "  verticalOffset \u003d 30;\n"
+            }
+          ]
+        }
+      ],
+      "revId": "7ab29edb62a8fff1f77c784034cba15ddd2d9808",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "70c5904b_287b93f8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-08-20T10:44:34Z",
+      "side": 1,
+      "message": "can you please call cleanUpGlobalEventListeners in disconnectedCallback so we don\u0027t have leak if disconnected when dropdown is shown?",
+      "range": {
+        "startLine": 209,
+        "startChar": 10,
+        "endLine": 209,
+        "endChar": 37
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "70103050_ea7a2405",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.ts",
+              "range": {
+                "startLine": 178,
+                "startChar": 0,
+                "endLine": 178,
+                "endChar": 0
+              },
+              "replacement": "    this.cleanUpGlobalEventListeners();\n"
+            }
+          ]
+        }
+      ],
+      "revId": "7ab29edb62a8fff1f77c784034cba15ddd2d9808",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

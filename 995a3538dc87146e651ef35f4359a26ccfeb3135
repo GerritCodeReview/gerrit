@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac6a0309_1ab3e556",
+        "filename": "polygerrit-ui/app/elements/change/gr-flows/gr-flows.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-08-20T12:16:41Z",
+      "side": 1,
+      "message": "Opt: Maybe easy enough to also add an \u003cinput\u003e in this change?",
+      "revId": "995a3538dc87146e651ef35f4359a26ccfeb3135",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -128,6 +128,12 @@ public class CreateToken
       throw new ResourceConflictException("Token ID must match in URL and input");
     }
 
+    return apply(rsrc.getUser(), id.get(), input);
+  }
+
+  @UsedAt(UsedAt.Project.PLUGIN_SERVICEUSER)
+  public Response<AuthTokenInfo> apply(IdentifiedUser user, String id, AuthTokenInput input)
+      throws IOException, ConfigInvalidException, RestApiException, PermissionBackendException {
     String newToken;
     if (Strings.isNullOrEmpty(input.token)) {
       newToken = generate();
@@ -142,14 +148,7 @@ public class CreateToken
       defaultExpiration = Optional.of(Instant.now().plus(maxAuthTokenLifetime.get()));
     }
 
-    return apply(
-        rsrc.getUser(), id.get(), newToken, getExpirationInstant(input, defaultExpiration));
-  }
-
-  @UsedAt(UsedAt.Project.PLUGIN_SERVICEUSER)
-  public Response<AuthTokenInfo> apply(
-      IdentifiedUser user, String id, String newToken, Optional<Instant> expiration)
-      throws IOException, ConfigInvalidException, RestApiException {
+    Optional<Instant> expiration = getExpirationInstant(input, defaultExpiration);
     AuthToken token;
     try {
       token = tokensAccessor.addPlainToken(user.getAccountId(), id, newToken, expiration);

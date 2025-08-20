@@ -3714,9 +3714,9 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   ): Promise<FlowInfo | undefined> {
     const url = await this._changeBaseURL(changeNum);
     return this._restApiHelper.fetchJSON({
-      url: `${url}/flow/${flowId}`,
+      url: `${url}/flows/${flowId}`,
       errFn,
-      anonymizedUrl: `${ANONYMIZED_CHANGE_BASE_URL}/flow/*`,
+      anonymizedUrl: `${ANONYMIZED_CHANGE_BASE_URL}/flows/*`,
     }) as Promise<FlowInfo | undefined>;
   }
 
@@ -3726,9 +3726,9 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   ): Promise<FlowInfo[] | undefined> {
     const url = await this._changeBaseURL(changeNum);
     return this._restApiHelper.fetchJSON({
-      url: `${url}/flow`,
+      url: `${url}/flows`,
       errFn,
-      anonymizedUrl: `${ANONYMIZED_CHANGE_BASE_URL}/flow`,
+      anonymizedUrl: `${ANONYMIZED_CHANGE_BASE_URL}/flows`,
     }) as Promise<FlowInfo[] | undefined>;
   }
 
@@ -3743,9 +3743,9 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
         method: HttpMethod.POST,
         body: flow,
       }),
-      url: `${url}/flow`,
+      url: `${url}/flows`,
       errFn,
-      anonymizedUrl: `${ANONYMIZED_CHANGE_BASE_URL}/flow`,
+      anonymizedUrl: `${ANONYMIZED_CHANGE_BASE_URL}/flows`,
     }) as Promise<FlowInfo | undefined>;
   }
 
@@ -3759,9 +3759,9 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       fetchOptions: {
         method: HttpMethod.DELETE,
       },
-      url: `${url}/flow/${flowId}`,
+      url: `${url}/flows/${flowId}`,
       errFn,
-      anonymizedUrl: `${ANONYMIZED_CHANGE_BASE_URL}/flow/*`,
+      anonymizedUrl: `${ANONYMIZED_CHANGE_BASE_URL}/flows/*`,
     });
   }
 }

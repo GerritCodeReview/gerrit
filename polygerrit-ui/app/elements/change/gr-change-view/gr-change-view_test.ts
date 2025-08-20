@@ -473,6 +473,13 @@ suite('gr-change-view tests', () => {
     assert.isTrue(replaceStateStub.called);
   });
 
+  test('renders flows tab if experiment is enabled', async () => {
+    stubFlags('isEnabled').returns(true);
+    element.requestUpdate();
+    await element.updateComplete;
+    queryAndAssert(element, '[data-name="flows"]');
+  });
+
   test('handleDiffAgainstBase', () => {
     element.change = {
       ...createChangeViewChange(),

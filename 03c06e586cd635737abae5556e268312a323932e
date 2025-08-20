@@ -267,6 +267,47 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "23aae539_51e292f3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-label-info/gr-label-info.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-08-20T13:23:21Z",
+      "side": 1,
+      "message": "More comment",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 8
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "77259de5_3aa1bc38",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/shared/gr-label-info/gr-label-info.ts",
+              "range": {
+                "startLine": 9,
+                "startChar": 0,
+                "endLine": 9,
+                "endChar": 0
+              },
+              "replacement": "// Import other elements that are used in the template\n"
+            }
+          ]
+        }
+      ],
+      "revId": "03c06e586cd635737abae5556e268312a323932e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a48bad1a_3f790939",
         "filename": "polygerrit-ui/app/elements/shared/gr-label-info/gr-label-info.ts",
         "patchSetId": 17

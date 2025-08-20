@@ -22,6 +22,30 @@
       },
       "revId": "15ec8e60c4ebe81e9043e15f9155e79e84ddd82e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a328747c_dce7d774",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2025-08-20T08:56:48Z",
+      "side": 1,
+      "message": "I am sorry I have missed your review two years ago. I have resend the patch to `stable-3.10` with your suggestion taken in account: https://gerrit-review.googlesource.com/c/gerrit/+/499523",
+      "parentUuid": "e7f6c267_1f47c98e",
+      "range": {
+        "startLine": 15,
+        "startChar": 6,
+        "endLine": 15,
+        "endChar": 47
+      },
+      "revId": "15ec8e60c4ebe81e9043e15f9155e79e84ddd82e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

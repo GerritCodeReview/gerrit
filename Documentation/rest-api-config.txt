@@ -1947,6 +1947,11 @@ This migration task will run asynchronously.
 .Request
 ----
   POST /config/server/reduce.token.lifetime HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "lifetime": "3 months",
+  }
 ----
 
 .Response

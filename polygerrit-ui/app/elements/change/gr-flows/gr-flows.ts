@@ -22,6 +22,8 @@ export class GrFlows extends LitElement {
 
   @state() private loading = true;
 
+  @state() private stageExpressions: string[] = [''];
+
   private readonly getChangeModel = resolve(this, changeModelToken);
 
   private readonly restApiService = getAppContext().restApiService;
@@ -65,28 +67,68 @@ export class GrFlows extends LitElement {
   }
 
   override render() {
-    return html`${this.renderCreateFlowButton()} ${this.renderFlowsList()}`;
+    return html`${this.renderCreateFlow()} ${this.renderFlowsList()}`;
   }
 
-  private renderCreateFlowButton() {
+  private renderCreateFlow() {
     return html`
-      <gr-button ?disabled=${this.loading} @click=${this.handleCreateFlow}>
+      <div>
+        ${this.stageExpressions.map((expr, index) =>
+          this.renderStageInput(expr, index)
+        )}
+        <gr-button aria-label="Add Stage" @click=${this.handleAddStage}
+          >+</gr-button
+        >
+      </div>
+      <gr-button
+        aria-label="Create Flow"
+        ?disabled=${this.loading}
+        @click=${this.handleCreateFlow}
+      >
         Create Flow
       </gr-button>
     `;
+  }
+
+  private renderStageInput(expression: string, index: number) {
+    return html`
+      <input
+        .value=${expression}
+        @input=${(e: InputEvent) =>
+          this.handleStageExpressionChange(
+            index,
+            (e.target as HTMLInputElement).value
+          )}
+      />
+    `;
+  }
+
+  private handleStageExpressionChange(index: number, value: string) {
+    const newExpressions = [...this.stageExpressions];
+    newExpressions[index] = value;
+    this.stageExpressions = newExpressions;
+  }
+
+  private handleAddStage() {
+    this.stageExpressions = [...this.stageExpressions, ''];
   }
 
   private async handleCreateFlow() {
     if (!this.changeNum) return;
     this.loading = true;
     const flowInput: FlowInput = {
-      stage_expressions: [],
+      stage_expressions: this.stageExpressions
+        .filter(expr => expr.trim() !== '')
+        .map(expr => {
+          return {condition: expr};
+        }),
     };
     await this.restApiService.createFlow(this.changeNum, flowInput, e => {
       console.error(e);
       this.loading = false;
     });
     await this.loadFlows();
+    this.stageExpressions = [''];
   }
 
   private renderFlowsList() {

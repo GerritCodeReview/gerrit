@@ -1,0 +1,85 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d2d4926_ba9abc97",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-08-20T12:03:14Z",
+      "side": 1,
+      "message": "I do not think there is much sense in making this a separate CL. Ideally in the same CL you would add at least some of the fields that are used for creating the Flow. I don\u0027t think breaking out the button in it\u0027s own separate CL is helpful, as it makes it harder to understand how the elements interact with each other within each individual CL",
+      "revId": "cc5992e8c8a5a24b9c4568d32d5648e7f7286e87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "02ed4633_15a3c638",
+        "filename": "polygerrit-ui/app/elements/change/gr-flows/gr-flows.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-08-20T12:03:14Z",
+      "side": 1,
+      "message": "nit: Is the space here needed?",
+      "range": {
+        "startLine": 64,
+        "startChar": 16,
+        "endLine": 64,
+        "endChar": 17
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "339be5f4_16752dd9",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-flows/gr-flows.ts",
+              "range": {
+                "startLine": 64,
+                "startChar": 0,
+                "endLine": 65,
+                "endChar": 0
+              },
+              "replacement": "    return html`${this.renderCreateFlowButton()} ${this.renderFlowsList()}`;\n"
+            }
+          ]
+        }
+      ],
+      "revId": "cc5992e8c8a5a24b9c4568d32d5648e7f7286e87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0146f73c_21174c88",
+        "filename": "polygerrit-ui/app/elements/change/gr-flows/gr-flows.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-08-20T12:03:14Z",
+      "side": 1,
+      "message": "We should probably mark the button disabled, while request is being sent. Otherwise double clicks can lead to multiple identical flows being created.",
+      "range": {
+        "startLine": 73,
+        "startChar": 2,
+        "endLine": 80,
+        "endChar": 3
+      },
+      "revId": "cc5992e8c8a5a24b9c4568d32d5648e7f7286e87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

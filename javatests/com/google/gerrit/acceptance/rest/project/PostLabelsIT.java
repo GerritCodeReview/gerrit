@@ -240,6 +240,20 @@ public class PostLabelsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void createLabelWithoutFunction() throws Exception {
+    LabelDefinitionInput fooInput = new LabelDefinitionInput();
+    fooInput.name = " Foo";
+    fooInput.values = ImmutableMap.of("+1", "Looks Good", " 0", "Don't Know", "-1", "Looks Bad");
+
+    BatchLabelInput input = new BatchLabelInput();
+    input.create = ImmutableList.of(fooInput);
+
+    gApi.projects().name(allProjects.get()).labels(input);
+    assertThat(gApi.projects().name(allProjects.get()).label("Foo").get().function)
+        .isEqualTo(LabelFunction.NO_OP.getFunctionName());
+  }
+
+  @Test
   public void createLabels_emptyCopyCondition() throws Exception {
     LabelDefinitionInput fooInput = new LabelDefinitionInput();
     fooInput.name = " Foo";

@@ -14,8 +14,10 @@
 
 package com.google.gerrit.server.restapi.project;
 
+import com.google.gerrit.entities.LabelFunction;
 import com.google.gerrit.extensions.common.BatchLabelInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.common.LabelDefinitionInput;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
@@ -48,6 +50,18 @@ public class PostLabelsReview implements RestModifyView<ProjectResource, BatchLa
           ConfigInvalidException,
           UpdateException,
           RestApiException {
+    if (input == null) {
+      input = new BatchLabelInput();
+    }
+
+    if (input.create != null) {
+      for (LabelDefinitionInput labelDefinitionInput : input.create) {
+        if (labelDefinitionInput.function == null) {
+          labelDefinitionInput.function = LabelFunction.NO_OP.getFunctionName();
+        }
+      }
+    }
+
     try (ConfigChangeCreator creator =
         repoMetaDataUpdater.configChangeCreator(
             rsrc.getNameKey(), input.commitMessage, "Review labels change")) {

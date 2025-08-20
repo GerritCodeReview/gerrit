@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.restapi.project;
 
+import com.google.gerrit.entities.LabelFunction;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.extensions.common.BatchLabelInput;
 import com.google.gerrit.extensions.common.LabelDefinitionInput;
@@ -75,6 +76,9 @@ public class PostLabels
     }
     if (labelInput.commitMessage != null) {
       throw new BadRequestException("commit message on label definition input not supported");
+    }
+    if (labelInput.function == null) {
+      labelInput.function = LabelFunction.NO_OP.getFunctionName();
     }
     @SuppressWarnings("unused")
     var unused = createLabel.createLabel(config, labelInput.name.trim(), labelInput);

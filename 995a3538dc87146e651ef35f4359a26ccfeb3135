@@ -16,6 +16,24 @@
       "message": "Opt: Maybe easy enough to also add an \u003cinput\u003e in this change?",
       "revId": "995a3538dc87146e651ef35f4359a26ccfeb3135",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2a8129a2_48493aa9",
+        "filename": "polygerrit-ui/app/elements/change/gr-flows/gr-flows.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-08-20T12:19:39Z",
+      "side": 1,
+      "message": "We need to add multiple ones per stage along with + button.\n\nI want to test a multi-stage flow creation as well hence I prefer to send a follow up CL for that.",
+      "parentUuid": "ac6a0309_1ab3e556",
+      "revId": "995a3538dc87146e651ef35f4359a26ccfeb3135",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

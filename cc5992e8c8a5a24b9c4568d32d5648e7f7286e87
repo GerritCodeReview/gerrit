@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab626349_a0ba0481",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-08-20T12:19:39Z",
+      "side": 1,
+      "message": "\u003e as it makes it harder to understand how the elements interact with each other within each individual CL\n\nIn this case it adds a button that verifies the REST API is called. We will need to call the CreateFlow REST API to create the flow so it\u0027s useful as a unit I think.\n\nThis CL doesn\u0027t add \"controversial\" code so it shouldn\u0027t be hard to review.",
+      "parentUuid": "9d2d4926_ba9abc97",
+      "revId": "cc5992e8c8a5a24b9c4568d32d5648e7f7286e87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "02ed4633_15a3c638",
@@ -59,6 +77,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "826a1757_f8127081",
+        "filename": "polygerrit-ui/app/elements/change/gr-flows/gr-flows.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-08-20T12:19:39Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "02ed4633_15a3c638",
+      "range": {
+        "startLine": 64,
+        "startChar": 16,
+        "endLine": 64,
+        "endChar": 17
+      },
+      "revId": "cc5992e8c8a5a24b9c4568d32d5648e7f7286e87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0146f73c_21174c88",
@@ -72,6 +114,30 @@
       "writtenOn": "2025-08-20T12:03:14Z",
       "side": 1,
       "message": "We should probably mark the button disabled, while request is being sent. Otherwise double clicks can lead to multiple identical flows being created.",
+      "range": {
+        "startLine": 73,
+        "startChar": 2,
+        "endLine": 80,
+        "endChar": 3
+      },
+      "revId": "cc5992e8c8a5a24b9c4568d32d5648e7f7286e87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "91fccac8_1f4700e4",
+        "filename": "polygerrit-ui/app/elements/change/gr-flows/gr-flows.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-08-20T12:19:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0146f73c_21174c88",
       "range": {
         "startLine": 73,
         "startChar": 2,

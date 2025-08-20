@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f7eab01c_8614db3b",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 4827,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-08-20T16:03:19Z",
+      "side": 1,
+      "message": "It looks like this was missing a closing paren. Fix that too?\n```suggestion\n`MaxWithBlock`, `AnyWithBlock`, `MaxNoBlock`, `NoBlock`, `NoOp` and `PatchSetLock`).\n```",
+      "revId": "23a3f7bc6c18449ccf0c9f69db3752f07b227c79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -16,6 +16,46 @@
       "message": "ping",
       "revId": "6c9de11809366ec7edcbab6393deea518b559f28",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d8596a92_99fe5fb7",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1949,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-08-20T10:04:31Z",
+      "side": 1,
+      "message": "This must also have a request body specifying the token lifetime: the `ReduceMaxTokenLifetime:59` doesn\u0027t provide a default value and therefore this\nrequest only makes sense with explicitly provided lifetime.",
+      "revId": "6c9de11809366ec7edcbab6393deea518b559f28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "47755bbf_94e76398",
+        "filename": "java/com/google/gerrit/server/restapi/config/ReduceMaxTokenLifetime.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-08-20T10:04:31Z",
+      "side": 1,
+      "message": "unrelated to this change: this API seems to be just an unnecessary replacement for `Optional.orElse` regarding handling of the default value. Further, the default value should be passed as `Instant` and not `Optional\u003cInstant\u003e`.\n\nIf we change this method to only accept one parameter then, depending of whether we need a default value or not this becomes:\n\n```\n  Optional\u003cInstant\u003e expirationDate \u003d CreateToken.getExpirationInstant(input.lifetime);\n```\n\nor:\n\n```\n  Optional\u003cInstant\u003e expirationDate \u003d CreateToken.getExpirationInstant(input.lifetime).orElse(defaultValue);\n```",
+      "range": {
+        "startLine": 59,
+        "startChar": 8,
+        "endLine": 59,
+        "endChar": 40
+      },
+      "revId": "6c9de11809366ec7edcbab6393deea518b559f28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

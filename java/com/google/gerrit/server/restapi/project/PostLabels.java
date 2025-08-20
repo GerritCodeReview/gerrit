@@ -55,17 +55,19 @@ public class PostLabels
   }
 
   @Override
-  protected boolean updateItem(ProjectConfig config, String name, LabelDefinitionInput resource)
+  protected boolean updateItem(ProjectConfig config, String name, LabelDefinitionInput labelInput)
       throws BadRequestException, ResourceConflictException, UnprocessableEntityException {
     LabelType labelType = config.getLabelSections().get(name);
     if (labelType == null) {
       throw new UnprocessableEntityException(String.format("label %s not found", name));
     }
-    if (resource.commitMessage != null) {
+    if (labelInput.commitMessage != null) {
       throw new BadRequestException("commit message on label definition input not supported");
     }
 
-    return setLabel.updateLabel(config, labelType, resource);
+    LabelDefinitionInputValidator.validate(name, labelInput);
+
+    return setLabel.updateLabel(config, labelType, labelInput);
   }
 
   @Override
@@ -80,8 +82,11 @@ public class PostLabels
     if (labelInput.function == null) {
       labelInput.function = LabelFunction.NO_OP.getFunctionName();
     }
+
+    LabelDefinitionInputValidator.validate(labelInput.name, labelInput);
+
     @SuppressWarnings("unused")
-    var unused = createLabel.createLabel(config, labelInput.name.trim(), labelInput);
+    var unused = createLabel.createLabelType(config, labelInput.name.trim(), labelInput);
   }
 
   @Override

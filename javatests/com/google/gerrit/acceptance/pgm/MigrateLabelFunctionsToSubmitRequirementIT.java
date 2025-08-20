@@ -31,6 +31,7 @@ import com.google.gerrit.extensions.common.SubmitRequirementInfo;
 import com.google.gerrit.extensions.common.SubmitRequirementInput;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.server.restapi.project.CreateLabel;
 import com.google.gerrit.server.schema.MigrateLabelFunctionsToSubmitRequirement;
 import com.google.gerrit.server.schema.MigrateLabelFunctionsToSubmitRequirement.Status;
 import com.google.gerrit.server.schema.UpdateUI;
@@ -44,8 +45,8 @@ import org.junit.Test;
 /** Test for {@link com.google.gerrit.server.schema.MigrateLabelFunctionsToSubmitRequirement}. */
 @Sandboxed
 public class MigrateLabelFunctionsToSubmitRequirementIT extends AbstractDaemonTest {
-
   @Inject private ProjectOperations projectOperations;
+  @Inject private CreateLabel createLabel;
 
   @Test
   public void migrateBlockingLabel_maxWithBlock() throws Exception {
@@ -469,7 +470,7 @@ public class MigrateLabelFunctionsToSubmitRequirementIT extends AbstractDaemonTe
     input.function = function;
     input.ignoreSelfApproval = ignoreSelfApproval;
     input.values = values;
-    gApi.projects().name(project.get()).label(labelName).create(input);
+    createLabel.createLabelWithoutInputValidation(project, labelName, input);
   }
 
   private void createLabelWithBranch(
@@ -484,7 +485,7 @@ public class MigrateLabelFunctionsToSubmitRequirementIT extends AbstractDaemonTe
     input.ignoreSelfApproval = ignoreSelfApproval;
     input.values = ImmutableMap.of("+1", "Looks Good", " 0", "Don't Know", "-1", "Looks Bad");
     input.branches = refPatterns;
-    gApi.projects().name(project.get()).label(labelName).create(input);
+    createLabel.createLabelWithoutInputValidation(project, labelName, input);
   }
 
   @CanIgnoreReturnValue

@@ -14,7 +14,7 @@
 
 package com.google.gerrit.extensions.common;
 
-import com.google.common.collect.ImmutableList;
+import java.util.List;
 
 /**
  * REST API input for creating a flow.
@@ -26,5 +26,5 @@ import com.google.common.collect.ImmutableList;
  */
 public class FlowInput {
   /** The expressions for the stages of the flow (sorted by execution order). */
-  public ImmutableList<FlowExpressionInfo> stageExpressions;
+  public List<FlowExpressionInfo> stageExpressions;
 }

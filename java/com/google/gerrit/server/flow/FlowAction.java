@@ -18,6 +18,7 @@ import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableMap;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.ConvertibleToProto;
+import java.util.Map;
 
 /**
  * An action to be triggered when the condition of a {@link FlowExpression} becomes satisfied.
@@ -32,7 +33,7 @@ public abstract class FlowAction {
   public abstract String name();
 
   /** Parameters for the action. */
-  public abstract ImmutableMap<String, String> parameters();
+  public abstract Map<String, String> parameters();
 
   /**
    * Creates a builder for building a flow action.

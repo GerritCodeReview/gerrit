@@ -44,6 +44,13 @@ public class FlowTestUtil {
     return createTestFlowInput(accountCreator, changeIdentifier, 3);
   }
 
+  /** Creates a {@link FlowInput} with arbitrary test data that contains n stages. */
+  public static FlowInput createTestFlowInputWithNStages(
+      AccountCreator accountCreator, ChangeIdentifier changeIdentifier, int numberOfStages)
+      throws Exception {
+    return createTestFlowInput(accountCreator, changeIdentifier, numberOfStages);
+  }
+
   /** Creates a {@link FlowInput} with arbitrary test data that contains an invalid condition. */
   public static FlowInput createTestFlowInputWithInvalidCondition(
       AccountCreator accountCreator, ChangeIdentifier changeIdentifier) throws Exception {

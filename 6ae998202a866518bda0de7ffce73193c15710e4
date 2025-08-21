@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4236b0fc_5327cc45",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2025-08-21T15:05:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "353c5f02_be71a245",
+      "revId": "6ae998202a866518bda0de7ffce73193c15710e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3c456efe_106ac012",
@@ -31,6 +49,24 @@
       "writtenOn": "2025-08-21T14:18:36Z",
       "side": 1,
       "message": "what do you mean by Change API ?",
+      "revId": "6ae998202a866518bda0de7ffce73193c15710e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "25a4a7c4_a388ca26",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2025-08-21T15:05:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3c456efe_106ac012",
       "revId": "6ae998202a866518bda0de7ffce73193c15710e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -52,6 +88,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6c578de3_d8983cef",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2025-08-21T15:05:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6b41d173_3dfa5486",
+      "revId": "6ae998202a866518bda0de7ffce73193c15710e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "aada3a7a_b7095fd2",
@@ -69,6 +123,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d105ba0_eecba581",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2025-08-21T15:05:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aada3a7a_b7095fd2",
+      "revId": "6ae998202a866518bda0de7ffce73193c15710e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4122c906_e346afd1",
@@ -82,6 +154,24 @@
       "writtenOn": "2025-08-21T14:18:36Z",
       "side": 1,
       "message": "```suggestion\n\u003d\u003d AI Code Review\n```",
+      "revId": "6ae998202a866518bda0de7ffce73193c15710e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9593aa3a_1fccf1c8",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 2964,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2025-08-21T15:05:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4122c906_e346afd1",
       "revId": "6ae998202a866518bda0de7ffce73193c15710e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -189,6 +279,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fd7b384f_79869e80",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 2604,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2025-08-21T15:05:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c912a703_04152573",
+      "revId": "6ae998202a866518bda0de7ffce73193c15710e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "97d64d49_5cc318e0",
@@ -206,6 +314,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d0bd2b7e_f4bc9521",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 2606,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2025-08-21T15:05:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "97d64d49_5cc318e0",
+      "revId": "6ae998202a866518bda0de7ffce73193c15710e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b56597ec_b0c7c32a",
@@ -219,6 +345,24 @@
       "writtenOn": "2025-08-21T14:18:36Z",
       "side": 1,
       "message": "this seems to be unrelated to this change",
+      "revId": "6ae998202a866518bda0de7ffce73193c15710e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "76e73812_7f4f8947",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 4693,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2025-08-21T15:05:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b56597ec_b0c7c32a",
       "revId": "6ae998202a866518bda0de7ffce73193c15710e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -304,6 +448,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "08556cba_fa47f078",
+        "filename": "java/com/google/gerrit/server/restapi/change/AiCodeReview.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2025-08-21T15:05:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "08bb5a0a_9849ed51",
+      "revId": "6ae998202a866518bda0de7ffce73193c15710e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f6cc917c_3e08f623",
@@ -364,6 +526,24 @@
       "writtenOn": "2025-08-21T14:18:36Z",
       "side": 1,
       "message": "I would call this `aiCodeReviewProviders` or `aiCodeReviewers`",
+      "revId": "6ae998202a866518bda0de7ffce73193c15710e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cfe67f67_101c4657",
+        "filename": "java/com/google/gerrit/server/restapi/config/GetServerInfo.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2025-08-21T15:05:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3385d7bc_bd01967a",
       "revId": "6ae998202a866518bda0de7ffce73193c15710e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

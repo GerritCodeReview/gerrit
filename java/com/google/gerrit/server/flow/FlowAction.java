@@ -15,9 +15,9 @@
 package com.google.gerrit.server.flow;
 
 import com.google.auto.value.AutoValue;
-import com.google.common.collect.ImmutableMap;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.ConvertibleToProto;
+import java.util.Map;
 
 /**
  * An action to be triggered when the condition of a {@link FlowExpression} becomes satisfied.
@@ -32,7 +32,7 @@ public abstract class FlowAction {
   public abstract String name();
 
   /** Parameters for the action. */
-  public abstract ImmutableMap<String, String> parameters();
+  public abstract Map<String, String> parameters();
 
   /**
    * Creates a builder for building a flow action.
@@ -49,9 +49,9 @@ public abstract class FlowAction {
     public abstract Builder name(String name);
 
     /** Sets the expressions for the stages of the flow. */
-    public abstract Builder parameters(ImmutableMap<String, String> parameters);
+    public abstract Builder parameters(Map<String, String> parameters);
 
-    abstract ImmutableMap.Builder<String, String> parametersBuilder();
+    abstract Map.Builder<String, String> parametersBuilder();
 
     /** Adds an expression for another stage. */
     @CanIgnoreReturnValue

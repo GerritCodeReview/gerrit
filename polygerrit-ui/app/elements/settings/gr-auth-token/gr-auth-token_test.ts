@@ -86,7 +86,7 @@ suite('gr-auth-token tests', () => {
                       id="lifetime"
                       inputmode=""
                       placeholder="Lifetime (e.g. 30d)"
-                      supporting-text="Max. allowed lifetime: unlimited. Leave empty for unlimited lifetime."
+                      supporting-text="Max. allowed lifetime: unlimited. Leave empty to use maximum allowed lifetime."
                       type="text"
                     >
                     </md-outlined-text-field>

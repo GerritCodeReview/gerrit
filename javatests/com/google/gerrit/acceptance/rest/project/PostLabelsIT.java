@@ -240,6 +240,54 @@ public class PostLabelsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void createLabelWithoutFunction() throws Exception {
+    LabelDefinitionInput fooInput = new LabelDefinitionInput();
+    fooInput.name = " Foo";
+    fooInput.values = ImmutableMap.of("+1", "Looks Good", " 0", "Don't Know", "-1", "Looks Bad");
+
+    BatchLabelInput input = new BatchLabelInput();
+    input.create = ImmutableList.of(fooInput);
+
+    gApi.projects().name(allProjects.get()).labels(input);
+    assertThat(gApi.projects().name(allProjects.get()).label("Foo").get().function)
+        .isEqualTo(LabelFunction.NO_OP.getFunctionName());
+  }
+
+  @Test
+  public void cannotCreateLabelWithDeprecatedFunction() throws Exception {
+    for (LabelFunction deprecatedLabelFunction :
+        ImmutableList.of(
+            LabelFunction.ANY_WITH_BLOCK,
+            LabelFunction.MAX_NO_BLOCK,
+            LabelFunction.MAX_WITH_BLOCK)) {
+      LabelDefinitionInput fooInput = new LabelDefinitionInput();
+      fooInput.name = " Foo";
+      fooInput.values = ImmutableMap.of("+1", "Looks Good", " 0", "Don't Know", "-1", "Looks Bad");
+      fooInput.function = deprecatedLabelFunction.getFunctionName();
+
+      BatchLabelInput input = new BatchLabelInput();
+      input.create = ImmutableList.of(fooInput);
+
+      BadRequestException exception =
+          assertThrows(
+              BadRequestException.class,
+              () -> gApi.projects().name(allProjects.get()).labels(input));
+      assertThat(exception)
+          .hasMessageThat()
+          .isEqualTo(
+              String.format(
+                  "Function %s of label %s is deprecated. The function can only be set to %s. Use"
+                      + " submit requirements instead of label functions.",
+                  fooInput.function,
+                  fooInput.name,
+                  ImmutableList.of(
+                      LabelFunction.NO_BLOCK.getFunctionName(),
+                      LabelFunction.NO_OP.getFunctionName(),
+                      LabelFunction.PATCH_SET_LOCK.getFunctionName())));
+    }
+  }
+
+  @Test
   public void createLabels_emptyCopyCondition() throws Exception {
     LabelDefinitionInput fooInput = new LabelDefinitionInput();
     fooInput.name = " Foo";
@@ -288,7 +336,7 @@ public class PostLabelsIT extends AbstractDaemonTest {
     configLabel("Bar", LabelFunction.NO_OP);
 
     LabelDefinitionInput fooUpdate = new LabelDefinitionInput();
-    fooUpdate.function = LabelFunction.MAX_WITH_BLOCK.getFunctionName();
+    fooUpdate.function = LabelFunction.PATCH_SET_LOCK.getFunctionName();
     LabelDefinitionInput barUpdate = new LabelDefinitionInput();
     barUpdate.name = "Baz";
 
@@ -311,7 +359,7 @@ public class PostLabelsIT extends AbstractDaemonTest {
     configLabel("Bar", LabelFunction.NO_OP);
 
     LabelDefinitionInput fooUpdate = new LabelDefinitionInput();
-    fooUpdate.function = LabelFunction.MAX_WITH_BLOCK.getFunctionName();
+    fooUpdate.function = LabelFunction.PATCH_SET_LOCK.getFunctionName();
     LabelDefinitionInput barUpdate = new LabelDefinitionInput();
     barUpdate.name = "Baz";
 
@@ -326,6 +374,38 @@ public class PostLabelsIT extends AbstractDaemonTest {
     assertThrows(
         ResourceNotFoundException.class,
         () -> gApi.projects().name(project.get()).label("Bar").get());
+  }
+
+  @Test
+  public void cannotUpdateLabelToDeprecatedFunction() throws Exception {
+    for (LabelFunction deprecatedLabelFunction :
+        ImmutableList.of(
+            LabelFunction.ANY_WITH_BLOCK,
+            LabelFunction.MAX_NO_BLOCK,
+            LabelFunction.MAX_WITH_BLOCK)) {
+      LabelDefinitionInput labelInput = new LabelDefinitionInput();
+      labelInput.function = deprecatedLabelFunction.getFunctionName();
+
+      BatchLabelInput input = new BatchLabelInput();
+      input.update = ImmutableMap.of(LabelId.CODE_REVIEW, labelInput);
+
+      BadRequestException exception =
+          assertThrows(
+              BadRequestException.class,
+              () -> gApi.projects().name(allProjects.get()).labels(input));
+      assertThat(exception)
+          .hasMessageThat()
+          .isEqualTo(
+              String.format(
+                  "Function %s of label %s is deprecated. The function can only be set to %s. Use"
+                      + " submit requirements instead of label functions.",
+                  labelInput.function,
+                  LabelId.CODE_REVIEW,
+                  ImmutableList.of(
+                      LabelFunction.NO_BLOCK.getFunctionName(),
+                      LabelFunction.NO_OP.getFunctionName(),
+                      LabelFunction.PATCH_SET_LOCK.getFunctionName())));
+    }
   }
 
   @Test
@@ -350,7 +430,7 @@ public class PostLabelsIT extends AbstractDaemonTest {
 
     LabelDefinitionInput fooInput = new LabelDefinitionInput();
     fooInput.name = "Foo";
-    fooInput.function = LabelFunction.MAX_NO_BLOCK.getFunctionName();
+    fooInput.function = LabelFunction.NO_OP.getFunctionName();
     fooInput.values = ImmutableMap.of("+1", "Looks Good", " 0", "Don't Know", "-1", "Looks Bad");
 
     BatchLabelInput input = new BatchLabelInput();
@@ -369,12 +449,12 @@ public class PostLabelsIT extends AbstractDaemonTest {
 
     LabelDefinitionInput fooCreateInput = new LabelDefinitionInput();
     fooCreateInput.name = "Foo";
-    fooCreateInput.function = LabelFunction.MAX_NO_BLOCK.getFunctionName();
+    fooCreateInput.function = LabelFunction.NO_BLOCK.getFunctionName();
     fooCreateInput.values =
         ImmutableMap.of("+1", "Looks Good", " 0", "Don't Know", "-1", "Looks Bad");
 
     LabelDefinitionInput fooUpdateInput = new LabelDefinitionInput();
-    fooUpdateInput.function = LabelFunction.ANY_WITH_BLOCK.getFunctionName();
+    fooUpdateInput.function = LabelFunction.PATCH_SET_LOCK.getFunctionName();
 
     BatchLabelInput input = new BatchLabelInput();
     input.delete = ImmutableList.of("Foo");
@@ -409,12 +489,12 @@ public class PostLabelsIT extends AbstractDaemonTest {
   public void createAndUpdateLabel() throws Exception {
     LabelDefinitionInput fooCreateInput = new LabelDefinitionInput();
     fooCreateInput.name = "Foo";
-    fooCreateInput.function = LabelFunction.MAX_NO_BLOCK.getFunctionName();
+    fooCreateInput.function = LabelFunction.NO_OP.getFunctionName();
     fooCreateInput.values =
         ImmutableMap.of("+1", "Looks Good", " 0", "Don't Know", "-1", "Looks Bad");
 
     LabelDefinitionInput fooUpdateInput = new LabelDefinitionInput();
-    fooUpdateInput.function = LabelFunction.ANY_WITH_BLOCK.getFunctionName();
+    fooUpdateInput.function = LabelFunction.PATCH_SET_LOCK.getFunctionName();
 
     BatchLabelInput input = new BatchLabelInput();
     input.create = ImmutableList.of(fooCreateInput);

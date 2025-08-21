@@ -4824,7 +4824,8 @@ entity.
 The new description for the label.
 |`function`      |optional|
 The new link:config-labels.html#label_function[function] of the label (can be
-`MaxWithBlock`, `AnyWithBlock`, `MaxNoBlock`, `NoBlock`, `NoOp` and `PatchSetLock`.
+`NoOp`/`NoBlock` and `PatchSetLock`). By default `NoOp` when creating new
+labels.
 |`values`        |optional|
 The new link:config-labels.html#label_value[values] of the label as a map of
 label value to value description. The label values are formatted strings, e.g.

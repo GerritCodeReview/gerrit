@@ -14,8 +14,10 @@
 
 package com.google.gerrit.server.restapi.project;
 
+import com.google.gerrit.entities.LabelFunction;
 import com.google.gerrit.extensions.common.BatchLabelInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.common.LabelDefinitionInput;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
@@ -26,6 +28,7 @@ import com.google.gerrit.server.restapi.project.RepoMetaDataUpdater.ConfigChange
 import com.google.gerrit.server.update.UpdateException;
 import com.google.inject.Inject;
 import java.io.IOException;
+import java.util.Map;
 import javax.inject.Singleton;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
@@ -48,6 +51,24 @@ public class PostLabelsReview implements RestModifyView<ProjectResource, BatchLa
           ConfigInvalidException,
           UpdateException,
           RestApiException {
+    if (input == null) {
+      input = new BatchLabelInput();
+    }
+
+    if (input.create != null) {
+      for (LabelDefinitionInput labelDefinitionInput : input.create) {
+        if (labelDefinitionInput.function == null) {
+          labelDefinitionInput.function = LabelFunction.NO_OP.getFunctionName();
+        }
+        LabelDefinitionInputValidator.validate(labelDefinitionInput.name, labelDefinitionInput);
+      }
+    }
+    if (input.update != null) {
+      for (Map.Entry<String, LabelDefinitionInput> updateEntry : input.update.entrySet()) {
+        LabelDefinitionInputValidator.validate(updateEntry.getKey(), updateEntry.getValue());
+      }
+    }
+
     try (ConfigChangeCreator creator =
         repoMetaDataUpdater.configChangeCreator(
             rsrc.getNameKey(), input.commitMessage, "Review labels change")) {

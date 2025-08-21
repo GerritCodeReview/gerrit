@@ -61,6 +61,10 @@ public class SetLabel implements RestModifyView<LabelResource, LabelDefinitionIn
       input = new LabelDefinitionInput();
     }
 
+    if (input.function != null) {
+      LabelDefinitionInputValidator.validate(input);
+    }
+
     LabelType labelType = rsrc.getLabelType();
 
     try (var configUpdater =

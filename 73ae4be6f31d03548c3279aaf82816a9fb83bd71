@@ -1,0 +1,68 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "54487c95_d9245d22",
+        "filename": "polygerrit-ui/app/elements/change/gr-flows/gr-flows.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-08-21T10:26:13Z",
+      "side": 1,
+      "message": "The names and assumptions around these variable are all specific to createFlow (ie. it\u0027s only current in the context of generating a new Flow). Which makes it confusing, since gr-flow is also for listing flows. I think createFlow should be it\u0027s own sub-component. Please add a TODO to move this to it\u0027s own component (or do it as part of this CL).",
+      "range": {
+        "startLine": 27,
+        "startChar": 19,
+        "endLine": 27,
+        "endChar": 35
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "4a43fb84_d252e4e4",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-flows/gr-flows.ts",
+              "range": {
+                "startLine": 25,
+                "startChar": 0,
+                "endLine": 25,
+                "endChar": 0
+              },
+              "replacement": "  // TODO(b/334911877): Move create flow functionality to a separate component.\n"
+            }
+          ]
+        }
+      ],
+      "revId": "73ae4be6f31d03548c3279aaf82816a9fb83bd71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "601655e2_b821f6a6",
+        "filename": "polygerrit-ui/app/elements/change/gr-flows/gr-flows.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-08-21T10:26:13Z",
+      "side": 1,
+      "message": "When action is empty, it should be undefined. The backend expects action field to be unset if the no action is specified.",
+      "range": {
+        "startLine": 126,
+        "startChar": 41,
+        "endLine": 126,
+        "endChar": 67
+      },
+      "revId": "73ae4be6f31d03548c3279aaf82816a9fb83bd71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

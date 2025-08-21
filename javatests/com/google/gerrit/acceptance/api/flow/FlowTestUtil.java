@@ -18,8 +18,8 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.acceptance.AccountCreator;
 import com.google.gerrit.acceptance.TestExtensions.TestFlowService;
-import com.google.gerrit.entities.Change;
-import com.google.gerrit.entities.Project;
+import com.google.gerrit.acceptance.testsuite.change.TestChange;
+import com.google.gerrit.extensions.api.changes.ChangeIdentifier;
 import com.google.gerrit.extensions.common.FlowActionInfo;
 import com.google.gerrit.extensions.common.FlowExpressionInfo;
 import com.google.gerrit.extensions.common.FlowInput;
@@ -34,34 +34,35 @@ import com.google.gerrit.server.flow.FlowExpression;
 public class FlowTestUtil {
   /** Creates a {@link FlowInput} with arbitrary test data that contains one stage. */
   public static FlowInput createTestFlowInputWithOneStage(
-      AccountCreator accountCreator, Change.Id changeId) throws Exception {
-    return createTestFlowInput(accountCreator, changeId, 1);
+      AccountCreator accountCreator, ChangeIdentifier changeIdentifier) throws Exception {
+    return createTestFlowInput(accountCreator, changeIdentifier, 1);
   }
 
   /** Creates a {@link FlowInput} with arbitrary test data that contains multiple stages. */
   public static FlowInput createTestFlowInputWithMultipleStages(
-      AccountCreator accountCreator, Change.Id changeId) throws Exception {
-    return createTestFlowInput(accountCreator, changeId, 3);
+      AccountCreator accountCreator, ChangeIdentifier changeIdentifier) throws Exception {
+    return createTestFlowInput(accountCreator, changeIdentifier, 3);
   }
 
   /** Creates a {@link FlowInput} with arbitrary test data that contains an invalid condition. */
   public static FlowInput createTestFlowInputWithInvalidCondition(
-      AccountCreator accountCreator, Change.Id changeId) throws Exception {
-    FlowInput flowInput = createTestFlowInput(accountCreator, changeId, 1);
+      AccountCreator accountCreator, ChangeIdentifier changeIdentifier) throws Exception {
+    FlowInput flowInput = createTestFlowInput(accountCreator, changeIdentifier, 1);
     flowInput.stageExpressions.get(0).condition = TestFlowService.INVALID_CONDITION;
     return flowInput;
   }
 
   /** Creates a {@link FlowInput} with arbitrary test data and as many stages as specified. */
   private static FlowInput createTestFlowInput(
-      AccountCreator accountCreator, Change.Id changeId, int numberOfStages) throws Exception {
+      AccountCreator accountCreator, ChangeIdentifier changeIdentifier, int numberOfStages)
+      throws Exception {
     FlowInput flowInput = new FlowInput();
 
     ImmutableList.Builder<FlowExpressionInfo> stageExpressionsBuilder = ImmutableList.builder();
     for (int i = 0; i < numberOfStages; i++) {
       FlowExpressionInfo flowExpressionInfo = new FlowExpressionInfo();
       flowExpressionInfo.condition =
-          String.format("com.google.gerrit[change:%s label:Verified+%s]", changeId, i);
+          String.format("com.google.gerrit[change:%s label:Verified+%s]", changeIdentifier.id(), i);
 
       FlowActionInfo flowActionInfo = new FlowActionInfo();
       flowActionInfo.name = "AddReviewer";
@@ -79,36 +80,30 @@ public class FlowTestUtil {
 
   /** Creates a {@link FlowCreation} with arbitrary test data that contains one stage. */
   public static FlowCreation createTestFlowCreationWithOneStage(
-      AccountCreator accountCreator, Project.NameKey projectName, Change.Id changeId)
-      throws Exception {
-    return createTestFlowCreation(accountCreator, projectName, changeId, 1);
+      AccountCreator accountCreator, TestChange change) throws Exception {
+    return createTestFlowCreation(accountCreator, change, 1);
   }
 
   /** Creates a {@link FlowCreation} with arbitrary test data that contains multiple stages. */
   public static FlowCreation createTestFlowCreationWithMultipleStages(
-      AccountCreator accountCreator, Project.NameKey projectName, Change.Id changeId)
-      throws Exception {
-    return createTestFlowCreation(accountCreator, projectName, changeId, 3);
+      AccountCreator accountCreator, TestChange change) throws Exception {
+    return createTestFlowCreation(accountCreator, change, 3);
   }
 
   /** Creates a {@link FlowCreation} with arbitrary test data and as many stages as specified. */
   public static FlowCreation createTestFlowCreation(
-      AccountCreator accountCreator,
-      Project.NameKey projectName,
-      Change.Id changeId,
-      int numberOfStages)
-      throws Exception {
+      AccountCreator accountCreator, TestChange change, int numberOfStages) throws Exception {
     FlowCreation.Builder flowCreationBuilder =
         FlowCreation.builder()
-            .projectName(projectName)
-            .changeId(changeId)
+            .projectName(change.project())
+            .changeId(change.numericChangeId())
             .ownerId(accountCreator.createValid("owner").id());
 
     for (int i = 0; i < numberOfStages; i++) {
       flowCreationBuilder.addStageExpression(
           FlowExpression.builder()
               .condition(
-                  String.format("com.google.gerrit[change:%s label:Verified+%s]", changeId, i))
+                  String.format("com.google.gerrit[change:%s label:Verified+%s]", change.id(), i))
               .action(
                   FlowAction.builder()
                       .name("AddReviewer")

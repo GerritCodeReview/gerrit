@@ -28,7 +28,8 @@ import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
 import com.google.gerrit.acceptance.TestExtensions;
 import com.google.gerrit.acceptance.TestExtensions.TestFlowService;
 import com.google.gerrit.acceptance.testsuite.change.ChangeOperations;
-import com.google.gerrit.entities.Change;
+import com.google.gerrit.acceptance.testsuite.change.TestChange;
+import com.google.gerrit.extensions.api.changes.ChangeIdentifier;
 import com.google.gerrit.extensions.common.FlowInfo;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -49,78 +50,71 @@ public class GetFlowIT extends AbstractDaemonTest {
 
   @Test
   public void getFlowIfNoFlowServiceIsBound_methodNotAllowed() throws Exception {
-    Change.Id changeId = changeOperations.newChange().project(project).createV1();
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().create();
     MethodNotAllowedException exception =
         assertThrows(
             MethodNotAllowedException.class,
-            () -> gApi.changes().id(project.get(), changeId.get()).flow("flow-uuid"));
+            () -> gApi.changes().id(changeIdentifier).flow("flow-uuid"));
     assertThat(exception).hasMessageThat().isEqualTo("No FlowService bound.");
   }
 
   @Test
   public void getNonExistingFlow_notFound() throws Exception {
-    Change.Id changeId = changeOperations.newChange().project(project).createV1();
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().create();
     FlowService flowService = new TestExtensions.TestFlowService();
     try (Registration registration = extensionRegistry.newRegistration().set(flowService)) {
       ResourceNotFoundException exception =
           assertThrows(
               ResourceNotFoundException.class,
-              () ->
-                  gApi.changes().id(project.get(), changeId.get()).flow("non-existing-flow-uuid"));
+              () -> gApi.changes().id(changeIdentifier).flow("non-existing-flow-uuid"));
       assertThat(exception).hasMessageThat().isEqualTo("Flow non-existing-flow-uuid not found.");
     }
   }
 
   @Test
   public void getFlowWithSingleStage_notYetEvaluated() throws Exception {
-    Change.Id changeId = changeOperations.newChange().project(project).createV1();
+    TestChange change = changeOperations.newChange().createAndGet();
     FlowService flowService = new TestExtensions.TestFlowService();
-    FlowCreation flowCreation =
-        createTestFlowCreationWithOneStage(accountCreator, project, changeId);
+    FlowCreation flowCreation = createTestFlowCreationWithOneStage(accountCreator, change);
     Flow flow = flowService.createFlow(flowCreation);
     try (Registration registration = extensionRegistry.newRegistration().set(flowService)) {
-      FlowInfo flowInfo =
-          gApi.changes().id(project.get(), changeId.get()).flow(flow.key().uuid()).get();
+      FlowInfo flowInfo = gApi.changes().id(change.id()).flow(flow.key().uuid()).get();
       assertThat(flowInfo).matches(flow);
     }
   }
 
   @Test
   public void getFlowWithSingleStage_evaluated() throws Exception {
-    Change.Id changeId = changeOperations.newChange().project(project).createV1();
+    TestChange change = changeOperations.newChange().createAndGet();
     TestFlowService testFlowService = new TestExtensions.TestFlowService();
-    FlowCreation flowCreation =
-        createTestFlowCreationWithOneStage(accountCreator, project, changeId);
+    FlowCreation flowCreation = createTestFlowCreationWithOneStage(accountCreator, change);
     Flow flow = testFlowService.createFlow(flowCreation);
     flow =
         testFlowService.evaluate(
             flow.key(), ImmutableList.of(State.DONE), ImmutableList.of(Optional.of("done")));
     try (Registration registration = extensionRegistry.newRegistration().set(testFlowService)) {
-      FlowInfo flowInfo =
-          gApi.changes().id(project.get(), changeId.get()).flow(flow.key().uuid()).get();
+      FlowInfo flowInfo = gApi.changes().id(change.id()).flow(flow.key().uuid()).get();
       assertThat(flowInfo).matches(flow);
     }
   }
 
   @Test
   public void getFlowWithMultipleStages_notYetEvaluated() throws Exception {
-    Change.Id changeId = changeOperations.newChange().project(project).createV1();
+    TestChange change = changeOperations.newChange().createAndGet();
     FlowService flowService = new TestExtensions.TestFlowService();
-    FlowCreation flowCreation =
-        createTestFlowCreationWithMultipleStages(accountCreator, project, changeId);
+    FlowCreation flowCreation = createTestFlowCreationWithMultipleStages(accountCreator, change);
     Flow flow = flowService.createFlow(flowCreation);
     try (Registration registration = extensionRegistry.newRegistration().set(flowService)) {
-      FlowInfo flowInfo =
-          gApi.changes().id(project.get(), changeId.get()).flow(flow.key().uuid()).get();
+      FlowInfo flowInfo = gApi.changes().id(change.id()).flow(flow.key().uuid()).get();
       assertThat(flowInfo).matches(flow);
     }
   }
 
   @Test
   public void getFlowWithMultipleStages_evaluated() throws Exception {
-    Change.Id changeId = changeOperations.newChange().project(project).createV1();
+    TestChange change = changeOperations.newChange().createAndGet();
     TestFlowService testFlowService = new TestExtensions.TestFlowService();
-    FlowCreation flowCreation = createTestFlowCreation(accountCreator, project, changeId, 3);
+    FlowCreation flowCreation = createTestFlowCreation(accountCreator, change, 3);
     Flow flow = testFlowService.createFlow(flowCreation);
     flow =
         testFlowService.evaluate(
@@ -131,8 +125,7 @@ public class GetFlowIT extends AbstractDaemonTest {
                 Optional.of("error"),
                 Optional.of("terminated because previous stage failed")));
     try (Registration registration = extensionRegistry.newRegistration().set(testFlowService)) {
-      FlowInfo flowInfo =
-          gApi.changes().id(project.get(), changeId.get()).flow(flow.key().uuid()).get();
+      FlowInfo flowInfo = gApi.changes().id(change.id()).flow(flow.key().uuid()).get();
       assertThat(flowInfo).matches(flow);
     }
   }

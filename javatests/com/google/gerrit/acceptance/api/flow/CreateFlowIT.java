@@ -31,8 +31,9 @@ import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.TestExtensions;
 import com.google.gerrit.acceptance.TestExtensions.TestFlowService;
 import com.google.gerrit.acceptance.testsuite.change.ChangeOperations;
+import com.google.gerrit.acceptance.testsuite.change.TestChange;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
-import com.google.gerrit.entities.Change;
+import com.google.gerrit.extensions.api.changes.ChangeIdentifier;
 import com.google.gerrit.extensions.common.FlowInfo;
 import com.google.gerrit.extensions.common.FlowInput;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -54,179 +55,190 @@ public class CreateFlowIT extends AbstractDaemonTest {
 
   @Test
   public void createFlowIfNoFlowServiceIsBound_methodNotAllowed() throws Exception {
-    Change.Id changeId = changeOperations.newChange().project(project).createV1();
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().create();
     MethodNotAllowedException exception =
         assertThrows(
             MethodNotAllowedException.class,
             () ->
                 gApi.changes()
-                    .id(project.get(), changeId.get())
-                    .createFlow(createTestFlowInputWithOneStage(accountCreator, changeId)));
+                    .id(changeIdentifier)
+                    .createFlow(createTestFlowInputWithOneStage(accountCreator, changeIdentifier)));
     assertThat(exception).hasMessageThat().isEqualTo("No FlowService bound.");
   }
 
   @Test
   public void createFlowWithoutStages_badRequest() throws Exception {
-    Change.Id changeId = changeOperations.newChange().project(project).createV1();
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().create();
     FlowService flowService = new TestExtensions.TestFlowService();
     try (Registration registration = extensionRegistry.newRegistration().set(flowService)) {
-      FlowInput flowInput = createTestFlowInputWithOneStage(accountCreator, changeId);
+      FlowInput flowInput = createTestFlowInputWithOneStage(accountCreator, changeIdentifier);
       flowInput.stageExpressions = null;
       BadRequestException exception =
           assertThrows(
               BadRequestException.class,
-              () -> gApi.changes().id(project.get(), changeId.get()).createFlow(flowInput));
+              () -> gApi.changes().id(changeIdentifier).createFlow(flowInput));
       assertThat(exception).hasMessageThat().isEqualTo("at least one stage expression is required");
 
       flowInput.stageExpressions = ImmutableList.of();
       exception =
           assertThrows(
               BadRequestException.class,
-              () -> gApi.changes().id(project.get(), changeId.get()).createFlow(flowInput));
+              () -> gApi.changes().id(changeIdentifier).createFlow(flowInput));
       assertThat(exception).hasMessageThat().isEqualTo("at least one stage expression is required");
     }
   }
 
   @Test
   public void createFlowWithoutConditionInStageExpression_badRequest() throws Exception {
-    Change.Id changeId = changeOperations.newChange().project(project).createV1();
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().create();
     FlowService flowService = new TestExtensions.TestFlowService();
     try (Registration registration = extensionRegistry.newRegistration().set(flowService)) {
-      FlowInput flowInput = createTestFlowInputWithOneStage(accountCreator, changeId);
+      FlowInput flowInput = createTestFlowInputWithOneStage(accountCreator, changeIdentifier);
       Iterables.getOnlyElement(flowInput.stageExpressions).condition = null;
       BadRequestException exception =
           assertThrows(
               BadRequestException.class,
-              () -> gApi.changes().id(project.get(), changeId.get()).createFlow(flowInput));
+              () -> gApi.changes().id(changeIdentifier).createFlow(flowInput));
       assertThat(exception).hasMessageThat().isEqualTo("condition in stage expression is required");
 
       Iterables.getOnlyElement(flowInput.stageExpressions).condition = "";
       exception =
           assertThrows(
               BadRequestException.class,
-              () -> gApi.changes().id(project.get(), changeId.get()).createFlow(flowInput));
+              () -> gApi.changes().id(changeIdentifier).createFlow(flowInput));
       assertThat(exception).hasMessageThat().isEqualTo("condition in stage expression is required");
     }
   }
 
   @Test
   public void createFlowWithoutActionInStageExpression() throws Exception {
-    Change.Id changeId = changeOperations.newChange().project(project).createV1();
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().create();
     FlowService flowService = new TestExtensions.TestFlowService();
     try (Registration registration = extensionRegistry.newRegistration().set(flowService)) {
       Instant beforeInstant = Instant.now();
-      FlowInput flowInput = createTestFlowInputWithOneStage(accountCreator, changeId);
+      FlowInput flowInput = createTestFlowInputWithOneStage(accountCreator, changeIdentifier);
       Iterables.getOnlyElement(flowInput.stageExpressions).action = null;
-      FlowInfo flowInfo = gApi.changes().id(project.get(), changeId.get()).createFlow(flowInput);
+      FlowInfo flowInfo = gApi.changes().id(changeIdentifier).createFlow(flowInput);
       assertFlowInfoForNewlyCreatedFlow(flowInfo, flowInput, admin, beforeInstant);
     }
   }
 
   @Test
   public void createFlowWithoutNameInAction_badRequest() throws Exception {
-    Change.Id changeId = changeOperations.newChange().project(project).createV1();
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().create();
     FlowService flowService = new TestExtensions.TestFlowService();
     try (Registration registration = extensionRegistry.newRegistration().set(flowService)) {
-      FlowInput flowInput = createTestFlowInputWithOneStage(accountCreator, changeId);
+      FlowInput flowInput = createTestFlowInputWithOneStage(accountCreator, changeIdentifier);
       Iterables.getOnlyElement(flowInput.stageExpressions).action.name = null;
       BadRequestException exception =
           assertThrows(
               BadRequestException.class,
-              () -> gApi.changes().id(project.get(), changeId.get()).createFlow(flowInput));
+              () -> gApi.changes().id(changeIdentifier).createFlow(flowInput));
       assertThat(exception).hasMessageThat().isEqualTo("name in action is required");
 
       Iterables.getOnlyElement(flowInput.stageExpressions).action.name = "";
       exception =
           assertThrows(
               BadRequestException.class,
-              () -> gApi.changes().id(project.get(), changeId.get()).createFlow(flowInput));
+              () -> gApi.changes().id(changeIdentifier).createFlow(flowInput));
       assertThat(exception).hasMessageThat().isEqualTo("name in action is required");
     }
   }
 
   @Test
   public void createFlowWithSingleStage() throws Exception {
-    Change.Id changeId = changeOperations.newChange().project(project).createV1();
+    TestChange change = changeOperations.newChange().createAndGet();
     FlowService flowService = new TestExtensions.TestFlowService();
     try (Registration registration = extensionRegistry.newRegistration().set(flowService)) {
       Instant beforeInstant = Instant.now();
-      FlowInput flowInput = createTestFlowInputWithOneStage(accountCreator, changeId);
-      FlowInfo flowInfo = gApi.changes().id(project.get(), changeId.get()).createFlow(flowInput);
+      FlowInput flowInput = createTestFlowInputWithOneStage(accountCreator, change.id());
+      FlowInfo flowInfo = gApi.changes().id(change.id()).createFlow(flowInput);
       assertFlowInfoForNewlyCreatedFlow(flowInfo, flowInput, admin, beforeInstant);
-      assertThat(flowService.getFlow(FlowKey.create(project, changeId, flowInfo.uuid))).isPresent();
+      assertThat(
+              flowService.getFlow(
+                  FlowKey.create(change.project(), change.numericChangeId(), flowInfo.uuid)))
+          .isPresent();
     }
   }
 
   @Test
   public void createFlowWithMultipleStage() throws Exception {
-    Change.Id changeId = changeOperations.newChange().project(project).createV1();
+    TestChange change = changeOperations.newChange().createAndGet();
     FlowService flowService = new TestExtensions.TestFlowService();
     try (Registration registration = extensionRegistry.newRegistration().set(flowService)) {
       Instant beforeInstant = Instant.now();
-      FlowInput flowInput = createTestFlowInputWithMultipleStages(accountCreator, changeId);
-      FlowInfo flowInfo = gApi.changes().id(project.get(), changeId.get()).createFlow(flowInput);
+      FlowInput flowInput = createTestFlowInputWithMultipleStages(accountCreator, change.id());
+      FlowInfo flowInfo = gApi.changes().id(change.id()).createFlow(flowInput);
       assertFlowInfoForNewlyCreatedFlow(flowInfo, flowInput, admin, beforeInstant);
-      assertThat(flowService.getFlow(FlowKey.create(project, changeId, flowInfo.uuid))).isPresent();
+      assertThat(
+              flowService.getFlow(
+                  FlowKey.create(change.project(), change.numericChangeId(), flowInfo.uuid)))
+          .isPresent();
     }
   }
 
   @Test
   public void createFlowWithoutParametersInAction() throws Exception {
-    Change.Id changeId = changeOperations.newChange().project(project).createV1();
+    TestChange change = changeOperations.newChange().createAndGet();
     FlowService flowService = new TestExtensions.TestFlowService();
     try (Registration registration = extensionRegistry.newRegistration().set(flowService)) {
       Instant beforeInstant = Instant.now();
-      FlowInput flowInput = createTestFlowInputWithOneStage(accountCreator, changeId);
+      FlowInput flowInput = createTestFlowInputWithOneStage(accountCreator, change.id());
       Iterables.getOnlyElement(flowInput.stageExpressions).action.parameters = null;
-      FlowInfo flowInfo = gApi.changes().id(project.get(), changeId.get()).createFlow(flowInput);
+      FlowInfo flowInfo = gApi.changes().id(change.id()).createFlow(flowInput);
       assertFlowInfoForNewlyCreatedFlow(flowInfo, flowInput, admin, beforeInstant);
-      assertThat(flowService.getFlow(FlowKey.create(project, changeId, flowInfo.uuid))).isPresent();
+      assertThat(
+              flowService.getFlow(
+                  FlowKey.create(change.project(), change.numericChangeId(), flowInfo.uuid)))
+          .isPresent();
 
       Iterables.getOnlyElement(flowInput.stageExpressions).action.parameters = ImmutableMap.of();
-      flowInfo = gApi.changes().id(project.get(), changeId.get()).createFlow(flowInput);
+      flowInfo = gApi.changes().id(change.id()).createFlow(flowInput);
       assertFlowInfoForNewlyCreatedFlow(flowInfo, flowInput, admin, beforeInstant);
-      assertThat(flowService.getFlow(FlowKey.create(project, changeId, flowInfo.uuid))).isPresent();
+      assertThat(
+              flowService.getFlow(
+                  FlowKey.create(change.project(), change.numericChangeId(), flowInfo.uuid)))
+          .isPresent();
     }
   }
 
   @Test
   public void createFlowWithInvalidCondtition_badRequest() throws Exception {
-    Change.Id changeId = changeOperations.newChange().project(project).createV1();
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().create();
     FlowService flowService = new TestExtensions.TestFlowService();
     try (Registration registration = extensionRegistry.newRegistration().set(flowService)) {
-      FlowInput flowInput = createTestFlowInputWithInvalidCondition(accountCreator, changeId);
+      FlowInput flowInput =
+          createTestFlowInputWithInvalidCondition(accountCreator, changeIdentifier);
       assertThrows(
           BadRequestException.class,
-          () -> gApi.changes().id(project.get(), changeId.get()).createFlow(flowInput));
+          () -> gApi.changes().id(changeIdentifier).createFlow(flowInput));
     }
   }
 
   @Test
   public void createFlow_authenticationRequired() throws Exception {
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().create();
     requestScopeOperations.setApiUserAnonymous();
-    Change.Id changeId = changeOperations.newChange().project(project).createV1();
     TestFlowService testFlowService = new TestExtensions.TestFlowService();
     testFlowService.rejectFlowCreation();
     try (Registration registration = extensionRegistry.newRegistration().set(testFlowService)) {
-      FlowInput flowInput = createTestFlowInputWithOneStage(accountCreator, changeId);
+      FlowInput flowInput = createTestFlowInputWithOneStage(accountCreator, changeIdentifier);
       AuthException exception =
           assertThrows(
-              AuthException.class,
-              () -> gApi.changes().id(project.get(), changeId.get()).createFlow(flowInput));
+              AuthException.class, () -> gApi.changes().id(changeIdentifier).createFlow(flowInput));
       assertThat(exception).hasMessageThat().isEqualTo("Authentication required");
     }
   }
 
   @Test
   public void createFlow_permissionDenied() throws Exception {
-    Change.Id changeId = changeOperations.newChange().project(project).createV1();
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().create();
     TestFlowService testFlowService = new TestExtensions.TestFlowService();
     testFlowService.rejectFlowCreation();
     try (Registration registration = extensionRegistry.newRegistration().set(testFlowService)) {
-      FlowInput flowInput = createTestFlowInputWithOneStage(accountCreator, changeId);
+      FlowInput flowInput = createTestFlowInputWithOneStage(accountCreator, changeIdentifier);
       assertThrows(
-          AuthException.class,
-          () -> gApi.changes().id(project.get(), changeId.get()).createFlow(flowInput));
+          AuthException.class, () -> gApi.changes().id(changeIdentifier).createFlow(flowInput));
     }
   }
 

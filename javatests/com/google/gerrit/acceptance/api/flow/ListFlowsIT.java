@@ -30,7 +30,8 @@ import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
 import com.google.gerrit.acceptance.TestExtensions;
 import com.google.gerrit.acceptance.TestExtensions.TestFlowService;
 import com.google.gerrit.acceptance.testsuite.change.ChangeOperations;
-import com.google.gerrit.entities.Change;
+import com.google.gerrit.acceptance.testsuite.change.TestChange;
+import com.google.gerrit.extensions.api.changes.ChangeIdentifier;
 import com.google.gerrit.extensions.common.FlowInfo;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.server.flow.Flow;
@@ -51,42 +52,38 @@ public class ListFlowsIT extends AbstractDaemonTest {
 
   @Test
   public void listFlowsIfNoFlowServiceIsBound_methodNotAllowed() throws Exception {
-    Change.Id changeId = changeOperations.newChange().project(project).createV1();
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().create();
     MethodNotAllowedException exception =
         assertThrows(
-            MethodNotAllowedException.class,
-            () -> gApi.changes().id(project.get(), changeId.get()).flows());
+            MethodNotAllowedException.class, () -> gApi.changes().id(changeIdentifier).flows());
     assertThat(exception).hasMessageThat().isEqualTo("No FlowService bound.");
   }
 
   @Test
   public void listFlow_noFlowsExist() throws Exception {
-    Change.Id changeId = changeOperations.newChange().project(project).createV1();
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().create();
     FlowService flowService = new TestExtensions.TestFlowService();
     try (Registration registration = extensionRegistry.newRegistration().set(flowService)) {
-      List<FlowInfo> flows = gApi.changes().id(project.get(), changeId.get()).flows();
+      List<FlowInfo> flows = gApi.changes().id(changeIdentifier).flows();
       assertThat(flows).isEmpty();
     }
   }
 
   @Test
   public void listFlows() throws Exception {
-    Change.Id changeId = changeOperations.newChange().project(project).createV1();
+    TestChange change = changeOperations.newChange().createAndGet();
     TestFlowService testFlowService = new TestExtensions.TestFlowService();
     Flow flow1 =
-        testFlowService.createFlow(
-            createTestFlowCreationWithOneStage(accountCreator, project, changeId));
+        testFlowService.createFlow(createTestFlowCreationWithOneStage(accountCreator, change));
     Flow flow2 =
-        testFlowService.createFlow(
-            createTestFlowCreationWithOneStage(accountCreator, project, changeId));
+        testFlowService.createFlow(createTestFlowCreationWithOneStage(accountCreator, change));
     flow2 =
         testFlowService.evaluate(
             flow2.key(), ImmutableList.of(State.DONE), ImmutableList.of(Optional.of("done")));
     Flow flow3 =
         testFlowService.createFlow(
-            createTestFlowCreationWithMultipleStages(accountCreator, project, changeId));
-    Flow flow4 =
-        testFlowService.createFlow(createTestFlowCreation(accountCreator, project, changeId, 3));
+            createTestFlowCreationWithMultipleStages(accountCreator, change));
+    Flow flow4 = testFlowService.createFlow(createTestFlowCreation(accountCreator, change, 3));
     flow4 =
         testFlowService.evaluate(
             flow4.key(),
@@ -96,7 +93,7 @@ public class ListFlowsIT extends AbstractDaemonTest {
                 Optional.of("error"),
                 Optional.of("terminated because previous stage failed")));
     try (Registration registration = extensionRegistry.newRegistration().set(testFlowService)) {
-      List<FlowInfo> flows = gApi.changes().id(project.get(), changeId.get()).flows();
+      List<FlowInfo> flows = gApi.changes().id(change.id()).flows();
       ImmutableMap<String, FlowInfo> flowInfosByUuid =
           flows.stream().collect(toImmutableMap(flowInfo -> flowInfo.uuid, Function.identity()));
       assertThat(flowInfosByUuid.keySet())

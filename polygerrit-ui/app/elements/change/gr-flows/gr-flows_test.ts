@@ -37,7 +37,9 @@ suite('gr-flows tests', () => {
           <ul></ul>
         </div>
         <div>
-          <input />
+          <input placeholder="Condition" />
+          <span> -> </span>
+          <input placeholder="Action" />
           <gr-button aria-label="Add Stage">+</gr-button>
         </div>
         <gr-button aria-label="Create Flow"> Create Flow </gr-button>
@@ -74,7 +76,9 @@ suite('gr-flows tests', () => {
           <ul></ul>
         </div>
         <div>
-          <input />
+          <input placeholder="Condition" />
+          <span> -> </span>
+          <input placeholder="Action" />
           <gr-button aria-label="Add Stage">+ </gr-button>
         </div>
         <gr-button aria-label="Create Flow"> Create Flow </gr-button>
@@ -98,28 +102,40 @@ suite('gr-flows tests', () => {
     await element['loadFlows']();
     await element.updateComplete;
 
-    const input = queryAndAssert<HTMLInputElement>(element, 'input');
+    const inputs = queryAll<HTMLInputElement>(element, 'input');
+    const conditionInput = inputs[0];
+    const actionInput = inputs[1];
     const addButton = queryAndAssert<GrButton>(
       element,
       'gr-button[aria-label="Add Stage"]'
     );
 
-    input.value = 'stage 1';
-    input.dispatchEvent(new Event('input'));
+    conditionInput.value = 'cond 1';
+    conditionInput.dispatchEvent(new Event('input'));
+    actionInput.value = 'act 1';
+    actionInput.dispatchEvent(new Event('input'));
     await element.updateComplete;
     addButton.click();
     await element.updateComplete;
 
-    assert.deepEqual(element['stageExpressions'], ['stage 1']);
-    assert.equal(element['currentStageExpression'], '');
+    assert.deepEqual(element['stages'], [
+      {condition: 'cond 1', action: 'act 1'},
+    ]);
+    assert.equal(element['currentCondition'], '');
+    assert.equal(element['currentAction'], '');
 
-    input.value = 'stage 2';
-    input.dispatchEvent(new Event('input'));
+    conditionInput.value = 'cond 2';
+    conditionInput.dispatchEvent(new Event('input'));
+    actionInput.value = 'act 2';
+    actionInput.dispatchEvent(new Event('input'));
     await element.updateComplete;
     addButton.click();
     await element.updateComplete;
 
-    assert.deepEqual(element['stageExpressions'], ['stage 1', 'stage 2']);
+    assert.deepEqual(element['stages'], [
+      {condition: 'cond 1', action: 'act 1'},
+      {condition: 'cond 2', action: 'act 2'},
+    ]);
 
     let removeButtons = queryAll<GrButton>(element, 'li gr-button');
     assert.lengthOf(removeButtons, 2);
@@ -127,7 +143,9 @@ suite('gr-flows tests', () => {
     removeButtons[0].click();
     await element.updateComplete;
 
-    assert.deepEqual(element['stageExpressions'], ['stage 2']);
+    assert.deepEqual(element['stages'], [
+      {condition: 'cond 2', action: 'act 2'},
+    ]);
     removeButtons = queryAll<GrButton>(element, 'li gr-button');
     assert.lengthOf(removeButtons, 1);
   });
@@ -137,9 +155,13 @@ suite('gr-flows tests', () => {
     await element['loadFlows']();
     await element.updateComplete;
 
-    const input = queryAndAssert<HTMLInputElement>(element, 'input');
-    input.value = 'single stage';
-    input.dispatchEvent(new Event('input'));
+    const inputs = queryAll<HTMLInputElement>(element, 'input');
+    const conditionInput = inputs[0];
+    const actionInput = inputs[1];
+    conditionInput.value = 'single condition';
+    conditionInput.dispatchEvent(new Event('input'));
+    actionInput.value = 'single action';
+    actionInput.dispatchEvent(new Event('input'));
     await element.updateComplete;
 
     const createButton = queryAndAssert<GrButton>(
@@ -152,7 +174,7 @@ suite('gr-flows tests', () => {
     assert.isTrue(createFlowStub.calledOnce);
     const flowInput = createFlowStub.lastCall.args[1];
     assert.deepEqual(flowInput.stage_expressions, [
-      {condition: 'single stage'},
+      {condition: 'single condition', action: {name: 'single action'}},
     ]);
   });
 
@@ -161,20 +183,26 @@ suite('gr-flows tests', () => {
     await element['loadFlows']();
     await element.updateComplete;
 
-    const input = queryAndAssert<HTMLInputElement>(element, 'input');
+    const inputs = queryAll<HTMLInputElement>(element, 'input');
+    const conditionInput = inputs[0];
+    const actionInput = inputs[1];
     const addButton = queryAndAssert<GrButton>(
       element,
       'gr-button[aria-label="Add Stage"]'
     );
 
-    input.value = 'stage 1';
-    input.dispatchEvent(new Event('input'));
+    conditionInput.value = 'cond 1';
+    conditionInput.dispatchEvent(new Event('input'));
+    actionInput.value = 'act 1';
+    actionInput.dispatchEvent(new Event('input'));
     await element.updateComplete;
     addButton.click();
     await element.updateComplete;
 
-    input.value = 'stage 2';
-    input.dispatchEvent(new Event('input'));
+    conditionInput.value = 'cond 2';
+    conditionInput.dispatchEvent(new Event('input'));
+    actionInput.value = 'act 2';
+    actionInput.dispatchEvent(new Event('input'));
     await element.updateComplete;
     addButton.click();
     await element.updateComplete;
@@ -189,8 +217,8 @@ suite('gr-flows tests', () => {
     assert.isTrue(createFlowStub.calledOnce);
     const flowInput = createFlowStub.lastCall.args[1];
     assert.deepEqual(flowInput.stage_expressions, [
-      {condition: 'stage 1'},
-      {condition: 'stage 2'},
+      {condition: 'cond 1', action: {name: 'act 1'}},
+      {condition: 'cond 2', action: {name: 'act 2'}},
     ]);
   });
 
@@ -199,20 +227,26 @@ suite('gr-flows tests', () => {
     await element['loadFlows']();
     await element.updateComplete;
 
-    const input = queryAndAssert<HTMLInputElement>(element, 'input');
+    const inputs = queryAll<HTMLInputElement>(element, 'input');
+    const conditionInput = inputs[0];
+    const actionInput = inputs[1];
     const addButton = queryAndAssert<GrButton>(
       element,
       'gr-button[aria-label="Add Stage"]'
     );
 
-    input.value = 'stage 1';
-    input.dispatchEvent(new Event('input'));
+    conditionInput.value = 'cond 1';
+    conditionInput.dispatchEvent(new Event('input'));
+    actionInput.value = 'act 1';
+    actionInput.dispatchEvent(new Event('input'));
     await element.updateComplete;
     addButton.click();
     await element.updateComplete;
 
-    input.value = 'stage 2';
-    input.dispatchEvent(new Event('input'));
+    conditionInput.value = 'cond 2';
+    conditionInput.dispatchEvent(new Event('input'));
+    actionInput.value = 'act 2';
+    actionInput.dispatchEvent(new Event('input'));
     await element.updateComplete;
 
     const createButton = queryAndAssert<GrButton>(
@@ -225,8 +259,8 @@ suite('gr-flows tests', () => {
     assert.isTrue(createFlowStub.calledOnce);
     const flowInput = createFlowStub.lastCall.args[1];
     assert.deepEqual(flowInput.stage_expressions, [
-      {condition: 'stage 1'},
-      {condition: 'stage 2'},
+      {condition: 'cond 1', action: {name: 'act 1'}},
+      {condition: 'cond 2', action: {name: 'act 2'}},
     ]);
   });
 });

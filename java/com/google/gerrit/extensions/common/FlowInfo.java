@@ -14,9 +14,9 @@
 
 package com.google.gerrit.extensions.common;
 
-import com.google.common.collect.ImmutableList;
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.util.List;
 
 /**
  * Representation of a flow in the REST API.
@@ -45,7 +45,7 @@ public class FlowInfo {
   }
 
   /** The stages of this flow (sorted by execution order). */
-  public ImmutableList<FlowStageInfo> stages;
+  public List<FlowStageInfo> stages;
 
   /**
    * The timestamp of when the flow was last evaluated.

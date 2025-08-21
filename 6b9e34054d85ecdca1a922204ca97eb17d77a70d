@@ -3,6 +3,52 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "448933ee_87aedc9f",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 3200,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2025-08-21T17:32:22Z",
+      "side": 1,
+      "message": "Should this be a GET?\n\n```suggestion\n\u0027GET /changes/{change-id\\}\u0027\n```",
+      "range": {
+        "startLine": 3200,
+        "startChar": 1,
+        "endLine": 3200,
+        "endChar": 5
+      },
+      "revId": "6b9e34054d85ecdca1a922204ca97eb17d77a70d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5f237b71_3bb6a166",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 3216,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2025-08-21T17:32:22Z",
+      "side": 1,
+      "message": "Does it make sense to make this a list? Plugins may want to use multiple LLMs such as in multi-agent systems to achieve better results.",
+      "range": {
+        "startLine": 3216,
+        "startChar": 0,
+        "endLine": 3216,
+        "endChar": 32
+      },
+      "revId": "6b9e34054d85ecdca1a922204ca97eb17d77a70d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "51dbd752_78fadd6c",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 7

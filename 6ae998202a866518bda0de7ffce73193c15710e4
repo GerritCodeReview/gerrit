@@ -265,6 +265,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4c8fc171_35b84b73",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 3217,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2025-08-21T17:32:22Z",
+      "side": 1,
+      "message": "How about making this API read the model and prompt from a cfg in the project\u0027s `refs/meta/config` (and we can have the default in All-Projects)? Project owners will likely want to have a customized prompt or a model of choice which can be overridden by `AiCodeReviewInput`.",
+      "parentUuid": "663ab1e6_da62383a",
+      "revId": "6ae998202a866518bda0de7ffce73193c15710e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1d3c4b27_d2941e39",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 6

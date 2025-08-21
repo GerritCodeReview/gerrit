@@ -3,6 +3,125 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "353c5f02_be71a245",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-08-21T14:18:36Z",
+      "side": 1,
+      "message": "reformat the commit message and follow recommendations in the [contributor guide](https://gerrit-review.googlesource.com/Documentation/dev-crafting-changes.html#commit-message)",
+      "revId": "6ae998202a866518bda0de7ffce73193c15710e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3c456efe_106ac012",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-08-21T14:18:36Z",
+      "side": 1,
+      "message": "what do you mean by Change API ?",
+      "revId": "6ae998202a866518bda0de7ffce73193c15710e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b41d173_3dfa5486",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-08-21T14:18:36Z",
+      "side": 1,
+      "message": "```suggestion\n1. model: AI model to request an AI code review from.\n```",
+      "revId": "6ae998202a866518bda0de7ffce73193c15710e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aada3a7a_b7095fd2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-08-21T14:18:36Z",
+      "side": 1,
+      "message": "```suggestion\n3. Plugin_name: Name of the plugin to request an AI review from. This enables that\nmultiple plugins implementing the AICodeReview extension point can be installed simultaneously.\n```",
+      "revId": "6ae998202a866518bda0de7ffce73193c15710e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4122c906_e346afd1",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 2964,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-08-21T14:18:36Z",
+      "side": 1,
+      "message": "```suggestion\n\u003d\u003d AI Code Review\n```",
+      "revId": "6ae998202a866518bda0de7ffce73193c15710e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "01803a61_11370e42",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 3200,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-08-21T14:18:36Z",
+      "side": 1,
+      "message": "to make this more explicit I would append /ai-review\n```suggestion\n\u0027POST /changes/{change-id\\}/ai-review\u0027\n```",
+      "revId": "6ae998202a866518bda0de7ffce73193c15710e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "84ce521c_3914f142",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 3204,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-08-21T14:18:36Z",
+      "side": 1,
+      "message": "```suggestion\nand provide the AI response to the codereview by calling the specified plugin using the selected AI model.\n```",
+      "revId": "6ae998202a866518bda0de7ffce73193c15710e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0d99feed_2c277f88",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 6
@@ -14,6 +133,91 @@
       "writtenOn": "2025-08-21T13:30:03Z",
       "side": 1,
       "message": "Would it make more sense if the AI prompt generation is done on the server side?",
+      "revId": "6ae998202a866518bda0de7ffce73193c15710e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1d3c4b27_d2941e39",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 9579,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-08-21T14:18:36Z",
+      "side": 1,
+      "message": "```suggestion\nThe AI plugin to request a code review from. This enables to install\nmultiple plugins implementing the AICodeReview extension point simultaneously.\n```",
+      "revId": "6ae998202a866518bda0de7ffce73193c15710e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c912a703_04152573",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 2604,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-08-21T14:18:36Z",
+      "side": 1,
+      "message": "```suggestion\nName of the plugin to request the code review from. This enables to install\nmultiple plugins implementing the AiCodeReview extension point.\n```",
+      "revId": "6ae998202a866518bda0de7ffce73193c15710e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "97d64d49_5cc318e0",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 2606,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-08-21T14:18:36Z",
+      "side": 1,
+      "message": "```suggestion\nName of the AI model to request a code review from.\n```",
+      "revId": "6ae998202a866518bda0de7ffce73193c15710e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b56597ec_b0c7c32a",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 4693,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-08-21T14:18:36Z",
+      "side": 1,
+      "message": "this seems to be unrelated to this change",
+      "revId": "6ae998202a866518bda0de7ffce73193c15710e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8eb9db6b_2f0fd8f4",
+        "filename": "java/com/google/gerrit/extensions/common/AiModelsInfo.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-08-21T14:18:36Z",
+      "side": 1,
+      "message": "I\u0027d make this a set so that a given plugin can list multiple models it may support\n```suggestion\n  public Set\u003cString\u003e aiModelName;\n```",
       "revId": "6ae998202a866518bda0de7ffce73193c15710e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -77,6 +281,23 @@
         "endLine": 46,
         "endChar": 90
       },
+      "revId": "6ae998202a866518bda0de7ffce73193c15710e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3385d7bc_bd01967a",
+        "filename": "java/com/google/gerrit/server/restapi/config/GetServerInfo.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-08-21T14:18:36Z",
+      "side": 1,
+      "message": "I would call this `aiCodeReviewProviders` or `aiCodeReviewers`",
       "revId": "6ae998202a866518bda0de7ffce73193c15710e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

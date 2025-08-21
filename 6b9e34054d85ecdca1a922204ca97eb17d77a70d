@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "51dbd752_78fadd6c",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 3228,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-08-21T17:11:35Z",
+      "side": 1,
+      "message": "Is this response expected in any particular format? What you currently have here doesn\u0027t make sense because it has `Content-Type: application/json` on L3225 and a plain text string on this line.\n\nFor example, there are Gerrit UI features designed around AI code reviews coming as Checks API FE implementations.",
+      "revId": "6b9e34054d85ecdca1a922204ca97eb17d77a70d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "883b524d_78125b95",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 4694,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-08-21T17:11:35Z",
+      "side": 1,
+      "message": "Unrelated change?",
+      "revId": "6b9e34054d85ecdca1a922204ca97eb17d77a70d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b0206af8_208669d4",
+        "filename": "java/com/google/gerrit/server/restapi/change/AiCodeReview.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-08-21T17:11:35Z",
+      "side": 1,
+      "message": "You\u0027ll want to check that this `get()` returns something valid.",
+      "range": {
+        "startLine": 46,
+        "startChar": 30,
+        "endLine": 46,
+        "endChar": 78
+      },
+      "revId": "6b9e34054d85ecdca1a922204ca97eb17d77a70d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

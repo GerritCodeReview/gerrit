@@ -247,6 +247,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "663ab1e6_da62383a",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 3217,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-08-21T17:11:35Z",
+      "side": 1,
+      "message": "It probably does make sense to plan for plugins to *also* help provide the prompt. It\u0027s currently hardcoded in the UI, but plugins/projects will likely want to customize it. That can be added in a separate change.",
+      "parentUuid": "50693715_43d49bba",
+      "revId": "6ae998202a866518bda0de7ffce73193c15710e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1d3c4b27_d2941e39",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 6

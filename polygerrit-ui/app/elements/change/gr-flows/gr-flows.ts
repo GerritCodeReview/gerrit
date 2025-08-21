@@ -10,9 +10,10 @@ import {grFormStyles} from '../../../styles/gr-form-styles';
 import {resolve} from '../../../models/dependency';
 import {changeModelToken} from '../../../models/change/change-model';
 import {subscribe} from '../../lit/subscription-controller';
-import {FlowInfo, FlowInput} from '../../../api/rest-api';
+import {FlowInfo} from '../../../api/rest-api';
 import {getAppContext} from '../../../services/app-context';
 import {NumericChangeId} from '../../../types/common';
+import './gr-create-flow';
 
 @customElement('gr-flows')
 export class GrFlows extends LitElement {
@@ -21,13 +22,6 @@ export class GrFlows extends LitElement {
   @state() private changeNum?: NumericChangeId;
 
   @state() private loading = true;
-
-  // TODO(b/334911877): Move create flow functionality to a separate component.
-  @state() private stages: {condition: string; action: string}[] = [];
-
-  @state() private currentCondition = '';
-
-  @state() private currentAction = '';
 
   private readonly getChangeModel = resolve(this, changeModelToken);
 
@@ -72,116 +66,26 @@ export class GrFlows extends LitElement {
   }
 
   override render() {
-    return html`${this.renderCreateFlow()} ${this.renderFlowsList()}`;
-  }
-
-  private renderCreateFlow() {
     return html`
-      <div>
-        <ul>
-          ${this.stages.map(
-            (stage, index) => html`
-              <li>
-                ${stage.condition} -> ${stage.action}
-                <gr-button @click=${() => this.handleRemoveStage(index)}
-                  >x</gr-button
-                >
-              </li>
-            `
-          )}
-        </ul>
-      </div>
-      <div>
-        <input
-          placeholder="Condition"
-          .value=${this.currentCondition}
-          @input=${(e: InputEvent) =>
-            (this.currentCondition = (e.target as HTMLInputElement).value)}
-        />
-        <span> -> </span>
-        <input
-          placeholder="Action"
-          .value=${this.currentAction}
-          @input=${(e: InputEvent) =>
-            (this.currentAction = (e.target as HTMLInputElement).value)}
-        />
-        <gr-button aria-label="Add Stage" @click=${this.handleAddStage}
-          >+</gr-button
-        >
-      </div>
-      <gr-button
-        aria-label="Create Flow"
-        ?disabled=${this.loading}
-        @click=${this.handleCreateFlow}
-      >
-        Create Flow
-      </gr-button>
+      <gr-create-flow
+        .changeNum=${this.changeNum}
+        @flow-created=${this.loadFlows}
+      ></gr-create-flow>
+      ${this.renderFlowsList()}
     `;
   }
 
-  private handleAddStage() {
-    if (this.currentCondition.trim() === '' && this.currentAction.trim() === '')
-      return;
-    this.stages = [
-      ...this.stages,
-      {condition: this.currentCondition, action: this.currentAction},
-    ];
-    this.currentCondition = '';
-    this.currentAction = '';
-  }
-
-  private handleRemoveStage(index: number) {
-    this.stages = this.stages.filter((_, i) => i !== index);
-  }
-
-  private async handleCreateFlow() {
-    if (!this.changeNum) return;
-
-    const allStages = [...this.stages];
-    if (
-      this.currentCondition.trim() !== '' ||
-      this.currentAction.trim() !== ''
-    ) {
-      allStages.push({
-        condition: this.currentCondition,
-        action: this.currentAction,
-      });
-    }
-
-    if (allStages.length === 0) return; // Or show an error
-
-    this.loading = true;
-    // TODO: Allow the user to specify parameters for the action
-    const flowInput: FlowInput = {
-      stage_expressions: allStages.map(stage => {
-        // BE expects undefined instead of empty string
-        if (stage.action.length > 0) {
-          return {
-            condition: stage.condition,
-            action: {name: stage.action},
-          };
-        }
-        return {condition: stage.condition};
-      }),
-    };
-    await this.restApiService.createFlow(this.changeNum, flowInput, e => {
-      console.error(e);
-      this.loading = false;
-    });
-    await this.loadFlows();
-    this.stages = [];
-    this.currentCondition = '';
-    this.currentAction = '';
-  }
-
   private renderFlowsList() {
+    if (this.loading) {
+      return html`<p>Loading...</p>`;
+    }
     if (this.flows.length === 0) {
       return html`<p>No flows found for this change.</p>`;
     }
     return html`
       <div>
         ${this.flows.map(
-          flow => html`
+          (flow: FlowInfo) => html`
             <div class="flow">
               <div class="flow-id">Flow ${flow.uuid}</div>
               <div>Owner: ${flow.owner.name}</div>

@@ -22,9 +22,12 @@ export class GrFlows extends LitElement {
 
   @state() private loading = true;
 
-  @state() private stageExpressions: string[] = [];
+  // TODO(b/334911877): Move create flow functionality to a separate component.
+  @state() private stages: {condition: string; action: string}[] = [];
 
-  @state() private currentStageExpression = '';
+  @state() private currentCondition = '';
+
+  @state() private currentAction = '';
 
   private readonly getChangeModel = resolve(this, changeModelToken);
 
@@ -76,10 +79,10 @@ export class GrFlows extends LitElement {
     return html`
       <div>
         <ul>
-          ${this.stageExpressions.map(
-            (expr, index) => html`
+          ${this.stages.map(
+            (stage, index) => html`
               <li>
-                ${expr}
+                ${stage.condition} -> ${stage.action}
                 <gr-button @click=${() => this.handleRemoveStage(index)}
                   >x</gr-button
                 >
@@ -90,11 +93,17 @@ export class GrFlows extends LitElement {
       </div>
       <div>
         <input
-          .value=${this.currentStageExpression}
+          placeholder="Condition"
+          .value=${this.currentCondition}
           @input=${(e: InputEvent) =>
-            (this.currentStageExpression = (
-              e.target as HTMLInputElement
-            ).value)}
+            (this.currentCondition = (e.target as HTMLInputElement).value)}
+        />
+        <span> -> </span>
+        <input
+          placeholder="Action"
+          .value=${this.currentAction}
+          @input=${(e: InputEvent) =>
+            (this.currentAction = (e.target as HTMLInputElement).value)}
         />
         <gr-button aria-label="Add Stage" @click=${this.handleAddStage}
           >+</gr-button
@@ -111,32 +120,48 @@ export class GrFlows extends LitElement {
   }
 
   private handleAddStage() {
-    if (this.currentStageExpression.trim() === '') return;
-    this.stageExpressions = [
-      ...this.stageExpressions,
-      this.currentStageExpression,
+    if (this.currentCondition.trim() === '' && this.currentAction.trim() === '')
+      return;
+    this.stages = [
+      ...this.stages,
+      {condition: this.currentCondition, action: this.currentAction},
     ];
-    this.currentStageExpression = '';
+    this.currentCondition = '';
+    this.currentAction = '';
   }
 
   private handleRemoveStage(index: number) {
-    this.stageExpressions = this.stageExpressions.filter((_, i) => i !== index);
+    this.stages = this.stages.filter((_, i) => i !== index);
   }
 
   private async handleCreateFlow() {
     if (!this.changeNum) return;
 
-    const allExpressions = [...this.stageExpressions];
-    if (this.currentStageExpression.trim() !== '') {
-      allExpressions.push(this.currentStageExpression);
+    const allStages = [...this.stages];
+    if (
+      this.currentCondition.trim() !== '' ||
+      this.currentAction.trim() !== ''
+    ) {
+      allStages.push({
+        condition: this.currentCondition,
+        action: this.currentAction,
+      });
     }
 
-    if (allExpressions.length === 0) return; // Or show an error
+    if (allStages.length === 0) return; // Or show an error
 
     this.loading = true;
+    // TODO: Allow the user to specify parameters for the action
     const flowInput: FlowInput = {
-      stage_expressions: allExpressions.map(expr => {
-        return {condition: expr};
+      stage_expressions: allStages.map(stage => {
+        // BE expects undefined instead of empty string
+        if (stage.action.length > 0) {
+          return {
+            condition: stage.condition,
+            action: {name: stage.action},
+          };
+        }
+        return {condition: stage.condition};
       }),
     };
     await this.restApiService.createFlow(this.changeNum, flowInput, e => {
@@ -144,8 +169,9 @@ export class GrFlows extends LitElement {
       this.loading = false;
     });
     await this.loadFlows();
-    this.stageExpressions = [];
-    this.currentStageExpression = '';
+    this.stages = [];
+    this.currentCondition = '';
+    this.currentAction = '';
   }
 
   private renderFlowsList() {

@@ -139,6 +139,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "50693715_43d49bba",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 3217,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2025-08-21T14:28:45Z",
+      "side": 1,
+      "message": "Currently On UI, this prompt is already created. Intension here is to reuse this already created prompt and make a call to AI model.",
+      "parentUuid": "0d99feed_2c277f88",
+      "revId": "6ae998202a866518bda0de7ffce73193c15710e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1d3c4b27_d2941e39",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 6
@@ -247,6 +265,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5127d5a0_11d2ac98",
+        "filename": "java/com/google/gerrit/server/restapi/change/AiCodeReview.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2025-08-21T14:28:45Z",
+      "side": 1,
+      "message": "Currently On UI, this prompt is already created. Intension here is to reuse this already created prompt and make a call to AI model. This prompt contains the changed delta already. Hence change-id is not processed.",
+      "parentUuid": "e6488acc_077682ec",
+      "range": {
+        "startLine": 41,
+        "startChar": 42,
+        "endLine": 41,
+        "endChar": 50
+      },
+      "revId": "6ae998202a866518bda0de7ffce73193c15710e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "08bb5a0a_9849ed51",
         "filename": "java/com/google/gerrit/server/restapi/change/AiCodeReview.java",
         "patchSetId": 6
@@ -275,6 +317,30 @@
       "writtenOn": "2025-08-21T13:30:03Z",
       "side": 1,
       "message": "How does it know which change to review? I don\u0027t see a change-id in the `AiCodeReviewInput`",
+      "range": {
+        "startLine": 46,
+        "startChar": 79,
+        "endLine": 46,
+        "endChar": 90
+      },
+      "revId": "6ae998202a866518bda0de7ffce73193c15710e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ecc73b2_c3a0013e",
+        "filename": "java/com/google/gerrit/server/restapi/change/AiCodeReview.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2025-08-21T14:28:45Z",
+      "side": 1,
+      "message": "This information we will get from the UI. On the backend side we are not crafting the prompt. same reason as if why `/changes/\u003cchange-id\u003e` info is not used.",
+      "parentUuid": "f6cc917c_3e08f623",
       "range": {
         "startLine": 46,
         "startChar": 79,

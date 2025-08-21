@@ -16,6 +16,23 @@
       "message": "Missed space between 28 and 29, therefore your local hook has created two Change-IDs.\n\nNow you have to remove line 29 so that you\u0027ll have a single Change-Id at L31.",
       "revId": "a25c3bf36dee4edb37d7e241cc43cc9184f0d35f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "304aaf0a_0dcd16e1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-08-21T19:03:10Z",
+      "side": 1,
+      "message": "Missing `Release-Notes` footer.",
+      "revId": "a25c3bf36dee4edb37d7e241cc43cc9184f0d35f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

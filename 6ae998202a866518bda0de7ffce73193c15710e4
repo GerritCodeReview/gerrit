@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d99feed_2c277f88",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 3217,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-08-21T13:30:03Z",
+      "side": 1,
+      "message": "Would it make more sense if the AI prompt generation is done on the server side?",
+      "revId": "6ae998202a866518bda0de7ffce73193c15710e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e6488acc_077682ec",
+        "filename": "java/com/google/gerrit/server/restapi/change/AiCodeReview.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-08-21T13:30:03Z",
+      "side": 1,
+      "message": "this parameter is unused, which is weird. Why do we need to perform `POST` on `/changes/\u003cchange-id\u003e` if that `\u003cchange-id\u003e` is unused? Theoretically, you could perform that request on any `/changes/\u003cchange-id\u003e` and the result would be the same.",
+      "range": {
+        "startLine": 41,
+        "startChar": 42,
+        "endLine": 41,
+        "endChar": 50
+      },
+      "revId": "6ae998202a866518bda0de7ffce73193c15710e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "08bb5a0a_9849ed51",
+        "filename": "java/com/google/gerrit/server/restapi/change/AiCodeReview.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-08-21T13:30:03Z",
+      "side": 1,
+      "message": "This means that when `validateInput` returns `true` the validation failed, which is not really intuitive. Either name the validation method according to the best practices for naming boolean methods, for example: `isInputValid` or keep the current name but change the return type to `void` and throw the exception from the validation method.",
+      "revId": "6ae998202a866518bda0de7ffce73193c15710e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f6cc917c_3e08f623",
+        "filename": "java/com/google/gerrit/server/restapi/change/AiCodeReview.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-08-21T13:30:03Z",
+      "side": 1,
+      "message": "How does it know which change to review? I don\u0027t see a change-id in the `AiCodeReviewInput`",
+      "range": {
+        "startLine": 46,
+        "startChar": 79,
+        "endLine": 46,
+        "endChar": 90
+      },
+      "revId": "6ae998202a866518bda0de7ffce73193c15710e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

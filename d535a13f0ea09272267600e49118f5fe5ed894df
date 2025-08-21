@@ -16,6 +16,24 @@
       "message": "In the AutoValue class we should continue using the immutable types.",
       "revId": "d535a13f0ea09272267600e49118f5fe5ed894df",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f8302236_a20b030b",
+        "filename": "java/com/google/gerrit/server/flow/FlowAction.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-08-21T08:59:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "db6bdc5e_5932b3dd",
+      "revId": "d535a13f0ea09272267600e49118f5fe5ed894df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

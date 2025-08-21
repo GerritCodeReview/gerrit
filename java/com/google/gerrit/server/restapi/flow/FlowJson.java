@@ -19,6 +19,7 @@ import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Strings;
+import com.google.common.collect.Iterables;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
@@ -124,6 +125,10 @@ public class FlowJson {
 
     if (flowInput.stageExpressions == null || flowInput.stageExpressions.isEmpty()) {
       throw new BadRequestException("at least one stage expression is required");
+    }
+
+    if (Iterables.getLast(flowInput.stageExpressions).action == null) {
+      throw new BadRequestException("the last stage expression is required to have an action");
     }
 
     FlowCreation.Builder flowCreationBuilder =

@@ -34,6 +34,24 @@
       "parentUuid": "d713de76_9c2f6254",
       "revId": "77361a46a1de3545eab2752b9d848d05fbb2feab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "61bb7849_2542372c",
+        "filename": "java/com/google/gerrit/server/restapi/project/DeleteChanges.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2025-08-21T09:21:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d713de76_9c2f6254",
+      "revId": "77361a46a1de3545eab2752b9d848d05fbb2feab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

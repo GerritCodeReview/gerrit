@@ -329,7 +329,7 @@ export class GrAuthToken extends LitElement {
             placeholder="Lifetime (e.g. 30d)"
             supporting-text="Max. allowed lifetime: ${this.formatDuration(
               this.maxLifetime
-            )}. Leave empty for unlimited lifetime."
+            )}. Leave empty to use maximum allowed lifetime."
             .value=${this.newLifetime ?? ''}
             @input=${(e: InputEvent) => {
               const target = e.target as HTMLInputElement;

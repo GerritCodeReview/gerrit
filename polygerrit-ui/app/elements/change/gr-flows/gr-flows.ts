@@ -10,14 +10,11 @@ import {grFormStyles} from '../../../styles/gr-form-styles';
 import {resolve} from '../../../models/dependency';
 import {changeModelToken} from '../../../models/change/change-model';
 import {subscribe} from '../../lit/subscription-controller';
-import {
-  FlowInfo,
-  FlowStageState,
-  Timestamp,
-} from '../../../api/rest-api';
+import {FlowInfo, FlowStageState, Timestamp} from '../../../api/rest-api';
 import {getAppContext} from '../../../services/app-context';
 import {NumericChangeId} from '../../../types/common';
 import './gr-create-flow';
+import {when} from 'lit/directives/when.js';
 
 @customElement('gr-flows')
 export class GrFlows extends LitElement {
@@ -44,6 +41,9 @@ export class GrFlows extends LitElement {
         }
         .flow-id {
           font-weight: var(--font-weight-bold);
+        }
+        .hidden {
+          display: none;
         }
       `,
     ];
@@ -152,9 +152,17 @@ export class GrFlows extends LitElement {
         ${this.flows.map(
           (flow: FlowInfo) => html`
             <div class="flow">
-              <div class="flow-id">Flow ${flow.uuid}</div>
+              <div class="flow-id hidden">Flow ${flow.uuid}</div>
               <div>Owner: ${flow.owner.name}</div>
-              <div>Created: ${flow.created}</div>
+              <div>Created: ${new Date(flow.created).toLocaleString()}</div>
+              ${when(
+                flow.last_evaluated,
+                () =>
+                  html` <div>
+                    Last Evaluated:
+                    ${new Date(flow.last_evaluated!).toLocaleString()}
+                  </div>`
+              )}
             </div>
           `
         )}

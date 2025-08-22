@@ -205,16 +205,16 @@ public class PasswordMigrator implements Runnable {
             "Unable to read external IDs. Can't delete passwords from external IDs.");
         return;
       }
+      Set<ExternalId> extIdsToUpdate =
+          extIdsWithPassword.stream().filter(e -> !exclude.contains(e)).collect(Collectors.toSet());
       Set<ExternalId> updatedExtIds =
-          extIdsWithPassword.stream()
-              .filter(e -> !exclude.contains(e))
+          extIdsToUpdate.stream()
               .map(e -> externalIdFactory.createWithEmail(e.key(), e.accountId(), e.email()))
               .collect(Collectors.toSet());
       try (Repository repo = repoManager.openRepository(allUsers)) {
         ExternalIdNotes extIdNotes = externalIdNotesFactory.load(repo);
         extIdNotes.replaceByKeys(
-            extIdsWithPassword.stream().map(e -> e.key()).collect(Collectors.toSet()),
-            updatedExtIds);
+            extIdsToUpdate.stream().map(e -> e.key()).collect(Collectors.toSet()), updatedExtIds);
         try (MetaDataUpdate metaDataUpdate = metaDataUpdateServerFactory.get().create(allUsers)) {
           metaDataUpdate.setMessage("Migrate HTTP passwords to tokens");
           extIdNotes.commit(metaDataUpdate);

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f271795_1f4508a2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-08-22T11:46:28Z",
+      "side": 1,
+      "message": "```suggestion\nFail early if lifetime during token migration is longer than allowed\n```",
+      "revId": "bb60c3cc083ff67c1772dd87173b02f88ceceace",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -16,6 +16,24 @@
       "message": "didn\u0027t you say in the previous change that the real limit is 71 characters ?",
       "revId": "8896e50f262ec537ca4a9a8dc079970689084a4c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "25066e61_91efa349",
+        "filename": "Documentation/cmd-create-account.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-08-22T12:39:16Z",
+      "side": 1,
+      "message": "Well spotted, done.",
+      "parentUuid": "1e9e6af2_b3e978d8",
+      "revId": "8896e50f262ec537ca4a9a8dc079970689084a4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -16,6 +16,24 @@
       "message": "Is the linked bug correct?\n\nIt seems to be fixes already. Did some user ask for this modification?",
       "revId": "404c590bd24980a4532dd3335ea27a66dc61230c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bc9dd172_1a72dbba",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-08-22T12:52:46Z",
+      "side": 1,
+      "message": "Sorry, bug was incorrect - i fixed bug number in commit message\n\nI also added section about motivation in commit message",
+      "parentUuid": "f4552dcc_aded9dc9",
+      "revId": "404c590bd24980a4532dd3335ea27a66dc61230c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

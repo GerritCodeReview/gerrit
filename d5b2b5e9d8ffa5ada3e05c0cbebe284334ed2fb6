@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ab8e6604_259c83d6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-08-22T09:53:27Z",
+      "side": 1,
+      "message": "nit: type\n```suggestion\ninstead fail with an IAE \u0027BCrypt password must be \u003c\u003d 72 bytes\u0027.\n```",
+      "range": {
+        "startLine": 11,
+        "startChar": 8,
+        "endLine": 11,
+        "endChar": 13
+      },
+      "revId": "d5b2b5e9d8ffa5ada3e05c0cbebe284334ed2fb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

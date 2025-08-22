@@ -169,6 +169,8 @@ link:#account-input[AccountInput].
   }
 ----
 
+> **NOTE** The http_password parameter is limited to 71 characters.
+
 As response a detailed link:#account-info[AccountInfo] entity is
 returned that describes the created account.
 

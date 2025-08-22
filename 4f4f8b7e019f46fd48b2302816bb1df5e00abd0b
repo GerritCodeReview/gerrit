@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ee12a507_b697daac",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-08-22T09:49:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c3a5841e_1e14ad21",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 22
+      },
+      "revId": "4f4f8b7e019f46fd48b2302816bb1df5e00abd0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fd2ca1f3_e3a75b74",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "95b89f8d_4ff9b3c6",
+        "filename": "javatests/com/google/gerrit/httpd/ProjectBasicAuthFilterTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-08-22T09:49:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fd2ca1f3_e3a75b74",
+      "range": {
+        "startLine": 71,
+        "startChar": 6,
+        "endLine": 71,
+        "endChar": 80
+      },
+      "revId": "4f4f8b7e019f46fd48b2302816bb1df5e00abd0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "03406af3_071fb5d0",
@@ -60,6 +108,30 @@
       "writtenOn": "2025-08-22T09:36:21Z",
       "side": 1,
       "message": "nit: do we care about this header in this case?",
+      "range": {
+        "startLine": 196,
+        "startChar": 4,
+        "endLine": 196,
+        "endChar": 75
+      },
+      "revId": "4f4f8b7e019f46fd48b2302816bb1df5e00abd0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1330e0d0_78e65dd9",
+        "filename": "javatests/com/google/gerrit/httpd/ProjectBasicAuthFilterTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-08-22T09:49:26Z",
+      "side": 1,
+      "message": "Yes, we should assert that the backend has requested a new authentication, so that the client can clear any cached password and ask for the authentication to restart from scratch.",
+      "parentUuid": "03406af3_071fb5d0",
       "range": {
         "startLine": 196,
         "startChar": 4,

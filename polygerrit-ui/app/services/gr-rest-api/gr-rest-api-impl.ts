@@ -3743,7 +3743,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
         method: HttpMethod.POST,
         body: flow,
       }),
-      url: `${url}/flows`,
+      url: `${url}/flows?trace=traceMyFlow`,
       errFn,
       anonymizedUrl: `${ANONYMIZED_CHANGE_BASE_URL}/flows`,
     }) as Promise<FlowInfo | undefined>;

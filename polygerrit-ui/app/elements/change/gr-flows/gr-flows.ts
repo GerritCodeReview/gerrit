@@ -10,7 +10,11 @@ import {grFormStyles} from '../../../styles/gr-form-styles';
 import {resolve} from '../../../models/dependency';
 import {changeModelToken} from '../../../models/change/change-model';
 import {subscribe} from '../../lit/subscription-controller';
-import {FlowInfo} from '../../../api/rest-api';
+import {
+  FlowInfo,
+  FlowStageState,
+  Timestamp,
+} from '../../../api/rest-api';
 import {getAppContext} from '../../../services/app-context';
 import {NumericChangeId} from '../../../types/common';
 import './gr-create-flow';
@@ -60,7 +64,68 @@ export class GrFlows extends LitElement {
   private async loadFlows() {
     if (!this.changeNum) return;
     this.loading = true;
-    const flows = await this.restApiService.listFlows(this.changeNum);
+    const flows: FlowInfo[] = [
+      {
+        uuid: 'flow-1',
+        owner: {name: 'test-user-1'},
+        created: '2025-08-22 10:00:00.000000000' as Timestamp,
+        stages: [
+          {
+            expression: {condition: 'label:Code-Review=+1'},
+            state: FlowStageState.DONE,
+          },
+          {
+            expression: {
+              condition: 'label:Verified=+1',
+              action: {name: 'submit'},
+            },
+            state: FlowStageState.PENDING,
+          },
+        ],
+      },
+      {
+        uuid: 'flow-2',
+        owner: {name: 'test-user-2'},
+        created: '2025-08-22 11:00:00.000000000' as Timestamp,
+        stages: [
+          {
+            expression: {condition: 'comment:rebase'},
+            state: FlowStageState.DONE,
+            message: 'Rebasing change',
+          },
+          {
+            expression: {
+              condition: 'label:Code-Review=+2',
+              action: {name: 'submit'},
+            },
+            state: FlowStageState.FAILED,
+            message: 'Submit failed due to merge conflict',
+          },
+        ],
+      },
+      {
+        uuid: 'flow-3',
+        owner: {name: 'test-user-3'},
+        created: '2025-08-22 12:00:00.000000000' as Timestamp,
+        stages: [
+          {
+            expression: {condition: 'topic:feature-x'},
+            state: FlowStageState.DONE,
+          },
+          {
+            expression: {condition: 'hashtag:release'},
+            state: FlowStageState.PENDING,
+          },
+          {
+            expression: {
+              condition: 'label:CI-Verified=+1',
+              action: {name: 'submit'},
+            },
+            state: FlowStageState.PENDING,
+          },
+        ],
+      },
+    ];
     this.flows = flows ?? [];
     this.loading = false;
   }

@@ -37,6 +37,7 @@ import com.google.gerrit.server.account.externalids.storage.notedb.ExternalIdNot
 import com.google.gerrit.server.account.externalids.storage.notedb.ExternalIdNoteDbWriteStorageModule;
 import com.google.gerrit.server.account.storage.notedb.AccountNoteDbReadStorageModule;
 import com.google.gerrit.server.change.ChangeResource;
+import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.MultiProgressMonitor;
 import com.google.gerrit.server.git.WorkQueue.WorkQueueModule;
@@ -52,6 +53,7 @@ import com.google.gerrit.server.schema.NoteDbSchemaVersionCheck;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.TypeLiteral;
+import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -64,6 +66,7 @@ public class MigratePasswordsToTokens extends SiteProgram {
 
   private Optional<Instant> lifetime = Optional.empty();
 
+  @Inject private AuthConfig authConfig;
   @Inject private PasswordMigrator.Factory passwordMigratorFactory;
 
   @Option(name = "--lifetime", usage = "The lifetime of migrated tokens.")
@@ -120,6 +123,15 @@ public class MigratePasswordsToTokens extends SiteProgram {
               }
             })
         .injectMembers(this);
+
+    Optional<Duration> maxTokenLifetime = authConfig.getMaxAuthTokenLifetime();
+    if (maxTokenLifetime.isPresent()) {
+      if (lifetime.isEmpty()
+          || lifetime.get().isAfter(Instant.now().plus(maxTokenLifetime.get()))) {
+        throw new BadRequestException(
+            "A lifetime shorter than the maximum allowed lifetime has to be provided.");
+      }
+    }
 
     passwordMigratorFactory.create(lifetime).run();
 

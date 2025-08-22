@@ -23,11 +23,13 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.account.PasswordMigrator;
+import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.ConfigResource;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.restapi.account.CreateToken;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import java.time.Duration;
 import java.time.Instant;
 import java.util.Optional;
 import java.util.concurrent.Future;
@@ -39,6 +41,7 @@ public class MigratePasswordsToTokens
         ConfigResource, com.google.gerrit.server.restapi.config.MigratePasswordsToTokens.Input> {
   static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
+  private final Optional<Duration> maxTokenLifetime;
   private final WorkQueue workQueue;
   private final PasswordMigrator.Factory passwordMigratorFactory;
 
@@ -48,7 +51,10 @@ public class MigratePasswordsToTokens
 
   @Inject
   public MigratePasswordsToTokens(
-      WorkQueue workQueue, PasswordMigrator.Factory passwordMigratorFactory) {
+      AuthConfig authConfig,
+      WorkQueue workQueue,
+      PasswordMigrator.Factory passwordMigratorFactory) {
+    this.maxTokenLifetime = authConfig.getMaxAuthTokenLifetime();
     this.workQueue = workQueue;
     this.passwordMigratorFactory = passwordMigratorFactory;
   }
@@ -58,6 +64,15 @@ public class MigratePasswordsToTokens
       throws AuthException, BadRequestException, ResourceConflictException, Exception {
     Optional<Instant> expirationDate =
         CreateToken.getExpirationInstant(input.lifetime, Optional.empty());
+
+    if (maxTokenLifetime.isPresent()) {
+      if (expirationDate.isEmpty()
+          || expirationDate.get().isAfter(Instant.now().plus(maxTokenLifetime.get()))) {
+        throw new BadRequestException(
+            "A lifetime shorter than the maximum allowed lifetime has to be provided.");
+      }
+    }
+
     @SuppressWarnings("unused")
     Future<?> possiblyIgnoredError =
         workQueue.getDefaultQueue().submit(passwordMigratorFactory.create(expirationDate));

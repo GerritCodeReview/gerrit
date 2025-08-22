@@ -23,6 +23,7 @@ import com.google.inject.Inject;
 /** Checks if a given username and token match a user's credentials. */
 public class AuthTokenVerifier {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+  public static final int MAX_PASSWORD_LENGTH_ACCORDING_TO_BCRYPT_LIMITS = 72;
 
   private final AuthTokenAccessor tokenAccessor;
 
@@ -39,7 +40,8 @@ public class AuthTokenVerifier {
    * @return whether there is a token hash stored for the account that matches the provided token.
    */
   public boolean checkToken(Account.Id accountId, @Nullable String providedToken) {
-    if (Strings.isNullOrEmpty(providedToken)) {
+    if (Strings.isNullOrEmpty(providedToken)
+        || providedToken.length() >= MAX_PASSWORD_LENGTH_ACCORDING_TO_BCRYPT_LIMITS) {
       return false;
     }
 

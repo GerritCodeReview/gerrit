@@ -67,6 +67,8 @@ public class ProjectBasicAuthFilterTest {
   private static final String AUTH_USER_B64 =
       B64_ENC.encodeToString(AUTH_USER.getBytes(StandardCharsets.UTF_8));
   private static final String AUTH_PASSWORD = "jd123";
+  private static final String AUTH_PASSWORD_72_CHARS =
+      "012345678901234567890123456789012345678901234567890123456789012345678901";
   private static final String GERRIT_COOKIE_KEY = "GerritAccount";
   private static final String AUTH_COOKIE_VALUE = "gerritcookie";
 
@@ -115,6 +117,8 @@ public class ProjectBasicAuthFilterTest {
     doReturn(webSessionValue)
         .when(webSessionManager)
         .createVal(any(), any(), eq(false), any(), any(), any());
+
+    doReturn(GitBasicAuthPolicy.HTTP).when(authConfig).getGitBasicAuthPolicy();
   }
 
   @Test
@@ -144,6 +148,37 @@ public class ProjectBasicAuthFilterTest {
     initMockedWebSession();
     req.addHeader("Authorization", "Basic " + AUTH_USER_B64);
     res.setStatus(HttpServletResponse.SC_OK);
+
+    ProjectBasicAuthFilter basicAuthFilter =
+        new ProjectBasicAuthFilter(
+            webSessionItem,
+            accountCache,
+            accountManager,
+            authConfig,
+            authRequestFactory,
+            pwdVerifier);
+
+    basicAuthFilter.doFilter(req, res, chain);
+
+    verify(chain, never()).doFilter(any(), any());
+    assertThat(res.getStatus()).isEqualTo(HttpServletResponse.SC_UNAUTHORIZED);
+    assertThat(res.getHeader("WWW-Authenticate")).contains("Basic realm=");
+  }
+
+  @Test
+  public void shouldRequestAuthenticationForBasicAuthRequestWithLongInvalidPassword()
+      throws Exception {
+    initAccount();
+    initMockedWebSession();
+    req.addHeader(
+        "Authorization",
+        "Basic "
+            + B64_ENC.encodeToString(
+                (AUTH_USER + ":" + AUTH_PASSWORD_72_CHARS).getBytes(StandardCharsets.UTF_8)));
+    res.setStatus(HttpServletResponse.SC_OK);
+
+    ExternalId extId = createUsernamePasswordExternalId();
+    initAccount(ImmutableSet.of(extId));
 
     ProjectBasicAuthFilter basicAuthFilter =
         new ProjectBasicAuthFilter(

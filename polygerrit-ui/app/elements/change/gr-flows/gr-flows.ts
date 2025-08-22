@@ -10,14 +10,11 @@ import {grFormStyles} from '../../../styles/gr-form-styles';
 import {resolve} from '../../../models/dependency';
 import {changeModelToken} from '../../../models/change/change-model';
 import {subscribe} from '../../lit/subscription-controller';
-import {
-  FlowInfo,
-  FlowStageState,
-  Timestamp,
-} from '../../../api/rest-api';
-import {getAppContext} from '../../../services/app-context';
+import {FlowInfo, FlowStageState, Timestamp} from '../../../api/rest-api';
+
 import {NumericChangeId} from '../../../types/common';
 import './gr-create-flow';
+import {when} from 'lit/directives/when.js';
 
 @customElement('gr-flows')
 export class GrFlows extends LitElement {
@@ -29,7 +26,7 @@ export class GrFlows extends LitElement {
 
   private readonly getChangeModel = resolve(this, changeModelToken);
 
-  private readonly restApiService = getAppContext().restApiService;
+  
 
   static override get styles() {
     return [
@@ -43,6 +40,29 @@ export class GrFlows extends LitElement {
           padding: var(--spacing-m);
         }
         .flow-id {
+          font-weight: var(--font-weight-bold);
+        }
+        .hidden {
+          display: none;
+        }
+        .stages-list {
+          border: 1px solid var(--border-color);
+          border-radius: var(--border-radius);
+          padding: var(--spacing-s);
+          margin-top: var(--spacing-m);
+        }
+        .stages-list h4 {
+          margin-top: 0;
+          margin-bottom: var(--spacing-s);
+          font-weight: var(--font-weight-bold);
+        }
+        .stages-list ul {
+          list-style: none;
+          padding: 0;
+          margin: 0;
+        }
+        .main-heading {
+          font-size: var(--font-size-h2);
           font-weight: var(--font-weight-bold);
         }
       `,
@@ -64,11 +84,16 @@ export class GrFlows extends LitElement {
   private async loadFlows() {
     if (!this.changeNum) return;
     this.loading = true;
+    const now = Date.now();
     const flows: FlowInfo[] = [
       {
         uuid: 'flow-1',
         owner: {name: 'test-user-1'},
         created: '2025-08-22 10:00:00.000000000' as Timestamp,
+        last_evaluated: new Date(now - 1000 * 60 * 60 * 2)
+          .toISOString()
+          .replace('T', ' ')
+          .substring(0, 23) as Timestamp,
         stages: [
           {
             expression: {condition: 'label:Code-Review=+1'},
@@ -87,6 +112,10 @@ export class GrFlows extends LitElement {
         uuid: 'flow-2',
         owner: {name: 'test-user-2'},
         created: '2025-08-22 11:00:00.000000000' as Timestamp,
+        last_evaluated: new Date(now - 1000 * 60 * 60)
+          .toISOString()
+          .replace('T', ' ')
+          .substring(0, 23) as Timestamp,
         stages: [
           {
             expression: {condition: 'comment:rebase'},
@@ -107,6 +136,10 @@ export class GrFlows extends LitElement {
         uuid: 'flow-3',
         owner: {name: 'test-user-3'},
         created: '2025-08-22 12:00:00.000000000' as Timestamp,
+        last_evaluated: new Date(now)
+          .toISOString()
+          .replace('T', ' ')
+          .substring(0, 23) as Timestamp,
         stages: [
           {
             expression: {condition: 'topic:feature-x'},
@@ -136,6 +169,7 @@ export class GrFlows extends LitElement {
         .changeNum=${this.changeNum}
         @flow-created=${this.loadFlows}
       ></gr-create-flow>
+      <h2 class="main-heading">Existing Flows</h2>
       ${this.renderFlowsList()}
     `;
   }
@@ -152,9 +186,36 @@ export class GrFlows extends LitElement {
         ${this.flows.map(
           (flow: FlowInfo) => html`
             <div class="flow">
-              <div class="flow-id">Flow ${flow.uuid}</div>
+              <div class="flow-id hidden">Flow ${flow.uuid}</div>
               <div>Owner: ${flow.owner.name}</div>
-              <div>Created: ${flow.created}</div>
+              <div>Created: ${new Date(flow.created).toLocaleString()}</div>
+              ${when(
+                flow.last_evaluated,
+                () =>
+                  html` <div>
+                    Last Evaluated:
+                    ${new Date(flow.last_evaluated!).toLocaleString()}
+                  </div>`
+              )}
+              <div class="stages-list">
+                <h4>Stages</h4>
+                <ul>
+                  ${flow.stages.map((stage, index) => {
+                    const action = stage.expression.action;
+                    return html`
+                      <li>
+                        <span>${index + 1}. </span>
+                        <span>${stage.expression.condition}</span>
+                        ${action ? html`<span> -> ${action.name}</span>` : ''}
+                        <span>: ${stage.state}</span>
+                        ${stage.message
+                          ? html`<span> (${stage.message})</span>`
+                          : ''}
+                      </li>
+                    `;
+                  })}
+                </ul>
+              </div>
             </div>
           `
         )}

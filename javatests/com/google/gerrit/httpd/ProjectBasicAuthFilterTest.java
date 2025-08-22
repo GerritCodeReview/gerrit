@@ -52,7 +52,6 @@ import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletResponse;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
@@ -163,7 +162,6 @@ public class ProjectBasicAuthFilterTest {
     assertThat(res.getHeader("WWW-Authenticate")).contains("Basic realm=");
   }
 
-  @Ignore // Failing because of Issue 439859126, to be enabled again once the issue is fixed
   @Test
   public void shouldRequestAuthenticationForBasicAuthRequestWithLongInvalidPassword()
       throws Exception {

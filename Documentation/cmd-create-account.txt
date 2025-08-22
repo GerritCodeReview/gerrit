@@ -64,9 +64,11 @@ This most likely requires double quoting the value, for example
 
 --http-password::
     HTTP password for the user account. (deprecated)
+    **NOTE** The password is limited to 71 characters.
 
 --token::
     Authentication token for the user account.
+    **NOTE** The token is limited to 71 characters.
 
 --token-id::
     ID used for the provided token. If not provided, the token id will

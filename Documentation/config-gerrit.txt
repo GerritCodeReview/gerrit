@@ -2601,6 +2601,9 @@ entity in Gerrit maps to a local Git repository by creating
 the path string `"${basePath}/${project_name}.git"`.
 +
 If relative, the path is resolved relative to `'$site_path'`.
++
+Upon Gerrit installation (`init`), this defaults to `git` if not set (which
+resolves to `$site_path/git`). It is otherwise required to be set.
 
 [[gerrit.allProjects]]gerrit.allProjects::
 +

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c3a5841e_1e14ad21",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-08-22T09:35:01Z",
+      "side": 1,
+      "message": "```suggestion\nAdd a validation test that makes sure that longer passwords are\nrejected and return HTTP 401, which is the correct status for\nunauthorised requests.\n\nThis will also prompt the client to request the password explicitly to the user.\n```",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 22
+      },
+      "revId": "4f4f8b7e019f46fd48b2302816bb1df5e00abd0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

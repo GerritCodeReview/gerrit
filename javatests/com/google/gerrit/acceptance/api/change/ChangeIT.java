@@ -286,6 +286,8 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(changeInfo.owner.email).isNull();
     assertThat(changeInfo.owner.username).isNull();
     assertThat(changeInfo.owner.avatars).isNull();
+    assertThat(changeInfo.owner.deleted).isNull();
+
     assertThat(changeInfo.submissionId).isNull();
   }
 
@@ -4453,6 +4455,145 @@ public class ChangeIT extends AbstractDaemonTest {
         .add(allow(Permission.SUBMIT).ref("refs/*").group(REGISTERED_USERS))
         .update();
     assertThrows(AuthException.class, () -> gApi.changes().id(r2.getChangeId()).current().submit());
+  }
+
+  @Test
+  public void getWithOwnerDetails() throws Exception {
+    String fullname = "Foo Bar";
+    String email = "foo.bar@example.com";
+    String username = "foobar";
+    Account.Id changeOwnerId =
+        accountOperations
+            .newAccount()
+            .fullname(fullname)
+            .preferredEmail(email)
+            .username(username)
+            .create();
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().owner(changeOwnerId).create();
+
+    ChangeInfo changeInfo = gApi.changes().id(changeIdentifier).get();
+
+    assertThat(changeInfo.owner._accountId).isEqualTo(changeOwnerId.get());
+    assertThat(changeInfo.owner.name).isEqualTo(fullname);
+    assertThat(changeInfo.owner.email).isEqualTo(email);
+    assertThat(changeInfo.owner.username).isEqualTo(username);
+    assertThat(changeInfo.owner.deleted).isNull();
+  }
+
+  @Test
+  public void getWithOwnerDetails_noAccountDataSet() throws Exception {
+    Account.Id changeOwnerId = accountOperations.newAccount().create();
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().owner(changeOwnerId).create();
+
+    ChangeInfo changeInfo = gApi.changes().id(changeIdentifier.id()).get();
+
+    assertThat(changeInfo.owner._accountId).isEqualTo(changeOwnerId.get());
+    assertThat(changeInfo.owner.name).isNull();
+    assertThat(changeInfo.owner.email).isNull();
+    assertThat(changeInfo.owner.username).isNull();
+    assertThat(changeInfo.owner.deleted).isNull();
+  }
+
+  @Test
+  public void getWithOwnerDetails_accountDeleted() throws Exception {
+    Account.Id changeOwnerId =
+        accountOperations
+            .newAccount()
+            .fullname("Foo Bar")
+            .preferredEmail("foo.bar@example.com")
+            .username("foobar")
+            .create();
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().owner(changeOwnerId).create();
+
+    requestScopeOperations.setApiUser(changeOwnerId);
+    gApi.accounts().self().delete();
+
+    requestScopeOperations.setApiUser(admin.id());
+
+    ChangeInfo changeInfo = gApi.changes().id(changeIdentifier).get();
+
+    assertThat(changeInfo.owner._accountId).isEqualTo(changeOwnerId.get());
+    assertThat(changeInfo.owner.name).isNull();
+    assertThat(changeInfo.owner.email).isNull();
+    assertThat(changeInfo.owner.username).isNull();
+    assertThat(changeInfo.owner.deleted).isTrue();
+  }
+
+  @Test
+  public void getWithReviewerDetails() throws Exception {
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().create();
+
+    String fullname = "Foo Bar";
+    String email = "foo.bar@example.com";
+    String username = "foobar";
+    Account.Id reviewerId =
+        accountOperations
+            .newAccount()
+            .fullname(fullname)
+            .preferredEmail(email)
+            .username(username)
+            .create();
+    gApi.changes().id(changeIdentifier).addReviewer(reviewerId.toString());
+
+    ChangeInfo changeInfo = gApi.changes().id(changeIdentifier).get();
+
+    AccountInfo reviewerAccountInfo =
+        Iterables.getOnlyElement(changeInfo.reviewers.get(ReviewerState.REVIEWER));
+
+    assertThat(reviewerAccountInfo._accountId).isEqualTo(reviewerId.get());
+    assertThat(reviewerAccountInfo.name).isEqualTo(fullname);
+    assertThat(reviewerAccountInfo.email).isEqualTo(email);
+    assertThat(reviewerAccountInfo.username).isEqualTo(username);
+    assertThat(reviewerAccountInfo.deleted).isNull();
+  }
+
+  @Test
+  public void getWithReviewerDetails_noAccountDataSet() throws Exception {
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().create();
+
+    Account.Id reviewerId = accountOperations.newAccount().create();
+    gApi.changes().id(changeIdentifier).addReviewer(reviewerId.toString());
+
+    ChangeInfo changeInfo = gApi.changes().id(changeIdentifier).get();
+
+    AccountInfo reviewerAccountInfo =
+        Iterables.getOnlyElement(changeInfo.reviewers.get(ReviewerState.REVIEWER));
+
+    assertThat(reviewerAccountInfo._accountId).isEqualTo(reviewerId.get());
+    assertThat(reviewerAccountInfo.name).isNull();
+    assertThat(reviewerAccountInfo.email).isNull();
+    assertThat(reviewerAccountInfo.username).isNull();
+    assertThat(reviewerAccountInfo.deleted).isNull();
+  }
+
+  @Test
+  public void getWithReviewerDetails_accountDeleted() throws Exception {
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().create();
+
+    Account.Id reviewerId =
+        accountOperations
+            .newAccount()
+            .fullname("Foo Bar")
+            .preferredEmail("foo.bar@example.com")
+            .username("foobar")
+            .create();
+    gApi.changes().id(changeIdentifier).addReviewer(reviewerId.toString());
+
+    requestScopeOperations.setApiUser(reviewerId);
+    gApi.accounts().self().delete();
+
+    requestScopeOperations.setApiUser(admin.id());
+
+    ChangeInfo changeInfo = gApi.changes().id(changeIdentifier).get();
+
+    AccountInfo reviewerAccountInfo =
+        Iterables.getOnlyElement(changeInfo.reviewers.get(ReviewerState.REVIEWER));
+
+    assertThat(reviewerAccountInfo._accountId).isEqualTo(reviewerId.get());
+    assertThat(reviewerAccountInfo.name).isNull();
+    assertThat(reviewerAccountInfo.email).isNull();
+    assertThat(reviewerAccountInfo.username).isNull();
+    assertThat(reviewerAccountInfo.deleted).isTrue();
   }
 
   private void submittableAfterLosingPermissions(String label) throws Exception {

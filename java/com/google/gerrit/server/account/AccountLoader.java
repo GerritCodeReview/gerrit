@@ -59,7 +59,8 @@ public class AccountLoader {
               FillOptions.STATUS,
               FillOptions.STATE,
               FillOptions.AVATARS,
-              FillOptions.TAGS));
+              FillOptions.TAGS,
+              FillOptions.DELETED));
 
   public interface Factory {
     AccountLoader create(boolean detailed);

@@ -76,6 +76,9 @@ public class AccountInfo {
   /** Whether the account is inactive. */
   public Boolean inactive;
 
+  /** Whether the account is deleted. */
+  public Boolean deleted;
+
   /** Tags, such as whether this account is a service user. */
   public List<String> tags;
 

@@ -103,6 +103,7 @@ This most likely requires double quoting the value, for example
 
 --http-password::
     Set the HTTP password for the user account.
+    **NOTE** The password is limited to 71 characters.
 
 --clear-http-password::
     Clear the HTTP password for the user account.

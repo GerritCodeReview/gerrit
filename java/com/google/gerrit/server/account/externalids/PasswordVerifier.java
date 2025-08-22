@@ -27,6 +27,7 @@ import java.util.Collection;
 /** Checks if a given username and password match a user's external IDs. */
 public class PasswordVerifier {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+  public static final int MAX_PASSWORD_LENGTH_ACCORDING_TO_BCRYPT_LIMITS = 72;
 
   private final ExternalIdKeyFactory externalIdKeyFactory;
 
@@ -41,7 +42,7 @@ public class PasswordVerifier {
   /** Returns {@code true} if there is an external ID matching both the username and password. */
   public boolean checkPassword(
       Collection<ExternalId> externalIds, String username, @Nullable String password) {
-    if (password == null) {
+    if (password == null || password.length() >= MAX_PASSWORD_LENGTH_ACCORDING_TO_BCRYPT_LIMITS) {
       return false;
     }
 

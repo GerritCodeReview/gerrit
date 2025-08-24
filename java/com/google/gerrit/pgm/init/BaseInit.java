@@ -277,7 +277,6 @@ public class BaseInit extends SiteProgram {
 
             bind(MetricMaker.class).to(DisabledMetricMaker.class);
             bind(GerritOptions.class).toInstance(GerritOptions.DEFAULT);
-            bind(GitRepositoryManager.class).toProvider(Providers.of(null));
           }
         });
 

@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "253b3ac4_abce6106",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-08-24T20:47:22Z",
+      "side": 1,
+      "message": "Apologies, I meant that I just saw a +2 without any discussion on the hacks or comments on the rationale behind them. With a bit of reverse engineering, I understand why they were introduced; however, they could have been totally avoided.",
+      "parentUuid": "b00adf58_c612c7e8",
+      "revId": "406bf5ee48a253e021b4aaa4018aba25fc0b4886",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0373f1f4_868dccef",
         "filename": "java/com/google/gerrit/pgm/init/BaseInit.java",
         "patchSetId": 11

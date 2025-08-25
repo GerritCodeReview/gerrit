@@ -6,7 +6,7 @@ junit_tests(
     deps = [
         "//java/com/google/gerrit/prettify:server",
         "//java/com/google/gerrit/prettify/common/testing",
-        "//java/com/google/gerrit/testing:gerrit-test-util",
+        "//java/com/google/gerrit/testing:gerrit-junit",
         "//lib:guava",
         "//lib/truth",
     ],

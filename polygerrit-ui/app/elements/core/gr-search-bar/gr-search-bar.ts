@@ -153,7 +153,13 @@ export class GrSearchBar extends LitElement {
   @queryDec('#searchInput') protected searchInput?: GrAutocomplete;
 
   @property({type: String})
+  placeholder = 'Search for changes';
+
+  @property({type: String})
   value = '';
+
+  @property({type: Boolean})
+  hideSearchIcon = false;
 
   @property({type: Object})
   projectSuggestions: SuggestionProvider = () => Promise.resolve([]);
@@ -229,7 +235,7 @@ export class GrSearchBar extends LitElement {
       <form>
         <gr-autocomplete
           id="searchInput"
-          placeholder="Search for changes"
+          placeholder=${this.placeholder}
           .text=${this.inputVal}
           .query=${this.query}
           allow-non-suggested-values
@@ -245,11 +251,16 @@ export class GrSearchBar extends LitElement {
             this.handleSearchTextChanged(e);
           }}
         >
-          <gr-icon
-            icon="search"
-            slot="leading-icon"
-            aria-hidden="true"
-          ></gr-icon>
+          ${when(
+            !this.hideSearchIcon,
+            () => html`
+              <gr-icon
+                icon="search"
+                slot="leading-icon"
+                aria-hidden="true"
+              ></gr-icon>
+            `
+          )}
           ${when(
             this.inputVal?.length > 0,
             () => html`

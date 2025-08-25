@@ -193,6 +193,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "55868309_1870ead2",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 3200,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2025-08-25T09:09:08Z",
+      "side": 1,
+      "message": "done by moving it over revision/patchset as discussed.",
+      "parentUuid": "01803a61_11370e42",
+      "revId": "6ae998202a866518bda0de7ffce73193c15710e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "84ce521c_3914f142",
@@ -206,6 +224,24 @@
       "writtenOn": "2025-08-21T14:18:36Z",
       "side": 1,
       "message": "```suggestion\nand provide the AI response to the codereview by calling the specified plugin using the selected AI model.\n```",
+      "revId": "6ae998202a866518bda0de7ffce73193c15710e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b035ec63_dabadb1a",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 3204,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2025-08-25T09:09:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "84ce521c_3914f142",
       "revId": "6ae998202a866518bda0de7ffce73193c15710e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -294,6 +330,24 @@
       "writtenOn": "2025-08-21T14:18:36Z",
       "side": 1,
       "message": "```suggestion\nThe AI plugin to request a code review from. This enables to install\nmultiple plugins implementing the AICodeReview extension point simultaneously.\n```",
+      "revId": "6ae998202a866518bda0de7ffce73193c15710e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5cc3ba5a_61dee2c9",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 9579,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2025-08-25T09:09:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1d3c4b27_d2941e39",
       "revId": "6ae998202a866518bda0de7ffce73193c15710e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -416,6 +470,24 @@
       "writtenOn": "2025-08-21T14:18:36Z",
       "side": 1,
       "message": "I\u0027d make this a set so that a given plugin can list multiple models it may support\n```suggestion\n  public Set\u003cString\u003e aiModelName;\n```",
+      "revId": "6ae998202a866518bda0de7ffce73193c15710e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0041aff3_fb1d3c52",
+        "filename": "java/com/google/gerrit/extensions/common/AiModelsInfo.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2025-08-25T09:09:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8eb9db6b_2f0fd8f4",
       "revId": "6ae998202a866518bda0de7ffce73193c15710e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

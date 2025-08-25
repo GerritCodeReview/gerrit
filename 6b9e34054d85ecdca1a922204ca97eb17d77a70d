@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "547ac5e3_a558c864",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 3200,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2025-08-25T09:09:08Z",
+      "side": 1,
+      "message": "As Get cannot have a body and prompt maybe quite lengthy so cannot make it a pathVariable. Hence decided to go with POST.",
+      "parentUuid": "448933ee_87aedc9f",
+      "range": {
+        "startLine": 3200,
+        "startChar": 1,
+        "endLine": 3200,
+        "endChar": 5
+      },
+      "revId": "6b9e34054d85ecdca1a922204ca97eb17d77a70d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5f237b71_3bb6a166",
@@ -81,6 +105,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "affc3b85_098ff9a8",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 4694,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2025-08-25T09:09:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "883b524d_78125b95",
+      "revId": "6b9e34054d85ecdca1a922204ca97eb17d77a70d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b0206af8_208669d4",
@@ -94,6 +136,30 @@
       "writtenOn": "2025-08-21T17:11:35Z",
       "side": 1,
       "message": "You\u0027ll want to check that this `get()` returns something valid.",
+      "range": {
+        "startLine": 46,
+        "startChar": 30,
+        "endLine": 46,
+        "endChar": 78
+      },
+      "revId": "6b9e34054d85ecdca1a922204ca97eb17d77a70d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9f9940f8_08c8fe55",
+        "filename": "java/com/google/gerrit/server/restapi/change/AiCodeReview.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2025-08-25T09:09:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b0206af8_208669d4",
       "range": {
         "startLine": 46,
         "startChar": 30,

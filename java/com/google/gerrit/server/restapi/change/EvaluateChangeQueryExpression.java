@@ -16,7 +16,7 @@ package com.google.gerrit.server.restapi.change;
 
 import static com.google.common.collect.ImmutableMap.toImmutableMap;
 
-import autovalue.shaded.com.google.common.base.Strings;
+import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.entities.PredicateResult;
 import com.google.gerrit.extensions.common.EvaluateChangeQueryExpressionResultInfo;

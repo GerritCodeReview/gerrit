@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4b7fd9be_1c0e378d",
+        "filename": "java/com/google/gerrit/pgm/init/api/VersionedMetaDataOnInit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-08-25T08:35:05Z",
+      "side": 1,
+      "message": "this method is only used in VersionedMetaDataOnInit hence it seems it can stay private",
+      "revId": "d781d6930d0ae0dc26f41b4b55d2edb85cd58660",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

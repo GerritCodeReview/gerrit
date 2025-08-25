@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.api.flow;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.api.flow.FlowTestUtil.createTestFlowInputWithInvalidCondition;
 import static com.google.gerrit.acceptance.api.flow.FlowTestUtil.createTestFlowInputWithMultipleStages;
+import static com.google.gerrit.acceptance.api.flow.FlowTestUtil.createTestFlowInputWithNStages;
 import static com.google.gerrit.acceptance.api.flow.FlowTestUtil.createTestFlowInputWithOneStage;
 import static com.google.gerrit.extensions.common.testing.FlowInfoSubject.assertThat;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
@@ -111,14 +112,35 @@ public class CreateFlowIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void createFlowWithoutActionInStageExpression() throws Exception {
+  public void cannotCreateFlowWithoutActionOnLastStageExpression() throws Exception {
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().create();
+    FlowService flowService = new TestExtensions.TestFlowService();
+    try (Registration registration = extensionRegistry.newRegistration().set(flowService)) {
+      FlowInput flowInput = createTestFlowInputWithOneStage(accountCreator, changeIdentifier);
+      Iterables.getOnlyElement(flowInput.stageExpressions).action = null;
+      BadRequestException exception =
+          assertThrows(
+              BadRequestException.class,
+              () -> gApi.changes().id(changeIdentifier).createFlow(flowInput));
+      assertThat(exception)
+          .hasMessageThat()
+          .isEqualTo("the last stage expression is required to have an action");
+    }
+  }
+
+  @Test
+  public void createFlowWithStageExpressionsThatDontHaveAnAction() throws Exception {
     ChangeIdentifier changeIdentifier = changeOperations.newChange().create();
     FlowService flowService = new TestExtensions.TestFlowService();
     try (Registration registration = extensionRegistry.newRegistration().set(flowService)) {
       Instant beforeInstant = Instant.now();
-      FlowInput flowInput = createTestFlowInputWithOneStage(accountCreator, changeIdentifier);
-      Iterables.getOnlyElement(flowInput.stageExpressions).action = null;
+      FlowInput flowInput = createTestFlowInputWithNStages(accountCreator, changeIdentifier, 3);
+      flowInput.stageExpressions.get(0).action = null;
       FlowInfo flowInfo = gApi.changes().id(changeIdentifier).createFlow(flowInput);
+      assertFlowInfoForNewlyCreatedFlow(flowInfo, flowInput, admin, beforeInstant);
+
+      flowInput.stageExpressions.get(1).action = null;
+      flowInfo = gApi.changes().id(changeIdentifier).createFlow(flowInput);
       assertFlowInfoForNewlyCreatedFlow(flowInfo, flowInput, admin, beforeInstant);
     }
   }

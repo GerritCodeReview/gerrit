@@ -11,6 +11,8 @@ import {FlowInput} from '../../../api/rest-api';
 import {getAppContext} from '../../../services/app-context';
 import {NumericChangeId} from '../../../types/common';
 import '../../shared/gr-button/gr-button';
+import '@material/web/select/outlined-select.js';
+import '@material/web/select/select-option.js';
 
 @customElement('gr-create-flow')
 export class GrCreateFlow extends LitElement {
@@ -21,6 +23,8 @@ export class GrCreateFlow extends LitElement {
   @state() private currentCondition = '';
 
   @state() private currentAction = '';
+
+  @state() private currentConditionPrefix = 'Gerrit';
 
   @state() private loading = false;
 
@@ -47,6 +51,20 @@ export class GrCreateFlow extends LitElement {
         </ul>
       </div>
       <div>
+        <md-outlined-select
+          .value=${this.currentConditionPrefix}
+          @change=${(e: Event) => {
+            const select = e.target as HTMLSelectElement;
+            this.currentConditionPrefix = select.value;
+          }}
+        >
+          <md-select-option value="Gerrit">
+            <div slot="headline">Gerrit</div>
+          </md-select-option>
+          <md-select-option value="Other">
+            <div slot="headline">Other</div>
+          </md-select-option>
+        </md-outlined-select>
         <input
           placeholder="Condition"
           .value=${this.currentCondition}
@@ -77,10 +95,8 @@ export class GrCreateFlow extends LitElement {
   private handleAddStage() {
     if (this.currentCondition.trim() === '' && this.currentAction.trim() === '')
       return;
-    this.stages = [
-      ...this.stages,
-      {condition: this.currentCondition, action: this.currentAction},
-    ];
+    const condition = `${this.currentConditionPrefix}:${this.currentCondition}`;
+    this.stages = [...this.stages, {condition, action: this.currentAction}];
     this.currentCondition = '';
     this.currentAction = '';
   }
@@ -97,8 +113,9 @@ export class GrCreateFlow extends LitElement {
       this.currentCondition.trim() !== '' ||
       this.currentAction.trim() !== ''
     ) {
+      const condition = `${this.currentConditionPrefix}:${this.currentCondition}`;
       allStages.push({
-        condition: this.currentCondition,
+        condition,
         action: this.currentAction,
       });
     }

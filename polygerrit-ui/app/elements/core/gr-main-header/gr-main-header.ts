@@ -234,7 +234,6 @@ export class GrMainHeader extends LitElement {
       css`
         :host {
           display: block;
-          min-height: 56px;
         }
         .hideOnDesktop {
           display: none;
@@ -242,7 +241,6 @@ export class GrMainHeader extends LitElement {
         nav.hideOnMobile {
           align-items: center;
           display: flex;
-          min-height: 56px;
         }
         nav.hideOnMobile ul {
           list-style: none;
@@ -352,8 +350,8 @@ export class GrMainHeader extends LitElement {
           margin: 0 var(--spacing-m);
           max-width: 500px;
           min-width: 150px;
-          height: 38px;
-          --gr-autocomplete-height: 38px;
+          height: 36px;
+          --gr-autocomplete-height: 36px;
         }
         gr-dropdown,
         .browse {
@@ -436,7 +434,7 @@ export class GrMainHeader extends LitElement {
           border-image: var(--header-border-image);
           box-shadow: var(--header-box-shadow);
           padding: var(--header-padding);
-          min-height: 56px;
+          min-height: 48px;
         }
         @media screen and (max-width: 50em) {
           .bigTitle {

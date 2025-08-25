@@ -10,7 +10,17 @@ import {grFormStyles} from '../../../styles/gr-form-styles';
 import {resolve} from '../../../models/dependency';
 import {changeModelToken} from '../../../models/change/change-model';
 import {subscribe} from '../../lit/subscription-controller';
+<<<<<<< PATCH SET (63eb7b9f979a8c5cf91822682af13bf35e9c465d Add a condition prefix when creating a stage)
+import {FlowInfo, FlowStageState, Timestamp} from '../../../api/rest-api';
+||||||| BASE      (9541e7130c6b1579fb80070b070f9f20e44be6db Mock loadFlows)
+import {
+  FlowInfo,
+  FlowStageState,
+  Timestamp,
+} from '../../../api/rest-api';
+=======
 import {FlowInfo} from '../../../api/rest-api';
+>>>>>>> BASE      (506f4b4a733cbfa3a7fcccb750a7fea3f8b0aaa5 Merge "CreateFlow: Require an action on the last stage expre)
 import {getAppContext} from '../../../services/app-context';
 import {NumericChangeId} from '../../../types/common';
 import './gr-create-flow';

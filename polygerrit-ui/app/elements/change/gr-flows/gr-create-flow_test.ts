@@ -57,8 +57,10 @@ suite('gr-create-flow tests', () => {
       'gr-button[aria-label="Add Stage"]'
     );
 
-    conditionInput.value = 'cond 1';
-    conditionInput.dispatchEvent(new Event('input'));
+    searchBar.value = 'cond 1';
+    searchBar.dispatchEvent(
+      new CustomEvent('text-changed', {detail: {value: 'cond 1'}})
+    );
     actionInput.value = 'act 1';
     actionInput.dispatchEvent(new Event('input'));
     await element.updateComplete;
@@ -75,8 +77,10 @@ suite('gr-create-flow tests', () => {
     assert.equal(element['currentCondition'], '');
     assert.equal(element['currentAction'], '');
 
-    conditionInput.value = 'cond 2';
-    conditionInput.dispatchEvent(new Event('input'));
+    searchBar.value = 'cond 2';
+    searchBar.dispatchEvent(
+      new CustomEvent('text-changed', {detail: {value: 'cond 2'}})
+    );
     actionInput.value = 'act 2';
     actionInput.dispatchEvent(new Event('input'));
     await element.updateComplete;
@@ -160,16 +164,20 @@ suite('gr-create-flow tests', () => {
       'gr-button[aria-label="Add Stage"]'
     );
 
-    conditionInput.value = 'cond 1';
-    conditionInput.dispatchEvent(new Event('input'));
+    searchBar.value = 'cond 1';
+    searchBar.dispatchEvent(
+      new CustomEvent('text-changed', {detail: {value: 'cond 1'}})
+    );
     actionInput.value = 'act 1';
     actionInput.dispatchEvent(new Event('input'));
     await element.updateComplete;
     addButton.click();
     await element.updateComplete;
 
-    conditionInput.value = 'cond 2';
-    conditionInput.dispatchEvent(new Event('input'));
+    searchBar.value = 'cond 2';
+    searchBar.dispatchEvent(
+      new CustomEvent('text-changed', {detail: {value: 'cond 2'}})
+    );
     actionInput.value = 'act 2';
     actionInput.dispatchEvent(new Event('input'));
     await element.updateComplete;
@@ -213,16 +221,20 @@ suite('gr-create-flow tests', () => {
       'gr-button[aria-label="Add Stage"]'
     );
 
-    conditionInput.value = 'cond 1';
-    conditionInput.dispatchEvent(new Event('input'));
+    searchBar.value = 'cond 1';
+    searchBar.dispatchEvent(
+      new CustomEvent('text-changed', {detail: {value: 'cond 1'}})
+    );
     actionInput.value = 'act 1';
     actionInput.dispatchEvent(new Event('input'));
     await element.updateComplete;
     addButton.click();
     await element.updateComplete;
 
-    conditionInput.value = 'cond 2';
-    conditionInput.dispatchEvent(new Event('input'));
+    searchBar.value = 'cond 2';
+    searchBar.dispatchEvent(
+      new CustomEvent('text-changed', {detail: {value: 'cond 2'}})
+    );
     actionInput.value = 'act 2';
     actionInput.dispatchEvent(new Event('input'));
     await element.updateComplete;

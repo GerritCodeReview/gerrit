@@ -36,7 +36,6 @@ suite('gr-flows tests', () => {
       element,
       /* HTML */ `
         <gr-create-flow></gr-create-flow>
-        <h2 class="main-heading">Existing Flows</h2>
         <p>No flows found for this change.</p>
       `
     );

@@ -71,12 +71,7 @@ public abstract class VersionedMetaDataOnInit extends VersionedMetaData {
   }
 
   protected void save(PersonIdent ident, String msg) throws IOException, ConfigInvalidException {
-    File path = getPath();
-    if (path == null) {
-      throw new IOException(project + " does not exist.");
-    }
-
-    try (Repository repo = new FileRepository(path);
+    try (Repository repo = openGitRepository();
         ObjectInserter i = repo.newObjectInserter();
         ObjectReader r = repo.newObjectReader();
         RevWalk rw = new RevWalk(r)) {
@@ -147,5 +142,14 @@ public abstract class VersionedMetaDataOnInit extends VersionedMetaData {
       throw new IllegalStateException("gerrit.basePath must be configured");
     }
     return FileKey.resolve(basePath.resolve(project).toFile(), FS.DETECTED);
+  }
+
+  public Repository openGitRepository() throws IOException {
+    File path = getPath();
+    if (path == null) {
+      throw new IOException(project + " does not exist.");
+    }
+
+    return new FileRepository(path);
   }
 }

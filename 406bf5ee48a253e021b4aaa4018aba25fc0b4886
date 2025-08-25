@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "58e14ff0_9d743f42",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-08-25T09:54:09Z",
+      "side": 1,
+      "message": "By reading the code, this change is doing two things.\n\n1. Setting the verified label as `NoBlock`\n2. Granting permissions of Verified +1 to the admins on `refs/heads/*` and `refs/meta/config`\n\nIt would have been best to split into two separate changes and explain the rationale on adding also the additional grant upon init.",
+      "range": {
+        "startLine": 12,
+        "startChar": 15,
+        "endLine": 12,
+        "endChar": 61
+      },
+      "revId": "406bf5ee48a253e021b4aaa4018aba25fc0b4886",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b00adf58_c612c7e8",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 11

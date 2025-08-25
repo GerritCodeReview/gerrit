@@ -16,6 +16,23 @@
       "message": "Friendly ping :)",
       "revId": "dcf58625a1a1e2f20a23451d971c59d6ba4cf22e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "43b30e5d_9abb8d0e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-08-25T08:11:23Z",
+      "side": 1,
+      "message": "Sorry, for the delay",
+      "revId": "dcf58625a1a1e2f20a23451d971c59d6ba4cf22e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

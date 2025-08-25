@@ -10,11 +10,7 @@ import {grFormStyles} from '../../../styles/gr-form-styles';
 import {resolve} from '../../../models/dependency';
 import {changeModelToken} from '../../../models/change/change-model';
 import {subscribe} from '../../lit/subscription-controller';
-import {
-  FlowInfo,
-  FlowStageState,
-  Timestamp,
-} from '../../../api/rest-api';
+import {FlowInfo, FlowStageState, Timestamp} from '../../../api/rest-api';
 import {getAppContext} from '../../../services/app-context';
 import {NumericChangeId} from '../../../types/common';
 import './gr-create-flow';

@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2be7e7d8_477eb0fb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-08-25T09:34:07Z",
+      "side": 1,
+      "message": "Incomplete sentence. The headline and the commit message body are separate and should make sense by themselves.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 25
+      },
+      "revId": "cdab84c6097cf9b14b4ed5fbc332c69a2ced614e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d64f55fa_c22eab4d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-08-25T09:34:07Z",
+      "side": 1,
+      "message": "```suggestion\n1. model: AI model to request an AI code review from.\n```",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 19
+      },
+      "revId": "cdab84c6097cf9b14b4ed5fbc332c69a2ced614e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "293be4e2_468fc2ef",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 3217,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-08-25T09:34:07Z",
+      "side": 1,
+      "message": "Are you also planning to provide the backend implementation for Gemini?",
+      "range": {
+        "startLine": 3217,
+        "startChar": 22,
+        "endLine": 3217,
+        "endChar": 36
+      },
+      "revId": "cdab84c6097cf9b14b4ed5fbc332c69a2ced614e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "381c3c24_39215db5",
+        "filename": "java/com/google/gerrit/extensions/api/changes/AiCodeReviewProvider.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-08-25T09:34:07Z",
+      "side": 1,
+      "message": "Missing JavaDoc.",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 1
+      },
+      "revId": "cdab84c6097cf9b14b4ed5fbc332c69a2ced614e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bd15c85d_3780c471",
+        "filename": "java/com/google/gerrit/extensions/common/AiCodeReviewInput.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-08-25T09:34:07Z",
+      "side": 1,
+      "message": "Missing JavaDoc.",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 1
+      },
+      "revId": "cdab84c6097cf9b14b4ed5fbc332c69a2ced614e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e035885_a2bd80f8",
+        "filename": "java/com/google/gerrit/extensions/common/AiModelsInfo.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-08-25T09:34:07Z",
+      "side": 1,
+      "message": "Missing JavaDoc.",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 1
+      },
+      "revId": "cdab84c6097cf9b14b4ed5fbc332c69a2ced614e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

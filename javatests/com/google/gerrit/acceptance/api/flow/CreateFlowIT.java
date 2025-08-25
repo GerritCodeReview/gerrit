@@ -23,7 +23,6 @@ import static com.google.gerrit.extensions.common.testing.FlowInfoSubject.assert
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.ExtensionRegistry;
@@ -214,7 +213,7 @@ public class CreateFlowIT extends AbstractDaemonTest {
                   FlowKey.create(change.project(), change.numericChangeId(), flowInfo.uuid)))
           .isPresent();
 
-      Iterables.getOnlyElement(flowInput.stageExpressions).action.parameters = ImmutableMap.of();
+      Iterables.getOnlyElement(flowInput.stageExpressions).action.parameters = ImmutableList.of();
       flowInfo = gApi.changes().id(change.id()).createFlow(flowInput);
       assertFlowInfoForNewlyCreatedFlow(flowInfo, flowInput, admin, beforeInstant);
       assertThat(

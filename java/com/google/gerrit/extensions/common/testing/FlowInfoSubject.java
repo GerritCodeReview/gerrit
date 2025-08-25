@@ -19,7 +19,7 @@ import static com.google.gerrit.extensions.common.testing.AccountInfoSubject.acc
 import static com.google.gerrit.truth.ListSubject.elements;
 import static com.google.gerrit.truth.OptionalSubject.optionals;
 
-import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableList;
 import com.google.common.truth.ComparableSubject;
 import com.google.common.truth.FailureMetadata;
 import com.google.common.truth.StringSubject;
@@ -111,7 +111,7 @@ public class FlowInfoSubject extends Subject {
             .isEqualTo(
                 flowExpressionInfo.action.parameters != null
                     ? flowExpressionInfo.action.parameters
-                    : ImmutableMap.of());
+                    : ImmutableList.of());
       } else {
         stageSubject.hasExpressionThat().hasNoAction();
       }

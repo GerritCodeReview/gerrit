@@ -14,7 +14,7 @@
 
 package com.google.gerrit.extensions.common;
 
-import com.google.common.collect.ImmutableMap;
+import java.util.List;
 
 /**
  * Representation of a flow action in the REST API.
@@ -36,5 +36,5 @@ public class FlowActionInfo {
    *
    * <p>Which parameters are supported depends on the flow service implementation.
    */
-  public ImmutableMap<String, String> parameters;
+  public List<String> parameters;
 }

@@ -22,14 +22,15 @@ import com.google.gerrit.entities.AccessSection;
 import com.google.gerrit.entities.GroupReference;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.LabelValue;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.entities.SubmitRequirement;
 import com.google.gerrit.entities.SubmitRequirementExpression;
 import com.google.gerrit.pgm.init.api.AllProjectsConfig;
+import com.google.gerrit.pgm.init.api.AllProjectsNameOnInitProvider;
 import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.pgm.init.api.InitStep;
 import com.google.gerrit.server.GerritPersonIdent;
-import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.group.SystemGroupBackend;
@@ -49,7 +50,7 @@ public class InitLabels implements InitStep {
 
   private final ConsoleUI ui;
   private final AllProjectsConfig allProjectsConfig;
-  private AllProjectsName allProjectsName;
+  private final AllProjectsNameOnInitProvider allProjectsName;
   private PersonIdent serverUser;
   private ProjectConfig.Factory projectConfigFactory;
   private SystemGroupBackend systemGroupBackend;
@@ -57,13 +58,12 @@ public class InitLabels implements InitStep {
   private boolean installVerified;
 
   @Inject
-  InitLabels(ConsoleUI ui, AllProjectsConfig allProjectsConfig) {
+  InitLabels(
+      ConsoleUI ui,
+      AllProjectsConfig allProjectsConfig,
+      AllProjectsNameOnInitProvider allProjectsName) {
     this.ui = ui;
     this.allProjectsConfig = allProjectsConfig;
-  }
-
-  @Inject(optional = true)
-  void setAllProjectsName(AllProjectsName allProjectsName) {
     this.allProjectsName = allProjectsName;
   }
 
@@ -101,7 +101,8 @@ public class InitLabels implements InitStep {
   private void installVerified() throws IOException, ConfigInvalidException {
     try (Repository git = allProjectsConfig.openGitRepository();
         MetaDataUpdate md =
-            new MetaDataUpdate(GitReferenceUpdated.DISABLED, allProjectsName, git)) {
+            new MetaDataUpdate(
+                GitReferenceUpdated.DISABLED, Project.nameKey(allProjectsName.get()), git)) {
       md.getCommitBuilder().setAuthor(serverUser);
       md.getCommitBuilder().setCommitter(serverUser);
       md.setMessage("Configured 'Verified' submit requirement");

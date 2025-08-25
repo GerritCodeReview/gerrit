@@ -48,6 +48,7 @@ import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -379,6 +380,19 @@ public class ChangeIndexer {
     if (notifyListeners) {
       indexedListeners.runEach(l -> l.onChangeDeleted(id));
     }
+  }
+
+  /**
+   * Delete all changes from the index, given a project
+   *
+   * @param project the project to delete all indexed changes for
+   * @param changesListFromNoteDb the list of changes to send notifications for
+   */
+  public void deleteAllForProject(Project project, List<Change.Id> changesListFromNoteDb) {
+    for (ChangeIndex i : getWriteIndexes()) {
+      i.deleteAllForProject(project.getNameKey());
+    }
+    changesListFromNoteDb.forEach(id -> fireChangeDeletedFromIndexEvent(id.get()));
   }
 
   /**

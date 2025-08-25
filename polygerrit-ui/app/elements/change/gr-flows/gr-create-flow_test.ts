@@ -16,6 +16,7 @@ import {
 import {NumericChangeId} from '../../../types/common';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {MdOutlinedTextField} from '@material/web/textfield/outlined-text-field';
+import {GrSearchAutocomplete} from '../../core/gr-search-autocomplete/gr-search-autocomplete';
 
 suite('gr-create-flow tests', () => {
   let element: GrCreateFlow;
@@ -31,9 +32,7 @@ suite('gr-create-flow tests', () => {
   });
 
   test('renders initially', () => {
-    assert.isDefined(
-      queryAndAssert(element, 'md-outlined-text-field[label="Condition"]')
-    );
+    assert.isDefined(queryAndAssert(element, 'gr-search-autocomplete'));
     assert.isDefined(
       queryAndAssert(element, 'md-outlined-text-field[label="Action"]')
     );
@@ -46,19 +45,21 @@ suite('gr-create-flow tests', () => {
   });
 
   test('adds and removes stages', async () => {
-    const inputs = queryAll<MdOutlinedTextField>(
+    const searchAutocomplete = queryAndAssert<GrSearchAutocomplete>(
       element,
-      'md-outlined-text-field'
+      'gr-search-autocomplete'
     );
-    const conditionInput = inputs[0];
-    const actionInput = inputs[1];
+    const actionInput = queryAndAssert<MdOutlinedTextField>(
+      element,
+      'md-outlined-text-field[label="Action"]'
+    );
     const addButton = queryAndAssert<GrButton>(
       element,
       'gr-button[aria-label="Add Stage"]'
     );
 
-    conditionInput.value = 'cond 1';
-    conditionInput.dispatchEvent(new Event('input'));
+    searchAutocomplete.value = 'cond 1';
+    await element.updateComplete;
     actionInput.value = 'act 1';
     actionInput.dispatchEvent(new Event('input'));
     await element.updateComplete;
@@ -75,8 +76,8 @@ suite('gr-create-flow tests', () => {
     assert.equal(element['currentCondition'], '');
     assert.equal(element['currentAction'], '');
 
-    conditionInput.value = 'cond 2';
-    conditionInput.dispatchEvent(new Event('input'));
+    searchAutocomplete.value = 'cond 2';
+    await element.updateComplete;
     actionInput.value = 'act 2';
     actionInput.dispatchEvent(new Event('input'));
     await element.updateComplete;
@@ -116,14 +117,16 @@ suite('gr-create-flow tests', () => {
   test('creates a flow with one stage', async () => {
     const createFlowStub = stubRestApi('createFlow').returns(mockPromise());
 
-    const inputs = queryAll<MdOutlinedTextField>(
+    const searchAutocomplete = queryAndAssert<GrSearchAutocomplete>(
       element,
-      'md-outlined-text-field'
+      'gr-search-autocomplete'
     );
-    const conditionInput = inputs[0];
-    const actionInput = inputs[1];
-    conditionInput.value = 'single condition';
-    conditionInput.dispatchEvent(new Event('input'));
+    const actionInput = queryAndAssert<MdOutlinedTextField>(
+      element,
+      'md-outlined-text-field[label="Action"]'
+    );
+    searchAutocomplete.value = 'single condition';
+    await element.updateComplete;
     actionInput.value = 'single action';
     actionInput.dispatchEvent(new Event('input'));
     await element.updateComplete;
@@ -149,27 +152,29 @@ suite('gr-create-flow tests', () => {
   test('creates a flow with multiple stages', async () => {
     const createFlowStub = stubRestApi('createFlow').returns(mockPromise());
 
-    const inputs = queryAll<MdOutlinedTextField>(
+    const searchAutocomplete = queryAndAssert<GrSearchAutocomplete>(
       element,
-      'md-outlined-text-field'
+      'gr-search-autocomplete'
     );
-    const conditionInput = inputs[0];
-    const actionInput = inputs[1];
+    const actionInput = queryAndAssert<MdOutlinedTextField>(
+      element,
+      'md-outlined-text-field[label="Action"]'
+    );
     const addButton = queryAndAssert<GrButton>(
       element,
       'gr-button[aria-label="Add Stage"]'
     );
 
-    conditionInput.value = 'cond 1';
-    conditionInput.dispatchEvent(new Event('input'));
+    searchAutocomplete.value = 'cond 1';
+    await element.updateComplete;
     actionInput.value = 'act 1';
     actionInput.dispatchEvent(new Event('input'));
     await element.updateComplete;
     addButton.click();
     await element.updateComplete;
 
-    conditionInput.value = 'cond 2';
-    conditionInput.dispatchEvent(new Event('input'));
+    searchAutocomplete.value = 'cond 2';
+    await element.updateComplete;
     actionInput.value = 'act 2';
     actionInput.dispatchEvent(new Event('input'));
     await element.updateComplete;
@@ -202,27 +207,28 @@ suite('gr-create-flow tests', () => {
   test('create flow with added stages and current input', async () => {
     const createFlowStub = stubRestApi('createFlow').returns(mockPromise());
 
-    const inputs = queryAll<MdOutlinedTextField>(
+    const searchAutocomplete = queryAndAssert<GrSearchAutocomplete>(
       element,
-      'md-outlined-text-field'
+      'gr-search-autocomplete'
     );
-    const conditionInput = inputs[0];
-    const actionInput = inputs[1];
+    const actionInput = queryAndAssert<MdOutlinedTextField>(
+      element,
+      'md-outlined-text-field[label="Action"]'
+    );
     const addButton = queryAndAssert<GrButton>(
       element,
       'gr-button[aria-label="Add Stage"]'
     );
 
-    conditionInput.value = 'cond 1';
-    conditionInput.dispatchEvent(new Event('input'));
+    searchAutocomplete.value = 'cond 1';
+    await element.updateComplete;
     actionInput.value = 'act 1';
     actionInput.dispatchEvent(new Event('input'));
     await element.updateComplete;
     addButton.click();
     await element.updateComplete;
-
-    conditionInput.value = 'cond 2';
-    conditionInput.dispatchEvent(new Event('input'));
+    searchAutocomplete.value = 'cond 2';
+    await element.updateComplete;
     actionInput.value = 'act 2';
     actionInput.dispatchEvent(new Event('input'));
     await element.updateComplete;

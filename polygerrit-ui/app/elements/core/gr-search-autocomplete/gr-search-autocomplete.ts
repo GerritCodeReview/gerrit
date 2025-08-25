@@ -139,6 +139,9 @@ export class GrSearchAutocomplete extends LitElement {
   @queryDec('#queryInput') protected queryInput?: GrAutocomplete;
 
   @property({type: String})
+  placeholder = 'Search for changes';
+
+  @property({type: String})
   value = '';
 
   @property({type: Object})
@@ -150,9 +153,6 @@ export class GrSearchAutocomplete extends LitElement {
   @property({type: Object})
   accountSuggestions: SuggestionProvider = () => Promise.resolve([]);
 
-  @property({type: Number})
-  verticalOffset = 31;
-
   @state()
   mergeabilityComputationBehavior?: MergeabilityComputationBehavior;
 
@@ -163,8 +163,6 @@ export class GrSearchAutocomplete extends LitElement {
   @state() docsBaseUrl = '';
 
   @state() private query: AutocompleteQuery;
-
-  @state() private threshold = 1;
 
   private readonly getConfigModel = resolve(this, configModelToken);
 
@@ -212,15 +210,13 @@ export class GrSearchAutocomplete extends LitElement {
       <form>
         <gr-autocomplete
           id="queryInput"
-          placeholder="Search for changes"
+          placeholder=${this.placeholder}
           .text=${this.inputVal}
           .query=${this.query}
           allow-non-suggested-values
           multi
           skip-commit-on-item-select
-          .threshold=${this.threshold}
           tab-complete
-          .verticalOffset=${this.verticalOffset}
           @text-changed=${(e: ValueChangedEvent) => {
             this.handleQueryTextChanged(e);
           }}

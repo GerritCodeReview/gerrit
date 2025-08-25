@@ -5,8 +5,7 @@
  */
 import '../gr-search-autocomplete/gr-search-autocomplete';
 import {navigationToken} from '../gr-navigation/gr-navigation';
-import {getUserName} from '../../../utils/display-name-util';
-import {AccountInfo, ServerInfo} from '../../../types/common';
+import {ServerInfo} from '../../../types/common';
 import {
   GrSearchAutocomplete,
   SuggestionProvider,
@@ -25,10 +24,9 @@ import {
 import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 import {AutocompleteCommitEvent} from '../../../types/events';
 import {Shortcut, ShortcutController} from '../../lit/shortcut-controller';
+import {fetchAccountSuggestions} from '../../../utils/account-util';
 
 const MAX_AUTOCOMPLETE_RESULTS = 10;
-const SELF_EXPRESSION = 'self';
-const ME_EXPRESSION = 'me';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -76,8 +74,22 @@ export class GrSmartSearch extends LitElement {
   }
 
   override render() {
-    const accountSuggestions: SuggestionProvider = (predicate, expression) =>
-      this.fetchAccounts(predicate, expression);
+    const accountSuggestions: SuggestionProvider = (predicate, expression) => {
+      const accountFetcher = (expr: string) =>
+        this.restApiService.queryAccounts(
+          expr,
+          MAX_AUTOCOMPLETE_RESULTS,
+          undefined,
+          undefined,
+          throwingErrorCallback
+        );
+      return fetchAccountSuggestions(
+        accountFetcher,
+        predicate,
+        expression,
+        this.serverConfig
+      );
+    };
     const groupSuggestions: SuggestionProvider = (predicate, expression) =>
       this.fetchGroups(predicate, expression);
     const projectSuggestions: SuggestionProvider = (predicate, expression) =>
@@ -174,65 +186,6 @@ export class GrSmartSearch extends LitElement {
           return {text: predicate + ':' + key};
         });
       });
-  }
-
-  /**
-   * Fetch from the API the predicted accounts.
-   *
-   * @param predicate - The first part of the search term, e.g.
-   * 'owner'
-   * @param expression - The second part of the search term, e.g.
-   * 'kasp'
-   *
-   * private but used in test
-   */
-  fetchAccounts(
-    predicate: string,
-    expression: string
-  ): Promise<AutocompleteSuggestion[]> {
-    if (expression.length === 0) {
-      return Promise.resolve([]);
-    }
-    return this.restApiService
-      .queryAccounts(
-        expression,
-        MAX_AUTOCOMPLETE_RESULTS,
-        /* canSee=*/ undefined,
-        /* filterActive=*/ undefined,
-        throwingErrorCallback
-      )
-      .then(accounts => {
-        if (!accounts) {
-          return [];
-        }
-        return this.mapAccountsHelper(accounts, predicate);
-      })
-      .then(accounts => {
-        // When the expression supplied is a beginning substring of 'self',
-        // add it as an autocomplete option.
-        if (SELF_EXPRESSION.startsWith(expression)) {
-          return accounts.concat([{text: predicate + ':' + SELF_EXPRESSION}]);
-        } else if (ME_EXPRESSION.startsWith(expression)) {
-          return accounts.concat([{text: predicate + ':' + ME_EXPRESSION}]);
-        } else {
-          return accounts;
-        }
-      });
-  }
-
-  private mapAccountsHelper(
-    accounts: AccountInfo[],
-    predicate: string
-  ): AutocompleteSuggestion[] {
-    return accounts.map(account => {
-      const userName = getUserName(this.serverConfig, account);
-      return {
-        label: account.name || '',
-        text: account.email
-          ? `${predicate}:${account.email}`
-          : `${predicate}:"${userName}"`,
-      };
-    });
   }
 
   handleSearch(query: string) {

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "924c8c3e_f4803eee",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2025-08-25T11:11:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2be7e7d8_477eb0fb",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 25
+      },
+      "revId": "cdab84c6097cf9b14b4ed5fbc332c69a2ced614e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d64f55fa_c22eab4d",
@@ -37,6 +61,30 @@
       "writtenOn": "2025-08-25T09:34:07Z",
       "side": 1,
       "message": "```suggestion\n1. model: AI model to request an AI code review from.\n```",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 19
+      },
+      "revId": "cdab84c6097cf9b14b4ed5fbc332c69a2ced614e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c9b5500f_4643a9fe",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2025-08-25T11:11:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d64f55fa_c22eab4d",
       "range": {
         "startLine": 17,
         "startChar": 0,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e564cf7_dcca068f",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 3217,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2025-08-25T11:11:08Z",
+      "side": 1,
+      "message": "impl(to connect to gemini model API)should be provided in the plugin.",
+      "parentUuid": "293be4e2_468fc2ef",
+      "range": {
+        "startLine": 3217,
+        "startChar": 22,
+        "endLine": 3217,
+        "endChar": 36
+      },
+      "revId": "cdab84c6097cf9b14b4ed5fbc332c69a2ced614e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "381c3c24_39215db5",
@@ -83,6 +155,30 @@
       "writtenOn": "2025-08-25T09:34:07Z",
       "side": 1,
       "message": "Missing JavaDoc.",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 1
+      },
+      "revId": "cdab84c6097cf9b14b4ed5fbc332c69a2ced614e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2733eacd_38352f6d",
+        "filename": "java/com/google/gerrit/extensions/api/changes/AiCodeReviewProvider.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2025-08-25T11:11:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "381c3c24_39215db5",
       "range": {
         "startLine": 20,
         "startChar": 0,
@@ -116,6 +212,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d3344836_cab3eca3",
+        "filename": "java/com/google/gerrit/extensions/common/AiCodeReviewInput.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2025-08-25T11:11:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bd15c85d_3780c471",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 1
+      },
+      "revId": "cdab84c6097cf9b14b4ed5fbc332c69a2ced614e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0e035885_a2bd80f8",
@@ -129,6 +249,30 @@
       "writtenOn": "2025-08-25T09:34:07Z",
       "side": 1,
       "message": "Missing JavaDoc.",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 1
+      },
+      "revId": "cdab84c6097cf9b14b4ed5fbc332c69a2ced614e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d83e0a12_879c3c4d",
+        "filename": "java/com/google/gerrit/extensions/common/AiModelsInfo.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2025-08-25T11:11:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0e035885_a2bd80f8",
       "range": {
         "startLine": 19,
         "startChar": 0,

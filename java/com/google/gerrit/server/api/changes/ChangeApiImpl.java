@@ -53,6 +53,7 @@ import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.CommitMessageInfo;
 import com.google.gerrit.extensions.common.CommitMessageInput;
+import com.google.gerrit.extensions.common.EvaluateChangeQueryExpressionResultInfo;
 import com.google.gerrit.extensions.common.FlowInfo;
 import com.google.gerrit.extensions.common.FlowInput;
 import com.google.gerrit.extensions.common.Input;
@@ -85,6 +86,7 @@ import com.google.gerrit.server.restapi.change.CheckSubmitRequirement;
 import com.google.gerrit.server.restapi.change.CreateMergePatchSet;
 import com.google.gerrit.server.restapi.change.DeleteChange;
 import com.google.gerrit.server.restapi.change.DeletePrivate;
+import com.google.gerrit.server.restapi.change.EvaluateChangeQueryExpression;
 import com.google.gerrit.server.restapi.change.GetChange;
 import com.google.gerrit.server.restapi.change.GetCustomKeyedValues;
 import com.google.gerrit.server.restapi.change.GetHashtags;
@@ -186,6 +188,7 @@ class ChangeApiImpl implements ChangeApi {
   private final PutMessage putMessage;
   private final CreateFlow createFlow;
   private final ListFlows listFlows;
+  private final Provider<EvaluateChangeQueryExpression> evaluateChangeQueryExpressionProvider;
   private final Provider<GetPureRevert> getPureRevertProvider;
   private final DynamicOptionParser dynamicOptionParser;
   private final Injector injector;
@@ -243,6 +246,7 @@ class ChangeApiImpl implements ChangeApi {
       PutMessage putMessage,
       CreateFlow createFlow,
       ListFlows listFlows,
+      Provider<EvaluateChangeQueryExpression> evaluateChangeQueryExpressionProvider,
       Provider<GetPureRevert> getPureRevertProvider,
       DynamicOptionParser dynamicOptionParser,
       @Assisted ChangeResource change,
@@ -298,6 +302,7 @@ class ChangeApiImpl implements ChangeApi {
     this.putMessage = putMessage;
     this.createFlow = createFlow;
     this.listFlows = listFlows;
+    this.evaluateChangeQueryExpressionProvider = evaluateChangeQueryExpressionProvider;
     this.getPureRevertProvider = getPureRevertProvider;
     this.dynamicOptionParser = dynamicOptionParser;
     this.change = change;
@@ -352,6 +357,19 @@ class ChangeApiImpl implements ChangeApi {
       return listFlows.apply(change).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot list flows", e);
+    }
+  }
+
+  @Override
+  public EvaluateChangeQueryExpressionResultInfo evaluateChangeQueryExpression(String expression)
+      throws RestApiException {
+    try {
+      EvaluateChangeQueryExpression evaluateChangeQueryExpression =
+          evaluateChangeQueryExpressionProvider.get();
+      evaluateChangeQueryExpression.expression = expression;
+      return evaluateChangeQueryExpression.apply(change).value();
+    } catch (Exception e) {
+      throw asRestApiException("Cannot evaluate change query expression", e);
     }
   }
 

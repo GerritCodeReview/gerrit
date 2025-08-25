@@ -3193,6 +3193,49 @@ entity is returned that describes the submit requirement result.
   }
 ----
 
+[[evaluate-change-query-expression]]
+=== Evaluate Change Query Expression
+--
+'GET /changes/link:#change-id[\{change-id\}]/query?expression=\{expression\}'
+--
+
+Evaluates whether the given change query expression matches the change.
+
+The following URL parameters are supported:
+
+[[change-query-expression]]
+--
+* `expression`: link:user-search.html[Change query expression] for which it should be checked if
+  the change matches.
+--
+
+.Request
+----
+  GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/query?expression="is:submittable label:Auto-Submit+1" HTTP/1.0
+----
+
+As response a link:#evaluate-change-query-expression-result-info[
+EvaluateChangeQueryExpressionResultInfo] entity is returned that describes whether the change
+matches the expression.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "status": false
+    "passing_atoms": [
+      "label:Auto-Submit+1"
+    ],
+    "failing_atoms": [
+      "is:submittable"
+    ]
+  }
+---
+
 [[edit-endpoints]]
 == Change Edit Endpoints
 
@@ -8271,6 +8314,23 @@ markers to indicate the conflicts. +
 Only set if this edit info is returned in response to a request that
 link:#rebase-edit[rebases the change edit] and conflicts are allowed.
 |===========================
+
+[[evaluate-change-query-expression-result-info]]
+=== EvaluateChangeQueryExpressionResultInfo
+The `EvaluateChangeQueryExpressionResultInfo` entity contains the result of
+evaluating a change query expression.
+
+[options="header",cols="1,^1,5"]
+|===============================
+|Field Name        ||Description
+|`status`          ||Whether the change matches the change query expression.
+|`passing_atoms`   ||List of passing leaf atoms (atoms that match the change).
+|`failing_atoms`   ||List of failing leaf atoms (atoms that do not match the
+change).
+|`atom_explanation`|optional|Explanations for why atoms pass or fail.
+Explanations are only available for a few atoms, for most atoms no explanation
+is provided. Not set if none of the atoms has an explanation.
+|===============================
 
 [[fetch-info]]
 === FetchInfo

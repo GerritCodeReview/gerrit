@@ -28,6 +28,7 @@ import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.CommitMessageInfo;
 import com.google.gerrit.extensions.common.CommitMessageInput;
+import com.google.gerrit.extensions.common.EvaluateChangeQueryExpressionResultInfo;
 import com.google.gerrit.extensions.common.FlowInfo;
 import com.google.gerrit.extensions.common.FlowInput;
 import com.google.gerrit.extensions.common.MergePatchSetInput;
@@ -104,6 +105,9 @@ public interface ChangeApi {
 
   /** Get the flows of this change/ */
   List<FlowInfo> flows() throws RestApiException;
+
+  EvaluateChangeQueryExpressionResultInfo evaluateChangeQueryExpression(String expression)
+      throws RestApiException;
 
   default void abandon() throws RestApiException {
     abandon(new AbandonInput());

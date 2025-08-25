@@ -28,9 +28,11 @@ import {
   getAccountDisplayName,
   getDisplayName,
   getGroupDisplayName,
+  getUserName,
 } from './display-name-util';
 import {getApprovalInfo} from './label-util';
 import {ParsedChangeInfo} from '../types/types';
+import {AutocompleteSuggestion} from '../elements/shared/gr-autocomplete/gr-autocomplete';
 
 export const ACCOUNT_TEMPLATE_REGEX = '<GERRIT_ACCOUNT_(\\d+)>';
 // https://html.spec.whatwg.org/multipage/input.html#valid-e-mail-address
@@ -136,6 +138,54 @@ export function uniqueAccountId(
     index ===
     accountArray.findIndex(other => account._account_id === other._account_id)
   );
+}
+
+const SELF_EXPRESSION = 'self';
+const ME_EXPRESSION = 'me';
+
+function mapAccountsHelper(
+  accounts: AccountInfo[],
+  predicate: string,
+  serverConfig?: ServerInfo
+): AutocompleteSuggestion[] {
+  return accounts.map(account => {
+    const userName = getUserName(serverConfig, account);
+    return {
+      label: account.name || '',
+      text: account.email
+        ? `${predicate}:${account.email}`
+        : `${predicate}:"${userName}"`,
+    };
+  });
+}
+
+export function fetchAccountSuggestions(
+  accountFetcher: (expression: string) => Promise<AccountInfo[] | undefined>,
+  predicate: string,
+  expression: string,
+  serverConfig?: ServerInfo
+): Promise<AutocompleteSuggestion[]> {
+  if (expression.length === 0) {
+    return Promise.resolve([]);
+  }
+  return accountFetcher(expression)
+    .then(accounts => {
+      if (!accounts) {
+        return [];
+      }
+      return mapAccountsHelper(accounts, predicate, serverConfig);
+    })
+    .then(accounts => {
+      // When the expression supplied is a beginning substring of 'self',
+      // add it as an autocomplete option.
+      if (SELF_EXPRESSION.startsWith(expression)) {
+        return accounts.concat([{text: predicate + ':' + SELF_EXPRESSION}]);
+      } else if (ME_EXPRESSION.startsWith(expression)) {
+        return accounts.concat([{text: predicate + ':' + ME_EXPRESSION}]);
+      } else {
+        return accounts;
+      }
+    });
 }
 
 export function isDetailedAccount(account?: AccountInfo) {

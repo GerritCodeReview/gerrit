@@ -18,21 +18,20 @@ import static com.google.gerrit.entities.LabelId.VERIFIED;
 import static com.google.gerrit.server.schema.AclUtil.grant;
 
 import com.google.common.collect.ImmutableList;
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.AccessSection;
 import com.google.gerrit.entities.GroupReference;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.LabelValue;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.entities.SubmitRequirement;
 import com.google.gerrit.entities.SubmitRequirementExpression;
 import com.google.gerrit.pgm.init.api.AllProjectsConfig;
+import com.google.gerrit.pgm.init.api.AllProjectsNameOnInitProvider;
 import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.pgm.init.api.InitStep;
 import com.google.gerrit.server.GerritPersonIdent;
-import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
-import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.ProjectConfig;
@@ -41,7 +40,6 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.Optional;
 import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
@@ -52,8 +50,7 @@ public class InitLabels implements InitStep {
 
   private final ConsoleUI ui;
   private final AllProjectsConfig allProjectsConfig;
-  private GitRepositoryManager repositoryManager;
-  private AllProjectsName allProjectsName;
+  private final AllProjectsNameOnInitProvider allProjectsName;
   private PersonIdent serverUser;
   private ProjectConfig.Factory projectConfigFactory;
   private SystemGroupBackend systemGroupBackend;
@@ -61,18 +58,12 @@ public class InitLabels implements InitStep {
   private boolean installVerified;
 
   @Inject
-  InitLabels(ConsoleUI ui, AllProjectsConfig allProjectsConfig) {
+  InitLabels(
+      ConsoleUI ui,
+      AllProjectsConfig allProjectsConfig,
+      AllProjectsNameOnInitProvider allProjectsName) {
     this.ui = ui;
     this.allProjectsConfig = allProjectsConfig;
-  }
-
-  @Inject
-  void setGitRepositoryManager(@Nullable GitRepositoryManager repositoryManager) {
-    this.repositoryManager = repositoryManager;
-  }
-
-  @Inject(optional = true)
-  void setAllProjectsName(AllProjectsName allProjectsName) {
     this.allProjectsName = allProjectsName;
   }
 
@@ -107,11 +98,11 @@ public class InitLabels implements InitStep {
     }
   }
 
-  private void installVerified()
-      throws RepositoryNotFoundException, IOException, ConfigInvalidException {
-    try (Repository git = repositoryManager.openRepository(allProjectsName);
+  private void installVerified() throws IOException, ConfigInvalidException {
+    try (Repository git = allProjectsConfig.openGitRepository();
         MetaDataUpdate md =
-            new MetaDataUpdate(GitReferenceUpdated.DISABLED, allProjectsName, git)) {
+            new MetaDataUpdate(
+                GitReferenceUpdated.DISABLED, Project.nameKey(allProjectsName.get()), git)) {
       md.getCommitBuilder().setAuthor(serverUser);
       md.getCommitBuilder().setCommitter(serverUser);
       md.setMessage("Configured 'Verified' submit requirement");
@@ -122,15 +113,9 @@ public class InitLabels implements InitStep {
       GroupReference owners = systemGroupBackend.getGroup(SystemGroupBackend.PROJECT_OWNERS);
       GroupReference admins = GroupReference.create("Administrators");
       config.upsertAccessSection(
-          AccessSection.HEADS,
-          heads -> {
-            grant(config, heads, verifiedLabel, -1, 1, admins, owners);
-          });
+          AccessSection.HEADS, heads -> grant(config, heads, verifiedLabel, -1, 1, admins, owners));
       config.upsertAccessSection(
-          RefNames.REFS_CONFIG,
-          meta -> {
-            grant(config, meta, verifiedLabel, -1, 1, admins, owners);
-          });
+          RefNames.REFS_CONFIG, meta -> grant(config, meta, verifiedLabel, -1, 1, admins, owners));
       config.commit(md);
     }
   }

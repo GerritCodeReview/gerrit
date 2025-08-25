@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3e138dc2_0a11fc37",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2025-08-25T16:39:22Z",
+      "side": 1,
+      "message": "I love this. Can you also update the docs for this command?",
+      "revId": "c527392fd4b0efaeda72256f81ef5b2b731013df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5c4a5bda_73576aae",
+        "filename": "1",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2025-08-25T16:39:22Z",
+      "side": 1,
+      "message": "Unintentional addition?",
+      "revId": "c527392fd4b0efaeda72256f81ef5b2b731013df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fe671a11_347af6a6",
+        "filename": "java/com/google/gerrit/sshd/commands/ShowQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2025-08-25T16:39:22Z",
+      "side": 1,
+      "message": "Would -Q make sense as a shortcut?",
+      "revId": "c527392fd4b0efaeda72256f81ef5b2b731013df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

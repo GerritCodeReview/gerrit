@@ -4476,7 +4476,9 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(changeInfo.owner._accountId).isEqualTo(changeOwnerId.get());
     assertThat(changeInfo.owner.name).isEqualTo(fullname);
     assertThat(changeInfo.owner.email).isEqualTo(email);
-    assertThat(changeInfo.owner.username).isEqualTo(username);
+    if (server.isUsernameSupported()) {
+      assertThat(changeInfo.owner.username).isEqualTo(username);
+    }
     assertThat(changeInfo.owner.deleted).isNull();
   }
 
@@ -4543,7 +4545,9 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(reviewerAccountInfo._accountId).isEqualTo(reviewerId.get());
     assertThat(reviewerAccountInfo.name).isEqualTo(fullname);
     assertThat(reviewerAccountInfo.email).isEqualTo(email);
-    assertThat(reviewerAccountInfo.username).isEqualTo(username);
+    if (server.isUsernameSupported()) {
+      assertThat(reviewerAccountInfo.username).isEqualTo(username);
+    }
     assertThat(reviewerAccountInfo.deleted).isNull();
   }
 

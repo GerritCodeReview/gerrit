@@ -1,5 +1,29 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "54268cce_37c93a97",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 4481,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-08-25T07:32:44Z",
+      "side": 1,
+      "message": "nit: it would be best to DRY this assertion and introduce a `asserUsernameEqualsIfSupported()`",
+      "range": {
+        "startLine": 4479,
+        "startChar": 0,
+        "endLine": 4481,
+        "endChar": 5
+      },
+      "revId": "66e4548fe0600fc72060b001a66c518a41e5dcae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

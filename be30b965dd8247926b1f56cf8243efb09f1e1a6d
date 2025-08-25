@@ -16,6 +16,24 @@
       "message": "can we set it to 48px? I set min-height as on mobile, when you open search, the header decreased in height. Although I’m not sure with the height on smart search below being set, it fixes it?",
       "revId": "be30b965dd8247926b1f56cf8243efb09f1e1a6d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a1cf226a_98c89af1",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-08-25T14:14:47Z",
+      "side": 1,
+      "message": "Oh nvm, you fixed it for mobile I think?  seeing nav-header below. Does it work for you? I’m unable to test. Since I see you remove min-height from host, was that not needed or will the bottom border break?",
+      "parentUuid": "7f69191a_9d2c48f7",
+      "revId": "be30b965dd8247926b1f56cf8243efb09f1e1a6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

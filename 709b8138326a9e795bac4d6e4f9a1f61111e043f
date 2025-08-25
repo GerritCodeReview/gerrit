@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3f3eaa68_1048ca47",
+        "filename": "polygerrit-ui/app/elements/change/gr-flows/gr-create-flow.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-08-25T12:06:46Z",
+      "side": 1,
+      "message": "I am not sure colon works with libjuggler (it matches the prefix, but I am not sure if there has to be a space after it).",
+      "range": {
+        "startLine": 114,
+        "startChar": 41,
+        "endLine": 114,
+        "endChar": 42
+      },
+      "revId": "709b8138326a9e795bac4d6e4f9a1f61111e043f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

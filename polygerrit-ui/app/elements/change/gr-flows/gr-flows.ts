@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {customElement, state} from 'lit/decorators.js';
-import {css, html, LitElement} from 'lit';
+import {css, html, LitElement, TemplateResult} from 'lit';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {grFormStyles} from '../../../styles/gr-form-styles';
 import {resolve} from '../../../models/dependency';
@@ -15,10 +15,23 @@ import {
   FlowStageState,
   Timestamp,
 } from '../../../api/rest-api';
-import {getAppContext} from '../../../services/app-context';
+
 import {NumericChangeId} from '../../../types/common';
 import './gr-create-flow';
 import {when} from 'lit/directives/when.js';
+
+const iconForFlowStageState = (status: FlowStageState) => {
+  switch (status) {
+    case FlowStageState.DONE:
+      return {icon: 'check_circle', filled: true, class: 'done'};
+    case FlowStageState.PENDING:
+      return {icon: 'timelapse', filled: false, class: 'pending'};
+    case FlowStageState.FAILED:
+      return {icon: 'error', filled: true, class: 'failed'};
+    default:
+      return {icon: 'help', filled: false, class: 'other'};
+  }
+};
 
 @customElement('gr-flows')
 export class GrFlows extends LitElement {
@@ -30,7 +43,7 @@ export class GrFlows extends LitElement {
 
   private readonly getChangeModel = resolve(this, changeModelToken);
 
-  private readonly restApiService = getAppContext().restApiService;
+  
 
   static override get styles() {
     return [
@@ -68,6 +81,24 @@ export class GrFlows extends LitElement {
         .main-heading {
           font-size: var(--font-size-h2);
           font-weight: var(--font-weight-bold);
+        }
+        gr-icon {
+          font-size: var(--line-height-normal, 20px);
+          vertical-align: middle;
+          margin-right: var(--spacing-s);
+        }
+        gr-icon.done {
+          color: var(--success-foreground);
+        }
+        gr-icon.pending {
+          color: var(--deemphasized-text-color);
+        }
+        gr-icon.failed {
+          color: var(--error-foreground);
+        }
+        li {
+          display: flex;
+          align-items: center;
         }
       `,
     ];
@@ -165,6 +196,17 @@ export class GrFlows extends LitElement {
     `;
   }
 
+  private renderStatus(stage: FlowInfo['stages'][0]): TemplateResult {
+    const icon = iconForFlowStageState(stage.state);
+    return html`<gr-icon
+      class=${icon.class}
+      icon=${icon.icon}
+      ?filled=${icon.filled}
+      aria-label=${stage.state.toLowerCase()}
+      role="img"
+    ></gr-icon>`;
+  }
+
   private renderFlowsList() {
     if (this.loading) {
       return html`<p>Loading...</p>`;
@@ -195,10 +237,10 @@ export class GrFlows extends LitElement {
                     const action = stage.expression.action;
                     return html`
                       <li>
+                        ${this.renderStatus(stage)}
                         <span>${index + 1}. </span>
                         <span>${stage.expression.condition}</span>
                         ${action ? html`<span> -> ${action.name}</span>` : ''}
-                        <span>: ${stage.state}</span>
                         ${stage.message
                           ? html`<span> (${stage.message})</span>`
                           : ''}

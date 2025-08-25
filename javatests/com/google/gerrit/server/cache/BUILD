@@ -1,5 +1,5 @@
-load("//tools/bzl:junit.bzl", "junit_tests")
 load("//javatests/com/google/gerrit/acceptance:tests.bzl", "acceptance_tests")
+load("//tools/bzl:junit.bzl", "junit_tests")
 
 junit_tests(
     name = "tests",
@@ -7,7 +7,7 @@ junit_tests(
     deps = [
         "//java/com/google/gerrit/entities",
         "//java/com/google/gerrit/server",
-        "//java/com/google/gerrit/testing:gerrit-test-util",
+        "//java/com/google/gerrit/testing:gerrit-junit",
         "//lib:junit",
         "//lib/truth",
         "//lib/truth:truth-java8-extension",

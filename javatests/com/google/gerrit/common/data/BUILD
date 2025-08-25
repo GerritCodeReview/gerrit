@@ -7,7 +7,7 @@ junit_tests(
         "//java/com/google/gerrit/common:annotations",
         "//java/com/google/gerrit/common:server",
         "//java/com/google/gerrit/entities",
-        "//java/com/google/gerrit/testing:gerrit-test-util",
+        "//java/com/google/gerrit/testing:gerrit-junit",
         "//lib:guava",
         "//lib/truth",
     ],

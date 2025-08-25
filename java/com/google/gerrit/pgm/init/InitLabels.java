@@ -112,15 +112,9 @@ public class InitLabels implements InitStep {
       GroupReference owners = systemGroupBackend.getGroup(SystemGroupBackend.PROJECT_OWNERS);
       GroupReference admins = GroupReference.create("Administrators");
       config.upsertAccessSection(
-          AccessSection.HEADS,
-          heads -> {
-            grant(config, heads, verifiedLabel, -1, 1, admins, owners);
-          });
+          AccessSection.HEADS, heads -> grant(config, heads, verifiedLabel, -1, 1, admins, owners));
       config.upsertAccessSection(
-          RefNames.REFS_CONFIG,
-          meta -> {
-            grant(config, meta, verifiedLabel, -1, 1, admins, owners);
-          });
+          RefNames.REFS_CONFIG, meta -> grant(config, meta, verifiedLabel, -1, 1, admins, owners));
       config.commit(md);
     }
   }

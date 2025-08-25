@@ -14,7 +14,6 @@ java_library(
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/index",
         "//java/com/google/gerrit/launcher",
-        "//java/com/google/gerrit/lucene",
         "//java/com/google/gerrit/metrics",
         "//java/com/google/gerrit/pgm/init/api",
         "//java/com/google/gerrit/pgm/util",

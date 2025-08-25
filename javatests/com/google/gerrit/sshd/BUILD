@@ -8,7 +8,7 @@ junit_tests(
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/server",
         "//java/com/google/gerrit/sshd",
-        "//java/com/google/gerrit/testing:gerrit-test-util",
+        "//java/com/google/gerrit/testing:gerrit-junit",
         "//lib/mina:sshd",
         "//lib/truth",
     ],

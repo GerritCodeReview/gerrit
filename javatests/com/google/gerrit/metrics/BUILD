@@ -7,7 +7,6 @@ junit_tests(
     tags = ["metrics"],
     deps = [
         "//java/com/google/gerrit/metrics",
-        "//java/com/google/gerrit/testing:gerrit-test-util",
         "//lib/truth",
     ],
 )

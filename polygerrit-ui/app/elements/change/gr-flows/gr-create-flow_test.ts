@@ -15,6 +15,7 @@ import {
 } from '../../../test/test-utils';
 import {NumericChangeId} from '../../../types/common';
 import {GrButton} from '../../shared/gr-button/gr-button';
+import {GrSearchBar} from '../../core/gr-search-bar/gr-search-bar';
 
 suite('gr-create-flow tests', () => {
   let element: GrCreateFlow;
@@ -28,7 +29,8 @@ suite('gr-create-flow tests', () => {
   });
 
   test('renders initially', () => {
-    assert.isDefined(queryAndAssert(element, 'input[placeholder="Condition"]'));
+    const searchBar = queryAndAssert<GrSearchBar>(element, 'gr-search-bar');
+    assert.equal(searchBar.placeholder, 'Create condition');
     assert.isDefined(queryAndAssert(element, 'input[placeholder="Action"]'));
     assert.isDefined(
       queryAndAssert(element, 'gr-button[aria-label="Add Stage"]')
@@ -39,16 +41,20 @@ suite('gr-create-flow tests', () => {
   });
 
   test('adds and removes stages', async () => {
-    const inputs = queryAll<HTMLInputElement>(element, 'input');
-    const conditionInput = inputs[0];
-    const actionInput = inputs[1];
+    const searchBar = queryAndAssert<GrSearchBar>(element, 'gr-search-bar');
+    const actionInput = queryAndAssert<HTMLInputElement>(
+      element,
+      'input[placeholder="Action"]'
+    );
     const addButton = queryAndAssert<GrButton>(
       element,
       'gr-button[aria-label="Add Stage"]'
     );
 
-    conditionInput.value = 'cond 1';
-    conditionInput.dispatchEvent(new Event('input'));
+    searchBar.value = 'cond 1';
+    searchBar.dispatchEvent(
+      new CustomEvent('handle-search', {detail: {inputVal: 'cond 1'}})
+    );
     actionInput.value = 'act 1';
     actionInput.dispatchEvent(new Event('input'));
     await element.updateComplete;
@@ -61,8 +67,10 @@ suite('gr-create-flow tests', () => {
     assert.equal(element['currentCondition'], '');
     assert.equal(element['currentAction'], '');
 
-    conditionInput.value = 'cond 2';
-    conditionInput.dispatchEvent(new Event('input'));
+    searchBar.value = 'cond 2';
+    searchBar.dispatchEvent(
+      new CustomEvent('handle-search', {detail: {inputVal: 'cond 2'}})
+    );
     actionInput.value = 'act 2';
     actionInput.dispatchEvent(new Event('input'));
     await element.updateComplete;
@@ -90,11 +98,15 @@ suite('gr-create-flow tests', () => {
   test('creates a flow with one stage', async () => {
     const createFlowStub = stubRestApi('createFlow').returns(mockPromise());
 
-    const inputs = queryAll<HTMLInputElement>(element, 'input');
-    const conditionInput = inputs[0];
-    const actionInput = inputs[1];
-    conditionInput.value = 'single condition';
-    conditionInput.dispatchEvent(new Event('input'));
+    const searchBar = queryAndAssert<GrSearchBar>(element, 'gr-search-bar');
+    const actionInput = queryAndAssert<HTMLInputElement>(
+      element,
+      'input[placeholder="Action"]'
+    );
+    searchBar.value = 'single condition';
+    searchBar.dispatchEvent(
+      new CustomEvent('handle-search', {detail: {inputVal: 'single condition'}})
+    );
     actionInput.value = 'single action';
     actionInput.dispatchEvent(new Event('input'));
     await element.updateComplete;
@@ -116,24 +128,30 @@ suite('gr-create-flow tests', () => {
   test('creates a flow with multiple stages', async () => {
     const createFlowStub = stubRestApi('createFlow').returns(mockPromise());
 
-    const inputs = queryAll<HTMLInputElement>(element, 'input');
-    const conditionInput = inputs[0];
-    const actionInput = inputs[1];
+    const searchBar = queryAndAssert<GrSearchBar>(element, 'gr-search-bar');
+    const actionInput = queryAndAssert<HTMLInputElement>(
+      element,
+      'input[placeholder="Action"]'
+    );
     const addButton = queryAndAssert<GrButton>(
       element,
       'gr-button[aria-label="Add Stage"]'
     );
 
-    conditionInput.value = 'cond 1';
-    conditionInput.dispatchEvent(new Event('input'));
+    searchBar.value = 'cond 1';
+    searchBar.dispatchEvent(
+      new CustomEvent('handle-search', {detail: {inputVal: 'cond 1'}})
+    );
     actionInput.value = 'act 1';
     actionInput.dispatchEvent(new Event('input'));
     await element.updateComplete;
     addButton.click();
     await element.updateComplete;
 
-    conditionInput.value = 'cond 2';
-    conditionInput.dispatchEvent(new Event('input'));
+    searchBar.value = 'cond 2';
+    searchBar.dispatchEvent(
+      new CustomEvent('handle-search', {detail: {inputVal: 'cond 2'}})
+    );
     actionInput.value = 'act 2';
     actionInput.dispatchEvent(new Event('input'));
     await element.updateComplete;
@@ -158,24 +176,30 @@ suite('gr-create-flow tests', () => {
   test('create flow with added stages and current input', async () => {
     const createFlowStub = stubRestApi('createFlow').returns(mockPromise());
 
-    const inputs = queryAll<HTMLInputElement>(element, 'input');
-    const conditionInput = inputs[0];
-    const actionInput = inputs[1];
+    const searchBar = queryAndAssert<GrSearchBar>(element, 'gr-search-bar');
+    const actionInput = queryAndAssert<HTMLInputElement>(
+      element,
+      'input[placeholder="Action"]'
+    );
     const addButton = queryAndAssert<GrButton>(
       element,
       'gr-button[aria-label="Add Stage"]'
     );
 
-    conditionInput.value = 'cond 1';
-    conditionInput.dispatchEvent(new Event('input'));
+    searchBar.value = 'cond 1';
+    searchBar.dispatchEvent(
+      new CustomEvent('handle-search', {detail: {inputVal: 'cond 1'}})
+    );
     actionInput.value = 'act 1';
     actionInput.dispatchEvent(new Event('input'));
     await element.updateComplete;
     addButton.click();
     await element.updateComplete;
 
-    conditionInput.value = 'cond 2';
-    conditionInput.dispatchEvent(new Event('input'));
+    searchBar.value = 'cond 2';
+    searchBar.dispatchEvent(
+      new CustomEvent('handle-search', {detail: {inputVal: 'cond 2'}})
+    );
     actionInput.value = 'act 2';
     actionInput.dispatchEvent(new Event('input'));
     await element.updateComplete;

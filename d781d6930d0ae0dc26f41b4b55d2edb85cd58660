@@ -16,6 +16,24 @@
       "message": "this method is only used in VersionedMetaDataOnInit hence it seems it can stay private",
       "revId": "d781d6930d0ae0dc26f41b4b55d2edb85cd58660",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0aaf1d2e_9e09c0cd",
+        "filename": "java/com/google/gerrit/pgm/init/api/VersionedMetaDataOnInit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-08-25T09:38:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4b7fd9be_1c0e378d",
+      "revId": "d781d6930d0ae0dc26f41b4b55d2edb85cd58660",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

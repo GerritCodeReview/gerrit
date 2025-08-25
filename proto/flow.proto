@@ -9,7 +9,7 @@ message FlowAction {
   // The name of the action.
   optional string name = 1;
   // Parameters for the action.
-  map<string, string> parameters = 2;
+  repeated string parameters = 2;
 }
 
 message FlowExpression {

@@ -15,7 +15,7 @@
 package com.google.gerrit.server.flow;
 
 import com.google.auto.value.AutoValue;
-import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableList;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.ConvertibleToProto;
 
@@ -32,7 +32,7 @@ public abstract class FlowAction {
   public abstract String name();
 
   /** Parameters for the action. */
-  public abstract ImmutableMap<String, String> parameters();
+  public abstract ImmutableList<String> parameters();
 
   /**
    * Creates a builder for building a flow action.
@@ -49,14 +49,14 @@ public abstract class FlowAction {
     public abstract Builder name(String name);
 
     /** Sets the expressions for the stages of the flow. */
-    public abstract Builder parameters(ImmutableMap<String, String> parameters);
+    public abstract Builder parameters(ImmutableList<String> parameters);
 
-    abstract ImmutableMap.Builder<String, String> parametersBuilder();
+    abstract ImmutableList.Builder<String> parametersBuilder();
 
     /** Adds an expression for another stage. */
     @CanIgnoreReturnValue
-    public Builder addParameter(String key, String value) {
-      parametersBuilder().put(key, value);
+    public Builder addParameter(String param) {
+      parametersBuilder().add(param);
       return this;
     }
 

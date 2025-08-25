@@ -708,7 +708,7 @@ export declare interface FetchInfo {
  */
 export declare interface FlowActionInfo {
   name: string;
-  parameters?: {[param: string]: string};
+  parameters?: string[];
 }
 
 /**

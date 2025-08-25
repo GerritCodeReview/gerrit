@@ -15,13 +15,12 @@
 package com.google.gerrit.extensions.common.testing;
 
 import static com.google.common.truth.Truth.assertAbout;
-import static com.google.gerrit.truth.MapSubject.mapEntries;
 
 import com.google.common.truth.FailureMetadata;
+import com.google.common.truth.IterableSubject;
 import com.google.common.truth.StringSubject;
 import com.google.common.truth.Subject;
 import com.google.gerrit.extensions.common.FlowActionInfo;
-import com.google.gerrit.truth.MapSubject;
 
 /** A Truth subject for {@link FlowActionInfo} instances. */
 public class FlowActionInfoSubject extends Subject {
@@ -44,8 +43,8 @@ public class FlowActionInfoSubject extends Subject {
     return check("name()").that(flowActionInfo().name);
   }
 
-  public MapSubject hasParametersThat() {
-    return check("parameters()").about(mapEntries()).that(flowActionInfo().parameters);
+  public IterableSubject hasParametersThat() {
+    return check("parameters()").that(flowActionInfo().parameters);
   }
 
   private FlowActionInfo flowActionInfo() {

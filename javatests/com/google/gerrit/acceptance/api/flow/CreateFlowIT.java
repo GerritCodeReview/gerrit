@@ -214,7 +214,7 @@ public class CreateFlowIT extends AbstractDaemonTest {
                   FlowKey.create(change.project(), change.numericChangeId(), flowInfo.uuid)))
           .isPresent();
 
-      Iterables.getOnlyElement(flowInput.stageExpressions).action.parameters = ImmutableMap.of();
+      Iterables.getOnlyElement(flowInput.stageExpressions).action.parameters = ImmutableList.of();
       flowInfo = gApi.changes().id(change.id()).createFlow(flowInput);
       assertFlowInfoForNewlyCreatedFlow(flowInfo, flowInput, admin, beforeInstant);
       assertThat(

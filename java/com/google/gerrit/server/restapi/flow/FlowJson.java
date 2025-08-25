@@ -19,6 +19,7 @@ import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
@@ -177,7 +178,7 @@ public class FlowJson {
     FlowAction.Builder flowActionBuilder = FlowAction.builder().name(flowActionInfo.name);
 
     if (flowActionInfo.parameters != null) {
-      flowActionBuilder.parameters(flowActionInfo.parameters);
+      flowActionBuilder.parameters(ImmutableList.copyOf(flowActionInfo.parameters));
     }
 
     return flowActionBuilder.build();

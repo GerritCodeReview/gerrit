@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.flow.converters;
 
-import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableList;
 import com.google.errorprone.annotations.Immutable;
 import com.google.gerrit.entities.converter.SafeProtoConverter;
 import com.google.gerrit.server.flow.FlowAction;
@@ -29,7 +29,7 @@ public enum FlowActionProtoConverter
   public com.google.gerrit.server.flow.proto.FlowAction toProto(FlowAction action) {
     return com.google.gerrit.server.flow.proto.FlowAction.newBuilder()
         .setName(action.name())
-        .putAllParameters(action.parameters())
+        .addAllParameters(action.parameters())
         .build();
   }
 
@@ -37,7 +37,7 @@ public enum FlowActionProtoConverter
   public FlowAction fromProto(com.google.gerrit.server.flow.proto.FlowAction proto) {
     return FlowAction.builder()
         .name(proto.getName())
-        .parameters(ImmutableMap.copyOf(proto.getParametersMap()))
+        .parameters(ImmutableList.copyOf(proto.getParametersList()))
         .build();
   }
 

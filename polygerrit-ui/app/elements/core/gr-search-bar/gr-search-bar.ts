@@ -153,6 +153,9 @@ export class GrSearchBar extends LitElement {
   @queryDec('#searchInput') protected searchInput?: GrAutocomplete;
 
   @property({type: String})
+  placeholder = 'Search for changes';
+
+  @property({type: String})
   value = '';
 
   @property({type: Object})
@@ -229,7 +232,7 @@ export class GrSearchBar extends LitElement {
       <form>
         <gr-autocomplete
           id="searchInput"
-          placeholder="Search for changes"
+          .placeholder=${this.placeholder}
           .text=${this.inputVal}
           .query=${this.query}
           allow-non-suggested-values

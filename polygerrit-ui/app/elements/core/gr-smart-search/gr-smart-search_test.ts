@@ -12,7 +12,7 @@ import {
   stubRestApi,
   waitUntil,
 } from '../../../test/test-utils';
-import {EmailAddress, GroupId, UrlEncodedRepoName} from '../../../types/common';
+import {GroupId, UrlEncodedRepoName} from '../../../types/common';
 import {assert, fixture, html} from '@open-wc/testing';
 import {Key} from '../../../utils/dom-util';
 import {MdOutlinedTextField} from '@material/web/textfield/outlined-text-field';
@@ -30,76 +30,6 @@ suite('gr-smart-search tests', () => {
       element,
       /* HTML */ ' <gr-search-autocomplete id="search"> <gr-icon icon="search" slot="leading-icon" aria-hidden="true"></gr-icon> </gr-search-autocomplete> '
     );
-  });
-
-  test('keyboard shortcuts', async () => {
-    const focusSpy = sinon.spy(
-      queryAndAssert<GrAutocomplete>(element.searchBar, '#queryInput'),
-      'focus'
-    );
-    const selectAllSpy = sinon.spy(
-      queryAndAssert<GrAutocomplete>(element.searchBar, '#queryInput'),
-      'selectAll'
-    );
-    pressKey(document.body, '/');
-    assert.isTrue(focusSpy.called);
-    assert.isTrue(selectAllSpy.called);
-  });
-
-  test('Autocompletes accounts', () => {
-    stubRestApi('queryAccounts').callsFake(() =>
-      Promise.resolve([
-        {
-          name: 'fred',
-          email: 'fred@goog.co' as EmailAddress,
-        },
-      ])
-    );
-    return element.fetchAccounts('owner', 'fr').then(s => {
-      assert.deepEqual(s[0], {text: 'owner:fred@goog.co', label: 'fred'});
-    });
-  });
-
-  test('Inserts self as option when valid', () => {
-    stubRestApi('queryAccounts').callsFake(() =>
-      Promise.resolve([
-        {
-          name: 'fred',
-          email: 'fred@goog.co' as EmailAddress,
-        },
-      ])
-    );
-    element
-      .fetchAccounts('owner', 's')
-      .then(s => {
-        assert.deepEqual(s[0], {text: 'owner:fred@goog.co', label: 'fred'});
-        assert.deepEqual(s[1], {text: 'owner:self'});
-      })
-      .then(() => element.fetchAccounts('owner', 'selfs'))
-      .then(s => {
-        assert.notEqual(s[0], {text: 'owner:self'});
-      });
-  });
-
-  test('Inserts me as option when valid', () => {
-    stubRestApi('queryAccounts').callsFake(() =>
-      Promise.resolve([
-        {
-          name: 'fred',
-          email: 'fred@goog.co' as EmailAddress,
-        },
-      ])
-    );
-    return element
-      .fetchAccounts('owner', 'm')
-      .then(s => {
-        assert.deepEqual(s[0], {text: 'owner:fred@goog.co', label: 'fred'});
-        assert.deepEqual(s[1], {text: 'owner:me'});
-      })
-      .then(() => element.fetchAccounts('owner', 'meme'))
-      .then(s => {
-        assert.notEqual(s[0], {text: 'owner:me'});
-      });
   });
 
   test('empty search query does not trigger nav', async () => {
@@ -211,24 +141,6 @@ suite('gr-smart-search tests', () => {
       assert.deepEqual(s[0], {text: 'ownerin:Polygerrit'});
       assert.deepEqual(s[1], {text: 'ownerin:gerrit'});
       assert.deepEqual(s[2], {text: 'ownerin:gerrittest'});
-    });
-  });
-
-  test('Autocompletes accounts with no email', () => {
-    stubRestApi('queryAccounts').callsFake(() =>
-      Promise.resolve([{name: 'fred'}])
-    );
-    return element.fetchAccounts('owner', 'fr').then(s => {
-      assert.deepEqual(s[0], {text: 'owner:"fred"', label: 'fred'});
-    });
-  });
-
-  test('Autocompletes accounts with email', () => {
-    stubRestApi('queryAccounts').callsFake(() =>
-      Promise.resolve([{email: 'fred@goog.co' as EmailAddress}])
-    );
-    return element.fetchAccounts('owner', 'fr').then(s => {
-      assert.deepEqual(s[0], {text: 'owner:fred@goog.co', label: ''});
     });
   });
 });

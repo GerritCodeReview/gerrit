@@ -9,12 +9,23 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {grFormStyles} from '../../../styles/gr-form-styles';
 import {FlowInput} from '../../../api/rest-api';
 import {getAppContext} from '../../../services/app-context';
-import {NumericChangeId} from '../../../types/common';
+import {NumericChangeId, ServerInfo} from '../../../types/common';
 import '../../shared/gr-button/gr-button';
+import '../../core/gr-search-autocomplete/gr-search-autocomplete';
 import '@material/web/select/outlined-select.js';
 import '@material/web/select/select-option.js';
 import '@material/web/textfield/outlined-text-field.js';
 import {MdOutlinedTextField} from '@material/web/textfield/outlined-text-field';
+import {AutocompleteSuggestion} from '../../shared/gr-autocomplete/gr-autocomplete';
+import {resolve} from '../../../models/dependency';
+import {configModelToken} from '../../../models/config/config-model';
+import {subscribe} from '../../lit/subscription-controller';
+import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
+import {fetchAccountSuggestions} from '../../../utils/account-util';
+import {ValueChangedEvent} from '../../../types/events';
+import {SuggestionProvider} from '../../core/gr-search-autocomplete/gr-search-autocomplete';
+
+const MAX_AUTOCOMPLETE_RESULTS = 10;
 
 @customElement('gr-create-flow')
 export class GrCreateFlow extends LitElement {
@@ -33,7 +44,50 @@ export class GrCreateFlow extends LitElement {
 
   @state() private loading = false;
 
+  @state() private serverConfig?: ServerInfo;
+
   private readonly restApiService = getAppContext().restApiService;
+
+  private readonly getConfigModel = resolve(this, configModelToken);
+
+  private readonly projectSuggestions: SuggestionProvider = (
+    predicate,
+    expression
+  ) => this.fetchProjects(predicate, expression);
+
+  private readonly groupSuggestions: SuggestionProvider = (
+    predicate,
+    expression
+  ) => this.fetchGroups(predicate, expression);
+
+  private readonly accountSuggestions: SuggestionProvider = (
+    predicate,
+    expression
+  ) => {
+    const accountFetcher = (expr: string) =>
+      this.restApiService.queryAccounts(
+        expr,
+        MAX_AUTOCOMPLETE_RESULTS,
+        undefined,
+        undefined,
+        throwingErrorCallback
+      );
+    return fetchAccountSuggestions(
+      accountFetcher,
+      predicate,
+      expression,
+      this.serverConfig
+    );
+  };
+
+  constructor() {
+    super();
+    subscribe(
+      this,
+      () => this.getConfigModel().serverConfig$,
+      config => (this.serverConfig = config)
+    );
+  }
 
   static override get styles() {
     return [
@@ -47,6 +101,7 @@ export class GrCreateFlow extends LitElement {
         }
         .add-stage-row > md-outlined-select,
         .add-stage-row > md-outlined-text-field {
+        .add-stage-row > gr-search-autocomplete {
           width: 15em;
         }
       `,
@@ -88,12 +143,23 @@ export class GrCreateFlow extends LitElement {
             <div slot="headline">Other</div>
           </md-select-option>
         </md-outlined-select>
-        <md-outlined-text-field
-          label="Condition"
-          .value=${this.currentCondition}
-          @input=${(e: InputEvent) =>
-            (this.currentCondition = (e.target as MdOutlinedTextField).value)}
-        ></md-outlined-text-field>
+        ${this.currentConditionPrefix === 'Gerrit'
+          ? html`<gr-search-autocomplete
+              .placeholder=${'Create condition'}
+              .value=${this.currentCondition}
+              .projectSuggestions=${this.projectSuggestions}
+              .groupSuggestions=${this.groupSuggestions}
+              .accountSuggestions=${this.accountSuggestions}
+              @text-changed=${this.handleGerritConditionTextChanged}
+            ></gr-search-autocomplete>`
+          : html`<md-outlined-text-field
+              label="Condition"
+              .value=${this.currentCondition}
+              @input=${(e: InputEvent) =>
+                (this.currentCondition = (
+                  e.target as MdOutlinedTextField
+                ).value)}
+            ></md-outlined-text-field>`}
         <span> -> </span>
         <md-outlined-text-field
           label="Action"
@@ -113,6 +179,57 @@ export class GrCreateFlow extends LitElement {
         Create Flow
       </gr-button>
     `;
+  }
+
+  private handleGerritConditionTextChanged(e: ValueChangedEvent) {
+    this.currentCondition = e.detail.value ?? '';
+  }
+
+  // TODO: Move into the common util file
+  fetchProjects(
+    predicate: string,
+    expression: string
+  ): Promise<AutocompleteSuggestion[]> {
+    return this.restApiService
+      .getSuggestedRepos(
+        expression,
+        MAX_AUTOCOMPLETE_RESULTS,
+        throwingErrorCallback
+      )
+      .then(projects => {
+        if (!projects) {
+          return [];
+        }
+        const keys = Object.keys(projects);
+        return keys.map(key => {
+          return {text: predicate + ':' + key};
+        });
+      });
+  }
+
+  fetchGroups(
+    predicate: string,
+    expression: string
+  ): Promise<AutocompleteSuggestion[]> {
+    if (expression.length === 0) {
+      return Promise.resolve([]);
+    }
+    return this.restApiService
+      .getSuggestedGroups(
+        expression,
+        undefined,
+        MAX_AUTOCOMPLETE_RESULTS,
+        throwingErrorCallback
+      )
+      .then(groups => {
+        if (!groups) {
+          return [];
+        }
+        const keys = Object.keys(groups);
+        return keys.map(key => {
+          return {text: predicate + ':' + key};
+        });
+      });
   }
 
   private handleAddStage() {

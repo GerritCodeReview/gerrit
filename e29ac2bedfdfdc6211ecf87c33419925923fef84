@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "16c5fb02_dcecce99",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-08-25T10:09:06Z",
+      "side": 1,
+      "message": "```suggestion\nThe AllProjectsName isn\u0027t available directly upon init and the init\n```",
+      "range": {
+        "startLine": 9,
+        "startChar": 4,
+        "endLine": 9,
+        "endChar": 21
+      },
+      "revId": "e29ac2bedfdfdc6211ecf87c33419925923fef84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

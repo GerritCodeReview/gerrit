@@ -49,6 +49,7 @@ import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.LabelTypes;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
+import com.google.gerrit.entities.PredicateResult;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.entities.SubmitRecord;
@@ -60,6 +61,8 @@ import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.index.RefState;
+import com.google.gerrit.index.query.MatchResult;
+import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.CurrentUser;
@@ -1590,6 +1593,19 @@ public class ChangeData {
 
   public void setRefStatePatterns(Iterable<byte[]> refStatePatterns) {
     this.refStatePatterns = ImmutableList.copyOf(refStatePatterns);
+  }
+
+  public PredicateResult evaluatePredicateTree(Predicate<ChangeData> predicate) {
+    MatchResult match = predicate.asMatchable().matchResult(this);
+    PredicateResult.Builder predicateResult =
+        PredicateResult.builder()
+            .predicateString(predicate.isLeaf() ? predicate.getPredicateString() : "")
+            .explanation(predicate.isLeaf() ? match.explanation : "")
+            .status(match.status);
+    predicate
+        .getChildren()
+        .forEach(c -> predicateResult.addChildPredicateResult(evaluatePredicateTree(c)));
+    return predicateResult.build();
   }
 
   public void checkStatePermitsWrite() throws ResourceConflictException {

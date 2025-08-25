@@ -58,6 +58,12 @@ final class ShowQueue extends SshCommand {
   private boolean wide;
 
   @Option(
+      name = "--queue",
+      aliases = {"-Q"},
+      usage = "only show tasks from the specified queue")
+  private String queueName;
+
+  @Option(
       name = "--by-queue",
       aliases = {"-q"},
       usage = "group tasks by queue and print queue info")
@@ -108,6 +114,10 @@ final class ShowQueue extends SshCommand {
 
     boolean viewAll = permissionBackend.user(currentUser).testOrFalse(GlobalPermission.VIEW_QUEUE);
     long now = TimeUtil.nowMs();
+    if (queueName != null && !queueName.isEmpty()) {
+      tasks = tasks.stream().filter(t -> queueName.equalsIgnoreCase(t.queueName)).toList();
+    }
+
     if (groupByQueue) {
       ListMultimap<String, TaskInfo> byQueue = byQueue(tasks);
       for (String queueName : byQueue.keySet()) {

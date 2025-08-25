@@ -20,12 +20,11 @@ import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.entities.PredicateResult;
 import com.google.gerrit.entities.SubmitRequirement;
 import com.google.gerrit.entities.SubmitRequirementExpression;
 import com.google.gerrit.entities.SubmitRequirementExpressionResult;
-import com.google.gerrit.entities.SubmitRequirementExpressionResult.PredicateResult;
 import com.google.gerrit.entities.SubmitRequirementResult;
-import com.google.gerrit.index.query.MatchResult;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.logging.Metadata;
@@ -113,7 +112,7 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
       SubmitRequirementExpression expression, ChangeData changeData) {
     try {
       Predicate<ChangeData> predicate = queryBuilder.get().parse(expression.expressionString());
-      PredicateResult predicateResult = evaluatePredicateTree(predicate, changeData);
+      PredicateResult predicateResult = changeData.evaluatePredicateTree(predicate);
       return SubmitRequirementExpressionResult.create(expression, predicateResult);
     } catch (QueryParseException | SubmitRequirementEvaluationException e) {
       logger.atWarning().withCause(e).log(
@@ -241,21 +240,5 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
             toImmutableMap(
                 globalRequirement -> globalRequirement.name().toLowerCase(Locale.US),
                 Function.identity()));
-  }
-
-  /** Evaluate the predicate recursively using change data. */
-  private PredicateResult evaluatePredicateTree(
-      Predicate<ChangeData> predicate, ChangeData changeData) {
-    MatchResult match = predicate.asMatchable().matchResult(changeData);
-    PredicateResult.Builder predicateResult =
-        PredicateResult.builder()
-            .predicateString(predicate.isLeaf() ? predicate.getPredicateString() : "")
-            .explanation(predicate.isLeaf() ? match.explanation : "")
-            .status(match.status);
-    predicate
-        .getChildren()
-        .forEach(
-            c -> predicateResult.addChildPredicateResult(evaluatePredicateTree(c, changeData)));
-    return predicateResult.build();
   }
 }

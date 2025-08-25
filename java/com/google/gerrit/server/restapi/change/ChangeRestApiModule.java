@@ -114,6 +114,7 @@ public class ChangeRestApiModule extends RestApiModule {
     post(CHANGE_KIND, "private.delete").to(DeletePrivateByPost.class);
     delete(CHANGE_KIND, "private").to(DeletePrivate.class);
     get(CHANGE_KIND, "pure_revert").to(GetPureRevert.class);
+    get(CHANGE_KIND, "query").to(EvaluateChangeQueryExpression.class);
     post(CHANGE_KIND, "ready").to(SetReadyForReview.class);
     post(CHANGE_KIND, "rebase").to(Rebase.CurrentRevision.class);
     post(CHANGE_KIND, "rebase:chain").to(RebaseChain.class);

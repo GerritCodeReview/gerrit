@@ -90,9 +90,13 @@ suite('gr-flows tests', () => {
       `${new Date('2025-01-01T11:00:00.000Z').toLocaleString()}`
     );
     const stage1 = queryAndAssert(flow1, '.stages-list li');
+    const icon1 = queryAndAssert(stage1, 'gr-icon');
+    assert.equal(icon1.getAttribute('icon'), 'check_circle');
+    assert.isTrue(icon1.hasAttribute('filled'));
+    assert.isTrue(icon1.classList.contains('done'));
     assert.equal(
       stage1.textContent!.trim().replace(/\s+/g, ' '),
-      '1. label:Code-Review=+1 : DONE'
+      '1. label:Code-Review=+1'
     );
 
     const flow2 = flowElements[1];
@@ -102,9 +106,13 @@ suite('gr-flows tests', () => {
       `Created: ${new Date('2025-01-02T10:00:00.000Z').toLocaleString()}`
     );
     const stage2 = queryAndAssert(flow2, '.stages-list li');
+    const icon2 = queryAndAssert(stage2, 'gr-icon');
+    assert.equal(icon2.getAttribute('icon'), 'timelapse');
+    assert.isFalse(icon2.hasAttribute('filled'));
+    assert.isTrue(icon2.classList.contains('pending'));
     assert.equal(
       stage2.textContent!.trim().replace(/\s+/g, ' '),
-      '1. label:Verified=+1 -> submit : PENDING'
+      '1. label:Verified=+1 -> submit'
     );
   });
 

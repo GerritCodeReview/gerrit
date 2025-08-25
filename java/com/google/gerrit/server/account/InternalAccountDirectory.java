@@ -124,6 +124,7 @@ public class InternalAccountDirectory extends AccountDirectory {
 
       } else {
         info._accountId = options.contains(FillOptions.ID) ? id.get() : null;
+        info.deleted = options.contains(FillOptions.DELETED) ? true : null;
       }
     }
   }

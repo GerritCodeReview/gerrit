@@ -65,7 +65,7 @@ generally disabled by default. Optional fields are:
 [[details]]
 --
 * `DETAILS`: Includes full name, preferred email, username, display
-name, avatars, status, state and tags for each account.
+name, avatars, status, state, tags and a deleted flag for each account.
 --
 
 [[all-emails]]
@@ -2435,6 +2435,11 @@ Only set on the last account that is returned.
 |`status`          |optional|Status message of the account.
 |`inactive`        |not set if `false`|
 Whether the account is inactive.
+|`deleted`        |not set if `false`|
+Whether the account is deleted. +
+Only set if detailed account information is requested. +
+See option link:rest-api-changes.html#detailed-accounts[
+DETAILED_ACCOUNTS]
 |`tags`      |optional, not set if empty|
 List of additional tags that this account has. The only +
 current tag an account can have is `SERVICE_USER`. +

@@ -55,7 +55,10 @@ public abstract class AccountDirectory {
     DISPLAY_NAME,
 
     /** Tags such as weather the account is a service user. */
-    TAGS
+    TAGS,
+
+    /** A flag that is set for deleted accounts. */
+    DELETED
   }
 
   public abstract void fillAccountInfo(Iterable<? extends AccountInfo> in, Set<FillOptions> options)

@@ -17,6 +17,7 @@ package com.google.gerrit.server.index.scheduler;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
+import com.google.gerrit.server.account.PeriodicAccountIndexer;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.group.PeriodicGroupIndexer;
 import com.google.gerrit.server.project.PeriodicProjectIndexer;
@@ -47,10 +48,12 @@ public class PeriodicIndexScheduler implements LifecycleListener {
   PeriodicIndexScheduler(
       Map<String, PeriodicIndexerConfig> indexerConfigs,
       WorkQueue queue,
+      PeriodicAccountIndexer accountIndexer,
       PeriodicGroupIndexer groupIndexer,
       PeriodicProjectIndexer projectIndexer) {
     this.indexerConfigs = indexerConfigs;
     this.queue = queue;
+    indexers.put("accounts", accountIndexer);
     indexers.put("groups", groupIndexer);
     indexers.put("projects", projectIndexer);
   }

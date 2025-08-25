@@ -79,7 +79,7 @@ public class FlowRestApiBindingsIT extends AbstractDaemonTest {
                           .action(
                               FlowAction.builder()
                                   .name("AddReviewer")
-                                  .addParameter("user", user.email())
+                                  .addParameter(user.email())
                                   .build())
                           .build())
                   .build());

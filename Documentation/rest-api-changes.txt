@@ -8428,8 +8428,8 @@ link:#flow-expression-info[FlowExpressionInfo] becomes satisfied.
 |Field Name   |Description
 |`name`       |The name of the action. Which actions are supported depends on
 the flow service implementation.
-|`parameters` |Parameters for the action as a key-value map. Which parameters
-are supported depends on the flow service implementation.
+|`parameters` |Parameters for the action as list of strings. Which parameters
+are supported and their format depends on the flow service implementation.
 |=========================
 
 [[flow-expression-info]]

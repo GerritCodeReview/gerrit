@@ -15,7 +15,6 @@
 package com.google.gerrit.acceptance.api.flow;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.acceptance.AccountCreator;
 import com.google.gerrit.acceptance.TestExtensions.TestFlowService;
 import com.google.gerrit.acceptance.testsuite.change.TestChange;
@@ -74,7 +73,7 @@ public class FlowTestUtil {
       FlowActionInfo flowActionInfo = new FlowActionInfo();
       flowActionInfo.name = "AddReviewer";
       flowActionInfo.parameters =
-          ImmutableMap.of("user", accountCreator.createValid("reviewer" + i).email());
+          ImmutableList.of(accountCreator.createValid("reviewer" + i).email());
       flowExpressionInfo.action = flowActionInfo;
 
       stageExpressionsBuilder.add(flowExpressionInfo);
@@ -114,7 +113,7 @@ public class FlowTestUtil {
               .action(
                   FlowAction.builder()
                       .name("AddReviewer")
-                      .addParameter("user", accountCreator.createValid("reviewer" + i).email())
+                      .addParameter(accountCreator.createValid("reviewer" + i).email())
                       .build())
               .build());
     }

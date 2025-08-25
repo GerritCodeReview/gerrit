@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d760e102_defda57a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 4271311
+      },
+      "writtenOn": "2025-08-25T16:59:18Z",
+      "side": 1,
+      "message": "that is right, I missed that part, will do it with new PS",
+      "parentUuid": "3e138dc2_0a11fc37",
+      "revId": "c527392fd4b0efaeda72256f81ef5b2b731013df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5c4a5bda_73576aae",
         "filename": "1",
         "patchSetId": 1
@@ -37,6 +55,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4b4fbbfe_8a9e355e",
+        "filename": "1",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4271311
+      },
+      "writtenOn": "2025-08-25T16:59:18Z",
+      "side": 1,
+      "message": "yes, will delete it on next PS",
+      "parentUuid": "5c4a5bda_73576aae",
+      "revId": "c527392fd4b0efaeda72256f81ef5b2b731013df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fe671a11_347af6a6",
         "filename": "java/com/google/gerrit/sshd/commands/ShowQueue.java",
         "patchSetId": 1
@@ -48,6 +84,24 @@
       "writtenOn": "2025-08-25T16:39:22Z",
       "side": 1,
       "message": "Would -Q make sense as a shortcut?",
+      "revId": "c527392fd4b0efaeda72256f81ef5b2b731013df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e750766f_33d26d90",
+        "filename": "java/com/google/gerrit/sshd/commands/ShowQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 4271311
+      },
+      "writtenOn": "2025-08-25T16:59:18Z",
+      "side": 1,
+      "message": "will do",
+      "parentUuid": "fe671a11_347af6a6",
       "revId": "c527392fd4b0efaeda72256f81ef5b2b731013df",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

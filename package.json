@@ -38,6 +38,7 @@
     "eslint": "^9.26.0",
     "@typescript-eslint/eslint-plugin": "^8.32.0",
     "@typescript-eslint/parser": "^8.32.0",
+    "typescript": "^5.8.2",
     "vscode-css-languageservice": "^6.3.6",
     "vscode-html-languageservice": "^5.5.0"
   },

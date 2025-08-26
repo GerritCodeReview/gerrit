@@ -44,6 +44,10 @@ Intended for interactive use only.
 -q::
 	Group tasks by queue and print queue info.
 
+--queue::
+-Q::
+        Show only the tasks from the specified queue.
+
 == DISPLAY
 
 Task::

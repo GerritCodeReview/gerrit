@@ -35,6 +35,7 @@ import com.google.gerrit.acceptance.UseTimezone;
 import com.google.gerrit.acceptance.VerifyNoPiiInChangeNotes;
 import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
 import com.google.gerrit.acceptance.testsuite.change.ChangeOperations;
+import com.google.gerrit.acceptance.testsuite.change.TestChange;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.Nullable;
@@ -492,6 +493,125 @@ public class SubmitRequirementPredicateIT extends AbstractDaemonTest {
     requestScopeOperations.setApiUser(user2.id());
     approve(r1.getChangeId());
     assertMatching("label:Code-Review=+2,user=non_contributor", r1.getChange().getId());
+  }
+
+  @Test
+  public void nonAuthorLabelVote_match() throws Exception {
+    requestScopeOperations.setApiUser(user.id());
+    TestRepository<InMemoryRepository> clonedRepo = cloneProject(project, user);
+    PushOneCommit.Result r1 =
+        pushFactory
+            .create(user.newIdent(), clonedRepo, "Subject", "file.txt", "text")
+            .to("refs/for/master");
+
+    Change.Id cId = r1.getChange().getId();
+
+    ChangeInfo changeInfo = gApi.changes().id(r1.getChangeId()).get();
+
+    // Assert on author
+    assertAuthor(changeInfo, user.email());
+
+    // Vote from admin (a.k.a. non author) matches
+    requestScopeOperations.setApiUser(admin.id());
+    approve(cId.toString());
+    assertMatching("label:Code-Review=+2,user=non_author", cId);
+    // Also make sure magic label votes and > operator work
+    assertMatching("label:Code-Review=MAX,user=non_author", cId);
+    assertMatching("label:Code-Review>+1,user=non_author", cId);
+  }
+
+  @Test
+  @Sandboxed
+  public void nonAuthorLabelVote_voteFromAuthor_doesNotMatch() throws Exception {
+    Account.Id authorId =
+        accountOperations
+            .newAccount()
+            .fullname("author")
+            .preferredEmail("authoremail@example.com")
+            .create();
+    Account.Id committerId =
+        accountOperations
+            .newAccount()
+            .fullname("committer")
+            .preferredEmail("committeremail@example.com")
+            .create();
+
+    TestChange change =
+        changeOperations
+            .newChange()
+            .project(project)
+            .author(authorId)
+            .committer(committerId)
+            .createAndGet();
+    ChangeInfo changeInfo = gApi.changes().id(change.id()).get();
+    assertAuthor(changeInfo, "authoremail@example.com");
+
+    allowLabelPermission(
+        codeReview().getName(), RefNames.REFS_HEADS + "*", REGISTERED_USERS, -2, +2);
+
+    // Vote from author does not match
+    requestScopeOperations.setApiUser(authorId);
+    approve(change.id().id());
+    assertNotMatching("label:Code-Review=+2,user=non_author", change.numericChangeId());
+  }
+
+  @Test
+  public void nonCommitterLabelVote_voteFromCommitter_doesNotMatch() throws Exception {
+    Account.Id authorId =
+        accountOperations
+            .newAccount()
+            .fullname("author")
+            .preferredEmail("authoremail@example.com")
+            .create();
+    Account.Id committerId =
+        accountOperations
+            .newAccount()
+            .fullname("committer")
+            .preferredEmail("committeremail@example.com")
+            .create();
+
+    TestChange change =
+        changeOperations
+            .newChange()
+            .project(project)
+            .author(authorId)
+            .committer(committerId)
+            .createAndGet();
+    ChangeInfo changeInfo = gApi.changes().id(change.id()).get();
+    assertCommitter(changeInfo, "committeremail@example.com");
+
+    allowLabelPermission(
+        codeReview().getName(), RefNames.REFS_HEADS + "*", REGISTERED_USERS, -2, +2);
+
+    // Vote from committer does not match
+    requestScopeOperations.setApiUser(committerId);
+    approve(change.id().id());
+    assertNotMatching("label:Code-Review=+2,user=non_committer", change.numericChangeId());
+  }
+
+  @Test
+  public void nonCommitterLabelVote_match() throws Exception {
+    requestScopeOperations.setApiUser(user.id());
+    TestRepository<InMemoryRepository> clonedRepo = cloneProject(project, user);
+    PushOneCommit.Result r1 =
+        pushFactory
+            .create(user.newIdent(), clonedRepo, "Subject", "file.txt", "text")
+            .to("refs/for/master");
+
+    Change.Id cId = r1.getChange().getId();
+
+    ChangeInfo changeInfo = gApi.changes().id(r1.getChangeId()).get();
+
+    // Assert on committer
+    assertAuthor(changeInfo, user.email());
+
+    // Vote from admin (a.k.a. non committer) matches
+    requestScopeOperations.setApiUser(admin.id());
+    approve(cId.toString());
+    assertMatching("label:Code-Review=+2,user=non_committer", cId);
+    // Also make sure magic label votes and > operator work
+    assertMatching("label:Code-Review=MAX,user=non_committer", cId);
+    assertMatching("label:Code-Review>+1,user=non_committer", cId);
   }
 
   @Test

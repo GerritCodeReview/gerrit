@@ -239,11 +239,15 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   public static final String ARG_ID_OWNER = "owner";
   public static final String ARG_ID_NON_UPLOADER = "non_uploader";
   public static final String ARG_ID_NON_CONTRIBUTOR = "non_contributor";
+  public static final String ARG_ID_NON_AUTHOR = "non_author";
+  public static final String ARG_ID_NON_COMMITTER = "non_committer";
   public static final String ARG_COUNT = "count";
   public static final String ARG_USERS = "users";
   public static final Account.Id OWNER_ACCOUNT_ID = Account.id(0);
   public static final Account.Id NON_UPLOADER_ACCOUNT_ID = Account.id(-1);
   public static final Account.Id NON_CONTRIBUTOR_ACCOUNT_ID = Account.id(-2);
+  public static final Account.Id NON_AUTHOR_ACCOUNT_ID = Account.id(-3);
+  public static final Account.Id NON_COMMITTER_ACCOUNT_ID = Account.id(-4);
   public static final Account.Id NON_EXISTING_ACCOUNT_ID = Account.id(-1000);
 
   public static final String OPERATOR_MERGED_BEFORE = "mergedbefore";
@@ -1113,6 +1117,10 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
             accounts = Collections.singleton(NON_UPLOADER_ACCOUNT_ID);
           } else if (value.equals(ARG_ID_NON_CONTRIBUTOR)) {
             accounts = Collections.singleton(NON_CONTRIBUTOR_ACCOUNT_ID);
+          } else if (value.equals(ARG_ID_NON_AUTHOR)) {
+            accounts = Collections.singleton(NON_AUTHOR_ACCOUNT_ID);
+          } else if (value.equals(ARG_ID_NON_COMMITTER)) {
+            accounts = Collections.singleton(NON_COMMITTER_ACCOUNT_ID);
           } else {
             accounts = parseAccountIgnoreVisibility(value);
           }
@@ -1151,6 +1159,10 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
           accounts = Collections.singleton(NON_UPLOADER_ACCOUNT_ID);
         } else if (value.equals(ARG_ID_NON_CONTRIBUTOR)) {
           accounts = Collections.singleton(NON_CONTRIBUTOR_ACCOUNT_ID);
+        } else if (value.equals(ARG_ID_NON_AUTHOR)) {
+          accounts = Collections.singleton(NON_AUTHOR_ACCOUNT_ID);
+        } else if (value.equals(ARG_ID_NON_COMMITTER)) {
+          accounts = Collections.singleton(NON_COMMITTER_ACCOUNT_ID);
         } else {
           accounts = parseAccountIgnoreVisibility(value);
         }
@@ -1191,8 +1203,16 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   }
 
   protected void validateLabelArgs(Set<Account.Id> accounts) throws QueryParseException {
-    if (accounts != null && accounts.contains(NON_CONTRIBUTOR_ACCOUNT_ID)) {
-      throw new QueryParseException("non_contributor arg is not allowed in change queries");
+    if (accounts != null) {
+      if (accounts.contains(NON_CONTRIBUTOR_ACCOUNT_ID)) {
+        throw new QueryParseException("non_contributor arg is not allowed in change queries");
+      }
+      if (accounts.contains(NON_AUTHOR_ACCOUNT_ID)) {
+        throw new QueryParseException("non_author arg is not allowed in change queries");
+      }
+      if (accounts.contains(NON_COMMITTER_ACCOUNT_ID)) {
+        throw new QueryParseException("non_committer arg is not allowed in change queries");
+      }
     }
   }
 

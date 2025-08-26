@@ -229,6 +229,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "485964cc_a9b9f4c2",
+        "filename": "polygerrit-ui/app/elements/change/gr-flows/gr-create-flow.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-08-26T12:39:50Z",
+      "side": 1,
+      "message": "I do not see how you consider the arrangement where search bar is kept here permanently - \"clean code\". The two callsites will require difference in functionality and this section is not related to searching.\n\nTo stop the arguing. I\u0027ve asked Ben to make the decision here as our TLM.",
+      "parentUuid": "6c9028fa_27a78f65",
+      "range": {
+        "startLine": 137,
+        "startChar": 18,
+        "endLine": 137,
+        "endChar": 31
+      },
+      "revId": "0ae5fc85e2ce6d6ecf78d2410b7df3a1eaa044a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c0504269_378b2adb",
         "filename": "polygerrit-ui/app/elements/change/gr-flows/gr-create-flow.ts",
         "patchSetId": 8

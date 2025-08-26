@@ -325,6 +325,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7c4cb13f_343d11ba",
+        "filename": "polygerrit-ui/app/elements/change/gr-flows/gr-create-flow.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-08-26T13:23:15Z",
+      "side": 1,
+      "message": "Are you converging already maybe? I think re-suing `gr-searchbar` makes sense, but:\nA) We should move some stuff \"up\" into gr-smart-search.\nB) We should do that now.\n\nI have left some comments about what I think should be moved up.",
+      "parentUuid": "1e4f50a3_52e81945",
+      "range": {
+        "startLine": 137,
+        "startChar": 18,
+        "endLine": 137,
+        "endChar": 31
+      },
+      "revId": "0ae5fc85e2ce6d6ecf78d2410b7df3a1eaa044a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c0504269_378b2adb",
         "filename": "polygerrit-ui/app/elements/change/gr-flows/gr-create-flow.ts",
         "patchSetId": 8

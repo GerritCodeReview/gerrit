@@ -3,6 +3,194 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5ad3afaa_ec716580",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-08-26T13:23:15Z",
+      "side": 1,
+      "message": "Maybe rename to `GrQueryAutocomplete`.",
+      "revId": "15bab296a4ff63f1ee181631b3558d9e765bd6c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "61d3fbb2_bae1f8cc",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-08-26T13:23:15Z",
+      "side": 1,
+      "message": "Move up into gr-smart-search.ts. Maybe provide a slot or something.",
+      "revId": "15bab296a4ff63f1ee181631b3558d9e765bd6c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e6bab02f_19b4fdf7",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-08-26T13:23:15Z",
+      "side": 1,
+      "message": "Document this.",
+      "revId": "15bab296a4ff63f1ee181631b3558d9e765bd6c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6053154e_2b7969ca",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-08-26T13:23:15Z",
+      "side": 1,
+      "message": "Move up into gr-smart-search.ts.",
+      "revId": "15bab296a4ff63f1ee181631b3558d9e765bd6c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4d1d7773_243ae04c",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-08-26T13:23:15Z",
+      "side": 1,
+      "message": "Document this.",
+      "revId": "15bab296a4ff63f1ee181631b3558d9e765bd6c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "18d8dcbc_c6692d5c",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-08-26T13:23:15Z",
+      "side": 1,
+      "message": "This shortcut should be triggered by Flows. Move up.",
+      "revId": "15bab296a4ff63f1ee181631b3558d9e765bd6c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "124d8ea5_d0f8a293",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-08-26T13:23:15Z",
+      "side": 1,
+      "message": "move up",
+      "range": {
+        "startLine": 204,
+        "startChar": 4,
+        "endLine": 208,
+        "endChar": 6
+      },
+      "revId": "15bab296a4ff63f1ee181631b3558d9e765bd6c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1a7890e5_e85df6d3",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-08-26T13:23:15Z",
+      "side": 1,
+      "message": "for flows we don\u0027t want that",
+      "range": {
+        "startLine": 220,
+        "startChar": 1,
+        "endLine": 221,
+        "endChar": 59
+      },
+      "revId": "15bab296a4ff63f1ee181631b3558d9e765bd6c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "62108f62_5e465072",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-08-26T13:23:15Z",
+      "side": 1,
+      "message": "Move truly out of this class, maybe by providing a slot.",
+      "revId": "15bab296a4ff63f1ee181631b3558d9e765bd6c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4a0ffc70_b27cbd6d",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-08-26T13:23:15Z",
+      "side": 1,
+      "message": "Move truly out of this class, maybe by providing a slot.",
+      "range": {
+        "startLine": 280,
+        "startChar": 10,
+        "endLine": 294,
+        "endChar": 13
+      },
+      "revId": "15bab296a4ff63f1ee181631b3558d9e765bd6c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "bf7f7db8_3171f3fa",
         "filename": "polygerrit-ui/app/utils/account-util.ts",
         "patchSetId": 10

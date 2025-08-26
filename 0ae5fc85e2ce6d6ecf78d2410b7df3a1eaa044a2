@@ -59,6 +59,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9c07840d_d670e16d",
+        "filename": "polygerrit-ui/app/elements/change/gr-flows/gr-create-flow.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-08-26T09:59:43Z",
+      "side": 1,
+      "message": "\u003cgr-search-bar\u003e has currently only one usage.\n\nSo I prefer that we update the component and fix bugs along the way, moving more functionality into the parent rather than using autocomplete directly.\n\n\u003e Maybe it\u0027s better to use gr-autocomplete directly\n\nYes, but that adds a lot of work as of now without clear indications that we are indeed running into major bugs.\n\nLet\u0027s consider this as a future item.",
+      "parentUuid": "dc523760_e4a2b42c",
+      "range": {
+        "startLine": 137,
+        "startChar": 18,
+        "endLine": 137,
+        "endChar": 31
+      },
+      "revId": "0ae5fc85e2ce6d6ecf78d2410b7df3a1eaa044a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c0504269_378b2adb",
@@ -72,6 +96,30 @@
       "writtenOn": "2025-08-26T09:51:13Z",
       "side": 1,
       "message": "Shouldn\u0027t the condition include the \"gerrit prefix\"?",
+      "range": {
+        "startLine": 173,
+        "startChar": 9,
+        "endLine": 173,
+        "endChar": 25
+      },
+      "revId": "0ae5fc85e2ce6d6ecf78d2410b7df3a1eaa044a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f790e254_15aa7e32",
+        "filename": "polygerrit-ui/app/elements/change/gr-flows/gr-create-flow.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-08-26T09:59:43Z",
+      "side": 1,
+      "message": "That\u0027s tracked in `currentConditionPrefix` property.",
+      "parentUuid": "c0504269_378b2adb",
       "range": {
         "startLine": 173,
         "startChar": 9,
@@ -105,6 +153,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d2a91e81_c3536ec2",
+        "filename": "polygerrit-ui/app/elements/change/gr-flows/gr-create-flow.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-08-26T09:59:43Z",
+      "side": 1,
+      "message": "I\u0027ll send a follow up CL. Added a TODO now.",
+      "parentUuid": "53a033a3_5721252a",
+      "range": {
+        "startLine": 176,
+        "startChar": 2,
+        "endLine": 195,
+        "endChar": 3
+      },
+      "revId": "0ae5fc85e2ce6d6ecf78d2410b7df3a1eaa044a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2915da7e_97aceedb",
@@ -128,6 +200,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "63e350c3_881f643a",
+        "filename": "polygerrit-ui/app/utils/account-util.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-08-26T09:59:43Z",
+      "side": 1,
+      "message": "Renamed.\nDon\u0027t think this really deserves a docstrings but I let AI generate it.\n\nFeel free to leave improvements as suggestions.",
+      "parentUuid": "2915da7e_97aceedb",
+      "range": {
+        "startLine": 146,
+        "startChar": 9,
+        "endLine": 146,
+        "endChar": 26
+      },
+      "revId": "0ae5fc85e2ce6d6ecf78d2410b7df3a1eaa044a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ea2470a6_1b471b42",
@@ -141,6 +237,30 @@
       "writtenOn": "2025-08-26T09:51:13Z",
       "side": 1,
       "message": "Same, here let\u0027s add a docstring here explaining the params",
+      "range": {
+        "startLine": 162,
+        "startChar": 16,
+        "endLine": 162,
+        "endChar": 39
+      },
+      "revId": "0ae5fc85e2ce6d6ecf78d2410b7df3a1eaa044a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "afb76f0b_a4c0f328",
+        "filename": "polygerrit-ui/app/utils/account-util.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-08-26T09:59:43Z",
+      "side": 1,
+      "message": "Don\u0027t think this really deserves a docstrings but I let AI generate it.\n\nFeel free to leave improvements as suggestions.",
+      "parentUuid": "ea2470a6_1b471b42",
       "range": {
         "startLine": 162,
         "startChar": 16,

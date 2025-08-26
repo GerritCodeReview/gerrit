@@ -415,7 +415,7 @@ public class RebaseChangeOp implements BatchUpdateOp {
                 "Patch Set %d: Patch Set %d was rebased",
                 rebasePatchSetId.get(), originalPatchSetId.get()));
 
-    if (user.isImpersonating()) {
+    if (user.isImpersonated()) {
       stringBuilder.append(
           String.format(
               " on behalf of %s", AccountTemplateUtil.getAccountTemplate(user.getAccountId())));

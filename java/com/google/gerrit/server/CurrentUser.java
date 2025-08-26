@@ -66,7 +66,13 @@ public abstract class CurrentUser {
     return this;
   }
 
+  @Deprecated(since = "3.12", forRemoval = true)
   public boolean isImpersonating() {
+    return false;
+  }
+
+  /** Is this account being impersonated by {@link #getRealUser()}. */
+  public boolean isImpersonated() {
     return false;
   }
 

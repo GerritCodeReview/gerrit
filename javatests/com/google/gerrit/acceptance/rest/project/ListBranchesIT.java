@@ -362,7 +362,9 @@ public class ListBranchesIT extends AbstractDaemonTest {
         ImmutableList.of(branch1, branch2, branch3), list().withSubstring("somebranch").get());
 
     // Using regex.
-    assertRefs(ImmutableList.of(master), list().withRegex(".*ast.*r").get());
+    assertRefs(
+        ImmutableList.of(branch("HEAD", "master", false), master),
+        list().withRegex(".*ast.*r").get());
     assertRefs(ImmutableList.of(), list().withRegex(".*AST.*R").get());
 
     // Conflicting options

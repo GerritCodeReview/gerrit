@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "764db658_035e0040",
+        "filename": "plugins/yarn.lock",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-08-26T17:38:24Z",
+      "side": 0,
+      "message": "This looks like it was wrongly generated. As the package is added a couple of times using the new version, so conflicting.",
+      "revId": "59ec58973b7b5f6586c7991be8bb3f6f2a466a44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

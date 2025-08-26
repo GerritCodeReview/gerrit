@@ -15,6 +15,7 @@
 package com.google.gerrit.server;
 
 import com.google.common.collect.ImmutableSet;
+import com.google.errorprone.annotations.InlineMe;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.server.account.GroupMembership;
 import com.google.gerrit.server.account.externalids.ExternalId;
@@ -66,7 +67,14 @@ public abstract class CurrentUser {
     return this;
   }
 
-  public boolean isImpersonating() {
+  @Deprecated(since = "3.12", forRemoval = true)
+  @InlineMe(replacement = "this.isImpersonated()")
+  public final boolean isImpersonating() {
+    return this.isImpersonated();
+  }
+
+  /** Is this account being impersonated by {@link #getRealUser()}. */
+  public boolean isImpersonated() {
     return false;
   }
 

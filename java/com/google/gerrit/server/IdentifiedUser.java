@@ -305,7 +305,7 @@ public class IdentifiedUser extends CurrentUser {
   }
 
   @Override
-  public boolean isImpersonating() {
+  public boolean isImpersonated() {
     if (realUser == this) {
       return false;
     }

@@ -18,17 +18,11 @@ import {
   ValidationOptionsInfo,
 } from '../../../types/common';
 import '../../shared/gr-dialog/gr-dialog';
-import '../../shared/gr-autocomplete/gr-autocomplete';
 import '../gr-validation-options/gr-validation-options';
-import {
-  AutocompleteQuery,
-  AutocompleteSuggestion,
-  GrAutocomplete,
-} from '../../shared/gr-autocomplete/gr-autocomplete';
+import '../gr-change-autocomplete/gr-change-autocomplete';
 import {getAppContext} from '../../../services/app-context';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {ValueChangedEvent} from '../../../types/events';
-import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 import {fireNoBubbleNoCompose} from '../../../utils/event-util';
 import {resolve} from '../../../models/dependency';
 import {changeModelToken} from '../../../models/change/change-model';
@@ -37,11 +31,7 @@ import {relatedChangesModelToken} from '../../../models/change/related-changes-m
 import {subscribe} from '../../lit/subscription-controller';
 import {formStyles} from '../../../styles/form-styles';
 import {GrValidationOptions} from '../gr-validation-options/gr-validation-options';
-
-export interface RebaseChange {
-  name: string;
-  value: NumericChangeId;
-}
+import {GrChangeAutocomplete} from '../gr-change-autocomplete/gr-change-autocomplete';
 
 export interface ConfirmRebaseEventDetail {
   base: string | null;
@@ -90,12 +80,6 @@ export class GrConfirmRebaseDialog
   shouldRebaseChain = false;
 
   @state()
-  private query: AutocompleteQuery;
-
-  @state()
-  recentChanges?: RebaseChange[];
-
-  @state()
   allowConflicts = false;
 
   @state()
@@ -125,8 +109,8 @@ export class GrConfirmRebaseDialog
   @query('#rebaseChain')
   private rebaseChain?: HTMLInputElement;
 
-  @query('#parentInput')
-  parentInput!: GrAutocomplete;
+  @query('gr-change-autocomplete')
+  changeAutocomplete!: GrChangeAutocomplete;
 
   @query('gr-validation-options')
   private validationOptionsEl?: GrValidationOptions;
@@ -156,7 +140,6 @@ export class GrConfirmRebaseDialog
 
   constructor() {
     super();
-    this.query = input => this.getChangeSuggestions(input);
     subscribe(
       this,
       () => this.getUserModel().account$,
@@ -310,17 +293,14 @@ export class GrConfirmRebaseDialog
             </label>
           </div>
           <div class="parentRevisionContainer">
-            <gr-autocomplete
-              id="parentInput"
-              .query=${this.query}
+            <gr-change-autocomplete
               .text=${this.text}
+              .excludeChangeNum=${this.changeNum}
               @text-changed=${(e: ValueChangedEvent) =>
                 (this.text = e.detail.value)}
               @click=${this.handleEnterChangeNumberClick}
-              allow-non-suggested-values
-              placeholder="Change number, ref, or commit hash"
             >
-            </gr-autocomplete>
+            </gr-change-autocomplete>
           </div>
           <div class="rebaseCheckbox">
             <input
@@ -400,7 +380,6 @@ export class GrConfirmRebaseDialog
   // in case there are new/updated changes in the generic query since the
   // last time it was run.
   initiateFetchInfo() {
-    this.fetchRecentChanges();
     this.fetchValidationOptions();
   }
 
@@ -414,45 +393,9 @@ export class GrConfirmRebaseDialog
     );
   }
 
-  fetchRecentChanges() {
-    return this.restApiService
-      .getChanges(
-        undefined,
-        'is:open -age:90d',
-        /* offset=*/ undefined,
-        /* options=*/ undefined,
-        throwingErrorCallback
-      )
-      .then(response => {
-        if (!response) return [];
-        const changes: RebaseChange[] = [];
-        for (const change of response) {
-          changes.push({
-            name: `${change._number}: ${change.subject}`,
-            value: change._number,
-          });
-        }
-        this.recentChanges = changes;
-        return this.recentChanges;
-      });
-  }
-
   isCurrentUserEqualToLatestUploader() {
     if (!this.account || !this.uploader) return true;
     return this.account._account_id === this.uploader._account_id;
-  }
-
-  getRecentChanges() {
-    if (this.recentChanges) {
-      return Promise.resolve(this.recentChanges);
-    }
-    return this.fetchRecentChanges();
-  }
-
-  private getChangeSuggestions(input: string) {
-    return this.getRecentChanges().then(changes =>
-      this.filterChanges(input, changes)
-    );
   }
 
   private setPreferredAsSelectedEmailForRebase(emails: EmailInfo[]) {
@@ -519,23 +462,6 @@ export class GrConfirmRebaseDialog
     this.selectedEmailForRebase = e.detail.value;
   }
 
-  filterChanges(
-    input: string,
-    changes: RebaseChange[]
-  ): AutocompleteSuggestion[] {
-    return changes
-      .filter(
-        change => change.name.includes(input) && change.value !== this.changeNum
-      )
-      .map(
-        change =>
-          ({
-            name: change.name,
-            value: `${change.value}`,
-          } as AutocompleteSuggestion)
-      );
-  }
-
   private displayParentOption() {
     return this.hasParent && this.rebaseOnCurrent;
   }
@@ -599,7 +525,7 @@ export class GrConfirmRebaseDialog
   }
 
   private handleRebaseOnOther() {
-    this.parentInput.focus();
+    this.changeAutocomplete.focus();
   }
 
   private handleEnterChangeNumberClick() {

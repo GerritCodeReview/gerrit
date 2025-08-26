@@ -3,22 +3,15 @@
  * Copyright 2016 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import * as sinon from 'sinon';
 import '../../../test/common-test-setup';
 import './gr-confirm-rebase-dialog';
-import {GrConfirmRebaseDialog, RebaseChange} from './gr-confirm-rebase-dialog';
-import {
-  pressKey,
-  query,
-  queryAndAssert,
-  stubRestApi,
-  waitUntil,
-} from '../../../test/test-utils';
+import {GrConfirmRebaseDialog} from './gr-confirm-rebase-dialog';
+import {query, queryAndAssert} from '../../../test/test-utils';
 import {
   AccountId,
   BranchName,
   EmailAddress,
-  NumericChangeId,
+  EmailInfo,
   Timestamp,
 } from '../../../types/common';
 import {
@@ -26,14 +19,18 @@ import {
   createChangeViewChange,
 } from '../../../test/test-data-generators';
 import {assert, fixture, html} from '@open-wc/testing';
-import {Key} from '../../../utils/dom-util';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
 import {testResolver} from '../../../test/common-test-setup';
 import {userModelToken} from '../../../models/user/user-model';
 import {changeModelToken} from '../../../models/change/change-model';
-import {GrAccountChip} from '../../shared/gr-account-chip/gr-account-chip';
+import {GrChangeAutocomplete} from '../gr-change-autocomplete/gr-change-autocomplete';
+import {GrAutocomplete} from '../../shared/gr-autocomplete/gr-autocomplete';
 import {LoadingStatus} from '../../../types/types';
-import {GrDropdownList} from '../../shared/gr-dropdown-list/gr-dropdown-list';
+import {GrAccountChip} from '../../shared/gr-account-chip/gr-account-chip';
+import {
+  DropdownItem,
+  GrDropdownList,
+} from '../../shared/gr-dropdown-list/gr-dropdown-list';
 
 suite('gr-confirm-rebase-dialog tests', () => {
   let element: GrConfirmRebaseDialog;
@@ -97,12 +94,7 @@ suite('gr-confirm-rebase-dialog tests', () => {
             </label>
           </div>
           <div class="parentRevisionContainer">
-            <gr-autocomplete
-              allow-non-suggested-values=""
-              id="parentInput"
-              placeholder="Change number, ref, or commit hash"
-            >
-            </gr-autocomplete>
+            <gr-change-autocomplete> </gr-change-autocomplete>
           </div>
           <div class="rebaseCheckbox">
             <input id="rebaseAllowConflicts" type="checkbox" />
@@ -251,8 +243,8 @@ suite('gr-confirm-rebase-dialog tests', () => {
         'gr-dropdown-list'
       );
       assert.deepStrictEqual(
-        dropdownList.items!.map(e => e.value),
-        element.committerEmailDropdownItems.map(e => e.email)
+        dropdownList.items!.map((e: DropdownItem) => e.value),
+        element.committerEmailDropdownItems.map((e: EmailInfo) => e.email)
       );
     });
 
@@ -286,8 +278,8 @@ suite('gr-confirm-rebase-dialog tests', () => {
         'gr-dropdown-list'
       );
       assert.deepStrictEqual(
-        dropdownList.items!.map(e => e.value),
-        element.committerEmailDropdownItems.map(e => e.email)
+        dropdownList.items!.map((e: DropdownItem) => e.value),
+        element.committerEmailDropdownItems.map((e: EmailInfo) => e.email)
       );
     });
   });
@@ -457,8 +449,20 @@ suite('gr-confirm-rebase-dialog tests', () => {
     assert.equal(element.text, '');
   });
 
-  test('_getSelectedBase', async () => {
-    element.text = '5fab321c';
+  test('getSelectedBase', async () => {
+    const autocomplete = queryAndAssert<GrChangeAutocomplete>(
+      element,
+      'gr-change-autocomplete'
+    );
+    const innerAutocomplete = queryAndAssert<GrAutocomplete>(
+      autocomplete,
+      'gr-autocomplete'
+    );
+
+    innerAutocomplete.dispatchEvent(
+      new CustomEvent('text-changed', {detail: {value: '5fab321c'}})
+    );
+    await innerAutocomplete.updateComplete;
     await element.updateComplete;
 
     queryAndAssert<HTMLInputElement>(element, '#rebaseOnParentInput').checked =
@@ -471,106 +475,6 @@ suite('gr-confirm-rebase-dialog tests', () => {
     assert.equal(element.getSelectedBase(), '');
     queryAndAssert<HTMLInputElement>(element, '#rebaseOnTipInput').checked =
       false;
-    assert.equal(element.getSelectedBase(), element.text);
-    element.text = '101: Test';
-    await element.updateComplete;
-
-    assert.equal(element.getSelectedBase(), '101');
-  });
-
-  suite('parent suggestions', () => {
-    let recentChanges: RebaseChange[];
-    let getChangesStub: sinon.SinonStub;
-    setup(() => {
-      recentChanges = [
-        {
-          name: '123: my first awesome change',
-          value: 123 as NumericChangeId,
-        },
-        {
-          name: '124: my second awesome change',
-          value: 124 as NumericChangeId,
-        },
-        {
-          name: '245: my third awesome change',
-          value: 245 as NumericChangeId,
-        },
-      ];
-
-      getChangesStub = stubRestApi('getChanges').returns(
-        Promise.resolve([
-          {
-            ...createChangeViewChange(),
-            _number: 123 as NumericChangeId,
-            subject: 'my first awesome change',
-          },
-          {
-            ...createChangeViewChange(),
-            _number: 124 as NumericChangeId,
-            subject: 'my second awesome change',
-          },
-          {
-            ...createChangeViewChange(),
-            _number: 245 as NumericChangeId,
-            subject: 'my third awesome change',
-          },
-        ])
-      );
-    });
-
-    test('_getRecentChanges', async () => {
-      const recentChangesSpy = sinon.spy(element, 'getRecentChanges');
-      await element.getRecentChanges();
-      await element.updateComplete;
-
-      assert.deepEqual(element.recentChanges, recentChanges);
-      assert.equal(getChangesStub.callCount, 1);
-
-      // When called a second time, should not re-request recent changes.
-      await element.getRecentChanges();
-      await element.updateComplete;
-
-      assert.equal(recentChangesSpy.callCount, 2);
-      assert.equal(getChangesStub.callCount, 1);
-    });
-
-    test('_filterChanges', async () => {
-      assert.equal(element.filterChanges('123', recentChanges).length, 1);
-      assert.equal(element.filterChanges('12', recentChanges).length, 2);
-      assert.equal(element.filterChanges('awesome', recentChanges).length, 3);
-      assert.equal(element.filterChanges('third', recentChanges).length, 1);
-
-      element.changeNum = 123 as NumericChangeId;
-      await element.updateComplete;
-
-      assert.equal(element.filterChanges('123', recentChanges).length, 0);
-      assert.equal(element.filterChanges('124', recentChanges).length, 1);
-      assert.equal(element.filterChanges('awesome', recentChanges).length, 2);
-    });
-
-    test('input text change triggers function', async () => {
-      const clock = sinon.useFakeTimers();
-      const recentChangesSpy = sinon.spy(element, 'getRecentChanges');
-      pressKey(
-        queryAndAssert(queryAndAssert(element, '#parentInput'), '#input'),
-        Key.ENTER
-      );
-      await element.updateComplete;
-      element.text = '1';
-
-      // Wait for debounce
-      clock.tick(200);
-      await clock.runAllAsync();
-      await element.updateComplete;
-      await waitUntil(() => recentChangesSpy.calledOnce);
-      element.text = '12';
-
-      // Wait for debounce
-      clock.tick(200);
-      await clock.runAllAsync();
-      await element.updateComplete;
-      await waitUntil(() => recentChangesSpy.calledTwice);
-      clock.restore();
-    });
+    assert.equal(element.getSelectedBase(), '5fab321c');
   });
 });

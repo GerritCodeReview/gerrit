@@ -34,6 +34,121 @@
       "parentUuid": "af459aca_3efaff2b",
       "revId": "0ae5fc85e2ce6d6ecf78d2410b7df3a1eaa044a2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc523760_e4a2b42c",
+        "filename": "polygerrit-ui/app/elements/change/gr-flows/gr-create-flow.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-08-26T09:51:13Z",
+      "side": 1,
+      "message": "Reusing search-bar directly seems error-prone. It has logic which are specific to searching. Like sending \"handle-search\" event on Enter. Even if nothing is broken at the moment, it can too easily be broken in the future, if more search-related things get added to gr-search-bar. Maybe it\u0027s better to use gr-autocomplete directly (or some other way to split generic functionality away from specific one for re-use)",
+      "range": {
+        "startLine": 137,
+        "startChar": 18,
+        "endLine": 137,
+        "endChar": 31
+      },
+      "revId": "0ae5fc85e2ce6d6ecf78d2410b7df3a1eaa044a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c0504269_378b2adb",
+        "filename": "polygerrit-ui/app/elements/change/gr-flows/gr-create-flow.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-08-26T09:51:13Z",
+      "side": 1,
+      "message": "Shouldn\u0027t the condition include the \"gerrit prefix\"?",
+      "range": {
+        "startLine": 173,
+        "startChar": 9,
+        "endLine": 173,
+        "endChar": 25
+      },
+      "revId": "0ae5fc85e2ce6d6ecf78d2410b7df3a1eaa044a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "53a033a3_5721252a",
+        "filename": "polygerrit-ui/app/elements/change/gr-flows/gr-create-flow.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-08-26T09:51:13Z",
+      "side": 1,
+      "message": "This is copied from gr-smart-search right? Can we move it into the shared util file instead?",
+      "range": {
+        "startLine": 176,
+        "startChar": 2,
+        "endLine": 195,
+        "endChar": 3
+      },
+      "revId": "0ae5fc85e2ce6d6ecf78d2410b7df3a1eaa044a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2915da7e_97aceedb",
+        "filename": "polygerrit-ui/app/utils/account-util.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-08-26T09:51:13Z",
+      "side": 1,
+      "message": "If we are moving these to util. It would be helpful if we add docstring here. Ideally the name should represent that it\u0027s meant for autocomplete.",
+      "range": {
+        "startLine": 146,
+        "startChar": 9,
+        "endLine": 146,
+        "endChar": 26
+      },
+      "revId": "0ae5fc85e2ce6d6ecf78d2410b7df3a1eaa044a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ea2470a6_1b471b42",
+        "filename": "polygerrit-ui/app/utils/account-util.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-08-26T09:51:13Z",
+      "side": 1,
+      "message": "Same, here let\u0027s add a docstring here explaining the params",
+      "range": {
+        "startLine": 162,
+        "startChar": 16,
+        "endLine": 162,
+        "endChar": 39
+      },
+      "revId": "0ae5fc85e2ce6d6ecf78d2410b7df3a1eaa044a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -32,12 +32,15 @@
     "rollup": "^4.41.1",
     "terser": "~5.39.0",
     "ts-lit-plugin": "^2.0.2",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.2"
+  },
+  "resolutionsComments": {
+    "typescript": "must match go/ts-version at Google",
+    "vscode-css-languageservice": "for lit-analyzer, see change 487301",
+    "vscode-html-languageservice": "for lit-analyzer, see change 487301"
   },
   "resolutions": {
-    "eslint": "^9.26.0",
-    "@typescript-eslint/eslint-plugin": "^8.32.0",
-    "@typescript-eslint/parser": "^8.32.0",
+    "typescript": "5.8.2",
     "vscode-css-languageservice": "^6.3.6",
     "vscode-html-languageservice": "^5.5.0"
   },

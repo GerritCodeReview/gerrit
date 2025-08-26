@@ -3474,7 +3474,10 @@ class ReceiveCommits {
           return false;
         }
 
-        try (TraceTimer traceTimer2 = newTimer("validateNewPatchSetNoteDb#isMergedInto")) {
+        try (TraceTimer traceTimer2 =
+            newTimer(
+                "validateNewPatchSetNoteDb#isMergedInto",
+                Metadata.builder().resourceCount(revisions.size()))) {
           ReachabilityChecker checker =
               globalRevWalk.getObjectReader().createReachabilityChecker(globalRevWalk);
           for (RevCommit prior : revisions.keySet()) {

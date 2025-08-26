@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "af459aca_3efaff2b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-08-26T09:37:12Z",
+      "side": 1,
+      "message": "Can you remove the magnifier icon and the 100% rounded corners?",
+      "revId": "0ae5fc85e2ce6d6ecf78d2410b7df3a1eaa044a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -15,6 +15,7 @@
 package com.google.gerrit.server.query.change;
 
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.collect.ImmutableList.toImmutableList;
 import static java.util.Objects.requireNonNull;
 
 import com.google.gerrit.common.Nullable;
@@ -24,6 +25,7 @@ import com.google.gerrit.index.query.HasCardinality;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.index.change.ChangeField;
+import com.google.inject.Provider;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -45,33 +47,37 @@ public final class ChangeStatusPredicate extends ChangeIndexPredicate implements
   private static final String INVALID_STATUS = "__invalid__";
   static final Predicate<ChangeData> NONE = new ChangeStatusPredicate(null);
 
-  private static final TreeMap<String, Predicate<ChangeData>> PREDICATES;
-  private static final Predicate<ChangeData> CLOSED;
-  private static final Predicate<ChangeData> OPEN;
+  private static final TreeMap<String, Provider<Predicate<ChangeData>>> PREDICATES;
+  private static final Provider<Predicate<ChangeData>> CLOSED;
+  private static final Provider<Predicate<ChangeData>> OPEN;
 
   static {
     PREDICATES = new TreeMap<>();
-    List<Predicate<ChangeData>> open = new ArrayList<>();
-    List<Predicate<ChangeData>> closed = new ArrayList<>();
+    List<Change.Status> openStatuses = new ArrayList<>();
+    List<Change.Status> closedStatuses = new ArrayList<>();
 
     for (Change.Status s : Change.Status.values()) {
-      ChangeStatusPredicate p = forStatus(s);
       String str = canonicalize(s);
       checkState(
           !INVALID_STATUS.equals(str),
           "invalid status sentinel %s cannot match canonicalized status string %s",
           INVALID_STATUS,
           str);
-      PREDICATES.put(str, p);
-      (s.isOpen() ? open : closed).add(p);
+      PREDICATES.put(str, () -> forStatus(s));
+      (s.isOpen() ? openStatuses : closedStatuses).add(s);
     }
 
-    CLOSED = Predicate.or(closed);
-    OPEN = Predicate.or(open);
+    CLOSED = () -> statusesToPrecidate(closedStatuses);
+    OPEN = () -> statusesToPrecidate(openStatuses);
 
     PREDICATES.put("closed", CLOSED);
     PREDICATES.put("open", OPEN);
     PREDICATES.put("pending", OPEN);
+  }
+
+  private static Predicate<ChangeData> statusesToPrecidate(List<Change.Status> statuses) {
+    return Predicate.or(
+        statuses.stream().map(ChangeStatusPredicate::forStatus).collect(toImmutableList()));
   }
 
   public static String canonicalize(Change.Status status) {
@@ -80,23 +86,23 @@ public final class ChangeStatusPredicate extends ChangeIndexPredicate implements
 
   public static Predicate<ChangeData> parse(String value) throws QueryParseException {
     String lower = value.toLowerCase(Locale.US);
-    NavigableMap<String, Predicate<ChangeData>> head = PREDICATES.tailMap(lower, true);
+    NavigableMap<String, Provider<Predicate<ChangeData>>> head = PREDICATES.tailMap(lower, true);
     if (!head.isEmpty()) {
       // Assume no statuses share a common prefix so we can only walk one entry.
-      Map.Entry<String, Predicate<ChangeData>> e = head.entrySet().iterator().next();
+      Map.Entry<String, Provider<Predicate<ChangeData>>> e = head.entrySet().iterator().next();
       if (e.getKey().startsWith(lower)) {
-        return e.getValue();
+        return e.getValue().get();
       }
     }
     throw new QueryParseException("Unrecognized value: " + value);
   }
 
   public static Predicate<ChangeData> open() {
-    return OPEN;
+    return OPEN.get();
   }
 
   public static Predicate<ChangeData> closed() {
-    return CLOSED;
+    return CLOSED.get();
   }
 
   public static ChangeStatusPredicate forStatus(Change.Status status) {

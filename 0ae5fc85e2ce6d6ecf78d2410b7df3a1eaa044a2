@@ -133,6 +133,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2137a516_bbb33bfb",
+        "filename": "polygerrit-ui/app/elements/change/gr-flows/gr-create-flow.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-08-26T11:54:56Z",
+      "side": 1,
+      "message": "If you intend this code to be thrown away later, that\u0027s fine, but then it should be surrounding by large warnings stating that. But if we start introducing changes to existing components like gr-search-bar for the purposes if initial hacky solution, these changes become permanent tech-debt added to the codebase. If that\u0027s the case, then we should create a temporary fork gr-search-bar and clearly mark it as a temporary solution for prototyping",
+      "parentUuid": "f3d54c5f_d7e4dbcf",
+      "range": {
+        "startLine": 137,
+        "startChar": 18,
+        "endLine": 137,
+        "endChar": 31
+      },
+      "revId": "0ae5fc85e2ce6d6ecf78d2410b7df3a1eaa044a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c0504269_378b2adb",
         "filename": "polygerrit-ui/app/elements/change/gr-flows/gr-create-flow.ts",
         "patchSetId": 8
@@ -216,6 +240,30 @@
       "side": 1,
       "message": "`currentCondition` is what is present in the input field named `Condition`\n\nThat has not changed before or after this CL.\n\n\u003e Not to mention, that for a Gerrit obstacle you would also need a separate field for a \"changeId\"\n\nI did not follow this. We are keeping this hidden from the user. They just write the `changeQuery` and we automatically append the `host $h has change $c with $query`",
       "parentUuid": "30ee7935_94b9de3a",
+      "range": {
+        "startLine": 173,
+        "startChar": 9,
+        "endLine": 173,
+        "endChar": 25
+      },
+      "revId": "0ae5fc85e2ce6d6ecf78d2410b7df3a1eaa044a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "80950838_0ecbbde4",
+        "filename": "polygerrit-ui/app/elements/change/gr-flows/gr-create-flow.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-08-26T11:54:56Z",
+      "side": 1,
+      "message": "Flow stage has condition, condition consist of obstacles. Gerrit obstacle has parameters such as host, changeId, and query. So in this case currentCondition is holding a param of one of the obstacles, but it\u0027s still called currentCondition. That is confusing.\n\n\u003e I did not follow this. We are keeping this hidden from the user. They just write the changeQuery and we automatically append the host $h has change $c with $query\n\nThe conditions can be for other changes on the host. (ie. when parent change is submitted). Perhaps you want that in this implementation it\u0027s always assumed that the condition is always on the current change, but that\u0027s not stated anywhere.",
+      "parentUuid": "3a1db08a_84a6ad4a",
       "range": {
         "startLine": 173,
         "startChar": 9,

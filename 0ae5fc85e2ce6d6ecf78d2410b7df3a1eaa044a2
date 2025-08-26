@@ -157,6 +157,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c0f71c25_ba9cfc5a",
+        "filename": "polygerrit-ui/app/elements/change/gr-flows/gr-create-flow.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-08-26T12:07:57Z",
+      "side": 1,
+      "message": "\u003e if initial hacky solution, these changes become permanent tech-debt added to the codebase\n\nThis assumption is not correct.\n\n```\n Post MVP launch, it makes sense to do it especially once we get a better sense of bugs based on internal team usage\n```\n\nI have mentioned this in the previous comment. So far the only change in `gr-smart-search` is the property to hide an icon.\n\nCreating a fork to avoid this diff is beyond overkill.\n\nWe can do cleanups later and we should do cleanups later. This is true for all projects everywhere.\n\nAlso the throwaway part is confusing and comes up repeatedly. Implementing a prototype does not mean making something with 100% guarantee it will be thrown away.\n\nIf you have some concrete suggestions why this UX is not optimal then I can understand and we can figure out what the new UX should be.\n\nOtherwise I can\u0027t imagine a user typing a change query and not getting the autocomplete we already provide in the search bar.\n\nSo the dependency from GrCreateFlow -\u003e Autocomplete with change query terms will always be there?\n\nWhat you\u0027re asking for is another layer in the middle. My proposal is to implement this layer based on how much trouble not having the layer is costing us.",
+      "parentUuid": "2137a516_bbb33bfb",
+      "range": {
+        "startLine": 137,
+        "startChar": 18,
+        "endLine": 137,
+        "endChar": 31
+      },
+      "revId": "0ae5fc85e2ce6d6ecf78d2410b7df3a1eaa044a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c0504269_378b2adb",
         "filename": "polygerrit-ui/app/elements/change/gr-flows/gr-create-flow.ts",
         "patchSetId": 8

@@ -570,10 +570,24 @@ The `label` operator allows to match changes that have votes matching the given
 the link:user-search.html#labels[label] query operator.
 +
 If used in submit requirement expressions, this operator supports an additional
-`user=non_contributor` argument. This argument works similar to the
-link:user-search.html#non_uploader["user=non_uploader"] argument and returns
-true if the change has a matching label vote that is applied by a user that's
-not the uploader, author or committer of the latest patchset.
+arguments that work similar to the
+link:user-search.html#non_uploader["user=non_uploader"] argument:
+
+* `user=non_author` returns true if the change has a matching
+  label vote that is applied by a user that's not the author of the
+  latest patchset (note that the author can be forged with the
+  link:access-control.html#category_forge_author[Forge Author]
+  permission, if this permission is assigned requiring a non-author
+  approval is not sufficient to prevent self-approvals)
+* `user=non_committer` returns true if the change has a matching
+  label vote that is applied by a user that's not the committer of the
+  latest patchset (note that the committer can be forged with the
+  link:access-control.html#category_forge_committer[Forge Committer]
+  permission, if this permission is assigned requiring a non-committer
+  approval is not sufficient to prevent self-approvals)
+* `user=non_contributor` returns true if the change has a matching
+  label vote that is applied by a user that's not the uploader, author
+  or committer of the latest patchset
 
 [[unsupported_operators]]
 === Unsupported Operators

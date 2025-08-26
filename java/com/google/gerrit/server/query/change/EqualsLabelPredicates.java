@@ -257,23 +257,41 @@ public class EqualsLabelPredicates {
         if (account.equals(ChangeQueryBuilder.NON_UPLOADER_ACCOUNT_ID)
             && cd.currentPatchSet().uploader().equals(approver)) {
           logger.atFine().log(
-              "vote %s on change %s doesn't match since it is not from the uploader %s",
+              "vote %s on change %s doesn't match since it is from the uploader %s",
               psa, cd.change().getChangeId(), cd.currentPatchSet().uploader());
           return false;
         }
 
         if (account.equals(ChangeQueryBuilder.NON_CONTRIBUTOR_ACCOUNT_ID)) {
-          if ((cd.currentPatchSet().uploader().equals(approver)
+          if (cd.currentPatchSet().uploader().equals(approver)
               || matchAccount(cd.getCommitter().getEmailAddress(), approver)
-              || matchAccount(cd.getAuthor().getEmailAddress(), approver))) {
+              || matchAccount(cd.getAuthor().getEmailAddress(), approver)) {
             logger.atFine().log(
-                "vote %s on change %s doesn't match since it is not from a contributor"
+                "vote %s on change %s doesn't match since it is from a contributor"
                     + " (uploader: %s, committer: %s, author: %s)",
                 psa,
                 cd.change().getChangeId(),
                 cd.currentPatchSet().uploader(),
                 cd.getCommitter().getEmailAddress(),
                 cd.getAuthor().getEmailAddress());
+            return false;
+          }
+        }
+
+        if (account.equals(ChangeQueryBuilder.NON_AUTHOR_ACCOUNT_ID)) {
+          if (matchAccount(cd.getAuthor().getEmailAddress(), approver)) {
+            logger.atFine().log(
+                "vote %s on change %s doesn't match since it is from the author %s",
+                psa, cd.change().getChangeId(), cd.getAuthor().getEmailAddress());
+            return false;
+          }
+        }
+
+        if (account.equals(ChangeQueryBuilder.NON_COMMITTER_ACCOUNT_ID)) {
+          if (matchAccount(cd.getCommitter().getEmailAddress(), approver)) {
+            logger.atFine().log(
+                "vote %s on change %s doesn't match since it is from the committer %s",
+                psa, cd.change().getChangeId(), cd.getCommitter().getEmailAddress());
             return false;
           }
         }
@@ -327,7 +345,9 @@ public class EqualsLabelPredicates {
       return account != null
           && (account.equals(ChangeQueryBuilder.OWNER_ACCOUNT_ID)
               || account.equals(ChangeQueryBuilder.NON_UPLOADER_ACCOUNT_ID)
-              || account.equals(ChangeQueryBuilder.NON_CONTRIBUTOR_ACCOUNT_ID));
+              || account.equals(ChangeQueryBuilder.NON_CONTRIBUTOR_ACCOUNT_ID)
+              || account.equals(ChangeQueryBuilder.NON_AUTHOR_ACCOUNT_ID)
+              || account.equals(ChangeQueryBuilder.NON_COMMITTER_ACCOUNT_ID));
     }
   }
 

@@ -1563,7 +1563,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
         .hasMessageThat()
         .isEqualTo("Cannot use the 'user' argument in conjunction with the 'group' argument");
 
-    // "non_contributor arg for the label operator is not allowed in change queries
+    // "non_contributor" arg for the label operator is not allowed in change queries
     thrown =
         assertThrows(
             BadRequestException.class,
@@ -1571,6 +1571,23 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertThat(thrown)
         .hasMessageThat()
         .isEqualTo("non_contributor arg is not allowed in change queries");
+
+    // "non_auther" arg for the label operator is not allowed in change queries
+    thrown =
+        assertThrows(
+            BadRequestException.class, () -> assertQuery("label:Code-Review=+2,user=non_author"));
+    assertThat(thrown)
+        .hasMessageThat()
+        .isEqualTo("non_author arg is not allowed in change queries");
+
+    // "non_committer" arg for the label operator is not allowed in change queries
+    thrown =
+        assertThrows(
+            BadRequestException.class,
+            () -> assertQuery("label:Code-Review=+2,user=non_committer"));
+    assertThat(thrown)
+        .hasMessageThat()
+        .isEqualTo("non_committer arg is not allowed in change queries");
   }
 
   @Test

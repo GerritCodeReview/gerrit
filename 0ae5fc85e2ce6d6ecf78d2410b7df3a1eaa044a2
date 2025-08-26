@@ -16,6 +16,24 @@
       "message": "Can you remove the magnifier icon and the 100% rounded corners?",
       "revId": "0ae5fc85e2ce6d6ecf78d2410b7df3a1eaa044a2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ba30ea58_7596af31",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-08-26T09:44:26Z",
+      "side": 1,
+      "message": "Removed the icon although it messes up the CSS a bit since empty space is rendered instead.\n\nI\u0027m saving CSS improvements for future polish once the UI stabilises a bit.",
+      "parentUuid": "af459aca_3efaff2b",
+      "revId": "0ae5fc85e2ce6d6ecf78d2410b7df3a1eaa044a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

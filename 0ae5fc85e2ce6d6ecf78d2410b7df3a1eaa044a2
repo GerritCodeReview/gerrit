@@ -85,6 +85,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ba1768a7_53b8b0e8",
+        "filename": "polygerrit-ui/app/elements/change/gr-flows/gr-create-flow.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-08-26T11:18:02Z",
+      "side": 1,
+      "message": "I disagree, you would have to keep adding more things to gr-search-bar which don\u0027t make sense for it. For example, the magnifying glass icon makes no sense here, so you you will need to add the ability to hide the magnifying glass icon, but why a parameter like this should be part of gr-search-bar is unclear. This will make the code very messy and we already have problems with tech debt in the codebase. I worry that we increasing amount of the mess, making it harder to untangle in the future.",
+      "parentUuid": "9c07840d_d670e16d",
+      "range": {
+        "startLine": 137,
+        "startChar": 18,
+        "endLine": 137,
+        "endChar": 31
+      },
+      "revId": "0ae5fc85e2ce6d6ecf78d2410b7df3a1eaa044a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c0504269_378b2adb",
         "filename": "polygerrit-ui/app/elements/change/gr-flows/gr-create-flow.ts",
         "patchSetId": 8
@@ -120,6 +144,30 @@
       "side": 1,
       "message": "That\u0027s tracked in `currentConditionPrefix` property.",
       "parentUuid": "c0504269_378b2adb",
+      "range": {
+        "startLine": 173,
+        "startChar": 9,
+        "endLine": 173,
+        "endChar": 25
+      },
+      "revId": "0ae5fc85e2ce6d6ecf78d2410b7df3a1eaa044a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "30ee7935_94b9de3a",
+        "filename": "polygerrit-ui/app/elements/change/gr-flows/gr-create-flow.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-08-26T11:18:02Z",
+      "side": 1,
+      "message": "I think the current design is too hacky, makes things confusing. With this change `currentCondition` is no longer a condition in terms of Flows, but instead a param in one of the obstacles in the condition, so it means one thing in one context, but a completely different thing in another context. Not to mention, that for a Gerrit obstacle you would also need a separate field for a \"changeId\" \n\n(side-note I don\u0027t know how we are handling needing to specify the host, since we are writing this as core and not as plugin)\n\nIf we want to keep things sane, we should make things more generic. Something like, when you pick a selector you render a separate thing, that correspond to the obstacle params",
+      "parentUuid": "f790e254_15aa7e32",
       "range": {
         "startLine": 173,
         "startChar": 9,

@@ -1,0 +1,201 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bf7f7db8_3171f3fa",
+        "filename": "polygerrit-ui/app/utils/account-util.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-08-26T11:18:02Z",
+      "side": 1,
+      "message": "nit: convertToSuggestion is sufficient and much shorter",
+      "range": {
+        "startLine": 154,
+        "startChar": 9,
+        "endLine": 154,
+        "endChar": 51
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "beeef836_94333171",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/utils/account-util.ts",
+              "range": {
+                "startLine": 154,
+                "startChar": 0,
+                "endLine": 155,
+                "endChar": 0
+              },
+              "replacement": "function convertToSuggestion(\n"
+            },
+            {
+              "path": "polygerrit-ui/app/utils/account-util.ts",
+              "range": {
+                "startLine": 194,
+                "startChar": 0,
+                "endLine": 199,
+                "endChar": 0
+              },
+              "replacement": "      return convertToSuggestion(accounts, predicate, serverConfig);\n"
+            }
+          ]
+        }
+      ],
+      "revId": "15bab296a4ff63f1ee181631b3558d9e765bd6c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "02b306a7_f86a347b",
+        "filename": "polygerrit-ui/app/utils/account-util.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-08-26T11:18:02Z",
+      "side": 1,
+      "message": "Probably better, \"if they contain expression as prefix\"",
+      "range": {
+        "startLine": 172,
+        "startChar": 51,
+        "endLine": 172,
+        "endChar": 64
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "0b3e57ca_6cd85aa8",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/utils/account-util.ts",
+              "range": {
+                "startLine": 172,
+                "startChar": 0,
+                "endLine": 173,
+                "endChar": 0
+              },
+              "replacement": " * It also includes \"self\" and \"me\" as suggestions if they contain expression as prefix.\n"
+            }
+          ]
+        }
+      ],
+      "revId": "15bab296a4ff63f1ee181631b3558d9e765bd6c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "206890bc_10d54ed3",
+        "filename": "polygerrit-ui/app/utils/account-util.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-08-26T11:18:02Z",
+      "side": 1,
+      "message": "More specific explanation would be helpful. \"A function that fetches a list of accounts that match expression\"",
+      "range": {
+        "startLine": 174,
+        "startChar": 25,
+        "endLine": 174,
+        "endChar": 69
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "aac5268e_0ba2f427",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/utils/account-util.ts",
+              "range": {
+                "startLine": 174,
+                "startChar": 0,
+                "endLine": 175,
+                "endChar": 0
+              },
+              "replacement": " * @param accountFetcher A function that fetches a list of accounts that match expression.\n"
+            }
+          ]
+        }
+      ],
+      "revId": "15bab296a4ff63f1ee181631b3558d9e765bd6c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6bb22f9d_c462035b",
+        "filename": "polygerrit-ui/app/utils/account-util.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-08-26T11:18:02Z",
+      "side": 1,
+      "message": "Explain why this is needed",
+      "range": {
+        "startLine": 175,
+        "startChar": 20,
+        "endLine": 175,
+        "endChar": 40
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "2b2abd7b_dd496a52",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/utils/account-util.ts",
+              "range": {
+                "startLine": 175,
+                "startChar": 0,
+                "endLine": 176,
+                "endChar": 0
+              },
+              "replacement": " * @param predicate The search predicate (e.g., \"owner\", \"reviewer\"). This is used to\n *   prefix the suggested account/group in the autocomplete dropdown,\n *   forming a query like \"predicate:value\".\n"
+            }
+          ]
+        }
+      ],
+      "revId": "15bab296a4ff63f1ee181631b3558d9e765bd6c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7511fc73_94321fab",
+        "filename": "polygerrit-ui/app/utils/account-util.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-08-26T11:18:02Z",
+      "side": 1,
+      "message": "The search expression is not a good enough explanation. It\u0027s not clear what kind of format it contains, (is it prefix of a name, is it a full name?). Should we rename it to something like \"accountPrefix\"",
+      "range": {
+        "startLine": 176,
+        "startChar": 21,
+        "endLine": 176,
+        "endChar": 42
+      },
+      "revId": "15bab296a4ff63f1ee181631b3558d9e765bd6c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

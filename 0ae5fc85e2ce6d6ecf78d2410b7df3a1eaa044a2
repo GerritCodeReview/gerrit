@@ -205,6 +205,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6c9028fa_27a78f65",
+        "filename": "polygerrit-ui/app/elements/change/gr-flows/gr-create-flow.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-08-26T12:27:48Z",
+      "side": 1,
+      "message": "\u003e So direct dependency on gr-search-bar is 100% something that should be removed later and replaced\n\n`\u003cgr-search-bar` has a parent component `gr-smart-search`. There is again *only one* usage of this parent component has well.\n\nSo I am not sure why this is true. The icon can be moved to the parent component\nif you want it only there.\n\nThe handling of \"Enter\" etc. I am imagining that the dependency on \u003cgr-search-bar`\u003e will always remain because it\u0027s the autocomplete component with change query support present already.\n\n\u003e This is not about UX, this is about structure of the code and code health of the codebase.\n\nThrow-away code determination does require us agreeing on the UX. It\u0027s way more likely the code will be deleted if the final UX is completely different.\n\n\u003e We barely ever find the time to be anything but minimal, trivial cleanups. So we should not deliberately be making our job harder.\n\n*shrug*\n\nI find this a bit too pessimistic and I think it\u0027s within our control to spend time on cleanups. Especially with AI helping out.",
+      "parentUuid": "33cebdd7_0830e0da",
+      "range": {
+        "startLine": 137,
+        "startChar": 18,
+        "endLine": 137,
+        "endChar": 31
+      },
+      "revId": "0ae5fc85e2ce6d6ecf78d2410b7df3a1eaa044a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c0504269_378b2adb",
         "filename": "polygerrit-ui/app/elements/change/gr-flows/gr-create-flow.ts",
         "patchSetId": 8

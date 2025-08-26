@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b8e69c2_0de73298",
+        "filename": "java/com/google/gerrit/sshd/commands/ShowQueue.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-08-26T17:24:38Z",
+      "side": 1,
+      "message": "Why not put the filtering into the listing logic itself? There\u0027s a functional gap now with the REST API.",
+      "revId": "84452cc8c5ad50d767d752b7059e73bad1edc32a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

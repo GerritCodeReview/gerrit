@@ -253,6 +253,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "db6eae42_9b56f971",
+        "filename": "polygerrit-ui/app/elements/change/gr-flows/gr-create-flow.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-08-26T12:42:18Z",
+      "side": 1,
+      "message": "But the parent component also has the name `gr-smart-search`.\n\nIf the issue is the name, we can rename the common child component to `gr-change-query-autocomplete` and move the searching related stuff to the parent.\n\nThe user interaction in both input boxes is fairly similar.\n\n\u003e To stop the arguing. I\u0027ve asked Ben to make the decision here as our TLM.\n\nSGTM",
+      "parentUuid": "485964cc_a9b9f4c2",
+      "range": {
+        "startLine": 137,
+        "startChar": 18,
+        "endLine": 137,
+        "endChar": 31
+      },
+      "revId": "0ae5fc85e2ce6d6ecf78d2410b7df3a1eaa044a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c0504269_378b2adb",
         "filename": "polygerrit-ui/app/elements/change/gr-flows/gr-create-flow.ts",
         "patchSetId": 8

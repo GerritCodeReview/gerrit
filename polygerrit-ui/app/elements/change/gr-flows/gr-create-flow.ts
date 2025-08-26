@@ -13,12 +13,15 @@ import {NumericChangeId, ServerInfo} from '../../../types/common';
 import '../../shared/gr-button/gr-button';
 import '@material/web/select/outlined-select.js';
 import '@material/web/select/select-option.js';
-import {AutocompleteSuggestion} from '../../shared/gr-autocomplete/gr-autocomplete';
 import {resolve} from '../../../models/dependency';
 import {configModelToken} from '../../../models/config/config-model';
 import {subscribe} from '../../lit/subscription-controller';
 import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
-import {fetchAccountSuggestions} from '../../../utils/account-util';
+import {
+  fetchAccountSuggestions,
+  fetchGroupSuggestions,
+  fetchProjectSuggestions,
+} from '../../../utils/account-util';
 import {SuggestionProvider} from '../../core/gr-search-bar/gr-search-bar';
 import {ValueChangedEvent} from '../../../types/events';
 
@@ -47,12 +50,29 @@ export class GrCreateFlow extends LitElement {
   private readonly projectSuggestions: SuggestionProvider = (
     predicate,
     expression
-  ) => this.fetchProjects(predicate, expression);
+  ) => {
+    const projectFetcher = (expr: string) =>
+      this.restApiService.getSuggestedRepos(
+        expr,
+        MAX_AUTOCOMPLETE_RESULTS,
+        throwingErrorCallback
+      );
+    return fetchProjectSuggestions(projectFetcher, predicate, expression);
+  };
 
   private readonly groupSuggestions: SuggestionProvider = (
     predicate,
     expression
-  ) => this.fetchGroups(predicate, expression);
+  ) => {
+    const groupFetcher = (expr: string) =>
+      this.restApiService.getSuggestedGroups(
+        expr,
+        undefined,
+        MAX_AUTOCOMPLETE_RESULTS,
+        throwingErrorCallback
+      );
+    return fetchGroupSuggestions(groupFetcher, predicate, expression);
+  };
 
   private readonly accountSuggestions: SuggestionProvider = (
     predicate,
@@ -172,53 +192,6 @@ export class GrCreateFlow extends LitElement {
 
   private handleTextChanged(e: ValueChangedEvent) {
     this.currentCondition = e.detail.value ?? '';
-  }
-
-  // TODO: Move into the common util file
-  fetchProjects(
-    predicate: string,
-    expression: string
-  ): Promise<AutocompleteSuggestion[]> {
-    return this.restApiService
-      .getSuggestedRepos(
-        expression,
-        MAX_AUTOCOMPLETE_RESULTS,
-        throwingErrorCallback
-      )
-      .then(projects => {
-        if (!projects) {
-          return [];
-        }
-        const keys = Object.keys(projects);
-        return keys.map(key => {
-          return {text: predicate + ':' + key};
-        });
-      });
-  }
-
-  fetchGroups(
-    predicate: string,
-    expression: string
-  ): Promise<AutocompleteSuggestion[]> {
-    if (expression.length === 0) {
-      return Promise.resolve([]);
-    }
-    return this.restApiService
-      .getSuggestedGroups(
-        expression,
-        undefined,
-        MAX_AUTOCOMPLETE_RESULTS,
-        throwingErrorCallback
-      )
-      .then(groups => {
-        if (!groups) {
-          return [];
-        }
-        const keys = Object.keys(groups);
-        return keys.map(key => {
-          return {text: predicate + ':' + key};
-        });
-      });
   }
 
   private handleAddStage() {

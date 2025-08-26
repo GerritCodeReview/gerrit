@@ -10,7 +10,6 @@ import {
   SearchBarHandleSearchDetail,
   SuggestionProvider,
 } from '../gr-search-bar/gr-search-bar';
-import {AutocompleteSuggestion} from '../../shared/gr-autocomplete/gr-autocomplete';
 import {getAppContext} from '../../../services/app-context';
 import {html, LitElement} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
@@ -22,7 +21,11 @@ import {
   searchViewModelToken,
 } from '../../../models/views/search';
 import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
-import {fetchAccountSuggestions} from '../../../utils/account-util';
+import {
+  fetchAccountSuggestions,
+  fetchGroupSuggestions,
+  fetchProjectSuggestions,
+} from '../../../utils/account-util';
 
 const MAX_AUTOCOMPLETE_RESULTS = 10;
 
@@ -85,10 +88,25 @@ export class GrSmartSearch extends LitElement {
         this.serverConfig
       );
     };
-    const groupSuggestions: SuggestionProvider = (predicate, expression) =>
-      this.fetchGroups(predicate, expression);
-    const projectSuggestions: SuggestionProvider = (predicate, expression) =>
-      this.fetchProjects(predicate, expression);
+    const groupSuggestions: SuggestionProvider = (predicate, expression) => {
+      const groupFetcher = (expr: string) =>
+        this.restApiService.getSuggestedGroups(
+          expr,
+          undefined,
+          MAX_AUTOCOMPLETE_RESULTS,
+          throwingErrorCallback
+        );
+      return fetchGroupSuggestions(groupFetcher, predicate, expression);
+    };
+    const projectSuggestions: SuggestionProvider = (predicate, expression) => {
+      const projectFetcher = (expr: string) =>
+        this.restApiService.getSuggestedRepos(
+          expr,
+          MAX_AUTOCOMPLETE_RESULTS,
+          throwingErrorCallback
+        );
+      return fetchProjectSuggestions(projectFetcher, predicate, expression);
+    };
     return html`
       <gr-search-bar
         id="search"
@@ -102,72 +120,6 @@ export class GrSmartSearch extends LitElement {
         }}
       ></gr-search-bar>
     `;
-  }
-
-  /**
-   * Fetch from the API the predicted projects.
-   *
-   * @param predicate - The first part of the search term, e.g.
-   * 'project'
-   * @param expression - The second part of the search term, e.g.
-   * 'gerr'
-   *
-   * private but used in test
-   */
-  fetchProjects(
-    predicate: string,
-    expression: string
-  ): Promise<AutocompleteSuggestion[]> {
-    return this.restApiService
-      .getSuggestedRepos(
-        expression,
-        MAX_AUTOCOMPLETE_RESULTS,
-        throwingErrorCallback
-      )
-      .then(projects => {
-        if (!projects) {
-          return [];
-        }
-        const keys = Object.keys(projects);
-        return keys.map(key => {
-          return {text: predicate + ':' + key};
-        });
-      });
-  }
-
-  /**
-   * Fetch from the API the predicted groups.
-   *
-   * @param predicate - The first part of the search term, e.g.
-   * 'ownerin'
-   * @param expression - The second part of the search term, e.g.
-   * 'polyger'
-   *
-   * private but used in test
-   */
-  fetchGroups(
-    predicate: string,
-    expression: string
-  ): Promise<AutocompleteSuggestion[]> {
-    if (expression.length === 0) {
-      return Promise.resolve([]);
-    }
-    return this.restApiService
-      .getSuggestedGroups(
-        expression,
-        undefined,
-        MAX_AUTOCOMPLETE_RESULTS,
-        throwingErrorCallback
-      )
-      .then(groups => {
-        if (!groups) {
-          return [];
-        }
-        const keys = Object.keys(groups);
-        return keys.map(key => {
-          return {text: predicate + ':' + key};
-        });
-      });
   }
 
   private handleSearch(e: CustomEvent<SearchBarHandleSearchDetail>) {

@@ -15,6 +15,7 @@ import {
   isGroup,
   isReviewerAccountSuggestion,
   isReviewerGroupSuggestion,
+  ProjectInfo,
   ReviewerInput,
   ServerInfo,
   SuggestedReviewerAccountInfo,
@@ -208,6 +209,61 @@ export function fetchAccountSuggestions(
         return accounts;
       }
     });
+}
+
+/**
+ * Fetches project suggestions based on the provided predicate and expression.
+ *
+ * @param projectFetcher A function that fetches project information.
+ * @param predicate The search predicate (e.g., "project").
+ * @param expression The search expression.
+ * @return A promise that resolves to an array of autocomplete suggestions.
+ */
+export function fetchProjectSuggestions(
+  projectFetcher: (
+    expression: string
+  ) => Promise<{[name: string]: ProjectInfo} | undefined>,
+  predicate: string,
+  expression: string
+): Promise<AutocompleteSuggestion[]> {
+  return projectFetcher(expression).then(projects => {
+    if (!projects) {
+      return [];
+    }
+    const keys = Object.keys(projects);
+    return keys.map(key => {
+      return {text: `${predicate}:${key}`};
+    });
+  });
+}
+
+/**
+ * Fetches group suggestions based on the provided predicate and expression.
+ *
+ * @param groupFetcher A function that fetches group information.
+ * @param predicate The search predicate (e.g., "ownerin").
+ * @param expression The search expression.
+ * @return A promise that resolves to an array of autocomplete suggestions.
+ */
+export function fetchGroupSuggestions(
+  groupFetcher: (
+    expression: string
+  ) => Promise<{[name: string]: GroupInfo} | undefined>,
+  predicate: string,
+  expression: string
+): Promise<AutocompleteSuggestion[]> {
+  if (expression.length === 0) {
+    return Promise.resolve([]);
+  }
+  return groupFetcher(expression).then(groups => {
+    if (!groups) {
+      return [];
+    }
+    const keys = Object.keys(groups);
+    return keys.map(key => {
+      return {text: `${predicate}:${key}`};
+    });
+  });
 }
 
 export function isDetailedAccount(account?: AccountInfo) {

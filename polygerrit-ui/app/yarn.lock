@@ -30,9 +30,9 @@
     tar "^6.1.11"
 
 "@material/web@^2.3.0":
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/@material/web/-/web-2.3.0.tgz#d0dda48159d148b1a0982b10c2e8b48940da81fe"
-  integrity sha512-r7ccZHthMk5tM05goPJ965hQ99ptMyZt7i8Xi8+RmEqK3ZXaMtjx+s4p+9OVX+vgOS3zpop+g1yGYXtOOlrwUg==
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/@material/web/-/web-2.4.0.tgz#4158df5afa2a36f55db5a5b2d77146cf6bdc84a6"
+  integrity sha512-2jYiPIYOuP2UcWXal4VdKRlkpBX02U3rgXMWp0yFQbJaOmK8MOIA3BsyuooM3VOYI+VCO70BeH1x43y5cBLvZQ==
   dependencies:
     lit "^2.8.0 || ^3.0.0"
     tslib "^2.4.0"

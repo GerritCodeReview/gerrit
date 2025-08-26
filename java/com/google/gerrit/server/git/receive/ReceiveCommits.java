@@ -3451,7 +3451,9 @@ class ReceiveCommits {
           return false;
         }
 
-        try (TraceTimer traceTimer2 = newTimer("validateNewPatchSetNoteDb#isMergedInto")) {
+        String trace = String.format(
+            "validateNewPatchSetNoteDb#isMergedInto [%s revisions]", revisions.size());
+        try (TraceTimer traceTimer2 = newTimer(trace)) {
           for (RevCommit prior : revisions.keySet()) {
             // Don't allow a change to directly depend upon itself. This is a
             // very common error due to users making a new commit rather than

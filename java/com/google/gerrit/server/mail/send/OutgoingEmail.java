@@ -230,8 +230,8 @@ public final class OutgoingEmail {
         if (fromUser.isPresent()) {
           GeneralPreferencesInfo senderPrefs = fromUser.get().generalPreferences();
           CurrentUser user = args.currentUserProvider.get();
-          boolean isImpersonating = user.isIdentifiedUser() && user.isImpersonating();
-          if (isImpersonating && user.getAccountId() != fromId) {
+          boolean isImpersonated = user.isIdentifiedUser() && user.isImpersonated();
+          if (isImpersonated && user.getAccountId() != fromId) {
             // This should not be possible, if this is the case it means the RequestContext is not
             // set up correctly.
             throw new EmailException(
@@ -249,7 +249,7 @@ public final class OutgoingEmail {
                 "CC email sender %s because the email strategy of this user is %s",
                 fromUser.get().account().id(), CC_ON_OWN_COMMENTS);
             addByAccountId(RecipientType.CC, fromId);
-          } else if (isImpersonating) {
+          } else if (isImpersonated) {
             // If we are impersonating a user, make sure they receive a CC of
             // this message regardless of email strategy, unless email notifications are explicitly
             // disabled for this user. This way they can always review and audit what we sent

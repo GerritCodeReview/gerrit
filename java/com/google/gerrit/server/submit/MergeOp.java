@@ -507,7 +507,7 @@ public class MergeOp implements AutoCloseable {
                 String.format("Insufficient permission to submit change %d", cd.getId().get())));
         return;
       }
-      if (caller.isImpersonating()) {
+      if (caller.isImpersonated()) {
         if (!permissionBackend.user(caller).change(cd).test(ChangePermission.READ)) {
           if (triggeringChangeId.get() != cd.getId().get()) {
             logger.atFine().log(

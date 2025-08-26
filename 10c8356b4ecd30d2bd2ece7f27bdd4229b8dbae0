@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a4c752bb_1f2106d4",
+        "filename": "polygerrit-ui/app/utils/account-util.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-08-26T11:23:51Z",
+      "side": 1,
+      "message": "Does ProjectSuggestion make sense in the account-util? They don\u0027t have anything to do with accounts?\n\nI think it\u0027s better if we have something like autocomplete-util file. Which can collect all the functions that are specifically useful for re-using autocomplete in the codebase (which is exactly the reason why we are reusing this methods)\n\n(Also same comments as in docstring in parent CL, apply here)",
+      "range": {
+        "startLine": 222,
+        "startChar": 16,
+        "endLine": 222,
+        "endChar": 39
+      },
+      "revId": "10c8356b4ecd30d2bd2ece7f27bdd4229b8dbae0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

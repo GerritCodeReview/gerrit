@@ -109,6 +109,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f3d54c5f_d7e4dbcf",
+        "filename": "polygerrit-ui/app/elements/change/gr-flows/gr-create-flow.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-08-26T11:42:27Z",
+      "side": 1,
+      "message": "\u003e This will make the code very messy and we already have problems with tech debt in the codebase\n\nThat is part of prototyping and trying to implement a MVP.\n\nWith this logic, we are permanently stopping us from trying to build a prototype UI.\n\nOverall I am fine with this solution. GrSearchBar has all the operators hardcoded and gets us close to 90%+ UX we envisioned almost out of the box.\n\nIf you feel too strongly about extracting the UI component, I am happy to let you create it and wait for it to be done.\n\nOr you can file a bug for it and we can get it prioritised. IMO at the current stage of the project, it doesn\u0027t make sense to do it as of now. Post MVP launch, it makes sense to do it especially once we get a better sense of bugs based on internal team usage.",
+      "parentUuid": "ba1768a7_53b8b0e8",
+      "range": {
+        "startLine": 137,
+        "startChar": 18,
+        "endLine": 137,
+        "endChar": 31
+      },
+      "revId": "0ae5fc85e2ce6d6ecf78d2410b7df3a1eaa044a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c0504269_378b2adb",
         "filename": "polygerrit-ui/app/elements/change/gr-flows/gr-create-flow.ts",
         "patchSetId": 8
@@ -168,6 +192,30 @@
       "side": 1,
       "message": "I think the current design is too hacky, makes things confusing. With this change `currentCondition` is no longer a condition in terms of Flows, but instead a param in one of the obstacles in the condition, so it means one thing in one context, but a completely different thing in another context. Not to mention, that for a Gerrit obstacle you would also need a separate field for a \"changeId\" \n\n(side-note I don\u0027t know how we are handling needing to specify the host, since we are writing this as core and not as plugin)\n\nIf we want to keep things sane, we should make things more generic. Something like, when you pick a selector you render a separate thing, that correspond to the obstacle params",
       "parentUuid": "f790e254_15aa7e32",
+      "range": {
+        "startLine": 173,
+        "startChar": 9,
+        "endLine": 173,
+        "endChar": 25
+      },
+      "revId": "0ae5fc85e2ce6d6ecf78d2410b7df3a1eaa044a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3a1db08a_84a6ad4a",
+        "filename": "polygerrit-ui/app/elements/change/gr-flows/gr-create-flow.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-08-26T11:42:27Z",
+      "side": 1,
+      "message": "`currentCondition` is what is present in the input field named `Condition`\n\nThat has not changed before or after this CL.\n\n\u003e Not to mention, that for a Gerrit obstacle you would also need a separate field for a \"changeId\"\n\nI did not follow this. We are keeping this hidden from the user. They just write the `changeQuery` and we automatically append the `host $h has change $c with $query`",
+      "parentUuid": "30ee7935_94b9de3a",
       "range": {
         "startLine": 173,
         "startChar": 9,

@@ -645,9 +645,9 @@ suite('gr-change-actions tests', () => {
       const fetchChangesStub = sinon
         .stub(
           queryAndAssert<GrConfirmRebaseDialog>(element, '#confirmRebase'),
-          'fetchRecentChanges'
+          'initiateFetchInfo'
         )
-        .returns(Promise.resolve([]));
+        .returns();
       await element.updateComplete;
       queryAndAssert<GrButton>(
         element,
@@ -696,8 +696,8 @@ suite('gr-change-actions tests', () => {
         '#confirmRebase'
       );
       const fetchChangesStub = sinon
-        .stub(confirmRebaseDialog, 'fetchRecentChanges')
-        .returns(Promise.resolve([]));
+        .stub(confirmRebaseDialog, 'initiateFetchInfo')
+        .returns();
       sinon
         .stub(confirmRebaseDialog, 'getValidationOptions')
         .returns([{name: 'o1', description: 'option 1'}]);
@@ -754,9 +754,9 @@ suite('gr-change-actions tests', () => {
       const fetchChangesStub = sinon
         .stub(
           queryAndAssert<GrConfirmRebaseDialog>(element, '#confirmRebase'),
-          'fetchRecentChanges'
+          'initiateFetchInfo'
         )
-        .returns(Promise.resolve([]));
+        .returns();
       await element.updateComplete;
       const rebaseButton = queryAndAssert<GrButton>(
         element,

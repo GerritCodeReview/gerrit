@@ -61,6 +61,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Constants;
@@ -179,8 +180,12 @@ public class ListBranches implements RestReadView<ProjectResource> {
     // Filter on refs/heads/*, substring and regex without checking ref visibility
     List<Ref> allBranches = readAllBranches(rsrc);
     Set<String> targets = getTargets(allBranches);
+    // If you filter on "main" then you also want to find "HEAD" pointing to "main", not just
+    // where "main" is pointing to. Thus match on both name and target name for symbolic refs.
+    Function<Ref, String> refNameExtractor =
+        (Ref r) -> r.getName() + (r.isSymbolic() ? " " + r.getTarget().getName() : "");
     ImmutableList<Ref> filtered =
-        new RefFilter<>(Constants.R_HEADS, (Ref r) -> r.getName())
+        new RefFilter<>(Constants.R_HEADS, refNameExtractor)
             .subString(matchSubstring).regex(matchRegex).filter(allBranches).stream()
                 .sorted(new RefComparator())
                 .collect(ImmutableList.toImmutableList());

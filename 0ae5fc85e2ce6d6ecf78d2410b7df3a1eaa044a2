@@ -181,6 +181,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "33cebdd7_0830e0da",
+        "filename": "polygerrit-ui/app/elements/change/gr-flows/gr-create-flow.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-08-26T12:22:34Z",
+      "side": 1,
+      "message": "I don\u0027t think there should be a permanent dependency on gr-search-bar here. If we are using it temporarily, fine. But we should document that fact. We will need to add more features later (for example we wanted to add autocomplete for labels, that only includes applicable labels). \n\nI don\u0027t want us to be adding extra fields to gr-search-bar for that. So direct dependency on gr-search-bar is 100% something that should be removed later and replaced, and if you plan to make changes to gr-search-bar right now in subsequent CLs, then we should not add this dependency here. But if you plan to leave it be for now, then it needs to have clear documentation in the code, that this is temporary stop-gap and we will remove it as soon as we need changes in gr-search-bar.\n\n\u003e If you have some concrete suggestions why this UX is not optimal then I can understand and we can figure out what the new UX should be.\n\nThis is not about UX, this is about structure of the code and code health of the codebase.\n\n\u003e We can do cleanups later and we should do cleanups later. This is true for all projects everywhere.\n\nWe barely ever find the time to be anything but minimal, trivial cleanups. So we should not deliberately be making our job harder.",
+      "parentUuid": "c0f71c25_ba9cfc5a",
+      "range": {
+        "startLine": 137,
+        "startChar": 18,
+        "endLine": 137,
+        "endChar": 31
+      },
+      "revId": "0ae5fc85e2ce6d6ecf78d2410b7df3a1eaa044a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c0504269_378b2adb",
         "filename": "polygerrit-ui/app/elements/change/gr-flows/gr-create-flow.ts",
         "patchSetId": 8

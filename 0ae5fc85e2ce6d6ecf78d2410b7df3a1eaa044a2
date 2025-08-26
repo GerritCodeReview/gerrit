@@ -301,6 +301,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1e4f50a3_52e81945",
+        "filename": "polygerrit-ui/app/elements/change/gr-flows/gr-create-flow.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-08-26T12:48:18Z",
+      "side": 1,
+      "message": "Yes and we have the component structure for it already. `gr-smart-search` handles the searching.\n\n`gr-search`bar` provides the autocomplete functionality.\n\nNone of this explains why this code is throw-away or permanent tech debt.\n\nGrCreateFlow using an autocomplete component that is already being used in the search bar is to me fairly clean code.\n\nChanging the name of a component and moving a few lines of code to the parent component does not imply the proposals made before of adding large warnings or forking the entire component.",
+      "parentUuid": "d8e7bd02_71df2a1f",
+      "range": {
+        "startLine": 137,
+        "startChar": 18,
+        "endLine": 137,
+        "endChar": 31
+      },
+      "revId": "0ae5fc85e2ce6d6ecf78d2410b7df3a1eaa044a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c0504269_378b2adb",
         "filename": "polygerrit-ui/app/elements/change/gr-flows/gr-create-flow.ts",
         "patchSetId": 8

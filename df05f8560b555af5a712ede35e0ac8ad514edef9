@@ -16,6 +16,24 @@
       "message": "How does it destroy the parsed state ?\nCan we fix #areAllReachable to not destroy this state ?",
       "revId": "df05f8560b555af5a712ede35e0ac8ad514edef9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b7747fe1_4781274b",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 3480,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-08-27T13:03:21Z",
+      "side": 1,
+      "message": "Calling newCommit.getShortMessage() works before calling\nReachabilityChecker#areAllReachable and fails with an NPE afterwards. The NPE is because buffer in RevCommit is null now. Calling parseBody populates it again.\n\n```\n/**\n * Raw unparsed commit body of the commit. Populated only\n * after {@link #parseCanonical(RevWalk, byte[])} with\n * {@link RevWalk#isRetainBody()} enable or after\n * {@link #parseBody(RevWalk)} and {@link #parse(RevWalk, byte[])}.\n *\n * @since 6.5.1\n */\nprotected byte[] buffer;\n```\n\t\nYes, I think this is a bug that should be fix in JGit.",
+      "parentUuid": "470f8aa5_db9ae00d",
+      "revId": "df05f8560b555af5a712ede35e0ac8ad514edef9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

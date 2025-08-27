@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5cabcc03_229c18ee",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-08-27T04:57:58Z",
+      "side": 1,
+      "message": "Hmm, the change looks empty, did you forget to add files?",
+      "revId": "475d8a46f3a64f98416e50be2bf04fa0b806c65e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

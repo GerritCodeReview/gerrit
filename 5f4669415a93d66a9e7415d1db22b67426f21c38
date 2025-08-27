@@ -1,0 +1,483 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b3a9f7cc_bd2350ce",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-autocomplete/gr-change-autocomplete.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-08-27T08:00:41Z",
+      "side": 1,
+      "message": "nit: rename to have intent clearer, something like:\n- RebaseChange -\u003e ChangeSuggestion\n- value -\u003e changeNum\n- name -\u003e description",
+      "range": {
+        "startLine": 18,
+        "startChar": 17,
+        "endLine": 18,
+        "endChar": 29
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "110ac180_8b287dcd",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-change-autocomplete/gr-change-autocomplete.ts",
+              "range": {
+                "startLine": 18,
+                "startChar": 0,
+                "endLine": 21,
+                "endChar": 0
+              },
+              "replacement": "export interface ChangeSuggestion {\n  description: string;\n  changeNum: NumericChangeId;\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-change-autocomplete/gr-change-autocomplete.ts",
+              "range": {
+                "startLine": 35,
+                "startChar": 0,
+                "endLine": 36,
+                "endChar": 0
+              },
+              "replacement": "  private recentChanges?: ChangeSuggestion[];\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-change-autocomplete/gr-change-autocomplete.ts",
+              "range": {
+                "startLine": 93,
+                "startChar": 0,
+                "endLine": 94,
+                "endChar": 0
+              },
+              "replacement": "        const changes: ChangeSuggestion[] \u003d [];\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-change-autocomplete/gr-change-autocomplete.ts",
+              "range": {
+                "startLine": 96,
+                "startChar": 0,
+                "endLine": 98,
+                "endChar": 0
+              },
+              "replacement": "            description: `${change._number}: ${change.subject}`,\n            changeNum: change._number,\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-change-autocomplete/gr-change-autocomplete.ts",
+              "range": {
+                "startLine": 120,
+                "startChar": 0,
+                "endLine": 121,
+                "endChar": 0
+              },
+              "replacement": "    changes: ChangeSuggestion[]\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-change-autocomplete/gr-change-autocomplete.ts",
+              "range": {
+                "startLine": 124,
+                "startChar": 0,
+                "endLine": 125,
+                "endChar": 0
+              },
+              "replacement": "        change \u003d\u003e\n          change.description.includes(input) \u0026\u0026 change.changeNum !\u003d\u003d this.changeNum\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-change-autocomplete/gr-change-autocomplete.ts",
+              "range": {
+                "startLine": 129,
+                "startChar": 0,
+                "endLine": 131,
+                "endChar": 0
+              },
+              "replacement": "            name: change.description,\n            value: `${change.changeNum}`,\n"
+            }
+          ]
+        }
+      ],
+      "revId": "5f4669415a93d66a9e7415d1db22b67426f21c38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e6475f5_f0f3869b",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-autocomplete/gr-change-autocomplete.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-08-27T08:00:41Z",
+      "side": 1,
+      "message": "Can we have a class level comment here. It\u0027s not obvious what the component does, just from the name. (Specifically that it looks up all recent changes on the host to show as suggested)",
+      "range": {
+        "startLine": 24,
+        "startChar": 13,
+        "endLine": 24,
+        "endChar": 33
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "003bd699_2fb49551",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-change-autocomplete/gr-change-autocomplete.ts",
+              "range": {
+                "startLine": 23,
+                "startChar": 0,
+                "endLine": 23,
+                "endChar": 0
+              },
+              "replacement": "/**\n * An autocomplete component for selecting a Gerrit change.\n * It fetches recent open changes on the host and provides them as suggestions\n * based on the user\u0027s input.\n */\n"
+            }
+          ]
+        }
+      ],
+      "revId": "5f4669415a93d66a9e7415d1db22b67426f21c38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c9632258_f1dde076",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-autocomplete/gr-change-autocomplete.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-08-27T08:00:41Z",
+      "side": 1,
+      "message": "nit: Can probably be assigned inline, instead of constructor (or even in render itself)",
+      "range": {
+        "startLine": 41,
+        "startChar": 4,
+        "endLine": 41,
+        "endChar": 59
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "aac55b17_852926a3",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-change-autocomplete/gr-change-autocomplete.ts",
+              "range": {
+                "startLine": 32,
+                "startChar": 0,
+                "endLine": 33,
+                "endChar": 0
+              },
+              "replacement": "  private query: AutocompleteQuery \u003d input \u003d\u003e this.getChangeSuggestions(input);\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-change-autocomplete/gr-change-autocomplete.ts",
+              "range": {
+                "startLine": 39,
+                "startChar": 0,
+                "endLine": 44,
+                "endChar": 0
+              },
+              "replacement": ""
+            }
+          ]
+        }
+      ],
+      "revId": "5f4669415a93d66a9e7415d1db22b67426f21c38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a2ca1180_45b4c3b5",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-autocomplete/gr-change-autocomplete.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-08-27T08:00:41Z",
+      "side": 1,
+      "message": "Sorry if stupid question: Isn\u0027t the \"text-changed\" event already bubbles up unless we stop propagation? Or is it blocked because shadowDom and that\u0027s why we re-emit with composed, here?\n\nSide nit: `detail: e.detail` is probably better.",
+      "range": {
+        "startLine": 67,
+        "startChar": 10,
+        "endLine": 72,
+        "endChar": 14
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "cf7e1d38_d93f6b56",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-change-autocomplete/gr-change-autocomplete.ts",
+              "range": {
+                "startLine": 69,
+                "startChar": 0,
+                "endLine": 70,
+                "endChar": 0
+              },
+              "replacement": "              detail: e.detail,\n"
+            }
+          ]
+        }
+      ],
+      "revId": "5f4669415a93d66a9e7415d1db22b67426f21c38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e9691eef_f2f75db9",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-autocomplete/gr-change-autocomplete.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-08-27T08:00:41Z",
+      "side": 1,
+      "message": "Does it actually match ref or commit hash? I don\u0027t think they are part of the Subject, that you put into the \"name\" below.",
+      "range": {
+        "startLine": 76,
+        "startChar": 36,
+        "endLine": 76,
+        "endChar": 55
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "fcb7716d_f2f3b389",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-change-autocomplete/gr-change-autocomplete.ts",
+              "range": {
+                "startLine": 76,
+                "startChar": 0,
+                "endLine": 77,
+                "endChar": 0
+              },
+              "replacement": "        placeholder\u003d\"Change number or subject\"\n"
+            }
+          ]
+        }
+      ],
+      "revId": "5f4669415a93d66a9e7415d1db22b67426f21c38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "74ba7a92_9c613ef2",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-autocomplete/gr-change-autocomplete.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-08-27T08:00:41Z",
+      "side": 1,
+      "message": "nit: converty to async?",
+      "range": {
+        "startLine": 82,
+        "startChar": 2,
+        "endLine": 82,
+        "endChar": 28
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "bf077676_84a92501",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-change-autocomplete/gr-change-autocomplete.ts",
+              "range": {
+                "startLine": 82,
+                "startChar": 0,
+                "endLine": 102,
+                "endChar": 0
+              },
+              "replacement": "  private async fetchRecentChanges() {\n    const response \u003d await this.restApiService.getChanges(\n      undefined,\n      \u0027is:open -age:90d\u0027,\n      /* offset\u003d*/ undefined,\n      /* options\u003d*/ undefined,\n      throwingErrorCallback\n    );\n    if (!response) return [];\n    const changes: RebaseChange[] \u003d [];\n    for (const change of response) {\n      changes.push({\n        name: `${change._number}: ${change.subject}`,\n        value: change._number,\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-change-autocomplete/gr-change-autocomplete.ts",
+              "range": {
+                "startLine": 103,
+                "startChar": 0,
+                "endLine": 103,
+                "endChar": 0
+              },
+              "replacement": "    }\n    this.recentChanges \u003d changes;\n    return this.recentChanges;\n"
+            }
+          ]
+        }
+      ],
+      "revId": "5f4669415a93d66a9e7415d1db22b67426f21c38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1a74c825_6bb0ffbb",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-autocomplete/gr-change-autocomplete.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-08-27T08:00:41Z",
+      "side": 1,
+      "message": "If we throw error on fail. Should we have a catch block as well?",
+      "range": {
+        "startLine": 89,
+        "startChar": 8,
+        "endLine": 89,
+        "endChar": 29
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "1163e018_e875acac",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-change-autocomplete/gr-change-autocomplete.ts",
+              "range": {
+                "startLine": 102,
+                "startChar": 0,
+                "endLine": 102,
+                "endChar": 0
+              },
+              "replacement": "      })\n      .catch(error \u003d\u003e {\n        console.error(\u0027Failed to fetch recent changes:\u0027, error);\n        return [];\n"
+            }
+          ]
+        }
+      ],
+      "revId": "5f4669415a93d66a9e7415d1db22b67426f21c38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "11ebbfc2_762277d8",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-autocomplete/gr-change-autocomplete.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-08-27T08:00:41Z",
+      "side": 1,
+      "message": "This check made sense in rebase dialog, but does it still make sense here? For the Flow UI if we reuse there the current change should be included. Maybe change changeNum to excludeChangeNum and specify in a comment that it\u0027s an optional property?",
+      "range": {
+        "startLine": 124,
+        "startChar": 48,
+        "endLine": 124,
+        "endChar": 80
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "e7480728_2969dcba",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-change-autocomplete/gr-change-autocomplete.ts",
+              "range": {
+                "startLine": 28,
+                "startChar": 0,
+                "endLine": 28,
+                "endChar": 0
+              },
+              "replacement": "  // Optional change number to exclude from the suggestions.\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-change-autocomplete/gr-change-autocomplete.ts",
+              "range": {
+                "startLine": 29,
+                "startChar": 0,
+                "endLine": 30,
+                "endChar": 0
+              },
+              "replacement": "  excludeChangeNum?: NumericChangeId;\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-change-autocomplete/gr-change-autocomplete.ts",
+              "range": {
+                "startLine": 124,
+                "startChar": 0,
+                "endLine": 125,
+                "endChar": 0
+              },
+              "replacement": "        change \u003d\u003e\n          change.name.includes(input) \u0026\u0026\n          (this.excludeChangeNum \u003d\u003d\u003d undefined ||\n            change.value !\u003d\u003d this.excludeChangeNum)\n"
+            }
+          ]
+        }
+      ],
+      "revId": "5f4669415a93d66a9e7415d1db22b67426f21c38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e6530a69_f5252d76",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-rebase-dialog/gr-confirm-rebase-dialog.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-08-27T08:00:41Z",
+      "side": 1,
+      "message": "nit: rename this, since #parentInput as an id is no longer used",
+      "range": {
+        "startLine": 113,
+        "startChar": 2,
+        "endLine": 113,
+        "endChar": 13
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "caadce54_bc179c97",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-confirm-rebase-dialog/gr-confirm-rebase-dialog.ts",
+              "range": {
+                "startLine": 113,
+                "startChar": 0,
+                "endLine": 114,
+                "endChar": 0
+              },
+              "replacement": "  changeAutocomplete!: GrChangeAutocomplete;\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-confirm-rebase-dialog/gr-confirm-rebase-dialog.ts",
+              "range": {
+                "startLine": 528,
+                "startChar": 0,
+                "endLine": 529,
+                "endChar": 0
+              },
+              "replacement": "    this.changeAutocomplete.focus();\n"
+            }
+          ]
+        }
+      ],
+      "revId": "5f4669415a93d66a9e7415d1db22b67426f21c38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

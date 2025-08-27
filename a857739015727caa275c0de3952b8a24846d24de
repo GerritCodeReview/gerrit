@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5fab5a17_4f78039e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-08-27T18:25:50Z",
+      "side": 1,
+      "message": "But in the commit message I have linked all the other existing usages in our codebase.\n\nWe are simply algning with that. Also we are already using `\u003cmd-select\u003e` in the same file.\n\n@kamilm@google.com",
+      "parentUuid": "71ae0ce7_ffc820d2",
+      "range": {
+        "startLine": 7,
+        "startChar": 21,
+        "endLine": 7,
+        "endChar": 29
+      },
+      "revId": "a857739015727caa275c0de3952b8a24846d24de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ada96ba8_fd91666e",
@@ -37,6 +61,24 @@
       "writtenOn": "2025-08-27T16:24:44Z",
       "side": 1,
       "message": "Screenshot would have been nice.",
+      "revId": "a857739015727caa275c0de3952b8a24846d24de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d1a8908a_10737954",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-08-27T18:25:50Z",
+      "side": 1,
+      "message": "https://imgur.com/a/RToU3FQ",
+      "parentUuid": "ada96ba8_fd91666e",
       "revId": "a857739015727caa275c0de3952b8a24846d24de",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

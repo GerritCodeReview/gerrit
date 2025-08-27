@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "62f693fe_33b1ee85",
+        "filename": "java/com/google/gerrit/server/account/PeriodicAccountIndexer.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-08-27T15:44:39Z",
+      "side": 1,
+      "message": "If they no longer exist in NoteDb, then aren\u0027t they always deleted, when are they \"updated\" instead?",
+      "range": {
+        "startLine": 59,
+        "startChar": 91,
+        "endLine": 60,
+        "endChar": 38
+      },
+      "revId": "11db31947789146c9a12607bf4b7b07044d1fd4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8dda5f56_051cf150",
         "filename": "java/com/google/gerrit/server/account/PeriodicAccountIndexer.java",
         "patchSetId": 7
@@ -36,6 +59,52 @@
         "startChar": 26,
         "endLine": 132,
         "endChar": 51
+      },
+      "revId": "11db31947789146c9a12607bf4b7b07044d1fd4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6cb76cad_532a2fe9",
+        "filename": "javatests/com/google/gerrit/acceptance/server/account/PeriodicAccountIndexerIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-08-27T15:44:39Z",
+      "side": 1,
+      "message": "Should we also have a test to check that:\n- **existing** accounts not in the index are reindexed?\n- **stale** account are brought up-to-date?",
+      "range": {
+        "startLine": 51,
+        "startChar": 0,
+        "endLine": 51,
+        "endChar": 70
+      },
+      "revId": "11db31947789146c9a12607bf4b7b07044d1fd4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d0bf2153_bbc30701",
+        "filename": "javatests/com/google/gerrit/acceptance/server/account/PeriodicAccountIndexerIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-08-27T15:44:39Z",
+      "side": 1,
+      "message": "```suggestion\n    // Thus, Gerrit will not notice the deletion and will not remove the account\n```",
+      "range": {
+        "startLine": 62,
+        "startChar": 73,
+        "endLine": 62,
+        "endChar": 78
       },
       "revId": "11db31947789146c9a12607bf4b7b07044d1fd4f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

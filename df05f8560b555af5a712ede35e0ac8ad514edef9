@@ -34,6 +34,24 @@
       "parentUuid": "470f8aa5_db9ae00d",
       "revId": "df05f8560b555af5a712ede35e0ac8ad514edef9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0b439056_74c69d89",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 3480,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-08-27T13:11:23Z",
+      "side": 1,
+      "message": "Please file bug for JGit here https://github.com/eclipse-jgit/jgit/issues",
+      "parentUuid": "b7747fe1_4781274b",
+      "revId": "df05f8560b555af5a712ede35e0ac8ad514edef9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

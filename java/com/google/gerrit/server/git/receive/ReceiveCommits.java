@@ -2402,7 +2402,7 @@ class ReceiveCommits {
             return;
           }
           RevCommit branchTip = globalRevWalk.parseCommit(refTip.getObjectId());
-          if (!globalRevWalk.isMergedInto(tip, branchTip)) {
+          if (!isMergedInto(globalRevWalk, tip, branchTip)) {
             reject(
                 cmd,
                 RejectionReason.create(
@@ -2474,6 +2474,15 @@ class ReceiveCommits {
         this.result.magicPush(true);
       }
     }
+  }
+
+  private boolean isMergedInto(RevWalk globalRevWalk, RevCommit target, RevCommit start)
+      throws IOException {
+    ReachabilityChecker checker =
+        globalRevWalk.getObjectReader().createReachabilityChecker(globalRevWalk);
+    Optional<RevCommit> unreachableCommit =
+        checker.areAllReachable(ImmutableList.of(target), Stream.of(start));
+    return unreachableCommit.isEmpty();
   }
 
   private void validatePushOptions(

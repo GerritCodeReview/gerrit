@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9e806f0d_2581b72c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-08-27T06:25:44Z",
+      "side": 1,
+      "message": "They are no upgrades, just moving some lines. I would skip this change",
+      "revId": "8ee337bf728a47a964f6e994cddc75ba1b4c6092",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fcf41726_1f2e5d44",
+        "filename": "package.json",
+        "patchSetId": 4
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-08-27T06:25:44Z",
+      "side": 1,
+      "message": "why this was downgraded?",
+      "range": {
+        "startLine": 35,
+        "startChar": 22,
+        "endLine": 35,
+        "endChar": 24
+      },
+      "revId": "8ee337bf728a47a964f6e994cddc75ba1b4c6092",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "41b59b24_283209bf",
+        "filename": "package.json",
+        "patchSetId": 4
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-08-27T06:25:44Z",
+      "side": 1,
+      "message": "What are resolutions comments?",
+      "range": {
+        "startLine": 37,
+        "startChar": 3,
+        "endLine": 37,
+        "endChar": 22
+      },
+      "revId": "8ee337bf728a47a964f6e994cddc75ba1b4c6092",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0bf705ca_648b1923",
+        "filename": "package.json",
+        "patchSetId": 4
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-08-27T06:25:44Z",
+      "side": 1,
+      "message": "Why we need resolution to 5.8.2 when it\u0027s in dev dependencies?",
+      "range": {
+        "startLine": 49,
+        "startChar": 4,
+        "endLine": 49,
+        "endChar": 25
+      },
+      "revId": "8ee337bf728a47a964f6e994cddc75ba1b4c6092",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "47dc3d10_353c0246",
+        "filename": "plugins/package.json",
+        "patchSetId": 4
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-08-27T06:25:44Z",
+      "side": 1,
+      "message": "this just moved, i would just revert this file",
+      "range": {
+        "startLine": 33,
+        "startChar": 10,
+        "endLine": 33,
+        "endChar": 29
+      },
+      "revId": "8ee337bf728a47a964f6e994cddc75ba1b4c6092",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "09965835_59a03791",
+        "filename": "polygerrit-ui/package.json",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-08-27T06:25:44Z",
+      "side": 1,
+      "message": "this just moved.",
+      "range": {
+        "startLine": 11,
+        "startChar": 7,
+        "endLine": 11,
+        "endChar": 31
+      },
+      "revId": "8ee337bf728a47a964f6e994cddc75ba1b4c6092",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

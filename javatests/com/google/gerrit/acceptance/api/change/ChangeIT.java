@@ -131,6 +131,7 @@ import com.google.gerrit.extensions.api.changes.ReviewerInfo;
 import com.google.gerrit.extensions.api.changes.ReviewerInput;
 import com.google.gerrit.extensions.api.changes.ReviewerResult;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
+import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.api.groups.GroupApi;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
@@ -3140,6 +3141,25 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void submitAsNotAllowedWithoutPermission() throws Exception {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.SUBMIT).ref("refs/heads/master").group(REGISTERED_USERS))
+        .update();
+    PushOneCommit.Result r = createChange();
+    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).review(ReviewInput.approve());
+    SubmitInput in = new SubmitInput();
+    in.onBehalfOf = accountCreator.user2().email();
+    requestScopeOperations.setApiUser(user.id());
+    AuthException thrown =
+        assertThrows(
+            AuthException.class,
+            () -> gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).submit(in));
+    assertThat(thrown).hasMessageThat().contains("submit on behalf of other users not permitted");
+  }
+
+  @Test
   public void submitAllowedWithPermission() throws Exception {
     PushOneCommit.Result r = createChange();
     gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).review(ReviewInput.approve());
@@ -3150,6 +3170,46 @@ public class ChangeIT extends AbstractDaemonTest {
         .update();
     requestScopeOperations.setApiUser(user.id());
     gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).submit();
+    assertThat(gApi.changes().id(r.getChangeId()).info().status).isEqualTo(MERGED);
+  }
+
+  @Test
+  public void submitAsAllowedWithPermission() throws Exception {
+    PushOneCommit.Result r = createChange();
+    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).review(ReviewInput.approve());
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.SUBMIT).ref("refs/heads/master").group(REGISTERED_USERS))
+        .add(allow(Permission.SUBMIT_AS).ref("refs/heads/master").group(REGISTERED_USERS))
+        .update();
+
+    SubmitInput in = new SubmitInput();
+    in.onBehalfOf = accountCreator.user2().email();
+    requestScopeOperations.setApiUser(user.id());
+    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).submit(in);
+    assertThat(gApi.changes().id(r.getChangeId()).info().status).isEqualTo(MERGED);
+  }
+
+  @Test
+  public void submitAsAllowedWithRunAsPermission() throws Exception {
+    PushOneCommit.Result r = createChange();
+    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).review(ReviewInput.approve());
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.SUBMIT).ref("refs/heads/master").group(REGISTERED_USERS))
+        .update();
+    projectOperations
+        .project(allProjects)
+        .forUpdate()
+        .add(allowCapability(GlobalCapability.RUN_AS).group(REGISTERED_USERS))
+        .update();
+
+    SubmitInput in = new SubmitInput();
+    in.onBehalfOf = accountCreator.user2().email();
+    requestScopeOperations.setApiUser(user.id());
+    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).submit(in);
     assertThat(gApi.changes().id(r.getChangeId()).info().status).isEqualTo(MERGED);
   }
 

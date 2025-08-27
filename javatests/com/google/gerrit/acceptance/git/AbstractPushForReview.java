@@ -2147,10 +2147,13 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
         pushFactory.create(admin.newIdent(), testRepo, PushOneCommit.SUBJECT, "a.txt", "content");
     PushOneCommit.Result r = push.to("refs/for/master");
     r.assertOkStatus();
-    RevCommit commitChange1 = r.getCommit();
+    RevCommit commit = r.getCommit();
 
-    createCommit(testRepo, commitChange1.getFullMessage());
+    RevCommit followUpCommitWithSameChangeId = createCommit(testRepo, commit.getFullMessage());
 
+    // The parent commit of followUpCommitWithSameChangeId is the current patch set of the change.
+    // Pushing followUpCommitWithSameChangeId fails because it has the same change ID as its parent
+    // commit and having dependencies between patch sets of the same change is not allowed.
     pushForReviewRejected(
         testRepo,
         "same Change-Id in multiple changes.\n"
@@ -2166,6 +2169,22 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
       u.save();
     }
 
+    pushForReviewRejected(
+        testRepo,
+        "same Change-Id in multiple changes.\n"
+            + "Squash the commits with the same Change-Id or ensure Change-Ids are unique for each"
+            + " commit");
+
+    // Amend the change and check that pushing the followUpCommitWithSameChangeId still fails
+    testRepo.reset(commit);
+    r = amendChange(r.getChangeId());
+    r.assertOkStatus();
+
+    // The parent commit of followUpCommitWithSameChangeId is an outdated patch set of the change
+    // now. Pushing followUpCommitWithSameChangeId still fails because it has the same change ID as
+    // its parent commit and having dependencies between patch sets of the same change is not
+    // allowed.
+    testRepo.reset(followUpCommitWithSameChangeId);
     pushForReviewRejected(
         testRepo,
         "same Change-Id in multiple changes.\n"

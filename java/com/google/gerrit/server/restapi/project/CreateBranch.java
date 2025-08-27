@@ -262,7 +262,8 @@ public class CreateBranch
           PermissionBackendException,
           ResourceConflictException,
           IOException,
-          NoSuchProjectException {
+          NoSuchProjectException,
+          UnprocessableEntityException {
     if (input.createEmptyCommit) {
       permissionBackend.user(identifiedUser.get()).ref(branchNameKey).check(RefPermission.CREATE);
     } else {

@@ -23,6 +23,7 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.DynamicOptions;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.IdentifiedUser.ImpersonationPermissionMode;
 import com.google.gerrit.server.PeerDaemonUser;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.permissions.GlobalPermission;
@@ -145,7 +146,10 @@ public final class SuExec extends BaseCommand {
     if (caller instanceof PeerDaemonUser) {
       caller = null;
     }
-    return new SshSession(session, peer, userFactory.runAs(peer, accountId, caller));
+    return new SshSession(
+        session,
+        peer,
+        userFactory.runAs(peer, accountId, caller, ImpersonationPermissionMode.THIS_USER));
   }
 
   private static String join(List<String> args) {

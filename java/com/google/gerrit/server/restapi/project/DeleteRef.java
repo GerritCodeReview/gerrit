@@ -228,18 +228,14 @@ public class DeleteRef {
     if (isConfigRef(refName)) {
       // Never allow to delete the meta config branch.
       command.setResult(Result.REJECTED_OTHER_REASON, "not allowed to delete branch " + refName);
-    } else {
-      try {
-        permissionBackend
-            .currentUser()
-            .project(projectState.getNameKey())
-            .ref(refName)
-            .check(RefPermission.DELETE);
-      } catch (AuthException denied) {
-        command.setResult(
-            Result.REJECTED_OTHER_REASON,
-            "it doesn't exist or you do not have permission to delete it");
-      }
+    } else if (!permissionBackend
+        .currentUser()
+        .project(projectState.getNameKey())
+        .ref(refName)
+        .test(RefPermission.DELETE)) {
+      command.setResult(
+          Result.REJECTED_OTHER_REASON,
+          "it doesn't exist or you do not have permission to delete it");
     }
 
     if (!projectState.statePermitsWrite()) {

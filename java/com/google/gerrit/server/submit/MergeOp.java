@@ -71,6 +71,7 @@ import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.IdentifiedUser.ImpersonationPermissionMode;
 import com.google.gerrit.server.InternalUser;
 import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.config.ConfigUtil;
@@ -460,7 +461,7 @@ public class MergeOp implements AutoCloseable {
     try {
       Set<ChangePermission> can =
           permissionBackend
-              .user(caller.getRealUser())
+              .user(caller, ImpersonationPermissionMode.REAL_USER)
               .change(cd)
               .test(
                   EnumSet.of(
@@ -508,7 +509,10 @@ public class MergeOp implements AutoCloseable {
         return;
       }
       if (caller.isImpersonated()) {
-        if (!permissionBackend.user(caller).change(cd).test(ChangePermission.READ)) {
+        if (!permissionBackend
+            .user(caller, ImpersonationPermissionMode.THIS_USER)
+            .change(cd)
+            .test(ChangePermission.READ)) {
           if (triggeringChangeId.get() != cd.getId().get()) {
             logger.atFine().log(
                 "Change %d cannot be submitted by user %s on behalf of user %s because it depends"

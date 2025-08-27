@@ -119,7 +119,7 @@ public class DefaultRefFilter {
     this.user = projectControl.getUser();
     this.projectState = projectControl.getProjectState();
     this.permissionBackendForProject =
-        permissionBackend.user(user).project(projectState.getNameKey());
+        permissionBackend.exactUser(user).project(projectState.getNameKey());
     this.metrics = metrics;
   }
 
@@ -227,7 +227,7 @@ public class DefaultRefFilter {
 
     boolean hasAccessDatabase =
         permissionBackend
-            .user(projectControl.getUser())
+            .exactUser(projectControl.getUser())
             .testOrFalse(GlobalPermission.ACCESS_DATABASE);
     ImmutableList.Builder<Ref> resultRefs = ImmutableList.builderWithExpectedSize(refs.size());
     ImmutableList.Builder<Ref> deferredTags = ImmutableList.builder();

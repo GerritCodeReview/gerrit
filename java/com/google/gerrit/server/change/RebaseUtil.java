@@ -35,6 +35,7 @@ import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.IdentifiedUser.ImpersonationPermissionMode;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -160,7 +161,9 @@ public class RebaseUtil {
 
     CurrentUser caller = rsrc.getUser();
     Account.Id uploaderId = rsrc.getPatchSet().uploader();
-    IdentifiedUser uploader = userFactory.runAs(/* remotePeer= */ null, uploaderId, caller);
+    IdentifiedUser uploader =
+        userFactory.runAs(
+            /* remotePeer= */ null, uploaderId, caller, ImpersonationPermissionMode.THIS_USER);
     logger.atFine().log(
         "%s is rebasing patch set %s of project %s on behalf of uploader %s",
         caller.getLoggableName(),

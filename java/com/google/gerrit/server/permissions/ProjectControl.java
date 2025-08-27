@@ -174,7 +174,7 @@ public class ProjectControl {
 
   boolean isAdmin() {
     try {
-      return permissionBackend.user(user).test(GlobalPermission.ADMINISTRATE_SERVER);
+      return permissionBackend.exactUser(user).test(GlobalPermission.ADMINISTRATE_SERVER);
     } catch (PermissionBackendException e) {
       return false;
     }

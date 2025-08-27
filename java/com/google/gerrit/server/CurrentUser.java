@@ -67,6 +67,16 @@ public abstract class CurrentUser {
     return this;
   }
 
+  /**
+   * Identity of the user that should be used for permission checks by default.
+   *
+   * <p>In case of impersonation this controls. If the permissions of the impersonated user or of
+   * the real user/caller should be used for permission checks.
+   */
+  public CurrentUser getUserForPermission() {
+    return this;
+  }
+
   @Deprecated(since = "3.12", forRemoval = true)
   @InlineMe(replacement = "this.isImpersonated()")
   public final boolean isImpersonating() {

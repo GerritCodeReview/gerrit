@@ -46,6 +46,7 @@ import com.google.gerrit.server.BranchUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.IdentifiedUser.ImpersonationPermissionMode;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.change.ChangeJson;
@@ -457,8 +458,12 @@ public class Submit
     perm.check(ChangePermission.SUBMIT_AS);
 
     CurrentUser caller = rsrc.getUser();
+    // TODO(kamilm): Code in MergeOp explicitly checks REAL_USER for permissions. We can simplify by
+    // changing to REAL_USER here.
     IdentifiedUser submitter =
-        accountResolver.resolve(in.onBehalfOf).asUniqueUserOnBehalfOf(caller);
+        accountResolver
+            .resolve(in.onBehalfOf)
+            .asUniqueUserOnBehalfOf(caller, ImpersonationPermissionMode.THIS_USER);
     try {
       permissionBackend.user(submitter).change(rsrc.getNotes()).check(ChangePermission.READ);
     } catch (AuthException e) {

@@ -24,6 +24,7 @@ import com.google.gerrit.extensions.config.CapabilityDefinition;
 import com.google.gerrit.extensions.config.PluginProjectPermissionDefinition;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.IdentifiedUser.ImpersonationPermissionMode;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.restapi.config.ListCapabilities;
 import com.google.gerrit.server.restapi.config.ListCapabilities.CapabilityInfo;
@@ -96,6 +97,16 @@ public class ListCapabilitiesTest {
 
     @Override
     public WithUser user(CurrentUser user) {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public WithUser user(CurrentUser user, ImpersonationPermissionMode permissionMode) {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public WithUser exactUser(CurrentUser user) {
       throw new UnsupportedOperationException();
     }
 

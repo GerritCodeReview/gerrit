@@ -25,6 +25,7 @@ import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.conditions.BooleanCondition;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.IdentifiedUser.ImpersonationPermissionMode;
 import com.google.gerrit.server.permissions.DefaultPermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -70,6 +71,16 @@ public class QueryChangesFilterPermissionBackendIT extends AbstractDaemonTest {
     @Override
     public WithUser user(CurrentUser user) {
       return new TestPermissionWithUser(defaultPermissionBackend.user(user));
+    }
+
+    @Override
+    public WithUser user(CurrentUser user, ImpersonationPermissionMode permissionMode) {
+      return new TestPermissionWithUser(defaultPermissionBackend.user(user, permissionMode));
+    }
+
+    @Override
+    public WithUser exactUser(CurrentUser user) {
+      return new TestPermissionWithUser(defaultPermissionBackend.exactUser(user));
     }
 
     @Override

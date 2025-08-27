@@ -78,7 +78,7 @@ public class RefVisibilityControl {
 
     boolean hasAccessDatabase =
         permissionBackend
-            .user(projectControl.getUser())
+            .exactUser(projectControl.getUser())
             .testOrFalse(GlobalPermission.ACCESS_DATABASE);
     if (hasAccessDatabase) {
       return true;

@@ -34,6 +34,7 @@ import com.google.gerrit.extensions.conditions.BooleanCondition;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.IdentifiedUser.ImpersonationPermissionMode;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.ImplementedBy;
@@ -98,12 +99,29 @@ public abstract class PermissionBackend {
 
   /**
    * Returns an instance scoped to the specified user. Should be used in cases where the user could
-   * either be the issuer of the current request or an impersonated user. PermissionBackends that do
-   * not support impersonation can fail with an {@code IllegalStateException}.
+   * either be the issuer of the current request or an impersonated user. Uses {@link
+   * CurrentUser#getUserForPermission()} to determine permissions of which user should be used in
+   * case of impersonation. PermissionBackends that do not support impersonation can fail with an
+   * {@code IllegalStateException}.
    *
    * <p>If an instance scoped to the current user is desired, use {@code currentUser()} instead.
    */
   public abstract WithUser user(CurrentUser user);
+
+  /**
+   * Returns an instance scoped to the specified user. Should be used in cases where the user could
+   * either be the issuer of the current request or an impersonated user. Uses {@code
+   * permissionMode} argument to determine permissions of which user should be used in case of
+   * impersonation. PermissionBackends that do not support impersonation can fail with an {@code
+   * IllegalStateException}.
+   */
+  public abstract WithUser user(CurrentUser user, ImpersonationPermissionMode permissionMode);
+
+  /**
+   * For calls internal to permission evaluation logic, uses specified user without attempting to
+   * resolve impersonation.
+   */
+  public abstract WithUser exactUser(CurrentUser user);
 
   /**
    * Returns an instance scoped to the provided user. Should be used in cases where the caller wants

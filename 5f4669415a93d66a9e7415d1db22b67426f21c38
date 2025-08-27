@@ -632,6 +632,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0b850aa7_34f73d23",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-autocomplete/gr-change-autocomplete.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-08-27T12:28:40Z",
+      "side": 1,
+      "message": "Adding a try-catch wouldn\u0027t change the behavior, will just make the error in console more clear and recentChanges will be [] instead of undefined. But I will send a fix in a separate CL, if you don\u0027t want to add edit here.",
+      "parentUuid": "4937df88_84ea1852",
+      "range": {
+        "startLine": 89,
+        "startChar": 8,
+        "endLine": 89,
+        "endChar": 29
+      },
+      "revId": "5f4669415a93d66a9e7415d1db22b67426f21c38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "11ebbfc2_762277d8",

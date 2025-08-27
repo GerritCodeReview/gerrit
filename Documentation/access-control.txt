@@ -1540,7 +1540,9 @@ Allow users to impersonate any user to see which refs they can read.
 
 Allow users to impersonate any other user with the `X-Gerrit-RunAs`
 HTTP header on REST API calls, or the link:cmd-suexec.html[suexec]
-SSH command.
+SSH command. When having Run As capability the user is considered to implicitly
+have other more narrow impersonation capabilities as well, such as
+Submitting/Voting on behalf of another user.
 
 When impersonating an administrator the Administrate Server capability
 is not honored.  This security feature tries to prevent a role with

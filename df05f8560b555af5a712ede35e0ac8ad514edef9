@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "937f9e7c_420a8a06",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 3458,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-08-27T17:22:29Z",
+      "side": 1,
+      "message": "ack\n\nI filed https://github.com/eclipse-jgit/jgit/issues/203 to track this problem",
+      "parentUuid": "ff1c3838_984c2f42",
+      "revId": "df05f8560b555af5a712ede35e0ac8ad514edef9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "470f8aa5_db9ae00d",

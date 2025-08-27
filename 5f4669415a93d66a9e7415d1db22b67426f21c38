@@ -398,6 +398,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c4e36be5_db2409e1",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-autocomplete/gr-change-autocomplete.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-08-27T12:11:54Z",
+      "side": 1,
+      "message": "As far as I can tell the relevant logic here is in filterChanges below `change.description.includes(input)`, ie. it fetches all changes in last 90days and then matches based on the substring in Change Subject. (Change subject doesn\u0027t contain ref or hash) So I think the placeholder text here is simply wrong (and was wrong before).",
+      "parentUuid": "ed4f30c7_7a5e456f",
+      "range": {
+        "startLine": 76,
+        "startChar": 36,
+        "endLine": 76,
+        "endChar": 55
+      },
+      "revId": "5f4669415a93d66a9e7415d1db22b67426f21c38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "74ba7a92_9c613ef2",
         "filename": "polygerrit-ui/app/elements/change/gr-change-autocomplete/gr-change-autocomplete.ts",
         "patchSetId": 4
@@ -526,6 +550,30 @@
       "side": 1,
       "message": "This is existing code and I assume throwing an error means it\u0027s shown in a dialog in the UI and now it won\u0027t?\n\nDon\u0027t want to make changes to existing flow in this CL.",
       "parentUuid": "1a74c825_6bb0ffbb",
+      "range": {
+        "startLine": 89,
+        "startChar": 8,
+        "endLine": 89,
+        "endChar": 29
+      },
+      "revId": "5f4669415a93d66a9e7415d1db22b67426f21c38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4484991e_f468a98b",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-autocomplete/gr-change-autocomplete.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-08-27T12:11:54Z",
+      "side": 1,
+      "message": "\u003e I assume throwing an error means it\u0027s shown in a dialog in the UI and now it won\u0027t\n\nIf you don\u0027t specify any callback, then the error dialog is shown. With throwing error callback, it suppresses the error dialog and will result in uncaught exception (don\u0027t remember exact text, but shows as a message saying something like \"uncaught exception in promise\").\n\nI am guessing the intent of the original code, was that the error is shown in the console instead of error-dialog. Adding AI suggested fix, sounds like a sufficient fix. So might as well include this in here. This is consistent with \"if (!response) return [];\" in this method ie. return [] on error. If we don\u0027t do this fix, recentChanges are left uninitialized on error.\n\nSide-note: `if (!response) return [];` can never happen (but it\u0027s probably easier to keep for typescript typing), since response is only undefined if an error occurs, but we throw exception on error instead of returning response, because of throwingErrorCallback.",
+      "parentUuid": "90757531_7b357e33",
       "range": {
         "startLine": 89,
         "startChar": 8,

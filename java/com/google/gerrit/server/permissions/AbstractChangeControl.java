@@ -43,6 +43,7 @@ abstract class AbstractChangeControl {
   protected final ProjectControl projectControl;
   protected final RefControl refControl;
   protected final boolean isNew;
+  protected final PermissionBackend permissionBackend;
 
   /** Is this user the owner of the change? */
   protected final boolean isOwner;
@@ -50,9 +51,14 @@ abstract class AbstractChangeControl {
   private Map<String, PermissionRange> labels;
 
   AbstractChangeControl(
-      ProjectControl projectControl, RefControl refControl, boolean isNew, boolean isOwner) {
+      ProjectControl projectControl,
+      RefControl refControl,
+      PermissionBackend permissionBackend,
+      boolean isNew,
+      boolean isOwner) {
     this.projectControl = projectControl;
     this.refControl = refControl;
+    this.permissionBackend = permissionBackend;
     this.isNew = isNew;
     this.isOwner = isOwner;
   }
@@ -91,7 +97,10 @@ abstract class AbstractChangeControl {
         case REVERT -> canRevert();
         case SUBMIT -> refControl.canSubmit(isOwner);
         case TOGGLE_WORK_IN_PROGRESS_STATE -> canToggleWorkInProgressState();
-        case REMOVE_REVIEWER, SUBMIT_AS -> refControl.canPerform(changePermissionName(perm));
+        case REMOVE_REVIEWER -> refControl.canPerform(changePermissionName(perm));
+        case SUBMIT_AS ->
+            permissionBackend.user(getUser()).test(GlobalPermission.RUN_AS)
+                || refControl.canPerform(changePermissionName(perm));
       };
     } catch (StorageException e) {
       throw new PermissionBackendException("unavailable", e);
@@ -206,7 +215,11 @@ abstract class AbstractChangeControl {
     return !label(labelPermissionName(perm)).isEmpty();
   }
 
-  private boolean can(AbstractLabelPermission.WithValue perm) {
+  private boolean can(AbstractLabelPermission.WithValue perm) throws PermissionBackendException {
+    if (perm.forUser() == ON_BEHALF_OF
+        && permissionBackend.user(getUser()).test(GlobalPermission.RUN_AS)) {
+      return true;
+    }
     PermissionRange r = label(labelPermissionName(perm));
     if (perm.forUser() == ON_BEHALF_OF && r.isEmpty()) {
       return false;

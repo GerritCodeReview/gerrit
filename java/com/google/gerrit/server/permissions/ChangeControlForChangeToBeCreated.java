@@ -20,8 +20,11 @@ import com.google.gerrit.server.permissions.PermissionBackend.ForChange;
 public class ChangeControlForChangeToBeCreated extends AbstractChangeControl {
 
   public ChangeControlForChangeToBeCreated(
-      ProjectControl projectControl, RefControl refControl, boolean isOwner) {
-    super(projectControl, refControl, /* isNew= */ true, isOwner);
+      ProjectControl projectControl,
+      RefControl refControl,
+      PermissionBackend permissionBackend,
+      boolean isOwner) {
+    super(projectControl, refControl, permissionBackend, /* isNew= */ true, isOwner);
   }
 
   @Override

@@ -656,6 +656,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d4dcdd93_a009c47c",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-autocomplete/gr-change-autocomplete.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-08-27T12:30:12Z",
+      "side": 1,
+      "message": "\u003e Adding a try-catch wouldn\u0027t change the behavior\n\nYeah, then I don\u0027t understand the UX of `throwingErrorCallback`.\n\nMy guess is the propagated error is shown as a big dialog in the UI and catching it means it\u0027s only shown in the console",
+      "parentUuid": "0b850aa7_34f73d23",
+      "range": {
+        "startLine": 89,
+        "startChar": 8,
+        "endLine": 89,
+        "endChar": 29
+      },
+      "revId": "5f4669415a93d66a9e7415d1db22b67426f21c38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "11ebbfc2_762277d8",

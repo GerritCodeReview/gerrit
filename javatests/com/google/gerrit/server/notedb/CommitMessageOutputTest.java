@@ -25,6 +25,7 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.SubmissionId;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.IdentifiedUser.ImpersonationPermissionMode;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.testing.TestChanges;
 import java.time.ZoneOffset;
@@ -357,7 +358,11 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
   public void realUser() throws Exception {
     Change c = newChange();
     CurrentUser ownerAsOtherUser =
-        userFactory.runAs(/* remotePeer= */ null, otherUserId, changeOwner);
+        userFactory.runAs(
+            /* remotePeer= */ null,
+            otherUserId,
+            changeOwner,
+            ImpersonationPermissionMode.THIS_USER);
     ChangeUpdate update = newUpdate(c, ownerAsOtherUser);
     update.setChangeMessage("Message on behalf of other user");
     update.commit();

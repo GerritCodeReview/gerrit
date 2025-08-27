@@ -41,6 +41,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "666deeca_fd52ffc9",
+        "filename": "java/com/google/gerrit/server/account/PeriodicAccountIndexer.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2025-08-27T18:26:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8dda5f56_051cf150",
+      "revId": "11db31947789146c9a12607bf4b7b07044d1fd4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d02029ab_b235040d",
@@ -54,6 +72,30 @@
       "writtenOn": "2025-08-27T13:09:09Z",
       "side": 1,
       "message": "```suggestion\n  private Set\u003cAccount.Id\u003e queryAllAccountsFromIndex() {\n```",
+      "range": {
+        "startLine": 132,
+        "startChar": 26,
+        "endLine": 132,
+        "endChar": 51
+      },
+      "revId": "11db31947789146c9a12607bf4b7b07044d1fd4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aaa2c402_51176c4c",
+        "filename": "java/com/google/gerrit/server/account/PeriodicAccountIndexer.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2025-08-27T18:26:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d02029ab_b235040d",
       "range": {
         "startLine": 132,
         "startChar": 26,
@@ -89,6 +131,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "dbd4f621_5a10838a",
+        "filename": "javatests/com/google/gerrit/acceptance/server/account/PeriodicAccountIndexerIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2025-08-27T18:26:46Z",
+      "side": 1,
+      "message": "\u003e existing accounts not in the index are reindexed?\n\nDone\n\n\u003e stale account are brought up-to-date?\n\nNot sure how to easily create a stale index. Can you think of any way to do it?",
+      "parentUuid": "6cb76cad_532a2fe9",
+      "range": {
+        "startLine": 51,
+        "startChar": 0,
+        "endLine": 51,
+        "endChar": 70
+      },
+      "revId": "11db31947789146c9a12607bf4b7b07044d1fd4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d0bf2153_bbc30701",
         "filename": "javatests/com/google/gerrit/acceptance/server/account/PeriodicAccountIndexerIT.java",
         "patchSetId": 7
@@ -100,6 +166,30 @@
       "writtenOn": "2025-08-27T15:44:39Z",
       "side": 1,
       "message": "```suggestion\n    // Thus, Gerrit will not notice the deletion and will not remove the account\n```",
+      "range": {
+        "startLine": 62,
+        "startChar": 73,
+        "endLine": 62,
+        "endChar": 78
+      },
+      "revId": "11db31947789146c9a12607bf4b7b07044d1fd4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3f709eda_c3192556",
+        "filename": "javatests/com/google/gerrit/acceptance/server/account/PeriodicAccountIndexerIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2025-08-27T18:26:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d0bf2153_bbc30701",
       "range": {
         "startLine": 62,
         "startChar": 73,

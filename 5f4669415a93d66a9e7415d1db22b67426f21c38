@@ -102,6 +102,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6181fa66_c9331462",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-autocomplete/gr-change-autocomplete.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-08-27T11:39:41Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "b3a9f7cc_bd2350ce",
+      "range": {
+        "startLine": 18,
+        "startChar": 17,
+        "endLine": 18,
+        "endChar": 29
+      },
+      "revId": "5f4669415a93d66a9e7415d1db22b67426f21c38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0e6475f5_f0f3869b",
@@ -139,6 +163,30 @@
           ]
         }
       ],
+      "revId": "5f4669415a93d66a9e7415d1db22b67426f21c38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "29ffaee3_b37bc29c",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-autocomplete/gr-change-autocomplete.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-08-27T11:39:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0e6475f5_f0f3869b",
+      "range": {
+        "startLine": 24,
+        "startChar": 13,
+        "endLine": 24,
+        "endChar": 33
+      },
       "revId": "5f4669415a93d66a9e7415d1db22b67426f21c38",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -194,6 +242,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a1e8db82_5562a69f",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-autocomplete/gr-change-autocomplete.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-08-27T11:39:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c9632258_f1dde076",
+      "range": {
+        "startLine": 41,
+        "startChar": 4,
+        "endLine": 41,
+        "endChar": 59
+      },
+      "revId": "5f4669415a93d66a9e7415d1db22b67426f21c38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a2ca1180_45b4c3b5",
@@ -235,6 +307,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8c532af6_c09280b3",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-autocomplete/gr-change-autocomplete.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-08-27T11:39:41Z",
+      "side": 1,
+      "message": "Should not be required.\n\nRemoved.",
+      "parentUuid": "a2ca1180_45b4c3b5",
+      "range": {
+        "startLine": 67,
+        "startChar": 10,
+        "endLine": 72,
+        "endChar": 14
+      },
+      "revId": "5f4669415a93d66a9e7415d1db22b67426f21c38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e9691eef_f2f75db9",
@@ -272,6 +368,30 @@
           ]
         }
       ],
+      "revId": "5f4669415a93d66a9e7415d1db22b67426f21c38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ed4f30c7_7a5e456f",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-autocomplete/gr-change-autocomplete.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-08-27T11:39:41Z",
+      "side": 1,
+      "message": "For now it\u0027s existing code so I don\u0027t want to change it since it impacts GrRebaseDialog.\n\nI also don\u0027t fully understand the internal details of the API.\n\nUnless you\u0027re saying I specifically changed something about the autocomplete input as well?",
+      "parentUuid": "e9691eef_f2f75db9",
+      "range": {
+        "startLine": 76,
+        "startChar": 36,
+        "endLine": 76,
+        "endChar": 55
+      },
       "revId": "5f4669415a93d66a9e7415d1db22b67426f21c38",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -327,6 +447,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c71218c3_81aeb8cb",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-autocomplete/gr-change-autocomplete.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-08-27T11:39:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "74ba7a92_9c613ef2",
+      "range": {
+        "startLine": 82,
+        "startChar": 2,
+        "endLine": 82,
+        "endChar": 28
+      },
+      "revId": "5f4669415a93d66a9e7415d1db22b67426f21c38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1a74c825_6bb0ffbb",
@@ -364,6 +508,30 @@
           ]
         }
       ],
+      "revId": "5f4669415a93d66a9e7415d1db22b67426f21c38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "90757531_7b357e33",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-autocomplete/gr-change-autocomplete.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-08-27T11:39:41Z",
+      "side": 1,
+      "message": "This is existing code and I assume throwing an error means it\u0027s shown in a dialog in the UI and now it won\u0027t?\n\nDon\u0027t want to make changes to existing flow in this CL.",
+      "parentUuid": "1a74c825_6bb0ffbb",
+      "range": {
+        "startLine": 89,
+        "startChar": 8,
+        "endLine": 89,
+        "endChar": 29
+      },
       "revId": "5f4669415a93d66a9e7415d1db22b67426f21c38",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -429,6 +597,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "41e446ca_f8417c91",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-autocomplete/gr-change-autocomplete.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-08-27T11:39:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "11ebbfc2_762277d8",
+      "range": {
+        "startLine": 124,
+        "startChar": 48,
+        "endLine": 124,
+        "endChar": 80
+      },
+      "revId": "5f4669415a93d66a9e7415d1db22b67426f21c38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e6530a69_f5252d76",
@@ -476,6 +668,30 @@
           ]
         }
       ],
+      "revId": "5f4669415a93d66a9e7415d1db22b67426f21c38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5dbb7b33_41c4bed2",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-rebase-dialog/gr-confirm-rebase-dialog.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-08-27T11:39:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e6530a69_f5252d76",
+      "range": {
+        "startLine": 113,
+        "startChar": 2,
+        "endLine": 113,
+        "endChar": 13
+      },
       "revId": "5f4669415a93d66a9e7415d1db22b67426f21c38",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

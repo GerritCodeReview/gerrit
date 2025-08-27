@@ -679,13 +679,10 @@ public class ListProjectsImpl extends AbstractListProjects {
       PermissionBackend.ForProject perm = permissionBackend.user(currentUser).project(projectName);
       for (int i = 0; i < showBranch.size(); i++) {
         Ref ref = git.findRef(showBranch.get(i));
-        if (ref != null && ref.getObjectId() != null) {
-          try {
-            perm.ref(ref.getLeaf().getName()).check(RefPermission.READ);
-            result[i] = ref;
-          } catch (AuthException e) {
-            continue;
-          }
+        if (ref != null
+            && ref.getObjectId() != null
+            && perm.ref(ref.getLeaf().getName()).test(RefPermission.READ)) {
+          result[i] = ref;
         }
       }
     } catch (IOException | PermissionBackendException e) {

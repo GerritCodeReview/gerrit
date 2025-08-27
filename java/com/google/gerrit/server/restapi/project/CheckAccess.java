@@ -22,7 +22,6 @@ import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.extensions.api.config.AccessCheckInfo;
 import com.google.gerrit.extensions.api.config.AccessCheckInput;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -87,12 +86,10 @@ public class CheckAccess implements RestReadView<ProjectResource> {
 
       Account.Id match = accountResolver.resolve(input.account).asUnique().account().id();
 
-      try {
-        permissionBackend
-            .absentUser(match)
-            .project(rsrc.getNameKey())
-            .check(ProjectPermission.ACCESS);
-      } catch (AuthException e) {
+      if (!permissionBackend
+          .absentUser(match)
+          .project(rsrc.getNameKey())
+          .test(ProjectPermission.ACCESS)) {
         return Response.ok(
             createInfo(
                 HttpServletResponse.SC_FORBIDDEN,
@@ -115,20 +112,17 @@ public class CheckAccess implements RestReadView<ProjectResource> {
       }
 
       String message = null;
-      if (!Strings.isNullOrEmpty(input.ref)) {
-        try {
-          permissionBackend
+      if (!Strings.isNullOrEmpty(input.ref)
+          && !permissionBackend
               .absentUser(match)
               .ref(BranchNameKey.create(rsrc.getNameKey(), input.ref))
-              .check(refPerm);
-        } catch (AuthException e) {
-          return Response.ok(
-              createInfo(
-                  HttpServletResponse.SC_FORBIDDEN,
-                  String.format(
-                      "user %s lacks permission %s for %s in project %s",
-                      match, input.permission, input.ref, rsrc.getName())));
-        }
+              .test(refPerm)) {
+        return Response.ok(
+            createInfo(
+                HttpServletResponse.SC_FORBIDDEN,
+                String.format(
+                    "user %s lacks permission %s for %s in project %s",
+                    match, input.permission, input.ref, rsrc.getName())));
       } else {
         // We say access is okay if there are no refs, but this warrants a warning,
         // as access denied looks the same as no branches to the user.

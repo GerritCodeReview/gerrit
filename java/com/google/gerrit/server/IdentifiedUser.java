@@ -56,6 +56,14 @@ import org.eclipse.jgit.util.SystemReader;
 public class IdentifiedUser extends CurrentUser {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
+  /**
+   * Setting that controls which user in case of impersonation should be used for permission checks.
+   */
+  public enum ImpersonationPermissionMode {
+    THIS_USER,
+    REAL_USER,
+  }
+
   /** Create an IdentifiedUser, ignoring any per-request state. */
   @Singleton
   public static class GenericFactory {
@@ -100,7 +108,8 @@ public class IdentifiedUser extends CurrentUser {
           enablePeerIPInReflogRecord,
           Providers.of(null),
           state,
-          /* realUser= */ null);
+          /* realUser= */ null,
+          ImpersonationPermissionMode.THIS_USER);
     }
 
     public IdentifiedUser create(Account.Id id) {
@@ -110,23 +119,32 @@ public class IdentifiedUser extends CurrentUser {
     @VisibleForTesting
     @UsedAt(UsedAt.Project.GOOGLE)
     public IdentifiedUser forTest(Account.Id id, PropertyMap properties) {
-      return runAs(/* remotePeer= */ null, id, /* caller= */ null, properties);
+      return runAs(
+          /* remotePeer= */ null,
+          id,
+          /* caller= */ null,
+          properties,
+          ImpersonationPermissionMode.THIS_USER);
     }
 
     public IdentifiedUser create(@Nullable SocketAddress remotePeer, Account.Id id) {
-      return runAs(remotePeer, id, /* caller= */ null);
+      return runAs(remotePeer, id, /* caller= */ null, ImpersonationPermissionMode.THIS_USER);
     }
 
     public IdentifiedUser runAs(
-        @Nullable SocketAddress remotePeer, Account.Id id, @Nullable CurrentUser caller) {
-      return runAs(remotePeer, id, caller, PropertyMap.EMPTY);
+        @Nullable SocketAddress remotePeer,
+        Account.Id id,
+        @Nullable CurrentUser caller,
+        ImpersonationPermissionMode permissionMode) {
+      return runAs(remotePeer, id, caller, PropertyMap.EMPTY, permissionMode);
     }
 
     private IdentifiedUser runAs(
         @Nullable SocketAddress remotePeer,
         Account.Id id,
         @Nullable CurrentUser caller,
-        PropertyMap properties) {
+        PropertyMap properties,
+        ImpersonationPermissionMode permissionMode) {
       return new IdentifiedUser(
           authConfig,
           realm,
@@ -139,7 +157,8 @@ public class IdentifiedUser extends CurrentUser {
           Providers.of(remotePeer),
           id,
           caller,
-          properties);
+          properties,
+          permissionMode);
     }
   }
 
@@ -200,10 +219,15 @@ public class IdentifiedUser extends CurrentUser {
           remotePeerProvider,
           id,
           null,
-          properties);
+          properties,
+          ImpersonationPermissionMode.THIS_USER);
     }
 
-    public IdentifiedUser runAs(Account.Id id, CurrentUser caller, PropertyMap properties) {
+    public IdentifiedUser runAs(
+        Account.Id id,
+        CurrentUser caller,
+        PropertyMap properties,
+        ImpersonationPermissionMode permissionMode) {
       return new IdentifiedUser(
           authConfig,
           realm,
@@ -216,7 +240,8 @@ public class IdentifiedUser extends CurrentUser {
           remotePeerProvider,
           id,
           caller,
-          properties);
+          properties,
+          permissionMode);
     }
   }
 
@@ -243,6 +268,7 @@ public class IdentifiedUser extends CurrentUser {
   private Set<String> invalidEmails;
   private GroupMembership effectiveGroups;
   private PersonIdent refLogIdent;
+  private ImpersonationPermissionMode permissionMode = ImpersonationPermissionMode.THIS_USER;
 
   private IdentifiedUser(
       AuthConfig authConfig,
@@ -255,7 +281,8 @@ public class IdentifiedUser extends CurrentUser {
       Boolean enablePeerIPInReflogRecord,
       Provider<SocketAddress> remotePeerProvider,
       AccountState state,
-      @Nullable CurrentUser realUser) {
+      @Nullable CurrentUser realUser,
+      ImpersonationPermissionMode permissionMode) {
     this(
         authConfig,
         realm,
@@ -268,7 +295,8 @@ public class IdentifiedUser extends CurrentUser {
         remotePeerProvider,
         state.account().id(),
         realUser,
-        PropertyMap.EMPTY);
+        PropertyMap.EMPTY,
+        permissionMode);
     this.state = state;
   }
 
@@ -284,7 +312,8 @@ public class IdentifiedUser extends CurrentUser {
       Provider<SocketAddress> remotePeerProvider,
       Account.Id id,
       @Nullable CurrentUser realUser,
-      PropertyMap properties) {
+      PropertyMap properties,
+      ImpersonationPermissionMode permissionMode) {
     super(properties);
     this.canonicalUrl = canonicalUrl;
     this.accountCache = accountCache;
@@ -297,11 +326,21 @@ public class IdentifiedUser extends CurrentUser {
     this.remotePeerProvider = remotePeerProvider;
     this.accountId = id;
     this.realUser = realUser != null ? realUser : this;
+    this.permissionMode = permissionMode;
   }
 
   @Override
   public CurrentUser getRealUser() {
     return realUser;
+  }
+
+  @Override
+  public CurrentUser getUserForPermission() {
+    if (permissionMode.equals(ImpersonationPermissionMode.THIS_USER)) {
+      return this;
+    } else {
+      return realUser;
+    }
   }
 
   @Override
@@ -536,7 +575,8 @@ public class IdentifiedUser extends CurrentUser {
         enablePeerIPInReflogRecord,
         remotePeer,
         state,
-        realUser);
+        realUser,
+        permissionMode);
   }
 
   @Override

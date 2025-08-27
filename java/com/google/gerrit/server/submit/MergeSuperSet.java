@@ -21,7 +21,6 @@ import com.google.common.base.Strings;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.extensions.registration.DynamicItem;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.logging.TraceContext;
@@ -114,17 +113,10 @@ public class MergeSuperSet {
         closeOrm = true;
       }
       ChangeData cd = changeDataFactory.create(change.getProject(), change.getId());
-      boolean visible = false;
-      if (cd != null) {
-        if (cd.projectStatePermitsRead()) {
-          try {
-            permissionBackend.user(user).change(cd).check(ChangePermission.READ);
-            visible = true;
-          } catch (AuthException e) {
-            // Do nothing.
-          }
-        }
-      }
+      boolean visible =
+          cd != null
+              && cd.projectStatePermitsRead()
+              && permissionBackend.user(user).change(cd).test(ChangePermission.READ);
 
       ChangeSet changeSet = new ChangeSet(cd, visible);
       if (wholeTopicEnabled(cfg) || includingTopicClosure) {
@@ -218,11 +210,6 @@ public class MergeSuperSet {
     if (!projectCache.get(cd.project()).map(ProjectState::statePermitsRead).orElse(false)) {
       return false;
     }
-    try {
-      permissionBackend.user(user).change(cd).check(ChangePermission.READ);
-      return true;
-    } catch (AuthException e) {
-      return false;
-    }
+    return permissionBackend.user(user).change(cd).test(ChangePermission.READ);
   }
 }

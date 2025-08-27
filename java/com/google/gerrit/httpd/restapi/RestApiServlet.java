@@ -1660,10 +1660,8 @@ public class RestApiServlet extends HttpServlet {
 
   private void checkRequiresCapability(ViewData d)
       throws AuthException, PermissionBackendException {
-    try {
-      globals.permissionBackend.currentUser().check(GlobalPermission.ADMINISTRATE_SERVER);
-    } catch (AuthException e) {
-      // Skiping
+    if (!globals.permissionBackend.currentUser().test(GlobalPermission.ADMINISTRATE_SERVER)) {
+      // Not admin. Check for permissions from annotations.
       globals
           .permissionBackend
           .currentUser()

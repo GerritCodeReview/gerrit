@@ -40,7 +40,6 @@ import com.google.gerrit.extensions.api.access.PermissionInfo;
 import com.google.gerrit.extensions.api.access.PermissionRuleInfo;
 import com.google.gerrit.extensions.api.access.ProjectAccessInfo;
 import com.google.gerrit.extensions.common.GroupInfo;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
@@ -54,7 +53,6 @@ import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
-import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.ProjectJson;
@@ -177,8 +175,8 @@ public class GetAccess implements RestReadView<ProjectResource> {
     info.local = new HashMap<>();
     info.ownerOf = new HashSet<>();
     Map<AccountGroup.UUID, GroupInfo> groups = new HashMap<>();
-    boolean canReadConfig = check(perm, RefNames.REFS_CONFIG, READ);
-    boolean canWriteConfig = check(perm, ProjectPermission.WRITE_CONFIG);
+    boolean canReadConfig = perm.ref(RefNames.REFS_CONFIG).test(READ);
+    boolean canWriteConfig = perm.test(ProjectPermission.WRITE_CONFIG);
 
     // Check if the project state permits read only when the user is not allowed to write the config
     // (=owner). This is so that the owner can still read (and in the next step write) the project's
@@ -199,14 +197,14 @@ public class GetAccess implements RestReadView<ProjectResource> {
         }
 
       } else if (AccessSection.isValidRefSectionName(name)) {
-        if (check(perm, name, WRITE_CONFIG)) {
+        if (perm.ref(name).test(WRITE_CONFIG)) {
           info.local.put(name, createAccessSection(groups, section));
           info.ownerOf.add(name);
 
         } else if (canReadConfig) {
           info.local.put(name, createAccessSection(groups, section));
 
-        } else if (check(perm, name, READ)) {
+        } else if (perm.ref(name).test(READ)) {
           // Filter the section to only add rules describing groups that
           // are visible to the current-user. This includes any group the
           // user is a member of, as well as groups they own or that
@@ -237,15 +235,11 @@ public class GetAccess implements RestReadView<ProjectResource> {
       }
     }
 
-    if (info.ownerOf.isEmpty()) {
-      try {
-        permissionBackend.currentUser().check(GlobalPermission.ADMINISTRATE_SERVER);
-        // Special case: If the section list is empty, this project has no current
-        // access control information. Fall back to site administrators.
-        info.ownerOf.add(AccessSection.ALL);
-      } catch (AuthException e) {
-        // Do nothing.
-      }
+    if (info.ownerOf.isEmpty()
+        && permissionBackend.currentUser().test(GlobalPermission.ADMINISTRATE_SERVER)) {
+      // Special case: If the section list is empty, this project has no current
+      // access control information. Fall back to site administrators.
+      info.ownerOf.add(AccessSection.ALL);
     }
 
     if (config.getRevision() != null) {
@@ -298,26 +292,6 @@ public class GetAccess implements RestReadView<ProjectResource> {
         group = null;
       }
       groups.put(id, group);
-    }
-  }
-
-  private static boolean check(PermissionBackend.ForProject ctx, String ref, RefPermission perm)
-      throws PermissionBackendException {
-    try {
-      ctx.ref(ref).check(perm);
-      return true;
-    } catch (AuthException denied) {
-      return false;
-    }
-  }
-
-  private static boolean check(PermissionBackend.ForProject ctx, ProjectPermission perm)
-      throws PermissionBackendException {
-    try {
-      ctx.check(perm);
-      return true;
-    } catch (AuthException denied) {
-      return false;
     }
   }
 

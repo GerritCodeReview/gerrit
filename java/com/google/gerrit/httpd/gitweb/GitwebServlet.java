@@ -40,7 +40,6 @@ import com.google.common.collect.Iterators;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.entities.Project;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.server.AnonymousUser;
@@ -429,10 +428,13 @@ class GitwebServlet extends HttpServlet {
       }
 
       projectState.get().checkStatePermitsRead();
-      permissionBackend.user(userProvider.get()).project(nameKey).check(ProjectPermission.READ);
-    } catch (AuthException e) {
-      sendErrorOrRedirect(req, rsp, HttpServletResponse.SC_NOT_FOUND);
-      return;
+      if (!permissionBackend
+          .user(userProvider.get())
+          .project(nameKey)
+          .test(ProjectPermission.READ)) {
+        sendErrorOrRedirect(req, rsp, HttpServletResponse.SC_NOT_FOUND);
+        return;
+      }
     } catch (IOException | PermissionBackendException err) {
       logger.atSevere().withCause(err).log("cannot load %s", name);
       rsp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);

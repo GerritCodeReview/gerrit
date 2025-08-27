@@ -40,7 +40,6 @@ import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailStrategy;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.mail.MailHeader;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.mail.send.ProjectWatch.Watchers;
@@ -187,8 +186,12 @@ public class ChangeEmailImpl implements ChangeEmail {
     if (email.getFrom() != null) {
       // Is the from user in an email squelching group?
       try {
-        args.permissionBackend.absentUser(email.getFrom()).check(GlobalPermission.EMAIL_REVIEWERS);
-      } catch (AuthException | PermissionBackendException e) {
+        if (!args.permissionBackend
+            .absentUser(email.getFrom())
+            .test(GlobalPermission.EMAIL_REVIEWERS)) {
+          emailOnlyAuthors = true;
+        }
+      } catch (PermissionBackendException e) {
         emailOnlyAuthors = true;
       }
     }

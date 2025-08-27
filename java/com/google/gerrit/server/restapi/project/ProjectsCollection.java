@@ -20,7 +20,6 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.ProjectUtil;
 import com.google.gerrit.extensions.registration.DynamicMap;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.NeedsParams;
@@ -152,17 +151,14 @@ public class ProjectsCollection
       // be allowed for other users). Allowing project owners to access here will help them to view
       // and update the config of hidden projects easily.
       if (state.get().statePermitsRead()) {
-        try {
-          permissionBackend.currentUser().project(nameKey).check(ProjectPermission.ACCESS);
-        } catch (AuthException e) {
+        if (!permissionBackend.currentUser().project(nameKey).test(ProjectPermission.ACCESS)) {
           return null;
         }
-      } else {
-        try {
-          permissionBackend.currentUser().project(nameKey).check(ProjectPermission.WRITE_CONFIG);
-        } catch (AuthException e) {
-          state.get().checkStatePermitsRead();
-        }
+      } else if (!permissionBackend
+          .currentUser()
+          .project(nameKey)
+          .test(ProjectPermission.WRITE_CONFIG)) {
+        state.get().checkStatePermitsRead();
       }
     }
     return new ProjectResource(state.get(), user.get());

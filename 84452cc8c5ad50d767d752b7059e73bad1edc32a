@@ -33,6 +33,24 @@
       "message": "Why not put the filtering into the listing logic itself? There\u0027s a functional gap now with the REST API.",
       "revId": "84452cc8c5ad50d767d752b7059e73bad1edc32a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2f3b0fde_a3813e0c",
+        "filename": "java/com/google/gerrit/sshd/commands/ShowQueue.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2025-08-27T05:56:38Z",
+      "side": 1,
+      "message": "That would have been preferable but IIRC Gerrit\u0027s REST API \"framework\" doesn\u0027t support GET with parameters, so you would have to first implement `RestReadView\u003cR extends RestResource, I\u003e` or misuse `RestModifyView\u003cR extends RestResource, I\u003e`.",
+      "parentUuid": "7b8e69c2_0de73298",
+      "revId": "84452cc8c5ad50d767d752b7059e73bad1edc32a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

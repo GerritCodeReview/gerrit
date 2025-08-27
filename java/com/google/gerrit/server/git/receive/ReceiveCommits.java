@@ -2402,7 +2402,11 @@ class ReceiveCommits {
             return;
           }
           RevCommit branchTip = globalRevWalk.parseCommit(refTip.getObjectId());
-          if (!globalRevWalk.isMergedInto(tip, branchTip)) {
+          ReachabilityChecker checker =
+              globalRevWalk.getObjectReader().createReachabilityChecker(globalRevWalk);
+          Optional<RevCommit> unreachableCommit =
+              checker.areAllReachable(ImmutableList.of(tip), Stream.of(branchTip));
+          if (unreachableCommit.isPresent()) {
             reject(
                 cmd,
                 RejectionReason.create(

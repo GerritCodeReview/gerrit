@@ -51,6 +51,24 @@
       "parentUuid": "7b8e69c2_0de73298",
       "revId": "84452cc8c5ad50d767d752b7059e73bad1edc32a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c7a5313f_1d209eef",
+        "filename": "java/com/google/gerrit/sshd/commands/ShowQueue.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-08-27T20:47:52Z",
+      "side": 1,
+      "message": "\u003e That would have been preferable but IIRC Gerrit\u0027s REST API \"framework\" doesn\u0027t support GET with parameters\n\nI\u0027m pretty sure it does since that\u0027s how I think things like [Query Changes](https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#list-changes) work:\n\n\u003e `GET /changes/?q\u003dstatus:open+is:watched\u0026n\u003d2`",
+      "parentUuid": "2f3b0fde_a3813e0c",
+      "revId": "84452cc8c5ad50d767d752b7059e73bad1edc32a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

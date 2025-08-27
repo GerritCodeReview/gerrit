@@ -64,6 +64,7 @@ import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.IdentifiedUser.ImpersonationPermissionMode;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountResolver;
@@ -600,7 +601,10 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
           String.format("label required to post review on behalf of \"%s\"", in.onBehalfOf));
     }
 
-    IdentifiedUser reviewer = accountResolver.resolve(in.onBehalfOf).asUniqueUserOnBehalfOf(caller);
+    IdentifiedUser reviewer =
+        accountResolver
+            .resolve(in.onBehalfOf)
+            .asUniqueUserOnBehalfOf(caller, ImpersonationPermissionMode.THIS_USER);
     logger.atFine().log("on behalf of user was resolved to %s", reviewer.getLoggableName());
     try {
       permissionBackend.user(reviewer).change(rev.getNotes()).check(ChangePermission.READ);

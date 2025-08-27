@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "94ac5eda_ecb36582",
+        "filename": "java/com/google/gerrit/server/project/CreateRefControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2025-08-27T23:23:21Z",
+      "side": 1,
+      "message": "Should the update to `checkCreateCommit` go as a separate change? It looks like a different security concern is being addressed here.",
+      "range": {
+        "startLine": 233,
+        "startChar": 0,
+        "endLine": 233,
+        "endChar": 57
+      },
+      "revId": "12950cd6075919d736e62d64b27adc49c504e1a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

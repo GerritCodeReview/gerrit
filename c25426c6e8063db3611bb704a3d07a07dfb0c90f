@@ -33,6 +33,24 @@
       "message": "Is there a bug/component for this feature?\n\nI\u0027m looking to submit a feature request to be able to customize the prompt that is generated. I find the prompt to be subpar, and have gotten better results through slight modifications, and would love to not have to modify the result of the copy each time.",
       "revId": "c25426c6e8063db3611bb704a3d07a07dfb0c90f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "35d7a708_e9676692",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-08-27T19:38:08Z",
+      "side": 1,
+      "message": "you can just file suggestion into http://go/gerrit-bug\nor just use report bug icon on top right corner in Gerrit.\n\nOriginal tracking task was in b/419487420 when I was releasing to all users. But this was just experiment that I tried and implement in one day. Idea was to get git patch as context to LLM and see what it can do. I generated prompts with a tool to generate prompts.\n\nI am happy to hear your ideas. I recently added different context for git patch (lines around modified lines) to experiment with size. We can store to browser storage some custom prompt or we can update prompt.",
+      "parentUuid": "f2f05fa0_1587e2f2",
+      "revId": "c25426c6e8063db3611bb704a3d07a07dfb0c90f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

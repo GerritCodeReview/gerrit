@@ -23,7 +23,6 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.LabelTypes;
 import com.google.gerrit.entities.PatchSetApproval;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.index.query.PostFilterPredicate;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountResolver;
@@ -307,21 +306,26 @@ public class EqualsLabelPredicates {
       }
 
       // Check the user has 'READ' permission.
+      PermissionBackend.ForChange perm = permissionBackend.absentUser(approver).change(cd);
+      if (!cd.projectStatePermitsRead()) {
+        logger.atFine().log(
+            "vote %s on change %s doesn't match since the project %s doesn't permit read",
+            psa, cd.change().getChangeId(), cd.project().get());
+        return false;
+      }
       try {
-        PermissionBackend.ForChange perm = permissionBackend.absentUser(approver).change(cd);
-        if (!cd.projectStatePermitsRead()) {
-          logger.atFine().log(
-              "vote %s on change %s doesn't match since the project %s doesn't permit read",
-              psa, cd.change().getChangeId(), cd.project().get());
-          return false;
+        if (perm.test(ChangePermission.READ)) {
+          logger.atFine().log("vote %s on change %s matches", psa, cd.change().getChangeId());
+          return true;
         }
-
-        perm.check(ChangePermission.READ);
-        logger.atFine().log("vote %s on change %s matches", psa, cd.change().getChangeId());
-        return true;
-      } catch (PermissionBackendException | AuthException e) {
         logger.atFine().log(
             "vote %s on change %s doesn't match because the approver %s has no read access",
+            psa, cd.change().getChangeId(), approver);
+        return false;
+      } catch (PermissionBackendException e) {
+        logger.atFine().log(
+            "vote %s on change %s doesn't match because we failed to compute if the approver %s has"
+                + " read access",
             psa, cd.change().getChangeId(), approver);
         return false;
       }

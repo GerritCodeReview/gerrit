@@ -17,7 +17,6 @@ package com.google.gerrit.sshd;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.change.ChangeFinder;
 import com.google.gerrit.server.change.ChangeResource;
@@ -87,9 +86,8 @@ public class ChangeArgumentParser {
     List<ChangeNotes> toAdd = new ArrayList<>(changes.size());
     boolean canMaintainServer;
     try {
-      permissionBackend.currentUser().check(GlobalPermission.MAINTAIN_SERVER);
-      canMaintainServer = true;
-    } catch (AuthException | PermissionBackendException e) {
+      canMaintainServer = permissionBackend.currentUser().test(GlobalPermission.MAINTAIN_SERVER);
+    } catch (PermissionBackendException e) {
       canMaintainServer = false;
     }
     for (ChangeNotes notes : matched) {
@@ -104,11 +102,8 @@ public class ChangeArgumentParser {
           continue;
         }
 
-        try {
-          permissionBackend.currentUser().change(notes).check(ChangePermission.READ);
+        if (permissionBackend.currentUser().change(notes).test(ChangePermission.READ)) {
           toAdd.add(notes);
-        } catch (AuthException e) {
-          // Do nothing.
         }
       }
     }

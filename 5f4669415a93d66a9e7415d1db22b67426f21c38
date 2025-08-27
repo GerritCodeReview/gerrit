@@ -420,6 +420,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "31c91639_eee939e5",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-autocomplete/gr-change-autocomplete.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-08-27T12:25:33Z",
+      "side": 1,
+      "message": "Checked locally and it indeed does not work.\n\nUpdated.",
+      "parentUuid": "c4e36be5_db2409e1",
+      "range": {
+        "startLine": 76,
+        "startChar": 36,
+        "endLine": 76,
+        "endChar": 55
+      },
+      "revId": "5f4669415a93d66a9e7415d1db22b67426f21c38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "74ba7a92_9c613ef2",
@@ -574,6 +598,30 @@
       "side": 1,
       "message": "\u003e I assume throwing an error means it\u0027s shown in a dialog in the UI and now it won\u0027t\n\nIf you don\u0027t specify any callback, then the error dialog is shown. With throwing error callback, it suppresses the error dialog and will result in uncaught exception (don\u0027t remember exact text, but shows as a message saying something like \"uncaught exception in promise\").\n\nI am guessing the intent of the original code, was that the error is shown in the console instead of error-dialog. Adding AI suggested fix, sounds like a sufficient fix. So might as well include this in here. This is consistent with \"if (!response) return [];\" in this method ie. return [] on error. If we don\u0027t do this fix, recentChanges are left uninitialized on error.\n\nSide-note: `if (!response) return [];` can never happen (but it\u0027s probably easier to keep for typescript typing), since response is only undefined if an error occurs, but we throw exception on error instead of returning response, because of throwingErrorCallback.",
       "parentUuid": "90757531_7b357e33",
+      "range": {
+        "startLine": 89,
+        "startChar": 8,
+        "endLine": 89,
+        "endChar": 29
+      },
+      "revId": "5f4669415a93d66a9e7415d1db22b67426f21c38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4937df88_84ea1852",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-autocomplete/gr-change-autocomplete.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-08-27T12:25:33Z",
+      "side": 1,
+      "message": "\u003e I am guessing the intent of the original code, was that the error is shown in the console instead of error-dialog\n\nBut why would we prefer that? We don\u0027t expect the API to error out and we want the user to inform us if it fails. Otherwise the autocomplete just silently breaks down and the user has no idea why it doesn\u0027t work.\n\nKeeping as is for now. We haven\u0027t had any user reports until now of this causing issues.\n\nLet\u0027s revisit if some user notices the error.",
+      "parentUuid": "4484991e_f468a98b",
       "range": {
         "startLine": 89,
         "startChar": 8,

@@ -15,6 +15,7 @@ import {
 } from '../../../test/test-utils';
 import {NumericChangeId} from '../../../types/common';
 import {GrButton} from '../../shared/gr-button/gr-button';
+import {MdOutlinedTextField} from '@material/web/textfield/outlined-text-field';
 
 suite('gr-create-flow tests', () => {
   let element: GrCreateFlow;
@@ -28,8 +29,12 @@ suite('gr-create-flow tests', () => {
   });
 
   test('renders initially', () => {
-    assert.isDefined(queryAndAssert(element, 'input[placeholder="Condition"]'));
-    assert.isDefined(queryAndAssert(element, 'input[placeholder="Action"]'));
+    assert.isDefined(
+      queryAndAssert(element, 'md-outlined-text-field[label="Condition"]')
+    );
+    assert.isDefined(
+      queryAndAssert(element, 'md-outlined-text-field[label="Action"]')
+    );
     assert.isDefined(
       queryAndAssert(element, 'gr-button[aria-label="Add Stage"]')
     );
@@ -39,7 +44,10 @@ suite('gr-create-flow tests', () => {
   });
 
   test('adds and removes stages', async () => {
-    const inputs = queryAll<HTMLInputElement>(element, 'input');
+    const inputs = queryAll<MdOutlinedTextField>(
+      element,
+      'md-outlined-text-field'
+    );
     const conditionInput = inputs[0];
     const actionInput = inputs[1];
     const addButton = queryAndAssert<GrButton>(
@@ -90,7 +98,10 @@ suite('gr-create-flow tests', () => {
   test('creates a flow with one stage', async () => {
     const createFlowStub = stubRestApi('createFlow').returns(mockPromise());
 
-    const inputs = queryAll<HTMLInputElement>(element, 'input');
+    const inputs = queryAll<MdOutlinedTextField>(
+      element,
+      'md-outlined-text-field'
+    );
     const conditionInput = inputs[0];
     const actionInput = inputs[1];
     conditionInput.value = 'single condition';
@@ -116,7 +127,10 @@ suite('gr-create-flow tests', () => {
   test('creates a flow with multiple stages', async () => {
     const createFlowStub = stubRestApi('createFlow').returns(mockPromise());
 
-    const inputs = queryAll<HTMLInputElement>(element, 'input');
+    const inputs = queryAll<MdOutlinedTextField>(
+      element,
+      'md-outlined-text-field'
+    );
     const conditionInput = inputs[0];
     const actionInput = inputs[1];
     const addButton = queryAndAssert<GrButton>(
@@ -158,7 +172,10 @@ suite('gr-create-flow tests', () => {
   test('create flow with added stages and current input', async () => {
     const createFlowStub = stubRestApi('createFlow').returns(mockPromise());
 
-    const inputs = queryAll<HTMLInputElement>(element, 'input');
+    const inputs = queryAll<MdOutlinedTextField>(
+      element,
+      'md-outlined-text-field'
+    );
     const conditionInput = inputs[0];
     const actionInput = inputs[1];
     const addButton = queryAndAssert<GrButton>(

@@ -13,6 +13,8 @@ import {NumericChangeId} from '../../../types/common';
 import '../../shared/gr-button/gr-button';
 import '@material/web/select/outlined-select.js';
 import '@material/web/select/select-option.js';
+import '@material/web/textfield/outlined-text-field.js';
+import {MdOutlinedTextField} from '@material/web/textfield/outlined-text-field';
 
 @customElement('gr-create-flow')
 export class GrCreateFlow extends LitElement {
@@ -41,7 +43,7 @@ export class GrCreateFlow extends LitElement {
           gap: var(--spacing-s);
         }
         .add-stage-row > md-outlined-select,
-        .add-stage-row > input {
+        .add-stage-row > md-outlined-text-field {
           width: 15em;
         }
       `,
@@ -79,19 +81,19 @@ export class GrCreateFlow extends LitElement {
             <div slot="headline">Other</div>
           </md-select-option>
         </md-outlined-select>
-        <input
-          placeholder="Condition"
+        <md-outlined-text-field
+          label="Condition"
           .value=${this.currentCondition}
           @input=${(e: InputEvent) =>
-            (this.currentCondition = (e.target as HTMLInputElement).value)}
-        />
+            (this.currentCondition = (e.target as MdOutlinedTextField).value)}
+        ></md-outlined-text-field>
         <span> -> </span>
-        <input
-          placeholder="Action"
+        <md-outlined-text-field
+          label="Action"
           .value=${this.currentAction}
           @input=${(e: InputEvent) =>
-            (this.currentAction = (e.target as HTMLInputElement).value)}
-        />
+            (this.currentAction = (e.target as MdOutlinedTextField).value)}
+        ></md-outlined-text-field>
         <gr-button aria-label="Add Stage" @click=${this.handleAddStage}
           >+</gr-button
         >

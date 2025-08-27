@@ -268,7 +268,7 @@ public class IdentifiedUser extends CurrentUser {
   private Set<String> invalidEmails;
   private GroupMembership effectiveGroups;
   private PersonIdent refLogIdent;
-  private ImpersonationPermissionMode permissionMode = ImpersonationPermissionMode.THIS_USER;
+  private ImpersonationPermissionMode permissionMode;
 
   private IdentifiedUser(
       AuthConfig authConfig,

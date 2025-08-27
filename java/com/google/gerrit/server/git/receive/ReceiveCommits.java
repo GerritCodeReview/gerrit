@@ -2998,6 +2998,9 @@ class ReceiveCommits {
           boolean containsImplicitMerges = true;
           for (RevCommit p : mergedParents) {
             containsImplicitMerges &= !globalRevWalk.isMergedInto(p, tip);
+            if (!containsImplicitMerges) {
+              break;
+            }
           }
 
           if (containsImplicitMerges) {

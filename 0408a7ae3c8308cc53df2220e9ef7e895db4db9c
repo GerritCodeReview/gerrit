@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "10f99494_41c129c4",
+        "filename": "java/com/google/gerrit/extensions/events/ChangeIndexedListener.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-08-27T11:49:10Z",
+      "side": 1,
+      "message": "I prefer `onDeleteAllForProject` to be honest: it clearly signals this fires when `deleteAllForProject` is called.\nNaming it `onAllChangesDeleted` implies an `allChangesDeleted` method exists, which it doesn’t.\n\nHaving said that, I have an extra leading `s` there, so let me remove that 😊",
+      "parentUuid": "85a2b5ea_a25d8c33",
+      "range": {
+        "startLine": 53,
+        "startChar": 15,
+        "endLine": 53,
+        "endChar": 37
+      },
+      "revId": "0408a7ae3c8308cc53df2220e9ef7e895db4db9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3b730327_1ebdc496",
         "filename": "java/com/google/gerrit/server/index/change/ChangeIndexer.java",
         "patchSetId": 2
@@ -37,6 +61,30 @@
       "writtenOn": "2025-08-26T21:06:39Z",
       "side": 1,
       "message": "Shouldn\u0027t this be executed inside the implementation of `deleteAllForProject(projectName)`?",
+      "range": {
+        "startLine": 456,
+        "startChar": 4,
+        "endLine": 456,
+        "endChar": 59
+      },
+      "revId": "0408a7ae3c8308cc53df2220e9ef7e895db4db9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "13b89fa0_a3c2b81f",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeIndexer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 456,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-08-27T11:49:10Z",
+      "side": 1,
+      "message": "`deleteAllForProject` is an **interface method**, not an implementation [1].\nIt is then overridden by the `LuceneChangeIndex`, which provides a specific implementation for it.\n\nI had this at a higher level, so that it would be send regardless the index implementation flavour we had.\n\nHaving said that, the Lucene-specific implementation is the _only_ implementation that takes care of this bulk deletion, so perhaps you\u0027re right, and we should move it down the stack.\n\nWere you suggesting to fire notifications *within* the Lucene-specific implementation?\n\n[1] https://gerrit.googlesource.com/gerrit/+/refs/changes/84/501384/2/java/com/google/gerrit/extensions/events/ChangeIndexedListener.java#53",
+      "parentUuid": "3b730327_1ebdc496",
       "range": {
         "startLine": 456,
         "startChar": 4,

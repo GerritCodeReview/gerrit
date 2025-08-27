@@ -49,10 +49,19 @@ export class GrFlows extends LitElement {
       sharedStyles,
       grFormStyles,
       css`
+        .container {
+          padding: var(--spacing-l);
+        }
+        hr {
+          margin-top: var(--spacing-l);
+          margin-bottom: var(--spacing-l);
+          border: 0;
+          border-top: 1px solid var(--border-color);
+        }
         .flow {
           border: 1px solid var(--border-color);
           border-radius: var(--border-radius);
-          margin: var(--spacing-m);
+          margin: var(--spacing-m) 0;
           padding: var(--spacing-m);
         }
         .flow-id {
@@ -65,7 +74,7 @@ export class GrFlows extends LitElement {
           border: 1px solid var(--border-color);
           border-radius: var(--border-radius);
           padding: var(--spacing-s);
-          margin-top: var(--spacing-m);
+          margin-top: var(--spacing-l);
         }
         .stages-list h4 {
           margin-top: 0;
@@ -80,11 +89,11 @@ export class GrFlows extends LitElement {
         .main-heading {
           font-size: var(--font-size-h2);
           font-weight: var(--font-weight-bold);
+          margin-bottom: var(--spacing-m);
         }
         gr-icon {
           font-size: var(--line-height-normal, 20px);
           vertical-align: middle;
-          margin-right: var(--spacing-s);
         }
         gr-icon.done {
           color: var(--success-foreground);
@@ -98,6 +107,7 @@ export class GrFlows extends LitElement {
         li {
           display: flex;
           align-items: center;
+          gap: var(--spacing-s);
         }
       `,
     ];
@@ -125,11 +135,15 @@ export class GrFlows extends LitElement {
 
   override render() {
     return html`
-      <gr-create-flow
-        .changeNum=${this.changeNum}
-        @flow-created=${this.loadFlows}
-      ></gr-create-flow>
-      ${this.renderFlowsList()}
+      <div class="container">
+        <h2 class="main-heading">Create new flow</h2>
+        <gr-create-flow
+          .changeNum=${this.changeNum}
+          @flow-created=${this.loadFlows}
+        ></gr-create-flow>
+        <hr />
+        ${this.renderFlowsList()}
+      </div>
     `;
   }
 

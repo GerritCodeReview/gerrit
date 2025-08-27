@@ -35,8 +35,12 @@ suite('gr-flows tests', () => {
     assert.shadowDom.equal(
       element,
       /* HTML */ `
-        <gr-create-flow></gr-create-flow>
-        <p>No flows found for this change.</p>
+        <div class="container">
+          <h2 class="main-heading">Create new flow</h2>
+          <gr-create-flow></gr-create-flow>
+          <hr />
+          <p>No flows found for this change.</p>
+        </div>
       `
     );
   });

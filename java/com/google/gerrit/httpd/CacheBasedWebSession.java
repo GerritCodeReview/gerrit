@@ -27,6 +27,7 @@ import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.IdentifiedUser.ImpersonationPermissionMode;
 import com.google.gerrit.server.PropertyMap;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AuthResult;
@@ -206,7 +207,7 @@ public abstract class CacheBasedWebSession extends WebSession {
   public void setUserAccountId(Account.Id id) {
     key = new WebSessionManager.Key("id:" + id);
     val = new WebSessionManager.Val(id, 0, false, null, 0, null, null);
-    user = identified.runAs(id, user, PropertyMap.EMPTY);
+    user = identified.runAs(id, user, PropertyMap.EMPTY, ImpersonationPermissionMode.THIS_USER);
   }
 
   @Override

@@ -250,6 +250,7 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.notes.NoteMap;
+import org.eclipse.jgit.revwalk.ReachabilityChecker;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevSort;
@@ -3452,11 +3453,22 @@ class ReceiveCommits {
         }
 
         try (TraceTimer traceTimer2 = newTimer("validateNewPatchSetNoteDb#isMergedInto")) {
+          ReachabilityChecker checker =
+              globalRevWalk.getObjectReader().createReachabilityChecker(globalRevWalk);
           for (RevCommit prior : revisions.keySet()) {
-            // Don't allow a change to directly depend upon itself. This is a
-            // very common error due to users making a new commit rather than
-            // amending when trying to address review comments.
-            if (globalRevWalk.isMergedInto(prior, newCommit)) {
+            // Don't allow a change to directly depend upon itself. This is a very common error due
+            // to users making a new commit rather than amending when trying to address review
+            // comments.
+
+            // Since prior and newCommit have the same Change-Id, we must make sure that prior is
+            // not reachable from newCommit (otherwise there would be a dependency between patch
+            // sets of the same change).
+            Optional<RevCommit> unreachableCommit =
+                checker.areAllReachable(ImmutableList.of(prior), Stream.of(newCommit));
+
+            // If no unreachableCommit was returned, it means prior is reachable from newCommit and
+            // we should reject the newCommit.
+            if (unreachableCommit.isEmpty()) {
               reject(
                   inputCommand,
                   RejectionReason.create(
@@ -3464,6 +3476,10 @@ class ReceiveCommits {
               return false;
             }
           }
+
+          // Passing newCommit into ReachabilityChecker#areAllReachable destroys the parsed state of
+          // this RevCommit instance. Hence we need to parse it again.
+          globalRevWalk.parseBody(newCommit);
         }
 
         return true;

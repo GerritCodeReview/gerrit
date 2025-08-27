@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5bab8b5c_87627e0f",
+        "filename": "java/com/google/gerrit/server/account/PeriodicAccountIndexer.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2025-08-27T18:31:28Z",
+      "side": 1,
+      "message": "You are right, I have update the javadoc.",
+      "parentUuid": "62f693fe_33b1ee85",
+      "range": {
+        "startLine": 59,
+        "startChar": 91,
+        "endLine": 60,
+        "endChar": 38
+      },
+      "revId": "11db31947789146c9a12607bf4b7b07044d1fd4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8dda5f56_051cf150",

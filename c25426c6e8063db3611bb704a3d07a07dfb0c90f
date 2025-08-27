@@ -16,6 +16,23 @@
       "message": "Nice!",
       "revId": "c25426c6e8063db3611bb704a3d07a07dfb0c90f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f2f05fa0_1587e2f2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4311526
+      },
+      "writtenOn": "2025-08-27T18:53:23Z",
+      "side": 1,
+      "message": "Is there a bug/component for this feature?\n\nI\u0027m looking to submit a feature request to be able to customize the prompt that is generated. I find the prompt to be subpar, and have gotten better results through slight modifications, and would love to not have to modify the result of the copy each time.",
+      "revId": "c25426c6e8063db3611bb704a3d07a07dfb0c90f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

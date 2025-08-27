@@ -2995,9 +2995,13 @@ class ReceiveCommits {
         Ref targetRef = receivePackRefCache.exactRef(magicBranch.dest.branch());
         if (targetRef != null) {
           RevCommit tip = globalRevWalk.parseCommit(targetRef.getObjectId());
+          ReachabilityChecker checker =
+              globalRevWalk.getObjectReader().createReachabilityChecker(globalRevWalk);
           boolean containsImplicitMerges = true;
           for (RevCommit p : mergedParents) {
-            containsImplicitMerges &= !globalRevWalk.isMergedInto(p, tip);
+            Optional<RevCommit> unreachableCommit =
+                checker.areAllReachable(ImmutableList.of(p), Stream.of(tip));
+            containsImplicitMerges &= unreachableCommit.isPresent();
             if (!containsImplicitMerges) {
               break;
             }

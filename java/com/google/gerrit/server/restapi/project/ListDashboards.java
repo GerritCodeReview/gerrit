@@ -20,7 +20,6 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.projects.DashboardInfo;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
@@ -111,11 +110,8 @@ public class ListDashboards implements RestReadView<ProjectResource> {
         RevWalk rw = new RevWalk(git)) {
       ImmutableList.Builder<DashboardInfo> all = ImmutableList.builder();
       for (Ref ref : git.getRefDatabase().getRefsByPrefix(REFS_DASHBOARDS)) {
-        try {
-          perm.ref(ref.getName()).check(RefPermission.READ);
+        if (perm.ref(ref.getName()).test(RefPermission.READ)) {
           all.addAll(scanDashboards(state.getProject(), git, rw, ref, project, setDefault));
-        } catch (AuthException e) {
-          // Do nothing.
         }
       }
       return all.build();

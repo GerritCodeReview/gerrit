@@ -128,10 +128,10 @@ public class RepoMetaDataUpdater {
     message = validateMessage(message, defaultMessage);
     PermissionBackend.ForProject forProject =
         permissionBackend.user(user.get()).project(projectName);
-    if (!check(forProject, ProjectPermission.READ_CONFIG)) {
+    if (!forProject.test(ProjectPermission.READ_CONFIG)) {
       throw new AuthException(RefNames.REFS_CONFIG + " not visible");
     }
-    if (!check(forProject, ProjectPermission.WRITE_CONFIG)) {
+    if (!forProject.test(ProjectPermission.WRITE_CONFIG)) {
       try {
         forProject.ref(RefNames.REFS_CONFIG).check(RefPermission.CREATE_CHANGE);
       } catch (AuthException denied) {
@@ -352,15 +352,5 @@ public class RepoMetaDataUpdater {
       return message + "\n";
     }
     return message;
-  }
-
-  private boolean check(PermissionBackend.ForProject perm, ProjectPermission p)
-      throws PermissionBackendException {
-    try {
-      perm.check(p);
-      return true;
-    } catch (AuthException denied) {
-      return false;
-    }
   }
 }

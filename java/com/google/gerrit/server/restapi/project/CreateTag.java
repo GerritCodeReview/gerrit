@@ -141,11 +141,11 @@ public class CreateTag implements RestCollectionCreateView<ProjectResource, TagR
         }
 
         if (isSigned) {
-          if (!check(perm, RefPermission.CREATE_SIGNED_TAG)) {
+          if (!perm.test(RefPermission.CREATE_SIGNED_TAG)) {
             throw new AuthException(String.format("Cannot create signed tag \"%s\"", ref));
           }
         } else if (isAnnotated) {
-          if (!check(perm, RefPermission.CREATE_TAG)) {
+          if (!perm.test(RefPermission.CREATE_TAG)) {
             throw new AuthException(String.format("Cannot create annotated tag \"%s\"", ref));
           }
         } else {
@@ -197,16 +197,6 @@ public class CreateTag implements RestCollectionCreateView<ProjectResource, TagR
         logger.atSevere().withCause(e).log("Cannot create tag \"%s\"", ref);
         throw new IOException(e);
       }
-    }
-  }
-
-  private static boolean check(PermissionBackend.ForRef perm, RefPermission permission)
-      throws PermissionBackendException {
-    try {
-      perm.check(permission);
-      return true;
-    } catch (AuthException e) {
-      return false;
     }
   }
 }

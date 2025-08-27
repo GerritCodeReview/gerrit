@@ -17,7 +17,6 @@ package com.google.gerrit.server.restapi.change;
 import com.google.gerrit.extensions.api.changes.FixInput;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ChangeInfo;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
@@ -54,12 +53,9 @@ public class Check
   public Response<ChangeInfo> apply(ChangeResource rsrc, FixInput input)
       throws RestApiException, PermissionBackendException, NoSuchProjectException, IOException {
     PermissionBackend.WithUser perm = permissionBackend.currentUser();
-    if (!rsrc.isUserOwner()) {
-      try {
-        perm.project(rsrc.getProject()).check(ProjectPermission.READ_CONFIG);
-      } catch (AuthException e) {
-        perm.check(GlobalPermission.MAINTAIN_SERVER);
-      }
+    if (!rsrc.isUserOwner()
+        && !perm.project(rsrc.getProject()).test(ProjectPermission.READ_CONFIG)) {
+      perm.check(GlobalPermission.MAINTAIN_SERVER);
     }
     return Response.withMustRevalidate(newChangeJson().fix(input).format(rsrc));
   }

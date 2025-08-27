@@ -458,14 +458,15 @@ public class Submit
     perm.check(ChangePermission.SUBMIT_AS);
 
     CurrentUser caller = rsrc.getUser();
-    // TODO(kamilm): Code in MergeOp explicitly checks REAL_USER for permissions. We can simplify by
-    // changing to REAL_USER here.
     IdentifiedUser submitter =
         accountResolver
             .resolve(in.onBehalfOf)
-            .asUniqueUserOnBehalfOf(caller, ImpersonationPermissionMode.THIS_USER);
+            .asUniqueUserOnBehalfOf(caller, ImpersonationPermissionMode.REAL_USER);
     try {
-      permissionBackend.user(submitter).change(rsrc.getNotes()).check(ChangePermission.READ);
+      permissionBackend
+          .user(submitter, ImpersonationPermissionMode.THIS_USER)
+          .change(rsrc.getNotes())
+          .check(ChangePermission.READ);
     } catch (AuthException e) {
       throw new UnprocessableEntityException(
           String.format("on_behalf_of account %s cannot see change", submitter.getAccountId()), e);

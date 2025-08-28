@@ -156,7 +156,7 @@ public class IdentifiedUser extends CurrentUser {
           enablePeerIPInReflogRecord,
           Providers.of(remotePeer),
           id,
-          caller,
+          caller != null ? caller.getRealUser() : null,
           properties,
           permissionMode);
     }
@@ -239,7 +239,7 @@ public class IdentifiedUser extends CurrentUser {
           enablePeerIPInReflogRecord,
           remotePeerProvider,
           id,
-          caller,
+          caller != null ? caller.getRealUser() : null,
           properties,
           permissionMode);
     }

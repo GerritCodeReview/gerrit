@@ -218,7 +218,7 @@ public class AccountResolver {
       return userFactory.runAs(
           /* remotePeer= */ null,
           list.get(0).account().id(),
-          requireNonNull(caller).getRealUser(),
+          requireNonNull(caller),
           permissionMode);
     }
 

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "349e701b_fcaf88f1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-08-28T09:30:55Z",
+      "side": 1,
+      "message": "Just checking, do we need to do any update to the documentation at [1]?\n\n[1] https://gerrit-review.googlesource.com/Documentation/access-control.html#capability_runAs",
+      "revId": "d7ca3b9bc5bddcc7f9725fc064a956bc7c6e153a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

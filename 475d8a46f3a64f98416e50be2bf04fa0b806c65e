@@ -34,6 +34,24 @@
       "parentUuid": "5cabcc03_229c18ee",
       "revId": "475d8a46f3a64f98416e50be2bf04fa0b806c65e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8f6aec7a_0f3b0811",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-08-28T06:30:30Z",
+      "side": 1,
+      "message": "This looks like you have a change edit (and editable patch set that is only visible to you). You need to publish it to turn it into a regular patch set that other people can see. There should be a \"Publish edit\" button in the right upper corner to do that.",
+      "parentUuid": "78f41269_a2b948b7",
+      "revId": "475d8a46f3a64f98416e50be2bf04fa0b806c65e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

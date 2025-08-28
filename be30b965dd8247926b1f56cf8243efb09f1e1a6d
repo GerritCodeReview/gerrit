@@ -34,6 +34,24 @@
       "parentUuid": "7f69191a_9d2c48f7",
       "revId": "be30b965dd8247926b1f56cf8243efb09f1e1a6d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b792fd1a_8f0eb352",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-08-28T06:44:32Z",
+      "side": 1,
+      "message": "gerrit-review has these changes already. Looks fine to me. But let me know, if you see any issues.",
+      "parentUuid": "a1cf226a_98c89af1",
+      "revId": "be30b965dd8247926b1f56cf8243efb09f1e1a6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dc47980f_c7c8667e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-08-28T20:56:23Z",
+      "side": 1,
+      "message": "Awesome! Please let us know (email to repo-discuss@googlegroups.com would be best) when it\u0027s public.",
+      "parentUuid": "bfa29f3a_533603ac",
+      "revId": "94970d4ba6c41a4ed6b1c094a817502054a9a340",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "35c6eba4_5b81335c",

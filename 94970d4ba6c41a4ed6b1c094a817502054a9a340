@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bfa29f3a_533603ac",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 4300099
+      },
+      "writtenOn": "2025-08-28T20:32:38Z",
+      "side": 1,
+      "message": "It is currently a research project and we are actively experimenting and improving it. We hope to make it public soon.\n\nBTW, this tool may not be suitable for CI as it can be time-consuming (hours).",
+      "parentUuid": "d6e3d5f6_1f62489a",
+      "revId": "94970d4ba6c41a4ed6b1c094a817502054a9a340",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "35c6eba4_5b81335c",
@@ -31,6 +49,24 @@
       "writtenOn": "2025-08-28T20:22:18Z",
       "side": 1,
       "message": "We need a release notes footer too. There\u0027s nothing user-facing here, so you can do this:\n\n```suggestion\nChange-Id: I89989fa9eff5bd8793a6961292d2eecb6e96848c\nRelease-Notes: skip\n```",
+      "revId": "94970d4ba6c41a4ed6b1c094a817502054a9a340",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9545db00_84a50600",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 4300099
+      },
+      "writtenOn": "2025-08-28T20:32:38Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "35c6eba4_5b81335c",
       "revId": "94970d4ba6c41a4ed6b1c094a817502054a9a340",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

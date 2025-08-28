@@ -34,6 +34,24 @@
       "parentUuid": "888952c5_749344c8",
       "revId": "6f7f2a4ef0cef00a753a79ddb28023499c7845d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "550eedcd_60970792",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-08-28T15:00:42Z",
+      "side": 1,
+      "message": "I don\u0027t mind either way. It sounds like a useful distinction, but nobody is relying on this. So I\u0027m fine with removing this. It\u0027s probably not worth the effort to document this and check all usages, just in case we might want this feature in the future.\n\nI only brought this up to maybe mention the original intention in the commit message.",
+      "parentUuid": "4a529709_4e5a5487",
+      "revId": "6f7f2a4ef0cef00a753a79ddb28023499c7845d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

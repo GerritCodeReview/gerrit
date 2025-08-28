@@ -52,6 +52,24 @@
       "parentUuid": "4a529709_4e5a5487",
       "revId": "6f7f2a4ef0cef00a753a79ddb28023499c7845d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f4dae37e_f36df4c8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-08-28T16:16:18Z",
+      "side": 1,
+      "message": "Got it. Updated the commit message. Let me know if that looks ok.",
+      "parentUuid": "550eedcd_60970792",
+      "revId": "6f7f2a4ef0cef00a753a79ddb28023499c7845d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -41,6 +41,7 @@ import com.google.gerrit.git.RefUpdateUtil;
 import com.google.gerrit.json.OutputFormat;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.IdentifiedUser.ImpersonationPermissionMode;
 import com.google.gerrit.server.ReviewerStatusUpdate;
 import com.google.gerrit.server.git.validators.TopicValidator;
 import com.google.gerrit.server.notedb.ChangeNoteUtil.AttentionStatusInNoteDb;
@@ -408,7 +409,8 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
         this.userFactory.runAs(
             /* remotePeer= */ null,
             changeOwner.getAccountId(),
-            requireNonNull(otherUser).getRealUser());
+            requireNonNull(otherUser),
+            ImpersonationPermissionMode.THIS_USER);
     ChangeUpdate impersonatedChangeMessageUpdate = newUpdate(c, impersonatedChangeOwner);
     impersonatedChangeMessageUpdate.setChangeMessage("Other comment on behalf of");
     impersonatedChangeMessageUpdate.commit();

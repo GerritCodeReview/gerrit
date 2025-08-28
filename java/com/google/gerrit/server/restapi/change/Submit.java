@@ -46,6 +46,7 @@ import com.google.gerrit.server.BranchUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.IdentifiedUser.ImpersonationPermissionMode;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.change.ChangeJson;
@@ -458,9 +459,14 @@ public class Submit
 
     CurrentUser caller = rsrc.getUser();
     IdentifiedUser submitter =
-        accountResolver.resolve(in.onBehalfOf).asUniqueUserOnBehalfOf(caller);
+        accountResolver
+            .resolve(in.onBehalfOf)
+            .asUniqueUserOnBehalfOf(caller, ImpersonationPermissionMode.REAL_USER);
     try {
-      permissionBackend.user(submitter).change(rsrc.getNotes()).check(ChangePermission.READ);
+      permissionBackend
+          .user(submitter, ImpersonationPermissionMode.THIS_USER)
+          .change(rsrc.getNotes())
+          .check(ChangePermission.READ);
     } catch (AuthException e) {
       throw new UnprocessableEntityException(
           String.format("on_behalf_of account %s cannot see change", submitter.getAccountId()), e);

@@ -26,6 +26,7 @@ import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.Extension;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.IdentifiedUser.ImpersonationPermissionMode;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -189,7 +190,7 @@ public class MergeValidators {
               if (!allowProjectOwnersToChangeParent) {
                 try {
                   if (!permissionBackend
-                      .user(caller.getRealUser())
+                      .user(caller, ImpersonationPermissionMode.REAL_USER)
                       .test(GlobalPermission.ADMINISTRATE_SERVER)) {
                     throw new MergeValidationException(SET_BY_ADMIN);
                   }
@@ -200,7 +201,7 @@ public class MergeValidators {
               } else {
                 try {
                   permissionBackend
-                      .user(caller.getRealUser())
+                      .user(caller, ImpersonationPermissionMode.REAL_USER)
                       .project(destProject.getNameKey())
                       .check(ProjectPermission.WRITE_CONFIG);
                 } catch (AuthException e) {

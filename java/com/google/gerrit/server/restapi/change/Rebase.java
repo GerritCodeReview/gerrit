@@ -30,6 +30,7 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.IdentifiedUser.ImpersonationPermissionMode;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.change.ChangeResource;
@@ -99,7 +100,11 @@ public class Rebase
     IdentifiedUser rebaseAsUser;
     if (input.onBehalfOfUploader && !rsrc.getPatchSet().uploader().equals(rsrc.getAccountId())) {
       rebaseAsUser =
-          userFactory.runAs(/* remotePeer= */ null, rsrc.getPatchSet().uploader(), rsrc.getUser());
+          userFactory.runAs(
+              /* remotePeer= */ null,
+              rsrc.getPatchSet().uploader(),
+              rsrc.getUser(),
+              ImpersonationPermissionMode.THIS_USER);
       rsrc.permissions().check(ChangePermission.REBASE_ON_BEHALF_OF_UPLOADER);
       rebaseUtil.checkCanRebaseOnBehalfOf(rsrc, input);
     } else {

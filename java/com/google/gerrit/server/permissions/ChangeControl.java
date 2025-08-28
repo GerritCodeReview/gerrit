@@ -37,10 +37,16 @@ public class ChangeControl extends AbstractChangeControl {
 
   @Inject
   protected ChangeControl(
+      PermissionBackend permissionBackend,
       @Assisted ProjectControl projectControl,
       @Assisted RefControl refControl,
       @Assisted ChangeData changeData) {
-    super(projectControl, refControl, changeData.change().isNew(), isOwner(refControl, changeData));
+    super(
+        projectControl,
+        refControl,
+        permissionBackend,
+        changeData.change().isNew(),
+        isOwner(refControl, changeData));
     this.changeData = changeData;
   }
 

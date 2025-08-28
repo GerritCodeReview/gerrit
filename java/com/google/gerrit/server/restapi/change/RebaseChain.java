@@ -37,6 +37,7 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.IdentifiedUser.ImpersonationPermissionMode;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.change.ChangeResource;
@@ -172,7 +173,10 @@ public class RebaseChain
               && !revRsrc.getPatchSet().uploader().equals(revRsrc.getAccountId())) {
             rebaseAsUser =
                 userFactory.runAs(
-                    /* remotePeer= */ null, revRsrc.getPatchSet().uploader(), revRsrc.getUser());
+                    /* remotePeer= */ null,
+                    revRsrc.getPatchSet().uploader(),
+                    revRsrc.getUser(),
+                    ImpersonationPermissionMode.THIS_USER);
             rebaseUtil.checkCanRebaseOnBehalfOf(revRsrc, input);
             revRsrc.permissions().check(ChangePermission.REBASE_ON_BEHALF_OF_UPLOADER);
             anyRebaseOnBehalfOfUploader = true;

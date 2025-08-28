@@ -125,7 +125,7 @@ public class ProjectControl {
 
   ChangeControlForChangeToBeCreated controlForChangeToBeCreated(
       RefControl refControl, boolean isOwner) {
-    return new ChangeControlForChangeToBeCreated(this, refControl, isOwner);
+    return new ChangeControlForChangeToBeCreated(this, refControl, permissionBackend, isOwner);
   }
 
   RefControl controlForRef(BranchNameKey ref) {
@@ -174,7 +174,7 @@ public class ProjectControl {
 
   boolean isAdmin() {
     try {
-      return permissionBackend.user(user).test(GlobalPermission.ADMINISTRATE_SERVER);
+      return permissionBackend.exactUser(user).test(GlobalPermission.ADMINISTRATE_SERVER);
     } catch (PermissionBackendException e) {
       return false;
     }

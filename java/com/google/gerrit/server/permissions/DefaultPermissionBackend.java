@@ -33,6 +33,7 @@ import com.google.gerrit.extensions.conditions.BooleanCondition;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.IdentifiedUser.ImpersonationPermissionMode;
 import com.google.gerrit.server.PeerDaemonUser;
 import com.google.gerrit.server.account.CapabilityCollection;
 import com.google.gerrit.server.cache.PerThreadCache;
@@ -72,11 +73,28 @@ public class DefaultPermissionBackend extends PermissionBackend {
 
   @Override
   public WithUser currentUser() {
-    return new WithUserImpl(currentUser.get());
+    return user(currentUser.get());
   }
 
   @Override
   public WithUser user(CurrentUser user) {
+    return new WithUserImpl(requireNonNull(user.getUserForPermission(), "user"));
+  }
+
+  @Override
+  public WithUser user(CurrentUser user, ImpersonationPermissionMode permissionMode) {
+    switch (permissionMode) {
+      case REAL_USER -> {
+        return new WithUserImpl(requireNonNull(user.getRealUser(), "user"));
+      }
+      default -> { // THIS_USER
+        return new WithUserImpl(requireNonNull(user, "user"));
+      }
+    }
+  }
+
+  @Override
+  public WithUser exactUser(CurrentUser user) {
     return new WithUserImpl(requireNonNull(user, "user"));
   }
 

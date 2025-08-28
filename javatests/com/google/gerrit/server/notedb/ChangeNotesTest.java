@@ -58,6 +58,7 @@ import com.google.gerrit.server.ChangeDraftUpdate;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.DraftCommentsReader;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.IdentifiedUser.ImpersonationPermissionMode;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.git.validators.TopicValidator;
 import com.google.gerrit.server.notedb.ChangeNotesCommit.ChangeNotesRevWalk;
@@ -879,7 +880,11 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     for (String strangeTag : strangeTags) {
       Change c = newChange();
       CurrentUser otherUserAsOwner =
-          userFactory.runAs(/* remotePeer= */ null, changeOwner.getAccountId(), otherUser);
+          userFactory.runAs(
+              /* remotePeer= */ null,
+              changeOwner.getAccountId(),
+              otherUser,
+              ImpersonationPermissionMode.THIS_USER);
       ChangeUpdate update = newUpdate(c, otherUserAsOwner);
       update.putApproval(LabelId.CODE_REVIEW, (short) 2);
       update.setTag(strangeTag);
@@ -2524,7 +2529,8 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   @Test
   public void patchLineCommentNotesFormatRealAuthor() throws Exception {
     Change c = newChange();
-    CurrentUser ownerAsOtherUser = userFactory.runAs(null, otherUserId, changeOwner);
+    CurrentUser ownerAsOtherUser =
+        userFactory.runAs(null, otherUserId, changeOwner, ImpersonationPermissionMode.THIS_USER);
     ChangeUpdate update = newUpdate(c, ownerAsOtherUser);
     String uuid = "uuid";
     String message = "comment";
@@ -3551,7 +3557,8 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   @Test
   public void realUser() throws Exception {
     Change c = newChange();
-    CurrentUser ownerAsOtherUser = userFactory.runAs(null, otherUserId, changeOwner);
+    CurrentUser ownerAsOtherUser =
+        userFactory.runAs(null, otherUserId, changeOwner, ImpersonationPermissionMode.THIS_USER);
     ChangeUpdate update = newUpdate(c, ownerAsOtherUser);
     update.setChangeMessage("Message on behalf of other user");
     update.commit();

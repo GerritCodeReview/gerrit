@@ -33,6 +33,7 @@ import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.IdentifiedUser.ImpersonationPermissionMode;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.permissions.GlobalPermission;
@@ -207,14 +208,18 @@ public class AccountResolver {
       return userFactory.create(asUnique());
     }
 
-    public IdentifiedUser asUniqueUserOnBehalfOf(CurrentUser caller)
+    public IdentifiedUser asUniqueUserOnBehalfOf(
+        CurrentUser caller, ImpersonationPermissionMode permissionMode)
         throws UnresolvableAccountException {
       ensureUnique();
       if (isSelf()) {
         return searchedAsUser.asIdentifiedUser();
       }
       return userFactory.runAs(
-          /* remotePeer= */ null, list.get(0).account().id(), requireNonNull(caller).getRealUser());
+          /* remotePeer= */ null,
+          list.get(0).account().id(),
+          requireNonNull(caller),
+          permissionMode);
     }
 
     @VisibleForTesting

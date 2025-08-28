@@ -16,11 +16,13 @@ package com.google.gerrit.server.project;
 
 import static com.google.gerrit.server.project.ProjectCache.noSuchProject;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -31,10 +33,13 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
@@ -73,6 +78,8 @@ public class CreateRefControl {
    * @param object the object the user will start the reference with
    * @param sourceBranches the source ref from which the new ref is created from
    * @throws AuthException if creation is denied; the message explains the denial.
+   * @throws UnprocessableEntityException if creation depends on an object or ref that is not
+   *     visible
    * @throws PermissionBackendException on failure of permission checks.
    * @throws ResourceConflictException if the project state does not permit the operation
    */
@@ -87,7 +94,8 @@ public class CreateRefControl {
           PermissionBackendException,
           NoSuchProjectException,
           IOException,
-          ResourceConflictException {
+          ResourceConflictException,
+          UnprocessableEntityException {
     ProjectState ps =
         projectCache.get(destBranch.project()).orElseThrow(noSuchProject(destBranch.project()));
     ps.checkStatePermitsWrite();
@@ -98,22 +106,25 @@ public class CreateRefControl {
       if (sourceBranches.length == 0) {
         checkCreateCommit(user, repo, (RevCommit) object, ps.getNameKey(), perm, forPush);
       } else {
+        List<Ref> sourceRefs = new ArrayList<>();
         for (BranchNameKey src : sourceBranches) {
-          PermissionBackend.ForRef forRef = permissionBackend.user(user.get()).ref(src);
-          if (forRef.testOrFalse(RefPermission.READ)) {
-            return;
-          }
+          sourceRefs.add(repo.exactRef(src.branch()));
         }
-        AuthException e =
-            new AuthException(
-                String.format(
-                    "must have %s on existing ref to create new ref from it",
-                    RefPermission.READ.describeForException()));
-        e.setAdvice(
+        if (reachable.fromRefs(
+            destBranch.project(),
+            repo,
+            (RevCommit) object,
+            ImmutableList.copyOf(sourceRefs),
+            Optional.of(user.get()))) {
+          return;
+        }
+        // Don't expose existence of source refs or the object to the caller
+        throw new UnprocessableEntityException(
             String.format(
-                "use an existing ref visible to you, or get %s permission on the ref",
-                RefPermission.READ.describeForException()));
-        throw e;
+                "Unable to resolve object '%s'. Check that the provided source branch(es) exist"
+                    + " (%s), that you are permitted to read them, and that the object is reachable"
+                    + " from the source(s).",
+                object, Arrays.toString(sourceBranches)));
       }
       return;
     }
@@ -168,7 +179,7 @@ public class CreateRefControl {
       Project.NameKey project,
       PermissionBackend.ForRef forRef,
       boolean forPush)
-      throws AuthException, PermissionBackendException, IOException {
+      throws PermissionBackendException, IOException, UnprocessableEntityException {
     try {
       // If the user has UPDATE (push) permission, they can set the ref to an arbitrary commit:
       //
@@ -219,15 +230,18 @@ public class CreateRefControl {
       return;
     }
 
-    AuthException e =
-        new AuthException(
-            String.format(
-                "%s for creating new commit object not permitted",
-                RefPermission.UPDATE.describeForException()));
-    e.setAdvice(
+    // Don't expose existence of the commit to the caller
+    String msg =
         String.format(
-            "use a SHA1 visible to you, or get %s permission on the ref",
-            RefPermission.UPDATE.describeForException()));
-    throw e;
+            "Unable to resolve object '%s'. Check that the object exists on the server ", commit);
+    if (forPush) {
+      msg +=
+          String.format(
+              "or get %s permission to create new commit objects.",
+              RefPermission.UPDATE.describeForException());
+    } else {
+      msg += "and is visible to you.";
+    }
+    throw new UnprocessableEntityException(msg);
   }
 }

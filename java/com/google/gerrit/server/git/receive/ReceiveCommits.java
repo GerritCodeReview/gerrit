@@ -1691,6 +1691,12 @@ class ReceiveCommits {
             RejectionReason.create(
                 MetricBucket.CONFLICT, "prohibited by Gerrit: " + denied.getMessage()));
         return;
+      } catch (UnprocessableEntityException denied) {
+        reject(
+            cmd,
+            RejectionReason.create(
+                MetricBucket.PROHIBITED, "prohibited by Gerrit: " + denied.getMessage()));
+        return;
       }
 
       if (validRefOperation(cmd)) {

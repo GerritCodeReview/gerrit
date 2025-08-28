@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "25c3bca9_8957b724",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1664,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-08-28T04:58:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48adadef_39ff4d31",
+      "range": {
+        "startLine": 1664,
+        "startChar": 9,
+        "endLine": 1664,
+        "endChar": 17
+      },
+      "revId": "3102204eb2df2b475b9b9f78ad9eb7ff137e35a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ab660e76_334212f0",
@@ -37,6 +61,30 @@
       "writtenOn": "2025-08-28T04:49:44Z",
       "side": 1,
       "message": "combine these",
+      "range": {
+        "startLine": 231,
+        "startChar": 6,
+        "endLine": 232,
+        "endChar": 8
+      },
+      "revId": "3102204eb2df2b475b9b9f78ad9eb7ff137e35a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9c741828_1a318335",
+        "filename": "java/com/google/gerrit/server/restapi/project/DeleteRef.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-08-28T04:58:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ab660e76_334212f0",
       "range": {
         "startLine": 231,
         "startChar": 6,

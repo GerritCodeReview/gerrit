@@ -22,6 +22,30 @@
       },
       "revId": "4ffbc6c8ec55680a2693872ba9387d3babadde2f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e968b7b_9846369a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-08-28T09:32:04Z",
+      "side": 1,
+      "message": "In context of this sentence, no. MergeSuperSet uses only visibility for constructing the set, and both users are checked for READ permissions in MergeOp. You can see MergeOp:514 for the check for impersonated user.",
+      "parentUuid": "54e06854_922461bb",
+      "range": {
+        "startLine": 17,
+        "startChar": 19,
+        "endLine": 17,
+        "endChar": 51
+      },
+      "revId": "4ffbc6c8ec55680a2693872ba9387d3babadde2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

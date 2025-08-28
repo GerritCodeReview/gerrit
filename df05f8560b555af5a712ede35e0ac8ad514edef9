@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a3d82454_ebf8112f",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 3458,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-08-28T07:21:10Z",
+      "side": 1,
+      "message": "\u003e This loop also seems like a possible performance problem that could be solved \n\u003e if ReachabilityChecker had a \u0027areAnyReachable\u0027 method (and you pass the full\n\u003e revisions set to it).\n\nYes, exactly, I proposed the same on our internal issue (b437127193#comment7). FWIW we have a similar loop in another place in ReceiveCommits that could probably also benefit from this (see https://gerrit-review.git.corp.google.com/c/gerrit/+/502022/1/java/com/google/gerrit/server/git/receive/ReceiveCommits.java).\n\n\u003e But we can see if this change solves our performance problem before adding\n\u003e that to JGit.\n\nYeah, I configured a performance metric for this step, so we should be able to see the effects there.\n\n\u003e I filed https://github.com/eclipse-jgit/jgit/issues/203 to track this problem\n\nIs this the correct issue? This seems to be about the bug that ReachabilityChecker unsets the buffer in the RevCommit, but not a feature request for adding a new areAnyReachable method. Did you file an issue for that too? Just asking to avoid duplicates.\n\nBut thanks much for filing this bug report. Much appreciated!",
+      "parentUuid": "937f9e7c_420a8a06",
+      "revId": "df05f8560b555af5a712ede35e0ac8ad514edef9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "470f8aa5_db9ae00d",

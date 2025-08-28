@@ -54,6 +54,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f51d9cc9_db85c877",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 3458,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-08-28T11:08:33Z",
+      "side": 1,
+      "message": "I filed a feature request for this now:\nhttps://github.com/eclipse-jgit/jgit/issues/204",
+      "parentUuid": "a3d82454_ebf8112f",
+      "revId": "df05f8560b555af5a712ede35e0ac8ad514edef9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "470f8aa5_db9ae00d",

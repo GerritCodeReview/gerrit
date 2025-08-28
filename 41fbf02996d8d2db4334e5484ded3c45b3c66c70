@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4eace75b_199792f1",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 3455,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-08-28T17:09:37Z",
+      "side": 1,
+      "message": "Not sure if we need this logging. Revisions is the number of patch sets that the change for which the new patch set is push already has. So if you know the change you can just look this up.\n\nIf we need this, it shouldn\u0027t be part of the string that is passed to newTimer, this string should be static. E.g. we use this string to configure capturing a metric for how long this step takes. But when starting a timer you can pass in metadata, see class com.google.gerrit.server.logging.Metadata and its usages.",
+      "range": {
+        "startLine": 3455,
+        "startChar": 69,
+        "endLine": 3455,
+        "endChar": 78
+      },
+      "revId": "41fbf02996d8d2db4334e5484ded3c45b3c66c70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

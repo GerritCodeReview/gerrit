@@ -1,0 +1,45 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a700079b_9501f3f8",
+        "filename": "package.json",
+        "patchSetId": 6
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-08-28T09:03:59Z",
+      "side": 1,
+      "message": "updgrade -\u003e upgrade",
+      "range": {
+        "startLine": 38,
+        "startChar": 27,
+        "endLine": 38,
+        "endChar": 35
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "053a6a2f_7b9d98f4",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "package.json",
+              "range": {
+                "startLine": 38,
+                "startChar": 0,
+                "endLine": 41,
+                "endChar": 0
+              },
+              "replacement": "    \"eslint\": \"eslint 9.26 upgrade in change 473401\",\n    \"@typescript-eslint/eslint-plugin\": \"eslint 9.26 upgrade in change 473401\",\n    \"@typescript-eslint/parser\": \"eslint 9.26 upgrade in change 473401\",\n"
+            }
+          ]
+        }
+      ],
+      "revId": "2f299296f36c5a5a85224757937c482e7b73293a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

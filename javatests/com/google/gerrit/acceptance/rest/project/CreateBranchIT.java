@@ -674,7 +674,7 @@ public class CreateBranchIT extends AbstractDaemonTest {
     branchInput.ref = "public";
     branchInput.revision = secretCommit.name();
     assertThrows(
-        AuthException.class,
+        UnprocessableEntityException.class,
         () -> gApi.projects().name(project.get()).branch(branchInput.ref).create(branchInput));
 
     branchInput.revision = "refs/heads/secret/main";

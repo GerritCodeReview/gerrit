@@ -97,7 +97,7 @@ public class PushPermissionsIT extends AbstractDaemonTest {
 
   @Test
   public void pushNewCommitsRequiresPushPermission() throws Exception {
-    testRepo.branch("HEAD").commit().create();
+    RevCommit commit = testRepo.branch("HEAD").commit().create();
     projectOperations
         .project(project)
         .forUpdate()
@@ -106,10 +106,14 @@ public class PushPermissionsIT extends AbstractDaemonTest {
 
     PushResult r = push("HEAD:refs/heads/newbranch");
 
-    String msg = "update for creating new commit object not permitted";
+    String msg =
+        String.format(
+            "prohibited by Gerrit: Unable to resolve object '%s'. Check that the object exists on"
+                + " the server or get update permission to create new commit objects.",
+            commit);
     RemoteRefUpdate rru = r.getRemoteUpdate("refs/heads/newbranch");
     assertThat(rru.getStatus()).isNotEqualTo(Status.OK);
-    assertThat(rru.getMessage()).contains(msg);
+    assertThat(rru.getMessage()).isEqualTo(msg);
 
     projectOperations
         .project(project)

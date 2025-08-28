@@ -179,7 +179,7 @@ public class CreateRefControl {
       Project.NameKey project,
       PermissionBackend.ForRef forRef,
       boolean forPush)
-      throws AuthException, PermissionBackendException, IOException {
+      throws PermissionBackendException, IOException, UnprocessableEntityException {
     try {
       // If the user has UPDATE (push) permission, they can set the ref to an arbitrary commit:
       //
@@ -230,15 +230,18 @@ public class CreateRefControl {
       return;
     }
 
-    AuthException e =
-        new AuthException(
-            String.format(
-                "%s for creating new commit object not permitted",
-                RefPermission.UPDATE.describeForException()));
-    e.setAdvice(
+    // Don't expose existence of the commit to the caller
+    String msg =
         String.format(
-            "use a SHA1 visible to you, or get %s permission on the ref",
-            RefPermission.UPDATE.describeForException()));
-    throw e;
+            "Unable to resolve object '%s'. Check that the object exists on the server ", commit);
+    if (forPush) {
+      msg +=
+          String.format(
+              "or get %s permission to create new commit objects.",
+              RefPermission.UPDATE.describeForException());
+    } else {
+      msg += "and is visible to you.";
+    }
+    throw new UnprocessableEntityException(msg);
   }
 }

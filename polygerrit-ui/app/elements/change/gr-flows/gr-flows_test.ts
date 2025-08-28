@@ -78,44 +78,72 @@ suite('gr-flows tests', () => {
     await element['loadFlows']();
     await element.updateComplete;
 
-    const flowElements = element.shadowRoot!.querySelectorAll('.flow');
-    assert.lengthOf(flowElements, 2);
-
-    const flow1 = flowElements[0];
-    assert.include(flow1.textContent, 'Owner: owner1');
-    assert.include(
-      flow1.textContent,
-      `Created: ${new Date('2025-01-01T10:00:00.000Z').toLocaleString()}`
-    );
-    assert.include(flow1.textContent, 'Last Evaluated:');
-    assert.include(
-      flow1.textContent,
-      `${new Date('2025-01-01T11:00:00.000Z').toLocaleString()}`
-    );
-    const stage1 = queryAndAssert(flow1, '.stages-list li');
-    const icon1 = queryAndAssert(stage1, 'gr-icon');
-    assert.equal(icon1.getAttribute('icon'), 'check_circle');
-    assert.isTrue(icon1.hasAttribute('filled'));
-    assert.isTrue(icon1.classList.contains('done'));
-    assert.equal(
-      stage1.textContent!.trim().replace(/\s+/g, ' '),
-      '1. label:Code-Review=+1'
-    );
-
-    const flow2 = flowElements[1];
-    assert.include(flow2.textContent, 'Owner: owner2');
-    assert.include(
-      flow2.textContent,
-      `Created: ${new Date('2025-01-02T10:00:00.000Z').toLocaleString()}`
-    );
-    const stage2 = queryAndAssert(flow2, '.stages-list li');
-    const icon2 = queryAndAssert(stage2, 'gr-icon');
-    assert.equal(icon2.getAttribute('icon'), 'timelapse');
-    assert.isFalse(icon2.hasAttribute('filled'));
-    assert.isTrue(icon2.classList.contains('pending'));
-    assert.equal(
-      stage2.textContent!.trim().replace(/\s+/g, ' '),
-      '1. label:Verified=+1 -> submit'
+    // prettier formats the spacing for "last evaluated" incorrectly
+    assert.shadowDom.equal(
+      element,
+      /* prettier-ignore */ /* HTML */ `
+        <div class="container">
+          <h2 class="main-heading">Create new flow</h2>
+          <gr-create-flow></gr-create-flow>
+          <hr />
+          <div>
+            <h2 class="main-heading">Existing Flows</h2>
+            <div class="flow">
+              <div class="flow-id hidden">Flow flow1</div>
+              <div class="owner-container">
+                Owner:
+                <gr-account-chip> </gr-account-chip>
+              </div>
+              <div>Created: ${new Date(flows[0].created).toLocaleString()}</div>
+              <div>
+                Last Evaluated:
+                    ${new Date(flows[0].last_evaluated!).toLocaleString()}
+              </div>
+              <div class="stages-list">
+                <h4>Stages</h4>
+                <ul>
+                  <li>
+                    <gr-icon
+                      class="done"
+                      icon="check_circle"
+                      filled
+                      aria-label="done"
+                      role="img"
+                    ></gr-icon>
+                    <span>1. </span>
+                    <span>label:Code-Review=+1</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="flow">
+              <div class="flow-id hidden">Flow flow2</div>
+              <div class="owner-container">
+                Owner:
+                <gr-account-chip> </gr-account-chip>
+              </div>
+              <div>Created: ${new Date(flows[1].created).toLocaleString()}</div>
+              <div class="stages-list">
+                <h4>Stages</h4>
+                <ul>
+                  <li>
+                    <gr-icon
+                      class="pending"
+                      icon="timelapse"
+                      aria-label="pending"
+                      role="img"
+                    ></gr-icon>
+                    <span>1. </span>
+                    <span>label:Verified=+1</span>
+                    <span> -> submit</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      `,
+      {ignoreAttributes: ['style']}
     );
   });
 

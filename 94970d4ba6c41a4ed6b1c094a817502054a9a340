@@ -91,6 +91,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "e807f41a_ef649f71",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-08-28T20:43:10Z",
+      "side": 1,
+      "message": "If you applied the fix, you should have an [open edit](https://gerrit-review.googlesource.com/Documentation/user-inline-edit.html#editing-change) on the change. If you click Publish Edit, that will create patch set 3 that includes the updated commit message.",
+      "parentUuid": "fa17db2d_db5a586e",
+      "revId": "94970d4ba6c41a4ed6b1c094a817502054a9a340",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "3798f1d1_aa762434",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2

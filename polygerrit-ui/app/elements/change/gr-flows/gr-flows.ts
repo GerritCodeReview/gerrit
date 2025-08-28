@@ -181,13 +181,21 @@ export class GrFlows extends LitElement {
                 Owner:
                 <gr-account-chip .account=${flow.owner}></gr-account-chip>
               </div>
-              <div>Created: ${new Date(flow.created).toLocaleString()}</div>
+              <div>
+                Created:
+                <gr-date-formatter withTooltip .dateStr=${flow.created}>
+                </gr-date-formatter>
+              </div>
               ${when(
                 flow.last_evaluated,
                 () =>
                   html` <div>
                     Last Evaluated:
-                    ${new Date(flow.last_evaluated!).toLocaleString()}
+                    <gr-date-formatter
+                      withTooltip
+                      .dateStr=${flow.last_evaluated}
+                    >
+                    </gr-date-formatter>
                   </div>`
               )}
               <div class="stages-list">

@@ -16,6 +16,24 @@
       "message": "maybe extract this into a helper method to improve readability ?",
       "revId": "0cf99d9aa930a7592d38cbe38c3e33bd0d87264b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "de5cb691_0e133704",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-08-28T07:50:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8a5af48c_134c3c04",
+      "revId": "0cf99d9aa930a7592d38cbe38c3e33bd0d87264b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

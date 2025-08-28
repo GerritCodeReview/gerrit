@@ -109,6 +109,11 @@ export class GrFlows extends LitElement {
           align-items: center;
           gap: var(--spacing-s);
         }
+        .owner-container {
+          display: flex;
+          align-items: center;
+          gap: var(--spacing-s);
+        }
       `,
     ];
   }
@@ -172,7 +177,10 @@ export class GrFlows extends LitElement {
           (flow: FlowInfo) => html`
             <div class="flow">
               <div class="flow-id hidden">Flow ${flow.uuid}</div>
-              <div>Owner: ${flow.owner.name}</div>
+              <div class="owner-container">
+                Owner:
+                <gr-account-chip .account=${flow.owner}></gr-account-chip>
+              </div>
               <div>Created: ${new Date(flow.created).toLocaleString()}</div>
               ${when(
                 flow.last_evaluated,

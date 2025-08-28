@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d6e3d5f6_1f62489a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-08-28T20:22:18Z",
+      "side": 1,
+      "message": "Did you run a tool to find these or did you do this manually?",
+      "revId": "94970d4ba6c41a4ed6b1c094a817502054a9a340",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "35c6eba4_5b81335c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-08-28T20:22:18Z",
+      "side": 1,
+      "message": "We need a release notes footer too. There\u0027s nothing user-facing here, so you can do this:\n\n```suggestion\nChange-Id: I89989fa9eff5bd8793a6961292d2eecb6e96848c\nRelease-Notes: skip\n```",
+      "revId": "94970d4ba6c41a4ed6b1c094a817502054a9a340",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3798f1d1_aa762434",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-08-28T20:22:18Z",
+      "side": 1,
+      "message": "Thanks!",
+      "revId": "94970d4ba6c41a4ed6b1c094a817502054a9a340",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

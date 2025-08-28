@@ -52,6 +52,24 @@
       "parentUuid": "a1cf226a_98c89af1",
       "revId": "be30b965dd8247926b1f56cf8243efb09f1e1a6d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "764f4134_aeb2d8fc",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-08-28T07:12:21Z",
+      "side": 1,
+      "message": "Seems when pressing the search button on mobile, there’s a slight decrease in header height. See https://imgur.com/a/ADlzAFh",
+      "parentUuid": "b792fd1a_8f0eb352",
+      "revId": "be30b965dd8247926b1f56cf8243efb09f1e1a6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

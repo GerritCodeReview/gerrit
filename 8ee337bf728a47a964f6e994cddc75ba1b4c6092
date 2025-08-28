@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b4b46374_6b455051",
+        "filename": "package.json",
+        "patchSetId": 4
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-08-28T08:37:39Z",
+      "side": 1,
+      "message": "go/ts-version is 5.8.2",
+      "parentUuid": "fcf41726_1f2e5d44",
+      "range": {
+        "startLine": 35,
+        "startChar": 22,
+        "endLine": 35,
+        "endChar": 24
+      },
+      "revId": "8ee337bf728a47a964f6e994cddc75ba1b4c6092",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "41b59b24_283209bf",
@@ -54,6 +78,30 @@
       "writtenOn": "2025-08-27T06:25:44Z",
       "side": 1,
       "message": "What are resolutions comments?",
+      "range": {
+        "startLine": 37,
+        "startChar": 3,
+        "endLine": 37,
+        "endChar": 22
+      },
+      "revId": "8ee337bf728a47a964f6e994cddc75ba1b4c6092",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f0a33de5_14b37b93",
+        "filename": "package.json",
+        "patchSetId": 4
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-08-28T08:37:39Z",
+      "side": 1,
+      "message": "The only way to add comments to a json file is to add proper objects.",
+      "parentUuid": "41b59b24_283209bf",
       "range": {
         "startLine": 37,
         "startChar": 3,
@@ -87,6 +135,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca1cafa7_09c7844b",
+        "filename": "package.json",
+        "patchSetId": 4
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-08-28T08:37:39Z",
+      "side": 1,
+      "message": "AFAIK `resolution` means you want a fixed version of something. That is what we want for typescript to match Google\u0027s internal version.",
+      "parentUuid": "0bf705ca_648b1923",
+      "range": {
+        "startLine": 49,
+        "startChar": 4,
+        "endLine": 49,
+        "endChar": 25
+      },
+      "revId": "8ee337bf728a47a964f6e994cddc75ba1b4c6092",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "47dc3d10_353c0246",
@@ -110,6 +182,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4f478902_d12c305b",
+        "filename": "plugins/package.json",
+        "patchSetId": 4
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-08-28T08:37:39Z",
+      "side": 1,
+      "message": "This is just alpha sorting, and I have other changes in the file now.",
+      "parentUuid": "47dc3d10_353c0246",
+      "range": {
+        "startLine": 33,
+        "startChar": 10,
+        "endLine": 33,
+        "endChar": 29
+      },
+      "revId": "8ee337bf728a47a964f6e994cddc75ba1b4c6092",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "09965835_59a03791",
@@ -123,6 +219,30 @@
       "writtenOn": "2025-08-27T06:25:44Z",
       "side": 1,
       "message": "this just moved.",
+      "range": {
+        "startLine": 11,
+        "startChar": 7,
+        "endLine": 11,
+        "endChar": 31
+      },
+      "revId": "8ee337bf728a47a964f6e994cddc75ba1b4c6092",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7ae39901_14277096",
+        "filename": "polygerrit-ui/package.json",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-08-28T08:37:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "09965835_59a03791",
       "range": {
         "startLine": 11,
         "startChar": 7,

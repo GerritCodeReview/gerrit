@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e1f171f_3e8b4faa",
+        "filename": "java/com/google/gerrit/server/account/AccountResolver.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-08-28T08:47:44Z",
+      "side": 1,
+      "message": "No, this is correct. This argument sets the actual user doing the call.  getRealUser() is required, so that in case of transitive impersonation (if the caller is already impersonated), that original caller is used as the impersonator.",
+      "parentUuid": "03bc0a39_ecf9fe70",
+      "range": {
+        "startLine": 221,
+        "startChar": 10,
+        "endLine": 221,
+        "endChar": 46
+      },
+      "revId": "9841ec5c9c4baa1313eb01a17dc9e4e0cee9d9b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c447a2d4_41cbabf9",
@@ -54,6 +78,30 @@
       "writtenOn": "2025-08-28T07:00:21Z",
       "side": 1,
       "message": "Should we use requireNonNull(otherUser) and ImpersonationPermissionMode.REAL_USER here?",
+      "range": {
+        "startLine": 412,
+        "startChar": 12,
+        "endLine": 413,
+        "endChar": 51
+      },
+      "revId": "9841ec5c9c4baa1313eb01a17dc9e4e0cee9d9b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d2cb0040_1eea7059",
+        "filename": "javatests/com/google/gerrit/server/notedb/CommitRewriterTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 413,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-08-28T08:47:44Z",
+      "side": 1,
+      "message": "Same as in the other comment. getRealUser() here is for transitive impersonation (though it doesn\u0027t matter for the test).\n\nMaybe we should move getRealUser into runAs to avoid the mistake of forgetting to call it. I will do it in a follow-up CL.",
+      "parentUuid": "c447a2d4_41cbabf9",
       "range": {
         "startLine": 412,
         "startChar": 12,

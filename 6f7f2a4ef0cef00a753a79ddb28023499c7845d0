@@ -16,6 +16,24 @@
       "message": "FWIW, the reason to use either perm.check() or perm.test() was a difference in the audit logs that they produce when a permission is denied. If a permission is denied by perm.check() it means someone tried to get access to something they shouldn\u0027t have access, which is an auditing signal that can cause an investigation of what that user is doing. As opposed to that perm.test() is used when the permission check is triggered by Gerrit itself (e.g. to return voteable labels for reviewers in ChangeInfo). Here permission failures are not something that requires an investigation.\n\nThat was a requirement for us a time when Gerrit was supposed to be offered as a cloud service. Nowadays (at least at the moment) this distinction doesn\u0027t matter for us.",
       "revId": "6f7f2a4ef0cef00a753a79ddb28023499c7845d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4a529709_4e5a5487",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-08-28T14:16:22Z",
+      "side": 1,
+      "message": "Oh, ok, I didn\u0027t realize that. The javadocs for them don\u0027t mention that distinction, only that we should use `check()` in cases where we want the exception thrown (and used by something higher in the call stack) and we should use `test()` in cases where we just want the business logic.\n\nI think if we care about the auditing, then we\u0027re going to need to review all the other places `test()` is already used. If that\u0027s not a requirement, then I think this change generally makes the code easier to understand and we should try to get it merged.",
+      "parentUuid": "888952c5_749344c8",
+      "revId": "6f7f2a4ef0cef00a753a79ddb28023499c7845d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

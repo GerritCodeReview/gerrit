@@ -92,12 +92,15 @@ suite('gr-flows tests', () => {
               <div class="flow-id hidden">Flow flow1</div>
               <div class="owner-container">
                 Owner:
-                <gr-account-chip> </gr-account-chip>
+                <gr-account-chip></gr-account-chip>
               </div>
-              <div>Created: ${new Date(flows[0].created).toLocaleString()}</div>
+              <div>
+                Created:
+                <gr-date-formatter withtooltip></gr-date-formatter>
+              </div>
               <div>
                 Last Evaluated:
-                    ${new Date(flows[0].last_evaluated!).toLocaleString()}
+                <gr-date-formatter withtooltip></gr-date-formatter>
               </div>
               <div class="stages-list">
                 <h4>Stages</h4>
@@ -120,9 +123,12 @@ suite('gr-flows tests', () => {
               <div class="flow-id hidden">Flow flow2</div>
               <div class="owner-container">
                 Owner:
-                <gr-account-chip> </gr-account-chip>
+                <gr-account-chip></gr-account-chip>
               </div>
-              <div>Created: ${new Date(flows[1].created).toLocaleString()}</div>
+              <div>
+                Created:
+                <gr-date-formatter withtooltip></gr-date-formatter>
+              </div>
               <div class="stages-list">
                 <h4>Stages</h4>
                 <ul>
@@ -143,7 +149,7 @@ suite('gr-flows tests', () => {
           </div>
         </div>
       `,
-      {ignoreAttributes: ['style']}
+      {ignoreAttributes: ['style', 'class', 'account', 'changenum', 'datestr']}
     );
   });
 

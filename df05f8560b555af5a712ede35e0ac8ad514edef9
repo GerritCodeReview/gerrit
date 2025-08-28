@@ -72,6 +72,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "022b3f1d_dbc54014",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 3458,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-08-28T17:44:24Z",
+      "side": 1,
+      "message": "Thomas fixed the bug dropping RevCommit\u0027s buffer in https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1221454",
+      "parentUuid": "f51d9cc9_db85c877",
+      "revId": "df05f8560b555af5a712ede35e0ac8ad514edef9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "470f8aa5_db9ae00d",

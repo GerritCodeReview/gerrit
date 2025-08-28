@@ -16,6 +16,58 @@
       "message": "Nice! Very clean implementation",
       "revId": "5685008a480638ec5734a64aaa01c17f160f068f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0782322e_8d8ca375",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3712441
+      },
+      "writtenOn": "2025-08-28T02:59:08Z",
+      "side": 1,
+      "message": "Hi--\n\nI\u0027m a longtime Gerrit user experimenting with the REST API, and I just noticed some rendering corruption in the public facing docs. Do you think this could be the culprit (see below)?",
+      "revId": "5685008a480638ec5734a64aaa01c17f160f068f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "54f7cb62_e1426c43",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 3237,
+      "author": {
+        "id": 3712441
+      },
+      "writtenOn": "2025-08-28T02:59:08Z",
+      "side": 1,
+      "message": "I think this line should be `----`.\n\nThis appears to have broken rendering on https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html.",
+      "fixSuggestions": [
+        {
+          "fixId": "94caa40a_2280e257",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "Documentation/rest-api-changes.txt",
+              "range": {
+                "startLine": 3237,
+                "startChar": 0,
+                "endLine": 3238,
+                "endChar": 0
+              },
+              "replacement": "----\n"
+            }
+          ]
+        }
+      ],
+      "revId": "5685008a480638ec5734a64aaa01c17f160f068f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

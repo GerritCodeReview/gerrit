@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7faf4092_76f4f12b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-08-28T17:41:57Z",
+      "side": 1,
+      "message": "Just to confirm, there\u0027s no query behavioral impact from this, only a \"cosmetic\" difference in which prefix string (\"is\" or \"status\") would be returned?\n\nI\u0027m not claiming that difference isn\u0027t important, just trying to see if this matters enough to be backported. I think the only significant, stable branch, non-plugin use of that predicate string would be in ApprovalCopier. It might be confusing for a user to see a different prefix there, but it\u0027s also very unlikely someone is using a status predicate in approval copy conditions.",
+      "revId": "1b4cb7b7ad97527a21d62c0c5f00bc42a2b8bc48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

@@ -65,6 +65,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ff1953e0_affabe54",
+        "filename": "java/com/google/gerrit/server/account/AccountResolver.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-08-28T09:15:21Z",
+      "side": 1,
+      "message": "Thanks for checking!",
+      "parentUuid": "0e1f171f_3e8b4faa",
+      "range": {
+        "startLine": 221,
+        "startChar": 10,
+        "endLine": 221,
+        "endChar": 46
+      },
+      "revId": "9841ec5c9c4baa1313eb01a17dc9e4e0cee9d9b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c447a2d4_41cbabf9",

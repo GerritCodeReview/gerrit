@@ -6,8 +6,7 @@ junit_tests(
     srcs = glob(["*.java"]),
     deps = [
         "//java/com/google/gerrit/server",
-        "//java/com/google/gerrit/testing:gerrit-test-util",
-        "//java/com/google/gerrit/testing:test-ref-update-context",
+        "//java/com/google/gerrit/testing:gerrit-junit",
         "//lib:guava",
         "//lib/truth",
         "//lib/truth:truth-java8-extension",

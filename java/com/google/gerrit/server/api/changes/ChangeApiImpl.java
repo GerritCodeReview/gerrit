@@ -361,12 +361,22 @@ class ChangeApiImpl implements ChangeApi {
   }
 
   @Override
-  public EvaluateChangeQueryExpressionResultInfo evaluateChangeQueryExpression(String expression)
-      throws RestApiException {
+  public EvaluateChangeQueryExpressionRequest evaluateChangeQueryExpression() {
+    return new EvaluateChangeQueryExpressionRequest() {
+      @Override
+      public EvaluateChangeQueryExpressionResultInfo get() throws RestApiException {
+        return ChangeApiImpl.this.evaluateChangeQueryExpression(this);
+      }
+    };
+  }
+
+  public EvaluateChangeQueryExpressionResultInfo evaluateChangeQueryExpression(
+      EvaluateChangeQueryExpressionRequest request) throws RestApiException {
     try {
       EvaluateChangeQueryExpression evaluateChangeQueryExpression =
           evaluateChangeQueryExpressionProvider.get();
-      evaluateChangeQueryExpression.expression = expression;
+      evaluateChangeQueryExpression.expression = request.getExpression();
+      evaluateChangeQueryExpression.useIndex = request.getUseIndex();
       return evaluateChangeQueryExpression.apply(change).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot evaluate change query expression", e);

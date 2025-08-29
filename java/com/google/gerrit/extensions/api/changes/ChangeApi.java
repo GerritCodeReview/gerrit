@@ -106,8 +106,7 @@ public interface ChangeApi {
   /** Get the flows of this change/ */
   List<FlowInfo> flows() throws RestApiException;
 
-  EvaluateChangeQueryExpressionResultInfo evaluateChangeQueryExpression(String expression)
-      throws RestApiException;
+  EvaluateChangeQueryExpressionRequest evaluateChangeQueryExpression();
 
   default void abandon() throws RestApiException {
     abandon(new AbandonInput());
@@ -611,6 +610,35 @@ public interface ChangeApi {
 
     public ReviewerState getReviewerState() {
       return reviewerState;
+    }
+  }
+
+  abstract class EvaluateChangeQueryExpressionRequest {
+    private String expression;
+    private boolean useIndex;
+
+    public abstract EvaluateChangeQueryExpressionResultInfo get() throws RestApiException;
+
+    public EvaluateChangeQueryExpressionRequest withExpression(String expression) {
+      this.expression = expression;
+      return this;
+    }
+
+    public EvaluateChangeQueryExpressionRequest useIndex() {
+      return useIndex(true);
+    }
+
+    public EvaluateChangeQueryExpressionRequest useIndex(boolean useIndex) {
+      this.useIndex = useIndex;
+      return this;
+    }
+
+    public String getExpression() {
+      return expression;
+    }
+
+    public boolean getUseIndex() {
+      return useIndex;
     }
   }
 }

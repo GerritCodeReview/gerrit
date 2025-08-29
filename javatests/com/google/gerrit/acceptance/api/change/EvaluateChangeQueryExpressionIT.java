@@ -15,11 +15,13 @@
 package com.google.gerrit.acceptance.api.change;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.acceptance.TestExtensions.TestSubmitRule;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.ExtensionRegistry;
 import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
+import com.google.gerrit.acceptance.TestExtensions.TestSubmitRule;
 import com.google.gerrit.acceptance.testsuite.change.ChangeOperations;
 import com.google.gerrit.extensions.api.changes.ChangeIdentifier;
 import com.google.gerrit.extensions.common.EvaluateChangeQueryExpressionResultInfo;
@@ -52,7 +54,9 @@ public class EvaluateChangeQueryExpressionIT extends AbstractDaemonTest {
             () ->
                 gApi.changes()
                     .id(changeIdentifier)
-                    .evaluateChangeQueryExpression(/* expression= */ null));
+                    .evaluateChangeQueryExpression()
+                    .withExpression(null)
+                    .get());
     assertThat(exception).hasMessageThat().isEqualTo("expression is required");
   }
 
@@ -65,7 +69,9 @@ public class EvaluateChangeQueryExpressionIT extends AbstractDaemonTest {
             () ->
                 gApi.changes()
                     .id(changeIdentifier)
-                    .evaluateChangeQueryExpression(/* expression= */ ""));
+                    .evaluateChangeQueryExpression()
+                    .withExpression("")
+                    .get());
     assertThat(exception).hasMessageThat().isEqualTo("expression is required");
   }
 
@@ -78,7 +84,9 @@ public class EvaluateChangeQueryExpressionIT extends AbstractDaemonTest {
             () ->
                 gApi.changes()
                     .id(changeIdentifier)
-                    .evaluateChangeQueryExpression(/* expression= */ "[INVALID]"));
+                    .evaluateChangeQueryExpression()
+                    .withExpression("[INVALID]")
+                    .get());
     assertThat(exception).hasMessageThat().contains("invalid query expression:");
   }
 
@@ -91,7 +99,9 @@ public class EvaluateChangeQueryExpressionIT extends AbstractDaemonTest {
             () ->
                 gApi.changes()
                     .id(changeIdentifier)
-                    .evaluateChangeQueryExpression(/* expression= */ "foo:bar"));
+                    .evaluateChangeQueryExpression()
+                    .withExpression("foo:bar")
+                    .get());
     assertThat(exception)
         .hasMessageThat()
         .isEqualTo("invalid query expression: Unsupported operator foo:bar");
@@ -101,7 +111,11 @@ public class EvaluateChangeQueryExpressionIT extends AbstractDaemonTest {
   public void singleAtomExpressionThatMatches() throws Exception {
     ChangeIdentifier changeIdentifier = changeOperations.newChange().create();
     EvaluateChangeQueryExpressionResultInfo info =
-        gApi.changes().id(changeIdentifier).evaluateChangeQueryExpression("is:open");
+        gApi.changes()
+            .id(changeIdentifier)
+            .evaluateChangeQueryExpression()
+            .withExpression("is:open")
+            .get();
     assertThat(info.status).isTrue();
     assertThat(info.passingAtoms).containsExactly("is:open");
     assertThat(info.failingAtoms).isEmpty();
@@ -112,7 +126,11 @@ public class EvaluateChangeQueryExpressionIT extends AbstractDaemonTest {
   public void singleAtomExpressionThatDoesNotMatch() throws Exception {
     ChangeIdentifier changeIdentifier = changeOperations.newChange().create();
     EvaluateChangeQueryExpressionResultInfo info =
-        gApi.changes().id(changeIdentifier).evaluateChangeQueryExpression("is:closed");
+        gApi.changes()
+            .id(changeIdentifier)
+            .evaluateChangeQueryExpression()
+            .withExpression("is:closed")
+            .get();
     assertThat(info.status).isFalse();
     assertThat(info.passingAtoms).isEmpty();
     assertThat(info.failingAtoms).containsExactly("is:closed");
@@ -126,7 +144,9 @@ public class EvaluateChangeQueryExpressionIT extends AbstractDaemonTest {
     EvaluateChangeQueryExpressionResultInfo info =
         gApi.changes()
             .id(changeIdentifier)
-            .evaluateChangeQueryExpression("is:open label:Code-Review+2");
+            .evaluateChangeQueryExpression()
+            .withExpression("is:open label:Code-Review+2")
+            .get();
     assertThat(info.status).isTrue();
     assertThat(info.passingAtoms).containsExactly("is:open", "label:Code-Review+2");
     assertThat(info.failingAtoms).isEmpty();
@@ -139,7 +159,9 @@ public class EvaluateChangeQueryExpressionIT extends AbstractDaemonTest {
     EvaluateChangeQueryExpressionResultInfo info =
         gApi.changes()
             .id(changeIdentifier)
-            .evaluateChangeQueryExpression("is:closed label:Code-Review+2");
+            .evaluateChangeQueryExpression()
+            .withExpression("is:closed label:Code-Review+2")
+            .get();
     assertThat(info.status).isFalse();
     assertThat(info.passingAtoms).isEmpty();
     assertThat(info.failingAtoms).containsExactly("is:closed", "label:Code-Review+2");
@@ -149,7 +171,9 @@ public class EvaluateChangeQueryExpressionIT extends AbstractDaemonTest {
     info =
         gApi.changes()
             .id(changeIdentifier)
-            .evaluateChangeQueryExpression("is:closed label:Code-Review+2");
+            .evaluateChangeQueryExpression()
+            .withExpression("is:closed label:Code-Review+2")
+            .get();
     assertThat(info.status).isFalse();
     assertThat(info.passingAtoms).containsExactly("label:Code-Review+2");
     assertThat(info.failingAtoms).containsExactly("is:closed");
@@ -200,17 +224,92 @@ public class EvaluateChangeQueryExpressionIT extends AbstractDaemonTest {
                 "foo")) {
       String atom = String.format("is:foo_%s", ExtensionRegistry.PLUGIN_NAME);
       EvaluateChangeQueryExpressionResultInfo info =
-          gApi.changes().id(changeIdentifier).evaluateChangeQueryExpression(atom);
+          gApi.changes()
+              .id(changeIdentifier)
+              .evaluateChangeQueryExpression()
+              .withExpression(atom)
+              .get();
       assertThat(info.status).isFalse();
       assertThat(info.passingAtoms).isEmpty();
       assertThat(info.failingAtoms).containsExactly(atom);
       assertThat(info.atomExplanations).containsExactly(atom, "this atom never matches");
 
-      info = gApi.changes().id(changeIdentifier).evaluateChangeQueryExpression("is:open " + atom);
+      info =
+          gApi.changes()
+              .id(changeIdentifier)
+              .evaluateChangeQueryExpression()
+              .withExpression("is:open " + atom)
+              .get();
       assertThat(info.status).isFalse();
       assertThat(info.passingAtoms).containsExactly("is:open");
       assertThat(info.failingAtoms).containsExactly(atom);
       assertThat(info.atomExplanations).containsExactly(atom, "this atom never matches");
     }
+  }
+
+  @Test
+  public void evaluatngIsSubmittableInvokesSubmitRulesOnce() throws Exception {
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().create();
+    changeOperations.change(changeIdentifier).newVote().codeReviewApproval().create();
+
+    TestSubmitRule testSubmitRule = new TestSubmitRule();
+    try (Registration registration = extensionRegistry.newRegistration().add(testSubmitRule)) {
+      EvaluateChangeQueryExpressionResultInfo info =
+          gApi.changes()
+              .id(changeIdentifier)
+              .evaluateChangeQueryExpression()
+              .withExpression("is:submittable")
+              .get();
+      assertThat(info.status).isTrue();
+      assertThat(info.passingAtoms).containsExactly("is:submittable");
+      assertThat(info.failingAtoms).isEmpty();
+      assertThat(info.atomExplanations).isNull();
+    }
+    assertThat(testSubmitRule.count()).isEqualTo(1);
+  }
+
+  @Test
+  public void evaluatingIsSubmittableUsingTheIndexDoesntInvokeSubmitRules() throws Exception {
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().create();
+    changeOperations.change(changeIdentifier).newVote().codeReviewApproval().create();
+
+    TestSubmitRule testSubmitRule = new TestSubmitRule();
+    try (Registration registration = extensionRegistry.newRegistration().add(testSubmitRule)) {
+      EvaluateChangeQueryExpressionResultInfo info =
+          gApi.changes()
+              .id(changeIdentifier)
+              .evaluateChangeQueryExpression()
+              .withExpression("is:submittable")
+              .useIndex()
+              .get();
+      assertThat(info.status).isTrue();
+      assertThat(info.passingAtoms).containsExactly("is:submittable");
+      assertThat(info.failingAtoms).isEmpty();
+      assertThat(info.atomExplanations).isNull();
+    }
+    assertThat(testSubmitRule.count()).isEqualTo(0);
+  }
+
+  @Test
+  public void
+      evaluatingExpressionThatDoesntRequireCheckingTheChangeSubmittabilityDoesntInvokesSubmitRules()
+          throws Exception {
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().create();
+    changeOperations.change(changeIdentifier).newVote().codeReviewApproval().create();
+
+    TestSubmitRule testSubmitRule = new TestSubmitRule();
+    try (Registration registration = extensionRegistry.newRegistration().add(testSubmitRule)) {
+      EvaluateChangeQueryExpressionResultInfo info =
+          gApi.changes()
+              .id(changeIdentifier)
+              .evaluateChangeQueryExpression()
+              .withExpression("is:open")
+              .get();
+      assertThat(info.status).isTrue();
+      assertThat(info.passingAtoms).containsExactly("is:open");
+      assertThat(info.failingAtoms).isEmpty();
+      assertThat(info.atomExplanations).isNull();
+    }
+    assertThat(testSubmitRule.count()).isEqualTo(0);
   }
 }

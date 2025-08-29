@@ -70,6 +70,30 @@
       },
       "revId": "249697ea8260ae5e086cd39758b148b3d89cd447",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5bdfcbec_8253119b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-08-29T08:27:21Z",
+      "side": 1,
+      "message": "\u003e SGTM on documenting but maybe it\u0027s a bug we should be fixing?\n\nYes, I agree it would be good to fix this, but not sure how difficult this is.\n\n\u003e Didn\u0027t follow this fully. The code only seems to be dealing with change queries using the assertQuery method?\n\nYes, the search operators are only tested with change queries. We don\u0027t have tests that test all operators via submit requirements.",
+      "parentUuid": "6ad7dde8_53cd3157",
+      "range": {
+        "startLine": 7,
+        "startChar": 23,
+        "endLine": 7,
+        "endChar": 68
+      },
+      "revId": "249697ea8260ae5e086cd39758b148b3d89cd447",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

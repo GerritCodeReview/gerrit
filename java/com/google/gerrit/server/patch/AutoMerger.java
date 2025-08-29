@@ -305,7 +305,6 @@ public class AutoMerger {
           "AutoMerge treeId=%s (with conflicts, inserter: %s)", treeId.name(), nonFlushingInserter);
     }
 
-    rw.parseHeaders(merge);
     // For maximum stability, choose a single ident using the committer time of
     // the input commit, using the server name and timezone.
     PersonIdent ident =

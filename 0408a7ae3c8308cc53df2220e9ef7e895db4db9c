@@ -98,6 +98,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5b8d9541_b9e81614",
+        "filename": "java/com/google/gerrit/extensions/events/ChangeIndexedListener.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-08-29T07:33:18Z",
+      "side": 1,
+      "message": "`onAllChangesDeletedForProject` looks good to me",
+      "parentUuid": "28a68819_0972ffb6",
+      "range": {
+        "startLine": 53,
+        "startChar": 15,
+        "endLine": 53,
+        "endChar": 37
+      },
+      "revId": "0408a7ae3c8308cc53df2220e9ef7e895db4db9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3b730327_1ebdc496",
         "filename": "java/com/google/gerrit/server/index/change/ChangeIndexer.java",
         "patchSetId": 2

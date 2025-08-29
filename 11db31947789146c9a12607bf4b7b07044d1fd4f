@@ -201,6 +201,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "13fed703_bae3c3cc",
+        "filename": "javatests/com/google/gerrit/acceptance/server/account/PeriodicAccountIndexerIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2025-08-29T14:56:56Z",
+      "side": 1,
+      "message": "\u003e One possibility would be to directly update account data (using JGit API) thus making the index entry stale (as reindexing is then not triggered automatically)\n\nI thought about that, but I think that logic is going to be more complex than the test itself. Moverover, I believe that should be covered in the `reindexIfStale` tests.",
+      "parentUuid": "7489b83d_80423a81",
+      "range": {
+        "startLine": 51,
+        "startChar": 0,
+        "endLine": 51,
+        "endChar": 70
+      },
+      "revId": "11db31947789146c9a12607bf4b7b07044d1fd4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d0bf2153_bbc30701",

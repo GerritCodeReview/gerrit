@@ -29,7 +29,6 @@ import com.google.gerrit.extensions.api.projects.ProjectApi.ListRefsRequest;
 import com.google.gerrit.extensions.common.ActionInfo;
 import com.google.gerrit.extensions.common.WebLinkInfo;
 import com.google.gerrit.extensions.registration.DynamicMap;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
@@ -333,9 +332,7 @@ public class ListBranches implements RestReadView<ProjectResource> {
       //
       String target = ref.getTarget().getName();
 
-      try {
-        perm.ref(target).check(RefPermission.READ);
-      } catch (AuthException e) {
+      if (!perm.ref(target).test(RefPermission.READ)) {
         return Optional.empty();
       }
 
@@ -361,15 +358,12 @@ public class ListBranches implements RestReadView<ProjectResource> {
       return Optional.of(info);
     }
 
-    try {
-      perm.ref(ref.getName()).check(RefPermission.READ);
-      BranchInfo branchInfo =
-          createBranchInfo(perm.ref(ref.getName()), ref, projectState, currentUser, targets);
-      return Optional.of(branchInfo);
-    } catch (AuthException e) {
-      // Do nothing.
+    if (!perm.ref(ref.getName()).test(RefPermission.READ)) {
       return Optional.empty();
     }
+    BranchInfo branchInfo =
+        createBranchInfo(perm.ref(ref.getName()), ref, projectState, currentUser, targets);
+    return Optional.of(branchInfo);
   }
 
   private static Set<String> getTargets(List<Ref> refs) {

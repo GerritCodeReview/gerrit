@@ -35,7 +35,6 @@ import com.google.gerrit.exceptions.NoSuchGroupException;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.common.WebLinkInfo;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
@@ -601,19 +600,13 @@ public class ListProjectsImpl extends AbstractListProjects {
     Project.NameKey name = state.getNameKey();
     Boolean b = checked.get(name);
     if (b == null) {
-      try {
-        // Hidden projects(permitsRead = false) should only be accessible by the project owners.
-        // READ_CONFIG is checked here because it's only allowed to project owners(ACCESS may also
-        // be allowed for other users). Allowing project owners to access here will help them to
-        // view
-        // and update the config of hidden projects easily.
-        ProjectPermission permissionToCheck =
-            state.statePermitsRead() ? ProjectPermission.ACCESS : ProjectPermission.READ_CONFIG;
-        perm.project(name).check(permissionToCheck);
-        b = true;
-      } catch (AuthException denied) {
-        b = false;
-      }
+      // Hidden projects(permitsRead = false) should only be accessible by the project owners.
+      // READ_CONFIG is checked here because it's only allowed to project owners (ACCESS may also
+      // be allowed for other users). Allowing project owners to access here will help them to
+      // view and update the config of hidden projects easily.
+      ProjectPermission permissionToCheck =
+          state.statePermitsRead() ? ProjectPermission.ACCESS : ProjectPermission.READ_CONFIG;
+      b = perm.project(name).test(permissionToCheck);
       checked.put(name, b);
     }
     return b;
@@ -679,13 +672,10 @@ public class ListProjectsImpl extends AbstractListProjects {
       PermissionBackend.ForProject perm = permissionBackend.user(currentUser).project(projectName);
       for (int i = 0; i < showBranch.size(); i++) {
         Ref ref = git.findRef(showBranch.get(i));
-        if (ref != null && ref.getObjectId() != null) {
-          try {
-            perm.ref(ref.getLeaf().getName()).check(RefPermission.READ);
-            result[i] = ref;
-          } catch (AuthException e) {
-            continue;
-          }
+        if (ref != null
+            && ref.getObjectId() != null
+            && perm.ref(ref.getLeaf().getName()).test(RefPermission.READ)) {
+          result[i] = ref;
         }
       }
     } catch (IOException | PermissionBackendException e) {

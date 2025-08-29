@@ -23,7 +23,6 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.extensions.registration.DynamicMap;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.DynamicOptions;
@@ -320,9 +319,8 @@ public abstract class BaseCommand implements Command {
   private boolean isAdminHighPriorityCommand() {
     if (getClass().getAnnotation(AdminHighPriorityCommand.class) != null) {
       try {
-        permissionBackend.user(user).check(GlobalPermission.ADMINISTRATE_SERVER);
-        return true;
-      } catch (AuthException | PermissionBackendException e) {
+        return permissionBackend.user(user).test(GlobalPermission.ADMINISTRATE_SERVER);
+      } catch (PermissionBackendException e) {
         return false;
       }
     }

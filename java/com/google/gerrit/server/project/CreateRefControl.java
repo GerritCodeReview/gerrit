@@ -180,31 +180,28 @@ public class CreateRefControl {
       PermissionBackend.ForRef forRef,
       boolean forPush)
       throws PermissionBackendException, IOException, UnprocessableEntityException {
-    try {
-      // If the user has UPDATE (push) permission, they can set the ref to an arbitrary commit:
-      //
-      //  * if they don't have access, we don't advertise the data, and a conforming git client
-      //  would send the object along with the push as outcome of the negotation.
-      //  * a malicious client could try to send the update without sending the object. This
-      //  is prevented by JGit's ConnectivityChecker (see receive.checkReferencedObjectsAreReachable
-      //  to switch off this costly check).
-      //
-      // Thus, when using the git command-line client, we don't need to do extra checks for users
-      // with push access.
-      //
-      // When using the REST API, there is no negotiation, and the target commit must already be on
-      // the server, so we must check that the user can see that commit.
-      if (forPush) {
-        // We can only shortcut for UPDATE permission. Pushing a tag (CREATE_TAG, CREATE_SIGNED_TAG)
-        // can also introduce new objects. While there may not be a confidentiality problem
-        // (the caller supplies the data as documented above), the permission is for creating
-        // tags to existing commits.
-        forRef.check(RefPermission.UPDATE);
-        return;
-      }
-    } catch (AuthException denied) {
-      // Fall through to check reachability.
+    // If the user has UPDATE (push) permission, they can set the ref to an arbitrary commit:
+    //
+    //  * if they don't have access, we don't advertise the data, and a conforming git client
+    //  would send the object along with the push as outcome of the negotation.
+    //  * a malicious client could try to send the update without sending the object. This
+    //  is prevented by JGit's ConnectivityChecker (see receive.checkReferencedObjectsAreReachable
+    //  to switch off this costly check).
+    //
+    // When using the REST API, there is no negotiation, and the target commit must already be on
+    // the server, so we must check that the user can see that commit.
+    //
+    // Thus, when using the git command-line client, we don't need to do extra checks for users
+    // with push access.
+    //
+    // We can only shortcut for UPDATE permission. Pushing a tag (CREATE_TAG, CREATE_SIGNED_TAG)
+    // can also introduce new objects. While there may not be a confidentiality problem
+    // (the caller supplies the data as documented above), the permission is for creating
+    // tags to existing commits.
+    if (forPush && forRef.test(RefPermission.UPDATE)) {
+      return;
     }
+    // Fall through to check reachability.
     if (reachable.fromRefs(
         project,
         repo,

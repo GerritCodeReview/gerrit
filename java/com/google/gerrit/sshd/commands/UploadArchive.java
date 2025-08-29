@@ -19,7 +19,6 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableMap;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.server.change.ArchiveFormatInternal;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -263,10 +262,9 @@ public class UploadArchive extends AbstractGitCommand {
       return false;
     }
 
-    try {
-      permissionBackend.user(user).project(projectName).check(ProjectPermission.READ);
+    if (permissionBackend.user(user).project(projectName).test(ProjectPermission.READ)) {
       return true;
-    } catch (AuthException e) {
+    } else {
       // Check reachability of the specific revision.
       try (RevWalk rw = new RevWalk(repo)) {
         RevCommit commit = rw.parseCommit(revId);

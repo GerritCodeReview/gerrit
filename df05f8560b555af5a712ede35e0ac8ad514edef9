@@ -90,6 +90,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e8a12e7a_d6854f31",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 3458,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-08-29T08:23:22Z",
+      "side": 1,
+      "message": "Wow that was quick!\n\nDo we have anywhere instructions how to update Jgit in Gerrit? I think I never did this?",
+      "parentUuid": "022b3f1d_dbc54014",
+      "revId": "df05f8560b555af5a712ede35e0ac8ad514edef9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "470f8aa5_db9ae00d",

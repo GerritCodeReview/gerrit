@@ -22,6 +22,30 @@
       },
       "revId": "249697ea8260ae5e086cd39758b148b3d89cd447",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e83438e_bda90606",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-08-29T08:18:25Z",
+      "side": 1,
+      "message": "\u003e what does it mean \"cannot be matched\"?\n\nSee the test in this change.\n\n\u003e Who is doing the matching?\n\nChange queries use the change index to do the matching. For submit requirements it\u0027s the Matchable logic in the search Predicates that matters.\n\n\u003e Why would we want to do the matching?\n\nThere are many reasons why people want to search changes that contain a certain footer. For example footers are often used to skip submit requirements. In this case you need to match the footer in a submit requirement expression (e.g. in the overrideIf expression).\n\n\u003e Why is adding an \"_\" causing the matching to break?\n\nI don\u0027t know. I didn\u0027t investigate this. This change is just for documenting the current behaviour.",
+      "parentUuid": "f15efa67_43cc09b9",
+      "range": {
+        "startLine": 7,
+        "startChar": 23,
+        "endLine": 7,
+        "endChar": 68
+      },
+      "revId": "249697ea8260ae5e086cd39758b148b3d89cd447",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

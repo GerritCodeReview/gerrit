@@ -3209,6 +3209,13 @@ The following URL parameters are supported:
   the change matches.
 --
 
+[[change-query-use-index]]
+--
+* `use-index`: Whether the change query expression should be evaluated against the change state in
+  the index. This is useful to avoid executing submit requirements when the query expression
+  contains operators that require checking if the change is submittable (e.g. "is:submittable").
+--
+
 .Request
 ----
   GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/query?expression="is:submittable label:Auto-Submit+1" HTTP/1.0

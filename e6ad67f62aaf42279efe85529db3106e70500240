@@ -147,6 +147,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7eb5a7d1_29a1e82d",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-group-dialog/gr-create-group-dialog.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-08-29T19:40:20Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "4abc1fad_97b9a6a4",
+      "range": {
+        "startLine": 34,
+        "startChar": 51,
+        "endLine": 34,
+        "endChar": 67
+      },
+      "revId": "e6ad67f62aaf42279efe85529db3106e70500240",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "689029c8_cf01aeb5",
@@ -204,6 +228,30 @@
           ]
         }
       ],
+      "revId": "e6ad67f62aaf42279efe85529db3106e70500240",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6eafa772_65e6824e",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-group-dialog/gr-create-group-dialog.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-08-29T19:40:20Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "689029c8_cf01aeb5",
+      "range": {
+        "startLine": 104,
+        "startChar": 17,
+        "endLine": 114,
+        "endChar": 27
+      },
       "revId": "e6ad67f62aaf42279efe85529db3106e70500240",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -279,6 +327,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf601768_de2a3d74",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-repo-dialog/gr-create-repo-dialog.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-08-29T19:40:20Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "5d2d464f_1e29a7d1",
+      "range": {
+        "startLine": 47,
+        "startChar": 10,
+        "endLine": 47,
+        "endChar": 26
+      },
+      "revId": "e6ad67f62aaf42279efe85529db3106e70500240",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "813f7450_22069195",
@@ -320,6 +392,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0b388b46_d25bbdb3",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-repo-dialog/gr-create-repo-dialog.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-08-29T19:40:20Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "813f7450_22069195",
+      "range": {
+        "startLine": 114,
+        "startChar": 8,
+        "endLine": 117,
+        "endChar": 9
+      },
+      "revId": "e6ad67f62aaf42279efe85529db3106e70500240",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "32e31857_7ddae6ac",
@@ -357,6 +453,30 @@
           ]
         }
       ],
+      "revId": "e6ad67f62aaf42279efe85529db3106e70500240",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "36dfa8bc_c64f495c",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 412,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-08-29T19:40:20Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "32e31857_7ddae6ac",
+      "range": {
+        "startLine": 412,
+        "startChar": 42,
+        "endLine": 412,
+        "endChar": 66
+      },
       "revId": "e6ad67f62aaf42279efe85529db3106e70500240",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -246,6 +246,7 @@ public class AutoMerger {
         ins instanceof InMemoryInserter ? ins : new NonFlushingWrapper(ins);
 
     rw.parseHeaders(merge);
+    rw.parseBody(merge);
     ResolveMerger m = (ResolveMerger) mergeStrategy.newMerger(nonFlushingInserter, repoConfig);
     DirCache dc = DirCache.newInCore();
     m.setDirCache(dc);

@@ -179,6 +179,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7489b83d_80423a81",
+        "filename": "javatests/com/google/gerrit/acceptance/server/account/PeriodicAccountIndexerIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-08-29T09:40:23Z",
+      "side": 1,
+      "message": "\u003e Not sure how to easily create a stale index. Can you think of any way to do it?\nOne possibility would be to directly update account data (using JGit API) thus making the index entry stale (as reindexing is then not triggered automatically)",
+      "parentUuid": "dbd4f621_5a10838a",
+      "range": {
+        "startLine": 51,
+        "startChar": 0,
+        "endLine": 51,
+        "endChar": 70
+      },
+      "revId": "11db31947789146c9a12607bf4b7b07044d1fd4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d0bf2153_bbc30701",
         "filename": "javatests/com/google/gerrit/acceptance/server/account/PeriodicAccountIndexerIT.java",
         "patchSetId": 7

@@ -3501,10 +3501,6 @@ class ReceiveCommits {
               return false;
             }
           }
-
-          // Passing newCommit into ReachabilityChecker#areAllReachable destroys the parsed state of
-          // this RevCommit instance. Hence we need to parse it again.
-          globalRevWalk.parseBody(newCommit);
         }
 
         return true;

@@ -44,4 +44,11 @@ public interface ChangeIndexedListener {
 
   /** Invoked when a change is deleted from the index. */
   void onChangeDeleted(int id);
+
+  /**
+   * Invoked when all change indexes are deleted for a given project
+   *
+   * @param projectName project containing the changes
+   */
+  default void onAllChangesDeletedForProject(String projectName) {}
 }

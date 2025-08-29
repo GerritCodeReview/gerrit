@@ -156,6 +156,7 @@ import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.common.TrackingIdInfo;
 import com.google.gerrit.extensions.events.AttentionSetListener;
+import com.google.gerrit.extensions.events.ChangeIndexedListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -214,6 +215,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -1199,6 +1201,31 @@ public class ChangeIT extends AbstractDaemonTest {
     try (Repository repo = repoManager.openRepository(change.project())) {
       assertThat(repo.getRefDatabase().getRefsByPrefix(expected)).isEmpty();
     }
+  }
+
+  @Test
+  public void deleteAllForProjectRemovesAllProjectChangesFromIndex() throws Exception {
+    createChange();
+    createChange();
+    assertThat(query("project:{" + project.get() + "} ")).hasSize(2);
+
+    indexer.deleteAllForProject(project);
+
+    assertThat(query("project:{" + project.get() + "} ")).isEmpty();
+  }
+
+  @Test
+  public void deleteAllForProjectNotifiesListeners() {
+    TestDeleteAllForProjectListener deleteAllForProjectsListener =
+        new TestDeleteAllForProjectListener();
+
+    try (Registration ignore =
+        extensionRegistry.newRegistration().add(deleteAllForProjectsListener)) {
+
+      indexer.deleteAllForProject(project);
+    }
+
+    assertThat(deleteAllForProjectsListener.getFiredCount()).isEqualTo(1);
   }
 
   @Test
@@ -5308,6 +5335,25 @@ public class ChangeIT extends AbstractDaemonTest {
         firedCount++;
         lastEvent = event;
       }
+    }
+  }
+
+  public static class TestDeleteAllForProjectListener implements ChangeIndexedListener {
+    private final AtomicInteger firedCount = new AtomicInteger(0);
+
+    @Override
+    public void onChangeIndexed(String projectName, int id) {}
+
+    @Override
+    public void onChangeDeleted(int id) {}
+
+    @Override
+    public void onAllChangesDeletedForProject(String projectName) {
+      firedCount.incrementAndGet();
+    }
+
+    public int getFiredCount() {
+      return firedCount.get();
     }
   }
 

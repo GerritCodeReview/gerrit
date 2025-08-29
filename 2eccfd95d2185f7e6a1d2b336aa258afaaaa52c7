@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d30c2736_0dd369d3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-08-29T07:14:01Z",
+      "side": 1,
+      "message": "@dhruvsri@google.com could you approve this please? Now that I\u0027m the uploader I cannot self approve.",
+      "revId": "2eccfd95d2185f7e6a1d2b336aa258afaaaa52c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

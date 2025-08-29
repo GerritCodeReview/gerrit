@@ -22,6 +22,30 @@
       },
       "revId": "41fbf02996d8d2db4334e5484ded3c45b3c66c70",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ee2f79ca_4432a302",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 3455,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-08-29T07:14:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4eace75b_199792f1",
+      "range": {
+        "startLine": 3455,
+        "startChar": 69,
+        "endLine": 3455,
+        "endChar": 78
+      },
+      "revId": "41fbf02996d8d2db4334e5484ded3c45b3c66c70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -28,10 +28,12 @@ import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.SubmitRecord;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.PluginPushOption;
 import com.google.gerrit.server.ValidationOptionsListener;
+import com.google.gerrit.server.change.EmailReviewComments;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.flow.Flow;
 import com.google.gerrit.server.flow.FlowCreation;
@@ -48,10 +50,13 @@ import com.google.gerrit.server.git.validators.CommitValidationInfoListener;
 import com.google.gerrit.server.git.validators.CommitValidationListener;
 import com.google.gerrit.server.git.validators.CommitValidationMessage;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.rules.SubmitRule;
 import com.google.gerrit.server.update.RetryListener;
 import com.google.gerrit.server.update.context.RefUpdateContext;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -308,6 +313,34 @@ public class TestExtensions {
               .build();
       flows.put(flowKey, updatedFlow);
       return updatedFlow;
+    }
+  }
+
+  /**
+   * Test submit rule that counts how often it is invoked.
+   *
+   * <p>Using this submit rule tests can verify that submit rules are not unexpectedly invoked.
+   * Checking this is important since executing submit rules is rather expensive.
+   */
+  public static class TestSubmitRule implements SubmitRule {
+    private int count;
+
+    public int count() {
+      return count;
+    }
+
+    @Override
+    public Optional<SubmitRecord> evaluate(ChangeData changeData) {
+      if (!isAsyncCallForSendingReviewCommentsEmail()) {
+        count++;
+      }
+      return Optional.empty();
+    }
+
+    private boolean isAsyncCallForSendingReviewCommentsEmail() {
+      return Arrays.stream(Thread.currentThread().getStackTrace())
+          .map(StackTraceElement::getClassName)
+          .anyMatch(className -> EmailReviewComments.class.getName().equals(className));
     }
   }
 

@@ -126,6 +126,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c6a3e99c_59135a2d",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 3458,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-08-29T08:57:41Z",
+      "side": 1,
+      "message": "Awesome. Thank you!",
+      "parentUuid": "817351da_a1d2909f",
+      "revId": "df05f8560b555af5a712ede35e0ac8ad514edef9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "470f8aa5_db9ae00d",

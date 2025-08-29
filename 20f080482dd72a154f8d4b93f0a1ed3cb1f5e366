@@ -1,0 +1,85 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "93922510_901df4cf",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 3214,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-08-29T11:18:52Z",
+      "side": 1,
+      "message": "This should be snakeline here, I believe.",
+      "fixSuggestions": [
+        {
+          "fixId": "ee959bb7_3069485b",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "Documentation/rest-api-changes.txt",
+              "range": {
+                "startLine": 3214,
+                "startChar": 0,
+                "endLine": 3215,
+                "endChar": 0
+              },
+              "replacement": "* `use_index`: Whether the change query expression should be evaluated against the change state in\n"
+            }
+          ]
+        }
+      ],
+      "revId": "20f080482dd72a154f8d4b93f0a1ed3cb1f5e366",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d8b70310_3f106262",
+        "filename": "java/com/google/gerrit/acceptance/TestExtensions.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-08-29T11:18:52Z",
+      "side": 1,
+      "message": "The purpose of this is a bit hard to understand, maybe add a comment.",
+      "range": {
+        "startLine": 319,
+        "startChar": 2,
+        "endLine": 319,
+        "endChar": 60
+      },
+      "revId": "20f080482dd72a154f8d4b93f0a1ed3cb1f5e366",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d386919a_8ec089fe",
+        "filename": "java/com/google/gerrit/server/restapi/change/EvaluateChangeQueryExpression.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-08-29T11:18:52Z",
+      "side": 1,
+      "message": "it\u0027s probably worth adding a comment here. Explaining that InternalChangeQuery is prefilling using index, while rsrc.getChangeData() will lazy load/recalculate the data from SoT . It\u0027s not obvious from the code.",
+      "range": {
+        "startLine": 78,
+        "startChar": 4,
+        "endLine": 78,
+        "endChar": 19
+      },
+      "revId": "20f080482dd72a154f8d4b93f0a1ed3cb1f5e366",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

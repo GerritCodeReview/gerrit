@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f15efa67_43cc09b9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-08-29T08:11:42Z",
+      "side": 1,
+      "message": "what does it mean \"cannot be matched\"?\n\nWho is doing the matching?\n\nWhy would we want to do the matching? Why is adding an \"_\" causing the matching to break?",
+      "range": {
+        "startLine": 7,
+        "startChar": 23,
+        "endLine": 7,
+        "endChar": 68
+      },
+      "revId": "249697ea8260ae5e086cd39758b148b3d89cd447",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -453,11 +453,15 @@ Matches any change that has 'FOOTER' as footer in the commit message of the
 current patch set. 'FOOTER' can be specified verbatim ('<key>: <value>', must
 be quoted) or as '<key>=<value>'. The matching is done case-insensitive.
 
+Note, the matching doesn't work for the footer keys that contain underscores.
+
 [[hasfooter-operator]]
 hasfooter:'FOOTERNAME'::
 +
 Matches any change that has a commit message with a footer where the footer
 name is equal to 'FOOTERNAME'.The matching is done case-sensitive.
+
+Note, the matching doesn't work for the footer keys that contain underscores.
 
 [[has]]
 has:draft::

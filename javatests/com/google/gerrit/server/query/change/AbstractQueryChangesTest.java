@@ -2104,20 +2104,30 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     Change change3 = insert(project, newChangeForCommit(repo, commit3));
     RevCommit commit4 = repo.parseBody(repo.commit().message("Test\n\nfoo: bar=baz").create());
     Change change4 = insert(project, newChangeForCommit(repo, commit4));
+    RevCommit commit5 = repo.parseBody(repo.commit().message("Test\n\nFoo-Bar: baz").create());
+    Change change5 = insert(project, newChangeForCommit(repo, commit5));
+    RevCommit commit6 = repo.parseBody(repo.commit().message("Test\n\nFoo_Bar: baz").create());
+    insert(project, newChangeForCommit(repo, commit6));
 
     // create a changes with lines that look like footers, but which are not
-    RevCommit commit5 =
+    RevCommit commit7 =
         repo.parseBody(
             repo.commit().message("Test\n\nfoo: bar\n\nfoo=bar").insertChangeId().create());
-    Change change5 = insert(project, newChangeForCommit(repo, commit5));
-    RevCommit commit6 = repo.parseBody(repo.commit().message("Test\n\na=b: c").create());
-    insert(project, newChangeForCommit(repo, commit6));
+    Change change7 = insert(project, newChangeForCommit(repo, commit7));
+    RevCommit commit8 = repo.parseBody(repo.commit().message("Test\n\na=b: c").create());
+    insert(project, newChangeForCommit(repo, commit8));
 
     // matching by 'key=value' works
     assertQuery("footer:foo=bar", change3, change1);
     assertQuery("footer:foo=baz", change3, change2);
-    assertQuery("footer:Change-Id=" + change5.getKey(), change5);
+    assertQuery("footer:Change-Id=" + change7.getKey(), change7);
     assertQuery("footer:foo=bar=baz", change4);
+
+    // matching by 'key=value' works if footer name contains '-'
+    assertQuery("footer:Foo-Bar=baz", change5);
+
+    // matching by 'key=value' doesn't work if footer name contains '_' :(
+    assertQuery("footer:Foo_Bar=baz");
 
     // case doesn't matter
     assertQuery("footer:foo=BAR", change3, change1);
@@ -2127,8 +2137,14 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     // verbatim matching of footers works
     assertQuery("footer:\"foo: bar\"", change3, change1);
     assertQuery("footer:\"foo: baz\"", change3, change2);
-    assertQuery("footer:\"Change-Id: " + change5.getKey() + "\"", change5);
+    assertQuery("footer:\"Change-Id: " + change7.getKey() + "\"", change7);
     assertQuery("footer:\"foo: bar=baz\"", change4);
+
+    // verbatim matching works if footer name contains '-'
+    assertQuery("footer:\"Foo-Bar: baz\"", change5);
+
+    // verbatim matching doesn't work if footer name contains '_' :(
+    assertQuery("footer:\"Foo_Bar: baz\"");
 
     // expect no match because 'a=b: c' of commit6 is not a valid footer (footer key cannot contain
     // '=')
@@ -2151,17 +2167,27 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     Change change1 = insert(project, newChangeForCommit(repo, commit1));
     RevCommit commit2 = repo.parseBody(repo.commit().message("Test\n\nBaR: baz").create());
     Change change2 = insert(project, newChangeForCommit(repo, commit2));
+    RevCommit commit3 = repo.parseBody(repo.commit().message("Test\n\nFoo-Bar: baz").create());
+    Change change3 = insert(project, newChangeForCommit(repo, commit3));
+    RevCommit commit4 = repo.parseBody(repo.commit().message("Test\n\nFoo_Bar: baz").create());
+    insert(project, newChangeForCommit(repo, commit4));
 
-    // create a changes with lines that look like footers, but which are not
-    RevCommit commit6 = repo.parseBody(repo.commit().message("Test\n\na=b: c").create());
-    insert(project, newChangeForCommit(repo, commit6));
+    // create a change with lines that look like footers, but which are not
+    RevCommit commit5 = repo.parseBody(repo.commit().message("Test\n\na=b: c").create());
+    insert(project, newChangeForCommit(repo, commit5));
 
-    // matching by 'key=value' works
+    // matching by footer name works
     assertQuery("hasfooter:foo", change1);
 
     // case matters
     assertQuery("hasfooter:BaR", change2);
     assertQuery("hasfooter:Bar");
+
+    // matching footer name with '-' works
+    assertQuery("hasfooter:Foo-Bar", change3);
+
+    // matching footer name with '_' doesn't work :(
+    assertQuery("hasfooter:Foo_Bar");
   }
 
   @Test

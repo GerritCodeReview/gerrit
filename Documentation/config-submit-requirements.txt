@@ -660,6 +660,8 @@ the commit message.
   submittableIf = hasfooter:\"Bug\"
 ----
 
+Note, the matching doesn't work for the footer keys that contain underscores.
+
 [[require-code-review-approvals-from-all-human-reviewers-example]]
 === Require Code-Review approvals from all human reviewers
 

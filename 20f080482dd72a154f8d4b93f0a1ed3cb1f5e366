@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "232760eb_6397f2d3",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 3214,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-08-29T11:38:20Z",
+      "side": 1,
+      "message": "Actually it should be \u0027-\u0027 like in the Java file. Converting to lower_case_underscore is only done for the JSON fields, but not for URL params.\n\nE.g. https://gerrit-review.git.corp.google.com/changes/502661/comments?enable-context\u003dtrue works, but https://gerrit-review.git.corp.google.com/changes/502661/comments?enable_context\u003dtrue doesn\u0027t.\n\nDone.",
+      "parentUuid": "93922510_901df4cf",
+      "revId": "20f080482dd72a154f8d4b93f0a1ed3cb1f5e366",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d8b70310_3f106262",
@@ -59,6 +77,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "aeed1351_dd1cd76e",
+        "filename": "java/com/google/gerrit/acceptance/TestExtensions.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-08-29T11:38:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d8b70310_3f106262",
+      "range": {
+        "startLine": 319,
+        "startChar": 2,
+        "endLine": 319,
+        "endChar": 60
+      },
+      "revId": "20f080482dd72a154f8d4b93f0a1ed3cb1f5e366",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d386919a_8ec089fe",
@@ -72,6 +114,30 @@
       "writtenOn": "2025-08-29T11:18:52Z",
       "side": 1,
       "message": "it\u0027s probably worth adding a comment here. Explaining that InternalChangeQuery is prefilling using index, while rsrc.getChangeData() will lazy load/recalculate the data from SoT . It\u0027s not obvious from the code.",
+      "range": {
+        "startLine": 78,
+        "startChar": 4,
+        "endLine": 78,
+        "endChar": 19
+      },
+      "revId": "20f080482dd72a154f8d4b93f0a1ed3cb1f5e366",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f98c6807_5450d5d8",
+        "filename": "java/com/google/gerrit/server/restapi/change/EvaluateChangeQueryExpression.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-08-29T11:38:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d386919a_8ec089fe",
       "range": {
         "startLine": 78,
         "startChar": 4,

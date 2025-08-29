@@ -47,7 +47,7 @@
         "value": {"expression":{"expressionString":"-branch:refs/meta/config AND (file:\"^~(polygerrit-ui/.*)$\" OR -branch:refs/heads/master)"},"status":"PASS","errorMessage":{"value":null},"passingAtoms":["file:\"^~(polygerrit-ui/.*)$\"","branch:refs/heads/master"],"failingAtoms":["branch:refs/meta/config"],"atomExplanations":{"value":{"branch:refs/meta/config":"","file:\"^~(polygerrit-ui/.*)$\"":"","branch:refs/heads/master":""}}}
       },
       "submittabilityExpressionResult": {
-        "value": {"expression":{"expressionString":"label:Code-Style=MAX AND -label:Code-Style=MIN"},"status":"FAIL","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":["label:Code-Style=MAX","label:Code-Style=MIN"],"atomExplanations":{"value":{"label:Code-Style=MAX":"","label:Code-Style=MIN":""}}}
+        "value": {"expression":{"expressionString":"label:Code-Style=MAX AND -label:Code-Style=MIN"},"status":"FAIL","errorMessage":{"value":null},"passingAtoms":["label:Code-Style=MIN"],"failingAtoms":["label:Code-Style=MAX"],"atomExplanations":{"value":{"label:Code-Style=MAX":"","label:Code-Style=MIN":""}}}
       },
       "overrideExpressionResult": {},
       "patchSetCommitId": "f7f80b34bfa3fe1cfa96c04f69beb44b8c7d6b7a",
@@ -301,7 +301,7 @@
         "value": {"expression":{"expressionString":"-branch:refs/meta/config AND (file:\"^~(polygerrit-ui/.*)$\" OR is:merge OR -branch:refs/heads/master)"},"status":"PASS","errorMessage":{"value":null},"passingAtoms":["file:\"^~(polygerrit-ui/.*)$\"","branch:refs/heads/master"],"failingAtoms":["branch:refs/meta/config","is:merge"],"atomExplanations":{"value":{"branch:refs/meta/config":"","file:\"^~(polygerrit-ui/.*)$\"":"","is:merge":"","branch:refs/heads/master":""}}}
       },
       "submittabilityExpressionResult": {
-        "value": {"expression":{"expressionString":"label:Verified=MAX AND -label:Verified=MIN"},"status":"FAIL","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":["label:Verified=MAX","label:Verified=MIN"],"atomExplanations":{"value":{"label:Verified=MAX":"","label:Verified=MIN":""}}}
+        "value": {"expression":{"expressionString":"label:Verified=MAX AND -label:Verified=MIN"},"status":"FAIL","errorMessage":{"value":null},"passingAtoms":["label:Verified=MIN"],"failingAtoms":["label:Verified=MAX"],"atomExplanations":{"value":{"label:Verified=MAX":"","label:Verified=MIN":""}}}
       },
       "overrideExpressionResult": {},
       "patchSetCommitId": "f7f80b34bfa3fe1cfa96c04f69beb44b8c7d6b7a",

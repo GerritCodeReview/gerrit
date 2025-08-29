@@ -317,6 +317,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b183c82a_28b2a558",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 3217,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2025-08-29T10:59:14Z",
+      "side": 1,
+      "message": "We are considering this suggestion about backend providing the AI prompt creation. We are checking feasibility wether plugin should provide a prompt or we should include this in Gerrit core to replace current feature `Create AI Review Prompt` as  the prompt generation in this feature is done on the client side(UI). \n\n1. We might introduce a new API which generates a prompt and Create AI Review Prompt implementation will be moved to the backend.\n2. Provide a AI chatBot feature in future.",
+      "parentUuid": "4c8fc171_35b84b73",
+      "revId": "6ae998202a866518bda0de7ffce73193c15710e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1d3c4b27_d2941e39",
@@ -539,6 +557,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b31230fa_f588f9a1",
+        "filename": "java/com/google/gerrit/server/restapi/change/AiCodeReview.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2025-08-29T10:59:14Z",
+      "side": 1,
+      "message": "I have moved the API to changes/1/revisions/1/ai-review.",
+      "parentUuid": "5127d5a0_11d2ac98",
+      "range": {
+        "startLine": 41,
+        "startChar": 42,
+        "endLine": 41,
+        "endChar": 50
+      },
+      "revId": "6ae998202a866518bda0de7ffce73193c15710e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "08bb5a0a_9849ed51",
@@ -611,6 +653,30 @@
       "side": 1,
       "message": "This information we will get from the UI. On the backend side we are not crafting the prompt. same reason as if why `/changes/\u003cchange-id\u003e` info is not used.",
       "parentUuid": "f6cc917c_3e08f623",
+      "range": {
+        "startLine": 46,
+        "startChar": 79,
+        "endLine": 46,
+        "endChar": 90
+      },
+      "revId": "6ae998202a866518bda0de7ffce73193c15710e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "261cd99b_bfe98b13",
+        "filename": "java/com/google/gerrit/server/restapi/change/AiCodeReview.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2025-08-29T10:59:14Z",
+      "side": 1,
+      "message": "Impl has been moved to changes/1/revisions/2/ai-review which utilised change+revision to identify the changed file content. This will be used during prompt generation.",
+      "parentUuid": "4ecc73b2_c3a0013e",
       "range": {
         "startLine": 46,
         "startChar": 79,

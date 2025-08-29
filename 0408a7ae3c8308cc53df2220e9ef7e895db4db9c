@@ -285,6 +285,30 @@
       },
       "revId": "0408a7ae3c8308cc53df2220e9ef7e895db4db9c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bbc1ff3a_b5eab4ca",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeIndexer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 456,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-08-29T13:30:21Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "12ad8bb4_4da6b608",
+      "range": {
+        "startLine": 456,
+        "startChar": 4,
+        "endLine": 456,
+        "endChar": 59
+      },
+      "revId": "0408a7ae3c8308cc53df2220e9ef7e895db4db9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

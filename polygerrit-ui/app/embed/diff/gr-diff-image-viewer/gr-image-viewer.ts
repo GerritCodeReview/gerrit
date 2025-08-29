@@ -26,6 +26,7 @@ import {StyleInfo, styleMap} from 'lit/directives/style-map.js';
 import {Dimensions, fitToFrame, FrameConstrainer, Point, Rect} from './util';
 import {fire} from '../../../utils/event-util';
 import {ImageDiffAction} from '../../../api/diff';
+import {materialStyles} from '../../../styles/gr-material-styles';
 
 const DRAG_DEAD_ZONE_PIXELS = 5;
 
@@ -150,6 +151,7 @@ export class GrImageViewer extends LitElement {
 
   static override get styles() {
     return [
+      materialStyles,
       css`
         :host {
           display: grid;
@@ -389,14 +391,6 @@ export class GrImageViewer extends LitElement {
         .follow-mouse {
           display: flex;
           align-items: center;
-        }
-        /* These colours come from paper-checkbox */
-        md-checkbox {
-          --md-sys-color-primary: var(--checkbox-primary);
-          --md-sys-color-on-primary: var(--checkbox-on-primary);
-          --md-sys-color-on-surface: var(--checkbox-on-surface);
-          --md-sys-color-on-surface-variant: var(--checkbox-on-surface-variant);
-          --md-checkbox-container-shape: 0px;
         }
       `,
     ];

@@ -67,14 +67,6 @@ export class GrCreateGroupDialog extends LitElement {
         md-outlined-text-field {
           width: 20em;
         }
-        /* These colours come from paper-checkbox */
-        md-checkbox {
-          --md-sys-color-primary: var(--checkbox-primary);
-          --md-sys-color-on-primary: var(--checkbox-on-primary);
-          --md-sys-color-on-surface: var(--checkbox-on-surface);
-          --md-sys-color-on-surface-variant: var(--checkbox-on-surface-variant);
-          --md-checkbox-container-shape: 0px;
-        }
       `,
     ];
   }

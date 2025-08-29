@@ -3862,7 +3862,7 @@ The final copyCondition is equivalent to
 This section configures periodic indexing. Periodic indexing can be run
 on both primaries and replicas.
 
-Scheduled indexer is currently supported for projects and groups indexes.
+Scheduled indexer is supported for projects, groups and accounts indexes.
 
 The default values for the following options may be different for the groups
 index on replicas. Check the

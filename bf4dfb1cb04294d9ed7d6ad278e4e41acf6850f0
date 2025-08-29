@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0dfe0c4f_d5023b65",
+        "filename": "java/com/google/gerrit/extensions/events/ChangeIndexedListener.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-08-29T09:44:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2166ee82_bcb03cc2",
+      "range": {
+        "startLine": 53,
+        "startChar": 15,
+        "endLine": 53,
+        "endChar": 36
+      },
+      "revId": "bf4dfb1cb04294d9ed7d6ad278e4e41acf6850f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e24303cf_727ad511",
@@ -37,6 +61,24 @@
       "writtenOn": "2025-08-29T06:26:46Z",
       "side": 1,
       "message": "```suggestion\n   * Delete all changes of a given project\n```",
+      "revId": "bf4dfb1cb04294d9ed7d6ad278e4e41acf6850f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9f598e6e_54296f42",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeIndexer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 447,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-08-29T09:44:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e24303cf_727ad511",
       "revId": "bf4dfb1cb04294d9ed7d6ad278e4e41acf6850f0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

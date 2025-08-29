@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "421e577d_1e2ab453",
+        "filename": "java/com/google/gerrit/extensions/common/AiResponse.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-08-29T20:10:42Z",
+      "side": 1,
+      "message": "Can this be private?",
+      "range": {
+        "startLine": 19,
+        "startChar": 3,
+        "endLine": 19,
+        "endChar": 18
+      },
+      "revId": "96031db4a201a0945f8f90e27ed7a08965c7a3bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6f44a7b7_deed8b88",
+        "filename": "java/com/google/gerrit/extensions/common/AiResponse.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-08-29T20:10:42Z",
+      "side": 1,
+      "message": "Missing JavaDoc of the public methods.",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 3
+      },
+      "revId": "96031db4a201a0945f8f90e27ed7a08965c7a3bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

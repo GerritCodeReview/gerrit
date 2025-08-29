@@ -144,6 +144,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5805ca8d_2626e26e",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 3217,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-08-29T20:10:42Z",
+      "side": 1,
+      "message": "Gotcha, so would it be better to say here `my-ai-model-foo` instead of referring to `gemini-2.5-pro`?",
+      "parentUuid": "0e564cf7_dcca068f",
+      "range": {
+        "startLine": 3217,
+        "startChar": 22,
+        "endLine": 3217,
+        "endChar": 36
+      },
+      "revId": "cdab84c6097cf9b14b4ed5fbc332c69a2ced614e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "381c3c24_39215db5",
         "filename": "java/com/google/gerrit/extensions/api/changes/AiCodeReviewProvider.java",
         "patchSetId": 10
@@ -191,6 +215,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "faa25e3e_fc8b350a",
+        "filename": "java/com/google/gerrit/extensions/api/changes/AiCodeReviewProvider.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-08-29T20:10:42Z",
+      "side": 1,
+      "message": "Still missing the JavaDoc of the `getAiReview` method.",
+      "parentUuid": "2733eacd_38352f6d",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 1
+      },
+      "revId": "cdab84c6097cf9b14b4ed5fbc332c69a2ced614e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "bd15c85d_3780c471",
         "filename": "java/com/google/gerrit/extensions/common/AiCodeReviewInput.java",
         "patchSetId": 10
@@ -226,6 +274,30 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "bd15c85d_3780c471",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 1
+      },
+      "revId": "cdab84c6097cf9b14b4ed5fbc332c69a2ced614e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "97cedb48_aa751914",
+        "filename": "java/com/google/gerrit/extensions/common/AiCodeReviewInput.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-08-29T20:10:42Z",
+      "side": 1,
+      "message": "Still missing the JavaDoc of the public fields.",
+      "parentUuid": "d3344836_cab3eca3",
       "range": {
         "startLine": 16,
         "startChar": 0,

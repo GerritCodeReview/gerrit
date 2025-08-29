@@ -108,6 +108,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "817351da_a1d2909f",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 3458,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-08-29T08:53:53Z",
+      "side": 1,
+      "message": "- merge JGit master to the servlet-4 branch in the upstream JGit repo (we still use javax.servlet 4 in gerrit but jakarta.servlet 6 in JGit master)\n- wait until the updated servlet-4 branch is replicated to gerrit-review\n- update the submodule link modules/jgit in the gerrit repo\n\nI can prepare this for you",
+      "parentUuid": "e8a12e7a_d6854f31",
+      "revId": "df05f8560b555af5a712ede35e0ac8ad514edef9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "470f8aa5_db9ae00d",

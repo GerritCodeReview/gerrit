@@ -33,6 +33,24 @@
       "message": "Hmm, i noticed a bug with hovering. The hover background only works closer to the text and not for all of it. It doesn\u0027t work for the entire element which is strange.",
       "revId": "082ef6f2ed05833890aebe17527ddade90c5c7fc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "65533f30_8707400e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 22
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-08-30T16:43:53Z",
+      "side": 1,
+      "message": "Oh seems expected when using \u0027touch-target\u003d\"none\"\u0027 as reproduced on material-web.\n\nusing wrapper fixed it, but then the clickable surface is put outside the element.",
+      "parentUuid": "c8e685ee_e0d5dd3d",
+      "revId": "082ef6f2ed05833890aebe17527ddade90c5c7fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

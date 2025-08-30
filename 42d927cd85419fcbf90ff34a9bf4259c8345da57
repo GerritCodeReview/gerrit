@@ -1,11 +1,12 @@
 {
   "checks": {
     "gerritforge:codestyle-a6a0e4682515f3521897c5f950d1394f4619d928": {
-      "state": "RUNNING",
-      "url": "https://gerrit-ci.gerritforge.com/job/Gerrit-verifier-pipeline/job/02%252F502602%252F6/1/console",
+      "state": "SUCCESSFUL",
+      "url": "https://gerrit-ci.gerritforge.com/job/Gerrit-codestyle/10348/console",
       "started": "2025-08-30T14:35:32Z",
+      "finished": "2025-08-30T14:39:03Z",
       "created": "2025-08-30T14:35:32Z",
-      "updated": "2025-08-30T14:35:32Z"
+      "updated": "2025-08-30T14:39:04Z"
     },
     "gerritforge:polygerrit-a6a0e4682515f3521897c5f950d1394f4619d928": {
       "state": "RUNNING",

@@ -438,6 +438,7 @@ suite('gr-file-list tests', () => {
       element.fileListIncrement = 100;
       element.files = createFiles(250);
       await element.updateComplete;
+      await element.updateComplete;
       await waitEventLoop();
       assert.equal(200, element.numFilesShown);
 
@@ -460,6 +461,7 @@ suite('gr-file-list tests', () => {
       );
 
       queryAndAssert<GrButton>(element, '#showAllButton').click();
+      await element.updateComplete;
       await element.updateComplete;
       await waitEventLoop();
 

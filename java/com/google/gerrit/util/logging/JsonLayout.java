@@ -17,22 +17,32 @@ package com.google.gerrit.util.logging;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import org.apache.log4j.Layout;
-import org.apache.log4j.spi.LoggingEvent;
+import java.nio.charset.Charset;
+import org.apache.logging.log4j.core.Layout;
+import org.apache.logging.log4j.core.LogEvent;
+import org.apache.logging.log4j.core.config.plugins.Plugin;
+import org.apache.logging.log4j.core.layout.AbstractStringLayout;
 
-public abstract class JsonLayout extends Layout {
+@Plugin(
+    name = "JsonLayout",
+    category = "Core",
+    elementType = Layout.ELEMENT_TYPE,
+    printObject = true)
+public abstract class JsonLayout extends AbstractStringLayout {
+
   private final Gson gson;
   protected final LogTimestampFormatter timestampFormatter;
 
-  public JsonLayout() {
+  protected JsonLayout(Charset charset) {
+    super(charset);
     timestampFormatter = new LogTimestampFormatter();
     gson = newGson();
   }
 
-  public abstract JsonLogEntry toJsonLogEntry(LoggingEvent event);
+  public abstract JsonLogEntry toJsonLogEntry(LogEvent event);
 
   @Override
-  public String format(LoggingEvent event) {
+  public String toSerializable(LogEvent event) {
     return gson.toJson(toJsonLogEntry(event)) + "\n";
   }
 
@@ -42,13 +52,5 @@ public abstract class JsonLayout extends Layout {
             .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
             .disableHtmlEscaping();
     return gb.create();
-  }
-
-  @Override
-  public void activateOptions() {}
-
-  @Override
-  public boolean ignoresThrowable() {
-    return false;
   }
 }

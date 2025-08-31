@@ -21,10 +21,11 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.util.SystemLog;
 import com.google.inject.Inject;
 import java.nio.file.Path;
-import org.apache.log4j.Appender;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
-import org.apache.log4j.PatternLayout;
+import org.apache.logging.log4j.core.Appender;
+import org.apache.logging.log4j.core.LoggerContext;
+import org.apache.logging.log4j.core.config.LoggerConfig;
+import org.apache.logging.log4j.core.layout.PatternLayout;
+import org.apache.logging.log4j.core.config.Configuration;
 
 public class GarbageCollectionLogFile implements LifecycleListener {
   private static final String LOG_NAME = "gc_log";
@@ -41,24 +42,42 @@ public class GarbageCollectionLogFile implements LifecycleListener {
 
   @Override
   public void stop() {
-    getLogger(GarbageCollection.class).removeAllAppenders();
-    getLogger(GarbageCollectionRunner.class).removeAllAppenders();
+    detachLogger(GarbageCollection.class);
+    detachLogger(GarbageCollectionRunner.class);
   }
 
   private static void initLogSystem(Path logdir, boolean rotate) {
-    Appender appender =
-        SystemLog.createAppender(logdir, LOG_NAME, new PatternLayout("[%d] %-5p %x: %m%n"), rotate);
-    initGcLogger(getLogger(GarbageCollection.class), appender);
-    initGcLogger(getLogger(GarbageCollectionRunner.class), appender);
+    PatternLayout layout = PatternLayout.newBuilder()
+        .withPattern("[%d] %-5p %x: %m%n")
+        .build();
+
+    Appender appender = SystemLog.createAppender(logdir, LOG_NAME, layout, rotate);
+
+    attachAppender(GarbageCollection.class, appender);
+    attachAppender(GarbageCollectionRunner.class, appender);
   }
 
-  private static Logger getLogger(Class<?> clazz) {
-    return LogManager.getLogger(Platform.getBackend(clazz.getName()).getLoggerName());
+  private static void attachAppender(Class<?> clazz, Appender appender) {
+    String loggerName = Platform.getBackend(clazz.getName()).getLoggerName();
+    LoggerContext ctx = LoggerContext.getContext(false);
+    Configuration config = ctx.getConfiguration();
+
+    LoggerConfig loggerConfig = config.getLoggerConfig(loggerName);
+    // Avoid attaching multiple times
+    if (!loggerConfig.getAppenders().containsKey(appender.getName())) {
+      loggerConfig.addAppender(appender, null, null);
+      loggerConfig.setAdditive(false);
+      ctx.updateLoggers();
+    }
   }
 
-  private static void initGcLogger(Logger gcLogger, Appender appender) {
-    gcLogger.removeAllAppenders();
-    gcLogger.addAppender(appender);
-    gcLogger.setAdditivity(false);
+  private static void detachLogger(Class<?> clazz) {
+    String loggerName = Platform.getBackend(clazz.getName()).getLoggerName();
+    LoggerContext ctx = LoggerContext.getContext(false);
+    Configuration config = ctx.getConfiguration();
+
+    LoggerConfig loggerConfig = config.getLoggerConfig(loggerName);
+    loggerConfig.getAppenders().keySet().forEach(loggerConfig::removeAppender);
+    ctx.updateLoggers();
   }
 }

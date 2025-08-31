@@ -56,7 +56,7 @@ public final class Main {
     // Configure log4j backend
     System.setProperty(
         FLOGGER_BACKEND_PROPERTY,
-        "com.google.common.flogger.backend.log4j.Log4jBackendFactory#getInstance");
+        "com.google.common.flogger.backend.log4j2.Log4j2BackendFactory#getInstance");
   }
 
   private Main() {}

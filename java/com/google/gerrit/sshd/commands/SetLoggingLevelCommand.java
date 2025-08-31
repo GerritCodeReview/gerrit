@@ -18,18 +18,20 @@ import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Iterators;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import java.net.MalformedURLException;
 import java.net.URI;
-import org.apache.log4j.Level;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
-import org.apache.log4j.helpers.Loader;
+import java.util.List;
+import java.util.stream.Collectors;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.LoggerContext;
+import org.apache.logging.log4j.core.config.Configuration;
+import org.apache.logging.log4j.core.config.Configurator;
+import org.apache.logging.log4j.core.config.LoggerConfig;
 import org.kohsuke.args4j.Argument;
 
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
@@ -38,8 +40,8 @@ import org.kohsuke.args4j.Argument;
     description = "Change the level of loggers",
     runsAt = MASTER_OR_SLAVE)
 public class SetLoggingLevelCommand extends SshCommand {
-  private static final String LOG_CONFIGURATION = "log4j.properties";
-  private static final String JAVA_OPTIONS_LOG_CONFIG = "log4j.configuration";
+  private static final String LOG_CONFIGURATION = "log4j2.xml";
+  private static final String JAVA_OPTIONS_LOG_CONFIG = "log4j.configurationFile";
 
   private enum LevelOption {
     ALL,
@@ -65,29 +67,36 @@ public class SetLoggingLevelCommand extends SshCommand {
     if (level == LevelOption.RESET) {
       reset();
     } else {
-      for (Logger logger : getCurrentLoggers()) {
-        if (name == null || logger.getName().contains(name)) {
-          logger.setLevel(Level.toLevel(level.name()));
+      Level newLevel = Level.valueOf(level.name());
+      LoggerContext ctx = (LoggerContext) LogManager.getContext(false);
+      Configuration cfg = ctx.getConfiguration();
+      for (LoggerConfig loggerConfig : getCurrentLoggers(cfg)) {
+        if (name == null || loggerConfig.getName().contains(name)) {
+          loggerConfig.setLevel(newLevel);
         }
       }
+      ctx.updateLoggers();
     }
   }
 
   private static void reset() throws MalformedURLException {
-    for (Logger logger : getCurrentLoggers()) {
-      logger.setLevel(null);
+    LoggerContext ctx = (LoggerContext) LogManager.getContext(false);
+    Configuration cfg = ctx.getConfiguration();
+    for (LoggerConfig loggerConfig : getCurrentLoggers(cfg)) {
+      loggerConfig.setLevel(null);
     }
 
     String path = System.getProperty(JAVA_OPTIONS_LOG_CONFIG);
     if (Strings.isNullOrEmpty(path)) {
-      PropertyConfigurator.configure(Loader.getResource(LOG_CONFIGURATION));
+      // reload default log4j2.xml from classpath
+      Configurator.initialize("default", LOG_CONFIGURATION);
     } else {
-      PropertyConfigurator.configure(URI.create(path).toURL());
+      Configurator.initialize("custom", null, URI.create(path).toURL().toString());
     }
   }
 
-  @SuppressWarnings({"unchecked", "JdkObsolete"})
-  private static ImmutableList<Logger> getCurrentLoggers() {
-    return ImmutableList.copyOf(Iterators.forEnumeration(LogManager.getCurrentLoggers()));
+  private static ImmutableList<LoggerConfig> getCurrentLoggers(Configuration cfg) {
+    List<LoggerConfig> loggers = cfg.getLoggers().values().stream().collect(Collectors.toList());
+    return ImmutableList.copyOf(loggers);
   }
 }

@@ -25,10 +25,19 @@ import com.google.gerrit.server.config.LogConfig;
 import com.google.gerrit.server.util.SystemLog;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
-import org.apache.log4j.AsyncAppender;
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
-import org.apache.log4j.spi.LoggingEvent;
+import java.util.ArrayList;
+import java.util.List;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.LogEvent;
+import org.apache.logging.log4j.core.LoggerContext;
+import org.apache.logging.log4j.core.appender.AsyncAppender;
+import org.apache.logging.log4j.core.config.AppenderRef;
+import org.apache.logging.log4j.core.config.Configuration;
+import org.apache.logging.log4j.core.impl.ContextDataFactory;
+import org.apache.logging.log4j.core.impl.Log4jLogEvent;
+import org.apache.logging.log4j.message.SimpleMessage;
+import org.apache.logging.log4j.util.StringMap;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.RequestLog;
 import org.eclipse.jetty.server.Response;
@@ -36,7 +45,6 @@ import org.eclipse.jetty.util.component.AbstractLifeCycle;
 
 /** Writes the {@code httpd_log} file with per-request data. */
 class HttpLog extends AbstractLifeCycle implements RequestLog {
-  private static final Logger log = Logger.getLogger(HttpLog.class);
   private static final String LOG_NAME = "httpd_log";
   private static final String JSON_SUFFIX = ".json";
 
@@ -60,19 +68,68 @@ class HttpLog extends AbstractLifeCycle implements RequestLog {
   protected static final String P_COMMAND_STATUS = "Command-Status";
   protected static final String P_TRACE_ID = "Trace-Id";
 
-  private final AsyncAppender async;
+  private volatile AsyncAppender async;
+  private final Object lock = new Object();
+  private boolean reconfiguring = false;
+  private final LoggerContext ctx = (LoggerContext) LogManager.getContext(false);
 
   @Inject
   HttpLog(SystemLog systemLog, LogConfig config) {
-    async = new AsyncAppender();
+    enableLogging(systemLog, config);
 
-    if (config.isTextLogging()) {
-      async.addAppender(systemLog.createAsyncAppender(LOG_NAME, new HttpLogLayout()));
-    }
+    ctx.addPropertyChangeListener(
+        evt -> {
+          if ("config".equals(evt.getPropertyName())) {
+            synchronized (lock) {
+              enableLogging(systemLog, config);
+            }
+          }
+        });
+  }
 
-    if (config.isJsonLogging()) {
-      async.addAppender(
-          systemLog.createAsyncAppender(LOG_NAME + JSON_SUFFIX, new HttpLogJsonLayout()));
+  /** Enable or reinstall the AsyncAppender safely */
+  private void enableLogging(SystemLog systemLog, LogConfig config) {
+    synchronized (lock) {
+      if (reconfiguring) return;
+      reconfiguring = true;
+      try {
+        if (async == null || !async.isStarted()) {
+          Configuration cfg = ctx.getConfiguration();
+
+          if (async != null) {
+            async.stop();
+            async = null;
+          }
+
+          if (config.isTextLogging()) {
+            cfg.addAppender(systemLog.createAsyncAppender(LOG_NAME, new HttpLogLayout()));
+          }
+          if (config.isJsonLogging()) {
+            cfg.addAppender(
+                systemLog.createAsyncAppender(LOG_NAME + JSON_SUFFIX, new HttpLogJsonLayout()));
+          }
+
+          List<AppenderRef> refsList = new ArrayList<>();
+          if (config.isTextLogging())
+            refsList.add(AppenderRef.createAppenderRef(LOG_NAME, null, null));
+          if (config.isJsonLogging())
+            refsList.add(AppenderRef.createAppenderRef(LOG_NAME + JSON_SUFFIX, null, null));
+          AppenderRef[] refs = refsList.toArray(new AppenderRef[0]);
+
+          async =
+              AsyncAppender.newBuilder()
+                  .setName("HttpAsync")
+                  .setAppenderRefs(refs)
+                  .setConfiguration(cfg)
+                  .build();
+
+          async.start();
+          cfg.addAppender(async);
+          ctx.updateLoggers();
+        }
+      } finally {
+        reconfiguring = false;
+      }
     }
   }
 
@@ -81,69 +138,67 @@ class HttpLog extends AbstractLifeCycle implements RequestLog {
 
   @Override
   protected void doStop() throws Exception {
-    async.close();
+    synchronized (lock) {
+      if (async != null) {
+        async.stop();
+        async = null;
+      }
+    }
   }
 
   @Override
   public void log(Request req, Response rsp) {
-    final LoggingEvent event =
-        new LoggingEvent( //
-            Logger.class.getName(), // fqnOfCategoryClass
-            log, // logger
-            TimeUtil.nowMs(), // when
-            Level.INFO, // level
-            "", // message text
-            Thread.currentThread().getName(), // thread name
-            null, // exception information
-            null, // current NDC string
-            null, // caller location
-            null // MDC properties
-            );
+    StringMap contextData = ContextDataFactory.createContextData();
 
     String uri = req.getRequestURI();
     if (!Strings.isNullOrEmpty(req.getQueryString())) {
       uri += "?" + LogRedactUtil.redactQueryString(req.getQueryString());
     }
+
     String user = (String) req.getAttribute(GetUserFilter.USER_ATTR_KEY);
-    if (user != null) {
-      event.setProperty(P_USER, user);
-    }
+    if (user != null) contextData.putValue(P_USER, user);
 
-    set(event, P_HOST, req.getRemoteAddr());
-    set(event, P_METHOD, req.getMethod());
-    set(event, P_RESOURCE, uri);
-    set(event, P_PROTOCOL, req.getProtocol());
-    set(event, P_STATUS, rsp.getStatus());
-    set(event, P_CONTENT_LENGTH, rsp.getContentCount());
-    set(event, P_LATENCY, System.currentTimeMillis() - req.getTimeStamp());
-    set(event, P_REFERER, req.getHeader("Referer"));
-    set(event, P_USER_AGENT, req.getHeader("User-Agent"));
-    set(event, P_COMMAND_STATUS, rsp.getHeader(GIT_COMMAND_STATUS_HEADER));
+    set(contextData, P_HOST, req.getRemoteAddr());
+    set(contextData, P_METHOD, req.getMethod());
+    set(contextData, P_RESOURCE, uri);
+    set(contextData, P_PROTOCOL, req.getProtocol());
+    set(contextData, P_STATUS, rsp.getStatus());
+    set(contextData, P_CONTENT_LENGTH, rsp.getContentCount());
+    set(contextData, P_LATENCY, System.currentTimeMillis() - req.getTimeStamp());
+    set(contextData, P_REFERER, req.getHeader("Referer"));
+    set(contextData, P_USER_AGENT, req.getHeader("User-Agent"));
+    set(contextData, P_COMMAND_STATUS, rsp.getHeader(GIT_COMMAND_STATUS_HEADER));
+
     String traceId = rsp.getHeader(RestApiServlet.X_GERRIT_TRACE);
-    if (traceId != null) {
-      set(event, P_TRACE_ID, traceId);
-    }
+    if (traceId != null) set(contextData, P_TRACE_ID, traceId);
 
-    RequestMetricsFilter.Context ctx =
+    RequestMetricsFilter.Context ctxMetrics =
         (RequestMetricsFilter.Context) req.getAttribute(RequestMetricsFilter.METRICS_CONTEXT);
-    if (ctx != null) {
-      set(event, P_CPU_TOTAL, ctx.getTotalCpuTime());
-      set(event, P_CPU_USER, ctx.getUserCpuTime());
-      set(event, P_MEMORY, ctx.getAllocatedMemory());
+    if (ctxMetrics != null) {
+      set(contextData, P_CPU_TOTAL, ctxMetrics.getTotalCpuTime());
+      set(contextData, P_CPU_USER, ctxMetrics.getUserCpuTime());
+      set(contextData, P_MEMORY, ctxMetrics.getAllocatedMemory());
     }
 
-    async.append(event);
+    LogEvent event =
+        Log4jLogEvent.newBuilder()
+            .setLoggerName(HttpLog.class.getName())
+            .setLoggerFqcn(HttpLog.class.getName())
+            .setLevel(Level.INFO)
+            .setMessage(new SimpleMessage(""))
+            .setTimeMillis(TimeUtil.nowMs())
+            .setThreadName(Thread.currentThread().getName())
+            .setContextData(contextData)
+            .build();
+
+    if (async != null) async.append(event);
   }
 
-  private static void set(LoggingEvent event, String key, String val) {
-    if (val != null && !val.isEmpty()) {
-      event.setProperty(key, val);
-    }
+  private static void set(StringMap map, String key, String val) {
+    if (val != null && !val.isEmpty()) map.putValue(key, val);
   }
 
-  private static void set(LoggingEvent event, String key, long val) {
-    if (0 < val) {
-      event.setProperty(key, String.valueOf(val));
-    }
+  private static void set(StringMap map, String key, long val) {
+    if (0 < val) map.putValue(key, String.valueOf(val));
   }
 }

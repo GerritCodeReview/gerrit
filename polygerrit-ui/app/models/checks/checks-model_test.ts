@@ -161,15 +161,20 @@ suite('checks-model tests', () => {
     // emits at 'trailing' of throttle interval
     assert.equal(fetchSpy.callCount, 1);
 
+    // 600 ms is greater than the 500 ms throttle time.
+    clock.tick(600);
+
     model.reload('test-plugin');
     model.reload('test-plugin');
     model.reload('test-plugin');
     model.reload('test-plugin');
+
     // emits at 'leading' of throttle interval
     assert.equal(fetchSpy.callCount, 2);
 
     // 600 ms is greater than the 500 ms throttle time.
     clock.tick(600);
+
     // emits at 'trailing' of throttle interval
     assert.equal(fetchSpy.callCount, 3);
   });

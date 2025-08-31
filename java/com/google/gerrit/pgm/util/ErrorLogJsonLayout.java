@@ -19,85 +19,64 @@ import com.google.gerrit.util.logging.JsonLogEntry;
 import com.google.gson.annotations.SerializedName;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
-import org.apache.log4j.spi.LoggingEvent;
-import org.apache.log4j.spi.ThrowableInformation;
+import org.apache.logging.log4j.core.LogEvent;
+import org.apache.logging.log4j.core.impl.ThrowableProxy;
 
 /** Layout for formatting error log events in the JSON format. */
 public class ErrorLogJsonLayout extends JsonLayout {
+  public ErrorLogJsonLayout() {
+    super(Charset.defaultCharset()); // ✅ required constructor in Log4j2
+  }
+
   @Override
-  public JsonLogEntry toJsonLogEntry(LoggingEvent event) {
+  public JsonLogEntry toJsonLogEntry(LogEvent event) {
     return new ErrorJsonLogEntry(event);
   }
 
   @SuppressWarnings("unused")
   private class ErrorJsonLogEntry extends JsonLogEntry {
-    /** Timestamp of when the log entry was created. */
     @SerializedName("@timestamp")
     public final String timestamp;
 
-    /** Hostname of the machine running Gerrit. */
     public final String sourceHost;
-
-    /** Logged message. */
     public final String message;
-
-    /** File containing the code creating the log entry. */
     public final String file;
-
-    /** Line number of code creating the log entry. */
     public final String lineNumber;
 
-    /** Class from which the log entry was created. */
     @SerializedName("class")
     public final String clazz;
 
-    /** Method from which the log entry was created. */
     public final String method;
-
-    /** Name of the logger creating the log entry. */
     public final String loggerName;
-
-    /** Mapped diagnostic context. */
-    @SuppressWarnings("rawtypes")
-    public final Map mdc;
-
-    /** Nested diagnostic context. */
+    public final Map<String, String> mdc;
     public final String ndc;
-
-    /** Logging level/severity. */
     public final String level;
-
-    /** Thread executing the code creating the log entry. */
     public final String threadName;
 
-    /** Version of log format. */
     @SerializedName("@version")
     public final int version = 2;
 
-    /**
-     * Map containing information of a logged exception. It contains the following key-value pairs:
-     * exception_class: Which class threw the exception exception_method: Which method threw the
-     * exception stacktrace: The exception stacktrace
-     */
     public Map<String, String> exception;
 
-    public ErrorJsonLogEntry(LoggingEvent event) {
-      this.timestamp = timestampFormatter.format(event.getTimeStamp());
+    public ErrorJsonLogEntry(LogEvent event) {
+      this.timestamp = timestampFormatter.format(event.getTimeMillis());
       this.sourceHost = getSourceHost();
-      this.message = event.getRenderedMessage();
-      this.file = event.getLocationInformation().getFileName();
-      this.lineNumber = event.getLocationInformation().getLineNumber();
-      this.clazz = event.getLocationInformation().getClassName();
-      this.method = event.getLocationInformation().getMethodName();
+      this.message = event.getMessage().getFormattedMessage();
+      this.file = (event.getSource() != null) ? event.getSource().getFileName() : null;
+      this.lineNumber =
+          (event.getSource() != null) ? String.valueOf(event.getSource().getLineNumber()) : null;
+      this.clazz = (event.getSource() != null) ? event.getSource().getClassName() : null;
+      this.method = (event.getSource() != null) ? event.getSource().getMethodName() : null;
       this.loggerName = event.getLoggerName();
-      this.mdc = event.getProperties();
-      this.ndc = event.getNDC();
+      this.mdc = event.getContextData().toMap();
+      this.ndc = event.getContextStack().toString(); // ✅ replaced asString()
       this.level = event.getLevel().toString();
       this.threadName = event.getThreadName();
-      if (event.getThrowableInformation() != null) {
-        this.exception = getException(event.getThrowableInformation());
+      if (event.getThrownProxy() != null) {
+        this.exception = getException(event.getThrownProxy());
       }
     }
 
@@ -109,22 +88,22 @@ public class ErrorLogJsonLayout extends JsonLayout {
       }
     }
 
-    private Map<String, String> getException(ThrowableInformation throwable) {
+    private Map<String, String> getException(ThrowableProxy proxy) {
       HashMap<String, String> exceptionInformation = new HashMap<>();
 
-      String throwableName = throwable.getThrowable().getClass().getCanonicalName();
-      if (throwableName != null) {
-        exceptionInformation.put("exception_class", throwableName);
+      Throwable t = proxy.getThrowable();
+      if (t != null) {
+        if (t.getClass().getCanonicalName() != null) {
+          exceptionInformation.put("exception_class", t.getClass().getCanonicalName());
+        }
+        if (t.getMessage() != null) {
+          exceptionInformation.put("exception_message", t.getMessage());
+        }
       }
 
-      String throwableMessage = throwable.getThrowable().getMessage();
-      if (throwableMessage != null) {
-        exceptionInformation.put("exception_message", throwableMessage);
-      }
-
-      String[] stackTrace = throwable.getThrowableStrRep();
+      String stackTrace = proxy.getExtendedStackTraceAsString();
       if (stackTrace != null) {
-        exceptionInformation.put("stacktrace", String.join("\n", stackTrace));
+        exceptionInformation.put("stacktrace", stackTrace);
       }
       return exceptionInformation;
     }

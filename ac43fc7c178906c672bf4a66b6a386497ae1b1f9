@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "38b226c1_033784ae",
+        "filename": "tools/nongoogle.bzl",
+        "patchSetId": 8
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-08-31T17:59:57Z",
+      "side": 0,
+      "message": "I think we still need the slf4j log4j 2 bridge for JGit:",
+      "revId": "ac43fc7c178906c672bf4a66b6a386497ae1b1f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6bb13448_bf9c699f",
+        "filename": "tools/nongoogle.bzl",
+        "patchSetId": 8
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-08-31T17:59:57Z",
+      "side": 0,
+      "message": "```suggestion\n        artifact \u003d \"org.apache.logging.log4j:log4j-slf4j2-impl:\" + SLF4J_VERS,\n        sha1 \u003d \"a5ed4c3e2effa2575a4dde13f9101bfe23ccfb1a\",\n```",
+      "range": {
+        "startLine": 111,
+        "startChar": 0,
+        "endLine": 112,
+        "endChar": 58
+      },
+      "revId": "ac43fc7c178906c672bf4a66b6a386497ae1b1f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

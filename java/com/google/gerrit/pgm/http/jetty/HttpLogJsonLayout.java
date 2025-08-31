@@ -32,12 +32,18 @@ import static com.google.gerrit.pgm.http.jetty.HttpLog.P_USER_AGENT;
 
 import com.google.gerrit.util.logging.JsonLayout;
 import com.google.gerrit.util.logging.JsonLogEntry;
-import org.apache.log4j.spi.LoggingEvent;
+import java.nio.charset.StandardCharsets;
+import org.apache.logging.log4j.core.LogEvent;
 
+/** JSON layout for HTTP log events. */
 public class HttpLogJsonLayout extends JsonLayout {
 
+  public HttpLogJsonLayout() {
+    super(StandardCharsets.UTF_8);
+  }
+
   @Override
-  public JsonLogEntry toJsonLogEntry(LoggingEvent event) {
+  public JsonLogEntry toJsonLogEntry(LogEvent event) {
     return new HttpJsonLogEntry(event);
   }
 
@@ -61,11 +67,11 @@ public class HttpLogJsonLayout extends JsonLayout {
     public String commandStatus;
     public String traceId;
 
-    public HttpJsonLogEntry(LoggingEvent event) {
+    HttpJsonLogEntry(LogEvent event) {
       this.host = getMdcString(event, P_HOST);
       this.thread = event.getThreadName();
       this.user = getMdcString(event, P_USER);
-      this.timestamp = timestampFormatter.format(event.getTimeStamp());
+      this.timestamp = timestampFormatter.format(event.getTimeMillis());
       this.method = getMdcString(event, P_METHOD);
       this.resource = getMdcString(event, P_RESOURCE);
       this.protocol = getMdcString(event, P_PROTOCOL);

@@ -4,7 +4,6 @@
     "antlr:antlr": 1249073166,
     "aopalliance:aopalliance": -1416324331,
     "args4j:args4j": 484840357,
-    "ch.qos.reload4j:reload4j": -1216325797,
     "com.github.ben-manes.caffeine:caffeine": 1735183231,
     "com.github.ben-manes.caffeine:guava": -2131703186,
     "com.github.rholder:guava-retrying": 1309513165,
@@ -20,7 +19,7 @@
     "com.google.errorprone:error_prone_type_annotations": -1223112919,
     "com.google.escapevelocity:escapevelocity": -17168624,
     "com.google.flogger:flogger": -825712792,
-    "com.google.flogger:flogger-log4j-backend": 1730247028,
+    "com.google.flogger:flogger-log4j2-backend": 508027314,
     "com.google.flogger:flogger-system-backend": 1522076251,
     "com.google.flogger:google-extensions": -355130314,
     "com.google.gitiles:blame-cache": -1424275928,
@@ -144,6 +143,11 @@
     "org.apache.httpcomponents:httpcore": -1696303652,
     "org.apache.james:apache-mime4j-core": -753273784,
     "org.apache.james:apache-mime4j-dom": -1889888125,
+    "org.apache.logging.log4j:log4j-1.2-api": -868433076,
+    "org.apache.logging.log4j:log4j-api": 1472311908,
+    "org.apache.logging.log4j:log4j-core": -1557614427,
+    "org.apache.logging.log4j:log4j-slf4j2-impl": 912174216,
+    "org.apache.logging.log4j:log4j-web": 1675007006,
     "org.apache.lucene:lucene-analysis-common": 582251708,
     "org.apache.lucene:lucene-backward-codecs": 1414616849,
     "org.apache.lucene:lucene-core": 299918137,
@@ -201,7 +205,6 @@
     "org.slf4j:slf4j-api": -197708565,
     "org.slf4j:slf4j-ext": 890682116,
     "org.slf4j:slf4j-log4j12": -630224096,
-    "org.slf4j:slf4j-reload4j": -1466046388,
     "org.slf4j:slf4j-simple": -487947767,
     "org.tukaani:xz": 64286142,
     "repositories": 2019057769,
@@ -214,8 +217,6 @@
     "aopalliance:aopalliance:jar:sources": 442956464,
     "args4j:args4j": 1165073517,
     "args4j:args4j:jar:sources": -1061197748,
-    "ch.qos.reload4j:reload4j": 1742597253,
-    "ch.qos.reload4j:reload4j:jar:sources": -505557081,
     "com.beust:jcommander": -86812675,
     "com.beust:jcommander:jar:sources": -377940076,
     "com.github.ben-manes.caffeine:caffeine": 386266583,
@@ -243,8 +244,8 @@
     "com.google.errorprone:error_prone_annotations": -2118374750,
     "com.google.errorprone:error_prone_annotations:jar:sources": -88858373,
     "com.google.flogger:flogger": 2071094150,
-    "com.google.flogger:flogger-log4j-backend": -1752942291,
-    "com.google.flogger:flogger-log4j-backend:jar:sources": 167088335,
+    "com.google.flogger:flogger-log4j2-backend": 418451672,
+    "com.google.flogger:flogger-log4j2-backend:jar:sources": 1980579847,
     "com.google.flogger:flogger-system-backend": 170636970,
     "com.google.flogger:flogger-system-backend:jar:sources": 267353177,
     "com.google.flogger:flogger:jar:sources": -399970922,
@@ -387,6 +388,16 @@
     "org.apache.james:apache-mime4j-core:jar:sources": 1221134342,
     "org.apache.james:apache-mime4j-dom": 2052814931,
     "org.apache.james:apache-mime4j-dom:jar:sources": 2056952874,
+    "org.apache.logging.log4j:log4j-1.2-api": -290313546,
+    "org.apache.logging.log4j:log4j-1.2-api:jar:sources": -437186564,
+    "org.apache.logging.log4j:log4j-api": -1327878602,
+    "org.apache.logging.log4j:log4j-api:jar:sources": 1689451993,
+    "org.apache.logging.log4j:log4j-core": -1732833972,
+    "org.apache.logging.log4j:log4j-core:jar:sources": 980155004,
+    "org.apache.logging.log4j:log4j-slf4j2-impl": -2057216691,
+    "org.apache.logging.log4j:log4j-slf4j2-impl:jar:sources": 338560147,
+    "org.apache.logging.log4j:log4j-web": -1886468658,
+    "org.apache.logging.log4j:log4j-web:jar:sources": -1958293418,
     "org.apache.lucene:lucene-analysis-common": 1674710283,
     "org.apache.lucene:lucene-analysis-common:jar:sources": 334029180,
     "org.apache.lucene:lucene-backward-codecs": -508942990,
@@ -497,8 +508,6 @@
     "org.slf4j:slf4j-api:jar:sources": -1906225874,
     "org.slf4j:slf4j-ext": -795464934,
     "org.slf4j:slf4j-ext:jar:sources": 1756640360,
-    "org.slf4j:slf4j-reload4j": 874028571,
-    "org.slf4j:slf4j-reload4j:jar:sources": 1517828526,
     "org.slf4j:slf4j-simple": 2142683014,
     "org.slf4j:slf4j-simple:jar:sources": 334190933,
     "org.tukaani:xz": 1462559085,
@@ -526,13 +535,6 @@
         "sources": "a337a37bc6fc9a2d81c952f4c6ebd5db12351e994d00e112d7fe87a4dd707204"
       },
       "version": "2.33"
-    },
-    "ch.qos.reload4j:reload4j": {
-      "shasums": {
-        "jar": "a7e86ae144541d04d24d1b7123d7425415477d50f387bb868e5c955aeaedd96f",
-        "sources": "d49655933914425105028146ca042813fed55aa0c69efe438a605178b0a1399a"
-      },
-      "version": "1.2.26"
     },
     "com.beust:jcommander": {
       "shasums": {
@@ -632,10 +634,10 @@
       },
       "version": "0.8"
     },
-    "com.google.flogger:flogger-log4j-backend": {
+    "com.google.flogger:flogger-log4j2-backend": {
       "shasums": {
-        "jar": "922835d7c0dabb6fbd54acdc0c04af2fbea1eacd870e96b799538aae9e3324a6",
-        "sources": "5ec4c2627f427013e72144ce8135d07f808cbd9a85e45bcbe1f3ce859781af85"
+        "jar": "84699c47cafa15a8f44882b2b40f9e507eb03a3cd6cb244c884214c53b26c408",
+        "sources": "21432ad60675dd437362b73d529bc3c05b596dfab3858296cf417df2c45d6402"
       },
       "version": "0.8"
     },
@@ -1140,6 +1142,41 @@
       },
       "version": "0.8.1"
     },
+    "org.apache.logging.log4j:log4j-1.2-api": {
+      "shasums": {
+        "jar": "72aab8a06335962bfd441605cb4da94777798f699414e02931d29e63fd12ace4",
+        "sources": "780fc997128fad90087db511b4cf5273abe0b11aa90e324a5a1efb04f17e27bd"
+      },
+      "version": "2.25.3"
+    },
+    "org.apache.logging.log4j:log4j-api": {
+      "shasums": {
+        "jar": "e886682920fa0fb9d6eb6395dcb4de088443f8646c89c5e5846e168e327f406f",
+        "sources": "0610fe5eacd8d3df791fb7dd9dfda9572ae8ae6672ee5c64b90ad958d5cf0bc7"
+      },
+      "version": "2.25.3"
+    },
+    "org.apache.logging.log4j:log4j-core": {
+      "shasums": {
+        "jar": "362b7fcb65b73aa46cc4bc53abf4eb216f444a83b5d1a037cb6fdfff0ae9f0f9",
+        "sources": "357ea0920077b5b30c1db797eec37386ebd8d00c9d4abe6614fae8ae856ec00f"
+      },
+      "version": "2.25.3"
+    },
+    "org.apache.logging.log4j:log4j-slf4j2-impl": {
+      "shasums": {
+        "jar": "bedc560168f4005d09452e6b6959b252f9efa2eb8cbd17c6660c36eecec7238b",
+        "sources": "3c96735623f36b246266e0905859a24a558167d70851a371473eeb535f232e51"
+      },
+      "version": "2.25.3"
+    },
+    "org.apache.logging.log4j:log4j-web": {
+      "shasums": {
+        "jar": "ab3d445d17088bc22d5e5b4350fb7eacff002c2c2f05267569c9729a117ee99e",
+        "sources": "453f5010fc39dba2d92e9caf99b90482fb0e9abb4945e1a2f1c514f47ceba688"
+      },
+      "version": "2.25.3"
+    },
     "org.apache.lucene:lucene-analysis-common": {
       "shasums": {
         "jar": "8e768c9b2a3870f1fc2655181516699e719a56b9aaf8664226a11ae7d90cb4e9",
@@ -1525,13 +1562,6 @@
       },
       "version": "2.0.17"
     },
-    "org.slf4j:slf4j-reload4j": {
-      "shasums": {
-        "jar": "62dfd069563dbce91d276c9a38d557da49df7be15b03bb898b63b5390c6bb889",
-        "sources": "58faf8a8a2892fae5b699277c20c38291da093444a0618b2ba08aca016e6d6c5"
-      },
-      "version": "2.0.17"
-    },
     "org.slf4j:slf4j-simple": {
       "shasums": {
         "jar": "ddfea59ac074c6d3e24ac2c38622d2d963895e17f70b38ed4bdae4d780be6964",
@@ -1591,9 +1621,13 @@
     "com.google.flogger:flogger": [
       "org.checkerframework:checker-compat-qual"
     ],
-    "com.google.flogger:flogger-log4j-backend": [
+    "com.google.flogger:flogger-log4j2-backend": [
+      "com.google.errorprone:error_prone_annotations",
       "com.google.flogger:flogger",
-      "com.google.flogger:flogger-system-backend"
+      "com.google.flogger:flogger-system-backend",
+      "org.apache.logging.log4j:log4j-api",
+      "org.apache.logging.log4j:log4j-core",
+      "org.checkerframework:checker-compat-qual"
     ],
     "com.google.flogger:flogger-system-backend": [
       "com.google.flogger:flogger",
@@ -1750,6 +1784,21 @@
     "org.apache.james:apache-mime4j-dom": [
       "org.apache.james:apache-mime4j-core"
     ],
+    "org.apache.logging.log4j:log4j-1.2-api": [
+      "org.apache.logging.log4j:log4j-api"
+    ],
+    "org.apache.logging.log4j:log4j-core": [
+      "org.apache.logging.log4j:log4j-api"
+    ],
+    "org.apache.logging.log4j:log4j-slf4j2-impl": [
+      "org.apache.logging.log4j:log4j-api",
+      "org.apache.logging.log4j:log4j-core",
+      "org.slf4j:slf4j-api"
+    ],
+    "org.apache.logging.log4j:log4j-web": [
+      "org.apache.logging.log4j:log4j-api",
+      "org.apache.logging.log4j:log4j-core"
+    ],
     "org.apache.lucene:lucene-analysis-common": [
       "org.apache.lucene:lucene-core"
     ],
@@ -1893,10 +1942,6 @@
     "org.slf4j:slf4j-ext": [
       "org.slf4j:slf4j-api"
     ],
-    "org.slf4j:slf4j-reload4j": [
-      "ch.qos.reload4j:reload4j",
-      "org.slf4j:slf4j-api"
-    ],
     "org.slf4j:slf4j-simple": [
       "org.slf4j:slf4j-api"
     ]
@@ -1923,22 +1968,6 @@
     "args4j:args4j": [
       "org.kohsuke.args4j",
       "org.kohsuke.args4j.spi"
-    ],
-    "ch.qos.reload4j:reload4j": [
-      "org.apache.log4j",
-      "org.apache.log4j.chainsaw",
-      "org.apache.log4j.config",
-      "org.apache.log4j.helpers",
-      "org.apache.log4j.jdbc",
-      "org.apache.log4j.net",
-      "org.apache.log4j.or",
-      "org.apache.log4j.or.jms",
-      "org.apache.log4j.or.sax",
-      "org.apache.log4j.pattern",
-      "org.apache.log4j.rewrite",
-      "org.apache.log4j.spi",
-      "org.apache.log4j.varia",
-      "org.apache.log4j.xml"
     ],
     "com.beust:jcommander": [
       "com.beust.jcommander",
@@ -2046,8 +2075,8 @@
       "com.google.common.flogger.parser",
       "com.google.common.flogger.util"
     ],
-    "com.google.flogger:flogger-log4j-backend": [
-      "com.google.common.flogger.backend.log4j"
+    "com.google.flogger:flogger-log4j2-backend": [
+      "com.google.common.flogger.backend.log4j2"
     ],
     "com.google.flogger:flogger-system-backend": [
       "com.google.common.flogger.backend.system"
@@ -2975,6 +3004,112 @@
       "org.apache.james.mime4j.field.structured.parser",
       "org.apache.james.mime4j.internal",
       "org.apache.james.mime4j.message"
+    ],
+    "org.apache.logging.log4j:log4j-1.2-api": [
+      "org.apache.log4j",
+      "org.apache.log4j.bridge",
+      "org.apache.log4j.builders",
+      "org.apache.log4j.builders.appender",
+      "org.apache.log4j.builders.filter",
+      "org.apache.log4j.builders.layout",
+      "org.apache.log4j.builders.rewrite",
+      "org.apache.log4j.builders.rolling",
+      "org.apache.log4j.component.helpers",
+      "org.apache.log4j.config",
+      "org.apache.log4j.helpers",
+      "org.apache.log4j.internal.annotation",
+      "org.apache.log4j.jmx",
+      "org.apache.log4j.layout",
+      "org.apache.log4j.legacy.core",
+      "org.apache.log4j.or",
+      "org.apache.log4j.or.jms",
+      "org.apache.log4j.pattern",
+      "org.apache.log4j.rewrite",
+      "org.apache.log4j.spi",
+      "org.apache.log4j.varia",
+      "org.apache.log4j.xml"
+    ],
+    "org.apache.logging.log4j:log4j-api": [
+      "org.apache.logging.log4j",
+      "org.apache.logging.log4j.internal",
+      "org.apache.logging.log4j.internal.annotation",
+      "org.apache.logging.log4j.internal.map",
+      "org.apache.logging.log4j.message",
+      "org.apache.logging.log4j.simple",
+      "org.apache.logging.log4j.simple.internal",
+      "org.apache.logging.log4j.spi",
+      "org.apache.logging.log4j.status",
+      "org.apache.logging.log4j.util",
+      "org.apache.logging.log4j.util.internal"
+    ],
+    "org.apache.logging.log4j:log4j-core": [
+      "org.apache.logging.log4j.core",
+      "org.apache.logging.log4j.core.appender",
+      "org.apache.logging.log4j.core.appender.db",
+      "org.apache.logging.log4j.core.appender.db.jdbc",
+      "org.apache.logging.log4j.core.appender.mom",
+      "org.apache.logging.log4j.core.appender.mom.jeromq",
+      "org.apache.logging.log4j.core.appender.mom.kafka",
+      "org.apache.logging.log4j.core.appender.nosql",
+      "org.apache.logging.log4j.core.appender.rewrite",
+      "org.apache.logging.log4j.core.appender.rolling",
+      "org.apache.logging.log4j.core.appender.rolling.action",
+      "org.apache.logging.log4j.core.appender.routing",
+      "org.apache.logging.log4j.core.async",
+      "org.apache.logging.log4j.core.config",
+      "org.apache.logging.log4j.core.config.arbiters",
+      "org.apache.logging.log4j.core.config.builder.api",
+      "org.apache.logging.log4j.core.config.builder.impl",
+      "org.apache.logging.log4j.core.config.composite",
+      "org.apache.logging.log4j.core.config.json",
+      "org.apache.logging.log4j.core.config.plugins",
+      "org.apache.logging.log4j.core.config.plugins.convert",
+      "org.apache.logging.log4j.core.config.plugins.processor",
+      "org.apache.logging.log4j.core.config.plugins.processor.internal",
+      "org.apache.logging.log4j.core.config.plugins.util",
+      "org.apache.logging.log4j.core.config.plugins.validation",
+      "org.apache.logging.log4j.core.config.plugins.validation.constraints",
+      "org.apache.logging.log4j.core.config.plugins.validation.validators",
+      "org.apache.logging.log4j.core.config.plugins.visitors",
+      "org.apache.logging.log4j.core.config.properties",
+      "org.apache.logging.log4j.core.config.status",
+      "org.apache.logging.log4j.core.config.xml",
+      "org.apache.logging.log4j.core.config.yaml",
+      "org.apache.logging.log4j.core.context.internal",
+      "org.apache.logging.log4j.core.filter",
+      "org.apache.logging.log4j.core.filter.mutable",
+      "org.apache.logging.log4j.core.impl",
+      "org.apache.logging.log4j.core.internal.annotation",
+      "org.apache.logging.log4j.core.jackson",
+      "org.apache.logging.log4j.core.jmx",
+      "org.apache.logging.log4j.core.jmx.internal",
+      "org.apache.logging.log4j.core.layout",
+      "org.apache.logging.log4j.core.layout.internal",
+      "org.apache.logging.log4j.core.lookup",
+      "org.apache.logging.log4j.core.message",
+      "org.apache.logging.log4j.core.net",
+      "org.apache.logging.log4j.core.net.ssl",
+      "org.apache.logging.log4j.core.osgi",
+      "org.apache.logging.log4j.core.parser",
+      "org.apache.logging.log4j.core.pattern",
+      "org.apache.logging.log4j.core.script",
+      "org.apache.logging.log4j.core.selector",
+      "org.apache.logging.log4j.core.time",
+      "org.apache.logging.log4j.core.time.internal",
+      "org.apache.logging.log4j.core.tools",
+      "org.apache.logging.log4j.core.tools.picocli",
+      "org.apache.logging.log4j.core.util",
+      "org.apache.logging.log4j.core.util.datetime",
+      "org.apache.logging.log4j.core.util.internal",
+      "org.apache.logging.log4j.core.util.internal.instant"
+    ],
+    "org.apache.logging.log4j:log4j-slf4j2-impl": [
+      "org.apache.logging.slf4j",
+      "org.apache.logging.slf4j.message"
+    ],
+    "org.apache.logging.log4j:log4j-web": [
+      "org.apache.logging.log4j.web",
+      "org.apache.logging.log4j.web.appender"
     ],
     "org.apache.lucene:lucene-analysis-common": [
       "org.apache.lucene.analysis.ar",
@@ -4228,9 +4363,6 @@
       "org.slf4j.instrumentation",
       "org.slf4j.profiler"
     ],
-    "org.slf4j:slf4j-reload4j": [
-      "org.slf4j.reload4j"
-    ],
     "org.slf4j:slf4j-simple": [
       "org.slf4j.simple"
     ],
@@ -4295,8 +4427,6 @@
       "aopalliance:aopalliance:jar:sources",
       "args4j:args4j",
       "args4j:args4j:jar:sources",
-      "ch.qos.reload4j:reload4j",
-      "ch.qos.reload4j:reload4j:jar:sources",
       "com.beust:jcommander",
       "com.beust:jcommander:jar:sources",
       "com.github.ben-manes.caffeine:caffeine",
@@ -4324,8 +4454,8 @@
       "com.google.errorprone:error_prone_annotations",
       "com.google.errorprone:error_prone_annotations:jar:sources",
       "com.google.flogger:flogger",
-      "com.google.flogger:flogger-log4j-backend",
-      "com.google.flogger:flogger-log4j-backend:jar:sources",
+      "com.google.flogger:flogger-log4j2-backend",
+      "com.google.flogger:flogger-log4j2-backend:jar:sources",
       "com.google.flogger:flogger-system-backend",
       "com.google.flogger:flogger-system-backend:jar:sources",
       "com.google.flogger:flogger:jar:sources",
@@ -4468,6 +4598,16 @@
       "org.apache.james:apache-mime4j-core:jar:sources",
       "org.apache.james:apache-mime4j-dom",
       "org.apache.james:apache-mime4j-dom:jar:sources",
+      "org.apache.logging.log4j:log4j-1.2-api",
+      "org.apache.logging.log4j:log4j-1.2-api:jar:sources",
+      "org.apache.logging.log4j:log4j-api",
+      "org.apache.logging.log4j:log4j-api:jar:sources",
+      "org.apache.logging.log4j:log4j-core",
+      "org.apache.logging.log4j:log4j-core:jar:sources",
+      "org.apache.logging.log4j:log4j-slf4j2-impl",
+      "org.apache.logging.log4j:log4j-slf4j2-impl:jar:sources",
+      "org.apache.logging.log4j:log4j-web",
+      "org.apache.logging.log4j:log4j-web:jar:sources",
       "org.apache.lucene:lucene-analysis-common",
       "org.apache.lucene:lucene-analysis-common:jar:sources",
       "org.apache.lucene:lucene-backward-codecs",
@@ -4578,8 +4718,6 @@
       "org.slf4j:slf4j-api:jar:sources",
       "org.slf4j:slf4j-ext",
       "org.slf4j:slf4j-ext:jar:sources",
-      "org.slf4j:slf4j-reload4j",
-      "org.slf4j:slf4j-reload4j:jar:sources",
       "org.slf4j:slf4j-simple",
       "org.slf4j:slf4j-simple:jar:sources",
       "org.tukaani:xz",
@@ -4593,8 +4731,6 @@
       "aopalliance:aopalliance:jar:sources",
       "args4j:args4j",
       "args4j:args4j:jar:sources",
-      "ch.qos.reload4j:reload4j",
-      "ch.qos.reload4j:reload4j:jar:sources",
       "com.beust:jcommander",
       "com.beust:jcommander:jar:sources",
       "com.github.ben-manes.caffeine:caffeine",
@@ -4622,8 +4758,8 @@
       "com.google.errorprone:error_prone_annotations",
       "com.google.errorprone:error_prone_annotations:jar:sources",
       "com.google.flogger:flogger",
-      "com.google.flogger:flogger-log4j-backend",
-      "com.google.flogger:flogger-log4j-backend:jar:sources",
+      "com.google.flogger:flogger-log4j2-backend",
+      "com.google.flogger:flogger-log4j2-backend:jar:sources",
       "com.google.flogger:flogger-system-backend",
       "com.google.flogger:flogger-system-backend:jar:sources",
       "com.google.flogger:flogger:jar:sources",
@@ -4766,6 +4902,16 @@
       "org.apache.james:apache-mime4j-core:jar:sources",
       "org.apache.james:apache-mime4j-dom",
       "org.apache.james:apache-mime4j-dom:jar:sources",
+      "org.apache.logging.log4j:log4j-1.2-api",
+      "org.apache.logging.log4j:log4j-1.2-api:jar:sources",
+      "org.apache.logging.log4j:log4j-api",
+      "org.apache.logging.log4j:log4j-api:jar:sources",
+      "org.apache.logging.log4j:log4j-core",
+      "org.apache.logging.log4j:log4j-core:jar:sources",
+      "org.apache.logging.log4j:log4j-slf4j2-impl",
+      "org.apache.logging.log4j:log4j-slf4j2-impl:jar:sources",
+      "org.apache.logging.log4j:log4j-web",
+      "org.apache.logging.log4j:log4j-web:jar:sources",
       "org.apache.lucene:lucene-analysis-common",
       "org.apache.lucene:lucene-analysis-common:jar:sources",
       "org.apache.lucene:lucene-backward-codecs",
@@ -4876,8 +5022,6 @@
       "org.slf4j:slf4j-api:jar:sources",
       "org.slf4j:slf4j-ext",
       "org.slf4j:slf4j-ext:jar:sources",
-      "org.slf4j:slf4j-reload4j",
-      "org.slf4j:slf4j-reload4j:jar:sources",
       "org.slf4j:slf4j-simple",
       "org.slf4j:slf4j-simple:jar:sources",
       "org.tukaani:xz",
@@ -4913,9 +5057,9 @@
         "com.google.auto.value.processor.AutoValueProcessor"
       ]
     },
-    "com.google.flogger:flogger-log4j-backend": {
+    "com.google.flogger:flogger-log4j2-backend": {
       "com.google.common.flogger.backend.system.BackendFactory": [
-        "com.google.common.flogger.backend.log4j.Log4jBackendFactory"
+        "com.google.common.flogger.backend.log4j2.Log4j2BackendFactory"
       ]
     },
     "com.google.jimfs:jimfs": {
@@ -4956,6 +5100,47 @@
     "org.apache.james:apache-mime4j-dom:jar:sources": {
       "org.apache.james.mime4j.dom.MessageServiceFactory": [
         "org.apache.james.mime4j.message.MessageServiceFactoryImpl"
+      ]
+    },
+    "org.apache.logging.log4j:log4j-api": {
+      "org.apache.logging.log4j.util.PropertySource": [
+        "org.apache.logging.log4j.util.EnvironmentPropertySource",
+        "org.apache.logging.log4j.util.SystemPropertiesPropertySource"
+      ]
+    },
+    "org.apache.logging.log4j:log4j-core": {
+      "javax.annotation.processing.Processor": [
+        "org.apache.logging.log4j.core.config.plugins.processor.GraalVmProcessor",
+        "org.apache.logging.log4j.core.config.plugins.processor.PluginProcessor"
+      ],
+      "org.apache.logging.log4j.core.util.ContextDataProvider": [
+        "org.apache.logging.log4j.core.impl.ThreadContextDataProvider"
+      ],
+      "org.apache.logging.log4j.message.ThreadDumpMessage$ThreadInfoFactory": [
+        "org.apache.logging.log4j.core.message.ExtendedThreadInfoFactory"
+      ],
+      "org.apache.logging.log4j.spi.Provider": [
+        "org.apache.logging.log4j.core.impl.Log4jProvider"
+      ]
+    },
+    "org.apache.logging.log4j:log4j-slf4j2-impl": {
+      "org.slf4j.spi.SLF4JServiceProvider": [
+        "org.apache.logging.slf4j.SLF4JServiceProvider"
+      ]
+    },
+    "org.apache.logging.log4j:log4j-slf4j2-impl:jar:sources": {
+      "org.slf4j.spi.SLF4JServiceProvider": [
+        "org.apache.logging.slf4j.SLF4JServiceProvider"
+      ]
+    },
+    "org.apache.logging.log4j:log4j-web": {
+      "javax.servlet.ServletContainerInitializer": [
+        "org.apache.logging.log4j.web.Log4jServletContainerInitializer"
+      ]
+    },
+    "org.apache.logging.log4j:log4j-web:jar:sources": {
+      "javax.servlet.ServletContainerInitializer": [
+        "org.apache.logging.log4j.web.Log4jServletContainerInitializer"
       ]
     },
     "org.apache.lucene:lucene-analysis-common": {
@@ -5251,16 +5436,6 @@
     "org.slf4j:jcl-over-slf4j:jar:sources": {
       "org.apache.commons.logging.LogFactory": [
         "org.apache.commons.logging.impl.SLF4JLogFactory"
-      ]
-    },
-    "org.slf4j:slf4j-reload4j": {
-      "org.slf4j.spi.SLF4JServiceProvider": [
-        "org.slf4j.reload4j.Reload4jServiceProvider"
-      ]
-    },
-    "org.slf4j:slf4j-reload4j:jar:sources": {
-      "org.slf4j.spi.SLF4JServiceProvider": [
-        "org.slf4j.reload4j.Reload4jServiceProvider"
       ]
     },
     "org.slf4j:slf4j-simple": {

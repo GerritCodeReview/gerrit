@@ -16,20 +16,18 @@ package com.google.gerrit.sshd.commands;
 
 import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
 
-import com.google.common.base.Strings;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Iterators;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
-import java.net.MalformedURLException;
-import java.net.URI;
-import org.apache.log4j.Level;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
-import org.apache.log4j.helpers.Loader;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.LoggerContext;
+import org.apache.logging.log4j.core.config.LoggerConfig;
 import org.kohsuke.args4j.Argument;
 
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
@@ -38,8 +36,6 @@ import org.kohsuke.args4j.Argument;
     description = "Change the level of loggers",
     runsAt = MASTER_OR_SLAVE)
 public class SetLoggingLevelCommand extends SshCommand {
-  private static final String LOG_CONFIGURATION = "log4j.properties";
-  private static final String JAVA_OPTIONS_LOG_CONFIG = "log4j.configuration";
 
   private enum LevelOption {
     ALL,
@@ -50,8 +46,13 @@ public class SetLoggingLevelCommand extends SshCommand {
     ERROR,
     FATAL,
     OFF,
-    RESET,
+    RESET
   }
+
+  private static final Map<String, Level> ORIGINAL_LEVELS = new HashMap<>();
+  private static final Set<String> ORIGINAL_LOGGER_NAMES = new HashSet<>();
+  private static Level ORIGINAL_ROOT_LEVEL = null;
+  private static boolean initialized = false;
 
   @Argument(index = 0, required = true, metaVar = "LEVEL", usage = "logging level to set to")
   private LevelOption level;
@@ -60,34 +61,99 @@ public class SetLoggingLevelCommand extends SshCommand {
   private String name;
 
   @Override
-  protected void run() throws MalformedURLException {
+  protected void run() {
     enableGracefulStop();
+
+    if (!initialized) {
+      copyOriginalLevels();
+      initialized = true;
+    }
+
     if (level == LevelOption.RESET) {
       reset();
-    } else {
-      for (Logger logger : getCurrentLoggers()) {
-        if (name == null || logger.getName().contains(name)) {
-          logger.setLevel(Level.toLevel(level.name()));
-        }
+      return;
+    }
+
+    final Level newLevel;
+    try {
+      newLevel = Level.valueOf(level.name());
+    } catch (IllegalArgumentException e) {
+      stderr.println("Unknown logging level: " + level);
+      return;
+    }
+
+    LoggerContext ctx = (LoggerContext) LogManager.getContext(false);
+    org.apache.logging.log4j.core.config.Configuration config = ctx.getConfiguration();
+
+    for (Map.Entry<String, LoggerConfig> entry : config.getLoggers().entrySet()) {
+      String loggerName = entry.getKey();
+      if (loggerName.isEmpty()) continue; // skip root
+      if (name == null || loggerName.contains(name)) { // <-- changed here
+        entry.getValue().setLevel(newLevel);
       }
     }
+
+    ctx.getLoggerRegistry()
+        .getLoggers()
+        .forEach(
+            logger -> {
+              String loggerName = logger.getName();
+              if (loggerName.isEmpty()) return;
+              if (name == null || loggerName.contains(name)) { // <-- changed here
+                LoggerConfig lc = config.getLoggerConfig(loggerName);
+                if (!lc.getName().equals(loggerName)) {
+                  LoggerConfig newLc = new LoggerConfig(loggerName, newLevel, true);
+                  config.addLogger(loggerName, newLc);
+                } else {
+                  lc.setLevel(newLevel);
+                }
+              }
+            });
+
+    ctx.updateLoggers();
   }
 
-  private static void reset() throws MalformedURLException {
-    for (Logger logger : getCurrentLoggers()) {
-      logger.setLevel(null);
-    }
+  private static void copyOriginalLevels() {
+    LoggerContext ctx = (LoggerContext) LogManager.getContext(false);
+    org.apache.logging.log4j.core.config.Configuration config = ctx.getConfiguration();
 
-    String path = System.getProperty(JAVA_OPTIONS_LOG_CONFIG);
-    if (Strings.isNullOrEmpty(path)) {
-      PropertyConfigurator.configure(Loader.getResource(LOG_CONFIGURATION));
-    } else {
-      PropertyConfigurator.configure(URI.create(path).toURL());
+    ORIGINAL_ROOT_LEVEL = config.getRootLogger().getLevel();
+
+    for (Map.Entry<String, LoggerConfig> e : config.getLoggers().entrySet()) {
+      String loggerName = e.getKey(); // non-root only
+      ORIGINAL_LOGGER_NAMES.add(loggerName);
+      ORIGINAL_LEVELS.put(loggerName, e.getValue().getLevel());
     }
   }
 
-  @SuppressWarnings({"unchecked", "JdkObsolete"})
-  private static ImmutableList<Logger> getCurrentLoggers() {
-    return ImmutableList.copyOf(Iterators.forEnumeration(LogManager.getCurrentLoggers()));
+  private static void reset() {
+    LoggerContext ctx = (LoggerContext) LogManager.getContext(false);
+    org.apache.logging.log4j.core.config.Configuration config = ctx.getConfiguration();
+
+    for (String currentName : config.getLoggers().keySet().toArray(new String[0])) {
+      if (!ORIGINAL_LOGGER_NAMES.contains(currentName)) {
+        config.removeLogger(currentName);
+      }
+    }
+
+    for (Map.Entry<String, Level> e : ORIGINAL_LEVELS.entrySet()) {
+      String loggerName = e.getKey();
+      Level original = e.getValue();
+
+      LoggerConfig lc = config.getLoggers().get(loggerName);
+      if (lc == null) {
+        // It existed at snapshot; re-create it
+        lc = new LoggerConfig(loggerName, original, true);
+        config.addLogger(loggerName, lc);
+      } else {
+        lc.setLevel(original);
+      }
+    }
+
+    if (ORIGINAL_ROOT_LEVEL != null) {
+      config.getRootLogger().setLevel(ORIGINAL_ROOT_LEVEL);
+    }
+
+    ctx.updateLoggers();
   }
 }

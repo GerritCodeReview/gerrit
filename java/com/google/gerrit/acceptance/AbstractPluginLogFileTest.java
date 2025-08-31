@@ -27,10 +27,11 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.inject.internal.UniqueAnnotations;
+import java.nio.charset.StandardCharsets;
 import java.util.Collections;
-import org.apache.log4j.AsyncAppender;
-import org.apache.log4j.Layout;
-import org.apache.log4j.PatternLayout;
+import org.apache.logging.log4j.core.Layout;
+import org.apache.logging.log4j.core.appender.AsyncAppender;
+import org.apache.logging.log4j.core.layout.PatternLayout;
 import org.eclipse.jgit.lib.Config;
 import org.kohsuke.args4j.Option;
 
@@ -80,7 +81,10 @@ public class AbstractPluginLogFileTest extends AbstractDaemonTest {
           mySystemLog,
           serverInfo,
           logName,
-          new PatternLayout("[%d] [%t] %m%n"),
+          PatternLayout.newBuilder()
+              .withPattern("[%d] [%t] %m%n")
+              .withCharset(StandardCharsets.UTF_8)
+              .build(),
           /* jsonLayout= */ null,
           /* textLogging= */ true,
           /* jsonLogging= */ false);
@@ -99,9 +103,9 @@ public class AbstractPluginLogFileTest extends AbstractDaemonTest {
 
     @Override
     public AsyncAppender createAsyncAppender(
-        String name, Layout layout, boolean rotate, boolean forPlugin) {
+        String name, Layout<?> layout, boolean rotate, boolean forPlugin) {
       invocationCounter.increment();
-      return super.createAsyncAppender(name, layout, rotate, forPlugin);
+      return (AsyncAppender) super.createAsyncAppender(name, layout, rotate, forPlugin);
     }
   }
 

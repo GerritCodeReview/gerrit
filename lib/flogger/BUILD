@@ -6,7 +6,7 @@ java_library(
     visibility = ["//visibility:public"],
     exports = [
         "@external_deps//:com_google_flogger_flogger",
-        "@external_deps//:com_google_flogger_flogger_log4j_backend",
+        "@external_deps//:com_google_flogger_flogger_log4j2_backend",
         "@external_deps//:com_google_flogger_flogger_system_backend",
         "@external_deps//:com_google_flogger_google_extensions",
     ],

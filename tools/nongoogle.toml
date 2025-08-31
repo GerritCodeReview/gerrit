@@ -10,6 +10,7 @@ flogger = "0.8"
 # to keep Bazel and extension dependencies in sync.
 guava = "33.5.0-jre"
 guice = "6.0.0"
+log4j2 = "2.25.3"
 lucene = "10.4.0"
 slf4j = "2.0.17"
 sshd = "2.17.1"
@@ -26,7 +27,7 @@ dropwizard-core = { module = "io.dropwizard.metrics:metrics-core", version = "4.
 error-prone-annotations = { module = "com.google.errorprone:error_prone_annotations", version = "2.46.0" }
 flogger = { module = "com.google.flogger:flogger", version.ref = "flogger" }
 flogger-google-extensions = { module = "com.google.flogger:google-extensions", version.ref = "flogger" }
-flogger-log4j-backend = { module = "com.google.flogger:flogger-log4j-backend", version.ref = "flogger" }
+flogger-log4j2-backend = { module = "com.google.flogger:flogger-log4j2-backend", version.ref = "flogger" }
 flogger-system-backend = { module = "com.google.flogger:flogger-system-backend", version.ref = "flogger" }
 gson = { module = "com.google.code.gson:gson", version = "2.13.2" }
 guava = { module = "com.google.guava:guava", version.ref = "guava" }
@@ -36,14 +37,17 @@ guice-library = { module = "com.google.inject:guice", version.ref = "guice" }
 guice-servlet = { module = "com.google.inject.extensions:guice-servlet", version.ref = "guice" }
 h2 = { module = "com.h2database:h2", version = "2.4.240" }
 hamcrest = { module = "org.hamcrest:hamcrest", version = "3.0" }
-impl-log4j = { module = "org.slf4j:slf4j-reload4j", version.ref = "slf4j" }
+impl-log4j = { module = "org.apache.logging.log4j:log4j-slf4j2-impl", version.ref = "log4j2" }
 j2objc = { module = "com.google.j2objc:j2objc-annotations", version = "1.1" }
 jcl-over-slf4j = { module = "org.slf4j:jcl-over-slf4j", version.ref = "slf4j" }
 jimfs = { module = "com.google.jimfs:jimfs", version = "1.2" }
 jruby = { module = "org.jruby:jruby-complete", version = "9.1.17.0" }
 log-api = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
 log-ext = { module = "org.slf4j:slf4j-ext", version.ref = "slf4j" }
-log4j = { module = "ch.qos.reload4j:reload4j", version = "1.2.26" }
+log4j-api = { module = "org.apache.logging.log4j:log4j-api", version.ref = "log4j2" }
+log4j-core = { module = "org.apache.logging.log4j:log4j-core", version.ref = "log4j2" }
+log4j-web = { module = "org.apache.logging.log4j:log4j-web", version.ref = "log4j2" }
+log4j-1-2-api = { module = "org.apache.logging.log4j:log4j-1.2-api", version.ref = "log4j2" }
 lucene-analyzers-common = { module = "org.apache.lucene:lucene-analysis-common", version.ref = "lucene" }
 lucene-backward-codecs = { module = "org.apache.lucene:lucene-backward-codecs", version.ref = "lucene" }
 lucene-core = { module = "org.apache.lucene:lucene-core", version.ref = "lucene" }

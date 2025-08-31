@@ -17,15 +17,15 @@ package com.google.gerrit.sshd.commands;
 import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Iterators;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import java.util.Map;
 import java.util.TreeMap;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.LoggerContext;
+import org.apache.logging.log4j.core.config.LoggerConfig;
 import org.kohsuke.args4j.Argument;
 
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
@@ -42,9 +42,9 @@ public class ListLoggingLevelCommand extends SshCommand {
   protected void run() {
     enableGracefulStop();
     Map<String, String> logs = new TreeMap<>();
-    for (Logger logger : getCurrentLoggers()) {
+    for (LoggerConfig logger : getCurrentLoggers()) {
       if (name == null || logger.getName().contains(name)) {
-        logs.put(logger.getName(), logger.getEffectiveLevel().toString());
+        logs.put(logger.getName(), logger.getLevel() != null ? logger.getLevel().toString() : "null");
       }
     }
     for (Map.Entry<String, String> e : logs.entrySet()) {
@@ -52,8 +52,8 @@ public class ListLoggingLevelCommand extends SshCommand {
     }
   }
 
-  @SuppressWarnings({"unchecked", "JdkObsolete"})
-  private static ImmutableList<Logger> getCurrentLoggers() {
-    return ImmutableList.copyOf(Iterators.forEnumeration(LogManager.getCurrentLoggers()));
+  private static ImmutableList<LoggerConfig> getCurrentLoggers() {
+    LoggerContext ctx = (LoggerContext) LogManager.getContext(false);
+    return ImmutableList.copyOf(ctx.getConfiguration().getLoggers().values());
   }
 }

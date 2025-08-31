@@ -29,7 +29,7 @@ commons-validator
 failureaccess
 flexmark-all-0.64.0-lib
 flogger
-flogger-log4j-backend
+flogger-log4j2-backend
 flogger-system-backend
 google-extensions
 gson
@@ -59,6 +59,11 @@ jetty-util-ajax
 jgit
 jsoup
 jsr305
+log4j-1.2-api
+log4j-api
+log4j-core
+log4j-slf4j2-impl
+log4j-web
 lucene-analysis-common
 lucene-backward-codecs
 lucene-core
@@ -75,11 +80,9 @@ prolog-compiler
 prolog-io
 prolog-runtime
 protobuf-java
-reload4j
 RoaringBitmap
 shims
 slf4j-api
-slf4j-reload4j
 soy-2024-01
 sshd-mina
 sshd-osgi

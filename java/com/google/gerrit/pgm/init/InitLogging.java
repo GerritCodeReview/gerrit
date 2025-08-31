@@ -41,7 +41,7 @@ public class InitLogging implements InitStep {
       javaOptions.add(
           getJavaOption(
               FLOGGER_BACKEND_PROPERTY,
-              "com.google.common.flogger.backend.log4j.Log4jBackendFactory#getInstance"));
+              "com.google.common.flogger.backend.log4j2.Log4j2BackendFactory#getInstance"));
     }
     if (!isSet(javaOptions, FLOGGER_LOGGING_CONTEXT)) {
       javaOptions.add(

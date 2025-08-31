@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd4b0610_e91da753",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-08-31T09:41:34Z",
+      "side": 1,
+      "message": "I think we should try to finalize this migration, flogger stopped supporting log4j 1.x in its 0.9 release, see https://github.com/google/flogger/releases/tag/flogger-0.9",
+      "revId": "5c8122b80397fd9163483270ae89859838e65691",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

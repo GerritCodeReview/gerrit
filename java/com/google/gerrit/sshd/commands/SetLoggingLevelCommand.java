@@ -17,19 +17,19 @@ package com.google.gerrit.sshd.commands;
 import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
 
 import com.google.common.base.Strings;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Iterators;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
-import java.net.MalformedURLException;
 import java.net.URI;
-import org.apache.log4j.Level;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
-import org.apache.log4j.helpers.Loader;
+import java.net.URISyntaxException;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.LoggerContext;
+import org.apache.logging.log4j.core.config.Configuration;
+import org.apache.logging.log4j.core.config.ConfigurationFactory;
+import org.apache.logging.log4j.core.config.Configurator;
+import org.apache.logging.log4j.core.util.Loader;
 import org.kohsuke.args4j.Argument;
 
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
@@ -38,8 +38,9 @@ import org.kohsuke.args4j.Argument;
     description = "Change the level of loggers",
     runsAt = MASTER_OR_SLAVE)
 public class SetLoggingLevelCommand extends SshCommand {
-  private static final String LOG_CONFIGURATION = "log4j.properties";
-  private static final String JAVA_OPTIONS_LOG_CONFIG = "log4j.configuration";
+
+  private static final String LOG_CONFIGURATION = "log4j2.xml";
+  private static final String JAVA_OPTIONS_LOG_CONFIG = "log4j2.configurationFile";
 
   private enum LevelOption {
     ALL,
@@ -50,7 +51,7 @@ public class SetLoggingLevelCommand extends SshCommand {
     ERROR,
     FATAL,
     OFF,
-    RESET,
+    RESET
   }
 
   @Argument(index = 0, required = true, metaVar = "LEVEL", usage = "logging level to set to")
@@ -60,34 +61,45 @@ public class SetLoggingLevelCommand extends SshCommand {
   private String name;
 
   @Override
-  protected void run() throws MalformedURLException {
+  protected void run() throws URISyntaxException {
     enableGracefulStop();
+
     if (level == LevelOption.RESET) {
       reset();
     } else {
-      for (Logger logger : getCurrentLoggers()) {
-        if (name == null || logger.getName().contains(name)) {
-          logger.setLevel(Level.toLevel(level.name()));
-        }
+      final Level newLevel;
+      try {
+        newLevel = Level.valueOf(level.name());
+      } catch (IllegalArgumentException e) {
+        stderr.println("Unknown logging level: " + level);
+        return;
       }
+
+      LoggerContext ctx = (LoggerContext) LogManager.getContext(false);
+      ctx.getLoggers()
+          .forEach(
+              logger -> {
+                String loggerName = logger.getName();
+                if (name == null || loggerName.contains(name)) {
+                  Configurator.setLevel(loggerName, newLevel);
+                }
+              });
     }
   }
 
-  private static void reset() throws MalformedURLException {
-    for (Logger logger : getCurrentLoggers()) {
-      logger.setLevel(null);
-    }
+  private static void reset() throws URISyntaxException {
+    LoggerContext context = (LoggerContext) LogManager.getContext(false);
 
     String path = System.getProperty(JAVA_OPTIONS_LOG_CONFIG);
-    if (Strings.isNullOrEmpty(path)) {
-      PropertyConfigurator.configure(Loader.getResource(LOG_CONFIGURATION));
-    } else {
-      PropertyConfigurator.configure(URI.create(path).toURL());
-    }
-  }
+    URI configLocation =
+        Strings.isNullOrEmpty(path)
+            ? Loader.getResource(LOG_CONFIGURATION, Thread.currentThread().getContextClassLoader())
+                .toURI()
+            : URI.create(path);
 
-  @SuppressWarnings({"unchecked", "JdkObsolete"})
-  private static ImmutableList<Logger> getCurrentLoggers() {
-    return ImmutableList.copyOf(Iterators.forEnumeration(LogManager.getCurrentLoggers()));
+    Configuration newConfig =
+        ConfigurationFactory.getInstance().getConfiguration(context, null, configLocation);
+
+    context.reconfigure(newConfig);
   }
 }

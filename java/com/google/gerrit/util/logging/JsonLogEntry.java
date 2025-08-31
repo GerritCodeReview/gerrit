@@ -14,10 +14,23 @@
 
 package com.google.gerrit.util.logging;
 
-import org.apache.log4j.spi.LoggingEvent;
+import org.apache.logging.log4j.ThreadContext;
+import org.apache.logging.log4j.core.LogEvent;
 
 public abstract class JsonLogEntry {
-  public String getMdcString(LoggingEvent event, String key) {
-    return (String) event.getMDC(key);
+  /**
+   * Retrieves the value associated with the given MDC key from a LogEvent.
+   *
+   * @param event the Log4j2 log event
+   * @param key the MDC key
+   * @return the MDC value or null if not set
+   */
+  public String getMdcString(LogEvent event, String key) {
+    return event.getContextData().getValue(key);
+  }
+
+  /** Alternative: retrieve directly from ThreadContext of the current thread. */
+  public String getMdcString(String key) {
+    return ThreadContext.get(key);
   }
 }

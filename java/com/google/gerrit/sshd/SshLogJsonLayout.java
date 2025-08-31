@@ -30,14 +30,19 @@ import static com.google.gerrit.sshd.SshLog.P_WAIT;
 import com.google.common.base.Splitter;
 import com.google.gerrit.util.logging.JsonLayout;
 import com.google.gerrit.util.logging.JsonLogEntry;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
-import org.apache.log4j.spi.LoggingEvent;
+import org.apache.logging.log4j.core.LogEvent;
 
 public class SshLogJsonLayout extends JsonLayout {
   private static final Splitter SPLITTER = Splitter.on(" ");
 
+  public SshLogJsonLayout() {
+    super(StandardCharsets.UTF_8);
+  }
+
   @Override
-  public JsonLogEntry toJsonLogEntry(LoggingEvent event) {
+  public JsonLogEntry toJsonLogEntry(LogEvent event) {
     return new SshJsonLogEntry(event);
   }
 
@@ -69,14 +74,14 @@ public class SshLogJsonLayout extends JsonLayout {
     public String objectsTotal;
     public String bytesTotal;
 
-    public SshJsonLogEntry(LoggingEvent event) {
-      this.timestamp = timestampFormatter.format(event.getTimeStamp());
+    public SshJsonLogEntry(LogEvent event) {
+      this.timestamp = timestampFormatter.format(event.getTimeMillis());
       this.session = getMdcString(event, P_SESSION);
       this.traceId = getMdcString(event, P_TRACE_ID);
       this.thread = event.getThreadName();
       this.user = getMdcString(event, P_USER_NAME);
       this.accountId = getMdcString(event, P_ACCOUNT_ID);
-      this.message = (String) event.getMessage();
+      this.message = event.getMessage().getFormattedMessage();
       this.waitTime = getMdcString(event, P_WAIT);
       this.execTime = getMdcString(event, P_EXEC);
       this.totalCpu = getMdcString(event, P_TOTAL_CPU);
@@ -87,18 +92,18 @@ public class SshLogJsonLayout extends JsonLayout {
 
       String metricString = getMdcString(event, P_MESSAGE);
       if (metricString != null && !metricString.isEmpty()) {
-        List<String> ssh_metrics = SPLITTER.splitToList(metricString);
-        this.timeNegotiating = ssh_metrics.get(0);
-        this.timeSearchReuse = ssh_metrics.get(1);
-        this.timeSearchSizes = ssh_metrics.get(2);
-        this.timeCounting = ssh_metrics.get(3);
-        this.timeCompressing = ssh_metrics.get(4);
-        this.timeWriting = ssh_metrics.get(5);
-        this.timeTotal = ssh_metrics.get(6);
-        this.bitmapIndexMisses = ssh_metrics.get(7);
-        this.deltasTotal = ssh_metrics.get(8);
-        this.objectsTotal = ssh_metrics.get(9);
-        this.bytesTotal = ssh_metrics.get(10);
+        List<String> sshMetrics = SPLITTER.splitToList(metricString);
+        this.timeNegotiating = sshMetrics.get(0);
+        this.timeSearchReuse = sshMetrics.get(1);
+        this.timeSearchSizes = sshMetrics.get(2);
+        this.timeCounting = sshMetrics.get(3);
+        this.timeCompressing = sshMetrics.get(4);
+        this.timeWriting = sshMetrics.get(5);
+        this.timeTotal = sshMetrics.get(6);
+        this.bitmapIndexMisses = sshMetrics.get(7);
+        this.deltasTotal = sshMetrics.get(8);
+        this.objectsTotal = sshMetrics.get(9);
+        this.bytesTotal = sshMetrics.get(10);
       }
     }
   }

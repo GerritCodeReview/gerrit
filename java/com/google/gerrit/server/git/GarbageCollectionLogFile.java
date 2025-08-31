@@ -20,11 +20,12 @@ import com.google.gerrit.server.config.LogConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.util.SystemLog;
 import com.google.inject.Inject;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
-import org.apache.log4j.Appender;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
-import org.apache.log4j.PatternLayout;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.Appender;
+import org.apache.logging.log4j.core.Logger;
+import org.apache.logging.log4j.core.layout.PatternLayout;
 
 public class GarbageCollectionLogFile implements LifecycleListener {
   private static final String LOG_NAME = "gc_log";
@@ -41,24 +42,37 @@ public class GarbageCollectionLogFile implements LifecycleListener {
 
   @Override
   public void stop() {
-    getLogger(GarbageCollection.class).removeAllAppenders();
-    getLogger(GarbageCollectionRunner.class).removeAllAppenders();
+    removeAllAppenders(getLogger(GarbageCollection.class));
+    removeAllAppenders(getLogger(GarbageCollectionRunner.class));
   }
 
   private static void initLogSystem(Path logdir, boolean rotate) {
     Appender appender =
-        SystemLog.createAppender(logdir, LOG_NAME, new PatternLayout("[%d] %-5p %x: %m%n"), rotate);
+        SystemLog.createAppender(
+            logdir,
+            LOG_NAME,
+            PatternLayout.newBuilder()
+                .withPattern("[%d] %-5p %x: %m%n")
+                .withCharset(StandardCharsets.UTF_8)
+                .build(),
+            rotate);
+
     initGcLogger(getLogger(GarbageCollection.class), appender);
     initGcLogger(getLogger(GarbageCollectionRunner.class), appender);
   }
 
   private static Logger getLogger(Class<?> clazz) {
-    return LogManager.getLogger(Platform.getBackend(clazz.getName()).getLoggerName());
+    String loggerName = Platform.getBackend(clazz.getName()).getLoggerName();
+    return (Logger) LogManager.getLogger(loggerName);
   }
 
   private static void initGcLogger(Logger gcLogger, Appender appender) {
-    gcLogger.removeAllAppenders();
+    removeAllAppenders(gcLogger);
     gcLogger.addAppender(appender);
-    gcLogger.setAdditivity(false);
+    gcLogger.setAdditive(false);
+  }
+
+  private static void removeAllAppenders(Logger logger) {
+    logger.getAppenders().values().forEach(a -> logger.removeAppender(a));
   }
 }

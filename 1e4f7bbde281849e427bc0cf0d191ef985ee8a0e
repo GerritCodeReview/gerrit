@@ -33,6 +33,24 @@
       "message": "Ensure using a version \u003e\u003d2.15 due to  CVE-2021-44228.",
       "revId": "1e4f7bbde281849e427bc0cf0d191ef985ee8a0e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3b71c1d1_053ce359",
+        "filename": "WORKSPACE",
+        "patchSetId": 4
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-08-31T23:00:31Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "e0f9fee7_50a739ef",
+      "revId": "1e4f7bbde281849e427bc0cf0d191ef985ee8a0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

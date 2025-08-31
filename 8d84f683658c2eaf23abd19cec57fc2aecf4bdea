@@ -16,6 +16,24 @@
       "message": "This JGit uses Apache MINA SSHD 2.16.0. Where\u0027s the change that bumps Gerrit\u0027s dependency on MINA SSHD? I would have expected a bump at [1], too.\n\n[1] https://github.com/GerritCodeReview/gerrit/blob/ac43fc7c178906c672bf4a66b6a386497ae1b1f9/tools/nongoogle.bzl#L140",
       "revId": "8d84f683658c2eaf23abd19cec57fc2aecf4bdea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f03aae11_b3c4cba0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-08-31T09:30:30Z",
+      "side": 1,
+      "message": "oops, missed that\n\nI pushed the following changes:\n- sshd update in I81a97356c39594bb21aa91859e4df1b1fb5c4e72\n- mina-core update in I3af20946655f2126d147df6b1a53ecc8740ae8dc",
+      "parentUuid": "facbc973_e3b75e82",
+      "revId": "8d84f683658c2eaf23abd19cec57fc2aecf4bdea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

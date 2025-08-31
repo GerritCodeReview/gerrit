@@ -22,31 +22,43 @@ import com.google.gerrit.server.util.SystemLog;
 import com.google.gerrit.util.logging.LogTimestampFormatter;
 import java.io.IOException;
 import java.nio.file.Path;
-import org.apache.log4j.ConsoleAppender;
-import org.apache.log4j.Level;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
-import org.apache.log4j.PatternLayout;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.Appender;
+import org.apache.logging.log4j.core.LoggerContext;
+import org.apache.logging.log4j.core.appender.ConsoleAppender;
+import org.apache.logging.log4j.core.config.LoggerConfig;
+import org.apache.logging.log4j.core.layout.PatternLayout;
 
 public class ErrorLogFile {
   static final String LOG_NAME = "error_log";
   static final String JSON_SUFFIX = ".json";
 
   public static void errorOnlyConsole() {
-    LogManager.resetConfiguration();
+    LoggerContext ctx = (LoggerContext) LogManager.getContext(false);
+    LoggerConfig rootConfig = ctx.getConfiguration().getRootLogger();
 
-    PatternLayout layout = new PatternLayout();
-    layout.setConversionPattern("%-5p %c %x: %m%n");
+    rootConfig
+        .getAppenders()
+        .values()
+        .forEach(
+            a -> {
+              rootConfig.removeAppender(a.getName());
+              a.stop();
+            });
 
-    ConsoleAppender dst = new ConsoleAppender();
-    dst.setLayout(layout);
-    dst.setTarget("System.err");
-    dst.setThreshold(Level.ERROR);
-    dst.activateOptions();
+    PatternLayout layout = PatternLayout.newBuilder().withPattern("%-5p %c %x: %m%n").build();
 
-    Logger root = LogManager.getRootLogger();
-    root.removeAllAppenders();
-    root.addAppender(dst);
+    ConsoleAppender consoleAppender =
+        ConsoleAppender.newBuilder()
+            .setName("stderr")
+            .setTarget(ConsoleAppender.Target.SYSTEM_ERR)
+            .setLayout(layout)
+            .setFollow(true)
+            .build();
+    consoleAppender.start();
+
+    rootConfig.addAppender(consoleAppender, null, null);
+    ctx.updateLoggers();
   }
 
   public static LifecycleListener start(Path sitePath, LogConfig config, boolean consoleLog)
@@ -69,33 +81,50 @@ public class ErrorLogFile {
   }
 
   private static void initLogSystem(Path logdir, LogConfig config, boolean consoleLog) {
-    Logger root = LogManager.getRootLogger();
-    root.removeAllAppenders();
+    LoggerContext ctx = (LoggerContext) LogManager.getContext(false);
+    LoggerConfig rootConfig = ctx.getConfiguration().getRootLogger();
+
+    rootConfig
+        .getAppenders()
+        .values()
+        .forEach(
+            a -> {
+              rootConfig.removeAppender(a.getName());
+              a.stop();
+            });
 
     PatternLayout errorLogLayout =
-        new PatternLayout(
-            "[%d{" + LogTimestampFormatter.TIMESTAMP_FORMAT + "}] [%t] %-5p %c %x: %m%n");
+        PatternLayout.newBuilder()
+            .withPattern(
+                "[%d{" + LogTimestampFormatter.TIMESTAMP_FORMAT + "}] [%t] %-5p %c %x: %m%n")
+            .build();
 
     if (consoleLog) {
-      ConsoleAppender dst = new ConsoleAppender();
-      dst.setLayout(errorLogLayout);
-      dst.setTarget("System.err");
-      dst.setThreshold(Level.INFO);
-      dst.activateOptions();
-
-      root.addAppender(dst);
+      ConsoleAppender consoleAppender =
+          ConsoleAppender.newBuilder()
+              .setName("stderr")
+              .setTarget(ConsoleAppender.Target.SYSTEM_ERR)
+              .setLayout(errorLogLayout)
+              .setFollow(true)
+              .build();
+      consoleAppender.start();
+      rootConfig.addAppender(consoleAppender, null, null);
     }
 
     boolean rotate = config.shouldRotate();
 
     if (config.isTextLogging() || !consoleLog) {
-      root.addAppender(SystemLog.createAppender(logdir, LOG_NAME, errorLogLayout, rotate));
+      Appender textAppender = SystemLog.createAppender(logdir, LOG_NAME, errorLogLayout, rotate);
+      rootConfig.addAppender(textAppender, null, null);
     }
 
     if (config.isJsonLogging()) {
-      root.addAppender(
+      Appender jsonAppender =
           SystemLog.createAppender(
-              logdir, LOG_NAME + JSON_SUFFIX, new ErrorLogJsonLayout(), rotate));
+              logdir, LOG_NAME + JSON_SUFFIX, new ErrorLogJsonLayout(), rotate);
+      rootConfig.addAppender(jsonAppender, null, null);
     }
+
+    ctx.updateLoggers();
   }
 }

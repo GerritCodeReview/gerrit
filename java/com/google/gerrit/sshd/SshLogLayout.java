@@ -28,63 +28,65 @@ import static com.google.gerrit.sshd.SshLog.P_USER_NAME;
 import static com.google.gerrit.sshd.SshLog.P_WAIT;
 
 import com.google.gerrit.util.logging.LogTimestampFormatter;
-import org.apache.log4j.Layout;
-import org.apache.log4j.spi.LoggingEvent;
+import java.nio.charset.StandardCharsets;
+import org.apache.logging.log4j.ThreadContext;
+import org.apache.logging.log4j.core.LogEvent;
+import org.apache.logging.log4j.core.layout.AbstractStringLayout;
 import org.eclipse.jgit.util.QuotedString;
 
-public final class SshLogLayout extends Layout {
+public final class SshLogLayout extends AbstractStringLayout {
   private final LogTimestampFormatter timestampFormatter;
 
   public SshLogLayout() {
+    super(StandardCharsets.UTF_8);
     timestampFormatter = new LogTimestampFormatter();
   }
 
   @Override
-  public String format(LoggingEvent event) {
+  public String toSerializable(LogEvent event) {
     final StringBuilder buf = new StringBuilder(128);
 
     buf.append('[');
-    buf.append(timestampFormatter.format(event.getTimeStamp()));
+    buf.append(timestampFormatter.format(event.getTimeMillis()));
     buf.append(']');
 
-    req(P_SESSION, buf, event);
+    req(P_SESSION, buf);
 
     buf.append(' ');
     buf.append('[');
     buf.append(event.getThreadName());
     buf.append(']');
 
-    req(P_USER_NAME, buf, event);
-    req(P_ACCOUNT_ID, buf, event);
+    req(P_USER_NAME, buf);
+    req(P_ACCOUNT_ID, buf);
 
     buf.append(' ');
-    buf.append(event.getMessage());
+    buf.append(event.getMessage().getFormattedMessage());
 
-    String msg = (String) event.getMessage();
+    String msg = event.getMessage().getFormattedMessage();
     if (!(msg.startsWith("LOGIN") || msg.equals("LOGOUT"))) {
-      req(P_WAIT, buf, event);
-      req(P_EXEC, buf, event);
-      req(P_MESSAGE, buf, event);
-      req(P_STATUS, buf, event);
-      req(P_AGENT, buf, event);
-      req(P_TOTAL_CPU, buf, event);
-      req(P_USER_CPU, buf, event);
-      req(P_MEMORY, buf, event);
+      req(P_WAIT, buf);
+      req(P_EXEC, buf);
+      req(P_MESSAGE, buf);
+      req(P_STATUS, buf);
+      req(P_AGENT, buf);
+      req(P_TOTAL_CPU, buf);
+      req(P_USER_CPU, buf);
+      req(P_MEMORY, buf);
     }
 
-    req(P_TRACE_ID, buf, event);
+    req(P_TRACE_ID, buf);
 
     buf.append('\n');
     return buf.toString();
   }
 
-  private void req(String key, StringBuilder buf, LoggingEvent event) {
-    Object val = event.getMDC(key);
+  private void req(String key, StringBuilder buf) {
+    String val = ThreadContext.get(key);
     buf.append(' ');
     if (val != null) {
-      String s = val.toString();
-      if (0 <= s.indexOf(' ')) {
-        buf.append(QuotedString.BOURNE.quote(s));
+      if (val.contains(" ")) {
+        buf.append(QuotedString.BOURNE.quote(val));
       } else {
         buf.append(val);
       }
@@ -92,12 +94,4 @@ public final class SshLogLayout extends Layout {
       buf.append('-');
     }
   }
-
-  @Override
-  public boolean ignoresThrowable() {
-    return true;
-  }
-
-  @Override
-  public void activateOptions() {}
 }

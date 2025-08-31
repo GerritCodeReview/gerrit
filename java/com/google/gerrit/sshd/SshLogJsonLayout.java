@@ -28,21 +28,78 @@ import static com.google.gerrit.sshd.SshLog.P_USER_NAME;
 import static com.google.gerrit.sshd.SshLog.P_WAIT;
 
 import com.google.common.base.Splitter;
-import com.google.gerrit.util.logging.JsonLayout;
-import com.google.gerrit.util.logging.JsonLogEntry;
+import org.apache.logging.log4j.ThreadContext;
+import org.apache.logging.log4j.core.LogEvent;
+import org.apache.logging.log4j.core.layout.AbstractStringLayout;
+import org.apache.logging.log4j.core.config.plugins.Plugin;
+import org.apache.logging.log4j.core.config.plugins.PluginFactory;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
-import org.apache.log4j.spi.LoggingEvent;
 
-public class SshLogJsonLayout extends JsonLayout {
+@Plugin(name = "SshLogJsonLayout", category = "Core", elementType = "layout", printObject = true)
+public class SshLogJsonLayout extends AbstractStringLayout {
   private static final Splitter SPLITTER = Splitter.on(" ");
 
+  protected SshLogJsonLayout() {
+    super(StandardCharsets.UTF_8);
+  }
+
+  @PluginFactory
+  public static SshLogJsonLayout createLayout() {
+    return new SshLogJsonLayout();
+  }
+
   @Override
-  public JsonLogEntry toJsonLogEntry(LoggingEvent event) {
-    return new SshJsonLogEntry(event);
+  public String toSerializable(LogEvent event) {
+    return toJson(new SshJsonLogEntry(event)) + "\n";
+  }
+
+  private static String toJson(SshJsonLogEntry entry) {
+    StringBuilder sb = new StringBuilder();
+    sb.append("{");
+    appendField(sb, "timestamp", entry.timestamp);
+    appendField(sb, "session", entry.session);
+    appendField(sb, "traceId", entry.traceId);
+    appendField(sb, "thread", entry.thread);
+    appendField(sb, "user", entry.user);
+    appendField(sb, "accountId", entry.accountId);
+    appendField(sb, "message", entry.message);
+    appendField(sb, "waitTime", entry.waitTime);
+    appendField(sb, "execTime", entry.execTime);
+    appendField(sb, "totalCpu", entry.totalCpu);
+    appendField(sb, "userCpu", entry.userCpu);
+    appendField(sb, "memory", entry.memory);
+    appendField(sb, "status", entry.status);
+    appendField(sb, "agent", entry.agent);
+    appendField(sb, "timeNegotiating", entry.timeNegotiating);
+    appendField(sb, "timeSearchReuse", entry.timeSearchReuse);
+    appendField(sb, "timeSearchSizes", entry.timeSearchSizes);
+    appendField(sb, "timeCounting", entry.timeCounting);
+    appendField(sb, "timeCompressing", entry.timeCompressing);
+    appendField(sb, "timeWriting", entry.timeWriting);
+    appendField(sb, "timeTotal", entry.timeTotal);
+    appendField(sb, "bitmapIndexMisses", entry.bitmapIndexMisses);
+    appendField(sb, "deltasTotal", entry.deltasTotal);
+    appendField(sb, "objectsTotal", entry.objectsTotal);
+    appendField(sb, "bytesTotal", entry.bytesTotal, true);
+    sb.append("}");
+    return sb.toString();
+  }
+
+  private static void appendField(StringBuilder sb, String key, String value) {
+    appendField(sb, key, value, false);
+  }
+
+  private static void appendField(StringBuilder sb, String key, String value, boolean last) {
+    if (value != null) {
+      sb.append("\"").append(key).append("\":\"")
+        .append(value.replace("\"", "\\\"")).append("\"");
+      if (!last) sb.append(",");
+    }
   }
 
   @SuppressWarnings("unused")
-  private class SshJsonLogEntry extends JsonLogEntry {
+  private static class SshJsonLogEntry {
     public String timestamp;
     public String session;
     public String traceId;
@@ -69,23 +126,24 @@ public class SshLogJsonLayout extends JsonLayout {
     public String objectsTotal;
     public String bytesTotal;
 
-    public SshJsonLogEntry(LoggingEvent event) {
-      this.timestamp = timestampFormatter.format(event.getTimeStamp());
-      this.session = getMdcString(event, P_SESSION);
-      this.traceId = getMdcString(event, P_TRACE_ID);
+    public SshJsonLogEntry(LogEvent event) {
+      this.timestamp = java.time.format.DateTimeFormatter.ISO_INSTANT
+          .format(java.time.Instant.ofEpochMilli(event.getTimeMillis()));
+      this.session = ThreadContext.get(P_SESSION);
+      this.traceId = ThreadContext.get(P_TRACE_ID);
       this.thread = event.getThreadName();
-      this.user = getMdcString(event, P_USER_NAME);
-      this.accountId = getMdcString(event, P_ACCOUNT_ID);
-      this.message = (String) event.getMessage();
-      this.waitTime = getMdcString(event, P_WAIT);
-      this.execTime = getMdcString(event, P_EXEC);
-      this.totalCpu = getMdcString(event, P_TOTAL_CPU);
-      this.userCpu = getMdcString(event, P_USER_CPU);
-      this.memory = getMdcString(event, P_MEMORY);
-      this.status = getMdcString(event, P_STATUS);
-      this.agent = getMdcString(event, P_AGENT);
+      this.user = ThreadContext.get(P_USER_NAME);
+      this.accountId = ThreadContext.get(P_ACCOUNT_ID);
+      this.message = event.getMessage().getFormattedMessage();
+      this.waitTime = ThreadContext.get(P_WAIT);
+      this.execTime = ThreadContext.get(P_EXEC);
+      this.totalCpu = ThreadContext.get(P_TOTAL_CPU);
+      this.userCpu = ThreadContext.get(P_USER_CPU);
+      this.memory = ThreadContext.get(P_MEMORY);
+      this.status = ThreadContext.get(P_STATUS);
+      this.agent = ThreadContext.get(P_AGENT);
 
-      String metricString = getMdcString(event, P_MESSAGE);
+      String metricString = ThreadContext.get(P_MESSAGE);
       if (metricString != null && !metricString.isEmpty()) {
         List<String> ssh_metrics = SPLITTER.splitToList(metricString);
         this.timeNegotiating = ssh_metrics.get(0);

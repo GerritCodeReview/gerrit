@@ -2166,11 +2166,11 @@ multiple times to configure multiple values. If multiple values are
 configured, they are passed in order on the command line, separated by
 spaces.  These options are appended onto 'JAVA_OPTIONS'.
 +
-For example, it is possible to overwrite Gerrit's default log4j
+For example, it is possible to overwrite Gerrit's default log4j2
 configuration:
 +
 ----
-  javaOptions = -Dlog4j.configuration=file:///home/gerrit/site/etc/log4j.properties
+  javaOptions = -Dlog4j2.configurationFile=file:///home/gerrit/site/etc/log4j2.xml
 ----
 +
 Gerrit built-in loggers are then ignored: error logger (`error_log` file),
@@ -4741,10 +4741,10 @@ By default unset.
 If set to `true`, enables error, ssh and http logging in JSON format (file names:
 `logs/error_log.json`, `logs/sshd_log.json` and `logs/httpd_log.json`).
 +
-The option only applies to Gerrit built-in loggers. It is ignored when a log4j
+The option only applies to Gerrit built-in loggers. It is ignored when a log4j2
 configuration is specified via
 link:#container.javaOptions[container.javaOptions], for example
-`-Dlog4j.configuration=file://etc/log4j.properties`.
+`-Dlog4j2.configurationFile=file://etc/log4j2.xml`.
 +
 Defaults to `false`.
 
@@ -4753,10 +4753,10 @@ Defaults to `false`.
 If set to `true`, enables error logging in regular plain text format. Can only be disabled
 if `jsonLogging` is enabled.
 +
-The option only applies to Gerrit built-in loggers. It is ignored when a log4j
+The option only applies to Gerrit built-in loggers. It is ignored when a log4j2
 configuration is specified via
 link:#container.javaOptions[container.javaOptions], for example
-`-Dlog4j.configuration=file://etc/log4j.properties`.
+`-Dlog4j2.configurationFile=file://etc/log4j2.xml`.
 +
 Defaults to `true`.
 

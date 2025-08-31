@@ -321,19 +321,19 @@ export class GrComment extends LitElement {
    * This is triggered when the user types into the editing textarea. We then
    * debounce it and call autoSave().
    */
-  private autoSaveTrigger$ = new Subject();
+  private autoSaveTrigger$ = new Subject<void>();
 
   /**
    * This is triggered when the user types into the editing textarea. We then
    * debounce it and call generateSuggestEdit().
    */
-  private generateSuggestionTrigger$ = new Subject();
+  private generateSuggestionTrigger$ = new Subject<void>();
 
   /**
    * This is triggered when the user types into the editing textarea. We then
    * debounce it and call autocompleteComment().
    */
-  private autocompleteTrigger$ = new Subject();
+  private autocompleteTrigger$ = new Subject<void>();
 
   /**
    * Set to the content of DraftInfo when entering editing mode.

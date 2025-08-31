@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f9304b11_7081280d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-08-31T23:01:49Z",
+      "side": 1,
+      "message": "This requires https://gerrit-review.googlesource.com/c/plugins/replication/+/502731 and https://gerrit-review.googlesource.com/c/plugins/delete-project/+/502732 to be merged at the same time.",
+      "revId": "93c37195bab248800130cbcf7696d7bf14a9464d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

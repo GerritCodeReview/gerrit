@@ -15,10 +15,6 @@ AUTO_VALUE_VERSION = "1.11.0"
 
 GUAVA_VERSION = "33.4.8-jre"
 
-GUAVA_BIN_SHA1 = "e70a3268e6cd3e7d458aa15787ce6811c34e96ae"
-
-GUAVA_TESTLIB_BIN_SHA1 = "7443cfac765d74b8a31bbe6c49357715e32f714c"
-
 GUAVA_DOC_URL = "https://google.github.io/guava/releases/" + GUAVA_VERSION + "/api/docs/"
 
 def archive_dependencies():
@@ -262,13 +258,13 @@ def declare_nongoogle_deps():
     maven_jar(
         name = "guava",
         artifact = "com.google.guava:guava:" + GUAVA_VERSION,
-        sha1 = GUAVA_BIN_SHA1,
+        sha1 = "e70a3268e6cd3e7d458aa15787ce6811c34e96ae",
     )
 
     maven_jar(
         name = "guava-testlib",
         artifact = "com.google.guava:guava-testlib:" + GUAVA_VERSION,
-        sha1 = GUAVA_TESTLIB_BIN_SHA1,
+        sha1 = "7443cfac765d74b8a31bbe6c49357715e32f714c",
     )
 
     GUICE_VERS = "6.0.0"

@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.util;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.base.Strings;
 import com.google.common.flogger.FluentLogger;
@@ -26,16 +25,16 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.nio.file.Path;
-import org.apache.log4j.Appender;
-import org.apache.log4j.AsyncAppender;
-import org.apache.log4j.DailyRollingFileAppender;
-import org.apache.log4j.FileAppender;
-import org.apache.log4j.Layout;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
-import org.apache.log4j.helpers.OnlyOnceErrorHandler;
-import org.apache.log4j.spi.ErrorHandler;
-import org.apache.log4j.spi.LoggingEvent;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.Appender;
+import org.apache.logging.log4j.core.Layout;
+import org.apache.logging.log4j.core.LoggerContext;
+import org.apache.logging.log4j.core.appender.AsyncAppender;
+import org.apache.logging.log4j.core.appender.FileAppender;
+import org.apache.logging.log4j.core.appender.RollingFileAppender;
+import org.apache.logging.log4j.core.appender.rolling.TimeBasedTriggeringPolicy;
+import org.apache.logging.log4j.core.config.AppenderRef;
+import org.apache.logging.log4j.core.config.Configuration;
 import org.eclipse.jgit.lib.Config;
 
 @Singleton
@@ -59,49 +58,100 @@ public class SystemLog {
     return Strings.isNullOrEmpty(System.getProperty(LOG4J_CONFIGURATION));
   }
 
-  public static Appender createAppender(Path logdir, String name, Layout layout, boolean rotate) {
-    final FileAppender dst = rotate ? new DailyRollingFileAppender() : new FileAppender();
-    dst.setName(name);
-    dst.setLayout(layout);
-    dst.setEncoding(UTF_8.name());
-    dst.setFile(resolve(logdir).resolve(name).toString());
-    dst.setImmediateFlush(true);
-    dst.setAppend(true);
-    dst.setErrorHandler(new DieErrorHandler());
-    dst.activateOptions();
-    dst.setErrorHandler(new OnlyOnceErrorHandler());
-    return dst;
+  public static Appender createAppender(
+      Path logdir, String name, Layout<?> layout, boolean rotate) {
+    Path filePath = resolve(logdir).resolve(name);
+    LoggerContext ctx = (LoggerContext) LogManager.getContext(false);
+    Configuration config = ctx.getConfiguration();
+
+    if (layout == null) {
+      throw new Die("Log4j2 layout is null for appender: " + name);
+    }
+
+    Appender appender;
+    try {
+      if (rotate) {
+        appender =
+            RollingFileAppender.newBuilder()
+                .withFileName(filePath.toString())
+                .withFilePattern(filePath.toString() + ".%d{yyyy-MM-dd}")
+                .withName(name)
+                .withLayout(layout)
+                .withImmediateFlush(true)
+                .withAppend(true)
+                .setConfiguration(config)
+                .withPolicy(TimeBasedTriggeringPolicy.newBuilder().withInterval(1).build())
+                .build();
+      } else {
+        appender =
+            FileAppender.newBuilder()
+                .setName(name)
+                .withFileName(filePath.toString())
+                .withLayout(layout)
+                .withImmediateFlush(true)
+                .withAppend(true)
+                .setConfiguration(config)
+                .build();
+      }
+    } catch (Exception e) {
+      throw new Die(
+          "Exception while building Log4j2 appender: "
+              + name
+              + " at "
+              + filePath
+              + ": "
+              + e.getMessage(),
+          e);
+    }
+
+    if (appender == null) {
+      throw new Die("Log4j2 builder returned null for appender: " + name + " at " + filePath);
+    }
+    appender.start();
+    config.addAppender(appender);
+    return appender;
   }
 
-  public AsyncAppender createAsyncAppender(String name, Layout layout) {
+  public AsyncAppender createAsyncAppender(String name, Layout<?> layout) {
     return createAsyncAppender(name, layout, rotateLogs);
   }
 
-  private AsyncAppender createAsyncAppender(String name, Layout layout, boolean rotate) {
+  private AsyncAppender createAsyncAppender(String name, Layout<?> layout, boolean rotate) {
     return createAsyncAppender(name, layout, rotate, false);
   }
 
   public AsyncAppender createAsyncAppender(
-      String name, Layout layout, boolean rotate, boolean forPlugin) {
-    AsyncAppender async = new AsyncAppender();
-    async.setName(name);
-    async.setBlocking(true);
-    async.setBufferSize(asyncLoggingBufferSize);
-    async.setLocationInfo(false);
+      String name, Layout<?> layout, boolean rotate, boolean forPlugin) {
+    LoggerContext ctx = (LoggerContext) LogManager.getContext(false);
+    Configuration config = ctx.getConfiguration();
 
+    AppenderRef[] refs;
     if (forPlugin || shouldConfigure()) {
-      async.addAppender(createAppender(site.logs_dir, name, layout, rotate));
+      var unused = createAppender(site.logs_dir, name, layout, rotate);
+      refs = new AppenderRef[] {AppenderRef.createAppenderRef(name, null, null)};
     } else {
-      Appender appender = LogManager.getLogger(name).getAppender(name);
+      Appender appender = config.getAppender(name);
       if (appender != null) {
-        async.addAppender(appender);
+        refs = new AppenderRef[] {AppenderRef.createAppenderRef(name, null, null)};
       } else {
         logger.atWarning().log(
             "No appender with the name: %s was found. %s logging is disabled", name, name);
+        refs = new AppenderRef[0];
       }
     }
-    async.activateOptions();
-    return async;
+
+    AsyncAppender asyncAppender =
+        AsyncAppender.newBuilder()
+            .setName(name)
+            .setBlocking(true)
+            .setBufferSize(asyncLoggingBufferSize)
+            .setConfiguration(config)
+            .setAppenderRefs(refs)
+            .build();
+
+    asyncAppender.start();
+    config.addAppender(asyncAppender);
+    return asyncAppender;
   }
 
   private static Path resolve(Path p) {
@@ -110,34 +160,5 @@ public class SystemLog {
     } catch (IOException e) {
       return p.toAbsolutePath().normalize();
     }
-  }
-
-  private static final class DieErrorHandler implements ErrorHandler {
-    @Override
-    public void error(String message, Exception e, int errorCode, LoggingEvent event) {
-      error(e != null ? e.getMessage() : message);
-    }
-
-    @Override
-    public void error(String message, Exception e, int errorCode) {
-      error(e != null ? e.getMessage() : message);
-    }
-
-    @Override
-    public void error(String message) {
-      throw new Die("Cannot open log file: " + message);
-    }
-
-    @Override
-    public void activateOptions() {}
-
-    @Override
-    public void setAppender(Appender appender) {}
-
-    @Override
-    public void setBackupAppender(Appender appender) {}
-
-    @Override
-    public void setLogger(Logger logger) {}
   }
 }

@@ -153,8 +153,8 @@ def declare_nongoogle_deps():
 
     maven_jar(
         name = "mina-core",
-        artifact = "org.apache.mina:mina-core:2.0.27",
-        sha1 = "d5d353d971b0fb17ae0271f6f2921585f64e1535",
+        artifact = "org.apache.mina:mina-core:2.2.4",
+        sha1 = "f76b231c8a332640a4b1deef5262c603b088be02",
     )
 
     maven_jar(

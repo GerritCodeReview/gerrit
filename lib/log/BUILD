@@ -19,9 +19,9 @@ java_library(
 
 java_library(
     name = "impl-log4j",
-    data = ["//lib:LICENSE-slf4j"],
+    data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = ["@external_deps//:org_slf4j_slf4j_reload4j"],
+    exports = ["@external_deps//:org_apache_logging_log4j_log4j_slf4j2_impl"],
     runtime_deps = [":log4j"],
 )
 
@@ -36,7 +36,12 @@ java_library(
     name = "log4j",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = ["@external_deps//:ch_qos_reload4j_reload4j"],
+    exports = [
+        "org_apache_logging_log4j_log4j_1_2_api",
+        "org_apache_logging_log4j_log4j_api",
+        "org_apache_logging_log4j_log4j_core",
+        "org_apache_logging_log4j_log4j_web",
+    ],
 )
 
 java_library(

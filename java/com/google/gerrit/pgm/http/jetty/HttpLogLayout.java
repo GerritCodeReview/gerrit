@@ -15,106 +15,82 @@
 package com.google.gerrit.pgm.http.jetty;
 
 import com.google.gerrit.util.logging.LogTimestampFormatter;
-import org.apache.log4j.Layout;
-import org.apache.log4j.spi.LoggingEvent;
+import java.nio.charset.StandardCharsets;
+import org.apache.logging.log4j.core.LogEvent;
+import org.apache.logging.log4j.core.layout.AbstractStringLayout;
+import org.apache.logging.log4j.util.ReadOnlyStringMap;
 
-public final class HttpLogLayout extends Layout {
+public final class HttpLogLayout extends AbstractStringLayout {
   private final LogTimestampFormatter timestampFormatter;
 
   public HttpLogLayout() {
-    timestampFormatter = new LogTimestampFormatter();
+    super(StandardCharsets.UTF_8);
+    this.timestampFormatter = new LogTimestampFormatter();
   }
 
   @Override
-  public String format(LoggingEvent event) {
+  public String toSerializable(LogEvent event) {
     final StringBuilder buf = new StringBuilder(128);
+    ReadOnlyStringMap context = event.getContextData();
 
-    opt(buf, event, HttpLog.P_HOST);
+    append(buf, context, HttpLog.P_HOST);
 
-    buf.append(' ');
-    buf.append('[');
-    buf.append(event.getThreadName());
-    buf.append(']');
+    buf.append(' ').append('[').append(event.getThreadName()).append(']');
 
-    buf.append(' ');
-    buf.append('-'); // identd on client system (never requested)
+    buf.append(" -"); // identd on client system (never requested)
 
     buf.append(' ');
-    opt(buf, event, HttpLog.P_USER);
+    append(buf, context, HttpLog.P_USER);
+
+    buf.append(' ')
+        .append('[')
+        .append(timestampFormatter.format(event.getTimeMillis()))
+        .append(']');
 
     buf.append(' ');
-    buf.append('[');
-    buf.append(timestampFormatter.format(event.getTimeStamp()));
-    buf.append(']');
+    buf.append('"')
+        .append(get(context, HttpLog.P_METHOD))
+        .append(' ')
+        .append(get(context, HttpLog.P_RESOURCE))
+        .append(' ')
+        .append(get(context, HttpLog.P_PROTOCOL))
+        .append('"');
 
-    buf.append(' ');
-    buf.append('"');
-    buf.append(event.getMDC(HttpLog.P_METHOD));
-    buf.append(' ');
-    buf.append(event.getMDC(HttpLog.P_RESOURCE));
-    buf.append(' ');
-    buf.append(event.getMDC(HttpLog.P_PROTOCOL));
-    buf.append('"');
+    buf.append(' ').append(get(context, HttpLog.P_STATUS));
 
-    buf.append(' ');
-    buf.append(event.getMDC(HttpLog.P_STATUS));
-
-    buf.append(' ');
-    opt(buf, event, HttpLog.P_CONTENT_LENGTH);
-
-    buf.append(' ');
-    opt(buf, event, HttpLog.P_LATENCY);
-
-    buf.append(' ');
-    dq_opt(buf, event, HttpLog.P_REFERER);
-
-    buf.append(' ');
-    dq_opt(buf, event, HttpLog.P_USER_AGENT);
-
-    buf.append(' ');
-    opt(buf, event, HttpLog.P_CPU_TOTAL);
-
-    buf.append(' ');
-    opt(buf, event, HttpLog.P_CPU_USER);
-
-    buf.append(' ');
-    opt(buf, event, HttpLog.P_MEMORY);
-
-    buf.append(' ');
-    dq_opt(buf, event, HttpLog.P_COMMAND_STATUS);
-
-    buf.append(' ');
-    opt(buf, event, HttpLog.P_TRACE_ID);
+    buf.append(' ').append(opt(context, HttpLog.P_CONTENT_LENGTH));
+    buf.append(' ').append(opt(context, HttpLog.P_LATENCY));
+    buf.append(' ').append(dqOpt(context, HttpLog.P_REFERER));
+    buf.append(' ').append(dqOpt(context, HttpLog.P_USER_AGENT));
+    buf.append(' ').append(opt(context, HttpLog.P_CPU_TOTAL));
+    buf.append(' ').append(opt(context, HttpLog.P_CPU_USER));
+    buf.append(' ').append(opt(context, HttpLog.P_MEMORY));
+    buf.append(' ').append(dqOpt(context, HttpLog.P_COMMAND_STATUS));
+    buf.append(' ').append(opt(context, HttpLog.P_TRACE_ID));
 
     buf.append('\n');
     return buf.toString();
   }
 
-  private void opt(StringBuilder buf, LoggingEvent event, String key) {
-    String val = (String) event.getMDC(key);
-    if (val == null) {
-      buf.append('-');
-    } else {
-      buf.append(val);
+  private String get(ReadOnlyStringMap context, String key) {
+    Object val = context.getValue(key);
+    return val != null ? String.valueOf(val) : "-";
+  }
+
+  private void append(StringBuilder buf, ReadOnlyStringMap context, String key) {
+    buf.append(get(context, key));
+  }
+
+  private String opt(ReadOnlyStringMap context, String key) {
+    Object val = context.getValue(key);
+    return val != null ? String.valueOf(val) : "-";
+  }
+
+  private String dqOpt(ReadOnlyStringMap context, String key) {
+    Object val = context.getValue(key);
+    if (val == null || String.valueOf(val).isEmpty()) {
+      return "-";
     }
+    return "\"" + val + "\"";
   }
-
-  private void dq_opt(StringBuilder buf, LoggingEvent event, String key) {
-    String val = (String) event.getMDC(key);
-    if (val == null) {
-      buf.append('-');
-    } else {
-      buf.append('"');
-      buf.append(val);
-      buf.append('"');
-    }
-  }
-
-  @Override
-  public boolean ignoresThrowable() {
-    return true;
-  }
-
-  @Override
-  public void activateOptions() {}
 }

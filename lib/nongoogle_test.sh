@@ -21,7 +21,7 @@ dropwizard-core
 error-prone-annotations
 flogger
 flogger-google-extensions
-flogger-log4j-backend
+flogger-log4j2-backend
 flogger-system-backend
 gson
 guava
@@ -38,7 +38,10 @@ jimfs
 jruby
 log-api
 log-ext
-log4j
+log4j-1.2-api
+log4j-api
+log4j-core
+log4j-web
 lucene-analyzers-common
 lucene-backward-codecs
 lucene-core

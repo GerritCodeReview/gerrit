@@ -19,17 +19,21 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.systemstatus.ServerInformation;
 import com.google.gerrit.server.config.LogConfig;
-import org.apache.log4j.Layout;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.Layout;
+import org.apache.logging.log4j.core.Logger;
+import org.apache.logging.log4j.core.LoggerContext;
+import org.apache.logging.log4j.core.config.Configuration;
+import org.apache.logging.log4j.core.config.LoggerConfig;
+import org.apache.logging.log4j.core.appender.AsyncAppender;
 
 public abstract class PluginLogFile implements LifecycleListener {
 
   private final SystemLog systemLog;
   private final ServerInformation serverInfo;
   private final String logName;
-  private final Layout layout;
-  private final Layout jsonLayout;
+  private final Layout<?> layout;
+  private final Layout<?> jsonLayout;
   private final boolean textLogging;
   private final boolean jsonLogging;
 
@@ -37,7 +41,7 @@ public abstract class PluginLogFile implements LifecycleListener {
   @Deprecated
   @InlineMe(replacement = "this(systemLog, serverInfo, logName, layout, null, true, false)")
   public PluginLogFile(
-      SystemLog systemLog, ServerInformation serverInfo, String logName, Layout layout) {
+      SystemLog systemLog, ServerInformation serverInfo, String logName, Layout<?> layout) {
     this(systemLog, serverInfo, logName, layout, null, true, false);
   }
 
@@ -45,8 +49,8 @@ public abstract class PluginLogFile implements LifecycleListener {
       SystemLog systemLog,
       ServerInformation serverInfo,
       String logName,
-      Layout layout,
-      @Nullable Layout jsonLayout,
+      Layout<?> layout,
+      @Nullable Layout<?> jsonLayout,
       LogConfig config) {
     this(
         systemLog,
@@ -62,8 +66,8 @@ public abstract class PluginLogFile implements LifecycleListener {
       SystemLog systemLog,
       ServerInformation serverInfo,
       String logName,
-      Layout layout,
-      @Nullable Layout jsonLayout,
+      Layout<?> layout,
+      @Nullable Layout<?> jsonLayout,
       boolean textLogging,
       boolean jsonLogging) {
     this.systemLog = systemLog;
@@ -87,30 +91,39 @@ public abstract class PluginLogFile implements LifecycleListener {
 
   @Override
   public void stop() {
-    // stop is called when plugin is unloaded or when the server shutdown.
-    // Only clean up when the server is shutting down to prevent issue when a
-    // plugin is reloaded. The issue is that gerrit load the new plugin and then
-    // unload the old one so because loggers are static, the unload of the old
-    // plugin would remove the appenders just created by the new plugin.
+    // stop is called when plugin is unloaded or when the server shuts down.
+    // Only clean up when the server is shutting down to prevent issues when a
+    // plugin is reloaded. Because loggers are static, unloading the old plugin
+    // would remove appenders just created by the new plugin.
     if (serverInfo.getState() == ServerInformation.State.SHUTDOWN) {
-      LogManager.getLogger(logName).removeAllAppenders();
+      LoggerContext ctx = (LoggerContext) LogManager.getContext(false);
+      Configuration config = ctx.getConfiguration();
+      LoggerConfig loggerConfig = config.getLoggerConfig(logName);
+      loggerConfig.getAppenders().values().forEach(a -> a.stop());
+      loggerConfig.getAppenders().clear();
     }
   }
 
-  private void initLogger(String logName, Layout layout) {
+  private void initLogger(String logName, Layout<?> layout) {
     initLogger(logName, "", layout);
   }
 
-  private void initLogger(String logName, String logFileExtension, Layout layout) {
-    Logger logger = LogManager.getLogger(logName);
+  private void initLogger(String logName, String logFileExtension, Layout<?> layout) {
+    LoggerContext ctx = (LoggerContext) LogManager.getContext(false);
+    Configuration config = ctx.getConfiguration();
+
     String appenderName = logName + logFileExtension;
-    if (logger.getAppender(appenderName) == null) {
+    LoggerConfig loggerConfig = config.getLoggerConfig(logName);
+
+    if (!loggerConfig.getAppenders().containsKey(appenderName)) {
       synchronized (systemLog) {
-        if (logger.getAppender(appenderName) == null) {
-          logger.addAppender(systemLog.createAsyncAppender(appenderName, layout, true, true));
+        if (!loggerConfig.getAppenders().containsKey(appenderName)) {
+          AsyncAppender appender = systemLog.createAsyncAppender(appenderName, layout, true, true);
+          config.addAppender(appender); // Ensure appender is registered with Log4j2 config
+          loggerConfig.addAppender(appender, null, null); // Attach to logger via config
         }
       }
     }
-    logger.setAdditivity(false);
+    loggerConfig.setAdditive(false);
   }
 }

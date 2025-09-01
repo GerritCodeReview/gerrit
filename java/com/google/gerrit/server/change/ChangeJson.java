@@ -116,6 +116,7 @@ import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.RefPermission;
+import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.RemoveReviewerControl;
 import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -149,6 +150,7 @@ import org.eclipse.jgit.lib.Repository;
 public class ChangeJson {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
+  private static final String ERROR_SUBJECT = "***ERROR***";
   public static final SubmitRuleOptions SUBMIT_RULE_OPTIONS_LENIENT =
       ChangeField.SUBMIT_RULE_OPTIONS_LENIENT.toBuilder().build();
 
@@ -573,7 +575,11 @@ public class ChangeJson {
           if (isCacheable) {
             cache.put(cdUniqueId, info);
           }
-        } catch (RuntimeException e) {
+        } catch (NoSuchChangeException nsce) {
+          Optional<ChangeInfo> faultyChangeInfo = createFaultyChangeInfo(cd);
+          faultyChangeInfo.ifPresent(changeInfos::add);
+        }
+        catch (RuntimeException e) {
           Optional<RequestCancelledException> requestCancelledException =
               RequestCancelledException.getFromCausalChain(e);
           if (requestCancelledException.isPresent()) {
@@ -1091,8 +1097,11 @@ public class ChangeJson {
     // We populate the 'starred' field for all change infos together so that we open the All-Users
     // repository only once
     try (Repository allUsersRepo = repoManager.openRepository(allUsers)) {
+
+      // Reapply _moreChanges to the (possibly new) last element
+
       List<Change.Id> changeIds =
-          changeInfos.stream().map(c -> Change.id(c.virtualIdNumber)).collect(Collectors.toList());
+          changeInfos.stream().filter(ci -> !ERROR_SUBJECT.equals(ci.subject)).map(c -> Change.id(c.virtualIdNumber)).collect(Collectors.toList());
       Set<Change.Id> starredChanges =
           starredChangesreader.areStarred(
               allUsersRepo, changeIds, userProvider.get().asIdentifiedUser().getAccountId());

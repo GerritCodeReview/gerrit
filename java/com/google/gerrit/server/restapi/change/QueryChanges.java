@@ -45,11 +45,15 @@ import java.util.Collections;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
+import java.util.HashSet;
+
 import org.kohsuke.args4j.Option;
 
 public class QueryChanges implements RestReadView<TopLevelResource>, DynamicOptions.BeanReceiver {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
+  private static final String ERROR_SUBJECT = "***ERROR***";
   private final ChangeJson.Factory json;
   private final ChangeQueryBuilder qb;
   private final Provider<ChangeQueryProcessor> queryProcessorProvider;
@@ -229,6 +233,42 @@ public class QueryChanges implements RestReadView<TopLevelResource>, DynamicOpti
       List<ChangeInfo> info = res.get(n);
       if (results.get(n).more() && !info.isEmpty()) {
         Iterables.getLast(info)._moreChanges = true;
+      }
+    }
+
+    // Collect change numbers with error subject to be excluded and rerun the query once.
+    Set<Integer> toExclude = new HashSet<>();
+    for (List<ChangeInfo> infos : res) {
+      for (ChangeInfo ci : infos) {
+        if (ci != null && ERROR_SUBJECT.equals(ci.subject) && ci._number != null) {
+          toExclude.add(ci._number);
+        }
+      }
+    }
+
+    if (!toExclude.isEmpty()) {
+      // Augment each original query with -change:<num> filters
+      List<String> newQueries = new ArrayList<>(queries.size());
+      for (int i = 0; i < queries.size(); i++) {
+        String q = queries.get(i);
+        StringBuilder sb = new StringBuilder();
+        sb.append('(').append(q).append(')');
+        for (Integer num : toExclude) {
+          sb.append(" AND (-change:").append(num).append(')');
+        }
+        newQueries.add(sb.toString());
+      }
+      queries = newQueries;
+
+      // Rerun
+      ChangeQueryProcessor queryProcessor1 = queryProcessorProvider.get();
+      results = queryProcessor1.query(qb.parse(queries));
+      res = json.create(options, queryProcessor1.getInfosFactory()).format(results);
+      for (int n = 0; n < cnt; n++) {
+        List<ChangeInfo> info = res.get(n);
+        if (results.get(n).more() && !info.isEmpty()) {
+          Iterables.getLast(info)._moreChanges = true;
+        }
       }
     }
     return res;

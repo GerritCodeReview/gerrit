@@ -314,11 +314,11 @@ public class RevertSubmission
   private void createCherryPickedRevert(
       RevertInput revertInput, Project.NameKey project, ChangeNotes changeNotes, Instant timestamp)
       throws IOException, ConfigInvalidException, UpdateException, RestApiException {
-    ObjectId revCommitId =
+    RevCommit revCommit =
         commitUtil.createRevertCommit(revertInput.message, changeNotes, user.get(), timestamp);
     // TODO (paiking): As a future change, the revert should just be done directly on the
     // target rather than just creating a commit and then cherry-picking it.
-    cherryPickInput.message = revertInput.message;
+    cherryPickInput.message = revCommit.getFullMessage();
     ObjectId generatedChangeId = CommitMessageUtil.generateChangeId();
     Change.Id cherryPickRevertChangeId = Change.id(seq.nextChangeId());
     RevCommit baseCommit = null;
@@ -337,7 +337,7 @@ public class RevertSubmission
         bu.addOp(
             changeNotes.getChange().getId(),
             new CreateCherryPickOp(
-                revCommitId,
+                revCommit,
                 generatedChangeId,
                 cherryPickRevertChangeId,
                 timestamp,

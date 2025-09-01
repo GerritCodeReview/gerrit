@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "659a2040_21f52d2a",
+        "filename": "java/com/google/gerrit/server/restapi/change/QueryChanges.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2025-09-01T19:12:55Z",
+      "side": 1,
+      "message": "Use constant here",
+      "range": {
+        "startLine": 232,
+        "startChar": 16,
+        "endLine": 232,
+        "endChar": 18
+      },
+      "revId": "1222ffd06191cbc93dc8fa6579c6cff4cafb4e0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

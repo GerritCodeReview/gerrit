@@ -305,6 +305,23 @@ public class CommitUtil {
               ChangeMessages.revertChangeDefaultMessage, subject, patch.commitId().name());
     }
 
+<<<<<<< PATCH SET (3f7145a970ca1a9ed69706a7ee72677d7d14181f Add bug/issue footers to reverted change when reverting a su)
+    String footers = getBugAndIssueFooters(commitToRevert);
+    if (!footers.isEmpty()) {
+      message = message.trim() + "\n\n" + footers.trim();
+||||||| BASE      (ca492bfc15ee21efbbd5d9e989f2120cb00d85e5 Append bug/issue footer from main change to revert)
+    List<String> bugValues = commitToRevert.getFooterLines("Bug");
+    List<String> issueValues = commitToRevert.getFooterLines("Issue");
+    if (!bugValues.isEmpty() || !issueValues.isEmpty()) {
+      StringBuilder footers = new StringBuilder();
+      for (String bug : bugValues) {
+        footers.append("Bug: ").append(bug).append("\n");
+      }
+      for (String issue : issueValues) {
+        footers.append("Issue: ").append(issue).append("\n");
+      }
+      message = message.trim() + "\n\n" + footers.toString();
+=======
     String newFooters = getBugAndIssueFooters(commitToRevert);
     if (!newFooters.isEmpty()) {
       StringBuilder footersToAdd = new StringBuilder();
@@ -323,6 +340,7 @@ public class CommitUtil {
       if (footersToAdd.length() > 0) {
         message = message.trim() + "\n\n" + footersToAdd.toString().trim();
       }
+>>>>>>> BASE      (4b4090529063f1469886216d939c51238dd8b133 Merge "Append bug/issue footer from main change to revert")
     }
 
     if (generatedChangeId != null) {

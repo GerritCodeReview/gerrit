@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5cbf44a2_43d72aea",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 24
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-09-01T17:47:42Z",
+      "side": 1,
+      "message": "```suggestion\nRelease-Notes: Migrate to log4j2; this is a breaking change, all plugins\u0027 calls to log4j need to be revisited\n```",
+      "range": {
+        "startLine": 42,
+        "startChar": 15,
+        "endLine": 42,
+        "endChar": 32
+      },
+      "revId": "ddaed6d845a6cb229c0c12afe1325e48c9908df6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

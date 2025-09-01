@@ -290,6 +290,20 @@ public class CommitUtil {
           MessageFormat.format(
               ChangeMessages.revertChangeDefaultMessage, subject, patch.commitId().name());
     }
+
+    List<String> bugValues = commitToRevert.getFooterLines("Bug");
+    List<String> issueValues = commitToRevert.getFooterLines("Issue");
+    if (!bugValues.isEmpty() || !issueValues.isEmpty()) {
+      StringBuilder footers = new StringBuilder();
+      for (String bug : bugValues) {
+        footers.append("Bug: ").append(bug).append("\n");
+      }
+      for (String issue : issueValues) {
+        footers.append("Issue: ").append(issue).append("\n");
+      }
+      message = message.trim() + "\n\n" + footers.toString();
+    }
+
     if (generatedChangeId != null) {
       message = ChangeIdUtil.insertId(message, generatedChangeId, true);
     }

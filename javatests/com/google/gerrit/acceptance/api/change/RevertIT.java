@@ -25,10 +25,12 @@ import static java.util.stream.Collectors.toList;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.AbstractDaemonTest.ProjectConfigUpdate;
 import com.google.gerrit.acceptance.ExtensionRegistry;
 import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
+import com.google.gerrit.acceptance.TestExtensions.TestCommitValidationListener;
 import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
@@ -1630,13 +1632,7 @@ public class RevertIT extends AbstractDaemonTest {
         pushFactory.create(
             admin.newIdent(),
             testRepo,
-            "Change with bug and issue\\n"
-                + //
-                "\\n"
-                + //
-                "Bug: 12345\\n"
-                + //
-                "Issue: 67890",
+            "Change with bug and issue\n" + "\n" + "Bug: 12345\n" + "Issue: 67890",
             "a.txt",
             "content");
     PushOneCommit.Result r = push.to("refs/for/master");
@@ -1655,19 +1651,70 @@ public class RevertIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void revertSubmissionWithBugAndIssueFooters() throws Exception {
+    String topic = "revert-with-footers";
+
+    // Create change 1
+    PushOneCommit.Result r1 =
+        createChange(
+            "Change 1 with bug and issue\n" + "\n" + "Bug: 12345\n" + "Issue: 67890",
+            "a.txt",
+            "content1");
+    gApi.changes().id(r1.getChangeId()).topic(topic);
+
+    // Create change 2
+    PushOneCommit.Result r2 =
+        createChange(
+            "Change 2 with bug and issue\n" + "\n" + "Bug: 54321\n" + "Issue: 98765",
+            "b.txt",
+            "content2");
+    gApi.changes().id(r2.getChangeId()).topic(topic);
+
+    // Approve and submit
+    approve(r1.getChangeId());
+    approve(r2.getChangeId());
+    gApi.changes().id(r2.getChangeId()).current().submit();
+
+    // Revert submission
+    List<ChangeInfo> revertChanges =
+        gApi.changes().id(r1.getChangeId()).revertSubmission().revertChanges;
+    assertThat(revertChanges).hasSize(2);
+
+    // The order of revertChanges is not guaranteed, so find the reverts by original change number.
+    ChangeInfo revert1 =
+        revertChanges.stream()
+            .filter(c -> c.revertOf == r1.getChange().change().getChangeId())
+            .findFirst()
+            .get();
+    ChangeInfo revert2 =
+        revertChanges.stream()
+            .filter(c -> c.revertOf == r2.getChange().change().getChangeId())
+            .findFirst()
+            .get();
+
+    // Check revert of change 1
+    String commitMessage1 = gApi.changes().id(revert1.id).current().commit(false).message;
+    assertThat(commitMessage1).contains("Bug: 12345");
+    assertThat(commitMessage1).contains("Issue: 67890");
+    assertThat(commitMessage1).doesNotContain("Bug: 54321");
+    assertThat(commitMessage1).doesNotContain("Issue: 98765");
+
+    // Check revert of change 2
+    String commitMessage2 = gApi.changes().id(revert2.id).current().commit(false).message;
+    assertThat(commitMessage2).contains("Bug: 54321");
+    assertThat(commitMessage2).contains("Issue: 98765");
+    assertThat(commitMessage2).doesNotContain("Bug: 12345");
+    assertThat(commitMessage2).doesNotContain("Issue: 67890");
+  }
+
+  @Test
   public void revertChangeWithExistingFooters() throws Exception {
     // Create a change with bug and issue footers
     PushOneCommit push =
         pushFactory.create(
             admin.newIdent(),
             testRepo,
-            "Change with bug and issue\\n"
-                + //
-                "\\n"
-                + //
-                "Bug: 12345\\n"
-                + //
-                "Issue: 67890",
+            "Change with bug and issue\n" + "\n" + "Bug: 12345\n" + "Issue: 67890",
             "a.txt",
             "content");
     PushOneCommit.Result r = push.to("refs/for/master");
@@ -1680,6 +1727,38 @@ public class RevertIT extends AbstractDaemonTest {
     RevertInput revertInput = new RevertInput();
     revertInput.message = "Reverting this change\n\nBug: 12345\nIssue: 67890";
     ChangeInfo revertChange = gApi.changes().id(r.getChangeId()).revert(revertInput).get();
+
+    // Check that the footers are not duplicated
+    String commitMessage = gApi.changes().id(revertChange.id).current().commit(false).message;
+    int bugOccurrences = commitMessage.split("Bug: 12345", -1).length - 1;
+    assertThat(bugOccurrences).isEqualTo(1);
+    int issueOccurrences = commitMessage.split("Issue: 67890", -1).length - 1;
+    assertThat(issueOccurrences).isEqualTo(1);
+  }
+
+  @Test
+  public void revertSubmissionWithExistingFooters() throws Exception {
+    // Create a change with bug and issue footers
+    PushOneCommit push =
+        pushFactory.create(
+            admin.newIdent(),
+            testRepo,
+            "Change with bug and issue\n" + "\n" + "Bug: 12345\n" + "Issue: 67890",
+            "a.txt",
+            "content");
+    PushOneCommit.Result r = push.to("refs/for/master");
+    r.assertOkStatus();
+
+    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).review(ReviewInput.approve());
+    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).submit();
+
+    // Revert the submission with a message that already contains the footers
+    RevertInput revertInput = new RevertInput();
+    revertInput.message = "Reverting this change\n\nBug: 12345\nIssue: 67890";
+    List<ChangeInfo> revertChanges =
+        gApi.changes().id(r.getChangeId()).revertSubmission().revertChanges;
+    assertThat(revertChanges).hasSize(1);
+    ChangeInfo revertChange = revertChanges.get(0);
 
     // Check that the footers are not duplicated
     String commitMessage = gApi.changes().id(revertChange.id).current().commit(false).message;

@@ -96,6 +96,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.FooterLine;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 
@@ -244,12 +245,43 @@ public class RevertSubmission
           StorageException,
           PermissionBackendException {
 
+    StringBuilder allFooters = new StringBuilder();
+    java.util.Set<String> uniqueFooters = new java.util.HashSet<>();
+
+    ListMultimap<Project.NameKey, ChangeData> changesByProject = ArrayListMultimap.create();
+    changeData.forEach(cd -> changesByProject.put(cd.project(), cd));
+
+    for (Project.NameKey project : changesByProject.keySet()) {
+      try (Repository git = repoManager.openRepository(project);
+          RevWalk revWalk = new RevWalk(git)) {
+        for (ChangeData cd : changesByProject.get(project)) {
+          RevCommit commit = revWalk.parseCommit(cd.currentPatchSet().commitId());
+          for (FooterLine footerLine : commit.getFooterLines()) {
+            if (footerLine.matches("Bug") || footerLine.matches("Issue")) {
+              String footer = footerLine.getKey() + ": " + footerLine.getValue();
+              if (uniqueFooters.add(footer)) {
+                allFooters.append(footer).append("\n");
+              }
+            }
+          }
+        }
+      }
+    }
+
     ListMultimap<BranchNameKey, ChangeData> changesPerProjectAndBranch = ArrayListMultimap.create();
     changeData.stream().forEach(c -> changesPerProjectAndBranch.put(c.change().getDest(), c));
     cherryPickInput = createCherryPickInput(revertInput);
     Instant timestamp = TimeUtil.now();
 
     String initialMessage = revertInput.message;
+    if (allFooters.length() > 0) {
+      String footersStr = allFooters.toString().trim();
+      if (!Strings.isNullOrEmpty(initialMessage)) {
+        initialMessage = initialMessage.trim() + "\n\n" + footersStr;
+      } else {
+        initialMessage = footersStr;
+      }
+    }
     for (BranchNameKey projectAndBranch : changesPerProjectAndBranch.keySet()) {
       cherryPickInput.base = null;
       Project.NameKey project = projectAndBranch.project();

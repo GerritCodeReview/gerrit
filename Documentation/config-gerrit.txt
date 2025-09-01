@@ -6700,7 +6700,7 @@ By default "Name of user not set" is used.
 
 Schedule configurations are used for running periodic background jobs.
 
-A schedule configuration consists of two parameters:
+A schedule configuration consists of the following parameters:
 
 [[schedule-configuration-interval]]
 * `interval`:
@@ -6740,9 +6740,17 @@ The placeholders can have the following values:
 The time zone cannot be specified but is always the system default
 time zone. Hours must be zero-padded, i.e. `06:00` rather than `6:00`.
 
-The section (and optionally the subsection) in which the `interval` and
-`startTime` keys must be set depends on the background job for which a
-schedule should be configured. E.g. for the change cleanup job the keys
+[[schedule-configuration-jitter]]
+* `jitter`:
+A maximum random delay that will be added to the job's scheduled start time. The same suffixes as
+link:#schedule-configuration-interval[interval] are supported for defining the
+time unit.
++
+By default, no jitter is applied.
+
+The section (and optionally the subsection) in which the `interval`,
+`startTime` and `jitter` keys must be set depends on the background job for
+which a schedule should be configured. E.g. for the change cleanup job the keys
 must be set in the link:#changeCleanup[changeCleanup] section:
 
 ----
@@ -6759,14 +6767,18 @@ Examples for a schedule configuration:
 ----
   startTime = Fri 10:30
   interval  = 2 days
+  jitter    = 30 min
 ----
 +
 Assuming that the server is started on `Mon 07:00` then
 `startTime - now` is `4 days 3:30 hours`. This is larger than the
 interval hence the start time is preponed by the maximum integral
 multiple of the interval so that start time is still in the future,
-i.e. preponed by 4 days. This yields a start time of `Mon 10:30`, next
-executions are `Wed 10:30`, `Fri 10:30`. etc.
+i.e. preponed by 4 days. This yields a start time of `Mon 10:30`.
+After this adjustment, a random delay between 0 and 30 minutes is added.
+For example, if the delay is 7 minutes, the final start time becomes
+`Mon 10:37`. Subsequent executions will occur at fixed intervals from
+this updated start time, such as `Wed 10:37`, `Fri 10:37`, and so on.
 
 * Example 2:
 +

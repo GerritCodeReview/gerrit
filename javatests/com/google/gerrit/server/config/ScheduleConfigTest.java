@@ -25,7 +25,9 @@ import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.lib.Config;
 import org.junit.Test;
@@ -70,6 +72,62 @@ public class ScheduleConfigTest {
 
     assertThat(ScheduleConfig.builder(rc, "a").setNow(NOW).buildSchedule())
         .hasValue(Schedule.create(ms(1, HOURS), ms(1, HOURS)));
+  }
+
+  @Test
+  public void jitterAddsRandomDelay() {
+    Config rc = new Config();
+    rc.setString("a", null, ScheduleConfig.KEY_INTERVAL, "1h");
+    rc.setString("a", null, ScheduleConfig.KEY_STARTTIME, "11:30");
+    rc.setString("a", null, ScheduleConfig.KEY_JITTER, "10m");
+
+    long jitter = ms(10, MINUTES);
+    long interval = ms(1, HOURS);
+
+    Set<Long> initialDelays = new HashSet<>();
+    for (int i = 0; i < 10; i++) {
+      Optional<Schedule> schedule = ScheduleConfig.builder(rc, "a").setNow(NOW).buildSchedule();
+      assertThat(schedule).isPresent();
+      long actualInitialDelay = schedule.get().initialDelay();
+      assertThat(actualInitialDelay).isGreaterThan(0);
+      assertThat(actualInitialDelay).isAtMost(jitter + interval);
+      assertThat(schedule.get().interval()).isEqualTo(interval);
+      initialDelays.add(actualInitialDelay);
+    }
+    assertThat(initialDelays.size()).isGreaterThan(1);
+  }
+
+  @Test
+  public void zeroJitterHasNoEffect() {
+    Config rc = new Config();
+    rc.setString("a", null, ScheduleConfig.KEY_INTERVAL, "1h");
+    rc.setString("a", null, ScheduleConfig.KEY_STARTTIME, "11:00");
+    rc.setString("a", null, ScheduleConfig.KEY_JITTER, "0s");
+
+    Optional<Schedule> schedule = ScheduleConfig.builder(rc, "a").setNow(NOW).buildSchedule();
+    assertThat(schedule).isPresent();
+    assertThat(schedule.get().initialDelay()).isEqualTo(ms(1, HOURS));
+  }
+
+  @Test
+  public void missingJitterHasNoEffect() {
+    Config rc = new Config();
+    rc.setString("a", null, ScheduleConfig.KEY_INTERVAL, "1h");
+    rc.setString("a", null, ScheduleConfig.KEY_STARTTIME, "11:00");
+
+    Optional<Schedule> schedule = ScheduleConfig.builder(rc, "a").setNow(NOW).buildSchedule();
+    assertThat(schedule).isPresent();
+    assertThat(schedule.get().initialDelay()).isEqualTo(ms(1, HOURS));
+  }
+
+  @Test
+  public void invalidConfigBadJitter() {
+    Config rc = new Config();
+    rc.setString("a", null, ScheduleConfig.KEY_INTERVAL, "1h");
+    rc.setString("a", null, ScheduleConfig.KEY_STARTTIME, "11:00");
+    rc.setString("a", null, ScheduleConfig.KEY_JITTER, "invalid");
+
+    assertThat(ScheduleConfig.builder(rc, "a").setNow(NOW).buildSchedule()).isEmpty();
   }
 
   @Test

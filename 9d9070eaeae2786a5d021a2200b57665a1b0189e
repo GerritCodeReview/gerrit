@@ -16,6 +16,24 @@
       "message": "Please let add me back as a reviewer once this change is approved and ready to be submitted, then I can re-apply the LC+1 vote.",
       "revId": "9d9070eaeae2786a5d021a2200b57665a1b0189e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b8b2090b_1a3d841e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-09-01T11:26:10Z",
+      "side": 1,
+      "message": "👍",
+      "parentUuid": "ddba2f42_691294f6",
+      "revId": "9d9070eaeae2786a5d021a2200b57665a1b0189e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

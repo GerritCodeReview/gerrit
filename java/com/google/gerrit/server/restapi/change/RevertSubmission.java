@@ -96,6 +96,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.FooterLine;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 
@@ -299,8 +300,26 @@ public class RevertSubmission
         cherryPickInput.base = getBase(changeNotes, commitIdsInProjectAndBranch).name();
       }
 
+      // New logic to get footers for the current change
+      String footers;
+      try (Repository git = repoManager.openRepository(changeNotes.getProjectName());
+          RevWalk revWalk = new RevWalk(git)) {
+        RevCommit commit = revWalk.parseCommit(changeNotes.getCurrentPatchSet().commitId());
+        footers = CommitUtil.getBugAndIssueFooters(commit);
+      }
+
+      String messageWithFooters = initialMessage;
+      if (footers.length() > 0) {
+        String footersStr = footers.toString().trim();
+        if (!Strings.isNullOrEmpty(messageWithFooters)) {
+          messageWithFooters = messageWithFooters.trim() + "\n\n" + footersStr;
+        } else {
+          messageWithFooters = footersStr;
+        }
+      }
+
       // Set revert message for the current revert change.
-      revertInput.message = getMessage(initialMessage, changeNotes);
+      revertInput.message = getMessage(messageWithFooters, changeNotes);
       if (cherryPickInput.base.equals(changeNotes.getCurrentPatchSet().commitId().getName())) {
         // This is the code in case this is the first revert of this project + branch, and the
         // revert would be on top of the change being reverted.

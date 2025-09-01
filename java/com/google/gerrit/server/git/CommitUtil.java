@@ -84,6 +84,7 @@ import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.FooterLine;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.util.ChangeIdUtil;
@@ -242,6 +243,17 @@ public class CommitUtil {
     return id;
   }
 
+  public static String getBugAndIssueFooters(RevCommit commit) {
+    StringBuilder footers = new StringBuilder();
+    for (FooterLine footerLine : commit.getFooterLines()) {
+      String key = footerLine.getKey();
+      if (key.equalsIgnoreCase("Bug") || key.equalsIgnoreCase("Issue")) {
+        footers.append(footerLine.getKey()).append(": ").append(footerLine.getValue()).append("\n");
+      }
+    }
+    return footers.toString();
+  }
+
   /**
    * Creates a revert commit.
    *
@@ -291,17 +303,9 @@ public class CommitUtil {
               ChangeMessages.revertChangeDefaultMessage, subject, patch.commitId().name());
     }
 
-    List<String> bugValues = commitToRevert.getFooterLines("Bug");
-    List<String> issueValues = commitToRevert.getFooterLines("Issue");
-    if (!bugValues.isEmpty() || !issueValues.isEmpty()) {
-      StringBuilder footers = new StringBuilder();
-      for (String bug : bugValues) {
-        footers.append("Bug: ").append(bug).append("\n");
-      }
-      for (String issue : issueValues) {
-        footers.append("Issue: ").append(issue).append("\n");
-      }
-      message = message.trim() + "\n\n" + footers.toString();
+    String footers = getBugAndIssueFooters(commitToRevert);
+    if (!footers.isEmpty()) {
+      message = message.trim() + "\n\n" + footers.trim();
     }
 
     if (generatedChangeId != null) {

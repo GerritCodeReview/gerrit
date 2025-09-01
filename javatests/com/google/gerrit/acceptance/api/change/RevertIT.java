@@ -1623,6 +1623,49 @@ public class RevertIT extends AbstractDaemonTest {
     assertThat(firstRevertChanges.get(3).get().subject).isEqualTo("Revert \"Revert^934\"");
   }
 
+  @Test
+  public void revertChangeWithBugFooter() throws Exception {
+    // Create a change with a bug footer
+    PushOneCommit push =
+        pushFactory.create(admin.newIdent(), testRepo, "Change with bug", "a.txt", "content");
+    push.setMessage("Change with bug\n\nBug: 12345");
+    PushOneCommit.Result r = push.to("refs/for/master");
+    r.assertOkStatus();
+
+    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).review(ReviewInput.approve());
+    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).submit();
+
+    // Revert the change
+    ChangeInfo revertChange = gApi.changes().id(r.getChangeId()).revert().get();
+
+    // Check that the revert commit message contains the bug footer
+    String commitMessage = gApi.changes().id(revertChange.id).current().commit(false).message;
+    assertThat(commitMessage).contains("Bug: 12345");
+  }
+
+  @Test
+  public void revertChangeWithExistingBugFooter() throws Exception {
+    // Create a change with a bug footer
+    PushOneCommit push =
+        pushFactory.create(admin.newIdent(), testRepo, "Change with bug", "a.txt", "content");
+    push.setMessage("Change with bug\n\nBug: 12345");
+    PushOneCommit.Result r = push.to("refs/for/master");
+    r.assertOkStatus();
+
+    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).review(ReviewInput.approve());
+    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).submit();
+
+    // Revert the change with a message that already contains the footer
+    RevertInput revertInput = new RevertInput();
+    revertInput.message = "Reverting this change\n\nBug: 12345";
+    ChangeInfo revertChange = gApi.changes().id(r.getChangeId()).revert(revertInput).get();
+
+    // Check that the bug footer is not duplicated
+    String commitMessage = gApi.changes().id(revertChange.id).current().commit(false).message;
+    int occurrences = (commitMessage.split("Bug: 12345", -1).length) - 1;
+    assertThat(occurrences).isEqualTo(1);
+  }
+
   @Override
   protected PushOneCommit.Result createChange() throws Exception {
     return createChange("refs/for/master");

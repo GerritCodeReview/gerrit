@@ -301,11 +301,14 @@ public class RevertSubmission
 
       // Set revert message for the current revert change.
       revertInput.message = getMessage(initialMessage, changeNotes);
+
       if (cherryPickInput.base.equals(changeNotes.getCurrentPatchSet().commitId().getName())) {
         // This is the code in case this is the first revert of this project + branch, and the
         // revert would be on top of the change being reverted.
+        System.out.println("normal revert");
         createNormalRevert(revertInput, changeNotes, timestamp);
       } else {
+        System.out.println("cherry picked revert");
         createCherryPickedRevert(revertInput, project, changeNotes, timestamp);
       }
     }
@@ -314,11 +317,11 @@ public class RevertSubmission
   private void createCherryPickedRevert(
       RevertInput revertInput, Project.NameKey project, ChangeNotes changeNotes, Instant timestamp)
       throws IOException, ConfigInvalidException, UpdateException, RestApiException {
-    ObjectId revCommitId =
+    RevCommit revCommit =
         commitUtil.createRevertCommit(revertInput.message, changeNotes, user.get(), timestamp);
     // TODO (paiking): As a future change, the revert should just be done directly on the
     // target rather than just creating a commit and then cherry-picking it.
-    cherryPickInput.message = revertInput.message;
+    cherryPickInput.message = revCommit.getFullMessage();
     ObjectId generatedChangeId = CommitMessageUtil.generateChangeId();
     Change.Id cherryPickRevertChangeId = Change.id(seq.nextChangeId());
     RevCommit baseCommit = null;
@@ -337,7 +340,7 @@ public class RevertSubmission
         bu.addOp(
             changeNotes.getChange().getId(),
             new CreateCherryPickOp(
-                revCommitId,
+                revCommit,
                 generatedChangeId,
                 cherryPickRevertChangeId,
                 timestamp,

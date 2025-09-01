@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import static com.google.gerrit.server.change.ChangeJson.ERROR_SUBJECT;
+
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
 import com.google.common.flogger.FluentLogger;
@@ -193,11 +195,20 @@ public class QueryChanges implements RestReadView<TopLevelResource>, DynamicOpti
 
   private List<List<ChangeInfo>> query()
       throws BadRequestException, QueryParseException, PermissionBackendException {
+    if (queries == null || queries.isEmpty()) {
+      queries = Collections.singletonList("status:open");
+    } else if (queries.size() > 10) {
+      throw new QueryParseException("limit of 10 queries");
+    }
+    return queryAndFilter(new ArrayList<>(queries), 0);
+  }
+
+  private ChangeQueryProcessor newConfiguredProcessor()
+      throws BadRequestException, QueryParseException, PermissionBackendException {
     ChangeQueryProcessor queryProcessor = queryProcessorProvider.get();
     if (queryProcessor.isDisabled()) {
       throw new QueryParseException("query disabled");
     }
-
     queryProcessor.setUserProvidedLimit(limit != null ? limit : 0, /* applyDefaultLimit */ true);
     if (start != null) {
       if (start < 0) {
@@ -212,25 +223,54 @@ public class QueryChanges implements RestReadView<TopLevelResource>, DynamicOpti
       queryProcessor.setAllowIncompleteResults(allowIncompleteResults);
     }
     dynamicBeans.forEach((p, b) -> queryProcessor.setDynamicBean(p, b));
+    return queryProcessor;
+  }
 
-    if (queries == null || queries.isEmpty()) {
-      queries = Collections.singletonList("status:open");
-    } else if (queries.size() > 10) {
-      // Hard-code a default maximum number of queries to prevent
-      // users from submitting too much to the server in a single call.
-      throw new QueryParseException("limit of 10 queries");
+  private List<List<ChangeInfo>> queryAndFilter(List<String> q, int depth)
+      throws BadRequestException, QueryParseException, PermissionBackendException {
+    // Avoid infinite recursion
+    if (depth > 10) { // TODO: define suitable number here
+      logger.atWarning().log("Stopping query recursion after %d iterations", depth);
     }
 
-    int cnt = queries.size();
-    List<QueryResult<ChangeData>> results = queryProcessor.query(qb.parse(queries));
+    ChangeQueryProcessor queryProcessor = newConfiguredProcessor();
+    List<QueryResult<ChangeData>> results = queryProcessor.query(qb.parse(q));
     List<List<ChangeInfo>> res =
         json.create(options, queryProcessor.getInfosFactory()).format(results);
-    for (int n = 0; n < cnt; n++) {
+
+    int cntLocal = q.size();
+    for (int n = 0; n < cntLocal; n++) {
       List<ChangeInfo> info = res.get(n);
       if (results.get(n).more() && !info.isEmpty()) {
         Iterables.getLast(info)._moreChanges = true;
       }
     }
-    return res;
+
+    java.util.Set<Integer> toExclude = new java.util.HashSet<>();
+    for (List<ChangeInfo> infos : res) {
+      for (ChangeInfo ci : infos) {
+        if (ci != null && ERROR_SUBJECT.equals(ci.subject) && ci._number != null) {
+          toExclude.add(ci._number);
+        }
+      }
+    }
+
+    if (toExclude.isEmpty() || depth >= 5) {
+      return res;
+    }
+
+    // Rebuild queries by excluding the collected change numbers, then recurse
+    java.util.List<String> newQueries = new java.util.ArrayList<>(q.size());
+    for (int i = 0; i < q.size(); i++) {
+      String orig = q.get(i);
+      StringBuilder sb = new StringBuilder();
+      sb.append('(').append(orig).append(')');
+      for (Integer num : toExclude) {
+        sb.append(" AND (-change:").append(num).append(')');
+      }
+      newQueries.add(sb.toString());
+    }
+
+    return queryAndFilter(newQueries, depth + 1);
   }
 }

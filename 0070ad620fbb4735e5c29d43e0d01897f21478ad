@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "7d62ce17_537b2cb2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-09-01T07:12:30Z",
+      "side": 1,
+      "message": "I saw other products downgrading to 7.0.0 - because some new functionalities not working https://b/241794965",
+      "parentUuid": "99bbee7f_21427bdb",
+      "range": {
+        "startLine": 7,
+        "startChar": 15,
+        "endLine": 7,
+        "endChar": 20
+      },
+      "revId": "0070ad620fbb4735e5c29d43e0d01897f21478ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "da733290_0e3f2e89",

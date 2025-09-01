@@ -74,10 +74,12 @@ import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.changes.AttentionSetInput;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
+import com.google.gerrit.extensions.api.changes.ChangeIdentifier;
 import com.google.gerrit.extensions.api.changes.Changes.QueryRequest;
 import com.google.gerrit.extensions.api.changes.CustomKeyedValuesInput;
 import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.api.changes.HashtagsInput;
+import com.google.gerrit.extensions.api.changes.PublishChangeEditInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.DraftHandling;
 import com.google.gerrit.extensions.api.changes.ReviewerInput;
@@ -93,6 +95,7 @@ import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
+import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -3595,28 +3598,47 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     Change change2 = insert(project, newChange(repo));
     Change change3 = insert(project, newChange(repo));
 
+    Change change4 = insert(project, newChangeWithFiles(repo, "oldPath"));
+    ChangeIdentifier changeIdentifier4 =
+        ChangeIdentifier.byProjectAndNumericChangeId(project.get(), change4.getChangeId());
+
     // Change1 has one resolved comment (unresolvedcount = 0)
     // Change2 has one unresolved comment (unresolvedcount = 1)
     // Change3 has one resolved comment and one unresolved comment (unresolvedcount = 1)
+    // Change4 has one unresolved comment on a newly added file that will be renamed below
+    // (unresolvedcount = 1)
     addComment(change1, "comment 1", false);
     addComment(change2, "comment 2", true);
     addComment(change3, "comment 3", false);
     addComment(change3, "comment 4", true);
+    addComment(change4, "comment 5", true, "oldPath");
 
-    assertQuery("has:unresolved", change3, change2);
+    // Rename the file in Change4.
+    gApi.changes().id(changeIdentifier4).edit().create();
+    gApi.changes().id(changeIdentifier4).edit().renameFile("oldPath", "newPath");
+    gApi.changes().id(changeIdentifier4).edit().publish(new PublishChangeEditInput());
+
+    // Assert that the rename has been detected as such.
+    Map<String, FileInfo> files = gApi.changes().id(changeIdentifier4).current().files("1");
+    assertThat(files.keySet()).containsExactly(Patch.COMMIT_MSG, "newPath");
+    assertThat(files.get("newPath").oldPath).isEqualTo("oldPath");
+
+    assertQuery("has:unresolved", change4, change3, change2);
 
     assertQuery("unresolved:0", change1);
-    List<ChangeInfo> changeInfos = assertQuery("unresolved:>=0", change3, change2, change1);
-    assertThat(changeInfos.get(0).unresolvedCommentCount).isEqualTo(1); // Change3
-    assertThat(changeInfos.get(1).unresolvedCommentCount).isEqualTo(1); // Change2
-    assertThat(changeInfos.get(2).unresolvedCommentCount).isEqualTo(0); // Change1
-    assertQuery("unresolved:>0", change3, change2);
+    List<ChangeInfo> changeInfos =
+        assertQuery("unresolved:>=0", change4, change3, change2, change1);
+    assertThat(changeInfos.get(0).unresolvedCommentCount).isEqualTo(1); // Change4
+    assertThat(changeInfos.get(1).unresolvedCommentCount).isEqualTo(1); // Change3
+    assertThat(changeInfos.get(2).unresolvedCommentCount).isEqualTo(1); // Change2
+    assertThat(changeInfos.get(3).unresolvedCommentCount).isEqualTo(0); // Change1
+    assertQuery("unresolved:>0", change4, change3, change2);
 
     assertQuery("unresolved:<1", change1);
-    assertQuery("unresolved:<=1", change3, change2, change1);
-    assertQuery("unresolved:1", change3, change2);
+    assertQuery("unresolved:<=1", change4, change3, change2, change1);
+    assertQuery("unresolved:1", change4, change3, change2);
     assertQuery("unresolved:>1");
-    assertQuery("unresolved:>=1", change3, change2);
+    assertQuery("unresolved:>=1", change4, change3, change2);
   }
 
   @Test
@@ -4908,12 +4930,17 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   private void addComment(Change change, String message, Boolean unresolved) throws Exception {
+    addComment(change, message, unresolved, Patch.COMMIT_MSG);
+  }
+
+  private void addComment(Change change, String message, Boolean unresolved, String filePath)
+      throws Exception {
     ReviewInput input = new ReviewInput();
     ReviewInput.CommentInput comment = new ReviewInput.CommentInput();
     comment.line = 1;
     comment.message = message;
     comment.unresolved = unresolved;
-    input.comments = ImmutableMap.of(Patch.COMMIT_MSG, ImmutableList.of(comment));
+    input.comments = ImmutableMap.of(filePath, ImmutableList.of(comment));
     getChangeApi(change).current().review(input);
   }
 

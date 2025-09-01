@@ -173,6 +173,8 @@ public class CommitUtil {
       ChangeNotes notes, CurrentUser user, RevertInput input, Instant timestamp)
       throws RestApiException, UpdateException, ConfigInvalidException, IOException {
     String message = Strings.emptyToNull(input.message);
+    System.out.println("createRevertChange");
+    System.out.println(input.message);
     try (RefUpdateContext ctx = RefUpdateContext.open(CHANGE_MODIFICATION)) {
       try (Repository git = repoManager.openRepository(notes.getProjectName());
           ObjectInserter oi = git.newObjectInserter();
@@ -238,6 +240,8 @@ public class CommitUtil {
     commit.setParentIds(parents.stream().map(RevCommit::getId).collect(Collectors.toList()));
     commit.setAuthor(authorIdent);
     commit.setCommitter(committerIdent);
+    System.out.println("commitMessage in createCommitWithTree");
+    System.out.println(commitMessage);
     commit.setMessage(commitMessage);
 
     ObjectId id = oi.insert(commit);
@@ -305,7 +309,12 @@ public class CommitUtil {
               ChangeMessages.revertChangeDefaultMessage, subject, patch.commitId().name());
     }
 
+    System.out.println("moving footers over to new revert");
     String newFooters = getBugAndIssueFooters(commitToRevert);
+    System.out.println("newFooters");
+    System.out.println(newFooters);
+    System.out.println("message");
+    System.out.println(message);
     if (!newFooters.isEmpty()) {
       StringBuilder footersToAdd = new StringBuilder();
       for (String footer : Splitter.on('\n').split(newFooters)) {
@@ -315,15 +324,21 @@ public class CommitUtil {
         boolean alreadyExists =
             Arrays.stream(message.split("\n"))
                 .anyMatch(line -> line.trim().equalsIgnoreCase(footer.trim()));
+        System.out.println("alreadyExists");
+        System.out.println(alreadyExists);
         if (!alreadyExists) {
           footersToAdd.append(footer).append("\n");
         }
       }
 
+      System.out.println("footersToAdd");
+      System.out.println(footersToAdd);
       if (footersToAdd.length() > 0) {
         message = message.trim() + "\n\n" + footersToAdd.toString().trim();
       }
     }
+    System.out.println("updated message");
+    System.out.println(message);
 
     if (generatedChangeId != null) {
       message = ChangeIdUtil.insertId(message, generatedChangeId, true);

@@ -276,6 +276,10 @@ public class RevertSubmission
     results.sort(Comparator.comparing(c -> c.revertOf));
     RevertSubmissionInfo revertSubmissionInfo = new RevertSubmissionInfo();
     revertSubmissionInfo.revertChanges = results;
+    System.out.println("revertChanges");
+    // for (ChangeInfo revertChange : revertSubmissionInfo.revertChanges) {
+    //   System.out.println("printing message for revertChanges");
+    // }
     return revertSubmissionInfo;
   }
 
@@ -301,11 +305,14 @@ public class RevertSubmission
 
       // Set revert message for the current revert change.
       revertInput.message = getMessage(initialMessage, changeNotes);
+      
       if (cherryPickInput.base.equals(changeNotes.getCurrentPatchSet().commitId().getName())) {
         // This is the code in case this is the first revert of this project + branch, and the
         // revert would be on top of the change being reverted.
+        System.out.println("normal revert");
         createNormalRevert(revertInput, changeNotes, timestamp);
       } else {
+        System.out.println("cherry picked revert");
         createCherryPickedRevert(revertInput, project, changeNotes, timestamp);
       }
     }

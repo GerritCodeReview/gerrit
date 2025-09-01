@@ -326,6 +326,7 @@ public class CherryPickChange {
                 input.parent, commitToCherryPick.getParentCount()));
       }
 
+      System.out.println("inside the cherry pick change code");
       // If the commit message is not set, the commit message of the source commit will be used.
       String commitMessage = Strings.nullToEmpty(input.message);
       commitMessage = commitMessage.isEmpty() ? commitToCherryPick.getFullMessage() : commitMessage;

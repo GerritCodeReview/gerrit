@@ -73,6 +73,59 @@ public class ScheduleConfigTest {
   }
 
   @Test
+  public void jitterAddsRandomDelay() {
+    Config rc = new Config();
+    rc.setString("a", null, ScheduleConfig.KEY_INTERVAL, "1h");
+    rc.setString("a", null, ScheduleConfig.KEY_STARTTIME, "11:30");
+    rc.setString("a", null, ScheduleConfig.KEY_JITTER, "10m");
+
+    long jitter = ms(10, MINUTES);
+    long interval = ms(1, HOURS);
+
+    for (int i = 0; i < 100; i++) {
+      Optional<Schedule> schedule = ScheduleConfig.builder(rc, "a").setNow(NOW).buildSchedule();
+      assertThat(schedule).isPresent();
+      long actualInitialDelay = schedule.get().initialDelay();
+      assertThat(actualInitialDelay).isGreaterThan(jitter);
+      assertThat(actualInitialDelay).isAtMost(jitter + interval);
+      assertThat(schedule.get().interval()).isEqualTo(interval);
+    }
+  }
+
+  @Test
+  public void zeroJitterHasNoEffect() {
+    Config rc = new Config();
+    rc.setString("a", null, ScheduleConfig.KEY_INTERVAL, "1h");
+    rc.setString("a", null, ScheduleConfig.KEY_STARTTIME, "11:00");
+    rc.setString("a", null, ScheduleConfig.KEY_JITTER, "0s");
+
+    Optional<Schedule> schedule = ScheduleConfig.builder(rc, "a").setNow(NOW).buildSchedule();
+    assertThat(schedule).isPresent();
+    assertThat(schedule.get().initialDelay()).isEqualTo(ms(1, HOURS));
+  }
+
+  @Test
+  public void missingJitterHasNoEffect() {
+    Config rc = new Config();
+    rc.setString("a", null, ScheduleConfig.KEY_INTERVAL, "1h");
+    rc.setString("a", null, ScheduleConfig.KEY_STARTTIME, "11:00");
+
+    Optional<Schedule> schedule = ScheduleConfig.builder(rc, "a").setNow(NOW).buildSchedule();
+    assertThat(schedule).isPresent();
+    assertThat(schedule.get().initialDelay()).isEqualTo(ms(1, HOURS));
+  }
+
+  @Test
+  public void invalidConfigBadJitter() {
+    Config rc = new Config();
+    rc.setString("a", null, ScheduleConfig.KEY_INTERVAL, "1h");
+    rc.setString("a", null, ScheduleConfig.KEY_STARTTIME, "11:00");
+    rc.setString("a", null, ScheduleConfig.KEY_JITTER, "invalid");
+
+    assertThat(ScheduleConfig.builder(rc, "a").setNow(NOW).buildSchedule()).isEmpty();
+  }
+
+  @Test
   public void defaultKeysWithSubsection() {
     Config rc = new Config();
     rc.setString("a", "b", ScheduleConfig.KEY_INTERVAL, "1h");

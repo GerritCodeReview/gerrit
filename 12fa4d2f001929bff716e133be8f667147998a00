@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c4a87e49_f3ba8d0c",
+        "filename": "java/com/google/gerrit/server/restapi/change/QueryChanges.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2025-09-01T19:04:51Z",
+      "side": 1,
+      "message": "This might not be needed",
+      "range": {
+        "startLine": 252,
+        "startChar": 59,
+        "endLine": 252,
+        "endChar": 80
+      },
+      "revId": "12fa4d2f001929bff716e133be8f667147998a00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

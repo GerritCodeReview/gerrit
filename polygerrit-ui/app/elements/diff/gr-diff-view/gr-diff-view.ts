@@ -11,7 +11,6 @@ import '../../shared/gr-button/gr-button';
 import '../../shared/gr-dropdown/gr-dropdown';
 import '../../shared/gr-dropdown-list/gr-dropdown-list';
 import '../../shared/gr-icon/gr-icon';
-import '../../shared/gr-select/gr-select';
 import '../../shared/gr-weblink/gr-weblink';
 import '../../shared/revision-info/revision-info';
 import '../gr-apply-fix-dialog/gr-apply-fix-dialog';
@@ -681,9 +680,6 @@ export class GrDiffView extends LitElement {
           /* prettier-ignore */
           gr-dropdown-list {
             width: 100%;
-            --gr-select-style-width: 100%;
-            --gr-select-style-display: block;
-            --native-select-style-width: 100%;
           }
         }
         :host(.hideComments) {

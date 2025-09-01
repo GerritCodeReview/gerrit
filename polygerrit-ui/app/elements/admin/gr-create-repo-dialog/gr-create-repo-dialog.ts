@@ -31,6 +31,7 @@ import {branchName} from '../../../utils/patch-set-util';
 import '@material/web/textfield/outlined-text-field';
 import {MdOutlinedTextField} from '@material/web/textfield/outlined-text-field';
 import {materialStyles} from '../../../styles/gr-material-styles';
+import '@material/web/checkbox/checkbox';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -169,17 +170,11 @@ export class GrCreateRepoDialog extends LitElement {
             </div>
             <div class="value-flex">
               <span class="value">
-                <gr-select
+                <md-checkbox
                   id="parentRepo"
-                  .bindValue=${this.repoConfig.permissions_only}
-                  @bind-value-changed=${this
-                    .handlePermissionsOnlyBindValueChanged}
-                >
-                  <select>
-                    <option value="false">False</option>
-                    <option value="true">True</option>
-                  </select>
-                </gr-select>
+                  ?checked=${this.repoConfig.permissions_only}
+                  @change=${this.handlePermissionsOnlyChangeChanged}
+                ></md-checkbox>
               </span>
             </div>
           </section>
@@ -268,17 +263,11 @@ export class GrCreateRepoDialog extends LitElement {
             </div>
             <div class="value-flex">
               <span class="value">
-                <gr-select
+                <md-checkbox
                   id="initialCommit"
-                  .bindValue=${this.repoConfig.create_empty_commit}
-                  @bind-value-changed=${this
-                    .handleCreateEmptyCommitBindValueChanged}
-                >
-                  <select>
-                    <option value="false">False</option>
-                    <option value="true">True</option>
-                  </select>
-                </gr-select>
+                  ?checked=${this.repoConfig.create_empty_commit}
+                  @change=${this.handleCreateEmptyCommitChangeChanged}
+                ></md-checkbox>
               </span>
             </div>
           </section>
@@ -360,19 +349,17 @@ export class GrCreateRepoDialog extends LitElement {
     this.requestUpdate();
   }
 
-  private handleCreateEmptyCommitBindValueChanged(
-    e: ValueChangedEvent<string>
-  ) {
+  private handleCreateEmptyCommitChangeChanged() {
     this.repoConfig = {
       ...this.repoConfig,
-      create_empty_commit: e.detail.value === 'true',
+      create_empty_commit: !this.repoConfig.create_empty_commit,
     };
   }
 
-  private handlePermissionsOnlyBindValueChanged(e: ValueChangedEvent<string>) {
+  private handlePermissionsOnlyChangeChanged() {
     this.repoConfig = {
       ...this.repoConfig,
-      permissions_only: e.detail.value === 'true',
+      permissions_only: !this.repoConfig.permissions_only,
     };
   }
 }

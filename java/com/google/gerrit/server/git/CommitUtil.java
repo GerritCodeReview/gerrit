@@ -290,6 +290,18 @@ public class CommitUtil {
           MessageFormat.format(
               ChangeMessages.revertChangeDefaultMessage, subject, patch.commitId().name());
     }
+
+    StringBuilder footers = new StringBuilder();
+    for (FooterLine footerLine : commitToRevert.getFooterLines()) {
+      String key = footerLine.getKey();
+      if (key.equalsIgnoreCase("Bug") || key.equalsIgnoreCase("Issue")) {
+        footers.append(footerLine.getKey()).append(": ").append(footerLine.getValue()).append("\n");
+      }
+    }
+    if (footers.length() > 0) {
+      message = message.trim() + "\n\n" + footers.toString();
+    }
+
     if (generatedChangeId != null) {
       message = ChangeIdUtil.insertId(message, generatedChangeId, true);
     }

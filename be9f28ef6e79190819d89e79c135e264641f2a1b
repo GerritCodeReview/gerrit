@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "81ee04b5_6e966681",
+        "filename": "java/com/google/gerrit/server/restapi/change/QueryChanges.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2025-09-01T18:59:43Z",
+      "side": 1,
+      "message": "Here we should bail out.",
+      "revId": "be9f28ef6e79190819d89e79c135e264641f2a1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

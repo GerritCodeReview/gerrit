@@ -33,6 +33,24 @@
       "message": "I wonder if you could add a env that can set web fonts to true and if not it should set it to false (my thinking is google will want this) but other sites won’t or those who use the released Gerrit versions.",
       "revId": "87e12ced272293f1c1578f9391c53089f33605ad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ab43ffa1_53dd650a",
+        "filename": "Documentation/BUILD",
+        "patchSetId": 8
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-09-02T21:30:21Z",
+      "side": 1,
+      "message": "I think you could do that with a bazel [config flag](https://bazel.build/versions/7.6.0/extending/config#predefined-settings), probably this [`bool_flag`](https://github.com/bazelbuild/bazel-skylib/blob/main/docs/common_settings_doc.md#bool_flag).",
+      "parentUuid": "18e655d6_af2d6b0b",
+      "revId": "87e12ced272293f1c1578f9391c53089f33605ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

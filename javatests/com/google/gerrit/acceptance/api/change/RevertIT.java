@@ -56,6 +56,7 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.permissions.PermissionDeniedException;
+import com.google.gerrit.server.restapi.change.Revert;
 import com.google.gerrit.testing.FakeEmailSender.Message;
 import com.google.inject.Inject;
 import java.util.ArrayList;
@@ -1624,7 +1625,7 @@ public class RevertIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void revertChangeWithBugAndIssueFooters() throws Exception {
+  public void revertChangeWithBugAndIssueFooters_andNoDefaultMessageSet() throws Exception {
     // Create a change with bug and issue footers
     PushOneCommit push =
         pushFactory.create(
@@ -1647,6 +1648,39 @@ public class RevertIT extends AbstractDaemonTest {
 
     // Revert the change
     ChangeInfo revertChange = gApi.changes().id(r.getChangeId()).revert().get();
+
+    // Check that the revert commit message contains the footers
+    String commitMessage = gApi.changes().id(revertChange.id).current().commit(false).message;
+    assertThat(commitMessage).contains("Bug: 12345");
+    assertThat(commitMessage).contains("Issue: 67890");
+  }
+
+  @Test
+  public void revertChangeWithBugAndIssueFooters_andDefaultMessageSet() throws Exception {
+    // Create a change with bug and issue footers
+    PushOneCommit push =
+        pushFactory.create(
+            admin.newIdent(),
+            testRepo,
+            "Change with bug and issue\\n"
+                + //
+                "\\n"
+                + //
+                "Bug: 12345\\n"
+                + //
+                "Issue: 67890",
+            "a.txt",
+            "content");
+    PushOneCommit.Result r = push.to("refs/for/master");
+    r.assertOkStatus();
+
+    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).review(ReviewInput.approve());
+    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).submit();
+
+    // Revert the change
+    RevertInput revertInput = new RevertInput();
+    revertInput.message = "Reverting this change because it broke tests";
+    ChangeInfo revertChange = gApi.changes().id(r.getChangeId()).revert(revertInput).get();
 
     // Check that the revert commit message contains the footers
     String commitMessage = gApi.changes().id(revertChange.id).current().commit(false).message;

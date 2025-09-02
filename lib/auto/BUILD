@@ -27,6 +27,15 @@ java_plugin(
 )
 
 java_plugin(
+    name = "auto-builder-plugin",
+    processor_class = "com.google.auto.value.processor.AutoValueProcessor",
+    deps = [
+        "@auto-value-annotations//jar",
+        "@auto-value//jar",
+    ],
+)
+
+java_plugin(
     name = "auto-value-plugin",
     processor_class = "com.google.auto.value.processor.AutoValueProcessor",
     deps = [
@@ -67,6 +76,18 @@ java_library(
     ],
     visibility = ["//visibility:public"],
     exports = ["@auto-factory//jar"],
+)
+
+java_library(
+    name = "auto-builder",
+    data = ["//lib:LICENSE-Apache2.0"],
+    exported_plugins = [
+        ":auto-annotation-plugin",
+        ":auto-value-plugin",
+        ":auto-oneof-plugin",
+    ],
+    visibility = ["//visibility:public"],
+    exports = ["@auto-value//jar"],
 )
 
 java_library(

@@ -14,6 +14,7 @@ java_library(
         "//lib:guava",
         "//lib:jgit",
         "//lib:protobuf",
+        "//lib/auto:auto-builder",
         "//lib/auto:auto-value",
         "//lib/auto:auto-value-annotations",
         "//lib/auto:auto-value-gson",

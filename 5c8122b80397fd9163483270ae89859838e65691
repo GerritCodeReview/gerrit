@@ -34,6 +34,24 @@
       "parentUuid": "bd4b0610_e91da753",
       "revId": "5c8122b80397fd9163483270ae89859838e65691",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6af94ae0_94c1d964",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-09-02T15:32:55Z",
+      "side": 1,
+      "message": "I think we should not stick to reload4j which is the project continuing the log4j 1.x maintenance since with that we continue to use the old implementation and don\u0027t benefit from all the improvements implemented in log4j 2.x. I\u0027d like to benefit from e.g. the [garbage-free logging](https://logging.apache.org/log4j/2.x/manual/garbagefree.html) which is only available in log4j 2.x. This should improve performance since Gerrit is logging quite a lot and if that creates less garbage the JVM garbage collector has less work to waste on collecting garbage.",
+      "parentUuid": "140748ef_cb1eafcd",
+      "revId": "5c8122b80397fd9163483270ae89859838e65691",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

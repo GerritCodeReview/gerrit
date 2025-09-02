@@ -1,0 +1,130 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1addc3a7_8147e05a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2025-09-02T19:52:08Z",
+      "side": 1,
+      "message": "Add some motivation too, describing that jitter is particularly useful in multi-primary setups, i.e it provides a way to stop all the primaries from starting the job at exactly the same instant.",
+      "revId": "85b25dd8bf40090cc3a7a3ccf1736f267cb5becc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a435f844_d2f55eaa",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 6746,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2025-09-02T19:52:08Z",
+      "side": 1,
+      "message": "Highlight the default in a separate line?\n\n```suggestion\nA maximum random delay that will be added to the job\u0027s scheduled start time. The same suffixes as\nlink:#schedule-configuration-interval[interval] are supported for defining the\ntime unit.\n+\nBy default, no jitter is applied.\n```",
+      "range": {
+        "startLine": 6743,
+        "startChar": 0,
+        "endLine": 6746,
+        "endChar": 10
+      },
+      "revId": "85b25dd8bf40090cc3a7a3ccf1736f267cb5becc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "541940b1_b00913b0",
+        "filename": "java/com/google/gerrit/server/config/ScheduleConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2025-09-02T19:52:08Z",
+      "side": 1,
+      "message": "Do we need a `jitter \u003c 0` check too?",
+      "revId": "85b25dd8bf40090cc3a7a3ccf1736f267cb5becc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "295dac35_df0b785a",
+        "filename": "java/com/google/gerrit/server/config/ScheduleConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2025-09-02T19:52:08Z",
+      "side": 1,
+      "message": "Comment does not add any value?\n\n```suggestion\n        return 0L;\n```",
+      "range": {
+        "startLine": 256,
+        "startChar": 0,
+        "endLine": 256,
+        "endChar": 50
+      },
+      "revId": "85b25dd8bf40090cc3a7a3ccf1736f267cb5becc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f53dc9cc_f643cc43",
+        "filename": "java/com/google/gerrit/server/config/ScheduleConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2025-09-02T19:52:08Z",
+      "side": 1,
+      "message": "The comment does not add a lot of value.\n\n```suggestion\n    return computeInitialDelay(interval, start, computeNow(), 0L);\n```",
+      "range": {
+        "startLine": 282,
+        "startChar": 0,
+        "endLine": 282,
+        "endChar": 64
+      },
+      "revId": "85b25dd8bf40090cc3a7a3ccf1736f267cb5becc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d14718cb_e858f294",
+        "filename": "java/com/google/gerrit/server/config/ScheduleConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2025-09-02T19:52:08Z",
+      "side": 1,
+      "message": "```suggestion\n        // Increment by 1 to make the upper bound inclusive of the configured value\n\n        delay +\u003d random.nextLong(jitter + 1);\n```",
+      "range": {
+        "startLine": 307,
+        "startChar": 0,
+        "endLine": 307,
+        "endChar": 23
+      },
+      "revId": "85b25dd8bf40090cc3a7a3ccf1736f267cb5becc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

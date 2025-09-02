@@ -7,8 +7,15 @@ import '../../../styles/shared-styles';
 import '../gr-button/gr-button';
 import '../gr-date-formatter/gr-date-formatter';
 import '../gr-file-status/gr-file-status';
+import '../gr-vote-chip/gr-vote-chip';
 import {css, html, LitElement, nothing, PropertyValues} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
+import {
+  AccountInfo,
+  ApprovalInfo,
+  isDetailedLabelInfo,
+  LabelInfo,
+} from '../../../api/rest-api';
 import {CommentThread, Timestamp} from '../../../types/common';
 import {NormalizedFileInfo} from '../../change/gr-file-list/gr-file-list';
 import {GrButton} from '../gr-button/gr-button';
@@ -26,6 +33,8 @@ import '@material/web/menu/menu-item';
 import {MdMenu} from '@material/web/menu/menu';
 import {isSafari, Key} from '../../../utils/dom-util';
 import {GrCursorManager} from '../gr-cursor-manager/gr-cursor-manager';
+import {getApprovalInfo, getCodeReviewLabel} from '../../../utils/label-util';
+import {ParsedChangeInfo} from '../../../types/types';
 
 /**
  * Required values are text and value. mobileText and triggerText will
@@ -47,6 +56,7 @@ export interface DropdownItem {
   file?: NormalizedFileInfo;
   commentThreads?: CommentThread[];
   deemphasizeReason?: string;
+  reviewer?: AccountInfo;
 }
 
 declare global {
@@ -72,6 +82,15 @@ export class GrDropdownList extends LitElement {
 
   @property({type: Number})
   initialCount = 75;
+
+  @property({type: Boolean})
+  showVoteChip = false;
+
+  @property({type: Object})
+  change?: ParsedChangeInfo;
+
+  @property({type: Object})
+  reviewer?: AccountInfo;
 
   @property({type: Array})
   items?: DropdownItem[];
@@ -179,6 +198,9 @@ export class GrDropdownList extends LitElement {
         gr-button {
           font-family: var(--trigger-style-font-family);
           --gr-button-text-color: var(--trigger-style-text-color);
+        }
+        gr-vote-chip {
+          margin-right: var(--spacing-s);
         }
         gr-date-formatter {
           color: var(--deemphasized-text-color);
@@ -345,6 +367,23 @@ export class GrDropdownList extends LitElement {
     </div> `;
   }
 
+  private computeVote(
+    reviewer?: AccountInfo,
+    change?: ParsedChangeInfo
+  ): ApprovalInfo | undefined {
+    if (!change || !reviewer) return;
+    const codeReviewLabel = this.computeCodeReviewLabel(change);
+    if (!codeReviewLabel || !isDetailedLabelInfo(codeReviewLabel)) return;
+    return getApprovalInfo(codeReviewLabel, reviewer);
+  }
+
+  private computeCodeReviewLabel(
+    change?: ParsedChangeInfo
+  ): LabelInfo | undefined {
+    if (!change?.labels) return;
+    return getCodeReviewLabel(change.labels);
+  }
+
   private renderMdMenuItem(item: DropdownItem, index: number) {
     if (this.value === String(item.value)) {
       this.selectedIndex = index;
@@ -397,6 +436,16 @@ export class GrDropdownList extends LitElement {
               ></gr-comments-summary>`
             )}
           </div>
+          ${when(
+            this.showVoteChip,
+            () =>
+              html` <div>
+                <gr-vote-chip
+                  .vote=${this.computeVote(this.reviewer, this.change)}
+                  .label=${this.computeCodeReviewLabel(this.change)}
+                ></gr-vote-chip>
+              </div>`
+          )}
           ${when(
             item.date,
             () => html`

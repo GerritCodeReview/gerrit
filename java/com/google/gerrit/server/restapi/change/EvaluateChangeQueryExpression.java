@@ -78,7 +78,8 @@ public class EvaluateChangeQueryExpression implements RestReadView<ChangeResourc
     if (useIndex) {
       // Loading the change from the index populates ChangeData with the data that is stored in the
       // index, including submit requirement results.
-      List<ChangeData> changeDatas = internalChangeQuery.get().byChangeNumber(rsrc.getId());
+      List<ChangeData> changeDatas =
+          internalChangeQuery.get().byProjectChangeNumber(rsrc.getProject(), rsrc.getId());
       checkState(
           changeDatas.size() == 1,
           "Got %s matches for change %s, expected 1",

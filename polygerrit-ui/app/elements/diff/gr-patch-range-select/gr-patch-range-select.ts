@@ -22,6 +22,7 @@ import {
 } from '../../../utils/patch-set-util';
 import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
 import {
+  AccountInfo,
   BasePatchSetNum,
   EDIT,
   NumericChangeId,
@@ -38,7 +39,7 @@ import {
   DropdownItem,
   GrDropdownList,
 } from '../../shared/gr-dropdown-list/gr-dropdown-list';
-import {EditRevisionInfo} from '../../../types/types';
+import {EditRevisionInfo, ParsedChangeInfo} from '../../../types/types';
 import {a11yStyles} from '../../../styles/gr-a11y-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {css, html, LitElement, nothing} from 'lit';
@@ -55,6 +56,7 @@ import {
 import {changeViewModelToken} from '../../../models/views/change';
 import {fireNoBubbleNoCompose} from '../../../utils/event-util';
 import {FlagsService, KnownExperimentId} from '../../../services/flags/flags';
+import {userModelToken} from '../../../models/user/user-model';
 
 // Maximum length for patch set descriptions.
 const PATCH_DESC_MAX_LENGTH = 500;
@@ -102,6 +104,12 @@ export class GrPatchRangeSelect extends LitElement {
   @state()
   changeNum?: NumericChangeId;
 
+  @state()
+  change?: ParsedChangeInfo;
+
+  @state()
+  selfAccount?: AccountInfo;
+
   @property()
   path?: string;
 
@@ -131,6 +139,8 @@ export class GrPatchRangeSelect extends LitElement {
 
   private readonly flags: FlagsService = getAppContext().flagsService;
 
+  private readonly getUserModel = resolve(this, userModelToken);
+
   private readonly getCommentsModel = resolve(this, commentsModelToken);
 
   private readonly getChangeModel = resolve(this, changeModelToken);
@@ -144,6 +154,17 @@ export class GrPatchRangeSelect extends LitElement {
       () => this.getViewModel().changeNum$,
       x => (this.changeNum = x)
     );
+    subscribe(
+      this,
+      () => this.getChangeModel().change$,
+      x => (this.change = x)
+    );
+    subscribe(
+      this,
+      () => this.getUserModel().account$,
+      x => (this.selfAccount = x)
+    );
+
     subscribe(
       this,
       () => this.getChangeModel().change$,
@@ -229,6 +250,9 @@ export class GrPatchRangeSelect extends LitElement {
       <span class="patchRange" aria-label="patch range starts with">
         <gr-dropdown-list
           id="basePatchDropdown"
+          ?showVoteChip=${true}
+          .change=${this.change}
+          .reviewer=${this.selfAccount}
           .value=${convertToString(this.basePatchNum)}
           .items=${this.computeBaseDropdownContent()}
           @value-change=${this.handlePatchChange}
@@ -240,6 +264,9 @@ export class GrPatchRangeSelect extends LitElement {
       <span class="patchRange" aria-label="patch range ends with">
         <gr-dropdown-list
           id="patchNumDropdown"
+          ?showVoteChip=${true}
+          .change=${this.change}
+          .reviewer=${this.selfAccount}
           .value=${convertToString(this.patchNum)}
           .items=${this.computePatchDropdownContent()}
           @value-change=${this.handlePatchChange}

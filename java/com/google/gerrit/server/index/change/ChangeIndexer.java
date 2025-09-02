@@ -23,7 +23,6 @@ import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.exceptions.StorageException;
@@ -382,12 +381,6 @@ public class ChangeIndexer {
     }
   }
 
-  private void fireAllChangesDeletedFromIndexEvent(String projectName) {
-    if (notifyListeners) {
-      indexedListeners.runEach(l -> l.onAllChangesDeletedForProject(projectName));
-    }
-  }
-
   /**
    * Synchronously index local a change.
    *
@@ -441,19 +434,6 @@ public class ChangeIndexer {
   public void delete(Change.Id id) {
     fireChangeScheduledForDeletionFromIndexEvent(id.get());
     doDelete(id);
-  }
-
-  /**
-   * Delete all changes of a given project
-   *
-   * @param projectName the project to delete changes for
-   */
-  @UsedAt(UsedAt.Project.PLUGIN_DELETE_PROJECT)
-  public void deleteAllForProject(Project.NameKey projectName) {
-    for (ChangeIndex i : getWriteIndexes()) {
-      i.deleteAllForProject(projectName);
-    }
-    fireAllChangesDeletedFromIndexEvent(projectName.get());
   }
 
   private void doDelete(Project.NameKey project, Change.Id id) {

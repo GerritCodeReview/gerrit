@@ -7,8 +7,10 @@ import '../../../styles/shared-styles';
 import '../gr-button/gr-button';
 import '../gr-date-formatter/gr-date-formatter';
 import '../gr-file-status/gr-file-status';
+import '../gr-vote-chip/gr-vote-chip';
 import {css, html, LitElement, nothing, PropertyValues} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
+import {ApprovalInfo, LabelInfo} from '../../../api/rest-api';
 import {CommentThread, Timestamp} from '../../../types/common';
 import {NormalizedFileInfo} from '../../change/gr-file-list/gr-file-list';
 import {GrButton} from '../gr-button/gr-button';
@@ -47,6 +49,8 @@ export interface DropdownItem {
   file?: NormalizedFileInfo;
   commentThreads?: CommentThread[];
   deemphasizeReason?: string;
+  vote?: ApprovalInfo;
+  label?: LabelInfo;
 }
 
 declare global {
@@ -179,6 +183,9 @@ export class GrDropdownList extends LitElement {
         gr-button {
           font-family: var(--trigger-style-font-family);
           --gr-button-text-color: var(--trigger-style-text-color);
+        }
+        gr-vote-chip {
+          margin-right: var(--spacing-s);
         }
         gr-date-formatter {
           color: var(--deemphasized-text-color);
@@ -397,6 +404,16 @@ export class GrDropdownList extends LitElement {
               ></gr-comments-summary>`
             )}
           </div>
+          ${when(
+            item.vote,
+            () =>
+              html` <div>
+                <gr-vote-chip
+                  .vote=${item.vote}
+                  .label=${item.label}
+                ></gr-vote-chip>
+              </div>`
+          )}
           ${when(
             item.date,
             () => html`

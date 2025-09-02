@@ -12,7 +12,9 @@ import {RevisionInfo as RevisionInfoClass} from '../../shared/revision-info/revi
 import {ChangeComments} from '../gr-comment-api/gr-comment-api';
 import {queryAll, stubReporting} from '../../../test/test-utils';
 import {
+  AccountId,
   BasePatchSetNum,
+  ChangeMessageId,
   CommentInfo,
   EDIT,
   PARENT,
@@ -26,6 +28,7 @@ import {
 import {EditRevisionInfo, ParsedChangeInfo} from '../../../types/types';
 import {SpecialFilePath} from '../../../constants/constants';
 import {
+  createAccountDetailWithId,
   createChangeViewState,
   createEditRevision,
   createParsedChange,
@@ -46,6 +49,7 @@ import {
   changeModelToken,
   RevisionFileUpdateStatus,
 } from '../../../models/change/change-model';
+import {userModelToken} from '../../../models/user/user-model';
 
 type RevIdToRevisionInfo = {
   [revisionId: string]: RevisionInfo | EditRevisionInfo;
@@ -149,12 +153,14 @@ suite('gr-patch-range-select tests', () => {
         date: '2020-02-01 01:02:03.000000000' as Timestamp,
         commentThreads: [],
         deemphasizeReason: undefined,
+        label: undefined,
+        vote: undefined,
       } as DropdownItem,
       {
-        text: 'Base | ',
         triggerText: 'Base',
         value: PARENT,
         bottomText: undefined,
+        text: 'Base | ',
       } as DropdownItem,
     ];
     element.patchNum = 2 as PatchSetNumber;
@@ -265,6 +271,8 @@ suite('gr-patch-range-select tests', () => {
         value: EDIT,
         commentThreads: [],
         deemphasizeReason: undefined,
+        vote: undefined,
+        label: undefined,
       },
       {
         triggerText: 'Patchset 3',
@@ -275,6 +283,8 @@ suite('gr-patch-range-select tests', () => {
         date: '2020-02-01 01:02:03.000000000' as Timestamp,
         commentThreads: [],
         deemphasizeReason: undefined,
+        vote: undefined,
+        label: undefined,
       } as DropdownItem,
       {
         triggerText: 'Patchset 2',
@@ -285,6 +295,8 @@ suite('gr-patch-range-select tests', () => {
         date: '2020-02-01 01:02:03.000000000' as Timestamp,
         commentThreads: [],
         deemphasizeReason: undefined,
+        vote: undefined,
+        label: undefined,
       } as DropdownItem,
     ];
 
@@ -557,5 +569,86 @@ suite('gr-patch-range-select tests', () => {
       ),
       expectedResult
     );
+  });
+});
+
+suite('gr-patch-range-select with votes', () => {
+  let element: GrPatchRangeSelect;
+
+  setup(async () => {
+    const changeModel = testResolver(changeModelToken);
+    const userModel = testResolver(userModelToken);
+
+    const viewModel = testResolver(changeViewModelToken);
+    viewModel.setState({
+      ...createChangeViewState(),
+      patchNum: 2 as RevisionPatchSetNum,
+      basePatchNum: PARENT,
+    });
+
+    const account = createAccountDetailWithId(1);
+    userModel.setAccount(account);
+
+    const change: ParsedChangeInfo = {
+      ...createParsedChange(),
+      messages: [
+        {
+          id: '1' as ChangeMessageId,
+          author: {_account_id: 1 as AccountId},
+          date: '2020-01-01 10:00:00' as Timestamp,
+          message: 'Patch Set 1: Code-Review+1',
+          _revision_number: 1 as PatchSetNumber,
+        },
+        {
+          id: '2' as ChangeMessageId,
+          author: {_account_id: 1 as AccountId},
+          date: '2020-01-01 11:00:00' as Timestamp,
+          message: 'Patch Set 2: Code-Review-1',
+          _revision_number: 2 as PatchSetNumber,
+        },
+      ],
+      revisions: {
+        sha1: createRevision(1),
+        sha2: createRevision(2),
+      },
+      labels: {
+        'Code-Review': {
+          values: {
+            '-1': 'No',
+            ' 0': 'No score',
+            '+1': 'Yes',
+          },
+        },
+      },
+    };
+
+    changeModel.updateStateChange(change);
+
+    element = await fixture(
+      html`<gr-patch-range-select></gr-patch-range-select>`
+    );
+    await element.updateComplete;
+
+    // Unclear why but it's required twice
+    changeModel.updateStateChange(change);
+    await element.updateComplete;
+  });
+
+  test('shows votes in dropdown', async () => {
+    const dropdown = queryAndAssert<GrDropdownList>(
+      element,
+      '#patchNumDropdown'
+    );
+    await dropdown.updateComplete;
+
+    dropdown.open();
+    await dropdown.updateComplete;
+
+    const menu = dropdown.shadowRoot?.querySelector('md-menu');
+    assert.isDefined(menu);
+
+    const voteChip = menu!.querySelector('gr-vote-chip');
+    assert.isDefined(voteChip);
+    assert.equal(voteChip!.vote?.value, -1);
   });
 });

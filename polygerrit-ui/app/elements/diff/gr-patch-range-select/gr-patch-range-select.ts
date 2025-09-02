@@ -22,8 +22,12 @@ import {
 } from '../../../utils/patch-set-util';
 import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
 import {
+  AccountInfo,
+  ApprovalInfo,
   BasePatchSetNum,
+  ChangeInfo,
   EDIT,
+  LabelInfo,
   NumericChangeId,
   PARENT,
   PatchSetNum,
@@ -38,7 +42,7 @@ import {
   DropdownItem,
   GrDropdownList,
 } from '../../shared/gr-dropdown-list/gr-dropdown-list';
-import {EditRevisionInfo} from '../../../types/types';
+import {EditRevisionInfo, ParsedChangeInfo} from '../../../types/types';
 import {a11yStyles} from '../../../styles/gr-a11y-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {css, html, LitElement, nothing} from 'lit';
@@ -55,6 +59,9 @@ import {
 import {changeViewModelToken} from '../../../models/views/change';
 import {fireNoBubbleNoCompose} from '../../../utils/event-util';
 import {FlagsService, KnownExperimentId} from '../../../services/flags/flags';
+import {userModelToken} from '../../../models/user/user-model';
+import {getCodeReviewLabel} from '../../../utils/label-util';
+import {getCodeReviewVotesFromMessage} from '../../../utils/message-util';
 
 // Maximum length for patch set descriptions.
 const PATCH_DESC_MAX_LENGTH = 500;
@@ -102,6 +109,12 @@ export class GrPatchRangeSelect extends LitElement {
   @state()
   changeNum?: NumericChangeId;
 
+  @state()
+  change?: ParsedChangeInfo;
+
+  @state()
+  selfAccount?: AccountInfo;
+
   @property()
   path?: string;
 
@@ -131,6 +144,8 @@ export class GrPatchRangeSelect extends LitElement {
 
   private readonly flags: FlagsService = getAppContext().flagsService;
 
+  private readonly getUserModel = resolve(this, userModelToken);
+
   private readonly getCommentsModel = resolve(this, commentsModelToken);
 
   private readonly getChangeModel = resolve(this, changeModelToken);
@@ -144,6 +159,17 @@ export class GrPatchRangeSelect extends LitElement {
       () => this.getViewModel().changeNum$,
       x => (this.changeNum = x)
     );
+    subscribe(
+      this,
+      () => this.getChangeModel().change$,
+      x => (this.change = x)
+    );
+    subscribe(
+      this,
+      () => this.getUserModel().account$,
+      x => (this.selfAccount = x)
+    );
+
     subscribe(
       this,
       () => this.getChangeModel().change$,
@@ -357,6 +383,8 @@ export class GrPatchRangeSelect extends LitElement {
         !!this.path /* ignorePatchsetLevelComments*/
       ),
       deemphasizeReason: this.computeDeemphasizeReason(sha),
+      vote: this.computeVote(this.selfAccount, this.change, patchNum),
+      label: this.computeCodeReviewLabel(this.change),
     };
     const date = this.computePatchSetDate(patchNum);
     if (date) {
@@ -374,6 +402,36 @@ export class GrPatchRangeSelect extends LitElement {
       RevisionFileUpdateStatus.SAME
       ? 'Unmodified'
       : undefined;
+  }
+
+  private computeVote(
+    reviewer?: AccountInfo,
+    change?: ParsedChangeInfo,
+    revisionNum?: PatchSetNum
+  ): ApprovalInfo | undefined {
+    if (!change || !reviewer || !revisionNum) return undefined;
+
+    const codeReviewVotes = getCodeReviewVotesFromMessage(
+      change as ChangeInfo,
+      reviewer
+    );
+    const vote = codeReviewVotes.get(revisionNum);
+
+    if (vote) {
+      return {
+        ...reviewer,
+        value: Number(vote.value),
+      };
+    }
+
+    return undefined;
+  }
+
+  private computeCodeReviewLabel(
+    change?: ParsedChangeInfo
+  ): LabelInfo | undefined {
+    if (!change?.labels) return;
+    return getCodeReviewLabel(change.labels);
   }
 
   /**

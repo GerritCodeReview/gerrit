@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4e6f868f_ffca1d9f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-09-02T21:36:27Z",
+      "side": 1,
+      "message": "Can you add a link to https://github.com/google/guava/releases/tag/v33.4.1 and note that \"Guava 33.4.8 changes Guava to be a Java module\"? I don\u0027t think that will cause problems, but any that do show up will be easier to bisect if that change is obvious in the commit message.",
+      "revId": "f88950bba3ba10edb14ce85ba2f6702bcaa1cf31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

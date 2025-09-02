@@ -43,6 +43,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "40825248_4595afe1",
+        "filename": "java/com/google/gerrit/server/config/ScheduleConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-09-02T21:51:31Z",
+      "side": 1,
+      "message": "Looking at your code, I think it\u0027s only added once and then the schedule is based on the constant interval. Can you update the \"10:30\" times on lines 97 \u0026 98 with an example delay to show that? i.e. if your example is a random jitter of 7 minutes, then you\u0027ll `s/10:30/10:37/g`.",
+      "range": {
+        "startLine": 99,
+        "startChar": 34,
+        "endLine": 99,
+        "endChar": 59
+      },
+      "revId": "85b25dd8bf40090cc3a7a3ccf1736f267cb5becc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "541940b1_b00913b0",
         "filename": "java/com/google/gerrit/server/config/ScheduleConfig.java",
         "patchSetId": 5
@@ -76,6 +99,29 @@
         "startChar": 0,
         "endLine": 256,
         "endChar": 50
+      },
+      "revId": "85b25dd8bf40090cc3a7a3ccf1736f267cb5becc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f9af20af_166e58b1",
+        "filename": "java/com/google/gerrit/server/config/ScheduleConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-09-02T21:51:31Z",
+      "side": 1,
+      "message": "I think you can use `0` directly as the default:\n```suggestion\n      // No jitter if key not present\n      return ConfigUtil.getTimeUnit(\n          rc, section, subsection, keyJitter, 0, TimeUnit.MILLISECONDS);\n```",
+      "range": {
+        "startLine": 254,
+        "startChar": 0,
+        "endLine": 259,
+        "endChar": 85
       },
       "revId": "85b25dd8bf40090cc3a7a3ccf1736f267cb5becc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
@@ -123,6 +169,23 @@
         "endLine": 307,
         "endChar": 23
       },
+      "revId": "85b25dd8bf40090cc3a7a3ccf1736f267cb5becc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c6755614_09c18989",
+        "filename": "javatests/com/google/gerrit/server/config/ScheduleConfigTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-09-02T21:51:31Z",
+      "side": 1,
+      "message": "Add assertions for `interval` too? We should see that it\u0027s still 1hr.",
       "revId": "85b25dd8bf40090cc3a7a3ccf1736f267cb5becc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

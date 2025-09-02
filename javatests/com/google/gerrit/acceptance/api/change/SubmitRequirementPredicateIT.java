@@ -26,6 +26,7 @@ import static org.eclipse.jgit.lib.Constants.HEAD;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
@@ -43,16 +44,21 @@ import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.LabelType;
+import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.entities.SubmitRequirementExpression;
 import com.google.gerrit.entities.SubmitRequirementExpressionResult;
+import com.google.gerrit.extensions.api.changes.PublishChangeEditInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.common.CommentInfo;
+import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.server.account.ServiceUserClassifier;
 import com.google.gerrit.server.project.SubmitRequirementsEvaluatorImpl;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
+import java.util.Map;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
@@ -949,6 +955,64 @@ public class SubmitRequirementPredicateIT extends AbstractDaemonTest {
             changeRecommendedByAllReviewers,
             changeRecommendedBySomeReviewers,
             changeNoVotesByReviewers));
+  }
+
+  @Test
+  public void hasUnresolvedComments() throws Exception {
+    TestRepository<InMemoryRepository> clonedRepo = cloneProject(project, admin);
+    PushOneCommit.Result r =
+        pushFactory
+            .create(user.newIdent(), clonedRepo, "Subject", "file.txt", "text")
+            .to("refs/for/master");
+
+    assertNotMatching("has:unresolved", r.getChange().getId());
+    assertMatching("-has:unresolved", r.getChange().getId());
+
+    ReviewInput reviewInput = new ReviewInput();
+    ReviewInput.CommentInput commentInput = new ReviewInput.CommentInput();
+    commentInput.line = 1;
+    commentInput.message = "inline";
+    commentInput.unresolved = true;
+    reviewInput.comments = ImmutableMap.of(Patch.COMMIT_MSG, ImmutableList.of(commentInput));
+    gApi.changes().id(project.get(), r.getChange().getId().get()).current().review(reviewInput);
+    CommentInfo commentInfo =
+        Iterables.getOnlyElement(
+            gApi.changes()
+                .id(project.get(), r.getChange().getId().get())
+                .current()
+                .commentsAsList());
+
+    assertMatching("has:unresolved", r.getChange().getId());
+    assertNotMatching("-has:unresolved", r.getChange().getId());
+
+    // Rename the file in the change to check that the change still matches if the commented file
+    // path is no longer present in the current patch set.
+    gApi.changes().id(project.get(), r.getChange().getId().get()).edit().create();
+    gApi.changes()
+        .id(project.get(), r.getChange().getId().get())
+        .edit()
+        .renameFile("file.txt", "renamed-file.txt");
+    gApi.changes()
+        .id(project.get(), r.getChange().getId().get())
+        .edit()
+        .publish(new PublishChangeEditInput());
+    Map<String, FileInfo> files =
+        gApi.changes().id(project.get(), r.getChange().getId().get()).current().files("1");
+    assertThat(files.keySet()).containsExactly(Patch.COMMIT_MSG, "renamed-file.txt");
+    assertThat(files.get("renamed-file.txt").oldPath).isEqualTo("file.txt");
+    assertMatching("has:unresolved", r.getChange().getId());
+    assertNotMatching("-has:unresolved", r.getChange().getId());
+
+    // Resolve the comment.
+    reviewInput = new ReviewInput();
+    commentInput = new ReviewInput.CommentInput();
+    commentInput.inReplyTo = commentInfo.id;
+    commentInput.message = "done";
+    commentInput.unresolved = false;
+    reviewInput.comments = ImmutableMap.of(Patch.COMMIT_MSG, ImmutableList.of(commentInput));
+    gApi.changes().id(project.get(), r.getChange().getId().get()).current().review(reviewInput);
+    assertNotMatching("has:unresolved", r.getChange().getId());
+    assertMatching("-has:unresolved", r.getChange().getId());
   }
 
   private void addReviewers(Project.NameKey project, Change.Id changeId, Account.Id... reviewers)

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b8049b5_e04883d8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-09-02T17:58:39Z",
+      "side": 1,
+      "message": "Can we not make this the default (my only thinking is when a Gerrit version is released)?",
+      "revId": "87e12ced272293f1c1578f9391c53089f33605ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

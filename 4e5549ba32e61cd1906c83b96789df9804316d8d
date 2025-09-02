@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5b7683da_1bde6b95",
+        "filename": "java/com/google/gerrit/extensions/common/AiResponse.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-09-02T23:01:46Z",
+      "side": 1,
+      "message": "\u003e I\u0027m not sure it\u0027s really a problem, but rarely do the Gerrit extensions Input/Info classes have getters or setters. They typically just have public fields. If you want getters/setters for a value class like this, we should probably use Java Records.\n\n+1, Yes, Java Records would be more appropriate indeed.",
+      "parentUuid": "3aa693f9_a59e4b1a",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 3
+      },
+      "revId": "4e5549ba32e61cd1906c83b96789df9804316d8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "76f0a99f_889fc96e",
         "filename": "java/com/google/gerrit/server/restapi/change/AiCodeReview.java",
         "patchSetId": 22

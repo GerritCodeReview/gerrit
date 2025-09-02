@@ -52,6 +52,24 @@
       "parentUuid": "140748ef_cb1eafcd",
       "revId": "5c8122b80397fd9163483270ae89859838e65691",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "deea799d_b840c305",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-09-02T21:25:04Z",
+      "side": 1,
+      "message": "Yeah, ok. I looked closer at the diffs here and I see it\u0027s really just changing the things not controlled by slf4j or flogger.",
+      "parentUuid": "6af94ae0_94c1d964",
+      "revId": "5c8122b80397fd9163483270ae89859838e65691",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

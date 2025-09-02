@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c173e978_1ff3460b",
+        "filename": "tools/nongoogle.bzl",
+        "patchSetId": 26
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-09-02T21:25:04Z",
+      "side": 1,
+      "message": "Should we also be updating to the newest slf4j `2.0.17`?",
+      "revId": "cc8bf661558069e767c1215bda7cc1a9d66ca6c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "90ecde6a_aa61595b",
+        "filename": "tools/nongoogle.bzl",
+        "patchSetId": 26
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-09-02T21:25:04Z",
+      "side": 1,
+      "message": "Should we switch this to the [log4j provided bridge](https://logging.apache.org/log4j/2.x/manual/installation.html#impl-core-bridge-jcl)?",
+      "revId": "cc8bf661558069e767c1215bda7cc1a9d66ca6c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

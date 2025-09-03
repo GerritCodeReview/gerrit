@@ -6743,6 +6743,38 @@ describes the resulting cherry-pick change.
   }
 ----
 
+[[Get-AI-Prompt]]
+=== Get AI Prompt
+--
+'GET /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/ai_prompt?command=CODE_REVIEW'
+
+--
+
+This API accepts a query parameter `command` for which the AI prompt should be generated
+and responds with the AI generated prompt.
+
+Valid values for `command` are:
+
+ - code_review
+ - commit_message
+ - patch_content
+
+.Request
+----
+  GET /changes/1/revisions/2/ai-ai_prompt?command=code_review HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  "\nYou are a highly experienced code reviewer specializing in Git patches..."
+----
+
 [[revision-reviewer-endpoints]]
 == Revision Reviewer Endpoints
 

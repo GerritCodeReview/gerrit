@@ -55,6 +55,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fc07250b_1bbfc1c3",
+        "filename": "polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-09-03T20:49:20Z",
+      "side": 1,
+      "message": "\u003e We need the voting information for each patchset. This information is present in the change messages already.\n\nAre you sure it\u0027s the same information? For example, does reading the change messages handle copied approvals?\n\n\u003e \n\u003e That seemed better than making N API requests for each patchset.\n\nOh hmm. I was thinking that REST API had a similar format to the SSH query output, but apparently it doesn\u0027t. The SSH output uses `ChangeData.conditionallyLoadApprovalsWithCopied()`, but the REST API (in `LabelsJson`) uses `ChangeData.approvals()` and then throws away the per-patchset data and calls `ChangeData.currentApprovals()` 😞. I don\u0027t quite understand that. That said, I think adding/fixing a REST API to return all the approvals for all the patchsets should be pretty straightforward and can probably be included with an existing API call.",
+      "parentUuid": "fa17214f_4024a5ba",
+      "revId": "dc765bb850e69b9b69dc9b0340d5193f6b911341",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "bf9470f0_7de7d1bb",
         "filename": "polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select.ts",
         "patchSetId": 13

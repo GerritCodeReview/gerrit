@@ -495,6 +495,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "65bc6774_65d2c839",
+        "filename": "java/com/google/gerrit/server/restapi/change/AiCodeReview.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2025-09-03T12:27:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "99027da5_573da620",
+      "range": {
+        "startLine": 55,
+        "startChar": 58,
+        "endLine": 55,
+        "endChar": 75
+      },
+      "revId": "4e5549ba32e61cd1906c83b96789df9804316d8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "76f0a99f_889fc96e",

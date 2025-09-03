@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6bbf7506_b6ddf418",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 23
+      },
+      "lineNbr": 6745,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2025-09-03T12:27:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0ac75003_c0a31613",
+      "revId": "520f1d76aa3c26b08fae9778df0e66d81a8e5473",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bb735de2_f9347ddc",
@@ -31,6 +49,24 @@
       "writtenOn": "2025-09-03T10:14:51Z",
       "side": 1,
       "message": "```suggestion\na list of AI models as input, sends the prompt to the selected\n```",
+      "revId": "520f1d76aa3c26b08fae9778df0e66d81a8e5473",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b80987cc_6bfb89fb",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 23
+      },
+      "lineNbr": 6746,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2025-09-03T12:27:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bb735de2_f9347ddc",
       "revId": "520f1d76aa3c26b08fae9778df0e66d81a8e5473",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -52,6 +88,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fd99623d_737ae36c",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 23
+      },
+      "lineNbr": 6747,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2025-09-03T12:27:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e5731375_43706864",
+      "revId": "520f1d76aa3c26b08fae9778df0e66d81a8e5473",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bc1971a9_fd73ec57",
@@ -69,6 +123,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ff2e398c_9329e799",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 23
+      },
+      "lineNbr": 6770,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2025-09-03T12:27:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bc1971a9_fd73ec57",
+      "revId": "520f1d76aa3c26b08fae9778df0e66d81a8e5473",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0cdfb098_dfedc9f2",
@@ -82,6 +154,24 @@
       "writtenOn": "2025-09-03T10:14:51Z",
       "side": 1,
       "message": "move this method to `AiCodeReviewInput.validate()` ?",
+      "revId": "520f1d76aa3c26b08fae9778df0e66d81a8e5473",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e2a6fe90_9d10ac2d",
+        "filename": "java/com/google/gerrit/server/restapi/change/AiCodeReview.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2025-09-03T12:27:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0cdfb098_dfedc9f2",
       "revId": "520f1d76aa3c26b08fae9778df0e66d81a8e5473",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

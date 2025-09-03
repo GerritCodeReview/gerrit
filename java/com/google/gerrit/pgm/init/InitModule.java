@@ -70,6 +70,7 @@ public class InitModule extends FactoryModule {
     step().to(InitCache.class);
     step().to(InitPlugins.class);
     step().to(InitDev.class);
+    step().to(InitAIPrompt.class);
 
     bind(AccountsOnInit.class).to(AccountsOnInitNoteDbImpl.class);
     bind(ExternalIdFactory.class).to(ExternalIdFactoryNoteDbImpl.class).in(Singleton.class);

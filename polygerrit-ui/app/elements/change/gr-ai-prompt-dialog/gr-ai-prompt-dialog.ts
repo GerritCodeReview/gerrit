@@ -18,7 +18,6 @@ import {resolve} from '../../../models/dependency';
 import {changeModelToken} from '../../../models/change/change-model';
 import {ParsedChangeInfo} from '../../../types/types';
 import {PatchSetNum} from '../../../types/common';
-import {HELP_ME_REVIEW_PROMPT, IMPROVE_COMMIT_MESSAGE} from './prompts';
 import {when} from 'lit/directives/when.js';
 import {copyToClipboard} from '../../../utils/common-util';
 import '@material/web/select/outlined-select';
@@ -30,17 +29,17 @@ const PROMPT_TEMPLATES = {
   HELP_REVIEW: {
     id: 'help_review',
     label: 'Help me with review',
-    prompt: HELP_ME_REVIEW_PROMPT,
+    command: 'CODE_REVIEW',
   },
   IMPROVE_COMMIT_MESSAGE: {
     id: 'improve_commit_message',
     label: 'Improve commit message',
-    prompt: IMPROVE_COMMIT_MESSAGE,
+    command: 'COMMIT_MESSAGE',
   },
   PATCH_ONLY: {
     id: 'patch_only',
     label: 'Just patch content',
-    prompt: '{{patch}}',
+    command: 'PATCH_CONTENT',
   },
 };
 
@@ -67,8 +66,6 @@ export class GrAiPromptDialog extends LitElement {
   @state() change?: ParsedChangeInfo;
 
   @state() patchNum?: PatchSetNum;
-
-  @state() patchContent?: string;
 
   @state() loading = false;
 
@@ -282,20 +279,17 @@ export class GrAiPromptDialog extends LitElement {
   }
 
   override willUpdate(changedProperties: PropertyValues) {
-    if (
-      changedProperties.has('patchContent') ||
-      changedProperties.has('selectedTemplate')
-    ) {
-      this.updatePromptContent();
+    if (changedProperties.has('selectedTemplate')) {
+      this.loadPromptContent();
     }
     if (changedProperties.has('context')) {
-      this.loadPatchContent();
+      this.loadPromptContent();
     }
   }
 
   open() {
     if (this.getNumParents() === 1) {
-      this.loadPatchContent();
+      this.loadPromptContent();
     }
   }
 
@@ -304,32 +298,23 @@ export class GrAiPromptDialog extends LitElement {
       .length;
   }
 
-  private async loadPatchContent() {
+  private async loadPromptContent() {
     if (!this.change || !this.patchNum) return;
     this.loading = true;
-    const content = await this.restApiService.getPatchContent(
-      this.change._number,
-      this.patchNum,
-      this.context
-    );
-    this.loading = false;
-    if (!content) {
-      fireError(this, 'Failed to get patch content');
-      return;
-    }
-    this.patchContent = content;
-  }
-
-  private updatePromptContent() {
-    if (!this.patchContent) {
+    try {
+      const template = PROMPT_TEMPLATES[this.selectedTemplate];
+      const response = await this.restApiService.getPromptContent(
+        this.change._number,
+        this.patchNum,
+        template.command
+      );
+      this.promptContent = response ? response : '';
+    } catch {
+      fireError(this, 'Failed to get AI prompt');
       this.promptContent = '';
-      return;
+    } finally {
+      this.loading = false;
     }
-    const template = PROMPT_TEMPLATES[this.selectedTemplate];
-    this.promptContent = template.prompt.replace(
-      '{{patch}}',
-      this.patchContent
-    );
   }
 
   private async handleCopyPatch(e: Event) {

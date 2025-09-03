@@ -37,6 +37,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fa17214f_4024a5ba",
+        "filename": "polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-09-03T18:20:37Z",
+      "side": 1,
+      "message": "I don\u0027t follow the question.\n\nWe need the voting information for each patchset. This information is present in the change messages already.\n\nThat seemed better than making N API requests for each patchset.",
+      "parentUuid": "794ee862_2c2881a4",
+      "revId": "dc765bb850e69b9b69dc9b0340d5193f6b911341",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "bf9470f0_7de7d1bb",
         "filename": "polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select.ts",
         "patchSetId": 13

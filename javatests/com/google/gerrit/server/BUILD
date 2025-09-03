@@ -82,6 +82,7 @@ junit_tests(
         "//lib:jgit-junit",
         "//lib:protobuf",
         "//lib:roaringbitmap",
+        "//lib:servlet-api-without-neverlink",
         "//lib:soy",
         "//lib/auto:auto-value",
         "//lib/auto:auto-value-annotations",

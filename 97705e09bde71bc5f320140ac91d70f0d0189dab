@@ -1,0 +1,109 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5b0b9acb_ebcc795b",
+        "filename": "polygerrit-ui/app/elements/change/gr-message-scores/gr-message-scores.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-09-03T10:40:06Z",
+      "side": 1,
+      "message": "Should this also be moved to the util?",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 42
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "3ca2ca5a_c0766728",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-message-scores/gr-message-scores.ts",
+              "range": {
+                "startLine": 20,
+                "startChar": 0,
+                "endLine": 23,
+                "endChar": 0
+              },
+              "replacement": ""
+            }
+          ]
+        }
+      ],
+      "revId": "97705e09bde71bc5f320140ac91d70f0d0189dab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1f475b8f_ed174802",
+        "filename": "polygerrit-ui/app/utils/message-util.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-09-03T10:40:06Z",
+      "side": 1,
+      "message": "Add a docstring. It\u0027s not clear what account param does, without reading through code.",
+      "range": {
+        "startLine": 68,
+        "startChar": 16,
+        "endLine": 68,
+        "endChar": 45
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "8f3da6a7_6e3faef4",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/utils/message-util.ts",
+              "range": {
+                "startLine": 68,
+                "startChar": 0,
+                "endLine": 68,
+                "endChar": 0
+              },
+              "replacement": "/**\n * Extracts Code-Review votes from change messages, specifically those posted\n * by the provided `account`.\n * @param change The change info.\n * @param account The account for which to extract the votes.\n * @returns A map where keys are patch set numbers and values are objects\n *   containing the label (\u0027Code-Review\u0027) and the numeric vote value.\n */\n"
+            }
+          ]
+        }
+      ],
+      "revId": "97705e09bde71bc5f320140ac91d70f0d0189dab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "19e9300e_55dadd43",
+        "filename": "polygerrit-ui/app/utils/message-util.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-09-03T10:40:06Z",
+      "side": 1,
+      "message": "Why not use Score type here?",
+      "range": {
+        "startLine": 71,
+        "startChar": 20,
+        "endLine": 71,
+        "endChar": 50
+      },
+      "revId": "97705e09bde71bc5f320140ac91d70f0d0189dab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

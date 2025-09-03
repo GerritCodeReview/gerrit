@@ -829,6 +829,12 @@ export interface RestApiService extends Finalizable {
     context?: number
   ): Promise<string | undefined>;
 
+  getPromptContent(
+      changeNum: NumericChangeId,
+      patchNum: PatchSetNum,
+      command: string,
+  ): Promise<String | undefined>;
+
   getImagesForDiff(
     changeNum: NumericChangeId,
     diff: DiffInfo,

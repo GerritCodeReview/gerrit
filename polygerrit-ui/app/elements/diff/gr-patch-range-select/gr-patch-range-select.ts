@@ -430,14 +430,12 @@ export class GrPatchRangeSelect extends LitElement {
 
     const vote = this.codeReviewVotes.get(revisionNum);
 
-    if (vote) {
-      return {
-        ...reviewer,
-        value: Number(vote.value),
-      };
-    }
+    if (!vote) return;
 
-    return undefined;
+    return {
+      ...reviewer,
+      value: Number(vote.value),
+    };
   }
 
   private computeCodeReviewLabel(

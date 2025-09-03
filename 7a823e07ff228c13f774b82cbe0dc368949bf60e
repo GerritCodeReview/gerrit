@@ -16,6 +16,23 @@
       "message": "created tickets to request LC +1:\n- Jetty 12: Issue 359909531\n- servlet 6.0: Issue 359904344",
       "revId": "7a823e07ff228c13f774b82cbe0dc368949bf60e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5ed4fbd0_ecdf7874",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 28
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-09-03T19:56:47Z",
+      "side": 1,
+      "message": "Bump :)",
+      "revId": "7a823e07ff228c13f774b82cbe0dc368949bf60e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,5 +1,57 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bd08e4f5_0eb89115",
+        "filename": "polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-09-03T11:44:49Z",
+      "side": 1,
+      "message": "We should not pass this, if there is no vote.",
+      "revId": "dc765bb850e69b9b69dc9b0340d5193f6b911341",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bf9470f0_7de7d1bb",
+        "filename": "polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-09-03T11:44:49Z",
+      "side": 1,
+      "message": "Prefer early return to reduce nesting: `if (!vote) return undefined;`",
+      "revId": "dc765bb850e69b9b69dc9b0340d5193f6b911341",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5626d02d_75264ce8",
+        "filename": "polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 430,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-09-03T11:44:49Z",
+      "side": 1,
+      "message": "This can also be done in a subscription.",
+      "revId": "dc765bb850e69b9b69dc9b0340d5193f6b911341",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

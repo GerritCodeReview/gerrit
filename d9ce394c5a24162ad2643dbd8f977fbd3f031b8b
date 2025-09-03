@@ -46,6 +46,30 @@
       },
       "revId": "d9ce394c5a24162ad2643dbd8f977fbd3f031b8b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba2e2af3_00c19c73",
+        "filename": "polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 417,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-09-03T11:44:49Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "740f2045_968c3a7f",
+      "range": {
+        "startLine": 414,
+        "startChar": 4,
+        "endLine": 417,
+        "endChar": 6
+      },
+      "revId": "d9ce394c5a24162ad2643dbd8f977fbd3f031b8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

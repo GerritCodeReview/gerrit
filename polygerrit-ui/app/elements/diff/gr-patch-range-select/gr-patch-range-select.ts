@@ -62,6 +62,7 @@ import {FlagsService, KnownExperimentId} from '../../../services/flags/flags';
 import {userModelToken} from '../../../models/user/user-model';
 import {getCodeReviewLabel} from '../../../utils/label-util';
 import {getCodeReviewVotesFromMessage} from '../../../utils/message-util';
+import {combineLatest, map} from 'rxjs';
 
 // Maximum length for patch set descriptions.
 const PATCH_DESC_MAX_LENGTH = 500;
@@ -139,6 +140,9 @@ export class GrPatchRangeSelect extends LitElement {
   @state()
   revisionUpdatedFiles?: RevisionUpdatedFiles;
 
+  @state()
+  private codeReviewVotes: {[label: string]: number} = {};
+
   private readonly reporting: ReportingService =
     getAppContext().reportingService;
 
@@ -204,6 +208,21 @@ export class GrPatchRangeSelect extends LitElement {
       this,
       () => this.getChangeModel().revisionUpdatedFiles$,
       x => (this.revisionUpdatedFiles = x)
+    );
+    subscribe(
+      this,
+      () =>
+        combineLatest([
+          this.getChangeModel().change$,
+          this.getUserModel().account$,
+        ]).pipe(
+          map(([change, account]) => {
+            return getCodeReviewVotesFromMessage(change, account);
+          })
+        ),
+      votes => {
+        this.codeReviewVotes = votes;
+      }
     );
   }
 
@@ -389,6 +408,17 @@ export class GrPatchRangeSelect extends LitElement {
     const date = this.computePatchSetDate(patchNum);
     if (date) {
       entry.date = date;
+    }
+    const voteStr = Object.entries(this.codeReviewVotes)
+      .map(([label, value]) => {
+        const labelAbbr = label.replace('Code-Review', 'CR');
+        const vote = value > 0 ? `+${value}` : `${value}`;
+        return `${labelAbbr}${vote}`;
+      })
+      .join(', ');
+    if (voteStr) {
+      entry.triggerText += ` (${voteStr})`;
+      entry.text += ` (${voteStr})`;
     }
     return entry;
   }

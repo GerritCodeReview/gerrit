@@ -3628,6 +3628,19 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     return await response.text();
   }
 
+  async getPromptContent(
+    changeNum: NumericChangeId,
+    patchNum: PatchSetNum,
+    command: string
+  ): Promise<string | undefined> {
+    const url = await this._changeBaseURL(changeNum, patchNum);
+
+    return await this._restApiHelper.fetchJSON({
+      url: `${url}/ai_prompt?command=${command}`,
+      anonymizedUrl: `${ANONYMIZED_REVISION_BASE_URL}/ai_prompt`,
+    }) as unknown as Promise<string | undefined>;
+  }
+
   /**
    * Modify the given create draft request promise so that it fails and throws
    * an error if the response bears HTTP status 200 instead of HTTP 201.

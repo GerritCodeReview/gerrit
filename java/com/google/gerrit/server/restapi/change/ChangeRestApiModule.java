@@ -173,6 +173,7 @@ public class ChangeRestApiModule extends RestApiModule {
     get(REVISION_KIND, "review").to(GetReview.class);
     post(REVISION_KIND, "review").to(PostReview.class);
     child(REVISION_KIND, "reviewers").to(RevisionReviewers.class);
+    get(REVISION_KIND, "ai_prompt").to(GetPrompt.class);
 
     child(REVISION_KIND, "robotcomments").to(RobotComments.class);
     get(ROBOT_COMMENT_KIND).to(GetRobotComment.class);

@@ -12,6 +12,7 @@ import {
   ChangeMessageInfo,
   PatchSetNum,
 } from '../types/common';
+import {ParsedChangeInfo} from '../types/types';
 import {LabelExtreme, PATCH_SET_PREFIX_PATTERN} from './comment-util';
 import {hasOwnProperty} from './common-util';
 import {getVotingRange, StandardLabels} from './label-util';
@@ -75,7 +76,7 @@ export function getScores(
  *   containing the label ('Code-Review') and the numeric vote value.
  */
 export function getCodeReviewVotesFromMessage(
-  change?: ChangeInfo,
+  change?: ChangeInfo | ParsedChangeInfo,
   account?: AccountInfo
 ): Map<PatchSetNum, Score> {
   const codeReviewVotes = new Map<PatchSetNum, Score>();

@@ -42,6 +42,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "88b9961f_185ee84a",
+        "filename": "polygerrit-ui/app/elements/change/gr-message-scores/gr-message-scores.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-09-03T10:51:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5b0b9acb_ebcc795b",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 42
+      },
+      "revId": "97705e09bde71bc5f320140ac91d70f0d0189dab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1f475b8f_ed174802",
@@ -83,6 +107,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "43e46956_e651b1a5",
+        "filename": "polygerrit-ui/app/utils/message-util.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-09-03T10:51:10Z",
+      "side": 1,
+      "message": "I don\u0027t think the method name can be more descriptive.\n\nSince AI generated the docs, added to the method.",
+      "parentUuid": "1f475b8f_ed174802",
+      "range": {
+        "startLine": 68,
+        "startChar": 16,
+        "endLine": 68,
+        "endChar": 45
+      },
+      "revId": "97705e09bde71bc5f320140ac91d70f0d0189dab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "19e9300e_55dadd43",
@@ -96,6 +144,30 @@
       "writtenOn": "2025-09-03T10:40:06Z",
       "side": 1,
       "message": "Why not use Score type here?",
+      "range": {
+        "startLine": 71,
+        "startChar": 20,
+        "endLine": 71,
+        "endChar": 50
+      },
+      "revId": "97705e09bde71bc5f320140ac91d70f0d0189dab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5e6f5e18_876e2c42",
+        "filename": "polygerrit-ui/app/utils/message-util.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-09-03T10:51:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19e9300e_55dadd43",
       "range": {
         "startLine": 71,
         "startChar": 20,

@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4436b9d2_82e8f0a8",
+        "filename": "java/com/google/gerrit/extensions/api/changes/AiCodeReviewProvider.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-09-03T10:14:51Z",
+      "side": 1,
+      "message": "Add javadoc for this API method ?",
+      "revId": "389647350dfb26e928ed3a3e58f9b3ff8054f69d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "169079d5_406c1695",
+        "filename": "java/com/google/gerrit/extensions/common/AiCodeReviewInput.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-09-03T10:14:51Z",
+      "side": 1,
+      "message": "add javadoc for the public fields ?",
+      "revId": "389647350dfb26e928ed3a3e58f9b3ff8054f69d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3dbfcbd8_62d28026",
+        "filename": "java/com/google/gerrit/extensions/common/AiModelsInfo.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-09-03T10:14:51Z",
+      "side": 1,
+      "message": "add javadoc for the public fields ?",
+      "revId": "389647350dfb26e928ed3a3e58f9b3ff8054f69d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

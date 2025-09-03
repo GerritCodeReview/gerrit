@@ -33,7 +33,6 @@ import {
   LabelExtreme,
   PATCH_SET_PREFIX_PATTERN,
 } from '../../../utils/comment-util';
-import {LABEL_TITLE_SCORE_PATTERN} from '../gr-message-scores/gr-message-scores';
 import {getAppContext} from '../../../services/app-context';
 import {pluralize} from '../../../utils/string-util';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
@@ -53,6 +52,7 @@ import {ChangeMessageDeletedEventDetail} from '../../../types/events';
 import {configModelToken} from '../../../models/config/config-model';
 import {userModelToken} from '../../../models/user/user-model';
 import {subscribe} from '../../lit/subscription-controller';
+import {LABEL_TITLE_SCORE_PATTERN} from '../../../utils/message-util';
 
 const UPLOADED_NEW_PATCHSET_PATTERN = /Uploaded patch set (\d+)./;
 const MERGED_PATCHSET_PATTERN = /(\d+) is the latest approved patch-set/;

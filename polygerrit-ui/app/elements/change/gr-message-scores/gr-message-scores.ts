@@ -8,27 +8,14 @@ import '../../checks/gr-checks-chip-for-label';
 import {css, html, LitElement, nothing} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
 import {ChangeInfo, PatchSetNumber} from '../../../api/rest-api';
-import {
-  LabelExtreme,
-  PATCH_SET_PREFIX_PATTERN,
-} from '../../../utils/comment-util';
-import {hasOwnProperty} from '../../../utils/common-util';
+import {LabelExtreme} from '../../../utils/comment-util';
 import {getTriggerVotes} from '../../../utils/label-util';
 import {ChangeMessage} from '../../../types/common';
 import {CheckRun} from '../../../api/checks';
 import {subscribe} from '../../lit/subscription-controller';
 import {resolve} from '../../../models/dependency';
 import {changeModelToken} from '../../../models/change/change-model';
-
-const VOTE_RESET_TEXT = '0 (vote reset)';
-
-interface Score {
-  label?: string;
-  value?: string;
-}
-
-export const LABEL_TITLE_SCORE_PATTERN =
-  /^(-?)([A-Za-z0-9-]+?)([+-]\d+)?[.:]?$/;
+import {getScores, Score, VOTE_RESET_TEXT} from '../../../utils/message-util';
 
 @customElement('gr-message-scores')
 export class GrMessageScores extends LitElement {
@@ -116,7 +103,7 @@ export class GrMessageScores extends LitElement {
   }
 
   override render() {
-    const scores = this._getScores(this.message, this.labelExtremes);
+    const scores = getScores(this.message, this.labelExtremes);
     const triggerVotes = getTriggerVotes(this.change);
     return scores.map(score => this.renderScore(score, triggerVotes));
   }
@@ -185,32 +172,6 @@ export class GrMessageScores extends LitElement {
       }
     }
     return classes.join(' ');
-  }
-
-  _getScores(message?: ChangeMessage, labelExtremes?: LabelExtreme): Score[] {
-    if (!message || !message.message || !labelExtremes) {
-      return [];
-    }
-    const line = message.message.split('\n', 1)[0];
-    const patchSetPrefix = PATCH_SET_PREFIX_PATTERN;
-    if (!line.match(patchSetPrefix)) {
-      return [];
-    }
-    const scoresRaw = line.split(patchSetPrefix)[1];
-    if (!scoresRaw) {
-      return [];
-    }
-    return scoresRaw
-      .split(' ')
-      .map(s => s.match(LABEL_TITLE_SCORE_PATTERN))
-      .filter(
-        ms => ms && ms.length === 4 && hasOwnProperty(labelExtremes, ms[2])
-      )
-      .map(ms => {
-        const label = ms?.[2];
-        const value = ms?.[1] === '-' ? VOTE_RESET_TEXT : ms?.[3];
-        return {label, value};
-      });
   }
 }
 

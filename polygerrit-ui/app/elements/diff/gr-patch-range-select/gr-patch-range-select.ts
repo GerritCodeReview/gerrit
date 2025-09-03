@@ -25,7 +25,6 @@ import {
   AccountInfo,
   ApprovalInfo,
   BasePatchSetNum,
-  ChangeInfo,
   EDIT,
   LabelInfo,
   NumericChangeId,
@@ -61,7 +60,11 @@ import {fireNoBubbleNoCompose} from '../../../utils/event-util';
 import {FlagsService, KnownExperimentId} from '../../../services/flags/flags';
 import {userModelToken} from '../../../models/user/user-model';
 import {getCodeReviewLabel} from '../../../utils/label-util';
-import {getCodeReviewVotesFromMessage} from '../../../utils/message-util';
+import {
+  getCodeReviewVotesFromMessage,
+  Score,
+} from '../../../utils/message-util';
+import {combineLatest} from 'rxjs';
 
 // Maximum length for patch set descriptions.
 const PATCH_DESC_MAX_LENGTH = 500;
@@ -139,6 +142,9 @@ export class GrPatchRangeSelect extends LitElement {
   @state()
   revisionUpdatedFiles?: RevisionUpdatedFiles;
 
+  @state()
+  codeReviewVotes: Map<PatchSetNum, Score> = new Map();
+
   private readonly reporting: ReportingService =
     getAppContext().reportingService;
 
@@ -204,6 +210,17 @@ export class GrPatchRangeSelect extends LitElement {
       this,
       () => this.getChangeModel().revisionUpdatedFiles$,
       x => (this.revisionUpdatedFiles = x)
+    );
+    subscribe(
+      this,
+      () =>
+        combineLatest([
+          this.getChangeModel().change$,
+          this.getUserModel().account$,
+        ]),
+      ([change, account]) => {
+        this.codeReviewVotes = getCodeReviewVotesFromMessage(change, account);
+      }
     );
   }
 
@@ -411,11 +428,7 @@ export class GrPatchRangeSelect extends LitElement {
   ): ApprovalInfo | undefined {
     if (!change || !reviewer || !revisionNum) return undefined;
 
-    const codeReviewVotes = getCodeReviewVotesFromMessage(
-      change as ChangeInfo,
-      reviewer
-    );
-    const vote = codeReviewVotes.get(revisionNum);
+    const vote = this.codeReviewVotes.get(revisionNum);
 
     if (vote) {
       return {

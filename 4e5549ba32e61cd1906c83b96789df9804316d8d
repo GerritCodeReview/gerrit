@@ -3,6 +3,190 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5b706ff7_8bd72ef1",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 22
+      },
+      "lineNbr": 3240,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2025-09-03T07:43:18Z",
+      "side": 1,
+      "message": "Should this be moved under the `revision-endpoints` section?",
+      "range": {
+        "startLine": 3240,
+        "startChar": 0,
+        "endLine": 3240,
+        "endChar": 17
+      },
+      "revId": "4e5549ba32e61cd1906c83b96789df9804316d8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c69b2317_650784d8",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 22
+      },
+      "lineNbr": 3243,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2025-09-03T07:43:18Z",
+      "side": 1,
+      "message": "```suggestion\n\u0027POST /changes/link:#change-id[\\{change-id\\}]/revisions/link:#revision-id[\\{revision-id\\}]/ai-review\u0027\n```",
+      "range": {
+        "startLine": 3243,
+        "startChar": 0,
+        "endLine": 3243,
+        "endChar": 82
+      },
+      "revId": "4e5549ba32e61cd1906c83b96789df9804316d8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c82a4546_3f5ad17e",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 22
+      },
+      "lineNbr": 3247,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2025-09-03T07:43:18Z",
+      "side": 1,
+      "message": "```suggestion\na list of AI models as input, send the prompt to the selected\n```",
+      "range": {
+        "startLine": 3247,
+        "startChar": 0,
+        "endLine": 3247,
+        "endChar": 66
+      },
+      "revId": "4e5549ba32e61cd1906c83b96789df9804316d8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9d61eaa2_e31e7cc9",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 22
+      },
+      "lineNbr": 3252,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2025-09-03T07:43:18Z",
+      "side": 1,
+      "message": "```suggestion\nThe inputs must be provided in the request body, inside a\nlink:#Ai-Code-Review-Input[AiCodeReviewInput] entity.\n```",
+      "range": {
+        "startLine": 3250,
+        "startChar": 0,
+        "endLine": 3252,
+        "endChar": 71
+      },
+      "revId": "4e5549ba32e61cd1906c83b96789df9804316d8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d121710b_6ac1c31c",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 22
+      },
+      "lineNbr": 9628,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2025-09-03T07:43:18Z",
+      "side": 1,
+      "message": "The JSON entities are listed in alphabetical order. Move this higher up so that you dont break that order?",
+      "range": {
+        "startLine": 9628,
+        "startChar": 0,
+        "endLine": 9628,
+        "endChar": 24
+      },
+      "revId": "4e5549ba32e61cd1906c83b96789df9804316d8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2593e132_28138a29",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 22
+      },
+      "lineNbr": 9634,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2025-09-03T07:43:18Z",
+      "side": 1,
+      "message": "Skip the 2nd column as none of the fields are optional?",
+      "range": {
+        "startLine": 9634,
+        "startChar": 17,
+        "endLine": 9634,
+        "endChar": 19
+      },
+      "revId": "4e5549ba32e61cd1906c83b96789df9804316d8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7df69e04_6c43bf89",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 22
+      },
+      "lineNbr": 9638,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2025-09-03T07:43:18Z",
+      "side": 1,
+      "message": "```suggestion\nPrompt containing information about a request for AI to perform a code review, including details of the change.\n```",
+      "range": {
+        "startLine": 9638,
+        "startChar": 0,
+        "endLine": 9638,
+        "endChar": 94
+      },
+      "revId": "4e5549ba32e61cd1906c83b96789df9804316d8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "66f840a5_29ca59ae",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 22
+      },
+      "lineNbr": 9640,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2025-09-03T07:43:18Z",
+      "side": 1,
+      "message": "```suggestion\nThe AI plugin to request a code review from. This enables to install\n```",
+      "range": {
+        "startLine": 9640,
+        "startChar": 0,
+        "endLine": 9640,
+        "endChar": 67
+      },
+      "revId": "4e5549ba32e61cd1906c83b96789df9804316d8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3aa693f9_a59e4b1a",
         "filename": "java/com/google/gerrit/extensions/common/AiResponse.java",
         "patchSetId": 22
@@ -50,6 +234,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "99027da5_573da620",
+        "filename": "java/com/google/gerrit/server/restapi/change/AiCodeReview.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2025-09-03T07:43:18Z",
+      "side": 1,
+      "message": "What about the remaining models?",
+      "range": {
+        "startLine": 55,
+        "startChar": 58,
+        "endLine": 55,
+        "endChar": 75
+      },
+      "revId": "4e5549ba32e61cd1906c83b96789df9804316d8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "76f0a99f_889fc96e",
         "filename": "java/com/google/gerrit/server/restapi/change/AiCodeReview.java",
         "patchSetId": 22
@@ -61,6 +268,52 @@
       "writtenOn": "2025-09-02T22:08:47Z",
       "side": 1,
       "message": "I\u0027m not sure we want to log these as errors when they could easily be model or plugin name typos from users. Maybe warnings?",
+      "revId": "4e5549ba32e61cd1906c83b96789df9804316d8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d9fc59ef_5a3bf7fb",
+        "filename": "java/com/google/gerrit/server/restapi/change/AiCodeReview.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2025-09-03T07:43:18Z",
+      "side": 1,
+      "message": "Can `input.models` be null?",
+      "range": {
+        "startLine": 70,
+        "startChar": 11,
+        "endLine": 70,
+        "endChar": 23
+      },
+      "revId": "4e5549ba32e61cd1906c83b96789df9804316d8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bdac1df7_5ad87c83",
+        "filename": "java/com/google/gerrit/server/restapi/change/AiCodeReview.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2025-09-03T07:43:18Z",
+      "side": 1,
+      "message": "```suggestion\n      throw new BadRequestException(\"Input fields models, prompt and plugin_name are mandatory\");\n```",
+      "range": {
+        "startLine": 72,
+        "startChar": 0,
+        "endLine": 72,
+        "endChar": 55
+      },
       "revId": "4e5549ba32e61cd1906c83b96789df9804316d8d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

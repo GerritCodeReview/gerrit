@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef7ad20c_f5cd4235",
+        "filename": "tools/nongoogle.bzl",
+        "patchSetId": 26
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-09-03T19:28:43Z",
+      "side": 1,
+      "message": "I think that should be done seperately. This change is just migrating to log4j2 and should keep things to a minimal.",
+      "parentUuid": "c173e978_1ff3460b",
+      "revId": "cc8bf661558069e767c1215bda7cc1a9d66ca6c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "90ecde6a_aa61595b",
@@ -31,6 +49,24 @@
       "writtenOn": "2025-09-02T21:25:04Z",
       "side": 1,
       "message": "Should we switch this to the [log4j provided bridge](https://logging.apache.org/log4j/2.x/manual/installation.html#impl-core-bridge-jcl)?",
+      "revId": "cc8bf661558069e767c1215bda7cc1a9d66ca6c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2527a7a8_cbf0a594",
+        "filename": "tools/nongoogle.bzl",
+        "patchSetId": 26
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-09-03T19:28:43Z",
+      "side": 1,
+      "message": "Maybe a seperate change?",
+      "parentUuid": "90ecde6a_aa61595b",
       "revId": "cc8bf661558069e767c1215bda7cc1a9d66ca6c5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

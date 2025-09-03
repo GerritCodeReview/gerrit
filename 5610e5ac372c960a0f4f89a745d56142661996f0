@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "9140e2d9_0091a430",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-09-03T19:28:43Z",
+      "side": 1,
+      "message": "I updated the commit message to remove this.",
+      "parentUuid": "824a1491_f7550e3a",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 28
+      },
+      "revId": "5610e5ac372c960a0f4f89a745d56142661996f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "97c6337d_c0600f81",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 12
@@ -110,6 +134,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "22bde918_513be1bd",
+        "filename": "java/com/google/gerrit/pgm/http/jetty/HttpLogLayout.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-09-03T19:28:43Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "cda6259b_0010f46a",
+      "revId": "5610e5ac372c960a0f4f89a745d56142661996f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "400ff563_320d0bb3",
@@ -127,6 +169,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "819aea75_d311fd6f",
+        "filename": "java/com/google/gerrit/pgm/util/ErrorLogJsonLayout.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-09-03T19:28:43Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "400ff563_320d0bb3",
+      "revId": "5610e5ac372c960a0f4f89a745d56142661996f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "88e6ce9c_5513c4da",
@@ -140,6 +200,24 @@
       "writtenOn": "2025-09-02T15:32:55Z",
       "side": 1,
       "message": "nit: remove extra blank line ?",
+      "revId": "5610e5ac372c960a0f4f89a745d56142661996f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "97f24b6b_ce40dfc7",
+        "filename": "resources/log4j2.xml",
+        "patchSetId": 12
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-09-03T19:28:43Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "88e6ce9c_5513c4da",
       "revId": "5610e5ac372c960a0f4f89a745d56142661996f0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "138b5a61_715a3554",
+        "filename": "java/com/google/gerrit/sshd/commands/ListLoggingLevelCommand.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-09-03T19:28:43Z",
+      "side": 1,
+      "message": "I\u0027ve fixed this.",
+      "parentUuid": "df1d0569_98c91fa3",
+      "revId": "c3346021440726c50131632e5d92e610656382c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e03bc742_c25fa79f",

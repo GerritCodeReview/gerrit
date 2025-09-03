@@ -1,0 +1,129 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8f199e8b_3298b371",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-09-03T13:12:37Z",
+      "side": 1,
+      "message": "```suggestion\nMove `Create AI Review Prompt` implementation to backend\n```",
+      "revId": "2235942e1c60e49ccd2f3f8ab52ffff352f333b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "69838a07_c4443751",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-09-03T13:12:37Z",
+      "side": 1,
+      "message": "```suggestion\nMove the implementation to the backend which is exposed via REST API.\n```",
+      "revId": "2235942e1c60e49ccd2f3f8ab52ffff352f333b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9e6a3c25_08cf5e24",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-09-03T13:12:37Z",
+      "side": 1,
+      "message": "```suggestion\nThe new API has a Query parameter `command` which expects one of the\n```",
+      "revId": "2235942e1c60e49ccd2f3f8ab52ffff352f333b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ef0ff5e_785578fd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-09-03T13:12:37Z",
+      "side": 1,
+      "message": "```suggestion\nRelease-Notes: Move Create AI Review Prompt implementation to backend\n```",
+      "revId": "2235942e1c60e49ccd2f3f8ab52ffff352f333b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a25cd236_e1004287",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-09-03T13:12:37Z",
+      "side": 1,
+      "message": "add some tests ?",
+      "revId": "2235942e1c60e49ccd2f3f8ab52ffff352f333b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ae25b36_654f76f2",
+        "filename": "java/com/google/gerrit/server/restapi/change/PromptGeneration.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-09-03T13:12:37Z",
+      "side": 1,
+      "message": "missing license header",
+      "revId": "2235942e1c60e49ccd2f3f8ab52ffff352f333b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cc7d3a0c_38f592a4",
+        "filename": "java/com/google/gerrit/server/restapi/change/PromptGeneration.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-09-03T13:12:37Z",
+      "side": 1,
+      "message": "introduce an enum for the possible commands ?",
+      "range": {
+        "startLine": 39,
+        "startChar": 13,
+        "endLine": 39,
+        "endChar": 26
+      },
+      "revId": "2235942e1c60e49ccd2f3f8ab52ffff352f333b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

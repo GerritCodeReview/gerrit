@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7fcd8e54_4228d4df",
+        "filename": "java/com/google/gerrit/lucene/AbstractLuceneIndex.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2025-09-04T15:02:45Z",
+      "side": 1,
+      "message": "You could log the `term` the delete failed for",
+      "range": {
+        "startLine": 304,
+        "startChar": 73,
+        "endLine": 304,
+        "endChar": 74
+      },
+      "revId": "44118714a6d9e6bb70f8e1cfe5d4ac6b9dc993d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

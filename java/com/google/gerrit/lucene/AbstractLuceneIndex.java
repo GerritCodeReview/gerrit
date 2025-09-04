@@ -288,19 +288,29 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
   }
 
   ListenableFuture<?> insert(Document doc) {
-    return submit(() -> writer.addDocument(doc));
+    return submit(() -> writer.addDocument(doc), "Error inserting document %s", doc);
   }
 
   ListenableFuture<?> replace(Term term, Document doc) {
-    return submit(() -> writer.updateDocument(term, doc));
+    return submit(() -> writer.updateDocument(term, doc), "Error replacing term %s", term);
   }
 
   ListenableFuture<?> delete(Term term) {
-    return submit(() -> writer.deleteDocuments(term));
+    return submit(() -> writer.deleteDocuments(term), "Error deleting term %s", term);
   }
 
-  private ListenableFuture<?> submit(Callable<Long> task) {
-    ListenableFuture<Long> future = Futures.nonCancellationPropagating(writerThread.submit(task));
+  private ListenableFuture<?> submit(Callable<Long> task, String errorMessage, Object args) {
+    ListenableFuture<Long> future =
+        Futures.catchingAsync(
+            Futures.nonCancellationPropagating(writerThread.submit(task)),
+            IOException.class,
+            e -> {
+              logger.atSevere().withCause(e).log(errorMessage, args);
+              return Futures.immediateFailedFuture(e);
+            },
+            directExecutor());
+
+    // The original logic for a successful completion
     return Futures.transformAsync(
         future,
         gen -> {

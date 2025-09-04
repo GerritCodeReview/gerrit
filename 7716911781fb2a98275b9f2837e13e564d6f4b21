@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d952aaa3_d43bf79d",
+        "filename": "polygerrit-ui/app/elements/change/gr-flows/gr-create-flow.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-09-04T11:11:45Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "f3b09618_1b69e483",
+      "revId": "7716911781fb2a98275b9f2837e13e564d6f4b21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fc2a76b2_7b438209",
@@ -31,6 +49,30 @@
       "writtenOn": "2025-09-04T11:05:47Z",
       "side": 1,
       "message": "FWIW I don\u0027t like the idea of putting full URLs into the condition string. I was not involved in the decision, and that is ok, but I still want to say that I really don\u0027t like it. :-D Why not instead use something like `gerrit/android/12345`. Wouldn\u0027t that be good enough for libjuggler to translate that into a URL?",
+      "range": {
+        "startLine": 123,
+        "startChar": 11,
+        "endLine": 123,
+        "endChar": 26
+      },
+      "revId": "7716911781fb2a98275b9f2837e13e564d6f4b21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "85411328_2919ef18",
+        "filename": "polygerrit-ui/app/elements/change/gr-flows/gr-create-flow.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-09-04T11:11:45Z",
+      "side": 1,
+      "message": "Yeah we put the full URL because the existing conditions already supported it.\n\nWe can change in the future if need arises but let\u0027s consider it after E2E phase is done.",
+      "parentUuid": "fc2a76b2_7b438209",
       "range": {
         "startLine": 123,
         "startChar": 11,

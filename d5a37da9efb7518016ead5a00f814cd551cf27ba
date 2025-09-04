@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "98ecf8cf_81aef9b2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 30
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-09-04T13:59:40Z",
+      "side": 1,
+      "message": "@matthias.sohn@gmail.com / @nasser.grainawi@oss.qualcomm.com i think this is ready now. Will need one of you to test to confirm it\u0027s all in order.",
+      "revId": "d5a37da9efb7518016ead5a00f814cd551cf27ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

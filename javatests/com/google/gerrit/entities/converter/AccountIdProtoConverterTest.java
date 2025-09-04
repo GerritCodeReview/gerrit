@@ -16,12 +16,9 @@ package com.google.gerrit.entities.converter;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.extensions.proto.ProtoTruth.assertThat;
-import static com.google.gerrit.proto.testing.SerializedClassSubject.assertThatSerializedClass;
 
-import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.proto.Entities;
-import com.google.gerrit.proto.testing.SerializedClassSubject;
 import org.junit.Test;
 
 public class AccountIdProtoConverterTest {
@@ -47,10 +44,12 @@ public class AccountIdProtoConverterTest {
     assertThat(convertedAccountId).isEqualTo(accountId);
   }
 
-  /** See {@link SerializedClassSubject} for background and what to do if this test fails. */
+  /**
+   * A record can have no extra fields but the ones set by the constructor, making it safe to
+   * convert.
+   */
   @Test
-  public void methodsExistAsExpected() {
-    assertThatSerializedClass(Account.Id.class)
-        .hasAutoValueMethods(ImmutableMap.of("id", int.class));
+  public void javaClassIsRecord() {
+    assertThat(Account.Id.class.isRecord()).isTrue();
   }
 }

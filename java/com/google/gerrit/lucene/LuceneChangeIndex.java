@@ -219,7 +219,8 @@ public class LuceneChangeIndex implements ChangeIndex {
     try {
       if (cd.change().isNew()) {
         Futures.allAsList(closedIndex.delete(id), openIndex.replace(id, doc)).get();
-      } else {
+      }
+      else {
         Futures.allAsList(openIndex.delete(id), closedIndex.replace(id, doc)).get();
       }
     } catch (ExecutionException | InterruptedException e) {

@@ -296,7 +296,15 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
   }
 
   ListenableFuture<?> delete(Term term) {
-    return submit(() -> writer.deleteDocuments(term));
+    return submit(
+        () -> {
+          try {
+            return writer.deleteDocuments(term);
+          } catch (IOException e) {
+            logger.atSevere().withCause(e).log("Error deleting from index");
+            throw e;
+          }
+        });
   }
 
   private ListenableFuture<?> submit(Callable<Long> task) {

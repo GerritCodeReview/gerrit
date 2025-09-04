@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "666c439c_a13989ca",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 32
+      },
+      "lineNbr": 4690,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-09-04T22:40:52Z",
+      "side": 1,
+      "message": "Yeh, thanks.",
+      "parentUuid": "03ca78a2_1c775f01",
+      "range": {
+        "startLine": 4690,
+        "startChar": 73,
+        "endLine": 4690,
+        "endChar": 78
+      },
+      "revId": "5d62811a1b2b7784ccc3964bd6918c524586e078",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "92871641_4cd9d3a5",
@@ -61,6 +85,30 @@
       "side": 1,
       "message": "Never mind, I see it\u0027s the XML format now. Maybe also use `log4j2` to be more explicit?\n\n```suggestion\n  private static final String JAVA_OPTIONS_LOG_CONFIG \u003d \"log4j2.configurationFile\";\n```",
       "parentUuid": "92871641_4cd9d3a5",
+      "range": {
+        "startLine": 43,
+        "startChar": 63,
+        "endLine": 43,
+        "endChar": 80
+      },
+      "revId": "5d62811a1b2b7784ccc3964bd6918c524586e078",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "18f2224c_62bd20ba",
+        "filename": "java/com/google/gerrit/sshd/commands/SetLoggingLevelCommand.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-09-04T22:40:52Z",
+      "side": 1,
+      "message": "Thanks for spotting! Done!",
+      "parentUuid": "1e8a2f37_5d56b07a",
       "range": {
         "startLine": 43,
         "startChar": 63,

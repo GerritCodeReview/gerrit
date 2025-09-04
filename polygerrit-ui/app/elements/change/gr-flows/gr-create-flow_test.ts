@@ -26,6 +26,8 @@ suite('gr-create-flow tests', () => {
     );
     element.changeNum = 123 as NumericChangeId;
     await element.updateComplete;
+    element.hostUrl =
+      'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321';
   });
 
   test('renders initially', () => {
@@ -64,7 +66,11 @@ suite('gr-create-flow tests', () => {
     await element.updateComplete;
 
     assert.deepEqual(element['stages'], [
-      {condition: 'Gerrit:cond 1', action: 'act 1'},
+      {
+        condition:
+          'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is cond 1',
+        action: 'act 1',
+      },
     ]);
     assert.equal(element['currentCondition'], '');
     assert.equal(element['currentAction'], '');
@@ -78,8 +84,16 @@ suite('gr-create-flow tests', () => {
     await element.updateComplete;
 
     assert.deepEqual(element['stages'], [
-      {condition: 'Gerrit:cond 1', action: 'act 1'},
-      {condition: 'Gerrit:cond 2', action: 'act 2'},
+      {
+        condition:
+          'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is cond 1',
+        action: 'act 1',
+      },
+      {
+        condition:
+          'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is cond 2',
+        action: 'act 2',
+      },
     ]);
 
     let removeButtons = queryAll<GrButton>(element, 'li gr-button');
@@ -89,7 +103,11 @@ suite('gr-create-flow tests', () => {
     await element.updateComplete;
 
     assert.deepEqual(element['stages'], [
-      {condition: 'Gerrit:cond 2', action: 'act 2'},
+      {
+        condition:
+          'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is cond 2',
+        action: 'act 2',
+      },
     ]);
     removeButtons = queryAll<GrButton>(element, 'li gr-button');
     assert.lengthOf(removeButtons, 1);
@@ -120,7 +138,11 @@ suite('gr-create-flow tests', () => {
     assert.isTrue(createFlowStub.calledOnce);
     const flowInput = createFlowStub.lastCall.args[1];
     assert.deepEqual(flowInput.stage_expressions, [
-      {condition: 'Gerrit:single condition', action: {name: 'single action'}},
+      {
+        condition:
+          'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is single condition',
+        action: {name: 'single action'},
+      },
     ]);
   });
 
@@ -164,8 +186,16 @@ suite('gr-create-flow tests', () => {
     assert.isTrue(createFlowStub.calledOnce);
     const flowInput = createFlowStub.lastCall.args[1];
     assert.deepEqual(flowInput.stage_expressions, [
-      {condition: 'Gerrit:cond 1', action: {name: 'act 1'}},
-      {condition: 'Gerrit:cond 2', action: {name: 'act 2'}},
+      {
+        condition:
+          'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is cond 1',
+        action: {name: 'act 1'},
+      },
+      {
+        condition:
+          'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is cond 2',
+        action: {name: 'act 2'},
+      },
     ]);
   });
 
@@ -207,8 +237,16 @@ suite('gr-create-flow tests', () => {
     assert.isTrue(createFlowStub.calledOnce);
     const flowInput = createFlowStub.lastCall.args[1];
     assert.deepEqual(flowInput.stage_expressions, [
-      {condition: 'Gerrit:cond 1', action: {name: 'act 1'}},
-      {condition: 'Gerrit:cond 2', action: {name: 'act 2'}},
+      {
+        condition:
+          'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is cond 1',
+        action: {name: 'act 1'},
+      },
+      {
+        condition:
+          'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is cond 2',
+        action: {name: 'act 2'},
+      },
     ]);
   });
 });

@@ -20,6 +20,9 @@ import {MdOutlinedTextField} from '@material/web/textfield/outlined-text-field';
 export class GrCreateFlow extends LitElement {
   @property({type: Number}) changeNum?: NumericChangeId;
 
+  // Property so that we can mock it in tests
+  @property({type: String}) hostUrl?: string;
+
   @state() private stages: {condition: string; action: string}[] = [];
 
   @state() private currentCondition = '';
@@ -48,6 +51,10 @@ export class GrCreateFlow extends LitElement {
         }
       `,
     ];
+  }
+
+  override firstUpdated() {
+    this.hostUrl = window.location.origin + window.location.pathname;
   }
 
   override render() {
@@ -113,7 +120,7 @@ export class GrCreateFlow extends LitElement {
       return;
     const condition =
       this.currentConditionPrefix === 'Gerrit'
-        ? `${this.currentConditionPrefix}:${this.currentCondition}`
+        ? `${this.hostUrl} is ${this.currentCondition}`
         : this.currentCondition;
     this.stages = [...this.stages, {condition, action: this.currentAction}];
     this.currentCondition = '';
@@ -134,7 +141,7 @@ export class GrCreateFlow extends LitElement {
     ) {
       const condition =
         this.currentConditionPrefix === 'Gerrit'
-          ? `${this.currentConditionPrefix}:${this.currentCondition}`
+          ? `${this.hostUrl} is ${this.currentCondition}`
           : this.currentCondition;
       allStages.push({
         condition,

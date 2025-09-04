@@ -22,6 +22,30 @@
       },
       "revId": "44118714a6d9e6bb70f8e1cfe5d4ac6b9dc993d8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "925417a6_2cea79bf",
+        "filename": "java/com/google/gerrit/lucene/AbstractLuceneIndex.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-09-04T16:47:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7fcd8e54_4228d4df",
+      "range": {
+        "startLine": 304,
+        "startChar": 73,
+        "endLine": 304,
+        "endChar": 74
+      },
+      "revId": "44118714a6d9e6bb70f8e1cfe5d4ac6b9dc993d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

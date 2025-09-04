@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "86d47261_2593351b",
+        "filename": "java/com/google/gerrit/lucene/AbstractLuceneIndex.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-09-04T18:35:31Z",
+      "side": 1,
+      "message": "I guess we may also want to do the same for the other operations, see L291, L295.\nWhy not adding this code at L311 which is used but all the three scenarios?",
+      "range": {
+        "startLine": 301,
+        "startChar": 0,
+        "endLine": 306,
+        "endChar": 11
+      },
+      "revId": "b471547c17dabe9c9511c79a55f98b6d6a074d03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

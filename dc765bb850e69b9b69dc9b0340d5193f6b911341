@@ -71,6 +71,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d151c2e9_318df225",
+        "filename": "polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-09-04T05:53:44Z",
+      "side": 1,
+      "message": "\u003e For example, does reading the change messages handle copied approvals?\n\nWell it doesn\u0027t show up which is exactly what the feature request asked for.\n\nIt wanted to show the vote where the user *explicitly* voted for it.\n\n\u003e That said, I think adding/fixing a REST API to return all the approvals for all the patchsets should be pretty straightforward and can probably be included with an existing API call.\n\nYeah contributions welcome.\n\nMy thought process was that since the info exists already in the change log, I can just parse it from there\n\n😊",
+      "parentUuid": "fc07250b_1bbfc1c3",
+      "revId": "dc765bb850e69b9b69dc9b0340d5193f6b911341",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bf9470f0_7de7d1bb",

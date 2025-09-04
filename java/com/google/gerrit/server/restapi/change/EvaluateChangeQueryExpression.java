@@ -20,6 +20,7 @@ import static com.google.common.collect.ImmutableMap.toImmutableMap;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.PredicateResult;
 import com.google.gerrit.extensions.common.EvaluateChangeQueryExpressionResultInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -53,6 +54,7 @@ public class EvaluateChangeQueryExpression implements RestReadView<ChangeResourc
 
   private final Provider<ChangeQueryBuilder> queryBuilder;
   private final Provider<InternalChangeQuery> internalChangeQuery;
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   @Inject
   EvaluateChangeQueryExpression(
@@ -69,7 +71,9 @@ public class EvaluateChangeQueryExpression implements RestReadView<ChangeResourc
       throw new BadRequestException("expression is required");
     }
 
+    logger.atFine().log("parsing expression %s", expression);
     Predicate<ChangeData> predicate = parseExpression(expression);
+    logger.atFine().log("evaluating predicate string %s", predicate.getPredicateString());
     PredicateResult predicateResult = getChangeData(rsrc).evaluatePredicateTree(predicate);
     return Response.ok(toInfo(predicateResult));
   }

@@ -25,6 +25,7 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.ConvertibleToProto;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
+import com.google.pipeline.flume.fj.FlumeJavaRecord;
 import java.time.Instant;
 import java.util.Optional;
 
@@ -60,6 +61,7 @@ import java.util.Optional;
  *     non-empty string. For open-source gerrit it is the same as metaId. The value can be null only
  *     during account updating/creation.
  */
+@FlumeJavaRecord
 public record Account(
     Id id,
     Instant registeredOn,
@@ -79,6 +81,7 @@ public record Account(
   }
 
   /** Key local to Gerrit to identify a user. */
+  @FlumeJavaRecord
   @ConvertibleToProto
   public record Id(int id) implements Comparable<Id> {
     /** Parse an Account.Id out of a string representation. */

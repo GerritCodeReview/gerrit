@@ -32,6 +32,23 @@ def gerrit_plugin(
         target_suffix = "",
         deploy_env = [],
         **kwargs):
+    """Builds a Gerrit plugin.
+
+    Args:
+      name: The name of the plugin.
+      deps: List of additional dependencies for the plugin.
+      provided_deps: List of dependencies that are provided by Gerrit and should not be bundled.
+      srcs: List of Java source files for the plugin.
+      resources: List of resource files to be included in the plugin JAR.
+      resource_jars: List of JARs containing resources.
+      runtime_deps: List of runtime dependencies.
+      manifest_entries: List of additional lines to add to the plugin's manifest file.
+      dir_name: The directory name for the plugin, used in stamping. Defaults to `name`.
+      target_suffix: Suffix to append to the final plugin JAR name.
+      deploy_env: Environment variables for the deploy JAR.
+      **kwargs: Additional arguments passed to the underlying `java_library` and `java_binary` rules.
+
+    This rule creates a deployable .jar file for a Gerrit plugin."""
     java_library(
         name = name + "__plugin",
         srcs = srcs,

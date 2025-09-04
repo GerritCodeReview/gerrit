@@ -18,8 +18,6 @@ import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
-import com.google.auto.value.AutoValue;
-import com.google.auto.value.extension.memoized.Memoized;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
@@ -37,8 +35,19 @@ import java.util.stream.Stream;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 
-@AutoValue
-public abstract class ExternalId implements Serializable {
+/** The canonical External ID representation. */
+public record ExternalId(
+    Key key,
+    Account.Id accountId,
+    boolean isCaseInsensitive,
+    @Nullable String email,
+    @Deprecated @Nullable String password,
+    /**
+     * ID of the note blob in the external IDs branch that stores this external ID. {@code null} if
+     * the external ID was created in code and is not yet stored in Git.
+     */
+    @Nullable ObjectId blobId)
+    implements Serializable {
   // If these regular expressions are modified the same modifications should be done to the
   // corresponding regular expressions in the
   // com.google.gerrit.client.account.UsernameField class.
@@ -150,8 +159,8 @@ public abstract class ExternalId implements Serializable {
   /** Scheme for Google OAuth external IDs. */
   public static final String SCHEME_GOOGLE_OAUTH = "google-oauth";
 
-  @AutoValue
-  public abstract static class Key implements Serializable {
+  /** Key for an external ID. */
+  public record Key(String scheme, String id, boolean isCaseInsensitive) implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
@@ -164,7 +173,7 @@ public abstract class ExternalId implements Serializable {
      */
     @VisibleForTesting
     public static Key create(@Nullable String scheme, String id, boolean isCaseInsensitive) {
-      return new AutoValue_ExternalId_Key(Strings.emptyToNull(scheme), id, isCaseInsensitive);
+      return new Key(Strings.emptyToNull(scheme), id, isCaseInsensitive);
     }
 
     /**
@@ -180,17 +189,10 @@ public abstract class ExternalId implements Serializable {
       return create(externalId.substring(0, c), externalId.substring(c + 1), isCaseInsensitive);
     }
 
-    public abstract @Nullable String scheme();
-
-    public abstract String id();
-
-    public abstract boolean isCaseInsensitive();
-
     public boolean isScheme(String scheme) {
       return scheme.equals(scheme());
     }
 
-    @Memoized
     public ObjectId sha1() {
       return sha1(isCaseInsensitive());
     }
@@ -205,7 +207,6 @@ public abstract class ExternalId implements Serializable {
       return ObjectId.fromRaw(Hashing.sha1().hashString(keyString, UTF_8).asBytes());
     }
 
-    @Memoized
     public ObjectId caseSensitiveSha1() {
       return sha1(false);
     }
@@ -240,7 +241,6 @@ public abstract class ExternalId implements Serializable {
     }
 
     @Override
-    @Memoized
     public int hashCode() {
       return Objects.hash(sha1());
     }
@@ -257,7 +257,7 @@ public abstract class ExternalId implements Serializable {
       @Nullable String email,
       @Nullable String hashedPassword,
       @Nullable ObjectId blobId) {
-    return new AutoValue_ExternalId(
+    return new ExternalId(
         key,
         accountId,
         key.isCaseInsensitive(),
@@ -268,26 +268,9 @@ public abstract class ExternalId implements Serializable {
 
   public static ExternalId create(
       Key key, Account.Id accountId, @Nullable String email, @Nullable ObjectId blobId) {
-    return new AutoValue_ExternalId(
+    return new ExternalId(
         key, accountId, key.isCaseInsensitive(), Strings.emptyToNull(email), null, blobId);
   }
-
-  public abstract Key key();
-
-  public abstract Account.Id accountId();
-
-  public abstract boolean isCaseInsensitive();
-
-  public abstract @Nullable String email();
-
-  @Deprecated
-  public abstract @Nullable String password();
-
-  /**
-   * ID of the note blob in the external IDs branch that stores this external ID. {@code null} if
-   * the external ID was created in code and is not yet stored in Git.
-   */
-  public abstract @Nullable ObjectId blobId();
 
   public void checkThatBlobIdIsSet() {
     checkState(blobId() != null, "No blob ID set for external ID %s", key().get());
@@ -315,7 +298,6 @@ public abstract class ExternalId implements Serializable {
         && Objects.equals(password(), o.password());
   }
 
-  @Memoized
   @Override
   public int hashCode() {
     return Objects.hash(key(), accountId(), isCaseInsensitive(), email(), password());
@@ -335,7 +317,6 @@ public abstract class ExternalId implements Serializable {
    * </pre>
    */
   @Override
-  @Memoized
   public String toString() {
     Config c = new Config();
     writeToConfig(c);

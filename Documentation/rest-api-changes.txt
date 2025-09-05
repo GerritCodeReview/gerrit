@@ -3218,7 +3218,7 @@ The following URL parameters are supported:
 
 .Request
 ----
-  GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/query?expression="is:submittable label:Auto-Submit+1" HTTP/1.0
+  GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/query?expression=is:submittable label:Auto-Submit+1 HTTP/1.0
 ----
 
 As response a link:#evaluate-change-query-expression-result-info[

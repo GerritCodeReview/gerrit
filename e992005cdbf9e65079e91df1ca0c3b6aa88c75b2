@@ -46,6 +46,30 @@
       },
       "revId": "e992005cdbf9e65079e91df1ca0c3b6aa88c75b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9e58d461_4a787b70",
+        "filename": "java/com/google/gerrit/sshd/BaseCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 479,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2025-09-05T07:27:56Z",
+      "side": 1,
+      "message": "I don\u0027t understand the use-case, since `pluginOptions` is private it can\u0027t be used outside this class anyway. Is it needed for task execution somehow ?",
+      "parentUuid": "3575dcb7_4a1a72a4",
+      "range": {
+        "startLine": 479,
+        "startChar": 10,
+        "endLine": 479,
+        "endChar": 69
+      },
+      "revId": "e992005cdbf9e65079e91df1ca0c3b6aa88c75b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

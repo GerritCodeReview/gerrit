@@ -1,4 +1,4 @@
-// Copyright (C) 2018 The Android Open Source Project
+// Copyright (C) 2025 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,29 +14,37 @@
 
 package com.google.gerrit.entities.converter;
 
-import com.google.errorprone.annotations.Immutable;
 import com.google.gerrit.entities.GeneralProjectName;
-import com.google.gerrit.entities.Project;
 import com.google.gerrit.proto.Entities;
+import com.google.gerrit.proto.Entities.Project_NameKey;
 import com.google.protobuf.Parser;
 
-@Immutable
-public enum ProjectNameKeyProtoConverter
-    implements ProtoConverter<Entities.Project_NameKey, Project.NameKey> {
+public enum GeneralProjectNameConverter
+    implements SafeProtoConverter<Entities.Project_NameKey, GeneralProjectName> {
   INSTANCE;
 
   @Override
-  public Entities.Project_NameKey toProto(Project.NameKey nameKey) {
-    return GeneralProjectNameConverter.INSTANCE.toProto(new GeneralProjectName(nameKey));
+  public Project_NameKey toProto(GeneralProjectName nameKey) {
+    return Entities.Project_NameKey.newBuilder().setName(nameKey.get()).build();
   }
 
   @Override
-  public GeneralProjectName fromProto(Entities.Project_NameKey proto) {
-    return GeneralProjectNameConverter.INSTANCE.fromProto(proto);
+  public GeneralProjectName fromProto(Project_NameKey proto) {
+    return new GeneralProjectName(proto.getName());
   }
 
   @Override
-  public Parser<Entities.Project_NameKey> getParser() {
-    return Entities.Project_NameKey.parser();
+  public Class<Project_NameKey> getProtoClass() {
+    return Project_NameKey.class;
+  }
+
+  @Override
+  public Class<GeneralProjectName> getEntityClass() {
+    return GeneralProjectName.class;
+  }
+
+  @Override
+  public Parser<Project_NameKey> getParser() {
+    return Project_NameKey.parser();
   }
 }

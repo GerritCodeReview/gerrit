@@ -1,4 +1,4 @@
-// Copyright (C) 2014 The Android Open Source Project
+// Copyright (C) 2025 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,19 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.config;
+package com.google.gerrit.entities;
 
-import com.google.errorprone.annotations.Immutable;
-import com.google.gerrit.entities.Project;
+import com.google.gerrit.common.ConvertibleToProto;
+import com.google.gerrit.entities.Project.NameKey;
 
-/**
- * Special name of the project in which meta data for all users is stored.
- *
- * <p>This class is immutable and thread safe.
- */
-@Immutable
-public record AllUsersName(String name) implements Project.NameKey {
+@ConvertibleToProto
+public record GeneralProjectName(String name) implements Project.NameKey {
+
   private static final long serialVersionUID = 1L;
+
+  public GeneralProjectName(NameKey nameKey) {
+    this(nameKey.name());
+  }
 
   @Override
   public int hashCode() {

@@ -14,8 +14,6 @@
 
 package com.google.gerrit.entities;
 
-import static java.util.Objects.requireNonNull;
-
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableMap;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
@@ -41,63 +39,64 @@ public abstract class Project {
   public static final SubmitType DEFAULT_ALL_PROJECTS_SUBMIT_TYPE = SubmitType.MERGE_IF_NECESSARY;
 
   public static NameKey nameKey(String name) {
-    return new NameKey(name);
+    return new GeneralProjectName(name);
   }
 
   /**
    * Project name key.
    *
-   * <p>This class has subclasses such as {@code AllProjectsName}, which make Guice injection more
-   * convenient. Subclasses must compare equal if they have the same name, regardless of the
-   * specific class. This implies that subclasses may not add additional fields.
+   * <p>This interface has a few implementations. Callers should normally only interact with the
+   * interface directly, and create an instance using {@link #nameKey}.
    *
-   * <p>Because of this unusual subclassing behavior, this class is not an {@code @AutoValue},
-   * unlike other key types in this package. However, this is strictly an implementation detail; its
-   * interface and semantics are otherwise analogous to the {@code @AutoValue} types.
+   * <p>The main implementation is {@code GeneralProjectName}, which supports any project name.
    *
-   * <p>This class is immutable and thread safe.
+   * <p>Other implementations are specific for reserved repo names, such as {@code AllProjectsName}.
+   * Having them as separate types makes the Guice injection more convenient. Implementors must
+   * compare equal if they have the same name, regardless of the specific class. This implies that
+   * implementors may not add additional fields besides `name`, and that they must override {@code
+   * equals} and {@code hashCode} to use the {@link #projectNameEquals} and {@link
+   * #projectNameHashCode} methods provided by this interface. All implementors must be immutable
+   * and ThreadSafe, please use {@code record} for new implementors.
+   *
+   * <p>Why was it implemented this way? We needed the implementations to be distinguished record
+   * types. As records do not support inheritance, the cleanest way to share the common behavior
+   * between them was this interface. Interfaces cannot override {@link Object}methods, and
+   * therefore the implementors must wrap these on their own.
    */
   @Immutable
   @ConvertibleToProto
-  public static class NameKey implements Serializable, Comparable<NameKey> {
-    private static final long serialVersionUID = 1L;
+  public interface NameKey extends Serializable, Comparable<NameKey> {
+    long serialVersionUID = 1L;
 
     /** Parse a Project.NameKey out of a string representation. */
-    public static NameKey parse(String str) {
+    static NameKey parse(String str) {
       return nameKey(ProjectUtil.sanitizeProjectName(KeyUtil.decode(str)));
     }
 
-    private final String name;
+    String name();
 
-    protected NameKey(String name) {
-      this.name = requireNonNull(name);
+    default String get() {
+      return name();
     }
 
-    public String get() {
-      return name;
+    default int projectNameHashCode() {
+      return name().hashCode();
     }
 
-    @Override
-    public final int hashCode() {
-      return name.hashCode();
-    }
-
-    @Override
-    public final boolean equals(Object b) {
+    default boolean projectNameEquals(Object b) {
       if (b instanceof NameKey) {
-        return name.equals(((NameKey) b).get());
+        return name().equals(((NameKey) b).get());
       }
       return false;
     }
 
-    @Override
-    public final int compareTo(NameKey o) {
-      return name.compareTo(o.get());
+    default String projectNameToString() {
+      return KeyUtil.encode(name());
     }
 
     @Override
-    public final String toString() {
-      return KeyUtil.encode(name);
+    default int compareTo(NameKey o) {
+      return name().compareTo(o.get());
     }
   }
 

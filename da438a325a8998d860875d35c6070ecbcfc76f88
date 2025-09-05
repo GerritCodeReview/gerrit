@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0bcdb6ec_5dbda529",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 3221,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-09-05T18:15:16Z",
+      "side": 1,
+      "message": "The space in the expression should be url encoded though?\n\n```suggestion\n  GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/query?expression\u003dis:submittable%20label:Auto-Submit+1 HTTP/1.0\n```",
+      "revId": "da438a325a8998d860875d35c6070ecbcfc76f88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

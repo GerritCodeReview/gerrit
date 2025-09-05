@@ -21,19 +21,19 @@ import org.junit.Test;
 public class BranchTest {
   @Test
   public void canonicalizeNameDuringConstruction() {
-    assertThat(BranchNameKey.create(new Project.NameKey("foo"), "bar").branch())
+    assertThat(BranchNameKey.create(Project.NameKey.parse("foo"), "bar").branch())
         .isEqualTo("refs/heads/bar");
-    assertThat(BranchNameKey.create(new Project.NameKey("foo"), "refs/heads/bar").branch())
+    assertThat(BranchNameKey.create(Project.NameKey.parse("foo"), "refs/heads/bar").branch())
         .isEqualTo("refs/heads/bar");
   }
 
   @Test
   public void idToString() {
-    assertThat(BranchNameKey.create(new Project.NameKey("foo"), "bar").toString())
+    assertThat(BranchNameKey.create(Project.NameKey.parse("foo"), "bar").toString())
         .isEqualTo("foo,refs/heads/bar");
-    assertThat(BranchNameKey.create(new Project.NameKey("foo bar"), "bar baz").toString())
+    assertThat(BranchNameKey.create(Project.NameKey.parse("foo bar"), "bar baz").toString())
         .isEqualTo("foo+bar,refs/heads/bar+baz");
-    assertThat(BranchNameKey.create(new Project.NameKey("foo^bar"), "bar^baz").toString())
+    assertThat(BranchNameKey.create(Project.NameKey.parse("foo^bar"), "bar^baz").toString())
         .isEqualTo("foo%5Ebar,refs/heads/bar%5Ebaz");
   }
 }

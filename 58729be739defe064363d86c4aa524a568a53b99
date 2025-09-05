@@ -16,6 +16,24 @@
       "message": "- httpd_log request log now works\n- also json log output works for error_log and httpd_log\n\n- sshd_log request log doesn\u0027t yet work, I get no logs in that file when running ssh commands, e.g. logging ls-level or git ls-remote to some repo via ssh",
       "revId": "58729be739defe064363d86c4aa524a568a53b99",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "62a8c326_37d762c5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 33
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-09-05T14:11:36Z",
+      "side": 1,
+      "message": "sshd_log is fixed now.",
+      "parentUuid": "0651dc7a_51e01475",
+      "revId": "58729be739defe064363d86c4aa524a568a53b99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

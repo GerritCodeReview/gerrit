@@ -1,0 +1,45 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6ffaa12d_b83ec589",
+        "filename": "java/com/google/gerrit/entities/Project.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-09-05T11:13:36Z",
+      "side": 1,
+      "message": "inheritance",
+      "range": {
+        "startLine": 62,
+        "startChar": 38,
+        "endLine": 62,
+        "endChar": 49
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "66bf1dc9_e339b173",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "java/com/google/gerrit/entities/Project.java",
+              "range": {
+                "startLine": 62,
+                "startChar": 0,
+                "endLine": 63,
+                "endChar": 0
+              },
+              "replacement": "   * types. As records do not support inheritance, the cleanest way to share the common behavior\n"
+            }
+          ]
+        }
+      ],
+      "revId": "43b1dfcae95350408e1d563dd0ba0b97d729d125",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

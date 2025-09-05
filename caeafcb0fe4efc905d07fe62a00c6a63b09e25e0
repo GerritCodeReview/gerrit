@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "22e3e2cb_449c785d",
+        "filename": "java/com/google/gerrit/lucene/AbstractLuceneIndex.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-09-05T17:57:39Z",
+      "side": 1,
+      "message": "It probably makes sense to move this up and do it only on `future`. If we\u0027re worried about `waitForGeneration()` throwing something, we could add that logging where we call it above.",
+      "revId": "caeafcb0fe4efc905d07fe62a00c6a63b09e25e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "14a8181f_82d265bc",
+        "filename": "java/com/google/gerrit/lucene/AbstractLuceneIndex.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-09-05T17:57:39Z",
+      "side": 1,
+      "message": "The way I\u0027m reading [`catchingAsync`](https://guava.dev/releases/snapshot-jre/api/docs/com/google/common/util/concurrent/Futures.html#catchingAsync(com.google.common.util.concurrent.ListenableFuture,java.lang.Class,com.google.common.util.concurrent.AsyncFunction,java.util.concurrent.Executor)) it says no unwrap is needed and we\u0027re given the causing exception. That\u0027s also what your code seems to do, so maybe just an outdated comment?",
+      "range": {
+        "startLine": 319,
+        "startChar": 0,
+        "endLine": 320,
+        "endChar": 66
+      },
+      "revId": "caeafcb0fe4efc905d07fe62a00c6a63b09e25e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "06626778_09e92da8",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalId.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-09-05T08:39:58Z",
+      "side": 0,
+      "message": "Probably worth a mentioning in commit message, that @Memoized is lost. I don\u0027t think that matters for our performance much though.",
+      "range": {
+        "startLine": 193,
+        "startChar": 4,
+        "endLine": 193,
+        "endChar": 13
+      },
+      "revId": "743ea3510c9376e033c99e0a5d6cc62164857b78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

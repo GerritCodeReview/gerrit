@@ -14,8 +14,6 @@
 
 package com.google.gerrit.entities;
 
-import static java.util.Objects.requireNonNull;
-
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableMap;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
@@ -41,7 +39,7 @@ public abstract class Project {
   public static final SubmitType DEFAULT_ALL_PROJECTS_SUBMIT_TYPE = SubmitType.MERGE_IF_NECESSARY;
 
   public static NameKey nameKey(String name) {
-    return new NameKey(name);
+    return new GeneralProjectName(name);
   }
 
   /**
@@ -59,45 +57,38 @@ public abstract class Project {
    */
   @Immutable
   @ConvertibleToProto
-  public static class NameKey implements Serializable, Comparable<NameKey> {
-    private static final long serialVersionUID = 1L;
+  public interface NameKey extends Serializable, Comparable<NameKey> {
+    long serialVersionUID = 1L;
 
     /** Parse a Project.NameKey out of a string representation. */
-    public static NameKey parse(String str) {
+    static NameKey parse(String str) {
       return nameKey(ProjectUtil.sanitizeProjectName(KeyUtil.decode(str)));
     }
 
-    private final String name;
+    String name();
 
-    protected NameKey(String name) {
-      this.name = requireNonNull(name);
+    default String get() {
+      return name();
     }
 
-    public String get() {
-      return name;
+    default int projectNameHashCode() {
+      return name().hashCode();
     }
 
-    @Override
-    public final int hashCode() {
-      return name.hashCode();
-    }
-
-    @Override
-    public final boolean equals(Object b) {
+    default boolean projectNameEquals(Object b) {
       if (b instanceof NameKey) {
-        return name.equals(((NameKey) b).get());
+        return name().equals(((NameKey) b).get());
       }
       return false;
     }
 
-    @Override
-    public final int compareTo(NameKey o) {
-      return name.compareTo(o.get());
+    default String projectNameToString() {
+      return KeyUtil.encode(name());
     }
 
     @Override
-    public final String toString() {
-      return KeyUtil.encode(name);
+    default int compareTo(NameKey o) {
+      return name().compareTo(o.get());
     }
   }
 

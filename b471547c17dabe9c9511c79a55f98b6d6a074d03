@@ -22,6 +22,30 @@
       },
       "revId": "b471547c17dabe9c9511c79a55f98b6d6a074d03",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1287203d_72d172a4",
+        "filename": "java/com/google/gerrit/lucene/AbstractLuceneIndex.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-09-05T15:58:51Z",
+      "side": 1,
+      "message": "Dare I say doing on L311 feels a bit scary, see what oyu think of the newest patchset.",
+      "parentUuid": "86d47261_2593351b",
+      "range": {
+        "startLine": 301,
+        "startChar": 0,
+        "endLine": 306,
+        "endChar": 11
+      },
+      "revId": "b471547c17dabe9c9511c79a55f98b6d6a074d03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

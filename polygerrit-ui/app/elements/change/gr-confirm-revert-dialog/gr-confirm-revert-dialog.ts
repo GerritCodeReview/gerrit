@@ -23,7 +23,6 @@ import {createSearchUrl} from '../../../models/views/search';
 import {ParsedChangeInfo} from '../../../types/types';
 import {formStyles} from '../../../styles/form-styles';
 import {GrValidationOptions} from '../gr-validation-options/gr-validation-options';
-import {parseCommitMessageString} from '../../../utils/commit-message-formatter-util';
 import {GrAutogrowTextarea} from '../../shared/gr-autogrow-textarea/gr-autogrow-textarea';
 
 const ERR_COMMIT_NOT_FOUND = 'Unable to find the commit hash of this change.';
@@ -248,14 +247,6 @@ export class GrConfirmRevertDialog
     const revertTitleRegex = originalTitle.match(
       /^Revert(?:\^([0-9]+))? "(.*)"$/
     );
-
-    // Footer can be Issue:, Issue=, Bug: ISSUE=
-    const footers = parseCommitMessageString(commitMessage).footer.filter(
-      f =>
-        f.toLocaleLowerCase().startsWith('issue') ||
-        f.toLocaleLowerCase().startsWith('bug')
-    );
-
     if (revertTitleRegex) {
       let revertNum = 2;
       if (revertTitleRegex[1]) {
@@ -264,15 +255,16 @@ export class GrConfirmRevertDialog
       revertTitle = `Revert^${revertNum} "${revertTitleRegex[2]}"`;
     }
 
+    if (!commitHash) {
+      fireAlert(this, ERR_COMMIT_NOT_FOUND);
+      return;
+    }
     const revertCommitText = `This reverts commit ${commitHash}.`;
 
-    let message =
+    const message =
       `${revertTitle}\n\n${revertCommitText}\n\n` +
       `Reason for revert: ${SPECIFY_REASON_STRING}\n`;
 
-    if (footers.length > 0) {
-      message += '\n' + footers.join('\n'); // Empty line before the footers begin
-    }
     // This is to give plugins a chance to update message
     this.message = this.modifyRevertMsg(change, commitMessage, message);
     this.revertType = RevertType.REVERT_SINGLE_CHANGE;

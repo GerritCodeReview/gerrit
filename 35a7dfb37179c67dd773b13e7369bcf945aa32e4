@@ -1,0 +1,210 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ade686df_91ca96d0",
+        "filename": "java/com/google/gerrit/server/restapi/change/ChangeRestApiModule.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-09-05T12:57:47Z",
+      "side": 1,
+      "message": "Maybe `GetAiPrompt` is a more consistent name when you consider other class names in this module? For example: `GetReview`, `GetRelated`, `GetTopic`, etc...",
+      "range": {
+        "startLine": 176,
+        "startChar": 39,
+        "endLine": 176,
+        "endChar": 55
+      },
+      "revId": "35a7dfb37179c67dd773b13e7369bcf945aa32e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "213dcb70_8d21e555",
+        "filename": "java/com/google/gerrit/server/restapi/change/PromptGeneration.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-09-05T12:57:47Z",
+      "side": 1,
+      "message": "wrong year",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "35a7dfb37179c67dd773b13e7369bcf945aa32e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a8fcf1d8_7987f3f4",
+        "filename": "java/com/google/gerrit/server/restapi/change/PromptGeneration.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-09-05T12:57:47Z",
+      "side": 1,
+      "message": "Avoid initialising local variables. When not initialised, compiler will report an error if we use them before assigning a value.",
+      "revId": "35a7dfb37179c67dd773b13e7369bcf945aa32e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b7e77d0a_a02bbcaa",
+        "filename": "java/com/google/gerrit/server/restapi/change/PromptGeneration.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-09-05T12:57:47Z",
+      "side": 1,
+      "message": "This will return an empty response for an empty `command` which is useless behaviour. Make the `command` mandatory or have a default value when not set.",
+      "revId": "35a7dfb37179c67dd773b13e7369bcf945aa32e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f228956d_2c9b4997",
+        "filename": "java/com/google/gerrit/server/restapi/change/PromptGeneration.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-09-05T12:57:47Z",
+      "side": 1,
+      "message": "This is not really a file name but rather `fileNameKey`.",
+      "range": {
+        "startLine": 67,
+        "startChar": 59,
+        "endLine": 67,
+        "endChar": 70
+      },
+      "revId": "35a7dfb37179c67dd773b13e7369bcf945aa32e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ab43197b_d8af84eb",
+        "filename": "java/com/google/gerrit/server/restapi/change/PromptGeneration.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-09-05T12:57:47Z",
+      "side": 1,
+      "message": "Is this level of flexibility really necessary? We could simply infer the `fileName` from the `CommandType` constant. For example: for the `CODE_REVIEW` constant we use `code_review_prompt_template` as the file name...",
+      "revId": "35a7dfb37179c67dd773b13e7369bcf945aa32e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "800b0356_43632eb5",
+        "filename": "java/com/google/gerrit/server/restapi/change/PromptGeneration.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-09-05T12:57:47Z",
+      "side": 1,
+      "message": "We don\u0027t need to `file` as variable, inline it here.",
+      "range": {
+        "startLine": 77,
+        "startChar": 28,
+        "endLine": 77,
+        "endChar": 32
+      },
+      "revId": "35a7dfb37179c67dd773b13e7369bcf945aa32e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1d9f5ca2_af44f3de",
+        "filename": "java/com/google/gerrit/server/restapi/change/PromptGeneration.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-09-05T12:57:47Z",
+      "side": 1,
+      "message": "Is this really necessary? Can\u0027t we infer the prompt template name from the enum constant itself?",
+      "range": {
+        "startLine": 89,
+        "startChar": 29,
+        "endLine": 89,
+        "endChar": 55
+      },
+      "revId": "35a7dfb37179c67dd773b13e7369bcf945aa32e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "058c9afe_b3a472ab",
+        "filename": "java/com/google/gerrit/server/restapi/change/PromptGeneration.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-09-05T12:57:47Z",
+      "side": 1,
+      "message": "Why not use the enum constant name? If necessary you can convert hyphens (from the request) to underscores.",
+      "range": {
+        "startLine": 89,
+        "startChar": 14,
+        "endLine": 89,
+        "endChar": 27
+      },
+      "revId": "35a7dfb37179c67dd773b13e7369bcf945aa32e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "706d464f_1d44d179",
+        "filename": "java/com/google/gerrit/server/restapi/change/PromptGeneration.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-09-05T12:57:47Z",
+      "side": 1,
+      "message": "Note the enums in java have embedded `valueOf` method. Try to use it and remove this method.",
+      "revId": "35a7dfb37179c67dd773b13e7369bcf945aa32e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

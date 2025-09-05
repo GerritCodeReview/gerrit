@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "03af4cc8_a2463c3e",
+        "filename": "java/com/google/gerrit/server/restapi/change/PromptGeneration.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-09-05T12:57:47Z",
+      "side": 1,
+      "message": "The `usage` text is wrong, probably a copy/paste mistake.",
+      "revId": "cedeab4dee9733d7064e23c07058db24574e5b09",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

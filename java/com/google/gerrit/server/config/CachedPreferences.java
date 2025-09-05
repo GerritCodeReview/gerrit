@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.config;
 
-import com.google.auto.value.AutoValue;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
@@ -37,12 +36,9 @@ import org.eclipse.jgit.lib.Config;
  * <p>The config string wrapped by this class might represent different structures. See {@link
  * CachedPreferencesProto} for more details.
  */
-@AutoValue
-public abstract class CachedPreferences {
+public record CachedPreferences(CachedPreferencesProto config) {
   public static final CachedPreferences EMPTY =
       fromCachedPreferencesProto(CachedPreferencesProto.getDefaultInstance());
-
-  protected abstract CachedPreferencesProto config();
 
   public Optional<CachedPreferencesProto> nonEmptyConfig() {
     return config().equals(EMPTY.config()) ? Optional.empty() : Optional.of(config());
@@ -64,7 +60,7 @@ public abstract class CachedPreferences {
   public static CachedPreferences fromCachedPreferencesProto(
       @Nullable CachedPreferencesProto proto) {
     if (proto != null) {
-      return new AutoValue_CachedPreferences(proto);
+      return new CachedPreferences(proto);
     }
     return EMPTY;
   }

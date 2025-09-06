@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf7d521b_cfa80ce1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 40
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-09-06T12:58:25Z",
+      "side": 1,
+      "message": "For some reason things break when you run set-level reset (can\u0027t ssh, says authentication failed). Seems between patchset 34 and 35 (patchset 35 broke it)",
+      "revId": "882215ad1e7bf59fd08236922144dff504fc3cfa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

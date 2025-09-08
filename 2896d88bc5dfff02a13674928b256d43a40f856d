@@ -1,0 +1,88 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "81a634f6_56dcc7d0",
+        "filename": "polygerrit-ui/app/utils/label-util.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-09-08T10:21:18Z",
+      "side": 1,
+      "message": "if this behaviour is required, we can also move this computation to the client side before the method is called and keep the type to be a boolean?",
+      "range": {
+        "startLine": 282,
+        "startChar": 33,
+        "endLine": 282,
+        "endChar": 51
+      },
+      "revId": "2896d88bc5dfff02a13674928b256d43a40f856d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ed131ee9_f2fa4c11",
+        "filename": "polygerrit-ui/app/utils/label-util.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-09-08T10:21:18Z",
+      "side": 1,
+      "message": "extractFromSubmittabilityResultExpression?",
+      "range": {
+        "startLine": 295,
+        "startChar": 12,
+        "endLine": 295,
+        "endChar": 37
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "f506043e_95978c51",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/utils/label-util.ts",
+              "range": {
+                "startLine": 281,
+                "startChar": 0,
+                "endLine": 282,
+                "endChar": 0
+              },
+              "replacement": "  extractFromSubmittabilityResultExpression: boolean;\n"
+            },
+            {
+              "path": "polygerrit-ui/app/utils/label-util.ts",
+              "range": {
+                "startLine": 288,
+                "startChar": 0,
+                "endLine": 289,
+                "endChar": 0
+              },
+              "replacement": "    extractFromSubmittabilityResultExpression: true,\n"
+            },
+            {
+              "path": "polygerrit-ui/app/utils/label-util.ts",
+              "range": {
+                "startLine": 295,
+                "startChar": 0,
+                "endLine": 296,
+                "endChar": 0
+              },
+              "replacement": "    options.extractFromSubmittabilityResultExpression\n"
+            }
+          ]
+        }
+      ],
+      "revId": "2896d88bc5dfff02a13674928b256d43a40f856d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

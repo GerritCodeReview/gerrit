@@ -20,6 +20,64 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "dcab1173_b77ebb2f",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 977,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-09-08T21:24:05Z",
+      "side": 1,
+      "message": "Yes. Defaults for disk go down on L1023.",
+      "parentUuid": "bc5e9138_e7da3bc3",
+      "revId": "37ce9f988291bdd4b09ea214ff5b7e7ee24f4077",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "98f7649f_5115855c",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1117,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-09-08T21:24:05Z",
+      "side": 1,
+      "message": "I think you want to leave this as `memoryLimit`. You can then add a note like:\n\n```\nFor the cache to work as expected, if the `memoryLimit` is not large enough to\ncover all projects, then the `diskLimit` should be enabled and set large enough\nfor all projects.\n```",
+      "revId": "37ce9f988291bdd4b09ea214ff5b7e7ee24f4077",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9d2bef27_a5fb8a9c",
+        "filename": "java/com/google/gerrit/server/git/ChangesByProjectCacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-09-08T21:24:05Z",
+      "side": 1,
+      "message": "Can you use `new ProtobufSerializer\u003c\u003e(Cache.ProjectCacheKeyProto.parser())` instead? See https://gerrit.googlesource.com/gerrit/+/master/java/com/google/gerrit/server/project/ProjectCacheImpl.java#139\n\n```suggestion\n          .keySerializer(new ProtobufSerializer\u003c\u003e(Cache.ProjectCacheKeyProto.parser()))\n```",
+      "range": {
+        "startLine": 86,
+        "startChar": 25,
+        "endLine": 86,
+        "endChar": 58
+      },
+      "revId": "37ce9f988291bdd4b09ea214ff5b7e7ee24f4077",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0c639b72_8d7e1bce",
         "filename": "java/com/google/gerrit/server/git/ChangesByProjectCacheImpl.java",
         "patchSetId": 2

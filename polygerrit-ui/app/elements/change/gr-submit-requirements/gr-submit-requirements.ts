@@ -264,7 +264,10 @@ export class GrSubmitRequirements extends LitElement {
       return html`<span class="error">Error</span>`;
     }
 
-    const requirementLabels = extractAssociatedLabels(requirement);
+    const requirementLabels = extractAssociatedLabels(requirement, {
+      extractFromSubmittability: true,
+      extractFromOverride: 'onlyIfOverridden',
+    });
     const allLabels = this.change?.labels ?? {};
     const associatedLabels = Object.keys(allLabels).filter(label =>
       requirementLabels.includes(label)
@@ -362,10 +365,10 @@ export class GrSubmitRequirements extends LitElement {
       requirement.status !== SubmitRequirementStatus.OVERRIDDEN
     )
       return;
-    const requirementLabels = extractAssociatedLabels(
-      requirement,
-      showForAllLabel ? 'all' : 'onlyOverride'
-    )
+    const requirementLabels = extractAssociatedLabels(requirement, {
+      extractFromSubmittability: showForAllLabel,
+      extractFromOverride: 'onlyIfOverridden',
+    })
       .filter(label => label === forLabel)
       .filter(label => {
         const allLabels = this.change?.labels ?? {};

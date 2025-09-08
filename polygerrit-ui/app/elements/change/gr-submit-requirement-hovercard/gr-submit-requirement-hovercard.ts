@@ -200,7 +200,10 @@ export class GrSubmitRequirementHovercard extends base {
 
   private renderLabelSection() {
     if (!this.requirement) return;
-    const requirementLabels = extractAssociatedLabels(this.requirement);
+    const requirementLabels = extractAssociatedLabels(this.requirement, {
+      extractFromSubmittability: true,
+      extractFromOverride: 'onlyIfOverridden',
+    });
     const allLabels = this.change?.labels ?? {};
     const labels: string[] = [];
     for (const label of Object.keys(allLabels)) {
@@ -260,18 +263,18 @@ export class GrSubmitRequirementHovercard extends base {
     if (!this.account) return;
     if (this.change?.status === ChangeStatus.MERGED) return;
 
-    const submittabilityLabels = extractAssociatedLabels(
-      this.requirement,
-      'onlySubmittability'
-    );
+    const submittabilityLabels = extractAssociatedLabels(this.requirement, {
+      extractFromSubmittability: true,
+      extractFromOverride: false,
+    });
     const submittabilityVotes = submittabilityLabels.map(labelName =>
       this.renderLabelVote(labelName, 'submittability')
     );
 
-    const overrideLabels = extractAssociatedLabels(
-      this.requirement,
-      'onlyOverride'
-    );
+    const overrideLabels = extractAssociatedLabels(this.requirement, {
+      extractFromSubmittability: false,
+      extractFromOverride: 'onlyIfOverridden',
+    });
     const overrideVotes = overrideLabels.map(labelName =>
       this.renderLabelVote(labelName, 'override')
     );

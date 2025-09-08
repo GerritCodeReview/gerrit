@@ -11,6 +11,7 @@ import {fireNoBubbleNoCompose} from '../../../utils/event-util';
 import {configModelToken} from '../../../models/config/config-model';
 import {resolve} from '../../../models/dependency';
 import {subscribe} from '../../lit/subscription-controller';
+import {when} from 'lit/directives/when.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -32,6 +33,9 @@ export class GrErrorDialog extends LitElement {
 
   @property({type: String})
   text?: string;
+
+  @property({attribute: false})
+  htmlContent?: DocumentFragment;
 
   @state() loginUrl = '';
 
@@ -75,6 +79,11 @@ export class GrErrorDialog extends LitElement {
         .signInLink {
           text-decoration: none;
         }
+        .plaintext {
+          font: inherit;
+          white-space: var(--linked-text-white-space, pre-wrap);
+          word-wrap: var(--linked-text-word-wrap, break-word);
+        }
       `,
     ];
   }
@@ -91,7 +100,14 @@ export class GrErrorDialog extends LitElement {
         confirm-on-enter=""
       >
         <div class="header" slot="header">An error occurred</div>
-        <div class="main" slot="main">${this.text}</div>
+        ${when(
+          this.htmlContent,
+          () =>
+            html`<div class="main" slot="main">
+              <pre class="plaintext">${this.htmlContent}</pre>
+            </div>`,
+          () => html`<div class="main" slot="main">${this.text}</div>`
+        )}
         ${this.renderSignButton()}
       </gr-dialog>
     `;

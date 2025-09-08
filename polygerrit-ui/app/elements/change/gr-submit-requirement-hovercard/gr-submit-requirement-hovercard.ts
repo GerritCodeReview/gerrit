@@ -128,6 +128,9 @@ export class GrSubmitRequirementHovercard extends base {
           margin-top: var(--spacing-m);
           padding: var(--spacing-m) var(--spacing-xl) 0;
         }
+        gr-formatted-text {
+          word-break: break-word;
+        }
       `,
     ];
   }

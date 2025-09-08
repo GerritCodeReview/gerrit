@@ -16,6 +16,24 @@
       "message": "A spinner would be nice to tell the user that we are doing something in response to the click. Do we have a pattern in other places for adding that without a lot of work?",
       "revId": "9dbca2ccf760ce6f6971708204f9724c14a98734",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5175d5f2_ed7815c7",
+        "filename": "polygerrit-ui/app/elements/change/gr-flows/gr-flows.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-09-08T10:56:53Z",
+      "side": 1,
+      "message": "I tried the existing UX with \"rebasing\" and the dialog doesn\u0027t really show any spinners.\n\nThe main button in the top menu in the change page does turn but the dialog doesn\u0027t show any indication.",
+      "parentUuid": "f12ab50d_c833b789",
+      "revId": "9dbca2ccf760ce6f6971708204f9724c14a98734",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

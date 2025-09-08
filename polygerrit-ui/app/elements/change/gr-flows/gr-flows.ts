@@ -67,6 +67,11 @@ export class GrFlows extends LitElement {
         .flow-id {
           font-weight: var(--font-weight-bold);
         }
+        .flow-header {
+          display: flex;
+          align-items: center;
+          margin-bottom: var(--spacing-s);
+        }
         .hidden {
           display: none;
         }
@@ -138,6 +143,12 @@ export class GrFlows extends LitElement {
     this.loading = false;
   }
 
+  private async deleteFlow(flowId: string) {
+    if (!this.changeNum) return;
+    await this.restApiService.deleteFlow(this.changeNum, flowId);
+    await this.loadFlows();
+  }
+
   override render() {
     return html`
       <div class="container">
@@ -176,11 +187,16 @@ export class GrFlows extends LitElement {
         ${this.flows.map(
           (flow: FlowInfo) => html`
             <div class="flow">
-              <div class="flow-id hidden">Flow ${flow.uuid}</div>
-              <div class="owner-container">
-                Owner:
-                <gr-account-chip .account=${flow.owner}></gr-account-chip>
+              <div class="flow-header">
+                <gr-button
+                  link
+                  @click=${() => this.deleteFlow(flow.uuid)}
+                  title="Delete flow"
+                >
+                  <gr-icon icon="delete" filled></gr-icon>
+                </gr-button>
               </div>
+              <div class="flow-id hidden">Flow ${flow.uuid}</div>
               <div>
                 Created:
                 <gr-date-formatter withTooltip .dateStr=${flow.created}>

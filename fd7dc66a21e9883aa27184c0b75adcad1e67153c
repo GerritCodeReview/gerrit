@@ -40,6 +40,30 @@
       ],
       "revId": "fd7dc66a21e9883aa27184c0b75adcad1e67153c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2044b7b7_801ac327",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirement-hovercard/gr-submit-requirement-hovercard.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-09-08T09:03:37Z",
+      "side": 1,
+      "message": "I\u0027ll send a CL replace all occurrences later.\n\nThat also makes for a cleaner if something goes wrong with the replacement.",
+      "parentUuid": "91192983_80912c32",
+      "range": {
+        "startLine": 132,
+        "startChar": 10,
+        "endLine": 132,
+        "endChar": 33
+      },
+      "revId": "fd7dc66a21e9883aa27184c0b75adcad1e67153c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -2790,6 +2790,20 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
+  public void consistent() throws Exception {
+    Project.NameKey project = Project.nameKey("repo");
+    repo = createAndOpenProject(project);
+    Change change1 = insert(project, newChange(repo));
+    Change change2 = insert(project, newChange(repo));
+
+    assertQuery("is:consistent", change2, change1);
+
+    repo.delete("refs/changes/02/2/meta");
+
+    assertQuery("is:consistent", change1);
+  }
+
+  @Test
   public void visible() throws Exception {
     Project.NameKey project = Project.nameKey("repo");
     repo = createAndOpenProject(project);

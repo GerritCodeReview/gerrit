@@ -598,6 +598,21 @@ is:pure-revert::
 +
 True if the change is a pure revert.
 
+[[consistent]]
+is:consistent::
++
+True if the change returned by the index is aligned with its underlying Git repository
+and therefore is fully consistent. Can be used to exclude changes that cannot be fully read
+and parsed from the Git repository (e.g.: because of incomplete or broken NoteDB data on the
+`/meta` ref) and therefore would otherwise be dropped during result formatting.
+This allows queries to return the maximum number of valid changes even when some indexed
+entries are corrupt.
++
+The introduction of the 'is:consistent' predicate has a measurable performance cost, especially
+on cold caches. In a benchmark with a query returning 500 changes (250 of which were inconsistent),
+the filter roughly tripled the latency on cold caches, while it increased latency by about 20% on
+warm caches.
+
 [[status]]
 status:open, status:pending, status:new::
 +

@@ -18,6 +18,7 @@ import {
   ShowAlertEventDetail,
   ShowErrorEvent,
 } from '../../../types/events';
+import {sanitizeHtmlToFragment} from '../../../utils/inner-html-util';
 import {windowLocationReload} from '../../../utils/dom-util';
 import {debounce, DelayedTask} from '../../../utils/async-util';
 import {fireIronAnnounce} from '../../../utils/event-util';
@@ -239,15 +240,28 @@ export class GrErrorManager extends LitElement {
         } else if (response.status === 429) {
           this.showQuotaExceeded({status, statusText});
         } else {
-          this.showErrorDialog(
-            constructServerErrorMsg({
-              status,
-              statusText,
-              errorText,
-              url,
-              trace,
-            })
-          );
+          const contentType = response.headers?.get('Content-Type') ?? '';
+          if (contentType.includes('text/html')) {
+            this.showErrorDialog(
+              constructServerErrorMsg({
+                status,
+                statusText,
+                url,
+                trace,
+              }),
+              {htmlContent: sanitizeHtmlToFragment(errorText)}
+            );
+          } else {
+            this.showErrorDialog(
+              constructServerErrorMsg({
+                status,
+                statusText,
+                errorText,
+                url,
+                trace,
+              })
+            );
+          }
         }
       }
       this.reporting.error('Server error', new Error(errorText));
@@ -510,9 +524,13 @@ export class GrErrorManager extends LitElement {
   };
 
   // private but used in tests
-  showErrorDialog(message: string, options?: {showSignInButton?: boolean}) {
+  showErrorDialog(
+    message: string,
+    options?: {showSignInButton?: boolean; htmlContent?: DocumentFragment}
+  ) {
     this.reporting.reportErrorDialog(message);
     this.errorDialog.text = message;
+    this.errorDialog.htmlContent = options?.htmlContent;
     this.errorDialog.showSignInButton = !!options && !!options.showSignInButton;
     if (this.errorModal.hasAttribute('open')) {
       this.errorModal.close();

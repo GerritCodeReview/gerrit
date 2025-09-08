@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "38755a57_fe952585",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-09-08T21:30:28Z",
+      "side": 1,
+      "message": "Needs a Release-Notes footer",
+      "revId": "317686c3f071151f5266d52374ee1093b2b3f47a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "851f1e01_3ad8e8b1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-09-08T21:30:28Z",
+      "side": 1,
+      "message": "Can you add a test in ProjectBasicAuthFilterTest.java too?",
+      "revId": "317686c3f071151f5266d52374ee1093b2b3f47a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cd9eaf44_b44c1b25",
+        "filename": "java/com/google/gerrit/httpd/ProjectOAuthFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-09-08T21:30:28Z",
+      "side": 1,
+      "message": "Update this comment?\n```suggestion\n      // if there are no BASIC or BEARER authentication headers, check if there is\n```",
+      "revId": "317686c3f071151f5266d52374ee1093b2b3f47a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

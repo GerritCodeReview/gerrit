@@ -598,6 +598,15 @@ is:pure-revert::
 +
 True if the change is a pure revert.
 
+[[consistent]]
+is:consistent::
++
+True if the change can be materialised from NoteDb. Can be used to exclude changes that
+cannot be materialized from NoteDB (e.g. broken NoteDB state) and therefore would otherwise
+be dropped during result formatting.
+This allows queries to return the maximum number of valid changes even when some indexed
+entries are corrupt.
+
 [[status]]
 status:open, status:pending, status:new::
 +

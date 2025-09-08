@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "716d59f5_07add4c5",
+        "filename": "java/com/google/gerrit/server/restapi/change/ChangeRestApiModule.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2025-09-08T09:07:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ade686df_91ca96d0",
+      "range": {
+        "startLine": 176,
+        "startChar": 39,
+        "endLine": 176,
+        "endChar": 55
+      },
+      "revId": "35a7dfb37179c67dd773b13e7369bcf945aa32e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "213dcb70_8d21e555",
@@ -37,6 +61,30 @@
       "writtenOn": "2025-09-05T12:57:47Z",
       "side": 1,
       "message": "wrong year",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "35a7dfb37179c67dd773b13e7369bcf945aa32e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "662d6878_452e6aae",
+        "filename": "java/com/google/gerrit/server/restapi/change/PromptGeneration.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2025-09-08T09:07:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "213dcb70_8d21e555",
       "range": {
         "startLine": 1,
         "startChar": 17,
@@ -64,6 +112,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9176a196_d72778cd",
+        "filename": "java/com/google/gerrit/server/restapi/change/PromptGeneration.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2025-09-08T09:07:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a8fcf1d8_7987f3f4",
+      "revId": "35a7dfb37179c67dd773b13e7369bcf945aa32e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b7e77d0a_a02bbcaa",
@@ -77,6 +143,24 @@
       "writtenOn": "2025-09-05T12:57:47Z",
       "side": 1,
       "message": "This will return an empty response for an empty `command` which is useless behaviour. Make the `command` mandatory or have a default value when not set.",
+      "revId": "35a7dfb37179c67dd773b13e7369bcf945aa32e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5ec7c242_d2f52133",
+        "filename": "java/com/google/gerrit/server/restapi/change/PromptGeneration.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2025-09-08T09:07:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b7e77d0a_a02bbcaa",
       "revId": "35a7dfb37179c67dd773b13e7369bcf945aa32e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -104,6 +188,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a95beac_1d703834",
+        "filename": "java/com/google/gerrit/server/restapi/change/PromptGeneration.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2025-09-08T09:07:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f228956d_2c9b4997",
+      "range": {
+        "startLine": 67,
+        "startChar": 59,
+        "endLine": 67,
+        "endChar": 70
+      },
+      "revId": "35a7dfb37179c67dd773b13e7369bcf945aa32e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ab43197b_d8af84eb",
@@ -121,6 +229,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "622722ef_19bcd6ff",
+        "filename": "java/com/google/gerrit/server/restapi/change/PromptGeneration.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2025-09-08T09:07:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ab43197b_d8af84eb",
+      "revId": "35a7dfb37179c67dd773b13e7369bcf945aa32e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "800b0356_43632eb5",
@@ -134,6 +260,30 @@
       "writtenOn": "2025-09-05T12:57:47Z",
       "side": 1,
       "message": "We don\u0027t need to `file` as variable, inline it here.",
+      "range": {
+        "startLine": 77,
+        "startChar": 28,
+        "endLine": 77,
+        "endChar": 32
+      },
+      "revId": "35a7dfb37179c67dd773b13e7369bcf945aa32e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fd40319b_3e24d7d3",
+        "filename": "java/com/google/gerrit/server/restapi/change/PromptGeneration.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2025-09-08T09:07:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "800b0356_43632eb5",
       "range": {
         "startLine": 77,
         "startChar": 28,
@@ -190,6 +340,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bc43bf03_30772958",
+        "filename": "java/com/google/gerrit/server/restapi/change/PromptGeneration.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2025-09-08T09:07:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "058c9afe_b3a472ab",
+      "range": {
+        "startLine": 89,
+        "startChar": 14,
+        "endLine": 89,
+        "endChar": 27
+      },
+      "revId": "35a7dfb37179c67dd773b13e7369bcf945aa32e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "90155d1c_7a9c7d8e",
+        "filename": "java/com/google/gerrit/server/restapi/change/PromptGeneration.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2025-09-08T09:07:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1d9f5ca2_af44f3de",
+      "range": {
+        "startLine": 89,
+        "startChar": 29,
+        "endLine": 89,
+        "endChar": 55
+      },
+      "revId": "35a7dfb37179c67dd773b13e7369bcf945aa32e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "706d464f_1d44d179",
@@ -203,6 +401,24 @@
       "writtenOn": "2025-09-05T12:57:47Z",
       "side": 1,
       "message": "Note the enums in java have embedded `valueOf` method. Try to use it and remove this method.",
+      "revId": "35a7dfb37179c67dd773b13e7369bcf945aa32e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d7a5c53_3a9206d8",
+        "filename": "java/com/google/gerrit/server/restapi/change/PromptGeneration.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2025-09-08T09:07:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "706d464f_1d44d179",
       "revId": "35a7dfb37179c67dd773b13e7369bcf945aa32e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -84,7 +84,7 @@ public class DirectAuthTokenAccessorTest {
   }
 
   @Test
-  public void getTokensReturnsAuthTokens() {
+  public void getTokensReturnsAuthTokens() throws Exception {
     assertThat(tokenAccessor.getTokens(ACCOUNT_ID)).containsExactlyElementsIn(tokens);
   }
 

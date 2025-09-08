@@ -130,6 +130,10 @@ public class MaxAuthTokenLifetimeApplier implements Runnable {
           }
         }
       }
+    } catch (IOException | ConfigInvalidException e) {
+      logger.atSevere().withCause(e).log(
+          "Failed to limit lifetime of tokens for account %d", accountId.get());
+      failedTask.update(1);
     }
   }
 }

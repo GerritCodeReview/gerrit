@@ -1,0 +1,45 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "91192983_80912c32",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirement-hovercard/gr-submit-requirement-hovercard.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-09-08T08:59:10Z",
+      "side": 1,
+      "message": "it looks like  `word-break: break-word;` is deprecated. https://screenshot.googleplex.com/APXsUqfzFhxzenx\n\nand `overflow-wrap: anywhere` should be used instead",
+      "range": {
+        "startLine": 132,
+        "startChar": 10,
+        "endLine": 132,
+        "endChar": 33
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "ab0d2740_35d9401f",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-submit-requirement-hovercard/gr-submit-requirement-hovercard.ts",
+              "range": {
+                "startLine": 132,
+                "startChar": 0,
+                "endLine": 133,
+                "endChar": 0
+              },
+              "replacement": "          overflow-wrap: anywhere;\n"
+            }
+          ]
+        }
+      ],
+      "revId": "fd7dc66a21e9883aa27184c0b75adcad1e67153c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

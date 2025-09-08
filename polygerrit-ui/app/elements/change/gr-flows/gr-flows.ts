@@ -3,7 +3,7 @@
  * Copyright 2025 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {customElement, state} from 'lit/decorators.js';
+import {customElement, query, state} from 'lit/decorators.js';
 import {css, html, LitElement, TemplateResult} from 'lit';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {grFormStyles} from '../../../styles/gr-form-styles';
@@ -16,6 +16,7 @@ import {getAppContext} from '../../../services/app-context';
 import {NumericChangeId} from '../../../types/common';
 import './gr-create-flow';
 import {when} from 'lit/directives/when.js';
+import '../../shared/gr-dialog/gr-dialog';
 
 const iconForFlowStageState = (status: FlowStageState) => {
   switch (status) {
@@ -34,11 +35,16 @@ const iconForFlowStageState = (status: FlowStageState) => {
 
 @customElement('gr-flows')
 export class GrFlows extends LitElement {
+  @query('#deleteFlowModal')
+  deleteFlowModal?: HTMLDialogElement;
+
   @state() private flows: FlowInfo[] = [];
 
   @state() private changeNum?: NumericChangeId;
 
   @state() private loading = true;
+
+  @state() private flowIdToDelete?: string;
 
   private readonly getChangeModel = resolve(this, changeModelToken);
 
@@ -66,6 +72,12 @@ export class GrFlows extends LitElement {
         }
         .flow-id {
           font-weight: var(--font-weight-bold);
+        }
+        .flow-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: var(--spacing-s);
         }
         .hidden {
           display: none;
@@ -138,6 +150,23 @@ export class GrFlows extends LitElement {
     this.loading = false;
   }
 
+  private async deleteFlow() {
+    if (!this.changeNum || !this.flowIdToDelete) return;
+    await this.restApiService.deleteFlow(this.changeNum, this.flowIdToDelete);
+    await this.loadFlows();
+    this.closeConfirmDialog();
+  }
+
+  private openConfirmDialog(flowId: string) {
+    this.deleteFlowModal?.showModal();
+    this.flowIdToDelete = flowId;
+  }
+
+  private closeConfirmDialog() {
+    this.deleteFlowModal?.close();
+    this.flowIdToDelete = undefined;
+  }
+
   override render() {
     return html`
       <div class="container">
@@ -149,7 +178,23 @@ export class GrFlows extends LitElement {
         <hr />
         ${this.renderFlowsList()}
       </div>
+      ${this.renderDeleteFlowModal()}
     `;
+  }
+
+  private renderDeleteFlowModal() {
+    return html` <dialog id="deleteFlowModal">
+      <gr-dialog
+        confirm-label="Delete"
+        @confirm=${() => this.deleteFlow()}
+        @cancel=${() => this.closeConfirmDialog()}
+      >
+        <div class="header" slot="header">Delete Flow</div>
+        <div class="main" slot="main">
+          Are you sure you want to delete this flow?
+        </div>
+      </gr-dialog>
+    </dialog>`;
   }
 
   private renderStatus(stage: FlowInfo['stages'][0]): TemplateResult {
@@ -176,11 +221,20 @@ export class GrFlows extends LitElement {
         ${this.flows.map(
           (flow: FlowInfo) => html`
             <div class="flow">
-              <div class="flow-id hidden">Flow ${flow.uuid}</div>
-              <div class="owner-container">
-                Owner:
-                <gr-account-chip .account=${flow.owner}></gr-account-chip>
+              <div class="flow-header">
+                <div class="owner-container">
+                  Owner:
+                  <gr-account-chip .account=${flow.owner}></gr-account-chip>
+                </div>
+                <gr-button
+                  link
+                  @click=${() => this.openConfirmDialog(flow.uuid)}
+                  title="Delete flow"
+                >
+                  <gr-icon icon="delete" filled></gr-icon>
+                </gr-button>
               </div>
+              <div class="flow-id hidden">Flow ${flow.uuid}</div>
               <div>
                 Created:
                 <gr-date-formatter withTooltip .dateStr=${flow.created}>

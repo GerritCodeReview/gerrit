@@ -50,7 +50,7 @@ export class GrIdentities extends LitElement {
         tr td.statusColumn,
         tr td.emailAddressColumn,
         tr td.identityColumn {
-          word-break: break-word;
+          overflow-wrap: anywhere;
         }
         tr td.emailAddressColumn,
         tr td.identityColumn {

@@ -30,7 +30,7 @@ export const changeMetadataStyles = css`
     max-width: 20em;
     padding-left: var(--metadata-horizontal-padding);
     padding-right: var(--metadata-horizontal-padding);
-    word-break: break-word;
+    overflow-wrap: anywhere;
   }
 `;
 

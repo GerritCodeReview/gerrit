@@ -453,7 +453,7 @@ export class GrFileList extends LitElement {
           flex: 1;
           /* Wrap it into multiple lines if too long. */
           white-space: normal;
-          word-break: break-word;
+          overflow-wrap: anywhere;
         }
         .oldPath {
           color: var(--deemphasized-text-color);

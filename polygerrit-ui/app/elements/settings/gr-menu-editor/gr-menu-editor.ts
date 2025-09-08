@@ -71,7 +71,7 @@ export class GrMenuEditor extends LitElement {
           display: none;
         }
         td.urlCell {
-          word-break: break-word;
+          overflow-wrap: anywhere;
         }
         .newUrlInput {
           min-width: 23em;

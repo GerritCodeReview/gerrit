@@ -901,7 +901,7 @@ export class GrChangeView extends LitElement {
           max-width: calc(72ch + 2px + 2 * var(--spacing-m) + 0.4px);
         }
         .commitMessage gr-formatted-text {
-          word-break: break-word;
+          overflow-wrap: anywhere;
         }
         #commitMessageEditor {
           /* Account for border and padding and rounding errors. */

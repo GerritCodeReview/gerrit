@@ -69,6 +69,7 @@ class ProjectOAuthFilter implements Filter {
   private static final String REALM_NAME = "Gerrit Code Review";
   private static final String AUTHORIZATION = "Authorization";
   private static final String BASIC = "Basic ";
+  private static final String BEARER = "Bearer ";
   private static final String GIT_COOKIE_PREFIX = "git-";
 
   private final DynamicItem<WebSession> session;
@@ -132,8 +133,11 @@ class ProjectOAuthFilter implements Filter {
         rsp.sendError(SC_UNAUTHORIZED);
         return false;
       }
+      // or if there is a BEARER authentication header
+    } else if (hdr != null && hdr.startsWith(BEARER)) {
+      authInfo = extractAuthInfoFromBearer(hdr);
     } else {
-      // if there is no BASIC authentication header, check if there is
+      // if there are no BASIC or BEARER authentication headers, check if there is
       // a cookie starting with the prefix "git-"
       Cookie cookie = findGitCookie(req);
       if (cookie != null) {
@@ -155,23 +159,26 @@ class ProjectOAuthFilter implements Filter {
       return false;
     }
 
-    Optional<AccountState> who =
-        accountCache.getByUsername(authInfo.username).filter(a -> a.account().isActive());
-    if (!who.isPresent()) {
-      logger.atWarning().log(
-          "%s: account inactive or not provisioned in Gerrit",
-          authenticationFailedMsg(authInfo.username, req));
-      rsp.sendError(SC_UNAUTHORIZED);
-      return false;
-    }
-
-    Account account = who.get().account();
     AuthRequest authRequest = authRequestFactory.createForExternalUser(authInfo.username);
-    authRequest.setEmailAddress(account.preferredEmail());
-    authRequest.setDisplayName(account.fullName());
     authRequest.setPassword(authInfo.tokenOrSecret);
     authRequest.setAuthPlugin(authInfo.pluginName);
     authRequest.setAuthProvider(authInfo.exportName);
+
+    if (!Strings.isNullOrEmpty(authInfo.username)) {
+      Optional<AccountState> who =
+          accountCache.getByUsername(authInfo.username).filter(a -> a.account().isActive());
+      if (!who.isPresent()) {
+        logger.atWarning().log(
+            "%s: account inactive or not provisioned in Gerrit",
+            authenticationFailedMsg(authInfo.username, req));
+        rsp.sendError(SC_UNAUTHORIZED);
+        return false;
+      }
+
+      Account account = who.get().account();
+      authRequest.setEmailAddress(account.preferredEmail());
+      authRequest.setDisplayName(account.fullName());
+    }
 
     try {
       AuthResult authResult = accountManager.authenticate(authRequest);
@@ -244,6 +251,12 @@ class ProjectOAuthFilter implements Filter {
   }
 
   @Nullable
+  private AuthInfo extractAuthInfoFromBearer(String hdr) {
+    String token = hdr.substring(BEARER.length());
+    return new AuthInfo(token, defaultAuthPlugin, defaultAuthProvider);
+  }
+
+  @Nullable
   private AuthInfo extractAuthInfo(Cookie cookie) throws UnsupportedEncodingException {
     String username =
         URLDecoder.decode(cookie.getName().substring(GIT_COOKIE_PREFIX.length()), UTF_8.name());
@@ -289,7 +302,7 @@ class ProjectOAuthFilter implements Filter {
   }
 
   private class AuthInfo {
-    private final String username;
+    @Nullable private final String username;
     private final String tokenOrSecret;
     private final String pluginName;
     private final String exportName;
@@ -299,6 +312,10 @@ class ProjectOAuthFilter implements Filter {
       this.tokenOrSecret = tokenOrSecret;
       this.pluginName = pluginName;
       this.exportName = exportName;
+    }
+
+    private AuthInfo(String token, String pluginName, String exportName) {
+      this(null, token, pluginName, exportName);
     }
   }
 

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bc5e9138_e7da3bc3",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 977,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2025-09-08T16:52:35Z",
+      "side": 1,
+      "message": "This doesn\u0027t seem right, aren\u0027t there separate setting for disk and memory?",
+      "revId": "37ce9f988291bdd4b09ea214ff5b7e7ee24f4077",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0c639b72_8d7e1bce",
+        "filename": "java/com/google/gerrit/server/git/ChangesByProjectCacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 441,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2025-09-08T16:52:35Z",
+      "side": 1,
+      "message": "I didn\u0027t realize this was included in a reviewer, but it doesn\u0027t seem like we need the timestamp for ACL computations?",
+      "revId": "37ce9f988291bdd4b09ea214ff5b7e7ee24f4077",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

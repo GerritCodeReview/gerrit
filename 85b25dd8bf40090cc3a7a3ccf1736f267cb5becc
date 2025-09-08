@@ -285,6 +285,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f554b0df_394885ef",
+        "filename": "java/com/google/gerrit/server/config/ScheduleConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-09-08T23:30:14Z",
+      "side": 1,
+      "message": "\u003e i.e. the invalid value will simply be ignored (I did that in PS 1)\n\nHow did you test that? ConfigUtil looks like it would always call `notTimeUnit()` and throw the IAE that we expect to catch in this try block.\n\nIf you don\u0027t use `0L`, then for logical consistency and looking at `computeInterval`, I think you want to use `MISSING_CONFIG` in the get.\n```suggestion\n      String jitter \u003d rc.getString(section, subsection, keyJitter);\n      if (jitter \u003d\u003d null) {\n        return 0L; // No jitter if key not present\n      }\n      return ConfigUtil.getTimeUnit(\n          rc, section, subsection, keyJitter, MISSING_CONFIG, TimeUnit.MILLISECONDS);\n```",
+      "parentUuid": "ea5feed9_34360d28",
+      "range": {
+        "startLine": 254,
+        "startChar": 0,
+        "endLine": 259,
+        "endChar": 85
+      },
+      "revId": "85b25dd8bf40090cc3a7a3ccf1736f267cb5becc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f53dc9cc_f643cc43",
         "filename": "java/com/google/gerrit/server/config/ScheduleConfig.java",
         "patchSetId": 5

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "78654e07_915b989f",
+        "filename": "java/com/google/gerrit/server/config/ScheduleConfig.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-09-08T23:30:14Z",
+      "side": 1,
+      "message": "Make `0L` a constant `DEFAULT_JITTER`?",
+      "revId": "92167b004daec2d12157fdd21f169f066c14f5c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bfc1b0bd_f68f50b4",
+        "filename": "javatests/com/google/gerrit/server/config/ScheduleConfigTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-09-08T23:30:14Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be `isAtLeast(interval)`?",
+      "revId": "92167b004daec2d12157fdd21f169f066c14f5c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

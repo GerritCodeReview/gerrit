@@ -1663,44 +1663,19 @@ export class GrReplyDialog extends LitElement {
   }
 
   handle400Error(r?: Response | null) {
-    if (!r) throw new Error('Response is empty.');
-    let response: Response = r;
-    // A call to saveReview could fail with a server error if erroneous
-    // reviewers were requested. This is signalled with a 400 Bad Request
-    // status. The default gr-rest-api error handling would result in a large
-    // JSON response body being displayed to the user in the gr-error-manager
-    // toast.
-    //
-    // We can modify the error handling behavior by passing this function
-    // through to restAPI as a custom error handling function. Since we're
-    // short-circuiting restAPI we can do our own response parsing and fire
-    // the server-error ourselves.
-    //
+    // FOR TESTING: Hardcode an HTML response.
+    const htmlBody =
+      '<!DOCTYPE html><html><body><h1>Test Error</h1><p>This is an <b>HTML</b> error message.</p></body></html>';
+    const headers = new Headers();
+    headers.append('Content-Type', 'text/html');
+    const response = new Response(htmlBody, {
+      status: 500,
+      statusText: 'Internal Server Error',
+      headers: headers,
+    });
+    fireServerError(response);
     this.disabled = false;
-
-    // Using response.clone() here, because readJSONResponsePayload() and
-    // potentially the generic error handler will want to call text() on the
-    // response object, which can only be done once per object.
-    const jsonPromise = readJSONResponsePayload(response.clone());
-    return jsonPromise
-      .then((payload: ResponsePayload) => {
-        const result = payload.parsed as ReviewResult;
-        // Only perform custom error handling for 400s and a parsable
-        // ReviewResult response.
-        if (response.status === 400 && result.reviewers) {
-          const errors: string[] = [];
-          const addReviewers = Object.values(result.reviewers);
-          addReviewers.forEach(r => errors.push(r.error ?? 'no explanation'));
-          response = {
-            ...response,
-            ok: false,
-            text: () => Promise.resolve(errors.join(', ')),
-          };
-        }
-      })
-      .finally(() => {
-        fireServerError(response);
-      });
+    return Promise.resolve();
   }
 
   computeDraftsTitle(draftCommentThreads?: CommentThread[]) {
@@ -2070,13 +2045,10 @@ export class GrReplyDialog extends LitElement {
   saveReview(review: ReviewInput, errFn?: ErrorCallback) {
     assertIsDefined(this.change, 'change');
     assertIsDefined(this.latestPatchNum, 'latestPatchNum');
-    return this.restApiService.saveChangeReview(
-      this.change._number,
-      this.latestPatchNum,
-      review,
-      errFn,
-      /* fetchDetail=*/ true
-    );
+    if (errFn) {
+      errFn(new Response(null, {status: 400, statusText: 'Bad Request'}));
+    }
+    return Promise.reject(new Error('Fake error for testing'));
   }
 
   pendingConfirmationUpdated(reviewer: RawAccountInput | null) {

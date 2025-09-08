@@ -108,6 +108,10 @@ public class OAuthRealm extends AbstractRealm {
             || !allowsEdit(AccountFieldName.FULL_NAME))) {
       who.setDisplayName(userInfo.getDisplayName());
     }
+    if (who.getExternalIdKey() == null) {
+      String[] externalIdKeyParts = userInfo.getExternalId().split(":", 2);
+      who.setExternalIdKey(externalIdKeyParts[0], externalIdKeyParts[1]);
+    }
     return who;
   }
 

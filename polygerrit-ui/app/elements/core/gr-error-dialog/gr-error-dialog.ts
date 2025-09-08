@@ -88,6 +88,12 @@ export class GrErrorDialog extends LitElement {
     ];
   }
 
+  override updated() {
+    if (this.htmlContent) {
+      this.shadowRoot!.querySelector('.errorDiv')!.innerHTML = this.htmlContent;
+    }
+  }
+
   override render() {
     return html`
       <gr-dialog
@@ -104,7 +110,7 @@ export class GrErrorDialog extends LitElement {
           this.htmlContent,
           () =>
             html`<div class="main" slot="main">
-              <pre class="plaintext">${this.htmlContent}</pre>
+              <div class="errorDiv"></div>
             </div>`,
           () => html`<div class="main" slot="main">${this.text}</div>`
         )}

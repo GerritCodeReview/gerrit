@@ -33,6 +33,9 @@ export class GrErrorDialog extends LitElement {
   @property({type: String})
   text?: string;
 
+  @property({attribute: false})
+  htmlContent?: DocumentFragment;
+
   @state() loginUrl = '';
 
   @state() loginText = '';
@@ -91,7 +94,7 @@ export class GrErrorDialog extends LitElement {
         confirm-on-enter=""
       >
         <div class="header" slot="header">An error occurred</div>
-        <div class="main" slot="main">${this.text}</div>
+        <div class="main" slot="main">${this.htmlContent ?? this.text}</div>
         ${this.renderSignButton()}
       </gr-dialog>
     `;

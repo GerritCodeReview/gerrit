@@ -8,10 +8,12 @@ import './gr-flows';
 import {assert, fixture, html} from '@open-wc/testing';
 import {GrFlows} from './gr-flows';
 import {FlowInfo, FlowStageState, Timestamp} from '../../../api/rest-api';
-import {queryAndAssert, stubRestApi} from '../../../test/test-utils';
+import {queryAndAssert, stubRestApi, waitUntil} from '../../../test/test-utils';
 import {NumericChangeId} from '../../../types/common';
 import {GrCreateFlow} from './gr-create-flow';
 import sinon from 'sinon';
+import {GrButton} from '../../shared/gr-button/gr-button';
+import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
 
 suite('gr-flows tests', () => {
   let element: GrFlows;
@@ -41,7 +43,14 @@ suite('gr-flows tests', () => {
           <hr />
           <p>No flows found for this change.</p>
         </div>
-      `
+        <gr-dialog hidden confirm-label="Delete">
+          <div class="header" slot="header">Delete Flow</div>
+          <div class="main" slot="main">
+            Are you sure you want to delete this flow?
+          </div>
+        </gr-dialog>
+      `,
+      {ignoreAttributes: ['role']}
     );
   });
 
@@ -89,11 +98,16 @@ suite('gr-flows tests', () => {
           <div>
             <h2 class="main-heading">Existing Flows</h2>
             <div class="flow">
-              <div class="flow-id hidden">Flow flow1</div>
-              <div class="owner-container">
-                Owner:
-                <gr-account-chip></gr-account-chip>
+              <div class="flow-header">
+                <div class="owner-container">
+                  Owner:
+                  <gr-account-chip></gr-account-chip>
+                </div>
+                <gr-button link title="Delete flow">
+                  <gr-icon icon="delete" filled></gr-icon>
+                </gr-button>
               </div>
+              <div class="flow-id hidden">Flow flow1</div>
               <div>
                 Created:
                 <gr-date-formatter withtooltip></gr-date-formatter>
@@ -120,11 +134,16 @@ suite('gr-flows tests', () => {
               </div>
             </div>
             <div class="flow">
-              <div class="flow-id hidden">Flow flow2</div>
-              <div class="owner-container">
-                Owner:
-                <gr-account-chip></gr-account-chip>
+              <div class="flow-header">
+                <div class="owner-container">
+                  Owner:
+                  <gr-account-chip></gr-account-chip>
+                </div>
+                <gr-button link title="Delete flow">
+                  <gr-icon icon="delete" filled></gr-icon>
+                </gr-button>
               </div>
+              <div class="flow-id hidden">Flow flow2</div>
               <div>
                 Created:
                 <gr-date-formatter withtooltip></gr-date-formatter>
@@ -148,9 +167,98 @@ suite('gr-flows tests', () => {
             </div>
           </div>
         </div>
+        <gr-dialog hidden confirm-label="Delete">
+          <div class="header" slot="header">Delete Flow</div>
+          <div class="main" slot="main">
+            Are you sure you want to delete this flow?
+          </div>
+        </gr-dialog>
       `,
-      {ignoreAttributes: ['style', 'class', 'account', 'changenum', 'datestr']}
+      {
+        ignoreAttributes: [
+          'style',
+          'class',
+          'account',
+          'changenum',
+          'datestr',
+          'aria-disabled',
+          'role',
+          'tabindex',
+        ],
+      }
     );
+  });
+
+  test('deletes a flow after confirmation', async () => {
+    const flows: FlowInfo[] = [
+      {
+        uuid: 'flow1',
+        owner: {name: 'owner1'},
+        created: '2025-01-01T10:00:00.000Z' as Timestamp,
+        stages: [
+          {
+            expression: {condition: 'label:Code-Review=+1'},
+            state: FlowStageState.DONE,
+          },
+        ],
+      },
+    ];
+    stubRestApi('listFlows').returns(Promise.resolve(flows));
+    const deleteFlowStub = sinon
+      .stub(element['restApiService'], 'deleteFlow')
+      .returns(Promise.resolve(new Response()));
+    await element['loadFlows']();
+    await element.updateComplete;
+
+    const deleteButton = queryAndAssert<GrButton>(element, '.flow gr-button');
+    deleteButton.click();
+    await element.updateComplete;
+
+    const dialog = queryAndAssert<GrDialog>(element, 'gr-dialog');
+    assert.isFalse(dialog.hidden);
+
+    const confirmButton = queryAndAssert<GrButton>(dialog, '#confirm');
+    confirmButton.click();
+    await element.updateComplete;
+
+    assert.isTrue(deleteFlowStub.calledOnceWith(123, 'flow1'));
+    waitUntil(() => element.isConfirmDialogOpen === false);
+  });
+
+  test('cancel deleting a flow', async () => {
+    const flows: FlowInfo[] = [
+      {
+        uuid: 'flow1',
+        owner: {name: 'owner1'},
+        created: '2025-01-01T10:00:00.000Z' as Timestamp,
+        stages: [
+          {
+            expression: {condition: 'label:Code-Review=+1'},
+            state: FlowStageState.DONE,
+          },
+        ],
+      },
+    ];
+    stubRestApi('listFlows').returns(Promise.resolve(flows));
+    const deleteFlowStub = sinon
+      .stub(element['restApiService'], 'deleteFlow')
+      .returns(Promise.resolve(new Response()));
+    await element['loadFlows']();
+    await element.updateComplete;
+
+    const deleteButton = queryAndAssert<GrButton>(element, '.flow gr-button');
+    deleteButton.click();
+    await element.updateComplete;
+
+    const dialog = queryAndAssert<GrDialog>(element, 'gr-dialog');
+    assert.isFalse(dialog.hidden);
+
+    const cancelButton = queryAndAssert<GrButton>(dialog, '#cancel');
+    cancelButton.click();
+    await element.updateComplete;
+
+    assert.isTrue(deleteFlowStub.notCalled);
+    assert.isTrue(dialog.hidden);
   });
 
   test('reloads flows on flow-created event', async () => {

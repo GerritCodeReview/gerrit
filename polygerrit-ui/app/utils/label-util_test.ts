@@ -63,6 +63,7 @@ import {
   SubmitRequirementStatus,
 } from '../api/rest-api';
 import {assert} from '@open-wc/testing';
+import {isFulfilled} from './async-util';
 
 const VALUES_0 = {
   '0': 'neutral',
@@ -504,6 +505,14 @@ suite('label-util', () => {
       const labels = extractAssociatedLabels(submitRequirement);
       assert.deepEqual(labels, ['Verified']);
     });
+    test('1 label, extractFromSubmittability:false', () => {
+      const submitRequirement = createSubmitRequirementResultInfo();
+      const labels = extractAssociatedLabels(submitRequirement, {
+        extractFromSubmittability: false,
+        extractFromOverride: true,
+      });
+      assert.deepEqual(labels, []);
+    });
     test('label with number', () => {
       const submitRequirement = createSubmitRequirementResultInfo(
         'label2:verified=MAX'
@@ -527,6 +536,46 @@ suite('label-util', () => {
       };
       const labels = extractAssociatedLabels(submitRequirement);
       assert.deepEqual(labels, ['Verified', 'Build-cop-override']);
+    });
+    test('overridden label, extractFromOverride:false', () => {
+      const submitRequirement = {
+        ...createSubmitRequirementResultInfo(),
+        override_expression_result: createSubmitRequirementExpressionInfo(
+          'label:Build-cop-override'
+        ),
+      };
+      const labels = extractAssociatedLabels(submitRequirement, {
+        extractFromSubmittability: true,
+        extractFromOverride: false,
+      });
+      assert.deepEqual(labels, ['Verified']);
+    });
+    test('overridden label, overridden, extractFromOverride:onlyIfOverridden', () => {
+      const submitRequirement = {
+        ...createSubmitRequirementResultInfo(),
+        override_expression_result: createSubmitRequirementExpressionInfo(
+          'label:Build-cop-override'
+        ),
+      };
+      const labels = extractAssociatedLabels(submitRequirement, {
+        extractFromSubmittability: true,
+        extractFromOverride: 'onlyIfOverridden',
+      });
+      assert.deepEqual(labels, ['Verified', 'Build-cop-override']);
+    });
+    test.only('overridden label, not overridden, extractFromOverride:onlyIfOverridden', () => {
+      const submitRequirement = {
+        ...createSubmitRequirementResultInfo(),
+        override_expression_result: {
+          ...createSubmitRequirementExpressionInfo('label:Build-cop-override'),
+          fulfilled: false,
+        },
+      };
+      const labels = extractAssociatedLabels(submitRequirement, {
+        extractFromSubmittability: true,
+        extractFromOverride: 'onlyIfOverridden',
+      });
+      assert.deepEqual(labels, ['Verified']);
     });
   });
 

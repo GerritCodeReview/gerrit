@@ -277,23 +277,39 @@ function extractLabelsFrom(expression: string) {
   return labels;
 }
 
+export interface ExtractLabelsOptions {
+  extractFromSubmittability: boolean;
+  extractFromOverride: boolean | 'onlyIfOverridden';
+}
+
 export function extractAssociatedLabels(
   requirement: SubmitRequirementResultInfo,
-  type: 'all' | 'onlyOverride' | 'onlySubmittability' = 'all'
+  options: ExtractLabelsOptions = {
+    extractFromSubmittability: true,
+    extractFromOverride: true,
+  }
 ): string[] {
   let labels: string[] = [];
-  if (requirement.submittability_expression_result && type !== 'onlyOverride') {
+  if (
+    requirement.submittability_expression_result &&
+    options.extractFromSubmittability
+  ) {
     labels = labels.concat(
       extractLabelsFrom(requirement.submittability_expression_result.expression)
     );
   }
-  if (requirement.override_expression_result && type !== 'onlySubmittability') {
+  const overridden = !!requirement.override_expression_result?.fulfilled;
+  const extractFromOverride =
+    options.extractFromOverride === true ||
+    (overridden && options.extractFromOverride === 'onlyIfOverridden');
+  if (requirement.override_expression_result && extractFromOverride) {
     labels = labels.concat(
       extractLabelsFrom(requirement.override_expression_result.expression)
     );
   }
   return labels.filter(unique);
 }
+
 export interface SubmitRequirementsIcon {
   // The material icon name.
   icon: string;

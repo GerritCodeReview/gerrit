@@ -3055,4 +3055,17 @@ suite('gr-reply-dialog tests', () => {
     await element.updateComplete;
     assert.equal(queryAndAssert(element, '#pluginMessage').textContent, 'foo');
   });
+
+  test('show warning when change is merged', async () => {
+    element.isChangeMerged = false;
+    await element.updateComplete;
+    let warning = query(element, '#changeIsMergedLabel');
+    assert.isNotOk(warning);
+
+    element.isChangeMerged = true;
+    await element.updateComplete;
+    warning = queryAndAssert(element, '#changeIsMergedLabel');
+    assert.isOk(warning);
+    assert.include(warning.textContent, 'Change has already been merged');
+  });
 });

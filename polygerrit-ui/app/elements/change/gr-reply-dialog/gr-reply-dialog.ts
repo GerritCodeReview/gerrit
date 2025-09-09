@@ -228,6 +228,9 @@ export class GrReplyDialog extends LitElement {
   knownLatestState?: LatestPatchState;
 
   @state()
+  isChangeMerged = false;
+
+  @state()
   underReview = true;
 
   @state()
@@ -472,7 +475,7 @@ export class GrReplyDialog extends LitElement {
         gr-endpoint-decorator[name='reply-text'] {
           flex-direction: column;
         }
-        #checkingStatusLabel,
+        #changeIsMergedLabel #checkingStatusLabel,
         #notLatestLabel {
           margin-left: var(--spacing-l);
         }
@@ -480,6 +483,7 @@ export class GrReplyDialog extends LitElement {
           color: var(--deemphasized-text-color);
           font-style: italic;
         }
+        #changeIsMergedLabel,
         #notLatestLabel,
         #savingLabel {
           color: var(--error-text-color);
@@ -1215,7 +1219,17 @@ export class GrReplyDialog extends LitElement {
             `
           )}
           ${when(
-            this.knownLatestState === LatestPatchState.NOT_LATEST,
+            this.knownLatestState !== LatestPatchState.CHECKING &&
+              this.isChangeMerged,
+            () => html`
+              <span id="changeIsMergedLabel">
+                ${this.computeChangeMergedWarning()}
+              </span>
+            `
+          )}
+          ${when(
+            !this.isChangeMerged &&
+              this.knownLatestState === LatestPatchState.NOT_LATEST,
             () => html`
               <span id="notLatestLabel">
                 ${this.computePatchSetWarning()}
@@ -1288,6 +1302,7 @@ export class GrReplyDialog extends LitElement {
         this.knownLatestState = result.isLatest
           ? LatestPatchState.LATEST
           : LatestPatchState.NOT_LATEST;
+        this.isChangeMerged = result.newStatus === ChangeStatus.MERGED;
       });
 
     this.focusOn(focusTarget);
@@ -2221,6 +2236,10 @@ export class GrReplyDialog extends LitElement {
       !this.reviewersMutated &&
       !revotingOrNewVote
     );
+  }
+
+  computeChangeMergedWarning() {
+    return 'Change has already been merged';
   }
 
   computePatchSetWarning() {

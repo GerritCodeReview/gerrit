@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c803a86d_1c7a3d9b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-09-09T07:58:59Z",
+      "side": 1,
+      "message": "```suggestion\nIntroduce a predicate to skip inconsistent changes\n```",
+      "range": {
+        "startLine": 7,
+        "startChar": 28,
+        "endLine": 7,
+        "endChar": 39
+      },
+      "revId": "370e3eb0f3bdc167a3e3d82f3cf42861756e880e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7adfdf5e_3b2129d3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-09-09T07:58:59Z",
+      "side": 1,
+      "message": "```suggestion\nWhen a repository contains a corrupt change, the change query may not\nreturn any change or a corrupted change that would result in an error\nscreen, instead of just filtering out the corrupted changes and return\nthe valid ones.\n```",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 67
+      },
+      "revId": "370e3eb0f3bdc167a3e3d82f3cf42861756e880e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8778361c_54c1f109",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-09-09T07:58:59Z",
+      "side": 1,
+      "message": "Nit: wrap long lines.",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 78
+      },
+      "revId": "370e3eb0f3bdc167a3e3d82f3cf42861756e880e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "785d22b5_2d10cd8c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-09-09T07:58:59Z",
+      "side": 1,
+      "message": "Can you also share an overview of the tests you\u0027ve made and the expected performance penalty with the extra predicate?",
+      "revId": "370e3eb0f3bdc167a3e3d82f3cf42861756e880e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "942fe2b0_b1a1e07f",
+        "filename": "java/com/google/gerrit/server/query/change/IsConsistentPredicate.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-09-09T07:58:59Z",
+      "side": 1,
+      "message": "This would cause a `NoSuchChangeException` only if you have an `importedServerId` in the `gerrit.config`. Why not just access the change notes instead?",
+      "range": {
+        "startLine": 30,
+        "startChar": 26,
+        "endLine": 30,
+        "endChar": 44
+      },
+      "revId": "370e3eb0f3bdc167a3e3d82f3cf42861756e880e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3ccf9847_0a15078b",
+        "filename": "javatests/com/google/gerrit/server/query/change/IsConsistentPredicateTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-09-09T07:58:59Z",
+      "side": 1,
+      "message": "```suggestion\n  public void matchInconsistent() {\n```",
+      "range": {
+        "startLine": 52,
+        "startChar": 14,
+        "endLine": 52,
+        "endChar": 31
+      },
+      "revId": "370e3eb0f3bdc167a3e3d82f3cf42861756e880e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

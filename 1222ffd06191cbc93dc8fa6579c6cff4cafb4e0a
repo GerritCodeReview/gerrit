@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "9753d5fd_85893d7a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-09-09T06:26:44Z",
+      "side": 1,
+      "message": "nit: add Gerrit issue (440670261) number for the reference",
+      "revId": "1222ffd06191cbc93dc8fa6579c6cff4cafb4e0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "1322587c_9532b97d",

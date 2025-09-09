@@ -526,7 +526,7 @@ export class GrErrorManager extends LitElement {
   // private but used in tests
   showErrorDialog(
     message: string,
-    options?: {showSignInButton?: boolean; htmlContent?: DocumentFragment}
+    options?: {showSignInButton?: boolean; htmlContent?: string}
   ) {
     this.reporting.reportErrorDialog(message);
     this.errorDialog.text = message;

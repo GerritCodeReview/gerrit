@@ -1,5 +1,57 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e65b4a5c_52f37957",
+        "filename": "polygerrit-ui/app/elements/core/gr-error-dialog/gr-error-dialog.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-09-09T09:11:04Z",
+      "side": 1,
+      "message": "If only either text or htmlContent is rendered, then can you add a comment saying so?\n\nMaybe also consider just rendering a slot for the caller to fill.",
+      "revId": "7410996e485d38c40cb0889d621e79e3e2ffd2c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5c72da32_6f5b9f25",
+        "filename": "polygerrit-ui/app/elements/core/gr-error-dialog/gr-error-dialog.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-09-09T09:11:04Z",
+      "side": 1,
+      "message": "Why \u003cpre\u003e and why the `.plaintext` styles? Maybe add a comment explaining the intention.",
+      "revId": "7410996e485d38c40cb0889d621e79e3e2ffd2c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "79319f20_9170d15f",
+        "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-09-09T09:11:04Z",
+      "side": 1,
+      "message": "This message is only relevant for reporting now? Do we somehow still want to convey info like status and trace to the user?",
+      "revId": "7410996e485d38c40cb0889d621e79e3e2ffd2c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

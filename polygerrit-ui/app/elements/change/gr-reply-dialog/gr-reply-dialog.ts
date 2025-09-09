@@ -228,6 +228,9 @@ export class GrReplyDialog extends LitElement {
   knownLatestState?: LatestPatchState;
 
   @state()
+  isChangeMerged = false;
+
+  @state()
   underReview = true;
 
   @state()
@@ -1215,7 +1218,17 @@ export class GrReplyDialog extends LitElement {
             `
           )}
           ${when(
-            this.knownLatestState === LatestPatchState.NOT_LATEST,
+            this.knownLatestState !== LatestPatchState.CHECKING &&
+              this.isChangeMerged,
+            () => html`
+              <span id="checkingStatusLabel">
+                ${this.computeChangeMergedWarning()}
+              </span>
+            `
+          )}
+          ${when(
+            !this.isChangeMerged &&
+              this.knownLatestState === LatestPatchState.NOT_LATEST,
             () => html`
               <span id="notLatestLabel">
                 ${this.computePatchSetWarning()}
@@ -1288,6 +1301,7 @@ export class GrReplyDialog extends LitElement {
         this.knownLatestState = result.isLatest
           ? LatestPatchState.LATEST
           : LatestPatchState.NOT_LATEST;
+        this.isChangeMerged = result.newStatus === ChangeStatus.MERGED;
       });
 
     this.focusOn(focusTarget);
@@ -2221,6 +2235,10 @@ export class GrReplyDialog extends LitElement {
       !this.reviewersMutated &&
       !revotingOrNewVote
     );
+  }
+
+  computeChangeMergedWarning() {
+    return 'Change has already been merged';
   }
 
   computePatchSetWarning() {

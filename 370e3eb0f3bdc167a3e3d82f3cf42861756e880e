@@ -118,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca24a600_b514d482",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2025-09-09T09:02:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8778361c_54c1f109",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 78
+      },
+      "revId": "370e3eb0f3bdc167a3e3d82f3cf42861756e880e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "785d22b5_2d10cd8c",
@@ -148,6 +172,30 @@
       "writtenOn": "2025-09-09T07:58:59Z",
       "side": 1,
       "message": "This would cause a `NoSuchChangeException` only if you have an `importedServerId` in the `gerrit.config`. Why not just access the change notes instead?",
+      "range": {
+        "startLine": 30,
+        "startChar": 26,
+        "endLine": 30,
+        "endChar": 44
+      },
+      "revId": "370e3eb0f3bdc167a3e3d82f3cf42861756e880e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "df69b6bb_0791fe94",
+        "filename": "java/com/google/gerrit/server/query/change/IsConsistentPredicate.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2025-09-09T09:02:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "942fe2b0_b1a1e07f",
       "range": {
         "startLine": 30,
         "startChar": 26,

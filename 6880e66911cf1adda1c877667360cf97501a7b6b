@@ -1,0 +1,45 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2b995549_61d77429",
+        "filename": "polygerrit-ui/app/elements/shared/gr-html-renderer/gr-html-renderer.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-09-09T09:33:04Z",
+      "side": 1,
+      "message": "Add a class description, explaining it\u0027s purpose (ie. that in other places we reset styles, and this is a way to avoid that)",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 48
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "77ba2c24_810648b2",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/shared/gr-html-renderer/gr-html-renderer.ts",
+              "range": {
+                "startLine": 10,
+                "startChar": 0,
+                "endLine": 10,
+                "endChar": 0
+              },
+              "replacement": "/**\n * A component for rendering HTML content.\n * This component is useful for displaying HTML that should not be affected by\n * the global style resets applied in other parts of the Gerrit UI.\n */\n"
+            }
+          ]
+        }
+      ],
+      "revId": "6880e66911cf1adda1c877667360cf97501a7b6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

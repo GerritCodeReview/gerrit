@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../../shared/gr-dialog/gr-dialog';
+import '../../shared/gr-html-renderer/gr-html-renderer';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {css, html, LitElement} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
@@ -35,7 +36,7 @@ export class GrErrorDialog extends LitElement {
   text?: string;
 
   @property({attribute: false})
-  htmlContent?: DocumentFragment;
+  htmlContent?: string;
 
   @state() loginUrl = '';
 
@@ -104,7 +105,9 @@ export class GrErrorDialog extends LitElement {
           this.htmlContent,
           () =>
             html`<div class="main" slot="main">
-              <pre class="plaintext">${this.htmlContent}</pre>
+              <gr-html-renderer
+                .htmlContent=${this.htmlContent}
+              ></gr-html-renderer>
             </div>`,
           () => html`<div class="main" slot="main">${this.text}</div>`
         )}

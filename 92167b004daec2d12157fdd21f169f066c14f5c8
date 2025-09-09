@@ -69,6 +69,24 @@
       "parentUuid": "bfc1b0bd_f68f50b4",
       "revId": "92167b004daec2d12157fdd21f169f066c14f5c8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "55c7c1ea_654dc720",
+        "filename": "javatests/com/google/gerrit/server/config/ScheduleConfigTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2025-09-09T07:54:33Z",
+      "side": 1,
+      "message": "I had used AI to generate the test in the previous PS, but later realized that the assertion is wrong, so had to update it.",
+      "parentUuid": "6baaf520_a8e88fb0",
+      "revId": "92167b004daec2d12157fdd21f169f066c14f5c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

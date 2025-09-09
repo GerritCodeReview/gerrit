@@ -88,7 +88,9 @@ export class GrSmartSearch extends LitElement {
         @handle-search=${(e: CustomEvent<SearchBarHandleSearchDetail>) => {
           this.handleSearch(e);
         }}
-      ></gr-search-bar>
+      >
+        <gr-icon icon="search" slot="leading-icon" aria-hidden="true"></gr-icon>
+      </gr-search-bar>
     `;
   }
 

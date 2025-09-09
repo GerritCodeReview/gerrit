@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "075fb9bf_7fe5eb5a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2025-09-09T08:24:03Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "c803a86d_1c7a3d9b",
+      "range": {
+        "startLine": 7,
+        "startChar": 28,
+        "endLine": 7,
+        "endChar": 39
+      },
+      "revId": "370e3eb0f3bdc167a3e3d82f3cf42861756e880e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7adfdf5e_3b2129d3",
@@ -37,6 +61,30 @@
       "writtenOn": "2025-09-09T07:58:59Z",
       "side": 1,
       "message": "```suggestion\nWhen a repository contains a corrupt change, the change query may not\nreturn any change or a corrupted change that would result in an error\nscreen, instead of just filtering out the corrupted changes and return\nthe valid ones.\n```",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 67
+      },
+      "revId": "370e3eb0f3bdc167a3e3d82f3cf42861756e880e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "88922ec5_f233eaeb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2025-09-09T08:24:03Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "7adfdf5e_3b2129d3",
       "range": {
         "startLine": 9,
         "startChar": 0,
@@ -123,6 +171,30 @@
       "writtenOn": "2025-09-09T07:58:59Z",
       "side": 1,
       "message": "```suggestion\n  public void matchInconsistent() {\n```",
+      "range": {
+        "startLine": 52,
+        "startChar": 14,
+        "endLine": 52,
+        "endChar": 31
+      },
+      "revId": "370e3eb0f3bdc167a3e3d82f3cf42861756e880e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e7c32162_0ccb2db5",
+        "filename": "javatests/com/google/gerrit/server/query/change/IsConsistentPredicateTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2025-09-09T08:24:03Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "3ccf9847_0a15078b",
       "range": {
         "startLine": 52,
         "startChar": 14,

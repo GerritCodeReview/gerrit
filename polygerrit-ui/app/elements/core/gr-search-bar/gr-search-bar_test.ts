@@ -76,8 +76,9 @@ suite('gr-search-bar tests', () => {
             skip-commit-on-item-select=""
             tab-complete=""
           >
-            <gr-icon aria-hidden="true" icon="search" slot="leading-icon">
-            </gr-icon>
+            <div slot="leading-icon">
+              <slot name="leading-icon"></slot>
+            </div>
             <a
               class="help"
               href="https://mydocumentationurl.google.com/user-search.html"

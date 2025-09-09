@@ -246,11 +246,9 @@ export class GrSearchBar extends LitElement {
             this.handleSearchTextChanged(e);
           }}
         >
-          <gr-icon
-            icon="search"
-            slot="leading-icon"
-            aria-hidden="true"
-          ></gr-icon>
+          <div slot="leading-icon">
+            <slot name="leading-icon"></slot>
+          </div>
           ${when(
             this.inputVal?.length > 0,
             () => html`

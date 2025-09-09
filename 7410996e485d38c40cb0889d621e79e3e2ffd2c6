@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "03572bda_ed4691d7",
+        "filename": "polygerrit-ui/app/elements/core/gr-error-dialog/gr-error-dialog.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-09-09T09:24:05Z",
+      "side": 1,
+      "message": "\u003e then can you add a comment saying so?\n\nI don\u0027t think a comment adds much value here.\n\n\u003e Maybe also consider just rendering a slot for the caller to fill.\n\nI updated to using a new component in http://go/grev/c/508601/9. Apologies for submitting the change. We can continue the review there.\n\nI think managing the error shown should be the responsibility og gr-error-dialog and doesn\u0027t require a slot from the user. Happy to change it if you disagree on that CL.",
+      "parentUuid": "e65b4a5c_52f37957",
+      "revId": "7410996e485d38c40cb0889d621e79e3e2ffd2c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5c72da32_6f5b9f25",
@@ -35,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "daef53b2_711b3122",
+        "filename": "polygerrit-ui/app/elements/core/gr-error-dialog/gr-error-dialog.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-09-09T09:24:05Z",
+      "side": 1,
+      "message": "I mentioned in the commit message due to it\u0027s presence in GrFormattedText.\n\nDon\u0027t have any reason besides it.",
+      "parentUuid": "5c72da32_6f5b9f25",
+      "revId": "7410996e485d38c40cb0889d621e79e3e2ffd2c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "79319f20_9170d15f",
@@ -48,6 +84,24 @@
       "writtenOn": "2025-09-09T09:11:04Z",
       "side": 1,
       "message": "This message is only relevant for reporting now? Do we somehow still want to convey info like status and trace to the user?",
+      "revId": "7410996e485d38c40cb0889d621e79e3e2ffd2c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cdc0e06d_bd1cede5",
+        "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-09-09T09:24:05Z",
+      "side": 1,
+      "message": "The idea was to show errors for non Gerrit related issues where the trace-id wouldn\u0027t help us.\n\nI\u0027m not aware of Gerrit returning HTML errors.",
+      "parentUuid": "79319f20_9170d15f",
       "revId": "7410996e485d38c40cb0889d621e79e3e2ffd2c6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

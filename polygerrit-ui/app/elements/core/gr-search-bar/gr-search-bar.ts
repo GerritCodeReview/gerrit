@@ -24,11 +24,7 @@ import {assertIsDefined} from '../../../utils/common-util';
 import {configModelToken} from '../../../models/config/config-model';
 import {resolve} from '../../../models/dependency';
 import {subscribe} from '../../lit/subscription-controller';
-import {
-  AutocompleteCommitEvent,
-  ValueChangedEvent,
-} from '../../../types/events';
-import {fireNoBubbleNoCompose} from '../../../utils/event-util';
+import {ValueChangedEvent} from '../../../types/events';
 import {getDocUrl} from '../../../utils/url-util';
 import '@material/web/iconbutton/icon-button';
 import {when} from 'lit/directives/when.js';
@@ -139,18 +135,8 @@ export type SuggestionProvider = (
   expression: string
 ) => Promise<AutocompleteSuggestion[]>;
 
-export interface SearchBarHandleSearchDetail {
-  inputVal: string;
-}
-
 @customElement('gr-search-bar')
 export class GrSearchBar extends LitElement {
-  /**
-   * Fired when a search is committed
-   *
-   * @event handle-search
-   */
-
   @queryDec('#searchInput') protected searchInput?: GrAutocomplete;
 
   @property({type: String})
@@ -239,9 +225,6 @@ export class GrSearchBar extends LitElement {
           .threshold=${this.threshold}
           tab-complete
           .verticalOffset=${this.verticalOffset}
-          @commit=${(e: AutocompleteCommitEvent) => {
-            this.handleInputCommit(e);
-          }}
           @text-changed=${(e: ValueChangedEvent) => {
             this.handleSearchTextChanged(e);
           }}
@@ -296,6 +279,10 @@ export class GrSearchBar extends LitElement {
     this.inputVal = this.value;
   }
 
+  getInput() {
+    return this.inputVal;
+  }
+
   private searchOperators() {
     const set = new Set(SEARCH_OPERATORS_WITH_NEGATIONS_SET);
     if (
@@ -308,28 +295,6 @@ export class GrSearchBar extends LitElement {
       set.add('-is:mergeable');
     }
     return set;
-  }
-
-  private handleInputCommit(e: AutocompleteCommitEvent) {
-    this.preventDefaultAndNavigateToInputVal(e);
-  }
-
-  /**
-   * This function is called in a few different cases:
-   * - e.target is the search button
-   * - e.target is the gr-autocomplete widget (#searchInput)
-   * - e.target is the input element wrapped within #searchInput
-   */
-  private preventDefaultAndNavigateToInputVal(e: AutocompleteCommitEvent) {
-    e.preventDefault();
-    if (!this.inputVal) return;
-    const trimmedInput = this.inputVal.trim();
-    if (trimmedInput) {
-      const detail: SearchBarHandleSearchDetail = {
-        inputVal: this.inputVal,
-      };
-      fireNoBubbleNoCompose(this, 'handle-search', detail);
-    }
   }
 
   /**

@@ -7,14 +7,11 @@ import '../gr-search-bar/gr-search-bar';
 import {navigationToken} from '../gr-navigation/gr-navigation';
 import {getUserName} from '../../../utils/display-name-util';
 import {AccountInfo, ServerInfo} from '../../../types/common';
-import {
-  SearchBarHandleSearchDetail,
-  SuggestionProvider,
-} from '../gr-search-bar/gr-search-bar';
+import {GrSearchBar, SuggestionProvider} from '../gr-search-bar/gr-search-bar';
 import {AutocompleteSuggestion} from '../../shared/gr-autocomplete/gr-autocomplete';
 import {getAppContext} from '../../../services/app-context';
 import {html, LitElement} from 'lit';
-import {customElement, property, state} from 'lit/decorators.js';
+import {customElement, property, query, state} from 'lit/decorators.js';
 import {subscribe} from '../../lit/subscription-controller';
 import {resolve} from '../../../models/dependency';
 import {configModelToken} from '../../../models/config/config-model';
@@ -23,15 +20,13 @@ import {
   searchViewModelToken,
 } from '../../../models/views/search';
 import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
+import {AutocompleteCommitEvent} from '../../../types/events';
 
 const MAX_AUTOCOMPLETE_RESULTS = 10;
 const SELF_EXPRESSION = 'self';
 const ME_EXPRESSION = 'me';
 
 declare global {
-  interface HTMLElementEventMap {
-    'handle-search': CustomEvent<SearchBarHandleSearchDetail>;
-  }
   interface HTMLElementTagNameMap {
     'gr-smart-search': GrSmartSearch;
   }
@@ -47,6 +42,9 @@ export class GrSmartSearch extends LitElement {
 
   @state()
   serverConfig?: ServerInfo;
+
+  @query('gr-search-bar')
+  searchBar?: GrSearchBar;
 
   private readonly restApiService = getAppContext().restApiService;
 
@@ -85,13 +83,20 @@ export class GrSmartSearch extends LitElement {
         .groupSuggestions=${groupSuggestions}
         .accountSuggestions=${accountSuggestions}
         .verticalOffset=${this.verticalOffset}
-        @handle-search=${(e: CustomEvent<SearchBarHandleSearchDetail>) => {
-          this.handleSearch(e);
-        }}
+        @commit=${this.handleInputCommit}
       >
         <gr-icon icon="search" slot="leading-icon" aria-hidden="true"></gr-icon>
       </gr-search-bar>
     `;
+  }
+
+  private handleInputCommit(e: CustomEvent<AutocompleteCommitEvent>) {
+    e.preventDefault();
+    if (!this.searchBar) return;
+    const trimmedInput = this.searchBar.getInput().trim();
+    if (trimmedInput) {
+      this.handleSearch(trimmedInput);
+    }
   }
 
   /**
@@ -219,8 +224,7 @@ export class GrSmartSearch extends LitElement {
     });
   }
 
-  private handleSearch(e: CustomEvent<SearchBarHandleSearchDetail>) {
-    const query = e.detail.inputVal;
+  handleSearch(query: string) {
     if (!query) return;
     this.getNavigation().setUrl(createSearchUrl({query}));
   }

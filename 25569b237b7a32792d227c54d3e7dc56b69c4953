@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "666b3993_470e96a9",
+        "filename": "java/com/google/gerrit/server/query/change/IsConsistentPredicate.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2025-09-09T09:54:11Z",
+      "side": 1,
+      "message": "This is probably not needed.",
+      "range": {
+        "startLine": 30,
+        "startChar": 39,
+        "endLine": 30,
+        "endChar": 43
+      },
+      "revId": "25569b237b7a32792d227c54d3e7dc56b69c4953",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

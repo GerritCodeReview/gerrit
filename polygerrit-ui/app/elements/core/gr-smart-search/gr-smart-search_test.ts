@@ -6,9 +6,17 @@
 import '../../../test/common-test-setup';
 import './gr-smart-search';
 import {GrSmartSearch} from './gr-smart-search';
-import {stubRestApi} from '../../../test/test-utils';
+import {
+  pressKey,
+  queryAndAssert,
+  stubRestApi,
+  waitUntil,
+} from '../../../test/test-utils';
 import {EmailAddress, GroupId, UrlEncodedRepoName} from '../../../types/common';
 import {assert, fixture, html} from '@open-wc/testing';
+import {Key} from '../../../utils/dom-util';
+import {MdOutlinedTextField} from '@material/web/textfield/outlined-text-field';
+import {GrAutocomplete} from '../../shared/gr-autocomplete/gr-autocomplete';
 
 suite('gr-smart-search tests', () => {
   let element: GrSmartSearch;
@@ -78,6 +86,81 @@ suite('gr-smart-search tests', () => {
       .then(s => {
         assert.notEqual(s[0], {text: 'owner:me'});
       });
+  });
+
+  test('empty search query does not trigger nav', async () => {
+    const searchSpy = sinon.spy(element, 'handleSearch');
+    element.searchBar!.value = '';
+    await element.updateComplete;
+    const searchInput = queryAndAssert<GrAutocomplete>(
+      element.searchBar,
+      '#searchInput'
+    );
+    pressKey(
+      queryAndAssert<MdOutlinedTextField>(searchInput, '#input'),
+      Key.ENTER
+    );
+    assert.isFalse(searchSpy.called);
+  });
+
+  test('Predefined query op with no predication doesnt trigger nav', async () => {
+    const searchSpy = sinon.spy(element, 'handleSearch');
+    element.searchBar!.value = 'added:';
+    await element.updateComplete;
+    const searchInput = queryAndAssert<GrAutocomplete>(
+      element.searchBar,
+      '#searchInput'
+    );
+    pressKey(
+      queryAndAssert<MdOutlinedTextField>(searchInput, '#input'),
+      Key.ENTER
+    );
+    assert.isFalse(searchSpy.called);
+  });
+
+  test('predefined predicate query triggers nav', async () => {
+    const searchSpy = sinon.spy(element, 'handleSearch');
+    element.searchBar!.value = 'age:1week';
+    await element.updateComplete;
+    const searchInput = queryAndAssert<GrAutocomplete>(
+      element.searchBar,
+      '#searchInput'
+    );
+    pressKey(
+      queryAndAssert<MdOutlinedTextField>(searchInput, '#input'),
+      Key.ENTER
+    );
+    await waitUntil(() => searchSpy.called);
+  });
+
+  test('undefined predicate query triggers nav', async () => {
+    const searchSpy = sinon.spy(element, 'handleSearch');
+    element.searchBar!.value = 'random:1week';
+    await element.updateComplete;
+    const searchInput = queryAndAssert<GrAutocomplete>(
+      element.searchBar,
+      '#searchInput'
+    );
+    pressKey(
+      queryAndAssert<MdOutlinedTextField>(searchInput, '#input'),
+      Key.ENTER
+    );
+    await waitUntil(() => searchSpy.called);
+  });
+
+  test('empty undefined predicate query triggers nav', async () => {
+    const searchSpy = sinon.spy(element, 'handleSearch');
+    element.searchBar!.value = 'random:';
+    await element.updateComplete;
+    const searchInput = queryAndAssert<GrAutocomplete>(
+      element.searchBar,
+      '#searchInput'
+    );
+    pressKey(
+      queryAndAssert<MdOutlinedTextField>(searchInput, '#input'),
+      Key.ENTER
+    );
+    await waitUntil(() => searchSpy.called);
   });
 
   test('Autocompletes groups', () => {

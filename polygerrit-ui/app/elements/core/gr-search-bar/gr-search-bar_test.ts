@@ -9,10 +9,8 @@ import './gr-search-bar';
 import {GrSearchBar} from './gr-search-bar';
 import '../../../utils/async-util';
 import {
-  mockPromise,
   pressKey,
   stubRestApi,
-  waitUntil,
   waitUntilObserved,
 } from '../../../test/test-utils';
 import {
@@ -23,7 +21,6 @@ import {MergeabilityComputationBehavior} from '../../../constants/constants';
 import {queryAndAssert} from '../../../test/test-utils';
 import {GrAutocomplete} from '../../shared/gr-autocomplete/gr-autocomplete';
 import {assert, fixture, html} from '@open-wc/testing';
-import {Key} from '../../../utils/dom-util';
 import {getAppContext} from '../../../services/app-context';
 import {changeModelToken} from '../../../models/change/change-model';
 import {
@@ -32,7 +29,6 @@ import {
 } from '../../../models/config/config-model';
 import {wrapInProvider} from '../../../models/di-provider-element';
 import {testResolver} from '../../../test/common-test-setup';
-import {MdOutlinedTextField} from '@material/web/textfield/outlined-text-field';
 
 suite('gr-search-bar tests', () => {
   let element: GrSearchBar;
@@ -101,95 +97,6 @@ suite('gr-search-bar tests', () => {
     element.value = 'foo';
     await element.updateComplete;
     assert.equal(element.inputVal, 'foo');
-  });
-
-  const getActiveElement = () =>
-    document.activeElement!.shadowRoot
-      ? document.activeElement!.shadowRoot.activeElement
-      : document.activeElement;
-
-  test('enter in search input fires event', async () => {
-    const promise = mockPromise();
-    element.addEventListener('handle-search', () => {
-      assert.notEqual(
-        getActiveElement(),
-        queryAndAssert<GrAutocomplete>(element, '#searchInput')
-      );
-      promise.resolve();
-    });
-    element.value = 'test';
-    await element.updateComplete;
-    const searchInput = queryAndAssert<GrAutocomplete>(element, '#searchInput');
-    pressKey(
-      queryAndAssert<MdOutlinedTextField>(searchInput, '#input'),
-      Key.ENTER
-    );
-    await promise;
-  });
-
-  test('empty search query does not trigger nav', async () => {
-    const searchSpy = sinon.spy();
-    element.addEventListener('handle-search', searchSpy);
-    element.value = '';
-    await element.updateComplete;
-    const searchInput = queryAndAssert<GrAutocomplete>(element, '#searchInput');
-    pressKey(
-      queryAndAssert<MdOutlinedTextField>(searchInput, '#input'),
-      Key.ENTER
-    );
-    assert.isFalse(searchSpy.called);
-  });
-
-  test('Predefined query op with no predication doesnt trigger nav', async () => {
-    const searchSpy = sinon.spy();
-    element.addEventListener('handle-search', searchSpy);
-    element.value = 'added:';
-    await element.updateComplete;
-    const searchInput = queryAndAssert<GrAutocomplete>(element, '#searchInput');
-    pressKey(
-      queryAndAssert<MdOutlinedTextField>(searchInput, '#input'),
-      Key.ENTER
-    );
-    assert.isFalse(searchSpy.called);
-  });
-
-  test('predefined predicate query triggers nav', async () => {
-    const searchSpy = sinon.spy();
-    element.addEventListener('handle-search', searchSpy);
-    element.value = 'age:1week';
-    await element.updateComplete;
-    const searchInput = queryAndAssert<GrAutocomplete>(element, '#searchInput');
-    pressKey(
-      queryAndAssert<MdOutlinedTextField>(searchInput, '#input'),
-      Key.ENTER
-    );
-    await waitUntil(() => searchSpy.called);
-  });
-
-  test('undefined predicate query triggers nav', async () => {
-    const searchSpy = sinon.spy();
-    element.addEventListener('handle-search', searchSpy);
-    element.value = 'random:1week';
-    await element.updateComplete;
-    const searchInput = queryAndAssert<GrAutocomplete>(element, '#searchInput');
-    pressKey(
-      queryAndAssert<MdOutlinedTextField>(searchInput, '#input'),
-      Key.ENTER
-    );
-    await waitUntil(() => searchSpy.called);
-  });
-
-  test('empty undefined predicate query triggers nav', async () => {
-    const searchSpy = sinon.spy();
-    element.addEventListener('handle-search', searchSpy);
-    element.value = 'random:';
-    await element.updateComplete;
-    const searchInput = queryAndAssert<GrAutocomplete>(element, '#searchInput');
-    pressKey(
-      queryAndAssert<MdOutlinedTextField>(searchInput, '#input'),
-      Key.ENTER
-    );
-    await waitUntil(() => searchSpy.called);
   });
 
   test('keyboard shortcuts', async () => {

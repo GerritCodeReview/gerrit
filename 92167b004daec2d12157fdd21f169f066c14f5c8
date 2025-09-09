@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2f663a82_778aef5a",
+        "filename": "java/com/google/gerrit/server/config/ScheduleConfig.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2025-09-09T06:40:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "78654e07_915b989f",
+      "revId": "92167b004daec2d12157fdd21f169f066c14f5c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bfc1b0bd_f68f50b4",
@@ -31,6 +49,24 @@
       "writtenOn": "2025-09-08T23:30:14Z",
       "side": 1,
       "message": "Shouldn\u0027t this be `isAtLeast(interval)`?",
+      "revId": "92167b004daec2d12157fdd21f169f066c14f5c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6baaf520_a8e88fb0",
+        "filename": "javatests/com/google/gerrit/server/config/ScheduleConfigTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2025-09-09T06:40:03Z",
+      "side": 1,
+      "message": "No, In the computeInitialDelay method we perform the modulo operation so the delay will always be (-interval, interval), however if delay is  \u003c\u003d 0, we add interval to it so if jitter is present, delay will always be (jitter, interval + jitter].\n\n```\nlong delay \u003d Duration.between(now, startTime).toMillis() % interval;\nif (delay \u003c\u003d 0) {\n   delay +\u003d interval;\n}\n```",
+      "parentUuid": "bfc1b0bd_f68f50b4",
       "revId": "92167b004daec2d12157fdd21f169f066c14f5c8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

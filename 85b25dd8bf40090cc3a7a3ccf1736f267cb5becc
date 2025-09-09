@@ -309,6 +309,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "25de0a92_c6df3898",
+        "filename": "java/com/google/gerrit/server/config/ScheduleConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2025-09-09T06:40:03Z",
+      "side": 1,
+      "message": "\u003e How did you test that?\n\nI\u0027ve added a unit test for invalid jitter.\n\n\u003e ConfigUtil looks like it would always call notTimeUnit() and throw the IAE that we expect to catch in this try block.\n\nThere\u0027s a check in ConfigUtil::getTimeUnit method at the start which matches the value with the pattern and simply returns the default value instead of calling notTimeUnit() and throwing IAE. That\u0027s why I had to make INVALID_CONFIG the default value.\n\n\u003e If you don\u0027t use 0L, then for logical consistency and looking at computeInterval, I think you want to use MISSING_CONFIG in the get.\n\nComputeInterval uses MISSING_CONFIG as the default value because it\u0027s a deal breaker for interval configuration. However, this isn\u0027t the case for jitter. If I use MISSING_CONFIG as the default for jitter as well, I\u0027d need to update the check in the isInvalidOrMissing method. That change would imply returning an empty schedule when the jitter config is missing, which is not the intended behavior.",
+      "parentUuid": "f554b0df_394885ef",
+      "range": {
+        "startLine": 254,
+        "startChar": 0,
+        "endLine": 259,
+        "endChar": 85
+      },
+      "revId": "85b25dd8bf40090cc3a7a3ccf1736f267cb5becc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f53dc9cc_f643cc43",
         "filename": "java/com/google/gerrit/server/config/ScheduleConfig.java",
         "patchSetId": 5

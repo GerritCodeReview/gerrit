@@ -3,11 +3,14 @@
  * Copyright 2016 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '../gr-search-bar/gr-search-bar';
+import '../gr-search-autocomplete/gr-search-autocomplete';
 import {navigationToken} from '../gr-navigation/gr-navigation';
 import {getUserName} from '../../../utils/display-name-util';
 import {AccountInfo, ServerInfo} from '../../../types/common';
-import {GrSearchBar, SuggestionProvider} from '../gr-search-bar/gr-search-bar';
+import {
+  GrSearchAutocomplete,
+  SuggestionProvider,
+} from '../gr-search-autocomplete/gr-search-autocomplete';
 import {AutocompleteSuggestion} from '../../shared/gr-autocomplete/gr-autocomplete';
 import {getAppContext} from '../../../services/app-context';
 import {html, LitElement} from 'lit';
@@ -44,8 +47,8 @@ export class GrSmartSearch extends LitElement {
   @state()
   serverConfig?: ServerInfo;
 
-  @query('gr-search-bar')
-  searchBar?: GrSearchBar;
+  @query('gr-search-autocomplete')
+  searchBar?: GrSearchAutocomplete;
 
   private readonly restApiService = getAppContext().restApiService;
 
@@ -80,7 +83,7 @@ export class GrSmartSearch extends LitElement {
     const projectSuggestions: SuggestionProvider = (predicate, expression) =>
       this.fetchProjects(predicate, expression);
     return html`
-      <gr-search-bar
+      <gr-search-autocomplete
         id="search"
         .value=${this.searchQuery}
         .projectSuggestions=${projectSuggestions}
@@ -90,7 +93,7 @@ export class GrSmartSearch extends LitElement {
         @commit=${this.handleInputCommit}
       >
         <gr-icon icon="search" slot="leading-icon" aria-hidden="true"></gr-icon>
-      </gr-search-bar>
+      </gr-search-autocomplete>
     `;
   }
 

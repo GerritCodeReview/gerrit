@@ -134,9 +134,9 @@ export type SuggestionProvider = (
   expression: string
 ) => Promise<AutocompleteSuggestion[]>;
 
-@customElement('gr-search-bar')
-export class GrSearchBar extends LitElement {
-  @queryDec('#searchInput') protected searchInput?: GrAutocomplete;
+@customElement('gr-search-autocomplete')
+export class GrSearchAutocomplete extends LitElement {
+  @queryDec('#queryInput') protected queryInput?: GrAutocomplete;
 
   @property({type: String})
   value = '';
@@ -211,7 +211,7 @@ export class GrSearchBar extends LitElement {
     return html`
       <form>
         <gr-autocomplete
-          id="searchInput"
+          id="queryInput"
           placeholder="Search for changes"
           .text=${this.inputVal}
           .query=${this.query}
@@ -222,7 +222,7 @@ export class GrSearchBar extends LitElement {
           tab-complete
           .verticalOffset=${this.verticalOffset}
           @text-changed=${(e: ValueChangedEvent) => {
-            this.handleSearchTextChanged(e);
+            this.handleQueryTextChanged(e);
           }}
         >
           <div slot="leading-icon">
@@ -236,7 +236,7 @@ export class GrSearchBar extends LitElement {
                 touch-target="none"
                 @click=${(e: Event) => {
                   e.preventDefault();
-                  this.searchInput?.clear();
+                  this.queryInput?.clear();
                 }}
               >
                 <gr-icon icon="close" title="Clear all text"></gr-icon>
@@ -389,18 +389,18 @@ export class GrSearchBar extends LitElement {
   }
 
   focusAndSelectAll() {
-    assertIsDefined(this.searchInput, 'searchInput');
-    this.searchInput.focus();
-    this.searchInput.selectAll();
+    assertIsDefined(this.queryInput, 'queryInput');
+    this.queryInput.focus();
+    this.queryInput.selectAll();
   }
 
-  private handleSearchTextChanged(e: ValueChangedEvent) {
+  private handleQueryTextChanged(e: ValueChangedEvent) {
     this.inputVal = e.detail.value;
   }
 }
 
 declare global {
   interface HTMLElementTagNameMap {
-    'gr-search-bar': GrSearchBar;
+    'gr-search-autocomplete': GrSearchAutocomplete;
   }
 }

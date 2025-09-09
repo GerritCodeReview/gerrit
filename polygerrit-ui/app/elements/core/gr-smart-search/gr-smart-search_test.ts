@@ -28,17 +28,17 @@ suite('gr-smart-search tests', () => {
   test('renders', () => {
     assert.shadowDom.equal(
       element,
-      /* HTML */ ' <gr-search-bar id="search"> <gr-icon icon="search" slot="leading-icon" aria-hidden="true"></gr-icon> </gr-search-bar> '
+      /* HTML */ ' <gr-search-autocomplete id="search"> <gr-icon icon="search" slot="leading-icon" aria-hidden="true"></gr-icon> </gr-search-autocomplete> '
     );
   });
 
   test('keyboard shortcuts', async () => {
     const focusSpy = sinon.spy(
-      queryAndAssert<GrAutocomplete>(element.searchBar, '#searchInput'),
+      queryAndAssert<GrAutocomplete>(element.searchBar, '#queryInput'),
       'focus'
     );
     const selectAllSpy = sinon.spy(
-      queryAndAssert<GrAutocomplete>(element.searchBar, '#searchInput'),
+      queryAndAssert<GrAutocomplete>(element.searchBar, '#queryInput'),
       'selectAll'
     );
     pressKey(document.body, '/');
@@ -108,7 +108,7 @@ suite('gr-smart-search tests', () => {
     await element.updateComplete;
     const searchInput = queryAndAssert<GrAutocomplete>(
       element.searchBar,
-      '#searchInput'
+      '#queryInput'
     );
     pressKey(
       queryAndAssert<MdOutlinedTextField>(searchInput, '#input'),
@@ -123,7 +123,7 @@ suite('gr-smart-search tests', () => {
     await element.updateComplete;
     const searchInput = queryAndAssert<GrAutocomplete>(
       element.searchBar,
-      '#searchInput'
+      '#queryInput'
     );
     pressKey(
       queryAndAssert<MdOutlinedTextField>(searchInput, '#input'),
@@ -138,7 +138,7 @@ suite('gr-smart-search tests', () => {
     await element.updateComplete;
     const searchInput = queryAndAssert<GrAutocomplete>(
       element.searchBar,
-      '#searchInput'
+      '#queryInput'
     );
     pressKey(
       queryAndAssert<MdOutlinedTextField>(searchInput, '#input'),
@@ -153,7 +153,7 @@ suite('gr-smart-search tests', () => {
     await element.updateComplete;
     const searchInput = queryAndAssert<GrAutocomplete>(
       element.searchBar,
-      '#searchInput'
+      '#queryInput'
     );
     pressKey(
       queryAndAssert<MdOutlinedTextField>(searchInput, '#input'),
@@ -168,7 +168,7 @@ suite('gr-smart-search tests', () => {
     await element.updateComplete;
     const searchInput = queryAndAssert<GrAutocomplete>(
       element.searchBar,
-      '#searchInput'
+      '#queryInput'
     );
     pressKey(
       queryAndAssert<MdOutlinedTextField>(searchInput, '#input'),

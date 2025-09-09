@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../../../test/common-test-setup';
-import './gr-search-bar';
-import {GrSearchBar} from './gr-search-bar';
+import './gr-search-autocomplete';
+import {GrSearchAutocomplete} from './gr-search-autocomplete';
 import '../../../utils/async-util';
 import {stubRestApi, waitUntilObserved} from '../../../test/test-utils';
 import {
@@ -23,8 +23,8 @@ import {
 import {wrapInProvider} from '../../../models/di-provider-element';
 import {testResolver} from '../../../test/common-test-setup';
 
-suite('gr-search-bar tests', () => {
-  let element: GrSearchBar;
+suite('gr-search-autocomplete tests', () => {
+  let element: GrSearchAutocomplete;
   let configModel: ConfigModel;
 
   setup(async () => {
@@ -44,12 +44,12 @@ suite('gr-search-bar tests', () => {
     element = (
       await fixture(
         wrapInProvider(
-          html`<gr-search-bar></gr-search-bar>`,
+          html`<gr-search-autocomplete></gr-search-autocomplete>`,
           configModelToken,
           configModel
         )
       )
-    ).querySelector('gr-search-bar')!;
+    ).querySelector('gr-search-autocomplete')!;
   });
 
   test('renders', () => {
@@ -59,7 +59,7 @@ suite('gr-search-bar tests', () => {
         <form>
           <gr-autocomplete
             allow-non-suggested-values=""
-            id="searchInput"
+            id="queryInput"
             multi=""
             placeholder="Search for changes"
             skip-commit-on-item-select=""
@@ -94,7 +94,9 @@ suite('gr-search-bar tests', () => {
 
   suite('getSearchSuggestions', () => {
     setup(async () => {
-      element = await fixture(html`<gr-search-bar></gr-search-bar>`);
+      element = await fixture(
+        html`<gr-search-autocomplete></gr-search-autocomplete>`
+      );
       element.mergeabilityComputationBehavior =
         MergeabilityComputationBehavior.NEVER;
       await element.updateComplete;
@@ -168,7 +170,9 @@ suite('gr-search-bar tests', () => {
   ].forEach(mergeability => {
     suite(`mergeability as ${mergeability}`, () => {
       setup(async () => {
-        element = await fixture(html`<gr-search-bar></gr-search-bar>`);
+        element = await fixture(
+          html`<gr-search-autocomplete></gr-search-autocomplete>`
+        );
         const serverConfig = {
           ...createServerInfo(),
           change: {

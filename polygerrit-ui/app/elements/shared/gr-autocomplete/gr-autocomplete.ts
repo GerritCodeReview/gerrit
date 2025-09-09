@@ -150,7 +150,7 @@ export class GrAutocomplete extends LitElement {
 
   /**
    * When true, the selection of the item will not trigger a commit.
-   * When used by GrSearchBar for example, we don't want the user to navigate to the results page after selecting an item.
+   * When used by GrSearchAutocomplete for example, we don't want the user to navigate to the results page after selecting an item.
    */
 
   @property({type: Boolean, attribute: 'skip-commit-on-item-select'})

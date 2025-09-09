@@ -18,7 +18,6 @@ import {
   ShowAlertEventDetail,
   ShowErrorEvent,
 } from '../../../types/events';
-import {sanitizeHtmlToFragment} from '../../../utils/inner-html-util';
 import {windowLocationReload} from '../../../utils/dom-util';
 import {debounce, DelayedTask} from '../../../utils/async-util';
 import {fireIronAnnounce} from '../../../utils/event-util';
@@ -249,7 +248,7 @@ export class GrErrorManager extends LitElement {
                 url,
                 trace,
               }),
-              {htmlContent: sanitizeHtmlToFragment(errorText)}
+              {htmlContent: errorText}
             );
           } else {
             this.showErrorDialog(
@@ -526,7 +525,7 @@ export class GrErrorManager extends LitElement {
   // private but used in tests
   showErrorDialog(
     message: string,
-    options?: {showSignInButton?: boolean; htmlContent?: DocumentFragment}
+    options?: {showSignInButton?: boolean; htmlContent?: string}
   ) {
     this.reporting.reportErrorDialog(message);
     this.errorDialog.text = message;

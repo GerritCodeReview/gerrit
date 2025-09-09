@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4789b1c1_69080a2c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2025-09-09T21:06:54Z",
+      "side": 1,
+      "message": "This feels like it should be part of https://gerrit-review.googlesource.com/c/gerrit/+/434157",
+      "revId": "7dd28ed64c797b9e4989128f11ceda01fb221e05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

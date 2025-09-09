@@ -169,6 +169,24 @@
       "parentUuid": "0c639b72_8d7e1bce",
       "revId": "37ce9f988291bdd4b09ea214ff5b7e7ee24f4077",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bcb42cc9_6ace81b8",
+        "filename": "java/com/google/gerrit/server/git/ChangesByProjectCacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 441,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2025-09-09T22:06:28Z",
+      "side": 1,
+      "message": "That\u0027s more than fine. I am hyper focused lately on reducing our memory usage, so this just happened to be something I noticed. I think some future change could address this on both the memory and/or disk side.",
+      "parentUuid": "f1c58237_60bdea63",
+      "revId": "37ce9f988291bdd4b09ea214ff5b7e7ee24f4077",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

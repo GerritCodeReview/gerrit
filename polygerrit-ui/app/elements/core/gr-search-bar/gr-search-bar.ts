@@ -135,9 +135,9 @@ export type SuggestionProvider = (
   expression: string
 ) => Promise<AutocompleteSuggestion[]>;
 
-@customElement('gr-search-bar')
-export class GrSearchBar extends LitElement {
-  @queryDec('#searchInput') protected searchInput?: GrAutocomplete;
+@customElement('gr-change-query-autocomplete')
+export class GrChangeQueryAutocomplete extends LitElement {
+  @queryDec('#queryInput') protected queryInput?: GrAutocomplete;
 
   @property({type: String})
   value = '';
@@ -215,7 +215,7 @@ export class GrSearchBar extends LitElement {
     return html`
       <form>
         <gr-autocomplete
-          id="searchInput"
+          id="queryInput"
           placeholder="Search for changes"
           .text=${this.inputVal}
           .query=${this.query}
@@ -240,7 +240,7 @@ export class GrSearchBar extends LitElement {
                 touch-target="none"
                 @click=${(e: Event) => {
                   e.preventDefault();
-                  this.searchInput?.clear();
+                  this.queryInput?.clear();
                 }}
               >
                 <gr-icon icon="close" title="Clear all text"></gr-icon>
@@ -393,9 +393,9 @@ export class GrSearchBar extends LitElement {
   }
 
   private handleSearch() {
-    assertIsDefined(this.searchInput, 'searchInput');
-    this.searchInput.focus();
-    this.searchInput.selectAll();
+    assertIsDefined(this.queryInput, 'queryInput');
+    this.queryInput.focus();
+    this.queryInput.selectAll();
   }
 
   private handleSearchTextChanged(e: ValueChangedEvent) {
@@ -405,6 +405,6 @@ export class GrSearchBar extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'gr-search-bar': GrSearchBar;
+    'gr-change-query-autocomplete': GrChangeQueryAutocomplete;
   }
 }

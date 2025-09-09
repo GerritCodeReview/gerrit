@@ -5,8 +5,8 @@
  */
 import * as sinon from 'sinon';
 import '../../../test/common-test-setup';
-import './gr-search-bar';
-import {GrSearchBar} from './gr-search-bar';
+import './gr-change-query-autocomplete';
+import {GrChangeQueryAutocomplete} from './gr-change-query-autocomplete';
 import '../../../utils/async-util';
 import {
   pressKey,
@@ -30,8 +30,8 @@ import {
 import {wrapInProvider} from '../../../models/di-provider-element';
 import {testResolver} from '../../../test/common-test-setup';
 
-suite('gr-search-bar tests', () => {
-  let element: GrSearchBar;
+suite('gr-change-query-autocomplete tests', () => {
+  let element: GrChangeQueryAutocomplete;
   let configModel: ConfigModel;
 
   setup(async () => {
@@ -51,12 +51,12 @@ suite('gr-search-bar tests', () => {
     element = (
       await fixture(
         wrapInProvider(
-          html`<gr-search-bar></gr-search-bar>`,
+          html`<gr-change-query-autocomplete></gr-change-query-autocomplete>`,
           configModelToken,
           configModel
         )
       )
-    ).querySelector('gr-search-bar')!;
+    ).querySelector('gr-change-query-autocomplete')!;
   });
 
   test('renders', () => {
@@ -115,7 +115,7 @@ suite('gr-search-bar tests', () => {
 
   suite('getSearchSuggestions', () => {
     setup(async () => {
-      element = await fixture(html`<gr-search-bar></gr-search-bar>`);
+      element = await fixture(html`<gr-change-query-autocomplete></gr-change-query-autocomplete>`);
       element.mergeabilityComputationBehavior =
         MergeabilityComputationBehavior.NEVER;
       await element.updateComplete;
@@ -189,7 +189,7 @@ suite('gr-search-bar tests', () => {
   ].forEach(mergeability => {
     suite(`mergeability as ${mergeability}`, () => {
       setup(async () => {
-        element = await fixture(html`<gr-search-bar></gr-search-bar>`);
+        element = await fixture(html`<gr-change-query-autocomplete></gr-change-query-autocomplete>`);
         const serverConfig = {
           ...createServerInfo(),
           change: {

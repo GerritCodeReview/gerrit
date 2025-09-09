@@ -19,7 +19,6 @@ import {
   query as queryDec,
   state,
 } from 'lit/decorators.js';
-import {Shortcut, ShortcutController} from '../../lit/shortcut-controller';
 import {assertIsDefined} from '../../../utils/common-util';
 import {configModelToken} from '../../../models/config/config-model';
 import {resolve} from '../../../models/dependency';
@@ -167,14 +166,11 @@ export class GrSearchBar extends LitElement {
 
   @state() private threshold = 1;
 
-  private readonly shortcuts = new ShortcutController(this);
-
   private readonly getConfigModel = resolve(this, configModelToken);
 
   constructor() {
     super();
     this.query = (input: string) => this.getSearchSuggestions(input);
-    this.shortcuts.addAbstract(Shortcut.SEARCH, () => this.handleSearch());
     subscribe(
       this,
       () => this.getConfigModel().mergeabilityComputationBehavior$,
@@ -392,7 +388,7 @@ export class GrSearchBar extends LitElement {
     });
   }
 
-  private handleSearch() {
+  focusAndSelectAll() {
     assertIsDefined(this.searchInput, 'searchInput');
     this.searchInput.focus();
     this.searchInput.selectAll();

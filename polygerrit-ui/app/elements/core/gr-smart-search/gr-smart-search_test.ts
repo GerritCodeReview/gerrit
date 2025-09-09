@@ -32,6 +32,20 @@ suite('gr-smart-search tests', () => {
     );
   });
 
+  test('keyboard shortcuts', async () => {
+    const focusSpy = sinon.spy(
+      queryAndAssert<GrAutocomplete>(element.searchBar, '#searchInput'),
+      'focus'
+    );
+    const selectAllSpy = sinon.spy(
+      queryAndAssert<GrAutocomplete>(element.searchBar, '#searchInput'),
+      'selectAll'
+    );
+    pressKey(document.body, '/');
+    assert.isTrue(focusSpy.called);
+    assert.isTrue(selectAllSpy.called);
+  });
+
   test('Autocompletes accounts', () => {
     stubRestApi('queryAccounts').callsFake(() =>
       Promise.resolve([

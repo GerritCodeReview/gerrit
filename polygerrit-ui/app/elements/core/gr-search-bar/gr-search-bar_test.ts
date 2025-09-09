@@ -3,23 +3,16 @@
  * Copyright 2015 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import * as sinon from 'sinon';
 import '../../../test/common-test-setup';
 import './gr-search-bar';
 import {GrSearchBar} from './gr-search-bar';
 import '../../../utils/async-util';
-import {
-  pressKey,
-  stubRestApi,
-  waitUntilObserved,
-} from '../../../test/test-utils';
+import {stubRestApi, waitUntilObserved} from '../../../test/test-utils';
 import {
   createChangeConfig,
   createServerInfo,
 } from '../../../test/test-data-generators';
 import {MergeabilityComputationBehavior} from '../../../constants/constants';
-import {queryAndAssert} from '../../../test/test-utils';
-import {GrAutocomplete} from '../../shared/gr-autocomplete/gr-autocomplete';
 import {assert, fixture, html} from '@open-wc/testing';
 import {getAppContext} from '../../../services/app-context';
 import {changeModelToken} from '../../../models/change/change-model';
@@ -97,20 +90,6 @@ suite('gr-search-bar tests', () => {
     element.value = 'foo';
     await element.updateComplete;
     assert.equal(element.inputVal, 'foo');
-  });
-
-  test('keyboard shortcuts', async () => {
-    const focusSpy = sinon.spy(
-      queryAndAssert<GrAutocomplete>(element, '#searchInput'),
-      'focus'
-    );
-    const selectAllSpy = sinon.spy(
-      queryAndAssert<GrAutocomplete>(element, '#searchInput'),
-      'selectAll'
-    );
-    pressKey(document.body, '/');
-    assert.isTrue(focusSpy.called);
-    assert.isTrue(selectAllSpy.called);
   });
 
   suite('getSearchSuggestions', () => {

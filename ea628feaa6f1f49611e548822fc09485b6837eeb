@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "249fd6fd_8f90d74d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2025-09-09T22:33:52Z",
+      "side": 1,
+      "message": "It is not clear to me that the curved quotes are being used to represent the same thing as the straight quotes. I have not done an extensive investigation, but it appears that the curved quotes are being used for represent the more linguistic idea of quoting (like air quotes), the way someone writing English, whereas the straight quotes appear to be used to represent strings or characters in the way a coder would?",
+      "revId": "ea628feaa6f1f49611e548822fc09485b6837eeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "14f7fbdc_f15c2ae6",
+        "filename": "Documentation/cross-repository-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2025-09-09T22:33:52Z",
+      "side": 1,
+      "message": "Missed?",
+      "range": {
+        "startLine": 196,
+        "startChar": 51,
+        "endLine": 196,
+        "endChar": 52
+      },
+      "revId": "ea628feaa6f1f49611e548822fc09485b6837eeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

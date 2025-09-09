@@ -21,6 +21,7 @@ import {
 } from '../../../models/views/search';
 import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 import {AutocompleteCommitEvent} from '../../../types/events';
+import {Shortcut, ShortcutController} from '../../lit/shortcut-controller';
 
 const MAX_AUTOCOMPLETE_RESULTS = 10;
 const SELF_EXPRESSION = 'self';
@@ -54,6 +55,8 @@ export class GrSmartSearch extends LitElement {
 
   private readonly getSearchViewModel = resolve(this, searchViewModelToken);
 
+  private readonly shortcuts = new ShortcutController(this);
+
   constructor() {
     super();
     subscribe(
@@ -66,6 +69,7 @@ export class GrSmartSearch extends LitElement {
       () => this.getSearchViewModel().query$,
       query => (this.searchQuery = query ?? '')
     );
+    this.shortcuts.addAbstract(Shortcut.SEARCH, () => this.focusAndSelectAll());
   }
 
   override render() {
@@ -88,6 +92,10 @@ export class GrSmartSearch extends LitElement {
         <gr-icon icon="search" slot="leading-icon" aria-hidden="true"></gr-icon>
       </gr-search-bar>
     `;
+  }
+
+  private focusAndSelectAll() {
+    this.searchBar?.focusAndSelectAll();
   }
 
   private handleInputCommit(e: CustomEvent<AutocompleteCommitEvent>) {

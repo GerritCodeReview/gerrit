@@ -414,6 +414,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "efbc1f23_30138650",
+        "filename": "polygerrit-ui/app/utils/account-util.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-09-10T08:52:35Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "bf7f7db8_3171f3fa",
+      "range": {
+        "startLine": 154,
+        "startChar": 9,
+        "endLine": 154,
+        "endChar": 51
+      },
+      "revId": "15bab296a4ff63f1ee181631b3558d9e765bd6c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "02b306a7_f86a347b",
@@ -451,6 +475,30 @@
           ]
         }
       ],
+      "revId": "15bab296a4ff63f1ee181631b3558d9e765bd6c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "befac93a_8fe6801d",
+        "filename": "polygerrit-ui/app/utils/account-util.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-09-10T08:52:35Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "02b306a7_f86a347b",
+      "range": {
+        "startLine": 172,
+        "startChar": 51,
+        "endLine": 172,
+        "endChar": 64
+      },
       "revId": "15bab296a4ff63f1ee181631b3558d9e765bd6c9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -496,6 +544,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "528812fe_6137635f",
+        "filename": "polygerrit-ui/app/utils/account-util.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-09-10T08:52:35Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "206890bc_10d54ed3",
+      "range": {
+        "startLine": 174,
+        "startChar": 25,
+        "endLine": 174,
+        "endChar": 69
+      },
+      "revId": "15bab296a4ff63f1ee181631b3558d9e765bd6c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6bb22f9d_c462035b",
@@ -537,6 +609,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "811f1740_bd618a99",
+        "filename": "polygerrit-ui/app/utils/account-util.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-09-10T08:52:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6bb22f9d_c462035b",
+      "range": {
+        "startLine": 175,
+        "startChar": 20,
+        "endLine": 175,
+        "endChar": 40
+      },
+      "revId": "15bab296a4ff63f1ee181631b3558d9e765bd6c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7511fc73_94321fab",
@@ -550,6 +646,30 @@
       "writtenOn": "2025-08-26T11:18:02Z",
       "side": 1,
       "message": "The search expression is not a good enough explanation. It\u0027s not clear what kind of format it contains, (is it prefix of a name, is it a full name?). Should we rename it to something like \"accountPrefix\"",
+      "range": {
+        "startLine": 176,
+        "startChar": 21,
+        "endLine": 176,
+        "endChar": 42
+      },
+      "revId": "15bab296a4ff63f1ee181631b3558d9e765bd6c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2586f0c4_2dc5d480",
+        "filename": "polygerrit-ui/app/utils/account-util.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-09-10T08:52:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7511fc73_94321fab",
       "range": {
         "startLine": 176,
         "startChar": 21,

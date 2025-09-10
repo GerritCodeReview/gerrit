@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "af9f6461_17e40e99",
+        "filename": "javatests/com/google/gerrit/httpd/ProjectOAuthFilterTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-09-10T15:54:16Z",
+      "side": 1,
+      "message": "nit: 2025\n```suggestion\n// Copyright (C) 2025 The Android Open Source Project\n```",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "0ab853b6ed3e78bd60625b6e876dcb9791d80911",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

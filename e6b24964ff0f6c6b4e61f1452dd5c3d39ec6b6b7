@@ -1,0 +1,45 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "45e46141_6ef49886",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-09-10T08:04:42Z",
+      "side": 1,
+      "message": "GrSearchAutocomplete",
+      "range": {
+        "startLine": 153,
+        "startChar": 18,
+        "endLine": 153,
+        "endChar": 43
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "4e58229a_c8d42d2a",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.ts",
+              "range": {
+                "startLine": 153,
+                "startChar": 0,
+                "endLine": 154,
+                "endChar": 0
+              },
+              "replacement": "   * When used by GrSearchAutocomplete for example, we don\u0027t want the user to navigate to the results page after selecting an item.\n"
+            }
+          ]
+        }
+      ],
+      "revId": "e6b24964ff0f6c6b4e61f1452dd5c3d39ec6b6b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

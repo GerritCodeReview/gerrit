@@ -333,6 +333,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5ffeea61_87a6b8fe",
+        "filename": "java/com/google/gerrit/server/config/ScheduleConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-09-10T23:31:09Z",
+      "side": 1,
+      "message": "\u003e \u003e ConfigUtil looks like it would always call notTimeUnit() and throw the IAE that we expect to catch in this try block.\n\u003e \n\u003e There\u0027s a check in ConfigUtil::getTimeUnit method at the start which matches the value with the pattern and simply returns the default value instead of calling notTimeUnit() and throwing IAE. That\u0027s why I had to make INVALID_CONFIG the default value.\n\nOh. That seems like a bug? The method javadoc only says `defaultValue` will be used `if not set`. Shawn didn\u0027t add any tests for defaults when he added that regex and return in [16857: Fix age:4days to parse correctly](https://gerrit-review.googlesource.com/c/gerrit/+/16857) and that was before he had any other maintainers, so no one code reviewed it. Try pushing a change to fix it (by calling `notTimeUnit()` instead)?",
+      "parentUuid": "25de0a92_c6df3898",
+      "range": {
+        "startLine": 254,
+        "startChar": 0,
+        "endLine": 259,
+        "endChar": 85
+      },
+      "revId": "85b25dd8bf40090cc3a7a3ccf1736f267cb5becc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f53dc9cc_f643cc43",
         "filename": "java/com/google/gerrit/server/config/ScheduleConfig.java",
         "patchSetId": 5

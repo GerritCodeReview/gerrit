@@ -16,6 +16,91 @@
       "message": "Bump :) (does this all work for you now @matthias.sohn@gmail.com?)",
       "revId": "fc9c28f032cef5ed0b67f2f43c563d5f14c2eb8f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7341a75c_12ba732e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 42
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-09-10T13:16:53Z",
+      "side": 1,
+      "message": "I successfully tested the output of the following logs comparing the log4j 2.x output with the output of the old log4j 1.x implementation\n- error_log, error_log.json\n- httpd_log, httpd_log.json\n- sshd_log, sshd_log.json\n- delete_log, delete_log.json\n- replication_log, replication_log.json\n- gc_log\n\nI could also successfully list, set and reset loggers via the corresponding ssh commands.\n\nThat\u0027s great, thanks :-)\n\nBut I think the way the `Configuration` is modified at runtime is violating the recommendations given in the log4j 2.x documentation. We should not modify the existing active `Configuration` object but we should instead build a new one and then use the `LoggerContext.reconfigure(Configuration)` method to atomically switch from the old to the new configuration.\n\nAs soon as this change landed we need to adapt more plugins and lib modules to log4j 2.x which depend on the log4j API:\n- event-broker\n- global-refdb\n- loglevel\n- rename-project\n- spanner-refdb\n(these are the ones we use, I guess there are more)",
+      "revId": "fc9c28f032cef5ed0b67f2f43c563d5f14c2eb8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "582b120d_f20660e0",
+        "filename": "java/com/google/gerrit/pgm/http/jetty/HttpLog.java",
+        "patchSetId": 42
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-09-10T13:16:53Z",
+      "side": 1,
+      "message": "Is this required ? Isn\u0027t #enableLogging already guarding its complete body using the same lock ?",
+      "revId": "fc9c28f032cef5ed0b67f2f43c563d5f14c2eb8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9567222e_2dfd4e98",
+        "filename": "java/com/google/gerrit/pgm/http/jetty/HttpLog.java",
+        "patchSetId": 42
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-09-10T13:16:53Z",
+      "side": 1,
+      "message": "the documentation recommends to create a new Configuration and use `Configurator.reconfigure(Configuration)` to reconfigure the active `LoggerContext` with a different `Configuration`:\n\n```\nConfiguration configuration \u003d createConfiguration();\nConfigurator.reconfigure(configuration);\n```\n\nsee https://logging.apache.org/log4j/2.x/manual/customconfig.html#Configurator\nand https://logging.apache.org/log4j/2.x/manual/architecture.html#reconfiguration\n\nThere is also a `reconfigure` method on `LoggerContext`:\nhttps://logging.apache.org/log4j/2.x/javadoc/log4j-core/org/apache/logging/log4j/core/LoggerContext.html#reconfigure(org.apache.logging.log4j.core.config.Configuration)\n\nAFAIU the `reconfigure` methods are atomic. When reconfigure is called log events which are already being processed will continue to write log using the old configuration and those started after the transaction was committed will use the new configuration. Hence I think we should avoid modifying the old active `Configuration` object to be swapped with the new object.",
+      "revId": "fc9c28f032cef5ed0b67f2f43c563d5f14c2eb8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "61212f67_608751ab",
+        "filename": "java/com/google/gerrit/pgm/http/jetty/HttpLog.java",
+        "patchSetId": 42
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-09-10T13:16:53Z",
+      "side": 1,
+      "message": "The documentation strongly advises against programmatically modifying components of the active `Configuration`! \n\nIt seems the log4j2 maintainers favour an approach where the client has to create a new modified `Configuration` object from scratch, e.g. using `ConfigurationBuilder` which is then swapped with the old configuration using the above mentioned `reconfigure` methods. I couldn\u0027t find a deep copy method for `Configuration`. Maybe we need to roll our own ?\n\nSee https://logging.apache.org/log4j/2.x/manual/customconfig.html#Hybrid",
+      "revId": "fc9c28f032cef5ed0b67f2f43c563d5f14c2eb8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "68a895cd_b5ed200c",
+        "filename": "java/com/google/gerrit/pgm/http/jetty/HttpLog.java",
+        "patchSetId": 42
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-09-10T13:16:53Z",
+      "side": 1,
+      "message": "AFAICS `AbstractLifeCycle.stop()` is already guarding the call of `doStop()` with a lock",
+      "revId": "fc9c28f032cef5ed0b67f2f43c563d5f14c2eb8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

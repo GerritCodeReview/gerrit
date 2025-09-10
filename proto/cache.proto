@@ -752,3 +752,35 @@ message FileDiffOutputProto {
   bytes old_sha = 15;
   bytes new_sha = 16;
 }
+
+// Serialized form of com.google.gerrit.server.ReviewerSet
+// Next ID: 2
+message ReviewerSetProto {
+  // Next ID: 4
+  message ReviewerProto {
+    devtools.gerritcodereview.Account_Id account_id = 1;
+    string state = 2;
+    int64 timestamp = 3;
+  }
+  repeated ReviewerProto reviewers = 1;
+}
+
+// Serialized form of com.google.gerrit.server.git.ChangesByProjectCacheImpl.CachedProjectChanges
+// Next ID: 3
+message CachedProjectChangesProto {
+  // Next ID: 2
+  message NonPrivateChangesProto {
+    map<int32, bytes> changes = 1;
+  }
+
+  // Serialized form of com.google.gerrit.server.git.ChangesByProjectCacheImpl.PrivateChange
+  // Next ID: 4
+  message PrivateChangeProto {
+    devtools.gerritcodereview.Change change = 1;
+    ReviewerSetProto reviewers = 2;
+    bytes meta_revision = 3;
+  }
+
+  map<string, NonPrivateChangesProto> non_private_changes_by_branch = 1;
+  map<int32, PrivateChangeProto> private_changes = 2;
+}

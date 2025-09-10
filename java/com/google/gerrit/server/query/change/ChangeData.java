@@ -332,13 +332,40 @@ public class ChangeData {
       ObjectId commitId,
       ChangeNumberVirtualIdAlgorithm virtualIdAlgo,
       @Nullable ChangeNotes changeNotes) {
+    return createForTest(
+        project, id, currentPatchSetId, commitId, virtualIdAlgo, null, changeNotes);
+  }
+
+  /**
+   * Create an instance for testing only.
+   *
+   * <p>Attempting to lazy load data will fail with NPEs. Callers may consider manually setting
+   * fields that can be set.
+   *
+   * @param project project name
+   * @param id change ID
+   * @param currentPatchSetId current patchset number
+   * @param commitId commit SHA1 of the current patchset
+   * @param virtualIdAlgo algorithm for virtualising the Change number
+   * @param changeNotesFactory factory to create change notes
+   * @param changeNotes notes associated with the Change
+   * @return instance for testing.
+   */
+  public static ChangeData createForTest(
+      Project.NameKey project,
+      Change.Id id,
+      int currentPatchSetId,
+      ObjectId commitId,
+      ChangeNumberVirtualIdAlgorithm virtualIdAlgo,
+      ChangeNotes.Factory changeNotesFactory,
+      @Nullable ChangeNotes changeNotes) {
     ChangeData cd =
         new ChangeData(
             null,
             null,
             null,
             null,
-            null,
+            changeNotesFactory,
             null,
             null,
             null,

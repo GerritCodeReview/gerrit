@@ -3,6 +3,52 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2656bb69_5a4b355b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-09-10T16:32:40Z",
+      "side": 1,
+      "message": "It would be interesting to find out *when* it was introduced in the Jetty release history and locate the exact list of Gerrit versions impacted, other than v3.10 and later.",
+      "range": {
+        "startLine": 33,
+        "startChar": 2,
+        "endLine": 34,
+        "endChar": 11
+      },
+      "revId": "822384729b5b2ca02cd7104ca7c41baa80aa89ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "72159643_eb1482ed",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-09-10T16:32:40Z",
+      "side": 1,
+      "message": "What are the Gerrit equivalent of the blocking I/O and asynchronous I/O when using Jetty?",
+      "range": {
+        "startLine": 35,
+        "startChar": 22,
+        "endLine": 36,
+        "endChar": 12
+      },
+      "revId": "822384729b5b2ca02cd7104ca7c41baa80aa89ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0fcc306a_12e2ade1",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

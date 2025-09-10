@@ -62,6 +62,29 @@
       "message": "add a link to javadoc ?\n\nhttps://javadoc.io/doc/org.eclipse.jetty/jetty-server/9.4.58.v20250814/org/eclipse/jetty/server/HttpConfiguration.html#setBlockingTimeout(long)",
       "revId": "822384729b5b2ca02cd7104ca7c41baa80aa89ac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "76e9d186_1e862613",
+        "filename": "java/com/google/gerrit/pgm/http/jetty/JettyServer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-09-10T16:33:32Z",
+      "side": 1,
+      "message": "We should document in the gerrit.config docs that idle timeout will also be used as timeout for the outgoing blocking writes operations.",
+      "range": {
+        "startLine": 431,
+        "startChar": 4,
+        "endLine": 431,
+        "endChar": 33
+      },
+      "revId": "822384729b5b2ca02cd7104ca7c41baa80aa89ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

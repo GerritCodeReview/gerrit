@@ -428,6 +428,7 @@ public class JettyServer {
     config.setRequestHeaderSize(requestHeaderSize);
     config.setSendServerVersion(false);
     config.setSendDateHeader(true);
+    config.setBlockingTimeout(0);
     return config;
   }
 

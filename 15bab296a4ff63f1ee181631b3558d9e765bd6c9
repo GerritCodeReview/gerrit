@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f9c90a7e_ba2bb7ee",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-09-10T08:48:16Z",
+      "side": 1,
+      "message": "Resolved in Change 508741",
+      "parentUuid": "5ad3afaa_ec716580",
+      "revId": "15bab296a4ff63f1ee181631b3558d9e765bd6c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "61d3fbb2_bae1f8cc",
@@ -31,6 +49,24 @@
       "writtenOn": "2025-08-26T13:23:15Z",
       "side": 1,
       "message": "Move up into gr-smart-search.ts. Maybe provide a slot or something.",
+      "revId": "15bab296a4ff63f1ee181631b3558d9e765bd6c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd383cc8_c8f5a9a0",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-09-10T08:48:16Z",
+      "side": 1,
+      "message": "Resolved in Change 508604",
+      "parentUuid": "61d3fbb2_bae1f8cc",
       "revId": "15bab296a4ff63f1ee181631b3558d9e765bd6c9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -52,6 +88,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0b00e64e_5019a842",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-09-10T08:48:16Z",
+      "side": 1,
+      "message": "It\u0027s already the default value in the child component.\n\nRemoved the property",
+      "parentUuid": "e6bab02f_19b4fdf7",
+      "revId": "15bab296a4ff63f1ee181631b3558d9e765bd6c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6053154e_2b7969ca",
@@ -65,6 +119,24 @@
       "writtenOn": "2025-08-26T13:23:15Z",
       "side": 1,
       "message": "Move up into gr-smart-search.ts.",
+      "revId": "15bab296a4ff63f1ee181631b3558d9e765bd6c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ae2db89a_197f3f25",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-09-10T08:48:16Z",
+      "side": 1,
+      "message": "I think we want to keep the link to documentation of the query language.",
+      "parentUuid": "6053154e_2b7969ca",
       "revId": "15bab296a4ff63f1ee181631b3558d9e765bd6c9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -86,6 +158,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1a6ec457_e1d0f1d6",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-09-10T08:48:16Z",
+      "side": 1,
+      "message": "It\u0027s already the default in the child component.\n\nRemoved the property",
+      "parentUuid": "4d1d7773_243ae04c",
+      "revId": "15bab296a4ff63f1ee181631b3558d9e765bd6c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "18d8dcbc_c6692d5c",
@@ -103,6 +193,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "226f6740_bf2ed12d",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-09-10T08:48:16Z",
+      "side": 1,
+      "message": "Resolved in Change 508742",
+      "parentUuid": "18d8dcbc_c6692d5c",
+      "revId": "15bab296a4ff63f1ee181631b3558d9e765bd6c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "124d8ea5_d0f8a293",
@@ -116,6 +224,30 @@
       "writtenOn": "2025-08-26T13:23:15Z",
       "side": 1,
       "message": "move up",
+      "range": {
+        "startLine": 204,
+        "startChar": 4,
+        "endLine": 208,
+        "endChar": 6
+      },
+      "revId": "15bab296a4ff63f1ee181631b3558d9e765bd6c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4e80a9bb_76a17384",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-09-10T08:48:16Z",
+      "side": 1,
+      "message": "I think we want to keep the link to documentation of the query language.",
+      "parentUuid": "124d8ea5_d0f8a293",
       "range": {
         "startLine": 204,
         "startChar": 4,
@@ -166,6 +298,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a0383c1b_287d0802",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-09-10T08:48:16Z",
+      "side": 1,
+      "message": "Resolved in Change 508604",
+      "parentUuid": "62108f62_5e465072",
+      "revId": "15bab296a4ff63f1ee181631b3558d9e765bd6c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4a0ffc70_b27cbd6d",
@@ -179,6 +329,30 @@
       "writtenOn": "2025-08-26T13:23:15Z",
       "side": 1,
       "message": "Move truly out of this class, maybe by providing a slot.",
+      "range": {
+        "startLine": 280,
+        "startChar": 10,
+        "endLine": 294,
+        "endChar": 13
+      },
+      "revId": "15bab296a4ff63f1ee181631b3558d9e765bd6c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "66be3a03_779f9e67",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-09-10T08:48:16Z",
+      "side": 1,
+      "message": "I think we want to keep the link to documentation of the query language.",
+      "parentUuid": "4a0ffc70_b27cbd6d",
       "range": {
         "startLine": 280,
         "startChar": 10,

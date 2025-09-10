@@ -347,6 +347,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "00f1e75c_c2c1efe8",
+        "filename": "polygerrit-ui/app/elements/change/gr-flows/gr-create-flow.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-09-10T08:48:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c4cb13f_343d11ba",
+      "range": {
+        "startLine": 137,
+        "startChar": 18,
+        "endLine": 137,
+        "endChar": 31
+      },
+      "revId": "0ae5fc85e2ce6d6ecf78d2410b7df3a1eaa044a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c0504269_378b2adb",
@@ -456,6 +480,30 @@
       "side": 1,
       "message": "Flow stage has condition, condition consist of obstacles. Gerrit obstacle has parameters such as host, changeId, and query. So in this case currentCondition is holding a param of one of the obstacles, but it\u0027s still called currentCondition. That is confusing.\n\n\u003e I did not follow this. We are keeping this hidden from the user. They just write the changeQuery and we automatically append the host $h has change $c with $query\n\nThe conditions can be for other changes on the host. (ie. when parent change is submitted). Perhaps you want that in this implementation it\u0027s always assumed that the condition is always on the current change, but that\u0027s not stated anywhere.",
       "parentUuid": "3a1db08a_84a6ad4a",
+      "range": {
+        "startLine": 173,
+        "startChar": 9,
+        "endLine": 173,
+        "endChar": 25
+      },
+      "revId": "0ae5fc85e2ce6d6ecf78d2410b7df3a1eaa044a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4983e43_e34ae5a7",
+        "filename": "polygerrit-ui/app/elements/change/gr-flows/gr-create-flow.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-09-10T08:48:16Z",
+      "side": 1,
+      "message": "\u003e Perhaps you want that in this implementation it\u0027s always assumed that the condition is always on the current change, but that\u0027s not stated anywhere.\n\nYes this is a limitation of the UI as of now.\n\n501383: Extract out GrChangeAutocomplete | https://gerrit-review.git.corp.google.com/c/gerrit/+/501383\n\nI am resolving the condition for different changes in a separate stack of changes but as of now it\u0027s out of scope of this CL.",
+      "parentUuid": "80950838_0ecbbde4",
       "range": {
         "startLine": 173,
         "startChar": 9,

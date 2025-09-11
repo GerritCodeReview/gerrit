@@ -22,6 +22,30 @@
       },
       "revId": "99a3f45673c82de426d1647050a03b10998c571e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "118e0a04_60a71afe",
+        "filename": "java/com/google/gerrit/server/restapi/project/CreateBranch.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1096249
+      },
+      "writtenOn": "2025-09-11T08:24:04Z",
+      "side": 1,
+      "message": "I have kept this separate due to dependency on `revid`. Let me know if you have better way",
+      "parentUuid": "98fb66ce_a1a5defb",
+      "range": {
+        "startLine": 133,
+        "startChar": 0,
+        "endLine": 135,
+        "endChar": 65
+      },
+      "revId": "99a3f45673c82de426d1647050a03b10998c571e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

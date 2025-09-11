@@ -97,6 +97,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "6d0e59bc_176e7d29",
+        "filename": "java/com/google/gerrit/server/restapi/project/CreateTag.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1096249
+      },
+      "writtenOn": "2025-09-11T15:44:29Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "e485d4a3_e9b8efd6",
+      "range": {
+        "startLine": 110,
+        "startChar": 0,
+        "endLine": 111,
+        "endChar": 24
+      },
+      "revId": "99a3f45673c82de426d1647050a03b10998c571e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "ab8b3d04_faf93de1",
         "filename": "java/com/google/gerrit/server/restapi/project/CreateTag.java",
         "patchSetId": 2

@@ -159,6 +159,30 @@
       },
       "revId": "36e81b7c14e6934cb8abe9d44a8af61bdf74f7a3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "516ceab8_92d48f90",
+        "filename": "polygerrit-ui/app/embed/gr-textarea.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 771,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-09-11T14:39:35Z",
+      "side": 1,
+      "message": "Oh seems there\u0027s a lot of failures, hmm, maybe it won\u0027t work without changing it all. As getShadowOrDocumentSelection can return either a Selection or Range.",
+      "parentUuid": "7de26408_97d6e061",
+      "range": {
+        "startLine": 769,
+        "startChar": 0,
+        "endLine": 771,
+        "endChar": 32
+      },
+      "revId": "36e81b7c14e6934cb8abe9d44a8af61bdf74f7a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

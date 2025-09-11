@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e604e129_96be3d2d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-09-11T07:21:50Z",
+      "side": 1,
+      "message": "The `blockingTimeout` was introduced in [1], since Jetty `jetty-9.3.2.v20150730`.\nIt affects all versions of Gerrit, and definitely all the supported ones.\n\n[1] https://github.com/jetty/jetty.project/commit/deba2f0d6af1a5a4a97c14464f22375a292bc362",
+      "parentUuid": "2656bb69_5a4b355b",
+      "range": {
+        "startLine": 33,
+        "startChar": 2,
+        "endLine": 34,
+        "endChar": 11
+      },
+      "revId": "822384729b5b2ca02cd7104ca7c41baa80aa89ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "72159643_eb1482ed",
@@ -37,6 +61,30 @@
       "writtenOn": "2025-09-10T16:32:40Z",
       "side": 1,
       "message": "What are the Gerrit equivalent of the blocking I/O and asynchronous I/O when using Jetty?",
+      "range": {
+        "startLine": 35,
+        "startChar": 22,
+        "endLine": 36,
+        "endChar": 12
+      },
+      "revId": "822384729b5b2ca02cd7104ca7c41baa80aa89ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3222512e_44060e46",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-09-11T07:21:50Z",
+      "side": 1,
+      "message": "In Gerrit this means, synchronous response writes used for Git/HTTP traffic (e.g. git-upload-pack / git-receive-pack), where the Jetty worker thread is parked until the client consumes data.\n\nI have updated the commit message.",
+      "parentUuid": "72159643_eb1482ed",
       "range": {
         "startLine": 35,
         "startChar": 22,
@@ -64,6 +112,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ea546c40_6e763d48",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-09-11T07:21:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0fcc306a_12e2ade1",
+      "revId": "822384729b5b2ca02cd7104ca7c41baa80aa89ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "76e9d186_1e862613",
@@ -77,6 +143,30 @@
       "writtenOn": "2025-09-10T16:33:32Z",
       "side": 1,
       "message": "We should document in the gerrit.config docs that idle timeout will also be used as timeout for the outgoing blocking writes operations.",
+      "range": {
+        "startLine": 431,
+        "startChar": 4,
+        "endLine": 431,
+        "endChar": 33
+      },
+      "revId": "822384729b5b2ca02cd7104ca7c41baa80aa89ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c58a6b1_59cc6277",
+        "filename": "java/com/google/gerrit/pgm/http/jetty/JettyServer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-09-11T07:21:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "76e9d186_1e862613",
       "range": {
         "startLine": 431,
         "startChar": 4,

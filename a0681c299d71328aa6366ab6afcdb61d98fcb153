@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3a44e875_7a7378c3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-09-11T13:51:30Z",
+      "side": 1,
+      "message": "Could you also repeat the same with returning 500 entries? It would be important to highlight whether the delay is 8ms/change or 8ms overall.\n\nIf that was 8ms/change, we should see a 4s delay on serving the query for 500 changes.",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 23
+      },
+      "revId": "a0681c299d71328aa6366ab6afcdb61d98fcb153",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e136581_8c2129e9",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 604,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-09-11T13:51:30Z",
+      "side": 1,
+      "message": "Not sure this is clear for the reader, can we reformulate in a user-centric way?\n\n\n\n```suggestion\nTrue if the change returned by the index is consistent with its underlying Git repository and therefore is fully consistent. Can be used to exclude changes that\n```",
+      "range": {
+        "startLine": 604,
+        "startChar": 0,
+        "endLine": 604,
+        "endChar": 50
+      },
+      "revId": "a0681c299d71328aa6366ab6afcdb61d98fcb153",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "41bba200_f64c4440",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 605,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-09-11T13:51:30Z",
+      "side": 1,
+      "message": "```suggestion\ncannot be fully read and parsed from the Git repository (e.g., because of incomplete or broken NoteDB data on the `/meta` ref) and therefore would otherwise\n```",
+      "range": {
+        "startLine": 605,
+        "startChar": 10,
+        "endLine": 605,
+        "endChar": 34
+      },
+      "revId": "a0681c299d71328aa6366ab6afcdb61d98fcb153",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bc0f362f_9e8012cc",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 609,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-09-11T13:51:30Z",
+      "side": 1,
+      "message": "I believe we should point out the performance implications of adding the `is:consistent` on a change query. Maybe include some performance data you\u0027ve reported in the commit message?",
+      "revId": "a0681c299d71328aa6366ab6afcdb61d98fcb153",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

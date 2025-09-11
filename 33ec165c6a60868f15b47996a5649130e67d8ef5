@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "82e28d0f_ff04e8f9",
+        "filename": "java/com/google/gerrit/httpd/ProjectOAuthFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-09-11T08:01:18Z",
+      "side": 1,
+      "message": "I think we should swap the order of checks and first check for the bearer authentication header and only then for the basic authentication header. Supporting the basic authentication header to transmit an OAuth token is non-standard and a fallback to ensure compatibility with older Gerrit versions.",
+      "revId": "33ec165c6a60868f15b47996a5649130e67d8ef5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -40,6 +40,8 @@ import com.google.gerrit.metrics.Field;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.metrics.Timer1;
 import com.google.gerrit.server.logging.Metadata;
+import com.google.gerrit.server.logging.TraceContext;
+import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -288,7 +290,10 @@ public abstract class QueryProcessor<T> {
                 getRequestedFields());
         logger.atFine().log("Query options: %s", opts);
         // Apply index-specific rewrite first
-        Predicate<T> pred = rewriter.rewrite(q, opts);
+        Predicate<T> pred;
+        try (TraceTimer ignored = TraceContext.newTimer("rewriteQuery")) {
+          pred = rewriter.rewrite(q, opts);
+        }
         if (enforceVisibility) {
           pred = enforceVisibility(pred);
         }
@@ -312,26 +317,30 @@ public abstract class QueryProcessor<T> {
       // Run each query asynchronously, if supported.
       List<ResultSet<T>> matches = new ArrayList<>(cnt);
       for (DataSource<T> s : sources) {
-        matches.add(s.read());
+        try (TraceTimer ignored = TraceContext.newTimer("readDataSource")) {
+          matches.add(s.read());
+        }
       }
 
       out = new ArrayList<>(cnt);
       for (int i = 0; i < cnt; i++) {
-        String queryString = queryStrings != null ? queryStrings.get(i) : null;
-        ImmutableList<T> matchesList = matches.get(i).toList();
-        int matchCount = matchesList.size();
-        int limit = limits.get(i);
-        logger.atFine().log(
-            "Matches[%d]:\n%s",
-            i, matchesList.stream().map(this::formatForLogging).collect(toList()));
-        // TODO(brohlfs): Remove this extra logging by end of Q3 2023.
-        if (limit > 500 && userProvidedLimit <= 0 && matchCount > 100 && enforceVisibility) {
-          logger.atWarning().log(
-              "%s index query without provided limit. effective limit: %d, result count: %d, query:"
-                  + " %s",
-              schemaDef.getName(), getPermittedLimit(), matchCount, queryString);
+        try (TraceTimer ignored = TraceContext.newTimer("createQueryResult")) {
+          String queryString = queryStrings != null ? queryStrings.get(i) : null;
+          ImmutableList<T> matchesList = matches.get(i).toList();
+          int matchCount = matchesList.size();
+          int limit = limits.get(i);
+          logger.atFine().log(
+              "Matches[%d]:\n%s",
+              i, matchesList.stream().map(this::formatForLogging).collect(toList()));
+          // TODO(brohlfs): Remove this extra logging by end of Q3 2023.
+          if (limit > 500 && userProvidedLimit <= 0 && matchCount > 100 && enforceVisibility) {
+            logger.atWarning().log(
+                "%s index query without provided limit. effective limit: %d, result count: %d,"
+                    + " query: %s",
+                schemaDef.getName(), getPermittedLimit(), matchCount, queryString);
+          }
+          out.add(QueryResult.create(queryString, predicates.get(i), limit, matchesList));
         }
-        out.add(QueryResult.create(queryString, predicates.get(i), limit, matchesList));
       }
 
       // Only measure successful queries that actually touched the index.

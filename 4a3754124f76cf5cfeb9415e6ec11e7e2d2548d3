@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a9f3516a_3e491616",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 21
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-09-11T05:39:45Z",
+      "side": 1,
+      "message": "Leaving +2 to Kamil.",
+      "revId": "4a3754124f76cf5cfeb9415e6ec11e7e2d2548d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1e7a241a_01d215fc",
+        "filename": "polygerrit-ui/app/elements/change/gr-flows/gr-create-flow.ts",
+        "patchSetId": 21
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-09-11T05:39:45Z",
+      "side": 1,
+      "message": "This is a ton of stuff (124 lines) that this component has to \"know\" for just rendering a \u003cgr-search-autocomplete\u003e component. Feel free to keep as is, but here are my thoughts:\n\n* The account-util code should mostly go into an account-service or model that can have the restapi and the serverconfig injected by itself.\n* The fetching of accounts, projects, groups should be shared somehow, maybe in the account service or in gr-search-autocomplete.",
+      "revId": "4a3754124f76cf5cfeb9415e6ec11e7e2d2548d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

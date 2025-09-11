@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "616007cc_0d6dde48",
+        "filename": "java/com/google/gerrit/pgm/http/jetty/HttpLog.java",
+        "patchSetId": 44
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-09-11T13:20:45Z",
+      "side": 1,
+      "message": "this is not a map anymore",
+      "revId": "a52b4bf4c0433533d6bbbc919ac15f6f03a9d9cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8840264c_84d7b701",
+        "filename": "java/com/google/gerrit/pgm/http/jetty/HttpLogLayout.java",
+        "patchSetId": 44
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-09-11T13:20:45Z",
+      "side": 1,
+      "message": "removed superfluous else block",
+      "revId": "a52b4bf4c0433533d6bbbc919ac15f6f03a9d9cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e3ff1ea3_a52884a2",
+        "filename": "java/com/google/gerrit/server/util/SystemLog.java",
+        "patchSetId": 44
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-09-11T13:20:45Z",
+      "side": 1,
+      "message": "replaced deprecated methods",
+      "revId": "a52b4bf4c0433533d6bbbc919ac15f6f03a9d9cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7cc216a2_47068a09",
+        "filename": "java/com/google/gerrit/sshd/SshLog.java",
+        "patchSetId": 44
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-09-11T13:20:45Z",
+      "side": 1,
+      "message": "use variable names consistently",
+      "revId": "a52b4bf4c0433533d6bbbc919ac15f6f03a9d9cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d5d469f1_155734b5",
+        "filename": "java/com/google/gerrit/sshd/commands/ListLoggingLevelCommand.java",
+        "patchSetId": 44
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-09-11T13:20:45Z",
+      "side": 1,
+      "message": "removed superfluous else block",
+      "revId": "a52b4bf4c0433533d6bbbc919ac15f6f03a9d9cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "91d7e426_a1fe948c",
+        "filename": "java/com/google/gerrit/server/config/ConfigUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-09-11T16:04:07Z",
+      "side": 0,
+      "message": "Maybe keep this here so that the config section/subsection/setting stays included in the exception?",
+      "range": {
+        "startLine": 189,
+        "startChar": 0,
+        "endLine": 191,
+        "endChar": 5
+      },
+      "revId": "b1b54079860a5906e67505db48cb99866bdaf177",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

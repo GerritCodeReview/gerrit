@@ -355,6 +355,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e133706_5ebbe682",
+        "filename": "java/com/google/gerrit/server/config/ScheduleConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2025-09-11T09:05:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ffeea61_87a6b8fe",
+      "range": {
+        "startLine": 254,
+        "startChar": 0,
+        "endLine": 259,
+        "endChar": 85
+      },
+      "revId": "85b25dd8bf40090cc3a7a3ccf1736f267cb5becc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f53dc9cc_f643cc43",

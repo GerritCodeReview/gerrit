@@ -140,7 +140,7 @@ public class SshCancellationIT extends AbstractDaemonTest {
   @Test
   public void requestRejectedIfInvalidDeadlineIsProvided_invalidValue() throws Exception {
     adminSshSession.exec("gerrit create-project --deadline invalid " + name("new"));
-    adminSshSession.assertFailure("Invalid deadline. Invalid value: invalid");
+    adminSshSession.assertFailure("Invalid deadline. Invalid time unit value: invalid");
   }
 
   @Test

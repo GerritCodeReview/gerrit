@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "01850b15_514e250b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-09-11T07:56:00Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "0303203d_3ee26056",
+      "range": {
+        "startLine": 33,
+        "startChar": 5,
+        "endLine": 33,
+        "endChar": 14
+      },
+      "revId": "9872a044f3daa5ebdf103981180f1e081b009677",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "75d7eb53_6439e470",
@@ -37,6 +61,30 @@
       "writtenOn": "2025-09-11T07:29:50Z",
       "side": 1,
       "message": "```suggestion\n* When a thread is blocked on a synchronous (blocking) wait for the remote client to read data from Gerrit\u0027s HTTP response.\n```",
+      "range": {
+        "startLine": 3477,
+        "startChar": 55,
+        "endLine": 3477,
+        "endChar": 84
+      },
+      "revId": "9872a044f3daa5ebdf103981180f1e081b009677",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "65bddf72_ad68442e",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 3477,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-09-11T07:56:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "75d7eb53_6439e470",
       "range": {
         "startLine": 3477,
         "startChar": 55,

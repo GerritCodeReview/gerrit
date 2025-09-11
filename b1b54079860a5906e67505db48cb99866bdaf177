@@ -22,6 +22,30 @@
       },
       "revId": "b1b54079860a5906e67505db48cb99866bdaf177",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c43ee7c6_6a9d8960",
+        "filename": "java/com/google/gerrit/server/config/ConfigUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2025-09-11T16:37:06Z",
+      "side": 0,
+      "message": "The IAE thrown from the new method would be caught here and the section/subsection/setting details would be added. So I think it\u0027d be fine moving it. WDYT ?",
+      "parentUuid": "91d7e426_a1fe948c",
+      "range": {
+        "startLine": 189,
+        "startChar": 0,
+        "endLine": 191,
+        "endChar": 5
+      },
+      "revId": "b1b54079860a5906e67505db48cb99866bdaf177",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

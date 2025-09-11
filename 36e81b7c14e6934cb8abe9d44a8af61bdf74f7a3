@@ -63,6 +63,30 @@
       },
       "revId": "36e81b7c14e6934cb8abe9d44a8af61bdf74f7a3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a83829e5_4be65ce3",
+        "filename": "polygerrit-ui/app/embed/gr-textarea.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 771,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-09-11T13:47:23Z",
+      "side": 1,
+      "message": "Does using getShadowOrDocumentSelection() fix the issue for you?",
+      "parentUuid": "a88c6c87_f0aea995",
+      "range": {
+        "startLine": 769,
+        "startChar": 0,
+        "endLine": 771,
+        "endChar": 32
+      },
+      "revId": "36e81b7c14e6934cb8abe9d44a8af61bdf74f7a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

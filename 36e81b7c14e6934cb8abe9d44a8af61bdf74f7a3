@@ -135,6 +135,30 @@
       },
       "revId": "36e81b7c14e6934cb8abe9d44a8af61bdf74f7a3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7de26408_97d6e061",
+        "filename": "polygerrit-ui/app/embed/gr-textarea.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 771,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-09-11T14:27:14Z",
+      "side": 1,
+      "message": "i think it should be (getContentEditableRange needs to be imported as well):\n\n```\ngetShadowOrDocumentSelection(\n      this.shadowRoot,\n      getContentEditableRange()\n);\n```",
+      "parentUuid": "6d03ee97_6cc32d5e",
+      "range": {
+        "startLine": 769,
+        "startChar": 0,
+        "endLine": 771,
+        "endChar": 32
+      },
+      "revId": "36e81b7c14e6934cb8abe9d44a8af61bdf74f7a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

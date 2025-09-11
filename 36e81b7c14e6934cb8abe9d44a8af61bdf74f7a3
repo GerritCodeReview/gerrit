@@ -207,6 +207,30 @@
       },
       "revId": "36e81b7c14e6934cb8abe9d44a8af61bdf74f7a3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a4c8a345_5726e009",
+        "filename": "polygerrit-ui/app/embed/gr-textarea.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 771,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-09-11T15:40:27Z",
+      "side": 1,
+      "message": "\u003e option + right arrow works for me\n\nOn Safari? Works for me on Firefox.",
+      "parentUuid": "b1cd5e6c_31d4ec3c",
+      "range": {
+        "startLine": 769,
+        "startChar": 0,
+        "endLine": 771,
+        "endChar": 32
+      },
+      "revId": "36e81b7c14e6934cb8abe9d44a8af61bdf74f7a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

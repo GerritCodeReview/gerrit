@@ -14,6 +14,7 @@ import {
   HintDismissedEventDetail,
   HintShownEventDetail,
 } from '../api/embed';
+import {isSafari} from '../utils/dom-util';
 
 /**
  * Waits for the next animation frame.
@@ -772,11 +773,37 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
   }
 
   /** Gets the current selection, preferring the shadow DOM selection. */
-  private getSelection(): Selection | undefined | null {
-    // TODO: Use something similar to gr-diff's getShadowOrDocumentSelection()
-    return this.shadowRoot?.getSelection
-      ? this.shadowRoot.getSelection()
-      : document.getSelection();
+  private getSelection(): Selection | null {
+    const selection =
+      this.shadowRoot?.getSelection?.() ?? document.getSelection?.();
+    if (!selection) return null;
+
+    // For safari 17+.
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    if (isSafari() && (selection as any).getComposedRanges) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const composedRanges = (selection as any).getComposedRanges(
+        this.shadowRoot
+      );
+      if (composedRanges.length === 0) return null;
+
+      const r = composedRanges[0];
+      const range = new Range();
+      range.setStart(r.startContainer, r.startOffset);
+      range.setEnd(r.endContainer, r.endOffset);
+
+      return {
+        isCollapsed: range.collapsed,
+        focusNode: range.endContainer,
+        focusOffset: range.endOffset,
+        removeAllRanges: () => selection.removeAllRanges(),
+        addRange: (newRange: Range) => selection.addRange(newRange),
+        getRangeAt: (_: number) => range,
+        rangeCount: 1,
+      } as unknown as Selection;
+    }
+
+    return selection;
   }
 
   private scrollToCursorPosition(range: Range) {

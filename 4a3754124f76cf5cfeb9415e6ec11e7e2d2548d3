@@ -33,6 +33,75 @@
       "message": "This is a ton of stuff (124 lines) that this component has to \"know\" for just rendering a \u003cgr-search-autocomplete\u003e component. Feel free to keep as is, but here are my thoughts:\n\n* The account-util code should mostly go into an account-service or model that can have the restapi and the serverconfig injected by itself.\n* The fetching of accounts, projects, groups should be shared somehow, maybe in the account service or in gr-search-autocomplete.",
       "revId": "4a3754124f76cf5cfeb9415e6ec11e7e2d2548d3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2cad169c_0c81cbf5",
+        "filename": "polygerrit-ui/app/elements/change/gr-flows/gr-create-flow.ts",
+        "patchSetId": 21
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-09-11T08:03:21Z",
+      "side": 1,
+      "message": "I think having an autocomplete-util/suggestion-util style file is a generally good idea. That util can hold all the methods related to prefix-based suggestions lookups. That being said we can do that, when we will have to move things around to allow for plugin-provided obstacle builders.",
+      "parentUuid": "1e7a241a_01d215fc",
+      "revId": "4a3754124f76cf5cfeb9415e6ec11e7e2d2548d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d2944461_7ba488d4",
+        "filename": "polygerrit-ui/app/elements/change/gr-flows/gr-create-flow.ts",
+        "patchSetId": 21
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-09-11T08:03:21Z",
+      "side": 1,
+      "message": "nit: handleGerritConditionTextChanged or autocompleteTextChanged for clarity",
+      "range": {
+        "startLine": 184,
+        "startChar": 10,
+        "endLine": 184,
+        "endChar": 27
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "6cf12674_3bfa5446",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-flows/gr-create-flow.ts",
+              "range": {
+                "startLine": 153,
+                "startChar": 0,
+                "endLine": 154,
+                "endChar": 0
+              },
+              "replacement": "              @text-changed\u003d${this.handleGerritConditionTextChanged}\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-flows/gr-create-flow.ts",
+              "range": {
+                "startLine": 184,
+                "startChar": 0,
+                "endLine": 185,
+                "endChar": 0
+              },
+              "replacement": "  private handleGerritConditionTextChanged(e: ValueChangedEvent) {\n"
+            }
+          ]
+        }
+      ],
+      "revId": "4a3754124f76cf5cfeb9415e6ec11e7e2d2548d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -53,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0faa896e_31e909fb",
+        "filename": "polygerrit-ui/app/elements/change/gr-flows/gr-create-flow.ts",
+        "patchSetId": 21
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-09-11T08:19:50Z",
+      "side": 1,
+      "message": "I think the autocomplete managing fetching of accounts does make sense.\n\nKeeping as is. Happy to refactor more if required.\n\nCurrently the UI is not finalised and I want to avoid over-optimising code.",
+      "parentUuid": "2cad169c_0c81cbf5",
+      "revId": "4a3754124f76cf5cfeb9415e6ec11e7e2d2548d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d2944461_7ba488d4",
@@ -100,6 +118,30 @@
           ]
         }
       ],
+      "revId": "4a3754124f76cf5cfeb9415e6ec11e7e2d2548d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2a3aa966_2eb378c1",
+        "filename": "polygerrit-ui/app/elements/change/gr-flows/gr-create-flow.ts",
+        "patchSetId": 21
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-09-11T08:19:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d2944461_7ba488d4",
+      "range": {
+        "startLine": 184,
+        "startChar": 10,
+        "endLine": 184,
+        "endChar": 27
+      },
       "revId": "4a3754124f76cf5cfeb9415e6ec11e7e2d2548d3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

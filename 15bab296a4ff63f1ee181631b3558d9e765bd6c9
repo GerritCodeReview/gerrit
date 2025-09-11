@@ -281,6 +281,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ac218997_d2dfd2c6",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-09-11T08:19:50Z",
+      "side": 1,
+      "message": "Currently the UI is not finalised and I want to avoid over-polishing it until it stabilises more.",
+      "parentUuid": "1a7890e5_e85df6d3",
+      "range": {
+        "startLine": 220,
+        "startChar": 1,
+        "endLine": 221,
+        "endChar": 59
+      },
+      "revId": "15bab296a4ff63f1ee181631b3558d9e765bd6c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "62108f62_5e465072",

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "22a3e565_3f4d4430",
+        "filename": "java/com/google/gerrit/httpd/ProjectOAuthFilter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-09-11T15:18:01Z",
+      "side": 1,
+      "message": "I\u0027m just leaving this as a note here for potential future follow up.\n\nIt\u0027s a little tricky to follow the different auth cases now. I think it would be easier if we start with `if (hdr !\u003d null) {`, handle the `BEARER` and `BASIC` cases inside that block, then use the `else` for what\u0027s on L143-156 below. You\u0027d have to move L158-172 into a helper method (like `private AuthRequest forBasicOrGitCookie(AuthInfo)`) in order to not repeat that code, but I think that would be simple enough.",
+      "revId": "c75afe7e16e5e878569209b21ce752ca5861160d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

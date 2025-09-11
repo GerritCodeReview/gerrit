@@ -255,6 +255,30 @@
       },
       "revId": "36e81b7c14e6934cb8abe9d44a8af61bdf74f7a3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bc262da0_1b5d51eb",
+        "filename": "polygerrit-ui/app/embed/gr-textarea.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 771,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-09-11T15:48:13Z",
+      "side": 1,
+      "message": "Not quite. If you write a comment in safari, then go back a few words and try to forward a few words, by pressing `option` + `right arrow`, on safark and a version of Gerrit newer than this commit, it doesn\u0027t work for me?",
+      "parentUuid": "c6b5401a_57e52a96",
+      "range": {
+        "startLine": 769,
+        "startChar": 0,
+        "endLine": 771,
+        "endChar": 32
+      },
+      "revId": "36e81b7c14e6934cb8abe9d44a8af61bdf74f7a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

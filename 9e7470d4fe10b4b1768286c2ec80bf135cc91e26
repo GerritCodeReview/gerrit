@@ -16,6 +16,24 @@
       "message": "This could break invalid configs, so let\u0027s add a note.\n\n```suggestion\nRelease-Notes: Schedule configs with invalid time units now cause scheduling failures instead of using a default value\n```",
       "revId": "9e7470d4fe10b4b1768286c2ec80bf135cc91e26",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7680848f_b91b052d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2025-09-11T17:58:03Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "9183f6cb_b97a2e2f",
+      "revId": "9e7470d4fe10b4b1768286c2ec80bf135cc91e26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

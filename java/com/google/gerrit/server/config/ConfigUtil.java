@@ -177,21 +177,8 @@ public class ConfigUtil {
       final long defaultValue,
       final TimeUnit wantUnit) {
     final String valueString = config.getString(section, subsection, setting);
-    if (valueString == null) {
-      return defaultValue;
-    }
-
-    String s = valueString.trim();
-    if (s.length() == 0) {
-      return defaultValue;
-    }
-
-    if (s.startsWith("-") /* negative */) {
-      throw notTimeUnit(section, subsection, setting, valueString);
-    }
-
     try {
-      return getTimeUnit(s, defaultValue, wantUnit);
+      return getTimeUnit(valueString, defaultValue, wantUnit);
     } catch (IllegalArgumentException notTime) {
       throw notTimeUnit(section, subsection, setting, valueString, notTime);
     }
@@ -207,9 +194,22 @@ public class ConfigUtil {
    * @return the setting, or {@code defaultValue} if not set, expressed in {@code units}.
    */
   public static long getTimeUnit(String valueString, long defaultValue, TimeUnit wantUnit) {
+    if (valueString == null) {
+      return defaultValue;
+    }
+
+    String s = valueString.trim();
+    if (s.isEmpty()) {
+      return defaultValue;
+    }
+
+    if (s.startsWith("-") /* negative */) {
+      throw notTimeUnit(valueString);
+    }
+
     Matcher m = Pattern.compile("^(0|[1-9][0-9]*)\\s*(.*)$").matcher(valueString);
     if (!m.matches()) {
-      return defaultValue;
+      throw notTimeUnit(valueString);
     }
 
     String digits = m.group(1);
@@ -526,17 +526,6 @@ public class ConfigUtil {
             + " = "
             + valueString,
         why);
-  }
-
-  private static IllegalArgumentException notTimeUnit(
-      String section, String subsection, String setting, String valueString) {
-    return notTimeUnit(
-        section
-            + (subsection != null ? "." + subsection : "")
-            + "."
-            + setting
-            + " = "
-            + valueString);
   }
 
   private static IllegalArgumentException notTimeUnit(String val) {

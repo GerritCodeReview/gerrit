@@ -360,7 +360,7 @@ export class GrSearchAutocomplete extends LitElement {
             if (aContains === undefined && bContains !== undefined) return 1;
             if (aContains !== undefined && bContains === undefined) return -1;
             if (aContains === bContains) {
-              return a.text!.localeCompare(b.text!);
+              return a.text!.localeCompare(b.text);
             }
             if (aContains === -1) {
               return 1;

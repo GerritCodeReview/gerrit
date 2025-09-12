@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "888ab4f2_39980d89",
+        "filename": "java/com/google/gerrit/server/config/ScheduleConfig.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-09-12T07:31:11Z",
+      "side": 1,
+      "message": "I think we should still cap the delay so that `delay \u003c\u003d interval`. We can ensure that by adding `jitter` to `startTime` between line 298 and 299. Lines 299-302 will ensure that `delay \u003c\u003d interval`.",
+      "revId": "c370dc72799da21e731ada640af12b05c2c60d97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

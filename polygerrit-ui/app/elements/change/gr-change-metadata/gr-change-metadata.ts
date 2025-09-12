@@ -70,10 +70,8 @@ import {
   isDefined,
   ParsedChangeInfo,
 } from '../../../types/types';
-import {
-  AutocompleteQuery,
-  AutocompleteSuggestion,
-} from '../../shared/gr-autocomplete/gr-autocomplete';
+import {AutocompleteQuery} from '../../shared/gr-autocomplete/gr-autocomplete';
+import {AutocompleteSuggestion} from '../../../utils/autocomplete-util';
 import {getRevertCreatedChangeIds} from '../../../utils/message-util';
 import {Interaction} from '../../../constants/reporting';
 import {getApprovalInfo, getCodeReviewLabel} from '../../../utils/label-util';

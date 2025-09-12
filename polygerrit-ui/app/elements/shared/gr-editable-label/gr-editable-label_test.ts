@@ -10,10 +10,8 @@ import {GrEditableLabel} from './gr-editable-label';
 import {queryAndAssert} from '../../../utils/common-util';
 import {GrButton} from '../gr-button/gr-button';
 import {assert, fixture, html} from '@open-wc/testing';
-import {
-  AutocompleteSuggestion,
-  GrAutocomplete,
-} from '../gr-autocomplete/gr-autocomplete';
+import {GrAutocomplete} from '../gr-autocomplete/gr-autocomplete';
+import {AutocompleteSuggestion} from '../../../utils/autocomplete-util';
 import {Key} from '../../../utils/dom-util';
 import {pressKey, waitEventLoop, waitUntil} from '../../../test/test-utils';
 import {MdMenu} from '@material/web/menu/menu';

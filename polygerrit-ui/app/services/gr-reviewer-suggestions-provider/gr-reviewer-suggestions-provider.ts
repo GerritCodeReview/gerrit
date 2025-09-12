@@ -13,7 +13,7 @@ import {
   SuggestedReviewerInfo,
   Suggestion,
 } from '../../types/common';
-import {AutocompleteSuggestion} from '../../elements/shared/gr-autocomplete/gr-autocomplete';
+import {AutocompleteSuggestion} from '../../utils/autocomplete-util';
 import {allSettled, isFulfilled} from '../../utils/async-util';
 import {isDefined, ParsedChangeInfo} from '../../types/types';
 import {

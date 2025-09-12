@@ -6,7 +6,8 @@
 import * as sinon from 'sinon';
 import '../../../test/common-test-setup';
 import './gr-autocomplete';
-import {AutocompleteSuggestion, GrAutocomplete} from './gr-autocomplete';
+import {GrAutocomplete} from './gr-autocomplete';
+import {AutocompleteSuggestion} from '../../../utils/autocomplete-util';
 import {
   assertFails,
   mockPromise,

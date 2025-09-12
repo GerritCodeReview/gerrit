@@ -15,7 +15,7 @@ import '../../shared/gr-autocomplete/gr-autocomplete';
 import {getAppContext} from '../../../services/app-context';
 import {isDefined} from '../../../types/types';
 import {unique} from '../../../utils/common-util';
-import {AutocompleteSuggestion} from '../../shared/gr-autocomplete/gr-autocomplete';
+import {AutocompleteSuggestion} from '../../../utils/autocomplete-util';
 import {when} from 'lit/directives/when.js';
 import {ValueChangedEvent} from '../../../types/events';
 import {classMap} from 'lit/directives/class-map.js';

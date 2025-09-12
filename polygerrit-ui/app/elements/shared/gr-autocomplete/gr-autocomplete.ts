@@ -27,6 +27,7 @@ import {ValueChangedEvent} from '../../../types/events';
 import '@material/web/textfield/outlined-text-field';
 import {MdOutlinedTextField} from '@material/web/textfield/outlined-text-field';
 import {materialStyles} from '../../../styles/gr-material-styles';
+import {AutocompleteSuggestion} from '../../../utils/autocomplete-util';
 
 const TOKENIZE_REGEX = /(?:[^\s"]+|"[^"]*")+/g;
 const DEBOUNCE_WAIT_MS = 200;
@@ -43,13 +44,6 @@ declare global {
     'text-changed': ValueChangedEvent<string>;
     'value-changed': ValueChangedEvent<string>;
   }
-}
-
-export interface AutocompleteSuggestion<T = string> {
-  name?: string;
-  label?: string;
-  value?: T;
-  text?: string;
 }
 
 @customElement('gr-autocomplete')

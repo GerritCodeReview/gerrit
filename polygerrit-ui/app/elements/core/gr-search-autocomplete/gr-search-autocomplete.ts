@@ -7,9 +7,9 @@ import '../../shared/gr-autocomplete/gr-autocomplete';
 import '../../shared/gr-icon/gr-icon';
 import {
   AutocompleteQuery,
-  AutocompleteSuggestion,
   GrAutocomplete,
 } from '../../shared/gr-autocomplete/gr-autocomplete';
+import {AutocompleteSuggestion} from '../../../utils/autocomplete-util';
 import {MergeabilityComputationBehavior} from '../../../constants/constants';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {css, html, LitElement, PropertyValues} from 'lit';

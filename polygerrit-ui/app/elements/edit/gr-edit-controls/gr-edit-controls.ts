@@ -17,9 +17,9 @@ import {
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
 import {
   AutocompleteQuery,
-  AutocompleteSuggestion,
   GrAutocomplete,
 } from '../../shared/gr-autocomplete/gr-autocomplete';
+import {AutocompleteSuggestion} from '../../../utils/autocomplete-util';
 import {getAppContext} from '../../../services/app-context';
 import {fireAlert} from '../../../utils/event-util';
 import {

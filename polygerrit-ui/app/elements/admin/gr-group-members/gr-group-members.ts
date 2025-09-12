@@ -17,10 +17,8 @@ import {
   NumericChangeId,
   ServerInfo,
 } from '../../../types/common';
-import {
-  AutocompleteQuery,
-  AutocompleteSuggestion,
-} from '../../shared/gr-autocomplete/gr-autocomplete';
+import {AutocompleteQuery} from '../../shared/gr-autocomplete/gr-autocomplete';
+import {AutocompleteSuggestion} from '../../../utils/autocomplete-util';
 import {
   fireAlert,
   firePageError,

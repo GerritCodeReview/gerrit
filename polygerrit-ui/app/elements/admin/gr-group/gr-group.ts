@@ -7,10 +7,8 @@ import '../../shared/gr-autocomplete/gr-autocomplete';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-copy-clipboard/gr-copy-clipboard';
 import '../../shared/gr-select/gr-select';
-import {
-  AutocompleteQuery,
-  AutocompleteSuggestion,
-} from '../../shared/gr-autocomplete/gr-autocomplete';
+import {AutocompleteQuery} from '../../shared/gr-autocomplete/gr-autocomplete';
+import {AutocompleteSuggestion} from '../../../utils/autocomplete-util';
 import {GroupId, GroupInfo, GroupName} from '../../../types/common';
 import {fire, firePageError, fireTitleChange} from '../../../utils/event-util';
 import {resolve} from '../../../models/dependency';

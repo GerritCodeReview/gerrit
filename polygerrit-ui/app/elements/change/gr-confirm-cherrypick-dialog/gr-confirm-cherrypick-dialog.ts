@@ -23,9 +23,9 @@ import {
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {
   AutocompleteQuery,
-  AutocompleteSuggestion,
   GrTypedAutocomplete,
 } from '../../shared/gr-autocomplete/gr-autocomplete';
+import {AutocompleteSuggestion} from '../../../utils/autocomplete-util';
 import {
   ChangeStatus,
   HttpMethod,

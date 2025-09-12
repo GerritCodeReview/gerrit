@@ -24,9 +24,9 @@ import {
 } from '../../../types/common';
 import {
   AutocompleteQuery,
-  AutocompleteSuggestion,
   GrAutocomplete,
 } from '../../shared/gr-autocomplete/gr-autocomplete';
+import {AutocompleteSuggestion} from '../../../utils/autocomplete-util';
 import {
   EditablePermissionInfo,
   EditablePermissionRuleInfo,

@@ -16,12 +16,14 @@ import '@material/web/select/outlined-select.js';
 import '@material/web/select/select-option.js';
 import '@material/web/textfield/outlined-text-field.js';
 import {MdOutlinedTextField} from '@material/web/textfield/outlined-text-field';
-import {AutocompleteSuggestion} from '../../shared/gr-autocomplete/gr-autocomplete';
 import {resolve} from '../../../models/dependency';
 import {configModelToken} from '../../../models/config/config-model';
 import {subscribe} from '../../lit/subscription-controller';
 import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
-import {fetchAccountSuggestions} from '../../../utils/account-util';
+import {
+  AutocompleteSuggestion,
+  fetchAccountSuggestions,
+} from '../../../utils/autocomplete-util';
 import {ValueChangedEvent} from '../../../types/events';
 import {SuggestionProvider} from '../../core/gr-search-autocomplete/gr-search-autocomplete';
 

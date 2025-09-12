@@ -8,9 +8,9 @@ import '../../shared/gr-button/gr-button';
 import {customElement, query, state} from 'lit/decorators.js';
 import {
   AutocompleteQuery,
-  AutocompleteSuggestion,
   GrAutocomplete,
 } from '../../shared/gr-autocomplete/gr-autocomplete';
+import {AutocompleteSuggestion} from '../../../utils/autocomplete-util';
 import {assertIsDefined} from '../../../utils/common-util';
 import {ProjectWatchInfo, RepoName} from '../../../types/common';
 import {getAppContext} from '../../../services/app-context';

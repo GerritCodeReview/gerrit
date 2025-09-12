@@ -10,7 +10,6 @@ import {
   GrSearchAutocomplete,
   SuggestionProvider,
 } from '../gr-search-autocomplete/gr-search-autocomplete';
-import {AutocompleteSuggestion} from '../../shared/gr-autocomplete/gr-autocomplete';
 import {getAppContext} from '../../../services/app-context';
 import {html, LitElement} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
@@ -24,7 +23,10 @@ import {
 import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 import {AutocompleteCommitEvent} from '../../../types/events';
 import {Shortcut, ShortcutController} from '../../lit/shortcut-controller';
-import {fetchAccountSuggestions} from '../../../utils/account-util';
+import {
+  AutocompleteSuggestion,
+  fetchAccountSuggestions,
+} from '../../../utils/autocomplete-util';
 
 const MAX_AUTOCOMPLETE_RESULTS = 10;
 

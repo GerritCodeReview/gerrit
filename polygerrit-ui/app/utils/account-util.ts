@@ -32,9 +32,15 @@ import {
 } from './display-name-util';
 import {getApprovalInfo} from './label-util';
 import {ParsedChangeInfo} from '../types/types';
-import {AutocompleteSuggestion} from '../elements/shared/gr-autocomplete/gr-autocomplete';
 
-export const ACCOUNT_TEMPLATE_REGEX = '<GERRIT_ACCOUNT_(\\d+)>';
+export interface AutocompleteSuggestion<T = string> {
+  name?: string;
+  label?: string;
+  value?: T;
+  text?: string;
+}
+
+export const ACCOUNT_TEMPLATE_REGEX = '<GERRIT_ACCOUNT_(d+)>';
 // https://html.spec.whatwg.org/multipage/input.html#valid-e-mail-address
 export const MENTIONS_REGEX =
   /(?:^|\s)@([a-zA-Z0-9.!#$%&'*+=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*)(?=\s+|$)/g;

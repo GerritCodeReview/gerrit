@@ -23,7 +23,9 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
+import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -107,7 +109,10 @@ public class MergeSuperSet {
    */
   public ChangeSet completeChangeSet(Change change, CurrentUser user, boolean includingTopicClosure)
       throws IOException, PermissionBackendException {
-    try {
+    try (TraceTimer timer =
+        TraceContext.newTimer(
+            "MergeSuperSet#completeChangeSet",
+            Metadata.builder().changeId(change.getId().get()).build())) {
       if (orm == null) {
         orm = repoManagerProvider.get();
         closeOrm = true;
@@ -122,7 +127,11 @@ public class MergeSuperSet {
       if (wholeTopicEnabled(cfg) || includingTopicClosure) {
         return completeChangeSetIncludingTopics(changeSet, user);
       }
-      try (TraceContext traceContext = PluginContext.newTrace(mergeSuperSetComputation)) {
+      try (TraceContext traceContext = PluginContext.newTrace(mergeSuperSetComputation);
+          TraceTimer timer2 =
+              TraceContext.newTimer(
+                  "MergeSuperSet#completeWithoutTopic",
+                  Metadata.builder().changeId(change.getId().get()).build())) {
         return mergeSuperSetComputation.get().completeWithoutTopic(orm, changeSet, user);
       }
     } finally {
@@ -148,58 +157,65 @@ public class MergeSuperSet {
   private ChangeSet topicClosure(
       ChangeSet changeSet, CurrentUser user, Set<String> topicsSeen, Set<String> visibleTopicsSeen)
       throws PermissionBackendException {
-    List<ChangeData> visibleChanges = new ArrayList<>();
-    List<ChangeData> nonVisibleChanges = new ArrayList<>();
+    try (TraceTimer timer = TraceContext.newTimer("MergeSuperSet#topicClosure", Metadata.empty())) {
+      List<ChangeData> visibleChanges = new ArrayList<>();
+      List<ChangeData> nonVisibleChanges = new ArrayList<>();
 
-    for (ChangeData cd : changeSet.changes()) {
-      visibleChanges.add(cd);
-      String topic = cd.change().getTopic();
-      if (Strings.isNullOrEmpty(topic) || visibleTopicsSeen.contains(topic)) {
-        continue;
+      for (ChangeData cd : changeSet.changes()) {
+        visibleChanges.add(cd);
+        String topic = cd.change().getTopic();
+        if (Strings.isNullOrEmpty(topic) || visibleTopicsSeen.contains(topic)) {
+          continue;
+        }
+        for (ChangeData topicCd : byTopicOpen(topic)) {
+          if (canRead(user, topicCd)) {
+            visibleChanges.add(topicCd);
+          } else {
+            nonVisibleChanges.add(topicCd);
+          }
+        }
+        topicsSeen.add(topic);
+        visibleTopicsSeen.add(topic);
       }
-      for (ChangeData topicCd : byTopicOpen(topic)) {
-        if (canRead(user, topicCd)) {
-          visibleChanges.add(topicCd);
-        } else {
+      for (ChangeData cd : changeSet.nonVisibleChanges()) {
+        nonVisibleChanges.add(cd);
+        String topic = cd.change().getTopic();
+        if (Strings.isNullOrEmpty(topic) || topicsSeen.contains(topic)) {
+          continue;
+        }
+        for (ChangeData topicCd : byTopicOpen(topic)) {
           nonVisibleChanges.add(topicCd);
         }
+        topicsSeen.add(topic);
       }
-      topicsSeen.add(topic);
-      visibleTopicsSeen.add(topic);
+      return new ChangeSet(visibleChanges, nonVisibleChanges);
     }
-    for (ChangeData cd : changeSet.nonVisibleChanges()) {
-      nonVisibleChanges.add(cd);
-      String topic = cd.change().getTopic();
-      if (Strings.isNullOrEmpty(topic) || topicsSeen.contains(topic)) {
-        continue;
-      }
-      for (ChangeData topicCd : byTopicOpen(topic)) {
-        nonVisibleChanges.add(topicCd);
-      }
-      topicsSeen.add(topic);
-    }
-    return new ChangeSet(visibleChanges, nonVisibleChanges);
   }
 
   private ChangeSet completeChangeSetIncludingTopics(ChangeSet changeSet, CurrentUser user)
       throws IOException, PermissionBackendException {
-    Set<String> topicsSeen = new HashSet<>();
-    Set<String> visibleTopicsSeen = new HashSet<>();
-    int oldSeen;
-    int seen;
+    try (TraceTimer timer =
+        TraceContext.newTimer("MergeSuperSet#completeChangeSetIncludingTopics", Metadata.empty())) {
+      Set<String> topicsSeen = new HashSet<>();
+      Set<String> visibleTopicsSeen = new HashSet<>();
+      int oldSeen;
+      int seen;
 
-    changeSet = topicClosure(changeSet, user, topicsSeen, visibleTopicsSeen);
-    seen = topicsSeen.size() + visibleTopicsSeen.size();
-
-    do {
-      oldSeen = seen;
-      try (TraceContext traceContext = PluginContext.newTrace(mergeSuperSetComputation)) {
-        changeSet = mergeSuperSetComputation.get().completeWithoutTopic(orm, changeSet, user);
-      }
       changeSet = topicClosure(changeSet, user, topicsSeen, visibleTopicsSeen);
       seen = topicsSeen.size() + visibleTopicsSeen.size();
-    } while (seen != oldSeen);
-    return changeSet;
+
+      do {
+        oldSeen = seen;
+        try (TraceContext traceContext = PluginContext.newTrace(mergeSuperSetComputation);
+            TraceTimer timer2 =
+                TraceContext.newTimer("MergeSuperSet#completeWithoutTopic", Metadata.empty())) {
+          changeSet = mergeSuperSetComputation.get().completeWithoutTopic(orm, changeSet, user);
+        }
+        changeSet = topicClosure(changeSet, user, topicsSeen, visibleTopicsSeen);
+        seen = topicsSeen.size() + visibleTopicsSeen.size();
+      } while (seen != oldSeen);
+      return changeSet;
+    }
   }
 
   private List<ChangeData> byTopicOpen(String topic) {

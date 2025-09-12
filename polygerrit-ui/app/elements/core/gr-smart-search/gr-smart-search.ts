@@ -10,7 +10,7 @@ import {
   GrSearchAutocomplete,
   SuggestionProvider,
 } from '../gr-search-autocomplete/gr-search-autocomplete';
-import {AutocompleteSuggestion} from '../../shared/gr-autocomplete/gr-autocomplete';
+import {AutocompleteSuggestion} from '../../../utils/account-util';
 import {getAppContext} from '../../../services/app-context';
 import {html, LitElement} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';

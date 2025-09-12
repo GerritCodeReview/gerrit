@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5979bcab_d0442cd3",
+        "filename": "java/com/google/gerrit/server/config/ScheduleConfig.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2025-09-12T08:07:50Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "2c92e840_7614d159",
+      "revId": "f57f5f89a9b6da60b2a3e4c85b9a30af14972456",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "654d9b8b_50f21730",
@@ -31,6 +49,30 @@
       "writtenOn": "2025-09-12T08:00:23Z",
       "side": 1,
       "message": "```suggestion\n      }\n      delay %\u003d interval;\n```",
+      "range": {
+        "startLine": 304,
+        "startChar": 0,
+        "endLine": 305,
+        "endChar": 7
+      },
+      "revId": "f57f5f89a9b6da60b2a3e4c85b9a30af14972456",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a4c198a0_49b4e042",
+        "filename": "java/com/google/gerrit/server/config/ScheduleConfig.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2025-09-12T08:07:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "654d9b8b_50f21730",
       "range": {
         "startLine": 304,
         "startChar": 0,

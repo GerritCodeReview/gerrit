@@ -81,6 +81,7 @@ public abstract class SshCommand extends BaseCommand {
               Throwable error = null;
               try (RequestStateContext requestStateContext =
                   RequestStateContext.open()
+                      .setPerformanceSummaryProvider(performanceLogContext)
                       .addRequestStateProvider(
                           deadlineCheckerFactory.create(requestInfo, deadline))) {
                 requestListeners.runEach(l -> l.onRequest(requestInfo));

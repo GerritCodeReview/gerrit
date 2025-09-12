@@ -11,5 +11,6 @@ java_library(
         "//lib:guava",
         "//lib/commons:text",
         "//lib/errorprone:annotations",
+        "//lib/flogger:api",
     ],
 )

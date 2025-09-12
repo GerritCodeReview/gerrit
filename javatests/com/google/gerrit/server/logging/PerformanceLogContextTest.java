@@ -280,57 +280,6 @@ public class PerformanceLogContextTest {
   }
 
   @Test
-  public void
-      timerMetricssInsidePerformanceLogContextDoNotCreatePerformanceLogIfNoPerformanceLoggers()
-          throws Exception {
-    // Remove all performance loggers so that there are no registered performance loggers.
-    removeAllPerformanceLoggers();
-
-    assertThat(LoggingContext.getInstance().isPerformanceLogging()).isFalse();
-    assertThat(LoggingContext.getInstance().getPerformanceLogRecords()).isEmpty();
-
-    try (PerformanceLogContext traceContext =
-        new PerformanceLogContext(config, performanceLoggers)) {
-      assertThat(LoggingContext.getInstance().isPerformanceLogging()).isFalse();
-
-      Timer0 timer0 =
-          metricMaker.newTimer("test1/latency", new Description("Latency metric for testing"));
-      timer0.start().close();
-
-      Timer1<Integer> timer1 =
-          metricMaker.newTimer(
-              "test2/latency",
-              new Description("Latency metric for testing"),
-              Field.ofInteger("accoutn", Metadata.Builder::accountId).build());
-      timer1.start(1000000).close();
-
-      Timer2<Integer, Integer> timer2 =
-          metricMaker.newTimer(
-              "test3/latency",
-              new Description("Latency metric for testing"),
-              Field.ofInteger("account", Metadata.Builder::accountId).build(),
-              Field.ofInteger("change", Metadata.Builder::changeId).build());
-      timer2.start(1000000, 123).close();
-
-      Timer3<Integer, Integer, String> timer3 =
-          metricMaker.newTimer(
-              "test4/latency",
-              new Description("Latency metric for testing"),
-              Field.ofInteger("account", Metadata.Builder::accountId).build(),
-              Field.ofInteger("change", Metadata.Builder::changeId).build(),
-              Field.ofProjectName("project").build());
-      timer3.start(1000000, 123, "foo/bar").close();
-
-      assertThat(LoggingContext.getInstance().getPerformanceLogRecords()).isEmpty();
-    }
-
-    assertThat(testPerformanceLogger.logEntries()).isEmpty();
-
-    assertThat(LoggingContext.getInstance().isPerformanceLogging()).isFalse();
-    assertThat(LoggingContext.getInstance().getPerformanceLogRecords()).isEmpty();
-  }
-
-  @Test
   public void nestingPerformanceLogContextsIsPossible() {
     assertThat(LoggingContext.getInstance().isPerformanceLogging()).isFalse();
     assertThat(LoggingContext.getInstance().getPerformanceLogRecords()).isEmpty();

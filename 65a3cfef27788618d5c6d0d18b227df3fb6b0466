@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "38d0bd88_4c975a37",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-09-12T10:18:43Z",
+      "side": 1,
+      "message": "Tested it locally on Chrome/firefox/safari and seems to work. Can still tag people too.\n\nThanks so much!",
+      "revId": "65a3cfef27788618d5c6d0d18b227df3fb6b0466",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

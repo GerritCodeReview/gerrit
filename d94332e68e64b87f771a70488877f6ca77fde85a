@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fab0de32_520035e8",
+        "filename": "javatests/com/google/gerrit/server/config/ScheduleConfigTest.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-09-12T21:13:21Z",
+      "side": 1,
+      "message": "I\u0027m not sure this test ever asserts this. You probably need to add a boolean that tracks if the `actualInitialDelay` ever changes inside the loop, but your random `interval` value defeats that. You might need to move that into a different test or remove it if it\u0027s not helping the assertion.\n\n\nRoughly something like:\n```\nboolean allSameInitialDelay \u003d true;\nlong previousInitialDelay \u003d -1L;\nfor ... {\n  ...\n  long actualInitialDelay \u003d schedule.get().initialDelay();\n  if (previousInitialDelay \u003d\u003d -1L) {\n    previousInitialDelay \u003d actualInitialDelay;\n  } else if (previousInitialDelay !\u003d actualInitialDelay) {\n    allSameInitialDelay \u003d false;\n    break;\n  }\n}\nassertThat(allSameInitialDelay).isFalse();\n```",
+      "revId": "d94332e68e64b87f771a70488877f6ca77fde85a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

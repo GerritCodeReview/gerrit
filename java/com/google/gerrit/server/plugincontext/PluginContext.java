@@ -112,7 +112,8 @@ public class PluginContext<T> {
 
   @Singleton
   public static class PluginMetrics {
-    public static final String PLUGIN_LATENCY_NAME = "plugin/latency";
+    // Keep in sync with PerformanceLogContext.PLUGIN_LATENCY_NAME.
+    private static final String PLUGIN_LATENCY_NAME = "plugin/latency";
 
     public static final PluginMetrics DISABLED_INSTANCE =
         new PluginMetrics(new DisabledMetricMaker());

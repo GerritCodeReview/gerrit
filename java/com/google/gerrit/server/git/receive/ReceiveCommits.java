@@ -749,6 +749,7 @@ class ReceiveCommits {
       Throwable error = null;
       try (RequestStateContext requestStateContext =
           RequestStateContext.open()
+              .setPerformanceSummaryProvider(performanceLogContext)
               .addRequestStateProvider(progress)
               .addRequestStateProvider(
                   deadlineCheckerFactory.create(start, requestInfo, clientProvidedDeadlineValue))) {

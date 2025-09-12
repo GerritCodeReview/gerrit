@@ -809,6 +809,10 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
       return new IsSubmittablePredicate();
     }
 
+    if ("consistent".equalsIgnoreCase(value)) {
+      return new IsConsistentPredicate();
+    }
+
     if ("started".equalsIgnoreCase(value)) {
       checkOperatorAvailable(ChangeField.STARTED_SPEC, "is:started");
       return new BooleanPredicate(ChangeField.STARTED_SPEC);

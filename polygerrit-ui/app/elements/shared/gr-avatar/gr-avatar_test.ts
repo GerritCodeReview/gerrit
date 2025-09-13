@@ -170,6 +170,22 @@ suite('gr-avatar tests', () => {
       );
     });
 
+    test('loads robot avatar for known robot account', async () => {
+      const robotAccount = {
+        ...createAccountWithEmailOnly('treehugger-gerrit@google.com'),
+        avatars: defaultAvatars,
+      };
+      element = await fixture(
+        html`<gr-avatar .account=${robotAccount}></gr-avatar>`
+      );
+
+      assert.isTrue(isVisible(element));
+      assert.equal(
+        element.style.backgroundImage,
+        'url("https://gstatic.com/buganizer/img/v2/gerrit_logo.svg")'
+      );
+    });
+
     test('loads using normal URL when no custom URL sizes match', async () => {
       const accountWithCustomAvatars = {
         ...createAccountWithId(123),

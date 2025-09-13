@@ -3,13 +3,16 @@
  * Copyright 2015 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {getBaseUrl} from '../../../utils/url-util';
-import {AccountInfo} from '../../../types/common';
-import {getAppContext} from '../../../services/app-context';
 import {css, html, LitElement} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
-import {pluginLoaderToken} from '../gr-js-api-interface/gr-plugin-loader';
+
 import {resolve} from '../../../models/dependency';
+import {getAppContext} from '../../../services/app-context';
+import {AccountInfo} from '../../../types/common';
+import {getBaseUrl} from '../../../utils/url-util';
+import {pluginLoaderToken} from '../gr-js-api-interface/gr-plugin-loader';
+
+import {getRobotAvatarUrl} from './robot-avatar-map';
 
 /**
  * The <gr-avatar> component works by updating its own background and visibility
@@ -88,8 +91,15 @@ export class GrAvatar extends LitElement {
     if (!account) {
       return '';
     }
+
+    // Check to see if it is a known robot account with a custom avatar.
+    const robotUrl = getRobotAvatarUrl(account.email);
+    if (robotUrl) {
+      return robotUrl;
+    }
+
     const avatars = account.avatars || [];
-    // if there is no avatar url in account, there is no avatar set on server,
+    // If there is no avatar url in account, there is no avatar set on server,
     // and request /avatar?s will be 404.
     if (avatars.length === 0) {
       return '';

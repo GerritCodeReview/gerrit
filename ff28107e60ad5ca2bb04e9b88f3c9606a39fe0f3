@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5aae000b_08ed0fab",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 46
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-09-13T15:49:31Z",
+      "side": 1,
+      "message": "Just updating the submodule to fix a merge conflict.",
+      "revId": "ff28107e60ad5ca2bb04e9b88f3c9606a39fe0f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

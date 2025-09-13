@@ -50,6 +50,7 @@ const LANGUAGE_MAP = new Map<string, string>([
   ['text/x-fsharp', 'fsharp'],
   ['text/x-gfm', 'markdown'],
   ['text/x-gherkin', 'gherkin'],
+  ['text/x-gn', 'gn'],
   ['text/x-go', 'go'],
   ['text/x-groovy', 'groovy'],
   ['text/x-haml', 'haml'],

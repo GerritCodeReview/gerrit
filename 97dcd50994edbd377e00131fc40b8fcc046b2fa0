@@ -16,6 +16,23 @@
       "message": "Bump :)",
       "revId": "97dcd50994edbd377e00131fc40b8fcc046b2fa0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2fe68101_c4c24a79",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 24
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-09-13T13:24:08Z",
+      "side": 1,
+      "message": "@milutin@google.com oh is it when you click the button, that you can only press it in the middle to trigger the ripple, otherwise it doesn\u0027t work? In the mean time i\u0027ve fixed the issue with the hover and the colour not working for the entire button, only centre. But are you able to look to get this resolved please? Would be great to finally remove polymer.",
+      "revId": "97dcd50994edbd377e00131fc40b8fcc046b2fa0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

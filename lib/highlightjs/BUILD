@@ -7,10 +7,13 @@ package(
     licenses = ["notice"],
 )
 
+exports_files(["gn.js"])
+
 rollup_bundle(
     name = "highlight.min",
     srcs = [
         "@ui_npm//highlight.js",
+        ":gn.js",
         "@ui_npm//highlightjs-closure-templates",
         "@ui_npm//highlightjs-epp",
         "@ui_npm//highlightjs-structured-text",

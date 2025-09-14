@@ -24,6 +24,9 @@ import {
 import {createSearchUrl} from '../../../models/views/search';
 import {modalStyles} from '../../../styles/gr-modal-styles';
 import {createRepoUrl} from '../../../models/views/repo';
+import {userModelToken} from '../../../models/user/user-model';
+import {subscribe} from '../../lit/subscription-controller';
+import {resolve} from '../../../models/dependency';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -56,9 +59,19 @@ export class GrRepoList extends LitElement {
 
   private readonly restApiService = getAppContext().restApiService;
 
-  override async connectedCallback() {
+  private readonly getUserModel = resolve(this, userModelToken);
+
+  constructor() {
+    super();
+    subscribe(
+      this,
+      () => this.getUserModel().capabilities$,
+      x => (this.createNewCapability = x?.createProject ?? false)
+    );
+  }
+
+  override connectedCallback() {
     super.connectedCallback();
-    await this.getCreateRepoCapability();
     fireTitleChange('Repos');
     this.maybeOpenCreateModal(this.params);
   }
@@ -198,20 +211,6 @@ export class GrRepoList extends LitElement {
     if (params?.openCreateModal) {
       this.createModal?.showModal();
     }
-  }
-
-  private async getCreateRepoCapability() {
-    const account = await this.restApiService.getAccount();
-
-    if (!account) return;
-
-    const accountCapabilities =
-      await this.restApiService.getAccountCapabilities(['createProject']);
-    if (accountCapabilities?.createProject) {
-      this.createNewCapability = true;
-    }
-
-    return account;
   }
 
   // private but used in test

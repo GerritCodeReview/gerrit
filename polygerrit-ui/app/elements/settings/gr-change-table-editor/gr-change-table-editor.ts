@@ -15,6 +15,9 @@ import {ColumnNames} from '../../../constants/constants';
 import {subscribe} from '../../lit/subscription-controller';
 import {resolve} from '../../../models/dependency';
 import {configModelToken} from '../../../models/config/config-model';
+import '@material/web/checkbox/checkbox';
+import {materialStyles} from '../../../styles/gr-material-styles';
+import {MdCheckbox} from '@material/web/checkbox/checkbox';
 
 @customElement('gr-change-table-editor')
 export class GrChangeTableEditor extends LitElement {
@@ -36,6 +39,7 @@ export class GrChangeTableEditor extends LitElement {
     return [
       sharedStyles,
       grFormStyles,
+      materialStyles,
       css`
         #changeCols {
           width: auto;
@@ -44,14 +48,7 @@ export class GrChangeTableEditor extends LitElement {
           text-align: center;
         }
         .checkboxContainer {
-          cursor: pointer;
           text-align: center;
-        }
-        .checkboxContainer input {
-          cursor: pointer;
-        }
-        .checkboxContainer:hover {
-          outline: 1px solid var(--border-color);
         }
       `,
     ];
@@ -80,17 +77,13 @@ export class GrChangeTableEditor extends LitElement {
         <tbody>
           <tr>
             <td><label for="numberCheckbox">Number</label></td>
-            <td
-              class="checkboxContainer"
-              @click=${this.handleCheckboxContainerClick}
-            >
-              <input
+            <td class="checkboxContainer">
+              <md-checkbox
                 id="numberCheckbox"
-                type="checkbox"
                 name="number"
-                @click=${this.handleNumberCheckboxClick}
                 ?checked=${!!this.showNumber}
-              />
+                @click=${this.handleNumberCheckboxClick}
+              ></md-checkbox>
             </td>
           </tr>
           ${this.defaultColumns.map(column => this.renderRow(column))}
@@ -102,14 +95,13 @@ export class GrChangeTableEditor extends LitElement {
   renderRow(column: string) {
     return html`<tr>
       <td><label for=${column}>${column}</label></td>
-      <td class="checkboxContainer" @click=${this.handleCheckboxContainerClick}>
-        <input
+      <td class="checkboxContainer">
+        <md-checkbox
           id=${column}
-          type="checkbox"
           name=${column}
-          @click=${this.handleTargetClick}
           ?checked=${!this.computeIsColumnHidden(column)}
-        />
+          @click=${this.handleTargetClick}
+        ></md-checkbox>
       </td>
     </tr>`;
   }
@@ -122,8 +114,8 @@ export class GrChangeTableEditor extends LitElement {
   getDisplayedColumns() {
     if (this.shadowRoot === null) return [];
     return Array.from(
-      this.shadowRoot.querySelectorAll<HTMLInputElement>(
-        '.checkboxContainer input:not([name=number])'
+      this.shadowRoot.querySelectorAll<MdCheckbox>(
+        '.checkboxContainer md-checkbox:not([name=number])'
       )
     )
       .filter(checkbox => checkbox.checked)
@@ -138,24 +130,11 @@ export class GrChangeTableEditor extends LitElement {
   }
 
   /**
-   * Handle a click on a checkbox container and relay the click to the checkbox it
-   * contains.
-   */
-  private handleCheckboxContainerClick(e: MouseEvent) {
-    if (e.target === null) return;
-    const checkbox = (e.target as HTMLElement).querySelector('input');
-    if (!checkbox) {
-      return;
-    }
-    checkbox.click();
-  }
-
-  /**
    * Handle a click on the number checkbox and update the showNumber property
    * accordingly.
    */
   private handleNumberCheckboxClick(e: MouseEvent) {
-    this.showNumber = (e.target as HTMLInputElement).checked;
+    this.showNumber = (e.target as MdCheckbox).checked;
     fire(this, 'show-number-changed', {value: this.showNumber});
   }
 

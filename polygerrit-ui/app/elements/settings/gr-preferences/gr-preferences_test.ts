@@ -173,15 +173,12 @@ suite('gr-preferences tests', () => {
                   rel="noopener noreferrer"
                   target="_blank"
                 >
-                  <gr-icon icon="help" title="read documentation"></gr-icon>
+                  <gr-icon icon="help" title="read documentation"> </gr-icon>
                 </a>
               </div>
               <span class="value">
-                <input
-                  checked=""
-                  id="allowBrowserNotifications"
-                  type="checkbox"
-                />
+                <md-checkbox checked="" id="allowBrowserNotifications">
+                </md-checkbox>
               </span>
             </section>
             <section>
@@ -189,7 +186,7 @@ suite('gr-preferences tests', () => {
                 Show Relative Dates In Changes Table
               </label>
               <span class="value">
-                <input id="relativeDateInChangeTable" type="checkbox" />
+                <md-checkbox id="relativeDateInChangeTable"> </md-checkbox>
               </span>
             </section>
             <section>
@@ -208,7 +205,8 @@ suite('gr-preferences tests', () => {
                 Show size bars in file list
               </label>
               <span class="value">
-                <input checked="" id="showSizeBarsInFileList" type="checkbox" />
+                <md-checkbox checked="" id="showSizeBarsInFileList">
+                </md-checkbox>
               </span>
             </section>
             <section>
@@ -216,7 +214,7 @@ suite('gr-preferences tests', () => {
                 Publish comments on push
               </label>
               <span class="value">
-                <input id="publishCommentsOnPush" type="checkbox" />
+                <md-checkbox id="publishCommentsOnPush"> </md-checkbox>
               </span>
             </section>
             <section>
@@ -224,7 +222,7 @@ suite('gr-preferences tests', () => {
                 Set new changes to "work in progress" by default
               </label>
               <span class="value">
-                <input id="workInProgressByDefault" type="checkbox" />
+                <md-checkbox id="workInProgressByDefault"> </md-checkbox>
               </span>
             </section>
             <section>
@@ -232,7 +230,7 @@ suite('gr-preferences tests', () => {
                 Disable all keyboard shortcuts
               </label>
               <span class="value">
-                <input id="disableKeyboardShortcuts" type="checkbox" />
+                <md-checkbox id="disableKeyboardShortcuts"> </md-checkbox>
               </span>
             </section>
             <section>
@@ -240,7 +238,7 @@ suite('gr-preferences tests', () => {
                 Disable token highlighting on hover
               </label>
               <span class="value">
-                <input id="disableTokenHighlighting" type="checkbox" />
+                <md-checkbox id="disableTokenHighlighting"> </md-checkbox>
               </span>
             </section>
             <section>
@@ -248,7 +246,7 @@ suite('gr-preferences tests', () => {
                 Insert Signed-off-by Footer For Inline Edit Changes
               </label>
               <span class="value">
-                <input id="insertSignedOff" type="checkbox" />
+                <md-checkbox id="insertSignedOff"> </md-checkbox>
               </span>
             </section>
           </div>
@@ -279,14 +277,14 @@ suite('gr-preferences tests', () => {
           </label>
           <a
             href="/Documentation/user-attention-set.html#_browser_notifications"
-            target="_blank"
             rel="noopener noreferrer"
+            target="_blank"
           >
             <gr-icon icon="help" title="read documentation"> </gr-icon>
           </a>
         </div>
         <span class="value">
-          <input checked="" id="allowBrowserNotifications" type="checkbox" />
+          <md-checkbox checked="" id="allowBrowserNotifications"> </md-checkbox>
         </span>
       </section>`
     );

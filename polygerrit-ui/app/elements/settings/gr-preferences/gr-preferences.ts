@@ -30,6 +30,9 @@ import {getDocUrl} from '../../../utils/url-util';
 import {configModelToken} from '../../../models/config/config-model';
 import {SuggestionsProvider} from '../../../api/suggestions';
 import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
+import '@material/web/checkbox/checkbox';
+import {MdCheckbox} from '@material/web/checkbox/checkbox';
+import {materialStyles} from '../../../styles/gr-material-styles';
 
 /**
  * This provides an interface to show settings for a user profile
@@ -51,7 +54,7 @@ export class GrPreferences extends LitElement {
   @query('#emailFormatSelect') emailFormatSelect!: HTMLInputElement;
 
   @query('#allowBrowserNotifications')
-  allowBrowserNotifications?: HTMLInputElement;
+  allowBrowserNotifications?: MdCheckbox;
 
   @query('#allowSuggestCodeWhileCommenting')
   allowSuggestCodeWhileCommenting?: HTMLInputElement;
@@ -63,23 +66,23 @@ export class GrPreferences extends LitElement {
   defaultBaseForMergesSelect!: HTMLInputElement;
 
   @query('#relativeDateInChangeTable')
-  relativeDateInChangeTable!: HTMLInputElement;
+  relativeDateInChangeTable!: MdCheckbox;
 
   @query('#diffViewSelect') diffViewSelect!: HTMLInputElement;
 
-  @query('#showSizeBarsInFileList') showSizeBarsInFileList!: HTMLInputElement;
+  @query('#showSizeBarsInFileList') showSizeBarsInFileList!: MdCheckbox;
 
-  @query('#publishCommentsOnPush') publishCommentsOnPush!: HTMLInputElement;
+  @query('#publishCommentsOnPush') publishCommentsOnPush!: MdCheckbox;
 
-  @query('#workInProgressByDefault') workInProgressByDefault!: HTMLInputElement;
+  @query('#workInProgressByDefault') workInProgressByDefault!: MdCheckbox;
 
   @query('#disableKeyboardShortcuts')
-  disableKeyboardShortcuts!: HTMLInputElement;
+  disableKeyboardShortcuts!: MdCheckbox;
 
   @query('#disableTokenHighlighting')
-  disableTokenHighlighting!: HTMLInputElement;
+  disableTokenHighlighting!: MdCheckbox;
 
-  @query('#insertSignedOff') insertSignedOff!: HTMLInputElement;
+  @query('#insertSignedOff') insertSignedOff!: MdCheckbox;
 
   @state() prefs?: PreferencesInput;
 
@@ -142,6 +145,7 @@ export class GrPreferences extends LitElement {
       sharedStyles,
       menuPageStyles,
       grFormStyles,
+      materialStyles,
       css`
         :host {
           border: none;
@@ -293,16 +297,15 @@ export class GrPreferences extends LitElement {
               >Show Relative Dates In Changes Table</label
             >
             <span class="value">
-              <input
+              <md-checkbox
                 id="relativeDateInChangeTable"
-                type="checkbox"
                 ?checked=${!!this.prefs?.relative_date_in_change_table}
                 @change=${() => {
                   this.prefs!.relative_date_in_change_table =
                     this.relativeDateInChangeTable.checked;
                   this.requestUpdate();
                 }}
-              />
+              ></md-checkbox>
             </span>
           </section>
           <section>
@@ -328,16 +331,15 @@ export class GrPreferences extends LitElement {
               >Show size bars in file list</label
             >
             <span class="value">
-              <input
+              <md-checkbox
                 id="showSizeBarsInFileList"
-                type="checkbox"
                 ?checked=${!!this.prefs?.size_bar_in_change_table}
                 @change=${() => {
                   this.prefs!.size_bar_in_change_table =
                     this.showSizeBarsInFileList.checked;
                   this.requestUpdate();
                 }}
-              />
+              ></md-checkbox>
             </span>
           </section>
           <section>
@@ -345,16 +347,15 @@ export class GrPreferences extends LitElement {
               >Publish comments on push</label
             >
             <span class="value">
-              <input
+              <md-checkbox
                 id="publishCommentsOnPush"
-                type="checkbox"
                 ?checked=${!!this.prefs?.publish_comments_on_push}
                 @change=${() => {
                   this.prefs!.publish_comments_on_push =
                     this.publishCommentsOnPush.checked;
                   this.requestUpdate();
                 }}
-              />
+              ></md-checkbox>
             </span>
           </section>
           <section>
@@ -362,16 +363,15 @@ export class GrPreferences extends LitElement {
               >Set new changes to "work in progress" by default</label
             >
             <span class="value">
-              <input
+              <md-checkbox
                 id="workInProgressByDefault"
-                type="checkbox"
                 ?checked=${!!this.prefs?.work_in_progress_by_default}
                 @change=${() => {
                   this.prefs!.work_in_progress_by_default =
                     this.workInProgressByDefault.checked;
                   this.requestUpdate();
                 }}
-              />
+              ></md-checkbox>
             </span>
           </section>
           <section>
@@ -379,16 +379,15 @@ export class GrPreferences extends LitElement {
               >Disable all keyboard shortcuts</label
             >
             <span class="value">
-              <input
+              <md-checkbox
                 id="disableKeyboardShortcuts"
-                type="checkbox"
                 ?checked=${!!this.prefs?.disable_keyboard_shortcuts}
                 @change=${() => {
                   this.prefs!.disable_keyboard_shortcuts =
                     this.disableKeyboardShortcuts.checked;
                   this.requestUpdate();
                 }}
-              />
+              ></md-checkbox>
             </span>
           </section>
           <section>
@@ -396,16 +395,15 @@ export class GrPreferences extends LitElement {
               >Disable token highlighting on hover</label
             >
             <span class="value">
-              <input
+              <md-checkbox
                 id="disableTokenHighlighting"
-                type="checkbox"
                 ?checked=${!!this.prefs?.disable_token_highlighting}
                 @change=${() => {
                   this.prefs!.disable_token_highlighting =
                     this.disableTokenHighlighting.checked;
                   this.requestUpdate();
                 }}
-              />
+              ></md-checkbox>
             </span>
           </section>
           <section>
@@ -413,15 +411,14 @@ export class GrPreferences extends LitElement {
               Insert Signed-off-by Footer For Inline Edit Changes
             </label>
             <span class="value">
-              <input
+              <md-checkbox
                 id="insertSignedOff"
-                type="checkbox"
                 ?checked=${!!this.prefs?.signed_off_by}
                 @change=${() => {
                   this.prefs!.signed_off_by = this.insertSignedOff.checked;
                   this.requestUpdate();
                 }}
-              />
+              ></md-checkbox>
             </span>
           </section>
         </div>
@@ -464,16 +461,15 @@ export class GrPreferences extends LitElement {
         </a>
       </div>
       <span class="value">
-        <input
+        <md-checkbox
           id="allowBrowserNotifications"
-          type="checkbox"
           ?checked=${!!this.prefs?.allow_browser_notifications}
           @change=${() => {
             this.prefs!.allow_browser_notifications =
               this.allowBrowserNotifications!.checked;
             this.requestUpdate();
           }}
-        />
+        ></md-checkbox>
       </span>
     </section>`;
   }

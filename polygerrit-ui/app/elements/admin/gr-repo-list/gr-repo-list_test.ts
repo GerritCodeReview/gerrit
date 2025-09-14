@@ -70,6 +70,17 @@ suite('gr-repo-list tests', () => {
         element,
         /* HTML */ `
           <gr-list-view>
+            <gr-button
+              aria-disabled="false"
+              id="createChangeButton"
+              link=""
+              primary=""
+              role="button"
+              slot="createNewContainer"
+              tabindex="0"
+            >
+              Create Change
+            </gr-button>
             <table class="genericList" id="list">
               <tbody>
                 <tr class="headerRow">
@@ -91,7 +102,7 @@ suite('gr-repo-list tests', () => {
                     <a href="/admin/repos/test"> test </a>
                   </td>
                   <td class="repositoryBrowser">
-                    <gr-weblink imageAndText></gr-weblink>
+                    <gr-weblink imageandtext=""> </gr-weblink>
                   </td>
                   <td class="changesLink">
                     <a href="/q/project:test"> view all </a>
@@ -104,7 +115,7 @@ suite('gr-repo-list tests', () => {
                     <a href="/admin/repos/test"> test </a>
                   </td>
                   <td class="repositoryBrowser">
-                    <gr-weblink imageAndText></gr-weblink>
+                    <gr-weblink imageandtext=""> </gr-weblink>
                   </td>
                   <td class="changesLink">
                     <a href="/q/project:test"> view all </a>
@@ -117,7 +128,7 @@ suite('gr-repo-list tests', () => {
                     <a href="/admin/repos/test"> test </a>
                   </td>
                   <td class="repositoryBrowser">
-                    <gr-weblink imageAndText></gr-weblink>
+                    <gr-weblink imageandtext=""> </gr-weblink>
                   </td>
                   <td class="changesLink">
                     <a href="/q/project:test"> view all </a>
@@ -130,7 +141,7 @@ suite('gr-repo-list tests', () => {
                     <a href="/admin/repos/test"> test </a>
                   </td>
                   <td class="repositoryBrowser">
-                    <gr-weblink imageAndText></gr-weblink>
+                    <gr-weblink imageandtext=""> </gr-weblink>
                   </td>
                   <td class="changesLink">
                     <a href="/q/project:test"> view all </a>
@@ -143,7 +154,7 @@ suite('gr-repo-list tests', () => {
                     <a href="/admin/repos/test"> test </a>
                   </td>
                   <td class="repositoryBrowser">
-                    <gr-weblink imageAndText></gr-weblink>
+                    <gr-weblink imageandtext=""> </gr-weblink>
                   </td>
                   <td class="changesLink">
                     <a href="/q/project:test"> view all </a>
@@ -156,7 +167,7 @@ suite('gr-repo-list tests', () => {
                     <a href="/admin/repos/test"> test </a>
                   </td>
                   <td class="repositoryBrowser">
-                    <gr-weblink imageAndText></gr-weblink>
+                    <gr-weblink imageandtext=""> </gr-weblink>
                   </td>
                   <td class="changesLink">
                     <a href="/q/project:test"> view all </a>
@@ -169,7 +180,7 @@ suite('gr-repo-list tests', () => {
                     <a href="/admin/repos/test"> test </a>
                   </td>
                   <td class="repositoryBrowser">
-                    <gr-weblink imageAndText></gr-weblink>
+                    <gr-weblink imageandtext=""> </gr-weblink>
                   </td>
                   <td class="changesLink">
                     <a href="/q/project:test"> view all </a>
@@ -182,7 +193,7 @@ suite('gr-repo-list tests', () => {
                     <a href="/admin/repos/test"> test </a>
                   </td>
                   <td class="repositoryBrowser">
-                    <gr-weblink imageAndText></gr-weblink>
+                    <gr-weblink imageandtext=""> </gr-weblink>
                   </td>
                   <td class="changesLink">
                     <a href="/q/project:test"> view all </a>
@@ -195,7 +206,7 @@ suite('gr-repo-list tests', () => {
                     <a href="/admin/repos/test"> test </a>
                   </td>
                   <td class="repositoryBrowser">
-                    <gr-weblink imageAndText></gr-weblink>
+                    <gr-weblink imageandtext=""> </gr-weblink>
                   </td>
                   <td class="changesLink">
                     <a href="/q/project:test"> view all </a>
@@ -208,7 +219,7 @@ suite('gr-repo-list tests', () => {
                     <a href="/admin/repos/test"> test </a>
                   </td>
                   <td class="repositoryBrowser">
-                    <gr-weblink imageAndText></gr-weblink>
+                    <gr-weblink imageandtext=""> </gr-weblink>
                   </td>
                   <td class="changesLink">
                     <a href="/q/project:test"> view all </a>
@@ -221,7 +232,7 @@ suite('gr-repo-list tests', () => {
                     <a href="/admin/repos/test"> test </a>
                   </td>
                   <td class="repositoryBrowser">
-                    <gr-weblink imageAndText></gr-weblink>
+                    <gr-weblink imageandtext=""> </gr-weblink>
                   </td>
                   <td class="changesLink">
                     <a href="/q/project:test"> view all </a>
@@ -234,7 +245,7 @@ suite('gr-repo-list tests', () => {
                     <a href="/admin/repos/test"> test </a>
                   </td>
                   <td class="repositoryBrowser">
-                    <gr-weblink imageAndText></gr-weblink>
+                    <gr-weblink imageandtext=""> </gr-weblink>
                   </td>
                   <td class="changesLink">
                     <a href="/q/project:test"> view all </a>
@@ -247,7 +258,7 @@ suite('gr-repo-list tests', () => {
                     <a href="/admin/repos/test"> test </a>
                   </td>
                   <td class="repositoryBrowser">
-                    <gr-weblink imageAndText></gr-weblink>
+                    <gr-weblink imageandtext=""> </gr-weblink>
                   </td>
                   <td class="changesLink">
                     <a href="/q/project:test"> view all </a>
@@ -260,7 +271,7 @@ suite('gr-repo-list tests', () => {
                     <a href="/admin/repos/test"> test </a>
                   </td>
                   <td class="repositoryBrowser">
-                    <gr-weblink imageAndText></gr-weblink>
+                    <gr-weblink imageandtext=""> </gr-weblink>
                   </td>
                   <td class="changesLink">
                     <a href="/q/project:test"> view all </a>
@@ -273,7 +284,7 @@ suite('gr-repo-list tests', () => {
                     <a href="/admin/repos/test"> test </a>
                   </td>
                   <td class="repositoryBrowser">
-                    <gr-weblink imageAndText></gr-weblink>
+                    <gr-weblink imageandtext=""> </gr-weblink>
                   </td>
                   <td class="changesLink">
                     <a href="/q/project:test"> view all </a>
@@ -286,7 +297,7 @@ suite('gr-repo-list tests', () => {
                     <a href="/admin/repos/test"> test </a>
                   </td>
                   <td class="repositoryBrowser">
-                    <gr-weblink imageAndText></gr-weblink>
+                    <gr-weblink imageandtext=""> </gr-weblink>
                   </td>
                   <td class="changesLink">
                     <a href="/q/project:test"> view all </a>
@@ -299,7 +310,7 @@ suite('gr-repo-list tests', () => {
                     <a href="/admin/repos/test"> test </a>
                   </td>
                   <td class="repositoryBrowser">
-                    <gr-weblink imageAndText></gr-weblink>
+                    <gr-weblink imageandtext=""> </gr-weblink>
                   </td>
                   <td class="changesLink">
                     <a href="/q/project:test"> view all </a>
@@ -312,7 +323,7 @@ suite('gr-repo-list tests', () => {
                     <a href="/admin/repos/test"> test </a>
                   </td>
                   <td class="repositoryBrowser">
-                    <gr-weblink imageAndText></gr-weblink>
+                    <gr-weblink imageandtext=""> </gr-weblink>
                   </td>
                   <td class="changesLink">
                     <a href="/q/project:test"> view all </a>
@@ -325,7 +336,7 @@ suite('gr-repo-list tests', () => {
                     <a href="/admin/repos/test"> test </a>
                   </td>
                   <td class="repositoryBrowser">
-                    <gr-weblink imageAndText></gr-weblink>
+                    <gr-weblink imageandtext=""> </gr-weblink>
                   </td>
                   <td class="changesLink">
                     <a href="/q/project:test"> view all </a>
@@ -338,7 +349,7 @@ suite('gr-repo-list tests', () => {
                     <a href="/admin/repos/test"> test </a>
                   </td>
                   <td class="repositoryBrowser">
-                    <gr-weblink imageAndText></gr-weblink>
+                    <gr-weblink imageandtext=""> </gr-weblink>
                   </td>
                   <td class="changesLink">
                     <a href="/q/project:test"> view all </a>
@@ -351,7 +362,7 @@ suite('gr-repo-list tests', () => {
                     <a href="/admin/repos/test"> test </a>
                   </td>
                   <td class="repositoryBrowser">
-                    <gr-weblink imageAndText></gr-weblink>
+                    <gr-weblink imageandtext=""> </gr-weblink>
                   </td>
                   <td class="changesLink">
                     <a href="/q/project:test"> view all </a>
@@ -364,7 +375,7 @@ suite('gr-repo-list tests', () => {
                     <a href="/admin/repos/test"> test </a>
                   </td>
                   <td class="repositoryBrowser">
-                    <gr-weblink imageAndText></gr-weblink>
+                    <gr-weblink imageandtext=""> </gr-weblink>
                   </td>
                   <td class="changesLink">
                     <a href="/q/project:test"> view all </a>
@@ -377,7 +388,7 @@ suite('gr-repo-list tests', () => {
                     <a href="/admin/repos/test"> test </a>
                   </td>
                   <td class="repositoryBrowser">
-                    <gr-weblink imageAndText></gr-weblink>
+                    <gr-weblink imageandtext=""> </gr-weblink>
                   </td>
                   <td class="changesLink">
                     <a href="/q/project:test"> view all </a>
@@ -390,7 +401,7 @@ suite('gr-repo-list tests', () => {
                     <a href="/admin/repos/test"> test </a>
                   </td>
                   <td class="repositoryBrowser">
-                    <gr-weblink imageAndText></gr-weblink>
+                    <gr-weblink imageandtext=""> </gr-weblink>
                   </td>
                   <td class="changesLink">
                     <a href="/q/project:test"> view all </a>
@@ -403,7 +414,7 @@ suite('gr-repo-list tests', () => {
                     <a href="/admin/repos/test"> test </a>
                   </td>
                   <td class="repositoryBrowser">
-                    <gr-weblink imageAndText></gr-weblink>
+                    <gr-weblink imageandtext=""> </gr-weblink>
                   </td>
                   <td class="changesLink">
                     <a href="/q/project:test"> view all </a>
@@ -414,7 +425,7 @@ suite('gr-repo-list tests', () => {
               </tbody>
             </table>
           </gr-list-view>
-          <dialog id="createModal" tabindex="-1">
+          <dialog id="createRepoModal" tabindex="-1">
             <gr-dialog
               class="confirmDialog"
               confirm-label="Create"
@@ -426,6 +437,28 @@ suite('gr-repo-list tests', () => {
               <div class="main" slot="main">
                 <gr-create-repo-dialog id="createNewModal">
                 </gr-create-repo-dialog>
+              </div>
+            </gr-dialog>
+          </dialog>
+          <dialog id="createModal" tabindex="-1">
+            <gr-dialog confirm-label="Next" disabled="" role="dialog">
+              <div class="header" slot="header">Create change</div>
+              <div class="main" slot="main">
+                <gr-repo-branch-picker> </gr-repo-branch-picker>
+              </div>
+            </gr-dialog>
+          </dialog>
+          <dialog id="createChangeModal" tabindex="-1">
+            <gr-dialog
+              confirm-label="Create"
+              disabled=""
+              id="createChangeDialog"
+              role="dialog"
+            >
+              <div class="header" slot="header">Create Change</div>
+              <div class="main" slot="main">
+                <gr-create-change-dialog id="createNewChangeModal">
+                </gr-create-change-dialog>
               </div>
             </gr-dialog>
           </dialog>
@@ -585,7 +618,7 @@ suite('gr-repo-list tests', () => {
 
     test('handleCreateClicked opens modal', () => {
       const openStub = sinon.stub(
-        queryAndAssert<HTMLDialogElement>(element, '#createModal'),
+        queryAndAssert<HTMLDialogElement>(element, '#createRepoModal'),
         'showModal'
       );
       element.handleCreateClicked();

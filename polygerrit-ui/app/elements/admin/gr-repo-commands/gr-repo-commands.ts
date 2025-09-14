@@ -186,7 +186,6 @@ export class GrRepoCommands extends LitElement {
             <gr-create-change-dialog
               id="createNewChangeModal"
               .repoName=${this.repo}
-              .privateByDefault=${this.repoConfig?.private_by_default}
               @can-create-change=${() => {
                 this.handleCanCreateChange();
               }}

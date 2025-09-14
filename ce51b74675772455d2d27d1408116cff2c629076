@@ -127,6 +127,23 @@
       "message": "Comment removed by: Edwin Kempin; Reason: spam",
       "revId": "ce51b74675772455d2d27d1408116cff2c629076",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb8165f9_d1113d7f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4289757
+      },
+      "writtenOn": "2025-09-14T06:14:46Z",
+      "side": 1,
+      "message": "Owner Giorgi Meskhidze",
+      "revId": "ce51b74675772455d2d27d1408116cff2c629076",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

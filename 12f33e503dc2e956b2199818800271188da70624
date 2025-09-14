@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8c4eeb33_b9af3a4b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-09-14T11:13:14Z",
+      "side": 1,
+      "message": "This issue is happening downstream: https://phabricator.wikimedia.org/T343471",
+      "revId": "12f33e503dc2e956b2199818800271188da70624",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

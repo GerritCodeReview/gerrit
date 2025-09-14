@@ -16,6 +16,23 @@
       "message": "I\u0027m not sure if the button should be to the right of the repo description instead.\n\nAlso i think maybe a create change button should be added at the top of the users dashboard (in the right corner)?\n\nWe should also improve gr-create-destination-dialog so a user can either create the change in the UI (as their first change) or use commands. Would improve the user experience.",
       "revId": "0b551da1086b8d11d208a2f75856d102409440ff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9676488f_6d3da033",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-09-14T19:55:36Z",
+      "side": 1,
+      "message": "I\u0027m not sure if we can make this better. Any ideas @brohlfs@google.com / @milutin@google.com?",
+      "revId": "0b551da1086b8d11d208a2f75856d102409440ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

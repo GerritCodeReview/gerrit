@@ -10,6 +10,7 @@ import {GrEmailEditor} from './gr-email-editor';
 import {spyRestApi, stubRestApi} from '../../../test/test-utils';
 import {assert, fixture, html} from '@open-wc/testing';
 import {EmailAddress} from '../../../api/rest-api';
+import {MdRadio} from '@material/web/radio/radio';
 
 suite('gr-email-editor tests', () => {
   let element: GrEmailEditor;
@@ -49,12 +50,8 @@ suite('gr-email-editor tests', () => {
             <tr>
               <td class="emailColumn">email@one.com</td>
               <td class="preferredControl">
-                <input
-                  class="preferredRadio"
-                  name="preferred"
-                  type="radio"
-                  value="email@one.com"
-                />
+                <md-radio class="preferredRadio" name="preferred" tabindex="-1">
+                </md-radio>
               </td>
               <td>
                 <gr-button
@@ -70,12 +67,13 @@ suite('gr-email-editor tests', () => {
             <tr>
               <td class="emailColumn">email@two.com</td>
               <td class="preferredControl">
-                <input
+                <md-radio
+                  checked=""
                   class="preferredRadio"
                   name="preferred"
-                  type="radio"
-                  value="email@two.com"
-                />
+                  tabindex="0"
+                >
+                </md-radio>
               </td>
               <td>
                 <gr-button
@@ -92,12 +90,8 @@ suite('gr-email-editor tests', () => {
             <tr>
               <td class="emailColumn">email@three.com</td>
               <td class="preferredControl">
-                <input
-                  class="preferredRadio"
-                  name="preferred"
-                  type="radio"
-                  value="email@three.com"
-                />
+                <md-radio class="preferredRadio" name="preferred" tabindex="-1">
+                </md-radio>
               </td>
               <td>
                 <gr-button
@@ -129,25 +123,19 @@ suite('gr-email-editor tests', () => {
 
     assert.equal(rows.length, 3);
 
-    assert.isFalse(
-      (rows[0].querySelector('input[type=radio]') as HTMLInputElement).checked
-    );
+    assert.isFalse((rows[0].querySelector('md-radio') as MdRadio).checked);
     assert.isNotOk(rows[0].querySelector('gr-button')!.disabled);
 
-    assert.isTrue(
-      (rows[1].querySelector('input[type=radio]') as HTMLInputElement).checked
-    );
+    assert.isTrue((rows[1].querySelector('md-radio') as MdRadio).checked);
     assert.isOk(rows[1].querySelector('gr-button')!.disabled);
 
-    assert.isFalse(
-      (rows[2].querySelector('input[type=radio]') as HTMLInputElement).checked
-    );
+    assert.isFalse((rows[2].querySelector('md-radio') as MdRadio).checked);
     assert.isNotOk(rows[2].querySelector('gr-button')!.disabled);
 
     assert.isFalse(hasUnsavedChangesSpy.called);
   });
 
-  test('edit preferred', () => {
+  test('edit preferred', async () => {
     const hasUnsavedChangesSpy = sinon.spy();
     element.addEventListener(
       'has-unsaved-changes-changed',
@@ -156,7 +144,8 @@ suite('gr-email-editor tests', () => {
 
     const radios = element
       .shadowRoot!.querySelector('table')!
-      .querySelectorAll<HTMLInputElement>('input[type=radio]');
+      .querySelectorAll<HTMLInputElement>('md-radio');
+    await element.updateComplete;
 
     assert.isFalse(hasUnsavedChangesSpy.called);
     assert.isNotOk(element.newPreferred);
@@ -167,6 +156,8 @@ suite('gr-email-editor tests', () => {
     assert.isUndefined(element.emails[0].preferred);
 
     radios[0].click();
+
+    await element.updateComplete;
 
     assert.isTrue(hasUnsavedChangesSpy.called);
     assert.isOk(element.newPreferred);
@@ -224,7 +215,8 @@ suite('gr-email-editor tests', () => {
 
     // Delete the first email and set the last as preferred.
     rows[0].querySelector('gr-button')!.click();
-    rows[2].querySelector<HTMLInputElement>('input[type=radio]')!.click();
+    rows[2].querySelector<HTMLInputElement>('md-radio')!.click();
+    await element.updateComplete;
 
     assert.isTrue(hasUnsavedChangesSpy.called);
     assert.isTrue(hasUnsavedChangesSpy.lastCall.args[0].detail.value);

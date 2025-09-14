@@ -100,6 +100,13 @@ export const materialStyles = css`
     --md-sys-color-on-surface-variant: var(--checkbox-on-surface-variant);
     --md-checkbox-container-shape: 0px;
   }
+
+  md-radio {
+    --md-sys-color-primary: var(--radio-primary);
+    --md-sys-color-on-primary: var(--radio-on-primary);
+    --md-sys-color-on-surface: var(--radio-on-surface);
+    --md-sys-color-on-surface-variant: var(--radio-on-surface-variant);
+  }
 `;
 
 const $_documentContainer = document.createElement('template');

@@ -7,7 +7,12 @@ import '../../shared/gr-dialog/gr-dialog';
 import '../../shared/gr-list-view/gr-list-view';
 import '../../shared/gr-weblink/gr-weblink';
 import '../gr-create-repo-dialog/gr-create-repo-dialog';
-import {ProjectInfoWithName, WebLinkInfo} from '../../../types/common';
+import '../gr-create-change-dialog/gr-create-change-dialog';
+import {
+  ProjectInfoWithName,
+  RepoName,
+  WebLinkInfo,
+} from '../../../types/common';
 import {GrCreateRepoDialog} from '../gr-create-repo-dialog/gr-create-repo-dialog';
 import {RepoState} from '../../../constants/constants';
 import {fireTitleChange} from '../../../utils/event-util';
@@ -27,6 +32,8 @@ import {createRepoUrl} from '../../../models/views/repo';
 import {userModelToken} from '../../../models/user/user-model';
 import {subscribe} from '../../lit/subscription-controller';
 import {resolve} from '../../../models/dependency';
+import {assertIsDefined} from '../../../utils/common-util';
+import {GrCreateChangeDialog} from '../gr-create-change-dialog/gr-create-change-dialog';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -39,6 +46,12 @@ export class GrRepoList extends LitElement {
   @query('#createModal') private createModal?: HTMLDialogElement;
 
   @query('#createNewModal') private createNewModal?: GrCreateRepoDialog;
+
+  @query('#createChangeModal')
+  private readonly createChangeModal?: HTMLDialogElement;
+
+  @query('#createNewChangeModal')
+  private readonly createNewChangeModal?: GrCreateChangeDialog;
 
   @property({type: Object})
   params?: AdminViewState;
@@ -57,6 +70,12 @@ export class GrRepoList extends LitElement {
 
   @state() filter = '';
 
+  @state() private loggedIn = false;
+
+  @state() private canCreateChange = false;
+
+  @state() private creatingChange = false;
+
   private readonly restApiService = getAppContext().restApiService;
 
   private readonly getUserModel = resolve(this, userModelToken);
@@ -67,6 +86,11 @@ export class GrRepoList extends LitElement {
       this,
       () => this.getUserModel().capabilities$,
       x => (this.createNewCapability = x?.createProject ?? false)
+    );
+    subscribe(
+      this,
+      () => this.getUserModel().loggedIn$,
+      x => (this.loggedIn = x)
     );
   }
 
@@ -120,6 +144,7 @@ export class GrRepoList extends LitElement {
               <th class="repositoryBrowser topHeader">Repository Browser</th>
               <th class="changesLink topHeader">Changes</th>
               <th class="topHeader readOnly">Read only</th>
+              <th class="createChange topHeader"></th>
               <th class="description topHeader">Repository Description</th>
             </tr>
             <tr
@@ -152,6 +177,29 @@ export class GrRepoList extends LitElement {
           </div>
         </gr-dialog>
       </dialog>
+      <dialog id="createChangeModal" tabindex="-1">
+        <gr-dialog
+          id="createChangeDialog"
+          confirm-label="Create"
+          ?disabled=${!this.canCreateChange}
+          @confirm=${() => {
+            this.handleCreateChange();
+          }}
+          @cancel=${() => {
+            this.handleCloseCreateChange();
+          }}
+        >
+          <div class="header" slot="header">Create Change</div>
+          <div class="main" slot="main">
+            <gr-create-change-dialog
+              id="createNewChangeModal"
+              @can-create-change=${() => {
+                this.handleCanCreateChange();
+              }}
+            ></gr-create-change-dialog>
+          </div>
+        </gr-dialog>
+      </dialog>
     `;
   }
 
@@ -172,6 +220,19 @@ export class GrRepoList extends LitElement {
         </td>
         <td class="readOnly">
           ${item.state === RepoState.READ_ONLY ? 'Y' : ''}
+        </td>
+        <td class="createChange">
+          <gr-button
+            class="createChangeButton"
+            ?hidden=${!this.loggedIn}
+            ?loading=${this.creatingChange}
+            link
+            @click=${() => {
+              this.createNewChange(item.name);
+            }}
+          >
+            Create Change
+          </gr-button>
         </td>
         <td class="description">${item.description}</td>
       </tr>
@@ -266,5 +327,32 @@ export class GrRepoList extends LitElement {
   private handleNewRepoName() {
     if (!this.createNewModal) return;
     this.newRepoName = this.createNewModal.nameChanged;
+  }
+
+  private createNewChange(repoName: RepoName) {
+    assertIsDefined(this.createChangeModal, 'createChangeModal');
+    assertIsDefined(this.createNewChangeModal, 'createNewChangeModal');
+    this.createNewChangeModal.repoName = repoName;
+    this.createChangeModal.showModal();
+  }
+
+  private handleCreateChange() {
+    assertIsDefined(this.createNewChangeModal, 'createNewChangeModal');
+    this.creatingChange = true;
+    this.createNewChangeModal.handleCreateChange().finally(() => {
+      this.creatingChange = false;
+    });
+    this.handleCloseCreateChange();
+  }
+
+  private handleCloseCreateChange() {
+    assertIsDefined(this.createChangeModal, 'createChangeModal');
+    this.createChangeModal.close();
+  }
+
+  private handleCanCreateChange() {
+    assertIsDefined(this.createNewChangeModal, 'createNewChangeModal');
+    this.canCreateChange =
+      !!this.createNewChangeModal.branch && !!this.createNewChangeModal.subject;
   }
 }

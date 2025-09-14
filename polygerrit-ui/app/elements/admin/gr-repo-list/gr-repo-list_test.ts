@@ -79,6 +79,7 @@ suite('gr-repo-list tests', () => {
                   </th>
                   <th class="changesLink topHeader">Changes</th>
                   <th class="readOnly topHeader">Read only</th>
+                  <th class="createChange topHeader"></th>
                   <th class="description topHeader">Repository Description</th>
                 </tr>
                 <tr class="loadingMsg" id="loading">
@@ -91,12 +92,23 @@ suite('gr-repo-list tests', () => {
                     <a href="/admin/repos/test"> test </a>
                   </td>
                   <td class="repositoryBrowser">
-                    <gr-weblink imageAndText></gr-weblink>
+                    <gr-weblink imageandtext=""> </gr-weblink>
                   </td>
                   <td class="changesLink">
                     <a href="/q/project:test"> view all </a>
                   </td>
                   <td class="readOnly"></td>
+                  <td class="createChange">
+                    <gr-button
+                      aria-disabled="false"
+                      class="createChangeButton"
+                      link=""
+                      role="button"
+                      tabindex="0"
+                    >
+                      Create Change
+                    </gr-button>
+                  </td>
                   <td class="description"></td>
                 </tr>
                 <tr class="table">
@@ -104,12 +116,23 @@ suite('gr-repo-list tests', () => {
                     <a href="/admin/repos/test"> test </a>
                   </td>
                   <td class="repositoryBrowser">
-                    <gr-weblink imageAndText></gr-weblink>
+                    <gr-weblink imageandtext=""> </gr-weblink>
                   </td>
                   <td class="changesLink">
                     <a href="/q/project:test"> view all </a>
                   </td>
                   <td class="readOnly"></td>
+                  <td class="createChange">
+                    <gr-button
+                      aria-disabled="false"
+                      class="createChangeButton"
+                      link=""
+                      role="button"
+                      tabindex="0"
+                    >
+                      Create Change
+                    </gr-button>
+                  </td>
                   <td class="description"></td>
                 </tr>
                 <tr class="table">
@@ -117,12 +140,23 @@ suite('gr-repo-list tests', () => {
                     <a href="/admin/repos/test"> test </a>
                   </td>
                   <td class="repositoryBrowser">
-                    <gr-weblink imageAndText></gr-weblink>
+                    <gr-weblink imageandtext=""> </gr-weblink>
                   </td>
                   <td class="changesLink">
                     <a href="/q/project:test"> view all </a>
                   </td>
                   <td class="readOnly"></td>
+                  <td class="createChange">
+                    <gr-button
+                      aria-disabled="false"
+                      class="createChangeButton"
+                      link=""
+                      role="button"
+                      tabindex="0"
+                    >
+                      Create Change
+                    </gr-button>
+                  </td>
                   <td class="description"></td>
                 </tr>
                 <tr class="table">
@@ -130,12 +164,23 @@ suite('gr-repo-list tests', () => {
                     <a href="/admin/repos/test"> test </a>
                   </td>
                   <td class="repositoryBrowser">
-                    <gr-weblink imageAndText></gr-weblink>
+                    <gr-weblink imageandtext=""> </gr-weblink>
                   </td>
                   <td class="changesLink">
                     <a href="/q/project:test"> view all </a>
                   </td>
                   <td class="readOnly"></td>
+                  <td class="createChange">
+                    <gr-button
+                      aria-disabled="false"
+                      class="createChangeButton"
+                      link=""
+                      role="button"
+                      tabindex="0"
+                    >
+                      Create Change
+                    </gr-button>
+                  </td>
                   <td class="description"></td>
                 </tr>
                 <tr class="table">
@@ -143,12 +188,23 @@ suite('gr-repo-list tests', () => {
                     <a href="/admin/repos/test"> test </a>
                   </td>
                   <td class="repositoryBrowser">
-                    <gr-weblink imageAndText></gr-weblink>
+                    <gr-weblink imageandtext=""> </gr-weblink>
                   </td>
                   <td class="changesLink">
                     <a href="/q/project:test"> view all </a>
                   </td>
                   <td class="readOnly"></td>
+                  <td class="createChange">
+                    <gr-button
+                      aria-disabled="false"
+                      class="createChangeButton"
+                      link=""
+                      role="button"
+                      tabindex="0"
+                    >
+                      Create Change
+                    </gr-button>
+                  </td>
                   <td class="description"></td>
                 </tr>
                 <tr class="table">
@@ -156,12 +212,23 @@ suite('gr-repo-list tests', () => {
                     <a href="/admin/repos/test"> test </a>
                   </td>
                   <td class="repositoryBrowser">
-                    <gr-weblink imageAndText></gr-weblink>
+                    <gr-weblink imageandtext=""> </gr-weblink>
                   </td>
                   <td class="changesLink">
                     <a href="/q/project:test"> view all </a>
                   </td>
                   <td class="readOnly"></td>
+                  <td class="createChange">
+                    <gr-button
+                      aria-disabled="false"
+                      class="createChangeButton"
+                      link=""
+                      role="button"
+                      tabindex="0"
+                    >
+                      Create Change
+                    </gr-button>
+                  </td>
                   <td class="description"></td>
                 </tr>
                 <tr class="table">
@@ -169,12 +236,23 @@ suite('gr-repo-list tests', () => {
                     <a href="/admin/repos/test"> test </a>
                   </td>
                   <td class="repositoryBrowser">
-                    <gr-weblink imageAndText></gr-weblink>
+                    <gr-weblink imageandtext=""> </gr-weblink>
                   </td>
                   <td class="changesLink">
                     <a href="/q/project:test"> view all </a>
                   </td>
                   <td class="readOnly"></td>
+                  <td class="createChange">
+                    <gr-button
+                      aria-disabled="false"
+                      class="createChangeButton"
+                      link=""
+                      role="button"
+                      tabindex="0"
+                    >
+                      Create Change
+                    </gr-button>
+                  </td>
                   <td class="description"></td>
                 </tr>
                 <tr class="table">
@@ -182,12 +260,23 @@ suite('gr-repo-list tests', () => {
                     <a href="/admin/repos/test"> test </a>
                   </td>
                   <td class="repositoryBrowser">
-                    <gr-weblink imageAndText></gr-weblink>
+                    <gr-weblink imageandtext=""> </gr-weblink>
                   </td>
                   <td class="changesLink">
                     <a href="/q/project:test"> view all </a>
                   </td>
                   <td class="readOnly"></td>
+                  <td class="createChange">
+                    <gr-button
+                      aria-disabled="false"
+                      class="createChangeButton"
+                      link=""
+                      role="button"
+                      tabindex="0"
+                    >
+                      Create Change
+                    </gr-button>
+                  </td>
                   <td class="description"></td>
                 </tr>
                 <tr class="table">
@@ -195,12 +284,23 @@ suite('gr-repo-list tests', () => {
                     <a href="/admin/repos/test"> test </a>
                   </td>
                   <td class="repositoryBrowser">
-                    <gr-weblink imageAndText></gr-weblink>
+                    <gr-weblink imageandtext=""> </gr-weblink>
                   </td>
                   <td class="changesLink">
                     <a href="/q/project:test"> view all </a>
                   </td>
                   <td class="readOnly"></td>
+                  <td class="createChange">
+                    <gr-button
+                      aria-disabled="false"
+                      class="createChangeButton"
+                      link=""
+                      role="button"
+                      tabindex="0"
+                    >
+                      Create Change
+                    </gr-button>
+                  </td>
                   <td class="description"></td>
                 </tr>
                 <tr class="table">
@@ -208,12 +308,23 @@ suite('gr-repo-list tests', () => {
                     <a href="/admin/repos/test"> test </a>
                   </td>
                   <td class="repositoryBrowser">
-                    <gr-weblink imageAndText></gr-weblink>
+                    <gr-weblink imageandtext=""> </gr-weblink>
                   </td>
                   <td class="changesLink">
                     <a href="/q/project:test"> view all </a>
                   </td>
                   <td class="readOnly"></td>
+                  <td class="createChange">
+                    <gr-button
+                      aria-disabled="false"
+                      class="createChangeButton"
+                      link=""
+                      role="button"
+                      tabindex="0"
+                    >
+                      Create Change
+                    </gr-button>
+                  </td>
                   <td class="description"></td>
                 </tr>
                 <tr class="table">
@@ -221,12 +332,23 @@ suite('gr-repo-list tests', () => {
                     <a href="/admin/repos/test"> test </a>
                   </td>
                   <td class="repositoryBrowser">
-                    <gr-weblink imageAndText></gr-weblink>
+                    <gr-weblink imageandtext=""> </gr-weblink>
                   </td>
                   <td class="changesLink">
                     <a href="/q/project:test"> view all </a>
                   </td>
                   <td class="readOnly"></td>
+                  <td class="createChange">
+                    <gr-button
+                      aria-disabled="false"
+                      class="createChangeButton"
+                      link=""
+                      role="button"
+                      tabindex="0"
+                    >
+                      Create Change
+                    </gr-button>
+                  </td>
                   <td class="description"></td>
                 </tr>
                 <tr class="table">
@@ -234,12 +356,23 @@ suite('gr-repo-list tests', () => {
                     <a href="/admin/repos/test"> test </a>
                   </td>
                   <td class="repositoryBrowser">
-                    <gr-weblink imageAndText></gr-weblink>
+                    <gr-weblink imageandtext=""> </gr-weblink>
                   </td>
                   <td class="changesLink">
                     <a href="/q/project:test"> view all </a>
                   </td>
                   <td class="readOnly"></td>
+                  <td class="createChange">
+                    <gr-button
+                      aria-disabled="false"
+                      class="createChangeButton"
+                      link=""
+                      role="button"
+                      tabindex="0"
+                    >
+                      Create Change
+                    </gr-button>
+                  </td>
                   <td class="description"></td>
                 </tr>
                 <tr class="table">
@@ -247,12 +380,23 @@ suite('gr-repo-list tests', () => {
                     <a href="/admin/repos/test"> test </a>
                   </td>
                   <td class="repositoryBrowser">
-                    <gr-weblink imageAndText></gr-weblink>
+                    <gr-weblink imageandtext=""> </gr-weblink>
                   </td>
                   <td class="changesLink">
                     <a href="/q/project:test"> view all </a>
                   </td>
                   <td class="readOnly"></td>
+                  <td class="createChange">
+                    <gr-button
+                      aria-disabled="false"
+                      class="createChangeButton"
+                      link=""
+                      role="button"
+                      tabindex="0"
+                    >
+                      Create Change
+                    </gr-button>
+                  </td>
                   <td class="description"></td>
                 </tr>
                 <tr class="table">
@@ -260,12 +404,23 @@ suite('gr-repo-list tests', () => {
                     <a href="/admin/repos/test"> test </a>
                   </td>
                   <td class="repositoryBrowser">
-                    <gr-weblink imageAndText></gr-weblink>
+                    <gr-weblink imageandtext=""> </gr-weblink>
                   </td>
                   <td class="changesLink">
                     <a href="/q/project:test"> view all </a>
                   </td>
                   <td class="readOnly"></td>
+                  <td class="createChange">
+                    <gr-button
+                      aria-disabled="false"
+                      class="createChangeButton"
+                      link=""
+                      role="button"
+                      tabindex="0"
+                    >
+                      Create Change
+                    </gr-button>
+                  </td>
                   <td class="description"></td>
                 </tr>
                 <tr class="table">
@@ -273,12 +428,23 @@ suite('gr-repo-list tests', () => {
                     <a href="/admin/repos/test"> test </a>
                   </td>
                   <td class="repositoryBrowser">
-                    <gr-weblink imageAndText></gr-weblink>
+                    <gr-weblink imageandtext=""> </gr-weblink>
                   </td>
                   <td class="changesLink">
                     <a href="/q/project:test"> view all </a>
                   </td>
                   <td class="readOnly"></td>
+                  <td class="createChange">
+                    <gr-button
+                      aria-disabled="false"
+                      class="createChangeButton"
+                      link=""
+                      role="button"
+                      tabindex="0"
+                    >
+                      Create Change
+                    </gr-button>
+                  </td>
                   <td class="description"></td>
                 </tr>
                 <tr class="table">
@@ -286,12 +452,23 @@ suite('gr-repo-list tests', () => {
                     <a href="/admin/repos/test"> test </a>
                   </td>
                   <td class="repositoryBrowser">
-                    <gr-weblink imageAndText></gr-weblink>
+                    <gr-weblink imageandtext=""> </gr-weblink>
                   </td>
                   <td class="changesLink">
                     <a href="/q/project:test"> view all </a>
                   </td>
                   <td class="readOnly"></td>
+                  <td class="createChange">
+                    <gr-button
+                      aria-disabled="false"
+                      class="createChangeButton"
+                      link=""
+                      role="button"
+                      tabindex="0"
+                    >
+                      Create Change
+                    </gr-button>
+                  </td>
                   <td class="description"></td>
                 </tr>
                 <tr class="table">
@@ -299,12 +476,23 @@ suite('gr-repo-list tests', () => {
                     <a href="/admin/repos/test"> test </a>
                   </td>
                   <td class="repositoryBrowser">
-                    <gr-weblink imageAndText></gr-weblink>
+                    <gr-weblink imageandtext=""> </gr-weblink>
                   </td>
                   <td class="changesLink">
                     <a href="/q/project:test"> view all </a>
                   </td>
                   <td class="readOnly"></td>
+                  <td class="createChange">
+                    <gr-button
+                      aria-disabled="false"
+                      class="createChangeButton"
+                      link=""
+                      role="button"
+                      tabindex="0"
+                    >
+                      Create Change
+                    </gr-button>
+                  </td>
                   <td class="description"></td>
                 </tr>
                 <tr class="table">
@@ -312,12 +500,23 @@ suite('gr-repo-list tests', () => {
                     <a href="/admin/repos/test"> test </a>
                   </td>
                   <td class="repositoryBrowser">
-                    <gr-weblink imageAndText></gr-weblink>
+                    <gr-weblink imageandtext=""> </gr-weblink>
                   </td>
                   <td class="changesLink">
                     <a href="/q/project:test"> view all </a>
                   </td>
                   <td class="readOnly"></td>
+                  <td class="createChange">
+                    <gr-button
+                      aria-disabled="false"
+                      class="createChangeButton"
+                      link=""
+                      role="button"
+                      tabindex="0"
+                    >
+                      Create Change
+                    </gr-button>
+                  </td>
                   <td class="description"></td>
                 </tr>
                 <tr class="table">
@@ -325,12 +524,23 @@ suite('gr-repo-list tests', () => {
                     <a href="/admin/repos/test"> test </a>
                   </td>
                   <td class="repositoryBrowser">
-                    <gr-weblink imageAndText></gr-weblink>
+                    <gr-weblink imageandtext=""> </gr-weblink>
                   </td>
                   <td class="changesLink">
                     <a href="/q/project:test"> view all </a>
                   </td>
                   <td class="readOnly"></td>
+                  <td class="createChange">
+                    <gr-button
+                      aria-disabled="false"
+                      class="createChangeButton"
+                      link=""
+                      role="button"
+                      tabindex="0"
+                    >
+                      Create Change
+                    </gr-button>
+                  </td>
                   <td class="description"></td>
                 </tr>
                 <tr class="table">
@@ -338,12 +548,23 @@ suite('gr-repo-list tests', () => {
                     <a href="/admin/repos/test"> test </a>
                   </td>
                   <td class="repositoryBrowser">
-                    <gr-weblink imageAndText></gr-weblink>
+                    <gr-weblink imageandtext=""> </gr-weblink>
                   </td>
                   <td class="changesLink">
                     <a href="/q/project:test"> view all </a>
                   </td>
                   <td class="readOnly"></td>
+                  <td class="createChange">
+                    <gr-button
+                      aria-disabled="false"
+                      class="createChangeButton"
+                      link=""
+                      role="button"
+                      tabindex="0"
+                    >
+                      Create Change
+                    </gr-button>
+                  </td>
                   <td class="description"></td>
                 </tr>
                 <tr class="table">
@@ -351,12 +572,23 @@ suite('gr-repo-list tests', () => {
                     <a href="/admin/repos/test"> test </a>
                   </td>
                   <td class="repositoryBrowser">
-                    <gr-weblink imageAndText></gr-weblink>
+                    <gr-weblink imageandtext=""> </gr-weblink>
                   </td>
                   <td class="changesLink">
                     <a href="/q/project:test"> view all </a>
                   </td>
                   <td class="readOnly"></td>
+                  <td class="createChange">
+                    <gr-button
+                      aria-disabled="false"
+                      class="createChangeButton"
+                      link=""
+                      role="button"
+                      tabindex="0"
+                    >
+                      Create Change
+                    </gr-button>
+                  </td>
                   <td class="description"></td>
                 </tr>
                 <tr class="table">
@@ -364,12 +596,23 @@ suite('gr-repo-list tests', () => {
                     <a href="/admin/repos/test"> test </a>
                   </td>
                   <td class="repositoryBrowser">
-                    <gr-weblink imageAndText></gr-weblink>
+                    <gr-weblink imageandtext=""> </gr-weblink>
                   </td>
                   <td class="changesLink">
                     <a href="/q/project:test"> view all </a>
                   </td>
                   <td class="readOnly"></td>
+                  <td class="createChange">
+                    <gr-button
+                      aria-disabled="false"
+                      class="createChangeButton"
+                      link=""
+                      role="button"
+                      tabindex="0"
+                    >
+                      Create Change
+                    </gr-button>
+                  </td>
                   <td class="description"></td>
                 </tr>
                 <tr class="table">
@@ -377,12 +620,23 @@ suite('gr-repo-list tests', () => {
                     <a href="/admin/repos/test"> test </a>
                   </td>
                   <td class="repositoryBrowser">
-                    <gr-weblink imageAndText></gr-weblink>
+                    <gr-weblink imageandtext=""> </gr-weblink>
                   </td>
                   <td class="changesLink">
                     <a href="/q/project:test"> view all </a>
                   </td>
                   <td class="readOnly"></td>
+                  <td class="createChange">
+                    <gr-button
+                      aria-disabled="false"
+                      class="createChangeButton"
+                      link=""
+                      role="button"
+                      tabindex="0"
+                    >
+                      Create Change
+                    </gr-button>
+                  </td>
                   <td class="description"></td>
                 </tr>
                 <tr class="table">
@@ -390,12 +644,23 @@ suite('gr-repo-list tests', () => {
                     <a href="/admin/repos/test"> test </a>
                   </td>
                   <td class="repositoryBrowser">
-                    <gr-weblink imageAndText></gr-weblink>
+                    <gr-weblink imageandtext=""> </gr-weblink>
                   </td>
                   <td class="changesLink">
                     <a href="/q/project:test"> view all </a>
                   </td>
                   <td class="readOnly"></td>
+                  <td class="createChange">
+                    <gr-button
+                      aria-disabled="false"
+                      class="createChangeButton"
+                      link=""
+                      role="button"
+                      tabindex="0"
+                    >
+                      Create Change
+                    </gr-button>
+                  </td>
                   <td class="description"></td>
                 </tr>
                 <tr class="table">
@@ -403,12 +668,23 @@ suite('gr-repo-list tests', () => {
                     <a href="/admin/repos/test"> test </a>
                   </td>
                   <td class="repositoryBrowser">
-                    <gr-weblink imageAndText></gr-weblink>
+                    <gr-weblink imageandtext=""> </gr-weblink>
                   </td>
                   <td class="changesLink">
                     <a href="/q/project:test"> view all </a>
                   </td>
                   <td class="readOnly"></td>
+                  <td class="createChange">
+                    <gr-button
+                      aria-disabled="false"
+                      class="createChangeButton"
+                      link=""
+                      role="button"
+                      tabindex="0"
+                    >
+                      Create Change
+                    </gr-button>
+                  </td>
                   <td class="description"></td>
                 </tr>
               </tbody>
@@ -426,6 +702,20 @@ suite('gr-repo-list tests', () => {
               <div class="main" slot="main">
                 <gr-create-repo-dialog id="createNewModal">
                 </gr-create-repo-dialog>
+              </div>
+            </gr-dialog>
+          </dialog>
+          <dialog id="createChangeModal" tabindex="-1">
+            <gr-dialog
+              confirm-label="Create"
+              disabled=""
+              id="createChangeDialog"
+              role="dialog"
+            >
+              <div class="header" slot="header">Create Change</div>
+              <div class="main" slot="main">
+                <gr-create-change-dialog id="createNewChangeModal">
+                </gr-create-change-dialog>
               </div>
             </gr-dialog>
           </dialog>

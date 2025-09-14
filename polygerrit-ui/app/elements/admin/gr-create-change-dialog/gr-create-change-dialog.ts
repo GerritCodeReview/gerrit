@@ -34,6 +34,8 @@ import {branchName} from '../../../utils/patch-set-util';
 import {GrAutogrowTextarea} from '../../../api/embed';
 import '@material/web/textfield/outlined-text-field';
 import {materialStyles} from '../../../styles/gr-material-styles';
+import '@material/web/checkbox/checkbox';
+import {MdCheckbox} from '@material/web/checkbox/checkbox';
 
 const SUGGESTIONS_LIMIT = 15;
 
@@ -49,7 +51,7 @@ declare global {
 @customElement('gr-create-change-dialog')
 export class GrCreateChangeDialog extends LitElement {
   // private but used in test
-  @query('#privateChangeCheckBox') privateChangeCheckBox!: HTMLInputElement;
+  @query('#privateChangeCheckBox') privateChangeCheckBox!: MdCheckbox;
 
   @property({type: String})
   repoName?: RepoName;
@@ -206,11 +208,10 @@ export class GrCreateChangeDialog extends LitElement {
             >Private change</label
           >
           <span class="value">
-            <input
-              type="checkbox"
+            <md-checkbox
               id="privateChangeCheckBox"
               ?checked=${this.formatPrivateByDefaultBoolean()}
-            />
+            ></md-checkbox>
           </span>
         </section>
       </div>

@@ -49,9 +49,9 @@ suite('gr-diff-preferences tests', () => {
   test('renders', () => {
     assert.shadowDom.equal(
       element,
-      /* HTML */ ` <div class="gr-form-styles" id="diffPreferences">
+      /* HTML */ `<div class="gr-form-styles" id="diffPreferences">
         <section>
-          <label class="title" for="contextLineSelect">Context</label>
+          <label class="title" for="contextLineSelect"> Context </label>
           <span class="value">
             <gr-select id="contextSelect">
               <select id="contextLineSelect">
@@ -67,13 +67,13 @@ suite('gr-diff-preferences tests', () => {
           </span>
         </section>
         <section>
-          <label class="title" for="lineWrappingInput">Fit to screen</label>
+          <label class="title" for="lineWrappingInput"> Fit to screen </label>
           <span class="value">
-            <input id="lineWrappingInput" type="checkbox" />
+            <md-checkbox id="lineWrappingInput"> </md-checkbox>
           </span>
         </section>
         <section>
-          <label class="title" for="columnsInput">Diff width</label>
+          <label class="title" for="columnsInput"> Diff width </label>
           <span class="value">
             <md-outlined-text-field
               autocomplete=""
@@ -87,7 +87,7 @@ suite('gr-diff-preferences tests', () => {
           </span>
         </section>
         <section>
-          <label class="title" for="tabSizeInput">Tab width</label>
+          <label class="title" for="tabSizeInput"> Tab width </label>
           <span class="value">
             <md-outlined-text-field
               autocomplete=""
@@ -101,7 +101,7 @@ suite('gr-diff-preferences tests', () => {
           </span>
         </section>
         <section>
-          <label class="title" for="fontSizeInput">Font size</label>
+          <label class="title" for="fontSizeInput"> Font size </label>
           <span class="value">
             <md-outlined-text-field
               autocomplete=""
@@ -115,9 +115,9 @@ suite('gr-diff-preferences tests', () => {
           </span>
         </section>
         <section>
-          <label class="title" for="showTabsInput">Show tabs</label>
+          <label class="title" for="showTabsInput"> Show tabs </label>
           <span class="value">
-            <input checked="" id="showTabsInput" type="checkbox" />
+            <md-checkbox checked="" id="showTabsInput"> </md-checkbox>
           </span>
         </section>
         <section>
@@ -125,11 +125,8 @@ suite('gr-diff-preferences tests', () => {
             Show trailing whitespace
           </label>
           <span class="value">
-            <input
-              checked=""
-              id="showTrailingWhitespaceInput"
-              type="checkbox"
-            />
+            <md-checkbox checked="" id="showTrailingWhitespaceInput">
+            </md-checkbox>
           </span>
         </section>
         <section>
@@ -137,7 +134,7 @@ suite('gr-diff-preferences tests', () => {
             Syntax highlighting
           </label>
           <span class="value">
-            <input checked="" id="syntaxHighlightInput" type="checkbox" />
+            <md-checkbox checked="" id="syntaxHighlightInput"> </md-checkbox>
           </span>
         </section>
         <section>
@@ -145,7 +142,7 @@ suite('gr-diff-preferences tests', () => {
             Automatically mark viewed files reviewed
           </label>
           <span class="value">
-            <input checked="" id="automaticReviewInput" type="checkbox" />
+            <md-checkbox checked="" id="automaticReviewInput"> </md-checkbox>
           </span>
         </section>
         <section>

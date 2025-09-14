@@ -17,6 +17,8 @@ import {fire} from '../../../utils/event-util';
 import {ValueChangedEvent} from '../../../types/events';
 import '@material/web/textfield/outlined-text-field';
 import {materialStyles} from '../../../styles/gr-material-styles';
+import '@material/web/checkbox/checkbox';
+import {MdCheckbox} from '@material/web/checkbox/checkbox';
 
 @customElement('gr-edit-preferences')
 export class GrEditPreferences extends LitElement {
@@ -27,22 +29,22 @@ export class GrEditPreferences extends LitElement {
   @query('#editIndentUnit') private editIndentUnit?: HTMLInputElement;
 
   @query('#editSyntaxHighlighting')
-  private editSyntaxHighlighting?: HTMLInputElement;
+  private editSyntaxHighlighting?: MdCheckbox;
 
   @query('#showAutoCloseBrackets')
-  private showAutoCloseBrackets?: HTMLInputElement;
+  private showAutoCloseBrackets?: MdCheckbox;
 
-  @query('#showIndentWithTabs') private showIndentWithTabs?: HTMLInputElement;
+  @query('#showIndentWithTabs') private showIndentWithTabs?: MdCheckbox;
 
-  @query('#showMatchBrackets') private showMatchBrackets?: HTMLInputElement;
+  @query('#showMatchBrackets') private showMatchBrackets?: MdCheckbox;
 
   @query('#editShowLineWrapping')
-  private editShowLineWrapping?: HTMLInputElement;
+  private editShowLineWrapping?: MdCheckbox;
 
-  @query('#editShowTabs') private editShowTabs?: HTMLInputElement;
+  @query('#editShowTabs') private editShowTabs?: MdCheckbox;
 
   @query('#editShowTrailingWhitespaceInput')
-  private editShowTrailingWhitespaceInput?: HTMLInputElement;
+  private editShowTrailingWhitespaceInput?: MdCheckbox;
 
   @state() editPrefs?: EditPreferencesInfo;
 
@@ -152,23 +154,21 @@ export class GrEditPreferences extends LitElement {
             >Syntax highlighting</label
           >
           <span class="value">
-            <input
+            <md-checkbox
               id="editSyntaxHighlighting"
-              type="checkbox"
               ?checked=${!!this.editPrefs?.syntax_highlighting}
               @change=${this.handleEditSyntaxHighlightingChanged}
-            />
+            ></md-checkbox>
           </span>
         </section>
         <section>
           <label for="editShowTabs" class="title">Show tabs</label>
           <span class="value">
-            <input
+            <md-checkbox
               id="editShowTabs"
-              type="checkbox"
               ?checked=${!!this.editPrefs?.show_tabs}
               @change=${this.handleEditShowTabsChanged}
-            />
+            ></md-checkbox>
           </span>
         </section>
         <section>
@@ -176,45 +176,41 @@ export class GrEditPreferences extends LitElement {
             >Show trailing whitespace</label
           >
           <span class="value">
-            <input
+            <md-checkbox
               id="editShowTrailingWhitespaceInput"
-              type="checkbox"
               ?checked=${!!this.editPrefs?.show_whitespace_errors}
               @change=${this.handleEditShowTrailingWhitespaceTap}
-            />
+            ></md-checkbox>
           </span>
         </section>
         <section>
           <label for="showMatchBrackets" class="title">Match brackets</label>
           <span class="value">
-            <input
+            <md-checkbox
               id="showMatchBrackets"
-              type="checkbox"
               ?checked=${!!this.editPrefs?.match_brackets}
               @change=${this.handleMatchBracketsChanged}
-            />
+            ></md-checkbox>
           </span>
         </section>
         <section>
           <label for="editShowLineWrapping" class="title">Line wrapping</label>
           <span class="value">
-            <input
+            <md-checkbox
               id="editShowLineWrapping"
-              type="checkbox"
               ?checked=${!!this.editPrefs?.line_wrapping}
               @change=${this.handleEditLineWrappingChanged}
-            />
+            ></md-checkbox>
           </span>
         </section>
         <section>
           <label for="showIndentWithTabs" class="title">Indent with tabs</label>
           <span class="value">
-            <input
+            <md-checkbox
               id="showIndentWithTabs"
-              type="checkbox"
               ?checked=${!!this.editPrefs?.indent_with_tabs}
               @change=${this.handleIndentWithTabsChanged}
-            />
+            ></md-checkbox>
           </span>
         </section>
         <section>
@@ -222,12 +218,11 @@ export class GrEditPreferences extends LitElement {
             >Auto close brackets</label
           >
           <span class="value">
-            <input
+            <md-checkbox
               id="showAutoCloseBrackets"
-              type="checkbox"
               ?checked=${!!this.editPrefs?.auto_close_brackets}
               @change=${this.handleAutoCloseBracketsChanged}
-            />
+            ></md-checkbox>
           </span>
         </section>
       </div>

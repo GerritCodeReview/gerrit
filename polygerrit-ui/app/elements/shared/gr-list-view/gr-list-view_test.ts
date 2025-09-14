@@ -33,6 +33,7 @@ suite('gr-list-view tests', () => {
           <div id="createNewContainer">
             <gr-button
               aria-disabled="false"
+              hidden=""
               id="createNew"
               link=""
               primary=""
@@ -41,6 +42,7 @@ suite('gr-list-view tests', () => {
             >
               Create New
             </gr-button>
+            <slot name="createNewContainer"> </slot>
           </div>
         </div>
         <slot> </slot>
@@ -156,19 +158,11 @@ suite('gr-list-view tests', () => {
   });
 
   test('createNew link appears correctly', async () => {
-    assert.isFalse(
-      queryAndAssert<HTMLDivElement>(
-        element,
-        '#createNewContainer'
-      ).classList.contains('show')
-    );
+    assert.isTrue(queryAndAssert<HTMLDivElement>(element, '#createNew').hidden);
     element.createNew = true;
     await element.updateComplete;
-    assert.isTrue(
-      queryAndAssert<HTMLDivElement>(
-        element,
-        '#createNewContainer'
-      ).classList.contains('show')
+    assert.isFalse(
+      queryAndAssert<HTMLDivElement>(element, '#createNew').hidden
     );
   });
 

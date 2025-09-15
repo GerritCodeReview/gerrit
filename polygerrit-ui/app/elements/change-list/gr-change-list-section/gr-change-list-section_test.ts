@@ -73,7 +73,8 @@ suite('gr-change-list section', () => {
       element,
       /* prettier-ignore */ /* HTML */ `
       <td class="selection">
-        <input class="selection-checkbox" type="checkbox"/>
+        <md-checkbox class="selection-checkbox">
+        </md-checkbox>
       </td>
       #
               SubjectOwnerReviewersRepoBranchUpdatedSizeStatus
@@ -110,7 +111,11 @@ suite('gr-change-list section', () => {
       element,
       /* prettier-ignore */ /* HTML */ `
         <td class="selection">
-          <input class="selection-checkbox" type="checkbox" />
+      <md-checkbox
+        checked=""
+         class="selection-checkbox"
+       >
+      </md-checkbox>
         </td>
         <gr-change-list-action-bar></gr-change-list-action-bar>
         <gr-change-list-item
@@ -213,7 +218,7 @@ suite('gr-change-list section', () => {
         queryAndAssert<HTMLInputElement>(rows[1], 'input').checked
       );
 
-      const checkbox = queryAndAssert<HTMLInputElement>(element, 'input');
+      const checkbox = queryAndAssert<HTMLInputElement>(element, 'md-checkbox');
       checkbox.click();
       await waitUntilObserved(
         element.bulkActionsModel.selectedChangeNums$,
@@ -253,7 +258,7 @@ suite('gr-change-list section', () => {
       const rows = queryAll(element, 'gr-change-list-item');
 
       // zero case
-      let checkbox = queryAndAssert<HTMLInputElement>(element, 'input');
+      let checkbox = queryAndAssert<HTMLInputElement>(element, 'md-checkbox');
       assert.isFalse(checkbox.checked);
       assert.isFalse(checkbox.indeterminate);
 
@@ -261,20 +266,20 @@ suite('gr-change-list section', () => {
       queryAndAssert<HTMLInputElement>(rows[0], 'input').click();
       await element.updateComplete;
 
-      checkbox = queryAndAssert<HTMLInputElement>(element, 'input');
+      checkbox = queryAndAssert<HTMLInputElement>(element, 'md-checkbox');
       assert.isTrue(checkbox.indeterminate);
 
       // plural case
       queryAndAssert<HTMLInputElement>(rows[1], 'input').click();
       await element.updateComplete;
 
-      checkbox = queryAndAssert<HTMLInputElement>(element, 'input');
+      checkbox = queryAndAssert<HTMLInputElement>(element, 'md-checkbox');
       assert.isFalse(checkbox.indeterminate);
       assert.isTrue(checkbox.checked);
 
       // Clicking Check All checkbox when all checkboxes selected unselects
       // all checkboxes
-      queryAndAssert<HTMLInputElement>(element, 'input');
+      queryAndAssert<HTMLInputElement>(element, 'md-checkbox');
       checkbox.click();
       await element.updateComplete;
 

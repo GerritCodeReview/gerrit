@@ -37,6 +37,9 @@ suite('gr-create-flow tests', () => {
       queryAndAssert(element, 'md-outlined-text-field[label="Action"]')
     );
     assert.isDefined(
+      queryAndAssert(element, 'md-outlined-text-field[label="Parameters"]')
+    );
+    assert.isDefined(
       queryAndAssert(element, 'gr-button[aria-label="Add Stage"]')
     );
     assert.isDefined(
@@ -71,6 +74,7 @@ suite('gr-create-flow tests', () => {
         condition:
           'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is cond 1',
         action: 'act 1',
+        parameterStr: '',
       },
     ]);
     assert.equal(element['currentCondition'], '');
@@ -89,11 +93,13 @@ suite('gr-create-flow tests', () => {
         condition:
           'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is cond 1',
         action: 'act 1',
+        parameterStr: '',
       },
       {
         condition:
           'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is cond 2',
         action: 'act 2',
+        parameterStr: '',
       },
     ]);
 
@@ -108,6 +114,7 @@ suite('gr-create-flow tests', () => {
         condition:
           'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is cond 2',
         action: 'act 2',
+        parameterStr: '',
       },
     ]);
     removeButtons = queryAll<GrButton>(element, 'li gr-button');
@@ -144,7 +151,49 @@ suite('gr-create-flow tests', () => {
       {
         condition:
           'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is single condition',
-        action: {name: 'single action'},
+        action: {name: 'single action', parameters: ['']},
+      },
+    ]);
+  });
+
+  test('creates a flow with parameters', async () => {
+    const createFlowStub = stubRestApi('createFlow').returns(mockPromise());
+
+    const searchAutocomplete = queryAndAssert<GrSearchAutocomplete>(
+      element,
+      'gr-search-autocomplete'
+    );
+    const actionInput = queryAndAssert<MdOutlinedTextField>(
+      element,
+      'md-outlined-text-field[label="Action"]'
+    );
+    const parametersInput = queryAndAssert<MdOutlinedTextField>(
+      element,
+      'md-outlined-text-field[label="Parameters"]'
+    );
+    searchAutocomplete.value = 'single condition';
+    await element.updateComplete;
+    actionInput.value = 'single action';
+    actionInput.dispatchEvent(new Event('input'));
+    await element.updateComplete;
+    parametersInput.value = 'param1 param2';
+    parametersInput.dispatchEvent(new Event('input'));
+    await element.updateComplete;
+
+    const createButton = queryAndAssert<GrButton>(
+      element,
+      'gr-button[aria-label="Create Flow"]'
+    );
+    createButton.click();
+    await element.updateComplete;
+
+    assert.isTrue(createFlowStub.calledOnce);
+    const flowInput = createFlowStub.lastCall.args[1];
+    assert.deepEqual(flowInput.stage_expressions, [
+      {
+        condition:
+          'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is single condition',
+        action: {name: 'single action', parameters: ['param1', 'param2']},
       },
     ]);
   });
@@ -194,12 +243,12 @@ suite('gr-create-flow tests', () => {
       {
         condition:
           'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is cond 1',
-        action: {name: 'act 1'},
+        action: {name: 'act 1', parameters: ['']},
       },
       {
         condition:
           'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is cond 2',
-        action: {name: 'act 2'},
+        action: {name: 'act 2', parameters: ['']},
       },
     ]);
   });
@@ -246,12 +295,12 @@ suite('gr-create-flow tests', () => {
       {
         condition:
           'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is cond 1',
-        action: {name: 'act 1'},
+        action: {name: 'act 1', parameters: ['']},
       },
       {
         condition:
           'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is cond 2',
-        action: {name: 'act 2'},
+        action: {name: 'act 2', parameters: ['']},
       },
     ]);
   });

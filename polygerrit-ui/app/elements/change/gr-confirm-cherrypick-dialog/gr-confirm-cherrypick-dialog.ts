@@ -50,6 +50,8 @@ import {changeModelToken} from '../../../models/change/change-model';
 import {GrAutogrowTextarea} from '../../shared/gr-autogrow-textarea/gr-autogrow-textarea';
 import '@material/web/textfield/outlined-text-field';
 import {materialStyles} from '../../../styles/gr-material-styles';
+import '@material/web/radio/radio';
+import '@material/web/checkbox/checkbox';
 
 const SUGGESTIONS_LIMIT = 15;
 const CHANGE_SUBJECT_LIMIT = 50;
@@ -224,14 +226,6 @@ export class GrConfirmCherrypickDialog
         .cherryPickTopicLayout {
           display: flex;
           align-items: center;
-          margin-bottom: var(--spacing-m);
-        }
-        .cherryPickSingleChange,
-        .cherryPickTopic {
-          margin-left: var(--spacing-m);
-        }
-        .cherry-pick-topic-message {
-          margin-bottom: var(--spacing-m);
         }
         label[for='messageInput'],
         label[for='baseInput'] {
@@ -320,24 +314,26 @@ export class GrConfirmCherrypickDialog
   private renderCherrypickTopicLayout() {
     return html`
       <div class="cherryPickTopicLayout">
-        <input
+        <md-radio
           name="cherryPickOptions"
-          type="radio"
           id="cherryPickSingleChange"
-          @change=${this.handlecherryPickSingleChangeClicked}
+          touch-target="wrapper"
           checked
-        />
+          @change=${this.handlecherryPickSingleChangeClicked}
+        >
+        </md-radio>
         <label for="cherryPickSingleChange" class="cherryPickSingleChange">
           Cherry Pick single change
         </label>
       </div>
       <div class="cherryPickTopicLayout">
-        <input
+        <md-radio
           name="cherryPickOptions"
-          type="radio"
           id="cherryPickTopic"
+          touch-target="wrapper"
           @change=${this.handlecherryPickTopicClicked}
-        />
+        >
+        </md-radio>
         <label for="cherryPickTopic" class="cherryPickTopic">
           Cherry Pick entire topic (${this.changesCount} Changes)
         </label>
@@ -411,12 +407,11 @@ export class GrConfirmCherrypickDialog
             item => html`
               <tr>
                 <td>
-                  <input
-                    type="checkbox"
+                  <md-checkbox
                     data-item=${item.id as string}
-                    @change=${this.toggleChangeSelected}
                     ?checked=${this.isChangeSelected(item.id)}
-                  />
+                    @change=${this.toggleChangeSelected}
+                  ></md-checkbox>
                 </td>
                 <td><span> ${this.getChangeId(item)} </span></td>
                 <td><span> ${item.status} </span></td>

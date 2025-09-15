@@ -99,7 +99,7 @@ suite('gr-create-change-dialog tests', () => {
               Private change
             </label>
             <span class="value">
-              <input id="privateChangeCheckBox" type="checkbox" />
+              <md-checkbox id="privateChangeCheckBox"> </md-checkbox>
             </span>
           </section>
         </div>

@@ -343,7 +343,7 @@ export class GrRepoList extends LitElement {
 
   // private but used in test
   handleCloseCreate() {
-    this.createModal?.close();
+    this.createRepoModal?.close();
   }
 
   // private but used in test

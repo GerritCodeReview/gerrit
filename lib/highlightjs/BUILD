@@ -7,9 +7,16 @@ package(
     licenses = ["notice"],
 )
 
+# Until https://github.com/highlightjs/highlightjs-GN/pull/4 is merged
+# we have to apply the fix manually.
+# Once it's merged, this can be removed and we can depend on
+# highlightjs-gn.
+exports_files(["gn.js"])
+
 rollup_bundle(
     name = "highlight.min",
     srcs = [
+        ":gn.js",
         "@ui_npm//highlight.js",
         "@ui_npm//highlightjs-closure-templates",
         "@ui_npm//highlightjs-epp",

@@ -207,10 +207,10 @@ suite('gr-change-list section', () => {
       let rows = queryAll(element, 'gr-change-list-item');
       assert.lengthOf(rows, 2);
       assert.isFalse(
-        queryAndAssert<HTMLInputElement>(rows[0], 'input').checked
+        queryAndAssert<HTMLInputElement>(rows[0], 'md-checkbox').checked
       );
       assert.isFalse(
-        queryAndAssert<HTMLInputElement>(rows[1], 'input').checked
+        queryAndAssert<HTMLInputElement>(rows[1], 'md-checkbox').checked
       );
 
       const checkbox = queryAndAssert<HTMLInputElement>(element, 'input');
@@ -223,8 +223,24 @@ suite('gr-change-list section', () => {
 
       rows = queryAll(element, 'gr-change-list-item');
       assert.lengthOf(rows, 2);
+<<<<<<< PATCH SET (eeeb56fab372ca8d3fa609a92b693e5398d979f8 gr-change-list-item: Replace basic checkbox with md-checkbox)
+      assert.isTrue(
+        queryAndAssert<HTMLInputElement>(rows[0], 'md-checkbox').checked
+      );
+      assert.isTrue(
+        queryAndAssert<HTMLInputElement>(rows[1], 'md-checkbox').checked
+      );
+||||||| BASE      (fd87202c7917023341312e75af9aa02d014c459e gr-change-list-section: Replace basic checkbox with md-check)
+      assert.isTrue(
+        queryAndAssert<HTMLInputElement>(rows[0], 'input').checked
+      );
+      assert.isTrue(
+        queryAndAssert<HTMLInputElement>(rows[1], 'input').checked
+      );
+=======
       assert.isTrue(queryAndAssert<HTMLInputElement>(rows[0], 'input').checked);
       assert.isTrue(queryAndAssert<HTMLInputElement>(rows[1], 'input').checked);
+>>>>>>> BASE      (189a974b8081e4bb50cdeecaba14e0ab082c7f82 Merge "UI: Fix highlighting GN files")
     });
 
     test('checkbox matches partial and fully selected state', async () => {
@@ -258,14 +274,14 @@ suite('gr-change-list section', () => {
       assert.isFalse(checkbox.indeterminate);
 
       // partial case
-      queryAndAssert<HTMLInputElement>(rows[0], 'input').click();
+      queryAndAssert<HTMLInputElement>(rows[0], 'md-checkbox').click();
       await element.updateComplete;
 
       checkbox = queryAndAssert<HTMLInputElement>(element, 'input');
       assert.isTrue(checkbox.indeterminate);
 
       // plural case
-      queryAndAssert<HTMLInputElement>(rows[1], 'input').click();
+      queryAndAssert<HTMLInputElement>(rows[1], 'md-checkbox').click();
       await element.updateComplete;
 
       checkbox = queryAndAssert<HTMLInputElement>(element, 'input');
@@ -279,10 +295,10 @@ suite('gr-change-list section', () => {
       await element.updateComplete;
 
       assert.isFalse(
-        queryAndAssert<HTMLInputElement>(rows[0], 'input').checked
+        queryAndAssert<HTMLInputElement>(rows[0], 'md-checkbox').checked
       );
       assert.isFalse(
-        queryAndAssert<HTMLInputElement>(rows[1], 'input').checked
+        queryAndAssert<HTMLInputElement>(rows[1], 'md-checkbox').checked
       );
     });
   });

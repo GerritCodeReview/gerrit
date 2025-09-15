@@ -32,6 +32,10 @@ import {subscribe} from '../../lit/subscription-controller';
 import {formStyles} from '../../../styles/form-styles';
 import {GrValidationOptions} from '../gr-validation-options/gr-validation-options';
 import {GrChangeAutocomplete} from '../gr-change-autocomplete/gr-change-autocomplete';
+import '@material/web/radio/radio';
+import {MdRadio} from '@material/web/radio/radio';
+import {materialStyles} from '../../../styles/gr-material-styles';
+import '@material/web/checkbox/checkbox';
 
 export interface ConfirmRebaseEventDetail {
   base: string | null;
@@ -95,13 +99,13 @@ export class GrConfirmRebaseDialog
   committerEmailDropdownItems: EmailInfo[] = [];
 
   @query('#rebaseOnParentInput')
-  private rebaseOnParentInput?: HTMLInputElement;
+  private rebaseOnParentInput?: MdRadio;
 
   @query('#rebaseOnTipInput')
-  private rebaseOnTipInput?: HTMLInputElement;
+  private rebaseOnTipInput?: MdRadio;
 
   @query('#rebaseOnOtherInput')
-  rebaseOnOtherInput?: HTMLInputElement;
+  rebaseOnOtherInput?: MdRadio;
 
   @query('#rebaseAllowConflicts')
   private rebaseAllowConflicts?: HTMLInputElement;
@@ -185,6 +189,7 @@ export class GrConfirmRebaseDialog
     return [
       formStyles,
       sharedStyles,
+      materialStyles,
       css`
         :host {
           display: block;
@@ -206,10 +211,12 @@ export class GrConfirmRebaseDialog
           width: 100%;
         }
         .rebaseCheckbox {
-          margin-top: var(--spacing-m);
+          display: flex;
+          align-items: center;
         }
         .rebaseOption {
-          margin: var(--spacing-m) 0;
+          display: flex;
+          align-items: center;
         }
         .rebaseOnBehalfMsg {
           margin-top: var(--spacing-m);
@@ -237,7 +244,12 @@ export class GrConfirmRebaseDialog
             class="rebaseOption"
             ?hidden=${!this.displayParentOption()}
           >
-            <input id="rebaseOnParentInput" name="rebaseOptions" type="radio" />
+            <md-radio
+              id="rebaseOnParentInput"
+              name="rebaseOptions"
+              touch-target="wrapper"
+            >
+            </md-radio>
             <label id="rebaseOnParentLabel" for="rebaseOnParentInput">
               Rebase on parent change
             </label>
@@ -257,12 +269,13 @@ export class GrConfirmRebaseDialog
             class="rebaseOption"
             ?hidden=${!this.displayTipOption()}
           >
-            <input
+            <md-radio
               id="rebaseOnTipInput"
               name="rebaseOptions"
-              type="radio"
+              touch-target="wrapper"
               ?disabled=${!this.displayTipOption()}
-            />
+            >
+            </md-radio>
             <label id="rebaseOnTipLabel" for="rebaseOnTipInput">
               Rebase on top of the ${this.branch} branch<span
                 ?hidden=${!this.hasParent || this.shouldRebaseChain}
@@ -279,12 +292,13 @@ export class GrConfirmRebaseDialog
             Change is up to date with the target branch already (${this.branch})
           </div>
           <div id="rebaseOnOther" class="rebaseOption">
-            <input
+            <md-radio
               id="rebaseOnOtherInput"
               name="rebaseOptions"
-              type="radio"
+              touch-target="wrapper"
               @click=${this.handleRebaseOnOther}
-            />
+            >
+            </md-radio>
             <label id="rebaseOnOtherLabel" for="rebaseOnOtherInput">
               Rebase on a specific change, ref, or commit
               <span ?hidden=${!this.hasParent || this.shouldRebaseChain}>
@@ -303,14 +317,14 @@ export class GrConfirmRebaseDialog
             </gr-change-autocomplete>
           </div>
           <div class="rebaseCheckbox">
-            <input
+            <md-checkbox
               id="rebaseAllowConflicts"
-              type="checkbox"
+              touch-target="wrapper"
               @change=${() => {
                 this.allowConflicts = !!this.rebaseAllowConflicts?.checked;
                 this.loadCommitterEmailDropdownItems();
               }}
-            />
+            ></md-checkbox>
             <label for="rebaseAllowConflicts"
               >Allow rebase with conflicts</label
             >
@@ -330,16 +344,16 @@ export class GrConfirmRebaseDialog
             this.hasParent,
             () =>
               html`<div class="rebaseCheckbox">
-                <input
+                <md-checkbox
                   id="rebaseChain"
-                  type="checkbox"
+                  touch-target="wrapper"
                   @change=${() => {
                     this.shouldRebaseChain = !!this.rebaseChain?.checked;
                     if (this.shouldRebaseChain) {
                       this.selectedEmailForRebase = undefined;
                     }
                   }}
-                />
+                ></md-checkbox>
                 <label for="rebaseChain">Rebase all ancestors</label>
               </div>`
           )}

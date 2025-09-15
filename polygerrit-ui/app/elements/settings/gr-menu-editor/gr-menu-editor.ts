@@ -19,6 +19,7 @@ import {userModelToken} from '../../../models/user/user-model';
 import {resolve} from '../../../models/dependency';
 import '@material/web/textfield/outlined-text-field';
 import {materialStyles} from '../../../styles/gr-material-styles';
+import '@material/web/checkbox/checkbox';
 
 @customElement('gr-menu-editor')
 export class GrMenuEditor extends LitElement {
@@ -130,11 +131,10 @@ export class GrMenuEditor extends LitElement {
         <td>${item.name}</td>
         <td class="urlCell">${item.url}</td>
         <td>
-          <input
-            type="checkbox"
+          <md-checkbox
             disabled
             ?checked=${item.target === '_blank'}
-          />
+          ></md-checkbox>
         </td>
         <td class="buttonColumn">
           <gr-button
@@ -200,11 +200,11 @@ export class GrMenuEditor extends LitElement {
           </md-outlined-text-field>
         </th>
         <th>
-          <input
-            type="checkbox"
-            @change=${() => (this.newTarget = !this.newTarget)}
+          <md-checkbox
+            id="lineWrappingInput"
             ?checked=${this.newTarget}
-          />
+            @change=${() => (this.newTarget = !this.newTarget)}
+          ></md-checkbox>
         </th>
         <th></th>
         <th></th>

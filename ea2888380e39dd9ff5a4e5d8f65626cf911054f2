@@ -70,6 +70,30 @@
       ],
       "revId": "ea2888380e39dd9ff5a4e5d8f65626cf911054f2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "53061185_eb45746d",
+        "filename": "polygerrit-ui/app/elements/change/gr-flows/gr-create-flow.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-09-15T12:57:50Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "a44758ab_f3169788",
+      "range": {
+        "startLine": 40,
+        "startChar": 54,
+        "endLine": 40,
+        "endChar": 64
+      },
+      "revId": "ea2888380e39dd9ff5a4e5d8f65626cf911054f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

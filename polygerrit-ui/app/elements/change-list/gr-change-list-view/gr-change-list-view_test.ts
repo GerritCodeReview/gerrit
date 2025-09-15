@@ -90,7 +90,7 @@ suite('gr-change-list-view tests', () => {
       await changeListItemEl.updateComplete;
       let checkbox = queryAndAssert<HTMLInputElement>(
         changeListItemEl,
-        '.selection > .selectionLabel > input'
+        '.selection > .selectionLabel > md-checkbox'
       );
       checkbox.click();
       await waitUntil(() => checkbox.checked);
@@ -103,7 +103,7 @@ suite('gr-change-list-view tests', () => {
           query(query(element, 'gr-change-list'), 'gr-change-list-section'),
           'gr-change-list-item'
         ),
-        '.selection > .selectionLabel > input'
+        '.selection > .selectionLabel > md-checkbox'
       );
       assert.isTrue(checkbox.checked);
     });

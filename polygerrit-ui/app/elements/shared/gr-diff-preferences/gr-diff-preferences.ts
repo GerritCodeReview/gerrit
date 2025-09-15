@@ -20,6 +20,8 @@ import {resolve} from '../../../models/dependency';
 import {userModelToken} from '../../../models/user/user-model';
 import '@material/web/textfield/outlined-text-field';
 import {materialStyles} from '../../../styles/gr-material-styles';
+import '@material/web/checkbox/checkbox';
+import {MdCheckbox} from '@material/web/checkbox/checkbox';
 
 @customElement('gr-diff-preferences')
 export class GrDiffPreferences extends LitElement {
@@ -31,18 +33,18 @@ export class GrDiffPreferences extends LitElement {
 
   @query('#fontSizeInput') private fontSizeInput?: HTMLInputElement;
 
-  @query('#lineWrappingInput') private lineWrappingInput?: HTMLInputElement;
+  @query('#lineWrappingInput') private lineWrappingInput?: MdCheckbox;
 
-  @query('#showTabsInput') private showTabsInput?: HTMLInputElement;
+  @query('#showTabsInput') private showTabsInput?: MdCheckbox;
 
   @query('#showTrailingWhitespaceInput')
-  private showTrailingWhitespaceInput?: HTMLInputElement;
+  private showTrailingWhitespaceInput?: MdCheckbox;
 
   @query('#automaticReviewInput')
-  private automaticReviewInput?: HTMLInputElement;
+  private automaticReviewInput?: MdCheckbox;
 
   @query('#syntaxHighlightInput')
-  private syntaxHighlightInput?: HTMLInputElement;
+  private syntaxHighlightInput?: MdCheckbox;
 
   @query('#ignoreWhiteSpace') private ignoreWhiteSpace?: HTMLInputElement;
 
@@ -107,12 +109,11 @@ export class GrDiffPreferences extends LitElement {
         <section>
           <label for="lineWrappingInput" class="title">Fit to screen</label>
           <span class="value">
-            <input
+            <md-checkbox
               id="lineWrappingInput"
-              type="checkbox"
               ?checked=${!!this.diffPrefs?.line_wrapping}
               @change=${this.handleLineWrappingTap}
-            />
+            ></md-checkbox>
           </span>
         </section>
         <section>
@@ -187,12 +188,11 @@ export class GrDiffPreferences extends LitElement {
         <section>
           <label for="showTabsInput" class="title">Show tabs</label>
           <span class="value">
-            <input
+            <md-checkbox
               id="showTabsInput"
-              type="checkbox"
               ?checked=${!!this.diffPrefs?.show_tabs}
               @change=${this.handleShowTabsTap}
-            />
+            ></md-checkbox>
           </span>
         </section>
         <section>
@@ -200,12 +200,11 @@ export class GrDiffPreferences extends LitElement {
             >Show trailing whitespace</label
           >
           <span class="value">
-            <input
+            <md-checkbox
               id="showTrailingWhitespaceInput"
-              type="checkbox"
               ?checked=${!!this.diffPrefs?.show_whitespace_errors}
               @change=${this.handleShowTrailingWhitespaceTap}
-            />
+            ></md-checkbox>
           </span>
         </section>
         <section>
@@ -213,12 +212,11 @@ export class GrDiffPreferences extends LitElement {
             >Syntax highlighting</label
           >
           <span class="value">
-            <input
+            <md-checkbox
               id="syntaxHighlightInput"
-              type="checkbox"
               ?checked=${!!this.diffPrefs?.syntax_highlighting}
               @change=${this.handleSyntaxHighlightTap}
-            />
+            ></md-checkbox>
           </span>
         </section>
         <section>
@@ -226,12 +224,11 @@ export class GrDiffPreferences extends LitElement {
             >Automatically mark viewed files reviewed</label
           >
           <span class="value">
-            <input
+            <md-checkbox
               id="automaticReviewInput"
-              type="checkbox"
               ?checked=${!this.diffPrefs?.manual_review}
               @change=${this.handleAutomaticReviewTap}
-            />
+            ></md-checkbox>
           </span>
         </section>
         <section>

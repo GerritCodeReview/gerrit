@@ -16,6 +16,9 @@ import {deepClone} from '../../../utils/deep-util';
 import {userModelToken} from '../../../models/user/user-model';
 import {resolve} from '../../../models/dependency';
 import {subscribe} from '../../lit/subscription-controller';
+import '@material/web/radio/radio';
+import {MdRadio} from '@material/web/radio/radio';
+import {materialStyles} from '../../../styles/gr-material-styles';
 
 @customElement('gr-email-editor')
 export class GrEmailEditor extends LitElement {
@@ -51,6 +54,7 @@ export class GrEmailEditor extends LitElement {
     return [
       sharedStyles,
       grFormStyles,
+      materialStyles,
       css`
         th {
           color: var(--deemphasized-text-color);
@@ -65,15 +69,8 @@ export class GrEmailEditor extends LitElement {
           width: 6em;
         }
         #emailTable .preferredControl {
-          cursor: pointer;
           height: auto;
           text-align: center;
-        }
-        #emailTable .preferredControl .preferredRadio {
-          height: auto;
-        }
-        .preferredControl:hover {
-          outline: 1px solid var(--border-color);
         }
       `,
     ];
@@ -99,17 +96,15 @@ export class GrEmailEditor extends LitElement {
   private renderEmail(email: EmailInfo, index: number) {
     return html`<tr>
       <td class="emailColumn">${email.email}</td>
-      <td class="preferredControl" @click=${this.handlePreferredControlClick}>
-        <!-- We have to use \`.checked\` rather then \`?checked\` as there
-              appears to be an issue when deleting, checked doesn't work correctly. -->
-        <input
+      <td class="preferredControl">
+        <md-radio
           class="preferredRadio"
-          type="radio"
           name="preferred"
           .value=${email.email}
-          .checked=${!!email.preferred}
+          ?checked=${!!email.preferred}
           @change=${this.handlePreferredChange}
-        />
+        >
+        </md-radio>
       </td>
       <td>
         <gr-button
@@ -158,18 +153,8 @@ export class GrEmailEditor extends LitElement {
     this.setHasUnsavedChanges();
   }
 
-  private handlePreferredControlClick(e: Event) {
-    if (
-      e.target instanceof HTMLElement &&
-      e.target.classList.contains('preferredControl') &&
-      e.target.firstElementChild instanceof HTMLInputElement
-    ) {
-      e.target.firstElementChild.click();
-    }
-  }
-
   private handlePreferredChange(e: Event) {
-    if (!(e.target instanceof HTMLInputElement)) return;
+    if (!(e.target instanceof MdRadio)) return;
     const preferred = e.target.value;
     for (let i = 0; i < this.emails.length; i++) {
       if (preferred === this.emails[i].email) {

@@ -13,7 +13,7 @@ import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {
   BranchName,
   ChangeId,
-  InheritedBooleanInfo,
+  ConfigInfo,
   RepoName,
 } from '../../../types/common';
 import {InheritedBooleanInfoConfiguredValue} from '../../../constants/constants';
@@ -23,7 +23,7 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {css, html, LitElement, PropertyValues} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {ValueChangedEvent} from '../../../types/events';
-import {fire} from '../../../utils/event-util';
+import {fire, firePageError} from '../../../utils/event-util';
 import {subscribe} from '../../lit/subscription-controller';
 import {configModelToken} from '../../../models/config/config-model';
 import {resolve} from '../../../models/dependency';
@@ -36,6 +36,7 @@ import '@material/web/textfield/outlined-text-field';
 import {materialStyles} from '../../../styles/gr-material-styles';
 import '@material/web/checkbox/checkbox';
 import {MdCheckbox} from '@material/web/checkbox/checkbox';
+import {ErrorCallback} from '../../../api/rest';
 
 const SUGGESTIONS_LIMIT = 15;
 
@@ -70,10 +71,10 @@ export class GrCreateChangeDialog extends LitElement {
 
   @state() private baseCommit?: string;
 
-  @property({type: Object})
-  privateByDefault?: InheritedBooleanInfo;
-
   @state() private privateChangesEnabled = false;
+
+  // Private but used in test
+  @state() repoConfig?: ConfigInfo;
 
   private readonly query: (input: string) => Promise<{name: BranchName}[]>;
 
@@ -219,9 +220,25 @@ export class GrCreateChangeDialog extends LitElement {
   }
 
   override willUpdate(changedProperties: PropertyValues) {
+    if (changedProperties.has('repoName')) {
+      this.loadRepo();
+    }
     if (changedProperties.has('branch') || changedProperties.has('subject')) {
       this.allowCreate();
     }
+  }
+
+  private loadRepo() {
+    if (!this.repoName) return;
+
+    const errFn: ErrorCallback = response => {
+      firePageError(response);
+    };
+
+    this.restApiService.getProjectConfig(this.repoName, errFn).then(config => {
+      if (!config) return;
+      this.repoConfig = config;
+    });
   }
 
   private allowCreate() {
@@ -276,7 +293,7 @@ export class GrCreateChangeDialog extends LitElement {
 
   // private but used in test
   formatPrivateByDefaultBoolean() {
-    const config = this.privateByDefault;
+    const config = this.repoConfig?.private_by_default;
     if (config === undefined) return false;
     switch (config.configured_value) {
       case InheritedBooleanInfoConfiguredValue.TRUE:

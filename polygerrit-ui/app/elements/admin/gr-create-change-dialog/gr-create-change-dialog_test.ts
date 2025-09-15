@@ -9,7 +9,7 @@ import './gr-create-change-dialog';
 import {GrCreateChangeDialog} from './gr-create-change-dialog';
 import {BranchName, GitRef, RepoName} from '../../../types/common';
 import {InheritedBooleanInfoConfiguredValue} from '../../../constants/constants';
-import {createChange} from '../../../test/test-data-generators';
+import {createChange, createConfig} from '../../../test/test-data-generators';
 import {queryAndAssert, stubRestApi} from '../../../test/test-utils';
 import {assert, fixture, html} from '@open-wc/testing';
 import {GrAutogrowTextarea} from '../../shared/gr-autogrow-textarea/gr-autogrow-textarea';
@@ -143,10 +143,13 @@ suite('gr-create-change-dialog tests', () => {
   });
 
   test('new change created with private', async () => {
-    element.privateByDefault = {
-      configured_value: InheritedBooleanInfoConfiguredValue.TRUE,
-      inherited_value: false,
-      value: true,
+    element.repoConfig = {
+      ...createConfig(),
+      private_by_default: {
+        configured_value: InheritedBooleanInfoConfiguredValue.TRUE,
+        inherited_value: false,
+        value: true,
+      },
     };
     sinon.stub(element, 'formatPrivateByDefaultBoolean').callsFake(() => true);
     await element.updateComplete;

@@ -45,6 +45,8 @@ import {userModelToken} from '../../../models/user/user-model';
 import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {configModelToken} from '../../../models/config/config-model';
 import {formStyles} from '../../../styles/form-styles';
+import '@material/web/checkbox/checkbox';
+import {materialStyles} from '../../../styles/gr-material-styles';
 
 enum ChangeSize {
   XS = 10,
@@ -204,6 +206,7 @@ export class GrChangeListItem extends LitElement {
       sharedStyles,
       submitRequirementsStyles,
       changeListStyles,
+      materialStyles,
       css`
         :host {
           display: table-row;
@@ -318,6 +321,10 @@ export class GrChangeListItem extends LitElement {
           padding: 0;
           margin: 0;
         }
+        md-checkbox {
+          --md-checkbox-container-size: 15px;
+          --md-checkbox-icon-size: 15px;
+        }
         @media only screen and (max-width: 50em) {
           :host {
             display: flex;
@@ -350,18 +357,11 @@ export class GrChangeListItem extends LitElement {
 
     return html`
       <td class="cell selection">
-        <!--
-          The .checked property must be used rather than the attribute because
-          the attribute only controls the default checked state and does not
-          update the current checked state.
-          See: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox#attr-checked
-        -->
         <label class="selectionLabel">
-          <input
-            type="checkbox"
-            .checked=${this.checked}
+          <md-checkbox
+            ?checked=${this.checked}
             @click=${this.toggleCheckbox}
-          />
+          ></md-checkbox>
         </label>
       </td>
     `;

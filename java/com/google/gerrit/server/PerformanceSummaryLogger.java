@@ -20,7 +20,6 @@ import static java.util.Comparator.comparing;
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableList;
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.extensions.registration.PluginName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.PerformanceLogger;
@@ -60,19 +59,13 @@ public class PerformanceSummaryLogger implements PerformanceLogger {
       return;
     }
 
-    String pluginTag =
-        TraceContext.getPluginTag()
-            .filter(v -> !PluginName.GERRIT.equals(v))
-            .map(v -> v + "~")
-            .orElse("");
     String pluginClass =
         PluginMetrics.PLUGIN_LATENCY_NAME.equals(operation)
             ? metadata.className().map(clazz -> " (" + clazz + ")").orElse("")
             : "";
     PerformanceInfo info =
         perRequestPerformanceInfo.computeIfAbsent(
-            pluginTag + operation + pluginClass,
-            operationName -> new PerformanceInfo(operationName));
+            operation + pluginClass, operationName -> new PerformanceInfo(operationName));
     info.add(durationNanos);
   }
 

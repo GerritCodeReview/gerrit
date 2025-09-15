@@ -82,7 +82,7 @@ export class GrRepoList extends LitElement {
   @state() private repo?: RepoName;
 
   // Used to create a change
-  @state() private branch?: BranchName;
+  @state() private branch = '' as BranchName;
 
   private readonly restApiService = getAppContext().restApiService;
 
@@ -343,7 +343,7 @@ export class GrRepoList extends LitElement {
 
   // private but used in test
   handleCloseCreate() {
-    this.createModal?.close();
+    this.createRepoModal?.close();
   }
 
   // private but used in test

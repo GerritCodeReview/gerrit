@@ -26,6 +26,8 @@ import {subscribe} from '../../lit/subscription-controller';
 import {classMap} from 'lit/directives/class-map.js';
 import {formStyles} from '../../../styles/form-styles';
 import {UserId} from '../../../types/common';
+import '@material/web/checkbox/checkbox';
+import {materialStyles} from '../../../styles/gr-material-styles';
 
 const NUMBER_FIXED_COLUMNS = 4;
 const LABEL_PREFIX_INVALID_PROLOG = 'Invalid-Prolog-Rules-Label-Name--';
@@ -118,6 +120,7 @@ export class GrChangeListSection extends LitElement {
       changeListStyles,
       fontStyles,
       formStyles,
+      materialStyles,
       css`
         :host {
           display: contents;
@@ -145,6 +148,10 @@ export class GrChangeListSection extends LitElement {
         }
         .showSelectionBorder {
           border-bottom: 2px solid var(--input-focus-border-color);
+        }
+        md-checkbox {
+          --md-checkbox-container-size: 15px;
+          --md-checkbox-icon-size: 15px;
         }
       `,
     ];
@@ -285,19 +292,12 @@ export class GrChangeListSection extends LitElement {
       this.numSelected > 0 && this.numSelected !== this.totalChangeCount;
     return html`
       <td class="selection" ?hidden=${!this.isLoggedIn}>
-        <!--
-          The .checked property must be used rather than the attribute because
-          the attribute only controls the default checked state and does not
-          update the current checked state.
-          See: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox#attr-checked
-        -->
-        <input
+        <md-checkbox
           class="selection-checkbox"
-          type="checkbox"
-          .checked=${checked}
+          ?checked=${checked}
           .indeterminate=${indeterminate}
           @click=${this.handleSelectAllCheckboxClicked}
-        />
+        ></md-checkbox>
       </td>
     `;
   }

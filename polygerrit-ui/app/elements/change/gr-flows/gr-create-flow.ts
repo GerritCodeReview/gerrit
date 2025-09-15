@@ -36,11 +36,15 @@ export class GrCreateFlow extends LitElement {
   // Property so that we can mock it in tests
   @property({type: String}) hostUrl?: string;
 
-  @state() private stages: {condition: string; action: string}[] = [];
+  @state()
+  private stages: {condition: string; action: string; parameters: string}[] =
+    [];
 
   @state() private currentCondition = '';
 
   @state() private currentAction = '';
+
+  @state() private currentParameter = '';
 
   @state() private currentConditionPrefix = 'Gerrit';
 
@@ -169,6 +173,12 @@ export class GrCreateFlow extends LitElement {
           @input=${(e: InputEvent) =>
             (this.currentAction = (e.target as MdOutlinedTextField).value)}
         ></md-outlined-text-field>
+        <md-outlined-text-field
+          label="Parameters"
+          .value=${this.currentParameter}
+          @input=${(e: InputEvent) =>
+            (this.currentParameter = (e.target as MdOutlinedTextField).value)}
+        ></md-outlined-text-field>
         <gr-button aria-label="Add Stage" @click=${this.handleAddStage}
           >+</gr-button
         >
@@ -241,9 +251,17 @@ export class GrCreateFlow extends LitElement {
       this.currentConditionPrefix === 'Gerrit'
         ? `${this.hostUrl} is ${this.currentCondition}`
         : this.currentCondition;
-    this.stages = [...this.stages, {condition, action: this.currentAction}];
+    this.stages = [
+      ...this.stages,
+      {
+        condition,
+        action: this.currentAction,
+        parameters: this.currentParameter,
+      },
+    ];
     this.currentCondition = '';
     this.currentAction = '';
+    this.currentParameter = '';
   }
 
   private handleRemoveStage(index: number) {
@@ -265,6 +283,7 @@ export class GrCreateFlow extends LitElement {
       allStages.push({
         condition,
         action: this.currentAction,
+        parameters: this.currentParameter,
       });
     }
 
@@ -274,9 +293,13 @@ export class GrCreateFlow extends LitElement {
     const flowInput: FlowInput = {
       stage_expressions: allStages.map(stage => {
         if (stage.action) {
+          const action: {name: string; parameters?: string[]} = {
+            name: stage.action,
+          };
+          action.parameters = stage.parameters.split(' ');
           return {
             condition: stage.condition,
-            action: {name: stage.action},
+            action,
           };
         }
         return {condition: stage.condition};
@@ -288,6 +311,7 @@ export class GrCreateFlow extends LitElement {
     this.stages = [];
     this.currentCondition = '';
     this.currentAction = '';
+    this.currentParameter = '';
     this.loading = false;
     this.dispatchEvent(
       new CustomEvent('flow-created', {bubbles: true, composed: true})

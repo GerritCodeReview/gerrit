@@ -1203,7 +1203,7 @@ suite('gr-change-actions tests', () => {
           await element.updateComplete;
           const radioButtons = queryAll<HTMLInputElement>(
             confirmCherrypick,
-            "input[name='cherryPickOptions']"
+            "md-radio[name='cherryPickOptions']"
           );
           assert.equal(radioButtons.length, 2);
           radioButtons[1].click();

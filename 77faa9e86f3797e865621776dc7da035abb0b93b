@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "323c223a_031b109a",
+        "filename": "javatests/com/google/gerrit/server/config/ScheduleConfigTest.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-09-15T13:46:16Z",
+      "side": 1,
+      "message": "Nice solution, thanks!",
+      "revId": "77faa9e86f3797e865621776dc7da035abb0b93b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

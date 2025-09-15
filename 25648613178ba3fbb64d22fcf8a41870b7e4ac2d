@@ -16,6 +16,24 @@
       "message": "Why can\u0027t we use an npm dep?\n\nIf we can\u0027t, then we need to add comments about it to this BUILD file, also explaining what the process should be for updating this dependency.",
       "revId": "25648613178ba3fbb64d22fcf8a41870b7e4ac2d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c9cb3f0f_6c35d469",
+        "filename": "lib/highlightjs/BUILD",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-09-15T14:43:03Z",
+      "side": 1,
+      "message": "It doesn\u0027t use a ESM module, i have a pull upstream to add support: https://github.com/highlightjs/highlightjs-GN/pull/4. But until that is merged, we have to workaround i think. Added a comment to the BUILD file.",
+      "parentUuid": "f96ae2ea_90395b96",
+      "revId": "25648613178ba3fbb64d22fcf8a41870b7e4ac2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

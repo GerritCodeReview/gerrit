@@ -207,7 +207,7 @@ public class ConfigUtil {
       throw notTimeUnit(valueString);
     }
 
-    Matcher m = Pattern.compile("^(0|[1-9][0-9]*)\\s*(.*)$").matcher(valueString);
+    Matcher m = Pattern.compile("^(0|[1-9][0-9]*)\\s*(.*)$").matcher(s);
     if (!m.matches()) {
       throw notTimeUnit(valueString);
     }

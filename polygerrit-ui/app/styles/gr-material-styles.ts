@@ -107,6 +107,16 @@ export const materialStyles = css`
     --md-sys-color-on-surface: var(--radio-on-surface);
     --md-sys-color-on-surface-variant: var(--radio-on-surface-variant);
   }
+
+  md-outlined-select {
+    --md-outlined-field-top-space: 4px;
+    --md-outlined-field-bottom-space: 4px;
+    --md-sys-color-surface-container: var(--select-surface-container);
+    --md-sys-color-on-secondary-container: var(--select-on-secondary-container);
+    --md-sys-color-secondary-container: var(--select-secondary-container);
+    --md-sys-color-primary: var(--select-primary);
+    --md-sys-color-on-surface: var(--select-on-surface);
+  }
 `;
 
 const $_documentContainer = document.createElement('template');

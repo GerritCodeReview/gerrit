@@ -1,0 +1,45 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b55277db_6ba7200b",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-rebase-dialog/gr-confirm-rebase-dialog.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-09-16T12:43:00Z",
+      "side": 1,
+      "message": "Wrap in try finally, in case of errors",
+      "range": {
+        "startLine": 408,
+        "startChar": 4,
+        "endLine": 410,
+        "endChar": 25
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "ffd00403_e9ce10dd",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-confirm-rebase-dialog/gr-confirm-rebase-dialog.ts",
+              "range": {
+                "startLine": 409,
+                "startChar": 0,
+                "endLine": 411,
+                "endChar": 0
+              },
+              "replacement": "    try {\n      await this.changeAutocomplete.fetchRecentChanges();\n    } finally {\n      this.loading \u003d false;\n    }\n"
+            }
+          ]
+        }
+      ],
+      "revId": "33eea148e074cd136c9460e9500c62549273f83b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

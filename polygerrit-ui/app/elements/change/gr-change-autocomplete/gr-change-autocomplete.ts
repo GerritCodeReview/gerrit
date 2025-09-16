@@ -77,7 +77,7 @@ export class GrChangeAutocomplete extends LitElement {
   private async fetchRecentChanges() {
     try {
       const res = await this.restApiService.getChanges(
-        /* changesPerPage = */ 50,
+        undefined,
         'is:open -age:90d',
         /* offset=*/ undefined,
         /* options=*/ undefined,

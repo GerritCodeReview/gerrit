@@ -1,0 +1,86 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9ad2cf8a_d7f59bbd",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 1540,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-09-16T12:16:56Z",
+      "side": 1,
+      "message": "nit: You can probably move this into initiateFetchInfo()",
+      "range": {
+        "startLine": 1540,
+        "startChar": 27,
+        "endLine": 1540,
+        "endChar": 45
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "df5d78af_b6a06f1f",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+              "range": {
+                "startLine": 1540,
+                "startChar": 0,
+                "endLine": 1541,
+                "endChar": 0
+              },
+              "replacement": ""
+            }
+          ]
+        }
+      ],
+      "revId": "2f07405681f355f08a99630367c3a6bf2decd80b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "175bd408_7b0ec433",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-autocomplete/gr-change-autocomplete.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-09-16T12:16:56Z",
+      "side": 1,
+      "message": "nit: Add a comment, stating that \"empty\" means haven\u0027t fetched yet.",
+      "range": {
+        "startLine": 38,
+        "startChar": 2,
+        "endLine": 38,
+        "endChar": 49
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "6b460619_5e4322d6",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-change-autocomplete/gr-change-autocomplete.ts",
+              "range": {
+                "startLine": 37,
+                "startChar": 0,
+                "endLine": 37,
+                "endChar": 0
+              },
+              "replacement": "  // empty array means haven\u0027t fetched yet.\n"
+            }
+          ]
+        }
+      ],
+      "revId": "2f07405681f355f08a99630367c3a6bf2decd80b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

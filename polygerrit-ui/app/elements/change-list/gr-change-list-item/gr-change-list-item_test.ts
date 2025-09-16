@@ -114,7 +114,7 @@ suite('gr-change-list-item tests', () => {
 
       const checkbox = queryAndAssert<HTMLInputElement>(
         element,
-        '.selection > .selectionLabel > input'
+        '.selection > .selectionLabel > md-checkbox'
       );
       checkbox.click();
       let selectedChangeNums = await waitUntilObserved(
@@ -147,7 +147,7 @@ suite('gr-change-list-item tests', () => {
 
       const checkbox = queryAndAssert<HTMLInputElement>(
         element,
-        '.selection > .selectionLabel > input'
+        '.selection > .selectionLabel > md-checkbox'
       );
       checkbox.click();
       await element.updateComplete;
@@ -170,7 +170,7 @@ suite('gr-change-list-item tests', () => {
 
       const checkbox = queryAndAssert<HTMLInputElement>(
         element,
-        '.selection > .selectionLabel > input'
+        '.selection > .selectionLabel > md-checkbox'
       );
       assert.isTrue(checkbox.checked);
 
@@ -199,7 +199,7 @@ suite('gr-change-list-item tests', () => {
 
       const checkbox = queryAndAssert<HTMLInputElement>(
         element,
-        '.selection > .selectionLabel > input'
+        '.selection > .selectionLabel > md-checkbox'
       );
       assert.isTrue(checkbox.checked);
 
@@ -396,7 +396,7 @@ suite('gr-change-list-item tests', () => {
       element,
       /* HTML */ `
         <label class="selectionLabel">
-          <input type="checkbox" />
+          <md-checkbox checked=""> </md-checkbox>
         </label>
         <gr-change-star></gr-change-star>
         <a href="/c/test-project/+/42">42</a>

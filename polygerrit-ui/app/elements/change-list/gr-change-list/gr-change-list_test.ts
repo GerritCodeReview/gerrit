@@ -336,7 +336,10 @@ suite('gr-change-list basic tests', () => {
     await element.updateComplete;
 
     const getCheckbox = (item: GrChangeListItem) =>
-      queryAndAssert<HTMLInputElement>(query(item, '.selection'), 'input');
+      queryAndAssert<HTMLInputElement>(
+        query(item, '.selection'),
+        'md-checkbox'
+      );
 
     sinon.stub(element, 'computeLabelNames');
     element.sections = [

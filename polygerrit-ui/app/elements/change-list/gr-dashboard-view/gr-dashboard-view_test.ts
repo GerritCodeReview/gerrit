@@ -145,7 +145,7 @@ suite('gr-dashboard-view tests', () => {
           query(query(element, 'gr-change-list'), 'gr-change-list-section'),
           'gr-change-list-item'
         ),
-        '.selection > label > input'
+        '.selection > label > md-checkbox'
       );
       checkbox.click();
       await waitUntil(() => checkbox.checked);

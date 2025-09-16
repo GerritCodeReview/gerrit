@@ -16,6 +16,24 @@
       "message": "I\u0027m not sure if i did the merge of java/com/google/gerrit/server/restapi/project/CreateBranch.java correctly.",
       "revId": "ccae555580c930a7e782b3dec9829b967a203ce6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7bf8978c_19d69414",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-09-16T13:40:57Z",
+      "side": 1,
+      "message": "there was merge conflicts. So all i did was copy 3.12 file and then applied https://gerrit-review.googlesource.com/c/gerrit/+/509061 `try (RevWalk rw \u003d RefUtil.verifyConnected(repo, revid)) { }`",
+      "parentUuid": "7f6c3703_5cd1ad79",
+      "revId": "ccae555580c930a7e782b3dec9829b967a203ce6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

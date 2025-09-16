@@ -35,7 +35,7 @@ export class GrChangeAutocomplete extends LitElement {
   private query: AutocompleteQuery = input => this.getChangeSuggestions(input);
 
   @state()
-  private recentChanges?: ChangeSuggestion[];
+  private recentChanges: ChangeSuggestion[] = [];
 
   private readonly restApiService = getAppContext().restApiService;
 
@@ -45,7 +45,6 @@ export class GrChangeAutocomplete extends LitElement {
 
   override connectedCallback() {
     super.connectedCallback();
-    this.fetchRecentChanges();
   }
 
   static override get styles() {
@@ -74,7 +73,7 @@ export class GrChangeAutocomplete extends LitElement {
     `;
   }
 
-  private async fetchRecentChanges() {
+  async fetchRecentChanges() {
     try {
       const res = await this.restApiService.getChanges(
         undefined,
@@ -83,7 +82,10 @@ export class GrChangeAutocomplete extends LitElement {
         /* options=*/ undefined,
         throwingErrorCallback
       );
-      if (!res) return (this.recentChanges = []);
+      if (!res) {
+        this.recentChanges = [];
+        return this.recentChanges;
+      }
       const changes: ChangeSuggestion[] = [];
       for (const change of res) {
         changes.push({
@@ -91,15 +93,16 @@ export class GrChangeAutocomplete extends LitElement {
           changeNum: change._number,
         });
       }
-      return (this.recentChanges = changes);
+      this.recentChanges = changes;
     } catch (e) {
       console.error('Failed to fetch recent changes:', e);
-      return (this.recentChanges = []);
+      this.recentChanges = [];
     }
+    return this.recentChanges;
   }
 
   private getRecentChanges() {
-    if (this.recentChanges) {
+    if (this.recentChanges.length > 0) {
       return Promise.resolve(this.recentChanges);
     }
     return this.fetchRecentChanges();

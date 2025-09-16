@@ -72,6 +72,9 @@ export class GrConfirmRebaseDialog
   disableActions = false;
 
   @state()
+  private loading = false;
+
+  @state()
   changeNum?: NumericChangeId;
 
   @state()
@@ -239,136 +242,142 @@ export class GrConfirmRebaseDialog
       >
         <div class="header" slot="header">Confirm rebase</div>
         <div class="main" slot="main">
-          <div
-            id="rebaseOnParent"
-            class="rebaseOption"
-            ?hidden=${!this.displayParentOption()}
+          ${when(this.loading, () => html`<div>Loading...</div>`)}
+          ${this.renderRebaseDialog()}
+        </div>
+      </gr-dialog>
+    `;
+  }
+
+  private renderRebaseDialog() {
+    return html`<div
+        id="rebaseOnParent"
+        class="rebaseOption loading"
+        ?hidden=${!this.displayParentOption() || this.loading}
+      >
+        <md-radio
+          id="rebaseOnParentInput"
+          name="rebaseOptions"
+          touch-target="wrapper"
+        >
+        </md-radio>
+        <label id="rebaseOnParentLabel" for="rebaseOnParentInput">
+          Rebase on parent change
+        </label>
+      </div>
+      <div class="message" ?hidden=${this.hasParent !== undefined}>
+        Still loading parent information ...
+      </div>
+      <div
+        id="parentUpToDateMsg"
+        class="message"
+        ?hidden=${!this.displayParentUpToDateMsg()}
+      >
+        This change is up to date with its parent.
+      </div>
+      <div
+        id="rebaseOnTip"
+        class="rebaseOption"
+        ?hidden=${!this.displayTipOption()}
+      >
+        <md-radio
+          id="rebaseOnTipInput"
+          name="rebaseOptions"
+          touch-target="wrapper"
+          ?disabled=${!this.displayTipOption()}
+        >
+        </md-radio>
+        <label id="rebaseOnTipLabel" for="rebaseOnTipInput">
+          Rebase on top of the ${this.branch} branch<span
+            ?hidden=${!this.hasParent || this.shouldRebaseChain}
           >
-            <md-radio
-              id="rebaseOnParentInput"
-              name="rebaseOptions"
-              touch-target="wrapper"
-            >
-            </md-radio>
-            <label id="rebaseOnParentLabel" for="rebaseOnParentInput">
-              Rebase on parent change
-            </label>
-          </div>
-          <div class="message" ?hidden=${this.hasParent !== undefined}>
-            Still loading parent information ...
-          </div>
-          <div
-            id="parentUpToDateMsg"
-            class="message"
-            ?hidden=${!this.displayParentUpToDateMsg()}
-          >
-            This change is up to date with its parent.
-          </div>
-          <div
-            id="rebaseOnTip"
-            class="rebaseOption"
-            ?hidden=${!this.displayTipOption()}
-          >
-            <md-radio
-              id="rebaseOnTipInput"
-              name="rebaseOptions"
-              touch-target="wrapper"
-              ?disabled=${!this.displayTipOption()}
-            >
-            </md-radio>
-            <label id="rebaseOnTipLabel" for="rebaseOnTipInput">
-              Rebase on top of the ${this.branch} branch<span
-                ?hidden=${!this.hasParent || this.shouldRebaseChain}
-              >
-                (breaks relation chain)
-              </span>
-            </label>
-          </div>
-          <div
-            id="tipUpToDateMsg"
-            class="message"
-            ?hidden=${this.displayTipOption()}
-          >
-            Change is up to date with the target branch already (${this.branch})
-          </div>
-          <div id="rebaseOnOther" class="rebaseOption">
-            <md-radio
-              id="rebaseOnOtherInput"
-              name="rebaseOptions"
-              touch-target="wrapper"
-              @click=${this.handleRebaseOnOther}
-            >
-            </md-radio>
-            <label id="rebaseOnOtherLabel" for="rebaseOnOtherInput">
-              Rebase on a specific change, ref, or commit
-              <span ?hidden=${!this.hasParent || this.shouldRebaseChain}>
-                (breaks relation chain)
-              </span>
-            </label>
-          </div>
-          <div class="parentRevisionContainer">
-            <gr-change-autocomplete
-              .text=${this.text}
-              .excludeChangeNum=${this.changeNum}
-              @text-changed=${(e: ValueChangedEvent) =>
-                (this.text = e.detail.value)}
-              @click=${this.handleEnterChangeNumberClick}
-            >
-            </gr-change-autocomplete>
-          </div>
-          <div class="rebaseCheckbox">
+            (breaks relation chain)
+          </span>
+        </label>
+      </div>
+      <div
+        id="tipUpToDateMsg"
+        class="message"
+        ?hidden=${this.displayTipOption()}
+      >
+        Change is up to date with the target branch already (${this.branch})
+      </div>
+      <div id="rebaseOnOther" class="rebaseOption">
+        <md-radio
+          id="rebaseOnOtherInput"
+          name="rebaseOptions"
+          touch-target="wrapper"
+          @click=${this.handleRebaseOnOther}
+        >
+        </md-radio>
+        <label id="rebaseOnOtherLabel" for="rebaseOnOtherInput">
+          Rebase on a specific change, ref, or commit
+          <span ?hidden=${!this.hasParent || this.shouldRebaseChain}>
+            (breaks relation chain)
+          </span>
+        </label>
+      </div>
+      <div class="parentRevisionContainer">
+        <gr-change-autocomplete
+          .text=${this.text}
+          .excludeChangeNum=${this.changeNum}
+          @text-changed=${(e: ValueChangedEvent) =>
+            (this.text = e.detail.value)}
+          @click=${this.handleEnterChangeNumberClick}
+        >
+        </gr-change-autocomplete>
+      </div>
+      <div class="rebaseCheckbox">
+        <md-checkbox
+          id="rebaseAllowConflicts"
+          touch-target="wrapper"
+          @change=${() => {
+            this.allowConflicts = !!this.rebaseAllowConflicts?.checked;
+            this.loadCommitterEmailDropdownItems();
+          }}
+        ></md-checkbox>
+        <label for="rebaseAllowConflicts">Allow rebase with conflicts</label>
+        <gr-validation-options
+          .validationOptions=${this.validationOptions}
+        ></gr-validation-options>
+      </div>
+      ${when(
+        !this.isCurrentUserEqualToLatestUploader() && this.allowConflicts,
+        () =>
+          html`<span class="message"
+            >Rebase cannot be done on behalf of the uploader when allowing
+            conflicts.</span
+          >`
+      )}
+      ${when(
+        this.hasParent,
+        () =>
+          html`<div class="rebaseCheckbox">
             <md-checkbox
-              id="rebaseAllowConflicts"
+              id="rebaseChain"
               touch-target="wrapper"
               @change=${() => {
-                this.allowConflicts = !!this.rebaseAllowConflicts?.checked;
-                this.loadCommitterEmailDropdownItems();
+                this.shouldRebaseChain = !!this.rebaseChain?.checked;
+                if (this.shouldRebaseChain) {
+                  this.selectedEmailForRebase = undefined;
+                }
               }}
             ></md-checkbox>
-            <label for="rebaseAllowConflicts"
-              >Allow rebase with conflicts</label
-            >
-            <gr-validation-options
-              .validationOptions=${this.validationOptions}
-            ></gr-validation-options>
-          </div>
-          ${when(
-            !this.isCurrentUserEqualToLatestUploader() && this.allowConflicts,
-            () =>
-              html`<span class="message"
-                >Rebase cannot be done on behalf of the uploader when allowing
-                conflicts.</span
-              >`
-          )}
-          ${when(
-            this.hasParent,
-            () =>
-              html`<div class="rebaseCheckbox">
-                <md-checkbox
-                  id="rebaseChain"
-                  touch-target="wrapper"
-                  @change=${() => {
-                    this.shouldRebaseChain = !!this.rebaseChain?.checked;
-                    if (this.shouldRebaseChain) {
-                      this.selectedEmailForRebase = undefined;
-                    }
-                  }}
-                ></md-checkbox>
-                <label for="rebaseChain">Rebase all ancestors</label>
-              </div>`
-          )}
-          ${when(
-            !this.isCurrentUserEqualToLatestUploader(),
-            () => html`<div class="rebaseOnBehalfMsg">Rebase will be done on behalf of${
-              !this.allowConflicts ? ' the uploader:' : ''
-            } <gr-account-chip
+            <label for="rebaseChain">Rebase all ancestors</label>
+          </div>`
+      )}
+      ${when(
+        !this.isCurrentUserEqualToLatestUploader(),
+        () => html`<div class="rebaseOnBehalfMsg">Rebase will be done on behalf of${
+          !this.allowConflicts ? ' the uploader:' : ''
+        } <gr-account-chip
                 .account=${this.allowConflicts ? this.account : this.uploader}
               ></gr-account-chip
               ><span></div>`
-          )}
-          ${when(
-            this.canShowCommitterEmailDropdown(),
-            () => html`<div class="rebaseWithCommitterEmail"
+      )}
+      ${when(
+        this.canShowCommitterEmailDropdown(),
+        () => html`<div class="rebaseWithCommitterEmail"
             >Rebase with committer email
                 <gr-dropdown-list
                     .items=${this.getCommitterEmailDropdownItems()}
@@ -377,10 +386,7 @@ export class GrConfirmRebaseDialog
                 >
                 </gr-dropdown-list>
                 <span></div>`
-          )}
-        </div>
-      </gr-dialog>
-    `;
+      )}`;
   }
 
   getValidationOptions() {
@@ -395,6 +401,16 @@ export class GrConfirmRebaseDialog
   // last time it was run.
   initiateFetchInfo() {
     this.fetchValidationOptions();
+    this.fetchRecentChanges();
+  }
+
+  async fetchRecentChanges() {
+    this.loading = true;
+    try {
+      await this.changeAutocomplete.fetchRecentChanges();
+    } finally {
+      this.loading = false;
+    }
   }
 
   async fetchValidationOptions() {

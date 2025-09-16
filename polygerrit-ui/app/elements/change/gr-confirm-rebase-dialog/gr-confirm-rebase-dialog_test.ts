@@ -59,7 +59,7 @@ suite('gr-confirm-rebase-dialog tests', () => {
       >
         <div class="header" slot="header">Confirm rebase</div>
         <div class="main" slot="main">
-          <div class="rebaseOption" hidden="" id="rebaseOnParent">
+          <div class="loading rebaseOption" hidden="" id="rebaseOnParent">
             <md-radio
               id="rebaseOnParentInput"
               name="rebaseOptions"

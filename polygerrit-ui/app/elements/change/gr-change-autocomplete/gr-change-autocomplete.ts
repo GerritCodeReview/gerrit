@@ -45,7 +45,6 @@ export class GrChangeAutocomplete extends LitElement {
 
   override connectedCallback() {
     super.connectedCallback();
-    this.fetchRecentChanges();
   }
 
   static override get styles() {
@@ -74,7 +73,7 @@ export class GrChangeAutocomplete extends LitElement {
     `;
   }
 
-  private async fetchRecentChanges() {
+  async fetchRecentChanges() {
     try {
       const res = await this.restApiService.getChanges(
         undefined,

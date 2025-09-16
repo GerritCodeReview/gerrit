@@ -72,6 +72,9 @@ export class GrConfirmRebaseDialog
   disableActions = false;
 
   @state()
+  private loading = false;
+
+  @state()
   changeNum?: NumericChangeId;
 
   @state()
@@ -239,6 +242,7 @@ export class GrConfirmRebaseDialog
       >
         <div class="header" slot="header">Confirm rebase</div>
         <div class="main" slot="main">
+          ${when(this.loading, () => html`<div>Loading...</div>`)}
           <div
             id="rebaseOnParent"
             class="rebaseOption"
@@ -395,6 +399,12 @@ export class GrConfirmRebaseDialog
   // last time it was run.
   initiateFetchInfo() {
     this.fetchValidationOptions();
+  }
+
+  async fetchRecentChanges() {
+    this.loading = true;
+    await this.changeAutocomplete.fetchRecentChanges();
+    this.loading = false;
   }
 
   async fetchValidationOptions() {

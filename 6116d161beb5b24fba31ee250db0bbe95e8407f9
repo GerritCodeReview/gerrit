@@ -16,6 +16,24 @@
       "message": "Please add screenshots to these changes as well.\n\nBefore + After\n\nI know it\u0027s extra effort but makes reviewing + reverting a lot easier",
       "revId": "6116d161beb5b24fba31ee250db0bbe95e8407f9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "08bc8b62_9fdec7d6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-09-16T14:28:15Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "5e967fdb_d9272b75",
+      "revId": "6116d161beb5b24fba31ee250db0bbe95e8407f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -37,11 +37,13 @@ import org.eclipse.jgit.lib.Config;
 public class PerformanceMetrics implements PerformanceLogger {
   private static final String OPERATION_LATENCY_METRIC_NAME = "performance/operations";
   private static final String OPERATION_COUNT_METRIC_NAME = "performance/operations_count";
+  private static final String OPERATIONS_PER_ENDPOINT_LATENCY_METRIC_NAME =
+      "performance/operations-per-endpoint";
 
   private final ImmutableList<String> tracedOperations;
   private final Timer3<String, String, String> operationsLatency;
   private final Counter3<String, String, String> operationsCounter;
-  private final Timer3<String, String, String> operationsRequestLatency;
+  private final Timer3<String, String, String> operationsEndpointLatency;
 
   private final Map<MetricKey, Long> perRequestLatencyNanos = new HashMap<>();
 
@@ -86,11 +88,11 @@ public class PerformanceMetrics implements PerformanceLogger {
             operationNameField,
             requestField,
             pluginField);
-    this.operationsRequestLatency =
+    this.operationsEndpointLatency =
         metricMaker
             .newTimer(
-                OPERATION_LATENCY_METRIC_NAME,
-                new Description("Per request latency of performing operations")
+                OPERATIONS_PER_ENDPOINT_LATENCY_METRIC_NAME,
+                new Description("Per endpoint latency of performing operations")
                     .setCumulative()
                     .setUnit(Description.Units.MILLISECONDS),
                 operationNameField,
@@ -126,7 +128,7 @@ public class PerformanceMetrics implements PerformanceLogger {
   public void done() {
     perRequestLatencyNanos.forEach(
         (metricKey, latencyNanos) ->
-            operationsRequestLatency.record(
+            operationsEndpointLatency.record(
                 metricKey.operation(),
                 metricKey.requestTag(),
                 metricKey.pluginTag(),

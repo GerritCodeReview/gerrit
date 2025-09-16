@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b5598adb_03f28c2e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-09-16T14:19:20Z",
+      "side": 1,
+      "message": "Consider adding screenshots to the commit message\n\nhttps://imgur.com/a/H9faoGR\n\nI generated one while testing locally for this.",
+      "revId": "574866014974f644a11b1f8a2cf1ca245196e8e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

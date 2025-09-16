@@ -42,6 +42,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e7f5cbf_13ad4582",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 1540,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-09-16T12:27:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9ad2cf8a_d7f59bbd",
+      "range": {
+        "startLine": 1540,
+        "startChar": 27,
+        "endLine": 1540,
+        "endChar": 45
+      },
+      "revId": "2f07405681f355f08a99630367c3a6bf2decd80b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "175bd408_7b0ec433",
@@ -79,6 +103,30 @@
           ]
         }
       ],
+      "revId": "2f07405681f355f08a99630367c3a6bf2decd80b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ff7500c4_9aa322b0",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-autocomplete/gr-change-autocomplete.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-09-16T12:27:35Z",
+      "side": 1,
+      "message": "It\u0027s possible that no results are returned for the query so it\u0027s not a guarantee.\n\nKeeping as is. Ideally we look at the `loading` property to see if fetching has happened or not.",
+      "parentUuid": "175bd408_7b0ec433",
+      "range": {
+        "startLine": 38,
+        "startChar": 2,
+        "endLine": 38,
+        "endChar": 49
+      },
       "revId": "2f07405681f355f08a99630367c3a6bf2decd80b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

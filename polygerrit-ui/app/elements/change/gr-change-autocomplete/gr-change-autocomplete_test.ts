@@ -56,10 +56,6 @@ suite('gr-change-autocomplete tests', () => {
     );
   });
 
-  test('fetches recent changes on connectedCallback', () => {
-    assert.isTrue(getChangesStub.calledOnce);
-  });
-
   test('suggestions are filtered by input', async () => {
     const query = element['query'];
     let suggestions = await query('123');

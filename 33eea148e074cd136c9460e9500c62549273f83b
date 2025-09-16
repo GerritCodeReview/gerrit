@@ -40,6 +40,30 @@
       ],
       "revId": "33eea148e074cd136c9460e9500c62549273f83b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "52859499_0251b626",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-rebase-dialog/gr-confirm-rebase-dialog.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-09-16T12:47:22Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "b55277db_6ba7200b",
+      "range": {
+        "startLine": 408,
+        "startChar": 4,
+        "endLine": 410,
+        "endChar": 25
+      },
+      "revId": "33eea148e074cd136c9460e9500c62549273f83b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

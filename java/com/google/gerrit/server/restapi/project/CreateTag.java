@@ -105,62 +105,63 @@ public class CreateTag implements RestCollectionCreateView<ProjectResource, TagR
     try (RefUpdateContext ctx = RefUpdateContext.open(TAG_MODIFICATION)) {
       try (Repository repo = repoManager.openRepository(resource.getNameKey())) {
         ObjectId revid = RefUtil.parseBaseRevision(repo, input.revision);
-        RevWalk rw = RefUtil.verifyConnected(repo, revid);
-        // Reachability through tags does not influence a commit's visibility, so no need to check
-        // for
-        // visibility.
-        RevObject object = rw.parseAny(revid);
-        rw.reset();
-        boolean isAnnotated = Strings.emptyToNull(input.message) != null;
-        boolean isSigned = isAnnotated && input.message.contains("-----BEGIN PGP SIGNATURE-----\n");
-        if (isSigned) {
-          throw new MethodNotAllowedException("Cannot create signed tag \"" + ref + "\"");
-        } else if (isAnnotated) {
-          if (!check(perm, RefPermission.CREATE_TAG)) {
-            throw new AuthException("Cannot create annotated tag \"" + ref + "\"");
-          }
-
-        } else {
-          perm.check(RefPermission.CREATE);
-        }
-        if (repo.getRefDatabase().exactRef(ref) != null) {
-          throw new ResourceConflictException("tag \"" + ref + "\" already exists");
-        }
-
-        try (Git git = new Git(repo)) {
-          TagCommand tag =
-              git.tag()
-                  .setObjectId(object)
-                  .setName(ref.substring(R_TAGS.length()))
-                  .setAnnotated(isAnnotated)
-                  .setSigned(isSigned);
-
-          if (isAnnotated) {
-            tag.setMessage(input.message)
-                .setTagger(
-                    resource
-                        .getUser()
-                        .asIdentifiedUser()
-                        .newCommitterIdent(TimeUtil.now(), ZoneId.systemDefault()));
-          }
-
-          try {
-            Ref result = tag.call();
-            tagCache.updateFastForward(
-                resource.getNameKey(), ref, ObjectId.zeroId(), result.getObjectId());
-            referenceUpdated.fire(
-                resource.getNameKey(),
-                ref,
-                ObjectId.zeroId(),
-                result.getObjectId(),
-                resource.getUser().asIdentifiedUser().state());
-            try (RevWalk w = new RevWalk(repo)) {
-              return Response.created(
-                  ListTags.createTagInfo(perm, result, w, resource.getProjectState(), links));
+        try (RevWalk rw = RefUtil.verifyConnected(repo, revid)) {
+          // Reachability through tags does not influence a commit's visibility, so no need to check
+          // for visibility.
+          RevObject object = rw.parseAny(revid);
+          rw.reset();
+          boolean isAnnotated = Strings.emptyToNull(input.message) != null;
+          boolean isSigned =
+              isAnnotated && input.message.contains("-----BEGIN PGP SIGNATURE-----\n");
+          if (isSigned) {
+            throw new MethodNotAllowedException("Cannot create signed tag \"" + ref + "\"");
+          } else if (isAnnotated) {
+            if (!check(perm, RefPermission.CREATE_TAG)) {
+              throw new AuthException("Cannot create annotated tag \"" + ref + "\"");
             }
-          } catch (ConcurrentRefUpdateException e) {
-            LockFailureException.throwIfLockFailure(e);
-            throw e;
+
+          } else {
+            perm.check(RefPermission.CREATE);
+          }
+          if (repo.getRefDatabase().exactRef(ref) != null) {
+            throw new ResourceConflictException("tag \"" + ref + "\" already exists");
+          }
+
+          try (Git git = new Git(repo)) {
+            TagCommand tag =
+                git.tag()
+                    .setObjectId(object)
+                    .setName(ref.substring(R_TAGS.length()))
+                    .setAnnotated(isAnnotated)
+                    .setSigned(isSigned);
+
+            if (isAnnotated) {
+              tag.setMessage(input.message)
+                  .setTagger(
+                      resource
+                          .getUser()
+                          .asIdentifiedUser()
+                          .newCommitterIdent(TimeUtil.now(), ZoneId.systemDefault()));
+            }
+
+            try {
+              Ref result = tag.call();
+              tagCache.updateFastForward(
+                  resource.getNameKey(), ref, ObjectId.zeroId(), result.getObjectId());
+              referenceUpdated.fire(
+                  resource.getNameKey(),
+                  ref,
+                  ObjectId.zeroId(),
+                  result.getObjectId(),
+                  resource.getUser().asIdentifiedUser().state());
+              try (RevWalk w = new RevWalk(repo)) {
+                return Response.created(
+                    ListTags.createTagInfo(perm, result, w, resource.getProjectState(), links));
+              }
+            } catch (ConcurrentRefUpdateException e) {
+              LockFailureException.throwIfLockFailure(e);
+              throw e;
+            }
           }
         }
       } catch (GitAPIException e) {

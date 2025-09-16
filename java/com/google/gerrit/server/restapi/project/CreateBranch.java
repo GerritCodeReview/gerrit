@@ -132,91 +132,93 @@ public class CreateBranch
       BranchNameKey name = BranchNameKey.create(rsrc.getNameKey(), ref);
       try (Repository repo = repoManager.openRepository(rsrc.getNameKey())) {
         ObjectId revid = RefUtil.parseBaseRevision(repo, input.revision);
-        RevWalk rw = RefUtil.verifyConnected(repo, revid);
-        RevObject object = rw.parseAny(revid);
+        try (RevWalk rw = RefUtil.verifyConnected(repo, revid)) {
+          RevObject object = rw.parseAny(revid);
 
-        if (ref.startsWith(Constants.R_HEADS)) {
-          // Ensure that what we start the branch from is a commit. If we
-          // were given a tag, dereference to the commit instead.
-          //
-          object = rw.parseCommit(object);
-        }
-
-        Ref sourceRef = repo.exactRef(input.revision);
-        if (sourceRef == null) {
-          createRefControl.checkCreateRef(identifiedUser, repo, name, object, /* forPush= */ false);
-        } else {
-          if (sourceRef.isSymbolic()) {
-            sourceRef = sourceRef.getTarget();
+          if (ref.startsWith(Constants.R_HEADS)) {
+            // Ensure that what we start the branch from is a commit. If we
+            // were given a tag, dereference to the commit instead.
+            //
+            object = rw.parseCommit(object);
           }
-          createRefControl.checkCreateRef(
-              identifiedUser,
-              repo,
-              name,
-              object,
-              /* forPush= */ false,
-              BranchNameKey.create(rsrc.getNameKey(), sourceRef.getName()));
-        }
 
-        RefUpdate u = repo.updateRef(ref);
-        u.setExpectedOldObjectId(ObjectId.zeroId());
-        u.setNewObjectId(object.copy());
-        u.setRefLogIdent(identifiedUser.get().newRefLogIdent());
-        u.setRefLogMessage("created via REST from " + input.revision, false);
-        refCreationValidator.validateRefOperation(
-            rsrc.getName(),
-            identifiedUser.get(),
-            u,
-            ValidationOptionsUtil.getValidateOptionsAsMultimap(input.validationOptions));
-        RefUpdate.Result result = u.update(rw);
-        switch (result) {
-          case FAST_FORWARD:
-          case NEW:
-          case NO_CHANGE:
-            referenceUpdated.fire(
-                name.project(), u, ReceiveCommand.Type.CREATE, identifiedUser.get().state());
-            break;
-          case LOCK_FAILURE:
-            if (repo.getRefDatabase().exactRef(ref) != null) {
-              throw new ResourceConflictException("branch \"" + ref + "\" already exists");
+          Ref sourceRef = repo.exactRef(input.revision);
+          if (sourceRef == null) {
+            createRefControl.checkCreateRef(
+                identifiedUser, repo, name, object, /* forPush= */ false);
+          } else {
+            if (sourceRef.isSymbolic()) {
+              sourceRef = sourceRef.getTarget();
             }
-            Collection<String> conflicting = repo.getRefDatabase().getConflictingNames(ref);
-            if (conflicting.size() > 0) {
-              throw new ResourceConflictException(
-                  "Cannot create branch \""
-                      + ref
-                      + "\" since it conflicts with branch \""
-                      + conflicting.stream().collect(Collectors.joining(", "))
-                      + "\".");
-            }
-            throw new LockFailureException(String.format("Failed to create %s", ref), u);
-          case FORCED:
-          case IO_FAILURE:
-          case NOT_ATTEMPTED:
-          case REJECTED:
-          case REJECTED_CURRENT_BRANCH:
-          case RENAMED:
-          case REJECTED_MISSING_OBJECT:
-          case REJECTED_OTHER_REASON:
-          default:
-            throw new IOException(String.format("Failed to create %s: %s", ref, result.name()));
-        }
+            createRefControl.checkCreateRef(
+                identifiedUser,
+                repo,
+                name,
+                object,
+                /* forPush= */ false,
+                BranchNameKey.create(rsrc.getNameKey(), sourceRef.getName()));
+          }
 
-        BranchInfo info = new BranchInfo();
-        info.ref = ref;
-        info.revision = revid.getName();
+          RefUpdate u = repo.updateRef(ref);
+          u.setExpectedOldObjectId(ObjectId.zeroId());
+          u.setNewObjectId(object.copy());
+          u.setRefLogIdent(identifiedUser.get().newRefLogIdent());
+          u.setRefLogMessage("created via REST from " + input.revision, false);
+          refCreationValidator.validateRefOperation(
+              rsrc.getName(),
+              identifiedUser.get(),
+              u,
+              ValidationOptionsUtil.getValidateOptionsAsMultimap(input.validationOptions));
+          RefUpdate.Result result = u.update(rw);
+          switch (result) {
+            case FAST_FORWARD:
+            case NEW:
+            case NO_CHANGE:
+              referenceUpdated.fire(
+                  name.project(), u, ReceiveCommand.Type.CREATE, identifiedUser.get().state());
+              break;
+            case LOCK_FAILURE:
+              if (repo.getRefDatabase().exactRef(ref) != null) {
+                throw new ResourceConflictException("branch \"" + ref + "\" already exists");
+              }
+              Collection<String> conflicting = repo.getRefDatabase().getConflictingNames(ref);
+              if (conflicting.size() > 0) {
+                throw new ResourceConflictException(
+                    "Cannot create branch \""
+                        + ref
+                        + "\" since it conflicts with branch \""
+                        + conflicting.stream().collect(Collectors.joining(", "))
+                        + "\".");
+              }
+              throw new LockFailureException(String.format("Failed to create %s", ref), u);
+            case FORCED:
+            case IO_FAILURE:
+            case NOT_ATTEMPTED:
+            case REJECTED:
+            case REJECTED_CURRENT_BRANCH:
+            case RENAMED:
+            case REJECTED_MISSING_OBJECT:
+            case REJECTED_OTHER_REASON:
+            default:
+              throw new IOException(String.format("Failed to create %s: %s", ref, result.name()));
+          }
 
-        if (isConfigRef(name.branch())) {
-          // Never allow to delete the meta config branch.
-          info.canDelete = null;
-        } else {
-          info.canDelete =
-              (permissionBackend.currentUser().ref(name).testOrFalse(RefPermission.DELETE)
-                      && rsrc.getProjectState().statePermitsWrite())
-                  ? true
-                  : null;
+          BranchInfo info = new BranchInfo();
+          info.ref = ref;
+          info.revision = revid.getName();
+
+          if (isConfigRef(name.branch())) {
+            // Never allow to delete the meta config branch.
+            info.canDelete = null;
+          } else {
+            info.canDelete =
+                (permissionBackend.currentUser().ref(name).testOrFalse(RefPermission.DELETE)
+                        && rsrc.getProjectState().statePermitsWrite())
+                    ? true
+                    : null;
+          }
+          return Response.created(info);
         }
-        return Response.created(info);
       }
     }
   }

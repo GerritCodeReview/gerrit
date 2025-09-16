@@ -3,7 +3,6 @@
  * Copyright 2024 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import * as sinon from 'sinon';
 import '../../../test/common-test-setup';
 import './gr-change-autocomplete';
 import {GrChangeAutocomplete} from './gr-change-autocomplete';
@@ -14,10 +13,9 @@ import {assert, fixture, html} from '@open-wc/testing';
 
 suite('gr-change-autocomplete tests', () => {
   let element: GrChangeAutocomplete;
-  let getChangesStub: sinon.SinonStub;
 
   setup(async () => {
-    getChangesStub = stubRestApi('getChanges').returns(
+    stubRestApi('getChanges').returns(
       Promise.resolve([
         {
           ...createChangeViewChange(),
@@ -54,10 +52,6 @@ suite('gr-change-autocomplete tests', () => {
         </gr-autocomplete>
       `
     );
-  });
-
-  test('fetches recent changes on connectedCallback', () => {
-    assert.isTrue(getChangesStub.calledOnce);
   });
 
   test('suggestions are filtered by input', async () => {

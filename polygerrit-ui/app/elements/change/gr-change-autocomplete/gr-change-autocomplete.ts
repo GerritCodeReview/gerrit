@@ -8,7 +8,6 @@ import {customElement, property, state} from 'lit/decorators.js';
 import {AutocompleteQuery} from '../../shared/gr-autocomplete/gr-autocomplete';
 import {AutocompleteSuggestion} from '../../../utils/autocomplete-util';
 import {getAppContext} from '../../../services/app-context';
-import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 import {NumericChangeId} from '../../../types/common';
 import {ValueChangedEvent} from '../../../types/events';
 import '../../shared/gr-autocomplete/gr-autocomplete';
@@ -34,18 +33,10 @@ export class GrChangeAutocomplete extends LitElement {
   @state()
   private query: AutocompleteQuery = input => this.getChangeSuggestions(input);
 
-  @state()
-  private recentChanges?: ChangeSuggestion[];
-
   private readonly restApiService = getAppContext().restApiService;
 
   constructor() {
     super();
-  }
-
-  override connectedCallback() {
-    super.connectedCallback();
-    this.fetchRecentChanges();
   }
 
   static override get styles() {
@@ -74,61 +65,29 @@ export class GrChangeAutocomplete extends LitElement {
     `;
   }
 
-  private async fetchRecentChanges() {
+  private async getChangeSuggestions(
+    input: string
+  ): Promise<AutocompleteSuggestion[]> {
+    if (!input) return [];
     try {
-      const res = await this.restApiService.getChanges(
-        undefined,
-        'is:open -age:90d',
-        /* offset=*/ undefined,
-        /* options=*/ undefined,
-        throwingErrorCallback
-      );
-      if (!res) return (this.recentChanges = []);
-      const changes: ChangeSuggestion[] = [];
-      for (const change of res) {
-        changes.push({
-          description: `${change._number}: ${change.subject}`,
-          changeNum: change._number,
+      const changes = await this.restApiService.getChanges(50, input);
+      if (!changes) return [];
+      return changes
+        .filter(
+          change =>
+            this.excludeChangeNum === undefined ||
+            change._number !== this.excludeChangeNum
+        )
+        .map(change => {
+          return {
+            name: `${change._number}: ${change.subject}`,
+            value: `${change._number}`,
+          };
         });
-      }
-      return (this.recentChanges = changes);
     } catch (e) {
-      console.error('Failed to fetch recent changes:', e);
-      return (this.recentChanges = []);
+      console.error('Failed to fetch changes:', e);
+      return [];
     }
-  }
-
-  private getRecentChanges() {
-    if (this.recentChanges) {
-      return Promise.resolve(this.recentChanges);
-    }
-    return this.fetchRecentChanges();
-  }
-
-  private getChangeSuggestions(input: string) {
-    return this.getRecentChanges().then(changes =>
-      this.filterChanges(input, changes)
-    );
-  }
-
-  private filterChanges(
-    input: string,
-    changes: ChangeSuggestion[]
-  ): AutocompleteSuggestion[] {
-    return changes
-      .filter(
-        change =>
-          change.description.includes(input) &&
-          (this.excludeChangeNum === undefined ||
-            change.changeNum !== this.excludeChangeNum)
-      )
-      .map(
-        change =>
-          ({
-            name: change.description,
-            value: `${change.changeNum}`,
-          } as AutocompleteSuggestion)
-      );
   }
 }
 

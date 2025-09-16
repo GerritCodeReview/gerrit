@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../../shared/gr-button/gr-button';
-import '../../shared/gr-select/gr-select';
 import {AccountDetailInfo, PreferencesInput} from '../../../types/common';
 import {grFormStyles} from '../../../styles/gr-form-styles';
 import {menuPageStyles} from '../../../styles/gr-menu-page-styles';
@@ -33,6 +32,8 @@ import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-load
 import '@material/web/checkbox/checkbox';
 import {MdCheckbox} from '@material/web/checkbox/checkbox';
 import {materialStyles} from '../../../styles/gr-material-styles';
+import '@material/web/select/outlined-select';
+import '@material/web/select/select-option';
 
 /**
  * This provides an interface to show settings for a user profile
@@ -40,19 +41,6 @@ import {materialStyles} from '../../../styles/gr-material-styles';
  */
 @customElement('gr-preferences')
 export class GrPreferences extends LitElement {
-  @query('#themeSelect') themeSelect!: HTMLInputElement;
-
-  @query('#changesPerPageSelect') changesPerPageSelect!: HTMLInputElement;
-
-  @query('#dateTimeFormatSelect') dateTimeFormatSelect!: HTMLInputElement;
-
-  @query('#timeFormatSelect') timeFormatSelect!: HTMLInputElement;
-
-  @query('#emailNotificationsSelect')
-  emailNotificationsSelect!: HTMLInputElement;
-
-  @query('#emailFormatSelect') emailFormatSelect!: HTMLInputElement;
-
   @query('#allowBrowserNotifications')
   allowBrowserNotifications?: MdCheckbox;
 
@@ -62,13 +50,8 @@ export class GrPreferences extends LitElement {
   @query('#allowAiCommentAutocompletion')
   allowAiCommentAutocompletion?: HTMLInputElement;
 
-  @query('#defaultBaseForMergesSelect')
-  defaultBaseForMergesSelect!: HTMLInputElement;
-
   @query('#relativeDateInChangeTable')
   relativeDateInChangeTable!: MdCheckbox;
-
-  @query('#diffViewSelect') diffViewSelect!: HTMLInputElement;
 
   @query('#showSizeBarsInFileList') showSizeBarsInFileList!: MdCheckbox;
 
@@ -171,19 +154,24 @@ export class GrPreferences extends LitElement {
           <section>
             <label class="title" for="themeSelect">Theme</label>
             <span class="value">
-              <gr-select
-                .bindValue=${this.prefs?.theme ?? AppTheme.AUTO}
-                @change=${() => {
-                  this.prefs!.theme = this.themeSelect.value as AppTheme;
+              <md-outlined-select
+                .value=${this.prefs?.theme ?? AppTheme.AUTO}
+                @change=${(e: Event) => {
+                  const select = e.target as HTMLSelectElement;
+                  this.prefs!.theme = select.value as AppTheme;
                   this.requestUpdate();
                 }}
               >
-                <select id="themeSelect">
-                  <option value="AUTO">Auto (based on OS prefs)</option>
-                  <option value="LIGHT">Light</option>
-                  <option value="DARK">Dark</option>
-                </select>
-              </gr-select>
+                <md-select-option value="AUTO">
+                  <div slot="headline">Auto (based on OS prefs)</div>
+                </md-select-option>
+                <md-select-option value="LIGHT">
+                  <div slot="headline">Light</div>
+                </md-select-option>
+                <md-select-option value="DARK">
+                  <div slot="headline">Dark</div>
+                </md-select-option>
+              </md-outlined-select>
             </span>
           </section>
           <section>
@@ -191,22 +179,31 @@ export class GrPreferences extends LitElement {
               >Changes per page</label
             >
             <span class="value">
-              <gr-select
-                .bindValue=${convertToString(this.prefs?.changes_per_page)}
-                @change=${() => {
-                  this.prefs!.changes_per_page = Number(
-                    this.changesPerPageSelect.value
-                  ) as 10 | 25 | 50 | 100;
+              <md-outlined-select
+                .value=${convertToString(this.prefs?.changes_per_page)}
+                @change=${(e: Event) => {
+                  const select = e.target as HTMLSelectElement;
+                  this.prefs!.changes_per_page = Number(select.value) as
+                    | 10
+                    | 25
+                    | 50
+                    | 100;
                   this.requestUpdate();
                 }}
               >
-                <select id="changesPerPageSelect">
-                  <option value="10">10 rows per page</option>
-                  <option value="25">25 rows per page</option>
-                  <option value="50">50 rows per page</option>
-                  <option value="100">100 rows per page</option>
-                </select>
-              </gr-select>
+                <md-select-option value="10">
+                  <div slot="headline">10 rows per page</div>
+                </md-select-option>
+                <md-select-option value="25">
+                  <div slot="headline">25 rows per page</div>
+                </md-select-option>
+                <md-select-option value="50">
+                  <div slot="headline">50 rows per page</div>
+                </md-select-option>
+                <md-select-option value="100">
+                  <div slot="headline">100 rows per page</div>
+                </md-select-option>
+              </md-outlined-select>
             </span>
           </section>
           <section>
@@ -214,36 +211,45 @@ export class GrPreferences extends LitElement {
               >Date/time format</label
             >
             <span class="value">
-              <gr-select
-                .bindValue=${convertToString(this.prefs?.date_format)}
-                @change=${() => {
-                  this.prefs!.date_format = this.dateTimeFormatSelect
-                    .value as DateFormat;
+              <md-outlined-select
+                .value=${convertToString(this.prefs?.date_format)}
+                @change=${(e: Event) => {
+                  const select = e.target as HTMLSelectElement;
+                  this.prefs!.date_format = select.value as DateFormat;
                   this.requestUpdate();
                 }}
               >
-                <select id="dateTimeFormatSelect">
-                  <option value="STD">Jun 3 ; Jun 3, 2016</option>
-                  <option value="US">06/03 ; 06/03/16</option>
-                  <option value="ISO">06-03 ; 2016-06-03</option>
-                  <option value="EURO">3. Jun ; 03.06.2016</option>
-                  <option value="UK">03/06 ; 03/06/2016</option>
-                </select>
-              </gr-select>
-              <gr-select
-                .bindValue=${convertToString(this.prefs?.time_format)}
-                aria-label="Time Format"
-                @change=${() => {
-                  this.prefs!.time_format = this.timeFormatSelect
-                    .value as TimeFormat;
+                <md-select-option value="STD">
+                  <div slot="headline">Jun 3 ; Jun 3, 2016</div>
+                </md-select-option>
+                <md-select-option value="US">
+                  <div slot="headline">06/03 ; 06/03/16</div>
+                </md-select-option>
+                <md-select-option value="ISO">
+                  <div slot="headline">06-03 ; 2016-06-03</div>
+                </md-select-option>
+                <md-select-option value="EURO">
+                  <div slot="headline">3. Jun ; 03.06.2016</div>
+                </md-select-option>
+                <md-select-option value="UK">
+                  <div slot="headline">03/06 ; 03/06/2016</div>
+                </md-select-option>
+              </md-outlined-select>
+              <md-outlined-select
+                .value=${convertToString(this.prefs?.time_format)}
+                @change=${(e: Event) => {
+                  const select = e.target as HTMLSelectElement;
+                  this.prefs!.time_format = select.value as TimeFormat;
                   this.requestUpdate();
                 }}
               >
-                <select id="timeFormatSelect">
-                  <option value="HHMM_12">4:10 PM</option>
-                  <option value="HHMM_24">16:10</option>
-                </select>
-              </gr-select>
+                <md-select-option value="HHMM_12">
+                  <div slot="headline">4:10 PM</div>
+                </md-select-option>
+                <md-select-option value="HHMM_24">
+                  <div slot="headline">16:10</div>
+                </md-select-option>
+              </md-outlined-select>
             </span>
           </section>
           <section>
@@ -251,41 +257,44 @@ export class GrPreferences extends LitElement {
               >Email notifications</label
             >
             <span class="value">
-              <gr-select
-                .bindValue=${convertToString(this.prefs?.email_strategy)}
-                @change=${() => {
-                  this.prefs!.email_strategy = this.emailNotificationsSelect
-                    .value as EmailStrategy;
+              <md-outlined-select
+                .value=${convertToString(this.prefs?.email_strategy)}
+                @change=${(e: Event) => {
+                  const select = e.target as HTMLSelectElement;
+                  this.prefs!.email_strategy = select.value as EmailStrategy;
                   this.requestUpdate();
                 }}
               >
-                <select id="emailNotificationsSelect">
-                  <option value="CC_ON_OWN_COMMENTS">Every comment</option>
-                  <option value="ENABLED">Only comments left by others</option>
-                  <option value="ATTENTION_SET_ONLY">
-                    Only when I am in the attention set
-                  </option>
-                  <option value="DISABLED">None</option>
-                </select>
-              </gr-select>
+                <md-select-option value="CC_ON_OWN_COMMENTS">
+                  <div slot="headline">Every comment</div>
+                </md-select-option>
+                <md-select-option value="ENABLED">
+                  <div slot="headline">Only comments left by others</div>
+                </md-select-option>
+                <md-select-option value="ATTENTION_SET_ONLY">
+                  <div slot="headline">Only when I am in the attention set</div>
+                </md-select-option>
+              </md-outlined-select>
             </span>
           </section>
           <section>
             <label class="title" for="emailFormatSelect">Email format</label>
             <span class="value">
-              <gr-select
-                .bindValue=${convertToString(this.prefs?.email_format)}
-                @change=${() => {
-                  this.prefs!.email_format = this.emailFormatSelect
-                    .value as EmailFormat;
+              <md-outlined-select
+                .value=${convertToString(this.prefs?.email_format)}
+                @change=${(e: Event) => {
+                  const select = e.target as HTMLSelectElement;
+                  this.prefs!.email_format = select.value as EmailFormat;
                   this.requestUpdate();
                 }}
               >
-                <select id="emailFormatSelect">
-                  <option value="HTML_PLAINTEXT">HTML and plaintext</option>
-                  <option value="PLAINTEXT">Plaintext only</option>
-                </select>
-              </gr-select>
+                <md-select-option value="HTML_PLAINTEXT">
+                  <div slot="headline">HTML and plaintext</div>
+                </md-select-option>
+                <md-select-option value="PLAINTEXT">
+                  <div slot="headline">Plaintext only</div>
+                </md-select-option>
+              </md-outlined-select>
             </span>
           </section>
           ${this.renderBrowserNotifications()}
@@ -311,19 +320,21 @@ export class GrPreferences extends LitElement {
           <section>
             <span class="title">Diff view</span>
             <span class="value">
-              <gr-select
-                .bindValue=${convertToString(this.prefs?.diff_view)}
-                @change=${() => {
-                  this.prefs!.diff_view = this.diffViewSelect
-                    .value as DiffViewMode;
+              <md-outlined-select
+                .value=${convertToString(this.prefs?.diff_view)}
+                @change=${(e: Event) => {
+                  const select = e.target as HTMLSelectElement;
+                  this.prefs!.diff_view = select.value as DiffViewMode;
                   this.requestUpdate();
                 }}
               >
-                <select id="diffViewSelect">
-                  <option value="SIDE_BY_SIDE">Side by side</option>
-                  <option value="UNIFIED_DIFF">Unified diff</option>
-                </select>
-              </gr-select>
+                <md-select-option value="SIDE_BY_SIDE">
+                  <div slot="headline">Side by side</div>
+                </md-select-option>
+                <md-select-option value="UNIFIED_DIFF">
+                  <div slot="headline">Unified diff</div>
+                </md-select-option>
+              </md-outlined-select>
             </span>
           </section>
           <section>
@@ -561,21 +572,23 @@ export class GrPreferences extends LitElement {
     //   <section>
     //     <span class="title">Default Base For Merges</span>
     //     <span class="value">
-    //       <gr-select
-    //         .bindValue=${convertToString(
-    //           this.prefs?.default_base_for_merges
-    //         )}
-    //         @change=${() => {
-    //           this.prefs!.default_base_for_merges = this
-    //             .defaultBaseForMergesSelect.value as DefaultBase;
+    //       <md-outlined-select
+    //         .value=${convertToString(
+    //            this.prefs?.default_base_for_merges
+    //          )}
+    //         @change=${(e: Event) => {
+    //           const select = e.target as HTMLSelectElement;
+    //           this.prefs!.default_base_for_merges = select.value as DefaultBase;
     //           this.requestUpdate();
     //         }}
     //       >
-    //         <select id="defaultBaseForMergesSelect">
-    //           <option value="AUTO_MERGE">Auto Merge</option>
-    //           <option value="FIRST_PARENT">First Parent</option>
-    //         </select>
-    //       </gr-select>
+    //         <md-select-option value="AUTO_MERGE">
+    //           <div slot="headline">Auto Merge</div>
+    //         </md-select-option>
+    //         <md-select-option value="FIRST_PARENT">
+    //           <div slot="headline">First Parent</div>
+    //         </md-select-option>
+    //       </md-outlined-select>
     //     </span>
     //   </section>
     // `;

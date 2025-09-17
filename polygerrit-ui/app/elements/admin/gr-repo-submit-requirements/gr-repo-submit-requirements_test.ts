@@ -283,16 +283,8 @@ suite('gr-repo-submit-requirements tests', () => {
                   </div>
                   <div class="value-flex">
                     <span class="value">
-                      <gr-select id="allowOverride">
-                        <select>
-                          <option value="true">
-                            True
-                          </option>
-                          <option value="false">
-                            False
-                          </option>
-                        </select>
-                      </gr-select>
+                      <md-checkbox id="allowOverride">
+                      </md-checkbox>
                     </span>
                   </div>
                 </section>

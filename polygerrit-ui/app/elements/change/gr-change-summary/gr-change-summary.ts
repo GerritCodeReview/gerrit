@@ -17,7 +17,7 @@ import {spinnerStyles} from '../../../styles/gr-spinner-styles';
 import {getAppContext} from '../../../services/app-context';
 import {CheckRun, ErrorMessages} from '../../../models/checks/checks-model';
 import {Action, Category, CheckResult, RunStatus} from '../../../api/checks';
-import {fireShowTab} from '../../../utils/event-util';
+import {fire, fireShowTab} from '../../../utils/event-util';
 import {
   compareByWorstCategory,
   getResultsOf,
@@ -28,7 +28,12 @@ import {
   isRunningScheduledOrCompleted,
 } from '../../../models/checks/checks-util';
 import {getMentionedThreads, isUnresolved} from '../../../utils/comment-util';
-import {AccountInfo, CommentThread, DropdownLink} from '../../../types/common';
+import {
+  AccountInfo,
+  CommentThread,
+  DropdownLink,
+  PatchSetNum,
+} from '../../../types/common';
 import {Tab} from '../../../constants/constants';
 import {ChecksTabState} from '../../../types/events';
 import {modifierPressed} from '../../../utils/dom-util';
@@ -44,6 +49,7 @@ import {userModelToken} from '../../../models/user/user-model';
 import {assertIsDefined} from '../../../utils/common-util';
 import {GrAiPromptDialog} from '../gr-ai-prompt-dialog/gr-ai-prompt-dialog';
 import {KnownExperimentId} from '../../../services/flags/flags';
+import '../gr-ai-prompt-dialog/gr-ai-chatbot';
 
 function handleSpaceOrEnter(e: KeyboardEvent, handler: () => void) {
   if (modifierPressed(e)) return;
@@ -89,6 +95,8 @@ export class GrChangeSummary extends LitElement {
 
   @state()
   loginCallback?: () => void;
+
+  @state() patchNum?: PatchSetNum;
 
   @state()
   actions: Action[] = [];
@@ -175,6 +183,11 @@ export class GrChangeSummary extends LitElement {
       this,
       () => this.getCommentsModel().commentsLoading$,
       x => (this.commentsLoading = x)
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().patchNum$,
+      patchNum => (this.patchNum = patchNum)
     );
     subscribe(
       this,
@@ -304,6 +317,12 @@ export class GrChangeSummary extends LitElement {
         .summaryMessage {
           line-height: var(--line-height-normal);
           color: var(--primary-text-color);
+        }
+
+        .ai-buttons {
+          display: flex;
+          gap: 4px;
+          align-items: center;
         }
       `,
     ];
@@ -488,7 +507,7 @@ export class GrChangeSummary extends LitElement {
     );
     if (count === 0) return;
     const handler = () => this.onChipClick({statusOrCategory});
-    return html`<gr-checks-chip
+    return html` <gr-checks-chip
       .statusOrCategory=${statusOrCategory}
       .text=${`${count}`}
       @click=${handler}
@@ -506,7 +525,7 @@ export class GrChangeSummary extends LitElement {
       this.showAllChips.set(statusOrCategory, true);
       this.requestUpdate();
     };
-    return html`<gr-checks-chip
+    return html` <gr-checks-chip
       .statusOrCategory=${statusOrCategory}
       .text="+ ${count} more"
       @click=${handler}
@@ -554,15 +573,42 @@ export class GrChangeSummary extends LitElement {
     });
   }
 
-  private handleOpenAiPromptDialog() {
-    assertIsDefined(this.aiPromptModal, 'aiPromptModal');
-    this.aiPromptModal.showModal();
-    this.aiPromptDialog?.open();
-  }
-
   private handleAiPromptDialogClose() {
     assertIsDefined(this.aiPromptModal, 'aiPromptModal');
     this.aiPromptModal.close();
+  }
+
+  private openChatbot() {
+    let chatbot = document.querySelector('gr-chatbot');
+    const hasChange = !!this.getChangeModel().getChange();
+    const initMsg = 'Hi, How are you AI';
+    if (!chatbot) {
+      chatbot = document.createElement('gr-chatbot');
+
+      if (hasChange) {
+        chatbot.change = this.getChangeModel().getChange();
+      }
+      chatbot.patchNum = this.patchNum;
+
+      document.body.appendChild(chatbot);
+
+      requestAnimationFrame(() => {
+        chatbot!.open();
+
+        chatbot!.sendMessage(initMsg);
+      });
+    } else if (chatbot) {
+      chatbot.open();
+      chatbot.sendMessage(initMsg);
+    }
+
+    this.handleCloseTap(new Event('close'));
+  }
+
+  private handleCloseTap(e: Event) {
+    e.preventDefault();
+    e.stopPropagation();
+    fire(this, 'close', {});
   }
 
   override render() {
@@ -583,10 +629,11 @@ export class GrChangeSummary extends LitElement {
                 ></gr-comments-summary>
                 ${when(
                   this.flagsService.isEnabled(KnownExperimentId.GET_AI_PROMPT),
-                  () =>
-                    html`<gr-button link @click=${this.handleOpenAiPromptDialog}
-                      >Create AI Review Prompt</gr-button
-                    >`
+                  () => html`
+                    <gr-button link @click=${this.openChatbot}>
+                      AI Code Review Assistant
+                    </gr-button>
+                  `
                 )}
               </div>
             </td>

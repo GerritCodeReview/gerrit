@@ -67,6 +67,24 @@
       "message": "I think i may have found a potential solution.\n\nChanging updateValueInDom:\n\n```\n  private async updateValueInDom() {\n    const editableDivElement \u003d\n      this.editableDivElement ?? (await this.editableDiv);\n    if (editableDivElement) {\n      if (this.contentEditableAttributeValue \u003d\u003d\u003d \u0027true\u0027 || this.contentEditableAttributeValue \u003d\u003d\u003d \u0027\u0027) {\n        const lines \u003d (this.value ?? \u0027\u0027).split(\u0027\\n\u0027);\n        editableDivElement.innerHTML \u003d lines\n          .map(line \u003d\u003e line ? `\u003cdiv\u003e${htmlEscape(line)}\u003c/div\u003e` : \u0027\u003cdiv\u003e\u003cbr\u003e\u003c/div\u003e\u0027)\n          .join(\u0027\u0027);\n      } else {\n        editableDivElement.innerText \u003d this.value || \u0027\u0027;\n      }\n    }\n  }\n  \n  private get contentEditableAttributeValue() {\n    if (this.disabled) {\n      return \u0027false\u0027;\n    }\n\n    if (this.isPlaintextOnlySupported) {\n      if (/firefox/i.test(navigator.userAgent)) {\n        return \u0027\u0027;\n      }\n      return \u0027plaintext-only\u0027 as unknown as \u0027true\u0027;\n    }\n\n    return \u0027true\u0027;\n  }\n```\n\nI dunno if this is acceptable cc @brohlfs@google.com? It works for me in firefox and it escapes the html.",
       "revId": "b9666e796df3c2a2016e25e466405507dc5cd917",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "376fc9dd_e0c0a69e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-09-17T13:33:09Z",
+      "side": 1,
+      "message": "Oh, i found an even better fix. One liner. Replace innerText with textContent",
+      "parentUuid": "cbd788b0_e8646094",
+      "revId": "b9666e796df3c2a2016e25e466405507dc5cd917",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

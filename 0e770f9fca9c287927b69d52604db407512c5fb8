@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e28ce561_caf96545",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2025-09-17T21:49:40Z",
+      "side": 1,
+      "message": "@milutin@google.com Would it be OK to make this bug public? I am trying to understand in what cases the patch generation will fail. I see that the context dropdown is enabled on gerrit-review and seems to be functional.",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 26
+      },
+      "revId": "0e770f9fca9c287927b69d52604db407512c5fb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

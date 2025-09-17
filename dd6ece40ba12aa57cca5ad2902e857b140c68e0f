@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "43bfe3ab_e0f863b4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 27
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-09-17T22:02:02Z",
+      "side": 1,
+      "message": "@ekempin@google.com are you able to LC+1/+2 this please? :)",
+      "revId": "dd6ece40ba12aa57cca5ad2902e857b140c68e0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

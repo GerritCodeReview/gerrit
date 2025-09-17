@@ -129,6 +129,7 @@ import {escapeAndWrapSearchOperatorValue} from '../../utils/string-util';
 import {FlagsService, KnownExperimentId} from '../flags/flags';
 import {RetryScheduler} from '../scheduler/retry-scheduler';
 import {
+  AiCodeReviewResponse,
   BatchLabelInput,
   BatchSubmitRequirementInput,
   DeleteLabelInput,
@@ -3639,6 +3640,33 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       url: `${url}/ai_prompt?command=${command}`,
       anonymizedUrl: `${ANONYMIZED_REVISION_BASE_URL}/ai_prompt`,
     })) as unknown as Promise<string | undefined>;
+  }
+
+  async getAiCodeReview(
+    aiModel: string,
+    userInputPrompt: string,
+    changeNum: NumericChangeId,
+    patchNum: PatchSetNum
+  ): Promise<AiCodeReviewResponse | undefined> {
+    const changeNum1 = Number(changeNum) as NumericChangeId;
+
+    const url = await this._changeBaseURL(changeNum1, patchNum);
+
+    const payload = {
+      models: [aiModel],
+      prompt: userInputPrompt,
+      plugin_name: 'sap-ai-review',
+    };
+
+    return await this._restApiHelper.fetchJSON({
+      fetchOptions: getFetchOptions({
+        method: HttpMethod.POST,
+        body: JSON.stringify(payload),
+        headers: {'Content-Type': 'application/json'},
+      }),
+      url: `${url}/ai-review`,
+      anonymizedUrl: `${ANONYMIZED_REVISION_BASE_URL}/ai-review`,
+    });
   }
 
   /**

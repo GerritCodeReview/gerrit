@@ -98,7 +98,16 @@ suite('gr-flows tests', () => {
           <gr-create-flow></gr-create-flow>
           <hr />
           <div>
-            <h2 class="main-heading">Existing Flows</h2>
+            <div class="heading-with-button">
+              <h2 class="main-heading">Existing Flows</h2>
+              <gr-button
+                aria-label="Refresh flows"
+                link=""
+                title="Refresh flows"
+              >
+                <gr-icon icon="refresh"></gr-icon>
+              </gr-button>
+            </div>
             <div class="flow">
               <div class="flow-header">
                 <gr-button link title="Delete flow">
@@ -276,6 +285,37 @@ suite('gr-flows tests', () => {
       new CustomEvent('flow-created', {bubbles: true, composed: true})
     );
 
+    await element.updateComplete;
+
+    assert.isTrue(listFlowsStub.calledTwice);
+  });
+
+  test('refreshes flows on button click', async () => {
+    const flows: FlowInfo[] = [
+      {
+        uuid: 'flow1',
+        owner: {name: 'owner1'},
+        created: '2025-01-01T10:00:00.000Z' as Timestamp,
+        stages: [
+          {
+            expression: {condition: 'label:Code-Review=+1'},
+            state: FlowStageState.DONE,
+          },
+        ],
+      },
+    ];
+    const listFlowsStub = stubRestApi('listFlows').returns(
+      Promise.resolve(flows)
+    );
+    await element.loadFlows();
+    await element.updateComplete;
+
+    assert.isTrue(listFlowsStub.calledOnce);
+    const refreshButton = queryAndAssert<GrButton>(
+      element,
+      '.heading-with-button gr-button'
+    );
+    refreshButton.click();
     await element.updateComplete;
 
     assert.isTrue(listFlowsStub.calledTwice);

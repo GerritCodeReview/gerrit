@@ -299,7 +299,9 @@ export class GrCreateFlow extends LitElement {
           const action: {name: string; parameters?: string[]} = {
             name: stage.action,
           };
-          action.parameters = stage.parameterStr.split(' ');
+          if (stage.parameterStr.length > 0) {
+            action.parameters = stage.parameterStr.split(' ');
+          }
           return {
             condition: stage.condition,
             action,

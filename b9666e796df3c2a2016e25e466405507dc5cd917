@@ -33,6 +33,23 @@
       "message": "@brohlfs@google.com are you able to look please? I can reproduce this on master (we also don\u0027t support iron-autogrow-textarea anymore, we have gr-autogrow-textarea as a replacement).",
       "revId": "b9666e796df3c2a2016e25e466405507dc5cd917",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dea5781f_85636953",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-09-17T12:01:30Z",
+      "side": 1,
+      "message": "I manage to fix the issue partially by forcing firefox to use \u0027true\u0027 for contenteditable. But then when i reload the page, it breaks again. Only works if you write the text, but not when it re-adds the text.\n\nThe thing i notice is it adds:\n\n```\n\u003cdiv\u003etest\u003c/div\u003e\n\u003cdiv\u003etest\u003c/div\u003e\n```\n\nwhen it works.\n\nBut uses\n\n```\ntest\n\u003cbr/\u003e\ntest\n```\n\nwhen it doesn\u0027t.",
+      "revId": "b9666e796df3c2a2016e25e466405507dc5cd917",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

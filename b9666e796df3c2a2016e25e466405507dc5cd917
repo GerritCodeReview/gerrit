@@ -16,6 +16,23 @@
       "message": "Do you see a way to *fix* the gr-textarea on Firefox instead of reintroducing the legacy component?",
       "revId": "b9666e796df3c2a2016e25e466405507dc5cd917",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "de1cb645_8eeb03e0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-09-17T11:57:31Z",
+      "side": 1,
+      "message": "@brohlfs@google.com are you able to look please? I can reproduce this on master (we also don\u0027t support iron-autogrow-textarea anymore, we have gr-autogrow-textarea as a replacement).",
+      "revId": "b9666e796df3c2a2016e25e466405507dc5cd917",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

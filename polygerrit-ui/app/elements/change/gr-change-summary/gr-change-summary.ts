@@ -28,7 +28,12 @@ import {
   isRunningScheduledOrCompleted,
 } from '../../../models/checks/checks-util';
 import {getMentionedThreads, isUnresolved} from '../../../utils/comment-util';
-import {AccountInfo, CommentThread, DropdownLink} from '../../../types/common';
+import {
+  AccountInfo,
+  CommentThread,
+  DropdownLink,
+  PatchSetNum,
+} from '../../../types/common';
 import {Tab} from '../../../constants/constants';
 import {ChecksTabState} from '../../../types/events';
 import {modifierPressed} from '../../../utils/dom-util';
@@ -44,6 +49,7 @@ import {userModelToken} from '../../../models/user/user-model';
 import {assertIsDefined} from '../../../utils/common-util';
 import {GrAiPromptDialog} from '../gr-ai-prompt-dialog/gr-ai-prompt-dialog';
 import {KnownExperimentId} from '../../../services/flags/flags';
+import '../gr-ai-prompt-dialog/gr-chatbot-panel';
 
 function handleSpaceOrEnter(e: KeyboardEvent, handler: () => void) {
   if (modifierPressed(e)) return;
@@ -89,6 +95,8 @@ export class GrChangeSummary extends LitElement {
 
   @state()
   loginCallback?: () => void;
+
+  @state() patchNum?: PatchSetNum;
 
   @state()
   actions: Action[] = [];
@@ -175,6 +183,11 @@ export class GrChangeSummary extends LitElement {
       this,
       () => this.getCommentsModel().commentsLoading$,
       x => (this.commentsLoading = x)
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().patchNum$,
+      patchNum => (this.patchNum = patchNum)
     );
     subscribe(
       this,
@@ -304,6 +317,12 @@ export class GrChangeSummary extends LitElement {
         .summaryMessage {
           line-height: var(--line-height-normal);
           color: var(--primary-text-color);
+        }
+
+        .ai-buttons {
+          display: flex;
+          gap: 4px;
+          align-items: center;
         }
       `,
     ];
@@ -488,7 +507,7 @@ export class GrChangeSummary extends LitElement {
     );
     if (count === 0) return;
     const handler = () => this.onChipClick({statusOrCategory});
-    return html`<gr-checks-chip
+    return html` <gr-checks-chip
       .statusOrCategory=${statusOrCategory}
       .text=${`${count}`}
       @click=${handler}
@@ -506,7 +525,7 @@ export class GrChangeSummary extends LitElement {
       this.showAllChips.set(statusOrCategory, true);
       this.requestUpdate();
     };
-    return html`<gr-checks-chip
+    return html` <gr-checks-chip
       .statusOrCategory=${statusOrCategory}
       .text="+ ${count} more"
       @click=${handler}
@@ -554,15 +573,19 @@ export class GrChangeSummary extends LitElement {
     });
   }
 
-  private handleOpenAiPromptDialog() {
-    assertIsDefined(this.aiPromptModal, 'aiPromptModal');
-    this.aiPromptModal.showModal();
-    this.aiPromptDialog?.open();
-  }
-
   private handleAiPromptDialogClose() {
     assertIsDefined(this.aiPromptModal, 'aiPromptModal');
     this.aiPromptModal.close();
+  }
+
+
+  private handleAiAssistantClick() {
+    this.dispatchEvent(
+        new CustomEvent('toggle-ai-assistant', {
+          bubbles: true,
+          composed: true,
+        })
+    );
   }
 
   override render() {
@@ -583,10 +606,11 @@ export class GrChangeSummary extends LitElement {
                 ></gr-comments-summary>
                 ${when(
                   this.flagsService.isEnabled(KnownExperimentId.GET_AI_PROMPT),
-                  () =>
-                    html`<gr-button link @click=${this.handleOpenAiPromptDialog}
-                      >Create AI Review Prompt</gr-button
-                    >`
+                  () => html`
+                    <gr-button link @click=${this.handleAiAssistantClick}>
+                      AI Code Review Assistant
+                    </gr-button>
+                  `
                 )}
               </div>
             </td>

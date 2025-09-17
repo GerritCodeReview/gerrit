@@ -374,6 +374,8 @@ export class GrChangeView extends LitElement {
   @state()
   scrollCommentId?: UrlEncodedCommentId;
 
+  @state() private aiPanelOpened = false;
+
   /** Reflects the `opened` state of the reply dialog. */
   @state()
   replyModalOpened = false;
@@ -718,6 +720,10 @@ export class GrChangeView extends LitElement {
     // Or consider using either firstConnectedCallback() or constructor().
     document.addEventListener('visibilitychange', this.handleVisibilityChange);
     document.addEventListener('scroll', this.handleScroll);
+
+    this.addEventListener('toggle-ai-assistant', () => {
+      this.aiPanelOpened = !this.aiPanelOpened;
+    });
   }
 
   override firstUpdated() {
@@ -1089,12 +1095,135 @@ export class GrChangeView extends LitElement {
         .tabContent gr-thread-list::part(threads) {
           padding: var(--spacing-l);
         }
+        .split-container {
+          display: flex;
+          width: 100%;
+          height: 100vh;        /* fill viewport */
+          overflow: hidden;     /* prevent body scroll */
+        }
+
+        /* Left panel takes rest of space */
+        #left-panel {
+          flex: 1;
+          min-width: 200px;
+          overflow-y: auto;     /* scroll independently */
+          height: 100vh;        /* take full screen */
+        }
+
+        /* Divider between panels */
+        .divider {
+          width: 5px;
+          cursor: col-resize;
+          background: var(--border-color, #ccc);
+          transition: background 0.2s;
+          flex-shrink: 0;
+        }
+        .divider:hover {
+          background: var(--primary-color, #007bff);
+        }
+
+        /* Right chatbot panel */
+        #right-panel {
+          width: 600px;
+          min-width: 400px;
+          max-width: 800px;
+          display: flex;
+          flex-direction: column;
+          height: 100vh;         /* fixed full height like DevTools */
+          border-left: 1px solid var(--border-color, #ccc);
+          overflow: hidden;      /* prevent page scroll */
+        }
+
+        /* LEFT PANEL: change content */
+        .main-content {
+          flex: 1;
+          overflow-y: auto; /* independent scrolling */
+          height: 100%;
+        }
+
+        /* RIGHT PANEL: chatbot */
+        .ai-panel {
+          width: 400px;              /* default starting width */
+          min-width: 250px;          /* don’t let it shrink too much */
+          max-width: 800px;          /* don’t let it grow too much */
+          resize: horizontal;        /* 👈 enable horizontal resizing */
+          overflow: auto;            /* needed for resize handle */
+          border-left: 1px solid var(--border-color, #ccc);
+          display: flex;
+          flex-direction: column;
+          height: 100%;
+        }
+
+        /* Inside gr-chatbot-panel */
+        gr-chatbot-panel .chat-container {
+          display: flex;
+          flex-direction: column;
+          height: 100%;
+        }
+
+        /* Messages scroll independently */
+        gr-chatbot-panel .messages {
+          flex: 1;
+          overflow-y: auto;
+          padding-bottom: 60px; /* leave space for fixed input */
+        }
+
+        /* Input fixed at bottom of right panel */
+        gr-chatbot-panel .input-area {
+          position: sticky;
+          bottom: 0;
+          display: flex;
+          gap: 5px;
+          background: var(--background-color-secondary, #f9f9f9);
+          padding: 5px 10px;
+          border-top: 1px solid var(--border-color, #ccc);
+        }
+
+        textarea {
+          flex: 1;
+          resize: vertical;
+          padding: 8px;
+        }
+
+        button {
+          padding: 6px 12px;
+          border-radius: 6px;
+          background: var(--primary-color, #007bff);
+          color: white;
+          border: none;
+          cursor: pointer;
+        }
+
+        button:disabled {
+          opacity: 0.6;
+          cursor: not-allowed;
+        }
       `,
     ];
   }
 
   override render() {
-    return html`${this.renderLoading()}${this.renderMainContent()}`;
+    return html`
+    ${this.renderLoading()}
+    <div class="split-container">
+      <div id="left-panel" class="main-content">
+        ${this.renderMainContent()}
+      </div>
+
+      <div id="divider" class="divider"></div>
+
+      ${this.aiPanelOpened
+        ? html`
+            <gr-chatbot-panel
+              id="right-panel"
+              class="ai-panel"
+              .change=${this.change}
+              .patchNum=${this.change?.current_revision}
+            ></gr-chatbot-panel>
+          `
+        : nothing}
+    </div>
+  `;
   }
 
   private renderLoading() {

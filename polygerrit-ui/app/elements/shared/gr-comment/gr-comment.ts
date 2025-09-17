@@ -71,6 +71,9 @@ import {
   commentModelToken,
 } from '../gr-comment-model/gr-comment-model';
 import {formStyles} from '../../../styles/form-styles';
+import '@material/web/checkbox/checkbox';
+import {MdCheckbox} from '@material/web/checkbox/checkbox';
+import {materialStyles} from '../../../styles/gr-material-styles';
 import {Interaction} from '../../../constants/reporting';
 import {when} from 'lit/directives/when.js';
 import {getDocUrl} from '../../../utils/url-util';
@@ -160,7 +163,7 @@ export class GrComment extends LitElement {
   container?: HTMLElement;
 
   @query('#resolvedCheckbox')
-  resolvedCheckbox?: HTMLInputElement;
+  resolvedCheckbox?: MdCheckbox;
 
   @query('#confirmDeleteModal')
   confirmDeleteModal?: HTMLDialogElement;
@@ -517,6 +520,7 @@ export class GrComment extends LitElement {
       formStyles,
       sharedStyles,
       modalStyles,
+      materialStyles,
       css`
         :host {
           display: block;
@@ -591,8 +595,12 @@ export class GrComment extends LitElement {
           margin-left: var(--spacing-s);
         }
         /* just for a11y */
-        input.show-hide {
+        md-checkbox.show-hide {
           display: none;
+        }
+        md-checkbox {
+          --md-checkbox-container-size: 15px;
+          --md-checkbox-icon-size: 15px;
         }
         label.show-hide {
           cursor: pointer;
@@ -1025,15 +1033,12 @@ export class GrComment extends LitElement {
       <div class="actions">
         <div class="leftActions">
           <div class="action resolve">
-            <label>
-              <input
-                type="checkbox"
-                id="resolvedCheckbox"
-                .checked=${!this.unresolved}
-                @change=${this.handleToggleResolved}
-              />
-              Resolved
-            </label>
+            <md-checkbox
+              id="resolvedCheckbox"
+              ?checked=${!this.unresolved}
+              @change=${this.handleToggleResolved}
+              >Resolved</md-checkbox
+            >
           </div>
           ${this.renderGenerateSuggestEditButton()}
         </div>
@@ -1177,50 +1182,49 @@ export class GrComment extends LitElement {
       'Select to show a generated suggestion based on your comment for commented text. This suggestion can be inserted as a code block in your comment.';
     return html`
       <div class="action">
-        <label title=${tooltip} class="suggestEdit">
-          <input
-            type="checkbox"
-            id="generateSuggestCheckbox"
-            ?checked=${this.generateSuggestion}
-            @change=${() => {
-              this.generateSuggestion = !this.generateSuggestion;
-              // Reset so suggestion can be re-generated.
-              this.wasSuggestionEdited = false;
-              if (this.comment?.id) {
-                this.getStorage().setEditableContentItem(
-                  ENABLE_GENERATE_SUGGESTION_STORAGE_KEY + this.comment.id,
-                  this.generateSuggestion.toString()
-                );
-              }
-              const suggestionToReport = this.generatedFixSuggestion;
-              if (this.generateSuggestion) {
-                this.generateSuggestionTrigger$.next();
-              } else {
-                this.generatedFixSuggestion = undefined;
-                this.autoSaveTrigger$.next();
-              }
-              this.reporting.reportInteraction(
-                this.generateSuggestion
-                  ? Interaction.GENERATE_SUGGESTION_ENABLED
-                  : Interaction.GENERATE_SUGGESTION_DISABLED,
-                {
-                  commentId: id(this.comment!),
-                  fileExtension: getFileExtension(this.comment?.path ?? ''),
-                  uuid: this.generatedSuggestionId,
-                  replacement: suggestionToReport?.replacements
-                    ?.map(r => r.replacement)
-                    .join('\n'),
-                }
+        <md-checkbox
+          id="generateSuggestCheckbox"
+          title=${tooltip}
+          class="suggestEdit"
+          ?checked=${this.generateSuggestion}
+          @change=${() => {
+            this.generateSuggestion = !this.generateSuggestion;
+            // Reset so suggestion can be re-generated.
+            this.wasSuggestionEdited = false;
+            if (this.comment?.id) {
+              this.getStorage().setEditableContentItem(
+                ENABLE_GENERATE_SUGGESTION_STORAGE_KEY + this.comment.id,
+                this.generateSuggestion.toString()
               );
-            }}
-          />
-          Attach AI-suggested fix
+            }
+            const suggestionToReport = this.generatedFixSuggestion;
+            if (this.generateSuggestion) {
+              this.generateSuggestionTrigger$.next();
+            } else {
+              this.generatedFixSuggestion = undefined;
+              this.autoSaveTrigger$.next();
+            }
+            this.reporting.reportInteraction(
+              this.generateSuggestion
+                ? Interaction.GENERATE_SUGGESTION_ENABLED
+                : Interaction.GENERATE_SUGGESTION_DISABLED,
+              {
+                commentId: id(this.comment!),
+                fileExtension: getFileExtension(this.comment?.path ?? ''),
+                uuid: this.generatedSuggestionId,
+                replacement: suggestionToReport?.replacements
+                  ?.map(r => r.replacement)
+                  .join('\n'),
+              }
+            );
+          }}
+          >Attach AI-suggested fix
           ${when(
             this.suggestionLoading,
             () => html`<span class="loadingSpin"></span>`,
             () => html`${this.getNumberOfSuggestions()}`
-          )}
-        </label>
+          )}</md-checkbox
+        >
         <a
           href=${this.suggestionsProvider?.getDocumentationLink?.() ||
           getDocUrl(

@@ -48,6 +48,7 @@ import {
 } from '../../../models/comments/comments-model';
 import {KnownExperimentId} from '../../../services/flags/flags';
 import {GrSuggestionDiffPreview} from '../gr-suggestion-diff-preview/gr-suggestion-diff-preview';
+import {MdCheckbox} from '@material/web/checkbox/checkbox';
 import {ResponseCode} from '../../../api/suggestions';
 import {suggestionsServiceToken} from '../../../services/suggestions/suggestions-service';
 
@@ -115,7 +116,7 @@ suite('gr-comment tests', () => {
                 <span class="patchset-text">Patchset 1</span>
                 <div class="show-hide" tabindex="0">
                   <label aria-label="Expand" class="show-hide">
-                    <input checked="" class="show-hide" type="checkbox" />
+                    <md-checkbox checked="" class="show-hide"></md-checkbox>
                     <gr-icon id="icon" icon="expand_more"></gr-icon>
                   </label>
                 </div>
@@ -157,7 +158,7 @@ suite('gr-comment tests', () => {
                 </span>
                 <div class="show-hide" tabindex="0">
                   <label aria-label="Collapse" class="show-hide">
-                    <input class="show-hide" type="checkbox" />
+                    <md-checkbox class="show-hide"></md-checkbox>
                     <gr-icon id="icon" icon="expand_less"></gr-icon>
                   </label>
                 </div>
@@ -231,7 +232,7 @@ suite('gr-comment tests', () => {
                 </span>
                 <div class="show-hide" tabindex="0">
                   <label aria-label="Collapse" class="show-hide">
-                    <input class="show-hide" type="checkbox" />
+                    <md-checkbox class="show-hide"></md-checkbox>
                     <gr-icon id="icon" icon="expand_less"></gr-icon>
                   </label>
                 </div>
@@ -242,10 +243,7 @@ suite('gr-comment tests', () => {
                 <div class="actions">
                   <div class="leftActions">
                     <div class="action resolve">
-                      <label>
-                        <input id="resolvedCheckbox" type="checkbox" />
-                        Resolved
-                      </label>
+                      <md-checkbox id="resolvedCheckbox">Resolved</md-checkbox>
                     </div>
                   </div>
                   <div class="rightActions">
@@ -327,7 +325,7 @@ suite('gr-comment tests', () => {
                 </span>
                 <div class="show-hide" tabindex="0">
                   <label aria-label="Collapse" class="show-hide">
-                    <input class="show-hide" type="checkbox" />
+                    <md-checkbox class="show-hide"></md-checkbox>
                     <gr-icon id="icon" icon="expand_less"></gr-icon>
                   </label>
                 </div>
@@ -346,10 +344,7 @@ suite('gr-comment tests', () => {
                 <div class="actions">
                   <div class="leftActions">
                     <div class="action resolve">
-                      <label>
-                        <input id="resolvedCheckbox" type="checkbox" />
-                        Resolved
-                      </label>
+                      <md-checkbox id="resolvedCheckbox">Resolved</md-checkbox>
                     </div>
                   </div>
                   <div class="rightActions">
@@ -663,10 +658,7 @@ suite('gr-comment tests', () => {
       };
       await element.updateComplete;
 
-      let checkbox = queryAndAssert<HTMLInputElement>(
-        element,
-        '#resolvedCheckbox'
-      );
+      let checkbox = queryAndAssert<MdCheckbox>(element, '#resolvedCheckbox');
       assert.isTrue(checkbox.checked);
 
       checkbox.click();
@@ -690,10 +682,7 @@ suite('gr-comment tests', () => {
       element.messageText = '';
       await element.updateComplete;
 
-      let checkbox = queryAndAssert<HTMLInputElement>(
-        element,
-        '#resolvedCheckbox'
-      );
+      let checkbox = queryAndAssert<MdCheckbox>(element, '#resolvedCheckbox');
       assert.isTrue(checkbox.checked);
       assert.equal(element.messageText, '');
 

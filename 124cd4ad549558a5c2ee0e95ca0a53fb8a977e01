@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "517df11e_916f06c0",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-09-17T14:36:23Z",
+      "side": 1,
+      "message": "This made me realize why the timers from the filters were not being added to the performance log (even though they are present in debug log). It\u0027s because creating the context here clears the data stored in the loggingContext.\n\nWould it be possible to move opening of this context into a separate Filter (that we will install as early as possible). Then we can also include timers from the filters.",
+      "range": {
+        "startLine": 355,
+        "startChar": 11,
+        "endLine": 356,
+        "endChar": 83
+      },
+      "revId": "124cd4ad549558a5c2ee0e95ca0a53fb8a977e01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "814247b7_cde18ab0",
+        "filename": "java/com/google/gerrit/server/cancellation/PerformanceSummaryProvider.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-09-17T14:36:23Z",
+      "side": 1,
+      "message": "Sorry it\u0027s not very clear to me why this interface is necessary? In which case will this have another implementation other than PerformanceLogContext?",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 1
+      },
+      "revId": "124cd4ad549558a5c2ee0e95ca0a53fb8a977e01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -151,7 +151,7 @@ suite('gr-create-flow tests', () => {
       {
         condition:
           'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is single condition',
-        action: {name: 'single action', parameters: ['']},
+        action: {name: 'single action'},
       },
     ]);
   });
@@ -243,12 +243,12 @@ suite('gr-create-flow tests', () => {
       {
         condition:
           'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is cond 1',
-        action: {name: 'act 1', parameters: ['']},
+        action: {name: 'act 1'},
       },
       {
         condition:
           'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is cond 2',
-        action: {name: 'act 2', parameters: ['']},
+        action: {name: 'act 2'},
       },
     ]);
   });
@@ -295,12 +295,12 @@ suite('gr-create-flow tests', () => {
       {
         condition:
           'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is cond 1',
-        action: {name: 'act 1', parameters: ['']},
+        action: {name: 'act 1'},
       },
       {
         condition:
           'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is cond 2',
-        action: {name: 'act 2', parameters: ['']},
+        action: {name: 'act 2'},
       },
     ]);
   });

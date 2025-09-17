@@ -1167,6 +1167,7 @@ export declare interface ServerInfo {
   submit_requirement_dashboard_columns?: string[];
   dashboard_show_all_labels?: boolean;
   metadata?: MetadataInfo[];
+  ai_models?: AiModelsInfo[];
 }
 
 /**
@@ -1522,4 +1523,9 @@ export interface BatchSubmitRequirementInput {
   update?: {[submitRequirementName: string]: Partial<SubmitRequirementInput>};
   delete?: string[];
   commit_message?: string;
+}
+
+export interface AiModelsInfo {
+  plugin_name: string;
+  ai_model_names: string[];
 }

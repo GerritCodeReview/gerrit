@@ -3641,6 +3641,35 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     })) as unknown as Promise<string | undefined>;
   }
 
+  async getAiCodeReview(
+    aiModel: string,
+    userInputPrompt: string,
+    changeNum: NumericChangeId,
+    patchNum: PatchSetNum
+  ): Promise<unknown | undefined> {
+    const changeNum1 = Number(changeNum) as NumericChangeId;
+
+    const url = await this._changeBaseURL(changeNum1, patchNum);
+
+    const payload = {
+      models: [aiModel],
+      prompt: userInputPrompt,
+      plugin_name: 'sap-ai-review',
+    };
+
+    const response = await this._restApiHelper.fetchJSON({
+      fetchOptions: getFetchOptions({
+        method: HttpMethod.POST,
+        body: JSON.stringify(payload),
+        headers: {'Content-Type': 'application/json'},
+      }),
+      url: `${url}/ai-review`,
+      anonymizedUrl: `${ANONYMIZED_REVISION_BASE_URL}/ai-review`,
+    });
+
+    return response;
+  }
+
   /**
    * Modify the given create draft request promise so that it fails and throws
    * an error if the response bears HTTP status 200 instead of HTTP 201.

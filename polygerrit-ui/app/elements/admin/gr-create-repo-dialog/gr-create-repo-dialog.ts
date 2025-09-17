@@ -29,7 +29,9 @@ import {subscribe} from '../../lit/subscription-controller';
 import {configModelToken} from '../../../models/config/config-model';
 import {branchName} from '../../../utils/patch-set-util';
 import '@material/web/textfield/outlined-text-field';
+import {MdOutlinedTextField} from '@material/web/textfield/outlined-text-field';
 import {materialStyles} from '../../../styles/gr-material-styles';
+import '@material/web/checkbox/checkbox';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -43,8 +45,8 @@ declare global {
 
 @customElement('gr-create-repo-dialog')
 export class GrCreateRepoDialog extends LitElement {
-  @query('input')
-  input?: HTMLInputElement;
+  @query('#repoNameInput')
+  input?: MdOutlinedTextField;
 
   @property({type: Boolean})
   nameChanged = false;
@@ -111,10 +113,6 @@ export class GrCreateRepoDialog extends LitElement {
           flex-direction: column;
           justify-content: center;
         }
-        input {
-          width: 20em;
-          box-sizing: border-box;
-        }
         div.gr-form-styles section {
           margin: var(--spacing-m) 0;
         }
@@ -143,14 +141,18 @@ export class GrCreateRepoDialog extends LitElement {
             <div class="title-flex">
               <span class="title">Repository Name</span>
             </div>
-            <md-outlined-text-field
-              id="repoNameInput"
-              class="showBlueFocusBorder"
-              autocomplete="on"
-              .value=${convertToString(this.repoConfig.name)}
-              @input=${this.handleNameInput}
-            >
-            </md-outlined-text-field>
+            <div class="value-flex">
+              <span class="value">
+                <md-outlined-text-field
+                  id="repoNameInput"
+                  class="showBlueFocusBorder"
+                  autocomplete="on"
+                  .value=${convertToString(this.repoConfig.name)}
+                  @input=${this.handleNameInput}
+                >
+                </md-outlined-text-field>
+              </span>
+            </div>
           </section>
           <section>
             <div class="title-flex">
@@ -168,17 +170,11 @@ export class GrCreateRepoDialog extends LitElement {
             </div>
             <div class="value-flex">
               <span class="value">
-                <gr-select
+                <md-checkbox
                   id="parentRepo"
-                  .bindValue=${this.repoConfig.permissions_only}
-                  @bind-value-changed=${this
-                    .handlePermissionsOnlyBindValueChanged}
-                >
-                  <select>
-                    <option value="false">False</option>
-                    <option value="true">True</option>
-                  </select>
-                </gr-select>
+                  ?checked=${this.repoConfig.permissions_only}
+                  @change=${this.handlePermissionsOnlyChangeChanged}
+                ></md-checkbox>
               </span>
             </div>
           </section>
@@ -186,19 +182,21 @@ export class GrCreateRepoDialog extends LitElement {
             <div class="title-flex">
               <span class="title">Default Branch</span>
             </div>
-            <span class="value">
-              <md-outlined-text-field
-                id="defaultBranchNameInput"
-                class="showBlueFocusBorder"
-                placeholder=${`Optional, defaults to '${this.defaultBranch}'`}
-                .value=${convertToString(this.selectedDefaultBranch)}
-                @input=${(e: InputEvent) => {
-                  const target = e.target as HTMLInputElement;
-                  this.selectedDefaultBranch = target.value as BranchName;
-                }}
-              >
-              </md-outlined-text-field>
-            </span>
+            <div class="value-flex">
+              <span class="value">
+                <md-outlined-text-field
+                  id="defaultBranchNameInput"
+                  class="showBlueFocusBorder"
+                  placeholder=${`Optional, defaults to '${this.defaultBranch}'`}
+                  .value=${convertToString(this.selectedDefaultBranch)}
+                  @input=${(e: InputEvent) => {
+                    const target = e.target as MdOutlinedTextField;
+                    this.selectedDefaultBranch = target.value as BranchName;
+                  }}
+                >
+                </md-outlined-text-field>
+              </span>
+            </div>
           </section>
           <section>
             <div class="title-flex">
@@ -211,17 +209,19 @@ export class GrCreateRepoDialog extends LitElement {
                 </gr-tooltip-content>
               </span>
             </div>
-            <span class="value">
-              <gr-autocomplete
-                id="rightsInheritFromInput"
-                .text=${convertToString(this.repoConfig.parent)}
-                .query=${this.query}
-                .placeholder=${"Optional, defaults to 'All-Projects'"}
-                .showBlueFocusBorder=${true}
-                @text-changed=${this.handleRightsTextChanged}
-              >
-              </gr-autocomplete>
-            </span>
+            <div class="value-flex">
+              <span class="value">
+                <gr-autocomplete
+                  id="rightsInheritFromInput"
+                  .text=${convertToString(this.repoConfig.parent)}
+                  .query=${this.query}
+                  .placeholder=${"Optional, defaults to 'All-Projects'"}
+                  .showBlueFocusBorder=${true}
+                  @text-changed=${this.handleRightsTextChanged}
+                >
+                </gr-autocomplete>
+              </span>
+            </div>
           </section>
           <section>
             <div class="title-flex">
@@ -234,19 +234,21 @@ export class GrCreateRepoDialog extends LitElement {
                 </gr-tooltip-content>
               </span>
             </div>
-            <span class="value">
-              <gr-autocomplete
-                id="ownerInput"
-                .text=${convertToString(this.repoOwner)}
-                .value=${convertToString(this.repoOwnerId)}
-                .query=${this.queryGroups}
-                .placeholder=${'Optional'}
-                .showBlueFocusBorder=${true}
-                @text-changed=${this.handleOwnerTextChanged}
-                @value-changed=${this.handleOwnerValueChanged}
-              >
-              </gr-autocomplete>
-            </span>
+            <div class="value-flex">
+              <span class="value">
+                <gr-autocomplete
+                  id="ownerInput"
+                  .text=${convertToString(this.repoOwner)}
+                  .value=${convertToString(this.repoOwnerId)}
+                  .query=${this.queryGroups}
+                  .placeholder=${'Optional'}
+                  .showBlueFocusBorder=${true}
+                  @text-changed=${this.handleOwnerTextChanged}
+                  @value-changed=${this.handleOwnerValueChanged}
+                >
+                </gr-autocomplete>
+              </span>
+            </div>
           </section>
           <section>
             <div class="title-flex">
@@ -261,17 +263,11 @@ export class GrCreateRepoDialog extends LitElement {
             </div>
             <div class="value-flex">
               <span class="value">
-                <gr-select
+                <md-checkbox
                   id="initialCommit"
-                  .bindValue=${this.repoConfig.create_empty_commit}
-                  @bind-value-changed=${this
-                    .handleCreateEmptyCommitBindValueChanged}
-                >
-                  <select>
-                    <option value="false">False</option>
-                    <option value="true">True</option>
-                  </select>
-                </gr-select>
+                  ?checked=${this.repoConfig.create_empty_commit}
+                  @change=${this.handleCreateEmptyCommitChangeChanged}
+                ></md-checkbox>
               </span>
             </div>
           </section>
@@ -343,7 +339,7 @@ export class GrCreateRepoDialog extends LitElement {
   }
 
   private handleNameInput(e: InputEvent) {
-    const target = e.target as HTMLInputElement;
+    const target = e.target as MdOutlinedTextField;
     this.repoConfig.name = target.value as RepoName;
     // nameChanged needs to be set before the event is fired,
     // because when the event is fired, gr-repo-list gets
@@ -353,19 +349,17 @@ export class GrCreateRepoDialog extends LitElement {
     this.requestUpdate();
   }
 
-  private handleCreateEmptyCommitBindValueChanged(
-    e: ValueChangedEvent<string>
-  ) {
+  private handleCreateEmptyCommitChangeChanged() {
     this.repoConfig = {
       ...this.repoConfig,
-      create_empty_commit: e.detail.value === 'true',
+      create_empty_commit: !this.repoConfig.create_empty_commit,
     };
   }
 
-  private handlePermissionsOnlyBindValueChanged(e: ValueChangedEvent<string>) {
+  private handlePermissionsOnlyChangeChanged() {
     this.repoConfig = {
       ...this.repoConfig,
-      permissions_only: e.detail.value === 'true',
+      permissions_only: !this.repoConfig.permissions_only,
     };
   }
 }

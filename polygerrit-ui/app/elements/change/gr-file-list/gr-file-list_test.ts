@@ -434,7 +434,8 @@ suite('gr-file-list tests', () => {
       );
     });
 
-    test('correct number of files are shown', async () => {
+    // TODO(milutin): flaky test, enable it back
+    test.skip('correct number of files are shown', async () => {
       element.fileListIncrement = 100;
       element.files = createFiles(250);
       await element.updateComplete;

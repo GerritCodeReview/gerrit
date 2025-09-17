@@ -14,10 +14,12 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableMap.toImmutableMap;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Iterables;
 import com.google.gerrit.entities.PredicateResult;
 import com.google.gerrit.extensions.common.EvaluateChangeQueryExpressionResultInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -28,8 +30,10 @@ import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
+import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import java.util.List;
 import java.util.Map;
 import org.kohsuke.args4j.Option;
 
@@ -40,11 +44,22 @@ public class EvaluateChangeQueryExpression implements RestReadView<ChangeResourc
       usage = "Change query expression for which it should be checked if the change matches.")
   public String expression;
 
+  @Option(
+      name = "--use-index",
+      usage =
+          "Whether the change query expression should be evaluated against the change state in the"
+              + " index.")
+  public boolean useIndex;
+
   private final Provider<ChangeQueryBuilder> queryBuilder;
+  private final Provider<InternalChangeQuery> internalChangeQuery;
 
   @Inject
-  EvaluateChangeQueryExpression(Provider<ChangeQueryBuilder> queryBuilder) {
+  EvaluateChangeQueryExpression(
+      Provider<ChangeQueryBuilder> queryBuilder,
+      Provider<InternalChangeQuery> internalChangeQuery) {
     this.queryBuilder = queryBuilder;
+    this.internalChangeQuery = internalChangeQuery;
   }
 
   @Override
@@ -55,8 +70,30 @@ public class EvaluateChangeQueryExpression implements RestReadView<ChangeResourc
     }
 
     Predicate<ChangeData> predicate = parseExpression(expression);
-    PredicateResult predicateResult = rsrc.getChangeData().evaluatePredicateTree(predicate);
+    PredicateResult predicateResult = getChangeData(rsrc).evaluatePredicateTree(predicate);
     return Response.ok(toInfo(predicateResult));
+  }
+
+  private ChangeData getChangeData(ChangeResource rsrc) {
+    if (useIndex) {
+      // Loading the change from the index populates ChangeData with the data that is stored in the
+      // index, including submit requirement results.
+      List<ChangeData> changeDatas = internalChangeQuery.get().byChangeNumber(rsrc.getId());
+      checkState(
+          changeDatas.size() == 1,
+          "Got %s matches for change %s, expected 1",
+          changeDatas.size() == 1,
+          rsrc.getId());
+      return Iterables.getOnlyElement(changeDatas);
+    }
+
+    // The ChangeData in ChangeResource has been loaded from NoteDb. It doesn't contain submit
+    // requirement results yet. Submit requirement results are loaded lazily by executing the submit
+    // requirements. Executing the submit requirements is rather expensive. This means if an
+    // expression is evaluated that requires checking if the change is submittable (e.g.
+    // "is:submittable") this is slower than using the change data from the index where submit
+    // requirement results are already present.
+    return rsrc.getChangeData();
   }
 
   private Predicate<ChangeData> parseExpression(String expression) throws BadRequestException {

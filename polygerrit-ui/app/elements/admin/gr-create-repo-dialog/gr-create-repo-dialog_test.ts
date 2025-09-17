@@ -13,8 +13,8 @@ import {
 } from '../../../test/test-utils';
 import {BranchName, GroupId, RepoName} from '../../../types/common';
 import {GrAutocomplete} from '../../shared/gr-autocomplete/gr-autocomplete';
-import {GrSelect} from '../../shared/gr-select/gr-select';
 import {assert, fixture, html} from '@open-wc/testing';
+import {MdCheckbox} from '@material/web/checkbox/checkbox';
 
 suite('gr-create-repo-dialog tests', () => {
   let element: GrCreateRepoDialog;
@@ -35,14 +35,18 @@ suite('gr-create-repo-dialog tests', () => {
               <div class="title-flex">
                 <span class="title"> Repository Name </span>
               </div>
-              <md-outlined-text-field
-                autocomplete="on"
-                class="showBlueFocusBorder"
-                id="repoNameInput"
-                inputmode=""
-                type="text"
-              >
-              </md-outlined-text-field>
+              <div class="value-flex">
+                <span class="value">
+                  <md-outlined-text-field
+                    autocomplete="on"
+                    class="showBlueFocusBorder"
+                    id="repoNameInput"
+                    inputmode=""
+                    type="text"
+                  >
+                  </md-outlined-text-field>
+                </span>
+              </div>
             </section>
             <section>
               <div class="title-flex">
@@ -61,12 +65,7 @@ suite('gr-create-repo-dialog tests', () => {
               </div>
               <div class="value-flex">
                 <span class="value">
-                  <gr-select id="parentRepo">
-                    <select>
-                      <option value="false">False</option>
-                      <option value="true">True</option>
-                    </select>
-                  </gr-select>
+                  <md-checkbox id="parentRepo"> </md-checkbox>
                 </span>
               </div>
             </section>
@@ -74,17 +73,19 @@ suite('gr-create-repo-dialog tests', () => {
               <div class="title-flex">
                 <span class="title"> Default Branch </span>
               </div>
-              <span class="value">
-                <md-outlined-text-field
-                  autocomplete=""
-                  class="showBlueFocusBorder"
-                  id="defaultBranchNameInput"
-                  inputmode=""
-                  placeholder="Optional, defaults to 'master'"
-                  type="text"
-                >
-                </md-outlined-text-field>
-              </span>
+              <div class="value-flex">
+                <span class="value">
+                  <md-outlined-text-field
+                    autocomplete=""
+                    class="showBlueFocusBorder"
+                    id="defaultBranchNameInput"
+                    inputmode=""
+                    placeholder="Optional, defaults to 'master'"
+                    type="text"
+                  >
+                  </md-outlined-text-field>
+                </span>
+              </div>
             </section>
             <section>
               <div class="title-flex">
@@ -98,9 +99,12 @@ suite('gr-create-repo-dialog tests', () => {
                   </gr-tooltip-content>
                 </span>
               </div>
-              <span class="value">
-                <gr-autocomplete id="rightsInheritFromInput"> </gr-autocomplete>
-              </span>
+              <div class="value-flex">
+                <span class="value">
+                  <gr-autocomplete id="rightsInheritFromInput">
+                  </gr-autocomplete>
+                </span>
+              </div>
             </section>
             <section>
               <div class="title-flex">
@@ -114,9 +118,11 @@ suite('gr-create-repo-dialog tests', () => {
                   </gr-tooltip-content>
                 </span>
               </div>
-              <span class="value">
-                <gr-autocomplete id="ownerInput"> </gr-autocomplete>
-              </span>
+              <div class="value-flex">
+                <span class="value">
+                  <gr-autocomplete id="ownerInput"> </gr-autocomplete>
+                </span>
+              </div>
             </section>
             <section>
               <div class="title-flex">
@@ -132,12 +138,7 @@ suite('gr-create-repo-dialog tests', () => {
               </div>
               <div class="value-flex">
                 <span class="value">
-                  <gr-select id="initialCommit">
-                    <select>
-                      <option value="false">False</option>
-                      <option value="true">True</option>
-                    </select>
-                  </gr-select>
+                  <md-checkbox checked="" id="initialCommit"> </md-checkbox>
                 </span>
               </div>
             </section>
@@ -149,9 +150,9 @@ suite('gr-create-repo-dialog tests', () => {
 
   test('default values are populated', () => {
     assert.isTrue(
-      queryAndAssert<GrSelect>(element, '#initialCommit').bindValue
+      queryAndAssert<MdCheckbox>(element, '#initialCommit').checked
     );
-    assert.isFalse(queryAndAssert<GrSelect>(element, '#parentRepo').bindValue);
+    assert.isFalse(queryAndAssert<MdCheckbox>(element, '#parentRepo').checked);
   });
 
   test('repo created', async () => {
@@ -192,9 +193,9 @@ suite('gr-create-repo-dialog tests', () => {
     );
     queryAndAssert<GrAutocomplete>(element, '#rightsInheritFromInput').value =
       configInputObj.parent;
-    queryAndAssert<GrSelect>(element, '#initialCommit').bindValue =
+    queryAndAssert<MdCheckbox>(element, '#initialCommit').checked =
       configInputObj.create_empty_commit;
-    queryAndAssert<GrSelect>(element, '#parentRepo').bindValue =
+    queryAndAssert<MdCheckbox>(element, '#parentRepo').checked =
       configInputObj.permissions_only;
 
     assert.deepEqual(element.repoConfig, configInputObj);

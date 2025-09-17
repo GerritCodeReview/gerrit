@@ -11,7 +11,6 @@ import '../../shared/gr-button/gr-button';
 import '../../shared/gr-dropdown/gr-dropdown';
 import '../../shared/gr-dropdown-list/gr-dropdown-list';
 import '../../shared/gr-icon/gr-icon';
-import '../../shared/gr-select/gr-select';
 import '../../shared/gr-weblink/gr-weblink';
 import '../../shared/revision-info/revision-info';
 import '../gr-apply-fix-dialog/gr-apply-fix-dialog';
@@ -106,6 +105,7 @@ import {NormalizedFileInfo} from '../../change/gr-file-list/gr-file-list';
 import {configModelToken} from '../../../models/config/config-model';
 import {trimWithEllipsis} from '../../../utils/string-util';
 import '@material/web/checkbox/checkbox';
+import {materialStyles} from '../../../styles/gr-material-styles';
 
 const LOADING_BLAME = 'Loading blame information. This may take a while ...';
 const LOADED_BLAME = 'Blame loaded';
@@ -519,6 +519,7 @@ export class GrDiffView extends LitElement {
       a11yStyles,
       sharedStyles,
       modalStyles,
+      materialStyles,
       css`
         :host {
           display: block;
@@ -681,9 +682,6 @@ export class GrDiffView extends LitElement {
           /* prettier-ignore */
           gr-dropdown-list {
             width: 100%;
-            --gr-select-style-width: 100%;
-            --gr-select-style-display: block;
-            --native-select-style-width: 100%;
           }
         }
         :host(.hideComments) {

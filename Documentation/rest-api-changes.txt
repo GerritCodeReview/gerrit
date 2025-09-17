@@ -3209,6 +3209,13 @@ The following URL parameters are supported:
   the change matches.
 --
 
+[[change-query-use-index]]
+--
+* `use-index`: Whether the change query expression should be evaluated against the change state in
+  the index. This is useful to avoid executing submit requirements when the query expression
+  contains operators that require checking if the change is submittable (e.g. "is:submittable").
+--
+
 .Request
 ----
   GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/query?expression="is:submittable label:Auto-Submit+1" HTTP/1.0
@@ -6736,6 +6743,38 @@ describes the resulting cherry-pick change.
   }
 ----
 
+[[Get-AI-Prompt]]
+=== Get AI Prompt
+--
+'GET /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/ai_prompt?command=CODE_REVIEW'
+
+--
+
+This API accepts a query parameter `command` for which the AI prompt should be generated
+and responds with the AI generated prompt.
+
+Valid values for `command` are:
+
+ - code_review
+ - commit_message
+ - patch_content
+
+.Request
+----
+  GET /changes/1/revisions/2/ai-ai_prompt?command=code_review HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  "\nYou are a highly experienced code reviewer specializing in Git patches..."
+----
+
 [[Get-AI-Review]]
 === Get AI Review
 --
@@ -7223,23 +7262,6 @@ or link:access-control.html#category_rebase[Rebase] permission.
 |===================================
 
 For all other REST views no options are returned.
-
-[[Ai-Code-Review-Input]]
-=== AiCodeReviewInput
-The `AiCodeReviewInput` entity describes parameters needed for
-AI to review the code.
-
-[options="header",cols="1,5"]
-|===========================
-|Field Name      |Description
-|`models`        |List of AI models to be used to request AI
-code review for the current change.
-|`prompt`        |Prompt containing information about a request
-for AI to perform a code review, including details of the change.
-|`plugin_name`   |The AI plugin to request a code review from.
-This enables installing multiple plugins implementing the
-AICodeReview extension point simultaneously.
-|===========================
 
 [[applypatch-input]]
 === ApplyPatchInput

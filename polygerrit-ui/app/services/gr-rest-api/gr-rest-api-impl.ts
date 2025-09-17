@@ -410,7 +410,10 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     });
   }
 
-  createGroup(config: GroupInput & {name: string}): Promise<Response> {
+  createGroup(config: GroupInput): Promise<Response> {
+    if (!config.name) {
+      throw new Error('Group name is required');
+    }
     const encodeName = encodeURIComponent(config.name);
     return this._restApiHelper.fetch({
       fetchOptions: getFetchOptions({
@@ -3623,6 +3626,19 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     });
     if (!response?.ok) return undefined;
     return await response.text();
+  }
+
+  async getPromptContent(
+    changeNum: NumericChangeId,
+    patchNum: PatchSetNum,
+    command: string
+  ): Promise<string | undefined> {
+    const url = await this._changeBaseURL(changeNum, patchNum);
+
+    return (await this._restApiHelper.fetchJSON({
+      url: `${url}/ai_prompt?command=${command}`,
+      anonymizedUrl: `${ANONYMIZED_REVISION_BASE_URL}/ai_prompt`,
+    })) as unknown as Promise<string | undefined>;
   }
 
   /**

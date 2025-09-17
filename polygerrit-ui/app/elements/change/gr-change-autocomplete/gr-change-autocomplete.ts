@@ -77,23 +77,27 @@ export class GrChangeAutocomplete extends LitElement {
   }
 
   private async fetchRecentChanges() {
-    const res = await this.restApiService.getChanges(
-      undefined,
-      'is:open -age:90d',
-      /* offset=*/ undefined,
-      /* options=*/ undefined,
-      throwingErrorCallback
-    );
-    if (!res) return [];
-    const changes: ChangeSuggestion[] = [];
-    for (const change of res) {
-      changes.push({
-        description: `${change._number}: ${change.subject}`,
-        changeNum: change._number,
-      });
+    try {
+      const res = await this.restApiService.getChanges(
+        undefined,
+        'is:open -age:90d',
+        /* offset=*/ undefined,
+        /* options=*/ undefined,
+        throwingErrorCallback
+      );
+      if (!res) return (this.recentChanges = []);
+      const changes: ChangeSuggestion[] = [];
+      for (const change of res) {
+        changes.push({
+          description: `${change._number}: ${change.subject}`,
+          changeNum: change._number,
+        });
+      }
+      return (this.recentChanges = changes);
+    } catch (e) {
+      console.error('Failed to fetch recent changes:', e);
+      return (this.recentChanges = []);
     }
-    this.recentChanges = changes;
-    return this.recentChanges;
   }
 
   private getRecentChanges() {

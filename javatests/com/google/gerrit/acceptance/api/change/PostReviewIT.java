@@ -38,6 +38,7 @@ import com.google.gerrit.acceptance.ExtensionRegistry;
 import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
+import com.google.gerrit.acceptance.TestExtensions.TestSubmitRule;
 import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
@@ -49,7 +50,6 @@ import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.RefNames;
-import com.google.gerrit.entities.SubmitRecord;
 import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.api.changes.RevertInput;
@@ -74,12 +74,9 @@ import com.google.gerrit.extensions.validators.CommentForValidation;
 import com.google.gerrit.extensions.validators.CommentValidationContext;
 import com.google.gerrit.extensions.validators.CommentValidator;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.change.EmailReviewComments;
 import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.restapi.change.OnPostReview;
 import com.google.gerrit.server.restapi.change.PostReview;
-import com.google.gerrit.server.rules.SubmitRule;
 import com.google.gerrit.server.update.CommentsRejectedException;
 import com.google.gerrit.testing.FakeEmailSender;
 import com.google.gerrit.testing.TestCommentHelper;
@@ -88,7 +85,6 @@ import com.google.inject.Module;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.EnumSet;
 import java.util.List;
@@ -783,7 +779,7 @@ public class PostReviewIT extends AbstractDaemonTest {
       gApi.changes().id(r.getChangeId()).current().review(input);
     }
 
-    assertThat(testSubmitRule.count).isEqualTo(1);
+    assertThat(testSubmitRule.count()).isEqualTo(1);
   }
 
   @Test
@@ -797,7 +793,7 @@ public class PostReviewIT extends AbstractDaemonTest {
       gApi.changes().id(r.getChangeId()).current().review(input);
     }
 
-    assertThat(testSubmitRule.count).isEqualTo(1);
+    assertThat(testSubmitRule.count()).isEqualTo(1);
   }
 
   @Test
@@ -1231,24 +1227,6 @@ public class PostReviewIT extends AbstractDaemonTest {
           .containsExactly(
               labelName, expectedOldValue != null ? expectedOldValue.shortValue() : null);
       assertThat(approvals).containsExactly(labelName, (short) expectedNewValue);
-    }
-  }
-
-  private static class TestSubmitRule implements SubmitRule {
-    int count;
-
-    @Override
-    public Optional<SubmitRecord> evaluate(ChangeData changeData) {
-      if (!isAsyncCallForSendingReviewCommentsEmail()) {
-        count++;
-      }
-      return Optional.empty();
-    }
-
-    private boolean isAsyncCallForSendingReviewCommentsEmail() {
-      return Arrays.stream(Thread.currentThread().getStackTrace())
-          .map(StackTraceElement::getClassName)
-          .anyMatch(className -> EmailReviewComments.class.getName().equals(className));
     }
   }
 

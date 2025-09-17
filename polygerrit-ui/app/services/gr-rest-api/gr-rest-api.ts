@@ -535,7 +535,7 @@ export interface RestApiService extends Finalizable {
     changeNum: NumericChangeId
   ): Promise<{[path: string]: DraftInfo[]} | undefined>;
 
-  createGroup(config: GroupInput & {name: string}): Promise<Response>;
+  createGroup(config: GroupInput): Promise<Response>;
 
   getPlugins(
     filter: string,
@@ -827,6 +827,12 @@ export interface RestApiService extends Finalizable {
     changeNum: NumericChangeId,
     patchNum: PatchSetNum,
     context?: number
+  ): Promise<string | undefined>;
+
+  getPromptContent(
+    changeNum: NumericChangeId,
+    patchNum: PatchSetNum,
+    command: string
   ): Promise<string | undefined>;
 
   getImagesForDiff(

@@ -79,6 +79,10 @@ export class GrFlows extends LitElement {
           align-items: center;
           margin-bottom: var(--spacing-s);
         }
+        .heading-with-button {
+          display: flex;
+          align-items: center;
+        }
         .hidden {
           display: none;
         }
@@ -125,6 +129,9 @@ export class GrFlows extends LitElement {
           display: flex;
           align-items: center;
           gap: var(--spacing-s);
+        }
+        .refresh {
+          top: -4px;
         }
       `,
     ];
@@ -217,7 +224,17 @@ export class GrFlows extends LitElement {
     }
     return html`
       <div>
-        <h2 class="main-heading">Existing Flows</h2>
+        <div class="heading-with-button">
+          <h2 class="main-heading">Existing Flows</h2>
+          <gr-button
+            link
+            @click=${this.loadFlows}
+            title="Refresh flows"
+            class="refresh"
+          >
+            <gr-icon icon="refresh"></gr-icon>
+          </gr-button>
+        </div>
         ${this.flows.map(
           (flow: FlowInfo) => html`
             <div class="flow">

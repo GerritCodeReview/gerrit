@@ -126,12 +126,12 @@ public class MigrateLabelFunctionsToSubmitRequirement {
    */
   public Status executeMigration(Project.NameKey project, UpdateUI ui)
       throws IOException, ConfigInvalidException {
+    boolean updated = false;
     if (hasPrologRules(project)) {
       ui.message(String.format("Skipping project %s because it has prolog rules", project));
       return Status.HAS_PROLOG;
     }
     VersionedConfigFile projectConfig = new VersionedConfigFile(ProjectConfig.PROJECT_CONFIG);
-    boolean migrationPerformed = false;
     try (Repository repo = repoManager.openRepository(project);
         MetaDataUpdate md = new MetaDataUpdate(GitReferenceUpdated.DISABLED, project, repo)) {
       if (hasMigrationAlreadyRun(repo)) {
@@ -146,7 +146,6 @@ public class MigrateLabelFunctionsToSubmitRequirement {
       Config cfg = projectConfig.getConfig();
       Map<String, LabelAttributes> labelTypes = getLabelTypes(cfg);
       Map<String, SubmitRequirement> existingSubmitRequirements = loadSubmitRequirements(cfg);
-      boolean updated = false;
       for (Map.Entry<String, LabelAttributes> lt : labelTypes.entrySet()) {
         String labelName = lt.getKey();
         LabelAttributes attributes = lt.getValue();
@@ -186,10 +185,9 @@ public class MigrateLabelFunctionsToSubmitRequirement {
       }
       if (updated) {
         commit(projectConfig, md);
-        migrationPerformed = true;
       }
     }
-    return migrationPerformed ? Status.MIGRATED : Status.NO_CHANGE;
+    return updated ? Status.MIGRATED : Status.NO_CHANGE;
   }
 
   /**

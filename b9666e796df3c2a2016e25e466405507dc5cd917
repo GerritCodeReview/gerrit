@@ -85,6 +85,24 @@
       "parentUuid": "cbd788b0_e8646094",
       "revId": "b9666e796df3c2a2016e25e466405507dc5cd917",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f0940abb_4eaab129",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-09-17T13:36:59Z",
+      "side": 1,
+      "message": "I think https://gerrit-review.googlesource.com/c/gerrit/+/510721 fixes it.",
+      "parentUuid": "376fc9dd_e0c0a69e",
+      "revId": "b9666e796df3c2a2016e25e466405507dc5cd917",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

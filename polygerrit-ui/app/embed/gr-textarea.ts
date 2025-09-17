@@ -638,7 +638,7 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
     const editableDivElement =
       this.editableDivElement ?? (await this.editableDiv);
     if (editableDivElement) {
-      editableDivElement.innerText = this.value || '';
+      editableDivElement.textContent = this.value || '';
     }
   }
 

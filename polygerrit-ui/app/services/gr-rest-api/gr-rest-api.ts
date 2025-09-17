@@ -835,6 +835,13 @@ export interface RestApiService extends Finalizable {
     command: string
   ): Promise<string | undefined>;
 
+  getAiCodeReview(
+    aiModel: string,
+    userInputPrompt: string,
+    changeNum: NumericChangeId,
+    patchNum: PatchSetNum
+  ): Promise<unknown | undefined>;
+
   getImagesForDiff(
     changeNum: NumericChangeId,
     diff: DiffInfo,

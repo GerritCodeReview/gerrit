@@ -1534,3 +1534,13 @@ export interface BatchSubmitRequirementInput {
 export declare interface IsFlowsEnabledInfo {
   enabled: boolean;
 }
+
+export interface AiModelsInfo {
+  plugin_name: string;
+  ai_model_names: string[];
+}
+
+export type AiCodeReviewResponse = Record<
+    string,
+    { response: string; status: string }
+>;

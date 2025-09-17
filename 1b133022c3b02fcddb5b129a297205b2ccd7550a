@@ -37,6 +37,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "04221308_ec6ac795",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-09-17T13:47:42Z",
+      "side": 1,
+      "message": "Unresolving this.",
+      "parentUuid": "cfcf63fc_ff44a9b6",
+      "revId": "1b133022c3b02fcddb5b129a297205b2ccd7550a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "713da4c6_47db6286",
         "filename": "polygerrit-ui/app/elements/settings/gr-watched-projects-editor/gr-watched-projects-editor.ts",
         "patchSetId": 6

@@ -25,11 +25,11 @@ import {
   TimeFormat,
 } from '../../../constants/constants';
 import {assert, fixture, html} from '@open-wc/testing';
-import {GrSelect} from '../../shared/gr-select/gr-select';
 import {
   createAccountDetailWithId,
   createPreferences,
 } from '../../../test/test-data-generators';
+import {MdOutlinedSelect} from '@material/web/select/outlined-select';
 
 suite('gr-preferences tests', () => {
   let element: GrPreferences;
@@ -85,13 +85,22 @@ suite('gr-preferences tests', () => {
             <section>
               <label class="title" for="themeSelect"> Theme </label>
               <span class="value">
-                <gr-select>
-                  <select id="themeSelect">
-                    <option value="AUTO">Auto (based on OS prefs)</option>
-                    <option value="LIGHT">Light</option>
-                    <option value="DARK">Dark</option>
-                  </select>
-                </gr-select>
+                <md-outlined-select>
+                  <md-select-option md-menu-item="" tabindex="0" value="AUTO">
+                    <div slot="headline">Auto (based on OS prefs)</div>
+                  </md-select-option>
+                  <md-select-option
+                    data-aria-selected="true"
+                    md-menu-item=""
+                    tabindex="-1"
+                    value="LIGHT"
+                  >
+                    <div slot="headline">Light</div>
+                  </md-select-option>
+                  <md-select-option md-menu-item="" tabindex="-1" value="DARK">
+                    <div slot="headline">Dark</div>
+                  </md-select-option>
+                </md-outlined-select>
               </span>
             </section>
             <section>
@@ -99,14 +108,25 @@ suite('gr-preferences tests', () => {
                 Changes per page
               </label>
               <span class="value">
-                <gr-select>
-                  <select id="changesPerPageSelect">
-                    <option value="10">10 rows per page</option>
-                    <option value="25">25 rows per page</option>
-                    <option value="50">50 rows per page</option>
-                    <option value="100">100 rows per page</option>
-                  </select>
-                </gr-select>
+                <md-outlined-select>
+                  <md-select-option md-menu-item="" tabindex="0" value="10">
+                    <div slot="headline">10 rows per page</div>
+                  </md-select-option>
+                  <md-select-option
+                    data-aria-selected="true"
+                    md-menu-item=""
+                    tabindex="-1"
+                    value="25"
+                  >
+                    <div slot="headline">25 rows per page</div>
+                  </md-select-option>
+                  <md-select-option md-menu-item="" tabindex="-1" value="50">
+                    <div slot="headline">50 rows per page</div>
+                  </md-select-option>
+                  <md-select-option md-menu-item="" tabindex="-1" value="100">
+                    <div slot="headline">100 rows per page</div>
+                  </md-select-option>
+                </md-outlined-select>
               </span>
             </section>
             <section>
@@ -114,21 +134,45 @@ suite('gr-preferences tests', () => {
                 Date/time format
               </label>
               <span class="value">
-                <gr-select>
-                  <select id="dateTimeFormatSelect">
-                    <option value="STD">Jun 3 ; Jun 3, 2016</option>
-                    <option value="US">06/03 ; 06/03/16</option>
-                    <option value="ISO">06-03 ; 2016-06-03</option>
-                    <option value="EURO">3. Jun ; 03.06.2016</option>
-                    <option value="UK">03/06 ; 03/06/2016</option>
-                  </select>
-                </gr-select>
-                <gr-select aria-label="Time Format">
-                  <select id="timeFormatSelect">
-                    <option value="HHMM_12">4:10 PM</option>
-                    <option value="HHMM_24">16:10</option>
-                  </select>
-                </gr-select>
+                <md-outlined-select>
+                  <md-select-option md-menu-item="" tabindex="0" value="STD">
+                    <div slot="headline">Jun 3 ; Jun 3, 2016</div>
+                  </md-select-option>
+                  <md-select-option md-menu-item="" tabindex="-1" value="US">
+                    <div slot="headline">06/03 ; 06/03/16</div>
+                  </md-select-option>
+                  <md-select-option md-menu-item="" tabindex="-1" value="ISO">
+                    <div slot="headline">06-03 ; 2016-06-03</div>
+                  </md-select-option>
+                  <md-select-option md-menu-item="" tabindex="-1" value="EURO">
+                    <div slot="headline">3. Jun ; 03.06.2016</div>
+                  </md-select-option>
+                  <md-select-option
+                    data-aria-selected="true"
+                    md-menu-item=""
+                    tabindex="-1"
+                    value="UK"
+                  >
+                    <div slot="headline">03/06 ; 03/06/2016</div>
+                  </md-select-option>
+                </md-outlined-select>
+                <md-outlined-select>
+                  <md-select-option
+                    data-aria-selected="true"
+                    md-menu-item=""
+                    tabindex="0"
+                    value="HHMM_12"
+                  >
+                    <div slot="headline">4:10 PM</div>
+                  </md-select-option>
+                  <md-select-option
+                    md-menu-item=""
+                    tabindex="-1"
+                    value="HHMM_24"
+                  >
+                    <div slot="headline">16:10</div>
+                  </md-select-option>
+                </md-outlined-select>
               </span>
             </section>
             <section>
@@ -136,18 +180,32 @@ suite('gr-preferences tests', () => {
                 Email notifications
               </label>
               <span class="value">
-                <gr-select>
-                  <select id="emailNotificationsSelect">
-                    <option value="CC_ON_OWN_COMMENTS">Every comment</option>
-                    <option value="ENABLED">
-                      Only comments left by others
-                    </option>
-                    <option value="ATTENTION_SET_ONLY">
+                <md-outlined-select>
+                  <md-select-option
+                    md-menu-item=""
+                    tabindex="0"
+                    value="CC_ON_OWN_COMMENTS"
+                  >
+                    <div slot="headline">Every comment</div>
+                  </md-select-option>
+                  <md-select-option
+                    data-aria-selected="true"
+                    md-menu-item=""
+                    tabindex="-1"
+                    value="ENABLED"
+                  >
+                    <div slot="headline">Only comments left by others</div>
+                  </md-select-option>
+                  <md-select-option
+                    md-menu-item=""
+                    tabindex="-1"
+                    value="ATTENTION_SET_ONLY"
+                  >
+                    <div slot="headline">
                       Only when I am in the attention set
-                    </option>
-                    <option value="DISABLED">None</option>
-                  </select>
-                </gr-select>
+                    </div>
+                  </md-select-option>
+                </md-outlined-select>
               </span>
             </section>
             <section>
@@ -155,12 +213,23 @@ suite('gr-preferences tests', () => {
                 Email format
               </label>
               <span class="value">
-                <gr-select>
-                  <select id="emailFormatSelect">
-                    <option value="HTML_PLAINTEXT">HTML and plaintext</option>
-                    <option value="PLAINTEXT">Plaintext only</option>
-                  </select>
-                </gr-select>
+                <md-outlined-select>
+                  <md-select-option
+                    data-aria-selected="true"
+                    md-menu-item=""
+                    tabindex="0"
+                    value="HTML_PLAINTEXT"
+                  >
+                    <div slot="headline">HTML and plaintext</div>
+                  </md-select-option>
+                  <md-select-option
+                    md-menu-item=""
+                    tabindex="-1"
+                    value="PLAINTEXT"
+                  >
+                    <div slot="headline">Plaintext only</div>
+                  </md-select-option>
+                </md-outlined-select>
               </span>
             </section>
             <section id="allowBrowserNotificationsSection">
@@ -192,12 +261,23 @@ suite('gr-preferences tests', () => {
             <section>
               <span class="title"> Diff view </span>
               <span class="value">
-                <gr-select>
-                  <select id="diffViewSelect">
-                    <option value="SIDE_BY_SIDE">Side by side</option>
-                    <option value="UNIFIED_DIFF">Unified diff</option>
-                  </select>
-                </gr-select>
+                <md-outlined-select>
+                  <md-select-option
+                    md-menu-item=""
+                    tabindex="0"
+                    value="SIDE_BY_SIDE"
+                  >
+                    <div slot="headline">Side by side</div>
+                  </md-select-option>
+                  <md-select-option
+                    data-aria-selected="true"
+                    md-menu-item=""
+                    tabindex="-1"
+                    value="UNIFIED_DIFF"
+                  >
+                    <div slot="headline">Unified diff</div>
+                  </md-select-option>
+                </md-outlined-select>
               </span>
             </section>
             <section>
@@ -296,35 +376,42 @@ suite('gr-preferences tests', () => {
       Number(
         (
           valueOf('Changes per page', 'preferences')
-            .firstElementChild as GrSelect
-        ).bindValue
+            .firstElementChild as MdOutlinedSelect
+        ).value
       ),
       preferences.changes_per_page
     );
     assert.equal(
-      (valueOf('Theme', 'preferences').firstElementChild as GrSelect).bindValue,
+      (valueOf('Theme', 'preferences').firstElementChild as MdOutlinedSelect)
+        .value,
       preferences.theme
     );
     assert.equal(
-      (valueOf('Date/time format', 'preferences').firstElementChild as GrSelect)
-        .bindValue,
+      (
+        valueOf('Date/time format', 'preferences')
+          .firstElementChild as MdOutlinedSelect
+      ).value,
       preferences.date_format
     );
     assert.equal(
-      (valueOf('Date/time format', 'preferences').lastElementChild as GrSelect)
-        .bindValue,
+      (
+        valueOf('Date/time format', 'preferences')
+          .lastElementChild as MdOutlinedSelect
+      ).value,
       preferences.time_format
     );
     assert.equal(
       (
         valueOf('Email notifications', 'preferences')
-          .firstElementChild as GrSelect
-      ).bindValue,
+          .firstElementChild as MdOutlinedSelect
+      ).value,
       preferences.email_strategy
     );
     assert.equal(
-      (valueOf('Email format', 'preferences').firstElementChild as GrSelect)
-        .bindValue,
+      (
+        valueOf('Email format', 'preferences')
+          .firstElementChild as MdOutlinedSelect
+      ).value,
       preferences.email_format
     );
     assert.equal(
@@ -335,8 +422,10 @@ suite('gr-preferences tests', () => {
       false
     );
     assert.equal(
-      (valueOf('Diff view', 'preferences').firstElementChild as GrSelect)
-        .bindValue,
+      (
+        valueOf('Diff view', 'preferences')
+          .firstElementChild as MdOutlinedSelect
+      ).value,
       preferences.diff_view
     );
     assert.equal(
@@ -386,8 +475,8 @@ suite('gr-preferences tests', () => {
     assert.equal(element.prefs?.theme, AppTheme.LIGHT);
 
     const themeSelect = valueOf('Theme', 'preferences')
-      .firstElementChild as GrSelect;
-    themeSelect.bindValue = AppTheme.DARK;
+      .firstElementChild as MdOutlinedSelect;
+    themeSelect.value = AppTheme.DARK;
 
     themeSelect.dispatchEvent(
       new CustomEvent('change', {

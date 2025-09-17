@@ -21,6 +21,7 @@ export enum KnownExperimentId {
   PUSH_NOTIFICATIONS = 'UiFeature__push_notifications',
   REVISION_PARENTS_DATA = 'UiFeature__revision_parents_data',
   COMMENT_AUTOCOMPLETION = 'UiFeature__comment_autocompletion_enabled',
+  GR_TEXTAREA = 'UiFeature__gr_textarea_enabled',
   SAVE_PROJECT_CONFIG_FOR_REVIEW = 'UiFeature__save_project_config_for_review',
   PARALLEL_DASHBOARD_REQUESTS = 'UiFeature__parallel_dashboard_requests',
 }

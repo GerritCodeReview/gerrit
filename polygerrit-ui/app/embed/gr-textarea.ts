@@ -14,7 +14,8 @@ import {
   HintDismissedEventDetail,
   HintShownEventDetail,
 } from '../api/embed';
-import {isSafari} from '../utils/dom-util';
+import {isFirefox, isSafari} from '../utils/dom-util';
+import {htmlEscape} from '../utils/inner-html-util';
 
 /**
  * Waits for the next animation frame.
@@ -414,11 +415,18 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
   }
 
   private get contentEditableAttributeValue() {
-    return this.disabled
-      ? 'false'
-      : this.isPlaintextOnlySupported
-      ? ('plaintext-only' as unknown as 'true')
-      : 'true';
+    if (this.disabled) {
+      return 'false';
+    }
+
+    if (this.isPlaintextOnlySupported) {
+      if (isFirefox()) {
+        return '';
+      }
+      return 'plaintext-only' as unknown as 'true';
+    }
+
+    return 'true';
   }
 
   private setFocusOnNode(
@@ -646,7 +654,19 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
     const editableDivElement =
       this.editableDivElement ?? (await this.editableDiv);
     if (editableDivElement) {
-      editableDivElement.innerText = this.value || '';
+      if (
+        this.contentEditableAttributeValue === 'true' ||
+        this.contentEditableAttributeValue === ''
+      ) {
+        const lines = (this.value ?? '').split('\n');
+        editableDivElement.innerHTML = lines
+          .map(line =>
+            line ? `<div>${htmlEscape(line)}</div>` : '<div><br></div>'
+          )
+          .join('');
+      } else {
+        editableDivElement.innerText = this.value || '';
+      }
     }
   }
 

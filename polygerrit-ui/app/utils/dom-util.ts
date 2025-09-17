@@ -259,6 +259,11 @@ export function findActiveElement(
   return root.activeElement as HTMLElement;
 }
 
+// Whether the browser is Firefox.
+export function isFirefox() {
+  return /firefox/i.test(navigator.userAgent);
+}
+
 // Whether the browser is Safari. Used for polyfilling unique browser behavior.
 export function isSafari() {
   return (

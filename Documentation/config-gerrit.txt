@@ -4323,9 +4323,7 @@ By default, unset/`false`.
 Defines how Gerrit authenticates with the server. When set to `GSSAPI`
 Gerrit will use Kerberos. To use kerberos the
 `java.security.auth.login.config` system property must point to a
-login to a JAAS configuration file and, if Java 6 is used, the system
-property `java.security.krb5.conf` must point to the appropriate
-krb5.ini file with references to the KDC.
+login to a JAAS configuration file.
 
 Typical jaas.conf.
 
@@ -4338,8 +4336,6 @@ KerberosLogin {
             renewTGT=`true`;
 };
 ----
-
-See Java documentation on how to create the krb5.ini file.
 
 Note the `renewTGT` property to make sure the TGT does not expire,
 and `useTicketCache` to use the TGT supplied by the operating system. As

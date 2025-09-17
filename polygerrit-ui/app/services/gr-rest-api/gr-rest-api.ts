@@ -97,6 +97,7 @@ import {
 import {Finalizable, ParsedChangeInfo} from '../../types/types';
 import {ErrorCallback} from '../../api/rest';
 import {
+  AiCodeReviewResponse,
   BatchLabelInput,
   BatchSubmitRequirementInput,
   DeleteLabelInput,
@@ -834,6 +835,13 @@ export interface RestApiService extends Finalizable {
     patchNum: PatchSetNum,
     command: string
   ): Promise<string | undefined>;
+
+  getAiCodeReview(
+    aiModel: string,
+    userInputPrompt: string,
+    changeNum: NumericChangeId,
+    patchNum: PatchSetNum
+  ): Promise<AiCodeReviewResponse | undefined>;
 
   getImagesForDiff(
     changeNum: NumericChangeId,

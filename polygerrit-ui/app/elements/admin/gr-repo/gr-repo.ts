@@ -7,7 +7,6 @@ import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '../../plugins/gr-endpoint-param/gr-endpoint-param';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-download-commands/gr-download-commands';
-import '../../shared/gr-select/gr-select';
 import '../gr-repo-plugin-config/gr-repo-plugin-config';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {
@@ -54,6 +53,8 @@ import {materialStyles} from '../../../styles/gr-material-styles';
 import '../../shared/gr-autogrow-textarea/gr-autogrow-textarea';
 import {GrAutogrowTextarea} from '../../shared/gr-autogrow-textarea/gr-autogrow-textarea';
 import {formStyles} from '../../../styles/form-styles';
+import '@material/web/select/outlined-select';
+import '@material/web/select/select-option';
 
 const STATES = {
   active: {value: RepoState.ACTIVE, label: 'Active'},
@@ -326,19 +327,21 @@ export class GrRepo extends LitElement {
       <section>
         <span class="title">State</span>
         <span class="value">
-          <gr-select
-            id="stateSelect"
-            .bindValue=${this.repoConfig?.state}
-            @bind-value-changed=${this.handleStateSelectBindValueChanged}
-          >
-            <select ?disabled=${this.readOnly}>
+            <md-outlined-select
+              id="stateSelect"
+              .value=${this.repoConfig?.state}
+              ?disabled=${this.readOnly}
+              @change=${this.handleStateSelectChange}
+            >
               ${this.states.map(
                 item => html`
-                  <option value=${item.value}>${item.label}</option>
+                  <md-select-option value=${item.value}>
+                    <div slot="headline">${item.label}</div>
+                  </md-select-option>
                 `
               )}
-            </select>
-          </gr-select>
+              </md-outlined-select>
+          </span>
         </span>
       </section>
     `;
@@ -349,19 +352,20 @@ export class GrRepo extends LitElement {
       <section>
         <span class="title">Submit type</span>
         <span class="value">
-          <gr-select
+          <md-outlined-select
             id="submitTypeSelect"
-            .bindValue=${this.repoConfig?.submit_type}
-            @bind-value-changed=${this.handleSubmitTypeSelectBindValueChanged}
+            .value=${this.repoConfig?.submit_type}
+            ?disabled=${this.readOnly}
+            @change=${this.handleSubmitTypeSelectChange}
           >
-            <select ?disabled=${this.readOnly}>
-              ${this.formatSubmitTypeSelect(this.repoConfig).map(
-                item => html`
-                  <option value=${item.value}>${item.label}</option>
-                `
-              )}
-            </select>
-          </gr-select>
+            ${this.formatSubmitTypeSelect(this.repoConfig).map(
+              item => html`
+                <md-select-option value=${item.value}>
+                  <div slot="headline">${item.label}</div>
+                </md-select-option>
+              `
+            )}
+          </md-outlined-select>
         </span>
       </section>
     `;
@@ -372,21 +376,20 @@ export class GrRepo extends LitElement {
       <section>
         <span class="title">Allow content merges</span>
         <span class="value">
-          <gr-select
+          <md-outlined-select
             id="contentMergeSelect"
-            .bindValue=${this.repoConfig?.use_content_merge?.configured_value}
-            @bind-value-changed=${this.handleContentMergeSelectBindValueChanged}
+            .value=${this.repoConfig?.use_content_merge?.configured_value}
+            ?disabled=${this.readOnly}
+            @change=${this.handleContentMergeSelectChange}
           >
-            <select ?disabled=${this.readOnly}>
-              ${this.formatBooleanSelect(
-                this.repoConfig?.use_content_merge
-              ).map(
-                item => html`
-                  <option value=${item.value}>${item.label}</option>
-                `
-              )}
-            </select>
-          </gr-select>
+            ${this.formatBooleanSelect(this.repoConfig?.use_content_merge).map(
+              item => html`
+                <md-select-option value=${item.value}>
+                  <div slot="headline">${item.label}</div>
+                </md-select-option>
+              `
+            )}
+          </md-outlined-select>
         </span>
       </section>
     `;
@@ -399,22 +402,23 @@ export class GrRepo extends LitElement {
           Create a new change for every commit not in the target branch
         </span>
         <span class="value">
-          <gr-select
+          <md-outlined-select
             id="newChangeSelect"
-            .bindValue=${this.repoConfig
-              ?.create_new_change_for_all_not_in_target?.configured_value}
-            @bind-value-changed=${this.handleNewChangeSelectBindValueChanged}
+            .value=${this.repoConfig?.create_new_change_for_all_not_in_target
+              ?.configured_value}
+            ?disabled=${this.readOnly}
+            @change=${this.handleNewChangeSelectChange}
           >
-            <select ?disabled=${this.readOnly}>
-              ${this.formatBooleanSelect(
-                this.repoConfig?.create_new_change_for_all_not_in_target
-              ).map(
-                item => html`
-                  <option value=${item.value}>${item.label}</option>
-                `
-              )}
-            </select>
-          </gr-select>
+            ${this.formatBooleanSelect(
+              this.repoConfig?.create_new_change_for_all_not_in_target
+            ).map(
+              item => html`
+                <md-select-option value=${item.value}>
+                  <div slot="headline">${item.label}</div>
+                </md-select-option>
+              `
+            )}
+          </md-outlined-select>
         </span>
       </section>
     `;
@@ -425,22 +429,20 @@ export class GrRepo extends LitElement {
       <section>
         <span class="title">Require Change-Id in commit message</span>
         <span class="value">
-          <gr-select
+          <md-outlined-select
             id="requireChangeIdSelect"
-            .bindValue=${this.repoConfig?.require_change_id?.configured_value}
-            @bind-value-changed=${this
-              .handleRequireChangeIdSelectBindValueChanged}
+            .value=${this.repoConfig?.require_change_id?.configured_value}
+            ?disabled=${this.readOnly}
+            @change=${this.handleRequireChangeIdSelectChange}
           >
-            <select ?disabled=${this.readOnly}>
-              ${this.formatBooleanSelect(
-                this.repoConfig?.require_change_id
-              ).map(
-                item => html`
-                  <option value=${item.value}>${item.label}</option>
-                `
-              )}
-            </select>
-          </gr-select>
+            ${this.formatBooleanSelect(this.repoConfig?.require_change_id).map(
+              item => html`
+                <md-select-option value=${item.value}>
+                  <div slot="headline">${item.label}</div>
+                </md-select-option>
+              `
+            )}
+          </md-outlined-select>
         </span>
       </section>
     `;
@@ -456,21 +458,20 @@ export class GrRepo extends LitElement {
       >
         <span class="title">Enable signed push</span>
         <span class="value">
-          <gr-select
+          <md-outlined-select
             id="enableSignedPush"
-            .bindValue=${this.repoConfig?.enable_signed_push?.configured_value}
-            @bind-value-changed=${this.handleEnableSignedPushBindValueChanged}
+            .value=${this.repoConfig?.enable_signed_push?.configured_value}
+            ?disabled=${this.readOnly}
+            @change=${this.handleEnableSignedPushChange}
           >
-            <select ?disabled=${this.readOnly}>
-              ${this.formatBooleanSelect(
-                this.repoConfig?.enable_signed_push
-              ).map(
-                item => html`
-                  <option value=${item.value}>${item.label}</option>
-                `
-              )}
-            </select>
-          </gr-select>
+            ${this.formatBooleanSelect(this.repoConfig?.enable_signed_push).map(
+              item => html`
+                <md-select-option value=${item.value}>
+                  <div slot="headline">${item.label}</div>
+                </md-select-option>
+              `
+            )}
+          </md-outlined-select>
         </span>
       </section>
     `;
@@ -486,21 +487,22 @@ export class GrRepo extends LitElement {
       >
         <span class="title">Require signed push</span>
         <span class="value">
-          <gr-select
+          <md-outlined-select
             id="requireSignedPush"
-            .bindValue=${this.repoConfig?.require_signed_push?.configured_value}
-            @bind-value-changed=${this.handleRequireSignedPushBindValueChanged}
+            .value=${this.repoConfig?.require_signed_push?.configured_value}
+            ?disabled=${this.readOnly}
+            @change=${this.handleRequireSignedPushChange}
           >
-            <select ?disabled=${this.readOnly}>
-              ${this.formatBooleanSelect(
-                this.repoConfig?.require_signed_push
-              ).map(
-                item => html`
-                  <option value=${item.value}>${item.label}</option>
-                `
-              )}
-            </select>
-          </gr-select>
+            ${this.formatBooleanSelect(
+              this.repoConfig?.require_signed_push
+            ).map(
+              item => html`
+                <md-select-option value=${item.value}>
+                  <div slot="headline">${item.label}</div>
+                </md-select-option>
+              `
+            )}
+          </md-outlined-select>
         </span>
       </section>
     `;
@@ -513,23 +515,22 @@ export class GrRepo extends LitElement {
           Reject implicit merges when changes are pushed for review</span
         >
         <span class="value">
-          <gr-select
+          <md-outlined-select
             id="rejectImplicitMergesSelect"
-            .bindValue=${this.repoConfig?.reject_implicit_merges
-              ?.configured_value}
-            @bind-value-changed=${this
-              .handleRejectImplicitMergeSelectBindValueChanged}
+            .value=${this.repoConfig?.reject_implicit_merges?.configured_value}
+            ?disabled=${this.readOnly}
+            @change=${this.handleRejectImplicitMergeSelectChange}
           >
-            <select ?disabled=${this.readOnly}>
-              ${this.formatBooleanSelect(
-                this.repoConfig?.reject_implicit_merges
-              ).map(
-                item => html`
-                  <option value=${item.value}>${item.label}</option>
-                `
-              )}
-            </select>
-          </gr-select>
+            ${this.formatBooleanSelect(
+              this.repoConfig?.reject_implicit_merges
+            ).map(
+              item => html`
+                <md-select-option value=${item.value}>
+                  <div slot="headline">${item.label}</div>
+                </md-select-option>
+              `
+            )}
+          </md-outlined-select>
         </span>
       </section>
     `;
@@ -542,23 +543,23 @@ export class GrRepo extends LitElement {
           Enable adding unregistered users as reviewers and CCs on changes</span
         >
         <span class="value">
-          <gr-select
+          <md-outlined-select
             id="unRegisteredCcSelect"
-            .bindValue=${this.repoConfig?.enable_reviewer_by_email
+            .value=${this.repoConfig?.enable_reviewer_by_email
               ?.configured_value}
-            @bind-value-changed=${this
-              .handleUnRegisteredCcSelectBindValueChanged}
+            ?disabled=${this.readOnly}
+            @change=${this.handleUnRegisteredCcSelectChange}
           >
-            <select ?disabled=${this.readOnly}>
-              ${this.formatBooleanSelect(
-                this.repoConfig?.enable_reviewer_by_email
-              ).map(
-                item => html`
-                  <option value=${item.value}>${item.label}</option>
-                `
-              )}
-            </select>
-          </gr-select>
+            ${this.formatBooleanSelect(
+              this.repoConfig?.enable_reviewer_by_email
+            ).map(
+              item => html`
+                <md-select-option value=${item.value}>
+                  <div slot="headline">${item.label}</div>
+                </md-select-option>
+              `
+            )}
+          </md-outlined-select>
         </span>
       </section>
     `;
@@ -569,22 +570,20 @@ export class GrRepo extends LitElement {
       <section>
         <span class="title"> Set all new changes private by default</span>
         <span class="value">
-          <gr-select
+          <md-outlined-select
             id="setAllnewChangesPrivateByDefaultSelect"
-            .bindValue=${this.repoConfig?.private_by_default?.configured_value}
-            @bind-value-changed=${this
-              .handleSetAllNewChangesPrivateByDefaultSelectBindValueChanged}
+            .value=${this.repoConfig?.private_by_default?.configured_value}
+            ?disabled=${this.readOnly}
+            @change=${this.handleSetAllNewChangesPrivateByDefaultSelectChange}
           >
-            <select ?disabled=${this.readOnly}>
-              ${this.formatBooleanSelect(
-                this.repoConfig?.private_by_default
-              ).map(
-                item => html`
-                  <option value=${item.value}>${item.label}</option>
-                `
-              )}
-            </select>
-          </gr-select>
+            ${this.formatBooleanSelect(this.repoConfig?.private_by_default).map(
+              item => html`
+                <md-select-option value=${item.value}>
+                  <div slot="headline">${item.label}</div>
+                </md-select-option>
+              `
+            )}
+          </md-outlined-select>
         </span>
       </section>
     `;
@@ -597,23 +596,24 @@ export class GrRepo extends LitElement {
           Set new changes to "work in progress" by default</span
         >
         <span class="value">
-          <gr-select
+          <md-outlined-select
             id="setAllNewChangesWorkInProgressByDefaultSelect"
-            .bindValue=${this.repoConfig?.work_in_progress_by_default
+            .value=${this.repoConfig?.work_in_progress_by_default
               ?.configured_value}
-            @bind-value-changed=${this
-              .handleSetAllNewChangesWorkInProgressByDefaultSelectBindValueChanged}
+            ?disabled=${this.readOnly}
+            @change=${this
+              .handleSetAllNewChangesWorkInProgressByDefaultSelectChange}
           >
-            <select ?disabled=${this.readOnly}>
-              ${this.formatBooleanSelect(
-                this.repoConfig?.work_in_progress_by_default
-              ).map(
-                item => html`
-                  <option value=${item.value}>${item.label}</option>
-                `
-              )}
-            </select>
-          </gr-select>
+            ${this.formatBooleanSelect(
+              this.repoConfig?.work_in_progress_by_default
+            ).map(
+              item => html`
+                <md-select-option value=${item.value}>
+                  <div slot="headline">${item.label}</div>
+                </md-select-option>
+              `
+            )}
+          </md-outlined-select>
         </span>
       </section>
     `;
@@ -650,23 +650,23 @@ export class GrRepo extends LitElement {
           >Match authored date with committer date upon submit</span
         >
         <span class="value">
-          <gr-select
+          <md-outlined-select
             id="matchAuthoredDateWithCommitterDateSelect"
-            .bindValue=${this.repoConfig?.match_author_to_committer_date
+            .value=${this.repoConfig?.match_author_to_committer_date
               ?.configured_value}
-            @bind-value-changed=${this
-              .handleMatchAuthoredDateWithCommitterDateSelectBindValueChanged}
+            ?disabled=${this.readOnly}
+            @change=${this.handleMatchAuthoredDateWithCommitterDateSelectChange}
           >
-            <select ?disabled=${this.readOnly}>
-              ${this.formatBooleanSelect(
-                this.repoConfig?.match_author_to_committer_date
-              ).map(
-                item => html`
-                  <option value=${item.value}>${item.label}</option>
-                `
-              )}
-            </select>
-          </gr-select>
+            ${this.formatBooleanSelect(
+              this.repoConfig?.match_author_to_committer_date
+            ).map(
+              item => html`
+                <md-select-option value=${item.value}>
+                  <div slot="headline">${item.label}</div>
+                </md-select-option>
+              `
+            )}
+          </md-outlined-select>
         </span>
       </section>
     `;
@@ -677,22 +677,22 @@ export class GrRepo extends LitElement {
       <section>
         <span class="title">Reject empty commit upon submit</span>
         <span class="value">
-          <gr-select
+          <md-outlined-select
             id="rejectEmptyCommitSelect"
-            .bindValue=${this.repoConfig?.reject_empty_commit?.configured_value}
-            @bind-value-changed=${this
-              .handleRejectEmptyCommitSelectBindValueChanged}
+            .value=${this.repoConfig?.reject_empty_commit?.configured_value}
+            ?disabled=${this.readOnly}
+            @change=${this.handleRejectEmptyCommitSelectChange}
           >
-            <select ?disabled=${this.readOnly}>
-              ${this.formatBooleanSelect(
-                this.repoConfig?.reject_empty_commit
-              ).map(
-                item => html`
-                  <option value=${item.value}>${item.label}</option>
-                `
-              )}
-            </select>
-          </gr-select>
+            ${this.formatBooleanSelect(
+              this.repoConfig?.reject_empty_commit
+            ).map(
+              item => html`
+                <md-select-option value=${item.value}>
+                  <div slot="headline">${item.label}</div>
+                </md-select-option>
+              `
+            )}
+          </md-outlined-select>
         </span>
       </section>
     `;
@@ -705,23 +705,23 @@ export class GrRepo extends LitElement {
           Require a valid contributor agreement to upload</span
         >
         <span class="value">
-          <gr-select
+          <md-outlined-select
             id="contributorAgreementSelect"
-            .bindValue=${this.repoConfig?.use_contributor_agreements
+            .value=${this.repoConfig?.use_contributor_agreements
               ?.configured_value}
-            @bind-value-changed=${this
-              .handleUseContributorAgreementsBindValueChanged}
+            ?disabled=${this.readOnly}
+            @change=${this.handleUseContributorAgreementsChange}
           >
-            <select ?disabled=${this.readOnly}>
-              ${this.formatBooleanSelect(
-                this.repoConfig?.use_contributor_agreements
-              ).map(
-                item => html`
-                  <option value=${item.value}>${item.label}</option>
-                `
-              )}
-            </select>
-          </gr-select>
+            ${this.formatBooleanSelect(
+              this.repoConfig?.use_contributor_agreements
+            ).map(
+              item => html`
+                <md-select-option value=${item.value}>
+                  <div slot="headline">${item.label}</div>
+                </md-select-option>
+              `
+            )}
+          </md-outlined-select>
         </span>
       </section>
     `;
@@ -732,22 +732,20 @@ export class GrRepo extends LitElement {
       <section>
         <span class="title">Require Signed-off-by in commit message</span>
         <span class="value">
-          <gr-select
+          <md-outlined-select
             id="useSignedOffBySelect"
-            .bindValue=${this.repoConfig?.use_signed_off_by?.configured_value}
-            @bind-value-changed=${this
-              .handleUseSignedOffBySelectBindValueChanged}
+            .value=${this.repoConfig?.use_signed_off_by?.configured_value}
+            ?disabled=${this.readOnly}
+            @change=${this.handleUseSignedOffBySelectChange}
           >
-            <select ?disabled=${this.readOnly}>
-              ${this.formatBooleanSelect(
-                this.repoConfig?.use_signed_off_by
-              ).map(
-                item => html`
-                  <option value=${item.value}>${item.label}</option>
-                `
-              )}
-            </select>
-          </gr-select>
+            ${this.formatBooleanSelect(this.repoConfig?.use_signed_off_by).map(
+              item => html`
+                <md-select-option value=${item.value}>
+                  <div slot="headline">${item.label}</div>
+                </md-select-option>
+              `
+            )}
+          </md-outlined-select>
         </span>
       </section>
     `;
@@ -1209,96 +1207,101 @@ export class GrRepo extends LitElement {
     this.requestUpdate();
   }
 
-  private handleStateSelectBindValueChanged(e: BindValueChangeEvent) {
+  private handleStateSelectChange(e: Event) {
     if (!this.repoConfig || this.loading) return;
-    if (this.repoConfig.state === e.detail.value) return;
+    const select = e.target as HTMLSelectElement;
+    if (this.repoConfig.state === select.value) return;
     this.repoConfig = {
       ...this.repoConfig,
-      state: e.detail.value as RepoState,
+      state: select.value as RepoState,
     };
     this.requestUpdate();
   }
 
-  private handleSubmitTypeSelectBindValueChanged(e: BindValueChangeEvent) {
+  private handleSubmitTypeSelectChange(e: Event) {
     if (!this.repoConfig || this.loading) return;
-    if (this.repoConfig.submit_type === e.detail.value) return;
+    const select = e.target as HTMLSelectElement;
+    if (this.repoConfig.submit_type === select.value) return;
     this.repoConfig = {
       ...this.repoConfig,
-      submit_type: e.detail.value as SubmitType,
+      submit_type: select.value as SubmitType,
     };
     this.requestUpdate();
   }
 
-  private handleContentMergeSelectBindValueChanged(e: BindValueChangeEvent) {
+  private handleContentMergeSelectChange(e: Event) {
     if (!this.repoConfig?.use_content_merge || this.loading) return;
-    this.repoConfig.use_content_merge.configured_value = e.detail
-      .value as InheritedBooleanInfoConfiguredValue;
+    const select = e.target as HTMLSelectElement;
+    this.repoConfig.use_content_merge.configured_value =
+      select.value as InheritedBooleanInfoConfiguredValue;
     this.requestUpdate();
   }
 
-  private handleNewChangeSelectBindValueChanged(e: BindValueChangeEvent) {
+  private handleNewChangeSelectChange(e: Event) {
     if (
       !this.repoConfig?.create_new_change_for_all_not_in_target ||
       this.loading
     )
       return;
-    this.repoConfig.create_new_change_for_all_not_in_target.configured_value = e
-      .detail.value as InheritedBooleanInfoConfiguredValue;
+    const select = e.target as HTMLSelectElement;
+    this.repoConfig.create_new_change_for_all_not_in_target.configured_value =
+      select.value as InheritedBooleanInfoConfiguredValue;
     this.requestUpdate();
   }
 
-  private handleRequireChangeIdSelectBindValueChanged(e: BindValueChangeEvent) {
+  private handleRequireChangeIdSelectChange(e: Event) {
     if (!this.repoConfig?.require_change_id || this.loading) return;
-    this.repoConfig.require_change_id.configured_value = e.detail
-      .value as InheritedBooleanInfoConfiguredValue;
+    const select = e.target as HTMLSelectElement;
+    this.repoConfig.require_change_id.configured_value =
+      select.value as InheritedBooleanInfoConfiguredValue;
     this.requestUpdate();
   }
 
-  private handleEnableSignedPushBindValueChanged(e: BindValueChangeEvent) {
+  private handleEnableSignedPushChange(e: Event) {
     if (!this.repoConfig?.enable_signed_push || this.loading) return;
-    this.repoConfig.enable_signed_push.configured_value = e.detail
-      .value as InheritedBooleanInfoConfiguredValue;
+    const select = e.target as HTMLSelectElement;
+    this.repoConfig.enable_signed_push.configured_value =
+      select.value as InheritedBooleanInfoConfiguredValue;
     this.requestUpdate();
   }
 
-  private handleRequireSignedPushBindValueChanged(e: BindValueChangeEvent) {
+  private handleRequireSignedPushChange(e: Event) {
     if (!this.repoConfig?.require_signed_push || this.loading) return;
-    this.repoConfig.require_signed_push.configured_value = e.detail
-      .value as InheritedBooleanInfoConfiguredValue;
+    const select = e.target as HTMLSelectElement;
+    this.repoConfig.require_signed_push.configured_value =
+      select.value as InheritedBooleanInfoConfiguredValue;
     this.requestUpdate();
   }
 
-  private handleRejectImplicitMergeSelectBindValueChanged(
-    e: BindValueChangeEvent
-  ) {
+  private handleRejectImplicitMergeSelectChange(e: Event) {
     if (!this.repoConfig?.reject_implicit_merges || this.loading) return;
-    this.repoConfig.reject_implicit_merges.configured_value = e.detail
-      .value as InheritedBooleanInfoConfiguredValue;
+    const select = e.target as HTMLSelectElement;
+    this.repoConfig.reject_implicit_merges.configured_value =
+      select.value as InheritedBooleanInfoConfiguredValue;
     this.requestUpdate();
   }
 
-  private handleUnRegisteredCcSelectBindValueChanged(e: BindValueChangeEvent) {
+  private handleUnRegisteredCcSelectChange(e: Event) {
     if (!this.repoConfig?.enable_reviewer_by_email || this.loading) return;
-    this.repoConfig.enable_reviewer_by_email.configured_value = e.detail
-      .value as InheritedBooleanInfoConfiguredValue;
+    const select = e.target as HTMLSelectElement;
+    this.repoConfig.enable_reviewer_by_email.configured_value =
+      select.value as InheritedBooleanInfoConfiguredValue;
     this.requestUpdate();
   }
 
-  private handleSetAllNewChangesPrivateByDefaultSelectBindValueChanged(
-    e: BindValueChangeEvent
-  ) {
+  private handleSetAllNewChangesPrivateByDefaultSelectChange(e: Event) {
     if (!this.repoConfig?.private_by_default || this.loading) return;
-    this.repoConfig.private_by_default.configured_value = e.detail
-      .value as InheritedBooleanInfoConfiguredValue;
+    const select = e.target as HTMLSelectElement;
+    this.repoConfig.private_by_default.configured_value =
+      select.value as InheritedBooleanInfoConfiguredValue;
     this.requestUpdate();
   }
 
-  private handleSetAllNewChangesWorkInProgressByDefaultSelectBindValueChanged(
-    e: BindValueChangeEvent
-  ) {
+  private handleSetAllNewChangesWorkInProgressByDefaultSelectChange(e: Event) {
     if (!this.repoConfig?.work_in_progress_by_default || this.loading) return;
-    this.repoConfig.work_in_progress_by_default.configured_value = e.detail
-      .value as InheritedBooleanInfoConfiguredValue;
+    const select = e.target as HTMLSelectElement;
+    this.repoConfig.work_in_progress_by_default.configured_value =
+      select.value as InheritedBooleanInfoConfiguredValue;
     this.requestUpdate();
   }
 
@@ -1310,38 +1313,36 @@ export class GrRepo extends LitElement {
     this.requestUpdate();
   }
 
-  private handleMatchAuthoredDateWithCommitterDateSelectBindValueChanged(
-    e: BindValueChangeEvent
-  ) {
+  private handleMatchAuthoredDateWithCommitterDateSelectChange(e: Event) {
     if (!this.repoConfig?.match_author_to_committer_date || this.loading)
       return;
-    this.repoConfig.match_author_to_committer_date.configured_value = e.detail
-      .value as InheritedBooleanInfoConfiguredValue;
+    const select = e.target as HTMLSelectElement;
+    this.repoConfig.match_author_to_committer_date.configured_value =
+      select.value as InheritedBooleanInfoConfiguredValue;
     this.requestUpdate();
   }
 
-  private handleRejectEmptyCommitSelectBindValueChanged(
-    e: BindValueChangeEvent
-  ) {
+  private handleRejectEmptyCommitSelectChange(e: Event) {
     if (!this.repoConfig?.reject_empty_commit || this.loading) return;
-    this.repoConfig.reject_empty_commit.configured_value = e.detail
-      .value as InheritedBooleanInfoConfiguredValue;
+    const select = e.target as HTMLSelectElement;
+    this.repoConfig.reject_empty_commit.configured_value =
+      select.value as InheritedBooleanInfoConfiguredValue;
     this.requestUpdate();
   }
 
-  private handleUseContributorAgreementsBindValueChanged(
-    e: BindValueChangeEvent
-  ) {
+  private handleUseContributorAgreementsChange(e: Event) {
     if (!this.repoConfig?.use_contributor_agreements || this.loading) return;
-    this.repoConfig.use_contributor_agreements.configured_value = e.detail
-      .value as InheritedBooleanInfoConfiguredValue;
+    const select = e.target as HTMLSelectElement;
+    this.repoConfig.use_contributor_agreements.configured_value =
+      select.value as InheritedBooleanInfoConfiguredValue;
     this.requestUpdate();
   }
 
-  private handleUseSignedOffBySelectBindValueChanged(e: BindValueChangeEvent) {
+  private handleUseSignedOffBySelectChange(e: Event) {
     if (!this.repoConfig?.use_signed_off_by || this.loading) return;
-    this.repoConfig.use_signed_off_by.configured_value = e.detail
-      .value as InheritedBooleanInfoConfiguredValue;
+    const select = e.target as HTMLSelectElement;
+    this.repoConfig.use_signed_off_by.configured_value =
+      select.value as InheritedBooleanInfoConfiguredValue;
     this.requestUpdate();
   }
 }

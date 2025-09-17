@@ -10,6 +10,7 @@ import './gr-validation-options';
 import {GrValidationOptions} from './gr-validation-options';
 import {ValidationOptionsInfo} from '../../../api/rest-api';
 import {queryAll} from '../../../test/test-utils';
+import {MdCheckbox} from '@material/web/checkbox/checkbox';
 
 suite('gr-trigger-vote tests', () => {
   let element: GrValidationOptions;
@@ -31,23 +32,14 @@ suite('gr-trigger-vote tests', () => {
     assert.shadowDom.equal(
       element,
       /* HTML */ `
-        <label class="selectionLabel">
-          <input type="checkbox" />
-          Option 1
-        </label>
-        <label class="selectionLabel">
-          <input type="checkbox" />
-          Option 2
-        </label>
+        <md-checkbox class="selectionLabel">Option 1</md-checkbox>
+        <md-checkbox class="selectionLabel">Option 2</md-checkbox>
       `
     );
   });
 
   test('selects and unselects options', () => {
-    const checkboxes = queryAll<HTMLInputElement>(
-      element,
-      'input[type="checkbox"]'
-    );
+    const checkboxes = queryAll<MdCheckbox>(element, 'md-checkbox');
     element.validationOptions?.validation_options;
 
     assert.deepEqual(element.getSelectedOptions(), []);

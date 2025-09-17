@@ -28,7 +28,12 @@ import {
   isRunningScheduledOrCompleted,
 } from '../../../models/checks/checks-util';
 import {getMentionedThreads, isUnresolved} from '../../../utils/comment-util';
-import {AccountInfo, CommentThread, DropdownLink} from '../../../types/common';
+import {
+  AccountInfo,
+  CommentThread,
+  DropdownLink,
+  PatchSetNum,
+} from '../../../types/common';
 import {Tab} from '../../../constants/constants';
 import {ChecksTabState} from '../../../types/events';
 import {modifierPressed} from '../../../utils/dom-util';
@@ -43,6 +48,8 @@ import {combineLatest} from 'rxjs';
 import {userModelToken} from '../../../models/user/user-model';
 import {assertIsDefined} from '../../../utils/common-util';
 import {GrAiPromptDialog} from '../gr-ai-prompt-dialog/gr-ai-prompt-dialog';
+import {KnownExperimentId} from '../../../services/flags/flags';
+import '../gr-ai-prompt-dialog/gr-chatbot-panel';
 
 function handleSpaceOrEnter(e: KeyboardEvent, handler: () => void) {
   if (modifierPressed(e)) return;
@@ -89,6 +96,8 @@ export class GrChangeSummary extends LitElement {
   @state()
   loginCallback?: () => void;
 
+  @state() patchNum?: PatchSetNum;
+
   @state()
   actions: Action[] = [];
 
@@ -113,6 +122,8 @@ export class GrChangeSummary extends LitElement {
   private readonly getChecksModel = resolve(this, checksModelToken);
 
   private readonly getChangeModel = resolve(this, changeModelToken);
+
+  private readonly flagsService = getAppContext().flagsService;
 
   private readonly reporting = getAppContext().reportingService;
 
@@ -172,6 +183,11 @@ export class GrChangeSummary extends LitElement {
       this,
       () => this.getCommentsModel().commentsLoading$,
       x => (this.commentsLoading = x)
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().patchNum$,
+      patchNum => (this.patchNum = patchNum)
     );
     subscribe(
       this,
@@ -562,6 +578,15 @@ export class GrChangeSummary extends LitElement {
     this.aiPromptModal.close();
   }
 
+  private handleAiAssistantClick() {
+    this.dispatchEvent(
+        new CustomEvent('toggle-ai-assistant', {
+          bubbles: true,
+          composed: true,
+        })
+    );
+  }
+
   override render() {
     return html`
       <div>
@@ -581,6 +606,16 @@ export class GrChangeSummary extends LitElement {
                 <gr-button link @click=${this.handleOpenAiPromptDialog}
                   >Create AI Review Prompt</gr-button
                 >
+                ${when(
+                    this.flagsService.isEnabled(
+                        KnownExperimentId.GET_AI_ASSISTANT
+                    ),
+                    () => html`
+                    <gr-button link @click=${this.handleAiAssistantClick}>
+                      AI Code Review Assistant
+                    </gr-button>
+                  `
+                )}
               </div>
             </td>
           </tr>

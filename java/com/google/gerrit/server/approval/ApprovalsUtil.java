@@ -898,12 +898,18 @@ public class ApprovalsUtil {
   public Iterable<PatchSetApproval> byPatchSet(ChangeNotes notes, PatchSet.Id psId) {
     ImmutableList<PatchSetApproval> approvalsNotNormalized =
         notes.load().getApprovals().all().get(psId);
-    return labelNormalizer.normalize(notes, approvalsNotNormalized).getNormalized();
+    return filterOutApprovalsOfDeletedAccounts(
+        labelNormalizer.normalize(notes, approvalsNotNormalized).getNormalized());
   }
 
   public Iterable<PatchSetApproval> byPatchSetUser(
       ChangeNotes notes, PatchSet.Id psId, Account.Id accountId) {
     return filterApprovals(byPatchSet(notes, psId), accountId);
+  }
+
+  private Iterable<PatchSetApproval> filterOutApprovalsOfDeletedAccounts(
+      Iterable<PatchSetApproval> psas) {
+    return Iterables.filter(psas, psa -> accountCache.get(psa.accountId()).isPresent());
   }
 
   @Nullable

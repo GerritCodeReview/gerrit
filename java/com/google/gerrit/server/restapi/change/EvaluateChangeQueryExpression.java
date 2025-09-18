@@ -72,6 +72,7 @@ public class EvaluateChangeQueryExpression implements RestReadView<ChangeResourc
     }
 
     logger.atFine().log("parsing expression %s", expression);
+    expression = expression.replace("!", ",");
     Predicate<ChangeData> predicate = parseExpression(expression);
     logger.atFine().log("evaluating predicate string %s", predicate.getPredicateString());
     PredicateResult predicateResult = getChangeData(rsrc).evaluatePredicateTree(predicate);

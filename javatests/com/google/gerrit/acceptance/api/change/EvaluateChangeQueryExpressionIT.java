@@ -153,6 +153,22 @@ public class EvaluateChangeQueryExpressionIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void expressionWithExclamationMarkIsTranslatedToComma() throws Exception {
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().create();
+    changeOperations.change(changeIdentifier).newVote().codeReviewApproval().create();
+    EvaluateChangeQueryExpressionResultInfo info =
+        gApi.changes()
+            .id(changeIdentifier)
+            .evaluateChangeQueryExpression()
+            .withExpression("is:open!label:Code-Review+2")
+            .get();
+    assertThat(info.status).isTrue();
+    assertThat(info.passingAtoms).containsExactly("is:open,label:Code-Review+2");
+    assertThat(info.failingAtoms).isEmpty();
+    assertThat(info.atomExplanations).isNull();
+  }
+
+  @Test
   public void multiAtomExpressionThatDoesNotMatch() throws Exception {
     ChangeIdentifier changeIdentifier = changeOperations.newChange().create();
     EvaluateChangeQueryExpressionResultInfo info =

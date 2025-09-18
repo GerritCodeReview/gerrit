@@ -47,11 +47,11 @@ import {
 } from '../../../test/test-data-generators';
 import {PageErrorEvent} from '../../../types/events';
 import {GrButton} from '../../shared/gr-button/gr-button';
-import {GrSelect} from '../../shared/gr-select/gr-select';
 import {assert, fixture, html} from '@open-wc/testing';
 import {ChangeInfo} from '../../../api/rest-api';
 import {MdOutlinedTextField} from '@material/web/textfield/outlined-text-field';
 import {GrAutogrowTextarea} from '../../shared/gr-autogrow-textarea/gr-autogrow-textarea';
+import {MdOutlinedSelect} from '@material/web/select/outlined-select';
 
 suite('gr-repo tests', () => {
   let element: GrRepo;
@@ -172,246 +172,752 @@ suite('gr-repo tests', () => {
     assert.shadowDom.equal(
       element,
       /* prettier-ignore */ /* HTML */ `
-      <div class="gr-form-styles main read-only">
-        <div class="info">
-          <h1 class="heading-1" id="Title">test-repo</h1>
-          <hr />
-          <div>
-            <a href="">
-              <gr-button
-                aria-disabled="true"
-                disabled=""
-                link=""
-                role="button"
-                tabindex="-1"
-              >
-                Browse
-              </gr-button>
-            </a>
-            <a href="/q/project:test-repo">
-              <gr-button
-                aria-disabled="false"
-                link=""
-                role="button"
-                tabindex="0"
-              >
-                View Changes
-              </gr-button>
-            </a>
-          </div>
-        </div>
-        <div id="loadedContent">
-          <h2 class="heading-2" id="configurations">Configurations</h2>
-          <div id="form">
-            <fieldset>
-              <h3 class="heading-3" id="Description">Description</h3>
-              <fieldset>
-                <gr-autogrow-textarea
-                  autocomplete="on"
-                  class="description"
-                  disabled=""
-                  id="descriptionInput"
-                  placeholder="<Insert repo description here>"
-                >
-                </gr-autogrow-textarea>
-              </fieldset>
-              <h3 class="heading-3" id="Options">Repository Options</h3>
-              <fieldset id="options">
-                <section>
-                  <span class="title"> State </span>
-                  <span class="value">
-                    <gr-select id="stateSelect">
-                      <select disabled="">
-                        <option value="ACTIVE">Active</option>
-                        <option value="READ_ONLY">Read Only</option>
-                        <option value="HIDDEN">Hidden</option>
-                      </select>
-                    </gr-select>
-                  </span>
-                </section>
-                <section>
-                  <span class="title"> Submit type </span>
-                  <span class="value">
-                    <gr-select id="submitTypeSelect">
-                      <select disabled=""></select>
-                    </gr-select>
-                  </span>
-                </section>
-                <section>
-                  <span class="title"> Allow content merges </span>
-                  <span class="value">
-                    <gr-select id="contentMergeSelect">
-                      <select disabled=""></select>
-                    </gr-select>
-                  </span>
-                </section>
-                <section>
-                  <span class="title">
-                    Create a new change for every commit not in the target branch
-                  </span>
-                  <span class="value">
-                    <gr-select id="newChangeSelect">
-                      <select disabled=""></select>
-                    </gr-select>
-                  </span>
-                </section>
-                <section>
-                  <span class="title">
-                    Require Change-Id in commit message
-                  </span>
-                  <span class="value">
-                    <gr-select id="requireChangeIdSelect">
-                      <select disabled=""></select>
-                    </gr-select>
-                  </span>
-                </section>
-                <section
-                  class="repositorySettings showConfig"
-                  id="enableSignedPushSettings"
-                >
-                  <span class="title"> Enable signed push </span>
-                  <span class="value">
-                    <gr-select id="enableSignedPush">
-                      <select disabled=""></select>
-                    </gr-select>
-                  </span>
-                </section>
-                <section
-                  class="repositorySettings showConfig"
-                  id="requireSignedPushSettings"
-                >
-                  <span class="title"> Require signed push </span>
-                  <span class="value">
-                    <gr-select id="requireSignedPush">
-                      <select disabled=""></select>
-                    </gr-select>
-                  </span>
-                </section>
-                <section>
-                  <span class="title">
-                    Reject implicit merges when changes are pushed for review
-                  </span>
-                  <span class="value">
-                    <gr-select id="rejectImplicitMergesSelect">
-                      <select disabled=""></select>
-                    </gr-select>
-                  </span>
-                </section>
-                <section>
-                  <span class="title">
-                    Enable adding unregistered users as reviewers and CCs on changes
-                  </span>
-                  <span class="value">
-                    <gr-select id="unRegisteredCcSelect">
-                      <select disabled=""></select>
-                    </gr-select>
-                  </span>
-                </section>
-                <section>
-                  <span class="title">
-                    Set all new changes private by default
-                  </span>
-                  <span class="value">
-                    <gr-select id="setAllnewChangesPrivateByDefaultSelect">
-                      <select disabled=""></select>
-                    </gr-select>
-                  </span>
-                </section>
-                <section>
-                  <span class="title">
-                    Set new changes to "work in progress" by default
-                  </span>
-                  <span class="value">
-                    <gr-select
-                      id="setAllNewChangesWorkInProgressByDefaultSelect"
-                    >
-                      <select disabled=""></select>
-                    </gr-select>
-                  </span>
-                </section>
-                <section>
-                  <span class="title"> Maximum Git object size limit </span>
-                  <span class="value">
-                    <md-outlined-text-field
-                      autocomplete=""
-                      class="showBlueFocusBorder"
-                      disabled=""
-                      id="maxGitObjSizeInput"
-                      inputmode=""
-                      min="0"
-                      type="number"
-                    >
-                    </md-outlined-text-field>
-                  </span>
-                </section>
-                <section>
-                  <span class="title">
-                    Match authored date with committer date upon submit
-                  </span>
-                  <span class="value">
-                    <gr-select id="matchAuthoredDateWithCommitterDateSelect">
-                      <select disabled=""></select>
-                    </gr-select>
-                  </span>
-                </section>
-                <section>
-                  <span class="title"> Reject empty commit upon submit </span>
-                  <span class="value">
-                    <gr-select id="rejectEmptyCommitSelect">
-                      <select disabled=""></select>
-                    </gr-select>
-                  </span>
-                </section>
-              </fieldset>
-              <h3 class="heading-3" id="Options">Contributor Agreements</h3>
-              <fieldset id="agreements">
-                <section>
-                  <span class="title">
-                    Require a valid contributor agreement to upload
-                  </span>
-                  <span class="value">
-                    <gr-select id="contributorAgreementSelect">
-                      <select disabled=""></select>
-                    </gr-select>
-                  </span>
-                </section>
-                <section>
-                  <span class="title">
-                    Require Signed-off-by in commit message
-                  </span>
-                  <span class="value">
-                    <gr-select id="useSignedOffBySelect">
-                      <select disabled=""></select>
-                    </gr-select>
-                  </span>
-                </section>
-              </fieldset>
-              <gr-button
-                id="saveBtn"
-                aria-disabled="true"
-                disabled=""
-                role="button"
-                tabindex="-1"
-              >
-                Save Changes
-              </gr-button>
-              <gr-button
-                id="saveReviewBtn"
-                aria-disabled="true"
-                disabled=""
-                role="button"
-                tabindex="-1"
-              >
-                Save For Review
-              </gr-button>
-            </fieldset>
-            <gr-endpoint-decorator name="repo-config">
-              <gr-endpoint-param name="repoName"> </gr-endpoint-param>
-              <gr-endpoint-param name="readOnly"> </gr-endpoint-param>
-            </gr-endpoint-decorator>
-          </div>
-        </div>
-      </div>
+       <div class="gr-form-styles main read-only">
+         <div class="info">
+           <h1
+             class="heading-1"
+             id="Title"
+           >
+             test-repo
+           </h1>
+           <hr>
+           <div>
+             <a href="">
+               <gr-button
+                 aria-disabled="true"
+                 disabled=""
+                 link=""
+                 role="button"
+                 tabindex="-1"
+               >
+                 Browse
+               </gr-button>
+             </a>
+             <a href="/q/project:test-repo">
+               <gr-button
+                 aria-disabled="false"
+                 link=""
+                 role="button"
+                 tabindex="0"
+               >
+                 View Changes
+               </gr-button>
+             </a>
+           </div>
+         </div>
+         <div id="loadedContent">
+           <h2
+             class="heading-2"
+             id="configurations"
+           >
+             Configurations
+           </h2>
+           <div id="form">
+             <fieldset>
+               <h3
+                 class="heading-3"
+                 id="Description"
+               >
+                 Description
+               </h3>
+               <fieldset>
+                 <gr-autogrow-textarea
+                   autocomplete="on"
+                   class="description"
+                   disabled=""
+                   id="descriptionInput"
+                   placeholder="<Insert repo description here>"
+                 >
+                 </gr-autogrow-textarea>
+               </fieldset>
+               <h3
+                 class="heading-3"
+                 id="Options"
+               >
+                 Repository Options
+               </h3>
+               <fieldset id="options">
+                 <section>
+                   <span class="title">
+                     State
+                   </span>
+                   <span class="value">
+                     <md-outlined-select
+                       disabled=""
+                       id="stateSelect"
+                     >
+                       <md-select-option
+                         md-menu-item=""
+                         tabindex="0"
+                         value="ACTIVE"
+                       >
+                         <div slot="headline">
+                           Active
+                         </div>
+                       </md-select-option>
+                       <md-select-option
+                         md-menu-item=""
+                         tabindex="-1"
+                         value="READ_ONLY"
+                       >
+                         <div slot="headline">
+                           Read Only
+                         </div>
+                       </md-select-option>
+                       <md-select-option
+                         md-menu-item=""
+                         tabindex="-1"
+                         value="HIDDEN"
+                       >
+                         <div slot="headline">
+                           Hidden
+                         </div>
+                       </md-select-option>
+                     </md-outlined-select>
+                   </span>
+                 </section>
+                 <section>
+                   <span class="title">
+                     Submit type
+                   </span>
+                   <span class="value">
+                     <md-outlined-select
+                       disabled=""
+                       id="submitTypeSelect"
+                     >
+                       <md-select-option
+                         md-menu-item=""
+                         tabindex="0"
+                         value="INHERIT"
+                       >
+                         <div slot="headline">
+                           Inherit (Merge if necessary)
+                         </div>
+                       </md-select-option>
+                       <md-select-option
+                         md-menu-item=""
+                         tabindex="-1"
+                         value="MERGE_IF_NECESSARY"
+                       >
+                         <div slot="headline">
+                           Merge if necessary
+                         </div>
+                       </md-select-option>
+                       <md-select-option
+                         md-menu-item=""
+                         tabindex="-1"
+                         value="FAST_FORWARD_ONLY"
+                       >
+                         <div slot="headline">
+                           Fast forward only
+                         </div>
+                       </md-select-option>
+                       <md-select-option
+                         md-menu-item=""
+                         tabindex="-1"
+                         value="REBASE_ALWAYS"
+                       >
+                         <div slot="headline">
+                           Rebase Always
+                         </div>
+                       </md-select-option>
+                       <md-select-option
+                         md-menu-item=""
+                         tabindex="-1"
+                         value="REBASE_IF_NECESSARY"
+                       >
+                         <div slot="headline">
+                           Rebase if necessary
+                         </div>
+                       </md-select-option>
+                       <md-select-option
+                         md-menu-item=""
+                         tabindex="-1"
+                         value="MERGE_ALWAYS"
+                       >
+                         <div slot="headline">
+                           Merge always
+                         </div>
+                       </md-select-option>
+                       <md-select-option
+                         md-menu-item=""
+                         tabindex="-1"
+                         value="CHERRY_PICK"
+                       >
+                         <div slot="headline">
+                           Cherry pick
+                         </div>
+                       </md-select-option>
+                     </md-outlined-select>
+                   </span>
+                 </section>
+                 <section>
+                   <span class="title">
+                     Allow content merges
+                   </span>
+                   <span class="value">
+                     <md-outlined-select
+                       disabled=""
+                       id="contentMergeSelect"
+                     >
+                       <md-select-option
+                         md-menu-item=""
+                         tabindex="0"
+                         value="INHERIT"
+                       >
+                         <div slot="headline">
+                           Inherit
+                         </div>
+                       </md-select-option>
+                       <md-select-option
+                         md-menu-item=""
+                         tabindex="-1"
+                         value="TRUE"
+                       >
+                         <div slot="headline">
+                           True
+                         </div>
+                       </md-select-option>
+                       <md-select-option
+                         md-menu-item=""
+                         tabindex="-1"
+                         value="FALSE"
+                       >
+                         <div slot="headline">
+                           False
+                         </div>
+                       </md-select-option>
+                     </md-outlined-select>
+                   </span>
+                 </section>
+                 <section>
+                   <span class="title">
+                     Create a new change for every commit not in the target branch
+                   </span>
+                   <span class="value">
+                     <md-outlined-select
+                       disabled=""
+                       id="newChangeSelect"
+                     >
+                       <md-select-option
+                         md-menu-item=""
+                         tabindex="0"
+                         value="INHERIT"
+                       >
+                         <div slot="headline">
+                           Inherit
+                         </div>
+                       </md-select-option>
+                       <md-select-option
+                         md-menu-item=""
+                         tabindex="-1"
+                         value="TRUE"
+                       >
+                         <div slot="headline">
+                           True
+                         </div>
+                       </md-select-option>
+                       <md-select-option
+                         md-menu-item=""
+                         tabindex="-1"
+                         value="FALSE"
+                       >
+                         <div slot="headline">
+                           False
+                         </div>
+                       </md-select-option>
+                     </md-outlined-select>
+                   </span>
+                 </section>
+                 <section>
+                   <span class="title">
+                     Require Change-Id in commit message
+                   </span>
+                   <span class="value">
+                     <md-outlined-select
+                       disabled=""
+                       id="requireChangeIdSelect"
+                     >
+                       <md-select-option
+                         md-menu-item=""
+                         tabindex="0"
+                         value="INHERIT"
+                       >
+                         <div slot="headline">
+                           Inherit
+                         </div>
+                       </md-select-option>
+                       <md-select-option
+                         md-menu-item=""
+                         tabindex="-1"
+                         value="TRUE"
+                       >
+                         <div slot="headline">
+                           True
+                         </div>
+                       </md-select-option>
+                       <md-select-option
+                         md-menu-item=""
+                         tabindex="-1"
+                         value="FALSE"
+                       >
+                         <div slot="headline">
+                           False
+                         </div>
+                       </md-select-option>
+                     </md-outlined-select>
+                   </span>
+                 </section>
+                 <section
+                   class="repositorySettings showConfig"
+                   id="enableSignedPushSettings"
+                 >
+                   <span class="title">
+                     Enable signed push
+                   </span>
+                   <span class="value">
+                     <md-outlined-select
+                       disabled=""
+                       id="enableSignedPush"
+                     >
+                       <md-select-option
+                         md-menu-item=""
+                         tabindex="0"
+                         value="INHERIT"
+                       >
+                         <div slot="headline">
+                           Inherit
+                         </div>
+                       </md-select-option>
+                       <md-select-option
+                         md-menu-item=""
+                         tabindex="-1"
+                         value="TRUE"
+                       >
+                         <div slot="headline">
+                           True
+                         </div>
+                       </md-select-option>
+                       <md-select-option
+                         md-menu-item=""
+                         tabindex="-1"
+                         value="FALSE"
+                       >
+                         <div slot="headline">
+                           False
+                         </div>
+                       </md-select-option>
+                     </md-outlined-select>
+                   </span>
+                 </section>
+                 <section
+                   class="repositorySettings showConfig"
+                   id="requireSignedPushSettings"
+                 >
+                   <span class="title">
+                     Require signed push
+                   </span>
+                   <span class="value">
+                     <md-outlined-select
+                       disabled=""
+                       id="requireSignedPush"
+                     >
+                       <md-select-option
+                         md-menu-item=""
+                         tabindex="0"
+                         value="INHERIT"
+                       >
+                         <div slot="headline">
+                           Inherit
+                         </div>
+                       </md-select-option>
+                       <md-select-option
+                         md-menu-item=""
+                         tabindex="-1"
+                         value="TRUE"
+                       >
+                         <div slot="headline">
+                           True
+                         </div>
+                       </md-select-option>
+                       <md-select-option
+                         md-menu-item=""
+                         tabindex="-1"
+                         value="FALSE"
+                       >
+                         <div slot="headline">
+                           False
+                         </div>
+                       </md-select-option>
+                     </md-outlined-select>
+                   </span>
+                 </section>
+                 <section>
+                   <span class="title">
+                     Reject implicit merges when changes are pushed for review
+                   </span>
+                   <span class="value">
+                     <md-outlined-select
+                       disabled=""
+                       id="rejectImplicitMergesSelect"
+                     >
+                       <md-select-option
+                         md-menu-item=""
+                         tabindex="0"
+                         value="INHERIT"
+                       >
+                         <div slot="headline">
+                           Inherit
+                         </div>
+                       </md-select-option>
+                       <md-select-option
+                         md-menu-item=""
+                         tabindex="-1"
+                         value="TRUE"
+                       >
+                         <div slot="headline">
+                           True
+                         </div>
+                       </md-select-option>
+                       <md-select-option
+                         md-menu-item=""
+                         tabindex="-1"
+                         value="FALSE"
+                       >
+                         <div slot="headline">
+                           False
+                         </div>
+                       </md-select-option>
+                     </md-outlined-select>
+                   </span>
+                 </section>
+                 <section>
+                   <span class="title">
+                     Enable adding unregistered users as reviewers and CCs on changes
+                   </span>
+                   <span class="value">
+                     <md-outlined-select
+                       disabled=""
+                       id="unRegisteredCcSelect"
+                     >
+                       <md-select-option
+                         md-menu-item=""
+                         tabindex="0"
+                         value="INHERIT"
+                       >
+                         <div slot="headline">
+                           Inherit
+                         </div>
+                       </md-select-option>
+                       <md-select-option
+                         md-menu-item=""
+                         tabindex="-1"
+                         value="TRUE"
+                       >
+                         <div slot="headline">
+                           True
+                         </div>
+                       </md-select-option>
+                       <md-select-option
+                         md-menu-item=""
+                         tabindex="-1"
+                         value="FALSE"
+                       >
+                         <div slot="headline">
+                           False
+                         </div>
+                       </md-select-option>
+                     </md-outlined-select>
+                   </span>
+                 </section>
+                 <section>
+                   <span class="title">
+                     Set all new changes private by default
+                   </span>
+                   <span class="value">
+                     <md-outlined-select
+                       disabled=""
+                       id="setAllnewChangesPrivateByDefaultSelect"
+                     >
+                       <md-select-option
+                         md-menu-item=""
+                         tabindex="0"
+                         value="INHERIT"
+                       >
+                         <div slot="headline">
+                           Inherit
+                         </div>
+                       </md-select-option>
+                       <md-select-option
+                         md-menu-item=""
+                         tabindex="-1"
+                         value="TRUE"
+                       >
+                         <div slot="headline">
+                           True
+                         </div>
+                       </md-select-option>
+                       <md-select-option
+                         md-menu-item=""
+                         tabindex="-1"
+                         value="FALSE"
+                       >
+                         <div slot="headline">
+                           False
+                         </div>
+                       </md-select-option>
+                     </md-outlined-select>
+                   </span>
+                 </section>
+                 <section>
+                   <span class="title">
+                     Set new changes to "work in progress" by default
+                   </span>
+                   <span class="value">
+                     <md-outlined-select
+                       disabled=""
+                       id="setAllNewChangesWorkInProgressByDefaultSelect"
+                     >
+                       <md-select-option
+                         md-menu-item=""
+                         tabindex="0"
+                         value="INHERIT"
+                       >
+                         <div slot="headline">
+                           Inherit
+                         </div>
+                       </md-select-option>
+                       <md-select-option
+                         md-menu-item=""
+                         tabindex="-1"
+                         value="TRUE"
+                       >
+                         <div slot="headline">
+                           True
+                         </div>
+                       </md-select-option>
+                       <md-select-option
+                         md-menu-item=""
+                         tabindex="-1"
+                         value="FALSE"
+                       >
+                         <div slot="headline">
+                           False
+                         </div>
+                       </md-select-option>
+                     </md-outlined-select>
+                   </span>
+                 </section>
+                 <section>
+                   <span class="title">
+                     Maximum Git object size limit
+                   </span>
+                   <span class="value">
+                     <md-outlined-text-field
+                       autocomplete=""
+                       class="showBlueFocusBorder"
+                       disabled=""
+                       id="maxGitObjSizeInput"
+                       inputmode=""
+                       min="0"
+                       type="number"
+                     >
+                     </md-outlined-text-field>
+                   </span>
+                 </section>
+                 <section>
+                   <span class="title">
+                     Match authored date with committer date upon submit
+                   </span>
+                   <span class="value">
+                     <md-outlined-select
+                       disabled=""
+                       id="matchAuthoredDateWithCommitterDateSelect"
+                     >
+                       <md-select-option
+                         md-menu-item=""
+                         tabindex="0"
+                         value="INHERIT"
+                       >
+                         <div slot="headline">
+                           Inherit
+                         </div>
+                       </md-select-option>
+                       <md-select-option
+                         md-menu-item=""
+                         tabindex="-1"
+                         value="TRUE"
+                       >
+                         <div slot="headline">
+                           True
+                         </div>
+                       </md-select-option>
+                       <md-select-option
+                         md-menu-item=""
+                         tabindex="-1"
+                         value="FALSE"
+                       >
+                         <div slot="headline">
+                           False
+                         </div>
+                       </md-select-option>
+                     </md-outlined-select>
+                   </span>
+                 </section>
+                 <section>
+                   <span class="title">
+                     Reject empty commit upon submit
+                   </span>
+                   <span class="value">
+                     <md-outlined-select
+                       disabled=""
+                       id="rejectEmptyCommitSelect"
+                     >
+                       <md-select-option
+                         md-menu-item=""
+                         tabindex="0"
+                         value="INHERIT"
+                       >
+                         <div slot="headline">
+                           Inherit
+                         </div>
+                       </md-select-option>
+                       <md-select-option
+                         md-menu-item=""
+                         tabindex="-1"
+                         value="TRUE"
+                       >
+                         <div slot="headline">
+                           True
+                         </div>
+                       </md-select-option>
+                       <md-select-option
+                         md-menu-item=""
+                         tabindex="-1"
+                         value="FALSE"
+                       >
+                         <div slot="headline">
+                           False
+                         </div>
+                       </md-select-option>
+                     </md-outlined-select>
+                   </span>
+                 </section>
+               </fieldset>
+               <h3
+                 class="heading-3"
+                 id="Options"
+               >
+                 Contributor Agreements
+               </h3>
+               <fieldset id="agreements">
+                 <section>
+                   <span class="title">
+                     Require a valid contributor agreement to upload
+                   </span>
+                   <span class="value">
+                     <md-outlined-select
+                       disabled=""
+                       id="contributorAgreementSelect"
+                     >
+                       <md-select-option
+                         md-menu-item=""
+                         tabindex="0"
+                         value="INHERIT"
+                       >
+                         <div slot="headline">
+                           Inherit
+                         </div>
+                       </md-select-option>
+                       <md-select-option
+                         md-menu-item=""
+                         tabindex="-1"
+                         value="TRUE"
+                       >
+                         <div slot="headline">
+                           True
+                         </div>
+                       </md-select-option>
+                       <md-select-option
+                         md-menu-item=""
+                         tabindex="-1"
+                         value="FALSE"
+                       >
+                         <div slot="headline">
+                           False
+                         </div>
+                       </md-select-option>
+                     </md-outlined-select>
+                   </span>
+                 </section>
+                 <section>
+                   <span class="title">
+                     Require Signed-off-by in commit message
+                   </span>
+                   <span class="value">
+                     <md-outlined-select
+                       disabled=""
+                       id="useSignedOffBySelect"
+                     >
+                       <md-select-option
+                         md-menu-item=""
+                         tabindex="0"
+                         value="INHERIT"
+                       >
+                         <div slot="headline">
+                           Inherit
+                         </div>
+                       </md-select-option>
+                       <md-select-option
+                         md-menu-item=""
+                         tabindex="-1"
+                         value="TRUE"
+                       >
+                         <div slot="headline">
+                           True
+                         </div>
+                       </md-select-option>
+                       <md-select-option
+                         md-menu-item=""
+                         tabindex="-1"
+                         value="FALSE"
+                       >
+                         <div slot="headline">
+                           False
+                         </div>
+                       </md-select-option>
+                     </md-outlined-select>
+                   </span>
+                 </section>
+               </fieldset>
+               <gr-button
+                 aria-disabled="true"
+                 disabled=""
+                 id="saveBtn"
+                 role="button"
+                 tabindex="-1"
+               >
+                 Save Changes
+               </gr-button>
+               <gr-button
+                 aria-disabled="true"
+                 disabled=""
+                 id="saveReviewBtn"
+                 role="button"
+                 tabindex="-1"
+               >
+                 Save For Review
+               </gr-button>
+             </fieldset>
+             <gr-endpoint-decorator name="repo-config">
+               <gr-endpoint-param name="repoName">
+               </gr-endpoint-param>
+               <gr-endpoint-param name="readOnly">
+               </gr-endpoint-param>
+             </gr-endpoint-decorator>
+           </div>
+         </div>
+       </div>
     `,
       {ignoreTags: ['option']}
     );
@@ -700,19 +1206,24 @@ suite('gr-repo tests', () => {
 
     test('state gets set correctly', async () => {
       await element.loadRepo();
+      await element.updateComplete;
       assert.equal(element.repoConfig!.state, RepoState.ACTIVE);
       assert.equal(
-        queryAndAssert<GrSelect>(element, '#stateSelect').bindValue,
+        queryAndAssert<MdOutlinedSelect>(element, '#stateSelect').value,
         RepoState.ACTIVE
       );
     });
 
     test('inherited submit type value is calculated correctly', async () => {
       await element.loadRepo();
-      const sel = queryAndAssert<GrSelect>(element, '#submitTypeSelect');
-      assert.equal(sel.bindValue, 'INHERIT');
+      await element.updateComplete;
+      const sel = queryAndAssert<MdOutlinedSelect>(
+        element,
+        '#submitTypeSelect'
+      );
+      assert.equal(sel.value, 'INHERIT');
       assert.equal(
-        sel.nativeSelect.options[0].text,
+        sel.querySelector('md-select-option')!.textContent?.trim(),
         'Inherit (Merge if necessary)'
       );
     });
@@ -762,54 +1273,190 @@ suite('gr-repo tests', () => {
       descriptionInput.dispatchEvent(
         new Event('input', {bubbles: true, composed: true})
       );
-      queryAndAssert<GrSelect>(element, '#stateSelect').bindValue =
-        configInputObj.state;
-      queryAndAssert<GrSelect>(element, '#submitTypeSelect').bindValue =
-        configInputObj.submit_type;
-      queryAndAssert<GrSelect>(element, '#contentMergeSelect').bindValue =
-        configInputObj.use_content_merge;
-      queryAndAssert<GrSelect>(element, '#newChangeSelect').bindValue =
+      const stateSelect = queryAndAssert<MdOutlinedSelect>(
+        element,
+        '#stateSelect'
+      );
+      stateSelect.value = configInputObj.state;
+      stateSelect.dispatchEvent(
+        new CustomEvent('change', {
+          composed: true,
+          bubbles: true,
+        })
+      );
+      const submitTypeSelect = queryAndAssert<MdOutlinedSelect>(
+        element,
+        '#submitTypeSelect'
+      );
+      submitTypeSelect.value = configInputObj.submit_type;
+      submitTypeSelect.dispatchEvent(
+        new CustomEvent('change', {
+          composed: true,
+          bubbles: true,
+        })
+      );
+      const contentMergeSelect = queryAndAssert<MdOutlinedSelect>(
+        element,
+        '#contentMergeSelect'
+      );
+      contentMergeSelect.value = configInputObj.use_content_merge;
+      contentMergeSelect.dispatchEvent(
+        new CustomEvent('change', {
+          composed: true,
+          bubbles: true,
+        })
+      );
+      const newChangeSelect = queryAndAssert<MdOutlinedSelect>(
+        element,
+        '#newChangeSelect'
+      );
+      newChangeSelect.value =
         configInputObj.create_new_change_for_all_not_in_target;
-      queryAndAssert<GrSelect>(element, '#requireChangeIdSelect').bindValue =
-        configInputObj.require_change_id;
-      queryAndAssert<GrSelect>(element, '#enableSignedPush').bindValue =
-        configInputObj.enable_signed_push;
-      queryAndAssert<GrSelect>(element, '#requireSignedPush').bindValue =
-        configInputObj.require_signed_push;
-      queryAndAssert<GrSelect>(
+      newChangeSelect.dispatchEvent(
+        new CustomEvent('change', {
+          composed: true,
+          bubbles: true,
+        })
+      );
+      const requireChangeIdSelect = queryAndAssert<MdOutlinedSelect>(
+        element,
+        '#requireChangeIdSelect'
+      );
+      requireChangeIdSelect.value = configInputObj.require_change_id;
+      requireChangeIdSelect.dispatchEvent(
+        new CustomEvent('change', {
+          composed: true,
+          bubbles: true,
+        })
+      );
+      const enableSignedPush = queryAndAssert<MdOutlinedSelect>(
+        element,
+        '#enableSignedPush'
+      );
+      enableSignedPush.value = configInputObj.enable_signed_push;
+      enableSignedPush.dispatchEvent(
+        new CustomEvent('change', {
+          composed: true,
+          bubbles: true,
+        })
+      );
+      const requireSignedPush = queryAndAssert<MdOutlinedSelect>(
+        element,
+        '#requireSignedPush'
+      );
+      requireSignedPush.value = configInputObj.require_signed_push;
+      requireSignedPush.dispatchEvent(
+        new CustomEvent('change', {
+          composed: true,
+          bubbles: true,
+        })
+      );
+      const rejectImplicitMergesSelect = queryAndAssert<MdOutlinedSelect>(
         element,
         '#rejectImplicitMergesSelect'
-      ).bindValue = configInputObj.reject_implicit_merges;
-      queryAndAssert<GrSelect>(
-        element,
-        '#setAllnewChangesPrivateByDefaultSelect'
-      ).bindValue = configInputObj.private_by_default;
-      queryAndAssert<GrSelect>(
-        element,
-        '#setAllNewChangesWorkInProgressByDefaultSelect'
-      ).bindValue = configInputObj.work_in_progress_by_default;
-      queryAndAssert<GrSelect>(
-        element,
-        '#matchAuthoredDateWithCommitterDateSelect'
-      ).bindValue = configInputObj.match_author_to_committer_date;
-      queryAndAssert<MdOutlinedTextField>(
+      );
+      rejectImplicitMergesSelect.value = configInputObj.reject_implicit_merges;
+      rejectImplicitMergesSelect.dispatchEvent(
+        new CustomEvent('change', {
+          composed: true,
+          bubbles: true,
+        })
+      );
+      const setAllnewChangesPrivateByDefaultSelect =
+        queryAndAssert<MdOutlinedSelect>(
+          element,
+          '#setAllnewChangesPrivateByDefaultSelect'
+        );
+      setAllnewChangesPrivateByDefaultSelect.value =
+        configInputObj.private_by_default;
+      setAllnewChangesPrivateByDefaultSelect.dispatchEvent(
+        new CustomEvent('change', {
+          composed: true,
+          bubbles: true,
+        })
+      );
+      const setAllNewChangesWorkInProgressByDefaultSelect =
+        queryAndAssert<MdOutlinedSelect>(
+          element,
+          '#setAllNewChangesWorkInProgressByDefaultSelect'
+        );
+      setAllNewChangesWorkInProgressByDefaultSelect.value =
+        configInputObj.work_in_progress_by_default;
+      setAllNewChangesWorkInProgressByDefaultSelect.dispatchEvent(
+        new CustomEvent('change', {
+          composed: true,
+          bubbles: true,
+        })
+      );
+      const matchAuthoredDateWithCommitterDateSelect =
+        queryAndAssert<MdOutlinedSelect>(
+          element,
+          '#matchAuthoredDateWithCommitterDateSelect'
+        );
+      matchAuthoredDateWithCommitterDateSelect.value =
+        configInputObj.match_author_to_committer_date;
+      matchAuthoredDateWithCommitterDateSelect.dispatchEvent(
+        new CustomEvent('change', {
+          composed: true,
+          bubbles: true,
+        })
+      );
+      const maxGitObjSizeInput = queryAndAssert<MdOutlinedTextField>(
         element,
         '#maxGitObjSizeInput'
-      ).value = String(configInputObj.max_object_size_limit);
-      queryAndAssert<MdOutlinedTextField>(
-        element,
-        '#maxGitObjSizeInput'
-      ).dispatchEvent(new Event('input', {bubbles: true, composed: true}));
-      queryAndAssert<GrSelect>(
+      );
+      maxGitObjSizeInput.value = String(configInputObj.max_object_size_limit);
+      maxGitObjSizeInput.dispatchEvent(
+        new Event('input', {
+          composed: true,
+          bubbles: true,
+        })
+      );
+      const contributorAgreementSelect = queryAndAssert<MdOutlinedSelect>(
         element,
         '#contributorAgreementSelect'
-      ).bindValue = configInputObj.use_contributor_agreements;
-      queryAndAssert<GrSelect>(element, '#useSignedOffBySelect').bindValue =
-        configInputObj.use_signed_off_by;
-      queryAndAssert<GrSelect>(element, '#rejectEmptyCommitSelect').bindValue =
-        configInputObj.reject_empty_commit;
-      queryAndAssert<GrSelect>(element, '#unRegisteredCcSelect').bindValue =
-        configInputObj.enable_reviewer_by_email;
+      );
+      contributorAgreementSelect.value =
+        configInputObj.use_contributor_agreements;
+      contributorAgreementSelect.dispatchEvent(
+        new CustomEvent('change', {
+          composed: true,
+          bubbles: true,
+        })
+      );
+      const useSignedOffBySelect = queryAndAssert<MdOutlinedSelect>(
+        element,
+        '#useSignedOffBySelect'
+      );
+      useSignedOffBySelect.value = configInputObj.use_signed_off_by;
+      useSignedOffBySelect.dispatchEvent(
+        new CustomEvent('change', {
+          composed: true,
+          bubbles: true,
+        })
+      );
+      const rejectEmptyCommitSelect = queryAndAssert<MdOutlinedSelect>(
+        element,
+        '#rejectEmptyCommitSelect'
+      );
+      rejectEmptyCommitSelect.value = configInputObj.reject_empty_commit;
+      rejectEmptyCommitSelect.dispatchEvent(
+        new CustomEvent('change', {
+          composed: true,
+          bubbles: true,
+        })
+      );
+      const unRegisteredCcSelect = queryAndAssert<MdOutlinedSelect>(
+        element,
+        '#unRegisteredCcSelect'
+      );
+      unRegisteredCcSelect.value = configInputObj.enable_reviewer_by_email;
+      unRegisteredCcSelect.dispatchEvent(
+        new CustomEvent('change', {
+          composed: true,
+          bubbles: true,
+        })
+      );
 
       await element.updateComplete;
 
@@ -825,6 +1472,7 @@ suite('gr-repo tests', () => {
       assert.deepEqual(formattedObj, configInputObj);
 
       await element.handleSaveRepoConfig();
+      await element.updateComplete;
       assert.isTrue(button.hasAttribute('disabled'));
       assert.isFalse(
         queryAndAssert<HTMLHeadingElement>(

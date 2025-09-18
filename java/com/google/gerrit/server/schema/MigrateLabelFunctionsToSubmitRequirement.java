@@ -16,35 +16,30 @@ package com.google.gerrit.server.schema;
 
 import static com.google.gerrit.server.project.ProjectConfig.RULES_PL_FILE;
 
-import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.LabelFunction;
 import com.google.gerrit.entities.LabelType;
+import com.google.gerrit.entities.LabelValue;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.entities.SubmitRequirement;
 import com.google.gerrit.entities.SubmitRequirementExpression;
-import com.google.gerrit.server.GerritPersonIdent;
-import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.git.meta.MetaDataUpdate;
-import com.google.gerrit.server.git.meta.VersionedConfigFile;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectConfig;
+import com.google.gerrit.server.project.RepoMetaDataUpdater;
+import com.google.gerrit.server.project.RepoMetaDataUpdater.ConfigUpdater;
 import com.google.inject.Inject;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectReader;
-import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -83,8 +78,9 @@ import org.eclipse.jgit.treewalk.TreeWalk;
  */
 public class MigrateLabelFunctionsToSubmitRequirement {
   public static final String COMMIT_MSG = "Migrate label functions to submit requirements";
+
+  private final RepoMetaDataUpdater repoMetaDataUpdater;
   private final GitRepositoryManager repoManager;
-  private final PersonIdent serverUser;
 
   public enum Status {
     /**
@@ -111,9 +107,9 @@ public class MigrateLabelFunctionsToSubmitRequirement {
 
   @Inject
   public MigrateLabelFunctionsToSubmitRequirement(
-      GitRepositoryManager repoManager, @GerritPersonIdent PersonIdent serverUser) {
+      RepoMetaDataUpdater repoMetaDataUpdater, GitRepositoryManager repoManager) {
+    this.repoMetaDataUpdater = repoMetaDataUpdater;
     this.repoManager = repoManager;
-    this.serverUser = serverUser;
   }
 
   /**
@@ -125,176 +121,99 @@ public class MigrateLabelFunctionsToSubmitRequirement {
    * @return {@link Status} reflecting the status of the migration.
    */
   public Status executeMigration(Project.NameKey project, UpdateUI ui)
-      throws IOException, ConfigInvalidException {
+      throws IOException,
+          ConfigInvalidException,
+          MethodNotAllowedException,
+          PermissionBackendException {
+    try (ConfigUpdater updater =
+        repoMetaDataUpdater.configUpdaterWithoutPermissionsCheck(project, null, COMMIT_MSG)) {
+      Status result = updateConfig(project, updater.getConfig(), ui);
+      if (result == Status.MIGRATED) {
+        updater.commitConfigUpdate();
+      }
+      return result;
+    }
+  }
+
+  private Status updateConfig(Project.NameKey project, ProjectConfig projectConfig, UpdateUI ui)
+      throws IOException {
     boolean updated = false;
     if (hasPrologRules(project)) {
       ui.message(String.format("Skipping project %s because it has prolog rules", project));
       return Status.HAS_PROLOG;
     }
-    VersionedConfigFile projectConfig = new VersionedConfigFile(ProjectConfig.PROJECT_CONFIG);
-    try (Repository repo = repoManager.openRepository(project);
-        MetaDataUpdate md = new MetaDataUpdate(GitReferenceUpdated.DISABLED, project, repo)) {
-      if (hasMigrationAlreadyRun(repo)) {
-        ui.message(
-            String.format(
-                "Skipping migrating label functions to submit requirements for project '%s'"
-                    + " because it has been previously migrated",
-                project));
-        return Status.PREVIOUSLY_MIGRATED;
+
+    if (hasMigrationAlreadyRun(project)) {
+      ui.message(
+          String.format(
+              "Skipping migrating label functions to submit requirements for project '%s'"
+                  + " because it has been previously migrated",
+              project));
+      return Status.PREVIOUSLY_MIGRATED;
+    }
+
+    Map<String, LabelType> labelSections = projectConfig.getLabelSections();
+    SubmitRequirementMap existingSubmitRequirements =
+        new SubmitRequirementMap(projectConfig.getSubmitRequirementSections());
+
+    for (Map.Entry<String, LabelType> section : labelSections.entrySet()) {
+      String labelName = section.getKey();
+      LabelType labelType = section.getValue();
+
+      if (labelType.getFunction() == LabelFunction.PATCH_SET_LOCK) {
+        // PATCH_SET_LOCK functions should be left as is
+        continue;
       }
-      projectConfig.load(project, repo);
-      Config cfg = projectConfig.getConfig();
-      Map<String, LabelAttributes> labelTypes = getLabelTypes(cfg);
-      Map<String, SubmitRequirement> existingSubmitRequirements = loadSubmitRequirements(cfg);
-      for (Map.Entry<String, LabelAttributes> lt : labelTypes.entrySet()) {
-        String labelName = lt.getKey();
-        LabelAttributes attributes = lt.getValue();
-        if (attributes.function().equals("PatchSetLock")) {
-          // PATCH_SET_LOCK functions should be left as is
-          continue;
-        }
-        // If the function is other than "NoBlock" we want to reset the label function regardless
-        // of whether there exists a "submit requirement".
-        if (!attributes.function().equals("NoBlock")) {
-          updated = true;
-          writeLabelFunction(cfg, labelName, "NoBlock");
-        }
-        Optional<SubmitRequirement> sr = createSrFromLabelDef(labelName, attributes);
-        if (!sr.isPresent()) {
-          continue;
-        }
-        // Make the operation idempotent by skipping creating the submit-requirement if one was
-        // already created or previously existed.
-        if (existingSubmitRequirements.containsKey(labelName.toLowerCase(Locale.ROOT))) {
-          if (!sr.get()
-              .equals(existingSubmitRequirements.get(labelName.toLowerCase(Locale.ROOT)))) {
-            ui.message(
-                String.format(
-                    "Warning: Skipping creating a submit requirement for label '%s'. An existing "
-                        + "submit requirement is already present but its definition is not "
-                        + "identical to the existing label definition.",
-                    labelName));
-          }
-          continue;
-        }
+
+      // If the function is other than "NoBlock" we want to reset the label function regardless
+      // of whether there exists a "submit requirement".
+      if (labelType.getFunction() != LabelFunction.NO_BLOCK) {
+        section.setValue(labelType.toBuilder().setNoBlockFunction().build());
         updated = true;
-        ui.message(
-            String.format(
-                "Project %s: Creating a submit requirement for label %s", project, labelName));
-        writeSubmitRequirement(cfg, sr.get());
       }
-      if (updated) {
-        commit(projectConfig, md);
+
+      Optional<SubmitRequirement> sr = createSrFromLabelDef(labelType);
+      if (!sr.isPresent()) {
+        continue;
       }
+      // Make the operation idempotent by skipping creating the submit-requirement if one was
+      // already created or previously existed.
+      if (existingSubmitRequirements.containsKey(labelName)) {
+        SubmitRequirement existing = existingSubmitRequirements.get(labelName);
+        if (!sr.get().equals(existing)) {
+          ui.message(
+              String.format(
+                  "Warning: Skipping creating a submit requirement for label '%s'. An existing "
+                      + "submit requirement is already present but its definition is not "
+                      + "identical to the existing label definition.",
+                  labelName));
+        }
+        continue;
+      }
+      updated = true;
+      ui.message(
+          String.format(
+              "Project %s: Creating a submit requirement for label %s", project, labelName));
+      existingSubmitRequirements.put(sr.get());
     }
     return updated ? Status.MIGRATED : Status.NO_CHANGE;
   }
 
-  /**
-   * Returns a Map containing label names as string in keys along with some of its attributes (that
-   * we need in the migration) like canOverride, ignoreSelfApproval and function in the value.
-   */
-  private Map<String, LabelAttributes> getLabelTypes(Config cfg) {
-    Map<String, LabelAttributes> labelTypes = new HashMap<>();
-    for (String labelName : cfg.getSubsections(ProjectConfig.LABEL)) {
-      String function = cfg.getString(ProjectConfig.LABEL, labelName, ProjectConfig.KEY_FUNCTION);
-      boolean canOverride =
-          cfg.getBoolean(
-              ProjectConfig.LABEL,
-              labelName,
-              ProjectConfig.KEY_CAN_OVERRIDE,
-              /* defaultValue= */ true);
-      boolean ignoreSelfApproval =
-          cfg.getBoolean(
-              ProjectConfig.LABEL,
-              labelName,
-              ProjectConfig.KEY_IGNORE_SELF_APPROVAL,
-              /* defaultValue= */ false);
-      ImmutableList<String> values =
-          ImmutableList.<String>builder()
-              .addAll(
-                  Arrays.asList(
-                      cfg.getStringList(ProjectConfig.LABEL, labelName, ProjectConfig.KEY_VALUE)))
-              .build();
-      ImmutableList<String> refPatterns =
-          ImmutableList.<String>builder()
-              .addAll(
-                  Arrays.asList(
-                      cfg.getStringList(ProjectConfig.LABEL, labelName, ProjectConfig.KEY_BRANCH)))
-              .build();
-      LabelAttributes attributes =
-          LabelAttributes.create(
-              function == null ? "MaxWithBlock" : function,
-              canOverride,
-              ignoreSelfApproval,
-              values,
-              refPatterns);
-      labelTypes.put(labelName, attributes);
-    }
-    return labelTypes;
-  }
-
-  private void writeSubmitRequirement(Config cfg, SubmitRequirement sr) {
-    if (sr.description().isPresent()) {
-      cfg.setString(
-          ProjectConfig.SUBMIT_REQUIREMENT,
-          sr.name(),
-          ProjectConfig.KEY_SR_DESCRIPTION,
-          sr.description().get());
-    }
-    if (sr.applicabilityExpression().isPresent()) {
-      cfg.setString(
-          ProjectConfig.SUBMIT_REQUIREMENT,
-          sr.name(),
-          ProjectConfig.KEY_SR_APPLICABILITY_EXPRESSION,
-          sr.applicabilityExpression().get().expressionString());
-    }
-    cfg.setString(
-        ProjectConfig.SUBMIT_REQUIREMENT,
-        sr.name(),
-        ProjectConfig.KEY_SR_SUBMITTABILITY_EXPRESSION,
-        sr.submittabilityExpression().expressionString());
-    if (sr.overrideExpression().isPresent()) {
-      cfg.setString(
-          ProjectConfig.SUBMIT_REQUIREMENT,
-          sr.name(),
-          ProjectConfig.KEY_SR_OVERRIDE_EXPRESSION,
-          sr.overrideExpression().get().expressionString());
-    }
-    cfg.setBoolean(
-        ProjectConfig.SUBMIT_REQUIREMENT,
-        sr.name(),
-        ProjectConfig.KEY_SR_OVERRIDE_IN_CHILD_PROJECTS,
-        sr.allowOverrideInChildProjects());
-  }
-
-  private void writeLabelFunction(Config cfg, String labelName, String function) {
-    cfg.setString(ProjectConfig.LABEL, labelName, ProjectConfig.KEY_FUNCTION, function);
-  }
-
-  private void commit(VersionedConfigFile projectConfig, MetaDataUpdate md) throws IOException {
-    md.getCommitBuilder().setAuthor(serverUser);
-    md.getCommitBuilder().setCommitter(serverUser);
-    md.setMessage(COMMIT_MSG);
-    projectConfig.commit(md);
-  }
-
-  private static Optional<SubmitRequirement> createSrFromLabelDef(
-      String labelName, LabelAttributes attributes) {
-    if (isLabelSkipped(attributes.values())) {
-      return Optional.of(createNonApplicableSr(labelName, attributes.canOverride()));
-    } else if (isBlockingOrRequiredLabel(attributes.function())) {
-      return Optional.of(createBlockingOrRequiredSr(labelName, attributes));
+  private static Optional<SubmitRequirement> createSrFromLabelDef(LabelType lt) {
+    if (isLabelSkipped(lt)) {
+      return Optional.of(createNonApplicableSr(lt));
+    } else if (isBlockingOrRequiredLabel(lt)) {
+      return Optional.of(createBlockingOrRequiredSr(lt));
     }
     return Optional.empty();
   }
 
-  private static SubmitRequirement createNonApplicableSr(String labelName, boolean canOverride) {
+  private static SubmitRequirement createNonApplicableSr(LabelType lt) {
     return SubmitRequirement.builder()
-        .setName(labelName)
+        .setName(lt.getName())
         .setApplicabilityExpression(SubmitRequirementExpression.of("is:false"))
         .setSubmittabilityExpression(SubmitRequirementExpression.create("is:true"))
-        .setAllowOverrideInChildProjects(canOverride)
+        .setAllowOverrideInChildProjects(lt.isCanOverride())
         .build();
   }
 
@@ -302,51 +221,49 @@ public class MigrateLabelFunctionsToSubmitRequirement {
    * Create a "submit requirement" that is only satisfied if the label is voted with the max votes
    * and/or not voted by the min vote, according to the label attributes.
    */
-  private static SubmitRequirement createBlockingOrRequiredSr(
-      String labelName, LabelAttributes attributes) {
+  private static SubmitRequirement createBlockingOrRequiredSr(LabelType lt) {
     SubmitRequirement.Builder builder =
         SubmitRequirement.builder()
-            .setName(labelName)
-            .setAllowOverrideInChildProjects(attributes.canOverride());
+            .setName(lt.getName())
+            .setAllowOverrideInChildProjects(lt.isCanOverride());
     String maxPart =
-        String.format("label:%s=MAX", labelName)
-            + (attributes.ignoreSelfApproval() ? ",user=non_uploader" : "");
-    switch (attributes.function()) {
-      case "MaxWithBlock" ->
+        String.format("label:%s=MAX", lt.getName())
+            + (lt.isIgnoreSelfApproval() ? ",user=non_uploader" : "");
+    switch (lt.getFunction()) {
+      case MAX_WITH_BLOCK ->
           builder.setSubmittabilityExpression(
               SubmitRequirementExpression.create(
-                  String.format("%s AND -label:%s=MIN", maxPart, labelName)));
-      case "AnyWithBlock" ->
+                  String.format("%s AND -label:%s=MIN", maxPart, lt.getName())));
+      case ANY_WITH_BLOCK ->
           builder.setSubmittabilityExpression(
-              SubmitRequirementExpression.create(String.format("-label:%s=MIN", labelName)));
-      case "MaxNoBlock" ->
+              SubmitRequirementExpression.create(String.format("-label:%s=MIN", lt.getName())));
+      case MAX_NO_BLOCK ->
           builder.setSubmittabilityExpression(SubmitRequirementExpression.create(maxPart));
       default -> {}
     }
-    if (!attributes.refPatterns().isEmpty()) {
+    ImmutableList<String> refPatterns = lt.getRefPatterns();
+    if (refPatterns != null && !refPatterns.isEmpty()) {
       builder.setApplicabilityExpression(
           SubmitRequirementExpression.of(
               String.join(
                   " OR ",
-                  attributes.refPatterns().stream()
+                  lt.getRefPatterns().stream()
                       .map(b -> "branch:\\\"" + b + "\\\"")
                       .collect(Collectors.toList()))));
     }
     return builder.build();
   }
 
-  private static boolean isBlockingOrRequiredLabel(String function) {
-    return function.equals("AnyWithBlock")
-        || function.equals("MaxWithBlock")
-        || function.equals("MaxNoBlock");
+  private static boolean isBlockingOrRequiredLabel(LabelType lt) {
+    return switch (lt.getFunction()) {
+      case ANY_WITH_BLOCK, MAX_WITH_BLOCK, MAX_NO_BLOCK -> true;
+      case NO_BLOCK, NO_OP, PATCH_SET_LOCK -> false;
+    };
   }
 
-  /**
-   * Returns true if the label definition was skipped in the project, i.e. it had only one defined
-   * value: zero.
-   */
-  private static boolean isLabelSkipped(List<String> values) {
-    return values.isEmpty() || (values.size() == 1 && values.get(0).startsWith("0"));
+  private static boolean isLabelSkipped(LabelType lt) {
+    ImmutableList<LabelValue> values = lt.getValues();
+    return values.isEmpty() || (values.size() == 1 && values.get(0).getValue() == 0);
   }
 
   public boolean anyProjectHasProlog(Collection<Project.NameKey> allProjects) throws IOException {
@@ -378,85 +295,53 @@ public class MigrateLabelFunctionsToSubmitRequirement {
     }
   }
 
-  /**
-   * Returns a map containing submit requirement names in lower name as keys, with {@link
-   * com.google.gerrit.entities.SubmitRequirement} as value.
-   */
-  private Map<String, SubmitRequirement> loadSubmitRequirements(Config rc) {
-    Map<String, SubmitRequirement> allRequirements = new LinkedHashMap<>();
-    for (String name : rc.getSubsections(ProjectConfig.SUBMIT_REQUIREMENT)) {
-      String description =
-          rc.getString(ProjectConfig.SUBMIT_REQUIREMENT, name, ProjectConfig.KEY_SR_DESCRIPTION);
-      String applicabilityExpr =
-          rc.getString(
-              ProjectConfig.SUBMIT_REQUIREMENT,
-              name,
-              ProjectConfig.KEY_SR_APPLICABILITY_EXPRESSION);
-      String submittabilityExpr =
-          rc.getString(
-              ProjectConfig.SUBMIT_REQUIREMENT,
-              name,
-              ProjectConfig.KEY_SR_SUBMITTABILITY_EXPRESSION);
-      String overrideExpr =
-          rc.getString(
-              ProjectConfig.SUBMIT_REQUIREMENT, name, ProjectConfig.KEY_SR_OVERRIDE_EXPRESSION);
-      boolean canInherit =
-          rc.getBoolean(
-              ProjectConfig.SUBMIT_REQUIREMENT,
-              name,
-              ProjectConfig.KEY_SR_OVERRIDE_IN_CHILD_PROJECTS,
-              false);
-      SubmitRequirement submitRequirement =
-          SubmitRequirement.builder()
-              .setName(name)
-              .setDescription(Optional.ofNullable(description))
-              .setApplicabilityExpression(SubmitRequirementExpression.of(applicabilityExpr))
-              .setSubmittabilityExpression(SubmitRequirementExpression.create(submittabilityExpr))
-              .setOverrideExpression(SubmitRequirementExpression.of(overrideExpr))
-              .setAllowOverrideInChildProjects(canInherit)
-              .build();
-      allRequirements.put(name.toLowerCase(Locale.ROOT), submitRequirement);
-    }
-    return allRequirements;
-  }
-
-  private static boolean hasMigrationAlreadyRun(Repository repo) throws IOException {
-    try (RevWalk revWalk = new RevWalk(repo)) {
-      Ref refsMetaConfig = repo.exactRef(RefNames.REFS_CONFIG);
-      if (refsMetaConfig == null) {
+  private boolean hasMigrationAlreadyRun(Project.NameKey project) throws IOException {
+    try (Repository repo = repoManager.openRepository(project)) {
+      try (RevWalk revWalk = new RevWalk(repo)) {
+        Ref refsMetaConfig = repo.exactRef(RefNames.REFS_CONFIG);
+        if (refsMetaConfig == null) {
+          return false;
+        }
+        revWalk.markStart(revWalk.parseCommit(refsMetaConfig.getObjectId()));
+        RevCommit commit;
+        while ((commit = revWalk.next()) != null) {
+          if (COMMIT_MSG.equals(commit.getShortMessage())) {
+            return true;
+          }
+        }
         return false;
       }
-      revWalk.markStart(revWalk.parseCommit(refsMetaConfig.getObjectId()));
-      RevCommit commit;
-      while ((commit = revWalk.next()) != null) {
-        if (COMMIT_MSG.equals(commit.getShortMessage())) {
-          return true;
-        }
-      }
-      return false;
     }
   }
 
-  @AutoValue
-  abstract static class LabelAttributes {
-    abstract String function();
+  /**
+   * Helper "Map" to of submit requirements with case-preserving keys and case-insensitive lookup
+   */
+  private static class SubmitRequirementMap {
+    private final Map<String, SubmitRequirement> submitRequirements;
+    private final Map<String, String> lowerCaseToOriginalNames;
 
-    abstract boolean canOverride();
+    SubmitRequirementMap(Map<String, SubmitRequirement> submitRequirements) {
+      this.submitRequirements = submitRequirements;
+      this.lowerCaseToOriginalNames =
+          submitRequirements.keySet().stream()
+              .collect(Collectors.toMap(k -> k.toLowerCase(Locale.ROOT), k -> k));
+    }
 
-    abstract boolean ignoreSelfApproval();
+    boolean containsKey(String name) {
+      return lowerCaseToOriginalNames.containsKey(name.toLowerCase(Locale.ROOT));
+    }
 
-    abstract ImmutableList<String> values();
+    @Nullable
+    SubmitRequirement get(String name) {
+      String orig = lowerCaseToOriginalNames.get(name.toLowerCase(Locale.ROOT));
+      return orig != null ? submitRequirements.get(orig) : null;
+    }
 
-    abstract ImmutableList<String> refPatterns();
-
-    static LabelAttributes create(
-        String function,
-        boolean canOverride,
-        boolean ignoreSelfApproval,
-        ImmutableList<String> values,
-        ImmutableList<String> refPatterns) {
-      return new AutoValue_MigrateLabelFunctionsToSubmitRequirement_LabelAttributes(
-          function, canOverride, ignoreSelfApproval, values, refPatterns);
+    void put(SubmitRequirement sr) {
+      String name = sr.name();
+      submitRequirements.put(name, sr);
+      lowerCaseToOriginalNames.put(name.toLowerCase(Locale.ROOT), name);
     }
   }
 }

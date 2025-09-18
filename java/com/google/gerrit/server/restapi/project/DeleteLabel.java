@@ -25,6 +25,7 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.LabelResource;
 import com.google.gerrit.server.project.ProjectConfig;
+import com.google.gerrit.server.project.RepoMetaDataUpdater;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;

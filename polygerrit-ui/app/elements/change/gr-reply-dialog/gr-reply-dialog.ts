@@ -126,6 +126,9 @@ import {userModelToken} from '../../../models/user/user-model';
 import {accountsModelToken} from '../../../models/accounts/accounts-model';
 import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {modalStyles} from '../../../styles/gr-modal-styles';
+import '@material/web/checkbox/checkbox';
+import {MdCheckbox} from '@material/web/checkbox/checkbox';
+import {materialStyles} from '../../../styles/gr-material-styles';
 import {grAnnouncerRequestAvailability} from '../../lit-util';
 import {GrReviewerUpdatesParser} from '../../shared/gr-rest-api-interface/gr-reviewer-updates-parser';
 import {formStyles} from '../../../styles/form-styles';
@@ -379,6 +382,7 @@ export class GrReplyDialog extends LitElement {
       formStyles,
       sharedStyles,
       modalStyles,
+      materialStyles,
       css`
         gr-account-list.drag-over {
           background-color: var(--table-header-background-color);
@@ -609,6 +613,10 @@ export class GrReplyDialog extends LitElement {
         }
         .rightActions gr-icon {
           margin: 0;
+        }
+        md-checkbox {
+          --md-checkbox-container-size: 15px;
+          --md-checkbox-icon-size: 15px;
         }
       `,
     ];
@@ -1001,15 +1009,12 @@ export class GrReplyDialog extends LitElement {
     return html`
       <section class="draftsContainer">
         <div class="includeComments">
-          <input
-            type="checkbox"
+          <md-checkbox
             id="includeComments"
             @change=${this.handleIncludeCommentsChanged}
             ?checked=${this.includeComments}
-          />
-          <label for="includeComments"
-            >Publish ${this.computeDraftsTitle(threads)}</label
-          >
+          ></md-checkbox>
+          Publish ${this.computeDraftsTitle(threads)}
         </div>
         ${when(
           this.includeComments,
@@ -1327,7 +1332,7 @@ export class GrReplyDialog extends LitElement {
   }
 
   private handleIncludeCommentsChanged(e: Event) {
-    if (!(e.target instanceof HTMLInputElement)) return;
+    if (!(e.target instanceof MdCheckbox)) return;
     this.includeComments = e.target.checked;
   }
 

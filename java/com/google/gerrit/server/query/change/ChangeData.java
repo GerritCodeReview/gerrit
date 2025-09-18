@@ -893,7 +893,8 @@ public class ChangeData {
   }
 
   public void setCurrentApprovals(List<PatchSetApproval> approvals) {
-    currentApprovals = approvals;
+    currentApprovals =
+        ImmutableList.copyOf(approvalsUtil.filterOutApprovalsOfDeletedAccounts(approvals));
   }
 
   @Nullable

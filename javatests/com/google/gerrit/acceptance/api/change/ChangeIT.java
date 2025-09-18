@@ -173,6 +173,7 @@ import com.google.gerrit.server.account.AccountControl;
 import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.change.ChangeMessages;
 import com.google.gerrit.server.change.ChangeResource;
+import com.google.gerrit.server.experiments.ExperimentFeaturesConstants;
 import com.google.gerrit.server.git.ChangeMessageModifier;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.index.change.ChangeIndex;
@@ -3937,6 +3938,45 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(change.labels.keySet()).isEmpty();
     assertThat(change.permittedLabels.keySet()).isEmpty();
     assertThat(change.submitRecords).isEmpty();
+  }
+
+  @Test
+  @GerritConfig(
+      name = "experiments.enabled",
+      values = {ExperimentFeaturesConstants.IGNORE_VOTES_OF_DELETED_ACCOUNTS})
+  public void votesOfDeletedAccountsAreNotReturned() throws Exception {
+    TestChange change = changeOperations.newChange().createAndGet();
+
+    // Approve the change.
+    TestAccount approver = accountCreator.createValid(name("approver"));
+    changeOperations
+        .change(change.id())
+        .newVote()
+        .codeReviewApproval()
+        .user(approver.id())
+        .create();
+
+    // Check that the Code-Review label is returned as approved.
+    ChangeInfo changeInfo = gApi.changes().id(change.id()).get();
+    assertThat(changeInfo.labels.keySet()).containsExactly(LabelId.CODE_REVIEW);
+    LabelInfo codeReviewInfo = Iterables.getOnlyElement(changeInfo.labels.values());
+    assertThat(codeReviewInfo.approved._accountId).isEqualTo(approver.id().get());
+    assertThat(codeReviewInfo.all).hasSize(1);
+    ApprovalInfo approvalInfo = Iterables.getOnlyElement(codeReviewInfo.all);
+    assertThat(approvalInfo._accountId).isEqualTo(approver.id().get());
+    assertThat(approvalInfo.value).isEqualTo(2);
+
+    // Delete the approver account.
+    requestScopeOperations.setApiUser(approver.id());
+    gApi.accounts().self().delete();
+
+    // Check that the Code-Review label is no longer approved.
+    requestScopeOperations.setApiUser(admin.id());
+    changeInfo = gApi.changes().id(change.id()).get();
+    assertThat(changeInfo.labels.keySet()).containsExactly(LabelId.CODE_REVIEW);
+    codeReviewInfo = Iterables.getOnlyElement(changeInfo.labels.values());
+    assertThat(codeReviewInfo.approved).isNull();
+    assertThat(codeReviewInfo.all).isNull();
   }
 
   @Test

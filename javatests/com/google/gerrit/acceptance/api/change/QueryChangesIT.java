@@ -24,35 +24,44 @@ import static javax.servlet.http.HttpServletResponse.SC_OK;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Iterables;
 import com.google.common.truth.Correspondence;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
+import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.UseClockStep;
 import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
 import com.google.gerrit.acceptance.testsuite.change.ChangeOperations;
+import com.google.gerrit.acceptance.testsuite.change.TestChange;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.entities.AccessSection;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.client.ListChangesOption;
+import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
+import com.google.gerrit.server.experiments.ExperimentFeaturesConstants;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.restapi.change.QueryChanges;
 import com.google.gerrit.truth.NullAwareCorrespondence;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.util.Arrays;
+import java.util.EnumSet;
 import java.util.List;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
@@ -648,6 +657,55 @@ public class QueryChangesIT extends AbstractDaemonTest {
     assertThat(gApi.changes().query("label:Code-Review+1,user=" + secondaryReviewerEmail).get())
         .comparingElementsUsing(hasChangeId())
         .containsExactly(changeId);
+  }
+
+  @Test
+  @GerritConfig(
+      name = "experiments.enabled",
+      values = {ExperimentFeaturesConstants.IGNORE_VOTES_OF_DELETED_ACCOUNTS})
+  public void votesOfDeletedAccountsAreNotReturned() throws Exception {
+    TestChange change = changeOperations.newChange().createAndGet();
+
+    // Approve the change.
+    TestAccount approver = accountCreator.createValid(name("approver"));
+    changeOperations
+        .change(change.id())
+        .newVote()
+        .codeReviewApproval()
+        .user(approver.id())
+        .create();
+
+    // Check that the Code-Review label is returned as approved.
+    List<ChangeInfo> changeInfos =
+        gApi.changes()
+            .query("change:" + change.numericChangeId())
+            .withOptions(EnumSet.allOf(ListChangesOption.class))
+            .get();
+    ChangeInfo changeInfo = Iterables.getOnlyElement(changeInfos);
+    assertThat(changeInfo.labels.keySet()).containsExactly(LabelId.CODE_REVIEW);
+    LabelInfo codeReviewInfo = Iterables.getOnlyElement(changeInfo.labels.values());
+    assertThat(codeReviewInfo.approved._accountId).isEqualTo(approver.id().get());
+    assertThat(codeReviewInfo.all).hasSize(1);
+    ApprovalInfo approvalInfo = Iterables.getOnlyElement(codeReviewInfo.all);
+    assertThat(approvalInfo._accountId).isEqualTo(approver.id().get());
+    assertThat(approvalInfo.value).isEqualTo(2);
+
+    // Delete the approver account.
+    requestScopeOperations.setApiUser(approver.id());
+    gApi.accounts().self().delete();
+
+    // Check that the Code-Review label is no longer approved.
+    requestScopeOperations.setApiUser(admin.id());
+    changeInfos =
+        gApi.changes()
+            .query("change:" + change.numericChangeId())
+            .withOptions(EnumSet.allOf(ListChangesOption.class))
+            .get();
+    changeInfo = Iterables.getOnlyElement(changeInfos);
+    assertThat(changeInfo.labels.keySet()).containsExactly(LabelId.CODE_REVIEW);
+    codeReviewInfo = Iterables.getOnlyElement(changeInfo.labels.values());
+    assertThat(codeReviewInfo.approved).isNull();
+    assertThat(codeReviewInfo.all).isNull();
   }
 
   private static void assertNoChangeHasMoreChangesSet(List<ChangeInfo> results) {

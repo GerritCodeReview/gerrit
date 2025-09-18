@@ -63,6 +63,8 @@ import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.approval.ApprovalCopier.ApprovalCopyResult;
 import com.google.gerrit.server.change.LabelNormalizer;
 import com.google.gerrit.server.config.AnonymousCowardName;
+import com.google.gerrit.server.experiments.ExperimentFeatures;
+import com.google.gerrit.server.experiments.ExperimentFeaturesConstants;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
@@ -131,6 +133,7 @@ public class ApprovalsUtil {
   private final ProjectCache projectCache;
   private final LabelNormalizer labelNormalizer;
   private final OneOffRequestContext requestContext;
+  private final ExperimentFeatures experimentFeatures;
 
   @VisibleForTesting
   @Inject
@@ -142,7 +145,8 @@ public class ApprovalsUtil {
       PermissionBackend permissionBackend,
       ProjectCache projectCache,
       LabelNormalizer labelNormalizer,
-      OneOffRequestContext requestContext) {
+      OneOffRequestContext requestContext,
+      ExperimentFeatures experimentFeatures) {
     this.accountCache = accountCache;
     this.anonymousCowardName = anonymousCowardName;
     this.approvalCopier = approvalCopier;
@@ -151,6 +155,7 @@ public class ApprovalsUtil {
     this.projectCache = projectCache;
     this.labelNormalizer = labelNormalizer;
     this.requestContext = requestContext;
+    this.experimentFeatures = experimentFeatures;
   }
 
   /**
@@ -377,12 +382,12 @@ public class ApprovalsUtil {
 
   public ListMultimap<PatchSet.Id, PatchSetApproval> byChangeExcludingCopiedApprovals(
       ChangeNotes notes) {
-    return notes.load().getApprovals().onlyNonCopied();
+    return filterOutApprovalsOfDeletedAccounts(notes.load().getApprovals().onlyNonCopied());
   }
 
   public ListMultimap<PatchSet.Id, PatchSetApproval> byChangeIncludingCopiedApprovals(
       ChangeNotes notes) {
-    return notes.load().getApprovals().all();
+    return filterOutApprovalsOfDeletedAccounts(notes.load().getApprovals().all());
   }
 
   /**
@@ -898,12 +903,34 @@ public class ApprovalsUtil {
   public Iterable<PatchSetApproval> byPatchSet(ChangeNotes notes, PatchSet.Id psId) {
     ImmutableList<PatchSetApproval> approvalsNotNormalized =
         notes.load().getApprovals().all().get(psId);
-    return labelNormalizer.normalize(notes, approvalsNotNormalized).getNormalized();
+    return filterOutApprovalsOfDeletedAccounts(
+        labelNormalizer.normalize(notes, approvalsNotNormalized).getNormalized());
   }
 
   public Iterable<PatchSetApproval> byPatchSetUser(
       ChangeNotes notes, PatchSet.Id psId, Account.Id accountId) {
     return filterApprovals(byPatchSet(notes, psId), accountId);
+  }
+
+  public Iterable<PatchSetApproval> filterOutApprovalsOfDeletedAccounts(
+      Iterable<PatchSetApproval> psas) {
+    return Iterables.filter(psas, psa -> !isDeletedAccount(psa.accountId()));
+  }
+
+  private ImmutableListMultimap<PatchSet.Id, PatchSetApproval> filterOutApprovalsOfDeletedAccounts(
+      ListMultimap<PatchSet.Id, PatchSetApproval> approvals) {
+    if (!experimentFeatures.isFeatureEnabled(
+        ExperimentFeaturesConstants.IGNORE_VOTES_OF_DELETED_ACCOUNTS)) {
+      return ImmutableListMultimap.copyOf(approvals);
+    }
+
+    return ImmutableListMultimap.copyOf(
+        Multimaps.filterEntries(
+            approvals, entry -> !isDeletedAccount(entry.getValue().accountId())));
+  }
+
+  private boolean isDeletedAccount(Account.Id accountId) {
+    return !accountCache.get(accountId).isPresent();
   }
 
   @Nullable

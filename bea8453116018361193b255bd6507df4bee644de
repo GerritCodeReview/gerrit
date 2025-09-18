@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f70385f7_e1d5143f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-09-18T10:52:20Z",
+      "side": 1,
+      "message": "You should use \u003clabel\u003e instead of putting the text within md-checkbox (which isn\u0027t supported) or put the text outside md-checkbox.",
+      "revId": "bea8453116018361193b255bd6507df4bee644de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

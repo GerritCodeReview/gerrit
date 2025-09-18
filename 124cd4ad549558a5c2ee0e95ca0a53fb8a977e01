@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b20a0276_72d0c0f7",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-09-18T06:52:38Z",
+      "side": 1,
+      "message": "Yes, this explains it.\n\nI think moving this into a filter should be possible. We only need to guarantee that the context is closed at the end of the request.",
+      "parentUuid": "517df11e_916f06c0",
+      "range": {
+        "startLine": 355,
+        "startChar": 11,
+        "endLine": 356,
+        "endChar": 83
+      },
+      "revId": "124cd4ad549558a5c2ee0e95ca0a53fb8a977e01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "814247b7_cde18ab0",
@@ -37,6 +61,30 @@
       "writtenOn": "2025-09-17T14:36:23Z",
       "side": 1,
       "message": "Sorry it\u0027s not very clear to me why this interface is necessary? In which case will this have another implementation other than PerformanceLogContext?",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 1
+      },
+      "revId": "124cd4ad549558a5c2ee0e95ca0a53fb8a977e01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "04ecc7a0_0ec00da4",
+        "filename": "java/com/google/gerrit/server/cancellation/PerformanceSummaryProvider.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-09-18T06:52:38Z",
+      "side": 1,
+      "message": "First I just found that it was not clear enough why RequestStateContext would depend on PerformanceLogContext. Having the interface made it clearer that RequestStateContext only needs to be able to get a performance summary. But then I realised that without this interface we would also have a circular dependency between the cancellation and the logging packages which is hard to resolve. I added this reason to the commit message now. But yes, we don\u0027t expect any other implementation of this interface than the one in PerformanceLogContext.",
+      "parentUuid": "814247b7_cde18ab0",
       "range": {
         "startLine": 19,
         "startChar": 0,

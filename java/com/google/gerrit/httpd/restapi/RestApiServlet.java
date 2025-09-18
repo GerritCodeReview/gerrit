@@ -352,13 +352,14 @@ public class RestApiServlet extends HttpServlet {
       // plugins happens before the client sees the response. This is needed for being able to
       // test performance logging from an acceptance test (see
       // TraceIT#performanceLoggingForRestCall()).
-      try (RequestStateContext requestStateContext =
+      try (PerformanceLogContext performanceLogContext =
+              new PerformanceLogContext(globals.config, globals.performanceLoggers);
+          RequestStateContext requestStateContext =
               RequestStateContext.open()
+                  .setPerformanceSummaryProvider(performanceLogContext)
                   .addRequestStateProvider(
                       globals.deadlineCheckerFactory.create(
-                          requestInfo, req.getHeader(X_GERRIT_DEADLINE)));
-          PerformanceLogContext performanceLogContext =
-              new PerformanceLogContext(globals.config, globals.performanceLoggers)) {
+                          requestInfo, req.getHeader(X_GERRIT_DEADLINE)))) {
         traceRequestData(req);
 
         if (corsResponder.filterCorsPreflight(req, res)) {

@@ -16,6 +16,24 @@
       "message": "Can you mention the change that introduced this issue?",
       "revId": "afbf6a554922a917abc6bb367366de7edee40de5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1a18f1e3_957151ff",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2025-09-18T16:15:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ebf68c4f_e87c20ed",
+      "revId": "afbf6a554922a917abc6bb367366de7edee40de5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

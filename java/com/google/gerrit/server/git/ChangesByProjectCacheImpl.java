@@ -506,13 +506,8 @@ public class ChangesByProjectCacheImpl implements ChangesByProjectCache {
           PrivateChangeProto privateChangeProto = entry.getValue();
 
           Change change = ChangeProtoConverter.INSTANCE.fromProto(privateChangeProto.getChange());
-
-          ReviewerSet reviewers = null;
-          if (privateChangeProto.hasReviewers()
-              && !privateChangeProto.getReviewers().getReviewersList().isEmpty()) {
-            reviewers = ReviewerSetSerializer.deserialize(privateChangeProto.getReviewers());
-          }
-
+          ReviewerSet reviewers =
+              ReviewerSetSerializer.deserialize(privateChangeProto.getReviewers());
           ObjectId metaRevision =
               ObjectId.fromRaw(privateChangeProto.getMetaRevision().toByteArray());
 

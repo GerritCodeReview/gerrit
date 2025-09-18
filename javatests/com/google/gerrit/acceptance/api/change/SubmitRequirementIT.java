@@ -34,7 +34,9 @@ import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.UseTimezone;
 import com.google.gerrit.acceptance.VerifyNoPiiInChangeNotes;
+import com.google.gerrit.acceptance.testsuite.change.ChangeOperations;
 import com.google.gerrit.acceptance.testsuite.change.IndexOperations;
+import com.google.gerrit.acceptance.testsuite.change.TestChange;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
@@ -95,6 +97,7 @@ import org.junit.Test;
 @UseTimezone(timezone = "US/Eastern")
 @VerifyNoPiiInChangeNotes(true)
 public class SubmitRequirementIT extends AbstractDaemonTest {
+  @Inject private ChangeOperations changeOperations;
   @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private ExtensionRegistry extensionRegistry;
@@ -2953,6 +2956,35 @@ public class SubmitRequirementIT extends AbstractDaemonTest {
           Status.UNSATISFIED,
           /* isLegacy= */ false);
     }
+  }
+
+  @Test
+  public void submitRequirementIgnoresVotesOfDeletedAccounts() throws Exception {
+    TestChange change = changeOperations.newChange().createAndGet();
+
+    // Approve the change.
+    TestAccount approver = accountCreator.createValid(name("approver"));
+    changeOperations
+        .change(change.id())
+        .newVote()
+        .codeReviewApproval()
+        .user(approver.id())
+        .create();
+
+    // Check that the Code-Review submit requirement is satisfied.
+    SubmitRequirementInput in =
+        createSubmitRequirementInput(
+            "Code-Review", /* submittabilityExpression= */ "label:Code-Review=+2");
+    SubmitRequirementResultInfo result = gApi.changes().id(change.id()).checkSubmitRequirement(in);
+    assertThat(result.status).isEqualTo(SubmitRequirementResultInfo.Status.SATISFIED);
+
+    // Delete the approver account
+    requestScopeOperations.setApiUser(approver.id());
+    gApi.accounts().self().delete();
+
+    // Check that the Code-Review submit requirement is no longer satisfied.
+    result = gApi.changes().id(change.id()).checkSubmitRequirement(in);
+    assertThat(result.status).isEqualTo(SubmitRequirementResultInfo.Status.UNSATISFIED);
   }
 
   private void voteLabel(String changeId, String labelName, int score) throws RestApiException {

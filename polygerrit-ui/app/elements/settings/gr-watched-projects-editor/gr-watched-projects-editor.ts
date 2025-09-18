@@ -23,6 +23,8 @@ import {PropertiesOfType} from '../../../utils/type-util';
 import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 import {notDeepEqual} from '../../../utils/deep-util';
 import '@material/web/textfield/outlined-text-field';
+import '@material/web/checkbox/checkbox';
+import {MdCheckbox} from '@material/web/checkbox/checkbox';
 import {materialStyles} from '../../../styles/gr-material-styles';
 
 type NotificationKey = PropertiesOfType<Required<ProjectWatchInfo>, boolean>;
@@ -87,6 +89,10 @@ export class GrWatchedProjectsEditor extends LitElement {
         }
         .newFilterInput {
           width: 100%;
+        }
+        md-checkbox {
+          --md-checkbox-container-size: 15px;
+          --md-checkbox-icon-size: 15px;
         }
       `,
     ];
@@ -166,12 +172,11 @@ export class GrWatchedProjectsEditor extends LitElement {
 
   private renderNotifyControl(project: ProjectWatchInfo, key: NotificationKey) {
     return html` <td class="notifControl" @click=${this.handleNotifCellClick}>
-      <input
-        type="checkbox"
+      <md-checkbox
         data-key=${key}
         @change=${(e: Event) => this.handleCheckboxChange(project, key, e)}
         ?checked=${!!project[key]}
-      />
+      ></md-checkbox>
     </td>`;
   }
 
@@ -315,7 +320,7 @@ export class GrWatchedProjectsEditor extends LitElement {
     key: NotificationKey,
     e: Event
   ) {
-    const el = e.target as HTMLInputElement;
+    const el = e.target as MdCheckbox;
     const checked = el.checked;
     project[key] = !!checked;
     this.requestUpdate();
@@ -324,7 +329,7 @@ export class GrWatchedProjectsEditor extends LitElement {
 
   private handleNotifCellClick(e: Event) {
     if (e.target === null) return;
-    const checkbox = (e.target as HTMLElement).querySelector('input');
+    const checkbox = (e.target as HTMLElement).querySelector('md-checkbox');
     if (checkbox) {
       checkbox.click();
     }

@@ -13,6 +13,8 @@ import {css, html, LitElement, nothing, PropertyValues} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {when} from 'lit/directives/when.js';
 import {grFormStyles} from '../../../styles/gr-form-styles';
+import '@material/web/checkbox/checkbox';
+import {MdCheckbox} from '@material/web/checkbox/checkbox';
 import {assertIsDefined} from '../../../utils/common-util';
 import {modalStyles} from '../../../styles/gr-modal-styles';
 import '../../shared/gr-list-view/gr-list-view';
@@ -178,6 +180,10 @@ export class GrRepoLabels extends LitElement {
         }
         md-outlined-text-field {
           max-width: 25em;
+        }
+        md-checkbox {
+          --md-checkbox-container-size: 15px;
+          --md-checkbox-icon-size: 15px;
         }
       `,
     ];
@@ -711,18 +717,16 @@ export class GrRepoLabels extends LitElement {
                   </div>
                   <div class="value-flex">
                     <span class="value">
-                      <input
+                      <md-checkbox
                         id="canOverride"
-                        type="checkbox"
                         ?checked=${this.newLabel.can_override ?? false}
                         @change=${(e: Event) => {
                           this.newLabel = {
                             ...this.newLabel,
-                            can_override: (e.target as HTMLInputElement)
-                              .checked,
+                            can_override: (e.target as MdCheckbox).checked,
                           };
                         }}
-                      />
+                      ></md-checkbox>
                     </span>
                   </div>
                 </section>
@@ -732,18 +736,16 @@ export class GrRepoLabels extends LitElement {
                   </div>
                   <div class="value-flex">
                     <span class="value">
-                      <input
+                      <md-checkbox
                         id="allowPostSubmit"
-                        type="checkbox"
                         ?checked=${this.newLabel.allow_post_submit ?? false}
                         @change=${(e: Event) => {
                           this.newLabel = {
                             ...this.newLabel,
-                            allow_post_submit: (e.target as HTMLInputElement)
-                              .checked,
+                            allow_post_submit: (e.target as MdCheckbox).checked,
                           };
                         }}
-                      />
+                      ></md-checkbox>
                     </span>
                   </div>
                 </section>
@@ -753,18 +755,17 @@ export class GrRepoLabels extends LitElement {
                   </div>
                   <div class="value-flex">
                     <span class="value">
-                      <input
+                      <md-checkbox
                         id="ignoreSelfApproval"
-                        type="checkbox"
                         ?checked=${this.newLabel.ignore_self_approval ?? false}
                         @change=${(e: Event) => {
                           this.newLabel = {
                             ...this.newLabel,
-                            ignore_self_approval: (e.target as HTMLInputElement)
+                            ignore_self_approval: (e.target as MdCheckbox)
                               .checked,
                           };
                         }}
-                      />
+                      ></md-checkbox>
                       ${when(
                         this.newLabel.ignore_self_approval,
                         () => html`

@@ -252,8 +252,8 @@ export class GrCreateFlow extends LitElement {
       return;
     const condition =
       this.currentConditionPrefix === 'Gerrit'
-        ? `${this.hostUrl} is ${this.currentCondition}`
-        : this.currentCondition;
+        ? `${this.hostUrl} is ${this.currentCondition.replace(/,/g, '!')}`
+        : this.currentCondition.replace(/,/g, '!');
     this.stages = [
       ...this.stages,
       {
@@ -281,7 +281,7 @@ export class GrCreateFlow extends LitElement {
     ) {
       const condition =
         this.currentConditionPrefix === 'Gerrit'
-          ? `${this.hostUrl} is ${this.currentCondition}`
+          ? `${this.hostUrl} is ${this.currentCondition.replace(/,/g, '!')}`
           : this.currentCondition;
       allStages.push({
         condition,

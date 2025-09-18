@@ -70,6 +70,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "730eaa15_6917ba3c",
+        "filename": "polygerrit-ui/app/elements/settings/gr-watched-projects-editor/gr-watched-projects-editor.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-09-18T13:34:22Z",
+      "side": 1,
+      "message": "Acknowledged\nPrefer to keep it purely as a refactor.",
+      "parentUuid": "713da4c6_47db6286",
+      "revId": "1b133022c3b02fcddb5b129a297205b2ccd7550a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2b6c81f2_ad0a9ddd",
@@ -83,6 +101,24 @@
       "writtenOn": "2025-09-17T10:52:16Z",
       "side": 1,
       "message": "Remove this. (Feel free to ignore if you disagree, i removed this type of look from other elements during the migration)",
+      "revId": "1b133022c3b02fcddb5b129a297205b2ccd7550a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b24fbe28_2f4a1628",
+        "filename": "polygerrit-ui/app/elements/settings/gr-watched-projects-editor/gr-watched-projects-editor.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-09-18T13:34:22Z",
+      "side": 1,
+      "message": "Acknowledged\nPrefer to keep it purely as a refactor.",
+      "parentUuid": "2b6c81f2_ad0a9ddd",
       "revId": "1b133022c3b02fcddb5b129a297205b2ccd7550a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -377,12 +377,12 @@ public class ApprovalsUtil {
 
   public ListMultimap<PatchSet.Id, PatchSetApproval> byChangeExcludingCopiedApprovals(
       ChangeNotes notes) {
-    return notes.load().getApprovals().onlyNonCopied();
+    return filterOutApprovalsOfDeletedAccounts(notes.load().getApprovals().onlyNonCopied());
   }
 
   public ListMultimap<PatchSet.Id, PatchSetApproval> byChangeIncludingCopiedApprovals(
       ChangeNotes notes) {
-    return notes.load().getApprovals().all();
+    return filterOutApprovalsOfDeletedAccounts(notes.load().getApprovals().all());
   }
 
   /**
@@ -898,12 +898,29 @@ public class ApprovalsUtil {
   public Iterable<PatchSetApproval> byPatchSet(ChangeNotes notes, PatchSet.Id psId) {
     ImmutableList<PatchSetApproval> approvalsNotNormalized =
         notes.load().getApprovals().all().get(psId);
-    return labelNormalizer.normalize(notes, approvalsNotNormalized).getNormalized();
+    return filterOutApprovalsOfDeletedAccounts(
+        labelNormalizer.normalize(notes, approvalsNotNormalized).getNormalized());
   }
 
   public Iterable<PatchSetApproval> byPatchSetUser(
       ChangeNotes notes, PatchSet.Id psId, Account.Id accountId) {
     return filterApprovals(byPatchSet(notes, psId), accountId);
+  }
+
+  public Iterable<PatchSetApproval> filterOutApprovalsOfDeletedAccounts(
+      Iterable<PatchSetApproval> psas) {
+    return Iterables.filter(psas, psa -> !isDeletedAccount(psa.accountId()));
+  }
+
+  private ImmutableListMultimap<PatchSet.Id, PatchSetApproval> filterOutApprovalsOfDeletedAccounts(
+      ListMultimap<PatchSet.Id, PatchSetApproval> approvals) {
+    return ImmutableListMultimap.copyOf(
+        Multimaps.filterEntries(
+            approvals, entry -> !isDeletedAccount(entry.getValue().accountId())));
+  }
+
+  private boolean isDeletedAccount(Account.Id accountId) {
+    return !accountCache.get(accountId).isPresent();
   }
 
   @Nullable

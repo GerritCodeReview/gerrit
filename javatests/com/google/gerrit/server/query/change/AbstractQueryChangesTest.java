@@ -1594,6 +1594,29 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
+  public void byLabelDoesntMatchVotesOfDeletedAccounts() throws Exception {
+    Project.NameKey project = Project.nameKey("repo");
+    repo = createAndOpenProject(project);
+    Change change = insert(project, newChange(repo));
+
+    Account.Id approver = createAccount("approver");
+    setRequestContextForUser(approver);
+    getChangeApi(change).current().review(ReviewInput.recommend());
+
+    // Check that the change matches 'label:Code-Review=1'.
+    setRequestContextForUser(userId);
+    assertQuery("label:Code-Review=1", change);
+
+    // Delete the approver account.
+    setRequestContextForUser(approver);
+    gApi.accounts().self().delete();
+
+    // Check that the change no longer matches 'label:Code-Review=1'.
+    setRequestContextForUser(userId);
+    assertQuery("label:Code-Review=1");
+  }
+
+  @Test
   public void cannotUseUsersArgWithLabel() throws Exception {
     assertFailingQuery(
         "label:Code-Review=MAX,users=human_reviewers", "Cannot use the 'users' argument in search");

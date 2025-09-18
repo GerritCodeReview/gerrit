@@ -19,8 +19,8 @@ import {GroupId, GroupInfo, GroupName} from '../../../types/common';
 import {GrAutocomplete} from '../../shared/gr-autocomplete/gr-autocomplete';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrCopyClipboard} from '../../shared/gr-copy-clipboard/gr-copy-clipboard';
-import {GrSelect} from '../../shared/gr-select/gr-select';
 import {assert, fixture, html} from '@open-wc/testing';
+import {MdCheckbox} from '@material/web/checkbox/checkbox';
 
 suite('gr-group tests', () => {
   let element: GrGroup;
@@ -125,12 +125,7 @@ suite('gr-group tests', () => {
                       Make group visible to all registered users
                     </span>
                     <span class="value">
-                      <gr-select id="visibleToAll">
-                        <select disabled="">
-                          <option value="false">False</option>
-                          <option value="true">True</option>
-                        </select>
-                      </gr-select>
+                      <md-checkbox disabled="" id="visibleToAll"> </md-checkbox>
                     </span>
                   </section>
                   <span class="value">
@@ -180,11 +175,8 @@ suite('gr-group tests', () => {
     element.groupId = '1' as GroupId;
     await element.loadGroup();
     assert.isTrue(element.groupIsInternal);
-    // The value returned is a boolean in a string
-    // thus we have to check with the string.
-    assert.equal(
-      queryAndAssert<GrSelect>(element, '#visibleToAll').bindValue,
-      'false'
+    assert.isFalse(
+      queryAndAssert<MdCheckbox>(element, '#visibleToAll').checked
     );
   });
 
@@ -199,11 +191,8 @@ suite('gr-group tests', () => {
     element.groupId = '1' as GroupId;
     await element.loadGroup();
     assert.isFalse(element.groupIsInternal);
-    // The value returned is a boolean in a string
-    // thus we have to check with the string.
-    assert.equal(
-      queryAndAssert<GrSelect>(element, '#visibleToAll').bindValue,
-      'false'
+    assert.isFalse(
+      queryAndAssert<MdCheckbox>(element, '#visibleToAll').checked
     );
   });
 

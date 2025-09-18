@@ -327,21 +327,20 @@ export class GrRepo extends LitElement {
       <section>
         <span class="title">State</span>
         <span class="value">
-            <md-outlined-select
-              id="stateSelect"
-              .value=${this.repoConfig?.state}
-              ?disabled=${this.readOnly}
-              @change=${this.handleStateSelectChange}
-            >
-              ${this.states.map(
-                item => html`
-                  <md-select-option value=${item.value}>
-                    <div slot="headline">${item.label}</div>
-                  </md-select-option>
-                `
-              )}
-              </md-outlined-select>
-          </span>
+          <md-outlined-select
+            id="stateSelect"
+            .value=${this.repoConfig?.state}
+            ?disabled=${this.readOnly}
+            @change=${this.handleStateSelectChange}
+          >
+            ${this.states.map(
+              item => html`
+                <md-select-option value=${item.value}>
+                  <div slot="headline">${item.label}</div>
+                </md-select-option>
+              `
+            )}
+          </md-outlined-select>
         </span>
       </section>
     `;

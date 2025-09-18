@@ -61,6 +61,10 @@ public class ExperimentFeaturesConstants {
   public static final String ALLOW_FIX_SUGGESTIONS_IN_COMMENTS =
       "GerritBackendFeature__allow_fix_suggestions_in_comments";
 
+  /** Whether votes of deleted accounts should be ignored. */
+  public static final String IGNORE_VOTES_OF_DELETED_ACCOUNTS =
+      "GerritBackendFeature__ignore_votes_of_deleted_accounts";
+
   /** Whether UI should request Submit Requirements separately from change detail. */
   public static final String ASYNC_SUBMIT_REQUIREMENTS = "UiFeature__async_submit_requirements";
 

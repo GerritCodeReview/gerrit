@@ -52,6 +52,7 @@ public class ListExperimentsIT extends AbstractDaemonTest {
                 .GERRIT_BACKEND_FEATURE_ALWAYS_REJECT_IMPLICIT_MERGES_ON_MERGE,
             ExperimentFeaturesConstants.GERRIT_BACKEND_FEATURE_ATTACH_NONCE_TO_DOCUMENTATION,
             ExperimentFeaturesConstants.GERRIT_BACKEND_FEATURE_CHECK_IMPLICIT_MERGES_ON_MERGE,
+            ExperimentFeaturesConstants.IGNORE_VOTES_OF_DELETED_ACCOUNTS,
             ExperimentFeaturesConstants.GERRIT_BACKEND_FEATURE_REJECT_IMPLICIT_MERGES_ON_MERGE,
             ExperimentFeaturesConstants.SKIP_SUBMIT_RECORDS_WITHOUT_SUBMIT_REQUIREMENTS,
             ExperimentFeaturesConstants.ASYNC_SUBMIT_REQUIREMENTS,

@@ -128,6 +128,7 @@ import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.change.PatchSetInserter;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.experiments.ExperimentFeaturesConstants;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.group.testing.TestGroupBackend;
@@ -1591,6 +1592,32 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertThat(thrown)
         .hasMessageThat()
         .isEqualTo("non_committer arg is not allowed in change queries");
+  }
+
+  @Test
+  @GerritConfig(
+      name = "experiments.enabled",
+      values = {ExperimentFeaturesConstants.IGNORE_VOTES_OF_DELETED_ACCOUNTS})
+  public void byLabelDoesntMatchVotesOfDeletedAccounts() throws Exception {
+    Project.NameKey project = Project.nameKey("repo");
+    repo = createAndOpenProject(project);
+    Change change = insert(project, newChange(repo));
+
+    Account.Id approver = createAccount("approver");
+    setRequestContextForUser(approver);
+    getChangeApi(change).current().review(ReviewInput.recommend());
+
+    // Check that the change matches 'label:Code-Review=1'.
+    setRequestContextForUser(userId);
+    assertQuery("label:Code-Review=1", change);
+
+    // Delete the approver account.
+    setRequestContextForUser(approver);
+    gApi.accounts().self().delete();
+
+    // Check that the change no longer matches 'label:Code-Review=1'.
+    setRequestContextForUser(userId);
+    assertQuery("label:Code-Review=1");
   }
 
   @Test

@@ -34,7 +34,10 @@ import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.UseTimezone;
 import com.google.gerrit.acceptance.VerifyNoPiiInChangeNotes;
+import com.google.gerrit.acceptance.config.GerritConfig;
+import com.google.gerrit.acceptance.testsuite.change.ChangeOperations;
 import com.google.gerrit.acceptance.testsuite.change.IndexOperations;
+import com.google.gerrit.acceptance.testsuite.change.TestChange;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
@@ -66,8 +69,10 @@ import com.google.gerrit.extensions.common.SubmitRequirementInput;
 import com.google.gerrit.extensions.common.SubmitRequirementResultInfo;
 import com.google.gerrit.extensions.common.SubmitRequirementResultInfo.Status;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.httpd.raw.IndexPreloadingUtil;
+import com.google.gerrit.server.experiments.ExperimentFeaturesConstants;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.testing.TestLabels;
@@ -95,6 +100,7 @@ import org.junit.Test;
 @UseTimezone(timezone = "US/Eastern")
 @VerifyNoPiiInChangeNotes(true)
 public class SubmitRequirementIT extends AbstractDaemonTest {
+  @Inject private ChangeOperations changeOperations;
   @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private ExtensionRegistry extensionRegistry;
@@ -1910,6 +1916,59 @@ public class SubmitRequirementIT extends AbstractDaemonTest {
   }
 
   @Test
+  @GerritConfig(
+      name = "experiments.enabled",
+      values = {ExperimentFeaturesConstants.IGNORE_VOTES_OF_DELETED_ACCOUNTS})
+  public void submitRequirement_approverAccountDeleted() throws Exception {
+    Project.NameKey project = projectOperations.newProject().create();
+    configSubmitRequirement(
+        project,
+        SubmitRequirement.builder()
+            .setName("Code-Review")
+            .setSubmittabilityExpression(SubmitRequirementExpression.maxCodeReview())
+            .setAllowOverrideInChildProjects(false)
+            .build());
+
+    TestChange change = changeOperations.newChange().project(project).createAndGet();
+
+    // Approve the change.
+    TestAccount approver = accountCreator.createValid(name("approver"));
+    changeOperations
+        .change(change.id())
+        .newVote()
+        .codeReviewApproval()
+        .user(approver.id())
+        .create();
+
+    // Check that the Code-Review submit requirement is satisfied.
+    ChangeInfo changeInfo = gApi.changes().id(change.id()).get();
+    assertThat(changeInfo.submitRequirements).hasSize(1);
+    assertSubmitRequirementStatus(
+        changeInfo.submitRequirements, "Code-Review", Status.SATISFIED, /* isLegacy= */ false);
+
+    // Delete the approver account.
+    requestScopeOperations.setApiUser(approver.id());
+    gApi.accounts().self().delete();
+
+    // Check that the Code-Review submit requirement is no longer satisfied.
+    requestScopeOperations.setApiUser(admin.id());
+    changeInfo = gApi.changes().id(change.id()).get();
+    assertThat(changeInfo.submitRequirements).hasSize(1);
+    assertSubmitRequirementStatus(
+        changeInfo.submitRequirements, "Code-Review", Status.UNSATISFIED, /* isLegacy= */ false);
+
+    // Since the Code-Review submit requirement is not satisfied, submitting the change is not
+    // possible.
+    ResourceConflictException exception =
+        assertThrows(
+            ResourceConflictException.class,
+            () -> gApi.changes().id(change.id()).current().submit());
+    assertThat(exception)
+        .hasMessageThat()
+        .contains("submit requirement 'Code-Review' is unsatisfied");
+  }
+
+  @Test
   public void submitRequirement_retrievedFromNoteDbForAbandonedChanges() throws Exception {
     for (SubmitType submitType : SubmitType.values()) {
       Project.NameKey project = createProjectForPush(submitType);
@@ -2953,6 +3012,39 @@ public class SubmitRequirementIT extends AbstractDaemonTest {
           Status.UNSATISFIED,
           /* isLegacy= */ false);
     }
+  }
+
+  @Test
+  @GerritConfig(
+      name = "experiments.enabled",
+      values = {ExperimentFeaturesConstants.IGNORE_VOTES_OF_DELETED_ACCOUNTS})
+  public void submitRequirementIgnoresVotesOfDeletedAccounts() throws Exception {
+    TestChange change = changeOperations.newChange().createAndGet();
+
+    // Approve the change.
+    TestAccount approver = accountCreator.createValid(name("approver"));
+    changeOperations
+        .change(change.id())
+        .newVote()
+        .codeReviewApproval()
+        .user(approver.id())
+        .create();
+
+    // Check that the Code-Review submit requirement is satisfied.
+    SubmitRequirementInput in =
+        createSubmitRequirementInput(
+            "Code-Review", /* submittabilityExpression= */ "label:Code-Review=+2");
+    SubmitRequirementResultInfo result = gApi.changes().id(change.id()).checkSubmitRequirement(in);
+    assertThat(result.status).isEqualTo(SubmitRequirementResultInfo.Status.SATISFIED);
+
+    // Delete the approver account.
+    requestScopeOperations.setApiUser(approver.id());
+    gApi.accounts().self().delete();
+
+    // Check that the Code-Review submit requirement is no longer satisfied.
+    requestScopeOperations.setApiUser(admin.id());
+    result = gApi.changes().id(change.id()).checkSubmitRequirement(in);
+    assertThat(result.status).isEqualTo(SubmitRequirementResultInfo.Status.UNSATISFIED);
   }
 
   private void voteLabel(String changeId, String labelName, int score) throws RestApiException {

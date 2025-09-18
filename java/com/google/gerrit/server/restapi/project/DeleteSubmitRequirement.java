@@ -20,6 +20,7 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.project.ProjectConfig;
+import com.google.gerrit.server.project.RepoMetaDataUpdater;
 import com.google.gerrit.server.project.SubmitRequirementResource;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;

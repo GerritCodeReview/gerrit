@@ -250,10 +250,13 @@ export class GrCreateFlow extends LitElement {
   private handleAddStage() {
     if (this.currentCondition.trim() === '' && this.currentAction.trim() === '')
       return;
+    // If the condition prefix is 'Gerrit', we prepend the host URL and "is"
+    // to form a complete Gerrit-specific condition. Otherwise, use the condition as is.
+    // We also replace commas with exclamation marks, likely for a specific syntax.
     const condition =
       this.currentConditionPrefix === 'Gerrit'
-        ? `${this.hostUrl} is ${this.currentCondition}`
-        : this.currentCondition;
+        ? `${this.hostUrl} is ${this.currentCondition.replace(/,/g, '!')}`
+        : this.currentCondition.replace(/,/g, '!');
     this.stages = [
       ...this.stages,
       {
@@ -281,7 +284,7 @@ export class GrCreateFlow extends LitElement {
     ) {
       const condition =
         this.currentConditionPrefix === 'Gerrit'
-          ? `${this.hostUrl} is ${this.currentCondition}`
+          ? `${this.hostUrl} is ${this.currentCondition.replace(/,/g, '!')}`
           : this.currentCondition;
       allStages.push({
         condition,

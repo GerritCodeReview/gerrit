@@ -10,8 +10,9 @@ import './gr-validation-options';
 import {GrValidationOptions} from './gr-validation-options';
 import {ValidationOptionsInfo} from '../../../api/rest-api';
 import {queryAll} from '../../../test/test-utils';
+import {MdCheckbox} from '@material/web/checkbox/checkbox';
 
-suite('gr-trigger-vote tests', () => {
+suite('gr-validation-options tests', () => {
   let element: GrValidationOptions;
   setup(async () => {
     const validationOptions: ValidationOptionsInfo = {
@@ -31,34 +32,26 @@ suite('gr-trigger-vote tests', () => {
     assert.shadowDom.equal(
       element,
       /* HTML */ `
-        <label class="selectionLabel">
-          <input type="checkbox" />
-          Option 1
-        </label>
-        <label class="selectionLabel">
-          <input type="checkbox" />
-          Option 2
-        </label>
+        <md-checkbox class="selectionLabel"></md-checkbox>Option 1
+        <md-checkbox class="selectionLabel"></md-checkbox>Option 2
       `
     );
   });
 
-  test('selects and unselects options', () => {
-    const checkboxes = queryAll<HTMLInputElement>(
-      element,
-      'input[type="checkbox"]'
-    );
-    element.validationOptions?.validation_options;
+  test('selects and unselects options', async () => {
+    const checkboxes = queryAll<MdCheckbox>(element, 'md-checkbox');
 
     assert.deepEqual(element.getSelectedOptions(), []);
 
     checkboxes[0].click();
+    await element.updateComplete;
 
     assert.deepEqual(element.getSelectedOptions(), [
       {name: 'o1', description: 'option 1'},
     ]);
 
     checkboxes[1].click();
+    await element.updateComplete;
 
     assert.deepEqual(element.getSelectedOptions(), [
       {name: 'o1', description: 'option 1'},
@@ -66,12 +59,14 @@ suite('gr-trigger-vote tests', () => {
     ]);
 
     checkboxes[0].click();
+    await element.updateComplete;
 
     assert.deepEqual(element.getSelectedOptions(), [
       {name: 'o2', description: 'option 2'},
     ]);
 
     checkboxes[1].click();
+    await element.updateComplete;
 
     assert.deepEqual(element.getSelectedOptions(), []);
   });

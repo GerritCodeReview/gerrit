@@ -105,6 +105,7 @@ import {NormalizedFileInfo} from '../../change/gr-file-list/gr-file-list';
 import {configModelToken} from '../../../models/config/config-model';
 import {trimWithEllipsis} from '../../../utils/string-util';
 import '@material/web/checkbox/checkbox';
+import {MdCheckbox} from '@material/web/checkbox/checkbox';
 import {materialStyles} from '../../../styles/gr-material-styles';
 
 const LOADING_BLAME = 'Loading blame information. This may take a while ...';
@@ -709,6 +710,10 @@ export class GrDiffView extends LitElement {
           border-left: 0;
           overflow: auto;
         }
+        md-checkbox {
+          --md-checkbox-container-size: 15px;
+          --md-checkbox-icon-size: 15px;
+        }
       `,
     ];
   }
@@ -887,16 +892,15 @@ export class GrDiffView extends LitElement {
         <span class="headerSubject"
           >${trimWithEllipsis(this.change?.subject, 80)}</span
         >
-        <input
+        <md-checkbox
           id="reviewed"
           class="reviewed hideOnEdit"
-          type="checkbox"
           ?hidden=${!this.loggedIn}
           title="Toggle reviewed status of file"
           aria-label="file reviewed"
-          .checked=${this.reviewed}
+          ?checked=${this.reviewed}
           @change=${this.handleReviewedChange}
-        />
+        ></md-checkbox>
         <div class="jumpToFileContainer">
           <gr-dropdown-list
             id="dropdown"
@@ -1224,7 +1228,7 @@ export class GrDiffView extends LitElement {
   }
 
   private handleReviewedChange(e: Event) {
-    const input = e.target as HTMLInputElement;
+    const input = e.target as MdCheckbox;
     this.setReviewed(input.checked ?? false);
   }
 

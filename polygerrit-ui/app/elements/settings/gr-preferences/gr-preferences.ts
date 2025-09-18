@@ -45,10 +45,10 @@ export class GrPreferences extends LitElement {
   allowBrowserNotifications?: MdCheckbox;
 
   @query('#allowSuggestCodeWhileCommenting')
-  allowSuggestCodeWhileCommenting?: HTMLInputElement;
+  allowSuggestCodeWhileCommenting?: MdCheckbox;
 
   @query('#allowAiCommentAutocompletion')
-  allowAiCommentAutocompletion?: HTMLInputElement;
+  allowAiCommentAutocompletion?: MdCheckbox;
 
   @query('#relativeDateInChangeTable')
   relativeDateInChangeTable!: MdCheckbox;
@@ -139,6 +139,10 @@ export class GrPreferences extends LitElement {
           font-size: var(--font-size-h2);
           font-weight: var(--font-weight-h2);
           line-height: var(--line-height-h2);
+        }
+        md-checkbox {
+          --md-checkbox-container-size: 15px;
+          --md-checkbox-icon-size: 15px;
         }
       `,
     ];
@@ -515,16 +519,15 @@ export class GrPreferences extends LitElement {
           </a>
         </div>
         <span class="value">
-          <input
+          <md-checkbox
             id="allowSuggestCodeWhileCommenting"
-            type="checkbox"
             ?checked=${!!this.prefs?.allow_suggest_code_while_commenting}
             @change=${() => {
               this.prefs!.allow_suggest_code_while_commenting =
                 this.allowSuggestCodeWhileCommenting!.checked;
               this.requestUpdate();
             }}
-          />
+          ></md-checkbox>
         </span>
       </section>
     `;
@@ -546,16 +549,15 @@ export class GrPreferences extends LitElement {
           >
         </div>
         <span class="value">
-          <input
+          <md-checkbox
             id="allowAiCommentAutocompletion"
-            type="checkbox"
             ?checked=${!!this.prefs?.allow_autocompleting_comments}
             @change=${() => {
               this.prefs!.allow_autocompleting_comments =
                 this.allowAiCommentAutocompletion!.checked;
               this.requestUpdate();
             }}
-          />
+          ></md-checkbox>
         </span>
       </section>
     `;

@@ -76,6 +76,7 @@ import {
   ChangeViewModel,
   changeViewModelToken,
 } from '../../../models/views/change';
+import {MdCheckbox} from '@material/web/checkbox/checkbox';
 import {FileNameToNormalizedFileInfoMap} from '../../../models/change/files-model';
 import {RestApiService} from '../../../services/gr-rest-api/gr-rest-api';
 import {GrDiffCursor} from '../../../embed/diff/gr-diff-cursor/gr-diff-cursor';
@@ -220,13 +221,12 @@ suite('gr-diff-view tests', () => {
                 <a href="/c/test-project/+/42"> 42 </a>
                 <span class="changeNumberColon"> : </span>
                 <span class="headerSubject"> Test subject </span>
-                <input
+                <md-checkbox
                   aria-label="file reviewed"
                   class="hideOnEdit reviewed"
                   id="reviewed"
                   title="Toggle reviewed status of file"
-                  type="checkbox"
-                />
+                ></md-checkbox>
                 <div class="jumpToFileContainer">
                   <gr-dropdown-list id="dropdown" show-copy-for-trigger-text="">
                   </gr-dropdown-list>
@@ -1449,9 +1449,9 @@ suite('gr-diff-view tests', () => {
       changeModel.updateStateFileReviewed('/COMMIT_MSG', true);
       await element.updateComplete;
 
-      const reviewedStatusCheckBox = queryAndAssert<HTMLInputElement>(
+      const reviewedStatusCheckBox = queryAndAssert<MdCheckbox>(
         element,
-        'input#reviewed'
+        'md-checkbox#reviewed'
       );
 
       assert.isTrue(reviewedStatusCheckBox.checked);
@@ -1860,7 +1860,7 @@ suite('gr-diff-view tests', () => {
         element.basePatchNum = PARENT;
         await element.updateComplete;
 
-        let checkbox = queryAndAssert(element, '#reviewed');
+        let checkbox = queryAndAssert(element, 'md-checkbox#reviewed');
         assert.isTrue(isVisible(checkbox));
 
         element.patchNum = EDIT;

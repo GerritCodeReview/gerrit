@@ -222,7 +222,7 @@ suite('gr-create-flow tests', () => {
     addButton.click();
     await element.updateComplete;
 
-    searchAutocomplete.value = 'cond 2';
+    searchAutocomplete.value = 'cond 2, cond 3';
     await element.updateComplete;
     actionInput.value = 'act 2';
     actionInput.dispatchEvent(new Event('input'));
@@ -247,7 +247,7 @@ suite('gr-create-flow tests', () => {
       },
       {
         condition:
-          'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is cond 2',
+          'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is cond 2! cond 3',
         action: {name: 'act 2'},
       },
     ]);

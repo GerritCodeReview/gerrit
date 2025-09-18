@@ -52,6 +52,24 @@
       "parentUuid": "1671869e_668689ee",
       "revId": "252ce0918d3bbc9fdc03097766872441850bd3e5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b1e9c47_06cb97ee",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-09-18T10:44:31Z",
+      "side": 1,
+      "message": "I don\u0027t think it\u0027s intended to allow text within md-checkbox, rather you have to use a label or put the text outside. E.g. examples are showing this like https://github.com/material-components/material-web/blob/834a1664ef2b3c47ba4ead877a700472f79e0d2f/docs/intro.md?plain\u003d1#L65",
+      "parentUuid": "c65a5d02_e4e61d5c",
+      "revId": "252ce0918d3bbc9fdc03097766872441850bd3e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

@@ -446,7 +446,7 @@ public class MigrateLabelFunctionsToSubmitRequirementIT extends AbstractDaemonTe
   private TestUpdateUI runMigration(Status expectedResult) throws Exception {
     TestUpdateUI updateUi = new TestUpdateUI();
     MigrateLabelFunctionsToSubmitRequirement executor =
-        new MigrateLabelFunctionsToSubmitRequirement(repoManager, serverIdent.get());
+        new MigrateLabelFunctionsToSubmitRequirement(repoMetaDataUpdater, repoManager);
     Status status = executor.executeMigration(project, updateUi);
     assertThat(status).isEqualTo(expectedResult);
     projectCache.evictAndReindex(project);

@@ -47,6 +47,7 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.project.RepoMetaDataUpdater;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;

@@ -27,6 +27,7 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectConfig;
+import com.google.gerrit.server.project.RepoMetaDataUpdater;
 import com.google.gerrit.server.project.SubmitRequirementExpressionsValidator;
 import com.google.gerrit.server.project.SubmitRequirementJson;
 import com.google.gerrit.server.project.SubmitRequirementResource;

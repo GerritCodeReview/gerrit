@@ -61,7 +61,7 @@ suite('gr-create-flow tests', () => {
       'gr-button[aria-label="Add Stage"]'
     );
 
-    searchAutocomplete.value = 'cond 1';
+    searchAutocomplete.value = 'cond,1';
     await element.updateComplete;
     actionInput.value = 'act 1';
     actionInput.dispatchEvent(new Event('input'));
@@ -72,7 +72,7 @@ suite('gr-create-flow tests', () => {
     assert.deepEqual(element['stages'], [
       {
         condition:
-          'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is cond 1',
+          'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is cond!1',
         action: 'act 1',
         parameterStr: '',
       },
@@ -80,7 +80,7 @@ suite('gr-create-flow tests', () => {
     assert.equal(element['currentCondition'], '');
     assert.equal(element['currentAction'], '');
 
-    searchAutocomplete.value = 'cond 2';
+    searchAutocomplete.value = 'cond,2';
     await element.updateComplete;
     actionInput.value = 'act 2';
     actionInput.dispatchEvent(new Event('input'));
@@ -91,13 +91,13 @@ suite('gr-create-flow tests', () => {
     assert.deepEqual(element['stages'], [
       {
         condition:
-          'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is cond 1',
+          'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is cond!1',
         action: 'act 1',
         parameterStr: '',
       },
       {
         condition:
-          'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is cond 2',
+          'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is cond!2',
         action: 'act 2',
         parameterStr: '',
       },
@@ -112,7 +112,7 @@ suite('gr-create-flow tests', () => {
     assert.deepEqual(element['stages'], [
       {
         condition:
-          'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is cond 2',
+          'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is cond!2',
         action: 'act 2',
         parameterStr: '',
       },
@@ -132,7 +132,7 @@ suite('gr-create-flow tests', () => {
       element,
       'md-outlined-text-field[label="Action"]'
     );
-    searchAutocomplete.value = 'single condition';
+    searchAutocomplete.value = 'single,condition';
     await element.updateComplete;
     actionInput.value = 'single action';
     actionInput.dispatchEvent(new Event('input'));
@@ -150,7 +150,7 @@ suite('gr-create-flow tests', () => {
     assert.deepEqual(flowInput.stage_expressions, [
       {
         condition:
-          'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is single condition',
+          'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is single!condition',
         action: {name: 'single action'},
       },
     ]);
@@ -171,7 +171,7 @@ suite('gr-create-flow tests', () => {
       element,
       'md-outlined-text-field[label="Parameters"]'
     );
-    searchAutocomplete.value = 'single condition';
+    searchAutocomplete.value = 'single,condition';
     await element.updateComplete;
     actionInput.value = 'single action';
     actionInput.dispatchEvent(new Event('input'));
@@ -192,7 +192,7 @@ suite('gr-create-flow tests', () => {
     assert.deepEqual(flowInput.stage_expressions, [
       {
         condition:
-          'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is single condition',
+          'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is single!condition',
         action: {name: 'single action', parameters: ['param1', 'param2']},
       },
     ]);
@@ -214,7 +214,7 @@ suite('gr-create-flow tests', () => {
       'gr-button[aria-label="Add Stage"]'
     );
 
-    searchAutocomplete.value = 'cond 1';
+    searchAutocomplete.value = 'cond,1';
     await element.updateComplete;
     actionInput.value = 'act 1';
     actionInput.dispatchEvent(new Event('input'));
@@ -222,7 +222,7 @@ suite('gr-create-flow tests', () => {
     addButton.click();
     await element.updateComplete;
 
-    searchAutocomplete.value = 'cond 2';
+    searchAutocomplete.value = 'cond,2';
     await element.updateComplete;
     actionInput.value = 'act 2';
     actionInput.dispatchEvent(new Event('input'));
@@ -242,12 +242,12 @@ suite('gr-create-flow tests', () => {
     assert.deepEqual(flowInput.stage_expressions, [
       {
         condition:
-          'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is cond 1',
+          'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is cond!1',
         action: {name: 'act 1'},
       },
       {
         condition:
-          'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is cond 2',
+          'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is cond!2',
         action: {name: 'act 2'},
       },
     ]);
@@ -269,14 +269,14 @@ suite('gr-create-flow tests', () => {
       'gr-button[aria-label="Add Stage"]'
     );
 
-    searchAutocomplete.value = 'cond 1';
+    searchAutocomplete.value = 'cond,1';
     await element.updateComplete;
     actionInput.value = 'act 1';
     actionInput.dispatchEvent(new Event('input'));
     await element.updateComplete;
     addButton.click();
     await element.updateComplete;
-    searchAutocomplete.value = 'cond 2';
+    searchAutocomplete.value = 'cond,2';
     await element.updateComplete;
     actionInput.value = 'act 2';
     actionInput.dispatchEvent(new Event('input'));
@@ -294,12 +294,12 @@ suite('gr-create-flow tests', () => {
     assert.deepEqual(flowInput.stage_expressions, [
       {
         condition:
-          'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is cond 1',
+          'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is cond!1',
         action: {name: 'act 1'},
       },
       {
         condition:
-          'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is cond 2',
+          'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is cond!2',
         action: {name: 'act 2'},
       },
     ]);

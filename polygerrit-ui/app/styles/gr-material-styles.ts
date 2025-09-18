@@ -109,6 +109,7 @@ export const materialStyles = css`
   }
 
   md-outlined-select {
+    min-width: unset;
     --md-outlined-field-top-space: 4px;
     --md-outlined-field-bottom-space: 4px;
     --md-sys-color-surface-container: var(--select-surface-container);

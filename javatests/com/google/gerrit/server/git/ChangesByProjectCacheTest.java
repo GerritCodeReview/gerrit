@@ -38,9 +38,10 @@ import org.junit.Test;
 public final class ChangesByProjectCacheTest extends AbstractChangeNotesTest {
   @Test
   public void cachedProjectChangesSerializer() throws Exception {
-    ChangeData cd1 = createChange(false);
-    ChangeData cd2 = createChange(true);
-    CachedProjectChanges cachedProjectChanges = new CachedProjectChanges(List.of(cd1, cd2));
+    ChangeData cd1 = createChange(false, true);
+    ChangeData cd2 = createChange(true, true);
+    ChangeData cd3 = createChange(true, false);
+    CachedProjectChanges cachedProjectChanges = new CachedProjectChanges(List.of(cd1, cd2, cd3));
 
     CachedProjectChangesSerializer s = CachedProjectChangesSerializer.INSTANCE;
     CachedProjectChanges deserialized = s.deserialize(s.serialize(cachedProjectChanges));
@@ -57,7 +58,7 @@ public final class ChangesByProjectCacheTest extends AbstractChangeNotesTest {
     }
   }
 
-  private ChangeData createChange(boolean isPrivate) throws Exception {
+  private ChangeData createChange(boolean isPrivate, boolean hasReviewers) throws Exception {
     Change change = newChange();
     if (isPrivate) {
       ChangeUpdate update = newUpdate(change, changeOwner);
@@ -74,12 +75,17 @@ public final class ChangesByProjectCacheTest extends AbstractChangeNotesTest {
             null,
             changeNotesFactory,
             notes);
-    cd.setReviewers(
-        ReviewerSet.fromTable(
-            ImmutableTable.<ReviewerStateInternal, Account.Id, Instant>builder()
-                .put(ReviewerStateInternal.CC, Account.id(1001), Instant.ofEpochMilli(1212L))
-                .put(ReviewerStateInternal.REVIEWER, Account.id(1002), Instant.ofEpochMilli(1213L))
-                .build()));
+    if (hasReviewers) {
+      cd.setReviewers(
+          ReviewerSet.fromTable(
+              ImmutableTable.<ReviewerStateInternal, Account.Id, Instant>builder()
+                  .put(ReviewerStateInternal.CC, Account.id(1001), Instant.ofEpochMilli(1212L))
+                  .put(
+                      ReviewerStateInternal.REVIEWER, Account.id(1002), Instant.ofEpochMilli(1213L))
+                  .build()));
+    } else {
+      cd.setReviewers(ReviewerSet.empty());
+    }
     return cd;
   }
 }

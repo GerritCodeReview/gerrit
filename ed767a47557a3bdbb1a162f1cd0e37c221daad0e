@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5c623875_9201d6a5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-09-19T15:46:56Z",
+      "side": 1,
+      "message": "(Unrelated to this change, but can we enable the new image view experiment or alternatively can we make the new image view the default and remove the old view?)",
+      "revId": "ed767a47557a3bdbb1a162f1cd0e37c221daad0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

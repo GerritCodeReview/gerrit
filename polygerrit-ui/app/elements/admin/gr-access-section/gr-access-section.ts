@@ -391,17 +391,23 @@ export class GrAccessSection extends LitElement {
       return this.capabilities?.[permission.id]?.name;
     } else if (AccessPermissions[permission.id]) {
       return AccessPermissions[permission.id]?.name;
-    } else if (permission.value.label) {
+    } else if (permission.value.label || permission.id) {
+      console.log(permission.value.label);
       if (permission.id.startsWith('labelAs-')) {
-        return `Label ${permission.value.label} (On Behalf Of)`;
+        return `Label ${
+          permission.value.label || permission.id.replace('labelAs-', '')
+        } (On Behalf Of)`;
       } else if (permission.id.startsWith('removeLabel-')) {
-        return `Remove Label ${permission.value.label}`;
+        return `Remove Label ${
+          permission.value.label || permission.id.replace('removeLabel-', '')
+        }`;
       } else {
-        return `Label ${permission.value.label}`;
+        return `Label ${permission.value.label || permission.id}`;
       }
     }
     return undefined;
   }
+
 
   // private but used in test
   computeSectionName() {

@@ -130,6 +130,11 @@ export class GrRepoList extends LitElement {
         .readOnly {
           white-space: nowrap;
         }
+        @media screen and (max-width: 50em) {
+          #repoBranchPicker {
+            height: 90vh;
+          }
+        }
       `,
     ];
   }
@@ -197,6 +202,7 @@ export class GrRepoList extends LitElement {
       </dialog>
       <dialog id="createModal" tabindex="-1">
         <gr-dialog
+          id="repoBranchPicker"
           confirm-label="Next"
           @confirm=${this.pickerConfirm}
           @cancel=${() => {

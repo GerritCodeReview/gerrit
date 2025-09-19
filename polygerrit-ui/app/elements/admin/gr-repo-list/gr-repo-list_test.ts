@@ -441,7 +441,12 @@ suite('gr-repo-list tests', () => {
             </gr-dialog>
           </dialog>
           <dialog id="createModal" tabindex="-1">
-            <gr-dialog confirm-label="Next" disabled="" role="dialog">
+            <gr-dialog
+              confirm-label="Next"
+              disabled=""
+              id="repoBranchPicker"
+              role="dialog"
+            >
               <div class="header" slot="header">Create change</div>
               <div class="main" slot="main">
                 <gr-repo-branch-picker> </gr-repo-branch-picker>

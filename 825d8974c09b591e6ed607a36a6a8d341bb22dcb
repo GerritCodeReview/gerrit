@@ -33,6 +33,24 @@
       "message": "With a different change description, I think this is a reasonable change to push upstream.",
       "revId": "825d8974c09b591e6ed607a36a6a8d341bb22dcb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "71c59bbb_3c9f3fe7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-09-19T07:17:35Z",
+      "side": 1,
+      "message": "Yes, I\u0027ll submit this change here once the fix is life for us.\nOr rather, once it\u0027s life for us, I\u0027ll ask the external ESC members to check if this affects upstream and if yes whether they want to follow the process at https://gerrit-review.googlesource.com/Documentation/dev-processes.html#security-issues",
+      "parentUuid": "35427531_d3d137b4",
+      "revId": "825d8974c09b591e6ed607a36a6a8d341bb22dcb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

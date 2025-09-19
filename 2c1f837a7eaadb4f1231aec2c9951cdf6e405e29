@@ -47,6 +47,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "04db36ce_df912bda",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 19
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2025-09-19T15:39:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "51ad3aae_e73b202f",
+      "range": {
+        "startLine": 9,
+        "startChar": 57,
+        "endLine": 9,
+        "endChar": 62
+      },
+      "revId": "2c1f837a7eaadb4f1231aec2c9951cdf6e405e29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "58886334_f478dc93",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 19
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2025-09-19T15:39:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cd271117_9f705f23",
+      "range": {
+        "startLine": 9,
+        "startChar": 37,
+        "endLine": 9,
+        "endChar": 47
+      },
+      "revId": "2c1f837a7eaadb4f1231aec2c9951cdf6e405e29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3ca510f7_7bf91fe5",
@@ -88,6 +136,54 @@
         "startChar": 11,
         "endLine": 10,
         "endChar": 23
+      },
+      "revId": "2c1f837a7eaadb4f1231aec2c9951cdf6e405e29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "126f54bf_9a722fa9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 19
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2025-09-19T15:39:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "44635847_9d947390",
+      "range": {
+        "startLine": 10,
+        "startChar": 11,
+        "endLine": 10,
+        "endChar": 23
+      },
+      "revId": "2c1f837a7eaadb4f1231aec2c9951cdf6e405e29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f13f5d85_a89815f5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 19
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2025-09-19T15:39:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3ca510f7_7bf91fe5",
+      "range": {
+        "startLine": 10,
+        "startChar": 38,
+        "endLine": 10,
+        "endChar": 48
       },
       "revId": "2c1f837a7eaadb4f1231aec2c9951cdf6e405e29",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
@@ -139,6 +235,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "25fbb553_8b0db56c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 19
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2025-09-19T15:39:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "76d025ea_6d2ef354",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 3
+      },
+      "revId": "2c1f837a7eaadb4f1231aec2c9951cdf6e405e29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a9532f05_6915df35",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 19
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2025-09-19T15:39:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "04c6b660_063af022",
+      "range": {
+        "startLine": 12,
+        "startChar": 42,
+        "endLine": 12,
+        "endChar": 53
+      },
+      "revId": "2c1f837a7eaadb4f1231aec2c9951cdf6e405e29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "25c995f6_d20e32d2",
@@ -152,6 +296,30 @@
       "writtenOn": "2025-09-19T14:31:08Z",
       "side": 1,
       "message": "is this still correct? As I see the code uses the command value to create an enum from it (by converting it to the uppercase). However, does it also convert dashes to underscore?",
+      "range": {
+        "startLine": 14,
+        "startChar": 2,
+        "endLine": 14,
+        "endChar": 13
+      },
+      "revId": "2c1f837a7eaadb4f1231aec2c9951cdf6e405e29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "01e0a003_386a72b8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 19
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2025-09-19T15:39:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "25c995f6_d20e32d2",
       "range": {
         "startLine": 14,
         "startChar": 2,
@@ -202,6 +370,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "db2a950f_dc9204bf",
+        "filename": "java/com/google/gerrit/pgm/init/InitAIPrompt.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2025-09-19T15:39:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bc3494c8_ddebce42",
+      "range": {
+        "startLine": 64,
+        "startChar": 0,
+        "endLine": 72,
+        "endChar": 7
+      },
+      "revId": "2c1f837a7eaadb4f1231aec2c9951cdf6e405e29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4d017e82_9305b370",
@@ -215,6 +407,30 @@
       "writtenOn": "2025-09-19T14:31:08Z",
       "side": 1,
       "message": "Why not `GetAiPrompt`? I mean the word \"prompt\" may not be AI specific.",
+      "range": {
+        "startLine": 176,
+        "startChar": 39,
+        "endLine": 176,
+        "endChar": 48
+      },
+      "revId": "2c1f837a7eaadb4f1231aec2c9951cdf6e405e29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2b690159_291b5496",
+        "filename": "java/com/google/gerrit/server/restapi/change/ChangeRestApiModule.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2025-09-19T15:39:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4d017e82_9305b370",
       "range": {
         "startLine": 176,
         "startChar": 39,
@@ -248,6 +464,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fc3384a0_f27c528c",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetPrompt.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2025-09-19T15:39:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "56dd410a_755432f0",
+      "range": {
+        "startLine": 38,
+        "startChar": 60,
+        "endLine": 39,
+        "endChar": 32
+      },
+      "revId": "2c1f837a7eaadb4f1231aec2c9951cdf6e405e29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c12328e2_378df1fe",
@@ -261,6 +501,30 @@
       "writtenOn": "2025-09-19T14:31:08Z",
       "side": 1,
       "message": "When these are hardcoded here then it also means double maintenance: if a new enum constant is added to the `CommandType` enum then we need to fix this place too! Most likely we will forget to do it and the code quality starts to degrade.\n\nEach `enum` in Java implicitly has the `values()` method which can be used to list all of its values.",
+      "range": {
+        "startLine": 72,
+        "startChar": 60,
+        "endLine": 73,
+        "endChar": 31
+      },
+      "revId": "2c1f837a7eaadb4f1231aec2c9951cdf6e405e29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e7aa493_992a3857",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetPrompt.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2025-09-19T15:39:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c12328e2_378df1fe",
       "range": {
         "startLine": 72,
         "startChar": 60,
@@ -288,6 +552,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2624c99f_ea5b6d9b",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetPrompt.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2025-09-19T15:39:33Z",
+      "side": 1,
+      "message": "Currently, in `Create AI Review Prompt` is showing patch content. So this enum handles that part.",
+      "parentUuid": "70acd89b_f6563c81",
+      "revId": "2c1f837a7eaadb4f1231aec2c9951cdf6e405e29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0d7cdc19_619e7f7f",
@@ -301,6 +583,24 @@
       "writtenOn": "2025-09-19T14:31:08Z",
       "side": 1,
       "message": "Missing license header",
+      "revId": "2c1f837a7eaadb4f1231aec2c9951cdf6e405e29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6f376b6e_3cd13ac6",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/GetPromptIT.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2025-09-19T15:39:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d7cdc19_619e7f7f",
       "revId": "2c1f837a7eaadb4f1231aec2c9951cdf6e405e29",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -328,6 +628,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "82e4338e_88fb5a79",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/GetPromptIT.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2025-09-19T15:39:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4e3c1870_48896c1e",
+      "range": {
+        "startLine": 38,
+        "startChar": 33,
+        "endLine": 38,
+        "endChar": 39
+      },
+      "revId": "2c1f837a7eaadb4f1231aec2c9951cdf6e405e29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6348559f_2d71cb71",
@@ -341,6 +665,24 @@
       "writtenOn": "2025-09-19T14:31:08Z",
       "side": 1,
       "message": "why does this file start with an empty line?",
+      "revId": "2c1f837a7eaadb4f1231aec2c9951cdf6e405e29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ebb6183d_bf8da93b",
+        "filename": "resources/com/google/gerrit/pgm/init/prompt/code_review_prompt_template.txt",
+        "patchSetId": 19
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2025-09-19T15:39:33Z",
+      "side": 1,
+      "message": "That\u0027s how it is in the current impl and shown on UI so i did not change it to maintain consistency.",
+      "parentUuid": "6348559f_2d71cb71",
       "revId": "2c1f837a7eaadb4f1231aec2c9951cdf6e405e29",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

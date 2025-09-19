@@ -558,6 +558,7 @@ const appThemeCss = safeStyleSheet`
     --switch-color-on-primary: #ffffff;
     --switch-color-primary-container: #d7e2ff;
     --switch-color-on-primary-container: #ffffff;
+    --switch-disabled-track-color: #000;
   }
   @media screen and (max-width: 50em) {
     html {

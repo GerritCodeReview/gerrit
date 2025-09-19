@@ -159,7 +159,7 @@ suite('gr-patch-range-select tests', () => {
       {
         triggerText: 'Base',
         value: PARENT,
-        bottomText: undefined,
+        bottomText: '',
         text: 'Base | ',
       } as DropdownItem,
     ];

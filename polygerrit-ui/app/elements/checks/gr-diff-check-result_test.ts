@@ -10,28 +10,16 @@ import '../../test/common-test-setup';
 import {queryAndAssert} from '../../utils/common-util';
 import './gr-diff-check-result';
 import {GrDiffCheckResult} from './gr-diff-check-result';
-import {getAppContext} from '../../services/app-context';
-import {KnownExperimentId} from '../../services/flags/flags';
 import {GrButton} from '../shared/gr-button/gr-button';
 import {suggestionsServiceToken} from '../../services/suggestions/suggestions-service';
 import {testResolver} from '../../test/common-test-setup';
 
 suite('gr-diff-check-result tests', () => {
   let element: GrDiffCheckResult;
-  let flagsService: any;
   let suggestionsService: any;
 
   setup(async () => {
-    flagsService = getAppContext().flagsService;
     suggestionsService = testResolver(suggestionsServiceToken);
-
-    // Enable AI fix feature flag
-    sinon
-      .stub(flagsService, 'isEnabled')
-      .callsFake(
-        ((id: KnownExperimentId) =>
-          id === KnownExperimentId.GET_AI_FIX) as typeof flagsService.isEnabled
-      );
 
     sinon
       .stub(suggestionsService, 'isGeneratedSuggestedFixEnabled')

@@ -1153,9 +1153,6 @@ suite('gr-comment tests', () => {
 
   suite('autocompleteComment', () => {
     setup(async () => {
-      stubFlags('isEnabled')
-        .withArgs(KnownExperimentId.COMMENT_AUTOCOMPLETION)
-        .returns(true);
       element.autocompleteEnabled = true;
       element.comment = createDraft();
       element.messageText = 'test message';

@@ -422,6 +422,7 @@ suite('gr-change-view tests', () => {
           <section class="tabContent">
             <div>
               <gr-file-list-header id="fileListHeader"> </gr-file-list-header>
+              <gr-revision-parents> </gr-revision-parents>
               <gr-file-list id="fileList"> </gr-file-list>
             </div>
           </section>

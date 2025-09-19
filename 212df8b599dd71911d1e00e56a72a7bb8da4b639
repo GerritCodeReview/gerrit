@@ -52,6 +52,24 @@
       "parentUuid": "7c6f700b_7879712c",
       "revId": "212df8b599dd71911d1e00e56a72a7bb8da4b639",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "66a71568_ffdeb1d7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-09-19T07:50:54Z",
+      "side": 1,
+      "message": "Also we should update other usages of \u003cmd-outlined-select\u003e as well in another CL to set the attribute instead of property @thomasmulhall410@yahoo.com",
+      "parentUuid": "b7fee2b6_d6a39804",
+      "revId": "212df8b599dd71911d1e00e56a72a7bb8da4b639",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

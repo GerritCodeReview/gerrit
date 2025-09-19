@@ -329,7 +329,7 @@ export class GrRepo extends LitElement {
         <span class="value">
           <md-outlined-select
             id="stateSelect"
-            .value=${this.repoConfig?.state}
+            value=${this.repoConfig?.state ?? ''}
             ?disabled=${this.readOnly}
             @change=${this.handleStateSelectChange}
           >
@@ -353,7 +353,7 @@ export class GrRepo extends LitElement {
         <span class="value">
           <md-outlined-select
             id="submitTypeSelect"
-            .value=${this.repoConfig?.submit_type}
+            value=${this.repoConfig?.submit_type ?? ''}
             ?disabled=${this.readOnly}
             @change=${this.handleSubmitTypeSelectChange}
           >
@@ -377,7 +377,7 @@ export class GrRepo extends LitElement {
         <span class="value">
           <md-outlined-select
             id="contentMergeSelect"
-            .value=${this.repoConfig?.use_content_merge?.configured_value}
+            value=${this.repoConfig?.use_content_merge?.configured_value ?? ''}
             ?disabled=${this.readOnly}
             @change=${this.handleContentMergeSelectChange}
           >
@@ -403,8 +403,8 @@ export class GrRepo extends LitElement {
         <span class="value">
           <md-outlined-select
             id="newChangeSelect"
-            .value=${this.repoConfig?.create_new_change_for_all_not_in_target
-              ?.configured_value}
+            value=${this.repoConfig?.create_new_change_for_all_not_in_target
+              ?.configured_value ?? ''}
             ?disabled=${this.readOnly}
             @change=${this.handleNewChangeSelectChange}
           >
@@ -430,7 +430,7 @@ export class GrRepo extends LitElement {
         <span class="value">
           <md-outlined-select
             id="requireChangeIdSelect"
-            .value=${this.repoConfig?.require_change_id?.configured_value}
+            value=${this.repoConfig?.require_change_id?.configured_value ?? ''}
             ?disabled=${this.readOnly}
             @change=${this.handleRequireChangeIdSelectChange}
           >
@@ -459,7 +459,7 @@ export class GrRepo extends LitElement {
         <span class="value">
           <md-outlined-select
             id="enableSignedPush"
-            .value=${this.repoConfig?.enable_signed_push?.configured_value}
+            value=${this.repoConfig?.enable_signed_push?.configured_value ?? ''}
             ?disabled=${this.readOnly}
             @change=${this.handleEnableSignedPushChange}
           >
@@ -488,7 +488,8 @@ export class GrRepo extends LitElement {
         <span class="value">
           <md-outlined-select
             id="requireSignedPush"
-            .value=${this.repoConfig?.require_signed_push?.configured_value}
+            value=${this.repoConfig?.require_signed_push?.configured_value ??
+            ''}
             ?disabled=${this.readOnly}
             @change=${this.handleRequireSignedPushChange}
           >
@@ -516,7 +517,8 @@ export class GrRepo extends LitElement {
         <span class="value">
           <md-outlined-select
             id="rejectImplicitMergesSelect"
-            .value=${this.repoConfig?.reject_implicit_merges?.configured_value}
+            value=${this.repoConfig?.reject_implicit_merges?.configured_value ??
+            ''}
             ?disabled=${this.readOnly}
             @change=${this.handleRejectImplicitMergeSelectChange}
           >
@@ -544,8 +546,8 @@ export class GrRepo extends LitElement {
         <span class="value">
           <md-outlined-select
             id="unRegisteredCcSelect"
-            .value=${this.repoConfig?.enable_reviewer_by_email
-              ?.configured_value}
+            value=${this.repoConfig?.enable_reviewer_by_email
+              ?.configured_value ?? ''}
             ?disabled=${this.readOnly}
             @change=${this.handleUnRegisteredCcSelectChange}
           >
@@ -571,7 +573,7 @@ export class GrRepo extends LitElement {
         <span class="value">
           <md-outlined-select
             id="setAllnewChangesPrivateByDefaultSelect"
-            .value=${this.repoConfig?.private_by_default?.configured_value}
+            value=${this.repoConfig?.private_by_default?.configured_value ?? ''}
             ?disabled=${this.readOnly}
             @change=${this.handleSetAllNewChangesPrivateByDefaultSelectChange}
           >
@@ -597,8 +599,8 @@ export class GrRepo extends LitElement {
         <span class="value">
           <md-outlined-select
             id="setAllNewChangesWorkInProgressByDefaultSelect"
-            .value=${this.repoConfig?.work_in_progress_by_default
-              ?.configured_value}
+            value=${this.repoConfig?.work_in_progress_by_default
+              ?.configured_value ?? ''}
             ?disabled=${this.readOnly}
             @change=${this
               .handleSetAllNewChangesWorkInProgressByDefaultSelectChange}
@@ -651,8 +653,8 @@ export class GrRepo extends LitElement {
         <span class="value">
           <md-outlined-select
             id="matchAuthoredDateWithCommitterDateSelect"
-            .value=${this.repoConfig?.match_author_to_committer_date
-              ?.configured_value}
+            value=${this.repoConfig?.match_author_to_committer_date
+              ?.configured_value ?? ''}
             ?disabled=${this.readOnly}
             @change=${this.handleMatchAuthoredDateWithCommitterDateSelectChange}
           >
@@ -678,7 +680,8 @@ export class GrRepo extends LitElement {
         <span class="value">
           <md-outlined-select
             id="rejectEmptyCommitSelect"
-            .value=${this.repoConfig?.reject_empty_commit?.configured_value}
+            value=${this.repoConfig?.reject_empty_commit?.configured_value ??
+            ''}
             ?disabled=${this.readOnly}
             @change=${this.handleRejectEmptyCommitSelectChange}
           >
@@ -706,8 +709,8 @@ export class GrRepo extends LitElement {
         <span class="value">
           <md-outlined-select
             id="contributorAgreementSelect"
-            .value=${this.repoConfig?.use_contributor_agreements
-              ?.configured_value}
+            value=${this.repoConfig?.use_contributor_agreements
+              ?.configured_value ?? ''}
             ?disabled=${this.readOnly}
             @change=${this.handleUseContributorAgreementsChange}
           >
@@ -733,7 +736,7 @@ export class GrRepo extends LitElement {
         <span class="value">
           <md-outlined-select
             id="useSignedOffBySelect"
-            .value=${this.repoConfig?.use_signed_off_by?.configured_value}
+            value=${this.repoConfig?.use_signed_off_by?.configured_value ?? ''}
             ?disabled=${this.readOnly}
             @change=${this.handleUseSignedOffBySelectChange}
           >

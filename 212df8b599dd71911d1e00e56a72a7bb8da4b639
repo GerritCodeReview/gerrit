@@ -16,6 +16,24 @@
       "message": "@brohlfs@google.com / @dhruvsri@google.com hi, i\u0027m wondering if you know how i can fix the tests? My issue is that line 784 which is `queryAndAssert\u003cMdOutlinedSelect\u003e(element, \u0027#force\u0027).value` is returning \u0027\u0027. It appears element.rule.value.action isn\u0027t getting set in time, at least in computeForceOptions action is undefined so it hits []. I have spent all day trying to fix it with no avail. So i\u0027m wondering if you two know?",
       "revId": "212df8b599dd71911d1e00e56a72a7bb8da4b639",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7c6f700b_7879712c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-09-19T07:20:06Z",
+      "side": 1,
+      "message": "Unresolving",
+      "parentUuid": "65dd687e_06bb3fc6",
+      "revId": "212df8b599dd71911d1e00e56a72a7bb8da4b639",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

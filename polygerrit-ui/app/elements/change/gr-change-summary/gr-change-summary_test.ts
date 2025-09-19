@@ -59,22 +59,34 @@ suite('gr-change-summary test', () => {
     assert.shadowDom.equal(
       element,
       /* HTML */ `<div>
-        <table class="info">
-          <tbody>
-            <tr>
-              <td class="key">Comments</td>
-              <td class="value">
-                <div class="value-content">
-                  <gr-comments-summary
-                    clickablechips=""
-                    showcommentcategoryname=""
-                  ></gr-comments-summary>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div> `
+          <table class="info">
+            <tbody>
+              <tr>
+                <td class="key">Comments</td>
+                <td class="value">
+                  <div class="value-content">
+                    <gr-comments-summary
+                      clickablechips=""
+                      showcommentcategoryname=""
+                    ></gr-comments-summary>
+                    <gr-button
+                      aria-disabled="false"
+                      link=""
+                      role="button"
+                      tabindex="0"
+                    >
+                      Create AI Review Prompt
+                    </gr-button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <dialog id="aiPromptModal" tabindex="-1">
+          <gr-ai-prompt-dialog id="aiPromptDialog" role="dialog">
+          </gr-ai-prompt-dialog>
+        </dialog> `
     );
   });
 

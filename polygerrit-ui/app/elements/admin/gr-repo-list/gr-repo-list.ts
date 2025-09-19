@@ -36,6 +36,7 @@ import {resolve} from '../../../models/dependency';
 import {assertIsDefined} from '../../../utils/common-util';
 import {GrCreateChangeDialog} from '../gr-create-change-dialog/gr-create-change-dialog';
 import {BindValueChangeEvent} from '../../../types/events';
+import '../../shared/gr-repo-branch-picker/gr-repo-branch-picker';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -129,6 +130,11 @@ export class GrRepoList extends LitElement {
         .readOnly {
           white-space: nowrap;
         }
+        @media screen and (max-width: 50em) {
+          #repoBranchPicker {
+            height: 90vh;
+          }
+        }
       `,
     ];
   }
@@ -196,6 +202,7 @@ export class GrRepoList extends LitElement {
       </dialog>
       <dialog id="createModal" tabindex="-1">
         <gr-dialog
+          id="repoBranchPicker"
           confirm-label="Next"
           @confirm=${this.pickerConfirm}
           @cancel=${() => {

@@ -34,6 +34,24 @@
       "parentUuid": "65dd687e_06bb3fc6",
       "revId": "212df8b599dd71911d1e00e56a72a7bb8da4b639",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b7fee2b6_d6a39804",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-09-19T07:49:05Z",
+      "side": 1,
+      "message": "Most usages I found are actually setting the attribute `value` instead of the proprety.\n\nThen to fetch you can do `getAttribute(value)` instead of `.value`.\n\nSo specifically\n\n```\nmd-outlined-select\n        id\u003d\"labelMin\"\n        value\u003d${convertToString(this.rule?.value?.min)}\n        ?disabled\u003d${!this.editing}\n        @change\u003d${this.handleMinChange}\n      \u003e\n```\n\nThen in the test you should do \n\n```\nqueryAndAssert(element,\u0027#force\u0027).getAttribute(\u0027value\u0027)\n```",
+      "parentUuid": "7c6f700b_7879712c",
+      "revId": "212df8b599dd71911d1e00e56a72a7bb8da4b639",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

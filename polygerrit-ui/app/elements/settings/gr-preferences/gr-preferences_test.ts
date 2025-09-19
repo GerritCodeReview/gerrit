@@ -85,7 +85,7 @@ suite('gr-preferences tests', () => {
             <section>
               <label class="title" for="themeSelect"> Theme </label>
               <span class="value">
-                <md-outlined-select>
+                <md-outlined-select value="LIGHT">
                   <md-select-option md-menu-item="" tabindex="0" value="AUTO">
                     <div slot="headline">Auto (based on OS prefs)</div>
                   </md-select-option>
@@ -108,7 +108,7 @@ suite('gr-preferences tests', () => {
                 Changes per page
               </label>
               <span class="value">
-                <md-outlined-select>
+                <md-outlined-select value="25">
                   <md-select-option md-menu-item="" tabindex="0" value="10">
                     <div slot="headline">10 rows per page</div>
                   </md-select-option>
@@ -134,7 +134,7 @@ suite('gr-preferences tests', () => {
                 Date/time format
               </label>
               <span class="value">
-                <md-outlined-select>
+                <md-outlined-select value="UK">
                   <md-select-option md-menu-item="" tabindex="0" value="STD">
                     <div slot="headline">Jun 3 ; Jun 3, 2016</div>
                   </md-select-option>
@@ -156,7 +156,7 @@ suite('gr-preferences tests', () => {
                     <div slot="headline">03/06 ; 03/06/2016</div>
                   </md-select-option>
                 </md-outlined-select>
-                <md-outlined-select>
+                <md-outlined-select value="HHMM_12">
                   <md-select-option
                     data-aria-selected="true"
                     md-menu-item=""
@@ -180,7 +180,7 @@ suite('gr-preferences tests', () => {
                 Email notifications
               </label>
               <span class="value">
-                <md-outlined-select>
+                <md-outlined-select value="ENABLED">
                   <md-select-option
                     md-menu-item=""
                     tabindex="0"
@@ -213,7 +213,7 @@ suite('gr-preferences tests', () => {
                 Email format
               </label>
               <span class="value">
-                <md-outlined-select>
+                <md-outlined-select value="HTML_PLAINTEXT">
                   <md-select-option
                     data-aria-selected="true"
                     md-menu-item=""
@@ -261,7 +261,7 @@ suite('gr-preferences tests', () => {
             <section>
               <span class="title"> Diff view </span>
               <span class="value">
-                <md-outlined-select>
+                <md-outlined-select value="UNIFIED_DIFF">
                   <md-select-option
                     md-menu-item=""
                     tabindex="0"

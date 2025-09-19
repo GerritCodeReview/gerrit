@@ -53,7 +53,7 @@ suite('gr-diff-preferences tests', () => {
         <section>
           <label class="title" for="contextLineSelect"> Context </label>
           <span class="value">
-            <md-outlined-select id="contextSelect">
+            <md-outlined-select id="contextSelect" value="10">
               <md-select-option md-menu-item="" tabindex="0" value="3">
                 <div slot="headline">3 lines</div>
               </md-select-option>
@@ -168,7 +168,7 @@ suite('gr-diff-preferences tests', () => {
               Ignore Whitespace
             </label>
             <span class="value">
-              <md-outlined-select id="contextSelect">
+              <md-outlined-select id="contextSelect" value="IGNORE_NONE">
                 <md-select-option
                   data-aria-selected="true"
                   md-menu-item=""

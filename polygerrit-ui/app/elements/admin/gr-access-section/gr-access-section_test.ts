@@ -87,7 +87,8 @@ suite('gr-access-section tests', () => {
                     role="button"
                     tabindex="0"
                   >
-                    <gr-icon icon="edit" id="icon" small filled></gr-icon>
+                    <gr-icon filled="" icon="edit" id="icon" small="">
+                    </gr-icon>
                   </gr-button>
                 </div>
                 <md-outlined-text-field
@@ -111,46 +112,103 @@ suite('gr-access-section tests', () => {
                 <gr-permission> </gr-permission>
                 <div id="addPermission">
                   Add permission:
-                  <select id="permissionSelect">
-                    <option value="label-Code-Review">Label Code-Review</option>
-                    <option value="labelAs-Code-Review">
-                      Label Code-Review (On Behalf Of)
-                    </option>
-                    <option value="removeLabel-Code-Review">
-                      Remove Label Code-Review
-                    </option>
-                    <option value="abandon">Abandon</option>
-                    <option value="addPatchSet">Add Patch Set</option>
-                    <option value="create">Create Reference</option>
-                    <option value="createSignedTag">Create Signed Tag</option>
-                    <option value="createTag">Create Annotated Tag</option>
-                    <option value="delete">Delete Reference</option>
-                    <option value="deleteChanges">Delete Changes</option>
-                    <option value="deleteOwnChanges">Delete Own Changes</option>
-                    <option value="editHashtags">Edit Hashtags</option>
-                    <option value="editTopicName">Edit Topic Name</option>
-                    <option value="forgeAuthor">Forge Author Identity</option>
-                    <option value="forgeCommitter">
-                      Forge Committer Identity
-                    </option>
-                    <option value="forgeServerAsCommitter">
-                      Forge Server Identity
-                    </option>
-                    <option value="owner">Owner</option>
-                    <option value="push">Push</option>
-                    <option value="pushMerge">Push Merge Commit</option>
-                    <option value="rebase">Rebase</option>
-                    <option value="removeReviewer">Remove Reviewer</option>
-                    <option value="revert">Revert</option>
-                    <option value="submit">Submit</option>
-                    <option value="submitAs">Submit (On Behalf Of)</option>
-                    <option value="toggleWipState">
-                      Toggle Work In Progress State
-                    </option>
-                    <option value="viewPrivateChanges">
-                      View Private Changes
-                    </option>
-                  </select>
+                  <md-outlined-select
+                    id="permissionSelect"
+                    value="label-Code-Review"
+                  >
+                    <md-select-option md-menu-item="" value="label-Code-Review">
+                      <div slot="headline">Label Code-Review</div>
+                    </md-select-option>
+                    <md-select-option
+                      md-menu-item=""
+                      value="labelAs-Code-Review"
+                    >
+                      <div slot="headline">
+                        Label Code-Review (On Behalf Of)
+                      </div>
+                    </md-select-option>
+                    <md-select-option
+                      md-menu-item=""
+                      value="removeLabel-Code-Review"
+                    >
+                      <div slot="headline">Remove Label Code-Review</div>
+                    </md-select-option>
+                    <md-select-option md-menu-item="" value="abandon">
+                      <div slot="headline">Abandon</div>
+                    </md-select-option>
+                    <md-select-option md-menu-item="" value="addPatchSet">
+                      <div slot="headline">Add Patch Set</div>
+                    </md-select-option>
+                    <md-select-option md-menu-item="" value="create">
+                      <div slot="headline">Create Reference</div>
+                    </md-select-option>
+                    <md-select-option md-menu-item="" value="createSignedTag">
+                      <div slot="headline">Create Signed Tag</div>
+                    </md-select-option>
+                    <md-select-option md-menu-item="" value="createTag">
+                      <div slot="headline">Create Annotated Tag</div>
+                    </md-select-option>
+                    <md-select-option md-menu-item="" value="delete">
+                      <div slot="headline">Delete Reference</div>
+                    </md-select-option>
+                    <md-select-option md-menu-item="" value="deleteChanges">
+                      <div slot="headline">Delete Changes</div>
+                    </md-select-option>
+                    <md-select-option md-menu-item="" value="deleteOwnChanges">
+                      <div slot="headline">Delete Own Changes</div>
+                    </md-select-option>
+                    <md-select-option md-menu-item="" value="editHashtags">
+                      <div slot="headline">Edit Hashtags</div>
+                    </md-select-option>
+                    <md-select-option md-menu-item="" value="editTopicName">
+                      <div slot="headline">Edit Topic Name</div>
+                    </md-select-option>
+                    <md-select-option md-menu-item="" value="forgeAuthor">
+                      <div slot="headline">Forge Author Identity</div>
+                    </md-select-option>
+                    <md-select-option md-menu-item="" value="forgeCommitter">
+                      <div slot="headline">Forge Committer Identity</div>
+                    </md-select-option>
+                    <md-select-option
+                      md-menu-item=""
+                      value="forgeServerAsCommitter"
+                    >
+                      <div slot="headline">Forge Server Identity</div>
+                    </md-select-option>
+                    <md-select-option md-menu-item="" value="owner">
+                      <div slot="headline">Owner</div>
+                    </md-select-option>
+                    <md-select-option md-menu-item="" value="push">
+                      <div slot="headline">Push</div>
+                    </md-select-option>
+                    <md-select-option md-menu-item="" value="pushMerge">
+                      <div slot="headline">Push Merge Commit</div>
+                    </md-select-option>
+                    <md-select-option md-menu-item="" value="rebase">
+                      <div slot="headline">Rebase</div>
+                    </md-select-option>
+                    <md-select-option md-menu-item="" value="removeReviewer">
+                      <div slot="headline">Remove Reviewer</div>
+                    </md-select-option>
+                    <md-select-option md-menu-item="" value="revert">
+                      <div slot="headline">Revert</div>
+                    </md-select-option>
+                    <md-select-option md-menu-item="" value="submit">
+                      <div slot="headline">Submit</div>
+                    </md-select-option>
+                    <md-select-option md-menu-item="" value="submitAs">
+                      <div slot="headline">Submit (On Behalf Of)</div>
+                    </md-select-option>
+                    <md-select-option md-menu-item="" value="toggleWipState">
+                      <div slot="headline">Toggle Work In Progress State</div>
+                    </md-select-option>
+                    <md-select-option
+                      md-menu-item=""
+                      value="viewPrivateChanges"
+                    >
+                      <div slot="headline">View Private Changes</div>
+                    </md-select-option>
+                  </md-outlined-select>
                   <gr-button
                     aria-disabled="false"
                     id="addBtn"
@@ -575,8 +633,18 @@ suite('gr-access-section tests', () => {
 
       test('add permission', async () => {
         element.editing = true;
-        queryAndAssert<HTMLSelectElement>(element, '#permissionSelect').value =
-          'label-Code-Review';
+        let permissionSelect = queryAndAssert<HTMLSelectElement>(
+          element,
+          '#permissionSelect'
+        );
+        permissionSelect.value = 'label-Code-Review';
+        permissionSelect.dispatchEvent(
+          new CustomEvent('change', {
+            composed: true,
+            bubbles: true,
+          })
+        );
+        await element.updateComplete;
         assert.equal(element.permissions!.length, 1);
         assert.equal(Object.keys(element.section!.value.permissions).length, 1);
         queryAndAssert<GrButton>(element, '#addBtn').click();
@@ -603,8 +671,18 @@ suite('gr-access-section tests', () => {
           permission.value
         );
 
-        queryAndAssert<HTMLSelectElement>(element, '#permissionSelect').value =
-          'abandon';
+        permissionSelect = queryAndAssert<HTMLSelectElement>(
+          element,
+          '#permissionSelect'
+        );
+        permissionSelect.value = 'abandon';
+        permissionSelect.dispatchEvent(
+          new CustomEvent('change', {
+            composed: true,
+            bubbles: true,
+          })
+        );
+        await element.updateComplete;
         queryAndAssert<GrButton>(element, '#addBtn').click();
         await element.updateComplete;
 

@@ -36,6 +36,7 @@ import {resolve} from '../../../models/dependency';
 import {assertIsDefined} from '../../../utils/common-util';
 import {GrCreateChangeDialog} from '../gr-create-change-dialog/gr-create-change-dialog';
 import {BindValueChangeEvent} from '../../../types/events';
+import '../../shared/gr-repo-branch-picker/gr-repo-branch-picker';
 
 declare global {
   interface HTMLElementTagNameMap {

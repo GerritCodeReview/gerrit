@@ -87,7 +87,6 @@ import './gr-checks-fix-preview';
 import {changeViewModelToken} from '../../models/views/change';
 import {formStyles} from '../../styles/form-styles';
 import {isDefined} from '../../types/types';
-import {KnownExperimentId} from '../../services/flags/flags';
 import {
   ReportSource,
   suggestionsServiceToken,
@@ -154,8 +153,6 @@ export class GrResultRow extends LitElement {
     this,
     suggestionsServiceToken
   );
-
-  private readonly flagsService = getAppContext().flagsService;
 
   constructor() {
     super();
@@ -628,7 +625,6 @@ export class GrResultRow extends LitElement {
     }
 
     if (
-      this.flagsService.isEnabled(KnownExperimentId.GET_AI_FIX) &&
       this.getSuggestionsService()?.isGeneratedSuggestedFixEnabled(
         this.result?.codePointers?.[0]?.path
       ) &&

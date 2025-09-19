@@ -16,6 +16,7 @@ import '../gr-confirm-delete-comment-dialog/gr-confirm-delete-comment-dialog';
 import '../gr-account-label/gr-account-label';
 import '../gr-suggestion-diff-preview/gr-suggestion-diff-preview';
 import '../gr-fix-suggestions/gr-fix-suggestions';
+import '@material/web/checkbox/checkbox';
 import {getAppContext} from '../../../services/app-context';
 import {css, html, LitElement, nothing, PropertyValues} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
@@ -95,6 +96,7 @@ import {
 } from '../../../services/suggestions/suggestions-service';
 import {ResponseCode, SuggestionsProvider} from '../../../api/suggestions';
 import {pluginLoaderToken} from '../gr-js-api-interface/gr-plugin-loader';
+import {MdCheckbox} from '@material/web/checkbox/checkbox';
 
 // visible for testing
 export const AUTO_SAVE_DEBOUNCE_DELAY_MS = 2000;
@@ -160,7 +162,7 @@ export class GrComment extends LitElement {
   container?: HTMLElement;
 
   @query('#resolvedCheckbox')
-  resolvedCheckbox?: HTMLInputElement;
+  resolvedCheckbox?: MdCheckbox;
 
   @query('#confirmDeleteModal')
   confirmDeleteModal?: HTMLDialogElement;
@@ -590,16 +592,12 @@ export class GrComment extends LitElement {
         .show-hide {
           margin-left: var(--spacing-s);
         }
-        /* just for a11y */
-        input.show-hide {
-          display: none;
+
+        .show-hide md-checkbox {
+          vertical-align: middle;
         }
-        label.show-hide {
-          cursor: pointer;
-          display: block;
-        }
-        label.show-hide gr-icon {
-          vertical-align: top;
+        .show-hide gr-icon {
+          vertical-align: middle;
         }
         :host([collapsed]) #container .body {
           padding-top: 0;
@@ -620,6 +618,8 @@ export class GrComment extends LitElement {
         }
         .resolve label {
           color: var(--comment-text-color);
+          display: flex;
+          align-items: center;
         }
         gr-dialog .main {
           display: flex;
@@ -672,6 +672,8 @@ export class GrComment extends LitElement {
           /** same height as header */
           --margin: calc(0px - var(--spacing-s));
           margin-right: var(--spacing-s);
+          display: flex;
+          align-items: center;
         }
         .suggestEdit gr-icon {
           color: inherit;
@@ -872,16 +874,12 @@ export class GrComment extends LitElement {
     const icon = this.collapsed ? 'expand_more' : 'expand_less';
     const ariaLabel = this.collapsed ? 'Expand' : 'Collapse';
     return html`
-      <div class="show-hide" tabindex="0">
-        <label class="show-hide" aria-label=${ariaLabel}>
-          <input
-            type="checkbox"
-            class="show-hide"
-            ?checked=${!!this.collapsed}
-            @change=${() => (this.collapsed = !this.collapsed)}
-          />
-          <gr-icon icon=${icon} id="icon"></gr-icon>
-        </label>
+      <div class="show-hide" tabindex="0" aria-label=${ariaLabel}>
+        <md-checkbox
+          ?checked=${!!this.collapsed}
+          @change=${() => (this.collapsed = !this.collapsed)}
+        ></md-checkbox>
+        <gr-icon icon=${icon} id="icon"></gr-icon>
       </div>
     `;
   }
@@ -1026,12 +1024,11 @@ export class GrComment extends LitElement {
         <div class="leftActions">
           <div class="action resolve">
             <label>
-              <input
-                type="checkbox"
+              <md-checkbox
                 id="resolvedCheckbox"
-                .checked=${!this.unresolved}
+                ?checked=${!this.unresolved}
                 @change=${this.handleToggleResolved}
-              />
+              ></md-checkbox>
               Resolved
             </label>
           </div>
@@ -1178,8 +1175,7 @@ export class GrComment extends LitElement {
     return html`
       <div class="action">
         <label title=${tooltip} class="suggestEdit">
-          <input
-            type="checkbox"
+          <md-checkbox
             id="generateSuggestCheckbox"
             ?checked=${this.generateSuggestion}
             @change=${() => {
@@ -1213,7 +1209,7 @@ export class GrComment extends LitElement {
                 }
               );
             }}
-          />
+          ></md-checkbox>
           Attach AI-suggested fix
           ${when(
             this.suggestionLoading,

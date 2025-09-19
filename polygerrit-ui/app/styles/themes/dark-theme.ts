@@ -133,6 +133,7 @@ const darkThemeCss = safeStyleSheet`
     --selection-background-color: rgba(161, 194, 250, 0.1);
     --tooltip-background-color: var(--gray-200);
     --section-header-background-color: var(--blue-tonal);
+    --gr-autogrow-textarea-disabled-color: #6c6c6c;
 
     /* comment background colors */
     --comment-background-color: #3c3f43;

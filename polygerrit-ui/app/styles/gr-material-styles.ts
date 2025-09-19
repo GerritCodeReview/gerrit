@@ -16,6 +16,7 @@ export const materialStyles = css`
     --md-sys-color-primary: var(--switch-color-primary);
     --md-sys-color-on-primary: var(--switch-color-on-primary);
     --md-sys-color-primary-container: var(--switch-color-primary-container);
+    --md-switch-disabled-track-color: var(--switch-disabled-track-color);
     --md-focus-ring-duration: 0s;
     --md-switch-handle-height: 12px;
     --md-switch-handle-width: 12px;

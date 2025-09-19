@@ -309,6 +309,7 @@ const darkThemeCss = safeStyleSheet`
     --select-primary: #c7c6cb;
     --select-secondary-container: #3d3d3f;
     --select-on-secondary-container: #d2d0d2;
+    --switch-disabled-track-color: #000;
 
     /* md-menu/md-menu-itme/md-focus-ring */
     --gr-dropdown-focus-ring-color: #c8c6c7;

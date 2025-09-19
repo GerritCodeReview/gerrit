@@ -2563,6 +2563,16 @@ valid JAR file, whose code would have access to cookies on the domain.
 For this reason `zip` format is always excluded from formats offered
 through the `Download` drop down or accessible in the REST API.
 
+[[flows]]
+=== Section flows
+
+[[flows.maxPerChange]]flows.maxPerChange::
++
+Controls how many flows can be created per change at most. 0 or negative values
+mean "unlimited".
++
+By default, `20`.
+
 [[gc]]
 === Section gc
 

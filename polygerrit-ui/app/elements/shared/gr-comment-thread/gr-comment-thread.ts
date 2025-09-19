@@ -1010,9 +1010,6 @@ export class GrCommentThread extends LitElement {
   }
 
   private shouldShowAIFixButton(): boolean {
-    if (!this.flagsService.isEnabled(KnownExperimentId.GET_AI_FIX)) {
-      return false;
-    }
     if (!this.thread || !this.account) return false;
     if (this.thread.comments.length !== 1) return false;
     const comment = this.thread.comments[0];

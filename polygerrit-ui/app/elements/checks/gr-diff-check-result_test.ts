@@ -25,14 +25,6 @@ suite('gr-diff-check-result tests', () => {
     flagsService = getAppContext().flagsService;
     suggestionsService = testResolver(suggestionsServiceToken);
 
-    // Enable AI fix feature flag
-    sinon
-      .stub(flagsService, 'isEnabled')
-      .callsFake(
-        ((id: KnownExperimentId) =>
-          id === KnownExperimentId.GET_AI_FIX) as typeof flagsService.isEnabled
-      );
-
     sinon
       .stub(suggestionsService, 'isGeneratedSuggestedFixEnabled')
       .returns(true);

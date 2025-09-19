@@ -325,14 +325,10 @@ export class GrPatchRangeSelect extends LitElement {
         this.createDropdownEntry(basePatch.num, 'Patchset ', basePatch.sha)
       );
 
-    const showParentsData = this.flags.isEnabled(
-      KnownExperimentId.REVISION_PARENTS_DATA
-    );
     dropdownContent.push({
       triggerText: isMerge ? 'Auto Merge' : 'Base',
       text: isMerge ? 'Auto Merge' : `Base | ${getParentCommit(rev, 0)}`,
-      bottomText:
-        showParentsData && !isMerge ? getParentInfoString(rev, 0) : undefined,
+      bottomText: !isMerge ? getParentInfoString(rev, 0) : undefined,
       value: PARENT,
     });
 
@@ -341,7 +337,7 @@ export class GrPatchRangeSelect extends LitElement {
         disabled: idx >= parentCount,
         triggerText: `Parent ${idx + 1}`,
         text: `Parent ${idx + 1} | ${getParentCommit(rev, idx)}`,
-        bottomText: showParentsData ? getParentInfoString(rev, idx) : undefined,
+        bottomText: getParentInfoString(rev, idx),
         mobileText: `Parent ${idx + 1}`,
         value: -(idx + 1),
       });

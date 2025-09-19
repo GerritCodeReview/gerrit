@@ -288,9 +288,6 @@ export class GrDiffCheckResult extends LitElement {
   }
 
   private shouldShowAIFixButton() {
-    if (!this.flagsService.isEnabled(KnownExperimentId.GET_AI_FIX)) {
-      return false;
-    }
     if (
       !this.getSuggestionsService()?.isGeneratedSuggestedFixEnabled(
         this.result?.codePointers?.[0].path

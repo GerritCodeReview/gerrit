@@ -581,28 +581,21 @@ export class GrChangeSummary extends LitElement {
                   showCommentCategoryName
                   clickableChips
                 ></gr-comments-summary>
-                ${when(
-                  this.flagsService.isEnabled(KnownExperimentId.GET_AI_PROMPT),
-                  () =>
-                    html`<gr-button link @click=${this.handleOpenAiPromptDialog}
-                      >Create AI Review Prompt</gr-button
-                    >`
-                )}
+                <gr-button link @click=${this.handleOpenAiPromptDialog}
+                  >Create AI Review Prompt</gr-button
+                >
               </div>
             </td>
           </tr>
           ${this.renderChecksSummary()}
         </table>
       </div>
-      ${when(
-        this.flagsService.isEnabled(KnownExperimentId.GET_AI_PROMPT),
-        () => html` <dialog id="aiPromptModal" tabindex="-1">
-          <gr-ai-prompt-dialog
-            id="aiPromptDialog"
-            @close=${this.handleAiPromptDialogClose}
-          ></gr-ai-prompt-dialog>
-        </dialog>`
-      )}
+      <dialog id="aiPromptModal" tabindex="-1">
+        <gr-ai-prompt-dialog
+          id="aiPromptDialog"
+          @close=${this.handleAiPromptDialogClose}
+        ></gr-ai-prompt-dialog>
+      </dialog>
     `;
   }
 

@@ -602,11 +602,6 @@ suite('gr-comment-thread tests', () => {
 
   suite('Get AI fix button', () => {
     setup(async () => {
-      const flagsService = getAppContext().flagsService;
-      sinon
-        .stub(flagsService, 'isEnabled')
-        .callsFake(id => id === KnownExperimentId.GET_AI_FIX);
-
       const suggestionsService = testResolver(suggestionsServiceToken);
       sinon
         .stub(suggestionsService, 'isGeneratedSuggestedFixEnabled')

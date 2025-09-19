@@ -1441,10 +1441,7 @@ export class GrChangeView extends LitElement {
           @collapse-diffs=${this.collapseAllDiffs}
         >
         </gr-file-list-header>
-        ${when(
-          this.flagService.isEnabled(KnownExperimentId.REVISION_PARENTS_DATA),
-          () => html`<gr-revision-parents></gr-revision-parents>`
-        )}
+        <gr-revision-parents></gr-revision-parents>
         <gr-file-list
           id="fileList"
           .change=${this.change}

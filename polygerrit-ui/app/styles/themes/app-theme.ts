@@ -300,6 +300,7 @@ const appThemeCss = safeStyleSheet`
     --selection-background-color: rgba(161, 194, 250, 0.1);
     --tooltip-background-color: var(--gray-900);
     --section-header-background-color: var(--blue-50);
+    --gr-autogrow-textarea-disabled-color: lightgrey;
 
     /* dashboard size background colors */
     --dashboard-size-xs: var(--gray-200);

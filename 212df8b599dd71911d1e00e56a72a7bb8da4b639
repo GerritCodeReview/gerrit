@@ -70,6 +70,24 @@
       "parentUuid": "b7fee2b6_d6a39804",
       "revId": "212df8b599dd71911d1e00e56a72a7bb8da4b639",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bbe8814e_c1e183d8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-09-19T08:35:16Z",
+      "side": 1,
+      "message": "Thanks, that works. I\u0027ve seen some places use .value. Although its odd that only #force one broke compared to #action that worked.\n\nI\u0027m not sure we need to change this everywhere. Since it works in the other places. It\u0027s just a workaround to use the attribute for #rule.",
+      "parentUuid": "66a71568_ffdeb1d7",
+      "revId": "212df8b599dd71911d1e00e56a72a7bb8da4b639",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -106,6 +106,24 @@
       "parentUuid": "bbe8814e_c1e183d8",
       "revId": "212df8b599dd71911d1e00e56a72a7bb8da4b639",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "545d019c_9d2bef7a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-09-19T08:42:58Z",
+      "side": 1,
+      "message": "i\u0027ve tested the other ones when i was building them out (unless you meant test using \"value\" as opposed to \".value\"). So switching to an attribute should be as easy as changing \".value\" to \"value\"",
+      "parentUuid": "c1326a95_65544327",
+      "revId": "212df8b599dd71911d1e00e56a72a7bb8da4b639",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

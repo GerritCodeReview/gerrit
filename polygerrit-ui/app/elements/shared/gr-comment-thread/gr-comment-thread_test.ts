@@ -8,7 +8,6 @@ import '../../../test/common-test-setup';
 import './gr-comment-thread';
 import {sortComments} from '../../../utils/comment-util';
 import {GrCommentThread} from './gr-comment-thread';
-import {getAppContext} from '../../../services/app-context';
 import {
   CommentInfo,
   CommentThread,
@@ -53,7 +52,6 @@ import {
 import {GerritView} from '../../../services/router/router-model';
 import {GrComment} from '../gr-comment/gr-comment';
 import {GrSuggestionTextarea} from '../gr-suggestion-textarea/gr-suggestion-textarea';
-import {KnownExperimentId} from '../../../services/flags/flags';
 import {suggestionsServiceToken} from '../../../services/suggestions/suggestions-service';
 
 const c1: CommentInfo = {
@@ -602,11 +600,6 @@ suite('gr-comment-thread tests', () => {
 
   suite('Get AI fix button', () => {
     setup(async () => {
-      const flagsService = getAppContext().flagsService;
-      sinon
-        .stub(flagsService, 'isEnabled')
-        .callsFake(id => id === KnownExperimentId.GET_AI_FIX);
-
       const suggestionsService = testResolver(suggestionsServiceToken);
       sinon
         .stub(suggestionsService, 'isGeneratedSuggestedFixEnabled')

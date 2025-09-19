@@ -83,7 +83,6 @@ import {
 import {userModelToken} from '../../../models/user/user-model';
 import {highlightServiceToken} from '../../../services/highlight/highlight-service';
 import {noAwait, waitUntil} from '../../../utils/async-util';
-import {KnownExperimentId} from '../../../services/flags/flags';
 import {
   ReportSource,
   suggestionsServiceToken,
@@ -282,8 +281,6 @@ export class GrCommentThread extends LitElement {
     resolve(this, highlightServiceToken),
     () => getAppContext().reportingService
   );
-
-  private readonly flagsService = getAppContext().flagsService;
 
   constructor() {
     super();
@@ -1010,9 +1007,6 @@ export class GrCommentThread extends LitElement {
   }
 
   private shouldShowAIFixButton(): boolean {
-    if (!this.flagsService.isEnabled(KnownExperimentId.GET_AI_FIX)) {
-      return false;
-    }
     if (!this.thread || !this.account) return false;
     if (this.thread.comments.length !== 1) return false;
     const comment = this.thread.comments[0];

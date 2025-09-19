@@ -57,7 +57,6 @@ import {
 } from '../../../models/change/change-model';
 import {changeViewModelToken} from '../../../models/views/change';
 import {fireNoBubbleNoCompose} from '../../../utils/event-util';
-import {FlagsService, KnownExperimentId} from '../../../services/flags/flags';
 import {userModelToken} from '../../../models/user/user-model';
 import {getCodeReviewLabel} from '../../../utils/label-util';
 import {
@@ -147,8 +146,6 @@ export class GrPatchRangeSelect extends LitElement {
 
   private readonly reporting: ReportingService =
     getAppContext().reportingService;
-
-  private readonly flags: FlagsService = getAppContext().flagsService;
 
   private readonly getUserModel = resolve(this, userModelToken);
 
@@ -325,14 +322,10 @@ export class GrPatchRangeSelect extends LitElement {
         this.createDropdownEntry(basePatch.num, 'Patchset ', basePatch.sha)
       );
 
-    const showParentsData = this.flags.isEnabled(
-      KnownExperimentId.REVISION_PARENTS_DATA
-    );
     dropdownContent.push({
       triggerText: isMerge ? 'Auto Merge' : 'Base',
       text: isMerge ? 'Auto Merge' : `Base | ${getParentCommit(rev, 0)}`,
-      bottomText:
-        showParentsData && !isMerge ? getParentInfoString(rev, 0) : undefined,
+      bottomText: !isMerge ? getParentInfoString(rev, 0) : undefined,
       value: PARENT,
     });
 
@@ -341,7 +334,7 @@ export class GrPatchRangeSelect extends LitElement {
         disabled: idx >= parentCount,
         triggerText: `Parent ${idx + 1}`,
         text: `Parent ${idx + 1} | ${getParentCommit(rev, idx)}`,
-        bottomText: showParentsData ? getParentInfoString(rev, idx) : undefined,
+        bottomText: getParentInfoString(rev, idx),
         mobileText: `Parent ${idx + 1}`,
         value: -(idx + 1),
       });

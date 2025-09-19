@@ -88,6 +88,24 @@
       "parentUuid": "66a71568_ffdeb1d7",
       "revId": "212df8b599dd71911d1e00e56a72a7bb8da4b639",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c1326a95_65544327",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-09-19T08:38:43Z",
+      "side": 1,
+      "message": "Can you manually test the other cases?\n\nWe should use one consistent way in the codebase. If it works with attribute always and with property sometimes and other usages I found use attribute as well, we should update to use attribute.",
+      "parentUuid": "bbe8814e_c1e183d8",
+      "revId": "212df8b599dd71911d1e00e56a72a7bb8da4b639",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

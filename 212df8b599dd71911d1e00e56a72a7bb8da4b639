@@ -124,6 +124,24 @@
       "parentUuid": "c1326a95_65544327",
       "revId": "212df8b599dd71911d1e00e56a72a7bb8da4b639",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d4f4242b_d89c7d60",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-09-19T12:00:33Z",
+      "side": 1,
+      "message": "\u003e So switching to an attribute should be as easy as changing \".value\" to \"value\"\n\nYeah that is exactly my suggestion 😊",
+      "parentUuid": "545d019c_9d2bef7a",
+      "revId": "212df8b599dd71911d1e00e56a72a7bb8da4b639",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

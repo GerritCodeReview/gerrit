@@ -154,7 +154,7 @@ export class GrPreferences extends LitElement {
             <label class="title" for="themeSelect">Theme</label>
             <span class="value">
               <md-outlined-select
-                .value=${this.prefs?.theme ?? AppTheme.AUTO}
+                value=${this.prefs?.theme ?? AppTheme.AUTO}
                 @change=${(e: Event) => {
                   const select = e.target as HTMLSelectElement;
                   this.prefs!.theme = select.value as AppTheme;
@@ -179,7 +179,7 @@ export class GrPreferences extends LitElement {
             >
             <span class="value">
               <md-outlined-select
-                .value=${convertToString(this.prefs?.changes_per_page)}
+                value=${convertToString(this.prefs?.changes_per_page)}
                 @change=${(e: Event) => {
                   const select = e.target as HTMLSelectElement;
                   this.prefs!.changes_per_page = Number(select.value) as
@@ -211,7 +211,7 @@ export class GrPreferences extends LitElement {
             >
             <span class="value">
               <md-outlined-select
-                .value=${convertToString(this.prefs?.date_format)}
+                value=${convertToString(this.prefs?.date_format)}
                 @change=${(e: Event) => {
                   const select = e.target as HTMLSelectElement;
                   this.prefs!.date_format = select.value as DateFormat;
@@ -235,7 +235,7 @@ export class GrPreferences extends LitElement {
                 </md-select-option>
               </md-outlined-select>
               <md-outlined-select
-                .value=${convertToString(this.prefs?.time_format)}
+                value=${convertToString(this.prefs?.time_format)}
                 @change=${(e: Event) => {
                   const select = e.target as HTMLSelectElement;
                   this.prefs!.time_format = select.value as TimeFormat;
@@ -257,7 +257,7 @@ export class GrPreferences extends LitElement {
             >
             <span class="value">
               <md-outlined-select
-                .value=${convertToString(this.prefs?.email_strategy)}
+                value=${convertToString(this.prefs?.email_strategy)}
                 @change=${(e: Event) => {
                   const select = e.target as HTMLSelectElement;
                   this.prefs!.email_strategy = select.value as EmailStrategy;
@@ -280,7 +280,7 @@ export class GrPreferences extends LitElement {
             <label class="title" for="emailFormatSelect">Email format</label>
             <span class="value">
               <md-outlined-select
-                .value=${convertToString(this.prefs?.email_format)}
+                value=${convertToString(this.prefs?.email_format)}
                 @change=${(e: Event) => {
                   const select = e.target as HTMLSelectElement;
                   this.prefs!.email_format = select.value as EmailFormat;
@@ -320,7 +320,7 @@ export class GrPreferences extends LitElement {
             <span class="title">Diff view</span>
             <span class="value">
               <md-outlined-select
-                .value=${convertToString(this.prefs?.diff_view)}
+                value=${convertToString(this.prefs?.diff_view)}
                 @change=${(e: Event) => {
                   const select = e.target as HTMLSelectElement;
                   this.prefs!.diff_view = select.value as DiffViewMode;

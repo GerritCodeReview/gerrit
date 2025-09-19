@@ -245,6 +245,7 @@ suite('gr-repo tests', () => {
                      <md-outlined-select
                        disabled=""
                        id="stateSelect"
+                       value="ACTIVE"
                      >
                        <md-select-option
                          md-menu-item=""
@@ -284,6 +285,7 @@ suite('gr-repo tests', () => {
                      <md-outlined-select
                        disabled=""
                        id="submitTypeSelect"
+                       value="INHERIT"
                      >
                        <md-select-option
                          md-menu-item=""
@@ -359,6 +361,7 @@ suite('gr-repo tests', () => {
                      <md-outlined-select
                        disabled=""
                        id="contentMergeSelect"
+                       value="FALSE"
                      >
                        <md-select-option
                          md-menu-item=""
@@ -398,6 +401,7 @@ suite('gr-repo tests', () => {
                      <md-outlined-select
                        disabled=""
                        id="newChangeSelect"
+                       value="FALSE"
                      >
                        <md-select-option
                          md-menu-item=""
@@ -437,6 +441,7 @@ suite('gr-repo tests', () => {
                      <md-outlined-select
                        disabled=""
                        id="requireChangeIdSelect"
+                       value="FALSE"
                      >
                        <md-select-option
                          md-menu-item=""
@@ -479,6 +484,7 @@ suite('gr-repo tests', () => {
                      <md-outlined-select
                        disabled=""
                        id="enableSignedPush"
+                       value="FALSE"
                      >
                        <md-select-option
                          md-menu-item=""
@@ -521,6 +527,7 @@ suite('gr-repo tests', () => {
                      <md-outlined-select
                        disabled=""
                        id="requireSignedPush"
+                       value="FALSE"
                      >
                        <md-select-option
                          md-menu-item=""
@@ -560,6 +567,7 @@ suite('gr-repo tests', () => {
                      <md-outlined-select
                        disabled=""
                        id="rejectImplicitMergesSelect"
+                       value="FALSE"
                      >
                        <md-select-option
                          md-menu-item=""
@@ -599,6 +607,7 @@ suite('gr-repo tests', () => {
                      <md-outlined-select
                        disabled=""
                        id="unRegisteredCcSelect"
+                       value="FALSE"
                      >
                        <md-select-option
                          md-menu-item=""
@@ -638,6 +647,7 @@ suite('gr-repo tests', () => {
                      <md-outlined-select
                        disabled=""
                        id="setAllnewChangesPrivateByDefaultSelect"
+                       value="FALSE"
                      >
                        <md-select-option
                          md-menu-item=""
@@ -677,6 +687,7 @@ suite('gr-repo tests', () => {
                      <md-outlined-select
                        disabled=""
                        id="setAllNewChangesWorkInProgressByDefaultSelect"
+                       value="FALSE"
                      >
                        <md-select-option
                          md-menu-item=""
@@ -733,6 +744,7 @@ suite('gr-repo tests', () => {
                      <md-outlined-select
                        disabled=""
                        id="matchAuthoredDateWithCommitterDateSelect"
+                       value="FALSE"
                      >
                        <md-select-option
                          md-menu-item=""
@@ -772,6 +784,7 @@ suite('gr-repo tests', () => {
                      <md-outlined-select
                        disabled=""
                        id="rejectEmptyCommitSelect"
+                       value="FALSE"
                      >
                        <md-select-option
                          md-menu-item=""
@@ -819,6 +832,7 @@ suite('gr-repo tests', () => {
                      <md-outlined-select
                        disabled=""
                        id="contributorAgreementSelect"
+                       value="FALSE"
                      >
                        <md-select-option
                          md-menu-item=""
@@ -858,6 +872,7 @@ suite('gr-repo tests', () => {
                      <md-outlined-select
                        disabled=""
                        id="useSignedOffBySelect"
+                       value="FALSE"
                      >
                        <md-select-option
                          md-menu-item=""

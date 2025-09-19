@@ -68,7 +68,10 @@ suite('gr-ai-prompt-dialog test', () => {
                </div>
              </div>
              <div class="context-selector">
-               <md-outlined-select label="Context">
+               <md-outlined-select
+                 label="Context"
+                 value="3"
+               >
                  <md-select-option md-menu-item="">
                    <div slot="headline">
                      3 lines (default)

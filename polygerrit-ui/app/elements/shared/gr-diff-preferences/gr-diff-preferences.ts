@@ -88,7 +88,7 @@ export class GrDiffPreferences extends LitElement {
           <span class="value">
             <md-outlined-select
               id="contextSelect"
-              .value=${convertToString(this.diffPrefs?.context)}
+              value=${convertToString(this.diffPrefs?.context)}
               @change=${(e: Event) => {
                 const select = e.target as HTMLSelectElement;
                 this.diffPrefs!.context = Number(select.value);
@@ -255,7 +255,7 @@ export class GrDiffPreferences extends LitElement {
             <span class="value">
               <md-outlined-select
                 id="contextSelect"
-                .value=${convertToString(this.diffPrefs?.ignore_whitespace)}
+                value=${convertToString(this.diffPrefs?.ignore_whitespace)}
                 @change=${(e: Event) => {
                   const select = e.target as HTMLSelectElement;
                   this.diffPrefs!.ignore_whitespace =

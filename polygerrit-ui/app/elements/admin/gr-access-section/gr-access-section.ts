@@ -34,6 +34,7 @@ import {assertIsDefined, queryAndAssert} from '../../../utils/common-util';
 import {MdOutlinedTextField} from '@material/web/textfield/outlined-text-field';
 import '@material/web/textfield/outlined-text-field';
 import {materialStyles} from '../../../styles/gr-material-styles';
+import {repeat} from 'lit/directives/repeat.js';
 
 const GLOBAL_NAME = 'GLOBAL_CAPABILITIES';
 
@@ -182,8 +183,10 @@ export class GrAccessSection extends LitElement {
           </div>
           <!-- end header -->
           <div class="sectionContent">
-            ${this.permissions?.map((permission, index) =>
-              this.renderPermission(permission, index)
+            ${repeat(
+              this.permissions ?? [],
+              perm => perm.id,
+              (permission, index) => this.renderPermission(permission, index)
             )}
             <div id="addPermission">
               Add permission:

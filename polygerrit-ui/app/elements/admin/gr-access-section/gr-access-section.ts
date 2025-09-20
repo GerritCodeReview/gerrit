@@ -347,10 +347,16 @@ export class GrAccessSection extends LitElement {
       return;
     }
     delete this.section?.value.permissions[this.permissions[index].id];
-    this.permissions = this.permissions
-      .slice(0, index)
-      .concat(this.permissions.slice(index + 1, this.permissions.length));
-  }
+    delete this.permissions[index];
+    // For some reason this is needed. If you have one array
+    // and delete it, it'll add undefined to it.
+    // We can't use splice as some reason it causes issues when deleting a
+    // permission that weren't saved to begin wtih. But ended up deleting
+    // two permissions (if you have two that weren't saved).
+    if (this.permissions[0] === undefined) {
+      this.permissions = [];
+    }
+    this.requestU
 
   computeLabelOptions() {
     const labelOptions = [];

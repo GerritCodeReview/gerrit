@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6dc74ec8_f669c4d4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-09-20T12:22:15Z",
+      "side": 1,
+      "message": "@brohlfs@google.com / @dhruvsri@google.com not sure if you know of a better fix or how to fix this better.\n\nSee the issue at https://imgur.com/a/nbtN2Yw\n\nWith this change it fixed the issue: https://imgur.com/a/tu3OaKM\n\nKinda feels hackish that i have to add a check for if the array is undefined, because delete will add that if there\u0027s one array left and you delete it. I just dunno a better fix. Using splice seems to have the same issue as the current code and i dunno why.",
+      "revId": "644940e1d2d68b72a07526a9b086edc90a43ac0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

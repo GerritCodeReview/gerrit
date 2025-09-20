@@ -33,6 +33,17 @@ import {LitElement, PropertyValues, html, css} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {BindValueChangeEvent, ValueChangedEvent} from '../../../types/events';
 import {assertIsDefined, queryAndAssert} from '../../../utils/common-util';
+<<<<<<< HEAD   (bde01520bb4537cd040e63fa0727fe1d46161cac Doc: Drop Java 6 related section in ldap.authentication)
+||||||| BASE   (c1f9068d22cdf75e559e14e53c761eda8dc93d23 Merge "Fix CheckReturnValue failures.")
+import {MdOutlinedTextField} from '@material/web/textfield/outlined-text-field';
+import '@material/web/textfield/outlined-text-field';
+import {materialStyles} from '../../../styles/gr-material-styles';
+=======
+import {MdOutlinedTextField} from '@material/web/textfield/outlined-text-field';
+import '@material/web/textfield/outlined-text-field';
+import {materialStyles} from '../../../styles/gr-material-styles';
+import {repeat} from 'lit/directives/repeat.js';
+>>>>>>> CHANGE (635019ed0fba111c5d1d3f554a491576b89806b7 gr-access-section: Fix bug with deleting permissions in hand)
 
 const GLOBAL_NAME = 'GLOBAL_CAPABILITIES';
 
@@ -186,8 +197,10 @@ export class GrAccessSection extends LitElement {
           </div>
           <!-- end header -->
           <div class="sectionContent">
-            ${this.permissions?.map((permission, index) =>
-              this.renderPermission(permission, index)
+            ${repeat(
+              this.permissions ?? [],
+              perm => perm.id,
+              (permission, index) => this.renderPermission(permission, index)
             )}
             <div id="addPermission">
               Add permission:

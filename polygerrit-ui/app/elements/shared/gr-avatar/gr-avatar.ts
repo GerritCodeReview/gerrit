@@ -8,8 +8,29 @@ import {AccountInfo} from '../../../types/common';
 import {getAppContext} from '../../../services/app-context';
 import {css, html, LitElement} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
-import {pluginLoaderToken} from '../gr-js-api-interface/gr-plugin-loader';
+<<<<<<< PATCH SET (3f827af8b92efa7c259cabafda293e01970cedd3 Introduce AvatarPluginApi for custom avatar providers.)
+
+import {getAvatarProviders} from '../../../api/avatar';
 import {resolve} from '../../../models/dependency';
+import {getAppContext} from '../../../services/app-context';
+import {AccountInfo} from '../../../types/common';
+import {getBaseUrl} from '../../../utils/url-util';
+||||||| BASE      (1c3a2b31f347dea867fea4ce7e84f9797be2353c Experimenting)
+
+import {resolve} from '../../../models/dependency';
+import {getAppContext} from '../../../services/app-context';
+import {AccountInfo} from '../../../types/common';
+import {getBaseUrl} from '../../../utils/url-util';
+=======
+>>>>>>> BASE      (75c389f5f5567acbd4e3bf3642af3dea3ca9641e Merge "gr-rule-editor: Replace gr-select with md-outlined-se)
+import {pluginLoaderToken} from '../gr-js-api-interface/gr-plugin-loader';
+<<<<<<< PATCH SET (3f827af8b92efa7c259cabafda293e01970cedd3 Introduce AvatarPluginApi for custom avatar providers.)
+||||||| BASE      (1c3a2b31f347dea867fea4ce7e84f9797be2353c Experimenting)
+
+import {getRobotAvatarUrl} from './robot-avatar-map';
+=======
+import {resolve} from '../../../models/dependency';
+>>>>>>> BASE      (75c389f5f5567acbd4e3bf3642af3dea3ca9641e Merge "gr-rule-editor: Replace gr-select with md-outlined-se)
 
 /**
  * The <gr-avatar> component works by updating its own background and visibility
@@ -88,6 +109,23 @@ export class GrAvatar extends LitElement {
     if (!account) {
       return '';
     }
+<<<<<<< PATCH SET (3f827af8b92efa7c259cabafda293e01970cedd3 Introduce AvatarPluginApi for custom avatar providers.)
+
+    for (const provider of getAvatarProviders()) {
+      const url = provider(account);
+      if (url) return url;
+    }
+
+||||||| BASE      (1c3a2b31f347dea867fea4ce7e84f9797be2353c Experimenting)
+
+    // Check to see if it is a known robot account with a custom avatar.
+    const robotUrl = getRobotAvatarUrl(account.email);
+    if (robotUrl) {
+      return robotUrl;
+    }
+
+=======
+>>>>>>> BASE      (75c389f5f5567acbd4e3bf3642af3dea3ca9641e Merge "gr-rule-editor: Replace gr-select with md-outlined-se)
     const avatars = account.avatars || [];
     // if there is no avatar url in account, there is no avatar set on server,
     // and request /avatar?s will be 404.

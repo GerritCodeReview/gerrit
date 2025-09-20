@@ -3,40 +3,43 @@
  * Copyright 2016 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {getBaseUrl} from '../../../utils/url-util';
-import {GrAttributeHelper} from '../../plugins/gr-attribute-helper/gr-attribute-helper';
-import {GrChangeActionsInterface} from './gr-change-actions-js-api';
-import {GrChangeReplyInterface} from './gr-change-reply-js-api';
-import {GrDomHooksManager} from '../../plugins/gr-dom-hooks/gr-dom-hooks';
-import {GrPopupInterface} from '../../plugins/gr-popup-interface/gr-popup-interface';
-import {GrAdminApi} from '../../plugins/gr-admin-api/gr-admin-api';
-import {GrAnnotationActionsInterface} from './gr-annotation-actions-js-api';
-import {GrEventHelper} from '../../plugins/gr-event-helper/gr-event-helper';
-import {GrPluginRestApi} from './gr-plugin-rest-api';
-import {EndpointType, GrPluginEndpoints} from './gr-plugin-endpoints';
-import {getPluginNameFromUrl} from './gr-api-utils';
-import {GrReportingJsApi} from './gr-reporting-js-api';
-import {EventType, PluginApi, TargetElement} from '../../../api/plugin';
-import {GrChangeActions} from '../../change/gr-change-actions/gr-change-actions';
-import {GrChecksApi} from '../../plugins/gr-checks-api/gr-checks-api';
 import {AdminPluginApi} from '../../../api/admin';
 import {AnnotationPluginApi} from '../../../api/annotation';
-import {EventHelperPluginApi} from '../../../api/event-helper';
-import {PopupPluginApi} from '../../../api/popup';
-import {ReportingPluginApi} from '../../../api/reporting';
+import {AttributeHelperPluginApi} from '../../../api/attribute-helper';
+import {AvatarPluginApi} from '../../../api/avatar';
 import {ChangeActionsPluginApi} from '../../../api/change-actions';
 import {ChangeReplyPluginApi} from '../../../api/change-reply';
-import {RestPluginApi} from '../../../api/rest';
+import {EventHelperPluginApi} from '../../../api/event-helper';
 import {HookApi, PluginElement, RegisterOptions} from '../../../api/hook';
-import {AttributeHelperPluginApi} from '../../../api/attribute-helper';
-import {JsApiService} from './gr-js-api-types';
+import {EventType, PluginApi, TargetElement} from '../../../api/plugin';
+import {PopupPluginApi} from '../../../api/popup';
+import {ReportingPluginApi} from '../../../api/reporting';
+import {RestPluginApi} from '../../../api/rest';
+import {StylePluginApi} from '../../../api/styles';
+import {PluginsModel} from '../../../models/plugins/plugins-model';
 import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
 import {RestApiService} from '../../../services/gr-rest-api/gr-rest-api';
-import {PluginsModel} from '../../../models/plugins/plugins-model';
-import {GrPluginStyleApi} from './gr-plugin-style-api';
-import {StylePluginApi} from '../../../api/styles';
-import {GrSuggestionsApi} from '../../plugins/gr-suggestions-api/gr-suggestions-api';
+import {getBaseUrl} from '../../../utils/url-util';
+import {GrChangeActions} from '../../change/gr-change-actions/gr-change-actions';
+import {GrAdminApi} from '../../plugins/gr-admin-api/gr-admin-api';
+import {GrAttributeHelper} from '../../plugins/gr-attribute-helper/gr-attribute-helper';
+import {GrAvatarApi} from '../../plugins/gr-avatar-api/gr-avatar-api';
 import {GrChangeUpdatesApi} from '../../plugins/gr-change-updates-api/gr-change-updates-api';
+import {GrChecksApi} from '../../plugins/gr-checks-api/gr-checks-api';
+import {GrDomHooksManager} from '../../plugins/gr-dom-hooks/gr-dom-hooks';
+import {GrEventHelper} from '../../plugins/gr-event-helper/gr-event-helper';
+import {GrPopupInterface} from '../../plugins/gr-popup-interface/gr-popup-interface';
+import {GrSuggestionsApi} from '../../plugins/gr-suggestions-api/gr-suggestions-api';
+
+import {GrAnnotationActionsInterface} from './gr-annotation-actions-js-api';
+import {getPluginNameFromUrl} from './gr-api-utils';
+import {GrChangeActionsInterface} from './gr-change-actions-js-api';
+import {GrChangeReplyInterface} from './gr-change-reply-js-api';
+import {JsApiService} from './gr-js-api-types';
+import {EndpointType, GrPluginEndpoints} from './gr-plugin-endpoints';
+import {GrPluginRestApi} from './gr-plugin-rest-api';
+import {GrPluginStyleApi} from './gr-plugin-style-api';
+import {GrReportingJsApi} from './gr-reporting-js-api';
 
 const PLUGIN_NAME_NOT_SET = 'NULL';
 
@@ -227,6 +230,10 @@ export class Plugin implements PluginApi {
 
   restApi(prefix?: string): RestPluginApi {
     return new GrPluginRestApi(this.restApiService, this.report, this, prefix);
+  }
+
+  avatar(): AvatarPluginApi {
+    return new GrAvatarApi(this.report, this);
   }
 
   attributeHelper(element: HTMLElement): AttributeHelperPluginApi {

@@ -529,6 +529,20 @@ public class WorkQueue {
           new Description("Current number of threads in the pool").setGauge().setUnit("threads"),
           () -> (long) getPoolSize());
       metrics.newCallbackMetric(
+          getMetricName(queueName, "parked_threads"),
+          Integer.class,
+          new Description("Number number of threads that have parked tasks")
+              .setGauge()
+              .setUnit("threads"),
+          () -> parked.size());
+      metrics.newCallbackMetric(
+          getMetricName(queueName, "beyond_parked_threads"),
+          Integer.class,
+          new Description("Number number of threads that are active and not parked")
+              .setGauge()
+              .setUnit("threads"),
+          () -> getActiveCount() - parked.size());
+      metrics.newCallbackMetric(
           getMetricName(queueName, "active_threads"),
           Long.class,
           new Description("Number number of threads that are actively executing tasks")

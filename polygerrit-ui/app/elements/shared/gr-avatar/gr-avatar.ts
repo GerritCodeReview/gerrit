@@ -6,13 +6,12 @@
 import {css, html, LitElement} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
 
+import {getAvatarProviders} from '../../../api/avatar';
 import {resolve} from '../../../models/dependency';
 import {getAppContext} from '../../../services/app-context';
 import {AccountInfo} from '../../../types/common';
 import {getBaseUrl} from '../../../utils/url-util';
 import {pluginLoaderToken} from '../gr-js-api-interface/gr-plugin-loader';
-
-import {getRobotAvatarUrl} from './robot-avatar-map';
 
 /**
  * The <gr-avatar> component works by updating its own background and visibility
@@ -92,14 +91,13 @@ export class GrAvatar extends LitElement {
       return '';
     }
 
-    // Check to see if it is a known robot account with a custom avatar.
-    const robotUrl = getRobotAvatarUrl(account.email);
-    if (robotUrl) {
-      return robotUrl;
+    for (const provider of getAvatarProviders()) {
+      const url = provider(account);
+      if (url) return url;
     }
 
     const avatars = account.avatars || [];
-    // If there is no avatar url in account, there is no avatar set on server,
+    // if there is no avatar url in account, there is no avatar set on server,
     // and request /avatar?s will be 404.
     if (avatars.length === 0) {
       return '';

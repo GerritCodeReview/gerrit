@@ -6,18 +6,18 @@
 import {AdminPluginApi} from './admin';
 import {AnnotationPluginApi} from './annotation';
 import {AttributeHelperPluginApi} from './attribute-helper';
+import {AvatarPluginApi} from './avatar';
+import {ChangeActionsPluginApi} from './change-actions';
 import {ChangeReplyPluginApi} from './change-reply';
+import {ChangeUpdatesPluginApi} from './change-updates';
 import {ChecksPluginApi} from './checks';
 import {EventHelperPluginApi} from './event-helper';
-import {PluginElement} from './hook';
+import {HookApi, PluginElement, RegisterOptions} from './hook';
 import {PopupPluginApi} from './popup';
 import {ReportingPluginApi} from './reporting';
-import {ChangeActionsPluginApi} from './change-actions';
 import {RestPluginApi} from './rest';
-import {HookApi, RegisterOptions} from './hook';
 import {StylePluginApi} from './styles';
 import {SuggestionsPluginApi} from './suggestions';
-import {ChangeUpdatesPluginApi} from './change-updates';
 
 export enum TargetElement {
   CHANGE_ACTIONS = 'changeactions',
@@ -96,4 +96,5 @@ export declare interface PluginApi {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   screen(screenName: string, moduleName?: string): any;
   styleApi(): StylePluginApi;
+  avatar(): AvatarPluginApi;
 }

@@ -5,15 +5,15 @@
  */
 import '../../../test/common-test-setup';
 import './gr-avatar';
-import {GrAvatar} from './gr-avatar';
-import {AvatarInfo} from '../../../types/common';
-import {
-  createAccountWithEmailOnly,
-  createAccountWithId,
-  createServerInfo,
-} from '../../../test/test-data-generators';
+
 import {assert, fixture, html} from '@open-wc/testing';
+
+import {clearAvatarProviders, registerAvatarProvider,} from '../../../api/avatar';
+import {createAccountWithEmailOnly, createAccountWithId, createServerInfo,} from '../../../test/test-data-generators';
 import {isVisible, stubRestApi} from '../../../test/test-utils';
+import {AvatarInfo} from '../../../types/common';
+
+import {GrAvatar} from './gr-avatar';
 
 suite('gr-avatar tests', () => {
   let element: GrAvatar;
@@ -53,12 +53,41 @@ suite('gr-avatar tests', () => {
     assert.isFalse(isVisible(element));
   });
 
+  suite('no avatar providers', () => {
+    setup(async () => {
+      stubRestApi('getConfig').resolves({
+        ...createServerInfo(),
+        plugin: {has_avatars: true, js_resource_paths: []},
+      });
+      clearAvatarProviders();
+    });
+
+    test('scenario 1: fallback to avatars', async () => {
+      const accountWithCustomAvatars = {
+        ...createAccountWithId(123),
+        avatars: [
+          {
+            url: 'https://cdn.example.com/s16-p/photo.jpg',
+            height: 16,
+          },
+        ],
+      };
+      element = await fixture(
+          html`<gr-avatar .account=${accountWithCustomAvatars}></gr-avatar>`);
+      assert.isTrue(isVisible(element));
+      assert.equal(
+          element.style.backgroundImage,
+          'url("https://cdn.example.com/s16-p/photo.jpg")');
+    });
+  });
+
   suite('config has avatars', () => {
     setup(async () => {
       stubRestApi('getConfig').resolves({
         ...createServerInfo(),
         plugin: {has_avatars: true, js_resource_paths: []},
       });
+      clearAvatarProviders();
     });
 
     test('loads correct size', async () => {
@@ -189,6 +218,75 @@ suite('gr-avatar tests', () => {
         element.style.backgroundImage,
         'url("/accounts/123/avatar?s=16")'
       );
+    });
+
+    test('scenario 2: single provider returns url', async () => {
+      registerAvatarProvider(account => {
+        if (account.email === 'treehugger-gerrit@google.com') {
+          return 'https://gstatic.com/buganizer/img/v2/gerrit_logo.svg';
+        }
+        return undefined;
+      });
+      const robotAccount = {
+        ...createAccountWithEmailOnly('treehugger-gerrit@google.com'),
+        avatars: defaultAvatars,
+      };
+      element =
+          await fixture(html`<gr-avatar .account=${robotAccount}></gr-avatar>`);
+
+      assert.isTrue(isVisible(element));
+      assert.equal(
+          element.style.backgroundImage,
+          'url("https://gstatic.com/buganizer/img/v2/gerrit_logo.svg")');
+    });
+
+    test('scenario 3: single provider returns falsy', async () => {
+      registerAvatarProvider(account => {
+        if (account.email === 'treehugger-gerrit@google.com') {
+          return 'https://gstatic.com/buganizer/img/v2/gerrit_logo.svg';
+        }
+        return undefined;
+      });
+      const accountWithCustomAvatars = {
+        ...createAccountWithId(123),
+        avatars: [
+          {
+            url: 'https://cdn.example.com/s16-p/photo.jpg',
+            height: 16,
+          },
+        ],
+      };
+      element = await fixture(
+          html`<gr-avatar .account=${accountWithCustomAvatars}></gr-avatar>`);
+      assert.isTrue(isVisible(element));
+      assert.equal(
+          element.style.backgroundImage,
+          'url("https://cdn.example.com/s16-p/photo.jpg")');
+    });
+
+    test('scenario 4: multiple providers pick first', async () => {
+      registerAvatarProvider(account => {
+        if (account._account_id === 123) {
+          return 'https://provider1.com/123.jpg';
+        }
+        return undefined;
+      });
+      registerAvatarProvider(account => {
+        if (account._account_id === 123) {
+          return 'https://provider2.com/123.jpg';
+        }
+        return undefined;
+      });
+      const account = {
+        ...createAccountWithId(123),
+        avatars: defaultAvatars,
+      };
+      element =
+          await fixture(html`<gr-avatar .account=${account}></gr-avatar>`);
+      assert.isTrue(isVisible(element));
+      assert.equal(
+          element.style.backgroundImage,
+          'url("https://provider1.com/123.jpg")');
     });
   });
 });

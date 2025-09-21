@@ -3,13 +3,15 @@
  * Copyright 2015 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {getBaseUrl} from '../../../utils/url-util';
-import {AccountInfo} from '../../../types/common';
-import {getAppContext} from '../../../services/app-context';
 import {css, html, LitElement} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
-import {pluginLoaderToken} from '../gr-js-api-interface/gr-plugin-loader';
+
+import {getAvatarProviders} from '../../../api/avatar';
 import {resolve} from '../../../models/dependency';
+import {getAppContext} from '../../../services/app-context';
+import {AccountInfo} from '../../../types/common';
+import {getBaseUrl} from '../../../utils/url-util';
+import {pluginLoaderToken} from '../gr-js-api-interface/gr-plugin-loader';
 
 /**
  * The <gr-avatar> component works by updating its own background and visibility
@@ -88,6 +90,12 @@ export class GrAvatar extends LitElement {
     if (!account) {
       return '';
     }
+
+    for (const provider of getAvatarProviders()) {
+      const url = provider(account);
+      if (url) return url;
+    }
+
     const avatars = account.avatars || [];
     // if there is no avatar url in account, there is no avatar set on server,
     // and request /avatar?s will be 404.

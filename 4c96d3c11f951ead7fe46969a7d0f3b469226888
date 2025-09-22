@@ -34,6 +34,24 @@
       "parentUuid": "3355104d_c1158430",
       "revId": "4c96d3c11f951ead7fe46969a7d0f3b469226888",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a467b585_f8f8cf58",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-09-22T11:00:06Z",
+      "side": 1,
+      "message": "It seems to work if i change plaintext-only to \u0027\u0027 fore firefox. Can you confirm?",
+      "parentUuid": "eb3d39ae_1cdc83b4",
+      "revId": "4c96d3c11f951ead7fe46969a7d0f3b469226888",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

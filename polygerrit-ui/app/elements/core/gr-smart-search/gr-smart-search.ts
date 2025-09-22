@@ -11,7 +11,7 @@ import {
   SuggestionProvider,
 } from '../gr-search-autocomplete/gr-search-autocomplete';
 import {getAppContext} from '../../../services/app-context';
-import {html, LitElement} from 'lit';
+import {css, html, LitElement} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {subscribe} from '../../lit/subscription-controller';
 import {resolve} from '../../../models/dependency';
@@ -73,6 +73,14 @@ export class GrSmartSearch extends LitElement {
       query => (this.searchQuery = query ?? '')
     );
     this.shortcuts.addAbstract(Shortcut.SEARCH, () => this.focusAndSelectAll());
+  }
+
+  static override get styles() {
+    return css`
+      gr-search-autocomplete {
+        --gr-search-bar-border-radius: 50px;
+      }
+    `;
   }
 
   override render() {

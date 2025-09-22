@@ -24,6 +24,7 @@ import {copyToClipboard} from '../../../utils/common-util';
 import '@material/web/select/outlined-select';
 import '@material/web/select/select-option';
 import {materialStyles} from '../../../styles/gr-material-styles';
+import '@material/web/radio/radio';
 
 const PROMPT_TEMPLATES = {
   HELP_REVIEW: {
@@ -148,7 +149,8 @@ export class GrAiPromptDialog extends LitElement {
         .template-option {
           display: flex;
           align-items: center;
-          gap: var(--spacing-s);
+          gap: var(--spacing-m);
+          margin-bottom: 0.5em;
         }
         textarea {
           width: 550px;
@@ -195,8 +197,7 @@ export class GrAiPromptDialog extends LitElement {
                       ${Object.entries(PROMPT_TEMPLATES).map(
                         ([key, template]) => html`
                           <label class="template-option">
-                            <input
-                              type="radio"
+                            <md-radio
                               name="template"
                               .value=${key}
                               ?checked=${this.selectedTemplate === key}
@@ -205,7 +206,8 @@ export class GrAiPromptDialog extends LitElement {
                                 this.selectedTemplate =
                                   input.value as PromptTemplateId;
                               }}
-                            />
+                            >
+                            </md-radio>
                             ${template.label}
                           </label>
                         `

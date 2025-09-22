@@ -378,6 +378,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
               this.keyType.funnel(),
               buildBloomFilter ? this::buildBloomFilter : () -> {},
               maxInvalidated);
+      createSchema();
     }
 
     @SuppressWarnings("unchecked")
@@ -391,6 +392,14 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
 
     void open() {
       bloomFilter.initIfNeeded();
+    }
+
+    private synchronized void createSchema() {
+      try (SqlHandle h = acquire()) {
+        h.createSchema(keyType);
+      } catch (SQLException e) {
+        logger.atSevere().withCause(e).log("Cannot create schema for cache %s", url);
+      }
     }
 
     void close() {
@@ -729,7 +738,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
 
     private SqlHandle acquire() throws SQLException {
       SqlHandle h = handles.poll();
-      return h != null ? h : new SqlHandle(url, keyType);
+      return h != null ? h : new SqlHandle(url);
     }
 
     private void release(SqlHandle h) {
@@ -747,7 +756,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
     }
   }
 
-  static class SqlHandle {
+  static class SqlHandle implements AutoCloseable {
     private final String url;
     Connection conn;
     PreparedStatement get;
@@ -755,9 +764,12 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
     PreparedStatement touch;
     PreparedStatement invalidate;
 
-    SqlHandle(String url, KeyType<?> type) throws SQLException {
+    SqlHandle(String url) throws SQLException {
       this.url = url;
       this.conn = org.h2.Driver.load().connect(url, null);
+    }
+
+    void createSchema(KeyType<?> type) throws SQLException {
       try (Statement stmt = conn.createStatement()) {
         stmt.addBatch(
             "CREATE TABLE IF NOT EXISTS data"
@@ -778,7 +790,8 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
       }
     }
 
-    void close() {
+    @Override
+    public void close() {
       get = closeStatement(get);
       put = closeStatement(put);
       touch = closeStatement(touch);

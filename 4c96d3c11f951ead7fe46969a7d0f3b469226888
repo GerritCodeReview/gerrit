@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3355104d_c1158430",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-09-22T10:24:36Z",
+      "side": 1,
+      "message": "Just tested now with Firefox 143.0.1 (aarch64), the latest and greatest, and still the textarea doesn\u0027t delete the selected text when I press the delete button.\n\n@thomasmulhall410@yahoo.com was this working for you? Can you share a short video?",
+      "revId": "4c96d3c11f951ead7fe46969a7d0f3b469226888",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

@@ -192,8 +192,11 @@ export class GrSearchAutocomplete extends LitElement {
         }
         gr-autocomplete {
           background-color: var(--view-background-color);
-          border-radius: 50px;
-          --gr-autocomplete-text-field-border-radius: 50px;
+          border-radius: var(--gr-search-bar-border-radius);
+          --gr-autocomplete-text-field-border-radius: var(
+            --gr-search-bar-border-radius,
+            50px
+          );
           flex: 1;
           outline: none;
         }

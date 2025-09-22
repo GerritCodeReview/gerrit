@@ -345,6 +345,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
     private final boolean buildBloomFilter;
     private boolean trackLastAccess;
     private final AtomicBoolean isDiskCacheReadOnly;
+    private volatile boolean ensuredSchemaCreation;
 
     SqlStore(
         String jdbcUrl,
@@ -387,6 +388,38 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
         return (KeyType<T>) StringKeyTypeImpl.INSTANCE;
       }
       return new ObjectKeyTypeImpl<>(serializer);
+    }
+
+    private void createSchema() throws SQLException {
+      if (!ensuredSchemaCreation) {
+        synchronized (this) {
+          if (ensuredSchemaCreation) {
+            return;
+          }
+          try (SqlHandle h = new SqlHandle(url)) {
+            try (Statement stmt = h.conn.createStatement()) {
+              stmt.addBatch(
+                  "CREATE TABLE IF NOT EXISTS data"
+                      + "(k "
+                      + keyType.columnType()
+                      + " NOT NULL PRIMARY KEY HASH"
+                      + ",v OTHER NOT NULL"
+                      + ",created TIMESTAMP NOT NULL"
+                      + ",accessed TIMESTAMP NOT NULL"
+                      + ")");
+              stmt.addBatch(
+                  "ALTER TABLE data ADD COLUMN IF NOT EXISTS "
+                      + "space BIGINT AS OCTET_LENGTH(k) + OCTET_LENGTH(v)");
+              stmt.addBatch(
+                  "ALTER TABLE data ADD COLUMN IF NOT EXISTS version INT DEFAULT 0 NOT NULL");
+              stmt.addBatch("CREATE INDEX IF NOT EXISTS version_key ON data(version, k)");
+              stmt.addBatch("CREATE INDEX IF NOT EXISTS accessed ON data(accessed)");
+              stmt.executeBatch();
+              ensuredSchemaCreation = true;
+            }
+          }
+        }
+      }
     }
 
     void open() {
@@ -728,8 +761,9 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
     }
 
     private SqlHandle acquire() throws SQLException {
+      createSchema();
       SqlHandle h = handles.poll();
-      return h != null ? h : new SqlHandle(url, keyType);
+      return h != null ? h : new SqlHandle(url);
     }
 
     private void release(SqlHandle h) {
@@ -747,7 +781,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
     }
   }
 
-  static class SqlHandle {
+  static class SqlHandle implements AutoCloseable {
     private final String url;
     Connection conn;
     PreparedStatement get;
@@ -755,30 +789,13 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
     PreparedStatement touch;
     PreparedStatement invalidate;
 
-    SqlHandle(String url, KeyType<?> type) throws SQLException {
+    SqlHandle(String url) throws SQLException {
       this.url = url;
       this.conn = org.h2.Driver.load().connect(url, null);
-      try (Statement stmt = conn.createStatement()) {
-        stmt.addBatch(
-            "CREATE TABLE IF NOT EXISTS data"
-                + "(k "
-                + type.columnType()
-                + " NOT NULL PRIMARY KEY HASH"
-                + ",v OTHER NOT NULL"
-                + ",created TIMESTAMP NOT NULL"
-                + ",accessed TIMESTAMP NOT NULL"
-                + ")");
-        stmt.addBatch(
-            "ALTER TABLE data ADD COLUMN IF NOT EXISTS "
-                + "space BIGINT AS OCTET_LENGTH(k) + OCTET_LENGTH(v)");
-        stmt.addBatch("ALTER TABLE data ADD COLUMN IF NOT EXISTS version INT DEFAULT 0 NOT NULL");
-        stmt.addBatch("CREATE INDEX IF NOT EXISTS version_key ON data(version, k)");
-        stmt.addBatch("CREATE INDEX IF NOT EXISTS accessed ON data(accessed)");
-        stmt.executeBatch();
-      }
     }
 
-    void close() {
+    @Override
+    public void close() {
       get = closeStatement(get);
       put = closeStatement(put);
       touch = closeStatement(touch);

@@ -531,14 +531,16 @@ public class WorkQueue {
       metrics.newCallbackMetric(
           getMetricName(queueName, "active_threads"),
           Long.class,
-          new Description("Number number of threads that are actively executing tasks")
+          new Description("Current number of threads that are actively executing tasks")
               .setGauge()
               .setUnit("threads"),
           () -> (long) getActiveCount());
       metrics.newCallbackMetric(
           getMetricName(queueName, "scheduled_tasks"),
           Integer.class,
-          new Description("Number of scheduled tasks in the queue").setGauge().setUnit("tasks"),
+          new Description("Current number of scheduled tasks in the queue")
+              .setGauge()
+              .setUnit("tasks"),
           () -> getQueue().size());
       metrics.newCallbackMetric(
           getMetricName(queueName, "total_scheduled_tasks_count"),

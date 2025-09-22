@@ -216,6 +216,7 @@ export class GrConfirmRebaseDialog
         .rebaseCheckbox {
           display: flex;
           align-items: center;
+          margin-top: 0.5em;
         }
         .rebaseOption {
           display: flex;
@@ -226,6 +227,10 @@ export class GrConfirmRebaseDialog
         }
         .rebaseWithCommitterEmail {
           margin-top: var(--spacing-m);
+        }
+        gr-validation-options {
+          display: flex;
+          align-items: center;
         }
       `,
     ];

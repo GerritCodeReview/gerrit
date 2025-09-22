@@ -109,18 +109,13 @@ export class GrPreferences extends LitElement {
       () => this.getConfigModel().docsBaseUrl$,
       docsBaseUrl => (this.docsBaseUrl = docsBaseUrl)
     );
-    if (
-      this.flagsService.isEnabled(KnownExperimentId.ML_SUGGESTED_EDIT_V2) ||
-      this.flagsService.isEnabled(KnownExperimentId.COMMENT_AUTOCOMPLETION)
-    ) {
-      subscribe(
-        this,
-        () => this.getPluginLoader().pluginsModel.suggestionsPlugins$,
-        // We currently support results from only 1 provider.
-        suggestionsPlugins =>
-          (this.suggestionsProvider = suggestionsPlugins?.[0]?.provider)
-      );
-    }
+    subscribe(
+      this,
+      () => this.getPluginLoader().pluginsModel.suggestionsPlugins$,
+      // We currently support results from only 1 provider.
+      suggestionsPlugins =>
+        (this.suggestionsProvider = suggestionsPlugins?.[0]?.provider)
+    );
   }
 
   static override get styles() {
@@ -536,11 +531,7 @@ export class GrPreferences extends LitElement {
   // When the experiment is over, move this back to render(),
   // removing this function.
   private renderAiCommentAutocompletion() {
-    if (
-      !this.flagsService.isEnabled(KnownExperimentId.COMMENT_AUTOCOMPLETION) ||
-      !this.suggestionsProvider
-    )
-      return nothing;
+    if (!this.suggestionsProvider) return nothing;
     return html`
       <section id="allowAiCommentAutocompletionSection">
         <div class="title">

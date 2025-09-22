@@ -25,7 +25,6 @@ import {subscribe} from '../lit/subscription-controller';
 import {changeModelToken} from '../../models/change/change-model';
 import {getAppContext} from '../../services/app-context';
 import {Interaction} from '../../constants/reporting';
-import {KnownExperimentId} from '../../services/flags/flags';
 import {
   ReportSource,
   suggestionsServiceToken,
@@ -75,8 +74,6 @@ export class GrDiffCheckResult extends LitElement {
     this,
     suggestionsServiceToken
   );
-
-  private readonly flagsService = getAppContext().flagsService;
 
   static override get styles() {
     return [
@@ -288,9 +285,6 @@ export class GrDiffCheckResult extends LitElement {
   }
 
   private shouldShowAIFixButton() {
-    if (!this.flagsService.isEnabled(KnownExperimentId.GET_AI_FIX)) {
-      return false;
-    }
     if (
       !this.getSuggestionsService()?.isGeneratedSuggestedFixEnabled(
         this.result?.codePointers?.[0].path

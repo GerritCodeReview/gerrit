@@ -1285,12 +1285,7 @@ export class GrComment extends LitElement {
 
   // private but visible for testing
   async autocompleteComment() {
-    const enabled = this.flagsService.isEnabled(
-      KnownExperimentId.COMMENT_AUTOCOMPLETION
-    );
-    if (!enabled || !this.autocompleteEnabled) {
-      return;
-    }
+    if (!this.autocompleteEnabled) return;
     const commentText = this.messageText;
     const context = await this.getSuggestionsService().autocompleteComment(
       this.comment,

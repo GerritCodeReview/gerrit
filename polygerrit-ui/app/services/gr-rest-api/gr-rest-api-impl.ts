@@ -1422,10 +1422,8 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       ListChangesOption.WEB_LINKS,
       ListChangesOption.SKIP_DIFFSTAT,
       ListChangesOption.SUBMIT_REQUIREMENTS,
+      ListChangesOption.PARENTS,
     ];
-    if (this.flagService.isEnabled(KnownExperimentId.REVISION_PARENTS_DATA)) {
-      options.push(ListChangesOption.PARENTS);
-    }
     if (config?.receive?.enable_signed_push) {
       options.push(ListChangesOption.PUSH_CERTIFICATES);
     }

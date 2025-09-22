@@ -123,50 +123,66 @@ suite('gr-flows tests', () => {
                 Last Evaluated:
                 <gr-date-formatter withtooltip></gr-date-formatter>
               </div>
-              <div class="stages-list">
-                <h4>Stages</h4>
-                <ul>
-                  <li>
-                    <gr-icon
-                      class="done"
-                      icon="check_circle"
-                      filled
-                      aria-label="done"
-                      role="img"
-                    ></gr-icon>
-                    <span>1. </span>
-                    <span>label:Code-Review=+1</span>
-                  </li>
-                </ul>
-              </div>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Status</th>
+                    <th>Condition</th>
+                    <th>Action</th>
+                    <th>Parameters</th>
+                    <th>Message</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      <gr-icon
+                        aria-label="done"
+                        filled
+                        icon="check_circle"
+                      ></gr-icon>
+                    </td>
+                    <td>label:Code-Review=+1</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
             <div class="flow">
               <div class="flow-header">
                 <gr-button link title="Delete flow">
                   <gr-icon icon="delete" filled></gr-icon>
-                </gr-button>
+                </button>
               </div>
               <div class="flow-id hidden">Flow flow2</div>
               <div>
                 Created:
                 <gr-date-formatter withtooltip></gr-date-formatter>
               </div>
-              <div class="stages-list">
-                <h4>Stages</h4>
-                <ul>
-                  <li>
-                    <gr-icon
-                      class="pending"
-                      icon="timelapse"
-                      aria-label="pending"
-                      role="img"
-                    ></gr-icon>
-                    <span>1. </span>
-                    <span>label:Verified=+1</span>
-                    <span> -> submit</span>
-                  </li>
-                </ul>
-              </div>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Status</th>
+                    <th>Condition</th>
+                    <th>Action</th>
+                    <th>Parameters</th>
+                    <th>Message</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      <gr-icon aria-label="pending" icon="timelapse"></gr-icon>
+                    </td>
+                    <td>label:Verified=+1</td>
+                    <td>submit</td>
+                     <td></td>
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
         </div>

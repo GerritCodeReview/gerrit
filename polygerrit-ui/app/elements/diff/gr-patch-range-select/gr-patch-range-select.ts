@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../../shared/gr-dropdown-list/gr-dropdown-list';
-import '../../shared/gr-select/gr-select';
 import '../../shared/gr-weblink/gr-weblink';
 import {convertToString, pluralize} from '../../../utils/string-util';
 import {getAppContext} from '../../../services/app-context';

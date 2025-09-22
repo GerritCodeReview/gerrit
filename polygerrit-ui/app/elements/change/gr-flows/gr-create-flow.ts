@@ -26,6 +26,7 @@ import {
 } from '../../../utils/autocomplete-util';
 import {ValueChangedEvent} from '../../../types/events';
 import {SuggestionProvider} from '../../core/gr-search-autocomplete/gr-search-autocomplete';
+import {when} from 'lit/directives/when.js';
 
 const MAX_AUTOCOMPLETE_RESULTS = 10;
 
@@ -109,9 +110,18 @@ export class GrCreateFlow extends LitElement {
           gap: var(--spacing-s);
         }
         .add-stage-row > md-outlined-select,
-        .add-stage-row > md-outlined-text-field {
+        .add-stage-row > md-outlined-text-field,
         .add-stage-row > gr-search-autocomplete {
           width: 15em;
+        }
+        table {
+          border-collapse: collapse;
+        }
+        th,
+        td {
+          border: 1px solid var(--border-color);
+          padding: var(--spacing-s);
+          text-align: left;
         }
       `,
     ];
@@ -121,22 +131,49 @@ export class GrCreateFlow extends LitElement {
     this.hostUrl = window.location.origin + window.location.pathname;
   }
 
+  private renderTable() {
+    return when(
+      this.stages.length > 0,
+      () => html`
+        <table>
+          <thead>
+            <tr>
+              <th>Stage</th>
+              <th>Condition</th>
+              <th>Action</th>
+              <th>Parameters</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            ${this.stages.map(
+              (stage, index) => html`
+                <tr>
+                  <td>${index + 1}</td>
+                  <td>${stage.condition}</td>
+                  <td>${stage.action}</td>
+                  <td>${stage.parameterStr}</td>
+                  <td>
+                    <gr-button
+                      link
+                      @click=${() => this.handleRemoveStage(index)}
+                      title="Delete stage"
+                    >
+                      <gr-icon icon="delete" filled></gr-icon>
+                    </gr-button>
+                  </td>
+                </tr>
+              `
+            )}
+          </tbody>
+        </table>
+      `
+    );
+  }
+
   override render() {
     return html`
-      <div>
-        <ul>
-          ${this.stages.map(
-            (stage, index) => html`
-              <li>
-                ${stage.condition} -> ${stage.action}
-                <gr-button @click=${() => this.handleRemoveStage(index)}
-                  >x</gr-button
-                >
-              </li>
-            `
-          )}
-        </ul>
-      </div>
+      <div>${this.renderTable()}</div>
       <div class="add-stage-row">
         <md-outlined-select
           .value=${this.currentConditionPrefix}

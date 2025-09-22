@@ -183,7 +183,7 @@ export class GrCreateFlow extends LitElement {
             (this.currentParameter = (e.target as MdOutlinedTextField).value)}
         ></md-outlined-text-field>
         <gr-button aria-label="Add Stage" @click=${this.handleAddStage}
-          >+</gr-button
+          >Add Stage</gr-button
         >
       </div>
       <gr-button

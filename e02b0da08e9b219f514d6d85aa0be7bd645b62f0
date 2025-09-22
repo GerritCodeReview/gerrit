@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4653a26f_aca059f3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-09-22T11:44:43Z",
+      "side": 1,
+      "message": "Well uptil march 2025, firefox would have used \u0027true\u0027, as we fallback to \u0027true\u0027 if plaintext-only wasn\u0027t supported.",
+      "parentUuid": "b6199f4b_f55c4822",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 57
+      },
+      "revId": "e02b0da08e9b219f514d6d85aa0be7bd645b62f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "711ccf90_f08ecd76",
@@ -37,6 +61,30 @@
       "writtenOn": "2025-09-22T11:27:34Z",
       "side": 1,
       "message": "Do you have any references to when it was added?",
+      "range": {
+        "startLine": 10,
+        "startChar": 53,
+        "endLine": 11,
+        "endChar": 42
+      },
+      "revId": "e02b0da08e9b219f514d6d85aa0be7bd645b62f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4bbeeaba_e83e07d6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-09-22T11:44:43Z",
+      "side": 1,
+      "message": "It was added in march 2025 https://www.firefox.com/en-US/firefox/136.0/releasenotes/:\n\n\u003e The value plaintext-only can now be specified for the contenteditable attribute, making the raw text of an element editable but without supporting rich text formatting.",
+      "parentUuid": "711ccf90_f08ecd76",
       "range": {
         "startLine": 10,
         "startChar": 53,

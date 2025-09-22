@@ -51,12 +51,23 @@ suite('gr-create-pointer-dialog tests', () => {
               </div>
               <div>
                 <span class="value">
-                  <gr-select id="initialCommit">
-                    <select>
-                      <option value="false">Existing Revision</option>
-                      <option value="true">Initial empty commit</option>
-                    </select>
-                  </gr-select>
+                  <md-outlined-select id="initialCommit" value="false">
+                    <md-select-option
+                      data-aria-selected="true"
+                      md-menu-item=""
+                      tabindex="0"
+                      value="false"
+                    >
+                      <div slot="headline">Existing Revision</div>
+                    </md-select-option>
+                    <md-select-option
+                      md-menu-item=""
+                      tabindex="-1"
+                      value="true"
+                    >
+                      <div slot="headline">Initial empty commit</div>
+                    </md-select-option>
+                  </md-outlined-select>
                 </span>
               </div>
             </section>

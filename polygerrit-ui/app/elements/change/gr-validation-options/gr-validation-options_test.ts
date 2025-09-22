@@ -32,8 +32,12 @@ suite('gr-validation-options tests', () => {
     assert.shadowDom.equal(
       element,
       /* HTML */ `
-        <md-checkbox class="selectionLabel"></md-checkbox>Option 1
-        <md-checkbox class="selectionLabel"></md-checkbox>Option 2
+        <md-checkbox class="selectionLabel" id="o1" touch-target="wrapper">
+        </md-checkbox>
+        <label for="o1"> Option 1 </label>
+        <md-checkbox class="selectionLabel" id="o2" touch-target="wrapper">
+        </md-checkbox>
+        <label for="o2"> Option 2 </label>
       `
     );
   });

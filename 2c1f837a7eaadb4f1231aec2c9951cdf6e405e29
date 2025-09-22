@@ -347,6 +347,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c62d065d_0d69cb72",
+        "filename": "java/com/google/gerrit/pgm/init/InitAIPrompt.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2025-09-22T12:14:35Z",
+      "side": 1,
+      "message": "removed Init impl and replaced it with the discussed impl.",
+      "parentUuid": "385823e3_a92bda3b",
+      "revId": "2c1f837a7eaadb4f1231aec2c9951cdf6e405e29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bc3494c8_ddebce42",

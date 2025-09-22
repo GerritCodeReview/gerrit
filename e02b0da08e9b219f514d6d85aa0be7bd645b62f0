@@ -110,6 +110,23 @@
       "message": "I confirm that this is fixing the issue; I can now delete the selected text. Thanks @thomasmulhall410@yahoo.com for this quick fix!",
       "revId": "e02b0da08e9b219f514d6d85aa0be7bd645b62f0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0beab907_6a7170c0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-09-22T11:45:41Z",
+      "side": 1,
+      "message": "@luca.milanesio@gmail.com i\u0027ve filled https://bugzilla.mozilla.org/show_bug.cgi?id\u003d1989935 if you want to chime in on that.",
+      "revId": "e02b0da08e9b219f514d6d85aa0be7bd645b62f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

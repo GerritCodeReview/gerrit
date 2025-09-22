@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a69f6e8c_779796cc",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 532,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2025-09-22T15:14:22Z",
+      "side": 1,
+      "message": "Can we add docs in `Documentation/metrics.txt` ?",
+      "revId": "4345570e660db5e848c9f9ac7cce97429e3f4f72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "85cd6587_c21f4c18",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 541,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2025-09-22T15:14:22Z",
+      "side": 1,
+      "message": "s/number //",
+      "revId": "4345570e660db5e848c9f9ac7cce97429e3f4f72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

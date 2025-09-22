@@ -30,6 +30,7 @@ import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.TestExtensions;
 import com.google.gerrit.acceptance.TestExtensions.TestFlowService;
+import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.change.ChangeOperations;
 import com.google.gerrit.acceptance.testsuite.change.TestChange;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
@@ -39,8 +40,10 @@ import com.google.gerrit.extensions.common.FlowInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.server.flow.FlowKey;
 import com.google.gerrit.server.flow.FlowService;
+import com.google.gerrit.server.restapi.flow.CreateFlow;
 import com.google.inject.Inject;
 import java.time.Instant;
 import org.junit.Test;
@@ -260,6 +263,63 @@ public class CreateFlowIT extends AbstractDaemonTest {
       FlowInput flowInput = createTestFlowInputWithOneStage(accountCreator, changeIdentifier);
       assertThrows(
           AuthException.class, () -> gApi.changes().id(changeIdentifier).createFlow(flowInput));
+    }
+  }
+
+  @Test
+  public void numberOfFlowsPerChangeIsLimitedByDefault() throws Exception {
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().create();
+    TestFlowService testFlowService = new TestExtensions.TestFlowService();
+    try (Registration registration = extensionRegistry.newRegistration().set(testFlowService)) {
+      FlowInput flowInput = createTestFlowInputWithOneStage(accountCreator, changeIdentifier);
+      for (int i = 1; i <= CreateFlow.DEFAULT_MAX_FLOWS_PER_CHANGE; i++) {
+        gApi.changes().id(changeIdentifier).createFlow(flowInput);
+      }
+
+      ResourceConflictException exception =
+          assertThrows(
+              ResourceConflictException.class,
+              () -> gApi.changes().id(changeIdentifier).createFlow(flowInput));
+      assertThat(exception)
+          .hasMessageThat()
+          .isEqualTo(
+              String.format(
+                  "Too many flows (max %s flow allowed per change)",
+                  CreateFlow.DEFAULT_MAX_FLOWS_PER_CHANGE));
+    }
+  }
+
+  @Test
+  @GerritConfig(name = "flows.maxPerChange", value = "50")
+  public void numberOfFlowsPerChangeIsLimitedByConfiguration() throws Exception {
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().create();
+    TestFlowService testFlowService = new TestExtensions.TestFlowService();
+    try (Registration registration = extensionRegistry.newRegistration().set(testFlowService)) {
+      FlowInput flowInput = createTestFlowInputWithOneStage(accountCreator, changeIdentifier);
+      for (int i = 1; i <= 50; i++) {
+        gApi.changes().id(changeIdentifier).createFlow(flowInput);
+      }
+
+      ResourceConflictException exception =
+          assertThrows(
+              ResourceConflictException.class,
+              () -> gApi.changes().id(changeIdentifier).createFlow(flowInput));
+      assertThat(exception)
+          .hasMessageThat()
+          .isEqualTo(String.format("Too many flows (max %s flow allowed per change)", 50));
+    }
+  }
+
+  @Test
+  @GerritConfig(name = "flows.maxPerChange", value = "0")
+  public void numberOfFlowsPerChangeIsUnlimited() throws Exception {
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().create();
+    TestFlowService testFlowService = new TestExtensions.TestFlowService();
+    try (Registration registration = extensionRegistry.newRegistration().set(testFlowService)) {
+      FlowInput flowInput = createTestFlowInputWithOneStage(accountCreator, changeIdentifier);
+      for (int i = 1; i <= CreateFlow.DEFAULT_MAX_FLOWS_PER_CHANGE + 10; i++) {
+        gApi.changes().id(changeIdentifier).createFlow(flowInput);
+      }
     }
   }
 

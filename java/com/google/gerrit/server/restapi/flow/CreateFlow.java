@@ -14,15 +14,18 @@
 
 package com.google.gerrit.server.restapi.flow;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.gerrit.extensions.common.FlowInfo;
 import com.google.gerrit.extensions.common.FlowInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestCollectionModifyView;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.change.ChangeResource;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.flow.Flow;
 import com.google.gerrit.server.flow.FlowCreation;
 import com.google.gerrit.server.flow.FlowPermissionDeniedException;
@@ -31,6 +34,7 @@ import com.google.gerrit.server.flow.InvalidFlowException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import org.eclipse.jgit.lib.Config;
 
 /**
  * REST endpoint to create a flow .
@@ -40,24 +44,46 @@ import com.google.inject.Singleton;
 @Singleton
 public class CreateFlow
     implements RestCollectionModifyView<ChangeResource, FlowResource, FlowInput> {
+  @VisibleForTesting public static final int DEFAULT_MAX_FLOWS_PER_CHANGE = 20;
+
+  private final Provider<Config> cfgProvider;
   private final FlowServiceUtil flowServiceUtil;
   private final Provider<CurrentUser> self;
 
   @Inject
-  CreateFlow(FlowServiceUtil flowServiceUtil, Provider<CurrentUser> self) {
+  CreateFlow(
+      @GerritServerConfig Provider<Config> cfgProvider,
+      FlowServiceUtil flowServiceUtil,
+      Provider<CurrentUser> self) {
+    this.cfgProvider = cfgProvider;
     this.flowServiceUtil = flowServiceUtil;
     this.self = self;
   }
 
   @Override
   public Response<FlowInfo> apply(ChangeResource changeResource, FlowInput flowInput)
-      throws AuthException, BadRequestException, MethodNotAllowedException {
+      throws AuthException,
+          BadRequestException,
+          MethodNotAllowedException,
+          ResourceConflictException {
     if (!self.get().isIdentifiedUser()) {
       throw new AuthException("Authentication required");
     }
 
     if (flowInput == null) {
       flowInput = new FlowInput();
+    }
+
+    int maxFlowsPerChange =
+        cfgProvider.get().getInt("flows", "maxPerChange", DEFAULT_MAX_FLOWS_PER_CHANGE);
+    if (maxFlowsPerChange > 0
+        && flowServiceUtil
+                .getFlowServiceOrThrow()
+                .listFlows(changeResource.getProject(), changeResource.getId())
+                .size()
+            >= maxFlowsPerChange) {
+      throw new ResourceConflictException(
+          String.format("Too many flows (max %s flow allowed per change)", maxFlowsPerChange));
     }
 
     FlowCreation flowCreation =

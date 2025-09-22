@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d556a1f_3dbaf0e0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-09-22T23:54:05Z",
+      "side": 1,
+      "message": "I don\u0027t see any existing logic like this being touched. Is that something Google-internal?\n\nAlso, please use the Format button that appears when you Edit the commit message to get this line wrapped correctly.",
+      "range": {
+        "startLine": 9,
+        "startChar": 157,
+        "endLine": 9,
+        "endChar": 189
+      },
+      "revId": "2d2ab61880d149b350a195dfd584f31f61830832",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "864274ba_cddc935c",
+        "filename": "polygerrit-ui/app/api/plugin.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-09-22T23:54:05Z",
+      "side": 1,
+      "message": "Can you please do import sorting and other cosmetic updates in a separate change?",
+      "revId": "2d2ab61880d149b350a195dfd584f31f61830832",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "55b8dcc4_61ad35d4",
+        "filename": "polygerrit-ui/app/api/plugin.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-09-22T23:54:05Z",
+      "side": 1,
+      "message": "Please update [the docs](https://gerrit-review.googlesource.com/Documentation/pg-plugin-dev.html#high-level-api) with this new API.",
+      "revId": "2d2ab61880d149b350a195dfd584f31f61830832",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -504,10 +504,11 @@ export class GrAccessSection extends LitElement {
     // }
     // When we add a new item, we have to push the new permission in the same
     // format as the ones that have been returned by the API.
-    if (value.startsWith('label')) {
+    if (value.startsWith('label') || value.startsWith('removeLabel')) {
       permission.value.label = value
         .replace('label-', '')
-        .replace('labelAs-', '');
+        .replace('labelAs-', '')
+        .replace('removeLabel-', '');
     }
     // Add to the end of the array (used in dom-repeat) and also to the
     // section object that is two way bound with its parent element.

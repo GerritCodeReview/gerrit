@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fec82958_69dcbb85",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-09-22T07:33:00Z",
+      "side": 1,
+      "message": "As discussed in a meeting, this is a general purpose REST endpoint for evaluating change queries (it\u0027s not dedicated to be used only for flows). Hence it would be better to do this replacement on the caller side.",
+      "revId": "8b0f4a2d3f45e71b02e271bb0546d92716e89801",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

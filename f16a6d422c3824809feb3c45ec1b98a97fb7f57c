@@ -16,6 +16,24 @@
       "message": "Using `delete` for an array is weird. That still keeps the entry as `undefined`. I don\u0027t think we want that.\n\nI think we have to get to the bottom of \"some reason\" here.\n\nThe former code should have worked just fine. We need to understand exactly why it was not working.",
       "revId": "f16a6d422c3824809feb3c45ec1b98a97fb7f57c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "46f8daa2_579a9f24",
+        "filename": "polygerrit-ui/app/elements/admin/gr-access-section/gr-access-section.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-09-22T09:13:06Z",
+      "side": 1,
+      "message": "I’m not exactly sure why it breaks with the current code. It doesn’t really make sense because the returned array is the same as the one with delete… yet the later works and the former doesn’t.",
+      "parentUuid": "7b3144f0_5f032dcc",
+      "revId": "f16a6d422c3824809feb3c45ec1b98a97fb7f57c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -29,9 +29,8 @@ export class GrValidationOptions extends LitElement {
           display: block;
           margin-left: -4px;
         }
-        md-checkbox {
-          --md-checkbox-container-size: 15px;
-          --md-checkbox-icon-size: 15px;
+        label {
+          cursor: pointer;
         }
       `,
     ];
@@ -60,10 +59,14 @@ export class GrValidationOptions extends LitElement {
     return html`
       <md-checkbox
         class="selectionLabel"
+        id=${option.name}
+        touch-target="wrapper"
         ?checked=${!!this.isOptionSelected.get(option.name)}
         @click=${() => this.toggleCheckbox(option)}
       ></md-checkbox>
-      ${capitalizeFirstLetter(option.description)}
+      <label for=${option.name}
+        >${capitalizeFirstLetter(option.description)}</label
+      >
     `;
   }
 

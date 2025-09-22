@@ -14,7 +14,7 @@ import {
   HintDismissedEventDetail,
   CursorPositionChangeEventDetail,
 } from '../api/embed';
-import {isSafari} from '../utils/dom-util';
+import {isFirefox, isSafari} from '../utils/dom-util';
 
 /**
  * Waits for the next animation frame.
@@ -415,7 +415,7 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
   private get contentEditableAttributeValue() {
     return this.disabled
       ? 'false'
-      : this.isPlaintextOnlySupported
+      : !isFirefox() && this.isPlaintextOnlySupported
       ? ('plaintext-only' as unknown as 'true')
       : 'true';
   }

@@ -25,6 +25,7 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Maps;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
 import java.io.BufferedReader;
 import java.io.UnsupportedEncodingException;
@@ -499,6 +500,7 @@ public class FakeHttpServletRequest implements HttpServletRequest {
     throw new UnsupportedOperationException();
   }
 
+  @CanIgnoreReturnValue
   public FakeHttpServletRequest addHeader(String name, String value) {
     headers.put(name, value);
     return this;

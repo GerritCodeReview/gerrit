@@ -11,7 +11,6 @@ import '../../edit/gr-edit-file-controls/gr-edit-file-controls';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-cursor-manager/gr-cursor-manager';
 import '../../shared/gr-icon/gr-icon';
-import '../../shared/gr-select/gr-select';
 import '../../shared/gr-tooltip-content/gr-tooltip-content';
 import '../../shared/gr-copy-clipboard/gr-copy-clipboard';
 import '../../shared/gr-file-status/gr-file-status';

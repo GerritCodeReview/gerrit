@@ -103,7 +103,7 @@ suite('gr-create-flow tests', () => {
       },
     ]);
 
-    let removeButtons = queryAll<GrButton>(element, 'li gr-button');
+    let removeButtons = queryAll<GrButton>(element, 'tr gr-button');
     assert.lengthOf(removeButtons, 2);
 
     removeButtons[0].click();
@@ -117,7 +117,7 @@ suite('gr-create-flow tests', () => {
         parameterStr: '',
       },
     ]);
-    removeButtons = queryAll<GrButton>(element, 'li gr-button');
+    removeButtons = queryAll<GrButton>(element, 'tr gr-button');
     assert.lengthOf(removeButtons, 1);
   });
 

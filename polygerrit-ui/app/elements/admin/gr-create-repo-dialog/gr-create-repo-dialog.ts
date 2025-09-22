@@ -5,7 +5,6 @@
  */
 import '../../shared/gr-autocomplete/gr-autocomplete';
 import '../../shared/gr-button/gr-button';
-import '../../shared/gr-select/gr-select';
 import {
   BranchName,
   GroupId,

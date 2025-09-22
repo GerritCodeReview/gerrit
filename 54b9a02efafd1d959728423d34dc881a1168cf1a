@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "699bcda8_71cea735",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-autocomplete/gr-search-autocomplete.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-09-22T09:30:28Z",
+      "side": 1,
+      "message": "Maybe add a default here. 0 or --border-radius?",
+      "range": {
+        "startLine": 195,
+        "startChar": 10,
+        "endLine": 198,
+        "endChar": 12
+      },
+      "revId": "54b9a02efafd1d959728423d34dc881a1168cf1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

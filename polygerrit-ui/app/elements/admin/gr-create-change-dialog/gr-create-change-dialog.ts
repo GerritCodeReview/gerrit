@@ -8,7 +8,6 @@ import '../../../styles/gr-form-styles';
 import '../../../styles/shared-styles';
 import '../../shared/gr-autocomplete/gr-autocomplete';
 import '../../shared/gr-button/gr-button';
-import '../../shared/gr-select/gr-select';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {
   BranchName,

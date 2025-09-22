@@ -10,6 +10,7 @@ java_library(
         "//lib:guava",
         "//lib:jgit",
         "//lib:servlet-api",
+        "//lib/errorprone:annotations",
         "//lib/httpcomponents:httpclient",
     ],
 )

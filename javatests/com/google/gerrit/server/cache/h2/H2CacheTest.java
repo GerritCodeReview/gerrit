@@ -64,7 +64,7 @@ public class H2CacheTest {
       @Nullable Duration expireAfterWrite,
       @Nullable Duration refreshAfterWrite) {
     return new SqlStore<>(
-        "jdbc:h2:mem:Test_" + id,
+        "jdbc:h2:mem:Test_" + id + ";DB_CLOSE_DELAY=-1",
         KEY_TYPE,
         StringCacheSerializer.INSTANCE,
         StringCacheSerializer.INSTANCE,

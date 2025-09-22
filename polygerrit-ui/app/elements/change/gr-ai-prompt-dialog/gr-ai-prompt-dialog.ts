@@ -25,6 +25,7 @@ import '@material/web/select/outlined-select.js';
 import '@material/web/select/select-option.js';
 import '@material/web/select/outlined-select.js';
 import '@material/web/select/select-option.js';
+import {materialStyles} from '../../../styles/gr-material-styles';
 
 const PROMPT_TEMPLATES = {
   HELP_REVIEW: {
@@ -101,6 +102,7 @@ export class GrAiPromptDialog extends LitElement {
       fontStyles,
       sharedStyles,
       modalStyles,
+      materialStyles,
       css`
         :host {
           display: block;

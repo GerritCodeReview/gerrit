@@ -86,21 +86,14 @@ export class GrFlows extends LitElement {
         .hidden {
           display: none;
         }
-        .stages-list {
+        table {
+          border-collapse: collapse;
+        }
+        th,
+        td {
           border: 1px solid var(--border-color);
-          border-radius: var(--border-radius);
           padding: var(--spacing-s);
-          margin-top: var(--spacing-l);
-        }
-        .stages-list h4 {
-          margin-top: 0;
-          margin-bottom: var(--spacing-s);
-          font-weight: var(--font-weight-bold);
-        }
-        .stages-list ul {
-          list-style: none;
-          padding: 0;
-          margin: 0;
+          text-align: left;
         }
         .main-heading {
           font-size: var(--font-size-h2);
@@ -119,11 +112,6 @@ export class GrFlows extends LitElement {
         }
         gr-icon.failed {
           color: var(--error-foreground);
-        }
-        li {
-          display: flex;
-          align-items: center;
-          gap: var(--spacing-s);
         }
         .owner-container {
           display: flex;
@@ -266,25 +254,31 @@ export class GrFlows extends LitElement {
                     </gr-date-formatter>
                   </div>`
               )}
-              <div class="stages-list">
-                <h4>Stages</h4>
-                <ul>
-                  ${flow.stages.map((stage, index) => {
+              <table>
+                <thead>
+                  <tr>
+                    <th>Status</th>
+                    <th>Condition</th>
+                    <th>Action</th>
+                    <th>Parameters</th>
+                    <th>Message</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${flow.stages.map(stage => {
                     const action = stage.expression.action;
                     return html`
-                      <li>
-                        ${this.renderStatus(stage)}
-                        <span>${index + 1}. </span>
-                        <span>${stage.expression.condition}</span>
-                        ${action ? html`<span> -> ${action.name}</span>` : ''}
-                        ${stage.message
-                          ? html`<span> (${stage.message})</span>`
-                          : ''}
-                      </li>
+                      <tr>
+                        <td>${this.renderStatus(stage)}</td>
+                        <td>${stage.expression.condition}</td>
+                        <td>${action ? action.name : ''}</td>
+                        <td>${action ? action.parameters : ''}</td>
+                        <td>${stage.message ?? ''}</td>
+                      </tr>
                     `;
                   })}
-                </ul>
-              </div>
+                </tbody>
+              </table>
             </div>
           `
         )}

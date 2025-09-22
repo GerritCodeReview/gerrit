@@ -70,6 +70,24 @@
       "parentUuid": "56dd60bb_b8340e69",
       "revId": "f16a6d422c3824809feb3c45ec1b98a97fb7f57c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f06a962_8bfdfc22",
+        "filename": "polygerrit-ui/app/elements/admin/gr-access-section/gr-access-section.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-09-22T15:14:35Z",
+      "side": 1,
+      "message": "Nice find!",
+      "parentUuid": "b630d1a9_4bdec0dc",
+      "revId": "f16a6d422c3824809feb3c45ec1b98a97fb7f57c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -135,7 +135,7 @@ public class MigrateLabelFunctionsToSubmitRequirement {
     }
   }
 
-  private Status updateConfig(Project.NameKey project, ProjectConfig projectConfig, UpdateUI ui)
+  public Status updateConfig(Project.NameKey project, ProjectConfig projectConfig, UpdateUI ui)
       throws IOException {
     boolean updated = false;
     if (hasPrologRules(project)) {

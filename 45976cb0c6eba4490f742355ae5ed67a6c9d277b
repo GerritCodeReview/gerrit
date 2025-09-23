@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e9c4201_d5d9cf1f",
+        "filename": "java/com/google/gerrit/server/restapi/flow/IsFlowsEnabled.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-09-23T11:59:21Z",
+      "side": 1,
+      "message": "Please also document this REST endpoint here: https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#flow-endpoints",
+      "revId": "45976cb0c6eba4490f742355ae5ed67a6c9d277b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf41bfa7_20c23d0c",
+        "filename": "polygerrit-ui/app/elements/change/gr-validation-options/gr-validation-options.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-09-23T10:56:23Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "3153f714_ed184eb4",
+      "revId": "6f0bef1a95303f933667932c3c847cd850379e94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "07f1bb92_862faa5e",
@@ -71,6 +89,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cb056463_385276be",
+        "filename": "polygerrit-ui/app/elements/change/gr-validation-options/gr-validation-options.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-09-23T10:56:23Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "07f1bb92_862faa5e",
+      "revId": "6f0bef1a95303f933667932c3c847cd850379e94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1aa4bc39_ba818d9d",
@@ -84,6 +120,24 @@
       "writtenOn": "2025-09-23T08:09:06Z",
       "side": 1,
       "message": "I would prefer this to not be added to `md-checkbox` in general. That seems rather specific to how md-checkbox is used in some layout.\n\nAlso, I understand the relevance to this change, because \u003cmd-checkbox\u003e is not used in a flex layout by \u003cgr-validation-options\u003e AFACIT.",
+      "revId": "6f0bef1a95303f933667932c3c847cd850379e94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe9d3546_0d7a1404",
+        "filename": "polygerrit-ui/app/styles/gr-material-styles.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-09-23T10:56:23Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "1aa4bc39_ba818d9d",
       "revId": "6f0bef1a95303f933667932c3c847cd850379e94",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

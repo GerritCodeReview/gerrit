@@ -3722,9 +3722,36 @@ As response "`204 No Content`" is returned.
   HTTP/1.1 204 No Content
 ----
 
-
 [[flow-endpoints]]
 == Flow Endpoints
+
+
+[[is-flows-enabled]]
+=== Is Flows Enabled
+--
+'GET /changes/link:#change-id[\{change-id\}]/is-flows-enabled'
+--
+
+Returns whether flows are enabled for this change.
+
+As result an link:#enabled-info[IsFlowsEnabledInfo] entity is returned.
+
+.Request
+----
+  GET /changes/myProject~65178/is-flows-enabled HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "enabled": true
+  }
+----
 
 [[list-flows]]
 === List Flows
@@ -8320,6 +8347,16 @@ If `true`, some of the file contents of the change edit contain git conflict
 markers to indicate the conflicts. +
 Only set if this edit info is returned in response to a request that
 link:#rebase-edit[rebases the change edit] and conflicts are allowed.
+|===========================
+
+[[enabled-info]]
+=== IsFlowsEnabledInfo
+The `IsFlowsEnabledInfo` entity contains information about whether flows is enabled.
+
+[options="header",cols="1,^1,5"]
+|===========================
+|Field Name    ||Description
+|`enabled`     ||A boolean indicating whether the feature is enabled.
 |===========================
 
 [[evaluate-change-query-expression-result-info]]

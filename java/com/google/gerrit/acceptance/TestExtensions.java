@@ -30,6 +30,7 @@ import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.SubmitRecord;
 import com.google.gerrit.exceptions.StorageException;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.PluginPushOption;
 import com.google.gerrit.server.ValidationOptionsListener;
@@ -231,6 +232,13 @@ public class TestExtensions {
               .build();
       flows.put(flowKey, flow);
       return flow;
+    }
+
+    @Override
+    public Boolean isFlowsEnabled(Project.NameKey projectName, Change.Id changeId)
+        throws RestApiException {
+      // Always return true for testing purposes.
+      return true;
     }
 
     @Override

@@ -20,6 +20,7 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import java.util.Optional;
 
 /**
@@ -34,6 +35,21 @@ import java.util.Optional;
  */
 @ExtensionPoint
 public interface FlowService {
+
+  /**
+   * Checks if Flows is enabled for change.
+   *
+   * <p>Can be used to disable flows at a change/project level. Implementations can have user
+   * information injected to disable it for a specific user.
+   *
+   * @param projectName The name of the project that contains the change.
+   * @param changeId The ID of the change for which the flows should be listed.
+   * @return If flows is enabled for the user.
+   * @throws RestApiException thrown if checking flow access has failed
+   */
+  public Boolean isFlowsEnabled(Project.NameKey projectName, Change.Id changeId)
+      throws RestApiException;
+
   /**
    * Create a new flow.
    *

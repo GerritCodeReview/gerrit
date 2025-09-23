@@ -34,6 +34,24 @@
       ],
       "revId": "1c0f2196ee5348ab819f6c95c83ad7c7831069c3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "48e5a50f_f756e7d6",
+        "filename": "polygerrit-ui/app/elements/change/gr-validation-options/gr-validation-options.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-09-23T11:05:33Z",
+      "side": 1,
+      "message": "IIRC it is based on testing. We set gr-validation-options to flex in gr-confirm-rebase-dialog as keeping it at block causes it to have stuff all over the place.",
+      "parentUuid": "cec25492_734a0a45",
+      "revId": "1c0f2196ee5348ab819f6c95c83ad7c7831069c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

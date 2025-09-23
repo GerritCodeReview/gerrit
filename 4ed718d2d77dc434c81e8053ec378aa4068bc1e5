@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b2c2692a_d512a567",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 3752,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-09-23T12:44:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1dc146cc_fa722619",
+      "revId": "4ed718d2d77dc434c81e8053ec378aa4068bc1e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6f0e8dd9_abed9e8d",
@@ -41,6 +59,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a7023f5f_64240253",
+        "filename": "java/com/google/gerrit/server/flow/FlowService.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-09-23T12:44:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6f0e8dd9_abed9e8d",
+      "range": {
+        "startLine": 40,
+        "startChar": 5,
+        "endLine": 40,
+        "endChar": 45
+      },
+      "revId": "4ed718d2d77dc434c81e8053ec378aa4068bc1e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "947ea9e1_f98dd977",
@@ -54,6 +96,30 @@
       "writtenOn": "2025-09-23T12:21:20Z",
       "side": 1,
       "message": "I think we do not use camelCase for REST endpoint names, but rather lower_caser_underscore, e.g. see https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#get-pure-revert",
+      "range": {
+        "startLine": 37,
+        "startChar": 22,
+        "endLine": 37,
+        "endChar": 36
+      },
+      "revId": "4ed718d2d77dc434c81e8053ec378aa4068bc1e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "56c79b31_a4f8dcf8",
+        "filename": "java/com/google/gerrit/server/restapi/flow/FlowRestApiModule.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-09-23T12:44:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "947ea9e1_f98dd977",
       "range": {
         "startLine": 37,
         "startChar": 22,

@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "18298528_4b99e6f1",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetAiPrompt.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-09-23T09:20:53Z",
+      "side": 1,
+      "message": "why is this public? It is only invoked from a private method in this class.",
+      "range": {
+        "startLine": 80,
+        "startChar": 2,
+        "endLine": 80,
+        "endChar": 8
+      },
+      "revId": "b8e1bd3ff545c5f7150e00b27233e7aa863a8bcd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "925b53aa_5155f88d",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetAiPrompt.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-09-23T09:20:53Z",
+      "side": 1,
+      "message": "This method is more than just \"read file content\". It also provides priority logic like `$SITE/etc` first, then from resource. Further it really reads a prompt template. Therefore, I propose to name it `readPromptTemplate` or `getPromptTemplate`",
+      "range": {
+        "startLine": 80,
+        "startChar": 16,
+        "endLine": 80,
+        "endChar": 31
+      },
+      "revId": "b8e1bd3ff545c5f7150e00b27233e7aa863a8bcd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "72af1f42_823262dc",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetAiPrompt.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-09-23T09:20:53Z",
+      "side": 1,
+      "message": "Do a static import of `UTF_8`",
+      "range": {
+        "startLine": 90,
+        "startChar": 79,
+        "endLine": 90,
+        "endChar": 84
+      },
+      "revId": "b8e1bd3ff545c5f7150e00b27233e7aa863a8bcd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f137c047_ae7118c9",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/GetAiPromptIT.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-09-23T09:20:53Z",
+      "side": 1,
+      "message": "+1",
+      "range": {
+        "startLine": 2,
+        "startChar": 17,
+        "endLine": 2,
+        "endChar": 21
+      },
+      "revId": "b8e1bd3ff545c5f7150e00b27233e7aa863a8bcd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "24f8d664_a446bf50",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/GetAiPromptIT.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-09-23T09:20:53Z",
+      "side": 1,
+      "message": "Gerrit source code mostly uses the `//` comment style for license headers.",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 3
+      },
+      "revId": "b8e1bd3ff545c5f7150e00b27233e7aa863a8bcd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d92ef826_cbbdd588",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/GetAiPromptIT.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-09-23T09:20:53Z",
+      "side": 1,
+      "message": "Can this test also be done as pure unit test (like you do in the follow-up tests)?",
+      "revId": "b8e1bd3ff545c5f7150e00b27233e7aa863a8bcd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

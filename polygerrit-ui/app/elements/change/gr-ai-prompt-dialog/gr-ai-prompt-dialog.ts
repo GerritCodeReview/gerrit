@@ -217,7 +217,7 @@ export class GrAiPromptDialog extends LitElement {
                   <div class="context-selector">
                     <md-outlined-select
                       label="Context"
-                      .value=${this.context.toString()}
+                      value=${this.context.toString()}
                       @change=${(e: Event) => {
                         const select = e.target as HTMLSelectElement;
                         this.context = Number(select.value);

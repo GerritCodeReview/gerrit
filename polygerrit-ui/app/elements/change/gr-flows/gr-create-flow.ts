@@ -176,7 +176,7 @@ export class GrCreateFlow extends LitElement {
       <div>${this.renderTable()}</div>
       <div class="add-stage-row">
         <md-outlined-select
-          .value=${this.currentConditionPrefix}
+          value=${this.currentConditionPrefix}
           @change=${(e: Event) => {
             const select = e.target as HTMLSelectElement;
             this.currentConditionPrefix = select.value;

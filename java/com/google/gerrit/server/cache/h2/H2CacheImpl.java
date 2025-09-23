@@ -431,6 +431,17 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
       while ((h = handles.poll()) != null) {
         h.close();
       }
+      shutdown();
+    }
+
+    private void shutdown() {
+      try (SqlHandle h = new SqlHandle(url)) {
+        try (Statement stmt = h.conn.createStatement()) {
+          stmt.execute("SHUTDOWN");
+        }
+      } catch (SQLException e) {
+        logger.atSevere().withCause(e).log("Cannot shutdown cache %s", url);
+      }
     }
 
     boolean mightContain(K key) {

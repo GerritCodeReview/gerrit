@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2e39c1a4_4ee9a8d7",
+        "filename": "java/com/google/gerrit/server/flow/FlowService.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-09-23T11:53:13Z",
+      "side": 1,
+      "message": "Please add some java doc.",
+      "revId": "02ad34681d21e807ca1d35fc086c63c9a89f7908",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "047b1c87_8c43981d",
+        "filename": "java/com/google/gerrit/server/restapi/flow/IsFlowsEnabled.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-09-23T11:53:13Z",
+      "side": 1,
+      "message": "Please add a line to FlowRestApiBindingsIT to make test that this REST endpoint is bound.\n\nThis test will fail, because you forgot to register this endpoint in FlowRestApiModule.",
+      "revId": "02ad34681d21e807ca1d35fc086c63c9a89f7908",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

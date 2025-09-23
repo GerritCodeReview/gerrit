@@ -43,6 +43,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
@@ -150,9 +151,11 @@ class H2CacheFactory extends PersistentCacheBaseFactory implements LifecycleList
         if (executor.awaitTermination(15, TimeUnit.MINUTES)) {
           if (pending != null && !pending.isEmpty()) {
             logger.atInfo().log("Finishing %d disk cache updates", pending.size());
-            for (Runnable update : pending) {
-              update.run();
-            }
+            CompletableFuture<?>[] futures =
+                pending.stream()
+                    .map(update -> CompletableFuture.runAsync(update))
+                    .toArray(CompletableFuture[]::new);
+            CompletableFuture.allOf(futures).join();
           }
         } else {
           logger.atInfo().log("Timeout waiting for disk cache to close");
@@ -162,9 +165,22 @@ class H2CacheFactory extends PersistentCacheBaseFactory implements LifecycleList
       }
     }
     synchronized (caches) {
-      for (H2CacheImpl<?, ?> cache : caches) {
-        cache.stop();
-      }
+      CompletableFuture<?>[] futures =
+          caches.stream()
+              .map(
+                  cache ->
+                      CompletableFuture.runAsync(
+                          () -> {
+                            try {
+                              cache.stop();
+                            } catch (Exception e) {
+                              logger.atWarning().log(
+                                  "Failed to stop cache %s: %s",
+                                  cache.getCacheName(), e.getMessage());
+                            }
+                          }))
+              .toArray(CompletableFuture[]::new);
+      CompletableFuture.allOf(futures).join();
     }
   }
 

@@ -407,6 +407,15 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
       while ((h = handles.poll()) != null) {
         h.close();
       }
+      shutdown();
+    }
+
+    private void shutdown() {
+      try (SqlHandle h = acquire()) {
+        h.shutdown();
+      } catch (SQLException e) {
+        logger.atSevere().withCause(e).log("Cannot shutdown cache %s", url);
+      }
     }
 
     boolean mightContain(K key) {
@@ -787,6 +796,12 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
         stmt.addBatch("CREATE INDEX IF NOT EXISTS version_key ON data(version, k)");
         stmt.addBatch("CREATE INDEX IF NOT EXISTS accessed ON data(accessed)");
         stmt.executeBatch();
+      }
+    }
+
+    void shutdown() throws SQLException {
+      try (Statement stmt = conn.createStatement()) {
+        stmt.execute("SHUTDOWN");
       }
     }
 

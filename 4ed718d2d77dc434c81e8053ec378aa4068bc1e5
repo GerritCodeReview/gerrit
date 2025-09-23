@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1dc146cc_fa722619",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 3752,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-09-23T12:21:20Z",
+      "side": 1,
+      "message": "I think it would be more consistent with other REST endpoints to return JSON here.",
+      "revId": "4ed718d2d77dc434c81e8053ec378aa4068bc1e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6f0e8dd9_abed9e8d",
+        "filename": "java/com/google/gerrit/server/flow/FlowService.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-09-23T12:21:20Z",
+      "side": 1,
+      "message": "Maybe phrase this a bit more generically. E.g. this method could also be used to enable/disable flows on project and change level.\n\nSince there is no user arg, maybe mention that implementations can get the current user injected to do per-user checks.",
+      "range": {
+        "startLine": 40,
+        "startChar": 5,
+        "endLine": 40,
+        "endChar": 45
+      },
+      "revId": "4ed718d2d77dc434c81e8053ec378aa4068bc1e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "947ea9e1_f98dd977",
+        "filename": "java/com/google/gerrit/server/restapi/flow/FlowRestApiModule.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-09-23T12:21:20Z",
+      "side": 1,
+      "message": "I think we do not use camelCase for REST endpoint names, but rather lower_caser_underscore, e.g. see https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#get-pure-revert",
+      "range": {
+        "startLine": 37,
+        "startChar": 22,
+        "endLine": 37,
+        "endChar": 36
+      },
+      "revId": "4ed718d2d77dc434c81e8053ec378aa4068bc1e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -20,7 +20,9 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import java.util.Optional;
+import java.util.concurrent.Flow;
 
 /**
  * Extension point to plug in a service to manage flows.
@@ -34,6 +36,9 @@ import java.util.Optional;
  */
 @ExtensionPoint
 public interface FlowService {
+
+  public Boolean isFlowsEnabled() throws RestApiException;
+
   /**
    * Create a new flow.
    *

@@ -103,6 +103,8 @@ public interface ChangeApi {
   /** Look up a flow of this change by its UUID. */
   FlowApi flow(String flowUuid) throws RestApiException;
 
+  Boolean isFlowsEnabled() throws RestApiException;
+
   /** Get the flows of this change/ */
   List<FlowInfo> flows() throws RestApiException;
 

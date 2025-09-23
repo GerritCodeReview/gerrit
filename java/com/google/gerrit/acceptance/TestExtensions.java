@@ -234,6 +234,13 @@ public class TestExtensions {
     }
 
     @Override
+    public Boolean isFlowsEnabled(Project.NameKey projectName, Change.Id changeId)
+        throws RestApiException {
+      // Always return true for testing purposes.
+      return true;
+    }
+
+    @Override
     public Optional<Flow> getFlow(FlowKey flowKey) throws StorageException {
       return Optional.ofNullable(flows.get(flowKey));
     }

@@ -75,6 +75,7 @@ import com.google.gerrit.server.DynamicOptions;
 import com.google.gerrit.server.change.ChangeMessageResource;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.WorkInProgressOp;
+import com.google.gerrit.server.flow.FlowServiceUtil;
 import com.google.gerrit.server.restapi.change.Abandon;
 import com.google.gerrit.server.restapi.change.AddToAttentionSet;
 import com.google.gerrit.server.restapi.change.ApplyPatch;
@@ -188,6 +189,7 @@ class ChangeApiImpl implements ChangeApi {
   private final PutMessage putMessage;
   private final CreateFlow createFlow;
   private final ListFlows listFlows;
+  private final FlowServiceUtil flowServiceUtil;
   private final Provider<EvaluateChangeQueryExpression> evaluateChangeQueryExpressionProvider;
   private final Provider<GetPureRevert> getPureRevertProvider;
   private final DynamicOptionParser dynamicOptionParser;
@@ -246,6 +248,7 @@ class ChangeApiImpl implements ChangeApi {
       PutMessage putMessage,
       CreateFlow createFlow,
       ListFlows listFlows,
+      FlowServiceUtil flowServiceUtil,
       Provider<EvaluateChangeQueryExpression> evaluateChangeQueryExpressionProvider,
       Provider<GetPureRevert> getPureRevertProvider,
       DynamicOptionParser dynamicOptionParser,
@@ -302,6 +305,7 @@ class ChangeApiImpl implements ChangeApi {
     this.putMessage = putMessage;
     this.createFlow = createFlow;
     this.listFlows = listFlows;
+    this.flowServiceUtil = flowServiceUtil;
     this.evaluateChangeQueryExpressionProvider = evaluateChangeQueryExpressionProvider;
     this.getPureRevertProvider = getPureRevertProvider;
     this.dynamicOptionParser = dynamicOptionParser;
@@ -349,6 +353,11 @@ class ChangeApiImpl implements ChangeApi {
     } catch (Exception e) {
       throw asRestApiException("Cannot parse flow", e);
     }
+  }
+
+  @Override
+  public Boolean isFlowsEnabled() throws RestApiException {
+    return this.flowServiceUtil.getFlowServiceOrThrow().isFlowsEnabled();
   }
 
   @Override

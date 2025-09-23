@@ -1,0 +1,91 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3153f714_ed184eb4",
+        "filename": "polygerrit-ui/app/elements/change/gr-validation-options/gr-validation-options.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-09-23T08:09:06Z",
+      "side": 1,
+      "message": "By default I think all components should have:\n```\n :host {\n   display: block;\n }\n```\n\nWeb components being `display:inline` by default is mostly just a historical accident. :-)",
+      "fixSuggestions": [
+        {
+          "fixId": "bdf8937b_818844d7",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-validation-options/gr-validation-options.ts",
+              "range": {
+                "startLine": 28,
+                "startChar": 0,
+                "endLine": 28,
+                "endChar": 0
+              },
+              "replacement": "        :host {\n          display: block;\n        }\n"
+            }
+          ]
+        }
+      ],
+      "revId": "6f0bef1a95303f933667932c3c847cd850379e94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "07f1bb92_862faa5e",
+        "filename": "polygerrit-ui/app/elements/change/gr-validation-options/gr-validation-options.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-09-23T08:09:06Z",
+      "side": 1,
+      "message": "The md-checkbox on the other hand can keep its default `display:inline-flex` I think. Maybe remove this line.",
+      "fixSuggestions": [
+        {
+          "fixId": "d274149f_036f50c7",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-validation-options/gr-validation-options.ts",
+              "range": {
+                "startLine": 29,
+                "startChar": 0,
+                "endLine": 30,
+                "endChar": 0
+              },
+              "replacement": ""
+            }
+          ]
+        }
+      ],
+      "revId": "6f0bef1a95303f933667932c3c847cd850379e94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1aa4bc39_ba818d9d",
+        "filename": "polygerrit-ui/app/styles/gr-material-styles.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-09-23T08:09:06Z",
+      "side": 1,
+      "message": "I would prefer this to not be added to `md-checkbox` in general. That seems rather specific to how md-checkbox is used in some layout.\n\nAlso, I understand the relevance to this change, because \u003cmd-checkbox\u003e is not used in a flex layout by \u003cgr-validation-options\u003e AFACIT.",
+      "revId": "6f0bef1a95303f933667932c3c847cd850379e94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

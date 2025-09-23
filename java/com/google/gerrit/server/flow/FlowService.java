@@ -20,6 +20,7 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import java.util.Optional;
 
 /**
@@ -34,6 +35,10 @@ import java.util.Optional;
  */
 @ExtensionPoint
 public interface FlowService {
+
+  public Boolean isFlowsEnabled(Project.NameKey projectName, Change.Id changeId)
+      throws RestApiException;
+
   /**
    * Create a new flow.
    *

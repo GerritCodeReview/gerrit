@@ -161,7 +161,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
             () -> {
               ValueHolder<V> h = store.getIfPresent(key);
               if (h == null) {
-                h = new ValueHolder<>(valueLoader.call(), Instant.ofEpochMilli(TimeUtil.nowMs()));
+                h = new ValueHolder<>(valueLoader.call(), TimeUtil.now());
                 ValueHolder<V> fh = h;
                 executor.execute(() -> store.put(key, fh));
               }
@@ -172,7 +172,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
 
   @Override
   public void put(K key, V val) {
-    final ValueHolder<V> h = new ValueHolder<>(val, Instant.ofEpochMilli(TimeUtil.nowMs()));
+    final ValueHolder<V> h = new ValueHolder<>(val, TimeUtil.now());
     mem.put(key, h);
     executor.execute(() -> store.put(key, h));
   }
@@ -260,7 +260,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
               "Loading value from cache", Metadata.builder().cacheKey(key.toString()).build())) {
         ValueHolder<V> h = store.getIfPresent(key);
         if (h == null) {
-          h = new ValueHolder<>(loader.load(key), Instant.ofEpochMilli(TimeUtil.nowMs()));
+          h = new ValueHolder<>(loader.load(key), TimeUtil.now());
           ValueHolder<V> fh = h;
           executor.execute(() -> store.put(key, fh));
         }
@@ -283,7 +283,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
         }
         try {
           Map<K, V> remaining = loader.loadAll(notInMemory);
-          Instant instant = Instant.ofEpochMilli(TimeUtil.nowMs());
+          Instant instant = TimeUtil.now();
           storeInDatabase(remaining, instant);
           remaining
               .entrySet()

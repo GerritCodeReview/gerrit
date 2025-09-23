@@ -2390,6 +2390,9 @@ refs are checked and potentially read at least once per request
 (lazily) if needed. This helps reduce the overhead of checking if
 the packed-refs file is outdated.
 +
+NOTE: If any repository uses the reftable backend, this needs to be
+set to false
++
 Default is `true`.
 
 [[core.useFileKeyByProjectCache]]core.useFileKeyByProjectCache::

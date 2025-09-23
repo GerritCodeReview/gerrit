@@ -352,6 +352,11 @@ class ChangeApiImpl implements ChangeApi {
   }
 
   @Override
+  public Boolean isFlowsEnabled() throws RestApiException {
+    return true;
+  }
+
+  @Override
   public List<FlowInfo> flows() throws RestApiException {
     try {
       return listFlows.apply(change).value();

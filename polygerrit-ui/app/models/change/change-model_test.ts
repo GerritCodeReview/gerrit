@@ -16,6 +16,7 @@ import {
   createMergeable,
   createParsedChange,
   createRevision,
+  createSubmitRequirementResultInfo,
   TEST_NUMERIC_CHANGE_ID,
 } from '../../test/test-data-generators';
 import {
@@ -485,6 +486,63 @@ suite('change model tests', () => {
     state = await waitForLoadingStatus(LoadingStatus.LOADED);
     assert.equal(stub.callCount, 3);
     assert.deepEqual(state?.change, updateRevisionsWithCommitShas(knownChange));
+  });
+
+  test('load submit requirements (SRs load first)', async () => {
+    const promiseDetail = mockPromise<ParsedChangeInfo | undefined>();
+    const stubDetail = stubRestApi('getChangeDetail').callsFake(
+      () => promiseDetail
+    );
+    const promiseSrs = mockPromise<ChangeInfo | undefined>();
+    const stubSrs = stubRestApi('getChangeSubmitRequirements').callsFake(
+      () => promiseSrs
+    );
+    testResolver(changeViewModelToken).setState(createChangeViewState());
+    promiseSrs.resolve({
+      ...knownChange,
+      submittable: false,
+      submit_requirements: [createSubmitRequirementResultInfo()],
+    } as ChangeInfo);
+    await waitUntilObserved(
+      changeModel.state$,
+      state => state.changeSubmitRequirementsInfo !== undefined,
+      'SubmitRequirements was never loaded'
+    );
+    promiseDetail.resolve(knownChange);
+    const state = await waitForLoadingStatus(LoadingStatus.LOADED);
+    assert.isTrue(state.change?.submit_requirements?.length === 1);
+    assert.isTrue(state.change?.submittable === false);
+    assert.equal(stubDetail.callCount, 1);
+    assert.equal(stubSrs.callCount, 1);
+  });
+
+  test('load submit requirements (Detail load first)', async () => {
+    const promiseDetail = mockPromise<ParsedChangeInfo | undefined>();
+    const stubDetail = stubRestApi('getChangeDetail').callsFake(
+      () => promiseDetail
+    );
+    const promiseSrs = mockPromise<ChangeInfo | undefined>();
+    const stubSrs = stubRestApi('getChangeSubmitRequirements').callsFake(
+      () => promiseSrs
+    );
+    let state: ChangeState;
+    testResolver(changeViewModelToken).setState(createChangeViewState());
+    promiseDetail.resolve(knownChange);
+    state = await waitForLoadingStatus(LoadingStatus.LOADED);
+    promiseSrs.resolve({
+      ...knownChange,
+      submittable: false,
+      submit_requirements: [createSubmitRequirementResultInfo()],
+    } as ChangeInfo);
+    state = await waitUntilObserved(
+      changeModel.state$,
+      state => state.changeSubmitRequirementsInfo !== undefined,
+      'SubmitRequirements was never loaded'
+    );
+    assert.isTrue(state.change?.submit_requirements?.length === 1);
+    assert.isTrue(state.change?.submittable === false);
+    assert.equal(stubDetail.callCount, 1);
+    assert.equal(stubSrs.callCount, 1);
   });
 
   test('navigating to another change', async () => {

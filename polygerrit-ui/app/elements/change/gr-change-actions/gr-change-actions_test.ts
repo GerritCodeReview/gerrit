@@ -1676,7 +1676,7 @@ suite('gr-change-actions tests', () => {
           assert.equal(confirmRevertDialog.message, expectedMsg);
           const radioInputs = queryAll<HTMLInputElement>(
             confirmRevertDialog,
-            'input[name="revertOptions"]'
+            'md-radio[name="revertOptions"]'
           );
           radioInputs[0].click();
           await element.updateComplete;
@@ -1728,7 +1728,7 @@ suite('gr-change-actions tests', () => {
           await element.updateComplete;
           const radioInputs = queryAll<HTMLInputElement>(
             confirmRevertDialog,
-            'input[name="revertOptions"]'
+            'md-radio[name="revertOptions"]'
           );
           const revertSubmissionMsg =
             'Revert submission 199 0' +

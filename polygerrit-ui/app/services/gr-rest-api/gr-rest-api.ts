@@ -206,6 +206,14 @@ export interface RestApiService extends Finalizable {
   ): Promise<ParsedChangeInfo | undefined>;
 
   /**
+   * Fetch change info with minimal fields + submit requirements as extra
+   * options.
+   */
+  getChangeSubmitRequirements(
+    changeNum: NumericChangeId
+  ): Promise<ChangeInfo | undefined>;
+
+  /**
    * For every revision of the change returns the list of FileInfo for files
    * which are modified compared to revision's parent.
    */

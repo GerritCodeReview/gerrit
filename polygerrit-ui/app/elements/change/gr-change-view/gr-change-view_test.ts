@@ -306,8 +306,7 @@ suite('gr-change-view tests', () => {
     assert.shadowDom.equal(
       element,
       /* HTML */ `
-        <div class="container loading">Loading...</div>
-        <div class="container" hidden="" id="mainContent">
+        <div class="container" id="mainContent">
           <section class="changeInfoSection">
             <div class="header">
               <h1 class="assistive-tech-only">Change :</h1>

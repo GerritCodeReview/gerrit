@@ -11,10 +11,10 @@ import '../gr-change-summary/gr-change-summary';
 import '../../shared/gr-limited-text/gr-limited-text';
 import '../../shared/gr-vote-chip/gr-vote-chip';
 import '../../checks/gr-checks-chip-for-label';
-import {css, html, LitElement, nothing, TemplateResult} from 'lit';
-import {customElement, property, state} from 'lit/decorators.js';
-import {ParsedChangeInfo} from '../../../types/types';
-import {repeat} from 'lit/directives/repeat.js';
+import { css, html, LitElement, nothing, TemplateResult } from 'lit';
+import { customElement, property, state } from 'lit/decorators.js';
+import { ParsedChangeInfo } from '../../../types/types';
+import { repeat } from 'lit/directives/repeat.js';
 import {
   AccountInfo,
   isDetailedLabelInfo,
@@ -36,36 +36,37 @@ import {
   iconForRequirement,
   orderSubmitRequirements,
 } from '../../../utils/label-util';
-import {fontStyles} from '../../../styles/gr-font-styles';
-import {capitalizeFirstLetter, charsOnly} from '../../../utils/string-util';
-import {submitRequirementsStyles} from '../../../styles/gr-submit-requirements-styles';
-import {resolve} from '../../../models/dependency';
-import {CheckRun, checksModelToken} from '../../../models/checks/checks-model';
-import {map} from 'lit/directives/map.js';
+import { fontStyles } from '../../../styles/gr-font-styles';
+import { capitalizeFirstLetter, charsOnly } from '../../../utils/string-util';
+import { submitRequirementsStyles } from '../../../styles/gr-submit-requirements-styles';
+import { resolve } from '../../../models/dependency';
+import { CheckRun, checksModelToken } from '../../../models/checks/checks-model';
+import { map } from 'lit/directives/map.js';
 import {
   countErrorRunsForLabel,
   countRunningRunsForLabel,
 } from '../../checks/gr-checks-util';
-import {subscribe} from '../../lit/subscription-controller';
+import { subscribe } from '../../lit/subscription-controller';
+import { when } from 'lit/directives/when.js';
 
 /**
  * @attr {Boolean} suppress-title - hide titles, currently for hovercard view
  */
 @customElement('gr-submit-requirements')
 export class GrSubmitRequirements extends LitElement {
-  @property({type: Object})
+  @property({ type: Object })
   change?: ParsedChangeInfo;
 
-  @property({type: Object})
+  @property({ type: Object })
   account?: AccountInfo;
 
-  @property({type: Boolean})
+  @property({ type: Boolean })
   mutable?: boolean;
 
-  @property({type: Boolean, attribute: 'disable-hovercards'})
+  @property({ type: Boolean, attribute: 'disable-hovercards' })
   disableHovercards = false;
 
-  @property({type: Boolean, attribute: 'disable-endpoints'})
+  @property({ type: Boolean, attribute: 'disable-endpoints' })
   disableEndpoints = false;
 
   @state()
@@ -153,7 +154,6 @@ export class GrSubmitRequirements extends LitElement {
     const submit_requirements = orderSubmitRequirements(
       getRequirements(this.change)
     );
-    if (submit_requirements.length === 0) return nothing;
 
     const requirementKey = (req: SubmitRequirementResultInfo, index: number) =>
       `${index}-${req.name}`;
@@ -161,9 +161,10 @@ export class GrSubmitRequirements extends LitElement {
         class="metadata-title heading-3"
         id="submit-requirements-caption"
       >
-        Submit Requirements
+        Submit Requirements ${submit_requirements.length == 0 ? '(Loading...)' : ''}
       </h3>
-      <table class="requirements" aria-labelledby="submit-requirements-caption">
+      ${when(submit_requirements.length != 0,
+      () => html`<table class="requirements" aria-labelledby="submit-requirements-caption">
         <thead hidden>
           <tr>
             <th>Status</th>
@@ -173,13 +174,13 @@ export class GrSubmitRequirements extends LitElement {
         </thead>
         <tbody>
           ${repeat(submit_requirements, requirementKey, (requirement, index) =>
-            this.renderRequirement(requirement, index)
-          )}
+        this.renderRequirement(requirement, index)
+      )}
         </tbody>
       </table>
       ${this.disableHovercards
-        ? ''
-        : submit_requirements.map(
+          ? ''
+          : submit_requirements.map(
             (requirement, index) => html`
               <gr-submit-requirement-hovercard
                 for="requirement-${index}-${charsOnly(requirement.name)}"
@@ -189,7 +190,8 @@ export class GrSubmitRequirements extends LitElement {
                 .mutable=${this.mutable ?? false}
               ></gr-submit-requirement-hovercard>
             `
-          )}`;
+          )}`
+    )}`;
   }
 
   private renderRequirement(
@@ -292,19 +294,19 @@ export class GrSubmitRequirements extends LitElement {
 
     return html`<div class="votes">
       ${map(
-        associatedLabelsWithVotes,
-        label =>
-          html`<div class="votes-line">
+      associatedLabelsWithVotes,
+      label =>
+        html`<div class="votes-line">
             ${this.renderLabelVote(label, allLabels)}
             ${this.renderVoteCountHelpLabel(requirement, label, allLabels)}
             ${this.renderOverrideLabels(
-              requirement,
-              label,
-              associatedLabelsWithVotes.length > 1
-            )}
+          requirement,
+          label,
+          associatedLabelsWithVotes.length > 1
+        )}
             ${this.renderChecks(requirement, label)}
           </div>`
-      )}
+    )}
     </div> `;
   }
 
@@ -344,8 +346,8 @@ export class GrSubmitRequirements extends LitElement {
             .vote=${approvalInfo}
             .label=${labelInfo}
             .more=${(labelInfo.all ?? []).filter(
-              other => other.value === approvalInfo.value
-            ).length > 1}
+            other => other.value === approvalInfo.value
+          ).length > 1}
           ></gr-vote-chip>`
       );
     } else if (isQuickLabelInfo(labelInfo)) {
@@ -399,14 +401,14 @@ export class GrSubmitRequirements extends LitElement {
     const targetLabels = labelName
       ? [labelName]
       : requirement
-      ? extractAssociatedLabels(requirement)
-      : [];
+        ? extractAssociatedLabels(requirement)
+        : [];
 
     // If there are no labels to filter by, then no checks can be associated.
     if (targetLabels.length === 0) return undefined;
 
-    const {errorRunsCount} = countErrorRunsForLabel(this.runs, targetLabels);
-    const {runningRunsCount} = countRunningRunsForLabel(
+    const { errorRunsCount } = countErrorRunsForLabel(this.runs, targetLabels);
+    const { runningRunsCount } = countRunningRunsForLabel(
       this.runs,
       targetLabels
     );
@@ -429,8 +431,8 @@ export class GrSubmitRequirements extends LitElement {
       </h3>
       <section class="trigger-votes">
         ${triggerVotes.map(
-          label =>
-            html`<gr-trigger-vote
+      label =>
+        html`<gr-trigger-vote
               .label=${label}
               .labelInfo=${labels[label]}
               .change=${this.change}
@@ -438,7 +440,7 @@ export class GrSubmitRequirements extends LitElement {
               .mutable=${this.mutable ?? false}
               .disableHovercards=${this.disableHovercards}
             ></gr-trigger-vote>`
-        )}
+    )}
       </section>`;
   }
 

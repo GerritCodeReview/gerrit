@@ -36,6 +36,42 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ccc37ac0_bb6420aa",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-rebase-dialog/gr-confirm-rebase-dialog.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-09-24T13:40:02Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "82f13e4d_c8f96953",
+      "revId": "60557237a839600af289850cab3019e0fded783a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d840122a_4eb22421",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-rebase-dialog/gr-confirm-rebase-dialog.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-09-24T13:40:02Z",
+      "side": 1,
+      "message": "That causes it to look like https://imgur.com/a/MEoB9na",
+      "parentUuid": "82f13e4d_c8f96953",
+      "revId": "60557237a839600af289850cab3019e0fded783a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4c458a3d_2649ea4b",

@@ -64,7 +64,6 @@ suite('gr-confirm-rebase-dialog tests', () => {
               id="rebaseOnParentInput"
               name="rebaseOptions"
               tabindex="0"
-              touch-target="wrapper"
             >
             </md-radio>
             <label for="rebaseOnParentInput" id="rebaseOnParentLabel">
@@ -83,7 +82,6 @@ suite('gr-confirm-rebase-dialog tests', () => {
               id="rebaseOnTipInput"
               name="rebaseOptions"
               tabindex="0"
-              touch-target="wrapper"
             >
             </md-radio>
             <label for="rebaseOnTipInput" id="rebaseOnTipLabel">
@@ -95,12 +93,7 @@ suite('gr-confirm-rebase-dialog tests', () => {
             Change is up to date with the target branch already (test)
           </div>
           <div class="rebaseOption" id="rebaseOnOther">
-            <md-radio
-              id="rebaseOnOtherInput"
-              name="rebaseOptions"
-              tabindex="0"
-              touch-target="wrapper"
-            >
+            <md-radio id="rebaseOnOtherInput" name="rebaseOptions" tabindex="0">
             </md-radio>
             <label for="rebaseOnOtherInput" id="rebaseOnOtherLabel">
               Rebase on a specific change, ref, or commit
@@ -111,11 +104,12 @@ suite('gr-confirm-rebase-dialog tests', () => {
             <gr-change-autocomplete> </gr-change-autocomplete>
           </div>
           <div class="rebaseCheckbox">
-            <md-checkbox id="rebaseAllowConflicts" touch-target="wrapper">
-            </md-checkbox>
-            <label for="rebaseAllowConflicts">
-              Allow rebase with conflicts
-            </label>
+            <div class="checkbox-container">
+              <md-checkbox id="rebaseAllowConflicts"> </md-checkbox>
+              <label for="rebaseAllowConflicts">
+                Allow rebase with conflicts
+              </label>
+            </div>
             <gr-validation-options> </gr-validation-options>
           </div>
         </div>

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b3bebc25_aeae5223",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-09-24T14:47:33Z",
+      "side": 1,
+      "message": "Hmm similar fix will need to be done for the cherry-pick dialog? Since you removed the touch-target wrapper that whilst made things look a little ugly by pusshing the radio button, it worked around the issue. https://imgur.com/a/7en78sU is what it looks like for me.",
+      "revId": "804d4dc0b6af5b0a9a3f71b7f23e1c1143807d48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

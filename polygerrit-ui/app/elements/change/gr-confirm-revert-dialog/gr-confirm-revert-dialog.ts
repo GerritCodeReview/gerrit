@@ -24,6 +24,8 @@ import {ParsedChangeInfo} from '../../../types/types';
 import {formStyles} from '../../../styles/form-styles';
 import {GrValidationOptions} from '../gr-validation-options/gr-validation-options';
 import {GrAutogrowTextarea} from '../../shared/gr-autogrow-textarea/gr-autogrow-textarea';
+import '@material/web/radio/radio';
+import {materialStyles} from '../../../styles/gr-material-styles';
 
 const ERR_COMMIT_NOT_FOUND = 'Unable to find the commit hash of this change.';
 const SPECIFY_REASON_STRING = '<MUST SPECIFY REASON HERE>';
@@ -85,6 +87,7 @@ export class GrConfirmRevertDialog
     return [
       formStyles,
       sharedStyles,
+      materialStyles,
       css`
         :host {
           display: block;
@@ -101,6 +104,8 @@ export class GrConfirmRevertDialog
         .revertSubmissionLayout {
           display: flex;
           align-items: center;
+          margin-top: var(--spacing-l);
+          margin-bottom: var(--spacing-m);
         }
         .label {
           margin-left: var(--spacing-m);
@@ -121,6 +126,9 @@ export class GrConfirmRevertDialog
         label[for='messageInput'] {
           margin-top: var(--spacing-m);
         }
+        gr-validation-options {
+          margin-bottom: var(--spacing-m);
+        }
       `,
     ];
   }
@@ -140,13 +148,13 @@ export class GrConfirmRevertDialog
           ${this.showRevertSubmission
             ? html`
                 <div class="revertSubmissionLayout">
-                  <input
-                    name="revertOptions"
-                    type="radio"
+                  <md-radio
                     id="revertSingleChange"
-                    @change=${() => this.handleRevertSingleChangeClicked()}
+                    name="revertOptions"
                     ?checked=${this.computeIfSingleRevert()}
-                  />
+                    @change=${() => this.handleRevertSingleChangeClicked()}
+                  >
+                  </md-radio>
                   <label
                     for="revertSingleChange"
                     class="label revertSingleChange"
@@ -155,13 +163,13 @@ export class GrConfirmRevertDialog
                   </label>
                 </div>
                 <div class="revertSubmissionLayout">
-                  <input
-                    name="revertOptions"
-                    type="radio"
+                  <md-radio
                     id="revertSubmission"
+                    name="revertOptions"
+                    ?checked=${this.computeIfRevertSubmission()}
                     @change=${() => this.handleRevertSubmissionClicked()}
-                    .checked=${this.computeIfRevertSubmission()}
-                  />
+                  >
+                  </md-radio>
                   <label for="revertSubmission" class="label revertSubmission">
                     Revert entire submission (${this.changesCount} Changes)
                   </label>

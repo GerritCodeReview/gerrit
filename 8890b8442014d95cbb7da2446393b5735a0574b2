@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9f943f9f_b3dd4f14",
+        "filename": "java/com/google/gerrit/server/cache/h2/H2CacheImpl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 756,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-09-24T15:40:37Z",
+      "side": 1,
+      "message": "Why not do this within `createSchema()`?",
+      "range": {
+        "startLine": 756,
+        "startChar": 10,
+        "endLine": 756,
+        "endChar": 58
+      },
+      "revId": "8890b8442014d95cbb7da2446393b5735a0574b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

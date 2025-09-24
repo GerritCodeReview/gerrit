@@ -137,7 +137,8 @@ public class ChangesByProjectCacheImpl implements ChangesByProjectCache {
     }
   }
 
-  private static class CachedProjectChanges {
+  @VisibleForTesting
+  public static class CachedProjectChanges {
     Map<String, Map<Change.Id, ObjectId>> metaObjectIdByNonPrivateChangeByBranch =
         new ConcurrentHashMap<>(); // BranchNameKey "normalized" to a String to dedup project
     Map<Change.Id, PrivateChange> privateChangeById = new ConcurrentHashMap<>();
@@ -172,6 +173,7 @@ public class ChangesByProjectCacheImpl implements ChangesByProjectCache {
           } catch (Exception ex) {
             // Do not let a bad change prevent other changes from being available.
             logger.atFinest().withCause(ex).log("Can't load changeData for %s", id);
+            continue;
           }
           cds.add(cd);
         }

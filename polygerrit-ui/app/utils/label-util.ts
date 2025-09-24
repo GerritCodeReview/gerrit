@@ -351,7 +351,16 @@ export function iconForStatus(
  * Show only applicable.
  */
 export function getRequirements(change?: ParsedChangeInfo | ChangeInfo) {
-  return (change?.submit_requirements ?? []).filter(
+  return getApplicableRequirements(change?.submit_requirements);
+}
+
+/**
+ * Get applicable requirements.
+ */
+export function getApplicableRequirements(
+  requirements?: SubmitRequirementResultInfo[]
+) {
+  return (requirements ?? []).filter(
     req => req.status !== SubmitRequirementStatus.NOT_APPLICABLE
   );
 }

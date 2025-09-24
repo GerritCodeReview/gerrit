@@ -248,6 +248,12 @@ export const grRestApiMock: RestApiService = {
     if (changeNum === undefined) return Promise.resolve(undefined);
     return Promise.resolve(createChange() as ParsedChangeInfo);
   },
+  getChangeSubmitRequirements(
+    changeNum: NumericChangeId
+  ): Promise<ChangeInfo | undefined> {
+    if (changeNum === undefined) return Promise.resolve(undefined);
+    return Promise.resolve(createChange());
+  },
   getChangeEdit(): Promise<EditInfo | undefined> {
     return Promise.resolve(undefined);
   },

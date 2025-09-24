@@ -525,7 +525,6 @@ export class GrImageViewer extends LitElement {
           <label class="highlight-changes">
             <md-checkbox
               id="highlight-changes"
-              touch-target="wrapper"
               ?checked=${this.showHighlight}
               @change=${this.showHighlightChanged}
             >
@@ -576,7 +575,6 @@ export class GrImageViewer extends LitElement {
     const followMouse = html`
       <label class="follow-mouse">
         <md-checkbox
-          touch-target="wrapper"
           id="follow-mouse"
           ?checked=${this.followMouse}
           @change=${this.followMouseChanged}

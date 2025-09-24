@@ -63,7 +63,7 @@ suite('gr-confirm-rebase-dialog tests', () => {
             <md-radio
               id="rebaseOnParentInput"
               name="rebaseOptions"
-              tabindex="0"
+              tabindex="-1"
             >
             </md-radio>
             <label for="rebaseOnParentInput" id="rebaseOnParentLabel">
@@ -81,7 +81,7 @@ suite('gr-confirm-rebase-dialog tests', () => {
               disabled=""
               id="rebaseOnTipInput"
               name="rebaseOptions"
-              tabindex="0"
+              tabindex="-1"
             >
             </md-radio>
             <label for="rebaseOnTipInput" id="rebaseOnTipLabel">
@@ -93,7 +93,12 @@ suite('gr-confirm-rebase-dialog tests', () => {
             Change is up to date with the target branch already (test)
           </div>
           <div class="rebaseOption" id="rebaseOnOther">
-            <md-radio id="rebaseOnOtherInput" name="rebaseOptions" tabindex="0">
+            <md-radio
+              checked=""
+              id="rebaseOnOtherInput"
+              name="rebaseOptions"
+              tabindex="0"
+            >
             </md-radio>
             <label for="rebaseOnOtherInput" id="rebaseOnOtherLabel">
               Rebase on a specific change, ref, or commit
@@ -428,7 +433,7 @@ suite('gr-confirm-rebase-dialog tests', () => {
     );
     assert.deepEqual((fireStub.lastCall.args[0] as CustomEvent).detail, {
       allowConflicts: false,
-      base: '123',
+      base: '',
       rebaseChain: true,
       onBehalfOfUploader: true,
       committerEmail: null,

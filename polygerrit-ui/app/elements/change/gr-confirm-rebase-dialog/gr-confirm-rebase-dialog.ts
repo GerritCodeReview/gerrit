@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../../shared/gr-account-chip/gr-account-chip';
-import {css, html, LitElement, PropertyValues} from 'lit';
+import {css, html, LitElement} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {when} from 'lit/directives/when.js';
 import {
@@ -179,15 +179,6 @@ export class GrConfirmRebaseDialog
     this.loadCommitterEmailDropdownItems();
   }
 
-  override willUpdate(changedProperties: PropertyValues): void {
-    if (
-      changedProperties.has('rebaseOnCurrent') ||
-      changedProperties.has('hasParent')
-    ) {
-      this.updateSelectedOption();
-    }
-  }
-
   static override get styles() {
     return [
       formStyles,
@@ -221,16 +212,20 @@ export class GrConfirmRebaseDialog
           display: flex;
           align-items: center;
           gap: var(--spacing-m);
-          margin-top: var(--spacing-l);
+          margin-top: var(--spacing-xl);
         }
         .rebaseCheckbox {
-          margin-top: var(--spacing-m);
+          margin-top: var(--spacing-xl);
         }
         .rebaseOnBehalfMsg {
           margin-top: var(--spacing-m);
         }
         .rebaseWithCommitterEmail {
           margin-top: var(--spacing-m);
+        }
+        .main {
+          margin-top: var(--spacing-xl);
+          margin-bottom: var(--spacing-xl);
         }
         @media screen and (max-width: 50em) {
           #confirmDialog {
@@ -252,8 +247,11 @@ export class GrConfirmRebaseDialog
       >
         <div class="header" slot="header">Confirm rebase</div>
         <div class="main" slot="main">
-          ${when(this.loading, () => html`<div>Loading...</div>`)}
-          ${when(!this.loading, () => this.renderRebaseDialog())}
+          ${when(
+            this.loading,
+            () => html`<div>Loading...</div>`,
+            () => this.renderRebaseDialog()
+          )}
         </div>
       </gr-dialog>
     `;
@@ -265,7 +263,12 @@ export class GrConfirmRebaseDialog
         class="rebaseOption loading"
         ?hidden=${!this.displayParentOption() || this.loading}
       >
-        <md-radio id="rebaseOnParentInput" name="rebaseOptions"> </md-radio>
+        <md-radio
+          id="rebaseOnParentInput"
+          name="rebaseOptions"
+          ?checked=${this.displayParentOption()}
+        >
+        </md-radio>
         <label id="rebaseOnParentLabel" for="rebaseOnParentInput">
           Rebase on parent change
         </label>
@@ -288,6 +291,7 @@ export class GrConfirmRebaseDialog
         <md-radio
           id="rebaseOnTipInput"
           name="rebaseOptions"
+          ?checked=${!this.displayParentOption() && this.displayTipOption()}
           ?disabled=${!this.displayTipOption()}
         >
         </md-radio>
@@ -310,6 +314,7 @@ export class GrConfirmRebaseDialog
         <md-radio
           id="rebaseOnOtherInput"
           name="rebaseOptions"
+          ?checked=${!this.displayParentOption() && !this.displayTipOption()}
           @click=${this.handleRebaseOnOther}
         >
         </md-radio>
@@ -565,25 +570,6 @@ export class GrConfirmRebaseDialog
 
   private handleEnterChangeNumberClick() {
     if (this.rebaseOnOtherInput) this.rebaseOnOtherInput.checked = true;
-  }
-
-  /**
-   * Sets the default radio button based on the state of the app and
-   * the corresponding value to be submitted.
-   */
-  private updateSelectedOption() {
-    const {rebaseOnCurrent, hasParent} = this;
-    if (rebaseOnCurrent === undefined || hasParent === undefined) {
-      return;
-    }
-
-    if (this.displayParentOption()) {
-      if (this.rebaseOnParentInput) this.rebaseOnParentInput.checked = true;
-    } else if (this.displayTipOption()) {
-      if (this.rebaseOnTipInput) this.rebaseOnTipInput.checked = true;
-    } else {
-      if (this.rebaseOnOtherInput) this.rebaseOnOtherInput.checked = true;
-    }
   }
 }
 

@@ -188,6 +188,12 @@ export class GrConfirmRebaseDialog
     }
   }
 
+  override updated(changedProperties: PropertyValues) {
+    if (changedProperties.has('loading')) {
+      if (!this.loading) this.updateSelectedOption();
+    }
+  }
+
   static override get styles() {
     return [
       formStyles,
@@ -252,8 +258,11 @@ export class GrConfirmRebaseDialog
       >
         <div class="header" slot="header">Confirm rebase</div>
         <div class="main" slot="main">
-          ${when(this.loading, () => html`<div>Loading...</div>`)}
-          ${when(!this.loading, () => this.renderRebaseDialog())}
+          ${when(
+            this.loading,
+            () => html`<div>Loading...</div>`,
+            () => this.renderRebaseDialog()
+          )}
         </div>
       </gr-dialog>
     `;

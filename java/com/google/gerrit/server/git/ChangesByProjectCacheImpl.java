@@ -137,7 +137,19 @@ public class ChangesByProjectCacheImpl implements ChangesByProjectCache {
     }
   }
 
+<<<<<<< HEAD   (dd952f9d1b7a76111611d7c3295558ab696b65a5 Merge branch 'stable-3.5' into stable-3.6)
   private static class CachedProjectChanges {
+||||||| BASE   (300b5cddf3c60c040867e281c93f624d505f0ae6 Merge "UI: Replace ".value" with "value" everywhere for md-o)
+  @VisibleForTesting
+  public static class CachedProjectChanges {
+    private record ChangeDataUpdateResult(Collection<ChangeData> cds, boolean anyUpdated) {}
+
+=======
+  @VisibleForTesting
+  public static class CachedProjectChanges {
+    public record ChangeDataUpdateResult(Collection<ChangeData> cds, boolean anyUpdated) {}
+
+>>>>>>> CHANGE (8a6d152f6929c2caa612fcc972de06b552ba063c Skip unloadable changes in ChangesByProjectCache)
     Map<String, Map<Change.Id, ObjectId>> metaObjectIdByNonPrivateChangeByBranch =
         new ConcurrentHashMap<>(); // BranchNameKey "normalized" to a String to dedup project
     Map<Change.Id, PrivateChange> privateChangeById = new ConcurrentHashMap<>();
@@ -172,6 +184,7 @@ public class ChangesByProjectCacheImpl implements ChangesByProjectCache {
           } catch (Exception ex) {
             // Do not let a bad change prevent other changes from being available.
             logger.atFinest().withCause(ex).log("Can't load changeData for %s", id);
+            continue;
           }
           cds.add(cd);
         }

@@ -3502,10 +3502,15 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
         )
       ) as Promise<ChangeInfo | undefined>;
     } else {
+      const params: FetchParams = {q: `change:${changeNum}`};
+      if (optionsHex) {
+        params['O'] = optionsHex;
+      }
       return this._restApiHelper
         .fetchJSON(
           {
             url: `/changes/?q=change:${changeNum}`,
+            params,
             errFn,
             anonymizedUrl: '/changes/?q=change:*',
           },

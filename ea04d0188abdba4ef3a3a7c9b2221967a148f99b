@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9e61ccf7_7574c129",
+        "filename": "java/com/google/gerrit/server/cache/h2/H2CacheFactory.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-09-24T18:18:14Z",
+      "side": 1,
+      "message": "Based on your commit message, it seems like you wanted to run these concurrently too? Maybe they should run in parallel with the `executor.awaitTermination()` on L151?",
+      "revId": "ea04d0188abdba4ef3a3a7c9b2221967a148f99b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

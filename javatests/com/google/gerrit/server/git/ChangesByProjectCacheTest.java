@@ -15,6 +15,8 @@
 package com.google.gerrit.server.git;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import com.google.common.collect.ImmutableTable;
 import com.google.gerrit.entities.Account;
@@ -26,6 +28,7 @@ import com.google.gerrit.server.git.ChangesByProjectCacheImpl.PrivateChange;
 import com.google.gerrit.server.notedb.AbstractChangeNotesTest;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
+import com.google.gerrit.server.notedb.InvalidServerIdException;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.query.change.ChangeData;
 import java.time.Instant;
@@ -36,6 +39,15 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Test;
 
 public final class ChangesByProjectCacheTest extends AbstractChangeNotesTest {
+
+  ChangeData.Factory cdFactory;
+
+  @Override
+  public void setUpTestEnvironment() throws Exception {
+    cdFactory = mock(ChangeData.Factory.class);
+    super.setUpTestEnvironment();
+  }
+
   @Test
   public void cachedProjectChangesSerializer() throws Exception {
     ChangeData cd1 = createChange(false, true);
@@ -56,6 +68,34 @@ public final class ChangesByProjectCacheTest extends AbstractChangeNotesTest {
           .isEqualTo(origChange.change().getChangeId());
       assertThat(deserializedChange.weigh()).isEqualTo(origChange.weigh());
     }
+  }
+
+  @Test
+  public void updateChangeDatasShouldSkipForeignServerIdChanges() throws Exception {
+    // Create change with the Gerrit's server-id
+    ChangeData validChange = createChange(false, false);
+    when(cdFactory.create(project, validChange.getId())).thenReturn(validChange);
+    // Create change with a foreign server-id
+    ChangeData invalidChange = createChange(false, false);
+    when(cdFactory.create(project, invalidChange.getId()))
+        .thenThrow(new InvalidServerIdException(LOCAL_SERVER_ID, "foreign-sever-id"));
+
+    CachedProjectChanges cachedProjectChanges =
+        new CachedProjectChanges(List.of(validChange, invalidChange));
+
+    CachedProjectChanges.ChangeDataUpdateResult result =
+        cachedProjectChanges.updateChangeDatas(
+            project,
+            cdFactory,
+            Map.of(
+                validChange.getId(),
+                validChange.metaRevisionOrThrow(),
+                invalidChange.getId(),
+                invalidChange.metaRevisionOrThrow()),
+            "Test");
+
+    assertThat(result.cds()).doesNotContain(null);
+    assertThat(result.cds()).containsExactly(validChange);
   }
 
   private ChangeData createChange(boolean isPrivate, boolean hasReviewers) throws Exception {

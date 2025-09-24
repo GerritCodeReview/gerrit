@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4541d2c_2f996ea2",
+        "filename": "java/com/google/gerrit/server/git/ChangesByProjectCacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-09-24T13:45:49Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "f5076c93_3ab39db4",
+      "range": {
+        "startLine": 173,
+        "startChar": 0,
+        "endLine": 173,
+        "endChar": 22
+      },
+      "revId": "27fd9ea65616285bfa177ea1c19d62eaab2b2618",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fee9411b_3153dec3",
@@ -37,6 +61,30 @@
       "writtenOn": "2025-09-24T13:27:26Z",
       "side": 1,
       "message": "This should be public, because it is exposed anyway outside its visibility scope at L186.\n\n\n\n```suggestion\n    public record ChangeDataUpdateResult(Collection\u003cChangeData\u003e cds, boolean anyUpdated) {}\n```",
+      "range": {
+        "startLine": 174,
+        "startChar": 4,
+        "endLine": 174,
+        "endChar": 13
+      },
+      "revId": "27fd9ea65616285bfa177ea1c19d62eaab2b2618",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c605175e_f0206587",
+        "filename": "java/com/google/gerrit/server/git/ChangesByProjectCacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-09-24T13:45:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fee9411b_3153dec3",
       "range": {
         "startLine": 174,
         "startChar": 4,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d1861b70_bf713abb",
+        "filename": "javatests/com/google/gerrit/server/git/ChangesByProjectCacheTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-09-24T13:45:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c595308b_153457da",
+      "range": {
+        "startLine": 74,
+        "startChar": 46,
+        "endLine": 74,
+        "endChar": 53
+      },
+      "revId": "27fd9ea65616285bfa177ea1c19d62eaab2b2618",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "00632e11_586ddc12",
@@ -83,6 +155,30 @@
       "writtenOn": "2025-09-24T13:27:26Z",
       "side": 1,
       "message": "```suggestion\n    // Create change with the Gerrit\u0027s server-id\n```",
+      "range": {
+        "startLine": 75,
+        "startChar": 0,
+        "endLine": 75,
+        "endChar": 26
+      },
+      "revId": "27fd9ea65616285bfa177ea1c19d62eaab2b2618",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bb5b430c_6edfd638",
+        "filename": "javatests/com/google/gerrit/server/git/ChangesByProjectCacheTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-09-24T13:45:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "00632e11_586ddc12",
       "range": {
         "startLine": 75,
         "startChar": 0,
@@ -116,6 +212,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4b517674_409cc58b",
+        "filename": "javatests/com/google/gerrit/server/git/ChangesByProjectCacheTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-09-24T13:45:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "abda61f4_87b30f51",
+      "range": {
+        "startLine": 78,
+        "startChar": 14,
+        "endLine": 78,
+        "endChar": 21
+      },
+      "revId": "27fd9ea65616285bfa177ea1c19d62eaab2b2618",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4324f210_3371e840",
@@ -129,6 +249,30 @@
       "writtenOn": "2025-09-24T13:27:26Z",
       "side": 1,
       "message": "The code was returning `null` elements in `result.cds()`; therefore, we should also check that all returned elements aren\u0027t null.\n\nOptional: you could move to a collectors styled Google Truth assertion, instead of asserting the size and the first element.",
+      "range": {
+        "startLine": 98,
+        "startChar": 0,
+        "endLine": 98,
+        "endChar": 86
+      },
+      "revId": "27fd9ea65616285bfa177ea1c19d62eaab2b2618",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d1258933_a9ca9d63",
+        "filename": "javatests/com/google/gerrit/server/git/ChangesByProjectCacheTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-09-24T13:45:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4324f210_3371e840",
       "range": {
         "startLine": 98,
         "startChar": 0,

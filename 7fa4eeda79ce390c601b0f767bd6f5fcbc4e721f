@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e9d7ad8a_c671e913",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-rebase-dialog/gr-confirm-rebase-dialog.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-09-24T14:21:47Z",
+      "side": 1,
+      "message": "This is needed. Since md-checkbox/md-radio rings will get clipped/chopped as we use overflow auto in \u003cmain\u003e within gr-dialog.",
+      "revId": "7fa4eeda79ce390c601b0f767bd6f5fcbc4e721f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

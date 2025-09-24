@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0615421b_06cda44e",
+        "filename": "java/com/google/gerrit/server/cache/h2/H2CacheImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 401,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-09-24T14:24:30Z",
+      "side": 1,
+      "message": "In this case the exception is logged, schema creation failed but the caller doesn\u0027t know. Any follow-up SQL operations on this database will fail.\n\nIn the old version any exception thrown from the `SqlHandle` constructor would be propagated back to the caller.",
+      "revId": "5ee7d029f1e510913121f66111d4932940a42f9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "effaae65_6c02e338",
         "filename": "java/com/google/gerrit/server/cache/h2/H2CacheImpl.java",
         "patchSetId": 3

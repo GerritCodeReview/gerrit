@@ -208,6 +208,7 @@ public class ChangesByProjectCacheImpl implements ChangesByProjectCache {
             anyUpdated = true;
             // Do not let a bad change prevent other changes from being available.
             logger.atFinest().withCause(ex).log("Can't load changeData for %s", id);
+            continue;
           }
           cds.add(cd);
         }

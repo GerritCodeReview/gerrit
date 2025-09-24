@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "73cbfcf2_be588b87",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-09-24T22:08:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eef4bf5f_729229cb",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 11
+      },
+      "revId": "ec12f687fe720fdf15f6ead57ad7f40c17cc04c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "94c8d2da_103bef69",
@@ -37,6 +61,24 @@
       "writtenOn": "2025-09-24T18:13:12Z",
       "side": 1,
       "message": "typo: s/Excplicitly/Explicitly/\n\n```suggestion\nRelease-Notes: Explicitly shutdown h2 database when SqlStore is closed\n```",
+      "revId": "ec12f687fe720fdf15f6ead57ad7f40c17cc04c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7174e3a8_c73dec8b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-09-24T22:08:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "94c8d2da_103bef69",
       "revId": "ec12f687fe720fdf15f6ead57ad7f40c17cc04c0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

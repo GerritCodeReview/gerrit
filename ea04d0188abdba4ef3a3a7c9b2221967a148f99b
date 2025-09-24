@@ -16,6 +16,24 @@
       "message": "Based on your commit message, it seems like you wanted to run these concurrently too? Maybe they should run in parallel with the `executor.awaitTermination()` on L151?",
       "revId": "ea04d0188abdba4ef3a3a7c9b2221967a148f99b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3b690e42_0ea36095",
+        "filename": "java/com/google/gerrit/server/cache/h2/H2CacheFactory.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-09-24T22:07:30Z",
+      "side": 1,
+      "message": "I think this shutdown sequence for the executor used by persistent caches to persist updates in a background thread is not optimal, addressed in follow-up change https://gerrit-review.googlesource.com/c/gerrit/+/512587",
+      "parentUuid": "9e61ccf7_7574c129",
+      "revId": "ea04d0188abdba4ef3a3a7c9b2221967a148f99b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

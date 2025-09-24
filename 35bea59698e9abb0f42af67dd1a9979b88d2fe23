@@ -22,6 +22,30 @@
       },
       "revId": "35bea59698e9abb0f42af67dd1a9979b88d2fe23",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f63de40d_266154f1",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2395,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-09-24T00:26:50Z",
+      "side": 1,
+      "message": "\u003e I believe this fix should stay in JGit: the `usePerRequestRefCache` is designed to be used for a file-based ref implementation and should automatically be disabled for the repositories that are on reftable backend.\n\nAre you thinking `PerThreadRefDbCache.getRefDatabase()` gets an update to detect if the provided refDb is using reftable and skip as if the perthreadcache wasn\u0027t present?\n\n\u003e \n\u003e More than in the documentation, this should be traced as an issue in JGit and fixed it. We can reference it in the Gerrit release-notes until it is going to be fixed.\n\nWhat fix are you envisioning for jgit?",
+      "parentUuid": "98d5dbf1_0e41acbd",
+      "range": {
+        "startLine": 2393,
+        "startChar": 0,
+        "endLine": 2395,
+        "endChar": 1
+      },
+      "revId": "35bea59698e9abb0f42af67dd1a9979b88d2fe23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

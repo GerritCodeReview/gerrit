@@ -208,32 +208,28 @@ export class GrConfirmRebaseDialog
         .message {
           font-style: italic;
         }
+        .parentRevisionContainer {
+          margin-top: var(--spacing-m);
+        }
         .parentRevisionContainer label,
         .parentRevisionContainer input[type='text'] {
           display: block;
           width: 100%;
         }
-        .rebaseCheckbox {
+        div.rebaseOption,
+        div.checkbox-container {
           display: flex;
           align-items: center;
+          gap: var(--spacing-m);
+          margin-top: var(--spacing-m);
+        }
+        .rebaseCheckbox {
           margin-top: 0.5em;
         }
-        .rebaseOption {
-          display: flex;
-          align-items: center;
-        }
-        .rebaseOnBehalfMsg {
-          margin-top: var(--spacing-m);
-        }
-        .rebaseWithCommitterEmail {
-          margin-top: var(--spacing-m);
-        }
-        md-checkbox {
-          flex-shrink: 0;
-        }
-        gr-validation-options {
-          display: flex;
-          align-items: center;
+        @media screen and (max-width: 50em) {
+          #confirmDialog {
+            height: 90vh;
+          }
         }
       `,
     ];
@@ -263,12 +259,7 @@ export class GrConfirmRebaseDialog
         class="rebaseOption loading"
         ?hidden=${!this.displayParentOption() || this.loading}
       >
-        <md-radio
-          id="rebaseOnParentInput"
-          name="rebaseOptions"
-          touch-target="wrapper"
-        >
-        </md-radio>
+        <md-radio id="rebaseOnParentInput" name="rebaseOptions"> </md-radio>
         <label id="rebaseOnParentLabel" for="rebaseOnParentInput">
           Rebase on parent change
         </label>
@@ -291,7 +282,6 @@ export class GrConfirmRebaseDialog
         <md-radio
           id="rebaseOnTipInput"
           name="rebaseOptions"
-          touch-target="wrapper"
           ?disabled=${!this.displayTipOption()}
         >
         </md-radio>
@@ -314,7 +304,6 @@ export class GrConfirmRebaseDialog
         <md-radio
           id="rebaseOnOtherInput"
           name="rebaseOptions"
-          touch-target="wrapper"
           @click=${this.handleRebaseOnOther}
         >
         </md-radio>
@@ -336,15 +325,16 @@ export class GrConfirmRebaseDialog
         </gr-change-autocomplete>
       </div>
       <div class="rebaseCheckbox">
-        <md-checkbox
-          id="rebaseAllowConflicts"
-          touch-target="wrapper"
-          @change=${() => {
-            this.allowConflicts = !!this.rebaseAllowConflicts?.checked;
-            this.loadCommitterEmailDropdownItems();
-          }}
-        ></md-checkbox>
-        <label for="rebaseAllowConflicts">Allow rebase with conflicts</label>
+        <div class="checkbox-container">
+          <md-checkbox
+            id="rebaseAllowConflicts"
+            @change=${() => {
+              this.allowConflicts = !!this.rebaseAllowConflicts?.checked;
+              this.loadCommitterEmailDropdownItems();
+            }}
+          ></md-checkbox>
+          <label for="rebaseAllowConflicts">Allow rebase with conflicts</label>
+        </div>
         <gr-validation-options
           .validationOptions=${this.validationOptions}
         ></gr-validation-options>
@@ -361,17 +351,18 @@ export class GrConfirmRebaseDialog
         this.hasParent,
         () =>
           html`<div class="rebaseCheckbox">
-            <md-checkbox
-              id="rebaseChain"
-              touch-target="wrapper"
-              @change=${() => {
-                this.shouldRebaseChain = !!this.rebaseChain?.checked;
-                if (this.shouldRebaseChain) {
-                  this.selectedEmailForRebase = undefined;
-                }
-              }}
-            ></md-checkbox>
-            <label for="rebaseChain">Rebase all ancestors</label>
+            <div class="checkbox-container">
+              <md-checkbox
+                id="rebaseChain"
+                @change=${() => {
+                  this.shouldRebaseChain = !!this.rebaseChain?.checked;
+                  if (this.shouldRebaseChain) {
+                    this.selectedEmailForRebase = undefined;
+                  }
+                }}
+              ></md-checkbox>
+              <label for="rebaseChain">Rebase all ancestors</label>
+            </div>
           </div>`
       )}
       ${when(

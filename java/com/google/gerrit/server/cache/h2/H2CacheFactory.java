@@ -147,21 +147,20 @@ class H2CacheFactory extends PersistentCacheBaseFactory implements LifecycleList
           cleanup.shutdownNow();
         }
 
-        List<Runnable> pending = executor.shutdownNow();
-        if (executor.awaitTermination(15, TimeUnit.MINUTES)) {
-          if (pending != null && !pending.isEmpty()) {
-            logger.atInfo().log("Finishing %d disk cache updates", pending.size());
-            CompletableFuture<?>[] futures =
-                pending.stream()
-                    .map(update -> CompletableFuture.runAsync(update))
-                    .toArray(CompletableFuture[]::new);
-            CompletableFuture.allOf(futures).join();
+        executor.shutdown();
+        if (!executor.awaitTermination(15, TimeUnit.MINUTES)) {
+          logger.atInfo().log(
+              "Timeout elapsed waiting for storage tasks to terminate, shutting down now.");
+          List<Runnable> pending = executor.shutdownNow();
+          logger.atInfo().log("Canceling %d pending storage tasks.", pending.size());
+          if (!executor.awaitTermination(1, TimeUnit.MINUTES)) {
+            logger.atInfo().log("Timeout waiting for cancelled tasks to terminate.");
           }
-        } else {
-          logger.atInfo().log("Timeout waiting for disk cache to close");
         }
       } catch (InterruptedException e) {
         logger.atWarning().log("Interrupted waiting for disk cache to shutdown");
+        executor.shutdownNow();
+        Thread.currentThread().interrupt();
       }
     }
     synchronized (caches) {

@@ -85,6 +85,8 @@ export interface ChangeState {
    */
   loadingStatus: LoadingStatus;
   change?: ParsedChangeInfo;
+  /** Subset of change containing submit requirement information. */
+  changeSubmitRequirementsInfo?: ChangeInfo;
   /**
    * The list of reviewed files, kept in the model because we want changes made
    * in one view to reflect on other views without re-rendering the other views.
@@ -253,6 +255,28 @@ export function updateChangeWithEdit(
   return change;
 }
 
+function updateChangeWithSubmitRequirements(
+  change: ParsedChangeInfo,
+  changeWithSubmitRequirements: ChangeInfo | undefined
+) {
+  if (!changeWithSubmitRequirements) {
+    return change;
+  }
+  // If the changeNum changed or the change already loaded submit requirements
+  // skip.
+  if (
+    changeWithSubmitRequirements._number !== change?._number ||
+    change.submit_requirements !== undefined
+  ) {
+    return change;
+  }
+  return {
+    ...change,
+    submittable: changeWithSubmitRequirements.submittable,
+    submit_requirements: changeWithSubmitRequirements.submit_requirements,
+  };
+}
+
 /**
  * Derives the base patchset number from all the data that can potentially
  * influence it. Mostly just returns `viewModelBasePatchNum` or PARENT, but has
@@ -308,6 +332,8 @@ export const changeModelToken = define<ChangeModel>('change-model');
 export class ChangeModel extends Model<ChangeState> {
   private change?: ParsedChangeInfo;
 
+  private changeSubmitRequirementsInfo?: ChangeInfo;
+
   private patchNum?: RevisionPatchSetNum;
 
   private basePatchNum?: BasePatchSetNum;
@@ -317,6 +343,11 @@ export class ChangeModel extends Model<ChangeState> {
   public readonly change$ = select(
     this.state$,
     changeState => changeState.change
+  );
+
+  public readonly changeSubmitRequirementsInfo$ = select(
+    this.state$,
+    changeState => changeState.changeSubmitRequirementsInfo
   );
 
   public readonly changeLoadingStatus$ = select(
@@ -551,6 +582,7 @@ export class ChangeModel extends Model<ChangeState> {
     );
     this.subscriptions = [
       this.loadChange(),
+      this.loadSubmitRequirements(),
       this.loadMergeable(),
       this.loadReviewedFiles(),
       this.setOverviewTitle(),
@@ -561,6 +593,10 @@ export class ChangeModel extends Model<ChangeState> {
       this.refuseEditForOpenChange(),
       this.refuseEditForClosedChange(),
       this.change$.subscribe(change => (this.change = change)),
+      this.changeSubmitRequirementsInfo$.subscribe(
+        changeSubmitRequirementsInfo =>
+          (this.changeSubmitRequirementsInfo = changeSubmitRequirementsInfo)
+      ),
       this.patchNum$.subscribe(patchNum => (this.patchNum = patchNum)),
       this.basePatchNum$.subscribe(
         basePatchNum => (this.basePatchNum = basePatchNum)
@@ -740,6 +776,48 @@ export class ChangeModel extends Model<ChangeState> {
         })
       )
       .subscribe(mergeable => this.updateState({mergeable}));
+  }
+
+  private loadSubmitRequirements() {
+    // Use the same trigger as loadChange, to run SR loading in parallel.
+    return this.viewModel.changeNum$
+      .pipe(
+        switchMap(changeNum => {
+          if (!changeNum) {
+            // On reload changeNum is set to undefined to reset change state.
+            // We propagate undefined and reset the state in this case.
+            return of(undefined);
+          }
+          return from(
+            this.restApiService.getChangeSubmitRequirements(changeNum)
+          );
+        })
+      )
+      .subscribe(changeWithSubmitRequirements => {
+        if (!changeWithSubmitRequirements) {
+          this.updateState({
+            changeSubmitRequirementsInfo: undefined,
+          });
+          return;
+        }
+
+        if (!this.change) {
+          // The SR request finished before the main change request. Just write the
+          // result. The change will be updated in loadChange()
+          this.updateState({
+            changeSubmitRequirementsInfo: changeWithSubmitRequirements,
+          });
+          return;
+        }
+        const change = updateChangeWithSubmitRequirements(
+          this.change,
+          changeWithSubmitRequirements
+        );
+        this.updateState({
+          change,
+          changeSubmitRequirementsInfo: changeWithSubmitRequirements,
+        });
+      });
   }
 
   private loadChange() {
@@ -1006,11 +1084,21 @@ export class ChangeModel extends Model<ChangeState> {
     if (this.change && change?._number !== this.change?._number) {
       return;
     }
+    if (!this.change) {
+      this.updateState({
+        change: undefined,
+        changeSubmitRequirementsInfo: undefined,
+        loadingStatus: LoadingStatus.NOT_LOADED,
+      });
+    }
     change = updateRevisionsWithCommitShas(change);
+    change = updateChangeWithSubmitRequirements(
+      change as ParsedChangeInfo,
+      this.changeSubmitRequirementsInfo
+    );
     this.updateState({
       change,
-      loadingStatus:
-        change === undefined ? LoadingStatus.NOT_LOADED : LoadingStatus.LOADED,
+      loadingStatus: LoadingStatus.LOADED,
     });
   }
 }

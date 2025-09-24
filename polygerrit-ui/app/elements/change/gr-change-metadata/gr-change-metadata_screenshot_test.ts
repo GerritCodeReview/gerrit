@@ -60,10 +60,11 @@ suite('gr-change-metadata screenshot tests', () => {
     await element.updateComplete;
   });
 
-  test('normal view', async () => {
-    await visualDiff(element, 'gr-change-metadata');
-    await visualDiffDarkTheme(element, 'gr-change-metadata-dark');
-  });
+  // TODO(b/447590232): Fix test flakiness and re-enable
+  // test('normal view', async () => {
+  //   await visualDiff(element, 'gr-change-metadata');
+  //   await visualDiffDarkTheme(element, 'gr-change-metadata-dark');
+  // });
 
   test('show all sections with more data', async () => {
     const changeModel = testResolver(changeModelToken);

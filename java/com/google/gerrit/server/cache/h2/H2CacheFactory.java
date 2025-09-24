@@ -223,6 +223,7 @@ class H2CacheFactory extends PersistentCacheBaseFactory implements LifecycleList
     if (h2AutoServer) {
       url.append(";AUTO_SERVER=TRUE");
     }
+    url.append(";DB_CLOSE_DELAY=-1");
     Duration refreshAfterWrite = def.refreshAfterWrite();
     if (has(def.configKey(), "refreshAfterWrite")) {
       long refreshAfterWriteInSec =

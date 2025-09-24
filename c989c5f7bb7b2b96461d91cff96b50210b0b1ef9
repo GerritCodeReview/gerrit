@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b365e34d_a573eb23",
+        "filename": "java/com/google/gerrit/server/cache/h2/H2CacheImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 430,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-09-24T15:38:22Z",
+      "side": 1,
+      "message": "Since we just closed all the handles, should this work like `createSchema()` and bypass `acquire()`?\n```suggestion\n      try (SqlHandle h \u003d new SqlHandle(url)) {\n```",
+      "revId": "c989c5f7bb7b2b96461d91cff96b50210b0b1ef9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

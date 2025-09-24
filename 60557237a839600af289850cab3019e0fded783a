@@ -90,6 +90,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "08ff68dd_646d6019",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-rebase-dialog/gr-confirm-rebase-dialog.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-09-24T14:43:47Z",
+      "side": 1,
+      "message": "Thanks! I\u0027ve tuned it up a bit.",
+      "parentUuid": "a2598336_e2f27366",
+      "revId": "60557237a839600af289850cab3019e0fded783a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4c458a3d_2649ea4b",

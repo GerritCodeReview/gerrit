@@ -34,6 +34,24 @@
       "parentUuid": "e9d7ad8a_c671e913",
       "revId": "7fa4eeda79ce390c601b0f767bd6f5fcbc4e721f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "60087916_66cd083a",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-rebase-dialog/gr-confirm-rebase-dialog.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-09-24T14:43:47Z",
+      "side": 1,
+      "message": "I\u0027ve re-added the fix (i\u0027m not sure how to fix this inside gr-dialog, so for now i found a good enough fix)",
+      "parentUuid": "e9d7ad8a_c671e913",
+      "revId": "7fa4eeda79ce390c601b0f767bd6f5fcbc4e721f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

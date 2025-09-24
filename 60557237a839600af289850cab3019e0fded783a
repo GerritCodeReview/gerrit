@@ -34,6 +34,24 @@
       ],
       "revId": "60557237a839600af289850cab3019e0fded783a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d720a8b0_d337b514",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-rebase-dialog/gr-confirm-rebase-dialog.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-09-24T13:15:14Z",
+      "side": 1,
+      "message": "Nah, it would break things. See https://imgur.com/a/nt3SB36. We apply display flex to .rebaseCheckbox, which somehow doesn\u0027t get applied to gr-validation-options.",
+      "parentUuid": "4c458a3d_2649ea4b",
+      "revId": "60557237a839600af289850cab3019e0fded783a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

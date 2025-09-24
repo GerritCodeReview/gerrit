@@ -226,6 +226,15 @@ export class GrConfirmCherrypickDialog
         .cherryPickTopicLayout {
           display: flex;
           align-items: center;
+          margin-top: var(--spacing-l);
+          margin-bottom: var(--spacing-m);
+        }
+        .cherryPickSingleChange,
+        .cherryPickTopic {
+          margin-left: var(--spacing-m);
+        }
+        .cherry-pick-topic-message {
+          margin-bottom: var(--spacing-m);
         }
         label[for='messageInput'],
         label[for='baseInput'] {
@@ -317,7 +326,6 @@ export class GrConfirmCherrypickDialog
         <md-radio
           name="cherryPickOptions"
           id="cherryPickSingleChange"
-          touch-target="wrapper"
           checked
           @change=${this.handlecherryPickSingleChangeClicked}
         >
@@ -330,7 +338,6 @@ export class GrConfirmCherrypickDialog
         <md-radio
           name="cherryPickOptions"
           id="cherryPickTopic"
-          touch-target="wrapper"
           @change=${this.handlecherryPickTopicClicked}
         >
         </md-radio>

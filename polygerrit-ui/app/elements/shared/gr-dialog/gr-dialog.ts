@@ -85,11 +85,10 @@ export class GrDialog extends LitElement {
           display: flex;
           flex-direction: column;
           max-height: 90vh;
-          padding: var(--spacing-xl);
         }
         header {
           flex-shrink: 0;
-          padding-bottom: var(--spacing-xl);
+          padding: var(--spacing-xl);
         }
         main {
           display: flex;
@@ -102,11 +101,12 @@ export class GrDialog extends LitElement {
         main .overflow-container {
           flex: 1;
           overflow: auto;
+          padding: 0 var(--spacing-xl);
         }
         footer {
           display: flex;
           flex-shrink: 0;
-          padding-top: var(--spacing-xl);
+          padding: var(--spacing-xl);
           align-items: center;
         }
         .flex-space {

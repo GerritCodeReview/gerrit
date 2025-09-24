@@ -317,7 +317,6 @@ export class GrConfirmCherrypickDialog
         <md-radio
           name="cherryPickOptions"
           id="cherryPickSingleChange"
-          touch-target="wrapper"
           checked
           @change=${this.handlecherryPickSingleChangeClicked}
         >
@@ -330,7 +329,6 @@ export class GrConfirmCherrypickDialog
         <md-radio
           name="cherryPickOptions"
           id="cherryPickTopic"
-          touch-target="wrapper"
           @change=${this.handlecherryPickTopicClicked}
         >
         </md-radio>

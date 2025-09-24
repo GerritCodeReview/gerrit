@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c7e5e830_c3fd9258",
+        "filename": "java/com/google/gerrit/server/cache/h2/H2CacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-09-24T08:55:41Z",
+      "side": 1,
+      "message": "We create an instance of `ConcurrentBloomFilter` (line 377) before we make sure that the schema exists. Maybe this is currently not an issue because of how `ConcurrentBloomFilter` is coded, but if it starts building from its constructor then this may become an issue.\n\nI propose to first `createSchema` and then instantiate bloom filter.",
+      "revId": "8732107faae267b4134adfa13000e9c87207e169",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ffe7f187_3ad5c619",
+        "filename": "java/com/google/gerrit/server/cache/h2/H2CacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 397,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-09-24T08:55:41Z",
+      "side": 1,
+      "message": "Is this `synchronized` here justified or misleading?\n\nGerrit creates one instance of  `SqlStore` for each persistent cache and the cache name, which becomes H2 database name, is passed to the `SqlStore` via the `jdbcUrl` parameter. If we have caches named `foo` and `bar` then we will get the following instances of `SqlStore` created:\n```\nnew SqlStore(\"jdbc:h2:foo\")\nnew SqlStore(\"jdbc:h2:bar\")\n```\n\nThe `synchronized` here (which is on instance level) would prevent that the `createSchema` is executed concurrently on the *same* `SqlStore` instance. However, this is a private method and only called from the constructor. The synchronization doesn\u0027t seem justified in that case.\n\nFurther, if Gerrit would create two `SqlStore` instances for the same cache sequentially:\n```\nnew SqlStore(\"jdbc:h2:foo\");\nnew SqlStore(\"jdbc:h2:foo\");\n```\nthe second call creates a new instance and the synchronization here doesn\u0027t prevent the schema creation to be invoked once more.\n\nEven if the two instances of the `SqlStore` for the same cache would be created concurrently:\n```\nexecutor.submit(() -\u003e new SqlStore(\"jdbc:h2:foo\"));\nexecutor.submit(() -\u003e new SqlStore(\"jdbc:h2:foo\"));\n```\nthe synchronization here would not prevent concurrent call to the `h.createSchema` because it is done on two different Java objects.\n\nIf we agree that the caller is responsible for calling `new SqlStore` only once for each persistent cache then the synchronization is not needed because schema is created once from the constructor. I believe that this assumption is true in Gerrit\u0027s code.\n\nIf this class wants to guarantee that the schema for each persistent cache is created only once and that it doesn\u0027t trust callers then the synchronization has to be done rather on the `jdbcUrl`.",
+      "range": {
+        "startLine": 397,
+        "startChar": 12,
+        "endLine": 397,
+        "endChar": 24
+      },
+      "revId": "8732107faae267b4134adfa13000e9c87207e169",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

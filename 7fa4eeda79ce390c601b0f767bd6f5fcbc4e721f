@@ -52,6 +52,24 @@
       "parentUuid": "e9d7ad8a_c671e913",
       "revId": "7fa4eeda79ce390c601b0f767bd6f5fcbc4e721f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f31b2c07_4ba3e30a",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-rebase-dialog/gr-confirm-rebase-dialog.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-09-24T14:47:21Z",
+      "side": 1,
+      "message": "gr-dialog is really simple to fix. You just have to add some padding to the main slot where the overflow is defined and remove the same padding from the overall dialog. Here are the required changes:\n\n```\ndiff --git a/polygerrit-ui/app/elements/shared/gr-dialog/gr-dialog.ts b/polygerrit-ui/app/elements/shared/gr-dialog/gr-dialog.ts\nindex 777f18544a..58614e7f8e 100644\n--- a/polygerrit-ui/app/elements/shared/gr-dialog/gr-dialog.ts\n+++ b/polygerrit-ui/app/elements/shared/gr-dialog/gr-dialog.ts\n@@ -85,11 +85,10 @@ export class GrDialog extends LitElement {\n           display: flex;\n           flex-direction: column;\n           max-height: 90vh;\n-          padding: var(--spacing-xl);\n         }\n         header {\n           flex-shrink: 0;\n-          padding-bottom: var(--spacing-xl);\n+          padding: var(--spacing-xl);\n         }\n         main {\n           display: flex;\n@@ -102,11 +101,12 @@ export class GrDialog extends LitElement {\n         main .overflow-container {\n           flex: 1;\n           overflow: auto;\n+          padding: 0 var(--spacing-xl);\n         }\n         footer {\n           display: flex;\n           flex-shrink: 0;\n-          padding-top: var(--spacing-xl);\n+          padding: var(--spacing-xl);\n           align-items: center;\n         }\n         .flex-space {\n```",
+      "parentUuid": "60087916_66cd083a",
+      "revId": "7fa4eeda79ce390c601b0f767bd6f5fcbc4e721f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

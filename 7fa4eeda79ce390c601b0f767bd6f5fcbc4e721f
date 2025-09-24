@@ -70,6 +70,24 @@
       "parentUuid": "60087916_66cd083a",
       "revId": "7fa4eeda79ce390c601b0f767bd6f5fcbc4e721f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0442b418_681d8191",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-rebase-dialog/gr-confirm-rebase-dialog.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-09-24T14:49:59Z",
+      "side": 1,
+      "message": "Oh, nice! Are you able to show me how it looks as I’ve gone mobile?",
+      "parentUuid": "f31b2c07_4ba3e30a",
+      "revId": "7fa4eeda79ce390c601b0f767bd6f5fcbc4e721f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

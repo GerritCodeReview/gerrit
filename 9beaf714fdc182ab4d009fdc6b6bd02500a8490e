@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ec309aa1_a0594ed6",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 530,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2025-09-24T18:39:10Z",
+      "side": 1,
+      "message": "Also subtract parked here ?",
+      "revId": "9beaf714fdc182ab4d009fdc6b6bd02500a8490e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -47,6 +47,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3eccc888_cb046b72",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetAiPrompt.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2025-09-24T11:56:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "18298528_4b99e6f1",
+      "range": {
+        "startLine": 80,
+        "startChar": 2,
+        "endLine": 80,
+        "endChar": 8
+      },
+      "revId": "b8e1bd3ff545c5f7150e00b27233e7aa863a8bcd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e5b520ae_7ef598ae",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetAiPrompt.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2025-09-24T11:56:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "925b53aa_5155f88d",
+      "range": {
+        "startLine": 80,
+        "startChar": 16,
+        "endLine": 80,
+        "endChar": 31
+      },
+      "revId": "b8e1bd3ff545c5f7150e00b27233e7aa863a8bcd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "72af1f42_823262dc",
@@ -60,6 +108,30 @@
       "writtenOn": "2025-09-23T09:20:53Z",
       "side": 1,
       "message": "Do a static import of `UTF_8`",
+      "range": {
+        "startLine": 90,
+        "startChar": 79,
+        "endLine": 90,
+        "endChar": 84
+      },
+      "revId": "b8e1bd3ff545c5f7150e00b27233e7aa863a8bcd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6117107c_8ab089f9",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetAiPrompt.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2025-09-24T11:56:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "72af1f42_823262dc",
       "range": {
         "startLine": 90,
         "startChar": 79,
@@ -93,6 +165,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "51d9ff97_3826ae21",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/GetAiPromptIT.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2025-09-24T11:56:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f137c047_ae7118c9",
+      "range": {
+        "startLine": 2,
+        "startChar": 17,
+        "endLine": 2,
+        "endChar": 21
+      },
+      "revId": "b8e1bd3ff545c5f7150e00b27233e7aa863a8bcd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "24f8d664_a446bf50",
@@ -116,6 +212,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "37832e47_9b208d8c",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/GetAiPromptIT.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2025-09-24T11:56:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "24f8d664_a446bf50",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 3
+      },
+      "revId": "b8e1bd3ff545c5f7150e00b27233e7aa863a8bcd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d92ef826_cbbdd588",
@@ -129,6 +249,24 @@
       "writtenOn": "2025-09-23T09:20:53Z",
       "side": 1,
       "message": "Can this test also be done as pure unit test (like you do in the follow-up tests)?",
+      "revId": "b8e1bd3ff545c5f7150e00b27233e7aa863a8bcd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4704347b_1f0e6233",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/GetAiPromptIT.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2025-09-24T11:56:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d92ef826_cbbdd588",
       "revId": "b8e1bd3ff545c5f7150e00b27233e7aa863a8bcd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

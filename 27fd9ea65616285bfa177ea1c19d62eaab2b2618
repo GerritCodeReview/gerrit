@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f5076c93_3ab39db4",
+        "filename": "java/com/google/gerrit/server/git/ChangesByProjectCacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-09-24T13:27:26Z",
+      "side": 1,
+      "message": "This needs to be visible *regardless* of testing IMHO, did you also see the warning notified at L186 about the exposure of the class outside its visibility scope?",
+      "range": {
+        "startLine": 173,
+        "startChar": 0,
+        "endLine": 173,
+        "endChar": 22
+      },
+      "revId": "27fd9ea65616285bfa177ea1c19d62eaab2b2618",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fee9411b_3153dec3",
+        "filename": "java/com/google/gerrit/server/git/ChangesByProjectCacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-09-24T13:27:26Z",
+      "side": 1,
+      "message": "This should be public, because it is exposed anyway outside its visibility scope at L186.\n\n\n\n```suggestion\n    public record ChangeDataUpdateResult(Collection\u003cChangeData\u003e cds, boolean anyUpdated) {}\n```",
+      "range": {
+        "startLine": 174,
+        "startChar": 4,
+        "endLine": 174,
+        "endChar": 13
+      },
+      "revId": "27fd9ea65616285bfa177ea1c19d62eaab2b2618",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c595308b_153457da",
+        "filename": "javatests/com/google/gerrit/server/git/ChangesByProjectCacheTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-09-24T13:27:26Z",
+      "side": 1,
+      "message": "```suggestion\n  public void updateChangeDatasShouldSkipForeignServerIdChanges() throws Exception {\n```",
+      "range": {
+        "startLine": 74,
+        "startChar": 46,
+        "endLine": 74,
+        "endChar": 53
+      },
+      "revId": "27fd9ea65616285bfa177ea1c19d62eaab2b2618",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "00632e11_586ddc12",
+        "filename": "javatests/com/google/gerrit/server/git/ChangesByProjectCacheTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-09-24T13:27:26Z",
+      "side": 1,
+      "message": "```suggestion\n    // Create change with the Gerrit\u0027s server-id\n```",
+      "range": {
+        "startLine": 75,
+        "startChar": 0,
+        "endLine": 75,
+        "endChar": 26
+      },
+      "revId": "27fd9ea65616285bfa177ea1c19d62eaab2b2618",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "abda61f4_87b30f51",
+        "filename": "javatests/com/google/gerrit/server/git/ChangesByProjectCacheTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-09-24T13:27:26Z",
+      "side": 1,
+      "message": "```suggestion\n    // Create change with a foreign server-id\n```",
+      "range": {
+        "startLine": 78,
+        "startChar": 14,
+        "endLine": 78,
+        "endChar": 21
+      },
+      "revId": "27fd9ea65616285bfa177ea1c19d62eaab2b2618",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4324f210_3371e840",
+        "filename": "javatests/com/google/gerrit/server/git/ChangesByProjectCacheTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-09-24T13:27:26Z",
+      "side": 1,
+      "message": "The code was returning `null` elements in `result.cds()`; therefore, we should also check that all returned elements aren\u0027t null.\n\nOptional: you could move to a collectors styled Google Truth assertion, instead of asserting the size and the first element.",
+      "range": {
+        "startLine": 98,
+        "startChar": 0,
+        "endLine": 98,
+        "endChar": 86
+      },
+      "revId": "27fd9ea65616285bfa177ea1c19d62eaab2b2618",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

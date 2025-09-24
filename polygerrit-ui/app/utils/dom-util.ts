@@ -267,6 +267,10 @@ export function isSafari() {
   );
 }
 
+export function isFirefox() {
+  return /firefox|fxios/i.test(navigator.userAgent);
+}
+
 export function whenVisible(
   element: Element,
   callback: () => void,

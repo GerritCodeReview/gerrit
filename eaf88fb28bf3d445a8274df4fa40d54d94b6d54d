@@ -1,5 +1,29 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce5fe687_04742533",
+        "filename": "java/com/google/gerrit/server/git/ChangesByProjectCacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-09-24T11:28:19Z",
+      "side": 1,
+      "message": "Good catch @syntonyze@gmail.com, it does not make sense to return a change that *we know* isn\u0027t returning any data. See the similar code in `GitVisibleChangeFilter.java:119`:\n\n```java\n              } catch (Exception e) {\n                // We drop changes that we can\u0027t load. The repositories contain \u0027dead\u0027 change refs\n                // and we want to overall operation to continue.\n                logger.atFinest().withCause(e).log(\"Can\u0027t load Change notes for %s\", id);\n                return null;\n              }\n```",
+      "range": {
+        "startLine": 174,
+        "startChar": 12,
+        "endLine": 174,
+        "endChar": 21
+      },
+      "revId": "eaf88fb28bf3d445a8274df4fa40d54d94b6d54d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

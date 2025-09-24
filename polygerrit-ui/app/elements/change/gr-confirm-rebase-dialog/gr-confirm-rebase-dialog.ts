@@ -222,18 +222,26 @@ export class GrConfirmRebaseDialog
           display: flex;
           align-items: center;
         }
-        .rebaseOnBehalfMsg {
-          margin-top: var(--spacing-m);
-        }
-        .rebaseWithCommitterEmail {
-          margin-top: var(--spacing-m);
-        }
         md-checkbox {
           flex-shrink: 0;
         }
         gr-validation-options {
           display: flex;
           align-items: center;
+        }
+        /* Inside gr-dialog we apply overflow auto to <main> which prevents anything being shown
+           outside it. This interfears with md-checkbox and md-radio. We use touch-target=wrapper
+           to workaround the issue. But this made it look off putting for everything else.
+           Since md-checkbox/md-radio were displayed a little more in.
+           Fix this by moving everything so they align. Uses the same margin that is applied to
+           md-checkbox/md-radio. */
+        .main > :not(.rebaseOption):not(.rebaseCheckbox) {
+          margin: max(0px, (48px - 20px)/2);
+        }
+        @media screen and (max-width: 50em) {
+          #confirmDialog {
+            height: 90vh;
+          }
         }
       `,
     ];

@@ -28,11 +28,9 @@ export class GrValidationOptions extends LitElement {
         :host {
           display: block;
         }
-        .selectionLabel {
-          margin-left: -4px;
-        }
-        md-checkbox {
-          flex-shrink: 0;
+        div.checkbox-container {
+          display: flex;
+          align-items: center;
         }
         label {
           cursor: pointer;
@@ -62,16 +60,18 @@ export class GrValidationOptions extends LitElement {
 
   private renderValidationOption(option: ValidationOptionInfo) {
     return html`
-      <md-checkbox
-        class="selectionLabel"
-        id=${option.name}
-        touch-target="wrapper"
-        ?checked=${!!this.isOptionSelected.get(option.name)}
-        @click=${() => this.toggleCheckbox(option)}
-      ></md-checkbox>
-      <label for=${option.name}
-        >${capitalizeFirstLetter(option.description)}</label
-      >
+      <div class="checkbox-container">
+        <md-checkbox
+          class="selectionLabel"
+          id=${option.name}
+          touch-target="wrapper"
+          ?checked=${!!this.isOptionSelected.get(option.name)}
+          @click=${() => this.toggleCheckbox(option)}
+        ></md-checkbox>
+        <label for=${option.name}
+          >${capitalizeFirstLetter(option.description)}</label
+        >
+      </div>
     `;
   }
 

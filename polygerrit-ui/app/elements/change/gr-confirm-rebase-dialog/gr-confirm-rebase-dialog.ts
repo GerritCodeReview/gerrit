@@ -213,27 +213,30 @@ export class GrConfirmRebaseDialog
           display: block;
           width: 100%;
         }
-        .rebaseCheckbox {
+        div.checkbox-container {
           display: flex;
           align-items: center;
+        }
+        .rebaseCheckbox {
           margin-top: 0.5em;
         }
         .rebaseOption {
           display: flex;
           align-items: center;
         }
-        .rebaseOnBehalfMsg {
-          margin-top: var(--spacing-m);
+        /* Inside gr-dialog we apply overflow auto to <main> which prevents anything being shown
+           outside it. This interfears with md-checkbox and md-radio. We use touch-target=wrapper
+           to workaround the issue. But this made it look off putting for everything else.
+           Since md-checkbox/md-radio were displayed a little more in.
+           Fix this by moving everything so they align. Uses the same margin that is applied to
+           md-checkbox/md-radio. */
+        .main > :not(.rebaseOption):not(.rebaseCheckbox) {
+          margin: max(0px, (48px - 20px)/2);
         }
-        .rebaseWithCommitterEmail {
-          margin-top: var(--spacing-m);
-        }
-        md-checkbox {
-          flex-shrink: 0;
-        }
-        gr-validation-options {
-          display: flex;
-          align-items: center;
+        @media screen and (max-width: 50em) {
+          #confirmDialog {
+            height: 90vh;
+          }
         }
       `,
     ];
@@ -336,15 +339,17 @@ export class GrConfirmRebaseDialog
         </gr-change-autocomplete>
       </div>
       <div class="rebaseCheckbox">
-        <md-checkbox
-          id="rebaseAllowConflicts"
-          touch-target="wrapper"
-          @change=${() => {
-            this.allowConflicts = !!this.rebaseAllowConflicts?.checked;
-            this.loadCommitterEmailDropdownItems();
-          }}
-        ></md-checkbox>
-        <label for="rebaseAllowConflicts">Allow rebase with conflicts</label>
+        <div class="checkbox-container">
+          <md-checkbox
+            id="rebaseAllowConflicts"
+            touch-target="wrapper"
+            @change=${() => {
+              this.allowConflicts = !!this.rebaseAllowConflicts?.checked;
+              this.loadCommitterEmailDropdownItems();
+            }}
+          ></md-checkbox>
+          <label for="rebaseAllowConflicts">Allow rebase with conflicts</label>
+        </div>
         <gr-validation-options
           .validationOptions=${this.validationOptions}
         ></gr-validation-options>
@@ -361,17 +366,19 @@ export class GrConfirmRebaseDialog
         this.hasParent,
         () =>
           html`<div class="rebaseCheckbox">
-            <md-checkbox
-              id="rebaseChain"
-              touch-target="wrapper"
-              @change=${() => {
-                this.shouldRebaseChain = !!this.rebaseChain?.checked;
-                if (this.shouldRebaseChain) {
-                  this.selectedEmailForRebase = undefined;
-                }
-              }}
-            ></md-checkbox>
-            <label for="rebaseChain">Rebase all ancestors</label>
+            <div class="checkbox-container">
+              <md-checkbox
+                id="rebaseChain"
+                touch-target="wrapper"
+                @change=${() => {
+                  this.shouldRebaseChain = !!this.rebaseChain?.checked;
+                  if (this.shouldRebaseChain) {
+                    this.selectedEmailForRebase = undefined;
+                  }
+                }}
+              ></md-checkbox>
+              <label for="rebaseChain">Rebase all ancestors</label>
+            </div>
           </div>`
       )}
       ${when(

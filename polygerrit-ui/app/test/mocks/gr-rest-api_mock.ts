@@ -79,7 +79,7 @@ import {
 } from '../../constants/constants';
 import {ParsedChangeInfo} from '../../types/types';
 import {ErrorCallback} from '../../api/rest';
-import {LabelDefinitionInfo} from '../../api/rest-api';
+import {IsFlowsEnabledInfo, LabelDefinitionInfo} from '../../api/rest-api';
 
 export const grRestApiMock: RestApiService = {
   addAccountEmail(): Promise<Response> {
@@ -338,6 +338,9 @@ export const grRestApiMock: RestApiService = {
   },
   getFileContent(): Promise<Response | Base64FileContent | undefined> {
     return Promise.resolve(new Response());
+  },
+  getIfFlowsIsEnabled(): Promise<IsFlowsEnabledInfo | undefined> {
+    return Promise.resolve({enabled: true});
   },
   getRepoName(): Promise<RepoName> {
     throw new Error('getRepoName() not implemented by RestApiMock.');

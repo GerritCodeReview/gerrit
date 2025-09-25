@@ -27,7 +27,9 @@ import com.google.gerrit.common.UsedAt.Project;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.accounts.AccountApi;
 import com.google.gerrit.extensions.api.config.Server;
+import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.client.ListOption;
+import com.google.gerrit.extensions.common.ServerInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.httpd.raw.IndexPreloadingUtil.RequestedPage;
@@ -112,9 +114,9 @@ public class IndexHtmlUtil {
     ImmutableMap.Builder<String, Object> data = ImmutableMap.builder();
     Map<String, SanitizedContent> initialData = new HashMap<>();
     Server serverApi = gerritApi.config().server();
+    ServerInfo serverInfo = serverApi.getInfo();
     initialData.put(
-        addCanonicalUrl("/config/server/info", canonicalURL),
-        serializeObject(GSON, serverApi.getInfo()));
+        addCanonicalUrl("/config/server/info", canonicalURL), serializeObject(GSON, serverInfo));
     initialData.put(
         addCanonicalUrl("/config/server/version", canonicalURL),
         serializeObject(GSON, serverApi.getVersion()));
@@ -149,12 +151,15 @@ public class IndexHtmlUtil {
 
     try {
       AccountApi accountApi = gerritApi.accounts().self();
+      GeneralPreferencesInfo generalPreferencesInfo = accountApi.getPreferences();
+      generalPreferencesInfo.downloadScheme =
+          getAvailableDownloadScheme(generalPreferencesInfo.downloadScheme, serverInfo);
       initialData.put(
           addCanonicalUrl("/accounts/self/detail", canonicalURL),
           serializeObject(GSON, accountApi.get()));
       initialData.put(
           addCanonicalUrl("/accounts/self/preferences", canonicalURL),
-          serializeObject(GSON, accountApi.getPreferences()));
+          serializeObject(GSON, generalPreferencesInfo));
       initialData.put(
           addCanonicalUrl("/accounts/self/preferences.diff", canonicalURL),
           serializeObject(GSON, accountApi.getDiffPreferences()));
@@ -250,4 +255,12 @@ public class IndexHtmlUtil {
   }
 
   private IndexHtmlUtil() {}
+
+  private static String getAvailableDownloadScheme(
+      String defaultDownloadScheme, ServerInfo serverInfo) {
+    return !serverInfo.download.schemes.keySet().isEmpty()
+            && !serverInfo.download.schemes.keySet().contains(defaultDownloadScheme)
+        ? serverInfo.download.schemes.keySet().stream().findFirst().get()
+        : defaultDownloadScheme;
+  }
 }

@@ -1520,6 +1520,13 @@ export interface SubmitRequirementInput {
 export interface BatchSubmitRequirementInput {
   create?: SubmitRequirementInput[];
   update?: {[submitRequirementName: string]: Partial<SubmitRequirementInput>};
-  delete?: string[];
   commit_message?: string;
+}
+
+/**
+ * The IsFlowsEnabledInfo entity contains information about whether flows are
+ * enabled.
+ */
+export declare interface IsFlowsEnabledInfo {
+  enabled: boolean;
 }

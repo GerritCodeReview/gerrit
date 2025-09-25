@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a8ca7a26_2cdf3114",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-09-25T13:52:45Z",
+      "side": 1,
+      "message": "I\u0027m not able to produce a screenshot as i\u0027m not sure how to get gr-fix-suggestions to show. But this should be fine.",
+      "revId": "c6740ec3568a221fc8f891537ec85c434bf4acbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

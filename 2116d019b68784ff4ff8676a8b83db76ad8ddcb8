@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5154e987_61ea84b7",
+        "filename": "java/com/google/gerrit/server/cache/h2/H2CacheFactory.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-09-25T14:58:05Z",
+      "side": 1,
+      "message": "This uses the `ForkJoinPool.commonPool()` for running the (async) tasks. According to the documentation [1] it is not guaranteed that all tasks will finish before JVM shuts down, JVM will not wait for tasks in this pool.\n\n[1] https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/concurrent/ForkJoinPool.html#commonPool()",
+      "revId": "2116d019b68784ff4ff8676a8b83db76ad8ddcb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "68ae50f2_0198442b",
+        "filename": "java/com/google/gerrit/server/cache/h2/H2CacheFactory.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-09-25T14:58:05Z",
+      "side": 1,
+      "message": "This could be introduced as a separate predecessor change.",
+      "range": {
+        "startLine": 174,
+        "startChar": 28,
+        "endLine": 178,
+        "endChar": 29
+      },
+      "revId": "2116d019b68784ff4ff8676a8b83db76ad8ddcb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "965ee399_ae9d08b7",
+        "filename": "java/com/google/gerrit/server/cache/h2/H2CacheFactory.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-09-25T14:58:05Z",
+      "side": 1,
+      "message": "compared to the previous version, it is less obvious what this code does.",
+      "range": {
+        "startLine": 166,
+        "startChar": 0,
+        "endLine": 181,
+        "endChar": 46
+      },
+      "revId": "2116d019b68784ff4ff8676a8b83db76ad8ddcb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

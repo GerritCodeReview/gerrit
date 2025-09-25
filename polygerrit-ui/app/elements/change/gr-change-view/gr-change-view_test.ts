@@ -264,6 +264,9 @@ suite('gr-change-view tests', () => {
     stubRestApi('getAccount').returns(
       Promise.resolve(createAccountDetailWithId(5))
     );
+    stubRestApi('getIfFlowsIsEnabled').returns(
+      Promise.resolve({enabled: true})
+    );
     stubRestApi('getDiffComments').returns(Promise.resolve({}));
     stubRestApi('getDiffDrafts').returns(Promise.resolve({}));
 
@@ -475,9 +478,11 @@ suite('gr-change-view tests', () => {
   });
 
   test('renders flows tab if experiment is enabled', async () => {
+    element.isFlowsEnabled = true;
     stubFlags('isEnabled').returns(true);
     element.requestUpdate();
     await element.updateComplete;
+    await waitUntil(() => !!element.isFlowsEnabled);
     queryAndAssert(element, '[data-name="flows"]');
   });
 

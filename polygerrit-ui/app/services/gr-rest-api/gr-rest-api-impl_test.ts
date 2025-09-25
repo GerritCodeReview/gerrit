@@ -2035,6 +2035,15 @@ suite('gr-rest-api-service-impl tests', () => {
       );
     });
 
+    test('getIfFlowsIsEnabled', async () => {
+      await element.getIfFlowsIsEnabled(changeNum);
+      assert.isTrue(fetchJSONStub.calledOnce);
+      assert.equal(
+        fetchJSONStub.lastCall.args[0].url,
+        `/changes/test-project~${changeNum}/is-flows-enabled`
+      );
+    });
+
     test('createFlow', async () => {
       const flow: FlowInput = {
         stage_expressions: [{condition: 'branch:refs/heads/main'}],

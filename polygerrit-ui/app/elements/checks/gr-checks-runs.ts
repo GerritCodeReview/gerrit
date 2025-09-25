@@ -59,6 +59,8 @@ import {Deduping} from '../../api/reporting';
 import {when} from 'lit/directives/when.js';
 import {changeViewModelToken} from '../../models/views/change';
 import {formStyles} from '../../styles/form-styles';
+import '@material/web/radio/radio';
+import {materialStyles} from '../../styles/gr-material-styles';
 
 @customElement('gr-checks-run')
 export class GrChecksRun extends LitElement {
@@ -66,6 +68,7 @@ export class GrChecksRun extends LitElement {
     return [
       formStyles,
       sharedStyles,
+      materialStyles,
       css`
         :host {
           display: block;
@@ -173,7 +176,7 @@ export class GrChecksRun extends LitElement {
         .attemptDetail {
           /* This is thick-border (6) + spacing-m (8) + icon (20) + padding. */
           padding-left: 39px;
-          padding-top: var(--spacing-s);
+          padding-top: var(--spacing-l);
         }
         .attemptDetail input {
           width: 14px;
@@ -320,14 +323,14 @@ export class GrChecksRun extends LitElement {
           .attempt=${attempt as number}
         ></gr-hovercard-run>`
       )}
-      <input
-        type="radio"
+      <md-radio
         id=${id}
         name=${`${checkNameId}-attempt-choice`}
-        .checked=${selected}
+        ?checked=${selected}
         ?disabled=${!selected && wasNotRun}
         @change=${() => this.handleAttemptChange(attempt)}
-      />
+      >
+      </md-radio>
       <gr-icon
         icon=${icon.name}
         class=${icon.name}

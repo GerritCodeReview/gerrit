@@ -53,7 +53,7 @@ suite('gr-checks-runs test', () => {
               role="switch"
             >
               <div>
-                <gr-icon icon="chevron_left" class="expandIcon"></gr-icon>
+                <gr-icon class="expandIcon" icon="chevron_left"> </gr-icon>
               </div>
             </gr-button>
           </gr-tooltip-content>
@@ -64,7 +64,8 @@ suite('gr-checks-runs test', () => {
           </div>
           <div class="right">
             <div class="message">
-              Error while fetching results for test-plugin-name: <br />
+              Error while fetching results for test-plugin-name:
+              <br />
               test-error-message
             </div>
           </div>
@@ -76,32 +77,32 @@ suite('gr-checks-runs test', () => {
         />
         <div class="expanded running">
           <div class="sectionHeader">
-            <gr-icon icon="expand_less" class="expandIcon"></gr-icon>
+            <gr-icon class="expandIcon" icon="expand_less"> </gr-icon>
             <h3 class="heading-3">Running / Scheduled (2)</h3>
           </div>
           <div class="sectionRuns">
-            <gr-checks-run></gr-checks-run>
-            <gr-checks-run></gr-checks-run>
+            <gr-checks-run> </gr-checks-run>
+            <gr-checks-run> </gr-checks-run>
           </div>
         </div>
         <div class="completed expanded">
           <div class="sectionHeader">
-            <gr-icon icon="expand_less" class="expandIcon"></gr-icon>
+            <gr-icon class="expandIcon" icon="expand_less"> </gr-icon>
             <h3 class="heading-3">Completed (3)</h3>
           </div>
           <div class="sectionRuns">
-            <gr-checks-run></gr-checks-run>
-            <gr-checks-run></gr-checks-run>
-            <gr-checks-run></gr-checks-run>
+            <gr-checks-run> </gr-checks-run>
+            <gr-checks-run> </gr-checks-run>
+            <gr-checks-run> </gr-checks-run>
           </div>
         </div>
         <div class="expanded runnable">
           <div class="sectionHeader">
-            <gr-icon icon="expand_less" class="expandIcon"></gr-icon>
+            <gr-icon class="expandIcon" icon="expand_less"> </gr-icon>
             <h3 class="heading-3">Not run (1)</h3>
           </div>
           <div class="sectionRuns">
-            <gr-checks-run></gr-checks-run>
+            <gr-checks-run> </gr-checks-run>
           </div>
         </div>
       `,
@@ -216,26 +217,28 @@ suite('gr-checks-run test', () => {
             <gr-checks-attempt> </gr-checks-attempt>
           </div>
           <div class="right"></div>
+        </div>
+        <div class="attemptDetails" hidden="">
+          <div class="attemptDetail">
+            <md-radio
+              checked=""
+              id="attempt-latest"
+              name="fakeerrorfinderfinderfinderfinderfinderfinderfinder-attempt-choice"
+              tabindex="0"
+            >
+            </md-radio>
+            <gr-icon icon=""> </gr-icon>
+            <label for="attempt-latest"> Latest Attempt </label>
           </div>
-          <div class="attemptDetails" hidden="">
-            <div class="attemptDetail">
-              <input
-                id="attempt-latest"
-                name="fakeerrorfinderfinderfinderfinderfinderfinderfinder-attempt-choice"
-                type="radio"
-              />
-              <gr-icon icon=""> </gr-icon>
-              <label for="attempt-latest"> Latest Attempt </label>
-            </div>
-            <div class="attemptDetail">
-              <input
-                id="attempt-all"
-                name="fakeerrorfinderfinderfinderfinderfinderfinderfinder-attempt-choice"
-                type="radio"
-              />
-              <gr-icon icon=""> </gr-icon>
-              <label for="attempt-all"> All Attempts </label>
-            </div>
+          <div class="attemptDetail">
+            <md-radio
+              id="attempt-all"
+              name="fakeerrorfinderfinderfinderfinderfinderfinderfinder-attempt-choice"
+              tabindex="-1"
+            >
+            </md-radio>
+            <gr-icon icon=""> </gr-icon>
+            <label for="attempt-all"> All Attempts </label>
           </div>
         </div>
       `

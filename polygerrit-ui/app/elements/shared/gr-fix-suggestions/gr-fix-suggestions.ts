@@ -30,6 +30,8 @@ import {ChangeStatus, FixSuggestionInfo} from '../../../api/rest-api';
 import {stringToReplacements} from '../../../utils/comment-util';
 import {ReportSource} from '../../../services/suggestions/suggestions-service';
 import {getFileExtension} from '../../../utils/file-util';
+import '@material/web/checkbox/checkbox';
+import {materialStyles} from '../../../styles/gr-material-styles';
 
 export const COLLAPSE_SUGGESTION_STORAGE_KEY = 'collapseSuggestionStorageKey';
 
@@ -143,6 +145,7 @@ export class GrFixSuggestions extends LitElement {
 
   static override get styles() {
     return [
+      materialStyles,
       css`
         :host {
           display: block;
@@ -154,7 +157,7 @@ export class GrFixSuggestions extends LitElement {
           margin-left: var(--spacing-s);
         }
         /* just for a11y */
-        input.show-hide {
+        md-checkbox.show-hide {
           display: none;
         }
         label.show-hide {
@@ -360,11 +363,10 @@ export class GrFixSuggestions extends LitElement {
     return html`
       <div class="show-hide" tabindex="0">
         <label class="show-hide" aria-label=${ariaLabel}>
-          <input
-            type="checkbox"
+          <md-checkbox
             class="show-hide"
-            .checked=${this.collapsed}
-            @change=${() => {
+            ?checked=${this.collapsed}
+            @click=${() => {
               this.collapsed = !this.collapsed;
               if (this.collapsed) {
                 this.reporting.reportInteraction(
@@ -382,7 +384,7 @@ export class GrFixSuggestions extends LitElement {
                 );
               }
             }}
-          />
+          ></md-checkbox>
           <gr-icon icon=${icon} id="icon"></gr-icon>
         </label>
       </div>

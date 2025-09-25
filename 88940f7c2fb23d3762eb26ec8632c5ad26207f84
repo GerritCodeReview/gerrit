@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "de272fe5_c6996a91",
+        "filename": "java/com/google/gerrit/server/cache/h2/H2CacheImpl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-09-25T12:13:17Z",
+      "side": 1,
+      "message": "this is still racy, updating the AtomicBoolean is atomic, but the atomic update doesn\u0027t include the execution of the DDL statement.",
+      "revId": "88940f7c2fb23d3762eb26ec8632c5ad26207f84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

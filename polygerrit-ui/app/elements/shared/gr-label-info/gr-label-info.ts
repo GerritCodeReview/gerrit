@@ -170,7 +170,7 @@ export class GrLabelInfo extends LitElement {
       ></gr-account-chip>
       ${noVoteYet
         ? this.renderVoteAbility(reviewer)
-        : html`${this.renderRemoveVote(reviewer)}`}
+        : html`${this.renderRemoveVote(reviewer, approvalInfo)}`}
     </div>`;
   }
 
@@ -187,12 +187,16 @@ export class GrLabelInfo extends LitElement {
     return html`<span class="no-votes">No votes</span>`;
   }
 
-  private renderRemoveVote(reviewer: AccountInfo) {
+  private renderRemoveVote(
+    reviewer: AccountInfo,
+    approvalInfo: ApprovalInfo | undefined
+  ) {
     const accountId = reviewer._account_id;
     const canDeleteVote = this.canDeleteVote(
       reviewer,
       this.mutable,
-      this.change
+      this.change,
+      approvalInfo
     );
     if (!accountId || !canDeleteVote) return;
 
@@ -253,22 +257,30 @@ export class GrLabelInfo extends LitElement {
 
   /**
    * A user is able to delete a vote iff the mutable property is true and the
-   * reviewer that left the vote exists in the list of removable_reviewers
+   * reviewer that left the vote exists in the list of removable_labels
    * received from the backend.
    */
   private canDeleteVote(
-    reviewer: ApprovalInfo,
+    reviewer: AccountInfo,
     mutable: boolean,
-    change?: ParsedChangeInfo
+    change?: ParsedChangeInfo,
+    approvalInfo?: ApprovalInfo
   ) {
-    if (!mutable || !change || !change.removable_reviewers) {
+    if (
+      !mutable ||
+      !change ||
+      !approvalInfo ||
+      !approvalInfo.value ||
+      !change.removable_labels
+    ) {
       return false;
     }
-    const removable = change.removable_reviewers;
-    if (removable.find(r => r._account_id === reviewer?._account_id)) {
-      return true;
+    const removableAccounts =
+      change.removable_labels[this.label]?.[valueString(approvalInfo.value)];
+    if (!removableAccounts) {
+      return false;
     }
-    return false;
+    return removableAccounts.find(r => r._account_id === reviewer?._account_id);
   }
 
   private async onDeleteVote(accountId: AccountId) {

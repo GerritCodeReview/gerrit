@@ -95,6 +95,8 @@ import {
 } from '../../../services/suggestions/suggestions-service';
 import {ResponseCode, SuggestionsProvider} from '../../../api/suggestions';
 import {pluginLoaderToken} from '../gr-js-api-interface/gr-plugin-loader';
+import '@material/web/checkbox/checkbox';
+import {materialStyles} from '../../../styles/gr-material-styles';
 
 // visible for testing
 export const AUTO_SAVE_DEBOUNCE_DELAY_MS = 2000;
@@ -517,6 +519,7 @@ export class GrComment extends LitElement {
       formStyles,
       sharedStyles,
       modalStyles,
+      materialStyles,
       css`
         :host {
           display: block;
@@ -591,7 +594,7 @@ export class GrComment extends LitElement {
           margin-left: var(--spacing-s);
         }
         /* just for a11y */
-        input.show-hide {
+        md-checkbox.show-hide {
           display: none;
         }
         label.show-hide {
@@ -874,12 +877,11 @@ export class GrComment extends LitElement {
     return html`
       <div class="show-hide" tabindex="0">
         <label class="show-hide" aria-label=${ariaLabel}>
-          <input
-            type="checkbox"
+          <md-checkbox
             class="show-hide"
             ?checked=${!!this.collapsed}
-            @change=${() => (this.collapsed = !this.collapsed)}
-          />
+            @click=${() => (this.collapsed = !this.collapsed)}
+          ></md-checkbox>
           <gr-icon icon=${icon} id="icon"></gr-icon>
         </label>
       </div>
@@ -1026,12 +1028,11 @@ export class GrComment extends LitElement {
         <div class="leftActions">
           <div class="action resolve">
             <label>
-              <input
-                type="checkbox"
+              <md-checkbox
                 id="resolvedCheckbox"
-                .checked=${!this.unresolved}
-                @change=${this.handleToggleResolved}
-              />
+                ?checked=${!this.unresolved}
+                @click=${this.handleToggleResolved}
+              ></md-checkbox>
               Resolved
             </label>
           </div>
@@ -1178,11 +1179,10 @@ export class GrComment extends LitElement {
     return html`
       <div class="action">
         <label title=${tooltip} class="suggestEdit">
-          <input
-            type="checkbox"
+          <md-checkbox
             id="generateSuggestCheckbox"
             ?checked=${this.generateSuggestion}
-            @change=${() => {
+            @click=${() => {
               this.generateSuggestion = !this.generateSuggestion;
               // Reset so suggestion can be re-generated.
               this.wasSuggestionEdited = false;
@@ -1213,7 +1213,7 @@ export class GrComment extends LitElement {
                 }
               );
             }}
-          />
+          ></md-checkbox>
           Attach AI-suggested fix
           ${when(
             this.suggestionLoading,

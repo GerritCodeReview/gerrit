@@ -98,30 +98,30 @@ suite('gr-comment tests', () => {
         initiallyCollapsedElement,
         /* HTML */ `
           <gr-endpoint-decorator name="comment">
-            <gr-endpoint-param name="comment"></gr-endpoint-param>
-            <gr-endpoint-param name="editing"></gr-endpoint-param>
-            <gr-endpoint-param name="message"></gr-endpoint-param>
-            <gr-endpoint-param name="isDraft"></gr-endpoint-param>
+            <gr-endpoint-param name="comment"> </gr-endpoint-param>
+            <gr-endpoint-param name="editing"> </gr-endpoint-param>
+            <gr-endpoint-param name="message"> </gr-endpoint-param>
+            <gr-endpoint-param name="isDraft"> </gr-endpoint-param>
             <div class="container" id="container">
               <div class="header" id="header">
                 <div class="headerLeft">
-                  <gr-account-label deselected=""></gr-account-label>
+                  <gr-account-label deselected=""> </gr-account-label>
                 </div>
                 <div class="headerMiddle">
                   <span class="collapsedContent">
                     This is the test comment message.
                   </span>
                 </div>
-                <span class="patchset-text">Patchset 1</span>
+                <span class="patchset-text"> Patchset 1 </span>
                 <div class="show-hide" tabindex="0">
                   <label aria-label="Expand" class="show-hide">
-                    <input checked="" class="show-hide" type="checkbox" />
-                    <gr-icon id="icon" icon="expand_more"></gr-icon>
+                    <md-checkbox checked="" class="show-hide"> </md-checkbox>
+                    <gr-icon icon="expand_more" id="icon"> </gr-icon>
                   </label>
                 </div>
               </div>
               <div class="body">
-                <gr-endpoint-slot name="above-actions"></gr-endpoint-slot>
+                <gr-endpoint-slot name="above-actions"> </gr-endpoint-slot>
               </div>
             </div>
           </gr-endpoint-decorator>
@@ -140,31 +140,31 @@ suite('gr-comment tests', () => {
         element,
         /* HTML */ `
           <gr-endpoint-decorator name="comment">
-            <gr-endpoint-param name="comment"></gr-endpoint-param>
-            <gr-endpoint-param name="editing"></gr-endpoint-param>
-            <gr-endpoint-param name="message"></gr-endpoint-param>
-            <gr-endpoint-param name="isDraft"></gr-endpoint-param>
+            <gr-endpoint-param name="comment"> </gr-endpoint-param>
+            <gr-endpoint-param name="editing"> </gr-endpoint-param>
+            <gr-endpoint-param name="message"> </gr-endpoint-param>
+            <gr-endpoint-param name="isDraft"> </gr-endpoint-param>
             <div class="container" id="container">
               <div class="header" id="header">
                 <div class="headerLeft">
-                  <gr-account-label deselected=""></gr-account-label>
+                  <gr-account-label deselected=""> </gr-account-label>
                 </div>
                 <div class="headerMiddle"></div>
-                <span class="patchset-text">Patchset 1</span>
-                <span class="separator"></span>
+                <span class="patchset-text"> Patchset 1 </span>
+                <span class="separator"> </span>
                 <span class="date" tabindex="0">
-                  <gr-date-formatter withtooltip=""></gr-date-formatter>
+                  <gr-date-formatter withtooltip=""> </gr-date-formatter>
                 </span>
                 <div class="show-hide" tabindex="0">
                   <label aria-label="Collapse" class="show-hide">
-                    <input class="show-hide" type="checkbox" />
-                    <gr-icon id="icon" icon="expand_less"></gr-icon>
+                    <md-checkbox class="show-hide"> </md-checkbox>
+                    <gr-icon icon="expand_less" id="icon"> </gr-icon>
                   </label>
                 </div>
               </div>
               <div class="body">
-                <gr-formatted-text class="message"></gr-formatted-text>
-                <gr-endpoint-slot name="above-actions"></gr-endpoint-slot>
+                <gr-formatted-text class="message"> </gr-formatted-text>
+                <gr-endpoint-slot name="above-actions"> </gr-endpoint-slot>
               </div>
             </div>
           </gr-endpoint-decorator>
@@ -206,10 +206,10 @@ suite('gr-comment tests', () => {
         element,
         /* HTML */ `
           <gr-endpoint-decorator name="comment">
-            <gr-endpoint-param name="comment"></gr-endpoint-param>
-            <gr-endpoint-param name="editing"></gr-endpoint-param>
-            <gr-endpoint-param name="message"></gr-endpoint-param>
-            <gr-endpoint-param name="isDraft"></gr-endpoint-param>
+            <gr-endpoint-param name="comment"> </gr-endpoint-param>
+            <gr-endpoint-param name="editing"> </gr-endpoint-param>
+            <gr-endpoint-param name="message"> </gr-endpoint-param>
+            <gr-endpoint-param name="isDraft"> </gr-endpoint-param>
             <div class="container draft" id="container">
               <div class="header" id="header">
                 <div class="headerLeft">
@@ -219,31 +219,32 @@ suite('gr-comment tests', () => {
                     max-width="20em"
                     title="This draft is only visible to you. To publish drafts, click the 'Reply' or 'Start review' button at the top of the change or press the 'a' key."
                   >
-                    <gr-icon filled icon="rate_review"></gr-icon>
-                    <span class="draftLabel">Draft</span>
+                    <gr-icon filled="" icon="rate_review"> </gr-icon>
+                    <span class="draftLabel"> Draft </span>
                   </gr-tooltip-content>
                 </div>
                 <div class="headerMiddle"></div>
-                <span class="patchset-text">Patchset 1</span>
-                <span class="separator"></span>
+                <span class="patchset-text"> Patchset 1 </span>
+                <span class="separator"> </span>
                 <span class="date" tabindex="0">
-                  <gr-date-formatter withtooltip=""></gr-date-formatter>
+                  <gr-date-formatter withtooltip=""> </gr-date-formatter>
                 </span>
                 <div class="show-hide" tabindex="0">
                   <label aria-label="Collapse" class="show-hide">
-                    <input class="show-hide" type="checkbox" />
-                    <gr-icon id="icon" icon="expand_less"></gr-icon>
+                    <md-checkbox class="show-hide"> </md-checkbox>
+                    <gr-icon icon="expand_less" id="icon"> </gr-icon>
                   </label>
                 </div>
               </div>
               <div class="body">
-                <gr-formatted-text class="message"></gr-formatted-text>
-                <gr-endpoint-slot name="above-actions"></gr-endpoint-slot>
+                <gr-formatted-text class="message"> </gr-formatted-text>
+                <gr-endpoint-slot name="above-actions"> </gr-endpoint-slot>
                 <div class="actions">
                   <div class="leftActions">
                     <div class="action resolve">
                       <label>
-                        <input id="resolvedCheckbox" type="checkbox" />
+                        <md-checkbox checked="" id="resolvedCheckbox">
+                        </md-checkbox>
                         Resolved
                       </label>
                     </div>
@@ -291,10 +292,10 @@ suite('gr-comment tests', () => {
         element,
         /* HTML */ `
           <gr-endpoint-decorator name="comment">
-            <gr-endpoint-param name="comment"></gr-endpoint-param>
-            <gr-endpoint-param name="editing"></gr-endpoint-param>
-            <gr-endpoint-param name="message"></gr-endpoint-param>
-            <gr-endpoint-param name="isDraft"></gr-endpoint-param>
+            <gr-endpoint-param name="comment"> </gr-endpoint-param>
+            <gr-endpoint-param name="editing"> </gr-endpoint-param>
+            <gr-endpoint-param name="message"> </gr-endpoint-param>
+            <gr-endpoint-param name="isDraft"> </gr-endpoint-param>
             <div class="container draft" id="container">
               <div class="header" id="header">
                 <div class="headerLeft">
@@ -304,8 +305,8 @@ suite('gr-comment tests', () => {
                     max-width="20em"
                     title="This draft is only visible to you. To publish drafts, click the 'Reply' or 'Start review' button at the top of the change or press the 'a' key."
                   >
-                    <gr-icon filled icon="rate_review"></gr-icon>
-                    <span class="draftLabel">Draft</span>
+                    <gr-icon filled="" icon="rate_review"> </gr-icon>
+                    <span class="draftLabel"> Draft </span>
                   </gr-tooltip-content>
                 </div>
                 <div class="headerMiddle"></div>
@@ -320,15 +321,15 @@ suite('gr-comment tests', () => {
                   <gr-icon filled="" icon="edit" id="icon"> </gr-icon>
                   Suggest Edit
                 </gr-button>
-                <span class="patchset-text">Patchset 1</span>
-                <span class="separator"></span>
+                <span class="patchset-text"> Patchset 1 </span>
+                <span class="separator"> </span>
                 <span class="date" tabindex="0">
-                  <gr-date-formatter withtooltip=""></gr-date-formatter>
+                  <gr-date-formatter withtooltip=""> </gr-date-formatter>
                 </span>
                 <div class="show-hide" tabindex="0">
                   <label aria-label="Collapse" class="show-hide">
-                    <input class="show-hide" type="checkbox" />
-                    <gr-icon id="icon" icon="expand_less"></gr-icon>
+                    <md-checkbox class="show-hide"> </md-checkbox>
+                    <gr-icon icon="expand_less" id="icon"> </gr-icon>
                   </label>
                 </div>
               </div>
@@ -342,12 +343,13 @@ suite('gr-comment tests', () => {
                   rows="4"
                 >
                 </gr-suggestion-textarea>
-                <gr-endpoint-slot name="above-actions"></gr-endpoint-slot>
+                <gr-endpoint-slot name="above-actions"> </gr-endpoint-slot>
                 <div class="actions">
                   <div class="leftActions">
                     <div class="action resolve">
                       <label>
-                        <input id="resolvedCheckbox" type="checkbox" />
+                        <md-checkbox checked="" id="resolvedCheckbox">
+                        </md-checkbox>
                         Resolved
                       </label>
                     </div>

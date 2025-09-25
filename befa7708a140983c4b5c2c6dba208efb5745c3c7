@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c750ff45_048ee6f3",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-rebase-dialog/gr-confirm-rebase-dialog.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-09-25T07:52:14Z",
+      "side": 1,
+      "message": "Why don\u0027t we just compute the value of `checked` on the fly while rendering and set the `checked` attribute in the rendering template?",
+      "range": {
+        "startLine": 182,
+        "startChar": 2,
+        "endLine": 197,
+        "endChar": 0
+      },
+      "revId": "befa7708a140983c4b5c2c6dba208efb5745c3c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

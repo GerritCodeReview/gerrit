@@ -173,7 +173,7 @@ export class GrLabelInfo extends LitElement {
       ></gr-account-chip>
       ${noVoteYet
         ? this.renderVoteAbility(reviewer)
-        : html`${this.renderRemoveVote(reviewer)}`}
+        : html`${this.renderRemoveVote(reviewer, approvalInfo)}`}
     </div>`;
   }
 
@@ -190,7 +190,33 @@ export class GrLabelInfo extends LitElement {
     return html`<span class="no-votes">No votes</span>`;
   }
 
+<<<<<<< HEAD   (6a972b5d5f90228cd7bfff7a4b3474f15a038b08 Merge branch 'stable-3.10' into stable-3.11)
   private renderRemoveVote(reviewer: AccountInfo) {
+||||||| BASE   (300b5cddf3c60c040867e281c93f624d505f0ae6 Merge "UI: Replace ".value" with "value" everywhere for md-o)
+  private renderRemoveVote(reviewer: AccountInfo) {
+    const accountId = reviewer._account_id;
+    const canDeleteVote = this.canDeleteVote(
+      reviewer,
+      this.mutable,
+      this.change
+    );
+    if (!accountId || !canDeleteVote) return;
+
+=======
+  private renderRemoveVote(
+    reviewer: AccountInfo,
+    approvalInfo: ApprovalInfo | undefined
+  ) {
+    const accountId = reviewer._account_id;
+    const canDeleteVote = this.canDeleteVote(
+      reviewer,
+      this.mutable,
+      this.change,
+      approvalInfo
+    );
+    if (!accountId || !canDeleteVote) return;
+
+>>>>>>> CHANGE (ffc19983fbf9ccc5f07c65ce66d5eb4fa32f1cf7 Fix Delete vote button not checking removable_labels.)
     return html`<gr-tooltip-content has-tooltip title="Remove vote">
       <gr-button
         link
@@ -244,25 +270,65 @@ export class GrLabelInfo extends LitElement {
 
   /**
    * A user is able to delete a vote iff the mutable property is true and the
-   * reviewer that left the vote exists in the list of removable_reviewers
+   * reviewer that left the vote exists in the list of removable_labels
    * received from the backend.
    *
    * @param reviewer An object describing the reviewer that left the
    *     vote.
    */
+<<<<<<< HEAD   (6a972b5d5f90228cd7bfff7a4b3474f15a038b08 Merge branch 'stable-3.10' into stable-3.11)
   private computeDeleteClass(
     reviewer: ApprovalInfo,
+||||||| BASE   (300b5cddf3c60c040867e281c93f624d505f0ae6 Merge "UI: Replace ".value" with "value" everywhere for md-o)
+  private canDeleteVote(
+    reviewer: ApprovalInfo,
+=======
+  private canDeleteVote(
+    reviewer: AccountInfo,
+>>>>>>> CHANGE (ffc19983fbf9ccc5f07c65ce66d5eb4fa32f1cf7 Fix Delete vote button not checking removable_labels.)
     mutable: boolean,
-    change?: ParsedChangeInfo
+    change?: ParsedChangeInfo,
+    approvalInfo?: ApprovalInfo
   ) {
+<<<<<<< HEAD   (6a972b5d5f90228cd7bfff7a4b3474f15a038b08 Merge branch 'stable-3.10' into stable-3.11)
     if (!mutable || !change || !change.removable_reviewers) {
       return 'hidden';
+||||||| BASE   (300b5cddf3c60c040867e281c93f624d505f0ae6 Merge "UI: Replace ".value" with "value" everywhere for md-o)
+    if (!mutable || !change || !change.removable_reviewers) {
+      return false;
+=======
+    if (
+      !mutable ||
+      !change ||
+      !approvalInfo ||
+      !approvalInfo.value ||
+      !change.removable_labels
+    ) {
+      return false;
+>>>>>>> CHANGE (ffc19983fbf9ccc5f07c65ce66d5eb4fa32f1cf7 Fix Delete vote button not checking removable_labels.)
     }
+<<<<<<< HEAD   (6a972b5d5f90228cd7bfff7a4b3474f15a038b08 Merge branch 'stable-3.10' into stable-3.11)
     const removable = change.removable_reviewers;
     if (removable.find(r => r._account_id === reviewer?._account_id)) {
       return '';
+||||||| BASE   (300b5cddf3c60c040867e281c93f624d505f0ae6 Merge "UI: Replace ".value" with "value" everywhere for md-o)
+    const removable = change.removable_reviewers;
+    if (removable.find(r => r._account_id === reviewer?._account_id)) {
+      return true;
+=======
+    const removableAccounts =
+      change.removable_labels[this.label]?.[valueString(approvalInfo.value)];
+    if (!removableAccounts) {
+      return false;
+>>>>>>> CHANGE (ffc19983fbf9ccc5f07c65ce66d5eb4fa32f1cf7 Fix Delete vote button not checking removable_labels.)
     }
+<<<<<<< HEAD   (6a972b5d5f90228cd7bfff7a4b3474f15a038b08 Merge branch 'stable-3.10' into stable-3.11)
     return 'hidden';
+||||||| BASE   (300b5cddf3c60c040867e281c93f624d505f0ae6 Merge "UI: Replace ".value" with "value" everywhere for md-o)
+    return false;
+=======
+    return removableAccounts.find(r => r._account_id === reviewer?._account_id);
+>>>>>>> CHANGE (ffc19983fbf9ccc5f07c65ce66d5eb4fa32f1cf7 Fix Delete vote button not checking removable_labels.)
   }
 
   /**

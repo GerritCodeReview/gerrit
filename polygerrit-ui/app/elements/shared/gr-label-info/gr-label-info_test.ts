@@ -103,9 +103,19 @@ suite('gr-label-info tests', () => {
     test('_computeCanDeleteVote', async () => {
       element.mutable = false;
       await element.updateComplete;
+<<<<<<< HEAD   (6a972b5d5f90228cd7bfff7a4b3474f15a038b08 Merge branch 'stable-3.10' into stable-3.11)
       const removeButton = queryAndAssert<GrButton>(element, 'gr-button');
       assert.isTrue(isHidden(removeButton));
       element.change!.removable_reviewers = [account];
+||||||| BASE   (300b5cddf3c60c040867e281c93f624d505f0ae6 Merge "UI: Replace ".value" with "value" everywhere for md-o)
+      assert.isUndefined(query<GrButton>(element, 'gr-button'));
+
+      element.change!.removable_reviewers = [account];
+=======
+      assert.isUndefined(query<GrButton>(element, 'gr-button'));
+
+      element.change!.removable_labels = {'Code-Review': {'+1': [account]}};
+>>>>>>> CHANGE (ffc19983fbf9ccc5f07c65ce66d5eb4fa32f1cf7 Fix Delete vote button not checking removable_labels.)
       element.mutable = true;
       await element.updateComplete;
       assert.isFalse(isHidden(removeButton));
@@ -115,7 +125,7 @@ suite('gr-label-info tests', () => {
       const mock = mockPromise();
       const deleteResponse = mock.then(() => new Response(null, {status: 200}));
       const deleteStub = stubRestApi('deleteVote').returns(deleteResponse);
-      element.change!.removable_reviewers = [account];
+      element.change!.removable_labels = {'Code-Review': {'+1': [account]}};
       element.change!.labels!['Code-Review'] = {
         ...label,
         recommended: account,

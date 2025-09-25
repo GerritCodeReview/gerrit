@@ -118,6 +118,30 @@
       },
       "revId": "35bea59698e9abb0f42af67dd1a9979b88d2fe23",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a795f770_6d4edf85",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2395,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2025-09-25T18:03:02Z",
+      "side": 1,
+      "message": "I think it is better that it fail, then to silently turn the feature off. If it currently is failing, I would say that is \"as designed\" and intended. I suspect that the failure mode could be improved, but that is an exercise for those who want it to be better? :)",
+      "parentUuid": "cc4654e6_c0f3f34d",
+      "range": {
+        "startLine": 2393,
+        "startChar": 0,
+        "endLine": 2395,
+        "endChar": 1
+      },
+      "revId": "35bea59698e9abb0f42af67dd1a9979b88d2fe23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

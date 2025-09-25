@@ -34,6 +34,24 @@
       ],
       "revId": "1e48c22b16886a3ad26fd51b8d949ba5c1b761b0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "25370ad8_574e76e5",
+        "filename": "polygerrit-ui/app/styles/gr-material-styles.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-09-25T14:32:40Z",
+      "side": 1,
+      "message": "Nothing, i was just following what i did in another change that adds it to md-checkbox since that needed it due to gr-comment background not being white. Since well the basic checkbox/radio added a default background colour (e.g. white, dunno what it is for dark mode). I\u0027ve applied your recommendation.",
+      "parentUuid": "582ed026_503af48c",
+      "revId": "1e48c22b16886a3ad26fd51b8d949ba5c1b761b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

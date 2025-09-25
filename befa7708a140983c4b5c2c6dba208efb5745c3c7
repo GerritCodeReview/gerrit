@@ -22,6 +22,30 @@
       },
       "revId": "befa7708a140983c4b5c2c6dba208efb5745c3c7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "485d9e17_3c6517a6",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-rebase-dialog/gr-confirm-rebase-dialog.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-09-25T12:44:05Z",
+      "side": 1,
+      "message": "Thanks, done.\n\nAlso put some fixes in because .main was scrollable and the checkbox (the bottom layer ring would get clipped)",
+      "parentUuid": "c750ff45_048ee6f3",
+      "range": {
+        "startLine": 182,
+        "startChar": 2,
+        "endLine": 197,
+        "endChar": 0
+      },
+      "revId": "befa7708a140983c4b5c2c6dba208efb5745c3c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

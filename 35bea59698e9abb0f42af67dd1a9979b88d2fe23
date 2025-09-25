@@ -142,6 +142,30 @@
       },
       "revId": "35bea59698e9abb0f42af67dd1a9979b88d2fe23",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9ea248d6_03cc1f21",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2395,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-09-25T18:25:39Z",
+      "side": 1,
+      "message": "\u003e I think it is better that it fail, then to silently turn the feature off.\n\nTrue, we can make it *louder* but failing and make the repository unusable is too much IMHO.\nThe refdb backend is *per repo* but the pre-thread refdb cache is global: you could have *some repos* with reftable and others with a traditional file-based refdb.",
+      "parentUuid": "a795f770_6d4edf85",
+      "range": {
+        "startLine": 2393,
+        "startChar": 0,
+        "endLine": 2395,
+        "endChar": 1
+      },
+      "revId": "35bea59698e9abb0f42af67dd1a9979b88d2fe23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

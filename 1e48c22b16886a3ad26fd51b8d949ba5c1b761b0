@@ -1,0 +1,39 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "582ed026_503af48c",
+        "filename": "polygerrit-ui/app/styles/gr-material-styles.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-09-25T14:28:12Z",
+      "side": 1,
+      "message": "Why here? I think that is for the using component to control. If you have a yellow panel with a radio button somewhere, then why would we generally want to change the background of that?\n\nWhat happens if we remove this line?",
+      "fixSuggestions": [
+        {
+          "fixId": "b7811c83_aa45ba62",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/styles/gr-material-styles.ts",
+              "range": {
+                "startLine": 106,
+                "startChar": 0,
+                "endLine": 107,
+                "endChar": 0
+              },
+              "replacement": ""
+            }
+          ]
+        }
+      ],
+      "revId": "1e48c22b16886a3ad26fd51b8d949ba5c1b761b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

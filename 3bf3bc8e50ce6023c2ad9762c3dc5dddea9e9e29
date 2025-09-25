@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ecc0b32_e90aa06d",
+        "filename": "javatests/com/google/gerrit/server/restapi/change/GetAiPromptTest.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-09-25T12:50:25Z",
+      "side": 1,
+      "message": "Use JUnit\u0027s:\n```\n@Rule\npublic TemporaryFolder tmp \u003d new TemporaryFolder();\n```\n\nfor creation of temp directories in tests.",
+      "revId": "3bf3bc8e50ce6023c2ad9762c3dc5dddea9e9e29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "41de1824_51c1ba33",
+        "filename": "javatests/com/google/gerrit/server/restapi/change/GetAiPromptTest.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-09-25T12:50:25Z",
+      "side": 1,
+      "message": "This is a bad side-effect to return siteDir from a method that is supposed to create a prompt file.\n\nUse `@Before` to create `sitePath` and `etc_dir`, etc..",
+      "revId": "3bf3bc8e50ce6023c2ad9762c3dc5dddea9e9e29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

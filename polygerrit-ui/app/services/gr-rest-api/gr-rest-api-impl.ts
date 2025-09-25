@@ -136,6 +136,7 @@ import {
   FixReplacementInfo,
   FlowInfo,
   FlowInput,
+  IsFlowsEnabledInfo,
   LabelDefinitionInfo,
   LabelDefinitionInput,
   SubmitRequirementInput,
@@ -3736,6 +3737,18 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       errFn,
       anonymizedUrl: `${ANONYMIZED_CHANGE_BASE_URL}/flows`,
     }) as Promise<FlowInfo[] | undefined>;
+  }
+
+  async getIfFlowsIsEnabled(
+    changeNum: NumericChangeId,
+    errFn?: ErrorCallback
+  ): Promise<IsFlowsEnabledInfo | undefined> {
+    const url = await this._changeBaseURL(changeNum);
+    return this._restApiHelper.fetchJSON({
+      url: `${url}/is-flows-enabled`,
+      errFn,
+      anonymizedUrl: `${ANONYMIZED_CHANGE_BASE_URL}/is-flows-enabled`,
+    }) as Promise<IsFlowsEnabledInfo | undefined>;
   }
 
   async createFlow(

@@ -139,6 +139,8 @@ export class GrFlows extends LitElement {
 
   async loadFlows() {
     if (!this.changeNum) return;
+    const isEnabled = await this.restApiService.getIfFlowsIsEnabled(this.changeNum);
+    if (!isEnabled?.enabled) return;
     this.loading = true;
     const flows = await this.restApiService.listFlows(this.changeNum);
     this.flows = flows ?? [];

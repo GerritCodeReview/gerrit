@@ -104,6 +104,7 @@ import {
   FixReplacementInfo,
   FlowInfo,
   FlowInput,
+  IsFlowsEnabledInfo,
   LabelDefinitionInfo,
   LabelDefinitionInput,
   SubmitRequirementInput,
@@ -948,6 +949,11 @@ export interface RestApiService extends Finalizable {
     changeNum: NumericChangeId,
     errFn?: ErrorCallback
   ): Promise<FlowInfo[] | undefined>;
+
+  getIfFlowsIsEnabled(
+    changeNum: NumericChangeId,
+    errFn?: ErrorCallback
+  ): Promise<IsFlowsEnabledInfo | undefined>;
 
   createFlow(
     changeNum: NumericChangeId,

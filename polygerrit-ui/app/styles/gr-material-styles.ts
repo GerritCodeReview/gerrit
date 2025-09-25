@@ -103,6 +103,7 @@ export const materialStyles = css`
   }
 
   md-radio {
+    background-color: var(--background-color-primary);
     --md-sys-color-primary: var(--radio-primary);
     --md-sys-color-on-primary: var(--radio-on-primary);
     --md-sys-color-on-surface: var(--radio-on-surface);

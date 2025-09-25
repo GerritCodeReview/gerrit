@@ -132,31 +132,32 @@ suite('gr-cla-view tests', () => {
           <h1 class="heading-1">New Contributor Agreement</h1>
           <h3 class="heading-3">Select an agreement type:</h3>
           <span class="contributorAgreementButton">
-            <input
+            <md-radio
               data-name="Individual"
               data-url="static/cla_individual.html"
               id="claNewAgreementsInputIndividual"
               name="claNewAgreementsRadio"
-              type="radio"
-            />
+            >
+            </md-radio>
             <label id="claNewAgreementsLabel"> Individual </label>
           </span>
           <div class="agreementsUrl">test-description</div>
           <span class="contributorAgreementButton">
-            <input
+            <md-radio
               data-name="CLA"
               data-url="static/cla.html"
               disabled=""
               id="claNewAgreementsInputCLA"
               name="claNewAgreementsRadio"
-              type="radio"
-            />
+            >
+            </md-radio>
             <label id="claNewAgreementsLabel"> CLA </label>
           </span>
           <div class="alreadySubmittedText">Agreement already submitted.</div>
           <div class="agreementsUrl">Contributor License Agreement</div>
         </main>
-      `
+      `,
+      {ignoreAttributes: ['tabindex']}
     );
   });
 

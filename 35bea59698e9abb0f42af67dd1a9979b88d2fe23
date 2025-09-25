@@ -94,6 +94,30 @@
       },
       "revId": "35bea59698e9abb0f42af67dd1a9979b88d2fe23",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cc4654e6_c0f3f34d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2395,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-09-25T17:58:15Z",
+      "side": 1,
+      "message": "\u003e \u003e We can raise that issue on JGit and adjust the code of PerThreadRefDbCache and support reftable as well.\n\u003e \n\u003e `PerThreadRefDbCache` is in Gerrit though. https://gerrit.googlesource.com/gerrit/+/master/java/com/google/gerrit/server/cache/PerThreadRefDbCache.java\n\nGood point, we could just fix it in Gerrit by avoiding the class cast at https://gerrit.googlesource.com/gerrit/+/master/java/com/google/gerrit/server/cache/PerThreadRefDbCache.java#33.\n\nWe could then just mention in the documentation that is enabled only if the underlying refdb is file-based.",
+      "parentUuid": "00eea481_63161bb2",
+      "range": {
+        "startLine": 2393,
+        "startChar": 0,
+        "endLine": 2395,
+        "endChar": 1
+      },
+      "revId": "35bea59698e9abb0f42af67dd1a9979b88d2fe23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

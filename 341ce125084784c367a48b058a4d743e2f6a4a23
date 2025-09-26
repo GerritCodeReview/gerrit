@@ -16,6 +16,24 @@
       "message": "@sasa.zivkov@sap.com checked existing test and with AI, it is expected to have result of the test first and then condition.",
       "revId": "341ce125084784c367a48b058a4d743e2f6a4a23",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "76fdeca5_2d3ec85b",
+        "filename": "javatests/com/google/gerrit/server/restapi/change/GetAiPromptTest.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2025-09-26T11:38:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a52df5a7_caf542d8",
+      "revId": "341ce125084784c367a48b058a4d743e2f6a4a23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd17f667_d66ed6bd",
+        "filename": "javatests/com/google/gerrit/server/restapi/change/GetAiPromptTest.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2025-09-26T08:49:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7ecc0b32_e90aa06d",
+      "revId": "3bf3bc8e50ce6023c2ad9762c3dc5dddea9e9e29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "41de1824_51c1ba33",
@@ -31,6 +49,24 @@
       "writtenOn": "2025-09-25T12:50:25Z",
       "side": 1,
       "message": "This is a bad side-effect to return siteDir from a method that is supposed to create a prompt file.\n\nUse `@Before` to create `sitePath` and `etc_dir`, etc..",
+      "revId": "3bf3bc8e50ce6023c2ad9762c3dc5dddea9e9e29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9e1b9a42_8bfd8170",
+        "filename": "javatests/com/google/gerrit/server/restapi/change/GetAiPromptTest.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2025-09-26T08:49:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "41de1824_51c1ba33",
       "revId": "3bf3bc8e50ce6023c2ad9762c3dc5dddea9e9e29",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

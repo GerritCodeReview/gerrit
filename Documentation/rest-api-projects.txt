@@ -989,7 +989,7 @@ ConfigInfo] entity.
 ----
 
 [[create-config-change]]
-=== Create Config Change for review.
+=== Create Config Change for review
 --
 'PUT /projects/link:#project-name[\{project-name\}]/config:review'
 --
@@ -1342,7 +1342,7 @@ entity is returned.
 ----
 
 [[create-change]]
-=== Create Change for review.
+=== Create Change for review
 
 This endpoint is functionally equivalent to
 link:rest-api-changes.html#create-change[create change in the change
@@ -1393,7 +1393,7 @@ the resulting change.
 ----
 
 [[create-access-change]]
-=== Create Access Rights Change for review.
+=== Create Access Rights Change for review
 --
 'PUT /projects/link:rest-api-projects.html#project-name[\{project-name\}]/access:review
 --
@@ -3781,7 +3781,7 @@ If the label updates were done successfully the response is "`200 OK`".
 ----
 
 [[create-labels-change]]
-=== Create Labels Change for review.
+=== Create Labels Change for review
 --
 'POST /projects/link:#project-name[\{project-name\}]/labels:review'
 --
@@ -4095,7 +4095,7 @@ If the submit requirements updates were done successfully the response is "`200 
 ----
 
 [[create-submit-requirements-change]]
-=== Create Submit Requirements Change for review.
+=== Create Submit Requirements Change for review
 --
 'POST /projects/link:#project-name[\{project-name\}]/submit_requirements:review'
 --

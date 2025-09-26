@@ -181,9 +181,6 @@ public class MagicLabelPredicates {
         case ANY -> matchAny(cd, labelType);
         case MIN -> matchNumeric(cd, magicLabelVote.label(), labelType.getMin().getValue());
         case MAX -> matchNumeric(cd, magicLabelVote.label(), labelType.getMax().getValue());
-        default ->
-            throw new IllegalStateException(
-                "Unsupported magic label value: " + magicLabelVote.value());
       };
     }
 

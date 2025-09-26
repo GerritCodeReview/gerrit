@@ -58,7 +58,6 @@ public class ToolServlet extends HttpServlet {
     switch (ent.getType()) {
       case FILE -> doGetFile(ent, rsp);
       case DIR -> doGetDirectory(ent, req, rsp);
-      default -> rsp.sendError(SC_NOT_FOUND);
     }
   }
 

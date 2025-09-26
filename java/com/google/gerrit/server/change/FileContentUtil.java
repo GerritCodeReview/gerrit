@@ -307,32 +307,27 @@ public class FileContentUtil {
 
   public static String resolveContentType(
       ProjectState project, String path, FileMode fileMode, String mimeType) {
-    switch (fileMode) {
+    return switch (fileMode) {
       case FILE -> {
         if (Patch.COMMIT_MSG.equals(path)) {
-          return TEXT_X_GERRIT_COMMIT_MESSAGE;
+          yield TEXT_X_GERRIT_COMMIT_MESSAGE;
         }
         if (Patch.MERGE_LIST.equals(path)) {
-          return TEXT_X_GERRIT_MERGE_LIST;
+          yield TEXT_X_GERRIT_MERGE_LIST;
         }
         if (project != null) {
           for (ProjectState p : project.tree()) {
             String t = p.getConfig().getMimeTypes().getMimeType(path);
             if (t != null) {
-              return t;
+              yield t;
             }
           }
         }
-        return mimeType;
+        yield mimeType;
       }
-      case GITLINK -> {
-        return X_GIT_GITLINK;
-      }
-      case SYMLINK -> {
-        return X_GIT_SYMLINK;
-      }
-      default -> throw new IllegalStateException("file mode: " + fileMode);
-    }
+      case GITLINK -> X_GIT_GITLINK;
+      case SYMLINK -> X_GIT_SYMLINK;
+    };
   }
 
   private Repository openRepository(ProjectState project)

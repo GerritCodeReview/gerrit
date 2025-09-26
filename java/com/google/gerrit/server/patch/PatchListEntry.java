@@ -331,7 +331,6 @@ public class PatchListEntry {
       case DELETE -> Patch.ChangeType.DELETED;
       case RENAME -> Patch.ChangeType.RENAMED;
       case COPY -> Patch.ChangeType.COPIED;
-      default -> throw new IllegalArgumentException("Unsupported type " + hdr.getChangeType());
     };
   }
 
@@ -341,7 +340,6 @@ public class PatchListEntry {
         switch (hdr.getPatchType()) {
           case UNIFIED -> Patch.PatchType.UNIFIED;
           case GIT_BINARY, BINARY -> Patch.PatchType.BINARY;
-          default -> throw new IllegalArgumentException("Unsupported type " + hdr.getPatchType());
         };
 
     if (pt != PatchType.BINARY) {

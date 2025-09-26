@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9572d342_71c0385d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-09-26T13:14:30Z",
+      "side": 1,
+      "message": "Demo with artificially incerted delay for fetching submit requirements: https://screencast.googleplex.com/cast/NjE2MjQ4ODE3MjIxNjMyMHxiZTE1NjM4Ni1mOQ",
+      "revId": "3936680e917966fc246e9c5eafa8354f0425294d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3f4adc9a_324d93f8",
+        "filename": "polygerrit-ui/app/elements/change/gr-ai-prompt-dialog/gr-ai-prompt-dialog.ts",
+        "patchSetId": 34
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2025-09-26T12:08:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "39e4e255_3cff142d",
+      "revId": "6387de28fd7e1345ad42c7481f57541b126c878b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ac27a45b_ef3ef69e",
@@ -35,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "78f5cf48_b90023b7",
+        "filename": "polygerrit-ui/app/elements/change/gr-ai-prompt-dialog/gr-ai-prompt-dialog.ts",
+        "patchSetId": 34
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2025-09-26T12:08:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ac27a45b_ef3ef69e",
+      "revId": "6387de28fd7e1345ad42c7481f57541b126c878b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4a9913e4_0ee0aa63",
@@ -48,6 +84,24 @@
       "writtenOn": "2025-09-26T11:47:15Z",
       "side": 1,
       "message": "I’m not sure if err needs to be defined? It’s not used.",
+      "revId": "6387de28fd7e1345ad42c7481f57541b126c878b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "09a1b3e2_4ee27f91",
+        "filename": "polygerrit-ui/app/elements/change/gr-ai-prompt-dialog/gr-ai-prompt-dialog.ts",
+        "patchSetId": 34
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2025-09-26T12:08:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4a9913e4_0ee0aa63",
       "revId": "6387de28fd7e1345ad42c7481f57541b126c878b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

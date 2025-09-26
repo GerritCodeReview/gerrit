@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "206cf03f_f8600cf5",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/FileHeaderUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-09-26T13:47:53Z",
+      "side": 1,
+      "message": "I think the old formatting was correct",
+      "revId": "21dde0906120bdf7cf02ea24f11782a61a90a327",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "98bf5917_10e4a1da",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/FileHeaderUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-09-26T13:47:53Z",
+      "side": 1,
+      "message": "I think the old formatting was correct",
+      "revId": "21dde0906120bdf7cf02ea24f11782a61a90a327",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

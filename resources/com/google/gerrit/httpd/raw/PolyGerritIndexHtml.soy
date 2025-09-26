@@ -33,6 +33,7 @@
   {@param? defaultDashboardHex: ?}
   {@param? dashboardQuery: ?}
   {@param? userIsAuthenticated: ?}
+  {@param? submitRequirementsHex: ?}
   <!DOCTYPE html>{\n}
   <html lang="en">{\n}
   <meta charset="utf-8">{\n}
@@ -94,6 +95,9 @@
       <link rel="preload" href="{$canonicalPath}/{$changeRequestsPath}/detail?O={$defaultChangeDetailHex}" as="fetch" type="application/json" crossorigin="anonymous"/>{\n}
       {if $userIsAuthenticated}
         <link rel="preload" href="{$canonicalPath}/{$changeRequestsPath}/edit/?download-commands=true" as="fetch" type="application/json" crossorigin="anonymous"/>{\n}
+      {/if}
+      {if $submitRequirementsHex}
+        <link rel="preload" href="{$canonicalPath}/{$changeRequestsPath}?O={$submitRequirementsHex}" as="fetch" type="application/json" crossorigin="anonymous"/>{\n}
       {/if}
     {/if}
     <link rel="preload" href="{$canonicalPath}/{$changeRequestsPath}/comments?enable-context=true&context-padding=3" as="fetch" type="application/json" crossorigin="anonymous"/>{\n}

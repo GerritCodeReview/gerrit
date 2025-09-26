@@ -17,6 +17,8 @@ import {NumericChangeId} from '../../../types/common';
 import './gr-create-flow';
 import {when} from 'lit/directives/when.js';
 import '../../shared/gr-dialog/gr-dialog';
+import '@material/web/select/filled-select';
+import '@material/web/select/select-option';
 
 const iconForFlowStageState = (status: FlowStageState) => {
   switch (status) {
@@ -45,6 +47,8 @@ export class GrFlows extends LitElement {
   @state() private loading = true;
 
   @state() private flowIdToDelete?: string;
+
+  @state() private statusFilter: FlowStageState | 'all' = 'all';
 
   private readonly getChangeModel = resolve(this, changeModelToken);
 
@@ -210,6 +214,12 @@ export class GrFlows extends LitElement {
     if (this.flows.length === 0) {
       return html`<p>No flows found for this change.</p>`;
     }
+    const filteredFlows = this.flows.filter(flow => {
+      if (this.statusFilter === 'all') return true;
+      const lastStage = flow.stages[flow.stages.length - 1];
+      return lastStage.state === this.statusFilter;
+    });
+
     return html`
       <div>
         <div class="heading-with-button">
@@ -224,7 +234,26 @@ export class GrFlows extends LitElement {
             <gr-icon icon="refresh"></gr-icon>
           </gr-button>
         </div>
-        ${this.flows.map(
+        <md-filled-select
+          label="Filter by status"
+          @request-selection=${(e: CustomEvent) => {
+            this.statusFilter = (e.target as HTMLSelectElement).value as
+              | FlowStageState
+              | 'all';
+          }}
+        >
+          <md-select-option value="all">
+            <div slot="headline">All</div>
+          </md-select-option>
+          ${Object.values(FlowStageState).map(
+            status => html`
+              <md-select-option value=${status}>
+                <div slot="headline">${status}</div>
+              </md-select-option>
+            `
+          )}
+        </md-filled-select>
+        ${filteredFlows.map(
           (flow: FlowInfo) => html`
             <div class="flow">
               <div class="flow-header">

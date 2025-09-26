@@ -52,6 +52,24 @@
       "parentUuid": "dbf01cce_8e88c4b1",
       "revId": "a310e7fbcfeb0c616952560cb854fe117431ccc9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b4809235_d04f6fcb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-09-26T12:33:39Z",
+      "side": 1,
+      "message": "Yeh it\u0027s a non-google deployment. (I\u0027m running gerrit locally)",
+      "parentUuid": "4e1e458a_ee67bfcd",
+      "revId": "a310e7fbcfeb0c616952560cb854fe117431ccc9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

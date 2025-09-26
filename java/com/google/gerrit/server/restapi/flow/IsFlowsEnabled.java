@@ -19,9 +19,11 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.change.ChangeResource;
+import com.google.gerrit.server.flow.FlowService;
 import com.google.gerrit.server.flow.FlowServiceUtil;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import java.util.Optional;
 
 /**
  * REST endpoint to check if Flows is enabled for the user.
@@ -39,11 +41,13 @@ public class IsFlowsEnabled implements RestReadView<ChangeResource> {
 
   @Override
   public Response<IsFlowsEnabledInfo> apply(ChangeResource changeResource) throws RestApiException {
+    Optional<FlowService> flowService = flowServiceUtil.getFlowService();
+    if (flowService.isEmpty()) {
+      return Response.ok(new IsFlowsEnabledInfo(false));
+    }
     IsFlowsEnabledInfo enabledInfo =
         new IsFlowsEnabledInfo(
-            flowServiceUtil
-                .getFlowServiceOrThrow()
-                .isFlowsEnabled(changeResource.getProject(), changeResource.getId()));
+            flowService.get().isFlowsEnabled(changeResource.getProject(), changeResource.getId()));
     return Response.ok(enabledInfo);
   }
 }

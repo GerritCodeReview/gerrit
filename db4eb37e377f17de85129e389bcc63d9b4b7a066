@@ -1,6 +1,40 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "9bbde7c7_5fa03a52",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 38
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-09-26T13:59:22Z",
+      "side": 1,
+      "message": "explain why ?",
+      "revId": "db4eb37e377f17de85129e389bcc63d9b4b7a066",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff1d7f2c_7e30d658",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 38
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-09-26T13:59:22Z",
+      "side": 1,
+      "message": "```suggestion\nThe new API has a Query parameter `command` which can have one of the\n```",
+      "revId": "db4eb37e377f17de85129e389bcc63d9b4b7a066",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "99be2d4b_880fcbe7",
@@ -14,6 +48,114 @@
       "writtenOn": "2025-09-26T13:30:09Z",
       "side": 1,
       "message": "+2\u0027d from frontend perspective.",
+      "revId": "db4eb37e377f17de85129e389bcc63d9b4b7a066",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "27a91eea_d265ee87",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 38
+      },
+      "lineNbr": 6755,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-09-26T13:59:22Z",
+      "side": 1,
+      "message": "which files does it look for in the etc/ directory ?",
+      "range": {
+        "startLine": 6755,
+        "startChar": 9,
+        "endLine": 6755,
+        "endChar": 25
+      },
+      "revId": "db4eb37e377f17de85129e389bcc63d9b4b7a066",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1b7f7cf0_b1b0ee35",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetAiPrompt.java",
+        "patchSetId": 38
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-09-26T13:59:22Z",
+      "side": 1,
+      "message": "```suggestion\n  /** Generate a prompt to request AI assistance in reviewing code. */\n```",
+      "revId": "db4eb37e377f17de85129e389bcc63d9b4b7a066",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9fa2e8ad_7eb10250",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetAiPrompt.java",
+        "patchSetId": 38
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-09-26T13:59:22Z",
+      "side": 1,
+      "message": "```suggestion\n  /** Generate a prompt to improve a commit message. */\n```",
+      "revId": "db4eb37e377f17de85129e389bcc63d9b4b7a066",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f3e1fbd0_198e53de",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetAiPrompt.java",
+        "patchSetId": 38
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-09-26T13:59:22Z",
+      "side": 1,
+      "message": "```suggestion\n  /** Return the raw patch content without template substitution. */\n```",
+      "revId": "db4eb37e377f17de85129e389bcc63d9b4b7a066",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c0328c57_60e6d326",
+        "filename": "resources/com/google/gerrit/pgm/init/prompt/code_review_prompt_template.txt",
+        "patchSetId": 38
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-09-26T13:59:22Z",
+      "side": 1,
+      "message": "Is this first empty line necessary ?",
+      "revId": "db4eb37e377f17de85129e389bcc63d9b4b7a066",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7c8a45df_9f6d5394",
+        "filename": "resources/com/google/gerrit/pgm/init/prompt/commit_message_prompt_template.txt",
+        "patchSetId": 38
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-09-26T13:59:22Z",
+      "side": 1,
+      "message": "Is this first empty line necessary ?",
       "revId": "db4eb37e377f17de85129e389bcc63d9b4b7a066",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

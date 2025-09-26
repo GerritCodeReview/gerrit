@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "633e35ca_571acd44",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 38
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2025-09-26T14:31:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9bbde7c7_5fa03a52",
+      "revId": "db4eb37e377f17de85129e389bcc63d9b4b7a066",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ff1d7f2c_7e30d658",
@@ -31,6 +49,24 @@
       "writtenOn": "2025-09-26T13:59:22Z",
       "side": 1,
       "message": "```suggestion\nThe new API has a Query parameter `command` which can have one of the\n```",
+      "revId": "db4eb37e377f17de85129e389bcc63d9b4b7a066",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "26b7ead3_186bedc6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 38
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2025-09-26T14:31:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ff1d7f2c_7e30d658",
       "revId": "db4eb37e377f17de85129e389bcc63d9b4b7a066",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -75,6 +111,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3f95445b_c7bf042c",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 38
+      },
+      "lineNbr": 6755,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2025-09-26T14:31:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27a91eea_d265ee87",
+      "range": {
+        "startLine": 6755,
+        "startChar": 9,
+        "endLine": 6755,
+        "endChar": 25
+      },
+      "revId": "db4eb37e377f17de85129e389bcc63d9b4b7a066",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1b7f7cf0_b1b0ee35",
@@ -88,6 +148,24 @@
       "writtenOn": "2025-09-26T13:59:22Z",
       "side": 1,
       "message": "```suggestion\n  /** Generate a prompt to request AI assistance in reviewing code. */\n```",
+      "revId": "db4eb37e377f17de85129e389bcc63d9b4b7a066",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "018f7922_48771be4",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetAiPrompt.java",
+        "patchSetId": 38
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2025-09-26T14:31:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1b7f7cf0_b1b0ee35",
       "revId": "db4eb37e377f17de85129e389bcc63d9b4b7a066",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -109,6 +187,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "85a8026c_2d19924d",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetAiPrompt.java",
+        "patchSetId": 38
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2025-09-26T14:31:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9fa2e8ad_7eb10250",
+      "revId": "db4eb37e377f17de85129e389bcc63d9b4b7a066",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f3e1fbd0_198e53de",
@@ -122,6 +218,24 @@
       "writtenOn": "2025-09-26T13:59:22Z",
       "side": 1,
       "message": "```suggestion\n  /** Return the raw patch content without template substitution. */\n```",
+      "revId": "db4eb37e377f17de85129e389bcc63d9b4b7a066",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0a7fc046_b96309c6",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetAiPrompt.java",
+        "patchSetId": 38
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2025-09-26T14:31:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f3e1fbd0_198e53de",
       "revId": "db4eb37e377f17de85129e389bcc63d9b4b7a066",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -143,6 +257,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "64938c70_3e46f5bf",
+        "filename": "resources/com/google/gerrit/pgm/init/prompt/code_review_prompt_template.txt",
+        "patchSetId": 38
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2025-09-26T14:31:25Z",
+      "side": 1,
+      "message": "Actually, thats how it is in the current UI impl. So to maintain consistency, I keep a blank line in the beginning.",
+      "parentUuid": "c0328c57_60e6d326",
+      "revId": "db4eb37e377f17de85129e389bcc63d9b4b7a066",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7c8a45df_9f6d5394",
@@ -156,6 +288,24 @@
       "writtenOn": "2025-09-26T13:59:22Z",
       "side": 1,
       "message": "Is this first empty line necessary ?",
+      "revId": "db4eb37e377f17de85129e389bcc63d9b4b7a066",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "80e7bee3_091baa21",
+        "filename": "resources/com/google/gerrit/pgm/init/prompt/commit_message_prompt_template.txt",
+        "patchSetId": 38
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2025-09-26T14:31:25Z",
+      "side": 1,
+      "message": "Actually, thats how it is in the current UI impl. So to maintain consistency, I keep a blank line in the beginning.",
+      "parentUuid": "7c8a45df_9f6d5394",
       "revId": "db4eb37e377f17de85129e389bcc63d9b4b7a066",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

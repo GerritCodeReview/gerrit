@@ -57,7 +57,6 @@ public class DiffMappings {
           // Name of deleted file is mentioned as newName.
           FileMapping.forDeletedFile(newName);
       case RENAMED, COPIED -> FileMapping.forRenamedFile(oldName, newName);
-      default -> throw new IllegalStateException("Unmapped diff type: " + changeType);
     };
   }
 

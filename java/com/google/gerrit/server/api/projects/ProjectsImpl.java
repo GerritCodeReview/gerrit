@@ -112,8 +112,6 @@ class ProjectsImpl implements Projects {
           case ALL -> FilterType.ALL;
           case CODE -> FilterType.CODE;
           case PERMISSIONS -> FilterType.PERMISSIONS;
-          default ->
-              throw new BadRequestException("Unknown filter type: " + request.getFilterType());
         };
     lp.setFilterType(type);
 

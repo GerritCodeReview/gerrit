@@ -161,15 +161,11 @@ public class PageLinks {
   }
 
   private static String status(Status status) {
-    switch (status) {
-      case ABANDONED:
-        return "status:abandoned";
-      case MERGED:
-        return "status:merged";
-      case NEW:
-      default:
-        return "status:open";
-    }
+    return switch (status) {
+      case ABANDONED -> "status:abandoned";
+      case MERGED -> "status:merged";
+      case NEW -> "status:open";
+    };
   }
 
   private static String toChangeNoSlash(@Nullable Project.NameKey project, Change.Id c) {

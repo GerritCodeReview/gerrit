@@ -109,8 +109,10 @@ public class FileHeaderUtil {
 
   /** Returns the change type associated with the file header. */
   public static Patch.ChangeType getChangeType(FileHeader header) {
-    // In Gerrit, we define our own entities  of the JGit entities, so that we have full control
-    // over their behaviors (e.g. making sure that these entities are immutable so that we can add
+    // In Gerrit, we define our own entities of the JGit entities, so that we have
+    // full control
+    // over their behaviors (e.g. making sure that these entities are immutable so
+    // that we can add
     // them as fields of keys / values of persisted caches).
 
     // TODO(ghareeb): remove the dead code of the value REWRITE and all its handling
@@ -120,7 +122,6 @@ public class FileHeaderUtil {
       case DELETE -> Patch.ChangeType.DELETED;
       case RENAME -> Patch.ChangeType.RENAMED;
       case COPY -> Patch.ChangeType.COPIED;
-      default -> throw new IllegalArgumentException("Unsupported type " + header.getChangeType());
     };
   }
 
@@ -130,21 +131,23 @@ public class FileHeaderUtil {
         switch (header.getPatchType()) {
           case UNIFIED -> Patch.PatchType.UNIFIED;
           case GIT_BINARY, BINARY -> Patch.PatchType.BINARY;
-          default ->
-              throw new IllegalArgumentException("Unsupported type " + header.getPatchType());
         };
 
     if (patchType != PatchType.BINARY) {
       byte[] buf = header.getBuffer();
       // TODO(ghareeb): should we adjust the max limit threshold?
-      // JGit sometimes misses the detection of binary files. In this case we look into the file
-      // header for the occurrence of NUL characters, which is a definite signal that the file is
-      // binary. We limit the number of characters to lookup to avoid performance bottlenecks.
+      // JGit sometimes misses the detection of binary files. In this case we look
+      // into the file
+      // header for the occurrence of NUL characters, which is a definite signal that
+      // the file is
+      // binary. We limit the number of characters to lookup to avoid performance
+      // bottlenecks.
       for (int ptr = header.getStartOffset();
           ptr < Math.min(header.getEndOffset(), BIN_FILE_MAX_SCAN_LIMIT);
           ptr++) {
         if (buf[ptr] == NUL) {
-          // It's really binary, but Git couldn't see the nul early enough to realize its binary,
+          // It's really binary, but Git couldn't see the nul early enough to realize its
+          // binary,
           // and instead produced the diff.
           //
           // Force it to be a binary; it really should have been that.

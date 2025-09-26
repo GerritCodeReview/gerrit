@@ -80,7 +80,11 @@ public class AuthTokenCache {
 
     @Override
     public ImmutableList<AuthToken> load(Account.Id accountId) throws Exception {
-      return directAccessor.getTokens(accountId);
+      ImmutableList<AuthToken> res = directAccessor.getTokens(accountId);
+      if (res.isEmpty()) {
+    	  return null;
+      }
+      return res;
     }
   }
 }

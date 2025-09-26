@@ -927,14 +927,11 @@ public class MergeUtil {
   }
 
   private static CommitMergeStatus getCommitMergeStatus(MergeBaseFailureReason reason) {
-    switch (reason) {
-      case MULTIPLE_MERGE_BASES_NOT_SUPPORTED:
-      case TOO_MANY_MERGE_BASES:
-      default:
-        return CommitMergeStatus.MANUAL_RECURSIVE_MERGE;
-      case CONFLICTS_DURING_MERGE_BASE_CALCULATION:
-        return CommitMergeStatus.PATH_CONFLICT;
-    }
+    return switch (reason) {
+      case MULTIPLE_MERGE_BASES_NOT_SUPPORTED, TOO_MANY_MERGE_BASES ->
+          CommitMergeStatus.MANUAL_RECURSIVE_MERGE;
+      case CONFLICTS_DURING_MERGE_BASE_CALCULATION -> CommitMergeStatus.PATH_CONFLICT;
+    };
   }
 
   /**

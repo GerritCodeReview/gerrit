@@ -120,7 +120,6 @@ public class FileHeaderUtil {
       case DELETE -> Patch.ChangeType.DELETED;
       case RENAME -> Patch.ChangeType.RENAMED;
       case COPY -> Patch.ChangeType.COPIED;
-      default -> throw new IllegalArgumentException("Unsupported type " + header.getChangeType());
     };
   }
 
@@ -130,8 +129,6 @@ public class FileHeaderUtil {
         switch (header.getPatchType()) {
           case UNIFIED -> Patch.PatchType.UNIFIED;
           case GIT_BINARY, BINARY -> Patch.PatchType.BINARY;
-          default ->
-              throw new IllegalArgumentException("Unsupported type " + header.getPatchType());
         };
 
     if (patchType != PatchType.BINARY) {

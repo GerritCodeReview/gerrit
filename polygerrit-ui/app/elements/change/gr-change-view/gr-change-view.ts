@@ -370,6 +370,9 @@ export class GrChangeView extends LitElement {
   @state()
   private revertingChange?: ChangeInfo;
 
+  @state()
+  isFlowsEnabled = false;
+
   // Private but used in tests.
   @state()
   scrollCommentId?: UrlEncodedCommentId;
@@ -626,7 +629,12 @@ export class GrChangeView extends LitElement {
       changeNum => {
         // The change view is tied to a specific change number, so don't update
         // changeNum to undefined and only set it once.
-        if (changeNum && !this.changeNum) this.changeNum = changeNum;
+        if (changeNum && !this.changeNum) {
+          this.changeNum = changeNum;
+          this.restApiService.getIfFlowsIsEnabled(this.changeNum).then(res => {
+            this.isFlowsEnabled = res?.enabled ?? false;
+          });
+        }
       }
     );
     subscribe(
@@ -1381,7 +1389,8 @@ export class GrChangeView extends LitElement {
             `
           )}
           ${when(
-            this.flagService.isEnabled(KnownExperimentId.SHOW_FLOWS_TAB),
+            this.flagService.isEnabled(KnownExperimentId.SHOW_FLOWS_TAB) &&
+              this.isFlowsEnabled,
             () => html`
               <md-secondary-tab
                 data-name=${Tab.FLOWS}

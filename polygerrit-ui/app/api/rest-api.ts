@@ -1526,3 +1526,11 @@ export interface BatchSubmitRequirementInput {
   delete?: string[];
   commit_message?: string;
 }
+
+/**
+ * The IsFlowsEnabledInfo entity contains information about whether flows are
+ * enabled.
+ */
+export declare interface IsFlowsEnabledInfo {
+  enabled: boolean;
+}

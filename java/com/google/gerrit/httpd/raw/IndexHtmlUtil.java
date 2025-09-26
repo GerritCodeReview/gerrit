@@ -19,6 +19,7 @@ import static java.util.stream.Collectors.toSet;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.common.Nullable;
@@ -27,12 +28,14 @@ import com.google.gerrit.common.UsedAt.Project;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.accounts.AccountApi;
 import com.google.gerrit.extensions.api.config.Server;
+import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.ListOption;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.httpd.raw.IndexPreloadingUtil.RequestedPage;
 import com.google.gerrit.json.OutputFormat;
 import com.google.gerrit.server.experiments.ExperimentFeatures;
+import com.google.gerrit.server.experiments.ExperimentFeaturesConstants;
 import com.google.gson.Gson;
 import com.google.template.soy.data.SanitizedContent;
 import java.net.URI;
@@ -41,6 +44,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
@@ -68,10 +72,13 @@ public class IndexHtmlUtil {
       String requestedURL)
       throws URISyntaxException, RestApiException {
     ImmutableMap.Builder<String, Object> data = ImmutableMap.builder();
+    boolean asyncSubmitRequirements =
+        experimentFeatures.isFeatureEnabled(ExperimentFeaturesConstants.ASYNC_SUBMIT_REQUIREMENTS);
     data.putAll(
             staticTemplateData(
                 canonicalURL, cdnPath, faviconPath, urlParameterMap, urlInScriptTagOrdainer))
-        .putAll(dynamicTemplateData(gerritApi, requestedURL, canonicalURL));
+        .putAll(
+            dynamicTemplateData(gerritApi, requestedURL, canonicalURL, asyncSubmitRequirements));
     Set<String> enabledExperiments = new HashSet<>();
     enabledExperiments.addAll(experimentFeatures.getEnabledExperimentFeatures());
     // Add all experiments enabled through url
@@ -107,7 +114,10 @@ public class IndexHtmlUtil {
 
   /** Returns dynamic parameters of {@code index.html}. */
   public static ImmutableMap<String, Object> dynamicTemplateData(
-      GerritApi gerritApi, String requestedURL, String canonicalURL)
+      GerritApi gerritApi,
+      String requestedURL,
+      String canonicalURL,
+      boolean asyncSubmitRequirements)
       throws RestApiException, URISyntaxException {
     ImmutableMap.Builder<String, Object> data = ImmutableMap.builder();
     Map<String, SanitizedContent> initialData = new HashMap<>();
@@ -127,15 +137,21 @@ public class IndexHtmlUtil {
     Integer basePatchNum = computeBasePatchNum(requestedPath);
     switch (page) {
       case CHANGE, DIFF -> {
-        if (basePatchNum.equals(0)) {
+        LinkedHashSet<ListChangesOption> changeDetailOptions =
+            new LinkedHashSet<>(
+                basePatchNum.equals(0)
+                    ? IndexPreloadingUtil.CHANGE_DETAIL_OPTIONS_WITHOUT_PARENTS
+                    : IndexPreloadingUtil.CHANGE_DETAIL_OPTIONS_WITH_PARENTS);
+        if (asyncSubmitRequirements) {
+          changeDetailOptions.remove(ListChangesOption.SUBMIT_REQUIREMENTS);
+          changeDetailOptions.remove(ListChangesOption.SUBMITTABLE);
           data.put(
-              "defaultChangeDetailHex",
-              ListOption.toHex(IndexPreloadingUtil.CHANGE_DETAIL_OPTIONS_WITHOUT_PARENTS));
-        } else {
-          data.put(
-              "defaultChangeDetailHex",
-              ListOption.toHex(IndexPreloadingUtil.CHANGE_DETAIL_OPTIONS_WITH_PARENTS));
+              "submitRequirementsHex",
+              ListOption.toHex(
+                  ImmutableSet.of(
+                      ListChangesOption.SUBMIT_REQUIREMENTS, ListChangesOption.SUBMITTABLE)));
         }
+        data.put("defaultChangeDetailHex", ListOption.toHex(changeDetailOptions));
         data.put(
             "changeRequestsPath",
             IndexPreloadingUtil.computeChangeRequestsPath(requestedPath, page).get());

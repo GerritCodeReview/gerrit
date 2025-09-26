@@ -1474,14 +1474,6 @@ class ReceiveCommits {
         case UPDATE -> parseUpdate(globalRevWalk, ins, cmd);
         case DELETE -> parseDelete(cmd);
         case UPDATE_NONFASTFORWARD -> parseRewind(globalRevWalk, ins, cmd);
-        default -> {
-          reject(
-              cmd,
-              RejectionReason.create(
-                  MetricBucket.UNKNOWN_COMMAND_TYPE,
-                  "prohibited by Gerrit: unknown command type " + cmd.getType()));
-          return;
-        }
       }
 
       if (cmd.getResult() != NOT_ATTEMPTED) {
@@ -1591,13 +1583,6 @@ class ReceiveCommits {
           }
         }
         case DELETE -> {}
-        default ->
-            reject(
-                cmd,
-                RejectionReason.create(
-                    MetricBucket.UNKNOWN_COMMAND_TYPE,
-                    "prohibited by Gerrit: don't know how to handle config update of type "
-                        + cmd.getType()));
       }
     }
   }

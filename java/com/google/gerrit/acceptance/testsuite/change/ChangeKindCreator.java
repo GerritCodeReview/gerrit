@@ -69,7 +69,6 @@ public class ChangeKindCreator {
       case NO_CODE_CHANGE, REWORK, TRIVIAL_REBASE, TRIVIAL_REBASE_WITH_MESSAGE_UPDATE, NO_CHANGE ->
           createChange(testRepo, user).getChangeId();
       case MERGE_FIRST_PARENT_UPDATE -> createChangeForMergeCommit(testRepo, user);
-      default -> throw new IllegalStateException("unexpected change kind: " + kind);
     };
   }
 
@@ -84,25 +83,23 @@ public class ChangeKindCreator {
     switch (changeKind) {
       case NO_CODE_CHANGE -> {
         noCodeChange(changeId, testRepo, user);
-        return;
       }
       case REWORK -> {
         rework(changeId, testRepo, user);
-        return;
       }
       case TRIVIAL_REBASE -> {
         trivialRebase(changeId, testRepo, user, project);
-        return;
       }
       case MERGE_FIRST_PARENT_UPDATE -> {
         updateFirstParent(changeId, testRepo, user);
-        return;
       }
       case NO_CHANGE -> {
         noChange(changeId, testRepo, user);
-        return;
       }
-      default -> assertWithMessage("unexpected change kind: " + changeKind).fail();
+      case TRIVIAL_REBASE_WITH_MESSAGE_UPDATE -> {
+        // TODO: this case wasn't implemented yet when the default case was removed
+        throw new UnsupportedOperationException("Unimplemented case: " + changeKind);
+      }
     }
   }
 
@@ -118,14 +115,13 @@ public class ChangeKindCreator {
       Project.NameKey project)
       throws Exception {
     switch (changeKind) {
-      case REWORK:
-      case TRIVIAL_REBASE:
-        break;
-      case NO_CODE_CHANGE:
-      case NO_CHANGE:
-      case MERGE_FIRST_PARENT_UPDATE:
-      default:
+      case REWORK, TRIVIAL_REBASE -> {}
+      case NO_CODE_CHANGE,
+          NO_CHANGE,
+          MERGE_FIRST_PARENT_UPDATE,
+          TRIVIAL_REBASE_WITH_MESSAGE_UPDATE -> {
         assertWithMessage("unexpected change kind: " + changeKind).fail();
+      }
     }
 
     testRepo.reset(projectOperations.project(project).getHead("master"));

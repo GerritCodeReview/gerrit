@@ -171,8 +171,6 @@ public class ConfigUpdatedEvent {
         case MODIFIED -> String.format("* %s = [%s => %s]", key, oldVal, newVal);
         case REMOVED -> String.format("- %s = %s", key, oldVal);
         case UNMODIFIED -> String.format("  %s = %s", key, newVal);
-        default ->
-            throw new IllegalStateException("Unexpected UpdateType: " + getUpdateType().name());
       };
     }
 

@@ -419,13 +419,6 @@ public class MergeOp implements AutoCloseable {
                 String.format(
                     "submit requirement '%s' is unsatisfied.",
                     srResult.submitRequirement().name()));
-        default ->
-            throw new IllegalStateException(
-                String.format(
-                    "Unexpected submit requirement status %s for %s in %s",
-                    srResult.status().name(),
-                    patchSet.id().getId(),
-                    cd.change().getProject().get()));
       }
     }
     throw new IllegalStateException();

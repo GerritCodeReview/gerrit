@@ -83,14 +83,10 @@ public class DefaultPermissionBackend extends PermissionBackend {
 
   @Override
   public WithUser user(CurrentUser user, ImpersonationPermissionMode permissionMode) {
-    switch (permissionMode) {
-      case REAL_USER -> {
-        return new WithUserImpl(requireNonNull(user.getRealUser(), "user"));
-      }
-      default -> { // THIS_USER
-        return new WithUserImpl(requireNonNull(user, "user"));
-      }
-    }
+    return switch (permissionMode) {
+      case REAL_USER -> new WithUserImpl(requireNonNull(user.getRealUser(), "user"));
+      case THIS_USER -> new WithUserImpl(requireNonNull(user, "user"));
+    };
   }
 
   @Override

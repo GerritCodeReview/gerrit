@@ -309,20 +309,12 @@ public class GitFileDiffCacheImpl implements GitFileDiffCache {
     }
 
     private static RawTextComparator comparatorFor(Whitespace ws) {
-      switch (ws) {
-        case IGNORE_ALL:
-          return RawTextComparator.WS_IGNORE_ALL;
-
-        case IGNORE_TRAILING:
-          return RawTextComparator.WS_IGNORE_TRAILING;
-
-        case IGNORE_LEADING_AND_TRAILING:
-          return RawTextComparator.WS_IGNORE_CHANGE;
-
-        case IGNORE_NONE:
-        default:
-          return RawTextComparator.DEFAULT;
-      }
+      return switch (ws) {
+        case IGNORE_ALL -> RawTextComparator.WS_IGNORE_ALL;
+        case IGNORE_TRAILING -> RawTextComparator.WS_IGNORE_TRAILING;
+        case IGNORE_LEADING_AND_TRAILING -> RawTextComparator.WS_IGNORE_CHANGE;
+        case IGNORE_NONE -> RawTextComparator.DEFAULT;
+      };
     }
 
     /**

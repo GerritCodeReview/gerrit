@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "d3fb14fe_3b277cb5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-09-26T13:18:23Z",
+      "side": 1,
+      "message": "Needs Release-Notes footer.",
+      "revId": "88002ce013e09c19dc7921f7c97983b3db043a14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "f90a5bab_880f8b86",

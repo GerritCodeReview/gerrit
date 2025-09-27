@@ -45,9 +45,6 @@ public abstract class JsonLayout extends Layout {
   }
 
   @Override
-  public void activateOptions() {}
-
-  @Override
   public boolean ignoresThrowable() {
     return false;
   }

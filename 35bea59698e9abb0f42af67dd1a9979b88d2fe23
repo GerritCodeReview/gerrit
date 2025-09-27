@@ -166,6 +166,30 @@
       },
       "revId": "35bea59698e9abb0f42af67dd1a9979b88d2fe23",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ded23d6a_2dedef58",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2395,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-09-27T21:51:06Z",
+      "side": 1,
+      "message": "To clarify, if you enable this and some repositories use reftable, not only the repositories that use reftable become completely unusable, the whole installation fails to even display list of changes(if that project has any open), so the whole installation becomes unusable.\n\nThis said, what do we think the best way forward is? I\u0027ve created 447766400 if people prefer to discuss there.",
+      "parentUuid": "9ea248d6_03cc1f21",
+      "range": {
+        "startLine": 2393,
+        "startChar": 0,
+        "endLine": 2395,
+        "endChar": 1
+      },
+      "revId": "35bea59698e9abb0f42af67dd1a9979b88d2fe23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

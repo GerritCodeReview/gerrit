@@ -11,8 +11,7 @@ import {resolve} from '../../../models/dependency';
 import {changeModelToken} from '../../../models/change/change-model';
 import {subscribe} from '../../lit/subscription-controller';
 import {FlowInfo, FlowStageState} from '../../../api/rest-api';
-
-import {getAppContext} from '../../../services/app-context';
+import {flowsModelToken} from '../../../models/flows/flows-model';
 import {NumericChangeId} from '../../../types/common';
 import './gr-create-flow';
 import {when} from 'lit/directives/when.js';
@@ -52,7 +51,7 @@ export class GrFlows extends LitElement {
 
   private readonly getChangeModel = resolve(this, changeModelToken);
 
-  private readonly restApiService = getAppContext().restApiService;
+  private readonly getFlowsModel = resolve(this, flowsModelToken);
 
   static override get styles() {
     return [
@@ -136,23 +135,27 @@ export class GrFlows extends LitElement {
       () => this.getChangeModel().changeNum$,
       changeNum => {
         this.changeNum = changeNum;
-        this.loadFlows();
+      }
+    );
+    subscribe(
+      this,
+      () => this.getFlowsModel().flows$,
+      flows => {
+        this.flows = flows;
+      }
+    );
+    subscribe(
+      this,
+      () => this.getFlowsModel().loading$,
+      loading => {
+        this.loading = loading;
       }
     );
   }
 
-  async loadFlows() {
-    if (!this.changeNum) return;
-    this.loading = true;
-    const flows = await this.restApiService.listFlows(this.changeNum);
-    this.flows = flows ?? [];
-    this.loading = false;
-  }
-
   private async deleteFlow() {
-    if (!this.changeNum || !this.flowIdToDelete) return;
-    await this.restApiService.deleteFlow(this.changeNum, this.flowIdToDelete);
-    await this.loadFlows();
+    if (!this.flowIdToDelete) return;
+    await this.getFlowsModel().deleteFlow(this.flowIdToDelete);
     this.closeConfirmDialog();
   }
 
@@ -172,7 +175,7 @@ export class GrFlows extends LitElement {
         <h2 class="main-heading">Create new flow</h2>
         <gr-create-flow
           .changeNum=${this.changeNum}
-          @flow-created=${this.loadFlows}
+          @flow-created=${() => this.getFlowsModel().reload()}
         ></gr-create-flow>
         <hr />
         ${this.renderFlowsList()}
@@ -226,7 +229,7 @@ export class GrFlows extends LitElement {
           <h2 class="main-heading">Existing Flows</h2>
           <gr-button
             link
-            @click=${this.loadFlows}
+            @click=${() => this.getFlowsModel().reload()}
             aria-label="Refresh flows"
             title="Refresh flows"
             class="refresh"

@@ -8,19 +8,28 @@ import './gr-flows';
 import {assert, fixture, html} from '@open-wc/testing';
 import {GrFlows} from './gr-flows';
 import {FlowInfo, FlowStageState, Timestamp} from '../../../api/rest-api';
-import {queryAndAssert, stubRestApi} from '../../../test/test-utils';
+import {queryAndAssert} from '../../../test/test-utils';
 import {NumericChangeId} from '../../../types/common';
 import {GrCreateFlow} from './gr-create-flow';
 import sinon from 'sinon';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
+import {FlowsModel, flowsModelToken} from '../../../models/flows/flows-model';
+import {testResolver} from '../../../test/common-test-setup';
 
 suite('gr-flows tests', () => {
   let element: GrFlows;
   let clock: sinon.SinonFakeTimers;
+  let flowsModel: FlowsModel;
 
   setup(async () => {
     clock = sinon.useFakeTimers();
+
+    flowsModel = testResolver(flowsModelToken);
+    // The model is created by the DI system. The test setup replaces the real
+    // model with a mock. To prevent real API calls, we stub the reload method.
+    sinon.stub(flowsModel, 'reload');
+
     element = await fixture<GrFlows>(html`<gr-flows></gr-flows>`);
     element['changeNum'] = 123 as NumericChangeId;
     await element.updateComplete;
@@ -31,8 +40,7 @@ suite('gr-flows tests', () => {
   });
 
   test('renders create flow component and no flows', async () => {
-    stubRestApi('listFlows').returns(Promise.resolve([]));
-    await element['loadFlows']();
+    flowsModel.setState({flows: [], loading: false});
     await element.updateComplete;
     assert.shadowDom.equal(
       element,
@@ -85,8 +93,7 @@ suite('gr-flows tests', () => {
         ],
       },
     ];
-    stubRestApi('listFlows').returns(Promise.resolve(flows));
-    await element['loadFlows']();
+    flowsModel.setState({flows, loading: false});
     await element.updateComplete;
 
     // prettier formats the spacing for "last evaluated" incorrectly
@@ -242,11 +249,8 @@ suite('gr-flows tests', () => {
         ],
       },
     ];
-    stubRestApi('listFlows').returns(Promise.resolve(flows));
-    const deleteFlowStub = sinon
-      .stub(element['restApiService'], 'deleteFlow')
-      .returns(Promise.resolve(new Response()));
-    await element['loadFlows']();
+    const deleteFlowStub = sinon.stub(flowsModel, 'deleteFlow');
+    flowsModel.setState({flows, loading: false});
     await element.updateComplete;
 
     const deleteButton = queryAndAssert<GrButton>(element, '.flow gr-button');
@@ -264,7 +268,7 @@ suite('gr-flows tests', () => {
     confirmButton.click();
     await element.updateComplete;
 
-    assert.isTrue(deleteFlowStub.calledOnceWith(123, 'flow1'));
+    assert.isTrue(deleteFlowStub.calledOnceWith('flow1'));
   });
 
   test('cancel deleting a flow', async () => {
@@ -281,11 +285,8 @@ suite('gr-flows tests', () => {
         ],
       },
     ];
-    stubRestApi('listFlows').returns(Promise.resolve(flows));
-    const deleteFlowStub = sinon
-      .stub(element['restApiService'], 'deleteFlow')
-      .returns(Promise.resolve(new Response()));
-    await element['loadFlows']();
+    const deleteFlowStub = sinon.stub(flowsModel, 'deleteFlow');
+    flowsModel.setState({flows, loading: false});
     await element.updateComplete;
 
     const deleteButton = queryAndAssert<GrButton>(element, '.flow gr-button');
@@ -308,11 +309,8 @@ suite('gr-flows tests', () => {
   });
 
   test('reloads flows on flow-created event', async () => {
-    const listFlowsStub = stubRestApi('listFlows').returns(Promise.resolve([]));
-    await element['loadFlows']();
-    await element.updateComplete;
-
-    assert.isTrue(listFlowsStub.calledOnce);
+    const reloadStub = flowsModel.reload as sinon.SinonStub;
+    reloadStub.resetHistory();
 
     const createFlow = queryAndAssert<GrCreateFlow>(element, 'gr-create-flow');
     createFlow.dispatchEvent(
@@ -321,30 +319,22 @@ suite('gr-flows tests', () => {
 
     await element.updateComplete;
 
-    assert.isTrue(listFlowsStub.calledTwice);
+    assert.isTrue(reloadStub.calledOnce);
   });
 
   test('refreshes flows on button click', async () => {
-    const flows: FlowInfo[] = [
-      {
-        uuid: 'flow1',
-        owner: {name: 'owner1'},
-        created: '2025-01-01T10:00:00.000Z' as Timestamp,
-        stages: [
-          {
-            expression: {condition: 'label:Code-Review=+1'},
-            state: FlowStageState.DONE,
-          },
-        ],
-      },
-    ];
-    const listFlowsStub = stubRestApi('listFlows').returns(
-      Promise.resolve(flows)
-    );
-    await element.loadFlows();
+    const flow = {
+      uuid: 'flow1',
+      owner: {name: 'owner1'},
+      created: '2025-01-01T10:00:00.000Z' as Timestamp,
+      stages: [],
+    } as FlowInfo;
+    flowsModel.setState({flows: [flow], loading: false});
     await element.updateComplete;
 
-    assert.isTrue(listFlowsStub.calledOnce);
+    const reloadStub = flowsModel.reload as sinon.SinonStub;
+    reloadStub.resetHistory();
+
     const refreshButton = queryAndAssert<GrButton>(
       element,
       '.heading-with-button gr-button'
@@ -352,7 +342,7 @@ suite('gr-flows tests', () => {
     refreshButton.click();
     await element.updateComplete;
 
-    assert.isTrue(listFlowsStub.calledTwice);
+    assert.isTrue(reloadStub.calledOnce);
   });
 
   suite('filter', () => {
@@ -401,8 +391,7 @@ suite('gr-flows tests', () => {
     ];
 
     setup(async () => {
-      stubRestApi('listFlows').returns(Promise.resolve(flows));
-      await element.loadFlows();
+      flowsModel.setState({flows, loading: false});
       await element.updateComplete;
     });
 

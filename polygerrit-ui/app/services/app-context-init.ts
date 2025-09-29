@@ -75,6 +75,7 @@ import {
 import {Finalizable} from '../types/types';
 import {GrSuggestionsService} from './suggestions/suggestions-service_impl';
 import {suggestionsServiceToken} from './suggestions/suggestions-service';
+import {FlowsModel, flowsModelToken} from '../models/flows/flows-model';
 /**
  * The AppContext lazy initializator for all services
  */
@@ -249,5 +250,6 @@ export function createAppDependencies(
           resolver(changeModelToken)
         ),
     ],
+    [flowsModelToken, () => new FlowsModel(resolver(changeModelToken))],
   ]);
 }

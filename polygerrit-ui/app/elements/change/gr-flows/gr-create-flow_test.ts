@@ -7,21 +7,20 @@ import '../../../test/common-test-setup';
 import './gr-create-flow';
 import {assert, fixture, html} from '@open-wc/testing';
 import {GrCreateFlow} from './gr-create-flow';
-import {
-  mockPromise,
-  queryAll,
-  queryAndAssert,
-  stubRestApi,
-} from '../../../test/test-utils';
+import {queryAll, queryAndAssert} from '../../../test/test-utils';
 import {NumericChangeId} from '../../../types/common';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {MdOutlinedTextField} from '@material/web/textfield/outlined-text-field';
 import {GrSearchAutocomplete} from '../../core/gr-search-autocomplete/gr-search-autocomplete';
+import {FlowsModel, flowsModelToken} from '../../../models/flows/flows-model';
+import {testResolver} from '../../../test/common-test-setup';
 
 suite('gr-create-flow tests', () => {
   let element: GrCreateFlow;
+  let flowsModel: FlowsModel;
 
   setup(async () => {
+    flowsModel = testResolver(flowsModelToken);
     element = await fixture<GrCreateFlow>(
       html`<gr-create-flow></gr-create-flow>`
     );
@@ -122,7 +121,7 @@ suite('gr-create-flow tests', () => {
   });
 
   test('creates a flow with one stage', async () => {
-    const createFlowStub = stubRestApi('createFlow').returns(mockPromise());
+    const createFlowStub = sinon.stub(flowsModel, 'createFlow');
 
     const searchAutocomplete = queryAndAssert<GrSearchAutocomplete>(
       element,
@@ -146,7 +145,7 @@ suite('gr-create-flow tests', () => {
     await element.updateComplete;
 
     assert.isTrue(createFlowStub.calledOnce);
-    const flowInput = createFlowStub.lastCall.args[1];
+    const flowInput = createFlowStub.lastCall.args[0];
     assert.deepEqual(flowInput.stage_expressions, [
       {
         condition:
@@ -157,7 +156,7 @@ suite('gr-create-flow tests', () => {
   });
 
   test('creates a flow with parameters', async () => {
-    const createFlowStub = stubRestApi('createFlow').returns(mockPromise());
+    const createFlowStub = sinon.stub(flowsModel, 'createFlow');
 
     const searchAutocomplete = queryAndAssert<GrSearchAutocomplete>(
       element,
@@ -188,7 +187,7 @@ suite('gr-create-flow tests', () => {
     await element.updateComplete;
 
     assert.isTrue(createFlowStub.calledOnce);
-    const flowInput = createFlowStub.lastCall.args[1];
+    const flowInput = createFlowStub.lastCall.args[0];
     assert.deepEqual(flowInput.stage_expressions, [
       {
         condition:
@@ -199,7 +198,7 @@ suite('gr-create-flow tests', () => {
   });
 
   test('creates a flow with multiple stages', async () => {
-    const createFlowStub = stubRestApi('createFlow').returns(mockPromise());
+    const createFlowStub = sinon.stub(flowsModel, 'createFlow');
 
     const searchAutocomplete = queryAndAssert<GrSearchAutocomplete>(
       element,
@@ -238,7 +237,7 @@ suite('gr-create-flow tests', () => {
     await element.updateComplete;
 
     assert.isTrue(createFlowStub.calledOnce);
-    const flowInput = createFlowStub.lastCall.args[1];
+    const flowInput = createFlowStub.lastCall.args[0];
     assert.deepEqual(flowInput.stage_expressions, [
       {
         condition:
@@ -254,7 +253,7 @@ suite('gr-create-flow tests', () => {
   });
 
   test('create flow with added stages and current input', async () => {
-    const createFlowStub = stubRestApi('createFlow').returns(mockPromise());
+    const createFlowStub = sinon.stub(flowsModel, 'createFlow');
 
     const searchAutocomplete = queryAndAssert<GrSearchAutocomplete>(
       element,
@@ -290,7 +289,7 @@ suite('gr-create-flow tests', () => {
     await element.updateComplete;
 
     assert.isTrue(createFlowStub.calledOnce);
-    const flowInput = createFlowStub.lastCall.args[1];
+    const flowInput = createFlowStub.lastCall.args[0];
     assert.deepEqual(flowInput.stage_expressions, [
       {
         condition:

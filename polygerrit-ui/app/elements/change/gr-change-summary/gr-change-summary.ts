@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import './gr-checks-chip';
+import './gr-summary-chip';
 import '../gr-comments-summary/gr-comments-summary';
 import '../../shared/gr-icon/gr-icon';
 import '../../checks/gr-checks-action';
@@ -29,6 +30,7 @@ import {
 } from '../../../models/checks/checks-util';
 import {getMentionedThreads, isUnresolved} from '../../../utils/comment-util';
 import {AccountInfo, CommentThread, DropdownLink} from '../../../types/common';
+import {FlowInfo, FlowStageState} from '../../../api/rest-api';
 import {Tab} from '../../../constants/constants';
 import {ChecksTabState} from '../../../types/events';
 import {modifierPressed} from '../../../utils/dom-util';
@@ -43,6 +45,7 @@ import {combineLatest} from 'rxjs';
 import {userModelToken} from '../../../models/user/user-model';
 import {assertIsDefined} from '../../../utils/common-util';
 import {GrAiPromptDialog} from '../gr-ai-prompt-dialog/gr-ai-prompt-dialog';
+import {flowsModelToken} from '../../../models/flows/flows-model';
 
 function handleSpaceOrEnter(e: KeyboardEvent, handler: () => void) {
   if (modifierPressed(e)) return;
@@ -98,6 +101,9 @@ export class GrChangeSummary extends LitElement {
   @state()
   draftCount = 0;
 
+  @state()
+  flows: FlowInfo[] = [];
+
   @query('#aiPromptModal')
   aiPromptModal?: HTMLDialogElement;
 
@@ -113,6 +119,8 @@ export class GrChangeSummary extends LitElement {
   private readonly getChecksModel = resolve(this, checksModelToken);
 
   private readonly getChangeModel = resolve(this, changeModelToken);
+
+  private readonly getFlowsModel = resolve(this, flowsModelToken);
 
   private readonly reporting = getAppContext().reportingService;
 
@@ -188,6 +196,11 @@ export class GrChangeSummary extends LitElement {
         ).filter(isUnresolved);
         this.mentionCount = unresolvedThreadsMentioningSelf.length;
       }
+    );
+    subscribe(
+      this,
+      () => this.getFlowsModel().flows$,
+      x => (this.flows = x)
     );
   }
 
@@ -584,7 +597,7 @@ export class GrChangeSummary extends LitElement {
               </div>
             </td>
           </tr>
-          ${this.renderChecksSummary()}
+          ${this.renderChecksSummary()} ${this.renderFlowsSummary()}
         </table>
       </div>
       <dialog id="aiPromptModal" tabindex="-1">
@@ -593,6 +606,81 @@ export class GrChangeSummary extends LitElement {
           @close=${this.handleAiPromptDialogClose}
         ></gr-ai-prompt-dialog>
       </dialog>
+    `;
+  }
+
+  private getFlowOverallStatus(flow: FlowInfo): FlowStageState {
+    if (
+      flow.stages.some(
+        stage =>
+          stage.state === FlowStageState.FAILED ||
+          stage.state === FlowStageState.TERMINATED
+      )
+    ) {
+      return FlowStageState.FAILED;
+    }
+    if (
+      flow.stages.some(
+        stage =>
+          stage.state === FlowStageState.PENDING ||
+          stage.state === FlowStageState.TERMINATED
+      )
+    ) {
+      return FlowStageState.PENDING; // Using PENDING to represent running/in-progress
+    }
+    if (flow.stages.every(stage => stage.state === FlowStageState.DONE)) {
+      return FlowStageState.DONE;
+    }
+    return FlowStageState.PENDING; // Default or unknown state
+  }
+
+  private renderFlowsSummary() {
+    if (this.flows.length === 0) return nothing;
+    const handler = () => fireShowTab(this, Tab.FLOWS, true);
+    const failed = this.flows.filter(
+      f => this.getFlowOverallStatus(f) === FlowStageState.FAILED
+    ).length;
+    const running = this.flows.filter(
+      f => this.getFlowOverallStatus(f) === FlowStageState.PENDING
+    ).length;
+    const done = this.flows.filter(
+      f => this.getFlowOverallStatus(f) === FlowStageState.DONE
+    ).length;
+    return html`
+      <tr>
+        <td class="key">Flows</td>
+        <td class="value">
+          <div class="flowsSummary">
+            ${failed > 0
+              ? html`<gr-checks-chip
+                  .statusOrCategory=${Category.ERROR}
+                  .text=${`${failed}`}
+                  @click=${handler}
+                  @keydown=${(e: KeyboardEvent) =>
+                    handleSpaceOrEnter(e, handler)}
+                ></gr-checks-chip>`
+              : ''}
+            ${running > 0
+              ? html`<gr-checks-chip
+                  .statusOrCategory=${RunStatus.RUNNING}
+                  .text=${`${running}`}
+                  @click=${handler}
+                  @keydown=${(e: KeyboardEvent) =>
+                    handleSpaceOrEnter(e, handler)}
+                ></gr-checks-chip>`
+              : ''}
+            ${done > 0
+              ? html`<gr-checks-chip
+                  .statusOrCategory=${Category.SUCCESS}
+                  .text=${`${done}`}
+                  @click=${handler}
+                  @keydown=${(e: KeyboardEvent) =>
+                    handleSpaceOrEnter(e, handler)}
+                ></gr-checks-chip>`
+              : ''}
+          </div>
+        </td>
+      </tr>
     `;
   }
 

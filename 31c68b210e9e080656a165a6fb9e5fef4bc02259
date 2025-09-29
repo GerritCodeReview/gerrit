@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c1d0d536_390d7963",
+        "filename": "polygerrit-ui/app/models/change/change-model.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-09-29T12:10:37Z",
+      "side": 1,
+      "message": "combine",
+      "range": {
+        "startLine": 277,
+        "startChar": 2,
+        "endLine": 285,
+        "endChar": 3
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "9d178d69_da96dec2",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/models/change/change-model.ts",
+              "range": {
+                "startLine": 277,
+                "startChar": 0,
+                "endLine": 284,
+                "endChar": 0
+              },
+              "replacement": "  if (\n    !change ||\n    !submittabilityInfo ||\n    submittabilityInfo.changeNum !\u003d\u003d change._number\n  ) {\n"
+            }
+          ]
+        }
+      ],
+      "revId": "31c68b210e9e080656a165a6fb9e5fef4bc02259",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a45dd36e_553328ff",
+        "filename": "polygerrit-ui/app/models/change/change-model.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 818,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-09-29T12:10:37Z",
+      "side": 1,
+      "message": "this TODO is confusing\n\nsince you plan to separate the two calls, this will never be removed?",
+      "range": {
+        "startLine": 817,
+        "startChar": 30,
+        "endLine": 818,
+        "endChar": 50
+      },
+      "revId": "31c68b210e9e080656a165a6fb9e5fef4bc02259",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0cd50427_dd27bd1a",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 1524,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-09-29T12:10:37Z",
+      "side": 1,
+      "message": "why is this present?",
+      "range": {
+        "startLine": 1524,
+        "startChar": 4,
+        "endLine": 1524,
+        "endChar": 27
+      },
+      "revId": "31c68b210e9e080656a165a6fb9e5fef4bc02259",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d761e13_d59dfdea",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-09-29T12:10:37Z",
+      "side": 1,
+      "message": "reading this makes it seem like it\u0027s an API call that returns only the submittability info.\n\nMaybe rename to fetchChangeWithSubmittabilityInfo",
+      "range": {
+        "startLine": 216,
+        "startChar": 5,
+        "endLine": 216,
+        "endChar": 70
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "60b2fc2c_1b16747b",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api.ts",
+              "range": {
+                "startLine": 216,
+                "startChar": 0,
+                "endLine": 217,
+                "endChar": 0
+              },
+              "replacement": "   * Fetches change information including submittability details.\n"
+            },
+            {
+              "path": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api.ts",
+              "range": {
+                "startLine": 218,
+                "startChar": 0,
+                "endLine": 219,
+                "endChar": 0
+              },
+              "replacement": "  fetchChangeWithSubmittabilityInfo(\n"
+            }
+          ]
+        }
+      ],
+      "revId": "31c68b210e9e080656a165a6fb9e5fef4bc02259",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

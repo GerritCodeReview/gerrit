@@ -47,6 +47,7 @@ import {
   countRunningRunsForLabel,
 } from '../../checks/gr-checks-util';
 import {subscribe} from '../../lit/subscription-controller';
+import {when} from 'lit/directives/when.js';
 
 /**
  * @attr {Boolean} suppress-title - hide titles, currently for hovercard view
@@ -153,7 +154,6 @@ export class GrSubmitRequirements extends LitElement {
     const submit_requirements = orderSubmitRequirements(
       getRequirements(this.change)
     );
-    if (submit_requirements.length === 0) return nothing;
 
     const requirementKey = (req: SubmitRequirementResultInfo, index: number) =>
       `${index}-${req.name}`;
@@ -162,34 +162,44 @@ export class GrSubmitRequirements extends LitElement {
         id="submit-requirements-caption"
       >
         Submit Requirements
+        ${submit_requirements.length === 0 ? '(Loading...)' : ''}
       </h3>
-      <table class="requirements" aria-labelledby="submit-requirements-caption">
-        <thead hidden>
-          <tr>
-            <th>Status</th>
-            <th>Name</th>
-            <th>Votes</th>
-          </tr>
-        </thead>
-        <tbody>
-          ${repeat(submit_requirements, requirementKey, (requirement, index) =>
-            this.renderRequirement(requirement, index)
-          )}
-        </tbody>
-      </table>
-      ${this.disableHovercards
-        ? ''
-        : submit_requirements.map(
-            (requirement, index) => html`
-              <gr-submit-requirement-hovercard
-                for="requirement-${index}-${charsOnly(requirement.name)}"
-                .requirement=${requirement}
-                .change=${this.change}
-                .account=${this.account}
-                .mutable=${this.mutable ?? false}
-              ></gr-submit-requirement-hovercard>
-            `
-          )}`;
+      ${when(
+        submit_requirements.length !== 0,
+        () => html`<table
+            class="requirements"
+            aria-labelledby="submit-requirements-caption"
+          >
+            <thead hidden>
+              <tr>
+                <th>Status</th>
+                <th>Name</th>
+                <th>Votes</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${repeat(
+                submit_requirements,
+                requirementKey,
+                (requirement, index) =>
+                  this.renderRequirement(requirement, index)
+              )}
+            </tbody>
+          </table>
+          ${this.disableHovercards
+            ? ''
+            : submit_requirements.map(
+                (requirement, index) => html`
+                  <gr-submit-requirement-hovercard
+                    for="requirement-${index}-${charsOnly(requirement.name)}"
+                    .requirement=${requirement}
+                    .change=${this.change}
+                    .account=${this.account}
+                    .mutable=${this.mutable ?? false}
+                  ></gr-submit-requirement-hovercard>
+                `
+              )}`
+      )}`;
   }
 
   private renderRequirement(

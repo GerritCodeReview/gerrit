@@ -3,7 +3,10 @@
  * Copyright 2020 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
+import {
+  RestApiService,
+  SubmittabilityInfo,
+} from '../../services/gr-rest-api/gr-rest-api';
 import {FlowInfo} from '../../api/rest-api';
 import {
   AccountCapabilityInfo,
@@ -247,6 +250,9 @@ export const grRestApiMock: RestApiService = {
   ): Promise<ParsedChangeInfo | undefined> {
     if (changeNum === undefined) return Promise.resolve(undefined);
     return Promise.resolve(createChange() as ParsedChangeInfo);
+  },
+  getSubmittabilityInfo(): Promise<SubmittabilityInfo | undefined> {
+    return Promise.resolve(undefined);
   },
   getChangeEdit(): Promise<EditInfo | undefined> {
     return Promise.resolve(undefined);

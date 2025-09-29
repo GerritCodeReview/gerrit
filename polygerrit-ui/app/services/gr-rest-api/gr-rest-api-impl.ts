@@ -110,7 +110,11 @@ import {
   DiffPreferencesInfo,
   IgnoreWhitespaceType,
 } from '../../types/diff';
-import {GetDiffCommentsOutput, RestApiService} from './gr-rest-api';
+import {
+  GetDiffCommentsOutput,
+  RestApiService,
+  SubmittabilityInfo,
+} from './gr-rest-api';
 import {
   CommentSide,
   createDefaultDiffPrefs,
@@ -152,6 +156,7 @@ import {
   SiteBasedCache,
   throwingErrorCallback,
 } from '../../elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
+import {getAppContext} from '../app-context';
 
 const MAX_PROJECT_RESULTS = 25;
 
@@ -264,6 +269,8 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
 
   // Used to serialize requests for certain RPCs
   readonly _serialScheduler: Scheduler<Response>;
+
+  private readonly flags = getAppContext().flagsService;
 
   constructor(
     private readonly authService: AuthService,
@@ -1419,14 +1426,16 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       ListChangesOption.DOWNLOAD_COMMANDS,
       ListChangesOption.MESSAGES,
       ListChangesOption.REVIEWER_UPDATES,
-      ListChangesOption.SUBMITTABLE,
       ListChangesOption.WEB_LINKS,
       ListChangesOption.SKIP_DIFFSTAT,
-      ListChangesOption.SUBMIT_REQUIREMENTS,
       ListChangesOption.PARENTS,
     ];
     if (config?.receive?.enable_signed_push) {
       options.push(ListChangesOption.PUSH_CERTIFICATES);
+    }
+    if (!this.flags.isEnabled(KnownExperimentId.ASYNC_SUBMIT_REQUIREMENTS)) {
+      options.push(ListChangesOption.SUBMITTABLE);
+      options.push(ListChangesOption.SUBMIT_REQUIREMENTS);
     }
     return options;
   }
@@ -1484,6 +1493,35 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
         });
       }
     );
+  }
+
+  async getSubmittabilityInfo(
+    changeNum: NumericChangeId
+  ): Promise<SubmittabilityInfo | undefined> {
+    if (!this.flags.isEnabled(KnownExperimentId.ASYNC_SUBMIT_REQUIREMENTS)) {
+      return undefined;
+    }
+    const optionsHex = listChangesOptionsToHex(
+      ListChangesOption.SUBMITTABLE,
+      ListChangesOption.SUBMIT_REQUIREMENTS
+    );
+    const change = await this.getChange(
+      changeNum,
+      /* errFn=*/ undefined,
+      optionsHex
+    );
+    if (
+      !change ||
+      change.submittable === undefined ||
+      change.submit_requirements === undefined
+    ) {
+      return undefined;
+    }
+    return {
+      changeNum,
+      submittable: change.submittable,
+      submitRequirements: change.submit_requirements,
+    };
   }
 
   async getChangeCommitInfo(

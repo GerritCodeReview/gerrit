@@ -108,11 +108,18 @@ import {
   LabelDefinitionInfo,
   LabelDefinitionInput,
   SubmitRequirementInput,
+  SubmitRequirementResultInfo,
 } from '../../api/rest-api';
 
 export interface GetDiffCommentsOutput {
   baseComments: CommentInfo[];
   comments: CommentInfo[];
+}
+
+export interface SubmittabilityInfo {
+  changeNum: NumericChangeId;
+  submittable: boolean;
+  submitRequirements: SubmitRequirementResultInfo[];
 }
 
 export interface RestApiService extends Finalizable {
@@ -205,6 +212,13 @@ export interface RestApiService extends Finalizable {
     changeNum?: number | string,
     errFn?: ErrorCallback
   ): Promise<ParsedChangeInfo | undefined>;
+
+  /**
+   * Returns information about submittability and Submit Requirements.
+   */
+  getSubmittabilityInfo(
+    changeNum: NumericChangeId
+  ): Promise<SubmittabilityInfo | undefined>;
 
   /**
    * For every revision of the change returns the list of FileInfo for files

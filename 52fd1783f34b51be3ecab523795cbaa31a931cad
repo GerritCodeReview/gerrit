@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "441ef332_383f6fef",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-09-29T11:47:01Z",
+      "side": 1,
+      "message": "Updated. I\u0027ve tried making it so `change` in change-model never contains submit-requirements. While that makes code in change-model a bit cleaner. The cost of extra plumbing required was not worth it. So I ended up reverting most changes.",
+      "parentUuid": "00f503c5_ac2660d8",
+      "revId": "52fd1783f34b51be3ecab523795cbaa31a931cad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c01b9332_ed134716",
@@ -31,6 +49,30 @@
       "writtenOn": "2025-09-29T08:15:12Z",
       "side": 1,
       "message": "a spinner is nicer UX I think",
+      "range": {
+        "startLine": 165,
+        "startChar": 46,
+        "endLine": 165,
+        "endChar": 58
+      },
+      "revId": "52fd1783f34b51be3ecab523795cbaa31a931cad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d8e8d4f_10d45fc5",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirements/gr-submit-requirements.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-09-29T11:47:01Z",
+      "side": 1,
+      "message": "I can improve the UX in separate CL",
+      "parentUuid": "c01b9332_ed134716",
       "range": {
         "startLine": 165,
         "startChar": 46,
@@ -102,6 +144,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "af9aff1e_129fd42e",
+        "filename": "polygerrit-ui/app/models/change/change-model.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-09-29T11:47:01Z",
+      "side": 1,
+      "message": "Changed the rest api an the field here to use it\u0027s own type.",
+      "parentUuid": "0705548b_696aab76",
+      "range": {
+        "startLine": 88,
+        "startChar": 6,
+        "endLine": 88,
+        "endChar": 64
+      },
+      "revId": "52fd1783f34b51be3ecab523795cbaa31a931cad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a874d85d_8edf26aa",
@@ -115,6 +181,30 @@
       "writtenOn": "2025-09-29T08:15:12Z",
       "side": 1,
       "message": "this method is not doing any updating? It\u0027s just returning a modified change object?\n\n`Update` also implies some assignment is happening? It\u0027s closer to a getter.",
+      "range": {
+        "startLine": 258,
+        "startChar": 9,
+        "endLine": 258,
+        "endChar": 43
+      },
+      "revId": "52fd1783f34b51be3ecab523795cbaa31a931cad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ebd1505b_2e3ee9c2",
+        "filename": "polygerrit-ui/app/models/change/change-model.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-09-29T11:47:01Z",
+      "side": 1,
+      "message": "Renamed to fillFromSubmittabilityInfo",
+      "parentUuid": "a874d85d_8edf26aa",
       "range": {
         "startLine": 258,
         "startChar": 9,
@@ -148,6 +238,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "49209cba_521d4eda",
+        "filename": "polygerrit-ui/app/models/change/change-model.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-09-29T11:47:01Z",
+      "side": 1,
+      "message": "This wouldn\u0027t work. If we store it in the `change` then components that listen for `change$` will get triggered, when SR got fetched faster than all the other fields. We need to have a separate field for storing them, until they can be merged with the other change information.",
+      "parentUuid": "71c2fb17_abe34e9e",
+      "range": {
+        "startLine": 336,
+        "startChar": 2,
+        "endLine": 336,
+        "endChar": 52
+      },
+      "revId": "52fd1783f34b51be3ecab523795cbaa31a931cad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "eda45140_b8f03004",
@@ -161,6 +275,30 @@
       "writtenOn": "2025-09-29T08:15:12Z",
       "side": 1,
       "message": "so we do update the main change object here.\n\nbased on the variable name, it implies that `changeWithSubmitRequirements` only has this info but now the `change` variable also has this info.",
+      "range": {
+        "startLine": 817,
+        "startChar": 8,
+        "endLine": 818,
+        "endChar": 16
+      },
+      "revId": "52fd1783f34b51be3ecab523795cbaa31a931cad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "46ba427e_afdf05d7",
+        "filename": "polygerrit-ui/app/models/change/change-model.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 818,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-09-29T11:47:01Z",
+      "side": 1,
+      "message": "Names have changed.\n\nI\u0027ve also spend way too much time trying to just keep them as two separate fields (with change never containing submit requirements), but in the end this ended up requiring too much plumbing of the variables and subscription at the places where need to know about submit requirements. So I reverted those changes. In the end we are keeping two fields, but we keep them in sync.",
+      "parentUuid": "eda45140_b8f03004",
       "range": {
         "startLine": 817,
         "startChar": 8,
@@ -208,6 +346,30 @@
           ]
         }
       ],
+      "revId": "52fd1783f34b51be3ecab523795cbaa31a931cad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "63fdcb2d_8071c1d4",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-09-29T11:47:01Z",
+      "side": 1,
+      "message": "Changed to getSubmittabilityInfo, and changed returned type.",
+      "parentUuid": "1ee660cd_e73dbb60",
+      "range": {
+        "startLine": 212,
+        "startChar": 2,
+        "endLine": 212,
+        "endChar": 29
+      },
       "revId": "52fd1783f34b51be3ecab523795cbaa31a931cad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

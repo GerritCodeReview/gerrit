@@ -42,6 +42,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2f2183ca_fe367907",
+        "filename": "polygerrit-ui/app/models/change/change-model.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-09-29T12:19:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c1d0d536_390d7963",
+      "range": {
+        "startLine": 277,
+        "startChar": 2,
+        "endLine": 285,
+        "endChar": 3
+      },
+      "revId": "31c68b210e9e080656a165a6fb9e5fef4bc02259",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a45dd36e_553328ff",
@@ -65,6 +89,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e3ed2969_e064739f",
+        "filename": "polygerrit-ui/app/models/change/change-model.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 818,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-09-29T12:19:32Z",
+      "side": 1,
+      "message": "Whether or not Submit Requirements are fetched as part of GetChangeDetail call is controlled by the experiment right now. This part is required, so that in the \"experiment is disabled\" state we don\u0027t overwrite submittabilityInfo to undefined. (getSubmittabilityInfo always returns undefined when experiment is false).\n\nOnce experiment is enabled, the submittabilityInfo is never populated from result of GetChangeDetail (in `loadChange()`) and is only populated as a result of it\u0027s own loadSubmittabilityInfo call, hence this check won\u0027t be needed anymore",
+      "parentUuid": "a45dd36e_553328ff",
+      "range": {
+        "startLine": 817,
+        "startChar": 30,
+        "endLine": 818,
+        "endChar": 50
+      },
+      "revId": "31c68b210e9e080656a165a6fb9e5fef4bc02259",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0cd50427_dd27bd1a",
@@ -78,6 +126,30 @@
       "writtenOn": "2025-09-29T12:10:37Z",
       "side": 1,
       "message": "why is this present?",
+      "range": {
+        "startLine": 1524,
+        "startChar": 4,
+        "endLine": 1524,
+        "endChar": 27
+      },
+      "revId": "31c68b210e9e080656a165a6fb9e5fef4bc02259",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b6c0e291_cdf18700",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 1524,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-09-29T12:19:32Z",
+      "side": 1,
+      "message": "Forgot to remove after testing",
+      "parentUuid": "0cd50427_dd27bd1a",
       "range": {
         "startLine": 1524,
         "startChar": 4,
@@ -135,6 +207,30 @@
           ]
         }
       ],
+      "revId": "31c68b210e9e080656a165a6fb9e5fef4bc02259",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2801cd3b_e250f498",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-09-29T12:19:32Z",
+      "side": 1,
+      "message": "But it does only return SubmittabilityInfo. (That\u0027s it\u0027s return type). The fact that we call GetChange internally is implementation detail, we can even define a separate endpoint in the backend later (though I don\u0027t think it\u0027s necessary).",
+      "parentUuid": "2d761e13_d59dfdea",
+      "range": {
+        "startLine": 216,
+        "startChar": 5,
+        "endLine": 216,
+        "endChar": 70
+      },
       "revId": "31c68b210e9e080656a165a6fb9e5fef4bc02259",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

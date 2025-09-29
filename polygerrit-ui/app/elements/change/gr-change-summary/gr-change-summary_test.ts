@@ -16,7 +16,7 @@ import {
   createDraft,
   createRun,
 } from '../../../test/test-data-generators';
-import {Timestamp} from '../../../api/rest-api';
+import {FlowInfo, FlowStageState, Timestamp} from '../../../api/rest-api';
 import {testResolver} from '../../../test/common-test-setup';
 import {UserModel, userModelToken} from '../../../models/user/user-model';
 import {
@@ -26,16 +26,30 @@ import {
 import {GrChecksChip} from './gr-checks-chip';
 import {CheckRun} from '../../../models/checks/checks-model';
 import {Category, RunStatus} from '../../../api/checks';
+import {FlowsModel, flowsModelToken} from '../../../models/flows/flows-model';
+import {GrSummaryChip} from './gr-summary-chip';
+
+function createFlow(partial: Partial<FlowInfo> = {}): FlowInfo {
+  return {
+    uuid: 'test-uuid',
+    owner: createAccountWithEmail(),
+    created: '2020-01-01 00:00:00.000000000' as Timestamp,
+    stages: [],
+    ...partial,
+  };
+}
 
 suite('gr-change-summary test', () => {
   let element: GrChangeSummary;
   let commentsModel: CommentsModel;
   let userModel: UserModel;
+  let flowsModel: FlowsModel;
 
   setup(async () => {
     element = await fixture(html`<gr-change-summary></gr-change-summary>`);
     commentsModel = testResolver(commentsModelToken);
     userModel = testResolver(userModelToken);
+    flowsModel = testResolver(flowsModelToken);
   });
 
   test('is defined', () => {
@@ -58,7 +72,8 @@ suite('gr-change-summary test', () => {
     await element.updateComplete;
     assert.shadowDom.equal(
       element,
-      /* HTML */ `<div>
+      /* HTML */ `
+        <div>
           <table class="info">
             <tbody>
               <tr>
@@ -86,7 +101,8 @@ suite('gr-change-summary test', () => {
         <dialog id="aiPromptModal" tabindex="-1">
           <gr-ai-prompt-dialog id="aiPromptDialog" role="dialog">
           </gr-ai-prompt-dialog>
-        </dialog> `
+        </dialog>
+      `
     );
   });
 
@@ -178,6 +194,42 @@ suite('gr-change-summary test', () => {
           'RUNNING test-name',
         ]
       );
+    });
+  });
+
+  suite('flows summary', () => {
+    test('renders', async () => {
+      flowsModel.setState({
+        flows: [
+          createFlow({stages: [{expression: {condition: ''}, state: FlowStageState.PENDING}]}),
+          createFlow({stages: [{expression: {condition: ''}, state: FlowStageState.DONE}]}),
+          createFlow({stages: [{expression: {condition: ''}, state: FlowStageState.DONE}]}),
+          createFlow({stages: [{expression: {condition: ''}, state: FlowStageState.FAILED}]}),
+          createFlow({stages: [{expression: {condition: ''}, state: FlowStageState.FAILED}]}),
+          createFlow({stages: [{expression: {condition: ''}, state: FlowStageState.FAILED}]}),
+        ],
+        loading: false,
+      });
+      await element.updateComplete;
+      const flowsSummary = queryAndAssert(element, '.flowsSummary');
+      assert.dom.equal(
+        flowsSummary,
+        /* HTML */ `
+          <div class="flowsSummary">
+            <gr-summary-chip category="flows" styletype="error">
+            </gr-summary-chip>
+            <gr-summary-chip category="flows" styletype="info">
+            </gr-summary-chip>
+            <gr-summary-chip category="flows" styletype="success">
+            </gr-summary-chip>
+          </div>
+        `
+      );
+      const chips = queryAll(element, 'gr-summary-chip');
+      assert.equal(chips.length, 3);
+      assert.equal(chips[0].textContent?.trim(), '3 failed');
+      assert.equal(chips[1].textContent?.trim(), '1 running');
+      assert.equal(chips[2].textContent?.trim(), '2 done');
     });
   });
 

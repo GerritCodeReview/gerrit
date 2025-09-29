@@ -18,6 +18,7 @@ import '@material/web/textfield/outlined-text-field.js';
 import {MdOutlinedTextField} from '@material/web/textfield/outlined-text-field';
 import {resolve} from '../../../models/dependency';
 import {configModelToken} from '../../../models/config/config-model';
+import {flowsModelToken} from '../../../models/flows/flows-model';
 import {subscribe} from '../../lit/subscription-controller';
 import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 import {
@@ -59,6 +60,8 @@ export class GrCreateFlow extends LitElement {
   private readonly restApiService = getAppContext().restApiService;
 
   private readonly getConfigModel = resolve(this, configModelToken);
+
+  private readonly getFlowsModel = resolve(this, flowsModelToken);
 
   private readonly projectSuggestions: SuggestionProvider = (
     predicate,
@@ -347,17 +350,12 @@ export class GrCreateFlow extends LitElement {
         return {condition: stage.condition};
       }),
     };
-    await this.restApiService.createFlow(this.changeNum, flowInput, e => {
-      console.error(e);
-    });
+    await this.getFlowsModel().createFlow(flowInput);
     this.stages = [];
     this.currentCondition = '';
     this.currentAction = '';
     this.currentParameter = '';
     this.loading = false;
-    this.dispatchEvent(
-      new CustomEvent('flow-created', {bubbles: true, composed: true})
-    );
   }
 }
 

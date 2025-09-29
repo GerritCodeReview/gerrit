@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a3dfb39d_8b8ef540",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-09-29T14:12:47Z",
+      "side": 1,
+      "message": "The CI appears stuck. Voting Verified manually",
+      "revId": "0198016803dee35cb84adebdc686dd64814cb5d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

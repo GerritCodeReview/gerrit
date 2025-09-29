@@ -6,7 +6,7 @@
 import {BehaviorSubject, combineLatest, from, of} from 'rxjs';
 import {catchError, map, switchMap} from 'rxjs/operators';
 import {ChangeModel} from '../change/change-model';
-import {FlowInfo} from '../../api/rest-api';
+import {FlowInfo, FlowInput} from '../../api/rest-api';
 import {Model} from '../base/model';
 import {define} from '../dependency';
 
@@ -86,6 +86,12 @@ export class FlowsModel extends Model<FlowsState> {
   async deleteFlow(flowId: string) {
     if (!this.changeNum) return;
     await this.restApiService.deleteFlow(this.changeNum, flowId);
+    this.reload();
+  }
+
+  async createFlow(flowInput: FlowInput) {
+    if (!this.changeNum) return;
+    await this.restApiService.createFlow(this.changeNum, flowInput);
     this.reload();
   }
 }

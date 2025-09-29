@@ -135,6 +135,29 @@
       "message": "This is a pretty generic resource path and it\u0027s not clear which kind of prompts are stored under this path. So maybe, corresponding to my proposal where to store the templates in the `etc/` directory, I suggest to use instead `/com/google/gerrit/pgm/init/ai/`",
       "revId": "424b87f3241e24c7da3303ccb0c59ee3ee825d6b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0f99b531_c5fa7098",
+        "filename": "javatests/com/google/gerrit/server/restapi/change/GetAiPromptTest.java",
+        "patchSetId": 42
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-09-29T11:48:24Z",
+      "side": 1,
+      "message": "It is more consistent to get `etc_dir` from the `SitePaths`, because the structure of site paths is encapsulated inside that class:\n\n\n```suggestion\n    sitePaths \u003d new SitePaths(siteDir);\n    etcDir \u003d Files.createDirectories(sitePaths.etc_dir);\n\n```",
+      "range": {
+        "startLine": 47,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 39
+      },
+      "revId": "424b87f3241e24c7da3303ccb0c59ee3ee825d6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

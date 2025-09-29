@@ -73,8 +73,8 @@ import {
   relatedChangesModelToken,
 } from '../models/change/related-changes-model';
 import {Finalizable} from '../types/types';
-import {GrSuggestionsService} from './suggestions/suggestions-service_impl';
-import {suggestionsServiceToken} from './suggestions/suggestions-service';
+import {SuggestionsService} from './suggestions/suggestions-service';
+import {FlowsModel, flowsModelToken} from '../models/flows/flows-model';
 /**
  * The AppContext lazy initializator for all services
  */
@@ -247,6 +247,13 @@ export function createAppDependencies(
           appContext.reportingService,
           resolver(pluginLoaderToken).pluginsModel,
           resolver(changeModelToken)
+        ),
+    ],
+    [
+      flowsModelToken,
+      () =>
+        new FlowsModel(
+          resolver(changeModelToken),
         ),
     ],
   ]);

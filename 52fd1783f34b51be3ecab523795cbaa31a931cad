@@ -1,0 +1,215 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "00f503c5_ac2660d8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-09-29T08:15:12Z",
+      "side": 1,
+      "message": "Blocking submit while I review(apologies)",
+      "revId": "52fd1783f34b51be3ecab523795cbaa31a931cad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c01b9332_ed134716",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirements/gr-submit-requirements.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-09-29T08:15:12Z",
+      "side": 1,
+      "message": "a spinner is nicer UX I think",
+      "range": {
+        "startLine": 165,
+        "startChar": 46,
+        "endLine": 165,
+        "endChar": 58
+      },
+      "revId": "52fd1783f34b51be3ecab523795cbaa31a931cad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0705548b_696aab76",
+        "filename": "polygerrit-ui/app/models/change/change-model.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-09-29T08:15:12Z",
+      "side": 1,
+      "message": "this is fairly confusing. Having a type `ParsedChangeInfo` already there, why do we need another variable with type `ChangeInfo`?\n\nWhat is it exactly contaning? Maybe add a comment as example.\n\nLooking at the usage it\u0027s `submittable` and `submit_requirements`.\n\nMaybe use `Pick` instead from the TS",
+      "range": {
+        "startLine": 88,
+        "startChar": 6,
+        "endLine": 88,
+        "endChar": 64
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "15631e2d_804c2a5b",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/models/change/change-model.ts",
+              "range": {
+                "startLine": 88,
+                "startChar": 0,
+                "endLine": 90,
+                "endChar": 0
+              },
+              "replacement": "  /**\n   * Subset of change containing submit requirement information, fetched\n   * in parallel to the main change detail.\n   * E.g., `{ _number: 123, submittable: true, submit_requirements: [...] }`\n   */\n  changeSubmitRequirementsInfo?: Pick\u003c\n    ChangeInfo,\n    \u0027_number\u0027 | \u0027submittable\u0027 | \u0027submit_requirements\u0027\n  \u003e;\n"
+            },
+            {
+              "path": "polygerrit-ui/app/models/change/change-model.ts",
+              "range": {
+                "startLine": 260,
+                "startChar": 0,
+                "endLine": 261,
+                "endChar": 0
+              },
+              "replacement": "  changeWithSubmitRequirements:\n    | Pick\u003cChangeInfo, \u0027_number\u0027 | \u0027submittable\u0027 | \u0027submit_requirements\u0027\u003e\n    | undefined\n"
+            },
+            {
+              "path": "polygerrit-ui/app/models/change/change-model.ts",
+              "range": {
+                "startLine": 336,
+                "startChar": 0,
+                "endLine": 337,
+                "endChar": 0
+              },
+              "replacement": "  private changeSubmitRequirementsInfo?: Pick\u003c\n    ChangeInfo,\n    \u0027_number\u0027 | \u0027submittable\u0027 | \u0027submit_requirements\u0027\n  \u003e;\n"
+            }
+          ]
+        }
+      ],
+      "revId": "52fd1783f34b51be3ecab523795cbaa31a931cad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a874d85d_8edf26aa",
+        "filename": "polygerrit-ui/app/models/change/change-model.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-09-29T08:15:12Z",
+      "side": 1,
+      "message": "this method is not doing any updating? It\u0027s just returning a modified change object?\n\n`Update` also implies some assignment is happening? It\u0027s closer to a getter.",
+      "range": {
+        "startLine": 258,
+        "startChar": 9,
+        "endLine": 258,
+        "endChar": 43
+      },
+      "revId": "52fd1783f34b51be3ecab523795cbaa31a931cad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "71c2fb17_abe34e9e",
+        "filename": "polygerrit-ui/app/models/change/change-model.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-09-29T08:15:12Z",
+      "side": 1,
+      "message": "instead of adding a new variable, I would prefer that we update `change` and store in the model if the submit requirements were loaded or not.",
+      "range": {
+        "startLine": 336,
+        "startChar": 2,
+        "endLine": 336,
+        "endChar": 52
+      },
+      "revId": "52fd1783f34b51be3ecab523795cbaa31a931cad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eda45140_b8f03004",
+        "filename": "polygerrit-ui/app/models/change/change-model.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 818,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-09-29T08:15:12Z",
+      "side": 1,
+      "message": "so we do update the main change object here.\n\nbased on the variable name, it implies that `changeWithSubmitRequirements` only has this info but now the `change` variable also has this info.",
+      "range": {
+        "startLine": 817,
+        "startChar": 8,
+        "endLine": 818,
+        "endChar": 16
+      },
+      "revId": "52fd1783f34b51be3ecab523795cbaa31a931cad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1ee660cd_e73dbb60",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-09-29T08:15:12Z",
+      "side": 1,
+      "message": "getChangeWithSubmitRequirements",
+      "range": {
+        "startLine": 212,
+        "startChar": 2,
+        "endLine": 212,
+        "endChar": 29
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "1ea2bfab_ca746bc2",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api.ts",
+              "range": {
+                "startLine": 212,
+                "startChar": 0,
+                "endLine": 213,
+                "endChar": 0
+              },
+              "replacement": "  getChangeWithSubmitRequirements(\n"
+            }
+          ]
+        }
+      ],
+      "revId": "52fd1783f34b51be3ecab523795cbaa31a931cad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

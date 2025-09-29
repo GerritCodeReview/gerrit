@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2ba2081d_a143fd13",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-09-29T11:54:58Z",
+      "side": 1,
+      "message": "- according to [1] we store design documents in the Gerrit homepage repo under [2]. For an example you can refer to e.g. [3]\n- please reformat the markdown files to a line width of \u003c\u003d80, I think this improves readability of the raw markdown text format in code review\n\n[1] https://gerrit-review.googlesource.com/Documentation/dev-design-docs.html\n[2] https://gerrit.googlesource.com/homepage/+/refs/heads/master/pages/design-docs/\n[3] https://gerrit-review.googlesource.com/c/homepage/+/455521",
+      "revId": "5940ed7fa8eadcb5712adc6d3f1238f3cc4e5fbd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

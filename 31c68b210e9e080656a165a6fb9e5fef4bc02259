@@ -233,6 +233,30 @@
       },
       "revId": "31c68b210e9e080656a165a6fb9e5fef4bc02259",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b1836a26_25d3e5ae",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-09-29T12:22:30Z",
+      "side": 1,
+      "message": "```\nexport interface SubmittabilityInfo {\n  changeNum: NumericChangeId;\n  submittable: boolean;\n  submitRequirements: SubmitRequirementResultInfo[];\n}\n```\n\n\u003e But it does only return SubmittabilityInfo\n\nYeah you used the word *only* here but what is being fetched is a lot more(all of ChangeInfo, and the properties inside it)\n\n\u003e we can even define a separate endpoint in the backend later\n\nYeah that is what reading this current code is suggesting to me. Given the optimisation is not present, better to be explicit I think.",
+      "parentUuid": "2801cd3b_e250f498",
+      "range": {
+        "startLine": 216,
+        "startChar": 5,
+        "endLine": 216,
+        "endChar": 70
+      },
+      "revId": "31c68b210e9e080656a165a6fb9e5fef4bc02259",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

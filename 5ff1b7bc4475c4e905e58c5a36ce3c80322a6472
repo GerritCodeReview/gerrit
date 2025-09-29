@@ -16,6 +16,24 @@
       "message": "Inline method? Or rename to `reload()`?",
       "revId": "5ff1b7bc4475c4e905e58c5a36ce3c80322a6472",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d4d65664_aa303fd7",
+        "filename": "polygerrit-ui/app/elements/change/gr-flows/gr-flows.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-09-29T11:36:06Z",
+      "side": 1,
+      "message": "Inlined.",
+      "parentUuid": "34e65072_4e7062e3",
+      "revId": "5ff1b7bc4475c4e905e58c5a36ce3c80322a6472",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

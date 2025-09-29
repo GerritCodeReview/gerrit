@@ -10,7 +10,6 @@ import {GrFlows} from './gr-flows';
 import {FlowInfo, FlowStageState, Timestamp} from '../../../api/rest-api';
 import {queryAndAssert} from '../../../test/test-utils';
 import {NumericChangeId} from '../../../types/common';
-import {GrCreateFlow} from './gr-create-flow';
 import sinon from 'sinon';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
@@ -306,20 +305,6 @@ suite('gr-flows tests', () => {
 
     assert.isTrue(deleteFlowStub.notCalled);
     assert.isFalse(dialog.open);
-  });
-
-  test('reloads flows on flow-created event', async () => {
-    const reloadStub = flowsModel.reload as sinon.SinonStub;
-    reloadStub.resetHistory();
-
-    const createFlow = queryAndAssert<GrCreateFlow>(element, 'gr-create-flow');
-    createFlow.dispatchEvent(
-      new CustomEvent('flow-created', {bubbles: true, composed: true})
-    );
-
-    await element.updateComplete;
-
-    assert.isTrue(reloadStub.calledOnce);
   });
 
   test('refreshes flows on button click', async () => {

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7d0697d3_c7c2a528",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 4168,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-09-30T15:46:51Z",
+      "side": 1,
+      "message": "I am not sure PUT is the right choice since the URL neither identifies a resource e.g. a label or submit rule but identifies an action to be executed. Hence I\u0027d tend to use POST here.",
+      "range": {
+        "startLine": 4168,
+        "startChar": 2,
+        "endLine": 4168,
+        "endChar": 5
+      },
+      "revId": "fd88d018d1df552a502e568ada47a46ef7d9e2ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

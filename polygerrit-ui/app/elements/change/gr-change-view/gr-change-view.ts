@@ -1658,7 +1658,7 @@ export class GrChangeView extends LitElement {
   }
 
   // Private but used in tests.
-  handleCommitMessageSave(e: EditableContentSaveEvent) {
+  async handleCommitMessageSave(e: EditableContentSaveEvent) {
     assertIsDefined(this.change, 'change');
     assertIsDefined(this.changeNum, 'changeNum');
     // to prevent 2 requests at the same time
@@ -1666,6 +1666,19 @@ export class GrChangeView extends LitElement {
     // Trim trailing whitespace from each line.
     const message = e.detail.content.replace(TRAILING_WHITESPACE_REGEX, '');
     const committerEmail = e.detail.committerEmail;
+
+    // The BEFORE event handlers are async and can potentially block
+    // the message edit from going through.  By contrast, the second
+    // set of event handlers always fire (and should probably fire
+    // after the message has been saved successfully, but the current
+    // behavior is what it is).
+    if (
+      !(await this.getPluginLoader().jsApiService.handleBeforeCommitMessage(
+        this.change,
+        message
+      ))
+    )
+      return;
 
     this.getPluginLoader().jsApiService.handleCommitMessage(
       this.change,

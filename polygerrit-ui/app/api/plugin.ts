@@ -33,6 +33,7 @@ export enum EventType {
   // Fires GerritView values such as 'change', 'dashboard', 'admin', ...
   VIEW_CHANGE = 'view-change',
   SHOW_REVISION_ACTIONS = 'show-revision-actions',
+  BEFORE_COMMIT_MSG_EDIT = 'before-commit-msg-edit',
   COMMIT_MSG_EDIT = 'commitmsgedit',
   CUSTOM_EMOJIS = 'custom-emojis',
   REVERT = 'revert',

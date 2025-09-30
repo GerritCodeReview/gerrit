@@ -195,6 +195,23 @@ export class GrJsApiInterface implements JsApiService, Finalizable {
     }
   }
 
+  async handleBeforeCommitMessage(
+    change: ChangeInfo | ParsedChangeInfo,
+    msg: string
+  ): Promise<boolean> {
+    let okay = true;
+    for (const cb of this._getEventCallbacks(
+      EventType.BEFORE_COMMIT_MSG_EDIT
+    )) {
+      try {
+        okay = (await cb(change, msg)) && okay;
+      } catch (err: unknown) {
+        this.reportError(err, EventType.BEFORE_COMMIT_MSG_EDIT);
+      }
+    }
+    return okay;
+  }
+
   handleCommitMessage(change: ChangeInfo | ParsedChangeInfo, msg: string) {
     for (const cb of this._getEventCallbacks(EventType.COMMIT_MSG_EDIT)) {
       try {

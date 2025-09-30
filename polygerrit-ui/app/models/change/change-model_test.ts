@@ -598,6 +598,41 @@ suite('change model tests', () => {
     assert.equal(stubSrs.callCount, 1);
   });
 
+  test('reload submit requirements', async () => {
+    testFlagService.experiments.add(
+      KnownExperimentId.ASYNC_SUBMIT_REQUIREMENTS
+    );
+    // Set initial state
+    const stubDetail = stubRestApi('getChangeDetail').resolves(knownChange);
+    const stubSrs = stubRestApi('getSubmittabilityInfo');
+    stubSrs.resolves({
+      changeNum: knownChange._number,
+      submittable: false,
+      submitRequirements: [createSubmitRequirementResultInfo()],
+    });
+    testResolver(changeViewModelToken).setState(createChangeViewState());
+    await waitUntilObserved(
+      changeModel.state$,
+      state => state.submittabilityInfo !== undefined,
+      'SubmitRequirements was never loaded'
+    );
+    await waitForLoadingStatus(LoadingStatus.LOADED);
+    stubSrs.resolves({
+      changeNum: knownChange._number,
+      submittable: true,
+      submitRequirements: [createSubmitRequirementResultInfo()],
+    });
+    changeModel.reloadSubmittability();
+    const state = await waitUntilObserved(
+      changeModel.state$,
+      state => state.submittabilityInfo?.submittable === true,
+      'Submittability never reloaded'
+    );
+    assert.isTrue(state.change?.submittable);
+    assert.equal(stubDetail.callCount, 1);
+    assert.equal(stubSrs.callCount, 2);
+  });
+
   test('navigating to another change', async () => {
     // setting up a loaded change
     let promise = mockPromise<ParsedChangeInfo | undefined>();

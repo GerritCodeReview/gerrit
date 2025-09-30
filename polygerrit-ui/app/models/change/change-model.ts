@@ -21,7 +21,14 @@ import {
   RevisionPatchSetNum,
 } from '../../types/common';
 import {ChangeStatus, DefaultBase} from '../../constants/constants';
-import {combineLatest, forkJoin, from, Observable, of} from 'rxjs';
+import {
+  BehaviorSubject,
+  combineLatest,
+  forkJoin,
+  from,
+  Observable,
+  of,
+} from 'rxjs';
 import {
   catchError,
   filter,
@@ -351,6 +358,10 @@ export class ChangeModel extends Model<ChangeState> {
   private basePatchNum?: BasePatchSetNum;
 
   private latestPatchNum?: PatchSetNumber;
+
+  private readonly reloadSubmittabilityTrigger$ = new BehaviorSubject<void>(
+    undefined
+  );
 
   public readonly change$ = select(
     this.state$,
@@ -800,10 +811,18 @@ export class ChangeModel extends Model<ChangeState> {
       .subscribe(mergeable => this.updateState({mergeable}));
   }
 
+  public reloadSubmittability() {
+    this.reloadSubmittabilityTrigger$.next();
+  }
+
   private loadSubmittabilityInfo() {
     // Use the same trigger as loadChange, to run SR loading in parallel.
-    return this.viewModel.changeNum$
+    return combineLatest([
+      this.viewModel.changeNum$,
+      this.reloadSubmittabilityTrigger$,
+    ])
       .pipe(
+        map(([changeNum, _]) => changeNum),
         switchMap(changeNum => {
           if (!changeNum) {
             // On change reload changeNum is set to undefined to reset change

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "08eb11bb_0429d358",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 26
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-09-30T09:52:55Z",
+      "side": 1,
+      "message": "I will be looking into this in the next two weeks, but give me a bit more time. In Q4 I would love to get rid of Polymer entirely, and this is a vital part of that. So it does have our attention. Thanks for working on this! ❤️",
+      "revId": "0dc650a07cafd6a2ac0173b2eb0348ec3f2c88ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

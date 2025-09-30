@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "774ced93_9876b065",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 522,
+      "author": {
+        "id": 1096249
+      },
+      "writtenOn": "2025-09-30T07:22:38Z",
+      "side": 1,
+      "message": "Should it be?\n```suggestion\n          new Description(\"Maximum allowed number of non parked threads in the pool\")\n```",
+      "range": {
+        "startLine": 522,
+        "startChar": 27,
+        "endLine": 522,
+        "endChar": 72
+      },
+      "revId": "7db70cd95907063f596afd80dbe954997ed8c3ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

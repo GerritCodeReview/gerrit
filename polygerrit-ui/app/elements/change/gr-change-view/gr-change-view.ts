@@ -1546,7 +1546,7 @@ export class GrChangeView extends LitElement {
   }
 
   override updated() {
-    const tabs = [...queryAll<HTMLElement>(this.tabs!, 'md-secondary-tab')];
+    const tabs = [...queryAll<HTMLElement>(this.tabs, 'md-secondary-tab')];
     const tabIndex = tabs.findIndex(t => t.dataset['name'] === this.activeTab);
 
     if (tabIndex !== -1 && this.tabs!.activeTabIndex !== tabIndex) {
@@ -1658,7 +1658,7 @@ export class GrChangeView extends LitElement {
   }
 
   // Private but used in tests.
-  handleCommitMessageSave(e: EditableContentSaveEvent) {
+  async handleCommitMessageSave(e: EditableContentSaveEvent) {
     assertIsDefined(this.change, 'change');
     assertIsDefined(this.changeNum, 'changeNum');
     // to prevent 2 requests at the same time
@@ -1666,6 +1666,14 @@ export class GrChangeView extends LitElement {
     // Trim trailing whitespace from each line.
     const message = e.detail.content.replace(TRAILING_WHITESPACE_REGEX, '');
     const committerEmail = e.detail.committerEmail;
+
+    if (
+      !(await this.getPluginLoader().jsApiService.handleBeforeCommitMessage(
+        this.change,
+        message
+      ))
+    )
+      return;
 
     this.getPluginLoader().jsApiService.handleCommitMessage(
       this.change,

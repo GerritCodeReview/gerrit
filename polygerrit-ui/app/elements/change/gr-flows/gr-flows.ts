@@ -173,10 +173,7 @@ export class GrFlows extends LitElement {
     return html`
       <div class="container">
         <h2 class="main-heading">Create new flow</h2>
-        <gr-create-flow
-          .changeNum=${this.changeNum}
-          @flow-created=${() => this.getFlowsModel().reload()}
-        ></gr-create-flow>
+        <gr-create-flow .changeNum=${this.changeNum}></gr-create-flow>
         <hr />
         ${this.renderFlowsList()}
       </div>

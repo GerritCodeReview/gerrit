@@ -1044,15 +1044,17 @@ suite('gr-change-view tests', () => {
       });
 
     assertIsDefined(element.commitMessageEditor);
-    element.handleCommitMessageSave(
+    await element.handleCommitMessageSave(
       mockEvent('test \n  test ', committerEmail)
     );
     assert.equal(putStub.lastCall.args[1], 'test\n  test');
     element.commitMessageEditor.disabled = false;
-    element.handleCommitMessageSave(mockEvent('  test\ntest', committerEmail));
+    await element.handleCommitMessageSave(
+      mockEvent('  test\ntest', committerEmail)
+    );
     assert.equal(putStub.lastCall.args[1], '  test\ntest');
     element.commitMessageEditor.disabled = false;
-    element.handleCommitMessageSave(
+    await element.handleCommitMessageSave(
       mockEvent('\n\n\n\n\n\n\n\n', committerEmail)
     );
     assert.equal(putStub.lastCall.args[1], '\n\n\n\n\n\n\n\n');

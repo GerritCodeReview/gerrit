@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e4e64071_3860dc9d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-09-30T15:46:57Z",
+      "side": 1,
+      "message": "```suggestion\n\".../restapi/project\" to the \".../server/project\" package which required\n```",
+      "revId": "322d1325fabafc8da9776819f593552c0addd003",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

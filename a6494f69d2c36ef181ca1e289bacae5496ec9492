@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "299befea_c47d8e95",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-10-01T23:26:15Z",
+      "side": 1,
+      "message": "You probably want to have some generic text here for all the changes in this series. Just enough to explain the basic motivation.",
+      "revId": "a6494f69d2c36ef181ca1e289bacae5496ec9492",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

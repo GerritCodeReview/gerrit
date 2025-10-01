@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "263a7b5d_a83f211d",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-10-01T11:16:25Z",
+      "side": 1,
+      "message": "Is this going to break in presence of message of the day or a banner?",
+      "range": {
+        "startLine": 285,
+        "startChar": 10,
+        "endLine": 285,
+        "endChar": 37
+      },
+      "revId": "7aeee7f01ccf386b248ccb92e3ab27f1ddad744b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

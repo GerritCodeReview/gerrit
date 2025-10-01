@@ -288,6 +288,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4f558480_ea48e24d",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReview.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-10-01T22:54:10Z",
+      "side": 1,
+      "message": "Or we change this to be a \"Change Metadata Write\" permission. That would cover a lot of things (maybe more than I intend), but it\u0027s a name that would probably scare people. It sounds more like a role, but maybe \"Change Participant\"? I think that term implies a level of power granted roughly equivalent to what this would do. i.e. you don\u0027t get any \"write\" perms on a change without this. If we don\u0027t like that name, we could also try something like \"Simple/Basic Change Write\".",
+      "parentUuid": "14fd2dff_42df660a",
+      "revId": "bea114f75efad1ff9cf0c06696f267f68c7fc5d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a4c8ea62_1ae15d69",
         "filename": "java/com/google/gerrit/server/schema/AllProjectsCreator.java",
         "patchSetId": 4

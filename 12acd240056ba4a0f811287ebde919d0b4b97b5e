@@ -3,6 +3,40 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "de3edcbf_22cd2c6c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-10-01T16:05:30Z",
+      "side": 1,
+      "message": "If you could, please click the Edit button on the commit message and then click Format so that this message is formatted to match our guidelines.",
+      "revId": "12acd240056ba4a0f811287ebde919d0b4b97b5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1b46f0ad_d73d433c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-10-01T16:05:30Z",
+      "side": 1,
+      "message": "I agree with Luca, I don\u0027t think these comments are helpful. Please remove it.",
+      "revId": "12acd240056ba4a0f811287ebde919d0b4b97b5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "bf3192e1_d4f749fc",
         "filename": "Documentation/rest-api-projects.txt",
         "patchSetId": 1
@@ -14,6 +48,30 @@
       "writtenOn": "2025-10-01T07:07:27Z",
       "side": 1,
       "message": "```suggestion\nReturned branches and tags are sorted in a lexicographical order.\n```\n\nNo need to define what _lexicographical_ is.",
+      "range": {
+        "startLine": 2942,
+        "startChar": 43,
+        "endLine": 2942,
+        "endChar": 73
+      },
+      "revId": "12acd240056ba4a0f811287ebde919d0b4b97b5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b6b6a614_26508c0a",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2942,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-10-01T16:05:30Z",
+      "side": 1,
+      "message": "Further, can you move this to the `IncludedInInfo` entity definition in `Documentation/rest-api-changes.txt`? (Unless this endpoint has different behavior from the endpoint in `/changes/`)",
+      "parentUuid": "bf3192e1_d4f749fc",
       "range": {
         "startLine": 2942,
         "startChar": 43,

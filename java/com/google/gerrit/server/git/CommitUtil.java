@@ -321,7 +321,16 @@ public class CommitUtil {
       }
 
       if (footersToAdd.length() > 0) {
-        message = message.trim() + "\n\n" + footersToAdd.toString().trim();
+        String trimmedMsg = message.trim();
+        List<String> lines = Splitter.on('\n').splitToList(trimmedMsg);
+        String lastLine = lines.isEmpty() ? "" : lines.get(lines.size() - 1);
+        boolean endsWithFooter = lastLine.matches("^[a-zA-Z0-9-]+:.*");
+
+        if (endsWithFooter) {
+          message = trimmedMsg + "\n" + footersToAdd.toString().trim();
+        } else {
+          message = trimmedMsg + "\n\n" + footersToAdd.toString().trim();
+        }
       }
     }
 

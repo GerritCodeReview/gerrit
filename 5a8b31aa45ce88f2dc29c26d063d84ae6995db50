@@ -16,6 +16,24 @@
       "message": "You\u0027re missing a Release-Notes footer in commit message",
       "revId": "5a8b31aa45ce88f2dc29c26d063d84ae6995db50",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f6f24b84_0206ec2b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-10-01T11:18:39Z",
+      "side": 1,
+      "message": "`Release-Notes: skip` is what we usually use for the changes, that don\u0027t need to be mentioned when new release of Gerrit is made (most changes)",
+      "parentUuid": "1cdba1ea_69b204aa",
+      "revId": "5a8b31aa45ce88f2dc29c26d063d84ae6995db50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

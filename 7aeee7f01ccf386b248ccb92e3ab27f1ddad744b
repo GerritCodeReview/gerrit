@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e0643762_0d059647",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-10-01T15:30:33Z",
+      "side": 1,
+      "message": "Should the main header be sticky on most pages? Obviously it uses more space on the screen (probably especially a concern on mobile), but is there any other downside?",
+      "revId": "7aeee7f01ccf386b248ccb92e3ab27f1ddad744b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "263a7b5d_a83f211d",
         "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
         "patchSetId": 2

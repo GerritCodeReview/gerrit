@@ -10,10 +10,13 @@ import '../../shared/gr-editable-label/gr-editable-label';
 import '../../shared/gr-tooltip-content/gr-tooltip-content';
 import '../gr-default-editor/gr-default-editor';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
+import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {
   Base64FileContent,
+  ChangeInfo,
   EditPreferencesInfo,
   RevisionPatchSetNum,
+  RevisionInfo,
 } from '../../../types/common';
 import {ParsedChangeInfo} from '../../../types/types';
 import {HttpMethod, NotifyType} from '../../../constants/constants';
@@ -93,6 +96,8 @@ export class GrEditorView extends LitElement {
   private readonly restApiService = getAppContext().restApiService;
 
   private readonly reporting = getAppContext().reportingService;
+
+  private readonly getPluginLoader = resolve(this, pluginLoaderToken);
 
   private readonly getStorage = resolve(this, storageServiceToken);
 
@@ -541,10 +546,28 @@ export class GrEditorView extends LitElement {
             return;
           }
           assertIsDefined(this.change, 'change');
+
+          const change = this.change as ChangeInfo;
+          const revision = this.getLatestRevision(change);
+          this.getPluginLoader().jsApiService.handlePublishEdit(
+            change,
+            revision
+          );
+
           this.getChangeModel().navigateToChangeResetReload();
         });
     });
   };
+
+  private getLatestRevision(change: ChangeInfo): RevisionInfo | null {
+    const patchNum = this.latestPatchsetNumber;
+    for (const rev of Object.values(change.revisions ?? {})) {
+      if (rev._number === patchNum) {
+        return rev;
+      }
+    }
+    return null;
+  }
 
   private handleContentChange(e: CustomEvent<{value: string}>) {
     this.storeTask = debounce(

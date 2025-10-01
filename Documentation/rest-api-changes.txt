@@ -8629,7 +8629,9 @@ and/or remove from, a change.
 === IncludedInInfo
 The `IncludedInInfo` entity contains information about the branches a
 change was merged into and tags it was tagged with. The branch or tag
-must have 'refs/head/' or 'refs/tags/' prefix respectively.
+must have 'refs/heads/' or 'refs/tags/' prefix respectively.
+
+Branch and tag lists are sorted in lexicographical order.
 
 [options="header",cols="1,^1,5"]
 |=======================

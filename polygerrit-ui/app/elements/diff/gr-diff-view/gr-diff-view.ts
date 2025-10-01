@@ -539,7 +539,7 @@ export class GrDiffView extends LitElement {
         .stickyHeader {
           background-color: var(--view-background-color);
           position: sticky;
-          top: 0;
+          top: var(--main-header-height);
           /* sidebar should outrank <footer> in GrAppElement */
           z-index: 110;
           box-shadow: var(--elevation-level-1);

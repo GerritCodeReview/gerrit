@@ -121,6 +121,7 @@ public class IncludedIn {
         filteredTagsStream =
             filteredTagsStream.filter(pluginFilter.get().getTagFilter(project, rev));
       }
+      // In case sort order is changed, REST API documentation must be updated accordingly
       ImmutableSortedSet<String> filteredBranches =
           filteredBranchesStream.collect(toImmutableSortedSet(naturalOrder()));
       ImmutableSortedSet<String> filteredTags =

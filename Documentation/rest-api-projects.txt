@@ -2939,6 +2939,8 @@ is returned that describes the commit.
 Retrieves the branches and tags in which a change is included. As result
 an link:rest-api-changes.html#included-in-info[IncludedInInfo] entity is returned.
 
+Returned branches and tags are sorted in a lexicographical (alphabetical) order.
+
 Branches that are not visible to the calling user according to the project's
 read permissions are filtered out from the result.
 

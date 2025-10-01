@@ -1786,9 +1786,18 @@ public class RevertIT extends AbstractDaemonTest {
 
     // Check that the revert commit message contains all footers and no extra newline
     String commitMessage = gApi.changes().id(revertChange.id).current().commit(false).message;
-    assertThat(commitMessage).contains("Issue: 67890");
-    // does not add an extra new line if there is a footer present before
-    assertThat(commitMessage).contains("Skip-Presubmit: true\nBug: 12345");
+    String expectedMessage =
+        String.format(
+            """
+            Reverting this change
+
+            Skip-Presubmit: true
+            Bug: 12345
+            Issue: 67890
+            Change-Id: %s
+            """,
+            revertChange.changeId);
+    assertThat(commitMessage).isEqualTo(expectedMessage);
   }
 
   @Test

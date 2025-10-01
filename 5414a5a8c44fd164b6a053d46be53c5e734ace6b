@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "65e1b6a7_86a892de",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 551,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-10-01T11:37:03Z",
+      "side": 1,
+      "message": "nit: I would inline both of these in the call.",
+      "range": {
+        "startLine": 550,
+        "startChar": 10,
+        "endLine": 551,
+        "endChar": 58
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "312b123b_89238b7e",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
+              "range": {
+                "startLine": 550,
+                "startChar": 0,
+                "endLine": 552,
+                "endChar": 0
+              },
+              "replacement": ""
+            },
+            {
+              "path": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
+              "range": {
+                "startLine": 553,
+                "startChar": 0,
+                "endLine": 555,
+                "endChar": 0
+              },
+              "replacement": "            this.change as ChangeInfo,\n            this.getLatestRevision(this.change as ChangeInfo)\n"
+            }
+          ]
+        }
+      ],
+      "revId": "5414a5a8c44fd164b6a053d46be53c5e734ace6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

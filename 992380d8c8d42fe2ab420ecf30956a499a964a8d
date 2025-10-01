@@ -1,0 +1,45 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "08a024d5_7717f5cd",
+        "filename": "java/com/google/gerrit/server/git/CommitUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-10-01T09:12:38Z",
+      "side": 1,
+      "message": "nit: This trim seems unnecessary",
+      "range": {
+        "startLine": 326,
+        "startChar": 77,
+        "endLine": 326,
+        "endChar": 81
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "5460ece9_2d71342a",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "java/com/google/gerrit/server/git/CommitUtil.java",
+              "range": {
+                "startLine": 326,
+                "startChar": 0,
+                "endLine": 327,
+                "endChar": 0
+              },
+              "replacement": "        String lastLine \u003d lines.isEmpty() ? \"\" : lines.get(lines.size() - 1);\n"
+            }
+          ]
+        }
+      ],
+      "revId": "992380d8c8d42fe2ab420ecf30956a499a964a8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

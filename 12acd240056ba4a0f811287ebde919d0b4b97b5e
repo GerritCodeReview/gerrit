@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d0422f14_004ffa8a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 3757754
+      },
+      "writtenOn": "2025-10-01T20:32:02Z",
+      "side": 1,
+      "message": "Addressed in patchset #2",
+      "parentUuid": "de3edcbf_22cd2c6c",
+      "revId": "12acd240056ba4a0f811287ebde919d0b4b97b5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1b46f0ad_d73d433c",
@@ -31,6 +49,24 @@
       "writtenOn": "2025-10-01T16:05:30Z",
       "side": 1,
       "message": "I agree with Luca, I don\u0027t think these comments are helpful. Please remove it.",
+      "revId": "12acd240056ba4a0f811287ebde919d0b4b97b5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "36958715_5824da57",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 3757754
+      },
+      "writtenOn": "2025-10-01T20:32:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1b46f0ad_d73d433c",
       "revId": "12acd240056ba4a0f811287ebde919d0b4b97b5e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -82,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "71a7ed60_16d99499",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2942,
+      "author": {
+        "id": 3757754
+      },
+      "writtenOn": "2025-10-01T20:32:02Z",
+      "side": 1,
+      "message": "`project` and `change` REST API endpoints both use the same code - `java/com/google/gerrit/server/change/IncludedIn.java` so moved as suggested by Nasser.",
+      "parentUuid": "b6b6a614_26508c0a",
+      "range": {
+        "startLine": 2942,
+        "startChar": 43,
+        "endLine": 2942,
+        "endChar": 73
+      },
+      "revId": "12acd240056ba4a0f811287ebde919d0b4b97b5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8ca8fff9_0833b446",
@@ -95,6 +155,30 @@
       "writtenOn": "2025-10-01T07:07:27Z",
       "side": 1,
       "message": "Looks redundant to me, but that\u0027s my opinion. It is clear for every single line of code of Gerrit that the documentation should be updated when the code is changing the behaviour.",
+      "range": {
+        "startLine": 124,
+        "startChar": 6,
+        "endLine": 124,
+        "endChar": 90
+      },
+      "revId": "12acd240056ba4a0f811287ebde919d0b4b97b5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "091378c9_c82e17d0",
+        "filename": "java/com/google/gerrit/server/change/IncludedIn.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 3757754
+      },
+      "writtenOn": "2025-10-01T20:32:02Z",
+      "side": 1,
+      "message": "Addressed in patchset #2",
+      "parentUuid": "8ca8fff9_0833b446",
       "range": {
         "startLine": 124,
         "startChar": 6,

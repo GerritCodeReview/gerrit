@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bf3192e1_d4f749fc",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2942,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-10-01T07:07:27Z",
+      "side": 1,
+      "message": "```suggestion\nReturned branches and tags are sorted in a lexicographical order.\n```\n\nNo need to define what _lexicographical_ is.",
+      "range": {
+        "startLine": 2942,
+        "startChar": 43,
+        "endLine": 2942,
+        "endChar": 73
+      },
+      "revId": "12acd240056ba4a0f811287ebde919d0b4b97b5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8ca8fff9_0833b446",
+        "filename": "java/com/google/gerrit/server/change/IncludedIn.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-10-01T07:07:27Z",
+      "side": 1,
+      "message": "Looks redundant to me, but that\u0027s my opinion. It is clear for every single line of code of Gerrit that the documentation should be updated when the code is changing the behaviour.",
+      "range": {
+        "startLine": 124,
+        "startChar": 6,
+        "endLine": 124,
+        "endChar": 90
+      },
+      "revId": "12acd240056ba4a0f811287ebde919d0b4b97b5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

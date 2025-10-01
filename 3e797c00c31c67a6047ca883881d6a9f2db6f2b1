@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1f8bab7d_e1cd4390",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 1671,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-10-01T11:34:33Z",
+      "side": 1,
+      "message": "I think it\u0027s fine to make the existing one \"await\". Maybe just add to \"Release-Notes\" in case this is relevant for anyone. The output type of existing callbacks is void, and it\u0027s fine to make `undefined` count as a successful completion.\n\nThat being said, I am also find keeping this as is, with a second event. But I would like to see a better documentation of what the difference between them is in the code.",
+      "range": {
+        "startLine": 1671,
+        "startChar": 50,
+        "endLine": 1671,
+        "endChar": 75
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "7db8898c_afd7c606",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+              "range": {
+                "startLine": 1670,
+                "startChar": 0,
+                "endLine": 1670,
+                "endChar": 0
+              },
+              "replacement": "    // handleBeforeCommitMessage is an async hook for plugins to potentially\n    // prevent the commit message from being saved. If it returns false,\n    // the save process is aborted.\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+              "range": {
+                "startLine": 1678,
+                "startChar": 0,
+                "endLine": 1678,
+                "endChar": 0
+              },
+              "replacement": "    // handleCommitMessage is a synchronous hook for plugins, called after\n    // handleBeforeCommitMessage has completed and allowed the save to proceed,\n    // but before the actual API call to save the commit message is made.\n"
+            }
+          ]
+        }
+      ],
+      "revId": "3e797c00c31c67a6047ca883881d6a9f2db6f2b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

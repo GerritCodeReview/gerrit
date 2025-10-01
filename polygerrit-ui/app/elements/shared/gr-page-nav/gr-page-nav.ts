@@ -53,6 +53,7 @@ export class GrPageNav extends LitElement {
         }
         nav.pinned {
           position: fixed;
+          top: var(--main-header-height);
         }
         @media only screen and (max-width: 53em) {
           nav {

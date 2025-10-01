@@ -1757,10 +1757,17 @@ public class RevertIT extends AbstractDaemonTest {
 
     // Check that the footers are not duplicated
     String commitMessage = gApi.changes().id(revertChange.id).current().commit(false).message;
-    int bugOccurrences = commitMessage.split("Bug: 12345", -1).length - 1;
-    assertThat(bugOccurrences).isEqualTo(1);
-    int issueOccurrences = commitMessage.split("Issue: 67890", -1).length - 1;
-    assertThat(issueOccurrences).isEqualTo(1);
+    String expectedMessage =
+        String.format(
+            """
+            Reverting this change
+
+            Bug: 12345
+            Issue: 67890
+            Change-Id: %s
+            """,
+            revertChange.changeId);
+    assertThat(commitMessage).isEqualTo(expectedMessage);
   }
 
   @Test
@@ -1786,9 +1793,18 @@ public class RevertIT extends AbstractDaemonTest {
 
     // Check that the revert commit message contains all footers and no extra newline
     String commitMessage = gApi.changes().id(revertChange.id).current().commit(false).message;
-    assertThat(commitMessage).contains("Issue: 67890");
-    // does not add an extra new line if there is a footer present before
-    assertThat(commitMessage).contains("Skip-Presubmit: true\nBug: 12345");
+    String expectedMessage =
+        String.format(
+            """
+            Reverting this change
+
+            Skip-Presubmit: true
+            Bug: 12345
+            Issue: 67890
+            Change-Id: %s
+            """,
+            revertChange.changeId);
+    assertThat(commitMessage).isEqualTo(expectedMessage);
   }
 
   @Test
@@ -1808,8 +1824,6 @@ public class RevertIT extends AbstractDaemonTest {
     gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).submit();
 
     // Revert the submission with a message that already contains the footers
-    RevertInput revertInput = new RevertInput();
-    revertInput.message = "Reverting this change\n\nBug: 12345\nIssue: 67890";
     List<ChangeInfo> revertChanges =
         gApi.changes().id(r.getChangeId()).revertSubmission().revertChanges;
     assertThat(revertChanges).hasSize(1);
@@ -1817,10 +1831,19 @@ public class RevertIT extends AbstractDaemonTest {
 
     // Check that the footers are not duplicated
     String commitMessage = gApi.changes().id(revertChange.id).current().commit(false).message;
-    int bugOccurrences = commitMessage.split("Bug: 12345", -1).length - 1;
-    assertThat(bugOccurrences).isEqualTo(1);
-    int issueOccurrences = commitMessage.split("Issue: 67890", -1).length - 1;
-    assertThat(issueOccurrences).isEqualTo(1);
+    String expectedMessage =
+        String.format(
+            """
+            Revert "Change with bug and issue"
+
+            This reverts commit %s.
+
+            Bug: 12345
+            Issue: 67890
+            Change-Id: %s
+            """,
+            r.getCommit().name(), revertChange.changeId);
+    assertThat(commitMessage).isEqualTo(expectedMessage);
   }
 
   @Override

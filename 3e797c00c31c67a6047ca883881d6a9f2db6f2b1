@@ -74,6 +74,30 @@
       },
       "revId": "3e797c00c31c67a6047ca883881d6a9f2db6f2b1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "125b49d1_d26ec34e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 1671,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-10-02T08:11:37Z",
+      "side": 1,
+      "message": "Yeah, `go-js-api-types.ts` is fine. Sorry I didn\u0027t look there, I looked in `plugin.ts` and wrote this comment.",
+      "parentUuid": "cc8016c2_f33501d5",
+      "range": {
+        "startLine": 1671,
+        "startChar": 50,
+        "endLine": 1671,
+        "endChar": 75
+      },
+      "revId": "3e797c00c31c67a6047ca883881d6a9f2db6f2b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

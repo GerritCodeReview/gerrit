@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0dae03e0_603d0a75",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-10-02T16:15:20Z",
+      "side": 1,
+      "message": "Sorry, git (and Gerrit) are fairly picky and specific about footers/trailers not having empty lines between them to be recognized as such. Can you remove the empty line please?\n```suggestion\nRelease-Notes: Improve docs\nChange-Id: Iefaa8ff34181016940e98d03527563338eb487fb\n```",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 52
+      },
+      "revId": "e75ed4213e26c691e90c33a8332406eb94f79b5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

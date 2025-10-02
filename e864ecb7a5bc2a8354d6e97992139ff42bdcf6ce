@@ -26,6 +26,47 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "379dc36d_7352c25d",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 1247,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-10-02T12:32:26Z",
+      "side": 1,
+      "message": "We need to have a documentation somewhere in the code, explaining what the sidebar is and how to manipulate it in code.",
+      "range": {
+        "startLine": 1247,
+        "startChar": 2,
+        "endLine": 1247,
+        "endChar": 27
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "d5bbda52_58158803",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+              "range": {
+                "startLine": 1247,
+                "startChar": 0,
+                "endLine": 1247,
+                "endChar": 0
+              },
+              "replacement": "  /**\n   * Renders a sidebar on the right side of the change view.\n   * The sidebar\u0027s visibility is controlled by the `activeSidebar` state.\n   * To show a sidebar, set `activeSidebar` to a value from the `Sidebar` enum\n   * and potentially set an initial `sidebarWidthPx`.\n   * The width of the sidebar can be adjusted by dragging the resizer.\n   * The `sidebarWidthPx` state property is updated during resizing.\n   * To hide the sidebar, call `hideSidebar()`, which sets `activeSidebar` to\n   * undefined and `sidebarWidthPx` to 0.\n   */\n"
+            }
+          ]
+        }
+      ],
+      "revId": "e864ecb7a5bc2a8354d6e97992139ff42bdcf6ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8e0ae22a_e7a575e6",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
         "patchSetId": 6
@@ -37,6 +78,47 @@
       "writtenOn": "2025-10-02T11:59:09Z",
       "side": 1,
       "message": "Can these be moved to the top? e.g. line 459?",
+      "revId": "e864ecb7a5bc2a8354d6e97992139ff42bdcf6ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fde9e028_e62e41d0",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 1295,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-10-02T12:32:26Z",
+      "side": 1,
+      "message": "nit: Add a comment why this is needed.",
+      "range": {
+        "startLine": 1295,
+        "startChar": 4,
+        "endLine": 1295,
+        "endChar": 59
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "1400704f_ebf15d85",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+              "range": {
+                "startLine": 1295,
+                "startChar": 0,
+                "endLine": 1295,
+                "endChar": 0
+              },
+              "replacement": "    // Prevent text selection while dragging the resizer.\n"
+            }
+          ]
+        }
+      ],
       "revId": "e864ecb7a5bc2a8354d6e97992139ff42bdcf6ce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

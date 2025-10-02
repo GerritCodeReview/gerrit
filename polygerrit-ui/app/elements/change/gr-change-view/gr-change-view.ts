@@ -37,7 +37,12 @@ import {GrEditConstants} from '../../edit/gr-edit-constants';
 import {pluralize, trimWithEllipsis} from '../../../utils/string-util';
 import {untilRendered, whenVisible} from '../../../utils/dom-util';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
-import {ChangeStatus, DiffViewMode, Tab} from '../../../constants/constants';
+import {
+  ChangeStatus,
+  DiffViewMode,
+  Sidebar,
+  Tab,
+} from '../../../constants/constants';
 import {getAppContext} from '../../../services/app-context';
 import {
   computeAllPatchSets,
@@ -148,6 +153,7 @@ import {assign} from '../../../utils/location-util';
 import '@material/web/tabs/secondary-tab';
 import '@material/web/tabs/tabs';
 import {MdTabs} from '@material/web/tabs/tabs';
+import {styleMap} from 'lit/directives/style-map.js';
 
 const MIN_LINES_FOR_COMMIT_COLLAPSE = 18;
 
@@ -160,6 +166,9 @@ const ACCIDENTAL_STARRING_LIMIT_MS = 10 * 1000;
 const TRAILING_WHITESPACE_REGEX = /[ \t]+$/gm;
 
 const PREFIX = '#message-';
+
+const SIDEBAR_MIN_WIDTH = 300;
+
 @customElement('gr-change-view')
 export class GrChangeView extends LitElement {
   /**
@@ -211,6 +220,8 @@ export class GrChangeView extends LitElement {
   @query('#replyBtn') replyBtn?: GrButton;
 
   @query('#tabs') tabs?: MdTabs;
+
+  @query('.sidebar-wrapper') sidebarWrapper?: HTMLElement;
 
   @query('gr-messages-list') messagesList?: GrMessagesList;
 
@@ -350,6 +361,12 @@ export class GrChangeView extends LitElement {
   @state()
   activeTab: Tab | string = Tab.FILES;
 
+  @state()
+  private activeSidebar?: Sidebar = undefined;
+
+  @state()
+  private sidebarWidthPx = 0;
+
   @property({type: Boolean})
   unresolvedOnly = true;
 
@@ -459,6 +476,8 @@ export class GrChangeView extends LitElement {
     );
     this.addEventListener('open-fix-preview', e => this.onOpenFixPreview(e));
     this.addEventListener('show-tab', e => this.setActiveTab(e));
+    this.addEventListener('mousemove', e => this.resizeSidebar(e));
+    this.addEventListener('mouseup', () => this.stopSidebarResize());
   }
 
   private setupShortcuts() {
@@ -790,6 +809,13 @@ export class GrChangeView extends LitElement {
       sharedStyles,
       modalStyles,
       css`
+        :host {
+          --change-header-height: 38px;
+          --sidebar-top: calc(
+            var(--main-header-height) + var(--change-header-height)
+          );
+          --sidebar-height: calc(100vh - var(--sidebar-top));
+        }
         .tabs {
           display: flex;
         }
@@ -808,6 +834,7 @@ export class GrChangeView extends LitElement {
           padding: var(--spacing-s) var(--spacing-l);
           position: sticky;
           top: var(--main-header-height);
+          height: var(--change-header-height);
           z-index: 110;
         }
         .header.active {
@@ -1100,6 +1127,51 @@ export class GrChangeView extends LitElement {
         .tabContent gr-thread-list::part(threads) {
           padding: var(--spacing-l);
         }
+
+        .sidebar-wrapper {
+          z-index: 50;
+          position: absolute;
+          display: flex;
+          top: var(--change-header-height);
+          bottom: calc(0px - var(--main-footer-height));
+          right: 0;
+          min-width: var(--sidebar-min-width);
+          max-width: 100%;
+          width: 300px;
+          background-color: var(--background-color-secondary);
+        }
+        .sidebar {
+          position: sticky;
+          top: var(--sidebar-top);
+          height: var(--sidebar-height);
+          box-sizing: border-box;
+          overflow: auto;
+          flex-grow: 1;
+          padding: var(--spacing-l);
+          font-size: 14px;
+        }
+        .resizer-wrapper {
+          position: sticky;
+          top: var(--sidebar-top);
+          height: var(--sidebar-height);
+          z-index: 51;
+        }
+        .resizer {
+          background-color: var(--background-color-secondary);
+          width: 7px;
+          border-left: 1px solid var(--border-color);
+          cursor: ew-resize;
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          left: -7px;
+          box-sizing: border-box;
+        }
+        .resizer:hover {
+          background-color: var(--background-color-tertiary);
+          width: 11px;
+          left: -9px;
+        }
       `,
     ];
   }
@@ -1117,8 +1189,14 @@ export class GrChangeView extends LitElement {
 
   private renderMainContent() {
     return html`
-      <div id="mainContent" class="container" ?hidden=${!!this.loading}>
-        ${this.renderHeader()} ${this.renderChangeInfoSection()}
+      ${this.renderHeader()} ${this.renderSidebar()}
+      <div
+        id="mainContent"
+        class="container"
+        ?hidden=${!!this.loading}
+        style=${styleMap({width: `calc(100% - ${this.sidebarWidthPx}px)`})}
+      >
+        ${this.renderChangeInfoSection()}
         <h2 class="assistive-tech-only">Files and Comments tabs</h2>
         ${this.renderTabHeaders()} ${this.renderTabContent()}
         ${this.renderChangeLog()}
@@ -1155,6 +1233,7 @@ export class GrChangeView extends LitElement {
   }
 
   private renderHeader() {
+    if (this.loading) return;
     return html`
       <div class=${this.computeHeaderClass()}>
         <h1 class="assistive-tech-only">
@@ -1163,6 +1242,80 @@ export class GrChangeView extends LitElement {
         ${this.renderHeaderTitle()} ${this.renderCommitActions()}
       </div>
     `;
+  }
+
+  private renderSidebar() {
+    if (this.activeSidebar === undefined) return;
+    return html`
+      <div
+        class="sidebar-wrapper"
+        style=${styleMap({width: `${this.sidebarWidthPx}px`})}
+      >
+        <div class="resizer-wrapper">
+          <div
+            class="resizer"
+            @mousedown=${this.startSidebarResize}
+            @mouseup=${this.stopSidebarResize}
+          ></div>
+        </div>
+        <div class="sidebar" @click=${this.hideSidebar}>
+          ${this.renderSidebarChat()}
+        </div>
+      </div>
+    `;
+  }
+
+  private renderSidebarChat() {
+    if (this.activeSidebar !== Sidebar.CHAT) return;
+    return html` <div>Hello, I am a sidebar.</div> `;
+  }
+
+  // TODO(brohlfs): Make use of this unused method. :-)
+  // private showSidebarChat() {
+  //   this.activeSidebar = Sidebar.CHAT;
+  //   this.sidebarWidthPx = SIDEBAR_MIN_WIDTH;
+  // }
+
+  private hideSidebar() {
+    this.activeSidebar = undefined;
+    this.sidebarWidthPx = 0;
+  }
+
+  // This is local temporary state while the sidebar is resizing.
+  private isSidebarResizing = false;
+
+  private sidebarResizingStartPosPx = 0;
+
+  private sidebarResizingStartWidthPx = 0;
+
+  private startSidebarResize(event: MouseEvent) {
+    if (this.isSidebarResizing) return;
+    this.isSidebarResizing = true;
+
+    document.body.style.setProperty('user-select', 'none');
+    this.sidebarResizingStartPosPx = event.clientX;
+    this.sidebarResizingStartWidthPx = document
+      .querySelector('.sidebar-wrapper')!
+      .getBoundingClientRect().width;
+  }
+
+  private stopSidebarResize() {
+    if (!this.isSidebarResizing) return;
+    this.isSidebarResizing = false;
+
+    document.body.style.setProperty('user-select', 'auto');
+    this.sidebarResizingStartPosPx = 0;
+    this.sidebarResizingStartWidthPx = 0;
+  }
+
+  private resizeSidebar(event: MouseEvent) {
+    if (!this.isSidebarResizing || event.buttons === 0) return;
+
+    const widthDiffPx = event.clientX - this.sidebarResizingStartPosPx;
+    this.sidebarWidthPx = Math.max(
+      this.sidebarResizingStartWidthPx - widthDiffPx,
+      SIDEBAR_MIN_WIDTH
+    );
   }
 
   private renderChangeInfoSection() {

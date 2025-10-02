@@ -50,6 +50,30 @@
       ],
       "revId": "3e797c00c31c67a6047ca883881d6a9f2db6f2b1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cc8016c2_f33501d5",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 1671,
+      "author": {
+        "id": 1073170
+      },
+      "writtenOn": "2025-10-02T00:08:38Z",
+      "side": 1,
+      "message": "We need not only the await but the return value to potentially block the action.  The existing one should in theory fire after the action, although in most cases it\u0027s functionally identical.\n\nAck on adding the second event\n\nre: documentation\n\nI did document the method in the interface (`gr-js-api-types.ts`) which is consistent with the status quo, though admittedly the status quo is lacking.\n\nIs there anywhere in particular you\u0027d like to see this documented?  I could add something to plugin.ts but nothing is documented there currently so I was being lazy on deciding on the right format for that.\n\nI have added some Gerrit dev facing comments right here.\n\nSince you have stamped this, I will submit this after a final pass, but please let me know if you want to see more docs.",
+      "parentUuid": "1f8bab7d_e1cd4390",
+      "range": {
+        "startLine": 1671,
+        "startChar": 50,
+        "endLine": 1671,
+        "endChar": 75
+      },
+      "revId": "3e797c00c31c67a6047ca883881d6a9f2db6f2b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

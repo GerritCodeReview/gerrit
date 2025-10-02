@@ -66,6 +66,10 @@ export enum Tab {
   FLOWS = 'flows',
 }
 
+export enum Sidebar {
+  CHAT = 'chat',
+}
+
 /**
  * Tag names of change log messages.
  */

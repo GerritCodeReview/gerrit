@@ -880,7 +880,7 @@ export class GrComment extends LitElement {
           <md-checkbox
             class="show-hide"
             ?checked=${!!this.collapsed}
-            @click=${() => (this.collapsed = !this.collapsed)}
+            @change=${() => (this.collapsed = !this.collapsed)}
           ></md-checkbox>
           <gr-icon icon=${icon} id="icon"></gr-icon>
         </label>
@@ -1031,7 +1031,7 @@ export class GrComment extends LitElement {
               <md-checkbox
                 id="resolvedCheckbox"
                 ?checked=${!this.unresolved}
-                @click=${this.handleToggleResolved}
+                @change=${this.handleToggleResolved}
               ></md-checkbox>
               Resolved
             </label>
@@ -1182,7 +1182,7 @@ export class GrComment extends LitElement {
           <md-checkbox
             id="generateSuggestCheckbox"
             ?checked=${this.generateSuggestion}
-            @click=${() => {
+            @change=${() => {
               this.generateSuggestion = !this.generateSuggestion;
               // Reset so suggestion can be re-generated.
               this.wasSuggestionEdited = false;

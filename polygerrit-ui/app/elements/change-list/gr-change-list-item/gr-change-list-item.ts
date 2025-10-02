@@ -360,7 +360,7 @@ export class GrChangeListItem extends LitElement {
         <label class="selectionLabel">
           <md-checkbox
             ?checked=${this.checked}
-            @click=${this.toggleCheckbox}
+            @change=${this.toggleCheckbox}
           ></md-checkbox>
         </label>
       </td>

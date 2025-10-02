@@ -366,7 +366,7 @@ export class GrFixSuggestions extends LitElement {
           <md-checkbox
             class="show-hide"
             ?checked=${this.collapsed}
-            @click=${() => {
+            @change=${() => {
               this.collapsed = !this.collapsed;
               if (this.collapsed) {
                 this.reporting.reportInteraction(

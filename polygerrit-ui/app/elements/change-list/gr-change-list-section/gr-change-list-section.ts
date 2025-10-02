@@ -296,7 +296,7 @@ export class GrChangeListSection extends LitElement {
           class="selection-checkbox"
           ?checked=${checked}
           .indeterminate=${indeterminate}
-          @click=${this.handleSelectAllCheckboxClicked}
+          @change=${this.handleSelectAllCheckboxClicked}
         ></md-checkbox>
       </td>
     `;

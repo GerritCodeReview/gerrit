@@ -160,7 +160,7 @@ suite('gr-change-table-editor tests', () => {
     assert.equal(element.displayedColumns.length, displayedLength - 1);
   });
 
-  test('show item', async () => {
+  test('show and hide item', async () => {
     element.displayedColumns = [
       ColumnNames.STATUS,
       ColumnNames.OWNER,
@@ -171,20 +171,35 @@ suite('gr-change-table-editor tests', () => {
     // trigger computation of enabled displayed columns
     element.serverConfig = createServerInfo();
     await element.updateComplete;
-    const checkbox = queryAndAssert<MdCheckbox>(
+
+    const checkboxSubject = queryAndAssert<MdCheckbox>(
       element,
       'table tr:nth-child(2) md-checkbox'
     );
-    const isChecked = checkbox.checked;
-    const displayedLength = element.displayedColumns.length;
-    assert.isFalse(isChecked);
-    const table = queryAndAssert<HTMLTableElement>(element, 'table');
-    assert.equal(table.style.display, '');
+    assert.equal(checkboxSubject.name, 'Subject');
+    const checkboxOwner = queryAndAssert<MdCheckbox>(
+      element,
+      'table tr:nth-child(3) md-checkbox'
+    );
+    assert.equal(checkboxOwner.name, 'Owner');
 
-    checkbox.click();
+    assert.equal(element.displayedColumns.length, 5);
+    assert.isFalse(checkboxSubject.checked);
+    assert.isTrue(checkboxOwner.checked);
+
+    checkboxSubject.click();
     await element.updateComplete;
 
-    assert.equal(element.displayedColumns.length, displayedLength + 1);
+    assert.equal(element.displayedColumns.length, 6);
+    assert.isTrue(checkboxSubject.checked);
+    assert.isTrue(checkboxOwner.checked);
+
+    checkboxOwner.click();
+    await element.updateComplete;
+
+    assert.equal(element.displayedColumns.length, 5);
+    assert.isTrue(checkboxSubject.checked);
+    assert.isFalse(checkboxOwner.checked);
   });
 
   test('getDisplayedColumns', () => {

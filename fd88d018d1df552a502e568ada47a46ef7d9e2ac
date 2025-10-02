@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a48453b_b9521638",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 4168,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-10-02T13:51:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "77086988_9e6854ef",
+      "range": {
+        "startLine": 4168,
+        "startChar": 2,
+        "endLine": 4168,
+        "endChar": 5
+      },
+      "revId": "fd88d018d1df552a502e568ada47a46ef7d9e2ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c352baef_197da8e5",
@@ -65,6 +89,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "321286e6_f8730125",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 4194,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-10-02T13:51:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c352baef_197da8e5",
+      "revId": "fd88d018d1df552a502e568ada47a46ef7d9e2ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0f90312e_3a011d8e",
@@ -78,6 +120,30 @@
       "writtenOn": "2025-10-02T13:45:18Z",
       "side": 1,
       "message": "see my comments in `Documentation/rest-api-projects.txt`\n\n```suggestion\n    post(PROJECT_KIND, \"migrate-labels\").to(MigrateLabels.class);\n    post(PROJECT_KIND, \"migrate-labels:review\").to(MigrateLabelsReview.class);\n```",
+      "range": {
+        "startLine": 90,
+        "startChar": 0,
+        "endLine": 91,
+        "endChar": 77
+      },
+      "revId": "fd88d018d1df552a502e568ada47a46ef7d9e2ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "acc68d61_663668f2",
+        "filename": "java/com/google/gerrit/server/restapi/project/ProjectRestApiModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-10-02T13:51:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0f90312e_3a011d8e",
       "range": {
         "startLine": 90,
         "startChar": 0,

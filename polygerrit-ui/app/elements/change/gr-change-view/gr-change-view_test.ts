@@ -293,10 +293,6 @@ suite('gr-change-view tests', () => {
       changeNum: TEST_NUMERIC_CHANGE_ID,
       repo: 'gerrit' as RepoName,
     };
-    await element.updateComplete.then(() => {
-      assertIsDefined(element.actions);
-      sinon.stub(element.actions, 'reload').returns(Promise.resolve());
-    });
     userModel = testResolver(userModelToken);
     changeModel = testResolver(changeModelToken);
   });
@@ -310,37 +306,12 @@ suite('gr-change-view tests', () => {
       element,
       /* HTML */ `
         <div class="container loading">Loading...</div>
-        <div class="container" hidden="" id="mainContent">
-          <div class="header">
-            <h1 class="assistive-tech-only">Change :</h1>
-            <div class="headerTitle">
-              <div class="changeStatuses"></div>
-              <div class="changeStarContainer">
-                <gr-button
-                  aria-disabled="false"
-                  class="showCopyLinkDialogButton"
-                  down-arrow=""
-                  flatten=""
-                  id="copyLinkDialogButton"
-                  role="button"
-                  tabindex="0"
-                >
-                  <gr-change-star id="changeStar"> </gr-change-star>
-                  <a aria-label="Change undefined" class="changeNumber"> </a>
-                </gr-button>
-              </div>
-              <div class="headerSubject"></div>
-              <gr-copy-clipboard
-                class="changeCopyClipboard"
-                hideinput=""
-                text="undefined: undefined | http://localhost:9876undefined"
-              >
-              </gr-copy-clipboard>
-            </div>
-            <div class="commitActions">
-              <gr-change-actions id="actions"> </gr-change-actions>
-            </div>
-          </div>
+        <div
+          class="container"
+          hidden=""
+          id="mainContent"
+          style="width:calc(100% - 0px);"
+        >
           <section class="changeInfoSection">
             <h2 class="assistive-tech-only">Change metadata</h2>
             <div class="changeInfo">
@@ -647,7 +618,11 @@ suite('gr-change-view tests', () => {
 
   suite('keyboard shortcuts', () => {
     let clock: SinonFakeTimers;
-    setup(() => {
+    setup(async () => {
+      element.change = createChangeViewChange();
+      element.loading = false;
+      await element.updateComplete;
+
       clock = sinon.useFakeTimers();
     });
 
@@ -706,7 +681,9 @@ suite('gr-change-view tests', () => {
       assert.isTrue(loggedInErrorSpy.called);
     });
 
-    test('shift A does not open reply overlay', async () => {
+    test('shift A does not open reply overlay, if not logged in', async () => {
+      element.loggedIn = false;
+      await element.updateComplete;
       pressKey(element, 'a', Modifier.SHIFT_KEY);
       await element.updateComplete;
       assertIsDefined(element.replyModal);
@@ -919,7 +896,11 @@ suite('gr-change-view tests', () => {
     assert.equal(element.replyBtn.textContent, 'Sign in');
   });
 
-  test('download tap calls handleOpenDownloadDialog', () => {
+  test('download tap calls handleOpenDownloadDialog', async () => {
+    element.change = createChangeViewChange();
+    element.loading = false;
+    await element.updateComplete;
+
     assertIsDefined(element.actions);
     const openDialogStub = sinon.stub(element, 'handleOpenDownloadDialog');
     element.actions.dispatchEvent(
@@ -1124,6 +1105,8 @@ suite('gr-change-view tests', () => {
       labels: {},
       actions: {},
     };
+    element.loading = false;
+    await element.updateComplete;
 
     sinon.stub(element, '_getUrlParameter').callsFake(param => {
       assert.equal(param, 'revert');
@@ -1283,6 +1266,7 @@ suite('gr-change-view tests', () => {
       const newChange = {...element.change};
       newChange.revisions.rev2 = createRevision(EDIT);
       element.change = newChange;
+      element.loading = false;
       await element.updateComplete;
 
       fireEdit();
@@ -1296,6 +1280,7 @@ suite('gr-change-view tests', () => {
       newChange.revisions.rev2 = createRevision(2);
       element.change = newChange;
       element.viewModelPatchNum = 1 as RevisionPatchSetNum;
+      element.loading = false;
       await element.updateComplete;
 
       fireEdit();
@@ -1312,6 +1297,7 @@ suite('gr-change-view tests', () => {
       newChange.revisions.rev2 = createRevision(2);
       element.change = newChange;
       element.patchNum = 2 as RevisionPatchSetNum;
+      element.loading = false;
       await element.updateComplete;
 
       fireEdit();
@@ -1327,6 +1313,7 @@ suite('gr-change-view tests', () => {
     element.change = {
       ...createChangeViewChange(),
     };
+    element.loading = false;
     await element.updateComplete;
     assertIsDefined(element.metadata);
     assertIsDefined(element.actions);
@@ -1372,6 +1359,7 @@ suite('gr-change-view tests', () => {
       starred: false,
     };
     element.loggedIn = true;
+    element.loading = false;
     await element.updateComplete;
 
     const stub = sinon.stub(element, 'handleToggleStar');
@@ -1456,6 +1444,7 @@ suite('gr-change-view tests', () => {
       status: ChangeStatus.MERGED,
       current_revision: sha,
     };
+    element.loading = false;
     await element.updateComplete;
 
     const copyLinksDialog = queryAndAssert<GrCopyLinks>(
@@ -1469,6 +1458,7 @@ suite('gr-change-view tests', () => {
 
   test('copy links without a base URL', async () => {
     element.change = createChangeViewChange();
+    element.loading = false;
     await element.updateComplete;
 
     const copyLinksDialog = queryAndAssert<GrCopyLinks>(
@@ -1485,6 +1475,7 @@ suite('gr-change-view tests', () => {
   test('copy links with a base URL having a path', async () => {
     stubBaseUrl('/review');
     element.change = createChangeViewChange();
+    element.loading = false;
     await element.updateComplete;
 
     const copyLinksDialog = queryAndAssert<GrCopyLinks>(

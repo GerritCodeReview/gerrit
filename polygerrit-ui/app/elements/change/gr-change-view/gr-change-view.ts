@@ -1686,7 +1686,7 @@ export class GrChangeView extends LitElement {
     );
 
     this.commitMessageEditor.disabled = true;
-    this.restApiService
+    void this.restApiService
       .putChangeCommitMessage(this.changeNum, message, committerEmail)
       .then(resp => {
         assertIsDefined(this.commitMessageEditor);

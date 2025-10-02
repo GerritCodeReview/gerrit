@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f4818d21_e64290b3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-10-02T08:07:40Z",
+      "side": 1,
+      "message": "Good point. Actually, why do we need to make the gr-main-header sticky and just the change-view header. Like we do on gr-diff-view",
+      "parentUuid": "e0643762_0d059647",
+      "revId": "7aeee7f01ccf386b248ccb92e3ab27f1ddad744b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "263a7b5d_a83f211d",
         "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
         "patchSetId": 2

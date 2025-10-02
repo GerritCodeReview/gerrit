@@ -43,6 +43,7 @@ export enum EventType {
   SHOW_DIFF = 'showdiff',
   BEFORE_REPLY_SENT = 'before-reply-sent',
   REPLY_SENT = 'replysent',
+  BEFORE_PUBLISH_EDIT = 'before-publish-edit',
   PUBLISH_EDIT = 'publish-edit',
 }
 

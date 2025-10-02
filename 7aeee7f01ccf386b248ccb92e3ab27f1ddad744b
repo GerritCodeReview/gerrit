@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2b8e6229_00a1c559",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-10-02T08:58:32Z",
+      "side": 1,
+      "message": "Yes, the main header will be sticky on all pages.",
+      "parentUuid": "e0643762_0d059647",
+      "revId": "7aeee7f01ccf386b248ccb92e3ab27f1ddad744b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "263a7b5d_a83f211d",
@@ -49,6 +67,30 @@
       "writtenOn": "2025-10-01T11:16:25Z",
       "side": 1,
       "message": "Is this going to break in presence of message of the day or a banner?",
+      "range": {
+        "startLine": 285,
+        "startChar": 10,
+        "endLine": 285,
+        "endChar": 37
+      },
+      "revId": "7aeee7f01ccf386b248ccb92e3ab27f1ddad744b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d0fdae22_e5d6fcff",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-10-02T08:58:32Z",
+      "side": 1,
+      "message": "No. Tested.",
+      "parentUuid": "263a7b5d_a83f211d",
       "range": {
         "startLine": 285,
         "startChar": 10,

@@ -67,7 +67,7 @@ export class GrValidationOptions extends LitElement {
           class="selectionLabel"
           id=${option.name}
           ?checked=${!!this.isOptionSelected.get(option.name)}
-          @click=${() => this.toggleCheckbox(option)}
+          @change=${() => this.toggleCheckbox(option)}
         ></md-checkbox>
         <label for=${option.name}
           >${capitalizeFirstLetter(option.description)}</label

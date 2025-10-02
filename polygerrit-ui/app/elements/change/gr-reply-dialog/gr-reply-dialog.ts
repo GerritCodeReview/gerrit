@@ -1425,6 +1425,7 @@ export class GrReplyDialog extends LitElement {
       );
       if (!this.ccs.find(cc => getUserId(cc) === getUserId(accountToMove))) {
         this.ccs = [...this.ccs, accountToMove];
+        this.reviewersMutated = true;
       }
     } else {
       this.ccs = this.ccs.filter(
@@ -1434,6 +1435,7 @@ export class GrReplyDialog extends LitElement {
         !this.reviewers.find(r => getUserId(r) === getUserId(accountToMove))
       ) {
         this.reviewers = [...this.reviewers, accountToMove];
+        this.reviewersMutated = true;
       }
     }
 

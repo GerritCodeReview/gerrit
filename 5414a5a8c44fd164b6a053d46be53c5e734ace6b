@@ -50,6 +50,30 @@
       ],
       "revId": "5414a5a8c44fd164b6a053d46be53c5e734ace6b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2ac40152_1753047b",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 551,
+      "author": {
+        "id": 1073170
+      },
+      "writtenOn": "2025-10-02T00:16:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "65e1b6a7_86a892de",
+      "range": {
+        "startLine": 550,
+        "startChar": 10,
+        "endLine": 551,
+        "endChar": 58
+      },
+      "revId": "5414a5a8c44fd164b6a053d46be53c5e734ace6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

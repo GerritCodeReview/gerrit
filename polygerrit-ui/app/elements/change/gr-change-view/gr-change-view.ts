@@ -37,7 +37,12 @@ import {GrEditConstants} from '../../edit/gr-edit-constants';
 import {pluralize, trimWithEllipsis} from '../../../utils/string-util';
 import {untilRendered, whenVisible} from '../../../utils/dom-util';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
-import {ChangeStatus, DiffViewMode, Tab} from '../../../constants/constants';
+import {
+  ChangeStatus,
+  DiffViewMode,
+  Sidebar,
+  Tab,
+} from '../../../constants/constants';
 import {getAppContext} from '../../../services/app-context';
 import {
   computeAllPatchSets,
@@ -148,6 +153,7 @@ import {assign} from '../../../utils/location-util';
 import '@material/web/tabs/secondary-tab';
 import '@material/web/tabs/tabs';
 import {MdTabs} from '@material/web/tabs/tabs';
+import {styleMap} from 'lit/directives/style-map.js';
 
 const MIN_LINES_FOR_COMMIT_COLLAPSE = 18;
 
@@ -211,6 +217,8 @@ export class GrChangeView extends LitElement {
   @query('#replyBtn') replyBtn?: GrButton;
 
   @query('#tabs') tabs?: MdTabs;
+
+  @query('.sidebar-wrapper') sidebarWrapper?: HTMLElement;
 
   @query('gr-messages-list') messagesList?: GrMessagesList;
 
@@ -350,6 +358,16 @@ export class GrChangeView extends LitElement {
   @state()
   activeTab: Tab | string = Tab.FILES;
 
+  @state()
+  activeSidebar?: Sidebar = Sidebar.CHAT;
+
+  isSidebarResizing = false;
+  sidebarResizeStartPos = 0;
+  sidebarResizeStartWidth = 300;
+
+  @state()
+  sidebarWidth = 300;
+
   @property({type: Boolean})
   unresolvedOnly = true;
 
@@ -459,6 +477,16 @@ export class GrChangeView extends LitElement {
     );
     this.addEventListener('open-fix-preview', e => this.onOpenFixPreview(e));
     this.addEventListener('show-tab', e => this.setActiveTab(e));
+    this.addEventListener('mousemove', (event: MouseEvent) => {
+      if (this.isSidebarResizing) {
+        this.resizeSidebar(event);
+      }
+    });
+    this.addEventListener('mouseup', () => {
+      if (this.isSidebarResizing) {
+        this.stopSidebarResize();
+      }
+    });
   }
 
   private setupShortcuts() {
@@ -790,6 +818,13 @@ export class GrChangeView extends LitElement {
       sharedStyles,
       modalStyles,
       css`
+        :host {
+          --change-header-height: 30px;
+          --sidebar-top: calc(
+            var(--main-header-height) + var(--change-header-height)
+          );
+          --sidebar-height: calc(100vh - var(--sidebar-top));
+        }
         .tabs {
           display: flex;
         }
@@ -808,6 +843,7 @@ export class GrChangeView extends LitElement {
           padding: var(--spacing-s) var(--spacing-l);
           position: sticky;
           top: var(--main-header-height);
+          height: var(--change-header-height);
           z-index: 110;
         }
         .header.active {
@@ -1100,6 +1136,51 @@ export class GrChangeView extends LitElement {
         .tabContent gr-thread-list::part(threads) {
           padding: var(--spacing-l);
         }
+
+        .sidebar-wrapper {
+          z-index: 50;
+          position: absolute;
+          display: flex;
+          top: var(--change-header-height);
+          bottom: calc(0px - var(--main-footer-height));
+          right: 0;
+          min-width: var(--sidebar-min-width);
+          max-width: 100%;
+          width: 300px;
+          background-color: var(--background-color-secondary);
+        }
+        .sidebar {
+          position: sticky;
+          top: var(--sidebar-top);
+          height: var(--sidebar-height);
+          box-sizing: border-box;
+          overflow: auto;
+          flex-grow: 1;
+          padding: var(--spacing-l);
+          font-size: 14px;
+        }
+        .resizer-wrapper {
+          position: sticky;
+          top: var(--sidebar-top);
+          height: var(--sidebar-height);
+          z-index: 51;
+        }
+        .resizer {
+          background-color: var(--background-color-secondary);
+          width: 7px;
+          border-left: 1px solid var(--border-color);
+          cursor: ew-resize;
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          left: -7px;
+          box-sizing: border-box;
+        }
+        .resizer:hover {
+          background-color: var(--background-color-tertiary);
+          width: 11px;
+          left: -9px;
+        }
       `,
     ];
   }
@@ -1117,8 +1198,14 @@ export class GrChangeView extends LitElement {
 
   private renderMainContent() {
     return html`
-      <div id="mainContent" class="container" ?hidden=${!!this.loading}>
-        ${this.renderHeader()} ${this.renderChangeInfoSection()}
+      ${this.renderHeader()} ${this.renderSidebar()}
+      <div
+        id="mainContent"
+        class="container"
+        ?hidden=${!!this.loading}
+        style=${styleMap({width: `calc(100% - ${this.sidebarWidth}px)`})}
+      >
+        ${this.renderChangeInfoSection()}
         <h2 class="assistive-tech-only">Files and Comments tabs</h2>
         ${this.renderTabHeaders()} ${this.renderTabContent()}
         ${this.renderChangeLog()}
@@ -1155,6 +1242,7 @@ export class GrChangeView extends LitElement {
   }
 
   private renderHeader() {
+    if (this.loading) return;
     return html`
       <div class=${this.computeHeaderClass()}>
         <h1 class="assistive-tech-only">
@@ -1163,6 +1251,66 @@ export class GrChangeView extends LitElement {
         ${this.renderHeaderTitle()} ${this.renderCommitActions()}
       </div>
     `;
+  }
+
+  private renderSidebar() {
+    if (this.activeSidebar === undefined) return;
+    return html`
+      <div
+        class="sidebar-wrapper"
+        style=${styleMap({width: `${this.sidebarWidth}px`})}
+      >
+        <div class="resizer-wrapper">
+          <div
+            class="resizer"
+            @mousedown=${this.startSidebarResize}
+            @mouseup=${this.stopSidebarResize}
+          ></div>
+        </div>
+        <div class="sidebar" @click=${this.hideSidebar}>
+          ${this.renderSidebarChat()}
+        </div>
+      </div>
+    `;
+  }
+
+  private renderSidebarChat() {
+    if (this.activeSidebar !== Sidebar.CHAT) return;
+    return html` <div>Hello, I am a sidebar.</div> `;
+  }
+
+  private showSidebarChat() {
+    this.activeSidebar = Sidebar.CHAT;
+    this.sidebarWidth = 300;
+  }
+
+  private hideSidebar() {
+    this.activeSidebar = undefined;
+    this.sidebarWidth = 0;
+  }
+
+  private startSidebarResize(event: MouseEvent) {
+    if (this.isSidebarResizing) return;
+    this.isSidebarResizing = true;
+    document.body.style.setProperty('user-select', 'none');
+    this.sidebarResizeStartPos = event.clientX;
+    this.sidebarResizeStartWidth = document
+      .querySelector('.sidebar-wrapper')!
+      .getBoundingClientRect().width;
+  }
+
+  private stopSidebarResize() {
+    if (!this.isSidebarResizing) return;
+    this.isSidebarResizing = false;
+    document.body.style.setProperty('user-select', 'auto');
+  }
+
+  private resizeSidebar(event: MouseEvent) {
+    if (!this.isSidebarResizing || event.buttons === 0) {
+      return;
+    }
+    const diff = event.clientX - this.sidebarResizeStartPos;
+    this.sidebarWidth = Math.max(this.sidebarResizeStartWidth - diff, 300);
   }
 
   private renderChangeInfoSection() {
@@ -1283,6 +1431,7 @@ export class GrChangeView extends LitElement {
   private renderCommitActions() {
     return html`
       <div class="commitActions">
+        <gr-button flatten @click=${this.showSidebarChat}>Chat</gr-button>
         <gr-change-actions
           id="actions"
           @edit-tap=${() => this.handleEditTap()}

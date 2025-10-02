@@ -293,10 +293,6 @@ suite('gr-change-view tests', () => {
       changeNum: TEST_NUMERIC_CHANGE_ID,
       repo: 'gerrit' as RepoName,
     };
-    await element.updateComplete.then(() => {
-      assertIsDefined(element.actions);
-      sinon.stub(element.actions, 'reload').returns(Promise.resolve());
-    });
     userModel = testResolver(userModelToken);
     changeModel = testResolver(changeModelToken);
   });
@@ -310,147 +306,127 @@ suite('gr-change-view tests', () => {
       element,
       /* HTML */ `
         <div class="container loading">Loading...</div>
-        <div class="container" hidden="" id="mainContent">
-          <div class="header">
-            <h1 class="assistive-tech-only">Change :</h1>
-            <div class="headerTitle">
-              <div class="changeStatuses"></div>
-              <div class="changeStarContainer">
-                <gr-button
-                  aria-disabled="false"
-                  class="showCopyLinkDialogButton"
-                  down-arrow=""
-                  flatten=""
-                  id="copyLinkDialogButton"
-                  role="button"
-                  tabindex="0"
-                >
-                  <gr-change-star id="changeStar"> </gr-change-star>
-                  <a aria-label="Change undefined" class="changeNumber"> </a>
-                </gr-button>
-              </div>
-              <div class="headerSubject"></div>
-              <gr-copy-clipboard
-                class="changeCopyClipboard"
-                hideinput=""
-                text="undefined: undefined | http://localhost:9876undefined"
-              >
-              </gr-copy-clipboard>
-            </div>
-            <div class="commitActions">
-              <gr-change-actions id="actions"> </gr-change-actions>
-            </div>
-          </div>
-          <section class="changeInfoSection">
-            <h2 class="assistive-tech-only">Change metadata</h2>
-            <div class="changeInfo">
-              <div class="changeInfo-column changeMetadata">
-                <gr-change-metadata id="metadata"> </gr-change-metadata>
-              </div>
-              <div class="changeInfo-column mainChangeInfo" id="mainChangeInfo">
-                <div id="commitAndRelated">
-                  <div class="commitContainer">
-                    <h3 class="assistive-tech-only">Commit Message</h3>
-                    <div>
-                      <gr-button
-                        aria-disabled="false"
-                        class="reply"
-                        id="replyBtn"
-                        primary=""
-                        role="button"
-                        tabindex="0"
-                        title="Open reply dialog to publish comments and add reviewers (shortcut: a)"
-                      >
-                        Reply
-                      </gr-button>
+        <gr-content-with-sidebar>
+          <div slot="main">
+            <div class="container" hidden="" id="mainContent">
+              <section class="changeInfoSection">
+                <h2 class="assistive-tech-only">Change metadata</h2>
+                <div class="changeInfo">
+                  <div class="changeInfo-column changeMetadata">
+                    <gr-change-metadata id="metadata"> </gr-change-metadata>
+                  </div>
+                  <div
+                    class="changeInfo-column mainChangeInfo"
+                    id="mainChangeInfo"
+                  >
+                    <div id="commitAndRelated">
+                      <div class="commitContainer">
+                        <h3 class="assistive-tech-only">Commit Message</h3>
+                        <div>
+                          <gr-button
+                            aria-disabled="false"
+                            class="reply"
+                            id="replyBtn"
+                            primary=""
+                            role="button"
+                            tabindex="0"
+                            title="Open reply dialog to publish comments and add reviewers (shortcut: a)"
+                          >
+                            Reply
+                          </gr-button>
+                        </div>
+                        <div class="commitMessage" id="commitMessage">
+                          <gr-editable-content
+                            id="commitMessageEditor"
+                            remove-zero-width-space=""
+                          >
+                            <gr-formatted-text> </gr-formatted-text>
+                          </gr-editable-content>
+                        </div>
+                        <h3 class="assistive-tech-only">
+                          Comments and Checks Summary
+                        </h3>
+                        <gr-change-summary> </gr-change-summary>
+                        <gr-endpoint-decorator name="commit-container">
+                          <gr-endpoint-param name="change"> </gr-endpoint-param>
+                          <gr-endpoint-param name="revision">
+                          </gr-endpoint-param>
+                        </gr-endpoint-decorator>
+                      </div>
+                      <div class="relatedChanges">
+                        <gr-related-changes-list> </gr-related-changes-list>
+                      </div>
+                      <div class="emptySpace"></div>
                     </div>
-                    <div class="commitMessage" id="commitMessage">
-                      <gr-editable-content
-                        id="commitMessageEditor"
-                        remove-zero-width-space=""
-                      >
-                        <gr-formatted-text> </gr-formatted-text>
-                      </gr-editable-content>
-                    </div>
-                    <h3 class="assistive-tech-only">
-                      Comments and Checks Summary
-                    </h3>
-                    <gr-change-summary> </gr-change-summary>
-                    <gr-endpoint-decorator name="commit-container">
+                  </div>
+                </div>
+              </section>
+              <h2 class="assistive-tech-only">Files and Comments tabs</h2>
+              <div class="tabs">
+                <md-tabs id="tabs">
+                  <md-secondary-tab
+                    active=""
+                    data-name="files"
+                    md-tab=""
+                    tabindex="0"
+                  >
+                    <span> Files </span>
+                  </md-secondary-tab>
+                  <md-secondary-tab
+                    class="commentThreads"
+                    data-name="comments"
+                    md-tab=""
+                    tabindex="-1"
+                  >
+                    <gr-tooltip-content has-tooltip="" title="">
+                      <span> Comments </span>
+                    </gr-tooltip-content>
+                  </md-secondary-tab>
+                  <md-secondary-tab
+                    data-name="change-view-tab-header-url"
+                    md-tab=""
+                    tabindex="0"
+                  >
+                    <gr-endpoint-decorator name="change-view-tab-header-url">
                       <gr-endpoint-param name="change"> </gr-endpoint-param>
                       <gr-endpoint-param name="revision"> </gr-endpoint-param>
                     </gr-endpoint-decorator>
-                  </div>
-                  <div class="relatedChanges">
-                    <gr-related-changes-list> </gr-related-changes-list>
-                  </div>
-                  <div class="emptySpace"></div>
-                </div>
+                  </md-secondary-tab>
+                </md-tabs>
               </div>
+              <section class="tabContent">
+                <div>
+                  <gr-file-list-header id="fileListHeader">
+                  </gr-file-list-header>
+                  <gr-revision-parents> </gr-revision-parents>
+                  <gr-file-list id="fileList"> </gr-file-list>
+                </div>
+              </section>
+              <gr-endpoint-decorator name="change-view-integration">
+                <gr-endpoint-param name="change"> </gr-endpoint-param>
+                <gr-endpoint-param name="revision"> </gr-endpoint-param>
+              </gr-endpoint-decorator>
+              <div class="tabs">
+                <md-tabs>
+                  <md-secondary-tab
+                    active=""
+                    class="changeLog"
+                    data-name="_changeLog"
+                    md-tab=""
+                    tabindex="0"
+                  >
+                    Change Log
+                  </md-secondary-tab>
+                </md-tabs>
+              </div>
+              <section class="changeLog">
+                <h2 class="assistive-tech-only">Change Log</h2>
+                <gr-messages-list> </gr-messages-list>
+              </section>
             </div>
-          </section>
-          <h2 class="assistive-tech-only">Files and Comments tabs</h2>
-          <div class="tabs">
-            <md-tabs id="tabs">
-              <md-secondary-tab
-                active=""
-                data-name="files"
-                md-tab=""
-                tabindex="0"
-              >
-                <span> Files </span>
-              </md-secondary-tab>
-              <md-secondary-tab
-                class="commentThreads"
-                data-name="comments"
-                md-tab=""
-                tabindex="-1"
-              >
-                <gr-tooltip-content has-tooltip="" title="">
-                  <span> Comments </span>
-                </gr-tooltip-content>
-              </md-secondary-tab>
-              <md-secondary-tab
-                data-name="change-view-tab-header-url"
-                md-tab=""
-                tabindex="0"
-              >
-                <gr-endpoint-decorator name="change-view-tab-header-url">
-                  <gr-endpoint-param name="change"> </gr-endpoint-param>
-                  <gr-endpoint-param name="revision"> </gr-endpoint-param>
-                </gr-endpoint-decorator>
-              </md-secondary-tab>
-            </md-tabs>
           </div>
-          <section class="tabContent">
-            <div>
-              <gr-file-list-header id="fileListHeader"> </gr-file-list-header>
-              <gr-revision-parents> </gr-revision-parents>
-              <gr-file-list id="fileList"> </gr-file-list>
-            </div>
-          </section>
-          <gr-endpoint-decorator name="change-view-integration">
-            <gr-endpoint-param name="change"> </gr-endpoint-param>
-            <gr-endpoint-param name="revision"> </gr-endpoint-param>
-          </gr-endpoint-decorator>
-          <div class="tabs">
-            <md-tabs>
-              <md-secondary-tab
-                active=""
-                class="changeLog"
-                data-name="_changeLog"
-                md-tab=""
-                tabindex="0"
-              >
-                Change Log
-              </md-secondary-tab>
-            </md-tabs>
-          </div>
-          <section class="changeLog">
-            <h2 class="assistive-tech-only">Change Log</h2>
-            <gr-messages-list> </gr-messages-list>
-          </section>
-        </div>
+          <div slot="side"></div>
+        </gr-content-with-sidebar>
         <gr-apply-fix-dialog id="applyFixDialog"> </gr-apply-fix-dialog>
         <dialog id="downloadModal" tabindex="-1">
           <gr-download-dialog id="downloadDialog" role="dialog">
@@ -647,7 +623,11 @@ suite('gr-change-view tests', () => {
 
   suite('keyboard shortcuts', () => {
     let clock: SinonFakeTimers;
-    setup(() => {
+    setup(async () => {
+      element.change = createChangeViewChange();
+      element.loading = false;
+      await element.updateComplete;
+
       clock = sinon.useFakeTimers();
     });
 
@@ -706,7 +686,9 @@ suite('gr-change-view tests', () => {
       assert.isTrue(loggedInErrorSpy.called);
     });
 
-    test('shift A does not open reply overlay', async () => {
+    test('shift A does not open reply overlay, if not logged in', async () => {
+      element.loggedIn = false;
+      await element.updateComplete;
       pressKey(element, 'a', Modifier.SHIFT_KEY);
       await element.updateComplete;
       assertIsDefined(element.replyModal);
@@ -919,7 +901,11 @@ suite('gr-change-view tests', () => {
     assert.equal(element.replyBtn.textContent, 'Sign in');
   });
 
-  test('download tap calls handleOpenDownloadDialog', () => {
+  test('download tap calls handleOpenDownloadDialog', async () => {
+    element.change = createChangeViewChange();
+    element.loading = false;
+    await element.updateComplete;
+
     assertIsDefined(element.actions);
     const openDialogStub = sinon.stub(element, 'handleOpenDownloadDialog');
     element.actions.dispatchEvent(
@@ -1124,6 +1110,8 @@ suite('gr-change-view tests', () => {
       labels: {},
       actions: {},
     };
+    element.loading = false;
+    await element.updateComplete;
 
     sinon.stub(element, '_getUrlParameter').callsFake(param => {
       assert.equal(param, 'revert');
@@ -1283,6 +1271,7 @@ suite('gr-change-view tests', () => {
       const newChange = {...element.change};
       newChange.revisions.rev2 = createRevision(EDIT);
       element.change = newChange;
+      element.loading = false;
       await element.updateComplete;
 
       fireEdit();
@@ -1296,6 +1285,7 @@ suite('gr-change-view tests', () => {
       newChange.revisions.rev2 = createRevision(2);
       element.change = newChange;
       element.viewModelPatchNum = 1 as RevisionPatchSetNum;
+      element.loading = false;
       await element.updateComplete;
 
       fireEdit();
@@ -1312,6 +1302,7 @@ suite('gr-change-view tests', () => {
       newChange.revisions.rev2 = createRevision(2);
       element.change = newChange;
       element.patchNum = 2 as RevisionPatchSetNum;
+      element.loading = false;
       await element.updateComplete;
 
       fireEdit();
@@ -1327,6 +1318,7 @@ suite('gr-change-view tests', () => {
     element.change = {
       ...createChangeViewChange(),
     };
+    element.loading = false;
     await element.updateComplete;
     assertIsDefined(element.metadata);
     assertIsDefined(element.actions);
@@ -1372,6 +1364,7 @@ suite('gr-change-view tests', () => {
       starred: false,
     };
     element.loggedIn = true;
+    element.loading = false;
     await element.updateComplete;
 
     const stub = sinon.stub(element, 'handleToggleStar');
@@ -1456,6 +1449,7 @@ suite('gr-change-view tests', () => {
       status: ChangeStatus.MERGED,
       current_revision: sha,
     };
+    element.loading = false;
     await element.updateComplete;
 
     const copyLinksDialog = queryAndAssert<GrCopyLinks>(
@@ -1469,6 +1463,7 @@ suite('gr-change-view tests', () => {
 
   test('copy links without a base URL', async () => {
     element.change = createChangeViewChange();
+    element.loading = false;
     await element.updateComplete;
 
     const copyLinksDialog = queryAndAssert<GrCopyLinks>(
@@ -1485,6 +1480,7 @@ suite('gr-change-view tests', () => {
   test('copy links with a base URL having a path', async () => {
     stubBaseUrl('/review');
     element.change = createChangeViewChange();
+    element.loading = false;
     await element.updateComplete;
 
     const copyLinksDialog = queryAndAssert<GrCopyLinks>(

@@ -21,7 +21,14 @@ import {
   RevisionPatchSetNum,
 } from '../../types/common';
 import {ChangeStatus, DefaultBase} from '../../constants/constants';
-import {combineLatest, forkJoin, from, Observable, of} from 'rxjs';
+import {
+  BehaviorSubject,
+  combineLatest,
+  forkJoin,
+  from,
+  Observable,
+  of,
+} from 'rxjs';
 import {
   catchError,
   filter,
@@ -52,6 +59,7 @@ import {assertIsDefined} from '../../utils/common-util';
 import {Model} from '../base/model';
 import {UserModel} from '../user/user-model';
 import {define} from '../dependency';
+import {FlagsService, KnownExperimentId} from '../../services/flags/flags';
 import {
   isOwner,
   isUploader,
@@ -351,6 +359,10 @@ export class ChangeModel extends Model<ChangeState> {
 
   private latestPatchNum?: PatchSetNumber;
 
+  private readonly reloadSubmittabilityTrigger$ = new BehaviorSubject<void>(
+    undefined
+  );
+
   public readonly change$ = select(
     this.state$,
     changeState => changeState.change
@@ -520,7 +532,8 @@ export class ChangeModel extends Model<ChangeState> {
     private readonly restApiService: RestApiService,
     private readonly userModel: UserModel,
     private readonly pluginLoader: PluginLoader,
-    private readonly reporting: ReportingService
+    private readonly reporting: ReportingService,
+    private readonly flagsService: FlagsService
   ) {
     super(initialState);
     this.patchNum$ = select(
@@ -798,14 +811,22 @@ export class ChangeModel extends Model<ChangeState> {
       .subscribe(mergeable => this.updateState({mergeable}));
   }
 
+  public reloadSubmittability() {
+    this.reloadSubmittabilityTrigger$.next();
+  }
+
   private loadSubmittabilityInfo() {
     // Use the same trigger as loadChange, to run SR loading in parallel.
-    return this.viewModel.changeNum$
+    return combineLatest([
+      this.viewModel.changeNum$,
+      this.reloadSubmittabilityTrigger$,
+    ])
       .pipe(
+        map(([changeNum, _]) => changeNum),
         switchMap(changeNum => {
           if (!changeNum) {
-            // On reload changeNum is set to undefined to reset change state.
-            // We propagate undefined and reset the state in this case.
+            // On change reload changeNum is set to undefined to reset change
+            // state. We propagate undefined and reset the state in this case.
             return of(undefined);
           }
           return from(this.restApiService.getSubmittabilityInfo(changeNum));
@@ -814,7 +835,11 @@ export class ChangeModel extends Model<ChangeState> {
       .subscribe(submittabilityInfo => {
         // TODO(b/445644919): Remove once the submit_requirements is never
         // requested as part of the change detail.
-        if (this.change?.submit_requirements) {
+        if (
+          !this.flagsService.isEnabled(
+            KnownExperimentId.ASYNC_SUBMIT_REQUIREMENTS
+          )
+        ) {
           return;
         }
         const change = fillFromSubmittabilityInfo(
@@ -1102,19 +1127,11 @@ export class ChangeModel extends Model<ChangeState> {
     change = updateRevisionsWithCommitShas(change);
     // TODO(b/445644919): Remove once the submit_requirements is never requested
     // as part of the change detail.
-    if (change!.submit_requirements) {
-      this.updateState({
-        change,
-        submittabilityInfo: {
-          changeNum: change!._number,
-          submittable: change!.submittable!,
-          submitRequirements: change!.submit_requirements,
-        },
-        loadingStatus: LoadingStatus.LOADED,
-      });
-      return;
+    if (
+      this.flagsService.isEnabled(KnownExperimentId.ASYNC_SUBMIT_REQUIREMENTS)
+    ) {
+      change = fillFromSubmittabilityInfo(change, this.submittabilityInfo);
     }
-    change = fillFromSubmittabilityInfo(change, this.submittabilityInfo);
     this.updateState({
       change,
       loadingStatus: LoadingStatus.LOADED,

@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "464998c0_34ba1100",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 3757754
+      },
+      "writtenOn": "2025-10-02T20:28:22Z",
+      "side": 1,
+      "message": "I\u0027m not sure if I got it right, but I added a mention about I2a56197ee0dad479f0973192157e5970d9deac25 in my commit message. Also I noticed that this change was also updating `Documentation/user-upload.txt`. So I also updated this file.",
+      "parentUuid": "6c7bcf7d_68dd7bbb",
+      "revId": "9d8174883ed74c9be497ba316c31bde3ee94a794",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4195262c_643418a7",
@@ -35,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "90f14e0b_db4de7f9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 3757754
+      },
+      "writtenOn": "2025-10-02T20:28:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4195262c_643418a7",
+      "revId": "9d8174883ed74c9be497ba316c31bde3ee94a794",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e86a5faa_ec0a9894",
@@ -48,6 +84,30 @@
       "writtenOn": "2025-10-01T22:33:39Z",
       "side": 1,
       "message": "`saveCookies` is a boolean, so you want it set to `true` in this case.\n```suggestion\nneeds to have `http.cookieFile` set to a local file and `http.saveCookies` set\nto `true`, so that HTTP session cookies can be read and saved. Otherwise every\nsingle call would trigger a full LDAP authentication and groups resolution\nwhich could introduce a noticeable latency on the overall execution\n```",
+      "range": {
+        "startLine": 657,
+        "startChar": 14,
+        "endLine": 660,
+        "endChar": 11
+      },
+      "revId": "9d8174883ed74c9be497ba316c31bde3ee94a794",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2baef84f_b0c3f6b2",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 660,
+      "author": {
+        "id": 3757754
+      },
+      "writtenOn": "2025-10-02T20:28:22Z",
+      "side": 1,
+      "message": "My bad! I was investigating it a some time ago and while preparing this update I was writing without checking my previous work. Looks like I mixed it with how cookie file handling is controlled in `curl`, where you are separately providing file for [reading](https://everything.curl.dev/http/cookies/reading.html) and [writing](https://everything.curl.dev/http/cookies/writing.html) session cookie files.",
+      "parentUuid": "e86a5faa_ec0a9894",
       "range": {
         "startLine": 657,
         "startChar": 14,

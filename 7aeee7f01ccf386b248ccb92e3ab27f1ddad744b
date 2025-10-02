@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "99b3ad83_7865d9a7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-10-02T12:35:53Z",
+      "side": 1,
+      "message": "Why do we need gr-main-header to be sticky? The \"AI Chat\" button you added is on chat header not on main header",
+      "parentUuid": "2b8e6229_00a1c559",
+      "revId": "7aeee7f01ccf386b248ccb92e3ab27f1ddad744b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "263a7b5d_a83f211d",
         "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
         "patchSetId": 2

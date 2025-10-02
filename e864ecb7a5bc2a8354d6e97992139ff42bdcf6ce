@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "82f7674e_ef4f0656",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 1174,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-10-02T12:23:14Z",
+      "side": 1,
+      "message": "Is there a way we can make this more incapsulated. Part of it\u0027s own component, instead of being simply within gr-change-view?",
+      "range": {
+        "startLine": 1131,
+        "startChar": 8,
+        "endLine": 1174,
+        "endChar": 9
+      },
+      "revId": "e864ecb7a5bc2a8354d6e97992139ff42bdcf6ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8e0ae22a_e7a575e6",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
         "patchSetId": 6

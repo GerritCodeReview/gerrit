@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9809427c_c2a7d924",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-10-02T17:03:23Z",
+      "side": 1,
+      "message": "On an unrelated note, because of the slowness with gerrit-review, https://github.com/GerritCodeReview/gerrit/blob/6f78e3ac135b3935a73458def6eed7c40f07bf7b/polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts#L123 returns [] if you click the checkbox on the change list to tick all the changes. If you wait seconds (possibly 20), it\u0027ll work.",
+      "revId": "ef01103eb5aeff6a51d2d993d1c4aeaf51e22a43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

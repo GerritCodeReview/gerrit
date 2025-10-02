@@ -12,6 +12,7 @@ import {define} from '../dependency';
 
 import {NumericChangeId} from '../../types/common';
 import {getAppContext} from '../../services/app-context';
+import {KnownExperimentId} from '../../services/flags/flags';
 
 export interface FlowsState {
   flows: FlowInfo[];
@@ -32,6 +33,8 @@ export class FlowsModel extends Model<FlowsState> {
 
   private readonly restApiService = getAppContext().restApiService;
 
+  private flagService = getAppContext().flagsService;
+
   constructor(private readonly changeModel: ChangeModel) {
     super({
       flows: [],
@@ -48,7 +51,11 @@ export class FlowsModel extends Model<FlowsState> {
       combineLatest([this.changeModel.changeNum$, this.reload$])
         .pipe(
           switchMap(([changeNum]) => {
-            if (!changeNum) return of([]);
+            if (
+              !changeNum ||
+              !this.flagService.isEnabled(KnownExperimentId.SHOW_FLOWS_TAB)
+            )
+              return of([]);
             this.setState({...this.getState(), loading: true});
             return from(this.restApiService.listFlows(changeNum)).pipe(
               catchError(err => {

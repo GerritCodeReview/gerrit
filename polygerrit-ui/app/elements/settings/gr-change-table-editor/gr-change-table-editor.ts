@@ -82,7 +82,7 @@ export class GrChangeTableEditor extends LitElement {
                 id="numberCheckbox"
                 name="number"
                 ?checked=${!!this.showNumber}
-                @click=${this.handleNumberCheckboxClick}
+                @change=${this.handleNumberCheckboxClick}
               ></md-checkbox>
             </td>
           </tr>
@@ -100,7 +100,7 @@ export class GrChangeTableEditor extends LitElement {
           id=${column}
           name=${column}
           ?checked=${!this.computeIsColumnHidden(column)}
-          @click=${this.handleTargetClick}
+          @change=${this.handleTargetClick}
         ></md-checkbox>
       </td>
     </tr>`;

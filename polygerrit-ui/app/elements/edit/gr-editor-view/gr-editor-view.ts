@@ -521,13 +521,20 @@ export class GrEditorView extends LitElement {
     const changeNum = this.viewState?.changeNum;
     assertIsDefined(changeNum, 'change number');
 
-    this.saveEdit().then(() => {
+    this.saveEdit().then(async () => {
       const handleError: ErrorCallback = response => {
         this.showAlert(PUBLISH_FAILED_MSG);
         this.reporting.error('/edit:publish', new Error(response?.statusText));
       };
 
       this.showAlert(PUBLISHING_EDIT_MSG);
+
+      if (!(await this.getPluginLoader().jsApiService.handleBeforePublishEdit(this.change as ChangeInfo)))
+        {
+          // The event handler should notify with a more specific
+          // message if it blocks publishing.
+          return;
+        };
 
       // restApiService return undefined if server response with non-200 error
       // code.

@@ -39,7 +39,7 @@ suite('gr-flows tests', () => {
   });
 
   test('renders create flow component and no flows', async () => {
-    flowsModel.setState({flows: [], loading: false});
+    flowsModel.setState({flows: [], loading: false, isEnabled: true});
     await element.updateComplete;
     assert.shadowDom.equal(
       element,
@@ -92,7 +92,7 @@ suite('gr-flows tests', () => {
         ],
       },
     ];
-    flowsModel.setState({flows, loading: false});
+    flowsModel.setState({flows, loading: false, isEnabled: true});
     await element.updateComplete;
 
     // prettier formats the spacing for "last evaluated" incorrectly
@@ -249,7 +249,7 @@ suite('gr-flows tests', () => {
       },
     ];
     const deleteFlowStub = sinon.stub(flowsModel, 'deleteFlow');
-    flowsModel.setState({flows, loading: false});
+    flowsModel.setState({flows, loading: false, isEnabled: true});
     await element.updateComplete;
 
     const deleteButton = queryAndAssert<GrButton>(element, '.flow gr-button');
@@ -285,7 +285,7 @@ suite('gr-flows tests', () => {
       },
     ];
     const deleteFlowStub = sinon.stub(flowsModel, 'deleteFlow');
-    flowsModel.setState({flows, loading: false});
+    flowsModel.setState({flows, loading: false, isEnabled: true});
     await element.updateComplete;
 
     const deleteButton = queryAndAssert<GrButton>(element, '.flow gr-button');
@@ -314,7 +314,7 @@ suite('gr-flows tests', () => {
       created: '2025-01-01T10:00:00.000Z' as Timestamp,
       stages: [],
     } as FlowInfo;
-    flowsModel.setState({flows: [flow], loading: false});
+    flowsModel.setState({flows: [flow], loading: false, isEnabled: true});
     await element.updateComplete;
 
     const reloadStub = flowsModel.reload as sinon.SinonStub;
@@ -376,7 +376,7 @@ suite('gr-flows tests', () => {
     ];
 
     setup(async () => {
-      flowsModel.setState({flows, loading: false});
+      flowsModel.setState({flows, loading: false, isEnabled: true});
       await element.updateComplete;
     });
 

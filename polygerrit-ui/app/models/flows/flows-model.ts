@@ -3,8 +3,8 @@
  * Copyright 2025 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {BehaviorSubject, combineLatest, from, of} from 'rxjs';
-import {catchError, map, switchMap} from 'rxjs/operators';
+import {BehaviorSubject, combineLatest, from, Observable, of} from 'rxjs';
+import {catchError, map, shareReplay, switchMap} from 'rxjs/operators';
 import {ChangeModel} from '../change/change-model';
 import {FlowInfo, FlowInput} from '../../api/rest-api';
 import {Model} from '../base/model';
@@ -12,9 +12,9 @@ import {define} from '../dependency';
 
 import {NumericChangeId} from '../../types/common';
 import {getAppContext} from '../../services/app-context';
-import {KnownExperimentId} from '../../services/flags/flags';
 
 export interface FlowsState {
+  isEnabled: boolean;
   flows: FlowInfo[];
   loading: boolean;
   errorMessage?: string;
@@ -27,19 +27,39 @@ export class FlowsModel extends Model<FlowsState> {
 
   readonly loading$ = this.state$.pipe(map(s => s.loading));
 
+  readonly enabled$: Observable<boolean>;
+
   private readonly reload$ = new BehaviorSubject<void>(undefined);
 
   private changeNum?: NumericChangeId;
 
   private readonly restApiService = getAppContext().restApiService;
 
-  private flagService = getAppContext().flagsService;
-
   constructor(private readonly changeModel: ChangeModel) {
     super({
+      isEnabled: false,
       flows: [],
       loading: true,
     });
+
+    this.enabled$ = this.changeModel.changeNum$.pipe(
+      switchMap(changeNum => {
+        if (!changeNum) {
+          return of(false);
+        }
+        return from(this.restApiService.getIfFlowsIsEnabled(changeNum)).pipe(
+          map(res => res?.enabled ?? false),
+          catchError(() => of(false))
+        );
+      }),
+      shareReplay(1)
+    );
+
+    this.subscriptions.push(
+      this.enabled$.subscribe(isEnabled => {
+        this.setState({...this.getState(), isEnabled});
+      })
+    );
 
     this.subscriptions.push(
       this.changeModel.changeNum$.subscribe(changeNum => {
@@ -48,14 +68,10 @@ export class FlowsModel extends Model<FlowsState> {
     );
 
     this.subscriptions.push(
-      combineLatest([this.changeModel.changeNum$, this.reload$])
+      combineLatest([this.changeModel.changeNum$, this.reload$, this.enabled$])
         .pipe(
-          switchMap(([changeNum]) => {
-            if (
-              !changeNum ||
-              !this.flagService.isEnabled(KnownExperimentId.SHOW_FLOWS_TAB)
-            )
-              return of([]);
+          switchMap(([changeNum, _, enabled]) => {
+            if (!changeNum || !enabled) return of([]);
             this.setState({...this.getState(), loading: true});
             return from(this.restApiService.listFlows(changeNum)).pipe(
               catchError(err => {
@@ -85,12 +101,14 @@ export class FlowsModel extends Model<FlowsState> {
 
   async deleteFlow(flowId: string) {
     if (!this.changeNum) return;
+    if (!this.getState().isEnabled) return;
     await this.restApiService.deleteFlow(this.changeNum, flowId);
     this.reload();
   }
 
   async createFlow(flowInput: FlowInput) {
     if (!this.changeNum) return;
+    if (!this.getState().isEnabled) return;
     await this.restApiService.createFlow(this.changeNum, flowInput);
     this.reload();
   }

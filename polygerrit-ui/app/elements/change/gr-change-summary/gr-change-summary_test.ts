@@ -228,6 +228,7 @@ suite('gr-change-summary test', () => {
           }),
         ],
         loading: false,
+        isEnabled: true,
       });
       await element.updateComplete;
       const flowsSummary = queryAndAssert(element, '.flowsSummary');

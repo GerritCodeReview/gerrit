@@ -333,19 +333,21 @@ suite('gr-editor-view tests', () => {
         assert.isFalse(element.saving);
 
         assert.equal(alertStub.getCall(1).args[0], 'All changes saved');
-        assert.equal(alertStub.getCall(2).args[0], 'Publishing edit...');
+        setTimeout(() => {
+          assert.equal(alertStub.getCall(2).args[0], 'Publishing edit...');
 
-        assert.isTrue(
-          query<GrButton>(element, '#save')!.hasAttribute('disabled')
-        );
-        assert.equal(element.content, element.newContent);
-        assert.isTrue(element.successfulSave);
-        assert.isFalse(navigateStub.called);
+          assert.isTrue(
+            query<GrButton>(element, '#save')!.hasAttribute('disabled')
+          );
+          assert.equal(element.content, element.newContent);
+          assert.isTrue(element.successfulSave);
+          assert.isFalse(navigateStub.called);
 
-        const args = changeActionsStub.lastCall.args;
-        assert.equal(args[0], 42 as NumericChangeId);
-        assert.equal(args[1], HttpMethod.POST);
-        assert.equal(args[2], '/edit:publish');
+          const args = changeActionsStub.lastCall.args;
+          assert.equal(args[0], 42 as NumericChangeId);
+          assert.equal(args[1], HttpMethod.POST);
+          assert.equal(args[2], '/edit:publish');
+        }, 0);
       });
     });
 

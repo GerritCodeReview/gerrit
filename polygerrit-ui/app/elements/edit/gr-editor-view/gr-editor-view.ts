@@ -443,7 +443,7 @@ export class GrEditorView extends LitElement {
   }
 
   // private but used in test
-  saveEdit() {
+  saveEdit(): Promise<Response> {
     const changeNum = this.viewState?.changeNum;
     const path = this.viewState?.editView?.path;
     assertIsDefined(changeNum, 'change number');
@@ -456,7 +456,7 @@ export class GrEditorView extends LitElement {
       return Promise.reject(new Error('new content undefined'));
     return this.restApiService
       .saveChangeEdit(changeNum, path, this.newContent)
-      .then(res => {
+      .then((res: Response): Response => {
         this.saving = false;
         this.showAlert(res.ok ? SAVED_MESSAGE : SAVE_FAILED_MSG);
         if (!res.ok) {

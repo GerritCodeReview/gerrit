@@ -963,7 +963,6 @@ export class GrComment extends LitElement {
     // fixed. Currently diff line doesn't match commit message line, because
     // of metadata in diff, which aren't in content api request.
     if (this.comment.path === SpecialFilePath.COMMIT_MESSAGE) return nothing;
-    if (this.isOwner) return nothing;
     return html`<gr-button
       link
       class="action suggestEdit"

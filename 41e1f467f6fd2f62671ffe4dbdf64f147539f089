@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3cc4e88b_ab3c00e8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-10-03T05:37:48Z",
+      "side": 1,
+      "message": "Since this seems to apply to 3.12+, can you cherry-pick this to that branch and then we\u0027ll merge it up?",
+      "revId": "41e1f467f6fd2f62671ffe4dbdf64f147539f089",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "16ef0417_f7b2c62b",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-10-03T05:37:48Z",
+      "side": 1,
+      "message": "This 1) is a broken link since it should go to `#Prerequisites` and 2) also mentions Java 17. Can you fix the link here and the content in `Documentation/install.txt`?\n```suggestion\nEnsure that the link:install.html#prerequisites[required Java version]\n```",
+      "revId": "41e1f467f6fd2f62671ffe4dbdf64f147539f089",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

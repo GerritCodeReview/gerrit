@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "97e8c2a4_d0d83354",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-10-03T20:15:55Z",
+      "side": 1,
+      "message": "Can you click Edit on the commit message and then click Format to get this formatted correctly please?",
+      "revId": "77d01203f31797239f8f14b5d298a417a8161eb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "81e8bb51_6c669475",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1073170
+      },
+      "writtenOn": "2025-10-03T00:29:08Z",
+      "side": 1,
+      "message": "Sorry, I\u0027m having trouble with the failing test.  It seems like `handleBeforePublishEdit` is returning false, which is weird?  Is there some default implementation I need to add?",
+      "revId": "d30628a3e09b3335305da0af1a7cbe82cdb930e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -143,6 +143,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2f254839_ebbde057",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-10-03T11:57:20Z",
+      "side": 1,
+      "message": "Maybe we can move such tests under a new top-level directory in the gerrit repo e.g. `scenariotests/` to make them more prominent?",
+      "parentUuid": "ebe51baf_60a84c22",
+      "revId": "0bc0647342dd592cc14df35d6081a6629569bba6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5ae34f5c_af0fdf1e",
         "filename": "contrib/multi-primary-docker-tests/docker-compose.yaml",
         "patchSetId": 4

@@ -13,7 +13,7 @@ import '../../shared/gr-vote-chip/gr-vote-chip';
 import '../../checks/gr-checks-chip-for-label';
 import {css, html, LitElement, nothing, TemplateResult} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
-import {ParsedChangeInfo} from '../../../types/types';
+import {LoadingStatus, ParsedChangeInfo} from '../../../types/types';
 import {repeat} from 'lit/directives/repeat.js';
 import {
   AccountInfo,
@@ -48,6 +48,8 @@ import {
 } from '../../checks/gr-checks-util';
 import {subscribe} from '../../lit/subscription-controller';
 import {when} from 'lit/directives/when.js';
+import {spinnerStyles} from '../../../styles/gr-spinner-styles';
+import {changeModelToken} from '../../../models/change/change-model';
 
 /**
  * @attr {Boolean} suppress-title - hide titles, currently for hovercard view
@@ -72,10 +74,14 @@ export class GrSubmitRequirements extends LitElement {
   @state()
   runs: CheckRun[] = [];
 
+  @state()
+  requirementsLoading?: boolean;
+
   static override get styles() {
     return [
       fontStyles,
       submitRequirementsStyles,
+      spinnerStyles,
       css`
         :host([suppress-title]) .metadata-title {
           display: none;
@@ -131,11 +137,21 @@ export class GrSubmitRequirements extends LitElement {
           /* .checksChip has top: 2px, this is canceling it */
           margin-top: -2px;
         }
+        /* The basics of .loadingSpin are defined in shared styles. */
+        .loadingSpin {
+          width: calc(var(--line-height-normal) * 0.7);
+          height: calc(var(--line-height-normal) * 0.7);
+          display: inline-block;
+          vertical-align: middle;
+          margin-left: calc(var(--spacing-s));
+        }
       `,
     ];
   }
 
   private readonly getChecksModel = resolve(this, checksModelToken);
+
+  private readonly getChangeModel = resolve(this, changeModelToken);
 
   constructor() {
     super();
@@ -143,6 +159,11 @@ export class GrSubmitRequirements extends LitElement {
       this,
       () => this.getChecksModel().allRunsLatestPatchsetLatestAttempt$,
       x => (this.runs = x)
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().submittabilityLoadingStatus$,
+      x => (this.requirementsLoading = x === LoadingStatus.LOADING)
     );
   }
 
@@ -162,7 +183,14 @@ export class GrSubmitRequirements extends LitElement {
         id="submit-requirements-caption"
       >
         Submit Requirements
-        ${submit_requirements.length === 0 ? '(Loading...)' : ''}
+        ${when(
+          this.requirementsLoading,
+          () =>
+            html`<span
+              class="loadingSpin"
+              title="Submit Requirements status is being updated"
+            ></span>`
+        )}
       </h3>
       ${when(
         submit_requirements.length !== 0,

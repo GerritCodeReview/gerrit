@@ -7617,6 +7617,9 @@ The `ChangeInput` entity contains information about creating a new change.
 |`branch`             ||
 The name of the target branch. +
 The `refs/heads/` prefix is omitted.
+|`full_branch`             ||
+The full name of the target branch. +
+Always starts with `refs/`.
 |`subject`            ||
 The commit message of the change. Comment lines (beginning with `#`)
 will be removed. If the commit message contains a Change-Id (as a

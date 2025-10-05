@@ -186,8 +186,8 @@ def declare_nongoogle_deps():
 
     maven_jar(
         name = "commons-io",
-        artifact = "commons-io:commons-io:2.18.0",
-        sha1 = "44084ef756763795b31c578403dd028ff4a22950",
+        artifact = "commons-io:commons-io:2.20.0",
+        sha1 = "36f3474daec2849c149e877614e7f979b2082cd2",
     )
 
     # Google internal dependencies: these are developed at Google, so there is

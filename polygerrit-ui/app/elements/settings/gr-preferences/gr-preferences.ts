@@ -135,10 +135,6 @@ export class GrPreferences extends LitElement {
           font-weight: var(--font-weight-h2);
           line-height: var(--line-height-h2);
         }
-        md-checkbox {
-          --md-checkbox-container-size: 15px;
-          --md-checkbox-icon-size: 15px;
-        }
       `,
     ];
   }

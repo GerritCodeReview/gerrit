@@ -119,6 +119,7 @@ public class ActionJson {
     ChangeInfo copy = new ChangeInfo();
     copy.project = changeInfo.project;
     copy.branch = changeInfo.branch;
+    copy.fullBranch = changeInfo.fullBranch;
     copy.topic = changeInfo.topic;
     copy.attentionSet =
         changeInfo.attentionSet == null ? null : ImmutableMap.copyOf(changeInfo.attentionSet);

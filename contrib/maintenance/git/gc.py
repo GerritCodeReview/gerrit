@@ -41,6 +41,9 @@ class Util:
 
 
 class GCStep(abc.ABC):
+    def __init__(self, git_config: GitConfigReader):
+        self.git_config = git_config
+
     @abc.abstractmethod
     def run(self, repo_dir):
         pass
@@ -62,7 +65,9 @@ class GCLockHandlingInitStep(GCStep):
 
 class PreservePacksInitStep(GCStep):
     def run(self, repo_dir):
-        with GitConfigReader(os.path.join(repo_dir, "config")) as config_reader:
+        with GitConfigReader(
+            os.path.join(repo_dir, "config"), self.git_config
+        ) as config_reader:
             is_prune_preserved = config_reader.get("gc", None, "prunepreserved", False)
             is_preserve_old_packs = config_reader.get(
                 "gc", None, "preserveoldpacks", False
@@ -119,14 +124,11 @@ class PreservePacksInitStep(GCStep):
         return f"{filename}.old-{ext[1:]}"
 
 
-DEFAULT_INIT_STEPS = [GCLockHandlingInitStep(), PreservePacksInitStep()]
-
-
 class DeleteEmptyRefDirsCleanupStep(GCStep):
     def run(self, repo_dir):
         refs_path = os.path.join(repo_dir, "refs")
         self.to_delete = {}
-        for dir, dirnames, filenames in os.walk(refs_path, topdown=False):
+        for dir, _, _ in os.walk(refs_path, topdown=False):
             relative = os.path.relpath(dir, refs_path)
             depth = len(relative.split(os.sep))
             if (
@@ -148,7 +150,7 @@ class DeleteEmptyRefDirsCleanupStep(GCStep):
     def rmdir(self, dir):
         try:
             os.rmdir(dir)
-        except (FileNotFoundError, OSError) as e:
+        except OSError as e:
             LOG.warning("Couldn't delete %s: %s", dir, e)
 
 
@@ -180,20 +182,20 @@ class PackAllRefsAfterStep(GCStep):
             )
 
 
-DEFAULT_AFTER_STEPS = [
-    DeleteEmptyRefDirsCleanupStep(),
-    DeleteStaleIncomingPacksCleanupStep(),
-]
-
-
 class GitGarbageCollectionProvider:
     @staticmethod
     def get(pack_refs=True, git_config=None):
-        init_steps = DEFAULT_INIT_STEPS.copy()
-        after_steps = DEFAULT_AFTER_STEPS.copy()
+        init_steps = [
+            GCLockHandlingInitStep(git_config),
+            PreservePacksInitStep(git_config),
+        ]
+        after_steps = [
+            DeleteEmptyRefDirsCleanupStep(git_config),
+            DeleteStaleIncomingPacksCleanupStep(git_config),
+        ]
 
         if pack_refs:
-            after_steps.append(PackAllRefsAfterStep())
+            after_steps.append(PackAllRefsAfterStep(git_config))
 
         return GitGarbageCollection(init_steps, after_steps, git_config)
 

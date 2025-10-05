@@ -2383,10 +2383,12 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       'DETAILED_ACCOUNTS',
       'MESSAGES',
       'REVIEWER_UPDATES',
-      'SUBMITTABLE',
       'SKIP_DIFFSTAT',
-      'SUBMIT_REQUIREMENTS',
     ];
+    if (!this.flags.isEnabled(KnownExperimentId.ASYNC_SUBMIT_REQUIREMENTS)) {
+      options.push('SUBMITTABLE');
+      options.push('SUBMIT_REQUIREMENTS');
+    }
     return options;
   }
 
@@ -3541,10 +3543,15 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
         )
       ) as Promise<ChangeInfo | undefined>;
     } else {
+      const params: FetchParams = {q: `change:${changeNum}`};
+      if (optionsHex) {
+        params['O'] = optionsHex;
+      }
       return this._restApiHelper
         .fetchJSON(
           {
-            url: `/changes/?q=change:${changeNum}`,
+            url: '/changes/',
+            params,
             errFn,
             anonymizedUrl: '/changes/?q=change:*',
           },

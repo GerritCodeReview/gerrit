@@ -33,7 +33,7 @@ class Site:
     def get_base_path(self):
         if not self.base_path:
             with GitConfigReader(
-                os.path.join(self.get_etc_path(), "gerrit.config")
+                os.path.join(self.get_etc_path(), "gerrit.config"), []
             ) as cfg:
                 config_base_path = cfg.get("gerrit", None, "basePath", "git")
                 if os.path.isabs(config_base_path):

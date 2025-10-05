@@ -141,6 +141,23 @@
       "parentUuid": "c8a54ae0_65245c67",
       "revId": "e8654b389909257a537e715036277203bf0a0da8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "532909b4_eaf5fd7b",
+        "filename": "polygerrit-ui/app/embed/gr-textarea.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 463,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-10-05T19:27:08Z",
+      "side": 1,
+      "message": "Is there any reason why event.target.innerText isn\u0027t used here? Why the need to use getValue()?",
+      "revId": "e8654b389909257a537e715036277203bf0a0da8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

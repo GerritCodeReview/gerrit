@@ -4,7 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {css, html, LitElement} from 'lit';
-import {customElement, property, query, queryAsync} from 'lit/decorators.js';
+import {
+  customElement,
+  property,
+  query,
+  queryAsync,
+  state,
+} from 'lit/decorators.js';
 import {classMap} from 'lit/directives/class-map.js';
 import {ifDefined} from 'lit/directives/if-defined.js';
 import {
@@ -168,6 +174,7 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
     return this.editableDivElement?.scrollTop ?? 0;
   }
 
+  @state()
   private innerValue: string | undefined;
 
   private innerHint: string | undefined;
@@ -214,7 +221,7 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
             outline: none;
           }
 
-          &:empty::before {
+          &[data-empty='true']::before {
             content: attr(data-placeholder);
             color: var(--text-secondary, lightgrey);
             display: inline;
@@ -271,6 +278,7 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
       aria-multiline="true"
       aria-placeholder=${ifDefined(ariaPlaceholder)}
       data-placeholder=${ifDefined(placeholder)}
+      data-empty=${this.innerValue === ''}
       class=${classes}
       contenteditable=${this.contentEditableAttributeValue}
       dir="ltr"
@@ -659,42 +667,14 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
   private async getValue() {
     const editableDivElement = await this.editableDiv;
     if (editableDivElement) {
-      const [output] = this.parseText(editableDivElement, false, true);
-      return output;
+      // When you delete all text, it leaves a \n (or maybe \r\n?).
+      // Fix this by making it return a empty string.
+      if (/^\r?\n$/.test(editableDivElement.innerText)) {
+        return '';
+      }
+      return editableDivElement.innerText;
     }
     return '';
-  }
-
-  private parseText(
-    node: Node,
-    isLastBr: boolean,
-    isFirst: boolean
-  ): [string, boolean] {
-    let textValue = '';
-    let output = '';
-    if (node.nodeName === 'BR') {
-      return ['\n', true];
-    }
-
-    if (node.nodeType === Node.TEXT_NODE && node.textContent) {
-      return [node.textContent, false];
-    }
-
-    if (node.nodeName === 'DIV' && !isLastBr && !isFirst) {
-      textValue = '\n';
-    }
-
-    isLastBr = false;
-
-    for (let i = 0; i < node.childNodes?.length; i++) {
-      [output, isLastBr] = this.parseText(
-        node.childNodes[i],
-        isLastBr,
-        i === 0
-      );
-      textValue += output;
-    }
-    return [textValue, isLastBr];
   }
 
   public getCursorPosition() {

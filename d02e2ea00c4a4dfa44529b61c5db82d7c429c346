@@ -16,6 +16,24 @@
       "message": "CI is failing",
       "revId": "d02e2ea00c4a4dfa44529b61c5db82d7c429c346",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "90a5aa93_0a4a97c9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-10-06T21:26:41Z",
+      "side": 1,
+      "message": "CI has been fixed now.",
+      "parentUuid": "b4ece895_24c31e9a",
+      "revId": "d02e2ea00c4a4dfa44529b61c5db82d7c429c346",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

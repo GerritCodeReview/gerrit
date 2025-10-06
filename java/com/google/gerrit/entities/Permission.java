@@ -27,6 +27,7 @@ import java.util.Locale;
 import java.util.function.Consumer;
 
 /** A single permission within an {@link AccessSection} of a project. */
+
 @AutoValue
 public abstract class Permission implements Comparable<Permission> {
   public static final String ABANDON = "abandon";

@@ -22,6 +22,30 @@
       },
       "revId": "a0b1e86718ed98ff09d471f7e990cf4c2c0e8230",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9533749e_93acbfe2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-10-06T13:06:18Z",
+      "side": 1,
+      "message": "I think i did this because it says it is deprecated `The signature \u0027(element: HTMLElement, shortcut: Binding, listener: (e: KeyboardEvent) \u003d\u003e void, options?: ShortcutOptions | undefined): () \u003d\u003e void\u0027 of \u0027addShortcut\u0027 is deprecated.ts(6387)\n`",
+      "parentUuid": "29355ca5_13091757",
+      "range": {
+        "startLine": 239,
+        "startChar": 1,
+        "endLine": 240,
+        "endChar": 66
+      },
+      "revId": "a0b1e86718ed98ff09d471f7e990cf4c2c0e8230",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

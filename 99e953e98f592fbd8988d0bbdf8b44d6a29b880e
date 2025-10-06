@@ -22,6 +22,30 @@
       },
       "revId": "99e953e98f592fbd8988d0bbdf8b44d6a29b880e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e08976d_46ef1a6a",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1563,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-10-06T14:08:25Z",
+      "side": 1,
+      "message": "It\u0027s harder. That is part of the gr-rest-api-helper logic. We have unit tests testing there that params get attached correctly.\n\nI can write the test here, but then you have to construct a mock object for JS Response, which is more boilerplate.\n\nSince the params to final url part is already tested in gr-rest-api-helper_test.ts. I think keeping the gr-rest-api-impl_test simpler is better",
+      "parentUuid": "595718cb_d95e3531",
+      "range": {
+        "startLine": 1563,
+        "startChar": 6,
+        "endLine": 1563,
+        "endChar": 53
+      },
+      "revId": "99e953e98f592fbd8988d0bbdf8b44d6a29b880e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

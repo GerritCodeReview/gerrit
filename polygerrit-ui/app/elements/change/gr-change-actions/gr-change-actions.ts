@@ -54,6 +54,7 @@ import {
   RequestPayload,
   RevertSubmissionInfo,
   ReviewInput,
+  RevisionInfo,
 } from '../../../types/common';
 import {GrConfirmAbandonDialog} from '../gr-confirm-abandon-dialog/gr-confirm-abandon-dialog';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
@@ -1361,7 +1362,10 @@ export class GrChangeActions
   }
 
   // private but used in test
-  getRevision(change: ChangeInfo, patchNum?: PatchSetNumber) {
+  getRevision(
+    change: ChangeInfo,
+    patchNum?: PatchSetNumber
+  ): RevisionInfo | null {
     for (const rev of Object.values(change.revisions ?? {})) {
       if (rev._number === patchNum) {
         return rev;

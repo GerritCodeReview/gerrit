@@ -102,6 +102,7 @@ export interface ChangeState {
    * Corresponding values in `change` are always kept in sync.
    */
   submittabilityInfo?: SubmittabilityInfo;
+  submittabilityLoadingStatus: LoadingStatus;
   /**
    * The list of reviewed files, kept in the model because we want changes made
    * in one view to reflect on other views without re-rendering the other views.
@@ -338,6 +339,7 @@ function computeBase(
 // Use DeepReadOnly?
 const initialState: ChangeState = {
   loadingStatus: LoadingStatus.NOT_LOADED,
+  submittabilityLoadingStatus: LoadingStatus.NOT_LOADED,
 };
 
 export const changeModelToken = define<ChangeModel>('change-model');
@@ -371,6 +373,11 @@ export class ChangeModel extends Model<ChangeState> {
   public readonly submittabilityInfo$ = select(
     this.state$,
     changeState => changeState.submittabilityInfo
+  );
+
+  public readonly submittabilityLoadingStatus$ = select(
+    this.state$,
+    changeState => changeState.submittabilityLoadingStatus
   );
 
   public readonly submittable$ = select(
@@ -827,8 +834,14 @@ export class ChangeModel extends Model<ChangeState> {
           if (!changeNum) {
             // On change reload changeNum is set to undefined to reset change
             // state. We propagate undefined and reset the state in this case.
+            this.updateState({
+              submittabilityLoadingStatus: LoadingStatus.NOT_LOADED,
+            });
             return of(undefined);
           }
+          this.updateState({
+            submittabilityLoadingStatus: LoadingStatus.LOADING,
+          });
           return from(this.restApiService.getSubmittabilityInfo(changeNum));
         })
       )
@@ -849,6 +862,9 @@ export class ChangeModel extends Model<ChangeState> {
         this.updateState({
           change,
           submittabilityInfo,
+          submittabilityLoadingStatus: submittabilityInfo
+            ? LoadingStatus.LOADED
+            : LoadingStatus.NOT_LOADED,
         });
       });
   }

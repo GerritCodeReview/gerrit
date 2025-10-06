@@ -1517,6 +1517,57 @@ suite('gr-rest-api-service-impl tests', () => {
     });
   });
 
+  suite('getChange', () => {
+    const changeNum = 555 as NumericChangeId;
+    const repo = 'test-repo' as RepoName;
+
+    test('getChange with known project', async () => {
+      element._projectLookup[changeNum] = Promise.resolve(repo);
+      const promise = mockPromise<ParsedJSON>();
+      const stub = sinon
+        .stub(element._restApiHelper, 'fetchJSON')
+        .returns(promise);
+
+      const change = element.getChange(
+        changeNum,
+        undefined,
+        listChangesOptionsToHex(ListChangesOption.DETAILED_ACCOUNTS)
+      );
+      promise.resolve({...createChange()} as unknown as ParsedJSON);
+
+      await change;
+
+      assert.isTrue(stub.called);
+      assert.equal(stub.args[0][0].url, '/changes/test-repo~555');
+      assert.deepEqual(stub.args[0][0].params, {
+        O: listChangesOptionsToHex(ListChangesOption.DETAILED_ACCOUNTS),
+      });
+    });
+
+    test('getChange with unknown projecgt', async () => {
+      const promise = mockPromise<ParsedJSON>();
+      const stub = sinon
+        .stub(element._restApiHelper, 'fetchJSON')
+        .returns(promise);
+
+      const change = element.getChange(
+        changeNum,
+        undefined,
+        listChangesOptionsToHex(ListChangesOption.DETAILED_ACCOUNTS)
+      );
+      promise.resolve({...createChange()} as unknown as ParsedJSON);
+
+      await change;
+
+      assert.isTrue(stub.called);
+      assert.equal(stub.args[0][0].url, '/changes/');
+      assert.deepEqual(stub.args[0][0].params, {
+        O: listChangesOptionsToHex(ListChangesOption.DETAILED_ACCOUNTS),
+        q: 'change:555',
+      });
+    });
+  });
+
   suite('getChanges populates _projectLookup', () => {
     test('multiple queries', async () => {
       sinon.stub(element._restApiHelper, 'fetchJSON').resolves([

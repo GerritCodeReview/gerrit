@@ -15,6 +15,7 @@ import {
   createConfig,
   createParsedChange,
   createServerInfo,
+  createSubmitRequirementResultInfo,
 } from '../../../test/test-data-generators';
 import {testResolver} from '../../../test/common-test-setup';
 import {userModelToken} from '../../../models/user/user-model';
@@ -46,7 +47,10 @@ suite('gr-change-metadata screenshot tests', () => {
       repoConfig: createConfig(),
     });
     changeModel.setState({
-      change: createParsedChange(),
+      change: {
+        ...createParsedChange(),
+        submit_requirements: [createSubmitRequirementResultInfo()],
+      },
       loadingStatus: LoadingStatus.LOADED,
     });
     userModel.setState({
@@ -60,11 +64,10 @@ suite('gr-change-metadata screenshot tests', () => {
     await element.updateComplete;
   });
 
-  // TODO(b/447590232): Fix test flakiness and re-enable
-  // test('normal view', async () => {
-  //   await visualDiff(element, 'gr-change-metadata');
-  //   await visualDiffDarkTheme(element, 'gr-change-metadata-dark');
-  // });
+  test('normal view', async () => {
+    await visualDiff(element, 'gr-change-metadata');
+    await visualDiffDarkTheme(element, 'gr-change-metadata-dark');
+  });
 
   test('show all sections with more data', async () => {
     const changeModel = testResolver(changeModelToken);

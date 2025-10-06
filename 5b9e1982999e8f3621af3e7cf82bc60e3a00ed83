@@ -22,6 +22,30 @@
       },
       "revId": "5b9e1982999e8f3621af3e7cf82bc60e3a00ed83",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "728c4228_dbb91146",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirements/gr-submit-requirements.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-10-06T13:36:27Z",
+      "side": 1,
+      "message": "Default ends up looking too large. This seemed better. Other usecase that I found were also providing height and width.",
+      "parentUuid": "6c5d3c7b_f93f4e38",
+      "range": {
+        "startLine": 138,
+        "startChar": 0,
+        "endLine": 140,
+        "endChar": 0
+      },
+      "revId": "5b9e1982999e8f3621af3e7cf82bc60e3a00ed83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

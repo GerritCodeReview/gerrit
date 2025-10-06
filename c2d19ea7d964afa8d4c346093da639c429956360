@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4ab2798a_ddd2e0bb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-10-06T13:47:13Z",
+      "side": 1,
+      "message": "Oh, https://github.com/GerritCodeReview/gerrit/blob/62aa790f35c8f94c6e6466e435bdd1295834ab67/polygerrit-ui/app/elements/lit/shortcut-controller.ts#L86 sets it to false\n\nSo this wouldn\u0027t fix it then?",
+      "revId": "c2d19ea7d964afa8d4c346093da639c429956360",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

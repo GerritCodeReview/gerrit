@@ -34,6 +34,24 @@
       "parentUuid": "81e8bb51_6c669475",
       "revId": "d30628a3e09b3335305da0af1a7cbe82cdb930e3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f0804b3f_788e7cc7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-10-06T09:45:32Z",
+      "side": 1,
+      "message": "imo, Using setTimeout as \"wait until event queue is empty\" is valid. There are shorter version you can write, if you don\u0027t like a big setTimeout wrap, though\n\n```\nawait new Promise(resolve \u003d\u003e setTimeout(resolve, 0));\n```\n\nIf you want to try and be more explicit. I think you should be able to stub, handlePublishTap so that it does the call, but also gives you access to resulting Promise as an output. And then you can await that promise in the test",
+      "parentUuid": "e249a4ae_bc1ab41e",
+      "revId": "d30628a3e09b3335305da0af1a7cbe82cdb930e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

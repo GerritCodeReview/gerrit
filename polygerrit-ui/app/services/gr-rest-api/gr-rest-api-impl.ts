@@ -1517,11 +1517,17 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     ) {
       return undefined;
     }
-    return {
+    let result = {
       changeNum,
       submittable: change.submittable,
       submitRequirements: change.submit_requirements,
     };
+    return new Promise(resolve => setTimeout(() => resolve(result), 10000));
+    // return {
+    //   changeNum,
+    //   submittable: change.submittable,
+    //   submitRequirements: change.submit_requirements,
+    // };
   }
 
   async getChangeCommitInfo(
@@ -2383,10 +2389,12 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       'DETAILED_ACCOUNTS',
       'MESSAGES',
       'REVIEWER_UPDATES',
-      'SUBMITTABLE',
       'SKIP_DIFFSTAT',
-      'SUBMIT_REQUIREMENTS',
     ];
+    if (!this.flags.isEnabled(KnownExperimentId.ASYNC_SUBMIT_REQUIREMENTS)) {
+      options.push('SUBMITTABLE',);
+      options.push('SUBMIT_REQUIREMENTS',);
+    }
     return options;
   }
 

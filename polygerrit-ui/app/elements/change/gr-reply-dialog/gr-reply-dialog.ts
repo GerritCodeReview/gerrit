@@ -1615,6 +1615,10 @@ export class GrReplyDialog extends LitElement {
         );
         if (reloadRequired) {
           fireReload(this);
+        } else {
+          // Only reload submittability if the full reload is not triggered, to
+          // avoid duplicate requests.
+          this.getChangeModel().reloadSubmittability();
         }
 
         this.patchsetLevelDraftMessage = '';

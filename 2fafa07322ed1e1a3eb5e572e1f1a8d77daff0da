@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fc9f7e08_01a361dd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-10-06T12:58:04Z",
+      "side": 1,
+      "message": "I am getting exception for using imgur on my workstation. So in the meantime, only internal screenshots:\n\nhttps://screenshot.googleplex.com/8Nz88vwbEF4gK4p\nhttps://screenshot.googleplex.com/4LLbEVwu48j297T",
+      "revId": "2fafa07322ed1e1a3eb5e572e1f1a8d77daff0da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

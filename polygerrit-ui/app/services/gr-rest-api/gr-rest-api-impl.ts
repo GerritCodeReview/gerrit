@@ -2383,10 +2383,12 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       'DETAILED_ACCOUNTS',
       'MESSAGES',
       'REVIEWER_UPDATES',
-      'SUBMITTABLE',
       'SKIP_DIFFSTAT',
-      'SUBMIT_REQUIREMENTS',
     ];
+    if (!this.flags.isEnabled(KnownExperimentId.ASYNC_SUBMIT_REQUIREMENTS)) {
+      options.push('SUBMITTABLE');
+      options.push('SUBMIT_REQUIREMENTS');
+    }
     return options;
   }
 

@@ -118,6 +118,30 @@
       },
       "revId": "a0b1e86718ed98ff09d471f7e990cf4c2c0e8230",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b6eb2268_4292f476",
+        "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-10-06T14:03:54Z",
+      "side": 1,
+      "message": "I\u0027m not sure how to fix it as 1. i\u0027m going in blind and 2. addShortcut is deprecated, so you could revert back but it\u0027ll be deprecated and i\u0027m not seeing much difference between the new addLocal and addShortcut. Apart from things are checking for event.repeat (you can surpress it by setting allowRepeat, but i\u0027m not sure that\u0027s the issue here).",
+      "parentUuid": "93f069eb_72a73eb2",
+      "range": {
+        "startLine": 239,
+        "startChar": 1,
+        "endLine": 240,
+        "endChar": 66
+      },
+      "revId": "a0b1e86718ed98ff09d471f7e990cf4c2c0e8230",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

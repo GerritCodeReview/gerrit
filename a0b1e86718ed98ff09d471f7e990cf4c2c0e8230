@@ -1,5 +1,29 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "29355ca5_13091757",
+        "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-10-06T12:53:18Z",
+      "side": 1,
+      "message": "Why this change? Do you remember?\n\nUsing the shortcut controller outside of \u003cgr-app\u003e causes exceptions. And some plugins do that. We are seeing such exceptions in Google Gerrit internally, e.g. on Android. Can we go back to using `addShortcut()`?",
+      "range": {
+        "startLine": 239,
+        "startChar": 1,
+        "endLine": 240,
+        "endChar": 66
+      },
+      "revId": "a0b1e86718ed98ff09d471f7e990cf4c2c0e8230",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

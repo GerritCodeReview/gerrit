@@ -727,7 +727,7 @@ suite('gr-change-view tests', () => {
       change.labels = {};
       element.change = change;
 
-      changeModel.setState({
+      changeModel.updateState({
         loadingStatus: LoadingStatus.LOADED,
         change,
       });
@@ -1424,7 +1424,7 @@ suite('gr-change-view tests', () => {
         changeNum: TEST_NUMERIC_CHANGE_ID,
         repo: TEST_PROJECT_NAME,
       };
-      changeModel.setState({
+      changeModel.updateState({
         loadingStatus: LoadingStatus.LOADED,
         change: {
           ...createChangeViewChange(),

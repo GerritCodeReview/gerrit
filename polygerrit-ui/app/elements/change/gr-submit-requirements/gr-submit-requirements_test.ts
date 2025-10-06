@@ -72,6 +72,7 @@ suite('gr-submit-requirements tests', () => {
         submittable: false,
       },
       loadingStatus: LoadingStatus.LOADED,
+      submittabilityLoadingStatus: LoadingStatus.LOADED,
     });
     element = await fixture<GrSubmitRequirements>(
       html`<gr-submit-requirements
@@ -134,6 +135,32 @@ suite('gr-submit-requirements tests', () => {
         </table>
         <gr-submit-requirement-hovercard for="requirement-0-Verified">
         </gr-submit-requirement-hovercard>
+      `
+    );
+  });
+
+  test('renders loading', async () => {
+    element.requirementsLoading = true;
+    element.change = {
+      ...element.change,
+      submit_requirements: undefined,
+    } as ParsedChangeInfo;
+    await element.updateComplete;
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `
+        <h3 class="heading-3 metadata-title" id="submit-requirements-caption">
+          Submit Requirements
+          <span
+            class="loadingSpin"
+            title="Submit Requirements status is being updated"
+          >
+          </span>
+        </h3>
+        <h3 class="heading-3 metadata-title">Label Votes</h3>
+        <section class="trigger-votes">
+          <gr-trigger-vote> </gr-trigger-vote>
+        </section>
       `
     );
   });

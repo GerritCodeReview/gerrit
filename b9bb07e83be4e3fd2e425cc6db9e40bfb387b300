@@ -16,6 +16,24 @@
       "message": "Needs a release notes footer\n\n```suggestion\nRelease-Notes: Allow Change Owners to suggest edits in comments\nChange-Id: I095c2d4b6168ccadce92983509678672ba65f8ba\n```",
       "revId": "b9bb07e83be4e3fd2e425cc6db9e40bfb387b300",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "185d1c24_c92d6551",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1071857
+      },
+      "writtenOn": "2025-10-06T08:45:11Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "a13fc9e7_e025a7ad",
+      "revId": "b9bb07e83be4e3fd2e425cc6db9e40bfb387b300",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

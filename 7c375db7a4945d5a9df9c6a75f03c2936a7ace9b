@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e3bcde7c_4378f941",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-10-06T21:29:37Z",
+      "side": 1,
+      "message": "(Unrelated to this change, but shouldn’t the Gerrit api npm package have its version bumped as well?)",
+      "revId": "7c375db7a4945d5a9df9c6a75f03c2936a7ace9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

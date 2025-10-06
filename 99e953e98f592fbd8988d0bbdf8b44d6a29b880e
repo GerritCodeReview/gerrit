@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "595718cb_d95e3531",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1563,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-10-06T13:58:36Z",
+      "side": 1,
+      "message": "why is the url only `/changes/`\n\nCan you assert the full URL that is generated?",
+      "range": {
+        "startLine": 1563,
+        "startChar": 6,
+        "endLine": 1563,
+        "endChar": 53
+      },
+      "revId": "99e953e98f592fbd8988d0bbdf8b44d6a29b880e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

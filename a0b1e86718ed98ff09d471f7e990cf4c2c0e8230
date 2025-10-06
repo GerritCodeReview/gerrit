@@ -94,6 +94,30 @@
       },
       "revId": "a0b1e86718ed98ff09d471f7e990cf4c2c0e8230",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "93f069eb_72a73eb2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-10-06T13:48:09Z",
+      "side": 1,
+      "message": "Oh, https://github.com/GerritCodeReview/gerrit/blob/62aa790f35c8f94c6e6466e435bdd1295834ab67/polygerrit-ui/app/elements/lit/shortcut-controller.ts#L86 sets it to false\n\nSo that change wouldn\u0027t fix it.",
+      "parentUuid": "ff9be4fd_753e9c77",
+      "range": {
+        "startLine": 239,
+        "startChar": 1,
+        "endLine": 240,
+        "endChar": 66
+      },
+      "revId": "a0b1e86718ed98ff09d471f7e990cf4c2c0e8230",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

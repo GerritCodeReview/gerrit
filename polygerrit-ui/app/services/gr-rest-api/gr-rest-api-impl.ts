@@ -3317,7 +3317,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
 
   getChange(
     changeNum: ChangeId | NumericChangeId,
-    errFn: ErrorCallback,
+    errFn?: ErrorCallback,
     optionsHex?: string
   ): Promise<ChangeInfo | undefined> {
     if (changeNum in this._projectLookup) {

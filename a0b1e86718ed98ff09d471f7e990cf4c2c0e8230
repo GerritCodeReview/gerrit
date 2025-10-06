@@ -46,6 +46,30 @@
       },
       "revId": "a0b1e86718ed98ff09d471f7e990cf4c2c0e8230",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "42dbde19_957540b6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-10-06T13:34:06Z",
+      "side": 1,
+      "message": "Does setting the option for shouldSuppress to false fix it for you? (it\u0027s false in addShortcut but true in addLocal) https://github.com/GerritCodeReview/gerrit/blob/master/polygerrit-ui/app/services/shortcuts/shortcuts-service.ts#L154",
+      "parentUuid": "9533749e_93acbfe2",
+      "range": {
+        "startLine": 239,
+        "startChar": 1,
+        "endLine": 240,
+        "endChar": 66
+      },
+      "revId": "a0b1e86718ed98ff09d471f7e990cf4c2c0e8230",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

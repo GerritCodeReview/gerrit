@@ -48,6 +48,7 @@ import {
 } from '../../checks/gr-checks-util';
 import {subscribe} from '../../lit/subscription-controller';
 import {when} from 'lit/directives/when.js';
+import {spinnerStyles} from '../../../styles/gr-spinner-styles';
 
 /**
  * @attr {Boolean} suppress-title - hide titles, currently for hovercard view
@@ -76,6 +77,7 @@ export class GrSubmitRequirements extends LitElement {
     return [
       fontStyles,
       submitRequirementsStyles,
+      spinnerStyles,
       css`
         :host([suppress-title]) .metadata-title {
           display: none;
@@ -131,6 +133,14 @@ export class GrSubmitRequirements extends LitElement {
           /* .checksChip has top: 2px, this is canceling it */
           margin-top: -2px;
         }
+        /* The basics of .loadingSpin are defined in shared styles. */
+        .loadingSpin {
+          width: calc(var(--line-height-normal) * 0.7);
+          height: calc(var(--line-height-normal) * 0.7);
+          display: inline-block;
+          vertical-align: middle;
+          margin-left: calc(var(--spacing-s));
+        }
       `,
     ];
   }
@@ -162,7 +172,14 @@ export class GrSubmitRequirements extends LitElement {
         id="submit-requirements-caption"
       >
         Submit Requirements
-        ${submit_requirements.length === 0 ? '(Loading...)' : ''}
+        ${when(
+          submit_requirements.length === 0,
+          () =>
+            html`<span
+              class="loadingSpin"
+              title="Submit Requirements status is being updated"
+            ></span>`
+        )}
       </h3>
       ${when(
         submit_requirements.length !== 0,

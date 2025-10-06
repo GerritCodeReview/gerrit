@@ -2,6 +2,8 @@
  * @license
  * Copyright 2016 Google LLC
  * SPDX-License-Identifier: Apache-2.0
+ *
+ * a change
  */
 import '../gr-icon/gr-icon';
 import {spinnerStyles} from '../../../styles/gr-spinner-styles';

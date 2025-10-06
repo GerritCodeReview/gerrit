@@ -253,8 +253,12 @@ export class GrButton extends LitElement {
     super();
     this.initialTabindex = this.getAttribute('tabindex') || '0';
     this.addEventListener('click', e => this.handleAction(e));
-    this.shortcuts.addLocal({key: Key.ENTER}, () => this.click());
-    this.shortcuts.addLocal({key: Key.SPACE}, () => this.click());
+    this.shortcuts.addLocal({key: Key.ENTER}, () => this.click(), {
+      shouldSuppress: false,
+    });
+    this.shortcuts.addLocal({key: Key.SPACE}, () => this.click(), {
+      shouldSuppress: false,
+    });
   }
 
   override updated(changedProperties: PropertyValues) {

@@ -1024,11 +1024,14 @@ public class ChangeJson {
       for (Account.Id id : removable) {
         result.add(accountLoader.get(id));
       }
-      // Reviewers added by email are always removable
+      // Reviewers added by email
       for (Collection<AccountInfo> infos : out.reviewers.values()) {
         for (AccountInfo info : infos) {
           if (info._accountId == null) {
-            result.add(info);
+            if (canRemoveAnyReviewer
+                || removeReviewerControl.testRemoveReviewer(cd, userProvider.get(), null, 0)) {
+              result.add(info);
+            }
           }
         }
       }

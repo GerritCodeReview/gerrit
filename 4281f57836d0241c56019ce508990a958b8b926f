@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cf99f78c_3f7a8b9f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-10-07T10:11:43Z",
+      "side": 1,
+      "message": "I think the intention of not using strong types is to be able to keep the migration when dropping the obsolete code after the migration is done.",
+      "range": {
+        "startLine": 9,
+        "startChar": 31,
+        "endLine": 9,
+        "endChar": 50
+      },
+      "revId": "4281f57836d0241c56019ce508990a958b8b926f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0032c871_0b312290",
+        "filename": "java/com/google/gerrit/server/schema/MigrateLabelFunctionsToSubmitRequirement.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-10-07T10:11:43Z",
+      "side": 1,
+      "message": "Using these enums here will prevent us from dropping them from code once the migration is done, while still keeping the migration code for some time, wouldn\u0027t it? I think that\u0027s the reason why the migration code is using strings.",
+      "range": {
+        "startLine": 259,
+        "startChar": 11,
+        "endLine": 259,
+        "endChar": 25
+      },
+      "revId": "4281f57836d0241c56019ce508990a958b8b926f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -22,6 +22,100 @@
       },
       "revId": "ed38fa40f07dd3764a649a133119b6e2ce92bb88",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b4f606d2_70163600",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-10-07T11:22:03Z",
+      "side": 1,
+      "message": "rename to link",
+      "range": {
+        "startLine": 6,
+        "startChar": 19,
+        "endLine": 6,
+        "endChar": 24
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "2b812857_95d0e43d",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+              "range": {
+                "startLine": 6,
+                "startChar": 0,
+                "endLine": 7,
+                "endChar": 0
+              },
+              "replacement": "import \u0027../gr-copy-link/gr-copy-link\u0027;\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+              "range": {
+                "startLine": 133,
+                "startChar": 0,
+                "endLine": 134,
+                "endChar": 0
+              },
+              "replacement": "import {CopyLink, GrCopyLink} from \u0027../gr-copy-link/gr-copy-link\u0027;\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+              "range": {
+                "startLine": 218,
+                "startChar": 0,
+                "endLine": 219,
+                "endChar": 0
+              },
+              "replacement": "  @query(\u0027gr-copy-link\u0027) private copyLinksDropdown?: GrCopyLink;\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+              "range": {
+                "startLine": 1260,
+                "startChar": 0,
+                "endLine": 1262,
+                "endChar": 0
+              },
+              "replacement": "    return html`\u003cgr-copy-link .copyLinks\u003d${links} .shortcutPrefix\u003d${\u0027l -\u0027}\u003e\n    \u003c/gr-copy-link\u003e`;\n"
+            }
+          ]
+        }
+      ],
+      "revId": "ed38fa40f07dd3764a649a133119b6e2ce92bb88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ed7d0f9f_9f3df954",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-10-07T11:22:03Z",
+      "side": 1,
+      "message": "some",
+      "range": {
+        "startLine": 8,
+        "startChar": 17,
+        "endLine": 8,
+        "endChar": 23
+      },
+      "revId": "ed38fa40f07dd3764a649a133119b6e2ce92bb88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

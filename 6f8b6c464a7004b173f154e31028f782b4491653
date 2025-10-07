@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "01cc24e2_cdcbf6be",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-10-07T11:51:27Z",
+      "side": 1,
+      "message": "On MacOS the following tests fail (and they already fail on current master):\n\nFAILED tests/git/test_gc.py::test_DeleteEmptyRefDirsCleanupStep - NotADirectoryError: [Errno 20] Not a directory: \u0027/private/var/folders/x6/gj42fgfs6xx7xb9r07zklqs80000gn/T/pytest-of-d029788/pytest-2/repos10/test.git/refs/heads/delete\u0027\nFAILED tests/git/test_gc.py::test_DeleteEmptyRefDirsCleanupStep_keeps_ref_dir - FileNotFoundError: [Errno 2] No such file or directory: \u0027/private/var/folders/x6/gj42fgfs6xx7xb9r07zklqs80000gn/T/pytest-of-d029788/pytest-2/repos11/test.git/refs/tags\u0027\nFAILED tests/git/test_gc.py::test_PackAllRefsAfterStep - NotADirectoryError: [Errno 20] Not a directory: \u0027/private/var/folders/x6/gj42fgfs6xx7xb9r07zklqs80000gn/T/pytest-of-d029788/pytest-2/repos13/test.git/refs/heads\u0027",
+      "revId": "6f8b6c464a7004b173f154e31028f782b4491653",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

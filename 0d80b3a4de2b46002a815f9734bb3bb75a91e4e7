@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ed43d034_783534bd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-10-07T13:28:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "52999f40_876b1dc3",
+      "range": {
+        "startLine": 9,
+        "startChar": 41,
+        "endLine": 9,
+        "endChar": 46
+      },
+      "revId": "0d80b3a4de2b46002a815f9734bb3bb75a91e4e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8cb9e337_43afa2a9",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c14980a5_5e1e3071",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-10-07T13:28:56Z",
+      "side": 1,
+      "message": "Obsolete moved the calls to populate().",
+      "parentUuid": "8cb9e337_43afa2a9",
+      "range": {
+        "startLine": 11,
+        "startChar": 43,
+        "endLine": 12,
+        "endChar": 13
+      },
+      "revId": "0d80b3a4de2b46002a815f9734bb3bb75a91e4e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "56593a41_38d88222",
@@ -60,6 +108,30 @@
       "writtenOn": "2025-10-07T12:17:42Z",
       "side": 1,
       "message": "maybe move this inside the revert dialog in the `populate` method since it\u0027s specific to it\n\nThen it\u0027s also easy to link to where exactly the message is being constructed and what info is missing\n\nIt\u0027s a bit suboptimal that GrChangeActions is serving as the data source for the revert dialog.",
+      "range": {
+        "startLine": 1384,
+        "startChar": 0,
+        "endLine": 1391,
+        "endChar": 0
+      },
+      "revId": "0d80b3a4de2b46002a815f9734bb3bb75a91e4e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cdd18fda_f550ab1b",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1391,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-10-07T13:28:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "56593a41_38d88222",
       "range": {
         "startLine": 1384,
         "startChar": 0,

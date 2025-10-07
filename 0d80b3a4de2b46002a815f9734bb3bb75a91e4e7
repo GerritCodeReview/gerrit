@@ -3,6 +3,52 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "52999f40_876b1dc3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-10-07T12:18:10Z",
+      "side": 1,
+      "message": "revert",
+      "range": {
+        "startLine": 9,
+        "startChar": 41,
+        "endLine": 9,
+        "endChar": 46
+      },
+      "revId": "0d80b3a4de2b46002a815f9734bb3bb75a91e4e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8cb9e337_43afa2a9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-10-07T12:18:10Z",
+      "side": 1,
+      "message": "add a link to where the message is generated and what the exact message is",
+      "range": {
+        "startLine": 11,
+        "startChar": 43,
+        "endLine": 12,
+        "endChar": 13
+      },
+      "revId": "0d80b3a4de2b46002a815f9734bb3bb75a91e4e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "56593a41_38d88222",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
         "patchSetId": 1

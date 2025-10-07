@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f4633d8_7bd254e8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-10-07T13:53:20Z",
+      "side": 1,
+      "message": "I was sure the list was rendered in the past but looks like you changed that in http://go/grev/354439",
+      "revId": "d462d99194c5abbad0bd521d9f47fc569f9d026d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bd93cfef_735b89ef",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1383,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-10-07T13:53:20Z",
+      "side": 1,
+      "message": "nit: I think a try catch block works better here. `populate` should never return false so we can just let it throw an error instead",
+      "range": {
+        "startLine": 1380,
+        "startChar": 0,
+        "endLine": 1383,
+        "endChar": 0
+      },
+      "revId": "d462d99194c5abbad0bd521d9f47fc569f9d026d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

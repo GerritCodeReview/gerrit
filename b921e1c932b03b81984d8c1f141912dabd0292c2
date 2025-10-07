@@ -46,6 +46,30 @@
       },
       "revId": "b921e1c932b03b81984d8c1f141912dabd0292c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "879bb941_3c96a05c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-10-07T14:29:38Z",
+      "side": 1,
+      "message": "\u003e in the past we used to write migrations using core APIs, when a migration\n\u003e doesn\u0027t build we delete it and in that case Gerrit admins have to perform \n\u003e intermediate migrations (or we have to update the migration code).\n\nIf deleting it at this point is fine for the community, then I\u0027m okay with this. I only don\u0027t want us to be responsible to \"update the migration code\" later (especially if it was already written in a way that didn\u0027t need such an update).\n\nI thought we try keeping migration steps as long as possible to avoid mandatory upgrade steps, but since it\u0027s not an issue for us at Google, I don\u0027t have a strong opinion on this (so it\u0027s up to you).",
+      "parentUuid": "90cc1eec_db57b4d4",
+      "range": {
+        "startLine": 9,
+        "startChar": 31,
+        "endLine": 9,
+        "endChar": 50
+      },
+      "revId": "b921e1c932b03b81984d8c1f141912dabd0292c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

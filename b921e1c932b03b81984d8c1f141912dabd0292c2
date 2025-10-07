@@ -1,5 +1,29 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7c515b59_b679813e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-10-07T10:54:01Z",
+      "side": 1,
+      "message": "We usually avoid using strong types in schema migrations so that we can delete the obsolete code when the migration is done and still keep the migration code for people to upgrade.\n\nShould we consider reverting this for change for this reason?",
+      "range": {
+        "startLine": 9,
+        "startChar": 31,
+        "endLine": 9,
+        "endChar": 50
+      },
+      "revId": "b921e1c932b03b81984d8c1f141912dabd0292c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

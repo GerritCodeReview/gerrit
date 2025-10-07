@@ -19,6 +19,7 @@ import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LAB
 import static com.google.gerrit.extensions.client.ReviewerState.CC;
 import static com.google.gerrit.extensions.client.ReviewerState.REMOVED;
 import static com.google.gerrit.extensions.client.ReviewerState.REVIEWER;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -26,6 +27,7 @@ import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
+import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.entities.Address;
@@ -38,10 +40,12 @@ import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ReviewerUpdateInfo;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.testing.FakeEmailSender.Message;
 import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import org.junit.Before;
@@ -420,6 +424,35 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
     assertThat(info.email).isEqualTo(input.reviewer);
 
     assertThat(gApi.changes().id(r.getChangeId()).addReviewer(input).ccs).isEmpty();
+  }
+
+  @Test
+  public void removeCcByEmailWithoutPermissionFails() throws Exception {
+    PushOneCommit.Result r = createChange();
+    TestAccount newUser = createAccounts(1, name("foo")).get(0);
+
+    ReviewerInput input = new ReviewerInput();
+    input.reviewer = "nonexisting@example.com";
+    input.state = ReviewerState.CC;
+    gApi.changes().id(r.getChangeId()).addReviewer(input);
+    requestScopeOperations.setApiUser(newUser.id());
+    assertThat(gApi.changes().id(r.getChangeId()).get().removableReviewers).isEmpty();
+
+    AuthException thrown =
+        assertThrows(
+            AuthException.class,
+            () -> gApi.changes().id(r.getChangeId()).reviewer(input.reviewer).remove());
+    assertThat(thrown).hasMessageThat().contains("remove reviewer not permitted");
+  }
+
+  private List<TestAccount> createAccounts(int n, String emailPrefix) throws Exception {
+    List<TestAccount> result = new ArrayList<>(n);
+    for (int i = 0; i < n; i++) {
+      result.add(
+          accountCreator.create(
+              name("u" + i), emailPrefix + "-" + i + "@example.com", "Full Name " + i, null));
+    }
+    return result;
   }
 
   private static String toRfcAddressString(AccountInfo info) {

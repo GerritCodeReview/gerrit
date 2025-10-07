@@ -1327,6 +1327,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
   @Test
   public void deleteReviewerByEmailFromWipChange() throws Exception {
     StagedChange sc = stageWipChangeWithExtraReviewer();
+    requestScopeOperations.setApiUser(sc.owner.id());
     gApi.changes().id(sc.changeId).reviewer(StagedUsers.REVIEWER_BY_EMAIL).remove();
     assertThat(sender).didNotSend();
   }

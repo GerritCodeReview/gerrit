@@ -42,7 +42,7 @@ def test_GCLockHandlingInitStep(repo):
     with open(lock_file, "w") as f:
         f.write("1234")
 
-    task = GCLockHandlingInitStep()
+    task = GCLockHandlingInitStep([])
 
     task.run(repo)
     assert os.path.exists(lock_file)
@@ -54,7 +54,7 @@ def test_GCLockHandlingInitStep(repo):
 
 
 def test_PreservePacksInitStep(repo):
-    task = PreservePacksInitStep()
+    task = PreservePacksInitStep([])
 
     pack_path = os.path.join(repo, "objects", "pack")
     preserved_pack_path = os.path.join(pack_path, "preserved")
@@ -101,6 +101,26 @@ def test_PreservePacksInitStep(repo):
     assert not os.path.exists(fake_preserved_idx)
 
 
+def test_PreservePacksInitStepWithOverride(repo):
+    task = PreservePacksInitStep(["gc.preserveOldPacks=true"])
+
+    pack_path = os.path.join(repo, "objects", "pack")
+    preserved_pack_path = os.path.join(pack_path, "preserved")
+
+    fake_pack = os.path.join(pack_path, "pack-fake.pack")
+    fake_preserved_pack = os.path.join(preserved_pack_path, "pack-fake.old-pack")
+    fake_idx = os.path.join(pack_path, "pack-fake.idx")
+    fake_preserved_idx = os.path.join(preserved_pack_path, "pack-fake.old-idx")
+
+    Path(fake_pack).touch()
+    Path(fake_idx).touch()
+
+    task.run(repo)
+
+    assert os.path.exists(fake_preserved_pack)
+    assert os.path.exists(fake_preserved_idx)
+
+
 def test_DeleteEmptyRefDirsCleanupStep(repo):
     delete_path = os.path.join(repo, "refs", "heads", "delete")
     os.makedirs(delete_path)
@@ -110,7 +130,7 @@ def test_DeleteEmptyRefDirsCleanupStep(repo):
     os.makedirs(keep_path)
     Path(os.path.join(keep_path, "abcd1234")).touch()
 
-    task = DeleteEmptyRefDirsCleanupStep()
+    task = DeleteEmptyRefDirsCleanupStep([])
 
     task.run(repo)
     assert os.path.exists(delete_path)
@@ -138,7 +158,7 @@ def test_DeleteEmptyRefDirsCleanupStep_keeps_ref_dir(repo):
     _modify_last_modified(tags_path, DOUBLE_MAX_AGE_EMPTY_REF_DIRS)
     _modify_last_modified(delete_change_path, DOUBLE_MAX_AGE_EMPTY_REF_DIRS)
 
-    task = DeleteEmptyRefDirsCleanupStep()
+    task = DeleteEmptyRefDirsCleanupStep([])
     task.run(repo)
 
     assert not os.path.exists(delete_change_path)
@@ -148,7 +168,7 @@ def test_DeleteEmptyRefDirsCleanupStep_keeps_ref_dir(repo):
 
 
 def test_DeleteStaleIncomingPacksCleanupStep(repo):
-    task = DeleteStaleIncomingPacksCleanupStep()
+    task = DeleteStaleIncomingPacksCleanupStep([])
 
     objects_path = os.path.join(repo, "objects")
     pack_path = os.path.join(objects_path, "pack")
@@ -190,7 +210,7 @@ def test_PackAllRefsAfterStep(repo, local_repo):
         loose_ref_count += 1
         git.repo.push(local_repo, "origin", f"HEAD:refs/heads/test{loose_ref_count}")
 
-    task = PackAllRefsAfterStep()
+    task = PackAllRefsAfterStep([])
     task.run(repo)
 
     assert len(os.listdir(os.path.join(repo, "refs", "heads"))) == 0

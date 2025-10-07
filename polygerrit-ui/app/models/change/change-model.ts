@@ -853,6 +853,9 @@ export class ChangeModel extends Model<ChangeState> {
             KnownExperimentId.ASYNC_SUBMIT_REQUIREMENTS
           )
         ) {
+          this.updateState({
+            submittabilityLoadingStatus: LoadingStatus.NOT_LOADED,
+          });
           return;
         }
         const change = fillFromSubmittabilityInfo(

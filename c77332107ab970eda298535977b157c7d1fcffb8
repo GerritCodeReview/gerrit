@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e7601d1_9aae2464",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-10-07T12:18:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4c6df133_d8307c52",
+      "range": {
+        "startLine": 15,
+        "startChar": 36,
+        "endLine": 15,
+        "endChar": 40
+      },
+      "revId": "c77332107ab970eda298535977b157c7d1fcffb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "56bb8c60_0ae0d62c",
@@ -61,6 +85,30 @@
       "side": 1,
       "message": "Actually if you listen to Change log messages being updated to do `this.getChangeModel().reloadSubmittability();` then it happens for all bots voting etc as well instead of just a new reply on the Reply Dialog",
       "parentUuid": "56bb8c60_0ae0d62c",
+      "range": {
+        "startLine": 1602,
+        "startChar": 0,
+        "endLine": 1604,
+        "endChar": 0
+      },
+      "revId": "c77332107ab970eda298535977b157c7d1fcffb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "887d6be0_21a7e8d6",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1604,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-10-07T12:18:55Z",
+      "side": 1,
+      "message": "This wouldn\u0027t affect bots. When updates happen externally, all we do is show notification. In this case SendReply is returning us the updated change.\n\nI\u0027ve looked into changing updateStateChange to trigger submittability reload (or rather adding a separate method that does both, updateStateChange and trigger submittability). But there is another usecase, in which that wouldn\u0027t make sense https://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts;drc\u003d2c70f641e6219458647cc89835af0c2b37e9fdc0;l\u003d1991 . Ultimately if I add this new method, then send-reply would be the only usage of it and in the current form we have a bit more flexibility, like not sending a request if the full-reload of the page is already scheduled.",
+      "parentUuid": "77dcec54_de1e0ffd",
       "range": {
         "startLine": 1602,
         "startChar": 0,

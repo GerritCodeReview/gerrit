@@ -22,6 +22,30 @@
       },
       "revId": "b921e1c932b03b81984d8c1f141912dabd0292c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "90cc1eec_db57b4d4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-10-07T12:54:09Z",
+      "side": 1,
+      "message": "The main reason I used the API instead of low-level config updates was that the utility classes like `RepoMetaDataUpdater` and `ConfigChangeCreator` were not useable without using higher level APIs.\n\nRegarding your main question: in the past we used to write migrations using core APIs, when a migration doesn\u0027t build we delete it and in that case Gerrit admins have to perform intermediate migrations (or we have to update the migration code).\nUsing low-level config updates also has disadvantages: it has implicit dependencies\nto the storage format and if something changes, there will be no compile errors.\n\nThe change on top of this one makes use of the `ConfigChangeCreator` and `RepoMetaDataUpdater` classes. If we can still make use of them after reverting this change then I would say I am neutral to your proposal and you can revert this change.",
+      "parentUuid": "7c515b59_b679813e",
+      "range": {
+        "startLine": 9,
+        "startChar": 31,
+        "endLine": 9,
+        "endChar": 50
+      },
+      "revId": "b921e1c932b03b81984d8c1f141912dabd0292c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

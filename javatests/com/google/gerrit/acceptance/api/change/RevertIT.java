@@ -1757,10 +1757,54 @@ public class RevertIT extends AbstractDaemonTest {
 
     // Check that the footers are not duplicated
     String commitMessage = gApi.changes().id(revertChange.id).current().commit(false).message;
-    int bugOccurrences = commitMessage.split("Bug: 12345", -1).length - 1;
-    assertThat(bugOccurrences).isEqualTo(1);
-    int issueOccurrences = commitMessage.split("Issue: 67890", -1).length - 1;
-    assertThat(issueOccurrences).isEqualTo(1);
+    String expectedMessage =
+        String.format(
+            """
+            Reverting this change
+
+            Bug: 12345
+            Issue: 67890
+            Change-Id: %s
+            """,
+            revertChange.changeId);
+    assertThat(commitMessage).isEqualTo(expectedMessage);
+  }
+
+  @Test
+  public void revertChangeWithSkipPresubmitFooter() throws Exception {
+    // Create a change with bug and issue footers
+    PushOneCommit push =
+        pushFactory.create(
+            admin.newIdent(),
+            testRepo,
+            "Change with bug and issue\n" + "\n" + "Bug: 12345\n" + "Issue: 67890",
+            "a.txt",
+            "content");
+    PushOneCommit.Result r = push.to("refs/for/master");
+    r.assertOkStatus();
+
+    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).review(ReviewInput.approve());
+    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).submit();
+
+    // Revert the change
+    RevertInput revertInput = new RevertInput();
+    revertInput.message = "Reverting this change\n\nSkip-Presubmit: true";
+    ChangeInfo revertChange = gApi.changes().id(r.getChangeId()).revert(revertInput).get();
+
+    // Check that the revert commit message contains all footers and no extra newline
+    String commitMessage = gApi.changes().id(revertChange.id).current().commit(false).message;
+    String expectedMessage =
+        String.format(
+            """
+            Reverting this change
+
+            Skip-Presubmit: true
+            Bug: 12345
+            Issue: 67890
+            Change-Id: %s
+            """,
+            revertChange.changeId);
+    assertThat(commitMessage).isEqualTo(expectedMessage);
   }
 
   @Test
@@ -1780,8 +1824,6 @@ public class RevertIT extends AbstractDaemonTest {
     gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).submit();
 
     // Revert the submission with a message that already contains the footers
-    RevertInput revertInput = new RevertInput();
-    revertInput.message = "Reverting this change\n\nBug: 12345\nIssue: 67890";
     List<ChangeInfo> revertChanges =
         gApi.changes().id(r.getChangeId()).revertSubmission().revertChanges;
     assertThat(revertChanges).hasSize(1);
@@ -1789,10 +1831,19 @@ public class RevertIT extends AbstractDaemonTest {
 
     // Check that the footers are not duplicated
     String commitMessage = gApi.changes().id(revertChange.id).current().commit(false).message;
-    int bugOccurrences = commitMessage.split("Bug: 12345", -1).length - 1;
-    assertThat(bugOccurrences).isEqualTo(1);
-    int issueOccurrences = commitMessage.split("Issue: 67890", -1).length - 1;
-    assertThat(issueOccurrences).isEqualTo(1);
+    String expectedMessage =
+        String.format(
+            """
+            Revert "Change with bug and issue"
+
+            This reverts commit %s.
+
+            Bug: 12345
+            Issue: 67890
+            Change-Id: %s
+            """,
+            r.getCommit().name(), revertChange.changeId);
+    assertThat(commitMessage).isEqualTo(expectedMessage);
   }
 
   @Override

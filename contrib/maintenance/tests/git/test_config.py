@@ -50,12 +50,12 @@ def repo_with_config(repo):
 
 
 def test_list_config(repo_with_config):
-    with GitConfigReader(os.path.join(repo_with_config, "config")) as reader:
+    with GitConfigReader(os.path.join(repo_with_config, "config"), []) as reader:
         assert reader.list() == CONFIG_DICT
 
 
 def test_get_config(repo_with_config):
-    with GitConfigReader(os.path.join(repo_with_config, "config")) as reader:
+    with GitConfigReader(os.path.join(repo_with_config, "config"), []) as reader:
         assert (
             reader.get("section", None, "key")
             == CONFIG_DICT["section"]["default"]["key"]
@@ -76,13 +76,24 @@ def test_get_config(repo_with_config):
         assert not reader.get("another_section", "default", "another_boolean")
 
 
+def test_get_config_with_override(repo_with_config):
+    with GitConfigReader(
+        os.path.join(repo_with_config, "config"), ["section.key=override"]
+    ) as reader:
+        assert reader.get("section", None, "key") == "override"
+        assert (
+            reader.get("section", "subsection", "another_key")
+            == CONFIG_DICT["section"]["subsection"]["another_key"]
+        )
+
+
 def test_set_config(repo_with_config):
     with GitConfigWriter(os.path.join(repo_with_config, "config")) as writer:
         writer.set("new", None, "key", "value")
         writer.set("new", "new_sub", "key", "val")
         writer.write()
 
-    with GitConfigReader(os.path.join(repo_with_config, "config")) as reader:
+    with GitConfigReader(os.path.join(repo_with_config, "config"), []) as reader:
         assert reader.get("new", None, "key") == "value"
         assert reader.get("new", "new_sub", "key") == "val"
 
@@ -94,7 +105,7 @@ def test_add_to_config(repo_with_config):
         writer.add("section", "subsection", "other_key", "val")
         writer.write()
 
-    with GitConfigReader(os.path.join(repo_with_config, "config")) as reader:
+    with GitConfigReader(os.path.join(repo_with_config, "config"), []) as reader:
         assert reader.get("new", None, "key") == "value"
         assert reader.get("section", None, "key") == "value2"
         assert reader.get("section", "subsection", "other_key") == "val"
@@ -106,7 +117,7 @@ def test_unset_config(repo_with_config):
         writer.unset("section", "subsection", "another_key")
         writer.write()
 
-    with GitConfigReader(os.path.join(repo_with_config, "config")) as reader:
+    with GitConfigReader(os.path.join(repo_with_config, "config"), []) as reader:
         config = reader.list()
         assert DEFAULT_SUBSECTION not in config["section"]
         assert "another_key" not in config["section"]["subsection"]
@@ -117,6 +128,6 @@ def test_remove_config(repo_with_config):
         writer.remove("section", "subsection", "other_key", "test")
         writer.write()
 
-    with GitConfigReader(os.path.join(repo_with_config, "config")) as reader:
+    with GitConfigReader(os.path.join(repo_with_config, "config"), []) as reader:
         config = reader.list()
         assert "test" not in config["section"]["subsection"]["other_key"]

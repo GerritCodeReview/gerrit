@@ -1380,7 +1380,7 @@ suite('gr-diff-view tests', () => {
         };
         userModel.setDiffPreferences(diffPreferences);
         viewModel.updateState({diffView: {path: 'wheatley.md'}});
-        changeModel.setState({
+        changeModel.updateState({
           change: createParsedChange(),
           reviewedFiles: [],
           loadingStatus: LoadingStatus.LOADED,
@@ -1412,7 +1412,7 @@ suite('gr-diff-view tests', () => {
       };
       userModel.setDiffPreferences(diffPreferences);
       viewModel.updateState({diffView: {path: 'wheatley.md'}});
-      changeModel.setState({
+      changeModel.updateState({
         change: createParsedChange(),
         reviewedFiles: [],
         loadingStatus: LoadingStatus.LOADED,
@@ -1433,7 +1433,7 @@ suite('gr-diff-view tests', () => {
         basePatchNum: PARENT,
         diffView: {path: '/COMMIT_MSG'},
       });
-      changeModel.setState({
+      changeModel.updateState({
         change: createParsedChange(),
         reviewedFiles: [],
         loadingStatus: LoadingStatus.LOADED,

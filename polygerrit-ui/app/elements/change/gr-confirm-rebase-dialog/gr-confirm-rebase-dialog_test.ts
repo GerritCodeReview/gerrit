@@ -131,7 +131,7 @@ suite('gr-confirm-rebase-dialog tests', () => {
       element.branch = 'test' as BranchName;
       await element.updateComplete;
       changeModel = testResolver(changeModelToken);
-      changeModel.setState({
+      changeModel.updateState({
         loadingStatus: LoadingStatus.LOADED,
         change,
       });

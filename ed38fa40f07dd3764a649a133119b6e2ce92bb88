@@ -116,6 +116,47 @@
       },
       "revId": "ed38fa40f07dd3764a649a133119b6e2ce92bb88",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "17737c59_79d94c75",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-10-07T11:22:25Z",
+      "side": 1,
+      "message": "rename to link",
+      "range": {
+        "startLine": 10,
+        "startChar": 14,
+        "endLine": 10,
+        "endChar": 21
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "a88f9f82_cfacf822",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+              "range": {
+                "startLine": 10,
+                "startChar": 0,
+                "endLine": 12,
+                "endChar": 0
+              },
+              "replacement": "import \u0027../../link/gr-endpoint-decorator/gr-endpoint-decorator\u0027;\nimport \u0027../../link/gr-endpoint-param/gr-endpoint-param\u0027;\n"
+            }
+          ]
+        }
+      ],
+      "revId": "ed38fa40f07dd3764a649a133119b6e2ce92bb88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

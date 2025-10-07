@@ -17,7 +17,7 @@ import unittest.mock as mock
 
 import git.repo
 
-from datetime import datetime, timedelta
+from datetime import datetime
 from pathlib import Path
 from git.gc import (
     MAX_AGE_EMPTY_REF_DIRS,

@@ -72,6 +72,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "89283b1e_9d1c0e05",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-10-07T15:39:28Z",
+      "side": 1,
+      "message": "Discussed offline.",
+      "parentUuid": "99b3ad83_7865d9a7",
+      "revId": "7aeee7f01ccf386b248ccb92e3ab27f1ddad744b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "263a7b5d_a83f211d",

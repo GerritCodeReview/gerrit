@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b30ce2f4_b9b449f4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-10-07T10:55:39Z",
+      "side": 1,
+      "message": "Thanks, I commented on the change in master. Maybe let\u0027s backport this only if we conclude to not revert the change in master.",
+      "parentUuid": "dd2d0d4d_61f80275",
+      "range": {
+        "startLine": 9,
+        "startChar": 31,
+        "endLine": 9,
+        "endChar": 50
+      },
+      "revId": "4281f57836d0241c56019ce508990a958b8b926f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0032c871_0b312290",
         "filename": "java/com/google/gerrit/server/schema/MigrateLabelFunctionsToSubmitRequirement.java",
         "patchSetId": 1
@@ -85,6 +109,30 @@
       "side": 1,
       "message": "This is only a backport from master. Maybe this can be done in a seperate change?",
       "parentUuid": "0032c871_0b312290",
+      "range": {
+        "startLine": 259,
+        "startChar": 11,
+        "endLine": 259,
+        "endChar": 25
+      },
+      "revId": "4281f57836d0241c56019ce508990a958b8b926f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "57bac8cb_c20dd421",
+        "filename": "java/com/google/gerrit/server/schema/MigrateLabelFunctionsToSubmitRequirement.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-10-07T10:55:39Z",
+      "side": 1,
+      "message": "I see.",
+      "parentUuid": "3262e441_0f064503",
       "range": {
         "startLine": 259,
         "startChar": 11,

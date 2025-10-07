@@ -161,7 +161,7 @@ public class DeleteReviewerOp extends ReviewerOp {
     boolean votesRemoved = false;
     for (PatchSetApproval a : approvals(ctx, reviewerId)) {
       // Check if removing this vote is OK
-      removeReviewerControl.checkRemoveReviewer(ctx.getNotes(), ctx.getUser(), a);
+      removeReviewerControl.checkRemoveReviewerApproval(ctx.getNotes(), ctx.getUser(), a);
       if (a.patchSetId().equals(patchSet.id()) && a.value() != 0) {
         oldApprovals.put(a.label(), a.value());
         removedVotesMsg

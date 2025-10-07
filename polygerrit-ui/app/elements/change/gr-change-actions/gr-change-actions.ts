@@ -1382,7 +1382,10 @@ export class GrChangeActions
     be called after the revert button is pressed, hence we populate the
     revert dialog after revert button is pressed. */
     const [changes, validationOptions] = await Promise.all([
-      this.restApiService.getChanges(0, query),
+      // Specify options 0 to explicitly not request any additional information,
+      // as opposed to using default, since we only care about number of
+      // changes.
+      this.restApiService.getChanges(0, query, undefined, /* options=*/ '0'),
       this.restApiService.getValidationOptions(this.change!._number),
     ]);
     if (!changes) {

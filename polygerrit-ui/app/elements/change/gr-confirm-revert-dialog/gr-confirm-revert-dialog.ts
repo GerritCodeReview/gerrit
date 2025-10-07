@@ -26,6 +26,7 @@ import {GrValidationOptions} from '../gr-validation-options/gr-validation-option
 import {GrAutogrowTextarea} from '../../shared/gr-autogrow-textarea/gr-autogrow-textarea';
 import '@material/web/radio/radio';
 import {materialStyles} from '../../../styles/gr-material-styles';
+import {getAppContext} from '../../../services/app-context';
 
 const ERR_COMMIT_NOT_FOUND = 'Unable to find the commit hash of this change.';
 const SPECIFY_REASON_STRING = '<MUST SPECIFY REASON HERE>';
@@ -82,6 +83,8 @@ export class GrConfirmRevertDialog
   private validationOptionsEl?: GrValidationOptions;
 
   private readonly getPluginLoader = resolve(this, pluginLoaderToken);
+
+  private readonly restApiService = getAppContext().restApiService;
 
   static override get styles() {
     return [
@@ -222,13 +225,31 @@ export class GrConfirmRevertDialog
     );
   }
 
-  populate(
+  /**
+   * Fetches required information and populates the dialog message.
+   *
+   * Returns `false` if the dialog shouldn't be shown.
+   */
+  async populate(
     change: ParsedChangeInfo,
-    validationOptions: ValidationOptionsInfo | undefined,
-    commitMessage: string,
-    changesCount: number
-  ) {
-    this.changesCount = changesCount;
+    commitMessage: string
+  ): Promise<boolean> {
+    const query = `submissionid: "${change.submission_id}"`;
+    /* A chromium plugin expects that the modifyRevertMsg hook will only
+    be called after the revert button is pressed, hence we populate the
+    revert dialog after revert button is pressed. */
+    const [changes, validationOptions] = await Promise.all([
+      // Specify options 0 to explicitly not request any additional information,
+      // as opposed to using default, since we only care about number of
+      // changes.
+      this.restApiService.getChanges(0, query, undefined, /* options=*/ '0'),
+      this.restApiService.getValidationOptions(change._number),
+    ]);
+    if (!changes) {
+      return false;
+    }
+
+    this.changesCount = changes.length;
     this.validationOptions = validationOptions;
     // The option to revert a single change is always available
     this.populateRevertSingleChangeMessage(
@@ -237,6 +258,7 @@ export class GrConfirmRevertDialog
       change.current_revision
     );
     this.populateRevertSubmissionMessage(change, commitMessage);
+    return true;
   }
 
   populateRevertSingleChangeMessage(

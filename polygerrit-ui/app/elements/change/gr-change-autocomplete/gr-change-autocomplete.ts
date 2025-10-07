@@ -79,7 +79,7 @@ export class GrChangeAutocomplete extends LitElement {
         /* changeNumber=*/ 450,
         'is:open -age:90d',
         /* offset=*/ undefined,
-        /* options=*/ undefined,
+        /* options=*/ '0',
         throwingErrorCallback
       );
       if (!res) {

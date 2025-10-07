@@ -27,14 +27,16 @@ class GitConfigException(Exception):
 
 
 class GitConfigReader:
-    def __init__(self, config_path):
+    def __init__(self, config_path, cmd_options):
         self.path = config_path
+        self.cmd_options = cmd_options
         self.contents = {}
 
     def __enter__(self):
         LOG.debug("reader")
         self.file = open(self.path, "r", encoding="utf-8")
         self._parse()
+        self._parse_cmd_options()
         return self
 
     def __exit__(self, exc_type, exc_val, exc_tb):
@@ -109,6 +111,23 @@ class GitConfigReader:
                         ]
         LOG.debug("Parsed config: %s", self.contents)
 
+    def _parse_cmd_options(self):
+        for option in self.cmd_options:
+            key, value = option.split("=", 1)
+            key_parts = key.split(".")
+            if len(key_parts) == 2:
+                section = key_parts[0].lower()
+                subsection = DEFAULT_SUBSECTION
+                key = key_parts[1].lower()
+            elif len(key_parts) == 3:
+                section = key_parts[0].lower()
+                subsection = key_parts[1].lower()
+                key = key_parts[2].lower()
+            else:
+                raise GitConfigException(f"Invalid git config option: {option}")
+            self._ensure_full_section(section, subsection)
+            self.contents[section][subsection][key] = value
+
     def _ensure_full_section(self, section, subsection):
         if section not in self.contents:
             self.contents[section] = {}
@@ -118,7 +137,7 @@ class GitConfigReader:
 
 class GitConfigWriter(GitConfigReader):
     def __init__(self, config_path):
-        super().__init__(config_path)
+        super().__init__(config_path, [])
 
     def __enter__(self):
         self.file = open(self.path, "r+", encoding="utf-8")

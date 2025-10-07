@@ -30,6 +30,7 @@ import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import javax.annotation.Nullable;
 
 @Singleton
 public class RemoveReviewerControl {
@@ -66,10 +67,15 @@ public class RemoveReviewerControl {
    * Checks if removing the given reviewer is OK. Does not check if removing any approvals the
    * reviewer might have given is OK.
    *
+   * <p>The `reviewer` parameter is only used for logging purposes and for checking whether the
+   * current user is equal to the reviewer. So it can be set to null. Then the permission check is
+   * generic.
+   *
    * @throws AuthException if this user is not allowed to remove this approval.
    * @throws PermissionBackendException on failure of permission checks.
    */
-  public void checkRemoveReviewer(ChangeNotes notes, CurrentUser currentUser, Account.Id reviewer)
+  public void checkRemoveReviewer(
+      ChangeNotes notes, CurrentUser currentUser, @Nullable Account.Id reviewer)
       throws PermissionBackendException, AuthException {
     checkRemoveReviewer(notes, currentUser, reviewer, 0);
   }
@@ -83,14 +89,14 @@ public class RemoveReviewerControl {
 
   /** Returns true if the user is allowed to remove this reviewer. */
   public boolean testRemoveReviewer(
-      ChangeNotes notes, CurrentUser currentUser, Account.Id reviewer, int value)
+      ChangeNotes notes, CurrentUser currentUser, @Nullable Account.Id reviewer, int value)
       throws PermissionBackendException {
     return testRemoveReviewer(changeDataFactory.create(notes), currentUser, reviewer, value);
   }
 
   /** Returns true if the user is allowed to remove this reviewer. */
   public boolean testRemoveReviewer(
-      ChangeData cd, CurrentUser currentUser, Account.Id reviewer, int value)
+      ChangeData cd, CurrentUser currentUser, @Nullable Account.Id reviewer, int value)
       throws PermissionBackendException {
     if (cd.change().isMerged() && value != 0) {
       return false;
@@ -110,8 +116,11 @@ public class RemoveReviewerControl {
   }
 
   private void checkRemoveReviewer(
-      ChangeNotes notes, CurrentUser currentUser, Account.Id reviewer, int value)
+      ChangeNotes notes, CurrentUser currentUser, @Nullable Account.Id reviewer, int value)
       throws PermissionBackendException, AuthException {
+    if (reviewer == null) {
+      return;
+    }
     if (canRemoveReviewerWithoutPermissionCheck(notes.getChange(), currentUser, reviewer, value)) {
       return;
     }
@@ -156,7 +165,10 @@ public class RemoveReviewerControl {
   }
 
   public static boolean canRemoveReviewerWithoutPermissionCheck(
-      Change change, CurrentUser currentUser, Account.Id reviewer, int value) {
+      Change change, CurrentUser currentUser, @Nullable Account.Id reviewer, int value) {
+    if (reviewer == null) {
+      return false;
+    }
     if (currentUser.isIdentifiedUser()) {
       Account.Id aId = currentUser.getAccountId();
       if (aId.equals(reviewer)) {

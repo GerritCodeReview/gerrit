@@ -128,7 +128,7 @@ class DeleteEmptyRefDirsCleanupStep(GCStep):
     def run(self, repo_dir):
         refs_path = os.path.join(repo_dir, "refs")
         self.to_delete = {}
-        for dir, dirnames, filenames in os.walk(refs_path, topdown=False):
+        for dir, _, _ in os.walk(refs_path, topdown=False):
             relative = os.path.relpath(dir, refs_path)
             depth = len(relative.split(os.sep))
             if (
@@ -150,7 +150,7 @@ class DeleteEmptyRefDirsCleanupStep(GCStep):
     def rmdir(self, dir):
         try:
             os.rmdir(dir)
-        except (FileNotFoundError, OSError) as e:
+        except OSError as e:
             LOG.warning("Couldn't delete %s: %s", dir, e)
 
 

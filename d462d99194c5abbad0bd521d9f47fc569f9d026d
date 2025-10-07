@@ -39,6 +39,30 @@
       },
       "revId": "d462d99194c5abbad0bd521d9f47fc569f9d026d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f463a235_ca6740eb",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1383,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-10-07T14:05:20Z",
+      "side": 1,
+      "message": "This would happen if REST API returned an error. We show error dialog in this case by default in rest api code and return undefined (no exception is thrown). Added a comment here to clarify when this happens.",
+      "parentUuid": "bd93cfef_735b89ef",
+      "range": {
+        "startLine": 1380,
+        "startChar": 0,
+        "endLine": 1383,
+        "endChar": 0
+      },
+      "revId": "d462d99194c5abbad0bd521d9f47fc569f9d026d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

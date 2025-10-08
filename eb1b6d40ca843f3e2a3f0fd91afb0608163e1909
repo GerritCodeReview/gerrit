@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a9ae3ffa_51e494b2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-10-08T00:28:59Z",
+      "side": 1,
+      "message": "Please reformat",
+      "revId": "eb1b6d40ca843f3e2a3f0fd91afb0608163e1909",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c34e3db_c32d03b0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-10-08T00:28:59Z",
+      "side": 1,
+      "message": "Maybe add some tests? There\u0027s a little coverage in `javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java`, but nothing that seems to involve permissions.",
+      "revId": "eb1b6d40ca843f3e2a3f0fd91afb0608163e1909",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "652c4e50_f0e45441",
+        "filename": "java/com/google/gerrit/server/project/RemoveReviewerControl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-10-08T00:28:59Z",
+      "side": 1,
+      "message": "This is opposite the behavior of L124-126 based on what you return on L170. Is that intentional?",
+      "revId": "eb1b6d40ca843f3e2a3f0fd91afb0608163e1909",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eedb545e_1343af5e",
+        "filename": "java/com/google/gerrit/server/project/RemoveReviewerControl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-10-08T00:28:59Z",
+      "side": 1,
+      "message": "Should this really take precedence over being a change owner? Also, you\u0027ll be skipping the debug log message on L190, so you might want an equivalent.",
+      "range": {
+        "startLine": 169,
+        "startChar": 0,
+        "endLine": 171,
+        "endChar": 5
+      },
+      "revId": "eb1b6d40ca843f3e2a3f0fd91afb0608163e1909",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

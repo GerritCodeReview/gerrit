@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "73576c51_e025cfb9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1014257
+      },
+      "writtenOn": "2025-10-08T15:56:52Z",
+      "side": 1,
+      "message": "Release-Notes: is missing",
+      "revId": "9b3bd0611b8eb427a01b282fce142608f1a2c4ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "628eb5ac_91fbfc8e",
         "filename": "java/com/google/gerrit/server/patch/DiffSummaryLoader.java",
         "patchSetId": 2

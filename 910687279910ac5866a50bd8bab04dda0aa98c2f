@@ -1,0 +1,62 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8d85aabc_049713dd",
+        "filename": "polygerrit-ui/app/elements/shared/gr-sidebar/gr-sidebar.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-10-08T09:01:57Z",
+      "side": 1,
+      "message": "Would be nice to have some docstring here.",
+      "fixSuggestions": [
+        {
+          "fixId": "8e319a4c_721896d8",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/shared/gr-sidebar/gr-sidebar.ts",
+              "range": {
+                "startLine": 12,
+                "startChar": 0,
+                "endLine": 12,
+                "endChar": 0
+              },
+              "replacement": "/**\n * A component that displays content in a main area and a resizable sidebar.\n * The sidebar can be toggled between hidden and visible.\n *\n * @slot main - The content to be displayed in the main area.\n * @slot side - The content to be displayed in the sidebar.\n */\n"
+            }
+          ]
+        }
+      ],
+      "revId": "910687279910ac5866a50bd8bab04dda0aa98c2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8586c189_b8ee64fe",
+        "filename": "polygerrit-ui/app/elements/shared/gr-sidebar/gr-sidebar.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-10-08T09:01:57Z",
+      "side": 1,
+      "message": "nit: Maybe a name like GrContentWithSidebar or SidebarManager would be more appropriate. Since this is not just a sidebar.",
+      "range": {
+        "startLine": 13,
+        "startChar": 13,
+        "endLine": 13,
+        "endChar": 22
+      },
+      "revId": "910687279910ac5866a50bd8bab04dda0aa98c2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -115,6 +115,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a917c9fc_273576e4",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 1247,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-10-08T09:01:57Z",
+      "side": 1,
+      "message": "I think we are still missing a documentation on how a sidebar is registered. You\u0027ve added fields like activeSidebar, which imply things like multiple possible sidebar that can exist. So there the should be some documentation that explains what those variables mean and what is required when a new one is added.",
+      "parentUuid": "b0abdd93_b6e953f0",
+      "range": {
+        "startLine": 1247,
+        "startChar": 2,
+        "endLine": 1247,
+        "endChar": 27
+      },
+      "revId": "e864ecb7a5bc2a8354d6e97992139ff42bdcf6ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8e0ae22a_e7a575e6",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
         "patchSetId": 6

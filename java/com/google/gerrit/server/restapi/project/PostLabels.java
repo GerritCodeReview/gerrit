@@ -24,7 +24,6 @@ import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.project.LabelResource;
 import com.google.gerrit.server.project.ProjectConfig;
-import com.google.gerrit.server.project.RepoMetaDataUpdater;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;

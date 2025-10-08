@@ -105,6 +105,24 @@
       "parentUuid": "4e197f66_7d08a3e6",
       "revId": "b921e1c932b03b81984d8c1f141912dabd0292c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "855660a4_15bf2dde",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-10-08T13:00:18Z",
+      "side": 1,
+      "message": "\u003e How urgent do you need this change?\n\nWe need the follow-up change of this one in order to generate migration changes for our projects. If we revert this one then the follow-up change will need to be reimplemented, as said: this change helps to keep the follow-up change small(er).",
+      "parentUuid": "726d9343_2cf26ecd",
+      "revId": "b921e1c932b03b81984d8c1f141912dabd0292c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

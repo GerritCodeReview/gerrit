@@ -40,7 +40,21 @@ public class ChangeInfo {
   public String tripletId;
 
   public String project;
+
+  /**
+   * The name of the target branch.
+   *
+   * <p>The {@code refs/heads/} prefix is omitted.
+   */
   public String branch;
+
+  /**
+   * The full name of the target branch.
+   *
+   * <p>Always starts with {@code refs/}.
+   */
+  public String fullBranch;
+
   public String topic;
 
   /**

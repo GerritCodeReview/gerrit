@@ -270,6 +270,7 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(changeInfo.id).isEqualTo(change.project() + "~" + change.numericChangeId());
     assertThat(changeInfo.project).isEqualTo(change.project().get());
     assertThat(changeInfo.branch).isEqualTo(change.dest().shortName());
+    assertThat(changeInfo.fullBranch).isEqualTo(change.dest().branch());
     assertThat(changeInfo.status).isEqualTo(ChangeStatus.NEW);
     assertThat(changeInfo.subject).isEqualTo(change.subject());
     assertThat(changeInfo.submitType).isEqualTo(SubmitType.MERGE_IF_NECESSARY);
@@ -2796,7 +2797,8 @@ public class ChangeIT extends AbstractDaemonTest {
     in.project = project.get();
     ChangeInfo info = gApi.changes().create(in).get();
     assertThat(info.project).isEqualTo(in.project);
-    assertThat(RefNames.fullName(info.branch)).isEqualTo(RefNames.fullName(in.branch));
+    assertThat(info.branch).isEqualTo(Constants.MASTER);
+    assertThat(info.fullBranch).isEqualTo(RefNames.fullName(Constants.MASTER));
     assertThat(info.subject).isEqualTo(in.subject);
     assertThat(Iterables.getOnlyElement(info.messages).message).isEqualTo("Uploaded patch set 1.");
   }
@@ -3556,7 +3558,8 @@ public class ChangeIT extends AbstractDaemonTest {
     in.newBranch = true;
     ChangeInfo info = gApi.changes().create(in).get();
     assertThat(info.project).isEqualTo(in.project);
-    assertThat(RefNames.fullName(info.branch)).isEqualTo(RefNames.fullName(in.branch));
+    assertThat(info.branch).isEqualTo("foo");
+    assertThat(info.fullBranch).isEqualTo(RefNames.fullName("foo"));
     assertThat(info.subject).isEqualTo(in.subject);
     assertThat(Iterables.getOnlyElement(info.messages).message).isEqualTo("Uploaded patch set 1.");
   }

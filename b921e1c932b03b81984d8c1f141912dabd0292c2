@@ -123,6 +123,24 @@
       "parentUuid": "726d9343_2cf26ecd",
       "revId": "b921e1c932b03b81984d8c1f141912dabd0292c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f26a448f_a9f8d773",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-10-08T13:04:37Z",
+      "side": 1,
+      "message": "Thanks! Do I understand correctly that reverting this change (including the follow-up change) is OK, since it\u0027s possible to re-implement the follow-up change without this change, although it means that this makes the code less nice and compact?",
+      "parentUuid": "855660a4_15bf2dde",
+      "revId": "b921e1c932b03b81984d8c1f141912dabd0292c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

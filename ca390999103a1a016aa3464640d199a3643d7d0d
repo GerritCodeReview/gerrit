@@ -22,6 +22,30 @@
       },
       "revId": "ca390999103a1a016aa3464640d199a3643d7d0d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "428c2aad_9f618af6",
+        "filename": "java/com/google/gerrit/extensions/common/ChangeInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-10-08T14:51:11Z",
+      "side": 1,
+      "message": "It\u0027s no effort to set this, hence it\u0027s not worth protecting it with an option.]",
+      "parentUuid": "f46d040b_56d4a863",
+      "range": {
+        "startLine": 51,
+        "startChar": 0,
+        "endLine": 57,
+        "endChar": 0
+      },
+      "revId": "ca390999103a1a016aa3464640d199a3643d7d0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "77196b63_7604e00e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-10-08T09:39:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a9ae3ffa_51e494b2",
+      "revId": "eb1b6d40ca843f3e2a3f0fd91afb0608163e1909",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "1c34e3db_c32d03b0",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 4
@@ -48,6 +66,24 @@
       "writtenOn": "2025-10-08T07:02:17Z",
       "side": 1,
       "message": "Please add a test that covers this. I think a good place may be in ChangeReviewersByEmailIT that already has a removeByEmail() test.",
+      "revId": "eb1b6d40ca843f3e2a3f0fd91afb0608163e1909",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4791c867_28227423",
+        "filename": "java/com/google/gerrit/server/change/DeleteReviewerByEmailOp.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-10-08T09:39:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "74cd4055_2d25af9f",
       "revId": "eb1b6d40ca843f3e2a3f0fd91afb0608163e1909",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -83,6 +119,24 @@
       "side": 1,
       "message": "I also think this check should be removed. Returning here means that reviewers by email can always be removed, which is not what we intend.",
       "parentUuid": "652c4e50_f0e45441",
+      "revId": "eb1b6d40ca843f3e2a3f0fd91afb0608163e1909",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "537c9a48_ce210a9e",
+        "filename": "java/com/google/gerrit/server/project/RemoveReviewerControl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-10-08T09:39:53Z",
+      "side": 1,
+      "message": "Sorry, this should clearly be removed. And that is why you should carefully review what the AI produces for you ...",
+      "parentUuid": "7deb6fd8_13ff16e4",
       "revId": "eb1b6d40ca843f3e2a3f0fd91afb0608163e1909",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -124,6 +178,30 @@
       "side": 1,
       "message": "I also think that we should drop this check and allow change owners to remove reviewers by email.\n\nYes, please add a debug log in all code paths so that we continue to be able to tell why a reviewer can/cannot be removed, using tracing. Maybe if reviewer is null the debug logs could say \"reviewer by email\" instead of \"reviewer %s\".",
       "parentUuid": "eedb545e_1343af5e",
+      "range": {
+        "startLine": 169,
+        "startChar": 0,
+        "endLine": 171,
+        "endChar": 5
+      },
+      "revId": "eb1b6d40ca843f3e2a3f0fd91afb0608163e1909",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "96c384eb_a9162f8a",
+        "filename": "java/com/google/gerrit/server/project/RemoveReviewerControl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-10-08T09:39:53Z",
+      "side": 1,
+      "message": "Sorry, this should clearly be removed. And that is why you should carefully review what the AI produces for you ...",
+      "parentUuid": "ceddb368_893f6c1a",
       "range": {
         "startLine": 169,
         "startChar": 0,

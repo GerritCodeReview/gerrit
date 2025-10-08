@@ -22,7 +22,6 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.project.ProjectConfig;
-import com.google.gerrit.server.project.RepoMetaDataUpdater;
 import com.google.gerrit.server.project.SubmitRequirementResource;
 import com.google.inject.Provider;
 import javax.inject.Inject;

@@ -34,6 +34,24 @@
       "parentUuid": "5ac6c0a7_eebc840d",
       "revId": "1829f971b91d44dc2e587f0893dcb7d9e06e8c64",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "011ba09e_656fc340",
+        "filename": "polygerrit-ui/app/embed/gr-textarea.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 683,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-10-08T15:33:02Z",
+      "side": 0,
+      "message": "I would just like to see some proof that the old method and your new simplified method are producing the same results for various cases and edge cases. I really like the simplification of just using `.innerText`. ❤️ But this code is also used internally in another tool (/embed/...), so I don\u0027t want to mess anything up, at least not by missing a simple old/new comparision. 😊",
+      "parentUuid": "cfd01913_5330073a",
+      "revId": "1829f971b91d44dc2e587f0893dcb7d9e06e8c64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

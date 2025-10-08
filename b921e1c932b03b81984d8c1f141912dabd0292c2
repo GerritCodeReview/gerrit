@@ -87,6 +87,24 @@
       "message": "It turned out that this change breaks running this migration for us at Google. Apparently our Guice stack that we use to run migrations doesn\u0027t have ChangeInserter.Factory available and trying to make it available pulls in many further dependencies that we can\u0027t make all available.\n\nWe still need to run this migration as we didn\u0027t migrate everything yet. How urgent do you need this change? We would like to keep this migration runnable for us.\n\nThis is currently blocking our import, so we need to resolve this rather quickly.",
       "revId": "b921e1c932b03b81984d8c1f141912dabd0292c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "726d9343_2cf26ecd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-10-08T12:31:39Z",
+      "side": 1,
+      "message": "Friendly ping. @sasa.zivkov@sap.com WDYT?",
+      "parentUuid": "4e197f66_7d08a3e6",
+      "revId": "b921e1c932b03b81984d8c1f141912dabd0292c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

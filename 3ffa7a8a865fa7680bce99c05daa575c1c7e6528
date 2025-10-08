@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eeb80657_2363566d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-10-08T13:54:58Z",
+      "side": 1,
+      "message": "I think reverting this change is not necessary and we can abandon this change?",
+      "revId": "3ffa7a8a865fa7680bce99c05daa575c1c7e6528",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "628eb5ac_91fbfc8e",
+        "filename": "java/com/google/gerrit/server/patch/DiffSummaryLoader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1014257
+      },
+      "writtenOn": "2025-10-08T15:55:22Z",
+      "side": 1,
+      "message": "I think this comment is no longer needed",
+      "revId": "9b3bd0611b8eb427a01b282fce142608f1a2c4ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0f1ebcc9_e955ad2a",
         "filename": "javatests/com/google/gerrit/server/patch/CommitUtil.java",
         "patchSetId": 2

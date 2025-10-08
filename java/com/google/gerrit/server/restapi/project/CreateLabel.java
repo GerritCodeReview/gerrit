@@ -36,7 +36,6 @@ import com.google.gerrit.server.project.LabelDefinitionJson;
 import com.google.gerrit.server.project.LabelResource;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.ProjectResource;
-import com.google.gerrit.server.project.RepoMetaDataUpdater;
 import com.google.gerrit.server.query.approval.ApprovalQueryBuilder;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;

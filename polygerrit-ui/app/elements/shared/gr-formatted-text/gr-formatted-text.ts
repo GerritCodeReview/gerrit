@@ -174,7 +174,7 @@ export class GrFormattedText extends LitElement {
           // )                   // End capture group 1
           // (?=\s|$|[)'"!?.,])  // Ensure the match is followed by whitespace,
           //                     // end of line, or one of ) ' " ! ? . ,
-          match: `(?<=\\s|^|[('":[])((?:[\\w-]+\\.)+(?:${TLD_REGEX})(?=.*?/)(?:[/?#][^\\s'"]*))(?=\\s|$|[)'"!?.,])`,
+          match: `(?<=\\s|^|[('":[])((?:[\\w-]+\\.)+(?:${TLD_REGEX})(?=.*?/)(?:[/?#][^\\s'"]*(?<![.,])))(?=\\s|$|[)'"!?.,])`,
           // Prepend http:// for the link href otherwise it will be treated as
           // a relative URL.
           link: 'http://$1',

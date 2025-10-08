@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c8bb80e6_c2234239",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-10-08T15:12:06Z",
+      "side": 1,
+      "message": "I would prefer to not review cherrypicks to the stable branch. I don\u0027t feel like having the authority about deciding what should be backported.",
+      "revId": "15883cbac9d45e672aa0ef322bf407f0e8cc6a9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

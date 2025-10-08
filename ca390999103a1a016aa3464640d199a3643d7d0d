@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f46d040b_56d4a863",
+        "filename": "java/com/google/gerrit/extensions/common/ChangeInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-10-08T14:49:19Z",
+      "side": 1,
+      "message": "given it\u0027s only for a specific use case, I would have expected this to be behind an option\n\nIt is a fairly small string so maybe not much of an issue but it\u0027s providing info that most callers would not want",
+      "range": {
+        "startLine": 51,
+        "startChar": 0,
+        "endLine": 57,
+        "endChar": 0
+      },
+      "revId": "ca390999103a1a016aa3464640d199a3643d7d0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -22,6 +22,7 @@ import com.google.inject.assistedinject.Assisted;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.Callable;
 import org.eclipse.jgit.lib.ObjectId;
 
@@ -49,7 +50,10 @@ public class DiffSummaryLoader implements Callable<DiffSummary> {
     Map<String, FileDiffOutput> diffList =
         oldId == null
             ? diffOperations.listModifiedFilesAgainstParent(
-                project, newId, /* parentNum= */ 0, DiffOptions.DEFAULTS)
+                project,
+                newId,
+                Optional.ofNullable(key.toPatchListKey().getParentNum()).orElse(0),
+                DiffOptions.DEFAULTS)
             : diffOperations.listModifiedFiles(project, oldId, newId, DiffOptions.DEFAULTS);
     return toDiffSummary(diffList);
   }
@@ -66,10 +70,9 @@ public class DiffSummaryLoader implements Callable<DiffSummary> {
       linesInserted += fileDiff.insertions();
       linesDeleted += fileDiff.deletions();
       switch (fileDiff.changeType()) {
-        case ADDED, MODIFIED, DELETED, COPIED, REWRITE ->
-            r.add(
-                FilePathAdapter.getNewPath(
-                    fileDiff.oldPath(), fileDiff.newPath(), fileDiff.changeType()));
+        case ADDED, MODIFIED, DELETED, COPIED, REWRITE -> r.add(
+            FilePathAdapter.getNewPath(
+                fileDiff.oldPath(), fileDiff.newPath(), fileDiff.changeType()));
         case RENAMED -> {
           r.add(FilePathAdapter.getOldPath(fileDiff.oldPath(), fileDiff.changeType()));
           r.add(

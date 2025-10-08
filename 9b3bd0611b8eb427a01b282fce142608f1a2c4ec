@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0f1ebcc9_e955ad2a",
+        "filename": "javatests/com/google/gerrit/server/patch/CommitUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1014257
+      },
+      "writtenOn": "2025-10-08T15:52:39Z",
+      "side": 1,
+      "message": "the file header is missing",
+      "revId": "9b3bd0611b8eb427a01b282fce142608f1a2c4ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7fd7974d_6ac94a19",
+        "filename": "javatests/com/google/gerrit/server/patch/DiffSummaryLoaderTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1014257
+      },
+      "writtenOn": "2025-10-08T15:52:39Z",
+      "side": 1,
+      "message": "the file header is missing",
+      "revId": "9b3bd0611b8eb427a01b282fce142608f1a2c4ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

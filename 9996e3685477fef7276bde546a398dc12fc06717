@@ -16,6 +16,24 @@
       "message": "I think reverting this change is not necessary and we can abandon this change?",
       "revId": "9996e3685477fef7276bde546a398dc12fc06717",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bea3d650_225c216f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-10-08T14:07:21Z",
+      "side": 1,
+      "message": "Abandoning.",
+      "parentUuid": "20939bae_97fbea7f",
+      "revId": "9996e3685477fef7276bde546a398dc12fc06717",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -210,6 +210,30 @@
       },
       "revId": "eb1b6d40ca843f3e2a3f0fd91afb0608163e1909",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ab9be96_edab2a46",
+        "filename": "java/com/google/gerrit/server/project/RemoveReviewerControl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-10-08T10:17:40Z",
+      "side": 1,
+      "message": "What about \n\n\u003e Maybe if reviewer is null the debug logs could say \"reviewer by email\" instead of \"reviewer %s\".\n\nDid you consider this?",
+      "parentUuid": "96c384eb_a9162f8a",
+      "range": {
+        "startLine": 169,
+        "startChar": 0,
+        "endLine": 171,
+        "endChar": 5
+      },
+      "revId": "eb1b6d40ca843f3e2a3f0fd91afb0608163e1909",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

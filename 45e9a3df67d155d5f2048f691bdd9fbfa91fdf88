@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3308cf58_6aec776a",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/ChangeReviewersByEmailIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 430,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-10-08T10:17:40Z",
+      "side": 1,
+      "message": "nit: better name this \"ReviewerByEmail\" or \"CcByEmail\"\n\n(to avoid confusion with the case of removing an actual reviewer, that is associated with a Gerrit account, that did not vote)",
+      "range": {
+        "startLine": 430,
+        "startChar": 20,
+        "endLine": 430,
+        "endChar": 39
+      },
+      "revId": "45e9a3df67d155d5f2048f691bdd9fbfa91fdf88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

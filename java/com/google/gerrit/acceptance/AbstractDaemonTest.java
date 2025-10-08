@@ -139,7 +139,6 @@ import com.google.gerrit.server.plugins.PluginGuiceEnvironment;
 import com.google.gerrit.server.plugins.TestServerPlugin;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectConfig;
-import com.google.gerrit.server.project.RepoMetaDataUpdater;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.restapi.change.Revisions;
@@ -269,7 +268,6 @@ public abstract class AbstractDaemonTest {
   @Inject protected FakeEmailSender sender;
   @Inject protected GerritApi gApi;
   @Inject protected GitRepositoryManager repoManager;
-  @Inject protected RepoMetaDataUpdater repoMetaDataUpdater;
   @Inject protected GroupBackend groupBackend;
   @Inject protected GroupCache groupCache;
   @Inject protected IdentifiedUser.GenericFactory identifiedUserFactory;

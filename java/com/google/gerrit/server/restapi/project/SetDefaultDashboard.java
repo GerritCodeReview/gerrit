@@ -28,7 +28,6 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.DashboardResource;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.ProjectResource;
-import com.google.gerrit.server.project.RepoMetaDataUpdater;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.io.IOException;

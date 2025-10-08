@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "11148cd6_1555c9cf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-10-08T14:30:19Z",
+      "side": 1,
+      "message": "Demo with artifical delay: https://screencast.googleplex.com/cast/NDYzMTEwOTcxNDMxMzIxNnw1YTIzOWM1MC0wZQ",
+      "revId": "9d7d0d3a812174c638bc94f37b6dfd90e4f874b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "36a9aeeb_793b1566",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-10-08T14:30:19Z",
+      "side": 1,
+      "message": "Demo with artifical delay:https://screencast.googleplex.com/cast/NDYzMTEwOTcxNDMxMzIxNnw1YTIzOWM1MC0wZQ",
+      "revId": "9d7d0d3a812174c638bc94f37b6dfd90e4f874b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "05a03bb6_76758b47",
+        "filename": "polygerrit-ui/app/elements/shared/gr-sidebar/gr-sidebar.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-10-08T10:49:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d85aabc_049713dd",
+      "revId": "910687279910ac5866a50bd8bab04dda0aa98c2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8586c189_b8ee64fe",
@@ -49,6 +67,30 @@
       "writtenOn": "2025-10-08T09:01:57Z",
       "side": 1,
       "message": "nit: Maybe a name like GrContentWithSidebar or SidebarManager would be more appropriate. Since this is not just a sidebar.",
+      "range": {
+        "startLine": 13,
+        "startChar": 13,
+        "endLine": 13,
+        "endChar": 22
+      },
+      "revId": "910687279910ac5866a50bd8bab04dda0aa98c2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a3ed6d0f_18e7bcbe",
+        "filename": "polygerrit-ui/app/elements/shared/gr-sidebar/gr-sidebar.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-10-08T10:49:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8586c189_b8ee64fe",
       "range": {
         "startLine": 13,
         "startChar": 13,

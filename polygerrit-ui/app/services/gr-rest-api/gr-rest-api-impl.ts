@@ -1394,9 +1394,11 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     const options = [
       ListChangesOption.LABELS,
       ListChangesOption.DETAILED_ACCOUNTS,
-      ListChangesOption.SUBMIT_REQUIREMENTS,
       ListChangesOption.STAR,
     ];
+    if (!this.flags.isEnabled(KnownExperimentId.ASYNC_SUBMIT_REQUIREMENTS)) {
+      options.push(ListChangesOption.SUBMIT_REQUIREMENTS);
+    }
 
     return listChangesOptionsToHex(...options);
   }

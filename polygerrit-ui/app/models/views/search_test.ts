@@ -9,6 +9,7 @@ import {SinonStubbedMember} from 'sinon';
 import {
   AccountId,
   BranchName,
+  ChangeInfo,
   EmailAddress,
   NumericChangeId,
   RepoName,
@@ -20,13 +21,22 @@ import {
 } from '../../elements/core/gr-navigation/gr-navigation';
 import '../../test/common-test-setup';
 import {testResolver} from '../../test/common-test-setup';
-import {createChange} from '../../test/test-data-generators';
+import {
+  createChange,
+  createSubmitRequirementResultInfo,
+} from '../../test/test-data-generators';
 import {
   createSearchUrl,
   SearchUrlOptions,
   SearchViewModel,
   searchViewModelToken,
 } from './search';
+import {
+  MockPromise,
+  mockPromise,
+  stubRestApi,
+  waitUntilObserved,
+} from '../../test/test-utils';
 
 const CHANGE_ID = 'IcA3dAB3edAB9f60B8dcdA6ef71A75980e4B7127';
 const COMMIT_HASH = '12345678';
@@ -211,6 +221,67 @@ suite('search view state tests', () => {
         changes: [{...createChange(), project: 'test-repo' as RepoName}],
       });
       assert.equal(repo, 'test-repo' as RepoName);
+    });
+  });
+
+  suite('change load tests', () => {
+    let model: SearchViewModel;
+    let changes: ChangeInfo[];
+    let changesPromise: MockPromise<ChangeInfo[] | undefined>;
+    let changesWithSrs: ChangeInfo[];
+    let changesWithSrsPromise: MockPromise<ChangeInfo[] | undefined>;
+    const CHANGE_NUM = 765 as NumericChangeId;
+
+    setup(() => {
+      model = testResolver(searchViewModelToken);
+      changes = [
+        {
+          ...createChange({
+            _number: CHANGE_NUM,
+            subject: 'original subject',
+          }),
+        },
+      ];
+      changesWithSrs = [
+        {
+          ...changes[0],
+          subject: 'test-subject that should not be written',
+          submit_requirements: [createSubmitRequirementResultInfo()],
+        },
+      ];
+      changesPromise = mockPromise();
+      changesWithSrsPromise = mockPromise();
+      let getChangesCallIdx = 0;
+      stubRestApi('getChanges').callsFake(() => {
+        ++getChangesCallIdx;
+        if (getChangesCallIdx === 1) {
+          return changesPromise;
+        } else {
+          return changesWithSrsPromise;
+        }
+      });
+    });
+
+    test('changes load and request submit requirements', async () => {
+      // Trigger reload, by updating query.
+      model.updateState({query: 'owner:self'});
+      changesPromise.resolve(changes);
+      let state = await waitUntilObserved(
+        model.state$,
+        state => state?.changes?.[0]?._number === CHANGE_NUM
+      );
+      assert.equal(state?.changes?.length, 1);
+      assert.isUndefined(state?.changes?.[0].submit_requirements);
+      changesWithSrsPromise.resolve(changesWithSrs);
+      state = await waitUntilObserved(
+        model.state$,
+        state => state?.changes?.[0]?.submit_requirements !== undefined
+      );
+      assert.deepEqual(
+        state?.changes?.[0].submit_requirements,
+        changesWithSrs[0].submit_requirements
+      );
+      assert.equal(state?.changes?.[0].subject, 'original subject');
     });
   });
 });

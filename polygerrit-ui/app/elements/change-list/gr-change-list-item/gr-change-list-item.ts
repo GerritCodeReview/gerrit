@@ -30,7 +30,7 @@ import {
 import {assertIsDefined, hasOwnProperty} from '../../../utils/common-util';
 import {changeListStyles} from '../../../styles/gr-change-list-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
-import {css, html, LitElement, PropertyValues} from 'lit';
+import {css, html, LitElement, nothing, PropertyValues} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
 import {submitRequirementsStyles} from '../../../styles/gr-submit-requirements-styles';
 import {ifDefined} from 'lit/directives/if-defined.js';
@@ -47,6 +47,7 @@ import {configModelToken} from '../../../models/config/config-model';
 import {formStyles} from '../../../styles/form-styles';
 import '@material/web/checkbox/checkbox';
 import {materialStyles} from '../../../styles/gr-material-styles';
+import {spinnerStyles} from '../../../styles/gr-spinner-styles';
 
 enum ChangeSize {
   XS = 10,
@@ -207,6 +208,7 @@ export class GrChangeListItem extends LitElement {
       submitRequirementsStyles,
       changeListStyles,
       materialStyles,
+      spinnerStyles,
       css`
         :host {
           display: table-row;
@@ -330,6 +332,13 @@ export class GrChangeListItem extends LitElement {
             display: flex;
           }
         }
+        /* The basics of .loadingSpin are defined in shared styles. */
+        .loadingSpin {
+          width: calc(var(--line-height-normal));
+          height: calc(var(--line-height-normal));
+          display: inline-block;
+          vertical-align: middle;
+        }
       `,
     ];
   }
@@ -344,8 +353,7 @@ export class GrChangeListItem extends LitElement {
       ${this.renderCellRepo()} ${this.renderCellBranch()}
       ${this.renderCellUpdated()} ${this.renderCellSubmitted()}
       ${this.renderCellWaiting()} ${this.renderCellSize()}
-      ${this.renderCellRequirements()}
-      ${this.labelNames?.map(labelNames => this.renderChangeLabels(labelNames))}
+      ${this.renderCellRequirements()} ${this.renderChangeLabels()}
       ${this.dynamicCellEndpoints?.map(pluginEndpointName =>
         this.renderChangePluginEndpoint(pluginEndpointName)
       )}
@@ -578,7 +586,24 @@ export class GrChangeListItem extends LitElement {
     `;
   }
 
-  private renderChangeLabels(labelName: string) {
+  private renderChangeLabels() {
+    if (!this.labelNames || this.labelNames.length === 0) {
+      return nothing;
+    }
+    if (this.change?.submit_requirements === undefined) {
+      // Submit requirements have not been loaded yet.
+      return html`
+        <td class="cell label requirement" colspan=${this.labelNames.length}>
+          <span class="loadingSpin"></span> Loading...
+        </td>
+      `;
+    }
+    return html`
+      ${this.labelNames?.map(labelNames => this.renderChangeLabel(labelNames))}
+    `;
+  }
+
+  private renderChangeLabel(labelName: string) {
     return html` <td class="cell label requirement">
       <gr-change-list-column-requirement
         .change=${this.change}

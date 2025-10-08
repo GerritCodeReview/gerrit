@@ -3,7 +3,7 @@
  * Copyright 2022 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {combineLatest, fromEvent, Observable} from 'rxjs';
+import {combineLatest, forkJoin, from, fromEvent, Observable, of} from 'rxjs';
 import {
   filter,
   map,
@@ -12,7 +12,14 @@ import {
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
-import {BranchName, ChangeInfo, RepoName, TopicName} from '../../api/rest-api';
+import {
+  BranchName,
+  ChangeInfo,
+  NumericChangeId,
+  RepoName,
+  SubmitRequirementResultInfo,
+  TopicName,
+} from '../../api/rest-api';
 import {NavigationService} from '../../elements/core/gr-navigation/gr-navigation';
 import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
 import {GerritView} from '../../services/router/router-model';
@@ -25,6 +32,8 @@ import {Model} from '../base/model';
 import {UserModel} from '../user/user-model';
 import {ViewState} from './base';
 import {createChangeUrl} from './change';
+import {listChangesOptionsToHex} from '../../utils/change-util';
+import {ListChangesOption} from '../../types/common';
 
 const USER_QUERY_PATTERN = /^owner:\s?("[^"]+"|[^ ]+)$/;
 
@@ -223,8 +232,27 @@ export class SearchViewModel extends Model<SearchViewState | undefined> {
     this.subscriptions = [
       this.reloadChangesTrigger$
         .pipe(
-          switchMap(a => this.reloadChanges(a)),
-          tap(changes => this.updateState({changes, loading: false}))
+          switchMap(a => {
+            const [changes, changesWithSubmitRequirements] =
+              this.reloadChanges(a);
+            return from(changes).pipe(
+              map(
+                fetchedChanges =>
+                  [fetchedChanges || [], changesWithSubmitRequirements] as const
+              )
+            );
+          }),
+          switchMap(([changes, srPromise]) => {
+            this.updateState({changes, loading: false});
+            return forkJoin([of(changes), from(srPromise)]);
+          }),
+          tap(([changes, changesWithSubmitRequirements]) => {
+            changes = this.populateSubmitRequirements(
+              changes,
+              changesWithSubmitRequirements
+            );
+            this.updateState({changes, loading: false});
+          })
         )
         .subscribe(),
       this.changes$
@@ -238,20 +266,47 @@ export class SearchViewModel extends Model<SearchViewState | undefined> {
     ];
   }
 
-  private async reloadChanges([query, offset, changesPerPage]: [
+  private reloadChanges([query, offset, changesPerPage]: [
     string,
     number,
     number
-  ]): Promise<ChangeInfo[]> {
-    if (this.getState() === undefined) return [];
-    if (query.trim().length === 0) return [];
+  ]): [Promise<ChangeInfo[] | undefined>, Promise<ChangeInfo[] | undefined>] {
+    if (this.getState() === undefined || query.trim().length === 0)
+      return [Promise.resolve([]), Promise.resolve([])];
     this.updateState({loading: true});
-    const changes = await this.restApiService.getChanges(
+    const changes = this.restApiService.getChanges(
       changesPerPage,
       query,
       offset
     );
-    return changes ?? [];
+    const changesWithSubmitRequirements = this.restApiService.getChanges(
+      changesPerPage,
+      query,
+      offset,
+      listChangesOptionsToHex(ListChangesOption.SUBMIT_REQUIREMENTS)
+    );
+    return [changes, changesWithSubmitRequirements];
+  }
+
+  private populateSubmitRequirements(
+    changes: ChangeInfo[],
+    changesWithSubmitRequirements: ChangeInfo[] | undefined
+  ) {
+    if (!changesWithSubmitRequirements) {
+      return changes;
+    }
+    const sr = new Map<NumericChangeId, SubmitRequirementResultInfo[]>();
+    for (const c of changesWithSubmitRequirements) {
+      sr.set(c._number, c.submit_requirements!);
+    }
+    const updated_changes = [];
+    for (const c of changes) {
+      updated_changes.push({
+        ...c,
+        submit_requirements: sr.get(c._number) || [],
+      });
+    }
+    return updated_changes;
   }
 
   // visible for testing

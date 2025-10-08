@@ -33,6 +33,29 @@
       "message": "Demo with artifical delay:https://screencast.googleplex.com/cast/NDYzMTEwOTcxNDMxMzIxNnw1YTIzOWM1MC0wZQ",
       "revId": "9d7d0d3a812174c638bc94f37b6dfd90e4f874b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3467d724_e8de8568",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1401,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-10-08T14:31:56Z",
+      "side": 1,
+      "message": "The flag here affects dashboard queries as well. This is fine because experiment is currently disabled, changes to dashboard to fetch SR when experiment enabled will be done a separate change.",
+      "range": {
+        "startLine": 1399,
+        "startChar": 4,
+        "endLine": 1401,
+        "endChar": 5
+      },
+      "revId": "9d7d0d3a812174c638bc94f37b6dfd90e4f874b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

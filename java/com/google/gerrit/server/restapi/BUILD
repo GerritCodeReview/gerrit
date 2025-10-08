@@ -27,7 +27,6 @@ java_library(
         "//java/com/google/gerrit/server/flow",
         "//java/com/google/gerrit/server/ioutil",
         "//java/com/google/gerrit/server/logging",
-        "//java/com/google/gerrit/server/schema",
         "//java/com/google/gerrit/server/util/time",
         "//lib:args4j",
         "//lib:blame-cache",

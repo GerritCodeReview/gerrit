@@ -87,9 +87,6 @@ public class ProjectRestApiModule extends RestApiModule {
     put(PROJECT_KIND, "config").to(PutConfig.class);
     put(PROJECT_KIND, "config:review").to(PutConfigReview.class);
 
-    post(PROJECT_KIND, "migrate-labels").to(MigrateLabels.class);
-    post(PROJECT_KIND, "migrate-labels:review").to(MigrateLabelsReview.class);
-
     post(PROJECT_KIND, "create.change").to(CreateChange.class);
 
     child(PROJECT_KIND, "dashboards").to(DashboardsCollection.class);

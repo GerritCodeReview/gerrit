@@ -34,6 +34,24 @@
       "parentUuid": "01cc24e2_cdcbf6be",
       "revId": "6f8b6c464a7004b173f154e31028f782b4491653",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "702b33fe_f5ed99d0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-10-08T14:07:27Z",
+      "side": 1,
+      "message": "I found what caused my issues running these test:\n\nI had set `feature.experimental \u003d true` in `~/.gitconfig` and since git 2.51.0 this enables usage of `reftable` format for storing refs by default. The failing maintenance script tests assume that the repository uses traditional ref storage format `files`. Setting `feature.experimental\u003dfalse` fixed the test failures.\n\nRelease notes of git 2.51.0 mention that starting with git 3.0 reftable will be the default ref storage format.\n \nsee \nhttps://github.com/git/git/commit/793b14e1c833dd4ea0d85cdef53cc5ab38f7915e\nhttps://github.com/git/git/blob/master/Documentation/RelNotes/2.51.0.adoc",
+      "parentUuid": "3249873e_7b19afba",
+      "revId": "6f8b6c464a7004b173f154e31028f782b4491653",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

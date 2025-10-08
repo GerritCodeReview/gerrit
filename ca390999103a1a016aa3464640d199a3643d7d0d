@@ -46,6 +46,30 @@
       },
       "revId": "ca390999103a1a016aa3464640d199a3643d7d0d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b6d48789_aa1b4447",
+        "filename": "java/com/google/gerrit/extensions/common/ChangeInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-10-08T14:52:20Z",
+      "side": 1,
+      "message": "Yeah less about engineering effort, more about non-optional data returned to callers who maybe don\u0027t find it useful.",
+      "parentUuid": "428c2aad_9f618af6",
+      "range": {
+        "startLine": 51,
+        "startChar": 0,
+        "endLine": 57,
+        "endChar": 0
+      },
+      "revId": "ca390999103a1a016aa3464640d199a3643d7d0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

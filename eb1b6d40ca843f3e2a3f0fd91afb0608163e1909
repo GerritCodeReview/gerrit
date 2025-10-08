@@ -234,6 +234,30 @@
       },
       "revId": "eb1b6d40ca843f3e2a3f0fd91afb0608163e1909",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "53870826_0b9ac22a",
+        "filename": "java/com/google/gerrit/server/project/RemoveReviewerControl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-10-08T10:38:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ab9be96_edab2a46",
+      "range": {
+        "startLine": 169,
+        "startChar": 0,
+        "endLine": 171,
+        "endChar": 5
+      },
+      "revId": "eb1b6d40ca843f3e2a3f0fd91afb0608163e1909",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

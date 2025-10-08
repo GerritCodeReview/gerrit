@@ -611,6 +611,7 @@ public class ChangeJson {
     if (c != null) {
       info.project = c.getProject().get();
       info.branch = c.getDest().shortName();
+      info.fullBranch = c.getDest().branch();
       info.topic = c.getTopic();
       info.changeId = c.getKey().get();
       info.subject = c.getSubject();
@@ -663,6 +664,7 @@ public class ChangeJson {
     Change in = cd.change();
     out.project = in.getProject().get();
     out.branch = in.getDest().shortName();
+    out.fullBranch = in.getDest().branch();
     out.currentRevisionNumber = in.currentPatchSetId().get();
     out.topic = in.getTopic();
     if (!cd.attentionSet().isEmpty()) {
@@ -1136,6 +1138,7 @@ public class ChangeJson {
     }
     info.project = c.getProject().get();
     info.branch = c.getDest().shortName();
+    info.fullBranch = c.getDest().branch();
     info.changeId = c.getKey().get();
     info._number = c.getId().get();
     info.subject = "***ERROR***";

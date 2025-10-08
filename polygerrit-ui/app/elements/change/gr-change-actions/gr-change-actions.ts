@@ -1510,7 +1510,7 @@ export class GrChangeActions
         this.handleMoveTap();
         break;
       case ChangeActions.PUBLISH_EDIT:
-        this.handlePublishEditTap();
+        await this.handlePublishEditTap();
         break;
       case ChangeActions.REBASE_EDIT:
         this.handleRebaseEditTap();
@@ -1770,7 +1770,7 @@ export class GrChangeActions
     );
   }
 
-  private handlePublishEditConfirm() {
+  private async handlePublishEditConfirm() {
     this.hideAllDialogs();
 
     if (!this.actions.publishEdit) return;
@@ -1778,6 +1778,15 @@ export class GrChangeActions
     // We need to make sure that all cached version of a change
     // edit are deleted.
     this.getStorage().eraseEditableContentItemsForChangeEdit(this.changeNum);
+
+    if (
+      !(await this.getPluginLoader().jsApiService.handleBeforePublishEdit(
+        this.change as ChangeInfo
+      ))
+    ) {
+      // Exit early and abort publish if a plugin hook requests it.
+      return;
+    }
 
     this.fireAction(
       '/edit:publish',
@@ -2142,7 +2151,7 @@ export class GrChangeActions
     this.fireAction('/wip', assertUIActionInfo(this.actions.wip), false);
   }
 
-  private handlePublishEditTap() {
+  private async handlePublishEditTap() {
     if (this.numberOfThreadsWithUnappliedSuggestions() > 0) {
       assertIsDefined(
         this.confirmPublishEditDialog,
@@ -2151,7 +2160,7 @@ export class GrChangeActions
       this.showActionDialog(this.confirmPublishEditDialog);
     } else {
       // Skip confirmation dialog and publish immediately.
-      this.handlePublishEditConfirm();
+      await this.handlePublishEditConfirm();
     }
   }
 

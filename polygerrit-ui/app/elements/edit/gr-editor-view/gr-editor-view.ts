@@ -517,15 +517,26 @@ export class GrEditorView extends LitElement {
     });
   };
 
-  private handlePublishTap = () => {
+  // private but used in test
+  handlePublishTap = async () => {
     const changeNum = this.viewState?.changeNum;
     assertIsDefined(changeNum, 'change number');
 
-    this.saveEdit().then(() => {
+    await this.saveEdit().then(async () => {
       const handleError: ErrorCallback = response => {
         this.showAlert(PUBLISH_FAILED_MSG);
         this.reporting.error('/edit:publish', new Error(response?.statusText));
       };
+
+      if (
+        !(await this.getPluginLoader().jsApiService.handleBeforePublishEdit(
+          this.change as ChangeInfo
+        ))
+      ) {
+        // The event handler should notify with a more specific
+        // message if it blocks publishing.
+        return;
+      }
 
       this.showAlert(PUBLISHING_EDIT_MSG);
 

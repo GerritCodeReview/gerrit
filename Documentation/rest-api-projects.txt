@@ -4150,68 +4150,6 @@ entity describing the resulting change.
   }
 ----
 
-[[migrate-labels]]
-=== Migrate label functions to submit requirements
---
-'POST /projects/link:#project-name[\{project-name\}]/migrate-labels'
---
-
-Migrates labels with functions to submit requirements. The migration result is
-committed into the `refs/meta/config` branch and thus immediately active. As a
-response it returns link:#migrate-labels-info[MigrateLabelsInfo] entity
-describing the outcome of the migration.
-
-The caller must be a project owner.
-
-.Request
-----
-  POST /projects/testproj/migrate-labels HTTP/1.0
-  Content-Type: application/json; charset=UTF-8
-----
-
-.Response
-----
-  HTTP/1.1 200 OK
-  Content-Type: application/json; charset=UTF-8
-
-  )]}'
-  {"status": "MIGRATED"}
-----
-
-
-[[migrate-labels-change]]
-=== Create change which migrate label functions to submit requirements
---
-'POST /projects/link:#project-name[\{project-name\}]/migrate-labels:review'
---
-
-Creates a change for review which migrates labels with functions to submit requirements.
-As a response it returns link:#migrate-labels-review-info[MigrageLabelsReviewInfo] entity
-describing the outcome of the migration.
-
-.Request
-----
-  POST /projects/testproj/migrate-labels HTTP/1.0
-  Content-Type: application/json; charset=UTF-8
-----
-
-.Response
-----
-  HTTP/1.1 200 OK
-  Content-Type: application/json; charset=UTF-8
-
-  )]}'
-  {
-    "status": "MIGRATED",
-    "change": {
-      "id": "testproj~12345",
-      ...
-    }
-  }
-----
-
-
-
 [[ids]]
 == IDs
 
@@ -5327,40 +5265,6 @@ as an annotated tag.
 |`date`      |optional|Creation timestamp for annotated tags. Must not be
 a date in the future.
 |=========================
-
-
-[[migrate-labels-info]]
-=== MigrateLabelsInfo
-The `MigrateLabelsInfo` entity contains information about an outcome of labels
-function migration.
-
-[options="header",cols="1,^2,4"]
-|=============================
-|Field Name      ||Description
-|`status`        ||The status of the migration. Takes one of the following values:
-`MIGRATED`,
-`HAS_PROLOG`,
-`PREVIOUSLY_MIGRATED`,
-`NO_CHANGE`
-|=============================
-
-[[migrate-labels-review-info]]
-=== MigrateLabelsReviewInfo
-The `MigrateLabelsReviewInfo` entity contains information about an outcome of creating
-a change for labels function migration.
-
-[options="header",cols="1,^2,4"]
-|=============================
-|Field Name      ||Description
-|`status`        ||The status of the migration. Takes one of the following values:
-`MIGRATED`,
-`HAS_PROLOG`,
-`PREVIOUSLY_MIGRATED`,
-`NO_CHANGE`
-|`change`        |optional|The change created.
-It is a link:rest-api-changes.html#change-info[ChangeInfo] entity
-and is set only when the `status` value is `MIGRATED`.
-|=============================
 
 GERRIT
 ------

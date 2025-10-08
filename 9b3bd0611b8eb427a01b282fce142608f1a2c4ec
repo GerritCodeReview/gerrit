@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7e0e2d2a_afc934dd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1142566
+      },
+      "writtenOn": "2025-10-08T16:49:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "73576c51_e025cfb9",
+      "revId": "9b3bd0611b8eb427a01b282fce142608f1a2c4ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "628eb5ac_91fbfc8e",
@@ -31,6 +49,24 @@
       "writtenOn": "2025-10-08T15:55:22Z",
       "side": 1,
       "message": "I think this comment is no longer needed",
+      "revId": "9b3bd0611b8eb427a01b282fce142608f1a2c4ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "811e29b0_f183ea02",
+        "filename": "java/com/google/gerrit/server/patch/DiffSummaryLoader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1142566
+      },
+      "writtenOn": "2025-10-08T16:49:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "628eb5ac_91fbfc8e",
       "revId": "9b3bd0611b8eb427a01b282fce142608f1a2c4ec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -52,6 +88,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d73054bf_2bd5c7c3",
+        "filename": "javatests/com/google/gerrit/server/patch/CommitUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1142566
+      },
+      "writtenOn": "2025-10-08T16:49:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0f1ebcc9_e955ad2a",
+      "revId": "9b3bd0611b8eb427a01b282fce142608f1a2c4ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7fd7974d_6ac94a19",
@@ -65,6 +119,24 @@
       "writtenOn": "2025-10-08T15:52:39Z",
       "side": 1,
       "message": "the file header is missing",
+      "revId": "9b3bd0611b8eb427a01b282fce142608f1a2c4ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1240122f_56aed45f",
+        "filename": "javatests/com/google/gerrit/server/patch/DiffSummaryLoaderTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1142566
+      },
+      "writtenOn": "2025-10-08T16:49:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7fd7974d_6ac94a19",
       "revId": "9b3bd0611b8eb427a01b282fce142608f1a2c4ec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

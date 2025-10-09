@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8a10f431_aeab8c1f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2025-10-09T12:10:41Z",
+      "side": 1,
+      "message": "Maybe we can move this in a new API file, `ai-chat.ts`",
+      "parentUuid": "7596f2bd_93ce913b",
+      "revId": "852ca78bc58dec36753c17f6e3144892438cbf04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d117f55d_3cf739ba",

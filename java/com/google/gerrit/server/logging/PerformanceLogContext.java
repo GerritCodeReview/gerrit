@@ -17,6 +17,8 @@ package com.google.gerrit.server.logging;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.flogger.LazyArgs.lazy;
 import static java.util.Comparator.comparing;
+import static java.util.concurrent.TimeUnit.NANOSECONDS;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableList;
@@ -24,10 +26,12 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.registration.Extension;
 import com.google.gerrit.server.cancellation.PerformanceSummaryProvider;
+import com.google.gerrit.server.util.time.TimeUtil;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
 import org.eclipse.jgit.lib.Config;
 
 /**
@@ -62,6 +66,11 @@ public class PerformanceLogContext implements AutoCloseable, PerformanceSummaryP
   /** Maximum number of operations for which the latency should be logged. */
   private final int maxOperationsToLog;
 
+  /** Threshold in nanos from which on a request is considered as "slow" if exceeded. */
+  private final long slowRequestThresholdNanos;
+
+  private long startNanos;
+
   public PerformanceLogContext(
       Config gerritConfig, DynamicSet<PerformanceLogger> performanceLoggers) {
     this.performanceLoggers = performanceLoggers;
@@ -76,6 +85,15 @@ public class PerformanceLogContext implements AutoCloseable, PerformanceSummaryP
 
     this.maxOperationsToLog =
         gerritConfig.getInt("performance", "maxOperationsToLog", DEFAULT_MAX_OPERATIONS_TO_LOG);
+
+    this.slowRequestThresholdNanos =
+        gerritConfig.getTimeUnit(
+            "performance",
+            /* subsection= */ null,
+            "slowRequestThreshold",
+            SECONDS.toNanos(30),
+            NANOSECONDS);
+    this.startNanos = TimeUtil.nowNanos();
   }
 
   @Override
@@ -84,12 +102,20 @@ public class PerformanceLogContext implements AutoCloseable, PerformanceSummaryP
       runEach(performanceLoggers, LoggingContext.getInstance().getPerformanceLogRecords());
     }
 
-    logger.atFine().log(
+    long elapsedNanos = TimeUtil.nowNanos() - startNanos;
+    logger.at(elapsedNanos > slowRequestThresholdNanos ? Level.WARNING : Level.FINE).log(
         "%s",
         lazy(
             () ->
                 getPerformanceSummary()
-                    .map(performanceSummary -> "[Performance Summary]\n\n" + performanceSummary)
+                    .map(
+                        performanceSummary ->
+                            String.format(
+                                "%s\n\n%s",
+                                elapsedNanos > slowRequestThresholdNanos
+                                    ? "Performance Summary for slow request"
+                                    : "[Performance Summary]",
+                                performanceSummary))
                     .orElse("No performance summary available")));
 
     // Restore old state. Required to support nesting of PerformanceLogContext's.

@@ -15,6 +15,7 @@
 package com.google.gerrit.pgm.http.jetty;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
 import static org.mockito.Mockito.when;
 
 import com.google.gerrit.server.CurrentUser;
@@ -65,6 +66,7 @@ public class ProjectQoSFilterTest {
           try {
             listener.onComplete(asyncEvent);
           } catch (Exception e) {
+            assertWithMessage("should never happen").fail();
           }
         }
       }.run();
@@ -89,6 +91,7 @@ public class ProjectQoSFilterTest {
           try {
             listener.onTimeout(asyncEvent);
           } catch (Exception e) {
+            assertWithMessage("should never happen").fail();
           }
         }
       }.run();
@@ -114,6 +117,7 @@ public class ProjectQoSFilterTest {
           try {
             listener.onError(asyncEvent);
           } catch (Exception e) {
+            assertWithMessage("should never happen").fail();
           }
         }
       }.run();

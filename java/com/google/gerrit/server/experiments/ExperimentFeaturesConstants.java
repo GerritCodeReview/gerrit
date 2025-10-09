@@ -63,4 +63,7 @@ public class ExperimentFeaturesConstants {
 
   /** Whether UI should request Submit Requirements separately from change detail. */
   public static final String ASYNC_SUBMIT_REQUIREMENTS = "UiFeature__async_submit_requirements";
+
+  /** Whether UI should send dashboard queries as separate requests in parallel. */
+  public static final String PARALLEL_DASHBOARD_REQUESTS = "UiFeature__parallel_dashboard_requests";
 }

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7596f2bd_93ce913b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-10-09T10:59:15Z",
+      "side": 1,
+      "message": "I don\u0027t see how this related to the `SuggestionsPluginApi`?",
+      "revId": "852ca78bc58dec36753c17f6e3144892438cbf04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d117f55d_3cf739ba",
+        "filename": "polygerrit-ui/app/api/suggestions.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-10-09T10:59:15Z",
+      "side": 1,
+      "message": "What if it is not? For example if the last know `tunIndex` is `10` and we specify `turnIndex` as `5`? I guess then the conversation continues/branches from the 5th turn? However, what is then the next `turnIndex`? The `6` was already used for this conversion.\n\nHow would branched-out conversation surface in the Chat UI?",
+      "range": {
+        "startLine": 35,
+        "startChar": 38,
+        "endLine": 36,
+        "endChar": 9
+      },
+      "revId": "852ca78bc58dec36753c17f6e3144892438cbf04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

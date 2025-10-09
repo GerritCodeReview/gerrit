@@ -37,6 +37,7 @@ import {GrPluginStyleApi} from './gr-plugin-style-api';
 import {StylePluginApi} from '../../../api/styles';
 import {GrSuggestionsApi} from '../../plugins/gr-suggestions-api/gr-suggestions-api';
 import {GrChangeUpdatesApi} from '../../plugins/gr-change-updates-api/gr-change-updates-api';
+import {GrAiCodeReviewApi} from '../../plugins/gr-ai-code-review-api/gr-ai-code-review-api';
 
 const PLUGIN_NAME_NOT_SET = 'NULL';
 
@@ -177,6 +178,10 @@ export class Plugin implements PluginApi {
     const base = getBaseUrl();
     const tokenPart = screenName ? '/' + screenName : '';
     return `${origin}${base}/x/${this.getPluginName()}${tokenPart}`;
+  }
+
+  aiCodeReview(): GrAiCodeReviewApi {
+    return new GrAiCodeReviewApi(this.report, this.pluginsModel, this);
   }
 
   annotationApi(): AnnotationPluginApi {

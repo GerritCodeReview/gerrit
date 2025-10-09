@@ -16,6 +16,24 @@
       "message": "Can you make `innerValue` a Lit `@state`? Then you don\u0027t need this line. Line 274 should then be sufficient.",
       "revId": "836f26f98683643c70fb1ed2336e976cc70e51f7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ad826cc6_3d9e38ff",
+        "filename": "polygerrit-ui/app/embed/gr-textarea.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 463,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-10-09T12:29:26Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "41701dc9_a38578e9",
+      "revId": "836f26f98683643c70fb1ed2336e976cc70e51f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

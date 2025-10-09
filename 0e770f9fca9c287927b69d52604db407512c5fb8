@@ -22,6 +22,30 @@
       },
       "revId": "0e770f9fca9c287927b69d52604db407512c5fb8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cc12a29a_d7d1d1f2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-10-09T21:51:50Z",
+      "side": 1,
+      "message": "Ping, @ekempin@google.com do you know if the bug can be public?",
+      "parentUuid": "e28ce561_caf96545",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 26
+      },
+      "revId": "0e770f9fca9c287927b69d52604db407512c5fb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -5545,6 +5545,16 @@ link:#tracing.performanceLogging[tracing.performanceLogging] setting).
 +
 By default 25.
 
+[[performance.slowRequestThreshold]]performance.slowRequestThreshold::
++
+Threshold from which on a request is considered as "slow" if exceeded.
++
+For slow requests a performance summary is logged on warning level (only if
+performance logging is enabled (see
+link:#tracing.performanceLogging[tracing.performanceLogging] setting).
++
+By default 30s.
+
 [[performance.metric]]
 ==== Subsection performance.metric
 

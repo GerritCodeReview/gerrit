@@ -108,8 +108,19 @@ http_file(
 
 load("@build_bazel_rules_nodejs//:index.bzl", "node_repositories", "yarn_install")
 
+NODE_20_REPO = {
+    "20.19.5-darwin_arm64": ("node-v20.19.5-darwin-arm64.tar.gz", "node-v20.19.5-darwin-arm64", "cfed7503d8d99fbcf2f52e408ec52f616058eb0867b34dbc3437259993ef5cba"),
+    "20.19.5-darwin_amd64": ("node-v20.19.5-darwin-x64.tar.gz", "node-v20.19.5-darwin-x64", "f9cff058f2766d4d0631dc69b5f7f27664b3a42ff186e25ac7e1ac269af7e696"),
+    "20.19.5-linux_arm64": ("node-v20.19.5-linux-arm64.tar.xz", "node-v20.19.5-linux-arm64", "d462267863ae8ee556039ebdf559055a8ec562c633889ef1403f3adb449ba1dd"),
+    "20.19.5-linux_ppc64le": ("node-v20.19.5-linux-ppc64le.tar.xz", "node-v20.19.5-linux-ppc64le", "ef98025e71d6d498476a95f144e353be074b24431b22eaa81bc64f921ea7d57f"),
+    "20.19.5-linux_s390x": ("node-v20.19.5-linux-s390x.tar.xz", "node-v20.19.5-linux-s390x", "a2e56c4b7fbffd0e6eef3a89e1c5945962fe85b4e2acfa59edc77a9238cc7901"),
+    "20.19.5-linux_amd64": ("node-v20.19.5-linux-x64.tar.xz", "node-v20.19.5-linux-x64", "315046739a513a70e03a4a55a8afda8cf979f30852e576075c340084e3f8ac0f"),
+    "20.19.5-windows_amd64": ("node-v20.19.5-win-x64.zip", "node-v20.19.5-win-x64", "c48159529572a5a947eef2d55d6485dfdc4ce8e67216402e2f6de52ad5d95695"),
+}
+
 node_repositories(
-    node_version = "20.14.0",
+    node_repositories = NODE_20_REPO,
+    node_version = "20.19.5",
     yarn_version = "1.22.19",
 )
 

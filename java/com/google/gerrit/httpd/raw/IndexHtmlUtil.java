@@ -74,11 +74,19 @@ public class IndexHtmlUtil {
     ImmutableMap.Builder<String, Object> data = ImmutableMap.builder();
     boolean asyncSubmitRequirements =
         experimentFeatures.isFeatureEnabled(ExperimentFeaturesConstants.ASYNC_SUBMIT_REQUIREMENTS);
+    boolean parallelDashboardRequest =
+        experimentFeatures.isFeatureEnabled(
+            ExperimentFeaturesConstants.PARALLEL_DASHBOARD_REQUESTS);
     data.putAll(
             staticTemplateData(
                 canonicalURL, cdnPath, faviconPath, urlParameterMap, urlInScriptTagOrdainer))
         .putAll(
-            dynamicTemplateData(gerritApi, requestedURL, canonicalURL, asyncSubmitRequirements));
+            dynamicTemplateData(
+                gerritApi,
+                requestedURL,
+                canonicalURL,
+                asyncSubmitRequirements,
+                parallelDashboardRequest));
     Set<String> enabledExperiments = new HashSet<>();
     enabledExperiments.addAll(experimentFeatures.getEnabledExperimentFeatures());
     // Add all experiments enabled through url
@@ -117,7 +125,8 @@ public class IndexHtmlUtil {
       GerritApi gerritApi,
       String requestedURL,
       String canonicalURL,
-      boolean asyncSubmitRequirements)
+      boolean asyncSubmitRequirements,
+      boolean parallelDashboardRequest)
       throws RestApiException, URISyntaxException {
     ImmutableMap.Builder<String, Object> data = ImmutableMap.builder();
     Map<String, SanitizedContent> initialData = new HashMap<>();
@@ -181,6 +190,7 @@ public class IndexHtmlUtil {
       if (page == RequestedPage.DASHBOARD) {
         data.put("defaultDashboardHex", ListOption.toHex(IndexPreloadingUtil.DASHBOARD_OPTIONS));
         data.put("dashboardQuery", IndexPreloadingUtil.computeDashboardQueryList());
+        data.put("parallelDashboardRequest", parallelDashboardRequest);
       }
     } catch (AuthException e) {
       logger.atFine().log("Can't inline account-related data because user is unauthenticated");

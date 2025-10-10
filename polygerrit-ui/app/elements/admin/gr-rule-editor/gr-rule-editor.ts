@@ -109,9 +109,6 @@ export class GrRuleEditor extends LitElement {
   section?: string;
 
   // private but used in test
-  @state() deleted = false;
-
-  // private but used in test
   @state() originalRuleValues?: EditablePermissionRuleInfo;
 
   constructor() {
@@ -390,7 +387,7 @@ export class GrRuleEditor extends LitElement {
     if (this.editing) {
       classList.push('editing');
     }
-    if (this.deleted) {
+    if (this.rule?.value?.deleted) {
       classList.push('deleted');
     }
     return classList.join(' ');
@@ -447,13 +444,16 @@ export class GrRuleEditor extends LitElement {
     return DROPDOWN_OPTIONS;
   }
 
-  private handleRemoveRule() {
+  private async handleRemoveRule() {
     if (!this.rule?.value) return;
+    this.rule.value.deleted = true;
+
+    this.requestUpdate('rule');
+    await this.updateComplete;
+
     if (this.rule.value.added) {
       fire(this, 'added-rule-removed', {});
     }
-    this.deleted = true;
-    this.rule.value.deleted = true;
 
     this.handleRuleChange();
 
@@ -462,7 +462,6 @@ export class GrRuleEditor extends LitElement {
 
   private handleUndoRemove() {
     if (!this.rule?.value) return;
-    this.deleted = false;
     delete this.rule.value.deleted;
 
     this.handleRuleChange();
@@ -478,7 +477,6 @@ export class GrRuleEditor extends LitElement {
       return;
     }
     this.rule.value = {...this.originalRuleValues};
-    this.deleted = false;
     delete this.rule.value.deleted;
     delete this.rule.value.modified;
 

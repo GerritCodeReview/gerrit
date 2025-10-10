@@ -113,7 +113,10 @@ public class PerformanceLogContext implements AutoCloseable, PerformanceSummaryP
                             String.format(
                                 "%s\n\n%s",
                                 elapsedNanos > slowRequestThresholdNanos
-                                    ? "Performance Summary for slow request"
+                                    ? String.format(
+                                        "Performance Summary for slow request (request took longer"
+                                            + " than %ss)",
+                                        NANOSECONDS.toSeconds(slowRequestThresholdNanos))
                                     : "[Performance Summary]",
                                 performanceSummary))
                     .orElse("No performance summary available")));

@@ -1,6 +1,7 @@
 # UUID                                                        	Group Name
 #
 24570b0b94101debd911e621add4bd51ac3fc348                      	gerrit-release-creators
+5454d6d27fce6d8bf5d1428d4777f4de63fa8a36                      	gerrit-release-managers
 90b3042d9094a37985f3f9281391dbbe9a5addad                      	gerrit-lib
 b49f61711e6c0148f9f4d90702015bb894289be9                      	gerrit-trusted-contributors
 b97887aaa85f9b33a4252e189de8c250dad58037                      	luci_scoped_account

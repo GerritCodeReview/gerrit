@@ -1,8 +1,8 @@
 :linkattrs:
 = Deploy Gerrit Artifacts
 
-[[deploy-configuration-setting-maven-central]]
-== Deploy Configuration settings for Maven Central
+[[create-maven-central-credentials]]
+== Create Maven Central credentials
 
 Some Gerrit artifacts (e.g. the Gerrit WAR file, the Gerrit Plugin API
 and the Gerrit Extension API) are published on Maven Central in the
@@ -13,37 +13,31 @@ be done:
 
 * Create an account by following instructions at
 link:https://central.sonatype.org/register/central-portal/#create-an-account[Maven
-Central Poral,role=external,window=_blank].
+Central Portal,role=external,window=_blank].
 +
 Sonatype is the company that runs Maven Central and you need a Sonatype
 account to be able to upload artifacts to Maven Central.
 +
 Once you login you must generate a new user token that allows you to make
 requests via the publisher API.
+You can follow instructions link:https://central.sonatype.org/publish/generate-portal-token/[here]
+on how to do this.
 +
-You can generate a token
-link:https://central.sonatype.com/account[here,role=external,window=_blank]
-
-* Configure your Portal user user and token in `~/.m2/settings.xml`:
+Take note of this user and token. You will need to use them when running the release
+pipeline as described in the link:dev-release.html#gerrit-release-job[relevant documentation].
 +
-----
-<server>
-  <id>OSSRH-staging</id>
-  <username>USER</username>
-  <password>PASSWORD</password>
-</server>
-----
-
 * Request permissions to upload artifacts to the `com.google.gerrit`
 repository on Maven Central:
 +
-Ask for this permission by adding a comment on the
-link:https://issues.sonatype.org/browse/OSSRH-7392[OSSRH-7392,role=external,window=_blank] Jira
-ticket at Sonatype.
+To acquire permission to upload artifacts to the `com.google.gerrit` repository on Maven Central
+You must follow instructions
+link:https://central.sonatype.org/faq/what-happened-to-issues-sonatype-org/#i-used-to-registerupdate-my-ossrh-account-at-issuessonatypeorg-what-do-i-do-now[here].
+
 +
 The request needs to be approved by someone who already has this
 permission by commenting on the same issue.
 
+[[generate-and-publish-gpg-key]]
 * Generate and publish a PGP key
 +
 A PGP key is needed to be able to sign the release artifacts before
@@ -60,26 +54,8 @@ Add an entry for the public key in the
 link:https://gerrit.googlesource.com/homepage/+/master/pages/site/releases/public-keys.md[key list,role=external,window=_blank]
 on the homepage.
 +
-The PGP passphrase can be put in `~/.m2/settings.xml`:
-+
-----
-<settings>
-  <profiles>
-    <profile>
-      <id>gpg</id>
-      <properties>
-        <gpg.executable>gpg2</gpg.executable>
-        <gpg.passphrase>mypassphrase</gpg.passphrase>
-      </properties>
-    </profile>
-  </profiles>
-  <activeProfiles>
-    <activeProfile>gpg</activeProfile>
-  </activeProfiles>
-</settings>
-----
-+
-It can also be included in the key chain on OS X.
+The GPG private key and your passphrase will be required when running the release
+pipeline as described in the link:dev-release.html#gerrit-release-job[relevant documentation].
 
 [[deploy-configuration-settings-xml]]
 == Deploy Configuration in Maven `settings.xml`

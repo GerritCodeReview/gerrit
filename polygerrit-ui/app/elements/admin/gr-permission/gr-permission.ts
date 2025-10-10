@@ -44,6 +44,13 @@ import {
   ValueChangedEvent,
 } from '../../../types/events';
 import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
+<<<<<<< HEAD   (445bbd37b598058f40e20cc888e716c0326d41a6 REST API: fix example JSON responses)
+||||||| BASE   (bc6536ff1083140441858d577ca38b1a9a5699d3 Update git submodules)
+import {MdSwitch} from '@material/web/switch/switch';
+=======
+import {MdSwitch} from '@material/web/switch/switch';
+import {repeat} from 'lit/directives/repeat.js';
+>>>>>>> CHANGE (f151636c408d1e81f300286b8c14969fda5f30bd gr-permission: Fix deleting rule in gr-rule-editor)
 
 const MAX_AUTOCOMPLETE_RESULTS = 20;
 
@@ -247,7 +254,9 @@ export class GrPermission extends LitElement {
           </div>
           <!-- end header -->
           <div class="rules">
-            ${this.rules?.map(
+            ${repeat(
+              this.rules ?? [],
+              rule => rule.id,
               (rule, index) => html`
                 <gr-rule-editor
                   .hasRange=${this.computeHasRange(this.name)}

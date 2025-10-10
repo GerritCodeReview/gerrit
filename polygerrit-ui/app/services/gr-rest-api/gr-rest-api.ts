@@ -118,7 +118,7 @@ export interface GetDiffCommentsOutput {
 
 export interface SubmittabilityInfo {
   changeNum: NumericChangeId;
-  submittable: boolean;
+  submittable?: boolean;
   submitRequirements: SubmitRequirementResultInfo[];
 }
 

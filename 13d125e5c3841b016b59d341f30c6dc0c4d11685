@@ -37,6 +37,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "90268f3d_7ad9bf86",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-10-10T13:10:43Z",
+      "side": 1,
+      "message": "No, apart from the lc +1",
+      "parentUuid": "0dd318ab_bbf03916",
+      "revId": "13d125e5c3841b016b59d341f30c6dc0c4d11685",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "af9734cc_83b08602",
         "filename": "WORKSPACE",
         "patchSetId": 4
@@ -48,6 +66,30 @@
       "writtenOn": "2025-10-10T12:13:03Z",
       "side": 1,
       "message": "can you explain these changes in the commit message/ how they are generated?",
+      "range": {
+        "startLine": 111,
+        "startChar": 0,
+        "endLine": 120,
+        "endChar": 0
+      },
+      "revId": "13d125e5c3841b016b59d341f30c6dc0c4d11685",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c8792cd5_0dab82bc",
+        "filename": "WORKSPACE",
+        "patchSetId": 4
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-10-10T13:10:43Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "af9734cc_83b08602",
       "range": {
         "startLine": 111,
         "startChar": 0,

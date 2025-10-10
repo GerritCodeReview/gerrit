@@ -43,8 +43,6 @@ export class GrContentWithSidebar extends LitElement {
         :host {
           display: block;
           --sidebar-height: calc(100vh - var(--sidebar-top));
-          --sidebar-top: var(--sidebar-top, 0px);
-          --sidebar-bottom-overflow: var(--sidebar-bottom-overflow, 0px);
         }
         .sidebar-wrapper {
           z-index: 50;

@@ -16,6 +16,24 @@
       "message": "This is for allowing the _automated release_ process from the CI, where we use an automated job with a reviewed script to generate and tag the release, instead of a manual operation from the release manager.",
       "revId": "889d072f1a8045e320459cd8b5f083e887a28456",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "72e8fce7_6fbea676",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-10-10T11:01:35Z",
+      "side": 1,
+      "message": "Please put this info into the commit message :)",
+      "parentUuid": "335ce8ad_bf389c2b",
+      "revId": "889d072f1a8045e320459cd8b5f083e887a28456",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

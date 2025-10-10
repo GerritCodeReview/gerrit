@@ -172,17 +172,18 @@ suite('gr-rule-editor tests', () => {
     });
 
     test('computeSectionClass', () => {
-      element.deleted = true;
+      element.rule = {};
+      element.rule.value = {action: PermissionAction.ALLOW, deleted: true};
       element.editing = false;
       assert.equal(element.computeSectionClass(), 'deleted');
 
-      element.deleted = false;
+      element.rule.value = {action: PermissionAction.ALLOW, deleted: false};
       assert.equal(element.computeSectionClass(), '');
 
       element.editing = true;
       assert.equal(element.computeSectionClass(), 'editing');
 
-      element.deleted = true;
+      element.rule.value = {action: PermissionAction.ALLOW, deleted: true};
       assert.equal(element.computeSectionClass(), 'editing deleted');
     });
 
@@ -402,12 +403,10 @@ suite('gr-rule-editor tests', () => {
           '#deletedContainer'
         ).classList.contains('deleted')
       );
-      assert.isTrue(element.deleted);
       assert.isTrue(element.rule.value!.deleted);
 
       queryAndAssert<GrButton>(element, '#undoRemoveBtn').click();
       await element.updateComplete;
-      assert.isFalse(element.deleted);
       assert.isNotOk(element.rule.value!.deleted);
     });
 
@@ -441,12 +440,10 @@ suite('gr-rule-editor tests', () => {
         ).display,
         'none'
       );
-      assert.isTrue(element.deleted);
       assert.isTrue(element.rule.value!.deleted);
 
       element.editing = false;
       await element.updateComplete;
-      assert.isFalse(element.deleted);
       assert.isNotOk(element.rule.value!.deleted);
       assert.isNotOk(element.rule.value!.modified);
 

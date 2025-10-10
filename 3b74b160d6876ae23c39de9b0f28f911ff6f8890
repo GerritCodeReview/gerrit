@@ -70,6 +70,24 @@
       "parentUuid": "963f8d56_2c245838",
       "revId": "3b74b160d6876ae23c39de9b0f28f911ff6f8890",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a0c64fb6_eef02067",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-10-10T19:35:32Z",
+      "side": 1,
+      "message": "nvm, managed to reproduce, my change above fixes it.",
+      "parentUuid": "7edd8cff_488a4b09",
+      "revId": "3b74b160d6876ae23c39de9b0f28f911ff6f8890",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

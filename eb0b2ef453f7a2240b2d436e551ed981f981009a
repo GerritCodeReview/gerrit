@@ -22,6 +22,47 @@
       },
       "revId": "eb0b2ef453f7a2240b2d436e551ed981f981009a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8ea3d383_1b8ae883",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-10-10T22:25:34Z",
+      "side": 1,
+      "message": "\u003e Instead of changing the behaviour of the file operator could we do the same here and support \"file:...,base\u003d...\"?\n\n+1",
+      "parentUuid": "7505638f_59efa3e6",
+      "range": {
+        "startLine": 9,
+        "startChar": 57,
+        "endLine": 10,
+        "endChar": 8
+      },
+      "revId": "eb0b2ef453f7a2240b2d436e551ed981f981009a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "608f2494_cb71251d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-10-10T22:25:34Z",
+      "side": 1,
+      "message": "nit: We always expect files formatted correctly, so you can omit this from the commit message",
+      "revId": "eb0b2ef453f7a2240b2d436e551ed981f981009a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

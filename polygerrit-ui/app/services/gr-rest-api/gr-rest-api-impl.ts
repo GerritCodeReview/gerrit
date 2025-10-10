@@ -1512,7 +1512,6 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     );
     if (
       !change ||
-      change.submittable === undefined ||
       change.submit_requirements === undefined
     ) {
       return undefined;

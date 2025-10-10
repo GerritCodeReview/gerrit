@@ -10,10 +10,10 @@ import {GrRuleEditor} from './gr-rule-editor';
 import {AccessPermissionId} from '../../../utils/access-util';
 import {query, queryAll, queryAndAssert} from '../../../test/test-utils';
 import {GrButton} from '../../shared/gr-button/gr-button';
+import {GrSelect} from '../../shared/gr-select/gr-select';
 import {assert, fixture, html} from '@open-wc/testing';
 import {EditablePermissionRuleInfo} from '../gr-repo-access/gr-repo-access-interfaces';
 import {PermissionAction} from '../../../constants/constants';
-import {MdOutlinedSelect} from '@material/web/select/outlined-select';
 
 suite('gr-rule-editor tests', () => {
   let element: GrRuleEditor;
@@ -32,20 +32,17 @@ suite('gr-rule-editor tests', () => {
         /* HTML */ `
           <div class="gr-form-styles" id="mainContainer">
             <div id="options">
-              <md-outlined-select disabled="" id="action" value="">
-                <md-select-option md-menu-item="" tabindex="0" value="ALLOW">
-                  <div slot="headline">ALLOW</div>
-                </md-select-option>
-                <md-select-option md-menu-item="" tabindex="-1" value="DENY">
-                  <div slot="headline">DENY</div>
-                </md-select-option>
-                <md-select-option md-menu-item="" tabindex="-1" value="BLOCK">
-                  <div slot="headline">BLOCK</div>
-                </md-select-option>
-              </md-outlined-select>
+              <gr-select id="action">
+                <select disabled="">
+                  <option value="ALLOW">ALLOW</option>
+                  <option value="DENY">DENY</option>
+                  <option value="BLOCK">BLOCK</option>
+                </select>
+              </gr-select>
               <a class="groupPath"> </a>
-              <md-outlined-select disabled="" id="force" value="">
-              </md-outlined-select>
+              <gr-select id="force">
+                <select disabled=""></select>
+              </gr-select>
             </div>
             <gr-button
               aria-disabled="false"
@@ -90,31 +87,24 @@ suite('gr-rule-editor tests', () => {
         queryAndAssert(element, '#options'),
         /* HTML */ `
           <div id="options">
-            <md-outlined-select id="action" value="ALLOW">
-              <md-select-option
-                data-aria-selected="true"
-                md-menu-item=""
-                tabindex="0"
-                value="ALLOW"
-              >
-                <div slot="headline">ALLOW</div>
-              </md-select-option>
-              <md-select-option md-menu-item="" tabindex="-1" value="DENY">
-                <div slot="headline">DENY</div>
-              </md-select-option>
-              <md-select-option md-menu-item="" tabindex="-1" value="BLOCK">
-                <div slot="headline">BLOCK</div>
-              </md-select-option>
-            </md-outlined-select>
+            <gr-select id="action">
+              <select>
+                <option value="ALLOW">ALLOW</option>
+                <option value="DENY">DENY</option>
+                <option value="BLOCK">BLOCK</option>
+              </select>
+            </gr-select>
             <a class="groupPath"> </a>
-            <md-outlined-select class="force" id="force" value="">
-              <md-select-option md-menu-item="" tabindex="0" value="false">
-                <div slot="headline">Allow pushing (but not force pushing)</div>
-              </md-select-option>
-              <md-select-option md-menu-item="" tabindex="-1" value="true">
-                <div slot="headline">Allow pushing with or without force</div>
-              </md-select-option>
-            </md-outlined-select>
+            <gr-select class="force" id="force">
+              <select>
+                <option value="false">
+                  Allow pushing (but not force pushing)
+                </option>
+                <option value="true">
+                  Allow pushing with or without force
+                </option>
+              </select>
+            </gr-select>
           </div>
         `
       );
@@ -281,7 +271,6 @@ suite('gr-rule-editor tests', () => {
     setup(async () => {
       element.groupName = 'Group Name';
       element.permission = 'submit' as AccessPermissionId;
-      await element.updateComplete;
       element.rule = {
         value: {
           action: PermissionAction.ALLOW,
@@ -300,15 +289,13 @@ suite('gr-rule-editor tests', () => {
 
     test('values are set correctly', () => {
       assert.equal(
-        queryAndAssert<MdOutlinedSelect>(element, '#action').value,
+        queryAndAssert<GrSelect>(element, '#action').bindValue,
         element.rule!.value!.action
       );
-      assert.isNotOk(query<MdOutlinedSelect>(element, '#labelMin'));
-      assert.isNotOk(query<MdOutlinedSelect>(element, '#labelMax'));
+      assert.isNotOk(query<GrSelect>(element, '#labelMin'));
+      assert.isNotOk(query<GrSelect>(element, '#labelMax'));
       assert.isFalse(
-        queryAndAssert<MdOutlinedSelect>(element, '#force').classList.contains(
-          'force'
-        )
+        queryAndAssert<GrSelect>(element, '#force').classList.contains('force')
       );
     });
 
@@ -323,17 +310,8 @@ suite('gr-rule-editor tests', () => {
         'none'
       );
       assert.isNotOk(element.rule.value!.modified);
-      const actionBindValue = queryAndAssert<MdOutlinedSelect>(
-        element,
-        '#action'
-      );
-      actionBindValue.value = PermissionAction.DENY;
-      actionBindValue.dispatchEvent(
-        new CustomEvent('change', {
-          composed: true,
-          bubbles: true,
-        })
-      );
+      const actionBindValue = queryAndAssert<GrSelect>(element, '#action');
+      actionBindValue.bindValue = PermissionAction.DENY;
       await element.updateComplete;
       assert.isTrue(element.rule.value!.modified);
       element.editing = false;
@@ -347,24 +325,15 @@ suite('gr-rule-editor tests', () => {
       assert.isNotOk(element.rule.value!.modified);
       assert.equal(element.rule?.value?.action, PermissionAction.ALLOW);
       assert.equal(
-        queryAndAssert<MdOutlinedSelect>(element, '#action').value,
+        queryAndAssert<GrSelect>(element, '#action').bindValue,
         PermissionAction.ALLOW
       );
     });
 
     test('modify value', async () => {
       assert.isNotOk(element.rule!.value!.modified);
-      const actionBindValue = queryAndAssert<MdOutlinedSelect>(
-        element,
-        '#action'
-      );
-      actionBindValue.value = PermissionAction.DENY;
-      actionBindValue.dispatchEvent(
-        new CustomEvent('change', {
-          composed: true,
-          bubbles: true,
-        })
-      );
+      const actionBindValue = queryAndAssert<GrSelect>(element, '#action');
+      actionBindValue.bindValue = PermissionAction.DENY;
       await element.updateComplete;
       assert.isTrue(element.rule!.value!.modified);
 
@@ -474,7 +443,6 @@ suite('gr-rule-editor tests', () => {
     setup(async () => {
       element.groupName = 'Group Name';
       element.permission = 'editTopicName' as AccessPermissionId;
-      await element.updateComplete;
       element.rule = {};
       element.section = 'refs/*';
       element.setupValues();
@@ -497,28 +465,19 @@ suite('gr-rule-editor tests', () => {
 
       // values are set correctly
       assert.equal(
-        queryAndAssert<MdOutlinedSelect>(element, '#action').value,
+        queryAndAssert<GrSelect>(element, '#action').bindValue,
         expectedRuleValue.action
       );
       assert.equal(
-        queryAndAssert<MdOutlinedSelect>(element, '#force').value,
-        String(expectedRuleValue.force)
+        queryAndAssert<GrSelect>(element, '#force').bindValue,
+        expectedRuleValue.force
       );
     });
 
     test('modify value', async () => {
       assert.isNotOk(element.rule!.value!.modified);
-      const forceBindValue = queryAndAssert<MdOutlinedSelect>(
-        element,
-        '#force'
-      );
-      forceBindValue.value = 'true';
-      forceBindValue.dispatchEvent(
-        new CustomEvent('change', {
-          composed: true,
-          bubbles: true,
-        })
-      );
+      const forceBindValue = queryAndAssert<GrSelect>(element, '#force');
+      forceBindValue.bindValue = 'true';
       await element.updateComplete;
       assert.isTrue(element.rule!.value!.modified);
 
@@ -549,7 +508,6 @@ suite('gr-rule-editor tests', () => {
       };
       element.groupName = 'Group Name';
       element.permission = 'label-Code-Review' as AccessPermissionId;
-      await element.updateComplete;
       element.rule = {
         value: {
           action: PermissionAction.ALLOW,
@@ -570,21 +528,19 @@ suite('gr-rule-editor tests', () => {
 
     test('values are set correctly', () => {
       assert.equal(
-        queryAndAssert<MdOutlinedSelect>(element, '#action').value,
+        queryAndAssert<GrSelect>(element, '#action').bindValue,
         element.rule!.value!.action
       );
       assert.equal(
-        queryAndAssert<MdOutlinedSelect>(element, '#labelMin').value,
-        String(element.rule!.value!.min)
+        queryAndAssert<GrSelect>(element, '#labelMin').bindValue,
+        element.rule!.value!.min
       );
       assert.equal(
-        queryAndAssert<MdOutlinedSelect>(element, '#labelMax').value,
-        String(element.rule!.value!.max)
+        queryAndAssert<GrSelect>(element, '#labelMax').bindValue,
+        element.rule!.value!.max
       );
       assert.isFalse(
-        queryAndAssert<MdOutlinedSelect>(element, '#force').classList.contains(
-          'force'
-        )
+        queryAndAssert<GrSelect>(element, '#force').classList.contains('force')
       );
     });
 
@@ -592,17 +548,8 @@ suite('gr-rule-editor tests', () => {
       const removeStub = sinon.stub();
       element.addEventListener('added-rule-removed', removeStub);
       assert.isNotOk(element.rule!.value!.modified);
-      const labelMinBindValue = queryAndAssert<MdOutlinedSelect>(
-        element,
-        '#labelMin'
-      );
-      labelMinBindValue.value = '1';
-      labelMinBindValue.dispatchEvent(
-        new CustomEvent('change', {
-          composed: true,
-          bubbles: true,
-        })
-      );
+      const labelMinBindValue = queryAndAssert<GrSelect>(element, '#labelMin');
+      labelMinBindValue.bindValue = 1;
       await element.updateComplete;
       assert.isTrue(element.rule!.value!.modified);
       assert.isFalse(removeStub.called);
@@ -628,7 +575,6 @@ suite('gr-rule-editor tests', () => {
       };
       element.groupName = 'Group Name';
       element.permission = 'label-Code-Review' as AccessPermissionId;
-      await element.updateComplete;
       element.rule = {};
       element.section = 'refs/*';
       element.setupValues();
@@ -654,32 +600,23 @@ suite('gr-rule-editor tests', () => {
 
       // values are set correctly
       assert.equal(
-        queryAndAssert<MdOutlinedSelect>(element, '#action').value,
+        queryAndAssert<GrSelect>(element, '#action').bindValue,
         expectedRuleValue.action
       );
       assert.equal(
-        queryAndAssert<MdOutlinedSelect>(element, '#labelMin').value,
-        String(expectedRuleValue.min)
+        queryAndAssert<GrSelect>(element, '#labelMin').bindValue,
+        expectedRuleValue.min
       );
       assert.equal(
-        queryAndAssert<MdOutlinedSelect>(element, '#labelMax').value,
-        String(expectedRuleValue.max)
+        queryAndAssert<GrSelect>(element, '#labelMax').bindValue,
+        expectedRuleValue.max
       );
     });
 
     test('modify value', async () => {
       assert.isNotOk(element.rule!.value!.modified);
-      const labelMinBindValue = queryAndAssert<MdOutlinedSelect>(
-        element,
-        '#labelMin'
-      );
-      labelMinBindValue.value = '1';
-      labelMinBindValue.dispatchEvent(
-        new CustomEvent('change', {
-          composed: true,
-          bubbles: true,
-        })
-      );
+      const labelMinBindValue = queryAndAssert<GrSelect>(element, '#labelMin');
+      labelMinBindValue.bindValue = 1;
       await element.updateComplete;
       assert.isTrue(element.rule!.value!.modified);
 
@@ -691,7 +628,7 @@ suite('gr-rule-editor tests', () => {
   suite('already existing push rule', () => {
     setup(async () => {
       element.groupName = 'Group Name';
-      element.permission = AccessPermissionId.PUSH;
+      element.permission = 'push' as AccessPermissionId;
       element.rule = {
         value: {
           action: PermissionAction.ALLOW,
@@ -710,35 +647,24 @@ suite('gr-rule-editor tests', () => {
 
     test('values are set correctly', () => {
       assert.isTrue(
-        queryAndAssert<MdOutlinedSelect>(element, '#force').classList.contains(
-          'force'
-        )
+        queryAndAssert<GrSelect>(element, '#force').classList.contains('force')
       );
       assert.equal(
-        queryAndAssert<MdOutlinedSelect>(element, '#action').value,
+        queryAndAssert<GrSelect>(element, '#action').bindValue,
         element.rule!.value!.action
       );
       assert.equal(
-        queryAndAssert(element, '#force').getAttribute('value'),
-        String(element.rule!.value!.force)
+        queryAndAssert<GrSelect>(element, '#force').bindValue,
+        element.rule!.value!.force
       );
-      assert.isNotOk(query<MdOutlinedSelect>(element, '#labelMin'));
-      assert.isNotOk(query<MdOutlinedSelect>(element, '#labelMax'));
+      assert.isNotOk(query<GrSelect>(element, '#labelMin'));
+      assert.isNotOk(query<GrSelect>(element, '#labelMax'));
     });
 
     test('modify value', async () => {
       assert.isNotOk(element.rule!.value!.modified);
-      const actionBindValue = queryAndAssert<MdOutlinedSelect>(
-        element,
-        '#action'
-      );
-      actionBindValue.value = PermissionAction.DENY;
-      actionBindValue.dispatchEvent(
-        new CustomEvent('change', {
-          composed: true,
-          bubbles: true,
-        })
-      );
+      const actionBindValue = queryAndAssert<GrSelect>(element, '#action');
+      actionBindValue.bindValue = false;
       await element.updateComplete;
       assert.isTrue(element.rule!.value!.modified);
 
@@ -750,8 +676,7 @@ suite('gr-rule-editor tests', () => {
   suite('new push rule', async () => {
     setup(async () => {
       element.groupName = 'Group Name';
-      element.permission = AccessPermissionId.PUSH;
-      await element.updateComplete;
+      element.permission = 'push' as AccessPermissionId;
       element.rule = {};
       element.section = 'refs/*';
       element.setupValues();
@@ -773,28 +698,19 @@ suite('gr-rule-editor tests', () => {
       assert.deepEqual(element.rule!.value, expectedRuleValue);
       // values are set correctly
       assert.equal(
-        queryAndAssert<MdOutlinedSelect>(element, '#action').value,
+        queryAndAssert<GrSelect>(element, '#action').bindValue,
         expectedRuleValue.action
       );
       assert.equal(
-        queryAndAssert(element, '#force').getAttribute('value'),
-        String(expectedRuleValue.force)
+        queryAndAssert<GrSelect>(element, '#force').bindValue,
+        expectedRuleValue.force
       );
     });
 
     test('modify value', async () => {
       assert.isNotOk(element.rule!.value!.modified);
-      const forceBindValue = queryAndAssert<MdOutlinedSelect>(
-        element,
-        '#force'
-      );
-      forceBindValue.value = 'true';
-      forceBindValue.dispatchEvent(
-        new CustomEvent('change', {
-          composed: true,
-          bubbles: true,
-        })
-      );
+      const forceBindValue = queryAndAssert<GrSelect>(element, '#force');
+      forceBindValue.bindValue = true;
       await element.updateComplete;
       assert.isTrue(element.rule!.value!.modified);
 
@@ -806,7 +722,7 @@ suite('gr-rule-editor tests', () => {
   suite('already existing edit rule', () => {
     setup(async () => {
       element.groupName = 'Group Name';
-      element.permission = AccessPermissionId.EDIT_TOPIC_NAME;
+      element.permission = 'editTopicName' as AccessPermissionId;
       element.rule = {
         value: {
           action: PermissionAction.ALLOW,
@@ -825,35 +741,24 @@ suite('gr-rule-editor tests', () => {
 
     test('values are set correctly', () => {
       assert.isTrue(
-        queryAndAssert<MdOutlinedSelect>(element, '#force').classList.contains(
-          'force'
-        )
+        queryAndAssert<GrSelect>(element, '#force').classList.contains('force')
       );
       assert.equal(
-        queryAndAssert<MdOutlinedSelect>(element, '#action').value,
+        queryAndAssert<GrSelect>(element, '#action').bindValue,
         element.rule!.value!.action
       );
       assert.equal(
-        queryAndAssert(element, '#force').getAttribute('value'),
-        String(element.rule!.value!.force)
+        queryAndAssert<GrSelect>(element, '#force').bindValue,
+        element.rule!.value!.force
       );
-      assert.isNotOk(query<MdOutlinedSelect>(element, '#labelMin'));
-      assert.isNotOk(query<MdOutlinedSelect>(element, '#labelMax'));
+      assert.isNotOk(query<GrSelect>(element, '#labelMin'));
+      assert.isNotOk(query<GrSelect>(element, '#labelMax'));
     });
 
     test('modify value', async () => {
       assert.isNotOk(element.rule!.value!.modified);
-      const actionBindValue = queryAndAssert<MdOutlinedSelect>(
-        element,
-        '#action'
-      );
-      actionBindValue.value = PermissionAction.DENY;
-      actionBindValue.dispatchEvent(
-        new CustomEvent('change', {
-          composed: true,
-          bubbles: true,
-        })
-      );
+      const actionBindValue = queryAndAssert<GrSelect>(element, '#action');
+      actionBindValue.bindValue = false;
       await element.updateComplete;
       assert.isTrue(element.rule!.value!.modified);
 

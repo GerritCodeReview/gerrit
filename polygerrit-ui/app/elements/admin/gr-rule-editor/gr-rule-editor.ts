@@ -5,6 +5,7 @@
  */
 import '../../shared/gr-autogrow-textarea/gr-autogrow-textarea';
 import '../../shared/gr-button/gr-button';
+import '../../shared/gr-select/gr-select';
 import {encodeURL, getBaseUrl} from '../../../utils/url-util';
 import {AccessPermissionId} from '../../../utils/access-util';
 import {fire} from '../../../utils/event-util';
@@ -12,16 +13,12 @@ import {grFormStyles} from '../../../styles/gr-form-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {css, html, LitElement, PropertyValues} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
-import {ValueChangedEvent} from '../../../types/events';
+import {BindValueChangeEvent, ValueChangedEvent} from '../../../types/events';
 import {ifDefined} from 'lit/directives/if-defined.js';
 import {EditablePermissionRuleInfo} from '../gr-repo-access/gr-repo-access-interfaces';
 import {PermissionAction} from '../../../constants/constants';
 import {formStyles} from '../../../styles/form-styles';
 import {GrAutogrowTextarea} from '../../shared/gr-autogrow-textarea/gr-autogrow-textarea';
-import '@material/web/select/outlined-select';
-import '@material/web/select/select-option';
-import {materialStyles} from '../../../styles/gr-material-styles';
-import {convertToString} from '../../../utils/string-util';
 
 const PRIORITY_OPTIONS = [PermissionAction.BATCH, PermissionAction.INTERACTIVE];
 
@@ -135,7 +132,6 @@ export class GrRuleEditor extends LitElement {
       grFormStyles,
       formStyles,
       sharedStyles,
-      materialStyles,
       css`
         :host {
           border-bottom: 1px solid var(--border-color);
@@ -193,20 +189,19 @@ export class GrRuleEditor extends LitElement {
         class="gr-form-styles ${this.computeSectionClass()}"
       >
         <div id="options">
-          <md-outlined-select
+          <gr-select
             id="action"
-            value=${convertToString(this.rule?.value?.action)}
-            ?disabled=${!this.editing}
-            @change=${this.handleActionChange}
+            .bindValue=${this.rule?.value?.action}
+            @bind-value-changed=${(e: BindValueChangeEvent) => {
+              this.handleActionBindValueChanged(e);
+            }}
           >
-            ${this.computeOptions().map(
-              item => html`
-                <md-select-option value=${item}>
-                  <div slot="headline">${item}</div>
-                </md-select-option>
-              `
-            )}
-          </md-outlined-select>
+            <select ?disabled=${!this.editing}>
+              ${this.computeOptions().map(
+                item => html` <option value=${item}>${item}</option> `
+              )}
+            </select>
+          </gr-select>
           ${this.renderMinAndMaxLabel()} ${this.renderMinAndMaxInput()}
           <a
             class="groupPath"
@@ -214,21 +209,22 @@ export class GrRuleEditor extends LitElement {
           >
             ${this.groupName}
           </a>
-          <md-outlined-select
+          <gr-select
             id="force"
             class=${this.computeForce(this.rule?.value?.action) ? 'force' : ''}
-            value=${convertToString(this.rule?.value?.force)}
-            ?disabled=${!this.editing}
-            @change=${this.handleForceChange}
+            .bindValue=${this.rule?.value?.force}
+            @bind-value-changed=${(e: BindValueChangeEvent) => {
+              this.handleForceBindValueChanged(e);
+            }}
           >
-            ${this.computeForceOptions(this.rule?.value?.action).map(
-              item => html`
-                <md-select-option value=${item.value}>
-                  <div slot="headline">${item.name}</div>
-                </md-select-option>
-              `
-            )}
-          </md-outlined-select>
+            <select ?disabled=${!this.editing}>
+              ${this.computeForceOptions(this.rule?.value?.action).map(
+                item => html`
+                  <option value=${item.value}>${item.name}</option>
+                `
+              )}
+            </select>
+          </gr-select>
         </div>
         <gr-button
           link
@@ -260,34 +256,32 @@ export class GrRuleEditor extends LitElement {
     if (!this.label) return;
 
     return html`
-      <md-outlined-select
+      <gr-select
         id="labelMin"
-        value=${convertToString(this.rule?.value?.min)}
-        ?disabled=${!this.editing}
-        @change=${this.handleMinChange}
+        .bindValue=${this.rule?.value?.min}
+        @bind-value-changed=${(e: BindValueChangeEvent) => {
+          this.handleMinBindValueChanged(e);
+        }}
       >
-        ${this.label.values.map(
-          item => html`
-            <md-select-option value=${item.value}>
-              <div slot="headline">${item.value}</div>
-            </md-select-option>
-          `
-        )}
-      </md-outlined-select>
-      <md-outlined-select
+        <select ?disabled=${!this.editing}>
+          ${this.label.values.map(
+            item => html` <option value=${item.value}>${item.value}</option> `
+          )}
+        </select>
+      </gr-select>
+      <gr-select
         id="labelMax"
-        value=${convertToString(this.rule?.value?.max)}
-        ?disabled=${!this.editing}
-        @change=${this.handleMaxChange}
+        .bindValue=${this.rule?.value?.max}
+        @bind-value-changed=${(e: BindValueChangeEvent) => {
+          this.handleMaxBindValueChanged(e);
+        }}
       >
-        ${this.label.values.map(
-          item => html`
-            <md-select-option value=${item.value}>
-              <div slot="headline">${item.value}</div>
-            </md-select-option>
-          `
-        )}
-      </md-outlined-select>
+        <select ?disabled=${!this.editing}>
+          ${this.label.values.map(
+            item => html` <option value=${item.value}>${item.value}</option> `
+          )}
+        </select>
+      </gr-select>
     `;
   }
 
@@ -403,8 +397,9 @@ export class GrRuleEditor extends LitElement {
         return ForcePushOptions.ALLOW;
       } else if (action === Action.BLOCK) {
         return ForcePushOptions.BLOCK;
+      } else {
+        return [];
       }
-      return [];
     } else if (this.permission === AccessPermissionId.EDIT_TOPIC_NAME) {
       return FORCE_EDIT_OPTIONS;
     }
@@ -504,52 +499,48 @@ export class GrRuleEditor extends LitElement {
     this.originalRuleValues = {...this.rule.value};
   }
 
-  private handleActionChange(e: Event) {
-    const select = e.target as HTMLSelectElement;
+  private handleActionBindValueChanged(e: BindValueChangeEvent) {
     if (
       !this.rule?.value ||
-      select.value === undefined ||
-      this.rule.value.action === select.value
+      e.detail.value === undefined ||
+      this.rule.value.action === String(e.detail.value)
     )
       return;
 
-    this.rule.value.action = select.value as PermissionAction;
+    this.rule.value.action = String(e.detail.value) as PermissionAction;
 
     this.handleValueChange();
   }
 
-  private handleMinChange(e: Event) {
-    const select = e.target as HTMLSelectElement;
+  private handleMinBindValueChanged(e: BindValueChangeEvent) {
     if (
       !this.rule?.value ||
-      select.value === undefined ||
-      this.rule.value.min === Number(select.value)
+      e.detail.value === undefined ||
+      this.rule.value.min === Number(e.detail.value)
     )
       return;
-    this.rule.value.min = Number(select.value);
+    this.rule.value.min = Number(e.detail.value);
 
     this.handleValueChange();
   }
 
-  private handleMaxChange(e: Event) {
-    const select = e.target as HTMLSelectElement;
+  private handleMaxBindValueChanged(e: BindValueChangeEvent) {
     if (
       !this.rule?.value ||
-      select.value === undefined ||
-      this.rule.value.max === Number(select.value)
+      e.detail.value === undefined ||
+      this.rule.value.max === Number(e.detail.value)
     )
       return;
-    this.rule.value.max = Number(select.value);
+    this.rule.value.max = Number(e.detail.value);
 
     this.handleValueChange();
   }
 
-  private handleForceChange(e: Event) {
-    const select = e.target as HTMLSelectElement;
-    const forceValue = String(select.value) === 'true' ? true : false;
+  private handleForceBindValueChanged(e: BindValueChangeEvent) {
+    const forceValue = String(e.detail.value) === 'true' ? true : false;
     if (
       !this.rule?.value ||
-      select.value === undefined ||
+      e.detail.value === undefined ||
       this.rule.value.force === forceValue
     )
       return;

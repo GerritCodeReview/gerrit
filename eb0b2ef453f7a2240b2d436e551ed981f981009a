@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7505638f_59efa3e6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-10-10T09:16:56Z",
+      "side": 1,
+      "message": "I\u0027m a bit concerned about changing the behaviour of the file operator, as it\u0027s being used in many submit requirements and people may rely on the current behaviour.\n\nWe did have a similar issue with the has:submodule-update operator (see [1]). For this operator we added a \"base\" parameter [2]. Instead of changing the behaviour of the file operator could we do the same here and support \"file:...,base\u003d...\"? Otherwise that would be inconsistent.\n\n[1] https://gerrit-review.git.corp.google.com/c/gerrit/+/349216\n\n[2] https://gerrit-review.googlesource.com/Documentation/config-submit-requirements.html#operator_has_submodule_update",
+      "range": {
+        "startLine": 9,
+        "startChar": 57,
+        "endLine": 10,
+        "endChar": 8
+      },
+      "revId": "eb0b2ef453f7a2240b2d436e551ed981f981009a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

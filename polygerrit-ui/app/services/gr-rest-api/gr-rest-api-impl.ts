@@ -1510,16 +1510,12 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       /* errFn=*/ undefined,
       optionsHex
     );
-    if (
-      !change ||
-      change.submittable === undefined ||
-      change.submit_requirements === undefined
-    ) {
+    if (!change || change.submit_requirements === undefined) {
       return undefined;
     }
     return {
       changeNum,
-      submittable: change.submittable,
+      submittable: !!change.submittable,
       submitRequirements: change.submit_requirements,
     };
   }

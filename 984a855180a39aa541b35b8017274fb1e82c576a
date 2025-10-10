@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2e263064_3c7c9d71",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-10-10T22:20:33Z",
+      "side": 1,
+      "message": "Is this not included in the new release pipeline? I think it\u0027s one of the items missed most often, so it would be great to have it automated.",
+      "revId": "984a855180a39aa541b35b8017274fb1e82c576a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

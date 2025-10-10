@@ -52,6 +52,24 @@
       "parentUuid": "869f8abd_74f42225",
       "revId": "3b74b160d6876ae23c39de9b0f28f911ff6f8890",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7edd8cff_488a4b09",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-10-10T19:27:28Z",
+      "side": 1,
+      "message": "Are you able to test https://gerrit-review.googlesource.com/c/gerrit/+/517641 please? (I\u0027m not able to reproduce so need you to verify the error/issue is gone with that).",
+      "parentUuid": "963f8d56_2c245838",
+      "revId": "3b74b160d6876ae23c39de9b0f28f911ff6f8890",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

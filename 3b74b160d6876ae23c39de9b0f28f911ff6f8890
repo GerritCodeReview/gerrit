@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "00544ac4_a0135b92",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-10-10T17:48:21Z",
+      "side": 1,
+      "message": "Do you know when that bug was filed? Because i fixed similar recently with https://github.com/GerritCodeReview/gerrit/commit/635019ed0fba111c5d1d3f554a491576b89806b7. Unless it\u0027s a different issue? (but also just wondering)",
+      "revId": "3b74b160d6876ae23c39de9b0f28f911ff6f8890",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

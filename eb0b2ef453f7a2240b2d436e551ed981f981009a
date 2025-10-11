@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cbfc452e_ae2a0fc0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1014257
+      },
+      "writtenOn": "2025-10-11T09:41:43Z",
+      "side": 1,
+      "message": "Please note that this change reverts to the behavior of Gerrit 3.4. IOW the change in behavior already happened in Gerrit 3.5 and this change is reverting to the old one.",
+      "parentUuid": "8ea3d383_1b8ae883",
+      "range": {
+        "startLine": 9,
+        "startChar": 57,
+        "endLine": 10,
+        "endChar": 8
+      },
+      "revId": "eb0b2ef453f7a2240b2d436e551ed981f981009a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "608f2494_cb71251d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 9

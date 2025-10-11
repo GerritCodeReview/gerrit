@@ -16,6 +16,24 @@
       "message": "Is this not included in the new release pipeline? I think it\u0027s one of the items missed most often, so it would be great to have it automated.",
       "revId": "984a855180a39aa541b35b8017274fb1e82c576a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ba07271c_6cf250f9",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-10-11T08:25:45Z",
+      "side": 1,
+      "message": "Nope, it\u0027s not included unfortunately.\nThe release script we have now has never contemplated that, so that\u0027s why this is not part of it yet.\nI agree, we should definitely include it in the near future.",
+      "parentUuid": "2e263064_3c7c9d71",
+      "revId": "984a855180a39aa541b35b8017274fb1e82c576a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -16,6 +16,23 @@
       "message": "@ekempin@google.com are you able to LC+1/+2 this please? :)",
       "revId": "dd6ece40ba12aa57cca5ad2902e857b140c68e0f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "28457ffb_be5fff3e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 27
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-10-12T14:01:18Z",
+      "side": 1,
+      "message": "@ekempin@google.com are you able to review please since Han is gone (i also filed https://issues.gerritcodereview.com/issues/333209047)",
+      "revId": "dd6ece40ba12aa57cca5ad2902e857b140c68e0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

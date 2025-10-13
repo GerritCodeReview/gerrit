@@ -283,7 +283,6 @@ export class GrAppElement extends LitElement {
           flex-direction: column;
           min-height: 100%;
           --main-header-height: 48px;
-          --main-footer-height: 36px;
         }
         gr-main-header,
         footer {
@@ -308,12 +307,11 @@ export class GrAppElement extends LitElement {
             --footer-background,
             var(--footer-background-color, #eee)
           );
-          height: var(--main-footer-height);
           border-top: var(--footer-border-top);
           display: flex;
           justify-content: space-between;
           padding: var(--spacing-m) var(--spacing-l);
-          z-index: 10;
+          z-index: 100;
         }
         main {
           flex: 1;

@@ -208,6 +208,8 @@ suite('gr-change-list section', () => {
         ...createAccountWithEmail('abc@def.com'),
         registered_on: '2015-03-12 18:32:08.000000000' as Timestamp,
       });
+      element.bulkActionsLoaded = true;
+      await element.updateComplete;
       await element.updateComplete;
       let rows = queryAll(element, 'gr-change-list-item');
       assert.lengthOf(rows, 2);
@@ -258,6 +260,8 @@ suite('gr-change-list section', () => {
         ...createAccountWithEmail('abc@def.com'),
         registered_on: '2015-03-12 18:32:08.000000000' as Timestamp,
       });
+      element.bulkActionsLoaded = true;
+      await element.updateComplete;
       await element.updateComplete;
       const rows = queryAll(element, 'gr-change-list-item');
 

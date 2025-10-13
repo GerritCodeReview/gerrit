@@ -19,6 +19,7 @@ import {provide, resolve} from '../../../models/dependency';
 import {
   BulkActionsModel,
   bulkActionsModelToken,
+  LoadingState,
 } from '../../../models/bulk-actions/bulk-actions-model';
 import {createSearchUrl} from '../../../models/views/search';
 import {userModelToken} from '../../../models/user/user-model';
@@ -28,6 +29,8 @@ import {formStyles} from '../../../styles/form-styles';
 import {UserId} from '../../../types/common';
 import '@material/web/checkbox/checkbox';
 import {materialStyles} from '../../../styles/gr-material-styles';
+import {when} from 'lit/directives/when.js';
+import {spinnerStyles} from '../../../styles/gr-spinner-styles';
 
 const NUMBER_FIXED_COLUMNS = 4;
 const LABEL_PREFIX_INVALID_PROLOG = 'Invalid-Prolog-Rules-Label-Name--';
@@ -106,6 +109,10 @@ export class GrChangeListSection extends LitElement {
   @state()
   private totalChangeCount = 0;
 
+  // Private but used in test
+  @state()
+  bulkActionsLoaded = false;
+
   bulkActionsModel: BulkActionsModel = new BulkActionsModel(
     getAppContext().restApiService
   );
@@ -121,6 +128,7 @@ export class GrChangeListSection extends LitElement {
       fontStyles,
       formStyles,
       materialStyles,
+      spinnerStyles,
       css`
         :host {
           display: contents;
@@ -153,6 +161,16 @@ export class GrChangeListSection extends LitElement {
           --md-checkbox-container-size: 15px;
           --md-checkbox-icon-size: 15px;
         }
+        /* The basics of .loadingSpin are defined in shared styles. */
+        .loadingSpin {
+          width: 15px;
+          height: 15px;
+          display: inline-block;
+          vertical-align: middle;
+        }
+        .selection:has(.loadingSpin):not(:has(md-checkbox)) {
+          padding-right: 4px !important;
+        }
       `,
     ];
   }
@@ -165,6 +183,13 @@ export class GrChangeListSection extends LitElement {
       () => this.bulkActionsModel.selectedChangeNums$,
       selectedChanges => {
         this.numSelected = selectedChanges.length;
+      }
+    );
+    subscribe(
+      this,
+      () => this.bulkActionsModel.loadingState$,
+      loadingState => {
+        this.bulkActionsLoaded = loadingState === LoadingState.LOADED;
       }
     );
     subscribe(
@@ -292,12 +317,21 @@ export class GrChangeListSection extends LitElement {
       this.numSelected > 0 && this.numSelected !== this.totalChangeCount;
     return html`
       <td class="selection" ?hidden=${!this.isLoggedIn}>
-        <md-checkbox
-          class="selection-checkbox"
-          ?checked=${checked}
-          .indeterminate=${indeterminate}
-          @change=${this.handleSelectAllCheckboxClicked}
-        ></md-checkbox>
+        ${when(
+          this.bulkActionsLoaded,
+          () => html`
+            <md-checkbox
+              class="selection-checkbox"
+              ?checked=${checked}
+              .indeterminate=${indeterminate}
+              @change=${this.handleSelectAllCheckboxClicked}
+            ></md-checkbox>
+          `,
+          () => html` <span
+            class="loadingSpin"
+            title="Bulk actions is loading"
+          ></span>`
+        )}
       </td>
     `;
   }

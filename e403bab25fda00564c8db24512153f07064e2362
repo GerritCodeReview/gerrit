@@ -34,6 +34,24 @@
       "parentUuid": "a694b321_1c8c429b",
       "revId": "e403bab25fda00564c8db24512153f07064e2362",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "943f92ce_1443903a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-10-13T09:36:09Z",
+      "side": 1,
+      "message": "Ben is out of office this week. I think the simplest way to fix it for now, is to revert the CSS that made main header sticky and leave the rest of changes in. If that breaks the sidebar, it\u0027s ok, since the only usage is experiment protected and disabled atm.",
+      "parentUuid": "53e24b83_edc45e20",
+      "revId": "e403bab25fda00564c8db24512153f07064e2362",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

@@ -818,10 +818,6 @@ export class GrChangeView extends LitElement {
           border-bottom: 2px solid var(--border-color);
           display: flex;
           padding: var(--spacing-s) var(--spacing-l);
-          position: sticky;
-          top: var(--main-header-height);
-          height: var(--change-header-height);
-          z-index: 110;
         }
         .header.active {
           border-color: var(--status-active);

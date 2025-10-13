@@ -14,6 +14,20 @@ local_path_override(
     module_name = "jgit",
     path = "./modules/jgit")
 
+local_repository = use_repo_rule("@bazel_tools//tools/build_defs/repo:local.bzl", "local_repository")
+
+# Java-Prettify external repository consumed from git submodule
+local_repository(
+    name = "java-prettify",
+    path = "modules/java-prettify",
+)
+
+# JGit external repository consumed from git submodule
+local_repository(
+    name = "jgit-module",
+    path = "modules/jgit",
+)
+
 CAFFEINE_VERS = "3.1.8"
 CAFFEINE_GUAVA_SHA256 = "e45c7c2db18810644c12bb3396cd38dbf4efaa1fa2402f27aaef6e662d8a0af5"
 

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "28f13ed6_c10b3b6a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-10-13T12:09:09Z",
+      "side": 1,
+      "message": "I have found a better fix at https://gerrit-review.googlesource.com/c/gerrit/+/517903 that reverts just the css. So we don\u0027t have to revert everything.",
+      "revId": "91333b517c701c01fc012243d0da8446ebb5267e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -125,6 +125,14 @@ class GitConfigReader:
                 key = key_parts[2].lower()
             else:
                 raise GitConfigException(f"Invalid git config option: {option}")
+
+            if value.lower() in ["true", "yes", "on"] or (
+                value.isdecimal() and int(value) > 0
+            ):
+                value = True
+            elif value.lower() in ["false", "no", "off", "0"]:
+                value = False
+
             self._ensure_full_section(section, subsection)
             self.contents[section][subsection][key] = value
 

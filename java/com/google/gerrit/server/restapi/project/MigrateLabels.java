@@ -59,7 +59,7 @@ public class MigrateLabels implements RestModifyView<ProjectResource, MigrateLab
 
     @Override
     public void message(String message) {
-      logger.atInfo().log(message);
+      logger.atInfo().log("%s", message);
     }
 
     @Override

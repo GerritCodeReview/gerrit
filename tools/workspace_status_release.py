@@ -35,7 +35,7 @@ import sys
 import re
 
 ROOT = os.path.abspath(__file__)
-while not os.path.exists(os.path.join(ROOT, 'WORKSPACE')):
+while not os.path.exists(os.path.join(ROOT, 'WORKSPACE.bzlmod')):
     ROOT = os.path.dirname(ROOT)
 REVISION_CMD = ['git', 'describe', '--always', '--dirty']
 

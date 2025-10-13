@@ -16,6 +16,24 @@
       "message": "Can you elaborate on how this broke the mobile view in the description?\n\nAdd an image as well",
       "revId": "9387acbc0c17a726dd8302ba9b143b9a56b570c4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9aa8aebe_13bdd913",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-10-13T09:46:36Z",
+      "side": 1,
+      "message": "I\u0027ve added images, thanks!",
+      "parentUuid": "7ffd06d5_43ef07a9",
+      "revId": "9387acbc0c17a726dd8302ba9b143b9a56b570c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

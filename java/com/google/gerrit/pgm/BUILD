@@ -44,6 +44,7 @@ java_library(
         "//java/com/google/gerrit/server/version",
         "//java/com/google/gerrit/sshd",
         "//lib:args4j",
+        "//lib:gson",
         "//lib:guava",
         "//lib:jgit",
         "//lib:jgit-ssh-apache",
@@ -60,6 +61,5 @@ java_library(
         "//lib/prolog:cafeteria",
         "//lib/prolog:compiler",
         "//lib/prolog:runtime",
-        "@gson//jar",
     ],
 )

@@ -19,13 +19,18 @@ import static java.util.concurrent.TimeUnit.MINUTES;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.server.config.ConfigUtil;
+import java.util.logging.Level;
+import java.util.logging.LogManager;
+
 import org.apache.lucene.analysis.CharArraySet;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.index.ConcurrentMergeScheduler;
 import org.apache.lucene.index.IndexDeletionPolicy;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.index.IndexWriterConfig.OpenMode;
+import org.apache.lucene.util.JavaLoggingInfoStream;
 import org.eclipse.jgit.lib.Config;
+import org.slf4j.bridge.SLF4JBridgeHandler;
 
 /** Combination of Lucene {@link IndexWriterConfig} with additional Gerrit-specific options. */
 class GerritIndexWriterConfig {
@@ -75,6 +80,16 @@ class GerritIndexWriterConfig {
               cfg, "index", name, "commitWithin", MILLISECONDS.convert(5, MINUTES), MILLISECONDS);
     } catch (IllegalArgumentException e) {
       commitWithinMs = cfg.getLong("index", name, "commitWithin", 0);
+    }
+
+    boolean enableLogging = cfg.getBoolean("index", "enableDebugLogging", false);
+    if (enableLogging) {
+      SLF4JBridgeHandler.removeHandlersForRootLogger();
+      SLF4JBridgeHandler.install();
+      LogManager.getLogManager().getLogger("").setLevel(Level.FINE);
+
+      luceneConfig.setInfoStream(
+          new JavaLoggingInfoStream(name, Level.FINE));
     }
   }
 

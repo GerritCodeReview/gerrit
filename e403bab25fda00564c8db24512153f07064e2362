@@ -52,6 +52,42 @@
       "parentUuid": "53e24b83_edc45e20",
       "revId": "e403bab25fda00564c8db24512153f07064e2362",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "49dbd580_97222cf3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-10-13T09:43:34Z",
+      "side": 1,
+      "message": "It seems that the follow up change broke it as well. Since reverting the css partially fixes it, but doesn\u0027t fix the sidebar not able to be viewed properly.",
+      "parentUuid": "943f92ce_1443903a",
+      "revId": "e403bab25fda00564c8db24512153f07064e2362",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a907f4e4_3d63c47f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-10-13T09:43:34Z",
+      "side": 1,
+      "message": "It seems that the follow up change broke it as well?",
+      "parentUuid": "943f92ce_1443903a",
+      "revId": "e403bab25fda00564c8db24512153f07064e2362",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

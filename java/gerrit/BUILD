@@ -14,6 +14,6 @@ java_library(
         "//lib/errorprone:annotations",
         "//lib/flogger:api",
         "//lib/prolog:runtime",
-        "@guava//jar",
+        "//lib:guava",
     ],
 )

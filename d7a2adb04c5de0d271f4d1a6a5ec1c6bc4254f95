@@ -46,6 +46,30 @@
       },
       "revId": "d7a2adb04c5de0d271f4d1a6a5ec1c6bc4254f95",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c7684a3a_31aec905",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-10-13T13:02:39Z",
+      "side": 1,
+      "message": "ok not worth spending too much time on this.",
+      "parentUuid": "23dc9ef5_16a7d309",
+      "range": {
+        "startLine": 211,
+        "startChar": 6,
+        "endLine": 211,
+        "endChar": 39
+      },
+      "revId": "d7a2adb04c5de0d271f4d1a6a5ec1c6bc4254f95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -2293,6 +2293,7 @@ slf4j
 
 * log:api
 * log:jcl-over-slf4j
+* log:jul-to-slf4j
 
 [[slf4j_license]]
 ----

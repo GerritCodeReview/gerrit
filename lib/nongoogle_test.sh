@@ -37,6 +37,7 @@ j2objc
 jcl-over-slf4j
 jimfs
 jruby
+jul-to-slf4j
 log-api
 log-ext
 log4j

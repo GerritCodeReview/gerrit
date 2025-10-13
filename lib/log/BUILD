@@ -33,6 +33,13 @@ java_library(
 )
 
 java_library(
+    name = "jul-to-slf4j",
+    data = ["//lib:LICENSE-slf4j"],
+    visibility = ["//visibility:public"],
+    exports = ["@jul-to-slf4j//jar"],
+)
+
+java_library(
     name = "log4j",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],

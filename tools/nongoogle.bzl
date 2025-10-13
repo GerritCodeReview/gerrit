@@ -115,6 +115,12 @@ def declare_nongoogle_deps():
     )
 
     maven_jar(
+        name = "jul-to-slf4j",
+        artifact = "org.slf4j:jul-to-slf4j:" + SLF4J_VERS,
+        sha1 = "ed46d81cef9c412a88caef405b58f93a678ff2ca",
+    )
+
+    maven_jar(
         name = "j2objc",
         artifact = "com.google.j2objc:j2objc-annotations:1.1",
         sha1 = "ed28ded51a8b1c6b112568def5f4b455e6809019",

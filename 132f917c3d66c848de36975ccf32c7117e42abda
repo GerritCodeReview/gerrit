@@ -22,6 +22,30 @@
       },
       "revId": "132f917c3d66c848de36975ccf32c7117e42abda",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "15cd0aba_19d35f59",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-10-13T09:16:11Z",
+      "side": 1,
+      "message": "While I generally agree. I would prefer not to touch our public API as part of this fix in case that breaks someone.",
+      "parentUuid": "95009eba_77e213b3",
+      "range": {
+        "startLine": 354,
+        "startChar": 8,
+        "endLine": 354,
+        "endChar": 62
+      },
+      "revId": "132f917c3d66c848de36975ccf32c7117e42abda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

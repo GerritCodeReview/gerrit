@@ -63,18 +63,6 @@ browser_repositories(
     firefox = True,
 )
 
-# Java-Prettify external repository consumed from git submodule
-local_repository(
-    name = "java-prettify",
-    path = "modules/java-prettify",
-)
-
-# JGit external repository consumed from git submodule
-local_repository(
-    name = "jgit",
-    path = "modules/jgit",
-)
-
 load("@build_bazel_rules_nodejs//:index.bzl", "node_repositories", "yarn_install")
 
 NODE_20_REPO = {

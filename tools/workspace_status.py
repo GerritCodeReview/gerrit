@@ -16,7 +16,7 @@ import subprocess
 import sys
 
 ROOT = os.path.abspath(__file__)
-while not os.path.exists(os.path.join(ROOT, 'WORKSPACE')):
+while not os.path.exists(os.path.join(ROOT, 'MODULE.bazel')):
     ROOT = os.path.dirname(ROOT)
 CMD = ['git', 'describe', '--always', '--match', 'v[0-9].*', '--dirty']
 

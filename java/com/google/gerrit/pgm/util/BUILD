@@ -26,6 +26,7 @@ java_library(
         "//lib/errorprone:annotations",
         "//lib/flogger:api",
         "//lib/guice",
+        "//lib/log:jul-to-slf4j",
         "//lib/log:log4j",
     ],
 )

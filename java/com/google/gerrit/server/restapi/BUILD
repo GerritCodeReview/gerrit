@@ -39,6 +39,7 @@ java_library(
         "//lib/auto:auto-factory",
         "//lib/auto:auto-value",
         "//lib/auto:auto-value-annotations",
+        "//lib/bouncycastle:bcprov-neverlink",
         "//lib/commons:codec",
         "//lib/commons:compress",
         "//lib/commons:lang3",
@@ -47,6 +48,5 @@ java_library(
         "//lib/guice",
         "//lib/guice:guice-assistedinject",
         "//proto:entities_java_proto",
-        "@bcprov//jar",
     ],
 )

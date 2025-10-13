@@ -1,4 +1,5 @@
 eclipse-out
+modules/jgit
 node_modules
 polygerrit-ui/node_modules
 plugins/node_modules

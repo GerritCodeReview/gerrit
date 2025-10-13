@@ -311,37 +311,37 @@ suite('gr-change-view tests', () => {
       /* HTML */ `
         <div class="container loading">Loading...</div>
         <div class="container" hidden="" id="mainContent">
-          <div class="header">
-            <h1 class="assistive-tech-only">Change :</h1>
-            <div class="headerTitle">
-              <div class="changeStatuses"></div>
-              <div class="changeStarContainer">
-                <gr-button
-                  aria-disabled="false"
-                  class="showCopyLinkDialogButton"
-                  down-arrow=""
-                  flatten=""
-                  id="copyLinkDialogButton"
-                  role="button"
-                  tabindex="0"
-                >
-                  <gr-change-star id="changeStar"> </gr-change-star>
-                  <a aria-label="Change undefined" class="changeNumber"> </a>
-                </gr-button>
-              </div>
-              <div class="headerSubject"></div>
-              <gr-copy-clipboard
-                class="changeCopyClipboard"
-                hideinput=""
-                text="undefined: undefined | http://localhost:9876undefined"
-              >
-              </gr-copy-clipboard>
-            </div>
-            <div class="commitActions">
-              <gr-change-actions id="actions"> </gr-change-actions>
-            </div>
-          </div>
           <section class="changeInfoSection">
+            <div class="header">
+              <h1 class="assistive-tech-only">Change :</h1>
+              <div class="headerTitle">
+                <div class="changeStatuses"></div>
+                <div class="changeStarContainer">
+                  <gr-button
+                    aria-disabled="false"
+                    class="showCopyLinkDialogButton"
+                    down-arrow=""
+                    flatten=""
+                    id="copyLinkDialogButton"
+                    role="button"
+                    tabindex="0"
+                  >
+                    <gr-change-star id="changeStar"> </gr-change-star>
+                    <a aria-label="Change undefined" class="changeNumber"> </a>
+                  </gr-button>
+                </div>
+                <div class="headerSubject"></div>
+                <gr-copy-clipboard
+                  class="changeCopyClipboard"
+                  hideinput=""
+                  text="undefined: undefined | http://localhost:9876undefined"
+                >
+                </gr-copy-clipboard>
+              </div>
+              <div class="commitActions">
+                <gr-change-actions id="actions"> </gr-change-actions>
+              </div>
+            </div>
             <h2 class="assistive-tech-only">Change metadata</h2>
             <div class="changeInfo">
               <div class="changeInfo-column changeMetadata">

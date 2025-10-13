@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "69b7356b_f328b632",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-10-13T08:18:28Z",
+      "side": 1,
+      "message": "Updated the wording to make clear when \"even\" refers to here.",
+      "parentUuid": "ede1c2e3_88b4a028",
+      "range": {
+        "startLine": 9,
+        "startChar": 33,
+        "endLine": 9,
+        "endChar": 37
+      },
+      "revId": "38fed75f70e11b517417a0c18d14bdd770c414d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "517e44ee_b161f416",
@@ -37,6 +61,30 @@
       "writtenOn": "2025-10-13T07:49:58Z",
       "side": 1,
       "message": "you can do `!!change.submittable` and then the field does not need to be optional",
+      "range": {
+        "startLine": 1521,
+        "startChar": 19,
+        "endLine": 1521,
+        "endChar": 37
+      },
+      "revId": "38fed75f70e11b517417a0c18d14bdd770c414d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "defe070f_6ce0a373",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1521,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-10-13T08:18:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "517e44ee_b161f416",
       "range": {
         "startLine": 1521,
         "startChar": 19,

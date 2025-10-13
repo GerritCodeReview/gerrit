@@ -74,6 +74,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f63c5056_2084118a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-10-13T11:27:00Z",
+      "side": 1,
+      "message": "Which change was this? Do you mean the one that is linked in the commit message [1]? This is from 4 years ago... and from before we migrated to submit requirements. I don\u0027t think we can revert the behaviour now.\n\n[1] https://gerrit-review.git.corp.google.com/c/gerrit/+/318241",
+      "parentUuid": "cbfc452e_ae2a0fc0",
+      "range": {
+        "startLine": 9,
+        "startChar": 57,
+        "endLine": 10,
+        "endChar": 8
+      },
+      "revId": "eb0b2ef453f7a2240b2d436e551ed981f981009a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "608f2494_cb71251d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 9

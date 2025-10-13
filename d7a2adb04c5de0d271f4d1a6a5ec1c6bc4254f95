@@ -70,6 +70,30 @@
       },
       "revId": "d7a2adb04c5de0d271f4d1a6a5ec1c6bc4254f95",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4920706f_817f1a01",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-10-13T13:04:29Z",
+      "side": 1,
+      "message": "I just realised that i didn\u0027t need to do anything other then the two element.updateComplete (works locally just adding that bit). I\u0027m not sure why two are needed but i have to do it in some places elsewhere in the app. But thanks!",
+      "parentUuid": "c7684a3a_31aec905",
+      "range": {
+        "startLine": 211,
+        "startChar": 6,
+        "endLine": 211,
+        "endChar": 39
+      },
+      "revId": "d7a2adb04c5de0d271f4d1a6a5ec1c6bc4254f95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

@@ -22,6 +22,14 @@ git_override(
     commit = "c4d733d0399ebf2ee1ffb897be5fbaba23738e04",
 )
 
+local_repository = use_repo_rule("@bazel_tools//tools/build_defs/repo:local.bzl", "local_repository")
+
+# Java-Prettify external repository consumed from git submodule
+local_repository(
+    name = "java-prettify",
+    path = "modules/java-prettify",
+)
+
 maven = use_extension("@rules_jvm_external//:extensions.bzl", "maven")
 
 # Empty maven.install call to apply the configuration to the installation from

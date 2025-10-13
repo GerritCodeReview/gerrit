@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "95009eba_77e213b3",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-10-13T09:13:51Z",
+      "side": 1,
+      "message": "this feels strange from an API contract perspective\n\nThe caller is explicitly asking for it and we only return if some status matches?\n\nIdeally the BE always sets this value if the caller asks for it",
+      "range": {
+        "startLine": 354,
+        "startChar": 8,
+        "endLine": 354,
+        "endChar": 62
+      },
+      "revId": "132f917c3d66c848de36975ccf32c7117e42abda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

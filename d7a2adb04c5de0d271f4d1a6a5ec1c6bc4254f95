@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5a455077_3aca9636",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-10-13T12:43:03Z",
+      "side": 1,
+      "message": "this is fine but can you try setting the model state `LoadingState` in bulk-actions-model so that it happens automatically?\n\nIdeally no change is required since this just works",
+      "range": {
+        "startLine": 211,
+        "startChar": 6,
+        "endLine": 211,
+        "endChar": 39
+      },
+      "revId": "d7a2adb04c5de0d271f4d1a6a5ec1c6bc4254f95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

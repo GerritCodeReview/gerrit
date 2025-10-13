@@ -350,8 +350,9 @@ link:#approval-info[ApprovalInfo] of the `all` attribute.
 [[submittable]]
 --
 * `SUBMITTABLE`: include the `submittable` field in link:#change-info[ChangeInfo],
-  which can be used to tell if the change is reviewed and ready for submit. The
-  field is only evaluated and set if change `status` is `NEW`.
+  which can be used to tell if the change is reviewed and ready for submit. Only
+  changes with `status` is `NEW` can be submittable, for `MERGED` and
+  `ABANDONED` changes this alway evaluates to `false`.
 --
 
 [[web-links]]
@@ -7462,7 +7463,7 @@ link:config-gerrit.html#change.mergeabilityComputationBehavior[change.mergeabili
 is `API_REF_UPDATED_AND_CHANGE_REINDEX`.
 |`submittable`        |optional|
 Whether the change has been approved by the project submit rules. +
-Only set if link:#submittable[requested] and change `status` is `NEW`.
+Only set if link:#submittable[requested].
 |`insertions`         ||
 Number of inserted lines.
 |`deletions`          ||
@@ -9043,8 +9044,7 @@ link:#commit-info[CommitInfo] entity.
 the change is one of (`NEW`, `MERGED`, `ABANDONED`).
 |`submittable`             |optional|Boolean indicating whether the change is
 submittable. +
-Only populated if link:#get-related-changes-submittable[requested] and change
-`status` is `NEW`.
+Only populated if link:#get-related-changes-submittable[requested].
 |`work_in_progress`   |optional, not set if `false`|Boolean indicating whether the change is
 work in progress.
 |===========================

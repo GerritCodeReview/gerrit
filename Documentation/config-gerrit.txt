@@ -4127,6 +4127,20 @@ Lucene documentation,role=external,window=_blank]
 +
 Defaults to -1 for (auto detection).
 
+[[index.persistLogs]]index.persistLogs::
++
+Enable the persistance of Lucene's debug loggs. Lucene prints messages that are
+enabled for specific components, such as indexing, merging operations or flushing
+to disk. This can be useful when admins face ongoing indexing issues, i.e. changes
+ending up in simultaneously in 2 states, open and closed, that are hard to debug
+without further information.
++
+NOTE: This can potentially add considerable load on the system, appropriate
+tests should be carried out before enabling this option on a production system.
+From running the link:https://github.com/gerritforge/gatling-sbt-gerrit-test[gerritforge gatling tests], in particular the rest api ones,
+we could observe up to a 22% increase in system load and a 71ms increase in
+client side latency.
+
 [[index.name.enableAutoIOThrottle]]index.name.enableAutoIOThrottle::
 +
 Allows the control of whether automatic IO throttling is enabled and used by

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "db56a948_0da4036e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3911711
+      },
+      "writtenOn": "2025-10-13T23:54:20Z",
+      "side": 1,
+      "message": "https://gerrit-review.googlesource.com/c/gerrit/+/464581 closed in favour of this CR, to centralise changes.",
+      "revId": "fd328b1b25d2df001e591ec10d7f0e9436acbcee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

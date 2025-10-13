@@ -43,6 +43,7 @@ java_library(
         "//lib/flogger:api",
         "//lib/guice",
         "//lib/guice:guice-assistedinject",
+        "//lib/log:jul-to-slf4j",
         "//lib/lucene:lucene-analyzers-common",
         "//lib/lucene:lucene-core",
         "//lib/lucene:lucene-misc",

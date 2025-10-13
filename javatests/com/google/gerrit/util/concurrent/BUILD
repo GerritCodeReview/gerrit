@@ -5,9 +5,9 @@ junit_tests(
     srcs = glob(["**/*.java"]),
     deps = [
         "//java/com/google/gerrit/util/concurrent",
+        "//lib:guava",
         "//lib:junit",
         "//lib:servlet-api-without-neverlink",
         "//lib/truth",
-        "@guava//jar",
     ],
 )

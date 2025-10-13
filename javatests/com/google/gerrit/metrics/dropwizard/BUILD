@@ -9,8 +9,8 @@ junit_tests(
         "//java/com/google/gerrit/metrics",
         "//java/com/google/gerrit/metrics/dropwizard",
         "//java/com/google/gerrit/testing:gerrit-junit",
+        "//lib/dropwizard:dropwizard-core",
         "//lib/mockito",
         "//lib/truth",
-        "@dropwizard-core//jar",
     ],
 )

@@ -16,6 +16,24 @@
       "message": "Internally at Google we are still on 1.5.2. If the security issue doesn\u0027t affect us, I would prefer not to do the upgrade.",
       "revId": "fb68c30d832f3e81e2ed84594ca53743d7e702e6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "61e4174c_2ee8e324",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 30
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-10-13T12:44:45Z",
+      "side": 1,
+      "message": "1.5.8 that\u0027s included is 7 years out of date. 1.5.2 is 11 years out of date. asciidoctorj has released a 3.0 release but i think we should upgrade to 2.x for now.",
+      "parentUuid": "7576875b_0af853ae",
+      "revId": "fb68c30d832f3e81e2ed84594ca53743d7e702e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -37,7 +37,7 @@ cp_targets = {
 }
 
 ROOT = os.path.abspath(__file__)
-while not os.path.exists(os.path.join(ROOT, 'WORKSPACE')):
+while not os.path.exists(os.path.join(ROOT, 'MODULE.bazel')):
     ROOT = os.path.dirname(ROOT)
 
 opts = argparse.ArgumentParser("Create Eclipse Project")

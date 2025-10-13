@@ -22,6 +22,30 @@
       },
       "revId": "d7a2adb04c5de0d271f4d1a6a5ec1c6bc4254f95",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "23dc9ef5_16a7d309",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-10-13T12:58:14Z",
+      "side": 1,
+      "message": "I tried to do that but couldn\u0027t get it working (i\u0027m not sure how to).",
+      "parentUuid": "5a455077_3aca9636",
+      "range": {
+        "startLine": 211,
+        "startChar": 6,
+        "endLine": 211,
+        "endChar": 39
+      },
+      "revId": "d7a2adb04c5de0d271f4d1a6a5ec1c6bc4254f95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "40b7d545_fee3999d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-10-13T07:55:04Z",
+      "side": 1,
+      "message": "Verified this fixes the issue\n\nCan you check if some other component also needs this fix? We should get ahead of the bugs then.",
+      "revId": "f151636c408d1e81f300286b8c14969fda5f30bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

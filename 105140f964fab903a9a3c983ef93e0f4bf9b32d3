@@ -22,6 +22,30 @@
       },
       "revId": "105140f964fab903a9a3c983ef93e0f4bf9b32d3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "00c14fa5_5462fb64",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-10-13T08:29:30Z",
+      "side": 1,
+      "message": "I don\u0027t thinks it\u0027s a bug (ie. it seems intentional) https://cs.opensource.google/gerrit/gerrit/gerrit/+/master:java/com/google/gerrit/server/change/ChangeJson.java;drc\u003d1f5ab56d92e2106f0cb84fb9f763b7c66cd8d04a;l\u003d690\n\nBut it\u0027s not stated in the documentation that Submittable is only evaluated for change that has status New (ie. not MERGED not ABANDONED). Updated the doc.",
+      "parentUuid": "ae818911_e717178b",
+      "range": {
+        "startLine": 10,
+        "startChar": 31,
+        "endLine": 10,
+        "endChar": 54
+      },
+      "revId": "105140f964fab903a9a3c983ef93e0f4bf9b32d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

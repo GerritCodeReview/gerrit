@@ -19,12 +19,18 @@ import static java.util.concurrent.TimeUnit.MINUTES;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.server.config.ConfigUtil;
+import com.google.gerrit.server.config.SitePaths;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
 import org.apache.lucene.analysis.CharArraySet;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.index.ConcurrentMergeScheduler;
 import org.apache.lucene.index.IndexDeletionPolicy;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.index.IndexWriterConfig.OpenMode;
+import org.apache.lucene.util.PrintStreamInfoStream;
 import org.eclipse.jgit.lib.Config;
 
 /** Combination of Lucene {@link IndexWriterConfig} with additional Gerrit-specific options. */
@@ -36,7 +42,8 @@ class GerritIndexWriterConfig {
   private long commitWithinMs;
   private final CustomMappingAnalyzer analyzer;
 
-  GerritIndexWriterConfig(Config cfg, String name) {
+  GerritIndexWriterConfig(Config cfg, String name, SitePaths sitePaths)
+      throws FileNotFoundException {
     analyzer =
         new CustomMappingAnalyzer(
             new StandardAnalyzer(CharArraySet.EMPTY_SET), CUSTOM_CHAR_MAPPING);
@@ -75,6 +82,15 @@ class GerritIndexWriterConfig {
               cfg, "index", name, "commitWithin", MILLISECONDS.convert(5, MINUTES), MILLISECONDS);
     } catch (IllegalArgumentException e) {
       commitWithinMs = cfg.getLong("index", name, "commitWithin", 0);
+    }
+
+    boolean enableLogging = cfg.getBoolean("index", name, "persistInfoStream", false);
+    if (enableLogging) {
+      luceneConfig.setInfoStream(
+          new PrintStreamInfoStream(
+              new PrintStream(
+                  new FileOutputStream(new File(sitePaths.logs_dir.toFile(), name + "_lucene_log")),
+                  true)));
     }
   }
 

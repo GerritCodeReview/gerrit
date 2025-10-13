@@ -1190,10 +1190,6 @@ export class GrChangeView extends LitElement {
     `;
   }
 
-  private toggleChat() {
-    this.showSidebarChat = !this.showSidebarChat;
-  }
-
   private renderSidebar() {
     if (!this.showSidebarChat) return;
     return html` <div>Hello, I am a fancy sidebar for AI Chat.</div> `;
@@ -1319,7 +1315,6 @@ export class GrChangeView extends LitElement {
       <div class="commitActions">
         <gr-change-actions
           id="actions"
-          @ai-chat=${() => this.toggleChat()}
           @edit-tap=${() => this.handleEditTap()}
           @stop-edit-tap=${() => this.handleStopEditTap()}
           @download-tap=${() => this.handleOpenDownloadDialog()}

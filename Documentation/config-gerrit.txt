@@ -4127,6 +4127,14 @@ Lucene documentation,role=external,window=_blank]
 +
 Defaults to -1 for (auto detection).
 
+[[index.enableDebugLogging]]index.enableDebugLogging::
++
+Enable Lucene's debug logging. This can be useful when admins face ongoing
+indexing issues that are hard to debug without further information.
++
+NOTE: This can potentially add considerable load on the system, appropriate
+tests should be carried out before enabling this option on a production system.
+
 [[index.name.enableAutoIOThrottle]]index.name.enableAutoIOThrottle::
 +
 Allows the control of whether automatic IO throttling is enabled and used by

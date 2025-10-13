@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "43ff765a_b7b4db6c",
+        "filename": "WORKSPACE.bzlmod",
+        "patchSetId": 9
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-10-13T11:05:48Z",
+      "side": 1,
+      "message": "Is out of date now. It was updated in https://gerrit-review.googlesource.com/c/gerrit/+/517101",
+      "revId": "7ed7c50fd21173c74256a0c3e78079f464d5aeb2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

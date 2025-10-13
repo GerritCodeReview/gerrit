@@ -88,6 +88,24 @@
       "parentUuid": "943f92ce_1443903a",
       "revId": "e403bab25fda00564c8db24512153f07064e2362",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "897b4713_5bce8e85",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-10-13T09:55:54Z",
+      "side": 1,
+      "message": "Actually it seems that reverting the css in gr-app-element as well as in gr-change-view fixed it. So maybe i should just do that rather than reverting the whole chain. See https://gerrit-review.googlesource.com/c/gerrit/+/517903",
+      "parentUuid": "a907f4e4_3d63c47f",
+      "revId": "e403bab25fda00564c8db24512153f07064e2362",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

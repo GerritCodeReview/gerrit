@@ -15,7 +15,6 @@ import {select} from '../../utils/observable-util';
 import {CoverageProvider, TokenHoverListener} from '../../api/annotation';
 import {SuggestionsProvider} from '../../api/suggestions';
 import {ChangeUpdatesPublisher} from '../../api/change-updates';
-import {AiCodeReviewProvider} from '../../api/ai-code-review';
 
 export interface CoveragePlugin {
   pluginName: string;
@@ -31,11 +30,6 @@ export interface ChecksPlugin {
 export interface ChangeUpdatesPlugin {
   pluginName: string;
   publisher: ChangeUpdatesPublisher;
-}
-
-export interface AiCodeReviewPlugin {
-  pluginName: string;
-  provider: AiCodeReviewProvider;
 }
 
 export interface SuggestionPlugin {
@@ -76,11 +70,6 @@ interface PluginsState {
   checksPlugins: ChecksPlugin[];
 
   /**
-   * List of plugins that have called aiCodeReview().register().
-   */
-  aiCodeReviewPlugins: AiCodeReviewPlugin[];
-
-  /**
    * List of plugins that have called suggestions().register().
    */
   suggestionsPlugins: SuggestionPlugin[];
@@ -116,11 +105,6 @@ export class PluginsModel extends Model<PluginsState> {
     state => state.changeUpdatesPlugins
   );
 
-  public aiCodeReviewPlugins$ = select(
-    this.state$,
-    state => state.aiCodeReviewPlugins
-  );
-
   public suggestionsPlugins$ = select(
     this.state$,
     state => state.suggestionsPlugins
@@ -134,7 +118,6 @@ export class PluginsModel extends Model<PluginsState> {
       coveragePlugins: [],
       changeUpdatesPlugins: [],
       checksPlugins: [],
-      aiCodeReviewPlugins: [],
       suggestionsPlugins: [],
       tokenHighlightPlugins: [],
     });
@@ -189,22 +172,6 @@ export class PluginsModel extends Model<PluginsState> {
       return;
     }
     nextState.checksPlugins.push(plugin);
-    this.setState(nextState);
-  }
-
-  aiCodeReviewRegister(plugin: AiCodeReviewPlugin) {
-    const nextState = {...this.getState()};
-    nextState.aiCodeReviewPlugins = [...nextState.aiCodeReviewPlugins];
-    const alreadyRegistered = nextState.aiCodeReviewPlugins.some(
-      p => p.pluginName === plugin.pluginName
-    );
-    if (alreadyRegistered) {
-      console.warn(
-        `${plugin.pluginName} tried to register twice as a AI Code Review provider. Ignored.`
-      );
-      return;
-    }
-    nextState.aiCodeReviewPlugins.push(plugin);
     this.setState(nextState);
   }
 

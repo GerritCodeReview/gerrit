@@ -113,14 +113,13 @@ class GitConfigReader:
 
     def _parse_cmd_options(self):
         for option in self.cmd_options:
-            key, value = option.split("=", 1)
+            key, value = option.strip().split("=", 1)
             key_parts = key.split(".")
+            section = key_parts[0].lower()
             if len(key_parts) == 2:
-                section = key_parts[0].lower()
                 subsection = DEFAULT_SUBSECTION
                 key = key_parts[1].lower()
             elif len(key_parts) == 3:
-                section = key_parts[0].lower()
                 subsection = key_parts[1].lower()
                 key = key_parts[2].lower()
             else:

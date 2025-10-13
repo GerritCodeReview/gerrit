@@ -811,9 +811,6 @@ export class GrChangeView extends LitElement {
           border-bottom: 2px solid var(--border-color);
           display: flex;
           padding: var(--spacing-s) var(--spacing-l);
-          position: sticky;
-          top: var(--main-header-height);
-          z-index: 110;
         }
         .header.active {
           border-color: var(--status-active);
@@ -1123,7 +1120,7 @@ export class GrChangeView extends LitElement {
   private renderMainContent() {
     return html`
       <div id="mainContent" class="container" ?hidden=${!!this.loading}>
-        ${this.renderHeader()} ${this.renderChangeInfoSection()}
+        ${this.renderChangeInfoSection()}
         <h2 class="assistive-tech-only">Files and Comments tabs</h2>
         ${this.renderTabHeaders()} ${this.renderTabContent()}
         ${this.renderChangeLog()}
@@ -1159,24 +1156,17 @@ export class GrChangeView extends LitElement {
     `;
   }
 
-  private renderHeader() {
-    return html`
+  private renderChangeInfoSection() {
+    return html`<section class="changeInfoSection">
       <div class=${this.computeHeaderClass()}>
         <h1 class="assistive-tech-only">
           Change ${this.change?._number}: ${this.change?.subject}
         </h1>
         ${this.renderHeaderTitle()} ${this.renderCommitActions()}
       </div>
-    `;
-  }
-
-  private renderChangeInfoSection() {
-    return html`
-      <section class="changeInfoSection">
-        <h2 class="assistive-tech-only">Change metadata</h2>
-        ${this.renderChangeInfo()}
-      </section>
-    `;
+      <h2 class="assistive-tech-only">Change metadata</h2>
+      ${this.renderChangeInfo()}
+    </section>`;
   }
 
   private renderHeaderTitle() {

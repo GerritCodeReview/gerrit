@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "de36aee8_2bf7140c",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-10-13T12:40:29Z",
+      "side": 1,
+      "message": "Fixed.",
+      "parentUuid": "fe35226b_dfb74f38",
+      "revId": "8601172532526799eaf2e1ab26df3fce52485a91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e6328750_bffa007c",
@@ -49,6 +67,24 @@
       "writtenOn": "2025-10-13T12:06:42Z",
       "side": 1,
       "message": "Add:\n\n```suggestion\n        }\n        .selection:has(.loadingSpin):not(:has(md-checkbox)) {\n          padding-right: 4px !important;\n        }\n```",
+      "revId": "8601172532526799eaf2e1ab26df3fce52485a91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a9d10770_85530024",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-10-13T12:40:29Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "e6328750_bffa007c",
       "revId": "8601172532526799eaf2e1ab26df3fce52485a91",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

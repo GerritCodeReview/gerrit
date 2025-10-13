@@ -698,6 +698,11 @@ public class ChangeJson {
       if (has(SUBMITTABLE)) {
         out.submittable = submittable(cd);
       }
+    } else {
+      // ABANDONED and MERGED changes are not considered submittable.
+      if (has(SUBMITTABLE)) {
+        out.submittable = false;
+      }
     }
     if (!has(SKIP_DIFFSTAT)) {
       Optional<ChangedLines> changedLines = cd.changedLines();

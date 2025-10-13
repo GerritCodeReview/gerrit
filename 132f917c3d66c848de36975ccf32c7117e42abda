@@ -69,6 +69,30 @@
       },
       "revId": "132f917c3d66c848de36975ccf32c7117e42abda",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bb046b08_753d0c33",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 9047,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-10-13T09:21:38Z",
+      "side": 1,
+      "message": "Or maybe better phrased, write in the commit description why this statement is true ie the pointer to the code in the BE where the check for status is made",
+      "parentUuid": "a9d7d4bd_47c59e9f",
+      "range": {
+        "startLine": 9047,
+        "startChar": 1,
+        "endLine": 9047,
+        "endChar": 18
+      },
+      "revId": "132f917c3d66c848de36975ccf32c7117e42abda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

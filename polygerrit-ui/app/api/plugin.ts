@@ -18,6 +18,7 @@ import {HookApi, RegisterOptions} from './hook';
 import {StylePluginApi} from './styles';
 import {SuggestionsPluginApi} from './suggestions';
 import {ChangeUpdatesPluginApi} from './change-updates';
+import {AiCodeReviewPluginApi} from './ai-code-review';
 
 export enum TargetElement {
   CHANGE_ACTIONS = 'changeactions',
@@ -65,6 +66,7 @@ export declare interface PluginApi {
    */
   url(): string;
   admin(): AdminPluginApi;
+  aiCodeReview(): AiCodeReviewPluginApi;
   annotationApi(): AnnotationPluginApi;
   attributeHelper(element: Element): AttributeHelperPluginApi;
   changeActions(): ChangeActionsPluginApi;

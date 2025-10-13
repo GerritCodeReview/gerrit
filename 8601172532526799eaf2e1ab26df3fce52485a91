@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fe35226b_dfb74f38",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-10-13T12:20:46Z",
+      "side": 1,
+      "message": "Can you take over the change?\nFixing unit tests is also non-trivial I think.",
+      "parentUuid": "df6d304c_1764e6c0",
+      "revId": "8601172532526799eaf2e1ab26df3fce52485a91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e6328750_bffa007c",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section.ts",
         "patchSetId": 1

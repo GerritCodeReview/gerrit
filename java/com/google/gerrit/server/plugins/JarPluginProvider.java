@@ -175,8 +175,7 @@ public class JarPluginProvider implements ServerPluginProvider {
   private ClassLoader parentFor(ApiType type) {
     return switch (type) {
       case PLUGIN -> pluginApiClassLoader;
-      // $CASES-OMITTED$
-      default -> PluginUtil.parentFor(type);
+      case JS, EXTENSION -> PluginUtil.parentFor(type);
     };
   }
 

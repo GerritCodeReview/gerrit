@@ -280,9 +280,6 @@ public class ChangeOperationsImpl implements ChangeOperations {
       case CHANGE_IDENTIFIER -> getGroupsFromChange(parentCommit.changeIdentifier());
       case COMMIT_SHA_1 -> ImmutableList.of();
       case PATCHSET_ID -> getGroupsFromPatchset(parentCommit.patchsetId());
-      default ->
-          throw new IllegalStateException(
-              String.format("No parent behavior implemented for %s.", parentCommit.getKind()));
     };
   }
 
@@ -362,9 +359,6 @@ public class ChangeOperationsImpl implements ChangeOperations {
       case CHANGE_IDENTIFIER -> resolveChange(parentCommit.changeIdentifier());
       case COMMIT_SHA_1 -> resolveCommitFromSha1(revWalk, parentCommit.commitSha1());
       case PATCHSET_ID -> resolvePatchset(parentCommit.patchsetId());
-      default ->
-          throw new IllegalStateException(
-              String.format("No parent behavior implemented for %s.", parentCommit.getKind()));
     };
   }
 

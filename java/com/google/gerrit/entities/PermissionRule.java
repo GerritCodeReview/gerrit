@@ -96,16 +96,10 @@ public abstract class PermissionRule implements Comparable<PermissionRule> {
   }
 
   private static int action(PermissionRule a) {
-    switch (a.getAction()) {
-      case DENY:
-        return 0;
-      case ALLOW:
-      case BATCH:
-      case BLOCK:
-      case INTERACTIVE:
-      default:
-        return 1 + a.getAction().ordinal();
-    }
+    return switch (a.getAction()) {
+      case DENY -> 0;
+      case ALLOW, BATCH, BLOCK, INTERACTIVE -> 1 + a.getAction().ordinal();
+    };
   }
 
   private static int range(PermissionRule a) {

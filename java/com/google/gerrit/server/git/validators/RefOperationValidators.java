@@ -35,7 +35,6 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.transport.ReceiveCommand;
 
@@ -131,7 +130,6 @@ public class RefOperationValidators {
       case DELETE -> "deletion";
       case UPDATE -> "update";
       case UPDATE_NONFASTFORWARD -> "non-fast-forward update";
-      default -> type.toString().toLowerCase(Locale.US);
     };
   }
 

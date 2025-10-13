@@ -636,7 +636,6 @@ public class BatchUpdate implements AutoCloseable {
           case UPSERTED -> indexFutures.add(indexer.indexAsync(project, id));
           case DELETED -> indexFutures.add(indexer.deleteAsync(project, id));
           case SKIPPED -> {}
-          default -> throw new IllegalStateException("unexpected result: " + e.getValue());
         }
       }
       if (indexAsync) {

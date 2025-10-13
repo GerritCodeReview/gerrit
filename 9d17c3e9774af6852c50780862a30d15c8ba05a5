@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9acb9a35_5dc94b89",
+        "filename": "polygerrit-ui/app/api/ai-code-review.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-10-13T08:07:00Z",
+      "side": 1,
+      "message": "what happens if it\u0027s called again?",
+      "range": {
+        "startLine": 10,
+        "startChar": 5,
+        "endLine": 10,
+        "endChar": 29
+      },
+      "revId": "9d17c3e9774af6852c50780862a30d15c8ba05a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

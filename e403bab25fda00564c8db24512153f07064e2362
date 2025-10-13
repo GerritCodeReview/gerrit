@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a694b321_1c8c429b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-10-13T09:13:23Z",
+      "side": 1,
+      "message": "I think this broke the mobile view. See https://phabricator.wikimedia.org/F66747220 and https://phabricator.wikimedia.org/F66747221",
+      "revId": "e403bab25fda00564c8db24512153f07064e2362",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

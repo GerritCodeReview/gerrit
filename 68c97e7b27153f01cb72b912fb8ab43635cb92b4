@@ -22,6 +22,30 @@
       },
       "revId": "68c97e7b27153f01cb72b912fb8ab43635cb92b4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b46efb36_4b7ed651",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-10-13T21:07:27Z",
+      "side": 1,
+      "message": "done\n\nWould you accept an update to Jetty 12 (latest version is currently 12.1.2) which also supports javax.servlet?\nWe use that already on the JGit servlet-4 branch. Jetty 9, 10, 11 are all EOL.",
+      "parentUuid": "60b2a034_09e97fd9",
+      "range": {
+        "startLine": 7,
+        "startChar": 16,
+        "endLine": 7,
+        "endChar": 32
+      },
+      "revId": "68c97e7b27153f01cb72b912fb8ab43635cb92b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

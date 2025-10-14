@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d511279b_5ae3693a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 4409216
+      },
+      "writtenOn": "2025-10-14T00:31:36Z",
+      "side": 1,
+      "message": "Possible improvement here:\n\n`(?\u003c![)\u0027\"!?.,]+)  // and not ending with one or more of ) \u0027 \" ! ? . ,`\n\nThe choice of characters here matches the \"ensure the match is followed by ...\" at the end, and this avoids something like \"crrev.com/c/7006389.)\" getting turned into a link (including the \".)\" at the end, as seen on https://chromium-review.googlesource.com/c/chromium/src/+/7039220).",
+      "revId": "20b734fca9b20b51a6071c074e837e1ca8b204f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

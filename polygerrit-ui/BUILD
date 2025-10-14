@@ -1,6 +1,8 @@
 load("//tools/bzl:genrule2.bzl", "genrule2")
-load("@build_bazel_rules_nodejs//:index.bzl", "nodejs_test")
 load("//tools/bzl:js.bzl", "web_test_runner")
+load("@ui_dev_npm//:defs.bzl", "npm_link_all_packages")
+
+npm_link_all_packages(name = "node_modules")
 
 package(default_visibility = ["//visibility:public"])
 
@@ -25,12 +27,12 @@ genrule2(
 # plugins.
 sh_binary(
     name = "web_test_runner_bin",
-    srcs = ["@ui_dev_npm//:node_modules/@web/test-runner/dist/bin.js"],
+    srcs = ["//polygerrit-ui:node_modules/@web/test-runner/dist/bin.js"],
     data = [
-        "@ui_dev_npm//@web/dev-server-esbuild",
-        "@ui_dev_npm//@web/test-runner",
-        "@ui_dev_npm//@web/test-runner-playwright",
-        "@ui_dev_npm//@web/test-runner-visual-regression",
+        "//polygerrit-ui:node_modules/@web/dev-server-esbuild",
+        "//polygerrit-ui:node_modules/@web/test-runner",
+        "//polygerrit-ui:node_modules/@web/test-runner-playwright",
+        "//polygerrit-ui:node_modules/@web/test-runner-visual-regression",
     ],
 )
 
@@ -39,8 +41,8 @@ web_test_runner(
     srcs = ["web_test_runner.sh"],
     data = [
         "//polygerrit-ui/app:web-test-runner_app-sources",
-        "@ui_dev_npm//:node_modules",
-        "@ui_npm//:node_modules",
+        "//polygerrit-ui:node_modules",
+        "//polygerrit-ui/app:node_modules",
     ],
 )
 

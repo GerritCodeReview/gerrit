@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b0b0db9_fc306cb6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-10-14T00:13:17Z",
+      "side": 1,
+      "message": "```suggestion\nRelease-Notes: skip\nChange-Id: Ib121c1ef1ff5b82840592324492a075d1230cd20\n```",
+      "revId": "89e113235ea8afcc9010e7d56bff7767216c0b3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "65f6865e_55a0cdec",
+        "filename": "java/com/google/gerrit/server/restapi/BUILD",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-10-14T00:13:17Z",
+      "side": 1,
+      "message": "buildifier fails\n\n```suggestion\n        \"//lib:gson\",\n        \"//lib:guava\",\n        \"//lib:jgit\",\n        \"//lib:servlet-api\",\n        \"//lib/antlr:java-runtime\",\n        \"//lib/auto:auto-factory\",\n        \"//lib/auto:auto-value\",\n        \"//lib/auto:auto-value-annotations\",\n        \"//lib/bouncycastle:bcprov-neverlink\",\n        \"//lib/commons:codec\",\n```",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 43,
+        "endChar": 30
+      },
+      "revId": "89e113235ea8afcc9010e7d56bff7767216c0b3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

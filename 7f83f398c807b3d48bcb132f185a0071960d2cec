@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fc14c528_ee1269a4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-10-14T00:21:30Z",
+      "side": 1,
+      "message": "nit: s/unblock/simplify/\n\n```suggestion\nmigration, simplify jgit updates and upgrade bazel to more recent\n```",
+      "range": {
+        "startLine": 15,
+        "startChar": 11,
+        "endLine": 15,
+        "endChar": 18
+      },
+      "revId": "7f83f398c807b3d48bcb132f185a0071960d2cec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "392a476d_dbb373af",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-10-14T00:21:30Z",
+      "side": 1,
+      "message": "```suggestion\nRelease-Notes: skip\nChange-Id: If968e21a5f1fb373c9bcd57e1ec72ad6ae7d185f\n```",
+      "revId": "7f83f398c807b3d48bcb132f185a0071960d2cec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8d1279b6_217a390a",
+        "filename": "MODULE.bazel",
+        "patchSetId": 13
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-10-14T00:21:30Z",
+      "side": 1,
+      "message": "Do we have to include this because we\u0027ll use jgit\u0027s MODULE.bazel as part of this change? Is there a way to split that? Can we stay with the jgit WORKSPACE file in this change and do more in a follow up?",
+      "revId": "7f83f398c807b3d48bcb132f185a0071960d2cec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

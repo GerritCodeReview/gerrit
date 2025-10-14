@@ -284,6 +284,18 @@ suite('gr-formatted-text tests', () => {
         await getLinkifiedUrl('hello gerrit.com/asdf,'),
         'gerrit.com/asdf'
       );
+      assert.equal(
+        await getLinkifiedUrl('hello gerrit.com/asdf.),'),
+        'gerrit.com/asdf'
+      );
+      assert.equal(
+        await getLinkifiedUrl('hello gerrit.com/asdf),'),
+        'gerrit.com/asdf'
+      );
+      assert.equal(
+        await getLinkifiedUrl('hello gerrit.com/foo,bar'),
+        'gerrit.com/foo,bar'
+      );
       // matches & part as well, even we first linkify and then htmlEscape
       await checkLinking(
         'https://google.com/traces/list?project=gerrit&tid=123'

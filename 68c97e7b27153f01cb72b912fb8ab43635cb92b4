@@ -70,6 +70,30 @@
       },
       "revId": "68c97e7b27153f01cb72b912fb8ab43635cb92b4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e328acf8_f06b7242",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-10-14T14:23:47Z",
+      "side": 1,
+      "message": "ok, that sounds like a lot of work and I can understand that you don\u0027t have the time to work on that",
+      "parentUuid": "f4c8fb70_46325dde",
+      "range": {
+        "startLine": 7,
+        "startChar": 16,
+        "endLine": 7,
+        "endChar": 32
+      },
+      "revId": "68c97e7b27153f01cb72b912fb8ab43635cb92b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

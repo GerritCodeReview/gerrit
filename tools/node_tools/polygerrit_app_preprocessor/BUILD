@@ -1,23 +1,21 @@
-load("@build_bazel_rules_nodejs//:index.bzl", "nodejs_binary")
-load("@npm//@bazel/rollup:index.bzl", "rollup_bundle")
-load("@npm//@bazel/concatjs:index.bzl", "ts_library")
+load("@aspect_rules_js//js:defs.bzl", "js_binary")
+load("@aspect_rules_rollup//rollup:defs.bzl", "rollup")
+load("@aspect_rules_ts//ts:defs.bzl", "ts_project")
 
 package(default_visibility = ["//visibility:public"])
 
-# TODO: Would be nice to use `ts_project` from @bazel/typescript instead.
-# We would prefer to not depend on @bazel/concatjs ...
-ts_library(
+ts_project(
     name = "preprocessor",
     srcs = glob(["*.ts"]),
     tsconfig = "tsconfig.json",
     deps = [
+        "//tools/node_tools:node_modules",
         "//tools/node_tools/utils",
-        "@tools_npm//:node_modules",
     ],
 )
 
 #rollup_bundle - workaround for https://github.com/bazelbuild/rules_nodejs/issues/1522
-rollup_bundle(
+rollup(
     name = "preprocessor-bundle",
     args = [
         "--bundleConfigAsCjs=true",
@@ -25,15 +23,15 @@ rollup_bundle(
     config_file = "rollup.config.js",
     entry_point = "preprocessor.ts",
     format = "cjs",
-    rollup_bin = "//tools/node_tools:rollup-bin",
+    node_modules = "//tools/node_tools:node_modules",
     silent = True,
     deps = [
         ":preprocessor",
-        "@tools_npm//@rollup/plugin-node-resolve",
+        "//tools/node_tools:node_modules/@rollup/plugin-node-resolve",
     ],
 )
 
-rollup_bundle(
+rollup(
     name = "links-updater-bundle",
     args = [
         "--bundleConfigAsCjs=true",
@@ -41,23 +39,23 @@ rollup_bundle(
     config_file = "rollup.config.js",
     entry_point = "links-updater.ts",
     format = "cjs",
-    rollup_bin = "//tools/node_tools:rollup-bin",
+    node_modules = "//tools/node_tools:node_modules",
     silent = True,
     deps = [
         ":preprocessor",
-        "@tools_npm//@rollup/plugin-node-resolve",
+        "//tools/node_tools:@rollup/plugin-node-resolve",
     ],
 )
 
-nodejs_binary(
+js_binary(
     name = "preprocessor-bin",
-    data = ["@tools_npm//:node_modules"],
+    data = ["//tools/node_tools:node_modules"],
     entry_point = "preprocessor-bundle.js",
 )
 
-nodejs_binary(
+js_binary(
     name = "links-updater-bin",
-    data = ["@tools_npm//:node_modules"],
+    data = ["//tools/node_tools:node_modules"],
     entry_point = "links-updater-bundle.js",
 )
 

@@ -65,6 +65,11 @@ const tsConfig = getArgValue('--ts-config') ?? `${pathPrefix}app/tsconfig.json`;
 // When running under Bazel, we also need strictly fully qualified paths.
 const stylePathPrefix = 'polygerrit-ui/';
 
+const chromeExecutablePath =
+  process.env['CHROME_BIN'] ||
+  process.env['CI_CHROME_BIN'] ||
+  (process.platform === 'linux' ? '/usr/bin/google-chrome' : undefined);
+
 /** @type {import('@web/test-runner').TestRunnerConfig} */
 const config = {
   // Default is CPU cores / 2. Use default
@@ -78,7 +83,10 @@ const config = {
     playwrightLauncher({
       product: 'chromium',
       launchOptions: {
+        ...(chromeExecutablePath ? {executablePath: chromeExecutablePath} : {}),
         args: [
+          '--no-sandbox',
+          '--disable-dev-shm-usage',
           '--disable-background-timer-throttling',
           '--disable-backgrounding-occluded-windows',
           '--disable-renderer-backgrounding',
@@ -104,7 +112,14 @@ const config = {
 
   nodeResolve: {
     modulePaths: getModulesDir(),
-    dedupe: ['lit', 'lit-html', 'lit-element'],
+    dedupe: [
+        'lit',
+        'lit-html',
+        'lit-element',
+        '@open-wc/testing',
+        '@open-wc/testing-helpers',
+        'sinon',
+    ],
   },
 
   testFramework: {

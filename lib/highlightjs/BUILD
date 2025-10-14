@@ -1,6 +1,6 @@
 # build highlight.min.js from node modules
 
-load("@npm//@bazel/rollup:index.bzl", "rollup_bundle")
+load("@aspect_rules_rollup//rollup:defs.bzl", "rollup")
 
 package(
     default_visibility = ["//visibility:public"],
@@ -13,16 +13,16 @@ package(
 # highlightjs-gn.
 exports_files(["gn.js"])
 
-rollup_bundle(
+rollup(
     name = "highlight.min",
     srcs = [
         ":gn.js",
-        "@ui_npm//highlight.js",
-        "@ui_npm//highlightjs-closure-templates",
-        "@ui_npm//highlightjs-epp",
-        "@ui_npm//highlightjs-structured-text",
-        "@ui_npm//highlightjs-ttcn3",
-        "@ui_npm//highlightjs-vue",
+        "//polygerrit-ui/app:node_modules/highlight.js",
+        "//polygerrit-ui/app:node_modules/highlightjs-closure-templates",
+        "//polygerrit-ui/app:node_modules/highlightjs-epp",
+        "//polygerrit-ui/app:node_modules/highlightjs-structured-text",
+        "//polygerrit-ui/app:node_modules/highlightjs-ttcn3",
+        "//polygerrit-ui/app:node_modules/highlightjs-vue",
     ],
     args = [
         "--bundleConfigAsCjs=true",
@@ -30,13 +30,13 @@ rollup_bundle(
     config_file = "rollup.config.js",
     entry_point = "index.js",
     format = "iife",
-    rollup_bin = "//tools/node_tools:rollup-bin",
+    node_modules = "//tools/node_tools:node_modules",
     silent = True,
     sourcemap = "hidden",
     deps = [
-        "@tools_npm//@rollup/plugin-commonjs",
-        "@tools_npm//@rollup/plugin-node-resolve",
-        "@tools_npm//@rollup/plugin-terser",
-        "@tools_npm//rollup",
+        "//tools/node_tools:node_modules/@rollup/plugin-commonjs",
+        "//tools/node_tools:node_modules/@rollup/plugin-node-resolve",
+        "//tools/node_tools:node_modules/@rollup/plugin-terser",
+        "//tools/node_tools:node_modules/rollup",
     ],
 )

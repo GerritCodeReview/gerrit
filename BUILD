@@ -1,5 +1,8 @@
 load("//tools/bzl:genrule2.bzl", "genrule2")
 load("//tools/bzl:pkg_war.bzl", "pkg_war")
+load("@npm//:defs.bzl", "npm_link_all_packages")
+
+npm_link_all_packages(name = "node_modules")
 
 package(default_visibility = ["//visibility:public"])
 

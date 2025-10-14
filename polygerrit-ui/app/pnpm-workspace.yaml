@@ -1,0 +1,4 @@
+packages:
+  - 'polygerrit-ui/app'
+
+onlyBuiltDependencies: []

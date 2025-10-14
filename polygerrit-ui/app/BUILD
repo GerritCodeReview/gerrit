@@ -1,7 +1,10 @@
-load("@build_bazel_rules_nodejs//:index.bzl", "nodejs_test")
-load("@npm//@bazel/typescript:index.bzl", "ts_config", "ts_project")
+load("@aspect_rules_ts//ts:defs.bzl", "ts_config", "ts_project")
+load("@npm//:lit-analyzer/package_json.bzl", lit_analyzer_bin = "bin")
+load("@ui_npm//:defs.bzl", "npm_link_all_packages")
 load("//tools/js:eslint.bzl", "eslint")
 load(":rules.bzl", "polygerrit_bundle")
+
+npm_link_all_packages(name = "node_modules")
 
 package(default_visibility = ["//visibility:public"])
 
@@ -46,10 +49,9 @@ ts_project(
     allow_js = True,
     incremental = True,
     out_dir = "_pg_ts_out",
-    tsc = "//tools/node_tools:tsc-bin",
     tsconfig = ":ts_config_bazel",
     deps = [
-        "@ui_npm//:node_modules",
+        ":node_modules",
     ],
 )
 
@@ -80,11 +82,10 @@ ts_project(
     allow_js = True,
     incremental = True,
     out_dir = "_pg_with_tests_out",
-    tsc = "//tools/node_tools:tsc-bin",
     tsconfig = ":ts_config_bazel_test",
     deps = [
-        "@ui_dev_npm//:node_modules",
-        "@ui_npm//:node_modules",
+        ":node_modules",
+        "//polygerrit-ui:node_modules",
     ],
 )
 
@@ -109,8 +110,8 @@ filegroup(
             "node_modules_licenses/**",
         ],
     ) + [
-        "@ui_dev_npm//:node_modules",
-        "@ui_npm//:node_modules",
+        ":node_modules",
+        "//polygerrit-ui:node_modules",
     ],
 )
 
@@ -133,9 +134,9 @@ filegroup(
     name = "test-srcs-fg",
     srcs = [
         "rollup.config.js",
+        ":node_modules",
         ":pg_code",
-        "@ui_dev_npm//:node_modules",
-        "@ui_npm//:node_modules",
+        "//polygerrit-ui:node_modules",
     ],
 )
 
@@ -153,7 +154,7 @@ eslint(
         "tsconfig_eslint.json",
         # tsconfig_eslint.json extends tsconfig.json, pass it as a dependency
         "tsconfig.json",
-        "@npm//typescript",
+        "//:node_modules/typescript",
     ],
     extensions = [
         ".html",
@@ -161,17 +162,17 @@ eslint(
         ".ts",
     ],
     plugins = [
-        "@npm//@typescript-eslint/eslint-plugin",
-        "@npm//eslint-config-google",
-        "@npm//eslint-plugin-html",
-        "@npm//eslint-plugin-import",
-        "@npm//eslint-plugin-jsdoc",
-        "@npm//eslint-plugin-lit",
-        "@npm//eslint-plugin-n",
-        "@npm//eslint-plugin-prettier",
-        "@npm//eslint-plugin-regex",
-        "@npm//eslint-plugin-es-x",
-        "@npm//gts",
+        "//:node_modules/@typescript-eslint/eslint-plugin",
+        "//:node_modules/eslint-config-google",
+        "//:node_modules/eslint-plugin-html",
+        "//:node_modules/eslint-plugin-import",
+        "//:node_modules/eslint-plugin-jsdoc",
+        "//:node_modules/eslint-plugin-lit",
+        "//:node_modules/eslint-plugin-n",
+        "//:node_modules/eslint-plugin-prettier",
+        "//:node_modules/eslint-plugin-regex",
+        "//:node_modules/eslint-plugin-es-x",
+        "//:node_modules/gts",
     ],
 )
 
@@ -184,37 +185,34 @@ filegroup(
             "**/*_test.ts",
         ],
     ) + [
-        "@npm//typescript",
-        "@ui_dev_npm//:node_modules",
-        "@ui_npm//:node_modules",
+        "//:node_modules/typescript",
+        "//polygerrit-ui:node_modules",
     ],
 )
 
-nodejs_test(
+lit_analyzer_bin.lit_analyzer_test(
     name = "lit_analysis",
+    args = [
+        "**/elements/**/*.ts",
+        "--strict",
+        "--rules.no-property-visibility-mismatch",
+        "off",
+        "--rules.no-incompatible-property-type",
+        "off",
+        "--rules.no-incompatible-type-binding",
+        "off",
+        "--rules.no-unknown-attribute",
+        "off",
+        "--rules.no-unknown-tag-name",
+        "off",
+    ],
+    chdir = package_name(),
     data = [
         ":lit_analysis_src_code",
-        "@npm//lit-analyzer",
     ],
-    entry_point = "@npm//:node_modules/lit-analyzer/cli.js",
     tags = [
         "local",
         "manual",
-    ],
-    templated_args = [
-        "**/elements/**/*.ts",
-        "--strict",
-        "--rules.no-property-visibility-mismatch off",
-        "--rules.no-incompatible-property-type off",
-        "--rules.no-incompatible-type-binding off",
-        # TODO: We would actually like to change this to `error`, but we also
-        # want to allow certain attributes, for example `aria-description`. This
-        # would be possible, if we would run the lit-analyzer as a ts plugin.
-        # In tsconfig.json there is an option `globalAttributes` that we could
-        # use. But that is not available when running lit-analyzer as cli.
-        "--rules.no-unknown-attribute off",
-        # TODO: enable once we migrate from iron elements to material-web
-        "--rules.no-unknown-tag-name off",
     ],
 )
 

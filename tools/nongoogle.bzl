@@ -15,7 +15,7 @@ AUTO_VALUE_VERSION = "1.11.0"
 
 GUAVA_VERSION = "33.4.8-jre"
 
-GUAVA_DOC_URL = "https://google.github.io/guava/releases/" + GUAVA_VERSION + "/api/docs/"
+GUAVA_DOC_URL = "https://guava.dev/releases/" + GUAVA_VERSION + "/api/docs/"
 
 def archive_dependencies():
     return [

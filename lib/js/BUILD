@@ -1,4 +1,4 @@
-load("//tools/bzl:js.bzl", "js_component")
+load("@com_googlesource_gerrit_bazlets//js:defs.bzl", "js_component")
 
 package(default_visibility = ["//visibility:public"])
 

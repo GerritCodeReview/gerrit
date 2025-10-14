@@ -170,6 +170,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "02c81cd3_e22a8fe5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1014257
+      },
+      "writtenOn": "2025-10-14T08:29:49Z",
+      "side": 1,
+      "message": "Well, I think the current behavior is unexpected. But the question to answer here is what is expected when one pushes a merge commit for review. Currently, in the UI we see the diff against parent 1 per default, so the files are visible in Gerrit UI, however the \u0027file:\u0027 operator will not match any of those files. This is discrepancy to me. However, before Gerrit version 3.5 the file operator was matching those files so it worked as expected in my opinion.",
+      "parentUuid": "1c6a6243_1bab3a55",
+      "range": {
+        "startLine": 9,
+        "startChar": 57,
+        "endLine": 10,
+        "endChar": 8
+      },
+      "revId": "eb0b2ef453f7a2240b2d436e551ed981f981009a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "608f2494_cb71251d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 9

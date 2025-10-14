@@ -19,7 +19,7 @@ GUAVA_BIN_SHA1 = "03fcc0a259f724c7de54a6a55ea7e26d3d5c0cac"
 
 GUAVA_TESTLIB_BIN_SHA1 = "e849ea71846b5ca96387d543c7ac862f18fe2513"
 
-GUAVA_DOC_URL = "https://google.github.io/guava/releases/" + GUAVA_VERSION + "/api/docs/"
+GUAVA_DOC_URL = "https://guava.dev/releases/" + GUAVA_VERSION + "/api/docs/"
 
 def archive_dependencies():
     return [

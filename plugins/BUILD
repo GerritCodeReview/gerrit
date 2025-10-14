@@ -6,7 +6,10 @@ load(
     "CORE_PLUGINS",
     "CUSTOM_PLUGINS",
 )
-load("@build_bazel_rules_nodejs//:index.bzl", "nodejs_test")
+load("@plugins_npm//:defs.bzl", "npm_link_all_packages")
+
+npm_link_all_packages(name = "node_modules")
+
 
 package(default_visibility = ["//visibility:public"])
 

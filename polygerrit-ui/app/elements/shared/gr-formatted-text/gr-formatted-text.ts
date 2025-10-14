@@ -170,12 +170,12 @@ export class GrFormattedText extends LitElement {
           //     [/?#]           //   Start with one of / ? #
           //     [^\s'"]*        //   Followed by some chars that are not whitespace,
           //                     //   ' or " (to not grab trailing quotes)
-          //     (?<![.,])       //   and not ending with '.' or ','
+          //     ?<![)'"!?.,]+   // and not ending with one or more of ) ' " ! ? . ,
           //   )                 // End path/query/fragment group
           // )                   // End capture group 1
           // (?=\s|$|[)'"!?.,])  // Ensure the match is followed by whitespace,
           //                     // end of line, or one of ) ' " ! ? . ,
-          match: `(?<=\\s|^|[('":[])((?:[\\w-]+\\.)+(?:${TLD_REGEX})(?=.*?/)(?:[/?#][^\\s'"]*(?<![.,])))(?=\\s|$|[)'"!?.,])`,
+          match: `(?<=\\s|^|[('":[])((?:[\\w-]+\\.)+(?:${TLD_REGEX})(?=.*?/)(?:[/?#][^\\s'"]*(?<![)'"!?.,]+)))(?=\\s|$|[)'"!?.,])`,
           // Prepend http:// for the link href otherwise it will be treated as
           // a relative URL.
           link: 'http://$1',

@@ -454,11 +454,11 @@ suite('gr-change-view tests', () => {
   });
 
   test('renders flows tab if experiment is enabled', async () => {
-    element.isFlowsEnabled = true;
+    element.flowsTabEnabled = true;
     stubFlags('isEnabled').returns(true);
     element.requestUpdate();
     await element.updateComplete;
-    await waitUntil(() => !!element.isFlowsEnabled);
+    await waitUntil(() => !!element.flowsTabEnabled);
     queryAndAssert(element, '[data-name="flows"]');
   });
 

@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "949a769b_5f76f305",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-10-14T12:03:38Z",
+      "side": 1,
+      "message": "Should this be backported to stable-3.13? Noticeably https://github.com/jetty/jetty.project/releases/tag/jetty-9.4.54.v20240208 is a security release.",
+      "revId": "0a118e0ac7705593b30145ad39b11baeaf0745aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

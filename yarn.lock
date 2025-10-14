@@ -21,44 +21,6 @@
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.28.3.tgz#75c5034b55ba868121668be5d5bb31cc64e6e61a"
   integrity sha512-9uIQ10o0WGdpP6GDhXcdOJPJuDgFtIDtN/9+ArJQ2NAfAmiuhTQdzkaTGR33v43GYS2UrSA0eX2pPPHoFVvpxA==
 
-"@bazel/concatjs@^5.8.1":
-  version "5.8.1"
-  resolved "https://registry.yarnpkg.com/@bazel/concatjs/-/concatjs-5.8.1.tgz#dd20882429e382cae79c08cbd3238dfc680d2d67"
-  integrity sha512-TkARsNUxgi3bjFeGwIGlffmQglNhuR9qK9uE7uKhdBZvQE5caAWVCjYiMTzo3viKDhwKn5QNRcHY5huuJMVFfA==
-  dependencies:
-    protobufjs "6.8.8"
-    source-map-support "0.5.9"
-    tsutils "3.21.0"
-
-"@bazel/rollup@^5.8.1":
-  version "5.8.1"
-  resolved "https://registry.yarnpkg.com/@bazel/rollup/-/rollup-5.8.1.tgz#ee876c35595b456f700d258385412e4f0dd57c15"
-  integrity sha512-Ys+UWbRp1TY2j+z15N+SZgID/nuqAtJTgJDsz0NZVjm8F8KzmgXxLDnBb/cUKFVk83pNOAi84G/bq1tINjMSNA==
-  dependencies:
-    "@bazel/worker" "5.8.1"
-
-"@bazel/terser@^5.8.1":
-  version "5.8.1"
-  resolved "https://registry.yarnpkg.com/@bazel/terser/-/terser-5.8.1.tgz#729a0ec6dcc83e99c4f6d3f2bebb0ff254c10c48"
-  integrity sha512-TPjSDhw1pSZt9P2hd/22IJwl8KCZiJL+u2gB5mghBTCFDVdC5Dgsx135pFtvlqc6LjjOvd3s6dzcQr0YJo2HSg==
-
-"@bazel/typescript@^5.8.1":
-  version "5.8.1"
-  resolved "https://registry.yarnpkg.com/@bazel/typescript/-/typescript-5.8.1.tgz#74a76af434fad7930893cf3e98b4cc201e52dc65"
-  integrity sha512-NAJ8WQHZL1WE1YmRoCrq/1hhG15Mvy/viWh6TkvFnBeEhNUiQUsA5GYyhU1ztnBIYW03nATO3vwhAEfO7Q0U5g==
-  dependencies:
-    "@bazel/worker" "5.8.1"
-    semver "5.6.0"
-    source-map-support "0.5.9"
-    tsutils "3.21.0"
-
-"@bazel/worker@5.8.1":
-  version "5.8.1"
-  resolved "https://registry.yarnpkg.com/@bazel/worker/-/worker-5.8.1.tgz#65af7a70dd2f1aaedd6c19330abd9a198f96e7b2"
-  integrity sha512-GMyZSNW3F34f9GjbJqvs1aHyed5BNrNeiDzNJhC1fIizo/UeBM21oBBONIYLBDoBtq936U85VyPZ76JaP/83hw==
-  dependencies:
-    google-protobuf "^3.6.1"
-
 "@es-joy/jsdoccomment@~0.50.2":
   version "0.50.2"
   resolved "https://registry.yarnpkg.com/@es-joy/jsdoccomment/-/jsdoccomment-0.50.2.tgz#707768f0cb62abe0703d51aa9086986d230a5d5c"

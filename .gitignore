@@ -44,6 +44,7 @@ js-to-ts.sh
 !/plugins/.eslintrc.js
 !/plugins/.prettierrc.js
 !/plugins/package.json
+!/plugins/pnpm-lock.yaml
 !/plugins/rollup.config.js
 !/plugins/tsconfig.json
 !/plugins/tsconfig-plugins-base.json

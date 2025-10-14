@@ -1,0 +1,130 @@
+# npm packages are split into different node_modules directories based on their
+# usage.
+# 1. @npm (node_modules) - contains packages to run tests, check code, etc...
+#    It is expected that @npm is used ONLY to run tools. No packages from @npm
+#    are used by other code in gerrit.
+# 2. @tools_npm (tools/node_tools/node_modules) - the tools/node_tools folder
+#    contains self-written tools which are run for building and/or testing. The
+#    @tools_npm directory contains all the packages needed to run this tools.
+# 3. @ui_npm (polygerrit-ui/app/node_modules) - packages with source code which
+#    are necessary to run polygerrit and to bundle it. Only code from these
+#    packages can be included in the final bundle for polygerrit. @ui_npm folder
+#    must not have devDependencies. All devDependencies must be placed in
+#    @ui_dev_npm.
+# 4. @ui_dev_npm (polygerrit-ui/node_modules) - devDependencies for polygerrit.
+#    The packages from these folder can be used for testing, but must not be
+#    included in the final bundle.
+# 5. @plugins_npm (plugins/node_modules) - plugin dependencies for polygerrit
+#    plugins. The packages here are expected to be used in plugins.
+# Note: separation between @ui_npm and @ui_dev_npm is necessary because with
+#    rules_nodejs we can't generate two external repositories from the same
+#    package.json. At the same time we want to avoid accidental usages of code
+#    from devDependencies in polygerrit bundle.
+
+rules_ts_ext = use_extension("@aspect_rules_ts//ts:extensions.bzl", "ext", dev_dependency = True)
+rules_ts_ext.deps(
+    ts_version_from = "//:package.json",
+)
+use_repo(rules_ts_ext, "npm_typescript")
+
+NODE_24_REPO = {
+    "24.14.1-darwin_arm64": ("node-v24.14.1-darwin-arm64.tar.gz", "node-v24.14.1-darwin-arm64", "25495ff85bd89e2d8a24d88566d7e2f827c6b0d3d872b2cebf75371f93fcb1fe"),
+    "24.14.1-darwin_amd64": ("node-v24.14.1-darwin-x64.tar.gz", "node-v24.14.1-darwin-x64", "2526230ad7d922be82d4fdb1e7ee1e84303e133e3b4b0ec4c2897ab31de0253d"),
+    "24.14.1-linux_arm64": ("node-v24.14.1-linux-arm64.tar.xz", "node-v24.14.1-linux-arm64", "71e427e28b78846f201d4d5ecc30cb13d1508ca099ef3871889a1256c7d6f67e"),
+    "24.14.1-linux_ppc64le": ("node-v24.14.1-linux-ppc64le.tar.xz", "node-v24.14.1-linux-ppc64le", "95bf0c8dbb73144edb79a57399f03c70af6995b78e1c632926e53e6404662ef5"),
+    "24.14.1-linux_s390x": ("node-v24.14.1-linux-s390x.tar.xz", "node-v24.14.1-linux-s390x", "ed3bfbc0ff418b0ec4633f23d53a12a691717a34b041c3fbdb296c8774e5a98a"),
+    "24.14.1-linux_amd64": ("node-v24.14.1-linux-x64.tar.xz", "node-v24.14.1-linux-x64", "84d38715d449447117d05c3e71acd78daa49d5b1bfa8aacf610303920c3322be"),
+    "24.14.1-windows_amd64": ("node-v24.14.1-win-x64.zip", "node-v24.14.1-win-x64", "6e50ce5498c0cebc20fd39ab3ff5df836ed2f8a31aa093cecad8497cff126d70"),
+}
+
+node = use_extension("@rules_nodejs//nodejs:extensions.bzl", "node")
+node.toolchain(
+    name = "nodejs",
+    node_repositories = NODE_24_REPO,
+    node_version = "24.14.1",
+)
+use_repo(node, "nodejs_toolchains")
+use_repo(node, "nodejs_darwin_arm64")
+use_repo(node, "nodejs_darwin_amd64")
+use_repo(node, "nodejs_linux_arm64")
+use_repo(node, "nodejs_linux_ppc64le")
+use_repo(node, "nodejs_linux_s390x")
+use_repo(node, "nodejs_linux_amd64")
+use_repo(node, "nodejs_windows_amd64")
+
+# We need latest pnpm version to get this Fix:
+# https://github.com/pnpm/pnpm/issues/10468
+pnpm = use_extension("@aspect_rules_js//npm:extensions.bzl", "pnpm")
+pnpm.pnpm(pnpm_version = "10.33.0")
+use_repo(pnpm, "pnpm")
+
+npm = use_extension("@aspect_rules_js//npm:extensions.bzl", "npm")
+npm.npm_translate_lock(
+    name = "npm",
+    data = [
+        "//:package.json",
+        "//:pnpm-workspace.yaml",
+    ],
+    pnpm_lock = "//:pnpm-lock.yaml",
+    update_pnpm_lock = True,
+    yarn_lock = "//:yarn.lock",
+)
+use_repo(npm, "npm")
+
+# Keep no_optional=True.
+# ui_npm is the browser/runtime dependency set for PolyGerrit.
+# If this is removed, aspect_rules_js npm_translate_lock defaults to installing
+# optionalDependencies from the full transitive graph (not just from our root
+# package.json). In this repo that pulls in Resemble.js -> canvas ->
+# prebuild-install/native helper packages, which changes the realized
+# node_modules tree and breaks license generation.
+# This differs from normal pnpm behavior, which may skip platform-unneeded
+# optional deps.
+npm.npm_translate_lock(
+    name = "ui_npm",
+    data = [
+        "//polygerrit-ui/app:package.json",
+        "//polygerrit-ui/app:pnpm-workspace.yaml",
+    ],
+    no_optional = True,
+    pnpm_lock = "//polygerrit-ui/app:pnpm-lock.yaml",
+    update_pnpm_lock = True,
+    yarn_lock = "//polygerrit-ui/app:yarn.lock",
+)
+use_repo(npm, "ui_npm")
+
+npm.npm_translate_lock(
+    name = "ui_dev_npm",
+    data = [
+        "//polygerrit-ui:package.json",
+        "//polygerrit-ui:pnpm-workspace.yaml",
+    ],
+    pnpm_lock = "//polygerrit-ui:pnpm-lock.yaml",
+    update_pnpm_lock = True,
+    yarn_lock = "//polygerrit-ui:yarn.lock",
+)
+use_repo(npm, "ui_dev_npm")
+
+npm.npm_translate_lock(
+    name = "tools_npm",
+    data = [
+        "//tools/node_tools:package.json",
+        "//tools/node_tools:pnpm-workspace.yaml",
+    ],
+    pnpm_lock = "//tools/node_tools:pnpm-lock.yaml",
+    update_pnpm_lock = True,
+    yarn_lock = "//tools/node_tools:yarn.lock",
+)
+use_repo(npm, "tools_npm")
+
+npm.npm_translate_lock(
+    name = "plugins_npm",
+    data = [
+        "//plugins:package.json",
+        "//plugins:pnpm-workspace.yaml",
+    ],
+    pnpm_lock = "//plugins:pnpm-lock.yaml",
+    update_pnpm_lock = True,
+    yarn_lock = "//plugins:yarn.lock",
+)
+use_repo(npm, "plugins_npm")

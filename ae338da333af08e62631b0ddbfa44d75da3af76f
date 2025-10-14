@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d4046f86_a4db0c98",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-10-14T11:56:13Z",
+      "side": 1,
+      "message": "For some of the conflicts I can\u0027t judge if they have been resolved correctly. Leaving this review to someone (Dhruv?) who is more familiar with the frontend code.",
+      "revId": "ae338da333af08e62631b0ddbfa44d75da3af76f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

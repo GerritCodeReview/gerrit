@@ -1,6 +1,6 @@
 # build emojis.min.js from node modules
 
-load("@npm//@bazel/rollup:index.bzl", "rollup_bundle")
+load("@aspect_rules_rollup//rollup:defs.bzl", "rollup")
 
 package(
     default_visibility = ["//visibility:public"],
@@ -9,24 +9,24 @@ package(
 
 exports_files(["emojis.js"])
 
-rollup_bundle(
+rollup(
     name = "emojis.min",
     srcs = [
         ":emojis.js",
     ],
+    node_modules = "//tools/node_tools:node_modules",
     args = [
         "--bundleConfigAsCjs=true",
     ],
     config_file = "rollup.config.js",
     entry_point = "index.js",
     format = "iife",
-    rollup_bin = "//tools/node_tools:rollup-bin",
     silent = True,
     sourcemap = "hidden",
     deps = [
-        "@tools_npm//@rollup/plugin-commonjs",
-        "@tools_npm//@rollup/plugin-node-resolve",
-        "@tools_npm//@rollup/plugin-terser",
-        "@tools_npm//rollup",
+        "//tools/node_tools:node_modules/@rollup/plugin-commonjs",
+        "//tools/node_tools:node_modules/@rollup/plugin-node-resolve",
+        "//tools/node_tools:node_modules/@rollup/plugin-terser",
+        "//tools/node_tools:node_modules/rollup",
     ],
 )

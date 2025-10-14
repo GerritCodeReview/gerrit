@@ -104,7 +104,14 @@ const config = {
 
   nodeResolve: {
     modulePaths: getModulesDir(),
-    dedupe: ['lit', 'lit-html', 'lit-element'],
+    dedupe: [
+        'lit',
+        'lit-html',
+        'lit-element',
+        '@open-wc/testing',
+        '@open-wc/testing-helpers',
+        'sinon',
+    ],
   },
 
   testFramework: {

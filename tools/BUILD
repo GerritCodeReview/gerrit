@@ -160,7 +160,7 @@ java_package_configuration(
         "-Xep:FloatingPointLiteralPrecision:ERROR",
         "-Xep:FloggerArgumentToString:ERROR",
         "-Xep:FloggerFormatString:ERROR",
-        "-Xep:FloggerLogString:WARN",
+        "-Xep:FloggerLogString:ERROR",
         "-Xep:FloggerLogVarargs:ERROR",
         "-Xep:FloggerSplitLogStatement:ERROR",
         "-Xep:FloggerStringConcatenation:ERROR",

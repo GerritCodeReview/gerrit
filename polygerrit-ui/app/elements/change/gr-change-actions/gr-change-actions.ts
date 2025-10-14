@@ -121,7 +121,6 @@ import {readJSONResponsePayload} from '../../shared/gr-rest-api-interface/gr-res
 import {commentsModelToken} from '../../../models/comments/comments-model';
 import {when} from 'lit/directives/when.js';
 import {ValidationOptionInfo} from '../../../api/rest-api';
-import {KnownExperimentId} from '../../../services/flags/flags';
 
 const ERR_BRANCH_EMPTY = 'The destination branch can’t be empty.';
 const ERR_COMMIT_EMPTY = 'The commit message can’t be empty.';
@@ -179,13 +178,6 @@ const QUICK_APPROVE_ACTION: QuickApproveUIActionInfo = {
   key: 'review',
   label: 'Quick approve',
   method: HttpMethod.POST,
-};
-
-const AI_CHAT_ACTION: UIActionInfo = {
-  __key: 'chat',
-  __type: ActionType.CHANGE,
-  enabled: true,
-  label: 'AI Chat',
 };
 
 function isQuickApproveAction(
@@ -276,7 +268,6 @@ const ACTIONS_WITH_ICONS = new Map<
   [ChangeActions.REVERT, {icon: 'undo'}],
   [ChangeActions.STOP_EDIT, {icon: 'stop', filled: true}],
   [QUICK_APPROVE_ACTION.key, {icon: 'check'}],
-  [AI_CHAT_ACTION.__key, {icon: 'stars'}],
   [RevisionActions.SUBMIT, {icon: 'done_all'}],
 ]);
 
@@ -496,15 +487,11 @@ export class GrChangeActions
 
   @state() pluginsLoaded = false;
 
-  @state() aiPluginsRegistered = false;
-
   @state() threadsWithUnappliedSuggestions?: CommentThread[];
 
   private readonly restApiService = getAppContext().restApiService;
 
   private readonly reporting = getAppContext().reportingService;
-
-  private readonly flagService = getAppContext().flagsService;
 
   private readonly getPluginLoader = resolve(this, pluginLoaderToken);
 
@@ -586,11 +573,6 @@ export class GrChangeActions
       this,
       () => this.getPluginLoader().pluginsModel.pluginsLoaded$,
       x => (this.pluginsLoaded = x)
-    );
-    subscribe(
-      this,
-      () => this.getPluginLoader().pluginsModel.aiCodeReviewPlugins$,
-      plugins => (this.aiPluginsRegistered = (plugins.length ?? 0) > 0)
     );
     subscribe(
       this,
@@ -1237,16 +1219,6 @@ export class GrChangeActions
     this._hideQuickApproveAction = true;
   }
 
-  private getAiChatAction(): UIActionInfo | null {
-    if (!this.flagService.isEnabled(KnownExperimentId.ENABLE_AI_CHAT)) {
-      return null;
-    }
-    if (!this.aiPluginsRegistered) {
-      return null;
-    }
-    return AI_CHAT_ACTION;
-  }
-
   private getQuickApproveAction(): QuickApproveUIActionInfo | null {
     if (this._hideQuickApproveAction) {
       return null;
@@ -1514,10 +1486,6 @@ export class GrChangeActions
           return;
         }
         this.fireAction(this.prependSlash(key), action, true, action.payload);
-        break;
-      }
-      case AI_CHAT_ACTION.__key: {
-        fire(this, 'ai-chat', {});
         break;
       }
       case ChangeActions.EDIT:
@@ -2232,10 +2200,6 @@ export class GrChangeActions
     if (quickApprove) {
       changeActionValues.unshift(quickApprove);
     }
-    const aiChat = this.getAiChatAction();
-    if (aiChat) {
-      changeActionValues.unshift(aiChat);
-    }
 
     return revisionActionValues
       .concat(changeActionValues)
@@ -2363,7 +2327,6 @@ export class GrChangeActions
 
 declare global {
   interface HTMLElementEventMap {
-    'ai-chat': CustomEvent<{}>;
     'download-tap': CustomEvent<{}>;
     'edit-tap': CustomEvent<{}>;
     'included-tap': CustomEvent<{}>;

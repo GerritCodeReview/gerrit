@@ -1,5 +1,6 @@
-load("@npm//@bazel/rollup:index.bzl", "rollup_bundle")
-load("@npm//@bazel/terser:index.bzl", "terser_minified")
+load("@aspect_rules_js//npm:defs.bzl", "npm_link_package")
+load("@aspect_rules_rollup//rollup:defs.bzl", "rollup")
+load("//tools/terser:terser.bzl", "terser")
 load("//tools/bzl:genrule2.bzl", "genrule2")
 
 ComponentInfo = provider()
@@ -64,10 +65,10 @@ def polygerrit_plugin(name, app, plugin_name = None):
     if not plugin_name:
         plugin_name = name
 
-    terser_minified(
+    terser(
         name = plugin_name + ".min",
-        sourcemap = False,
-        src = app,
+        node_modules = "//tools/node_tools:node_modules",
+        srcs = [app],
     )
 
     native.genrule(
@@ -102,29 +103,29 @@ def gerrit_js_bundle(name, entry_point, srcs = []):
     minified = name + ".min"
     main = name + ".js"
 
-    rollup_bundle(
+    rollup(
         name = bundle,
         srcs = srcs + [
-            "@plugins_npm//:node_modules",
+            "//plugins:node_modules",
         ],
+        node_modules = "//tools/node_tools:node_modules",
         args = [
             "--bundleConfigAsCjs=true",
         ],
         entry_point = entry_point,
         format = "iife",
-        rollup_bin = "//tools/node_tools:rollup-bin",
         silent = True,
         sourcemap = "hidden",
-        config_file = "//plugins:rollup.config.js",
+        config_file = "//plugins:rollup.config",
         deps = [
-            "@tools_npm//@rollup/plugin-node-resolve",
+            "//tools/node_tools:node_modules/@rollup/plugin-node-resolve",
         ],
     )
 
-    terser_minified(
+    terser(
         name = minified,
-        sourcemap = False,
-        src = bundle,
+        node_modules = "//tools/node_tools:node_modules",
+        srcs = [bundle],
     )
 
     native.genrule(

@@ -144,7 +144,7 @@ import {userModelToken} from '../../../models/user/user-model';
 import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {modalStyles} from '../../../styles/gr-modal-styles';
 import {relatedChangesModelToken} from '../../../models/change/related-changes-model';
-import {KnownExperimentId} from '../../../services/flags/flags';
+import {flowsModelToken} from '../../../models/flows/flows-model';
 import {assign} from '../../../utils/location-util';
 import '@material/web/tabs/secondary-tab';
 import '@material/web/tabs/tabs';
@@ -375,8 +375,9 @@ export class GrChangeView extends LitElement {
   @state()
   private revertingChange?: ChangeInfo;
 
+  // Private but used in tests.
   @state()
-  isFlowsEnabled = false;
+  flowsTabEnabled = false;
 
   // Private but used in tests.
   @state()
@@ -410,6 +411,8 @@ export class GrChangeView extends LitElement {
   private readonly getConfigModel = resolve(this, configModelToken);
 
   private readonly getViewModel = resolve(this, changeViewModelToken);
+
+  private readonly getFlowsModel = resolve(this, flowsModelToken);
 
   private readonly getRelatedChangesModel = resolve(
     this,
@@ -630,15 +633,17 @@ export class GrChangeView extends LitElement {
     );
     subscribe(
       this,
+      () => this.getFlowsModel().enabled$,
+      enabled => (this.flowsTabEnabled = enabled)
+    );
+    subscribe(
+      this,
       () => this.getChangeModel().changeNum$,
       changeNum => {
         // The change view is tied to a specific change number, so don't update
         // changeNum to undefined and only set it once.
         if (changeNum && !this.changeNum) {
           this.changeNum = changeNum;
-          this.restApiService.getIfFlowsIsEnabled(this.changeNum).then(res => {
-            this.isFlowsEnabled = res?.enabled ?? false;
-          });
         }
       }
     );
@@ -1425,8 +1430,7 @@ export class GrChangeView extends LitElement {
             `
           )}
           ${when(
-            this.flagService.isEnabled(KnownExperimentId.SHOW_FLOWS_TAB) &&
-              this.isFlowsEnabled,
+            this.flowsTabEnabled,
             () => html`
               <md-secondary-tab
                 data-name=${Tab.FLOWS}

@@ -194,6 +194,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "94ed8acf_37f917ff",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-10-14T08:52:48Z",
+      "side": 1,
+      "message": "\u003e UI we see the diff against parent 1 per default\n\nI don\u0027t think this is true, by default it compares against the Auto-Merge.\nThere used to be a user preference for this, but it got dropped by:\nhttps://gerrit-review.git.corp.google.com/c/gerrit/+/340064",
+      "parentUuid": "02c81cd3_e22a8fe5",
+      "range": {
+        "startLine": 9,
+        "startChar": 57,
+        "endLine": 10,
+        "endChar": 8
+      },
+      "revId": "eb0b2ef453f7a2240b2d436e551ed981f981009a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "608f2494_cb71251d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 9

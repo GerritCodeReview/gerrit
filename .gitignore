@@ -10,6 +10,7 @@
 .DS_Store
 CLAUDE.md
 js-to-ts.sh
+/.aspect/
 /.apt_generated
 /.apt_generated_tests
 /.bazel_path
@@ -43,8 +44,10 @@ js-to-ts.sh
 /polygerrit-ui/screenshots/Chromium/failed/
 !/plugins/.eslintignore
 !/plugins/.eslintrc.js
+!/plugins/eslint-plugin.config.js
 !/plugins/.prettierrc.js
 !/plugins/package.json
+!/plugins/pnpm-lock.yaml
 !/plugins/rollup.config.js
 !/plugins/tsconfig.json
 !/plugins/tsconfig-plugins-base.json
@@ -65,7 +68,6 @@ js-to-ts.sh
 /test_site
 /tools/format
 /tools/maven/gerrit-*_pom.xml.asc
-/tools/node_tools
 /tools/polygerrit-updater
 /.ts-out/*
 !/.ts-out/README.md

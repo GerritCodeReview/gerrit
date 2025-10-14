@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e8ac97bc_65063a4e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-10-14T05:09:51Z",
+      "side": 1,
+      "message": "The fact that we need to prefix with `[Gerrit-Maintenance]` every change tells me that it would be best to have a separate repo for these scripts.\n\nThis is open for us to talk about, of course.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 21
+      },
+      "revId": "76307d27b37b6b29f322f88c831482970d36db18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

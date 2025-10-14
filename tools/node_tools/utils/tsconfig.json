@@ -6,7 +6,6 @@
     "esModuleInterop": true,
     "strict": true,
     "moduleResolution": "node",
-    "outDir": "../../../.ts-out/tools/utils" // Not used in bazel
   },
   "include": ["*.ts"]
 }

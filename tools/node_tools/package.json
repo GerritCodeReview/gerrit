@@ -3,9 +3,6 @@
   "description": "Gerrit Build Tools",
   "browser": false,
   "dependencies": {
-    "@bazel/rollup": "^5.8.1",
-    "@bazel/typescript": "^5.8.1",
-    "@bazel/concatjs": "^5.8.1",
     "@types/node": "^22.15.2",
     "rollup": "^4.40.0",
     "@rollup/plugin-commonjs": "^28.0.3",

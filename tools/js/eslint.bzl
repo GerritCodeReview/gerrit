@@ -14,7 +14,9 @@
 
 """This file contains macro to run eslint and define a eslint test rule."""
 
-load("@build_bazel_rules_nodejs//:index.bzl", "nodejs_binary", "nodejs_test")
+load("@aspect_rules_js//js:defs.bzl", "js_binary", "js_test")
+
+load("@npm//:eslint/package_json.bzl", eslint_bin = "bin")
 
 def plugin_eslint():
     """ Convenience wrapper macro of eslint() for Gerrit js plugins
@@ -28,22 +30,20 @@ def plugin_eslint():
         config = "eslint.config.js",
         data = [
             "tsconfig.json",
-            "//plugins:eslint.config.js",
-            "//plugins:.prettierrc.js",
-            "//plugins:tsconfig-plugins-base.json",
-            "@npm//typescript",
+            "//plugins:plugins-config-lib",
+            "//:node_modules/typescript",
         ],
         extensions = [".ts"],
         plugins = [
-            "@npm//eslint-config-google",
-            "@npm//eslint-plugin-html",
-            "@npm//eslint-plugin-import",
-            "@npm//eslint-plugin-jsdoc",
-            "@npm//eslint-plugin-lit",
-            "@npm//eslint-plugin-n",
-            "@npm//eslint-plugin-prettier",
-            "@npm//eslint-plugin-regex",
-            "@npm//gts",
+            "//:node_modules/eslint-config-google",
+            "//:node_modules/eslint-plugin-html",
+            "//:node_modules/eslint-plugin-import",
+            "//:node_modules/eslint-plugin-jsdoc",
+            "//:node_modules/eslint-plugin-lit",
+            "//:node_modules/eslint-plugin-n",
+            "//:node_modules/eslint-plugin-prettier",
+            "//:node_modules/eslint-plugin-regex",
+            "//:node_modules/gts",
         ],
     )
 
@@ -52,7 +52,7 @@ def eslint(name, plugins, srcs, config, size = "large", extensions = [".js"], da
 
     Args:
         name: name of the rule
-        plugins: list of npm dependencies with plugins, for example "@npm//eslint-config-google"
+        plugins: list of npm dependencies with plugins, for example "//:node_modules/eslint-config-google"
         srcs: list of files to be checked (ignored in {name}_bin rule)
         config: eslint config file
         size: eslint test size, supported values are: small, medium, large and enormous,
@@ -71,31 +71,30 @@ def eslint(name, plugins, srcs, config, size = "large", extensions = [".js"], da
             you must pass a folder to check, for example:
             bazel run {name}_test -- --fix $(pwd)/polygerrit-ui/app
     """
-    entry_point = "@npm//:node_modules/eslint/bin/eslint.js"
 
+    #TODO(Thomas): Use rules_lint
     bin_data = [
-        "@npm//eslint:eslint",
         config,
-        "//tools/js:eslint-chdir.js",
+        "//:node_modules/@eslint/eslintrc",
+        "//:node_modules/@eslint/js",
+        "//:node_modules/eslint",
     ] + plugins + data
     common_templated_args = [
-        "--node_options=--require=$$(rlocation $(rootpath //tools/js:eslint-chdir.js))",
         "--ext",
         ",".join(extensions),
         "-c",
-        # Use rlocation/rootpath instead of location.
-        # See note and example here:
-        # https://bazelbuild.github.io/rules_nodejs/Built-ins.html#nodejs_binary
-        "$$(rlocation $(rootpath {}))".format(config),
+        config,
     ]
-    nodejs_test(
+
+    eslint_bin.eslint_test(
         name = name + "_test",
-        entry_point = entry_point,
         data = bin_data + srcs,
+        chdir = native.package_name(),
         # Bazel generates 2 .js files, where names of the files are generated from the name
         # of the rule: {name}_test_require_patch.js and {name}_test_loader.js
         # Ignore these 2 files, for simplicity do not use {name} in the patterns.
-        templated_args = common_templated_args + [
+        expand_args = True,
+        fixed_args = common_templated_args + [
             "--ignore-pattern",
             "*_test_require_patch.js",
             "--ignore-pattern",
@@ -112,14 +111,16 @@ def eslint(name, plugins, srcs, config, size = "large", extensions = [".js"], da
         size = size,
     )
 
-    nodejs_binary(
+    # TODO: Broken until this bug is fixed: https://github.com/eslint/eslint/issues/19118
+    eslint_bin.eslint_binary(
         name = name + "_bin",
-        entry_point = "@npm//:node_modules/eslint/bin/eslint.js",
         data = bin_data,
+        chdir = native.package_name(),
         # Bazel generates 2 .js files, where names of the files are generated from the name
         # of the rule: {name}_bin_require_patch.js and {name}_bin_loader.js
         # Ignore these 2 files, for simplicity do not use {name} in the patterns.
-        templated_args = common_templated_args + [
+        expand_args = True,
+        fixed_args = common_templated_args + [
             "--ignore-pattern",
             "*_bin_require_patch.js",
             "--ignore-pattern",

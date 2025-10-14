@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0f028738_7851ae38",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-10-14T17:59:26Z",
+      "side": 1,
+      "message": "Ok. Are you able to add a test for this under `javatests/com/google/gerrit/httpd/`?",
+      "parentUuid": "650a99a4_846d2200",
+      "revId": "afe4f37de8479f0cf704136bbfc8f6ee3d966f15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "39e3e893_8af6b9c4",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

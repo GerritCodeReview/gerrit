@@ -30,7 +30,9 @@ ${bazel_bin} build //${api_path}:js_plugin_api_npm_package
 
 if [ "$1" == "--pack" ]; then
   echo 'Creating npm package gerritcodereview-typescript-api-<version>.tgz'
-  ${bazel_bin} run //${api_path}:js_plugin_api_npm_package.pack
+  package_dir="$(${bazel_bin} info bazel-bin)/${api_path}/js_plugin_api_npm_package"
+  tgz="$(npm pack "${package_dir}" --pack-destination "${PWD}" | tail -n1)"
+  echo "Created ${PWD}/${tgz}"
 fi
 
 if [ "$1" == "--upload" ]; then

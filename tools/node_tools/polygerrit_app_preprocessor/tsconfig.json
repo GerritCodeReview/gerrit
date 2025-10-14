@@ -6,7 +6,6 @@
     "esModuleInterop": true,
     "strict": true,
     "moduleResolution": "node",
-    "outDir": "out"
   },
   "include": ["*.ts"]
 }

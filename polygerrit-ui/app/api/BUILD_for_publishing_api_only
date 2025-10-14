@@ -11,8 +11,8 @@
 # are not visible anymore to the parent BUILD. And if ts_projects depend on each
 # other, then the api/ files would have to be imported with their full package
 # names.
-load("@build_bazel_rules_nodejs//:index.bzl", "pkg_npm")
-load("@npm//@bazel/typescript:index.bzl", "ts_config", "ts_project")
+load("@aspect_rules_js//npm:defs.bzl", "npm_package")
+load("@aspect_rules_ts//ts:defs.bzl", "ts_config", "ts_project")
 
 filegroup(
     name = "js_plugin_api_srcs",
@@ -21,9 +21,9 @@ filegroup(
 
 ts_config(
     name = "ts_config",
-    src = "tsconfig.json",
+    src = "tsconfig.publish.json",
     deps = [
-        "//plugins:tsconfig-plugins-base.json",
+        ":tsconfig-plugins-base.json",
     ],
 )
 
@@ -31,24 +31,24 @@ ts_project(
     name = "js_plugin_api_compiled",
     srcs = glob(["**/*.ts"]),
     incremental = True,
-    tsc = "//tools/node_tools:tsc-bin",
     tsconfig = ":ts_config",
 )
 
 # Use this rule for publishing the js plugin api as a package to the npm repo.
-pkg_npm(
+npm_package(
     name = "js_plugin_api_npm_package",
-    package_name = "@gerritcodereview/typescript-api",
+    package = "@gerritcodereview/typescript-api",
+    publishable = True,
     srcs = glob(
         ["**/*"],
         exclude = [
             "BUILD",
             "BUILD_for_publishing_api_only",
             "tsconfig.json",
+            "tsconfig.publish.json",
             "publish.sh",
         ],
-    ),
-    deps = [
+    ) + [
         ":js_plugin_api_compiled",
         "//plugins:tsconfig-plugins-base.json",
     ],

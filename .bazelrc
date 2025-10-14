@@ -14,6 +14,7 @@ common --incompatible_disallow_empty_glob=false
 common --incompatible_disallow_struct_provider_syntax=false
 
 common --incompatible_enable_proto_toolchain_resolution
+common --@aspect_rules_ts//ts:default_to_tsc_transpiler
 
 build --workspace_status_command="python3 ./tools/workspace_status.py"
 build --repository_cache=~/.gerritcodereview/bazel-cache/repository

@@ -1,7 +1,10 @@
-load("@build_bazel_rules_nodejs//:index.bzl", "nodejs_test")
-load("@npm//@bazel/typescript:index.bzl", "ts_config", "ts_project")
+load("@aspect_rules_js//js:defs.bzl", "js_test")
+load("@aspect_rules_ts//ts:defs.bzl", "ts_config", "ts_project")
 load("//tools/js:eslint.bzl", "eslint")
 load(":rules.bzl", "polygerrit_bundle")
+load("@ui_npm//:defs.bzl", "npm_link_all_packages")
+
+npm_link_all_packages(name = "node_modules")
 
 package(default_visibility = ["//visibility:public"])
 
@@ -46,10 +49,9 @@ ts_project(
     allow_js = True,
     incremental = True,
     out_dir = "_pg_ts_out",
-    tsc = "//tools/node_tools:tsc-bin",
     tsconfig = ":ts_config_bazel",
     deps = [
-        "@ui_npm//:node_modules",
+        ":node_modules",
     ],
 )
 
@@ -80,11 +82,10 @@ ts_project(
     allow_js = True,
     incremental = True,
     out_dir = "_pg_with_tests_out",
-    tsc = "//tools/node_tools:tsc-bin",
     tsconfig = ":ts_config_bazel_test",
     deps = [
-        "@ui_dev_npm//:node_modules",
-        "@ui_npm//:node_modules",
+        ":node_modules",
+        "//polygerrit-ui:node_modules",
     ],
 )
 
@@ -109,8 +110,8 @@ filegroup(
             "node_modules_licenses/**",
         ],
     ) + [
-        "@ui_dev_npm//:node_modules",
-        "@ui_npm//:node_modules",
+        "//polygerrit-ui:node_modules",
+        ":node_modules",
     ],
 )
 
@@ -133,9 +134,9 @@ filegroup(
     name = "test-srcs-fg",
     srcs = [
         "rollup.config.js",
+        ":node_modules",
         ":pg_code",
-        "@ui_dev_npm//:node_modules",
-        "@ui_npm//:node_modules",
+        "//polygerrit-ui:node_modules",
     ],
 )
 
@@ -153,7 +154,7 @@ eslint(
         "tsconfig_eslint.json",
         # tsconfig_eslint.json extends tsconfig.json, pass it as a dependency
         "tsconfig.json",
-        "@npm//typescript",
+        "//:node_modules/typescript",
     ],
     extensions = [
         ".html",
@@ -161,17 +162,17 @@ eslint(
         ".ts",
     ],
     plugins = [
-        "@npm//@typescript-eslint/eslint-plugin",
-        "@npm//eslint-config-google",
-        "@npm//eslint-plugin-html",
-        "@npm//eslint-plugin-import",
-        "@npm//eslint-plugin-jsdoc",
-        "@npm//eslint-plugin-lit",
-        "@npm//eslint-plugin-n",
-        "@npm//eslint-plugin-prettier",
-        "@npm//eslint-plugin-regex",
-        "@npm//eslint-plugin-es-x",
-        "@npm//gts",
+        "//:node_modules/@typescript-eslint/eslint-plugin",
+        "//:node_modules/eslint-config-google",
+        "//:node_modules/eslint-plugin-html",
+        "//:node_modules/eslint-plugin-import",
+        "//:node_modules/eslint-plugin-jsdoc",
+        "//:node_modules/eslint-plugin-lit",
+        "//:node_modules/eslint-plugin-n",
+        "//:node_modules/eslint-plugin-prettier",
+        "//:node_modules/eslint-plugin-regex",
+        "//:node_modules/eslint-plugin-es-x",
+        "//:node_modules/gts",
     ],
 )
 
@@ -184,24 +185,21 @@ filegroup(
             "**/*_test.ts",
         ],
     ) + [
-        "@npm//typescript",
-        "@ui_dev_npm//:node_modules",
-        "@ui_npm//:node_modules",
+        "//:node_modules/typescript",
+        "//polygerrit-ui:node_modules",
+        "//polygerrit-ui/app:node_modules",
     ],
 )
 
-nodejs_test(
+js_test(
     name = "lit_analysis",
     data = [
         ":lit_analysis_src_code",
-        "@npm//lit-analyzer",
+        "//:node_modules/lit-analyzer",
     ],
-    entry_point = "@npm//:node_modules/lit-analyzer/cli.js",
-    tags = [
-        "local",
-        "manual",
-    ],
-    templated_args = [
+    entry_point = "//:node_modules/lit-analyzer/cli.js",
+    expand_args = True,
+    fixed_args = [
         "**/elements/**/*.ts",
         "--strict",
         "--rules.no-property-visibility-mismatch off",
@@ -215,6 +213,10 @@ nodejs_test(
         "--rules.no-unknown-attribute off",
         # TODO: enable once we migrate from iron elements to material-web
         "--rules.no-unknown-tag-name off",
+    ],
+    tags = [
+        "local",
+        "manual",
     ],
 )
 

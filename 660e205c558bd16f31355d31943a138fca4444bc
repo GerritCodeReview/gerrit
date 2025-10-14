@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "27c52a03_9a763fe4",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-10-14T20:59:30Z",
+      "side": 1,
+      "message": "```suggestion\nIdeally, for security reasons, it should be run from a node that is unreachable from the internet,\nis not the local laptop normally used for other purposes and does not receive\nany data from external sources, such as e-mails or other messages, unless the\ndata is explicitly downloaded as part of the release process.\n```",
+      "range": {
+        "startLine": 140,
+        "startChar": 60,
+        "endLine": 140,
+        "endChar": 97
+      },
+      "revId": "660e205c558bd16f31355d31943a138fca4444bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b686ca15_4357fd09",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-10-14T20:59:30Z",
+      "side": 1,
+      "message": "```suggestion\nlink:dev-release-deploy-config.html#create-maven-central-credentials[here]\nand should be created _ad-hoc_ for the release plan execution and *not reused*\nfrom previous releases.\n\n\u003e **NOTE**: As soon as the full release plan is complete, the Maven credentials\n\u003e should be destroyed and removed from the Maven portal to minimize the risk\n\u003e of a [supply-chain attack](https://www.sonatype.com/blog/ongoing-npm-software-supply-chain-attack-exposes-new-risks).\n```",
+      "revId": "660e205c558bd16f31355d31943a138fca4444bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "be3b8fdb_60dc9262",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-10-14T20:59:30Z",
+      "side": 1,
+      "message": "```suggestion\nNote that this user has to match the identity associated to the GPG credentials used for signing.\n\n\u003e **NOTE**: Do not use the maintainer credentials to minimize the collateral\n\u003e damage if these are stolen.\n```",
+      "revId": "660e205c558bd16f31355d31943a138fca4444bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

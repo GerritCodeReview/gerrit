@@ -65,6 +65,12 @@ const tsConfig = getArgValue('--ts-config') ?? `${pathPrefix}app/tsconfig.json`;
 // When running under Bazel, we also need strictly fully qualified paths.
 const stylePathPrefix = 'polygerrit-ui/';
 
+const chromeExecutablePath = [
+  process.env['CHROME_BIN'],
+  process.env['CI_CHROME_BIN'],
+  '/usr/bin/google-chrome',
+].find(p => p && fs.existsSync(p));
+
 /** @type {import('@web/test-runner').TestRunnerConfig} */
 const config = {
   // Default is CPU cores / 2. Use default
@@ -78,7 +84,10 @@ const config = {
     playwrightLauncher({
       product: 'chromium',
       launchOptions: {
+        ...(chromeExecutablePath ? { executablePath: chromeExecutablePath } : {}),
         args: [
+          '--no-sandbox',
+          '--disable-dev-shm-usage',
           '--disable-background-timer-throttling',
           '--disable-backgrounding-occluded-windows',
           '--disable-renderer-backgrounding',
@@ -104,7 +113,14 @@ const config = {
 
   nodeResolve: {
     modulePaths: getModulesDir(),
-    dedupe: ['lit', 'lit-html', 'lit-element'],
+    dedupe: [
+      'lit',
+      'lit-html',
+      'lit-element',
+      '@open-wc/testing',
+      '@open-wc/testing-helpers',
+      'sinon',
+    ],
   },
 
   testFramework: {
@@ -157,7 +173,7 @@ const config = {
           try {
             basePng = PNG.sync.read(oldContent);
             newPng = PNG.sync.read(content);
-          } catch(e) {
+          } catch (e) {
             console.warn('Failed to parse PNGs for diff checking', e);
           }
 

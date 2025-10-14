@@ -1,3 +1,5 @@
+load("@aspect_bazel_lib//lib:copy_to_bin.bzl", "copy_to_bin")
+load("@plugins_npm//:defs.bzl", "npm_link_all_packages")
 load("@rules_java//java:defs.bzl", "java_binary", "java_library")
 load("//tools/bzl:genrule2.bzl", "genrule2")
 load("//tools/bzl:javadoc.bzl", "java_doc")
@@ -6,7 +8,8 @@ load(
     "CORE_PLUGINS",
     "CUSTOM_PLUGINS",
 )
-load("@build_bazel_rules_nodejs//:index.bzl", "nodejs_test")
+
+npm_link_all_packages(name = "node_modules")
 
 package(default_visibility = ["//visibility:public"])
 
@@ -168,4 +171,16 @@ java_doc(
     ],
     pkgs = ["com.google.gerrit"],
     title = "Gerrit Review Plugin API Documentation",
+)
+
+copy_to_bin(
+    name = "rollup.config",
+    srcs = ["rollup.config.js"],
+    visibility = ["//plugins:__subpackages__"],
+)
+
+copy_to_bin(
+    name = "tsconfig-plugins-base",
+    srcs = ["tsconfig-plugins-base.json"],
+    visibility = ["//plugins:__subpackages__"],
 )

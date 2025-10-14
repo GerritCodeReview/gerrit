@@ -1073,7 +1073,6 @@ export class GrComment extends LitElement {
     }
     assertIsDefined(this.comment, 'comment');
     if (hasUserSuggestion(this.comment)) return nothing;
-    if (this.isOwner) return nothing;
     return html`<gr-button
       link
       class="action suggestEdit"

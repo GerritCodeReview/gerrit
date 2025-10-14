@@ -114,8 +114,7 @@ GET /projects/?d HTTP/1.0
     },
     "some-other-project": {
       "id": "some-other-project",
-       "description": "Description of some other project."
-      }
+      "description": "Description of some other project."
     },
   }
 ----
@@ -140,7 +139,7 @@ Query the first project in the project list:
   {
     "some-project": {
       "id": "some-project",
-      _more_projects: true
+      "_more_projects": true
     }
   }
 ----

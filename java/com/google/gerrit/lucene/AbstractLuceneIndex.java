@@ -337,7 +337,7 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
         release(searcher);
       }
     } catch (IOException e) {
-      logger.atSevere().withCause(e).log(e.getMessage());
+      logger.atSevere().withCause(e).log("%s", e.getMessage());
       throw new StorageException(e);
     }
   }

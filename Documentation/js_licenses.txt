@@ -767,6 +767,7 @@ Polymer-2015
 ** roboto.js
 ** update-fonts.sh
 * @webcomponents/shadycss
+* @webcomponents/webcomponentsjs
 
 [[Polymer-2015_license]]
 ----

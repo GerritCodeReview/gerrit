@@ -27,7 +27,7 @@ import org.junit.Test;
 
 /** Tests for {@link TestMetricMaker}. */
 public class TestMetricMakerTest {
-  private TestMetricMaker testMetricMaker = new TestMetricMaker();
+  private final TestMetricMaker testMetricMaker = TestMetricMaker.getInstance();
 
   @Before
   public void setUp() {

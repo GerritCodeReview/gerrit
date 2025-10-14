@@ -38,6 +38,7 @@ import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -46,6 +47,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.stream.Stream;
 import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
 import javax.servlet.http.HttpSessionEvent;
@@ -539,6 +541,12 @@ public class JettyServer {
     // It is meant to be used as simpler tiny deployment of custom-made
     // security enforcement (Security tokens, IP-based security filtering, others)
     String[] filterClassNames = cfg.getStringList("httpd", null, "filterClass");
+    String sameSiteAttribute = cfg.getString("httpd", null, "sameSite");
+    if (sameSiteAttribute != null) {
+      filterClassNames =
+          Stream.concat(Arrays.stream(filterClassNames), Stream.of(SameSiteFilter.class.getName()))
+              .toArray(String[]::new);
+    }
     for (String filterClassName : filterClassNames) {
       try {
         @SuppressWarnings("unchecked")

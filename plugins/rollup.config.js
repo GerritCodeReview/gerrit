@@ -27,18 +27,19 @@ const path = require('path');
 // so require(plugin_name) can't find a plugin.
 // To fix it, requirePlugin tries:
 // 1. resolve module id using default behavior, i.e. it starts from __dirname
-// 2. if module not found - it tries to resolve module starting from rollupBin
-//    location.
+// 2. if module not found - it tries to resolve module starting from
+//    tools/node_tools/node_modules
 // This workaround also gives us additional power - we can place .config.js
 // file anywhere in a source tree and add all plugins in the same package.json
 // file as rollup node module.
 function requirePlugin(id) {
-  const rollupBinDir = path.dirname(process.argv[1]);
-  const pluginPath = require.resolve(id, {paths: [__dirname, rollupBinDir] });
+  const nodeToolsModulesDir = path.join(__dirname, '../tools/node_tools/node_modules');
+  const pluginPath = require.resolve(id, {paths: [__dirname, nodeToolsModulesDir] });
   return require(pluginPath);
 }
 
 const {nodeResolve} = requirePlugin('@rollup/plugin-node-resolve');
+const terser = requirePlugin('@rollup/plugin-terser');
 
 export default {
   treeshake: false,
@@ -51,7 +52,14 @@ export default {
   },
   // Context must be set to window to correctly process global variables
   context: 'window',
-  plugins: [nodeResolve({
-    modulePaths: [path.join(process.cwd(), 'external/plugins_npm/node_modules')]
-  })],
+  plugins: [
+    nodeResolve({
+      modulePaths: [path.join(process.cwd(), 'external/plugins_npm/node_modules')]
+    }),
+    terser({
+      format: {
+        comments: false,
+      },
+    }),
+  ],
 };

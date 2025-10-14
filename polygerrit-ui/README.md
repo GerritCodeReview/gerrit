@@ -2,16 +2,17 @@
 
 Follow the
 [setup instructions for Gerrit backend developers](https://gerrit-review.googlesource.com/Documentation/dev-readme.html)
-where applicable, the most important command is:
+where applicable. The most important command is:
 
 ```sh
 git clone --recurse-submodules https://gerrit.googlesource.com/gerrit
 ```
 
-The --recurse-submodules option is needed on git clone to ensure that the core plugins, which are included as git submodules, are also cloned.
+The `--recurse-submodules` option is needed on `git clone` to ensure that the
+core plugins, which are included as git submodules, are also cloned.
 
-Then make sure to install the commit-hook that will set up the `ChangeId` for
-each push to gerrit-reviews.
+Then make sure to install the commit hook that will set up the `Change-Id` for
+each push to Gerrit:
 
 ```sh
 cd gerrit && (
@@ -24,113 +25,152 @@ cd gerrit && (
 
 Follow the instructions
 [here](https://gerrit-review.googlesource.com/Documentation/dev-bazel.html#_installation)
-to get and install Bazel. The `npm install -g @bazel/bazelisk` method is
-probably easiest since you will have npm as part of Nodejs.
+to get and install Bazel. Using Bazelisk is usually the easiest option.
 
-## Installing [Node.js](https://nodejs.org/en/download/) and npm packages
+## Installing [Node.js](https://nodejs.org/en/download/) yarn and pnpm
 
-At the time of writing (November 2023) you should use version 18 of nodejs.
+Use a recent Node.js version that is supported by the repository. If in doubt,
+use the version that is used in CI or documented in the root `package.json`.
+
+Examples:
 
 ```sh
-# Debian experimental
-sudo apt-get install nodejs
-sudo apt-get install npm
+# Debian / Ubuntu
+sudo apt-get install nodejs npm
 
-# OS X with Homebrew
-brew install node@18
-brew install npm
+# macOS with Homebrew
+brew install node
 ```
 
 All other platforms:
-[download from nodejs.org](https://nodejs.org/en/download/).
+[download from nodejs.org](https://nodejs.org/en/download/),
 
 or use [nvm - Node Version Manager](https://github.com/nvm-sh/nvm).
 
-### Additional packages
-
-We have several bazel commands to install packages we may need for FE development.
-
-For first time users to get the local server up, `bazel build gerrit` should be enough and will take care of all of them for you.
+Install Yarn:
 
 ```sh
-# Install yarn package manager
 npm install -g yarn
-
-# Install packages from all packages.json files
-yarn setup
 ```
 
-More information for installing and using nodejs rules can be found here https://bazelbuild.github.io/rules_nodejs/install.html
-
-### Upgrade to @bazel-scoped packages
-
-It might be necessary to run this command to upgrade to major `rules_nodejs` release:
+Install pnpm:
 
 ```sh
-yarn remove @bazel/...
+npm install -g pnpm
 ```
 
-## Setup typescript support in the IDE
+## Dependency Management (Yarn → pnpm Transition)
 
-Modern IDEs should automatically handle typescript settings from the
-`polygerrit-ui/app/tsconfig.json` files. The `tsc` compiler places compiled
-files in the `.ts-out/pg` directory at the root of gerrit workspace and you can
-configure the IDE to exclude the whole .ts-out directory. To do it in the
-IntelliJ IDEA click on this directory and select "Mark Directory As > Excluded"
-in the context menu.
+- yarn.lock is authoritative
+- pnpm-lock.yaml is generated via `pnpm import`
+- Do NOT edit pnpm-lock.yaml manually
 
-However, if you receive some errors from IDE, you can try to configure IDE
+## Expected Bazel Behavior
+
+First run may fail with:
+
+pnpm-lock.yaml file updated. Please run your build again.
+
+Rerun the same command.
+
+## Workflow
+
+1. Edit package.json
+2. Run: yarn install
+3. Run: bazel build gerrit
+4. If lock updated → rerun build
+
+## Why Yarn stays
+
+- gradual migration from `yarn` to `pnpm`
+- stable dependency resolution
+- avoids breaking workflows
+
+## DO NOT RUN
+
+```sh
+pnpm install
+```
+
+It creates a different dependency graph.
+
+## Long-term
+
+Eventually:
+- pnpm-lock.yaml becomes canonical
+- yarn.lock removed
+
+## Setup TypeScript support in the IDE
+
+Modern IDEs should automatically handle TypeScript settings from
+`polygerrit-ui/app/tsconfig.json`. The `tsc` compiler places compiled files in
+the `.ts-out/pg` directory at the root of the Gerrit workspace, and you can
+configure the IDE to exclude the whole `.ts-out` directory. In IntelliJ IDEA,
+right-click the directory and select **Mark Directory As > Excluded**.
+
+If your IDE still reports errors, then you can try configuring TypeScript
 manually. For example, if IntelliJ IDEA shows
-`Cannot find parent 'tsconfig.json'` error, you can try to setup typescript
-options `--project polygerrit-ui/app/tsconfig.json` in the IDE settings.
+`Cannot find parent 'tsconfig.json'`, then set the TypeScript options to:
 
+```sh
+--project polygerrit-ui/app/tsconfig.json
+```
 
 ## Developing locally
 
 The preferred method for development is to serve the web files locally using the
-Web Dev Server and then view a running gerrit instance (local or otherwise) to
+Web Dev Server and then view a running Gerrit instance (local or otherwise) and
 replace its web client with the local one using the Gerrit FE Dev Helper
 extension.
 
 ### Web Dev Server
 
 The [Web Dev Server](https://modern-web.dev/docs/dev-server/overview/) serves
-the compiled web files and dependencies unbundled over localhost. Start it using
-this command:
+the compiled web files and dependencies unbundled over localhost. Start it with:
 
 ```sh
-yarn start
+pnpm start
 ```
 
-To inject plugins or other files, we use the [Gerrit FE Dev Helper](https://chrome.google.com/webstore/detail/gerrit-fe-dev-helper/jimgomcnodkialnpmienbomamgomglkd) Chrome extension.
+To inject plugins or other files, we use the
+[Gerrit FE Dev Helper](https://chrome.google.com/webstore/detail/gerrit-fe-dev-helper/jimgomcnodkialnpmienbomamgomglkd)
+Chrome extension.
 
-If any issues occured, please refer to the Troubleshooting section at the bottom or contact the team!
-
+If you run into problems, refer to the troubleshooting section below or contact
+the team.
 
 ### Chrome extension: Gerrit FE Dev Helper
 
-To be able to bypass the auth and also help improve the productivity of Gerrit FE developers,
-we created this chrome extension: [Gerrit FE Dev Helper](https://chrome.google.com/webstore/detail/gerrit-fe-dev-helper/jimgomcnodkialnpmienbomamgomglkd).
+To help frontend development, including bypassing auth in local dev workflows,
+we created this Chrome extension:
+[Gerrit FE Dev Helper](https://chrome.google.com/webstore/detail/gerrit-fe-dev-helper/jimgomcnodkialnpmienbomamgomglkd).
 
-It basically works as a proxy that will block / redirect requests from current sites to any given url base on certain rules.
+It basically works as a proxy that blocks or redirects requests from the current
+site to a configured URL according to rules.
 
-The source code is in [Gerrit - gerrit-fe-dev-helper](https://gerrit-review.googlesource.com/q/project:gerrit-fe-dev-helper), contributions are welcomed!
+The source code is in
+[Gerrit - gerrit-fe-dev-helper](https://gerrit-review.googlesource.com/q/project:gerrit-fe-dev-helper),
+and contributions are welcome.
 
-To use this extension, just follow its [readme here](https://gerrit.googlesource.com/gerrit-fe-dev-helper/+/master/README.md).
+To use this extension, follow its
+[README](https://gerrit.googlesource.com/gerrit-fe-dev-helper/+/master/README.md).
 
 ### Running locally against a Gerrit test site
 
 Set up a local test site once:
 
 1. [Build Gerrit](https://gerrit-review.googlesource.com/Documentation/dev-bazel.html#_gerrit_development_war_file)
-2. [Set up a local test site](https://gerrit-review.googlesource.com/Documentation/dev-readme.html#init).
-3. Optionally [populate](https://gerrit.googlesource.com/gerrit/+/master/contrib/populate-fixture-data.py) your test site with some test data.
+2. [Set up a local test site](https://gerrit-review.googlesource.com/Documentation/dev-readme.html#init)
+3. Optionally [populate](https://gerrit.googlesource.com/gerrit/+/master/contrib/populate-fixture-data.py)
+   your test site with test data
 
 For running a locally built Gerrit war against your test instance use
 [this command](https://gerrit-review.googlesource.com/Documentation/dev-readme.html#run_daemon).
 
-If you want to serve the Lit frontend directly from the sources in `polygerrit_ui/app/` instead of from the war:
-1. Start [Web Dev Server](#web-dev-server)
+If you want to serve the Lit frontend directly from the sources in
+`polygerrit-ui/app/` instead of from the war:
+
+1. Start the [Web Dev Server](#web-dev-server)
 2. Add the `--dev-cdn` option:
 
 ```sh
@@ -142,47 +182,54 @@ $(bazel info output_base)/external/local_jdk/bin/java \
     --dev-cdn http://localhost:8081
 ```
 
-The Web Dev Server is currently not serving fonts or other static assets. Follow
-[Issue 40015119](https://issues.gerritcodereview.com/issues/40015119) for
-fixing this issue.
+The Web Dev Server currently does not serve fonts or some other static assets.
+Follow
+[Issue 40015119](https://issues.gerritcodereview.com/issues/40015119)
+for updates.
 
-*NOTE* You can use any other cdn here, for example: https://cdn.googlesource.com/polygerrit_ui/678.0
+*Note:* You can also use another CDN here, for example:
+https://cdn.googlesource.com/polygerrit_ui/678.0
 
-## Running Tests
+## Running tests
 
 For daily development you typically only want to run and debug individual tests.
 Our tests run using the
-[Web Test Runner](https://modern-web.dev/docs/test-runner/overview/). There are
-several ways to trigger tests:
+[Web Test Runner](https://modern-web.dev/docs/test-runner/overview/).
+
+Common commands:
 
 * Run all tests once:
+
 ```sh
-yarn test
+pnpm test
 ```
 
-* Run all tests and then watches for changes. Change a file will trigger all
-tests affected by the changes.
+* Run all tests in watch mode. Changing a file reruns affected tests:
+
 ```sh
-yarn test:watch
+pnpm test:watch
 ```
 
-* Run all tests once under bazel:
+* Run all tests once under Bazel:
+
 ```sh
 ./polygerrit-ui/app/run_test.sh
 ```
 
-* Run a single test file and rerun on any changes affecting it:
-```
-yarn test:single "**/gr-comment_test.ts"
+* Run a single test file and rerun when affected files change:
+
+```sh
+pnpm test:single "**/gr-comment_test.ts"
 ```
 
-### Screenshot Tests
+### Screenshot tests
 
 We use screenshot tests to prevent unintended visual regressions.
 
 To run the screenshot tests:
+
 ```sh
-yarn test:screenshot
+pnpm test:screenshot
 ```
 
 Or via Bazel, which matches what CI runs and uses the Bazel-managed
@@ -196,273 +243,94 @@ screenshot buckets in a single invocation. Both screenshot targets are
 tagged `manual`, so they are never picked up by a bare `bazel test //...`
 and must be named explicitly.
 
-If a test fails, it means the component's appearance has changed. New screenshots will be generated in the `polygerrit-ui/screenshots/Chromium/failed/` directory. In case of a mismatch with an existing baseline, a diff image will also be created there.
+If a test fails, then the component's appearance has changed. New screenshots
+are generated in the `polygerrit-ui/screenshots/Chromium/failed/` directory.
+If an existing baseline differs, then a diff image is also created there.
 
-If the change is intended, you need to approve the new screenshots as the baseline. To do this, move the new screenshot files from the `failed` directory to the `baseline` directory, overwriting the old ones. The diff images in the `failed` directory can be deleted.
+If the change is intended, then approve the new screenshots as the baseline by
+moving the new screenshot files from `failed` to `baseline`, overwriting the old
+ones. The diff images in `failed` can be deleted.
 
 ```sh
-# Move all failed screenshots at once:
-mv polygerrit-ui/screenshots/Chromium/failed/*.png polygerrit-ui/screenshots/Chromium/baseline/
+mv polygerrit-ui/screenshots/Chromium/failed/*.png \
+  polygerrit-ui/screenshots/Chromium/baseline/
 ```
 
-After moving the file(s), run `yarn test:screenshot` again to confirm that they pass.
+After moving the file(s), run `pnpm test:screenshot` again to confirm they pass.
 
-Compiling code:
+### Compiling code
+
 ```sh
-# Compile frontend once to check for type errors:
-yarn compile
+# Compile frontend once to check for type errors
+pnpm compile
 
-# Watch mode:
-yarn compile:watch
+# Watch mode
+pnpm compile:watch
 ```
 
 ## Style guide
 
-We follow the [Google JavaScript Style Guide](https://google.github.io/styleguide/javascriptguide.xml)
-with a few exceptions. When in doubt, remain consistent with the code around you.
+We follow the
+[Google JavaScript Style Guide](https://google.github.io/styleguide/javascriptguide.xml)
+with a few exceptions. When in doubt, remain consistent with the surrounding
+code.
 
-In addition, we encourage the use of [ESLint](http://eslint.org/).
-It is available as a command line utility, as well as a plugin for most editors
-and IDEs.
+In addition, we encourage the use of [ESLint](http://eslint.org/). It is
+available as a command-line utility as well as a plugin for most editors and
+IDEs.
 
-`eslint-config-google` is a port of the Google JS Style Guide to an ESLint
-config module, and `eslint-plugin-html` allows ESLint to lint scripts inside
-HTML.
-We have an eslint-bazel.config.js config file in the polygerrit-ui/ directory configured
-to enforce the preferred style of the PolyGerrit project.
-After installing, you can use `eslint` on any new file you create.
-In addition, you can supply the `--fix` flag to apply some suggested fixes for
-simple style issues.
-If you modify JS inside of `<script>` tags, like for test suites, you may have
-to supply the `--ext .html` flag.
+We have an ESLint flat config in `polygerrit-ui/app/eslint-bazel.config.js`
+configured to enforce the preferred style of the PolyGerrit project.
 
 Some useful commands:
 
-* To run ESLint on the whole app, less some dependency code:
+* Run ESLint on the whole app:
 
 ```sh
-yarn eslint
+pnpm eslint
 ```
 
-* To run ESLint and apply changes on the whole app:
+* Run ESLint and apply automatic fixes:
 
 ```sh
-yarn eslintfix
+pnpm eslintfix
 ```
 
-* To run ESLint on just the subdirectory you modified:
+* Run ESLint on a specific subdirectory:
 
 ```sh
-node_modules/eslint/bin/eslint.js --ext .html,.js polygerrit-ui/app/$YOUR_DIR_HERE
+pnpm exec eslint --config polygerrit-ui/app/eslint-bazel.config.js \
+  --ext .html,.js,.ts polygerrit-ui/app/$YOUR_DIR_HERE
 ```
 
-* To run the linter on all of your local changes:
+* Run ESLint on all locally changed frontend files:
 
 ```sh
-git diff --name-only HEAD | xargs node_modules/eslint/bin/eslint.js --ext .html,.js
+git diff --name-only HEAD | xargs pnpm exec eslint \
+  --config polygerrit-ui/app/eslint-bazel.config.js \
+  --ext .html,.js,.ts
 ```
 
-## Migrating tests to Typescript
-
-You can use the following steps for migrating tests to Typescript:
-
-1. Rename the `_test.js` file to `_test.ts`
-2. Remove `.js` extensions from all imports:
-   ```
-   // Before:
-   import ... from 'x/y/z.js`
-
-   // After
-   import .. from 'x/y/z'
-   ```
-3. Fix typescript and eslint errors.
-
-Common errors and fixes are:
-
-* An object in the test doesn't have all required properties. You can use
-existing helpers to create an object with all required properties:
-```
-// Before:
-sinon.stub(element.restApiService, 'getPreferences').returns(
-    Promise.resolve({default_diff_view: 'UNIFIED'}));
-
-// After:
-Promise.resolve({
-  ...createPreferences(),
-  default_diff_view: DiffViewMode.UNIFIED,
-})
-```
-
-Some helpers receive parameters:
-```
-// Before
-element._change = {
-  change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
-  revisions: {
-    rev1: {_number: 1, commit: {parents: []}},
-    rev2: {_number: 2, commit: {parents: []}},
-  },
-  current_revision: 'rev1',
-  status: ChangeStatus.MERGED,
-  labels: {},
-  actions: {},
-};
-
-// After
-element._change = {
-  ...createChange(),
-  // The change_id is set by createChange.
-  // The exact change_id is not important in the test, so it was removed.
-  revisions: {
-    rev1: createRevision(1), // _number is a parameter here
-    rev2: createRevision(2), // _number is a parameter here
-  },
-  current_revision: 'rev1' as CommitId,
-  status: ChangeStatus.MERGED,
-  labels: {},
-  actions: {},
-};
-```
-* Typescript reports some weird messages about `window` property - sometimes an
-IDE adds wrong import. Just remove it.
-```
-// The wrong import added by IDE, must be removed
-import window = Mocha.reporters.Base.window;
-```
-
-* `TS2531: Object is possibly 'null'`. To fix use either non-null assertion
-operator `!` or nullish coalescing operator `?.`:
-```
-// Before:
-const rows = element
-  .shadowRoot.querySelector('table')
-  .querySelectorAll('tbody tr');
-...
-// The _robotCommentThreads declared as _robotCommentThreads?: CommentThread
-assert.equal(element._robotCommentThreads.length, 2);
-
-// Fix with non-null assertion operator:
-const rows = element
-  .shadowRoot!.querySelector('table')! // '!' after shadowRoot and querySelector
-  .querySelectorAll('tbody tr');
-
-assert.equal(element._robotCommentThreads!.length, 2);
-
-// Fix with nullish coalescing operator:
- assert.equal(element._robotCommentThreads?.length, 2);
-```
-Usually the fix with `!` is preferable, because it gives more clear error
-when an intermediate property is `null/undefined`. If the _robotComments is
-`undefined` in the example above, the `element._robotCommentThreads!.length`
-crashes with the error `Cannot read property 'length' of undefined`. At the
-same time the fix with
-`?.` doesn't distinct between 2 cases: _robotCommentThreads is `undefined`
-and `length` is `undefined`.
-
-* `TS2339: Property '...' does not exist on type 'Element'.` for elements
-returned by `querySelector/querySelectorAll`. To fix it, use generic versions
-of those methods:
-```
-// Before:
-const radios = parentTable
-  .querySelectorAll('input[type=radio]');
-const radio = parentRow
-  .querySelector('input[type=radio]');
-
-// After:
-const radios = parentTable
-  .querySelectorAll<HTMLInputElement>('input[type=radio]');
-const radio = parentRow
-  .querySelector<HTMLInputElement>('input[type=radio]');
-```
-
-* Sinon: `TS2339: Property 'lastCall' does not exist on type '...` (the same
-for other sinon properties). Store stub/spy in a variable and then use the
-variable:
-```
-// Before:
-const navService = testResolver(navigationToken);
-sinon.stub(navService, 'setUrl');
-...
-assert.equal(navService.setUrl.lastCall.firstArg, '/c/123');
-
-// After:
-const navService = testResolver(navigationToken);
-const setUrlStub = sinon.stub(navService, 'setUrl');
-...
-assert.equal(setUrlStub.lastCall.firstArg, '/c/123');
-```
-
-If you need to define a type for such variable, you can use one of the following
-options:
-```
-suite('my suite', () => {
-    // Non static members, option 1
-    let updateHeightSpy: SinonSpyMember<typeof element._updateRelatedChangeMaxHeight>;
-    // Non static members, option 2
-    let updateHeightSpy_prototype: SinonSpyMember<typeof GrChangeView.prototype._updateRelatedChangeMaxHeight>;
-    // Static members
-    let setUrlStub: SinonStubbedMember<NavigationService['setUrl']>;
-    // For interfaces
-    let getMergeableStub: SinonStubbedMember<RestApiService['getMergeable']>;
-});
-```
-
-* Typescript reports errors when stubbing/faking methods:
-```
-// The JS code:
-const reloadStub = sinon
-    .stub(element, '_reload')
-    .callsFake(() => Promise.resolve());
-
-stubRestApi('getDiffComments').returns(Promise.resolve({}));
-stubRestApi('getDiffRobotComments').returns(Promise.resolve({}));
-stubRestApi('getDiffDrafts').returns(Promise.resolve({}));
-stubRestApi('_fetchSharedCacheURL').returns(Promise.resolve({}));
-```
-
-In such cases, validate the input and output of a stub/fake method. Quite often
-tests return null instead of undefined or `[]` instead of `{}`, etc...
-Fix types if they are not correct:
-```
-const reloadStub = sinon
-  .stub(element, '_reload')
-  // GrChangeView._reload method returns an array
-  .callsFake(() => Promise.resolve([])); // return [] here
-
-  ...
-  // Fix return type:
-  stubRestApi('_fetchSharedCacheURL').returns(Promise.resolve({} as ParsedJSON));
-});
-```
-
-* If a test requires a `@types/...` library, install the required library
-in the `polygerrit_ui/node_modules` and update the `typeRoots` in the
-`polygerrit-ui/app/tsconfig_bazel_test.json` file.
-
-The same update should be done if a test requires a .d.ts file from a library
-that already exists in `polygerrit_ui/node_modules`.
-
-**Note:** Types from a library located in `polygerrit_ui/app/node_modules` are
-handle automatically.
-
-* If a test imports a library from `polygerrit_ui/node_modules` - update
-`paths` in `polygerrit-ui/app/tsconfig_bazel_test.json`.
+When running ESLint manually, invoke it from the repository root so that
+repo-root-relative paths in the flat config resolve correctly.
 
 ## Contributing
 
-Our users report bugs / feature requests related to the UI through the Gerrit
-Tracker on the [WebFrontend](https://issues.gerritcodereview.com/issues?q=componentid:1369968)
+Our users report bugs and feature requests related to the UI through the Gerrit
+Tracker in the
+[WebFrontend](https://issues.gerritcodereview.com/issues?q=componentid:1369968)
 component.
 
-If you want to help, feel free to grab one from those `New` issues without
-assignees and send us a change.
+If you want to help, feel free to pick one of the `New` issues without assignees
+and send us a change.
 
-If you don't know who to assign to review your code change, you can use
-this special account: `gerrit-fe-reviewers@api-project-164060093628.iam.gserviceaccount.com`
-and just assign to that account, it will automatically pick two volunteers
-from the queue we have for FE reviewers.
+If you don't know who to assign as reviewer for your change, then you can use
+this special account:
 
-If you are willing to join the queue and help the community review changes,
-you can create an issue through Monorail and request to join the queue!
-We will review your request and start from there.
+`gerrit-fe-reviewers@api-project-164060093628.iam.gserviceaccount.com`
+
+Assigning that account automatically picks two volunteers from the frontend
+reviewer queue.
+
+If you are willing to join that queue and help review community changes, then
+create an issue through Gerrit issue tracker and ask to join.

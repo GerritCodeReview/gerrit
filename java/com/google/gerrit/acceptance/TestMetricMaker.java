@@ -60,6 +60,14 @@ import org.apache.commons.lang3.mutable.MutableLong;
  */
 @Singleton
 public class TestMetricMaker extends DisabledMetricMaker {
+  private static final TestMetricMaker INSTANCE = new TestMetricMaker();
+
+  private TestMetricMaker() {}
+
+  public static TestMetricMaker getInstance() {
+    return INSTANCE;
+  }
+
   private final ConcurrentHashMap<CounterKey, MutableLong> counts = new ConcurrentHashMap<>();
   private final ConcurrentHashMap<CounterKey, MutableLong> timers = new ConcurrentHashMap<>();
   private final ConcurrentHashMap<String, Supplier<?>> callbackMetrics = new ConcurrentHashMap<>();

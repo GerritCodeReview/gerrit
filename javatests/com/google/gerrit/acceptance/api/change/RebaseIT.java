@@ -99,11 +99,11 @@ import org.junit.runners.Suite;
 })
 public class RebaseIT {
   public abstract static class Base extends AbstractDaemonTest {
+    protected final TestMetricMaker testMetricMaker = TestMetricMaker.getInstance();
     @Inject protected ChangeOperations changeOperations;
     @Inject protected RequestScopeOperations requestScopeOperations;
     @Inject protected ProjectOperations projectOperations;
     @Inject protected ExtensionRegistry extensionRegistry;
-    @Inject protected TestMetricMaker testMetricMaker;
     @Inject protected AccountOperations accountOperations;
 
     @FunctionalInterface

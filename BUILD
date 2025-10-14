@@ -1,5 +1,8 @@
 load("@com_googlesource_gerrit_bazlets//tools:genrule2.bzl", "genrule2")
+load("@npm//:defs.bzl", "npm_link_all_packages")
 load("//tools/bzl:pkg_war.bzl", "pkg_war")
+
+npm_link_all_packages(name = "node_modules")
 
 package(default_visibility = ["//visibility:public"])
 

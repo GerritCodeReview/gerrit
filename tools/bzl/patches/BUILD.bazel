@@ -1,0 +1,3 @@
+exports_files([
+    "aspect_rules_js_pnpm_10_33_0.patch",
+])

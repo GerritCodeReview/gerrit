@@ -167,16 +167,16 @@ export class GrRelatedChange extends LitElement {
   }
 
   private computeChangeStatus(change: RelatedChangeAndCommitInfo | ChangeInfo) {
+    const isNotCurrent =
+      !isChangeInfo(change) &&
+      change._revision_number !== change._current_revision_number;
     switch (change.status) {
       case ChangeStatus.MERGED:
-        return 'Merged';
+        return isNotCurrent ? 'Merged, not current' : 'Merged';
       case ChangeStatus.ABANDONED:
-        return 'Abandoned';
+        return isNotCurrent ? 'Abandoned, not current' : 'Abandoned';
     }
-    if (
-      !isChangeInfo(change) &&
-      change._revision_number !== change._current_revision_number
-    ) {
+    if (isNotCurrent) {
       return 'Not current';
     } else if (!isChangeInfo(change) && this.isIndirectRelation(change)) {
       return 'Indirect relation';

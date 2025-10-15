@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0487c363_2ab33a42",
+        "filename": "java/com/google/gerrit/server/change/LabelsJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 400,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-10-15T12:33:42Z",
+      "side": 1,
+      "message": "This code is combination of the code in DefaultSubmitRule and the old for loop of this method.",
+      "range": {
+        "startLine": 400,
+        "startChar": 4,
+        "endLine": 400,
+        "endChar": 52
+      },
+      "revId": "d80438ba7a735f4d9621dbb57898ff72a4fef802",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "270f6423_fd77ef3e",
+        "filename": "java/com/google/gerrit/server/change/LabelsJsonRules.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-10-15T12:33:42Z",
+      "side": 1,
+      "message": "This file is unchanged copy of the old LabelsJson class.",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 53
+      },
+      "revId": "d80438ba7a735f4d9621dbb57898ff72a4fef802",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

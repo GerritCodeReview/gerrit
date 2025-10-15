@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3c93499f_413ebcc4",
+        "filename": "java/com/google/gerrit/server/change/LabelsJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 355,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-10-15T12:33:42Z",
+      "side": 0,
+      "message": "This can be removed, since we filter out labels that don\u0027t match labelTypes below and we changed initLabels to construct labels based on labelTypes.",
+      "range": {
+        "startLine": 348,
+        "startChar": 4,
+        "endLine": 355,
+        "endChar": 5
+      },
+      "revId": "2159ba70ebf00ef4db644cafa01bfc4d46bff119",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

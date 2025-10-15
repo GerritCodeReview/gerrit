@@ -131,4 +131,36 @@ public enum LabelFunction {
 
     return submitRecordLabel;
   }
+
+  public record LabelStatus(SubmitRecord.Label.Status status, @Nullable Account.Id voter) {}
+
+  /** Same as check above, but doesn't use SubmitRecord types. */
+  public LabelStatus checkNoRule(LabelType labelType, Iterable<PatchSetApproval> approvals) {
+    SubmitRecord.Label.Status status = SubmitRecord.Label.Status.MAY;
+    if (isRequired) {
+      status = SubmitRecord.Label.Status.NEED;
+    }
+    Account.Id appliedBy = null;
+
+    for (PatchSetApproval a : approvals) {
+      if (a.value() == 0) {
+        continue;
+      }
+
+      if (isBlock && labelType.isMaxNegative(a)) {
+        return new LabelStatus(SubmitRecord.Label.Status.REJECT, /* voter= */ a.accountId());
+      }
+
+      if (labelType.isMaxPositive(a) || !requiresMaxValue) {
+        appliedBy = a.accountId();
+
+        status = SubmitRecord.Label.Status.MAY;
+        if (isRequired) {
+          status = SubmitRecord.Label.Status.OK;
+        }
+      }
+    }
+
+    return new LabelStatus(status, appliedBy);
+  }
 }

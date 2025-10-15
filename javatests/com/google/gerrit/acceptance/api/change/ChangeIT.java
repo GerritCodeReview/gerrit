@@ -187,6 +187,7 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeNumberVirtualIdAlgorithm;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder.ChangeOperatorFactory;
 import com.google.gerrit.server.restapi.change.PostReview;
+import com.google.gerrit.server.rules.PrologSubmitRuleUtil;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
@@ -260,6 +261,7 @@ public class ChangeIT extends AbstractDaemonTest {
   private Cache<DiffSummaryKey, DiffSummary> diffSummaryCache;
 
   @Inject private ChangeNumberVirtualIdAlgorithm changeNumberVirtualIdAlgorithm;
+  @Inject private PrologSubmitRuleUtil prologSubmitRuleUtil;
 
   @Test
   public void get() throws Exception {
@@ -3874,6 +3876,10 @@ public class ChangeIT extends AbstractDaemonTest {
   @Test
   @GerritConfig(name = "change.skipCurrentRulesEvaluationOnClosedChanges", value = "true")
   public void checkLabelsNotUpdatedForMergedChange() throws Exception {
+    if (!prologSubmitRuleUtil.isProjectRulesEnabled()) {
+      // This test is not needed, when labels do not require rule evaluation.
+      return;
+    }
     PushOneCommit.Result r = createChange();
     gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).review(ReviewInput.approve());
     gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).submit();
@@ -3910,6 +3916,10 @@ public class ChangeIT extends AbstractDaemonTest {
   @Test
   @GerritConfig(name = "change.skipCurrentRulesEvaluationOnClosedChanges", value = "true")
   public void checkLabelsNotUpdatedForAbandonedChange() throws Exception {
+    if (!prologSubmitRuleUtil.isProjectRulesEnabled()) {
+      // This test is not needed, when labels do not require rule evaluation.
+      return;
+    }
     PushOneCommit.Result r = createChange();
     gApi.changes().id(r.getChangeId()).abandon();
 

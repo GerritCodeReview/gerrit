@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f6cd095f_68697df7",
+        "filename": "contrib/maintenance/git/config.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-10-15T20:25:36Z",
+      "side": 1,
+      "message": "git considers \"true\", \"yes\", \"on\", and positive numbers as `true`\n\nsee https://git-scm.com/docs/git-config#Documentation/git-config.txt---typetype",
+      "revId": "3b091fcc96084669b7abb22277f85dda3c88cc6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "16cf662b_4b46e684",
+        "filename": "contrib/maintenance/git/config.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-10-15T20:25:36Z",
+      "side": 1,
+      "message": "git considers \"false\", \"no\", \"off\" and 0 as `false`",
+      "revId": "3b091fcc96084669b7abb22277f85dda3c88cc6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

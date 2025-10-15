@@ -15,11 +15,11 @@
 package com.google.gerrit.server.change;
 
 import static com.google.common.base.Preconditions.checkState;
-import static com.google.common.collect.ImmutableList.toImmutableList;
 import static java.util.stream.Collectors.toList;
 
+import com.google.auto.value.AutoValue;
 import com.google.common.collect.HashBasedTable;
-import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Lists;
@@ -31,7 +31,6 @@ import com.google.common.flogger.FluentLogger;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
-import com.google.gerrit.entities.LabelFunction;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.LabelTypes;
 import com.google.gerrit.entities.LabelValue;
@@ -54,7 +53,6 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.DeleteVoteControl;
 import com.google.gerrit.server.project.RemoveReviewerControl;
 import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gerrit.server.rules.PrologSubmitRuleUtil;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.time.Instant;
@@ -72,29 +70,26 @@ import java.util.TreeMap;
 
 /**
  * Produces label-related entities, like {@link LabelInfo}s, which is serialized to JSON afterwards.
+ *
+ * <p>This is the implementation that uses SubmitRules that have been deprecated, and should only be
+ * used in gerrit deployment where Prolog rules are still being used.
  */
 @Singleton
-public class LabelsJson {
+public class LabelsJsonRules {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final PermissionBackend permissionBackend;
   private final DeleteVoteControl deleteVoteControl;
   private final RemoveReviewerControl removeReviewerControl;
-  private final PrologSubmitRuleUtil ruleUtil;
-  private final LabelsJsonRules labelsJsonRules;
 
   @Inject
-  LabelsJson(
+  LabelsJsonRules(
       PermissionBackend permissionBackend,
       DeleteVoteControl deleteVoteControl,
-      RemoveReviewerControl removeReviewerControl,
-      PrologSubmitRuleUtil ruleUtil,
-      LabelsJsonRules labelsJsonRules) {
+      RemoveReviewerControl removeReviewerControl) {
     this.permissionBackend = permissionBackend;
     this.deleteVoteControl = deleteVoteControl;
     this.removeReviewerControl = removeReviewerControl;
-    this.ruleUtil = ruleUtil;
-    this.labelsJsonRules = labelsJsonRules;
   }
 
   /**
@@ -106,11 +101,6 @@ public class LabelsJson {
   Map<String, LabelInfo> labelsFor(
       AccountLoader accountLoader, ChangeData cd, boolean standard, boolean detailed)
       throws PermissionBackendException {
-    // Delegate to old implementation if submit rules are enabled.
-    if (ruleUtil.isProjectRulesEnabled()) {
-      return labelsJsonRules.labelsFor(accountLoader, cd, standard, detailed);
-    }
-
     if (!standard && !detailed) {
       return null;
     }
@@ -119,9 +109,11 @@ public class LabelsJson {
         TraceContext.newTimer(
             "Get labels", Metadata.builder().changeId(cd.change().getId().get()).build())) {
       LabelTypes labelTypes = cd.getLabelTypes();
-      return cd.change().isMerged()
-          ? labelsForSubmittedChange(accountLoader, cd, labelTypes, standard, detailed)
-          : labelsForUnsubmittedChange(accountLoader, cd, labelTypes, standard, detailed);
+      Map<String, LabelWithStatus> withStatus =
+          cd.change().isMerged()
+              ? labelsForSubmittedChange(accountLoader, cd, labelTypes, standard, detailed)
+              : labelsForUnsubmittedChange(accountLoader, cd, labelTypes, standard, detailed);
+      return ImmutableMap.copyOf(Maps.transformValues(withStatus, LabelWithStatus::label));
     }
   }
 
@@ -241,18 +233,18 @@ public class LabelsJson {
     label.all.add(approval);
   }
 
-  private Map<String, LabelInfo> labelsForUnsubmittedChange(
+  private Map<String, LabelWithStatus> labelsForUnsubmittedChange(
       AccountLoader accountLoader,
       ChangeData cd,
       LabelTypes labelTypes,
       boolean standard,
       boolean detailed)
       throws PermissionBackendException {
-    Map<String, LabelInfo> labels =
+    Map<String, LabelWithStatus> labels =
         initLabels(accountLoader, cd, labelTypes, /* includeAccountInfo= */ standard || detailed);
     setAllApprovals(accountLoader, cd, labels, detailed);
 
-    for (Map.Entry<String, LabelInfo> e : labels.entrySet()) {
+    for (Map.Entry<String, LabelWithStatus> e : labels.entrySet()) {
       Optional<LabelType> type = labelTypes.byLabel(e.getKey());
       if (!type.isPresent()) {
         continue;
@@ -292,14 +284,14 @@ public class LabelsJson {
     return ai;
   }
 
-  private void setLabelValues(LabelType type, LabelInfo l) {
-    l.defaultValue = type.getDefaultValue();
-    l.values = new LinkedHashMap<>();
+  private void setLabelValues(LabelType type, LabelWithStatus l) {
+    l.label().defaultValue = type.getDefaultValue();
+    l.label().values = new LinkedHashMap<>();
     for (LabelValue v : type.getValues()) {
-      l.values.put(v.formatValue(), v.getText());
+      l.label().values.put(v.formatValue(), v.getText());
     }
-    if (isOnlyZero(l.values.keySet())) {
-      l.values = null;
+    if (isOnlyZero(l.label().values.keySet())) {
+      l.label().values = null;
     }
   }
 
@@ -313,7 +305,7 @@ public class LabelsJson {
     return result;
   }
 
-  private Map<String, LabelInfo> labelsForSubmittedChange(
+  private Map<String, LabelWithStatus> labelsForSubmittedChange(
       AccountLoader accountLoader,
       ChangeData cd,
       LabelTypes labelTypes,
@@ -331,12 +323,14 @@ public class LabelsJson {
       }
     }
 
+    Set<String> labelNames = new HashSet<>();
     SetMultimap<Account.Id, PatchSetApproval> current =
         MultimapBuilder.hashKeys().hashSetValues().build();
     for (PatchSetApproval a : cd.currentApprovals()) {
       allUsers.add(a.accountId());
       Optional<LabelType> type = labelTypes.byLabel(a.labelId());
       if (type.isPresent()) {
+        labelNames.add(type.get().getName());
         // Not worth the effort to distinguish between votable/non-votable for 0
         // values on closed changes, since they can't vote anyway.
         current.put(a.accountId(), a);
@@ -344,13 +338,28 @@ public class LabelsJson {
     }
 
     // Since voting on merged changes is allowed all labels which apply to
-    // the change must be returned. This is calculated based on labelTypes.
+    // the change must be returned. All applying labels can be retrieved from
+    // the submit records, which is what initLabels does.
     // It's not possible to only compute the labels based on the approvals
     // since merged changes may not have approvals for all labels (e.g. if not
     // all labels are required for submit or if the change was auto-closed due
     // to direct push or if new labels were defined after the change was
     // merged).
-    Map<String, LabelInfo> labels = initLabels(accountLoader, cd, labelTypes, standard);
+    Map<String, LabelWithStatus> labels;
+    labels = initLabels(accountLoader, cd, labelTypes, standard);
+
+    // Also include all labels for which approvals exists. E.g. there can be
+    // approvals for labels that are ignored by a Prolog submit rule and hence
+    // it wouldn't be included in the submit records.
+    for (String name : labelNames) {
+      if (!labels.containsKey(name)) {
+        labels.put(name, LabelWithStatus.create(new LabelInfo(), null));
+      }
+    }
+
+    labels.entrySet().stream()
+        .filter(e -> labelTypes.byLabel(e.getKey()).isPresent())
+        .forEach(e -> setLabelValues(labelTypes.byLabel(e.getKey()).get(), e.getValue()));
 
     for (Account.Id accountId : allUsers) {
       Map<String, ApprovalInfo> byLabel = Maps.newHashMapWithExpectedSize(labels.size());
@@ -358,10 +367,10 @@ public class LabelsJson {
       if (detailed) {
         pvr = getPermittedVotingRanges(permittedLabels(accountId, cd));
       }
-      for (Map.Entry<String, LabelInfo> entry : labels.entrySet()) {
+      for (Map.Entry<String, LabelWithStatus> entry : labels.entrySet()) {
         ApprovalInfo ai = approvalInfo(accountLoader, accountId, 0, null, null, null);
         byLabel.put(entry.getKey(), ai);
-        addApproval(entry.getValue(), ai);
+        addApproval(entry.getValue().label(), ai);
       }
       for (PatchSetApproval psa : current.get(accountId)) {
         Optional<LabelType> type = labelTypes.byLabel(psa.labelId());
@@ -390,61 +399,65 @@ public class LabelsJson {
     return labels;
   }
 
-  private Map<String, LabelInfo> initLabels(
+  private Map<String, LabelWithStatus> initLabels(
       AccountLoader accountLoader,
       ChangeData cd,
       LabelTypes labelTypes,
       boolean includeAccountInfo) {
-    Map<String, LabelInfo> labels = new TreeMap<>(labelTypes.nameComparator());
+    Map<String, LabelWithStatus> labels = new TreeMap<>(labelTypes.nameComparator());
+    for (SubmitRecord rec : submitRecords(cd)) {
+      if (rec.labels == null) {
+        continue;
+      }
+      for (SubmitRecord.Label r : rec.labels) {
+        LabelWithStatus p = labels.get(r.label);
+        if (p == null || p.status().compareTo(r.status) < 0) {
+          LabelInfo n = new LabelInfo();
+          if (includeAccountInfo) {
+            switch (r.status) {
+              case OK:
+                n.approved = accountLoader.get(r.appliedBy);
+                break;
+              case REJECT:
+                n.rejected = accountLoader.get(r.appliedBy);
+                n.blocking = true;
+                break;
+              case IMPOSSIBLE:
+              case MAY:
+              case NEED:
+              default:
+                break;
+            }
+          }
 
-    for (LabelType t : labelTypes.getLabelTypes()) {
-      LabelFunction labelFunction = t.getFunction();
-      checkState(
-          labelFunction != null,
-          "Unable to find the LabelFunction for label %s, change %s",
-          t.getName(),
-          cd.getId());
-
-      List<PatchSetApproval> approvals = cd.currentApprovals();
-      ImmutableList<PatchSetApproval> approvalsForLabel = getApprovalsForLabel(approvals, t);
-      LabelFunction.LabelStatus labelStatus = labelFunction.checkNoRule(t, approvalsForLabel);
-
-      LabelInfo labelInfo = new LabelInfo();
-      if (includeAccountInfo) {
-        switch (labelStatus.status()) {
-          case OK:
-            labelInfo.approved = accountLoader.get(labelStatus.voter());
-            break;
-          case REJECT:
-            labelInfo.rejected = accountLoader.get(labelStatus.voter());
-            labelInfo.blocking = true;
-            break;
-          case IMPOSSIBLE:
-          case MAY:
-          case NEED:
-          default:
-            break;
+          n.optional = r.status == SubmitRecord.Label.Status.MAY ? true : null;
+          labels.put(r.label, LabelWithStatus.create(n, r.status));
         }
       }
-
-      labelInfo.optional = labelStatus.status() == SubmitRecord.Label.Status.MAY ? true : null;
-      labelInfo.description = t.getDescription().orElse(null);
-      labels.put(t.getName(), labelInfo);
     }
-
+    setLabelsDescription(labels, labelTypes);
     return labels;
   }
 
-  private static ImmutableList<PatchSetApproval> getApprovalsForLabel(
-      List<PatchSetApproval> approvals, LabelType t) {
-    return approvals.stream()
-        .filter(psa -> psa.label().equals(t.getLabelId().get()))
-        .collect(toImmutableList());
+  private void setLabelsDescription(Map<String, LabelWithStatus> labels, LabelTypes labelTypes) {
+    for (Map.Entry<String, LabelWithStatus> entry : labels.entrySet()) {
+      String labelName = entry.getKey();
+      Optional<LabelType> type = labelTypes.byLabel(labelName);
+      if (!type.isPresent()) {
+        continue;
+      }
+      LabelWithStatus labelWithStatus = entry.getValue();
+      labelWithStatus.label().description = type.get().getDescription().orElse(null);
+    }
   }
 
   private void setLabelScores(
-      AccountLoader accountLoader, LabelType type, LabelInfo l, short score, Account.Id accountId) {
-    if (l.approved != null || l.rejected != null) {
+      AccountLoader accountLoader,
+      LabelType type,
+      LabelWithStatus l,
+      short score,
+      Account.Id accountId) {
+    if (l.label().approved != null || l.label().rejected != null) {
       return;
     }
 
@@ -455,21 +468,24 @@ public class LabelsJson {
 
     if (score != 0) {
       if (score == type.getMin().getValue()) {
-        l.rejected = accountLoader.get(accountId);
+        l.label().rejected = accountLoader.get(accountId);
       } else if (score == type.getMax().getValue()) {
-        l.approved = accountLoader.get(accountId);
+        l.label().approved = accountLoader.get(accountId);
       } else if (score < 0) {
-        l.disliked = accountLoader.get(accountId);
-        l.value = score;
-      } else if (score > 0 && l.disliked == null) {
-        l.recommended = accountLoader.get(accountId);
-        l.value = score;
+        l.label().disliked = accountLoader.get(accountId);
+        l.label().value = score;
+      } else if (score > 0 && l.label().disliked == null) {
+        l.label().recommended = accountLoader.get(accountId);
+        l.label().value = score;
       }
     }
   }
 
   private void setAllApprovals(
-      AccountLoader accountLoader, ChangeData cd, Map<String, LabelInfo> labels, boolean detailed)
+      AccountLoader accountLoader,
+      ChangeData cd,
+      Map<String, LabelWithStatus> labels,
+      boolean detailed)
       throws PermissionBackendException {
     checkState(
         !cd.change().isMerged(),
@@ -499,7 +515,7 @@ public class LabelsJson {
         perm = permissionBackend.absentUser(accountId).change(cd);
         pvr = getPermittedVotingRanges(permittedLabels(accountId, cd));
       }
-      for (Map.Entry<String, LabelInfo> e : labels.entrySet()) {
+      for (Map.Entry<String, LabelWithStatus> e : labels.entrySet()) {
         Optional<LabelType> lt = labelTypes.byLabel(e.getKey());
         if (!lt.isPresent()) {
           // Ignore submit record for undefined label; likely the submit rule
@@ -532,10 +548,14 @@ public class LabelsJson {
           value = perm != null && perm.test(new LabelPermission(lt.get())) ? 0 : null;
         }
         addApproval(
-            e.getValue(),
+            e.getValue().label(),
             approvalInfo(accountLoader, accountId, value, permittedVotingRange, tag, date));
       }
     }
+  }
+
+  private List<SubmitRecord> submitRecords(ChangeData cd) {
+    return cd.submitRecords(ChangeJson.SUBMIT_RULE_OPTIONS_LENIENT);
   }
 
   private Map<String, VotingRangeInfo> getPermittedVotingRanges(
@@ -559,5 +579,17 @@ public class LabelsJson {
       }
     }
     return permittedVotingRanges;
+  }
+
+  @AutoValue
+  abstract static class LabelWithStatus {
+    private static LabelWithStatus create(LabelInfo label, SubmitRecord.Label.Status status) {
+      return new AutoValue_LabelsJsonRules_LabelWithStatus(label, status);
+    }
+
+    abstract LabelInfo label();
+
+    @Nullable
+    abstract SubmitRecord.Label.Status status();
   }
 }

@@ -791,6 +791,19 @@ public class CreateChangeIT extends AbstractDaemonTest {
       assertThat(currentRevision.conflicts.noBaseReason).isNull();
     }
   }
+  
+  @Test
+  public void createMergeAsSuccessorOfOpenChange() throws Exception {
+    changeInTwoBranches("branchA", "a.txt", "branchB", "b.txt");
+    
+    Change baseChange = createChange("refs/heads/branchA").getChange().change();
+    
+    ChangeInput in = newMergeChangeInput("branchA", "branchB", "");
+    in.baseChange = String.format("%s~%s", baseChange.getProject().get(), baseChange.getChangeId());
+    ChangeInfo change = assertCreateSucceeds(in);
+
+    RevisionApi rApi = gApi.changes().id(change.id).current();
+  }
 
   @Test
   public void createMergeChangeAuthor() throws Exception {

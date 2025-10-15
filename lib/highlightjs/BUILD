@@ -21,6 +21,7 @@ rollup_bundle(
         "@ui_npm//highlightjs-closure-templates",
         "@ui_npm//highlightjs-epp",
         "@ui_npm//highlightjs-structured-text",
+        "@ui_npm//highlightjs-ttcn3",
         "@ui_npm//highlightjs-vue",
     ],
     args = [

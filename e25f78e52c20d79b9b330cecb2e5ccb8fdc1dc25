@@ -33,6 +33,24 @@
       "message": "This is already added on line 261.",
       "revId": "e25f78e52c20d79b9b330cecb2e5ccb8fdc1dc25",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bcfde816_180a9867",
+        "filename": "resources/com/google/gerrit/server/mime/mime-types.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1091295
+      },
+      "writtenOn": "2025-10-15T09:44:28Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "e89effc6_4d08c1cd",
+      "revId": "e25f78e52c20d79b9b330cecb2e5ccb8fdc1dc25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

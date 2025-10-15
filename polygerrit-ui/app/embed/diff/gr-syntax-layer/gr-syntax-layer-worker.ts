@@ -96,6 +96,7 @@ const LANGUAGE_MAP = new Map<string, string>([
   ['text/x-tcl', 'tcl'],
   ['text/x-toml', 'toml'],
   ['text/x-torque', 'torque'],
+  ['text/x-ttcn', 'ttcn3'],
   ['text/x-twig', 'twig'],
   ['text/x-vb', 'vb'],
   ['text/x-verilog', 'v'],

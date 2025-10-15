@@ -359,6 +359,12 @@ highlight.js@^11.11.1, highlight.js@^11.9.0, "highlight.js@^11.9.0 || ^10.4.1":
   dependencies:
     highlight.js "^10.4.1"
 
+"highlightjs-ttcn3@https://gitea.osmocom.org/ttcn3/highlightjs-ttcn3.git#6daccff309fca1e7561a43984d42fa4f829ce06d":
+  version "0.0.1"
+  resolved "https://gitea.osmocom.org/ttcn3/highlightjs-ttcn3.git#6daccff309fca1e7561a43984d42fa4f829ce06d"
+  dependencies:
+    highlight.js "^11.9.0"
+
 "highlightjs-vue@https://github.com/paladox/highlightjs-vue#44eed074ea0110d1ad03d2cbd77d27027cf7bb04":
   version "1.1.0"
   resolved "https://github.com/paladox/highlightjs-vue#44eed074ea0110d1ad03d2cbd77d27027cf7bb04"

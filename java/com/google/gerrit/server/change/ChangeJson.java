@@ -733,9 +733,9 @@ public class ChangeJson {
     out.reviewed = isReviewedByCurrentUser(cd, user);
     out.starred = isStarredByCurrentUser(cd, user);
     out.labels = labelsJson.labelsFor(accountLoader, cd, has(LABELS), has(DETAILED_LABELS));
-    out.requirements = requirementsFor(cd);
-    out.submitRecords = submitRecordsFor(cd);
     if (has(SUBMIT_REQUIREMENTS)) {
+      out.requirements = requirementsFor(cd);
+      out.submitRecords = submitRecordsFor(cd);
       out.submitRequirements = submitRequirementsFor(cd);
     }
 

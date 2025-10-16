@@ -37,6 +37,19 @@ import {
   SubmitRequirementExpressionPart,
 } from '../../../utils/submit-requirement-util';
 
+function getRequirementErrorMessage(requirement: SubmitRequirementResultInfo) {
+  if (requirement.submittability_expression_result.error_message) {
+    return requirement.submittability_expression_result.error_message;
+  }
+  if (requirement.applicability_expression_result?.error_message) {
+    return requirement.applicability_expression_result?.error_message;
+  }
+  if (requirement.override_expression_result?.error_message) {
+    return requirement.override_expression_result?.error_message;
+  }
+  return undefined;
+}
+
 // This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
 const base = HovercardMixin(LitElement);
 
@@ -177,11 +190,9 @@ export class GrSubmitRequirementHovercard extends base {
   private renderDescription() {
     let description = this.requirement?.description;
     if (this.requirement?.status === SubmitRequirementStatus.ERROR) {
-      const submitRecord = this.change?.submit_records?.filter(
-        record => record.rule_name === this.requirement?.name
-      );
-      if (submitRecord?.length === 1 && submitRecord[0].error_message) {
-        description = submitRecord[0].error_message;
+      const error_message = getRequirementErrorMessage(this.requirement);
+      if (error_message) {
+        description = error_message;
       }
     }
     if (!description) return;

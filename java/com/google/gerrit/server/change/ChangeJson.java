@@ -36,6 +36,7 @@ import static com.google.gerrit.extensions.client.ListChangesOption.SUBMITTABLE;
 import static com.google.gerrit.extensions.client.ListChangesOption.SUBMIT_REQUIREMENTS;
 import static com.google.gerrit.extensions.client.ListChangesOption.TRACKING_IDS;
 import static com.google.gerrit.server.ChangeMessagesUtil.createChangeMessageInfo;
+import static com.google.gerrit.server.experiments.ExperimentFeaturesConstants.SKIP_SUBMIT_RECORDS_WITHOUT_SUBMIT_REQUIREMENTS;
 import static com.google.gerrit.server.util.AttentionSetUtil.additionsOnly;
 import static com.google.gerrit.server.util.AttentionSetUtil.removalsOnly;
 import static java.util.stream.Collectors.toList;
@@ -103,6 +104,7 @@ import com.google.gerrit.server.cancellation.RequestCancelledException;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.TrackingFooters;
+import com.google.gerrit.server.experiments.ExperimentFeatures;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.logging.Metadata;
@@ -249,6 +251,7 @@ public class ChangeJson {
   private final boolean includeMergeable;
   private final boolean lazyLoad;
   private final boolean cacheQueryResultsByChangeNum;
+  private final ExperimentFeatures experimentFeatures;
 
   private AccountLoader accountLoader;
   private FixInput fix;
@@ -272,6 +275,7 @@ public class ChangeJson {
       Metrics metrics,
       RevisionJson.Factory revisionJsonFactory,
       @GerritServerConfig Config cfg,
+      ExperimentFeatures experimentFeatures,
       @Assisted Iterable<ListChangesOption> options,
       @Assisted Optional<PluginDefinedInfosFactory> pluginDefinedInfosFactory) {
     this.repoManager = repoManager;
@@ -296,7 +300,7 @@ public class ChangeJson {
     this.pluginDefinedInfosFactory = pluginDefinedInfosFactory;
     this.cacheQueryResultsByChangeNum =
         cfg.getBoolean("index", "cacheQueryResultsByChangeNum", true);
-
+    this.experimentFeatures = experimentFeatures;
     logger.atFine().log("options = %s", options);
   }
 
@@ -733,8 +737,12 @@ public class ChangeJson {
     out.reviewed = isReviewedByCurrentUser(cd, user);
     out.starred = isStarredByCurrentUser(cd, user);
     out.labels = labelsJson.labelsFor(accountLoader, cd, has(LABELS), has(DETAILED_LABELS));
-    out.requirements = requirementsFor(cd);
-    out.submitRecords = submitRecordsFor(cd);
+    if (!experimentFeatures.isFeatureEnabled(
+            SKIP_SUBMIT_RECORDS_WITHOUT_SUBMIT_REQUIREMENTS, cd.project())
+        || has(SUBMIT_REQUIREMENTS)) {
+      out.requirements = requirementsFor(cd);
+      out.submitRecords = submitRecordsFor(cd);
+    }
     if (has(SUBMIT_REQUIREMENTS)) {
       out.submitRequirements = submitRequirementsFor(cd);
     }

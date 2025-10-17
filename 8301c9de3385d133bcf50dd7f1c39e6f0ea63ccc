@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a93c08cb_81938c98",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-10-17T10:43:56Z",
+      "side": 1,
+      "message": "Unfortunately we still have label definitions at Google that use deprecated functions.",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 38
+      },
+      "revId": "8301c9de3385d133bcf50dd7f1c39e6f0ea63ccc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1332e5cb_a1a07fba",
+        "filename": "java/com/google/gerrit/entities/LabelFunction.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-10-17T10:43:56Z",
+      "side": 1,
+      "message": "Hopefully at the end we can get rid of this enum too.",
+      "range": {
+        "startLine": 135,
+        "startChar": 28,
+        "endLine": 135,
+        "endChar": 53
+      },
+      "revId": "8301c9de3385d133bcf50dd7f1c39e6f0ea63ccc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a890b2ae_549e452f",
+        "filename": "java/com/google/gerrit/server/change/LabelsJson.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-10-17T10:43:56Z",
+      "side": 1,
+      "message": "Should we use a distinct name here so that we can compare the latency of the new code with the old code (hopefully it\u0027s faster now that we no longer need to run the submit rules)?",
+      "range": {
+        "startLine": 120,
+        "startChar": 13,
+        "endLine": 120,
+        "endChar": 23
+      },
+      "revId": "8301c9de3385d133bcf50dd7f1c39e6f0ea63ccc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a055cff3_c4c8daeb",
+        "filename": "java/com/google/gerrit/server/change/LabelsJson.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 441,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-10-17T10:43:56Z",
+      "side": 1,
+      "message": "nit: rename this to \u0027approval\u0027 or \u0027psa\u0027",
+      "range": {
+        "startLine": 441,
+        "startChar": 16,
+        "endLine": 441,
+        "endChar": 21
+      },
+      "revId": "8301c9de3385d133bcf50dd7f1c39e6f0ea63ccc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

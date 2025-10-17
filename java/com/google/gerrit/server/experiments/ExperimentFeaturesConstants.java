@@ -66,4 +66,8 @@ public class ExperimentFeaturesConstants {
 
   /** Whether UI should send dashboard queries as separate requests in parallel. */
   public static final String PARALLEL_DASHBOARD_REQUESTS = "UiFeature__parallel_dashboard_requests";
+
+  /** Whether submit_records should only be returned along with submit_requirements. */
+  public static final String SKIP_SUBMIT_RECORDS_WITHOUT_SUBMIT_REQUIREMENTS =
+      "GerritBackendFeature__skip_submit_records_without_submit_requirements";
 }

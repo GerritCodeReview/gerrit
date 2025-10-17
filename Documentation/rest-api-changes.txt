@@ -7491,12 +7491,15 @@ AccountInfo] entity.
 Actions the caller might be able to perform on this revision. The
 information is a map of view name to link:#action-info[ActionInfo]
 entities.
-|`submit_records`             ||
+|`submit_records`             |optional|
 List of the link:rest-api-changes.html#submit-record-info[SubmitRecordInfo]
-containing the submit records for the change at the latest patchset.
+containing the submit records for the change at the latest patchset. This field
+is deprecated in favour of `submit_requirements`.
+Only set if link:#submit-requirements[`SUBMIT_REQUIREMENTS`] is requested.
 |`requirements`             |optional|
 List of the link:rest-api-changes.html#requirement[requirements] to be met before this change
 can be submitted. This field is deprecated in favour of `submit_requirements`.
+Only set if link:#submit-requirements[`SUBMIT_REQUIREMENTS`] is requested.
 |`submit_requirements`      |optional|
 List of the link:#submit-requirement-result-info[SubmitRequirementResultInfo]
 containing the evaluated submit requirements for the change.

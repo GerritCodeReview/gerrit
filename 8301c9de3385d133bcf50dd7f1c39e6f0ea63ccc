@@ -70,6 +70,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b567c1a6_5b4c7ff3",
+        "filename": "java/com/google/gerrit/server/change/LabelsJson.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-10-17T11:00:32Z",
+      "side": 1,
+      "message": "Maybe that\u0027s actually not needed because it\u0027s always either using the old or the new logic, but never both at the same time.",
+      "parentUuid": "a890b2ae_549e452f",
+      "range": {
+        "startLine": 120,
+        "startChar": 13,
+        "endLine": 120,
+        "endChar": 23
+      },
+      "revId": "8301c9de3385d133bcf50dd7f1c39e6f0ea63ccc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a055cff3_c4c8daeb",

@@ -16,6 +16,24 @@
       "message": "It\u0027s possible that you need to adapt the ListExperimentIT#listAll() test now.\n\nFWIW I think we should change this test so that it doesn\u0027t need to be adapted each time a new flag is added (but this can be a separate change).",
       "revId": "2dc086ed742882623a53931a9b36ebebd2f3c662",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ea00f629_8ab08f15",
+        "filename": "java/com/google/gerrit/server/experiments/ExperimentFeaturesConstants.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-10-17T11:54:49Z",
+      "side": 1,
+      "message": "Thanks. Yeah, I forget to update every time.",
+      "parentUuid": "13026b14_fa42e519",
+      "revId": "2dc086ed742882623a53931a9b36ebebd2f3c662",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

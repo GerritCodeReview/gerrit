@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2038ec62_ed83bb54",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-10-17T10:51:14Z",
+      "side": 1,
+      "message": "The submit_records field is not marked as deprecated in the documentation at [1] yet. Should add a deprecation warning there now?\n\n[1] https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#change-info",
+      "range": {
+        "startLine": 10,
+        "startChar": 54,
+        "endLine": 10,
+        "endChar": 68
+      },
+      "revId": "c1005a1213f1daa3c9fd892d9834ecceb6463db7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b5beba3_36baea0b",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 736,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-10-17T10:51:14Z",
+      "side": 1,
+      "message": "Since this is an API change (the submitRecords and the requirements are no longer populated if not requested) and hence could possibly break existing callers should we add a experiment flag for this?",
+      "revId": "c1005a1213f1daa3c9fd892d9834ecceb6463db7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f62ba0e6_d016fe93",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 738,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-10-17T10:51:14Z",
+      "side": 1,
+      "message": "Please update the documentation at [1] to say that these fields are only set if SUBMIT_REQUIREMENTS is requested.\n\n[1] https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#change-info",
+      "range": {
+        "startLine": 737,
+        "startChar": 6,
+        "endLine": 738,
+        "endChar": 47
+      },
+      "revId": "c1005a1213f1daa3c9fd892d9834ecceb6463db7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

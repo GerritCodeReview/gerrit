@@ -23,7 +23,7 @@
  */
 
 const path = require('path');
-const {defineConfig, globalIgnores} = require('eslint/config');
+const {defineConfig} = require('eslint/config');
 const js = require('@eslint/js');
 const {FlatCompat} = require('@eslint/eslintrc');
 
@@ -290,15 +290,15 @@ module.exports = defineConfig([
             'error',
             {argsIgnorePattern: '^_'},
           ],
-          // https://github.com/mysticatea/eslint-plugin-node/blob/master/docs/rules/no-unsupported-features/node-builtins.md
-          'node/no-unsupported-features/node-builtins': 'off',
+          // https://github.com/eslint-community/eslint-plugin-n/blob/master/docs/rules/no-unsupported-features/node-builtins.md
+          'n/no-unsupported-features/node-builtins': 'off',
           // Disable no-invalid-this for ts files, because it incorrectly reports
           // errors in some cases (see https://github.com/typescript-eslint/typescript-eslint/issues/491)
           // At the same time, we are using typescript in a strict mode and
           // it catches almost all errors related to invalid usage of this.
           'no-invalid-this': 'off',
 
-          'node/no-extraneous-import': 'off',
+          'n/no-extraneous-import': 'off',
 
           // Typescript already checks for undef
           'no-undef': 'off',

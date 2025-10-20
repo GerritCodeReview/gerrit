@@ -16,6 +16,24 @@
       "message": "Add a link to the PR which implemented this ?\nhttps://github.com/jetty/jetty.project/pull/4271",
       "revId": "87e7fca70a89c2517f4c4f9949fa2d6202fcab54",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e2d4796e_90e64066",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-10-20T13:32:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "348e19b9_50b550bd",
+      "revId": "87e7fca70a89c2517f4c4f9949fa2d6202fcab54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

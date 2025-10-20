@@ -16,6 +16,24 @@
       "message": "this was reverted on master and relanded with a different implementation in https://gerrit-review.googlesource.com/c/gerrit/+/517022",
       "revId": "f17f5e67fece421185f13daffb770618804ee49c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8f14e274_76be551c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-10-20T14:35:09Z",
+      "side": 1,
+      "message": "this comment should be open since change was reverted on master and replaced by a different implementation",
+      "parentUuid": "53a27750_f5ecd66a",
+      "revId": "f17f5e67fece421185f13daffb770618804ee49c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

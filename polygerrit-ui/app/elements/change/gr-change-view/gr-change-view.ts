@@ -16,6 +16,7 @@ import '../../shared/gr-change-status/gr-change-status';
 import '../../shared/gr-editable-content/gr-editable-content';
 import '../../shared/gr-formatted-text/gr-formatted-text';
 import '../../shared/gr-tooltip-content/gr-tooltip-content';
+import '../../shared/gr-content-with-sidebar/gr-content-with-sidebar';
 import '../gr-change-actions/gr-change-actions';
 import '../gr-change-summary/gr-change-summary';
 import '../gr-change-metadata/gr-change-metadata';
@@ -160,6 +161,7 @@ const ACCIDENTAL_STARRING_LIMIT_MS = 10 * 1000;
 const TRAILING_WHITESPACE_REGEX = /[ \t]+$/gm;
 
 const PREFIX = '#message-';
+
 @customElement('gr-change-view')
 export class GrChangeView extends LitElement {
   /**
@@ -349,6 +351,9 @@ export class GrChangeView extends LitElement {
   // visible for testing
   @state()
   activeTab: Tab | string = Tab.FILES;
+
+  @state()
+  private showSidebarChat = false;
 
   @property({type: Boolean})
   unresolvedOnly = true;
@@ -795,6 +800,13 @@ export class GrChangeView extends LitElement {
       sharedStyles,
       modalStyles,
       css`
+        :host {
+          --change-header-height: 38px;
+          --sidebar-top: calc(
+            var(--main-header-height) + var(--change-header-height)
+          );
+          --sidebar-bottom-overflow: var(--main-footer-height);
+        }
         .tabs {
           display: flex;
         }
@@ -813,6 +825,7 @@ export class GrChangeView extends LitElement {
           padding: var(--spacing-s) var(--spacing-l);
           position: sticky;
           top: var(--main-header-height);
+          height: var(--change-header-height);
           z-index: 110;
         }
         .header.active {
@@ -1047,6 +1060,7 @@ export class GrChangeView extends LitElement {
             flex-direction: column;
             flex: 1;
             padding: var(--spacing-s) var(--spacing-l);
+            height: unset;
           }
           .headerTitle {
             flex-wrap: wrap;
@@ -1122,12 +1136,18 @@ export class GrChangeView extends LitElement {
 
   private renderMainContent() {
     return html`
-      <div id="mainContent" class="container" ?hidden=${!!this.loading}>
-        ${this.renderHeader()} ${this.renderChangeInfoSection()}
-        <h2 class="assistive-tech-only">Files and Comments tabs</h2>
-        ${this.renderTabHeaders()} ${this.renderTabContent()}
-        ${this.renderChangeLog()}
-      </div>
+      ${this.renderHeader()}
+      <gr-content-with-sidebar .hideSide=${!this.showSidebarChat}>
+        <div slot="main">
+          <div id="mainContent" class="container" ?hidden=${!!this.loading}>
+            ${this.renderChangeInfoSection()}
+            <h2 class="assistive-tech-only">Files and Comments tabs</h2>
+            ${this.renderTabHeaders()} ${this.renderTabContent()}
+            ${this.renderChangeLog()}
+          </div>
+        </div>
+        <div slot="side">${this.renderSidebar()}</div>
+      </gr-content-with-sidebar>
       <gr-apply-fix-dialog id="applyFixDialog"></gr-apply-fix-dialog>
       <dialog id="downloadModal" tabindex="-1">
         <gr-download-dialog
@@ -1160,6 +1180,7 @@ export class GrChangeView extends LitElement {
   }
 
   private renderHeader() {
+    if (this.loading) return;
     return html`
       <div class=${this.computeHeaderClass()}>
         <h1 class="assistive-tech-only">
@@ -1168,6 +1189,11 @@ export class GrChangeView extends LitElement {
         ${this.renderHeaderTitle()} ${this.renderCommitActions()}
       </div>
     `;
+  }
+
+  private renderSidebar() {
+    if (!this.showSidebarChat) return;
+    return html` <div>Hello, I am a fancy sidebar for AI Chat.</div> `;
   }
 
   private renderChangeInfoSection() {

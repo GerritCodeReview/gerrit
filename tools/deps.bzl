@@ -18,7 +18,7 @@ GITILES_VERS = "1.6.0"
 GITILES_REPO = GERRIT
 
 # When updating Bouncy Castle, also update it in bazlets.
-BC_VERS = "1.80"
+BC_VERS = "1.82"
 HTTPCOMP_VERS = "4.5.14"
 JETTY_VERS = "9.4.57.v20241219"
 BYTE_BUDDY_VERSION = "1.14.9"

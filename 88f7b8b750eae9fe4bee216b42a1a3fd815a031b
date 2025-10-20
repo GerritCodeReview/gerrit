@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "38d059f0_82d905f9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-10-20T15:36:03Z",
+      "side": 1,
+      "message": "Upgraded to: https://gerrit-review.googlesource.com/c/plugins/codemirror-editor/+/520461",
+      "revId": "88f7b8b750eae9fe4bee216b42a1a3fd815a031b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

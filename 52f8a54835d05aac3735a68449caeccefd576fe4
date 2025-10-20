@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6029fc13_9631d466",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-10-20T12:55:36Z",
+      "side": 1,
+      "message": "I thought this change broke the mobile screen which is why https://gerrit-review.googlesource.com/c/gerrit/+/517903 was needed?",
+      "revId": "52f8a54835d05aac3735a68449caeccefd576fe4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

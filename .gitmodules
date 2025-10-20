@@ -4,7 +4,7 @@
 
 [submodule "modules/jgit"]
 	path = modules/jgit
-	url = ../jgit
+	url = https://eclipse.gerrithub.io/eclipse-jgit/jgit
 
 [submodule "plugins/codemirror-editor"]
 	path = plugins/codemirror-editor

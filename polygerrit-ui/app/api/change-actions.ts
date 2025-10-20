@@ -19,6 +19,7 @@ export enum ActionType {
 
 export enum ActionPriority {
   CHANGE = 2,
+  CHAT = -4,
   DEFAULT = 0,
   PRIMARY = 3,
   REVIEW = -3,

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a5663c83_105a43b9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-10-20T13:49:39Z",
+      "side": 1,
+      "message": "Just blocking it from merge until we decide what to do with the equivalent one on master.",
+      "revId": "d12157a6712321f0db305175051f8a71d9b89cc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

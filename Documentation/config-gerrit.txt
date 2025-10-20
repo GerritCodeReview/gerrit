@@ -2152,6 +2152,7 @@ configuration:
 +
 ----
   javaOptions = -Dlog4j.configuration=file:///home/gerrit/site/etc/log4j.properties
+                                    # file:etc/log4j.properties (relative path)
 ----
 +
 Gerrit built-in loggers are then ignored: error logger (`error_log` file),
@@ -4701,7 +4702,7 @@ If set to `true`, enables error, ssh and http logging in JSON format (file names
 The option only applies to Gerrit built-in loggers. It is ignored when a log4j
 configuration is specified via
 link:#container.javaOptions[container.javaOptions], for example
-`-Dlog4j.configuration=file://etc/log4j.properties`.
+`-Dlog4j.configuration=file:///etc/log4j.properties`.
 +
 Defaults to `false`.
 
@@ -4713,7 +4714,7 @@ if `jsonLogging` is enabled.
 The option only applies to Gerrit built-in loggers. It is ignored when a log4j
 configuration is specified via
 link:#container.javaOptions[container.javaOptions], for example
-`-Dlog4j.configuration=file://etc/log4j.properties`.
+`-Dlog4j.configuration=file:///etc/log4j.properties`.
 +
 Defaults to `true`.
 

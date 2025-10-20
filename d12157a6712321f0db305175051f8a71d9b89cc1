@@ -16,6 +16,24 @@
       "message": "Just blocking it from merge until we decide what to do with the equivalent one on master.",
       "revId": "d12157a6712321f0db305175051f8a71d9b89cc1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "548fc3f4_b5a3fcdf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-10-20T14:00:43Z",
+      "side": 1,
+      "message": "I think this is already decided. This change was reverted in master [1] and for the REST endpoint new code was added in another place [2] (so that the migration code didn\u0027t need to be touched). I guess this means that this change should not be backported (since it is reverted in master).\n\n[1] https://gerrit-review.git.corp.google.com/c/gerrit/+/516442\n\n[2] https://gerrit-review.git.corp.google.com/c/gerrit/+/517022",
+      "parentUuid": "a5663c83_105a43b9",
+      "revId": "d12157a6712321f0db305175051f8a71d9b89cc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

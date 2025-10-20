@@ -282,6 +282,7 @@ export class GrAppElement extends LitElement {
           display: flex;
           flex-direction: column;
           min-height: 100%;
+          --main-header-height: 48px;
         }
         gr-main-header,
         footer {
@@ -297,6 +298,9 @@ export class GrAppElement extends LitElement {
             header should be shown on top of the sticky diff header, which has a
             z-index of 110. */
           z-index: 111;
+          position: sticky;
+          top: 0;
+          height: var(--main-header-height);
         }
         footer {
           background: var(

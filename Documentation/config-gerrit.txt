@@ -3670,6 +3670,13 @@ Enable (or disable) registration of Jetty MBeans for Java JMX.
 +
 By default, `false`.
 
+[[httpd.sameSite]]httpd.sameSite::
++
+Set the `SameSite` cookie attribute on the cookies created by Gerrit.
+Allowed values are: `None`, `Lax` and `Strict`.
++
+By default unset.
+
 [[index]]
 === Section index
 

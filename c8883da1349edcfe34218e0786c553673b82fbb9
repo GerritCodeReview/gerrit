@@ -1,0 +1,45 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cc9fe62f_b19f6917",
+        "filename": "polygerrit-ui/app/utils/commit-message-formatter-util.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-10-21T08:53:30Z",
+      "side": 1,
+      "message": "This can be pop",
+      "range": {
+        "startLine": 60,
+        "startChar": 6,
+        "endLine": 60,
+        "endChar": 32
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "128096e2_87fa1b3d",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/utils/commit-message-formatter-util.ts",
+              "range": {
+                "startLine": 60,
+                "startChar": 0,
+                "endLine": 61,
+                "endChar": 0
+              },
+              "replacement": "      message.body.pop();\n"
+            }
+          ]
+        }
+      ],
+      "revId": "c8883da1349edcfe34218e0786c553673b82fbb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

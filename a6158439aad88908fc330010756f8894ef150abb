@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "03a00cd4_4962e9d0",
+        "filename": "polygerrit-ui/app/elements/shared/gr-lib-loader/resemble-types.d.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-10-21T06:54:07Z",
+      "side": 1,
+      "message": "nit: `2025`?",
+      "range": {
+        "startLine": 3,
+        "startChar": 17,
+        "endLine": 3,
+        "endChar": 21
+      },
+      "revId": "a6158439aad88908fc330010756f8894ef150abb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

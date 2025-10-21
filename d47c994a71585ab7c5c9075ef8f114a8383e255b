@@ -16,6 +16,24 @@
       "message": "@thomas.draebing@sap.com should we squash it with previous one as otherwise it will never get green?",
       "revId": "d47c994a71585ab7c5c9075ef8f114a8383e255b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "987d078e_8ecbb184",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-10-21T11:39:58Z",
+      "side": 1,
+      "message": "This change was rather meant to be a quick workaround to get the build working, but I would prefer to rather resolve the errors. Not even sure, why they suddenly occur.",
+      "parentUuid": "b4bb5cb5_a3611a7e",
+      "revId": "d47c994a71585ab7c5c9075ef8f114a8383e255b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

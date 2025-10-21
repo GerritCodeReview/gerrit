@@ -32,9 +32,45 @@ const MAX_SUBJECT_LENGTH = 72;
 const MAX_LINE_LENGTH = 72;
 const INDENTATION_THRESHOLD = 4;
 const BULLET_POINT_REGEX = /^\s*[-+*#]\s/;
+const FOOTER_REGEX = /^([\w-]+):[ \t]+(.+)$/;
+
+/*
+ * Check if last line of "Body" follows the "footer" format and if yes, then transfer it to the "footer section"
+ * So if the commit message is
+ * Foo
+ *
+ * Footer1: val1
+ *
+ * Footer2: val2
+ *
+ * Current message.footer will only contain val2 and the rest will be considered in the body
+ * Note: This does not support multi-line footers.
+ */
+
+function portFootersFromBody(message: CommitMessage): CommitMessage {
+  const footersToPortOver = [];
+  for (let i = message.body.length - 1; i >= 0; i--) {
+    const line = message.body[i];
+    const match = line.match(FOOTER_REGEX);
+    // If it's a footer line or an empty blank line, then we remove it from the body
+    if (match || line.trim() === '') {
+      if (line.trim() !== '') {
+        footersToPortOver.push(line);
+      }
+      message.body.pop();
+    } else {
+      break;
+    }
+  }
+  if (footersToPortOver.length > 0) {
+    message.footer.unshift(...footersToPortOver.reverse());
+  }
+  return message;
+}
 
 function formatCommitMessage(message: CommitMessage): CommitMessage {
   const formattedSubject = formatSubject(message.subject);
+  message = portFootersFromBody(message);
   const formattedBody = formatBody(message.body);
   const formattedFooter = formatFooter(message.footer);
 

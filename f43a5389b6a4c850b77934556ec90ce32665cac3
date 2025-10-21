@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "245c961d_6b31c163",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-10-21T06:54:07Z",
+      "side": 1,
+      "message": "nit: added `Bug` and `Release-Notes` footers",
+      "revId": "f43a5389b6a4c850b77934556ec90ce32665cac3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a089eb1_83178eaa",
+        "filename": "Documentation/licenses.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 3810,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-10-21T06:54:07Z",
+      "side": 1,
+      "message": "nit: not relevant changes",
+      "range": {
+        "startLine": 3809,
+        "startChar": 0,
+        "endLine": 3810,
+        "endChar": 26
+      },
+      "revId": "f43a5389b6a4c850b77934556ec90ce32665cac3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

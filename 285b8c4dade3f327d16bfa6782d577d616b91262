@@ -16,6 +16,24 @@
       "message": "Needs rebasing as the removed files were modified on master.",
       "revId": "285b8c4dade3f327d16bfa6782d577d616b91262",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "73a10029_c00ce11e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-10-21T09:31:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2646b1ca_8e4fc7df",
+      "revId": "285b8c4dade3f327d16bfa6782d577d616b91262",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

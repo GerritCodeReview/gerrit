@@ -3866,6 +3866,9 @@ public class ChangeIT extends AbstractDaemonTest {
 
     change = gApi.changes().id(r.getChangeId()).get();
     assertThat(change.labels.keySet()).containsExactly(LabelId.CODE_REVIEW, LabelId.VERIFIED);
+    assertThat(change.labels.get(LabelId.CODE_REVIEW).values).isNotNull();
+    assertThat(change.labels.get(LabelId.CODE_REVIEW).values.keySet())
+        .containsExactly("-2", "-1", " 0", "+1", "+2");
     assertThat(change.permittedLabels.keySet())
         .containsExactly(LabelId.CODE_REVIEW, LabelId.VERIFIED);
     assertPermitted(change, LabelId.CODE_REVIEW, 2);

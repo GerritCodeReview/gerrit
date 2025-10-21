@@ -351,6 +351,8 @@ public class LabelsJson {
     // to direct push or if new labels were defined after the change was
     // merged).
     Map<String, LabelInfo> labels = initLabels(accountLoader, cd, labelTypes, standard);
+    labels.entrySet().stream()
+        .forEach(e -> setLabelValues(labelTypes.byLabel(e.getKey()).get(), e.getValue()));
 
     for (Account.Id accountId : allUsers) {
       Map<String, ApprovalInfo> byLabel = Maps.newHashMapWithExpectedSize(labels.size());

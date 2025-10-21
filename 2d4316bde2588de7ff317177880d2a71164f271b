@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6d5f8ad7_09c9974f",
+        "filename": "polygerrit-ui/app/utils/commit-message-formatter-util.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-10-21T08:38:14Z",
+      "side": 1,
+      "message": "The added logic needs to happen before formatBody and formatFooter. So that correct formatting is applied to the ported line.",
+      "range": {
+        "startLine": 40,
+        "startChar": 26,
+        "endLine": 40,
+        "endChar": 38
+      },
+      "revId": "2d4316bde2588de7ff317177880d2a71164f271b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e94d5b84_dd209996",
+        "filename": "polygerrit-ui/app/utils/commit-message-formatter-util.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-10-21T08:38:14Z",
+      "side": 1,
+      "message": "Add a note, that this doesn\u0027t support multi-line footers.",
+      "range": {
+        "startLine": 52,
+        "startChar": 3,
+        "endLine": 52,
+        "endChar": 5
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "8581ae25_d591ccc9",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/utils/commit-message-formatter-util.ts",
+              "range": {
+                "startLine": 52,
+                "startChar": 0,
+                "endLine": 52,
+                "endChar": 0
+              },
+              "replacement": "   * Note: This does not support multi-line footers.\n"
+            }
+          ]
+        }
+      ],
+      "revId": "2d4316bde2588de7ff317177880d2a71164f271b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "41b6a526_1ba3a53d",
+        "filename": "polygerrit-ui/app/utils/commit-message-formatter-util.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-10-21T08:38:14Z",
+      "side": 1,
+      "message": "This can be rewritten simpler using findLastIndex.\n\n\n\n```\nlet newBodyEnd \u003d findLastIndex(line \u003d\u003e !line.match(FOOTER_REGEX) \u0026\u0026 line.trim() !\u003d\u003d \u0027\u0027) + 1\n\nformattedBody \u003d formattedBody.slice(0, newBodyEnd);\nformattedFooter.unshift(...formattedBody.slice(newBodyEnd));\n```",
+      "range": {
+        "startLine": 53,
+        "startChar": 2,
+        "endLine": 66,
+        "endChar": 3
+      },
+      "revId": "2d4316bde2588de7ff317177880d2a71164f271b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6e583fc2_cc246888",
+        "filename": "polygerrit-ui/app/utils/commit-message-formatter-util.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-10-21T08:38:14Z",
+      "side": 1,
+      "message": "nit: move this to it\u0027s own function.",
+      "range": {
+        "startLine": 42,
+        "startChar": 2,
+        "endLine": 69,
+        "endChar": 3
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "f3bba009_efa916fd",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/utils/commit-message-formatter-util.ts",
+              "range": {
+                "startLine": 42,
+                "startChar": 0,
+                "endLine": 53,
+                "endChar": 0
+              },
+              "replacement": "  portFootersFromBody(formattedBody, formattedFooter);\n\n  return {\n    subject: formattedSubject,\n    body: formattedBody,\n    footer: formattedFooter,\n    hasTrailingBlankLine: message.hasTrailingBlankLine,\n  };\n}\n\n/**\n * Check if last line of \"Body\" follows the \"footer\" format and if yes, then transfer it to the \"footer section\"\n * So if the commit message is\n * Foo\n *\n * Footer1: val1\n *\n * Footer2: val2\n *\n * Current message.footer will only contain val2 and the rest will be considered in the body\n */\nfunction portFootersFromBody(formattedBody: string[], formattedFooter: string[]) {\n"
+            },
+            {
+              "path": "polygerrit-ui/app/utils/commit-message-formatter-util.ts",
+              "range": {
+                "startLine": 70,
+                "startChar": 0,
+                "endLine": 77,
+                "endChar": 0
+              },
+              "replacement": ""
+            }
+          ]
+        }
+      ],
+      "revId": "2d4316bde2588de7ff317177880d2a71164f271b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

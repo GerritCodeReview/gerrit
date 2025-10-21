@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "381d5679_603b142a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2025-10-21T10:17:06Z",
+      "side": 1,
+      "message": "nit: worth linking the change [1]\n\n[1]: https://review.gerrithub.io/c/eclipse-jgit/jgit/+/1221798",
+      "range": {
+        "startLine": 11,
+        "startChar": 41,
+        "endLine": 11,
+        "endChar": 50
+      },
+      "revId": "437a7cc77fc3c9b662a7b0c587e07c8f1fd20d99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

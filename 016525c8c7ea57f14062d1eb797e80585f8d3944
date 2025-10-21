@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9dbd0b0f_e74e0a22",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-10-21T12:07:24Z",
+      "side": 1,
+      "message": "```suggestion\nDocumentation: Add subscription to repo-discuss to contribution prereqs\n```",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 77
+      },
+      "revId": "016525c8c7ea57f14062d1eb797e80585f8d3944",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d205895d_dfe84f8c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-10-21T12:07:24Z",
+      "side": 1,
+      "message": "Missing `Release-Notes: Document that all contributors need to subscribe to repo-discuss in order to be enabled to create changes or push new patch-sets.`",
+      "revId": "016525c8c7ea57f14062d1eb797e80585f8d3944",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

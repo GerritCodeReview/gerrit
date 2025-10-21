@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3116cd19_804d0675",
+        "filename": "polygerrit-ui/app/utils/commit-message-formatter-util.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-10-21T08:44:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6d5f8ad7_09c9974f",
+      "range": {
+        "startLine": 40,
+        "startChar": 26,
+        "endLine": 40,
+        "endChar": 38
+      },
+      "revId": "2d4316bde2588de7ff317177880d2a71164f271b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e94d5b84_dd209996",
@@ -65,6 +89,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b5b5c475_fb610cb2",
+        "filename": "polygerrit-ui/app/utils/commit-message-formatter-util.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-10-21T08:44:46Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "e94d5b84_dd209996",
+      "range": {
+        "startLine": 52,
+        "startChar": 3,
+        "endLine": 52,
+        "endChar": 5
+      },
+      "revId": "2d4316bde2588de7ff317177880d2a71164f271b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "41b6a526_1ba3a53d",
@@ -78,6 +126,30 @@
       "writtenOn": "2025-10-21T08:38:14Z",
       "side": 1,
       "message": "This can be rewritten simpler using findLastIndex.\n\n\n\n```\nlet newBodyEnd \u003d findLastIndex(line \u003d\u003e !line.match(FOOTER_REGEX) \u0026\u0026 line.trim() !\u003d\u003d \u0027\u0027) + 1\n\nformattedBody \u003d formattedBody.slice(0, newBodyEnd);\nformattedFooter.unshift(...formattedBody.slice(newBodyEnd));\n```",
+      "range": {
+        "startLine": 53,
+        "startChar": 2,
+        "endLine": 66,
+        "endChar": 3
+      },
+      "revId": "2d4316bde2588de7ff317177880d2a71164f271b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "48ac3468_06fa01c1",
+        "filename": "polygerrit-ui/app/utils/commit-message-formatter-util.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-10-21T08:44:46Z",
+      "side": 1,
+      "message": "My compiler complains that the eslib needs to be updated.\n\nI don\u0027t see any usage in our codebase as well.\n\nAre you sure this can be used?",
+      "parentUuid": "41b6a526_1ba3a53d",
       "range": {
         "startLine": 53,
         "startChar": 2,
@@ -135,6 +207,30 @@
           ]
         }
       ],
+      "revId": "2d4316bde2588de7ff317177880d2a71164f271b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d1381365_2c225f9b",
+        "filename": "polygerrit-ui/app/utils/commit-message-formatter-util.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-10-21T08:44:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6e583fc2_cc246888",
+      "range": {
+        "startLine": 42,
+        "startChar": 2,
+        "endLine": 69,
+        "endChar": 3
+      },
       "revId": "2d4316bde2588de7ff317177880d2a71164f271b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -98,6 +98,24 @@
       "message": "Do we have to include this because we\u0027ll use jgit\u0027s MODULE.bazel as part of this change? Is there a way to split that? Can we stay with the jgit WORKSPACE file in this change and do more in a follow up?",
       "revId": "7f83f398c807b3d48bcb132f185a0071960d2cec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6726b051_4ae68a66",
+        "filename": "MODULE.bazel",
+        "patchSetId": 13
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-10-21T11:42:12Z",
+      "side": 1,
+      "message": "I have experimented a bit and it looks like we have to include jgit\u0027s module, since we directly depend on build rules in jgit that depend on repositories in the MODULE.bazel file. If we just use a local_repository(), it fails to find the repository.",
+      "parentUuid": "8d1279b6_217a390a",
+      "revId": "7f83f398c807b3d48bcb132f185a0071960d2cec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

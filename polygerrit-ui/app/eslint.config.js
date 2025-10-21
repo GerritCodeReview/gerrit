@@ -324,13 +324,13 @@ module.exports = {
         ],
         '@typescript-eslint/no-unused-expressions': 'off',
         '@typescript-eslint/no-unsafe-declaration-merging': 'off',
-        // https://github.com/mysticatea/eslint-plugin-node/blob/master/docs/rules/no-unsupported-features/es-builtins.md
+        // https://github.com/eslint-community/eslint-plugin-n/blob/master/docs/rules/no-unsupported-features/es-builtins.md
         'n/no-unsupported-features/es-builtins': 'off',
-        // https://github.com/mysticatea/eslint-plugin-node/blob/master/docs/rules/no-unsupported-features/node-builtins.md
+        // https://github.com/eslint-community/eslint-plugin-n/blob/master/docs/rules/no-unsupported-features/node-builtins.md
         'n/no-unsupported-features/node-builtins': 'off',
         // Disable no-invalid-this for ts files, because it incorrectly reports
         // errors in some cases (see https://github.com/typescript-eslint/typescript-eslint/issues/491)
-        // At the same tigit llme, we are using typescript in a strict mode and
+        // At the same time, we are using typescript in a strict mode and
         // it catches almost all errors related to invalid usage of this.
         'no-invalid-this': 'off',
 

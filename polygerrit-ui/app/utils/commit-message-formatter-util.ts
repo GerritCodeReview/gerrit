@@ -392,7 +392,7 @@ export function parseCommitMessageString(messageString: string): CommitMessage {
 
   // Extract body lines, removing all leading/trailing blank lines
   body = lines.slice(
-    firstNonEmptyLineIndex(lines, 2, /* direction */ 1),
+    firstNonEmptyLineIndex(lines, 1, /* direction */ 1),
     firstNonEmptyLineIndex(lines, footerStartIndex - 1, /* direction */ -1) + 1
   );
 

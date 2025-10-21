@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "058cbc4a_326e5271",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4410780
+      },
+      "writtenOn": "2025-10-21T18:56:39Z",
+      "side": 1,
+      "message": "520821: Move header sizes to app-theme.ts | https://gerrit-review.googlesource.com/c/gerrit/+/520821",
+      "revId": "26d441bc0a0c0f68ccaf226f1adf7daae8bd9742",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

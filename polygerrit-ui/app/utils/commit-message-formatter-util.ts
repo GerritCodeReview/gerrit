@@ -391,8 +391,15 @@ export function parseCommitMessageString(messageString: string): CommitMessage {
   }
 
   // Extract body lines, removing all leading/trailing blank lines
+  // If the second line is a blank new line then we check from index 2 since line 1 is not useful
+  // If the second line is not a blank line then we check from index 1 since line 1 is useful
+  // Ideally(and in most cases) users will leave the second line after the subject empty
   body = lines.slice(
-    firstNonEmptyLineIndex(lines, 2, /* direction */ 1),
+    firstNonEmptyLineIndex(
+      lines,
+      lines[1].trim() === '' ? 2 : 1,
+      /* direction */ 1
+    ),
     firstNonEmptyLineIndex(lines, footerStartIndex - 1, /* direction */ -1) + 1
   );
 

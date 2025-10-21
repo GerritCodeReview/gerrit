@@ -160,6 +160,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "76d0915b_38dd1d0e",
+        "filename": "polygerrit-ui/app/utils/commit-message-formatter-util.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-10-21T08:51:16Z",
+      "side": 1,
+      "message": "Feel free to skip if findLastIndex not supported",
+      "parentUuid": "48ac3468_06fa01c1",
+      "range": {
+        "startLine": 53,
+        "startChar": 2,
+        "endLine": 66,
+        "endChar": 3
+      },
+      "revId": "2d4316bde2588de7ff317177880d2a71164f271b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6e583fc2_cc246888",

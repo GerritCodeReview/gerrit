@@ -32,11 +32,38 @@ const MAX_SUBJECT_LENGTH = 72;
 const MAX_LINE_LENGTH = 72;
 const INDENTATION_THRESHOLD = 4;
 const BULLET_POINT_REGEX = /^\s*[-+*#]\s/;
+const FOOTER_REGEX = /^([\w-]+):[ \t]+(.+)$/;
 
 function formatCommitMessage(message: CommitMessage): CommitMessage {
   const formattedSubject = formatSubject(message.subject);
   const formattedBody = formatBody(message.body);
   const formattedFooter = formatFooter(message.footer);
+
+  /*
+   * Check if last line of "Body" follows the "footer" format and if yes, then transfer it to the "footer section"
+   * So if the commit message is
+   * Foo
+   *
+   * Footer1: val1
+   *
+   * Footer2: val2
+   *
+   * Current message.footer will only contain val2 and the rest will be considered in the body
+   */
+  const footersToPortOver = [];
+  for (let i = formattedBody.length - 1; i >= 0; i--) {
+    const line = formattedBody[i];
+    const match = line.match(FOOTER_REGEX);
+    if (match) {
+      footersToPortOver.push(line);
+      formattedBody.splice(i, 1);
+    } else {
+      break;
+    }
+  }
+  if (footersToPortOver.length > 0) {
+    formattedFooter.unshift(...footersToPortOver.reverse());
+  }
 
   return {
     subject: formattedSubject,

@@ -184,6 +184,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c7430fe6_7a714319",
+        "filename": "polygerrit-ui/app/utils/commit-message-formatter-util.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-10-21T08:51:22Z",
+      "side": 1,
+      "message": "Also it\u0027s not the same code since I intentionally want to remove the newlines between footers when I add them back to the body.\n\nThis code also seems confusing\n\nIn the first line you do `formattedBody \u003d formattedBody.slice(0, newBodyEnd);` which means remove everything then slice it again?\n\nMy suggestion is to keep it a bit more verbose but easier to read.",
+      "parentUuid": "48ac3468_06fa01c1",
+      "range": {
+        "startLine": 53,
+        "startChar": 2,
+        "endLine": 66,
+        "endChar": 3
+      },
+      "revId": "2d4316bde2588de7ff317177880d2a71164f271b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6e583fc2_cc246888",

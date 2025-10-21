@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b4bb5cb5_a3611a7e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-10-21T09:32:52Z",
+      "side": 1,
+      "message": "@thomas.draebing@sap.com should we squash it with previous one as otherwise it will never get green?",
+      "revId": "d47c994a71585ab7c5c9075ef8f114a8383e255b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

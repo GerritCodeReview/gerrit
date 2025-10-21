@@ -22,6 +22,30 @@
       },
       "revId": "437a7cc77fc3c9b662a7b0c587e07c8f1fd20d99",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0d80f743_89a1b15d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-10-21T12:01:50Z",
+      "side": 1,
+      "message": "Not sure it\u0027s worth it: from the SHA1, you can look up the change by putting it in the search bar.",
+      "parentUuid": "381d5679_603b142a",
+      "range": {
+        "startLine": 11,
+        "startChar": 41,
+        "endLine": 11,
+        "endChar": 50
+      },
+      "revId": "437a7cc77fc3c9b662a7b0c587e07c8f1fd20d99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

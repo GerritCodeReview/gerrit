@@ -282,8 +282,6 @@ export class GrAppElement extends LitElement {
           display: flex;
           flex-direction: column;
           min-height: 100%;
-          --main-header-height: 48px;
-          --main-footer-height: 36px;
         }
         gr-main-header,
         footer {

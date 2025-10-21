@@ -433,6 +433,8 @@ const appThemeCss = safeStyleSheet`
     --header-text-color: black;
     --header-title-content: 'Gerrit';
     --header-title-font-size: 1.75rem;
+    --main-header-height: 48px;
+    --main-footer-height: 36px;
 
     /* diff colors */
     --dark-add-highlight-color: #aaf2aa;

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "147fe732_5a738886",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-10-21T08:55:49Z",
+      "side": 1,
+      "message": "One test is failing because it was asserting the exact string inside a BC failure:\n\n```\n1) addMalformedGpgKey[default](com.google.gerrit.acceptance.api.accounts.AccountIT)\nvalue of           : throwable.getMessage()\nexpected to contain: Failed to parse GPG keys\nbut was            : Expected exactly one PUBLIC KEY BLOCK\n\tat com.google.gerrit.acceptance.api.accounts.AccountIT.addMalformedGpgKey(AccountIT.java:2000)\nCaused by: com.google.gerrit.extensions.restapi.BadRequestException: Expected exactly one PUBLIC KEY BLOCK\n\tat com.google.gerrit.gpg.server.PostGpgKeys.readKeysToAdd(PostGpgKeys.java:201)\n\tat com.google.gerrit.gpg.server.PostGpgKeys.apply(PostGpgKeys.java:141)\n\tat com.google.gerrit.gpg.api.GpgApiAdapterImpl.putGpgKeys(GpgApiAdapterImpl.java:86)\n\tat com.google.gerrit.server.api.accounts.AccountApiImpl.putGpgKeys(AccountApiImpl.java:542)\n\tat com.google.gerrit.acceptance.api.accounts.AccountIT.lambda$addGpgKey$128(AccountIT.java:3980)\n\tat com.google.gerrit.testing.TestActionRefUpdateContext.testRefAction(TestActionRefUpdateContext.java:56)\n\tat com.google.gerrit.acceptance.api.accounts.AccountIT.addGpgKey(AccountIT.java:3972)\n\tat com.google.gerrit.acceptance.api.accounts.AccountIT.addGpgKey(AccountIT.java:3967)\n\tat com.google.gerrit.acceptance.api.accounts.AccountIT.lambda$addMalformedGpgKey$50(AccountIT.java:1999)\n\tat com.google.gerrit.testing.GerritJUnit.assertThrows(GerritJUnit.java:45)\n\tat com.google.gerrit.acceptance.api.accounts.AccountIT.addMalformedGpgKey(AccountIT.java:1999)\n```",
+      "revId": "dc346842224277a3182aa7b553510a1e81ae3958",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

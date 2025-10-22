@@ -1,12 +1,16 @@
 :linkattrs:
 = Gerrit Code Review - Contributing
 
-[[cla]]
-== Contributor License Agreement
+[[prerequisites]]
+== Prerequisites
 
-In order to contribute to Gerrit a link:dev-cla.html[Contributor
-License Agreement,role=external,window=_blank] must be completed before
-contributions are accepted.
+In order to contribute to Gerrit and have contributions accepted by
+the server, you must with your Google account:
+
+* complete a link:dev-cla.html[Contributor License Agreement,role=external,window=_blank]
+* subscribe to the
+  link:https://groups.google.com/d/forum/repo-discuss[repo-discuss,role=external,window=_blank]
+  mailing list
 
 [[contribution-processes]]
 == Contribution Processes

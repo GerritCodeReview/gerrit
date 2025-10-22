@@ -178,6 +178,24 @@
       "parentUuid": "cf169c32_0e28768d",
       "revId": "e403bab25fda00564c8db24512153f07064e2362",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2fdddb96_b86710c2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-10-22T16:03:42Z",
+      "side": 1,
+      "message": "yeh, see https://phabricator.wikimedia.org/F66747220 and https://phabricator.wikimedia.org/F66747221. You can see it if you make the width of your browser smaller that it triggers the mobile view. https://gerrit-review.googlesource.com/c/gerrit/+/517903 fixed it but was reverted when the whole stack was reverted. But then never was re-added when everything was re-reverted.",
+      "parentUuid": "2c052601_09c684ab",
+      "revId": "e403bab25fda00564c8db24512153f07064e2362",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

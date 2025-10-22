@@ -34,6 +34,24 @@
       "parentUuid": "b4bb5cb5_a3611a7e",
       "revId": "d47c994a71585ab7c5c9075ef8f114a8383e255b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "126c4a1d_6e90b395",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-10-22T05:44:06Z",
+      "side": 1,
+      "message": "I can go ahead and clear them out in this change so that you would focus on the remaining parts.",
+      "parentUuid": "987d078e_8ecbb184",
+      "revId": "d47c994a71585ab7c5c9075ef8f114a8383e255b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

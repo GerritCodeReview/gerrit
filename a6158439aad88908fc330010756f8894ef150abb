@@ -22,6 +22,30 @@
       },
       "revId": "a6158439aad88908fc330010756f8894ef150abb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "609c6028_d15e563c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-lib-loader/resemble-types.d.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-10-22T09:21:46Z",
+      "side": 1,
+      "message": "Not necessarily. This file was originally created in 2021 and then removed, because it was not required for some reason. I noticed that it now is required again and readded it.",
+      "parentUuid": "03a00cd4_4962e9d0",
+      "range": {
+        "startLine": 3,
+        "startChar": 17,
+        "endLine": 3,
+        "endChar": 21
+      },
+      "revId": "a6158439aad88908fc330010756f8894ef150abb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

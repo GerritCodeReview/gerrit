@@ -16,6 +16,24 @@
       "message": "@luca.milanesio@gmail.com can you take a look at [failure](https://gerrit-ci.gerritforge.com/job/Gerrit-verifier-chrome-latest/27540/console) it complains about missing `WORKSPACE` now...",
       "revId": "4903b2808684c720345bc53293bdc6b57b7a91c6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c0b00d5b_de5967e8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-10-22T07:29:31Z",
+      "side": 1,
+      "message": "I believe this is the command that fails:\n\n```\n# Whilst all the rest of Gerrit is able to automatically sync the Bazel repositories\n# the PolyGerrit part fails to do so when the working directory is replaced with a\n# fresh clone from the remote Git repository\nbazelisk sync --only\u003dnpm --only\u003dtools_npm --only\u003dui_npm --only\u003dplugins_npm\n```",
+      "parentUuid": "87aff915_8b328144",
+      "revId": "4903b2808684c720345bc53293bdc6b57b7a91c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

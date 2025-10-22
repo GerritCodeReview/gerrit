@@ -1,10 +1,6 @@
 load("//:version.bzl", "GERRIT_VERSION")
 load("//tools/maven:package.bzl", "maven_package")
 
-MAVEN_REPOSITORY = "OSSRH-staging"
-
-URL = "https://ossrh-staging-api.central.sonatype.com/content/repositories/snapshots" if GERRIT_VERSION.endswith("-SNAPSHOT") else "https://ossrh-staging-api.central.sonatype.com/service/local/staging/deploy/maven2"
-
 maven_package(
     src = {
         "gerrit-acceptance-framework": "//java/com/google/gerrit/acceptance:libframework-lib-src.jar",
@@ -21,8 +17,6 @@ maven_package(
         "gerrit-extension-api": "//java/com/google/gerrit/extensions:extension-api_deploy.jar",
         "gerrit-plugin-api": "//plugins:plugin-api_deploy.jar",
     },
-    repository = MAVEN_REPOSITORY,
-    url = URL,
     version = GERRIT_VERSION,
     war = {"gerrit-war": "//:release"},
 )

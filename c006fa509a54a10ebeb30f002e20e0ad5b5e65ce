@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "50c67b7f_db3c278d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2155,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-10-22T16:42:17Z",
+      "side": 1,
+      "message": "This new line is a bit confusing. If you\u0027re trying to show the correct syntax for a relative path, I would do it like this:\n```suggestion\n  javaOptions \u003d -Dlog4j.configuration\u003dfile:etc/log4j.properties # or use a relative path\n```\n\nBut I\u0027m not sure we should have that example, because I think that relative path depends on how someone starts Gerrit. i.e. unlike for other configs, this is read directly by reload4j and so we don\u0027t make it relative to `$site_dir`.",
+      "revId": "c006fa509a54a10ebeb30f002e20e0ad5b5e65ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

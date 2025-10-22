@@ -69,4 +69,4 @@ fi
 ${BAZEL_CMD} build //tools/maven:gen_${command} "$@" || \
   { echo "${BAZEL_CMD} failed to build gen_${command}. Use VERBOSE=1 for more info" ; exit 1 ; }
 
-./bazel-bin/tools/maven/${command}.sh
+echo ./bazel-bin/tools/maven/${command}.sh

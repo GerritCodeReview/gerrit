@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "87aff915_8b328144",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-10-22T05:42:27Z",
+      "side": 1,
+      "message": "@luca.milanesio@gmail.com can you take a look at [failure](https://gerrit-ci.gerritforge.com/job/Gerrit-verifier-chrome-latest/27540/console) it complains about missing `WORKSPACE` now...",
+      "revId": "4903b2808684c720345bc53293bdc6b57b7a91c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

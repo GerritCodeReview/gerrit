@@ -160,6 +160,24 @@
       "parentUuid": "7315f15c_5fa2e382",
       "revId": "e403bab25fda00564c8db24512153f07064e2362",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2c052601_09c684ab",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-10-22T14:59:33Z",
+      "side": 1,
+      "message": "Can you send a screenshot?\n\nIs this broken at HEAD or also on gerrit-review?",
+      "parentUuid": "cf169c32_0e28768d",
+      "revId": "e403bab25fda00564c8db24512153f07064e2362",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

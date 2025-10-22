@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "96a44816_0c0b257a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4425680
+      },
+      "writtenOn": "2025-10-22T11:55:48Z",
+      "side": 1,
+      "message": "Cool .swim drowning",
+      "revId": "39ee2b9219953ef8e8bdd21c59703bcf9bc63b29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

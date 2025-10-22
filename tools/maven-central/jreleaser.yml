@@ -1,0 +1,40 @@
+# JReleaser config for publishing Gerrit artifacts to Maven Central Portal.
+project:
+  name: gerrit
+  description: Gerrit Code Review
+  license: Apache-2.0
+  authors: [Gerrit maintainers]
+  languages:
+    java:
+      groupId: com.google.gerrit
+
+signing:
+  active: RELEASE
+  armored: true
+  mode: MEMORY
+
+deploy:
+  maven:
+    mavenCentral:
+      com.google.gerrit:
+        active: RELEASE
+        url: https://central.sonatype.com/api/v1/publisher
+        snapshotSupported: false
+        authorization: BASIC
+        applyMavenCentralRules: true
+        sign: true
+        verifyPom: false
+        namespace: com.google.gerrit
+        stagingRepositories:
+          - staging-deploy
+        connectTimeout: 20
+        readTimeout: 600
+        retryDelay: 30
+        maxRetries: 5
+        # NOTE: Setting `sourceJar` and `javaDocs` to false doesn't mean we are not
+        # uploading sources and javadocs to maven, it just means we are disabling the
+        # verification that `-sources.jar` and `-javadoc.jar` artifacts are staged.
+        # This allows us to use this JReleaser file to upload the Gerrit war file,
+        # which does not have sources and javadocs files associated.
+        sourceJar: false
+        javadocJar: false

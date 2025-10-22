@@ -1493,9 +1493,6 @@ export class GrReplyDialog extends LitElement {
 
   // visible for testing
   async send(includeComments: boolean, startReview: boolean) {
-    // ChangeModel will be updated once the reply returns at which point the
-    // timer will be ended.
-    this.reporting.time(Timing.SEND_REPLY);
     const labels = this.getLabelScores().getLabelValues();
     if (labels[StandardLabels.CODE_REVIEW] === 2) {
       this.reporting.reportInteraction(Interaction.CODE_REVIEW_APPROVAL);
@@ -1589,6 +1586,9 @@ export class GrReplyDialog extends LitElement {
       ))
     )
       return;
+    // ChangeModel will be updated once the reply returns at which point the
+    // timer will be ended.
+    this.reporting.time(Timing.SEND_REPLY);
     this.getNavigation().blockNavigation('sending review');
     return this.saveReview(reviewInput, errFn)
       .then(result => {

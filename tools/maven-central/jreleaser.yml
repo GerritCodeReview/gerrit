@@ -1,0 +1,46 @@
+# JReleaser config for publishing Gerrit artifacts to Maven Central Portal.
+project:
+  name: gerrit
+  # version is injected by -P version=...
+  version: '{{version}}'
+  description: Gerrit Code Review
+  license: Apache-2.0
+  authors: [Gerrit maintainers]
+  languages:
+    java:
+      groupId: com.google.gerrit
+
+signing:
+  # Let JReleaser handle signing at deploy time (uses your local GPG setup).
+  active: RELEASE
+  armored: true
+  mode: COMMAND         # Uses gpg found in PATH
+
+deploy:
+  maven:
+    mavenCentral:
+      com.google.gerrit:
+        active: RELEASE
+        url: https://central.sonatype.com/api/v1/publisher
+        snapshotSupported: false
+        authorization: BASIC
+        applyMavenCentralRules: true
+        # We supply POMs; JReleaser will sign artifacts and attach .asc automatically.
+        sign: true
+        verifyPom: false
+        namespace: com.google.gerrit
+        stagingRepositories:
+          - tools/maven-central/staging-deploy
+        connectTimeout: 20
+        readTimeout: 60
+        retryDelay: 60
+        maxRetries: 100
+
+files:
+  # Include everything we may stage (POMs, jars, wars, sources, javadoc)
+  globs:
+    - pattern: tools/maven-central/staging-deploy/**/*.pom
+    - pattern: tools/maven-central/staging-deploy/**/*.jar
+    - pattern: tools/maven-central/staging-deploy/**/*.war
+    - pattern: tools/maven-central/staging-deploy/**/*-sources.jar
+    - pattern: tools/maven-central/staging-deploy/**/*-javadoc.jar

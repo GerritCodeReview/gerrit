@@ -5,25 +5,287 @@
  */
 import '../../test/common-test-setup';
 import './gr-checks-results';
-import {
-  GrChecksResults,
-  GrResultExpanded,
-  GrResultRow,
-} from './gr-checks-results';
+import {GrChecksResults} from './gr-checks-results';
 import {html} from 'lit';
 import {assert, fixture} from '@open-wc/testing';
-import {checksModelToken, RunResult} from '../../models/checks/checks-model';
+import {checksModelToken} from '../../models/checks/checks-model';
 import {
+<<<<<<< PATCH SET (1d1d4eb40ff79d8f2dcdf72ba9d8848c1712a792 Extract gr-result-row into it's own file)
+  setAllFakeRuns,
+} from '../../models/checks/checks-fakes';
+||||||| BASE      (f482d8a54feaad5b182dfe2e429db371a4454f6a Merge "Move footers found at the end of the body into footer)
+  fakeRun0,
+  fakeRun1,
+  setAllFakeRuns,
+} from '../../models/checks/checks-fakes';
+=======
   checkRun0,
   checkRun1,
   setAllcheckRuns,
 } from '../../test/test-data-generators';
+>>>>>>> BASE      (efe577c1f1e2b8d16428ab454c0e48d3277671d8 Fix context input chip text color in dark mode)
 import {resolve} from '../../models/dependency';
-import {createLabelInfo} from '../../test/test-data-generators';
-import {assertIsDefined, query, queryAndAssert} from '../../utils/common-util';
-import {PatchSetNumber} from '../../api/rest-api';
+import {assertIsDefined, queryAndAssert} from '../../utils/common-util';
 import {GrDropdownList} from '../shared/gr-dropdown-list/gr-dropdown-list';
 
+<<<<<<< PATCH SET (1d1d4eb40ff79d8f2dcdf72ba9d8848c1712a792 Extract gr-result-row into it's own file)
+||||||| BASE      (f482d8a54feaad5b182dfe2e429db371a4454f6a Merge "Move footers found at the end of the body into footer)
+suite('gr-result-row test', () => {
+  let element: GrResultRow;
+
+  setup(async () => {
+    const result = {...fakeRun0, ...fakeRun0.results![0]};
+    element = await fixture<GrResultRow>(
+      html`<gr-result-row .result=${result}></gr-result-row>`
+    );
+    element.shouldRender = true;
+  });
+
+  test('renders label association', async () => {
+    element.result = {...element.result!, labelName: 'test-label', patchset: 1};
+    element.labels = {'test-label': createLabelInfo()};
+
+    // don't show when patchset does not match latest
+    element.latestPatchNum = 2 as PatchSetNumber;
+    await element.updateComplete;
+    let labelDiv = query(element, '.label');
+    assert.isNotOk(labelDiv);
+
+    element.latestPatchNum = 1 as PatchSetNumber;
+    await element.updateComplete;
+    labelDiv = queryAndAssert(element, '.label');
+    assert.dom.equal(
+      labelDiv,
+      /* HTML */ `
+        <div class="approved label">
+          <span> test-label +1 </span>
+        </div>
+      `
+    );
+  });
+
+  test('renders', async () => {
+    await element.updateComplete;
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `
+        <div class="flex">
+          <gr-hovercard-run> </gr-hovercard-run>
+          <div class="name" role="button" tabindex="0">
+            FAKE Error Finder Finder Finder Finder Finder Finder Finder
+          </div>
+          <div class="space"></div>
+        </div>
+        <div class="summary-cell">
+          <gr-tooltip-content
+            has-tooltip=""
+            position-below=""
+            title="Link to details"
+          >
+            <a
+              class="link"
+              href="https://www.google.com"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <gr-icon
+                aria-label="external link to details"
+                class="link"
+                icon="open_in_new"
+              >
+              </gr-icon>
+            </a>
+          </gr-tooltip-content>
+          <div
+            class="summary"
+            title="I would like to point out this error: 1 is not equal to 2!"
+          >
+            I would like to point out this error: 1 is not equal to 2!
+          </div>
+          <div class="message"></div>
+          <div class="tags">
+            <gr-tooltip-content
+              has-tooltip=""
+              position-below=""
+              title="A category tag for this check result. Click to filter."
+            >
+              <button class="tag">
+                <span> OBSOLETE </span>
+              </button>
+            </gr-tooltip-content>
+            <gr-tooltip-content
+              has-tooltip=""
+              position-below=""
+              title="A category tag for this check result. Click to filter."
+            >
+              <button class="tag">
+                <span> E2E </span>
+              </button>
+            </gr-tooltip-content>
+          </div>
+        </div>
+        <div
+          aria-checked="false"
+          aria-label="Expand result row"
+          class="show-hide"
+          hidden=""
+          role="switch"
+          tabindex="0"
+        >
+          <gr-icon icon="expand_more"> </gr-icon>
+        </div>
+      `
+    );
+  });
+
+  test('click summary, toggle expand', async () => {
+    element.isExpandable = true;
+    await element.updateComplete;
+    assert.isFalse(element.isExpanded);
+
+    const summaryDiv: HTMLElement =
+      element.shadowRoot!.querySelector('.summary')!;
+    summaryDiv.click();
+    await element.updateComplete;
+    assert.isTrue(element.isExpanded);
+
+    summaryDiv.click();
+    await element.updateComplete;
+    assert.isFalse(element.isExpanded);
+  });
+});
+
+suite('gr-result-expanded test', () => {
+  let element: GrResultExpanded;
+
+  setup(async () => {
+    element = await fixture<GrResultExpanded>(
+      html`<gr-result-expanded></gr-result-expanded>`
+    );
+    await element.updateComplete;
+  });
+
+  test('renders fake result 1 of run 0', async () => {
+    element.result = {...fakeRun0, ...fakeRun0.results![1]} as RunResult;
+    await element.updateComplete;
+
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `
+        <div class="links">
+          <a
+            href="https://google.com"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <gr-icon class="link" icon="download"> </gr-icon>
+            <span> Download </span>
+          </a>
+          <a
+            href="https://google.com"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <gr-icon class="link" icon="system_update"> </gr-icon>
+            <span> Download </span>
+          </a>
+          <a
+            href="https://google.com"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <gr-icon class="link" filled="" icon="image"> </gr-icon>
+            <span> Link to image </span>
+          </a>
+          <a
+            href="https://google.com"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <gr-icon class="link" filled="" icon="image"> </gr-icon>
+            <span> Link to image </span>
+          </a>
+          <a
+            href="https://google.com"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <gr-icon class="link" filled="" icon="bug_report"> </gr-icon>
+            <span> Link for reporting a problem </span>
+          </a>
+          <a
+            href="https://google.com"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <gr-icon class="link" icon="help"> </gr-icon>
+            <span> Link to help page </span>
+          </a>
+          <a
+            href="https://google.com"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <gr-icon class="link" icon="history"> </gr-icon>
+            <span> Link to result history </span>
+          </a>
+        </div>
+        <div class="links">
+          <a
+            href="https://google.com"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <gr-icon class="link" icon="open_in_new"> </gr-icon>
+            <span> Link to details </span>
+          </a>
+          <a
+            href="https://google.com"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <gr-icon class="link" filled="" icon="image"> </gr-icon>
+            <span> Link to image </span>
+          </a>
+        </div>
+        <gr-endpoint-decorator name="check-result-expanded">
+          <gr-endpoint-param name="run"> </gr-endpoint-param>
+          <gr-endpoint-param name="result"> </gr-endpoint-param>
+          <gr-formatted-text class="message"> </gr-formatted-text>
+        </gr-endpoint-decorator>
+        <div class="useful">
+          <div class="title">Was this helpful?</div>
+          <gr-checks-action icon="thumb_up"> </gr-checks-action>
+          <gr-checks-action icon="thumb_down"> </gr-checks-action>
+        </div>
+      `
+    );
+  });
+
+  test('renders fake result 2 of run 1', async () => {
+    element.result = {...fakeRun1, ...fakeRun1.results![2]} as RunResult;
+    await element.updateComplete;
+
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `
+        <div class="links"></div>
+        <gr-endpoint-decorator name="check-result-expanded">
+          <gr-endpoint-param name="run"> </gr-endpoint-param>
+          <gr-endpoint-param name="result"> </gr-endpoint-param>
+          <gr-formatted-text class="message"> </gr-formatted-text>
+        </gr-endpoint-decorator>
+        <gr-checks-fix-preview> </gr-checks-fix-preview>
+        <div class="useful">
+          <div class="title">Was this helpful?</div>
+          <gr-checks-action icon="thumb_up"> </gr-checks-action>
+          <gr-checks-action icon="thumb_down"> </gr-checks-action>
+        </div>
+      `
+    );
+  });
+});
+=======
 suite('gr-result-row test', () => {
   let element: GrResultRow;
 
@@ -279,6 +541,7 @@ suite('gr-result-expanded test', () => {
     );
   });
 });
+>>>>>>> BASE      (efe577c1f1e2b8d16428ab454c0e48d3277671d8 Fix context input chip text color in dark mode)
 
 suite('gr-checks-results test', () => {
   let element: GrChecksResults;

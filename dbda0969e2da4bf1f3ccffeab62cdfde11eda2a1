@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ec4ae7fb_bbfab068",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-10-24T13:55:23Z",
+      "side": 1,
+      "message": "There are still some issues with building plugins. Node_modules are not reliably containing all dependencies :-(. Specifically, terser seems to be missing. It is installed, when running `bazelisk build //tools/node_tools:node_modules`, but not when building a plugin like `delete-projects`",
+      "revId": "dbda0969e2da4bf1f3ccffeab62cdfde11eda2a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

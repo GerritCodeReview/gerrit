@@ -122,6 +122,7 @@ public class RevertSubmission
   private final GetRelated getRelated;
 
   private CherryPickInput cherryPickInput;
+  private Change cherryPickBaseChange;
   private List<ChangeInfo> results;
   private static final Pattern patternRevertSubject = Pattern.compile("Revert \"(.+)\"");
   private static final Pattern patternRevertSubjectWithNum =
@@ -359,12 +360,10 @@ public class RevertSubmission
     Change.Id revertId =
         commitUtil.createRevertChange(changeNotes, user.get(), revertInput, timestamp);
     results.add(json.noOptions().format(changeNotes.getProjectName(), revertId));
-    cherryPickInput.base =
-        changeNotesFactory
-            .createChecked(changeNotes.getProjectName(), revertId)
-            .getCurrentPatchSet()
-            .commitId()
-            .getName();
+    ChangeNotes revertChange =
+        changeNotesFactory.createChecked(changeNotes.getProjectName(), revertId);
+    cherryPickBaseChange = revertChange.getChange();
+    cherryPickInput.base = revertChange.getCurrentPatchSet().commitId().getName();
   }
 
   private CherryPickInput createCherryPickInput(RevertInput revertInput) {
@@ -593,6 +592,7 @@ public class RevertSubmission
               change.currentPatchSetId(),
               change.getProject(),
               revCommitId,
+              cherryPickBaseChange,
               cherryPickInput,
               BranchNameKey.create(
                   change.getProject(), RefNames.fullName(cherryPickInput.destination)),
@@ -603,12 +603,10 @@ public class RevertSubmission
               workInProgress,
               Optional.ofNullable(baseCommit));
       // save the commit as base for next cherryPick of that branch
-      cherryPickInput.base =
-          changeNotesFactory
-              .createChecked(ctx.getProject(), cherryPickResult.changeId())
-              .getCurrentPatchSet()
-              .commitId()
-              .getName();
+      ChangeNotes cherryPickChange =
+          changeNotesFactory.createChecked(ctx.getProject(), cherryPickResult.changeId());
+      cherryPickBaseChange = cherryPickChange.getChange();
+      cherryPickInput.base = cherryPickChange.getCurrentPatchSet().commitId().getName();
       results.add(json.noOptions().format(change.getProject(), cherryPickResult.changeId()));
       return true;
     }

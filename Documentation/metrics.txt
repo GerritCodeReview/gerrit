@@ -313,6 +313,9 @@ setting.
 * `http/server/rest_api/server_latency`: REST API call latency by view.
 ** `view`:
    view implementation class
+** `access_path`:
+   The access path through which the user accessed Gerrit (REST_API, WEB_BROWSER
+   or UNKNOWN).
 * `http/server/rest_api/response_bytes`: Size of REST API response on network
   (may be gzip compressed) by view.
 ** `view`:

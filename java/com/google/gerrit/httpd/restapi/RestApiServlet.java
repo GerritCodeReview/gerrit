@@ -763,7 +763,10 @@ public class RestApiServlet extends HttpServlet {
         globals.metrics.responseBytes.record(metric, responseBytes);
       }
       globals.metrics.serverLatency.record(
-          metric, System.nanoTime() - startNanos, TimeUnit.NANOSECONDS);
+          metric,
+          currentUser.getAccessPath().name(),
+          System.nanoTime() - startNanos,
+          TimeUnit.NANOSECONDS);
       globals.auditService.dispatch(
           new ExtendedHttpAuditEvent(
               sessionId,

@@ -25,7 +25,7 @@ import com.google.gerrit.metrics.Description.Units;
 import com.google.gerrit.metrics.Field;
 import com.google.gerrit.metrics.Histogram1;
 import com.google.gerrit.metrics.MetricMaker;
-import com.google.gerrit.metrics.Timer1;
+import com.google.gerrit.metrics.Timer2;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -38,7 +38,7 @@ public class RestApiMetrics {
 
   final Counter1<String> count;
   final Counter3<String, Integer, String> errorCount;
-  final Timer1<String> serverLatency;
+  final Timer2<String, String> serverLatency;
   final Histogram1<String> responseBytes;
 
   @Inject
@@ -46,6 +46,12 @@ public class RestApiMetrics {
     Field<String> viewField =
         Field.ofString("view", Metadata.Builder::className)
             .description("view implementation class")
+            .build();
+    Field<String> accessPathField =
+        Field.ofString("access_path", Metadata.Builder::requestType)
+            .description(
+                "The access path through which the user accessed Gerrit (REST_API, WEB_BROWSER or"
+                    + " UNKNOWN).")
             .build();
     count =
         metrics.newCounter(
@@ -71,7 +77,8 @@ public class RestApiMetrics {
             new Description("REST API call latency by view")
                 .setCumulative()
                 .setUnit(Units.MILLISECONDS),
-            viewField);
+            viewField,
+            accessPathField);
 
     responseBytes =
         metrics.newHistogram(

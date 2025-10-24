@@ -130,6 +130,7 @@ public class ChangeRestApiModule extends RestApiModule {
     child(REVIEWER_KIND, "votes").to(Votes.class);
 
     child(CHANGE_KIND, "revisions").to(Revisions.class);
+    get(REVISION_KIND).to(GetRevision.class);
     get(REVISION_KIND, "actions").to(GetRevisionActions.class);
     get(REVISION_KIND, "archive").to(GetArchive.class);
     post(REVISION_KIND, "cherrypick").to(CherryPick.class);

@@ -29,6 +29,7 @@ import com.google.gerrit.extensions.common.DiffInfo;
 import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.extensions.common.MergeableInfo;
+import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.common.TestSubmitRuleInfo;
 import com.google.gerrit.extensions.common.TestSubmitRuleInput;
 import com.google.gerrit.extensions.restapi.BinaryResult;
@@ -39,6 +40,8 @@ import java.util.Map;
 import java.util.Set;
 
 public interface RevisionApi {
+  RevisionInfo get() throws RestApiException;
+
   String description() throws RestApiException;
 
   void description(String description) throws RestApiException;

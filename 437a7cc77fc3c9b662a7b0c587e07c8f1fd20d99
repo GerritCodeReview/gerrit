@@ -80,6 +80,24 @@
       "message": "@ekempin@google.com Is there anything else needed for the LC+1 review?",
       "revId": "437a7cc77fc3c9b662a7b0c587e07c8f1fd20d99",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a3ef8951_8baba691",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-10-24T11:59:59Z",
+      "side": 1,
+      "message": "Well, before applying LC+1 we need to check whether the version is compatible with the version that we use internally. The process to ask for LC approval is at [1]. It involves filing an issue that is then processed by our onduty rotation. If you add me directly, I\u0027ll have a look, but if I\u0027m not onduty, it\u0027s only best effort, i.e. when I\u0027m not busy with other things.\n\nI have had a look at this now and found that we are using bouncycastle 1.81 internally. Could you upgrade to this version instead?\n\n[1] https://gerrit-review.googlesource.com/Documentation/dev-processes.html#upgrading-libraries",
+      "parentUuid": "a7737e4f_9d77bdf6",
+      "revId": "437a7cc77fc3c9b662a7b0c587e07c8f1fd20d99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

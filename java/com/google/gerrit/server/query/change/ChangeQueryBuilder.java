@@ -526,7 +526,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
 
   private static final Splitter RULE_SPLITTER = Splitter.on("=");
   private static final Splitter PLUGIN_SPLITTER = Splitter.on("_");
-  protected static final Splitter LABEL_SPLITTER = Splitter.on(",");
+  protected static final Splitter LABEL_SPLITTER_AND = Splitter.on("&");
+  @Deprecated protected static final Splitter LABEL_SPLITTER = Splitter.on(",");
 
   @Inject
   protected ChangeQueryBuilder(
@@ -1095,7 +1096,12 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     // label:Code-Review+2,owner
     // label:Code-Review+2,user=owner
     // label:Code-Review+1,count=2
-    List<String> splitReviewer = LABEL_SPLITTER.limit(2).splitToList(name);
+    List<String> splitReviewer;
+    if (name.contains("&")) {
+      splitReviewer = LABEL_SPLITTER_AND.limit(2).splitToList(name);
+    } else {
+      splitReviewer = LABEL_SPLITTER.limit(2).splitToList(name);
+    }
     name = splitReviewer.get(0); // remove all but the vote piece, e.g.'CodeReview=1'
 
     if (splitReviewer.size() == 2) {

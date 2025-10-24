@@ -1594,6 +1594,147 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
+  public void byLabelWithAndOperator() throws Exception {
+    Account.Id anotherUser = createAccount("anotheruser");
+    Project.NameKey project = Project.nameKey("repo");
+    repo = createAndOpenProject(project);
+    ChangeInserter ins = newChange(repo);
+    ChangeInserter ins2 = newChange(repo);
+    ChangeInserter ins4 = newChange(repo);
+    ChangeInserter ins5 = newChange(repo);
+    ChangeInserter ins6 = newChange(repo);
+
+    Change reviewMinus2Change = insert(project, ins);
+    getChangeApi(reviewMinus2Change).current().review(ReviewInput.reject());
+
+    Change reviewMinus1Change = insert(project, ins2);
+    getChangeApi(reviewMinus1Change).current().review(ReviewInput.dislike());
+
+    Change reviewPlus1Change = insert(project, ins4);
+    getChangeApi(reviewPlus1Change).current().review(ReviewInput.recommend());
+
+    Change reviewTwoPlus1Change = insert(project, ins5);
+    getChangeApi(reviewTwoPlus1Change).current().review(ReviewInput.recommend());
+    setRequestContextForUser(createAccount("user1"));
+    getChangeApi(reviewTwoPlus1Change).current().review(ReviewInput.recommend());
+    setRequestContextForUser(userId);
+
+    Change reviewPlus2Change = insert(project, ins6);
+    getChangeApi(reviewPlus2Change).current().review(ReviewInput.approve());
+
+    assertQuery("label:Code-Review=+1&" + anotherUser);
+    assertQuery(
+        String.format("label:Code-Review=+1&%s", userAccount.preferredEmail()),
+        reviewTwoPlus1Change,
+        reviewPlus1Change);
+    assertQuery(
+        String.format("label:Code-Review=+1&user=%s", userAccount.preferredEmail()),
+        reviewTwoPlus1Change,
+        reviewPlus1Change);
+    assertQuery("label:Code-Review=+1&Administrators", reviewTwoPlus1Change, reviewPlus1Change);
+    assertQuery(
+        "label:Code-Review=+1&group=Administrators", reviewTwoPlus1Change, reviewPlus1Change);
+    assertQuery("label:Code-Review=+1&user=owner", reviewTwoPlus1Change, reviewPlus1Change);
+    assertQuery("label:Code-Review=+1&owner", reviewTwoPlus1Change, reviewPlus1Change);
+    assertQuery("label:Code-Review=+2&owner", reviewPlus2Change);
+    assertQuery("label:Code-Review=-2&owner", reviewMinus2Change);
+
+    // count=0 is not allowed
+    Exception thrown =
+        assertThrows(BadRequestException.class, () -> assertQuery("label:Code-Review=+2&count=0"));
+    assertThat(thrown).hasMessageThat().isEqualTo("Argument count=0 is not allowed.");
+    assertQuery("label:Code-Review=1&count=1", reviewPlus1Change);
+    assertQuery("label:Code-Review=1&count=2", reviewTwoPlus1Change);
+    assertQuery("label:Code-Review=1&count>=2", reviewTwoPlus1Change);
+    assertQuery("label:Code-Review=1&count>1", reviewTwoPlus1Change);
+    assertQuery("label:Code-Review=1&count>=1", reviewTwoPlus1Change, reviewPlus1Change);
+    assertQuery("label:Code-Review=1&count=3");
+    thrown =
+        assertThrows(BadRequestException.class, () -> assertQuery("label:Code-Review=1&count=7"));
+    assertThat(thrown)
+        .hasMessageThat()
+        .isEqualTo("count=7 is not allowed. Maximum allowed value for count is 5.");
+
+    assertQuery("label:Code-Review=1&count<5", reviewTwoPlus1Change, reviewPlus1Change);
+    assertQuery("label:Code-Review=1&count<=5", reviewTwoPlus1Change, reviewPlus1Change);
+    assertQuery(
+        "label:Code-Review=1&count<=1", // reviewTwoPlus1Change is not matched since its count=2
+        reviewPlus1Change);
+    assertQuery(
+        "label:Code-Review=1&count<5 label:Code-Review=1&count>=1",
+        reviewTwoPlus1Change,
+        reviewPlus1Change);
+    assertQuery(
+        "label:Code-Review=1&count<=5 label:Code-Review=1&count>=1",
+        reviewTwoPlus1Change,
+        reviewPlus1Change);
+    assertQuery("label:Code-Review=1&count<=1 label:Code-Review=1&count>=1", reviewPlus1Change);
+
+    assertQuery("label:Code-Review=MAX&count=1", reviewPlus2Change);
+    assertQuery("label:Code-Review=MAX&count=2");
+    assertQuery("label:Code-Review=MIN&count=1", reviewMinus2Change);
+    assertQuery("label:Code-Review=MIN&count>1");
+    assertQuery("label:Code-Review=MAX&count<2", reviewPlus2Change);
+    assertQuery("label:Code-Review=MIN&count<1");
+    assertQuery("label:Code-Review=MAX&count<2 label:Code-Review=MAX&count>=1", reviewPlus2Change);
+    assertQuery("label:Code-Review=MIN&count<1 label:Code-Review=MIN&count>=1");
+    assertQuery("label:Code-Review>=+1&count=2", reviewTwoPlus1Change);
+
+    // "count" and "user" args cannot be used simultaneously.
+    thrown =
+        assertThrows(
+            BadRequestException.class,
+            () -> assertQuery("label:Code-Review=+1&user=non_uploader&count=2"));
+    assertThat(thrown)
+        .hasMessageThat()
+        .isEqualTo("Cannot use the 'count' argument in conjunction with the 'user' argument");
+
+    // "count" and "group" args cannot be used simultaneously.
+    thrown =
+        assertThrows(
+            BadRequestException.class,
+            () -> assertQuery("label:Code-Review=+1&group=gerrit&count=2"));
+    assertThat(thrown)
+        .hasMessageThat()
+        .isEqualTo("Cannot use the 'count' argument in conjunction with the 'group' argument");
+
+    // "user" and "group" args cannot be used simultaneously.
+    thrown =
+        assertThrows(
+            BadRequestException.class,
+            () -> assertQuery("label:Code-Review=+1&user=non_uploader&group=gerrit"));
+    assertThat(thrown)
+        .hasMessageThat()
+        .isEqualTo("Cannot use the 'user' argument in conjunction with the 'group' argument");
+
+    // "non_contributor" arg for the label operator is not allowed in change queries
+    thrown =
+        assertThrows(
+            BadRequestException.class,
+            () -> assertQuery("label:Code-Review=+2&user=non_contributor"));
+    assertThat(thrown)
+        .hasMessageThat()
+        .isEqualTo("non_contributor arg is not allowed in change queries");
+
+    // "non_auther" arg for the label operator is not allowed in change queries
+    thrown =
+        assertThrows(
+            BadRequestException.class, () -> assertQuery("label:Code-Review=+2&user=non_author"));
+    assertThat(thrown)
+        .hasMessageThat()
+        .isEqualTo("non_author arg is not allowed in change queries");
+
+    // "non_committer" arg for the label operator is not allowed in change queries
+    thrown =
+        assertThrows(
+            BadRequestException.class,
+            () -> assertQuery("label:Code-Review=+2&user=non_committer"));
+    assertThat(thrown)
+        .hasMessageThat()
+        .isEqualTo("non_committer arg is not allowed in change queries");
+  }
+
+  @Test
   public void cannotUseUsersArgWithLabel() throws Exception {
     assertFailingQuery(
         "label:Code-Review=MAX,users=human_reviewers", "Cannot use the 'users' argument in search");

@@ -25,11 +25,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * This class is used to extract comma separated values in a predicate.
+ * This class is used to extract & and comma(deprecated) separated values in a predicate.
  *
- * <p>If tags for the values are present (e.g. "branch=jb_2.3,vote=approved") then the args are
+ * <p>If tags for the values are present (e.g. "branch=jb_2.3&vote=approved") then the args are
  * placed in a map that maps tag to value (e.g., "branch" to "jb_2.3"). If no tag is present (e.g.
- * "jb_2.3,approved") then the args are placed into a positional list. Args may be mixed so some may
+ * "jb_2.3&approved") then the args are placed into a positional list. Args may be mixed so some may
  * appear in the map and others in the positional list (e.g. "vote=approved,jb_2.3).
  */
 public class PredicateArgs {
@@ -75,7 +75,7 @@ public class PredicateArgs {
     positional = new ArrayList<>();
     keyValue = new HashMap<>();
 
-    for (String arg : Splitter.on(',').split(args)) {
+    for (String arg : Splitter.on(Pattern.compile("[,&]")).split(args)) {
       Matcher m = SPLIT_PATTERN.matcher(arg);
 
       if (!m.find()) {

@@ -208,6 +208,17 @@ public class QueryParserTest {
   }
 
   @Test
+  public void fieldNameAndValueWithAmpersand() throws Exception {
+    Tree r = parse("label:foo&bar");
+    assertThat(r).hasType(FIELD_NAME);
+    assertThat(r).hasText("label");
+    assertThat(r).hasChildCount(1);
+    assertThat(r).child(0).hasType(SINGLE_WORD);
+    assertThat(r).child(0).hasText("foo&bar");
+    assertThat(r).child(0).hasNoChildren();
+  }
+
+  @Test
   public void fieldNameWithEscapedDoubleQuotesInValue() throws Exception {
     // Actual String: A \"special\" word
     String search = "message:\"A \\\"special\\\" word\"";

@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9c707120_7e347d82",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-10-24T10:00:28Z",
+      "side": 1,
+      "message": "do you mean \"will not break\"?",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 10
+      },
+      "revId": "e80455233d12c9e8b59407dfc9ae4eebb7295402",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c9f2c6af_72b60316",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-10-24T10:00:28Z",
+      "side": 1,
+      "message": "Maybe also say that user identifiers are unlikely to contain \u0027\u0026\u0027, since \"label:Code-Review,user\u003dfoo\u0026bar\" will probably no longer work as \"label:Code-Review\u0026user\u003dfoo\u0026bar\".",
+      "revId": "e80455233d12c9e8b59407dfc9ae4eebb7295402",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eed081e6_4a19e8dc",
+        "filename": "java/com/google/gerrit/server/query/change/PredicateArgs.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-10-24T10:00:28Z",
+      "side": 1,
+      "message": "Please adapt this documentation here.",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 3
+      },
+      "revId": "e80455233d12c9e8b59407dfc9ae4eebb7295402",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

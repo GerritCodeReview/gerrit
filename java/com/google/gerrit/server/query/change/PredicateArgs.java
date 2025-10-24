@@ -75,7 +75,7 @@ public class PredicateArgs {
     positional = new ArrayList<>();
     keyValue = new HashMap<>();
 
-    for (String arg : Splitter.on(',').split(args)) {
+    for (String arg : Splitter.on(Pattern.compile("[,&]")).split(args)) {
       Matcher m = SPLIT_PATTERN.matcher(arg);
 
       if (!m.find()) {

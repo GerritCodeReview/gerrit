@@ -52,6 +52,24 @@
       "parentUuid": "c0b00d5b_de5967e8",
       "revId": "4903b2808684c720345bc53293bdc6b57b7a91c6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "62f533ce_fcb6b237",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-10-25T18:12:02Z",
+      "side": 1,
+      "message": "@thomas.draebing@sap.com @luca.milanesio@gmail.com AFAIU the sync fails due to the fact that we switched to `bzlmod` and migration is not yet finished. There are two options to fix it:\n1. add `--enable_workspace` flag to `sync` call (as suggested in the error log) which would require changes in the other repo (with CI scripts) - but it would have to be added to all `bazel` commands in the chain...\n2. add `common --enable_workspace` to the `.bazelrc` for the time being so that all commands (including `sync`) would have it implicitly and once polygerrit part is migrated it could be removed... note that bazel 7.x has it enabled by default\n\n@luca.milanesio@gmail.com there is another thing that bothers me AFAIU in [.bazelversion](https://gerrit.googlesource.com/gerrit/+/refs/heads/master/.bazelversion) we have version `7.6.1` but AFAICT CI uses [8.4.2](https://gerrit-ci.gerritforge.com/job/Gerrit-verifier-chrome-latest/27540/console) see `Starting local Bazel server (8.4.2) and connecting to it...` or I\u0027m not seeing sth...",
+      "parentUuid": "3bc4ce7c_81b05b25",
+      "revId": "4903b2808684c720345bc53293bdc6b57b7a91c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

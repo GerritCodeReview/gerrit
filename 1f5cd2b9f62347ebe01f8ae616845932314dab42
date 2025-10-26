@@ -142,6 +142,24 @@
       "parentUuid": "d5cd87d5_32b086de",
       "revId": "1f5cd2b9f62347ebe01f8ae616845932314dab42",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a235cc6e_f784059b",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/SubmitByRebaseIfNecessaryIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 3792695
+      },
+      "writtenOn": "2025-10-26T23:03:02Z",
+      "side": 1,
+      "message": "\u003e Thanks for the explanation.\n```suggestion\n  public void submitWithCreateNewChangeForAllNotInTarget() throws Throwable {\n```\n```suggestion\n  public void submitWithCreateNewChangeForAllNotInTarget() throws Throwable {\n```\n```suggestion\n  public void submitWithCreateNewChangeForAllNotInTarget() throws Throwable {\n```",
+      "parentUuid": "a3363d30_c6eae59c",
+      "revId": "1f5cd2b9f62347ebe01f8ae616845932314dab42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

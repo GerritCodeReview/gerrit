@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "168defa1_c186bba5",
+        "filename": "modules/jgit",
+        "patchSetId": 18
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-10-26T04:33:54Z",
+      "side": 1,
+      "message": "What does `e69de29bb2d1d6434b8b29ae775ad8c2e48c5391` point to?",
+      "revId": "96218806a4a24f7701e6a3e54c134f82e78636b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

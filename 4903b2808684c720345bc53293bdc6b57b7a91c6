@@ -70,6 +70,24 @@
       "parentUuid": "3bc4ce7c_81b05b25",
       "revId": "4903b2808684c720345bc53293bdc6b57b7a91c6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "33e4b4b7_76f31c3b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-10-27T09:11:20Z",
+      "side": 1,
+      "message": "For me the sync command also works locally with Bazel 7.6.1. Instead of deleting the WORKSPACE here, we could also do so after the migration of the polygerrit-ui part, maybe also just symlink it from WORKSPACE.bzlmod to avoid duplication.",
+      "parentUuid": "62f533ce_fcb6b237",
+      "revId": "4903b2808684c720345bc53293bdc6b57b7a91c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -22,6 +22,30 @@
       },
       "revId": "e7be22c17981921679f6d7191d73c55409200bc7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e791023d_def4adc4",
+        "filename": "java/com/google/gerrit/server/account/ServiceUserClassifier.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-10-27T11:50:40Z",
+      "side": 1,
+      "message": "OK, I moved this logic into the caller. I thought having it as a method here makes this logic reusable in case anyone else needs it, but since we have only that one caller for now having this method doesn\u0027t add much value.\n\nDone.",
+      "parentUuid": "9afd3473_c9a36ed2",
+      "range": {
+        "startLine": 36,
+        "startChar": 19,
+        "endLine": 36,
+        "endChar": 30
+      },
+      "revId": "e7be22c17981921679f6d7191d73c55409200bc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

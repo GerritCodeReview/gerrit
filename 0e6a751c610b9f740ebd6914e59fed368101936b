@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f33f230c_bf0c5cdd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-10-27T08:16:20Z",
+      "side": 1,
+      "message": "Please also update the examples in the submit requirement documentation:\nhttps://gerrit-review.googlesource.com/Documentation/config-submit-requirements.html#examples\n\nThis reminds me, should we also update this in our tests (e.g. SubmitRequirementIT#submitRequirement_withLabelEqualsMax_fromNonUploader)?",
+      "revId": "0e6a751c610b9f740ebd6914e59fed368101936b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

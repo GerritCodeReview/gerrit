@@ -485,7 +485,7 @@ public class SubmitRequirementIT extends AbstractDaemonTest {
         SubmitRequirement.builder()
             .setName("my-label")
             .setSubmittabilityExpression(
-                SubmitRequirementExpression.create("label:my-label=MAX,user=non_uploader"))
+                SubmitRequirementExpression.create("label:my-label=MAX&user=non_uploader"))
             .setAllowOverrideInChildProjects(false)
             .build());
 
@@ -562,7 +562,7 @@ public class SubmitRequirementIT extends AbstractDaemonTest {
             .setName("my-label")
             .setSubmittabilityExpression(
                 SubmitRequirementExpression.create(
-                    "label:my-label=MAX,user=non_uploader -label:my-label=MIN"))
+                    "label:my-label=MAX&user=non_uploader -label:my-label=MIN"))
             .setAllowOverrideInChildProjects(false)
             .build());
 
@@ -641,12 +641,8 @@ public class SubmitRequirementIT extends AbstractDaemonTest {
         project,
         SubmitRequirement.builder()
             .setName("Want-Code-Review-From-All")
-            .setApplicabilityExpression(
-                Optional.of(
-                    SubmitRequirementExpression.create(
-                        "-label:Code-Review>=1,users=human_reviewers")))
             .setSubmittabilityExpression(
-                SubmitRequirementExpression.create("label:Code-Review>=1,users=human_reviewers"))
+                SubmitRequirementExpression.create("label:Code-Review>=1&users=human_reviewers"))
             .setAllowOverrideInChildProjects(false)
             .build());
 
@@ -718,7 +714,7 @@ public class SubmitRequirementIT extends AbstractDaemonTest {
         /* isLegacy= */ false);
 
     // Want-Code-Review-From-All is not applicable since there are approval from all reviewers
-    // (reviewer1 and reviewer2) which makes "label:Code-Review=MAX,users=human_reviewers"
+    // (reviewer1 and reviewer2) which makes "label:Code-Review=MAX&users=human_reviewers"
     // satisfied.
     assertSubmitRequirementStatus(
         gApi.changes().id(changeId).get().submitRequirements,
@@ -774,10 +770,9 @@ public class SubmitRequirementIT extends AbstractDaemonTest {
             .setApplicabilityExpression(
                 Optional.of(
                     SubmitRequirementExpression.create(
-                        "footer:\"Want-Code-Review: all\""
-                            + " -label:Code-Review>=1,users=human_reviewers")))
+                        "-label:Code-Review>=1&users=human_reviewers")))
             .setSubmittabilityExpression(
-                SubmitRequirementExpression.create("label:Code-Review>=1,users=human_reviewers"))
+                SubmitRequirementExpression.create("label:Code-Review>=1&users=human_reviewers"))
             .setAllowOverrideInChildProjects(false)
             .build());
 
@@ -836,7 +831,7 @@ public class SubmitRequirementIT extends AbstractDaemonTest {
     voteLabel(changeId, "Code-Review", 2);
 
     // Want-Code-Review-From-All is not applicable since there are approval from all reviewers
-    // (reviewer1 and reviewer2) which makes "label:Code-Review=MAX,users=human_reviewers"
+    // (reviewer1 and reviewer2) which makes "label:Code-Review=MAX&users=human_reviewers"
     // satisfied.
     assertSubmitRequirementStatus(
         gApi.changes().id(changeId).get().submitRequirements,
@@ -1397,7 +1392,7 @@ public class SubmitRequirementIT extends AbstractDaemonTest {
         SubmitRequirement.builder()
             .setName("Code-Review")
             .setSubmittabilityExpression(
-                SubmitRequirementExpression.create("label:Code-Review=MAX,user=non_uploader"))
+                SubmitRequirementExpression.create("label:Code-Review=MAX&user=non_uploader"))
             .setAllowOverrideInChildProjects(true)
             .build());
 
@@ -1450,7 +1445,7 @@ public class SubmitRequirementIT extends AbstractDaemonTest {
         SubmitRequirement.builder()
             .setName("Code-Review")
             .setSubmittabilityExpression(
-                SubmitRequirementExpression.create("label:Code-Review=MAX,user=non_uploader"))
+                SubmitRequirementExpression.create("label:Code-Review=MAX&user=non_uploader"))
             .setAllowOverrideInChildProjects(true)
             .build());
 

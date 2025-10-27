@@ -758,11 +758,13 @@ A label name is any of the following:
 
 * The label name.  Example: `label:Code-Review`.
 
-* The label name followed by a ',' followed by a reviewer id or a
+* The label name followed by a '&' followed by a reviewer id or a
   group id.  To make it clear whether a user or group is being looked
   for, precede the value by a user or group argument identifier
   ('user=' or 'group=').  If an LDAP group is being referenced make
   sure to use 'ldap/<groupname>'.
+
+* ',' has been deprecated as a separator in favour of '&'.
 
 A label name must be followed by either a score with optional operator,
 or a label status. The easiest way to explain this is by example.
@@ -812,20 +814,20 @@ Matches changes with label voted with the lowest possible score.
 +
 Matches changes with label voted with any score.
 
-`label:Code-Review=+1,count=2`::
+`label:Code-Review=+1&count=2`::
 +
 Matches changes with exactly two +1 votes to the code-review label. The {MAX,
-MIN, ANY} votes can also be used, for example `label:Code-Review=MAX,count=2` is
-equivalent to `label:Code-Review=2,count=2` (if 2 is the maximum positive vote
+MIN, ANY} votes can also be used, for example `label:Code-Review=MAX&count=2` is
+equivalent to `label:Code-Review=2&count=2` (if 2 is the maximum positive vote
 for the code review label). The maximum supported value for `count` is 5.
 `count=0` is not allowed and the query request will fail with `400 Bad Request`.
 
-`label:Code-Review=+1,count>=2`::
+`label:Code-Review=+1&count>=2`::
 +
 Matches changes having two or more +1 votes to the code-review label. Can also
 be used with the {MAX, MIN, ANY} label votes. All operators `>`, `>=`, `<`, `<=`
 are supported.
-Note that a query like `label:Code-Review=+1,count<x` will not match with
+Note that a query like `label:Code-Review=+1&count<x` will not match with
 changes having zero +1 votes to this label.
 
 `label:Non-Author-Code-Review=need` (deprecated)::
@@ -848,34 +850,34 @@ having a submit requirement with a result that is either `SATISFIED` or
 `OVERRIDDEN`. Users are encouraged not to rely on this operator since submit
 records are deprecated.
 
-`label:Code-Review=+2,aname`::
-`label:Code-Review=ok,aname`::
+`label:Code-Review=+2&aname`::
+`label:Code-Review=ok&aname`::
 +
 Matches changes with a +2 code review where the reviewer or group is aname.
 
-`label:Code-Review=2,user=jsmith`::
+`label:Code-Review=2&user=jsmith`::
 +
 Matches changes with a +2 code review where the reviewer is jsmith.
 
-`label:Code-Review=+2,user=owner`::
-`label:Code-Review=ok,user=owner`::
-`label:Code-Review=+2,owner`::
-`label:Code-Review=ok,owner`::
+`label:Code-Review=+2&user=owner`::
+`label:Code-Review=ok&user=owner`::
+`label:Code-Review=+2&owner`::
+`label:Code-Review=ok&owner`::
 +
 The special "owner" parameter corresponds to the change owner.  Matches
 all changes that have a +2 vote from the change owner.
 
 [[non_uploader]]
-`label:Code-Review=+2,user=non_uploader`::
-`label:Code-Review=ok,user=non_uploader`::
-`label:Code-Review=+2,non_uploader`::
-`label:Code-Review=ok,non_uploader`::
+`label:Code-Review=+2&user=non_uploader`::
+`label:Code-Review=ok&user=non_uploader`::
+`label:Code-Review=+2&non_uploader`::
+`label:Code-Review=ok&non_uploader`::
 +
 The special "non_uploader" parameter corresponds to any user who's not the
 uploader of the latest patchset. Matches all changes that have a +2 vote from
 a non upoader.
 
-`label:Code-Review=+1,group=ldap/linux.workflow`::
+`label:Code-Review=+1&group=ldap/linux.workflow`::
 +
 Matches changes with a +1 code review where the reviewer is in the
 ldap/linux.workflow group.

@@ -55,16 +55,24 @@ public class SubmitRequirementLabelExtensionPredicate extends SubmitRequirementP
     SubmitRequirementLabelExtensionPredicate create(String value) throws QueryParseException;
   }
 
+  private static final Pattern PATTERN_AND =
+      Pattern.compile("(?<label>[^&]*)&users=human_reviewers$");
+  private static final Pattern PATTERN_AND_LABEL =
+      Pattern.compile("(?<label>[^&<>=]*)(?<op>=|<=|>=|<|>)(?<value>[^&]*)");
+
+  @Deprecated
   private static final Pattern PATTERN = Pattern.compile("(?<label>[^,]*),users=human_reviewers$");
+
+  @Deprecated
   private static final Pattern PATTERN_LABEL =
       Pattern.compile("(?<label>[^,<>=]*)(?<op>=|<=|>=|<|>)(?<value>[^,]*)");
 
   public static boolean matches(String value) {
-    return PATTERN.matcher(value).matches();
+    return PATTERN.matcher(value).matches() || PATTERN_AND.matcher(value).matches();
   }
 
   public static void validateIfNoMatch(String value) throws QueryParseException {
-    if (value.contains(",users=")) {
+    if (value.contains(",users=") || value.contains("&users=")) {
       throw new QueryParseException(
           "Cannot use the 'users' argument in conjunction with other arguments ('count', 'user',"
               + " group')");
@@ -83,7 +91,14 @@ public class SubmitRequirementLabelExtensionPredicate extends SubmitRequirementP
     this.args = args;
     this.serviceUserClassifier = serviceUserClassifier;
 
-    Matcher m = PATTERN.matcher(value);
+    Matcher m;
+
+    if (value.contains("&")) {
+      m = PATTERN_AND.matcher(value);
+    } else {
+      m = PATTERN.matcher(value);
+    }
+
     if (!m.matches()) {
       throw new QueryParseException(
           String.format("invalid value for '%s': %s", getOperator(), value));
@@ -163,7 +178,12 @@ public class SubmitRequirementLabelExtensionPredicate extends SubmitRequirementP
   }
 
   private boolean matchZeroVotes(String label) {
-    Matcher m = PATTERN_LABEL.matcher(label);
+    Matcher m;
+    if (label.contains("&")) {
+      m = PATTERN_AND_LABEL.matcher(label);
+    } else {
+      m = PATTERN_LABEL.matcher(label);
+    }
     if (!m.matches()) {
       return false;
     }

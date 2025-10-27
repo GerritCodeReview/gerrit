@@ -131,6 +131,7 @@ public class ChangesRestApiBindingsIT extends AbstractDaemonTest {
    */
   private static final ImmutableList<RestCall> REVISION_ENDPOINTS =
       ImmutableList.of(
+          RestCall.get("/changes/%s/revisions/%s"),
           RestCall.get("/changes/%s/revisions/%s/actions"),
           RestCall.get("/changes/%s/revisions/%s/archive"),
           RestCall.post("/changes/%s/revisions/%s/cherrypick"),

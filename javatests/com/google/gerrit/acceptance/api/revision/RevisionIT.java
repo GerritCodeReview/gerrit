@@ -140,6 +140,19 @@ public class RevisionIT extends AbstractDaemonTest {
   @Inject private ChangeOperations changeOperations;
 
   @Test
+  public void get() throws Exception {
+    PushOneCommit.Result r = createChange();
+    RevisionInfo revisionInfo =
+        gApi.changes()
+            .id(r.getChange().project().get(), r.getChange().getId().get())
+            .revision(r.getCommit().name())
+            .get();
+    assertThat(revisionInfo._number).isEqualTo(r.getPatchSetId().get());
+    assertThat(revisionInfo.branch).isEqualTo(r.getChange().change().getDest().branch());
+    assertThat(revisionInfo.commit.commit).isEqualTo(r.getCommit().name());
+  }
+
+  @Test
   public void reviewTriplet() throws Exception {
     PushOneCommit.Result r = createChange();
     gApi.changes()

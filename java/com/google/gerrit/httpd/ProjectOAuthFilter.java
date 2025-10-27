@@ -123,63 +123,72 @@ class ProjectOAuthFilter implements Filter {
   }
 
   private boolean verify(HttpServletRequest req, Response rsp) throws IOException {
-    AuthInfo authInfo;
-    AuthRequest authRequest;
+    AuthInfo authInfo = null;
+    AuthRequest authRequest = null;
 
     String hdr = req.getHeader(AUTHORIZATION);
-    // first check if there is a BEARER authentication header
-    if (hdr != null && hdr.startsWith(BEARER)) {
-      authInfo = extractAuthInfoFromBearer(hdr);
-      authRequest = authRequestFactory.createForBearerToken(authInfo.tokenOrSecret);
-      // or if there is a BASIC authentication header
-    } else {
-      if (hdr != null && hdr.startsWith(BASIC)) {
-        authInfo = extractAuthInfo(hdr, encoding(req));
-        if (authInfo == null) {
+    if (hdr != null) {
+      // first check if there is a BEARER authentication header
+      if (hdr.startsWith(BEARER)) {
+        authInfo = extractAuthInfoFromBearer(hdr);
+        if (authInfo == null || Strings.isNullOrEmpty(authInfo.tokenOrSecret)) {
           rsp.sendError(SC_UNAUTHORIZED);
           return false;
         }
-      } else {
-        // if there are no BASIC or BEARER authentication headers, check if there is
-        // a cookie starting with the prefix "git-"
-        Cookie cookie = findGitCookie(req);
-        if (cookie != null) {
-          authInfo = extractAuthInfo(cookie);
-          if (authInfo == null) {
-            rsp.sendError(SC_UNAUTHORIZED);
-            return false;
-          }
-        } else {
-          // if there is no authentication information at all, it might be
-          // an anonymous connection, or there might be a session cookie
-          return true;
+        authRequest = authRequestFactory.createForBearerToken(authInfo.tokenOrSecret);
+        authRequest.setAuthPlugin(authInfo.pluginName);
+        authRequest.setAuthProvider(authInfo.exportName);
+        // or if there is a BASIC authentication header
+      } else if (hdr.startsWith(BASIC)) {
+        authInfo = extractAuthInfo(hdr, encoding(req));
+        if (authInfo == null || Strings.isNullOrEmpty(authInfo.tokenOrSecret)) {
+          rsp.sendError(SC_UNAUTHORIZED);
+          return false;
         }
-      }
-      authRequest = authRequestFactory.createForExternalUser(authInfo.username);
-      Optional<AccountState> who =
-          accountCache.getByUsername(authInfo.username).filter(a -> a.account().isActive());
-      if (!who.isPresent()) {
-        logger.atWarning().log(
-            "%s: account inactive or not provisioned in Gerrit",
-            authenticationFailedMsg(authInfo.username, req));
-        rsp.sendError(SC_UNAUTHORIZED);
-        return false;
-      }
 
-      Account account = who.get().account();
-      authRequest.setEmailAddress(account.preferredEmail());
-      authRequest.setDisplayName(account.fullName());
-      authRequest.setPassword(authInfo.tokenOrSecret);
+        // Find the user account; fail if inactive or non-existent.
+        Optional<AccountState> who = findActiveAccount(authInfo.username);
+        if (!who.isPresent()) {
+          logger.atWarning().log(
+              "%s: account inactive or not provisioned in Gerrit",
+              authenticationFailedMsg(authInfo.username, req));
+          rsp.sendError(SC_UNAUTHORIZED);
+          return false;
+        }
+
+        authRequest = createRequestForUser(authInfo, who.get().account());
+      }
     }
 
-    // if there is authentication information but no secret => 401
-    if (Strings.isNullOrEmpty(authInfo.tokenOrSecret)) {
-      rsp.sendError(SC_UNAUTHORIZED);
-      return false;
+    // if there are no BASIC or BEARER authentication headers, check if there is
+    // a cookie starting with the prefix "git-"
+    if (authRequest == null) {
+      Cookie cookie = findGitCookie(req);
+      if (cookie != null) {
+        authInfo = extractAuthInfo(cookie);
+        if (authInfo == null || Strings.isNullOrEmpty(authInfo.tokenOrSecret)) {
+          rsp.sendError(SC_UNAUTHORIZED);
+          return false;
+        }
+
+        Optional<AccountState> who = findActiveAccount(authInfo.username);
+        if (!who.isPresent()) {
+          logger.atWarning().log(
+              "%s: account inactive or not provisioned in Gerrit",
+              authenticationFailedMsg(authInfo.username, req));
+          rsp.sendError(SC_UNAUTHORIZED);
+          return false;
+        }
+
+        authRequest = createRequestForUser(authInfo, who.get().account());
+      }
     }
 
-    authRequest.setAuthPlugin(authInfo.pluginName);
-    authRequest.setAuthProvider(authInfo.exportName);
+    // if there is no authentication information at all, it might be
+    // an anonymous connection, or there might be a session cookie
+    if (authRequest == null) {
+      return true;
+    }
 
     try {
       AuthResult authResult = accountManager.authenticate(authRequest);
@@ -193,6 +202,32 @@ class ProjectOAuthFilter implements Filter {
       rsp.sendError(SC_UNAUTHORIZED);
       return false;
     }
+  }
+
+  /**
+   * Finds an active account by username.
+   *
+   * @param username the username to look up
+   * @return the account state if found and active, empty otherwise
+   */
+  private Optional<AccountState> findActiveAccount(String username) {
+    return accountCache.getByUsername(username).filter(a -> a.account().isActive());
+  }
+
+  /**
+   * Creates an AuthRequest for a user identified by username.
+   *
+   * @return a prepared {@link AuthRequest}
+   */
+  private AuthRequest createRequestForUser(AuthInfo authInfo, Account account) {
+    // Construct and return the request object for OAuth.
+    AuthRequest authRequest = authRequestFactory.createForExternalUser(authInfo.username);
+    authRequest.setEmailAddress(account.preferredEmail());
+    authRequest.setDisplayName(account.fullName());
+    authRequest.setPassword(authInfo.tokenOrSecret);
+    authRequest.setAuthPlugin(authInfo.pluginName);
+    authRequest.setAuthProvider(authInfo.exportName);
+    return authRequest;
   }
 
   /**

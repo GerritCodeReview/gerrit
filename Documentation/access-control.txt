@@ -137,8 +137,6 @@ made by the service users from the ones made by the interactive
 users. This ensures that the interactive users can keep working when
 resources are tight.
 
-Before Gerrit 3.3, the 'Service Users' group was named 'Non-Interactive Users'.
-
 [[blocked_users]]
 === Blocked Users
 

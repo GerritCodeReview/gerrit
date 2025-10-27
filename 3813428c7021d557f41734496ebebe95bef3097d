@@ -1,5 +1,46 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f923ec0_362f5618",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-10-27T20:05:56Z",
+      "side": 1,
+      "message": "In the future, can the changes please be combined? Unless there\u0027s some technical reason why the docs update needs to happen in a different change? Splitting the changes makes it harder to use typical git commands to find things (if I `git blame` the doc I won\u0027t find the code change, I have to cherry-pick both to a stable branch, etc).",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 3
+      },
+      "revId": "3813428c7021d557f41734496ebebe95bef3097d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "75150c20_82e70410",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-10-27T20:05:56Z",
+      "side": 1,
+      "message": "Please do a better job of choosing when to use `Release-Notes: skip`. I know Google doesn\u0027t get involved in the upstream releases and I\u0027m not asking for that to change, but please take pity on the folks trying to write the release notes and avoid defaulting to `skip`.",
+      "revId": "3813428c7021d557f41734496ebebe95bef3097d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

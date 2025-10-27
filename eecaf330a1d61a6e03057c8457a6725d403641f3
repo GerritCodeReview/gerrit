@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3afe95f5_754db9bc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-10-27T17:16:11Z",
+      "side": 1,
+      "message": "\u003e 16:56:49 Java set to: /usr/lib/jvm/java-11-openjdk-amd64/bin/java\n\nit shouldn\u0027t be using java 11 but java 17? at least i think?",
+      "revId": "eecaf330a1d61a6e03057c8457a6725d403641f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

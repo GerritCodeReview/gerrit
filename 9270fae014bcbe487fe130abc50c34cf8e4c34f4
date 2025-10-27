@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7ce5f941_face2794",
+        "filename": "java/com/google/gerrit/server/restapi/change/CherryPickChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-10-27T08:26:50Z",
+      "side": 1,
+      "message": "Yes, input.base is a commit SHA1. Any commit that is present in a branch is allowed as the base. This can be a commit that was pushed directly, or a merge commit that was created via the Merge If Necessary submit strategy on submit. In these cases the commit cannot be resolved to a change via the change index.\n\nAlso see the description of the base field here:\nhttps://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#cherrypick-input",
+      "parentUuid": "b2950446_cd3bed37",
+      "range": {
+        "startLine": 257,
+        "startChar": 69,
+        "endLine": 257,
+        "endChar": 91
+      },
+      "revId": "9270fae014bcbe487fe130abc50c34cf8e4c34f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "32dee09e_784510e5",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce192c25_1948ce43",
+        "filename": "java/com/google/gerrit/server/restapi/change/CherryPickChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-10-27T08:26:50Z",
+      "side": 1,
+      "message": "The caller provides a SHA1 in base.input but doesn\u0027t know if a change for this SHA1 exists (e.g. because the SHA1 was provided by the user and the calling code didn\u0027t check if a change for this SHA1 does exist).",
+      "parentUuid": "32dee09e_784510e5",
+      "range": {
+        "startLine": 258,
+        "startChar": 51,
+        "endLine": 258,
+        "endChar": 62
+      },
+      "revId": "9270fae014bcbe487fe130abc50c34cf8e4c34f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0e193791_f4f26c70",
@@ -60,6 +108,30 @@
       "writtenOn": "2025-10-27T07:09:33Z",
       "side": 1,
       "message": "can we derive `input.base` from `baseChange`?",
+      "range": {
+        "startLine": 307,
+        "startChar": 9,
+        "endLine": 307,
+        "endChar": 57
+      },
+      "revId": "9270fae014bcbe487fe130abc50c34cf8e4c34f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a60cc4b_9c33a399",
+        "filename": "java/com/google/gerrit/server/restapi/change/CherryPickChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-10-27T08:26:50Z",
+      "side": 1,
+      "message": "Yes, this would be possible, but this API is already a mess and I\u0027m hesitant to add further magic to it.",
+      "parentUuid": "0e193791_f4f26c70",
       "range": {
         "startLine": 307,
         "startChar": 9,

@@ -22,6 +22,30 @@
       },
       "revId": "201006a8a5cb75facca021012da47b01a9e05b44",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b40a6ff5_57a5b04d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-10-27T21:18:31Z",
+      "side": 1,
+      "message": "No, this use of \"interactive\" is in contrast to \"batch\", i.e. we don\u0027t expect them browsing through pages and clicking links, but we do expect them to call APIs.",
+      "parentUuid": "8447f37c_c89ee0ed",
+      "range": {
+        "startLine": 129,
+        "startChar": 46,
+        "endLine": 130,
+        "endChar": 18
+      },
+      "revId": "201006a8a5cb75facca021012da47b01a9e05b44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

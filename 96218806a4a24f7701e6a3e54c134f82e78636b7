@@ -16,6 +16,24 @@
       "message": "What does `e69de29bb2d1d6434b8b29ae775ad8c2e48c5391` point to?",
       "revId": "96218806a4a24f7701e6a3e54c134f82e78636b7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b57a4d40_a03bb148",
+        "filename": "modules/jgit",
+        "patchSetId": 18
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-10-27T07:54:43Z",
+      "side": 1,
+      "message": "That seems to be wrong. It should have pointed to this commit e69de29bb2d1d6434b8b29ae775ad8c2e48c5391 (https://gerrit-review.googlesource.com/c/jgit/+/517841). I will fix that.",
+      "parentUuid": "168defa1_c186bba5",
+      "revId": "96218806a4a24f7701e6a3e54c134f82e78636b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

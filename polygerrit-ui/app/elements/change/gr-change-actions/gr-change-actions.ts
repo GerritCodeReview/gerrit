@@ -1497,7 +1497,7 @@ export class GrChangeActions
     if (
       !(await this.getPluginLoader().jsApiService.handleBeforeChangeAction(
         key,
-        this.change
+        this.change as ChangeInfo
       ))
     )
       return;

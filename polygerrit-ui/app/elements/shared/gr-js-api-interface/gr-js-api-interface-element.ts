@@ -68,7 +68,7 @@ export class GrJsApiInterface implements JsApiService, Finalizable {
 
   async handleBeforeChangeAction(
     key: string,
-    change?: ParsedChangeInfo
+    change?: ChangeInfo
   ): Promise<boolean> {
     let okay = true;
     for (const cb of this._getEventCallbacks(EventType.BEFORE_CHANGE_ACTION)) {

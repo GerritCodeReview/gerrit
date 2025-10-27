@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {PluginApi, TargetElement} from '../../../api/plugin';
+import {ChangeInfo} from '../../../api/rest-api';
 import {ActionInfo, RequireProperties} from '../../../types/common';
 import {getAppContext} from '../../../services/app-context';
 import {
@@ -178,5 +179,12 @@ export class GrChangeActionsInterface implements ChangeActionsPluginApi {
       el.getActionDetails(action) ||
       el.getActionDetails(this.plugin.getPluginName() + '~' + action)
     );
+  }
+
+  async notifyBeforeChangeAction(
+    key: string,
+    change?: ChangeInfo
+  ): Promise<boolean> {
+    return this.jsApiService.handleBeforeChangeAction(key, change);
   }
 }

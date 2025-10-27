@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {HttpMethod} from './rest';
+import {ChangeInfo} from './rest-api';
 
 export declare interface ActionInfo {
   method?: HttpMethod;
@@ -102,4 +103,14 @@ export declare interface ChangeActionsPluginApi {
   setIcon(key: string, icon: string): void;
 
   getActionDetails(action: string): ActionInfo | undefined;
+
+  /** Notify BEFORE_CHANGE_ACTION event handlers.
+   *
+   * If a plugin replaces any default change actions (e.g., the quick
+   * approve action), it should call this method so that any event
+   * handlers for that action still trigger.
+   *
+   * The returned value is true if the action should proceed.
+   */
+  notifyBeforeChangeAction(key: string, change?: ChangeInfo): Promise<boolean>;
 }

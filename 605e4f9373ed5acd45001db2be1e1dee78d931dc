@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "87e1002e_be74455c",
+        "filename": "Documentation/config-submit-requirements.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-10-27T09:43:46Z",
+      "side": 1,
+      "message": "nit: please add the backticks back so that this example is formatted the same way as the other examples above (text surrounded by backticks is rendered with grey background)",
+      "range": {
+        "startLine": 166,
+        "startChar": 44,
+        "endLine": 166,
+        "endChar": 66
+      },
+      "revId": "605e4f9373ed5acd45001db2be1e1dee78d931dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

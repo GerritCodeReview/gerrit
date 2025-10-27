@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b2950446_cd3bed37",
+        "filename": "java/com/google/gerrit/server/restapi/change/CherryPickChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-10-27T07:09:33Z",
+      "side": 1,
+      "message": "what does this mean?\n\nyou can set the base of a cherry pick to be a non-Gerrit change?",
+      "range": {
+        "startLine": 257,
+        "startChar": 69,
+        "endLine": 257,
+        "endChar": 91
+      },
+      "revId": "9270fae014bcbe487fe130abc50c34cf8e4c34f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "32dee09e_784510e5",
+        "filename": "java/com/google/gerrit/server/restapi/change/CherryPickChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-10-27T07:09:33Z",
+      "side": 1,
+      "message": "what does a change being unknown mean in this context?",
+      "range": {
+        "startLine": 258,
+        "startChar": 51,
+        "endLine": 258,
+        "endChar": 62
+      },
+      "revId": "9270fae014bcbe487fe130abc50c34cf8e4c34f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e193791_f4f26c70",
+        "filename": "java/com/google/gerrit/server/restapi/change/CherryPickChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-10-27T07:09:33Z",
+      "side": 1,
+      "message": "can we derive `input.base` from `baseChange`?",
+      "range": {
+        "startLine": 307,
+        "startChar": 9,
+        "endLine": 307,
+        "endChar": 57
+      },
+      "revId": "9270fae014bcbe487fe130abc50c34cf8e4c34f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

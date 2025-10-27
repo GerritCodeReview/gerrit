@@ -4,10 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {BehaviorSubject} from 'rxjs';
-import '../gr-copy-links/gr-copy-links';
 import '../../../styles/gr-a11y-styles';
 import '../../../styles/gr-material-styles';
 import '../../../styles/shared-styles';
+import '../../chat-panel/chat-panel';
+import '../../checks/gr-checks-tab';
+import '../../diff/gr-apply-fix-dialog/gr-apply-fix-dialog';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '../../plugins/gr-endpoint-param/gr-endpoint-param';
 import '../../shared/gr-button/gr-button';
@@ -17,6 +19,7 @@ import '../../shared/gr-editable-content/gr-editable-content';
 import '../../shared/gr-formatted-text/gr-formatted-text';
 import '../../shared/gr-tooltip-content/gr-tooltip-content';
 import '../../shared/gr-content-with-sidebar/gr-content-with-sidebar';
+import '../gr-copy-links/gr-copy-links';
 import '../gr-change-actions/gr-change-actions';
 import '../gr-change-summary/gr-change-summary';
 import '../gr-change-metadata/gr-change-metadata';
@@ -28,10 +31,8 @@ import '../gr-revision-parents/gr-revision-parents';
 import '../gr-included-in-dialog/gr-included-in-dialog';
 import '../gr-messages-list/gr-messages-list';
 import '../gr-related-changes-list/gr-related-changes-list';
-import '../../diff/gr-apply-fix-dialog/gr-apply-fix-dialog';
 import '../gr-reply-dialog/gr-reply-dialog';
 import '../gr-thread-list/gr-thread-list';
-import '../../checks/gr-checks-tab';
 import '../gr-flows/gr-flows';
 import {ChangeStarToggleStarDetail} from '../../shared/gr-change-star/gr-change-star';
 import {GrEditConstants} from '../../edit/gr-edit-constants';
@@ -467,6 +468,10 @@ export class GrChangeView extends LitElement {
     );
     this.addEventListener('open-fix-preview', e => this.onOpenFixPreview(e));
     this.addEventListener('show-tab', e => this.setActiveTab(e));
+    this.addEventListener(
+      'close-chat-panel',
+      () => (this.showSidebarChat = false)
+    );
   }
 
   private setupShortcuts() {
@@ -1122,6 +1127,9 @@ export class GrChangeView extends LitElement {
         .tabContent gr-thread-list::part(threads) {
           padding: var(--spacing-l);
         }
+        .sidebar {
+          height: var(--sidebar-height);
+        }
       `,
     ];
   }
@@ -1149,7 +1157,7 @@ export class GrChangeView extends LitElement {
             ${this.renderChangeLog()}
           </div>
         </div>
-        <div slot="side">${this.renderSidebar()}</div>
+        <div class="sidebar" slot="side">${this.renderSidebar()}</div>
       </gr-content-with-sidebar>
       <gr-apply-fix-dialog id="applyFixDialog"></gr-apply-fix-dialog>
       <dialog id="downloadModal" tabindex="-1">
@@ -1200,7 +1208,7 @@ export class GrChangeView extends LitElement {
 
   private renderSidebar() {
     if (!this.showSidebarChat) return;
-    return html` <div>Hello, I am a fancy sidebar for AI Chat.</div> `;
+    return html`<chat-panel></chat-panel>`;
   }
 
   private renderChangeInfoSection() {

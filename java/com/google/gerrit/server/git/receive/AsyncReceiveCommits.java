@@ -33,10 +33,12 @@ import com.google.gerrit.metrics.Description.Units;
 import com.google.gerrit.metrics.Field;
 import com.google.gerrit.metrics.Histogram1;
 import com.google.gerrit.metrics.MetricMaker;
-import com.google.gerrit.metrics.Timer1;
+import com.google.gerrit.metrics.Timer2;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PublishCommentsOp;
 import com.google.gerrit.server.RequestCounter;
+import com.google.gerrit.server.account.ServiceUserClassifier;
+import com.google.gerrit.server.account.UserKind;
 import com.google.gerrit.server.cache.PerThreadCache;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.ConfigUtil;
@@ -182,8 +184,8 @@ public class AsyncReceiveCommits {
   @Singleton
   private static class Metrics {
     private final Histogram1<PushType> changes;
-    private final Timer1<PushType> latencyPerChange;
-    private final Timer1<PushType> latencyPerPush;
+    private final Timer2<PushType, UserKind> latencyPerChange;
+    private final Timer2<PushType, UserKind> latencyPerPush;
     private final Counter0 timeouts;
 
     @Inject
@@ -202,6 +204,14 @@ public class AsyncReceiveCommits {
           Field.ofEnum(PushType.class, "type", Metadata.Builder::pushType)
               .description("type of push (create/replace, autoclose, normal)")
               .build();
+      Field<UserKind> userKindField =
+          Field.ofEnum(UserKind.class, "user_kind", Metadata.Builder::caller)
+              .description(
+                  String.format(
+                      "User kind (SERVICE_USER: member of the Gerrit internal '%s' group,"
+                          + " HUMAN_USER: any user that was not classified as a service user)",
+                      ServiceUserClassifier.SERVICE_USERS))
+              .build();
 
       latencyPerChange =
           metricMaker.newTimer(
@@ -211,7 +221,8 @@ public class AsyncReceiveCommits {
                           + "(Only includes pushes which contain changes.)")
                   .setUnit(Units.MILLISECONDS)
                   .setCumulative(),
-              pushTypeField);
+              pushTypeField,
+              userKindField);
 
       latencyPerPush =
           metricMaker.newTimer(
@@ -219,7 +230,8 @@ public class AsyncReceiveCommits {
               new Description("processing delay for a processing single push")
                   .setUnit(Units.MILLISECONDS)
                   .setCumulative(),
-              pushTypeField);
+              pushTypeField,
+              userKindField);
 
       timeouts =
           metricMaker.newCounter(
@@ -229,6 +241,7 @@ public class AsyncReceiveCommits {
 
   private final MultiProgressMonitor.Factory multiProgressMonitorFactory;
   private final Metrics metrics;
+  private final ServiceUserClassifier serviceUserClassifier;
   private final ReceiveCommits receiveCommits;
   private final PermissionBackend.ForProject perm;
   private final ReceivePack receivePack;
@@ -256,6 +269,7 @@ public class AsyncReceiveCommits {
       LazyPostReceiveHookChain.Factory lazyPostReceive,
       ContributorAgreementsChecker contributorAgreements,
       Metrics metrics,
+      ServiceUserClassifier serviceUserClassifier,
       QuotaBackend quotaBackend,
       UsersSelfAdvertiseRefsHook usersSelfAdvertiseRefsHook,
       AllUsersName allUsersName,
@@ -279,6 +293,7 @@ public class AsyncReceiveCommits {
     this.user = user;
     this.repo = repo;
     this.metrics = metrics;
+    this.serviceUserClassifier = serviceUserClassifier;
     // If the user lacks READ permission, some references may be filtered and hidden from view.
     // Check objects mentioned inside the incoming pack file are reachable from visible refs.
     Project.NameKey projectName = projectState.getNameKey();
@@ -455,10 +470,14 @@ public class AsyncReceiveCommits {
         pushType = PushType.NORMAL;
       }
     }
+    UserKind userKind =
+        serviceUserClassifier.isServiceUser(user.getAccountId())
+            ? UserKind.SERVICE_USER
+            : UserKind.HUMAN_USER;
     if (totalChanges > 0) {
-      metrics.latencyPerChange.record(pushType, deltaNanos / totalChanges, NANOSECONDS);
+      metrics.latencyPerChange.record(pushType, userKind, deltaNanos / totalChanges, NANOSECONDS);
     }
-    metrics.latencyPerPush.record(pushType, deltaNanos, NANOSECONDS);
+    metrics.latencyPerPush.record(pushType, userKind, deltaNanos, NANOSECONDS);
   }
 
   /**

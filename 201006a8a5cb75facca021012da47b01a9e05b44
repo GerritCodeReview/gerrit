@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8447f37c_c89ee0ed",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-10-27T17:07:11Z",
+      "side": 1,
+      "message": "they are expected to vote on labels so does that count as an \"interactive operation\"?",
+      "range": {
+        "startLine": 129,
+        "startChar": 46,
+        "endLine": 130,
+        "endChar": 18
+      },
+      "revId": "201006a8a5cb75facca021012da47b01a9e05b44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

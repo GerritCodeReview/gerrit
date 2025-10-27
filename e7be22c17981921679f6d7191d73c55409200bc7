@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9afd3473_c9a36ed2",
+        "filename": "java/com/google/gerrit/server/account/ServiceUserClassifier.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-10-27T11:28:35Z",
+      "side": 1,
+      "message": "I would have expected in a file called `ServiceUserClassifier.java` that this method would be `isServiceUser` and not `getUserKind`.\n\nBasically it sticks to it\u0027s domain and doesn\u0027t make decisions about whether it\u0027s a human_user",
+      "range": {
+        "startLine": 36,
+        "startChar": 19,
+        "endLine": 36,
+        "endChar": 30
+      },
+      "revId": "e7be22c17981921679f6d7191d73c55409200bc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

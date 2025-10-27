@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a9315442_a7435496",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiMetrics.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-10-27T11:28:35Z",
+      "side": 1,
+      "message": "maybe mention that it\u0027s a Gerrit group?",
+      "range": {
+        "startLine": 62,
+        "startChar": 56,
+        "endLine": 62,
+        "endChar": 70
+      },
+      "revId": "fb64ab3a9af2459d062baaf6d239b50fc6ec0d77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

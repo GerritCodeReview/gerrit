@@ -35,6 +35,7 @@ import {GrChangeAutocomplete} from '../gr-change-autocomplete/gr-change-autocomp
 import '@material/web/radio/radio';
 import {MdRadio} from '@material/web/radio/radio';
 import {materialStyles} from '../../../styles/gr-material-styles';
+import {spinnerStyles} from '../../../styles/gr-spinner-styles';
 import '@material/web/checkbox/checkbox';
 
 export interface ConfirmRebaseEventDetail {
@@ -184,6 +185,7 @@ export class GrConfirmRebaseDialog
       formStyles,
       sharedStyles,
       materialStyles,
+      spinnerStyles,
       css`
         :host {
           display: block;
@@ -227,6 +229,17 @@ export class GrConfirmRebaseDialog
           margin-top: var(--spacing-xl);
           margin-bottom: var(--spacing-xl);
         }
+        .loadingSpin {
+          width: calc(var(--line-height-normal) - 2px);
+          height: calc(var(--line-height-normal) - 2px);
+          display: inline-block;
+          vertical-align: top;
+          position: relative;
+          top: 1px;
+        }
+        .zeroState {
+          color: var(--deemphasized-text-color);
+        }
         @media screen and (max-width: 50em) {
           #confirmDialog {
             height: 90vh;
@@ -246,22 +259,16 @@ export class GrConfirmRebaseDialog
         @cancel=${this.handleCancelTap}
       >
         <div class="header" slot="header">Confirm rebase</div>
-        <div class="main" slot="main">
-          ${when(
-            this.loading,
-            () => html`<div>Loading...</div>`,
-            () => this.renderRebaseDialog()
-          )}
-        </div>
+        <div class="main" slot="main">${this.renderRebaseDialog()}</div>
       </gr-dialog>
     `;
   }
 
   private renderRebaseDialog() {
-    return html`<div
+    return html` <div
         id="rebaseOnParent"
         class="rebaseOption loading"
-        ?hidden=${!this.displayParentOption() || this.loading}
+        ?hidden=${!this.displayParentOption()}
       >
         <md-radio
           id="rebaseOnParentInput"
@@ -335,6 +342,12 @@ export class GrConfirmRebaseDialog
         >
         </gr-change-autocomplete>
       </div>
+      ${when(
+        this.loading,
+        () =>
+          html`<span class="loadingSpin"></span
+            ><span class="zeroState"> loading recent changes</span>`
+      )}
       <div class="rebaseCheckbox">
         <div class="checkbox-container">
           <md-checkbox

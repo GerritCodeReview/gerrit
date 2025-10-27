@@ -316,6 +316,10 @@ setting.
 ** `access_path`:
    The access path through which the user accessed Gerrit (REST_API, WEB_BROWSER
    or UNKNOWN).
+** `user_kind`:
+   User kind (SERVICE_USER: member of the Gerrit internal 'Service Users' group,
+   HUMAN_USER: any user that was not classified as a service user and anonymous
+   users)
 * `http/server/rest_api/response_bytes`: Size of REST API response on network
   (may be gzip compressed) by view.
 ** `view`:

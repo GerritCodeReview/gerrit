@@ -13,6 +13,7 @@ import {GrRestApiServiceImpl} from './gr-rest-api/gr-rest-api-impl';
 import {ChangeModel, changeModelToken} from '../models/change/change-model';
 import {FilesModel, filesModelToken} from '../models/change/files-model';
 import {ChecksModel, checksModelToken} from '../models/checks/checks-model';
+import {ChatModel, chatModelToken} from '../models/chat/chat-model';
 import {GrStorageService, storageServiceToken} from './storage/gr-storage_impl';
 import {UserModel, userModelToken} from '../models/user/user-model';
 import {
@@ -218,6 +219,15 @@ export function createAppDependencies(
           resolver(changeModelToken),
           appContext.reportingService,
           resolver(pluginLoaderToken).pluginsModel
+        ),
+    ],
+    [
+      chatModelToken,
+      () =>
+        new ChatModel(
+          resolver(pluginLoaderToken).pluginsModel,
+          resolver(changeModelToken),
+          resolver(filesModelToken)
         ),
     ],
     [

@@ -5,6 +5,7 @@
  */
 import {PluginApi, TargetElement} from '../../../api/plugin';
 import {ActionInfo, RequireProperties} from '../../../types/common';
+import {ParsedChangeInfo} from '../../../types/types';
 import {getAppContext} from '../../../services/app-context';
 import {
   ActionPriority,
@@ -178,5 +179,12 @@ export class GrChangeActionsInterface implements ChangeActionsPluginApi {
       el.getActionDetails(action) ||
       el.getActionDetails(this.plugin.getPluginName() + '~' + action)
     );
+  }
+
+  async notifyBeforeChangeAction(
+    key: string,
+    change?: ParsedChangeInfo
+  ): Promise<boolean> {
+    return this.jsApiService.handleBeforeChangeAction(key, change);
   }
 }

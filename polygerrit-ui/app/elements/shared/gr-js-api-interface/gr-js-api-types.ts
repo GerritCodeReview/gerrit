@@ -53,10 +53,7 @@ export interface JsApiService extends Finalizable {
    * @param change The relevant change.
    * @return A promise that resolves to true if the action should proceed.
    */
-  handleBeforeChangeAction(
-    key: string,
-    change?: ParsedChangeInfo
-  ): Promise<boolean>;
+  handleBeforeChangeAction(key: string, change?: ChangeInfo): Promise<boolean>;
   /**
    * This method is called before publishing a change edit.
    * It allows plugins to conditionally block edits.

@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "13491d9d_87455ec3",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-10-27T21:16:27Z",
+      "side": 1,
+      "message": "Nit, bullets that are entirely a link tend to look a little strange\n```suggestion\n* They are link:user-attention-set.html#bots[never added to the attention set].\n```",
+      "revId": "57206102c0231029bf4ca19c882dc2def1d69894",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1bdf19fa_2bc2ab0b",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-10-27T21:16:27Z",
+      "side": 1,
+      "message": "Same nit as above, plus an extra space before `approvals`.\n```suggestion\n* Their vote is not required when\n  link:config-submit-requirements.html#require-code-review-approvals-from-all-human-reviewers-example[\n  requiring `Code-Review` approvals from all reviewers].\n```",
+      "range": {
+        "startLine": 138,
+        "startChar": 2,
+        "endLine": 140,
+        "endChar": 13
+      },
+      "revId": "57206102c0231029bf4ca19c882dc2def1d69894",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b7e3d578_f866c224",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-10-27T21:16:27Z",
+      "side": 1,
+      "message": "```suggestion\n* In the REST API, service user accounts are tagged with `SERVICE_USER` (see the\n```",
+      "revId": "57206102c0231029bf4ca19c882dc2def1d69894",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

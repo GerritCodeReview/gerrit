@@ -15,6 +15,7 @@
 package com.google.gerrit.server.restapi.change;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
+import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.project.ProjectCache.noSuchProject;
 import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.CHANGE_MODIFICATION;
 
@@ -182,6 +183,7 @@ public class CherryPickChange {
         patch.id(),
         change.getProject(),
         patch.commitId(),
+        null,
         input,
         dest,
         TimeUtil.now(),
@@ -229,6 +231,7 @@ public class CherryPickChange {
         sourcePsId,
         project,
         sourceCommit,
+        null,
         input,
         dest,
         TimeUtil.now(),
@@ -250,6 +253,11 @@ public class CherryPickChange {
    *     sourceChange is null and expected to match the sourceCommit.
    * @param project Project name
    * @param sourceCommit Id of the commit to be cherry picked.
+   * @param baseChange change that matches the base provided in {@code input.base}. May be {@code
+   *     null} if {@code input.base} is unset, if {@code input.base} doesn't match a change or if
+   *     the change that matches {@code input.base} is unknown. If {@code input.base} is set but a
+   *     {@code baseChange} is not provided an index query will be done to try finding the matching
+   *     change. If known the base change should be provided to avoid this index lookup.
    * @param input Input object for different configurations of cherry pick.
    * @param dest Destination branch for the cherry pick.
    * @param timestamp the current timestamp.
@@ -279,6 +287,7 @@ public class CherryPickChange {
       @Nullable PatchSet.Id sourcePsId,
       Project.NameKey project,
       ObjectId sourceCommit,
+      @Nullable Change baseChange,
       CherryPickInput input,
       BranchNameKey dest,
       Instant timestamp,
@@ -293,6 +302,10 @@ public class CherryPickChange {
           RestApiException,
           ConfigInvalidException,
           NoSuchProjectException {
+    checkState(
+        (input.base == null && baseChange == null) || input.base != null,
+        "input.base must be set if baseChange is provided");
+
     IdentifiedUser identifiedUser = user.get();
     try (Repository git = gitManager.openRepository(project);
         // This inserter and revwalk *must* be passed to any BatchUpdates
@@ -449,6 +462,7 @@ public class CherryPickChange {
                     sourceChange,
                     sourcePsId,
                     sourceCommit,
+                    baseChange,
                     input,
                     revertedChange,
                     idForNewChange,
@@ -515,6 +529,7 @@ public class CherryPickChange {
       @Nullable Change sourceChange,
       @Nullable PatchSet.Id sourcePsId,
       @Nullable ObjectId sourceCommit,
+      @Nullable Change baseChange,
       CherryPickInput input,
       @Nullable Change.Id revertOf,
       @Nullable Change.Id idForNewChange,
@@ -559,18 +574,22 @@ public class CherryPickChange {
     // groups.
     ins.setGroups(GroupCollector.getDefaultGroups(cherryPickCommit.getId()));
     if (input.base != null) {
-      List<ChangeData> changes =
-          queryProvider.get().setLimit(2).byBranchCommitOpen(project.get(), refName, input.base);
-      if (changes.size() > 1) {
-        throw new InvalidChangeOperationException(
-            "Several changes with key "
-                + input.base
-                + " reside on the same branch. "
-                + "Cannot cherry-pick on target branch.");
-      }
-      if (changes.size() == 1) {
-        Change change = changes.get(0).change();
-        ins.setGroups(changeNotesFactory.createChecked(change).getCurrentPatchSet().groups());
+      if (baseChange != null) {
+        ins.setGroups(changeNotesFactory.createChecked(baseChange).getCurrentPatchSet().groups());
+      } else {
+        List<ChangeData> changes =
+            queryProvider.get().setLimit(2).byBranchCommitOpen(project.get(), refName, input.base);
+        if (changes.size() > 1) {
+          throw new InvalidChangeOperationException(
+              "Several changes with key "
+                  + input.base
+                  + " reside on the same branch. "
+                  + "Cannot cherry-pick on target branch.");
+        }
+        if (changes.size() == 1) {
+          Change change = changes.get(0).change();
+          ins.setGroups(changeNotesFactory.createChecked(change).getCurrentPatchSet().groups());
+        }
       }
     }
     bu.insertChange(ins);

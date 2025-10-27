@@ -15,6 +15,7 @@
 package com.google.gerrit.server.account;
 
 import com.google.gerrit.entities.Account;
+import com.google.gerrit.server.CurrentUser;
 
 public interface ServiceUserClassifier {
   /**
@@ -25,6 +26,18 @@ public interface ServiceUserClassifier {
 
   /** Returns {@code true} if the given user is considered a {@code Service User} user. */
   boolean isServiceUser(Account.Id user);
+
+  /**
+   * Determines the {@link UserKind} of the provided user.
+   *
+   * @param user the user to be classified
+   * @return the user kind
+   */
+  default UserKind getUserKind(CurrentUser user) {
+    return user.isIdentifiedUser() && isServiceUser(user.getAccountId())
+        ? UserKind.SERVICE_USER
+        : UserKind.HUMAN_USER;
+  }
 
   /** An instance that can be used for testing and will consider no user to be a Service User. */
   class NoOp implements ServiceUserClassifier {

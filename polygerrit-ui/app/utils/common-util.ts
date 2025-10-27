@@ -182,3 +182,10 @@ export async function copyToClipboard(text: string, copyTargetName?: string) {
 export function uuid() {
   return Math.random().toString(36).substring(2);
 }
+
+/**
+ * Produces strings such as `36b8f84d-df4e-4d49-b662-bcde71a8764f`.
+ */
+export function cryptoUuid() {
+  return crypto.randomUUID();
+}

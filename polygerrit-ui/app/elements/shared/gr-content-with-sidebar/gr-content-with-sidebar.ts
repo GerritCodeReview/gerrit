@@ -7,7 +7,7 @@ import {customElement, property, query, state} from 'lit/decorators.js';
 import {css, html, LitElement} from 'lit';
 import {styleMap} from 'lit/directives/style-map.js';
 
-const SIDEBAR_MIN_WIDTH = 300;
+const SIDEBAR_MIN_WIDTH = 400;
 
 /**
  * A component that displays content in a main area and a resizable sidebar.
@@ -51,7 +51,7 @@ export class GrContentWithSidebar extends LitElement {
           top: 0;
           bottom: calc(0px - var(--sidebar-bottom-overflow));
           right: 0;
-          min-width: 300px;
+          min-width: 400px;
           max-width: 100%;
           background-color: var(--background-color-secondary);
         }
@@ -62,7 +62,6 @@ export class GrContentWithSidebar extends LitElement {
           box-sizing: border-box;
           overflow: auto;
           flex-grow: 1;
-          padding: var(--spacing-l);
           font-size: 14px;
         }
         .resizer-wrapper {

@@ -214,6 +214,24 @@
       "parentUuid": "2fdddb96_b86710c2",
       "revId": "e403bab25fda00564c8db24512153f07064e2362",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a62364b3_abac3fe0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-10-27T14:24:29Z",
+      "side": 1,
+      "message": "oh that bug appears to have existed before your change (query page (search))",
+      "parentUuid": "7d8582f1_9e4283af",
+      "revId": "e403bab25fda00564c8db24512153f07064e2362",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

@@ -196,6 +196,24 @@
       "parentUuid": "2c052601_09c684ab",
       "revId": "e403bab25fda00564c8db24512153f07064e2362",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7d8582f1_9e4283af",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-10-27T09:25:23Z",
+      "side": 1,
+      "message": "Oh it also broke the query page (search) as well:\n\nhttps://phabricator.wikimedia.org/F67627091",
+      "parentUuid": "2fdddb96_b86710c2",
+      "revId": "e403bab25fda00564c8db24512153f07064e2362",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

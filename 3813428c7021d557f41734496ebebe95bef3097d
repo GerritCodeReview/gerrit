@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5844c8eb_31ef9359",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-10-28T06:27:07Z",
+      "side": 1,
+      "message": "\u003e In the future, can the changes please be combined\n\nYeah, fair point.\n\nI\u0027ll combine the changes in the future.",
+      "parentUuid": "4f923ec0_362f5618",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 3
+      },
+      "revId": "3813428c7021d557f41734496ebebe95bef3097d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "75150c20_82e70410",
@@ -37,6 +61,24 @@
       "writtenOn": "2025-10-27T20:05:56Z",
       "side": 1,
       "message": "Please do a better job of choosing when to use `Release-Notes: skip`. I know Google doesn\u0027t get involved in the upstream releases and I\u0027m not asking for that to change, but please take pity on the folks trying to write the release notes and avoid defaulting to `skip`.",
+      "revId": "3813428c7021d557f41734496ebebe95bef3097d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "637274f4_d7803622",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-10-28T06:27:07Z",
+      "side": 1,
+      "message": "Yeah it\u0027s become close to muscle memory now but I\u0027ll try and pay more attention to this field.\nApologies.\n\nHopefully LLMs can automate a lot of this in the future(generating release notes for all changes)",
+      "parentUuid": "75150c20_82e70410",
       "revId": "3813428c7021d557f41734496ebebe95bef3097d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

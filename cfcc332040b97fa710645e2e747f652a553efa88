@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "814962b4_3fc2c247",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-10-28T17:22:29Z",
+      "side": 1,
+      "message": "Mention that this is also only enabled if `index.indexChangesAsync\u003dtrue`?",
+      "revId": "cfcc332040b97fa710645e2e747f652a553efa88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

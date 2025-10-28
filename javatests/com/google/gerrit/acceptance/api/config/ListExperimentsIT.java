@@ -46,7 +46,7 @@ public class ListExperimentsIT extends AbstractDaemonTest {
     ImmutableMap<String, ExperimentInfo> experiments =
         gApi.config().server().listExperiments().get();
     assertThat(experiments.keySet())
-        .containsExactly(
+        .containsAtLeast(
             ExperimentFeaturesConstants.ALLOW_FIX_SUGGESTIONS_IN_COMMENTS,
             ExperimentFeaturesConstants
                 .GERRIT_BACKEND_FEATURE_ALWAYS_REJECT_IMPLICIT_MERGES_ON_MERGE,

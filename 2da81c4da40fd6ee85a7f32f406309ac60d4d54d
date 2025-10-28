@@ -16,6 +16,24 @@
       "message": "I don\u0027t have submit access.",
       "revId": "2da81c4da40fd6ee85a7f32f406309ac60d4d54d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "41b8a6b9_ad495ece",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-10-28T19:35:10Z",
+      "side": 1,
+      "message": "I think this is actually blocked because there\u0027s no `Release-Notes:` footer in the commit message.",
+      "parentUuid": "0dac4bf8_47f33c96",
+      "revId": "2da81c4da40fd6ee85a7f32f406309ac60d4d54d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

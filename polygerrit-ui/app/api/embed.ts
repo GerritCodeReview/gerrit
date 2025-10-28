@@ -67,6 +67,8 @@ export declare interface GrTextarea extends HTMLElement {
   placeholderHint?: string;
   hint?: string;
   setRangeText: (replacement: string, start: number, end: number) => void;
+  setCursorPosition: (position: number) => void;
+  getCursorPosition: () => number;
 }
 
 /** <gr-autogrow-textarea> interface that external users can rely on */

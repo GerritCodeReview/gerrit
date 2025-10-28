@@ -202,6 +202,7 @@ export class GrDropdownList extends LitElement {
         .copyClipboard {
           display: inline-flex;
           vertical-align: top;
+          margin-left: var(--gr-dropdown-copy-clipboard-margin-left, 0);
         }
         .mobileText {
           display: none;

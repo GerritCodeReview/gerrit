@@ -113,11 +113,17 @@ The following metrics are reported.
   push
 ** `type`:
    type of push (create/replace, autoclose, normal)
+** `user_kind`:
+   User kind (SERVICE_USER: member of the Gerrit internal 'Service Users' group,
+   HUMAN_USER: any user that was not classified as a service user).
 * `receivecommits/latency_per_push_per_change`: Processing delay per push
   divided by the number of changes in said push. (Only includes pushes which
   contain changes.)
 ** `type`:
    type of push (create/replace, autoclose, normal)
+** `user_kind`:
+   User kind (SERVICE_USER: member of the Gerrit internal 'Service Users' group,
+   HUMAN_USER: any user that was not classified as a service user).
 * `receivecommits/timeout`: rate of push timeouts
 * `receivecommits/ps_revision_missing`: errors due to patch set revision missing
 * `receivecommits/push_count`: number of pushes
@@ -316,6 +322,10 @@ setting.
 ** `access_path`:
    The access path through which the user accessed Gerrit (REST_API, WEB_BROWSER
    or UNKNOWN).
+** `user_kind`:
+   User kind (SERVICE_USER: member of the Gerrit internal 'Service Users' group,
+   HUMAN_USER: any user that was not classified as a service user and anonymous
+   users).
 * `http/server/rest_api/response_bytes`: Size of REST API response on network
   (may be gzip compressed) by view.
 ** `view`:

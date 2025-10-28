@@ -101,6 +101,8 @@ import com.google.gerrit.server.InvalidDeadlineException;
 import com.google.gerrit.server.OptionUtil;
 import com.google.gerrit.server.RequestInfo;
 import com.google.gerrit.server.RequestListener;
+import com.google.gerrit.server.account.ServiceUserClassifier;
+import com.google.gerrit.server.account.UserKind;
 import com.google.gerrit.server.audit.ExtendedHttpAuditEvent;
 import com.google.gerrit.server.cache.PerThreadCache;
 import com.google.gerrit.server.cancellation.RequestCancelledException;
@@ -248,6 +250,7 @@ public class RestApiServlet extends HttpServlet {
     final DeadlineChecker.Factory deadlineCheckerFactory;
     final CancellationMetrics cancellationMetrics;
     final AclInfoController aclInfoController;
+    final ServiceUserClassifier serviceUserClassifier;
     final Provider<TraceContext> requestTraceContext;
 
     @Inject
@@ -270,6 +273,7 @@ public class RestApiServlet extends HttpServlet {
         DeadlineChecker.Factory deadlineCheckerFactory,
         CancellationMetrics cancellationMetrics,
         AclInfoController aclInfoController,
+        ServiceUserClassifier serviceUserClassifier,
         @Named(REQUEST_TRACE_CONTEXT) Provider<TraceContext> requestTraceContext) {
       this.currentUser = currentUser;
       this.webSession = webSession;
@@ -290,6 +294,7 @@ public class RestApiServlet extends HttpServlet {
       this.deadlineCheckerFactory = deadlineCheckerFactory;
       this.cancellationMetrics = cancellationMetrics;
       this.aclInfoController = aclInfoController;
+      this.serviceUserClassifier = serviceUserClassifier;
       this.requestTraceContext = requestTraceContext;
     }
   }
@@ -765,6 +770,10 @@ public class RestApiServlet extends HttpServlet {
       globals.metrics.serverLatency.record(
           metric,
           currentUser.getAccessPath().name(),
+          currentUser.isIdentifiedUser()
+                  && globals.serviceUserClassifier.isServiceUser(currentUser.getAccountId())
+              ? UserKind.SERVICE_USER
+              : UserKind.HUMAN_USER,
           System.nanoTime() - startNanos,
           TimeUnit.NANOSECONDS);
       globals.auditService.dispatch(

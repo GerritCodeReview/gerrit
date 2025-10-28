@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1d8c3e15_dc497a17",
+        "filename": "javatests/com/google/gerrit/acceptance/api/config/ListExperimentsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-10-28T11:35:02Z",
+      "side": 1,
+      "message": "this defeats the purpose of the test then?\n\nI get why it\u0027s annoying but a test called `listAll` should list all experiments.",
+      "range": {
+        "startLine": 49,
+        "startChar": 9,
+        "endLine": 49,
+        "endChar": 24
+      },
+      "revId": "31c916832bae7ddce8a9277043d2cc157cf2489a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

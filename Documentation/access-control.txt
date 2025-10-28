@@ -140,6 +140,11 @@ Service users have the following special behaviour:
   requiring `Code-Review` approvals from all reviewers].
 * In the REST API, service user accounts are tagged with `SERVICE_USER` (see the
   `tags` field in link:rest-api-accounts.html#account-info[AccountInfo]).
+* Change indexing is done synchronously for service users only if
+  link:config-gerrit.html#index.indexChangesAsync[asynchronous change indexing]
+  is enabled in the Gerrit config (and the
+  `GerritBackendFeature__do_change_indexing_asynchronously_for_non_service_users`
+  experiment is enabled).
 * Some metrics allow to distinguish between requests from service users and
   other users: the
   link:metrics.html#rest-api-latency[http/server/rest_api/server_latency]

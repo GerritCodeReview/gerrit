@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f9a20a5c_72e18079",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-10-28T08:13:20Z",
+      "side": 1,
+      "message": "It looks like Bazelisk stopped working on Java 11 overnight (scary !) and we had at the same time a stale image on the CI box (scary again, we should *stop* using the same tag and add a SHA1 with the latest commit at the end). Fetching the latest docker image manually which updates the JVM to 21, it works now.",
+      "revId": "5c9e80cb45380aef1180e9e1e9bfab4c97259e34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

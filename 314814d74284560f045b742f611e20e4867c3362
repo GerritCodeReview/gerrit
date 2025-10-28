@@ -16,6 +16,24 @@
       "message": "This isn\u0027t always true. See the config text for `sendemail.from`. Can you clarify your text and update it to point there?",
       "revId": "314814d74284560f045b742f611e20e4867c3362",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7d7a54ec_37e7309b",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 6712,
+      "author": {
+        "id": 1111258
+      },
+      "writtenOn": "2025-10-28T23:31:21Z",
+      "side": 1,
+      "message": "`sendemail.from` is different, that is for setting the style of the `From` header, which is what people see in mail user agents as the \"from\" field. `user.email` is used in the SMTP session, this: https://en.wikipedia.org/wiki/Bounce_address\n\n\nI looked at the Gerrit code to try to see where `user.email` feeds into the SMTP session. I think it\u0027s `smtpFromAddress` in https://cs.opensource.google/gerrit/gerrit/gerrit/+/master:java/com/google/gerrit/server/mail/send/OutgoingEmail.java;l\u003d326?q\u003dsmtpFromAddress\u0026ss\u003dgerrit but I got lost trying to find where the value comes from when it gets set on line 408: `smtpFromAddress \u003d args.fromAddressGenerator.get().from(fromId);`\n\n\nI had to configure the `SMTP FROM` address because the default, \"gerrit@`hostname`\", was not allowed with our new email system. The `SMTP FROM` had to be of the form `\u003canything\u003e@domain.tld` (e.g., \"gerrit@qualcomm.com\", not \"gerrit@mygerrit.qualcomm.com\"), otherwise the server rejected the mail.",
+      "parentUuid": "f50632a4_7c2f9f2c",
+      "revId": "314814d74284560f045b742f611e20e4867c3362",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

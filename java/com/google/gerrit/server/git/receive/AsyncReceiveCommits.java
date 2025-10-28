@@ -33,6 +33,7 @@ import com.google.gerrit.metrics.Description.Units;
 import com.google.gerrit.metrics.Field;
 import com.google.gerrit.metrics.Histogram1;
 import com.google.gerrit.metrics.MetricMaker;
+import com.google.gerrit.metrics.Timer0;
 import com.google.gerrit.metrics.Timer2;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PublishCommentsOp;
@@ -186,6 +187,7 @@ public class AsyncReceiveCommits {
     private final Histogram1<PushType> changes;
     private final Timer2<PushType, UserKind> latencyPerChange;
     private final Timer2<PushType, UserKind> latencyPerPush;
+    private final Timer0 latencyForScheduling;
     private final Counter0 timeouts;
 
     @Inject
@@ -232,6 +234,15 @@ public class AsyncReceiveCommits {
                   .setCumulative(),
               pushTypeField,
               userKindField);
+
+      latencyForScheduling =
+          metricMaker.newTimer(
+              "receivecommits/latency_for_scheduling",
+              new Description(
+                      "delay for scheduling ReceiveCommits (how long it takes from ReceiveCommits"
+                          + " being submitted to the executor to the executor running it)")
+                  .setUnit(Units.MILLISECONDS)
+                  .setCumulative());
 
       timeouts =
           metricMaker.newCounter(
@@ -409,10 +420,16 @@ public class AsyncReceiveCommits {
     String currentThreadName = Thread.currentThread().getName();
     MultiProgressMonitor monitor =
         newMultiProgressMonitor(multiProgressMonitorFactory, receiveCommits.getMessageSender());
+    long startNanos = System.nanoTime();
     Callable<ReceiveCommitsResult> callable =
         () -> {
           String oldName = Thread.currentThread().getName();
           Thread.currentThread().setName(oldName + "-for-" + currentThreadName);
+
+          // Record how long it takes from this callable being submitted to the executor to the
+          // executor calling it.
+          metrics.latencyForScheduling.record(System.nanoTime() - startNanos, NANOSECONDS);
+
           try (PerThreadCache threadLocalCache = PerThreadCache.create()) {
             return receiveCommits.processCommands(commands, monitor);
           } finally {

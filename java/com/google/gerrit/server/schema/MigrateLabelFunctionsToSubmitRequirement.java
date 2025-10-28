@@ -310,7 +310,7 @@ public class MigrateLabelFunctionsToSubmitRequirement {
             .setAllowOverrideInChildProjects(attributes.canOverride());
     String maxPart =
         String.format("label:%s=MAX", labelName)
-            + (attributes.ignoreSelfApproval() ? ",user=non_uploader" : "");
+            + (attributes.ignoreSelfApproval() ? "&user=non_uploader" : "");
     switch (attributes.function()) {
       case "MaxWithBlock" ->
           builder.setSubmittabilityExpression(

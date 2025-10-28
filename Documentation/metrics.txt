@@ -109,6 +109,8 @@ The following metrics are reported.
    upload
 ** `type`:
    type of push (create/replace, autoclose)
+
+[[push-latency]]
 * `receivecommits/latency_per_push`: processing delay for a processing single
   push
 ** `type`:
@@ -116,6 +118,8 @@ The following metrics are reported.
 ** `user_kind`:
    User kind (SERVICE_USER: member of the Gerrit internal 'Service Users' group,
    HUMAN_USER: any user that was not classified as a service user).
+
+[[per-change-push-latency]]
 * `receivecommits/latency_per_push_per_change`: Processing delay per push
   divided by the number of changes in said push. (Only includes pushes which
   contain changes.)
@@ -124,6 +128,7 @@ The following metrics are reported.
 ** `user_kind`:
    User kind (SERVICE_USER: member of the Gerrit internal 'Service Users' group,
    HUMAN_USER: any user that was not classified as a service user).
+
 * `receivecommits/timeout`: rate of push timeouts
 * `receivecommits/ps_revision_missing`: errors due to patch set revision missing
 * `receivecommits/push_count`: number of pushes
@@ -134,6 +139,8 @@ The following metrics are reported.
 ** `type`:
    The type of the update (CREATE, UPDATE, CREATE/UPDATE, UPDATE_NONFASTFORWARD,
    DELETE).
+
+[[push-reject-count]]
 * `receivecommits/reject_count`: number of rejected pushes
 ** `kind`:
    The push kind ('magic push'/'magic push by service user' if it was a push for
@@ -316,6 +323,8 @@ setting.
    HTTP status code
 ** `cause`:
    The cause of the error.
+
+[[rest-api-latency]]
 * `http/server/rest_api/server_latency`: REST API call latency by view.
 ** `view`:
    view implementation class
@@ -326,6 +335,7 @@ setting.
    User kind (SERVICE_USER: member of the Gerrit internal 'Service Users' group,
    HUMAN_USER: any user that was not classified as a service user and anonymous
    users).
+
 * `http/server/rest_api/response_bytes`: Size of REST API response on network
   (may be gzip compressed) by view.
 ** `view`:

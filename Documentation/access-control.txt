@@ -140,6 +140,16 @@ Service users have the following special behaviour:
   requiring `Code-Review` approvals from all reviewers].
 * In the REST API, service user accounts are tagged with `SERVICE_USER` (see the
   `tags` field in link:rest-api-accounts.html#account-info[AccountInfo]).
+* Some metrics allow to distinguish between requests from service users and
+  other users: the
+  link:metrics.html#rest-api-latency[http/server/rest_api/server_latency]
+  metric (see field `user_kind`), the
+  link:metrics.html#push-latency[receivecommits/latency_per_push] metric (see
+  field `user_kind`), the
+  link:metrics.html#per-change-push-latency[receivecommits/latency_per_push_per_change]
+  metric (see field `user_kind`), the
+  link:metrics.html#push-reject-count[receivecommits/reject_count] metric (see
+  field `kind`)
 
 By default the `Service Users` group has:
 

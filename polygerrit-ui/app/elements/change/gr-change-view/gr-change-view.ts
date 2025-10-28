@@ -1090,6 +1090,9 @@ export class GrChangeView extends LitElement {
             height: 90vh;
             width: initial;
           }
+          .headerSubject {
+            line-break: anywhere;
+          }
         }
         .patch-set-dropdown {
           margin: var(--spacing-m) 0 0 var(--spacing-m);

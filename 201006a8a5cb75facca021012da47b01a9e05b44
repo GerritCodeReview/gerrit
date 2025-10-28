@@ -46,6 +46,30 @@
       },
       "revId": "201006a8a5cb75facca021012da47b01a9e05b44",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab8f9392_7ac5ed36",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-10-28T08:15:57Z",
+      "side": 1,
+      "message": "Yeah, what Nasser said :)\n\nNot sure if we can explain that term better. If you have an idea please make a separate change, at least me I also always need a few seconds to understand that \"interactive\" means the opposite of \"batch\".",
+      "parentUuid": "b40a6ff5_57a5b04d",
+      "range": {
+        "startLine": 129,
+        "startChar": 46,
+        "endLine": 130,
+        "endChar": 18
+      },
+      "revId": "201006a8a5cb75facca021012da47b01a9e05b44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

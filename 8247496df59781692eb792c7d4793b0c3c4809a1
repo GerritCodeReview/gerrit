@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dbfe326b_304f543f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 20
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-10-28T10:16:24Z",
+      "side": 1,
+      "message": "Looks like we are failing now for some errorprone warnings that fails the build:\n\n```\n00:03:07.380 ERROR: /home/jenkins/workspace/Gerrit-verifier-chrome-latest/gerrit/javatests/com/google/gerrit/pgm/BUILD:4:12: Building javatests/com/google/gerrit/pgm/pgm_tests.jar (4 source files) failed: (Exit 1): java failed: error executing Javac command (from target //javatests/com/google/gerrit/pgm:pgm_tests) external/rules_java~~toolchains~remotejdk21_linux/bin/java \u0027--add-exports\u003djdk.compiler/com.sun.tools.javac.api\u003dALL-UNNAMED\u0027 \u0027--add-exports\u003djdk.compiler/com.sun.tools.javac.main\u003dALL-UNNAMED\u0027 ... (remaining 19 arguments skipped)\n00:03:07.381 javatests/com/google/gerrit/pgm/http/jetty/ProjectQoSFilterTest.java:67: error: [EmptyCatch] Caught exceptions should not be ignored\n00:03:07.381           } catch (Exception e) {\n```",
+      "revId": "8247496df59781692eb792c7d4793b0c3c4809a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

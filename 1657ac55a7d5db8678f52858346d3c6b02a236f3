@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "03180f05_a9bdcfae",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-10-28T13:51:55Z",
+      "side": 1,
+      "message": "Why do you think it is worthwhile porting this to a stable branch? I just did this for an internal Chrome extension developer.\n\nGenerally, cherrypicks to stable branches should be reviewed by non-Googlers.",
+      "revId": "1657ac55a7d5db8678f52858346d3c6b02a236f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

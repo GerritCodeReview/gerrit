@@ -217,16 +217,23 @@ suite('gr-diff-view tests', () => {
           <div class="stickyHeader">
             <h1 class="assistive-tech-only">Diff of glados.txt</h1>
             <header>
-              <div>
-                <a href="/c/test-project/+/42"> 42 </a>
-                <span class="changeNumberColon"> : </span>
-                <span class="headerSubject"> Test subject </span>
-                <md-checkbox
-                  aria-label="file reviewed"
-                  class="hideOnEdit reviewed"
-                  id="reviewed"
-                  title="Toggle reviewed status of file"
-                ></md-checkbox>
+              <div class="headerLeft">
+                <div>
+                  <a href="/c/test-project/+/42"> 42 </a>
+                  <span class="changeNumberColon"> : </span>
+                </div>
+                <div>
+                  <span class="headerSubject"> Test subject </span>
+                </div>
+                <div class="checkboxDiv">
+                  <md-checkbox
+                    class="hideOnEdit reviewed"
+                    data-aria-label="file reviewed"
+                    id="reviewed"
+                    title="Toggle reviewed status of file"
+                  >
+                  </md-checkbox>
+                </div>
                 <div class="jumpToFileContainer">
                   <gr-dropdown-list id="dropdown" show-copy-for-trigger-text="">
                   </gr-dropdown-list>
@@ -276,16 +283,16 @@ suite('gr-diff-view tests', () => {
               <div class="rightControls">
                 <div class="sidebarTriggerContainer">
                   <gr-endpoint-decorator name="sidebarTrigger">
-                    <gr-endpoint-param name="onTrigger"></gr-endpoint-param>
-                    <gr-endpoint-param name="openSidebar"></gr-endpoint-param>
+                    <gr-endpoint-param name="onTrigger"> </gr-endpoint-param>
+                    <gr-endpoint-param name="openSidebar"> </gr-endpoint-param>
                   </gr-endpoint-decorator>
                 </div>
                 <gr-button
                   aria-disabled="false"
+                  id="toggleEntireFile"
                   link=""
                   role="button"
                   tabindex="0"
-                  id="toggleEntireFile"
                   title="Toggle all diff context (shortcut: Shift+x)"
                 >
                   Show Entire File
@@ -335,7 +342,7 @@ suite('gr-diff-view tests', () => {
                         role="button"
                         tabindex="0"
                       >
-                        <gr-icon icon="settings" filled></gr-icon>
+                        <gr-icon filled="" icon="settings"> </gr-icon>
                       </gr-button>
                     </gr-tooltip-content>
                   </span>

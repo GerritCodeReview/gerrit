@@ -491,6 +491,9 @@ export class GrMainHeader extends LitElement {
             box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
             z-index: 2;
             padding-bottom: 56px;
+            /* This is needed due to position sticky being used for gr-main-header
+               in gr-app-element */
+            position: fixed;
           }
           .nav-sidebar.visible {
             left: 0px;
@@ -517,7 +520,9 @@ export class GrMainHeader extends LitElement {
           }
           .modelBackground {
             background: rgba(0, 0, 0, 0.5);
-            position: absolute;
+            /* This is needed due to position sticky being used for gr-main-header
+               in gr-app-element */
+            position: fixed;
             height: 100%;
             overflow: none;
             z-index: 199;

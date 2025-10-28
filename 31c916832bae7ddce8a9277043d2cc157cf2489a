@@ -22,6 +22,30 @@
       },
       "revId": "31c916832bae7ddce8a9277043d2cc157cf2489a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "80f367d0_53ba2c61",
+        "filename": "javatests/com/google/gerrit/acceptance/api/config/ListExperimentsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-10-28T11:39:07Z",
+      "side": 1,
+      "message": "Well, the test still verifies that the list all experiment REST endpoints doesn\u0027t fail with an error when being called and that it does return at least some experiments, in the right order. So this test still has some value.\n\nIt\u0027s correct that it no longer tests that all experiments are returned, but this endpoint is rather unimportant, so it\u0027s ok to no longer cover this aspect in exchange for making development with experiments easier.",
+      "parentUuid": "1d8c3e15_dc497a17",
+      "range": {
+        "startLine": 49,
+        "startChar": 9,
+        "endLine": 49,
+        "endChar": 24
+      },
+      "revId": "31c916832bae7ddce8a9277043d2cc157cf2489a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

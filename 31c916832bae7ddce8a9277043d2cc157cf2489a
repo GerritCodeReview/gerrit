@@ -70,6 +70,30 @@
       },
       "revId": "31c916832bae7ddce8a9277043d2cc157cf2489a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e59ce9ee_11d10b63",
+        "filename": "javatests/com/google/gerrit/acceptance/api/config/ListExperimentsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-10-28T11:58:56Z",
+      "side": 1,
+      "message": "Makes sense. Added this to the commit message now.",
+      "parentUuid": "42731b9a_35ae6332",
+      "range": {
+        "startLine": 49,
+        "startChar": 9,
+        "endLine": 49,
+        "endChar": 24
+      },
+      "revId": "31c916832bae7ddce8a9277043d2cc157cf2489a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

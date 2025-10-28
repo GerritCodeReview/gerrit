@@ -581,9 +581,8 @@ export class GrDiffView extends LitElement {
         .reviewed {
           display: inline-block;
           margin: 0 var(--spacing-xs);
-          vertical-align: top;
+          vertical-align: middle;
           position: relative;
-          top: 8px;
         }
         .jumpToFileContainer {
           display: inline-block;

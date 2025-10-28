@@ -46,6 +46,30 @@
       },
       "revId": "31c916832bae7ddce8a9277043d2cc157cf2489a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "42731b9a_35ae6332",
+        "filename": "javatests/com/google/gerrit/acceptance/api/config/ListExperimentsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-10-28T11:40:27Z",
+      "side": 1,
+      "message": "\u003e but this endpoint is rather unimportant, so it\u0027s ok to no longer cover this aspect in exchange for making development with experiments easier.\n\nSGTM\n\nAdd this to the commit message then.",
+      "parentUuid": "80f367d0_53ba2c61",
+      "range": {
+        "startLine": 49,
+        "startChar": 9,
+        "endLine": 49,
+        "endChar": 24
+      },
+      "revId": "31c916832bae7ddce8a9277043d2cc157cf2489a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

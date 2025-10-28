@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f50632a4_7c2f9f2c",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 6712,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-10-28T23:07:39Z",
+      "side": 1,
+      "message": "This isn\u0027t always true. See the config text for `sendemail.from`. Can you clarify your text and update it to point there?",
+      "revId": "314814d74284560f045b742f611e20e4867c3362",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ba902619_49697405",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1500,
+      "author": {
+        "id": 1073170
+      },
+      "writtenOn": "2025-10-28T01:36:45Z",
+      "side": 1,
+      "message": "This pattern is used multiple times in this file so should be fine?",
+      "revId": "2f87d406f3ae29ea7adec57302bc8a9a2b6f33f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

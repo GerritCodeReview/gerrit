@@ -15,7 +15,7 @@ Reloads the gerrit.config configuration.
 
 Not all configuration values can be picked up by this command. Which config
 sections and values that are supported is documented here:
-link:config-gerrit.html[Configuration]
+link:config-gerrit.html#reloadConfig[Configuration]
 
 _The output shows only modified config values that are picked up by Gerrit
 and applied._

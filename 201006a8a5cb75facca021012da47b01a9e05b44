@@ -70,6 +70,30 @@
       },
       "revId": "201006a8a5cb75facca021012da47b01a9e05b44",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0fe9e4ff_0e5a0879",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-10-28T17:16:01Z",
+      "side": 1,
+      "message": "Right, it matches *nix shell usage of the terms, which is not what most people think of first.",
+      "parentUuid": "ab8f9392_7ac5ed36",
+      "range": {
+        "startLine": 129,
+        "startChar": 46,
+        "endLine": 130,
+        "endChar": 18
+      },
+      "revId": "201006a8a5cb75facca021012da47b01a9e05b44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

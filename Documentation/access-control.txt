@@ -129,6 +129,18 @@ as such.
 The members of this group are not expected to perform interactive operations on
 the Gerrit web UI.
 
+Service users have the following special behaviour:
+
+* They are link:user-attention-set.html#bots[never added to the attention set].
+* They are not suggested as reviewers on changes (unless
+  link:config-gerrit.html#suggest.skipServiceUsers[suggest.skipServiceUsers] in
+  the Gerrit config is set to `false`).
+* Their vote is not required when
+  link:config-submit-requirements.html#require-code-review-approvals-from-all-human-reviewers-example[
+  requiring `Code-Review` approvals from all reviewers].
+* In the REST API, service user accounts are tagged with `SERVICE_USER` (see the
+  `tags` field in link:rest-api-accounts.html#account-info[AccountInfo]).
+
 By default the `Service Users` group has:
 
 * The `BATCH` link:access-control.html#capability_priority['Priority'] global

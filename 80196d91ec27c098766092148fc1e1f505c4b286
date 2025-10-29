@@ -118,6 +118,24 @@
       "parentUuid": "03cb6389_4fa6a133",
       "revId": "80196d91ec27c098766092148fc1e1f505c4b286",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "94f74262_0333d10b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 584,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-10-29T13:08:54Z",
+      "side": 1,
+      "message": "Fix applied.\n\n(I\u0027ve applied it for now, alongside a fix for too close copy clipboard button, which existed before this change)",
+      "parentUuid": "cfcd0ff4_92516f5c",
+      "revId": "80196d91ec27c098766092148fc1e1f505c4b286",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

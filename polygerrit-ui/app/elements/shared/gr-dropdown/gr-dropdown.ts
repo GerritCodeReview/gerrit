@@ -419,12 +419,8 @@ export class GrDropdown extends LitElement {
   /**
    * Handle a click on the button to open the dropdown.
    */
-  dropdownTriggerTapHandler(e?: MouseEvent) {
+  dropdownTriggerTapHandler() {
     assertIsDefined(this.dropdown);
-    if (e) {
-      e.preventDefault();
-      e.stopPropagation();
-    }
 
     this.dropdown.open = !this.dropdown.open;
   }

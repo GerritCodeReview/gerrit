@@ -714,7 +714,9 @@ export class GrMainHeader extends LitElement {
                   ? 'Open'
                   : 'Close'} hamburger"
                 @click=${() => {
-                  this.handleSidebar();
+                    if (this.hamburgerClose) {
+                      this.handleSidebar();
+                    }
                 }}
               >
                 <md-icon filled

@@ -16,6 +16,24 @@
       "message": "Is this really needed? The issue is if there\u0027s a big subject then it becomes quite ugly quickly. There\u0027s an issue on mobile where it pushes out of screen and the fix for that is to use a line-breaker anywhere. But uglyness still exists on desktop because height is applied. See https://phabricator.wikimedia.org/F68073891",
       "revId": "c4a73268d8b19d9c5f2401f85e32bd2c153047ae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c6db3940_644069ef",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 828,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-10-29T06:51:58Z",
+      "side": 1,
+      "message": "We need this for the sidebar to be sticky at the correct position. But you are right. This is causing all sorts of issues. Same with the gr-main-header.\n\nI have it on my TODO list to add ResizeObservers for both headers and programmatically adapt the css vars based on that. That would allow use to remove this line, and the sidebar would still have the correct values for its positioning.",
+      "parentUuid": "5e33333e_c1272bf5",
+      "revId": "c4a73268d8b19d9c5f2401f85e32bd2c153047ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

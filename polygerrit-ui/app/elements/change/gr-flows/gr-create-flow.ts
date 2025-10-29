@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {customElement, property, state} from 'lit/decorators.js';
-import {css, html, LitElement} from 'lit';
+import {css, html, LitElement, PropertyValues} from 'lit';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {grFormStyles} from '../../../styles/gr-form-styles';
 import {FlowInput} from '../../../api/rest-api';
@@ -15,7 +15,7 @@ import '../../core/gr-search-autocomplete/gr-search-autocomplete';
 import '@material/web/select/outlined-select.js';
 import '@material/web/select/select-option.js';
 import '@material/web/textfield/outlined-text-field.js';
-import {MdOutlinedTextField} from '@material/web/textfield/outlined-text-field';
+import '../../shared/gr-autogrow-textarea/gr-autogrow-textarea.js';
 import {resolve} from '../../../models/dependency';
 import {configModelToken} from '../../../models/config/config-model';
 import {flowsModelToken} from '../../../models/flows/flows-model';
@@ -28,6 +28,7 @@ import {
 import {ValueChangedEvent} from '../../../types/events';
 import {SuggestionProvider} from '../../core/gr-search-autocomplete/gr-search-autocomplete';
 import {when} from 'lit/directives/when.js';
+import {MdOutlinedTextField} from '@material/web/textfield/outlined-text-field.js';
 
 const MAX_AUTOCOMPLETE_RESULTS = 10;
 
@@ -56,6 +57,8 @@ export class GrCreateFlow extends LitElement {
   @state() private loading = false;
 
   @state() private serverConfig?: ServerInfo;
+
+  @state() flowString = '';
 
   private readonly restApiService = getAppContext().restApiService;
 
@@ -107,6 +110,10 @@ export class GrCreateFlow extends LitElement {
       sharedStyles,
       grFormStyles,
       css`
+        md-outlined-text-field[textarea] {
+          width: 100%;
+          margin-bottom: var(--spacing-m);
+        }
         .add-stage-row {
           display: flex;
           align-items: center;
@@ -132,6 +139,12 @@ export class GrCreateFlow extends LitElement {
 
   override firstUpdated() {
     this.hostUrl = window.location.origin + window.location.pathname;
+  }
+
+  override updated(changedProperties: PropertyValues) {
+    if (changedProperties.has('stages')) {
+      this.computeFlowString();
+    }
   }
 
   private renderTable() {
@@ -174,8 +187,30 @@ export class GrCreateFlow extends LitElement {
     );
   }
 
+  private computeFlowString() {
+    const stageToString = (stage: {
+      condition: string;
+      action: string;
+      parameterStr: string;
+    }) => {
+      if (stage.action) {
+        if (stage.parameterStr) {
+          return `${stage.condition} -> ${stage.action}(${stage.parameterStr})`;
+        }
+        return `${stage.condition} -> ${stage.action}`;
+      }
+      return stage.condition;
+    };
+    this.flowString = this.stages.map(stageToString).join(', ');
+  }
+
   override render() {
     return html`
+      <gr-autogrow-textarea
+        placeholder="raw flow"
+        label="Raw Flow"
+        .value=${this.flowString}
+      ></gr-autogrow-textarea>
       <div>${this.renderTable()}</div>
       <div class="add-stage-row">
         <md-outlined-select

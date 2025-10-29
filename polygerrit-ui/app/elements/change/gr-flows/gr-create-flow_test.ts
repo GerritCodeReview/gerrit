@@ -10,10 +10,11 @@ import {GrCreateFlow} from './gr-create-flow';
 import {queryAll, queryAndAssert} from '../../../test/test-utils';
 import {NumericChangeId} from '../../../types/common';
 import {GrButton} from '../../shared/gr-button/gr-button';
-import {MdOutlinedTextField} from '@material/web/textfield/outlined-text-field';
+import {GrAutogrowTextarea} from '../../shared/gr-autogrow-textarea/gr-autogrow-textarea';
 import {GrSearchAutocomplete} from '../../core/gr-search-autocomplete/gr-search-autocomplete';
 import {FlowsModel, flowsModelToken} from '../../../models/flows/flows-model';
 import {testResolver} from '../../../test/common-test-setup';
+import {MdOutlinedTextField} from '@material/web/textfield/outlined-text-field';
 
 suite('gr-create-flow tests', () => {
   let element: GrCreateFlow;
@@ -302,5 +303,72 @@ suite('gr-create-flow tests', () => {
         action: {name: 'act 2'},
       },
     ]);
+  });
+
+  test('raw flow textarea is updated', async () => {
+    const rawFlowTextarea = queryAndAssert<GrAutogrowTextarea>(
+      element,
+      'gr-autogrow-textarea[label="Raw Flow"]'
+    );
+    assert.isDefined(rawFlowTextarea);
+    assert.equal(rawFlowTextarea.value, '');
+
+    const searchAutocomplete = queryAndAssert<GrSearchAutocomplete>(
+      element,
+      'gr-search-autocomplete'
+    );
+    const actionInput = queryAndAssert<MdOutlinedTextField>(
+      element,
+      'md-outlined-text-field[label="Action"]'
+    );
+    const paramsInput = queryAndAssert<MdOutlinedTextField>(
+      element,
+      'md-outlined-text-field[label="Parameters"]'
+    );
+    const addButton = queryAndAssert<GrButton>(
+      element,
+      'gr-button[aria-label="Add Stage"]'
+    );
+
+    // Add first stage
+    searchAutocomplete.value = 'cond 1';
+    await element.updateComplete;
+    actionInput.value = 'act 1';
+    actionInput.dispatchEvent(new Event('input'));
+    await element.updateComplete;
+    addButton.click();
+    await element.updateComplete;
+
+    assert.equal(
+      element.flowString,
+      'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is cond 1 -> act 1'
+    );
+
+    // Add second stage with parameters
+    searchAutocomplete.value = 'cond 2';
+    await element.updateComplete;
+    actionInput.value = 'act 2';
+    actionInput.dispatchEvent(new Event('input'));
+    await element.updateComplete;
+    paramsInput.value = 'param';
+    paramsInput.dispatchEvent(new Event('input'));
+    await element.updateComplete;
+    addButton.click();
+    await element.updateComplete;
+
+    assert.equal(
+      element.flowString,
+      'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is cond 1 -> act 1, https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is cond 2 -> act 2(param)'
+    );
+
+    // Remove first stage
+    const removeButtons = queryAll<GrButton>(element, 'tr gr-button');
+    removeButtons[0].click();
+    await element.updateComplete;
+
+    assert.equal(
+      element.flowString,
+      'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is cond 2 -> act 2(param)'
+    );
   });
 });

@@ -282,12 +282,21 @@ export class GrDropdown extends LitElement {
         @opened=${() => {
           this.opened = true;
         }}
+        @closing=${() => {
+          // Blur focused item before aria-hidden="true" is applied
+          // Fixes console warning about aria-hidden can't be set because
+          // md-menu is focused already.
+          const active = (this.shadowRoot?.activeElement ??
+            document.activeElement) as HTMLElement;
+          if (active && this.dropdown?.contains(active)) {
+            active.blur();
+          }
+        }}
         @closed=${() => {
           this.opened = false;
           this.hadKeyboardEvent = false;
           // This is an ugly hack but works.
           this.cursor.target?.removeAttribute('selected');
-          this.cursor.target?.blur();
         }}
       >
         ${this.renderDropdownContent()}
@@ -419,12 +428,8 @@ export class GrDropdown extends LitElement {
   /**
    * Handle a click on the button to open the dropdown.
    */
-  dropdownTriggerTapHandler(e?: MouseEvent) {
+  dropdownTriggerTapHandler() {
     assertIsDefined(this.dropdown);
-    if (e) {
-      e.preventDefault();
-      e.stopPropagation();
-    }
 
     this.dropdown.open = !this.dropdown.open;
   }

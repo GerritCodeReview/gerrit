@@ -64,6 +64,24 @@
       ],
       "revId": "80196d91ec27c098766092148fc1e1f505c4b286",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "221e9499_ce6a6573",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 584,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-10-29T12:12:44Z",
+      "side": 1,
+      "message": "you\u0027re suggestion doesn\u0027t center it. See https://phabricator.wikimedia.org/F68244588.\n\nThe use of `vertical-align: middle;` did what i wanted in both mobile and desktop see https://phabricator.wikimedia.org/F68245157 and https://phabricator.wikimedia.org/F68245366.",
+      "parentUuid": "1dd0fece_4d6d708d",
+      "revId": "80196d91ec27c098766092148fc1e1f505c4b286",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

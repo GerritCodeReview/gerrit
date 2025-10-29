@@ -1,0 +1,68 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f6b50162_a6da9c1f",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-10-29T07:43:14Z",
+      "side": 1,
+      "message": "```suggestion\n* Change indexing is done synchronously for service users only if\n```\n\nI assume this sentence means it\u0027s done for service users and not others?",
+      "range": {
+        "startLine": 143,
+        "startChar": 40,
+        "endLine": 143,
+        "endChar": 62
+      },
+      "revId": "fc0bb998af11a45964d3f31e5de1f528d200b845",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d98bdaf4_56445918",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-10-29T07:43:14Z",
+      "side": 1,
+      "message": "second `only if`?\n\nDo you mean `and`",
+      "range": {
+        "startLine": 145,
+        "startChar": 34,
+        "endLine": 147,
+        "endChar": 24
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "11306989_ddaeeb15",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "Documentation/access-control.txt",
+              "range": {
+                "startLine": 145,
+                "startChar": 0,
+                "endLine": 146,
+                "endChar": 0
+              },
+              "replacement": "  is enabled in the Gerrit config (and the\n"
+            }
+          ]
+        }
+      ],
+      "revId": "fc0bb998af11a45964d3f31e5de1f528d200b845",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

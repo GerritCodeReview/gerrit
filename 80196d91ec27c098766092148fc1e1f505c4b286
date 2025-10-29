@@ -1,0 +1,69 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1dd0fece_4d6d708d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 584,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-10-29T06:42:52Z",
+      "side": 1,
+      "message": "I am hesitant to approve any `vertical-align: middle;`, because it does NOT do what you expect, which is center positioning.\n\nIf you want to center align multiple children, then the parent should be `display: flex` and `align-items: center`.\n\nIf you do that, then you probably also want to:\n\n* Remove `display: inline-block; vertical-align: top; position: relative; top: 8px;` here.\n* Wrap each child of the \u003cdiv\u003e flex parent with a \u003cdiv\u003e, because flex children cannot be `display: inline` and it is a source of confusion when `\u003cspan\u003e` elements are treated as `display: block` or `display: inline...` rules are simply ignored by the browser.\n* Add a `flex-shrink: 0;` here, because otherwise the checkbox gets thinner when there is no space.",
+      "fixSuggestions": [
+        {
+          "fixId": "ff1d4625_bbf4f6d1",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+              "range": {
+                "startLine": 533,
+                "startChar": 0,
+                "endLine": 533,
+                "endChar": 0
+              },
+              "replacement": "        .headerLeft {\n          display: flex;\n          align-items: center;\n        }\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+              "range": {
+                "startLine": 582,
+                "startChar": 0,
+                "endLine": 583,
+                "endChar": 0
+              },
+              "replacement": ""
+            },
+            {
+              "path": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+              "range": {
+                "startLine": 584,
+                "startChar": 0,
+                "endLine": 586,
+                "endChar": 0
+              },
+              "replacement": "          flex-shrink: 0;\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+              "range": {
+                "startLine": 887,
+                "startChar": 0,
+                "endLine": 903,
+                "endChar": 0
+              },
+              "replacement": "    return html` \u003cdiv class\u003d\"headerLeft\"\u003e\n        \u003cdiv\u003e\n          \u003ca href\u003d${ifDefined(this.getChangeModel().changeUrl())}\n            \u003e${this.changeNum}\u003c/a\n          \u003e\u003cspan class\u003d\"changeNumberColon\"\u003e:\u003c/span\u003e\n        \u003c/div\u003e\n        \u003cdiv\u003e\n          \u003cspan class\u003d\"headerSubject\"\n            \u003e${trimWithEllipsis(this.change?.subject, 80)}\u003c/span\n          \u003e\n        \u003c/div\u003e\n        \u003cdiv\u003e\n          \u003cmd-checkbox\n            id\u003d\"reviewed\"\n            class\u003d\"reviewed hideOnEdit\"\n            ?hidden\u003d${!this.loggedIn}\n            title\u003d\"Toggle reviewed status of file\"\n            aria-label\u003d\"file reviewed\"\n            ?checked\u003d${this.reviewed}\n            @change\u003d${this.handleReviewedChange}\n          \u003e\u003c/md-checkbox\u003e\n        \u003c/div\u003e\n"
+            }
+          ]
+        }
+      ],
+      "revId": "80196d91ec27c098766092148fc1e1f505c4b286",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

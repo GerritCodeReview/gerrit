@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a49fbce_86e0037e",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-10-29T07:45:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f6b50162_a6da9c1f",
+      "range": {
+        "startLine": 143,
+        "startChar": 40,
+        "endLine": 143,
+        "endChar": 62
+      },
+      "revId": "fc0bb998af11a45964d3f31e5de1f528d200b845",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d98bdaf4_56445918",
@@ -61,6 +85,30 @@
           ]
         }
       ],
+      "revId": "fc0bb998af11a45964d3f31e5de1f528d200b845",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0532b328_87815013",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-10-29T07:45:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d98bdaf4_56445918",
+      "range": {
+        "startLine": 145,
+        "startChar": 34,
+        "endLine": 147,
+        "endChar": 24
+      },
       "revId": "fc0bb998af11a45964d3f31e5de1f528d200b845",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

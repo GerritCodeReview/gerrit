@@ -107,6 +107,10 @@ export class GrCreateFlow extends LitElement {
       sharedStyles,
       grFormStyles,
       css`
+        md-outlined-text-field[textarea] {
+          width: 100%;
+          margin-bottom: var(--spacing-m);
+        }
         .add-stage-row {
           display: flex;
           align-items: center;
@@ -174,8 +178,33 @@ export class GrCreateFlow extends LitElement {
     );
   }
 
+  private get flowString() {
+    const stageToString = (stage: {
+      condition: string;
+      action: string;
+      parameterStr: string;
+    }) => {
+      if (stage.action) {
+        if (stage.parameterStr) {
+          return `${stage.condition} -> ${stage.action}(${stage.parameterStr})`;
+        }
+        return `${stage.condition} -> ${stage.action}`;
+      }
+      return stage.condition;
+    };
+    return this.stages.map(stageToString).join(', ');
+  }
+
   override render() {
     return html`
+      <md-outlined-text-field
+        textarea
+        readonly
+        rows="3"
+        placeholder="raw flow"
+        label="Raw Flow"
+        .value=${this.flowString}
+      ></md-outlined-text-field>
       <div>${this.renderTable()}</div>
       <div class="add-stage-row">
         <md-outlined-select

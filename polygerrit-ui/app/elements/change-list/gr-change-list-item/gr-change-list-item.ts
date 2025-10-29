@@ -329,6 +329,10 @@ export class GrChangeListItem extends LitElement {
           :host {
             display: flex;
           }
+          .content,
+          .spacer {
+            max-width: calc(100vw - 50px);
+          }
         }
       `,
     ];

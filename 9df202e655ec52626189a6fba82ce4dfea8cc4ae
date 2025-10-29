@@ -22,6 +22,30 @@
       },
       "revId": "9df202e655ec52626189a6fba82ce4dfea8cc4ae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4e8819b2_e9abe3c3",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-10-29T07:23:10Z",
+      "side": 1,
+      "message": "True, but actually this field is recording a combination of push kind (direct or for review) and the user kind (service user or human user). Ideally these would be 2 separate fields but this metric already has 3 fields in total which is the max we can currently have.",
+      "parentUuid": "a433b529_46765ed1",
+      "range": {
+        "startLine": 152,
+        "startChar": 9,
+        "endLine": 152,
+        "endChar": 13
+      },
+      "revId": "9df202e655ec52626189a6fba82ce4dfea8cc4ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

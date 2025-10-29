@@ -333,12 +333,12 @@ export class GrDropdownList extends LitElement {
             this.opened = true;
             this.scrollToSelected(e);
           }}
+          @closing=${this.handleMenuClosing}
           @closed=${() => {
             this.opened = false;
             this.hadKeyboardEvent = false;
             // This is an ugly hack but works.
             this.cursor.target?.removeAttribute('selected');
-            this.cursor.target?.blur();
           }}
         >
           ${incrementalRepeat({
@@ -471,18 +471,10 @@ export class GrDropdownList extends LitElement {
   /**
    * Handle a click on the md-menu element.
    */
-  private handleDropdownClick(e?: MouseEvent) {
+  private handleDropdownClick() {
     assertIsDefined(this.dropdown);
-    if (e) {
-      e.preventDefault();
-      e.stopPropagation();
-    }
 
     this.dropdown.close();
-
-    // For some reason this is needed, otherwise a console warning is thrown,
-    // with something about aria-hidden can't be set because md-menu is focused already.
-    e && e.currentTarget && (e.currentTarget as HTMLElement).blur();
   }
 
   private updateText() {
@@ -536,6 +528,17 @@ export class GrDropdownList extends LitElement {
       this.cursor.stops = Array.from(
         this.shadowRoot?.querySelectorAll('md-menu-item') ?? []
       );
+    }
+  }
+
+  private handleMenuClosing() {
+    // Blur focused item before aria-hidden="true" is applied
+    // Fixes console warning about aria-hidden can't be set because
+    // md-menu is focused already.
+    const active = (this.shadowRoot?.activeElement ??
+      document.activeElement) as HTMLElement;
+    if (active && this.dropdown?.contains(active)) {
+      active.blur();
     }
   }
 }

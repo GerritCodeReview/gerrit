@@ -303,4 +303,71 @@ suite('gr-create-flow tests', () => {
       },
     ]);
   });
+
+  test('raw flow textarea is updated', async () => {
+    const rawFlowTextarea = queryAndAssert<MdOutlinedTextField>(
+      element,
+      'md-outlined-text-field[label="Raw Flow"]'
+    );
+    assert.isDefined(rawFlowTextarea);
+    assert.equal(rawFlowTextarea.value, '');
+
+    const searchAutocomplete = queryAndAssert<GrSearchAutocomplete>(
+      element,
+      'gr-search-autocomplete'
+    );
+    const actionInput = queryAndAssert<MdOutlinedTextField>(
+      element,
+      'md-outlined-text-field[label="Action"]'
+    );
+    const paramsInput = queryAndAssert<MdOutlinedTextField>(
+      element,
+      'md-outlined-text-field[label="Parameters"]'
+    );
+    const addButton = queryAndAssert<GrButton>(
+      element,
+      'gr-button[aria-label="Add Stage"]'
+    );
+
+    // Add first stage
+    searchAutocomplete.value = 'cond 1';
+    await element.updateComplete;
+    actionInput.value = 'act 1';
+    actionInput.dispatchEvent(new Event('input'));
+    await element.updateComplete;
+    addButton.click();
+    await element.updateComplete;
+
+    assert.equal(
+      element.flowString,
+      'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is cond 1 -> act 1'
+    );
+
+    // Add second stage with parameters
+    searchAutocomplete.value = 'cond 2';
+    await element.updateComplete;
+    actionInput.value = 'act 2';
+    actionInput.dispatchEvent(new Event('input'));
+    await element.updateComplete;
+    paramsInput.value = 'param';
+    paramsInput.dispatchEvent(new Event('input'));
+    await element.updateComplete;
+    addButton.click();
+    await element.updateComplete;
+
+    assert.equal(
+      element.flowString,
+      'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is cond 1 -> act 1, https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is cond 2 -> act 2(param)'
+    );
+
+    // Remove first stage
+    const removeButtons = queryAll<GrButton>(element, 'tr gr-button');
+    removeButtons[0].click();
+    await element.updateComplete;
+
+    assert.equal(
+      element.flowString,
+      'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is cond 2 -> act 2(param)'
+    );
+  });
 });

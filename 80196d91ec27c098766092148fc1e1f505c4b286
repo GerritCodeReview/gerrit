@@ -100,6 +100,24 @@
       "parentUuid": "221e9499_ce6a6573",
       "revId": "80196d91ec27c098766092148fc1e1f505c4b286",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cfcd0ff4_92516f5c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 584,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-10-29T12:40:16Z",
+      "side": 1,
+      "message": "@brohlfs@google.com so with your change it looks like https://phabricator.wikimedia.org/F68249572. But with the vertical align being at middle it looks like https://phabricator.wikimedia.org/F68245366.\n\nSo your change doesn’t just change how the checkbox displays but also other stuff. Do we want to proceed with yours?",
+      "parentUuid": "03cb6389_4fa6a133",
+      "revId": "80196d91ec27c098766092148fc1e1f505c4b286",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "63f95cb4_9a1a24c7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-10-29T15:14:59Z",
+      "side": 1,
+      "message": "@brohlfs@google.com this is needed to fix account-dropdown or the more button. But then:\n\n```\nBlocked aria-hidden on an element because its descendant retained focus. The focus must not be hidden from assistive technology users. Avoid using aria-hidden on a focused element or its ancestor. Consider using the inert attribute instead, which will also prevent focus. For more details, see the aria-hidden section of the WAI-ARIA specification at https://w3c.github.io/aria/#aria-hidden.\nElement with focus: \u003cli.list-item   #item\u003e\nAncestor with aria-hidden: \u003cmd-menu#dropdown\u003e \u003cmd-menu default-focus\u003d​\"none\" id\u003d​\"dropdown\" anchor\u003d​\"trigger\" tabindex\u003d​\"-1\" quick aria-hidden\u003d​\"true\"\u003e​…​\u003c/md-menu\u003e​Understand this warning\n```\n\nI\u0027m not sure how to correctly fix that, maybe you do? I fixed this by using e.preventdefault and stopPropagation in dropdownTriggerTapHandler but it broke account-dropdown/more button with regards to when the sidebar is open.",
+      "revId": "7344b274fc0801e7ae868211d1ff33de112dce63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

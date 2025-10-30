@@ -22,6 +22,30 @@
       },
       "revId": "04c65ee24dad55750127607e239ee38d01ecb47a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "809d6ca1_5f135a65",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1103,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-10-30T14:21:53Z",
+      "side": 1,
+      "message": "Thanks, done.\n\nDuring testing i discovered an issue with this approach (whilst it fixes it), it causes it to scroll to the top. Which is better then how it works now (when i\u0027m scrolled down, the sidebar doesn\u0027t show properly, this change fixes that as well).\n\nI found an alternative fix although still a workaround:\n\n```\nprivate handleSidebar() {\n  const html \u003d document.documentElement;\n  const body \u003d document.body;\n  const sidebar \u003d this.navSidebar;\n  const overlay \u003d this.modelBackground;\n\n  this.hamburgerClose \u003d !this.hamburgerClose;\n  sidebar?.classList.toggle(\u0027visible\u0027, this.hamburgerClose);\n  overlay?.classList.toggle(\u0027visible\u0027, this.hamburgerClose);\n\n  if (this.hamburgerClose) {\n    // save current scroll\n    const scrollY \u003d window.scrollY;\n    (body as any)._savedScroll \u003d scrollY;\n\n    html.style.overscrollBehavior \u003d \u0027none\u0027;\n    html.style.overflow \u003d \u0027hidden\u0027;\n    body.style.overscrollBehavior \u003d \u0027none\u0027;\n    body.style.overflow \u003d \u0027hidden\u0027;\n    body.style.position \u003d \u0027relative\u0027; // fixed keeps scroll locked\n    //body.style.top \u003d `-${scrollY}px`; // preserve scroll\n\n  } else {\n    // restore scroll\n    const scrollY \u003d (body as any)._savedScroll ?? 0;\n    html.style.overscrollBehavior \u003d \u0027\u0027;\n    html.style.overflow \u003d \u0027\u0027;\n    body.style.position \u003d \u0027\u0027;\n    body.style.top \u003d \u0027\u0027;\n    body.style.overflow \u003d \u0027\u0027;\n    body.style.overscrollBehavior \u003d \u0027\u0027;\n    window.scrollTo(0, scrollY);\n    delete (body as any)._savedScroll;\n  }\n}\n```\n\nNot sure if we want that, so just kept as is but cleaned up.",
+      "parentUuid": "fc8a2cbb_b0455d1b",
+      "range": {
+        "startLine": 1092,
+        "startChar": 4,
+        "endLine": 1103,
+        "endChar": 0
+      },
+      "revId": "04c65ee24dad55750127607e239ee38d01ecb47a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -16,6 +16,7 @@ import '@material/web/select/outlined-select.js';
 import '@material/web/select/select-option.js';
 import '@material/web/textfield/outlined-text-field.js';
 import '../../shared/gr-autogrow-textarea/gr-autogrow-textarea.js';
+import '../../shared/gr-copy-clipboard/gr-copy-clipboard';
 import {resolve} from '../../../models/dependency';
 import {configModelToken} from '../../../models/config/config-model';
 import {flowsModelToken} from '../../../models/flows/flows-model';
@@ -110,9 +111,15 @@ export class GrCreateFlow extends LitElement {
       sharedStyles,
       grFormStyles,
       css`
-        md-outlined-text-field[textarea] {
-          width: 100%;
+        .raw-flow-container {
+          display: flex;
+          align-items: center;
+          gap: var(--spacing-s);
+        }
+        gr-autogrow-textarea {
+          width: 72ch;
           margin-bottom: var(--spacing-m);
+          border-color: var(--primary-text-color, black);
         }
         .add-stage-row {
           display: flex;
@@ -206,11 +213,18 @@ export class GrCreateFlow extends LitElement {
 
   override render() {
     return html`
-      <gr-autogrow-textarea
-        placeholder="raw flow"
-        label="Raw Flow"
-        .value=${this.flowString}
-      ></gr-autogrow-textarea>
+      <div class="raw-flow-container">
+        <gr-autogrow-textarea
+          placeholder="raw flow"
+          label="Raw Flow"
+          .value=${this.flowString}
+        ></gr-autogrow-textarea>
+        <gr-copy-clipboard
+          .text=${this.flowString}
+          buttonTitle="Copy raw flow to clipboard"
+          hideinput
+        ></gr-copy-clipboard>
+      </div>
       <div>${this.renderTable()}</div>
       <div class="add-stage-row">
         <md-outlined-select

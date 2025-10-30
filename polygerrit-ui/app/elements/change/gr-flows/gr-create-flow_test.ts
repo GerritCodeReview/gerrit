@@ -16,6 +16,8 @@ import {FlowsModel, flowsModelToken} from '../../../models/flows/flows-model';
 import {testResolver} from '../../../test/common-test-setup';
 import {MdOutlinedTextField} from '@material/web/textfield/outlined-text-field';
 
+import {GrCopyClipboard} from '../../shared/gr-copy-clipboard/gr-copy-clipboard';
+
 suite('gr-create-flow tests', () => {
   let element: GrCreateFlow;
   let flowsModel: FlowsModel;

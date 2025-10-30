@@ -1,0 +1,39 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1e940a9b_e2ce4382",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 650,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-10-30T06:15:56Z",
+      "side": 1,
+      "message": "`inline` will be ignored, because this is a child in a flex container.\n\nChange to `flex`.",
+      "fixSuggestions": [
+        {
+          "fixId": "51d070bb_77e45aba",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+              "range": {
+                "startLine": 650,
+                "startChar": 0,
+                "endLine": 651,
+                "endChar": 0
+              },
+              "replacement": "          display: flex;\n"
+            }
+          ]
+        }
+      ],
+      "revId": "7e826d457c6814e492cdccb4dc12f8f6ab5d6bb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

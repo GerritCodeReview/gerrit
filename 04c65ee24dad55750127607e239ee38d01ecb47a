@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fc8a2cbb_b0455d1b",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1103,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-10-30T06:11:44Z",
+      "side": 1,
+      "message": "I would prefer this to go into a \"isSafari\" or \"isIos\" specific block.\n\nAlso, this requires lots of comments for why this is needed and how this works. Esepcially given that the reader/engineer might not be familiar with `navSidebar` and `hamburgerClose`.",
+      "range": {
+        "startLine": 1092,
+        "startChar": 4,
+        "endLine": 1103,
+        "endChar": 0
+      },
+      "revId": "04c65ee24dad55750127607e239ee38d01ecb47a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

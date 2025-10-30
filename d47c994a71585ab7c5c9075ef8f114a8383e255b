@@ -88,6 +88,24 @@
       "parentUuid": "046993d4_21566c4f",
       "revId": "d47c994a71585ab7c5c9075ef8f114a8383e255b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b239fbf_defd4269",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-10-30T07:29:30Z",
+      "side": 1,
+      "message": "It was in tests... here is the version that should fix it.",
+      "parentUuid": "86ea4780_b9513cda",
+      "revId": "d47c994a71585ab7c5c9075ef8f114a8383e255b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

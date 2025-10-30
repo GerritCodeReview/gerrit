@@ -35,7 +35,7 @@ import '@material/web/labs/item/item';
 import '@material/web/icon/icon';
 import '@material/web/iconbutton/icon-button';
 import {when} from 'lit/directives/when.js';
-import {isElementTarget} from '../../../utils/dom-util';
+import {isElementTarget, isFirefox, isSafari} from '../../../utils/dom-util';
 
 type MainHeaderLink = RequireProperties<DropdownLink, 'url' | 'name'>;
 
@@ -1097,16 +1097,39 @@ export class GrMainHeader extends LitElement {
   }
 
   private handleSidebar() {
-    this.navSidebar?.classList.toggle('visible');
-    if (!this.modelBackground) {
-      if (document.getElementsByTagName('html')) {
-        document.getElementsByTagName('html')[0].style.overflow = 'hidden';
-      }
-    } else {
-      if (document.getElementsByTagName('html')) {
-        document.getElementsByTagName('html')[0].style.overflow = '';
-      }
-    }
+    // Nav sidebar is only used on mobile.
+    // It's used to display items that would be unable
+    // to fit in the header.
+    const navSidebar = this.navSidebar;
+    navSidebar?.classList.toggle('visible');
+
+    const html = document.documentElement;
+
+    html.style.overflow = this.modelBackground ? '' : 'hidden';
+
+    if (isSafari() || isFirefox()) this.fixSidebarForSafariAndFirefox();
+
+    // This adds a modelBackground in order to dim the background and
+    // to show it's not scrollable.
     this.hamburgerClose = !this.hamburgerClose;
+  }
+
+  /**
+   * There seems to have been a behaviour change in iOS 26, that breaks using
+   * just overflow hidden on <html>, to block scrolling when sidebar is open.
+   * Although this behaviour seems fixed in iOS 26.1.
+   * But issue now is that when you're half way down the page, and open the sidebar,
+   * it won't show without this fix for both safari and firefox.
+   */
+  private fixSidebarForSafariAndFirefox() {
+    const isModal = !!this.modelBackground;
+
+    const html = document.documentElement;
+    html.style.overscrollBehavior = isModal ? '' : 'none';
+
+    const body = document.body;
+    body.style.overflow = isModal ? '' : 'hidden';
+    body.style.overscrollBehavior = isModal ? '' : 'none';
+    body.style.position = isModal ? '' : 'relative';
   }
 }

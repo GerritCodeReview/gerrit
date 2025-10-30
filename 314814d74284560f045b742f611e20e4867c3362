@@ -34,6 +34,24 @@
       "parentUuid": "f50632a4_7c2f9f2c",
       "revId": "314814d74284560f045b742f611e20e4867c3362",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fdb2ae86_68298854",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 6712,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-10-30T21:20:22Z",
+      "side": 1,
+      "message": "[snip]\n\u003e where the value comes from when it gets set on line 408: `smtpFromAddress \u003d args.fromAddressGenerator.get().from(fromId);`\n\nThere\u0027s a [decent test class](https://gerrit.googlesource.com/gerrit/+/refs/changes/41/520941/3/javatests/com/google/gerrit/server/mail/send/FromAddressGeneratorProviderTest.java) for FromAddressGenerator that shows the interaction with `sendemail.from`.\n\nAs for where that turns into the STMP `MAIL FROM` value, that happens in [`SmtpEmailSender`](https://gerrit.googlesource.com/gerrit/+/refs/changes/41/520941/3/java/com/google/gerrit/server/mail/send/SmtpEmailSender.java#228) using `setSender()`.\n\n\u003e \n\u003e I had to configure the `SMTP FROM` address because the default, \"gerrit@`hostname`\", was not allowed with our new email system. The `SMTP FROM` had to be of the form `\u003canything\u003e@domain.tld` (e.g., \"gerrit@qualcomm.com\", not \"gerrit@mygerrit.qualcomm.com\"), otherwise the server rejected the mail.\n\nI think the conclusion for your update here is that if your `sendemail.from` is either `SERVER` or `MIXED`, then this `user.email` value is what\u0027s used in the SMTP envelope, but if it\u0027s `USER`, then it will be the real user\u0027s email address. I do think you want to add that nuance the text you\u0027re adding.",
+      "parentUuid": "7d7a54ec_37e7309b",
+      "revId": "314814d74284560f045b742f611e20e4867c3362",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

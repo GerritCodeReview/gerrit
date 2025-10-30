@@ -1088,15 +1088,19 @@ export class GrMainHeader extends LitElement {
 
   private handleSidebar() {
     this.navSidebar?.classList.toggle('visible');
-    if (!this.modelBackground) {
-      if (document.getElementsByTagName('html')) {
-        document.getElementsByTagName('html')[0].style.overflow = 'hidden';
-      }
-    } else {
-      if (document.getElementsByTagName('html')) {
-        document.getElementsByTagName('html')[0].style.overflow = '';
-      }
-    }
+
+    const html = document.documentElement;
+    const body = document.body;
+
+    const isModal = !!this.modelBackground;
+
+    html.style.overflow = isModal ? '' : 'hidden';
+    html.style.overscrollBehavior = isModal ? '' : 'none';
+
+    body.style.overflow = isModal ? '' : 'hidden';
+    body.style.overscrollBehavior = isModal ? '' : 'none';
+    body.style.position = isModal ? '' : 'relative';
+
     this.hamburgerClose = !this.hamburgerClose;
   }
 }

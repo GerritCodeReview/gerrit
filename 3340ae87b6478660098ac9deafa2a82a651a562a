@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5746a210_1fe4617d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 5717,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-10-30T23:43:38Z",
+      "side": 1,
+      "message": "I think `MAIL FROM` is only the address part, not the name, correct? If we want to be picky about that, you could reword this to indicate that. I think it\u0027s fine as-is though.\n\nIt would be good to wrap this line a little earlier though. I think this file is supposed to be wrapped at 80 characters.",
+      "revId": "3340ae87b6478660098ac9deafa2a82a651a562a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b45fb4b8_3b8dd7f8",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 5733,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-10-30T23:43:38Z",
+      "side": 1,
+      "message": "Mention here too?\n```suggestion\nGerrit will set the From header and SMTP `MAIL FROM` (envelope sender) to the same name and address\n```",
+      "revId": "3340ae87b6478660098ac9deafa2a82a651a562a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

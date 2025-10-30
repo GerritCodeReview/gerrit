@@ -34,6 +34,24 @@
       ],
       "revId": "7e826d457c6814e492cdccb4dc12f8f6ab5d6bb7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fb5edd5f_3e61417c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 650,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-10-30T14:23:55Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "1e940a9b_e2ce4382",
+      "revId": "7e826d457c6814e492cdccb4dc12f8f6ab5d6bb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

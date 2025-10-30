@@ -1059,7 +1059,7 @@ export class GrChangeView extends LitElement {
             align-items: flex-start;
             flex-direction: column;
             flex: 1;
-            padding: var(--spacing-s) var(--spacing-l);
+            padding: var(--spacing-l) var(--spacing-l);
             height: unset;
           }
           .headerTitle {

@@ -50,6 +50,30 @@
       ],
       "revId": "a3eab98e51955f3db3a59d1543b39e451eeb1d6e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bde80c26_546fad8f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown/gr-dropdown.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-10-30T14:26:32Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "9f33d2aa_5bec2133",
+      "range": {
+        "startLine": 286,
+        "startChar": 9,
+        "endLine": 293,
+        "endChar": 11
+      },
+      "revId": "a3eab98e51955f3db3a59d1543b39e451eeb1d6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

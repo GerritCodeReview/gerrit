@@ -22,6 +22,30 @@
       },
       "revId": "fdcc3a4285d751993304239a83e0abf4a49dbcae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4d20dc85_bd01d6e6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown-list/gr-dropdown-list.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 479,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-10-30T14:26:32Z",
+      "side": 0,
+      "message": "Yes, this was used to fix\n\n```\nBlocked aria-hidden on an element because its descendant retained focus. The focus must not be hidden from assistive technology users. Avoid using aria-hidden on a focused element or its ancestor. Consider using the inert attribute instead, which will also prevent focus. For more details, see the aria-hidden section of the WAI-ARIA specification at https://w3c.github.io/aria/#aria-hidden.\nElement with focus: \u003cli.list-item   #item\u003e\nAncestor with aria-hidden: \u003cmd-menu#dropdown\u003e \u003cmd-menu default-focus\u003d​\"none\" id\u003d​\"dropdown\" anchor\u003d​\"trigger\" tabindex\u003d​\"-1\" quick aria-hidden\u003d​\"true\"\u003e​…​\u003c/md-menu\u003e​Understand this warning\n```. But caused other problems. I seem to have found a better fix.",
+      "parentUuid": "da91baae_19c7f6ff",
+      "range": {
+        "startLine": 476,
+        "startChar": 4,
+        "endLine": 479,
+        "endChar": 5
+      },
+      "revId": "fdcc3a4285d751993304239a83e0abf4a49dbcae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

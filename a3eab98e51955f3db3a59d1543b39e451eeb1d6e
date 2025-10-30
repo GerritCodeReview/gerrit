@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9f33d2aa_5bec2133",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown/gr-dropdown.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-10-30T06:14:15Z",
+      "side": 1,
+      "message": "move into its own method.",
+      "range": {
+        "startLine": 286,
+        "startChar": 9,
+        "endLine": 293,
+        "endChar": 11
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "f559732c_43886791",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/shared/gr-dropdown/gr-dropdown.ts",
+              "range": {
+                "startLine": 285,
+                "startChar": 0,
+                "endLine": 295,
+                "endChar": 0
+              },
+              "replacement": "        @closing\u003d${this.handleMenuClosing}\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/shared/gr-dropdown/gr-dropdown.ts",
+              "range": {
+                "startLine": 306,
+                "startChar": 0,
+                "endLine": 306,
+                "endChar": 0
+              },
+              "replacement": "\n  private handleMenuClosing() {\n    // Blur focused item before aria-hidden\u003d\"true\" is applied\n    // Fixes console warning about aria-hidden can\u0027t be set because\n    // md-menu is focused already.\n    const active \u003d (this.shadowRoot?.activeElement ??\n      document.activeElement) as HTMLElement;\n    if (active \u0026\u0026 this.dropdown?.contains(active)) {\n      active.blur();\n    }\n  }\n"
+            }
+          ]
+        }
+      ],
+      "revId": "a3eab98e51955f3db3a59d1543b39e451eeb1d6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

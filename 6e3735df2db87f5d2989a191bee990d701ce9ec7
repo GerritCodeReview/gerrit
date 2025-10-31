@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6542489c_b858698f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-10-31T20:43:35Z",
+      "side": 1,
+      "message": "AFAICS lucene uses java.util.logging. I think with that we should be able to bridge that to log4j1.x by adding the following dependencies:\n\norg.slf4j:jul-to-slf4j:1.7.36\norg.slf4j:slf4j-api:1.7.36\norg.slf4j:slf4j-log4j12:1.7.36",
+      "revId": "6e3735df2db87f5d2989a191bee990d701ce9ec7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

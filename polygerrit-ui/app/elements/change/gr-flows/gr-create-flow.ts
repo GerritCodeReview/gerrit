@@ -219,6 +219,7 @@ export class GrCreateFlow extends LitElement {
           placeholder="raw flow"
           label="Raw Flow"
           .value=${this.flowString}
+          @input=${this.handleRawFlowChanged}
         ></gr-autogrow-textarea>
         <gr-copy-clipboard
           .text=${this.flowString}
@@ -359,6 +360,49 @@ export class GrCreateFlow extends LitElement {
 
   private handleRemoveStage(index: number) {
     this.stages = this.stages.filter((_, i) => i !== index);
+  }
+
+  private handleRawFlowChanged(e: InputEvent) {
+    this.flowString = (e.target as HTMLTextAreaElement).value;
+    if (!this.flowString) {
+      this.stages = [];
+      this.currentCondition = '';
+      this.currentAction = '';
+      this.currentParameter = '';
+      return;
+    }
+
+    const newStages = this.flowString.split(STAGE_SEPARATOR).map(stageStr => {
+      const [condition, actionPart] = stageStr.split(' -> ');
+
+      if (!actionPart) {
+        return {condition, action: '', parameterStr: ''};
+      }
+
+      const match = actionPart.match(/([^(]+)\((.*)\)/);
+      if (match) {
+        return {condition, action: match[1], parameterStr: match[2]};
+      }
+      return {condition, action: actionPart, parameterStr: ''};
+    });
+
+    this.stages = newStages;
+
+    const lastStage = this.stages[this.stages.length - 1];
+    if (lastStage) {
+      const gerritPrefix = `${this.hostUrl} is `;
+      if (lastStage.condition.startsWith(gerritPrefix)) {
+        this.currentConditionPrefix = 'Gerrit';
+        this.currentCondition = lastStage.condition.substring(
+          gerritPrefix.length
+        );
+      } else {
+        this.currentConditionPrefix = 'Other';
+        this.currentCondition = lastStage.condition;
+      }
+      this.currentAction = lastStage.action;
+      this.currentParameter = lastStage.parameterStr;
+    }
   }
 
   private async handleCreateFlow() {

@@ -45,6 +45,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -106,8 +107,9 @@ public class LocalMergeSuperSetComputation implements MergeSuperSetComputation {
   @Override
   public ChangeSet completeWithoutTopic(
       MergeOpRepoManager orm, ChangeSet changeSet, CurrentUser user) throws IOException {
-    List<ChangeData> visibleChanges = new ArrayList<>();
-    List<ChangeData> nonVisibleChanges = new ArrayList<>();
+    LinkedHashSet<ChangeData> visibleChanges = new LinkedHashSet<>(changeSet.changes());
+    LinkedHashSet<ChangeData> nonVisibleChanges =
+        new LinkedHashSet<>(changeSet.nonVisibleChanges());
 
     // For each target branch we run a separate rev walk to find open changes
     // reachable from changes already in the merge super set.

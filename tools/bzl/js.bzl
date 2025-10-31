@@ -2,6 +2,7 @@ load("@aspect_rules_js//npm:defs.bzl", "npm_link_package")
 load("@aspect_rules_rollup//rollup:defs.bzl", "rollup")
 load("@aspect_rules_terser//terser:defs.bzl", "terser")
 load("//tools/bzl:genrule2.bzl", "genrule2")
+load("//tools/bzl:symlink_directories.bzl", "symlink_directory")
 
 ComponentInfo = provider()
 
@@ -65,10 +66,24 @@ def polygerrit_plugin(name, app, plugin_name = None):
     if not plugin_name:
         plugin_name = name
 
+    node_modules = plugin_name + "-node_modules"
+
+    symlink_directory(
+        name = node_modules,
+        srcs = ["//tools/node_tools:node_modules"],
+        out_dir = "node_modules",
+        strip_prefix = "tools/node_tools/node_modules",
+    )
+
+    native.filegroup(
+        name = node_modules + "/terser",
+        srcs = [node_modules],
+    )
+
     terser(
         name = plugin_name + ".min",
         sourcemap = False,
-        node_modules = "//tools/node_tools:node_modules",
+        node_modules = node_modules,
         srcs = [app],
     )
 
@@ -101,6 +116,7 @@ def gerrit_js_bundle(name, entry_point, srcs = []):
     """
 
     bundle = name + "-bundle"
+    node_modules = name + "-node_modules"
     minified = name + ".min"
     main = name + ".js"
 
@@ -123,10 +139,22 @@ def gerrit_js_bundle(name, entry_point, srcs = []):
         ],
     )
 
+    symlink_directory(
+        name = node_modules,
+        srcs = ["//tools/node_tools:node_modules"],
+        out_dir = "node_modules",
+        strip_prefix = "tools/node_tools/node_modules",
+    )
+
+    native.filegroup(
+        name = node_modules + "/terser",
+        srcs = [node_modules],
+    )
+
     terser(
         name = minified,
         sourcemap = False,
-        node_modules = "//tools/node_tools:node_modules",
+        node_modules = node_modules,
         srcs = [bundle],
     )
 

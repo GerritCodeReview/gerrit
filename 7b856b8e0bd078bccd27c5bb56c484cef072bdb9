@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9d905c86_4a10c668",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-10-31T07:40:17Z",
+      "side": 1,
+      "message": "This solution is currently only working for plugins with a single `gerrit_js_bundle` and also otherwise not ideal. I will try a different approach, where plugins will be their own bazel modules.",
+      "revId": "7b856b8e0bd078bccd27c5bb56c484cef072bdb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

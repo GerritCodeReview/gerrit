@@ -530,6 +530,10 @@ export class GrDiffView extends LitElement {
         .hidden {
           display: none;
         }
+        .headerLeft {
+          display: flex;
+          align-items: center;
+        }
         gr-patch-range-select {
           display: block;
         }
@@ -560,6 +564,7 @@ export class GrDiffView extends LitElement {
           color: transparent;
         }
         .headerSubject {
+          margin-left: var(--spacing-s);
           margin-right: var(--spacing-m);
           font-weight: var(--font-weight-medium);
         }
@@ -579,11 +584,8 @@ export class GrDiffView extends LitElement {
           padding: 0 var(--spacing-xs);
         }
         .reviewed {
-          display: inline-block;
           margin: 0 var(--spacing-xs);
-          vertical-align: top;
-          position: relative;
-          top: 8px;
+          flex-shrink: 0;
         }
         .jumpToFileContainer {
           display: inline-block;
@@ -643,6 +645,12 @@ export class GrDiffView extends LitElement {
         }
         .editButtona a {
           text-decoration: none;
+        }
+        .checkboxDiv {
+          display: flex;
+        }
+        gr-dropdown-list {
+          --gr-dropdown-copy-clipboard-margin-left: var(--spacing-s);
         }
         @media screen and (max-width: 50em) {
           header {
@@ -885,22 +893,28 @@ export class GrDiffView extends LitElement {
     const formattedFiles = this.formatFilesForDropdown();
     const fileNum = this.computeFileNum(formattedFiles);
     const fileNumClass = this.computeFileNumClass(fileNum, formattedFiles);
-    return html` <div>
-        <a href=${ifDefined(this.getChangeModel().changeUrl())}
-          >${this.changeNum}</a
-        ><span class="changeNumberColon">:</span>
-        <span class="headerSubject"
-          >${trimWithEllipsis(this.change?.subject, 80)}</span
-        >
-        <md-checkbox
-          id="reviewed"
-          class="reviewed hideOnEdit"
-          ?hidden=${!this.loggedIn}
-          title="Toggle reviewed status of file"
-          aria-label="file reviewed"
-          ?checked=${this.reviewed}
-          @change=${this.handleReviewedChange}
-        ></md-checkbox>
+    return html` <div class="headerLeft">
+        <div>
+          <a href=${ifDefined(this.getChangeModel().changeUrl())}
+            >${this.changeNum}</a
+          ><span class="changeNumberColon">:</span>
+        </div>
+        <div>
+          <span class="headerSubject"
+            >${trimWithEllipsis(this.change?.subject, 80)}</span
+          >
+        </div>
+        <div class="checkboxDiv">
+          <md-checkbox
+            id="reviewed"
+            class="reviewed hideOnEdit"
+            ?hidden=${!this.loggedIn}
+            title="Toggle reviewed status of file"
+            aria-label="file reviewed"
+            ?checked=${this.reviewed}
+            @change=${this.handleReviewedChange}
+          ></md-checkbox>
+        </div>
         <div class="jumpToFileContainer">
           <gr-dropdown-list
             id="dropdown"

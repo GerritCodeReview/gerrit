@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a53aa1f6_41b30e24",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1041,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-10-31T16:19:47Z",
+      "side": 0,
+      "message": "What happens if we\u0027re trying to submit 2 changes together? Will they both be contained in the passed-in change set, so this error would still not happen?\n\nOr does the input parameter only contain a single change so we\u0027d still end up inthis situation?",
+      "range": {
+        "startLine": 1041,
+        "startChar": 0,
+        "endLine": 1041,
+        "endChar": 98
+      },
+      "revId": "5a79d0b70d3456b291775885d0e13e3a09e20546",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

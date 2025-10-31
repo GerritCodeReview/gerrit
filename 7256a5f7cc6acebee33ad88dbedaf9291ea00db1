@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7cc124b0_18853ec3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-10-31T16:19:47Z",
+      "side": 1,
+      "message": "```suggestion\nGerrit just executes a cycle of retries, hoping that the index would\n```",
+      "range": {
+        "startLine": 13,
+        "startChar": 12,
+        "endLine": 13,
+        "endChar": 20
+      },
+      "revId": "7256a5f7cc6acebee33ad88dbedaf9291ea00db1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "497df1bd_8d155945",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-10-31T16:19:47Z",
+      "side": 1,
+      "message": "Thanks for this note, I had this very question.",
+      "range": {
+        "startLine": 44,
+        "startChar": 0,
+        "endLine": 47,
+        "endChar": 36
+      },
+      "revId": "7256a5f7cc6acebee33ad88dbedaf9291ea00db1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

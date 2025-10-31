@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cfd6930f_70a5f794",
+        "filename": "polygerrit-ui/app/elements/chat-panel/chat-header.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-10-31T18:27:37Z",
+      "side": 1,
+      "message": "This change was not ready for review. Please take another look.",
+      "parentUuid": "68be2ded_79c95593",
+      "revId": "4b34ab232d8dc604b2a89e0736fe2ac9e814ab11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f736edf1_77729092",
@@ -48,6 +66,24 @@
       "writtenOn": "2025-10-30T15:16:39Z",
       "side": 1,
       "message": "Internal Google URL. And I expect plenty of folks will have something like this they\u0027ll want to put here (we will for sure), so it would be great to make this customizable through the plugin.",
+      "revId": "4b34ab232d8dc604b2a89e0736fe2ac9e814ab11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a1632f33_8cd10a96",
+        "filename": "polygerrit-ui/app/elements/chat-panel/chat-panel.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-10-31T18:27:37Z",
+      "side": 1,
+      "message": "This change was not ready for review. Please take another look.",
+      "parentUuid": "f736edf1_77729092",
       "revId": "4b34ab232d8dc604b2a89e0736fe2ac9e814ab11",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -69,6 +105,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "74acca3e_f84d7ad9",
+        "filename": "polygerrit-ui/app/elements/chat-panel/citations-box.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-10-31T18:27:37Z",
+      "side": 1,
+      "message": "This change was not ready for review. Please take another look.",
+      "parentUuid": "16c3c692_54725c68",
+      "revId": "4b34ab232d8dc604b2a89e0736fe2ac9e814ab11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cbe8d04b_9c488520",
@@ -86,6 +140,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d1bb9ce2_6f51d851",
+        "filename": "polygerrit-ui/app/elements/chat-panel/prompt-box.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-10-31T18:27:37Z",
+      "side": 1,
+      "message": "This change was not ready for review. Please take another look.",
+      "parentUuid": "cbe8d04b_9c488520",
+      "revId": "4b34ab232d8dc604b2a89e0736fe2ac9e814ab11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "60fda592_b40134f1",
@@ -99,6 +171,24 @@
       "writtenOn": "2025-10-30T15:16:39Z",
       "side": 1,
       "message": "Same comment about standard Gerrit terms",
+      "revId": "4b34ab232d8dc604b2a89e0736fe2ac9e814ab11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e143b26a_2b9f9353",
+        "filename": "polygerrit-ui/app/elements/chat-panel/user-message.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-10-31T18:27:37Z",
+      "side": 1,
+      "message": "This change was not ready for review. Please take another look.",
+      "parentUuid": "60fda592_b40134f1",
       "revId": "4b34ab232d8dc604b2a89e0736fe2ac9e814ab11",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -126,6 +216,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7f180bf2_ecfb0e7b",
+        "filename": "polygerrit-ui/app/models/chat/chat-model.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-10-31T18:27:37Z",
+      "side": 1,
+      "message": "This change was not ready for review. Please take another look.",
+      "parentUuid": "022bf75a_b78ae2ba",
+      "range": {
+        "startLine": 89,
+        "startChar": 35,
+        "endLine": 89,
+        "endChar": 44
+      },
+      "revId": "4b34ab232d8dc604b2a89e0736fe2ac9e814ab11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "30a14bb4_4f779286",
@@ -139,6 +253,24 @@
       "writtenOn": "2025-10-30T15:16:39Z",
       "side": 1,
       "message": "Are these Gemini bits actually specific to Gemini, or can we replace with \"Model\" or \"Service\"?",
+      "revId": "4b34ab232d8dc604b2a89e0736fe2ac9e814ab11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "571b383c_35befac3",
+        "filename": "polygerrit-ui/app/models/chat/chat-model.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-10-31T18:27:37Z",
+      "side": 1,
+      "message": "This change was not ready for review. Please take another look.",
+      "parentUuid": "30a14bb4_4f779286",
       "revId": "4b34ab232d8dc604b2a89e0736fe2ac9e814ab11",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

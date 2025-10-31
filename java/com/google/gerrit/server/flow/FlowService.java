@@ -98,4 +98,11 @@ public interface FlowService {
    */
   ImmutableList<Flow> listFlows(Project.NameKey projectName, Change.Id changeId)
       throws StorageException;
+
+  /**
+   * Lists the flow actions for which a handler is configured.
+   *
+   * @return the flow actions for which a handler is configured.
+   */
+  ImmutableList<FlowAction> listActions();
 }

@@ -37,6 +37,7 @@ import com.google.gerrit.server.ValidationOptionsListener;
 import com.google.gerrit.server.change.EmailReviewComments;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.flow.Flow;
+import com.google.gerrit.server.flow.FlowAction;
 import com.google.gerrit.server.flow.FlowCreation;
 import com.google.gerrit.server.flow.FlowExpression;
 import com.google.gerrit.server.flow.FlowKey;
@@ -266,6 +267,11 @@ public class TestExtensions {
                       && e.getKey().changeId().equals(changeId))
           .map(Map.Entry::getValue)
           .collect(toImmutableList());
+    }
+
+    @Override
+    public ImmutableList<FlowAction> listActions() {
+      return ImmutableList.of();
     }
 
     /**

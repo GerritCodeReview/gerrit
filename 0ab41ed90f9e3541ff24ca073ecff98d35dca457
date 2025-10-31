@@ -22,6 +22,46 @@
       },
       "revId": "0ab41ed90f9e3541ff24ca073ecff98d35dca457",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d9b7fb8_6a0e2573",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-10-31T01:25:07Z",
+      "side": 1,
+      "message": "I believe this issue still exists and the retry helps mitigating it, but not resolving the problem completely.\n\nI can still reproduce the problem from v3.9 up to master.\n\nRaised as https://issues.gerritcodereview.com/issues/456521736, will then attempt a fix and send for review.",
+      "revId": "0ab41ed90f9e3541ff24ca073ecff98d35dca457",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "63c109fc_cd91a6b6",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 562,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-10-31T01:25:07Z",
+      "side": 1,
+      "message": "Not sure this is enough though: how do we know that this retry will manage to _wait long enough_ for the reindexing to happen?\n\nAlso, it\u0027s not clear to me why we have to search for the change to be submitted on the secondary index: we have the change meta-data, we know who it is, it\u0027s latest patch-set.\n\nWould it be simpler to either include the change itself into the list of changes or just to trigger a synchronous index *in case* is not found in the index at the first try?",
+      "range": {
+        "startLine": 558,
+        "startChar": 0,
+        "endLine": 562,
+        "endChar": 21
+      },
+      "revId": "0ab41ed90f9e3541ff24ca073ecff98d35dca457",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

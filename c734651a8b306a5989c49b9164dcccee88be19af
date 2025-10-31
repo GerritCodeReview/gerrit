@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f9c55149_dd6f2889",
+        "filename": "java/com/google/gerrit/server/submit/LocalMergeSuperSetComputation.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-10-31T22:42:43Z",
+      "side": 1,
+      "message": "Using the incoming `ChangeSet` may not be suitable here, as it may not originate from the index and therefore could contain an empty submit requirements record.\n\nAn empty submit requirement means *always allowed*, which may result in allowing to submit a change that isn\u0027t actually submittable.\n\nWe should make sure that the incoming `ChangeSet` has its submit requirements fully evaluated by calling `ChangeData.submitRequirements()`\n\nOn the other hand, if the change is indexed and the submit requirements records are stored in the index, then it would be significantly faster to use them instead of forcing re-evaluation here.\n\nBottom line: instead of adding the incoming `changeSet.changes()` and `changeSet.nonVisibleChanges()` here, we can simply do it at the very end and only in case they are not returned as a result of an index lookup. That would allow to avoid recalculating the submit requirements if they are already returned as part of the index lookup.",
+      "range": {
+        "startLine": 110,
+        "startChar": 67,
+        "endLine": 110,
+        "endChar": 86
+      },
+      "revId": "c734651a8b306a5989c49b9164dcccee88be19af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

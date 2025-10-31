@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "65ec7a9d_31e33e88",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-10-31T06:38:31Z",
+      "side": 1,
+      "message": "There is more to fix :/ - see for instance [replication](https://gerrit-review.googlesource.com/c/plugins/replication/+/523341) plugin",
+      "revId": "3d15a149ab8e3f2c7430ab978f53374f981aca16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

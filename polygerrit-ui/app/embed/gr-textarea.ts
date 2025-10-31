@@ -20,7 +20,7 @@ import {
   HintDismissedEventDetail,
   HintShownEventDetail,
 } from '../api/embed';
-import {isFirefox, isSafari} from '../utils/dom-util';
+import {isSafari} from '../utils/dom-util';
 
 /**
  * Waits for the next animation frame.
@@ -291,7 +291,9 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
       @keyup=${this.handleKeyUp}
       @mouseup=${this.handleMouseUp}
       @scroll=${this.handleScroll}
-    ></div>`;
+    ></div>
+    <!-- Required for firefox to use plaintext-only above. -->
+    <div></div>`;
   }
 
   /**
@@ -424,7 +426,7 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
   private get contentEditableAttributeValue() {
     return this.disabled
       ? 'false'
-      : !isFirefox() && this.isPlaintextOnlySupported
+      : this.isPlaintextOnlySupported
       ? ('plaintext-only' as unknown as 'true')
       : 'true';
   }

@@ -371,4 +371,36 @@ suite('gr-create-flow tests', () => {
       'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is cond 2 -> act 2(param)'
     );
   });
+
+  test('updates stages from raw flow textarea', async () => {
+    const rawFlowTextarea = queryAndAssert<GrAutogrowTextarea>(
+      element,
+      'gr-autogrow-textarea[label="Raw Flow"]'
+    );
+
+    const rawFlow =
+      'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is cond 1 -> act 1, other cond 2 -> act 2(param)';
+    rawFlowTextarea.value = rawFlow;
+    rawFlowTextarea.dispatchEvent(new Event('input'));
+    await element.updateComplete;
+
+    assert.deepEqual(element['stages'], [
+      {
+        condition:
+          'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is cond 1',
+        action: 'act 1',
+        parameterStr: '',
+      },
+      {
+        condition: 'other cond 2',
+        action: 'act 2',
+        parameterStr: 'param',
+      },
+    ]);
+
+    assert.equal(element['currentConditionPrefix'], 'Other');
+    assert.equal(element['currentCondition'], 'other cond 2');
+    assert.equal(element['currentAction'], 'act 2');
+    assert.equal(element['currentParameter'], 'param');
+  });
 });

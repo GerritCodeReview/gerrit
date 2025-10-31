@@ -37,7 +37,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-import com.github.rholder.retry.RetryException;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
@@ -68,7 +67,6 @@ import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.AttentionSetInput;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
@@ -1022,7 +1020,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   }
 
   @Test
-  public void submitChangeMissingInIndexComputeMergeSupersetRetried() throws Throwable {
+  public void submitChangeMissingInIndexComputeMergeSupersetSucceeds() throws Throwable {
     // Cherry-pick strategy does not query from index
     assume().that(getSubmitType()).isNotEqualTo(CHERRY_PICK);
     // retry on index
@@ -1033,25 +1031,8 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     approve(id);
     changeIndex.delete(change.getChange().getId());
 
-    TestSubmitInput input = new TestSubmitInput();
-
-    testMetricMaker.reset();
-
-    Throwable thrown = assertThrows(StorageException.class, () -> submit(id, input));
-    assertThat(thrown.getCause()).hasMessageThat().contains("Computing mergeSuperset has failed");
-    assertThat(thrown.getCause()).hasCauseThat().isInstanceOf(RetryException.class);
-    assertThat(thrown.getCause().getCause().getCause())
-        .hasMessageThat()
-        .contains("missing from ChangeSet[][]");
-
-    // We retried more than once before giving up
-    assertThat(
-            testMetricMaker.getCount(
-                "action/retry_attempt_count",
-                "INDEX_QUERY",
-                "completeMergeChangeSet",
-                "IOException"))
-        .isGreaterThan(1);
+    submit(id, new TestSubmitInput());
+    assertMerged(id);
   }
 
   @Test

@@ -106,8 +106,8 @@ public class LocalMergeSuperSetComputation implements MergeSuperSetComputation {
   @Override
   public ChangeSet completeWithoutTopic(
       MergeOpRepoManager orm, ChangeSet changeSet, CurrentUser user) throws IOException {
-    List<ChangeData> visibleChanges = new ArrayList<>();
-    List<ChangeData> nonVisibleChanges = new ArrayList<>();
+    Set<ChangeData> visibleChanges = new HashSet<>(changeSet.changes());
+    Set<ChangeData> nonVisibleChanges = new HashSet<>(changeSet.nonVisibleChanges());
 
     // For each target branch we run a separate rev walk to find open changes
     // reachable from changes already in the merge super set.

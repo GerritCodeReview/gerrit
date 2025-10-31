@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "955183be_fc8a1db5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-10-31T18:31:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7cc124b0_18853ec3",
+      "range": {
+        "startLine": 13,
+        "startChar": 12,
+        "endLine": 13,
+        "endChar": 20
+      },
+      "revId": "7256a5f7cc6acebee33ad88dbedaf9291ea00db1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "80bfd6be_1facd606",
@@ -60,6 +84,30 @@
       "writtenOn": "2025-10-31T16:19:47Z",
       "side": 1,
       "message": "Thanks for this note, I had this very question.",
+      "range": {
+        "startLine": 44,
+        "startChar": 0,
+        "endLine": 47,
+        "endChar": 36
+      },
+      "revId": "7256a5f7cc6acebee33ad88dbedaf9291ea00db1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b753d14_02b47e25",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-10-31T18:31:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "497df1bd_8d155945",
       "range": {
         "startLine": 44,
         "startChar": 0,

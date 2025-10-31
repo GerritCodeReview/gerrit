@@ -14,7 +14,7 @@ import {
   HintDismissedEventDetail,
   CursorPositionChangeEventDetail,
 } from '../api/embed';
-import {isFirefox, isSafari} from '../utils/dom-util';
+import {isSafari} from '../utils/dom-util';
 
 /**
  * Waits for the next animation frame.
@@ -267,22 +267,24 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
     // which prevents HTML from being inserted into a contenteditable element.
     // https://github.com/w3c/editing/issues/162
     return html`<div
-      aria-disabled=${this.disabled}
-      aria-multiline="true"
-      aria-placeholder=${ifDefined(ariaPlaceholder)}
-      data-placeholder=${ifDefined(placeholder)}
-      class=${classes}
-      contenteditable=${this.contentEditableAttributeValue}
-      dir="ltr"
-      role="textbox"
-      @input=${this.onInput}
-      @focus=${this.onFocus}
-      @blur=${this.onBlur}
-      @keydown=${this.handleKeyDown}
-      @keyup=${this.handleKeyUp}
-      @mouseup=${this.handleMouseUp}
-      @scroll=${this.handleScroll}
-    ></div>`;
+        aria-disabled=${this.disabled}
+        aria-multiline="true"
+        aria-placeholder=${ifDefined(ariaPlaceholder)}
+        data-placeholder=${ifDefined(placeholder)}
+        class=${classes}
+        contenteditable=${this.contentEditableAttributeValue}
+        dir="ltr"
+        role="textbox"
+        @input=${this.onInput}
+        @focus=${this.onFocus}
+        @blur=${this.onBlur}
+        @keydown=${this.handleKeyDown}
+        @keyup=${this.handleKeyUp}
+        @mouseup=${this.handleMouseUp}
+        @scroll=${this.handleScroll}
+      ></div>
+      <!-- Required for firefox to use plaintext-only above. -->
+      <div></div>`;
   }
 
   /**
@@ -415,7 +417,7 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
   private get contentEditableAttributeValue() {
     return this.disabled
       ? 'false'
-      : !isFirefox() && this.isPlaintextOnlySupported
+      : this.isPlaintextOnlySupported
       ? ('plaintext-only' as unknown as 'true')
       : 'true';
   }

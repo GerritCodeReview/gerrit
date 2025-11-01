@@ -116,6 +116,30 @@
       },
       "revId": "947d5663883d1f579b0e67c670fa936d15b5ab9f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1584f5d5_61d1a240",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1023,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-11-01T00:25:39Z",
+      "side": 1,
+      "message": "Restored the initial test that ensures the retry still works.",
+      "parentUuid": "d2a6cb59_38d8b9b5",
+      "range": {
+        "startLine": 1023,
+        "startChar": 14,
+        "endLine": 1023,
+        "endChar": 68
+      },
+      "revId": "947d5663883d1f579b0e67c670fa936d15b5ab9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

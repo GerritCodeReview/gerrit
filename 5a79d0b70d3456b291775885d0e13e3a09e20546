@@ -22,6 +22,30 @@
       },
       "revId": "5a79d0b70d3456b291775885d0e13e3a09e20546",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1158223a_0857de68",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1041,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-11-01T00:25:39Z",
+      "side": 0,
+      "message": "I\u0027ve narrowed down the logic to the merge of a single change; therefore, all existing scenarios and tests will remain in place, minimising any risk of regressions.",
+      "parentUuid": "a53aa1f6_41b30e24",
+      "range": {
+        "startLine": 1041,
+        "startChar": 0,
+        "endLine": 1041,
+        "endChar": 98
+      },
+      "revId": "5a79d0b70d3456b291775885d0e13e3a09e20546",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

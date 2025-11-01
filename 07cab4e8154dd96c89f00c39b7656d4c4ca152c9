@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ad8f31dc_5a75aa0e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-11-01T01:03:21Z",
+      "side": 1,
+      "message": "Tested E2E and it solves the problem 🎉",
+      "revId": "07cab4e8154dd96c89f00c39b7656d4c4ca152c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "15aab55e_9fe00fdf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-11-01T08:01:31Z",
+      "side": 1,
+      "message": "Fixed with https://gerrit-review.googlesource.com/c/gerrit/+/523541/9",
+      "parentUuid": "9baa9602_e32f8534",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 26
+      },
+      "revId": "0ab41ed90f9e3541ff24ca073ecff98d35dca457",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0d9b7fb8_6a0e2573",
@@ -54,6 +78,30 @@
       "writtenOn": "2025-10-31T01:25:07Z",
       "side": 1,
       "message": "Not sure this is enough though: how do we know that this retry will manage to _wait long enough_ for the reindexing to happen?\n\nAlso, it\u0027s not clear to me why we have to search for the change to be submitted on the secondary index: we have the change meta-data, we know who it is, it\u0027s latest patch-set.\n\nWould it be simpler to either include the change itself into the list of changes or just to trigger a synchronous index *in case* is not found in the index at the first try?",
+      "range": {
+        "startLine": 558,
+        "startChar": 0,
+        "endLine": 562,
+        "endChar": 21
+      },
+      "revId": "0ab41ed90f9e3541ff24ca073ecff98d35dca457",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6ddd6415_c4d46254",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 562,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-11-01T08:01:31Z",
+      "side": 1,
+      "message": "\u003e Not sure this is enough though: how do we know that this retry will manage to _wait long enough_ for the reindexing to happen?\n\u003e \n\u003e Also, it\u0027s not clear to me why we have to search for the change to be submitted on the secondary index: we have the change meta-data, we know who it is, it\u0027s latest patch-set.\n\nI believe I know why: the submit requirements results are in the index record and it is faster to fetch it from there rather than computing it.\n\n\u003e Would it be simpler to either include the change itself into the list of changes or just to trigger a synchronous index *in case* is not found in the index at the first try?\n\nDone with https://gerrit-review.googlesource.com/c/gerrit/+/523541/9 with a new backfill option.",
+      "parentUuid": "63c109fc_cd91a6b6",
       "range": {
         "startLine": 558,
         "startChar": 0,

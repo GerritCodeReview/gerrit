@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "01cef4a8_6894d412",
+        "filename": "java/com/google/gerrit/server/submit/MergeSuperSetComputation.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-11-01T09:35:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "966eff69_82b2c58b",
+      "range": {
+        "startLine": 73,
+        "startChar": 0,
+        "endLine": 74,
+        "endChar": 13
+      },
+      "revId": "07cab4e8154dd96c89f00c39b7656d4c4ca152c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d1a36a81_73bca0c8",
@@ -54,6 +78,30 @@
       "writtenOn": "2025-11-01T08:42:01Z",
       "side": 1,
       "message": "nit: `s/for ensure to use the backfill mechanism/to ensure the use of the backfill mechanism`",
+      "range": {
+        "startLine": 1069,
+        "startChar": 41,
+        "endLine": 1069,
+        "endChar": 81
+      },
+      "revId": "07cab4e8154dd96c89f00c39b7656d4c4ca152c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6f9b727c_c7d5ef24",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 1069,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-11-01T09:35:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d1a36a81_73bca0c8",
       "range": {
         "startLine": 1069,
         "startChar": 41,

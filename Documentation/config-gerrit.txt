@@ -1546,6 +1546,16 @@ Allow blame on side by side diff. If set to `false`, blame cannot be used.
 +
 Default is `true`.
 
+[[change.backfillMergeSuperSet]]change.backfillMergeSuperSet::
++
+If set to `true`, the calculation of the merge super-set upon submission of a change
+can use the backfill of missing change data from a potentially stale index by reloading
+the change data from the repository instead of failing.
+When set to `true`, the submission of changes is reliable even when `index.indexChangesAsync = true`
+or when the reindexing happens asynchronously because of a multi-primary setup.
++
+Default is `false`.
+
 [[change.cacheAutomerge]]change.cacheAutomerge::
 +
 When reviewing merge commits, the left-hand side shows the output of the result

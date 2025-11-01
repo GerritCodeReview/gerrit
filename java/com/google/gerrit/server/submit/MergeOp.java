@@ -153,6 +153,7 @@ public class MergeOp implements AutoCloseable {
   private static final SubmitRuleOptions SUBMIT_RULE_OPTIONS = SubmitRuleOptions.builder().build();
   private static final SubmitRuleOptions SUBMIT_RULE_OPTIONS_ALLOW_CLOSED =
       SUBMIT_RULE_OPTIONS.toBuilder().recomputeOnClosedChanges(true).build();
+  private final boolean backfill;
 
   /**
    * For each individual change in merge set aggregates issues and other details throughout the
@@ -373,6 +374,7 @@ public class MergeOp implements AutoCloseable {
         ConfigUtil.getTimeUnit(
             config, "change", null, "implicitMergeCalculationTimeout", 60, TimeUnit.SECONDS);
     this.permissionBackend = permissionBackend;
+    backfill = config.getBoolean("change", null, "backfillMergeSuperSet", false);
   }
 
   @Override
@@ -803,7 +805,10 @@ public class MergeOp implements AutoCloseable {
                     Change reloadChange = change;
                     ChangeSet indexBackedMergeChangeSet =
                         mergeSuperSet.completeChangeSet(
-                            reloadChange, caller.getRealUser(), /* includingTopicClosure= */ false);
+                            reloadChange,
+                            caller.getRealUser(),
+                            /* includingTopicClosure= */ false,
+                            backfill);
                     if (!indexBackedMergeChangeSet.ids().contains(reloadChange.getId())) {
                       // indexBackedChangeSet contains only open changes, if the change is missing
                       // in this set it might be that the change was concurrently submitted in the

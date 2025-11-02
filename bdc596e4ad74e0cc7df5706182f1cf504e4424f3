@@ -16,6 +16,23 @@
       "message": "This was fixed in https://gerrit-review.googlesource.com/c/gerrit/+/436759 which was backported to 3.4 and merged up https://gerrit-review.googlesource.com/c/gerrit/+/447622.",
       "revId": "bdc596e4ad74e0cc7df5706182f1cf504e4424f3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "60dd4344_303c1c37",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-11-02T16:46:58Z",
+      "side": 1,
+      "message": "Seems you added tests, you might want to add those?",
+      "revId": "bdc596e4ad74e0cc7df5706182f1cf504e4424f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

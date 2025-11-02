@@ -8,9 +8,11 @@
       "updated": "2025-11-02T20:55:33Z"
     },
     "gerritforge:polygerrit-a6a0e4682515f3521897c5f950d1394f4619d928": {
-      "state": "NOT_STARTED",
+      "state": "RUNNING",
+      "url": "https://gerrit-ci.gerritforge.com/job/Gerrit-verifier-pipeline/job/21%252F522821%252F7/2/console",
+      "started": "2025-11-02T20:55:34Z",
       "created": "2025-10-31T18:35:38Z",
-      "updated": "2025-11-02T20:51:20Z"
+      "updated": "2025-11-02T20:55:35Z"
     }
   }
 }

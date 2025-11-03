@@ -30,6 +30,7 @@ import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.SubmitRecord;
 import com.google.gerrit.exceptions.StorageException;
+import com.google.gerrit.extensions.common.FlowActionInfo;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.PluginPushOption;
@@ -239,6 +240,13 @@ public class TestExtensions {
         throws RestApiException {
       // Always return true for testing purposes.
       return true;
+    }
+
+    @Override
+    public ImmutableList<FlowActionInfo> listActions(
+        Project.NameKey projectName, Change.Id changeId) throws RestApiException {
+      // Always return empty for testing purposes.
+      return ImmutableList.of();
     }
 
     @Override

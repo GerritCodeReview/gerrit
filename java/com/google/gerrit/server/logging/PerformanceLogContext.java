@@ -28,10 +28,12 @@ import com.google.gerrit.extensions.registration.Extension;
 import com.google.gerrit.server.cancellation.PerformanceSummaryProvider;
 import com.google.gerrit.server.util.time.TimeUtil;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
+import java.util.stream.Stream;
 import org.eclipse.jgit.lib.Config;
 
 /**
@@ -48,9 +50,6 @@ import org.eclipse.jgit.lib.Config;
  */
 public class PerformanceLogContext implements AutoCloseable, PerformanceSummaryProvider {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-
-  // Keep in sync with PluginMetrics.PLUGIN_LATENCY_NAME.
-  private static final String PLUGIN_LATENCY_NAME = "plugin/latency";
 
   /** Default for maximum number of operations for which the latency should be logged. */
   private static final int DEFAULT_MAX_OPERATIONS_TO_LOG = 25;
@@ -136,31 +135,23 @@ public class PerformanceLogContext implements AutoCloseable, PerformanceSummaryP
 
     Map<String, PerformanceInfo> perRequestPerformanceInfo = new HashMap<>();
     for (PerformanceLogRecord performanceLogRecord : performanceLogRecords) {
-      String pluginClass =
-          PLUGIN_LATENCY_NAME.equals(performanceLogRecord.operation())
-              ? performanceLogRecord
-                  .metadata()
-                  .map(Metadata::className)
-                  .map(clazz -> clazz.isPresent() ? " (" + clazz.get() + ")" : "")
-                  .orElse("")
-              : "";
       PerformanceInfo info =
           perRequestPerformanceInfo.computeIfAbsent(
-              performanceLogRecord.operation() + pluginClass,
+              performanceLogRecord.getDecoratedOperationName(),
               operationName -> new PerformanceInfo(operationName));
-      info.add(performanceLogRecord.durationNanos());
+      info.add(performanceLogRecord.durationNanos(), performanceLogRecord.parentOperations());
     }
 
     ImmutableList<PerformanceInfo> performanceInfosWithLongestTotalDuration =
         perRequestPerformanceInfo.values().stream()
-            .filter(performanceLogInfo -> performanceLogInfo.totalDurationMillis() > 0)
+            .filter(performanceInfo -> performanceInfo.totalDurationMillis() > 0)
             .sorted(comparing(PerformanceInfo::totalDurationNanos).reversed())
             .limit(maxOperationsToLog)
             .collect(toImmutableList());
 
     ImmutableList<PerformanceInfo> performanceInfosForOperationsThatHaveBeenCalledMostOften =
         perRequestPerformanceInfo.values().stream()
-            .filter(performanceLogInfo -> performanceLogInfo.count() > 1)
+            .filter(performanceInfo -> performanceInfo.count() > 1)
             .sorted(
                 comparing(PerformanceInfo::count)
                     .thenComparing(PerformanceInfo::totalDurationNanos)
@@ -176,11 +167,46 @@ public class PerformanceLogContext implements AutoCloseable, PerformanceSummaryP
 
             Operations which have been called most often (max %s):
             %s
+
+            Callers:
+            %s
             """,
             maxOperationsToLog,
             Joiner.on('\n').join(performanceInfosWithLongestTotalDuration),
             maxOperationsToLog,
-            Joiner.on('\n').join(performanceInfosForOperationsThatHaveBeenCalledMostOften)));
+            Joiner.on('\n').join(performanceInfosForOperationsThatHaveBeenCalledMostOften),
+            Joiner.on('\n')
+                .join(
+                    formatCallers(
+                        performanceInfosWithLongestTotalDuration,
+                        performanceInfosForOperationsThatHaveBeenCalledMostOften))));
+  }
+
+  private ImmutableList<String> formatCallers(
+      ImmutableList<PerformanceInfo> performanceInfosWithLongestTotalDuration,
+      ImmutableList<PerformanceInfo> performanceInfosForOperationsThatHaveBeenCalledMostOften) {
+    // We want to show callers for all operations that are shown either in the "Operations with the
+    // highest latency" section (performanceInfosWithLongestTotalDuration) or in the "Operations
+    // which have been called most often" section
+    // (performanceInfosForOperationsThatHaveBeenCalledMostOften).
+    Stream<PerformanceInfo> performanceInfoStream =
+        Stream.concat(
+                performanceInfosWithLongestTotalDuration.stream(),
+                performanceInfosForOperationsThatHaveBeenCalledMostOften.stream())
+            .distinct();
+
+    // For some operations there are no known caller (because they are root operations). Since we
+    // have no callers to show for them, we omit them.
+    performanceInfoStream = performanceInfoStream.filter(PerformanceInfo::hasKnownCallers);
+
+    // Sort the operations in the "Callers" section alphabetically (ignoring the case).
+    performanceInfoStream =
+        performanceInfoStream.sorted(
+            comparing(
+                performanceInfo -> performanceInfo.getOperationName().toLowerCase(Locale.US)));
+
+    // Create one string per operation that lists the callers of the operation.
+    return performanceInfoStream.map(PerformanceInfo::formatCallers).collect(toImmutableList());
   }
 
   /**
@@ -233,15 +259,38 @@ public class PerformanceLogContext implements AutoCloseable, PerformanceSummaryP
     private int count;
     private long totalDurationNanos;
 
+    Map<String, Integer> countsPerParents = new HashMap<>();
+
     PerformanceInfo(String operationName) {
       this.operationName = operationName;
       this.count = 0;
       this.totalDurationNanos = 0;
     }
 
-    void add(long durationNanos) {
+    public String getOperationName() {
+      return operationName;
+    }
+
+    void add(long durationNanos, ImmutableList<String> parentOperations) {
       this.count++;
       this.totalDurationNanos += durationNanos;
+
+      if (!parentOperations.isEmpty()) {
+        String formattedParentOperations = formatParentOperations(parentOperations);
+        if (!countsPerParents.containsKey(formattedParentOperations)) {
+          countsPerParents.put(formattedParentOperations, 0);
+        }
+        countsPerParents.put(
+            formattedParentOperations, countsPerParents.get(formattedParentOperations) + 1);
+      }
+    }
+
+    private String formatParentOperations(ImmutableList<String> parentOperations) {
+      return Joiner.on(" > ")
+          .join(
+              parentOperations.stream()
+                  .map(o -> String.format("'%s'", o))
+                  .collect(toImmutableList()));
     }
 
     int count() {
@@ -254,6 +303,30 @@ public class PerformanceLogContext implements AutoCloseable, PerformanceSummaryP
 
     long totalDurationMillis() {
       return TimeUnit.NANOSECONDS.toMillis(totalDurationNanos);
+    }
+
+    boolean hasKnownCallers() {
+      return !countsPerParents.isEmpty();
+    }
+
+    String formatCallers() {
+      if (!hasKnownCallers()) {
+        return String.format("%s (%sx): n/a", operationName, count);
+      }
+
+      return String.format(
+          "%s (%sx): \n%s",
+          operationName,
+          count,
+          Joiner.on('\n')
+              .join(
+                  countsPerParents.entrySet().stream()
+                      .sorted(
+                          comparing((Map.Entry<String, Integer> e) -> e.getValue())
+                              .thenComparing(e -> e.getKey().toLowerCase(Locale.US))
+                              .reversed())
+                      .map(e -> String.format("* %sx %s", e.getValue(), e.getKey()))
+                      .collect(toImmutableList())));
     }
 
     @Override

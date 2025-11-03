@@ -14,22 +14,35 @@
 
 package com.google.gerrit.metrics;
 
+import com.google.common.collect.ImmutableList;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.gerrit.server.logging.LoggingContext;
+import com.google.gerrit.server.logging.Metadata;
+import com.google.gerrit.server.logging.RunningOperations.RegistrationHandle;
 
 abstract class TimerContext implements AutoCloseable {
   private final long startNanos;
   private boolean stopped;
+  private Metadata metadata;
+  private final RegistrationHandle registrationHandle;
 
-  TimerContext() {
+  TimerContext(String timerName, Metadata metadata) {
     this.startNanos = System.nanoTime();
+    this.metadata = metadata;
+    this.registrationHandle =
+        LoggingContext.getInstance().getRunningOperations().add(timerName, metadata);
   }
 
   /**
    * Record the elapsed time to the timer.
    *
    * @param elapsed Elapsed time in nanoseconds.
+   * @param parentOperations the parent operations that called the operation for which the latency
+   *     is recorded by this timer
+   * @param metadata metadata that should be recorded/logged
    */
-  public abstract void record(long elapsed);
+  public abstract void record(
+      long elapsed, ImmutableList<String> parentOperations, Metadata metadata);
 
   /** Returns the start time in system time nanoseconds. */
   public long getStartTime() {
@@ -47,7 +60,8 @@ abstract class TimerContext implements AutoCloseable {
     if (!stopped) {
       stopped = true;
       long elapsed = System.nanoTime() - startNanos;
-      record(elapsed);
+      record(elapsed, registrationHandle.parentOperations(), metadata);
+      registrationHandle.remove();
       return elapsed;
     }
     throw new IllegalStateException("Already stopped");

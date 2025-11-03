@@ -16,10 +16,12 @@ package com.google.gerrit.metrics;
 
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.server.cancellation.RequestStateContext;
 import com.google.gerrit.server.logging.LoggingContext;
+import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.PerformanceLogRecord;
 import java.util.concurrent.TimeUnit;
 
@@ -40,12 +42,13 @@ public abstract class Timer0 implements RegistrationHandle {
     private final Timer0 timer;
 
     Context(Timer0 timer) {
+      super(timer.name, Metadata.empty());
       this.timer = timer;
     }
 
     @Override
-    public void record(long elapsed) {
-      timer.record(elapsed, NANOSECONDS);
+    public void record(long elapsed, ImmutableList<String> parentOperations, Metadata metadata) {
+      timer.record(elapsed, NANOSECONDS, parentOperations, metadata);
     }
   }
 
@@ -77,11 +80,30 @@ public abstract class Timer0 implements RegistrationHandle {
    * @param unit time unit of the value
    */
   public final void record(long value, TimeUnit unit) {
+    record(
+        value,
+        unit,
+        LoggingContext.getInstance().getRunningOperations().toOperationNames(),
+        Metadata.empty());
+  }
+
+  /**
+   * Record a value in the distribution.
+   *
+   * @param value value to record
+   * @param unit time unit of the value
+   * @param parentOperations the parent operations that called the operation for which the latency
+   *     is recorded by this timer
+   * @param metadata metadata that should be recorded/logged
+   */
+  private final void record(
+      long value, TimeUnit unit, ImmutableList<String> parentOperations, Metadata metadata) {
     long durationNanos = unit.toNanos(value);
 
     if (!suppressLogging) {
       LoggingContext.getInstance()
-          .addPerformanceLogRecord(() -> PerformanceLogRecord.create(name, durationNanos));
+          .addPerformanceLogRecord(
+              () -> PerformanceLogRecord.create(name, durationNanos, parentOperations, metadata));
       logger.atFinest().log("%s took %.2f ms", name, durationNanos / 1000000.0);
     }
 

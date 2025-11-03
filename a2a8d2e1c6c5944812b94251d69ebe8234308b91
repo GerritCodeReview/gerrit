@@ -283,6 +283,24 @@
       "parentUuid": "c72aaea3_8c832b5b",
       "revId": "a2a8d2e1c6c5944812b94251d69ebe8234308b91",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "98a9a5e7_05263cfb",
+        "filename": "javatests/com/google/gerrit/acceptance/api/flow/ListActionsIT.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-11-03T18:00:50Z",
+      "side": 1,
+      "message": "Added `FlowActionType` but did not find it too easy to write documentation.",
+      "parentUuid": "8d55163a_be07cbf2",
+      "revId": "a2a8d2e1c6c5944812b94251d69ebe8234308b91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d5aea48c_b4478fad",
+        "filename": "tools/terser/terser.bzl",
+        "patchSetId": 11
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-11-03T09:27:51Z",
+      "side": 1,
+      "message": "@matthias.sohn@gmail.com Could you check whether this is fine with dealing with the license? Thanks!",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 42
+      },
+      "revId": "1f151fa77f9ea8b342dcd50aab3c7ae6ce4f60dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

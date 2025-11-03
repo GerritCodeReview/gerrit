@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ab25ceab_9cd1102a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-11-03T19:42:17Z",
+      "side": 1,
+      "message": "```suggestion\nRemove confusing Replace Changes push option docs\n```",
+      "range": {
+        "startLine": 7,
+        "startChar": 7,
+        "endLine": 7,
+        "endChar": 17
+      },
+      "revId": "ac0af4bd501a9526897549bef0ac32ef347a4321",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "977c9041_cc87fe1d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-11-03T19:42:17Z",
+      "side": 1,
+      "message": "I\u0027m not clear on what you find confusing. I think the doc is still accurate. Maybe [the previous edit](https://gerrit.googlesource.com/gerrit/+/0146bb0a5dc03ca10035e6ae1d78d17548cf9747%5E%21/#F4) that removed the obsolete `refs/changes/` info didn\u0027t do enough to make sure the rest made sense on its own?\n\nOr... All of this is also documented pretty thoroughly in the [Change Upload](https://gerrit-review.googlesource.com/Documentation/user-changeid.html#change-upload) section on the Change-Id doc, but not perfectly either. Both that doc and the `user-upload` doc seem to leave out references to the project.config that matters, [`receive.requireChangeId`](https://gerrit-review.googlesource.com/Documentation/config-project-config.html#receive.requireChangeId) which is why maybe you think the doc is so outdated. It used to be that the default for that option was `false`, but since it switched to `true` a while ago, yes, the typical flow for adding new patch sets is simple to understand.\n\nI think it would be a definite improvement for the user-upload doc to link to those project `receive.*` options, since other than user setup issues/error, they are most likely to impact users pushing to Gerrit.",
+      "revId": "ac0af4bd501a9526897549bef0ac32ef347a4321",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c4b41bc4_3153649e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-11-03T19:42:17Z",
+      "side": 1,
+      "message": "I don\u0027t think it is? I see \"push new changes\" near the top, but not \"push new patchsets\". As I noted in my comment above though, there is duplication with other docs and incomplete-ness. Addressing that would be great.",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 26
+      },
+      "revId": "ac0af4bd501a9526897549bef0ac32ef347a4321",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

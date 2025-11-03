@@ -247,6 +247,24 @@
       "parentUuid": "c5996108_c4624a7c",
       "revId": "a2a8d2e1c6c5944812b94251d69ebe8234308b91",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c72aaea3_8c832b5b",
+        "filename": "javatests/com/google/gerrit/acceptance/api/flow/ListActionsIT.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-11-03T11:54:59Z",
+      "side": 1,
+      "message": "I think FlowActionInfo is incorrectly named then\n\nWDYT about renaming this to `FlowActionInput` and then keeping `FlowActionInfo` for the type that describes the action itself.",
+      "parentUuid": "332ede56_a904233c",
+      "revId": "a2a8d2e1c6c5944812b94251d69ebe8234308b91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

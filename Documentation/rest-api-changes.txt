@@ -3847,6 +3847,38 @@ implementation.
 If no flow service is bound (i.e. if no plugin that provides a flow service is
 installed) `405 Method Not Allowed` is returned.
 
+[[list-actions]]
+=== List Actions
+--
+'GET /changes/link:#change-id[{change-id}]/actions/'
+--
+
+Lists the actions of a change that are visible to the caller.
+
+As result a list of link:#action-info[ActionInfo] entries is returned.
+
+.Request
+----
+  GET /changes/myProject~65178/actions/ HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  [
+    {
+      "id": "action-id",
+      "label": "Action Label",
+      "method": "POST",
+      "url": "/changes/myProject~65178/actions/action-id"
+    }
+  ]
+----
+
 [[create-flow]]
 === Create Flow
 --

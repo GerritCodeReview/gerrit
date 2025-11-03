@@ -265,6 +265,24 @@
       "parentUuid": "332ede56_a904233c",
       "revId": "a2a8d2e1c6c5944812b94251d69ebe8234308b91",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8d55163a_be07cbf2",
+        "filename": "javatests/com/google/gerrit/acceptance/api/flow/ListActionsIT.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-11-03T12:18:10Z",
+      "side": 1,
+      "message": "Finding a good name for this is indeed tricky :(\n\nFWIW \"FlowActionInfo\" doesn\u0027t mean \"info about a FlowAction\", but \"Info\" here only means that it\u0027s the REST API / JSON type for \"FlowAction\".\n\nI would like FlowActionInput, if FlowActionInput was only used when creating flows, e.g. when it\u0027s always a part of FlowInput, but I think that\u0027s not the case, e.g. it\u0027s also returned as part of FlowInfo and returning a FlowActionInput in there doesn\u0027t make sense.\n\nAlso we have each type twice, once for the service API (e.g. FlowAction) and once for the REST API (e.g. FlowActionInfo). I\u0027m not sure we can find good names the service API types if we use FlowActionInput, for what is FlowActionInfo now, and FlowActionInfo for the new thing the REST API.\n\nFWIW I proposed FlowActionTypeInfo/FlowActionType because it\u0027s similar to LabelTypeInfo/LabelType which describes a label definition, in contrast to LabelInfo which is for concrete votes on a change (kind of matches the current FlowActionInfo which is for a concrete action on a change). I\u0027m not sold on this, but it\u0027s what makes most sense to me up to now.",
+      "parentUuid": "c72aaea3_8c832b5b",
+      "revId": "a2a8d2e1c6c5944812b94251d69ebe8234308b91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

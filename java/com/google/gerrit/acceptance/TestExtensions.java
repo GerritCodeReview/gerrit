@@ -30,6 +30,7 @@ import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.SubmitRecord;
 import com.google.gerrit.exceptions.StorageException;
+import com.google.gerrit.extensions.common.FlowActionTypeInfo;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.PluginPushOption;
@@ -190,6 +191,8 @@ public class TestExtensions {
      */
     private boolean rejectFlowDeletion;
 
+    private ImmutableList<FlowActionTypeInfo> actions = ImmutableList.of();
+
     /** Makes the flow service reject all flow creations. */
     public void rejectFlowCreation() {
       this.rejectFlowCreation = true;
@@ -198,6 +201,10 @@ public class TestExtensions {
     /** Makes the flow service reject all flow deletions. */
     public void rejectFlowDeletion() {
       this.rejectFlowDeletion = true;
+    }
+
+    public void setActions(ImmutableList<FlowActionTypeInfo> actions) {
+      this.actions = actions;
     }
 
     @Override
@@ -239,6 +246,12 @@ public class TestExtensions {
         throws RestApiException {
       // Always return true for testing purposes.
       return true;
+    }
+
+    @Override
+    public ImmutableList<FlowActionTypeInfo> listActions(
+        Project.NameKey projectName, Change.Id changeId) throws StorageException {
+      return actions;
     }
 
     @Override

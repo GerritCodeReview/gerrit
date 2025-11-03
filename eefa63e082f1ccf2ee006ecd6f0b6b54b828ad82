@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dc70bf86_ccd43f32",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-11-03T22:44:08Z",
+      "side": 1,
+      "message": "Seems this fix is needed for firefox as well, chrome works. Also iOS 26.1 fixed scroll lock but also showed that the issue when you\u0027re scrolled down, and open the sidebar, it doesn\u0027t show without this fix. @brohlfs@google.com any ideas how we can fix this without having to set position relative on body temp (which causes things to get scrolled up). I think this problem was introduced when the header was changed to sticky and so the sidebar/modebackground were changed to position fixed.",
+      "revId": "eefa63e082f1ccf2ee006ecd6f0b6b54b828ad82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -852,6 +852,9 @@ export class GrChangeView extends LitElement {
           font-weight: var(--font-weight-h3);
           line-height: var(--line-height-h3);
           margin-left: var(--spacing-l);
+          line-break: anywhere;
+          whitespace: no-wrap;
+          overflow: auto;
         }
         .changeNumberColon {
           color: transparent;
@@ -1089,9 +1092,6 @@ export class GrChangeView extends LitElement {
           gr-reply-dialog {
             height: 90vh;
             width: initial;
-          }
-          .headerSubject {
-            line-break: anywhere;
           }
         }
         .patch-set-dropdown {

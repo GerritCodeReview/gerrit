@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d8f079e2_2f0e6c06",
+        "filename": "java/com/google/gerrit/server/flow/FlowService.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-11-03T08:50:29Z",
+      "side": 1,
+      "message": "Can you please add a few more details here?\n\nIIUC these are the actions that user can use in flows on that change?",
+      "revId": "98a4accba21751b80dcab4c12912b06d8924153a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d76af1b8_c5bfd8e3",
+        "filename": "java/com/google/gerrit/server/flow/FlowService.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-11-03T08:50:29Z",
+      "side": 1,
+      "message": "FlowActionInfo is the entity that defines the JSON that is returned for an action in the REST API. We shouldn\u0027t use this type in the FlowService API (which is independent of the REST API). Instead we should return FlowAction here and leave it to the REST endpoint to convert these to FlowActionInfo. For example the listFlows method above also doesn\u0027t return FlowInfo, but Flow.",
+      "range": {
+        "startLine": 114,
+        "startChar": 16,
+        "endLine": 114,
+        "endChar": 30
+      },
+      "revId": "98a4accba21751b80dcab4c12912b06d8924153a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8c45a67d_d2eb179d",
+        "filename": "java/com/google/gerrit/server/restapi/flow/FlowRestApiModule.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-11-03T08:50:29Z",
+      "side": 1,
+      "message": "Please add documentation for this new REST endpoint at https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#flow-endpoints",
+      "revId": "98a4accba21751b80dcab4c12912b06d8924153a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9ed6ed72_d4ebd49e",
+        "filename": "java/com/google/gerrit/server/restapi/flow/ListActions.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-11-03T08:50:29Z",
+      "side": 1,
+      "message": "Please add a test for this REST endpoint, e.g. similar to ListFlowsIT.",
+      "revId": "98a4accba21751b80dcab4c12912b06d8924153a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

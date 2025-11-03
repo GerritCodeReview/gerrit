@@ -37,6 +37,7 @@ import com.google.gerrit.server.ValidationOptionsListener;
 import com.google.gerrit.server.change.EmailReviewComments;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.flow.Flow;
+import com.google.gerrit.server.flow.FlowAction;
 import com.google.gerrit.server.flow.FlowCreation;
 import com.google.gerrit.server.flow.FlowExpression;
 import com.google.gerrit.server.flow.FlowKey;
@@ -239,6 +240,13 @@ public class TestExtensions {
         throws RestApiException {
       // Always return true for testing purposes.
       return true;
+    }
+
+    @Override
+    public ImmutableList<FlowAction> listActions(Project.NameKey projectName, Change.Id changeId)
+        throws StorageException {
+      // Always return empty for testing purposes.
+      return ImmutableList.of();
     }
 
     @Override

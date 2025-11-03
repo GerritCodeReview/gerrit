@@ -85,6 +85,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "39e8f8c1_2123bd50",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-11-03T21:57:45Z",
+      "side": 1,
+      "message": "\u003e \u003e I\u0027m not clear on what you find confusing\n\u003e \n\u003e What does \"Replace Changes\" refer too? You\u0027re not replacing anything following the instruction here, you\u0027re simply updating the change with a new patchset, no? At least that\u0027s what I\u0027m reading.\n\nOk, thanks for explaining that, and, yeah, fair, the \"replace\" term isn\u0027t used as much now as it used to be. This is definitely a case where it\u0027s good to have someone newer to the project reading the docs and suggesting changes. 😊\n\nThat [Change-Ids](https://gerrit-review.googlesource.com/Documentation/user-changeid.html#cherry-pick) doc still has a reference to it that explains the idea:\n\u003e When cherry-picking a commit, leave the Change-Id line alone to have Gerrit treat the cherry-picked commit as a replacement for the existing change.\n\nand the [User Guide - Upload a Change](https://gerrit-review.googlesource.com/Documentation/intro-user.html#upload-change) section (also yet another place we document uploading changes) also uses \"replaces\":\n\u003e Each patch set in a change represents a new version of the change and replaces the previous patch set.\n\nBut I agree with your point, we now typically talk about \"adding patch sets\", not \"replacing\" changes or patch sets. I\u0027m good with fixing that.\n\n\u003e \n\u003e The first line of this document reads `Gerrit supports five methods of uploading changes`, one of which being `git push`, so I feel like `git push URL HEAD:refs/for/…​` is already covered there.\n\nI think it would be, but \"changes\" !\u003d \"patch sets\" and I think that\u0027s the difference the \"Replace Changes\" sections intended to address. If you can add the idea of updating a change by adding new patch sets to an existing change into an appropriate part of the \"uploading changes\" section, that might be a good way to solve this. As you suggest below, renaming the \"Replace\" sections with \"Update existing changes\", \"Add patch sets\", etc. would also be good.\n\n\u003e \n\u003e If we really want to keep this section, it should be renamed to `Update Changes`, I really struggle with the term `replace` as we\u0027re not replacing anything.\n\nAgreed that replace is an outdated term. Maybe we just link to the [User Guide - Uploading a new Patch Set](https://gerrit-review.googlesource.com/Documentation/intro-user.html#upload-patch-set) section? But that doesn\u0027t have a lot more than what\u0027s already in the [Upload a Change](https://gerrit-review.googlesource.com/Documentation/intro-user.html#upload-change) section (which should link to Uploading Changes for all the discussion on different options).\n\n\u003e \n\u003e Agreed that somewhere here it would be good to link to those docs too, maybe in the Create Change section above?\n\nYeah, what you\u0027ve really pointed out is that our docs are a mess. 😞\n\nMaybe see what you can do with removal-by-linking to start? i.e. if there\u0027s a section that describes something already better documented somewhere else, see if you can link to that somewhere else and remove the duplicate content?\n\nIf you also want to push a change that does `s/Replace Changes/Create a new patch set/` right away, I think that would be fine too.",
+      "parentUuid": "69b0b738_00ab2870",
+      "revId": "ac0af4bd501a9526897549bef0ac32ef347a4321",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c4b41bc4_3153649e",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7909a20e_6acb932f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-11-03T13:01:25Z",
+      "side": 1,
+      "message": "This looks amazing, would be great to have some basic docs on how to get it working at least?",
+      "revId": "9e1345005a1869129a43fc8b5ee5ed9a6d5cf235",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -22,6 +22,7 @@ import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.flogger.context.Tags;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.gerrit.server.logging.RunningOperations.RegistrationHandle;
 import com.google.inject.Provider;
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -59,6 +60,12 @@ public class LoggingContext extends com.google.common.flogger.backend.system.Log
 
   private static final ThreadLocal<MutableAclLogRecords> aclLogRecords = new ThreadLocal<>();
 
+  /**
+   * ThreadLocal variable to keep track of operations which are currently running. Allows to know
+   * the callers (aka parent operations) of an operation for the purpose of logging the callers.
+   */
+  private static final ThreadLocal<RunningOperations> runningOperations = new ThreadLocal<>();
+
   private LoggingContext() {}
 
   /** This method is expected to be called via reflection (and might otherwise be unused). */
@@ -74,7 +81,8 @@ public class LoggingContext extends com.google.common.flogger.backend.system.Log
     return new LoggingContextAwareRunnable(
         runnable,
         getInstance().getMutablePerformanceLogRecords(),
-        getInstance().getMutableAclRecords());
+        getInstance().getMutableAclRecords(),
+        getInstance().getRunningOperations().copy());
   }
 
   public static <T> Callable<T> copy(Callable<T> callable) {
@@ -85,7 +93,8 @@ public class LoggingContext extends com.google.common.flogger.backend.system.Log
     return new LoggingContextAwareCallable<>(
         callable,
         getInstance().getMutablePerformanceLogRecords(),
-        getInstance().getMutableAclRecords());
+        getInstance().getMutableAclRecords(),
+        getInstance().getRunningOperations().copy());
   }
 
   public boolean isEmpty() {
@@ -94,7 +103,8 @@ public class LoggingContext extends com.google.common.flogger.backend.system.Log
         && performanceLogging.get() == null
         && (performanceLogRecords.get() == null || performanceLogRecords.get().isEmtpy())
         && aclLogging.get() == null
-        && (aclLogRecords.get() == null || aclLogRecords.get().isEmpty());
+        && (aclLogRecords.get() == null || aclLogRecords.get().isEmpty())
+        && (runningOperations.get() == null || runningOperations.get().isEmpty());
   }
 
   public void clear() {
@@ -105,6 +115,7 @@ public class LoggingContext extends com.google.common.flogger.backend.system.Log
       performanceLogRecords.remove();
       aclLogging.remove();
       aclLogRecords.remove();
+      runningOperations.remove();
     } catch (RuntimeException e) {
       FluentLogger.forEnclosingClass()
           .atSevere()
@@ -361,6 +372,45 @@ public class LoggingContext extends com.google.common.flogger.backend.system.Log
     return records;
   }
 
+  /**
+   * Registers the start of a new operation.
+   *
+   * <p>Allows to retrieve the callers of the operation (aka parent operations) via the returned
+   * registration handle (see {@link RegistrationHandle#parentOperations()}), for the purpose of
+   * logging them.
+   *
+   * <p>Callers must remove the operation when it's done by calling {@link
+   * RegistrationHandle#remove()} on the returned registration handle.
+   *
+   * @param operationName the name of the operation that is started
+   * @param metadata the metadata that should be recorded/logged for the operation
+   * @return registration handle that allows to retrieve the parent operations and that must be used
+   *     to remove the operation when it is done
+   */
+  public RegistrationHandle startOperation(String operationName, Metadata metadata) {
+    return getRunningOperations().add(operationName, metadata);
+  }
+
+  /**
+   * Retrieves the currently running operations for logging them as callers (aka parent operations).
+   */
+  public ImmutableList<String> getParentOperations() {
+    return getRunningOperations().toOperationNames();
+  }
+
+  void setRunningOperations(RunningOperations runningOperations) {
+    LoggingContext.runningOperations.set(requireNonNull(runningOperations));
+  }
+
+  private RunningOperations getRunningOperations() {
+    RunningOperations runningOperations = LoggingContext.runningOperations.get();
+    if (runningOperations == null) {
+      runningOperations = new RunningOperations();
+      LoggingContext.runningOperations.set(runningOperations);
+    }
+    return runningOperations;
+  }
+
   @Override
   public String toString() {
     return MoreObjects.toStringHelper(this)
@@ -370,6 +420,7 @@ public class LoggingContext extends com.google.common.flogger.backend.system.Log
         .add("performanceLogRecords", performanceLogRecords.get())
         .add("aclLogging", aclLogging.get())
         .add("aclLogRecords", aclLogRecords.get())
+        .add("runningOperations", getRunningOperations())
         .toString();
   }
 }

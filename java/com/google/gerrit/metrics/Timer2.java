@@ -16,6 +16,7 @@ package com.google.gerrit.metrics;
 
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.server.cancellation.RequestStateContext;
@@ -45,15 +46,16 @@ public abstract class Timer2<F1, F2> implements RegistrationHandle {
     private final F1 fieldValue1;
     private final F2 fieldValue2;
 
-    Context(Timer2<F1, F2> timer, F1 fieldValue1, F2 fieldValue2) {
+    Context(Timer2<F1, F2> timer, Metadata metadata, F1 fieldValue1, F2 fieldValue2) {
+      super(timer.name, metadata);
       this.timer = timer;
       this.fieldValue1 = fieldValue1;
       this.fieldValue2 = fieldValue2;
     }
 
     @Override
-    public void record(long elapsed) {
-      timer.record(fieldValue1, fieldValue2, elapsed, NANOSECONDS);
+    public void record(long elapsed, ImmutableList<String> parentOperations) {
+      timer.record(fieldValue1, fieldValue2, elapsed, NANOSECONDS, parentOperations);
     }
   }
 
@@ -83,7 +85,7 @@ public abstract class Timer2<F1, F2> implements RegistrationHandle {
           "Starting timer %s (%s = %s, %s = %s)",
           name, field1.name(), fieldValue1, field2.name(), fieldValue2);
     }
-    return new Context<>(this, fieldValue1, fieldValue2);
+    return new Context<>(this, getMetadata(fieldValue1, fieldValue2), fieldValue1, fieldValue2);
   }
 
   /**
@@ -95,17 +97,27 @@ public abstract class Timer2<F1, F2> implements RegistrationHandle {
    * @param unit time unit of the value
    */
   public final void record(F1 fieldValue1, F2 fieldValue2, long value, TimeUnit unit) {
-    long durationNanos = unit.toNanos(value);
+    record(
+        fieldValue1, fieldValue2, value, unit, LoggingContext.getInstance().getParentOperations());
+  }
 
-    Metadata.Builder metadataBuilder = Metadata.builder();
-    field1.metadataMapper().accept(metadataBuilder, fieldValue1);
-    field2.metadataMapper().accept(metadataBuilder, fieldValue2);
-    Metadata metadata = metadataBuilder.build();
+  private final void record(
+      F1 fieldValue1,
+      F2 fieldValue2,
+      long value,
+      TimeUnit unit,
+      ImmutableList<String> parentOperations) {
+    long durationNanos = unit.toNanos(value);
 
     if (!suppressLogging) {
       LoggingContext.getInstance()
           .addPerformanceLogRecord(
-              () -> PerformanceLogRecord.create(name, durationNanos, metadata));
+              () ->
+                  PerformanceLogRecord.create(
+                      name,
+                      durationNanos,
+                      parentOperations,
+                      getMetadata(fieldValue1, fieldValue2)));
       logger.atFinest().log(
           "%s (%s = %s, %s = %s) took %.2f ms",
           name, field1.name(), fieldValue1, field2.name(), fieldValue2, durationNanos / 1000000.0);
@@ -113,6 +125,13 @@ public abstract class Timer2<F1, F2> implements RegistrationHandle {
 
     doRecord(fieldValue1, fieldValue2, value, unit);
     RequestStateContext.abortIfCancelled();
+  }
+
+  private Metadata getMetadata(F1 fieldValue1, F2 fieldValue2) {
+    Metadata.Builder metadataBuilder = Metadata.builder();
+    field1.metadataMapper().accept(metadataBuilder, fieldValue1);
+    field2.metadataMapper().accept(metadataBuilder, fieldValue2);
+    return metadataBuilder.build();
   }
 
   /** Suppress logging (debug log and performance log) when values are recorded. */

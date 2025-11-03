@@ -42,6 +42,7 @@ class LoggingContextAwareCallable<T> implements Callable<T> {
   private final MutablePerformanceLogRecords mutablePerformanceLogRecords;
   private final boolean aclLogging;
   private final MutableAclLogRecords mutableAclLogRecords;
+  private final RunningOperations runningOperations;
 
   /**
    * Creates a LoggingContextAwareCallable that wraps the given {@link Callable}.
@@ -51,11 +52,13 @@ class LoggingContextAwareCallable<T> implements Callable<T> {
    *     performance log records that are created from the runnable are added
    * @param mutableAclLogRecords instance of {@link MutableAclLogRecords} to which ACL log records
    *     that are created from the runnable are added
+   * @param runningOperations the currently running operations
    */
   LoggingContextAwareCallable(
       Callable<T> callable,
       MutablePerformanceLogRecords mutablePerformanceLogRecords,
-      MutableAclLogRecords mutableAclLogRecords) {
+      MutableAclLogRecords mutableAclLogRecords,
+      RunningOperations runningOperations) {
     this.callable = callable;
     this.callingThread = Thread.currentThread();
     this.tags = LoggingContext.getInstance().getTagsAsMap();
@@ -64,6 +67,7 @@ class LoggingContextAwareCallable<T> implements Callable<T> {
     this.mutablePerformanceLogRecords = mutablePerformanceLogRecords;
     this.aclLogging = LoggingContext.getInstance().isAclLogging();
     this.mutableAclLogRecords = mutableAclLogRecords;
+    this.runningOperations = runningOperations;
   }
 
   @Override
@@ -89,6 +93,7 @@ class LoggingContextAwareCallable<T> implements Callable<T> {
       loggingCtx.setMutablePerformanceLogRecords(mutablePerformanceLogRecords);
       loggingCtx.aclLogging(aclLogging);
       loggingCtx.setMutableAclLogRecords(mutableAclLogRecords);
+      loggingCtx.setRunningOperations(runningOperations);
       returnValue = callable.call();
     } finally {
       // Cleanup logging context. This is important if the thread is pooled and reused.

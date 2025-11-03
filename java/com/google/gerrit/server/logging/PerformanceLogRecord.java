@@ -15,6 +15,7 @@
 package com.google.gerrit.server.logging;
 
 import com.google.auto.value.AutoValue;
+import com.google.common.collect.ImmutableList;
 import java.time.Instant;
 import java.util.Optional;
 
@@ -33,9 +34,10 @@ public abstract class PerformanceLogRecord {
    * @param durationNanos the execution time in nanoseconds
    * @return the performance log record
    */
-  public static PerformanceLogRecord create(String operation, long durationNanos) {
+  public static PerformanceLogRecord create(
+      String operation, long durationNanos, ImmutableList<String> parentOperations) {
     return new AutoValue_PerformanceLogRecord(
-        operation, durationNanos, Instant.now(), Optional.empty());
+        operation, durationNanos, Instant.now(), parentOperations, Optional.empty());
   }
 
   /**
@@ -47,9 +49,12 @@ public abstract class PerformanceLogRecord {
    * @return the performance log record
    */
   public static PerformanceLogRecord create(
-      String operation, long durationNanos, Metadata metadata) {
+      String operation,
+      long durationNanos,
+      ImmutableList<String> parentOperations,
+      Metadata metadata) {
     return new AutoValue_PerformanceLogRecord(
-        operation, durationNanos, Instant.now(), Optional.of(metadata));
+        operation, durationNanos, Instant.now(), parentOperations, Optional.of(metadata));
   }
 
   public abstract String operation();
@@ -57,6 +62,8 @@ public abstract class PerformanceLogRecord {
   public abstract long durationNanos();
 
   public abstract Instant endTime();
+
+  public abstract ImmutableList<String> parentOperations();
 
   public abstract Optional<Metadata> metadata();
 

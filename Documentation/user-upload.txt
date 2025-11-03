@@ -516,23 +516,6 @@ option on the git push; the justification is an arbitrary text.
 **NOTE** This options is used internally in google. The value is ignored in the upstream version
 of Gerrit.
 
-
-[[push_replace]]
-=== Replace Changes
-
-To add an additional patch set to a change, ensure Change-Id
-lines were created in the original commit messages, and just use
-`git push URL HEAD:refs/for/...` as <<push_create,described above>>.
-Gerrit Code Review will automatically match the commits back to
-their original changes by taking advantage of the Change-Id lines.
-
-If Change-Id lines are not present in the commit messages, consider
-amending the message and copying the line from the change's page
-on the web, and then using `git push` as described above.
-
-For more about Change-Ids, see link:user-changeid.html[Change-Id Lines].
-
-
 [[bypass_review]]
 === Bypass Review
 

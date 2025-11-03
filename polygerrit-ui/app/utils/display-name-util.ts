@@ -18,6 +18,8 @@ export function getUserName(
     return account.username;
   } else if (account?.email) {
     return account.email;
+  } else if (account?.deleted) {
+    return 'Deleted User';
   } else if (
     config &&
     config.user &&

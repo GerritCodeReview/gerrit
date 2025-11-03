@@ -211,6 +211,24 @@
       "parentUuid": "4321e733_a6b1a030",
       "revId": "a2a8d2e1c6c5944812b94251d69ebe8234308b91",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c5996108_c4624a7c",
+        "filename": "javatests/com/google/gerrit/acceptance/api/flow/ListActionsIT.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-11-03T11:50:06Z",
+      "side": 1,
+      "message": "If the parameter field is not useful, then FlowActionInfo doesn\u0027t look like the right type to return.\n\nFlowActionInfo is a specific action that should be performed on a change, e.g. \"add user 123 as a reviewer\".\n\nI think semantically you want to provide a list of supported action types, e.g.:\nflowActionType \u003d {\n  name \u003d \"addReviewer\",\n  description \u003d \"Adds a user as a reviewer\"\n}\n\nMaybe later we also want to include information about the allowed parameters, for example a description of the parameters or how many parameters are expected etc.\n\nSo too me this look like it should be a new type instead of reusing FlowActionInfo and omitting the parameters field.",
+      "parentUuid": "6586c065_fd082154",
+      "revId": "a2a8d2e1c6c5944812b94251d69ebe8234308b91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

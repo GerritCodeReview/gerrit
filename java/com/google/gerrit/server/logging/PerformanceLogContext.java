@@ -141,7 +141,7 @@ public class PerformanceLogContext implements AutoCloseable, PerformanceSummaryP
               ? performanceLogRecord
                   .metadata()
                   .map(Metadata::className)
-                  .map(clazz -> " (" + clazz + ")")
+                  .map(clazz -> clazz.isPresent() ? " (" + clazz.get() + ")" : "")
                   .orElse("")
               : "";
       PerformanceInfo info =

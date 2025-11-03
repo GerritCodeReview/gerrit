@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "62d7175a_549c5fa1",
+        "filename": "tools/maven/mvn.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-11-03T09:38:49Z",
+      "side": 1,
+      "message": "```suggestion\n    if packaging_type in (\u0027jar\u0027):\n```",
+      "range": {
+        "startLine": 107,
+        "startChar": 31,
+        "endLine": 107,
+        "endChar": 38
+      },
+      "revId": "a20c2413d345647efe612027f1e393a32c9bcfdb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

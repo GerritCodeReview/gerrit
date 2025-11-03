@@ -67,6 +67,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "69b0b738_00ab2870",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-11-03T21:03:20Z",
+      "side": 1,
+      "message": "\u003e I\u0027m not clear on what you find confusing\n\nWhat does \"Replace Changes\" refer too? You\u0027re not replacing anything following the instruction here, you\u0027re simply updating the change with a new patchset, no? At least that\u0027s what I\u0027m reading.\n\nThe first line of this document reads `Gerrit supports five methods of uploading changes`, one of which being `git push`, so I feel like `git push URL HEAD:refs/for/…​` is already covered there.\n\nIf we really want to keep this section, it should be renamed to `Update Changes`, I really struggle with the term `replace` as we\u0027re not replacing anything.\n\nAgreed that somewhere here it would be good to link to those docs too, maybe in the Create Change section above?",
+      "parentUuid": "977c9041_cc87fe1d",
+      "revId": "ac0af4bd501a9526897549bef0ac32ef347a4321",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c4b41bc4_3153649e",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -78,6 +96,30 @@
       "writtenOn": "2025-11-03T19:42:17Z",
       "side": 1,
       "message": "I don\u0027t think it is? I see \"push new changes\" near the top, but not \"push new patchsets\". As I noted in my comment above though, there is duplication with other docs and incomplete-ness. Addressing that would be great.",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 26
+      },
+      "revId": "ac0af4bd501a9526897549bef0ac32ef347a4321",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "99bf4369_f46a8456",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-11-03T21:03:20Z",
+      "side": 1,
+      "message": "But this is not saying \"Push new patchsets\" either, its saying \"Replace Changes\", what on earth does replacing a change mean?\n\nAs above(and I\u0027ll resolve this comment to continue in one thread), at the very least we should rename this section to `Update Changes`.",
+      "parentUuid": "c4b41bc4_3153649e",
       "range": {
         "startLine": 13,
         "startChar": 0,

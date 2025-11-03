@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d94b21e8_262dea22",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 3875,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-11-03T11:33:42Z",
+      "side": 1,
+      "message": "nit: should this be\"\"\r\n\n\"parameters\": [\"user1\", \"user2\"],",
+      "range": {
+        "startLine": 3875,
+        "startChar": 21,
+        "endLine": 3875,
+        "endChar": 35
+      },
+      "revId": "a99fc03a770d07ddb0904acf674d763ca8064ef9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -246,6 +246,11 @@ export class GrMainHeader extends LitElement {
           list-style: none;
           padding-left: var(--spacing-l);
         }
+        /* Prevents the links from overflowing onto the next line when width is reduced. */
+        .links {
+          whitespace: no-wrap;
+          overflow: auto;
+        }
         nav.hideOnMobile .links > li {
           cursor: default;
           display: inline-block;

@@ -43,6 +43,7 @@ public class FlowRestApiBindingsIT extends AbstractDaemonTest {
       ImmutableList.of(
           RestCall.get("/changes/%s/flows"),
           RestCall.get("/changes/%s/is-flows-enabled"),
+          RestCall.get("/changes/%s/flows-actions"),
           RestCall.post("/changes/%s/flows"));
 
   private static final ImmutableList<RestCall> FLOW_ENDPOINTS =

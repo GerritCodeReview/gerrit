@@ -98,4 +98,20 @@ public interface FlowService {
    */
   ImmutableList<Flow> listFlows(Project.NameKey projectName, Change.Id changeId)
       throws StorageException;
+
+  /**
+   * Lists the actions for one change. When configuring flows, the user specifies a condition and
+   * the actions that can be performed. Return the list of possible actions that have been
+   * configured for that instance. This allows building an action autocomplete in the UI.
+   *
+   * <p>The order of the returned actions is stable, but depends on the flow service implementation.
+   *
+   * @param projectName The name of the project that contains the change.
+   * @param changeId The ID of the change for which the actions should be listed.
+   * @return The actions of the change. The service may filter out actions that are not visible to
+   *     the current user.
+   * @throws StorageException thrown if accessing the flow storage has failed
+   */
+  ImmutableList<FlowActionType> listActions(Project.NameKey projectName, Change.Id changeId)
+      throws StorageException;
 }

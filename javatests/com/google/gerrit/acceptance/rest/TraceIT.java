@@ -392,7 +392,7 @@ public class TraceIT extends AbstractDaemonTest {
       RestResponse response = adminRestSession.put("/projects/new10");
       assertThat(response.getStatusCode()).isEqualTo(SC_CREATED);
       verify(testPerformanceLogger, timeout(5000).atLeastOnce())
-          .logNanos(anyString(), anyLong(), any());
+          .logNanos(anyString(), anyLong(), any(), any());
     }
   }
 

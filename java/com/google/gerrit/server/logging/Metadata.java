@@ -26,6 +26,9 @@ import java.util.Optional;
 /** Metadata that is provided to {@link PerformanceLogger}s as context for performance records. */
 @AutoValue
 public abstract class Metadata {
+  // Keep in sync with PluginMetrics.PLUGIN_LATENCY_NAME.
+  public static final String PLUGIN_LATENCY_NAME = "plugin/latency";
+
   /** The numeric ID of an account. */
   public abstract Optional<Integer> accountId();
 
@@ -178,10 +181,14 @@ public abstract class Metadata {
   /** The name of a REST view. */
   public abstract Optional<String> restViewName();
 
-  public abstract Optional<String> submitRequirementName();
-
   /** The SHA1 of Git commit. */
   public abstract Optional<String> revision();
+
+  /** The name of the submit requirement. */
+  public abstract Optional<String> submitRequirementName();
+
+  /** The name of the thread. */
+  public abstract Optional<String> thread();
 
   /** The username of an account. */
   public abstract Optional<String> username();
@@ -207,7 +214,8 @@ public abstract class Metadata {
    * noteDbRefName=Optional.empty, noteDbSequenceType=Optional.empty, patchSetId=Optional.empty,
    * pluginMetadata=[], pluginName=Optional.empty, projectName=Optional.empty,
    * pushType=Optional.empty, requestType=Optional.empty, resourceCount=Optional.empty,
-   * restViewName=Optional.empty, revision=Optional.empty, username=Optional.empty}
+   * restViewName=Optional.empty, revision=Optional.empty, submitRequirementName=Optional.empty,
+   * thread=Optional.empty, username=Optional.empty}
    * </pre>
    *
    * <p>That's hard to read in logs. This is why this method
@@ -280,10 +288,47 @@ public abstract class Metadata {
         .add("requestType", requestType().orElse(null))
         .add("resourceCount", resourceCount().orElse(null))
         .add("restViewName", restViewName().orElse(null))
-        .add("submitRequirementName", submitRequirementName().orElse(null))
         .add("revision", revision().orElse(null))
+        .add("submitRequirementName", submitRequirementName().orElse(null))
+        .add("thread", thread().orElse(null))
         .add("username", username().orElse(null))
         .toString();
+  }
+
+  /**
+   * Decorates the operation name with information from this metadata.
+   *
+   * <ul>
+   *   <li>The operation name is prefixed with the thread name, if available in this metadata, so
+   *       that async calls can be recognized.
+   *   <li>For {@code plugin/latency} operations the plugin name and the class from this metadata
+   *       are included.
+   * </ul>
+   *
+   * @param operationName the operation name that should be decorated
+   */
+  public String decorateOperation(String operationName) {
+    StringBuilder s = new StringBuilder();
+
+    if (thread().isPresent()) {
+      s.append(String.format("[%s] ", thread().get()));
+    }
+
+    s.append(operationName);
+
+    if (PLUGIN_LATENCY_NAME.equals(operationName)) {
+      if (pluginName().isPresent()) {
+        if (className().isPresent()) {
+          s.append(String.format(" (%s:%s)", pluginName().get(), className().get()));
+        } else {
+          s.append(String.format(" (%s)", pluginName().get()));
+        }
+      } else if (className().isPresent()) {
+        s.append(String.format(" (%s)", className().get()));
+      }
+    }
+
+    return s.toString();
   }
 
   public static Metadata.Builder builder() {
@@ -399,6 +444,8 @@ public abstract class Metadata {
     public abstract Builder revision(@Nullable String revision);
 
     public abstract Builder submitRequirementName(@Nullable String srName);
+
+    public abstract Builder thread(@Nullable String thread);
 
     public abstract Builder username(@Nullable String username);
 

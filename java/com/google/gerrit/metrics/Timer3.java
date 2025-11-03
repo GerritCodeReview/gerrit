@@ -16,6 +16,7 @@ package com.google.gerrit.metrics;
 
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.server.cancellation.RequestStateContext;
@@ -47,7 +48,8 @@ public abstract class Timer3<F1, F2, F3> implements RegistrationHandle {
     private final F2 fieldValue2;
     private final F3 fieldValue3;
 
-    Context(Timer3<F1, F2, F3> timer, F1 f1, F2 f2, F3 f3) {
+    Context(Timer3<F1, F2, F3> timer, Metadata metadata, F1 f1, F2 f2, F3 f3) {
+      super(timer.name, metadata);
       this.timer = timer;
       this.fieldValue1 = f1;
       this.fieldValue2 = f2;
@@ -55,8 +57,9 @@ public abstract class Timer3<F1, F2, F3> implements RegistrationHandle {
     }
 
     @Override
-    public void record(long elapsed) {
-      timer.record(fieldValue1, fieldValue2, fieldValue3, elapsed, NANOSECONDS);
+    public void record(long elapsed, ImmutableList<String> parentOperations, Metadata metadata) {
+      timer.record(
+          fieldValue1, fieldValue2, fieldValue3, elapsed, NANOSECONDS, parentOperations, metadata);
     }
   }
 
@@ -89,7 +92,12 @@ public abstract class Timer3<F1, F2, F3> implements RegistrationHandle {
           "Starting timer %s (%s = %s, %s = %s, %s = %s)",
           name, field1.name(), fieldValue1, field2.name(), fieldValue2, field3.name(), fieldValue3);
     }
-    return new Context<>(this, fieldValue1, fieldValue2, fieldValue3);
+    return new Context<>(
+        this,
+        getMetadata(fieldValue1, fieldValue2, fieldValue3),
+        fieldValue1,
+        fieldValue2,
+        fieldValue3);
   }
 
   /**
@@ -103,18 +111,42 @@ public abstract class Timer3<F1, F2, F3> implements RegistrationHandle {
    */
   public final void record(
       F1 fieldValue1, F2 fieldValue2, F3 fieldValue3, long value, TimeUnit unit) {
-    long durationNanos = unit.toNanos(value);
+    record(
+        fieldValue1,
+        fieldValue2,
+        fieldValue3,
+        value,
+        unit,
+        LoggingContext.getInstance().getRunningOperations().toOperationNames(),
+        getMetadata(fieldValue1, fieldValue2, fieldValue3));
+  }
 
-    Metadata.Builder metadataBuilder = Metadata.builder();
-    field1.metadataMapper().accept(metadataBuilder, fieldValue1);
-    field2.metadataMapper().accept(metadataBuilder, fieldValue2);
-    field3.metadataMapper().accept(metadataBuilder, fieldValue3);
-    Metadata metadata = metadataBuilder.build();
+  /**
+   * Record a value in the distribution.
+   *
+   * @param fieldValue1 bucket to record the timer
+   * @param fieldValue2 bucket to record the timer
+   * @param fieldValue3 bucket to record the timer
+   * @param value value to record
+   * @param unit time unit of the value
+   * @param parentOperations the parent operations that called the operation for which the latency
+   *     is recorded by this timer
+   * @param metadata metadata that should be recorded/logged
+   */
+  private final void record(
+      F1 fieldValue1,
+      F2 fieldValue2,
+      F3 fieldValue3,
+      long value,
+      TimeUnit unit,
+      ImmutableList<String> parentOperations,
+      Metadata metadata) {
+    long durationNanos = unit.toNanos(value);
 
     if (!suppressLogging) {
       LoggingContext.getInstance()
           .addPerformanceLogRecord(
-              () -> PerformanceLogRecord.create(name, durationNanos, metadata));
+              () -> PerformanceLogRecord.create(name, durationNanos, parentOperations, metadata));
       logger.atFinest().log(
           "%s (%s = %s, %s = %s, %s = %s) took %.2f ms",
           name,
@@ -129,6 +161,14 @@ public abstract class Timer3<F1, F2, F3> implements RegistrationHandle {
 
     doRecord(fieldValue1, fieldValue2, fieldValue3, value, unit);
     RequestStateContext.abortIfCancelled();
+  }
+
+  private Metadata getMetadata(F1 fieldValue1, F2 fieldValue2, F3 fieldValue3) {
+    Metadata.Builder metadataBuilder = Metadata.builder();
+    field1.metadataMapper().accept(metadataBuilder, fieldValue1);
+    field2.metadataMapper().accept(metadataBuilder, fieldValue2);
+    field3.metadataMapper().accept(metadataBuilder, fieldValue3);
+    return metadataBuilder.build();
   }
 
   /** Suppress logging (debug log and performance log) when values are recorded. */

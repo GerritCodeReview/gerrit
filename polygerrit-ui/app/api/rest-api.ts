@@ -236,6 +236,7 @@ export declare interface AccountInfo {
   status?: string; // status message of the account
   inactive?: boolean; // not set if false
   tags?: string[];
+  deleted?: boolean; // not set if false
 }
 
 /**

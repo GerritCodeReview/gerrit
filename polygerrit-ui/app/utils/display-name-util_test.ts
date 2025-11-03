@@ -133,6 +133,13 @@ suite('display-name-utils tests', () => {
     assert.deepEqual(getUserName(config, account), 'test-user@test-url.com');
   });
 
+  test('getUserName deleted account', () => {
+    const account: AccountInfo = {
+      deleted: true,
+    };
+    assert.deepEqual(getUserName(config, account), 'Deleted User');
+  });
+
   test('getUserName returns not Anonymous Coward as the anon name', () => {
     assert.deepEqual(getUserName(config, undefined), 'Anonymous');
   });

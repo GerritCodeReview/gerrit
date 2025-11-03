@@ -27,9 +27,10 @@ import com.google.common.flogger.FluentLogger;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.server.cancellation.RequestStateContext;
+import com.google.gerrit.server.logging.RunningOperations.RegistrationHandle;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
-import java.util.function.Consumer;
+import java.util.function.BiConsumer;
 
 /**
  * TraceContext that allows to set logging tags and enforce logging.
@@ -179,37 +180,50 @@ public class TraceContext implements AutoCloseable {
   public static class TraceTimer implements AutoCloseable {
     private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-    private final Consumer<Long> doneLogFn;
+    private final RegistrationHandle registrationHandle;
+    private final BiConsumer<Long, ImmutableList<String>> doneLogFn;
     private final Stopwatch stopwatch;
 
     private TraceTimer(String operation) {
       this(
+          operation,
+          Metadata.empty(),
           () -> logger.atFine().log("Starting timer %s", operation),
-          elapsedNanos -> {
+          (elapsedNanos, parentOperations) -> {
             LoggingContext.getInstance()
                 .addPerformanceLogRecord(
-                    () -> PerformanceLogRecord.create(operation, elapsedNanos));
+                    () -> PerformanceLogRecord.create(operation, elapsedNanos, parentOperations));
             logger.atFine().log("timer %s took %.2f ms", operation, elapsedNanos / 1000000.0);
           });
     }
 
     private TraceTimer(String operation, Metadata metadata) {
       this(
+          operation,
+          metadata,
           () ->
               logger.atFine().log(
                   "Starting timer %s (%s)", operation, metadata.toStringForLogging()),
-          elapsedNanos -> {
+          (elapsedNanos, parentOperations) -> {
             LoggingContext.getInstance()
                 .addPerformanceLogRecord(
-                    () -> PerformanceLogRecord.create(operation, elapsedNanos, metadata));
+                    () ->
+                        PerformanceLogRecord.create(
+                            operation, elapsedNanos, parentOperations, metadata));
             logger.atFine().log(
                 "timer %s (%s) took %.2f ms",
                 operation, metadata.toStringForLogging(), elapsedNanos / 1000000.0);
           });
     }
 
-    private TraceTimer(Runnable startLogFn, Consumer<Long> doneLogFn) {
+    private TraceTimer(
+        String operation,
+        Metadata metadata,
+        Runnable startLogFn,
+        BiConsumer<Long, ImmutableList<String>> doneLogFn) {
       RequestStateContext.abortIfCancelled();
+      this.registrationHandle =
+          LoggingContext.getInstance().getRunningOperations().add(operation, metadata);
       startLogFn.run();
       this.doneLogFn = doneLogFn;
       this.stopwatch = Stopwatch.createStarted();
@@ -218,7 +232,9 @@ public class TraceContext implements AutoCloseable {
     @Override
     public void close() {
       stopwatch.stop();
-      doneLogFn.accept(stopwatch.elapsed(TimeUnit.NANOSECONDS));
+      doneLogFn.accept(
+          stopwatch.elapsed(TimeUnit.NANOSECONDS), registrationHandle.parentOperations());
+      registrationHandle.remove();
       RequestStateContext.abortIfCancelled();
     }
   }

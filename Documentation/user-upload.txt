@@ -518,7 +518,7 @@ of Gerrit.
 
 
 [[push_replace]]
-=== Replace Changes
+=== Update Changes
 
 To add an additional patch set to a change, ensure Change-Id
 lines were created in the original commit messages, and just use
@@ -719,9 +719,9 @@ be sent through command line options.
 For more details on using `repo upload`, see `repo help upload`.
 
 [[repo_replace]]
-=== Replace Changes
+=== Update Changes
 
-To replace changes, ensure Change-Id lines were created in the
+To update changes, ensure Change-Id lines were created in the
 commit messages, and just use `repo upload`.
 Gerrit Code Review will automatically match the commits back to
 their original changes by taking advantage of their Change-Id lines.

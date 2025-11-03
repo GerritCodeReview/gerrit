@@ -37,6 +37,7 @@ import com.google.gerrit.server.ValidationOptionsListener;
 import com.google.gerrit.server.change.EmailReviewComments;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.flow.Flow;
+import com.google.gerrit.server.flow.FlowAction;
 import com.google.gerrit.server.flow.FlowCreation;
 import com.google.gerrit.server.flow.FlowExpression;
 import com.google.gerrit.server.flow.FlowKey;
@@ -190,6 +191,8 @@ public class TestExtensions {
      */
     private boolean rejectFlowDeletion;
 
+    private ImmutableList<FlowAction> actions = ImmutableList.of();
+
     /** Makes the flow service reject all flow creations. */
     public void rejectFlowCreation() {
       this.rejectFlowCreation = true;
@@ -198,6 +201,10 @@ public class TestExtensions {
     /** Makes the flow service reject all flow deletions. */
     public void rejectFlowDeletion() {
       this.rejectFlowDeletion = true;
+    }
+
+    public void setActions(ImmutableList<FlowAction> actions) {
+      this.actions = actions;
     }
 
     @Override
@@ -239,6 +246,12 @@ public class TestExtensions {
         throws RestApiException {
       // Always return true for testing purposes.
       return true;
+    }
+
+    @Override
+    public ImmutableList<FlowAction> listActions(Project.NameKey projectName, Change.Id changeId)
+        throws StorageException {
+      return actions;
     }
 
     @Override

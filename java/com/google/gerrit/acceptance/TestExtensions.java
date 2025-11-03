@@ -242,6 +242,13 @@ public class TestExtensions {
     }
 
     @Override
+    public ImmutableList<FlowAction> listActions(Project.NameKey projectName, Change.Id changeId)
+        throws StorageException {
+      // Always return empty for testing purposes.
+      return ImmutableList.of();
+    }
+
+    @Override
     public Optional<Flow> getFlow(FlowKey flowKey) throws StorageException {
       return Optional.ofNullable(flows.get(flowKey));
     }

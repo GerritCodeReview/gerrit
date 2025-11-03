@@ -3847,6 +3847,35 @@ implementation.
 If no flow service is bound (i.e. if no plugin that provides a flow service is
 installed) `405 Method Not Allowed` is returned.
 
+[[flows-actions]]
+=== List Flows Actions
+--
+'GET /changes/link:#change-id[{change-id}]/flows-actions/'
+--
+
+Lists the flows actions that are configured for the given change.
+
+As result a list of link:#flow-action-type-info[FlowActionTypeInfo] entries is returned.
+
+.Request
+----
+  GET /changes/myProject~65178/flows-actions/ HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  [
+    {
+      "name": "add-reviewer"
+    }
+  ]
+----
+
 [[create-flow]]
 === Create Flow
 --
@@ -8671,6 +8700,17 @@ the flow service implementation.
 |`parameters` |Parameters for the action as list of strings. Which parameters
 are supported and their format depends on the flow service implementation.
 |=========================
+
+[[flow-action-type]]
+=== FlowActionTypeInfo
+The `FlowActionTypeInfo` entity describes an action that may be used in a flow.
+
+[options="header",cols="1,6"]
+|=========================
+|Field Name   |Description
+|`name`       |The name of the action.
+|=========================
+
 
 [[flow-expression-info]]
 === FlowExpressionInfo

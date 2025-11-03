@@ -31,6 +31,7 @@ import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestApiModule;
 import com.google.gerrit.server.restapi.change.Reviewed.DeleteReviewed;
 import com.google.gerrit.server.restapi.change.Reviewed.PutReviewed;
+import com.google.gerrit.server.restapi.flow.ListActions;
 
 public class ChangeRestApiModule extends RestApiModule {
   @Override
@@ -63,6 +64,7 @@ public class ChangeRestApiModule extends RestApiModule {
     delete(CHANGE_KIND).to(DeleteChange.class);
     get(CHANGE_KIND).to(GetChange.class);
     post(CHANGE_KIND, "abandon").to(Abandon.class);
+    get(CHANGE_KIND, "actions").to(ListActions.class);
 
     child(CHANGE_KIND, "attention").to(AttentionSet.class);
     postOnCollection(ATTENTION_SET_ENTRY_KIND).to(AddToAttentionSet.class);

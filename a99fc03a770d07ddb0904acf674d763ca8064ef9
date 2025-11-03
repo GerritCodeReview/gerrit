@@ -22,6 +22,48 @@
       },
       "revId": "a99fc03a770d07ddb0904acf674d763ca8064ef9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a709f123_53d8cfc6",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 3875,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-11-03T11:37:50Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "d94b21e8_262dea22",
+      "range": {
+        "startLine": 3875,
+        "startChar": 21,
+        "endLine": 3875,
+        "endChar": 35
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "5c4585e8_21231128",
+          "description": "GET_AI_FIX_FOR_COMMENT prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "Documentation/rest-api-changes.txt",
+              "range": {
+                "startLine": 3875,
+                "startChar": 0,
+                "endLine": 3876,
+                "endChar": 0
+              },
+              "replacement": "      \"parameters\": [\"user1\", \"user2\"],\n"
+            }
+          ]
+        }
+      ],
+      "revId": "a99fc03a770d07ddb0904acf674d763ca8064ef9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

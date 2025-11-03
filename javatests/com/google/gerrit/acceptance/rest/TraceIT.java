@@ -389,9 +389,9 @@ public class TraceIT extends AbstractDaemonTest {
     PerformanceLogger testPerformanceLogger = mock(PerformanceLogger.class);
     try (Registration registration =
         extensionRegistry.newRegistration().add(testPerformanceLogger)) {
-      RestResponse response = adminRestSession.put("/projects/new10");
+      RestResponse response = adminRestSession.put("/projects/new10?trace=foo");
       assertThat(response.getStatusCode()).isEqualTo(SC_CREATED);
-      verify(testPerformanceLogger, timeout(5000).atLeastOnce())
+      verify(testPerformanceLogger, timeout(5000000).atLeastOnce())
           .logNanos(anyString(), anyLong(), any());
     }
   }

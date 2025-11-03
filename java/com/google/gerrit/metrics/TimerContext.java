@@ -14,14 +14,20 @@
 
 package com.google.gerrit.metrics;
 
+import com.google.common.collect.ImmutableList;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.gerrit.server.logging.LoggingContext;
+import com.google.gerrit.server.logging.Metadata;
+import com.google.gerrit.server.logging.RunningOperations.RegistrationHandle;
 
 abstract class TimerContext implements AutoCloseable {
   private final long startNanos;
   private boolean stopped;
+  private final RegistrationHandle registrationHandle;
 
-  TimerContext() {
+  TimerContext(String timerName, Metadata metadata) {
     this.startNanos = System.nanoTime();
+    this.registrationHandle = LoggingContext.getInstance().startOperation(timerName, metadata);
   }
 
   /**
@@ -29,7 +35,7 @@ abstract class TimerContext implements AutoCloseable {
    *
    * @param elapsed Elapsed time in nanoseconds.
    */
-  public abstract void record(long elapsed);
+  public abstract void record(long elapsed, ImmutableList<String> parentOperations);
 
   /** Returns the start time in system time nanoseconds. */
   public long getStartTime() {
@@ -47,7 +53,8 @@ abstract class TimerContext implements AutoCloseable {
     if (!stopped) {
       stopped = true;
       long elapsed = System.nanoTime() - startNanos;
-      record(elapsed);
+      record(elapsed, registrationHandle.parentOperations());
+      registrationHandle.remove();
       return elapsed;
     }
     throw new IllegalStateException("Already stopped");

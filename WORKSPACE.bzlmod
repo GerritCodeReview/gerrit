@@ -66,10 +66,6 @@ browser_repositories(
 
 declare_nongoogle_deps()
 
-load("//tools:defs.bzl", "gerrit_init")
-
-gerrit_init()
-
 load("@build_bazel_rules_nodejs//:index.bzl", "node_repositories", "yarn_install")
 
 NODE_20_REPO = {

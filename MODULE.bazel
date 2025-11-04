@@ -12,8 +12,9 @@ git_override(
 )
 
 # nongoogle bazel_deps
+bazel_dep(name = "bazel_features", version = "1.38.0")
 bazel_dep(name = "rules_java", version = "7.6.1")
-bazel_dep(name = "toolchains_protoc", version = "0.3.0")
+bazel_dep(name = "toolchains_protoc", version = "0.6.0")
 bazel_dep(name = "rules_proto", version = "6.0.0")
 
 local_path_override(
@@ -28,6 +29,14 @@ local_repository(
     name = "java-prettify",
     path = "modules/java-prettify",
 )
+
+protoc = use_extension("@toolchains_protoc//protoc:extensions.bzl", "protoc")
+protoc.toolchain(
+    version = "v25.3",
+)
+use_repo(protoc, "toolchains_protoc_hub")
+register_toolchains("@toolchains_protoc_hub//:all")
+register_toolchains("//tools:all")
 
 maven = use_extension("@rules_jvm_external//:extensions.bzl", "maven")
 

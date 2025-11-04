@@ -52,6 +52,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fdaea666_076131dd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-11-04T09:08:41Z",
+      "side": 1,
+      "message": "Overall structure and code looks good. I would prefer to merge it ASAP and continue working on it with smaller changes.",
+      "revId": "9e1345005a1869129a43fc8b5ee5ed9a6d5cf235",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c184d40d_0031123a",
@@ -232,6 +249,47 @@
         "endLine": 31,
         "endChar": 19
       },
+      "revId": "9e1345005a1869129a43fc8b5ee5ed9a6d5cf235",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "55fcb0fe_d39becf6",
+        "filename": "polygerrit-ui/app/elements/chat-panel/chat-header.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-11-04T09:08:41Z",
+      "side": 1,
+      "message": "nit: extra spaces",
+      "range": {
+        "startLine": 105,
+        "startChar": 36,
+        "endLine": 105,
+        "endChar": 37
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "54717864_15b275ff",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/chat-header.ts",
+              "range": {
+                "startLine": 104,
+                "startChar": 0,
+                "endLine": 107,
+                "endChar": 0
+              },
+              "replacement": "    /*\n     * Styles for menus in overlays.\n     * These may need to be moved to a global stylesheet to correctly style\n"
+            }
+          ]
+        }
+      ],
       "revId": "9e1345005a1869129a43fc8b5ee5ed9a6d5cf235",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -765,6 +823,47 @@
                 "endChar": 0
               },
               "replacement": "  private turnId(): {turnIndex: number; regenerationIndex: number} {\n"
+            }
+          ]
+        }
+      ],
+      "revId": "9e1345005a1869129a43fc8b5ee5ed9a6d5cf235",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc11a6e8_165246f8",
+        "filename": "polygerrit-ui/app/elements/chat-panel/gemini-message.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-11-04T09:08:41Z",
+      "side": 1,
+      "message": "I think Critique and Gerrit have different definition of a comment range - we change them in C2C plugin. But this might be fixed later, maybe just to add todo comment",
+      "range": {
+        "startLine": 161,
+        "startChar": 13,
+        "endLine": 161,
+        "endChar": 34
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "f50306cb_97cee2f3",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/gemini-message.ts",
+              "range": {
+                "startLine": 161,
+                "startChar": 0,
+                "endLine": 161,
+                "endChar": 0
+              },
+              "replacement": "      // TODO(b/333738996): Revisit comment range conversion. Critique and Gerrit\n      // might have different definitions of comment ranges.\n"
             }
           ]
         }

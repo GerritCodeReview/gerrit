@@ -16,6 +16,23 @@
       "message": "Thanks Kenyon!",
       "revId": "6914a6a32edae7f25af0674edea5894c349ecf12",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb1e0043_955cb0af",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4403409
+      },
+      "writtenOn": "2025-11-04T10:37:28Z",
+      "side": 1,
+      "message": "Comment removed by: Edwin Kempin; Reason: spam",
+      "revId": "6914a6a32edae7f25af0674edea5894c349ecf12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

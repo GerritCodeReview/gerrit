@@ -88,6 +88,24 @@
       "parentUuid": "25eec8cb_3d4f9afd",
       "revId": "314814d74284560f045b742f611e20e4867c3362",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "59c067d8_dd8df37c",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 6712,
+      "author": {
+        "id": 4403409
+      },
+      "writtenOn": "2025-11-04T10:37:28Z",
+      "side": 1,
+      "message": "Comment removed by: Edwin Kempin; Reason: spam",
+      "parentUuid": "7d7a54ec_37e7309b",
+      "revId": "314814d74284560f045b742f611e20e4867c3362",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

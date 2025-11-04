@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "07e0dc36_606362d0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-11-04T15:43:16Z",
+      "side": 1,
+      "message": "I wonder if --noenable_workspace needs adding to https://github.com/search?q\u003drepo%3AGerritCodeReview%2Fgerrit-ci-scripts%20bazelisk%20sync\u0026type\u003dcode if WORKSPACE isn\u0027t there? (since we use version 7, so it\u0027s enabled by default?) Not sure, just was reading https://github.com/bazelbuild/intellij/issues/6984",
+      "revId": "d5e0280a5cf94c907b386062d44a5b4bda1f440c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

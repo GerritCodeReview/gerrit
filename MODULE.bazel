@@ -6,9 +6,11 @@ bazel_dep(name = "rules_shell", version = "0.6.1")
 bazel_dep(name = "jgit", version = "7.2.0")
 
 # nongoogle bazel_deps
+bazel_dep(name = "bazel_features", version = "1.38.0")
 bazel_dep(name = "rules_java", version = "7.6.1")
-bazel_dep(name = "toolchains_protoc", version = "0.3.0")
+bazel_dep(name = "toolchains_protoc", version = "0.6.0")
 bazel_dep(name = "rules_proto", version = "6.0.0")
+bazel_dep(name = "platforms", version = "0.0.10")
 bazel_dep(name = "rbe_autoconfig")
 git_override(
   module_name = "rbe_autoconfig",
@@ -33,6 +35,14 @@ local_repository(
     name = "jgit-module",
     path = "modules/jgit",
 )
+
+protoc = use_extension("@toolchains_protoc//protoc:extensions.bzl", "protoc")
+protoc.toolchain(
+    version = "v25.3",
+)
+use_repo(protoc, "toolchains_protoc_hub")
+register_toolchains("@toolchains_protoc_hub//:all")
+register_toolchains("//tools:all")
 
 CAFFEINE_VERS = "3.1.8"
 CAFFEINE_GUAVA_SHA256 = "e45c7c2db18810644c12bb3396cd38dbf4efaa1fa2402f27aaef6e662d8a0af5"

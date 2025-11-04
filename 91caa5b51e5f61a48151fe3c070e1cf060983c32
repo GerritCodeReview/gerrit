@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "450da8a5_7cb60e23",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 423,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-11-04T18:02:40Z",
+      "side": 1,
+      "message": "do we need to really solve this issue?\n\nThe user can just not add a trailing space\n\nI also checked manually that we auto-correct in this case(an extra Enter is required) and not make a wrong query",
+      "range": {
+        "startLine": 404,
+        "startChar": 2,
+        "endLine": 423,
+        "endChar": 3
+      },
+      "revId": "91caa5b51e5f61a48151fe3c070e1cf060983c32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

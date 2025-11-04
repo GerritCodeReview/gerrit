@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca47ed2a_56daaa12",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4450102
+      },
+      "writtenOn": "2025-11-04T22:02:51Z",
+      "side": 1,
+      "message": "From 45416f119559e7d0ce471a1eee57b953d7ac450e Mon Sep 17 00:00:00 2001\nFrom: GerritForge Release \u003cinfo@gerritforge.com\u003e\nDate: Mon, 03 Nov 2025 12:51:18 +0000\nSubject: [PATCH] Set version to 3.12.3\n\nRelease-Notes: skip\nChange-Id: I1880d6fcbf8fdb818c24cf8d43959a74df7d0329\n---\n\ndiff --git a/tools/maven/gerrit-acceptance-framework_pom.xml b/tools/maven/gerrit-acceptance-framework_pom.xml\nindex 6815993..da7ffa9 100644\n--- a/tools/maven/gerrit-acceptance-framework_pom.xml\n+++ b/tools/maven/gerrit-acceptance-framework_pom.xml\n@@ -2,7 +2,7 @@\n   \u003cmodelVersion\u003e4.0.0\u003c/modelVersion\u003e\n   \u003cgroupId\u003ecom.google.gerrit\u003c/groupId\u003e\n   \u003cartifactId\u003egerrit-acceptance-framework\u003c/artifactId\u003e\n-  \u003cversion\u003e3.12.3-SNAPSHOT\u003c/version\u003e\n+  \u003cversion\u003e3.12.3\u003c/version\u003e\n   \u003cpackaging\u003ejar\u003c/packaging\u003e\n   \u003cname\u003eGerrit Code Review - Acceptance Test Framework\u003c/name\u003e\n   \u003cdescription\u003eFramework for Gerrit\u0027s acceptance tests\u003c/description\u003e\ndiff --git a/tools/maven/gerrit-extension-api_pom.xml b/tools/maven/gerrit-extension-api_pom.xml\nindex 9a9ed45..3350110 100644\n--- a/tools/maven/gerrit-extension-api_pom.xml\n+++ b/tools/maven/gerrit-extension-api_pom.xml\n@@ -2,7 +2,7 @@\n   \u003cmodelVersion\u003e4.0.0\u003c/modelVersion\u003e\n   \u003cgroupId\u003ecom.google.gerrit\u003c/groupId\u003e\n   \u003cartifactId\u003egerrit-extension-api\u003c/artifactId\u003e\n-  \u003cversion\u003e3.12.3-SNAPSHOT\u003c/version\u003e\n+  \u003cversion\u003e3.12.3\u003c/version\u003e\n   \u003cpackaging\u003ejar\u003c/packaging\u003e\n   \u003cname\u003eGerrit Code Review - Extension API\u003c/name\u003e\n   \u003cdescription\u003eAPI for Gerrit Extensions\u003c/description\u003e\ndiff --git a/tools/maven/gerrit-plugin-api_pom.xml b/tools/maven/gerrit-plugin-api_pom.xml\nindex 40349e3..73c39a2 100644\n--- a/tools/maven/gerrit-plugin-api_pom.xml\n+++ b/tools/maven/gerrit-plugin-api_pom.xml\n@@ -2,7 +2,7 @@\n   \u003cmodelVersion\u003e4.0.0\u003c/modelVersion\u003e\n   \u003cgroupId\u003ecom.google.gerrit\u003c/groupId\u003e\n   \u003cartifactId\u003egerrit-plugin-api\u003c/artifactId\u003e\n-  \u003cversion\u003e3.12.3-SNAPSHOT\u003c/version\u003e\n+  \u003cversion\u003e3.12.3\u003c/version\u003e\n   \u003cpackaging\u003ejar\u003c/packaging\u003e\n   \u003cname\u003eGerrit Code Review - Plugin API\u003c/name\u003e\n   \u003cdescription\u003eAPI for Gerrit Plugins\u003c/description\u003e\ndiff --git a/tools/maven/gerrit-war_pom.xml b/tools/maven/gerrit-war_pom.xml\nindex ddc370b..d347569 100644\n--- a/tools/maven/gerrit-war_pom.xml\n+++ b/tools/maven/gerrit-war_pom.xml\n@@ -2,7 +2,7 @@\n   \u003cmodelVersion\u003e4.0.0\u003c/modelVersion\u003e\n   \u003cgroupId\u003ecom.google.gerrit\u003c/groupId\u003e\n   \u003cartifactId\u003egerrit-war\u003c/artifactId\u003e\n-  \u003cversion\u003e3.12.3-SNAPSHOT\u003c/version\u003e\n+  \u003cversion\u003e3.12.3\u003c/version\u003e\n   \u003cpackaging\u003ewar\u003c/packaging\u003e\n   \u003cname\u003eGerrit Code Review - WAR\u003c/name\u003e\n   \u003cdescription\u003eGerrit WAR\u003c/description\u003e\ndiff --git a/version.bzl b/version.bzl\nindex 02ae444..6edc87e 100644\n--- a/version.bzl\n+++ b/version.bzl\n@@ -2,4 +2,4 @@\n # Used by :api_install and :api_deploy targets\n # when talking to the destination repository.\n #\n-GERRIT_VERSION \u003d \"3.12.3-SNAPSHOT\"\n+GERRIT_VERSION \u003d \"3.12.3\"",
+      "revId": "f2d94e5c23f4e345d407cdf944567438edf0914f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

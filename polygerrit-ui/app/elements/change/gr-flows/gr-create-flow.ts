@@ -212,6 +212,33 @@ export class GrCreateFlow extends LitElement {
     this.flowString = this.stages.map(stageToString).join(STAGE_SEPARATOR);
   }
 
+  private parseStagesFromRawFlow(rawFlow: string) {
+    if (!rawFlow) {
+      this.stages = [];
+      return;
+    }
+    const stageStrings = rawFlow.split(STAGE_SEPARATOR);
+    this.stages = stageStrings.map(stageStr => {
+      const stage = {
+        condition: '',
+        action: '',
+        parameterStr: '',
+      };
+      if (stageStr.includes('->')) {
+        const [condition, actionStr] = stageStr.split('->').map(s => s.trim());
+        stage.condition = condition;
+        const actionParts = actionStr.split(' ').filter(part => part);
+        stage.action = actionParts[0] ?? '';
+        if (actionParts.length > 1) {
+          stage.parameterStr = actionParts.slice(1).join(' ');
+        }
+      } else {
+        stage.condition = stageStr.trim();
+      }
+      return stage;
+    });
+  }
+
   override render() {
     return html`
       <div class="raw-flow-container">
@@ -219,6 +246,10 @@ export class GrCreateFlow extends LitElement {
           placeholder="raw flow"
           label="Raw Flow"
           .value=${this.flowString}
+          @input=${(e: InputEvent) => {
+            this.flowString = (e.target as HTMLTextAreaElement).value;
+            this.parseStagesFromRawFlow(this.flowString);
+          }}
         ></gr-autogrow-textarea>
         <gr-copy-clipboard
           .text=${this.flowString}

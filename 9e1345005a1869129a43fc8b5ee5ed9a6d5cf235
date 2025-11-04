@@ -33,6 +33,825 @@
       "message": "all my beast friend\n how are you doing? how about everthing it\u0027s ok",
       "revId": "9e1345005a1869129a43fc8b5ee5ed9a6d5cf235",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2347608b_3dea8071",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-11-04T07:41:17Z",
+      "side": 1,
+      "message": "Reviewing in chunks since it\u0027s a lot of code\n\nHigh level thoughts\n\n- At the start of the commit message, mention that we are converting an already launched internal implementation of this into Lit. That explains why so much code is being written in one CL and the review won\u0027t be that strict.\nMost of this code has already been launched for a while to user(in Angular form) so we know that the features all work. This isn\u0027t *new* code being written.\n\n- This CL should do a better job of documenting each added feature. Currently it\u0027s unclear what this AI panel is capable of and makes it difficult to understand which use case is covered and what is missing.",
+      "revId": "9e1345005a1869129a43fc8b5ee5ed9a6d5cf235",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c184d40d_0031123a",
+        "filename": "polygerrit-ui/app/api/ai-code-review.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-11-04T07:41:17Z",
+      "side": 1,
+      "message": "incorrect comment?\n\nAlso it\u0027s not adding any value\n\nSame with the comment below\n\nBetter to remove this and other comments that just repeat the property name",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 38
+      },
+      "revId": "9e1345005a1869129a43fc8b5ee5ed9a6d5cf235",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1c7548eb_b1570439",
+        "filename": "polygerrit-ui/app/api/ai-code-review.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-11-04T07:41:17Z",
+      "side": 1,
+      "message": "comment looks copied from above",
+      "range": {
+        "startLine": 60,
+        "startChar": 0,
+        "endLine": 67,
+        "endChar": 0
+      },
+      "revId": "9e1345005a1869129a43fc8b5ee5ed9a6d5cf235",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "711cb5b2_16852f2e",
+        "filename": "polygerrit-ui/app/api/ai-code-review.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-11-04T07:41:17Z",
+      "side": 1,
+      "message": "remove\n\ndoesn\u0027t add much value",
+      "range": {
+        "startLine": 122,
+        "startChar": 0,
+        "endLine": 122,
+        "endChar": 34
+      },
+      "revId": "9e1345005a1869129a43fc8b5ee5ed9a6d5cf235",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6c7b7908_e5503630",
+        "filename": "polygerrit-ui/app/api/ai-code-review.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-11-04T07:41:17Z",
+      "side": 1,
+      "message": "can you add a possible example for this?",
+      "range": {
+        "startLine": 131,
+        "startChar": 0,
+        "endLine": 131,
+        "endChar": 62
+      },
+      "revId": "9e1345005a1869129a43fc8b5ee5ed9a6d5cf235",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9e0c0483_33b7ee53",
+        "filename": "polygerrit-ui/app/api/ai-code-review.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-11-04T07:41:17Z",
+      "side": 1,
+      "message": "can this extend `CommentInfo` somehow?\n\nalso the name `CreateCommentAction` is confusing because there is no `action` involved here\n\n`AICommentInfo` perhaps?",
+      "range": {
+        "startLine": 151,
+        "startChar": 0,
+        "endLine": 151,
+        "endChar": 44
+      },
+      "revId": "9e1345005a1869129a43fc8b5ee5ed9a6d5cf235",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c7bd2ac6_15546842",
+        "filename": "polygerrit-ui/app/api/ai-code-review.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-11-04T07:41:17Z",
+      "side": 1,
+      "message": "internal DB?",
+      "range": {
+        "startLine": 195,
+        "startChar": 63,
+        "endLine": 195,
+        "endChar": 70
+      },
+      "revId": "9e1345005a1869129a43fc8b5ee5ed9a6d5cf235",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "95fe5be9_9324af88",
+        "filename": "polygerrit-ui/app/api/ai-code-review.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-11-04T07:41:17Z",
+      "side": 1,
+      "message": "remove this comment, it\u0027s redundant.\n\nsame with the ones below that just repeat the property name",
+      "range": {
+        "startLine": 247,
+        "startChar": 0,
+        "endLine": 247,
+        "endChar": 41
+      },
+      "revId": "9e1345005a1869129a43fc8b5ee5ed9a6d5cf235",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8119cf47_a4b8933e",
+        "filename": "polygerrit-ui/app/elements/chat-panel/chat-header.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-11-04T07:41:17Z",
+      "side": 1,
+      "message": "where is this fixed number coming from?",
+      "range": {
+        "startLine": 31,
+        "startChar": 6,
+        "endLine": 31,
+        "endChar": 19
+      },
+      "revId": "9e1345005a1869129a43fc8b5ee5ed9a6d5cf235",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa519df5_c8d3377e",
+        "filename": "polygerrit-ui/app/elements/chat-panel/chat-header.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-11-04T07:41:17Z",
+      "side": 1,
+      "message": "this comment is confusing\n\nis this CSS correctly placed or is there a pending TODO to resolve this? `These may need to be moved to a global stylesheet`",
+      "range": {
+        "startLine": 104,
+        "startChar": 0,
+        "endLine": 109,
+        "endChar": 0
+      },
+      "revId": "9e1345005a1869129a43fc8b5ee5ed9a6d5cf235",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3b22fd88_97bf3e49",
+        "filename": "polygerrit-ui/app/elements/chat-panel/chat-header.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-11-04T07:41:17Z",
+      "side": 1,
+      "message": "what does `left` and `right` refer to in this context?",
+      "range": {
+        "startLine": 153,
+        "startChar": 13,
+        "endLine": 153,
+        "endChar": 69
+      },
+      "revId": "9e1345005a1869129a43fc8b5ee5ed9a6d5cf235",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bd631d2d_e199de8d",
+        "filename": "polygerrit-ui/app/elements/chat-panel/chat-header.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-11-04T07:41:17Z",
+      "side": 1,
+      "message": "should be maintained by the subscription controller as well and exposed as an observable",
+      "range": {
+        "startLine": 158,
+        "startChar": 0,
+        "endLine": 163,
+        "endChar": 0
+      },
+      "revId": "9e1345005a1869129a43fc8b5ee5ed9a6d5cf235",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "36364383_fb3098a1",
+        "filename": "polygerrit-ui/app/elements/chat-panel/chat-panel.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-11-04T07:41:17Z",
+      "side": 1,
+      "message": "remove mention of `gemini`?\n\ns/gemini/model",
+      "range": {
+        "startLine": 36,
+        "startChar": 38,
+        "endLine": 36,
+        "endChar": 52
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "c34b38d0_1a79ff9a",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/chat-panel.ts",
+              "range": {
+                "startLine": 8,
+                "startChar": 0,
+                "endLine": 9,
+                "endChar": 0
+              },
+              "replacement": "import \u0027./model-message\u0027;\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/chat-panel.ts",
+              "range": {
+                "startLine": 36,
+                "startChar": 0,
+                "endLine": 37,
+                "endChar": 0
+              },
+              "replacement": "  @queryAll(\u0027model-message\u0027) private modelMessages?: NodeListOf\u003cHTMLElement\u003e;\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/chat-panel.ts",
+              "range": {
+                "startLine": 48,
+                "startChar": 0,
+                "endLine": 49,
+                "endChar": 0
+              },
+              "replacement": "  @state() lastModelMessageMinHeight \u003d 0;\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/chat-panel.ts",
+              "range": {
+                "startLine": 117,
+                "startChar": 0,
+                "endLine": 118,
+                "endChar": 0
+              },
+              "replacement": "    model-message {\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/chat-panel.ts",
+              "range": {
+                "startLine": 120,
+                "startChar": 0,
+                "endLine": 121,
+                "endChar": 0
+              },
+              "replacement": "    model-message.latest {\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/chat-panel.ts",
+              "range": {
+                "startLine": 183,
+                "startChar": 0,
+                "endLine": 184,
+                "endChar": 0
+              },
+              "replacement": "            \u003cmodel-message\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/chat-panel.ts",
+              "range": {
+                "startLine": 188,
+                "startChar": 0,
+                "endLine": 189,
+                "endChar": 0
+              },
+              "replacement": "                ? this.lastModelMessageMinHeight\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/chat-panel.ts",
+              "range": {
+                "startLine": 190,
+                "startChar": 0,
+                "endLine": 191,
+                "endChar": 0
+              },
+              "replacement": "            \u003e\u003c/model-message\u003e\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/chat-panel.ts",
+              "range": {
+                "startLine": 237,
+                "startChar": 0,
+                "endLine": 239,
+                "endChar": 0
+              },
+              "replacement": "      const lastModelMessageElement \u003d\n        this.modelMessages?.[this.modelMessages.length - 1];\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/chat-panel.ts",
+              "range": {
+                "startLine": 246,
+                "startChar": 0,
+                "endLine": 248,
+                "endChar": 0
+              },
+              "replacement": "      if (lastUserMessageElement \u0026\u0026 lastModelMessageElement) {\n        const minHeight \u003d computeModelMessageMinHeight(\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/chat-panel.ts",
+              "range": {
+                "startLine": 250,
+                "startChar": 0,
+                "endLine": 251,
+                "endChar": 0
+              },
+              "replacement": "          lastModelMessageElement\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/chat-panel.ts",
+              "range": {
+                "startLine": 252,
+                "startChar": 0,
+                "endLine": 253,
+                "endChar": 0
+              },
+              "replacement": "        this.lastModelMessageMinHeight \u003d minHeight;\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/chat-panel.ts",
+              "range": {
+                "startLine": 275,
+                "startChar": 0,
+                "endLine": 277,
+                "endChar": 0
+              },
+              "replacement": " * Computes the minimum height of the last model message such that the height\n * of the last user message + the height of the last model message (plus\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/chat-panel.ts",
+              "range": {
+                "startLine": 279,
+                "startChar": 0,
+                "endLine": 280,
+                "endChar": 0
+              },
+              "replacement": "function computeModelMessageMinHeight(\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/chat-panel.ts",
+              "range": {
+                "startLine": 282,
+                "startChar": 0,
+                "endLine": 283,
+                "endChar": 0
+              },
+              "replacement": "  modelMessageElement: HTMLElement\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/chat-panel.ts",
+              "range": {
+                "startLine": 288,
+                "startChar": 0,
+                "endLine": 290,
+                "endChar": 0
+              },
+              "replacement": "  const modelMessagePaddingTop \u003d getPaddingTop(modelMessageElement);\n  const modelMessagePaddingBottom \u003d getPaddingBottom(modelMessageElement);\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/chat-panel.ts",
+              "range": {
+                "startLine": 293,
+                "startChar": 0,
+                "endLine": 295,
+                "endChar": 0
+              },
+              "replacement": "    modelMessagePaddingTop -\n    modelMessagePaddingBottom\n"
+            }
+          ]
+        }
+      ],
+      "revId": "9e1345005a1869129a43fc8b5ee5ed9a6d5cf235",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac8f41d9_31a17fa0",
+        "filename": "polygerrit-ui/app/elements/chat-panel/chat-panel.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-11-04T07:41:17Z",
+      "side": 1,
+      "message": "go link?\n\nremove and make it configurable?",
+      "range": {
+        "startLine": 207,
+        "startChar": 19,
+        "endLine": 207,
+        "endChar": 57
+      },
+      "revId": "9e1345005a1869129a43fc8b5ee5ed9a6d5cf235",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c2e67f35_f7515894",
+        "filename": "polygerrit-ui/app/elements/chat-panel/citations-box.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-11-04T07:41:17Z",
+      "side": 1,
+      "message": "internal google link?",
+      "range": {
+        "startLine": 94,
+        "startChar": 18,
+        "endLine": 94,
+        "endChar": 67
+      },
+      "revId": "9e1345005a1869129a43fc8b5ee5ed9a6d5cf235",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d1281df4_2365b82e",
+        "filename": "polygerrit-ui/app/elements/chat-panel/context-chip.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-11-04T07:41:17Z",
+      "side": 1,
+      "message": "we have `this.navigation.setUrl(url);` in other places using the NavigationService",
+      "range": {
+        "startLine": 132,
+        "startChar": 0,
+        "endLine": 138,
+        "endChar": 0
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "9bf8f176_c940cfd8",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/context-chip.ts",
+              "range": {
+                "startLine": 16,
+                "startChar": 0,
+                "endLine": 16,
+                "endChar": 0
+              },
+              "replacement": "import {NavigationService, navigationToken} from \u0027../../services/gr-navigation/gr-navigation\u0027;\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/context-chip.ts",
+              "range": {
+                "startLine": 23,
+                "startChar": 0,
+                "endLine": 23,
+                "endChar": 0
+              },
+              "replacement": "  private readonly navigation: NavigationService \u003d resolve(this, navigationToken);\n\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/context-chip.ts",
+              "range": {
+                "startLine": 136,
+                "startChar": 0,
+                "endLine": 137,
+                "endChar": 0
+              },
+              "replacement": "    this.navigation.setUrl(url);\n"
+            }
+          ]
+        }
+      ],
+      "revId": "9e1345005a1869129a43fc8b5ee5ed9a6d5cf235",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c6ba1efe_f8fcb03e",
+        "filename": "polygerrit-ui/app/elements/chat-panel/gemini-message.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-11-04T07:41:17Z",
+      "side": 1,
+      "message": "what is this comparing and why are we sorting it?\n\nI have a suggestion on letting this type extend CommentInfo and then can we use the existing sorting algorithm?",
+      "range": {
+        "startLine": 33,
+        "startChar": 0,
+        "endLine": 55,
+        "endChar": 0
+      },
+      "revId": "9e1345005a1869129a43fc8b5ee5ed9a6d5cf235",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cae4d71e_53fd3cc3",
+        "filename": "polygerrit-ui/app/elements/chat-panel/gemini-message.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-11-04T07:41:17Z",
+      "side": 1,
+      "message": "`gemini` is hardcoded here",
+      "range": {
+        "startLine": 56,
+        "startChar": 13,
+        "endLine": 56,
+        "endChar": 26
+      },
+      "revId": "9e1345005a1869129a43fc8b5ee5ed9a6d5cf235",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b800754_f61b1ff5",
+        "filename": "polygerrit-ui/app/elements/chat-panel/gemini-message.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-11-04T07:41:17Z",
+      "side": 1,
+      "message": "document this property?\n\nnot sure what does `backgroundRequest` mean in this context.",
+      "range": {
+        "startLine": 61,
+        "startChar": 0,
+        "endLine": 61,
+        "endChar": 57
+      },
+      "revId": "9e1345005a1869129a43fc8b5ee5ed9a6d5cf235",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "844c7490_295919c9",
+        "filename": "polygerrit-ui/app/elements/chat-panel/gemini-message.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-11-04T07:41:17Z",
+      "side": 1,
+      "message": "should these and other methods be marked private?",
+      "range": {
+        "startLine": 152,
+        "startChar": 2,
+        "endLine": 152,
+        "endChar": 16
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "beabff7e_d1085b1e",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/gemini-message.ts",
+              "range": {
+                "startLine": 152,
+                "startChar": 0,
+                "endLine": 153,
+                "endChar": 0
+              },
+              "replacement": "  private onAddAsComment(comment: CreateCommentPart) {\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/gemini-message.ts",
+              "range": {
+                "startLine": 166,
+                "startChar": 0,
+                "endLine": 167,
+                "endChar": 0
+              },
+              "replacement": "  private toggleShowErrorDetails() {\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/gemini-message.ts",
+              "range": {
+                "startLine": 170,
+                "startChar": 0,
+                "endLine": 171,
+                "endChar": 0
+              },
+              "replacement": "  private locationForComment(comment: CreateCommentPart) {\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/gemini-message.ts",
+              "range": {
+                "startLine": 182,
+                "startChar": 0,
+                "endLine": 183,
+                "endChar": 0
+              },
+              "replacement": "  private trackByCommentId(comment: CreateCommentPart) {\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/gemini-message.ts",
+              "range": {
+                "startLine": 308,
+                "startChar": 0,
+                "endLine": 309,
+                "endChar": 0
+              },
+              "replacement": "  private sortedComments(): CreateCommentPart[] {\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/gemini-message.ts",
+              "range": {
+                "startLine": 316,
+                "startChar": 0,
+                "endLine": 317,
+                "endChar": 0
+              },
+              "replacement": "  private turnId(): {turnIndex: number; regenerationIndex: number} {\n"
+            }
+          ]
+        }
+      ],
+      "revId": "9e1345005a1869129a43fc8b5ee5ed9a6d5cf235",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c2aead45_6c01617f",
+        "filename": "polygerrit-ui/app/elements/chat-panel/message-actions.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-11-04T07:41:17Z",
+      "side": 1,
+      "message": "use `gr-copy-clipboard` instead of a custom button.",
+      "range": {
+        "startLine": 66,
+        "startChar": 6,
+        "endLine": 74,
+        "endChar": 23
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "a7444ad4_ab06fe7e",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/message-actions.ts",
+              "range": {
+                "startLine": 6,
+                "startChar": 0,
+                "endLine": 6,
+                "endChar": 0
+              },
+              "replacement": "import \u0027google3/polygerrit-ui/app/elements/shared/gr-copy-clipboard/gr-copy-clipboard\u0027;\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/message-actions.ts",
+              "range": {
+                "startLine": 19,
+                "startChar": 0,
+                "endLine": 20,
+                "endChar": 0
+              },
+              "replacement": ""
+            },
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/message-actions.ts",
+              "range": {
+                "startLine": 66,
+                "startChar": 0,
+                "endLine": 67,
+                "endChar": 0
+              },
+              "replacement": "      \u003cgr-copy-clipboard\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/message-actions.ts",
+              "range": {
+                "startLine": 69,
+                "startChar": 0,
+                "endLine": 75,
+                "endChar": 0
+              },
+              "replacement": "        copy-text\u003d${this.getGeminiMessageText()}\n        button-title\u003d\"Copy to clipboard\"\n      \u003e\u003c/gr-copy-clipboard\u003e\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/message-actions.ts",
+              "range": {
+                "startLine": 91,
+                "startChar": 0,
+                "endLine": 101,
+                "endChar": 0
+              },
+              "replacement": ""
+            }
+          ]
+        }
+      ],
+      "revId": "9e1345005a1869129a43fc8b5ee5ed9a6d5cf235",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

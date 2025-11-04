@@ -589,6 +589,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f055e5ef_fb13e781",
+        "filename": "polygerrit-ui/app/elements/chat-panel/chat-panel.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-11-04T21:54:42Z",
+      "side": 1,
+      "message": "Agreed. Same as my comment on this line from PS2: https://gerrit-review.googlesource.com/c/gerrit/+/522821/comment/f736edf1_77729092/",
+      "parentUuid": "ac8f41d9_31a17fa0",
+      "range": {
+        "startLine": 207,
+        "startChar": 19,
+        "endLine": 207,
+        "endChar": 57
+      },
+      "revId": "9e1345005a1869129a43fc8b5ee5ed9a6d5cf235",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c2e67f35_f7515894",
         "filename": "polygerrit-ui/app/elements/chat-panel/citations-box.ts",
         "patchSetId": 7

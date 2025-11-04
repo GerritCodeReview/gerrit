@@ -55,6 +55,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9a46485d_2a5e663f",
+        "filename": "polygerrit-ui/app/elements/chat-panel/chat-header.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-11-04T21:54:42Z",
+      "side": 1,
+      "message": "Marked as unresolved. Still applicable in PS7.",
+      "parentUuid": "cfd6930f_70a5f794",
+      "revId": "4b34ab232d8dc604b2a89e0736fe2ac9e814ab11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f736edf1_77729092",
         "filename": "polygerrit-ui/app/elements/chat-panel/chat-panel.ts",
         "patchSetId": 2
@@ -242,6 +260,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bd5a5b60_06fa7866",
+        "filename": "polygerrit-ui/app/models/chat/chat-model.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-11-04T21:54:42Z",
+      "side": 1,
+      "message": "Marked as unresolved. Still applicable in PS7. Maybe check before resolving next time? Looks like Dhruv made some comments in other files on the same lines I had already commented on.",
+      "parentUuid": "7f180bf2_ecfb0e7b",
+      "range": {
+        "startLine": 89,
+        "startChar": 35,
+        "endLine": 89,
+        "endChar": 44
+      },
+      "revId": "4b34ab232d8dc604b2a89e0736fe2ac9e814ab11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "30a14bb4_4f779286",
         "filename": "polygerrit-ui/app/models/chat/chat-model.ts",
         "patchSetId": 2
@@ -271,6 +313,24 @@
       "side": 1,
       "message": "This change was not ready for review. Please take another look.",
       "parentUuid": "30a14bb4_4f779286",
+      "revId": "4b34ab232d8dc604b2a89e0736fe2ac9e814ab11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7694e94a_ef135843",
+        "filename": "polygerrit-ui/app/models/chat/chat-model.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-11-04T21:54:42Z",
+      "side": 1,
+      "message": "Marked as unresolved. Still applicable in PS7.",
+      "parentUuid": "571b383c_35befac3",
       "revId": "4b34ab232d8dc604b2a89e0736fe2ac9e814ab11",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

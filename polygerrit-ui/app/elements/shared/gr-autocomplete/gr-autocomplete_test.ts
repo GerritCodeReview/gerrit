@@ -1150,4 +1150,70 @@ suite('gr-autocomplete tests', () => {
       assert.isFalse(inputClassList.contains('warnUncommitted'));
     });
   });
+
+  test('onPaste inserts text at cursor position and updates selection', async () => {
+    const nativeInput = element.nativeInput;
+    nativeInput.value = 'foo bar';
+    nativeInput.selectionStart = 4;
+    nativeInput.selectionEnd = 4;
+
+    const mockClipboardEvent = {
+      preventDefault: sinon.stub(),
+      clipboardData: {
+        getData: sinon.stub().returns('baz'),
+      },
+      target: nativeInput,
+    } as unknown as ClipboardEvent;
+
+    element.onPaste(mockClipboardEvent);
+    await element.updateComplete;
+
+    assert.equal(nativeInput.value, 'foo bazbar');
+    assert.equal(nativeInput.selectionStart, 7);
+    assert.equal(nativeInput.selectionEnd, 7);
+  });
+
+  test('onPaste replaces selected text and updates selection', async () => {
+    const nativeInput = element.nativeInput;
+    nativeInput.value = 'foo bar';
+    nativeInput.selectionStart = 4;
+    nativeInput.selectionEnd = 7; // Selects 'bar'
+
+    const mockClipboardEvent = {
+      preventDefault: sinon.stub(),
+      clipboardData: {
+        getData: sinon.stub().returns('baz'),
+      },
+      target: nativeInput,
+    } as unknown as ClipboardEvent;
+
+    element.onPaste(mockClipboardEvent);
+    await element.updateComplete;
+
+    assert.equal(nativeInput.value, 'foo baz');
+    assert.equal(nativeInput.selectionStart, 7);
+    assert.equal(nativeInput.selectionEnd, 7);
+  });
+
+  test('onPaste trims leading/trailing whitespace from pasted text', async () => {
+    const nativeInput = element.nativeInput;
+    nativeInput.value = 'foo bar';
+    nativeInput.selectionStart = 4;
+    nativeInput.selectionEnd = 4;
+
+    const mockClipboardEvent = {
+      preventDefault: sinon.stub(),
+      clipboardData: {
+        getData: sinon.stub().returns('  baz  '),
+      },
+      target: nativeInput,
+    } as unknown as ClipboardEvent;
+
+    element.onPaste(mockClipboardEvent);
+    await element.updateComplete;
+
+    assert.equal(nativeInput.value, 'foo bazbar');
+    assert.equal(nativeInput.selectionStart, 7);
+    assert.equal(nativeInput.selectionEnd, 7);
+  });
 });

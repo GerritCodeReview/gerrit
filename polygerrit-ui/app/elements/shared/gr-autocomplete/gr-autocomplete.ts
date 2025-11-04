@@ -294,6 +294,7 @@ export class GrAutocomplete extends LitElement {
         @keydown=${this.handleKeydown}
         @focus=${this.onInputFocus}
         @blur=${this.onInputBlur}
+        @paste=${this.onPaste}
         autocomplete="off"
         .label=${this.label}
         aria-label=${this.label || this.placeholder || nothing}
@@ -398,6 +399,27 @@ export class GrAutocomplete extends LitElement {
     this.updateComplete.then(() => {
       this.disableDisplayingSuggestions = false;
     });
+  }
+
+  /**
+   * Processes a paste event manually by additionally stripping leading and
+   * trailing whitespace from the pasted text.
+   */
+  onPaste(event: ClipboardEvent) {
+    event.preventDefault();
+
+    const pastedText = event.clipboardData?.getData('text') || '';
+    const strippedText = pastedText.trim();
+    const target = event.target as HTMLInputElement;
+    const start = target.selectionStart ?? 0;
+    const end = target.selectionEnd ?? 0;
+    const text = target.value;
+    const newText =
+      text.substring(0, start) + strippedText + text.substring(end);
+
+    target.value = newText;
+    target.selectionStart = start + strippedText.length;
+    target.selectionEnd = target.selectionStart;
   }
 
   onInputFocus() {

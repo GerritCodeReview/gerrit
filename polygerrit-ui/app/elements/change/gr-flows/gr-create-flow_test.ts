@@ -371,4 +371,93 @@ suite('gr-create-flow tests', () => {
       'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is cond 2 -> act-2 param'
     );
   });
+
+  suite('parseStagesFromRawFlow tests', () => {
+    test('parses a single condition', async () => {
+      const rawFlow = 'cond 1';
+      element['parseStagesFromRawFlow'](rawFlow);
+      await element.updateComplete;
+      assert.deepEqual(element['stages'], [
+        {
+          condition: 'cond 1',
+          action: '',
+          parameterStr: '',
+        },
+      ]);
+    });
+
+    test('parses a single condition with action', async () => {
+      const rawFlow = 'cond 1 -> act-1';
+      element['parseStagesFromRawFlow'](rawFlow);
+      await element.updateComplete;
+      assert.deepEqual(element['stages'], [
+        {
+          condition: 'cond 1',
+          action: 'act-1',
+          parameterStr: '',
+        },
+      ]);
+    });
+
+    test('parses a single condition with action and params', async () => {
+      const rawFlow = 'cond 1 -> act-1 param1 param2';
+      element['parseStagesFromRawFlow'](rawFlow);
+      await element.updateComplete;
+      assert.deepEqual(element['stages'], [
+        {
+          condition: 'cond 1',
+          action: 'act-1',
+          parameterStr: 'param1 param2',
+        },
+      ]);
+    });
+
+    test('parses multiple stages', async () => {
+      const rawFlow = 'cond 1 -> act-1; cond 2 -> act-2 p2; cond 3';
+      element['parseStagesFromRawFlow'](rawFlow);
+      await element.updateComplete;
+      assert.deepEqual(element['stages'], [
+        {
+          condition: 'cond 1',
+          action: 'act-1',
+          parameterStr: '',
+        },
+        {
+          condition: 'cond 2',
+          action: 'act-2',
+          parameterStr: 'p2',
+        },
+        {
+          condition: 'cond 3',
+          action: '',
+          parameterStr: '',
+        },
+      ]);
+    });
+
+    test('parses an empty string', async () => {
+      const rawFlow = '';
+      element['parseStagesFromRawFlow'](rawFlow);
+      await element.updateComplete;
+      assert.deepEqual(element['stages'], []);
+    });
+
+    test('parses with extra spacing', async () => {
+      const rawFlow = '  cond 1   ->  act-1  p1 ;  cond 2  ';
+      element['parseStagesFromRawFlow'](rawFlow);
+      await element.updateComplete;
+      assert.deepEqual(element['stages'], [
+        {
+          condition: 'cond 1',
+          action: 'act-1',
+          parameterStr: 'p1',
+        },
+        {
+          condition: 'cond 2',
+          action: '',
+          parameterStr: '',
+        },
+      ]);
+    });
+  });
 });

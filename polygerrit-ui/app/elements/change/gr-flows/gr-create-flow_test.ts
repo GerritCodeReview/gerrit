@@ -63,7 +63,7 @@ suite('gr-create-flow tests', () => {
 
     searchAutocomplete.value = 'cond 1';
     await element.updateComplete;
-    actionInput.value = 'act 1';
+    actionInput.value = 'act-1';
     actionInput.dispatchEvent(new Event('input'));
     await element.updateComplete;
     addButton.click();
@@ -73,7 +73,7 @@ suite('gr-create-flow tests', () => {
       {
         condition:
           'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is cond 1',
-        action: 'act 1',
+        action: 'act-1',
         parameterStr: '',
       },
     ]);
@@ -82,7 +82,7 @@ suite('gr-create-flow tests', () => {
 
     searchAutocomplete.value = 'cond 2';
     await element.updateComplete;
-    actionInput.value = 'act 2';
+    actionInput.value = 'act-2';
     actionInput.dispatchEvent(new Event('input'));
     await element.updateComplete;
     addButton.click();
@@ -92,13 +92,13 @@ suite('gr-create-flow tests', () => {
       {
         condition:
           'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is cond 1',
-        action: 'act 1',
+        action: 'act-1',
         parameterStr: '',
       },
       {
         condition:
           'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is cond 2',
-        action: 'act 2',
+        action: 'act-2',
         parameterStr: '',
       },
     ]);
@@ -113,7 +113,7 @@ suite('gr-create-flow tests', () => {
       {
         condition:
           'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is cond 2',
-        action: 'act 2',
+        action: 'act-2',
         parameterStr: '',
       },
     ]);
@@ -216,7 +216,7 @@ suite('gr-create-flow tests', () => {
 
     searchAutocomplete.value = 'cond 1';
     await element.updateComplete;
-    actionInput.value = 'act 1';
+    actionInput.value = 'act-1';
     actionInput.dispatchEvent(new Event('input'));
     await element.updateComplete;
     addButton.click();
@@ -224,7 +224,7 @@ suite('gr-create-flow tests', () => {
 
     searchAutocomplete.value = 'cond 2';
     await element.updateComplete;
-    actionInput.value = 'act 2';
+    actionInput.value = 'act-2';
     actionInput.dispatchEvent(new Event('input'));
     await element.updateComplete;
     addButton.click();
@@ -243,12 +243,12 @@ suite('gr-create-flow tests', () => {
       {
         condition:
           'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is cond 1',
-        action: {name: 'act 1'},
+        action: {name: 'act-1'},
       },
       {
         condition:
           'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is cond 2',
-        action: {name: 'act 2'},
+        action: {name: 'act-2'},
       },
     ]);
   });
@@ -271,14 +271,14 @@ suite('gr-create-flow tests', () => {
 
     searchAutocomplete.value = 'cond 1';
     await element.updateComplete;
-    actionInput.value = 'act 1';
+    actionInput.value = 'act-1';
     actionInput.dispatchEvent(new Event('input'));
     await element.updateComplete;
     addButton.click();
     await element.updateComplete;
     searchAutocomplete.value = 'cond 2';
     await element.updateComplete;
-    actionInput.value = 'act 2';
+    actionInput.value = 'act-2';
     actionInput.dispatchEvent(new Event('input'));
     await element.updateComplete;
 
@@ -295,12 +295,12 @@ suite('gr-create-flow tests', () => {
       {
         condition:
           'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is cond 1',
-        action: {name: 'act 1'},
+        action: {name: 'act-1'},
       },
       {
         condition:
           'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is cond 2',
-        action: {name: 'act 2'},
+        action: {name: 'act-2'},
       },
     ]);
   });
@@ -333,7 +333,7 @@ suite('gr-create-flow tests', () => {
     // Add first stage
     searchAutocomplete.value = 'cond 1';
     await element.updateComplete;
-    actionInput.value = 'act 1';
+    actionInput.value = 'act-1';
     actionInput.dispatchEvent(new Event('input'));
     await element.updateComplete;
     addButton.click();
@@ -341,13 +341,13 @@ suite('gr-create-flow tests', () => {
 
     assert.equal(
       element.flowString,
-      'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is cond 1 -> act 1'
+      'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is cond 1 -> act-1'
     );
 
     // Add second stage with parameters
     searchAutocomplete.value = 'cond 2';
     await element.updateComplete;
-    actionInput.value = 'act 2';
+    actionInput.value = 'act-2';
     actionInput.dispatchEvent(new Event('input'));
     await element.updateComplete;
     paramsInput.value = 'param';
@@ -358,7 +358,7 @@ suite('gr-create-flow tests', () => {
 
     assert.equal(
       element.flowString,
-      'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is cond 1 -> act 1, https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is cond 2 -> act 2(param)'
+      'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is cond 1 -> act-1;https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is cond 2 -> act-2 param'
     );
 
     // Remove first stage
@@ -368,7 +368,7 @@ suite('gr-create-flow tests', () => {
 
     assert.equal(
       element.flowString,
-      'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is cond 2 -> act 2(param)'
+      'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is cond 2 -> act-2 param'
     );
   });
 });

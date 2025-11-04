@@ -26,7 +26,6 @@ workspace(
 
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 load("//plugins:external_plugin_deps.bzl", "external_plugin_deps")
-load("//tools:nongoogle.bzl", "declare_nongoogle_deps")
 
 http_archive(
     name = "build_bazel_rules_nodejs",
@@ -63,12 +62,6 @@ browser_repositories(
     chromium = True,
     firefox = True,
 )
-
-declare_nongoogle_deps()
-
-load("//tools:defs.bzl", "gerrit_init")
-
-gerrit_init()
 
 load("@build_bazel_rules_nodejs//:index.bzl", "node_repositories", "yarn_install")
 

@@ -32,6 +32,7 @@ import {when} from 'lit/directives/when.js';
 import {MdOutlinedTextField} from '@material/web/textfield/outlined-text-field.js';
 
 const MAX_AUTOCOMPLETE_RESULTS = 10;
+const STAGE_SEPARATOR = ';';
 
 @customElement('gr-create-flow')
 export class GrCreateFlow extends LitElement {
@@ -202,13 +203,13 @@ export class GrCreateFlow extends LitElement {
     }) => {
       if (stage.action) {
         if (stage.parameterStr) {
-          return `${stage.condition} -> ${stage.action}(${stage.parameterStr})`;
+          return `${stage.condition} -> ${stage.action} ${stage.parameterStr}`;
         }
         return `${stage.condition} -> ${stage.action}`;
       }
       return stage.condition;
     };
-    this.flowString = this.stages.map(stageToString).join(', ');
+    this.flowString = this.stages.map(stageToString).join(STAGE_SEPARATOR);
   }
 
   override render() {

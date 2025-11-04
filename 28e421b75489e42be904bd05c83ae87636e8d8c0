@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "70f23c33_5451aef4",
+        "filename": "java/com/google/gerrit/server/logging/LoggingContext.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-11-04T15:09:20Z",
+      "side": 1,
+      "message": "I think this might lead to potentially misleading information.\n\n- The Runnable gets scheduled for async/parallel execution and receives a copy of all currently running operations.\n- The Runnable is long running, by the time some internal timer starts in the unnable all the operations that were copied here have already finished. \n- Yet the timer will have all of them logged as parents",
+      "range": {
+        "startLine": 85,
+        "startChar": 8,
+        "endLine": 85,
+        "endChar": 51
+      },
+      "revId": "28e421b75489e42be904bd05c83ae87636e8d8c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7f1b7b3f_72550b43",
+        "filename": "java/com/google/gerrit/server/logging/LoggingContext.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 413,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-11-04T15:09:20Z",
+      "side": 1,
+      "message": "Nit: imho, there is not much value in providing all these methods here, instead of simply letting callers use getRunningOperations().",
+      "range": {
+        "startLine": 375,
+        "startChar": 3,
+        "endLine": 413,
+        "endChar": 0
+      },
+      "revId": "28e421b75489e42be904bd05c83ae87636e8d8c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d4b4f540_887cf09a",
+        "filename": "java/com/google/gerrit/server/logging/Operation.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-11-04T15:09:20Z",
+      "side": 1,
+      "message": "This looks like, PerformanceLogRecord without duration. I am not sure why we need this class, considering we construct it from PerformanceLogRecord. Maybe we should either make PerformanceLogRecord contain Operation, or only keep of these classes",
+      "range": {
+        "startLine": 40,
+        "startChar": 13,
+        "endLine": 40,
+        "endChar": 22
+      },
+      "revId": "28e421b75489e42be904bd05c83ae87636e8d8c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba5ce10b_e7c55199",
+        "filename": "java/com/google/gerrit/server/logging/PerformanceLogContext.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-11-04T15:09:20Z",
+      "side": 1,
+      "message": "I think instead Joiner.on(..).join(\u003cstream construction\u003e) it would help readability to move the whole string construction into it\u0027s own method.",
+      "range": {
+        "startLine": 180,
+        "startChar": 20,
+        "endLine": 192,
+        "endChar": 52
+      },
+      "revId": "28e421b75489e42be904bd05c83ae87636e8d8c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8eadfb24_1f2458f0",
+        "filename": "java/com/google/gerrit/server/logging/RunningOperations.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-11-04T15:09:20Z",
+      "side": 1,
+      "message": "I feel like the trick, with not defining equals method. So that you can remove with default method is very error-prone. (We will forget why, add equals at some point and things will break).\n\nIt would be better if operations just get a random id as one of the fields. Then it can be a record/auto-value and you can also use HashSet here.",
+      "range": {
+        "startLine": 75,
+        "startChar": 19,
+        "endLine": 75,
+        "endChar": 25
+      },
+      "revId": "28e421b75489e42be904bd05c83ae87636e8d8c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

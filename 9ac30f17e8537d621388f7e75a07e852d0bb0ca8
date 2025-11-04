@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "45faf6ec_431525c1",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 21
+      },
+      "lineNbr": 8705,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-11-04T11:09:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e5576cce_ec50e97e",
+      "range": {
+        "startLine": 8705,
+        "startChar": 4,
+        "endLine": 8705,
+        "endChar": 18
+      },
+      "revId": "9ac30f17e8537d621388f7e75a07e852d0bb0ca8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5788d139_7b29ab42",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab4b97b9_e563167a",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 21
+      },
+      "lineNbr": 8706,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-11-04T11:09:19Z",
+      "side": 1,
+      "message": "\u003e Not sure if there is any configuration that influence the flow actions?\n\nNot as of now but we will extend this type in the future likely.",
+      "parentUuid": "5788d139_7b29ab42",
+      "range": {
+        "startLine": 8706,
+        "startChar": 28,
+        "endLine": 8706,
+        "endChar": 65
+      },
+      "revId": "9ac30f17e8537d621388f7e75a07e852d0bb0ca8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fa91ae6d_f1f19d54",
@@ -60,6 +108,30 @@
       "writtenOn": "2025-11-04T09:58:27Z",
       "side": 1,
       "message": "This is the REST API type, we shouldn\u0027t use it in the service API. Please make this method return an immutable AutoValue, same as the other methods of FlowService.\n\nI think the AutoValue should be named FlowActionType and the REST API type should be renamed to FlowActionTypeInfo.",
+      "range": {
+        "startLine": 116,
+        "startChar": 16,
+        "endLine": 116,
+        "endChar": 30
+      },
+      "revId": "9ac30f17e8537d621388f7e75a07e852d0bb0ca8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4381e1eb_15a8b99a",
+        "filename": "java/com/google/gerrit/server/flow/FlowService.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-11-04T11:09:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fa91ae6d_f1f19d54",
       "range": {
         "startLine": 116,
         "startChar": 16,

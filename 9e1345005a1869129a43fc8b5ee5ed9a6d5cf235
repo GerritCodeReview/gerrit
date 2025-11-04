@@ -71,6 +71,42 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "917084be_b6498317",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-11-04T22:04:17Z",
+      "side": 1,
+      "message": "There\u0027s enough Google-specific bits in here that need to be fixed that this shouldn\u0027t be +2 yet, sorry.\n\nIs this gated behind a flag? I don\u0027t see one in the code added in this change, but I\u0027m not sure if there\u0027s an existing flag used somehow.",
+      "parentUuid": "fdaea666_076131dd",
+      "revId": "9e1345005a1869129a43fc8b5ee5ed9a6d5cf235",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d7e3e969_9d561870",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-11-04T22:04:17Z",
+      "side": 1,
+      "message": "+1 (this context really helps, thanks)",
+      "parentUuid": "2347608b_3dea8071",
+      "revId": "9e1345005a1869129a43fc8b5ee5ed9a6d5cf235",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c184d40d_0031123a",
         "filename": "polygerrit-ui/app/api/ai-code-review.ts",
         "patchSetId": 7

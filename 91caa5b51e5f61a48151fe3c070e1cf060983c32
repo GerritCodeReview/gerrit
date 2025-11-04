@@ -22,6 +22,30 @@
       },
       "revId": "91caa5b51e5f61a48151fe3c070e1cf060983c32",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "594007f1_61f72de7",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 423,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-11-04T19:26:02Z",
+      "side": 1,
+      "message": "Why not?\n\nOften when you copy and paste something from a page or a doc, then you will get whitespace included that you did not want.\n\nI find this a useful feature. It is implemented now. Why not submit?\n\nI have also been able to reproduce exactly as in the reported screencast. Can you try?",
+      "parentUuid": "450da8a5_7cb60e23",
+      "range": {
+        "startLine": 404,
+        "startChar": 2,
+        "endLine": 423,
+        "endChar": 3
+      },
+      "revId": "91caa5b51e5f61a48151fe3c070e1cf060983c32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

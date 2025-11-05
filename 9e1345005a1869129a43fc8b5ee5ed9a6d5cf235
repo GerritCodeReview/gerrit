@@ -159,6 +159,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e52affcf_acd89806",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-11-05T16:02:42Z",
+      "side": 1,
+      "message": "I agree that Google-specific bits should be fixed and great that Ben already did a lot in this change. I will continue working on AI Chat and will make sure that it will be more general in future.",
+      "parentUuid": "0d2e7257_fed4a3c4",
+      "revId": "9e1345005a1869129a43fc8b5ee5ed9a6d5cf235",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c184d40d_0031123a",

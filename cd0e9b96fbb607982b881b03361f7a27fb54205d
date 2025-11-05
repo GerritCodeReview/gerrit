@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4802b840_285b1ff1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-11-05T13:14:03Z",
+      "side": 1,
+      "message": "Yes, I\u0027ll send you a revert.",
+      "parentUuid": "a58e7d3c_7761f1a5",
+      "revId": "cd0e9b96fbb607982b881b03361f7a27fb54205d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c502449e_7d60f3dd",

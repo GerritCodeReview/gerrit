@@ -120,9 +120,12 @@ public class LoggingContextAwareExecutorServiceTest {
         assertForceLogging(true);
         assertThat(LoggingContext.getInstance().isPerformanceLogging()).isTrue();
 
-        // The performance log record that was added in the inner thread is available in addition to
+        // The performance log record that was added in the inner thread is available in addition
+        // to.
+        // The performance log record that LoggingContextAwareRunnable adds when running the
+        // runnable.
         // the performance log record that was created in the outer thread.
-        assertThat(LoggingContext.getInstance().getPerformanceLogRecords()).hasSize(2);
+        assertThat(LoggingContext.getInstance().getPerformanceLogRecords()).hasSize(3);
       }
     }
 

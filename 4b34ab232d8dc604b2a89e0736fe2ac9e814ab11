@@ -71,6 +71,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5fdb051d_fe6eb6b4",
+        "filename": "polygerrit-ui/app/elements/chat-panel/chat-header.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-11-05T11:24:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a46485d_2a5e663f",
+      "revId": "4b34ab232d8dc604b2a89e0736fe2ac9e814ab11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f736edf1_77729092",
@@ -282,6 +300,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d81cb7f3_98f0230f",
+        "filename": "polygerrit-ui/app/models/chat/chat-model.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-11-05T11:24:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bd5a5b60_06fa7866",
+      "range": {
+        "startLine": 89,
+        "startChar": 35,
+        "endLine": 89,
+        "endChar": 44
+      },
+      "revId": "4b34ab232d8dc604b2a89e0736fe2ac9e814ab11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "30a14bb4_4f779286",
@@ -331,6 +373,24 @@
       "side": 1,
       "message": "Marked as unresolved. Still applicable in PS7.",
       "parentUuid": "571b383c_35befac3",
+      "revId": "4b34ab232d8dc604b2a89e0736fe2ac9e814ab11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "20fc5444_2436b6e8",
+        "filename": "polygerrit-ui/app/models/chat/chat-model.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-11-05T11:24:49Z",
+      "side": 1,
+      "message": "Yes, let\u0027s replace all mentions of \"Gemini\" with something more generic. But let me track that as a separate task: b/457919520.",
+      "parentUuid": "7694e94a_ef135843",
       "revId": "4b34ab232d8dc604b2a89e0736fe2ac9e814ab11",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

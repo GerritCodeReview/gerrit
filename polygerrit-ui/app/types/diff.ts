@@ -22,7 +22,9 @@ import {
   IgnoreWhitespaceType,
   MarkLength,
   MoveDetails,
+  SkipInfo,
   SkipLength,
+  SkipObject,
 } from '../api/diff';
 
 export type {
@@ -34,6 +36,8 @@ export type {
   MarkLength,
   MoveDetails,
   SkipLength,
+  SkipInfo,
+  SkipObject,
   WebLinkInfo,
 };
 

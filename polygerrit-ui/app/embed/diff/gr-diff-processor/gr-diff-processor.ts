@@ -11,6 +11,7 @@ import {
 } from '../gr-diff/gr-diff-group';
 import {DiffContent, DiffRangesToFocus} from '../../../types/diff';
 import {Side} from '../../../constants/constants';
+import {normalizeSkipInfo} from '../../../utils/diff-util';
 import {getStringLength} from '../gr-diff-highlight/gr-annotation';
 import {GrDiffLineType, LineNumber} from '../../../api/diff';
 import {FULL_CONTEXT, KeyLocations} from '../gr-diff/gr-diff-utils';
@@ -310,7 +311,9 @@ export class GrDiffProcessor {
   }
 
   private chunkLength(chunk: DiffContent, side: Side) {
-    if (chunk.skip || chunk.common || chunk.ab) {
+    if (chunk.skip) {
+      return normalizeSkipInfo(chunk.skip)[side];
+    } else if (chunk.common || chunk.ab) {
       return this.commonChunkLength(chunk);
     } else if (side === Side.LEFT) {
       return this.linesLeft(chunk).length;
@@ -320,9 +323,6 @@ export class GrDiffProcessor {
   }
 
   private commonChunkLength(chunk: DiffContent) {
-    if (chunk.skip) {
-      return chunk.skip;
-    }
     console.assert(!!chunk.ab || !!chunk.common);
 
     console.assert(

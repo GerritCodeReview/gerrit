@@ -4,9 +4,16 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {BLANK_LINE, GrDiffLine} from './gr-diff-line';
-import {GrDiffLineType, LineNumber, LineRange, Side} from '../../../api/diff';
+import {
+  GrDiffLineType,
+  LineNumber,
+  LineRange,
+  Side,
+  SkipInfo,
+} from '../../../api/diff';
 import {assert, assertIsDefined} from '../../../utils/common-util';
 import {isDefined} from '../../../types/types';
+import {normalizeSkipInfo} from '../../../utils/diff-util';
 
 export enum GrDiffGroupType {
   /** A group of unchanged diff lines. */
@@ -270,7 +277,7 @@ export class GrDiffGroup {
       | {
           type: GrDiffGroupType.BOTH | GrDiffGroupType.DELTA;
           lines?: undefined;
-          skip: number;
+          skip: SkipInfo;
           offsetLeft: number;
           offsetRight: number;
           moveDetails?: GrMoveDetails;
@@ -296,14 +303,15 @@ export class GrDiffGroup {
         }
         this.skip = options.skip;
         if (options.skip !== undefined) {
+          const skip = normalizeSkipInfo(options.skip);
           this.lineRange = {
             left: {
               start_line: options.offsetLeft,
-              end_line: options.offsetLeft + options.skip - 1,
+              end_line: options.offsetLeft + skip.left - 1,
             },
             right: {
               start_line: options.offsetRight,
-              end_line: options.offsetRight + options.skip - 1,
+              end_line: options.offsetRight + skip.right - 1,
             },
           };
         } else {
@@ -368,7 +376,7 @@ export class GrDiffGroup {
    */
   readonly contextGroups: GrDiffGroup[] = [];
 
-  readonly skip?: number;
+  readonly skip?: SkipInfo;
 
   /** Both start and end line are inclusive. */
   readonly lineRange: {[side in Side]: LineRange} = {

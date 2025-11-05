@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "86298aaa_bbd1db8c",
+        "filename": "java/com/google/gerrit/server/logging/LoggingContext.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-11-05T14:14:09Z",
+      "side": 1,
+      "message": "Let\u0027s leave a comment here, about the caveat we discussed and the timer you\u0027ve added.",
+      "range": {
+        "startLine": 84,
+        "startChar": 8,
+        "endLine": 84,
+        "endChar": 53
+      },
+      "revId": "30718fdc0c319aa4104344a1e76971192f563593",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

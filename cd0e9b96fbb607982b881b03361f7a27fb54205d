@@ -16,6 +16,23 @@
       "message": "I think this broke the header? when i click on the dropdown, it doesn\u0027t go below but rather covers the header now.",
       "revId": "cd0e9b96fbb607982b881b03361f7a27fb54205d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c502449e_7d60f3dd",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-11-05T12:22:50Z",
+      "side": 1,
+      "message": "Was this supposed to be linksTitle?",
+      "revId": "cd0e9b96fbb607982b881b03361f7a27fb54205d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

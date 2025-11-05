@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "18337393_ceb51db5",
+        "filename": "java/com/google/gerrit/server/logging/LoggingContext.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-11-05T12:50:42Z",
+      "side": 1,
+      "message": "Good point. I think there are 2 ways to look at this.\n\n1. The currently running operations did schedule/start the async/parallel execution, so it makes sense to show them as the caller that triggered this.\n\n2. Showing the currently running operations as callers gives the wrong impression that the operations that are recorded with internal timers would be sub-steps of these parent operations (which may not be the case).\n\nI think conveying the information about which operation scheduled/started the async/parallel execution (1.) makes sense. To avoid confusion with 2. I\u0027ve now added a timer in LoggingContextAwareRunnable/LoggingContextAwareCallable to record the execution (the call of the run/call method). For this timer we are setting the thread name in a new metadata field, which we use to prefix the operation name when formatting the callers/operations. This way we can see from the caller chain where it does async calls.\n\nExample:\n\u0027Post Review Request\u0027 \u003e \u0027Post Review Op\u0027 \u003e \u0027[EmailSender-97874] Runnable\u0027 \u003e \u0027Send Email\u0027",
+      "parentUuid": "70f23c33_5451aef4",
+      "range": {
+        "startLine": 85,
+        "startChar": 8,
+        "endLine": 85,
+        "endChar": 51
+      },
+      "revId": "28e421b75489e42be904bd05c83ae87636e8d8c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7f1b7b3f_72550b43",
@@ -37,6 +61,30 @@
       "writtenOn": "2025-11-04T15:09:20Z",
       "side": 1,
       "message": "Nit: imho, there is not much value in providing all these methods here, instead of simply letting callers use getRunningOperations().",
+      "range": {
+        "startLine": 375,
+        "startChar": 3,
+        "endLine": 413,
+        "endChar": 0
+      },
+      "revId": "28e421b75489e42be904bd05c83ae87636e8d8c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "561c2958_0c8485f5",
+        "filename": "java/com/google/gerrit/server/logging/LoggingContext.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 413,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-11-05T12:50:42Z",
+      "side": 1,
+      "message": "Sounds good. Done.",
+      "parentUuid": "7f1b7b3f_72550b43",
       "range": {
         "startLine": 375,
         "startChar": 3,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ecd1f1b1_0bf8d267",
+        "filename": "java/com/google/gerrit/server/logging/Operation.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-11-05T12:50:42Z",
+      "side": 1,
+      "message": "I replaced this class with a java record in RunningOperations and moved the code to format the operation name into the Metadata class. Using the Operation record in PerformanceLogRecord doesn\u0027t make much sense now that it includes an ID that only has a meaning for RunningOperations.",
+      "parentUuid": "d4b4f540_887cf09a",
+      "range": {
+        "startLine": 40,
+        "startChar": 13,
+        "endLine": 40,
+        "endChar": 22
+      },
+      "revId": "28e421b75489e42be904bd05c83ae87636e8d8c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ba5ce10b_e7c55199",
@@ -93,6 +165,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6762c0a6_0d406155",
+        "filename": "java/com/google/gerrit/server/logging/PerformanceLogContext.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-11-05T12:50:42Z",
+      "side": 1,
+      "message": "I\u0027m still using Joiner, but I moved the code the stream processing into a separate method which has comments for each of the steps. I hope this makes it readable enough?",
+      "parentUuid": "ba5ce10b_e7c55199",
+      "range": {
+        "startLine": 180,
+        "startChar": 20,
+        "endLine": 192,
+        "endChar": 52
+      },
+      "revId": "28e421b75489e42be904bd05c83ae87636e8d8c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8eadfb24_1f2458f0",
@@ -106,6 +202,30 @@
       "writtenOn": "2025-11-04T15:09:20Z",
       "side": 1,
       "message": "I feel like the trick, with not defining equals method. So that you can remove with default method is very error-prone. (We will forget why, add equals at some point and things will break).\n\nIt would be better if operations just get a random id as one of the fields. Then it can be a record/auto-value and you can also use HashSet here.",
+      "range": {
+        "startLine": 75,
+        "startChar": 19,
+        "endLine": 75,
+        "endChar": 25
+      },
+      "revId": "28e421b75489e42be904bd05c83ae87636e8d8c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c084cff6_6293042b",
+        "filename": "java/com/google/gerrit/server/logging/RunningOperations.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-11-05T12:50:42Z",
+      "side": 1,
+      "message": "Yeah, having an explicit ID seems safer. I added it now. \n\nIt still can\u0027t be a HashSet, but must remain a list, because the order of the operations matters.",
+      "parentUuid": "8eadfb24_1f2458f0",
       "range": {
         "startLine": 75,
         "startChar": 19,

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c16f7b76_c9aa0cf1",
+        "filename": "tools/maven/mvn.py",
+        "patchSetId": 14
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-11-05T13:48:47Z",
+      "side": 1,
+      "message": "@danielesassoli@gmail.com this generates the wrong yaml:\n\n```\njenkins@37610bbd912c:~/workspace/gerrit-release/gerrit$ env JRELEASER_MAVENCENTRAL_STAGE\u003dUPLOAD jreleaser deploy -c /home/jenkins/workspace/gerrit-release/gerrit/tools/maven-central/jreleaser.yml -D jreleaser.project.version\u003d3.10.10-test2\n[INFO]  JReleaser 1.20.0\n[INFO]  Configuring with /home/jenkins/workspace/gerrit-release/gerrit/tools/maven-central/jreleaser.yml\n[INFO]    - basedir set to /home/jenkins/workspace/gerrit-release/gerrit/tools/maven-central\n[INFO]    - outputdir set to /home/jenkins/workspace/gerrit-release/gerrit/tools/maven-central/out/jreleaser\n[INFO]  Reading configuration\nInvalid config file. /home/jenkins/workspace/gerrit-release/gerrit/tools/maven-central/jreleaser.yml\n/home/jenkins/workspace/gerrit-release/gerrit/tools/maven-central/jreleaser.yml\n  6:3       error    wrong indentation: expected 4 but found 2  (indentation)\n  27:9      error    wrong indentation: expected 10 but found 8  (indentation)\n  36:3      error    wrong indentation: expected 4 but found 2  (indentation)\n```",
+      "range": {
+        "startLine": 156,
+        "startChar": 0,
+        "endLine": 157,
+        "endChar": 79
+      },
+      "revId": "4a1a0940b71aaef54649a0cca7f783dbcbfaa846",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

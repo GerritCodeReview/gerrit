@@ -42,6 +42,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2785c462_5c09cded",
+        "filename": "polygerrit-ui/app/elements/chat-panel/splash-page-action.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-11-05T21:08:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fe3d9337_8c53c5a6",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 50
+      },
+      "revId": "c00e7859786ba0daedab2f94fc0ebebcd254e195",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e87a38be_a822c732",
@@ -79,6 +103,30 @@
           ]
         }
       ],
+      "revId": "c00e7859786ba0daedab2f94fc0ebebcd254e195",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3c639718_4b6f0fd4",
+        "filename": "polygerrit-ui/app/elements/chat-panel/splash-page-action.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-11-05T21:08:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e87a38be_a822c732",
+      "range": {
+        "startLine": 181,
+        "startChar": 27,
+        "endLine": 181,
+        "endChar": 72
+      },
       "revId": "c00e7859786ba0daedab2f94fc0ebebcd254e195",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -134,6 +182,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c3f3952_1c1a3e32",
+        "filename": "polygerrit-ui/app/elements/chat-panel/splash-page-action.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-11-05T21:08:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f17848cf_81ea48bf",
+      "range": {
+        "startLine": 202,
+        "startChar": 2,
+        "endLine": 202,
+        "endChar": 14
+      },
+      "revId": "c00e7859786ba0daedab2f94fc0ebebcd254e195",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "49eddff9_dd4b2420",
@@ -185,6 +257,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a0011cd9_be86606a",
+        "filename": "polygerrit-ui/app/elements/chat-panel/splash-page.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-11-05T21:08:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "49eddff9_dd4b2420",
+      "range": {
+        "startLine": 197,
+        "startChar": 24,
+        "endLine": 197,
+        "endChar": 57
+      },
+      "revId": "c00e7859786ba0daedab2f94fc0ebebcd254e195",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "586d1578_e817dd04",
@@ -226,6 +322,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "45f6e81c_3e926b44",
+        "filename": "polygerrit-ui/app/elements/chat-panel/user-message.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-11-05T21:08:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "586d1578_e817dd04",
+      "range": {
+        "startLine": 24,
+        "startChar": 18,
+        "endLine": 24,
+        "endChar": 48
+      },
+      "revId": "c00e7859786ba0daedab2f94fc0ebebcd254e195",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "10009055_79da5982",
@@ -239,6 +359,30 @@
       "writtenOn": "2025-11-05T16:42:48Z",
       "side": 1,
       "message": "what does it mean to `override` a previous turn?\n\nWhy is `ClientData` not used in every turn?",
+      "range": {
+        "startLine": 133,
+        "startChar": 0,
+        "endLine": 138,
+        "endChar": 0
+      },
+      "revId": "c00e7859786ba0daedab2f94fc0ebebcd254e195",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8a61d7bb_fccab140",
+        "filename": "polygerrit-ui/app/models/chat/chat-model.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-11-05T21:08:50Z",
+      "side": 1,
+      "message": "This is just done as to not repeat it in every turn. In a \"normal\" chat conversation these properties will never change:\n\nactionId?: string;\ncontextItems?: ContextItem[];\nisBackgroundRequest?: boolean;",
+      "parentUuid": "10009055_79da5982",
       "range": {
         "startLine": 133,
         "startChar": 0,

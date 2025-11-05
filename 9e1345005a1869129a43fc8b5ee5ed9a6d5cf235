@@ -195,6 +195,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e0bbc0e3_da460fa0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-11-05T21:08:50Z",
+      "side": 1,
+      "message": "This is not at all Gemini specific. You can simply hook up with any other AI backend. I will do the renaming in a separate change though. But \"Gemini\" in this change is really just a replaceable name.",
+      "parentUuid": "91c86568_80dd233b",
+      "revId": "9e1345005a1869129a43fc8b5ee5ed9a6d5cf235",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c184d40d_0031123a",
@@ -1654,6 +1672,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f684642f_a958eb6a",
+        "filename": "polygerrit-ui/app/elements/chat-panel/prompt-box.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-11-05T21:08:50Z",
+      "side": 1,
+      "message": "Yes, but we might actually need if. It is a TODO to find out.",
+      "parentUuid": "6a521a21_c72679cb",
+      "range": {
+        "startLine": 61,
+        "startChar": 0,
+        "endLine": 64,
+        "endChar": 0
+      },
+      "revId": "9e1345005a1869129a43fc8b5ee5ed9a6d5cf235",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b9588558_b5e8d7f6",
@@ -1705,6 +1747,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e7f70ff_5a670f14",
+        "filename": "polygerrit-ui/app/elements/chat-panel/prompt-box.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-11-05T21:08:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b9588558_b5e8d7f6",
+      "range": {
+        "startLine": 114,
+        "startChar": 4,
+        "endLine": 118,
+        "endChar": 6
+      },
+      "revId": "9e1345005a1869129a43fc8b5ee5ed9a6d5cf235",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9670123b_6629644a",
@@ -1742,6 +1808,30 @@
           ]
         }
       ],
+      "revId": "9e1345005a1869129a43fc8b5ee5ed9a6d5cf235",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3da3ef6f_aea1b2cf",
+        "filename": "polygerrit-ui/app/elements/chat-panel/prompt-box.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-11-05T21:08:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9670123b_6629644a",
+      "range": {
+        "startLine": 173,
+        "startChar": 0,
+        "endLine": 188,
+        "endChar": 0
+      },
       "revId": "9e1345005a1869129a43fc8b5ee5ed9a6d5cf235",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -1797,6 +1887,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "92503e14_74647f76",
+        "filename": "polygerrit-ui/app/elements/chat-panel/prompt-box.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-11-05T21:08:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "94a8c5d0_dfb2c8ad",
+      "range": {
+        "startLine": 318,
+        "startChar": 17,
+        "endLine": 318,
+        "endChar": 37
+      },
+      "revId": "9e1345005a1869129a43fc8b5ee5ed9a6d5cf235",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "78732d4f_14dd4875",
@@ -1820,6 +1934,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3dc6a6c3_ab4e526c",
+        "filename": "polygerrit-ui/app/elements/chat-panel/prompt-box.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 372,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-11-05T21:08:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "78732d4f_14dd4875",
+      "range": {
+        "startLine": 370,
+        "startChar": 0,
+        "endLine": 372,
+        "endChar": 0
+      },
+      "revId": "9e1345005a1869129a43fc8b5ee5ed9a6d5cf235",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0c9ecc35_b44f1544",
@@ -1833,6 +1971,30 @@
       "writtenOn": "2025-11-05T16:42:48Z",
       "side": 1,
       "message": "what is this role?\n\nI get `user` and `gemini`",
+      "range": {
+        "startLine": 52,
+        "startChar": 0,
+        "endLine": 52,
+        "endChar": 9
+      },
+      "revId": "9e1345005a1869129a43fc8b5ee5ed9a6d5cf235",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4055703c_8d932119",
+        "filename": "polygerrit-ui/app/models/chat/chat-model.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-11-05T21:08:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0c9ecc35_b44f1544",
       "range": {
         "startLine": 52,
         "startChar": 0,

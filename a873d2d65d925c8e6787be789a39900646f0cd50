@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "747ec3d6_341e92f7",
+        "filename": "polygerrit-ui/app/api/ai-code-review.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-11-05T21:08:50Z",
+      "side": 1,
+      "message": "Will do the \"Gemini\" rename in a separate change.",
+      "parentUuid": "3da415b3_aa297bca",
+      "revId": "a873d2d65d925c8e6787be789a39900646f0cd50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1d563723_85304ec3",
@@ -31,6 +49,24 @@
       "writtenOn": "2025-11-05T18:05:59Z",
       "side": 1,
       "message": "This could probably be non-Gemini-specific now? (except for L109)\n```suggestion\n * Component to display message actions for a model message (e.g. thumbs up,\n```",
+      "revId": "a873d2d65d925c8e6787be789a39900646f0cd50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "899433b9_dfffd5b2",
+        "filename": "polygerrit-ui/app/elements/chat-panel/message-actions.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-11-05T21:08:50Z",
+      "side": 1,
+      "message": "Will do the \"Gemini\" rename in a separate change.",
+      "parentUuid": "1d563723_85304ec3",
       "revId": "a873d2d65d925c8e6787be789a39900646f0cd50",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -52,6 +88,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e7b3b0af_3be41d10",
+        "filename": "polygerrit-ui/app/elements/chat-panel/message-actions.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-11-05T21:08:50Z",
+      "side": 1,
+      "message": "Will do the \"Gemini\" rename in a separate change.",
+      "parentUuid": "1657053e_034203b0",
+      "revId": "a873d2d65d925c8e6787be789a39900646f0cd50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e8faf1e8_61b6de4e",
@@ -65,6 +119,24 @@
       "writtenOn": "2025-11-05T18:05:59Z",
       "side": 1,
       "message": "```suggestion\n    const text \u003d this.getModelMessageText();\n```",
+      "revId": "a873d2d65d925c8e6787be789a39900646f0cd50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5c513a1c_0a1a2327",
+        "filename": "polygerrit-ui/app/elements/chat-panel/message-actions.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-11-05T21:08:50Z",
+      "side": 1,
+      "message": "Will do the \"Gemini\" rename in a separate change.",
+      "parentUuid": "e8faf1e8_61b6de4e",
       "revId": "a873d2d65d925c8e6787be789a39900646f0cd50",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -86,6 +158,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "341ca763_a89f82c5",
+        "filename": "polygerrit-ui/app/elements/chat-panel/message-actions.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-11-05T21:08:50Z",
+      "side": 1,
+      "message": "Will do the \"Gemini\" rename in a separate change.",
+      "parentUuid": "cffd06ed_0144e531",
+      "revId": "a873d2d65d925c8e6787be789a39900646f0cd50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c32ca166_b966c4eb",
@@ -99,6 +189,24 @@
       "writtenOn": "2025-11-05T18:05:59Z",
       "side": 1,
       "message": "This seems similar, but different from [`ChatResponsePart`](https://gerrit-review.googlesource.com/c/gerrit/+/522821/16/polygerrit-ui/app/api/ai-code-review.ts#129). Should `ChatResponsePart` inherit from `ResponsePartBase`?",
+      "revId": "a873d2d65d925c8e6787be789a39900646f0cd50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f311d07d_71fbe286",
+        "filename": "polygerrit-ui/app/models/chat/chat-model.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-11-05T21:08:50Z",
+      "side": 1,
+      "message": "Comment added.",
+      "parentUuid": "c32ca166_b966c4eb",
       "revId": "a873d2d65d925c8e6787be789a39900646f0cd50",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -120,6 +228,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "49aaafd2_d300ee85",
+        "filename": "polygerrit-ui/app/models/chat/chat-model.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-11-05T21:08:50Z",
+      "side": 1,
+      "message": "Will do the \"Gemini\" rename in a separate change.",
+      "parentUuid": "10ba7201_9848253d",
+      "revId": "a873d2d65d925c8e6787be789a39900646f0cd50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9c2a6b85_f46a48f3",
@@ -133,6 +259,24 @@
       "writtenOn": "2025-11-05T18:05:59Z",
       "side": 1,
       "message": "```suggestion\n/** The text part of a model response. */\n```",
+      "revId": "a873d2d65d925c8e6787be789a39900646f0cd50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "63989c96_5ee58ee2",
+        "filename": "polygerrit-ui/app/models/chat/chat-model.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-11-05T21:08:50Z",
+      "side": 1,
+      "message": "Will do the \"Gemini\" rename in a separate change.",
+      "parentUuid": "9c2a6b85_f46a48f3",
       "revId": "a873d2d65d925c8e6787be789a39900646f0cd50",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -160,6 +304,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d03bd960_70528d6e",
+        "filename": "polygerrit-ui/app/models/chat/chat-model.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-11-05T21:08:50Z",
+      "side": 1,
+      "message": "Will do the \"Gemini\" rename in a separate change.",
+      "parentUuid": "fa158c6e_b5e5cb1d",
+      "range": {
+        "startLine": 93,
+        "startChar": 0,
+        "endLine": 94,
+        "endChar": 62
+      },
+      "revId": "a873d2d65d925c8e6787be789a39900646f0cd50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e380cdec_ca59c36f",
@@ -173,6 +341,24 @@
       "writtenOn": "2025-11-05T18:05:59Z",
       "side": 1,
       "message": "```suggestion\n  readonly responseParts: readonly ModelResponsePart[];\n```",
+      "revId": "a873d2d65d925c8e6787be789a39900646f0cd50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a66beb92_cc68161e",
+        "filename": "polygerrit-ui/app/models/chat/chat-model.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-11-05T21:08:50Z",
+      "side": 1,
+      "message": "Will do the \"Gemini\" rename in a separate change.",
+      "parentUuid": "e380cdec_ca59c36f",
       "revId": "a873d2d65d925c8e6787be789a39900646f0cd50",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -200,6 +386,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5def1839_aa400eb4",
+        "filename": "polygerrit-ui/app/models/chat/chat-model.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 897,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-11-05T21:08:50Z",
+      "side": 1,
+      "message": "Will do the \"Gemini\" rename in a separate change.",
+      "parentUuid": "73dfe76e_604a40de",
+      "range": {
+        "startLine": 895,
+        "startChar": 0,
+        "endLine": 897,
+        "endChar": 60
+      },
+      "revId": "a873d2d65d925c8e6787be789a39900646f0cd50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2571457d_c582d4a7",
@@ -213,6 +423,30 @@
       "writtenOn": "2025-11-05T18:05:59Z",
       "side": 1,
       "message": "```suggestion\nfunction asModelResponsePart(\n  part: ChatResponsePart,\n  turnIdentifier: ConvTurnId\n): ModelResponsePart | undefined {\n```",
+      "range": {
+        "startLine": 901,
+        "startChar": 0,
+        "endLine": 904,
+        "endChar": 35
+      },
+      "revId": "a873d2d65d925c8e6787be789a39900646f0cd50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a07fd7c5_270c34d1",
+        "filename": "polygerrit-ui/app/models/chat/chat-model.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 904,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-11-05T21:08:50Z",
+      "side": 1,
+      "message": "Will do the \"Gemini\" rename in a separate change.",
+      "parentUuid": "2571457d_c582d4a7",
       "range": {
         "startLine": 901,
         "startChar": 0,

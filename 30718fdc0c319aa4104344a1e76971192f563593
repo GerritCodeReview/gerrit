@@ -22,6 +22,30 @@
       },
       "revId": "30718fdc0c319aa4104344a1e76971192f563593",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6e3cfee2_b684c718",
+        "filename": "java/com/google/gerrit/server/logging/LoggingContext.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-11-05T14:28:27Z",
+      "side": 1,
+      "message": "Good point to add a comment about this. Done.",
+      "parentUuid": "86298aaa_bbd1db8c",
+      "range": {
+        "startLine": 84,
+        "startChar": 8,
+        "endLine": 84,
+        "endChar": 53
+      },
+      "revId": "30718fdc0c319aa4104344a1e76971192f563593",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

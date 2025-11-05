@@ -1611,6 +1611,218 @@
       },
       "revId": "9e1345005a1869129a43fc8b5ee5ed9a6d5cf235",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6a521a21_c72679cb",
+        "filename": "polygerrit-ui/app/elements/chat-panel/prompt-box.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-11-05T16:42:48Z",
+      "side": 1,
+      "message": "as of now this looks unused?\n\nThe usage has been commented out.",
+      "range": {
+        "startLine": 61,
+        "startChar": 0,
+        "endLine": 64,
+        "endChar": 0
+      },
+      "revId": "9e1345005a1869129a43fc8b5ee5ed9a6d5cf235",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b9588558_b5e8d7f6",
+        "filename": "polygerrit-ui/app/elements/chat-panel/prompt-box.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-11-05T16:42:48Z",
+      "side": 1,
+      "message": "Simplify this code",
+      "range": {
+        "startLine": 114,
+        "startChar": 4,
+        "endLine": 118,
+        "endChar": 6
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "903506c8_122abc75",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/prompt-box.ts",
+              "range": {
+                "startLine": 114,
+                "startChar": 0,
+                "endLine": 117,
+                "endChar": 0
+              },
+              "replacement": "    return this.dynamicContextItemsSuggestions.filter(\n      item \u003d\u003e\n        !this.contextItems.some(existingItem \u003d\u003e\n          contextItemEquals(item, existingItem)\n        )\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/prompt-box.ts",
+              "range": {
+                "startLine": 118,
+                "startChar": 0,
+                "endLine": 119,
+                "endChar": 0
+              },
+              "replacement": "    ;\n"
+            }
+          ]
+        }
+      ],
+      "revId": "9e1345005a1869129a43fc8b5ee5ed9a6d5cf235",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9670123b_6629644a",
+        "filename": "polygerrit-ui/app/elements/chat-panel/prompt-box.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-11-05T16:42:48Z",
+      "side": 1,
+      "message": "document",
+      "range": {
+        "startLine": 173,
+        "startChar": 0,
+        "endLine": 188,
+        "endChar": 0
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "5ea7a4da_4821d23c",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/prompt-box.ts",
+              "range": {
+                "startLine": 173,
+                "startChar": 0,
+                "endLine": 173,
+                "endChar": 0
+              },
+              "replacement": "  /**\n   * Calculates the number of context items (both regular and suggested)\n   * that are not visible when the context chip set is collapsed.\n   */\n"
+            }
+          ]
+        }
+      ],
+      "revId": "9e1345005a1869129a43fc8b5ee5ed9a6d5cf235",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "94a8c5d0_dfb2c8ad",
+        "filename": "polygerrit-ui/app/elements/chat-panel/prompt-box.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-11-05T16:42:48Z",
+      "side": 1,
+      "message": "onContextItemAdded",
+      "range": {
+        "startLine": 318,
+        "startChar": 17,
+        "endLine": 318,
+        "endChar": 37
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "92741ab8_a79f8eb6",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/prompt-box.ts",
+              "range": {
+                "startLine": 318,
+                "startChar": 0,
+                "endLine": 319,
+                "endChar": 0
+              },
+              "replacement": "            this.onContextItemAdded(e.detail)}\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/prompt-box.ts",
+              "range": {
+                "startLine": 412,
+                "startChar": 0,
+                "endLine": 413,
+                "endChar": 0
+              },
+              "replacement": "  private onContextItemAdded(contextItem: ContextItem) {\n"
+            }
+          ]
+        }
+      ],
+      "revId": "9e1345005a1869129a43fc8b5ee5ed9a6d5cf235",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "78732d4f_14dd4875",
+        "filename": "polygerrit-ui/app/elements/chat-panel/prompt-box.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 372,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-11-05T16:42:48Z",
+      "side": 1,
+      "message": "why is this computed only in the `firstUpdated` and not in `updated`?",
+      "range": {
+        "startLine": 370,
+        "startChar": 0,
+        "endLine": 372,
+        "endChar": 0
+      },
+      "revId": "9e1345005a1869129a43fc8b5ee5ed9a6d5cf235",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0c9ecc35_b44f1544",
+        "filename": "polygerrit-ui/app/models/chat/chat-model.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-11-05T16:42:48Z",
+      "side": 1,
+      "message": "what is this role?\n\nI get `user` and `gemini`",
+      "range": {
+        "startLine": 52,
+        "startChar": 0,
+        "endLine": 52,
+        "endChar": 9
+      },
+      "revId": "9e1345005a1869129a43fc8b5ee5ed9a6d5cf235",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

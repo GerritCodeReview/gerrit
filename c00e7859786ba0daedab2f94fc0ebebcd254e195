@@ -1,0 +1,252 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fe3d9337_8c53c5a6",
+        "filename": "polygerrit-ui/app/elements/chat-panel/splash-page-action.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-11-05T16:42:48Z",
+      "side": 1,
+      "message": "document this component?\n\nReading the AI suggestion, I don\u0027t get why this has `SplashPage` in it\u0027s name\n\nIt\u0027s a component that renders a chip?",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 50
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "7c038b0c_3c5910be",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/splash-page-action.ts",
+              "range": {
+                "startLine": 26,
+                "startChar": 0,
+                "endLine": 26,
+                "endChar": 0
+              },
+              "replacement": "/**\n * A component that renders a single action as a clickable chip on the chat\n * splash page. Clicking the chip initiates a chat or action based on the\n * provided `Action` object.\n */\n"
+            }
+          ]
+        }
+      ],
+      "revId": "c00e7859786ba0daedab2f94fc0ebebcd254e195",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e87a38be_a822c732",
+        "filename": "polygerrit-ui/app/elements/chat-panel/splash-page-action.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-11-05T16:42:48Z",
+      "side": 1,
+      "message": "I think in Lit you can just do",
+      "range": {
+        "startLine": 181,
+        "startChar": 27,
+        "endLine": 181,
+        "endChar": 72
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "56fe1561_913633c4",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/splash-page-action.ts",
+              "range": {
+                "startLine": 181,
+                "startChar": 0,
+                "endLine": 182,
+                "endChar": 0
+              },
+              "replacement": "                  @click\u003d${this.displayDetailsCard}\n"
+            }
+          ]
+        }
+      ],
+      "revId": "c00e7859786ba0daedab2f94fc0ebebcd254e195",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f17848cf_81ea48bf",
+        "filename": "polygerrit-ui/app/elements/chat-panel/splash-page-action.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-11-05T16:42:48Z",
+      "side": 1,
+      "message": "mark private, this and others?",
+      "range": {
+        "startLine": 202,
+        "startChar": 2,
+        "endLine": 202,
+        "endChar": 14
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "70b8e50c_0df7e037",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/splash-page-action.ts",
+              "range": {
+                "startLine": 202,
+                "startChar": 0,
+                "endLine": 203,
+                "endChar": 0
+              },
+              "replacement": "  private handleAction() {\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/splash-page-action.ts",
+              "range": {
+                "startLine": 226,
+                "startChar": 0,
+                "endLine": 227,
+                "endChar": 0
+              },
+              "replacement": "  private displayDetailsCard(event: MouseEvent) {\n"
+            }
+          ]
+        }
+      ],
+      "revId": "c00e7859786ba0daedab2f94fc0ebebcd254e195",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "49eddff9_dd4b2420",
+        "filename": "polygerrit-ui/app/elements/chat-panel/splash-page.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-11-05T16:42:48Z",
+      "side": 1,
+      "message": "We have a getDisplayName method in `display-name-util`",
+      "range": {
+        "startLine": 197,
+        "startChar": 24,
+        "endLine": 197,
+        "endChar": 57
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "98b4380e_60ae0b81",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/splash-page.ts",
+              "range": {
+                "startLine": 24,
+                "startChar": 0,
+                "endLine": 24,
+                "endChar": 0
+              },
+              "replacement": "import {getDisplayName} from \u0027../../utils/display-name-util\u0027;\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/splash-page.ts",
+              "range": {
+                "startLine": 197,
+                "startChar": 0,
+                "endLine": 198,
+                "endChar": 0
+              },
+              "replacement": "    const displayName \u003d getDisplayName(this.account);\n"
+            }
+          ]
+        }
+      ],
+      "revId": "c00e7859786ba0daedab2f94fc0ebebcd254e195",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "586d1578_e817dd04",
+        "filename": "polygerrit-ui/app/elements/chat-panel/user-message.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-11-05T16:42:48Z",
+      "side": 1,
+      "message": "what does a `user message` mean in the entire context of chat?",
+      "range": {
+        "startLine": 24,
+        "startChar": 18,
+        "endLine": 24,
+        "endChar": 48
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "71662245_e5ec7cdf",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/user-message.ts",
+              "range": {
+                "startLine": 24,
+                "startChar": 0,
+                "endLine": 25,
+                "endChar": 0
+              },
+              "replacement": " * A component to display a single message sent by the user in the chat.\n * This includes the user\u0027s textual input and any associated context items\n * (e.g., code snippets, file paths, or suggestions) that were part of the message.\n"
+            }
+          ]
+        }
+      ],
+      "revId": "c00e7859786ba0daedab2f94fc0ebebcd254e195",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "10009055_79da5982",
+        "filename": "polygerrit-ui/app/models/chat/chat-model.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-11-05T16:42:48Z",
+      "side": 1,
+      "message": "what does it mean to `override` a previous turn?\n\nWhy is `ClientData` not used in every turn?",
+      "range": {
+        "startLine": 133,
+        "startChar": 0,
+        "endLine": 138,
+        "endChar": 0
+      },
+      "revId": "c00e7859786ba0daedab2f94fc0ebebcd254e195",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

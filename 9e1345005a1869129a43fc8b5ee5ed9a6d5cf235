@@ -179,6 +179,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "91c86568_80dd233b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-11-05T18:05:59Z",
+      "side": 1,
+      "message": "Ben did a ton already, I agree. I\u0027m not worried about Gemini-specific as much as internal-Google-specific, and I think those bits are all fixed now.\n\nIf this only supports Gemini as the AI provider initially, that\u0027s 100% ok with me. That said, if that\u0027s the expectation, can you add it in the commit message? If it should work with other providers and you just need to overlook the Gemini-specific naming in some places, that would be great to know too. (somewhat relates to Dani\u0027s question about docs)",
+      "parentUuid": "e52affcf_acd89806",
+      "revId": "9e1345005a1869129a43fc8b5ee5ed9a6d5cf235",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c184d40d_0031123a",
         "filename": "polygerrit-ui/app/api/ai-code-review.ts",
         "patchSetId": 7

@@ -1,0 +1,226 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3da415b3_aa297bca",
+        "filename": "polygerrit-ui/app/api/ai-code-review.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-11-05T18:05:59Z",
+      "side": 1,
+      "message": "```suggestion\n/** A reference that was used by the model to generate a response. */\n```",
+      "revId": "a873d2d65d925c8e6787be789a39900646f0cd50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1d563723_85304ec3",
+        "filename": "polygerrit-ui/app/elements/chat-panel/message-actions.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-11-05T18:05:59Z",
+      "side": 1,
+      "message": "This could probably be non-Gemini-specific now? (except for L109)\n```suggestion\n * Component to display message actions for a model message (e.g. thumbs up,\n```",
+      "revId": "a873d2d65d925c8e6787be789a39900646f0cd50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1657053e_034203b0",
+        "filename": "polygerrit-ui/app/elements/chat-panel/message-actions.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-11-05T18:05:59Z",
+      "side": 1,
+      "message": "```suggestion\n        .text\u003d${this.getModelMessageText()}\n```",
+      "revId": "a873d2d65d925c8e6787be789a39900646f0cd50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e8faf1e8_61b6de4e",
+        "filename": "polygerrit-ui/app/elements/chat-panel/message-actions.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-11-05T18:05:59Z",
+      "side": 1,
+      "message": "```suggestion\n    const text \u003d this.getModelMessageText();\n```",
+      "revId": "a873d2d65d925c8e6787be789a39900646f0cd50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cffd06ed_0144e531",
+        "filename": "polygerrit-ui/app/elements/chat-panel/message-actions.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-11-05T18:05:59Z",
+      "side": 1,
+      "message": "```suggestion\n  private getModelMessageText() {\n```",
+      "revId": "a873d2d65d925c8e6787be789a39900646f0cd50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c32ca166_b966c4eb",
+        "filename": "polygerrit-ui/app/models/chat/chat-model.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-11-05T18:05:59Z",
+      "side": 1,
+      "message": "This seems similar, but different from [`ChatResponsePart`](https://gerrit-review.googlesource.com/c/gerrit/+/522821/16/polygerrit-ui/app/api/ai-code-review.ts#129). Should `ChatResponsePart` inherit from `ResponsePartBase`?",
+      "revId": "a873d2d65d925c8e6787be789a39900646f0cd50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "10ba7201_9848253d",
+        "filename": "polygerrit-ui/app/models/chat/chat-model.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-11-05T18:05:59Z",
+      "side": 1,
+      "message": "I saw a bunch of what look like easy non-Gemini-specific fixes, so I suggested some edits. If I\u0027m wrong and they are Gemini-specific or if you prefer to address all of those in your follow up bug item, feel free to ignore them.\n\nThe naming might also be wrong depending on your answer to my question above on `ChatResponsePart`/`ResponsePartBase` layering.\n\n```suggestion\n/** A response part from a model suggesting to create a comment. */\n```",
+      "revId": "a873d2d65d925c8e6787be789a39900646f0cd50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9c2a6b85_f46a48f3",
+        "filename": "polygerrit-ui/app/models/chat/chat-model.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-11-05T18:05:59Z",
+      "side": 1,
+      "message": "```suggestion\n/** The text part of a model response. */\n```",
+      "revId": "a873d2d65d925c8e6787be789a39900646f0cd50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa158c6e_b5e5cb1d",
+        "filename": "polygerrit-ui/app/models/chat/chat-model.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-11-05T18:05:59Z",
+      "side": 1,
+      "message": "```suggestion\n/** A part of a model response. */\nexport type ModelResponsePart \u003d TextPart | CreateCommentPart;\n```",
+      "range": {
+        "startLine": 93,
+        "startChar": 0,
+        "endLine": 94,
+        "endChar": 62
+      },
+      "revId": "a873d2d65d925c8e6787be789a39900646f0cd50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e380cdec_ca59c36f",
+        "filename": "polygerrit-ui/app/models/chat/chat-model.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-11-05T18:05:59Z",
+      "side": 1,
+      "message": "```suggestion\n  readonly responseParts: readonly ModelResponsePart[];\n```",
+      "revId": "a873d2d65d925c8e6787be789a39900646f0cd50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "73dfe76e_604a40de",
+        "filename": "polygerrit-ui/app/models/chat/chat-model.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 897,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-11-05T18:05:59Z",
+      "side": 1,
+      "message": "```suggestion\n): ModelResponsePart[] {\n  return response.response_parts\n    .map(part \u003d\u003e asModelResponsePart(part, turnIdentifier))\n```",
+      "range": {
+        "startLine": 895,
+        "startChar": 0,
+        "endLine": 897,
+        "endChar": 60
+      },
+      "revId": "a873d2d65d925c8e6787be789a39900646f0cd50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2571457d_c582d4a7",
+        "filename": "polygerrit-ui/app/models/chat/chat-model.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 904,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-11-05T18:05:59Z",
+      "side": 1,
+      "message": "```suggestion\nfunction asModelResponsePart(\n  part: ChatResponsePart,\n  turnIdentifier: ConvTurnId\n): ModelResponsePart | undefined {\n```",
+      "range": {
+        "startLine": 901,
+        "startChar": 0,
+        "endLine": 904,
+        "endChar": 35
+      },
+      "revId": "a873d2d65d925c8e6787be789a39900646f0cd50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -393,6 +393,24 @@
       "parentUuid": "7694e94a_ef135843",
       "revId": "4b34ab232d8dc604b2a89e0736fe2ac9e814ab11",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "33321257_0773142e",
+        "filename": "polygerrit-ui/app/models/chat/chat-model.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-11-05T18:05:59Z",
+      "side": 1,
+      "message": "Ack. Sounds good, thanks! Any chance that task can be public? It\u0027s not a big deal if it can\u0027t.",
+      "parentUuid": "20fc5444_2436b6e8",
+      "revId": "4b34ab232d8dc604b2a89e0736fe2ac9e814ab11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

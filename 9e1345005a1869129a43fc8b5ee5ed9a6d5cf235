@@ -213,6 +213,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "91ecd7ac_d4ad6648",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-11-05T22:33:44Z",
+      "side": 1,
+      "message": "@brohlfs@google.com by plugin API docs, do you mean the comments in `polygerrit-ui/app/api/ai-code-review.ts` or is there another doc I\u0027m missing? I don\u0027t see a \"doc\" added in this change, change 520205, or change 520206.",
+      "parentUuid": "3b463940_82aea146",
+      "revId": "9e1345005a1869129a43fc8b5ee5ed9a6d5cf235",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c184d40d_0031123a",

@@ -28,6 +28,8 @@ import * as mailTemplate from 'com/google/gerrit/server/mail/Private.soy';
   {@param unsatisfiedSubmitRequirements: ?}
   {@param oldSubmitRequirements: ?}
   {@param newSubmitRequirements: ?}
+  {@param fromName: ?}
+  {@param change: ?}
   {let $commentHeaderStyle kind="css"}
     margin-bottom: 4px;
   {/let}
@@ -74,6 +76,10 @@ import * as mailTemplate from 'com/google/gerrit/server/mail/Private.soy';
     {$voteStyle}
     background-color: #ddd;
   {/let}
+
+  {if $fromName and $change}
+    <p>{$fromName} has posted comments on this change by {$change.ownerName}.</p>
+  {/if}
 
   {if $patchSetCommentBlocks}
     {call mailTemplate.WikiFormat}

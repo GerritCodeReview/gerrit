@@ -1958,6 +1958,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e09d5b5f_98d68dbb",
+        "filename": "polygerrit-ui/app/elements/chat-panel/prompt-box.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 372,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-11-05T21:17:06Z",
+      "side": 1,
+      "message": "I don\u0027t know. I have tried moving it to updated, but it broke the UI. I will have a look tomorrow, but won\u0027t gate the submission of this change on that.",
+      "parentUuid": "3dc6a6c3_ab4e526c",
+      "range": {
+        "startLine": 370,
+        "startChar": 0,
+        "endLine": 372,
+        "endChar": 0
+      },
+      "revId": "9e1345005a1869129a43fc8b5ee5ed9a6d5cf235",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0c9ecc35_b44f1544",

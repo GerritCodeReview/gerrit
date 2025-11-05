@@ -22,6 +22,30 @@
       },
       "revId": "4a1a0940b71aaef54649a0cca7f783dbcbfaa846",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "81c224f2_cefa5e7b",
+        "filename": "tools/maven/mvn.py",
+        "patchSetId": 14
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-11-05T15:31:20Z",
+      "side": 1,
+      "message": "Done.\nThe best way to do this is to avoid enforcing any specific maven rule, so that both deployments are compatible. I have tested this and artifacts are published as expected.",
+      "parentUuid": "c16f7b76_c9aa0cf1",
+      "range": {
+        "startLine": 156,
+        "startChar": 0,
+        "endLine": 157,
+        "endChar": 79
+      },
+      "revId": "4a1a0940b71aaef54649a0cca7f783dbcbfaa846",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

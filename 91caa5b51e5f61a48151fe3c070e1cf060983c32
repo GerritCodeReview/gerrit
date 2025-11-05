@@ -46,6 +46,30 @@
       },
       "revId": "91caa5b51e5f61a48151fe3c070e1cf060983c32",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8bce9b50_7deaa4e6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 423,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-11-05T05:03:52Z",
+      "side": 1,
+      "message": "\u003e Often when you copy and paste something from a page or a doc, then you will get whitespace included that you did not want.\n\nYes, and the user might often want to keep the whitespace.\n\nIf I add it after `project:gerrit` and then copy ` owner:me` then not adding a space between the tokens means the query is malformed now.\n\n\u003e I have also been able to reproduce exactly as in the reported screencast. Can you try?\n\nYes, I commented on the bug. If there is no existing search query, then the paste operation works fine.\n\nhttp://go/scrcast/NTQwMTg1OTMxMjMyMDUxMnw1YjAyMjAwOC05Nw\n\nSomething happens if there is an existing term in the search query that causes it to add an extra space.\n\nIdeally we should be fixing that issue.\n\n\u003e I find this a useful feature. It is implemented now. Why not submit?\n\nWe have special code that adds a space when something is pasted most likely and now we are adding new code that reverts that feature.\n\nI would much prefer if we simply remove the code that is adding this special space after pasting.\n\nMost likely done because users want to directly paste a new query term and not break the formatting of the query.",
+      "parentUuid": "594007f1_61f72de7",
+      "range": {
+        "startLine": 404,
+        "startChar": 2,
+        "endLine": 423,
+        "endChar": 3
+      },
+      "revId": "91caa5b51e5f61a48151fe3c070e1cf060983c32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -20,6 +20,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
@@ -206,7 +207,8 @@ public class CreateRefControl {
         project,
         repo,
         commit,
-        repo.getRefDatabase().getRefsByPrefix(Constants.R_HEADS, Constants.R_TAGS),
+        repo.getRefDatabase()
+            .getRefsByPrefix(Constants.R_HEADS, Constants.R_TAGS, RefNames.REFS_CONFIG),
         Optional.of(user.get()))) {
       // If the user has no push permissions, check whether the object is
       // merged into a branch or tag readable by this user. If so, they are

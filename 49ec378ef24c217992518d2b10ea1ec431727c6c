@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "df4c511e_a530b530",
+        "filename": "polygerrit-ui/app/elements/chat-panel/splash-page-action_test.ts",
+        "patchSetId": 32
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-11-06T11:04:13Z",
+      "side": 1,
+      "message": "You are choosing a chat mode, but you are not sending off the message yet, but the user still needs to enter something in the prompt and then send.\n\nAdded comments about what the actions are.",
+      "parentUuid": "44f91fad_20339fb6",
+      "range": {
+        "startLine": 103,
+        "startChar": 4,
+        "endLine": 106,
+        "endChar": 30
+      },
+      "revId": "49ec378ef24c217992518d2b10ea1ec431727c6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ca16517e_cc028720",
@@ -85,6 +109,30 @@
           ]
         }
       ],
+      "revId": "49ec378ef24c217992518d2b10ea1ec431727c6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e110dba8_c861d6bd",
+        "filename": "polygerrit-ui/app/elements/chat-panel/splash-page_test.ts",
+        "patchSetId": 32
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-11-06T11:04:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca16517e_cc028720",
+      "range": {
+        "startLine": 166,
+        "startChar": 4,
+        "endLine": 166,
+        "endChar": 76
+      },
       "revId": "49ec378ef24c217992518d2b10ea1ec431727c6c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

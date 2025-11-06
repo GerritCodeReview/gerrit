@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "aff7a1f2_2806c696",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 27
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-11-06T08:30:41Z",
+      "side": 1,
+      "message": "I disagree.\n\nThe tests are not following the basic format of all our unit tests.\n\nWhy are they being resolved in a follow up change?\n\nWhy can you not edit this change directly and become the uploader?",
+      "parentUuid": "0764fc09_4fe6c122",
+      "revId": "f3ee9588f487a0db849e6d1ea66deda4dc3bfeab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7ace8951_ae8a7782",
         "filename": "polygerrit-ui/app/elements/chat-panel/chat-history_test.ts",
         "patchSetId": 27

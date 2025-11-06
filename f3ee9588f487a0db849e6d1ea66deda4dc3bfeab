@@ -49,6 +49,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "afc5ef9e_ce1296fe",
+        "filename": "polygerrit-ui/app/elements/chat-panel/chat-panel_test.ts",
+        "patchSetId": 27
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-11-06T06:21:06Z",
+      "side": 1,
+      "message": "I have uploaded Change 524701 as an example.\n\nI verified that the test passes in that change. It\u0027s not a complete change(one line is commented out) but should serve as an example of how the test should be written.",
+      "parentUuid": "d227436a_0663ffbf",
+      "range": {
+        "startLine": 38,
+        "startChar": 6,
+        "endLine": 38,
+        "endChar": 19
+      },
+      "revId": "f3ee9588f487a0db849e6d1ea66deda4dc3bfeab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c923d7c5_e5548d8b",
         "filename": "polygerrit-ui/app/elements/chat-panel/chat-panel_test.ts",
         "patchSetId": 27
@@ -88,6 +112,29 @@
         "startChar": 0,
         "endLine": 79,
         "endChar": 0
+      },
+      "revId": "f3ee9588f487a0db849e6d1ea66deda4dc3bfeab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "62279c15_e0a4bd4b",
+        "filename": "polygerrit-ui/app/models/chat/chat-model_test.ts",
+        "patchSetId": 27
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-11-06T06:21:06Z",
+      "side": 1,
+      "message": "compared to chat-model.ts(1000+ lines) this file seems to be missing a lot of coverage?\n\nSome coverage will improve once we start using the actual model in other test files but it\u0027s general coverage on it\u0027s own should be improved as well.",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 3
       },
       "revId": "f3ee9588f487a0db849e6d1ea66deda4dc3bfeab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

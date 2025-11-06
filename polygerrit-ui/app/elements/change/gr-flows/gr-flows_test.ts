@@ -136,6 +136,10 @@ suite('gr-flows tests', () => {
                 <gr-button link title="Delete flow">
                   <gr-icon icon="delete" filled></gr-icon>
                 </gr-button>
+                <gr-copy-clipboard
+                  buttonTitle="Copy flow string to clipboard"
+                  hideinput
+                ></gr-copy-clipboard>
               </div>
               <div class="flow-id hidden">Flow flow1</div>
               <div>
@@ -177,7 +181,11 @@ suite('gr-flows tests', () => {
               <div class="flow-header">
                 <gr-button link title="Delete flow">
                   <gr-icon icon="delete" filled></gr-icon>
-                </button>
+                </gr-button>
+                <gr-copy-clipboard
+                  buttonTitle="Copy flow string to clipboard"
+                  hideinput
+                ></gr-copy-clipboard>
               </div>
               <div class="flow-id hidden">Flow flow2</div>
               <div>

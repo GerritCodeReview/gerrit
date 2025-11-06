@@ -18,6 +18,7 @@ import {when} from 'lit/directives/when.js';
 import '../../shared/gr-dialog/gr-dialog';
 import '@material/web/select/filled-select';
 import '@material/web/select/select-option';
+import {computeFlowStringFromFlowStageInfo} from '../../../utils/flows-util';
 
 const iconForFlowStageState = (status: FlowStageState) => {
   switch (status) {
@@ -78,7 +79,6 @@ export class GrFlows extends LitElement {
         }
         .flow-header {
           display: flex;
-          justify-content: space-between;
           align-items: center;
           margin-bottom: var(--spacing-s);
         }
@@ -264,6 +264,11 @@ export class GrFlows extends LitElement {
                 >
                   <gr-icon icon="delete" filled></gr-icon>
                 </gr-button>
+                <gr-copy-clipboard
+                  .text=${computeFlowStringFromFlowStageInfo(flow.stages)}
+                  buttonTitle="Copy flow string to clipboard"
+                  hideinput
+                ></gr-copy-clipboard>
               </div>
               <div class="flow-id hidden">Flow ${flow.uuid}</div>
               <div>

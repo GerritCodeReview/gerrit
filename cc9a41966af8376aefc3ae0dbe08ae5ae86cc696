@@ -1,0 +1,540 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "34eda0cc_2ca12356",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 29
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-11-06T09:46:21Z",
+      "side": 1,
+      "message": "Testing looks a lot better\n\nSome comments with AI fixes attached on calling the model methods and verifying their effects",
+      "revId": "cc9a41966af8376aefc3ae0dbe08ae5ae86cc696",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b4d4f529_50f71005",
+        "filename": "polygerrit-ui/app/elements/chat-panel/chat-header_test.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-11-06T09:46:21Z",
+      "side": 1,
+      "message": "if you are stubbing these methods then the model is actually not being tested\n\nCan you instead let these methods be called and verify the effect of these methods?\n\nFor example, `startEmptyNewChat` should clear the chat and then reset the conversation history.",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 0
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "f68f81f2_7d352600",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/chat-header_test.ts",
+              "range": {
+                "startLine": 25,
+                "startChar": 0,
+                "endLine": 28,
+                "endChar": 0
+              },
+              "replacement": ""
+            },
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/chat-header_test.ts",
+              "range": {
+                "startLine": 43,
+                "startChar": 0,
+                "endLine": 46,
+                "endChar": 0
+              },
+              "replacement": ""
+            },
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/chat-header_test.ts",
+              "range": {
+                "startLine": 160,
+                "startChar": 0,
+                "endLine": 160,
+                "endChar": 0
+              },
+              "replacement": "    assert.equal(chatModel.selectedModel, \u0027gemini-pro\u0027);\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/chat-header_test.ts",
+              "range": {
+                "startLine": 161,
+                "startChar": 0,
+                "endLine": 162,
+                "endChar": 0
+              },
+              "replacement": "    await element.updateComplete;\n    assert.equal(chatModel.selectedModel, \u0027gemini-ultra\u0027);\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/chat-header_test.ts",
+              "range": {
+                "startLine": 165,
+                "startChar": 0,
+                "endLine": 165,
+                "endChar": 0
+              },
+              "replacement": "    assert.equal(chatModel.mode, ChatPanelMode.CONVERSATION);\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/chat-header_test.ts",
+              "range": {
+                "startLine": 169,
+                "startChar": 0,
+                "endLine": 170,
+                "endChar": 0
+              },
+              "replacement": "    await element.updateComplete;\n    assert.equal(chatModel.mode, ChatPanelMode.HISTORY);\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/chat-header_test.ts",
+              "range": {
+                "startLine": 175,
+                "startChar": 0,
+                "endLine": 175,
+                "endChar": 0
+              },
+              "replacement": "    assert.equal(chatModel.mode, ChatPanelMode.HISTORY);\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/chat-header_test.ts",
+              "range": {
+                "startLine": 179,
+                "startChar": 0,
+                "endLine": 180,
+                "endChar": 0
+              },
+              "replacement": "    await element.updateComplete;\n    assert.equal(chatModel.mode, ChatPanelMode.CONVERSATION);\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/chat-header_test.ts",
+              "range": {
+                "startLine": 183,
+                "startChar": 0,
+                "endLine": 183,
+                "endChar": 0
+              },
+              "replacement": "    // Simulate an existing conversation and history\n    chatModel.addMessage({\n      content: \u0027Test message\u0027,\n      sender: \u0027user\u0027,\n      timestamp: 123,\n    });\n    chatModel.addHistoryItem({\n      messages: [{content: \u0027Old chat\u0027, sender: \u0027user\u0027, timestamp: 100}],\n      model: \u0027gemini-pro\u0027,\n      timestamp: 100,\n    });\n    await element.updateComplete;\n    assert.equal(chatModel.messages.length, 1);\n    assert.equal(chatModel.history.length, 1);\n    assert.equal(chatModel.mode, ChatPanelMode.CONVERSATION);\n\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/chat-header_test.ts",
+              "range": {
+                "startLine": 187,
+                "startChar": 0,
+                "endLine": 189,
+                "endChar": 0
+              },
+              "replacement": "    await element.updateComplete;\n\n    assert.equal(chatModel.mode, ChatPanelMode.CONVERSATION);\n    assert.equal(chatModel.messages.length, 0);\n    assert.equal(chatModel.history.length, 0); // Verify history is cleared\n"
+            }
+          ]
+        }
+      ],
+      "revId": "cc9a41966af8376aefc3ae0dbe08ae5ae86cc696",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7d895205_496576a8",
+        "filename": "polygerrit-ui/app/elements/chat-panel/chat-history_test.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-11-06T09:46:21Z",
+      "side": 1,
+      "message": "nice!\n\nTest looks way better.\n\nThanks",
+      "range": {
+        "startLine": 92,
+        "startChar": 0,
+        "endLine": 92,
+        "endChar": 69
+      },
+      "revId": "cc9a41966af8376aefc3ae0dbe08ae5ae86cc696",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f68b8f90_11634c76",
+        "filename": "polygerrit-ui/app/elements/chat-panel/message-actions_test.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-11-06T09:46:21Z",
+      "side": 1,
+      "message": "same here\n\nCan we avoid spying this method so we test the effects of this method?",
+      "range": {
+        "startLine": 69,
+        "startChar": 4,
+        "endLine": 69,
+        "endChar": 69
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "089e57e5_41f848b0",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/message-actions_test.ts",
+              "range": {
+                "startLine": 29,
+                "startChar": 0,
+                "endLine": 30,
+                "endChar": 0
+              },
+              "replacement": ""
+            },
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/message-actions_test.ts",
+              "range": {
+                "startLine": 69,
+                "startChar": 0,
+                "endLine": 70,
+                "endChar": 0
+              },
+              "replacement": ""
+            },
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/message-actions_test.ts",
+              "range": {
+                "startLine": 122,
+                "startChar": 0,
+                "endLine": 122,
+                "endChar": 0
+              },
+              "replacement": "    const initialTurn \u003d createTurn(\u0027test message\u0027);\n    chatModel.updateState({...chatModel.getState(), turns: [initialTurn]});\n    await element.updateComplete;\n\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/message-actions_test.ts",
+              "range": {
+                "startLine": 125,
+                "startChar": 0,
+                "endLine": 126,
+                "endChar": 0
+              },
+              "replacement": "\n    // Wait for the model update to propagate.\n    await element.updateComplete;\n\n    const turns \u003d chatModel.getState().turns;\n    assert.equal(turns.length, 1);\n    assert.equal(turns[0].geminiMessage?.regenerationIndex, 1);\n"
+            }
+          ]
+        }
+      ],
+      "revId": "cc9a41966af8376aefc3ae0dbe08ae5ae86cc696",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "70219df2_f604b4cb",
+        "filename": "polygerrit-ui/app/elements/chat-panel/prompt-box_test.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-11-06T09:46:21Z",
+      "side": 1,
+      "message": "Can we avoid spying this method so we test the effects of this method?",
+      "range": {
+        "startLine": 40,
+        "startChar": 4,
+        "endLine": 40,
+        "endChar": 43
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "5083c64a_c4e8b531",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/prompt-box_test.ts",
+              "range": {
+                "startLine": 25,
+                "startChar": 0,
+                "endLine": 26,
+                "endChar": 0
+              },
+              "replacement": ""
+            },
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/prompt-box_test.ts",
+              "range": {
+                "startLine": 40,
+                "startChar": 0,
+                "endLine": 41,
+                "endChar": 0
+              },
+              "replacement": "    chatModel.updateState({turns: []});\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/prompt-box_test.ts",
+              "range": {
+                "startLine": 94,
+                "startChar": 0,
+                "endLine": 94,
+                "endChar": 0
+              },
+              "replacement": "    const initialTurns \u003d chatModel.getState().turns.length;\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/prompt-box_test.ts",
+              "range": {
+                "startLine": 102,
+                "startChar": 0,
+                "endLine": 104,
+                "endChar": 0
+              },
+              "replacement": "    const turns \u003d chatModel.getState().turns;\n    assert.equal(turns.length, initialTurns + 1);\n    assert.equal(turns[turns.length - 1].userMessage.content, \u0027test input\u0027);\n"
+            }
+          ]
+        }
+      ],
+      "revId": "cc9a41966af8376aefc3ae0dbe08ae5ae86cc696",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "26554c9f_0ef39023",
+        "filename": "polygerrit-ui/app/elements/chat-panel/splash-page-action_test.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-11-06T09:46:21Z",
+      "side": 1,
+      "message": "Can we avoid spying this method so we test the effects of this method?",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 0
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "62c3cce6_80ce7229",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/splash-page-action_test.ts",
+              "range": {
+                "startLine": 22,
+                "startChar": 0,
+                "endLine": 23,
+                "endChar": 0
+              },
+              "replacement": ""
+            },
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/splash-page-action_test.ts",
+              "range": {
+                "startLine": 38,
+                "startChar": 0,
+                "endLine": 42,
+                "endChar": 0
+              },
+              "replacement": ""
+            },
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/splash-page-action_test.ts",
+              "range": {
+                "startLine": 102,
+                "startChar": 0,
+                "endLine": 104,
+                "endChar": 0
+              },
+              "replacement": "    const state \u003d chatModel.getState();\n    assert.isOk(state.activeChatId);\n    const chat \u003d state.chats[state.activeChatId!];\n    assert.isOk(chat);\n    assert.equal(chat.actionId, \u0027test-action\u0027);\n    assert.lengthOf(chat.messages, 1);\n    assert.equal(chat.messages[0].content, \u0027Response for test-action\u0027);\n    assert.equal(chat.messages[0].sender, \u0027ai\u0027);\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/splash-page-action_test.ts",
+              "range": {
+                "startLine": 122,
+                "startChar": 0,
+                "endLine": 123,
+                "endChar": 0
+              },
+              "replacement": "\n    // Verify that startNewChatWithPredefinedPrompt was not called by checking\n    // the chat state. Since enable_send_without_input is false, no chat should\n    // be started yet.\n    const state \u003d chatModel.getState();\n    assert.isUndefined(state.activeChatId);\n"
+            }
+          ]
+        }
+      ],
+      "revId": "cc9a41966af8376aefc3ae0dbe08ae5ae86cc696",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "57984813_131c6aa4",
+        "filename": "polygerrit-ui/app/elements/chat-panel/splash-page-action_test.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-11-06T09:46:21Z",
+      "side": 1,
+      "message": "Can we avoid spying this method so we test the effects of this method?",
+      "range": {
+        "startLine": 42,
+        "startChar": 4,
+        "endLine": 42,
+        "endChar": 69
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "d0fa3ebd_42968041",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/splash-page-action_test.ts",
+              "range": {
+                "startLine": 10,
+                "startChar": 0,
+                "endLine": 11,
+                "endChar": 0
+              },
+              "replacement": "import {ChatModel, chatModelToken, MessageType} from \u0027../../models/chat/chat-model\u0027;\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/splash-page-action_test.ts",
+              "range": {
+                "startLine": 23,
+                "startChar": 0,
+                "endLine": 24,
+                "endChar": 0
+              },
+              "replacement": ""
+            },
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/splash-page-action_test.ts",
+              "range": {
+                "startLine": 42,
+                "startChar": 0,
+                "endLine": 43,
+                "endChar": 0
+              },
+              "replacement": ""
+            },
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/splash-page-action_test.ts",
+              "range": {
+                "startLine": 104,
+                "startChar": 0,
+                "endLine": 105,
+                "endChar": 0
+              },
+              "replacement": "    // Verify no user input message was added.\n    const messages \u003d chatModel.messages$.getValue();\n    assert.equal(messages.length, 0);\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/splash-page-action_test.ts",
+              "range": {
+                "startLine": 120,
+                "startChar": 0,
+                "endLine": 122,
+                "endChar": 0
+              },
+              "replacement": "    const messages \u003d chatModel.messages$.getValue();\n    assert.equal(messages.length, 1);\n    const lastMessage \u003d messages[0];\n    assert.equal(lastMessage.messageType, MessageType.USER_MESSAGE);\n    assert.equal(lastMessage.content, \u0027Initial prompt\u0027);\n    assert.equal(lastMessage.actionId, \u0027test-action\u0027);\n"
+            }
+          ]
+        }
+      ],
+      "revId": "cc9a41966af8376aefc3ae0dbe08ae5ae86cc696",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bbd08d00_3c481c99",
+        "filename": "polygerrit-ui/app/elements/chat-panel/splash-page_test.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-11-06T09:46:21Z",
+      "side": 1,
+      "message": "Can we avoid spying this method so we test the effects of this method?",
+      "range": {
+        "startLine": 47,
+        "startChar": 4,
+        "endLine": 47,
+        "endChar": 79
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "ea1e033f_4189266a",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/splash-page_test.ts",
+              "range": {
+                "startLine": 17,
+                "startChar": 0,
+                "endLine": 18,
+                "endChar": 0
+              },
+              "replacement": ""
+            },
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/splash-page_test.ts",
+              "range": {
+                "startLine": 31,
+                "startChar": 0,
+                "endLine": 32,
+                "endChar": 0
+              },
+              "replacement": ""
+            },
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/splash-page_test.ts",
+              "range": {
+                "startLine": 47,
+                "startChar": 0,
+                "endLine": 48,
+                "endChar": 0
+              },
+              "replacement": ""
+            },
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/splash-page_test.ts",
+              "range": {
+                "startLine": 186,
+                "startChar": 0,
+                "endLine": 188,
+                "endChar": 0
+              },
+              "replacement": "    await element.updateComplete;\n    const turns \u003d chatModel.getState().turns;\n    assert.lengthOf(turns, 1);\n    assert.equal(turns[0].userMessage.content, \u0027Action 1\u0027);\n    assert.equal(turns[0].userMessage.userType, UserType.USER);\n"
+            }
+          ]
+        }
+      ],
+      "revId": "cc9a41966af8376aefc3ae0dbe08ae5ae86cc696",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

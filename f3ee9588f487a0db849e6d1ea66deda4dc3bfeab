@@ -311,6 +311,30 @@
       },
       "revId": "f3ee9588f487a0db849e6d1ea66deda4dc3bfeab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f84b881e_dfd84f32",
+        "filename": "polygerrit-ui/app/models/chat/chat-model_test.ts",
+        "patchSetId": 27
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-11-06T09:46:21Z",
+      "side": 1,
+      "message": "\u003e And as you say, the model is not implicitly tested by all\n\ns/not/now?\n\nSGTM",
+      "parentUuid": "c0df64a0_f0c7782c",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 3
+      },
+      "revId": "f3ee9588f487a0db849e6d1ea66deda4dc3bfeab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

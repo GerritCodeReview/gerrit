@@ -108,9 +108,10 @@ public class PushPermissionsIT extends AbstractDaemonTest {
 
     String msg =
         String.format(
-            "prohibited by Gerrit: Unable to resolve object '%s'. Check that the object exists on"
-                + " the server or get update permission to create new commit objects.",
-            commit);
+            "prohibited by Gerrit: Unable to resolve commit '%s'. Check that the commit exists on"
+                + " the server and that it's reachable from a branch/tag that is visible to you or"
+                + " get the update permission that allows you to create new commit objects.",
+            commit.name());
     RemoteRefUpdate rru = r.getRemoteUpdate("refs/heads/newbranch");
     assertThat(rru.getStatus()).isNotEqualTo(Status.OK);
     assertThat(rru.getMessage()).isEqualTo(msg);

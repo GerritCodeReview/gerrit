@@ -118,8 +118,12 @@ public class ExternalIdCaseSensitivityMigrator {
     try (Repository repo = repoManager.openRepository(allUsersName)) {
       ExternalIdNotes extIdNotes = externalIdNotesFactory.load(repo);
       for (ExternalId extId : todo) {
-        recomputeExternalIdNoteId(extIdNotes, extId);
-        monitor.run();
+        try {
+          recomputeExternalIdNoteId(extIdNotes, extId);
+          monitor.run();
+        } catch (DuplicateExternalIdKeyException e) {
+          logger.atSevere().withCause(e).log("%s", e.getMessage());
+        }
       }
       if (!dryRun) {
         try (MetaDataUpdate metaDataUpdate =
@@ -133,9 +137,6 @@ public class ExternalIdCaseSensitivityMigrator {
           logger.atSevere().withCause(e).log("%s", e.getMessage());
         }
       }
-    } catch (DuplicateExternalIdKeyException e) {
-      logger.atSevere().withCause(e).log("%s", e.getMessage());
-      throw e;
     }
   }
 }

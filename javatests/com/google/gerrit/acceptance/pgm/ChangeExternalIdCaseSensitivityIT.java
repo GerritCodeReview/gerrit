@@ -21,13 +21,11 @@ import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_GPG
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_MAILTO;
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USERNAME;
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_UUID;
-import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.StandaloneSiteTest;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Project;
-import com.google.gerrit.server.account.externalids.DuplicateExternalIdKeyException;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIdFactory;
 import com.google.gerrit.server.account.externalids.storage.notedb.ExternalIdNotes;
@@ -85,26 +83,23 @@ public class ChangeExternalIdCaseSensitivityIT extends StandaloneSiteTest {
   }
 
   @Test
-  public void migrationFailsWithDuplicates() throws Exception {
+  public void migrationSkipsDuplicates() throws Exception {
     prepareExternalIdNotes(CASE_SENSITIVE);
     extIdNotes.insert(extIdFactory.create(SCHEME_USERNAME, "JohnDoe", Account.id(1)));
     extIdNotes.commit(md);
-
     assertThat(extIdNotes.get(ExternalId.Key.parse("username:johndoe", false)).isPresent())
         .isTrue();
     assertThat(extIdNotes.get(ExternalId.Key.parse("username:JohnDoe", false)).isPresent())
         .isTrue();
-
     ctx.close();
-    assertThrows(DuplicateExternalIdKeyException.class, () -> runChangeExternalIdCaseSensitivity());
+
+    runChangeExternalIdCaseSensitivity();
     ctx = startServer();
     extIdNotes = getExternalIdNotes(ctx);
 
-    assertExternalIdNotes(CASE_SENSITIVE);
-    assertThat(extIdNotes.get(ExternalId.Key.parse("username:johndoe", false)).isPresent())
-        .isTrue();
-    assertThat(extIdNotes.get(ExternalId.Key.parse("username:JohnDoe", false)).isPresent())
-        .isTrue();
+    assertExternalIdNotes(CASE_INSENSITIVE);
+    assertThat(extIdNotes.get(ExternalId.Key.parse("username:johndoe", true)).isPresent()).isTrue();
+    assertThat(extIdNotes.get(ExternalId.Key.parse("username:JohnDoe", true)).isPresent()).isTrue();
   }
 
   @Test

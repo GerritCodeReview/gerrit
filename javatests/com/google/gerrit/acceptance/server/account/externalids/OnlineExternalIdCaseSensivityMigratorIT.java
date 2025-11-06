@@ -17,13 +17,11 @@ package com.google.gerrit.acceptance.server.account.externalids;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_GERRIT;
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USERNAME;
-import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.common.util.concurrent.MoreExecutors;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.entities.Account;
-import com.google.gerrit.server.account.externalids.DuplicateExternalIdKeyException;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIdFactory;
 import com.google.gerrit.server.account.externalids.ExternalIdKeyFactory;
@@ -200,7 +198,7 @@ public class OnlineExternalIdCaseSensivityMigratorIT extends AbstractDaemonTest 
   @Test
   @GerritConfig(name = "auth.userNameCaseInsensitive", value = "true")
   @GerritConfig(name = "auth.userNameCaseInsensitiveMigrationMode", value = "true")
-  public void shouldThrowExceptionWhenDuplicateKeys() throws IOException, ConfigInvalidException {
+  public void shouldSkipDuplicateKeys() throws IOException, ConfigInvalidException {
 
     try (Repository allUsersRepo = repoManager.openRepository(allUsers);
         MetaDataUpdate md = metaDataUpdateFactory.create(allUsers)) {
@@ -215,7 +213,10 @@ public class OnlineExternalIdCaseSensivityMigratorIT extends AbstractDaemonTest 
       assertThat(getExactExternalId(extIdNotes, SCHEME_USERNAME, "JonDoe").isPresent()).isTrue();
       assertThat(getExactExternalId(extIdNotes, SCHEME_USERNAME, "jondoe").isPresent()).isTrue();
 
-      assertThrows(DuplicateExternalIdKeyException.class, () -> objectUnderTest.migrate());
+      objectUnderTest.migrate();
+
+      assertThat(getExactExternalId(extIdNotes, SCHEME_USERNAME, "JonDoe").isPresent()).isTrue();
+      assertThat(getExactExternalId(extIdNotes, SCHEME_USERNAME, "jondoe").isPresent()).isTrue();
     }
   }
 

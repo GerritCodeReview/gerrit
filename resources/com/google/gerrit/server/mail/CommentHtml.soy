@@ -77,7 +77,7 @@ import * as mailTemplate from 'com/google/gerrit/server/mail/Private.soy';
     background-color: #ddd;
   {/let}
 
-  {if $fromName and $change}
+  {if $fromName && $change}
     <p>{$fromName} has posted comments on this change by {$change.ownerName}.</p>
   {/if}
 

@@ -68,6 +68,29 @@
       },
       "revId": "f3ee9588f487a0db849e6d1ea66deda4dc3bfeab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "208240c1_e23bc9ff",
+        "filename": "polygerrit-ui/app/elements/chat-panel/splash-page-action_test.ts",
+        "patchSetId": 27
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-11-06T06:05:05Z",
+      "side": 1,
+      "message": "why do we need this wrapper?\n\nBased on AI comment, it looks like to resolve dependencies, but if you resolve my suggestion from before then this wrapper can be removed\n\nDidn\u0027t check if it\u0027s present for other test files, but also remove them",
+      "range": {
+        "startLine": 55,
+        "startChar": 0,
+        "endLine": 79,
+        "endChar": 0
+      },
+      "revId": "f3ee9588f487a0db849e6d1ea66deda4dc3bfeab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -25,6 +25,13 @@ import {
 } from '../embed/diff/gr-diff-model/gr-diff-model';
 import {Finalizable} from '../types/types';
 import {suggestionsServiceToken} from '../services/suggestions/suggestions-service';
+import {ChatModel, chatModelToken} from '../models/chat/chat-model';
+import {changeModelToken} from '../models/change/change-model';
+import {filesModelToken} from '../models/change/files-model';
+import {
+  PluginLoader,
+  pluginLoaderToken,
+} from '../elements/shared/gr-js-api-interface/gr-plugin-loader';
 
 export function createTestAppContext(): AppContext & Finalizable {
   const appRegistry: Registry<AppContext> = {
@@ -58,5 +65,18 @@ export function createTestDependencies(
   );
   dependencies.set(diffModelToken, () => new DiffModel(document));
   dependencies.set(suggestionsServiceToken, () => suggestionsServiceMock);
+  dependencies.set(
+    pluginLoaderToken,
+    () => new PluginLoader(appContext.reportingService, appContext.restApiService)
+  );
+  dependencies.set(
+    chatModelToken,
+    () =>
+      new ChatModel(
+        resolver(pluginLoaderToken).pluginsModel,
+        resolver(changeModelToken),
+        resolver(filesModelToken)
+      )
+  );
   return dependencies;
 }

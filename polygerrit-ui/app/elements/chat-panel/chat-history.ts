@@ -15,11 +15,11 @@ import {resolve} from '../../models/dependency';
 import {formatDate} from '../../utils/date-util';
 import {subscribe} from '../lit/subscription-controller';
 
-@customElement('chat-history')
+@customElement('gr-chat-history')
 export class ChatHistory extends LitElement {
   private readonly getChatModel = resolve(this, chatModelToken);
 
-  @state() private conversations: readonly Conversation[] = [];
+  @state() conversations: readonly Conversation[] = [];
 
   constructor() {
     super();
@@ -100,7 +100,8 @@ export class ChatHistory extends LitElement {
     return formatDate(timestamp, 'YYYY-MM-DD hh:mm a');
   }
 
-  private loadConversation(conversation: Conversation) {
+  // private but used in tests
+  public loadConversation(conversation: Conversation) {
     this.getChatModel().loadConversation(conversation.id);
   }
 }

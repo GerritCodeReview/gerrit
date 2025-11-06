@@ -151,6 +151,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "a278aa92_acd26f8d",
+        "filename": "polygerrit-ui/app/elements/chat-panel/chat-header_test.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-11-06T10:36:47Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "b4d4f529_50f71005",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 0
+      },
+      "revId": "cc9a41966af8376aefc3ae0dbe08ae5ae86cc696",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "7d895205_496576a8",
         "filename": "polygerrit-ui/app/elements/chat-panel/chat-history_test.ts",
         "patchSetId": 29
@@ -243,6 +267,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b9844648_19e92d42",
+        "filename": "polygerrit-ui/app/elements/chat-panel/message-actions_test.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-11-06T10:36:47Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "f68b8f90_11634c76",
+      "range": {
+        "startLine": 69,
+        "startChar": 4,
+        "endLine": 69,
+        "endChar": 69
+      },
+      "revId": "cc9a41966af8376aefc3ae0dbe08ae5ae86cc696",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "70219df2_f604b4cb",
@@ -310,6 +358,30 @@
           ]
         }
       ],
+      "revId": "cc9a41966af8376aefc3ae0dbe08ae5ae86cc696",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "512226f4_f964bf64",
+        "filename": "polygerrit-ui/app/elements/chat-panel/prompt-box_test.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-11-06T10:36:47Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "70219df2_f604b4cb",
+      "range": {
+        "startLine": 40,
+        "startChar": 4,
+        "endLine": 40,
+        "endChar": 43
+      },
       "revId": "cc9a41966af8376aefc3ae0dbe08ae5ae86cc696",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -466,6 +538,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5165cb66_cd286bda",
+        "filename": "polygerrit-ui/app/elements/chat-panel/splash-page-action_test.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-11-06T10:36:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "57984813_131c6aa4",
+      "range": {
+        "startLine": 42,
+        "startChar": 4,
+        "endLine": 42,
+        "endChar": 69
+      },
+      "revId": "cc9a41966af8376aefc3ae0dbe08ae5ae86cc696",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4b5a3fc1_1d6ef4ba",
+        "filename": "polygerrit-ui/app/elements/chat-panel/splash-page-action_test.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-11-06T10:36:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "26554c9f_0ef39023",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 0
+      },
+      "revId": "cc9a41966af8376aefc3ae0dbe08ae5ae86cc696",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bbd08d00_3c481c99",
@@ -533,6 +653,30 @@
           ]
         }
       ],
+      "revId": "cc9a41966af8376aefc3ae0dbe08ae5ae86cc696",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5bfe5765_29f61057",
+        "filename": "polygerrit-ui/app/elements/chat-panel/splash-page_test.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-11-06T10:36:47Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "bbd08d00_3c481c99",
+      "range": {
+        "startLine": 47,
+        "startChar": 4,
+        "endLine": 47,
+        "endChar": 79
+      },
       "revId": "cc9a41966af8376aefc3ae0dbe08ae5ae86cc696",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -59,6 +59,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d993f3ed_2f43a282",
+        "filename": "polygerrit-ui/app/elements/chat-panel/chat-history_test.ts",
+        "patchSetId": 27
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-11-06T09:31:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7ace8951_ae8a7782",
+      "range": {
+        "startLine": 41,
+        "startChar": 4,
+        "endLine": 41,
+        "endChar": 21
+      },
+      "revId": "f3ee9588f487a0db849e6d1ea66deda4dc3bfeab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d227436a_0663ffbf",
@@ -106,6 +130,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e681106a_aa33eb3f",
+        "filename": "polygerrit-ui/app/elements/chat-panel/chat-panel_test.ts",
+        "patchSetId": 27
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-11-06T09:31:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "afc5ef9e_ce1296fe",
+      "range": {
+        "startLine": 38,
+        "startChar": 6,
+        "endLine": 38,
+        "endChar": 19
+      },
+      "revId": "f3ee9588f487a0db849e6d1ea66deda4dc3bfeab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c923d7c5_e5548d8b",
@@ -119,6 +167,30 @@
       "writtenOn": "2025-11-06T05:23:23Z",
       "side": 1,
       "message": "avoid use of any",
+      "range": {
+        "startLine": 178,
+        "startChar": 9,
+        "endLine": 178,
+        "endChar": 12
+      },
+      "revId": "f3ee9588f487a0db849e6d1ea66deda4dc3bfeab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e09412f7_586fe817",
+        "filename": "polygerrit-ui/app/elements/chat-panel/chat-panel_test.ts",
+        "patchSetId": 27
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-11-06T09:31:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c923d7c5_e5548d8b",
       "range": {
         "startLine": 178,
         "startChar": 9,
@@ -152,6 +224,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "025c654e_2f1bc698",
+        "filename": "polygerrit-ui/app/elements/chat-panel/splash-page-action_test.ts",
+        "patchSetId": 27
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-11-06T09:31:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "208240c1_e23bc9ff",
+      "range": {
+        "startLine": 55,
+        "startChar": 0,
+        "endLine": 79,
+        "endChar": 0
+      },
+      "revId": "f3ee9588f487a0db849e6d1ea66deda4dc3bfeab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "62279c15_e0a4bd4b",
@@ -165,6 +261,30 @@
       "writtenOn": "2025-11-06T06:21:06Z",
       "side": 1,
       "message": "compared to chat-model.ts(1000+ lines) this file seems to be missing a lot of coverage?\n\nSome coverage will improve once we start using the actual model in other test files but it\u0027s general coverage on it\u0027s own should be improved as well.",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 3
+      },
+      "revId": "f3ee9588f487a0db849e6d1ea66deda4dc3bfeab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c0df64a0_f0c7782c",
+        "filename": "polygerrit-ui/app/models/chat/chat-model_test.ts",
+        "patchSetId": 27
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-11-06T09:31:21Z",
+      "side": 1,
+      "message": "There are also a lot of types in this file. And as you say, the model is not implicitly tested by all component tests. So I would prefer wait until we find an explicit gap in testing.",
+      "parentUuid": "62279c15_e0a4bd4b",
       "range": {
         "startLine": 1,
         "startChar": 0,

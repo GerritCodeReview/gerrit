@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e88255ec_da2f2af5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-11-06T15:32:27Z",
+      "side": 1,
+      "message": "```suggestion\nProjectsCollection (the project is not visible because none of its refs\n```",
+      "revId": "a7c876cf2241519961a5fd7c105c23431f1aeb2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

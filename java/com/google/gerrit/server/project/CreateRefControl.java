@@ -224,7 +224,12 @@ public class CreateRefControl {
                 q -> q.enforceVisibility(true).setLimit(1).byProjectCommit(project, commit))
             .call();
     if (!changes.isEmpty()) {
-      return;
+      // The commit is visible, but only via a change and not via a branch or tag.
+      // We only allow creating branches on commits that are part of a branch or tag, because only
+      // these commits have been reviewed/approved (or exempted from needing an approval if they
+      // were pushed directly bypassing code review).
+      throw new UnprocessableEntityException(
+          String.format("Commit '%s' not reachable from any branch nor tag.", commit.name()));
     }
 
     // Don't expose existence of the commit to the caller

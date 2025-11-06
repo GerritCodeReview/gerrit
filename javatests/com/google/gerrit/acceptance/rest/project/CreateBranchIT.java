@@ -33,6 +33,7 @@ import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.TestAccount;
+import com.google.gerrit.acceptance.testsuite.change.ChangeOperations;
 import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
@@ -41,6 +42,7 @@ import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.RefNames;
+import com.google.gerrit.extensions.api.changes.ChangeIdentifier;
 import com.google.gerrit.extensions.api.projects.BranchApi;
 import com.google.gerrit.extensions.api.projects.BranchInfo;
 import com.google.gerrit.extensions.api.projects.BranchInput;
@@ -70,6 +72,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class CreateBranchIT extends AbstractDaemonTest {
+  @Inject private ChangeOperations changeOperations;
   @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private GroupOperations groupOperations;
@@ -492,6 +495,17 @@ public class CreateBranchIT extends AbstractDaemonTest {
     BranchInfo created = branch(testBranch).create(input).get();
     assertThat(created.ref).isEqualTo(testBranch.branch());
     assertEmptyCommit(testBranch);
+  }
+
+  @Test
+  public void cannotCreateBranchOnUnsubmmitedChange() throws Exception {
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().project(project).create();
+    String changeRevision = gApi.changes().id(changeIdentifier).get().currentRevision;
+    assertCreateFails(
+        testBranch,
+        changeRevision,
+        UnprocessableEntityException.class,
+        String.format("Commit '%s' not reachable from any branch nor tag.", changeRevision));
   }
 
   @Test

@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9d2fb136_a59120dd",
+        "filename": "polygerrit-ui/app/elements/chat-panel/splash-page-action_test.ts",
+        "patchSetId": 32
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-11-06T10:51:55Z",
+      "side": 1,
+      "message": "```\n  actions: [\n    {\n      id: \u0027freeform\u0027,\n      display_text: \u0027Free form chat\u0027,\n    },\n```\n\nok apparently that\u0027s because actions[0] is `free form chat` which does not actually ask the model to do anything.\n\nI think it might help readability if you explicitly assign the action here.",
+      "parentUuid": "44f91fad_20339fb6",
+      "range": {
+        "startLine": 103,
+        "startChar": 4,
+        "endLine": 106,
+        "endChar": 30
+      },
+      "revId": "49ec378ef24c217992518d2b10ea1ec431727c6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ca16517e_cc028720",
         "filename": "polygerrit-ui/app/elements/chat-panel/splash-page_test.ts",
         "patchSetId": 32

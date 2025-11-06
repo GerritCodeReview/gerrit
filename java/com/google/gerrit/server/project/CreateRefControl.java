@@ -27,8 +27,6 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.RefPermission;
-import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gerrit.server.update.RetryHelper;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -55,18 +53,13 @@ public class CreateRefControl {
   private final PermissionBackend permissionBackend;
   private final ProjectCache projectCache;
   private final Reachable reachable;
-  private final RetryHelper retryHelper;
 
   @Inject
   CreateRefControl(
-      PermissionBackend permissionBackend,
-      ProjectCache projectCache,
-      Reachable reachable,
-      RetryHelper retryHelper) {
+      PermissionBackend permissionBackend, ProjectCache projectCache, Reachable reachable) {
     this.permissionBackend = permissionBackend;
     this.projectCache = projectCache;
     this.reachable = reachable;
-    this.retryHelper = retryHelper;
   }
 
   /**
@@ -215,29 +208,23 @@ public class CreateRefControl {
       return;
     }
 
-    // Previous check only catches normal branches. Try PatchSet refs too. If we can create refs,
-    // we're not a replica, so we can always use the change index.
-    List<ChangeData> changes =
-        retryHelper
-            .changeIndexQuery(
-                "queryChangesByProjectCommitWithLimit1",
-                q -> q.enforceVisibility(true).setLimit(1).byProjectCommit(project, commit))
-            .call();
-    if (!changes.isEmpty()) {
-      return;
-    }
+    // Do not check whether the commit is visible via a change. If the commit is no part of any
+    // branch or tag, but only via a change, then this commit hasn't been reviewed and approved yet,
+    // and hence we do not allow using it for creating branches.
 
     // Don't expose existence of the commit to the caller
     String msg =
         String.format(
-            "Unable to resolve object '%s'. Check that the object exists on the server ", commit);
+            "Unable to resolve commit '%s'. Check that the commit exists on the server and that"
+                + " it's reachable from a branch/tag that is visible to you",
+            commit.name());
     if (forPush) {
       msg +=
           String.format(
-              "or get %s permission to create new commit objects.",
+              " or get the %s permission that allows you to create new commit objects.",
               RefPermission.UPDATE.describeForException());
     } else {
-      msg += "and is visible to you.";
+      msg += ".";
     }
     throw new UnprocessableEntityException(msg);
   }

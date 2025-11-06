@@ -28,10 +28,8 @@ import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
-import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Permission;
-import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.SubmitType;
@@ -341,28 +339,6 @@ public abstract class AbstractSubmitByRebase extends AbstractSubmit {
 
     assertRefUpdatedEvents(initialHead, headAfterSubmit);
     assertChangeMergedEvents(id2, headAfterSubmit.name(), id1, headAfterSubmit.name());
-  }
-
-  @Test
-  public void submitChangesAfterBranchOnSecond() throws Throwable {
-    RevCommit initialHead = projectOperations.project(project).getHead("master");
-
-    PushOneCommit.Result change = createChange();
-    approve(change.getChangeId());
-
-    PushOneCommit.Result change2 = createChange();
-    approve(change2.getChangeId());
-    Project.NameKey project = change2.getChange().change().getProject();
-    BranchNameKey branch = BranchNameKey.create(project, "branch");
-    createBranchWithRevision(branch, change2.getCommit().getName());
-    gApi.changes().id(change2.getChangeId()).current().submit();
-    assertMerged(change2.getChangeId());
-    assertMerged(change.getChangeId());
-
-    RevCommit newHead = projectOperations.project(this.project).getHead("master");
-    assertRefUpdatedEvents(initialHead, newHead);
-    assertChangeMergedEvents(
-        change.getChangeId(), newHead.name(), change2.getChangeId(), newHead.name());
   }
 
   @Test

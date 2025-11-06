@@ -274,6 +274,8 @@ public class ApplyPatchIT extends AbstractDaemonTest {
     PushOneCommit.Result commonBaseCommit =
         createChange("File for modification", MODIFIED_FILE_NAME, MODIFIED_FILE_ORIGINAL_CONTENT);
     commonBaseCommit.assertOkStatus();
+    approve(commonBaseCommit.getChangeId());
+    gApi.changes().id(commonBaseCommit.getChangeId()).current().submit();
     String head = getHead(repo(), HEAD).name();
     createBranchWithRevision(BranchNameKey.create(project, "branch"), head);
     PushOneCommit.Result commitToPatch =
@@ -477,10 +479,16 @@ public class ApplyPatchIT extends AbstractDaemonTest {
     PushOneCommit.Result baseCommit =
         createChange("base commit", MODIFIED_FILE_NAME, MODIFIED_FILE_ORIGINAL_CONTENT);
     baseCommit.assertOkStatus();
+    approve(baseCommit.getChangeId());
+
     PushOneCommit.Result ignoredCommit =
         createChange("Ignored file modification", MODIFIED_FILE_NAME, "Ignored file modification");
     ignoredCommit.assertOkStatus();
+    approve(ignoredCommit.getChangeId());
+    gApi.changes().id(ignoredCommit.getChangeId()).current().submit();
+
     initDestBranch();
+
     ApplyPatchPatchSetInput in = buildInput(MODIFIED_FILE_DIFF);
     in.base = baseCommit.getCommit().getName();
 
@@ -868,6 +876,8 @@ public class ApplyPatchIT extends AbstractDaemonTest {
     PushOneCommit.Result baseCommit =
         createChange("Add original file: " + fileName, fileName, fileContent);
     baseCommit.assertOkStatus();
+    approve(baseCommit.getChangeId());
+    gApi.changes().id(baseCommit.getChangeId()).current().submit();
     initDestBranch();
   }
 

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "48457434_63a3b99d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-11-06T00:57:09Z",
+      "side": 1,
+      "message": "Add `Release-Notes`",
+      "revId": "7f5dc9a86479bf3273d2207c065372e5c63cfa57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b343c0eb_13b846d5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-11-06T00:57:09Z",
+      "side": 1,
+      "message": "Apparently there\u0027s a test that expects this behavior, so you\u0027ll need to fix it:\n```\n00:54:26 There was 1 failure:\n00:54:26 1) migrationFailsWithDuplicates(com.google.gerrit.acceptance.pgm.ChangeExternalIdCaseSensitivityIT)\n00:54:26 java.lang.AssertionError: expected com.google.gerrit.server.account.externalids.DuplicateExternalIdKeyException but no exception was thrown\n00:54:26 \tat com.google.gerrit.testing.GerritJUnit.assertThrows(GerritJUnit.java:61)\n00:54:26 \tat com.google.gerrit.acceptance.pgm.ChangeExternalIdCaseSensitivityIT.migrationFailsWithDuplicates(ChangeExternalIdCaseSensitivityIT.java:99)\n```",
+      "revId": "7f5dc9a86479bf3273d2207c065372e5c63cfa57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -425,7 +425,7 @@ suite('gr-change-view tests', () => {
               </section>
             </div>
           </div>
-          <div slot="side"></div>
+          <div class="sidebar" slot="side"></div>
         </gr-content-with-sidebar>
         <gr-apply-fix-dialog id="applyFixDialog"> </gr-apply-fix-dialog>
         <dialog id="downloadModal" tabindex="-1">

@@ -42,15 +42,15 @@ suite('gr-content-with-sidebar tests', () => {
       element,
       /* HTML */ `
         <div>
-          <div style="width: calc(100% - 300px);">
+          <div style="width: calc(100% - 400px);">
             <slot name="main"> </slot>
           </div>
-          <div class="sidebar-wrapper" style="width:300px;">
+          <div class="sidebar-wrapper" style="width:400px;">
             <div class="resizer-wrapper">
               <div
                 aria-label="Resize sidebar"
                 aria-orientation="vertical"
-                aria-valuenow="300"
+                aria-valuenow="400"
                 class="resizer"
                 role="separator"
                 tabindex="0"

@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ace8951_ae8a7782",
+        "filename": "polygerrit-ui/app/elements/chat-panel/chat-history_test.ts",
+        "patchSetId": 27
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-11-06T05:23:23Z",
+      "side": 1,
+      "message": "avoid use of `any` in the file\n\nThis and others?",
+      "range": {
+        "startLine": 41,
+        "startChar": 4,
+        "endLine": 41,
+        "endChar": 21
+      },
+      "revId": "f3ee9588f487a0db849e6d1ea66deda4dc3bfeab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d227436a_0663ffbf",
+        "filename": "polygerrit-ui/app/elements/chat-panel/chat-panel_test.ts",
+        "patchSetId": 27
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-11-06T05:23:23Z",
+      "side": 1,
+      "message": "do not mock the model, instead use the real model to make the test more accurate\n\nSame for other tests if it\u0027s being mocked\n\nWe have the `createTestDependencies` method in `test-app-context-init` which allows creating actual models.",
+      "range": {
+        "startLine": 38,
+        "startChar": 6,
+        "endLine": 38,
+        "endChar": 19
+      },
+      "revId": "f3ee9588f487a0db849e6d1ea66deda4dc3bfeab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c923d7c5_e5548d8b",
+        "filename": "polygerrit-ui/app/elements/chat-panel/chat-panel_test.ts",
+        "patchSetId": 27
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-11-06T05:23:23Z",
+      "side": 1,
+      "message": "avoid use of any",
+      "range": {
+        "startLine": 178,
+        "startChar": 9,
+        "endLine": 178,
+        "endChar": 12
+      },
+      "revId": "f3ee9588f487a0db849e6d1ea66deda4dc3bfeab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

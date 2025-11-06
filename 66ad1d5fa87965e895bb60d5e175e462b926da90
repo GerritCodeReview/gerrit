@@ -34,6 +34,24 @@
       "parentUuid": "5bfe532a_b18d36ff",
       "revId": "66ad1d5fa87965e895bb60d5e175e462b926da90",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7d8222d4_08388aa1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-11-06T05:23:23Z",
+      "side": 1,
+      "message": "I haven\u0027t looked at all test files, but please do not mock the chat-model and try and avoid using `any`.",
+      "parentUuid": "7efc2a52_e655583c",
+      "revId": "66ad1d5fa87965e895bb60d5e175e462b926da90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

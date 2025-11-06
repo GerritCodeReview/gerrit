@@ -43,7 +43,6 @@ public class GetCommitIT extends AbstractDaemonTest {
   @Before
   public void setUp() throws Exception {
     repo = GitUtil.newTestRepository(repoManager.openRepository(project));
-    blockRead();
   }
 
   @After
@@ -60,7 +59,6 @@ public class GetCommitIT extends AbstractDaemonTest {
 
   @Test
   public void getMergedCommit_Found() throws Exception {
-    unblockRead();
     RevCommit commit =
         repo.parseBody(repo.branch("master").commit().message("Create\n\nNew commit\n").create());
 
@@ -83,6 +81,7 @@ public class GetCommitIT extends AbstractDaemonTest {
 
   @Test
   public void getMergedCommit_NotFound() throws Exception {
+    blockRead("refs/heads/master");
     RevCommit commit =
         repo.parseBody(repo.branch("master").commit().message("Create\n\nNew commit\n").create());
     assertNotFound(commit);
@@ -90,7 +89,6 @@ public class GetCommitIT extends AbstractDaemonTest {
 
   @Test
   public void getOpenChange_Found() throws Exception {
-    unblockRead();
     PushOneCommit.Result r = pushFactory.create(admin.newIdent(), testRepo).to("refs/for/master");
     r.assertOkStatus();
 
@@ -113,37 +111,18 @@ public class GetCommitIT extends AbstractDaemonTest {
 
   @Test
   public void getOpenChange_NotFound() throws Exception {
-    // Need to unblock read to allow the push operation to succeed if not, when retrieving the
-    // advertised refs during
-    // the push, the client won't be sent the initial commit and will send it again as part of the
-    // change.
-    unblockRead();
-
     PushOneCommit.Result r = pushFactory.create(admin.newIdent(), testRepo).to("refs/for/master");
     r.assertOkStatus();
 
-    // Re-blocking the read
-    blockRead();
+    blockRead("refs/heads/master");
     assertNotFound(r.getCommit());
   }
 
-  private void unblockRead() throws Exception {
-    try (ProjectConfigUpdate u = updateProject(project)) {
-      u.getConfig()
-          .upsertAccessSection(
-              "refs/*",
-              as -> {
-                as.remove(Permission.builder(Permission.READ));
-              });
-      u.save();
-    }
-  }
-
-  private void blockRead() {
+  private void blockRead(String ref) throws Exception {
     projectOperations
         .project(project)
         .forUpdate()
-        .add(block(Permission.READ).ref("refs/*").group(REGISTERED_USERS))
+        .add(block(Permission.READ).ref(ref).group(REGISTERED_USERS))
         .update();
   }
 

@@ -22,6 +22,7 @@ import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.b
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.server.project.testing.TestLabels.value;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
+import static com.google.gerrit.testing.TestActionRefUpdateContext.openTestRefUpdateContext;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
@@ -40,18 +41,23 @@ import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.extensions.api.changes.MoveInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
-import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.git.RefUpdateUtil;
 import com.google.gerrit.server.project.testing.TestLabels;
+import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.inject.Inject;
 import java.util.Arrays;
 import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.RefUpdate;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.Test;
 
 @NoHttpd
@@ -228,17 +234,24 @@ public class MoveChangeIT extends AbstractDaemonTest {
     int changeNum = r.getChange().change().getChangeId();
 
     // Create a branch with that same commit
-    BranchNameKey newBranch = BranchNameKey.create(r.getChange().change().getProject(), "moveTest");
-    BranchInput bi = new BranchInput();
-    bi.revision = r.getCommit().name();
-    gApi.projects().name(newBranch.project().get()).branch(newBranch.branch()).create(bi);
+    String newBranch = "refs/heads/moveTest";
+    try (RefUpdateContext ctx = openTestRefUpdateContext()) {
+      try (Repository repo = repoManager.openRepository(project);
+          RevWalk rw = new RevWalk(repo)) {
+        RefUpdate u = repo.updateRef(newBranch);
+        u.setExpectedOldObjectId(ObjectId.zeroId());
+        u.setNewObjectId(r.getCommit().copy());
+        u.update(rw);
+        RefUpdateUtil.checkResult(u);
+      }
+    }
 
     // Try to move the change to the branch with the same commit
     ResourceConflictException thrown =
-        assertThrows(ResourceConflictException.class, () -> move(changeNum, newBranch.branch()));
+        assertThrows(ResourceConflictException.class, () -> move(changeNum, newBranch));
     assertThat(thrown)
         .hasMessageThat()
-        .contains("Current patchset revision is reachable from tip of " + newBranch.branch());
+        .contains("Current patchset revision is reachable from tip of " + newBranch);
   }
 
   @Test

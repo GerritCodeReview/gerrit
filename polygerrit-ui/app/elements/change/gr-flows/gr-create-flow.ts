@@ -30,9 +30,13 @@ import {ValueChangedEvent} from '../../../types/events';
 import {SuggestionProvider} from '../../core/gr-search-autocomplete/gr-search-autocomplete';
 import {when} from 'lit/directives/when.js';
 import {MdOutlinedTextField} from '@material/web/textfield/outlined-text-field.js';
+import {
+  computeFlowString,
+  Stage,
+  STAGE_SEPARATOR,
+} from '../../../utils/flows-util';
 
 const MAX_AUTOCOMPLETE_RESULTS = 10;
-const STAGE_SEPARATOR = ';';
 
 @customElement('gr-create-flow')
 export class GrCreateFlow extends LitElement {
@@ -42,11 +46,7 @@ export class GrCreateFlow extends LitElement {
   @property({type: String}) hostUrl?: string;
 
   @state()
-  private stages: {
-    condition: string;
-    action: string;
-    parameterStr: string;
-  }[] = [];
+  private stages: Stage[] = [];
 
   @state() private currentCondition = '';
 
@@ -151,7 +151,7 @@ export class GrCreateFlow extends LitElement {
 
   override updated(changedProperties: PropertyValues) {
     if (changedProperties.has('stages')) {
-      this.computeFlowString();
+      this.flowString = computeFlowString(this.stages);
     }
   }
 
@@ -193,23 +193,6 @@ export class GrCreateFlow extends LitElement {
         </table>
       `
     );
-  }
-
-  private computeFlowString() {
-    const stageToString = (stage: {
-      condition: string;
-      action: string;
-      parameterStr: string;
-    }) => {
-      if (stage.action) {
-        if (stage.parameterStr) {
-          return `${stage.condition} -> ${stage.action} ${stage.parameterStr}`;
-        }
-        return `${stage.condition} -> ${stage.action}`;
-      }
-      return stage.condition;
-    };
-    this.flowString = this.stages.map(stageToString).join(STAGE_SEPARATOR);
   }
 
   private parseStagesFromRawFlow(rawFlow: string) {

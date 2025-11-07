@@ -253,6 +253,8 @@ public class WorkQueue {
     if (withMetrics) {
       logger.atInfo().log("Adding metrics for '%s' queue", queueName);
       executor.buildMetrics(queueName);
+    } else {
+      logger.atInfo().log("Creating '%s' queue without metrics", queueName);
     }
     executor.setContinueExistingPeriodicTasksAfterShutdownPolicy(false);
     executor.setExecuteExistingDelayedTasksAfterShutdownPolicy(true);
@@ -522,38 +524,64 @@ public class WorkQueue {
           new Description("Maximum allowed number of threads in the pool")
               .setGauge()
               .setUnit("threads"),
-          () -> (long) getMaximumPoolSize());
+          () -> {
+            int maxPoolSize = getMaximumPoolSize();
+            logger.atInfo().log("%s.maxPoolSize = %s", queueName, maxPoolSize);
+            return (long) maxPoolSize;
+          });
       metrics.newCallbackMetric(
           getMetricName(queueName, "pool_size"),
           Long.class,
           new Description("Current number of threads in the pool").setGauge().setUnit("threads"),
-          () -> (long) getPoolSize());
+          () -> {
+            int poolSize = getPoolSize();
+            logger.atInfo().log("%s.poolSize = %s", queueName, poolSize);
+            return (long) poolSize;
+          });
       metrics.newCallbackMetric(
           getMetricName(queueName, "active_threads"),
           Long.class,
           new Description("Number number of threads that are actively executing tasks")
               .setGauge()
               .setUnit("threads"),
-          () -> (long) getActiveCount());
+          () -> {
+            int activeCount = getActiveCount();
+            logger.atInfo().log("%s.activeCount = %s", queueName, activeCount);
+            return (long) activeCount;
+          });
       metrics.newCallbackMetric(
           getMetricName(queueName, "scheduled_tasks"),
           Integer.class,
           new Description("Number of scheduled tasks in the queue").setGauge().setUnit("tasks"),
-          () -> getQueue().size());
+          () -> {
+            int scheduledTasks = getQueue().size();
+            logger.atInfo().log("%s.scheduledTasks = %s", queueName, scheduledTasks);
+            return scheduledTasks;
+          });
       metrics.newCallbackMetric(
           getMetricName(queueName, "total_scheduled_tasks_count"),
           Long.class,
           new Description("Total number of tasks that have been scheduled for execution")
               .setCumulative()
               .setUnit("tasks"),
-          this::getTaskCount);
+          () -> {
+            long totalScheduledTasksCount = getTaskCount();
+            logger.atInfo().log(
+                "%s.totalScheduledTasksCount = %s", queueName, totalScheduledTasksCount);
+            return totalScheduledTasksCount;
+          });
       metrics.newCallbackMetric(
           getMetricName(queueName, "total_completed_tasks_count"),
           Long.class,
           new Description("Total number of tasks that have completed execution")
               .setCumulative()
               .setUnit("tasks"),
-          this::getCompletedTaskCount);
+          () -> {
+            long totalCompletedTasksCount = getCompletedTaskCount();
+            logger.atInfo().log(
+                "%s.totalCompletedTasksCount = %s", queueName, totalCompletedTasksCount);
+            return totalCompletedTasksCount;
+          });
     }
 
     private String getMetricName(String queueName, String metricName) {

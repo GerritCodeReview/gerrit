@@ -28,10 +28,12 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.UseClockStep;
+import com.google.gerrit.acceptance.testsuite.change.ChangeOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.entities.AccessSection;
 import com.google.gerrit.entities.Permission;
+import com.google.gerrit.extensions.api.changes.ChangeIdentifier;
 import com.google.gerrit.extensions.api.projects.ProjectApi.ListRefsRequest;
 import com.google.gerrit.extensions.api.projects.TagApi;
 import com.google.gerrit.extensions.api.projects.TagInfo;
@@ -107,6 +109,7 @@ public class TagsIT extends AbstractDaemonTest {
           """,
           ANNOTATION);
 
+  @Inject private ChangeOperations changeOperations;
   @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
 
@@ -616,6 +619,60 @@ public class TagsIT extends AbstractDaemonTest {
     assertThrows(
         ResourceConflictException.class,
         () -> gApi.projects().name(project.get()).tag(newTag.ref).create(newTag));
+  }
+
+  @Test
+  public void cannotCreateTagOnNonVisibleCommit() throws Exception {
+    grantLightweightTagPermissions();
+
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(block(Permission.READ).ref("refs/heads/master").group(REGISTERED_USERS))
+        .update();
+
+    String masterRevision = projectOperations.project(project).getHead("refs/heads/master").name();
+
+    // Use a non-admin user, since admins can always see all branches.
+    requestScopeOperations.setApiUser(user.id());
+
+    TagInput input = new TagInput();
+    input.ref = "v1.0";
+    input.revision = masterRevision;
+    UnprocessableEntityException exception =
+        assertThrows(
+            UnprocessableEntityException.class,
+            () -> gApi.projects().name(project.get()).tag(input.ref).create(input));
+    assertThat(exception)
+        .hasMessageThat()
+        .isEqualTo(
+            String.format(
+                "Unable to resolve commit '%s'. Check that the commit exists on the server and that"
+                    + " it's reachable from a branch/tag that is visible to you.",
+                masterRevision));
+  }
+
+  @Test
+  public void cannotCreateTagOnUnsubmittedChange() throws Exception {
+    grantLightweightTagPermissions();
+
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().project(project).create();
+    String changeRevision = gApi.changes().id(changeIdentifier).get().currentRevision;
+
+    TagInput input = new TagInput();
+    input.ref = "v1.0";
+    input.revision = changeRevision;
+    UnprocessableEntityException exception =
+        assertThrows(
+            UnprocessableEntityException.class,
+            () -> gApi.projects().name(project.get()).tag(input.ref).create(input));
+    assertThat(exception)
+        .hasMessageThat()
+        .isEqualTo(
+            String.format(
+                "Unable to resolve commit '%s'. Check that the commit exists on the server and that"
+                    + " it's reachable from a branch/tag that is visible to you.",
+                changeRevision));
   }
 
   private void assertTagList(FluentIterable<String> expected, List<TagInfo> actual)

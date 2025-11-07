@@ -34,6 +34,24 @@
       "parentUuid": "6542489c_b858698f",
       "revId": "6e3735df2db87f5d2989a191bee990d701ce9ec7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "28746792_4393f729",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-11-07T17:49:16Z",
+      "side": 1,
+      "message": "But with this custom implementation you can\u0027t configure logging levels and such. Using `JavaLoggingInfoStream` and the JUL-\u003eSLF bridge seems simpler?",
+      "parentUuid": "47943090_4043aa0b",
+      "revId": "6e3735df2db87f5d2989a191bee990d701ce9ec7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

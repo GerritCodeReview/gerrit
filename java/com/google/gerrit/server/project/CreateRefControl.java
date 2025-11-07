@@ -166,7 +166,7 @@ public class CreateRefControl {
    * Check if the user is allowed to create a new commit object if this creation would introduce a
    * new commit to the repository.
    */
-  private void checkCreateCommit(
+  public void checkCreateCommit(
       Provider<? extends CurrentUser> user,
       Repository repo,
       RevCommit commit,
@@ -212,7 +212,7 @@ public class CreateRefControl {
 
     // Do not check whether the commit is visible via a change. If the commit is no part of any
     // branch or tag, but only via a change, then this commit hasn't been reviewed and approved yet,
-    // and hence we do not allow using it for creating branches.
+    // and hence we do not allow using it for creating branches/tags.
 
     // Don't expose existence of the commit to the caller
     String msg =

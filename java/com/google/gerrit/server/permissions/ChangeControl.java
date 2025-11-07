@@ -25,6 +25,7 @@ import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.PermissionRange;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.conditions.BooleanCondition;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -247,7 +248,7 @@ public class ChangeControl {
     return false;
   }
 
-  private class ForChangeImpl extends ForChange {
+  public class ForChangeImpl extends ForChange {
     private Map<String, PermissionRange> labels;
     private String resourcePath;
 
@@ -264,9 +265,28 @@ public class ChangeControl {
       return resourcePath;
     }
 
+    public CurrentUser getUser() {
+      return ChangeControl.this.getUser();
+    }
+
+    public CurrentUser getProjectControlUser() {
+      return getProjectControl().getUser();
+    }
+
+    public Change getChange() {
+      return ChangeControl.this.getChange();
+    }
+
+    public Project getProject() {
+      return getProjectControl().getProject();
+    }
+
     @Override
     public void check(ChangePermissionOrLabel perm)
         throws AuthException, PermissionBackendException {
+      if (perm.permissionName().equalsIgnoreCase("SUBMIT")) {
+        logger.atWarning().log("Checking SUBMIT permission for user %s", getUser());
+      }
       if (!can(perm)) {
         throw new AuthException(
             perm.describeForException()

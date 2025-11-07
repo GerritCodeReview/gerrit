@@ -169,6 +169,9 @@ public class RefControl {
       // granting of powers beyond submitting to the configuration.
       return projectControl.isOwner();
     }
+    logger.atWarning().log(
+        "Check if if user [%s] can perform SUBMIT for project [%s]",
+        projectControl.getUser(), projectControl.getProject());
     return canPerform(Permission.SUBMIT, isChangeOwner, false);
   }
 

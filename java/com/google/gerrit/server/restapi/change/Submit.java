@@ -55,6 +55,7 @@ import com.google.gerrit.server.change.MergeabilityComputationBehavior;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.permissions.ChangeControl;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -194,7 +195,25 @@ public class Submit
     IdentifiedUser submitter = rsrc.getUser().asIdentifiedUser();
     // It's possible that the user does not have permission to submit all changes in the superset,
     // but we check the current change for an early exit.
-    rsrc.permissions().check(ChangePermission.SUBMIT);
+
+    logger.atWarning().log(
+        "[TROUBLESHOOTING] Applying submit. Change:[%s]|Project:[%s]|User:[%s]",
+        rsrc.getChange(), rsrc.getProject(), submitter);
+
+    PermissionBackend.ForChange permissionsForChange = rsrc.permissions();
+
+    if (permissionsForChange instanceof ChangeControl.ForChangeImpl forChange) {
+
+      logger.atWarning().log(
+          "[TROUBLESHOOTING] Applying submit."
+              + " Change:[%s]|Project:[%s]|User:[%s]|projectControlUser:[%s]",
+          forChange.getChange(),
+          forChange.getProject(),
+          forChange.getUser(),
+          forChange.getProjectControlUser());
+    }
+
+    permissionsForChange.check(ChangePermission.SUBMIT);
     if (input.onBehalfOf != null) {
       submitter = onBehalfOf(rsrc, input);
     }

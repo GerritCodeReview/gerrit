@@ -16,6 +16,75 @@
       "message": "@luca.milanesio@gmail.com WDYT? can you think of anything else we might need?",
       "revId": "c563f27e92111753d7cd542cea3e3dce6b1c157f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "259f983d_2690d4e9",
+        "filename": "java/com/google/gerrit/server/permissions/ChangeControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-11-07T14:59:28Z",
+      "side": 1,
+      "message": "We want to also add logging inside the `can(perm)` and see what the permission that the user has and is checked against.",
+      "range": {
+        "startLine": 290,
+        "startChar": 11,
+        "endLine": 290,
+        "endChar": 20
+      },
+      "revId": "c563f27e92111753d7cd542cea3e3dce6b1c157f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3914e7c3_742757b8",
+        "filename": "java/com/google/gerrit/server/permissions/RefControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-11-07T14:59:28Z",
+      "side": 1,
+      "message": "Also log the refname?",
+      "range": {
+        "startLine": 173,
+        "startChar": 54,
+        "endLine": 173,
+        "endChar": 66
+      },
+      "revId": "c563f27e92111753d7cd542cea3e3dce6b1c157f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "98aeb5ed_50d5063e",
+        "filename": "java/com/google/gerrit/server/restapi/change/Submit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-11-07T14:59:28Z",
+      "side": 1,
+      "message": "```suggestion\n        rsrc.getChange(), rsrc.getProject(), submitter);\n```",
+      "range": {
+        "startLine": 201,
+        "startChar": 45,
+        "endLine": 201,
+        "endChar": 59
+      },
+      "revId": "c563f27e92111753d7cd542cea3e3dce6b1c157f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

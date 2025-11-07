@@ -16,6 +16,23 @@
       "message": "PTAL",
       "revId": "fdd3b78a785f567a462409e4d99fe675070eaa82",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "59115968_97ed9c94",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2025-11-07T18:20:00Z",
+      "side": 1,
+      "message": "This series conflicts with https://gerrit-review.googlesource.com/c/gerrit/+/525041 should I wait until that is reverted before trying to merge this?",
+      "revId": "fdd3b78a785f567a462409e4d99fe675070eaa82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

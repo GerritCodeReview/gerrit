@@ -16,6 +16,24 @@
       "message": "AFAICS lucene uses java.util.logging. I think with that we should be able to bridge that to log4j1.x by adding the following dependencies:\n\norg.slf4j:jul-to-slf4j:1.7.36\norg.slf4j:slf4j-api:1.7.36\norg.slf4j:slf4j-log4j12:1.7.36",
       "revId": "6e3735df2db87f5d2989a191bee990d701ce9ec7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "47943090_4043aa0b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-11-07T08:59:32Z",
+      "side": 1,
+      "message": "@matthias.sohn@gmail.com, unfortunately not all lucene activity is visible via logging. The low-level API operations (such as flushing, merging, committing, etc) are logged through the `InforStream` interface [1][2].\n\nWe could use `JavaLoggingInfoStream` [3], but that would require **also** to bridge JUL to log4j, and I don\u0027t think it will be necessary, since we can just provide an alternative log4j implementation, as @danielesassoli@gmail.com has done with this change.\n\nWDYT? @luca.milanesio@gmail.com @matthias.sohn@gmail.com\n\n\n[1] https://github.com/apache/lucene/blob/main/lucene/core/src/java/org/apache/lucene/util/InfoStream.java#L30.\n\n[2] https://github.com/apache/lucene/blob/main/lucene/core/src/java/org/apache/lucene/index/IndexWriter.java#L4262\n[3] https://github.com/apache/lucene/blob/main/lucene/core/src/java/org/apache/lucene/util/JavaLoggingInfoStream.java",
+      "parentUuid": "6542489c_b858698f",
+      "revId": "6e3735df2db87f5d2989a191bee990d701ce9ec7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

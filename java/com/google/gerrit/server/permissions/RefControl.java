@@ -169,6 +169,10 @@ public class RefControl {
       // granting of powers beyond submitting to the configuration.
       return projectControl.isOwner();
     }
+    logger.atWarning().log(
+        "[TROUBLESHOOTING] Check if if user [%s] can perform SUBMIT for refName [%s] in project"
+            + " [%s]",
+        projectControl.getUser(), refName, projectControl.getProject());
     return canPerform(Permission.SUBMIT, isChangeOwner, false);
   }
 
@@ -435,17 +439,20 @@ public class RefControl {
   /** True if the user has this permission. */
   private boolean canPerform(String permissionName, boolean isChangeOwner, boolean withForce) {
     if (isBlocked(permissionName, isChangeOwner, withForce)) {
+      String logMessage =
+          String.format(
+              "'%s' cannot perform '%s' with force=%s on project '%s' for ref '%s'"
+                  + " because this permission is blocked",
+              getUser().getLoggableName(),
+              permissionName,
+              withForce,
+              projectControl.getProject().getName(),
+              refName);
       if (logger.atFine().isEnabled() || LoggingContext.getInstance().isAclLogging()) {
-        String logMessage =
-            String.format(
-                "'%s' cannot perform '%s' with force=%s on project '%s' for ref '%s'"
-                    + " because this permission is blocked",
-                getUser().getLoggableName(),
-                permissionName,
-                withForce,
-                projectControl.getProject().getName(),
-                refName);
         LoggingContext.getInstance().addAclLogRecord(logMessage);
+      }
+      if (permissionName.equalsIgnoreCase("SUBMIT")) {
+        logger.atWarning().log("[TROUBLESHOOTING] %s", logMessage);
       }
       return false;
     }
@@ -466,6 +473,9 @@ public class RefControl {
                   pr);
           LoggingContext.getInstance().addAclLogRecord(logMessage);
           logger.atFine().log("%s", logMessage);
+          if (permissionName.equalsIgnoreCase("SUBMIT")) {
+            logger.atWarning().log("[TROUBLESHOOTING] %s", logMessage);
+          }
         }
         return true;
       }
@@ -482,6 +492,9 @@ public class RefControl {
               refName);
       LoggingContext.getInstance().addAclLogRecord(logMessage);
       logger.atFine().log("%s", logMessage);
+      if (permissionName.equalsIgnoreCase("SUBMIT")) {
+        logger.atWarning().log("[TROUBLESHOOTING] %s", logMessage);
+      }
     }
     return false;
   }

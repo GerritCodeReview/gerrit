@@ -18,6 +18,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2db55fa2_21f976e1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-11-07T15:48:35Z",
+      "side": 1,
+      "message": "This is an example of what we get:\n\n```\n[2025-11-07T16:45:53.530+01:00] [HTTP POST /changes/test-foobar~301/revisions/1/review (admin from [0:0:0:0:0:0:0:1])] INFO  com.criteo.gerrit.plugins.automerge.AutomaticMerger : Submitting non-atomic change 301...\n[2025-11-07T16:45:53.531+01:00] [HTTP POST /changes/test-foobar~301/revisions/1/review (admin from [0:0:0:0:0:0:0:1])] WARN  com.google.gerrit.server.restapi.change.Submit : [TROUBLESHOOTING] Applying submit. Change:[Change{301 (I7336cb5317f885320c4803b3be9da78e334d588f), dest\u003dtest-foobar,refs/heads/master, status\u003dn}]|Project:[test-foobar]|User:[IdentifiedUser[account 1000002]]|projectControlUser:[IdentifiedUser[account 1000002]] [CONTEXT PLUGIN\u003d\"autosubmitter\" PLUGIN\u003d\"gerrit\" TRACE_ID\u003d\"1762530353452-39b719ca\" project\u003d\"test-foobar\" request\u003d\"REST /changes/*/revisions/*/review\" ]\n[2025-11-07T16:45:53.532+01:00] [HTTP POST /changes/test-foobar~301/revisions/1/review (admin from [0:0:0:0:0:0:0:1])] WARN  com.google.gerrit.server.permissions.ChangeControl : [TROUBLESHOOTING] Checking SUBMIT permission for user IdentifiedUser[account 1000002] [CONTEXT PLUGIN\u003d\"autosubmitter\" PLUGIN\u003d\"gerrit\" TRACE_ID\u003d\"1762530353452-39b719ca\" project\u003d\"test-foobar\" request\u003d\"REST /changes/*/revisions/*/review\" ]\n[2025-11-07T16:45:53.532+01:00] [HTTP POST /changes/test-foobar~301/revisions/1/review (admin from [0:0:0:0:0:0:0:1])] WARN  com.google.gerrit.server.permissions.RefControl : [TROUBLESHOOTING] Check if if user [IdentifiedUser[account 1000002]] can perform SUBMIT for refName [refs/heads/master] in project [test-foobar] [CONTEXT PLUGIN\u003d\"autosubmitter\" PLUGIN\u003d\"gerrit\" TRACE_ID\u003d\"1762530353452-39b719ca\" project\u003d\"test-foobar\" request\u003d\"REST /changes/*/revisions/*/review\" ]\n[2025-11-07T16:45:53.532+01:00] [HTTP POST /changes/test-foobar~301/revisions/1/review (admin from [0:0:0:0:0:0:0:1])] WARN  com.google.gerrit.server.permissions.RefControl : [TROUBLESHOOTING] \u0027autosubmitter\u0027 cannot perform \u0027submit\u0027 with force\u003dfalse on project \u0027test-foobar\u0027 for ref \u0027refs/heads/master\u0027 because this permission is blocked [CONTEXT PLUGIN\u003d\"autosubmitter\" PLUGIN\u003d\"gerrit\" TRACE_ID\u003d\"1762530353452-39b719ca\" project\u003d\"test-foobar\" request\u003d\"REST /changes/*/revisions/*/review\" ]\n[2025-11-07T16:45:53.532+01:00] [HTTP POST /changes/test-foobar~301/revisions/1/review (admin from [0:0:0:0:0:0:0:1])] ERROR com.criteo.gerrit.plugins.automerge.AutomaticMerger : An exception occured while trying to atomic merge a change.\ncom.google.gerrit.extensions.restapi.AuthException: submit not permitted\n```",
+      "revId": "c563f27e92111753d7cd542cea3e3dce6b1c157f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "259f983d_2690d4e9",
@@ -31,6 +48,30 @@
       "writtenOn": "2025-11-07T14:59:28Z",
       "side": 1,
       "message": "We want to also add logging inside the `can(perm)` and see what the permission that the user has and is checked against.",
+      "range": {
+        "startLine": 290,
+        "startChar": 11,
+        "endLine": 290,
+        "endChar": 20
+      },
+      "revId": "c563f27e92111753d7cd542cea3e3dce6b1c157f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fc9fdacf_c71699a0",
+        "filename": "java/com/google/gerrit/server/permissions/ChangeControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-11-07T15:48:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "259f983d_2690d4e9",
       "range": {
         "startLine": 290,
         "startChar": 11,
@@ -64,6 +105,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ed5513df_65249613",
+        "filename": "java/com/google/gerrit/server/permissions/RefControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-11-07T15:48:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3914e7c3_742757b8",
+      "range": {
+        "startLine": 173,
+        "startChar": 54,
+        "endLine": 173,
+        "endChar": 66
+      },
+      "revId": "c563f27e92111753d7cd542cea3e3dce6b1c157f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "98aeb5ed_50d5063e",
@@ -77,6 +142,30 @@
       "writtenOn": "2025-11-07T14:59:28Z",
       "side": 1,
       "message": "```suggestion\n        rsrc.getChange(), rsrc.getProject(), submitter);\n```",
+      "range": {
+        "startLine": 201,
+        "startChar": 45,
+        "endLine": 201,
+        "endChar": 59
+      },
+      "revId": "c563f27e92111753d7cd542cea3e3dce6b1c157f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "62cc51ba_678a3b6b",
+        "filename": "java/com/google/gerrit/server/restapi/change/Submit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-11-07T15:48:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "98aeb5ed_50d5063e",
       "range": {
         "startLine": 201,
         "startChar": 45,

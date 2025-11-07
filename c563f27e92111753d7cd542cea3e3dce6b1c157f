@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dc916ba1_b2adc71c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-11-07T14:40:36Z",
+      "side": 1,
+      "message": "@luca.milanesio@gmail.com WDYT? can you think of anything else we might need?",
+      "revId": "c563f27e92111753d7cd542cea3e3dce6b1c157f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -173,7 +173,7 @@ public class CreateRefControl {
    * Check if the user is allowed to create a new commit object if this creation would introduce a
    * new commit to the repository.
    */
-  private void checkCreateCommit(
+  public void checkCreateCommit(
       Provider<? extends CurrentUser> user,
       Repository repo,
       RevCommit commit,
@@ -237,7 +237,8 @@ public class CreateRefControl {
     // Don't expose existence of the commit to the caller
     String msg =
         String.format(
-            "Unable to resolve object '%s'. Check that the object exists on the server ", commit);
+            "Unable to resolve commit '%s'. Check that the commit exists on the server ",
+            commit.name());
     if (forPush) {
       msg +=
           String.format(

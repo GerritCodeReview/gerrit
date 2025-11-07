@@ -255,6 +255,25 @@ public class CreateFlowIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void createFlow_callerMustBeUploader() throws Exception {
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().create();
+    requestScopeOperations.setApiUser(accountCreator.user2().id());
+    TestFlowService testFlowService = new TestExtensions.TestFlowService();
+    testFlowService.rejectFlowCreation();
+    try (Registration registration = extensionRegistry.newRegistration().set(testFlowService)) {
+      FlowInput flowInput = createTestFlowInputWithOneStage(accountCreator, changeIdentifier);
+      AuthException exception =
+          assertThrows(
+              AuthException.class, () -> gApi.changes().id(changeIdentifier).createFlow(flowInput));
+      assertThat(exception)
+          .hasMessageThat()
+          .isEqualTo(
+              "Only latest uploader can create a flow, because actions are executed on behalf of"
+                  + " uploader.");
+    }
+  }
+
+  @Test
   public void createFlow_permissionDenied() throws Exception {
     ChangeIdentifier changeIdentifier = changeOperations.newChange().create();
     TestFlowService testFlowService = new TestExtensions.TestFlowService();

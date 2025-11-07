@@ -70,6 +70,16 @@ public class CreateFlow
       throw new AuthException("Authentication required");
     }
 
+    if (!changeResource
+        .getChangeData()
+        .currentPatchSet()
+        .realUploader()
+        .equals(self.get().getAccountId())) {
+      throw new AuthException(
+          "Only latest uploader can create a flow, because actions are executed on behalf of"
+              + " uploader.");
+    }
+
     if (flowInput == null) {
       flowInput = new FlowInput();
     }

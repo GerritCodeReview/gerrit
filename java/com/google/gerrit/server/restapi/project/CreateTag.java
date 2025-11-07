@@ -31,6 +31,7 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestCollectionCreateView;
 import com.google.gerrit.git.LockFailureException;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.WebLinks;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -38,6 +39,7 @@ import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.RefPermission;
+import com.google.gerrit.server.project.CreateRefControl;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.project.RefUtil;
@@ -45,6 +47,7 @@ import com.google.gerrit.server.project.TagResource;
 import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.time.ZoneId;
@@ -58,6 +61,7 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevWalk;
 
@@ -71,7 +75,9 @@ public class CreateTag implements RestCollectionCreateView<ProjectResource, TagR
   private static final ImmutableList<String> ALLOWED_SIGNATURES = ImmutableList.of("SSH");
 
   private final PermissionBackend permissionBackend;
+  private final Provider<IdentifiedUser> identifiedUser;
   private final GitRepositoryManager repoManager;
+  private final CreateRefControl createRefControl;
   private final TagCache tagCache;
   private final GitReferenceUpdated referenceUpdated;
   private final WebLinks links;
@@ -79,12 +85,16 @@ public class CreateTag implements RestCollectionCreateView<ProjectResource, TagR
   @Inject
   CreateTag(
       PermissionBackend permissionBackend,
+      Provider<IdentifiedUser> identifiedUser,
       GitRepositoryManager repoManager,
+      CreateRefControl createRefControl,
       TagCache tagCache,
       GitReferenceUpdated referenceUpdated,
       WebLinks webLinks) {
     this.permissionBackend = permissionBackend;
+    this.identifiedUser = identifiedUser;
     this.repoManager = repoManager;
+    this.createRefControl = createRefControl;
     this.tagCache = tagCache;
     this.referenceUpdated = referenceUpdated;
     this.links = webLinks;
@@ -121,6 +131,10 @@ public class CreateTag implements RestCollectionCreateView<ProjectResource, TagR
           // Reachability through tags does not influence a commit's visibility, so no need to check
           // for visibility.
           RevObject object = rw.parseAny(revid);
+          if (object instanceof RevCommit) {
+            createRefControl.checkCreateCommit(
+                identifiedUser, repo, (RevCommit) object, resource.getNameKey(), null, false);
+          }
           rw.reset();
           boolean isAnnotated = Strings.emptyToNull(input.message) != null;
 

@@ -98,7 +98,15 @@ public class CreateRefControl {
     if (object instanceof RevCommit) {
       perm.check(RefPermission.CREATE);
       if (sourceBranches.length == 0) {
-        checkCreateCommit(user, repo, (RevCommit) object, ps.getNameKey(), perm, forPush);
+        checkCreateCommit(
+            user,
+            repo,
+            repo.getRefDatabase()
+                .getRefsByPrefix(Constants.R_HEADS, Constants.R_TAGS, RefNames.REFS_CONFIG),
+            (RevCommit) object,
+            ps.getNameKey(),
+            perm,
+            forPush);
       } else {
         List<Ref> sourceRefs = new ArrayList<>();
         for (BranchNameKey src : sourceBranches) {
@@ -142,7 +150,15 @@ public class CreateRefControl {
 
       RevObject target = tag.getObject();
       if (target instanceof RevCommit) {
-        checkCreateCommit(user, repo, (RevCommit) target, ps.getNameKey(), perm, forPush);
+        checkCreateCommit(
+            user,
+            repo,
+            repo.getRefDatabase()
+                .getRefsByPrefix(Constants.R_HEADS, Constants.R_TAGS, RefNames.REFS_CONFIG),
+            (RevCommit) target,
+            ps.getNameKey(),
+            perm,
+            forPush);
       } else {
         checkCreateRef(user, repo, destBranch, target, forPush);
       }
@@ -166,9 +182,10 @@ public class CreateRefControl {
    * Check if the user is allowed to create a new commit object if this creation would introduce a
    * new commit to the repository.
    */
-  private void checkCreateCommit(
+  public void checkCreateCommit(
       Provider<? extends CurrentUser> user,
       Repository repo,
+      List<Ref> refsFromWhichTheCommitMustBeReachable,
       RevCommit commit,
       Project.NameKey project,
       PermissionBackend.ForRef forRef,
@@ -197,12 +214,7 @@ public class CreateRefControl {
     }
     // Fall through to check reachability.
     if (reachable.fromRefs(
-        project,
-        repo,
-        commit,
-        repo.getRefDatabase()
-            .getRefsByPrefix(Constants.R_HEADS, Constants.R_TAGS, RefNames.REFS_CONFIG),
-        Optional.of(user.get()))) {
+        project, repo, commit, refsFromWhichTheCommitMustBeReachable, Optional.of(user.get()))) {
       // If the user has no push permissions, check whether the object is
       // merged into a branch or tag readable by this user. If so, they are
       // not effectively "pushing" more objects, so they can create the ref
@@ -212,7 +224,7 @@ public class CreateRefControl {
 
     // Do not check whether the commit is visible via a change. If the commit is no part of any
     // branch or tag, but only via a change, then this commit hasn't been reviewed and approved yet,
-    // and hence we do not allow using it for creating branches.
+    // and hence we do not allow using it for creating branches/tags.
 
     // Don't expose existence of the commit to the caller
     String msg =

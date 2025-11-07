@@ -19,6 +19,7 @@ import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.a
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
+import static com.google.gerrit.testing.TestActionRefUpdateContext.openTestRefUpdateContext;
 import static org.eclipse.jgit.lib.Constants.R_TAGS;
 
 import com.google.common.collect.FluentIterable;
@@ -28,10 +29,12 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.UseClockStep;
+import com.google.gerrit.acceptance.testsuite.change.ChangeOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.entities.AccessSection;
 import com.google.gerrit.entities.Permission;
+import com.google.gerrit.extensions.api.changes.ChangeIdentifier;
 import com.google.gerrit.extensions.api.projects.ProjectApi.ListRefsRequest;
 import com.google.gerrit.extensions.api.projects.TagApi;
 import com.google.gerrit.extensions.api.projects.TagInfo;
@@ -44,15 +47,21 @@ import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
+import com.google.gerrit.git.RefUpdateUtil;
 import com.google.gerrit.server.project.ProjectConfig;
+import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.Arrays;
 import java.util.List;
+import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -107,6 +116,7 @@ public class TagsIT extends AbstractDaemonTest {
           """,
           ANNOTATION);
 
+  @Inject private ChangeOperations changeOperations;
   @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
 
@@ -616,6 +626,139 @@ public class TagsIT extends AbstractDaemonTest {
     assertThrows(
         ResourceConflictException.class,
         () -> gApi.projects().name(project.get()).tag(newTag.ref).create(newTag));
+  }
+
+  @Test
+  public void canCreateTagOnCommitThatIsOnlyReachableFromNonBranchRef() throws Exception {
+    grantLightweightTagPermissions();
+
+    // Create a ref outside of the refs/heads/ namespace.
+    String refName = "refs/foo/bar";
+    String revision;
+    try (RefUpdateContext ctx = openTestRefUpdateContext();
+        Repository repo = repoManager.openRepository(project);
+        RevWalk rw = new RevWalk(repo);
+        TestRepository<Repository> tr = new TestRepository<>(repo)) {
+      RevCommit commit = tr.commit().create();
+      revision = commit.name();
+
+      RefUpdate u = repo.updateRef(refName);
+      u.setExpectedOldObjectId(ObjectId.zeroId());
+      u.setNewObjectId(commit);
+      u.update(rw);
+      RefUpdateUtil.checkResult(u);
+    }
+
+    TagInput input = new TagInput();
+    input.ref = "test";
+    input.revision = revision;
+
+    TagInfo result = tag(input.ref).create(input).get();
+    assertThat(result.ref).isEqualTo(R_TAGS + input.ref);
+    assertThat(result.revision).isEqualTo(revision);
+  }
+
+  @Test
+  public void cannotCreateTagOnCommitThatIsOnlyReachableFromNonVisibleNonBranchRef()
+      throws Exception {
+    grantLightweightTagPermissions();
+
+    // Create a ref outside of the refs/heads/ namespace.
+    String refName = "refs/foo/bar";
+    String revision;
+    try (RefUpdateContext ctx = openTestRefUpdateContext();
+        Repository repo = repoManager.openRepository(project);
+        RevWalk rw = new RevWalk(repo);
+        TestRepository<Repository> tr = new TestRepository<>(repo)) {
+      RevCommit commit = tr.commit().create();
+      revision = commit.name();
+
+      RefUpdate u = repo.updateRef(refName);
+      u.setExpectedOldObjectId(ObjectId.zeroId());
+      u.setNewObjectId(commit);
+      u.update(rw);
+      RefUpdateUtil.checkResult(u);
+    }
+
+    // Block read access to the ref that contains the revision.
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(block(Permission.READ).ref(refName).group(REGISTERED_USERS))
+        .update();
+
+    // Use a non-admin user, since admins can always see all refs.
+    requestScopeOperations.setApiUser(user.id());
+
+    TagInput input = new TagInput();
+    input.ref = "test";
+    input.revision = revision;
+
+    UnprocessableEntityException exception =
+        assertThrows(
+            UnprocessableEntityException.class,
+            () -> gApi.projects().name(project.get()).tag(input.ref).create(input));
+    assertThat(exception)
+        .hasMessageThat()
+        .isEqualTo(
+            String.format(
+                "Unable to resolve commit '%s'. Check that the commit exists on the server and that"
+                    + " it's reachable from a branch/tag that is visible to you.",
+                revision));
+  }
+
+  @Test
+  public void cannotCreateTagOnNonVisibleCommit() throws Exception {
+    grantLightweightTagPermissions();
+
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(block(Permission.READ).ref("refs/heads/master").group(REGISTERED_USERS))
+        .update();
+
+    String masterRevision = projectOperations.project(project).getHead("refs/heads/master").name();
+
+    // Use a non-admin user, since admins can always see all branches.
+    requestScopeOperations.setApiUser(user.id());
+
+    TagInput input = new TagInput();
+    input.ref = "v1.0";
+    input.revision = masterRevision;
+    UnprocessableEntityException exception =
+        assertThrows(
+            UnprocessableEntityException.class,
+            () -> gApi.projects().name(project.get()).tag(input.ref).create(input));
+    assertThat(exception)
+        .hasMessageThat()
+        .isEqualTo(
+            String.format(
+                "Unable to resolve commit '%s'. Check that the commit exists on the server and that"
+                    + " it's reachable from a branch/tag that is visible to you.",
+                masterRevision));
+  }
+
+  @Test
+  public void cannotCreateTagOnUnsubmittedChange() throws Exception {
+    grantLightweightTagPermissions();
+
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().project(project).create();
+    String changeRevision = gApi.changes().id(changeIdentifier).get().currentRevision;
+
+    TagInput input = new TagInput();
+    input.ref = "v1.0";
+    input.revision = changeRevision;
+    UnprocessableEntityException exception =
+        assertThrows(
+            UnprocessableEntityException.class,
+            () -> gApi.projects().name(project.get()).tag(input.ref).create(input));
+    assertThat(exception)
+        .hasMessageThat()
+        .isEqualTo(
+            String.format(
+                "Unable to resolve commit '%s'. Check that the commit exists on the server and that"
+                    + " it's reachable from a branch/tag that is visible to you.",
+                changeRevision));
   }
 
   private void assertTagList(FluentIterable<String> expected, List<TagInfo> actual)

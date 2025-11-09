@@ -46,6 +46,30 @@
       },
       "revId": "260bbffff770deb963eaf147e3726854a8db5947",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8799cc9c_3175ffb7",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-autocomplete/gr-change-autocomplete.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-11-09T14:36:01Z",
+      "side": 1,
+      "message": "\u003e \u003e The rebase window is now blocking for this call to complete and the online rebase experience has suffered from it\n\u003e \n\u003e Change 521301 updated it to be non-blocking.\n\nAh cool, I\u0027ll check that out.\n\n\u003e \u003e Can we make this and the age configurable on a per-user basis? Or at least globally?\n\u003e \n\u003e We are fetching less content than before so I don\u0027t really follow the comment.\n\u003e \n\u003e If it\u0027s slow now then it was slow before.\n\nSure, but still it loads 650kBytes of data for the example I\u0027ve mentioned in Issue 459059302. I was wondering if we really need so many changes to be loaded?",
+      "parentUuid": "4004a3a0_d2104923",
+      "range": {
+        "startLine": 79,
+        "startChar": 27,
+        "endLine": 79,
+        "endChar": 30
+      },
+      "revId": "260bbffff770deb963eaf147e3726854a8db5947",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

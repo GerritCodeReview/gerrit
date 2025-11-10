@@ -7,30 +7,74 @@ import '../../../test/common-test-setup';
 import './gr-flows';
 import {assert, fixture, html} from '@open-wc/testing';
 import {GrFlows} from './gr-flows';
-import {FlowInfo, FlowStageState, Timestamp} from '../../../api/rest-api';
+import {
+  AccountId,
+  CommitId,
+  FlowInfo,
+  FlowStageState,
+  Timestamp,
+} from '../../../api/rest-api';
 import {queryAndAssert} from '../../../test/test-utils';
 import {NumericChangeId} from '../../../types/common';
 import sinon from 'sinon';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
 import {FlowsModel, flowsModelToken} from '../../../models/flows/flows-model';
+import {
+  ChangeModel,
+  changeModelToken,
+} from '../../../models/change/change-model';
+import {UserModel, userModelToken} from '../../../models/user/user-model';
 import {testResolver} from '../../../test/common-test-setup';
+import {
+  createAccountDetailWithId,
+  createParsedChange,
+  createRevision,
+} from '../../../test/test-data-generators';
+
+function setChangeWithUploader(
+  changeModel: ChangeModel,
+  uploaderId: AccountId
+) {
+  changeModel.updateState({
+    change: {
+      ...createParsedChange(),
+      _number: 123 as NumericChangeId,
+      revisions: {
+        rev1: {
+          ...createRevision(1),
+          uploader: createAccountDetailWithId(uploaderId),
+        },
+      },
+      current_revision: 'rev1' as CommitId,
+    },
+  });
+}
 
 suite('gr-flows tests', () => {
   let element: GrFlows;
   let clock: sinon.SinonFakeTimers;
   let flowsModel: FlowsModel;
+  let changeModel: ChangeModel;
+  let userModel: UserModel;
 
   setup(async () => {
     clock = sinon.useFakeTimers();
 
+    changeModel = testResolver(changeModelToken);
+    userModel = testResolver(userModelToken);
     flowsModel = testResolver(flowsModelToken);
     // The model is created by the DI system. The test setup replaces the real
     // model with a mock. To prevent real API calls, we stub the reload method.
     sinon.stub(flowsModel, 'reload');
 
     element = await fixture<GrFlows>(html`<gr-flows></gr-flows>`);
-    element['changeNum'] = 123 as NumericChangeId;
+    await element.updateComplete;
+    setChangeWithUploader(changeModel, 123 as AccountId);
+    userModel.setState({
+      account: createAccountDetailWithId(123 as AccountId),
+      accountLoaded: true,
+    });
     await element.updateComplete;
   });
 
@@ -440,6 +484,41 @@ suite('gr-flows tests', () => {
 
       flowElements = element.shadowRoot!.querySelectorAll('.flow');
       assert.equal(flowElements.length, 4);
+    });
+  });
+
+  suite('create flow visibility', () => {
+    setup(async () => {
+      flowsModel.setState({flows: [], loading: false, isEnabled: true});
+      await element.updateComplete;
+    });
+
+    test('shows gr-create-flow when current user is uploader', async () => {
+      const uploaderId = 123 as AccountId;
+      const currentUserId = 123 as AccountId;
+      setChangeWithUploader(changeModel, uploaderId);
+      userModel.setState({
+        account: createAccountDetailWithId(currentUserId),
+        accountLoaded: true,
+      });
+      await element.updateComplete;
+
+      const createFlow = element.shadowRoot!.querySelector('gr-create-flow');
+      assert.isNotNull(createFlow);
+    });
+
+    test('hides gr-create-flow when current user is not uploader', async () => {
+      const uploaderId = 456 as AccountId;
+      const currentUserId = 123 as AccountId;
+      setChangeWithUploader(changeModel, uploaderId);
+      userModel.setState({
+        account: createAccountDetailWithId(currentUserId),
+        accountLoaded: true,
+      });
+      await element.updateComplete;
+
+      const createFlow = element.shadowRoot!.querySelector('gr-create-flow');
+      assert.isNull(createFlow);
     });
   });
 });

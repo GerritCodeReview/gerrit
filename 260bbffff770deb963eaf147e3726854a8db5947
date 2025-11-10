@@ -94,6 +94,30 @@
       },
       "revId": "260bbffff770deb963eaf147e3726854a8db5947",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cfac7314_38680018",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-autocomplete/gr-change-autocomplete.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-11-10T06:54:42Z",
+      "side": 1,
+      "message": "\u003e \u003e I was wondering if we really need so many changes to be loaded?\n\u003e \n\u003e My understanding is that there was no limit before. This gigantic request was being made at the start before the change was loaded and was causing delays in change rendering, hence we moved it to when the dialog was created.\n\nThe limit before was set by the global capability permission, by default is 500. After your change the limit is capped to 450, with a 10% reduction, which I agree it helps.\n\nAlso loading in background is a good thing; I’ll document the risk in the release notes and suggest to lower the cap in the global capability of that becomes a problem.\n\n\u003e We agreed on 450 due to the paging limit of our internal database.\n\u003e \n\u003e Feel free to update this to be a smaller number if you prefer.\n\u003e \n\u003e I tested this on Gerrit when I wrote it initially and the request resolved in 2-3 seconds.\n\nThat is what I typically see also in our systems, however when using Gerrit on a slower network connection it may take a lot longer due to the limited bandwidth and the huge payload.",
+      "parentUuid": "b1e08cdc_25c4a9cc",
+      "range": {
+        "startLine": 79,
+        "startChar": 27,
+        "endLine": 79,
+        "endChar": 30
+      },
+      "revId": "260bbffff770deb963eaf147e3726854a8db5947",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

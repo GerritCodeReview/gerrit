@@ -7,14 +7,30 @@ import '../../../test/common-test-setup';
 import './gr-flows';
 import {assert, fixture, html} from '@open-wc/testing';
 import {GrFlows} from './gr-flows';
-import {FlowInfo, FlowStageState, Timestamp} from '../../../api/rest-api';
+import {
+  AccountId,
+  CommitId,
+  FlowInfo,
+  FlowStageState,
+  Timestamp,
+} from '../../../api/rest-api';
 import {queryAndAssert} from '../../../test/test-utils';
 import {NumericChangeId} from '../../../types/common';
 import sinon from 'sinon';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
 import {FlowsModel, flowsModelToken} from '../../../models/flows/flows-model';
+import {
+  ChangeModel,
+  changeModelToken,
+} from '../../../models/change/change-model';
+import {UserModel, userModelToken} from '../../../models/user/user-model';
 import {testResolver} from '../../../test/common-test-setup';
+import {
+  createAccountDetailWithId,
+  createParsedChange,
+  createRevision,
+} from '../../../test/test-data-generators';
 
 suite('gr-flows tests', () => {
   let element: GrFlows;
@@ -46,7 +62,6 @@ suite('gr-flows tests', () => {
       /* HTML */ `
         <div class="container">
           <h2 class="main-heading">Create new flow</h2>
-          <gr-create-flow></gr-create-flow>
           <hr />
           <p>No flows found for this change.</p>
         </div>
@@ -101,7 +116,6 @@ suite('gr-flows tests', () => {
       /* prettier-ignore */ /* HTML */ `
         <div class="container">
           <h2 class="main-heading">Create new flow</h2>
-          <gr-create-flow></gr-create-flow>
           <hr />
           <div>
             <div class="heading-with-button">
@@ -440,6 +454,70 @@ suite('gr-flows tests', () => {
 
       flowElements = element.shadowRoot!.querySelectorAll('.flow');
       assert.equal(flowElements.length, 4);
+    });
+  });
+
+  suite('create flow visibility', () => {
+    let changeModel: ChangeModel;
+    let userModel: UserModel;
+
+    setup(async () => {
+      changeModel = testResolver(changeModelToken);
+      userModel = testResolver(userModelToken);
+      flowsModel.setState({flows: [], loading: false, isEnabled: true});
+      await element.updateComplete;
+    });
+
+    test('shows gr-create-flow when current user is uploader', async () => {
+      const uploaderId = 123 as AccountId;
+      const currentUserId = 123 as AccountId;
+      const change = {
+        ...createParsedChange(),
+        revisions: {
+          rev1: {
+            ...createRevision(1),
+            uploader: createAccountDetailWithId(uploaderId),
+          },
+        },
+        current_revision: 'rev1' as CommitId,
+      };
+      changeModel.updateState({
+        change,
+      });
+      userModel.setState({
+        account: createAccountDetailWithId(currentUserId),
+        accountLoaded: true,
+      });
+      await element.updateComplete;
+
+      const createFlow = element.shadowRoot!.querySelector('gr-create-flow');
+      assert.isNotNull(createFlow);
+    });
+
+    test('hides gr-create-flow when current user is not uploader', async () => {
+      const uploaderId = 456 as AccountId;
+      const currentUserId = 123 as AccountId;
+      const change = {
+        ...createParsedChange(),
+        revisions: {
+          rev1: {
+            ...createRevision(1),
+            uploader: createAccountDetailWithId(uploaderId),
+          },
+        },
+        current_revision: 'rev1' as CommitId,
+      };
+      changeModel.updateState({
+        change,
+      });
+      userModel.setState({
+        account: createAccountDetailWithId(currentUserId),
+        accountLoaded: true,
+      });
+      await element.updateComplete;
+
+      const createFlow = element.shadowRoot!.querySelector('gr-create-flow');
+      assert.isNull(createFlow);
     });
   });
 });

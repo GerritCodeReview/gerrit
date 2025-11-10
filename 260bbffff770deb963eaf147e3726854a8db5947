@@ -70,6 +70,30 @@
       },
       "revId": "260bbffff770deb963eaf147e3726854a8db5947",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b1e08cdc_25c4a9cc",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-autocomplete/gr-change-autocomplete.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-11-10T03:44:12Z",
+      "side": 1,
+      "message": "\u003e I was wondering if we really need so many changes to be loaded?\n\nMy understanding is that there was no limit before. This gigantic request was being made at the start before the change was loaded and was causing delays in change rendering, hence we moved it to when the dialog was created.\n\nWe agreed on 450 due to the paging limit of our internal database.\n\nFeel free to update this to be a smaller number if you prefer.\n\nI tested this on Gerrit when I wrote it initially and the request resolved in 2-3 seconds.",
+      "parentUuid": "8799cc9c_3175ffb7",
+      "range": {
+        "startLine": 79,
+        "startChar": 27,
+        "endLine": 79,
+        "endChar": 30
+      },
+      "revId": "260bbffff770deb963eaf147e3726854a8db5947",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

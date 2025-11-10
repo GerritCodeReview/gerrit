@@ -118,6 +118,30 @@
       },
       "revId": "260bbffff770deb963eaf147e3726854a8db5947",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0a9873bc_a5a66f09",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-autocomplete/gr-change-autocomplete.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-11-10T18:38:56Z",
+      "side": 1,
+      "message": "\u003eWe agreed on 450 due to the paging limit of our internal database.\n\n\u003eFeel free to update this to be a smaller number if you prefer.\n\nDoes that mean that we could make this configurable(and default to the values currently set)?\n\n\u003eChange 521301 updated it to be non-blocking.\n\nThe call might not be blocking as per se, but the user still has to wait for the dialog to open, which won\u0027t happen until the call returns, no?\n\nAlternatively, can we run this query straight after the page is loaded, even if nobody clicks on the rebase dialog? This way we\u0027re not blocking the change load page as before, and we\u0027re also avoiding having to wait for the rebase dialog to open.\n\nWDYT?",
+      "parentUuid": "cfac7314_38680018",
+      "range": {
+        "startLine": 79,
+        "startChar": 27,
+        "endLine": 79,
+        "endChar": 30
+      },
+      "revId": "260bbffff770deb963eaf147e3726854a8db5947",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

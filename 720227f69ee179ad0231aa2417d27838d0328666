@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1477d28f_c866d8ff",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-11-10T21:04:10Z",
+      "side": 1,
+      "message": "You are missing Release-Notes: skip to pass Release notes submit requirement\n```suggestion\nPiperOrigin-RevId: 828376161\nRelease-Notes: skip\n```",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 28
+      },
+      "revId": "720227f69ee179ad0231aa2417d27838d0328666",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f0d08784_140cb85e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-11-10T21:04:10Z",
+      "side": 1,
+      "message": "The changes are clean and logically sound.",
+      "revId": "720227f69ee179ad0231aa2417d27838d0328666",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ad463e88_dabd84ee",
+        "filename": "polygerrit-ui/app/utils/diff-util.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-11-10T21:04:10Z",
+      "side": 1,
+      "message": "Nice solution!",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 1
+      },
+      "revId": "720227f69ee179ad0231aa2417d27838d0328666",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

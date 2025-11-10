@@ -166,6 +166,30 @@
       },
       "revId": "260bbffff770deb963eaf147e3726854a8db5947",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dfbd7fa8_b4386381",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-autocomplete/gr-change-autocomplete.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-11-10T20:03:12Z",
+      "side": 1,
+      "message": "\u003eIt is already configurable on All-Projects as the global capability of the maximum number of items returned in a query. I\u0027ve configured it to 100 items and now the dialog opens in 400ms and returns only 20k of payload data.\n\nThat then affects all queries everywhere around Gerrit no? and provides for very misleading behaviour, i.e. even if you query for 450 changes, you only get 100 back?\n\n\u003eNo, the dialog will open, but the filling will be done in background.\n\nIt\u0027ll open but it\u0027ll be unusable no?\n\n\u003eI wouldn\u0027t do it: as a rule of thumb, you should not trigger backend calls if the user does not express the intention to act.\n\nAgreed, however, sounds like this was done in a blocking way when the page was loaded, so this would still be an improvement on that.",
+      "parentUuid": "102086ab_faa5feae",
+      "range": {
+        "startLine": 79,
+        "startChar": 27,
+        "endLine": 79,
+        "endChar": 30
+      },
+      "revId": "260bbffff770deb963eaf147e3726854a8db5947",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

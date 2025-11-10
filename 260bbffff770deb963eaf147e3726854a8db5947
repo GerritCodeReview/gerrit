@@ -142,6 +142,30 @@
       },
       "revId": "260bbffff770deb963eaf147e3726854a8db5947",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "102086ab_faa5feae",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-autocomplete/gr-change-autocomplete.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-11-10T18:59:58Z",
+      "side": 1,
+      "message": "\u003e \u003eWe agreed on 450 due to the paging limit of our internal database.\n\u003e \n\u003e \u003eFeel free to update this to be a smaller number if you prefer.\n\u003e \n\u003e Does that mean that we could make this configurable(and default to the values currently set)?\n\nIt is already configurable on All-Projects as the global capability of the maximum number of items returned in a query. I\u0027ve configured it to 100 items and now the dialog opens in 400ms and returns only 20k of payload data.\n\n\u003e \u003eChange 521301 updated it to be non-blocking.\n\u003e \n\u003e The call might not be blocking as per se, but the user still has to wait for the dialog to open, which won\u0027t happen until the call returns, no?\n\nNo, the dialog will open, but the filling will be done in background.\n\n\u003e Alternatively, can we run this query straight after the page is loaded, even if nobody clicks on the rebase dialog?\n\nI wouldn\u0027t do it: as a rule of thumb, you should not trigger backend calls if the user does not express the intention to act.",
+      "parentUuid": "0a9873bc_a5a66f09",
+      "range": {
+        "startLine": 79,
+        "startChar": 27,
+        "endLine": 79,
+        "endChar": 30
+      },
+      "revId": "260bbffff770deb963eaf147e3726854a8db5947",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

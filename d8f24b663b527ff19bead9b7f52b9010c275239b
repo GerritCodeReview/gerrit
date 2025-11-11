@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "858a62d5_e8189850",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4464736
+      },
+      "writtenOn": "2025-11-11T14:12:13Z",
+      "side": 1,
+      "message": "\u003e Marked as resolved.",
+      "parentUuid": "3ef4ce3c_a6551b92",
+      "revId": "d8f24b663b527ff19bead9b7f52b9010c275239b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "19115d20_0a07b48f",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -31,6 +49,24 @@
       "writtenOn": "2025-07-21T16:12:52Z",
       "side": 1,
       "message": "Marked as resolved.",
+      "revId": "d8f24b663b527ff19bead9b7f52b9010c275239b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d6c0f7a_afa8da97",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 4464736
+      },
+      "writtenOn": "2025-11-11T14:12:13Z",
+      "side": 1,
+      "message": "\u003e Marked as resolved.",
+      "parentUuid": "19115d20_0a07b48f",
       "revId": "d8f24b663b527ff19bead9b7f52b9010c275239b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -66,6 +102,59 @@
       "side": 1,
       "message": "Maybe this incident will help pushing https://issues.gerritcodereview.com/issues/40007703?",
       "parentUuid": "616e4c4c_a6906e12",
+      "revId": "d8f24b663b527ff19bead9b7f52b9010c275239b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b4e0db33_deb7b722",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4464736
+      },
+      "writtenOn": "2025-11-11T14:12:13Z",
+      "side": 1,
+      "message": "\u003e Maybe this incident will help pushing https://issues.gerritcodereview.com/issues/40007703?",
+      "parentUuid": "80249e38_5eaeeb42",
+      "revId": "d8f24b663b527ff19bead9b7f52b9010c275239b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a2c0e13d_354fe80a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4464736
+      },
+      "writtenOn": "2025-11-11T14:12:13Z",
+      "side": 1,
+      "message": "\u003e Maybe this incident will help pushing https://issues.gerritcodereview.com/issues/40007703?",
+      "parentUuid": "80249e38_5eaeeb42",
+      "revId": "d8f24b663b527ff19bead9b7f52b9010c275239b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "586684bd_bf14996b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4464736
+      },
+      "writtenOn": "2025-11-11T14:12:13Z",
+      "side": 1,
+      "message": "From d8f24b663b527ff19bead9b7f52b9010c275239b Mon Sep 17 00:00:00 2001\nFrom: Fabio Ponciroli \u003cponch78@gmail.com\u003e\nDate: Wed, 22 Nov 2023 18:59:31 +0100\nSubject: [PATCH] Add documentation for StarredChanges interface\n\nRelease-Notes: skip\nChange-Id: If3edab6a11542da427a75d925485200df608dd8b\n---\n\ndiff --git a/java/com/google/gerrit/server/StarredChangesReader.java b/java/com/google/gerrit/server/StarredChangesReader.java\nindex cf5b66a..0386cb3 100644\n--- a/java/com/google/gerrit/server/StarredChangesReader.java\n+++ b/java/com/google/gerrit/server/StarredChangesReader.java\n@@ -22,18 +22,52 @@\n import java.util.Set;\n import org.eclipse.jgit.lib.Repository;\n \n+/** Interface for reading information about starred changes. */\n public interface StarredChangesReader {\n+\n+  /**\n+   * Checks if a specific change is starred by a given user.\n+   *\n+   * @param accountId the {@code Account.Id}.\n+   * @param changeId the {@code Change.Id}.\n+   * @return {@code true} if the change is starred by the user, {@code false} otherwise.\n+   */\n   boolean isStarred(Account.Id accountId, Change.Id changeId);\n \n   /**\n-   * Returns a subset of change IDs among the input {@code changeIds} list that are starred by the\n-   * {@code caller} user.\n+   * Returns a subset of {@code Change.Id}s among the input {@code changeIds} list that are starred\n+   * by the {@code caller} user.\n+   *\n+   * @param allUsersRepo \u0027All-Users\u0027 repository.\n+   * @param changeIds the list of {@code Change.Id}s to check.\n+   * @param caller the {@code Account.Id} to check starred changes by a user.\n+   * @return a set of {@code Change.Id}s that are starred by the specified user.\n    */\n   Set\u003cChange.Id\u003e areStarred(Repository allUsersRepo, List\u003cChange.Id\u003e changeIds, Account.Id caller);\n \n+  /**\n+   * Retrieves a list of {@code Account.Id} which starred a {@code Change.Id}.\n+   *\n+   * @param changeId the {@code Change.Id}.\n+   * @return an immutable list of {@code Account.Id}s for the specified change.\n+   */\n   ImmutableList\u003cAccount.Id\u003e byChange(Change.Id changeId);\n \n+  /**\n+   * Retrieves a set of {@code changeIds} starred by {@code Account.Id}.\n+   *\n+   * @param accountId the {@code Account.Id}.\n+   * @return an immutable set of {@code Change.Id}s associated with the specified user account.\n+   */\n   ImmutableSet\u003cChange.Id\u003e byAccountId(Account.Id accountId);\n \n+  /**\n+   * Retrieves a set of {@code Change.Id}s associated with the specified user account, optionally\n+   * skipping invalid changes.\n+   *\n+   * @param accountId the {@code Account.Id}.\n+   * @param skipInvalidChanges {@code true} to skip invalid changes, {@code false} otherwise.\n+   * @return an immutable set of {@code Change.Id}s associated with the specified user account.\n+   */\n   ImmutableSet\u003cChange.Id\u003e byAccountId(Account.Id accountId, boolean skipInvalidChanges);\n }\ndiff --git a/java/com/google/gerrit/server/StarredChangesWriter.java b/java/com/google/gerrit/server/StarredChangesWriter.java\nindex 6c14cc9..eafe7f7 100644\n--- a/java/com/google/gerrit/server/StarredChangesWriter.java\n+++ b/java/com/google/gerrit/server/StarredChangesWriter.java\n@@ -18,9 +18,22 @@\n import com.google.gerrit.entities.Change;\n import java.io.IOException;\n \n+/** Interface for writing information about starred changes. */\n public interface StarredChangesWriter {\n+  /**\n+   * Star the given change for a single {@code Account.Id}.\n+   *\n+   * @param changeId the {@code Change.Id}.\n+   * @param accountId the {@code Account.Id}.\n+   */\n   void star(Account.Id accountId, Change.Id changeId);\n \n+  /**\n+   * Unstar the given change for a single {@code Account.Id}.\n+   *\n+   * @param changeId the {@code Change.Id}.\n+   * @param accountId the {@code Account.Id}.\n+   */\n   void unstar(Account.Id accountId, Change.Id changeId);\n \n   /**",
       "revId": "d8f24b663b527ff19bead9b7f52b9010c275239b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

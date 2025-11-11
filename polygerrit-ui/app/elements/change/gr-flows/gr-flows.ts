@@ -10,7 +10,12 @@ import {grFormStyles} from '../../../styles/gr-form-styles';
 import {resolve} from '../../../models/dependency';
 import {changeModelToken} from '../../../models/change/change-model';
 import {subscribe} from '../../lit/subscription-controller';
-import {FlowInfo, FlowStageState} from '../../../api/rest-api';
+import {
+  AccountDetailInfo,
+  AccountId,
+  FlowInfo,
+  FlowStageState,
+} from '../../../api/rest-api';
 import {flowsModelToken} from '../../../models/flows/flows-model';
 import {NumericChangeId} from '../../../types/common';
 import './gr-create-flow';
@@ -19,6 +24,7 @@ import '../../shared/gr-dialog/gr-dialog';
 import '@material/web/select/filled-select';
 import '@material/web/select/select-option';
 import {computeFlowStringFromFlowStageInfo} from '../../../utils/flows-util';
+import {userModelToken} from '../../../models/user/user-model';
 
 const iconForFlowStageState = (status: FlowStageState) => {
   switch (status) {
@@ -44,6 +50,10 @@ export class GrFlows extends LitElement {
 
   @state() private changeNum?: NumericChangeId;
 
+  @state() private changeUploader?: AccountId;
+
+  @state() private account?: AccountDetailInfo;
+
   @state() private loading = true;
 
   @state() private flowIdToDelete?: string;
@@ -51,6 +61,8 @@ export class GrFlows extends LitElement {
   @state() private statusFilter: FlowStageState | 'all' = 'all';
 
   private readonly getChangeModel = resolve(this, changeModelToken);
+
+  private readonly getUserModel = resolve(this, userModelToken);
 
   private readonly getFlowsModel = resolve(this, flowsModelToken);
 
@@ -61,6 +73,9 @@ export class GrFlows extends LitElement {
       css`
         .container {
           padding: var(--spacing-l);
+        }
+        b {
+          font-weight: bolder;
         }
         hr {
           margin-top: var(--spacing-l);
@@ -139,6 +154,21 @@ export class GrFlows extends LitElement {
     );
     subscribe(
       this,
+      () => this.getChangeModel().change$,
+      change => {
+        this.changeUploader =
+          change?.revisions[change?.current_revision].uploader?._account_id;
+      }
+    );
+    subscribe(
+      this,
+      () => this.getUserModel().account$,
+      account => {
+        this.account = account;
+      }
+    );
+    subscribe(
+      this,
       () => this.getFlowsModel().flows$,
       flows => {
         this.flows = flows;
@@ -172,8 +202,14 @@ export class GrFlows extends LitElement {
   override render() {
     return html`
       <div class="container">
-        <h2 class="main-heading">Create new flow</h2>
-        <gr-create-flow .changeNum=${this.changeNum}></gr-create-flow>
+        ${when(
+          this.showCreateFlow(),
+          () =>
+            html`<h2 class="main-heading">Create new flow</h2>
+              <gr-create-flow .changeNum=${this.changeNum}></gr-create-flow>`,
+          () =>
+            html`<b>Note:</b> New flows can only be added by change uploader.`
+        )}
         <hr />
         ${this.renderFlowsList()}
       </div>
@@ -194,6 +230,13 @@ export class GrFlows extends LitElement {
         </div>
       </gr-dialog>
     </dialog>`;
+  }
+
+  private showCreateFlow() {
+    return (
+      this.account?._account_id !== undefined &&
+      this.account._account_id === this.changeUploader
+    );
   }
 
   private renderStatus(stage: FlowInfo['stages'][0]): TemplateResult {

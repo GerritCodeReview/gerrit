@@ -17,9 +17,12 @@ package com.google.gerrit.acceptance.rest.account;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.ExtensionRegistry;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.config.GerritConfig;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.auth.AuthTokenInput;
+import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.server.account.AuthTokenAccessor;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gson.JsonArray;
@@ -31,13 +34,42 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 import org.junit.Before;
 import org.junit.Test;
 
 public class TokenIT extends AbstractDaemonTest {
   @Inject AuthTokenAccessor tokenAccessor;
+  @Inject ExtensionRegistry extensionRegistry;
 
   private AuthTokenInput authTokenInput;
+  private RefUpdateCounter refUpdateCounter;
+
+  private static class RefUpdateCounter implements GitReferenceUpdatedListener {
+    private final AtomicInteger counter = new AtomicInteger();
+    private final String projectName;
+    private final String refPrefix;
+
+    RefUpdateCounter(String projectName, String refPrefix) {
+      this.projectName = projectName;
+      this.refPrefix = refPrefix;
+    }
+
+    @Override
+    public void onGitReferenceUpdated(Event event) {
+      if (event.getProjectName().equals(projectName) && event.getRefName().startsWith(refPrefix)) {
+        counter.incrementAndGet();
+      }
+    }
+
+    public int getCount() {
+      return counter.get();
+    }
+
+    public void reset() {
+      counter.set(0);
+    }
+  }
 
   @Before
   public void setup() throws Exception {
@@ -47,20 +79,29 @@ public class TokenIT extends AbstractDaemonTest {
     String id = "testToken";
     authTokenInput = new AuthTokenInput();
     authTokenInput.id = id;
+
+    refUpdateCounter = new RefUpdateCounter(allUsers.name(), RefNames.refsUsers(user.id()));
   }
 
   @Test
   public void assertGenerateOwnTokenSucceeds() throws Exception {
-    RestResponse resp =
-        userRestSession.put(
-            String.format("/accounts/self/tokens/%s", authTokenInput.id), authTokenInput);
-    resp.assertCreated();
 
-    JsonObject createdToken = JsonParser.parseReader(resp.getReader()).getAsJsonObject();
-    assertThat(createdToken.get("id").getAsString()).isEqualTo(authTokenInput.id);
-    assertThat(createdToken.get("token").getAsString()).isNotNull();
+    try (ExtensionRegistry.Registration unused =
+        extensionRegistry.newRegistration().add(refUpdateCounter)) {
+      refUpdateCounter.reset();
 
-    assertThat(tokenAccessor.getToken(user.id(), authTokenInput.id)).isPresent();
+      RestResponse resp =
+          userRestSession.put(
+              String.format("/accounts/self/tokens/%s", authTokenInput.id), authTokenInput);
+      resp.assertCreated();
+
+      JsonObject createdToken = JsonParser.parseReader(resp.getReader()).getAsJsonObject();
+      assertThat(createdToken.get("id").getAsString()).isEqualTo(authTokenInput.id);
+      assertThat(createdToken.get("token").getAsString()).isNotNull();
+
+      assertThat(tokenAccessor.getToken(user.id(), authTokenInput.id)).isPresent();
+      assertThat(refUpdateCounter.getCount()).isEqualTo(1);
+    }
   }
 
   @Test

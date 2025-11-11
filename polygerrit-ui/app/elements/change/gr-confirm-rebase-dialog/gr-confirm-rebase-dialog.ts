@@ -79,6 +79,9 @@ export class GrConfirmRebaseDialog
   changeNum?: NumericChangeId;
 
   @state()
+  project?: string;
+
+  @state()
   hasParent?: boolean;
 
   @state()
@@ -162,6 +165,11 @@ export class GrConfirmRebaseDialog
       this,
       () => this.getChangeModel().changeNum$,
       x => (this.changeNum = x)
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().repo$,
+      x => (this.project = x)
     );
     subscribe(
       this,
@@ -336,6 +344,7 @@ export class GrConfirmRebaseDialog
         <gr-change-autocomplete
           .text=${this.text}
           .excludeChangeNum=${this.changeNum}
+          .projectQuery="project:${this.project}"
           @text-changed=${(e: ValueChangedEvent) =>
             (this.text = e.detail.value)}
           @click=${this.handleEnterChangeNumberClick}

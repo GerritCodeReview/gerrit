@@ -70,7 +70,7 @@ public class OnlineExternalIdCaseSensitivityMigrator {
         globalConfig.getBoolean("auth", "userNameCaseInsensitive", false);
   }
 
-  public void migrate() {
+  public void migrate(boolean preserveMigrationMode) {
     if (!isUserNameCaseInsensitive || !isUserNameCaseInsensitiveMigrationMode) {
       logger.atSevere().log(
           "External IDs online migration requires auth.userNameCaseInsensitive and"
@@ -91,7 +91,9 @@ public class OnlineExternalIdCaseSensitivityMigrator {
               monitor.endTask();
             }
             try {
-              updateGerritConfig();
+              if (!preserveMigrationMode) {
+                updateGerritConfig();
+              }
               monitor.beginTask("Reindex accounts", ProgressMonitor.UNKNOWN);
 
               @SuppressWarnings("unused")

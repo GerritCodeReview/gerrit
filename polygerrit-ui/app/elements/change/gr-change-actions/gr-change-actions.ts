@@ -183,7 +183,6 @@ const QUICK_APPROVE_ACTION: QuickApproveUIActionInfo = {
 
 const AI_CHAT_ACTION: UIActionInfo = {
   __key: 'chat',
-  __primary: true,
   __type: ActionType.CHANGE,
   enabled: true,
   label: 'AI Chat',

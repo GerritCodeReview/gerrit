@@ -18,11 +18,24 @@ export enum ActionType {
   REVISION = 'revision',
 }
 
+// This is used for sorting the actions, BUT:
+// * For showing up as a dedicated button the action must not be hidden and not
+//   be an overflow action. See setActionOverflow() and setActionHidden().
+// * All primary actions are shown left of all secondary actions. By default
+//   the primary actions are: "Submit" and "Mark as active".
+//
+// Also note that a LOWER value means HIGHER priority!
 export enum ActionPriority {
   CHANGE = 2,
-  CHAT = -4,
+  // Only "Submit" and "Code-Review" buttons should show before "Chat".
+  CHAT = -1,
   DEFAULT = 0,
+  // This is a bit confusing, because this is the LOWEST priority in the list.
+  // But it does not matter much, because the `primary` property is evaluated
+  // first, and then the `priority` does not matter anymore.
   PRIMARY = 3,
+  // This means that the "Code-Review" voting button is the left most button,
+  // if there are no primary actions.
   REVIEW = -3,
   REVISION = 1,
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a1676a1d_aa535a25",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-11-11T21:20:14Z",
+      "side": 1,
+      "message": "I\u0027ve created two projects, project1 and project2, with 2 changes and 450 changes each.\n\nBefore this change, I could not get the rebase of changes in project1 working with auto-completion, because the 450 changes were all filled with unsuitable changes for rebase coming from project2.\n\nAfter this change, the rebase window is more snappy, and I can easily rebase the changes on top of each other on project1.",
+      "revId": "0f5cf160ba54a5268cbc902aa72a10ed7ed1260f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -214,6 +214,30 @@
       },
       "revId": "260bbffff770deb963eaf147e3726854a8db5947",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a7ce562_3740c08e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-autocomplete/gr-change-autocomplete.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-11-11T12:00:53Z",
+      "side": 1,
+      "message": "I got to the bottom of it and found out that we\u0027re just missing the condition on the project name. See the fix https://gerrit-review.googlesource.com/c/gerrit/+/525961.",
+      "parentUuid": "8511a204_f6dba705",
+      "range": {
+        "startLine": 79,
+        "startChar": 27,
+        "endLine": 79,
+        "endChar": 30
+      },
+      "revId": "260bbffff770deb963eaf147e3726854a8db5947",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

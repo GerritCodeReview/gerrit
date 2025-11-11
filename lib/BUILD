@@ -32,7 +32,7 @@ java_library(
     name = "gson",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = ["@gson//jar"],
+    exports = ["@maven_deps//gson/jar"],
 )
 
 java_library(
@@ -92,7 +92,7 @@ java_library(
     name = "protobuf",
     data = ["//lib:LICENSE-protobuf"],
     visibility = ["//visibility:public"],
-    exports = ["@protobuf-java//jar"],
+    exports = ["@maven_deps//protobuf-java/jar"],
 )
 
 java_library(
@@ -106,7 +106,7 @@ java_library(
     name = "j2objc",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = ["@j2objc//jar"],
+    exports = ["@maven_deps//j2objc/jar"],
 )
 
 java_library(
@@ -116,7 +116,7 @@ java_library(
     exports = [
         ":guava-failureaccess",
         ":j2objc",
-        "@guava//jar",
+        "@maven_deps//guava/jar",
     ],
 )
 
@@ -125,7 +125,7 @@ java_library(
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
     exports = [
-        "@guava-testlib//jar",
+        "@maven_deps//guava-testlib/jar",
     ],
 )
 
@@ -186,7 +186,7 @@ java_library(
     name = "tukaani-xz",
     data = ["//lib:LICENSE-xz"],
     visibility = ["//visibility:public"],
-    exports = ["@tukaani-xz//jar"],
+    exports = ["@maven_deps//tukaani-xz/jar"],
 )
 
 java_library(
@@ -222,14 +222,14 @@ java_library(
     name = "h2",
     data = ["//lib:LICENSE-h2"],
     visibility = ["//visibility:public"],
-    exports = ["@h2//jar"],
+    exports = ["@maven_deps//h2/jar"],
 )
 
 java_library(
     name = "jimfs",
     data = ["//lib:LICENSE-DO_NOT_DISTRIBUTE"],
     visibility = ["//visibility:public"],
-    exports = ["@jimfs//jar"],
+    exports = ["@maven_deps//jimfs/jar"],
     runtime_deps = [":guava"],
 )
 
@@ -248,14 +248,14 @@ java_library(
     name = "hamcrest",
     data = ["//lib:LICENSE-DO_NOT_DISTRIBUTE"],
     visibility = ["//visibility:public"],
-    exports = ["@hamcrest//jar"],
+    exports = ["@maven_deps//hamcrest/jar"],
 )
 
 java_library(
     name = "soy",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = ["@soy//jar"],
+    exports = ["@maven_deps//soy/jar"],
     runtime_deps = [
         ":args4j",
         ":gson",

@@ -5,5 +5,5 @@ java_library(
     data = ["//lib:LICENSE-Apache2.0"],
     neverlink = 1,
     visibility = ["//visibility:public"],
-    exports = ["@error-prone-annotations//jar"],
+    exports = ["@maven_deps//error-prone-annotations/jar"],
 )

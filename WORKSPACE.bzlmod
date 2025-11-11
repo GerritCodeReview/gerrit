@@ -3,8 +3,5 @@ workspace(
 )
 
 load("//plugins:external_plugin_deps.bzl", "external_plugin_deps")
-load("//tools:nongoogle.bzl", "declare_nongoogle_deps")
-
-declare_nongoogle_deps()
 
 external_plugin_deps()

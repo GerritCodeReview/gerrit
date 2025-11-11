@@ -1,0 +1,45 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3a881435_91c8b24c",
+        "filename": "polygerrit-ui/app/elements/change/gr-flows/gr-flows.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-11-11T03:04:50Z",
+      "side": 1,
+      "message": "show an indication that only the upload can create the flow",
+      "range": {
+        "startLine": 203,
+        "startChar": 0,
+        "endLine": 208,
+        "endChar": 0
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "088e4fa3_c8b102c7",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-flows/gr-flows.ts",
+              "range": {
+                "startLine": 206,
+                "startChar": 0,
+                "endLine": 207,
+                "endChar": 0
+              },
+              "replacement": "            html`\u003cgr-create-flow .changeNum\u003d${this.changeNum}\u003e\u003c/gr-create-flow\u003e`,\n          () \u003d\u003e html`\u003cp\u003eOnly the change uploader can create flows.\u003c/p\u003e`\n"
+            }
+          ]
+        }
+      ],
+      "revId": "fc0b18346b9ef62a622cca32daff1e286e9abbfb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

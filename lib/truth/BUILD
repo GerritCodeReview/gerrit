@@ -5,7 +5,7 @@ java_library(
     testonly = True,
     data = ["//lib:LICENSE-DO_NOT_DISTRIBUTE"],
     visibility = ["//visibility:public"],
-    exports = ["@truth//jar"],
+    exports = ["@maven_deps//truth/jar"],
     runtime_deps = [
         ":diffutils",
         "//lib:guava",
@@ -18,7 +18,7 @@ java_library(
     testonly = True,
     data = ["//lib:LICENSE-DO_NOT_DISTRIBUTE"],
     visibility = ["//visibility:public"],
-    exports = ["@truth-java8-extension//jar"],
+    exports = ["@maven_deps//truth-java8-extension/jar"],
     runtime_deps = [
         ":truth",
         "//lib:guava",
@@ -30,7 +30,7 @@ java_library(
     testonly = True,
     data = ["//lib:LICENSE-DO_NOT_DISTRIBUTE"],
     visibility = ["//visibility:private"],
-    exports = ["@truth-liteproto-extension//jar"],
+    exports = ["@maven_deps//truth-liteproto-extension/jar"],
     runtime_deps = [
         ":truth",
         "//lib:guava",
@@ -53,7 +53,7 @@ java_library(
     visibility = ["//visibility:public"],
     exports = [
         ":truth-liteproto-extension",
-        "@truth-proto-extension//jar",
+        "@maven_deps//truth-proto-extension/jar",
     ],
     runtime_deps = [
         ":truth",

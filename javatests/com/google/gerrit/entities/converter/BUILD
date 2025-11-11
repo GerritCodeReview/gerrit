@@ -22,6 +22,6 @@ junit_tests(
         "//lib/truth",
         "//lib/truth:truth-proto-extension",
         "//proto:entities_java_proto",
-        "@commons-lang3//jar",
+        "@maven_deps//commons-lang3/jar",
     ],
 )

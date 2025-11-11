@@ -1,5 +1,46 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac520244_45696bce",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 36
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-11-11T14:10:22Z",
+      "side": 1,
+      "message": "Post-merge -1",
+      "revId": "a2b6cb8d351d024c2093a40a45049514e99e081d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a2b1c708_629b00b5",
+        "filename": "java/com/google/gerrit/server/account/DirectAuthTokenAccessor.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-11-11T14:10:22Z",
+      "side": 1,
+      "message": "Why `false`? Not triggering the ref-update events caused the Issue 459326231.\n\nIs there any specific reason why the auth tokens should not trigger any events and not be replicated?\n\nHow would those work in a primary/replica or multi-primary setup?",
+      "range": {
+        "startLine": 132,
+        "startChar": 28,
+        "endLine": 132,
+        "endChar": 33
+      },
+      "revId": "a2b6cb8d351d024c2093a40a45049514e99e081d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

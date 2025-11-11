@@ -17,8 +17,8 @@ junit_tests(
         "//lib/guice",
         "//lib/mockito",
         "//lib/truth",
-        "@jetty-server//jar",
-        "@servlet-api//jar",
+        "@maven_deps//jetty-server/jar",
+        "@maven_deps//servlet-api/jar",
     ],
 )
 

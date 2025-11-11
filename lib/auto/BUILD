@@ -21,8 +21,8 @@ java_plugin(
         "@auto-value-annotations//jar",
         "@auto-value//jar",
         "@guava//jar",
-        "@javapoet//jar",
-        "@javax_inject//jar",
+        "@maven_deps//javapoet/jar",
+        "@maven_deps//javax_inject/jar",
     ],
 )
 
@@ -36,8 +36,8 @@ java_plugin(
         "@auto-value-annotations//jar",
         "@auto-value//jar",
         "@guava//jar",
-        "@javapoet//jar",
-        "@javax_inject//jar",
+        "@maven_deps//javapoet/jar",
+        "@maven_deps//javax_inject/jar",
     ],
 )
 
@@ -64,13 +64,13 @@ java_plugin(
     processor_class = "com.ryanharter.auto.value.gson.factory.AutoValueGsonAdapterFactoryProcessor",
     deps = [
         "@auto-value-annotations//jar",
-        "@auto-value-gson-extension//jar",
-        "@auto-value-gson-factory//jar",
-        "@auto-value-gson-runtime//jar",
+        "@maven_deps//auto-value-gson-extension/jar",
+        "@maven_deps//auto-value-gson-factory/jar",
+        "@maven_deps//auto-value-gson-runtime/jar",
         "@auto-value//jar",
-        "@autotransient//jar",
+        "@maven_deps//autotransient/jar",
         "@gson//jar",
-        "@javapoet//jar",
+        "@maven_deps//javapoet/jar",
     ],
 )
 
@@ -118,6 +118,6 @@ java_library(
     ],
     visibility = ["//visibility:public"],
     exports = [
-        "@auto-value-gson-runtime//jar",
+        "@maven_deps//auto-value-gson-runtime/jar",
     ],
 )

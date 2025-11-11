@@ -4,28 +4,28 @@ java_library(
     name = "bcprov",
     data = ["//lib:LICENSE-bouncycastle"],
     visibility = ["//visibility:public"],
-    exports = ["@bcprov//jar"],
+    exports = ["@maven_deps//bcprov/jar"],
 )
 
 java_library(
     name = "bcpg",
     data = ["//lib:LICENSE-bouncycastle"],
     visibility = ["//visibility:public"],
-    exports = ["@bcpg//jar"],
+    exports = ["@maven_deps//bcpg/jar"],
 )
 
 java_library(
     name = "bcpkix",
     data = ["//lib:LICENSE-bouncycastle"],
     visibility = ["//visibility:public"],
-    exports = ["@bcpkix//jar"],
+    exports = ["@maven_deps//bcpkix/jar"],
 )
 
 java_library(
     name = "bcutil",
     data = ["//lib:LICENSE-bouncycastle"],
     visibility = ["//visibility:public"],
-    exports = ["@bcutil//jar"],
+    exports = ["@maven_deps//bcutil/jar"],
 )
 
 java_library(
@@ -33,7 +33,7 @@ java_library(
     data = ["//lib:LICENSE-bouncycastle"],
     neverlink = 1,
     visibility = ["//visibility:public"],
-    exports = ["@bcprov//jar"],
+    exports = ["@maven_deps//bcprov/jar"],
 )
 
 java_library(
@@ -41,7 +41,7 @@ java_library(
     data = ["//lib:LICENSE-bouncycastle"],
     neverlink = 1,
     visibility = ["//visibility:public"],
-    exports = ["@bcpg//jar"],
+    exports = ["@maven_deps//bcpg/jar"],
 )
 
 java_library(
@@ -49,7 +49,7 @@ java_library(
     data = ["//lib:LICENSE-bouncycastle"],
     neverlink = 1,
     visibility = ["//visibility:public"],
-    exports = ["@bcpkix//jar"],
+    exports = ["@maven_deps//bcpkix/jar"],
 )
 
 java_library(
@@ -57,5 +57,5 @@ java_library(
     data = ["//lib:LICENSE-bouncycastle"],
     neverlink = 1,
     visibility = ["//visibility:public"],
-    exports = ["@bcutil//jar"],
+    exports = ["@maven_deps//bcutil/jar"],
 )

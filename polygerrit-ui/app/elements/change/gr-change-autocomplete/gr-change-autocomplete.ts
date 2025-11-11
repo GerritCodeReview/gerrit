@@ -31,6 +31,9 @@ export class GrChangeAutocomplete extends LitElement {
   @property({type: Number})
   excludeChangeNum?: NumericChangeId;
 
+  @property({type: String})
+  projectQuery = '';
+
   @state()
   private query: AutocompleteQuery = input => this.getChangeSuggestions(input);
 
@@ -77,7 +80,7 @@ export class GrChangeAutocomplete extends LitElement {
     try {
       const res = await this.restApiService.getChanges(
         /* changeNumber=*/ 450,
-        'is:open -age:90d',
+        `is:open -age:90d ${this.projectQuery}`,
         /* offset=*/ undefined,
         /* options=*/ undefined,
         throwingErrorCallback

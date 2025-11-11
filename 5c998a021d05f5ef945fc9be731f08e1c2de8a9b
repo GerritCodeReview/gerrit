@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "31b4f2a5_8e982aab",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4471592
+      },
+      "writtenOn": "2025-11-11T23:14:39Z",
+      "side": 1,
+      "message": "npm i @gerritcodereview/typescript-api",
+      "revId": "5c998a021d05f5ef945fc9be731f08e1c2de8a9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

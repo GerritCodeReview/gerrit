@@ -18,14 +18,14 @@ java_library(
     data = ["//lib:LICENSE-Apache2.0"],
     neverlink = 1,
     visibility = ["//visibility:public"],
-    exports = ["@servlet-api//jar"],
+    exports = ["@maven_deps//servlet-api/jar"],
 )
 
 java_library(
     name = "servlet-api-without-neverlink",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = ["@servlet-api//jar"],
+    exports = ["@maven_deps//servlet-api/jar"],
 )
 
 java_library(
@@ -85,7 +85,7 @@ java_library(
     name = "javaewah",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = ["@javaewah//jar"],
+    exports = ["@maven_deps//javaewah/jar"],
 )
 
 java_library(
@@ -99,7 +99,7 @@ java_library(
     name = "guava-failureaccess",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = ["@guava-failureaccess//jar"],
+    exports = ["@maven_deps//guava-failureaccess/jar"],
 )
 
 java_library(
@@ -136,7 +136,7 @@ java_library(
         "//java/com/google/gerrit/acceptance:__pkg__",
         "//java/com/google/gerrit/server/cache/mem:__pkg__",
     ],
-    exports = ["@caffeine//jar"],
+    exports = ["@maven_deps//caffeine/jar"],
 )
 
 java_import(
@@ -158,28 +158,28 @@ java_library(
     name = "args4j",
     data = ["//lib:LICENSE-args4j"],
     visibility = ["//visibility:public"],
-    exports = ["@args4j//jar"],
+    exports = ["@maven_deps//args4j/jar"],
 )
 
 java_library(
     name = "automaton",
     data = ["//lib:LICENSE-automaton"],
     visibility = ["//visibility:public"],
-    exports = ["@automaton//jar"],
+    exports = ["@maven_deps//automaton/jar"],
 )
 
 java_library(
     name = "flexmark-all-lib",
     data = ["//lib:LICENSE-flexmark"],
     visibility = ["//visibility:public"],
-    exports = ["@flexmark-all-lib//jar"],
+    exports = ["@maven_deps//flexmark-all-lib/jar"],
 )
 
 java_library(
     name = "autolink",
     data = ["//lib:LICENSE-autolink"],
     visibility = ["//visibility:public"],
-    exports = ["@autolink//jar"],
+    exports = ["@maven_deps//autolink/jar"],
 )
 
 java_library(
@@ -193,14 +193,14 @@ java_library(
     name = "mime-util",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = ["@mime-util//jar"],
+    exports = ["@maven_deps//mime-util/jar"],
 )
 
 java_library(
     name = "guava-retrying",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = ["@guava-retrying//jar"],
+    exports = ["@maven_deps//guava-retrying/jar"],
     runtime_deps = [":jsr305"],
 )
 
@@ -208,14 +208,14 @@ java_library(
     name = "jsr305",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = ["@jsr305//jar"],
+    exports = ["@maven_deps//jsr305/jar"],
 )
 
 java_library(
     name = "blame-cache",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = ["@blame-cache//jar"],
+    exports = ["@maven_deps//blame-cache/jar"],
 )
 
 java_library(
@@ -239,7 +239,7 @@ java_library(
     visibility = ["//visibility:public"],
     exports = [
         ":hamcrest",
-        "@junit//jar",
+        "@maven_deps//junit/jar",
     ],
     runtime_deps = [":hamcrest"],
 )
@@ -279,14 +279,14 @@ java_library(
     name = "html-types",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = ["@html-types//jar"],
+    exports = ["@maven_deps//html-types/jar"],
 )
 
 java_library(
     name = "icu4j",
     data = ["//lib:LICENSE-icu4j"],
     visibility = ["//visibility:public"],
-    exports = ["@icu4j//jar"],
+    exports = ["@maven_deps//icu4j/jar"],
 )
 
 java_library(
@@ -294,8 +294,8 @@ java_library(
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
     exports = [
-        "@roaringbitmap-shims//jar",
-        "@roaringbitmap//jar",
+        "@maven_deps//roaringbitmap-shims/jar",
+        "@maven_deps//roaringbitmap/jar",
     ],
 )
 

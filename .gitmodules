@@ -70,3 +70,8 @@
 	path = tools/rbe_autoconfig
 	url = https://github.com/thomasdraebing/rbe_autoconfig.git
 	branch = bazel_module
+
+[submodule "tools/bazlets"]
+	path = tools/bazlets
+	url = ../bazlets
+	branch = .

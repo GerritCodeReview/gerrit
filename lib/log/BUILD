@@ -7,21 +7,21 @@ java_library(
         "//lib:__pkg__",
         "//plugins:__pkg__",
     ],
-    exports = ["@log-api//jar"],
+    exports = ["@maven_deps//log-api/jar"],
 )
 
 java_library(
     name = "ext",
     data = ["//lib:LICENSE-slf4j"],
     visibility = ["//visibility:public"],
-    exports = ["@log-ext//jar"],
+    exports = ["@maven_deps//log-ext/jar"],
 )
 
 java_library(
     name = "impl-log4j",
     data = ["//lib:LICENSE-slf4j"],
     visibility = ["//visibility:public"],
-    exports = ["@impl-log4j//jar"],
+    exports = ["@maven_deps//impl-log4j/jar"],
     runtime_deps = [":log4j"],
 )
 
@@ -29,19 +29,19 @@ java_library(
     name = "jcl-over-slf4j",
     data = ["//lib:LICENSE-slf4j"],
     visibility = ["//visibility:public"],
-    exports = ["@jcl-over-slf4j//jar"],
+    exports = ["@maven_deps//jcl-over-slf4j/jar"],
 )
 
 java_library(
     name = "log4j",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = ["@log4j//jar"],
+    exports = ["@maven_deps//log4j/jar"],
 )
 
 java_library(
     name = "json-smart",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = ["@json-smart//jar"],
+    exports = ["@maven_deps//json-smart/jar"],
 )

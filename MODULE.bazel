@@ -5,6 +5,7 @@ bazel_dep(name = "rules_jvm_external", version = "6.7")
 bazel_dep(name = "rules_shell", version = "0.6.1")
 bazel_dep(name = "jgit", version = "7.2.0")
 bazel_dep(name = "com_googlesource_gerrit_bazlets")
+bazel_dep(name = "nongoogle_deps")
 
 # nongoogle bazel_deps
 bazel_dep(name = "bazel_features", version = "1.38.0")
@@ -28,6 +29,11 @@ http_archive(
 local_path_override(
     module_name = "com_googlesource_gerrit_bazlets",
     path = "./tools/bazlets",
+)
+
+local_path_override(
+    module_name = "nongoogle_deps",
+    path = "./tools/nongoogle",
 )
 
 local_path_override(

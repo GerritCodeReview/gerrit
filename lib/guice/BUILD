@@ -38,19 +38,19 @@ java_library(
 java_library(
     name = "aopalliance",
     data = ["//lib:LICENSE-PublicDomain"],
-    exports = ["@aopalliance//jar"],
+    exports = ["@maven_deps//aopalliance/jar"],
 )
 
 java_library(
     name = "jakarta-inject",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = ["@jakarta-inject-api//jar"],
+    exports = ["@maven_deps//jakarta-inject-api/jar"],
 )
 
 java_library(
     name = "javax_inject",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = ["@javax_inject//jar"],
+    exports = ["@maven_deps//javax_inject/jar"],
 )

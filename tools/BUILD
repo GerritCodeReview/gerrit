@@ -12,7 +12,7 @@ proto_lang_toolchain(
     name = "protoc_java_toolchain",
     command_line = "--java_out=%s",
     progress_message = "Generating Java proto_library %{label}",
-    runtime = "@protobuf-java//jar",
+    runtime = "@maven_deps//protobuf-java/jar",
     toolchain_type = "@rules_java//java/proto:toolchain_type",
 )
 

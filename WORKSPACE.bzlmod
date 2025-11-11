@@ -26,8 +26,6 @@ workspace(
 
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 load("//plugins:external_plugin_deps.bzl", "external_plugin_deps")
-load("//tools:nongoogle.bzl", "declare_nongoogle_deps")
-
 http_archive(
     name = "build_bazel_rules_nodejs",
     sha256 = "a1295b168f183218bc88117cf00674bcd102498f294086ff58318f830dd9d9d1",
@@ -63,8 +61,6 @@ browser_repositories(
     chromium = True,
     firefox = True,
 )
-
-declare_nongoogle_deps()
 
 load("@build_bazel_rules_nodejs//:index.bzl", "node_repositories", "yarn_install")
 

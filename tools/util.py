@@ -53,22 +53,3 @@ def resolve_url(url, redirects):
     root = root.rstrip('/')
     rest = rest.lstrip('/')
     return '/'.join([root, rest])
-
-
-def hash_file(hash_obj, path):
-    """Hash the contents of a file.
-
-    Args:
-      hash_obj: an open hash object, e.g. hashlib.sha1().
-      path: path to the file to hash.
-
-    Returns:
-      The passed-in hash_obj.
-    """
-    with open(path, 'rb') as f:
-        while True:
-            b = f.read(8192)
-            if not b:
-                break
-            hash_obj.update(b)
-    return hash_obj

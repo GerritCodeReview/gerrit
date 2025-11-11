@@ -9,7 +9,7 @@ java_library(
     name = "mockito",
     data = ["//lib:LICENSE-mockito"],
     visibility = ["//visibility:public"],
-    exports = ["@mockito//jar"],
+    exports = ["@maven_deps//mockito/jar"],
     runtime_deps = [
         ":byte-buddy",
         ":byte-buddy-agent",
@@ -20,17 +20,17 @@ java_library(
 java_library(
     name = "byte-buddy",
     data = ["//lib:LICENSE-Apache2.0"],
-    exports = ["@bytebuddy//jar"],
+    exports = ["@maven_deps//bytebuddy/jar"],
 )
 
 java_library(
     name = "byte-buddy-agent",
     data = ["//lib:LICENSE-Apache2.0"],
-    exports = ["@bytebuddy-agent//jar"],
+    exports = ["@maven_deps//bytebuddy-agent/jar"],
 )
 
 java_library(
     name = "objenesis",
     data = ["//lib:LICENSE-Apache2.0"],
-    exports = ["@objenesis//jar"],
+    exports = ["@maven_deps//objenesis/jar"],
 )

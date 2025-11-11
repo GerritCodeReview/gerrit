@@ -43,7 +43,7 @@ java_library(
     testonly = True,
     data = ["//lib:LICENSE-DO_NOT_DISTRIBUTE"],
     visibility = ["//visibility:private"],
-    exports = ["@diffutils//jar"],
+    exports = ["@maven_deps//diffutils/jar"],
 )
 
 java_library(

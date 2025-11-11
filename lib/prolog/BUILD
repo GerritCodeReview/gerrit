@@ -4,21 +4,21 @@ java_library(
     name = "runtime",
     data = ["//lib:LICENSE-prologcafe"],
     visibility = ["//visibility:public"],
-    exports = ["@prolog-runtime//jar"],
+    exports = ["@maven_deps//prolog-runtime/jar"],
 )
 
 java_library(
     name = "runtime-neverlink",
     data = ["//lib:LICENSE-prologcafe"],
     visibility = ["//visibility:public"],
-    exports = ["@prolog-runtime//jar:neverlink"],
+    exports = ["@maven_deps//prolog-runtime/jar:neverlink"],
 )
 
 java_library(
     name = "compiler",
     data = ["//lib:LICENSE-prologcafe"],
     visibility = ["//visibility:public"],
-    exports = ["@prolog-compiler//jar"],
+    exports = ["@maven_deps//prolog-compiler/jar"],
     runtime_deps = [
         ":io",
         ":runtime",
@@ -28,14 +28,14 @@ java_library(
 java_library(
     name = "io",
     data = ["//lib:LICENSE-prologcafe"],
-    exports = ["@prolog-io//jar"],
+    exports = ["@maven_deps//prolog-io/jar"],
 )
 
 java_library(
     name = "cafeteria",
     data = ["//lib:LICENSE-prologcafe"],
     visibility = ["//visibility:public"],
-    exports = ["@cafeteria//jar"],
+    exports = ["@maven_deps//cafeteria/jar"],
     runtime_deps = [
         "io",
         "runtime",

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "19a5ba6b_029f57ec",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/account/TokenIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-11-11T20:22:11Z",
+      "side": 1,
+      "message": "This reset can be part of the `assert*Events*` helpers",
+      "range": {
+        "startLine": 92,
+        "startChar": 10,
+        "endLine": 92,
+        "endChar": 35
+      },
+      "revId": "73e83cf4b530b9dd5416cbf359b0d1f01e9e0e81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

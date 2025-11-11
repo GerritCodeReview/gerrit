@@ -16,10 +16,14 @@ package com.google.gerrit.acceptance.rest.account;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import com.google.errorprone.annotations.MustBeClosed;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.ExtensionRegistry;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.config.GerritConfig;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.auth.AuthTokenInput;
+import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.server.account.AuthTokenAccessor;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gson.JsonArray;
@@ -31,13 +35,42 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 import org.junit.Before;
 import org.junit.Test;
 
 public class TokenIT extends AbstractDaemonTest {
   @Inject AuthTokenAccessor tokenAccessor;
+  @Inject ExtensionRegistry extensionRegistry;
 
   private AuthTokenInput authTokenInput;
+  private RefUpdateCounter refUpdateCounter;
+
+  private static class RefUpdateCounter implements GitReferenceUpdatedListener {
+    private final AtomicInteger counter = new AtomicInteger();
+    private final String projectName;
+    private final String refPrefix;
+
+    RefUpdateCounter(String projectName, String refPrefix) {
+      this.projectName = projectName;
+      this.refPrefix = refPrefix;
+    }
+
+    @Override
+    public void onGitReferenceUpdated(Event event) {
+      if (event.getProjectName().equals(projectName) && event.getRefName().startsWith(refPrefix)) {
+        counter.incrementAndGet();
+      }
+    }
+
+    public int getCount() {
+      return counter.get();
+    }
+
+    public void reset() {
+      counter.set(0);
+    }
+  }
 
   @Before
   public void setup() throws Exception {
@@ -47,65 +80,80 @@ public class TokenIT extends AbstractDaemonTest {
     String id = "testToken";
     authTokenInput = new AuthTokenInput();
     authTokenInput.id = id;
+
+    refUpdateCounter = new RefUpdateCounter(allUsers.name(), RefNames.refsUsers(user.id()));
   }
 
   @Test
   public void assertGenerateOwnTokenSucceeds() throws Exception {
-    RestResponse resp =
-        userRestSession.put(
-            String.format("/accounts/self/tokens/%s", authTokenInput.id), authTokenInput);
-    resp.assertCreated();
 
-    JsonObject createdToken = JsonParser.parseReader(resp.getReader()).getAsJsonObject();
-    assertThat(createdToken.get("id").getAsString()).isEqualTo(authTokenInput.id);
-    assertThat(createdToken.get("token").getAsString()).isNotNull();
+    assertRefUpdateEventFired(
+        () -> {
+          RestResponse resp =
+              userRestSession.put(
+                  String.format("/accounts/self/tokens/%s", authTokenInput.id), authTokenInput);
+          resp.assertCreated();
 
-    assertThat(tokenAccessor.getToken(user.id(), authTokenInput.id)).isPresent();
+          JsonObject createdToken = JsonParser.parseReader(resp.getReader()).getAsJsonObject();
+          assertThat(createdToken.get("id").getAsString()).isEqualTo(authTokenInput.id);
+          assertThat(createdToken.get("token").getAsString()).isNotNull();
+
+          assertThat(tokenAccessor.getToken(user.id(), authTokenInput.id)).isPresent();
+        });
   }
 
   @Test
   public void assertCreateTokenForOtherUserFailsForNonAdmins() throws Exception {
-    userRestSession
-        .put(
-            String.format("/accounts/%d/tokens/%s", admin.id().get(), authTokenInput.id),
-            authTokenInput)
-        .assertForbidden();
+    assertNoRefUpdateEvents(
+        () ->
+            userRestSession
+                .put(
+                    String.format("/accounts/%d/tokens/%s", admin.id().get(), authTokenInput.id),
+                    authTokenInput)
+                .assertForbidden());
   }
 
   @Test
   public void assertCreateTokenForOtherUserSucceedsForAdmins() throws Exception {
-    adminRestSession
-        .put(
-            String.format("/accounts/%d/tokens/%s", user.id().get(), authTokenInput.id),
-            authTokenInput)
-        .assertCreated();
+    assertRefUpdateEventFired(
+        () ->
+            adminRestSession
+                .put(
+                    String.format("/accounts/%d/tokens/%s", user.id().get(), authTokenInput.id),
+                    authTokenInput)
+                .assertCreated());
   }
 
   @Test
   public void assertSetSpecificTokenFailsForNonAdmins() throws Exception {
     authTokenInput.token = "secret";
-    userRestSession
-        .put(
-            String.format("/accounts/%d/tokens/%s", user.id().get(), authTokenInput.id),
-            authTokenInput)
-        .assertForbidden();
+    assertNoRefUpdateEvents(
+        () ->
+            userRestSession
+                .put(
+                    String.format("/accounts/%d/tokens/%s", user.id().get(), authTokenInput.id),
+                    authTokenInput)
+                .assertForbidden());
   }
 
   @Test
   public void assertSetSpecificTokenSucceedsForAdmins() throws Exception {
-    authTokenInput.token = "secret";
-    RestResponse resp =
-        adminRestSession.put(
-            String.format("/accounts/%d/tokens/%s", user.id().get(), authTokenInput.id),
-            authTokenInput);
+    assertRefUpdateEventFired(
+        () -> {
+          authTokenInput.token = "secret";
+          RestResponse resp =
+              adminRestSession.put(
+                  String.format("/accounts/%d/tokens/%s", user.id().get(), authTokenInput.id),
+                  authTokenInput);
 
-    resp.assertCreated();
+          resp.assertCreated();
 
-    JsonObject createdToken = JsonParser.parseReader(resp.getReader()).getAsJsonObject();
-    assertThat(createdToken.get("id").getAsString()).isEqualTo(authTokenInput.id);
-    assertThat(createdToken.get("token").getAsString()).isEqualTo(authTokenInput.token);
+          JsonObject createdToken = JsonParser.parseReader(resp.getReader()).getAsJsonObject();
+          assertThat(createdToken.get("id").getAsString()).isEqualTo(authTokenInput.id);
+          assertThat(createdToken.get("token").getAsString()).isEqualTo(authTokenInput.token);
 
-    assertThat(tokenAccessor.getToken(user.id(), authTokenInput.id)).isPresent();
+          assertThat(tokenAccessor.getToken(user.id(), authTokenInput.id)).isPresent();
+        });
   }
 
   @Test
@@ -130,83 +178,104 @@ public class TokenIT extends AbstractDaemonTest {
 
   @Test
   public void assertDeleteTokenSucceeds() throws Exception {
-    userRestSession
-        .delete(String.format("/accounts/%d/tokens/userToken1", user.id().get()))
-        .assertNoContent();
+    assertRefUpdateEventFired(
+        () ->
+            userRestSession
+                .delete(String.format("/accounts/%d/tokens/userToken1", user.id().get()))
+                .assertNoContent());
     assertThat(tokenAccessor.getToken(user.id(), "userToken1")).isEmpty();
   }
 
   @Test
   public void assertDeleteTokenForOtherUserSucceedsForAdmins() throws Exception {
-    adminRestSession
-        .delete(String.format("/accounts/%d/tokens/userToken1", user.id().get()))
-        .assertNoContent();
+    assertRefUpdateEventFired(
+        () ->
+            adminRestSession
+                .delete(String.format("/accounts/%d/tokens/userToken1", user.id().get()))
+                .assertNoContent());
   }
 
   @Test
   public void assertDeleteTokenForOtherUserFailsForNonAdmins() throws Exception {
-    userRestSession
-        .delete(String.format("/accounts/%d/tokens/adminToken1", admin.id().get()))
-        .assertForbidden();
+    assertNoRefUpdateEvents(
+        () ->
+            userRestSession
+                .delete(String.format("/accounts/%d/tokens/adminToken1", admin.id().get()))
+                .assertForbidden());
   }
 
   @Test
   public void assertCreateTokensWithLifetimeSucceeds() throws Exception {
-    for (String lifetime : List.of("5min", "1h", "1d", "1mon", "3y")) {
-      authTokenInput.lifetime = lifetime;
-      authTokenInput.id = String.format("testToken_%s", lifetime);
-      RestResponse resp =
-          userRestSession.put(
-              String.format("/accounts/self/tokens/%s", authTokenInput.id), authTokenInput);
-      resp.assertCreated();
+    assertRefUpdateEventsCount(
+        5,
+        () -> {
+          for (String lifetime : List.of("5min", "1h", "1d", "1mon", "3y")) {
+            authTokenInput.lifetime = lifetime;
+            authTokenInput.id = String.format("testToken_%s", lifetime);
+            RestResponse resp =
+                userRestSession.put(
+                    String.format("/accounts/self/tokens/%s", authTokenInput.id), authTokenInput);
+            resp.assertCreated();
 
-      JsonObject createdToken = JsonParser.parseReader(resp.getReader()).getAsJsonObject();
-      assertThat(createdToken.get("id").getAsString()).isEqualTo(authTokenInput.id);
-      assertThat(createdToken.get("token").getAsString()).isNotNull();
-      assertThat(
-              TimeUnit.NANOSECONDS.toMinutes(
-                  Math.abs(
-                      Timestamp.valueOf(createdToken.get("expiration").getAsString())
-                          .toInstant()
-                          .compareTo(
-                              Instant.now()
-                                  .plusSeconds(
-                                      ConfigUtil.getTimeUnit(lifetime, 0, TimeUnit.SECONDS))))))
-          .isLessThan(1L);
+            JsonObject createdToken = JsonParser.parseReader(resp.getReader()).getAsJsonObject();
+            assertThat(createdToken.get("id").getAsString()).isEqualTo(authTokenInput.id);
+            assertThat(createdToken.get("token").getAsString()).isNotNull();
+            assertThat(
+                    TimeUnit.NANOSECONDS.toMinutes(
+                        Math.abs(
+                            Timestamp.valueOf(createdToken.get("expiration").getAsString())
+                                .toInstant()
+                                .compareTo(
+                                    Instant.now()
+                                        .plusSeconds(
+                                            ConfigUtil.getTimeUnit(
+                                                lifetime, 0, TimeUnit.SECONDS))))))
+                .isLessThan(1L);
 
-      assertThat(tokenAccessor.getToken(user.id(), authTokenInput.id)).isPresent();
-    }
+            assertThat(tokenAccessor.getToken(user.id(), authTokenInput.id)).isPresent();
+          }
+        });
   }
 
   @Test
   public void assertInvalidLifetimeFormatReturnsBadRequest() throws Exception {
-    authTokenInput.lifetime = "1invalid";
-    RestResponse resp =
-        userRestSession.put(
-            String.format("/accounts/self/tokens/%s", authTokenInput.id), authTokenInput);
-    resp.assertBadRequest();
+    assertNoRefUpdateEvents(
+        () -> {
+          authTokenInput.lifetime = "1invalid";
+          RestResponse resp =
+              userRestSession.put(
+                  String.format("/accounts/self/tokens/%s", authTokenInput.id), authTokenInput);
+          resp.assertBadRequest();
+        });
   }
 
   @Test
   @GerritConfig(name = "auth.maxAuthTokensPerAccount", value = "2")
   public void assertCreatingMoreTokensThanAllowedFails() throws Exception {
-    RestResponse resp =
-        userRestSession.put(
-            String.format("/accounts/self/tokens/%s", authTokenInput.id), authTokenInput);
-    resp.assertCreated();
+    assertRefUpdateEventsCount(
+        3,
+        () -> {
+          RestResponse resp =
+              userRestSession.put(
+                  String.format("/accounts/self/tokens/%s", authTokenInput.id), authTokenInput);
+          resp.assertCreated();
 
-    AuthTokenInput tokenInput2 = new AuthTokenInput();
-    tokenInput2.id = "testToken2";
-    resp =
-        userRestSession.put(String.format("/accounts/self/tokens/%s", tokenInput2.id), tokenInput2);
-    resp.assertBadRequest();
+          AuthTokenInput tokenInput2 = new AuthTokenInput();
+          tokenInput2.id = "testToken2";
+          resp =
+              userRestSession.put(
+                  String.format("/accounts/self/tokens/%s", tokenInput2.id), tokenInput2);
+          resp.assertBadRequest();
 
-    resp = userRestSession.delete(String.format("/accounts/self/tokens/%s", authTokenInput.id));
-    resp.assertNoContent();
+          resp =
+              userRestSession.delete(String.format("/accounts/self/tokens/%s", authTokenInput.id));
+          resp.assertNoContent();
 
-    resp =
-        userRestSession.put(String.format("/accounts/self/tokens/%s", tokenInput2.id), tokenInput2);
-    resp.assertCreated();
+          resp =
+              userRestSession.put(
+                  String.format("/accounts/self/tokens/%s", tokenInput2.id), tokenInput2);
+          resp.assertCreated();
+        });
   }
 
   private void addUserTokens() throws Exception {
@@ -219,5 +288,32 @@ public class TokenIT extends AbstractDaemonTest {
     @SuppressWarnings("unused")
     var unused =
         tokenAccessor.addPlainToken(admin.id(), "adminToken1", "http-pass", Optional.empty());
+  }
+
+  @MustBeClosed
+  private ExtensionRegistry.Registration registerRefUpdateCounter() {
+    return extensionRegistry.newRegistration().add(refUpdateCounter);
+  }
+
+  @FunctionalInterface
+  private interface CheckedVoidFunction {
+    void apply() throws Exception;
+  }
+
+  private void assertNoRefUpdateEvents(CheckedVoidFunction body) throws Exception {
+    assertRefUpdateEventsCount(0, body);
+  }
+
+  private void assertRefUpdateEventFired(CheckedVoidFunction body) throws Exception {
+    assertRefUpdateEventsCount(1, body);
+  }
+
+  private void assertRefUpdateEventsCount(int expectedEventsCount, CheckedVoidFunction body)
+      throws Exception {
+    try (ExtensionRegistry.Registration unused = registerRefUpdateCounter()) {
+      refUpdateCounter.reset();
+      body.apply();
+      assertThat(refUpdateCounter.getCount()).isEqualTo(expectedEventsCount);
+    }
   }
 }

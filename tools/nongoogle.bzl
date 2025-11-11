@@ -3,7 +3,7 @@ Dependencies that are exempted from requiring a Library-Compliance approval
 from a Googler.
 """
 
-load("//tools/bzl:maven_jar.bzl", "maven_jar")
+load("@com_googlesource_gerrit_bazlets//maven:repositories.bzl", "maven_jar")
 
 AUTO_COMMON_VERSION = "1.2.2"
 

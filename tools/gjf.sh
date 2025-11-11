@@ -97,7 +97,7 @@ setup_google_java_format() {
     esac
 
     url="https://github.com/google/google-java-format/releases/download/$tag_prefix$version/$(get_jar_name $version)"
-    "$(get_tools_dir)/download_file.py" -o "$(get_jar_location $version)" -u "$url" -v "$sha1"
+    "$(get_tools_dir)/bazlets/maven/private/download_file.py" -o "$(get_jar_location $version)" -u "$url" -v "$sha1"
 
     launcher="$(get_launcher_location $version)"
 

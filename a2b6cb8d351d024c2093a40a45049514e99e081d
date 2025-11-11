@@ -39,6 +39,30 @@
       },
       "revId": "a2b6cb8d351d024c2093a40a45049514e99e081d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1390d862_7bb0f5ed",
+        "filename": "java/com/google/gerrit/server/account/DirectAuthTokenAccessor.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-11-11T14:22:42Z",
+      "side": 1,
+      "message": "@thomas.draebing@sap.com would this fix Ia46b8af532 work for you? Or there was some specific reasons why we did not want to generate events?",
+      "parentUuid": "a2b1c708_629b00b5",
+      "range": {
+        "startLine": 132,
+        "startChar": 28,
+        "endLine": 132,
+        "endChar": 33
+      },
+      "revId": "a2b6cb8d351d024c2093a40a45049514e99e081d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

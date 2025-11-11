@@ -174,7 +174,7 @@
     "@@com_googlesource_gerrit_bazlets~//maven:extensions.bzl%maven_jar": {
       "general": {
         "bzlTransitiveDigest": "+lR2kPhMBhfbELs5wfl1q+TtsCf1RUhVmP9n/9QnaP0=",
-        "usagesDigest": "oNRigvfrCeIEsOi1jj4I/MZ64T2O/tnomgvUvEyDW/4=",
+        "usagesDigest": "9Ib4oulV+l2ZPkXdLmgW7BKcqJ2TU2d09vkbzNf657M=",
         "recordedFileInputs": {},
         "recordedDirentsInputs": {},
         "envVariables": {},
@@ -1299,6 +1299,678 @@
               "deps": []
             }
           },
+          "log4j": {
+            "bzlFile": "@@com_googlesource_gerrit_bazlets~//maven/private:maven_jar.bzl",
+            "ruleClassName": "maven_jar",
+            "attributes": {
+              "artifact": "ch.qos.reload4j:reload4j:1.2.26",
+              "attach_source": true,
+              "exclude": [],
+              "repository": "MAVEN_CENTRAL:",
+              "sha1": "f9a29cea570c15844d2ec98bf8e2e523017a6a53",
+              "src_sha1": "",
+              "exports": [],
+              "deps": []
+            }
+          },
+          "log-api": {
+            "bzlFile": "@@com_googlesource_gerrit_bazlets~//maven/private:maven_jar.bzl",
+            "ruleClassName": "maven_jar",
+            "attributes": {
+              "artifact": "org.slf4j:slf4j-api:1.7.36",
+              "attach_source": true,
+              "exclude": [],
+              "repository": "MAVEN_CENTRAL:",
+              "sha1": "6c62681a2f655b49963a5983b8b0950a6120ae14",
+              "src_sha1": "",
+              "exports": [],
+              "deps": []
+            }
+          },
+          "log-ext": {
+            "bzlFile": "@@com_googlesource_gerrit_bazlets~//maven/private:maven_jar.bzl",
+            "ruleClassName": "maven_jar",
+            "attributes": {
+              "artifact": "org.slf4j:slf4j-ext:1.7.36",
+              "attach_source": true,
+              "exclude": [],
+              "repository": "MAVEN_CENTRAL:",
+              "sha1": "99f282aea4b6dbca04d00f0ade6e5ed61ee7091a",
+              "src_sha1": "",
+              "exports": [],
+              "deps": []
+            }
+          },
+          "impl-log4j": {
+            "bzlFile": "@@com_googlesource_gerrit_bazlets~//maven/private:maven_jar.bzl",
+            "ruleClassName": "maven_jar",
+            "attributes": {
+              "artifact": "org.slf4j:slf4j-reload4j:1.7.36",
+              "attach_source": true,
+              "exclude": [],
+              "repository": "MAVEN_CENTRAL:",
+              "sha1": "db708f7d959dee1857ac524636e85ecf2e1781c1",
+              "src_sha1": "",
+              "exports": [],
+              "deps": []
+            }
+          },
+          "jcl-over-slf4j": {
+            "bzlFile": "@@com_googlesource_gerrit_bazlets~//maven/private:maven_jar.bzl",
+            "ruleClassName": "maven_jar",
+            "attributes": {
+              "artifact": "org.slf4j:jcl-over-slf4j:1.7.36",
+              "attach_source": true,
+              "exclude": [],
+              "repository": "MAVEN_CENTRAL:",
+              "sha1": "d877e195a05aca4a2f1ad2ff14bfec1393af4b5e",
+              "src_sha1": "",
+              "exports": [],
+              "deps": []
+            }
+          },
+          "j2objc": {
+            "bzlFile": "@@com_googlesource_gerrit_bazlets~//maven/private:maven_jar.bzl",
+            "ruleClassName": "maven_jar",
+            "attributes": {
+              "artifact": "com.google.j2objc:j2objc-annotations:1.1",
+              "attach_source": true,
+              "exclude": [],
+              "repository": "MAVEN_CENTRAL:",
+              "sha1": "ed28ded51a8b1c6b112568def5f4b455e6809019",
+              "src_sha1": "",
+              "exports": [],
+              "deps": []
+            }
+          },
+          "tukaani-xz": {
+            "bzlFile": "@@com_googlesource_gerrit_bazlets~//maven/private:maven_jar.bzl",
+            "ruleClassName": "maven_jar",
+            "attributes": {
+              "artifact": "org.tukaani:xz:1.10",
+              "attach_source": true,
+              "exclude": [],
+              "repository": "MAVEN_CENTRAL:",
+              "sha1": "1be8166f89e035a56c6bfc67dbc423996fe577e2",
+              "src_sha1": "",
+              "exports": [],
+              "deps": []
+            }
+          },
+          "dropwizard-core": {
+            "bzlFile": "@@com_googlesource_gerrit_bazlets~//maven/private:maven_jar.bzl",
+            "ruleClassName": "maven_jar",
+            "attributes": {
+              "artifact": "io.dropwizard.metrics:metrics-core:4.2.37",
+              "attach_source": true,
+              "exclude": [],
+              "repository": "MAVEN_CENTRAL:",
+              "sha1": "2d7ecb8e2b4d292c7eb87ab28cda586cb9773056",
+              "src_sha1": "",
+              "exports": [],
+              "deps": []
+            }
+          },
+          "sshd-osgi": {
+            "bzlFile": "@@com_googlesource_gerrit_bazlets~//maven/private:maven_jar.bzl",
+            "ruleClassName": "maven_jar",
+            "attributes": {
+              "artifact": "org.apache.sshd:sshd-osgi:2.16.0",
+              "attach_source": true,
+              "exclude": [],
+              "repository": "MAVEN_CENTRAL:",
+              "sha1": "87cab2aaa6e06c5d48d746e90f0b3635f8c06419",
+              "src_sha1": "",
+              "exports": [],
+              "deps": []
+            }
+          },
+          "sshd-sftp": {
+            "bzlFile": "@@com_googlesource_gerrit_bazlets~//maven/private:maven_jar.bzl",
+            "ruleClassName": "maven_jar",
+            "attributes": {
+              "artifact": "org.apache.sshd:sshd-sftp:2.16.0",
+              "attach_source": true,
+              "exclude": [],
+              "repository": "MAVEN_CENTRAL:",
+              "sha1": "09d9e7024535fb4a3f74367ba7e0a2f5093af638",
+              "src_sha1": "",
+              "exports": [],
+              "deps": []
+            }
+          },
+          "mina-core": {
+            "bzlFile": "@@com_googlesource_gerrit_bazlets~//maven/private:maven_jar.bzl",
+            "ruleClassName": "maven_jar",
+            "attributes": {
+              "artifact": "org.apache.mina:mina-core:2.2.4",
+              "attach_source": true,
+              "exclude": [],
+              "repository": "MAVEN_CENTRAL:",
+              "sha1": "f76b231c8a332640a4b1deef5262c603b088be02",
+              "src_sha1": "",
+              "exports": [],
+              "deps": []
+            }
+          },
+          "sshd-mina": {
+            "bzlFile": "@@com_googlesource_gerrit_bazlets~//maven/private:maven_jar.bzl",
+            "ruleClassName": "maven_jar",
+            "attributes": {
+              "artifact": "org.apache.sshd:sshd-mina:2.16.0",
+              "attach_source": true,
+              "exclude": [],
+              "repository": "MAVEN_CENTRAL:",
+              "sha1": "9247372c4b7fc88d69d4e1bd7de281b3b74f1b3f",
+              "src_sha1": "",
+              "exports": [],
+              "deps": []
+            }
+          },
+          "openid-consumer": {
+            "bzlFile": "@@com_googlesource_gerrit_bazlets~//maven/private:maven_jar.bzl",
+            "ruleClassName": "maven_jar",
+            "attributes": {
+              "artifact": "org.openid4java:openid4java:1.0.0",
+              "attach_source": true,
+              "exclude": [],
+              "repository": "MAVEN_CENTRAL:",
+              "sha1": "541091bb49f2c0d583544c5bb1e6df7612d31e3e",
+              "src_sha1": "",
+              "exports": [],
+              "deps": []
+            }
+          },
+          "nekohtml": {
+            "bzlFile": "@@com_googlesource_gerrit_bazlets~//maven/private:maven_jar.bzl",
+            "ruleClassName": "maven_jar",
+            "attributes": {
+              "artifact": "net.sourceforge.nekohtml:nekohtml:1.9.10",
+              "attach_source": true,
+              "exclude": [],
+              "repository": "MAVEN_CENTRAL:",
+              "sha1": "14052461031a7054aa094f5573792feb6686d3de",
+              "src_sha1": "",
+              "exports": [],
+              "deps": []
+            }
+          },
+          "xerces": {
+            "bzlFile": "@@com_googlesource_gerrit_bazlets~//maven/private:maven_jar.bzl",
+            "ruleClassName": "maven_jar",
+            "attributes": {
+              "artifact": "xerces:xercesImpl:2.8.1",
+              "attach_source": false,
+              "exclude": [],
+              "repository": "MAVEN_CENTRAL:",
+              "sha1": "25101e37ec0c907db6f0612cbf106ee519c1aef1",
+              "src_sha1": "",
+              "exports": [],
+              "deps": []
+            }
+          },
+          "jruby": {
+            "bzlFile": "@@com_googlesource_gerrit_bazlets~//maven/private:maven_jar.bzl",
+            "ruleClassName": "maven_jar",
+            "attributes": {
+              "artifact": "org.jruby:jruby-complete:9.1.17.0",
+              "attach_source": true,
+              "exclude": [],
+              "repository": "MAVEN_CENTRAL:",
+              "sha1": "76716d529710fc03d1d429b43e3cedd4419f78d4",
+              "src_sha1": "",
+              "exports": [],
+              "deps": []
+            }
+          },
+          "commons-io": {
+            "bzlFile": "@@com_googlesource_gerrit_bazlets~//maven/private:maven_jar.bzl",
+            "ruleClassName": "maven_jar",
+            "attributes": {
+              "artifact": "commons-io:commons-io:2.20.0",
+              "attach_source": true,
+              "exclude": [],
+              "repository": "MAVEN_CENTRAL:",
+              "sha1": "36f3474daec2849c149e877614e7f979b2082cd2",
+              "src_sha1": "",
+              "exports": [],
+              "deps": []
+            }
+          },
+          "auto-common": {
+            "bzlFile": "@@com_googlesource_gerrit_bazlets~//maven/private:maven_jar.bzl",
+            "ruleClassName": "maven_jar",
+            "attributes": {
+              "artifact": "com.google.auto:auto-common:1.2.2",
+              "attach_source": true,
+              "exclude": [],
+              "repository": "MAVEN_CENTRAL:",
+              "sha1": "9d38f10e22411681cf1d1ee3727e002af19f2c9e",
+              "src_sha1": "",
+              "exports": [],
+              "deps": []
+            }
+          },
+          "auto-factory": {
+            "bzlFile": "@@com_googlesource_gerrit_bazlets~//maven/private:maven_jar.bzl",
+            "ruleClassName": "maven_jar",
+            "attributes": {
+              "artifact": "com.google.auto.factory:auto-factory:1.0.1",
+              "attach_source": true,
+              "exclude": [],
+              "repository": "MAVEN_CENTRAL:",
+              "sha1": "f81ece06b6525085da217cd900116f44caafe877",
+              "src_sha1": "",
+              "exports": [],
+              "deps": []
+            }
+          },
+          "auto-service-annotations": {
+            "bzlFile": "@@com_googlesource_gerrit_bazlets~//maven/private:maven_jar.bzl",
+            "ruleClassName": "maven_jar",
+            "attributes": {
+              "artifact": "com.google.auto.service:auto-service-annotations:1.0.1",
+              "attach_source": true,
+              "exclude": [],
+              "repository": "MAVEN_CENTRAL:",
+              "sha1": "ac86dacc0eb9285ea9d42eee6aad8629ca3a7432",
+              "src_sha1": "",
+              "exports": [],
+              "deps": []
+            }
+          },
+          "auto-value": {
+            "bzlFile": "@@com_googlesource_gerrit_bazlets~//maven/private:maven_jar.bzl",
+            "ruleClassName": "maven_jar",
+            "attributes": {
+              "artifact": "com.google.auto.value:auto-value:1.11.0",
+              "attach_source": true,
+              "exclude": [],
+              "repository": "MAVEN_CENTRAL:",
+              "sha1": "d1fd0e74d20e922145c3fede3f05e246bb6be281",
+              "src_sha1": "",
+              "exports": [],
+              "deps": []
+            }
+          },
+          "auto-value-annotations": {
+            "bzlFile": "@@com_googlesource_gerrit_bazlets~//maven/private:maven_jar.bzl",
+            "ruleClassName": "maven_jar",
+            "attributes": {
+              "artifact": "com.google.auto.value:auto-value-annotations:1.11.0",
+              "attach_source": true,
+              "exclude": [],
+              "repository": "MAVEN_CENTRAL:",
+              "sha1": "f0d047931d07cfbc6fa4079854f181ff62891d6f",
+              "src_sha1": "",
+              "exports": [],
+              "deps": []
+            }
+          },
+          "error-prone-annotations": {
+            "bzlFile": "@@com_googlesource_gerrit_bazlets~//maven/private:maven_jar.bzl",
+            "ruleClassName": "maven_jar",
+            "attributes": {
+              "artifact": "com.google.errorprone:error_prone_annotations:2.36.0",
+              "attach_source": true,
+              "exclude": [],
+              "repository": "MAVEN_CENTRAL:",
+              "sha1": "227d4d4957ccc3dc5761bd897e3a0ee587e750a7",
+              "src_sha1": "",
+              "exports": [],
+              "deps": []
+            }
+          },
+          "flogger": {
+            "bzlFile": "@@com_googlesource_gerrit_bazlets~//maven/private:maven_jar.bzl",
+            "ruleClassName": "maven_jar",
+            "attributes": {
+              "artifact": "com.google.flogger:flogger:0.8",
+              "attach_source": true,
+              "exclude": [],
+              "repository": "MAVEN_CENTRAL:",
+              "sha1": "753f5ef5b084dbff3ab3030158ed128711745b06",
+              "src_sha1": "",
+              "exports": [],
+              "deps": []
+            }
+          },
+          "flogger-log4j-backend": {
+            "bzlFile": "@@com_googlesource_gerrit_bazlets~//maven/private:maven_jar.bzl",
+            "ruleClassName": "maven_jar",
+            "attributes": {
+              "artifact": "com.google.flogger:flogger-log4j-backend:0.8",
+              "attach_source": true,
+              "exclude": [],
+              "repository": "MAVEN_CENTRAL:",
+              "sha1": "7486b1c0138647cd7714eccb8ce37b5f2ae20a76",
+              "src_sha1": "",
+              "exports": [],
+              "deps": []
+            }
+          },
+          "flogger-google-extensions": {
+            "bzlFile": "@@com_googlesource_gerrit_bazlets~//maven/private:maven_jar.bzl",
+            "ruleClassName": "maven_jar",
+            "attributes": {
+              "artifact": "com.google.flogger:google-extensions:0.8",
+              "attach_source": true,
+              "exclude": [],
+              "repository": "MAVEN_CENTRAL:",
+              "sha1": "42781a3d970e18c96bb0a8d3ddd94d6237aa0612",
+              "src_sha1": "",
+              "exports": [],
+              "deps": []
+            }
+          },
+          "flogger-system-backend": {
+            "bzlFile": "@@com_googlesource_gerrit_bazlets~//maven/private:maven_jar.bzl",
+            "ruleClassName": "maven_jar",
+            "attributes": {
+              "artifact": "com.google.flogger:flogger-system-backend:0.8",
+              "attach_source": true,
+              "exclude": [],
+              "repository": "MAVEN_CENTRAL:",
+              "sha1": "24b2a20600b1f313540ead4b393813efa13ce14a",
+              "src_sha1": "",
+              "exports": [],
+              "deps": []
+            }
+          },
+          "guava": {
+            "bzlFile": "@@com_googlesource_gerrit_bazlets~//maven/private:maven_jar.bzl",
+            "ruleClassName": "maven_jar",
+            "attributes": {
+              "artifact": "com.google.guava:guava:33.4.8-jre",
+              "attach_source": true,
+              "exclude": [],
+              "repository": "MAVEN_CENTRAL:",
+              "sha1": "e70a3268e6cd3e7d458aa15787ce6811c34e96ae",
+              "src_sha1": "",
+              "exports": [],
+              "deps": []
+            }
+          },
+          "guava-testlib": {
+            "bzlFile": "@@com_googlesource_gerrit_bazlets~//maven/private:maven_jar.bzl",
+            "ruleClassName": "maven_jar",
+            "attributes": {
+              "artifact": "com.google.guava:guava-testlib:33.4.8-jre",
+              "attach_source": true,
+              "exclude": [],
+              "repository": "MAVEN_CENTRAL:",
+              "sha1": "7443cfac765d74b8a31bbe6c49357715e32f714c",
+              "src_sha1": "",
+              "exports": [],
+              "deps": []
+            }
+          },
+          "guice-library": {
+            "bzlFile": "@@com_googlesource_gerrit_bazlets~//maven/private:maven_jar.bzl",
+            "ruleClassName": "maven_jar",
+            "attributes": {
+              "artifact": "com.google.inject:guice:6.0.0",
+              "attach_source": true,
+              "exclude": [],
+              "repository": "MAVEN_CENTRAL:",
+              "sha1": "9b422c69c4fa1ea95b2615444a94fede9b02fc40",
+              "src_sha1": "",
+              "exports": [],
+              "deps": []
+            }
+          },
+          "guice-assistedinject": {
+            "bzlFile": "@@com_googlesource_gerrit_bazlets~//maven/private:maven_jar.bzl",
+            "ruleClassName": "maven_jar",
+            "attributes": {
+              "artifact": "com.google.inject.extensions:guice-assistedinject:6.0.0",
+              "attach_source": true,
+              "exclude": [],
+              "repository": "MAVEN_CENTRAL:",
+              "sha1": "849d991e4adf998cb9877124fe74b063c88726cf",
+              "src_sha1": "",
+              "exports": [],
+              "deps": []
+            }
+          },
+          "guice-servlet": {
+            "bzlFile": "@@com_googlesource_gerrit_bazlets~//maven/private:maven_jar.bzl",
+            "ruleClassName": "maven_jar",
+            "attributes": {
+              "artifact": "com.google.inject.extensions:guice-servlet:6.0.0",
+              "attach_source": true,
+              "exclude": [],
+              "repository": "MAVEN_CENTRAL:",
+              "sha1": "1a505f5f1a269e01946790e863178a5055de4fa0",
+              "src_sha1": "",
+              "exports": [],
+              "deps": []
+            }
+          },
+          "soy": {
+            "bzlFile": "@@com_googlesource_gerrit_bazlets~//maven/private:maven_jar.bzl",
+            "ruleClassName": "maven_jar",
+            "attributes": {
+              "artifact": "com.google.template:soy:2024-01-30",
+              "attach_source": true,
+              "exclude": [],
+              "repository": "MAVEN_CENTRAL:",
+              "sha1": "6e9ccb00926325c7a9293ed05a2eaf56ea15d60e",
+              "src_sha1": "",
+              "exports": [],
+              "deps": []
+            }
+          },
+          "gson": {
+            "bzlFile": "@@com_googlesource_gerrit_bazlets~//maven/private:maven_jar.bzl",
+            "ruleClassName": "maven_jar",
+            "attributes": {
+              "artifact": "com.google.code.gson:gson:2.12.1",
+              "attach_source": true,
+              "exclude": [],
+              "repository": "MAVEN_CENTRAL:",
+              "sha1": "4e773a317740b83b43cfc3d652962856041697cb",
+              "src_sha1": "",
+              "exports": [],
+              "deps": []
+            }
+          },
+          "protobuf-java": {
+            "bzlFile": "@@com_googlesource_gerrit_bazlets~//maven/private:maven_jar.bzl",
+            "ruleClassName": "maven_jar",
+            "attributes": {
+              "artifact": "com.google.protobuf:protobuf-java:3.25.3",
+              "attach_source": true,
+              "exclude": [],
+              "repository": "MAVEN_CENTRAL:",
+              "sha1": "d3200261955f3298e0d85c9892201e70492ce8eb",
+              "src_sha1": "",
+              "exports": [],
+              "deps": []
+            }
+          },
+          "cglib-3_2": {
+            "bzlFile": "@@com_googlesource_gerrit_bazlets~//maven/private:maven_jar.bzl",
+            "ruleClassName": "maven_jar",
+            "attributes": {
+              "artifact": "cglib:cglib-nodep:3.2.6",
+              "attach_source": true,
+              "exclude": [],
+              "repository": "MAVEN_CENTRAL:",
+              "sha1": "92bf48723d277d6efd1150b2f7e9e1e92cb56caf",
+              "src_sha1": "",
+              "exports": [],
+              "deps": []
+            }
+          },
+          "jimfs": {
+            "bzlFile": "@@com_googlesource_gerrit_bazlets~//maven/private:maven_jar.bzl",
+            "ruleClassName": "maven_jar",
+            "attributes": {
+              "artifact": "com.google.jimfs:jimfs:1.2",
+              "attach_source": true,
+              "exclude": [],
+              "repository": "MAVEN_CENTRAL:",
+              "sha1": "48462eb319817c90c27d377341684b6b81372e08",
+              "src_sha1": "",
+              "exports": [],
+              "deps": []
+            }
+          },
+          "truth": {
+            "bzlFile": "@@com_googlesource_gerrit_bazlets~//maven/private:maven_jar.bzl",
+            "ruleClassName": "maven_jar",
+            "attributes": {
+              "artifact": "com.google.truth:truth:1.4.4",
+              "attach_source": true,
+              "exclude": [],
+              "repository": "MAVEN_CENTRAL:",
+              "sha1": "33810058273a2a3b6ce6d1f8c8621bfc85493f67",
+              "src_sha1": "",
+              "exports": [],
+              "deps": []
+            }
+          },
+          "truth-java8-extension": {
+            "bzlFile": "@@com_googlesource_gerrit_bazlets~//maven/private:maven_jar.bzl",
+            "ruleClassName": "maven_jar",
+            "attributes": {
+              "artifact": "com.google.truth.extensions:truth-java8-extension:1.4.4",
+              "attach_source": true,
+              "exclude": [],
+              "repository": "MAVEN_CENTRAL:",
+              "sha1": "49129ba5889b6811e96a9d49af61122f21314670",
+              "src_sha1": "",
+              "exports": [],
+              "deps": []
+            }
+          },
+          "truth-liteproto-extension": {
+            "bzlFile": "@@com_googlesource_gerrit_bazlets~//maven/private:maven_jar.bzl",
+            "ruleClassName": "maven_jar",
+            "attributes": {
+              "artifact": "com.google.truth.extensions:truth-liteproto-extension:1.4.4",
+              "attach_source": true,
+              "exclude": [],
+              "repository": "MAVEN_CENTRAL:",
+              "sha1": "b6282dbc163474900ac914c2dbeca101008f72da",
+              "src_sha1": "",
+              "exports": [],
+              "deps": []
+            }
+          },
+          "truth-proto-extension": {
+            "bzlFile": "@@com_googlesource_gerrit_bazlets~//maven/private:maven_jar.bzl",
+            "ruleClassName": "maven_jar",
+            "attributes": {
+              "artifact": "com.google.truth.extensions:truth-proto-extension:1.4.4",
+              "attach_source": true,
+              "exclude": [],
+              "repository": "MAVEN_CENTRAL:",
+              "sha1": "4b88990178086ffdd482246b35a5a48b4d26896c",
+              "src_sha1": "",
+              "exports": [],
+              "deps": []
+            }
+          },
+          "lucene-core": {
+            "bzlFile": "@@com_googlesource_gerrit_bazlets~//maven/private:maven_jar.bzl",
+            "ruleClassName": "maven_jar",
+            "attributes": {
+              "artifact": "org.apache.lucene:lucene-core:10.2.2",
+              "attach_source": true,
+              "exclude": [],
+              "repository": "MAVEN_CENTRAL:",
+              "sha1": "336a9c4b24e5704bd5fd71af794cce80f479a3ae",
+              "src_sha1": "",
+              "exports": [],
+              "deps": []
+            }
+          },
+          "lucene-analyzers-common": {
+            "bzlFile": "@@com_googlesource_gerrit_bazlets~//maven/private:maven_jar.bzl",
+            "ruleClassName": "maven_jar",
+            "attributes": {
+              "artifact": "org.apache.lucene:lucene-analysis-common:10.2.2",
+              "attach_source": true,
+              "exclude": [],
+              "repository": "MAVEN_CENTRAL:",
+              "sha1": "2c35eb96330d96b6ffb61856ce2cd886a5656c81",
+              "src_sha1": "",
+              "exports": [],
+              "deps": []
+            }
+          },
+          "lucene-backward-codecs": {
+            "bzlFile": "@@com_googlesource_gerrit_bazlets~//maven/private:maven_jar.bzl",
+            "ruleClassName": "maven_jar",
+            "attributes": {
+              "artifact": "org.apache.lucene:lucene-backward-codecs:10.2.2",
+              "attach_source": true,
+              "exclude": [],
+              "repository": "MAVEN_CENTRAL:",
+              "sha1": "848ccaaadbcc97c84c09ad808fe4354af00449d9",
+              "src_sha1": "",
+              "exports": [],
+              "deps": []
+            }
+          },
+          "lucene-misc": {
+            "bzlFile": "@@com_googlesource_gerrit_bazlets~//maven/private:maven_jar.bzl",
+            "ruleClassName": "maven_jar",
+            "attributes": {
+              "artifact": "org.apache.lucene:lucene-misc:10.2.2",
+              "attach_source": true,
+              "exclude": [],
+              "repository": "MAVEN_CENTRAL:",
+              "sha1": "047de3cefc3aa78ba11593d72c60f5b17a611c73",
+              "src_sha1": "",
+              "exports": [],
+              "deps": []
+            }
+          },
+          "lucene-queryparser": {
+            "bzlFile": "@@com_googlesource_gerrit_bazlets~//maven/private:maven_jar.bzl",
+            "ruleClassName": "maven_jar",
+            "attributes": {
+              "artifact": "org.apache.lucene:lucene-queryparser:10.2.2",
+              "attach_source": true,
+              "exclude": [],
+              "repository": "MAVEN_CENTRAL:",
+              "sha1": "bb94dc5a00f01ccc7dc6804388bc7fe9f0070c75",
+              "src_sha1": "",
+              "exports": [],
+              "deps": []
+            }
+          },
+          "h2": {
+            "bzlFile": "@@com_googlesource_gerrit_bazlets~//maven/private:maven_jar.bzl",
+            "ruleClassName": "maven_jar",
+            "attributes": {
+              "artifact": "com.h2database:h2:2.4.240",
+              "attach_source": true,
+              "exclude": [],
+              "repository": "MAVEN_CENTRAL:",
+              "sha1": "686180ad33981ad943fdc0ab381e619b2c2fdfe5",
+              "src_sha1": "",
+              "exports": [],
+              "deps": []
+            }
+          },
+          "hamcrest": {
+            "bzlFile": "@@com_googlesource_gerrit_bazlets~//maven/private:maven_jar.bzl",
+            "ruleClassName": "maven_jar",
+            "attributes": {
+              "artifact": "org.hamcrest:hamcrest:2.2",
+              "attach_source": true,
+              "exclude": [],
+              "repository": "MAVEN_CENTRAL:",
+              "sha1": "1820c0968dba3a11a1b30669bb1f01978a91dedc",
+              "src_sha1": "",
+              "exports": [],
+              "deps": []
+            }
+          },
           "maven_deps": {
             "bzlFile": "@@com_googlesource_gerrit_bazlets~//maven/private:maven_jar.bzl",
             "ruleClassName": "maven_collection",
@@ -1383,7 +2055,55 @@
                 "bytebuddy-agent": "@@com_googlesource_gerrit_bazlets~~maven_jar~bytebuddy-agent//jar:file",
                 "objenesis": "@@com_googlesource_gerrit_bazlets~~maven_jar~objenesis//jar:file",
                 "roaringbitmap": "@@com_googlesource_gerrit_bazlets~~maven_jar~roaringbitmap//jar:file",
-                "roaringbitmap-shims": "@@com_googlesource_gerrit_bazlets~~maven_jar~roaringbitmap-shims//jar:file"
+                "roaringbitmap-shims": "@@com_googlesource_gerrit_bazlets~~maven_jar~roaringbitmap-shims//jar:file",
+                "log4j": "@@com_googlesource_gerrit_bazlets~~maven_jar~log4j//jar:file",
+                "log-api": "@@com_googlesource_gerrit_bazlets~~maven_jar~log-api//jar:file",
+                "log-ext": "@@com_googlesource_gerrit_bazlets~~maven_jar~log-ext//jar:file",
+                "impl-log4j": "@@com_googlesource_gerrit_bazlets~~maven_jar~impl-log4j//jar:file",
+                "jcl-over-slf4j": "@@com_googlesource_gerrit_bazlets~~maven_jar~jcl-over-slf4j//jar:file",
+                "j2objc": "@@com_googlesource_gerrit_bazlets~~maven_jar~j2objc//jar:file",
+                "tukaani-xz": "@@com_googlesource_gerrit_bazlets~~maven_jar~tukaani-xz//jar:file",
+                "dropwizard-core": "@@com_googlesource_gerrit_bazlets~~maven_jar~dropwizard-core//jar:file",
+                "sshd-osgi": "@@com_googlesource_gerrit_bazlets~~maven_jar~sshd-osgi//jar:file",
+                "sshd-sftp": "@@com_googlesource_gerrit_bazlets~~maven_jar~sshd-sftp//jar:file",
+                "mina-core": "@@com_googlesource_gerrit_bazlets~~maven_jar~mina-core//jar:file",
+                "sshd-mina": "@@com_googlesource_gerrit_bazlets~~maven_jar~sshd-mina//jar:file",
+                "openid-consumer": "@@com_googlesource_gerrit_bazlets~~maven_jar~openid-consumer//jar:file",
+                "nekohtml": "@@com_googlesource_gerrit_bazlets~~maven_jar~nekohtml//jar:file",
+                "xerces": "@@com_googlesource_gerrit_bazlets~~maven_jar~xerces//jar:file",
+                "jruby": "@@com_googlesource_gerrit_bazlets~~maven_jar~jruby//jar:file",
+                "commons-io": "@@com_googlesource_gerrit_bazlets~~maven_jar~commons-io//jar:file",
+                "auto-common": "@@com_googlesource_gerrit_bazlets~~maven_jar~auto-common//jar:file",
+                "auto-factory": "@@com_googlesource_gerrit_bazlets~~maven_jar~auto-factory//jar:file",
+                "auto-service-annotations": "@@com_googlesource_gerrit_bazlets~~maven_jar~auto-service-annotations//jar:file",
+                "auto-value": "@@com_googlesource_gerrit_bazlets~~maven_jar~auto-value//jar:file",
+                "auto-value-annotations": "@@com_googlesource_gerrit_bazlets~~maven_jar~auto-value-annotations//jar:file",
+                "error-prone-annotations": "@@com_googlesource_gerrit_bazlets~~maven_jar~error-prone-annotations//jar:file",
+                "flogger": "@@com_googlesource_gerrit_bazlets~~maven_jar~flogger//jar:file",
+                "flogger-log4j-backend": "@@com_googlesource_gerrit_bazlets~~maven_jar~flogger-log4j-backend//jar:file",
+                "flogger-google-extensions": "@@com_googlesource_gerrit_bazlets~~maven_jar~flogger-google-extensions//jar:file",
+                "flogger-system-backend": "@@com_googlesource_gerrit_bazlets~~maven_jar~flogger-system-backend//jar:file",
+                "guava": "@@com_googlesource_gerrit_bazlets~~maven_jar~guava//jar:file",
+                "guava-testlib": "@@com_googlesource_gerrit_bazlets~~maven_jar~guava-testlib//jar:file",
+                "guice-library": "@@com_googlesource_gerrit_bazlets~~maven_jar~guice-library//jar:file",
+                "guice-assistedinject": "@@com_googlesource_gerrit_bazlets~~maven_jar~guice-assistedinject//jar:file",
+                "guice-servlet": "@@com_googlesource_gerrit_bazlets~~maven_jar~guice-servlet//jar:file",
+                "soy": "@@com_googlesource_gerrit_bazlets~~maven_jar~soy//jar:file",
+                "gson": "@@com_googlesource_gerrit_bazlets~~maven_jar~gson//jar:file",
+                "protobuf-java": "@@com_googlesource_gerrit_bazlets~~maven_jar~protobuf-java//jar:file",
+                "cglib-3_2": "@@com_googlesource_gerrit_bazlets~~maven_jar~cglib-3_2//jar:file",
+                "jimfs": "@@com_googlesource_gerrit_bazlets~~maven_jar~jimfs//jar:file",
+                "truth": "@@com_googlesource_gerrit_bazlets~~maven_jar~truth//jar:file",
+                "truth-java8-extension": "@@com_googlesource_gerrit_bazlets~~maven_jar~truth-java8-extension//jar:file",
+                "truth-liteproto-extension": "@@com_googlesource_gerrit_bazlets~~maven_jar~truth-liteproto-extension//jar:file",
+                "truth-proto-extension": "@@com_googlesource_gerrit_bazlets~~maven_jar~truth-proto-extension//jar:file",
+                "lucene-core": "@@com_googlesource_gerrit_bazlets~~maven_jar~lucene-core//jar:file",
+                "lucene-analyzers-common": "@@com_googlesource_gerrit_bazlets~~maven_jar~lucene-analyzers-common//jar:file",
+                "lucene-backward-codecs": "@@com_googlesource_gerrit_bazlets~~maven_jar~lucene-backward-codecs//jar:file",
+                "lucene-misc": "@@com_googlesource_gerrit_bazlets~~maven_jar~lucene-misc//jar:file",
+                "lucene-queryparser": "@@com_googlesource_gerrit_bazlets~~maven_jar~lucene-queryparser//jar:file",
+                "h2": "@@com_googlesource_gerrit_bazlets~~maven_jar~h2//jar:file",
+                "hamcrest": "@@com_googlesource_gerrit_bazlets~~maven_jar~hamcrest//jar:file"
               }
             }
           }

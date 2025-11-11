@@ -1,14 +1,14 @@
 #!/bin/sh
 
-# This test ensures that new dependencies in nongoogle.bzl go through LC review.
+# This test ensures that new dependencies in MODULE.bazel.lock go through LC review.
 
 set -eux
 
-bzl=$(pwd)/tools/nongoogle.bzl
+module_lock=$(pwd)/tools/nongoogle/MODULE.bazel.lock
 
 TMP=$(mktemp -d || mktemp -d -t /tmp/tmp.XXXXXX)
 
-grep 'name = "[^"]*"' ${bzl} | sed 's|^[^"]*"||g;s|".*$||g' | sort > $TMP/names
+jq -r '.moduleExtensions."@@com_googlesource_gerrit_bazlets+//maven:extensions.bzl%maven_jar".general.generatedRepoSpecs.maven_deps.attributes.jars | keys.[]' ${module_lock} | sort > $TMP/names
 
 cat << EOF > $TMP/want
 auto-common

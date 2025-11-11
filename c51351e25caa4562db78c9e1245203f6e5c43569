@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "75d49bfd_93ebc14b",
+        "filename": "java/com/google/gerrit/server/account/DirectAuthTokenAccessor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2025-11-11T14:28:14Z",
+      "side": 1,
+      "message": "The `DirectAuthTokenAccessorTest` has alredy in place all the wiring to create a `DirectAuthTokenAccessor` and inject a `VersionedAuthTokens`.\n\nIt should be fairly easy adding a test to cover this change.",
+      "range": {
+        "startLine": 142,
+        "startChar": 6,
+        "endLine": 142,
+        "endChar": 34
+      },
+      "revId": "c51351e25caa4562db78c9e1245203f6e5c43569",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

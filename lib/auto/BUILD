@@ -4,8 +4,8 @@ java_plugin(
     name = "auto-annotation-plugin",
     processor_class = "com.google.auto.value.processor.AutoAnnotationProcessor",
     deps = [
-        "@auto-value-annotations//jar",
-        "@auto-value//jar",
+        "@maven_deps//auto-value-annotations/jar",
+        "@maven_deps//auto-value/jar",
     ],
 )
 
@@ -15,12 +15,12 @@ java_plugin(
     processor_class = "com.google.auto.factory.processor.AutoFactoryProcessor",
     visibility = ["//visibility:private"],
     deps = [
-        "@auto-common//jar",
-        "@auto-factory//jar",
-        "@auto-service-annotations//jar",
-        "@auto-value-annotations//jar",
-        "@auto-value//jar",
-        "@guava//jar",
+        "@maven_deps//auto-common/jar",
+        "@maven_deps//auto-factory/jar",
+        "@maven_deps//auto-service-annotations/jar",
+        "@maven_deps//auto-value-annotations/jar",
+        "@maven_deps//auto-value/jar",
+        "@maven_deps//guava/jar",
         "@maven_deps//javapoet/jar",
         "@maven_deps//javax_inject/jar",
     ],
@@ -30,12 +30,12 @@ java_plugin(
     name = "auto-builder-plugin",
     processor_class = "com.google.auto.value.processor.AutoBuilderProcessor",
     deps = [
-        "@auto-common//jar",
-        "@auto-factory//jar",
-        "@auto-service-annotations//jar",
-        "@auto-value-annotations//jar",
-        "@auto-value//jar",
-        "@guava//jar",
+        "@maven_deps//auto-common/jar",
+        "@maven_deps//auto-factory/jar",
+        "@maven_deps//auto-service-annotations/jar",
+        "@maven_deps//auto-value-annotations/jar",
+        "@maven_deps//auto-value/jar",
+        "@maven_deps//guava/jar",
         "@maven_deps//javapoet/jar",
         "@maven_deps//javax_inject/jar",
     ],
@@ -45,8 +45,8 @@ java_plugin(
     name = "auto-value-plugin",
     processor_class = "com.google.auto.value.processor.AutoValueProcessor",
     deps = [
-        "@auto-value-annotations//jar",
-        "@auto-value//jar",
+        "@maven_deps//auto-value-annotations/jar",
+        "@maven_deps//auto-value/jar",
     ],
 )
 
@@ -54,8 +54,8 @@ java_plugin(
     name = "auto-oneof-plugin",
     processor_class = "com.google.auto.value.processor.AutoOneOfProcessor",
     deps = [
-        "@auto-value-annotations//jar",
-        "@auto-value//jar",
+        "@maven_deps//auto-value-annotations/jar",
+        "@maven_deps//auto-value/jar",
     ],
 )
 
@@ -63,13 +63,13 @@ java_plugin(
     name = "auto-value-gson-plugin",
     processor_class = "com.ryanharter.auto.value.gson.factory.AutoValueGsonAdapterFactoryProcessor",
     deps = [
-        "@auto-value-annotations//jar",
+        "@maven_deps//auto-value-annotations/jar",
         "@maven_deps//auto-value-gson-extension/jar",
         "@maven_deps//auto-value-gson-factory/jar",
         "@maven_deps//auto-value-gson-runtime/jar",
-        "@auto-value//jar",
+        "@maven_deps//auto-value/jar",
         "@maven_deps//autotransient/jar",
-        "@gson//jar",
+        "@maven_deps//gson/jar",
         "@maven_deps//javapoet/jar",
     ],
 )
@@ -81,7 +81,7 @@ java_library(
         ":auto-factory-plugin",
     ],
     visibility = ["//visibility:public"],
-    exports = ["@auto-factory//jar"],
+    exports = ["@maven_deps//auto-factory/jar"],
 )
 
 java_library(
@@ -94,7 +94,7 @@ java_library(
         ":auto-oneof-plugin",
     ],
     visibility = ["//visibility:public"],
-    exports = ["@auto-value//jar"],
+    exports = ["@maven_deps//auto-value/jar"],
 )
 
 java_library(
@@ -107,7 +107,7 @@ java_library(
         ":auto-oneof-plugin",
     ],
     visibility = ["//visibility:public"],
-    exports = ["@auto-value-annotations//jar"],
+    exports = ["@maven_deps//auto-value-annotations/jar"],
 )
 
 java_library(

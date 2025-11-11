@@ -11,5 +11,5 @@ java_library(
 java_library(
     name = "jruby",
     data = ["//lib:LICENSE-DO_NOT_DISTRIBUTE"],
-    exports = ["@jruby//jar"],
+    exports = ["@maven_deps//jruby/jar"],
 )

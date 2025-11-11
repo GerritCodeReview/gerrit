@@ -52,6 +52,24 @@
       "parentUuid": "47943090_4043aa0b",
       "revId": "6e3735df2db87f5d2989a191bee990d701ce9ec7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b7e7320b_3ebe72d5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-11-11T12:12:12Z",
+      "side": 1,
+      "message": "The issue is that even enabling finest logging level, lucene will not print anything related to when the flushes to disk happen, which is what we\u0027re interested in.\n\nEnabling logging for Lucene with the usual mechanism might be useful in other circumstances, but it won\u0027t be enough for what we\u0027re trying to achieve here.",
+      "parentUuid": "28746792_4393f729",
+      "revId": "6e3735df2db87f5d2989a191bee990d701ce9ec7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

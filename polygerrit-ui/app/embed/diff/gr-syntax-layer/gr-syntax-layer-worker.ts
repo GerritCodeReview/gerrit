@@ -15,6 +15,7 @@ import {Provider} from '../../../models/dependency';
 import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
 import {GrDiffLineType} from '../../../api/diff';
 import {assert} from '../../../utils/common-util';
+import {normalizeSkipInfo} from '../../../utils/diff-util';
 
 const LANGUAGE_MAP = new Map<string, string>([
   ['application/dart', 'dart'],
@@ -271,10 +272,10 @@ export class GrSyntaxLayerWorker implements DiffLayer {
       for (const line of b) {
         rightContent += line + '\n';
       }
-      const skip = chunk.skip ?? 0;
-      if (skip > 0) {
-        leftContent += '\n'.repeat(skip);
-        rightContent += '\n'.repeat(skip);
+      if (chunk.skip) {
+        const skip = normalizeSkipInfo(chunk.skip);
+        leftContent += '\n'.repeat(skip.left);
+        rightContent += '\n'.repeat(skip.right);
       }
     }
     leftContent = leftContent.trimEnd();

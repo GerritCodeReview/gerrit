@@ -122,6 +122,13 @@ export declare type ChangeType =
   | 'COPIED'
   | 'REWRITE';
 
+export declare type SkipObject = {
+  left: number;
+  right: number;
+};
+
+export declare type SkipInfo = number | SkipObject;
+
 /**
  * The DiffContent entity contains information about the content differences in
  * a file.
@@ -158,7 +165,7 @@ export declare interface DiffContent {
    * Count of lines skipped on both sides when the file is too large to include
    * all common lines.
    */
-  skip?: number;
+  skip?: SkipInfo;
   /**
    * Set to true if the region is common according to the requested
    * ignore-whitespace parameter, but a and b contain differing amounts of

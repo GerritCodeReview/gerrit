@@ -21,4 +21,4 @@ import java.lang.annotation.Retention;
 
 @Retention(RUNTIME)
 @BindingAnnotation
-public @interface OnlineExternalIdCaseSensivityMigratiorExecutor {}
+public @interface OnlineExternalIdCaseSensitivityMigratiorExecutor {}

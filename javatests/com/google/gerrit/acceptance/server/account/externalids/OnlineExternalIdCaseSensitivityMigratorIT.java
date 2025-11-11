@@ -27,10 +27,10 @@ import com.google.gerrit.server.account.externalids.DuplicateExternalIdKeyExcept
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIdFactory;
 import com.google.gerrit.server.account.externalids.ExternalIdKeyFactory;
-import com.google.gerrit.server.account.externalids.OnlineExternalIdCaseSensivityMigratiorExecutor;
+import com.google.gerrit.server.account.externalids.OnlineExternalIdCaseSensitivityMigratiorExecutor;
 import com.google.gerrit.server.account.externalids.storage.notedb.ExternalIdCaseSensitivityMigrator;
 import com.google.gerrit.server.account.externalids.storage.notedb.ExternalIdNotes;
-import com.google.gerrit.server.account.externalids.storage.notedb.OnlineExternalIdCaseSensivityMigrator;
+import com.google.gerrit.server.account.externalids.storage.notedb.OnlineExternalIdCaseSensitivityMigrator;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
@@ -44,14 +44,14 @@ import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Repository;
 import org.junit.Test;
 
-public class OnlineExternalIdCaseSensivityMigratorIT extends AbstractDaemonTest {
+public class OnlineExternalIdCaseSensitivityMigratorIT extends AbstractDaemonTest {
   private Account.Id accountId = Account.id(66);
   private boolean isUserNameCaseInsensitive = false;
 
   @Inject private ExternalIdNotes.Factory externalIdNotesFactory;
   @Inject private ExternalIdKeyFactory externalIdKeyFactory;
   @Inject private ExternalIdFactory externalIdFactory;
-  @Inject private OnlineExternalIdCaseSensivityMigrator objectUnderTest;
+  @Inject private OnlineExternalIdCaseSensitivityMigrator objectUnderTest;
 
   @Override
   public Module createModule() {
@@ -60,7 +60,7 @@ public class OnlineExternalIdCaseSensivityMigratorIT extends AbstractDaemonTest 
       protected void configure() {
         install(new FactoryModuleBuilder().build(ExternalIdCaseSensitivityMigrator.Factory.class));
         bind(ExecutorService.class)
-            .annotatedWith(OnlineExternalIdCaseSensivityMigratiorExecutor.class)
+            .annotatedWith(OnlineExternalIdCaseSensitivityMigratiorExecutor.class)
             .toInstance(MoreExecutors.newDirectExecutorService());
       }
     };

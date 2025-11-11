@@ -22,6 +22,30 @@
       },
       "revId": "c51351e25caa4562db78c9e1245203f6e5c43569",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c579c2cc_58591ce4",
+        "filename": "java/com/google/gerrit/server/account/DirectAuthTokenAccessor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-11-11T20:13:04Z",
+      "side": 1,
+      "message": "I checked `DirectAuthTokenAccessorTest` and there are zero tests on adding tokens, though. I prefer to piggyback on the TokenIT, where all the token creation scenarios are tested, and simply add the assertion on the events fired.",
+      "parentUuid": "75d49bfd_93ebc14b",
+      "range": {
+        "startLine": 142,
+        "startChar": 6,
+        "endLine": 142,
+        "endChar": 34
+      },
+      "revId": "c51351e25caa4562db78c9e1245203f6e5c43569",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ccbbbc59_ca82ae7d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-11-12T10:24:44Z",
+      "side": 1,
+      "message": "@thomas.draebing@sap.com it fails due to the fact that there is a problem in CI that was fixed but we are waiting for new images to be built - cc: @luca.milanesio@gmail.com @thomasmulhall410@yahoo.com",
+      "revId": "35127a141c8dfd1dcaaf7034a883096982bd5870",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

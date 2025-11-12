@@ -127,7 +127,7 @@ public class StreamEventsIT extends AbstractDaemonTest {
     waitForEvent(() -> pollEventsContaining("ref-updated", "refs/draft-comments/").size() == 1);
   }
 
-  @Test()
+  @Test
   @GerritConfig(name = "event.stream-events.enableRefUpdatedEvents", value = "true")
   @GerritConfig(name = "event.stream-events.enableBatchRefUpdatedEvents", value = "false")
   @GerritConfig(name = "event.stream-events.enableDraftCommentEvents", value = "false")
@@ -157,7 +157,7 @@ public class StreamEventsIT extends AbstractDaemonTest {
         () -> pollEventsContaining("batch-ref-updated", "refs/draft-comments/").size() == 1);
   }
 
-  @Test()
+  @Test
   @GerritConfig(name = "event.stream-events.enableBatchRefUpdatedEvents", value = "true")
   @GerritConfig(name = "event.stream-events.enableRefUpdatedEvents", value = "false")
   @GerritConfig(name = "event.stream-events.enableDraftCommentEvents", value = "false")

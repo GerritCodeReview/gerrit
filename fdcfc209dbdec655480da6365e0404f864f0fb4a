@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2aeb79ea_92adcc53",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 21
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-11-12T09:23:02Z",
+      "side": 1,
+      "message": "Why does @zuul-63@gerritcodereview-ci.iam.gserviceaccount.com vote on these changes? There is no associated check and no build URL.",
+      "revId": "fdcfc209dbdec655480da6365e0404f864f0fb4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -16,6 +16,24 @@
       "message": "@thomas.draebing@sap.com it fails due to the fact that there is a problem in CI that was fixed but we are waiting for new images to be built - cc: @luca.milanesio@gmail.com @thomasmulhall410@yahoo.com",
       "revId": "35127a141c8dfd1dcaaf7034a883096982bd5870",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a0d8b695_0ebb7a16",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-11-12T10:55:17Z",
+      "side": 1,
+      "message": "\u003e @thomas.draebing@sap.com it fails due to the fact that there is a problem in CI \n\nThe problem wasn\u0027t on the CI at all, it\u0027s a bug in Bazelisk that it was fixed. I\u0027m rebuilding the image, but there are many layers and the build + publish + fetch takes time.\n\nWe should get rid in the future of the _latest_ image and just use SHA1s moving forward.",
+      "parentUuid": "ccbbbc59_ca82ae7d",
+      "revId": "35127a141c8dfd1dcaaf7034a883096982bd5870",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

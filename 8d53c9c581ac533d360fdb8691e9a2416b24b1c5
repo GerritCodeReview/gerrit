@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d272bf75_e691da93",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1123,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-11-12T12:28:34Z",
+      "side": 1,
+      "message": "Should be removed.\n\nWas changed in I661f5e8256a0ea9faea0964a3ffe740f793f6413 which should also be backported i think.\n\nWhich is done in https://gerrit-review.googlesource.com/c/gerrit/+/526681",
+      "revId": "8d53c9c581ac533d360fdb8691e9a2416b24b1c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

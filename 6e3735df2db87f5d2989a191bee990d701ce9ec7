@@ -70,6 +70,24 @@
       "parentUuid": "28746792_4393f729",
       "revId": "6e3735df2db87f5d2989a191bee990d701ce9ec7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f8697e3c_35a8bfe5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-11-12T22:09:12Z",
+      "side": 1,
+      "message": "\u003e The issue is that even enabling finest logging level, lucene will not print anything related to when the flushes to disk happen, which is what we\u0027re interested in.\n\nOk, then I\u0027m a bit lost. Where in this change are you adding that logging? If it\u0027s the `luceneConfig.setInfoStream(new PrintStreamInfoStream(` bit, then I think the alternative being suggested is replacing that with `luceneConfig.setInfoStream(new JavaLoggingInfoStream(`. There shouldn\u0027t be any difference in *what* gets logged by Lucene between those two.",
+      "parentUuid": "b7e7320b_3ebe72d5",
+      "revId": "6e3735df2db87f5d2989a191bee990d701ce9ec7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

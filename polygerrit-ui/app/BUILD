@@ -114,25 +114,11 @@ filegroup(
     ],
 )
 
-filegroup(
-    name = "pg_code",
-    srcs = glob(
-        [
-            "**/*.html",
-        ],
-        exclude = [
-            "node_modules/**",
-            "node_modules_licenses/**",
-        ],
-    ) + [":compile_pg_with_tests"],
-)
-
 # Workaround for https://github.com/bazelbuild/bazel/issues/1305
 filegroup(
     name = "test-srcs-fg",
     srcs = [
         "rollup.config.js",
-        ":pg_code",
         "@ui_dev_npm//:node_modules",
         "@ui_npm//:node_modules",
     ],

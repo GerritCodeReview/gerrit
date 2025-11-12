@@ -1,6 +1,13 @@
 # TODO(davido): Migrate all dependencies from WORKSPACE to MODULE.bazel
 # https://issues.gerritcodereview.com/issues/303819949
 
+GERRIT_VERSION = "3.13.2-SNAPSHOT"
+
+module(
+    name = "gerrit",
+    version = GERRIT_VERSION,
+)
+
 bazel_dep(name = "bazel_features", version = "1.39.0")
 bazel_dep(name = "platforms", version = "1.0.0")
 bazel_dep(name = "rules_jvm_external", version = "6.9")
@@ -45,6 +52,23 @@ git_override(
 )
 
 register_toolchains("//tools:all")
+
+bazel_dep(name = "com_googlesource_gerrit_bazlets")
+git_override(
+    module_name = "com_googlesource_gerrit_bazlets",
+    remote = "https://gerrit.googlesource.com/bazlets",
+    commit = "5a2a653fcf77ac3fca619f9944246ca7f339849d",
+)
+
+gerrit_api_version = use_repo_rule(
+    "@com_googlesource_gerrit_bazlets//:gerrit_api_version.bzl",
+    "gerrit_api_version",
+)
+gerrit_api_version(
+    name = "gerrit_api_version",
+    version = GERRIT_VERSION,
+    visibility = ["//visibility:public"],
+)
 
 local_repository = use_repo_rule("@bazel_tools//tools/build_defs/repo:local.bzl", "local_repository")
 
@@ -102,3 +126,21 @@ maven.from_toml(
 )
 
 use_repo(maven, "gerrit_nongoogle_deps")
+
+maven.install(
+    name = "gerrit_plugin_deps",
+    artifacts = [],
+    repositories = [
+        "https://repo1.maven.org/maven2",
+        "https://gerrit-maven.storage.googleapis.com",
+    ],
+    lock_file = "//:gerrit_plugin_deps.lock.json",
+    duplicate_version_warning = "error",
+    fail_if_repin_required = True,
+    fail_on_missing_checksum = True,
+    fetch_sources = True,
+    strict_visibility = True,
+    version_conflict_policy = "pinned",
+)
+
+use_repo(maven, "gerrit_plugin_deps")

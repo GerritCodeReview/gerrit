@@ -1,4 +1,4 @@
-load("//:version.bzl", "GERRIT_VERSION")
+load("@gerrit_api_version//:version.bzl", "GERRIT_API_VERSION")
 load("//tools/maven:package.bzl", "maven_package")
 
 maven_package(
@@ -17,6 +17,6 @@ maven_package(
         "gerrit-extension-api": "//java/com/google/gerrit/extensions:extension-api_deploy.jar",
         "gerrit-plugin-api": "//plugins:plugin-api_deploy.jar",
     },
-    version = GERRIT_VERSION,
+    version = GERRIT_API_VERSION,
     war = {"gerrit-war": "//:release"},
 )

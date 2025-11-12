@@ -16,6 +16,24 @@
       "message": "DO NOT SUBMIT\n\nComplete Google internal testing first.",
       "revId": "58bc26bcacbab0b93668d8ec57ecda86e040f3b7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8390a078_5d5d7c60",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-11-12T16:39:59Z",
+      "side": 1,
+      "message": "you can do -2 (even if it\u0027s your own change to signify it).",
+      "parentUuid": "03d3af95_8d37e1ab",
+      "revId": "58bc26bcacbab0b93668d8ec57ecda86e040f3b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

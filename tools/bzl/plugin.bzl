@@ -2,7 +2,7 @@
 Build rules for plugins.
 """
 
-load("//:version.bzl", "GERRIT_VERSION")
+load("@gerrit_api_version//:version.bzl", GERRIT_VERSION = "GERRIT_API_VERSION")
 load("@rules_java//java:defs.bzl", "java_binary", "java_library")
 load("//tools/bzl:genrule2.bzl", "genrule2")
 

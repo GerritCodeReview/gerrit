@@ -16,7 +16,7 @@ bazel_dep(name = "nongoogle_deps")
 bazel_dep(name = "bazel_features", version = "1.38.0")
 bazel_dep(name = "rules_java", version = "7.6.1")
 bazel_dep(name = "toolchains_protoc", version = "0.6.0")
-bazel_dep(name = "rules_proto", version = "7.1.0")
+bazel_dep(name = "protobuf", version = "33.0")
 
 # TODO(Thomas): Use git_override as soon as the change in bazlets was published
 local_path_override(
@@ -57,7 +57,6 @@ protoc.toolchain(
 )
 use_repo(protoc, "toolchains_protoc_hub")
 register_toolchains("@toolchains_protoc_hub//:all")
-register_toolchains("//tools:all")
 
 CAFFEINE_VERS = "3.1.8"
 CAFFEINE_GUAVA_SHA256 = "e45c7c2db18810644c12bb3396cd38dbf4efaa1fa2402f27aaef6e662d8a0af5"

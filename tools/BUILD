@@ -4,7 +4,7 @@ load(
     "default_java_toolchain",
 )
 load("@rules_java//java:defs.bzl", "java_package_configuration")
-load("@rules_proto//proto:defs.bzl", "proto_lang_toolchain")
+load("@protobuf//bazel/toolchains:proto_lang_toolchain.bzl", "proto_lang_toolchain")
 
 exports_files(["nongoogle.bzl"])
 

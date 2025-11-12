@@ -34,6 +34,24 @@
       "parentUuid": "ccbbbc59_ca82ae7d",
       "revId": "35127a141c8dfd1dcaaf7034a883096982bd5870",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ad0c0497_b6f4a1ea",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-11-12T18:44:44Z",
+      "side": 1,
+      "message": "What I meant was that there is nothing wrong with this change and it just fails in CI (which btw: is already fixed with I0d9f0d215 and as you explained it will take a bit of time until it gets deployed) so that guys are aware where the problem is and they are not wasting time trying to fix it here 😊",
+      "parentUuid": "a0d8b695_0ebb7a16",
+      "revId": "35127a141c8dfd1dcaaf7034a883096982bd5870",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

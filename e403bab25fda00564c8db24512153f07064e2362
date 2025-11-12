@@ -232,6 +232,24 @@
       "parentUuid": "7d8582f1_9e4283af",
       "revId": "e403bab25fda00564c8db24512153f07064e2362",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a99cee5_cc958336",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-11-12T09:46:53Z",
+      "side": 1,
+      "message": "I am fixing the header height calculation using resize observers in https://gerrit-review.git.corp.google.com/c/gerrit/+/526621.",
+      "parentUuid": "a62364b3_abac3fe0",
+      "revId": "e403bab25fda00564c8db24512153f07064e2362",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

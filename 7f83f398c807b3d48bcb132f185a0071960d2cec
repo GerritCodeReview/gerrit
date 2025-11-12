@@ -116,6 +116,24 @@
       "parentUuid": "8d1279b6_217a390a",
       "revId": "7f83f398c807b3d48bcb132f185a0071960d2cec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "07c77fed_f0c5ab94",
+        "filename": "MODULE.bazel",
+        "patchSetId": 13
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-11-12T00:00:37Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "6726b051_4ae68a66",
+      "revId": "7f83f398c807b3d48bcb132f185a0071960d2cec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

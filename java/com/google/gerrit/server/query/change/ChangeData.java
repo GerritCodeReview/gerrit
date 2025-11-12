@@ -1063,7 +1063,11 @@ public class ChangeData {
     return allApprovalsWithCopied;
   }
 
-  /* @return legacy submit ('SUBM') approval label */
+  /**
+   * Get legacy submit ('SUBM') approval label
+   *
+   * @return legacy submit ('SUBM') approval label
+   */
   // TODO(mariasavtchouk): Deprecate legacy submit label,
   // see com.google.gerrit.entities.LabelId.LEGACY_SUBMIT_NAME
   public Optional<PatchSetApproval> getSubmitApproval() {

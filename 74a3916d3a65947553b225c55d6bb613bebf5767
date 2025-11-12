@@ -16,6 +16,23 @@
       "message": "These cherry-picks are needed on stable-3.13 to avoid conflicts when merging up to master",
       "revId": "74a3916d3a65947553b225c55d6bb613bebf5767",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "704efaa5_1779565c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-11-12T08:36:59Z",
+      "side": 1,
+      "message": "Just to let you know, I would rate this change as rather risky (because it adds new thread local state), so up to you whether it should be cherry-picked.",
+      "revId": "74a3916d3a65947553b225c55d6bb613bebf5767",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

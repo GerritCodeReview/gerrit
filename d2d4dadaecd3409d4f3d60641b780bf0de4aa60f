@@ -1,0 +1,222 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "733264b4_6620ccd6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-11-12T21:48:00Z",
+      "side": 1,
+      "message": "Can you mention some examples?",
+      "range": {
+        "startLine": 9,
+        "startChar": 10,
+        "endLine": 9,
+        "endChar": 25
+      },
+      "revId": "d2d4dadaecd3409d4f3d60641b780bf0de4aa60f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "48e5d281_59596e57",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-11-12T21:48:00Z",
+      "side": 1,
+      "message": "Have you checked? Is that correct? If yes, AFAIK should be removed, and you can just mention where you have found the information about this logging.",
+      "range": {
+        "startLine": 10,
+        "startChar": 32,
+        "endLine": 10,
+        "endChar": 37
+      },
+      "revId": "d2d4dadaecd3409d4f3d60641b780bf0de4aa60f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "52e35146_f200bca8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-11-12T21:48:00Z",
+      "side": 1,
+      "message": "Can you clarify which issues you\u0027d expect the Gerrit admin to resolve by enabling this log?",
+      "range": {
+        "startLine": 15,
+        "startChar": 8,
+        "endLine": 15,
+        "endChar": 24
+      },
+      "revId": "d2d4dadaecd3409d4f3d60641b780bf0de4aa60f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "feb9e9c4_38c20c30",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-11-12T21:48:00Z",
+      "side": 1,
+      "message": "Why skip this important feature in the release notes?",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 19
+      },
+      "revId": "d2d4dadaecd3409d4f3d60641b780bf0de4aa60f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d7559f14_ae1b489b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-11-12T21:48:00Z",
+      "side": 1,
+      "message": "Missing reference to Issue 454830631\n\n\n\n```suggestion\nBug: Issue 454830631\nChange-Id: I3ae39ce7af0036aa8c4d9fd97b645d88ff6c54e1\n```",
+      "revId": "d2d4dadaecd3409d4f3d60641b780bf0de4aa60f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "06d7675c_6aff9845",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 4130,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-11-12T21:48:00Z",
+      "side": 1,
+      "message": "This is misleading: here you are enabling the _persistence_ logging, NOT the debug log of Lucene, which is enabled via `java.util.logging`.",
+      "range": {
+        "startLine": 4130,
+        "startChar": 34,
+        "endLine": 4130,
+        "endChar": 52
+      },
+      "revId": "d2d4dadaecd3409d4f3d60641b780bf0de4aa60f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "76eb45e7_1f468428",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 4133,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-11-12T21:48:00Z",
+      "side": 1,
+      "message": "This statement is too generic. Can you explain what type of logging is produced?",
+      "range": {
+        "startLine": 4132,
+        "startChar": 31,
+        "endLine": 4133,
+        "endChar": 67
+      },
+      "revId": "d2d4dadaecd3409d4f3d60641b780bf0de4aa60f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6802f487_e6d1e5a3",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 4135,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-11-12T21:48:00Z",
+      "side": 1,
+      "message": "You mentioned more precise workload % in the commit message: can you use them here?",
+      "range": {
+        "startLine": 4135,
+        "startChar": 11,
+        "endLine": 4135,
+        "endChar": 63
+      },
+      "revId": "d2d4dadaecd3409d4f3d60641b780bf0de4aa60f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "38cc9987_d904c245",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 4136,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-11-12T21:48:00Z",
+      "side": 1,
+      "message": "Optional: Can you provide more details on what to expect in the log?",
+      "revId": "d2d4dadaecd3409d4f3d60641b780bf0de4aa60f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ec1b3f84_c9a7111c",
+        "filename": "java/com/google/gerrit/lucene/GerritIndexWriterConfig.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-11-12T21:48:00Z",
+      "side": 1,
+      "message": "Could you pass the filename here?\n\nIMHO, each Lucene index should have its own log file as it is an independent entity. Having all the Lucene indexes and threads writing to the same stream would risk having mixed lines, or worse, having the writing to the indexes be serialised.",
+      "range": {
+        "startLine": 45,
+        "startChar": 51,
+        "endLine": 45,
+        "endChar": 70
+      },
+      "revId": "d2d4dadaecd3409d4f3d60641b780bf0de4aa60f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

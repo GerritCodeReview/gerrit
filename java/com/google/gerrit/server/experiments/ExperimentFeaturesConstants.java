@@ -70,11 +70,4 @@ public class ExperimentFeaturesConstants {
   /** Whether submit_records should only be returned along with submit_requirements. */
   public static final String SKIP_SUBMIT_RECORDS_WITHOUT_SUBMIT_REQUIREMENTS =
       "GerritBackendFeature__skip_submit_records_without_submit_requirements";
-
-  /**
-   * Whether change indexing should be done asynchronously if the caller is not a service user (no
-   * effect if 'index.indexChangesAsync' is 'false'/unset in the server config).
-   */
-  public static final String DO_CHANGE_INDEXING_ASYNCHRONOUSLY_FOR_NON_SERVICE_USERS =
-      "GerritBackendFeature__do_change_indexing_asynchronously_for_non_service_users";
 }

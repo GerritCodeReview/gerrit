@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5dc3b7c6_7d409964",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-11-12T19:58:12Z",
+      "side": 1,
+      "message": "Needs `Release-Notes` footer (same for the new children of this change).",
+      "revId": "1fe05d9b1bc28b77b0525756bdcd8e78937e9201",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

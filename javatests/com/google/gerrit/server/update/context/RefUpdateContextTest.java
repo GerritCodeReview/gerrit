@@ -197,6 +197,7 @@ public class RefUpdateContextTest {
   }
 
   private static interface Callback {
+    @SuppressWarnings("unused")
     void callback();
   }
 }

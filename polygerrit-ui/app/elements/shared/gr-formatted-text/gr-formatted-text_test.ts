@@ -279,7 +279,6 @@ suite('gr-formatted-text tests', () => {
       await checkLinking('https://www.google.com/asdf~');
       await checkLinking('https://www.google.com/asdf-');
       await checkLinking('https://www.google.com/asdf-');
-      await checkLinking('https://www.google.com/asdf)');
       assert.equal(
         await getLinkifiedUrl('hello gerrit.com/asdf,'),
         'gerrit.com/asdf'

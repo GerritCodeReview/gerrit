@@ -1,5 +1,6 @@
 # TODO(davido): Migrate all dependencies from WORKSPACE to MODULE.bazel
 # https://issues.gerritcodereview.com/issues/303819949
+module(name = "gerrit")
 
 bazel_dep(name = "bazel_features", version = "1.39.0")
 bazel_dep(name = "platforms", version = "1.0.0")
@@ -26,6 +27,18 @@ git_override(
 )
 
 register_toolchains("//tools:all")
+
+bazel_dep(name = "com_googlesource_gerrit_bazlets")
+git_override(
+    module_name = "com_googlesource_gerrit_bazlets",
+    remote = "https://gerrit.googlesource.com/bazlets",
+    commit = "5a2a653fcf77ac3fca619f9944246ca7f339849d",
+)
+
+# Kept in a separate fragment so routine Gerrit API version bumps do not
+# require editing the root module declaration. Used for API artifact versioning
+# and plugin manifest stamping via @gerrit_api_version.
+include("//tools:gerrit_version.MODULE.bazel")
 
 local_repository = use_repo_rule("@bazel_tools//tools/build_defs/repo:local.bzl", "local_repository")
 

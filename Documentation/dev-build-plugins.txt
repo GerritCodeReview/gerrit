@@ -83,22 +83,72 @@ in `tools/BUILD`.
 
 === Plugins with external dependencies ===
 
-If the plugin has external dependencies, then they must be included from Gerrit's
-own WORKSPACE file. This can be achieved by including them in `external_plugin_deps.bzl`.
-During the build in Gerrit tree, this file must be copied over the dummy one in
-`plugins` directory.
+[NOTE]
+As of Gerrit 3.14 using the `external_plugin_deps.bzl` file for adding external
+dependencies of plugins to the build has been deprecated. This feature will be
+removed with Gerrit 3.15. Please migrate to using Bazel modules as described
+below. The documentation of the deprecated `external_plugin_deps.bzl`
+functionality has been moved to a dedicated section below.
 
-Example for content of `external_plugin_deps.bzl` file:
+If a plugin requires external Java dependencies, they can install those in its
+`MODULE.bazel` using rules_jvm_external. The bazel repository for the maven
+dependencies has to be plugin specific, e.g. `oauth_plugin_deps`.
+Such a `MODULE.bazel`-file might look as follows:
 
 ----
-load("//tools/bzl:maven_jar.bzl", "maven_jar")
+module(name = "gerrit-oauth-provider")
 
-def external_plugin_deps():
-  maven_jar(
-      name = 'org_apache_tika_tika_core',
-      artifact = 'org.apache.tika:tika-core:1.12',
-      sha1 = '5ab95580d22fe1dee79cffbcd98bb509a32da09b',
-  )
+bazel_dep(name = "rules_jvm_external", version = "6.10")
+
+maven = use_extension("@rules_jvm_external//:extensions.bzl", "maven")
+
+maven.install(
+    name = "oauth_plugin_deps",
+    artifacts = [
+        "com.fasterxml.jackson.core:jackson-databind:2.10.2",
+        "com.github.scribejava:scribejava-apis:6.9.0",
+        "com.sap.cloud.security:java-security:3.6.0",
+    ],
+    duplicate_version_warning = "error",
+    excluded_artifacts = [
+        "commons-io:commons-io",
+        "com.github.ben-manes.caffeine:caffeine",
+        "org.slf4j:slf4j-api",
+    ],
+    fail_if_repin_required = True,
+    fail_on_missing_checksum = True,
+    fetch_sources = True,
+    lock_file = "//:oauth_plugin_deps.lock.json",
+    repositories = [
+        "https://repo1.maven.org/maven2",
+    ],
+    version_conflict_policy = "pinned",
+)
+use_repo(maven, "oauth_plugin_deps")
+----
+
+After creating the `MODULE.bazel`-file create and update the lock-file for the
+plugin:
+
+----
+cd plugins/oauth
+touch oauth_plugin_deps.lock.json
+bazelisk run @oauth_plugin_deps//:pin
+bazelisk mod deps --lockfile_mode=update
+----
+
+If the plugin has external dependencies, then they must be included from Gerrit's
+own MODULE.bazel file. This can be achieved by loading the plugin's bazel module
+in Gerrit's own module (`MODULE.bazel`-file), e.g.:
+
+----
+bazel_dep(name = "gerrit-plugin-oauth")
+local_path_override(
+    module_name = "gerrit-plugin-oauth",
+    path = "plugins/oauth",
+)
+
+use_repo(maven, "oauth_plugin_deps")
 ----
 
 === Bundle custom plugin in release.war ===
@@ -127,6 +177,44 @@ CUSTOM_PLUGINS_TEST_DEPS = [
 ]
 ----
 
+[NOTE]
+Since `tools/bzl/plugins.bzl` is part of Gerrit's source code and the version of
+the war is based on the state of the git repository that is built; you should
+commit this change before building, otherwise the version will be marked as
+'dirty'.
+
+== Bazel standalone driven
+
+Only few plugins support that mode for now:
+
+----
+cd reviewers
+bazel build reviewers
+----
+
+=== Managing external dependencies using `external_plugin_deps.bzl` ===
+
+[NOTE]
+This functionality has been deprecated.
+
+If the plugin has external dependencies, then they can be included from Gerrit's
+own WORKSPACE file. This can be achieved by including them in `external_plugin_deps.bzl`.
+During the build in Gerrit tree, this file must be copied over the dummy one in
+`plugins` directory.
+
+Example for content of `external_plugin_deps.bzl` file:
+
+----
+load("//tools/bzl:maven_jar.bzl", "maven_jar")
+
+def external_plugin_deps():
+  maven_jar(
+      name = 'org_apache_tika_tika_core',
+      artifact = 'org.apache.tika:tika-core:1.12',
+      sha1 = '5ab95580d22fe1dee79cffbcd98bb509a32da09b',
+  )
+----
+
 If the plugin(s) being bundled in the release have external dependencies, include them
 in `plugins/external_plugin_deps`. Create symbolic link from plugin's own
 `external_plugin_deps()` file in plugins directory and prefix the file with
@@ -147,21 +235,6 @@ load(":uploadvalidator_external_plugin_deps.bzl", uploadvalidator_deps="external
 def external_plugin_deps():
   oauth_deps()
   uploadvalidator_deps()
-----
-
-[NOTE]
-Since `tools/bzl/plugins.bzl` and `plugins/external_plugin_deps.bzl` are part of
-Gerrit's source code and the version of the war is based on the state of the git
-repository that is built; you should commit this change before building, otherwise
-the version will be marked as 'dirty'.
-
-== Bazel standalone driven
-
-Only few plugins support that mode for now:
-
-----
-cd reviewers
-bazel build reviewers
 ----
 
 GERRIT

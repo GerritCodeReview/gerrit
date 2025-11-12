@@ -1,0 +1,15 @@
+# Gerrit API version used for published artifacts and plugin manifest stamping.
+# Intentionally separate from the root module() declaration.
+GERRIT_VERSION = "3.13.5-SNAPSHOT"
+
+gerrit_api_version = use_repo_rule(
+    "@com_googlesource_gerrit_bazlets//:gerrit_api_version.bzl",
+    "gerrit_api_version",
+)
+
+gerrit_api_version(
+    name = "gerrit_api_version",
+    version = GERRIT_VERSION,
+    visibility = ["//visibility:public"],
+)
+

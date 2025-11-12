@@ -31,10 +31,13 @@ genrule(
 
 filegroup(
     name = "resources",
-    srcs = glob([
-        "images/*.jpg",
-        "images/*.png",
-    ]) + [
+    srcs = glob(
+        [
+            "images/*.jpg",
+            "images/*.png",
+        ],
+        allow_empty = True,
+    ) + [
         ":prettify_files",
         "//:LICENSES.txt",
     ],

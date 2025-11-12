@@ -279,6 +279,10 @@ suite('gr-formatted-text tests', () => {
       await checkLinking('https://www.google.com/asdf~');
       await checkLinking('https://www.google.com/asdf-');
       await checkLinking('https://www.google.com/asdf-');
+<<<<<<< PATCH SET (3d2931ba6b824ffccd54d3dc6e4720eee39c4b47 Revert "ALWAYS_LINK_HTTP: Allow links to end with `)`")
+||||||| BASE      (16700db9af596b8701cb763da99a8b77a3154857 ALWAYS_LINK_HTTP: Allow links to end with `)`)
+      await checkLinking('https://www.google.com/asdf)');
+=======
       await checkLinking('https://www.google.com/asdf)');
       assert.equal(
         await getLinkifiedUrl('hello gerrit.com/asdf,'),
@@ -296,6 +300,7 @@ suite('gr-formatted-text tests', () => {
         await getLinkifiedUrl('hello gerrit.com/foo,bar'),
         'gerrit.com/foo,bar'
       );
+>>>>>>> BASE      (4361a94a026a95beaa0af9e28d4ac1736e0d02e5 Fix ambiguous operation name)
       // matches & part as well, even we first linkify and then htmlEscape
       await checkLinking(
         'https://google.com/traces/list?project=gerrit&tid=123'

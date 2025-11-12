@@ -33,6 +33,24 @@
       "message": "Just to let you know, I would rate this change as rather risky (because it adds new thread local state), so up to you whether it should be cherry-picked.",
       "revId": "74a3916d3a65947553b225c55d6bb613bebf5767",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4546388f_1b816396",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-11-12T08:42:19Z",
+      "side": 1,
+      "message": "Thanks for letting me know. I\u0027d rather leave it out of stable-3.13 then. Thanks.",
+      "parentUuid": "704efaa5_1779565c",
+      "revId": "74a3916d3a65947553b225c55d6bb613bebf5767",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

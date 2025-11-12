@@ -8,11 +8,10 @@ import {spinnerStyles} from '../../../styles/gr-spinner-styles';
 import {votingStyles} from '../../../styles/gr-voting-styles';
 import {css, html, LitElement, nothing, PropertyValues} from 'lit';
 import {customElement, property} from 'lit/decorators.js';
-import {getEventPath, Key} from '../../../utils/dom-util';
+import {addShortcut, getEventPath, Key} from '../../../utils/dom-util';
 import {getAppContext} from '../../../services/app-context';
 import {classMap} from 'lit/directives/class-map.js';
 import {Interaction} from '../../../constants/reporting';
-import {ShortcutController} from '../../lit/shortcut-controller';
 import '@material/web/button/elevated-button';
 import '@material/web/button/text-button';
 
@@ -57,8 +56,6 @@ export class GrButton extends LitElement {
 
   // Private but used in tests.
   readonly reporting = getAppContext().reportingService;
-
-  private readonly shortcuts = new ShortcutController(this);
 
   static override get styles() {
     return [
@@ -253,8 +250,8 @@ export class GrButton extends LitElement {
     super();
     this.initialTabindex = this.getAttribute('tabindex') || '0';
     this.addEventListener('click', e => this.handleAction(e));
-    this.shortcuts.addLocal({key: Key.ENTER}, () => this.click());
-    this.shortcuts.addLocal({key: Key.SPACE}, () => this.click());
+    addShortcut(this, {key: Key.ENTER}, () => this.click());
+    addShortcut(this, {key: Key.SPACE}, () => this.click());
   }
 
   override updated(changedProperties: PropertyValues) {

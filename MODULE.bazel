@@ -1,6 +1,13 @@
 # TODO(davido): Migrate all dependencies from WORKSPACE to MODULE.bazel
 # https://issues.gerritcodereview.com/issues/303819949
 
+GERRIT_VERSION = "3.13.2-SNAPSHOT"
+
+module(
+    name = "gerrit",
+    version = GERRIT_VERSION,
+)
+
 bazel_dep(name = "bazel_features", version = "1.39.0")
 bazel_dep(name = "platforms", version = "1.0.0")
 bazel_dep(name = "rules_jvm_external", version = "6.9")
@@ -45,6 +52,35 @@ git_override(
 )
 
 register_toolchains("//tools:all")
+
+bazel_dep(name = "com_googlesource_gerrit_bazlets")
+git_override(
+    module_name = "com_googlesource_gerrit_bazlets",
+    remote = "https://gerrit.googlesource.com/bazlets",
+    commit = "1436dfb172d7a31431feca2c7756c91e6d9a58bd",
+)
+
+gerrit_api_version = use_repo_rule(
+    "@com_googlesource_gerrit_bazlets//:gerrit_api_version.bzl",
+    "gerrit_api_version",
+)
+gerrit_api_version(
+    name = "gerrit_api_version",
+    version = GERRIT_VERSION,
+    visibility = ["//visibility:public"],
+)
+
+"""
+Import all plugin modules of plugins that require external dependencies, e.g.:
+
+```
+bazel_dep(name = "gerrit-plugin-oauth")
+local_path_override(
+    module_name = "gerrit-plugin-oauth",
+    path = "./plugins/oauth",
+)
+```
+"""
 
 local_repository = use_repo_rule("@bazel_tools//tools/build_defs/repo:local.bzl", "local_repository")
 

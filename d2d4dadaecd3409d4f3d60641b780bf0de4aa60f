@@ -110,6 +110,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b300c367_d4850ccd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-11-12T21:58:45Z",
+      "side": 1,
+      "message": "I am missing two important aspects in this change:\n\n1. Update to the log files documentation: mention the new log files (optional) and their format\n2. Tests: I do not see a single test on the new functionality",
+      "revId": "d2d4dadaecd3409d4f3d60641b780bf0de4aa60f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "06d7675c_6aff9845",

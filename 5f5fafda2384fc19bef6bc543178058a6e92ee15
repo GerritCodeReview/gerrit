@@ -16,6 +16,24 @@
       "message": "This is fine but the function you\u0027re reverting to is deprecated. Maybe you could come up with a resolution or maybe @deprecated should be dropped?",
       "revId": "5f5fafda2384fc19bef6bc543178058a6e92ee15",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d37330ff_4e9ccda3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-11-12T18:19:33Z",
+      "side": 1,
+      "message": "Dropped it.",
+      "parentUuid": "4afe58fe_213d5d12",
+      "revId": "5f5fafda2384fc19bef6bc543178058a6e92ee15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

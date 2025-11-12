@@ -22,6 +22,30 @@
       },
       "revId": "46f2be98bbea3cbe78dd68ed4c8f978ef0244044",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "539fe829_71b825e2",
+        "filename": "polygerrit-ui/app/embed/gr-textarea.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-11-12T14:59:37Z",
+      "side": 1,
+      "message": "Well this is a backport, this is ok for chrome and safari.\n\n\u003cdiv\u003e\u003c/div\u003e is a noop in safari and chrome but fixes the issue in firefox (but adds no user facing (as in something you see) changes).",
+      "parentUuid": "83573c89_123ca407",
+      "range": {
+        "startLine": 286,
+        "startChar": 6,
+        "endLine": 287,
+        "endChar": 10
+      },
+      "revId": "46f2be98bbea3cbe78dd68ed4c8f978ef0244044",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

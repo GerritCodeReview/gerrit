@@ -16,6 +16,24 @@
       "message": "This works locally, but we loose the ripple effect etc.",
       "revId": "591dad9bb4366d193173614f0311e6f8415fec95",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4c3a6b87_469a95d5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-11-12T18:26:21Z",
+      "side": 1,
+      "message": "I am totally fine to sacrifice that. :-)",
+      "parentUuid": "8a56147b_10595b03",
+      "revId": "591dad9bb4366d193173614f0311e6f8415fec95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

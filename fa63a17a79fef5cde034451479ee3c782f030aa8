@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dd47942b_19e4a93a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-11-12T20:18:08Z",
+      "side": 1,
+      "message": "typo\n```suggestion\n`migrate-externalids-to-insensitive`. When enabled, this option skips\n```",
+      "revId": "fa63a17a79fef5cde034451479ee3c782f030aa8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "63fd0689_aabee661",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-11-12T20:18:08Z",
+      "side": 1,
+      "message": "Add IaC use case too\n```suggestion\nThis change allows admins of multi-primary and/or IaC environments to\nupdate the configuration across all primaries and/or with tooling like\nChef/Ansible after migration, rather than having it modified\nautomatically by the command on one primary.\n```",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 10
+      },
+      "revId": "fa63a17a79fef5cde034451479ee3c782f030aa8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2192b908_fc6a88e7",
+        "filename": "Documentation/cmd-migrate-externalids-to-insensitive.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-11-12T20:18:08Z",
+      "side": 1,
+      "message": "wrap to 80 and add IaC language\n```suggestion\n\tSkip setting `auth.userNameCaseInsensitiveMigrationMode` to `false` after the\n\tmigration completes successfully. This option is useful in multi-primary and\n\tIaC setups where admins may prefer to update the migration mode config on all\n\tprimaries and/or using IaC tooling after the migration completes.\n```",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 89
+      },
+      "revId": "fa63a17a79fef5cde034451479ee3c782f030aa8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

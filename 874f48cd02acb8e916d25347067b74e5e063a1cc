@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ded39b08_84a8ddce",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-11-12T20:01:40Z",
+      "side": 1,
+      "message": "```suggestion\nChange-Id: I20b53fb574517465886301bf257eeed3292b8678\nRelease-Notes: skip\n```",
+      "revId": "874f48cd02acb8e916d25347067b74e5e063a1cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -33,6 +33,24 @@
       "message": "This series conflicts with https://gerrit-review.googlesource.com/c/gerrit/+/525041 should I wait until that is reverted before trying to merge this?",
       "revId": "fdd3b78a785f567a462409e4d99fe675070eaa82",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c11d883e_8fb8ea2d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-11-12T14:19:18Z",
+      "side": 1,
+      "message": "Sorry about that, I uploaded the revert now:\nhttps://gerrit-review.git.corp.google.com/c/gerrit/+/526721",
+      "parentUuid": "59115968_97ed9c94",
+      "revId": "fdd3b78a785f567a462409e4d99fe675070eaa82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

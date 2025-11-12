@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c9002bac_808c39f3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-11-12T07:44:18Z",
+      "side": 1,
+      "message": "These cherry-picks are needed on stable-3.13 to avoid conflicts when merging up to master",
+      "revId": "66031f745cd5ad6332b374805924b7c93079a3bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

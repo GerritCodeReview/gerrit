@@ -16,6 +16,29 @@
       "message": "Nice, thanks much for working on this!",
       "revId": "6fd8119869dbdc5bd735358f90a1dcb60dfa1032",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5e7474ec_32bcf61f",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-rebase-dialog/gr-confirm-rebase-dialog.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-11-12T18:20:05Z",
+      "side": 1,
+      "message": "After the merging of Idd840993b, the spinner is shown for 100ms or less on our setup, which gives the impression that the window just blimps. Would it make sense to remove it? Do you see the same reduction of latency on gerrit-review @dhruvsri@google.com?",
+      "range": {
+        "startLine": 345,
+        "startChar": 0,
+        "endLine": 350,
+        "endChar": 8
+      },
+      "revId": "6fd8119869dbdc5bd735358f90a1dcb60dfa1032",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

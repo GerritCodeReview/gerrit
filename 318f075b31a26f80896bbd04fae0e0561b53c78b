@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1eda6aa2_236a3d39",
+        "filename": "Documentation/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-11-12T20:00:48Z",
+      "side": 1,
+      "message": "Needs formatting\n```suggestion\n    srcs \u003d glob(\n        [\n            \"images/*.jpg\",\n            \"images/*.png\",\n        ],\n        allow_empty \u003d True,\n    ) + [\n```",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 25
+      },
+      "revId": "318f075b31a26f80896bbd04fae0e0561b53c78b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

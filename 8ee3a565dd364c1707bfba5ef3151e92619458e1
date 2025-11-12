@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a278cd31_4e4dcbb3",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/account/TokenIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-11-12T07:20:10Z",
+      "side": 1,
+      "message": "suggestion: `ref-update` event is well known part of the Gerrit but these tests started to look more like they were testing events together with the new functionality - perhaps it would be enough to just test events in a single, dedicated test covering all cases: create, delete, fail to create etc... so that we confirm it works without affecting all of them? WDYT?",
+      "revId": "8ee3a565dd364c1707bfba5ef3151e92619458e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

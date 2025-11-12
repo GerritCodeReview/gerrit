@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b58551d3_ce99592e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-11-12T07:24:59Z",
+      "side": 1,
+      "message": "Thanks for your review @geminica.programs@gmail.com 👍",
+      "revId": "8ee3a565dd364c1707bfba5ef3151e92619458e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a278cd31_4e4dcbb3",
@@ -14,6 +31,24 @@
       "writtenOn": "2025-11-12T07:20:10Z",
       "side": 1,
       "message": "suggestion: `ref-update` event is well known part of the Gerrit but these tests started to look more like they were testing events together with the new functionality - perhaps it would be enough to just test events in a single, dedicated test covering all cases: create, delete, fail to create etc... so that we confirm it works without affecting all of them? WDYT?",
+      "revId": "8ee3a565dd364c1707bfba5ef3151e92619458e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "09fff262_f7caab58",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/account/TokenIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-11-12T07:24:59Z",
+      "side": 1,
+      "message": "\u003e suggestion: `ref-update` event is well known part of the Gerrit but these tests started to look more like they were testing events together with the new functionality\n\nCorrect, this is a IT test suite, therefore their purpose is to test the functionality E2E, not testing a single aspect in isolation.\n\n\u003e - perhaps it would be enough to just test events in a single, dedicated test covering all cases: create, delete, fail to create etc... so that we confirm it works without affecting all of them? WDYT?\n\nThe approach I took is consistent with the other IT tests in Gerrit, where every functionality is tested E2E in isolation and has all the associated assertions. See, for example, the AccountIT.",
+      "parentUuid": "a278cd31_4e4dcbb3",
       "revId": "8ee3a565dd364c1707bfba5ef3151e92619458e1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

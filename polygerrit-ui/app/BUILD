@@ -1,7 +1,7 @@
-load(":rules.bzl", "polygerrit_bundle")
-load("//tools/js:eslint.bzl", "eslint")
 load("@build_bazel_rules_nodejs//:index.bzl", "nodejs_test")
 load("@npm//@bazel/typescript:index.bzl", "ts_config", "ts_project")
+load("//tools/js:eslint.bzl", "eslint")
+load(":rules.bzl", "polygerrit_bundle")
 
 package(default_visibility = ["//visibility:public"])
 
@@ -37,6 +37,7 @@ ts_project(
             ".js",
             ".ts",
         ]],
+        allow_empty = True,
         exclude = [
             "**/*_test.js",
             "**/*_test.ts",
@@ -119,6 +120,7 @@ filegroup(
         [
             "**/*.html",
         ],
+        allow_empty = True,
         exclude = [
             "node_modules/**",
             "node_modules_licenses/**",

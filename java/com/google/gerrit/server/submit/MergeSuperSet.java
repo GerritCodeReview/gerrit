@@ -109,6 +109,26 @@ public class MergeSuperSet {
    */
   public ChangeSet completeChangeSet(Change change, CurrentUser user, boolean includingTopicClosure)
       throws IOException, PermissionBackendException {
+    return completeChangeSet(change, user, includingTopicClosure, false);
+  }
+
+  /**
+   * Gets the ChangeSet of this {@code change} based on visiblity of the {@code user}. if
+   * change.submitWholeTopic is true, we return the topic closure as well as the dependent changes
+   * of the topic closure. Otherwise, we return just the dependent changes.
+   *
+   * @param change the change for which we get the dependent changes / topic closure.
+   * @param user the current user for visibility purposes.
+   * @param includingTopicClosure when true, return as if change.submitWholeTopic = true, so we
+   *     return the topic closure.
+   * @param backfill backfill the ChangeSet with the input change should it be missing from the
+   *     index lookup
+   * @return {@link ChangeSet} object that represents the dependent changes and/or topic closure of
+   *     the requested change.
+   */
+  public ChangeSet completeChangeSet(
+      Change change, CurrentUser user, boolean includingTopicClosure, boolean backfill)
+      throws IOException, PermissionBackendException {
     try (TraceTimer timer =
         TraceContext.newTimer(
             "MergeSuperSet#completeChangeSet",
@@ -125,14 +145,14 @@ public class MergeSuperSet {
 
       ChangeSet changeSet = new ChangeSet(cd, visible);
       if (wholeTopicEnabled(cfg) || includingTopicClosure) {
-        return completeChangeSetIncludingTopics(changeSet, user);
+        return completeChangeSetIncludingTopics(changeSet, user, backfill);
       }
       try (TraceContext traceContext = PluginContext.newTrace(mergeSuperSetComputation);
           TraceTimer timer2 =
               TraceContext.newTimer(
                   "MergeSuperSet#completeWithoutTopic",
                   Metadata.builder().changeId(change.getId().get()).build())) {
-        return mergeSuperSetComputation.get().completeWithoutTopic(orm, changeSet, user);
+        return mergeSuperSetComputation.get().completeWithoutTopic(orm, changeSet, user, backfill);
       }
     } finally {
       if (closeOrm && orm != null) {
@@ -192,7 +212,8 @@ public class MergeSuperSet {
     }
   }
 
-  private ChangeSet completeChangeSetIncludingTopics(ChangeSet changeSet, CurrentUser user)
+  private ChangeSet completeChangeSetIncludingTopics(
+      ChangeSet changeSet, CurrentUser user, boolean backfill)
       throws IOException, PermissionBackendException {
     try (TraceTimer timer =
         TraceContext.newTimer("MergeSuperSet#completeChangeSetIncludingTopics", Metadata.empty())) {
@@ -209,7 +230,8 @@ public class MergeSuperSet {
         try (TraceContext traceContext = PluginContext.newTrace(mergeSuperSetComputation);
             TraceTimer timer2 =
                 TraceContext.newTimer("MergeSuperSet#completeWithoutTopic", Metadata.empty())) {
-          changeSet = mergeSuperSetComputation.get().completeWithoutTopic(orm, changeSet, user);
+          changeSet =
+              mergeSuperSetComputation.get().completeWithoutTopic(orm, changeSet, user, backfill);
         }
         changeSet = topicClosure(changeSet, user, topicsSeen, visibleTopicsSeen);
         seen = topicsSeen.size() + visibleTopicsSeen.size();

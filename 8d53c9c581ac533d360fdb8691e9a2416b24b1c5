@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "13a2aee7_1fa935aa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-11-12T14:03:35Z",
+      "side": 1,
+      "message": "this merge breaks the following 5 tests, need to find out why:\n\n//javatests/com/google/gerrit/acceptance/rest/change:SubmitByFastForwardIT \n//javatests/com/google/gerrit/acceptance/rest/change:SubmitByMergeAlwaysIT\n//javatests/com/google/gerrit/acceptance/rest/change:SubmitByMergeIfNecessaryIT\n//javatests/com/google/gerrit/acceptance/rest/change:SubmitByRebaseAlwaysIT\n//javatests/com/google/gerrit/acceptance/rest/change:SubmitByRebaseIfNecessaryIT",
+      "revId": "8d53c9c581ac533d360fdb8691e9a2416b24b1c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d272bf75_e691da93",

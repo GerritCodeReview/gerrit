@@ -87,6 +87,30 @@
       },
       "revId": "a2b6cb8d351d024c2093a40a45049514e99e081d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a09a146d_9e7ea6b6",
+        "filename": "java/com/google/gerrit/server/account/DirectAuthTokenAccessor.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-11-12T08:32:56Z",
+      "side": 1,
+      "message": "\u003e Sorry for that. This was not by intention, I guess a combination out of AI\n\nAI checks the syntax, not the semantics ;-)\n\n\u003e and not checking thoroughly enough. Thanks for the fix!\n\nNot a problem at all!",
+      "parentUuid": "65b7b47d_6a3619b1",
+      "range": {
+        "startLine": 132,
+        "startChar": 28,
+        "endLine": 132,
+        "endChar": 33
+      },
+      "revId": "a2b6cb8d351d024c2093a40a45049514e99e081d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

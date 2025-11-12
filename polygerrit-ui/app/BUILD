@@ -12,7 +12,6 @@ src_dirs = [
     "constants",
     "elements",
     "embed",
-    "gr-diff",
     "mixins",
     "models",
     "scripts",

@@ -406,7 +406,7 @@ export class GrFileList extends LitElement {
           position: sticky;
           /* -1px for the top border to scroll out of view */
           top: calc(
-            var(--main-header-height) + var(--change-header-height) - 1px
+            var(--main-header-height) + var(--change-header-height, 38px) - 1px
           ); /* Has to visible above the diff view, and by default has a lower
             z-index. setting to 1 places it directly above. */
           z-index: 1;

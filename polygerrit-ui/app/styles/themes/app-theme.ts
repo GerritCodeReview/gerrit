@@ -433,6 +433,7 @@ const appThemeCss = safeStyleSheet`
     --header-text-color: black;
     --header-title-content: 'Gerrit';
     --header-title-font-size: 1.75rem;
+    /* This is just an initial value. Will be updated by a ResizeObserver. */
     --main-header-height: 48px;
     --main-footer-height: 36px;
 

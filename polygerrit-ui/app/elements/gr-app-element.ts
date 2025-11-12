@@ -299,7 +299,6 @@ export class GrAppElement extends LitElement {
           z-index: 111;
           position: sticky;
           top: 0;
-          height: var(--main-header-height);
         }
         footer {
           background: var(

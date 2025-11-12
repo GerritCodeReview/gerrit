@@ -203,6 +203,16 @@ export class GrMainHeader extends LitElement {
         this.retrieveRegisterURL(config);
       }
     );
+    const observer = new ResizeObserver(entries => {
+      for (const entry of entries) {
+        const height = entry.borderBoxSize[0].blockSize;
+        document.documentElement.style.setProperty(
+          '--main-header-height',
+          `${height}px`
+        );
+      }
+    });
+    observer.observe(this);
   }
 
   override connectedCallback() {

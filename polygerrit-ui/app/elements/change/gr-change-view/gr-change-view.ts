@@ -127,6 +127,7 @@ import {a11yStyles} from '../../../styles/gr-a11y-styles';
 import {materialStyles} from '../../../styles/gr-material-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {ifDefined} from 'lit/directives/if-defined.js';
+import {ref} from 'lit/directives/ref.js';
 import {when} from 'lit/directives/when.js';
 import {ShortcutController} from '../../lit/shortcut-controller';
 import {FilesExpandedState} from '../gr-file-list-constants';
@@ -449,6 +450,16 @@ export class GrChangeView extends LitElement {
   private readonly shortcutsController = new ShortcutController(this);
 
   private readonly getNavigation = resolve(this, navigationToken);
+
+  private headerResizeObserver = new ResizeObserver(entries => {
+    for (const entry of entries) {
+      const height = entry.borderBoxSize[0].blockSize;
+      document.documentElement.style.setProperty(
+        '--change-header-height',
+        `${height}px`
+      );
+    }
+  });
 
   constructor() {
     super();
@@ -806,9 +817,8 @@ export class GrChangeView extends LitElement {
       modalStyles,
       css`
         :host {
-          --change-header-height: 38px;
           --sidebar-top: calc(
-            var(--main-header-height) + var(--change-header-height)
+            var(--main-header-height) + var(--change-header-height, 38px)
           );
           --sidebar-bottom-overflow: var(--main-footer-height);
         }
@@ -830,7 +840,6 @@ export class GrChangeView extends LitElement {
           padding: var(--spacing-s) var(--spacing-l);
           position: sticky;
           top: var(--main-header-height);
-          height: var(--change-header-height);
           z-index: 110;
         }
         .header.active {
@@ -1190,10 +1199,14 @@ export class GrChangeView extends LitElement {
     `;
   }
 
+  private onHeaderCreated(el?: Element) {
+    if (el) this.headerResizeObserver.observe(el);
+  }
+
   private renderHeader() {
     if (this.loading) return;
     return html`
-      <div class=${this.computeHeaderClass()}>
+      <div class=${this.computeHeaderClass()} ${ref(this.onHeaderCreated)}>
         <h1 class="assistive-tech-only">
           Change ${this.change?._number}: ${this.change?.subject}
         </h1>

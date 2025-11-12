@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e129ae46_64b96eae",
+        "filename": "java/com/google/gerrit/server/logging/PerformanceLogContext.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-11-12T08:51:03Z",
+      "side": 0,
+      "message": "I believe we want to keep the master version for this, see the comment for the change we decided to NOT include on stable-3.13.\n\nhttps://gerrit-review.googlesource.com/c/gerrit/+/526082/comments/704efaa5_1779565c",
+      "range": {
+        "startLine": 142,
+        "startChar": 0,
+        "endLine": 161,
+        "endChar": 108
+      },
+      "revId": "00136fe023a5d38b93a5ba37592ff1e6e61ffabf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

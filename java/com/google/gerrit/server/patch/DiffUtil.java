@@ -55,6 +55,9 @@ public class DiffUtil {
    */
   public static ImmutableList<ModifiedFile> mergeRewrittenModifiedFiles(
       List<ModifiedFile> modifiedFiles) {
+    if (modifiedFiles == null) {
+      return ImmutableList.of();
+    }
     ImmutableList.Builder<ModifiedFile> result = ImmutableList.builder();
     ListMultimap<String, ModifiedFile> byPath = ArrayListMultimap.create();
     modifiedFiles.stream()

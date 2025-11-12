@@ -135,6 +135,14 @@ public class PerformanceLogContext implements AutoCloseable, PerformanceSummaryP
 
     Map<String, PerformanceInfo> perRequestPerformanceInfo = new HashMap<>();
     for (PerformanceLogRecord performanceLogRecord : performanceLogRecords) {
+      String pluginClass =
+          PLUGIN_LATENCY_NAME.equals(performanceLogRecord.operation())
+              ? performanceLogRecord
+                  .metadata()
+                  .map(Metadata::className)
+                  .map(clazz -> clazz.isPresent() ? " (" + clazz.get() + ")" : "")
+                  .orElse("")
+              : "";
       PerformanceInfo info =
           perRequestPerformanceInfo.computeIfAbsent(
               performanceLogRecord.getDecoratedOperationName(),

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4afe58fe_213d5d12",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-11-12T16:36:28Z",
+      "side": 1,
+      "message": "This is fine but the function you\u0027re reverting to is deprecated. Maybe you could come up with a resolution or maybe @deprecated should be dropped?",
+      "revId": "5f5fafda2384fc19bef6bc543178058a6e92ee15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

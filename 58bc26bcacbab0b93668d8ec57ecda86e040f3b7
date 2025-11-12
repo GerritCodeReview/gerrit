@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "03d3af95_8d37e1ab",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-11-12T15:44:05Z",
+      "side": 1,
+      "message": "DO NOT SUBMIT\n\nComplete Google internal testing first.",
+      "revId": "58bc26bcacbab0b93668d8ec57ecda86e040f3b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

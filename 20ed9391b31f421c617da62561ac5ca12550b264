@@ -16,6 +16,24 @@
       "message": "Might be related to Martin\u0027s fix that\u0027s been waiting on review? 511961: WorkQueue: adjust/fix metrics to account for parked tasks | https://gerrit-review.googlesource.com/c/gerrit/+/511961",
       "revId": "20ed9391b31f421c617da62561ac5ca12550b264",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b633d374_a0a1b75d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-11-12T14:17:11Z",
+      "side": 1,
+      "message": "Thanks for the pointer. Unfortunately I don\u0027t think this is the issue we see, for us it seems that these callback metrics get not invoked at all (confirmed by the logs added in this change not showing up).\n\nSince the test is done, I\u0027m reverting this change (well most of it):\nhttps://gerrit-review.git.corp.google.com/c/gerrit/+/526721",
+      "parentUuid": "d54878e2_3d146f95",
+      "revId": "20ed9391b31f421c617da62561ac5ca12550b264",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

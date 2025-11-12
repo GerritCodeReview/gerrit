@@ -474,15 +474,15 @@ public class LuceneChangeIndex implements ChangeIndex {
       }
     }
 
-    /*
+    /**
      * Assign shard index values to the score documents.
      *
-     * <p>TopDocs.merge()'s API has been changed to stop allowing passing in a parameter to
-     * indicate if it should set shard indices for hits as they are seen during the merge
-     * process. This is done to simplify the API to be more dynamic in terms of passing in
-     * custom tie breakers. If shard indices are to be used for tie breaking docs with equal
-     * scores during TopDocs.merge(), then it is mandatory that the input ScoreDocs have their
-     * shard indices set to valid values prior to calling merge().
+     * <p>TopDocs.merge()'s API has been changed to stop allowing passing in a parameter to indicate
+     * if it should set shard indices for hits as they are seen during the merge process. This is
+     * done to simplify the API to be more dynamic in terms of passing in custom tie breakers. If
+     * shard indices are to be used for tie breaking docs with equal scores during TopDocs.merge(),
+     * then it is mandatory that the input ScoreDocs have their shard indices set to valid values
+     * prior to calling merge().
      *
      * @param doc document
      * @param shard index

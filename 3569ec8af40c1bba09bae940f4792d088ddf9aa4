@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "021d987d_fd01c5af",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-11-12T15:01:25Z",
+      "side": 1,
+      "message": "This currently breaks the build of jgit due to a maven repo conflict. This is caused by commit 1999135e8e1f209ed12bcdd984ab86ea3c5a87e4 in the protobuf repo.\n\nFurther, the update likely requires an update to Gerrit\u0027s use of protobuf, which is using v25.3 and not v33",
+      "revId": "3569ec8af40c1bba09bae940f4792d088ddf9aa4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

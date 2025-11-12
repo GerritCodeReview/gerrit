@@ -44,6 +44,7 @@ ts_project(
             "**/*_test.js",
             "**/*_test.ts",
         ],
+        allow_empty = True,
     ),
     allow_js = True,
     incremental = True,

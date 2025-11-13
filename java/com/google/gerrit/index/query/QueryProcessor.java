@@ -327,18 +327,10 @@ public abstract class QueryProcessor<T> {
         try (TraceTimer ignored = TraceContext.newTimer("createQueryResult")) {
           String queryString = queryStrings != null ? queryStrings.get(i) : null;
           ImmutableList<T> matchesList = matches.get(i).toList();
-          int matchCount = matchesList.size();
           int limit = limits.get(i);
           logger.atFine().log(
               "Matches[%d]:\n%s",
               i, matchesList.stream().map(this::formatForLogging).collect(toList()));
-          // TODO(brohlfs): Remove this extra logging by end of Q3 2023.
-          if (limit > 500 && userProvidedLimit <= 0 && matchCount > 100 && enforceVisibility) {
-            logger.atWarning().log(
-                "%s index query without provided limit. effective limit: %d, result count: %d,"
-                    + " query: %s",
-                schemaDef.getName(), getPermittedLimit(), matchCount, queryString);
-          }
           out.add(QueryResult.create(queryString, predicates.get(i), limit, matchesList));
         }
       }

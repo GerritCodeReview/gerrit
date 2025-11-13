@@ -18,6 +18,7 @@ import static com.google.common.collect.ImmutableMap.toImmutableMap;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.PredicateResult;
@@ -40,6 +41,9 @@ import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Provider;
 import com.google.inject.Scopes;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
@@ -86,8 +90,33 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
   public void validateExpression(SubmitRequirementExpression expression)
       throws QueryParseException {
     try (ManualRequestContext ignored = requestContext.open()) {
+      List<String> predicateList = splitExpressionToPredicates(expression.expressionString());
+      for (String predicate : predicateList) {
+        validatePredicate(predicate);
+      }
       @SuppressWarnings("unused")
       var unused = queryBuilder.get().parse(expression.expressionString());
+    }
+  }
+
+  public static List<String> splitExpressionToPredicates(String expression) {
+    List<String> predicateList = new ArrayList<>();
+    Iterable<String> predicates = Splitter.onPattern(" ").split(expression);
+
+    for (String predicate : predicates) {
+      String t = predicate.trim();
+      if (!t.isEmpty() && !t.equalsIgnoreCase("AND") && !t.equalsIgnoreCase("OR")) {
+        predicateList.add(t);
+      }
+    }
+    return predicateList;
+  }
+
+  private void validatePredicate(String predicate) throws QueryParseException {
+    if (!predicate.matches("^(?i)[+-]?[a-z_][a-z0-9_-]*[:][^\\s]+$")) {
+      throw new QueryParseException(
+          String.format(
+              "Please correct submit requirement %s. Expected format: <operator>:<value>", predicate));
     }
   }
 

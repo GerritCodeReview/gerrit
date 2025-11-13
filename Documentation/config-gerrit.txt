@@ -6295,6 +6295,24 @@ By default, 1h.
 +
 Set to 0 to disable this check.
 
+[[submit-requirement]]
+=== Section submit-requirement
+
+[[submit-requirement.requireOperatorForSave]]submit-requirement.requireOperatorForSave::
+While saving submit requirements, control if operator should be required in
+expression term or not.
++
+By default false.
++
+
+[[submit-requirement.requireOperatorForEvaluation]]submit-requirement.requireOperatorForEvaluation::
+While accessing a change, control if operator should be required while evaluating
+submit requirements expression or not.
++
+By default false.
++
+
+
 [[suggest]]
 === Section suggest
 

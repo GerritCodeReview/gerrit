@@ -19,6 +19,7 @@ import static com.google.gerrit.acceptance.ExtensionRegistry.PLUGIN_NAME;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowLabel;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.server.project.testing.TestLabels.value;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.MoreCollectors;
@@ -28,6 +29,7 @@ import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
+import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.change.ChangeOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
@@ -54,6 +56,7 @@ import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.query.change.SubmitRequirementPredicate;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import java.io.IOException;
 import java.util.Optional;
 import org.junit.Before;
 import org.junit.Test;
@@ -247,6 +250,26 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
 
     SubmitRequirementResult result = evaluator.evaluateRequirement(sr, changeData);
     assertThat(result.status()).isEqualTo(SubmitRequirementResult.Status.NOT_APPLICABLE);
+  }
+
+  @Test
+  @GerritConfig(name = "submit-requirement.requireOperatorForSave", value = "true")
+  @GerritConfig(name = "submit-requirement.requireOperatorForEvaluation", value = "false")
+  public void submitRequirementThrowsException_whenOperatorIsMissingInExpression()
+      throws IOException, QueryParseException {
+    SubmitRequirementExpression exp = SubmitRequirementExpression.create("Code-Review=+1");
+    QueryParseException e =
+        assertThrows(QueryParseException.class, () -> evaluator.validateExpression(exp));
+    assertThat(e).hasMessageThat().contains("Operator is missing in submit requirement term:");
+  }
+
+  @Test
+  @GerritConfig(name = "submit-requirement.requireOperatorForSave", value = "false")
+  @GerritConfig(name = "submit-requirement.requireOperatorForEvaluation", value = "false")
+  public void submitRequirementDoesNotThrowsException_whenOperatorIsMissingInExpression()
+      throws IOException, QueryParseException {
+    SubmitRequirementExpression exp = SubmitRequirementExpression.create("Code-Review=+1");
+    evaluator.validateExpression(exp);
   }
 
   @Test

@@ -3,7 +3,6 @@
  * Copyright 2021 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '@polymer/paper-button/paper-button';
 import '../../../elements/shared/gr-tooltip-content/gr-tooltip-content';
 import {EMPTY, of, Subject} from 'rxjs';
 import {delay, switchMap} from 'rxjs/operators';
@@ -198,7 +197,7 @@ export class GrContextControls extends LitElement {
           font: var(--context-control-button-font, inherit);
         }
 
-        paper-button {
+        button {
           text-transform: none;
           align-items: center;
           background-color: var(--background-color);
@@ -211,13 +210,10 @@ export class GrContextControls extends LitElement {
           border-radius: var(--border-radius);
           padding: var(--spacing-s) var(--spacing-l);
         }
-
-        paper-button:hover {
-          /* same as defined in gr-button */
+        button:hover {
           background: rgba(0, 0, 0, 0.12);
         }
-        paper-button:focus-visible {
-          /* paper-button sets this to 0, thus preventing focus-based styling. */
+        button:focus-visible {
           outline-width: 1px;
         }
 
@@ -440,7 +436,7 @@ export class GrContextControls extends LitElement {
       });
     };
 
-    let button = html` <paper-button
+    let button = html` <button
       class=${classes}
       aria-label=${ariaLabel}
       @click=${expandHandler}
@@ -448,7 +444,7 @@ export class GrContextControls extends LitElement {
       @mouseleave=${() => mouseHandler('leave')}
     >
       <span class="showContext">${text}</span>
-    </paper-button>`;
+    </button>`;
     if (tooltip) {
       button = html`<gr-tooltip-content
         class="breadcrumbTooltip"

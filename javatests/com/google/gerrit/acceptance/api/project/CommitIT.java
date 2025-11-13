@@ -144,6 +144,9 @@ public class CommitIT extends AbstractDaemonTest {
     createBranch(BranchNameKey.create(change.project(), "branch-1"));
     createBranch(BranchNameKey.create(change.project(), "branch-2"));
 
+    // Use a non-admin user, since admins can always see all branches.
+    requestScopeOperations.setApiUser(user.id());
+
     assertThat(getIncludedIn(change.project(), currentPatchSet.commitId()).branches)
         .containsExactly("master", "branch-1", "branch-2");
 
@@ -202,6 +205,9 @@ public class CommitIT extends AbstractDaemonTest {
     tagInput.revision = currentPatchSetFollowUpChange.commitId().name();
     TagInfo tagOnCommitInOther =
         gApi.projects().name(project.get()).tag(tagInput.ref).create(tagInput).get();
+
+    // Use a non-admin user, since admins can always see all tags.
+    requestScopeOperations.setApiUser(user.id());
 
     // Verify that both tags are returned when retrieving the refs that include the commit in the
     // master branch.

@@ -1811,17 +1811,23 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   public void pushToNonVisibleBranchIsRejected() throws Exception {
     String master = "refs/heads/master";
 
+    // Do the test as a non-admin user, since admins can always see all branches, even if read is
+    // blocked.
+    TestRepository<InMemoryRepository> userRepo = cloneProject(project, user);
+    userRepo.branch("HEAD").commit().message("New Commit 1").insertChangeId().create();
+
     projectOperations
         .project(project)
         .forUpdate()
+        .add(allow(Permission.PUSH).ref(master).group(REGISTERED_USERS))
+        .add(allow(Permission.FORGE_COMMITTER).ref(master).group(REGISTERED_USERS))
         .add(block(Permission.READ).ref(master).group(REGISTERED_USERS))
         .update();
 
-    testRepo.branch("HEAD").commit().message("New Commit 1").insertChangeId().create();
     // Since the branch is not visible to the caller, the command tries to create the ref resulting
     // in the command being rejected because the ref already exists.
     assertPushRejected(
-        pushHead(testRepo, master),
+        pushHead(userRepo, master),
         master,
         "Cannot create ref 'refs/heads/master' because it already exists.");
 
@@ -1831,8 +1837,8 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
         .add(allow(Permission.READ).ref(master).group(REGISTERED_USERS))
         .update();
 
-    testRepo.branch("HEAD").commit().message("New Commit 2").insertChangeId().create();
-    assertPushOk(pushHead(testRepo, master), master);
+    userRepo.branch("HEAD").commit().message("New Commit 2").insertChangeId().create();
+    assertPushOk(pushHead(userRepo, master), master);
   }
 
   @Test

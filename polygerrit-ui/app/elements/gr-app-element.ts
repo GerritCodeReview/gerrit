@@ -58,7 +58,6 @@ import {Shortcut, ShortcutController} from './lit/shortcut-controller';
 import {cache} from 'lit/directives/cache.js';
 import {keyed} from 'lit/directives/keyed.js';
 import {assertIsDefined} from '../utils/common-util';
-import './gr-css-mixins';
 import {isDarkTheme, prefersDarkColorScheme} from '../utils/theme-util';
 import {AppTheme} from '../constants/constants';
 import {subscribe} from './lit/subscription-controller';
@@ -353,7 +352,6 @@ export class GrAppElement extends LitElement {
 
   override render() {
     return html`
-      <gr-css-mixins></gr-css-mixins>
       <gr-endpoint-decorator name="banner"></gr-endpoint-decorator>
       ${this.renderHeader()}
       <main>

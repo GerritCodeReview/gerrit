@@ -22,7 +22,6 @@ suite('gr-app-element tests', () => {
     assert.shadowDom.equal(
       element,
       /* HTML */ `
-        <gr-css-mixins> </gr-css-mixins>
         <gr-endpoint-decorator name="banner"> </gr-endpoint-decorator>
         <gr-main-header loggedin id="mainHeader" role="banner">
         </gr-main-header>

@@ -172,7 +172,6 @@ Here is a list of the UI elements found in `polygerrit-ui/app/elements` with a b
 - `gr-editor-view`: The main view for an editor.
 - `gr-app-element`: The main application element.
 - `gr-app`: The main application component.
-- `gr-css-mixins`: CSS mixins.
 - `fit-controller`: A controller for fitting an element.
 - `incremental-repeat`: A directive for incrementally repeating an element.
 - `shortcut-controller`: A controller for shortcuts.

@@ -58,7 +58,7 @@ export class PromptBox extends LitElement {
 
   @state() contextItemTypes: readonly ContextItemType[] = [];
 
-  // TODO(brohlfs): Find out if we need this.
+  // TODO(milutin): Find out if we need this.
   // @ts-ignore
   private turnBasisForUserInput?: number;
 
@@ -526,7 +526,7 @@ export class PromptBox extends LitElement {
         userInput,
         lastTurn?.userMessage.actionId,
         this.nextTurnIndex
-        // TODO(brohlfs): Find out if we need this.
+        // TODO(milutin): Find out if we need this.
         // this.turnBasisForUserInput
       );
     }

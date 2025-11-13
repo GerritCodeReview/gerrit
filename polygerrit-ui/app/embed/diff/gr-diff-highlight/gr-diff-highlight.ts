@@ -373,7 +373,7 @@ export class GrDiffHighlight {
     // In a perfect world we would only do this for double-click, but it is
     // extremely rare that a user would drag from the end of one line to the
     // start of the next and release the mouse, so we don't bother.
-    // TODO(brohlfs): This does not work, if the double-click is before a new
+    // TODO(milutin): This does not work, if the double-click is before a new
     // diff chunk (start will be equal to end), and neither before an "expand
     // the diff context" block (end line will match the first line of the new
     // section and thus be greater than start line + 1).

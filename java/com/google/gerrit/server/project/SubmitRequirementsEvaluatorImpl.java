@@ -87,7 +87,7 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
       throws QueryParseException {
     try (ManualRequestContext ignored = requestContext.open()) {
       @SuppressWarnings("unused")
-      var unused = queryBuilder.get().parse(expression.expressionString());
+      var unused = queryBuilder.get().parse(expression.expressionString(), true);
     }
   }
 

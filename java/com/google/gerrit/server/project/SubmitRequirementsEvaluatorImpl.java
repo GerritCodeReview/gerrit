@@ -18,6 +18,7 @@ import static com.google.common.collect.ImmutableMap.toImmutableMap;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.PredicateResult;
@@ -40,6 +41,8 @@ import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Provider;
 import com.google.inject.Scopes;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
@@ -87,7 +90,7 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
       throws QueryParseException {
     try (ManualRequestContext ignored = requestContext.open()) {
       @SuppressWarnings("unused")
-      var unused = queryBuilder.get().parse(expression.expressionString());
+      var unused = queryBuilder.get().parse(expression.expressionString(), true);
     }
   }
 

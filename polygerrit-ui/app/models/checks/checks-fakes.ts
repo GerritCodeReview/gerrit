@@ -523,63 +523,6 @@ export const fakeRun5: CheckRun = {
   attemptDetails: [],
 };
 
-export function clearAllFakeRuns(model: ChecksModel) {
-  model.updateStateSetProvider('f0', ChecksPatchset.LATEST);
-  model.updateStateSetProvider('f1', ChecksPatchset.LATEST);
-  model.updateStateSetProvider('f2', ChecksPatchset.LATEST);
-  model.updateStateSetProvider('f3', ChecksPatchset.LATEST);
-  model.updateStateSetProvider('f4', ChecksPatchset.LATEST);
-  model.updateStateSetProvider('f5', ChecksPatchset.LATEST);
-  model.updateStateSetResults(
-    'f0',
-    [],
-    [],
-    [],
-    undefined,
-    ChecksPatchset.LATEST
-  );
-  model.updateStateSetResults(
-    'f1',
-    [],
-    [],
-    [],
-    undefined,
-    ChecksPatchset.LATEST
-  );
-  model.updateStateSetResults(
-    'f2',
-    [],
-    [],
-    [],
-    undefined,
-    ChecksPatchset.LATEST
-  );
-  model.updateStateSetResults(
-    'f3',
-    [],
-    [],
-    [],
-    undefined,
-    ChecksPatchset.LATEST
-  );
-  model.updateStateSetResults(
-    'f4',
-    [],
-    [],
-    [],
-    undefined,
-    ChecksPatchset.LATEST
-  );
-  model.updateStateSetResults(
-    'f5',
-    [],
-    [],
-    [],
-    undefined,
-    ChecksPatchset.LATEST
-  );
-}
-
 export function setAllFakeRuns(model: ChecksModel) {
   model.updateStateSetProvider('f0', ChecksPatchset.LATEST);
   model.updateStateSetProvider('f1', ChecksPatchset.LATEST);

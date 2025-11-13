@@ -7,7 +7,7 @@ import '../../../test/common-test-setup';
 import {assert, fixture, html} from '@open-wc/testing';
 import {GrChangeSummary} from './gr-change-summary';
 import {queryAll, queryAndAssert} from '../../../utils/common-util';
-import {fakeRun0} from '../../../models/checks/checks-fakes';
+import {checkRun0} from '../../../test/test-data-generators';
 import {
   createAccountWithEmail,
   createCheckResult,
@@ -106,7 +106,7 @@ suite('gr-change-summary test', () => {
   });
 
   test('renders checks summary message', async () => {
-    element.runs = [fakeRun0];
+    element.runs = [checkRun0];
     element.messages = ['a message'];
     element.showChecksSummary = true;
     await element.updateComplete;

@@ -15,6 +15,7 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.common.base.Splitter;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.index.SchemaFieldDefs.SchemaField;
 import com.google.gerrit.index.query.Predicate;
@@ -29,7 +30,8 @@ import com.google.gerrit.server.submitrequirement.predicate.RegexAuthorEmailPred
 import com.google.gerrit.server.submitrequirement.predicate.RegexCommitterEmailPredicate;
 import com.google.gerrit.server.submitrequirement.predicate.RegexUploaderEmailPredicateFactory;
 import com.google.gerrit.server.submitrequirement.predicate.SubmitRequirementLabelExtensionPredicate;
-import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
@@ -46,6 +48,11 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
  * <p>Operators defined in this class cannot be used in change queries.
  */
 public class SubmitRequirementChangeQueryBuilder extends ChangeQueryBuilder {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
+  public interface Factory {
+    SubmitRequirementChangeQueryBuilder create(boolean operatorRequiredDuringSearch);
+  }
 
   private static final QueryBuilder.Definition<ChangeData, ChangeQueryBuilder> def =
       new QueryBuilder.Definition<>(SubmitRequirementChangeQueryBuilder.class);
@@ -70,8 +77,9 @@ public class SubmitRequirementChangeQueryBuilder extends ChangeQueryBuilder {
 
   private final FileEditsPredicate.Factory fileEditsPredicateFactory;
   private final RegexUploaderEmailPredicateFactory regexUploaderEmailPredicateFactory;
+  private final boolean operatorRequiredDuringSearch;
 
-  @Inject
+  @AssistedInject
   SubmitRequirementChangeQueryBuilder(
       Arguments args,
       DistinctVotersPredicate.Factory distinctVotersPredicateFactory,
@@ -79,7 +87,8 @@ public class SubmitRequirementChangeQueryBuilder extends ChangeQueryBuilder {
           submitRequirementLabelExtensionPredicateFactory,
       FileEditsPredicate.Factory fileEditsPredicateFactory,
       HasSubmoduleUpdatePredicate.Factory hasSubmoduleUpdateFactory,
-      RegexUploaderEmailPredicateFactory regexUploaderEmailPredicateFactory) {
+      RegexUploaderEmailPredicateFactory regexUploaderEmailPredicateFactory,
+      @Assisted boolean operatorRequiredDuringSearch) {
     super(def, args);
     this.distinctVotersPredicateFactory = distinctVotersPredicateFactory;
     this.submitRequirementLabelExtensionPredicateFactory =
@@ -87,12 +96,25 @@ public class SubmitRequirementChangeQueryBuilder extends ChangeQueryBuilder {
     this.fileEditsPredicateFactory = fileEditsPredicateFactory;
     this.hasSubmoduleUpdateFactory = hasSubmoduleUpdateFactory;
     this.regexUploaderEmailPredicateFactory = regexUploaderEmailPredicateFactory;
+    this.operatorRequiredDuringSearch = operatorRequiredDuringSearch;
   }
 
   @Override
   protected void checkFieldAvailable(SchemaField<ChangeData, ?> field, String operator) {
     // Submit requirements don't rely on the index, so they can be used regardless of index schema
     // version.
+  }
+
+  @Override
+  protected Predicate<ChangeData> defaultField(String value) throws QueryParseException {
+    if (!operatorRequiredDuringSearch) {
+      return super.defaultField(value);
+    }
+    logger.atSevere().log("Operator is missing in submit requirement term:  %s", value);
+    throw error(
+        "Operator is missing in submit requirement term: "
+            + value
+            + ". Please ensure each term of submit requirements are in format <operator>:<value>");
   }
 
   @Override

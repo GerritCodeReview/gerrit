@@ -25,13 +25,13 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.MagicLabelPredicates;
 import com.google.gerrit.server.query.change.SubmitRequirementChangeQueryBuilder;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 
 /** Metrics are recorded when a change is merged (aka submitted). */
 public class MergeMetrics {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  private final Provider<SubmitRequirementChangeQueryBuilder> submitRequirementChangequeryBuilder;
+  private final SubmitRequirementChangeQueryBuilder.Factory
+      submitRequirementChangequeryBuilderFactory;
 
   // TODO: This metric is for measuring the impact of allowing users to rebase changes on behalf of
   // the uploader. Once this feature has been rolled out and its impact as been measured, we may
@@ -40,10 +40,9 @@ public class MergeMetrics {
 
   @Inject
   public MergeMetrics(
-      Provider<SubmitRequirementChangeQueryBuilder> submitRequirementChangequeryBuilder,
+      SubmitRequirementChangeQueryBuilder.Factory submitRequirementChangequeryBuilderFactory,
       MetricMaker metricMaker) {
-    this.submitRequirementChangequeryBuilder = submitRequirementChangequeryBuilder;
-
+    this.submitRequirementChangequeryBuilderFactory = submitRequirementChangequeryBuilderFactory;
     this.countChangesThatWereSubmittedWithRebaserApproval =
         metricMaker.newCounter(
             "change/submitted_with_rebaser_approval",
@@ -121,8 +120,8 @@ public class MergeMetrics {
     for (SubmitRequirement submitRequirement : cd.submitRequirements().keySet()) {
       try {
         Predicate<ChangeData> predicate =
-            submitRequirementChangequeryBuilder
-                .get()
+            submitRequirementChangequeryBuilderFactory
+                .create(false)
                 .parse(submitRequirement.submittabilityExpression().expressionString());
         boolean ignoresCodeReviewApprovalsOfUploader =
             ignoresCodeReviewApprovalsOfUploader(predicate);

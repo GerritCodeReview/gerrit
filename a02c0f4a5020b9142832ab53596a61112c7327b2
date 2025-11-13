@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "05335728_7d0eef68",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 16
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-11-13T21:52:57Z",
+      "side": 1,
+      "message": "The build keeps on being aborted by Bazel:\n\n```\n00:14:59.887 Build timed out (after 12 minutes). Marking the build as aborted.\n```",
+      "revId": "a02c0f4a5020b9142832ab53596a61112c7327b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "33385480_0d9601d2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1026972
+      },
+      "writtenOn": "2025-11-13T05:35:34Z",
+      "side": 0,
+      "message": "Maybe better to keep test so that we can know that disallowing link with \u0027)\u0027 suffix is intentional in the future?",
+      "revId": "4361a94a026a95beaa0af9e28d4ac1736e0d02e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

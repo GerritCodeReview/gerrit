@@ -288,7 +288,7 @@ export function iconFor(catStat: Category | RunStatus): ChecksIcon {
   }
 }
 
-export enum PRIMARY_STATUS_ACTIONS {
+export enum TRIGGER_STATUS_ACTIONS {
   RERUN = 'rerun',
   RUN = 'run',
 }
@@ -296,7 +296,7 @@ export enum PRIMARY_STATUS_ACTIONS {
 export function toCanonicalAction(action: Action, status: RunStatus) {
   let name = action.name.toLowerCase();
   if (status === RunStatus.COMPLETED && (name === 'run' || name === 're-run')) {
-    name = PRIMARY_STATUS_ACTIONS.RERUN;
+    name = TRIGGER_STATUS_ACTIONS.RERUN;
   }
   return {...action, name};
 }
@@ -316,12 +316,12 @@ export function headerForStatus(status: RunStatus) {
   }
 }
 
-function primaryActionName(status: RunStatus) {
+function triggerActionName(status: RunStatus) {
   switch (status) {
     case RunStatus.COMPLETED:
-      return PRIMARY_STATUS_ACTIONS.RERUN;
+      return TRIGGER_STATUS_ACTIONS.RERUN;
     case RunStatus.RUNNABLE:
-      return PRIMARY_STATUS_ACTIONS.RUN;
+      return TRIGGER_STATUS_ACTIONS.RUN;
     case RunStatus.RUNNING:
     case RunStatus.SCHEDULED:
       return undefined;
@@ -330,10 +330,27 @@ function primaryActionName(status: RunStatus) {
   }
 }
 
-export function primaryRunAction(run?: CheckRun): Action | undefined {
+export function triggerAction(run?: CheckRun): Action | undefined {
   if (!run) return undefined;
   return runActions(run).filter(
-    action => !action.disabled && action.name === primaryActionName(run.status)
+    action => !action.disabled && action.name === triggerActionName(run.status)
+  )[0];
+}
+
+export function primaryAction(run?: CheckRun): Action | undefined {
+  if (!run) return undefined;
+  return runActions(run).filter(
+    action => !action.disabled && action.primary
+  )[0];
+}
+
+export function primaryTriggerAction(run?: CheckRun): Action | undefined {
+  if (!run) return undefined;
+  return runActions(run).filter(
+    action =>
+      !action.disabled &&
+      action.primary &&
+      action.name === triggerActionName(run.status)
   )[0];
 }
 

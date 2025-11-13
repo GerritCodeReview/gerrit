@@ -22,8 +22,10 @@ import {
   iconFor,
   iconForRun,
   LATEST_ATTEMPT,
-  PRIMARY_STATUS_ACTIONS,
-  primaryRunAction,
+  primaryAction,
+  primaryTriggerAction,
+  TRIGGER_STATUS_ACTIONS,
+  triggerAction,
 } from '../../models/checks/checks-util';
 import {
   CheckRun,
@@ -241,7 +243,10 @@ export class GrChecksRun extends LitElement {
       selected: this.selected,
       deselected: this.deselected,
     };
-    const action = primaryRunAction(this.run);
+    const action =
+      primaryTriggerAction(this.run) ??
+      primaryAction(this.run) ??
+      triggerAction(this.run);
 
     return html`
       <div
@@ -696,12 +701,12 @@ export class GrChecksRuns extends LitElement {
       const run = this.runs.find(
         run => run.isLatestAttempt && run.checkName === selected
       );
-      return primaryRunAction(run);
+      return triggerAction(run);
     });
     const runButtonDisabled = !actions.every(
       action =>
-        action?.name === PRIMARY_STATUS_ACTIONS.RUN ||
-        action?.name === PRIMARY_STATUS_ACTIONS.RERUN
+        action?.name === TRIGGER_STATUS_ACTIONS.RUN ||
+        action?.name === TRIGGER_STATUS_ACTIONS.RERUN
     );
     return html`
       <gr-button

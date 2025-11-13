@@ -12,6 +12,7 @@ import {checksModelToken} from '../../models/checks/checks-model';
 import {checkRun0, setAllcheckRuns} from '../../test/test-data-generators';
 import {resolve} from '../../models/dependency';
 import {queryAll} from '../../utils/common-util';
+import {RunStatus} from '../../api/checks';
 
 suite('gr-checks-runs test', () => {
   let element: GrChecksRuns;
@@ -243,5 +244,116 @@ suite('gr-checks-run test', () => {
         </div>
       `
     );
+  });
+
+  suite('actions', () => {
+    test('renders primary trigger action when available', async () => {
+      element.shouldRender = true;
+      element.run = {
+        ...checkRun0,
+        status: RunStatus.COMPLETED,
+        actions: [
+          {
+            name: 'rerun',
+            primary: true,
+            callback: () => Promise.resolve({message: 'rerun'}),
+          },
+          {
+            name: 'other',
+            primary: true,
+            callback: () => Promise.resolve({message: 'other'}),
+          },
+        ],
+      };
+      await element.updateComplete;
+      const action = element.shadowRoot?.querySelector('gr-checks-action');
+      assert.isOk(action);
+      assert.equal(action?.action?.name, 'rerun');
+    });
+
+    test('renders primary action when no primary trigger action', async () => {
+      element.shouldRender = true;
+      element.run = {
+        ...checkRun0,
+        status: RunStatus.COMPLETED,
+        actions: [
+          {
+            name: 'custom-action',
+            primary: true,
+            callback: () => Promise.resolve({message: 'custom'}),
+          },
+          {
+            name: 'rerun',
+            primary: false,
+            callback: () => Promise.resolve({message: 'rerun'}),
+          },
+        ],
+      };
+      await element.updateComplete;
+      const action = element.shadowRoot?.querySelector('gr-checks-action');
+      assert.isOk(action);
+      assert.equal(action?.action?.name, 'custom-action');
+    });
+
+    test('renders trigger action when no primary actions', async () => {
+      element.shouldRender = true;
+      element.run = {
+        ...checkRun0,
+        status: RunStatus.COMPLETED,
+        actions: [
+          {
+            name: 'rerun',
+            primary: false,
+            callback: () => Promise.resolve({message: 'rerun'}),
+          },
+          {
+            name: 'other',
+            primary: false,
+            callback: () => Promise.resolve({message: 'other'}),
+          },
+        ],
+      };
+      await element.updateComplete;
+      const action = element.shadowRoot?.querySelector('gr-checks-action');
+      assert.isOk(action);
+      assert.equal(action?.action?.name, 'rerun');
+    });
+
+    test('renders no action when none available', async () => {
+      element.shouldRender = true;
+      element.run = {
+        ...checkRun0,
+        status: RunStatus.COMPLETED,
+        actions: [],
+      };
+      await element.updateComplete;
+      const action = element.shadowRoot?.querySelector('gr-checks-action');
+      assert.isNotOk(action);
+    });
+
+    test('skips disabled actions', async () => {
+      element.shouldRender = true;
+      element.run = {
+        ...checkRun0,
+        status: RunStatus.COMPLETED,
+        actions: [
+          {
+            name: 'rerun',
+            primary: true,
+            disabled: true,
+            callback: () => Promise.resolve({message: 'rerun'}),
+          },
+          {
+            name: 'other',
+            primary: true,
+            callback: () => Promise.resolve({message: 'other'}),
+          },
+        ],
+      };
+      await element.updateComplete;
+      const action = element.shadowRoot?.querySelector('gr-checks-action');
+      assert.isOk(action);
+      assert.equal(action?.action?.name, 'other');
+    });
   });
 });

@@ -138,7 +138,6 @@ public class SubmitStrategyListener implements BatchUpdateListener {
           }
           commitStatus.problem(id, CharMatcher.is('\n').collapseFrom(message, ' '));
         }
-        default -> commitStatus.problem(id, "unspecified merge failure: " + s);
       }
     }
     commitStatus.maybeFailVerbose();

@@ -55,10 +55,7 @@ import {GrConfirmSubmitDialog} from '../gr-confirm-submit-dialog/gr-confirm-subm
 import {GrConfirmRebaseDialog} from '../gr-confirm-rebase-dialog/gr-confirm-rebase-dialog';
 import {GrConfirmMoveDialog} from '../gr-confirm-move-dialog/gr-confirm-move-dialog';
 import {GrConfirmAbandonDialog} from '../gr-confirm-abandon-dialog/gr-confirm-abandon-dialog';
-import {
-  GrConfirmRevertDialog,
-  RevertType,
-} from '../gr-confirm-revert-dialog/gr-confirm-revert-dialog';
+import {GrConfirmRevertDialog} from '../gr-confirm-revert-dialog/gr-confirm-revert-dialog';
 import {testResolver} from '../../../test/common-test-setup';
 import {storageServiceToken} from '../../../services/storage/gr-storage_impl';
 import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
@@ -66,7 +63,6 @@ import {
   ChangeModel,
   changeModelToken,
 } from '../../../models/change/change-model';
-import {assertIsDefined} from '../../../utils/common-util';
 import {GrAutogrowTextarea} from '../../shared/gr-autogrow-textarea/gr-autogrow-textarea';
 
 // TODO(dhruvsri): remove use of _populateRevertMessage as it's private
@@ -1203,7 +1199,7 @@ suite('gr-change-actions tests', () => {
           await element.updateComplete;
           const radioButtons = queryAll<HTMLInputElement>(
             confirmCherrypick,
-            "input[name='cherryPickOptions']"
+            "md-radio[name='cherryPickOptions']"
           );
           assert.equal(radioButtons.length, 2);
           radioButtons[1].click();
@@ -1676,7 +1672,7 @@ suite('gr-change-actions tests', () => {
           assert.equal(confirmRevertDialog.message, expectedMsg);
           const radioInputs = queryAll<HTMLInputElement>(
             confirmRevertDialog,
-            'input[name="revertOptions"]'
+            'md-radio[name="revertOptions"]'
           );
           radioInputs[0].click();
           await element.updateComplete;
@@ -1728,7 +1724,7 @@ suite('gr-change-actions tests', () => {
           await element.updateComplete;
           const radioInputs = queryAll<HTMLInputElement>(
             confirmRevertDialog,
-            'input[name="revertOptions"]'
+            'md-radio[name="revertOptions"]'
           );
           const revertSubmissionMsg =
             'Revert submission 199 0' +
@@ -2617,45 +2613,6 @@ suite('gr-change-actions tests', () => {
             assert.isTrue(setUrlStub.called);
             assert.equal(setUrlStub.lastCall.args[0], '/c/projectId/+/12345');
           });
-        });
-
-        test('sends validation options when opening revert dialog', async () => {
-          sinon.stub(element, 'handleAction');
-          const fireActionStub = sinon.stub(element, 'fireAction');
-          element.actions = {
-            revert: {
-              method: HttpMethod.POST,
-              label: 'Revert',
-              title: 'Revert the change',
-              enabled: true,
-            },
-          };
-          const confirmRevertDialog = query<GrConfirmRevertDialog>(
-            element,
-            '#confirmRevertDialog'
-          );
-          assertIsDefined(confirmRevertDialog, 'confirmDialog');
-          const populateRevertDialogStub = sinon.stub(
-            confirmRevertDialog,
-            'populate'
-          );
-          await element.showRevertDialog();
-          await waitUntil(() => !!populateRevertDialogStub.called);
-          assert.deepEqual(populateRevertDialogStub.lastCall.args[1], {
-            validation_options: [{name: 'o1', description: 'option 1'}],
-          });
-
-          element.handleRevertDialogConfirm(
-            new CustomEvent('confirm', {
-              detail: {
-                revertType: RevertType.REVERT_SINGLE_CHANGE,
-                message: 'revert this change',
-              },
-            })
-          );
-          await waitUntil(() => !!fireActionStub.called);
-
-          assert.deepEqual(fireActionStub.lastCall.args[0], '/revert');
         });
 
         suite('multiple changes revert', () => {

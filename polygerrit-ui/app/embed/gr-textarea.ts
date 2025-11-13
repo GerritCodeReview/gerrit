@@ -4,7 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {css, html, LitElement} from 'lit';
-import {customElement, property, query, queryAsync} from 'lit/decorators.js';
+import {
+  customElement,
+  property,
+  query,
+  queryAsync,
+  state,
+} from 'lit/decorators.js';
 import {classMap} from 'lit/directives/class-map.js';
 import {ifDefined} from 'lit/directives/if-defined.js';
 import {
@@ -14,6 +20,7 @@ import {
   HintDismissedEventDetail,
   HintShownEventDetail,
 } from '../api/embed';
+import {isSafari} from '../utils/dom-util';
 
 /**
  * Waits for the next animation frame.
@@ -167,6 +174,7 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
     return this.editableDivElement?.scrollTop ?? 0;
   }
 
+  @state()
   private innerValue: string | undefined;
 
   private innerHint: string | undefined;
@@ -213,7 +221,7 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
             outline: none;
           }
 
-          &:empty::before {
+          &[data-empty='true']::before {
             content: attr(data-placeholder);
             color: var(--text-secondary, lightgrey);
             display: inline;
@@ -266,23 +274,26 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
     // which prevents HTML from being inserted into a contenteditable element.
     // https://github.com/w3c/editing/issues/162
     return html`<div
-      aria-disabled=${this.disabled}
-      aria-multiline="true"
-      aria-placeholder=${ifDefined(ariaPlaceholder)}
-      data-placeholder=${ifDefined(placeholder)}
-      class=${classes}
-      contenteditable=${this.contentEditableAttributeValue}
-      dir="ltr"
-      role="textbox"
-      spellcheck="true"
-      @input=${this.onInput}
-      @focus=${this.onFocus}
-      @blur=${this.onBlur}
-      @keydown=${this.handleKeyDown}
-      @keyup=${this.handleKeyUp}
-      @mouseup=${this.handleMouseUp}
-      @scroll=${this.handleScroll}
-    ></div>`;
+        aria-disabled=${this.disabled}
+        aria-multiline="true"
+        aria-placeholder=${ifDefined(ariaPlaceholder)}
+        data-placeholder=${ifDefined(placeholder)}
+        data-empty=${this.innerValue === ''}
+        class=${classes}
+        contenteditable=${this.contentEditableAttributeValue}
+        dir="ltr"
+        role="textbox"
+        spellcheck="true"
+        @input=${this.onInput}
+        @focus=${this.onFocus}
+        @blur=${this.onBlur}
+        @keydown=${this.handleKeyDown}
+        @keyup=${this.handleKeyUp}
+        @mouseup=${this.handleMouseUp}
+        @scroll=${this.handleScroll}
+      ></div>
+      <!-- Required for firefox to use plaintext-only above. -->
+      <div></div>`;
   }
 
   /**
@@ -645,7 +656,7 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
     const editableDivElement =
       this.editableDivElement ?? (await this.editableDiv);
     if (editableDivElement) {
-      editableDivElement.innerText = this.value || '';
+      editableDivElement.textContent = this.value || '';
     }
   }
 
@@ -658,42 +669,14 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
   private async getValue() {
     const editableDivElement = await this.editableDiv;
     if (editableDivElement) {
-      const [output] = this.parseText(editableDivElement, false, true);
-      return output;
+      // When you delete all text, it leaves a \n (or maybe \r\n?).
+      // Fix this by making it return a empty string.
+      if (/^\r?\n$/.test(editableDivElement.innerText)) {
+        return '';
+      }
+      return editableDivElement.innerText;
     }
     return '';
-  }
-
-  private parseText(
-    node: Node,
-    isLastBr: boolean,
-    isFirst: boolean
-  ): [string, boolean] {
-    let textValue = '';
-    let output = '';
-    if (node.nodeName === 'BR') {
-      return ['\n', true];
-    }
-
-    if (node.nodeType === Node.TEXT_NODE && node.textContent) {
-      return [node.textContent, false];
-    }
-
-    if (node.nodeName === 'DIV' && !isLastBr && !isFirst) {
-      textValue = '\n';
-    }
-
-    isLastBr = false;
-
-    for (let i = 0; i < node.childNodes?.length; i++) {
-      [output, isLastBr] = this.parseText(
-        node.childNodes[i],
-        isLastBr,
-        i === 0
-      );
-      textValue += output;
-    }
-    return [textValue, isLastBr];
   }
 
   public getCursorPosition() {
@@ -772,11 +755,37 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
   }
 
   /** Gets the current selection, preferring the shadow DOM selection. */
-  private getSelection(): Selection | undefined | null {
-    // TODO: Use something similar to gr-diff's getShadowOrDocumentSelection()
-    return this.shadowRoot?.getSelection
-      ? this.shadowRoot.getSelection()
-      : document.getSelection();
+  private getSelection(): Selection | null {
+    const selection =
+      this.shadowRoot?.getSelection?.() ?? document.getSelection?.();
+    if (!selection) return null;
+
+    // For safari 17+.
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    if (isSafari() && (selection as any).getComposedRanges) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const composedRanges = (selection as any).getComposedRanges(
+        this.shadowRoot
+      );
+      if (composedRanges.length === 0) return null;
+
+      const r = composedRanges[0];
+      const range = new Range();
+      range.setStart(r.startContainer, r.startOffset);
+      range.setEnd(r.endContainer, r.endOffset);
+
+      return {
+        isCollapsed: range.collapsed,
+        focusNode: range.endContainer,
+        focusOffset: range.endOffset,
+        removeAllRanges: () => selection.removeAllRanges(),
+        addRange: (newRange: Range) => selection.addRange(newRange),
+        getRangeAt: (_: number) => range,
+        rangeCount: 1,
+      } as unknown as Selection;
+    }
+
+    return selection;
   }
 
   private scrollToCursorPosition(range: Range) {

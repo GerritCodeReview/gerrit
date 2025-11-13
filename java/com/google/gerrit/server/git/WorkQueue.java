@@ -253,6 +253,8 @@ public class WorkQueue {
     if (withMetrics) {
       logger.atInfo().log("Adding metrics for '%s' queue", queueName);
       executor.buildMetrics(queueName);
+    } else {
+      logger.atInfo().log("Creating '%s' queue without metrics", queueName);
     }
     executor.setContinueExistingPeriodicTasksAfterShutdownPolicy(false);
     executor.setExecuteExistingDelayedTasksAfterShutdownPolicy(true);

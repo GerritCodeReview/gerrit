@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.query.change;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
@@ -331,13 +332,40 @@ public class ChangeData {
       ObjectId commitId,
       ChangeNumberVirtualIdAlgorithm virtualIdAlgo,
       @Nullable ChangeNotes changeNotes) {
+    return createForTest(
+        project, id, currentPatchSetId, commitId, virtualIdAlgo, null, changeNotes);
+  }
+
+  /**
+   * Create an instance for testing only.
+   *
+   * <p>Attempting to lazy load data will fail with NPEs. Callers may consider manually setting
+   * fields that can be set.
+   *
+   * @param project project name
+   * @param id change ID
+   * @param currentPatchSetId current patchset number
+   * @param commitId commit SHA1 of the current patchset
+   * @param virtualIdAlgo algorithm for virtualising the Change number
+   * @param changeNotesFactory factory to create change notes
+   * @param changeNotes notes associated with the Change
+   * @return instance for testing.
+   */
+  public static ChangeData createForTest(
+      Project.NameKey project,
+      Change.Id id,
+      int currentPatchSetId,
+      ObjectId commitId,
+      ChangeNumberVirtualIdAlgorithm virtualIdAlgo,
+      ChangeNotes.Factory changeNotesFactory,
+      @Nullable ChangeNotes changeNotes) {
     ChangeData cd =
         new ChangeData(
             null,
             null,
             null,
             null,
-            null,
+            changeNotesFactory,
             null,
             null,
             null,
@@ -1035,7 +1063,11 @@ public class ChangeData {
     return allApprovalsWithCopied;
   }
 
-  /* @return legacy submit ('SUBM') approval label */
+  /**
+   * Get legacy submit ('SUBM') approval label
+   *
+   * @return legacy submit ('SUBM') approval label
+   */
   // TODO(mariasavtchouk): Deprecate legacy submit label,
   // see com.google.gerrit.entities.LabelId.LEGACY_SUBMIT_NAME
   public Optional<PatchSetApproval> getSubmitApproval() {
@@ -1151,9 +1183,25 @@ public class ChangeData {
       }
 
       List<Comment> comments = publishedComments().stream().collect(toList());
+      logger.atFine().log(
+          "published comments: %s",
+          comments.stream()
+              .map(
+                  c ->
+                      String.format(
+                          "%s -> {parentUuid = %s, unresolved = %s}",
+                          c.key,
+                          c.parentUuid,
+                          c instanceof HumanComment ? ((HumanComment) c).unresolved : "n/a"))
+              .collect(toImmutableList()));
 
       ImmutableSet<CommentThread<Comment>> commentThreads =
           CommentThreads.forComments(comments).getThreads();
+      logger.atFine().log(
+          "comment threads: %s",
+          commentThreads.stream()
+              .map(t -> t.comments().stream().map(c -> c.key).collect(toImmutableList()))
+              .collect(toImmutableList()));
       unresolvedCommentCount =
           (int) commentThreads.stream().filter(CommentThread::unresolved).count();
     }

@@ -14,9 +14,9 @@ import {
 } from '../../../test/test-utils';
 import {DiffPreferencesInfo} from '../../../types/diff';
 import {createDefaultDiffPrefs} from '../../../constants/constants';
-import {GrSelect} from '../gr-select/gr-select';
 import {assert, fixture, html} from '@open-wc/testing';
 import {MdOutlinedTextField} from '@material/web/textfield/outlined-text-field';
+import {MdOutlinedSelect} from '@material/web/select/outlined-select';
 
 suite('gr-diff-preferences tests', () => {
   let element: GrDiffPreferences;
@@ -49,31 +49,48 @@ suite('gr-diff-preferences tests', () => {
   test('renders', () => {
     assert.shadowDom.equal(
       element,
-      /* HTML */ ` <div class="gr-form-styles" id="diffPreferences">
+      /* HTML */ `<div class="gr-form-styles" id="diffPreferences">
         <section>
-          <label class="title" for="contextLineSelect">Context</label>
+          <label class="title" for="contextLineSelect"> Context </label>
           <span class="value">
-            <gr-select id="contextSelect">
-              <select id="contextLineSelect">
-                <option value="3">3 lines</option>
-                <option value="10">10 lines</option>
-                <option value="25">25 lines</option>
-                <option value="50">50 lines</option>
-                <option value="75">75 lines</option>
-                <option value="100">100 lines</option>
-                <option value="-1">Whole file</option>
-              </select>
-            </gr-select>
+            <md-outlined-select id="contextSelect" value="10">
+              <md-select-option md-menu-item="" tabindex="0" value="3">
+                <div slot="headline">3 lines</div>
+              </md-select-option>
+              <md-select-option
+                data-aria-selected="true"
+                md-menu-item=""
+                tabindex="-1"
+                value="10"
+              >
+                <div slot="headline">10 lines</div>
+              </md-select-option>
+              <md-select-option md-menu-item="" tabindex="-1" value="25">
+                <div slot="headline">25 lines</div>
+              </md-select-option>
+              <md-select-option md-menu-item="" tabindex="-1" value="50">
+                <div slot="headline">50 lines</div>
+              </md-select-option>
+              <md-select-option md-menu-item="" tabindex="-1" value="75">
+                <div slot="headline">75 lines</div>
+              </md-select-option>
+              <md-select-option md-menu-item="" tabindex="-1" value="100">
+                <div slot="headline">100 lines</div>
+              </md-select-option>
+              <md-select-option md-menu-item="" tabindex="-1" value="-1">
+                <div slot="headline">Whole file</div>
+              </md-select-option>
+            </md-outlined-select>
           </span>
         </section>
         <section>
-          <label class="title" for="lineWrappingInput">Fit to screen</label>
+          <label class="title" for="lineWrappingInput"> Fit to screen </label>
           <span class="value">
-            <input id="lineWrappingInput" type="checkbox" />
+            <md-checkbox id="lineWrappingInput"> </md-checkbox>
           </span>
         </section>
         <section>
-          <label class="title" for="columnsInput">Diff width</label>
+          <label class="title" for="columnsInput"> Diff width </label>
           <span class="value">
             <md-outlined-text-field
               autocomplete=""
@@ -87,7 +104,7 @@ suite('gr-diff-preferences tests', () => {
           </span>
         </section>
         <section>
-          <label class="title" for="tabSizeInput">Tab width</label>
+          <label class="title" for="tabSizeInput"> Tab width </label>
           <span class="value">
             <md-outlined-text-field
               autocomplete=""
@@ -101,7 +118,7 @@ suite('gr-diff-preferences tests', () => {
           </span>
         </section>
         <section>
-          <label class="title" for="fontSizeInput">Font size</label>
+          <label class="title" for="fontSizeInput"> Font size </label>
           <span class="value">
             <md-outlined-text-field
               autocomplete=""
@@ -115,9 +132,9 @@ suite('gr-diff-preferences tests', () => {
           </span>
         </section>
         <section>
-          <label class="title" for="showTabsInput">Show tabs</label>
+          <label class="title" for="showTabsInput"> Show tabs </label>
           <span class="value">
-            <input checked="" id="showTabsInput" type="checkbox" />
+            <md-checkbox checked="" id="showTabsInput"> </md-checkbox>
           </span>
         </section>
         <section>
@@ -125,11 +142,8 @@ suite('gr-diff-preferences tests', () => {
             Show trailing whitespace
           </label>
           <span class="value">
-            <input
-              checked=""
-              id="showTrailingWhitespaceInput"
-              type="checkbox"
-            />
+            <md-checkbox checked="" id="showTrailingWhitespaceInput">
+            </md-checkbox>
           </span>
         </section>
         <section>
@@ -137,7 +151,7 @@ suite('gr-diff-preferences tests', () => {
             Syntax highlighting
           </label>
           <span class="value">
-            <input checked="" id="syntaxHighlightInput" type="checkbox" />
+            <md-checkbox checked="" id="syntaxHighlightInput"> </md-checkbox>
           </span>
         </section>
         <section>
@@ -145,7 +159,7 @@ suite('gr-diff-preferences tests', () => {
             Automatically mark viewed files reviewed
           </label>
           <span class="value">
-            <input checked="" id="automaticReviewInput" type="checkbox" />
+            <md-checkbox checked="" id="automaticReviewInput"> </md-checkbox>
           </span>
         </section>
         <section>
@@ -154,16 +168,37 @@ suite('gr-diff-preferences tests', () => {
               Ignore Whitespace
             </label>
             <span class="value">
-              <gr-select>
-                <select id="ignoreWhiteSpace">
-                  <option value="IGNORE_NONE">None</option>
-                  <option value="IGNORE_TRAILING">Trailing</option>
-                  <option value="IGNORE_LEADING_AND_TRAILING">
-                    Leading & trailing
-                  </option>
-                  <option value="IGNORE_ALL">All</option>
-                </select>
-              </gr-select>
+              <md-outlined-select id="contextSelect" value="IGNORE_NONE">
+                <md-select-option
+                  data-aria-selected="true"
+                  md-menu-item=""
+                  tabindex="0"
+                  value="IGNORE_NONE"
+                >
+                  <div slot="headline">None</div>
+                </md-select-option>
+                <md-select-option
+                  md-menu-item=""
+                  tabindex="-1"
+                  value="IGNORE_TRAILING"
+                >
+                  <div slot="headline">Trailing</div>
+                </md-select-option>
+                <md-select-option
+                  md-menu-item=""
+                  tabindex="-1"
+                  value="IGNORE_LEADING_AND_TRAILING"
+                >
+                  <div slot="headline">Leading & trailing</div>
+                </md-select-option>
+                <md-select-option
+                  md-menu-item=""
+                  tabindex="-1"
+                  value="IGNORE_ALL"
+                >
+                  <div slot="headline">All</div>
+                </md-select-option>
+              </md-outlined-select>
             </span>
           </div>
         </section>
@@ -174,8 +209,8 @@ suite('gr-diff-preferences tests', () => {
   test('renders preferences', () => {
     // Rendered with the expected preferences selected.
     const contextInput = valueOf('Context', 'diffPreferences')
-      .firstElementChild as GrSelect;
-    assert.equal(contextInput.bindValue, `${diffPreferences.context}`);
+      .firstElementChild as MdOutlinedSelect;
+    assert.equal(contextInput.value, `${diffPreferences.context}`);
 
     const lineWrappingInput = valueOf('Fit to screen', 'diffPreferences')
       .firstElementChild as HTMLInputElement;
@@ -224,9 +259,9 @@ suite('gr-diff-preferences tests', () => {
     const ignoreWhitespaceInput = valueOf(
       'Ignore Whitespace',
       'diffPreferences'
-    ).firstElementChild as GrSelect;
+    ).firstElementChild as MdOutlinedSelect;
     assert.equal(
-      ignoreWhitespaceInput.bindValue,
+      ignoreWhitespaceInput.value,
       diffPreferences.ignore_whitespace
     );
 

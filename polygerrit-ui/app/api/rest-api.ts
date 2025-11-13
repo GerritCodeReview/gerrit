@@ -236,6 +236,7 @@ export declare interface AccountInfo {
   status?: string; // status message of the account
   inactive?: boolean; // not set if false
   tags?: string[];
+  deleted?: boolean; // not set if false
 }
 
 /**
@@ -402,6 +403,9 @@ export declare interface ChangeInfo {
   labels?: LabelNameToInfoMap;
   permitted_labels?: LabelNameToValuesMap;
   removable_reviewers?: AccountInfo[];
+  removable_labels?: {
+    [labelName: string]: {[labelValue: string]: AccountInfo[]};
+  };
   // This is documented as optional, but actually always set.
   reviewers: Reviewers;
   pending_reviewers?: AccountInfo[];
@@ -1522,4 +1526,12 @@ export interface BatchSubmitRequirementInput {
   update?: {[submitRequirementName: string]: Partial<SubmitRequirementInput>};
   delete?: string[];
   commit_message?: string;
+}
+
+/**
+ * The IsFlowsEnabledInfo entity contains information about whether flows are
+ * enabled.
+ */
+export declare interface IsFlowsEnabledInfo {
+  enabled: boolean;
 }

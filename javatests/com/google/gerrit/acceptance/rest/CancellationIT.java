@@ -183,7 +183,8 @@ public class CancellationIT extends AbstractDaemonTest {
             "/projects/" + name("new"),
             new BasicHeader(RestApiServlet.X_GERRIT_DEADLINE, "invalid"));
     response.assertBadRequest();
-    assertThat(response.getEntityContent()).isEqualTo("Invalid deadline. Invalid value: invalid");
+    assertThat(response.getEntityContent())
+        .isEqualTo("Invalid deadline. Invalid time unit value: invalid");
   }
 
   @Test
@@ -664,7 +665,7 @@ public class CancellationIT extends AbstractDaemonTest {
     PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo);
     push.setPushOptions(pushOptions);
     PushOneCommit.Result r = push.to("refs/for/master");
-    r.assertErrorStatus("Invalid deadline. Invalid value: invalid");
+    r.assertErrorStatus("Invalid deadline. Invalid time unit value: invalid");
   }
 
   @Test

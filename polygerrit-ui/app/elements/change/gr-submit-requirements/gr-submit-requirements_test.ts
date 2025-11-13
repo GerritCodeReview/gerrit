@@ -23,24 +23,33 @@ import {
   SubmitRequirementResultInfo,
   SubmitRequirementStatus,
 } from '../../../api/rest-api';
-import {ParsedChangeInfo} from '../../../types/types';
+import {LoadingStatus, ParsedChangeInfo} from '../../../types/types';
 import {RunStatus} from '../../../api/checks';
+import {testResolver} from '../../../test/common-test-setup';
+import {
+  ChangeModel,
+  changeModelToken,
+} from '../../../models/change/change-model';
 
 suite('gr-submit-requirements tests', () => {
   let element: GrSubmitRequirements;
   let change: ParsedChangeInfo;
+  let changeModel: ChangeModel;
+
   setup(async () => {
     const submitRequirement: SubmitRequirementResultInfo = {
       ...createSubmitRequirementResultInfo(),
       description: 'Test Description',
       submittability_expression_result: createSubmitRequirementExpressionInfo(),
     };
+    const submitRequirements: SubmitRequirementResultInfo[] = [
+      submitRequirement,
+      createNonApplicableSubmitRequirementResultInfo(),
+    ];
     change = {
       ...createParsedChange(),
-      submit_requirements: [
-        submitRequirement,
-        createNonApplicableSubmitRequirementResultInfo(),
-      ],
+      submittable: false,
+      submit_requirements: submitRequirements,
       labels: {
         Verified: {
           ...createDetailedLabelInfo(),
@@ -54,12 +63,24 @@ suite('gr-submit-requirements tests', () => {
       },
     };
     const account = createAccountWithIdNameAndEmail();
+    changeModel = testResolver(changeModelToken);
+    changeModel.setState({
+      change,
+      submittabilityInfo: {
+        changeNum: change._number,
+        submitRequirements,
+        submittable: false,
+      },
+      loadingStatus: LoadingStatus.LOADED,
+      submittabilityLoadingStatus: LoadingStatus.LOADED,
+    });
     element = await fixture<GrSubmitRequirements>(
       html`<gr-submit-requirements
         .change=${change}
         .account=${account}
       ></gr-submit-requirements>`
     );
+    await element.updateComplete;
   });
 
   test('renders', () => {
@@ -114,6 +135,32 @@ suite('gr-submit-requirements tests', () => {
         </table>
         <gr-submit-requirement-hovercard for="requirement-0-Verified">
         </gr-submit-requirement-hovercard>
+      `
+    );
+  });
+
+  test('renders loading', async () => {
+    element.requirementsLoading = true;
+    element.change = {
+      ...element.change,
+      submit_requirements: undefined,
+    } as ParsedChangeInfo;
+    await element.updateComplete;
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `
+        <h3 class="heading-3 metadata-title" id="submit-requirements-caption">
+          Submit Requirements
+          <span
+            class="loadingSpin"
+            title="Submit Requirements status is being updated"
+          >
+          </span>
+        </h3>
+        <h3 class="heading-3 metadata-title">Label Votes</h3>
+        <section class="trigger-votes">
+          <gr-trigger-vote> </gr-trigger-vote>
+        </section>
       `
     );
   });

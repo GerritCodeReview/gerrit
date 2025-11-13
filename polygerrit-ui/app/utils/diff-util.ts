@@ -4,7 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {Side} from '../constants/constants';
-import {DiffInfo} from '../types/diff';
+import {DiffInfo, SkipInfo, SkipObject} from '../types/diff';
+
+export function normalizeSkipInfo(skip: SkipInfo | undefined): SkipObject {
+  if (!skip) return {left: 0, right: 0};
+  return typeof skip === 'number' ? {left: skip, right: skip} : skip;
+}
 
 export function otherSide(side: Side) {
   return side === Side.LEFT ? Side.RIGHT : Side.LEFT;
@@ -14,7 +19,12 @@ export function countLines(diff?: DiffInfo, side?: Side) {
   if (!diff?.content || !side) return 0;
   return diff.content.reduce((sum, chunk) => {
     const sideChunk = side === Side.LEFT ? chunk.a : chunk.b;
-    return sum + (sideChunk?.length ?? chunk.ab?.length ?? chunk.skip ?? 0);
+    return (
+      sum +
+      (sideChunk?.length ??
+        chunk.ab?.length ??
+        normalizeSkipInfo(chunk.skip)[side])
+    );
   }, 0);
 }
 
@@ -27,7 +37,7 @@ export function isLineUnchanged(
   let currentLine = 0;
   for (const chunk of diff.content) {
     if (chunk.skip) {
-      currentLine += chunk.skip;
+      currentLine += normalizeSkipInfo(chunk.skip)[side];
       if (currentLine >= line) return false;
     } else if (chunk.ab) {
       currentLine += chunk.ab.length;
@@ -51,7 +61,8 @@ export function getDiffLines(diff: DiffInfo, side: Side): string[] {
   let lines: string[] = [];
   for (const chunk of diff.content) {
     if (chunk.skip) {
-      lines = lines.concat(Array(chunk.skip).fill(''));
+      const skip = normalizeSkipInfo(chunk.skip);
+      lines = lines.concat(Array(skip[side]).fill(''));
     } else if (chunk.ab) {
       lines = lines.concat(chunk.ab);
     } else if (side === Side.LEFT && chunk.a) {

@@ -117,80 +117,81 @@ public class CreateTag implements RestCollectionCreateView<ProjectResource, TagR
     try (RefUpdateContext ctx = RefUpdateContext.open(TAG_MODIFICATION)) {
       try (Repository repo = repoManager.openRepository(resource.getNameKey())) {
         ObjectId revid = RefUtil.parseBaseRevision(repo, input.revision);
-        RevWalk rw = RefUtil.verifyConnected(repo, revid);
-        // Reachability through tags does not influence a commit's visibility, so no need to check
-        // for visibility.
-        RevObject object = rw.parseAny(revid);
-        rw.reset();
-        boolean isAnnotated = Strings.emptyToNull(input.message) != null;
+        try (RevWalk rw = RefUtil.verifyConnected(repo, revid)) {
+          // Reachability through tags does not influence a commit's visibility, so no need to check
+          // for visibility.
+          RevObject object = rw.parseAny(revid);
+          rw.reset();
+          boolean isAnnotated = Strings.emptyToNull(input.message) != null;
 
-        boolean isSigned = false;
-        if (input.message != null) {
-          Matcher signatureMatcher = SIGNATURE_PATTERN.matcher(input.message);
-          isSigned = signatureMatcher.find();
+          boolean isSigned = false;
+          if (input.message != null) {
+            Matcher signatureMatcher = SIGNATURE_PATTERN.matcher(input.message);
+            isSigned = signatureMatcher.find();
+
+            if (isSigned) {
+              String signatureKind = signatureMatcher.group(1);
+              if (!ALLOWED_SIGNATURES.contains(signatureKind)) {
+                throw new MethodNotAllowedException(
+                    String.format(
+                        "Cannot create signed tag \"%s\": %s signature not supported",
+                        ref, signatureKind));
+              }
+            }
+          }
 
           if (isSigned) {
-            String signatureKind = signatureMatcher.group(1);
-            if (!ALLOWED_SIGNATURES.contains(signatureKind)) {
-              throw new MethodNotAllowedException(
-                  String.format(
-                      "Cannot create signed tag \"%s\": %s signature not supported",
-                      ref, signatureKind));
+            if (!perm.test(RefPermission.CREATE_SIGNED_TAG)) {
+              throw new AuthException(String.format("Cannot create signed tag \"%s\"", ref));
             }
-          }
-        }
-
-        if (isSigned) {
-          if (!perm.test(RefPermission.CREATE_SIGNED_TAG)) {
-            throw new AuthException(String.format("Cannot create signed tag \"%s\"", ref));
-          }
-        } else if (isAnnotated) {
-          if (!perm.test(RefPermission.CREATE_TAG)) {
-            throw new AuthException(String.format("Cannot create annotated tag \"%s\"", ref));
-          }
-        } else {
-          perm.check(RefPermission.CREATE);
-        }
-        if (repo.getRefDatabase().exactRef(ref) != null) {
-          throw new ResourceConflictException("tag \"" + ref + "\" already exists");
-        }
-
-        try (Git git = new Git(repo)) {
-          TagCommand tag =
-              git.tag()
-                  .setObjectId(object)
-                  .setName(ref.substring(R_TAGS.length()))
-                  .setAnnotated(isAnnotated)
-                  .setSigned(false);
-
-          if (isAnnotated) {
-            tag.setMessage(input.message)
-                .setTagger(
-                    resource
-                        .getUser()
-                        .asIdentifiedUser()
-                        .newCommitterIdent(
-                            input.date != null ? input.date.toInstant() : TimeUtil.now(),
-                            ZoneId.systemDefault()));
-          }
-
-          try {
-            Ref result = tag.call();
-            tagCache.updateFastForward(
-                resource.getNameKey(), ref, ObjectId.zeroId(), result.getObjectId());
-            referenceUpdated.fire(
-                resource.getNameKey(),
-                ref,
-                ObjectId.zeroId(),
-                result.getObjectId(),
-                resource.getUser().asIdentifiedUser().state());
-            try (RevWalk w = new RevWalk(repo)) {
-              return Response.created(
-                  ListTags.createTagInfo(perm, result, w, resource.getProjectState(), links));
+          } else if (isAnnotated) {
+            if (!perm.test(RefPermission.CREATE_TAG)) {
+              throw new AuthException(String.format("Cannot create annotated tag \"%s\"", ref));
             }
-          } catch (ConcurrentRefUpdateException e) {
-            LockFailureException.throwIfLockFailure(e);
-            throw e;
+          } else {
+            perm.check(RefPermission.CREATE);
+          }
+          if (repo.getRefDatabase().exactRef(ref) != null) {
+            throw new ResourceConflictException("tag \"" + ref + "\" already exists");
+          }
+
+          try (Git git = new Git(repo)) {
+            TagCommand tag =
+                git.tag()
+                    .setObjectId(object)
+                    .setName(ref.substring(R_TAGS.length()))
+                    .setAnnotated(isAnnotated)
+                    .setSigned(false);
+
+            if (isAnnotated) {
+              tag.setMessage(input.message)
+                  .setTagger(
+                      resource
+                          .getUser()
+                          .asIdentifiedUser()
+                          .newCommitterIdent(
+                              input.date != null ? input.date.toInstant() : TimeUtil.now(),
+                              ZoneId.systemDefault()));
+            }
+
+            try {
+              Ref result = tag.call();
+              tagCache.updateFastForward(
+                  resource.getNameKey(), ref, ObjectId.zeroId(), result.getObjectId());
+              referenceUpdated.fire(
+                  resource.getNameKey(),
+                  ref,
+                  ObjectId.zeroId(),
+                  result.getObjectId(),
+                  resource.getUser().asIdentifiedUser().state());
+              try (RevWalk w = new RevWalk(repo)) {
+                return Response.created(
+                    ListTags.createTagInfo(perm, result, w, resource.getProjectState(), links));
+              }
+            } catch (ConcurrentRefUpdateException e) {
+              LockFailureException.throwIfLockFailure(e);
+              throw e;
+            }
           }
         }
       } catch (GitAPIException e) {

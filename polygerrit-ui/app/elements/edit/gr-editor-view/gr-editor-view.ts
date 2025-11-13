@@ -10,9 +10,12 @@ import '../../shared/gr-editable-label/gr-editable-label';
 import '../../shared/gr-tooltip-content/gr-tooltip-content';
 import '../gr-default-editor/gr-default-editor';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
+import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {
   Base64FileContent,
+  ChangeInfo,
   EditPreferencesInfo,
+  RevisionInfo,
   RevisionPatchSetNum,
 } from '../../../types/common';
 import {ParsedChangeInfo} from '../../../types/types';
@@ -93,6 +96,8 @@ export class GrEditorView extends LitElement {
   private readonly restApiService = getAppContext().restApiService;
 
   private readonly reporting = getAppContext().reportingService;
+
+  private readonly getPluginLoader = resolve(this, pluginLoaderToken);
 
   private readonly getStorage = resolve(this, storageServiceToken);
 
@@ -438,7 +443,7 @@ export class GrEditorView extends LitElement {
   }
 
   // private but used in test
-  saveEdit() {
+  saveEdit(): Promise<Response> {
     const changeNum = this.viewState?.changeNum;
     const path = this.viewState?.editView?.path;
     assertIsDefined(changeNum, 'change number');
@@ -451,7 +456,7 @@ export class GrEditorView extends LitElement {
       return Promise.reject(new Error('new content undefined'));
     return this.restApiService
       .saveChangeEdit(changeNum, path, this.newContent)
-      .then(res => {
+      .then((res: Response): Response => {
         this.saving = false;
         this.showAlert(res.ok ? SAVED_MESSAGE : SAVE_FAILED_MSG);
         if (!res.ok) {
@@ -512,15 +517,26 @@ export class GrEditorView extends LitElement {
     });
   };
 
-  private handlePublishTap = () => {
+  // private but used in test
+  handlePublishTap = async () => {
     const changeNum = this.viewState?.changeNum;
     assertIsDefined(changeNum, 'change number');
 
-    this.saveEdit().then(() => {
+    await this.saveEdit().then(async () => {
       const handleError: ErrorCallback = response => {
         this.showAlert(PUBLISH_FAILED_MSG);
         this.reporting.error('/edit:publish', new Error(response?.statusText));
       };
+
+      if (
+        !(await this.getPluginLoader().jsApiService.handleBeforePublishEdit(
+          this.change as ChangeInfo
+        ))
+      ) {
+        // The event handler should notify with a more specific
+        // message if it blocks publishing.
+        return;
+      }
 
       this.showAlert(PUBLISHING_EDIT_MSG);
 
@@ -541,10 +557,26 @@ export class GrEditorView extends LitElement {
             return;
           }
           assertIsDefined(this.change, 'change');
+
+          this.getPluginLoader().jsApiService.handlePublishEdit(
+            this.change as ChangeInfo,
+            this.getLatestRevision(this.change as ChangeInfo)
+          );
+
           this.getChangeModel().navigateToChangeResetReload();
         });
     });
   };
+
+  private getLatestRevision(change: ChangeInfo): RevisionInfo | null {
+    const patchNum = this.latestPatchsetNumber;
+    for (const rev of Object.values(change.revisions ?? {})) {
+      if (rev._number === patchNum) {
+        return rev;
+      }
+    }
+    return null;
+  }
 
   private handleContentChange(e: CustomEvent<{value: string}>) {
     this.storeTask = debounce(

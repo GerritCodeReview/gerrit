@@ -121,23 +121,49 @@ anchor:non-interactive_users[]
 [[service_users]]
 === Service Users
 
-This is the Gerrit "batch" identity. The capabilities
-link:access-control.html#capability_priority['Priority BATCH'] and
-link:access-control.html#capability_streamEvents['Stream Events']
-are assigned to this predefined group on Gerrit site creation.
+The `Service Users` group is used to identify service users (aka bots).
 
-The members of this group are not expected to perform interactive
-operations on the Gerrit web front-end.
+All service users should be added to this group so that they can be identified
+as such.
 
-However, sometimes such a user may need a separate thread pool in
-order to prevent it from grabbing threads from the interactive users.
+The members of this group are not expected to perform interactive operations on
+the Gerrit web UI.
 
-These users live in a second thread pool, which separates operations
-made by the service users from the ones made by the interactive
-users. This ensures that the interactive users can keep working when
-resources are tight.
+Service users have the following special behaviour:
 
-Before Gerrit 3.3, the 'Service Users' group was named 'Non-Interactive Users'.
+* They are link:user-attention-set.html#bots[never added to the attention set].
+* They are not suggested as reviewers on changes (unless
+  link:config-gerrit.html#suggest.skipServiceUsers[suggest.skipServiceUsers] in
+  the Gerrit config is set to `false`).
+* Their vote is not required when
+  link:config-submit-requirements.html#require-code-review-approvals-from-all-human-reviewers-example[
+  requiring `Code-Review` approvals from all reviewers].
+* In the REST API, service user accounts are tagged with `SERVICE_USER` (see the
+  `tags` field in link:rest-api-accounts.html#account-info[AccountInfo]).
+* Change indexing is done synchronously for service users only if
+  link:config-gerrit.html#index.indexChangesAsync[asynchronous change indexing]
+  is enabled in the Gerrit config (and the
+  `GerritBackendFeature__do_change_indexing_asynchronously_for_non_service_users`
+  experiment is enabled).
+* Some metrics allow to distinguish between requests from service users and
+  other users: the
+  link:metrics.html#rest-api-latency[http/server/rest_api/server_latency]
+  metric (see field `user_kind`), the
+  link:metrics.html#push-latency[receivecommits/latency_per_push] metric (see
+  field `user_kind`), the
+  link:metrics.html#per-change-push-latency[receivecommits/latency_per_push_per_change]
+  metric (see field `user_kind`), the
+  link:metrics.html#push-reject-count[receivecommits/reject_count] metric (see
+  field `kind`)
+
+By default the `Service Users` group has:
+
+* The `BATCH` link:access-control.html#capability_priority['Priority'] global
+  capability so that requests of these users are served from a separate thread
+  pool (prevents that service users exhaust all threads for interactive users).
+
+* The link:access-control.html#capability_streamEvents['Stream Events'] global
+  capability so that these users can listen to stream events.
 
 [[blocked_users]]
 === Blocked Users

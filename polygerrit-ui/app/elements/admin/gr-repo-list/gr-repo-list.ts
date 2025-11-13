@@ -7,7 +7,13 @@ import '../../shared/gr-dialog/gr-dialog';
 import '../../shared/gr-list-view/gr-list-view';
 import '../../shared/gr-weblink/gr-weblink';
 import '../gr-create-repo-dialog/gr-create-repo-dialog';
-import {ProjectInfoWithName, WebLinkInfo} from '../../../types/common';
+import '../gr-create-change-dialog/gr-create-change-dialog';
+import {
+  BranchName,
+  ProjectInfoWithName,
+  RepoName,
+  WebLinkInfo,
+} from '../../../types/common';
 import {GrCreateRepoDialog} from '../gr-create-repo-dialog/gr-create-repo-dialog';
 import {RepoState} from '../../../constants/constants';
 import {fireTitleChange} from '../../../utils/event-util';
@@ -24,6 +30,13 @@ import {
 import {createSearchUrl} from '../../../models/views/search';
 import {modalStyles} from '../../../styles/gr-modal-styles';
 import {createRepoUrl} from '../../../models/views/repo';
+import {userModelToken} from '../../../models/user/user-model';
+import {subscribe} from '../../lit/subscription-controller';
+import {resolve} from '../../../models/dependency';
+import {assertIsDefined} from '../../../utils/common-util';
+import {GrCreateChangeDialog} from '../gr-create-change-dialog/gr-create-change-dialog';
+import {BindValueChangeEvent} from '../../../types/events';
+import '../../shared/gr-repo-branch-picker/gr-repo-branch-picker';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -35,7 +48,15 @@ declare global {
 export class GrRepoList extends LitElement {
   @query('#createModal') private createModal?: HTMLDialogElement;
 
+  @query('#createChangeModal') private createChangeModal?: HTMLDialogElement;
+
   @query('#createNewModal') private createNewModal?: GrCreateRepoDialog;
+
+  @query('#createRepoModal')
+  private readonly createRepoModal?: HTMLDialogElement;
+
+  @query('#createNewChangeModal')
+  private readonly createNewChangeModal?: GrCreateChangeDialog;
 
   @property({type: Object})
   params?: AdminViewState;
@@ -54,11 +75,36 @@ export class GrRepoList extends LitElement {
 
   @state() filter = '';
 
+  @state() private loggedIn = false;
+
+  @state() private canCreateChange = false;
+
+  // Used to create a change
+  @state() private repo?: RepoName;
+
+  // Used to create a change
+  @state() private branch = '' as BranchName;
+
   private readonly restApiService = getAppContext().restApiService;
 
-  override async connectedCallback() {
+  private readonly getUserModel = resolve(this, userModelToken);
+
+  constructor() {
+    super();
+    subscribe(
+      this,
+      () => this.getUserModel().capabilities$,
+      x => (this.createNewCapability = x?.createProject ?? false)
+    );
+    subscribe(
+      this,
+      () => this.getUserModel().loggedIn$,
+      x => (this.loggedIn = x)
+    );
+  }
+
+  override connectedCallback() {
     super.connectedCallback();
-    await this.getCreateRepoCapability();
     fireTitleChange('Repos');
     this.maybeOpenCreateModal(this.params);
   }
@@ -84,6 +130,11 @@ export class GrRepoList extends LitElement {
         .readOnly {
           white-space: nowrap;
         }
+        @media screen and (max-width: 50em) {
+          #repoBranchPicker {
+            height: 90vh;
+          }
+        }
       `,
     ];
   }
@@ -100,6 +151,16 @@ export class GrRepoList extends LitElement {
         .path=${createAdminUrl({adminView: AdminChildView.REPOS})}
         @create-clicked=${() => this.handleCreateClicked()}
       >
+        <gr-button
+          id="createChangeButton"
+          slot="createNewContainer"
+          ?hidden=${!this.loggedIn}
+          primary
+          link
+          @click=${() => this.createNewChange()}
+        >
+          Create Change
+        </gr-button>
         <table id="list" class="genericList">
           <tbody>
             <tr class="headerRow">
@@ -121,7 +182,7 @@ export class GrRepoList extends LitElement {
           </tbody>
         </table>
       </gr-list-view>
-      <dialog id="createModal" tabindex="-1">
+      <dialog id="createRepoModal" tabindex="-1">
         <gr-dialog
           id="createDialog"
           class="confirmDialog"
@@ -136,6 +197,59 @@ export class GrRepoList extends LitElement {
               id="createNewModal"
               @new-repo-name=${() => this.handleNewRepoName()}
             ></gr-create-repo-dialog>
+          </div>
+        </gr-dialog>
+      </dialog>
+      <dialog id="createModal" tabindex="-1">
+        <gr-dialog
+          id="repoBranchPicker"
+          confirm-label="Next"
+          @confirm=${this.pickerConfirm}
+          @cancel=${() => {
+            assertIsDefined(this.createModal, 'createModal');
+            this.createModal.close();
+            this.repo = '' as RepoName;
+            this.branch = '' as BranchName;
+          }}
+          ?disabled=${!(this.repo && this.branch)}
+        >
+          <div class="header" slot="header">Create change</div>
+          <div class="main" slot="main">
+            <gr-repo-branch-picker
+              .repo=${this.repo}
+              .branch=${this.branch}
+              @repo-changed=${(e: BindValueChangeEvent) => {
+                this.repo = e.detail.value as RepoName;
+              }}
+              @branch-changed=${(e: BindValueChangeEvent) => {
+                this.branch = e.detail.value as BranchName;
+              }}
+            ></gr-repo-branch-picker>
+          </div>
+        </gr-dialog>
+      </dialog>
+      <dialog id="createChangeModal" tabindex="-1">
+        <gr-dialog
+          id="createChangeDialog"
+          confirm-label="Create"
+          ?disabled=${!this.canCreateChange}
+          @confirm=${() => {
+            this.handleCreateChange();
+          }}
+          @cancel=${() => {
+            this.handleCloseCreateChange();
+          }}
+        >
+          <div class="header" slot="header">Create Change</div>
+          <div class="main" slot="main">
+            <gr-create-change-dialog
+              id="createNewChangeModal"
+              .repoName=${this.repo}
+              .branch=${this.branch}
+              @can-create-change=${() => {
+                this.handleCanCreateChange();
+              }}
+            ></gr-create-change-dialog>
           </div>
         </gr-dialog>
       </dialog>
@@ -200,20 +314,6 @@ export class GrRepoList extends LitElement {
     }
   }
 
-  private async getCreateRepoCapability() {
-    const account = await this.restApiService.getAccount();
-
-    if (!account) return;
-
-    const accountCapabilities =
-      await this.restApiService.getAccountCapabilities(['createProject']);
-    if (accountCapabilities?.createProject) {
-      this.createNewCapability = true;
-    }
-
-    return account;
-  }
-
   // private but used in test
   async getRepos() {
     this.repos = [];
@@ -250,12 +350,12 @@ export class GrRepoList extends LitElement {
 
   // private but used in test
   handleCloseCreate() {
-    this.createModal?.close();
+    this.createRepoModal?.close();
   }
 
   // private but used in test
   handleCreateClicked() {
-    this.createModal?.showModal();
+    this.createRepoModal?.showModal();
     this.createNewModal?.focus();
   }
 
@@ -268,4 +368,36 @@ export class GrRepoList extends LitElement {
     if (!this.createNewModal) return;
     this.newRepoName = this.createNewModal.nameChanged;
   }
+
+  private createNewChange() {
+    assertIsDefined(this.createModal, 'createModal');
+    assertIsDefined(this.createNewChangeModal, 'createNewChangeModal');
+    this.createModal.showModal();
+  }
+
+  private handleCreateChange() {
+    assertIsDefined(this.createNewChangeModal, 'createNewChangeModal');
+    this.createNewChangeModal.handleCreateChange();
+    this.handleCloseCreateChange();
+  }
+
+  private handleCloseCreateChange() {
+    assertIsDefined(this.createChangeModal, 'createChangeModal');
+    this.createChangeModal.close();
+    this.repo = '' as RepoName;
+    this.branch = '' as BranchName;
+  }
+
+  private handleCanCreateChange() {
+    assertIsDefined(this.createNewChangeModal, 'createNewChangeModal');
+    this.canCreateChange =
+      !!this.createNewChangeModal.branch && !!this.createNewChangeModal.subject;
+  }
+
+  private pickerConfirm = () => {
+    assertIsDefined(this.createModal, 'createModal');
+    assertIsDefined(this.createChangeModal, 'createChangeModal');
+    this.createModal.close();
+    this.createChangeModal.showModal();
+  };
 }

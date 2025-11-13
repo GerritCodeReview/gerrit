@@ -34,6 +34,10 @@ import {assertIsDefined, queryAndAssert} from '../../../utils/common-util';
 import {MdOutlinedTextField} from '@material/web/textfield/outlined-text-field';
 import '@material/web/textfield/outlined-text-field';
 import {materialStyles} from '../../../styles/gr-material-styles';
+import {repeat} from 'lit/directives/repeat.js';
+import '@material/web/select/outlined-select';
+import '@material/web/select/select-option';
+import {MdOutlinedSelect} from '@material/web/select/outlined-select';
 
 const GLOBAL_NAME = 'GLOBAL_CAPABILITIES';
 
@@ -43,7 +47,7 @@ const REFS_NAME = 'refs/';
 
 @customElement('gr-access-section')
 export class GrAccessSection extends LitElement {
-  @query('#permissionSelect') private permissionSelect?: HTMLSelectElement;
+  @query('#permissionSelect') private permissionSelect?: MdOutlinedSelect;
 
   @property({type: String})
   repo?: RepoName;
@@ -80,6 +84,8 @@ export class GrAccessSection extends LitElement {
 
   // private but used in test
   @state() permissions?: PermissionArray<EditablePermissionInfo>;
+
+  @state() private selectedIndex = 0;
 
   constructor() {
     super();
@@ -152,6 +158,8 @@ export class GrAccessSection extends LitElement {
 
   override render() {
     if (!this.section) return;
+
+    const permissions = this.computePermissions();
     return html`
       <fieldset
         id="section"
@@ -182,16 +190,33 @@ export class GrAccessSection extends LitElement {
           </div>
           <!-- end header -->
           <div class="sectionContent">
-            ${this.permissions?.map((permission, index) =>
-              this.renderPermission(permission, index)
+            ${repeat(
+              this.permissions ?? [],
+              perm => perm.id,
+              (permission, index) => this.renderPermission(permission, index)
             )}
             <div id="addPermission">
               Add permission:
-              <select id="permissionSelect">
-                ${this.computePermissions().map(item =>
-                  this.renderPermissionOptions(item)
+              <md-outlined-select
+                id="permissionSelect"
+                value=${permissions[this.selectedIndex]?.value.id ??
+                permissions[0]?.value.id ??
+                ''}
+                @change=${(e: Event) => {
+                  const sel = e.target as HTMLSelectElement;
+                  this.setSelectionIndex(sel.value);
+                }}
+              >
+                ${repeat(
+                  permissions,
+                  item => item.value.id,
+                  item => html`
+                    <md-select-option value=${item.value.id}>
+                      <div slot="headline">${item.value.name}</div>
+                    </md-select-option>
+                  `
                 )}
-              </select>
+              </md-outlined-select>
               <gr-button link id="addBtn" @click=${this.handleAddPermission}
                 >Add</gr-button
               >
@@ -236,13 +261,6 @@ export class GrAccessSection extends LitElement {
       >
       </gr-permission>
     `;
-  }
-
-  private renderPermissionOptions(item: {
-    id: string;
-    value: {name: string; id: string};
-  }) {
-    return html`<option value=${item.value.id}>${item.value.name}</option>`;
   }
 
   override willUpdate(changedProperties: PropertyValues) {
@@ -483,7 +501,9 @@ export class GrAccessSection extends LitElement {
   // private but used in test
   handleAddPermission() {
     assertIsDefined(this.permissionSelect, 'permissionSelect');
-    const value = this.permissionSelect.value as GitRef;
+    const value = this.permissionSelect.getAttribute('value') as GitRef;
+    this.setSelectionIndex(value);
+
     const permission: PermissionArrayItem<EditablePermissionInfo> = {
       id: value,
       value: {rules: {}, added: true},
@@ -504,10 +524,11 @@ export class GrAccessSection extends LitElement {
     // }
     // When we add a new item, we have to push the new permission in the same
     // format as the ones that have been returned by the API.
-    if (value.startsWith('label')) {
+    if (value.startsWith('label') || value.startsWith('removeLabel')) {
       permission.value.label = value
         .replace('label-', '')
-        .replace('labelAs-', '');
+        .replace('labelAs-', '')
+        .replace('removeLabel-', '');
     }
     // Add to the end of the array (used in dom-repeat) and also to the
     // section object that is two way bound with its parent element.
@@ -524,6 +545,14 @@ export class GrAccessSection extends LitElement {
     this.permissions![index] = e.detail.value;
     this.requestUpdate();
   };
+
+  private setSelectionIndex(value: string) {
+    const currentIndex = this.computePermissions().findIndex(
+      p => p.value.id === value
+    );
+    const nextIndex = currentIndex % this.computePermissions().length;
+    this.selectedIndex = nextIndex;
+  }
 }
 
 declare global {

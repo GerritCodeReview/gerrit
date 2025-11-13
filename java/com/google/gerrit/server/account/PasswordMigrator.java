@@ -171,19 +171,17 @@ public class PasswordMigrator implements Runnable {
       if (tokenAccessor.getToken(accountId, PasswordMigrator.DEFAULT_ID).isPresent()) {
         logger.atFine().log("HTTP password of account %d was already migrated.", accountId.get());
       } else {
-        try {
-          @SuppressWarnings("unused")
-          var unused =
-              tokenAccessor.addToken(
-                  accountId, PasswordMigrator.DEFAULT_ID, hashedPassword, expirationDate);
-        } catch (IOException | ConfigInvalidException | InvalidAuthTokenException e) {
-          logger.atSevere().withCause(e).log(
-              "Failed to migrate HTTP password to token for account %d", accountId.get());
-          failedTask.update(1);
-          return false;
-        }
+        @SuppressWarnings("unused")
+        var unused =
+            tokenAccessor.addToken(
+                accountId, PasswordMigrator.DEFAULT_ID, hashedPassword, expirationDate);
       }
       doneTask.update(1);
+    } catch (IOException | ConfigInvalidException | InvalidAuthTokenException e) {
+      logger.atSevere().withCause(e).log(
+          "Failed to migrate HTTP password to token for account %d", accountId.get());
+      failedTask.update(1);
+      return false;
     }
     return true;
   }

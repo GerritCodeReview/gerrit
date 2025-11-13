@@ -15,10 +15,8 @@
 package com.google.gerrit.server.account;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.flogger.FluentLogger;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.entities.Account;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
@@ -34,7 +32,6 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 /** Read/write authentication tokens by user ID. */
 @Singleton
 public class DirectAuthTokenAccessor implements AuthTokenAccessor {
-  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
   public static final String LEGACY_ID = "legacy";
 
   private final AllUsersName allUsersName;
@@ -55,28 +52,21 @@ public class DirectAuthTokenAccessor implements AuthTokenAccessor {
   }
 
   @Override
-  public ImmutableList<AuthToken> getValidTokens(Account.Id accountId) {
+  public ImmutableList<AuthToken> getValidTokens(Account.Id accountId)
+      throws IOException, ConfigInvalidException {
     return ImmutableList.copyOf(getTokens(accountId).stream().filter(t -> !t.isExpired()).toList());
   }
 
   @Override
-  public ImmutableList<AuthToken> getTokens(Account.Id accountId) {
-    try {
-      return readFromNoteDb(accountId).getTokens();
-    } catch (IOException | ConfigInvalidException e) {
-      logger.atSevere().withCause(e).log("Error reading auth tokens for account %s", accountId);
-      throw new StorageException(e);
-    }
+  public ImmutableList<AuthToken> getTokens(Account.Id accountId)
+      throws IOException, ConfigInvalidException {
+    return readFromNoteDb(accountId).getTokens();
   }
 
   @Override
-  public Optional<AuthToken> getToken(Account.Id accountId, String id) {
-    try {
-      return Optional.ofNullable(readFromNoteDb(accountId).getToken(id));
-    } catch (IOException | ConfigInvalidException e) {
-      logger.atSevere().withCause(e).log("Error reading auth tokens for account %s", accountId);
-      throw new StorageException(e);
-    }
+  public Optional<AuthToken> getToken(Account.Id accountId, String id)
+      throws IOException, ConfigInvalidException {
+    return Optional.ofNullable(readFromNoteDb(accountId).getToken(id));
   }
 
   @Override

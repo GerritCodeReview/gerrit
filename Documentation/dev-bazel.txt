@@ -18,7 +18,7 @@ should generate a .war file under `bazel-bin/gerrit.war`.
 To build Gerrit from source, you need:
 
 * A Linux or macOS system (Windows is not supported)
-* A JDK for Java 17 or Java 21
+* A JDK for Java 21
 * Python 3
 * link:https://github.com/nodesource/distributions/blob/master/README.md[Node.js (including npm),role=external,window=_blank]
 * Yarn (`npm install -g yarn`)
@@ -47,7 +47,7 @@ the `bazel` command with `bazelisk`.
 [[java]]
 === Java
 
-Ensure that the link:install.html#Requirements[required Java version]
+Ensure that the link:install.html#prerequisites[required Java version]
 is installed and that `JAVA_HOME` is set to it.
 
 To check the installed version of Java, open a terminal window and run:
@@ -60,19 +60,10 @@ To check the installed version of Java, open a terminal window and run:
 To build Gerrit with Java 21 language level, run:
 
 ```
-  $ bazelisk build --config=java21 :release
-```
-
-[[java-17]]
-==== Java 17 support
-
-Java 17 is supported. To build Gerrit with Java 17, run:
-
-```
   $ bazelisk build :release
 ```
 
-To run the tests with Java 17, run:
+To execute the tests run:
 
 ```
   $ bazelisk test //...

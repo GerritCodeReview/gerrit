@@ -151,14 +151,14 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     return cfg;
   }
 
+  final TestMetricMaker testMetricMaker = TestMetricMaker.getInstance();
+
   @Inject private ApprovalsUtil approvalsUtil;
   @Inject private IdentifiedUser.GenericFactory userFactory;
   @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private Submit submitHandler;
   @Inject private ExtensionRegistry extensionRegistry;
-  @Inject TestMetricMaker testMetricMaker;
-
   @Inject private ChangeIndexer changeIndex;
 
   protected MergeabilityComputationBehavior mcb;

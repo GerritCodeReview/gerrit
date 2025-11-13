@@ -233,6 +233,12 @@ Some useful commands:
 yarn eslint
 ```
 
+* To run ESLint and apply changes on the whole app:
+
+```sh
+yarn eslintfix
+```
+
 * To run ESLint on just the subdirectory you modified:
 
 ```sh

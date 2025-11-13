@@ -4,10 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {BehaviorSubject} from 'rxjs';
-import '../gr-copy-links/gr-copy-links';
 import '../../../styles/gr-a11y-styles';
 import '../../../styles/gr-material-styles';
 import '../../../styles/shared-styles';
+import '../../chat-panel/chat-panel';
+import '../../checks/gr-checks-tab';
+import '../../diff/gr-apply-fix-dialog/gr-apply-fix-dialog';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '../../plugins/gr-endpoint-param/gr-endpoint-param';
 import '../../shared/gr-button/gr-button';
@@ -16,6 +18,8 @@ import '../../shared/gr-change-status/gr-change-status';
 import '../../shared/gr-editable-content/gr-editable-content';
 import '../../shared/gr-formatted-text/gr-formatted-text';
 import '../../shared/gr-tooltip-content/gr-tooltip-content';
+import '../../shared/gr-content-with-sidebar/gr-content-with-sidebar';
+import '../gr-copy-links/gr-copy-links';
 import '../gr-change-actions/gr-change-actions';
 import '../gr-change-summary/gr-change-summary';
 import '../gr-change-metadata/gr-change-metadata';
@@ -27,10 +31,8 @@ import '../gr-revision-parents/gr-revision-parents';
 import '../gr-included-in-dialog/gr-included-in-dialog';
 import '../gr-messages-list/gr-messages-list';
 import '../gr-related-changes-list/gr-related-changes-list';
-import '../../diff/gr-apply-fix-dialog/gr-apply-fix-dialog';
 import '../gr-reply-dialog/gr-reply-dialog';
 import '../gr-thread-list/gr-thread-list';
-import '../../checks/gr-checks-tab';
 import '../gr-flows/gr-flows';
 import {ChangeStarToggleStarDetail} from '../../shared/gr-change-star/gr-change-star';
 import {GrEditConstants} from '../../edit/gr-edit-constants';
@@ -125,6 +127,7 @@ import {a11yStyles} from '../../../styles/gr-a11y-styles';
 import {materialStyles} from '../../../styles/gr-material-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {ifDefined} from 'lit/directives/if-defined.js';
+import {ref} from 'lit/directives/ref.js';
 import {when} from 'lit/directives/when.js';
 import {ShortcutController} from '../../lit/shortcut-controller';
 import {FilesExpandedState} from '../gr-file-list-constants';
@@ -143,7 +146,7 @@ import {userModelToken} from '../../../models/user/user-model';
 import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {modalStyles} from '../../../styles/gr-modal-styles';
 import {relatedChangesModelToken} from '../../../models/change/related-changes-model';
-import {KnownExperimentId} from '../../../services/flags/flags';
+import {flowsModelToken} from '../../../models/flows/flows-model';
 import {assign} from '../../../utils/location-util';
 import '@material/web/tabs/secondary-tab';
 import '@material/web/tabs/tabs';
@@ -160,6 +163,7 @@ const ACCIDENTAL_STARRING_LIMIT_MS = 10 * 1000;
 const TRAILING_WHITESPACE_REGEX = /[ \t]+$/gm;
 
 const PREFIX = '#message-';
+
 @customElement('gr-change-view')
 export class GrChangeView extends LitElement {
   /**
@@ -350,6 +354,9 @@ export class GrChangeView extends LitElement {
   @state()
   activeTab: Tab | string = Tab.FILES;
 
+  @state()
+  private showSidebarChat = false;
+
   @property({type: Boolean})
   unresolvedOnly = true;
 
@@ -369,6 +376,10 @@ export class GrChangeView extends LitElement {
 
   @state()
   private revertingChange?: ChangeInfo;
+
+  // Private but used in tests.
+  @state()
+  flowsTabEnabled = false;
 
   // Private but used in tests.
   @state()
@@ -402,6 +413,8 @@ export class GrChangeView extends LitElement {
   private readonly getConfigModel = resolve(this, configModelToken);
 
   private readonly getViewModel = resolve(this, changeViewModelToken);
+
+  private readonly getFlowsModel = resolve(this, flowsModelToken);
 
   private readonly getRelatedChangesModel = resolve(
     this,
@@ -438,6 +451,16 @@ export class GrChangeView extends LitElement {
 
   private readonly getNavigation = resolve(this, navigationToken);
 
+  private headerResizeObserver = new ResizeObserver(entries => {
+    for (const entry of entries) {
+      const height = entry.borderBoxSize[0].blockSize;
+      document.documentElement.style.setProperty(
+        '--change-header-height',
+        `${height}px`
+      );
+    }
+  });
+
   constructor() {
     super();
     this.setupListeners();
@@ -456,6 +479,10 @@ export class GrChangeView extends LitElement {
     );
     this.addEventListener('open-fix-preview', e => this.onOpenFixPreview(e));
     this.addEventListener('show-tab', e => this.setActiveTab(e));
+    this.addEventListener(
+      'close-chat-panel',
+      () => (this.showSidebarChat = false)
+    );
   }
 
   private setupShortcuts() {
@@ -622,11 +649,18 @@ export class GrChangeView extends LitElement {
     );
     subscribe(
       this,
+      () => this.getFlowsModel().enabled$,
+      enabled => (this.flowsTabEnabled = enabled)
+    );
+    subscribe(
+      this,
       () => this.getChangeModel().changeNum$,
       changeNum => {
         // The change view is tied to a specific change number, so don't update
         // changeNum to undefined and only set it once.
-        if (changeNum && !this.changeNum) this.changeNum = changeNum;
+        if (changeNum && !this.changeNum) {
+          this.changeNum = changeNum;
+        }
       }
     );
     subscribe(
@@ -782,6 +816,12 @@ export class GrChangeView extends LitElement {
       sharedStyles,
       modalStyles,
       css`
+        :host {
+          --sidebar-top: calc(
+            var(--main-header-height) + var(--change-header-height, 38px)
+          );
+          --sidebar-bottom-overflow: var(--main-footer-height);
+        }
         .tabs {
           display: flex;
         }
@@ -798,6 +838,9 @@ export class GrChangeView extends LitElement {
           border-bottom: 2px solid var(--border-color);
           display: flex;
           padding: var(--spacing-s) var(--spacing-l);
+          position: sticky;
+          top: var(--main-header-height);
+          z-index: 110;
         }
         .header.active {
           border-color: var(--status-active);
@@ -844,6 +887,9 @@ export class GrChangeView extends LitElement {
           font-weight: var(--font-weight-h3);
           line-height: var(--line-height-h3);
           margin-left: var(--spacing-l);
+          line-break: anywhere;
+          whitespace: no-wrap;
+          overflow: auto;
         }
         .changeNumberColon {
           color: transparent;
@@ -901,7 +947,7 @@ export class GrChangeView extends LitElement {
           max-width: calc(72ch + 2px + 2 * var(--spacing-m) + 0.4px);
         }
         .commitMessage gr-formatted-text {
-          word-break: break-word;
+          overflow-wrap: anywhere;
         }
         #commitMessageEditor {
           /* Account for border and padding and rounding errors. */
@@ -1030,7 +1076,8 @@ export class GrChangeView extends LitElement {
             align-items: flex-start;
             flex-direction: column;
             flex: 1;
-            padding: var(--spacing-s) var(--spacing-l);
+            padding: var(--spacing-l) var(--spacing-l);
+            height: unset;
           }
           .headerTitle {
             flex-wrap: wrap;
@@ -1089,6 +1136,9 @@ export class GrChangeView extends LitElement {
         .tabContent gr-thread-list::part(threads) {
           padding: var(--spacing-l);
         }
+        .sidebar {
+          height: var(--sidebar-height);
+        }
       `,
     ];
   }
@@ -1106,12 +1156,18 @@ export class GrChangeView extends LitElement {
 
   private renderMainContent() {
     return html`
-      <div id="mainContent" class="container" ?hidden=${!!this.loading}>
-        ${this.renderChangeInfoSection()}
-        <h2 class="assistive-tech-only">Files and Comments tabs</h2>
-        ${this.renderTabHeaders()} ${this.renderTabContent()}
-        ${this.renderChangeLog()}
-      </div>
+      ${this.renderHeader()}
+      <gr-content-with-sidebar .hideSide=${!this.showSidebarChat}>
+        <div slot="main">
+          <div id="mainContent" class="container" ?hidden=${!!this.loading}>
+            ${this.renderChangeInfoSection()}
+            <h2 class="assistive-tech-only">Files and Comments tabs</h2>
+            ${this.renderTabHeaders()} ${this.renderTabContent()}
+            ${this.renderChangeLog()}
+          </div>
+        </div>
+        <div class="sidebar" slot="side">${this.renderSidebar()}</div>
+      </gr-content-with-sidebar>
       <gr-apply-fix-dialog id="applyFixDialog"></gr-apply-fix-dialog>
       <dialog id="downloadModal" tabindex="-1">
         <gr-download-dialog
@@ -1143,17 +1199,38 @@ export class GrChangeView extends LitElement {
     `;
   }
 
-  private renderChangeInfoSection() {
-    return html`<section class="changeInfoSection">
-      <div class=${this.computeHeaderClass()}>
+  private onHeaderCreated(el?: Element) {
+    if (el) this.headerResizeObserver.observe(el);
+  }
+
+  private renderHeader() {
+    if (this.loading) return;
+    return html`
+      <div class=${this.computeHeaderClass()} ${ref(this.onHeaderCreated)}>
         <h1 class="assistive-tech-only">
           Change ${this.change?._number}: ${this.change?.subject}
         </h1>
         ${this.renderHeaderTitle()} ${this.renderCommitActions()}
       </div>
-      <h2 class="assistive-tech-only">Change metadata</h2>
-      ${this.renderChangeInfo()}
-    </section>`;
+    `;
+  }
+
+  private toggleChat() {
+    this.showSidebarChat = !this.showSidebarChat;
+  }
+
+  private renderSidebar() {
+    if (!this.showSidebarChat) return;
+    return html`<chat-panel></chat-panel>`;
+  }
+
+  private renderChangeInfoSection() {
+    return html`
+      <section class="changeInfoSection">
+        <h2 class="assistive-tech-only">Change metadata</h2>
+        ${this.renderChangeInfo()}
+      </section>
+    `;
   }
 
   private renderHeaderTitle() {
@@ -1267,6 +1344,7 @@ export class GrChangeView extends LitElement {
       <div class="commitActions">
         <gr-change-actions
           id="actions"
+          @ai-chat=${() => this.toggleChat()}
           @edit-tap=${() => this.handleEditTap()}
           @stop-edit-tap=${() => this.handleStopEditTap()}
           @download-tap=${() => this.handleOpenDownloadDialog()}
@@ -1381,7 +1459,7 @@ export class GrChangeView extends LitElement {
             `
           )}
           ${when(
-            this.flagService.isEnabled(KnownExperimentId.SHOW_FLOWS_TAB),
+            this.flowsTabEnabled,
             () => html`
               <md-secondary-tab
                 data-name=${Tab.FLOWS}
@@ -1441,10 +1519,7 @@ export class GrChangeView extends LitElement {
           @collapse-diffs=${this.collapseAllDiffs}
         >
         </gr-file-list-header>
-        ${when(
-          this.flagService.isEnabled(KnownExperimentId.REVISION_PARENTS_DATA),
-          () => html`<gr-revision-parents></gr-revision-parents>`
-        )}
+        <gr-revision-parents></gr-revision-parents>
         <gr-file-list
           id="fileList"
           .change=${this.change}
@@ -1652,7 +1727,7 @@ export class GrChangeView extends LitElement {
   }
 
   // Private but used in tests.
-  handleCommitMessageSave(e: EditableContentSaveEvent) {
+  async handleCommitMessageSave(e: EditableContentSaveEvent) {
     assertIsDefined(this.change, 'change');
     assertIsDefined(this.changeNum, 'changeNum');
     // to prevent 2 requests at the same time
@@ -1660,6 +1735,19 @@ export class GrChangeView extends LitElement {
     // Trim trailing whitespace from each line.
     const message = e.detail.content.replace(TRAILING_WHITESPACE_REGEX, '');
     const committerEmail = e.detail.committerEmail;
+
+    // The BEFORE event handlers are async and can potentially block
+    // the message edit from going through.  By contrast, the second
+    // set of event handlers always fire (and should probably fire
+    // after the message has been saved successfully, but the current
+    // behavior is what it is).
+    if (
+      !(await this.getPluginLoader().jsApiService.handleBeforeCommitMessage(
+        this.change,
+        message
+      ))
+    )
+      return;
 
     this.getPluginLoader().jsApiService.handleCommitMessage(
       this.change,

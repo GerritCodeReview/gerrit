@@ -6,7 +6,6 @@
 import '../../diff/gr-diff-mode-selector/gr-diff-mode-selector';
 import '../../diff/gr-patch-range-select/gr-patch-range-select';
 import '../../edit/gr-edit-controls/gr-edit-controls';
-import '../../shared/gr-select/gr-select';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-icon/gr-icon';
 import '../gr-commit-info/gr-commit-info';

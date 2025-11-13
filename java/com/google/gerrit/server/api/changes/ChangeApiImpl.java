@@ -54,10 +54,12 @@ import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.CommitMessageInfo;
 import com.google.gerrit.extensions.common.CommitMessageInput;
 import com.google.gerrit.extensions.common.EvaluateChangeQueryExpressionResultInfo;
+import com.google.gerrit.extensions.common.FlowActionTypeInfo;
 import com.google.gerrit.extensions.common.FlowInfo;
 import com.google.gerrit.extensions.common.FlowInput;
 import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.common.InputWithMessage;
+import com.google.gerrit.extensions.common.IsFlowsEnabledInfo;
 import com.google.gerrit.extensions.common.MergePatchSetInput;
 import com.google.gerrit.extensions.common.PureRevertInfo;
 import com.google.gerrit.extensions.common.RebaseChainInfo;
@@ -119,6 +121,8 @@ import com.google.gerrit.server.restapi.change.SubmittedTogether;
 import com.google.gerrit.server.restapi.change.SuggestChangeReviewers;
 import com.google.gerrit.server.restapi.flow.CreateFlow;
 import com.google.gerrit.server.restapi.flow.FlowCollection;
+import com.google.gerrit.server.restapi.flow.IsFlowsEnabled;
+import com.google.gerrit.server.restapi.flow.ListActions;
 import com.google.gerrit.server.restapi.flow.ListFlows;
 import com.google.gerrit.util.cli.CmdLineParser;
 import com.google.inject.Inject;
@@ -188,6 +192,8 @@ class ChangeApiImpl implements ChangeApi {
   private final PutMessage putMessage;
   private final CreateFlow createFlow;
   private final ListFlows listFlows;
+  private final ListActions listActions;
+  private final IsFlowsEnabled isFlowsEnabled;
   private final Provider<EvaluateChangeQueryExpression> evaluateChangeQueryExpressionProvider;
   private final Provider<GetPureRevert> getPureRevertProvider;
   private final DynamicOptionParser dynamicOptionParser;
@@ -246,6 +252,8 @@ class ChangeApiImpl implements ChangeApi {
       PutMessage putMessage,
       CreateFlow createFlow,
       ListFlows listFlows,
+      ListActions listActions,
+      IsFlowsEnabled isFlowsEnabled,
       Provider<EvaluateChangeQueryExpression> evaluateChangeQueryExpressionProvider,
       Provider<GetPureRevert> getPureRevertProvider,
       DynamicOptionParser dynamicOptionParser,
@@ -302,6 +310,8 @@ class ChangeApiImpl implements ChangeApi {
     this.putMessage = putMessage;
     this.createFlow = createFlow;
     this.listFlows = listFlows;
+    this.listActions = listActions;
+    this.isFlowsEnabled = isFlowsEnabled;
     this.evaluateChangeQueryExpressionProvider = evaluateChangeQueryExpressionProvider;
     this.getPureRevertProvider = getPureRevertProvider;
     this.dynamicOptionParser = dynamicOptionParser;
@@ -352,11 +362,29 @@ class ChangeApiImpl implements ChangeApi {
   }
 
   @Override
+  public IsFlowsEnabledInfo isFlowsEnabled() throws RestApiException {
+    try {
+      return isFlowsEnabled.apply(change).value();
+    } catch (Exception e) {
+      throw asRestApiException("Cannot check if flows are enabled", e);
+    }
+  }
+
+  @Override
   public List<FlowInfo> flows() throws RestApiException {
     try {
       return listFlows.apply(change).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot list flows", e);
+    }
+  }
+
+  @Override
+  public List<FlowActionTypeInfo> flowsActions() throws RestApiException {
+    try {
+      return listActions.apply(change).value();
+    } catch (Exception e) {
+      throw asRestApiException("Cannot list actions", e);
     }
   }
 

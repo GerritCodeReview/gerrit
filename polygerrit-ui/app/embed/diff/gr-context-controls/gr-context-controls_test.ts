@@ -33,9 +33,7 @@ suite('gr-context-control tests', () => {
 
     await waitEventLoop();
 
-    const buttons = element.shadowRoot!.querySelectorAll(
-      'paper-button.showContext'
-    );
+    const buttons = element.shadowRoot!.querySelectorAll('button.showContext');
     assert.equal(buttons.length, 1);
     assert.equal(buttons[0].textContent!.trim(), '+10 common lines');
   });
@@ -45,9 +43,7 @@ suite('gr-context-control tests', () => {
 
     await waitEventLoop();
 
-    const buttons = element.shadowRoot!.querySelectorAll(
-      'paper-button.showContext'
-    );
+    const buttons = element.shadowRoot!.querySelectorAll('button.showContext');
 
     assert.equal(buttons.length, 2);
     assert.equal(buttons[0].textContent!.trim(), '+20 common lines');
@@ -62,9 +58,7 @@ suite('gr-context-control tests', () => {
 
     await waitEventLoop();
 
-    const buttons = element.shadowRoot!.querySelectorAll(
-      'paper-button.showContext'
-    );
+    const buttons = element.shadowRoot!.querySelectorAll('button.showContext');
 
     assert.equal(buttons.length, 3);
     assert.equal(buttons[0].textContent!.trim(), '+20 common lines');
@@ -81,9 +75,7 @@ suite('gr-context-control tests', () => {
 
     await waitEventLoop();
 
-    const buttons = element.shadowRoot!.querySelectorAll(
-      'paper-button.showContext'
-    );
+    const buttons = element.shadowRoot!.querySelectorAll('button.showContext');
 
     assert.equal(buttons.length, 2);
     assert.equal(buttons[0].textContent!.trim(), '+20 common lines');
@@ -105,13 +97,13 @@ suite('gr-context-control tests', () => {
     await waitEventLoop();
 
     const fullExpansionButtons = element.shadowRoot!.querySelectorAll(
-      '.fullExpansion paper-button'
+      '.fullExpansion button'
     );
     const partialExpansionButtons = element.shadowRoot!.querySelectorAll(
-      '.partialExpansion paper-button'
+      '.partialExpansion button'
     );
     const blockExpansionButtons = element.shadowRoot!.querySelectorAll(
-      '.blockExpansion paper-button'
+      '.blockExpansion button'
     );
     assert.equal(fullExpansionButtons.length, 1);
     assert.equal(partialExpansionButtons.length, 1);
@@ -133,13 +125,13 @@ suite('gr-context-control tests', () => {
     await waitEventLoop();
 
     const fullExpansionButtons = element.shadowRoot!.querySelectorAll(
-      '.fullExpansion paper-button'
+      '.fullExpansion button'
     );
     const partialExpansionButtons = element.shadowRoot!.querySelectorAll(
-      '.partialExpansion paper-button'
+      '.partialExpansion button'
     );
     const blockExpansionButtons = element.shadowRoot!.querySelectorAll(
-      '.blockExpansion paper-button'
+      '.blockExpansion button'
     );
     assert.equal(fullExpansionButtons.length, 1);
     assert.equal(partialExpansionButtons.length, 2);
@@ -169,13 +161,13 @@ suite('gr-context-control tests', () => {
     await waitEventLoop();
 
     const fullExpansionButtons = element.shadowRoot!.querySelectorAll(
-      '.fullExpansion paper-button'
+      '.fullExpansion button'
     );
     const partialExpansionButtons = element.shadowRoot!.querySelectorAll(
-      '.partialExpansion paper-button'
+      '.partialExpansion button'
     );
     const blockExpansionButtons = element.shadowRoot!.querySelectorAll(
-      '.blockExpansion paper-button'
+      '.blockExpansion button'
     );
     assert.equal(fullExpansionButtons.length, 1);
     assert.equal(partialExpansionButtons.length, 1);
@@ -323,9 +315,7 @@ suite('gr-context-control tests', () => {
     element.group = createContextGroupWithDelta();
     await waitEventLoop();
 
-    const buttons = element.shadowRoot!.querySelectorAll(
-      'paper-button.showContext'
-    );
+    const buttons = element.shadowRoot!.querySelectorAll('button.showContext');
     assert.equal(buttons.length, 1);
     assert.equal(buttons[0].textContent!.trim(), '+ Unrelated changes');
     assert.include([...buttons[0].classList.values()], 'unrelatedChanges');

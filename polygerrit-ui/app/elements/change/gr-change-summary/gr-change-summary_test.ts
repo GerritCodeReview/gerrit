@@ -16,7 +16,7 @@ import {
   createDraft,
   createRun,
 } from '../../../test/test-data-generators';
-import {Timestamp} from '../../../api/rest-api';
+import {FlowInfo, FlowStageState, Timestamp} from '../../../api/rest-api';
 import {testResolver} from '../../../test/common-test-setup';
 import {UserModel, userModelToken} from '../../../models/user/user-model';
 import {
@@ -26,16 +26,29 @@ import {
 import {GrChecksChip} from './gr-checks-chip';
 import {CheckRun} from '../../../models/checks/checks-model';
 import {Category, RunStatus} from '../../../api/checks';
+import {FlowsModel, flowsModelToken} from '../../../models/flows/flows-model';
+
+function createFlow(partial: Partial<FlowInfo> = {}): FlowInfo {
+  return {
+    uuid: 'test-uuid',
+    owner: createAccountWithEmail(),
+    created: '2020-01-01 00:00:00.000000000' as Timestamp,
+    stages: [],
+    ...partial,
+  };
+}
 
 suite('gr-change-summary test', () => {
   let element: GrChangeSummary;
   let commentsModel: CommentsModel;
   let userModel: UserModel;
+  let flowsModel: FlowsModel;
 
   setup(async () => {
     element = await fixture(html`<gr-change-summary></gr-change-summary>`);
     commentsModel = testResolver(commentsModelToken);
     userModel = testResolver(userModelToken);
+    flowsModel = testResolver(flowsModelToken);
   });
 
   test('is defined', () => {
@@ -58,23 +71,37 @@ suite('gr-change-summary test', () => {
     await element.updateComplete;
     assert.shadowDom.equal(
       element,
-      /* HTML */ `<div>
-        <table class="info">
-          <tbody>
-            <tr>
-              <td class="key">Comments</td>
-              <td class="value">
-                <div class="value-content">
-                  <gr-comments-summary
-                    clickablechips=""
-                    showcommentcategoryname=""
-                  ></gr-comments-summary>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div> `
+      /* HTML */ `
+        <div>
+          <table class="info">
+            <tbody>
+              <tr>
+                <td class="key">Comments</td>
+                <td class="value">
+                  <div class="value-content">
+                    <gr-comments-summary
+                      clickablechips=""
+                      showcommentcategoryname=""
+                    ></gr-comments-summary>
+                    <gr-button
+                      aria-disabled="false"
+                      link=""
+                      role="button"
+                      tabindex="0"
+                    >
+                      Create AI Review Prompt
+                    </gr-button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <dialog id="aiPromptModal" tabindex="-1">
+          <gr-ai-prompt-dialog id="aiPromptDialog" role="dialog">
+          </gr-ai-prompt-dialog>
+        </dialog>
+      `
     );
   });
 
@@ -166,6 +193,63 @@ suite('gr-change-summary test', () => {
           'RUNNING test-name',
         ]
       );
+    });
+  });
+
+  suite('flows summary', () => {
+    test('renders', async () => {
+      flowsModel.setState({
+        flows: [
+          createFlow({
+            stages: [
+              {expression: {condition: ''}, state: FlowStageState.PENDING},
+            ],
+          }),
+          createFlow({
+            stages: [{expression: {condition: ''}, state: FlowStageState.DONE}],
+          }),
+          createFlow({
+            stages: [{expression: {condition: ''}, state: FlowStageState.DONE}],
+          }),
+          createFlow({
+            stages: [
+              {expression: {condition: ''}, state: FlowStageState.FAILED},
+            ],
+          }),
+          createFlow({
+            stages: [
+              {expression: {condition: ''}, state: FlowStageState.FAILED},
+            ],
+          }),
+          createFlow({
+            stages: [
+              {expression: {condition: ''}, state: FlowStageState.FAILED},
+            ],
+          }),
+        ],
+        loading: false,
+        isEnabled: true,
+      });
+      await element.updateComplete;
+      const flowsSummary = queryAndAssert(element, '.flowsSummary');
+      assert.dom.equal(
+        flowsSummary,
+        /* HTML */ `
+          <div class="flowsSummary">
+            <gr-checks-chip> </gr-checks-chip>
+            <gr-checks-chip> </gr-checks-chip>
+            <gr-checks-chip> </gr-checks-chip>
+          </div>
+        `
+      );
+      const chips = queryAll<GrChecksChip>(element, 'gr-checks-chip');
+      assert.equal(chips.length, 3);
+      assert.equal(chips[0].statusOrCategory, Category.ERROR);
+      assert.equal(chips[0].text, '3');
+      assert.equal(chips[1].statusOrCategory, RunStatus.RUNNING);
+      assert.equal(chips[1].text, '1');
+      assert.equal(chips[2].statusOrCategory, Category.SUCCESS);
+      assert.equal(chips[2].text, '2');
     });
   });
 

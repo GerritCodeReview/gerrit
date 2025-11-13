@@ -19,6 +19,7 @@ import static com.google.common.truth.extensions.proto.ProtoTruth.assertThat;
 import static com.google.gerrit.proto.testing.SerializedClassSubject.assertThatSerializedClass;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.gerrit.entities.GeneralProjectName;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.proto.Entities;
 import com.google.gerrit.proto.testing.SerializedClassSubject;
@@ -47,12 +48,14 @@ public class ProjectNameKeyProtoConverterTest {
         projectNameKeyProtoConverter.fromProto(projectNameKeyProtoConverter.toProto(nameKey));
 
     assertThat(convertedNameKey).isEqualTo(nameKey);
+    assertThat(convertedNameKey.getClass()).isEqualTo(GeneralProjectName.class);
   }
 
   /** See {@link SerializedClassSubject} for background and what to do if this test fails. */
   @Test
   public void fieldsExistAsExpected() {
-    assertThatSerializedClass(Project.NameKey.class)
+    assertThat(GeneralProjectName.class.isRecord()).isTrue();
+    assertThatSerializedClass(GeneralProjectName.class)
         .hasFields(ImmutableMap.of("name", String.class));
   }
 }

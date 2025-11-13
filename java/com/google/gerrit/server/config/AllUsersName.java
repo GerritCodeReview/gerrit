@@ -23,10 +23,21 @@ import com.google.gerrit.entities.Project;
  * <p>This class is immutable and thread safe.
  */
 @Immutable
-public class AllUsersName extends Project.NameKey {
+public record AllUsersName(String name) implements Project.NameKey {
   private static final long serialVersionUID = 1L;
 
-  public AllUsersName(String name) {
-    super(name);
+  @Override
+  public int hashCode() {
+    return projectNameHashCode();
+  }
+
+  @Override
+  public boolean equals(Object b) {
+    return projectNameEquals(b);
+  }
+
+  @Override
+  public String toString() {
+    return projectNameToString();
   }
 }

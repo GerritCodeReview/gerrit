@@ -749,6 +749,7 @@ class ReceiveCommits {
       Throwable error = null;
       try (RequestStateContext requestStateContext =
           RequestStateContext.open()
+              .setPerformanceSummaryProvider(performanceLogContext)
               .addRequestStateProvider(progress)
               .addRequestStateProvider(
                   deadlineCheckerFactory.create(start, requestInfo, clientProvidedDeadlineValue))) {
@@ -1473,14 +1474,6 @@ class ReceiveCommits {
         case UPDATE -> parseUpdate(globalRevWalk, ins, cmd);
         case DELETE -> parseDelete(cmd);
         case UPDATE_NONFASTFORWARD -> parseRewind(globalRevWalk, ins, cmd);
-        default -> {
-          reject(
-              cmd,
-              RejectionReason.create(
-                  MetricBucket.UNKNOWN_COMMAND_TYPE,
-                  "prohibited by Gerrit: unknown command type " + cmd.getType()));
-          return;
-        }
       }
 
       if (cmd.getResult() != NOT_ATTEMPTED) {
@@ -1590,13 +1583,6 @@ class ReceiveCommits {
           }
         }
         case DELETE -> {}
-        default ->
-            reject(
-                cmd,
-                RejectionReason.create(
-                    MetricBucket.UNKNOWN_COMMAND_TYPE,
-                    "prohibited by Gerrit: don't know how to handle config update of type "
-                        + cmd.getType()));
       }
     }
   }
@@ -3501,10 +3487,6 @@ class ReceiveCommits {
               return false;
             }
           }
-
-          // Passing newCommit into ReachabilityChecker#areAllReachable destroys the parsed state of
-          // this RevCommit instance. Hence we need to parse it again.
-          globalRevWalk.parseBody(newCommit);
         }
 
         return true;

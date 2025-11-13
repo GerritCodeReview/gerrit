@@ -9,6 +9,7 @@ junit_tests(
         "//java/com/google/gerrit/server",
         "//java/com/google/gerrit/server/cache/serialize/entities",
         "//java/com/google/gerrit/server/util/time",
+        "//lib:gson",
         "//lib:guava",
         "//lib:jgit",
         "//lib:protobuf",
@@ -16,6 +17,5 @@ junit_tests(
         "//lib/truth:truth-proto-extension",
         "//proto:cache_java_proto",
         "//proto/testing:test_java_proto",
-        "@gson//jar",
     ],
 )

@@ -433,6 +433,28 @@ suite('commit-message-formatter-util tests', () => {
       );
     });
 
+    test('without extra blank line after subject', () => {
+      assertParseResult(
+        'Fix the thing\nThis is the body.\n\nFixes: #123\nChange-Id: abcdefg\n',
+        {
+          subject: 'Fix the thing',
+          body: ['This is the body.'],
+          footer: ['Fixes: #123', 'Change-Id: abcdefg'],
+          hasTrailingBlankLine: true,
+        },
+        'with trailing blank line'
+      );
+    });
+
+    test('footers separated by a blank line', () => {
+      assert.equal(
+        formatCommitMessageString(
+          'Fix the thing\n\nThis is the body.\n\nTest: 123\n\nChange-Id: abcdefg\n'
+        ),
+        'Fix the thing\n\nThis is the body.\n\nTest: 123\nChange-Id: abcdefg\n'
+      );
+    });
+
     test('footer without proper format is moved to body', () => {
       assertParseResult(
         'Subject\n\nBody line\n\nThis is not a proper footer line\nNeither is this one',

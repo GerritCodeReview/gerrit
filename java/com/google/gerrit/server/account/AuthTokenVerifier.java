@@ -19,6 +19,8 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.inject.Inject;
+import java.io.IOException;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 
 /** Checks if a given username and token match a user's credentials. */
 public class AuthTokenVerifier {
@@ -51,6 +53,9 @@ public class AuthTokenVerifier {
           return true;
         }
       }
+    } catch (IOException | ConfigInvalidException e) {
+      logger.atSevere().withCause(e).log(
+          "Could not read tokens for account %s: %s ", accountId, e.getMessage());
     } catch (HashedPassword.DecoderException e) {
       logger.atSevere().withCause(e).log(
           "Could not decode token for account %s: %s ", accountId, e.getMessage());

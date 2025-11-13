@@ -16,6 +16,7 @@ package com.google.gerrit.server.logging;
 
 import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 
 /**
  * Wrapper for a {@link Runnable} that copies the {@link LoggingContext} from the current thread to
@@ -60,6 +61,7 @@ public class LoggingContextAwareRunnable implements Runnable {
   private final MutablePerformanceLogRecords mutablePerformanceLogRecords;
   private final boolean aclLogging;
   private final MutableAclLogRecords mutableAclLogRecords;
+  private final RunningOperations runningOperations;
 
   /**
    * Creates a LoggingContextAwareRunnable that wraps the given {@link Runnable}.
@@ -69,11 +71,13 @@ public class LoggingContextAwareRunnable implements Runnable {
    *     performance log records that are created from the runnable are added
    * @param mutableAclLogRecords instance of {@link MutableAclLogRecords} to which ACL log records
    *     that are created from the runnable are added
+   * @param runningOperations the currently running operations
    */
   LoggingContextAwareRunnable(
       Runnable runnable,
       MutablePerformanceLogRecords mutablePerformanceLogRecords,
-      MutableAclLogRecords mutableAclLogRecords) {
+      MutableAclLogRecords mutableAclLogRecords,
+      RunningOperations runningOperations) {
     this.runnable = runnable;
     this.callingThread = Thread.currentThread();
     this.tags = LoggingContext.getInstance().getTagsAsMap();
@@ -82,6 +86,7 @@ public class LoggingContextAwareRunnable implements Runnable {
     this.mutablePerformanceLogRecords = mutablePerformanceLogRecords;
     this.aclLogging = LoggingContext.getInstance().isAclLogging();
     this.mutableAclLogRecords = mutableAclLogRecords;
+    this.runningOperations = runningOperations;
   }
 
   public Runnable unwrap() {
@@ -110,7 +115,16 @@ public class LoggingContextAwareRunnable implements Runnable {
       loggingCtx.setMutablePerformanceLogRecords(mutablePerformanceLogRecords);
       loggingCtx.aclLogging(aclLogging);
       loggingCtx.setMutableAclLogRecords(mutableAclLogRecords);
-      runnable.run();
+      loggingCtx.setRunningOperations(runningOperations);
+
+      // This operation allows us to see where async operations are done, see
+      // Metadata#decorateOperation(String) that includes the thread name when formatting operation
+      // names.
+      try (TraceTimer timer =
+          TraceContext.newTimer(
+              "Runnable", Metadata.builder().thread(Thread.currentThread().getName()).build())) {
+        runnable.run();
+      }
     } finally {
       // Cleanup logging context. This is important if the thread is pooled and reused.
       loggingCtx.clear();

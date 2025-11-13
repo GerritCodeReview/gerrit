@@ -21,7 +21,14 @@ import {
   RevisionPatchSetNum,
 } from '../../types/common';
 import {ChangeStatus, DefaultBase} from '../../constants/constants';
-import {combineLatest, forkJoin, from, Observable, of} from 'rxjs';
+import {
+  BehaviorSubject,
+  combineLatest,
+  forkJoin,
+  from,
+  Observable,
+  of,
+} from 'rxjs';
 import {
   catchError,
   filter,
@@ -43,12 +50,16 @@ import {
   ParsedChangeInfo,
 } from '../../types/types';
 import {fire, fireAlert, fireTitleChange} from '../../utils/event-util';
-import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
+import {
+  RestApiService,
+  SubmittabilityInfo,
+} from '../../services/gr-rest-api/gr-rest-api';
 import {select} from '../../utils/observable-util';
 import {assertIsDefined} from '../../utils/common-util';
 import {Model} from '../base/model';
 import {UserModel} from '../user/user-model';
 import {define} from '../dependency';
+import {FlagsService, KnownExperimentId} from '../../services/flags/flags';
 import {
   isOwner,
   isUploader,
@@ -85,6 +96,13 @@ export interface ChangeState {
    */
   loadingStatus: LoadingStatus;
   change?: ParsedChangeInfo;
+  /**
+   * Information about submittablity and evaluation of SRs
+   *
+   * Corresponding values in `change` are always kept in sync.
+   */
+  submittabilityInfo?: SubmittabilityInfo;
+  submittabilityLoadingStatus: LoadingStatus;
   /**
    * The list of reviewed files, kept in the model because we want changes made
    * in one view to reflect on other views without re-rendering the other views.
@@ -254,6 +272,32 @@ export function updateChangeWithEdit(
 }
 
 /**
+ * Returns new change object with the fields with submittability related fields
+ * updated.
+ *
+ * - if change is undefined return undefined.
+ * - if change number is different than the one in submittability info, no
+ * updates made
+ */
+export function fillFromSubmittabilityInfo(
+  change?: ParsedChangeInfo,
+  submittabilityInfo?: SubmittabilityInfo
+): ParsedChangeInfo | undefined {
+  if (
+    !change ||
+    !submittabilityInfo ||
+    submittabilityInfo.changeNum !== change._number
+  ) {
+    return change;
+  }
+  return {
+    ...change,
+    submittable: submittabilityInfo.submittable,
+    submit_requirements: submittabilityInfo.submitRequirements,
+  };
+}
+
+/**
  * Derives the base patchset number from all the data that can potentially
  * influence it. Mostly just returns `viewModelBasePatchNum` or PARENT, but has
  * some special logic when looking at merge commits.
@@ -295,6 +339,7 @@ function computeBase(
 // Use DeepReadOnly?
 const initialState: ChangeState = {
   loadingStatus: LoadingStatus.NOT_LOADED,
+  submittabilityLoadingStatus: LoadingStatus.NOT_LOADED,
 };
 
 export const changeModelToken = define<ChangeModel>('change-model');
@@ -308,15 +353,41 @@ export const changeModelToken = define<ChangeModel>('change-model');
 export class ChangeModel extends Model<ChangeState> {
   private change?: ParsedChangeInfo;
 
+  private submittabilityInfo?: SubmittabilityInfo;
+
   private patchNum?: RevisionPatchSetNum;
 
   private basePatchNum?: BasePatchSetNum;
 
   private latestPatchNum?: PatchSetNumber;
 
+  private readonly reloadSubmittabilityTrigger$ = new BehaviorSubject<void>(
+    undefined
+  );
+
   public readonly change$ = select(
     this.state$,
     changeState => changeState.change
+  );
+
+  public readonly submittabilityInfo$ = select(
+    this.state$,
+    changeState => changeState.submittabilityInfo
+  );
+
+  public readonly submittabilityLoadingStatus$ = select(
+    this.state$,
+    changeState => changeState.submittabilityLoadingStatus
+  );
+
+  public readonly submittable$ = select(
+    this.state$,
+    changeState => changeState.submittabilityInfo?.submittable
+  );
+
+  public readonly submitRequirements$ = select(
+    this.state$,
+    changeState => changeState.submittabilityInfo?.submitRequirements
   );
 
   public readonly changeLoadingStatus$ = select(
@@ -468,7 +539,8 @@ export class ChangeModel extends Model<ChangeState> {
     private readonly restApiService: RestApiService,
     private readonly userModel: UserModel,
     private readonly pluginLoader: PluginLoader,
-    private readonly reporting: ReportingService
+    private readonly reporting: ReportingService,
+    private readonly flagsService: FlagsService
   ) {
     super(initialState);
     this.patchNum$ = select(
@@ -551,6 +623,7 @@ export class ChangeModel extends Model<ChangeState> {
     );
     this.subscriptions = [
       this.loadChange(),
+      this.loadSubmittabilityInfo(),
       this.loadMergeable(),
       this.loadReviewedFiles(),
       this.setOverviewTitle(),
@@ -561,6 +634,9 @@ export class ChangeModel extends Model<ChangeState> {
       this.refuseEditForOpenChange(),
       this.refuseEditForClosedChange(),
       this.change$.subscribe(change => (this.change = change)),
+      this.submittabilityInfo$.subscribe(
+        submittabilityInfo => (this.submittabilityInfo = submittabilityInfo)
+      ),
       this.patchNum$.subscribe(patchNum => (this.patchNum = patchNum)),
       this.basePatchNum$.subscribe(
         basePatchNum => (this.basePatchNum = basePatchNum)
@@ -740,6 +816,60 @@ export class ChangeModel extends Model<ChangeState> {
         })
       )
       .subscribe(mergeable => this.updateState({mergeable}));
+  }
+
+  public reloadSubmittability() {
+    this.reloadSubmittabilityTrigger$.next();
+  }
+
+  private loadSubmittabilityInfo() {
+    // Use the same trigger as loadChange, to run SR loading in parallel.
+    return combineLatest([
+      this.viewModel.changeNum$,
+      this.reloadSubmittabilityTrigger$,
+    ])
+      .pipe(
+        map(([changeNum, _]) => changeNum),
+        switchMap(changeNum => {
+          if (!changeNum) {
+            // On change reload changeNum is set to undefined to reset change
+            // state. We propagate undefined and reset the state in this case.
+            this.updateState({
+              submittabilityLoadingStatus: LoadingStatus.NOT_LOADED,
+            });
+            return of(undefined);
+          }
+          this.updateState({
+            submittabilityLoadingStatus: LoadingStatus.LOADING,
+          });
+          return from(this.restApiService.getSubmittabilityInfo(changeNum));
+        })
+      )
+      .subscribe(submittabilityInfo => {
+        // TODO(b/445644919): Remove once the submit_requirements is never
+        // requested as part of the change detail.
+        if (
+          !this.flagsService.isEnabled(
+            KnownExperimentId.ASYNC_SUBMIT_REQUIREMENTS
+          )
+        ) {
+          this.updateState({
+            submittabilityLoadingStatus: LoadingStatus.NOT_LOADED,
+          });
+          return;
+        }
+        const change = fillFromSubmittabilityInfo(
+          this.change,
+          submittabilityInfo
+        );
+        this.updateState({
+          change,
+          submittabilityInfo,
+          submittabilityLoadingStatus: submittabilityInfo
+            ? LoadingStatus.LOADED
+            : LoadingStatus.NOT_LOADED,
+        });
+      });
   }
 
   private loadChange() {
@@ -1006,11 +1136,24 @@ export class ChangeModel extends Model<ChangeState> {
     if (this.change && change?._number !== this.change?._number) {
       return;
     }
+    if (!change) {
+      this.updateState({
+        change: undefined,
+        loadingStatus: LoadingStatus.NOT_LOADED,
+      });
+      return;
+    }
     change = updateRevisionsWithCommitShas(change);
+    // TODO(b/445644919): Remove once the submit_requirements is never requested
+    // as part of the change detail.
+    if (
+      this.flagsService.isEnabled(KnownExperimentId.ASYNC_SUBMIT_REQUIREMENTS)
+    ) {
+      change = fillFromSubmittabilityInfo(change, this.submittabilityInfo);
+    }
     this.updateState({
       change,
-      loadingStatus:
-        change === undefined ? LoadingStatus.NOT_LOADED : LoadingStatus.LOADED,
+      loadingStatus: LoadingStatus.LOADED,
     });
   }
 }

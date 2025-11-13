@@ -101,6 +101,8 @@ import com.google.gerrit.server.InvalidDeadlineException;
 import com.google.gerrit.server.OptionUtil;
 import com.google.gerrit.server.RequestInfo;
 import com.google.gerrit.server.RequestListener;
+import com.google.gerrit.server.account.ServiceUserClassifier;
+import com.google.gerrit.server.account.UserKind;
 import com.google.gerrit.server.audit.ExtendedHttpAuditEvent;
 import com.google.gerrit.server.cache.PerThreadCache;
 import com.google.gerrit.server.cancellation.RequestCancelledException;
@@ -248,6 +250,7 @@ public class RestApiServlet extends HttpServlet {
     final DeadlineChecker.Factory deadlineCheckerFactory;
     final CancellationMetrics cancellationMetrics;
     final AclInfoController aclInfoController;
+    final ServiceUserClassifier serviceUserClassifier;
     final Provider<TraceContext> requestTraceContext;
 
     @Inject
@@ -270,6 +273,7 @@ public class RestApiServlet extends HttpServlet {
         DeadlineChecker.Factory deadlineCheckerFactory,
         CancellationMetrics cancellationMetrics,
         AclInfoController aclInfoController,
+        ServiceUserClassifier serviceUserClassifier,
         @Named(REQUEST_TRACE_CONTEXT) Provider<TraceContext> requestTraceContext) {
       this.currentUser = currentUser;
       this.webSession = webSession;
@@ -290,6 +294,7 @@ public class RestApiServlet extends HttpServlet {
       this.deadlineCheckerFactory = deadlineCheckerFactory;
       this.cancellationMetrics = cancellationMetrics;
       this.aclInfoController = aclInfoController;
+      this.serviceUserClassifier = serviceUserClassifier;
       this.requestTraceContext = requestTraceContext;
     }
   }
@@ -352,13 +357,14 @@ public class RestApiServlet extends HttpServlet {
       // plugins happens before the client sees the response. This is needed for being able to
       // test performance logging from an acceptance test (see
       // TraceIT#performanceLoggingForRestCall()).
-      try (RequestStateContext requestStateContext =
+      try (PerformanceLogContext performanceLogContext =
+              new PerformanceLogContext(globals.config, globals.performanceLoggers);
+          RequestStateContext requestStateContext =
               RequestStateContext.open()
+                  .setPerformanceSummaryProvider(performanceLogContext)
                   .addRequestStateProvider(
                       globals.deadlineCheckerFactory.create(
-                          requestInfo, req.getHeader(X_GERRIT_DEADLINE)));
-          PerformanceLogContext performanceLogContext =
-              new PerformanceLogContext(globals.config, globals.performanceLoggers)) {
+                          requestInfo, req.getHeader(X_GERRIT_DEADLINE)))) {
         traceRequestData(req);
 
         if (corsResponder.filterCorsPreflight(req, res)) {
@@ -762,7 +768,14 @@ public class RestApiServlet extends HttpServlet {
         globals.metrics.responseBytes.record(metric, responseBytes);
       }
       globals.metrics.serverLatency.record(
-          metric, System.nanoTime() - startNanos, TimeUnit.NANOSECONDS);
+          metric,
+          currentUser.getAccessPath().name(),
+          currentUser.isIdentifiedUser()
+                  && globals.serviceUserClassifier.isServiceUser(currentUser.getAccountId())
+              ? UserKind.SERVICE_USER
+              : UserKind.HUMAN_USER,
+          System.nanoTime() - startNanos,
+          TimeUnit.NANOSECONDS);
       globals.auditService.dispatch(
           new ExtendedHttpAuditEvent(
               sessionId,

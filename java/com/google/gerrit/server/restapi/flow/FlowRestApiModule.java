@@ -33,5 +33,8 @@ public class FlowRestApiModule extends RestApiModule {
 
     get(FLOW_KIND).to(GetFlow.class);
     delete(FLOW_KIND).to(DeleteFlow.class);
+
+    get(CHANGE_KIND, "is-flows-enabled").to(IsFlowsEnabled.class);
+    get(CHANGE_KIND, "flows-actions").to(ListActions.class);
   }
 }

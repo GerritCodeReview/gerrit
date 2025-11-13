@@ -5,7 +5,6 @@
  */
 import '../../../styles/shared-styles';
 import '../gr-button/gr-button';
-import '../gr-select/gr-select';
 import {DiffPreferencesInfo, IgnoreWhitespaceType} from '../../../types/diff';
 import {subscribe} from '../../lit/subscription-controller';
 import {grFormStyles} from '../../../styles/gr-form-styles';
@@ -15,39 +14,39 @@ import {customElement, query, state} from 'lit/decorators.js';
 import {convertToString} from '../../../utils/string-util';
 import {fire} from '../../../utils/event-util';
 import {ValueChangedEvent} from '../../../types/events';
-import {GrSelect} from '../gr-select/gr-select';
 import {resolve} from '../../../models/dependency';
 import {userModelToken} from '../../../models/user/user-model';
 import '@material/web/textfield/outlined-text-field';
 import {materialStyles} from '../../../styles/gr-material-styles';
+import '@material/web/checkbox/checkbox';
+import {MdCheckbox} from '@material/web/checkbox/checkbox';
+import '@material/web/select/outlined-select';
+import '@material/web/select/select-option';
+import {MdOutlinedSelect} from '@material/web/select/outlined-select';
 
 @customElement('gr-diff-preferences')
 export class GrDiffPreferences extends LitElement {
-  @query('#contextLineSelect') private contextLineSelect?: HTMLInputElement;
-
   @query('#columnsInput') private columnsInput?: HTMLInputElement;
 
   @query('#tabSizeInput') private tabSizeInput?: HTMLInputElement;
 
   @query('#fontSizeInput') private fontSizeInput?: HTMLInputElement;
 
-  @query('#lineWrappingInput') private lineWrappingInput?: HTMLInputElement;
+  @query('#lineWrappingInput') private lineWrappingInput?: MdCheckbox;
 
-  @query('#showTabsInput') private showTabsInput?: HTMLInputElement;
+  @query('#showTabsInput') private showTabsInput?: MdCheckbox;
 
   @query('#showTrailingWhitespaceInput')
-  private showTrailingWhitespaceInput?: HTMLInputElement;
+  private showTrailingWhitespaceInput?: MdCheckbox;
 
   @query('#automaticReviewInput')
-  private automaticReviewInput?: HTMLInputElement;
+  private automaticReviewInput?: MdCheckbox;
 
   @query('#syntaxHighlightInput')
-  private syntaxHighlightInput?: HTMLInputElement;
-
-  @query('#ignoreWhiteSpace') private ignoreWhiteSpace?: HTMLInputElement;
+  private syntaxHighlightInput?: MdCheckbox;
 
   // Used in gr-diff-preferences-dialog
-  @query('#contextSelect') contextSelect?: GrSelect;
+  @query('#contextSelect') contextSelect?: MdOutlinedSelect;
 
   @state() diffPrefs?: DiffPreferencesInfo;
 
@@ -87,32 +86,50 @@ export class GrDiffPreferences extends LitElement {
         <section>
           <label for="contextLineSelect" class="title">Context</label>
           <span class="value">
-            <gr-select
+            <md-outlined-select
               id="contextSelect"
-              .bindValue=${convertToString(this.diffPrefs?.context)}
-              @change=${this.handleDiffContextChanged}
+              value=${convertToString(this.diffPrefs?.context)}
+              @change=${(e: Event) => {
+                const select = e.target as HTMLSelectElement;
+                this.diffPrefs!.context = Number(select.value);
+                this.requestUpdate();
+                fire(this, 'has-unsaved-changes-changed', {
+                  value: this.hasUnsavedChanges(),
+                });
+              }}
             >
-              <select id="contextLineSelect">
-                <option value="3">3 lines</option>
-                <option value="10">10 lines</option>
-                <option value="25">25 lines</option>
-                <option value="50">50 lines</option>
-                <option value="75">75 lines</option>
-                <option value="100">100 lines</option>
-                <option value="-1">Whole file</option>
-              </select>
-            </gr-select>
+              <md-select-option value="3">
+                <div slot="headline">3 lines</div>
+              </md-select-option>
+              <md-select-option value="10">
+                <div slot="headline">10 lines</div>
+              </md-select-option>
+              <md-select-option value="25">
+                <div slot="headline">25 lines</div>
+              </md-select-option>
+              <md-select-option value="50">
+                <div slot="headline">50 lines</div>
+              </md-select-option>
+              <md-select-option value="75">
+                <div slot="headline">75 lines</div>
+              </md-select-option>
+              <md-select-option value="100">
+                <div slot="headline">100 lines</div>
+              </md-select-option>
+              <md-select-option value="-1">
+                <div slot="headline">Whole file</div>
+              </md-select-option>
+            </md-outlined-select>
           </span>
         </section>
         <section>
           <label for="lineWrappingInput" class="title">Fit to screen</label>
           <span class="value">
-            <input
+            <md-checkbox
               id="lineWrappingInput"
-              type="checkbox"
               ?checked=${!!this.diffPrefs?.line_wrapping}
               @change=${this.handleLineWrappingTap}
-            />
+            ></md-checkbox>
           </span>
         </section>
         <section>
@@ -187,12 +204,11 @@ export class GrDiffPreferences extends LitElement {
         <section>
           <label for="showTabsInput" class="title">Show tabs</label>
           <span class="value">
-            <input
+            <md-checkbox
               id="showTabsInput"
-              type="checkbox"
               ?checked=${!!this.diffPrefs?.show_tabs}
               @change=${this.handleShowTabsTap}
-            />
+            ></md-checkbox>
           </span>
         </section>
         <section>
@@ -200,12 +216,11 @@ export class GrDiffPreferences extends LitElement {
             >Show trailing whitespace</label
           >
           <span class="value">
-            <input
+            <md-checkbox
               id="showTrailingWhitespaceInput"
-              type="checkbox"
               ?checked=${!!this.diffPrefs?.show_whitespace_errors}
               @change=${this.handleShowTrailingWhitespaceTap}
-            />
+            ></md-checkbox>
           </span>
         </section>
         <section>
@@ -213,12 +228,11 @@ export class GrDiffPreferences extends LitElement {
             >Syntax highlighting</label
           >
           <span class="value">
-            <input
+            <md-checkbox
               id="syntaxHighlightInput"
-              type="checkbox"
               ?checked=${!!this.diffPrefs?.syntax_highlighting}
               @change=${this.handleSyntaxHighlightTap}
-            />
+            ></md-checkbox>
           </span>
         </section>
         <section>
@@ -226,12 +240,11 @@ export class GrDiffPreferences extends LitElement {
             >Automatically mark viewed files reviewed</label
           >
           <span class="value">
-            <input
+            <md-checkbox
               id="automaticReviewInput"
-              type="checkbox"
               ?checked=${!this.diffPrefs?.manual_review}
               @change=${this.handleAutomaticReviewTap}
-            />
+            ></md-checkbox>
           </span>
         </section>
         <section>
@@ -240,32 +253,38 @@ export class GrDiffPreferences extends LitElement {
               >Ignore Whitespace</label
             >
             <span class="value">
-              <gr-select
-                .bindValue=${convertToString(this.diffPrefs?.ignore_whitespace)}
-                @change=${this.handleDiffIgnoreWhitespaceChanged}
+              <md-outlined-select
+                id="contextSelect"
+                value=${convertToString(this.diffPrefs?.ignore_whitespace)}
+                @change=${(e: Event) => {
+                  const select = e.target as HTMLSelectElement;
+                  this.diffPrefs!.ignore_whitespace =
+                    select.value as IgnoreWhitespaceType;
+                  this.requestUpdate();
+                  fire(this, 'has-unsaved-changes-changed', {
+                    value: this.hasUnsavedChanges(),
+                  });
+                }}
               >
-                <select id="ignoreWhiteSpace">
-                  <option value="IGNORE_NONE">None</option>
-                  <option value="IGNORE_TRAILING">Trailing</option>
-                  <option value="IGNORE_LEADING_AND_TRAILING">
-                    Leading &amp; trailing
-                  </option>
-                  <option value="IGNORE_ALL">All</option>
-                </select>
-              </gr-select>
+                <md-select-option value="IGNORE_NONE">
+                  <div slot="headline">None</div>
+                </md-select-option>
+                <md-select-option value="IGNORE_TRAILING">
+                  <div slot="headline">Trailing</div>
+                </md-select-option>
+                <md-select-option value="IGNORE_LEADING_AND_TRAILING">
+                  <div slot="headline">Leading &amp; trailing</div>
+                </md-select-option>
+                <md-select-option value="IGNORE_ALL">
+                  <div slot="headline">All</div>
+                </md-select-option>
+              </md-outlined-select>
             </span>
           </div>
         </section>
       </div>
     `;
   }
-
-  private readonly handleDiffContextChanged = () => {
-    this.diffPrefs!.context = Number(this.contextLineSelect!.value);
-    fire(this, 'has-unsaved-changes-changed', {
-      value: this.hasUnsavedChanges(),
-    });
-  };
 
   private readonly handleLineWrappingTap = () => {
     this.diffPrefs!.line_wrapping = this.lineWrappingInput!.checked;
@@ -320,14 +339,6 @@ export class GrDiffPreferences extends LitElement {
 
   private readonly handleAutomaticReviewTap = () => {
     this.diffPrefs!.manual_review = !this.automaticReviewInput!.checked;
-    fire(this, 'has-unsaved-changes-changed', {
-      value: this.hasUnsavedChanges(),
-    });
-  };
-
-  private readonly handleDiffIgnoreWhitespaceChanged = () => {
-    this.diffPrefs!.ignore_whitespace = this.ignoreWhiteSpace!
-      .value as IgnoreWhitespaceType;
     fire(this, 'has-unsaved-changes-changed', {
       value: this.hasUnsavedChanges(),
     });

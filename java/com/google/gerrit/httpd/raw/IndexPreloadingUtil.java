@@ -107,20 +107,10 @@ public class IndexPreloadingUtil {
           ListChangesOption.SUBMIT_REQUIREMENTS);
 
   public static final ImmutableSet<ListChangesOption> CHANGE_DETAIL_OPTIONS_WITH_PARENTS =
-      ImmutableSet.of(
-          ListChangesOption.ALL_COMMITS,
-          ListChangesOption.ALL_REVISIONS,
-          ListChangesOption.CHANGE_ACTIONS,
-          ListChangesOption.DETAILED_ACCOUNTS,
-          ListChangesOption.DETAILED_LABELS,
-          ListChangesOption.DOWNLOAD_COMMANDS,
-          ListChangesOption.MESSAGES,
-          ListChangesOption.REVIEWER_UPDATES,
-          ListChangesOption.SUBMITTABLE,
-          ListChangesOption.WEB_LINKS,
-          ListChangesOption.SKIP_DIFFSTAT,
-          ListChangesOption.SUBMIT_REQUIREMENTS,
-          ListChangesOption.PARENTS);
+      ImmutableSet.<ListChangesOption>builder()
+          .addAll(CHANGE_DETAIL_OPTIONS_WITHOUT_PARENTS)
+          .add(ListChangesOption.PARENTS)
+          .build();
 
   @Nullable
   public static String getPath(@Nullable String requestedURL) throws URISyntaxException {

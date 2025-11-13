@@ -27,6 +27,7 @@ import {ValueChangedEvent} from '../../../types/events';
 import '@material/web/textfield/outlined-text-field';
 import {MdOutlinedTextField} from '@material/web/textfield/outlined-text-field';
 import {materialStyles} from '../../../styles/gr-material-styles';
+import {AutocompleteSuggestion} from '../../../utils/autocomplete-util';
 
 const TOKENIZE_REGEX = /(?:[^\s"]+|"[^"]*")+/g;
 const DEBOUNCE_WAIT_MS = 200;
@@ -43,13 +44,6 @@ declare global {
     'text-changed': ValueChangedEvent<string>;
     'value-changed': ValueChangedEvent<string>;
   }
-}
-
-export interface AutocompleteSuggestion<T = string> {
-  name?: string;
-  label?: string;
-  value?: T;
-  text?: string;
 }
 
 @customElement('gr-autocomplete')
@@ -150,7 +144,7 @@ export class GrAutocomplete extends LitElement {
 
   /**
    * When true, the selection of the item will not trigger a commit.
-   * When used by GrSearchBar for example, we don't want the user to navigate to the results page after selecting an item.
+   * When used by GrSearchAutocomplete for example, we don't want the user to navigate to the results page after selecting an item.
    */
 
   @property({type: Boolean, attribute: 'skip-commit-on-item-select'})

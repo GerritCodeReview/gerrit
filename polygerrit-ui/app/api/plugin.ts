@@ -18,6 +18,7 @@ import {HookApi, RegisterOptions} from './hook';
 import {StylePluginApi} from './styles';
 import {SuggestionsPluginApi} from './suggestions';
 import {ChangeUpdatesPluginApi} from './change-updates';
+import {AiCodeReviewPluginApi} from './ai-code-review';
 
 export enum TargetElement {
   CHANGE_ACTIONS = 'changeactions',
@@ -33,6 +34,7 @@ export enum EventType {
   // Fires GerritView values such as 'change', 'dashboard', 'admin', ...
   VIEW_CHANGE = 'view-change',
   SHOW_REVISION_ACTIONS = 'show-revision-actions',
+  BEFORE_COMMIT_MSG_EDIT = 'before-commit-msg-edit',
   COMMIT_MSG_EDIT = 'commitmsgedit',
   CUSTOM_EMOJIS = 'custom-emojis',
   REVERT = 'revert',
@@ -42,6 +44,7 @@ export enum EventType {
   SHOW_DIFF = 'showdiff',
   BEFORE_REPLY_SENT = 'before-reply-sent',
   REPLY_SENT = 'replysent',
+  BEFORE_PUBLISH_EDIT = 'before-publish-edit',
   PUBLISH_EDIT = 'publish-edit',
 }
 
@@ -63,6 +66,7 @@ export declare interface PluginApi {
    */
   url(): string;
   admin(): AdminPluginApi;
+  aiCodeReview(): AiCodeReviewPluginApi;
   annotationApi(): AnnotationPluginApi;
   attributeHelper(element: Element): AttributeHelperPluginApi;
   changeActions(): ChangeActionsPluginApi;

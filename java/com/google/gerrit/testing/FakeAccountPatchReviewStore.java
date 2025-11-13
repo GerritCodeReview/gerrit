@@ -135,7 +135,8 @@ public class FakeAccountPatchReviewStore implements AccountPatchReviewStore, Lif
       int matchedPsNumber = -1;
       Optional<PatchSetWithReviewedFiles> result = Optional.empty();
       for (Entity entity : store) {
-        if (entity.accountId() != accountId || !entity.psId().changeId().equals(psId.changeId())) {
+        if (!entity.accountId().equals(accountId)
+            || !entity.psId().changeId().equals(psId.changeId())) {
           continue;
         }
         int entityPsNumber = Integer.parseInt(entity.psId().getId());

@@ -264,13 +264,43 @@ suite('gr-formatted-text tests', () => {
         }
       };
 
+      const getLinkifiedUrl = async (url: string) => {
+        element.content = url;
+        await element.updateComplete;
+        const a = query<HTMLElement>(element, 'a');
+
+        assert.isDefined<HTMLElement | undefined>(a);
+        return a.innerText;
+      };
+
       await checkLinking('http://www.google.com');
       await checkLinking('https://www.google.com');
       await checkLinking('https://www.google.com/');
       await checkLinking('https://www.google.com/asdf~');
       await checkLinking('https://www.google.com/asdf-');
-      await checkLinking('https://www.google.com/asdf-');
-      await checkLinking('https://www.google.com/asdf)');
+      // We DO NOT want to linkify URLs ending with `)`, even though the URL
+      // spec does allow it. Links ending with `)` are extremely rare, and
+      // users putting links into parenthesis happens extremely often. :-)
+      assert.equal(
+        await getLinkifiedUrl('https://www.google.com/asdf)'),
+        'https://www.google.com/asdf'
+      );
+      assert.equal(
+        await getLinkifiedUrl('hello gerrit.com/asdf,'),
+        'gerrit.com/asdf'
+      );
+      assert.equal(
+        await getLinkifiedUrl('hello gerrit.com/asdf.),'),
+        'gerrit.com/asdf'
+      );
+      assert.equal(
+        await getLinkifiedUrl('hello gerrit.com/asdf),'),
+        'gerrit.com/asdf'
+      );
+      assert.equal(
+        await getLinkifiedUrl('hello gerrit.com/foo,bar'),
+        'gerrit.com/foo,bar'
+      );
       // matches & part as well, even we first linkify and then htmlEscape
       await checkLinking(
         'https://google.com/traces/list?project=gerrit&tid=123'

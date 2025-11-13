@@ -20,12 +20,11 @@ import static com.google.common.truth.TruthJUnit.assume;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.TestMetricMaker;
 import com.google.gerrit.index.IndexType;
-import com.google.inject.Inject;
 import org.junit.Test;
 
 public class LuceneIndexMetricsIT extends AbstractDaemonTest {
 
-  @Inject protected TestMetricMaker testMetricMaker;
+  protected final TestMetricMaker testMetricMaker = TestMetricMaker.getInstance();
   private boolean isLuceneIndex =
       IndexType.fromEnvironment().map(IndexType::isLucene).orElse(false);
 

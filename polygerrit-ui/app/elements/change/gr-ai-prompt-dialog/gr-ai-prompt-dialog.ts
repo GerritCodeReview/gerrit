@@ -21,10 +21,10 @@ import {PatchSetNum} from '../../../types/common';
 import {HELP_ME_REVIEW_PROMPT, IMPROVE_COMMIT_MESSAGE} from './prompts';
 import {when} from 'lit/directives/when.js';
 import {copyToClipboard} from '../../../utils/common-util';
-import '@material/web/select/outlined-select.js';
-import '@material/web/select/select-option.js';
-import '@material/web/select/outlined-select.js';
-import '@material/web/select/select-option.js';
+import '@material/web/select/outlined-select';
+import '@material/web/select/select-option';
+import {materialStyles} from '../../../styles/gr-material-styles';
+import '@material/web/radio/radio';
 
 const PROMPT_TEMPLATES = {
   HELP_REVIEW: {
@@ -101,6 +101,7 @@ export class GrAiPromptDialog extends LitElement {
       fontStyles,
       sharedStyles,
       modalStyles,
+      materialStyles,
       css`
         :host {
           display: block;
@@ -148,7 +149,8 @@ export class GrAiPromptDialog extends LitElement {
         .template-option {
           display: flex;
           align-items: center;
-          gap: var(--spacing-s);
+          gap: var(--spacing-m);
+          margin-bottom: 0.5em;
         }
         textarea {
           width: 550px;
@@ -195,8 +197,7 @@ export class GrAiPromptDialog extends LitElement {
                       ${Object.entries(PROMPT_TEMPLATES).map(
                         ([key, template]) => html`
                           <label class="template-option">
-                            <input
-                              type="radio"
+                            <md-radio
                               name="template"
                               .value=${key}
                               ?checked=${this.selectedTemplate === key}
@@ -205,7 +206,8 @@ export class GrAiPromptDialog extends LitElement {
                                 this.selectedTemplate =
                                   input.value as PromptTemplateId;
                               }}
-                            />
+                            >
+                            </md-radio>
                             ${template.label}
                           </label>
                         `
@@ -215,7 +217,7 @@ export class GrAiPromptDialog extends LitElement {
                   <div class="context-selector">
                     <md-outlined-select
                       label="Context"
-                      .value=${this.context.toString()}
+                      value=${this.context.toString()}
                       @change=${(e: Event) => {
                         const select = e.target as HTMLSelectElement;
                         this.context = Number(select.value);

@@ -350,7 +350,9 @@ link:#approval-info[ApprovalInfo] of the `all` attribute.
 [[submittable]]
 --
 * `SUBMITTABLE`: include the `submittable` field in link:#change-info[ChangeInfo],
-  which can be used to tell if the change is reviewed and ready for submit.
+  which can be used to tell if the change is reviewed and ready for submit. Only
+  changes with `status` is `NEW` can be submittable, for `MERGED` and
+  `ABANDONED` changes this alway evaluates to `false`.
 --
 
 [[web-links]]
@@ -3218,7 +3220,7 @@ The following URL parameters are supported:
 
 .Request
 ----
-  GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/query?expression="is:submittable label:Auto-Submit+1" HTTP/1.0
+  GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/query?expression=is:submittable label:Auto-Submit+1 HTTP/1.0
 ----
 
 As response a link:#evaluate-change-query-expression-result-info[
@@ -3722,9 +3724,36 @@ As response "`204 No Content`" is returned.
   HTTP/1.1 204 No Content
 ----
 
-
 [[flow-endpoints]]
 == Flow Endpoints
+
+
+[[is-flows-enabled]]
+=== Is Flows Enabled
+--
+'GET /changes/link:#change-id[\{change-id\}]/is-flows-enabled'
+--
+
+Returns whether flows are enabled for this change.
+
+As result an link:#enabled-info[IsFlowsEnabledInfo] entity is returned.
+
+.Request
+----
+  GET /changes/myProject~65178/is-flows-enabled HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "enabled": true
+  }
+----
 
 [[list-flows]]
 === List Flows
@@ -3817,6 +3846,35 @@ implementation.
 
 If no flow service is bound (i.e. if no plugin that provides a flow service is
 installed) `405 Method Not Allowed` is returned.
+
+[[flows-actions]]
+=== List Flows Actions
+--
+'GET /changes/link:#change-id[{change-id}]/flows-actions/'
+--
+
+Lists the flows actions that are configured for the given change.
+
+As result a list of link:#flow-action-type-info[FlowActionTypeInfo] entries is returned.
+
+.Request
+----
+  GET /changes/myProject~65178/flows-actions/ HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  [
+    {
+      "name": "add-reviewer"
+    }
+  ]
+----
 
 [[create-flow]]
 === Create Flow
@@ -4419,6 +4477,134 @@ In this case, use a POST request instead:
 
 [[revision-endpoints]]
 == Revision Endpoints
+
+[[get-revision]]
+=== Get Revision
+--
+'GET /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]'
+--
+
+Retrieves a revision of a change.
+
+.Request
+----
+  GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/674ac754f91e64a0efb8087e59a176484bd534d1 HTTP/1.0
+----
+
+As response a link:#revision-info[RevisionInfo] entity is returned that
+describes the revision. All fields that require a link:#query-options[change
+query option] to be set when the `RevisionInfo` is returned as part of
+`ChangeInfo` are populated.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "kind": "REWORK",
+    "_number": 1,
+    "ref": "refs/changes/97/97/1",
+    "fetch": {
+      "git": {
+        "url": "git://localhost/gerrit",
+        "ref": "refs/changes/97/97/1",
+        "commands": {
+          "Checkout": "git fetch git://localhost/gerrit refs/changes/97/97/1 \u0026\u0026 git checkout FETCH_HEAD",
+          "Cherry-Pick": "git fetch git://localhost/gerrit refs/changes/97/97/1 \u0026\u0026 git cherry-pick FETCH_HEAD",
+          "Format-Patch": "git fetch git://localhost/gerrit refs/changes/97/97/1 \u0026\u0026 git format-patch -1 --stdout FETCH_HEAD",
+          "Pull": "git pull git://localhost/gerrit refs/changes/97/97/1"
+        }
+      },
+      "http": {
+        "url": "http://myuser@127.0.0.1:8080/gerrit",
+        "ref": "refs/changes/97/97/1",
+        "commands": {
+          "Checkout": "git fetch http://myuser@127.0.0.1:8080/gerrit refs/changes/97/97/1 \u0026\u0026 git checkout FETCH_HEAD",
+          "Cherry-Pick": "git fetch http://myuser@127.0.0.1:8080/gerrit refs/changes/97/97/1 \u0026\u0026 git cherry-pick FETCH_HEAD",
+          "Format-Patch": "git fetch http://myuser@127.0.0.1:8080/gerrit refs/changes/97/97/1 \u0026\u0026 git format-patch -1 --stdout FETCH_HEAD",
+          "Pull": "git pull http://myuser@127.0.0.1:8080/gerrit refs/changes/97/97/1"
+        }
+      },
+      "ssh": {
+        "url": "ssh://myuser@*:29418/gerrit",
+        "ref": "refs/changes/97/97/1",
+        "commands": {
+          "Checkout": "git fetch ssh://myuser@*:29418/gerrit refs/changes/97/97/1 \u0026\u0026 git checkout FETCH_HEAD",
+          "Cherry-Pick": "git fetch ssh://myuser@*:29418/gerrit refs/changes/97/97/1 \u0026\u0026 git cherry-pick FETCH_HEAD",
+          "Format-Patch": "git fetch ssh://myuser@*:29418/gerrit refs/changes/97/97/1 \u0026\u0026 git format-patch -1 --stdout FETCH_HEAD",
+          "Pull": "git pull ssh://myuser@*:29418/gerrit refs/changes/97/97/1"
+        }
+      }
+    },
+    "commit": {
+      "commit": "674ac754f91e64a0efb8087e59a176484bd534d1",
+      "parents": [
+        {
+          "commit": "1eee2c9d8f352483781e772f35dc586a69ff5646",
+          "subject": "Migrate contributor agreements to All-Projects."
+        }
+      ],
+      "author": {
+        "name": "Shawn O. Pearce",
+        "email": "sop@google.com",
+        "date": "2012-04-24 18:08:08.000000000",
+        "tz": -420
+      },
+      "committer": {
+        "name": "Shawn O. Pearce",
+        "email": "sop@google.com",
+        "date": "2012-04-24 18:08:08.000000000",
+        "tz": -420
+      },
+      "subject": "Use an EventBus to manage star icons",
+      "message": "Use an EventBus to manage star icons\n\nImage widgets that need to ..."
+    },
+    "files": {
+      "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeCache.java": {
+        "lines_deleted": 8,
+        "size_delta": -412,
+        "size": 7782
+      },
+      "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeDetailCache.java": {
+        "lines_inserted": 1,
+        "size_delta": 23,
+        "size": 6762
+      },
+      "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeScreen.java": {
+        "lines_inserted": 11,
+        "lines_deleted": 19,
+        "size_delta": -298,
+        "size": 47023
+      },
+      "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable.java": {
+        "lines_inserted": 23,
+        "lines_deleted": 20,
+        "size_delta": 132,
+        "size": 17727
+      },
+      "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/StarCache.java": {
+        "status": "D",
+        "lines_deleted": 139,
+        "size_delta": -5512,
+        "size": 13098
+      },
+      "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/StarredChanges.java": {
+        "status": "A",
+        "lines_inserted": 204,
+        "size_delta": 8345,
+        "size": 8345
+      },
+      "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/Screen.java": {
+        "lines_deleted": 9,
+        "size_delta": -343,
+        "size": 5385
+      }
+    }
+  }
+----
 
 [[get-commit]]
 === Get Commit
@@ -7384,6 +7570,9 @@ where 'project' and 'branch' are URL encoded. For 'branch' the
 |`branch`             ||
 The name of the target branch. +
 The `refs/heads/` prefix is omitted.
+|`full_branch`             ||
+The full name of the target branch. +
+Always starts with `refs/`.
 |`topic`              |optional|The topic to which this change belongs.
 |`attention_set`      |optional|
 The map that maps link:rest-api-accounts.html#account-id[account IDs]
@@ -7459,12 +7648,15 @@ AccountInfo] entity.
 Actions the caller might be able to perform on this revision. The
 information is a map of view name to link:#action-info[ActionInfo]
 entities.
-|`submit_records`             ||
+|`submit_records`             |optional|
 List of the link:rest-api-changes.html#submit-record-info[SubmitRecordInfo]
-containing the submit records for the change at the latest patchset.
+containing the submit records for the change at the latest patchset. This field
+is deprecated in favour of `submit_requirements`.
+Only set if link:#submit-requirements[`SUBMIT_REQUIREMENTS`] is requested.
 |`requirements`             |optional|
 List of the link:rest-api-changes.html#requirement[requirements] to be met before this change
 can be submitted. This field is deprecated in favour of `submit_requirements`.
+Only set if link:#submit-requirements[`SUBMIT_REQUIREMENTS`] is requested.
 |`submit_requirements`      |optional|
 List of the link:#submit-requirement-result-info[SubmitRequirementResultInfo]
 containing the evaluated submit requirements for the change.
@@ -8322,6 +8514,16 @@ Only set if this edit info is returned in response to a request that
 link:#rebase-edit[rebases the change edit] and conflicts are allowed.
 |===========================
 
+[[enabled-info]]
+=== IsFlowsEnabledInfo
+The `IsFlowsEnabledInfo` entity contains information about whether flows is enabled.
+
+[options="header",cols="1,^1,5"]
+|===========================
+|Field Name    ||Description
+|`enabled`     ||A boolean indicating whether the feature is enabled.
+|===========================
+
 [[evaluate-change-query-expression-result-info]]
 === EvaluateChangeQueryExpressionResultInfo
 The `EvaluateChangeQueryExpressionResultInfo` entity contains the result of
@@ -8499,6 +8701,17 @@ the flow service implementation.
 are supported and their format depends on the flow service implementation.
 |=========================
 
+[[flow-action-type]]
+=== FlowActionTypeInfo
+The `FlowActionTypeInfo` entity describes an action that may be used in a flow.
+
+[options="header",cols="1,6"]
+|=========================
+|Field Name   |Description
+|`name`       |The name of the action.
+|=========================
+
+
 [[flow-expression-info]]
 === FlowExpressionInfo
 The `FlowExpressionInfo` entity contains information about a flow expression. A
@@ -8592,7 +8805,9 @@ and/or remove from, a change.
 === IncludedInInfo
 The `IncludedInInfo` entity contains information about the branches a
 change was merged into and tags it was tagged with. The branch or tag
-must have 'refs/head/' or 'refs/tags/' prefix respectively.
+must have 'refs/heads/' or 'refs/tags/' prefix respectively.
+
+Branch and tag lists are sorted in lexicographical order.
 
 [options="header",cols="1,^1,5"]
 |=======================
@@ -9454,7 +9669,7 @@ permission on the branch.
 Notify handling that defines to whom email notifications should be sent after
 the change is submitted. +
 Allowed values are `NONE`, `OWNER`, `OWNER_REVIEWERS` and `ALL`. +
-If not set, the default is `ALL`.+
+If not set, the default is `ALL`. +
 Ignored if a post approval diff is present (i.e. if the change is submitted
 with copied approvals), because in this case everyone should be informed
 about the non-reviewed diff which has been applied after the change has been

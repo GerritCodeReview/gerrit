@@ -24,10 +24,8 @@ import {
   waitUntil,
 } from '../../../test/test-utils';
 import {ReviewerSuggestionsProvider} from '../../../services/gr-reviewer-suggestions-provider/gr-reviewer-suggestions-provider';
-import {
-  AutocompleteSuggestion,
-  GrAutocomplete,
-} from '../gr-autocomplete/gr-autocomplete';
+import {GrAutocomplete} from '../gr-autocomplete/gr-autocomplete';
+import {AutocompleteSuggestion} from '../../../utils/autocomplete-util';
 import {GrAccountEntry} from '../gr-account-entry/gr-account-entry';
 import {createChange} from '../../../test/test-data-generators';
 import {ReviewerState} from '../../../api/rest-api';

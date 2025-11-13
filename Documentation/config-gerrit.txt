@@ -654,9 +654,10 @@ Otherwise, the default value is `HTTP`.
 +
 When gitBasicAuthPolicy is set to `LDAP` or `HTTP_LDAP` and the user
 is authenticating with the LDAP username/password, the Git client config
-needs to have `http.cookieFile` set to a local file, otherwise every
-single call would trigger a full LDAP authentication and groups resolution
-which could introduce a noticeable latency on the overall execution
+needs to have `http.cookieFile` set to the local file and `http.saveCookies` set
+to `true`, so that HTTP session cookies can be read and saved. Otherwise
+every single call would trigger a full LDAP authentication and groups
+resolution which could introduce a noticeable latency on the overall execution
 and produce unwanted load to the LDAP server.
 
 [[auth.maxAuthTokenLifetime]]auth.maxAuthTokenLifetime::
@@ -1020,6 +1021,7 @@ performed once every 24 hours.
 Default is 128 MiB per cache, except:
 +
 * `"change_notes"`: disk storage is disabled by default
+* `"changes_by_project"`: default is `1g` (1 GiB of disk space)
 * `"diff_summary"`: default is `1g` (1 GiB of disk space)
 * `"external_ids_map"`: disk storage is disabled by default
 * `"persisted_projects"`: default is `1g` (1 GiB of disk space)
@@ -1113,10 +1115,11 @@ modified outside of Gerrit.
 
 cache `"changes_by_project"`::
 +
-Ideally, the memorylimit of this cache is large enough to cover all projects.
-This should significantly speed up change ref advertisements and git pushes,
-especially for projects with lots of changes, and particularly on replicas
-where there is no index.
+For the cache to work as expected, if the `memoryLimit` is not large enough to
+cover all projects, then the `diskLimit` should be enabled and set large enough
+for all projects. This should significantly speed up change ref advertisements
+and git pushes, especially for projects with lots of changes, and particularly
+on replicas where there is no index.
 
 cache `"git_modified_files"`::
 +
@@ -2561,6 +2564,16 @@ valid JAR file, whose code would have access to cookies on the domain.
 For this reason `zip` format is always excluded from formats offered
 through the `Download` drop down or accessible in the REST API.
 
+[[flows]]
+=== Section flows
+
+[[flows.maxPerChange]]flows.maxPerChange::
++
+Controls how many flows can be created per change at most. 0 or negative values
+mean "unlimited".
++
+By default, `20`.
+
 [[gc]]
 === Section gc
 
@@ -3635,6 +3648,8 @@ The max idle time is applied:
 +
 * When waiting for a new message to be received on a connection
 * When waiting for a new message to be sent on a connection
+* When a thread is blocked on a synchronous (blocking) wait for the
+  remote client to read data from Gerrit's HTTP response.
 
 +
 By default, 30 seconds.
@@ -3654,6 +3669,13 @@ bundled with the .war will be used instead.
 Enable (or disable) registration of Jetty MBeans for Java JMX.
 +
 By default, `false`.
+
+[[httpd.sameSite]]httpd.sameSite::
++
+Set the `SameSite` cookie attribute on the cookies created by Gerrit.
+Allowed values are: `None`, `Lax` and `Strict`.
++
+By default unset.
 
 [[index]]
 === Section index
@@ -4591,9 +4613,7 @@ By default, unset/`false`.
 Defines how Gerrit authenticates with the server. When set to `GSSAPI`
 Gerrit will use Kerberos. To use kerberos the
 `java.security.auth.login.config` system property must point to a
-login to a JAAS configuration file and, if Java 6 is used, the system
-property `java.security.krb5.conf` must point to the appropriate
-krb5.ini file with references to the KDC.
+login to a JAAS configuration file.
 
 Typical jaas.conf.
 
@@ -4606,8 +4626,6 @@ KerberosLogin {
             renewTGT=`true`;
 };
 ----
-
-See Java documentation on how to create the krb5.ini file.
 
 Note the `renewTGT` property to make sure the TGT does not expire,
 and `useTicketCache` to use the TGT supplied by the operating system. As
@@ -5525,6 +5543,16 @@ link:#tracing.performanceLogging[tracing.performanceLogging] setting).
 +
 By default 25.
 
+[[performance.slowRequestThreshold]]performance.slowRequestThreshold::
++
+Threshold from which on a request is considered as "slow" if exceeded.
++
+For slow requests a performance summary is logged on warning level (only if
+performance logging is enabled (see
+link:#tracing.performanceLogging[tracing.performanceLogging] setting).
++
+By default 30s.
+
 [[performance.metric]]
 ==== Subsection performance.metric
 
@@ -5686,11 +5714,11 @@ field of any generated email messages.  The supported values are:
 +
 * `USER`
 +
-Gerrit will set the From header to use the current user's
-Full Name and Preferred Email.  This may cause messages to be
-classified as spam if the user's domain has SPF or DKIM enabled
-and <<sendemail.smtpServer,sendemail.smtpServer>> is not a trusted
-relay for that domain. You can specify
+Gerrit will set the From header name and address, and the SMTP `MAIL FROM`
+(envelope sender) address, to use the current user's Full Name and Preferred
+Email. This may cause messages to be classified as spam if the user's domain has
+SPF or DKIM enabled and <<sendemail.smtpServer,sendemail.smtpServer>> is not a
+trusted relay for that domain. You can specify
 <<sendemail.allowedDomain,sendemail.allowedDomain>> to instruct Gerrit to only
 send as USER if USER is from those domains.
 +
@@ -5702,16 +5730,17 @@ See below for a description of how the replacement is handled.
 +
 * `SERVER`
 +
-Gerrit will set the From header to the same name and address
-it records in any commits Gerrit creates.  This is set by
-<<user.name,user.name>> and <<user.email,user.email>>, or guessed
-from the local operating system.
+Gerrit will set the From header name and address, and the SMTP `MAIL FROM`
+(envelope sender) address, to the same values it records in any commits Gerrit
+creates. This is set by <<user.name,user.name>> and <<user.email,user.email>>,
+or guessed from the local operating system.
 +
 * `Code Review <review@example.com>`
 +
 If set to a name and email address in brackets, Gerrit will use
 this name and email address for any messages, overriding the name
 that may have been selected for commits by user.name and user.email.
+This address is also used in the SMTP `MAIL FROM` (envelope sender).
 Optionally, the name portion may contain the placeholder `${user}`,
 which is replaced by the Full Name of the current user.
 
@@ -6680,6 +6709,9 @@ By default this is "Gerrit Code Review".
 +
 Email address that Gerrit refers to itself as when it creates a
 new Git commit, such as a merge commit during change submission.
+When <<sendemail.from,sendemail.from>> is `SERVER` or `MIXED`,
+this is the email address used in the SMTP `MAIL FROM` field
+(also known as envelope sender or return-path) when Gerrit sends email.
 +
 If not set, Gerrit generates this as "gerrit@``hostname``", where
 `hostname` is the hostname of the system Gerrit is running on.
@@ -6698,7 +6730,7 @@ By default "Name of user not set" is used.
 
 Schedule configurations are used for running periodic background jobs.
 
-A schedule configuration consists of two parameters:
+A schedule configuration consists of the following parameters:
 
 [[schedule-configuration-interval]]
 * `interval`:
@@ -6738,9 +6770,17 @@ The placeholders can have the following values:
 The time zone cannot be specified but is always the system default
 time zone. Hours must be zero-padded, i.e. `06:00` rather than `6:00`.
 
-The section (and optionally the subsection) in which the `interval` and
-`startTime` keys must be set depends on the background job for which a
-schedule should be configured. E.g. for the change cleanup job the keys
+[[schedule-configuration-jitter]]
+* `jitter`:
+A maximum random delay that will be added to the job's scheduled start time. The same suffixes as
+link:#schedule-configuration-interval[interval] are supported for defining the
+time unit.
++
+By default, no jitter is applied.
+
+The section (and optionally the subsection) in which the `interval`,
+`startTime` and `jitter` keys must be set depends on the background job for
+which a schedule should be configured. E.g. for the change cleanup job the keys
 must be set in the link:#changeCleanup[changeCleanup] section:
 
 ----
@@ -6757,14 +6797,18 @@ Examples for a schedule configuration:
 ----
   startTime = Fri 10:30
   interval  = 2 days
+  jitter    = 30 min
 ----
 +
 Assuming that the server is started on `Mon 07:00` then
 `startTime - now` is `4 days 3:30 hours`. This is larger than the
 interval hence the start time is preponed by the maximum integral
 multiple of the interval so that start time is still in the future,
-i.e. preponed by 4 days. This yields a start time of `Mon 10:30`, next
-executions are `Wed 10:30`, `Fri 10:30`. etc.
+i.e. preponed by 4 days. This yields a start time of `Mon 10:30`.
+After this adjustment, a random delay between 0 and 30 minutes is added.
+For example, if the delay is 7 minutes, the final start time becomes
+`Mon 10:37`. Subsequent executions will occur at fixed intervals from
+this updated start time, such as `Wed 10:37`, `Fri 10:37`, and so on.
 
 * Example 2:
 +

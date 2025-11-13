@@ -277,7 +277,6 @@ public abstract class AbstractPushTag extends AbstractDaemonTest {
           updateAnnotatedTag(testRepo, tagName, user.newIdent());
         }
       }
-      default -> throw new IllegalStateException("unexpected tag type: " + tagType);
     }
 
     if (!newCommit) {

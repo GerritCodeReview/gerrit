@@ -76,7 +76,7 @@ class InMemoryTestingDatabaseModule extends LifecycleModule {
     }
 
     bind(MetricsReservoirConfig.class).to(MetricsReservoirConfigImpl.class).in(Scopes.SINGLETON);
-    bind(MetricMaker.class).to(TestMetricMaker.class);
+    bind(MetricMaker.class).toInstance(TestMetricMaker.getInstance());
 
     listener().to(CreateSchema.class);
 

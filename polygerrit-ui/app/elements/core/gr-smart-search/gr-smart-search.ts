@@ -3,18 +3,16 @@
  * Copyright 2016 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '../gr-search-bar/gr-search-bar';
+import '../gr-search-autocomplete/gr-search-autocomplete';
 import {navigationToken} from '../gr-navigation/gr-navigation';
-import {getUserName} from '../../../utils/display-name-util';
-import {AccountInfo, ServerInfo} from '../../../types/common';
+import {ServerInfo} from '../../../types/common';
 import {
-  SearchBarHandleSearchDetail,
+  GrSearchAutocomplete,
   SuggestionProvider,
-} from '../gr-search-bar/gr-search-bar';
-import {AutocompleteSuggestion} from '../../shared/gr-autocomplete/gr-autocomplete';
+} from '../gr-search-autocomplete/gr-search-autocomplete';
 import {getAppContext} from '../../../services/app-context';
-import {html, LitElement} from 'lit';
-import {customElement, property, state} from 'lit/decorators.js';
+import {css, html, LitElement} from 'lit';
+import {customElement, property, query, state} from 'lit/decorators.js';
 import {subscribe} from '../../lit/subscription-controller';
 import {resolve} from '../../../models/dependency';
 import {configModelToken} from '../../../models/config/config-model';
@@ -23,15 +21,16 @@ import {
   searchViewModelToken,
 } from '../../../models/views/search';
 import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
+import {AutocompleteCommitEvent} from '../../../types/events';
+import {Shortcut, ShortcutController} from '../../lit/shortcut-controller';
+import {
+  AutocompleteSuggestion,
+  fetchAccountSuggestions,
+} from '../../../utils/autocomplete-util';
 
 const MAX_AUTOCOMPLETE_RESULTS = 10;
-const SELF_EXPRESSION = 'self';
-const ME_EXPRESSION = 'me';
 
 declare global {
-  interface HTMLElementEventMap {
-    'handle-search': CustomEvent<SearchBarHandleSearchDetail>;
-  }
   interface HTMLElementTagNameMap {
     'gr-smart-search': GrSmartSearch;
   }
@@ -48,6 +47,9 @@ export class GrSmartSearch extends LitElement {
   @state()
   serverConfig?: ServerInfo;
 
+  @query('gr-search-autocomplete')
+  searchBar?: GrSearchAutocomplete;
+
   private readonly restApiService = getAppContext().restApiService;
 
   private readonly getConfigModel = resolve(this, configModelToken);
@@ -55,6 +57,8 @@ export class GrSmartSearch extends LitElement {
   private readonly getNavigation = resolve(this, navigationToken);
 
   private readonly getSearchViewModel = resolve(this, searchViewModelToken);
+
+  private readonly shortcuts = new ShortcutController(this);
 
   constructor() {
     super();
@@ -68,28 +72,64 @@ export class GrSmartSearch extends LitElement {
       () => this.getSearchViewModel().query$,
       query => (this.searchQuery = query ?? '')
     );
+    this.shortcuts.addAbstract(Shortcut.SEARCH, () => this.focusAndSelectAll());
+  }
+
+  static override get styles() {
+    return css`
+      gr-search-autocomplete {
+        --gr-search-bar-border-radius: 50px;
+      }
+    `;
   }
 
   override render() {
-    const accountSuggestions: SuggestionProvider = (predicate, expression) =>
-      this.fetchAccounts(predicate, expression);
+    const accountSuggestions: SuggestionProvider = (predicate, expression) => {
+      const accountFetcher = (expr: string) =>
+        this.restApiService.queryAccounts(
+          expr,
+          MAX_AUTOCOMPLETE_RESULTS,
+          undefined,
+          undefined,
+          throwingErrorCallback
+        );
+      return fetchAccountSuggestions(
+        accountFetcher,
+        predicate,
+        expression,
+        this.serverConfig
+      );
+    };
     const groupSuggestions: SuggestionProvider = (predicate, expression) =>
       this.fetchGroups(predicate, expression);
     const projectSuggestions: SuggestionProvider = (predicate, expression) =>
       this.fetchProjects(predicate, expression);
     return html`
-      <gr-search-bar
+      <gr-search-autocomplete
         id="search"
         .value=${this.searchQuery}
         .projectSuggestions=${projectSuggestions}
         .groupSuggestions=${groupSuggestions}
         .accountSuggestions=${accountSuggestions}
         .verticalOffset=${this.verticalOffset}
-        @handle-search=${(e: CustomEvent<SearchBarHandleSearchDetail>) => {
-          this.handleSearch(e);
-        }}
-      ></gr-search-bar>
+        @commit=${this.handleInputCommit}
+      >
+        <gr-icon icon="search" slot="leading-icon" aria-hidden="true"></gr-icon>
+      </gr-search-autocomplete>
     `;
+  }
+
+  private focusAndSelectAll() {
+    this.searchBar?.focusAndSelectAll();
+  }
+
+  private handleInputCommit(e: CustomEvent<AutocompleteCommitEvent>) {
+    e.preventDefault();
+    if (!this.searchBar) return;
+    const trimmedInput = this.searchBar.getInput().trim();
+    if (trimmedInput) {
+      this.handleSearch(trimmedInput);
+    }
   }
 
   /**
@@ -158,67 +198,7 @@ export class GrSmartSearch extends LitElement {
       });
   }
 
-  /**
-   * Fetch from the API the predicted accounts.
-   *
-   * @param predicate - The first part of the search term, e.g.
-   * 'owner'
-   * @param expression - The second part of the search term, e.g.
-   * 'kasp'
-   *
-   * private but used in test
-   */
-  fetchAccounts(
-    predicate: string,
-    expression: string
-  ): Promise<AutocompleteSuggestion[]> {
-    if (expression.length === 0) {
-      return Promise.resolve([]);
-    }
-    return this.restApiService
-      .queryAccounts(
-        expression,
-        MAX_AUTOCOMPLETE_RESULTS,
-        /* canSee=*/ undefined,
-        /* filterActive=*/ undefined,
-        throwingErrorCallback
-      )
-      .then(accounts => {
-        if (!accounts) {
-          return [];
-        }
-        return this.mapAccountsHelper(accounts, predicate);
-      })
-      .then(accounts => {
-        // When the expression supplied is a beginning substring of 'self',
-        // add it as an autocomplete option.
-        if (SELF_EXPRESSION.startsWith(expression)) {
-          return accounts.concat([{text: predicate + ':' + SELF_EXPRESSION}]);
-        } else if (ME_EXPRESSION.startsWith(expression)) {
-          return accounts.concat([{text: predicate + ':' + ME_EXPRESSION}]);
-        } else {
-          return accounts;
-        }
-      });
-  }
-
-  private mapAccountsHelper(
-    accounts: AccountInfo[],
-    predicate: string
-  ): AutocompleteSuggestion[] {
-    return accounts.map(account => {
-      const userName = getUserName(this.serverConfig, account);
-      return {
-        label: account.name || '',
-        text: account.email
-          ? `${predicate}:${account.email}`
-          : `${predicate}:"${userName}"`,
-      };
-    });
-  }
-
-  private handleSearch(e: CustomEvent<SearchBarHandleSearchDetail>) {
-    const query = e.detail.inputVal;
+  handleSearch(query: string) {
     if (!query) return;
     this.getNavigation().setUrl(createSearchUrl({query}));
   }

@@ -23,8 +23,10 @@ import {createSearchUrl} from '../../../models/views/search';
 import {ParsedChangeInfo} from '../../../types/types';
 import {formStyles} from '../../../styles/form-styles';
 import {GrValidationOptions} from '../gr-validation-options/gr-validation-options';
-import {parseCommitMessageString} from '../../../utils/commit-message-formatter-util';
 import {GrAutogrowTextarea} from '../../shared/gr-autogrow-textarea/gr-autogrow-textarea';
+import '@material/web/radio/radio';
+import {materialStyles} from '../../../styles/gr-material-styles';
+import {getAppContext} from '../../../services/app-context';
 
 const ERR_COMMIT_NOT_FOUND = 'Unable to find the commit hash of this change.';
 const SPECIFY_REASON_STRING = '<MUST SPECIFY REASON HERE>';
@@ -82,10 +84,13 @@ export class GrConfirmRevertDialog
 
   private readonly getPluginLoader = resolve(this, pluginLoaderToken);
 
+  private readonly restApiService = getAppContext().restApiService;
+
   static override get styles() {
     return [
       formStyles,
       sharedStyles,
+      materialStyles,
       css`
         :host {
           display: block;
@@ -102,6 +107,8 @@ export class GrConfirmRevertDialog
         .revertSubmissionLayout {
           display: flex;
           align-items: center;
+          margin-top: var(--spacing-l);
+          margin-bottom: var(--spacing-m);
         }
         .label {
           margin-left: var(--spacing-m);
@@ -122,6 +129,9 @@ export class GrConfirmRevertDialog
         label[for='messageInput'] {
           margin-top: var(--spacing-m);
         }
+        gr-validation-options {
+          margin-bottom: var(--spacing-m);
+        }
       `,
     ];
   }
@@ -141,13 +151,13 @@ export class GrConfirmRevertDialog
           ${this.showRevertSubmission
             ? html`
                 <div class="revertSubmissionLayout">
-                  <input
-                    name="revertOptions"
-                    type="radio"
+                  <md-radio
                     id="revertSingleChange"
-                    @change=${() => this.handleRevertSingleChangeClicked()}
+                    name="revertOptions"
                     ?checked=${this.computeIfSingleRevert()}
-                  />
+                    @change=${() => this.handleRevertSingleChangeClicked()}
+                  >
+                  </md-radio>
                   <label
                     for="revertSingleChange"
                     class="label revertSingleChange"
@@ -156,13 +166,13 @@ export class GrConfirmRevertDialog
                   </label>
                 </div>
                 <div class="revertSubmissionLayout">
-                  <input
-                    name="revertOptions"
-                    type="radio"
+                  <md-radio
                     id="revertSubmission"
+                    name="revertOptions"
+                    ?checked=${this.computeIfRevertSubmission()}
                     @change=${() => this.handleRevertSubmissionClicked()}
-                    .checked=${this.computeIfRevertSubmission()}
-                  />
+                  >
+                  </md-radio>
                   <label for="revertSubmission" class="label revertSubmission">
                     Revert entire submission (${this.changesCount} Changes)
                   </label>
@@ -215,13 +225,31 @@ export class GrConfirmRevertDialog
     );
   }
 
-  populate(
+  /**
+   * Fetches required information and populates the dialog message.
+   *
+   * Returns `false` if the dialog shouldn't be shown.
+   */
+  async populate(
     change: ParsedChangeInfo,
-    validationOptions: ValidationOptionsInfo | undefined,
-    commitMessage: string,
-    changesCount: number
-  ) {
-    this.changesCount = changesCount;
+    commitMessage: string
+  ): Promise<boolean> {
+    const query = `submissionid: "${change.submission_id}"`;
+    /* A chromium plugin expects that the modifyRevertMsg hook will only
+    be called after the revert button is pressed, hence we populate the
+    revert dialog after revert button is pressed. */
+    const [changes, validationOptions] = await Promise.all([
+      // Specify options 0 to explicitly not request any additional information,
+      // as opposed to using default, since we only care about number of
+      // changes.
+      this.restApiService.getChanges(0, query, undefined, /* options=*/ '0'),
+      this.restApiService.getValidationOptions(change._number),
+    ]);
+    if (!changes) {
+      return false;
+    }
+
+    this.changesCount = changes.length;
     this.validationOptions = validationOptions;
     // The option to revert a single change is always available
     this.populateRevertSingleChangeMessage(
@@ -230,6 +258,7 @@ export class GrConfirmRevertDialog
       change.current_revision
     );
     this.populateRevertSubmissionMessage(change, commitMessage);
+    return true;
   }
 
   populateRevertSingleChangeMessage(
@@ -248,14 +277,6 @@ export class GrConfirmRevertDialog
     const revertTitleRegex = originalTitle.match(
       /^Revert(?:\^([0-9]+))? "(.*)"$/
     );
-
-    // Footer can be Issue:, Issue=, Bug: ISSUE=
-    const footers = parseCommitMessageString(commitMessage).footer.filter(
-      f =>
-        f.toLocaleLowerCase().startsWith('issue') ||
-        f.toLocaleLowerCase().startsWith('bug')
-    );
-
     if (revertTitleRegex) {
       let revertNum = 2;
       if (revertTitleRegex[1]) {
@@ -264,15 +285,16 @@ export class GrConfirmRevertDialog
       revertTitle = `Revert^${revertNum} "${revertTitleRegex[2]}"`;
     }
 
+    if (!commitHash) {
+      fireAlert(this, ERR_COMMIT_NOT_FOUND);
+      return;
+    }
     const revertCommitText = `This reverts commit ${commitHash}.`;
 
-    let message =
+    const message =
       `${revertTitle}\n\n${revertCommitText}\n\n` +
       `Reason for revert: ${SPECIFY_REASON_STRING}\n`;
 
-    if (footers.length > 0) {
-      message += '\n' + footers.join('\n'); // Empty line before the footers begin
-    }
     // This is to give plugins a chance to update message
     this.message = this.modifyRevertMsg(change, commitMessage, message);
     this.revertType = RevertType.REVERT_SINGLE_CHANGE;

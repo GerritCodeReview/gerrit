@@ -120,7 +120,7 @@ export class GrAutogrowTextarea
         }
         :host([disabled]) {
           textarea {
-            background-color: var(--input-field-disabled-bg, lightgrey);
+            background-color: var(--gr-autogrow-textarea-disabled-color);
             color: var(--text-disabled, black);
             cursor: default;
           }

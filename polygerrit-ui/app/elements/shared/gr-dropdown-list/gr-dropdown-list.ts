@@ -7,8 +7,10 @@ import '../../../styles/shared-styles';
 import '../gr-button/gr-button';
 import '../gr-date-formatter/gr-date-formatter';
 import '../gr-file-status/gr-file-status';
+import '../gr-vote-chip/gr-vote-chip';
 import {css, html, LitElement, nothing, PropertyValues} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
+import {ApprovalInfo, LabelInfo} from '../../../api/rest-api';
 import {CommentThread, Timestamp} from '../../../types/common';
 import {NormalizedFileInfo} from '../../change/gr-file-list/gr-file-list';
 import {GrButton} from '../gr-button/gr-button';
@@ -47,6 +49,8 @@ export interface DropdownItem {
   file?: NormalizedFileInfo;
   commentThreads?: CommentThread[];
   deemphasizeReason?: string;
+  vote?: ApprovalInfo;
+  label?: LabelInfo;
 }
 
 declare global {
@@ -180,6 +184,9 @@ export class GrDropdownList extends LitElement {
           font-family: var(--trigger-style-font-family);
           --gr-button-text-color: var(--trigger-style-text-color);
         }
+        gr-vote-chip {
+          margin-right: var(--spacing-s);
+        }
         gr-date-formatter {
           color: var(--deemphasized-text-color);
           margin-left: var(--spacing-xxl);
@@ -195,6 +202,7 @@ export class GrDropdownList extends LitElement {
         .copyClipboard {
           display: inline-flex;
           vertical-align: top;
+          margin-left: var(--gr-dropdown-copy-clipboard-margin-left, 0);
         }
         .mobileText {
           display: none;
@@ -326,12 +334,12 @@ export class GrDropdownList extends LitElement {
             this.opened = true;
             this.scrollToSelected(e);
           }}
+          @closing=${this.handleMenuClosing}
           @closed=${() => {
             this.opened = false;
             this.hadKeyboardEvent = false;
             // This is an ugly hack but works.
             this.cursor.target?.removeAttribute('selected');
-            this.cursor.target?.blur();
           }}
         >
           ${incrementalRepeat({
@@ -398,6 +406,16 @@ export class GrDropdownList extends LitElement {
             )}
           </div>
           ${when(
+            item.vote,
+            () =>
+              html` <div>
+                <gr-vote-chip
+                  .vote=${item.vote}
+                  .label=${item.label}
+                ></gr-vote-chip>
+              </div>`
+          )}
+          ${when(
             item.date,
             () => html`
               <gr-date-formatter .dateStr=${item.date}></gr-date-formatter>
@@ -454,18 +472,10 @@ export class GrDropdownList extends LitElement {
   /**
    * Handle a click on the md-menu element.
    */
-  private handleDropdownClick(e?: MouseEvent) {
+  private handleDropdownClick() {
     assertIsDefined(this.dropdown);
-    if (e) {
-      e.preventDefault();
-      e.stopPropagation();
-    }
 
     this.dropdown.close();
-
-    // For some reason this is needed, otherwise a console warning is thrown,
-    // with something about aria-hidden can't be set because md-menu is focused already.
-    e && e.currentTarget && (e.currentTarget as HTMLElement).blur();
   }
 
   private updateText() {
@@ -519,6 +529,17 @@ export class GrDropdownList extends LitElement {
       this.cursor.stops = Array.from(
         this.shadowRoot?.querySelectorAll('md-menu-item') ?? []
       );
+    }
+  }
+
+  private handleMenuClosing() {
+    // Blur focused item before aria-hidden="true" is applied
+    // Fixes console warning about aria-hidden can't be set because
+    // md-menu is focused already.
+    const active = (this.shadowRoot?.activeElement ??
+      document.activeElement) as HTMLElement;
+    if (active && this.dropdown?.contains(active)) {
+      active.blur();
     }
   }
 }

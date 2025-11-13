@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../../shared/gr-dropdown-list/gr-dropdown-list';
-import '../../shared/gr-select/gr-select';
 import '../../shared/gr-weblink/gr-weblink';
 import {convertToString, pluralize} from '../../../utils/string-util';
 import {getAppContext} from '../../../services/app-context';
@@ -22,8 +21,11 @@ import {
 } from '../../../utils/patch-set-util';
 import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
 import {
+  AccountInfo,
+  ApprovalInfo,
   BasePatchSetNum,
   EDIT,
+  LabelInfo,
   NumericChangeId,
   PARENT,
   PatchSetNum,
@@ -38,7 +40,7 @@ import {
   DropdownItem,
   GrDropdownList,
 } from '../../shared/gr-dropdown-list/gr-dropdown-list';
-import {EditRevisionInfo} from '../../../types/types';
+import {EditRevisionInfo, ParsedChangeInfo} from '../../../types/types';
 import {a11yStyles} from '../../../styles/gr-a11y-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {css, html, LitElement, nothing} from 'lit';
@@ -54,7 +56,13 @@ import {
 } from '../../../models/change/change-model';
 import {changeViewModelToken} from '../../../models/views/change';
 import {fireNoBubbleNoCompose} from '../../../utils/event-util';
-import {FlagsService, KnownExperimentId} from '../../../services/flags/flags';
+import {userModelToken} from '../../../models/user/user-model';
+import {getCodeReviewLabel} from '../../../utils/label-util';
+import {
+  getCodeReviewVotesFromMessage,
+  Score,
+} from '../../../utils/message-util';
+import {combineLatest} from 'rxjs';
 
 // Maximum length for patch set descriptions.
 const PATCH_DESC_MAX_LENGTH = 500;
@@ -102,6 +110,12 @@ export class GrPatchRangeSelect extends LitElement {
   @state()
   changeNum?: NumericChangeId;
 
+  @state()
+  change?: ParsedChangeInfo;
+
+  @state()
+  selfAccount?: AccountInfo;
+
   @property()
   path?: string;
 
@@ -126,10 +140,13 @@ export class GrPatchRangeSelect extends LitElement {
   @state()
   revisionUpdatedFiles?: RevisionUpdatedFiles;
 
+  @state()
+  codeReviewVotes: Map<PatchSetNum, Score> = new Map();
+
   private readonly reporting: ReportingService =
     getAppContext().reportingService;
 
-  private readonly flags: FlagsService = getAppContext().flagsService;
+  private readonly getUserModel = resolve(this, userModelToken);
 
   private readonly getCommentsModel = resolve(this, commentsModelToken);
 
@@ -144,6 +161,17 @@ export class GrPatchRangeSelect extends LitElement {
       () => this.getViewModel().changeNum$,
       x => (this.changeNum = x)
     );
+    subscribe(
+      this,
+      () => this.getChangeModel().change$,
+      x => (this.change = x)
+    );
+    subscribe(
+      this,
+      () => this.getUserModel().account$,
+      x => (this.selfAccount = x)
+    );
+
     subscribe(
       this,
       () => this.getChangeModel().change$,
@@ -178,6 +206,17 @@ export class GrPatchRangeSelect extends LitElement {
       this,
       () => this.getChangeModel().revisionUpdatedFiles$,
       x => (this.revisionUpdatedFiles = x)
+    );
+    subscribe(
+      this,
+      () =>
+        combineLatest([
+          this.getChangeModel().change$,
+          this.getUserModel().account$,
+        ]),
+      ([change, account]) => {
+        this.codeReviewVotes = getCodeReviewVotesFromMessage(change, account);
+      }
     );
   }
 
@@ -282,14 +321,10 @@ export class GrPatchRangeSelect extends LitElement {
         this.createDropdownEntry(basePatch.num, 'Patchset ', basePatch.sha)
       );
 
-    const showParentsData = this.flags.isEnabled(
-      KnownExperimentId.REVISION_PARENTS_DATA
-    );
     dropdownContent.push({
       triggerText: isMerge ? 'Auto Merge' : 'Base',
       text: isMerge ? 'Auto Merge' : `Base | ${getParentCommit(rev, 0)}`,
-      bottomText:
-        showParentsData && !isMerge ? getParentInfoString(rev, 0) : undefined,
+      bottomText: !isMerge ? getParentInfoString(rev, 0) : undefined,
       value: PARENT,
     });
 
@@ -298,7 +333,7 @@ export class GrPatchRangeSelect extends LitElement {
         disabled: idx >= parentCount,
         triggerText: `Parent ${idx + 1}`,
         text: `Parent ${idx + 1} | ${getParentCommit(rev, idx)}`,
-        bottomText: showParentsData ? getParentInfoString(rev, idx) : undefined,
+        bottomText: getParentInfoString(rev, idx),
         mobileText: `Parent ${idx + 1}`,
         value: -(idx + 1),
       });
@@ -357,6 +392,8 @@ export class GrPatchRangeSelect extends LitElement {
         !!this.path /* ignorePatchsetLevelComments*/
       ),
       deemphasizeReason: this.computeDeemphasizeReason(sha),
+      vote: this.computeVote(this.selfAccount, this.change, patchNum),
+      label: this.computeCodeReviewLabel(this.change),
     };
     const date = this.computePatchSetDate(patchNum);
     if (date) {
@@ -374,6 +411,32 @@ export class GrPatchRangeSelect extends LitElement {
       RevisionFileUpdateStatus.SAME
       ? 'Unmodified'
       : undefined;
+  }
+
+  private computeVote(
+    reviewer?: AccountInfo,
+    change?: ParsedChangeInfo,
+    revisionNum?: PatchSetNum
+  ): ApprovalInfo | undefined {
+    if (!change || !reviewer || !revisionNum) return undefined;
+
+    const vote = this.codeReviewVotes.get(revisionNum);
+
+    if (vote) {
+      return {
+        ...reviewer,
+        value: Number(vote.value),
+      };
+    }
+
+    return undefined;
+  }
+
+  private computeCodeReviewLabel(
+    change?: ParsedChangeInfo
+  ): LabelInfo | undefined {
+    if (!change?.labels) return;
+    return getCodeReviewLabel(change.labels);
   }
 
   /**

@@ -37,7 +37,6 @@ public class FilePathAdapter {
       case DELETED, ADDED, MODIFIED -> null;
       case COPIED, RENAMED -> oldName.get();
       case REWRITE -> oldName.isPresent() ? oldName.get() : null;
-      default -> throw new IllegalArgumentException("Unsupported type " + changeType);
     };
   }
 
@@ -49,7 +48,6 @@ public class FilePathAdapter {
     return switch (changeType) {
       case DELETED -> oldName.get();
       case ADDED, MODIFIED, REWRITE, COPIED, RENAMED -> newName.get();
-      default -> throw new IllegalArgumentException("Unsupported type " + changeType);
     };
   }
 }

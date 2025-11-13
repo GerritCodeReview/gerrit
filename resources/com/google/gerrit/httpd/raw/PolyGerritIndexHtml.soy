@@ -32,7 +32,9 @@
   {@param? defaultChangeDetailHex: ?}
   {@param? defaultDashboardHex: ?}
   {@param? dashboardQuery: ?}
+  {@param? parallelDashboardRequest: ?}
   {@param? userIsAuthenticated: ?}
+  {@param? submitRequirementsHex: ?}
   <!DOCTYPE html>{\n}
   <html lang="en">{\n}
   <meta charset="utf-8">{\n}
@@ -95,6 +97,9 @@
       {if $userIsAuthenticated}
         <link rel="preload" href="{$canonicalPath}/{$changeRequestsPath}/edit/?download-commands=true" as="fetch" type="application/json" crossorigin="anonymous"/>{\n}
       {/if}
+      {if $submitRequirementsHex}
+        <link rel="preload" href="{$canonicalPath}/{$changeRequestsPath}?O={$submitRequirementsHex}" as="fetch" type="application/json" crossorigin="anonymous"/>{\n}
+      {/if}
     {/if}
     <link rel="preload" href="{$canonicalPath}/{$changeRequestsPath}/comments?enable-context=true&context-padding=3" as="fetch" type="application/json" crossorigin="anonymous"/>{\n}
     <link rel="preload" href="{$canonicalPath}/changes/?q=change:{$changeNum}" as="fetch" type="application/json" crossorigin="anonymous"/>{\n}
@@ -103,7 +108,13 @@
     {/if}
   {/if}
   {if $userIsAuthenticated && $defaultDashboardHex && $dashboardQuery}
-    <link rel="preload" href="{$canonicalPath}/changes/?O={$defaultDashboardHex}&S=0{for $query in $dashboardQuery}&q={$query}{/for}&allow-incomplete-results=true" as="fetch" type="application/json" crossorigin="anonymous"/>{\n}
+    {if !$parallelDashboardRequest}
+      <link rel="preload" href="{$canonicalPath}/changes/?O={$defaultDashboardHex}&S=0{for $query in $dashboardQuery}&q={$query}{/for}&allow-incomplete-results=true" as="fetch" type="application/json" crossorigin="anonymous"/>{\n}
+    {else}
+      {for $query in $dashboardQuery}
+        <link rel="preload" href="{$canonicalPath}/changes/?O={$defaultDashboardHex}&S=0&q={$query}&allow-incomplete-results=true" as="fetch" type="application/json" crossorigin="anonymous"/>{\n}
+      {/for}
+    {/if}
   {/if}
 
   {if $useGoogleFonts}

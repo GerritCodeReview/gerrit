@@ -15,6 +15,7 @@
 package com.google.gerrit.server.config;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static com.google.gerrit.truth.ConfigSubject.assertThat;
 import static java.util.concurrent.TimeUnit.DAYS;
 import static java.util.concurrent.TimeUnit.HOURS;
@@ -22,6 +23,7 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -179,10 +181,26 @@ public class ConfigUtilTest {
     assertThat(parse("2years")).isEqualTo(ms(365 * 2, DAYS));
   }
 
-  private static long ms(int cnt, TimeUnit unit) {
+  @Test
+  public void timeUnitDefault() {
+    assertThat(ConfigUtil.getTimeUnit("   ", 1, MILLISECONDS)).isEqualTo(ms(1, MILLISECONDS));
+    assertThat(ms(ConfigUtil.getTimeUnit("", 2, SECONDS), SECONDS)).isEqualTo(ms(2, SECONDS));
+    assertThat(ms(ConfigUtil.getTimeUnit(null, 3, MINUTES), MINUTES)).isEqualTo(ms(3, MINUTES));
+  }
+
+  @Test
+  public void timeUnitInvalid() {
+    assertThrows(IllegalArgumentException.class, () -> parse("foo"));
+    assertThrows(IllegalArgumentException.class, () -> parse("1.5"));
+    assertThrows(IllegalArgumentException.class, () -> parse("-5"));
+    assertThrows(IllegalArgumentException.class, () -> parse("5 bar"));
+  }
+
+  private static long ms(long cnt, TimeUnit unit) {
     return MILLISECONDS.convert(cnt, unit);
   }
 
+  @CanIgnoreReturnValue
   private static long parse(String string) {
     return ConfigUtil.getTimeUnit(string, 1, MILLISECONDS);
   }

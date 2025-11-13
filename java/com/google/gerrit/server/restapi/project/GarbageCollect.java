@@ -140,12 +140,6 @@ public class GarbageCollect
                         "Error: garbage collection for project \""
                             + e.getProjectName()
                             + "\" failed.";
-                    default ->
-                        "Error: garbage collection for project \""
-                            + e.getProjectName()
-                            + "\" failed: "
-                            + e.getType()
-                            + ".";
                   };
             }
           }

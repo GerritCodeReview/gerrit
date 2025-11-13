@@ -65,7 +65,8 @@ public abstract class AuthToken {
   private static void validateId(String id) throws InvalidAuthTokenException {
     if (!TOKEN_ID_PATTERN.matcher(id).matches()) {
       throw new InvalidAuthTokenException(
-          "Token ID must contain only letters, numbers, hyphens and underscores.");
+          "Token ID must start with a letter and contain only letters (a-z,A-Z], numbers [0-9], "
+              + "hyphens [-] and underscores [_].");
     }
   }
 }

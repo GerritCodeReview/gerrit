@@ -78,7 +78,8 @@ public class HttpPasswordFallbackAuthTokenAccessor implements AuthTokenAccessor 
   }
 
   @Override
-  public List<AuthToken> getTokens(Account.Id accountId) {
+  public List<AuthToken> getTokens(Account.Id accountId)
+      throws IOException, ConfigInvalidException {
     List<AuthToken> tokens = accessor.getTokens(accountId);
     if (tokens.isEmpty()) {
       tokens = fallBackToLegacyHttpPassword(accountId);
@@ -87,12 +88,14 @@ public class HttpPasswordFallbackAuthTokenAccessor implements AuthTokenAccessor 
   }
 
   @Override
-  public List<AuthToken> getValidTokens(Account.Id accountId) {
+  public List<AuthToken> getValidTokens(Account.Id accountId)
+      throws IOException, ConfigInvalidException {
     return ImmutableList.copyOf(getTokens(accountId).stream().filter(t -> !t.isExpired()).toList());
   }
 
   @Override
-  public Optional<AuthToken> getToken(Account.Id accountId, String id) {
+  public Optional<AuthToken> getToken(Account.Id accountId, String id)
+      throws IOException, ConfigInvalidException {
     return getTokens(accountId).stream().filter(token -> token.id().equals(id)).findFirst();
   }
 

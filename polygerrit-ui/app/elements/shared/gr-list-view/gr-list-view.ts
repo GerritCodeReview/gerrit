@@ -74,9 +74,6 @@ export class GrListView extends LitElement {
           justify-content: space-between;
           margin: 0 var(--spacing-l);
         }
-        #createNewContainer:not(.show) {
-          display: none;
-        }
         .filterContainer {
           display: flex;
           align-items: center;
@@ -125,15 +122,17 @@ export class GrListView extends LitElement {
           >
           </md-outlined-text-field>
         </div>
-        <div id="createNewContainer" class=${this.createNew ? 'show' : ''}>
+        <div id="createNewContainer">
           <gr-button
             id="createNew"
+            ?hidden=${!this.createNew}
             primary
             link
             @click=${() => this.createNewItem()}
           >
             Create New
           </gr-button>
+          <slot name="createNewContainer"></slot>
         </div>
       </div>
       <slot></slot>

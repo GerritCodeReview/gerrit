@@ -43,7 +43,8 @@ public class TopicValidator {
     if (Strings.isNullOrEmpty(topic)) {
       return;
     }
-    int topicSize = queryProvider.get().noFields().byTopicOpen(topic).size();
+    int topicSize =
+        queryProvider.get().noFields().setLimit(topicLimit + 1).byTopicOpen(topic).size();
     if (topicSize >= topicLimit) {
       throw new ValidationException(
           String.format(

@@ -31,6 +31,8 @@ import {
 } from '../../../api/rest-api';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {materialStyles} from '../../../styles/gr-material-styles';
+import '@material/web/checkbox/checkbox';
+import {MdCheckbox} from '@material/web/checkbox/checkbox';
 
 @customElement('gr-repo-submit-requirements')
 export class GrRepoSubmitRequirements extends LitElement {
@@ -542,23 +544,19 @@ export class GrRepoSubmitRequirements extends LitElement {
                   </div>
                   <div class="value-flex">
                     <span class="value">
-                      <gr-select
+                      <md-checkbox
                         id="allowOverride"
-                        .bindValue=${this.newRequirement
+                        ?checked=${this.newRequirement
                           .allow_override_in_child_projects}
-                        @bind-value-changed=${(e: Event) => {
+                        @change=${(e: Event) => {
                           this.newRequirement = {
                             ...this.newRequirement,
-                            allow_override_in_child_projects:
-                              (e as CustomEvent).detail.value === 'true',
+                            allow_override_in_child_projects: (
+                              e.target as MdCheckbox
+                            ).checked,
                           };
                         }}
-                      >
-                        <select>
-                          <option value="true">True</option>
-                          <option value="false">False</option>
-                        </select>
-                      </gr-select>
+                      ></md-checkbox>
                     </span>
                   </div>
                 </section>

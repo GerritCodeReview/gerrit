@@ -1996,8 +1996,7 @@ public class AccountIT extends AbstractDaemonTest {
   @Test
   public void addMalformedGpgKey() throws Exception {
     String key = "-----BEGIN PGP PUBLIC KEY BLOCK-----\n\ntest\n-----END PGP PUBLIC KEY BLOCK-----";
-    BadRequestException thrown = assertThrows(BadRequestException.class, () -> addGpgKey(key));
-    assertThat(thrown).hasMessageThat().contains("Failed to parse GPG keys");
+    BadRequestException unused = assertThrows(BadRequestException.class, () -> addGpgKey(key));
   }
 
   @Test

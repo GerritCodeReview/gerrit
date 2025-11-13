@@ -20,6 +20,7 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Address;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.mail.EmailFactories;
 import com.google.gerrit.server.mail.send.ChangeEmail;
@@ -27,6 +28,8 @@ import com.google.gerrit.server.mail.send.DeleteReviewerChangeEmailDecorator;
 import com.google.gerrit.server.mail.send.MessageIdGenerator;
 import com.google.gerrit.server.mail.send.OutgoingEmail;
 import com.google.gerrit.server.notedb.ChangeUpdate;
+import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.project.RemoveReviewerControl;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.PostUpdateContext;
 import com.google.inject.Inject;
@@ -43,6 +46,7 @@ public class DeleteReviewerByEmailOp extends ReviewerOp {
   private final EmailFactories emailFactories;
   private final MessageIdGenerator messageIdGenerator;
   private final ChangeMessagesUtil changeMessagesUtil;
+  private final RemoveReviewerControl removeReviewerControl;
 
   private final Address reviewer;
   private String mailMessage;
@@ -53,15 +57,18 @@ public class DeleteReviewerByEmailOp extends ReviewerOp {
       EmailFactories emailFactories,
       MessageIdGenerator messageIdGenerator,
       ChangeMessagesUtil changeMessagesUtil,
+      RemoveReviewerControl removeReviewerControl,
       @Assisted Address reviewer) {
     this.emailFactories = emailFactories;
     this.messageIdGenerator = messageIdGenerator;
     this.changeMessagesUtil = changeMessagesUtil;
+    this.removeReviewerControl = removeReviewerControl;
     this.reviewer = reviewer;
   }
 
   @Override
-  public boolean updateChange(ChangeContext ctx) {
+  public boolean updateChange(ChangeContext ctx) throws PermissionBackendException, AuthException {
+    removeReviewerControl.checkRemoveReviewer(ctx.getNotes(), ctx.getUser(), null);
     change = ctx.getChange();
     PatchSet.Id psId = ctx.getChange().currentPatchSetId();
     ChangeUpdate update = ctx.getUpdate(psId);

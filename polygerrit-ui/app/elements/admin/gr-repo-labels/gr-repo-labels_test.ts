@@ -20,6 +20,7 @@ import {
 } from '../../../api/rest-api';
 import {GrDropdownList} from '../../shared/gr-dropdown-list/gr-dropdown-list';
 import {GrListView} from '../../shared/gr-list-view/gr-list-view';
+import {MdCheckbox} from '@material/web/checkbox/checkbox';
 
 suite('gr-repo-labels tests', () => {
   let element: GrRepoLabels;
@@ -284,7 +285,7 @@ suite('gr-repo-labels tests', () => {
                       </div>
                       <div class="value-flex">
                         <span class="value">
-                          <input id="canOverride" checked="" type="checkbox" />
+                          <md-checkbox id="canOverride" checked=""></md-checkbox>
                         </span>
                       </div>
                     </section>
@@ -294,7 +295,7 @@ suite('gr-repo-labels tests', () => {
                       </div>
                       <div class="value-flex">
                         <span class="value">
-                          <input id="allowPostSubmit" type="checkbox" />
+                          <md-checkbox id="allowPostSubmit"></md-checkbox>
                         </span>
                       </div>
                     </section>
@@ -304,7 +305,7 @@ suite('gr-repo-labels tests', () => {
                       </div>
                       <div class="value-flex">
                         <span class="value">
-                          <input id="ignoreSelfApproval" type="checkbox" />
+                          <md-checkbox id="ignoreSelfApproval"></md-checkbox>
                         </span>
                       </div>
                     </section>
@@ -455,19 +456,19 @@ suite('gr-repo-labels tests', () => {
       );
       assert.equal(copyConditionInput.value, 'is:MIN');
 
-      const canOverrideInput = queryAndAssert<HTMLInputElement>(
+      const canOverrideInput = queryAndAssert<MdCheckbox>(
         element,
         '#canOverride'
       );
       assert.isTrue(canOverrideInput.checked);
 
-      const allowPostSubmitInput = queryAndAssert<HTMLInputElement>(
+      const allowPostSubmitInput = queryAndAssert<MdCheckbox>(
         element,
         '#allowPostSubmit'
       );
       assert.isTrue(allowPostSubmitInput.checked);
 
-      const ignoreSelfApprovalInput = queryAndAssert<HTMLInputElement>(
+      const ignoreSelfApprovalInput = queryAndAssert<MdCheckbox>(
         element,
         '#ignoreSelfApproval'
       );

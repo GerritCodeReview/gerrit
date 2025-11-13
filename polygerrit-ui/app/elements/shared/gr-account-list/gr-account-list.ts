@@ -35,9 +35,9 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {classMap} from 'lit/directives/class-map.js';
 import {
   AutocompleteQuery,
-  AutocompleteSuggestion,
   GrAutocomplete,
 } from '../gr-autocomplete/gr-autocomplete';
+import {AutocompleteSuggestion} from '../../../utils/autocomplete-util';
 import {ValueChangedEvent} from '../../../types/events';
 import {difference, queryAndAssert} from '../../../utils/common-util';
 import {ReviewerState} from '../../../api/rest-api';

@@ -104,10 +104,10 @@ export class GrChangeListColumnRequirement extends LitElement {
   }
 
   private renderUnsatisfiedState(requirement: SubmitRequirementResultInfo) {
-    const requirementLabels = extractAssociatedLabels(
-      requirement,
-      'onlySubmittability'
-    );
+    const requirementLabels = extractAssociatedLabels(requirement, {
+      extractFromSubmittability: true,
+      extractFromOverride: 'onlyIfOverridden',
+    });
     const allLabels = this.change?.labels ?? {};
     const associatedLabels = Object.keys(allLabels).filter(label =>
       requirementLabels.includes(label)
@@ -169,10 +169,10 @@ export class GrChangeListColumnRequirement extends LitElement {
     }
     const requirement = requirements[0];
     if (requirement.status === SubmitRequirementStatus.UNSATISFIED) {
-      const requirementLabels = extractAssociatedLabels(
-        requirement,
-        'onlySubmittability'
-      );
+      const requirementLabels = extractAssociatedLabels(requirement, {
+        extractFromSubmittability: true,
+        extractFromOverride: 'onlyIfOverridden',
+      });
       const allLabels = this.change?.labels ?? {};
       const associatedLabels = Object.keys(allLabels).filter(label =>
         requirementLabels.includes(label)

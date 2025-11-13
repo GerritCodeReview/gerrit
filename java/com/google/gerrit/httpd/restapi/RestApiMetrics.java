@@ -25,7 +25,9 @@ import com.google.gerrit.metrics.Description.Units;
 import com.google.gerrit.metrics.Field;
 import com.google.gerrit.metrics.Histogram1;
 import com.google.gerrit.metrics.MetricMaker;
-import com.google.gerrit.metrics.Timer1;
+import com.google.gerrit.metrics.Timer3;
+import com.google.gerrit.server.account.ServiceUserClassifier;
+import com.google.gerrit.server.account.UserKind;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -38,7 +40,7 @@ public class RestApiMetrics {
 
   final Counter1<String> count;
   final Counter3<String, Integer, String> errorCount;
-  final Timer1<String> serverLatency;
+  final Timer3<String, String, UserKind> serverLatency;
   final Histogram1<String> responseBytes;
 
   @Inject
@@ -46,6 +48,21 @@ public class RestApiMetrics {
     Field<String> viewField =
         Field.ofString("view", Metadata.Builder::className)
             .description("view implementation class")
+            .build();
+    Field<String> accessPathField =
+        Field.ofString("access_path", Metadata.Builder::requestType)
+            .description(
+                "The access path through which the user accessed Gerrit (REST_API, WEB_BROWSER or"
+                    + " UNKNOWN).")
+            .build();
+    Field<UserKind> userKindField =
+        Field.ofEnum(UserKind.class, "user_kind", Metadata.Builder::caller)
+            .description(
+                String.format(
+                    "User kind (SERVICE_USER: member of the Gerrit internal '%s' group, HUMAN_USER:"
+                        + " any user that was not classified as a service user and anonymous"
+                        + " users)",
+                    ServiceUserClassifier.SERVICE_USERS))
             .build();
     count =
         metrics.newCounter(
@@ -71,7 +88,9 @@ public class RestApiMetrics {
             new Description("REST API call latency by view")
                 .setCumulative()
                 .setUnit(Units.MILLISECONDS),
-            viewField);
+            viewField,
+            accessPathField,
+            userKindField);
 
     responseBytes =
         metrics.newHistogram(

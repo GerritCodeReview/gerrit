@@ -90,7 +90,7 @@ suite('gr-label-info tests', () => {
       await element.updateComplete;
       assert.isUndefined(query<GrButton>(element, 'gr-button'));
 
-      element.change!.removable_reviewers = [account];
+      element.change!.removable_labels = {'Code-Review': {'+1': [account]}};
       element.mutable = true;
       await element.updateComplete;
       assert.isDefined(query<GrButton>(element, 'gr-button'));
@@ -100,7 +100,7 @@ suite('gr-label-info tests', () => {
       const mock = mockPromise();
       const deleteResponse = mock.then(() => new Response(null, {status: 200}));
       const deleteStub = stubRestApi('deleteVote').returns(deleteResponse);
-      element.change!.removable_reviewers = [account];
+      element.change!.removable_labels = {'Code-Review': {'+1': [account]}};
       element.change!.labels!['Code-Review'] = {
         ...label,
         recommended: account,

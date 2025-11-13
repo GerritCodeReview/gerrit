@@ -997,8 +997,8 @@ public class ExternalIdNotes extends VersionedMetaData {
     checkState(
         extId.equals(actualExtId),
         "external id %s should be removed, but it doesn't match the actual external id %s",
-        extId.toString(),
-        actualExtId.toString());
+        extId,
+        actualExtId);
     noteMap.remove(noteId);
   }
 

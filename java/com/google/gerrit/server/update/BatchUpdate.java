@@ -55,6 +55,7 @@ import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.RefLogIdentityProvider;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.account.ServiceUserClassifier;
 import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.extensions.events.AttentionSetObserver;
@@ -293,6 +294,7 @@ public class BatchUpdate implements AutoCloseable {
   private final ChangeIndexer indexer;
   private final GitReferenceUpdated gitRefUpdated;
   private final RefLogIdentityProvider refLogIdentityProvider;
+  private final ServiceUserClassifier serviceUserClassifier;
 
   private final Project.NameKey project;
   private final CurrentUser user;
@@ -331,6 +333,7 @@ public class BatchUpdate implements AutoCloseable {
       ChangeIndexer indexer,
       GitReferenceUpdated gitRefUpdated,
       RefLogIdentityProvider refLogIdentityProvider,
+      ServiceUserClassifier serviceUserClassifier,
       AttentionSetObserver attentionSetObserver,
       @GerritServerConfig Config gerritConfig,
       @Assisted Project.NameKey project,
@@ -347,6 +350,7 @@ public class BatchUpdate implements AutoCloseable {
     this.indexer = indexer;
     this.gitRefUpdated = gitRefUpdated;
     this.refLogIdentityProvider = refLogIdentityProvider;
+    this.serviceUserClassifier = serviceUserClassifier;
     this.attentionSetObserver = attentionSetObserver;
     this.project = project;
     this.user = user;
@@ -560,8 +564,15 @@ public class BatchUpdate implements AutoCloseable {
   // return false.
   @UsedAt(GOOGLE)
   private boolean indexAsync() {
-    return user.getAccessPath().equals(AccessPath.WEB_BROWSER)
-        && gerritConfig.getBoolean("index", "indexChangesAsync", false);
+    if (!gerritConfig.getBoolean("index", "indexChangesAsync", false)) {
+      return false;
+    }
+
+    if (user.getAccessPath().equals(AccessPath.WEB_BROWSER)) {
+      return true;
+    }
+
+    return user.isIdentifiedUser() && !serviceUserClassifier.isServiceUser(user.getAccountId());
   }
 
   void fireRefChangeEvents() {
@@ -636,7 +647,6 @@ public class BatchUpdate implements AutoCloseable {
           case UPSERTED -> indexFutures.add(indexer.indexAsync(project, id));
           case DELETED -> indexFutures.add(indexer.deleteAsync(project, id));
           case SKIPPED -> {}
-          default -> throw new IllegalStateException("unexpected result: " + e.getValue());
         }
       }
       if (indexAsync) {

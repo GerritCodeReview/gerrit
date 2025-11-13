@@ -111,7 +111,7 @@ public class MigrateLabelFunctionsToSubmitRequirementIT extends AbstractDaemonTe
     assertExistentSr(
         /* srName */ "Foo",
         /* applicabilityExpression= */ null,
-        /* submittabilityExpression= */ "label:Foo=MAX,user=non_uploader AND -label:Foo=MIN",
+        /* submittabilityExpression= */ "label:Foo=MAX&user=non_uploader AND -label:Foo=MIN",
         /* canOverride= */ true);
     assertLabelFunction("Foo", "NoBlock");
   }
@@ -128,7 +128,7 @@ public class MigrateLabelFunctionsToSubmitRequirementIT extends AbstractDaemonTe
     assertExistentSr(
         /* srName */ "Foo",
         /* applicabilityExpression= */ null,
-        /* submittabilityExpression= */ "label:Foo=MAX,user=non_uploader",
+        /* submittabilityExpression= */ "label:Foo=MAX&user=non_uploader",
         /* canOverride= */ true);
     assertLabelFunction("Foo", "NoBlock");
   }

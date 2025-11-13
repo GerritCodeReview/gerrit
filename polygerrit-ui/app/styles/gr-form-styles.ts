@@ -30,6 +30,7 @@ export const grFormStyles = css`
     display: flex;
     margin: var(--spacing-s) 0;
     min-height: 2em;
+    align-items: center;
   }
   .gr-form-styles section * {
     vertical-align: middle;

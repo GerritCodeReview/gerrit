@@ -127,99 +127,78 @@ updates the links. This allows non-final update changes to be reviewed and
 submitted timely. The final (links) change may take more time to complete,
 as this underlying release process unfolds.
 
+[[gerrit-release-job]]
 == Create the Actual Release
 
-[[update-versions]]
-=== Update Versions and Create Release Tag
+There are several steps involved in creating the actual release.
+In order to minimise room for error, the release should be done by executing
+a fully automated jenkins job.
 
-Before doing the release build, the `GERRIT_VERSION` in the `version.bzl`
-file must be updated, e.g. change it from `$version-SNAPSHOT` to `$version`.
+The Jenkins job is defined
+link:https://gerrit.googlesource.com/gerrit-ci-scripts/+/refs/heads/master/jenkins-internal/gerrit-release.groovy[here].
 
-In addition the version must be updated in a number of `*_pom.xml` files.
+Ideally, for security reasons, it should be run from a node that is unreachable from the internet,
+is not the local laptop normally used for other purposes and does not receive
+any data from external sources, such as e-mails or other messages, unless the
+data is explicitly downloaded as part of the release process.
+The following credentials must be made available in the Jenkins vault, with the following credential ids.
 
-To do this run the `./tools/version.py` script and provide the new
-version as parameter, e.g.:
+* ossrh-staging-api.central.sonatype.com
 
-----
-  version=2.15
-  ./tools/version.py $version
-----
+The `userAndPassword` secret populated with the credentials you created following the instructions defined
+link:dev-release-deploy-config.html#create-maven-central-credentials[here]
+and should be created _ad-hoc_ for the release plan execution and *not reused*
+from previous releases.
 
-Commit the changes and create a signed release tag on the new commit:
+> **NOTE**: As soon as the full release plan is complete, the Maven credentials
+> should be destroyed and removed from the Maven portal to minimize the risk
+> of a [supply-chain attack](https://www.sonatype.com/blog/ongoing-npm-software-supply-chain-attack-exposes-new-risks).
 
-----
-  git tag -s -m "v$version" "v$version"
-----
+* gerrit.googlesource.com
 
-If unable to tag, make sure that git is locally
-link:https://medium.com/@rwbutler/signing-commits-using-gpg-on-macos-7210362d15[
-configured with your user's key,role=external,window=_blank]. These are the
-macOS instructions but such commands should be portable enough. Setting
-`GPG_TTY` this way or similar might also be necessary:
+The `userAndPassword` secret populated with the user and password of the git identity that will be used
+to read, push and sign tags during the gerrit release.
+Note that this user has to match the identity associated to the GPG credentials used for signing.
 
-----
-  export GPG_TTY=$(tty)
-----
+> **NOTE**: Do not use the maintainer credentials to minimize the collateral
+> damage if these are stolen.
 
-Tag the plugins:
+* gpg-key
 
-----
-  git submodule foreach '[ "$sm_path" == "modules/jgit" ] || git tag -s -m "v$version" "v$version"'
-----
+A `secret` text credentials containing the GPG private key obtained when
+link:dev-release-deploy-config.html#generate-and-publish-gpg-key[generating the GPG key].
 
-[[build-gerrit]]
-=== Build Gerrit
+It requires the following parameters:
 
-* Build the Gerrit WAR, API JARs and documentation:
-+
-----
-  bazel build release Documentation:searchfree
-  ./tools/maven/api.sh war_install
-  ./tools/maven/api.sh install
-----
+* GCLOUD_AUTH_TOKEN
 
-* Verify the WAR version:
-+
-----
-  java -jar bazel-bin/release.war --version
-----
+the Gcloud authentication token used to upload the gerrit.war and its documentation to gcloud.
+The Gcloud Auth token is obtained via 'gcloud auth login' and then 'gcloud auth print-access-token'.
 
-* Try upgrading a test site and launching the daemon.
+* GPG_PASSPHRASE
 
-* Verify the plugin versions:
-+
-----
-  java -jar bazel-bin/release.war init --list-plugins
-----
+The GPG passphrase obtained when link:dev-release-deploy-config.html#generate-and-publish-gpg-key[generating the GPG
+key].
 
-[[publish-gerrit]]
-=== Publish the Gerrit Release
+* VERSION
+Gerrit semantic release number to upgrade to.
+Example: `3.13.0-rc2`.
+
+* BRANCH
+Gerrit branch name where the release must be cut from
+Example: `master` or `stable-3.12`.
+
+* NEXT_VERSION:
+Next SNAPSHOT version after release.
+Example: 3.12.3-SNAPSHOT
+
+* MIGRATION_VERSION:
+The release job will run a test migration from an earlier Gerrit version performing some base smoke tests.
+Example: 3.12.2
 
 [[publish-to-maven-central]]
-==== Publish the Gerrit artifacts to Maven Central
 
-* Make sure you have done the
-link:dev-release-deploy-config.html#deploy-configuration-setting-maven-central[
-configuration] for deploying to Maven Central.
-
-* Make sure that the version is updated in the `version.bzl` file and in
-the `*_pom.xml` files as described in the link:#update-versions[Update
-Versions and Create Release Tag] section.
-
-* Push the WAR to Maven Central:
-+
-----
-  ./tools/maven/api.sh war_deploy
-----
-
-* Push the plugin artifacts to Maven Central:
-+
-----
-  ./tools/maven/api.sh deploy
-----
-
-* To where the artifacts are uploaded depends on the `GERRIT_VERSION` in
-the `version.bzl` file:
+* To where the artifacts are uploaded depends on the `VERSION` provided as parameter.
 
 ** SNAPSHOT versions are directly uploaded into the Sonatype snapshots
 repository and no further action is needed:
@@ -231,12 +210,10 @@ link:https://oss.sonatype.org/[Sonatype Nexus Server,role=external,window=_blank
 
 * Verify the staging repository
 
-** Go to the link:https://oss.sonatype.org/[Sonatype Nexus Server,role=external,window=_blank] and
+** Go to the link:https://central.sonatype.com/publishing[Maven Central Repository,role=external,window=_blank] and
 sign in with your Sonatype credentials.
 
-** Click on 'Build Promotion' in the left navigation bar under
-'Staging Repositories' and find the `comgooglegerrit-XXXX` staging
-repository.
+** In the `Deployment Info` section and you will find the `com.google.gerrit` staging repository.
 
 ** Verify its content
 +
@@ -244,19 +221,17 @@ While the staging repository is open you can upload further content and
 also replace uploaded artifacts. If something is wrong with the staging
 repository you can drop it by selecting it and clicking on `Drop`.
 
-** Run Sonatype validations on the staging repository
+** Run Maven Central validations on the staging repository
 +
-Select the staging repository and click on `Close`. This runs the
-Sonatype validations on the staging repository. The repository will
+Select the staging repository and click on `Publish`. This runs the
+Maven Central validations on the staging repository. The repository will
 only be closed if everything is OK. A closed repository cannot be
 modified anymore, but you may still drop it if you find any issues.
 
 ** Test closed staging repository
 +
-Once a repository is closed you can find the URL to it in the `Summary`
-section, e.g. https://oss.sonatype.org/content/repositories/comgooglegerrit-1029[role=external,window=_blank].
-+
-Use this URL for further testing of the artifacts in this repository,
+You can download any artifact from the `Component Summary` section for further
+testing of the artifacts in this repository,
 e.g. to try building a plugin against the plugin API in this repository
 update the version in the `*_pom.xml` and configure the repository:
 +
@@ -300,16 +275,6 @@ link:https://oss.sonatype.org/[Sonatype Nexus Server,role=external,window=_blank
 
 ** Select `com.google.gerrit` as `Project`.
 
-[[publish-to-google-storage]]
-==== Publish the Gerrit WAR to the Google Cloud Storage
-
-* Go to the link:https://console.cloud.google.com/storage/browser/gerrit-releases/?project=api-project-164060093628[
-gerrit-releases bucket in the Google cloud storage console,role=external,window=_blank].
-
-* Make sure you are signed in with your Gmail account.
-
-* Manually upload the Gerrit WAR file by using the `Upload` button.
-
 [[push-stable]]
 ==== Push the Stable Branch
 
@@ -322,21 +287,6 @@ get them merged.
 
 * Create a change updating the `defaultbranch` field in the `.gitreview`
 to match the branch name created.
-
-[[push-tag]]
-==== Push the Release Tag
-
-Push the new Release Tag:
-
-----
-  git push gerrit-review tag v$version
-----
-
-Push the new Release Tag on the plugins:
-
-----
-  git submodule foreach '[ "$sm_path" == "modules/jgit" ] || git push gerrit-review tag "v$version"'
-----
 
 [[publish-typescript-plugin-api]]
 ==== Publish TypeScript Plugin API
@@ -351,17 +301,6 @@ for details.
 be changed to use the new API version, see
 link:https://gerrit-review.googlesource.com/c/gerrit/+/340069[
 example change,role=external,window=_blank]
-
-[[upload-documentation]]
-==== Upload the Documentation
-
-* Extract the documentation files from the zip file generated from
-`bazel build searchfree`: `bazel-bin/Documentation/searchfree.zip`.
-
-* Upload the files manually via web browser to the appropriate folder
-in the
-link:https://console.cloud.google.com/storage/browser/gerrit-documentation/?project=api-project-164060093628[
-gerrit-documentation,role=external,window=_blank] storage bucket.
 
 [[finalize-release-notes]]
 === Finalize the Release Notes
@@ -398,22 +337,6 @@ help text:
 ----
   ~/gerrit-release-tools/release-announcement.py --help
 ----
-
-[[increase-version]]
-=== Increase Gerrit Version for Current Development
-
-All new development that is done in the `master` branch will be included in the
-next Gerrit release. The Gerrit version should be set to the snapshot version
-for the next release.
-
-Use the `version` tool to set the version in the `version.bzl` file:
-
-----
-  ./tools/version.py 2.6-SNAPSHOT
-----
-
-Verify that the changes made by the tool are sane, then commit them, push
-the change for review on the master branch, and get it merged.
 
 [[merge-stable]]
 === Merge `stable` into `master`

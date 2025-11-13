@@ -105,6 +105,7 @@ import {NormalizedFileInfo} from '../../change/gr-file-list/gr-file-list';
 import {configModelToken} from '../../../models/config/config-model';
 import {trimWithEllipsis} from '../../../utils/string-util';
 import '@material/web/checkbox/checkbox';
+import {MdCheckbox} from '@material/web/checkbox/checkbox';
 import {materialStyles} from '../../../styles/gr-material-styles';
 
 const LOADING_BLAME = 'Loading blame information. This may take a while ...';
@@ -529,6 +530,10 @@ export class GrDiffView extends LitElement {
         .hidden {
           display: none;
         }
+        .headerLeft {
+          display: flex;
+          align-items: center;
+        }
         gr-patch-range-select {
           display: block;
         }
@@ -538,7 +543,7 @@ export class GrDiffView extends LitElement {
         .stickyHeader {
           background-color: var(--view-background-color);
           position: sticky;
-          top: 0;
+          top: var(--main-header-height);
           /* sidebar should outrank <footer> in GrAppElement */
           z-index: 110;
           box-shadow: var(--elevation-level-1);
@@ -559,8 +564,11 @@ export class GrDiffView extends LitElement {
           color: transparent;
         }
         .headerSubject {
+          margin-left: var(--spacing-s);
           margin-right: var(--spacing-m);
           font-weight: var(--font-weight-medium);
+          whitespace: no-wrap;
+          overflow: auto;
         }
         .patchRangeLeft {
           align-items: center;
@@ -578,11 +586,8 @@ export class GrDiffView extends LitElement {
           padding: 0 var(--spacing-xs);
         }
         .reviewed {
-          display: inline-block;
           margin: 0 var(--spacing-xs);
-          vertical-align: top;
-          position: relative;
-          top: 8px;
+          flex-shrink: 0;
         }
         .jumpToFileContainer {
           display: inline-block;
@@ -642,6 +647,12 @@ export class GrDiffView extends LitElement {
         }
         .editButtona a {
           text-decoration: none;
+        }
+        .checkboxDiv {
+          display: flex;
+        }
+        gr-dropdown-list {
+          --gr-dropdown-copy-clipboard-margin-left: var(--spacing-s);
         }
         @media screen and (max-width: 50em) {
           header {
@@ -708,6 +719,10 @@ export class GrDiffView extends LitElement {
           border: var(--spacing-xxs) solid var(--border-color);
           border-left: 0;
           overflow: auto;
+        }
+        md-checkbox {
+          --md-checkbox-container-size: 15px;
+          --md-checkbox-icon-size: 15px;
         }
       `,
     ];
@@ -880,23 +895,28 @@ export class GrDiffView extends LitElement {
     const formattedFiles = this.formatFilesForDropdown();
     const fileNum = this.computeFileNum(formattedFiles);
     const fileNumClass = this.computeFileNumClass(fileNum, formattedFiles);
-    return html` <div>
-        <a href=${ifDefined(this.getChangeModel().changeUrl())}
-          >${this.changeNum}</a
-        ><span class="changeNumberColon">:</span>
-        <span class="headerSubject"
-          >${trimWithEllipsis(this.change?.subject, 80)}</span
-        >
-        <input
-          id="reviewed"
-          class="reviewed hideOnEdit"
-          type="checkbox"
-          ?hidden=${!this.loggedIn}
-          title="Toggle reviewed status of file"
-          aria-label="file reviewed"
-          .checked=${this.reviewed}
-          @change=${this.handleReviewedChange}
-        />
+    return html` <div class="headerLeft">
+        <div>
+          <a href=${ifDefined(this.getChangeModel().changeUrl())}
+            >${this.changeNum}</a
+          ><span class="changeNumberColon">:</span>
+        </div>
+        <div>
+          <span class="headerSubject"
+            >${trimWithEllipsis(this.change?.subject, 80)}</span
+          >
+        </div>
+        <div class="checkboxDiv">
+          <md-checkbox
+            id="reviewed"
+            class="reviewed hideOnEdit"
+            ?hidden=${!this.loggedIn}
+            title="Toggle reviewed status of file"
+            aria-label="file reviewed"
+            ?checked=${this.reviewed}
+            @change=${this.handleReviewedChange}
+          ></md-checkbox>
+        </div>
         <div class="jumpToFileContainer">
           <gr-dropdown-list
             id="dropdown"
@@ -1224,7 +1244,7 @@ export class GrDiffView extends LitElement {
   }
 
   private handleReviewedChange(e: Event) {
-    const input = e.target as HTMLInputElement;
+    const input = e.target as MdCheckbox;
     this.setReviewed(input.checked ?? false);
   }
 

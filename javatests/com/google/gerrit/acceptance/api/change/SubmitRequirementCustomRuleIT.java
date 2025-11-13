@@ -67,7 +67,8 @@ public class SubmitRequirementCustomRuleIT extends AbstractDaemonTest {
     rule.block(false);
     PushOneCommit.Result r = createChange();
 
-    ChangeInfo result = gApi.changes().id(r.getChangeId()).get();
+    ChangeInfo result =
+        gApi.changes().id(r.getChangeId()).get(ListChangesOption.SUBMIT_REQUIREMENTS);
     assertThat(result.requirements).isEmpty();
 
     rule.block(true);
@@ -81,20 +82,21 @@ public class SubmitRequirementCustomRuleIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
 
     String query = "status:open project:" + project.get();
-    List<ChangeInfo> result = gApi.changes().query(query).get();
+    List<ChangeInfo> result =
+        gApi.changes().query(query).withOptions(ListChangesOption.SUBMIT_REQUIREMENTS).get();
     assertThat(result).hasSize(1);
     assertThat(result.get(0).requirements).isEmpty();
 
     // Submit rule behavior is changed, but the query still returns
     // the previous result from the index
     rule.block(true);
-    result = gApi.changes().query(query).get();
+    result = gApi.changes().query(query).withOptions(ListChangesOption.SUBMIT_REQUIREMENTS).get();
     assertThat(result).hasSize(1);
     assertThat(result.get(0).requirements).isEmpty();
 
     // The submit rule result is updated after the change is reindexed
     gApi.changes().id(r.getChangeId()).index();
-    result = gApi.changes().query(query).get();
+    result = gApi.changes().query(query).withOptions(ListChangesOption.SUBMIT_REQUIREMENTS).get();
     assertThat(result).hasSize(1);
     assertThat(result.get(0).requirements).containsExactly(reqInfo);
   }
@@ -183,7 +185,10 @@ public class SubmitRequirementCustomRuleIT extends AbstractDaemonTest {
     var unused =
         gApi.changes()
             .id(changeId)
-            .get(ListChangesOption.ALL_REVISIONS, ListChangesOption.CURRENT_ACTIONS);
+            .get(
+                ListChangesOption.ALL_REVISIONS,
+                ListChangesOption.CURRENT_ACTIONS,
+                ListChangesOption.SUBMIT_REQUIREMENTS);
 
     // Submit rules are computed freshly, but only once.
     assertThat(rule.numberOfEvaluations.get()).isEqualTo(1);
@@ -200,7 +205,10 @@ public class SubmitRequirementCustomRuleIT extends AbstractDaemonTest {
     var unused =
         gApi.changes()
             .query(changeId)
-            .withOptions(ListChangesOption.ALL_REVISIONS, ListChangesOption.CURRENT_ACTIONS)
+            .withOptions(
+                ListChangesOption.ALL_REVISIONS,
+                ListChangesOption.CURRENT_ACTIONS,
+                ListChangesOption.SUBMIT_REQUIREMENTS)
             .get();
 
     // Submit rule evaluation results from the change index are reused

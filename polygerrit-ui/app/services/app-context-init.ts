@@ -13,6 +13,7 @@ import {GrRestApiServiceImpl} from './gr-rest-api/gr-rest-api-impl';
 import {ChangeModel, changeModelToken} from '../models/change/change-model';
 import {FilesModel, filesModelToken} from '../models/change/files-model';
 import {ChecksModel, checksModelToken} from '../models/checks/checks-model';
+import {ChatModel, chatModelToken} from '../models/chat/chat-model';
 import {GrStorageService, storageServiceToken} from './storage/gr-storage_impl';
 import {UserModel, userModelToken} from '../models/user/user-model';
 import {
@@ -75,6 +76,7 @@ import {
 import {Finalizable} from '../types/types';
 import {GrSuggestionsService} from './suggestions/suggestions-service_impl';
 import {suggestionsServiceToken} from './suggestions/suggestions-service';
+import {FlowsModel, flowsModelToken} from '../models/flows/flows-model';
 /**
  * The AppContext lazy initializator for all services
  */
@@ -160,7 +162,8 @@ export function createAppDependencies(
           appContext.restApiService,
           resolver(userModelToken),
           resolver(pluginLoaderToken),
-          appContext.reportingService
+          appContext.reportingService,
+          appContext.flagsService
         ),
     ],
     [
@@ -219,6 +222,15 @@ export function createAppDependencies(
         ),
     ],
     [
+      chatModelToken,
+      () =>
+        new ChatModel(
+          resolver(pluginLoaderToken).pluginsModel,
+          resolver(changeModelToken),
+          resolver(filesModelToken)
+        ),
+    ],
+    [
       shortcutsServiceToken,
       () =>
         new ShortcutsService(
@@ -249,5 +261,6 @@ export function createAppDependencies(
           resolver(changeModelToken)
         ),
     ],
+    [flowsModelToken, () => new FlowsModel(resolver(changeModelToken))],
   ]);
 }

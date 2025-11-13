@@ -16,8 +16,10 @@ package com.google.gerrit.server.cancellation;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.flogger.FluentLogger;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -55,8 +57,13 @@ import java.util.Set;
  * </ul>
  */
 public class RequestStateContext implements AutoCloseable {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   /** The {@link RequestStateProvider}s that have been registered for the thread. */
   private static final ThreadLocal<Set<RequestStateProvider>> threadLocalRequestStateProviders =
+      new ThreadLocal<>();
+
+  private static final ThreadLocal<PerformanceSummaryProvider> performanceSummaryProvider =
       new ThreadLocal<>();
 
   /** Whether currently a non-cancellable operation is being performed. */
@@ -84,6 +91,7 @@ public class RequestStateContext implements AutoCloseable {
             requestStateProvider ->
                 requestStateProvider.checkIfCancelled(
                     (reason, message) -> {
+                      logPerformanceSummary();
                       throw new RequestCancelledException(reason, message);
                     }));
   }
@@ -123,6 +131,18 @@ public class RequestStateContext implements AutoCloseable {
     return new RequestStateContext();
   }
 
+  private static void logPerformanceSummary() {
+    if (performanceSummaryProvider.get() == null) {
+      return;
+    }
+
+    Optional<String> performanceSummary = performanceSummaryProvider.get().getPerformanceSummary();
+    if (performanceSummary.isPresent()) {
+      logger.atWarning().log(
+          "Performance Summary for cancelled request:\n\n%s", performanceSummary.get());
+    }
+  }
+
   /**
    * The {@link RequestStateProvider}s that have been registered by this {@code
    * RequestStateContext}.
@@ -145,6 +165,19 @@ public class RequestStateContext implements AutoCloseable {
     if (threadLocalRequestStateProviders.get().add(requestStateProvider)) {
       requestStateProviders.add(requestStateProvider);
     }
+    return this;
+  }
+
+  /**
+   * Sets a provider from which a performance summary can be retrieved for the purpose of logging.
+   *
+   * @param performanceSummaryProvider the {@link PerformanceSummaryProvider} that should be set
+   * @return the {@code RequestStateContext} instance for chaining calls
+   */
+  @CanIgnoreReturnValue
+  public RequestStateContext setPerformanceSummaryProvider(
+      PerformanceSummaryProvider performanceSummaryProvider) {
+    RequestStateContext.performanceSummaryProvider.set(performanceSummaryProvider);
     return this;
   }
 

@@ -231,7 +231,7 @@ public final class OutgoingEmail {
           GeneralPreferencesInfo senderPrefs = fromUser.get().generalPreferences();
           CurrentUser user = args.currentUserProvider.get();
           boolean isImpersonated = user.isIdentifiedUser() && user.isImpersonated();
-          if (isImpersonated && user.getAccountId() != fromId) {
+          if (isImpersonated && !user.getAccountId().equals(fromId)) {
             // This should not be possible, if this is the case it means the RequestContext is not
             // set up correctly.
             throw new EmailException(

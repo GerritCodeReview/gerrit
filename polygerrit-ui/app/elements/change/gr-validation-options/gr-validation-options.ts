@@ -5,6 +5,8 @@
  */
 
 import {css, html, LitElement} from 'lit';
+import '@material/web/checkbox/checkbox';
+import {materialStyles} from '../../../styles/gr-material-styles';
 import {customElement, property} from 'lit/decorators.js';
 import {
   ValidationOptionInfo,
@@ -21,10 +23,19 @@ export class GrValidationOptions extends LitElement {
 
   static override get styles() {
     return [
+      materialStyles,
       css`
-        .selectionLabel {
+        :host {
           display: block;
-          margin-left: -4px;
+        }
+        div.checkbox-container {
+          display: flex;
+          align-items: center;
+          gap: var(--spacing-m);
+          margin-top: var(--spacing-l);
+        }
+        label {
+          cursor: pointer;
         }
       `,
     ];
@@ -51,14 +62,17 @@ export class GrValidationOptions extends LitElement {
 
   private renderValidationOption(option: ValidationOptionInfo) {
     return html`
-      <label class="selectionLabel">
-        <input
-          type="checkbox"
-          .checked=${!!this.isOptionSelected.get(option.name)}
-          @click=${() => this.toggleCheckbox(option)}
-        />
-        ${capitalizeFirstLetter(option.description)}
-      </label>
+      <div class="checkbox-container">
+        <md-checkbox
+          class="selectionLabel"
+          id=${option.name}
+          ?checked=${!!this.isOptionSelected.get(option.name)}
+          @change=${() => this.toggleCheckbox(option)}
+        ></md-checkbox>
+        <label for=${option.name}
+          >${capitalizeFirstLetter(option.description)}</label
+        >
+      </div>
     `;
   }
 

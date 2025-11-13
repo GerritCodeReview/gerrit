@@ -161,7 +161,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
             () -> {
               ValueHolder<V> h = store.getIfPresent(key);
               if (h == null) {
-                h = new ValueHolder<>(valueLoader.call(), Instant.ofEpochMilli(TimeUtil.nowMs()));
+                h = new ValueHolder<>(valueLoader.call(), TimeUtil.now());
                 ValueHolder<V> fh = h;
                 executor.execute(() -> store.put(key, fh));
               }
@@ -172,7 +172,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
 
   @Override
   public void put(K key, V val) {
-    final ValueHolder<V> h = new ValueHolder<>(val, Instant.ofEpochMilli(TimeUtil.nowMs()));
+    final ValueHolder<V> h = new ValueHolder<>(val, TimeUtil.now());
     mem.put(key, h);
     executor.execute(() -> store.put(key, h));
   }
@@ -260,7 +260,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
               "Loading value from cache", Metadata.builder().cacheKey(key.toString()).build())) {
         ValueHolder<V> h = store.getIfPresent(key);
         if (h == null) {
-          h = new ValueHolder<>(loader.load(key), Instant.ofEpochMilli(TimeUtil.nowMs()));
+          h = new ValueHolder<>(loader.load(key), TimeUtil.now());
           ValueHolder<V> fh = h;
           executor.execute(() -> store.put(key, fh));
         }
@@ -283,7 +283,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
         }
         try {
           Map<K, V> remaining = loader.loadAll(notInMemory);
-          Instant instant = Instant.ofEpochMilli(TimeUtil.nowMs());
+          Instant instant = TimeUtil.now();
           storeInDatabase(remaining, instant);
           remaining
               .entrySet()
@@ -345,6 +345,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
     private final boolean buildBloomFilter;
     private boolean trackLastAccess;
     private final AtomicBoolean isDiskCacheReadOnly;
+    private volatile boolean ensuredSchemaCreation;
 
     SqlStore(
         String jdbcUrl,
@@ -389,6 +390,38 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
       return new ObjectKeyTypeImpl<>(serializer);
     }
 
+    private void createSchema() throws SQLException {
+      if (!ensuredSchemaCreation) {
+        synchronized (this) {
+          if (ensuredSchemaCreation) {
+            return;
+          }
+          try (SqlHandle h = new SqlHandle(url)) {
+            try (Statement stmt = h.conn.createStatement()) {
+              stmt.addBatch(
+                  "CREATE TABLE IF NOT EXISTS data"
+                      + "(k "
+                      + keyType.columnType()
+                      + " NOT NULL PRIMARY KEY HASH"
+                      + ",v OTHER NOT NULL"
+                      + ",created TIMESTAMP NOT NULL"
+                      + ",accessed TIMESTAMP NOT NULL"
+                      + ")");
+              stmt.addBatch(
+                  "ALTER TABLE data ADD COLUMN IF NOT EXISTS "
+                      + "space BIGINT AS OCTET_LENGTH(k) + OCTET_LENGTH(v)");
+              stmt.addBatch(
+                  "ALTER TABLE data ADD COLUMN IF NOT EXISTS version INT DEFAULT 0 NOT NULL");
+              stmt.addBatch("CREATE INDEX IF NOT EXISTS version_key ON data(version, k)");
+              stmt.addBatch("CREATE INDEX IF NOT EXISTS accessed ON data(accessed)");
+              stmt.executeBatch();
+              ensuredSchemaCreation = true;
+            }
+          }
+        }
+      }
+    }
+
     void open() {
       bloomFilter.initIfNeeded();
     }
@@ -397,6 +430,17 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
       SqlHandle h;
       while ((h = handles.poll()) != null) {
         h.close();
+      }
+      shutdown();
+    }
+
+    private void shutdown() {
+      try (SqlHandle h = new SqlHandle(url)) {
+        try (Statement stmt = h.conn.createStatement()) {
+          stmt.execute("SHUTDOWN");
+        }
+      } catch (SQLException e) {
+        logger.atSevere().withCause(e).log("Cannot shutdown cache %s", url);
       }
     }
 
@@ -728,8 +772,9 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
     }
 
     private SqlHandle acquire() throws SQLException {
+      createSchema();
       SqlHandle h = handles.poll();
-      return h != null ? h : new SqlHandle(url, keyType);
+      return h != null ? h : new SqlHandle(url);
     }
 
     private void release(SqlHandle h) {
@@ -747,7 +792,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
     }
   }
 
-  static class SqlHandle {
+  static class SqlHandle implements AutoCloseable {
     private final String url;
     Connection conn;
     PreparedStatement get;
@@ -755,30 +800,13 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
     PreparedStatement touch;
     PreparedStatement invalidate;
 
-    SqlHandle(String url, KeyType<?> type) throws SQLException {
+    SqlHandle(String url) throws SQLException {
       this.url = url;
       this.conn = org.h2.Driver.load().connect(url, null);
-      try (Statement stmt = conn.createStatement()) {
-        stmt.addBatch(
-            "CREATE TABLE IF NOT EXISTS data"
-                + "(k "
-                + type.columnType()
-                + " NOT NULL PRIMARY KEY HASH"
-                + ",v OTHER NOT NULL"
-                + ",created TIMESTAMP NOT NULL"
-                + ",accessed TIMESTAMP NOT NULL"
-                + ")");
-        stmt.addBatch(
-            "ALTER TABLE data ADD COLUMN IF NOT EXISTS "
-                + "space BIGINT AS OCTET_LENGTH(k) + OCTET_LENGTH(v)");
-        stmt.addBatch("ALTER TABLE data ADD COLUMN IF NOT EXISTS version INT DEFAULT 0 NOT NULL");
-        stmt.addBatch("CREATE INDEX IF NOT EXISTS version_key ON data(version, k)");
-        stmt.addBatch("CREATE INDEX IF NOT EXISTS accessed ON data(accessed)");
-        stmt.executeBatch();
-      }
     }
 
-    void close() {
+    @Override
+    public void close() {
       get = closeStatement(get);
       put = closeStatement(put);
       touch = closeStatement(touch);

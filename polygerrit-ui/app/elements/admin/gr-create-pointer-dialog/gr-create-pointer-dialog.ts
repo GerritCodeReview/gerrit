@@ -11,11 +11,13 @@ import {grFormStyles} from '../../../styles/gr-form-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {css, html, LitElement, PropertyValues} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
-import {ValueChangedEvent} from '../../../types/events';
 import {fire, fireAlert, fireReload} from '../../../utils/event-util';
 import {RepoDetailView} from '../../../models/views/repo';
 import '@material/web/textfield/outlined-text-field';
 import {materialStyles} from '../../../styles/gr-material-styles';
+import '@material/web/select/outlined-select';
+import '@material/web/select/select-option';
+import {convertToString} from '../../../utils/string-util';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -95,17 +97,21 @@ export class GrCreatePointerDialog extends LitElement {
             </div>
             <div>
               <span class="value">
-                <gr-select
+                <md-outlined-select
                   id="initialCommit"
-                  .bindValue=${this.createEmptyCommit}
-                  @bind-value-changed=${this
-                    .handleCreateEmptyCommitBindValueChanged}
+                  value=${convertToString(this.createEmptyCommit ?? false)}
+                  @change=${(e: Event) => {
+                    const select = e.target as HTMLSelectElement;
+                    this.createEmptyCommit = select.value === 'true';
+                  }}
                 >
-                  <select>
-                    <option value="false">Existing Revision</option>
-                    <option value="true">Initial empty commit</option>
-                  </select>
-                </gr-select>
+                  <md-select-option value="false">
+                    <div slot="headline">Existing Revision</div>
+                  </md-select-option>
+                  <md-select-option value="true">
+                    <div slot="headline">Initial empty commit</div>
+                  </md-select-option>
+                </md-outlined-select>
               </span>
             </div>
           </section>
@@ -188,11 +194,5 @@ export class GrCreatePointerDialog extends LitElement {
         });
     }
     throw new Error(`Invalid itemDetail: ${this.itemDetail}`);
-  }
-
-  private handleCreateEmptyCommitBindValueChanged(
-    e: ValueChangedEvent<string>
-  ) {
-    this.createEmptyCommit = e.detail.value === 'true';
   }
 }

@@ -31,13 +31,14 @@ import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
 import java.util.Locale;
 import java.util.Optional;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.lib.Config;
 
 /**
  * This class reads a schedule for running a periodic background job from a Git config.
  *
- * <p>A schedule configuration consists of two parameters:
+ * <p>A schedule configuration consists of the following parameters:
  *
  * <ul>
  *   <li>{@code interval}: Interval for running the periodic background job. The interval must be
@@ -71,10 +72,15 @@ import org.eclipse.jgit.lib.Config;
  *         <li>{@code <minutes>}: {@code 00}-{@code 59}
  *       </ul>
  *       The timezone cannot be specified but is always the system default time-zone.
+ *   <li>{@code jitter}: A maximum random delay that will be added to the job's start time. If 0 or
+ *       not specified, no jitter is applied.
+ *       <ul>
+ *         <li>The same suffixes as {@code interval} are supported for defining the time unit.
+ *       </ul>
  * </ul>
  *
- * <p>The section and the subsection from which the {@code interval} and {@code startTime}
- * parameters are read can be configured.
+ * <p>The section and the subsection from which the {@code interval}, {@code startTime} and {@code
+ * jitter} parameters are read can be configured.
  *
  * <p>Examples for a schedule configuration:
  *
@@ -83,12 +89,16 @@ import org.eclipse.jgit.lib.Config;
  *       <pre>
  * foo.startTime = Fri 10:30
  * foo.interval  = 2 day
+ * foo.jitter    = 30 min
  * </pre>
  *       Assuming that the server is started on {@code Mon 7:00} then {@code startTime - now} is
  *       {@code 4 days 3:30 hours}. This is larger than the interval hence the start time is
  *       preponed by the maximum integral multiple of the interval so that start time is still in
- *       the future, i.e. preponed by 4 days. This yields a start time of {@code Mon 10:30}, next
- *       executions are {@code Wed 10:30}, {@code Fri 10:30}. etc.
+ *       the future, i.e. preponed by 4 days. This yields a start time of {@code Mon 10:30}. After
+ *       this adjustment, a random delay between 0 and 30 minutes is added. For example, if the
+ *       delay is 7 minutes, the final start time becomes {@code Mon 10:37}. Subsequent executions
+ *       will occur at fixed intervals from this updated start time, such as {@code Wed 10:37},
+ *       {@code Fri 10:37}, and so on.
  *   <li>
  *       <pre>
  * foo.startTime = 06:00
@@ -104,9 +114,11 @@ public abstract class ScheduleConfig {
 
   @VisibleForTesting static final String KEY_INTERVAL = "interval";
   @VisibleForTesting static final String KEY_STARTTIME = "startTime";
+  @VisibleForTesting static final String KEY_JITTER = "jitter";
 
   private static final long MISSING_CONFIG = -1L;
   private static final long INVALID_CONFIG = -2L;
+  public static final long DEFAULT_JITTER = 0L;
 
   public static Optional<Schedule> createSchedule(Config config, String section) {
     return builder(config, section).buildSchedule();
@@ -117,6 +129,7 @@ public abstract class ScheduleConfig {
         .setNow(computeNow())
         .setKeyInterval(KEY_INTERVAL)
         .setKeyStartTime(KEY_STARTTIME)
+        .setKeyJitter(KEY_JITTER)
         .setConfig(config)
         .setSection(section);
   }
@@ -132,28 +145,32 @@ public abstract class ScheduleConfig {
 
   abstract String keyStartTime();
 
+  abstract String keyJitter();
+
   abstract ZonedDateTime now();
 
   @Memoized
   public Optional<Schedule> schedule() {
     long interval = computeInterval(config(), section(), subsection(), keyInterval());
+    long jitter = computeJitter(config(), section(), subsection(), keyJitter());
 
     long initialDelay;
     if (interval > 0) {
       initialDelay =
-          computeInitialDelay(config(), section(), subsection(), keyStartTime(), now(), interval);
+          computeInitialDelay(
+              config(), section(), subsection(), keyStartTime(), now(), interval, jitter);
     } else {
       initialDelay = interval;
     }
 
-    if (isInvalidOrMissing(interval, initialDelay)) {
+    if (isInvalidOrMissing(interval, initialDelay, jitter)) {
       return Optional.empty();
     }
 
     return Optional.of(Schedule.create(interval, initialDelay));
   }
 
-  private boolean isInvalidOrMissing(long interval, long initialDelay) {
+  private boolean isInvalidOrMissing(long interval, long initialDelay, long jitter) {
     String key = section() + (subsection() != null ? "." + subsection() : "");
     if (interval == MISSING_CONFIG && initialDelay == MISSING_CONFIG) {
       logger.atInfo().log("No schedule configuration for \"%s\".", key);
@@ -185,7 +202,7 @@ public abstract class ScheduleConfig {
       initialDelay = INVALID_CONFIG;
     }
 
-    if (interval == INVALID_CONFIG || initialDelay == INVALID_CONFIG) {
+    if (interval == INVALID_CONFIG || initialDelay == INVALID_CONFIG || jitter == INVALID_CONFIG) {
       logger.atSevere().log("Invalid schedule configuration for \"%s\" is ignored. ", key);
       return true;
     }
@@ -234,25 +251,38 @@ public abstract class ScheduleConfig {
     }
   }
 
+  private static long computeJitter(
+      Config rc, String section, String subsection, String keyJitter) {
+    try {
+      return ConfigUtil.getTimeUnit(
+          rc, section, subsection, keyJitter, DEFAULT_JITTER, TimeUnit.MILLISECONDS);
+    } catch (IllegalArgumentException e) {
+      logger.atSevere().log("%s", e.getMessage());
+      return INVALID_CONFIG;
+    }
+  }
+
   private static long computeInitialDelay(
       Config rc,
       String section,
       String subsection,
       String keyStartTime,
       ZonedDateTime now,
-      long interval) {
+      long interval,
+      long jitter) {
     String start = rc.getString(section, subsection, keyStartTime);
     if (start == null) {
       return MISSING_CONFIG;
     }
-    return computeInitialDelay(interval, start, now);
+    return computeInitialDelay(interval, start, now, jitter);
   }
 
   private static long computeInitialDelay(long interval, String start) {
-    return computeInitialDelay(interval, start, computeNow());
+    return computeInitialDelay(interval, start, computeNow(), DEFAULT_JITTER);
   }
 
-  private static long computeInitialDelay(long interval, String start, ZonedDateTime now) {
+  private static long computeInitialDelay(
+      long interval, String start, ZonedDateTime now, long jitter) {
     requireNonNull(start);
 
     try {
@@ -266,7 +296,13 @@ public abstract class ScheduleConfig {
         // Day of week is an optional parameter.
       }
       startTime = startTime.truncatedTo(ChronoUnit.MINUTES);
-      long delay = Duration.between(now, startTime).toMillis() % interval;
+      long delay = Duration.between(now, startTime).toMillis();
+      if (jitter > 0) {
+        Random random = new Random();
+        // Increment by 1 to make the upper bound inclusive of the configured value
+        delay += random.nextLong(jitter + 1);
+      }
+      delay %= interval;
       if (delay <= 0) {
         delay += interval;
       }
@@ -292,6 +328,8 @@ public abstract class ScheduleConfig {
     public abstract Builder setKeyInterval(String keyInterval);
 
     public abstract Builder setKeyStartTime(String keyStartTime);
+
+    public abstract Builder setKeyJitter(String keyJitter);
 
     @VisibleForTesting
     abstract Builder setNow(ZonedDateTime now);

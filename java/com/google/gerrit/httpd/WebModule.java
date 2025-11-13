@@ -31,7 +31,6 @@ import com.google.gerrit.server.config.GitwebCgiConfig;
 import com.google.gerrit.server.git.receive.AsyncReceiveCommits.AsyncReceiveCommitsModule;
 import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.inject.Inject;
-import com.google.inject.ProvisionException;
 import com.google.inject.servlet.RequestScoped;
 import java.net.SocketAddress;
 
@@ -93,7 +92,6 @@ public class WebModule extends LifecycleModule {
         // OAuth support is bound in WebAppInitializer and Daemon.
         // OpenID support is bound in WebAppInitializer and Daemon.
       }
-      default -> throw new ProvisionException("Unsupported loginType: " + authConfig.getAuthType());
     }
   }
 }

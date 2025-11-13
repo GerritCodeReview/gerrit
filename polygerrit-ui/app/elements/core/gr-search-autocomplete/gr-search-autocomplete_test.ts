@@ -3,27 +3,17 @@
  * Copyright 2015 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import * as sinon from 'sinon';
 import '../../../test/common-test-setup';
-import './gr-search-bar';
-import {GrSearchBar} from './gr-search-bar';
+import './gr-search-autocomplete';
+import {GrSearchAutocomplete} from './gr-search-autocomplete';
 import '../../../utils/async-util';
-import {
-  mockPromise,
-  pressKey,
-  stubRestApi,
-  waitUntil,
-  waitUntilObserved,
-} from '../../../test/test-utils';
+import {stubRestApi, waitUntilObserved} from '../../../test/test-utils';
 import {
   createChangeConfig,
   createServerInfo,
 } from '../../../test/test-data-generators';
 import {MergeabilityComputationBehavior} from '../../../constants/constants';
-import {queryAndAssert} from '../../../test/test-utils';
-import {GrAutocomplete} from '../../shared/gr-autocomplete/gr-autocomplete';
 import {assert, fixture, html} from '@open-wc/testing';
-import {Key} from '../../../utils/dom-util';
 import {getAppContext} from '../../../services/app-context';
 import {changeModelToken} from '../../../models/change/change-model';
 import {
@@ -32,10 +22,9 @@ import {
 } from '../../../models/config/config-model';
 import {wrapInProvider} from '../../../models/di-provider-element';
 import {testResolver} from '../../../test/common-test-setup';
-import {MdOutlinedTextField} from '@material/web/textfield/outlined-text-field';
 
-suite('gr-search-bar tests', () => {
-  let element: GrSearchBar;
+suite('gr-search-autocomplete tests', () => {
+  let element: GrSearchAutocomplete;
   let configModel: ConfigModel;
 
   setup(async () => {
@@ -55,12 +44,12 @@ suite('gr-search-bar tests', () => {
     element = (
       await fixture(
         wrapInProvider(
-          html`<gr-search-bar></gr-search-bar>`,
+          html`<gr-search-autocomplete></gr-search-autocomplete>`,
           configModelToken,
           configModel
         )
       )
-    ).querySelector('gr-search-bar')!;
+    ).querySelector('gr-search-autocomplete')!;
   });
 
   test('renders', () => {
@@ -70,14 +59,15 @@ suite('gr-search-bar tests', () => {
         <form>
           <gr-autocomplete
             allow-non-suggested-values=""
-            id="searchInput"
+            id="queryInput"
             multi=""
             placeholder="Search for changes"
             skip-commit-on-item-select=""
             tab-complete=""
           >
-            <gr-icon aria-hidden="true" icon="search" slot="leading-icon">
-            </gr-icon>
+            <div slot="leading-icon">
+              <slot name="leading-icon"></slot>
+            </div>
             <a
               class="help"
               href="https://mydocumentationurl.google.com/user-search.html"
@@ -102,112 +92,11 @@ suite('gr-search-bar tests', () => {
     assert.equal(element.inputVal, 'foo');
   });
 
-  const getActiveElement = () =>
-    document.activeElement!.shadowRoot
-      ? document.activeElement!.shadowRoot.activeElement
-      : document.activeElement;
-
-  test('enter in search input fires event', async () => {
-    const promise = mockPromise();
-    element.addEventListener('handle-search', () => {
-      assert.notEqual(
-        getActiveElement(),
-        queryAndAssert<GrAutocomplete>(element, '#searchInput')
-      );
-      promise.resolve();
-    });
-    element.value = 'test';
-    await element.updateComplete;
-    const searchInput = queryAndAssert<GrAutocomplete>(element, '#searchInput');
-    pressKey(
-      queryAndAssert<MdOutlinedTextField>(searchInput, '#input'),
-      Key.ENTER
-    );
-    await promise;
-  });
-
-  test('empty search query does not trigger nav', async () => {
-    const searchSpy = sinon.spy();
-    element.addEventListener('handle-search', searchSpy);
-    element.value = '';
-    await element.updateComplete;
-    const searchInput = queryAndAssert<GrAutocomplete>(element, '#searchInput');
-    pressKey(
-      queryAndAssert<MdOutlinedTextField>(searchInput, '#input'),
-      Key.ENTER
-    );
-    assert.isFalse(searchSpy.called);
-  });
-
-  test('Predefined query op with no predication doesnt trigger nav', async () => {
-    const searchSpy = sinon.spy();
-    element.addEventListener('handle-search', searchSpy);
-    element.value = 'added:';
-    await element.updateComplete;
-    const searchInput = queryAndAssert<GrAutocomplete>(element, '#searchInput');
-    pressKey(
-      queryAndAssert<MdOutlinedTextField>(searchInput, '#input'),
-      Key.ENTER
-    );
-    assert.isFalse(searchSpy.called);
-  });
-
-  test('predefined predicate query triggers nav', async () => {
-    const searchSpy = sinon.spy();
-    element.addEventListener('handle-search', searchSpy);
-    element.value = 'age:1week';
-    await element.updateComplete;
-    const searchInput = queryAndAssert<GrAutocomplete>(element, '#searchInput');
-    pressKey(
-      queryAndAssert<MdOutlinedTextField>(searchInput, '#input'),
-      Key.ENTER
-    );
-    await waitUntil(() => searchSpy.called);
-  });
-
-  test('undefined predicate query triggers nav', async () => {
-    const searchSpy = sinon.spy();
-    element.addEventListener('handle-search', searchSpy);
-    element.value = 'random:1week';
-    await element.updateComplete;
-    const searchInput = queryAndAssert<GrAutocomplete>(element, '#searchInput');
-    pressKey(
-      queryAndAssert<MdOutlinedTextField>(searchInput, '#input'),
-      Key.ENTER
-    );
-    await waitUntil(() => searchSpy.called);
-  });
-
-  test('empty undefined predicate query triggers nav', async () => {
-    const searchSpy = sinon.spy();
-    element.addEventListener('handle-search', searchSpy);
-    element.value = 'random:';
-    await element.updateComplete;
-    const searchInput = queryAndAssert<GrAutocomplete>(element, '#searchInput');
-    pressKey(
-      queryAndAssert<MdOutlinedTextField>(searchInput, '#input'),
-      Key.ENTER
-    );
-    await waitUntil(() => searchSpy.called);
-  });
-
-  test('keyboard shortcuts', async () => {
-    const focusSpy = sinon.spy(
-      queryAndAssert<GrAutocomplete>(element, '#searchInput'),
-      'focus'
-    );
-    const selectAllSpy = sinon.spy(
-      queryAndAssert<GrAutocomplete>(element, '#searchInput'),
-      'selectAll'
-    );
-    pressKey(document.body, '/');
-    assert.isTrue(focusSpy.called);
-    assert.isTrue(selectAllSpy.called);
-  });
-
   suite('getSearchSuggestions', () => {
     setup(async () => {
-      element = await fixture(html`<gr-search-bar></gr-search-bar>`);
+      element = await fixture(
+        html`<gr-search-autocomplete></gr-search-autocomplete>`
+      );
       element.mergeabilityComputationBehavior =
         MergeabilityComputationBehavior.NEVER;
       await element.updateComplete;
@@ -281,7 +170,9 @@ suite('gr-search-bar tests', () => {
   ].forEach(mergeability => {
     suite(`mergeability as ${mergeability}`, () => {
       setup(async () => {
-        element = await fixture(html`<gr-search-bar></gr-search-bar>`);
+        element = await fixture(
+          html`<gr-search-autocomplete></gr-search-autocomplete>`
+        );
         const serverConfig = {
           ...createServerInfo(),
           change: {

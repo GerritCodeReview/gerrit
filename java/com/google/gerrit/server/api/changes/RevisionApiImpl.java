@@ -51,6 +51,7 @@ import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.common.MergeableInfo;
+import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.common.TestSubmitRuleInfo;
 import com.google.gerrit.extensions.common.TestSubmitRuleInput;
 import com.google.gerrit.extensions.restapi.BinaryResult;
@@ -78,6 +79,7 @@ import com.google.gerrit.server.restapi.change.GetDescription;
 import com.google.gerrit.server.restapi.change.GetMergeList;
 import com.google.gerrit.server.restapi.change.GetPatch;
 import com.google.gerrit.server.restapi.change.GetRelated;
+import com.google.gerrit.server.restapi.change.GetRevision;
 import com.google.gerrit.server.restapi.change.GetRevisionActions;
 import com.google.gerrit.server.restapi.change.ListPortedComments;
 import com.google.gerrit.server.restapi.change.ListPortedDrafts;
@@ -111,6 +113,7 @@ class RevisionApiImpl implements RevisionApi {
 
   private final GitRepositoryManager repoManager;
   private final Changes changes;
+  private final GetRevision getRevision;
   private final RevisionReviewers revisionReviewers;
   private final RevisionReviewerApiImpl.Factory revisionReviewerApi;
   private final CherryPick cherryPick;
@@ -157,6 +160,7 @@ class RevisionApiImpl implements RevisionApi {
   RevisionApiImpl(
       GitRepositoryManager repoManager,
       Changes changes,
+      GetRevision getRevision,
       RevisionReviewers revisionReviewers,
       RevisionReviewerApiImpl.Factory revisionReviewerApi,
       CherryPick cherryPick,
@@ -200,6 +204,7 @@ class RevisionApiImpl implements RevisionApi {
       @Assisted RevisionResource r) {
     this.repoManager = repoManager;
     this.changes = changes;
+    this.getRevision = getRevision;
     this.revisionReviewers = revisionReviewers;
     this.revisionReviewerApi = revisionReviewerApi;
     this.cherryPick = cherryPick;
@@ -241,6 +246,15 @@ class RevisionApiImpl implements RevisionApi {
     this.approvalsUtil = approvalsUtil;
     this.accountLoaderFactory = accountLoaderFactory;
     this.revision = r;
+  }
+
+  @Override
+  public RevisionInfo get() throws RestApiException {
+    try {
+      return getRevision.apply(revision).value();
+    } catch (Exception e) {
+      throw asRestApiException("Cannot get revision", e);
+    }
   }
 
   @Override

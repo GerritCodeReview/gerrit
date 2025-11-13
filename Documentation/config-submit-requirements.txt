@@ -163,7 +163,7 @@ expression that checks that:
 * the label was approved: `label:My-Label=MAX`
 * the label has no veto: `-label:My-Label=MIN`
 * the label was not self-approved: `label:My-Label=MAX,user=non_uploader`
-* the label was approved by multiple users: `label:My-Label,count>1`
+* the label was approved by multiple users: `label:My-Label&count>1`
 
 Submit requirements that check votes for a single label often have the same
 name as the label, e.g.:
@@ -461,7 +461,7 @@ link:http://www.brics.dk/automaton/[dk.brics.automaton library,role=external,win
 is used for the evaluation of such patterns.
 
 [[operator_distinctvoters]]
-distinctvoters:'[Label1,Label2,...,LabelN],value=MAX,count>1'::
+distinctvoters:'[Label1,Label2,...,LabelN]&value=MAX&count>1'::
 +
 An operator that allows checking for distinct voters across more than one label.
 +
@@ -469,12 +469,12 @@ An operator that allows checking for distinct voters across more than one label.
 Count is mandatory.
 +
 Examples:
-`distinctvoters:[Code-Review,Trust],value=MAX,count>1`
+`distinctvoters:[Code-Review,Trust]&value=MAX&count>1`
 +
-`distinctvoters:[Code-Review,Trust,API-Review],count>2`
+`distinctvoters:[Code-Review,Trust,API-Review]&count>2`
 
 [[operator_label_with_users_arg]]
-label:'<label><operator><value>,users=human_reviewers'::
+label:'<label><operator><value>&users=human_reviewers'::
 +
 Extension of the link:user-search.html#labels[label] predicate that
 allows matching changes that have a matching vote from all human
@@ -493,7 +493,7 @@ If a change has no human reviewers, this operator doesn't match
 (because a human review is required but no human reviewer is present).
 +
 Examples:
-`label:Code-Review=MAX,users=human_reviewers`
+label:Code-Review=MAX&users=human_reviewers
 +
 `label:Code-Review>=1,users=human_reviewers`
 +
@@ -612,7 +612,7 @@ the “Code-Review” label from a non-uploader without a maximum negative vote:
 [submit-requirement "Code-Review"]
 	description = A maximum vote from a non-uploader is required for the \
 	              'Code-Review' label. A minimum vote is blocking.
-	submittableIf = label:Code-Review=MAX,user=non_uploader AND -label:Code-Review=MIN
+	submittableIf = label:Code-Review=MAX&user=non_uploader AND -label:Code-Review=MIN
 	canOverrideInChildProjects = true
 ----
 
@@ -684,8 +684,8 @@ is present).
   description = A 'Code-Review' vote is required from all human \
                 reviewers (service users that are reviewers are \
                 ignored).
-  applicableIf = -label:Code-Review>=1,users=human_reviewers
-  submittableIf = label:Code-Review>=1,users=human_reviewers
+  applicableIf = -label:Code-Review>=1&users=human_reviewers
+  submittableIf = label:Code-Review>=1&users=human_reviewers
 ----
 
 It is possible to configure the 'Want-Code-Review-From-All' submit
@@ -708,7 +708,7 @@ Note, the footer key cannot contain underscores (e.g. using
   description = A 'Code-Review' vote is required from all human \
                 reviewers (service users that are reviewers are \
                 ignored).
-  applicableIf = footer:\"Want-Code-Review: all\" -label:Code-Review>=1,users=human_reviewers
+  applicableIf = footer:\"Want-Code-Review: all\" -label:Code-Review>=1&users=human_reviewers
   submittableIf = label:Code-Review>=1,users=human_reviewers
 ----
 

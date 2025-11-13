@@ -19,10 +19,8 @@ import {
 } from '../../../types/common';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrAccessSection} from '../gr-access-section/gr-access-section';
-import {
-  AutocompleteQuery,
-  AutocompleteSuggestion,
-} from '../../shared/gr-autocomplete/gr-autocomplete';
+import {AutocompleteQuery} from '../../shared/gr-autocomplete/gr-autocomplete';
+import {AutocompleteSuggestion} from '../../../utils/autocomplete-util';
 import {
   EditableLocalAccessSectionInfo,
   PermissionAccessSection,

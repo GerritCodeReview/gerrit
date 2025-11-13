@@ -11,7 +11,6 @@ import '../../edit/gr-edit-file-controls/gr-edit-file-controls';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-cursor-manager/gr-cursor-manager';
 import '../../shared/gr-icon/gr-icon';
-import '../../shared/gr-select/gr-select';
 import '../../shared/gr-tooltip-content/gr-tooltip-content';
 import '../../shared/gr-copy-clipboard/gr-copy-clipboard';
 import '../../shared/gr-file-status/gr-file-status';
@@ -405,8 +404,10 @@ export class GrFileList extends LitElement {
           border-bottom: 1px solid var(--border-color);
           position: -webkit-sticky;
           position: sticky;
-          top: 0;
-          /* Has to visible above the diff view, and by default has a lower
+          /* -1px for the top border to scroll out of view */
+          top: calc(
+            var(--main-header-height) + var(--change-header-height, 38px) - 1px
+          ); /* Has to visible above the diff view, and by default has a lower
             z-index. setting to 1 places it directly above. */
           z-index: 1;
         }
@@ -453,7 +454,7 @@ export class GrFileList extends LitElement {
           flex: 1;
           /* Wrap it into multiple lines if too long. */
           white-space: normal;
-          word-break: break-word;
+          overflow-wrap: anywhere;
         }
         .oldPath {
           color: var(--deemphasized-text-color);

@@ -187,6 +187,7 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeNumberVirtualIdAlgorithm;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder.ChangeOperatorFactory;
 import com.google.gerrit.server.restapi.change.PostReview;
+import com.google.gerrit.server.rules.PrologSubmitRuleUtil;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
@@ -260,6 +261,7 @@ public class ChangeIT extends AbstractDaemonTest {
   private Cache<DiffSummaryKey, DiffSummary> diffSummaryCache;
 
   @Inject private ChangeNumberVirtualIdAlgorithm changeNumberVirtualIdAlgorithm;
+  @Inject private PrologSubmitRuleUtil prologSubmitRuleUtil;
 
   @Test
   public void get() throws Exception {
@@ -270,6 +272,7 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(changeInfo.id).isEqualTo(change.project() + "~" + change.numericChangeId());
     assertThat(changeInfo.project).isEqualTo(change.project().get());
     assertThat(changeInfo.branch).isEqualTo(change.dest().shortName());
+    assertThat(changeInfo.fullBranch).isEqualTo(change.dest().branch());
     assertThat(changeInfo.status).isEqualTo(ChangeStatus.NEW);
     assertThat(changeInfo.subject).isEqualTo(change.subject());
     assertThat(changeInfo.submitType).isEqualTo(SubmitType.MERGE_IF_NECESSARY);
@@ -2796,7 +2799,8 @@ public class ChangeIT extends AbstractDaemonTest {
     in.project = project.get();
     ChangeInfo info = gApi.changes().create(in).get();
     assertThat(info.project).isEqualTo(in.project);
-    assertThat(RefNames.fullName(info.branch)).isEqualTo(RefNames.fullName(in.branch));
+    assertThat(info.branch).isEqualTo(Constants.MASTER);
+    assertThat(info.fullBranch).isEqualTo(RefNames.fullName(Constants.MASTER));
     assertThat(info.subject).isEqualTo(in.subject);
     assertThat(Iterables.getOnlyElement(info.messages).message).isEqualTo("Uploaded patch set 1.");
   }
@@ -3556,7 +3560,8 @@ public class ChangeIT extends AbstractDaemonTest {
     in.newBranch = true;
     ChangeInfo info = gApi.changes().create(in).get();
     assertThat(info.project).isEqualTo(in.project);
-    assertThat(RefNames.fullName(info.branch)).isEqualTo(RefNames.fullName(in.branch));
+    assertThat(info.branch).isEqualTo("foo");
+    assertThat(info.fullBranch).isEqualTo(RefNames.fullName("foo"));
     assertThat(info.subject).isEqualTo(in.subject);
     assertThat(Iterables.getOnlyElement(info.messages).message).isEqualTo("Uploaded patch set 1.");
   }
@@ -3861,6 +3866,9 @@ public class ChangeIT extends AbstractDaemonTest {
 
     change = gApi.changes().id(r.getChangeId()).get();
     assertThat(change.labels.keySet()).containsExactly(LabelId.CODE_REVIEW, LabelId.VERIFIED);
+    assertThat(change.labels.get(LabelId.CODE_REVIEW).values).isNotNull();
+    assertThat(change.labels.get(LabelId.CODE_REVIEW).values.keySet())
+        .containsExactly("-2", "-1", " 0", "+1", "+2");
     assertThat(change.permittedLabels.keySet())
         .containsExactly(LabelId.CODE_REVIEW, LabelId.VERIFIED);
     assertPermitted(change, LabelId.CODE_REVIEW, 2);
@@ -3871,6 +3879,10 @@ public class ChangeIT extends AbstractDaemonTest {
   @Test
   @GerritConfig(name = "change.skipCurrentRulesEvaluationOnClosedChanges", value = "true")
   public void checkLabelsNotUpdatedForMergedChange() throws Exception {
+    if (!prologSubmitRuleUtil.isProjectRulesEnabled()) {
+      // This test is not needed, when labels do not require rule evaluation.
+      return;
+    }
     PushOneCommit.Result r = createChange();
     gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).review(ReviewInput.approve());
     gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).submit();
@@ -3907,6 +3919,10 @@ public class ChangeIT extends AbstractDaemonTest {
   @Test
   @GerritConfig(name = "change.skipCurrentRulesEvaluationOnClosedChanges", value = "true")
   public void checkLabelsNotUpdatedForAbandonedChange() throws Exception {
+    if (!prologSubmitRuleUtil.isProjectRulesEnabled()) {
+      // This test is not needed, when labels do not require rule evaluation.
+      return;
+    }
     PushOneCommit.Result r = createChange();
     gApi.changes().id(r.getChangeId()).abandon();
 

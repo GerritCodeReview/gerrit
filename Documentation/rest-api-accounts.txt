@@ -2522,7 +2522,7 @@ If not set or if set to an empty string, the account status is deleted.
 
 [[avatar-info]]
 === AvatarInfo
-The `AccountInfo` entity contains information about an avatar image of
+The `AvatarInfo` entity contains information about an avatar image of
 an account.
 
 [options="header",cols="1,6"]

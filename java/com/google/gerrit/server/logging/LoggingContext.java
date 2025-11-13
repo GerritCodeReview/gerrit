@@ -59,6 +59,12 @@ public class LoggingContext extends com.google.common.flogger.backend.system.Log
 
   private static final ThreadLocal<MutableAclLogRecords> aclLogRecords = new ThreadLocal<>();
 
+  /**
+   * ThreadLocal variable to keep track of operations which are currently running. Allows to know
+   * the callers (aka parent operations) of an operation for the purpose of logging the callers.
+   */
+  private static final ThreadLocal<RunningOperations> runningOperations = new ThreadLocal<>();
+
   private LoggingContext() {}
 
   /** This method is expected to be called via reflection (and might otherwise be unused). */
@@ -74,7 +80,17 @@ public class LoggingContext extends com.google.common.flogger.backend.system.Log
     return new LoggingContextAwareRunnable(
         runnable,
         getInstance().getMutablePerformanceLogRecords(),
-        getInstance().getMutableAclRecords());
+        getInstance().getMutableAclRecords(),
+        // We copy the currently running operations to the background thread so that so that these
+        // operations appear as callers of any operations that are executed in the background
+        // thread. Since we copy RunningOperations any operations that are newly added in the
+        // background thread do not affect the current thread. To avoid that the async operations
+        // are misinterpreted as sub-steps of the callers LoggingContextAwareRunnable has a generic
+        // operation to record the execution of the run method that sets the thread name in a
+        // metadata field. When formatting the operations (see Metadata#decorateOperation(String))
+        // we include the thread name so that we can see from the caller chain where async calls are
+        // done.
+        getInstance().getRunningOperations().copy());
   }
 
   public static <T> Callable<T> copy(Callable<T> callable) {
@@ -85,7 +101,17 @@ public class LoggingContext extends com.google.common.flogger.backend.system.Log
     return new LoggingContextAwareCallable<>(
         callable,
         getInstance().getMutablePerformanceLogRecords(),
-        getInstance().getMutableAclRecords());
+        getInstance().getMutableAclRecords(),
+        // We copy the currently running operations to the background thread so that so that these
+        // operations appear as callers of any operations that are executed in the background
+        // thread. Since we copy RunningOperations any operations that are newly added in the
+        // background thread do not affect the current thread. To avoid that the async operations
+        // are misinterpreted as sub-steps of the callers LoggingContextAwareCallable has a generic
+        // operation to record the execution of the call method that sets the thread name in a
+        // metadata field. When formatting the operations (see Metadata#decorateOperation(String))
+        // we include the thread name so that we can see from the caller chain where async calls are
+        // done.
+        getInstance().getRunningOperations().copy());
   }
 
   public boolean isEmpty() {
@@ -94,7 +120,8 @@ public class LoggingContext extends com.google.common.flogger.backend.system.Log
         && performanceLogging.get() == null
         && (performanceLogRecords.get() == null || performanceLogRecords.get().isEmtpy())
         && aclLogging.get() == null
-        && (aclLogRecords.get() == null || aclLogRecords.get().isEmpty());
+        && (aclLogRecords.get() == null || aclLogRecords.get().isEmpty())
+        && (runningOperations.get() == null || runningOperations.get().isEmpty());
   }
 
   public void clear() {
@@ -105,6 +132,7 @@ public class LoggingContext extends com.google.common.flogger.backend.system.Log
       performanceLogRecords.remove();
       aclLogging.remove();
       aclLogRecords.remove();
+      runningOperations.remove();
     } catch (RuntimeException e) {
       FluentLogger.forEnclosingClass()
           .atSevere()
@@ -361,6 +389,19 @@ public class LoggingContext extends com.google.common.flogger.backend.system.Log
     return records;
   }
 
+  public RunningOperations getRunningOperations() {
+    RunningOperations runningOperations = LoggingContext.runningOperations.get();
+    if (runningOperations == null) {
+      runningOperations = new RunningOperations();
+      LoggingContext.runningOperations.set(runningOperations);
+    }
+    return runningOperations;
+  }
+
+  void setRunningOperations(RunningOperations runningOperations) {
+    LoggingContext.runningOperations.set(requireNonNull(runningOperations));
+  }
+
   @Override
   public String toString() {
     return MoreObjects.toStringHelper(this)
@@ -370,6 +411,7 @@ public class LoggingContext extends com.google.common.flogger.backend.system.Log
         .add("performanceLogRecords", performanceLogRecords.get())
         .add("aclLogging", aclLogging.get())
         .add("aclLogRecords", aclLogRecords.get())
+        .add("runningOperations", getRunningOperations())
         .toString();
   }
 }

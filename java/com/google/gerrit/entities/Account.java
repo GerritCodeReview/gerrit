@@ -18,7 +18,7 @@ import static com.google.gerrit.entities.RefNames.REFS_DRAFT_COMMENTS;
 import static com.google.gerrit.entities.RefNames.REFS_STARRED_CHANGES;
 import static com.google.gerrit.entities.RefNames.REFS_USERS;
 
-import com.google.auto.value.AutoValue;
+import com.google.auto.value.AutoBuilder;
 import com.google.common.base.MoreObjects;
 import com.google.common.primitives.Ints;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
@@ -46,21 +46,41 @@ import java.util.Optional;
  *       is found.
  *   <li>{@link DiffPreferencesInfo}: user's preferences for rendering side-to-side and unified diff
  * </ul>
+ *
+ * @param id The unique identifier of the account.
+ * @param registeredOn The date and time the user registered with the review server.
+ * @param fullName The full name of the user ("Given-name Surname" style).
+ * @param displayName An optional display name of the user to be shown in the UI.
+ * @param preferredEmail The email address the user prefers to be contacted through.
+ * @param inactive Is this user inactive? This is used to avoid showing some users (eg. former
+ *     employees) in auto-suggest.
+ * @param status The user-settable status of this account (e.g. busy, OOO, available)
+ * @param metaId The ID of the user branch from which the account was read.
+ * @param uniqueTag A unique tag which identifies the current version of the account. It can be any
+ *     non-empty string. For open-source gerrit it is the same as metaId. The value can be null only
+ *     during account updating/creation.
  */
-@AutoValue
-public abstract class Account {
+public record Account(
+    Id id,
+    Instant registeredOn,
+    @Nullable String fullName,
+    @Nullable String displayName,
+    @Nullable String preferredEmail,
+    boolean inactive,
+    @Nullable String status,
+    @Nullable String metaId,
+    @Nullable String uniqueTag) {
 
   /** Placeholder for indicating an account-id that does not correspond to any local account */
   public static final Id UNKNOWN_ACCOUNT_ID = id(0);
 
   public static Id id(int id) {
-    return new AutoValue_Account_Id(id);
+    return new Id(id);
   }
 
   /** Key local to Gerrit to identify a user. */
-  @AutoValue
   @ConvertibleToProto
-  public abstract static class Id implements Comparable<Id> {
+  public record Id(int id) implements Comparable<Id> {
     /** Parse an Account.Id out of a string representation. */
     public static Optional<Id> tryParse(String str) {
       return Optional.ofNullable(Ints.tryParse(str)).map(Account::id);
@@ -115,64 +135,20 @@ public abstract class Account {
       return id != null ? Account.id(id) : null;
     }
 
-    abstract int id();
-
     public int get() {
       return id();
     }
 
     @Override
-    public final int compareTo(Id o) {
+    public int compareTo(Id o) {
       return Integer.compare(id(), o.id());
     }
 
     @Override
-    public final String toString() {
+    public String toString() {
       return Integer.toString(get());
     }
   }
-
-  public abstract Id id();
-
-  /** Date and time the user registered with the review server. */
-  public abstract Instant registeredOn();
-
-  /** Full name of the user ("Given-name Surname" style). */
-  @Nullable
-  public abstract String fullName();
-
-  /** Optional display name of the user to be shown in the UI. */
-  @Nullable
-  public abstract String displayName();
-
-  /** Email address the user prefers to be contacted through. */
-  @Nullable
-  public abstract String preferredEmail();
-
-  /**
-   * Is this user inactive? This is used to avoid showing some users (eg. former employees) in
-   * auto-suggest.
-   */
-  public abstract boolean inactive();
-
-  /** The user-settable status of this account (e.g. busy, OOO, available) */
-  @Nullable
-  public abstract String status();
-
-  /** ID of the user branch from which the account was read. */
-  @Nullable
-  public abstract String metaId();
-
-  /**
-   * A unique tag which identifies the current version of the account.
-   *
-   * <p>It can be any non-empty string. For open-source gerrit it is the same as metaId; internally
-   * in google a different value is assigned.
-   *
-   * <p>The value can be null only during account updating/creation.
-   */
-  @Nullable
-  public abstract String uniqueTag();
 
   /**
    * Create a new account.
@@ -181,7 +157,7 @@ public abstract class Account {
    * @param registeredOn when the account was registered.
    */
   public static Account.Builder builder(Account.Id newId, Instant registeredOn) {
-    return new AutoValue_Account.Builder()
+    return new AutoBuilder_Account_Builder()
         .setInactive(false)
         .setId(newId)
         .setRegisteredOn(registeredOn);
@@ -245,9 +221,11 @@ public abstract class Account {
     return !inactive();
   }
 
-  public abstract Builder toBuilder();
+  public Builder toBuilder() {
+    return new AutoBuilder_Account_Builder(this);
+  }
 
-  @AutoValue.Builder
+  @AutoBuilder
   public abstract static class Builder {
     public abstract Id id();
 
@@ -300,11 +278,11 @@ public abstract class Account {
   }
 
   @Override
-  public final String toString() {
+  public String toString() {
     return getName();
   }
 
-  public final String debugString() {
+  public String debugString() {
     return MoreObjects.toStringHelper(this)
         .add("id", id())
         .add("registeredOn", registeredOn())

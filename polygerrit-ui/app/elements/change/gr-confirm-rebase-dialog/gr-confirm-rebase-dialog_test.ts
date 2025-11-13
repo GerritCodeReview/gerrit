@@ -59,8 +59,13 @@ suite('gr-confirm-rebase-dialog tests', () => {
       >
         <div class="header" slot="header">Confirm rebase</div>
         <div class="main" slot="main">
-          <div class="rebaseOption" hidden="" id="rebaseOnParent">
-            <input id="rebaseOnParentInput" name="rebaseOptions" type="radio" />
+          <div class="loading rebaseOption" hidden="" id="rebaseOnParent">
+            <md-radio
+              id="rebaseOnParentInput"
+              name="rebaseOptions"
+              tabindex="-1"
+            >
+            </md-radio>
             <label for="rebaseOnParentInput" id="rebaseOnParentLabel">
               Rebase on parent change
             </label>
@@ -72,12 +77,13 @@ suite('gr-confirm-rebase-dialog tests', () => {
             This change is up to date with its parent.
           </div>
           <div class="rebaseOption" hidden="" id="rebaseOnTip">
-            <input
+            <md-radio
               disabled=""
               id="rebaseOnTipInput"
               name="rebaseOptions"
-              type="radio"
-            />
+              tabindex="-1"
+            >
+            </md-radio>
             <label for="rebaseOnTipInput" id="rebaseOnTipLabel">
               Rebase on top of the test branch
               <span hidden=""> (breaks relation chain) </span>
@@ -87,7 +93,13 @@ suite('gr-confirm-rebase-dialog tests', () => {
             Change is up to date with the target branch already (test)
           </div>
           <div class="rebaseOption" id="rebaseOnOther">
-            <input id="rebaseOnOtherInput" name="rebaseOptions" type="radio" />
+            <md-radio
+              checked=""
+              id="rebaseOnOtherInput"
+              name="rebaseOptions"
+              tabindex="0"
+            >
+            </md-radio>
             <label for="rebaseOnOtherInput" id="rebaseOnOtherLabel">
               Rebase on a specific change, ref, or commit
               <span hidden=""> (breaks relation chain) </span>
@@ -97,10 +109,12 @@ suite('gr-confirm-rebase-dialog tests', () => {
             <gr-change-autocomplete> </gr-change-autocomplete>
           </div>
           <div class="rebaseCheckbox">
-            <input id="rebaseAllowConflicts" type="checkbox" />
-            <label for="rebaseAllowConflicts">
-              Allow rebase with conflicts
-            </label>
+            <div class="checkbox-container">
+              <md-checkbox id="rebaseAllowConflicts"> </md-checkbox>
+              <label for="rebaseAllowConflicts">
+                Allow rebase with conflicts
+              </label>
+            </div>
             <gr-validation-options> </gr-validation-options>
           </div>
         </div>
@@ -117,7 +131,7 @@ suite('gr-confirm-rebase-dialog tests', () => {
       element.branch = 'test' as BranchName;
       await element.updateComplete;
       changeModel = testResolver(changeModelToken);
-      changeModel.setState({
+      changeModel.updateState({
         loadingStatus: LoadingStatus.LOADED,
         change,
       });
@@ -419,7 +433,7 @@ suite('gr-confirm-rebase-dialog tests', () => {
     );
     assert.deepEqual((fireStub.lastCall.args[0] as CustomEvent).detail, {
       allowConflicts: false,
-      base: '123',
+      base: '',
       rebaseChain: true,
       onBehalfOfUploader: true,
       committerEmail: null,

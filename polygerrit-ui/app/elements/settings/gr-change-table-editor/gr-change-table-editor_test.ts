@@ -10,6 +10,7 @@ import {queryAndAssert} from '../../../test/test-utils';
 import {createServerInfo} from '../../../test/test-data-generators';
 import {assert, fixture, html} from '@open-wc/testing';
 import {ColumnNames} from '../../../constants/constants';
+import {MdCheckbox} from '@material/web/checkbox/checkbox';
 
 suite('gr-change-table-editor tests', () => {
   let element: GrChangeTableEditor;
@@ -50,62 +51,79 @@ suite('gr-change-table-editor tests', () => {
           </thead>
           <tbody>
             <tr>
-              <td><label for="numberCheckbox"> Number </label></td>
+              <td>
+                <label for="numberCheckbox"> Number </label>
+              </td>
               <td class="checkboxContainer">
-                <input id="numberCheckbox" name="number" type="checkbox" />
+                <md-checkbox id="numberCheckbox" name="number"> </md-checkbox>
               </td>
             </tr>
             <tr>
-              <td><label for="Subject"> Subject </label></td>
+              <td>
+                <label for="Subject"> Subject </label>
+              </td>
               <td class="checkboxContainer">
-                <input checked="" id="Subject" name="Subject" type="checkbox" />
+                <md-checkbox checked="" id="Subject" name="Subject">
+                </md-checkbox>
               </td>
             </tr>
             <tr>
-              <td><label for="Owner"> Owner </label></td>
+              <td>
+                <label for="Owner"> Owner </label>
+              </td>
               <td class="checkboxContainer">
-                <input checked="" id="Owner" name="Owner" type="checkbox" />
+                <md-checkbox checked="" id="Owner" name="Owner"> </md-checkbox>
               </td>
             </tr>
             <tr>
-              <td><label for="Reviewers"> Reviewers </label></td>
+              <td>
+                <label for="Reviewers"> Reviewers </label>
+              </td>
               <td class="checkboxContainer">
-                <input
-                  checked=""
-                  id="Reviewers"
-                  name="Reviewers"
-                  type="checkbox"
-                />
+                <md-checkbox checked="" id="Reviewers" name="Reviewers">
+                </md-checkbox>
               </td>
             </tr>
             <tr>
-              <td><label for="Repo"> Repo </label></td>
+              <td>
+                <label for="Repo"> Repo </label>
+              </td>
               <td class="checkboxContainer">
-                <input checked="" id="Repo" name="Repo" type="checkbox" />
+                <md-checkbox checked="" id="Repo" name="Repo"> </md-checkbox>
               </td>
             </tr>
             <tr>
-              <td><label for="Branch"> Branch </label></td>
+              <td>
+                <label for="Branch"> Branch </label>
+              </td>
               <td class="checkboxContainer">
-                <input checked="" id="Branch" name="Branch" type="checkbox" />
+                <md-checkbox checked="" id="Branch" name="Branch">
+                </md-checkbox>
               </td>
             </tr>
             <tr>
-              <td><label for="Updated"> Updated </label></td>
+              <td>
+                <label for="Updated"> Updated </label>
+              </td>
               <td class="checkboxContainer">
-                <input checked="" id="Updated" name="Updated" type="checkbox" />
+                <md-checkbox checked="" id="Updated" name="Updated">
+                </md-checkbox>
               </td>
             </tr>
             <tr>
-              <td><label for="Size"> Size </label></td>
+              <td>
+                <label for="Size"> Size </label>
+              </td>
               <td class="checkboxContainer">
-                <input checked="" id="Size" name="Size" type="checkbox" />
+                <md-checkbox checked="" id="Size" name="Size"> </md-checkbox>
               </td>
             </tr>
             <tr>
-              <td><label for="Status"> Status </label></td>
+              <td>
+                <label for="Status"> Status </label>
+              </td>
               <td class="checkboxContainer">
-                <input id="Status" name="Status" type="checkbox" />
+                <md-checkbox id="Status" name="Status"> </md-checkbox>
               </td>
             </tr>
           </tbody>
@@ -128,9 +146,9 @@ suite('gr-change-table-editor tests', () => {
   });
 
   test('hide item', async () => {
-    const checkbox = queryAndAssert<HTMLInputElement>(
+    const checkbox = queryAndAssert<MdCheckbox>(
       element,
-      'table tr:nth-child(2) input'
+      'table tr:nth-child(2) md-checkbox'
     );
     const isChecked = checkbox.checked;
     const displayedLength = element.displayedColumns.length;
@@ -142,7 +160,7 @@ suite('gr-change-table-editor tests', () => {
     assert.equal(element.displayedColumns.length, displayedLength - 1);
   });
 
-  test('show item', async () => {
+  test('show and hide item', async () => {
     element.displayedColumns = [
       ColumnNames.STATUS,
       ColumnNames.OWNER,
@@ -153,28 +171,43 @@ suite('gr-change-table-editor tests', () => {
     // trigger computation of enabled displayed columns
     element.serverConfig = createServerInfo();
     await element.updateComplete;
-    const checkbox = queryAndAssert<HTMLInputElement>(
-      element,
-      'table tr:nth-child(2) input'
-    );
-    const isChecked = checkbox.checked;
-    const displayedLength = element.displayedColumns.length;
-    assert.isFalse(isChecked);
-    const table = queryAndAssert<HTMLTableElement>(element, 'table');
-    assert.equal(table.style.display, '');
 
-    checkbox.click();
+    const checkboxSubject = queryAndAssert<MdCheckbox>(
+      element,
+      'table tr:nth-child(2) md-checkbox'
+    );
+    assert.equal(checkboxSubject.name, 'Subject');
+    const checkboxOwner = queryAndAssert<MdCheckbox>(
+      element,
+      'table tr:nth-child(3) md-checkbox'
+    );
+    assert.equal(checkboxOwner.name, 'Owner');
+
+    assert.equal(element.displayedColumns.length, 5);
+    assert.isFalse(checkboxSubject.checked);
+    assert.isTrue(checkboxOwner.checked);
+
+    checkboxSubject.click();
     await element.updateComplete;
 
-    assert.equal(element.displayedColumns.length, displayedLength + 1);
+    assert.equal(element.displayedColumns.length, 6);
+    assert.isTrue(checkboxSubject.checked);
+    assert.isTrue(checkboxOwner.checked);
+
+    checkboxOwner.click();
+    await element.updateComplete;
+
+    assert.equal(element.displayedColumns.length, 5);
+    assert.isTrue(checkboxSubject.checked);
+    assert.isFalse(checkboxOwner.checked);
   });
 
   test('getDisplayedColumns', () => {
     const enabledColumns = columns;
     assert.deepEqual(element.getDisplayedColumns(), enabledColumns);
-    const input = queryAndAssert<HTMLInputElement>(
+    const input = queryAndAssert<MdCheckbox>(
       element,
-      '.checkboxContainer input[name=Subject]'
+      '.checkboxContainer md-checkbox[name=Subject]'
     );
     input.click();
     assert.deepEqual(
@@ -183,44 +216,25 @@ suite('gr-change-table-editor tests', () => {
     );
   });
 
-  test('handleCheckboxContainerClick relays taps to checkboxes', async () => {
-    const firstContainer = queryAndAssert<HTMLTableRowElement>(
+  test('handleNumberCheckboxClick', async () => {
+    const numberInput = queryAndAssert<MdCheckbox>(
       element,
-      'table tr:first-of-type .checkboxContainer'
+      '.checkboxContainer md-checkbox[name=number]'
     );
-    assert.isFalse(element.showNumber);
-    firstContainer.click();
-    assert.isTrue(element.showNumber);
-
-    const lastContainer = queryAndAssert<HTMLTableRowElement>(
-      element,
-      'table tr:last-of-type .checkboxContainer'
-    );
-    const lastColumn =
-      element.defaultColumns[element.defaultColumns.length - 1];
-    assert.notInclude(element.displayedColumns, lastColumn);
-    lastContainer.click();
+    numberInput.click();
     await element.updateComplete;
-    assert.include(element.displayedColumns, lastColumn);
-  });
-
-  test('handleNumberCheckboxClick', () => {
-    const numberInput = queryAndAssert<HTMLInputElement>(
-      element,
-      '.checkboxContainer input[name=number]'
-    );
-    numberInput.click();
     assert.isTrue(element.showNumber);
 
     numberInput.click();
+    await element.updateComplete;
     assert.isFalse(element.showNumber);
   });
 
   test('handleTargetClick', () => {
     assert.include(element.displayedColumns, 'Subject');
-    const subjectInput = queryAndAssert<HTMLInputElement>(
+    const subjectInput = queryAndAssert<MdCheckbox>(
       element,
-      '.checkboxContainer input[name=Subject]'
+      '.checkboxContainer md-checkbox[name=Subject]'
     );
     subjectInput.click();
     assert.notInclude(element.displayedColumns, 'Subject');

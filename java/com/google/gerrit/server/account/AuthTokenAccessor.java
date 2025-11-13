@@ -23,9 +23,10 @@ import java.util.Optional;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
 public interface AuthTokenAccessor {
-  public List<AuthToken> getTokens(Account.Id accountId);
+  public List<AuthToken> getTokens(Account.Id accountId) throws IOException, ConfigInvalidException;
 
-  public Optional<AuthToken> getToken(Account.Id accountId, String id);
+  public Optional<AuthToken> getToken(Account.Id accountId, String id)
+      throws IOException, ConfigInvalidException;
 
   public AuthToken addPlainToken(
       Account.Id accountId, String id, String token, Optional<Instant> expiration)
@@ -38,7 +39,8 @@ public interface AuthTokenAccessor {
   public void deleteToken(Account.Id accountId, String id)
       throws IOException, ConfigInvalidException, InvalidAuthTokenException;
 
-  public List<AuthToken> getValidTokens(Account.Id accountId);
+  public List<AuthToken> getValidTokens(Account.Id accountId)
+      throws IOException, ConfigInvalidException;
 
   public void deleteAllTokens(Account.Id accountId)
       throws IOException, ConfigInvalidException, InvalidAuthTokenException;

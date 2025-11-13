@@ -118,6 +118,14 @@ import {
   GrDiffGroup,
   GrDiffGroupType,
 } from '../embed/diff/gr-diff/gr-diff-group';
+import {
+  Actions,
+  AiCodeReviewProvider,
+  ChatRequest,
+  ChatResponseListener,
+  ContextItemType,
+  Models,
+} from '../api/ai-code-review';
 
 const TEST_DEFAULT_EXPRESSION = 'label:Verified=MAX -label:Verified=MIN';
 export const TEST_PROJECT_NAME: RepoName = 'test-project' as RepoName;
@@ -1227,3 +1235,71 @@ export function createFixReplacementInfo(): FixReplacementInfo {
     replacement: 'replacement',
   };
 }
+
+export const chatModels: Models = {
+  models: [
+    {
+      model_id: 'gemini-pro',
+      short_text: 'Gemini Pro',
+      full_display_text: 'Gemini Pro',
+    },
+    {
+      model_id: 'gemini-ultra',
+      short_text: 'Gemini Ultra',
+      full_display_text: 'Gemini Ultra',
+    },
+  ],
+  default_model_id: 'gemini-pro',
+  documentation_url: 'http://doc.url',
+  citation_url: 'http://citation.url',
+  privacy_url: 'http://privacy.url',
+};
+
+export const chatActions: Actions = {
+  actions: [
+    {
+      id: 'freeform',
+      display_text: 'Free form chat',
+    },
+    {
+      id: 'summarize',
+      display_text: 'Summarize',
+      initial_user_prompt: 'Summarize the change',
+      icon: 'summarize',
+      enable_splash_page_card: true,
+      enable_send_without_input: true,
+    },
+  ],
+  default_action_id: 'freeform',
+};
+
+export const chatContextItemTypes: ContextItemType[] = [
+  {
+    id: 'google',
+    name: 'google',
+    icon: 'bug_report',
+    placeholder: 'google.com',
+    regex: /http:\/\/www.google.com/,
+
+    parse(link: string) {
+      const match = link.match(this.regex);
+      if (!match) return undefined;
+      return {
+        type_id: this.id,
+        identifier: 'google-id',
+        link,
+        title: 'google-title',
+      };
+    },
+  },
+];
+
+export const chatProvider: AiCodeReviewProvider = {
+  chat: (_req: ChatRequest, _listener: ChatResponseListener) => {},
+  listChatConversations: (_change: ChangeInfo) => Promise.resolve([]),
+  getChatConversation: (_change: ChangeInfo, _conversation_id: string) =>
+    Promise.resolve([]),
+  getModels: (_change: ChangeInfo) => Promise.resolve(chatModels),
+  getActions: (_change: ChangeInfo) => Promise.resolve(chatActions),
+  getContextItemTypes: () => Promise.resolve(chatContextItemTypes),
+};

@@ -3,7 +3,10 @@
  * Copyright 2020 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
+import {
+  RestApiService,
+  SubmittabilityInfo,
+} from '../../services/gr-rest-api/gr-rest-api';
 import {FlowInfo} from '../../api/rest-api';
 import {
   AccountCapabilityInfo,
@@ -79,7 +82,7 @@ import {
 } from '../../constants/constants';
 import {ParsedChangeInfo} from '../../types/types';
 import {ErrorCallback} from '../../api/rest';
-import {LabelDefinitionInfo} from '../../api/rest-api';
+import {IsFlowsEnabledInfo, LabelDefinitionInfo} from '../../api/rest-api';
 
 export const grRestApiMock: RestApiService = {
   addAccountEmail(): Promise<Response> {
@@ -248,6 +251,9 @@ export const grRestApiMock: RestApiService = {
     if (changeNum === undefined) return Promise.resolve(undefined);
     return Promise.resolve(createChange() as ParsedChangeInfo);
   },
+  getSubmittabilityInfo(): Promise<SubmittabilityInfo | undefined> {
+    return Promise.resolve(undefined);
+  },
   getChangeEdit(): Promise<EditInfo | undefined> {
     return Promise.resolve(undefined);
   },
@@ -338,6 +344,9 @@ export const grRestApiMock: RestApiService = {
   },
   getFileContent(): Promise<Response | Base64FileContent | undefined> {
     return Promise.resolve(new Response());
+  },
+  getIfFlowsIsEnabled(): Promise<IsFlowsEnabledInfo | undefined> {
+    return Promise.resolve({enabled: true});
   },
   getRepoName(): Promise<RepoName> {
     throw new Error('getRepoName() not implemented by RestApiMock.');

@@ -18,6 +18,7 @@ import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.gerrit.server.mail.EmailFactories.CHANGE_REVERTED;
 import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.CHANGE_MODIFICATION;
 
+import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.flogger.FluentLogger;
@@ -69,6 +70,7 @@ import java.io.IOException;
 import java.text.MessageFormat;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -84,6 +86,7 @@ import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.FooterLine;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.util.ChangeIdUtil;
@@ -242,6 +245,17 @@ public class CommitUtil {
     return id;
   }
 
+  public static String getBugAndIssueFooters(RevCommit commit) {
+    StringBuilder footers = new StringBuilder();
+    for (FooterLine footerLine : commit.getFooterLines()) {
+      String key = footerLine.getKey();
+      if (key.equalsIgnoreCase("Bug") || key.equalsIgnoreCase("Issue")) {
+        footers.append(footerLine.getKey()).append(": ").append(footerLine.getValue()).append("\n");
+      }
+    }
+    return footers.toString();
+  }
+
   /**
    * Creates a revert commit.
    *
@@ -290,6 +304,36 @@ public class CommitUtil {
           MessageFormat.format(
               ChangeMessages.revertChangeDefaultMessage, subject, patch.commitId().name());
     }
+
+    String newFooters = getBugAndIssueFooters(commitToRevert);
+    if (!newFooters.isEmpty()) {
+      StringBuilder footersToAdd = new StringBuilder();
+      for (String footer : Splitter.on('\n').split(newFooters)) {
+        if (footer.isEmpty()) {
+          continue;
+        }
+        boolean alreadyExists =
+            Arrays.stream(message.split("\n"))
+                .anyMatch(line -> line.trim().equalsIgnoreCase(footer.trim()));
+        if (!alreadyExists) {
+          footersToAdd.append(footer).append("\n");
+        }
+      }
+
+      if (footersToAdd.length() > 0) {
+        String trimmedMsg = message.trim();
+        List<String> lines = Splitter.on('\n').splitToList(trimmedMsg);
+        String lastLine = lines.isEmpty() ? "" : lines.get(lines.size() - 1);
+        boolean endsWithFooter = lastLine.matches("^[a-zA-Z0-9-]+:.*");
+
+        if (endsWithFooter) {
+          message = trimmedMsg + "\n" + footersToAdd.toString().trim();
+        } else {
+          message = trimmedMsg + "\n\n" + footersToAdd.toString().trim();
+        }
+      }
+    }
+
     if (generatedChangeId != null) {
       message = ChangeIdUtil.insertId(message, generatedChangeId, true);
     }

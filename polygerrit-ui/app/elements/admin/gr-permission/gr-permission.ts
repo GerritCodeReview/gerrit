@@ -24,9 +24,9 @@ import {
 } from '../../../types/common';
 import {
   AutocompleteQuery,
-  AutocompleteSuggestion,
   GrAutocomplete,
 } from '../../shared/gr-autocomplete/gr-autocomplete';
+import {AutocompleteSuggestion} from '../../../utils/autocomplete-util';
 import {
   EditablePermissionInfo,
   EditablePermissionRuleInfo,
@@ -45,6 +45,7 @@ import {
 } from '../../../types/events';
 import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 import {MdSwitch} from '@material/web/switch/switch';
+import {repeat} from 'lit/directives/repeat.js';
 
 const MAX_AUTOCOMPLETE_RESULTS = 20;
 
@@ -246,7 +247,9 @@ export class GrPermission extends LitElement {
           </div>
           <!-- end header -->
           <div class="rules">
-            ${this.rules?.map(
+            ${repeat(
+              this.rules ?? [],
+              rule => rule.id,
               (rule, index) => html`
                 <gr-rule-editor
                   .hasRange=${this.computeHasRange(this.name)}

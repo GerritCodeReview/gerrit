@@ -27,6 +27,7 @@ java_library(
         "//java/com/google/gerrit/server/flow",
         "//java/com/google/gerrit/server/ioutil",
         "//java/com/google/gerrit/server/logging",
+        "//java/com/google/gerrit/server/schema",
         "//java/com/google/gerrit/server/util/time",
         "//lib:args4j",
         "//lib:blame-cache",
@@ -38,6 +39,7 @@ java_library(
         "//lib/auto:auto-factory",
         "//lib/auto:auto-value",
         "//lib/auto:auto-value-annotations",
+        "//lib/bouncycastle:bcprov-neverlink",
         "//lib/commons:codec",
         "//lib/commons:compress",
         "//lib/commons:lang3",
@@ -46,6 +48,5 @@ java_library(
         "//lib/guice",
         "//lib/guice:guice-assistedinject",
         "//proto:entities_java_proto",
-        "@bcprov//jar",
     ],
 )

@@ -6,10 +6,21 @@
 import * as sinon from 'sinon';
 import {assert, fixture, html} from '@open-wc/testing';
 import '../../../test/common-test-setup';
-import {createParsedChange} from '../../../test/test-data-generators';
-import {ChangeSubmissionId, CommitId} from '../../../types/common';
+import {
+  createChange,
+  createParsedChange,
+} from '../../../test/test-data-generators';
+import {
+  ChangeId,
+  ChangeSubmissionId,
+  CommitId,
+  TopicName,
+  ValidationOptionsInfo,
+} from '../../../types/common';
 import './gr-confirm-revert-dialog';
 import {GrConfirmRevertDialog} from './gr-confirm-revert-dialog';
+import {stubRestApi} from '../../../test/test-utils';
+import {ParsedChangeInfo} from '../../../types/types';
 
 suite('gr-confirm-revert-dialog tests', () => {
   let element: GrConfirmRevertDialog;
@@ -84,151 +95,6 @@ suite('gr-confirm-revert-dialog tests', () => {
     assert.equal(element.message, expected);
   });
 
-  test('populateRevertSingleChangeMessage parses Issues footer from commit message', () => {
-    assert.isNotOk(element.message);
-    element.populateRevertSingleChangeMessage(
-      createParsedChange(),
-      'much lines\nvery\n\ncommit\nIssue: 1234567\nChange-Id: abcdefg\n',
-      'abcd123' as CommitId
-    );
-    let expected =
-      'Revert "much lines"\n\n' +
-      'This reverts commit abcd123.\n\n' +
-      'Reason for revert: <MUST SPECIFY REASON HERE>\n\n' +
-      'Issue: 1234567';
-    assert.equal(element.message, expected);
-
-    element.populateRevertSingleChangeMessage(
-      createParsedChange(),
-      'much lines\nvery\n\ncommit\nIssue= 1234567\nChange-Id: abcdefg\n',
-      'abcd123' as CommitId
-    );
-    expected =
-      'Revert "much lines"\n\n' +
-      'This reverts commit abcd123.\n\n' +
-      'Reason for revert: <MUST SPECIFY REASON HERE>\n\n' +
-      'Issue= 1234567';
-    assert.equal(element.message, expected);
-
-    element.populateRevertSingleChangeMessage(
-      createParsedChange(),
-      'much lines\nvery\n\ncommit\nISSUE= 1234567\nChange-Id: abcdefg\n',
-      'abcd123' as CommitId
-    );
-    expected =
-      'Revert "much lines"\n\n' +
-      'This reverts commit abcd123.\n\n' +
-      'Reason for revert: <MUST SPECIFY REASON HERE>\n\n' +
-      'ISSUE= 1234567';
-    assert.equal(element.message, expected);
-
-    element.populateRevertSingleChangeMessage(
-      createParsedChange(),
-      'much lines\nvery\n\ncommit\nISSUE: 1234567\nChange-Id: abcdefg\n',
-      'abcd123' as CommitId
-    );
-    expected =
-      'Revert "much lines"\n\n' +
-      'This reverts commit abcd123.\n\n' +
-      'Reason for revert: <MUST SPECIFY REASON HERE>\n\n' +
-      'ISSUE: 1234567';
-    assert.equal(element.message, expected);
-  });
-
-  test('populateRevertSingleChangeMessage does not parse Issue: from commit message body', () => {
-    assert.isNotOk(element.message);
-    element.populateRevertSingleChangeMessage(
-      createParsedChange(),
-      'much lines\n\nIssue: 1234567very\n\ncommit\nChange-Id: abcdefg\n',
-      'abcd123' as CommitId
-    );
-    const expected =
-      'Revert "much lines"\n\n' +
-      'This reverts commit abcd123.\n\n' +
-      'Reason for revert: <MUST SPECIFY REASON HERE>\n';
-    assert.equal(element.message, expected);
-  });
-
-  test('populateRevertSingleChangeMessage parses Bug footer from commit message', () => {
-    assert.isNotOk(element.message);
-    element.populateRevertSingleChangeMessage(
-      createParsedChange(),
-      'much lines\nvery\n\ncommit\nBug: 1234567\nChange-Id: abcdefg\n',
-      'abcd123' as CommitId
-    );
-    let expected =
-      'Revert "much lines"\n\n' +
-      'This reverts commit abcd123.\n\n' +
-      'Reason for revert: <MUST SPECIFY REASON HERE>\n\n' +
-      'Bug: 1234567';
-    assert.equal(element.message, expected);
-
-    element.populateRevertSingleChangeMessage(
-      createParsedChange(),
-      'much lines\nvery\n\ncommit\nBug= 1234567\nChange-Id: abcdefg\n',
-      'abcd123' as CommitId
-    );
-    expected =
-      'Revert "much lines"\n\n' +
-      'This reverts commit abcd123.\n\n' +
-      'Reason for revert: <MUST SPECIFY REASON HERE>\n\n' +
-      'Bug= 1234567';
-    assert.equal(element.message, expected);
-
-    element.populateRevertSingleChangeMessage(
-      createParsedChange(),
-      'much lines\nvery\n\ncommit\nBUG= 1234567\nChange-Id: abcdefg\n',
-      'abcd123' as CommitId
-    );
-    expected =
-      'Revert "much lines"\n\n' +
-      'This reverts commit abcd123.\n\n' +
-      'Reason for revert: <MUST SPECIFY REASON HERE>\n\n' +
-      'BUG= 1234567';
-    assert.equal(element.message, expected);
-
-    element.populateRevertSingleChangeMessage(
-      createParsedChange(),
-      'much lines\nvery\n\ncommit\nBUG: 1234567\nChange-Id: abcdefg\n',
-      'abcd123' as CommitId
-    );
-    expected =
-      'Revert "much lines"\n\n' +
-      'This reverts commit abcd123.\n\n' +
-      'Reason for revert: <MUST SPECIFY REASON HERE>\n\n' +
-      'BUG: 1234567';
-    assert.equal(element.message, expected);
-  });
-
-  test('populateRevertSingleChangeMessage does not parse Bug: from commit message body', () => {
-    assert.isNotOk(element.message);
-    element.populateRevertSingleChangeMessage(
-      createParsedChange(),
-      'much lines\n\nBug: 1234567very\n\ncommit\nChange-Id: abcdefg\n',
-      'abcd123' as CommitId
-    );
-    const expected =
-      'Revert "much lines"\n\n' +
-      'This reverts commit abcd123.\n\n' +
-      'Reason for revert: <MUST SPECIFY REASON HERE>\n';
-    assert.equal(element.message, expected);
-  });
-
-  test('issue above change id', () => {
-    assert.isNotOk(element.message);
-    element.populateRevertSingleChangeMessage(
-      createParsedChange(),
-      'much lines\nvery\n\ncommit\n\nBug: Issue 42\nChange-Id: abcdefg\n',
-      'abcd123' as CommitId
-    );
-    const expected =
-      'Revert "much lines"\n\n' +
-      'This reverts commit abcd123.\n\n' +
-      'Reason for revert: <MUST SPECIFY REASON HERE>\n\n' +
-      'Bug: Issue 42';
-    assert.equal(element.message, expected);
-  });
-
   test('revert a revert', () => {
     assert.isNotOk(element.message);
     element.populateRevertSingleChangeMessage(
@@ -273,5 +139,45 @@ suite('gr-confirm-revert-dialog tests', () => {
       'Reason for revert: <MUST SPECIFY REASON HERE>\n\n' +
       'Reverted changes: /q/submissionid:5545\n';
     assert.equal(element.message, expected);
+  });
+
+  suite('populate tests', () => {
+    let change: ParsedChangeInfo;
+
+    setup(async () => {
+      change = {
+        ...createParsedChange(),
+        submission_id: '5545' as ChangeSubmissionId,
+        current_revision: 'abcd123' as CommitId,
+      };
+      stubRestApi('getChanges').returns(
+        Promise.resolve([
+          {
+            ...createChange(),
+            change_id: '12345678901234' as ChangeId,
+            topic: 'T' as TopicName,
+            subject: 'random',
+          },
+          {
+            ...createChange(),
+            change_id: '23456' as ChangeId,
+            topic: 'T' as TopicName,
+            subject: 'a'.repeat(100),
+          },
+        ])
+      );
+      stubRestApi('getValidationOptions').returns(
+        Promise.resolve({
+          validation_options: [{name: 'o1', description: 'option 1'}],
+        } as ValidationOptionsInfo)
+      );
+    });
+
+    test('validation options are fetched when populating revert dialog', async () => {
+      await element.populate(change, 'commit message');
+      assert.deepEqual(element.validationOptions, {
+        validation_options: [{name: 'o1', description: 'option 1'}],
+      });
+    });
   });
 });

@@ -114,7 +114,7 @@ export class GrRepoDetailList extends LitElement {
         td.name,
         td.revision,
         td.message {
-          word-break: break-word;
+          overflow-wrap: anywhere;
         }
         td.revision.tags {
           width: 27em;

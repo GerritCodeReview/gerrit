@@ -144,7 +144,7 @@ public class AllExternalIdsTest {
   @Test
   public void externalIdMethods() {
     assertThatSerializedClass(ExternalId.class)
-        .hasAutoValueMethods(
+        .hasFields(
             ImmutableMap.<String, Type>builder()
                 .put("key", ExternalId.Key.class)
                 .put("accountId", Account.Id.class)

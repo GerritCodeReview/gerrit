@@ -96,13 +96,14 @@ suite('gr-edit-preferences tests', () => {
               Syntax highlighting
             </label>
             <span class="value">
-              <input checked="" id="editSyntaxHighlighting" type="checkbox" />
+              <md-checkbox checked="" id="editSyntaxHighlighting">
+              </md-checkbox>
             </span>
           </section>
           <section>
             <label class="title" for="editShowTabs"> Show tabs </label>
             <span class="value">
-              <input checked="" id="editShowTabs" type="checkbox" />
+              <md-checkbox checked="" id="editShowTabs"> </md-checkbox>
             </span>
           </section>
           <section>
@@ -110,11 +111,8 @@ suite('gr-edit-preferences tests', () => {
               Show trailing whitespace
             </label>
             <span class="value">
-              <input
-                checked=""
-                id="editShowTrailingWhitespaceInput"
-                type="checkbox"
-              />
+              <md-checkbox checked="" id="editShowTrailingWhitespaceInput">
+              </md-checkbox>
             </span>
           </section>
           <section>
@@ -122,7 +120,7 @@ suite('gr-edit-preferences tests', () => {
               Match brackets
             </label>
             <span class="value">
-              <input checked="" id="showMatchBrackets" type="checkbox" />
+              <md-checkbox checked="" id="showMatchBrackets"> </md-checkbox>
             </span>
           </section>
           <section>
@@ -130,7 +128,7 @@ suite('gr-edit-preferences tests', () => {
               Line wrapping
             </label>
             <span class="value">
-              <input id="editShowLineWrapping" type="checkbox" />
+              <md-checkbox id="editShowLineWrapping"> </md-checkbox>
             </span>
           </section>
           <section>
@@ -138,7 +136,7 @@ suite('gr-edit-preferences tests', () => {
               Indent with tabs
             </label>
             <span class="value">
-              <input id="showIndentWithTabs" type="checkbox" />
+              <md-checkbox id="showIndentWithTabs"> </md-checkbox>
             </span>
           </section>
           <section>
@@ -146,7 +144,7 @@ suite('gr-edit-preferences tests', () => {
               Auto close brackets
             </label>
             <span class="value">
-              <input id="showAutoCloseBrackets" type="checkbox" />
+              <md-checkbox id="showAutoCloseBrackets"> </md-checkbox>
             </span>
           </section>
         </div>

@@ -76,6 +76,7 @@ import {
   ChangeViewModel,
   changeViewModelToken,
 } from '../../../models/views/change';
+import {MdCheckbox} from '@material/web/checkbox/checkbox';
 import {FileNameToNormalizedFileInfoMap} from '../../../models/change/files-model';
 import {RestApiService} from '../../../services/gr-rest-api/gr-rest-api';
 import {GrDiffCursor} from '../../../embed/diff/gr-diff-cursor/gr-diff-cursor';
@@ -216,17 +217,23 @@ suite('gr-diff-view tests', () => {
           <div class="stickyHeader">
             <h1 class="assistive-tech-only">Diff of glados.txt</h1>
             <header>
-              <div>
-                <a href="/c/test-project/+/42"> 42 </a>
-                <span class="changeNumberColon"> : </span>
-                <span class="headerSubject"> Test subject </span>
-                <input
-                  aria-label="file reviewed"
-                  class="hideOnEdit reviewed"
-                  id="reviewed"
-                  title="Toggle reviewed status of file"
-                  type="checkbox"
-                />
+              <div class="headerLeft">
+                <div>
+                  <a href="/c/test-project/+/42"> 42 </a>
+                  <span class="changeNumberColon"> : </span>
+                </div>
+                <div>
+                  <span class="headerSubject"> Test subject </span>
+                </div>
+                <div class="checkboxDiv">
+                  <md-checkbox
+                    class="hideOnEdit reviewed"
+                    data-aria-label="file reviewed"
+                    id="reviewed"
+                    title="Toggle reviewed status of file"
+                  >
+                  </md-checkbox>
+                </div>
                 <div class="jumpToFileContainer">
                   <gr-dropdown-list id="dropdown" show-copy-for-trigger-text="">
                   </gr-dropdown-list>
@@ -276,16 +283,16 @@ suite('gr-diff-view tests', () => {
               <div class="rightControls">
                 <div class="sidebarTriggerContainer">
                   <gr-endpoint-decorator name="sidebarTrigger">
-                    <gr-endpoint-param name="onTrigger"></gr-endpoint-param>
-                    <gr-endpoint-param name="openSidebar"></gr-endpoint-param>
+                    <gr-endpoint-param name="onTrigger"> </gr-endpoint-param>
+                    <gr-endpoint-param name="openSidebar"> </gr-endpoint-param>
                   </gr-endpoint-decorator>
                 </div>
                 <gr-button
                   aria-disabled="false"
+                  id="toggleEntireFile"
                   link=""
                   role="button"
                   tabindex="0"
-                  id="toggleEntireFile"
                   title="Toggle all diff context (shortcut: Shift+x)"
                 >
                   Show Entire File
@@ -335,7 +342,7 @@ suite('gr-diff-view tests', () => {
                         role="button"
                         tabindex="0"
                       >
-                        <gr-icon icon="settings" filled></gr-icon>
+                        <gr-icon filled="" icon="settings"> </gr-icon>
                       </gr-button>
                     </gr-tooltip-content>
                   </span>
@@ -1380,7 +1387,7 @@ suite('gr-diff-view tests', () => {
         };
         userModel.setDiffPreferences(diffPreferences);
         viewModel.updateState({diffView: {path: 'wheatley.md'}});
-        changeModel.setState({
+        changeModel.updateState({
           change: createParsedChange(),
           reviewedFiles: [],
           loadingStatus: LoadingStatus.LOADED,
@@ -1412,7 +1419,7 @@ suite('gr-diff-view tests', () => {
       };
       userModel.setDiffPreferences(diffPreferences);
       viewModel.updateState({diffView: {path: 'wheatley.md'}});
-      changeModel.setState({
+      changeModel.updateState({
         change: createParsedChange(),
         reviewedFiles: [],
         loadingStatus: LoadingStatus.LOADED,
@@ -1433,7 +1440,7 @@ suite('gr-diff-view tests', () => {
         basePatchNum: PARENT,
         diffView: {path: '/COMMIT_MSG'},
       });
-      changeModel.setState({
+      changeModel.updateState({
         change: createParsedChange(),
         reviewedFiles: [],
         loadingStatus: LoadingStatus.LOADED,
@@ -1449,9 +1456,9 @@ suite('gr-diff-view tests', () => {
       changeModel.updateStateFileReviewed('/COMMIT_MSG', true);
       await element.updateComplete;
 
-      const reviewedStatusCheckBox = queryAndAssert<HTMLInputElement>(
+      const reviewedStatusCheckBox = queryAndAssert<MdCheckbox>(
         element,
-        'input#reviewed'
+        'md-checkbox#reviewed'
       );
 
       assert.isTrue(reviewedStatusCheckBox.checked);
@@ -1860,7 +1867,7 @@ suite('gr-diff-view tests', () => {
         element.basePatchNum = PARENT;
         await element.updateComplete;
 
-        let checkbox = queryAndAssert(element, '#reviewed');
+        let checkbox = queryAndAssert(element, 'md-checkbox#reviewed');
         assert.isTrue(isVisible(checkbox));
 
         element.patchNum = EDIT;

@@ -126,6 +126,9 @@ import {userModelToken} from '../../../models/user/user-model';
 import {accountsModelToken} from '../../../models/accounts/accounts-model';
 import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {modalStyles} from '../../../styles/gr-modal-styles';
+import '@material/web/checkbox/checkbox';
+import {MdCheckbox} from '@material/web/checkbox/checkbox';
+import {materialStyles} from '../../../styles/gr-material-styles';
 import {grAnnouncerRequestAvailability} from '../../lit-util';
 import {GrReviewerUpdatesParser} from '../../shared/gr-rest-api-interface/gr-reviewer-updates-parser';
 import {formStyles} from '../../../styles/form-styles';
@@ -226,6 +229,9 @@ export class GrReplyDialog extends LitElement {
 
   @state()
   knownLatestState?: LatestPatchState;
+
+  @state()
+  isChangeMerged = false;
 
   @state()
   underReview = true;
@@ -376,6 +382,7 @@ export class GrReplyDialog extends LitElement {
       formStyles,
       sharedStyles,
       modalStyles,
+      materialStyles,
       css`
         gr-account-list.drag-over {
           background-color: var(--table-header-background-color);
@@ -472,7 +479,7 @@ export class GrReplyDialog extends LitElement {
         gr-endpoint-decorator[name='reply-text'] {
           flex-direction: column;
         }
-        #checkingStatusLabel,
+        #changeIsMergedLabel #checkingStatusLabel,
         #notLatestLabel {
           margin-left: var(--spacing-l);
         }
@@ -480,6 +487,7 @@ export class GrReplyDialog extends LitElement {
           color: var(--deemphasized-text-color);
           font-style: italic;
         }
+        #changeIsMergedLabel,
         #notLatestLabel,
         #savingLabel {
           color: var(--error-text-color);
@@ -605,6 +613,10 @@ export class GrReplyDialog extends LitElement {
         }
         .rightActions gr-icon {
           margin: 0;
+        }
+        md-checkbox {
+          --md-checkbox-container-size: 15px;
+          --md-checkbox-icon-size: 15px;
         }
       `,
     ];
@@ -997,15 +1009,12 @@ export class GrReplyDialog extends LitElement {
     return html`
       <section class="draftsContainer">
         <div class="includeComments">
-          <input
-            type="checkbox"
+          <md-checkbox
             id="includeComments"
             @change=${this.handleIncludeCommentsChanged}
             ?checked=${this.includeComments}
-          />
-          <label for="includeComments"
-            >Publish ${this.computeDraftsTitle(threads)}</label
-          >
+          ></md-checkbox>
+          Publish ${this.computeDraftsTitle(threads)}
         </div>
         ${when(
           this.includeComments,
@@ -1215,7 +1224,17 @@ export class GrReplyDialog extends LitElement {
             `
           )}
           ${when(
-            this.knownLatestState === LatestPatchState.NOT_LATEST,
+            this.knownLatestState !== LatestPatchState.CHECKING &&
+              this.isChangeMerged,
+            () => html`
+              <span id="changeIsMergedLabel">
+                ${this.computeChangeMergedWarning()}
+              </span>
+            `
+          )}
+          ${when(
+            !this.isChangeMerged &&
+              this.knownLatestState === LatestPatchState.NOT_LATEST,
             () => html`
               <span id="notLatestLabel">
                 ${this.computePatchSetWarning()}
@@ -1288,6 +1307,7 @@ export class GrReplyDialog extends LitElement {
         this.knownLatestState = result.isLatest
           ? LatestPatchState.LATEST
           : LatestPatchState.NOT_LATEST;
+        this.isChangeMerged = result.newStatus === ChangeStatus.MERGED;
       });
 
     this.focusOn(focusTarget);
@@ -1312,7 +1332,7 @@ export class GrReplyDialog extends LitElement {
   }
 
   private handleIncludeCommentsChanged(e: Event) {
-    if (!(e.target instanceof HTMLInputElement)) return;
+    if (!(e.target instanceof MdCheckbox)) return;
     this.includeComments = e.target.checked;
   }
 
@@ -1405,6 +1425,7 @@ export class GrReplyDialog extends LitElement {
       );
       if (!this.ccs.find(cc => getUserId(cc) === getUserId(accountToMove))) {
         this.ccs = [...this.ccs, accountToMove];
+        this.reviewersMutated = true;
       }
     } else {
       this.ccs = this.ccs.filter(
@@ -1414,6 +1435,7 @@ export class GrReplyDialog extends LitElement {
         !this.reviewers.find(r => getUserId(r) === getUserId(accountToMove))
       ) {
         this.reviewers = [...this.reviewers, accountToMove];
+        this.reviewersMutated = true;
       }
     }
 
@@ -1471,9 +1493,6 @@ export class GrReplyDialog extends LitElement {
 
   // visible for testing
   async send(includeComments: boolean, startReview: boolean) {
-    // ChangeModel will be updated once the reply returns at which point the
-    // timer will be ended.
-    this.reporting.time(Timing.SEND_REPLY);
     const labels = this.getLabelScores().getLabelValues();
     if (labels[StandardLabels.CODE_REVIEW] === 2) {
       this.reporting.reportInteraction(Interaction.CODE_REVIEW_APPROVAL);
@@ -1567,6 +1586,9 @@ export class GrReplyDialog extends LitElement {
       ))
     )
       return;
+    // ChangeModel will be updated once the reply returns at which point the
+    // timer will be ended.
+    this.reporting.time(Timing.SEND_REPLY);
     this.getNavigation().blockNavigation('sending review');
     return this.saveReview(reviewInput, errFn)
       .then(result => {
@@ -1593,6 +1615,10 @@ export class GrReplyDialog extends LitElement {
         );
         if (reloadRequired) {
           fireReload(this);
+        } else {
+          // Only reload submittability if the full reload is not triggered, to
+          // avoid duplicate requests.
+          this.getChangeModel().reloadSubmittability();
         }
 
         this.patchsetLevelDraftMessage = '';
@@ -2221,6 +2247,10 @@ export class GrReplyDialog extends LitElement {
       !this.reviewersMutated &&
       !revotingOrNewVote
     );
+  }
+
+  computeChangeMergedWarning() {
+    return 'Change has already been merged';
   }
 
   computePatchSetWarning() {

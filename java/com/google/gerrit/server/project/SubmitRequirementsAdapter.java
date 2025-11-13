@@ -230,45 +230,33 @@ public class SubmitRequirementsAdapter {
   private static ImmutableList<String> toExpressionAtomList(LabelType lt) {
     String ignoreSelfApproval =
         lt.isIgnoreSelfApproval() ? ",user=" + ChangeQueryBuilder.ARG_ID_NON_UPLOADER : "";
-    switch (lt.getFunction()) {
-      case MAX_WITH_BLOCK:
-        return ImmutableList.of(
-            String.format("label:%s=MAX", lt.getName()) + ignoreSelfApproval,
-            String.format("-label:%s=MIN", lt.getName()));
-      case ANY_WITH_BLOCK:
-        return ImmutableList.of(String.format(String.format("-label:%s=MIN", lt.getName())));
-      case MAX_NO_BLOCK:
-        return ImmutableList.of(
-            String.format(String.format("label:%s=MAX", lt.getName())) + ignoreSelfApproval);
-      case NO_BLOCK:
-      case NO_OP:
-      case PATCH_SET_LOCK:
-      default:
-        return ImmutableList.of();
-    }
+    return switch (lt.getFunction()) {
+      case MAX_WITH_BLOCK ->
+          ImmutableList.of(
+              String.format("label:%s=MAX", lt.getName()) + ignoreSelfApproval,
+              String.format("-label:%s=MIN", lt.getName()));
+      case ANY_WITH_BLOCK ->
+          ImmutableList.of(String.format(String.format("-label:%s=MIN", lt.getName())));
+      case MAX_NO_BLOCK ->
+          ImmutableList.of(
+              String.format(String.format("label:%s=MAX", lt.getName())) + ignoreSelfApproval);
+      case NO_BLOCK, NO_OP, PATCH_SET_LOCK -> ImmutableList.of();
+    };
   }
 
   private static Status mapStatus(Label label) {
-    SubmitRequirementExpressionResult.Status status =
-        switch (label.status) {
-          case OK, MAY -> Status.PASS;
-          case REJECT, NEED, IMPOSSIBLE -> Status.FAIL;
-        };
-    return status;
+    return switch (label.status) {
+      case OK, MAY -> Status.PASS;
+      case REJECT, NEED, IMPOSSIBLE -> Status.FAIL;
+    };
   }
 
   private static Status mapStatus(SubmitRecord submitRecord) {
-    switch (submitRecord.status) {
-      case OK:
-      case CLOSED:
-      case FORCED:
-        return Status.PASS;
-      case NOT_READY:
-        return Status.FAIL;
-      case RULE_ERROR:
-      default:
-        return Status.ERROR;
-    }
+    return switch (submitRecord.status) {
+      case OK, CLOSED, FORCED -> Status.PASS;
+      case NOT_READY -> Status.FAIL;
+      case RULE_ERROR -> Status.ERROR;
+    };
   }
 
   private static SubmitRequirementExpressionResult createExpressionResult(

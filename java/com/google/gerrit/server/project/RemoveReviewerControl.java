@@ -15,6 +15,7 @@
 package com.google.gerrit.server.project;
 
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSetApproval;
@@ -52,7 +53,7 @@ public class RemoveReviewerControl {
    * @throws ResourceConflictException if the approval cannot be removed because the change is
    *     merged
    */
-  public void checkRemoveReviewer(
+  public void checkRemoveReviewerApproval(
       ChangeNotes notes, CurrentUser currentUser, PatchSetApproval approval)
       throws PermissionBackendException, AuthException, ResourceConflictException {
     if (notes.getChange().isMerged() && approval.value() != 0) {
@@ -66,10 +67,15 @@ public class RemoveReviewerControl {
    * Checks if removing the given reviewer is OK. Does not check if removing any approvals the
    * reviewer might have given is OK.
    *
+   * <p>The `reviewer` parameter is only used for logging purposes and for checking whether the
+   * current user is equal to the reviewer. So it can be set to null. Then the permission check is
+   * generic.
+   *
    * @throws AuthException if this user is not allowed to remove this approval.
    * @throws PermissionBackendException on failure of permission checks.
    */
-  public void checkRemoveReviewer(ChangeNotes notes, CurrentUser currentUser, Account.Id reviewer)
+  public void checkRemoveReviewer(
+      ChangeNotes notes, CurrentUser currentUser, @Nullable Account.Id reviewer)
       throws PermissionBackendException, AuthException {
     checkRemoveReviewer(notes, currentUser, reviewer, 0);
   }
@@ -83,14 +89,14 @@ public class RemoveReviewerControl {
 
   /** Returns true if the user is allowed to remove this reviewer. */
   public boolean testRemoveReviewer(
-      ChangeNotes notes, CurrentUser currentUser, Account.Id reviewer, int value)
+      ChangeNotes notes, CurrentUser currentUser, @Nullable Account.Id reviewer, int value)
       throws PermissionBackendException {
     return testRemoveReviewer(changeDataFactory.create(notes), currentUser, reviewer, value);
   }
 
   /** Returns true if the user is allowed to remove this reviewer. */
   public boolean testRemoveReviewer(
-      ChangeData cd, CurrentUser currentUser, Account.Id reviewer, int value)
+      ChangeData cd, CurrentUser currentUser, @Nullable Account.Id reviewer, int value)
       throws PermissionBackendException {
     if (cd.change().isMerged() && value != 0) {
       return false;
@@ -110,11 +116,12 @@ public class RemoveReviewerControl {
   }
 
   private void checkRemoveReviewer(
-      ChangeNotes notes, CurrentUser currentUser, Account.Id reviewer, int value)
+      ChangeNotes notes, CurrentUser currentUser, @Nullable Account.Id reviewer, int value)
       throws PermissionBackendException, AuthException {
     if (canRemoveReviewerWithoutPermissionCheck(notes.getChange(), currentUser, reviewer, value)) {
       return;
     }
+    String reviewerStr = reviewer != null ? reviewer.toString() : "by email";
 
     // Users with the remove reviewer permission, the branch owner, project
     // owner and site admin can remove anyone
@@ -125,7 +132,7 @@ public class RemoveReviewerControl {
           "%s can remove reviewer %s from change %s since they are an owner of the destination"
               + " branch %s",
           currentUser.getLoggableName(),
-          reviewer,
+          reviewerStr,
           notes.getChangeId(),
           notes.getChange().getDest().branch());
       return;
@@ -141,14 +148,14 @@ public class RemoveReviewerControl {
       logger.atFine().log(
           "%s can remove reviewer %s from change %s since they have the %s permission",
           currentUser.getLoggableName(),
-          reviewer,
+          reviewerStr,
           notes.getChangeId(),
           ChangePermission.REMOVE_REVIEWER.name());
     } catch (AuthException e) {
       logger.atFine().log(
           "%s cannot remove reviewer %s from change %s since they don't have the %s permission",
           currentUser.getLoggableName(),
-          reviewer,
+          reviewerStr,
           notes.getChangeId(),
           ChangePermission.REMOVE_REVIEWER.name());
       throw e;
@@ -156,28 +163,29 @@ public class RemoveReviewerControl {
   }
 
   public static boolean canRemoveReviewerWithoutPermissionCheck(
-      Change change, CurrentUser currentUser, Account.Id reviewer, int value) {
+      Change change, CurrentUser currentUser, @Nullable Account.Id reviewer, int value) {
+    String reviewerStr = reviewer != null ? reviewer.toString() : "by email";
     if (currentUser.isIdentifiedUser()) {
       Account.Id aId = currentUser.getAccountId();
       if (aId.equals(reviewer)) {
         // A user can always remove themselves.
         logger.atFine().log(
             "%s can remove reviewer %s from change %s since they can always remove themselves",
-            currentUser.getLoggableName(), reviewer, change.getId());
+            currentUser.getLoggableName(), reviewerStr, change.getId());
         return true;
       } else if (aId.equals(change.getOwner()) && 0 <= value) {
         // The change owner may remove any zero or positive score.
         logger.atFine().log(
             "%s can remove reviewer %s from change %s since they own the change and the reviewer"
                 + " scored with zero or a positive score",
-            currentUser.getLoggableName(), reviewer, change.getId());
+            currentUser.getLoggableName(), reviewerStr, change.getId());
         return true;
       }
     }
 
     logger.atFine().log(
         "%s cannot remove reviewer %s from change %s without permission check",
-        currentUser.getLoggableName(), reviewer, change.getId());
+        currentUser.getLoggableName(), reviewerStr, change.getId());
     return false;
   }
 }

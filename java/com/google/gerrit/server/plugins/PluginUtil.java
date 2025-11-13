@@ -86,7 +86,6 @@ public class PluginUtil {
       case EXTENSION -> PluginName.class.getClassLoader();
       case PLUGIN -> PluginLoader.class.getClassLoader();
       case JS -> JavaScriptPlugin.class.getClassLoader();
-      default -> throw new IllegalArgumentException("Unsupported ApiType " + type);
     };
   }
 }

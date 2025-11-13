@@ -90,27 +90,25 @@ suite('gr-watched-projects-editor tests', () => {
               <tr>
                 <td>project a</td>
                 <td class="notifControl">
-                  <input data-key="notify_new_changes" type="checkbox" />
+                  <md-checkbox data-key="notify_new_changes"></md-checkbox>
                 </td>
                 <td class="notifControl">
-                  <input data-key="notify_new_patch_sets" type="checkbox" />
+                  <md-checkbox data-key="notify_new_patch_sets"></md-checkbox>
                 </td>
                 <td class="notifControl">
-                  <input data-key="notify_all_comments" type="checkbox" />
+                  <md-checkbox data-key="notify_all_comments"></md-checkbox>
                 </td>
                 <td class="notifControl">
-                  <input
+                  <md-checkbox
                     checked=""
                     data-key="notify_submitted_changes"
-                    type="checkbox"
-                  />
+                  ></md-checkbox>
                 </td>
                 <td class="notifControl">
-                  <input
+                  <md-checkbox
                     checked=""
                     data-key="notify_abandoned_changes"
-                    type="checkbox"
-                  />
+                  ></md-checkbox>
                 </td>
                 <td>
                   <gr-button
@@ -129,23 +127,26 @@ suite('gr-watched-projects-editor tests', () => {
                   <div class="projectFilter">filter 1</div>
                 </td>
                 <td class="notifControl">
-                  <input
+                  <md-checkbox
                     checked=""
                     data-key="notify_new_changes"
-                    type="checkbox"
-                  />
+                  ></md-checkbox>
                 </td>
                 <td class="notifControl">
-                  <input data-key="notify_new_patch_sets" type="checkbox" />
+                  <md-checkbox data-key="notify_new_patch_sets"></md-checkbox>
                 </td>
                 <td class="notifControl">
-                  <input data-key="notify_all_comments" type="checkbox" />
+                  <md-checkbox data-key="notify_all_comments"></md-checkbox>
                 </td>
                 <td class="notifControl">
-                  <input data-key="notify_submitted_changes" type="checkbox" />
+                  <md-checkbox
+                    data-key="notify_submitted_changes"
+                  ></md-checkbox>
                 </td>
                 <td class="notifControl">
-                  <input data-key="notify_abandoned_changes" type="checkbox" />
+                  <md-checkbox
+                    data-key="notify_abandoned_changes"
+                  ></md-checkbox>
                 </td>
                 <td>
                   <gr-button
@@ -164,19 +165,23 @@ suite('gr-watched-projects-editor tests', () => {
                   <div class="projectFilter">filter 2</div>
                 </td>
                 <td class="notifControl">
-                  <input data-key="notify_new_changes" type="checkbox" />
+                  <md-checkbox data-key="notify_new_changes"></md-checkbox>
                 </td>
                 <td class="notifControl">
-                  <input data-key="notify_new_patch_sets" type="checkbox" />
+                  <md-checkbox data-key="notify_new_patch_sets"></md-checkbox>
                 </td>
                 <td class="notifControl">
-                  <input data-key="notify_all_comments" type="checkbox" />
+                  <md-checkbox data-key="notify_all_comments"></md-checkbox>
                 </td>
                 <td class="notifControl">
-                  <input data-key="notify_submitted_changes" type="checkbox" />
+                  <md-checkbox
+                    data-key="notify_submitted_changes"
+                  ></md-checkbox>
                 </td>
                 <td class="notifControl">
-                  <input data-key="notify_abandoned_changes" type="checkbox" />
+                  <md-checkbox
+                    data-key="notify_abandoned_changes"
+                  ></md-checkbox>
                 </td>
                 <td>
                   <gr-button
@@ -192,31 +197,32 @@ suite('gr-watched-projects-editor tests', () => {
               <tr>
                 <td>project c</td>
                 <td class="notifControl">
-                  <input
+                  <md-checkbox
                     checked=""
                     data-key="notify_new_changes"
-                    type="checkbox"
-                  />
+                  ></md-checkbox>
                 </td>
                 <td class="notifControl">
-                  <input
+                  <md-checkbox
                     checked=""
                     data-key="notify_new_patch_sets"
-                    type="checkbox"
-                  />
+                  ></md-checkbox>
                 </td>
                 <td class="notifControl">
-                  <input
+                  <md-checkbox
                     checked=""
                     data-key="notify_all_comments"
-                    type="checkbox"
-                  />
+                  ></md-checkbox>
                 </td>
                 <td class="notifControl">
-                  <input data-key="notify_submitted_changes" type="checkbox" />
+                  <md-checkbox
+                    data-key="notify_submitted_changes"
+                  ></md-checkbox>
                 </td>
                 <td class="notifControl">
-                  <input data-key="notify_abandoned_changes" type="checkbox" />
+                  <md-checkbox
+                    data-key="notify_abandoned_changes"
+                  ></md-checkbox>
                 </td>
                 <td>
                   <gr-button

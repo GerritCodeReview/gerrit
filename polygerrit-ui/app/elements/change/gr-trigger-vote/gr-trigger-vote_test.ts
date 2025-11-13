@@ -67,8 +67,8 @@ suite('gr-trigger-vote tests', () => {
         <gr-trigger-vote-hovercard>
           <gr-label-info slot="label-info"></gr-label-info>
         </gr-trigger-vote-hovercard>
-        <span class="label"> Verified </span>
-        <gr-vote-chip> </gr-vote-chip>
+        <span class="label">Verified</span>
+        <gr-vote-chip></gr-vote-chip>
       </div>`
     );
   });

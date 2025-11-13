@@ -46,13 +46,16 @@ public class ListExperimentsIT extends AbstractDaemonTest {
     ImmutableMap<String, ExperimentInfo> experiments =
         gApi.config().server().listExperiments().get();
     assertThat(experiments.keySet())
-        .containsExactly(
+        .containsAtLeast(
             ExperimentFeaturesConstants.ALLOW_FIX_SUGGESTIONS_IN_COMMENTS,
             ExperimentFeaturesConstants
                 .GERRIT_BACKEND_FEATURE_ALWAYS_REJECT_IMPLICIT_MERGES_ON_MERGE,
             ExperimentFeaturesConstants.GERRIT_BACKEND_FEATURE_ATTACH_NONCE_TO_DOCUMENTATION,
             ExperimentFeaturesConstants.GERRIT_BACKEND_FEATURE_CHECK_IMPLICIT_MERGES_ON_MERGE,
-            ExperimentFeaturesConstants.GERRIT_BACKEND_FEATURE_REJECT_IMPLICIT_MERGES_ON_MERGE)
+            ExperimentFeaturesConstants.GERRIT_BACKEND_FEATURE_REJECT_IMPLICIT_MERGES_ON_MERGE,
+            ExperimentFeaturesConstants.SKIP_SUBMIT_RECORDS_WITHOUT_SUBMIT_REQUIREMENTS,
+            ExperimentFeaturesConstants.ASYNC_SUBMIT_REQUIREMENTS,
+            ExperimentFeaturesConstants.PARALLEL_DASHBOARD_REQUESTS)
         .inOrder();
 
     // "GerritBackendFeature__check_implicit_merges_on_merge",

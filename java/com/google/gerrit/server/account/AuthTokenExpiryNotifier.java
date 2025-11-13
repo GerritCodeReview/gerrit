@@ -33,6 +33,7 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
 public class AuthTokenExpiryNotifier implements Runnable {
@@ -109,7 +110,7 @@ public class AuthTokenExpiryNotifier implements Runnable {
           }
         }
       }
-    } catch (IOException e) {
+    } catch (IOException | ConfigInvalidException e) {
       throw new RuntimeException("Failed to read accounts from NoteDB", e);
     } catch (EmailException e) {
       logger.atSevere().withCause(e).log("Failed to send token expiry notification email");

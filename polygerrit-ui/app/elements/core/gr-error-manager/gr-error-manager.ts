@@ -239,15 +239,28 @@ export class GrErrorManager extends LitElement {
         } else if (response.status === 429) {
           this.showQuotaExceeded({status, statusText});
         } else {
-          this.showErrorDialog(
-            constructServerErrorMsg({
-              status,
-              statusText,
-              errorText,
-              url,
-              trace,
-            })
-          );
+          const contentType = response.headers?.get('Content-Type') ?? '';
+          if (contentType.includes('text/html')) {
+            this.showErrorDialog(
+              constructServerErrorMsg({
+                status,
+                statusText,
+                url,
+                trace,
+              }),
+              {htmlContent: errorText}
+            );
+          } else {
+            this.showErrorDialog(
+              constructServerErrorMsg({
+                status,
+                statusText,
+                errorText,
+                url,
+                trace,
+              })
+            );
+          }
         }
       }
       this.reporting.error('Server error', new Error(errorText));
@@ -510,9 +523,13 @@ export class GrErrorManager extends LitElement {
   };
 
   // private but used in tests
-  showErrorDialog(message: string, options?: {showSignInButton?: boolean}) {
+  showErrorDialog(
+    message: string,
+    options?: {showSignInButton?: boolean; htmlContent?: string}
+  ) {
     this.reporting.reportErrorDialog(message);
     this.errorDialog.text = message;
+    this.errorDialog.htmlContent = options?.htmlContent;
     this.errorDialog.showSignInButton = !!options && !!options.showSignInButton;
     if (this.errorModal.hasAttribute('open')) {
       this.errorModal.close();

@@ -23,7 +23,6 @@ import static com.google.gerrit.server.project.testing.TestLabels.value;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.clearInvocations;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -76,12 +75,10 @@ import com.google.gerrit.extensions.validators.CommentValidator;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.restapi.change.OnPostReview;
-import com.google.gerrit.server.restapi.change.PostReview;
 import com.google.gerrit.server.update.CommentsRejectedException;
 import com.google.gerrit.testing.FakeEmailSender;
 import com.google.gerrit.testing.TestCommentHelper;
 import com.google.inject.Inject;
-import com.google.inject.Module;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -101,7 +98,6 @@ import org.mockito.Captor;
 /** Tests for comment validation in {@link PostReview}. */
 public class PostReviewIT extends AbstractDaemonTest {
 
-  @Inject private CommentValidator mockCommentValidator;
   @Inject private TestCommentHelper testCommentHelper;
   @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private ExtensionRegistry extensionRegistry;
@@ -127,8 +123,12 @@ public class PostReviewIT extends AbstractDaemonTest {
           COMMENT_TEXT,
           COMMENT_TEXT.length());
 
+  private static CommentValidator mockCommentValidator;
   @Captor private ArgumentCaptor<ImmutableList<CommentForValidation>> captor;
   @Captor private ArgumentCaptor<CommentValidationContext> captorCtx;
+
+  @SuppressWarnings("unused")
+  private AutoCloseable mockCommentValidatorPlugin;
 
   private static final Correspondence<CommentForValidation, CommentForValidation>
       COMMENT_CORRESPONDENCE =
@@ -141,28 +141,23 @@ public class PostReviewIT extends AbstractDaemonTest {
                       && left.getText().equals(right.getText()),
               "matches (ignoring size approximation)");
 
-  @Override
-  public Module createModule() {
-    return new FactoryModule() {
-      @Override
-      public void configure() {
-        CommentValidator mockCommentValidator = mock(CommentValidator.class);
-
-        // by default return no validation errors
-        when(mockCommentValidator.validateComments(any(), any())).thenReturn(ImmutableList.of());
-
-        bind(CommentValidator.class)
-            .annotatedWith(Exports.named(mockCommentValidator.getClass()))
-            .toInstance(mockCommentValidator);
-        bind(CommentValidator.class).toInstance(mockCommentValidator);
-      }
-    };
+  public static class MockCommentValidatorModule extends FactoryModule {
+    @Override
+    public void configure() {
+      // by default return no validation errors
+      bind(CommentValidator.class)
+          .annotatedWith(Exports.named(mockCommentValidator.getClass()))
+          .toInstance(mockCommentValidator);
+      bind(CommentValidator.class).toInstance(mockCommentValidator);
+    }
   }
 
   @Before
-  public void resetMock() {
+  public void resetMockCommentValidator() throws Exception {
+    mockCommentValidator = mock(CommentValidator.class);
     initMocks(this);
-    clearInvocations(mockCommentValidator);
+    mockCommentValidatorPlugin = super.installPlugin("validator", MockCommentValidatorModule.class);
+    when(mockCommentValidator.validateComments(any(), any())).thenReturn(ImmutableList.of());
   }
 
   @Test

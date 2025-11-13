@@ -37,6 +37,19 @@ import {
   SubmitRequirementExpressionPart,
 } from '../../../utils/submit-requirement-util';
 
+function getRequirementErrorMessage(requirement: SubmitRequirementResultInfo) {
+  if (requirement.submittability_expression_result.error_message) {
+    return requirement.submittability_expression_result.error_message;
+  }
+  if (requirement.applicability_expression_result?.error_message) {
+    return requirement.applicability_expression_result?.error_message;
+  }
+  if (requirement.override_expression_result?.error_message) {
+    return requirement.override_expression_result?.error_message;
+  }
+  return undefined;
+}
+
 // This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
 const base = HovercardMixin(LitElement);
 
@@ -128,6 +141,9 @@ export class GrSubmitRequirementHovercard extends base {
           margin-top: var(--spacing-m);
           padding: var(--spacing-m) var(--spacing-xl) 0;
         }
+        gr-formatted-text {
+          overflow-wrap: anywhere;
+        }
       `,
     ];
   }
@@ -174,11 +190,9 @@ export class GrSubmitRequirementHovercard extends base {
   private renderDescription() {
     let description = this.requirement?.description;
     if (this.requirement?.status === SubmitRequirementStatus.ERROR) {
-      const submitRecord = this.change?.submit_records?.filter(
-        record => record.rule_name === this.requirement?.name
-      );
-      if (submitRecord?.length === 1 && submitRecord[0].error_message) {
-        description = submitRecord[0].error_message;
+      const error_message = getRequirementErrorMessage(this.requirement);
+      if (error_message) {
+        description = error_message;
       }
     }
     if (!description) return;
@@ -197,7 +211,10 @@ export class GrSubmitRequirementHovercard extends base {
 
   private renderLabelSection() {
     if (!this.requirement) return;
-    const requirementLabels = extractAssociatedLabels(this.requirement);
+    const requirementLabels = extractAssociatedLabels(this.requirement, {
+      extractFromSubmittability: true,
+      extractFromOverride: 'onlyIfOverridden',
+    });
     const allLabels = this.change?.labels ?? {};
     const labels: string[] = [];
     for (const label of Object.keys(allLabels)) {
@@ -257,18 +274,18 @@ export class GrSubmitRequirementHovercard extends base {
     if (!this.account) return;
     if (this.change?.status === ChangeStatus.MERGED) return;
 
-    const submittabilityLabels = extractAssociatedLabels(
-      this.requirement,
-      'onlySubmittability'
-    );
+    const submittabilityLabels = extractAssociatedLabels(this.requirement, {
+      extractFromSubmittability: true,
+      extractFromOverride: false,
+    });
     const submittabilityVotes = submittabilityLabels.map(labelName =>
       this.renderLabelVote(labelName, 'submittability')
     );
 
-    const overrideLabels = extractAssociatedLabels(
-      this.requirement,
-      'onlyOverride'
-    );
+    const overrideLabels = extractAssociatedLabels(this.requirement, {
+      extractFromSubmittability: false,
+      extractFromOverride: 'onlyIfOverridden',
+    });
     const overrideVotes = overrideLabels.map(labelName =>
       this.renderLabelVote(labelName, 'override')
     );

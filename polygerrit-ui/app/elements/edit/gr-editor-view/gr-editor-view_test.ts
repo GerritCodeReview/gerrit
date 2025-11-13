@@ -309,6 +309,7 @@ suite('gr-editor-view tests', () => {
     test('file modification and publish', async () => {
       const saveSpy = sinon.spy(element, 'saveEdit');
       const alertStub = sinon.stub(element, 'showAlert');
+      const tapSpy = sinon.spy(element, 'handlePublishTap');
       const changeActionsStub = stubRestApi('executeChangeAction').resolves();
       saveFileStub.returns(Promise.resolve({ok: true}));
       element.newContent = newText;
@@ -328,11 +329,12 @@ suite('gr-editor-view tests', () => {
         query<GrButton>(element, '#save')!.hasAttribute('disabled')
       );
 
-      return saveSpy.lastCall.returnValue.then(() => {
+      return saveSpy.lastCall.returnValue.then(async () => {
         assert.isTrue(saveFileStub.called);
         assert.isFalse(element.saving);
 
         assert.equal(alertStub.getCall(1).args[0], 'All changes saved');
+        await tapSpy.lastCall.returnValue;
         assert.equal(alertStub.getCall(2).args[0], 'Publishing edit...');
 
         assert.isTrue(

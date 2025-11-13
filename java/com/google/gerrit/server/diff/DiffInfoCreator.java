@@ -67,7 +67,7 @@ public class DiffInfoCreator {
     this.intraline = intraline;
   }
 
-  /* Returns the {@link DiffInfo} to display for end-users */
+  /** Returns the {@link DiffInfo} to display for end-users */
   public DiffInfo create(PatchScript ps, DiffSide sideA, DiffSide sideB) {
     DiffInfo result = new DiffInfo();
 

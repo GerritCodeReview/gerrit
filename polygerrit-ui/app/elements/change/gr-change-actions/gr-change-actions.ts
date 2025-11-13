@@ -54,6 +54,7 @@ import {
   RequestPayload,
   RevertSubmissionInfo,
   ReviewInput,
+  RevisionInfo,
 } from '../../../types/common';
 import {GrConfirmAbandonDialog} from '../gr-confirm-abandon-dialog/gr-confirm-abandon-dialog';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
@@ -120,6 +121,7 @@ import {readJSONResponsePayload} from '../../shared/gr-rest-api-interface/gr-res
 import {commentsModelToken} from '../../../models/comments/comments-model';
 import {when} from 'lit/directives/when.js';
 import {ValidationOptionInfo} from '../../../api/rest-api';
+import {KnownExperimentId} from '../../../services/flags/flags';
 
 const ERR_BRANCH_EMPTY = 'The destination branch can’t be empty.';
 const ERR_COMMIT_EMPTY = 'The commit message can’t be empty.';
@@ -177,6 +179,13 @@ const QUICK_APPROVE_ACTION: QuickApproveUIActionInfo = {
   key: 'review',
   label: 'Quick approve',
   method: HttpMethod.POST,
+};
+
+const AI_CHAT_ACTION: UIActionInfo = {
+  __key: 'chat',
+  __type: ActionType.CHANGE,
+  enabled: true,
+  label: 'AI Chat',
 };
 
 function isQuickApproveAction(
@@ -267,6 +276,7 @@ const ACTIONS_WITH_ICONS = new Map<
   [ChangeActions.REVERT, {icon: 'undo'}],
   [ChangeActions.STOP_EDIT, {icon: 'stop', filled: true}],
   [QUICK_APPROVE_ACTION.key, {icon: 'check'}],
+  [AI_CHAT_ACTION.__key, {icon: 'star_shine'}],
   [RevisionActions.SUBMIT, {icon: 'done_all'}],
 ]);
 
@@ -486,11 +496,15 @@ export class GrChangeActions
 
   @state() pluginsLoaded = false;
 
+  @state() aiPluginsRegistered = false;
+
   @state() threadsWithUnappliedSuggestions?: CommentThread[];
 
   private readonly restApiService = getAppContext().restApiService;
 
   private readonly reporting = getAppContext().reportingService;
+
+  private readonly flagService = getAppContext().flagsService;
 
   private readonly getPluginLoader = resolve(this, pluginLoaderToken);
 
@@ -572,6 +586,11 @@ export class GrChangeActions
       this,
       () => this.getPluginLoader().pluginsModel.pluginsLoaded$,
       x => (this.pluginsLoaded = x)
+    );
+    subscribe(
+      this,
+      () => this.getPluginLoader().pluginsModel.aiCodeReviewPlugins$,
+      plugins => (this.aiPluginsRegistered = (plugins.length ?? 0) > 0)
     );
     subscribe(
       this,
@@ -1218,6 +1237,16 @@ export class GrChangeActions
     this._hideQuickApproveAction = true;
   }
 
+  private getAiChatAction(): UIActionInfo | null {
+    if (!this.flagService.isEnabled(KnownExperimentId.ENABLE_AI_CHAT)) {
+      return null;
+    }
+    if (!this.aiPluginsRegistered) {
+      return null;
+    }
+    return AI_CHAT_ACTION;
+  }
+
   private getQuickApproveAction(): QuickApproveUIActionInfo | null {
     if (this._hideQuickApproveAction) {
       return null;
@@ -1361,7 +1390,10 @@ export class GrChangeActions
   }
 
   // private but used in test
-  getRevision(change: ChangeInfo, patchNum?: PatchSetNumber) {
+  getRevision(
+    change: ChangeInfo,
+    patchNum?: PatchSetNumber
+  ): RevisionInfo | null {
     for (const rev of Object.values(change.revisions ?? {})) {
       if (rev._number === patchNum) {
         return rev;
@@ -1371,26 +1403,18 @@ export class GrChangeActions
   }
 
   async showRevertDialog() {
-    const change = this.change;
-    if (!change) return;
-    const query = `submissionid: "${change.submission_id}"`;
-    /* A chromium plugin expects that the modifyRevertMsg hook will only
-    be called after the revert button is pressed, hence we populate the
-    revert dialog after revert button is pressed. */
-    const [changes, validationOptions] = await Promise.all([
-      this.restApiService.getChanges(0, query),
-      this.restApiService.getValidationOptions(this.change!._number),
-    ]);
-    if (!changes) {
+    if (!this.change) return;
+    assertIsDefined(this.confirmRevertDialog, 'confirmRevertDialog');
+    if (
+      !(await this.confirmRevertDialog.populate(
+        this.change,
+        this.commitMessage
+      ))
+    ) {
+      // This indicates error in REST response that will show error dialog, no
+      // need to open revert dialog.
       return;
     }
-    assertIsDefined(this.confirmRevertDialog, 'confirmRevertDialog');
-    this.confirmRevertDialog.populate(
-      change,
-      validationOptions,
-      this.commitMessage,
-      changes.length
-    );
     this.showActionDialog(this.confirmRevertDialog);
   }
 
@@ -1472,7 +1496,7 @@ export class GrChangeActions
     if (
       !(await this.getPluginLoader().jsApiService.handleBeforeChangeAction(
         key,
-        this.change
+        this.change as ChangeInfo
       ))
     )
       return;
@@ -1490,6 +1514,10 @@ export class GrChangeActions
           return;
         }
         this.fireAction(this.prependSlash(key), action, true, action.payload);
+        break;
+      }
+      case AI_CHAT_ACTION.__key: {
+        fire(this, 'ai-chat', {});
         break;
       }
       case ChangeActions.EDIT:
@@ -1514,7 +1542,7 @@ export class GrChangeActions
         this.handleMoveTap();
         break;
       case ChangeActions.PUBLISH_EDIT:
-        this.handlePublishEditTap();
+        await this.handlePublishEditTap();
         break;
       case ChangeActions.REBASE_EDIT:
         this.handleRebaseEditTap();
@@ -1774,7 +1802,7 @@ export class GrChangeActions
     );
   }
 
-  private handlePublishEditConfirm() {
+  private async handlePublishEditConfirm() {
     this.hideAllDialogs();
 
     if (!this.actions.publishEdit) return;
@@ -1782,6 +1810,15 @@ export class GrChangeActions
     // We need to make sure that all cached version of a change
     // edit are deleted.
     this.getStorage().eraseEditableContentItemsForChangeEdit(this.changeNum);
+
+    if (
+      !(await this.getPluginLoader().jsApiService.handleBeforePublishEdit(
+        this.change as ChangeInfo
+      ))
+    ) {
+      // Exit early and abort publish if a plugin hook requests it.
+      return;
+    }
 
     this.fireAction(
       '/edit:publish',
@@ -2146,7 +2183,7 @@ export class GrChangeActions
     this.fireAction('/wip', assertUIActionInfo(this.actions.wip), false);
   }
 
-  private handlePublishEditTap() {
+  private async handlePublishEditTap() {
     if (this.numberOfThreadsWithUnappliedSuggestions() > 0) {
       assertIsDefined(
         this.confirmPublishEditDialog,
@@ -2155,7 +2192,7 @@ export class GrChangeActions
       this.showActionDialog(this.confirmPublishEditDialog);
     } else {
       // Skip confirmation dialog and publish immediately.
-      this.handlePublishEditConfirm();
+      await this.handlePublishEditConfirm();
     }
   }
 
@@ -2195,6 +2232,10 @@ export class GrChangeActions
     if (quickApprove) {
       changeActionValues.unshift(quickApprove);
     }
+    const aiChat = this.getAiChatAction();
+    if (aiChat) {
+      changeActionValues.unshift(aiChat);
+    }
 
     return revisionActionValues
       .concat(changeActionValues)
@@ -2218,7 +2259,9 @@ export class GrChangeActions
         return overrideAction.priority;
       }
     }
-    if (action.__key === 'review') {
+    if (action.__key === AI_CHAT_ACTION.__key) {
+      return ActionPriority.CHAT;
+    } else if (action.__key === QUICK_APPROVE_ACTION.__key) {
       return ActionPriority.REVIEW;
     } else if (action.__primary) {
       return ActionPriority.PRIMARY;
@@ -2322,6 +2365,7 @@ export class GrChangeActions
 
 declare global {
   interface HTMLElementEventMap {
+    'ai-chat': CustomEvent<{}>;
     'download-tap': CustomEvent<{}>;
     'edit-tap': CustomEvent<{}>;
     'included-tap': CustomEvent<{}>;

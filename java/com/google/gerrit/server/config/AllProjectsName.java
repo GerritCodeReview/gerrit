@@ -15,7 +15,7 @@
 package com.google.gerrit.server.config;
 
 import com.google.errorprone.annotations.Immutable;
-import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.Project.NameKey;
 
 /**
  * Special name of the project that all projects derive from.
@@ -23,10 +23,21 @@ import com.google.gerrit.entities.Project;
  * <p>This class is immutable and thread safe.
  */
 @Immutable
-public class AllProjectsName extends Project.NameKey {
+public record AllProjectsName(String name) implements NameKey {
   private static final long serialVersionUID = 1L;
 
-  public AllProjectsName(String name) {
-    super(name);
+  @Override
+  public int hashCode() {
+    return projectNameHashCode();
+  }
+
+  @Override
+  public boolean equals(Object b) {
+    return projectNameEquals(b);
+  }
+
+  @Override
+  public String toString() {
+    return projectNameToString();
   }
 }

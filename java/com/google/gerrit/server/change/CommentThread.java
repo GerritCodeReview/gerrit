@@ -18,6 +18,7 @@ import com.google.auto.value.AutoValue;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Streams;
+import com.google.common.flogger.FluentLogger;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.entities.Comment;
 import com.google.gerrit.entities.HumanComment;
@@ -34,6 +35,7 @@ import java.util.Optional;
  */
 @AutoValue
 public abstract class CommentThread<T extends Comment> {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   /** Comments in the thread in exactly the order they appear in the thread. */
   public abstract ImmutableList<T> comments();
@@ -45,6 +47,16 @@ public abstract class CommentThread<T extends Comment> {
             comments().stream()
                 .filter(HumanComment.class::isInstance)
                 .map(HumanComment.class::cast));
+    if (lastHumanComment.isPresent()) {
+      logger.atFine().log(
+          "last human comment in comment thread: %s -> {parentUuid = %s, unresolved = %s}",
+          lastHumanComment.get().key,
+          lastHumanComment.get().parentUuid,
+          lastHumanComment.get().unresolved);
+    } else {
+      logger.atFine().log("no human comment in comment thread");
+    }
+
     // We often use false == null for boolean fields. It's also a safe fall-back if no human comment
     // is part of the thread.
     return lastHumanComment.map(comment -> comment.unresolved).orElse(false);

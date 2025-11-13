@@ -70,7 +70,7 @@ public class GetTokens implements RestReadView<AccountResource> {
     return Response.ok(apply(rsrc.getUser()));
   }
 
-  public List<AuthTokenInfo> apply(IdentifiedUser user) {
+  public List<AuthTokenInfo> apply(IdentifiedUser user) throws IOException, ConfigInvalidException {
     List<AuthTokenInfo> authTokenInfos = new ArrayList<>();
     for (AuthToken token : tokenAccessor.getTokens(user.getAccountId())) {
       authTokenInfos.add(newTokenInfo(token));

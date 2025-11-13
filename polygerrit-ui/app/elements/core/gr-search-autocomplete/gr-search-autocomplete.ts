@@ -7,9 +7,9 @@ import '../../shared/gr-autocomplete/gr-autocomplete';
 import '../../shared/gr-icon/gr-icon';
 import {
   AutocompleteQuery,
-  AutocompleteSuggestion,
   GrAutocomplete,
 } from '../../shared/gr-autocomplete/gr-autocomplete';
+import {AutocompleteSuggestion} from '../../../utils/autocomplete-util';
 import {MergeabilityComputationBehavior} from '../../../constants/constants';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {css, html, LitElement, PropertyValues} from 'lit';
@@ -19,16 +19,11 @@ import {
   query as queryDec,
   state,
 } from 'lit/decorators.js';
-import {Shortcut, ShortcutController} from '../../lit/shortcut-controller';
 import {assertIsDefined} from '../../../utils/common-util';
 import {configModelToken} from '../../../models/config/config-model';
 import {resolve} from '../../../models/dependency';
 import {subscribe} from '../../lit/subscription-controller';
-import {
-  AutocompleteCommitEvent,
-  ValueChangedEvent,
-} from '../../../types/events';
-import {fireNoBubbleNoCompose} from '../../../utils/event-util';
+import {ValueChangedEvent} from '../../../types/events';
 import {getDocUrl} from '../../../utils/url-util';
 import '@material/web/iconbutton/icon-button';
 import {when} from 'lit/directives/when.js';
@@ -139,19 +134,12 @@ export type SuggestionProvider = (
   expression: string
 ) => Promise<AutocompleteSuggestion[]>;
 
-export interface SearchBarHandleSearchDetail {
-  inputVal: string;
-}
+@customElement('gr-search-autocomplete')
+export class GrSearchAutocomplete extends LitElement {
+  @queryDec('#queryInput') protected queryInput?: GrAutocomplete;
 
-@customElement('gr-search-bar')
-export class GrSearchBar extends LitElement {
-  /**
-   * Fired when a search is committed
-   *
-   * @event handle-search
-   */
-
-  @queryDec('#searchInput') protected searchInput?: GrAutocomplete;
+  @property({type: String})
+  placeholder = 'Search for changes';
 
   @property({type: String})
   value = '';
@@ -165,9 +153,6 @@ export class GrSearchBar extends LitElement {
   @property({type: Object})
   accountSuggestions: SuggestionProvider = () => Promise.resolve([]);
 
-  @property({type: Number})
-  verticalOffset = 31;
-
   @state()
   mergeabilityComputationBehavior?: MergeabilityComputationBehavior;
 
@@ -179,16 +164,11 @@ export class GrSearchBar extends LitElement {
 
   @state() private query: AutocompleteQuery;
 
-  @state() private threshold = 1;
-
-  private readonly shortcuts = new ShortcutController(this);
-
   private readonly getConfigModel = resolve(this, configModelToken);
 
   constructor() {
     super();
     this.query = (input: string) => this.getSearchSuggestions(input);
-    this.shortcuts.addAbstract(Shortcut.SEARCH, () => this.handleSearch());
     subscribe(
       this,
       () => this.getConfigModel().mergeabilityComputationBehavior$,
@@ -212,8 +192,11 @@ export class GrSearchBar extends LitElement {
         }
         gr-autocomplete {
           background-color: var(--view-background-color);
-          border-radius: 50px;
-          --gr-autocomplete-text-field-border-radius: 50px;
+          border-radius: var(--gr-search-bar-border-radius, 0);
+          --gr-autocomplete-text-field-border-radius: var(
+            --gr-search-bar-border-radius,
+            0
+          );
           flex: 1;
           outline: none;
         }
@@ -229,28 +212,21 @@ export class GrSearchBar extends LitElement {
     return html`
       <form>
         <gr-autocomplete
-          id="searchInput"
-          placeholder="Search for changes"
+          id="queryInput"
+          placeholder=${this.placeholder}
           .text=${this.inputVal}
           .query=${this.query}
           allow-non-suggested-values
           multi
           skip-commit-on-item-select
-          .threshold=${this.threshold}
           tab-complete
-          .verticalOffset=${this.verticalOffset}
-          @commit=${(e: AutocompleteCommitEvent) => {
-            this.handleInputCommit(e);
-          }}
           @text-changed=${(e: ValueChangedEvent) => {
-            this.handleSearchTextChanged(e);
+            this.handleQueryTextChanged(e);
           }}
         >
-          <gr-icon
-            icon="search"
-            slot="leading-icon"
-            aria-hidden="true"
-          ></gr-icon>
+          <div slot="leading-icon">
+            <slot name="leading-icon"></slot>
+          </div>
           ${when(
             this.inputVal?.length > 0,
             () => html`
@@ -259,7 +235,7 @@ export class GrSearchBar extends LitElement {
                 touch-target="none"
                 @click=${(e: Event) => {
                   e.preventDefault();
-                  this.searchInput?.clear();
+                  this.queryInput?.clear();
                 }}
               >
                 <gr-icon icon="close" title="Clear all text"></gr-icon>
@@ -298,6 +274,10 @@ export class GrSearchBar extends LitElement {
     this.inputVal = this.value;
   }
 
+  getInput() {
+    return this.inputVal;
+  }
+
   private searchOperators() {
     const set = new Set(SEARCH_OPERATORS_WITH_NEGATIONS_SET);
     if (
@@ -310,28 +290,6 @@ export class GrSearchBar extends LitElement {
       set.add('-is:mergeable');
     }
     return set;
-  }
-
-  private handleInputCommit(e: AutocompleteCommitEvent) {
-    this.preventDefaultAndNavigateToInputVal(e);
-  }
-
-  /**
-   * This function is called in a few different cases:
-   * - e.target is the search button
-   * - e.target is the gr-autocomplete widget (#searchInput)
-   * - e.target is the input element wrapped within #searchInput
-   */
-  private preventDefaultAndNavigateToInputVal(e: AutocompleteCommitEvent) {
-    e.preventDefault();
-    if (!this.inputVal) return;
-    const trimmedInput = this.inputVal.trim();
-    if (trimmedInput) {
-      const detail: SearchBarHandleSearchDetail = {
-        inputVal: this.inputVal,
-      };
-      fireNoBubbleNoCompose(this, 'handle-search', detail);
-    }
   }
 
   /**
@@ -429,19 +387,19 @@ export class GrSearchBar extends LitElement {
     });
   }
 
-  private handleSearch() {
-    assertIsDefined(this.searchInput, 'searchInput');
-    this.searchInput.focus();
-    this.searchInput.selectAll();
+  focusAndSelectAll() {
+    assertIsDefined(this.queryInput, 'queryInput');
+    this.queryInput.focus();
+    this.queryInput.selectAll();
   }
 
-  private handleSearchTextChanged(e: ValueChangedEvent) {
+  private handleQueryTextChanged(e: ValueChangedEvent) {
     this.inputVal = e.detail.value;
   }
 }
 
 declare global {
   interface HTMLElementTagNameMap {
-    'gr-search-bar': GrSearchBar;
+    'gr-search-autocomplete': GrSearchAutocomplete;
   }
 }

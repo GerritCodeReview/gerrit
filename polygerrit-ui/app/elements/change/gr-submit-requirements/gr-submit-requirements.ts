@@ -13,7 +13,7 @@ import '../../shared/gr-vote-chip/gr-vote-chip';
 import '../../checks/gr-checks-chip-for-label';
 import {css, html, LitElement, nothing, TemplateResult} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
-import {ParsedChangeInfo} from '../../../types/types';
+import {LoadingStatus, ParsedChangeInfo} from '../../../types/types';
 import {repeat} from 'lit/directives/repeat.js';
 import {
   AccountInfo,
@@ -47,6 +47,9 @@ import {
   countRunningRunsForLabel,
 } from '../../checks/gr-checks-util';
 import {subscribe} from '../../lit/subscription-controller';
+import {when} from 'lit/directives/when.js';
+import {spinnerStyles} from '../../../styles/gr-spinner-styles';
+import {changeModelToken} from '../../../models/change/change-model';
 
 /**
  * @attr {Boolean} suppress-title - hide titles, currently for hovercard view
@@ -71,10 +74,14 @@ export class GrSubmitRequirements extends LitElement {
   @state()
   runs: CheckRun[] = [];
 
+  @state()
+  requirementsLoading?: boolean;
+
   static override get styles() {
     return [
       fontStyles,
       submitRequirementsStyles,
+      spinnerStyles,
       css`
         :host([suppress-title]) .metadata-title {
           display: none;
@@ -130,11 +137,21 @@ export class GrSubmitRequirements extends LitElement {
           /* .checksChip has top: 2px, this is canceling it */
           margin-top: -2px;
         }
+        /* The basics of .loadingSpin are defined in shared styles. */
+        .loadingSpin {
+          width: calc(var(--line-height-normal) * 0.7);
+          height: calc(var(--line-height-normal) * 0.7);
+          display: inline-block;
+          vertical-align: middle;
+          margin-left: calc(var(--spacing-s));
+        }
       `,
     ];
   }
 
   private readonly getChecksModel = resolve(this, checksModelToken);
+
+  private readonly getChangeModel = resolve(this, changeModelToken);
 
   constructor() {
     super();
@@ -142,6 +159,11 @@ export class GrSubmitRequirements extends LitElement {
       this,
       () => this.getChecksModel().allRunsLatestPatchsetLatestAttempt$,
       x => (this.runs = x)
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().submittabilityLoadingStatus$,
+      x => (this.requirementsLoading = x === LoadingStatus.LOADING)
     );
   }
 
@@ -153,7 +175,6 @@ export class GrSubmitRequirements extends LitElement {
     const submit_requirements = orderSubmitRequirements(
       getRequirements(this.change)
     );
-    if (submit_requirements.length === 0) return nothing;
 
     const requirementKey = (req: SubmitRequirementResultInfo, index: number) =>
       `${index}-${req.name}`;
@@ -162,34 +183,51 @@ export class GrSubmitRequirements extends LitElement {
         id="submit-requirements-caption"
       >
         Submit Requirements
+        ${when(
+          this.requirementsLoading,
+          () =>
+            html`<span
+              class="loadingSpin"
+              title="Submit Requirements status is being updated"
+            ></span>`
+        )}
       </h3>
-      <table class="requirements" aria-labelledby="submit-requirements-caption">
-        <thead hidden>
-          <tr>
-            <th>Status</th>
-            <th>Name</th>
-            <th>Votes</th>
-          </tr>
-        </thead>
-        <tbody>
-          ${repeat(submit_requirements, requirementKey, (requirement, index) =>
-            this.renderRequirement(requirement, index)
-          )}
-        </tbody>
-      </table>
-      ${this.disableHovercards
-        ? ''
-        : submit_requirements.map(
-            (requirement, index) => html`
-              <gr-submit-requirement-hovercard
-                for="requirement-${index}-${charsOnly(requirement.name)}"
-                .requirement=${requirement}
-                .change=${this.change}
-                .account=${this.account}
-                .mutable=${this.mutable ?? false}
-              ></gr-submit-requirement-hovercard>
-            `
-          )}`;
+      ${when(
+        submit_requirements.length !== 0,
+        () => html`<table
+            class="requirements"
+            aria-labelledby="submit-requirements-caption"
+          >
+            <thead hidden>
+              <tr>
+                <th>Status</th>
+                <th>Name</th>
+                <th>Votes</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${repeat(
+                submit_requirements,
+                requirementKey,
+                (requirement, index) =>
+                  this.renderRequirement(requirement, index)
+              )}
+            </tbody>
+          </table>
+          ${this.disableHovercards
+            ? ''
+            : submit_requirements.map(
+                (requirement, index) => html`
+                  <gr-submit-requirement-hovercard
+                    for="requirement-${index}-${charsOnly(requirement.name)}"
+                    .requirement=${requirement}
+                    .change=${this.change}
+                    .account=${this.account}
+                    .mutable=${this.mutable ?? false}
+                  ></gr-submit-requirement-hovercard>
+                `
+              )}`
+      )}`;
   }
 
   private renderRequirement(
@@ -264,7 +302,10 @@ export class GrSubmitRequirements extends LitElement {
       return html`<span class="error">Error</span>`;
     }
 
-    const requirementLabels = extractAssociatedLabels(requirement);
+    const requirementLabels = extractAssociatedLabels(requirement, {
+      extractFromSubmittability: true,
+      extractFromOverride: 'onlyIfOverridden',
+    });
     const allLabels = this.change?.labels ?? {};
     const associatedLabels = Object.keys(allLabels).filter(label =>
       requirementLabels.includes(label)
@@ -362,10 +403,10 @@ export class GrSubmitRequirements extends LitElement {
       requirement.status !== SubmitRequirementStatus.OVERRIDDEN
     )
       return;
-    const requirementLabels = extractAssociatedLabels(
-      requirement,
-      showForAllLabel ? 'all' : 'onlyOverride'
-    )
+    const requirementLabels = extractAssociatedLabels(requirement, {
+      extractFromSubmittability: showForAllLabel,
+      extractFromOverride: 'onlyIfOverridden',
+    })
       .filter(label => label === forLabel)
       .filter(label => {
         const allLabels = this.change?.labels ?? {};

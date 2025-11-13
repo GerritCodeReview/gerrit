@@ -75,13 +75,13 @@ import org.junit.Test;
  * RebaseOnBehalfOfUploaderIT}.
  */
 public class RebaseChainOnBehalfOfUploaderIT extends AbstractDaemonTest {
+  private final TestMetricMaker testMetricMaker = TestMetricMaker.getInstance();
   @Inject private AccountOperations accountOperations;
   @Inject private ChangeOperations changeOperations;
   @Inject private GroupOperations groupOperations;
   @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private ExtensionRegistry extensionRegistry;
-  @Inject private TestMetricMaker testMetricMaker;
 
   @Test
   public void cannotRebaseOnBehalfOfUploaderWithAllowConflicts() throws Exception {

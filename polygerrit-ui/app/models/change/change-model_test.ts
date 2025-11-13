@@ -16,6 +16,7 @@ import {
   createMergeable,
   createParsedChange,
   createRevision,
+  createSubmitRequirementResultInfo,
   TEST_NUMERIC_CHANGE_ID,
 } from '../../test/test-data-generators';
 import {
@@ -60,6 +61,8 @@ import {navigationToken} from '../../elements/core/gr-navigation/gr-navigation';
 import {SinonStub} from 'sinon';
 import {pluginLoaderToken} from '../../elements/shared/gr-js-api-interface/gr-plugin-loader';
 import {ShowChangeDetail} from '../../elements/shared/gr-js-api-interface/gr-js-api-types';
+import {SubmittabilityInfo} from '../../services/gr-rest-api/gr-rest-api';
+import {FlagsService, KnownExperimentId} from '../../services/flags/flags';
 
 suite('updateRevisionsWithCommitShas() tests', () => {
   test('undefined edit', async () => {
@@ -219,11 +222,26 @@ suite('computeRevisionUpdatedFiles() tests', () => {
   });
 });
 
+class TestFlagService implements FlagsService {
+  public experiments: Set<string> = new Set();
+
+  finalize() {}
+
+  isEnabled(experimentId: string): boolean {
+    return this.experiments.has(experimentId);
+  }
+
+  get enabledExperiments() {
+    return [...this.experiments];
+  }
+}
+
 suite('change model tests', () => {
   let changeViewModel: ChangeViewModel;
   let changeModel: ChangeModel;
   let knownChange: ParsedChangeInfo;
   let knownChangeNoRevision: ChangeInfo;
+  let testFlagService: TestFlagService;
   const testCompleted = new Subject<void>();
 
   async function waitForLoadingStatus(
@@ -237,6 +255,7 @@ suite('change model tests', () => {
   }
 
   setup(() => {
+    testFlagService = new TestFlagService();
     changeViewModel = testResolver(changeViewModelToken);
     changeModel = new ChangeModel(
       testResolver(navigationToken),
@@ -244,7 +263,8 @@ suite('change model tests', () => {
       getAppContext().restApiService,
       testResolver(userModelToken),
       testResolver(pluginLoaderToken),
-      getAppContext().reportingService
+      getAppContext().reportingService,
+      testFlagService
     );
     knownChangeNoRevision = {
       ...createChange(),
@@ -485,6 +505,132 @@ suite('change model tests', () => {
     state = await waitForLoadingStatus(LoadingStatus.LOADED);
     assert.equal(stub.callCount, 3);
     assert.deepEqual(state?.change, updateRevisionsWithCommitShas(knownChange));
+  });
+
+  test('load submit requirements (SRs load first)', async () => {
+    testFlagService.experiments.add(
+      KnownExperimentId.ASYNC_SUBMIT_REQUIREMENTS
+    );
+    const promiseDetail = mockPromise<ParsedChangeInfo | undefined>();
+    const stubDetail = stubRestApi('getChangeDetail').callsFake(
+      () => promiseDetail
+    );
+    const promiseSrs = mockPromise<SubmittabilityInfo | undefined>();
+    const stubSrs = stubRestApi('getSubmittabilityInfo').callsFake(
+      () => promiseSrs
+    );
+    testResolver(changeViewModelToken).setState(createChangeViewState());
+    promiseSrs.resolve({
+      changeNum: knownChange._number,
+      submittable: false,
+      submitRequirements: [createSubmitRequirementResultInfo()],
+    });
+    await waitUntilObserved(
+      changeModel.state$,
+      state => state.submittabilityInfo !== undefined,
+      'SubmitRequirements was never loaded'
+    );
+    promiseDetail.resolve(knownChange);
+    const state = await waitForLoadingStatus(LoadingStatus.LOADED);
+    assert.isTrue(state.submittabilityInfo?.submittable === false);
+    assert.isTrue(state.submittabilityInfo?.submitRequirements.length === 1);
+    assert.isTrue(state.change?.submittable === false);
+    assert.isTrue(state.change?.submit_requirements?.length === 1);
+    assert.equal(stubDetail.callCount, 1);
+    assert.equal(stubSrs.callCount, 1);
+  });
+
+  test('load submit requirements (Detail load first, experiment enabled)', async () => {
+    testFlagService.experiments.add(
+      KnownExperimentId.ASYNC_SUBMIT_REQUIREMENTS
+    );
+    const promiseDetail = mockPromise<ParsedChangeInfo | undefined>();
+    const stubDetail = stubRestApi('getChangeDetail').callsFake(
+      () => promiseDetail
+    );
+    const promiseSrs = mockPromise<SubmittabilityInfo | undefined>();
+    const stubSrs = stubRestApi('getSubmittabilityInfo').callsFake(
+      () => promiseSrs
+    );
+    let state: ChangeState;
+    testResolver(changeViewModelToken).setState(createChangeViewState());
+    promiseDetail.resolve(knownChange);
+    state = await waitForLoadingStatus(LoadingStatus.LOADED);
+    promiseSrs.resolve({
+      changeNum: knownChange._number,
+      submittable: false,
+      submitRequirements: [createSubmitRequirementResultInfo()],
+    });
+    state = await waitUntilObserved(
+      changeModel.state$,
+      state => state.submittabilityInfo !== undefined,
+      'SubmitRequirements was never loaded'
+    );
+    assert.isTrue(state.submittabilityInfo?.submittable === false);
+    assert.isTrue(state.submittabilityInfo?.submitRequirements.length === 1);
+    assert.isTrue(state.change?.submittable === false);
+    assert.isTrue(state.change?.submit_requirements?.length === 1);
+    assert.equal(stubDetail.callCount, 1);
+    assert.equal(stubSrs.callCount, 1);
+  });
+
+  test('load submit requirements (experiment disabled)', async () => {
+    const promiseDetail = mockPromise<ParsedChangeInfo | undefined>();
+    const stubDetail = stubRestApi('getChangeDetail').callsFake(
+      () => promiseDetail
+    );
+    const promiseSrs = mockPromise<SubmittabilityInfo | undefined>();
+    const stubSrs = stubRestApi('getSubmittabilityInfo').callsFake(
+      () => promiseSrs
+    );
+    testResolver(changeViewModelToken).setState(createChangeViewState());
+    promiseSrs.resolve(undefined);
+    promiseDetail.resolve({
+      ...knownChange,
+      submittable: false,
+      submit_requirements: [createSubmitRequirementResultInfo()],
+    });
+    const state = await waitForLoadingStatus(LoadingStatus.LOADED);
+    // Validate that submit requirements didn't get reset to undefined.
+    assert.isTrue(state.change?.submittable === false);
+    assert.isTrue(state.change?.submit_requirements?.length === 1);
+    assert.equal(stubDetail.callCount, 1);
+    assert.equal(stubSrs.callCount, 1);
+  });
+
+  test('reload submit requirements', async () => {
+    testFlagService.experiments.add(
+      KnownExperimentId.ASYNC_SUBMIT_REQUIREMENTS
+    );
+    // Set initial state
+    const stubDetail = stubRestApi('getChangeDetail').resolves(knownChange);
+    const stubSrs = stubRestApi('getSubmittabilityInfo');
+    stubSrs.resolves({
+      changeNum: knownChange._number,
+      submittable: false,
+      submitRequirements: [createSubmitRequirementResultInfo()],
+    });
+    testResolver(changeViewModelToken).setState(createChangeViewState());
+    await waitUntilObserved(
+      changeModel.state$,
+      state => state.submittabilityInfo !== undefined,
+      'SubmitRequirements was never loaded'
+    );
+    await waitForLoadingStatus(LoadingStatus.LOADED);
+    stubSrs.resolves({
+      changeNum: knownChange._number,
+      submittable: true,
+      submitRequirements: [createSubmitRequirementResultInfo()],
+    });
+    changeModel.reloadSubmittability();
+    const state = await waitUntilObserved(
+      changeModel.state$,
+      state => state.submittabilityInfo?.submittable === true,
+      'Submittability never reloaded'
+    );
+    assert.isTrue(state.change?.submittable);
+    assert.equal(stubDetail.callCount, 1);
+    assert.equal(stubSrs.callCount, 2);
   });
 
   test('navigating to another change', async () => {

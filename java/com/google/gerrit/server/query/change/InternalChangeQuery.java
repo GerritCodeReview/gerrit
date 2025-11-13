@@ -122,6 +122,11 @@ public class InternalChangeQuery extends InternalQuery<ChangeData, InternalChang
     return query(ChangePredicates.changeNumber(id, queryBuilderArgsProvider.get()));
   }
 
+  public List<ChangeData> byProjectChangeNumber(Project.NameKey project, Change.Id id) {
+    return query(
+        and(project(project), ChangePredicates.changeNumber(id, queryBuilderArgsProvider.get())));
+  }
+
   @UsedAt(UsedAt.Project.GOOGLE)
   public List<ChangeData> byLegacyChangeIds(Collection<Change.Id> ids) {
     List<Predicate<ChangeData>> preds = new ArrayList<>(ids.size());

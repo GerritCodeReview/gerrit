@@ -236,10 +236,7 @@ suite('gr-confirm-cherrypick-dialog tests', () => {
       const executeChangeActionStub = stubRestApi(
         'executeChangeAction'
       ).resolves(new Response());
-      const checkboxes = queryAll<HTMLInputElement>(
-        element,
-        'input[type="checkbox"]'
-      );
+      const checkboxes = queryAll<HTMLInputElement>(element, 'md-checkbox');
       assert.equal(checkboxes.length, 2);
       assert.isTrue(checkboxes[0].checked);
       checkboxes[0].click();
@@ -253,13 +250,11 @@ suite('gr-confirm-cherrypick-dialog tests', () => {
     test('deselecting all change disables the confirm button', async () => {
       element.branch = 'master' as BranchName;
       await element.updateComplete;
-      const checkboxes = queryAll<HTMLInputElement>(
-        element,
-        'input[type="checkbox"]'
-      );
+      const checkboxes = queryAll<HTMLInputElement>(element, 'md-checkbox');
       assert.equal(checkboxes.length, 2);
       assert.equal(element.cherryPickType, CHERRY_PICK_TYPES.TOPIC);
       checkboxes[0].click();
+      await element.updateComplete;
       checkboxes[1].click();
       await element.updateComplete;
       assert.isTrue(

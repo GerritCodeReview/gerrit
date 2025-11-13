@@ -20,6 +20,7 @@ import {customElement, state} from 'lit/decorators.js';
 import {ifDefined} from 'lit/directives/if-defined.js';
 import '@material/web/textfield/outlined-text-field';
 import {materialStyles} from '../../../styles/gr-material-styles';
+import '@material/web/radio/radio';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -111,15 +112,15 @@ export class GrClaView extends LitElement {
   private renderAgreementsButton(item: ContributorAgreementInfo) {
     return html`
       <span class="contributorAgreementButton">
-        <input
+        <md-radio
           id="claNewAgreementsInput${item.name}"
           name="claNewAgreementsRadio"
-          type="radio"
           data-name=${ifDefined(item.name)}
           data-url=${ifDefined(item.url)}
-          @click=${this.handleShowAgreement}
           ?disabled=${this.disableAgreements(item)}
-        />
+          @change=${this.handleShowAgreement}
+        >
+        </md-radio>
         <label id="claNewAgreementsLabel">${item.name}</label>
       </span>
       ${this.renderAlreadySubmittedText(item)}

@@ -68,7 +68,7 @@ export class GrJsApiInterface implements JsApiService, Finalizable {
 
   async handleBeforeChangeAction(
     key: string,
-    change?: ParsedChangeInfo
+    change?: ChangeInfo
   ): Promise<boolean> {
     let okay = true;
     for (const cb of this._getEventCallbacks(EventType.BEFORE_CHANGE_ACTION)) {
@@ -76,6 +76,19 @@ export class GrJsApiInterface implements JsApiService, Finalizable {
         okay = (await cb(key, change)) && okay;
       } catch (err: unknown) {
         this.reportError(err, EventType.BEFORE_CHANGE_ACTION);
+      }
+    }
+    return okay;
+  }
+
+  async handleBeforePublishEdit(change: ChangeInfo): Promise<boolean> {
+    await this.waitForPluginsToLoad();
+    let okay = true;
+    for (const cb of this._getEventCallbacks(EventType.BEFORE_PUBLISH_EDIT)) {
+      try {
+        okay = (await cb(change)) && okay;
+      } catch (err: unknown) {
+        this.reportError(err, EventType.BEFORE_PUBLISH_EDIT);
       }
     }
     return okay;
@@ -193,6 +206,23 @@ export class GrJsApiInterface implements JsApiService, Finalizable {
         this.reportError(err, EventType.SHOW_REVISION_ACTIONS);
       }
     }
+  }
+
+  async handleBeforeCommitMessage(
+    change: ChangeInfo | ParsedChangeInfo,
+    msg: string
+  ): Promise<boolean> {
+    let okay = true;
+    for (const cb of this._getEventCallbacks(
+      EventType.BEFORE_COMMIT_MSG_EDIT
+    )) {
+      try {
+        okay = (await cb(change, msg)) && okay;
+      } catch (err: unknown) {
+        this.reportError(err, EventType.BEFORE_COMMIT_MSG_EDIT);
+      }
+    }
+    return okay;
   }
 
   handleCommitMessage(change: ChangeInfo | ParsedChangeInfo, msg: string) {

@@ -643,7 +643,11 @@ public class AccountApiImpl implements AccountApi {
 
   @Override
   public List<AuthTokenInfo> getTokens() throws RestApiException {
-    return getTokens.apply(account.getUser());
+    try {
+      return getTokens.apply(account.getUser());
+    } catch (Exception e) {
+      throw asRestApiException("Cannot get tokens", e);
+    }
   }
 
   @Nullable

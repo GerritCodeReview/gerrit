@@ -30,12 +30,14 @@ import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.SubmitRecord;
 import com.google.gerrit.exceptions.StorageException;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.PluginPushOption;
 import com.google.gerrit.server.ValidationOptionsListener;
 import com.google.gerrit.server.change.EmailReviewComments;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.flow.Flow;
+import com.google.gerrit.server.flow.FlowActionType;
 import com.google.gerrit.server.flow.FlowCreation;
 import com.google.gerrit.server.flow.FlowExpression;
 import com.google.gerrit.server.flow.FlowKey;
@@ -189,6 +191,8 @@ public class TestExtensions {
      */
     private boolean rejectFlowDeletion;
 
+    private ImmutableList<FlowActionType> actions = ImmutableList.of();
+
     /** Makes the flow service reject all flow creations. */
     public void rejectFlowCreation() {
       this.rejectFlowCreation = true;
@@ -197,6 +201,10 @@ public class TestExtensions {
     /** Makes the flow service reject all flow deletions. */
     public void rejectFlowDeletion() {
       this.rejectFlowDeletion = true;
+    }
+
+    public void setActions(ImmutableList<FlowActionType> actions) {
+      this.actions = actions;
     }
 
     @Override
@@ -231,6 +239,19 @@ public class TestExtensions {
               .build();
       flows.put(flowKey, flow);
       return flow;
+    }
+
+    @Override
+    public Boolean isFlowsEnabled(Project.NameKey projectName, Change.Id changeId)
+        throws RestApiException {
+      // Always return true for testing purposes.
+      return true;
+    }
+
+    @Override
+    public ImmutableList<FlowActionType> listActions(
+        Project.NameKey projectName, Change.Id changeId) throws StorageException {
+      return actions;
     }
 
     @Override

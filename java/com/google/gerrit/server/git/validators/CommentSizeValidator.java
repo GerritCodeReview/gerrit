@@ -44,9 +44,6 @@ public class CommentSizeValidator implements CommentValidator {
   private boolean exceedsSizeLimit(CommentForValidation comment) {
     return switch (comment.getSource()) {
       case HUMAN -> commentSizeLimit > 0 && comment.getApproximateSize() > commentSizeLimit;
-      default ->
-          throw new RuntimeException(
-              "Unknown comment source (should not have compiled): " + comment.getSource());
     };
   }
 
@@ -56,9 +53,6 @@ public class CommentSizeValidator implements CommentValidator {
           String.format(
               "Comment size exceeds limit (%d > %d)",
               comment.getApproximateSize(), commentSizeLimit);
-      default ->
-          throw new RuntimeException(
-              "Unknown comment source (should not have compiled): " + comment.getSource());
     };
   }
 }

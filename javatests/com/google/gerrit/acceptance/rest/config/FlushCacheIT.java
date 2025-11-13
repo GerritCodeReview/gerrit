@@ -32,19 +32,20 @@ public class FlushCacheIT extends AbstractDaemonTest {
 
   @Test
   public void flushCache() throws Exception {
-    // access the admin group once so that it is loaded into the group cache
+    // get the groups of the admin user once so that group memberships are loaded into the
+    // groups_bymember cache
     @SuppressWarnings("unused")
-    var unused = adminGroup();
+    var unused = adminRestSession.get("/accounts/self/groups");
 
-    RestResponse r = adminRestSession.get("/config/server/caches/groups_byname");
+    RestResponse r = adminRestSession.get("/config/server/caches/groups_bymember");
     CacheInfo result = newGson().fromJson(r.getReader(), CacheInfo.class);
     assertThat(result.entries.mem).isGreaterThan((long) 0);
 
-    r = adminRestSession.post("/config/server/caches/groups_byname/flush");
+    r = adminRestSession.post("/config/server/caches/groups_bymember/flush");
     r.assertOK();
     r.consume();
 
-    r = adminRestSession.get("/config/server/caches/groups_byname");
+    r = adminRestSession.get("/config/server/caches/groups_bymember");
     result = newGson().fromJson(r.getReader(), CacheInfo.class);
     assertThat(result.entries.mem).isNull();
   }

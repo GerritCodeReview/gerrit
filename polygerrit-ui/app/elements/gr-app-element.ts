@@ -297,17 +297,20 @@ export class GrAppElement extends LitElement {
             header should be shown on top of the sticky diff header, which has a
             z-index of 110. */
           z-index: 111;
+          position: sticky;
+          top: 0;
         }
         footer {
           background: var(
             --footer-background,
             var(--footer-background-color, #eee)
           );
+          height: var(--main-footer-height);
           border-top: var(--footer-border-top);
           display: flex;
           justify-content: space-between;
           padding: var(--spacing-m) var(--spacing-l);
-          z-index: 100;
+          z-index: 10;
         }
         main {
           flex: 1;

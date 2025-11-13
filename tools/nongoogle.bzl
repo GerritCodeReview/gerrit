@@ -13,13 +13,9 @@ AUTO_FACTORY_VERSION = "1.0.1"
 
 AUTO_VALUE_VERSION = "1.11.0"
 
-GUAVA_VERSION = "33.4.0-jre"
+GUAVA_VERSION = "33.4.8-jre"
 
-GUAVA_BIN_SHA1 = "03fcc0a259f724c7de54a6a55ea7e26d3d5c0cac"
-
-GUAVA_TESTLIB_BIN_SHA1 = "e849ea71846b5ca96387d543c7ac862f18fe2513"
-
-GUAVA_DOC_URL = "https://google.github.io/guava/releases/" + GUAVA_VERSION + "/api/docs/"
+GUAVA_DOC_URL = "https://guava.dev/releases/" + GUAVA_VERSION + "/api/docs/"
 
 def archive_dependencies():
     return [
@@ -133,8 +129,8 @@ def declare_nongoogle_deps():
 
     maven_jar(
         name = "dropwizard-core",
-        artifact = "io.dropwizard.metrics:metrics-core:4.2.30",
-        sha1 = "4c0093ffbe0d6a90253e47277ce6dc4f759aff7b",
+        artifact = "io.dropwizard.metrics:metrics-core:4.2.37",
+        sha1 = "2d7ecb8e2b4d292c7eb87ab28cda586cb9773056",
     )
 
     SSHD_VERS = "2.16.0"
@@ -190,8 +186,8 @@ def declare_nongoogle_deps():
 
     maven_jar(
         name = "commons-io",
-        artifact = "commons-io:commons-io:2.18.0",
-        sha1 = "44084ef756763795b31c578403dd028ff4a22950",
+        artifact = "commons-io:commons-io:2.20.0",
+        sha1 = "36f3474daec2849c149e877614e7f979b2082cd2",
     )
 
     # Google internal dependencies: these are developed at Google, so there is
@@ -262,13 +258,13 @@ def declare_nongoogle_deps():
     maven_jar(
         name = "guava",
         artifact = "com.google.guava:guava:" + GUAVA_VERSION,
-        sha1 = GUAVA_BIN_SHA1,
+        sha1 = "e70a3268e6cd3e7d458aa15787ce6811c34e96ae",
     )
 
     maven_jar(
         name = "guava-testlib",
         artifact = "com.google.guava:guava-testlib:" + GUAVA_VERSION,
-        sha1 = GUAVA_TESTLIB_BIN_SHA1,
+        sha1 = "7443cfac765d74b8a31bbe6c49357715e32f714c",
     )
 
     GUICE_VERS = "6.0.0"
@@ -355,42 +351,42 @@ def declare_nongoogle_deps():
         sha1 = "4b88990178086ffdd482246b35a5a48b4d26896c",
     )
 
-    LUCENE_VERS = "10.1.0"
+    LUCENE_VERS = "10.2.2"
 
     maven_jar(
         name = "lucene-core",
         artifact = "org.apache.lucene:lucene-core:" + LUCENE_VERS,
-        sha1 = "65d7670de89a72433ef374b332da679a484d3a1e",
+        sha1 = "336a9c4b24e5704bd5fd71af794cce80f479a3ae",
     )
 
     maven_jar(
         name = "lucene-analyzers-common",
         artifact = "org.apache.lucene:lucene-analysis-common:" + LUCENE_VERS,
-        sha1 = "ddbc824a311d49a54f5808d5a01d5c52424c48b8",
+        sha1 = "2c35eb96330d96b6ffb61856ce2cd886a5656c81",
     )
 
     maven_jar(
         name = "lucene-backward-codecs",
         artifact = "org.apache.lucene:lucene-backward-codecs:" + LUCENE_VERS,
-        sha1 = "fbbebd58f1505cc70d73dbdbb8196bfc29b9cf08",
+        sha1 = "848ccaaadbcc97c84c09ad808fe4354af00449d9",
     )
 
     maven_jar(
         name = "lucene-misc",
         artifact = "org.apache.lucene:lucene-misc:" + LUCENE_VERS,
-        sha1 = "ae1104521d00501e18e3c18c2b326f15589cc873",
+        sha1 = "047de3cefc3aa78ba11593d72c60f5b17a611c73",
     )
 
     maven_jar(
         name = "lucene-queryparser",
         artifact = "org.apache.lucene:lucene-queryparser:" + LUCENE_VERS,
-        sha1 = "2774ab95128b0615568a4861b9a56f24511f774a",
+        sha1 = "bb94dc5a00f01ccc7dc6804388bc7fe9f0070c75",
     )
 
     maven_jar(
         name = "h2",
-        artifact = "com.h2database:h2:2.3.232",
-        sha1 = "4fcc05d966ccdb2812ae8b9a718f69226c0cf4e2",
+        artifact = "com.h2database:h2:2.4.240",
+        sha1 = "686180ad33981ad943fdc0ab381e619b2c2fdfe5",
     )
 
     # JGit's transitive dependencies

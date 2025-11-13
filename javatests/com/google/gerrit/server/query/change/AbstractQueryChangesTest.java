@@ -74,10 +74,12 @@ import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.changes.AttentionSetInput;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
+import com.google.gerrit.extensions.api.changes.ChangeIdentifier;
 import com.google.gerrit.extensions.api.changes.Changes.QueryRequest;
 import com.google.gerrit.extensions.api.changes.CustomKeyedValuesInput;
 import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.api.changes.HashtagsInput;
+import com.google.gerrit.extensions.api.changes.PublishChangeEditInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.DraftHandling;
 import com.google.gerrit.extensions.api.changes.ReviewerInput;
@@ -93,6 +95,7 @@ import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
+import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -1585,6 +1588,147 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
         assertThrows(
             BadRequestException.class,
             () -> assertQuery("label:Code-Review=+2,user=non_committer"));
+    assertThat(thrown)
+        .hasMessageThat()
+        .isEqualTo("non_committer arg is not allowed in change queries");
+  }
+
+  @Test
+  public void byLabelWithAndOperator() throws Exception {
+    Account.Id anotherUser = createAccount("anotheruser");
+    Project.NameKey project = Project.nameKey("repo");
+    repo = createAndOpenProject(project);
+    ChangeInserter ins = newChange(repo);
+    ChangeInserter ins2 = newChange(repo);
+    ChangeInserter ins4 = newChange(repo);
+    ChangeInserter ins5 = newChange(repo);
+    ChangeInserter ins6 = newChange(repo);
+
+    Change reviewMinus2Change = insert(project, ins);
+    getChangeApi(reviewMinus2Change).current().review(ReviewInput.reject());
+
+    Change reviewMinus1Change = insert(project, ins2);
+    getChangeApi(reviewMinus1Change).current().review(ReviewInput.dislike());
+
+    Change reviewPlus1Change = insert(project, ins4);
+    getChangeApi(reviewPlus1Change).current().review(ReviewInput.recommend());
+
+    Change reviewTwoPlus1Change = insert(project, ins5);
+    getChangeApi(reviewTwoPlus1Change).current().review(ReviewInput.recommend());
+    setRequestContextForUser(createAccount("user1"));
+    getChangeApi(reviewTwoPlus1Change).current().review(ReviewInput.recommend());
+    setRequestContextForUser(userId);
+
+    Change reviewPlus2Change = insert(project, ins6);
+    getChangeApi(reviewPlus2Change).current().review(ReviewInput.approve());
+
+    assertQuery("label:Code-Review=+1&" + anotherUser);
+    assertQuery(
+        String.format("label:Code-Review=+1&%s", userAccount.preferredEmail()),
+        reviewTwoPlus1Change,
+        reviewPlus1Change);
+    assertQuery(
+        String.format("label:Code-Review=+1&user=%s", userAccount.preferredEmail()),
+        reviewTwoPlus1Change,
+        reviewPlus1Change);
+    assertQuery("label:Code-Review=+1&Administrators", reviewTwoPlus1Change, reviewPlus1Change);
+    assertQuery(
+        "label:Code-Review=+1&group=Administrators", reviewTwoPlus1Change, reviewPlus1Change);
+    assertQuery("label:Code-Review=+1&user=owner", reviewTwoPlus1Change, reviewPlus1Change);
+    assertQuery("label:Code-Review=+1&owner", reviewTwoPlus1Change, reviewPlus1Change);
+    assertQuery("label:Code-Review=+2&owner", reviewPlus2Change);
+    assertQuery("label:Code-Review=-2&owner", reviewMinus2Change);
+
+    // count=0 is not allowed
+    Exception thrown =
+        assertThrows(BadRequestException.class, () -> assertQuery("label:Code-Review=+2&count=0"));
+    assertThat(thrown).hasMessageThat().isEqualTo("Argument count=0 is not allowed.");
+    assertQuery("label:Code-Review=1&count=1", reviewPlus1Change);
+    assertQuery("label:Code-Review=1&count=2", reviewTwoPlus1Change);
+    assertQuery("label:Code-Review=1&count>=2", reviewTwoPlus1Change);
+    assertQuery("label:Code-Review=1&count>1", reviewTwoPlus1Change);
+    assertQuery("label:Code-Review=1&count>=1", reviewTwoPlus1Change, reviewPlus1Change);
+    assertQuery("label:Code-Review=1&count=3");
+    thrown =
+        assertThrows(BadRequestException.class, () -> assertQuery("label:Code-Review=1&count=7"));
+    assertThat(thrown)
+        .hasMessageThat()
+        .isEqualTo("count=7 is not allowed. Maximum allowed value for count is 5.");
+
+    assertQuery("label:Code-Review=1&count<5", reviewTwoPlus1Change, reviewPlus1Change);
+    assertQuery("label:Code-Review=1&count<=5", reviewTwoPlus1Change, reviewPlus1Change);
+    assertQuery(
+        "label:Code-Review=1&count<=1", // reviewTwoPlus1Change is not matched since its count=2
+        reviewPlus1Change);
+    assertQuery(
+        "label:Code-Review=1&count<5 label:Code-Review=1&count>=1",
+        reviewTwoPlus1Change,
+        reviewPlus1Change);
+    assertQuery(
+        "label:Code-Review=1&count<=5 label:Code-Review=1&count>=1",
+        reviewTwoPlus1Change,
+        reviewPlus1Change);
+    assertQuery("label:Code-Review=1&count<=1 label:Code-Review=1&count>=1", reviewPlus1Change);
+
+    assertQuery("label:Code-Review=MAX&count=1", reviewPlus2Change);
+    assertQuery("label:Code-Review=MAX&count=2");
+    assertQuery("label:Code-Review=MIN&count=1", reviewMinus2Change);
+    assertQuery("label:Code-Review=MIN&count>1");
+    assertQuery("label:Code-Review=MAX&count<2", reviewPlus2Change);
+    assertQuery("label:Code-Review=MIN&count<1");
+    assertQuery("label:Code-Review=MAX&count<2 label:Code-Review=MAX&count>=1", reviewPlus2Change);
+    assertQuery("label:Code-Review=MIN&count<1 label:Code-Review=MIN&count>=1");
+    assertQuery("label:Code-Review>=+1&count=2", reviewTwoPlus1Change);
+
+    // "count" and "user" args cannot be used simultaneously.
+    thrown =
+        assertThrows(
+            BadRequestException.class,
+            () -> assertQuery("label:Code-Review=+1&user=non_uploader&count=2"));
+    assertThat(thrown)
+        .hasMessageThat()
+        .isEqualTo("Cannot use the 'count' argument in conjunction with the 'user' argument");
+
+    // "count" and "group" args cannot be used simultaneously.
+    thrown =
+        assertThrows(
+            BadRequestException.class,
+            () -> assertQuery("label:Code-Review=+1&group=gerrit&count=2"));
+    assertThat(thrown)
+        .hasMessageThat()
+        .isEqualTo("Cannot use the 'count' argument in conjunction with the 'group' argument");
+
+    // "user" and "group" args cannot be used simultaneously.
+    thrown =
+        assertThrows(
+            BadRequestException.class,
+            () -> assertQuery("label:Code-Review=+1&user=non_uploader&group=gerrit"));
+    assertThat(thrown)
+        .hasMessageThat()
+        .isEqualTo("Cannot use the 'user' argument in conjunction with the 'group' argument");
+
+    // "non_contributor" arg for the label operator is not allowed in change queries
+    thrown =
+        assertThrows(
+            BadRequestException.class,
+            () -> assertQuery("label:Code-Review=+2&user=non_contributor"));
+    assertThat(thrown)
+        .hasMessageThat()
+        .isEqualTo("non_contributor arg is not allowed in change queries");
+
+    // "non_auther" arg for the label operator is not allowed in change queries
+    thrown =
+        assertThrows(
+            BadRequestException.class, () -> assertQuery("label:Code-Review=+2&user=non_author"));
+    assertThat(thrown)
+        .hasMessageThat()
+        .isEqualTo("non_author arg is not allowed in change queries");
+
+    // "non_committer" arg for the label operator is not allowed in change queries
+    thrown =
+        assertThrows(
+            BadRequestException.class,
+            () -> assertQuery("label:Code-Review=+2&user=non_committer"));
     assertThat(thrown)
         .hasMessageThat()
         .isEqualTo("non_committer arg is not allowed in change queries");
@@ -3595,28 +3739,47 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     Change change2 = insert(project, newChange(repo));
     Change change3 = insert(project, newChange(repo));
 
+    Change change4 = insert(project, newChangeWithFiles(repo, "oldPath"));
+    ChangeIdentifier changeIdentifier4 =
+        ChangeIdentifier.byProjectAndNumericChangeId(project.get(), change4.getChangeId());
+
     // Change1 has one resolved comment (unresolvedcount = 0)
     // Change2 has one unresolved comment (unresolvedcount = 1)
     // Change3 has one resolved comment and one unresolved comment (unresolvedcount = 1)
+    // Change4 has one unresolved comment on a newly added file that will be renamed below
+    // (unresolvedcount = 1)
     addComment(change1, "comment 1", false);
     addComment(change2, "comment 2", true);
     addComment(change3, "comment 3", false);
     addComment(change3, "comment 4", true);
+    addComment(change4, "comment 5", true, "oldPath");
 
-    assertQuery("has:unresolved", change3, change2);
+    // Rename the file in Change4.
+    gApi.changes().id(changeIdentifier4).edit().create();
+    gApi.changes().id(changeIdentifier4).edit().renameFile("oldPath", "newPath");
+    gApi.changes().id(changeIdentifier4).edit().publish(new PublishChangeEditInput());
+
+    // Assert that the rename has been detected as such.
+    Map<String, FileInfo> files = gApi.changes().id(changeIdentifier4).current().files("1");
+    assertThat(files.keySet()).containsExactly(Patch.COMMIT_MSG, "newPath");
+    assertThat(files.get("newPath").oldPath).isEqualTo("oldPath");
+
+    assertQuery("has:unresolved", change4, change3, change2);
 
     assertQuery("unresolved:0", change1);
-    List<ChangeInfo> changeInfos = assertQuery("unresolved:>=0", change3, change2, change1);
-    assertThat(changeInfos.get(0).unresolvedCommentCount).isEqualTo(1); // Change3
-    assertThat(changeInfos.get(1).unresolvedCommentCount).isEqualTo(1); // Change2
-    assertThat(changeInfos.get(2).unresolvedCommentCount).isEqualTo(0); // Change1
-    assertQuery("unresolved:>0", change3, change2);
+    List<ChangeInfo> changeInfos =
+        assertQuery("unresolved:>=0", change4, change3, change2, change1);
+    assertThat(changeInfos.get(0).unresolvedCommentCount).isEqualTo(1); // Change4
+    assertThat(changeInfos.get(1).unresolvedCommentCount).isEqualTo(1); // Change3
+    assertThat(changeInfos.get(2).unresolvedCommentCount).isEqualTo(1); // Change2
+    assertThat(changeInfos.get(3).unresolvedCommentCount).isEqualTo(0); // Change1
+    assertQuery("unresolved:>0", change4, change3, change2);
 
     assertQuery("unresolved:<1", change1);
-    assertQuery("unresolved:<=1", change3, change2, change1);
-    assertQuery("unresolved:1", change3, change2);
+    assertQuery("unresolved:<=1", change4, change3, change2, change1);
+    assertQuery("unresolved:1", change4, change3, change2);
     assertQuery("unresolved:>1");
-    assertQuery("unresolved:>=1", change3, change2);
+    assertQuery("unresolved:>=1", change4, change3, change2);
   }
 
   @Test
@@ -4902,18 +5065,23 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     if (gApi.groups().query(emptyGroupName).get().isEmpty()) {
       createGroup(emptyGroupName, "Administrators");
     }
-    String queryPattern =
-        "(status:new OR status:merged OR status:abandoned) AND (reviewerin:\"%s\" OR %s)";
-    return String.format(queryPattern, emptyGroupName, searchTerm);
+    return String.format(
+        "(status:new OR status:merged OR status:abandoned) AND (reviewerin:\"%s\" OR %s)",
+        emptyGroupName, searchTerm);
   }
 
   private void addComment(Change change, String message, Boolean unresolved) throws Exception {
+    addComment(change, message, unresolved, Patch.COMMIT_MSG);
+  }
+
+  private void addComment(Change change, String message, Boolean unresolved, String filePath)
+      throws Exception {
     ReviewInput input = new ReviewInput();
     ReviewInput.CommentInput comment = new ReviewInput.CommentInput();
     comment.line = 1;
     comment.message = message;
     comment.unresolved = unresolved;
-    input.comments = ImmutableMap.of(Patch.COMMIT_MSG, ImmutableList.of(comment));
+    input.comments = ImmutableMap.of(filePath, ImmutableList.of(comment));
     getChangeApi(change).current().review(input);
   }
 

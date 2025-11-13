@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../../shared/gr-account-chip/gr-account-chip';
-import {css, html, LitElement, PropertyValues} from 'lit';
+import {css, html, LitElement} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {when} from 'lit/directives/when.js';
 import {
@@ -32,6 +32,11 @@ import {subscribe} from '../../lit/subscription-controller';
 import {formStyles} from '../../../styles/form-styles';
 import {GrValidationOptions} from '../gr-validation-options/gr-validation-options';
 import {GrChangeAutocomplete} from '../gr-change-autocomplete/gr-change-autocomplete';
+import '@material/web/radio/radio';
+import {MdRadio} from '@material/web/radio/radio';
+import {materialStyles} from '../../../styles/gr-material-styles';
+import {spinnerStyles} from '../../../styles/gr-spinner-styles';
+import '@material/web/checkbox/checkbox';
 
 export interface ConfirmRebaseEventDetail {
   base: string | null;
@@ -68,7 +73,13 @@ export class GrConfirmRebaseDialog
   disableActions = false;
 
   @state()
+  private loading = false;
+
+  @state()
   changeNum?: NumericChangeId;
+
+  @state()
+  project?: string;
 
   @state()
   hasParent?: boolean;
@@ -95,13 +106,13 @@ export class GrConfirmRebaseDialog
   committerEmailDropdownItems: EmailInfo[] = [];
 
   @query('#rebaseOnParentInput')
-  private rebaseOnParentInput?: HTMLInputElement;
+  private rebaseOnParentInput?: MdRadio;
 
   @query('#rebaseOnTipInput')
-  private rebaseOnTipInput?: HTMLInputElement;
+  private rebaseOnTipInput?: MdRadio;
 
   @query('#rebaseOnOtherInput')
-  rebaseOnOtherInput?: HTMLInputElement;
+  rebaseOnOtherInput?: MdRadio;
 
   @query('#rebaseAllowConflicts')
   private rebaseAllowConflicts?: HTMLInputElement;
@@ -157,6 +168,11 @@ export class GrConfirmRebaseDialog
     );
     subscribe(
       this,
+      () => this.getChangeModel().repo$,
+      x => (this.project = x)
+    );
+    subscribe(
+      this,
       () => this.getRelatedChangesModel().hasParent$,
       x => (this.hasParent = x)
     );
@@ -172,19 +188,12 @@ export class GrConfirmRebaseDialog
     this.loadCommitterEmailDropdownItems();
   }
 
-  override willUpdate(changedProperties: PropertyValues): void {
-    if (
-      changedProperties.has('rebaseOnCurrent') ||
-      changedProperties.has('hasParent')
-    ) {
-      this.updateSelectedOption();
-    }
-  }
-
   static override get styles() {
     return [
       formStyles,
       sharedStyles,
+      materialStyles,
+      spinnerStyles,
       css`
         :host {
           display: block;
@@ -200,22 +209,49 @@ export class GrConfirmRebaseDialog
         .message {
           font-style: italic;
         }
+        .parentRevisionContainer {
+          margin-top: var(--spacing-m);
+        }
         .parentRevisionContainer label,
         .parentRevisionContainer input[type='text'] {
           display: block;
           width: 100%;
         }
-        .rebaseCheckbox {
-          margin-top: var(--spacing-m);
+        div.rebaseOption,
+        div.checkbox-container {
+          display: flex;
+          align-items: center;
+          gap: var(--spacing-m);
+          margin-top: var(--spacing-xl);
         }
-        .rebaseOption {
-          margin: var(--spacing-m) 0;
+        .rebaseCheckbox {
+          margin-top: var(--spacing-xl);
         }
         .rebaseOnBehalfMsg {
           margin-top: var(--spacing-m);
         }
         .rebaseWithCommitterEmail {
           margin-top: var(--spacing-m);
+        }
+        .main {
+          margin-top: var(--spacing-xl);
+          margin-bottom: var(--spacing-xl);
+        }
+        .loadingSpin {
+          width: calc(var(--line-height-normal) - 2px);
+          height: calc(var(--line-height-normal) - 2px);
+          display: inline-block;
+          vertical-align: top;
+          position: relative;
+          top: 1px;
+        }
+        .zeroState {
+          color: var(--deemphasized-text-color);
+        }
+        @media screen and (max-width: 50em) {
+          #confirmDialog {
+            height: 90vh;
+          }
         }
       `,
     ];
@@ -231,130 +267,149 @@ export class GrConfirmRebaseDialog
         @cancel=${this.handleCancelTap}
       >
         <div class="header" slot="header">Confirm rebase</div>
-        <div class="main" slot="main">
-          <div
-            id="rebaseOnParent"
-            class="rebaseOption"
-            ?hidden=${!this.displayParentOption()}
+        <div class="main" slot="main">${this.renderRebaseDialog()}</div>
+      </gr-dialog>
+    `;
+  }
+
+  private renderRebaseDialog() {
+    return html` <div
+        id="rebaseOnParent"
+        class="rebaseOption loading"
+        ?hidden=${!this.displayParentOption()}
+      >
+        <md-radio
+          id="rebaseOnParentInput"
+          name="rebaseOptions"
+          ?checked=${this.displayParentOption()}
+        >
+        </md-radio>
+        <label id="rebaseOnParentLabel" for="rebaseOnParentInput">
+          Rebase on parent change
+        </label>
+      </div>
+      <div class="message" ?hidden=${this.hasParent !== undefined}>
+        Still loading parent information ...
+      </div>
+      <div
+        id="parentUpToDateMsg"
+        class="message"
+        ?hidden=${!this.displayParentUpToDateMsg()}
+      >
+        This change is up to date with its parent.
+      </div>
+      <div
+        id="rebaseOnTip"
+        class="rebaseOption"
+        ?hidden=${!this.displayTipOption()}
+      >
+        <md-radio
+          id="rebaseOnTipInput"
+          name="rebaseOptions"
+          ?checked=${!this.displayParentOption() && this.displayTipOption()}
+          ?disabled=${!this.displayTipOption()}
+        >
+        </md-radio>
+        <label id="rebaseOnTipLabel" for="rebaseOnTipInput">
+          Rebase on top of the ${this.branch} branch<span
+            ?hidden=${!this.hasParent || this.shouldRebaseChain}
           >
-            <input id="rebaseOnParentInput" name="rebaseOptions" type="radio" />
-            <label id="rebaseOnParentLabel" for="rebaseOnParentInput">
-              Rebase on parent change
-            </label>
-          </div>
-          <div class="message" ?hidden=${this.hasParent !== undefined}>
-            Still loading parent information ...
-          </div>
-          <div
-            id="parentUpToDateMsg"
-            class="message"
-            ?hidden=${!this.displayParentUpToDateMsg()}
-          >
-            This change is up to date with its parent.
-          </div>
-          <div
-            id="rebaseOnTip"
-            class="rebaseOption"
-            ?hidden=${!this.displayTipOption()}
-          >
-            <input
-              id="rebaseOnTipInput"
-              name="rebaseOptions"
-              type="radio"
-              ?disabled=${!this.displayTipOption()}
-            />
-            <label id="rebaseOnTipLabel" for="rebaseOnTipInput">
-              Rebase on top of the ${this.branch} branch<span
-                ?hidden=${!this.hasParent || this.shouldRebaseChain}
-              >
-                (breaks relation chain)
-              </span>
-            </label>
-          </div>
-          <div
-            id="tipUpToDateMsg"
-            class="message"
-            ?hidden=${this.displayTipOption()}
-          >
-            Change is up to date with the target branch already (${this.branch})
-          </div>
-          <div id="rebaseOnOther" class="rebaseOption">
-            <input
-              id="rebaseOnOtherInput"
-              name="rebaseOptions"
-              type="radio"
-              @click=${this.handleRebaseOnOther}
-            />
-            <label id="rebaseOnOtherLabel" for="rebaseOnOtherInput">
-              Rebase on a specific change, ref, or commit
-              <span ?hidden=${!this.hasParent || this.shouldRebaseChain}>
-                (breaks relation chain)
-              </span>
-            </label>
-          </div>
-          <div class="parentRevisionContainer">
-            <gr-change-autocomplete
-              .text=${this.text}
-              .excludeChangeNum=${this.changeNum}
-              @text-changed=${(e: ValueChangedEvent) =>
-                (this.text = e.detail.value)}
-              @click=${this.handleEnterChangeNumberClick}
-            >
-            </gr-change-autocomplete>
-          </div>
-          <div class="rebaseCheckbox">
-            <input
-              id="rebaseAllowConflicts"
-              type="checkbox"
-              @change=${() => {
-                this.allowConflicts = !!this.rebaseAllowConflicts?.checked;
-                this.loadCommitterEmailDropdownItems();
-              }}
-            />
-            <label for="rebaseAllowConflicts"
-              >Allow rebase with conflicts</label
-            >
-            <gr-validation-options
-              .validationOptions=${this.validationOptions}
-            ></gr-validation-options>
-          </div>
-          ${when(
-            !this.isCurrentUserEqualToLatestUploader() && this.allowConflicts,
-            () =>
-              html`<span class="message"
-                >Rebase cannot be done on behalf of the uploader when allowing
-                conflicts.</span
-              >`
-          )}
-          ${when(
-            this.hasParent,
-            () =>
-              html`<div class="rebaseCheckbox">
-                <input
-                  id="rebaseChain"
-                  type="checkbox"
-                  @change=${() => {
-                    this.shouldRebaseChain = !!this.rebaseChain?.checked;
-                    if (this.shouldRebaseChain) {
-                      this.selectedEmailForRebase = undefined;
-                    }
-                  }}
-                />
-                <label for="rebaseChain">Rebase all ancestors</label>
-              </div>`
-          )}
-          ${when(
-            !this.isCurrentUserEqualToLatestUploader(),
-            () => html`<div class="rebaseOnBehalfMsg">Rebase will be done on behalf of${
-              !this.allowConflicts ? ' the uploader:' : ''
-            } <gr-account-chip
+            (breaks relation chain)
+          </span>
+        </label>
+      </div>
+      <div
+        id="tipUpToDateMsg"
+        class="message"
+        ?hidden=${this.displayTipOption()}
+      >
+        Change is up to date with the target branch already (${this.branch})
+      </div>
+      <div id="rebaseOnOther" class="rebaseOption">
+        <md-radio
+          id="rebaseOnOtherInput"
+          name="rebaseOptions"
+          ?checked=${!this.displayParentOption() && !this.displayTipOption()}
+          @click=${this.handleRebaseOnOther}
+        >
+        </md-radio>
+        <label id="rebaseOnOtherLabel" for="rebaseOnOtherInput">
+          Rebase on a specific change, ref, or commit
+          <span ?hidden=${!this.hasParent || this.shouldRebaseChain}>
+            (breaks relation chain)
+          </span>
+        </label>
+      </div>
+      <div class="parentRevisionContainer">
+        <gr-change-autocomplete
+          .text=${this.text}
+          .excludeChangeNum=${this.changeNum}
+          .projectQuery="project:${this.project}"
+          @text-changed=${(e: ValueChangedEvent) =>
+            (this.text = e.detail.value)}
+          @click=${this.handleEnterChangeNumberClick}
+        >
+        </gr-change-autocomplete>
+      </div>
+      ${when(
+        this.loading,
+        () =>
+          html`<span class="loadingSpin"></span
+            ><span class="zeroState"> loading recent changes</span>`
+      )}
+      <div class="rebaseCheckbox">
+        <div class="checkbox-container">
+          <md-checkbox
+            id="rebaseAllowConflicts"
+            @change=${() => {
+              this.allowConflicts = !!this.rebaseAllowConflicts?.checked;
+              this.loadCommitterEmailDropdownItems();
+            }}
+          ></md-checkbox>
+          <label for="rebaseAllowConflicts">Allow rebase with conflicts</label>
+        </div>
+        ${when(
+          !this.isCurrentUserEqualToLatestUploader() && this.allowConflicts,
+          () =>
+            html`<span class="message"
+              >Rebase cannot be done on behalf of the uploader when allowing
+              conflicts.</span
+            >`
+        )}
+        <gr-validation-options
+          .validationOptions=${this.validationOptions}
+        ></gr-validation-options>
+      </div>
+      ${when(
+        this.hasParent,
+        () =>
+          html`<div class="rebaseCheckbox">
+            <div class="checkbox-container">
+              <md-checkbox
+                id="rebaseChain"
+                @change=${() => {
+                  this.shouldRebaseChain = !!this.rebaseChain?.checked;
+                  if (this.shouldRebaseChain) {
+                    this.selectedEmailForRebase = undefined;
+                  }
+                }}
+              ></md-checkbox>
+              <label for="rebaseChain">Rebase all ancestors</label>
+            </div>
+          </div>`
+      )}
+      ${when(
+        !this.isCurrentUserEqualToLatestUploader(),
+        () => html`<div class="rebaseOnBehalfMsg">Rebase will be done on behalf of${
+          !this.allowConflicts ? ' the uploader:' : ''
+        } <gr-account-chip
                 .account=${this.allowConflicts ? this.account : this.uploader}
               ></gr-account-chip
               ><span></div>`
-          )}
-          ${when(
-            this.canShowCommitterEmailDropdown(),
-            () => html`<div class="rebaseWithCommitterEmail"
+      )}
+      ${when(
+        this.canShowCommitterEmailDropdown(),
+        () => html`<div class="rebaseWithCommitterEmail"
             >Rebase with committer email
                 <gr-dropdown-list
                     .items=${this.getCommitterEmailDropdownItems()}
@@ -363,10 +418,7 @@ export class GrConfirmRebaseDialog
                 >
                 </gr-dropdown-list>
                 <span></div>`
-          )}
-        </div>
-      </gr-dialog>
-    `;
+      )}`;
   }
 
   getValidationOptions() {
@@ -381,6 +433,16 @@ export class GrConfirmRebaseDialog
   // last time it was run.
   initiateFetchInfo() {
     this.fetchValidationOptions();
+    this.fetchRecentChanges();
+  }
+
+  async fetchRecentChanges() {
+    this.loading = true;
+    try {
+      await this.changeAutocomplete.fetchRecentChanges();
+    } finally {
+      this.loading = false;
+    }
   }
 
   async fetchValidationOptions() {
@@ -530,25 +592,6 @@ export class GrConfirmRebaseDialog
 
   private handleEnterChangeNumberClick() {
     if (this.rebaseOnOtherInput) this.rebaseOnOtherInput.checked = true;
-  }
-
-  /**
-   * Sets the default radio button based on the state of the app and
-   * the corresponding value to be submitted.
-   */
-  private updateSelectedOption() {
-    const {rebaseOnCurrent, hasParent} = this;
-    if (rebaseOnCurrent === undefined || hasParent === undefined) {
-      return;
-    }
-
-    if (this.displayParentOption()) {
-      if (this.rebaseOnParentInput) this.rebaseOnParentInput.checked = true;
-    } else if (this.displayTipOption()) {
-      if (this.rebaseOnTipInput) this.rebaseOnTipInput.checked = true;
-    } else {
-      if (this.rebaseOnOtherInput) this.rebaseOnOtherInput.checked = true;
-    }
   }
 }
 

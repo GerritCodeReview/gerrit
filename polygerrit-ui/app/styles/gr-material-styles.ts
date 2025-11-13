@@ -16,6 +16,7 @@ export const materialStyles = css`
     --md-sys-color-primary: var(--switch-color-primary);
     --md-sys-color-on-primary: var(--switch-color-on-primary);
     --md-sys-color-primary-container: var(--switch-color-primary-container);
+    --md-switch-disabled-track-color: var(--switch-disabled-track-color);
     --md-focus-ring-duration: 0s;
     --md-switch-handle-height: 12px;
     --md-switch-handle-width: 12px;
@@ -94,11 +95,30 @@ export const materialStyles = css`
 
   /* These colours come from paper-checkbox */
   md-checkbox {
+    background-color: var(--background-color-primary);
     --md-sys-color-primary: var(--checkbox-primary);
     --md-sys-color-on-primary: var(--checkbox-on-primary);
     --md-sys-color-on-surface: var(--checkbox-on-surface);
     --md-sys-color-on-surface-variant: var(--checkbox-on-surface-variant);
     --md-checkbox-container-shape: 0px;
+  }
+
+  md-radio {
+    --md-sys-color-primary: var(--radio-primary);
+    --md-sys-color-on-primary: var(--radio-on-primary);
+    --md-sys-color-on-surface: var(--radio-on-surface);
+    --md-sys-color-on-surface-variant: var(--radio-on-surface-variant);
+  }
+
+  md-outlined-select {
+    min-width: unset;
+    --md-outlined-field-top-space: 4px;
+    --md-outlined-field-bottom-space: 4px;
+    --md-sys-color-surface-container: var(--select-surface-container);
+    --md-sys-color-on-secondary-container: var(--select-on-secondary-container);
+    --md-sys-color-secondary-container: var(--select-secondary-container);
+    --md-sys-color-primary: var(--select-primary);
+    --md-sys-color-on-surface: var(--select-on-surface);
   }
 `;
 

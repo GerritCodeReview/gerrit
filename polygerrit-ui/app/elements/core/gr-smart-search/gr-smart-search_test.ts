@@ -6,9 +6,17 @@
 import '../../../test/common-test-setup';
 import './gr-smart-search';
 import {GrSmartSearch} from './gr-smart-search';
-import {stubRestApi} from '../../../test/test-utils';
-import {EmailAddress, GroupId, UrlEncodedRepoName} from '../../../types/common';
+import {
+  pressKey,
+  queryAndAssert,
+  stubRestApi,
+  waitUntil,
+} from '../../../test/test-utils';
+import {GroupId, UrlEncodedRepoName} from '../../../types/common';
 import {assert, fixture, html} from '@open-wc/testing';
+import {Key} from '../../../utils/dom-util';
+import {MdOutlinedTextField} from '@material/web/textfield/outlined-text-field';
+import {GrAutocomplete} from '../../shared/gr-autocomplete/gr-autocomplete';
 
 suite('gr-smart-search tests', () => {
   let element: GrSmartSearch;
@@ -20,64 +28,83 @@ suite('gr-smart-search tests', () => {
   test('renders', () => {
     assert.shadowDom.equal(
       element,
-      /* HTML */ ' <gr-search-bar id="search"> </gr-search-bar> '
+      /* HTML */ ' <gr-search-autocomplete id="search"> <gr-icon icon="search" slot="leading-icon" aria-hidden="true"></gr-icon> </gr-search-autocomplete> '
     );
   });
 
-  test('Autocompletes accounts', () => {
-    stubRestApi('queryAccounts').callsFake(() =>
-      Promise.resolve([
-        {
-          name: 'fred',
-          email: 'fred@goog.co' as EmailAddress,
-        },
-      ])
+  test('empty search query does not trigger nav', async () => {
+    const searchSpy = sinon.spy(element, 'handleSearch');
+    element.searchBar!.value = '';
+    await element.updateComplete;
+    const searchInput = queryAndAssert<GrAutocomplete>(
+      element.searchBar,
+      '#queryInput'
     );
-    return element.fetchAccounts('owner', 'fr').then(s => {
-      assert.deepEqual(s[0], {text: 'owner:fred@goog.co', label: 'fred'});
-    });
+    pressKey(
+      queryAndAssert<MdOutlinedTextField>(searchInput, '#input'),
+      Key.ENTER
+    );
+    assert.isFalse(searchSpy.called);
   });
 
-  test('Inserts self as option when valid', () => {
-    stubRestApi('queryAccounts').callsFake(() =>
-      Promise.resolve([
-        {
-          name: 'fred',
-          email: 'fred@goog.co' as EmailAddress,
-        },
-      ])
+  test('Predefined query op with no predication doesnt trigger nav', async () => {
+    const searchSpy = sinon.spy(element, 'handleSearch');
+    element.searchBar!.value = 'added:';
+    await element.updateComplete;
+    const searchInput = queryAndAssert<GrAutocomplete>(
+      element.searchBar,
+      '#queryInput'
     );
-    element
-      .fetchAccounts('owner', 's')
-      .then(s => {
-        assert.deepEqual(s[0], {text: 'owner:fred@goog.co', label: 'fred'});
-        assert.deepEqual(s[1], {text: 'owner:self'});
-      })
-      .then(() => element.fetchAccounts('owner', 'selfs'))
-      .then(s => {
-        assert.notEqual(s[0], {text: 'owner:self'});
-      });
+    pressKey(
+      queryAndAssert<MdOutlinedTextField>(searchInput, '#input'),
+      Key.ENTER
+    );
+    assert.isFalse(searchSpy.called);
   });
 
-  test('Inserts me as option when valid', () => {
-    stubRestApi('queryAccounts').callsFake(() =>
-      Promise.resolve([
-        {
-          name: 'fred',
-          email: 'fred@goog.co' as EmailAddress,
-        },
-      ])
+  test('predefined predicate query triggers nav', async () => {
+    const searchSpy = sinon.spy(element, 'handleSearch');
+    element.searchBar!.value = 'age:1week';
+    await element.updateComplete;
+    const searchInput = queryAndAssert<GrAutocomplete>(
+      element.searchBar,
+      '#queryInput'
     );
-    return element
-      .fetchAccounts('owner', 'm')
-      .then(s => {
-        assert.deepEqual(s[0], {text: 'owner:fred@goog.co', label: 'fred'});
-        assert.deepEqual(s[1], {text: 'owner:me'});
-      })
-      .then(() => element.fetchAccounts('owner', 'meme'))
-      .then(s => {
-        assert.notEqual(s[0], {text: 'owner:me'});
-      });
+    pressKey(
+      queryAndAssert<MdOutlinedTextField>(searchInput, '#input'),
+      Key.ENTER
+    );
+    await waitUntil(() => searchSpy.called);
+  });
+
+  test('undefined predicate query triggers nav', async () => {
+    const searchSpy = sinon.spy(element, 'handleSearch');
+    element.searchBar!.value = 'random:1week';
+    await element.updateComplete;
+    const searchInput = queryAndAssert<GrAutocomplete>(
+      element.searchBar,
+      '#queryInput'
+    );
+    pressKey(
+      queryAndAssert<MdOutlinedTextField>(searchInput, '#input'),
+      Key.ENTER
+    );
+    await waitUntil(() => searchSpy.called);
+  });
+
+  test('empty undefined predicate query triggers nav', async () => {
+    const searchSpy = sinon.spy(element, 'handleSearch');
+    element.searchBar!.value = 'random:';
+    await element.updateComplete;
+    const searchInput = queryAndAssert<GrAutocomplete>(
+      element.searchBar,
+      '#queryInput'
+    );
+    pressKey(
+      queryAndAssert<MdOutlinedTextField>(searchInput, '#input'),
+      Key.ENTER
+    );
+    await waitUntil(() => searchSpy.called);
   });
 
   test('Autocompletes groups', () => {
@@ -114,24 +141,6 @@ suite('gr-smart-search tests', () => {
       assert.deepEqual(s[0], {text: 'ownerin:Polygerrit'});
       assert.deepEqual(s[1], {text: 'ownerin:gerrit'});
       assert.deepEqual(s[2], {text: 'ownerin:gerrittest'});
-    });
-  });
-
-  test('Autocompletes accounts with no email', () => {
-    stubRestApi('queryAccounts').callsFake(() =>
-      Promise.resolve([{name: 'fred'}])
-    );
-    return element.fetchAccounts('owner', 'fr').then(s => {
-      assert.deepEqual(s[0], {text: 'owner:"fred"', label: 'fred'});
-    });
-  });
-
-  test('Autocompletes accounts with email', () => {
-    stubRestApi('queryAccounts').callsFake(() =>
-      Promise.resolve([{email: 'fred@goog.co' as EmailAddress}])
-    );
-    return element.fetchAccounts('owner', 'fr').then(s => {
-      assert.deepEqual(s[0], {text: 'owner:fred@goog.co', label: ''});
     });
   });
 });

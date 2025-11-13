@@ -87,11 +87,21 @@ public class AuthRequest {
       r.setEmailAddress(email);
       return r;
     }
+
+    /**
+     * Create a request for a login with a bearer token, where the username is not known. It has to
+     * be ensured that the realm adds the external ID in a later step.
+     */
+    public AuthRequest createForBearerToken(String token) {
+      AuthRequest r = new AuthRequest(externalIdKeyFactory);
+      r.setPassword(token);
+      return r;
+    }
   }
 
   private final ExternalIdKeyFactory externalIdKeyFactory;
 
-  private ExternalId.Key externalId;
+  @Nullable private ExternalId.Key externalId;
   private String password;
   private String displayName;
   private String emailAddress;
@@ -102,13 +112,22 @@ public class AuthRequest {
   private boolean authProvidesAccountActiveStatus;
   private boolean active;
 
-  private AuthRequest(ExternalId.Key externalId, ExternalIdKeyFactory externalIdKeyFactory) {
+  private AuthRequest(ExternalIdKeyFactory externalIdKeyFactory) {
+    this(null, externalIdKeyFactory);
+  }
+
+  private AuthRequest(
+      @Nullable ExternalId.Key externalId, ExternalIdKeyFactory externalIdKeyFactory) {
     this.externalId = externalId;
     this.externalIdKeyFactory = externalIdKeyFactory;
   }
 
   public ExternalId.Key getExternalIdKey() {
     return externalId;
+  }
+
+  public void setExternalIdKey(String scheme, String id) {
+    externalId = externalIdKeyFactory.create(scheme, id);
   }
 
   @Nullable

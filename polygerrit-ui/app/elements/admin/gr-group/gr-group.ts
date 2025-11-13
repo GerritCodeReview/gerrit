@@ -6,18 +6,14 @@
 import '../../shared/gr-autocomplete/gr-autocomplete';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-copy-clipboard/gr-copy-clipboard';
-import '../../shared/gr-select/gr-select';
-import {
-  AutocompleteQuery,
-  AutocompleteSuggestion,
-} from '../../shared/gr-autocomplete/gr-autocomplete';
+import {AutocompleteQuery} from '../../shared/gr-autocomplete/gr-autocomplete';
+import {AutocompleteSuggestion} from '../../../utils/autocomplete-util';
 import {GroupId, GroupInfo, GroupName} from '../../../types/common';
 import {fire, firePageError, fireTitleChange} from '../../../utils/event-util';
 import {resolve} from '../../../models/dependency';
 import {getAppContext} from '../../../services/app-context';
 import {ErrorCallback} from '../../../api/rest';
-import {convertToString} from '../../../utils/string-util';
-import {BindValueChangeEvent, ValueChangedEvent} from '../../../types/events';
+import {ValueChangedEvent} from '../../../types/events';
 import {fontStyles} from '../../../styles/gr-font-styles';
 import {grFormStyles} from '../../../styles/gr-form-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
@@ -34,19 +30,11 @@ import {configModelToken} from '../../../models/config/config-model';
 import {subscribe} from '../../lit/subscription-controller';
 import {when} from 'lit/directives/when.js';
 import {AdminChildView, createAdminUrl} from '../../../models/views/admin';
+import '@material/web/checkbox/checkbox';
+import {MdCheckbox} from '@material/web/checkbox/checkbox';
+import {materialStyles} from '../../../styles/gr-material-styles';
 
 const INTERNAL_GROUP_REGEX = /^[\da-f]{40}$/;
-
-const OPTIONS = {
-  submitFalse: {
-    value: false,
-    label: 'False',
-  },
-  submitTrue: {
-    value: true,
-    label: 'True',
-  },
-};
 
 export interface GroupNameChangedDetail {
   name: GroupName;
@@ -80,8 +68,6 @@ export class GrGroup extends LitElement {
   @state() private originalDescriptionName?: string;
 
   @state() private originalOptionsVisibleToAll?: boolean;
-
-  @state() private submitTypes = Object.values(OPTIONS);
 
   // private but used in test
   @state() isAdmin = false;
@@ -136,6 +122,7 @@ export class GrGroup extends LitElement {
       formStyles,
       sharedStyles,
       subpageStyles,
+      materialStyles,
       css`
         h3.edited:after {
           color: var(--deemphasized-text-color);
@@ -308,21 +295,12 @@ export class GrGroup extends LitElement {
             Make group visible to all registered users
           </span>
           <span class="value">
-            <gr-select
+            <md-checkbox
               id="visibleToAll"
-              .bindValue=${convertToString(
-                Boolean(this.groupConfig?.options?.visible_to_all)
-              )}
-              @bind-value-changed=${this.handleOptionsBindValueChanged}
-            >
-              <select ?disabled=${this.computeGroupDisabled()}>
-                ${this.submitTypes.map(
-                  item => html`
-                    <option value=${item.value}>${item.label}</option>
-                  `
-                )}
-              </select>
-            </gr-select>
+              ?checked=${Boolean(this.groupConfig?.options?.visible_to_all)}
+              ?disabled=${this.computeGroupDisabled()}
+              @change=${this.handleOptionsChange}
+            ></md-checkbox>
           </span>
         </section>
         <span class="value">
@@ -562,13 +540,9 @@ export class GrGroup extends LitElement {
     this.requestUpdate();
   }
 
-  private handleOptionsBindValueChanged(e: BindValueChangeEvent) {
+  private handleOptionsChange(e: Event) {
     if (!this.groupConfig || this.loading) return;
-
-    // Because the value for e.detail.value is a string
-    // we convert the value to a boolean.
-    const value = e.detail.value === 'true' ? true : false;
-    this.groupConfig.options!.visible_to_all = value;
+    this.groupConfig.options!.visible_to_all = (e.target as MdCheckbox).checked;
     this.requestUpdate();
   }
 }

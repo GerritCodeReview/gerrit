@@ -193,7 +193,7 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
   private ImmutableMap<SubmitRequirement, SubmitRequirementResult> getRequirements(ChangeData cd) {
     try (TraceTimer timer =
         TraceContext.newTimer(
-            "Get submit requirements",
+            "Evaluate submit requirements",
             Metadata.builder().changeId(cd.change().getId().get()).build())) {
       ImmutableMap<String, SubmitRequirement> globalRequirements;
       Map<String, SubmitRequirement> projectConfigRequirements;

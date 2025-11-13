@@ -187,6 +187,7 @@ public class RefUpdateUtil {
     RefUpdate ru = repo.updateRef(refName);
     ru.setForceUpdate(true);
     ru.setCheckConflicting(false);
+    ru.setNewObjectId(ObjectId.zeroId());
     switch (ru.delete()) {
       case FORCED:
         // Ref was deleted.

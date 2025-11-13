@@ -391,9 +391,11 @@ export interface ShortcutOptions {
 }
 
 /**
- * @deprecated
- *
- * For LitElement use the shortcut-controller.
+ * Nearly deprecated: Within <gr-app> please use the shortcut-controller.
+ * The only exception to use this utility directly is for components that are
+ * potentially used outside of <gr-app>. An example of this would be
+ * <gr-button> being used in plugins that add their widgets outside of
+ * <gr-app>.
  */
 export function addShortcut(
   element: HTMLElement,

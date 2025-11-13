@@ -256,7 +256,13 @@ public abstract class QueryBuilder<T, Q extends QueryBuilder<T, Q>> {
           case AND -> and(children(r));
           case OR -> or(children(r));
           case NOT -> not(toPredicate(onlyChildOf(r)));
-          case DEFAULT_FIELD -> defaultField(concatenateChildText(r));
+          case DEFAULT_FIELD -> {
+            String query = concatenateChildText(r);
+            if (operatorRequired) {
+              throw error("Operator required in submit requirement: " + query);
+            }
+            yield defaultField(query);
+          }
           case FIELD_NAME -> operator(r.getText(), concatenateChildText(r));
           default -> throw error("Unsupported operator: " + r);
         };

@@ -25,8 +25,10 @@ import com.google.gerrit.entities.SubmitRequirement;
 import com.google.gerrit.entities.SubmitRequirementExpression;
 import com.google.gerrit.entities.SubmitRequirementExpressionResult;
 import com.google.gerrit.entities.SubmitRequirementResult;
+import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.logging.TraceContext.TraceTimer;
@@ -35,51 +37,58 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.SubmitRequirementChangeQueryBuilder;
 import com.google.gerrit.server.util.ManualRequestContext;
 import com.google.gerrit.server.util.OneOffRequestContext;
-import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Module;
-import com.google.inject.Provider;
 import com.google.inject.Scopes;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Stream;
+import org.eclipse.jgit.lib.Config;
 
 /** Evaluates submit requirements for different change data. */
 public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvaluator {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  private final Provider<SubmitRequirementChangeQueryBuilder> queryBuilder;
+  private final SubmitRequirementChangeQueryBuilder.Factory queryBuilderFactory;
   private final ProjectCache projectCache;
   private final PluginSetContext<SubmitRequirement> globalSubmitRequirements;
-
+  private final Config config;
+  private final boolean requireOperatorForUpdate;
+  private final boolean requireOperatorForEvaluation;
   // Use a request context to execute predicates as an internal user with expanded visibility.
   // This is so that the evaluation does not depend on who is running the current request (e.g.
   // a "ownerin" predicate with group that is not visible to the person making this request).
   private final OneOffRequestContext requestContext;
 
   public static Module module() {
-    return new AbstractModule() {
+    return new FactoryModule() {
       @Override
       protected void configure() {
         bind(SubmitRequirementsEvaluator.class)
             .to(SubmitRequirementsEvaluatorImpl.class)
             .in(Scopes.SINGLETON);
+
+        factory(SubmitRequirementChangeQueryBuilder.Factory.class);
       }
     };
   }
 
   @Inject
   private SubmitRequirementsEvaluatorImpl(
-      Provider<SubmitRequirementChangeQueryBuilder> queryBuilder,
+      SubmitRequirementChangeQueryBuilder.Factory queryBuilderFactory,
       ProjectCache projectCache,
       PluginSetContext<SubmitRequirement> globalSubmitRequirements,
+      @GerritServerConfig Config config,
       OneOffRequestContext requestContext) {
-    this.queryBuilder = queryBuilder;
+    this.queryBuilderFactory = queryBuilderFactory;
     this.projectCache = projectCache;
     this.globalSubmitRequirements = globalSubmitRequirements;
+    this.config = config;
     this.requestContext = requestContext;
+    this.requireOperatorForUpdate = requireOperatorForUpdate();
+    this.requireOperatorForEvaluation = requireOperatorForEvaluation();
   }
 
   @Override
@@ -87,8 +96,21 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
       throws QueryParseException {
     try (ManualRequestContext ignored = requestContext.open()) {
       @SuppressWarnings("unused")
-      var unused = queryBuilder.get().parse(expression.expressionString());
+      var unused =
+          queryBuilderFactory.create(requireOperatorForUpdate).parse(expression.expressionString());
     }
+  }
+
+  private boolean requireOperatorForUpdate() {
+    return requiredOperator("requireOperatorForUpdate");
+  }
+
+  private boolean requireOperatorForEvaluation() {
+    return requiredOperator("requireOperatorForEvaluation");
+  }
+
+  private boolean requiredOperator(String configName) {
+    return config.getBoolean("submitRequirement", null, configName, false);
   }
 
   @Override
@@ -111,7 +133,10 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
   public SubmitRequirementExpressionResult evaluateExpression(
       SubmitRequirementExpression expression, ChangeData changeData) {
     try {
-      Predicate<ChangeData> predicate = queryBuilder.get().parse(expression.expressionString());
+      Predicate<ChangeData> predicate =
+          queryBuilderFactory
+              .create(requireOperatorForEvaluation)
+              .parse(expression.expressionString());
       PredicateResult predicateResult = changeData.evaluatePredicateTree(predicate);
       return SubmitRequirementExpressionResult.create(expression, predicateResult);
     } catch (QueryParseException | SubmitRequirementEvaluationException e) {

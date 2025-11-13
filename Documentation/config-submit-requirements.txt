@@ -432,6 +432,9 @@ All applicableIf, submittableIf and overrideIf expressions use the same syntax
 and operators available for link:user-search.html[searching changes]. In
 addition to that, submit requirements support extra operators.
 
+[NOTE]
+Submit Requirement expressions are validated to ensure they contain a valid operator
+with format <operator>:<value> based on link:config-gerrit.txt#submitRequirement[config parameters].
 
 [[submit_requirements_operators]]
 === Submit Requirements Operators

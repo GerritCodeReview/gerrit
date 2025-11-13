@@ -58,8 +58,6 @@ import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.ServiceUserClassifier;
 import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.experiments.ExperimentFeatures;
-import com.google.gerrit.server.experiments.ExperimentFeaturesConstants;
 import com.google.gerrit.server.extensions.events.AttentionSetObserver;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -297,7 +295,6 @@ public class BatchUpdate implements AutoCloseable {
   private final GitReferenceUpdated gitRefUpdated;
   private final RefLogIdentityProvider refLogIdentityProvider;
   private final ServiceUserClassifier serviceUserClassifier;
-  private final ExperimentFeatures experimentFeatures;
 
   private final Project.NameKey project;
   private final CurrentUser user;
@@ -337,7 +334,6 @@ public class BatchUpdate implements AutoCloseable {
       GitReferenceUpdated gitRefUpdated,
       RefLogIdentityProvider refLogIdentityProvider,
       ServiceUserClassifier serviceUserClassifier,
-      ExperimentFeatures experimentFeatures,
       AttentionSetObserver attentionSetObserver,
       @GerritServerConfig Config gerritConfig,
       @Assisted Project.NameKey project,
@@ -355,7 +351,6 @@ public class BatchUpdate implements AutoCloseable {
     this.gitRefUpdated = gitRefUpdated;
     this.refLogIdentityProvider = refLogIdentityProvider;
     this.serviceUserClassifier = serviceUserClassifier;
-    this.experimentFeatures = experimentFeatures;
     this.attentionSetObserver = attentionSetObserver;
     this.project = project;
     this.user = user;
@@ -577,10 +572,7 @@ public class BatchUpdate implements AutoCloseable {
       return true;
     }
 
-    return experimentFeatures.isFeatureEnabled(
-            ExperimentFeaturesConstants.DO_CHANGE_INDEXING_ASYNCHRONOUSLY_FOR_NON_SERVICE_USERS)
-        && user.isIdentifiedUser()
-        && !serviceUserClassifier.isServiceUser(user.getAccountId());
+    return user.isIdentifiedUser() && !serviceUserClassifier.isServiceUser(user.getAccountId());
   }
 
   void fireRefChangeEvents() {

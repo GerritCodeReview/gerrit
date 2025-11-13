@@ -14,10 +14,10 @@ import {html} from 'lit';
 import {assert, fixture} from '@open-wc/testing';
 import {checksModelToken, RunResult} from '../../models/checks/checks-model';
 import {
-  fakeRun0,
-  fakeRun1,
-  setAllFakeRuns,
-} from '../../models/checks/checks-fakes';
+  checkRun0,
+  checkRun1,
+  setAllcheckRuns,
+} from '../../test/test-data-generators';
 import {resolve} from '../../models/dependency';
 import {createLabelInfo} from '../../test/test-data-generators';
 import {assertIsDefined, query, queryAndAssert} from '../../utils/common-util';
@@ -28,7 +28,7 @@ suite('gr-result-row test', () => {
   let element: GrResultRow;
 
   setup(async () => {
-    const result = {...fakeRun0, ...fakeRun0.results![0]};
+    const result = {...checkRun0, ...checkRun0.results![0]};
     element = await fixture<GrResultRow>(
       html`<gr-result-row .result=${result}></gr-result-row>`
     );
@@ -160,7 +160,7 @@ suite('gr-result-expanded test', () => {
   });
 
   test('renders fake result 1 of run 0', async () => {
-    element.result = {...fakeRun0, ...fakeRun0.results![1]} as RunResult;
+    element.result = {...checkRun0, ...checkRun0.results![1]} as RunResult;
     await element.updateComplete;
 
     assert.shadowDom.equal(
@@ -257,7 +257,7 @@ suite('gr-result-expanded test', () => {
   });
 
   test('renders fake result 2 of run 1', async () => {
-    element.result = {...fakeRun1, ...fakeRun1.results![2]} as RunResult;
+    element.result = {...checkRun1, ...checkRun1.results![2]} as RunResult;
     await element.updateComplete;
 
     assert.shadowDom.equal(
@@ -291,7 +291,7 @@ suite('gr-checks-results test', () => {
     getChecksModel().allRunsSelectedPatchset$.subscribe(
       runs => (element.runs = runs)
     );
-    setAllFakeRuns(getChecksModel());
+    setAllcheckRuns(getChecksModel());
     await element.updateComplete;
   });
 

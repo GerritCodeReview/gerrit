@@ -9,7 +9,7 @@ import './gr-checks-tab';
 import {GrChecksTab} from './gr-checks-tab';
 import {assert, fixture} from '@open-wc/testing';
 import {checksModelToken} from '../../models/checks/checks-model';
-import {setAllFakeRuns} from '../../models/checks/checks-fakes';
+import {setAllcheckRuns} from '../../test/test-data-generators';
 import {resolve} from '../../models/dependency';
 
 suite('gr-checks-tab test', () => {
@@ -18,7 +18,7 @@ suite('gr-checks-tab test', () => {
   setup(async () => {
     element = await fixture<GrChecksTab>(html`<gr-checks-tab></gr-checks-tab>`);
     const getChecksModel = resolve(element, checksModelToken);
-    setAllFakeRuns(getChecksModel());
+    setAllcheckRuns(getChecksModel());
   });
 
   test('renders', async () => {

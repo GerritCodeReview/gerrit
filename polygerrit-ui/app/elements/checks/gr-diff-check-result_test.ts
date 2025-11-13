@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {assert} from '@open-wc/testing';
-import {fakeRun1} from '../../models/checks/checks-fakes';
+import {checkRun1} from '../../test/test-data-generators';
 import {RunResult} from '../../models/checks/checks-model';
 import '../../test/common-test-setup';
 import {queryAndAssert} from '../../utils/common-util';
@@ -50,7 +50,7 @@ suite('gr-diff-check-result tests', () => {
   });
 
   test('renders', async () => {
-    element.result = {...fakeRun1, ...fakeRun1.results?.[0]} as RunResult;
+    element.result = {...checkRun1, ...checkRun1.results?.[0]} as RunResult;
     await element.updateComplete;
     // cannot use /* HTML */ because formatted long message will not match.
     assert.shadowDom.equal(
@@ -96,7 +96,7 @@ suite('gr-diff-check-result tests', () => {
   });
 
   test('renders expanded', async () => {
-    element.result = {...fakeRun1, ...fakeRun1.results?.[2]} as RunResult;
+    element.result = {...checkRun1, ...checkRun1.results?.[2]} as RunResult;
     element.isExpanded = true;
     await element.updateComplete;
 
@@ -118,7 +118,7 @@ suite('gr-diff-check-result tests', () => {
   });
 
   test('shows please-fix button for author', async () => {
-    element.result = {...fakeRun1, ...fakeRun1.results?.[0]} as RunResult;
+    element.result = {...checkRun1, ...checkRun1.results?.[0]} as RunResult;
     element.isOwner = true;
     await element.updateComplete;
     const button = queryAndAssert(element, '#please-fix');

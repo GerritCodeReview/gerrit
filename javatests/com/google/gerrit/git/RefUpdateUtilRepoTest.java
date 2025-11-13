@@ -24,7 +24,10 @@ import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -115,5 +118,18 @@ public class RefUpdateUtilRepoTest {
     assertThat(repo.exactRef(ref)).isNotNull();
     RefUpdateUtil.deleteChecked(repo, "refs/heads/foo");
     assertThat(repo.exactRef(ref)).isNull();
+  }
+
+  @Test
+  public void deleteCheckedSetsNewObjectIdToZeroId() throws Exception {
+    String ref = "refs/heads/foo";
+
+    try (TestRepository<Repository> tr = new TestRepository<>(repo)) {
+      @SuppressWarnings("unused")
+      RevCommit ignored = tr.branch(ref).commit().create();
+    }
+
+    RefUpdate refUpdate = RefUpdateUtil.deleteChecked(repo, ref);
+    assertThat(refUpdate.getNewObjectId()).isEqualTo(ObjectId.zeroId());
   }
 }

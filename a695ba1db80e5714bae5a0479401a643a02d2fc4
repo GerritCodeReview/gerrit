@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1d63a16d_f9748deb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-11-13T07:57:25Z",
+      "side": 1,
+      "message": "Maybe add a \"why\" and add a screenshot of an example.",
+      "revId": "a695ba1db80e5714bae5a0479401a643a02d2fc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "86638d23_9efddf3a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-11-13T07:57:25Z",
+      "side": 1,
+      "message": "There is a usage of \"primaryRunAction()\" in \"renderTitleButtons()\" in gr-checks-runs.ts that you may have overlooked. It creates an overall \"Run Selected\" button, and it only makes sense for \"run\" actions, not for other primary actions.",
+      "revId": "a695ba1db80e5714bae5a0479401a643a02d2fc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b81ca63d_1c1f41e6",
+        "filename": "polygerrit-ui/app/models/checks/checks-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-11-13T07:57:25Z",
+      "side": 1,
+      "message": "This is designed to only return actions with the name \"run\" or \"rerun\". That is also reflected by its name \"primaryRunAction\". Including other actions here contradicts that.",
+      "revId": "a695ba1db80e5714bae5a0479401a643a02d2fc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4b42cd2c_4dc009f5",
+        "filename": "polygerrit-ui/app/models/checks/checks-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-11-13T07:57:25Z",
+      "side": 1,
+      "message": "We are returning only the first action of the filtered list. If you allow all primary actions to be matched, what is the rationale to only return the first one? What is the logic for choosing \"run\" or the other action, if both are present?",
+      "range": {
+        "startLine": 339,
+        "startChar": 3,
+        "endLine": 339,
+        "endChar": 6
+      },
+      "revId": "a695ba1db80e5714bae5a0479401a643a02d2fc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

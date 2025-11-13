@@ -8,7 +8,7 @@ import '../../test/common-test-setup';
 import './gr-hovercard-run';
 import {assert, fixture, html} from '@open-wc/testing';
 import {GrHovercardRun} from './gr-hovercard-run';
-import {fakeRun4_4, fakeRun4Att} from '../../models/checks/checks-fakes';
+import {checkRun4_4, checkRun4Att} from '../../test/test-data-generators';
 import {createAttemptMap} from '../../models/checks/checks-util';
 import {CheckRun} from '../../models/checks/checks-model';
 
@@ -27,10 +27,10 @@ suite('gr-hovercard-run tests', () => {
     element.mouseHide(new MouseEvent('click'));
   });
 
-  test('render fakeRun4', async () => {
-    const attemptMap = createAttemptMap(fakeRun4Att);
-    const attemptDetails = attemptMap.get(fakeRun4_4.checkName)!.attempts;
-    const run: CheckRun = {...fakeRun4_4, attemptDetails};
+  test('render checkRun4', async () => {
+    const attemptMap = createAttemptMap(checkRun4Att);
+    const attemptDetails = attemptMap.get(checkRun4_4.checkName)!.attempts;
+    const run: CheckRun = {...checkRun4_4, attemptDetails};
     element.run = run;
     await element.updateComplete;
     assert.shadowDom.equal(

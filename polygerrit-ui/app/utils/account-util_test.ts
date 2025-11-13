@@ -78,10 +78,10 @@ suite('account-util tests', () => {
 
   test('extractMentionedUsers', () => {
     let text =
-      'Hi @kamilm@google.com and @brohlfs@google.com can you take a look at this?';
+      'Hi @kamilm@google.com and @milutin@google.com can you take a look at this?';
     assert.deepEqual(extractMentionedUsers(text), [
       {email: 'kamilm@google.com' as EmailAddress},
-      {email: 'brohlfs@google.com' as EmailAddress},
+      {email: 'milutin@google.com' as EmailAddress},
     ]);
 
     // with extra @

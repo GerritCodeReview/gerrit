@@ -421,7 +421,7 @@ export class GrRouter implements Finalizable, NavigationService {
   private appElement(): AppElement {
     // In Polymer2 you have to reach through the shadow root of the app
     // element. This obviously breaks encapsulation.
-    // TODO(brohlfs): Make this more elegant, e.g. by exposing app-element
+    // TODO(milutin): Make this more elegant, e.g. by exposing app-element
     // explicitly in app, or by delegating to it.
 
     // It is expected that application has a GrAppElement(id=='app-element')

@@ -147,9 +147,7 @@ export class ShortcutsService implements Finalizable {
   }
 
   /**
-   * TODO(brohlfs): Reconcile with the addShortcut() function in dom-util.
-   * Most likely we will just keep this one here, but that is something for a
-   * follow-up change.
+   * TODO(milutin): Reconcile with the addShortcut() function in dom-util.
    */
   addShortcut(
     element: HTMLElement,

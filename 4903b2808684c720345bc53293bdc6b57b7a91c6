@@ -88,6 +88,24 @@
       "parentUuid": "62f533ce_fcb6b237",
       "revId": "4903b2808684c720345bc53293bdc6b57b7a91c6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2a15d775_755c9004",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-11-13T19:43:43Z",
+      "side": 1,
+      "message": "It should work now: it was a bug with bazelisk not recognising the .bazelversion.",
+      "parentUuid": "33e4b4b7_76f31c3b",
+      "revId": "4903b2808684c720345bc53293bdc6b57b7a91c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

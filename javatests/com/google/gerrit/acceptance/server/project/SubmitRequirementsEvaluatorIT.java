@@ -19,6 +19,7 @@ import static com.google.gerrit.acceptance.ExtensionRegistry.PLUGIN_NAME;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowLabel;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.server.project.testing.TestLabels.value;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.MoreCollectors;
@@ -247,6 +248,14 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
 
     SubmitRequirementResult result = evaluator.evaluateRequirement(sr, changeData);
     assertThat(result.status()).isEqualTo(SubmitRequirementResult.Status.NOT_APPLICABLE);
+  }
+
+  @Test
+  public void submitRequirementThrowsException_whenOperatorIsMissingInExpression() {
+    SubmitRequirementExpression exp =
+        SubmitRequirementExpression.create("Code-Review=+1");
+
+    assertThrows(QueryParseException.class, () -> evaluator.validateExpression(exp));
   }
 
   @Test

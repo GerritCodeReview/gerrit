@@ -254,8 +254,9 @@ export declare interface Action {
   tooltip?: string;
   /**
    * Primary actions will get a more prominent treatment in the UI. For example
-   * primary actions might be rendered as buttons versus just menu entries in
-   * an overflow menu.
+   * top-level primary actions may appear as buttons instead of menu items in
+   * an overflow menu and primary actions associated with a CheckRun may render
+   * next to the run name.
    */
   primary?: boolean;
   /**

@@ -160,6 +160,11 @@ public class SubmitRequirementChangeQueryBuilder extends ChangeQueryBuilder {
   }
 
   @Override
+  protected Predicate<ChangeData> defaultField(String value) throws QueryParseException {
+    throw error("Operator is missing in submit requirement term: " + value +". Please ensure each term of submit requirements are in format <Operator>:<value>");
+  }
+
+  @Override
   public Predicate<ChangeData> label(String value)
       throws QueryParseException, IOException, ConfigInvalidException {
     if (SubmitRequirementLabelExtensionPredicate.matches(value)) {

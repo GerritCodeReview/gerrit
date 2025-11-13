@@ -88,6 +88,7 @@ import org.antlr.runtime.tree.Tree;
  * @param <T> type of object the predicates can evaluate in memory.
  */
 public abstract class QueryBuilder<T, Q extends QueryBuilder<T, Q>> {
+
   /** Converts a value string passed to an operator into a {@link Predicate}. */
   public interface OperatorFactory<T, Q extends QueryBuilder<T, Q>> {
     Predicate<T> create(Q builder, String value) throws QueryParseException;

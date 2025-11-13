@@ -278,7 +278,13 @@ suite('gr-formatted-text tests', () => {
       await checkLinking('https://www.google.com/');
       await checkLinking('https://www.google.com/asdf~');
       await checkLinking('https://www.google.com/asdf-');
-      await checkLinking('https://www.google.com/asdf-');
+      // We DO NOT want to linkify URLs ending with `)`, even though the URL
+      // spec does allow it. Links ending with `)` are extremely rare, and
+      // users putting links into parenthesis happens extremely often. :-)
+      assert.equal(
+        await getLinkifiedUrl('https://www.google.com/asdf)'),
+        'https://www.google.com/asdf'
+      );
       assert.equal(
         await getLinkifiedUrl('hello gerrit.com/asdf,'),
         'gerrit.com/asdf'

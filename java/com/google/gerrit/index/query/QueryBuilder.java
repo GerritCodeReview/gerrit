@@ -88,6 +88,9 @@ import org.antlr.runtime.tree.Tree;
  * @param <T> type of object the predicates can evaluate in memory.
  */
 public abstract class QueryBuilder<T, Q extends QueryBuilder<T, Q>> {
+  /** Flag indicating if the operator is mandatory in the search query. */
+  private boolean operatorRequired = false;
+
   /** Converts a value string passed to an operator into a {@link Predicate}. */
   public interface OperatorFactory<T, Q extends QueryBuilder<T, Q>> {
     Predicate<T> create(Q builder, String value) throws QueryParseException;
@@ -229,6 +232,23 @@ public abstract class QueryBuilder<T, Q extends QueryBuilder<T, Q>> {
     return toPredicate(QueryParser.parse(query));
   }
 
+  /**
+   * Parse a user-supplied query string into a predicate.
+   *
+   * @param query the query string.
+   * @param operatorRequired a boolean flag indicating that the operator is mandatory during
+   *     parsing.
+   * @return predicate representing the user query.
+   * @throws QueryParseException the query string is invalid and cannot be parsed by this parser.
+   *     This may be due to a syntax error, may be due to an operator not being supported, or due to
+   *     an invalid value being passed to a recognized operator.
+   */
+  public List<Predicate<T>> parse(String query, boolean operatorRequired)
+      throws QueryParseException {
+    this.operatorRequired = operatorRequired;
+    return List.of(parse(query));
+  }
+
   public void setOperatorAliases(Map<String, String> opAliases) {
     this.opAliases = opAliases;
   }
@@ -256,7 +276,13 @@ public abstract class QueryBuilder<T, Q extends QueryBuilder<T, Q>> {
           case AND -> and(children(r));
           case OR -> or(children(r));
           case NOT -> not(toPredicate(onlyChildOf(r)));
-          case DEFAULT_FIELD -> defaultField(concatenateChildText(r));
+          case DEFAULT_FIELD -> {
+            String query = concatenateChildText(r);
+            if (operatorRequired) {
+              throw error("Operator required in submit requirement: " + query);
+            }
+            yield defaultField(query);
+          }
           case FIELD_NAME -> operator(r.getText(), concatenateChildText(r));
           default -> throw error("Unsupported operator: " + r);
         };

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4b91d776_82c0e33f",
+        "filename": "polygerrit-ui/app/BUILD",
+        "patchSetId": 5
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-11-13T21:09:12Z",
+      "side": 1,
+      "message": "Formatting fails here too\n```suggestion\n        allow_empty \u003d True,\n        exclude \u003d [\n            \"**/*_test.js\",\n            \"**/*_test.ts\",\n        ],\n```",
+      "range": {
+        "startLine": 40,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 27
+      },
+      "revId": "d023eef699cffaa8e8356853ff03afa75ab91871",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7579019c_656a8179",
+        "filename": "polygerrit-ui/app/BUILD",
+        "patchSetId": 5
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-11-13T21:09:12Z",
+      "side": 1,
+      "message": "```suggestion\n        allow_empty \u003d True,\n        exclude \u003d [\n            \"node_modules/**\",\n            \"node_modules_licenses/**\",\n        ],\n```",
+      "range": {
+        "startLine": 123,
+        "startChar": 0,
+        "endLine": 127,
+        "endChar": 27
+      },
+      "revId": "d023eef699cffaa8e8356853ff03afa75ab91871",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

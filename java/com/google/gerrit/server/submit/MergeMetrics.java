@@ -21,29 +21,33 @@ import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.metrics.Counter0;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.MetricMaker;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.MagicLabelPredicates;
 import com.google.gerrit.server.query.change.SubmitRequirementChangeQueryBuilder;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
+import org.eclipse.jgit.lib.Config;
 
 /** Metrics are recorded when a change is merged (aka submitted). */
 public class MergeMetrics {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  private final Provider<SubmitRequirementChangeQueryBuilder> submitRequirementChangequeryBuilder;
+  private final SubmitRequirementChangeQueryBuilder.Factory
+      submitRequirementChangequeryBuilderFactory;
 
   // TODO: This metric is for measuring the impact of allowing users to rebase changes on behalf of
   // the uploader. Once this feature has been rolled out and its impact as been measured, we may
   // remove this metric.
   private final Counter0 countChangesThatWereSubmittedWithRebaserApproval;
+  private final Config config;
 
   @Inject
   public MergeMetrics(
-      Provider<SubmitRequirementChangeQueryBuilder> submitRequirementChangequeryBuilder,
+      SubmitRequirementChangeQueryBuilder.Factory submitRequirementChangequeryBuilderFactory,
+      @GerritServerConfig Config config,
       MetricMaker metricMaker) {
-    this.submitRequirementChangequeryBuilder = submitRequirementChangequeryBuilder;
-
+    this.submitRequirementChangequeryBuilderFactory = submitRequirementChangequeryBuilderFactory;
+    this.config = config;
     this.countChangesThatWereSubmittedWithRebaserApproval =
         metricMaker.newCounter(
             "change/submitted_with_rebaser_approval",
@@ -121,8 +125,8 @@ public class MergeMetrics {
     for (SubmitRequirement submitRequirement : cd.submitRequirements().keySet()) {
       try {
         Predicate<ChangeData> predicate =
-            submitRequirementChangequeryBuilder
-                .get()
+            submitRequirementChangequeryBuilderFactory
+                .create(getRequireOperatorForEvaluation())
                 .parse(submitRequirement.submittabilityExpression().expressionString());
         boolean ignoresCodeReviewApprovalsOfUploader =
             ignoresCodeReviewApprovalsOfUploader(predicate);
@@ -139,6 +143,10 @@ public class MergeMetrics {
       }
     }
     return false;
+  }
+
+  private boolean getRequireOperatorForEvaluation() {
+    return config.getBoolean("submit-requirement", null, "requireOperatorForEvaluation", false);
   }
 
   private boolean ignoresCodeReviewApprovalsOfUploader(Predicate<ChangeData> predicate) {

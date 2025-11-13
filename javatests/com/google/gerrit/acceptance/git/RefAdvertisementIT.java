@@ -21,6 +21,7 @@ import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.acceptance.GitUtil.fetch;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowCapability;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.deny;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.permissionKey;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
@@ -313,6 +314,34 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
         .update();
 
     assertUploadPackRefs(
+        "HEAD",
+        psRef1,
+        metaRef1,
+        psRef2,
+        metaRef2,
+        psRef3,
+        metaRef3,
+        psRef4,
+        metaRef4,
+        "refs/heads/branch",
+        "refs/heads/master",
+        RefNames.REFS_CONFIG,
+        "refs/tags/branch-tag",
+        "refs/tags/master-tag",
+        "refs/tags/tree-tag");
+  }
+
+  @Test
+  public void uploadPackAllRefsVisibleToAdminWithoutExplicitReadPermission() throws Exception {
+    // Remove read access
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(block(Permission.READ).ref("refs/*").group(REGISTERED_USERS))
+        .update();
+
+    // Admins can always read all branches, tags and changes.
+    assertUploadPackRefsAsAdmin(
         "HEAD",
         psRef1,
         metaRef1,
@@ -1518,6 +1547,15 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
    */
   private void assertUploadPackRefs(String... expectedRefs) throws Exception {
     assertRefs(project, user, true, expectedRefs);
+  }
+
+  /**
+   * Assert that refs seen by an admin user match the expected refs.
+   *
+   * @param expectedRefs expected refs.
+   */
+  private void assertUploadPackRefsAsAdmin(String... expectedRefs) throws Exception {
+    assertRefs(project, admin, true, expectedRefs);
   }
 
   private void assertRefs(

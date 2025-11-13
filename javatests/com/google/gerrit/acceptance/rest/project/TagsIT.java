@@ -246,6 +246,10 @@ public class TagsIT extends AbstractDaemonTest {
     assertThat(result.ref).isEqualTo(R_TAGS + tag2.ref);
     assertThat(result.revision).isEqualTo(tag2.revision);
 
+    // Do the test as a non-admin user, since admins can always see all tags, even if read on all
+    // branches is blocked.
+    requestScopeOperations.setApiUser(user.id());
+
     List<TagInfo> tags = getTags().get();
     assertThat(tags).hasSize(2);
     assertThat(tags.get(0).ref).isEqualTo(R_TAGS + tag1.ref);

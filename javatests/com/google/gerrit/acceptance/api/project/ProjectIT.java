@@ -1216,6 +1216,8 @@ public class ProjectIT extends AbstractDaemonTest {
     createBranch(BranchNameKey.create(project, "non-visible-branch"));
     blockReadPermission(nonVisibleBranch);
 
+    // Use a non-admin user, since admins can always see all branches.
+    requestScopeOperations.setApiUser(user.id());
     assertThat(
             getCommitsIncludedInRefs(
                 change.getCommit().getName(), Arrays.asList(R_HEADS_MASTER, nonVisibleBranch)))
@@ -1231,6 +1233,8 @@ public class ProjectIT extends AbstractDaemonTest {
     // on master so that tag-with-change becomes non-visible
     blockReadPermission(R_HEADS_MASTER);
 
+    // Use a non-admin user, since admins can always see all tags.
+    requestScopeOperations.setApiUser(user.id());
     assertThat(
             getCommitsIncludedInRefs(
                 change.getCommit().getName(), Arrays.asList(R_HEADS_MASTER, nonVisibleTag)))

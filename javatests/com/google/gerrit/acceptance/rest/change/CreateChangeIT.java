@@ -2301,6 +2301,8 @@ public class CreateChangeIT extends AbstractDaemonTest {
   public void createChangeWithSourceBranch() throws Exception {
     changeInTwoBranches("branchA", "a.txt", "branchB", "b.txt");
 
+    requestScopeOperations.setApiUser(user.id());
+
     // create a merge change from branchA to master in gerrit
     ChangeInput in = new ChangeInput();
     in.project = project.get();

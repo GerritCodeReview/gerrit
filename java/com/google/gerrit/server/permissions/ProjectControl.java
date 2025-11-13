@@ -186,8 +186,7 @@ public class ProjectControl {
 
   boolean allRefsAreVisible(Set<String> ignore) {
     return user.isInternalUser()
-        || (!getProject().getNameKey().equals(allUsersName)
-            && canPerformOnAllRefs(Permission.READ, ignore));
+        || (!getProject().getNameKey().equals(allUsersName) && canPerformReadOnAllRefs(ignore));
   }
 
   /** Can the user run upload pack? */
@@ -297,20 +296,25 @@ public class ProjectControl {
     return null;
   }
 
-  private boolean canPerformOnAllRefs(String permission, Set<String> ignore) {
+  private boolean canPerformReadOnAllRefs(Set<String> ignore) {
     try (TraceTimer timer =
         TraceContext.newTimer(
-            "ProjectControl#canPerformOnAllRefs",
+            "ProjectControl#canPerformReadOnAllRefs",
             Metadata.builder().projectName(getProject().getName()).build())) {
+      // Admins should be able to read all refs.
+      if (isAdmin()) {
+        return true;
+      }
+
       boolean canPerform = false;
-      Set<String> patterns = allRefPatterns(permission);
+      Set<String> patterns = allRefPatterns(Permission.READ);
       if (patterns.contains(ALL)) {
         // Only possible if granted on the pattern that
         // matches every possible reference.  Check all
         // patterns also have the permission.
         //
         for (String pattern : patterns) {
-          if (controlForRef(pattern).canPerform(permission)) {
+          if (controlForRef(pattern).canPerform(Permission.READ)) {
             canPerform = true;
           } else if (ignore.contains(pattern)) {
             continue;

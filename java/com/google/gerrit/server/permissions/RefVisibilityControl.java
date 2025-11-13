@@ -68,6 +68,11 @@ public class RefVisibilityControl {
     if (!RefNames.isGerritRef(refName)) {
       // This is not a special Gerrit ref and not a NoteDb ref. Likely, it's just a ref under
       // refs/heads or another ref the user created. Apply the regular permissions with inheritance.
+
+      // Admins should be able to read all branches (including 'refs/meta/config').
+      if (projectControl.isAdmin()) {
+        return true;
+      }
       return projectControl.controlForRef(refName).hasReadPermissionOnRef(false);
     }
 

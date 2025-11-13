@@ -4,7 +4,7 @@
       "state": "FAILED",
       "url": "https://gerrit-ci.gerritforge.com/job/Gerrit-codestyle/12380/console",
       "started": "2025-11-13T11:02:55Z",
-      "finished": "2025-11-13T11:07:54Z",
+      "finished": "2025-11-13T11:07:55Z",
       "created": "2025-11-13T10:55:08Z",
       "updated": "2025-11-13T11:07:55Z"
     },

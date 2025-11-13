@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8777b35f_1ae0293e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2025-11-13T23:02:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1d63a16d_f9748deb",
+      "revId": "a695ba1db80e5714bae5a0479401a643a02d2fc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "86638d23_9efddf3a",
@@ -31,6 +49,24 @@
       "writtenOn": "2025-11-13T07:57:25Z",
       "side": 1,
       "message": "There is a usage of \"primaryRunAction()\" in \"renderTitleButtons()\" in gr-checks-runs.ts that you may have overlooked. It creates an overall \"Run Selected\" button, and it only makes sense for \"run\" actions, not for other primary actions.",
+      "revId": "a695ba1db80e5714bae5a0479401a643a02d2fc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "72d0170c_e81ae91d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2025-11-13T23:02:47Z",
+      "side": 1,
+      "message": "Agreed. Updated now.",
+      "parentUuid": "86638d23_9efddf3a",
       "revId": "a695ba1db80e5714bae5a0479401a643a02d2fc4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -54,6 +90,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "af0cb8f0_6acc8f98",
+        "filename": "polygerrit-ui/app/models/checks/checks-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2025-11-13T23:02:47Z",
+      "side": 1,
+      "message": "I see. The use of \u0027run\u0027 in this method name is somewhat unclear. I assumed it referred to the primary actions for \u0027check runs\u0027. Some of the other methods, such as `runActions` or `iconForRun`, also include \u0027run\u0027 in their names but don’t explicitly act only on \u0027run\u0027 or \u0027re-run\u0027 actions.\n\nAnyways, I think these \u0027run\u0027 and \u0027re-run\u0027 actions should be named differently and not as \u0027primary\u0027, since they don’t seem to use the `Action.primary` boolean. How about naming them \u0027trigger\u0027 actions instead? I’ve attempted this in my next PS.",
+      "parentUuid": "b81ca63d_1c1f41e6",
+      "revId": "a695ba1db80e5714bae5a0479401a643a02d2fc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4b42cd2c_4dc009f5",
         "filename": "polygerrit-ui/app/models/checks/checks-util.ts",
         "patchSetId": 2
@@ -65,6 +119,30 @@
       "writtenOn": "2025-11-13T07:57:25Z",
       "side": 1,
       "message": "We are returning only the first action of the filtered list. If you allow all primary actions to be matched, what is the rationale to only return the first one? What is the logic for choosing \"run\" or the other action, if both are present?",
+      "range": {
+        "startLine": 339,
+        "startChar": 3,
+        "endLine": 339,
+        "endChar": 6
+      },
+      "revId": "a695ba1db80e5714bae5a0479401a643a02d2fc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f162c56c_2fc5ad58",
+        "filename": "polygerrit-ui/app/models/checks/checks-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2025-11-13T23:02:47Z",
+      "side": 1,
+      "message": "Good point. I updated the logic to prioritize primary-trigger actions first, followed by primary actions, and then trigger actions.",
+      "parentUuid": "4b42cd2c_4dc009f5",
       "range": {
         "startLine": 339,
         "startChar": 3,

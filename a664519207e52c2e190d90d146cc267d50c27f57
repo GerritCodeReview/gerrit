@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0119be54_5a38ffa7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2025-11-13T22:59:19Z",
+      "side": 1,
+      "message": "Nice change!\n\nYou would need to format the code with google-java-format.\nMore info on it: https://gerrit-review.googlesource.com/Documentation/dev-intellij.html#_code_style",
+      "revId": "a664519207e52c2e190d90d146cc267d50c27f57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3d857ef6_2e0f141e",
+        "filename": "java/com/google/gerrit/server/git/validators/CommentCountValidator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2025-11-13T22:59:19Z",
+      "side": 1,
+      "message": "Good to not enforce per user limit by default.",
+      "revId": "a664519207e52c2e190d90d146cc267d50c27f57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ce806359_fc18ddf5",
+        "filename": "java/com/google/gerrit/server/git/validators/CommentCountValidator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2025-11-13T22:59:19Z",
+      "side": 1,
+      "message": "Do this work only if user is identified.",
+      "range": {
+        "startLine": 79,
+        "startChar": 0,
+        "endLine": 82,
+        "endChar": 87
+      },
+      "revId": "a664519207e52c2e190d90d146cc267d50c27f57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "99198743_268c258d",
+        "filename": "java/com/google/gerrit/server/git/validators/CommentCountValidator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2025-11-13T22:59:19Z",
+      "side": 1,
+      "message": "no need for additional variables, inline them.",
+      "range": {
+        "startLine": 93,
+        "startChar": 6,
+        "endLine": 94,
+        "endChar": 37
+      },
+      "revId": "a664519207e52c2e190d90d146cc267d50c27f57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

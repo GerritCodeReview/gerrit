@@ -18,16 +18,20 @@ import com.google.gerrit.extensions.restapi.DefaultInput;
 
 /** This entity contains information for registering a new email address. */
 public class EmailInput {
-  /* The email address. If provided, must match the email address from the URL. */
+  /** The email address. If provided, must match the email address from the URL. */
   @DefaultInput public String email;
 
-  /* Whether the new email address should become the preferred email address of
-   * the user. Only supported if {@link #noConfirmation} is set or if the
-   * authentication type is DEVELOPMENT_BECOME_ANY_ACCOUNT.*/
+  /**
+   * Whether the new email address should become the preferred email address of the user. Only
+   * supported if {@link #noConfirmation} is set or if the authentication type is
+   * DEVELOPMENT_BECOME_ANY_ACCOUNT.
+   */
   public boolean preferred;
 
-  /* Whether the email address should be added without confirmation. In this
-   * case no verification email is sent to the user. Only Gerrit administrators
-   * are allowed to add email addresses without confirmation. */
+  /**
+   * Whether the email address should be added without confirmation. In this case no verification
+   * email is sent to the user. Only Gerrit administrators are allowed to add email addresses
+   * without confirmation.
+   */
   public boolean noConfirmation;
 }

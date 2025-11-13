@@ -5065,9 +5065,9 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     if (gApi.groups().query(emptyGroupName).get().isEmpty()) {
       createGroup(emptyGroupName, "Administrators");
     }
-    String queryPattern =
-        "(status:new OR status:merged OR status:abandoned) AND (reviewerin:\"%s\" OR %s)";
-    return String.format(queryPattern, emptyGroupName, searchTerm);
+    return String.format(
+        "(status:new OR status:merged OR status:abandoned) AND (reviewerin:\"%s\" OR %s)",
+        emptyGroupName, searchTerm);
   }
 
   private void addComment(Change change, String message, Boolean unresolved) throws Exception {

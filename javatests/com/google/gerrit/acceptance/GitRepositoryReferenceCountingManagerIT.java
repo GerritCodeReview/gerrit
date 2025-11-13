@@ -35,7 +35,7 @@ public class GitRepositoryReferenceCountingManagerIT extends AbstractDaemonTest 
     }
   }
 
-  @Test()
+  @Test
   @SuppressWarnings("resource")
   public void shouldFailTestWhenRepositoryIsLeftOpen() throws Exception {
     Repository unused = repoManager.openRepository(project);

@@ -15,7 +15,7 @@
  * the License.
  */
 
-/*
+/**
  * NB: This code was primarly ripped out of MINA SSHD.
  *
  * @author <a href="mailto:dev@mina.apache.org">Apache MINA SSHD Project</a>

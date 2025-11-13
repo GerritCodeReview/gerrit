@@ -62,33 +62,33 @@ public class MetricsReservoirConfigImpl implements MetricsReservoirConfig {
             .orElse(RESERVOIR_ALPHA_DEFAULT);
   }
 
-  /* (non-Javadoc)
-   * @see com.google.gerrit.server.config.MetricsConfig#reservoirType()
-   */
+  // (non-Javadoc)
+  // @see com.google.gerrit.server.config.MetricsConfig#reservoirType()
+  //
   @Override
   public ReservoirType reservoirType() {
     return reservoirType;
   }
 
-  /* (non-Javadoc)
-   * @see com.google.gerrit.server.config.MetricsConfig#reservoirWindow()
-   */
+  // (non-Javadoc)
+  // @see com.google.gerrit.server.config.MetricsConfig#reservoirWindow()
+  //
   @Override
   public Duration reservoirWindow() {
     return reservoirWindow;
   }
 
-  /* (non-Javadoc)
-   * @see com.google.gerrit.server.config.MetricsConfig#reservoirSize()
-   */
+  // (non-Javadoc)
+  // @see com.google.gerrit.server.config.MetricsConfig#reservoirSize()
+  //
   @Override
   public int reservoirSize() {
     return reservoirSize;
   }
 
-  /* (non-Javadoc)
-   * @see com.google.gerrit.server.config.MetricsConfig#reservoirAlpha()
-   */
+  // (non-Javadoc)
+  // @see com.google.gerrit.server.config.MetricsConfig#reservoirAlpha()
+  //
   @Override
   public double reservoirAlpha() {
     return reservoirAlpha;

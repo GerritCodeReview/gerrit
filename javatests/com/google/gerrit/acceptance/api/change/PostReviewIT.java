@@ -388,6 +388,45 @@ public class PostReviewIT extends AbstractDaemonTest {
   }
 
   @Test
+  @GerritConfig(name = "change.maxCommentsPerUser", value = "2")
+  public void restrictNumberOfCommentsPerUser() throws Exception {
+    when(mockCommentValidator.validateComments(any(), any())).thenReturn(ImmutableList.of());
+
+    PushOneCommit.Result r = createChange();
+    String filePath = r.getChange().currentFilePaths().get(0);
+
+    CommentInput comment1 = new CommentInput();
+    comment1.line = 1;
+    comment1.message = "first comment";
+    comment1.path = filePath;
+
+    CommentInput comment2 = new CommentInput();
+    comment2.line = 2;
+    comment2.message = "second comment";
+    comment2.path = filePath;
+
+    CommentInput comment3 = new CommentInput();
+    comment3.line = 3;
+    comment3.message = "third comment";
+    comment3.path = filePath;
+
+    ReviewInput reviewInput = new ReviewInput();
+    reviewInput.comments =
+        ImmutableMap.of(filePath, ImmutableList.of(comment1, comment2, comment3));
+
+    BadRequestException exception =
+        assertThrows(
+            BadRequestException.class,
+            () -> gApi.changes().id(r.getChangeId()).current().review(reviewInput));
+
+    assertThat(exception)
+        .hasMessageThat()
+        .contains("Exceeding maximum comments per user: 1 (existing) + 4 (new) > 2");
+
+    assertThat(testCommentHelper.getPublishedComments(r.getChangeId())).hasSize(0);
+  }
+
+  @Test
   @GerritConfig(name = "change.cumulativeCommentSizeLimit", value = "7k")
   public void validateCumulativeCommentSize() throws Exception {
     PushOneCommit.Result r = createChange();

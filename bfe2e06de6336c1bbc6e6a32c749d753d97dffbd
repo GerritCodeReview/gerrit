@@ -16,6 +16,29 @@
       "message": "For the record, this was the Gemini review. It makes me confident that this is safe. The plugin elements not firing *-changed events is intentional. There is no need for that.\n\nGemini\n\nThis CL is a refactoring that removes the AttributeHelper API and inlines its functionality into GrEndpointDecorator. This simplification is possible because GrEndpointDecorator was the only user of this API.\n\nI\u0027ve reviewed the changes and found one subtle behavioral difference in the implementation, but it appears to be safe and unlikely to cause issues.\n\nBehavioral Change Analysis\nThe previous implementation used plugin.attributeHelper(el).set(paramName, value) to set a property on a plugin\u0027s endpoint element. This helper method not only set the property on the element but also dispatched a \u003cparamName\u003e-changed event.\n\n// polygerrit-ui/app/elements/plugins/gr-attribute-helper/gr-attribute-helper.ts (deleted)\nset(name: string, value: any) {\n  this.element[name] \u003d value;\n  this.element.dispatchEvent(\n    new CustomEvent(this._getChangedEventName(name), {detail: {value}})\n  );\n}\nThe new implementation in gr-endpoint-decorator.ts directly sets the property, without dispatching the event:\n\n// polygerrit-ui/app/elements/plugins/gr-endpoint-decorator/gr-endpoint-decorator.ts\npluginEl[paramName] \u003d value;\nThis *-changed event is part of the Polymer data-binding system for notifying parent elements of property changes (upward data flow). In the case of gr-endpoint-decorator, the data flow is one-way, from the host element down to the plugin element. The plugin element can react to property changes using its own internal mechanisms like property observers (Polymer) or setters and updated() (Lit), so the event dispatch was redundant.\n\nGiven that this was the only usage of AttributeHelper, its removal and the simplified inlining of its logic in GrEndpointDecorator is a good cleanup and should not cause any functional regression.\n\nI have one minor suggestion for the new implementation.",
       "revId": "bfe2e06de6336c1bbc6e6a32c749d753d97dffbd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b0caf9e4_4f5ed20c",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-endpoint-decorator/gr-endpoint-decorator.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-11-14T12:11:39Z",
+      "side": 1,
+      "message": "Should this be removed when disconnecting element?",
+      "range": {
+        "startLine": 194,
+        "startChar": 2,
+        "endLine": 196,
+        "endChar": 6
+      },
+      "revId": "bfe2e06de6336c1bbc6e6a32c749d753d97dffbd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -28,13 +28,3 @@ export const hovercardStyles = css`
     box-shadow: var(--elevation-level-5);
   }
 `;
-
-const $_documentContainer = document.createElement('template');
-$_documentContainer.innerHTML = `<dom-module id="gr-hovercard-styles">
-  <template>
-    <style>
-    ${hovercardStyles.cssText}
-    </style>
-  </template>
-</dom-module>`;
-document.head.appendChild($_documentContainer.content);

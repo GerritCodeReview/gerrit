@@ -121,13 +121,3 @@ export const materialStyles = css`
     --md-sys-color-on-surface: var(--select-on-surface);
   }
 `;
-
-const $_documentContainer = document.createElement('template');
-$_documentContainer.innerHTML = `<dom-module id="gr-material-styles">
-  <template>
-    <style>
-    ${materialStyles.cssText}
-    </style>
-  </template>
-</dom-module>`;
-document.head.appendChild($_documentContainer.content);

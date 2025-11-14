@@ -44,13 +44,3 @@ export const fontStyles = css`
     font-weight: var(--font-weight-medium);
   }
 `;
-
-const $_documentContainer = document.createElement('template');
-$_documentContainer.innerHTML = `<dom-module id="gr-font-styles">
-  <template>
-    <style>
-    ${fontStyles.cssText}
-    </style>
-  </template>
-</dom-module>`;
-document.head.appendChild($_documentContainer.content);

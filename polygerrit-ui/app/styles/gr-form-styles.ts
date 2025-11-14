@@ -103,13 +103,3 @@ export const grFormStyles = css`
     }
   }
 `;
-
-const $_documentContainer = document.createElement('template');
-$_documentContainer.innerHTML = `<dom-module id="gr-form-styles">
-  <template>
-    <style>
-    ${grFormStyles.cssText}
-    </style>
-  </template>
-</dom-module>`;
-document.head.appendChild($_documentContainer.content);

@@ -5,8 +5,6 @@
  */
 import {css} from 'lit';
 
-const $_documentContainer = document.createElement('template');
-
 /**
  * HighlightJS emits the following classes that do not have styles here:
  *    subst, symbol, class, function, doctag, meta-string, section, name,
@@ -124,13 +122,3 @@ export const grSyntaxTheme = css`
     color: var(--syntax-variable-language-color);
   }
 `;
-
-$_documentContainer.innerHTML = `<dom-module id="gr-syntax-theme">
-  <template>
-    <style>
-    ${grSyntaxTheme.cssText}
-    </style>
-  </template>
-</dom-module>`;
-
-document.head.appendChild($_documentContainer.content);

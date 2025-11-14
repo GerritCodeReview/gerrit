@@ -19,15 +19,3 @@ export const subpageStyles = css`
     display: none;
   }
 `;
-
-const $_documentContainer = document.createElement('template');
-$_documentContainer.innerHTML = `
-  <dom-module id="gr-subpage-styles">
-    <template>
-      <style>
-      ${subpageStyles.cssText}
-      </style>
-    </template>
-  </dom-module>
-`;
-document.head.appendChild($_documentContainer.content);

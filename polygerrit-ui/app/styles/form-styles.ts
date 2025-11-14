@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {css} from 'lit';
-import {grFormStyles} from './gr-form-styles';
 
 export const formStyles = css`
   input {
@@ -37,13 +36,3 @@ export const formStyles = css`
     font: inherit;
   }
 `;
-
-const $_documentContainer = document.createElement('template');
-$_documentContainer.innerHTML = `<dom-module id="form-styles">
-  <template>
-    <style>
-    ${grFormStyles.cssText}
-    </style>
-  </template>
-</dom-module>`;
-document.head.appendChild($_documentContainer.content);

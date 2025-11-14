@@ -3041,7 +3041,6 @@ Polymer-2018
 
 * @webcomponents/webcomponentsjs
 * polymer-bridges
-* polymer-resin
 
 [[Polymer-2018_license]]
 ----

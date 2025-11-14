@@ -9,7 +9,7 @@ import {PluginApi} from '../../../api/plugin';
 import {PopupPluginApi} from '../../../api/popup';
 import {getAppContext} from '../../../services/app-context';
 
-interface CustomPolymerPluginEl extends HTMLElement {
+interface CustomPluginEl extends HTMLElement {
   plugin: PluginApi;
 }
 
@@ -60,7 +60,7 @@ export class GrPopupInterface implements PopupPluginApi {
           const popup = document.createElement('gr-plugin-popup');
           if (this.moduleName) {
             const el = popup.appendChild(
-              document.createElement(this.moduleName) as CustomPolymerPluginEl
+              document.createElement(this.moduleName) as CustomPluginEl
             );
             el.plugin = this.plugin;
           }

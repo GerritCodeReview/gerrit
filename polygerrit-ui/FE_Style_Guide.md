@@ -14,7 +14,6 @@ some don't):
 - [Use destructuring imports only](#destructuring-imports-only)
 - [Use classes and services for storing and manipulating global state](#services-for-global-state)
 - [Pass required services in the constructor for plain classes](#pass-dependencies-in-constructor)
-- [Assign required services in a HTML/Polymer element constructor](#assign-dependencies-in-html-element-constructor)
 
 ## <a name="prefer-undefined"></a>Prefer `undefined` over `null`
 
@@ -25,6 +24,7 @@ Some browser and library APIs are using `null`, so we cannot remove `null` compl
 then try to convert return values and leak as few `nulls` as possible.
 
 ## <a name="destructuring-imports-only"></a>Use destructuring imports only
+
 Always use destructuring import statement and specify all required names explicitly (e.g. `import {a,b,c} from '...'`)
 where possible.
 
@@ -39,6 +39,7 @@ You can read more about different type of imports
 [here](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import).
 
 **Good:**
+
 ```Javascript
 // Import from the module in the same project.
 import {getDisplayName, getAccount} from './user-utils.js'
@@ -49,6 +50,7 @@ import downloadImage from 'third-party-library/images/download.js'
 ```
 
 **Bad:**
+
 ```Javascript
 import * as userUtils from './user-utils.js'
 ```
@@ -61,25 +63,26 @@ top level of a module.
 It is not easy to define precise what can be a shared global state and what is not. Below are some
 examples of what can treated as a shared global state:
 
-* Information about enabled experiments
-* Information about current user
-* Information about current change
+- Information about enabled experiments
+- Information about current user
+- Information about current change
 
 **Note:**
 
 Service name must ends with a `Service` suffix.
 
 To share global state across modules in the project, do the following:
+
 - put the state in a class
 - add a new service to the
-[appContext](https://gerrit.googlesource.com/gerrit/+/refs/heads/master/polygerrit-ui/app/services/app-context.js)
+  [appContext](https://gerrit.googlesource.com/gerrit/+/refs/heads/master/polygerrit-ui/app/services/app-context.js)
 - add a service initialization code to the
-[services/app-context-init.js](https://gerrit.googlesource.com/gerrit/+/refs/heads/master/polygerrit-ui/app/services/app-context-init.js) file.
+  [services/app-context-init.js](https://gerrit.googlesource.com/gerrit/+/refs/heads/master/polygerrit-ui/app/services/app-context-init.js) file.
 - add a service or service-mock initialization code to the
-[embed/app-context-init.js](https://gerrit.googlesource.com/gerrit/+/refs/heads/master/polygerrit-ui/app/embed/app-context-init.js) file.
+  [embed/app-context-init.js](https://gerrit.googlesource.com/gerrit/+/refs/heads/master/polygerrit-ui/app/embed/app-context-init.js) file.
 - recommended: add a separate service-mock for testing. Do not use the same mock for testing and for
-the shared gr-diff (i.e. in the `services/app-context-init.js`). Even if the mocks are simple and looks
-identically, keep them separate. It allows to change them independently in the future.
+  the shared gr-diff (i.e. in the `services/app-context-init.js`). Even if the mocks are simple and looks
+  identically, keep them separate. It allows to change them independently in the future.
 
 Also see the example below if a service depends on another services.
 
@@ -91,6 +94,7 @@ cases you can keep the service uninitialized in
 review/update rules regarding the shared gr-diff element.
 
 **Good:**
+
 ```Javascript
 export class CounterService {
     constructor() {
@@ -106,6 +110,7 @@ export class CounterService {
 ```
 
 **Bad:**
+
 ```Javascript
 // module counter.js
 // Incorrect: shared state declared at the top level of the counter.js module
@@ -126,6 +131,7 @@ as parameters in the constructor.
 Do not use getAppContext() anywhere else in a class.
 
 **Good:**
+
 ```Javascript
 export class UserService {
     constructor(restApiService) {
@@ -138,6 +144,7 @@ export class UserService {
 ```
 
 **Bad:**
+
 ```Javascript
 import {getAppContext} from "./app-context";
 

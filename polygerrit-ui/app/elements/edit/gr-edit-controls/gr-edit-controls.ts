@@ -548,8 +548,6 @@ export class GrEditControls extends LitElement {
   }
 
   private handleDeleteConfirm(e: Event) {
-    // Get the dialog before the api call as the event will change during bubbling
-    // which will make Polymer.dom(e).path an empty array in polymer 2
     const dialog = this.getDialogFromEvent(e);
     if (!this.change || !this.path) {
       fireAlert(this, 'You must enter a path.');

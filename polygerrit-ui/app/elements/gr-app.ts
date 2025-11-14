@@ -9,19 +9,6 @@ import '../types/globals';
 // Sets up global Polymer variable, because plugins requires it.
 import '../scripts/bundled-polymer';
 
-/**
- * setCancelSyntheticClickEvents is set to true by
- * default which will cancel synthetic click events
- * on older touch device.
- * See https://github.com/Polymer/polymer/issues/5289
- */
-import {
-  setCancelSyntheticClickEvents,
-  setPassiveTouchGestures,
-} from '@polymer/polymer/lib/utils/settings';
-setCancelSyntheticClickEvents(false);
-setPassiveTouchGestures(true);
-
 import {initGerrit, initGlobalVariables} from './gr-app-global-var-init';
 import './gr-app-element';
 import {

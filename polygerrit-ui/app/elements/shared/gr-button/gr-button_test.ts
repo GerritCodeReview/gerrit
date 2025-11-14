@@ -6,7 +6,6 @@
 import * as sinon from 'sinon';
 import '../../../test/common-test-setup';
 import './gr-button';
-import {addListener} from '@polymer/polymer/lib/utils/gestures';
 import {assert, fixture, html} from '@open-wc/testing';
 import {GrButton} from './gr-button';
 import {pressKey, queryAndAssert} from '../../../test/test-utils';
@@ -18,11 +17,7 @@ suite('gr-button tests', () => {
 
   const addSpyOn = function (eventName: string) {
     const spy = sinon.spy();
-    if (eventName === 'tap') {
-      addListener(element, eventName, spy);
-    } else {
-      element.addEventListener(eventName, spy);
-    }
+    element.addEventListener(eventName, spy);
     return spy;
   };
 

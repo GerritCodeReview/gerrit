@@ -1,4 +1,4 @@
-# Gerrit Polymer Frontend
+# Gerrit Lit Frontend
 
 Follow the
 [setup instructions for Gerrit backend developers](https://gerrit-review.googlesource.com/Documentation/dev-readme.html)
@@ -129,7 +129,7 @@ Set up a local test site once:
 For running a locally built Gerrit war against your test instance use
 [this command](https://gerrit-review.googlesource.com/Documentation/dev-readme.html#run_daemon).
 
-If you want to serve the Polymer frontend directly from the sources in `polygerrit_ui/app/` instead of from the war:
+If you want to serve the Lit frontend directly from the sources in `polygerrit_ui/app/` instead of from the war:
 1. Start [Web Dev Server](#web-dev-server)
 2. Add the `--dev-cdn` option:
 
@@ -453,21 +453,3 @@ from the queue we have for FE reviewers.
 If you are willing to join the queue and help the community review changes,
 you can create an issue through Monorail and request to join the queue!
 We will review your request and start from there.
-
-## Troubleshotting & Frequently asked questions
-
-1. Local host is blank page and console shows missing files from `polymer-bridges`
-
-Its likely you missed the `polymer-bridges` submodule when you clone the `gerrit` repo.
-
-To fix that, run:
-```
-// fetch the submodule
-git submodule update --init --recursive
-
-// reset the workspace (please save your local changes before running this command)
-yarn clean
-
-// install all dependencies and start the server
-npm start
-```

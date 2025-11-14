@@ -581,22 +581,3 @@ const styleEl = document.createElement('style');
 styleEl.setAttribute('id', 'light-theme');
 setStyleTextContent(styleEl, appThemeCss);
 document.head.appendChild(styleEl);
-
-// TODO: The following can be removed when Paper and Iron components have been
-// removed from Gerrit.
-
-const appThemeCssPolymerLegacy = safeStyleSheet`
-  /* prettier formatter removes semi-colons after css mixins. */
-  /* prettier-ignore */
-  html {
-    --paper-tooltip: {
-      font-size: var(--font-size-small);
-    };
-  }
-`;
-
-const customStyleEl = document.createElement('custom-style');
-const innerStyleEl = document.createElement('style');
-setStyleTextContent(innerStyleEl, appThemeCssPolymerLegacy);
-customStyleEl.appendChild(innerStyleEl);
-document.head.appendChild(customStyleEl);

@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {getBaseUrl} from '../../../utils/url-util';
-import {GrAttributeHelper} from '../../plugins/gr-attribute-helper/gr-attribute-helper';
 import {GrChangeActionsInterface} from './gr-change-actions-js-api';
 import {GrChangeReplyInterface} from './gr-change-reply-js-api';
 import {GrDomHooksManager} from '../../plugins/gr-dom-hooks/gr-dom-hooks';
@@ -28,7 +27,6 @@ import {ChangeActionsPluginApi} from '../../../api/change-actions';
 import {ChangeReplyPluginApi} from '../../../api/change-reply';
 import {RestPluginApi} from '../../../api/rest';
 import {HookApi, PluginElement, RegisterOptions} from '../../../api/hook';
-import {AttributeHelperPluginApi} from '../../../api/attribute-helper';
 import {JsApiService} from './gr-js-api-types';
 import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
 import {RestApiService} from '../../../services/gr-rest-api/gr-rest-api';
@@ -232,10 +230,6 @@ export class Plugin implements PluginApi {
 
   restApi(prefix?: string): RestPluginApi {
     return new GrPluginRestApi(this.restApiService, this.report, this, prefix);
-  }
-
-  attributeHelper(element: HTMLElement): AttributeHelperPluginApi {
-    return new GrAttributeHelper(this.report, this, element);
   }
 
   eventHelper(element: HTMLElement): EventHelperPluginApi {

@@ -15,6 +15,8 @@ import {getAppContext} from '../../../services/app-context';
 import {assertIsDefined} from '../../../utils/common-util';
 import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {resolve} from '../../../models/dependency';
+import {ValueChangedEvent} from '../../../types/events';
+import {GrEndpointParam} from '../gr-endpoint-param/gr-endpoint-param';
 
 const INIT_PROPERTIES_TIMEOUT_MS = 10000;
 
@@ -139,26 +141,9 @@ export class GrEndpointDecorator extends LitElement {
     if (content) {
       el.content = content as HTMLElement;
     }
-    const expectProperties = this.getEndpointParams().map(paramEl => {
-      const helper = plugin.attributeHelper(paramEl);
-      const paramName = paramEl.name;
-      if (!paramName) {
-        this.reporting.error(
-          `Plugin '${pluginName}', endpoint '${this.name}'`,
-          new Error(
-            `Plugin '${pluginName}', endpoint '${this.name}': param is missing a name.`
-          )
-        );
-        return;
-      }
-      return helper.get('value').then(() =>
-        helper.bind('value', value =>
-          // Note that despite the naming this sets the property, not the
-          // attribute. :-)
-          plugin.attributeHelper(el).set(paramName, value)
-        )
-      );
-    });
+    const expectProperties = this.getEndpointParams().map(paramEl =>
+      this.setupParamBinding(paramEl, el, pluginName)
+    );
     let timeoutId: number;
     const timeout = new Promise(
       () =>
@@ -180,6 +165,39 @@ export class GrEndpointDecorator extends LitElement {
       .finally(() => {
         if (timeoutId) clearTimeout(timeoutId);
       });
+  }
+
+  private setupParamBinding(
+    paramEl: GrEndpointParam,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    pluginEl: any,
+    pluginName: string
+  ) {
+    const paramName = paramEl.name;
+    if (!paramName) {
+      this.reporting.error(
+        `Plugin '${pluginName}', endpoint '${this.name}'`,
+        new Error(
+          `Plugin '${pluginName}', endpoint '${this.name}': param is missing a name.`
+        )
+      );
+      return Promise.resolve();
+    }
+
+    let resolve: () => void;
+    const promise = new Promise<void>(r => (resolve = r));
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const callback = (value: any) => {
+      resolve();
+      pluginEl[paramName] = value;
+    };
+    paramEl.addEventListener('value-changed', (e: ValueChangedEvent) =>
+      callback(e.detail.value)
+    );
+    if (paramEl.value !== undefined) {
+      callback(paramEl.value);
+    }
+    return promise;
   }
 
   private readonly initModule = ({

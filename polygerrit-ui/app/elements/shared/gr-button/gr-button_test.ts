@@ -6,7 +6,6 @@
 import * as sinon from 'sinon';
 import '../../../test/common-test-setup';
 import './gr-button';
-import {addListener} from '@polymer/polymer/lib/utils/gestures';
 import {assert, fixture, html} from '@open-wc/testing';
 import {GrButton} from './gr-button';
 import {pressKey, queryAndAssert} from '../../../test/test-utils';
@@ -18,11 +17,7 @@ suite('gr-button tests', () => {
 
   const addSpyOn = function (eventName: string) {
     const spy = sinon.spy();
-    if (eventName === 'tap') {
-      addListener(element, eventName, spy);
-    } else {
-      element.addEventListener(eventName, spy);
-    }
+    element.addEventListener(eventName, spy);
     return spy;
   };
 
@@ -132,16 +127,8 @@ suite('gr-button tests', () => {
     assert.equal(tabIndexElement.getAttribute('tabindex'), '3');
   });
 
-  // 'tap' event is tested so we don't loose backward compatibility with older
-  // plugins who didn't move to on-click which is faster and well supported.
   test('dispatches click event', () => {
     const spy = addSpyOn('click');
-    element.click();
-    assert.isTrue(spy.calledOnce);
-  });
-
-  test('dispatches tap event', () => {
-    const spy = addSpyOn('tap');
     element.click();
     assert.isTrue(spy.calledOnce);
   });

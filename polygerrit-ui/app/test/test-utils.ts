@@ -129,11 +129,6 @@ function getActiveElement() {
 }
 
 export function isFocusInsideElement(element: Element) {
-  // In Polymer 2 focused element either <paper-input> or nested
-  // native input <input> element depending on the current focus
-  // in browser window.
-  // For example, the focus is changed if the developer console
-  // get a focus.
   let activeElement = getActiveElement();
   while (activeElement) {
     if (activeElement === element) {

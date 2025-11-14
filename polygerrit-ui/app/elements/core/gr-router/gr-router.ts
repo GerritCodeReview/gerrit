@@ -271,8 +271,6 @@ const LEGACY_LINENUM_PATTERN = /@([ab]?\d+)$/;
 
 const LEGACY_QUERY_SUFFIX_PATTERN = /,n,z$/;
 
-// Polymer makes `app` intrinsically defined on the window by virtue of the
-// custom element having the id "pg-app", but it is made explicit here.
 // If you move this code to other place, please update comment about
 // gr-router and gr-app in the PolyGerritIndexHtml.soy file if needed
 const app = document.querySelector('gr-app');
@@ -419,8 +417,6 @@ export class GrRouter implements Finalizable, NavigationService {
   }
 
   private appElement(): AppElement {
-    // In Polymer2 you have to reach through the shadow root of the app
-    // element. This obviously breaks encapsulation.
     // TODO(milutin): Make this more elegant, e.g. by exposing app-element
     // explicitly in app, or by delegating to it.
 

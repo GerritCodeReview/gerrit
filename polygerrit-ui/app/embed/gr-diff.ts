@@ -3,13 +3,6 @@
  * Copyright 2020 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-
-// TODO(dmfilippov): remove bundled-polymer.js imports when the following issue
-// https://github.com/Polymer/polymer-resin/issues/9 is resolved.
-// Because gr-diff.js is a shared component, it shouldn' pollute global
-// variables. If an application wants to use Polymer global variable -
-// the app must assign/import it and do not rely on the Polymer variable
-// exposed by shared gr-diff component.
 import '../api/embed';
 import '../scripts/bundled-polymer';
 import './diff/gr-diff/gr-diff';

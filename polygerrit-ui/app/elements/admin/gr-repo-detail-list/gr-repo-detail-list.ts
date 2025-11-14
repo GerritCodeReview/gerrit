@@ -380,8 +380,6 @@ export class GrRepoDetailList extends LitElement {
       return Promise.reject(new Error('undefined repo'));
     }
 
-    // paramsChanged is called before gr-admin-view can set _showRepoDetailList
-    // to false and polymer removes this component, hence check for params
     if (
       !(
         this.params?.detail === RepoDetailView.BRANCHES ||

@@ -922,8 +922,6 @@ export class GrChangeView extends LitElement {
         .changeStatus {
           text-transform: capitalize;
         }
-        /* Strong specificity here is needed due to
-            https://github.com/Polymer/polymer/issues/2531 */
         .container .changeInfo {
           display: flex;
           background-color: var(--background-color-secondary);

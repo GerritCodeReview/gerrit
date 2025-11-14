@@ -130,6 +130,24 @@
       "message": "Exit early if we already know that we don\u0027t need to perform this check.\n\n```\n    if (maxCommentsPerUser \u003c 0) {\n      return failures.build();\n    }\n\n    // per user counting logic ...\n```",
       "revId": "4d79448163cd93e460a5f45c079a680fe2f60e59",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d7fc3234_8eccca25",
+        "filename": "java/com/google/gerrit/server/git/validators/CommentCountValidator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2025-11-14T22:18:33Z",
+      "side": 1,
+      "message": "We can exit much earlier when there is no user limit set? i.e before even obtaining `existingUserComments`.",
+      "parentUuid": "0c9234b9_6ccfbd50",
+      "revId": "4d79448163cd93e460a5f45c079a680fe2f60e59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

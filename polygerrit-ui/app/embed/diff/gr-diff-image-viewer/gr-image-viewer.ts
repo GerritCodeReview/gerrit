@@ -5,9 +5,6 @@
  */
 import '@material/web/button/text-button';
 import '@material/web/checkbox/checkbox';
-// Google internal screenshot tests are failing without this import.
-// We have no idea why, but for the time being we will just keep the import.
-import '@polymer/paper-item/paper-item';
 import './gr-overview-image';
 import './gr-zoomed-image';
 import '@material/web/labs/card/filled-card';

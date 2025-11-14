@@ -354,9 +354,6 @@ export class GrFormattedText extends LitElement {
       'marked-render-complete',
       this.markedRenderComplete
     );
-    // When masked-element was using Polymer, it was rendered synchronously,
-    // compared to the lit version of the element. updated() ran before the markdown
-    // was inserted into the slot.
     this.addEventListener('marked-render-complete', this.markedRenderComplete);
   }
 

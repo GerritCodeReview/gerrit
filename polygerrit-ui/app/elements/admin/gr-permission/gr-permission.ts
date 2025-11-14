@@ -506,12 +506,6 @@ export class GrPermission extends LitElement {
     // The group id is encoded, but have to decode in order for the access
     // API to work as expected.
     const groupId = decodeURIComponent(e.detail.value).replace(/\+/g, ' ');
-    // We cannot use "this.set(...)" here, because groupId may contain dots,
-    // and dots in property path names are totally unsupported by Polymer.
-    // Apparently Polymer picks up this change anyway, otherwise we should
-    // have looked at using MutableData:
-    // https://polymer-library.polymer-project.org/2.0/docs/devguide/data-system#mutable-data
-    // Actual value assigned below, after the flush
     this.permission.value.rules[groupId] = {} as EditablePermissionRuleInfo;
 
     // Purposely don't recompute sorted array so that the newly added rule

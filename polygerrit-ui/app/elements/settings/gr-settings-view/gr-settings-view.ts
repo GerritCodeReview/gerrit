@@ -206,8 +206,6 @@ export class GrSettingsView extends LitElement {
 
   override connectedCallback() {
     super.connectedCallback();
-    // Polymer 2: anchor tag won't work on shadow DOM
-    // we need to manually calling scrollIntoView when hash changed
     document.addEventListener('location-change', this.handleLocationChange);
     fireTitleChange('Settings');
   }
@@ -679,7 +677,6 @@ ${this.accountState}</textarea
     // Handle anchor tag after dom attached
     const urlHash = window.location.hash;
     if (urlHash) {
-      // Use shadowRoot for Polymer 2
       const elem = (this.shadowRoot || document).querySelector(urlHash);
       if (elem) {
         setTimeout(() => elem.scrollIntoView(), 0);

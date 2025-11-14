@@ -71,7 +71,6 @@ module.exports = {
     ],
     // https://eslint.org/docs/rules/new-cap
     'new-cap': ['error', {
-      capIsNewExceptions: ['Polymer'],
       capIsNewExceptionPattern: '^.*Mixin$',
     }],
     // https://eslint.org/docs/rules/no-console
@@ -168,7 +167,7 @@ module.exports = {
     'jsdoc/check-syntax': 0,
     // https://github.com/gajus/eslint-plugin-jsdoc#eslint-plugin-jsdoc-rules-check-tag-names
     'jsdoc/check-tag-names': ['error', {
-      definedTags: ['attr', 'lit', 'mixinFunction', 'mixinClass', 'polymer'],
+      definedTags: ['attr', 'lit', 'mixinFunction', 'mixinClass'],
     }],
     // https://github.com/gajus/eslint-plugin-jsdoc#eslint-plugin-jsdoc-rules-check-types
     'jsdoc/check-types': 0,
@@ -299,9 +298,6 @@ module.exports = {
         }, {
           name: '@lit/reactive-element',
           message: 'Use lit instead',
-        }, {
-          name: '@polymer/decorators/lib/decorators',
-          message: 'Use @polymer/decorators instead',
         }],
         '@typescript-eslint/no-empty-object-type': 'off',
         '@typescript-eslint/no-floating-promises': 'off',
@@ -394,7 +390,6 @@ module.exports = {
       globals: {
         // Settings for samples. You can add globals here if you want to use it
         Gerrit: 'readonly',
-        Polymer: 'readonly',
       },
     },
     {

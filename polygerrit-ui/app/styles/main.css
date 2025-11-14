@@ -34,7 +34,7 @@ html {
 html,
 body {
   height: 100%;
-  transition: none; /* Override the default Polymer fade-in. */
+  transition: none;
 }
 body {
   /*

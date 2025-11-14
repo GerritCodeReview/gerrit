@@ -88,8 +88,6 @@ suite('gr-plugin-action-context tests', () => {
     setup(() => {
       clickStub = stub();
       button = instance.button('foo', {onclick: clickStub});
-      // If you don't attach a Polymer element to the DOM, then the ready()
-      // callback will not be called and then e.g. this.$ is undefined.
       document.body.appendChild(button);
     });
 

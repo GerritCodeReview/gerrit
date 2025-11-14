@@ -44,8 +44,6 @@ export class GrSelect extends LitElement {
         this.nativeSelect.value = String(this.bindValue);
       }, 1);
     }
-    // TODO: bind-value-changed is polymer-specific.  Move to a new event
-    // name and rely on ValueChangedEvent instead of BindValueChangeEvent.
     fire(this, 'bind-value-changed', {value: this.convert(this._bindValue)});
   }
 

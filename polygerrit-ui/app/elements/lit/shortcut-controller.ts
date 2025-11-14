@@ -62,9 +62,6 @@ export class ShortcutController implements ReactiveController {
    * description text and (several) bindings configured in the file
    * `shortcuts-config.ts`.
    *
-   * Use this method when you are migrating from Polymer to Lit. Call it for
-   * each entry of keyboardShortcuts().
-   *
    * Call method in constructor of the component
    */
   addAbstract(

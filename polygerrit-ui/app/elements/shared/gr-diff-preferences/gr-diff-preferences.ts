@@ -143,9 +143,6 @@ export class GrDiffPreferences extends LitElement {
               .value=${convertToString(this.diffPrefs?.line_length)}
               @input=${this.handleDiffLineLengthInput}
               @beforeinput=${(e: InputEvent) => {
-                // In iron-input we had allowedPattern, but this is not supported
-                // in md-outlined-text-field. Which uses native input functionality.
-                // We workaround this.
                 const data = e.data;
                 if (data && !/^[0-9]*$/.test(data)) {
                   e.preventDefault();
@@ -166,9 +163,6 @@ export class GrDiffPreferences extends LitElement {
               .value=${convertToString(this.diffPrefs?.tab_size)}
               @input=${this.handleDiffTabSizeInput}
               @beforeinput=${(e: InputEvent) => {
-                // In iron-input we had allowedPattern, but this is not supported
-                // in md-outlined-text-field. Which uses native input functionality.
-                // We workaround this.
                 const data = e.data;
                 if (data && !/^[0-9]*$/.test(data)) {
                   e.preventDefault();
@@ -189,9 +183,6 @@ export class GrDiffPreferences extends LitElement {
               .value=${convertToString(this.diffPrefs?.font_size)}
               @input=${this.handleDiffFontSizeInput}
               @beforeinput=${(e: InputEvent) => {
-                // In iron-input we had allowedPattern, but this is not supported
-                // in md-outlined-text-field. Which uses native input functionality.
-                // We workaround this.
                 const data = e.data;
                 if (data && !/^[0-9]*$/.test(data)) {
                   e.preventDefault();

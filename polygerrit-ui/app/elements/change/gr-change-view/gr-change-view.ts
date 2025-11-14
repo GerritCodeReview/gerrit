@@ -1673,7 +1673,7 @@ export class GrChangeView extends LitElement {
 
   /**
    * Currently there is a bug in this code where this.unresolvedOnly is only
-   * assigned the correct value when onPaperTabClick is triggered which is
+   * assigned the correct value when onMdSecondaryTabClick is triggered which is
    * only triggered when user explicitly clicks on the tab however the comments
    * tab can also be opened via the url in which case the correct value to
    * unresolvedOnly is never assigned.
@@ -1681,7 +1681,7 @@ export class GrChangeView extends LitElement {
   private onMdSecondaryTabClick(e: MouseEvent) {
     let target = e.target as HTMLElement | null;
     let tabName: string | undefined;
-    // target can be slot child of papertab, so we search for tabName in parents
+    // target can be slot child of tab, so we search for tabName in parents
     do {
       tabName = target?.dataset?.['name'];
       if (tabName) break;

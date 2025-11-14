@@ -117,8 +117,6 @@ suite('gr-copy-clipboard tests', () => {
   });
 
   test('handleInputClick', () => {
-    // iron-input as parent should never be hidden as copy won't work
-    // on nested hidden elements
     const mdOutlinedTextField = queryAndAssert<MdOutlinedTextField>(
       element,
       'md-outlined-text-field'
@@ -131,8 +129,6 @@ suite('gr-copy-clipboard tests', () => {
   });
 
   test('hideInput', async () => {
-    // iron-input as parent should never be hidden as copy won't work
-    // on nested hidden elements
     const mdOutlinedTextField = queryAndAssert<MdOutlinedTextField>(
       element,
       'md-outlined-text-field'

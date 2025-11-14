@@ -135,6 +135,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1386ce72_deddd7f8",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 848,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2025-11-14T22:49:09Z",
+      "side": 1,
+      "message": "`CanceledWhileRunning` is sub class of `CancelableRunnable`.  So it will be set to running for both the cases. Logic still stays the same.",
+      "parentUuid": "6833a200_b571ff17",
+      "range": {
+        "startLine": 848,
+        "startChar": 25,
+        "endLine": 848,
+        "endChar": 38
+      },
+      "revId": "6aa52701328e1954b89d915039d84815f1419b96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "886eba08_1c35a582",

@@ -115,7 +115,6 @@ export class GrButton extends LitElement {
             a bigger width and thus a lot of space. This fixes it. */
           --md-text-button-leading-space: 0;
           --md-text-button-trailing-space: 0;
-          /* Brings back the round corners we had with paper-button */
           --md-text-button-container-shape: 4px;
           --md-elevated-button-container-shape: 4px;
           /* We have a variable for setting the text colour when it is disabled */
@@ -124,7 +123,6 @@ export class GrButton extends LitElement {
           align-items: center;
           background-color: var(--background-color);
           color: var(--text-color);
-          /* paper-button set this but md-(elevated|text)-button does not. So we set it. */
           font: inherit;
           /* This is also set in the button-label-(font|weight) css vars above. We keep this incase it is also needed. */
           font-family: var(--font-family, inherit);

@@ -769,9 +769,6 @@ export class GrReplyDialog extends LitElement {
     if (changedProperties.has('canBeStarted')) {
       this.computeMessagePlaceholder();
     }
-    if (changedProperties.has('attentionExpanded')) {
-      this.onAttentionExpandedChange();
-    }
     if (
       changedProperties.has('account') ||
       changedProperties.has('reviewers') ||
@@ -1753,12 +1750,6 @@ export class GrReplyDialog extends LitElement {
 
   toggleAttentionModify() {
     this.attentionExpanded = !this.attentionExpanded;
-  }
-
-  onAttentionExpandedChange() {
-    // If the attention-detail section is expanded without dispatching this
-    // event, then the dialog may expand beyond the screen's bottom border.
-    fire(this, 'iron-resize', {});
   }
 
   handleAttentionClick(e: Event) {

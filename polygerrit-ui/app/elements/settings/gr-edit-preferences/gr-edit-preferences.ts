@@ -91,9 +91,6 @@ export class GrEditPreferences extends LitElement {
               .value=${convertToString(this.editPrefs?.tab_size)}
               @input=${this.handleEditTabWidthInput}
               @beforeinput=${(e: InputEvent) => {
-                // In iron-input we had allowedPattern, but this is not supported
-                // in md-outlined-text-field. Which uses native input functionality.
-                // We workaround this.
                 const data = e.data;
                 if (data && !/^[0-9]*$/.test(data)) {
                   e.preventDefault();
@@ -114,9 +111,6 @@ export class GrEditPreferences extends LitElement {
               .value=${convertToString(this.editPrefs?.line_length)}
               @input=${this.handleEditLineLengthInput}
               @beforeinput=${(e: InputEvent) => {
-                // In iron-input we had allowedPattern, but this is not supported
-                // in md-outlined-text-field. Which uses native input functionality.
-                // We workaround this.
                 const data = e.data;
                 if (data && !/^[0-9]*$/.test(data)) {
                   e.preventDefault();
@@ -137,9 +131,6 @@ export class GrEditPreferences extends LitElement {
               .value=${convertToString(this.editPrefs?.indent_unit)}
               @input=${this.handleEditIndentUnitInput}
               @beforeinput=${(e: InputEvent) => {
-                // In iron-input we had allowedPattern, but this is not supported
-                // in md-outlined-text-field. Which uses native input functionality.
-                // We workaround this.
                 const data = e.data;
                 if (data && !/^[0-9]*$/.test(data)) {
                   e.preventDefault();

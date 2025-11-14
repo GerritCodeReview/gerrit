@@ -93,7 +93,6 @@ export const materialStyles = css`
     );
   }
 
-  /* These colours come from paper-checkbox */
   md-checkbox {
     background-color: var(--background-color-primary);
     --md-sys-color-primary: var(--checkbox-primary);

@@ -457,7 +457,8 @@ export function shouldSuppress(e: KeyboardEvent): boolean {
       (tagName === 'A' ||
         tagName === 'BUTTON' ||
         tagName === 'GR-BUTTON' ||
-        tagName === 'PAPER-TAB'))
+        tagName === 'MD-PRIMARY-TAB' ||
+        tagName === 'MD-SECONDARY-TAB'))
   ) {
     return true;
   }

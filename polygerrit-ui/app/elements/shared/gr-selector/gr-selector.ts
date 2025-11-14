@@ -10,7 +10,6 @@ import {assertIsDefined} from '../../../utils/common-util';
 import {fire} from '../../../utils/event-util';
 
 /**
- * This is a replacement for iron-selector.
  * Based on https://github.com/chromium/chromium/blob/f7322d4ecf3ee3804ce7e80e1e9d4b98f23b9295/ui/webui/resources/cr_elements/cr_selectable_mixin.ts.
  * Modified for gerrit.
  */

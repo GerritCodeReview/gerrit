@@ -466,8 +466,6 @@ suite('gr-reply-dialog tests', () => {
   test('save review fires sendReply metric', async () => {
     const timeEndStub = stubReporting('timeEnd');
 
-    // Async tick is needed because iron-selector content is distributed and
-    // distributed content requires an observer to be set up.
     await element.updateComplete;
     element.patchsetLevelDraftMessage = 'I wholeheartedly disapprove';
     element.draftCommentThreads = [createCommentThread([createComment()])];
@@ -486,8 +484,6 @@ suite('gr-reply-dialog tests', () => {
   });
 
   test('default to publishing draft comments with reply', async () => {
-    // Async tick is needed because iron-selector content is distributed and
-    // distributed content requires an observer to be set up.
     await element.updateComplete;
     element.patchsetLevelDraftMessage = 'I wholeheartedly disapprove';
     element.draftCommentThreads = [createCommentThread([createComment()])];
@@ -1351,8 +1347,6 @@ suite('gr-reply-dialog tests', () => {
     queryAndAssert<HTMLInputElement>(element, '#includeComments').click();
     assert.equal(element.includeComments, false);
 
-    // Async tick is needed because iron-selector content is distributed and
-    // distributed content requires an observer to be set up.
     await element.updateComplete;
     element.patchsetLevelDraftMessage = 'I wholeheartedly disapprove';
 
@@ -2744,8 +2738,6 @@ suite('gr-reply-dialog tests', () => {
   });
 
   test('reload change if patchset updated', async () => {
-    // Async tick is needed because iron-selector content is distributed and
-    // distributed content requires an observer to be set up.
     await element.updateComplete;
     const changeModel = testResolver(changeModelToken);
     const changeStateUpdateSpy = sinon.spy(changeModel, 'updateStateChange');
@@ -2790,8 +2782,6 @@ suite('gr-reply-dialog tests', () => {
   });
 
   test('no reload if patchset is the same', async () => {
-    // Async tick is needed because iron-selector content is distributed and
-    // distributed content requires an observer to be set up.
     await element.updateComplete;
     const changeModel = testResolver(changeModelToken);
     const changeStateUpdateSpy = sinon.spy(changeModel, 'updateStateChange');

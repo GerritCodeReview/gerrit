@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ee6bf873_43fcc0ce",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2025-11-14T21:10:45Z",
+      "side": 1,
+      "message": "I am a bit concerned that this now may lead to confusion when cancelled tasks show up in the queue and look the same as running tasks. Should we be marking them CANCELLED in the queue now?",
+      "revId": "6aa52701328e1954b89d915039d84815f1419b96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

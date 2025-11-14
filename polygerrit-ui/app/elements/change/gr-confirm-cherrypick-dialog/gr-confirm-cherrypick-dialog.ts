@@ -32,7 +32,7 @@ import {
   ProgressStatus,
 } from '../../../constants/constants';
 import {subscribe} from '../../lit/subscription-controller';
-import {fire, fireNoBubble} from '../../../utils/event-util';
+import {fireNoBubble} from '../../../utils/event-util';
 import {trimWithEllipsis} from '../../../utils/string-util';
 import {css, html, LitElement, PropertyValues} from 'lit';
 import {sharedStyles} from '../../../styles/shared-styles';
@@ -590,12 +590,10 @@ export class GrConfirmCherrypickDialog
 
   private handlecherryPickSingleChangeClicked() {
     this.cherryPickType = CherryPickType.SINGLE_CHANGE;
-    fire(this, 'iron-resize', {});
   }
 
   private handlecherryPickTopicClicked() {
     this.cherryPickType = CherryPickType.TOPIC;
-    fire(this, 'iron-resize', {});
   }
 
   private computeMessage() {

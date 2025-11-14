@@ -188,8 +188,7 @@ export class GrCopyLinks extends LitElement {
 
   /**
    * NOTE: (milutin) Slightly hacky way to listen to the overlay actually
-   * opening. It's from gr-editable-label. It will be removed when we
-   * migrate out of iron-* components.
+   * opening. It's from gr-editable-label.
    */
   private awaitOpen(fn: () => void) {
     let iters = 0;

@@ -166,14 +166,6 @@ as `self`.
 
 The low-level DOM API methods are the base of all UI customization.
 
-=== attributeHelper
-`plugin.attributeHelper(element)`
-
-Alternative for
-link:https://polymer-library.polymer-project.org/3.0/docs/devguide/data-binding[Polymer data
-binding,role=external,window=_blank] for plugins that don't use Polymer. Can be used to bind element
-attribute changes to callbacks.
-
 === hook
 `plugin.hook(endpointName, opt_options)`
 

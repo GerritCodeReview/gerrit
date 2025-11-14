@@ -18,6 +18,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "12ca91d0_e122af42",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4434177
+      },
+      "writtenOn": "2025-11-14T11:39:26Z",
+      "side": 1,
+      "message": "Comment removed by: Edwin Kempin; Reason: spam",
+      "revId": "84452cc8c5ad50d767d752b7059e73bad1edc32a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7b8e69c2_0de73298",

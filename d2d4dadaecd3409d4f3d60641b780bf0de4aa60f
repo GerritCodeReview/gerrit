@@ -112,6 +112,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "b11899b0_bf3aa69b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-11-14T10:48:44Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "d7559f14_ae1b489b",
+      "revId": "d2d4dadaecd3409d4f3d60641b780bf0de4aa60f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "b300c367_d4850ccd",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 6
@@ -226,6 +244,30 @@
       "writtenOn": "2025-11-12T21:48:00Z",
       "side": 1,
       "message": "Could you pass the filename here?\n\nIMHO, each Lucene index should have its own log file as it is an independent entity. Having all the Lucene indexes and threads writing to the same stream would risk having mixed lines, or worse, having the writing to the indexes be serialised.",
+      "range": {
+        "startLine": 45,
+        "startChar": 51,
+        "endLine": 45,
+        "endChar": 70
+      },
+      "revId": "d2d4dadaecd3409d4f3d60641b780bf0de4aa60f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a0650b5f_9cf5d9fb",
+        "filename": "java/com/google/gerrit/lucene/GerritIndexWriterConfig.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-11-14T10:48:44Z",
+      "side": 1,
+      "message": "Good point, the name of the index is already a parameter, I simply added it to the file name.\n\nDone",
+      "parentUuid": "ec1b3f84_c9a7111c",
       "range": {
         "startLine": 45,
         "startChar": 51,

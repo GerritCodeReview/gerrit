@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9498c404_ff27ff41",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4271311
+      },
+      "writtenOn": "2025-11-14T00:20:12Z",
+      "side": 1,
+      "message": "Thanks and done",
+      "parentUuid": "0119be54_5a38ffa7",
+      "revId": "a664519207e52c2e190d90d146cc267d50c27f57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3d857ef6_2e0f141e",
@@ -31,6 +49,24 @@
       "writtenOn": "2025-11-13T22:59:19Z",
       "side": 1,
       "message": "Good to not enforce per user limit by default.",
+      "revId": "a664519207e52c2e190d90d146cc267d50c27f57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "de5c5181_07fceff5",
+        "filename": "java/com/google/gerrit/server/git/validators/CommentCountValidator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 4271311
+      },
+      "writtenOn": "2025-11-14T00:20:12Z",
+      "side": 1,
+      "message": "Done, set default\u003d0 which mean no limit",
+      "parentUuid": "3d857ef6_2e0f141e",
       "revId": "a664519207e52c2e190d90d146cc267d50c27f57",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -58,6 +94,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b6e30761_d058b66f",
+        "filename": "java/com/google/gerrit/server/git/validators/CommentCountValidator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 4271311
+      },
+      "writtenOn": "2025-11-14T00:20:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ce806359_fc18ddf5",
+      "range": {
+        "startLine": 79,
+        "startChar": 0,
+        "endLine": 82,
+        "endChar": 87
+      },
+      "revId": "a664519207e52c2e190d90d146cc267d50c27f57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "99198743_268c258d",
@@ -71,6 +131,30 @@
       "writtenOn": "2025-11-13T22:59:19Z",
       "side": 1,
       "message": "no need for additional variables, inline them.",
+      "range": {
+        "startLine": 93,
+        "startChar": 6,
+        "endLine": 94,
+        "endChar": 37
+      },
+      "revId": "a664519207e52c2e190d90d146cc267d50c27f57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c6a92d4d_df326b25",
+        "filename": "java/com/google/gerrit/server/git/validators/CommentCountValidator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 4271311
+      },
+      "writtenOn": "2025-11-14T00:20:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "99198743_268c258d",
       "range": {
         "startLine": 93,
         "startChar": 6,

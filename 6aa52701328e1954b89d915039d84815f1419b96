@@ -34,6 +34,24 @@
       "parentUuid": "ee6bf873_43fcc0ce",
       "revId": "6aa52701328e1954b89d915039d84815f1419b96",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2dd1f3fa_f9b5c82c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2025-11-14T21:15:08Z",
+      "side": 1,
+      "message": "they will be shown as killed, not sure if killed/cancelled is the correct term to use ?",
+      "parentUuid": "0378213b_e12ae76f",
+      "revId": "6aa52701328e1954b89d915039d84815f1419b96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

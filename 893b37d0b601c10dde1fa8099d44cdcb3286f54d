@@ -22,6 +22,30 @@
       },
       "revId": "893b37d0b601c10dde1fa8099d44cdcb3286f54d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b1f8a94b_c71366d6",
+        "filename": "polygerrit-ui/app/models/checks/checks-util.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2025-11-14T18:02:30Z",
+      "side": 1,
+      "message": "They don\u0027t explicitly act on \"run\" and \"rerun\", so I think they should stay as-is.",
+      "parentUuid": "64c0f0ce_8fbac38b",
+      "range": {
+        "startLine": 356,
+        "startChar": 0,
+        "endLine": 361,
+        "endChar": 0
+      },
+      "revId": "893b37d0b601c10dde1fa8099d44cdcb3286f54d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

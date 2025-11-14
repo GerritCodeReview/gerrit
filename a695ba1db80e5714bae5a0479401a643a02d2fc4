@@ -106,6 +106,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "691ccb9e_b4cfa819",
+        "filename": "polygerrit-ui/app/models/checks/checks-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2025-11-14T18:02:30Z",
+      "side": 1,
+      "message": "Resolving this thread as PS3 has a CR+2.",
+      "parentUuid": "af0cb8f0_6acc8f98",
+      "revId": "a695ba1db80e5714bae5a0479401a643a02d2fc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4b42cd2c_4dc009f5",

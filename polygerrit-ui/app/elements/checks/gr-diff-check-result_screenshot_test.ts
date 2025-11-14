@@ -11,7 +11,7 @@ import {visualDiff} from '@web/test-runner-visual-regression';
 import {visualDiffDarkTheme} from '../../test/test-utils';
 import {GrDiffCheckResult} from './gr-diff-check-result';
 import './gr-diff-check-result';
-import {fakeRun1} from '../../models/checks/checks-fakes';
+import {checkRun1} from '../../test/test-data-generators';
 import {RunResult} from '../../models/checks/checks-model';
 
 suite('gr-diff-check-result screenshot tests', () => {
@@ -24,7 +24,7 @@ suite('gr-diff-check-result screenshot tests', () => {
   });
 
   test('collapsed', async () => {
-    element.result = {...fakeRun1, ...fakeRun1.results?.[0]} as RunResult;
+    element.result = {...checkRun1, ...checkRun1.results?.[0]} as RunResult;
     await element.updateComplete;
 
     await visualDiff(element, 'gr-diff-check-result-collapsed');
@@ -32,7 +32,7 @@ suite('gr-diff-check-result screenshot tests', () => {
   });
 
   test('expanded', async () => {
-    element.result = {...fakeRun1, ...fakeRun1.results?.[2]} as RunResult;
+    element.result = {...checkRun1, ...checkRun1.results?.[2]} as RunResult;
     element.isExpanded = true;
     await element.updateComplete;
 

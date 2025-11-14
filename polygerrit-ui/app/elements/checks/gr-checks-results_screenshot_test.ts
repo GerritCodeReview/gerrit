@@ -11,7 +11,7 @@ import {fixture, html} from '@open-wc/testing';
 // @ts-ignore
 import {visualDiff} from '@web/test-runner-visual-regression';
 import {checksModelToken} from '../../models/checks/checks-model';
-import {setAllFakeRuns} from '../../models/checks/checks-fakes';
+import {setAllcheckRuns} from '../../test/test-data-generators';
 import {resolve} from '../../models/dependency';
 import {GrChecksResults} from './gr-checks-results';
 import {visualDiffDarkTheme} from '../../test/test-utils';
@@ -27,7 +27,7 @@ suite('gr-checks-results screenshot', () => {
     getChecksModel().allRunsSelectedPatchset$.subscribe(
       runs => (element.runs = runs)
     );
-    setAllFakeRuns(getChecksModel());
+    setAllcheckRuns(getChecksModel());
     await element.updateComplete;
   });
 

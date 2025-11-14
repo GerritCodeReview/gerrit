@@ -9,7 +9,7 @@ import {GrChecksRun, GrChecksRuns} from './gr-checks-runs';
 import {html} from 'lit';
 import {assert, fixture} from '@open-wc/testing';
 import {checksModelToken} from '../../models/checks/checks-model';
-import {fakeRun0, setAllFakeRuns} from '../../models/checks/checks-fakes';
+import {checkRun0, setAllcheckRuns} from '../../test/test-data-generators';
 import {resolve} from '../../models/dependency';
 import {queryAll} from '../../utils/common-util';
 
@@ -21,7 +21,7 @@ suite('gr-checks-runs test', () => {
       html`<gr-checks-runs></gr-checks-runs>`
     );
     const getChecksModel = resolve(element, checksModelToken);
-    setAllFakeRuns(getChecksModel());
+    setAllcheckRuns(getChecksModel());
     element.errorMessages = {'test-plugin-name': 'test-error-message'};
     await element.updateComplete;
   });
@@ -30,7 +30,7 @@ suite('gr-checks-runs test', () => {
     // Without a filter all 6 fake runs (0-5) will be rendered.
     assert.equal(queryAll(element, 'gr-checks-run').length, 6);
 
-    // This filter will only match fakeRun2 (checkName: 'FAKE Mega Analysis').
+    // This filter will only match checkRun2 (checkName: 'FAKE Mega Analysis').
     element.filterRegExp = 'Mega';
     await element.updateComplete;
     assert.equal(queryAll(element, 'gr-checks-run').length, 1);
@@ -187,7 +187,7 @@ suite('gr-checks-run test', () => {
   setup(async () => {
     element = await fixture<GrChecksRun>(html`<gr-checks-run></gr-checks-run>`);
     const getChecksModel = resolve(element, checksModelToken);
-    setAllFakeRuns(getChecksModel());
+    setAllcheckRuns(getChecksModel());
     await element.updateComplete;
   });
 
@@ -198,9 +198,9 @@ suite('gr-checks-run test', () => {
     );
   });
 
-  test('renders fakeRun0', async () => {
+  test('renders checkRun0', async () => {
     element.shouldRender = true;
-    element.run = fakeRun0;
+    element.run = checkRun0;
     await element.updateComplete;
     assert.shadowDom.equal(
       element,

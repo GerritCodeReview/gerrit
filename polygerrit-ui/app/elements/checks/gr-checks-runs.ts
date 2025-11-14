@@ -30,25 +30,12 @@ import {
   ChecksPatchset,
   ErrorMessages,
 } from '../../models/checks/checks-model';
-import {
-  clearAllFakeRuns,
-  fakeActions,
-  fakeLinks,
-  fakeRun0,
-  fakeRun1,
-  fakeRun2,
-  fakeRun3,
-  fakeRun4Att,
-  fakeRun5,
-  setAllFakeRuns,
-} from '../../models/checks/checks-fakes';
 import {assertIsDefined} from '../../utils/common-util';
 import {modifierPressed, whenVisible} from '../../utils/dom-util';
 import {fireRunSelected, RunSelectedEvent} from './gr-checks-util';
 import {ChecksTabState} from '../../types/events';
 import {charsOnly} from '../../utils/string-util';
 import {getAppContext} from '../../services/app-context';
-import {KnownExperimentId} from '../../services/flags/flags';
 import {subscribe} from '../lit/subscription-controller';
 import {fontStyles} from '../../styles/gr-font-styles';
 import {durationString} from '../../utils/date-util';
@@ -458,8 +445,6 @@ export class GrChecksRuns extends LitElement {
 
   private isSectionExpanded = new Map<RunStatus, boolean>();
 
-  private flagService = getAppContext().flagsService;
-
   private getChecksModel = resolve(this, checksModelToken);
 
   private readonly getViewModel = resolve(this, changeViewModelToken);
@@ -658,7 +643,7 @@ export class GrChecksRuns extends LitElement {
       />
       ${this.renderSection(RunStatus.RUNNING)}
       ${this.renderSection(RunStatus.COMPLETED)}
-      ${this.renderSection(RunStatus.RUNNABLE)} ${this.renderFakeControls()}
+      ${this.renderSection(RunStatus.RUNNABLE)}
     `;
   }
 
@@ -889,43 +874,6 @@ export class GrChecksRuns extends LitElement {
   showFilter(): boolean {
     if (this.collapsed) return false;
     return this.runs.length > 10 || !!this.filterRegExp;
-  }
-
-  renderFakeControls() {
-    if (!this.flagService.isEnabled(KnownExperimentId.CHECKS_DEVELOPER)) return;
-    if (this.collapsed) return;
-    return html`
-      <div class="testing">
-        <div>Toggle fake runs by clicking buttons:</div>
-        <gr-button link @click=${() => clearAllFakeRuns(this.getChecksModel())}
-          >None</gr-button
-        >
-        <gr-button
-          link
-          @click=${() =>
-            this.toggle('f0', [fakeRun0], fakeActions, fakeLinks, 'ETA: 1 min')}
-          >0</gr-button
-        >
-        <gr-button link @click=${() => this.toggle('f1', [fakeRun1])}
-          >1</gr-button
-        >
-        <gr-button link @click=${() => this.toggle('f2', [fakeRun2])}
-          >2</gr-button
-        >
-        <gr-button link @click=${() => this.toggle('f3', [fakeRun3])}
-          >3</gr-button
-        >
-        <gr-button link @click=${() => this.toggle('f4', fakeRun4Att)}
-          >4</gr-button
-        >
-        <gr-button link @click=${() => this.toggle('f5', [fakeRun5])}
-          >5</gr-button
-        >
-        <gr-button link @click=${() => setAllFakeRuns(this.getChecksModel())}
-          >all</gr-button
-        >
-      </div>
-    `;
   }
 }
 

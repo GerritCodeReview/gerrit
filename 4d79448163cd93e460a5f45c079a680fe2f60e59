@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3f054c29_afd9551a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2025-11-14T03:21:43Z",
+      "side": 1,
+      "message": "Can you add a test case ? (maybe something similar to `PostReviewIT#restrictNumberOfComments`)",
+      "revId": "4d79448163cd93e460a5f45c079a680fe2f60e59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "46d96ee8_ea999ec7",
+        "filename": "java/com/google/gerrit/server/git/validators/CommentCountValidator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2025-11-14T03:21:43Z",
+      "side": 1,
+      "message": "We don\u0027t need a map since we already know which user we care about.\n\nSomething like this should work:\n```\n    Id userId \u003d user.asIdentifiedUser().getAccountId();\n    long existingUserComments \u003d\n        notes.getHumanComments().values().stream()\n            .filter(c -\u003e c.getRealAuthor().getId().equals(userId))\n            .count();\n    existingUserComments +\u003d\n        notes.getChangeMessages().stream().filter(cm -\u003e cm.getRealAuthor().equals(userId)).count();\n```",
+      "revId": "4d79448163cd93e460a5f45c079a680fe2f60e59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0c9234b9_6ccfbd50",
+        "filename": "java/com/google/gerrit/server/git/validators/CommentCountValidator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2025-11-14T03:21:43Z",
+      "side": 1,
+      "message": "Exit early if we already know that we don\u0027t need to perform this check.\n\n```\n    if (maxCommentsPerUser \u003c 0) {\n      return failures.build();\n    }\n\n    // per user counting logic ...\n```",
+      "revId": "4d79448163cd93e460a5f45c079a680fe2f60e59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

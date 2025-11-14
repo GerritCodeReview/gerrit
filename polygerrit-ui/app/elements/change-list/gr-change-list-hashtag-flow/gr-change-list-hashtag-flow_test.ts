@@ -283,10 +283,7 @@ suite('gr-change-list-hashtag-flow tests', () => {
           </div>
         `,
         {
-          // iron-dropdown sizing seems to vary between local & CI
-          ignoreAttributes: [
-            {tags: ['iron-dropdown'], attributes: ['style', 'focused']},
-          ],
+          ignoreAttributes: [{tags: [], attributes: ['style', 'focused']}],
         }
       );
     });

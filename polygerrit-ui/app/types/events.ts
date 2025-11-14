@@ -42,7 +42,6 @@ declare global {
     'hide-alert': CustomEvent<{}>;
     'location-change': LocationChangeEvent;
     'iron-announce': IronAnnounceEvent;
-    'iron-resize': CustomEvent<{}>;
     'line-mouse-enter': LineNumberEvent;
     'line-mouse-leave': LineNumberEvent;
     'line-cursor-moved-in': LineNumberEvent;

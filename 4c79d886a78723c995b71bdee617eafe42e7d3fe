@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e9f80f4f_759727e2",
+        "filename": "javatests/com/google/gerrit/git/RefUpdateUtilRepoTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-11-14T09:40:56Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "d3142094_c4a1e105",
+      "range": {
+        "startLine": 126,
+        "startChar": 6,
+        "endLine": 126,
+        "endChar": 39
+      },
+      "revId": "4c79d886a78723c995b71bdee617eafe42e7d3fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "39e948db_cfc17181",
@@ -54,6 +78,30 @@
       "writtenOn": "2025-11-14T08:25:57Z",
       "side": 1,
       "message": "The purpose of this test is making sure that `deleteChecked` sets the new object id to zeros: would this assertion be a distraction then?\n\nThe assertion is for testing that `tr.branch(ref).commit().create()` works, but that\u0027s not the purpose of this test, therefore it should not be part of it.",
+      "range": {
+        "startLine": 129,
+        "startChar": 4,
+        "endLine": 129,
+        "endChar": 47
+      },
+      "revId": "4c79d886a78723c995b71bdee617eafe42e7d3fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4bfbdd33_e04170f4",
+        "filename": "javatests/com/google/gerrit/git/RefUpdateUtilRepoTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-11-14T09:40:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "39e948db_cfc17181",
       "range": {
         "startLine": 129,
         "startChar": 4,

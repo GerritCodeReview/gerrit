@@ -20,6 +20,86 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0e553742_1c549f4a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-11-14T21:18:54Z",
+      "side": 1,
+      "message": "Can you add tests for this in `CommentsIT.java`?",
+      "revId": "4d79448163cd93e460a5f45c079a680fe2f60e59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3ac75942_8f199c3a",
+        "filename": "java/com/google/gerrit/server/git/validators/CommentCountValidator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-11-14T21:18:54Z",
+      "side": 1,
+      "message": "I don\u0027t think you need to mention this. The description is still accurate and documenting the difference is what commit messages are for.\n```suggestion\n/** Limits number of comments to prevent space/time complexity issues. */\n```",
+      "range": {
+        "startLine": 35,
+        "startChar": 69,
+        "endLine": 35,
+        "endChar": 94
+      },
+      "revId": "4d79448163cd93e460a5f45c079a680fe2f60e59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f12292fb_309b8f62",
+        "filename": "java/com/google/gerrit/server/git/validators/CommentCountValidator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-11-14T21:18:54Z",
+      "side": 1,
+      "message": "Keep the `_` for readability?\n```suggestion\n    this.maxComments \u003d serverConfig.getInt(\"change\", \"maxComments\", 5_000);\n```",
+      "range": {
+        "startLine": 49,
+        "startChar": 68,
+        "endLine": 49,
+        "endChar": 72
+      },
+      "revId": "4d79448163cd93e460a5f45c079a680fe2f60e59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "23fdbd91_5d7722c9",
+        "filename": "java/com/google/gerrit/server/git/validators/CommentCountValidator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-11-14T21:18:54Z",
+      "side": 1,
+      "message": "Remove these comments that don\u0027t document anything new. (Guessing these are AI added)",
+      "revId": "4d79448163cd93e460a5f45c079a680fe2f60e59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "46d96ee8_ea999ec7",
         "filename": "java/com/google/gerrit/server/git/validators/CommentCountValidator.java",
         "patchSetId": 4

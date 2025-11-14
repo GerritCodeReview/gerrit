@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "53d1573b_dc4302eb",
+        "filename": "polygerrit-ui/app/embed/gr-diff.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-11-14T16:12:49Z",
+      "side": 1,
+      "message": "Can we remove this script?",
+      "range": {
+        "startLine": 6,
+        "startChar": 22,
+        "endLine": 7,
+        "endChar": 34
+      },
+      "revId": "8b31f35a7fc182d094cbb0a133b83d8f07f03722",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

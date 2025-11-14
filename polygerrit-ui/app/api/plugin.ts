@@ -5,7 +5,6 @@
  */
 import {AdminPluginApi} from './admin';
 import {AnnotationPluginApi} from './annotation';
-import {AttributeHelperPluginApi} from './attribute-helper';
 import {ChangeReplyPluginApi} from './change-reply';
 import {ChecksPluginApi} from './checks';
 import {EventHelperPluginApi} from './event-helper';
@@ -68,7 +67,6 @@ export declare interface PluginApi {
   admin(): AdminPluginApi;
   aiCodeReview(): AiCodeReviewPluginApi;
   annotationApi(): AnnotationPluginApi;
-  attributeHelper(element: Element): AttributeHelperPluginApi;
   changeActions(): ChangeActionsPluginApi;
   changeReply(): ChangeReplyPluginApi;
   changeUpdates(): ChangeUpdatesPluginApi;

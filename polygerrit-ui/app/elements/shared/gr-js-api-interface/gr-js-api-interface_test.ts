@@ -294,10 +294,6 @@ suite('GrJsApiInterface tests', () => {
     assert.isTrue(loggedIn);
   });
 
-  test('attributeHelper', () => {
-    assert.isOk(plugin.attributeHelper(document.createElement('div')));
-  });
-
   test('getAdminMenuLinks', () => {
     const links = [
       {text: 'a', url: 'b'},

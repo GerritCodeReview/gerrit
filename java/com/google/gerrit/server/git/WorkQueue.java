@@ -621,10 +621,7 @@ public class WorkQueue {
     }
 
     void remove(Task<?> task) {
-      boolean isRemoved = all.remove(task.getTaskId(), task);
-      if (isRemoved) {
-        cancelIfParked(task);
-      }
+      all.remove(task.getTaskId(), task);
     }
 
     void cancelIfParked(Task<?> task) {
@@ -859,12 +856,14 @@ public class WorkQueue {
         // as running and allow it to clean up. This ensures we do
         // not invoke cancel twice.
         //
-        if (runnable instanceof CancelableRunnable) {
-          if (runningState.compareAndSet(null, State.RUNNING)) {
+        if (runningState.compareAndSet(null, State.RUNNING)) {
+          if (runnable instanceof CancelableRunnable) {
             ((CancelableRunnable) runnable).cancel();
-          } else if (runnable instanceof CanceledWhileRunning) {
-            ((CanceledWhileRunning) runnable).setCanceledWhileRunning();
           }
+          executor.remove(this);
+          executor.purge();
+        } else if (runnable instanceof CanceledWhileRunning) {
+          ((CanceledWhileRunning) runnable).setCanceledWhileRunning();
         }
         if (runnable instanceof Future<?>) {
           // Creating new futures eventually passes through
@@ -875,8 +874,7 @@ public class WorkQueue {
           ((Future<?>) runnable).cancel(mayInterruptIfRunning);
         }
 
-        executor.remove(this);
-        executor.purge();
+        executor.cancelIfParked(this);
         return true;
       }
       return false;

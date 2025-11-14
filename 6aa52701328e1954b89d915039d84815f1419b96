@@ -227,6 +227,30 @@
       },
       "revId": "6aa52701328e1954b89d915039d84815f1419b96",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5b1a6997_af80bc66",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 868,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2025-11-14T22:30:03Z",
+      "side": 1,
+      "message": "There were some concerns about going into the \u0027parked\u0027 code-path when folks didn\u0027t have any listeners. See https://gerrit-review.googlesource.com/c/gerrit/+/247812/comment/3fd40ffb_8bf75499/. If you want to remove it, maybe do it in a separate change?",
+      "parentUuid": "8f83560a_852530a0",
+      "range": {
+        "startLine": 868,
+        "startChar": 8,
+        "endLine": 868,
+        "endChar": 38
+      },
+      "revId": "6aa52701328e1954b89d915039d84815f1419b96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

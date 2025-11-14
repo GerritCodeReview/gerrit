@@ -621,10 +621,7 @@ public class WorkQueue {
     }
 
     void remove(Task<?> task) {
-      boolean isRemoved = all.remove(task.getTaskId(), task);
-      if (isRemoved) {
-        cancelIfParked(task);
-      }
+      all.remove(task.getTaskId(), task);
     }
 
     void cancelIfParked(Task<?> task) {
@@ -853,6 +850,7 @@ public class WorkQueue {
     @CanIgnoreReturnValue
     public boolean cancel(boolean mayInterruptIfRunning) {
       if (task.cancel(mayInterruptIfRunning)) {
+        boolean isSetRunningDuringCancellation = false;
         // Tiny abuse of runningState: if the task needs to know it
         // was canceled (to clean up resources) and it hasn't started
         // yet the task's run method won't execute. So we tag it
@@ -861,6 +859,7 @@ public class WorkQueue {
         //
         if (runnable instanceof CancelableRunnable) {
           if (runningState.compareAndSet(null, State.RUNNING)) {
+            isSetRunningDuringCancellation = true;
             ((CancelableRunnable) runnable).cancel();
           } else if (runnable instanceof CanceledWhileRunning) {
             ((CanceledWhileRunning) runnable).setCanceledWhileRunning();
@@ -875,8 +874,11 @@ public class WorkQueue {
           ((Future<?>) runnable).cancel(mayInterruptIfRunning);
         }
 
-        executor.remove(this);
-        executor.purge();
+        if (isSetRunningDuringCancellation || runningState.get() == null) {
+          executor.remove(this);
+          executor.purge();
+        }
+        executor.cancelIfParked(this);
         return true;
       }
       return false;

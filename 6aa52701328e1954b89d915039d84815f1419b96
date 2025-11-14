@@ -156,6 +156,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5161c64a_2ad18c9b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2025-11-14T23:37:13Z",
+      "side": 1,
+      "message": "I meant, can we add any tests that assert the behavior introduced by this change?",
+      "parentUuid": "a624afb0_6fa345e0",
+      "revId": "6aa52701328e1954b89d915039d84815f1419b96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6833a200_b571ff17",
         "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
         "patchSetId": 2
@@ -250,6 +268,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ef52f176_2ea3fe96",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 855,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2025-11-14T23:37:13Z",
+      "side": 1,
+      "message": "```suggestion\n        } else if (runnable instanceof CanceledWhileRunning) {\n```",
+      "range": {
+        "startLine": 854,
+        "startChar": 0,
+        "endLine": 855,
+        "endChar": 57
+      },
+      "revId": "6aa52701328e1954b89d915039d84815f1419b96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ab44c80a_f385fb7a",
         "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
         "patchSetId": 2
@@ -333,6 +374,30 @@
       "side": 1,
       "message": "That code is interacting with the plugin extensions (which seems to be the reason for being a costly operation) without `isEmpty` check. I don\u0027t think that is applicable here ?",
       "parentUuid": "5b1a6997_af80bc66",
+      "range": {
+        "startLine": 868,
+        "startChar": 8,
+        "endLine": 868,
+        "endChar": 38
+      },
+      "revId": "6aa52701328e1954b89d915039d84815f1419b96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "df524d77_3f46c593",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 868,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2025-11-14T23:37:13Z",
+      "side": 1,
+      "message": "The general idea was to skip parked logic when there are no listeners. Currently, this has no impact because `cancelIfParked` does very little, but additional functionality could be added to it in the future, which would then execute for everyone.",
+      "parentUuid": "ac080604_fd7b0da9",
       "range": {
         "startLine": 868,
         "startChar": 8,

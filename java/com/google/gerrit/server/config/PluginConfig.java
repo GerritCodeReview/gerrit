@@ -43,7 +43,12 @@ public abstract class PluginConfig {
 
   protected abstract String pluginName();
 
-  protected abstract Config cfg();
+  /**
+   * Build a plain Config on-demand for a plugin config.
+   *
+   * @return Config object containing all the plugin's specific configuration.
+   */
+  public abstract Config cfg();
 
   protected abstract Optional<CachedProjectConfig> projectConfig();
 

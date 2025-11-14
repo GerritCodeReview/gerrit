@@ -16,6 +16,29 @@
       "message": "Isn\u0027t this already available through [`getGlobalPluginConfig()`](https://gerrit.googlesource.com/gerrit/+/refs/changes/87/527487/4/java/com/google/gerrit/server/config/PluginConfigFactory.java#201)?",
       "revId": "c1cfa98d71ae3f125b093148311956fd27f12cc8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3f8fa7a1_02bc0a5e",
+        "filename": "java/com/google/gerrit/server/config/PluginConfig.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-11-14T23:18:55Z",
+      "side": 1,
+      "message": "This is effectively just `@GerritServerConfig Config`, therefore it isn\u0027t of much use here.",
+      "range": {
+        "startLine": 46,
+        "startChar": 0,
+        "endLine": 51,
+        "endChar": 31
+      },
+      "revId": "c1cfa98d71ae3f125b093148311956fd27f12cc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

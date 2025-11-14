@@ -491,10 +491,6 @@ export class GrSuggestionTextarea extends LitElement {
       this.reporting.reportInteraction('select-mention', {type: text});
       move = 1;
     }
-    // iron-autogrow-textarea unfortunately sets the cursor at the end when
-    // it's value is changed, which means the setting of selectionStart
-    // below needs to happen after iron-autogrow-textarea has set the
-    // incorrect value.
     await this.updateComplete;
     this.setCursorPosition(specialCharIndex + text.length + move);
     this.resetDropdown();

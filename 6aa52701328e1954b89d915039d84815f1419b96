@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "95f73d5f_2054af16",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2025-11-14T23:00:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eeb840c3_553fd02d",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 50
+      },
+      "revId": "6aa52701328e1954b89d915039d84815f1419b96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ee6bf873_43fcc0ce",
@@ -108,6 +132,24 @@
       "writtenOn": "2025-11-14T21:52:56Z",
       "side": 1,
       "message": "Please add some tests if possible.",
+      "revId": "6aa52701328e1954b89d915039d84815f1419b96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a624afb0_6fa345e0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2025-11-14T23:00:52Z",
+      "side": 1,
+      "message": "There are existing tests in TaskParkerIT and KillTaskIT. Anything particular are you looking for ?",
+      "parentUuid": "b1e70a2e_17596c78",
       "revId": "6aa52701328e1954b89d915039d84815f1419b96",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

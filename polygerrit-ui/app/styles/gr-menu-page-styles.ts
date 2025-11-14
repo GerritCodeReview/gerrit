@@ -56,15 +56,3 @@ export const menuPageStyles = css`
     }
   }
 `;
-
-const $_documentContainer = document.createElement('template');
-$_documentContainer.innerHTML = `
-  <dom-module id="gr-menu-page-styles">
-    <template>
-      <style>
-      ${menuPageStyles.cssText}
-      </style>
-    </template>
-  </dom-module>
-`;
-document.head.appendChild($_documentContainer.content);

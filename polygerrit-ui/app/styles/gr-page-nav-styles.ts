@@ -5,8 +5,6 @@
  */
 import {css} from 'lit';
 
-const $_documentContainer = document.createElement('template');
-
 export const pageNavStyles = css`
   .navStyles ul {
     padding: var(--spacing-l) 0;
@@ -54,13 +52,3 @@ export const pageNavStyles = css`
     margin: var(--spacing-s) 0;
   }
 `;
-
-$_documentContainer.innerHTML = `<dom-module id="gr-page-nav-styles">
-  <template>
-    <style>
-    ${pageNavStyles.cssText}
-    </style>
-  </template>
-</dom-module>`;
-
-document.head.appendChild($_documentContainer.content);

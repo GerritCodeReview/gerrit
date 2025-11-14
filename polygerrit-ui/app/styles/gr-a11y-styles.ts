@@ -19,13 +19,3 @@ export const a11yStyles = css`
     z-index: -1000;
   }
 `;
-
-const $_documentContainer = document.createElement('template');
-$_documentContainer.innerHTML = `<dom-module id="gr-a11y-styles">
-  <template>
-    <style>
-    ${a11yStyles.cssText}
-    </style>
-  </template>
-</dom-module>`;
-document.head.appendChild($_documentContainer.content);

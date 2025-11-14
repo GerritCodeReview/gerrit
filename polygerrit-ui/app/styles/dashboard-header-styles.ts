@@ -5,8 +5,6 @@
  */
 import {css} from 'lit';
 
-const $_documentContainer = document.createElement('template');
-
 export const dashboardHeaderStyles = css`
   :host {
     background-color: var(--view-background-color);
@@ -33,13 +31,3 @@ export const dashboardHeaderStyles = css`
     width: 3.5em;
   }
 `;
-
-$_documentContainer.innerHTML = `<dom-module id="dashboard-header-styles">
-  <template>
-    <style>
-    ${dashboardHeaderStyles.cssText}
-    </style>
-  </template>
-</dom-module>`;
-
-document.head.appendChild($_documentContainer.content);

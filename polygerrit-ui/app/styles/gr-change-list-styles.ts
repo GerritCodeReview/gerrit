@@ -208,13 +208,3 @@ export const changeListStyles = css`
     }
   }
 `;
-
-const $_documentContainer = document.createElement('template');
-$_documentContainer.innerHTML = `<dom-module id="gr-change-list-styles">
-  <template>
-    <style>
-    ${changeListStyles.cssText}
-    </style>
-  </template>
-</dom-module>`;
-document.head.appendChild($_documentContainer.content);

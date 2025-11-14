@@ -28,13 +28,3 @@ export const modalStyles = css`
     opacity: var(--modal-opacity, 0.6);
   }
 `;
-
-const $_documentContainer = document.createElement('template');
-$_documentContainer.innerHTML = `<dom-module id="gr-modal-styles">
-  <template>
-    <style>
-      ${modalStyles.cssText}
-    </style>
-  </template>
-</dom-module>`;
-document.head.appendChild($_documentContainer.content);

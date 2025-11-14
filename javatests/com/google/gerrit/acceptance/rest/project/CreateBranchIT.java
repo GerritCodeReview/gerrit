@@ -683,6 +683,37 @@ public class CreateBranchIT extends AbstractDaemonTest {
         () -> gApi.projects().name(project.get()).branch(branchInput.ref).create(branchInput));
   }
 
+  @Test
+  public void createBranchAsAdminIsPossibleWithoutExplicitReadPermission() throws Exception {
+    PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo);
+    PushOneCommit.Result result = push.to("refs/heads/foo");
+    result.assertOkStatus();
+    RevCommit fooCommit = result.getCommit();
+
+    // Remove read access
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(block(Permission.READ).ref("refs/heads/*").group(REGISTERED_USERS))
+        .update();
+
+    BranchInput branchInput = new BranchInput();
+    branchInput.ref = "bar";
+    branchInput.revision = fooCommit.name();
+    BranchInfo created =
+        gApi.projects().name(project.get()).branch(branchInput.ref).create(branchInput).get();
+    assertThat(created.ref).isEqualTo(RefNames.fullName(branchInput.ref));
+    assertThat(created.revision).isEqualTo(fooCommit.name());
+    assertThat(projectOperations.project(project).getHead(branchInput.ref)).isEqualTo(fooCommit);
+
+    branchInput.ref = "baz";
+    branchInput.revision = "refs/heads/foo";
+    created = gApi.projects().name(project.get()).branch(branchInput.ref).create(branchInput).get();
+    assertThat(created.ref).isEqualTo(RefNames.fullName(branchInput.ref));
+    assertThat(created.revision).isEqualTo(fooCommit.name());
+    assertThat(projectOperations.project(project).getHead(branchInput.ref)).isEqualTo(fooCommit);
+  }
+
   private void blockCreateReference() throws Exception {
     projectOperations
         .project(project)

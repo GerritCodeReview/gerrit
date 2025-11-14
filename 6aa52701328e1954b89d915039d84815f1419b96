@@ -251,6 +251,30 @@
       },
       "revId": "6aa52701328e1954b89d915039d84815f1419b96",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac080604_fd7b0da9",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 868,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2025-11-14T22:36:16Z",
+      "side": 1,
+      "message": "That code is interacting with the plugin extensions (which seems to be the reason for being a costly operation) without `isEmpty` check. I don\u0027t think that is applicable here ?",
+      "parentUuid": "5b1a6997_af80bc66",
+      "range": {
+        "startLine": 868,
+        "startChar": 8,
+        "endLine": 868,
+        "endChar": 38
+      },
+      "revId": "6aa52701328e1954b89d915039d84815f1419b96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

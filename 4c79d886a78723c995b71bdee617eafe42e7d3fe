@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bc11d065_ab9919fe",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-11-14T08:25:57Z",
+      "side": 1,
+      "message": "LGTM, just a couple of minor comments.",
+      "revId": "4c79d886a78723c995b71bdee617eafe42e7d3fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d3142094_c4a1e105",
+        "filename": "javatests/com/google/gerrit/git/RefUpdateUtilRepoTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-11-14T08:25:57Z",
+      "side": 1,
+      "message": "This return a `RevCommit`, I am surprised Bazel doesn\u0027t complain about the ignored return value.",
+      "range": {
+        "startLine": 126,
+        "startChar": 6,
+        "endLine": 126,
+        "endChar": 39
+      },
+      "revId": "4c79d886a78723c995b71bdee617eafe42e7d3fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "39e948db_cfc17181",
+        "filename": "javatests/com/google/gerrit/git/RefUpdateUtilRepoTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-11-14T08:25:57Z",
+      "side": 1,
+      "message": "The purpose of this test is making sure that `deleteChecked` sets the new object id to zeros: would this assertion be a distraction then?\n\nThe assertion is for testing that `tr.branch(ref).commit().create()` works, but that\u0027s not the purpose of this test, therefore it should not be part of it.",
+      "range": {
+        "startLine": 129,
+        "startChar": 4,
+        "endLine": 129,
+        "endChar": 47
+      },
+      "revId": "4c79d886a78723c995b71bdee617eafe42e7d3fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

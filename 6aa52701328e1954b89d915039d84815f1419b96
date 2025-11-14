@@ -158,6 +158,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0611c7ba_20afb20c",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 853,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2025-11-14T22:19:11Z",
+      "side": 1,
+      "message": "Yes, that is a small optimization. (preserving as it is.)",
+      "parentUuid": "886eba08_1c35a582",
+      "range": {
+        "startLine": 853,
+        "startChar": 10,
+        "endLine": 853,
+        "endChar": 27
+      },
+      "revId": "6aa52701328e1954b89d915039d84815f1419b96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ab44c80a_f385fb7a",
@@ -171,6 +195,30 @@
       "writtenOn": "2025-11-14T21:52:56Z",
       "side": 1,
       "message": "```suggestion\n        if(!listeners.isEmpty()) {\n            executor.cancelIfParked(this);\n        }\n```",
+      "range": {
+        "startLine": 868,
+        "startChar": 8,
+        "endLine": 868,
+        "endChar": 38
+      },
+      "revId": "6aa52701328e1954b89d915039d84815f1419b96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f83560a_852530a0",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 868,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2025-11-14T22:19:11Z",
+      "side": 1,
+      "message": "not required. (parked would be empty if there are no listeners)",
+      "parentUuid": "ab44c80a_f385fb7a",
       "range": {
         "startLine": 868,
         "startChar": 8,

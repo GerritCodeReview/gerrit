@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "eeb840c3_553fd02d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2025-11-14T21:52:56Z",
+      "side": 1,
+      "message": "```suggestion\nWorkQueue: Prevent premature removal of tasks on cancellation\n```",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 50
+      },
+      "revId": "6aa52701328e1954b89d915039d84815f1419b96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ee6bf873_43fcc0ce",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -68,6 +91,92 @@
       "side": 1,
       "message": "Acknowledged",
       "parentUuid": "0378213b_e12ae76f",
+      "revId": "6aa52701328e1954b89d915039d84815f1419b96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b1e70a2e_17596c78",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2025-11-14T21:52:56Z",
+      "side": 1,
+      "message": "Please add some tests if possible.",
+      "revId": "6aa52701328e1954b89d915039d84815f1419b96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6833a200_b571ff17",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 848,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2025-11-14T21:52:56Z",
+      "side": 1,
+      "message": "Previously, state was set to `RUNNING` only for `CancelableRunnable` tasks. Now, we no longer do that check. Why should this change?",
+      "range": {
+        "startLine": 848,
+        "startChar": 25,
+        "endLine": 848,
+        "endChar": 38
+      },
+      "revId": "6aa52701328e1954b89d915039d84815f1419b96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "886eba08_1c35a582",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 853,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2025-11-14T21:52:56Z",
+      "side": 1,
+      "message": "Should `purge()` be called unconditionally like before?",
+      "range": {
+        "startLine": 853,
+        "startChar": 10,
+        "endLine": 853,
+        "endChar": 27
+      },
+      "revId": "6aa52701328e1954b89d915039d84815f1419b96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ab44c80a_f385fb7a",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 868,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2025-11-14T21:52:56Z",
+      "side": 1,
+      "message": "```suggestion\n        if(!listeners.isEmpty()) {\n            executor.cancelIfParked(this);\n        }\n```",
+      "range": {
+        "startLine": 868,
+        "startChar": 8,
+        "endLine": 868,
+        "endChar": 38
+      },
       "revId": "6aa52701328e1954b89d915039d84815f1419b96",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

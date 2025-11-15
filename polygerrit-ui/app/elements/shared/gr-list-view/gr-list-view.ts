@@ -33,6 +33,9 @@ export class GrListView extends LitElement {
   @property({type: Boolean})
   createNew?: boolean;
 
+  @property({type: String})
+  createNew = 'Create New';
+
   @property({type: Array})
   items?: unknown[];
 
@@ -130,7 +133,7 @@ export class GrListView extends LitElement {
             link
             @click=${() => this.createNewItem()}
           >
-            Create New
+            ${this.createNew}
           </gr-button>
           <slot name="createNewContainer"></slot>
         </div>

@@ -172,6 +172,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "743835a5_ceeffdcf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2025-11-15T05:36:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5161c64a_2ad18c9b",
+      "revId": "6aa52701328e1954b89d915039d84815f1419b96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6833a200_b571ff17",
@@ -279,6 +297,30 @@
       "writtenOn": "2025-11-14T23:37:13Z",
       "side": 1,
       "message": "```suggestion\n        } else if (runnable instanceof CanceledWhileRunning) {\n```",
+      "range": {
+        "startLine": 854,
+        "startChar": 0,
+        "endLine": 855,
+        "endChar": 57
+      },
+      "revId": "6aa52701328e1954b89d915039d84815f1419b96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2ac32e49_374891d6",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 855,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2025-11-15T05:36:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ef52f176_2ea3fe96",
       "range": {
         "startLine": 854,
         "startChar": 0,
@@ -398,6 +440,30 @@
       "side": 1,
       "message": "The general idea was to skip parked logic when there are no listeners. Currently, this has no impact because `cancelIfParked` does very little, but additional functionality could be added to it in the future, which would then execute for everyone.",
       "parentUuid": "ac080604_fd7b0da9",
+      "range": {
+        "startLine": 868,
+        "startChar": 8,
+        "endLine": 868,
+        "endChar": 38
+      },
+      "revId": "6aa52701328e1954b89d915039d84815f1419b96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d0e87781_e9ada877",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 868,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2025-11-15T05:36:03Z",
+      "side": 1,
+      "message": "In future if `cancelIfParked` changes, we should do the empty check inside that method. As of now I don\u0027t see a need for it.",
+      "parentUuid": "df524d77_3f46c593",
       "range": {
         "startLine": 868,
         "startChar": 8,

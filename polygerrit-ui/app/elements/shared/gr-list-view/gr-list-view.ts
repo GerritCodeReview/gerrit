@@ -33,6 +33,9 @@ export class GrListView extends LitElement {
   @property({type: Boolean})
   createNew?: boolean;
 
+  @property({type: String})
+  createNewText = 'Create New';
+
   @property({type: Array})
   items?: unknown[];
 
@@ -123,6 +126,7 @@ export class GrListView extends LitElement {
           </md-outlined-text-field>
         </div>
         <div id="createNewContainer">
+          <slot name="createNewContainerTop"></slot>
           <gr-button
             id="createNew"
             ?hidden=${!this.createNew}
@@ -130,9 +134,9 @@ export class GrListView extends LitElement {
             link
             @click=${() => this.createNewItem()}
           >
-            Create New
+            ${this.createNewText}
           </gr-button>
-          <slot name="createNewContainer"></slot>
+          <slot name="createNewContainerBottom"></slot>
         </div>
       </div>
       <slot></slot>

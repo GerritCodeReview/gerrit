@@ -76,7 +76,7 @@ suite('gr-repo-list tests', () => {
               link=""
               primary=""
               role="button"
-              slot="createNewContainer"
+              slot="createNewContainerTop"
               tabindex="0"
             >
               Create Change

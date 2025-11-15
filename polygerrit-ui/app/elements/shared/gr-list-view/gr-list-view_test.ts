@@ -31,6 +31,7 @@ suite('gr-list-view tests', () => {
             </md-outlined-text-field>
           </div>
           <div id="createNewContainer">
+            <slot name="createNewContainerTop"> </slot>
             <gr-button
               aria-disabled="false"
               hidden=""
@@ -42,7 +43,7 @@ suite('gr-list-view tests', () => {
             >
               Create New
             </gr-button>
-            <slot name="createNewContainer"> </slot>
+            <slot name="createNewContainerBottom"> </slot>
           </div>
         </div>
         <slot> </slot>

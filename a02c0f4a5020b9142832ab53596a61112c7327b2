@@ -16,6 +16,24 @@
       "message": "The build keeps on being aborted by Bazel:\n\n```\n00:14:59.887 Build timed out (after 12 minutes). Marking the build as aborted.\n```",
       "revId": "a02c0f4a5020b9142832ab53596a61112c7327b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f5353d4_441869a1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 16
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-11-15T17:36:24Z",
+      "side": 1,
+      "message": "Problem was in `tools/maven/mvn.py` file - solved in the latest (#17) PS",
+      "parentUuid": "05335728_7d0eef68",
+      "revId": "a02c0f4a5020b9142832ab53596a61112c7327b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

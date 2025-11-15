@@ -143,6 +143,7 @@ export class GrRepoList extends LitElement {
     return html`
       <gr-list-view
         .createNew=${this.createNewCapability}
+        .createNewText=${'Create Repository'}
         .filter=${this.filter}
         .itemsPerPage=${this.reposPerPage}
         .items=${this.repos}
@@ -153,7 +154,7 @@ export class GrRepoList extends LitElement {
       >
         <gr-button
           id="createChangeButton"
-          slot="createNewContainer"
+          slot="createNewContainerTop"
           ?hidden=${!this.loggedIn}
           primary
           link

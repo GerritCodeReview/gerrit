@@ -160,6 +160,9 @@ export class GrRepoDetailList extends LitElement {
     return html`
       <gr-list-view
         .createNew=${this.loggedIn}
+        .createNewText=${this.detailType === RepoDetailView.BRANCHES
+          ? 'Create Branch'
+          : ' Create Tag'}
         .filter=${this.filter}
         .itemsPerPage=${this.itemsPerPage}
         .items=${this.items}

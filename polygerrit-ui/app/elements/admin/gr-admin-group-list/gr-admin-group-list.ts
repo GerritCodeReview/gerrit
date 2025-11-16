@@ -81,6 +81,7 @@ export class GrAdminGroupList extends LitElement {
     return html`
       <gr-list-view
         .createNew=${this.createNewCapability}
+        .createNewText=${'Create Group'}
         .filter=${this.filter}
         .items=${this.groups}
         .itemsPerPage=${this.groupsPerPage}

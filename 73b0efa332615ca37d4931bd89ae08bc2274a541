@@ -16,6 +16,24 @@
       "message": "nit: `cdUniqueId` is needed regardless the fact that change is cacheable or not IOW it can stay as it was before",
       "revId": "73b0efa332615ca37d4931bd89ae08bc2274a541",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0dd830d2_cc0ee499",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 568,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-11-16T16:04:22Z",
+      "side": 1,
+      "message": "\u003e nit: `cdUniqueId` is needed regardless the fact that change is cacheable or not \n\nWhere do you believe it is needed? If the change isn\u0027t cacheable, the calculation of the virtualId isn\u0027t needed IMHO. Can you point me to the line number where `isCacheable \u003d false` and `cdUniqueId` is needed?\n\n\u003e IOW it can stay as it was before\n\nThe problem was exactly the computation of `cdUniqueId`, which was expensive.",
+      "parentUuid": "b877d8e3_db867e32",
+      "revId": "73b0efa332615ca37d4931bd89ae08bc2274a541",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

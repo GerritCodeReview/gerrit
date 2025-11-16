@@ -563,11 +563,14 @@ public class ChangeJson {
           continue;
         }
         try {
-          Change.Id cdUniqueId = cd.virtualId();
-          ChangeInfo info = cache.get(cdUniqueId);
-          if (info != null && isCacheable) {
-            changeInfos.add(info);
-            continue;
+          ChangeInfo info;
+          if (isCacheable) {
+            Change.Id cdUniqueId = cd.virtualId();
+            info = cache.get(cdUniqueId);
+            if (info != null) {
+              changeInfos.add(info);
+              continue;
+            }
           }
 
           // Compute and cache if possible
@@ -575,7 +578,7 @@ public class ChangeJson {
           info = format(cd, Optional.empty(), false, pluginInfosByChange.get(cd.getId()));
           changeInfos.add(info);
           if (isCacheable) {
-            cache.put(cdUniqueId, info);
+            cache.put(cd.virtualId(), info);
           }
         } catch (RuntimeException e) {
           Optional<RequestCancelledException> requestCancelledException =

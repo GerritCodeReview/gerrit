@@ -124,6 +124,24 @@
       "parentUuid": "4339a0d6_dad52e4a",
       "revId": "6e3735df2db87f5d2989a191bee990d701ce9ec7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2d2a7399_831242e2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-11-17T18:33:09Z",
+      "side": 1,
+      "message": "Bridge has been enabled, however, I\u0027ve still hidden it behind configuration flag in order to avoid affecting installations that don\u0027t require this level of logging. if we don\u0027t hide it behind configuration then log4j would need to filter out a constant, and very verbose, steam of lucene logs that it didn\u0027t need to do before.",
+      "parentUuid": "ffff0a00_1c17f07c",
+      "revId": "6e3735df2db87f5d2989a191bee990d701ce9ec7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

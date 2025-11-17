@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ddaa68b1_313e8686",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-11-17T18:33:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "733264b4_6620ccd6",
+      "range": {
+        "startLine": 9,
+        "startChar": 10,
+        "endLine": 9,
+        "endChar": 25
+      },
+      "revId": "d2d4dadaecd3409d4f3d60641b780bf0de4aa60f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "48e5d281_59596e57",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "643d7d3e_35cc0666",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-11-17T18:33:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48e5d281_59596e57",
+      "range": {
+        "startLine": 10,
+        "startChar": 32,
+        "endLine": 10,
+        "endChar": 37
+      },
+      "revId": "d2d4dadaecd3409d4f3d60641b780bf0de4aa60f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "52e35146_f200bca8",
@@ -60,6 +108,30 @@
       "writtenOn": "2025-11-12T21:48:00Z",
       "side": 1,
       "message": "Can you clarify which issues you\u0027d expect the Gerrit admin to resolve by enabling this log?",
+      "range": {
+        "startLine": 15,
+        "startChar": 8,
+        "endLine": 15,
+        "endChar": 24
+      },
+      "revId": "d2d4dadaecd3409d4f3d60641b780bf0de4aa60f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "60be6716_428591ea",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-11-17T18:33:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "52e35146_f200bca8",
       "range": {
         "startLine": 15,
         "startChar": 8,

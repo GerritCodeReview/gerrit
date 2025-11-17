@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e5b8869_f3fb5827",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-11-17T20:34:30Z",
+      "side": 1,
+      "message": "Needs a Release-Notes footer",
+      "revId": "d9f14889079596be3cf4fea67d43713c5e5036fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "79479f39_c98c0f12",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2025-11-17T22:23:42Z",
+      "side": 1,
+      "message": "This is the assumption that is buggy. Listeners can be empty without parked being empty after a plugin is removed.",
+      "revId": "9e4f38875790732f27c25e9f5e9325d2eb36b04c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

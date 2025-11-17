@@ -22,6 +22,30 @@
       },
       "revId": "62f1ecf8bf06838a7b52651a0fbc1dfdd2273599",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3bb699fc_11412a49",
+        "filename": "java/com/google/gerrit/server/restapi/project/CreateTag.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-11-17T13:07:40Z",
+      "side": 1,
+      "message": "Yes, at least IIUC what this comment means. A tag is only visible if the commit to which it points is reachable from a visible branch. Since a tag is visible only if we find its commit through a visible branch, we do not need to check if any tags point to the given commit. If they do we either already find the commit via a visible branch (a visible tag) or the commit is not visible (a non-visible tag).",
+      "parentUuid": "ad2b06fb_0685b847",
+      "range": {
+        "startLine": 131,
+        "startChar": 10,
+        "endLine": 132,
+        "endChar": 28
+      },
+      "revId": "62f1ecf8bf06838a7b52651a0fbc1dfdd2273599",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

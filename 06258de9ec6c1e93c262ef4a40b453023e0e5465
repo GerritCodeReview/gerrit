@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "41fdfa85_5f0f7ab8",
+        "filename": "polygerrit-ui/app/node_modules_licenses/licenses.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-11-17T08:10:00Z",
+      "side": 1,
+      "message": "No, this is ok. The licenses are generated in a special way for font-roboto.",
+      "parentUuid": "d05274b0_fa8a91f0",
+      "range": {
+        "startLine": 105,
+        "startChar": 2,
+        "endLine": 108,
+        "endChar": 4
+      },
+      "revId": "06258de9ec6c1e93c262ef4a40b453023e0e5465",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0fd146fc_2b834e63",
@@ -37,6 +61,30 @@
       "writtenOn": "2025-11-14T16:17:59Z",
       "side": 1,
       "message": "This look unintentional",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 33,
+        "endChar": 17
+      },
+      "revId": "06258de9ec6c1e93c262ef4a40b453023e0e5465",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "207139c2_aa7e7b09",
+        "filename": "polygerrit-ui/app/yarn.lock",
+        "patchSetId": 4
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-11-17T08:10:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0fd146fc_2b834e63",
       "range": {
         "startLine": 32,
         "startChar": 0,

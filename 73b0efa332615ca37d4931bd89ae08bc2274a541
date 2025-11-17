@@ -34,6 +34,24 @@
       "parentUuid": "b877d8e3_db867e32",
       "revId": "73b0efa332615ca37d4931bd89ae08bc2274a541",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c3178ee_e97fe8fc",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 568,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-11-17T07:27:00Z",
+      "side": 1,
+      "message": "Yeah, I missed the fact that the second time is behind condition too 👍",
+      "parentUuid": "0dd830d2_cc0ee499",
+      "revId": "73b0efa332615ca37d4931bd89ae08bc2274a541",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

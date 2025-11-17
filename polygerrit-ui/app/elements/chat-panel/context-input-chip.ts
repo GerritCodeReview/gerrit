@@ -55,6 +55,7 @@ export class ContextInputChip extends LitElement {
       --md-assist-chip-container-height: 22px;
       --md-assist-chip-label-text-size: var(--font-size-small);
       --md-assist-chip-label-text-weight: var(--font-weight-medium);
+      --md-assist-chip-label-text-color: var(--primary-text-color);
       --md-assist-chip-outline-color: var(--border-color);
       overflow: hidden;
       margin: 0;

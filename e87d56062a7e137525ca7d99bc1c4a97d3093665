@@ -34,6 +34,24 @@
       "parentUuid": "2348c258_6fbe37c0",
       "revId": "e87d56062a7e137525ca7d99bc1c4a97d3093665",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e0c83f5d_c490ff91",
+        "filename": "java/com/google/gerrit/lucene/GerritIndexWriterConfig.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-11-17T22:25:31Z",
+      "side": 1,
+      "message": "But we don\u0027t care to pass any log messages except the ones configured on L91, correct?",
+      "parentUuid": "fc426617_e41af09d",
+      "revId": "e87d56062a7e137525ca7d99bc1c4a97d3093665",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

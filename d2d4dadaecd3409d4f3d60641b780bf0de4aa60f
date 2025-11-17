@@ -264,6 +264,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "489a7f24_2205d81b",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 4130,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-11-17T18:48:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "06d7675c_6aff9845",
+      "range": {
+        "startLine": 4130,
+        "startChar": 34,
+        "endLine": 4130,
+        "endChar": 52
+      },
+      "revId": "d2d4dadaecd3409d4f3d60641b780bf0de4aa60f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "76eb45e7_1f468428",
@@ -277,6 +301,30 @@
       "writtenOn": "2025-11-12T21:48:00Z",
       "side": 1,
       "message": "This statement is too generic. Can you explain what type of logging is produced?",
+      "range": {
+        "startLine": 4132,
+        "startChar": 31,
+        "endLine": 4133,
+        "endChar": 67
+      },
+      "revId": "d2d4dadaecd3409d4f3d60641b780bf0de4aa60f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cfa2da7d_bfba41e6",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 4133,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-11-17T18:48:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "76eb45e7_1f468428",
       "range": {
         "startLine": 4132,
         "startChar": 31,
@@ -310,6 +358,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f2f27e4f_c160b2c8",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 4135,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-11-17T18:48:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6802f487_e6d1e5a3",
+      "range": {
+        "startLine": 4135,
+        "startChar": 11,
+        "endLine": 4135,
+        "endChar": 63
+      },
+      "revId": "d2d4dadaecd3409d4f3d60641b780bf0de4aa60f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "38cc9987_d904c245",
@@ -323,6 +395,24 @@
       "writtenOn": "2025-11-12T21:48:00Z",
       "side": 1,
       "message": "Optional: Can you provide more details on what to expect in the log?",
+      "revId": "d2d4dadaecd3409d4f3d60641b780bf0de4aa60f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a784fd9_fd6165e7",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 4136,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-11-17T18:48:54Z",
+      "side": 1,
+      "message": "I\u0027ve added a note above, however, there isn\u0027t any specific documentation from Lucene on what is logged as this API is considered internal and subject to changes.",
+      "parentUuid": "38cc9987_d904c245",
       "revId": "d2d4dadaecd3409d4f3d60641b780bf0de4aa60f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

@@ -16,6 +16,24 @@
       "message": "I think you can change this to be more specific now\n```suggestion\n      LogManager.getLogManager().getLogger(\"com.google.gerrit.lucene\").setLevel(Level.FINE);\n```",
       "revId": "e87d56062a7e137525ca7d99bc1c4a97d3093665",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fc426617_e41af09d",
+        "filename": "java/com/google/gerrit/lucene/GerritIndexWriterConfig.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-11-17T21:46:32Z",
+      "side": 1,
+      "message": "No, unfortunately this won\u0027t work. This line intends to set the root `java.util.logging` logger instance to FINE, so that it\u0027ll pass on the log messages configured on L91 onwards to log4j. It\u0027s not setting the logger name for the logs to come, that\u0027s done on L91.",
+      "parentUuid": "2348c258_6fbe37c0",
+      "revId": "e87d56062a7e137525ca7d99bc1c4a97d3093665",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

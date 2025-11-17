@@ -640,6 +640,30 @@
       },
       "revId": "6aa52701328e1954b89d915039d84815f1419b96",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e033ba53_6c066fec",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 868,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-11-17T23:00:42Z",
+      "side": 1,
+      "message": "We can resolve this once you rebase on top of https://gerrit-review.googlesource.com/c/gerrit/+/528081 since that change clarifies that the current behavior is buggy.",
+      "parentUuid": "81e0990d_94b787aa",
+      "range": {
+        "startLine": 868,
+        "startChar": 8,
+        "endLine": 868,
+        "endChar": 38
+      },
+      "revId": "6aa52701328e1954b89d915039d84815f1419b96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

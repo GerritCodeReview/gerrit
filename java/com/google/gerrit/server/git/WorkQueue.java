@@ -622,7 +622,7 @@ public class WorkQueue {
 
     void remove(Task<?> task) {
       boolean isRemoved = all.remove(task.getTaskId(), task);
-      if (isRemoved && !listeners.isEmpty()) {
+      if (isRemoved) {
         cancelIfParked(task);
       }
     }

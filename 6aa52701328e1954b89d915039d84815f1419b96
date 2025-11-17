@@ -239,6 +239,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "52243442_6683590f",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 848,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-11-17T21:31:29Z",
+      "side": 1,
+      "message": "I don\u0027t think that answer\u0027s Kaushik\u0027s concern. There\u0027s no conditional check on the class before setting the state now. What if it doesn\u0027t derive from `CancelableRunnable` or `CanceledWhileRunning`? Is it still ok to set those tasks to `RUNNING`?",
+      "parentUuid": "1386ce72_deddd7f8",
+      "range": {
+        "startLine": 848,
+        "startChar": 25,
+        "endLine": 848,
+        "endChar": 38
+      },
+      "revId": "6aa52701328e1954b89d915039d84815f1419b96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "886eba08_1c35a582",
         "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
         "patchSetId": 2
@@ -560,6 +584,30 @@
       "side": 1,
       "message": "Also, it potentially is buggy to check for listeners in this code path. (assuming if a plugin is removed while tasks were parked)",
       "parentUuid": "9e73aa8e_03d5aeb6",
+      "range": {
+        "startLine": 868,
+        "startChar": 8,
+        "endLine": 868,
+        "endChar": 38
+      },
+      "revId": "6aa52701328e1954b89d915039d84815f1419b96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f128e344_b0e984e2",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 868,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-11-17T21:31:29Z",
+      "side": 1,
+      "message": "Ok, then go with Kaushik\u0027s other suggestion and do that removal in a parent change first?",
+      "parentUuid": "388f97d6_af5b4d75",
       "range": {
         "startLine": 868,
         "startChar": 8,

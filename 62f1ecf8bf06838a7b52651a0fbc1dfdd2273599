@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ad2b06fb_0685b847",
+        "filename": "java/com/google/gerrit/server/restapi/project/CreateTag.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-11-17T12:59:14Z",
+      "side": 1,
+      "message": "Is this comment still true?",
+      "range": {
+        "startLine": 131,
+        "startChar": 10,
+        "endLine": 132,
+        "endChar": 28
+      },
+      "revId": "62f1ecf8bf06838a7b52651a0fbc1dfdd2273599",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -41,7 +41,7 @@ export class GrIcon extends LitElement {
           font-family: var(--icon-font-family, 'Material Symbols Outlined');
           font-weight: normal;
           font-style: normal;
-          font-size: 20px;
+          font-size: var(--gr-icon-size, 20px);
           line-height: 1;
           letter-spacing: normal;
           text-transform: none;
@@ -56,7 +56,7 @@ export class GrIcon extends LitElement {
           vertical-align: top;
         }
         :host([small]) {
-          font-size: 16px;
+          font-size: var(--gr-icon-size, 16px);
           position: relative;
           top: 2px;
         }

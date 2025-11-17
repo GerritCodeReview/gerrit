@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b64c3999_7e67a846",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-11-17T22:59:36Z",
+      "side": 1,
+      "message": "```suggestion\nChange-Id: Id98ef781475db06a255db58968a329641b81f81a\nRelease-Notes: Fixed parked task cancellation when TaskParker plugin has been removed\n```",
+      "revId": "1cd5da5ab3e4eedfb85152f9137630592331345b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

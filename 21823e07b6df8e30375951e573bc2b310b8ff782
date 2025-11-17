@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "93607f50_12831d13",
+        "filename": "java/com/google/gerrit/server/project/CreateRefControl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-11-17T12:53:47Z",
+      "side": 1,
+      "message": "Is there value in searching for changes here. We end up doing an query just to show slightly better error message. Maybe we can incorporate the possibility of the failure mode into other error messages and save on unnecessary request?",
+      "range": {
+        "startLine": 218,
+        "startChar": 4,
+        "endLine": 233,
+        "endChar": 5
+      },
+      "revId": "21823e07b6df8e30375951e573bc2b310b8ff782",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

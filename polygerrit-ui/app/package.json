@@ -22,7 +22,7 @@
     "marked": "^0.5.0",
     "polymer-bridges": "file:../../polymer-bridges",
     "polymer-resin": "^2.0.1",
-    "resemblejs": "^5.0.0",
+    "resemblejs": "rsmbl/Resemble.js#66a55c5bfc3bda2303ad632ee8ce3c727b415917",
     "rxjs": "^6.6.7",
     "safevalues": "^1.2.0",
     "web-vitals": "^3.5.2"

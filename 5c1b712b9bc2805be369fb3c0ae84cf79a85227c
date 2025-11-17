@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6225d0a0_d1f5a947",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 582,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2025-11-17T08:38:11Z",
+      "side": 1,
+      "message": "I think you should be able to further optimize in this way:\n\n```suggestion\n          ChangeInfo info;\n          Change.Id cdUniqueId \u003d null;\n          if (isCacheable) {\n            cdUniqueId \u003d cd.virtualId();\n            info \u003d cache.get(cdUniqueId);\n            if (info !\u003d null) {\n              changeInfos.add(info);\n              continue;\n            }\n          }\n\n          // Compute and cache if possible\n          ensureLoaded(Collections.singleton(cd));\n          info \u003d format(cd, Optional.empty(), false, pluginInfosByChange.get(cd.getId()));\n          changeInfos.add(info);\n          if (isCacheable) {\n            cache.put(cdUniqueId, info);\n          }\n```",
+      "range": {
+        "startLine": 566,
+        "startChar": 0,
+        "endLine": 582,
+        "endChar": 11
+      },
+      "revId": "5c1b712b9bc2805be369fb3c0ae84cf79a85227c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

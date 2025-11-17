@@ -16,6 +16,24 @@
       "message": "@milutin@google.com i\u0027m not sure how to fix \"License for package \u0027base64-js-1.5.1\u0027 was not found\" without adding it (and there\u0027s a lot to add). All this is simply doing is forcing resemblejs to use canvas 3.2.0 but it\u0027s causing it to fail with \"License for package \u0027base64-js-1.5.1\u0027 was not found\". Any ideas how to fix without needing to add all the packages to the licenses file?",
       "revId": "ad144aa986e9e212a03539987a790dc24157e255",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "60709a2d_203d61e5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-11-17T14:01:29Z",
+      "side": 1,
+      "message": "Figured out an alternative.",
+      "parentUuid": "47a5f553_944ec182",
+      "revId": "ad144aa986e9e212a03539987a790dc24157e255",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

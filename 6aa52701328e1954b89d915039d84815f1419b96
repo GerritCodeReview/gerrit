@@ -616,6 +616,30 @@
       },
       "revId": "6aa52701328e1954b89d915039d84815f1419b96",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "81e0990d_94b787aa",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 868,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2025-11-17T22:02:49Z",
+      "side": 1,
+      "message": "Is it okay to move that listeners check inside the `cancelIfParked` method ?",
+      "parentUuid": "f128e344_b0e984e2",
+      "range": {
+        "startLine": 868,
+        "startChar": 8,
+        "endLine": 868,
+        "endChar": 38
+      },
+      "revId": "6aa52701328e1954b89d915039d84815f1419b96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0b4a25a3_1be34b35",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-11-17T20:28:23Z",
+      "side": 1,
+      "message": "They don\u0027t use anything except their custom \"not a logger\". Seems to be a cultural debate for them 😞\n\n```suggestion\ndoesn\u0027t use a standard logging framework.\n```",
+      "revId": "47248631b0fbb9b5f1593231a2f53dab02790c2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f301757b_4c6ae37d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-11-17T20:28:23Z",
+      "side": 1,
+      "message": "```suggestion\nEnable admins to capture Lucene\u0027s debug stream in Gerrit\u0027s logs to further\n```",
+      "revId": "47248631b0fbb9b5f1593231a2f53dab02790c2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "74dafc34_7c5c49f3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-11-17T20:28:23Z",
+      "side": 1,
+      "message": "Do you see this same impact when you were using the [`PrintInfoStream`](https://lucene.apache.org/core/10_2_2/core/org/apache/lucene/util/PrintStreamInfoStream.html) directly to a file? If not... maybe that would be the better approach.",
+      "revId": "47248631b0fbb9b5f1593231a2f53dab02790c2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "290ea1f6_e438cd8a",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 17
+      },
+      "lineNbr": 4138,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-11-17T20:28:23Z",
+      "side": 1,
+      "message": "```suggestion\nOnce this setting is set to true, it will still be necessary to set the desired\n```",
+      "range": {
+        "startLine": 4138,
+        "startChar": 18,
+        "endLine": 4138,
+        "endChar": 20
+      },
+      "revId": "47248631b0fbb9b5f1593231a2f53dab02790c2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ca660e2c_6d71ce05",
+        "filename": "java/com/google/gerrit/lucene/GerritIndexWriterConfig.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-11-17T20:28:23Z",
+      "side": 1,
+      "message": "Do we want to keep some kind of prefix on the logger name, like `com.google.gerrit.lucene.$name`? Then I think you could change L89 to only have that prefix, which should prevent any other JUL logs (from other libraries) from unexpectedly showing up.",
+      "revId": "47248631b0fbb9b5f1593231a2f53dab02790c2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

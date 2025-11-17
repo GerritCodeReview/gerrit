@@ -496,6 +496,30 @@
       },
       "revId": "6aa52701328e1954b89d915039d84815f1419b96",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aff13805_4ddb4130",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 868,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-11-17T20:40:47Z",
+      "side": 1,
+      "message": "Ok, I missed that this is effectively code moved from Base L614-616. Since that did have the `isEmpty()` check, I\u0027m inclined to agree with Kaushik that you shouldn\u0027t be removing it as part of this change. I think apply the edit Kaushik suggested and then raise a follow-up change to remove the empty check if you want.",
+      "parentUuid": "01d3b1a1_d5043dc1",
+      "range": {
+        "startLine": 868,
+        "startChar": 8,
+        "endLine": 868,
+        "endChar": 38
+      },
+      "revId": "6aa52701328e1954b89d915039d84815f1419b96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

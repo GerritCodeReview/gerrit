@@ -90,6 +90,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0a04e686_bc75f0d6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-11-17T20:40:31Z",
+      "side": 1,
+      "message": "Yeah, so, with PrintInfoStream it was closer to 5%, with the Java logging it seems to be clsoer t0 20%. However, I think the combination of the config setting with the ability of enabling via ssh command could be quite useful.",
+      "parentUuid": "74dafc34_7c5c49f3",
+      "revId": "47248631b0fbb9b5f1593231a2f53dab02790c2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "290ea1f6_e438cd8a",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 17
@@ -148,6 +166,24 @@
       "writtenOn": "2025-11-17T20:28:23Z",
       "side": 1,
       "message": "Do we want to keep some kind of prefix on the logger name, like `com.google.gerrit.lucene.$name`? Then I think you could change L89 to only have that prefix, which should prevent any other JUL logs (from other libraries) from unexpectedly showing up.",
+      "revId": "47248631b0fbb9b5f1593231a2f53dab02790c2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a2a06e7_6ef67de8",
+        "filename": "java/com/google/gerrit/lucene/GerritIndexWriterConfig.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-11-17T20:40:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca660e2c_6d71ce05",
       "revId": "47248631b0fbb9b5f1593231a2f53dab02790c2e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

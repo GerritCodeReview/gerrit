@@ -390,9 +390,10 @@ The following queues support metrics:
 
 Each queue provides the following metrics:
 
-* `queue/<queue_name>/pool_size`: Current number of threads in the pool
-* `queue/<queue_name>/max_pool_size`: Maximum allowed number of threads in the
+* `queue/<queue_name>/pool_size`: Current number of non parked threads in the pool
+* `queue/<queue_name>/max_pool_size`: Maximum allowed number of non parked threads in the
   pool
+* `queue/<queue_name>/parked_threads`: Current number of threads that are parked
 * `queue/<queue_name>/active_threads`: Current number of threads that are actively
   executing tasks
 * `queue/<queue_name>/scheduled_tasks`: Current number of scheduled tasks in the queue

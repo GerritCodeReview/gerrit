@@ -263,6 +263,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b4c813bf_3b12f6b3",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 848,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2025-11-17T23:09:53Z",
+      "side": 1,
+      "message": "The reason for this check is just to avoid running `cancel()` twice. I agree that it is framed to play with state only if it is of `CancelableRunnable` type but it has no effect for other tasks. Let me know if its preferred to add a seperate check instead of combining with this ?",
+      "parentUuid": "52243442_6683590f",
+      "range": {
+        "startLine": 848,
+        "startChar": 25,
+        "endLine": 848,
+        "endChar": 38
+      },
+      "revId": "6aa52701328e1954b89d915039d84815f1419b96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "886eba08_1c35a582",
         "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
         "patchSetId": 2
@@ -656,6 +680,30 @@
       "side": 1,
       "message": "We can resolve this once you rebase on top of https://gerrit-review.googlesource.com/c/gerrit/+/528081 since that change clarifies that the current behavior is buggy.",
       "parentUuid": "81e0990d_94b787aa",
+      "range": {
+        "startLine": 868,
+        "startChar": 8,
+        "endLine": 868,
+        "endChar": 38
+      },
+      "revId": "6aa52701328e1954b89d915039d84815f1419b96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1a039dcc_875bb777",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 868,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2025-11-17T23:09:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e033ba53_6c066fec",
       "range": {
         "startLine": 868,
         "startChar": 8,

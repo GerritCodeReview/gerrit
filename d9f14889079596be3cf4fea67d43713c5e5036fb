@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a7998d4_c767dafc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2025-11-17T21:03:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0e5b8869_f3fb5827",
+      "revId": "d9f14889079596be3cf4fea67d43713c5e5036fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a2e6295a_ccd60471",
@@ -31,6 +49,30 @@
       "writtenOn": "2025-11-17T20:54:30Z",
       "side": 1,
       "message": "```suggestion\n                latch.await();\n```",
+      "range": {
+        "startLine": 101,
+        "startChar": 0,
+        "endLine": 102,
+        "endChar": 56
+      },
+      "revId": "d9f14889079596be3cf4fea67d43713c5e5036fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ac096bde_ff1c7eea",
+        "filename": "javatests/com/google/gerrit/acceptance/server/util/WorkQueueIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2025-11-17T21:03:47Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "a2e6295a_ccd60471",
       "range": {
         "startLine": 101,
         "startChar": 0,

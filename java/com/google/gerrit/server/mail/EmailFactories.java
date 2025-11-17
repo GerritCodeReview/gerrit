@@ -40,6 +40,7 @@ import com.google.gerrit.server.patch.filediff.FileDiffOutput;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import org.eclipse.jgit.lib.ObjectId;
 
 /**
@@ -161,8 +162,22 @@ public interface EmailFactories {
   /** Email decorator for auth token with close expiration date. */
   EmailDecorator createAuthTokenWillExpireEmail(Account account, AuthToken authToken);
 
+  /** Email decorator for auth token with close expiration date. */
+  EmailDecorator createAuthTokenWillExpireEmail(
+      Account account,
+      AuthToken authToken,
+      Set<Account.Id> additionalReceivers,
+      String authTokenSettingsUrl);
+
   /** Email decorator for expired auth tokens. */
   EmailDecorator createAuthTokenExpiredEmail(Account account, AuthToken authToken);
+
+  /** Email decorator for expired auth tokens. */
+  EmailDecorator createAuthTokenExpiredEmail(
+      Account account,
+      AuthToken authToken,
+      Set<Account.Id> additionalReceivers,
+      String authTokenSettingsUrl);
 
   /** Email decorator for password modification operations. */
   EmailDecorator createHttpPasswordUpdateEmail(IdentifiedUser user, String operation);

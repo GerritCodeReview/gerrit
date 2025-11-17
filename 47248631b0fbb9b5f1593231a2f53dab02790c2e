@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a8311d0c_7566915f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-11-17T20:32:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b4a25a3_1be34b35",
+      "revId": "47248631b0fbb9b5f1593231a2f53dab02790c2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f301757b_4c6ae37d",
@@ -31,6 +49,24 @@
       "writtenOn": "2025-11-17T20:28:23Z",
       "side": 1,
       "message": "```suggestion\nEnable admins to capture Lucene\u0027s debug stream in Gerrit\u0027s logs to further\n```",
+      "revId": "47248631b0fbb9b5f1593231a2f53dab02790c2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0ca454d0_a37b7897",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-11-17T20:32:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f301757b_4c6ae37d",
       "revId": "47248631b0fbb9b5f1593231a2f53dab02790c2e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -65,6 +101,30 @@
       "writtenOn": "2025-11-17T20:28:23Z",
       "side": 1,
       "message": "```suggestion\nOnce this setting is set to true, it will still be necessary to set the desired\n```",
+      "range": {
+        "startLine": 4138,
+        "startChar": 18,
+        "endLine": 4138,
+        "endChar": 20
+      },
+      "revId": "47248631b0fbb9b5f1593231a2f53dab02790c2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a5f7d40_1c876bfd",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 17
+      },
+      "lineNbr": 4138,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-11-17T20:32:31Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "290ea1f6_e438cd8a",
       "range": {
         "startLine": 4138,
         "startChar": 18,

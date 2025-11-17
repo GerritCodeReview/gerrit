@@ -472,6 +472,30 @@
       },
       "revId": "6aa52701328e1954b89d915039d84815f1419b96",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "01d3b1a1_d5043dc1",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 868,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-11-17T20:34:13Z",
+      "side": 1,
+      "message": "I don\u0027t think this call is different from the `updateParked()` call in `onStop()`. They both do no work if `parked` is empty, so I think this code is fine as-is.",
+      "parentUuid": "d0e87781_e9ada877",
+      "range": {
+        "startLine": 868,
+        "startChar": 8,
+        "endLine": 868,
+        "endChar": 38
+      },
+      "revId": "6aa52701328e1954b89d915039d84815f1419b96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

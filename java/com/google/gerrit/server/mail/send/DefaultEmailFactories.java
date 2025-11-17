@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.mail.send;
 
+import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Address;
 import com.google.gerrit.entities.Change;
@@ -32,6 +33,7 @@ import com.google.gerrit.server.patch.filediff.FileDiffOutput;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import org.eclipse.jgit.lib.ObjectId;
@@ -180,8 +182,30 @@ public class DefaultEmailFactories implements EmailFactories {
   }
 
   @Override
+  @UsedAt(UsedAt.Project.PLUGIN_SERVICEUSER)
+  public EmailDecorator createAuthTokenWillExpireEmail(
+      Account account,
+      AuthToken authToken,
+      Set<Account.Id> additionalReceivers,
+      String authTokenSettingsUrl) {
+    return authTokenWillExpireEmailFactory.create(
+        account, authToken, additionalReceivers, authTokenSettingsUrl);
+  }
+
+  @Override
   public EmailDecorator createAuthTokenExpiredEmail(Account account, AuthToken authToken) {
     return authTokenExpiredEmailFactory.create(account, authToken);
+  }
+
+  @Override
+  @UsedAt(UsedAt.Project.PLUGIN_SERVICEUSER)
+  public EmailDecorator createAuthTokenExpiredEmail(
+      Account account,
+      AuthToken authToken,
+      Set<Account.Id> additionalReceivers,
+      String authTokenSettingsUrl) {
+    return authTokenExpiredEmailFactory.create(
+        account, authToken, additionalReceivers, authTokenSettingsUrl);
   }
 
   @Override

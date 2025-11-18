@@ -311,6 +311,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c7de93e3_a5bd5bb1",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 848,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2025-11-18T19:26:47Z",
+      "side": 1,
+      "message": "If we do that, we are only removing tasks of type `CancelableRunnable` and not others. So we might need something like this:\n\n```\n        boolean isSetRunningDuringCancellation \u003d false;\n        if (runnable instanceof CancelableRunnable) {\n          if (runningState.compareAndSet(null, State.RUNNING)) {\n            isSetRunningDuringCancellation \u003d true;\n            ((CancelableRunnable) runnable).cancel();\n          } else if (runnable instanceof CanceledWhileRunning) {\n            ((CanceledWhileRunning) runnable).setCanceledWhileRunning();\n          }\n        }\n\n        if (isSetRunningDuringCancellation || runningState.get() \u003d\u003d null) {\n          executor.remove(this);\n          executor.purge();\n        }\n        executor.cancelIfParked(this);\n```",
+      "parentUuid": "8792a6bf_83d43e85",
+      "range": {
+        "startLine": 848,
+        "startChar": 25,
+        "endLine": 848,
+        "endChar": 38
+      },
+      "revId": "6aa52701328e1954b89d915039d84815f1419b96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "886eba08_1c35a582",
         "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
         "patchSetId": 2

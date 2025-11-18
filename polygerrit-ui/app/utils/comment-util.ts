@@ -218,7 +218,45 @@ export function createNewReply(
   };
 }
 
+/**
+ * Ensures that all comments that are replies have the same range as their
+ * parent.
+ * sortComments requires the ranges of all comments in a thread to match.
+ * It's possible to create a reply via REST API without the range being set
+ * hence ensure the ranges are properly derived before forming threads.
+ */
+export function sanitiseRanges(comments: Comment[]) {
+  const idToComment = new Map<string, Comment>();
+  for (const comment of comments) {
+    if (comment.id) {
+      idToComment.set(comment.id, comment);
+    }
+  }
+
+  for (const comment of comments) {
+    if (comment.in_reply_to) {
+      const parent = idToComment.get(comment.in_reply_to);
+      if (parent) {
+        if (parent.range) {
+          if (
+            !comment.range ||
+            comment.range.start_line !== parent.range.start_line ||
+            comment.range.start_character !== parent.range.start_character ||
+            comment.range.end_line !== parent.range.end_line ||
+            comment.range.end_character !== parent.range.end_character
+          ) {
+            comment.range = {...parent.range};
+          }
+        } else {
+          delete comment.range;
+        }
+      }
+    }
+  }
+}
+
 export function createCommentThreads(comments: Comment[]) {
+  sanitiseRanges(comments);
   const sortedComments = sortComments(comments);
   const threads: CommentThread[] = [];
   const idThreadMap: CommentIdToCommentThreadMap = {};

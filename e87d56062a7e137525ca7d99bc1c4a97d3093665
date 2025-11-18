@@ -70,6 +70,24 @@
       "parentUuid": "e0c83f5d_c490ff91",
       "revId": "e87d56062a7e137525ca7d99bc1c4a97d3093665",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "33b6f4fa_a209508c",
+        "filename": "java/com/google/gerrit/lucene/GerritIndexWriterConfig.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-11-18T08:56:51Z",
+      "side": 1,
+      "message": "I\u0027ve tried to dig a bit deeper into this and unfortunately it doesn\u0027t look like it\u0027ll be possible.\nFor reasons unbeknownst, no generic org.apache.lucene loggers(or other vaguely related lucene loggers either) are exposed at this point.\nI think it has to do with the fact that they don\u0027t use a proper logging infrastructure by default, as you mention above.",
+      "parentUuid": "41c51c1e_3744d089",
+      "revId": "e87d56062a7e137525ca7d99bc1c4a97d3093665",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

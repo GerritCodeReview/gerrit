@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.server.quota;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.server.git.receive.AsyncReceiveCommits.DEFAULT_EXCEEDED_SIZE_QUOTA_TEMPLATE;
 import static com.google.gerrit.server.quota.QuotaGroupDefinitions.REPOSITORY_SIZE_GROUP;
 import static com.google.gerrit.server.quota.QuotaResponse.ok;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
@@ -34,7 +35,6 @@ import com.google.gerrit.server.quota.QuotaBackend;
 import com.google.gerrit.server.quota.QuotaResponse;
 import com.google.inject.Module;
 import java.util.Collections;
-import org.eclipse.jgit.api.errors.TooLargePackException;
 import org.eclipse.jgit.api.errors.TransportException;
 import org.junit.Before;
 import org.junit.Test;
@@ -96,10 +96,18 @@ public class RepositorySizeQuotaIT extends AbstractDaemonTest {
     when(quotaBackendWithResource.availableTokens(REPOSITORY_SIZE_GROUP))
         .thenReturn(singletonAggregation(ok(availableTokens)));
     when(quotaBackendWithUser.project(project)).thenReturn(quotaBackendWithResource);
-    assertThat(assertThrows(TooLargePackException.class, () -> pushCommit()).getMessage())
-        .contains(
-            String.format(
-                "Pack exceeds the limit of %d bytes, rejecting the pack", availableTokens));
+    assertThat(assertThrows(TransportException.class, () -> pushCommit()).getMessage())
+        .contains(String.format(DEFAULT_EXCEEDED_SIZE_QUOTA_TEMPLATE, availableTokens));
+  }
+
+  @Test
+  public void pushWithZeroTokens() throws Exception {
+    long availableTokens = 0L;
+    when(quotaBackendWithResource.availableTokens(REPOSITORY_SIZE_GROUP))
+        .thenReturn(singletonAggregation(ok(availableTokens)));
+    when(quotaBackendWithUser.project(project)).thenReturn(quotaBackendWithResource);
+    assertThat(assertThrows(TransportException.class, this::pushCommit).getMessage())
+        .contains(String.format(DEFAULT_EXCEEDED_SIZE_QUOTA_TEMPLATE, availableTokens));
   }
 
   @Test

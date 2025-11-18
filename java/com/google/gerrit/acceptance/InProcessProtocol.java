@@ -66,6 +66,7 @@ import java.net.SocketAddress;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.eclipse.jgit.errors.TooLargePackException;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.PostReceiveHook;
 import org.eclipse.jgit.transport.PostReceiveHookChain;
@@ -73,6 +74,7 @@ import org.eclipse.jgit.transport.PreUploadHook;
 import org.eclipse.jgit.transport.PreUploadHookChain;
 import org.eclipse.jgit.transport.ReceivePack;
 import org.eclipse.jgit.transport.TestProtocol;
+import org.eclipse.jgit.transport.UnpackErrorHandler;
 import org.eclipse.jgit.transport.UploadPack;
 import org.eclipse.jgit.transport.resolver.ReceivePackFactory;
 import org.eclipse.jgit.transport.resolver.ServiceNotAuthorizedException;
@@ -337,13 +339,34 @@ class InProcessProtocol extends TestProtocol<Context> {
 
         receivePackInitializers.runEach(
             initializer -> initializer.init(projectState.getNameKey(), rp));
-        QuotaResponse.Aggregated availableTokens =
+        QuotaResponse.Aggregated quotaResults =
             quotaBackend
                 .user(identifiedUser)
                 .project(req.project)
                 .availableTokens(REPOSITORY_SIZE_GROUP);
-        availableTokens.throwOnError();
-        availableTokens.availableTokens().ifPresent(rp::setMaxPackSizeLimit);
+        quotaResults.throwOnError();
+        quotaResults
+            .availableTokens()
+            .ifPresent(
+                availBytes -> {
+                  rp.setMaxPackSizeLimit(availBytes);
+                  UnpackErrorHandler defaultErrorHandler = rp.getUnpackErrorHandler();
+                  rp.setUnpackErrorHandler(
+                      t -> {
+                        Throwable unpackException = t;
+                        if (t instanceof TooLargePackException) {
+                          // TODO: This message should come from the quota enforcerer, so that it
+                          // can be configured
+                          unpackException =
+                              new QuotaException(
+                                  String.format(
+                                      "This push exceeded the available quota of %d and it was"
+                                          + " rejected",
+                                      availBytes));
+                        }
+                        defaultErrorHandler.handleUnpackException(unpackException);
+                      });
+                });
 
         ImmutableList<PostReceiveHook> hooks =
             ImmutableList.<PostReceiveHook>builder()

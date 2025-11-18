@@ -1748,9 +1748,19 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
   @Test
   public void newPatchsetKeepsFileContentsWithDifferentParent() throws Exception {
     Change.Id changeId =
-        changeOperations.newChange().file("file1").content("Actual change content").createV1();
+        changeOperations
+            .newChange()
+            .project(project)
+            .file("file1")
+            .content("Actual change content")
+            .createV1();
     Change.Id newParentChange =
-        changeOperations.newChange().file("file1").content("Parent content").createV1();
+        changeOperations
+            .newChange()
+            .project(project)
+            .file("file1")
+            .content("Parent content")
+            .createV1();
 
     changeOperations.change(changeId).newPatchset().parent().change(newParentChange).create();
 

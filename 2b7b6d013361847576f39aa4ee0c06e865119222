@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "715def1f_ad7fab4d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-11-18T14:58:15Z",
+      "side": 1,
+      "message": "I\u0027d like to collect some more performance data for comparison before submitting this, hence blocking submit for now.",
+      "revId": "2b7b6d013361847576f39aa4ee0c06e865119222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

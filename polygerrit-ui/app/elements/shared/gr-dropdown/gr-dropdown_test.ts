@@ -111,7 +111,7 @@ suite('gr-dropdown tests', () => {
     );
     assert.equal(
       element.computeLinkURL({url: '/test', target: '_blank'}),
-      '/test'
+      '//' + window.location.host + '/test'
     );
   });
 

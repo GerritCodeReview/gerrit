@@ -1056,7 +1056,7 @@ export class GrMainHeader extends LitElement {
     if (typeof link.url === 'undefined') {
       return undefined;
     }
-    if (link.target || !link.url.startsWith('/')) {
+    if (!link.url.startsWith('/')) {
       return link.url;
     }
     return this.computeRelativeURL(link.url);

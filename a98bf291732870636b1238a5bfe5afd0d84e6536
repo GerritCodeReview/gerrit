@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9a12da61_22b34637",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown/gr-dropdown.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 475,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-11-18T20:37:32Z",
+      "side": 1,
+      "message": "I\u0027m wondering should this just be `if (link.url.startsWith(\u0027/\u0027)) {` instead? Rather than checking for link.target?",
+      "revId": "a98bf291732870636b1238a5bfe5afd0d84e6536",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

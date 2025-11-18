@@ -68,6 +68,7 @@ suite('chat-panel screenshot tests', () => {
             references: [],
             citations: [],
             userType: UserType.GEMINI,
+            responseComplete: true,
           },
         },
       ] as Turn[],

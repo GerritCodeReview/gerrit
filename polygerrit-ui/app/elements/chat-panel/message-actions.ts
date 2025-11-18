@@ -30,7 +30,13 @@ export class MessageActions extends LitElement {
       display: flex;
     }
     md-icon-button {
-      margin-right: var(--spacing-l);
+      margin-left: var(--spacing-l);
+      --md-icon-button-icon-size: 24px;
+      --md-icon-size: 24px;
+    }
+    .copy-button {
+      --gr-icon-size: 24px;
+      margin: auto 0;
     }
     .feedback-button.thumbs-up-icon {
       margin-left: auto;
@@ -64,8 +70,10 @@ export class MessageActions extends LitElement {
   override render() {
     return html`
       <gr-copy-clipboard
+        class="copy-button"
         ?hidden=${!this.isLatest}
         .text=${this.getGeminiMessageText()}
+        hideInput
       ></gr-copy-clipboard>
 
       <md-icon-button

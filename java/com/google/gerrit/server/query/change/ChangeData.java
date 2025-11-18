@@ -84,6 +84,9 @@ import com.google.gerrit.server.config.SkipCurrentRulesEvaluationOnClosedChanges
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeUtilFactory;
+import com.google.gerrit.server.logging.Metadata;
+import com.google.gerrit.server.logging.TraceContext;
+import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.patch.DiffSummary;
 import com.google.gerrit.server.patch.DiffSummaryKey;
@@ -945,20 +948,24 @@ public class ChangeData {
     if (ps == null) {
       return false;
     }
-    try (Repository repo = repoManager.openRepository(project());
-        RevWalk walk = new RevWalk(repo)) {
-      RevCommit c = walk.parseCommit(ps.commitId());
-      commitMessage = c.getFullMessage();
-      commitFooters = c.getFooterLines();
-      author = c.getAuthorIdent();
-      committer = c.getCommitterIdent();
-      parentCount = c.getParentCount();
-    } catch (IOException e) {
-      throw new StorageException(
-          String.format(
-              "Loading commit %s for ps %d of change %d failed.",
-              ps.commitId(), ps.id().get(), ps.id().changeId().get()),
-          e);
+    try (TraceTimer timer =
+        TraceContext.newTimer(
+            "loadCommitData", Metadata.builder().changeId(ps.id().changeId().get()).build())) {
+      try (Repository repo = repoManager.openRepository(project());
+          RevWalk walk = new RevWalk(repo)) {
+        RevCommit c = walk.parseCommit(ps.commitId());
+        commitMessage = c.getFullMessage();
+        commitFooters = c.getFooterLines();
+        author = c.getAuthorIdent();
+        committer = c.getCommitterIdent();
+        parentCount = c.getParentCount();
+      } catch (IOException e) {
+        throw new StorageException(
+            String.format(
+                "Loading commit %s for ps %d of change %d failed.",
+                ps.commitId(), ps.id().get(), ps.id().changeId().get()),
+            e);
+      }
     }
     return true;
   }

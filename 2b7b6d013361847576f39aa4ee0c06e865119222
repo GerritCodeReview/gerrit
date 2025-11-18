@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "853f49ca_88bd5e2d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-11-18T15:23:43Z",
+      "side": 1,
+      "message": "Yeah, we can do that.",
+      "parentUuid": "88d9a22b_50bdfeab",
+      "range": {
+        "startLine": 49,
+        "startChar": 46,
+        "endLine": 49,
+        "endChar": 56
+      },
+      "revId": "2b7b6d013361847576f39aa4ee0c06e865119222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "715def1f_ad7fab4d",
@@ -54,6 +78,30 @@
       "writtenOn": "2025-11-18T15:13:44Z",
       "side": 1,
       "message": "nit (optional): I don\u0027t think we promise sorted here, we don\u0027t sort when building from diffSummary . I think we can drop it here as well.",
+      "range": {
+        "startLine": 636,
+        "startChar": 14,
+        "endLine": 636,
+        "endChar": 23
+      },
+      "revId": "2b7b6d013361847576f39aa4ee0c06e865119222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eb895197_895c4f0f",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 636,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-11-18T15:23:43Z",
+      "side": 1,
+      "message": "Thanks for looking this up, I wasn\u0027t sure if it\u0027s needed. Will drop this.",
+      "parentUuid": "40c1c00c_db6aafb3",
       "range": {
         "startLine": 636,
         "startChar": 14,
@@ -101,6 +149,30 @@
           ]
         }
       ],
+      "revId": "2b7b6d013361847576f39aa4ee0c06e865119222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bd3c4dea_bd4a15f8",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 684,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-11-18T15:23:43Z",
+      "side": 1,
+      "message": "Good point! Rename detection is indeed not needed here (the difference is that when rename detection is off we get 1 ModifiedFile for adding the new path and 1 ModifiedFile for removing the old path instead of 1 ModifiedFile for renaming old path to new path).",
+      "parentUuid": "ec8a6e6a_24059e9e",
+      "range": {
+        "startLine": 684,
+        "startChar": 16,
+        "endLine": 684,
+        "endChar": 49
+      },
       "revId": "2b7b6d013361847576f39aa4ee0c06e865119222",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

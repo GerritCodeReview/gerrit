@@ -34,7 +34,6 @@ import com.google.gerrit.server.quota.QuotaBackend;
 import com.google.gerrit.server.quota.QuotaResponse;
 import com.google.inject.Module;
 import java.util.Collections;
-import org.eclipse.jgit.api.errors.TooLargePackException;
 import org.eclipse.jgit.api.errors.TransportException;
 import org.junit.Before;
 import org.junit.Test;
@@ -96,10 +95,24 @@ public class RepositorySizeQuotaIT extends AbstractDaemonTest {
     when(quotaBackendWithResource.availableTokens(REPOSITORY_SIZE_GROUP))
         .thenReturn(singletonAggregation(ok(availableTokens)));
     when(quotaBackendWithUser.project(project)).thenReturn(quotaBackendWithResource);
-    assertThat(assertThrows(TooLargePackException.class, () -> pushCommit()).getMessage())
+    assertThat(assertThrows(TransportException.class, this::pushCommit).getMessage())
         .contains(
             String.format(
-                "Pack exceeds the limit of %d bytes, rejecting the pack", availableTokens));
+                "Push rejected: it would exceed the available repository size quota of %d bytes.",
+                availableTokens));
+  }
+
+  @Test
+  public void pushWithZeroTokens() throws Exception {
+    long availableTokens = 0L;
+    when(quotaBackendWithResource.availableTokens(REPOSITORY_SIZE_GROUP))
+        .thenReturn(singletonAggregation(ok(availableTokens)));
+    when(quotaBackendWithUser.project(project)).thenReturn(quotaBackendWithResource);
+    assertThat(assertThrows(TransportException.class, this::pushCommit).getMessage())
+        .contains(
+            String.format(
+                "Push rejected: it would exceed the available repository size quota of %d bytes.",
+                availableTokens));
   }
 
   @Test

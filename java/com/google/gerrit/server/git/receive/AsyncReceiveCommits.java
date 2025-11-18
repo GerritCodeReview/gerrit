@@ -72,6 +72,8 @@ import com.google.inject.Singleton;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 import com.google.inject.name.Named;
+
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Collection;
@@ -81,12 +83,14 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.FutureTask;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import org.eclipse.jgit.errors.TooLargePackException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.PreReceiveHook;
 import org.eclipse.jgit.transport.ReceiveCommand;
 import org.eclipse.jgit.transport.ReceiveCommand.Result;
 import org.eclipse.jgit.transport.ReceivePack;
+import org.eclipse.jgit.transport.UnpackErrorHandler;
 
 /**
  * Hook that delegates to {@link ReceiveCommits} in a worker thread.
@@ -357,9 +361,30 @@ public class AsyncReceiveCommits {
       logger.atWarning().withCause(e).log(
           "Quota %s availableTokens request failed for project %s",
           REPOSITORY_SIZE_GROUP, projectName);
-      throw new RuntimeException(e);
+      throw new IllegalStateException(e);
     }
-    availableTokens.availableTokens().ifPresent(receivePack::setMaxPackSizeLimit);
+    availableTokens
+        .availableTokens()
+        .ifPresent(
+            availBytes -> {
+              boolean isZeroBytesRemaining = availBytes <= 0;
+              receivePack.setMaxPackSizeLimit(availBytes);
+              UnpackErrorHandler defaultErrorHandler = receivePack.getUnpackErrorHandler();
+              receivePack.setUnpackErrorHandler(
+                  t -> {
+                    Throwable unpackException = t;
+                    if (t instanceof TooLargePackException
+                        || (t instanceof EOFException && isZeroBytesRemaining)) {
+                      unpackException =
+                          new QuotaException(
+                              String.format(
+                                  "Push rejected: it would exceed the available repository size"
+                                      + " quota of %d bytes.",
+                                  availBytes));
+                    }
+                    defaultErrorHandler.handleUnpackException(unpackException);
+                  });
+            });
   }
 
   /** Determine if the user can upload commits. */

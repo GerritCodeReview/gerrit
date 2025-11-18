@@ -16,6 +16,24 @@
       "message": "I\u0027m wondering should this just be `if (link.url.startsWith(\u0027/\u0027)) {` instead? Rather than checking for link.target?",
       "revId": "a98bf291732870636b1238a5bfe5afd0d84e6536",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2a4b4e22_59073c74",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown/gr-dropdown.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 475,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-11-18T20:43:01Z",
+      "side": 1,
+      "message": "Issue 461541278 mentioned that it was working before v3.13.0. Have we made any recent changes to the way we compute the link URL?",
+      "parentUuid": "9a12da61_22b34637",
+      "revId": "a98bf291732870636b1238a5bfe5afd0d84e6536",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

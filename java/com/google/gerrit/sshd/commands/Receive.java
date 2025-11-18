@@ -26,6 +26,7 @@ import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
+import com.google.gerrit.server.quota.QuotaException;
 import com.google.gerrit.sshd.AbstractGitCommand;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshMetrics;
@@ -83,8 +84,28 @@ final class Receive extends AbstractGitCommand {
       throw new Failure(1, "fatal: unable to check permissions " + e);
     }
 
-    AsyncReceiveCommits arc =
-        factory.create(projectState, currentUser.asIdentifiedUser(), repo, this, null, sshMetrics);
+    AsyncReceiveCommits arc;
+
+    // 4. If this constructor fails the use only see Internal Server Error <- caused by 1.
+    try {
+      arc =
+          factory.create(
+              projectState, currentUser.asIdentifiedUser(), repo, this, null, sshMetrics);
+    } catch (RuntimeException runtimeException) {
+      if (runtimeException.getCause() instanceof QuotaException quotaException) {
+        StringBuilder msg = new StringBuilder();
+        msg.append("Receive QUOTA error on project \"").append(projectState.getName()).append("\"");
+        msg.append(" (user ");
+        msg.append(currentUser.getUserName().orElse(null));
+        msg.append(" account ");
+        msg.append(currentUser.getAccountId());
+        msg.append("): ");
+        msg.append(quotaException.getMessage());
+        logger.atInfo().log("%s", msg);
+        throw new UnloggedFailure(128, "error: " + quotaException.getMessage());
+      }
+      throw runtimeException;
+    }
 
     try {
       Capable r = arc.canUpload();

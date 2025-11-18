@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1ca64941_205e199b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-11-18T08:20:36Z",
+      "side": 1,
+      "message": "Release-Notes footer missing",
+      "revId": "26839fe1387465d630a44ce76366ec5f2bd699ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e0f05218_4fec6514",
+        "filename": "java/com/google/gerrit/httpd/ProjectOAuthFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-11-18T08:20:36Z",
+      "side": 1,
+      "message": "It should not be required to set those to null explicitly, since the default value for an Object is already null.",
+      "range": {
+        "startLine": 126,
+        "startChar": 0,
+        "endLine": 127,
+        "endChar": 35
+      },
+      "revId": "26839fe1387465d630a44ce76366ec5f2bd699ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e4f84fec_8fd81730",
+        "filename": "java/com/google/gerrit/httpd/ProjectOAuthFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-11-18T08:20:36Z",
+      "side": 1,
+      "message": "As far as I can see, `authInfo` cannot be null at this point, so the null-check is not required.",
+      "range": {
+        "startLine": 134,
+        "startChar": 12,
+        "endLine": 134,
+        "endChar": 28
+      },
+      "revId": "26839fe1387465d630a44ce76366ec5f2bd699ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2af534ea_cd459867",
+        "filename": "java/com/google/gerrit/httpd/ProjectOAuthFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-11-18T08:20:36Z",
+      "side": 1,
+      "message": "This can\u0027t happen, since if there would be no secret, `extractAuthInfo` would return `null`. You might however consider to change the behaviour of both extraction methods to be more similar.",
+      "range": {
+        "startLine": 144,
+        "startChar": 32,
+        "endLine": 144,
+        "endChar": 77
+      },
+      "revId": "26839fe1387465d630a44ce76366ec5f2bd699ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "419e12b2_ec1b0903",
+        "filename": "java/com/google/gerrit/httpd/ProjectOAuthFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-11-18T08:20:36Z",
+      "side": 1,
+      "message": "See my comment above",
+      "range": {
+        "startLine": 169,
+        "startChar": 32,
+        "endLine": 169,
+        "endChar": 77
+      },
+      "revId": "26839fe1387465d630a44ce76366ec5f2bd699ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f08a21da_f445746d",
+        "filename": "java/com/google/gerrit/httpd/ProjectOAuthFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-11-18T08:20:36Z",
+      "side": 1,
+      "message": "This whole section is 100% the same as for basic auth. Please move that to a method to reduce duplication.",
+      "range": {
+        "startLine": 169,
+        "startChar": 0,
+        "endLine": 183,
+        "endChar": 74
+      },
+      "revId": "26839fe1387465d630a44ce76366ec5f2bd699ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

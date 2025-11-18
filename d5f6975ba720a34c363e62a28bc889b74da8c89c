@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa8af067_143df0da",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-11-18T08:06:22Z",
+      "side": 1,
+      "message": "Independently of this change it would be nice to have a way to limit the group of users who can use the HTTP password instead of oauth.",
+      "revId": "d5f6975ba720a34c363e62a28bc889b74da8c89c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "21f5be7b_e22d3c8c",
+        "filename": "java/com/google/gerrit/httpd/ProjectOAuthFilter.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-11-18T08:06:22Z",
+      "side": 1,
+      "message": "This doesn\u0027t change at runtime and could directly be set in the constructor.",
+      "revId": "d5f6975ba720a34c363e62a28bc889b74da8c89c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "724dfb14_b6ad55bf",
+        "filename": "javatests/com/google/gerrit/httpd/ProjectOAuthFilterTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 393,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-11-18T08:06:22Z",
+      "side": 1,
+      "message": "Why is this initialized here with the expected value?",
+      "range": {
+        "startLine": 393,
+        "startChar": 4,
+        "endLine": 393,
+        "endChar": 45
+      },
+      "revId": "d5f6975ba720a34c363e62a28bc889b74da8c89c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

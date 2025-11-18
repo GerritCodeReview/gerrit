@@ -9,6 +9,12 @@ bazel_dep(name = "jgit", version = "7.2.0")
 bazel_dep(name = "rules_java", version = "7.6.1")
 bazel_dep(name = "toolchains_protoc", version = "0.3.0")
 bazel_dep(name = "rules_proto", version = "6.0.0")
+bazel_dep(name = "rbe_autoconfig")
+git_override(
+    module_name = "rbe_autoconfig",
+    remote = "https://github.com/davido/rbe_autoconfig.git",
+    commit = "c4d733d0399ebf2ee1ffb897be5fbaba23738e04",
+)
 
 local_path_override(
     module_name = "jgit",

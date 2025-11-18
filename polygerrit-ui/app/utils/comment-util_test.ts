@@ -18,6 +18,7 @@ import {
   isUnresolved,
   PROVIDED_FIX_ID,
   replacementsToString,
+  sanitiseRanges,
   sortComments,
   stringToReplacements,
   USER_SUGGESTION_START_PATTERN,
@@ -652,6 +653,38 @@ suite('comment-util', () => {
       test('empty array', () => {
         assert.equal(replacementsToString([]), '');
       });
+    });
+  });
+
+  suite('sanitiseRanges', () => {
+    test('copies range from parent to child', () => {
+      const comments: Comment[] = [
+        {
+          id: 'parent_comment' as UrlEncodedCommentId,
+          message: 'i am a parent',
+          updated: '2015-12-23 15:00:20.396000000' as Timestamp,
+          line: 1,
+          patch_set: 1 as RevisionPatchSetNum,
+          path: 'some/path',
+          range: {
+            start_line: 1,
+            start_character: 0,
+            end_line: 2,
+            end_character: 0,
+          },
+        },
+        {
+          id: 'child_comment' as UrlEncodedCommentId,
+          message: 'i am a child',
+          updated: '2015-12-24 15:01:20.396000000' as Timestamp,
+          line: 1,
+          in_reply_to: 'parent_comment' as UrlEncodedCommentId,
+          patch_set: 1 as RevisionPatchSetNum,
+          path: 'some/path',
+        },
+      ];
+      sanitiseRanges(comments);
+      assert.deepEqual(comments[1].range, comments[0].range);
     });
   });
 });

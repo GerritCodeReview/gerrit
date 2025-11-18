@@ -67,7 +67,7 @@ suite('gr-hovercard-account-contents tests', () => {
             <gr-avatar hidden=""></gr-avatar>
           </div>
           <div class="account">
-            <h3 class="heading-3 name">Kermit The Frog</h3>
+            <h3 class="heading-3 name">Just Kermit</h3>
             <div class="email">kermit@gmail.com</div>
           </div>
         </div>
@@ -109,7 +109,7 @@ suite('gr-hovercard-account-contents tests', () => {
             <gr-avatar hidden=""></gr-avatar>
           </div>
           <div class="account">
-            <h3 class="heading-3 name">Kermit The Frog</h3>
+            <h3 class="heading-3 name">Just Kermit</h3>
             <div class="email">kermit@gmail.com</div>
           </div>
         </div>
@@ -137,9 +137,9 @@ suite('gr-hovercard-account-contents tests', () => {
     );
   });
 
-  test('account name is shown', () => {
+  test('display name is shown instead of account name', () => {
     const name = queryAndAssert<HTMLHeadingElement>(element, '.name');
-    assert.equal(name.innerText, 'Kermit The Frog');
+    assert.equal(name.innerText, 'Just Kermit');
   });
 
   test('computePronoun', async () => {

@@ -49,6 +49,7 @@ import {
 import {fire, fireReload} from '../../../utils/event-util';
 import {userModelToken} from '../../../models/user/user-model';
 import {getDocUrl} from '../../../utils/url-util';
+import {getDisplayName} from '../../../utils/display-name-util';
 
 @customElement('gr-hovercard-account-contents')
 export class GrHovercardAccountContents extends LitElement {
@@ -188,7 +189,9 @@ export class GrHovercardAccountContents extends LitElement {
           <gr-avatar .account=${this.account} .imageSize=${56}></gr-avatar>
         </div>
         <div class="account">
-          <h3 class="name heading-3">${this.account.name}</h3>
+          <h3 class="name heading-3">
+            ${getDisplayName(this.serverConfig, this.account)}
+          </h3>
           <div class="email">${this.account.email}</div>
         </div>
       </div>
@@ -303,11 +306,12 @@ export class GrHovercardAccountContents extends LitElement {
   }
 
   private renderDisplayName() {
-    if (!this.account.display_name) return nothing;
+    const displayName = getDisplayName(this.serverConfig, this.account);
+    if (!displayName) return nothing;
     return html`
       <div class="displayName">
         <span class="title">Display name:</span>
-        <span class="value">${this.account.display_name.trim()}</span>
+        <span class="value">${displayName.trim()}</span>
       </div>
     `;
   }

@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "88d9a22b_50bdfeab",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-11-18T15:13:44Z",
+      "side": 1,
+      "message": "If we want the method to be in the DiffOperations eventually, why not add the method to DiffOperations now with a different name. Then the diff later on, can just be a rename, instead of moving the code.",
+      "range": {
+        "startLine": 49,
+        "startChar": 46,
+        "endLine": 49,
+        "endChar": 56
+      },
+      "revId": "2b7b6d013361847576f39aa4ee0c06e865119222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "715def1f_ad7fab4d",
@@ -14,6 +37,70 @@
       "writtenOn": "2025-11-18T14:58:15Z",
       "side": 1,
       "message": "I\u0027d like to collect some more performance data for comparison before submitting this, hence blocking submit for now.",
+      "revId": "2b7b6d013361847576f39aa4ee0c06e865119222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "40c1c00c_db6aafb3",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 636,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-11-18T15:13:44Z",
+      "side": 1,
+      "message": "nit (optional): I don\u0027t think we promise sorted here, we don\u0027t sort when building from diffSummary . I think we can drop it here as well.",
+      "range": {
+        "startLine": 636,
+        "startChar": 14,
+        "endLine": 636,
+        "endChar": 23
+      },
+      "revId": "2b7b6d013361847576f39aa4ee0c06e865119222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ec8a6e6a_24059e9e",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 684,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-11-18T15:13:44Z",
+      "side": 1,
+      "message": "Is this needed, if we only care about a list of files?",
+      "range": {
+        "startLine": 684,
+        "startChar": 16,
+        "endLine": 684,
+        "endChar": 49
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "c13869f0_7e1f6ae5",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "java/com/google/gerrit/server/query/change/ChangeData.java",
+              "range": {
+                "startLine": 684,
+                "startChar": 0,
+                "endLine": 685,
+                "endChar": 0
+              },
+              "replacement": "                /* enableRenameDetection\u003d */ false)\n"
+            }
+          ]
+        }
+      ],
       "revId": "2b7b6d013361847576f39aa4ee0c06e865119222",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

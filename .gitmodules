@@ -65,3 +65,8 @@
 	path = polymer-bridges
 	url = ../polymer-bridges
 	branch = .
+
+[submodule "tools/rbe_autoconfig"]
+	path = tools/rbe_autoconfig
+	url = https://github.com/thomasdraebing/rbe_autoconfig.git
+	branch = bazel_module

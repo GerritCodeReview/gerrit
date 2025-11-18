@@ -359,6 +359,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "24aecfc7_ade74e10",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 848,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2025-11-18T19:44:04Z",
+      "side": 1,
+      "message": "If a task isn\u0027t started we want to remove it no matter what kind it is. This behaviour exists without this change too (without this change we also removed tasks  that are in progress).\n\nIn your posted snippet we are only removing tasks of type CancelableRunnable which have not started yet but are not removing the other tasks which are in same category. So my snippet addresses it.",
+      "parentUuid": "40b96467_2c7e8534",
+      "range": {
+        "startLine": 848,
+        "startChar": 25,
+        "endLine": 848,
+        "endChar": 38
+      },
+      "revId": "6aa52701328e1954b89d915039d84815f1419b96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "886eba08_1c35a582",
         "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
         "patchSetId": 2

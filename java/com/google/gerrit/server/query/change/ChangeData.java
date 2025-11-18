@@ -85,11 +85,14 @@ import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeUtilFactory;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.patch.DiffNotAvailableException;
+import com.google.gerrit.server.patch.DiffOperations;
 import com.google.gerrit.server.patch.DiffSummary;
 import com.google.gerrit.server.patch.DiffSummaryKey;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListKey;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
+import com.google.gerrit.server.patch.gitdiff.ModifiedFile;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectConfig;
@@ -99,6 +102,7 @@ import com.google.gerrit.server.project.SubmitRequirementsEvaluator;
 import com.google.gerrit.server.project.SubmitRequirementsUtil;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.project.SubmitRuleOptions;
+import com.google.gerrit.server.update.RepoView;
 import com.google.gerrit.server.util.MarkdownImagesUtil;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
@@ -117,8 +121,11 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
@@ -380,6 +387,7 @@ public class ChangeData {
             null,
             null,
             null,
+            null,
             virtualIdAlgo,
             false,
             null,
@@ -412,6 +420,7 @@ public class ChangeData {
   private final MergeUtilFactory mergeUtilFactory;
   private final MergeabilityCache mergeabilityCache;
   private final PatchListCache patchListCache;
+  private final DiffOperations diffOperations;
   private final PatchSetUtil psUtil;
   private final ProjectCache projectCache;
   private final TrackingFooters trackingFooters;
@@ -510,6 +519,7 @@ public class ChangeData {
       MergeUtilFactory mergeUtilFactory,
       MergeabilityCache mergeabilityCache,
       PatchListCache patchListCache,
+      DiffOperations diffOperations,
       PatchSetUtil psUtil,
       ProjectCache projectCache,
       TrackingFooters trackingFooters,
@@ -536,6 +546,7 @@ public class ChangeData {
     this.mergeUtilFactory = mergeUtilFactory;
     this.mergeabilityCache = mergeabilityCache;
     this.patchListCache = patchListCache;
+    this.diffOperations = diffOperations;
     this.psUtil = psUtil;
     this.projectCache = projectCache;
     this.starredChangesReader = starredChangesReader;
@@ -610,10 +621,74 @@ public class ChangeData {
       if (!lazyload()) {
         return Collections.emptyList();
       }
-      Optional<DiffSummary> p = getDiffSummary();
-      currentFiles = p.map(DiffSummary::getPaths).orElse(Collections.emptyList());
+
+      // If the diff summary was already loaded get the path from it.
+      if (diffSummary != null) {
+        currentFiles = diffSummary.get().getPaths();
+      }
+
+      currentFiles =
+          getModifiedFiles().stream()
+              .flatMap(modifiedFile -> Stream.of(modifiedFile.newPath(), modifiedFile.oldPath()))
+              .filter(Optional::isPresent)
+              .map(Optional::get)
+              .distinct()
+              .collect(toImmutableList());
     }
     return currentFiles;
+  }
+
+  /**
+   * Returns the modified files of the change.
+   *
+   * <p>The modified files are the paths that have been touched in the change.
+   *
+   * <p>To compute the modified files the commit of the current patch set is compared against the
+   * default base (the first parent for normal changes, the auto-merge commit for merge changes and
+   * the empty commit for initial changes).
+   *
+   * <p>The modified files are retrieved from the ModifiedFilesCache, via DiffOperations that takes
+   * care to compute the base commit.
+   *
+   * <p>Using this method is much cheaper to get the modified files than using {@code
+   * #getDiffSummary().map(DiffSummary::getPaths).orElse(Collections.emptyList())} if the diff
+   * summary is not loaded yet. This is because loading the diff summary does not only compute the
+   * modified files, but also the file diff for each of the modified files.
+   */
+  // TODO: This should become a method in DiffOperations.
+  private ImmutableList<ModifiedFile> getModifiedFiles() {
+    try {
+      Change c = change();
+      PatchSet ps = currentPatchSet();
+      if (c == null || ps == null) {
+        return ImmutableList.of();
+      }
+
+      try (Repository repo = repoManager.openRepository(project());
+          ObjectInserter ins = repo.newObjectInserter();
+          ObjectReader reader = ins.newReader();
+          RevWalk rw = new RevWalk(reader);
+          RepoView repoView = new RepoView(repo, rw, ins)) {
+        // Use parentNum=0 to do the comparison against the default base.
+        // For non-merge commits the default base is the only parent (aka parent 1).
+        // Initial commits are supported when using parentNum=0.
+        // For merge commits the default base is the auto-merge commit.
+        return diffOperations
+            .loadModifiedFilesAgainstParentIfNecessary(
+                c.getProject(),
+                ps.commitId(),
+                /* parentNum= */ 0,
+                repoView,
+                ins,
+                /* enableRenameDetection= */ true)
+            .values()
+            .stream()
+            .collect(toImmutableList());
+      }
+
+    } catch (IOException | DiffNotAvailableException e) {
+      throw new StorageException("Unable to load modified files of change " + legacyId, e);
+    }
   }
 
   private Optional<DiffSummary> getDiffSummary() {

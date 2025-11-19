@@ -201,9 +201,6 @@ export class GrConfirmCherrypickDialog
           opacity: 0.5;
           pointer-events: none;
         }
-        label {
-          cursor: pointer;
-        }
         .main {
           display: flex;
           flex-direction: column;

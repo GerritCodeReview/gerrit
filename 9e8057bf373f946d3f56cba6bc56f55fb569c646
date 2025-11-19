@@ -1,0 +1,157 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "da445baa_46db1a44",
+        "filename": "MODULE.bazel",
+        "patchSetId": 26
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-11-19T20:20:29Z",
+      "side": 1,
+      "message": "Can we do this with `.override()` instead? https://github.com/bazel-contrib/rules_jvm_external/blob/master/README.md#overriding-generated-targets",
+      "revId": "9e8057bf373f946d3f56cba6bc56f55fb569c646",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9f28b7b7_86b1c236",
+        "filename": "MODULE.bazel",
+        "patchSetId": 26
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-11-19T20:20:29Z",
+      "side": 1,
+      "message": "Can/should we put these into a `deps.toml` like you did with `nongoogle.toml`?",
+      "revId": "9e8057bf373f946d3f56cba6bc56f55fb569c646",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3f9ab17b_4e86e2f6",
+        "filename": "MODULE.bazel",
+        "patchSetId": 26
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-11-19T20:20:29Z",
+      "side": 1,
+      "message": "IIUC we don\u0027t need to set [`known_contributing_repositories\u003d[\"jgit\"]`](https://github.com/bazel-contrib/rules_jvm_external/blob/master/docs/bzlmod.md#module-dependency-layering) because we expect that we have all of JGit\u0027s dependencies added here (or in nongoogle). Is that correct?",
+      "revId": "9e8057bf373f946d3f56cba6bc56f55fb569c646",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5245de18_73c80737",
+        "filename": "MODULE.bazel",
+        "patchSetId": 26
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-11-19T20:20:29Z",
+      "side": 1,
+      "message": "Don\u0027t we also want `strict_visibility \u003d True`?\n```suggestion\n  # lock_file \u003d \"//:maven_install.json\",\n  strict_visibility \u003d True,\n```",
+      "revId": "9e8057bf373f946d3f56cba6bc56f55fb569c646",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "df623503_7eec3b1f",
+        "filename": "MODULE.bazel",
+        "patchSetId": 26
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-11-19T20:20:29Z",
+      "side": 1,
+      "message": "FYI if you hadn\u0027t noticed this, we\u0027re not using the lock file yet, but looks like it\u0027s also a [missing feature](https://github.com/bazel-contrib/rules_jvm_external/issues/1436) in the `from_toml` support.",
+      "revId": "9e8057bf373f946d3f56cba6bc56f55fb569c646",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c96540be_2ea014ac",
+        "filename": "java/com/google/gerrit/extensions/BUILD",
+        "patchSetId": 26
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-11-19T20:20:29Z",
+      "side": 1,
+      "message": "This seems like something that people will forget to update when they\u0027re updating the toml file (just like that jgit doc version 😞). Is there a way we can keep it de-duplicated?\n\nCan we do something like https://github.com/bazel-contrib/rules_jvm_external/blob/master/README.md#accessing-transitive-dependencies-list ?",
+      "revId": "9e8057bf373f946d3f56cba6bc56f55fb569c646",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "239982f6_b3957f5b",
+        "filename": "javatests/com/google/gerrit/entities/converter/BUILD",
+        "patchSetId": 26
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-11-19T20:20:29Z",
+      "side": 1,
+      "message": "Were these missed in [517842: Consistently import dependencies by referencing rule in //lib](https://gerrit-review.googlesource.com/c/gerrit/+/517842) or added later? We could fix these in a separate change, correct?",
+      "revId": "9e8057bf373f946d3f56cba6bc56f55fb569c646",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "473275d5_7afa2d93",
+        "filename": "lib/antlr/BUILD",
+        "patchSetId": 26
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-11-19T20:20:29Z",
+      "side": 1,
+      "message": "Remove the extra blank line?",
+      "revId": "9e8057bf373f946d3f56cba6bc56f55fb569c646",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1e7251f1_c7f29aca",
+        "filename": "tools/bzl/pkg_war.bzl",
+        "patchSetId": 26
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-11-19T20:20:29Z",
+      "side": 1,
+      "message": "Add a comment with a pointer noting this is internal rules_jvm_external magic? https://github.com/bazel-contrib/rules_jvm_external/blob/6.9/private/rules/jvm_import.bzl#L32\n```suggestion\n# Special prefix added by rules_jvm_external.jvm_import() to stamped jars\n# https://github.com/bazel-contrib/rules_jvm_external/blob/6.9/private/rules/jvm_import.bzl#L32\nPROCESSED_PREFIX \u003d \"processed_\"\n```",
+      "revId": "9e8057bf373f946d3f56cba6bc56f55fb569c646",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

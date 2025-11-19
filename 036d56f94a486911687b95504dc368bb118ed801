@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "886faf5b_65e32d24",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-11-19T07:38:58Z",
+      "side": 1,
+      "message": "I\u0027m not sure I understand why we need this class.\n\nThe purpose of TraceTimer is to record a performance log entry and to add debug logs for the start and end of the operation.\n\nThe metric times report the execution to Gerrit\u0027s MetricMaker, but additionally also already record a performance log entry and add the same debug logs for the start and end of the operation.\n\nWhat is CombinedTraceAndMetricTimer doing additionally?",
+      "revId": "036d56f94a486911687b95504dc368bb118ed801",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

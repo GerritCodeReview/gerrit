@@ -91,6 +91,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "7013755c_d82b0acc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-11-19T12:38:36Z",
+      "side": 1,
+      "message": "I started collecting performance data for comparison yesterday, so if we submit this today, it should reach prod for us only next week. Until then I should have enough data. Hence removing the -2 veto vote.",
+      "parentUuid": "715def1f_ad7fab4d",
+      "revId": "2b7b6d013361847576f39aa4ee0c06e865119222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "40c1c00c_db6aafb3",
         "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
         "patchSetId": 5

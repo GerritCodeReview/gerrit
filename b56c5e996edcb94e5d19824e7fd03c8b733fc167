@@ -16,6 +16,52 @@
       "message": "stable-3.10 is now EOL, so we will not make new releases.",
       "revId": "b56c5e996edcb94e5d19824e7fd03c8b733fc167",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9ba6e14d_7c04734b",
+        "filename": "tools/maven-central/jreleaser.yml",
+        "patchSetId": 15
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-11-19T10:44:53Z",
+      "side": 1,
+      "message": "Do you think we should add a simple comment explaining why?\nWe do publish sources and JavaDocs.",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 25
+      },
+      "revId": "b56c5e996edcb94e5d19824e7fd03c8b733fc167",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cb9a8ae1_abfe031f",
+        "filename": "tools/maven/mvn.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-11-19T10:44:53Z",
+      "side": 1,
+      "message": "```suggestion\n#   python tools/maven/mvn.py \\\n```",
+      "range": {
+        "startLine": 17,
+        "startChar": 23,
+        "endLine": 17,
+        "endChar": 33
+      },
+      "revId": "b56c5e996edcb94e5d19824e7fd03c8b733fc167",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

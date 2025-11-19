@@ -328,6 +328,10 @@ public abstract class Metadata {
       }
     }
 
+    if (restViewName().isPresent()) {
+      s.append(String.format(" (view: %s)", restViewName().get()));
+    }
+
     return s.toString();
   }
 

@@ -82,5 +82,37 @@ public class MetadataTest {
                 .build()
                 .decorateOperation("plugin/latency"))
         .isEqualTo("[thread] plugin/latency (plugin:class)");
+
+    // view name is included if available
+    assertThat(Metadata.builder().restViewName("MyView").build().decorateOperation(OPERATION_NAME))
+        .isEqualTo(OPERATION_NAME + " (view: MyView)");
+    assertThat(
+            Metadata.builder().restViewName("MyView").build().decorateOperation("plugin/latency"))
+        .isEqualTo("plugin/latency (view: MyView)");
+    assertThat(
+            Metadata.builder()
+                .restViewName("MyView")
+                .thread("thread")
+                .pluginName("plugin")
+                .build()
+                .decorateOperation("plugin/latency"))
+        .isEqualTo("[thread] plugin/latency (plugin) (view: MyView)");
+    assertThat(
+            Metadata.builder()
+                .restViewName("MyView")
+                .thread("thread")
+                .className("class")
+                .build()
+                .decorateOperation("plugin/latency"))
+        .isEqualTo("[thread] plugin/latency (class) (view: MyView)");
+    assertThat(
+            Metadata.builder()
+                .restViewName("MyView")
+                .thread("thread")
+                .pluginName("plugin")
+                .className("class")
+                .build()
+                .decorateOperation("plugin/latency"))
+        .isEqualTo("[thread] plugin/latency (plugin:class) (view: MyView)");
   }
 }

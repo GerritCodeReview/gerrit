@@ -16,7 +16,6 @@ auto-factory
 auto-service-annotations
 auto-value
 auto-value-annotations
-cglib-3_2
 commons-io
 dropwizard-core
 error-prone-annotations
@@ -47,7 +46,6 @@ lucene-misc
 lucene-queryparser
 mina-core
 nekohtml
-objenesis
 openid-consumer
 protobuf-java
 soy

@@ -306,19 +306,6 @@ def declare_nongoogle_deps():
         sha1 = "d3200261955f3298e0d85c9892201e70492ce8eb",
     )
 
-    # Test-only dependencies below.
-    maven_jar(
-        name = "cglib-3_2",
-        artifact = "cglib:cglib-nodep:3.2.6",
-        sha1 = "92bf48723d277d6efd1150b2f7e9e1e92cb56caf",
-    )
-
-    maven_jar(
-        name = "objenesis",
-        artifact = "org.objenesis:objenesis:1.3",
-        sha1 = "dc13ae4faca6df981fc7aeb5a522d9db446d5d50",
-    )
-
     maven_jar(
         name = "jimfs",
         artifact = "com.google.jimfs:jimfs:1.2",

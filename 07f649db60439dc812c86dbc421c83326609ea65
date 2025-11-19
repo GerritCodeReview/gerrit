@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a5a67e67_dd4625f4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2025-11-19T09:56:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6b3d5117_140e268b",
+      "range": {
+        "startLine": 9,
+        "startChar": 53,
+        "endLine": 9,
+        "endChar": 59
+      },
+      "revId": "07f649db60439dc812c86dbc421c83326609ea65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ffdab25d_a35befe9",
@@ -93,6 +117,78 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ebdf8f7e_7d9a0192",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2025-11-19T09:56:18Z",
+      "side": 1,
+      "message": "I think this is contributing factor, I dont think only having a large repo (in terms for size) is a problem but users trying to access the change triggers the call to check for submit requirement when you land on change view page. But we can keep it abstract.",
+      "parentUuid": "ffdab25d_a35befe9",
+      "range": {
+        "startLine": 17,
+        "startChar": 25,
+        "endLine": 17,
+        "endChar": 40
+      },
+      "revId": "07f649db60439dc812c86dbc421c83326609ea65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "26096693_b36f8145",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2025-11-19T09:56:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d33ea476_8ff9b346",
+      "range": {
+        "startLine": 17,
+        "startChar": 42,
+        "endLine": 17,
+        "endChar": 54
+      },
+      "revId": "07f649db60439dc812c86dbc421c83326609ea65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2934cc2d_5b94a4c6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2025-11-19T09:56:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a000dfd5_1fe18d18",
+      "range": {
+        "startLine": 17,
+        "startChar": 4,
+        "endLine": 17,
+        "endChar": 24
+      },
+      "revId": "07f649db60439dc812c86dbc421c83326609ea65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a29bf574_9c7ecd1b",
@@ -106,6 +202,30 @@
       "writtenOn": "2025-11-19T09:23:30Z",
       "side": 1,
       "message": "Enforce operator for each term",
+      "range": {
+        "startLine": 35,
+        "startChar": 15,
+        "endLine": 35,
+        "endChar": 43
+      },
+      "revId": "07f649db60439dc812c86dbc421c83326609ea65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cbdfc9e0_d889622b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2025-11-19T09:56:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a29bf574_9c7ecd1b",
       "range": {
         "startLine": 35,
         "startChar": 15,

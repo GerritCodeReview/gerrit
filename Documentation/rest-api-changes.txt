@@ -4442,6 +4442,7 @@ see a merged change which doesn't have the necessary approvals to fulfill the
 submit requirements.
 
 The request returns:
+
  * '204 No Content' if the vote is deleted successfully;
  * '404 Not Found' when the vote to be deleted is zero or not present.
  * '409 Conflict' when the change is merged and hence deleting votes is not

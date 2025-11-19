@@ -12,12 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.acceptance.server.logging;
+package com.google.gerrit.server.logging;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import com.google.gerrit.server.logging.Metadata;
-import com.google.gerrit.server.logging.RunningOperations;
 import com.google.gerrit.server.logging.RunningOperations.RegistrationHandle;
 import org.junit.Test;
 

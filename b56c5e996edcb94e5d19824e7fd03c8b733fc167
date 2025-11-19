@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "92045586_bf2719d8",
+        "filename": "tools/maven-central/jreleaser.yml",
+        "patchSetId": 15
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-11-19T15:42:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9ba6e14d_7c04734b",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 25
+      },
+      "revId": "b56c5e996edcb94e5d19824e7fd03c8b733fc167",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cb9a8ae1_abfe031f",
@@ -54,6 +78,30 @@
       "writtenOn": "2025-11-19T10:44:53Z",
       "side": 1,
       "message": "```suggestion\n#   python tools/maven/mvn.py \\\n```",
+      "range": {
+        "startLine": 17,
+        "startChar": 23,
+        "endLine": 17,
+        "endChar": 33
+      },
+      "revId": "b56c5e996edcb94e5d19824e7fd03c8b733fc167",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f0e45b58_c0b11be9",
+        "filename": "tools/maven/mvn.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-11-19T15:42:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cb9a8ae1_abfe031f",
       "range": {
         "startLine": 17,
         "startChar": 23,

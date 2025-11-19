@@ -11,7 +11,6 @@ java_library(
         "//java/com/google/gerrit/lifecycle",
         "//java/com/google/gerrit/server/cancellation",
         "//java/com/google/gerrit/server/logging",
-        "//lib:guava",
         "//lib:jgit",
         "//lib/auto:auto-value",
         "//lib/auto:auto-value-annotations",

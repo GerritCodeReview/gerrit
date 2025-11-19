@@ -50,6 +50,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "55f98e0a_61942bf1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-11-19T12:28:46Z",
+      "side": 1,
+      "message": "Done.\n\nFWIW I think we want to completely redesign DiffOperations, not just rename methods in there.",
+      "parentUuid": "853f49ca_88bd5e2d",
+      "range": {
+        "startLine": 49,
+        "startChar": 46,
+        "endLine": 49,
+        "endChar": 56
+      },
+      "revId": "2b7b6d013361847576f39aa4ee0c06e865119222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "715def1f_ad7fab4d",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 5
@@ -102,6 +126,30 @@
       "side": 1,
       "message": "Thanks for looking this up, I wasn\u0027t sure if it\u0027s needed. Will drop this.",
       "parentUuid": "40c1c00c_db6aafb3",
+      "range": {
+        "startLine": 636,
+        "startChar": 14,
+        "endLine": 636,
+        "endChar": 23
+      },
+      "revId": "2b7b6d013361847576f39aa4ee0c06e865119222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4504374_536d71c0",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 636,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-11-19T12:28:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eb895197_895c4f0f",
       "range": {
         "startLine": 636,
         "startChar": 14,
@@ -167,6 +215,30 @@
       "side": 1,
       "message": "Good point! Rename detection is indeed not needed here (the difference is that when rename detection is off we get 1 ModifiedFile for adding the new path and 1 ModifiedFile for removing the old path instead of 1 ModifiedFile for renaming old path to new path).",
       "parentUuid": "ec8a6e6a_24059e9e",
+      "range": {
+        "startLine": 684,
+        "startChar": 16,
+        "endLine": 684,
+        "endChar": 49
+      },
+      "revId": "2b7b6d013361847576f39aa4ee0c06e865119222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "10c980c4_b5f0223f",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 684,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-11-19T12:28:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bd3c4dea_bd4a15f8",
       "range": {
         "startLine": 684,
         "startChar": 16,

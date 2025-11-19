@@ -1,0 +1,159 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b3d5117_140e268b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-11-19T09:23:30Z",
+      "side": 1,
+      "message": "requiring",
+      "range": {
+        "startLine": 9,
+        "startChar": 53,
+        "endLine": 9,
+        "endChar": 59
+      },
+      "revId": "07f649db60439dc812c86dbc421c83326609ea65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ffdab25d_a35befe9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-11-19T09:23:30Z",
+      "side": 1,
+      "message": "I am not sure if the number of users played a key role in the performance issue that we had with the submit requirements. Better stay neutral and do not claim this as the root cause.",
+      "range": {
+        "startLine": 17,
+        "startChar": 25,
+        "endLine": 17,
+        "endChar": 40
+      },
+      "revId": "07f649db60439dc812c86dbc421c83326609ea65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d33ea476_8ff9b346",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-11-19T09:23:30Z",
+      "side": 1,
+      "message": "can create\n\nMention also that we really had a big performance issue due to submit requirements that contained terms without an operator.",
+      "range": {
+        "startLine": 17,
+        "startChar": 42,
+        "endLine": 17,
+        "endChar": 54
+      },
+      "revId": "07f649db60439dc812c86dbc421c83326609ea65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a000dfd5_1fe18d18",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-11-19T09:23:30Z",
+      "side": 1,
+      "message": "a large repository\n\nor\n\nlarge repositories",
+      "range": {
+        "startLine": 17,
+        "startChar": 4,
+        "endLine": 17,
+        "endChar": 24
+      },
+      "revId": "07f649db60439dc812c86dbc421c83326609ea65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a29bf574_9c7ecd1b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-11-19T09:23:30Z",
+      "side": 1,
+      "message": "Enforce operator for each term",
+      "range": {
+        "startLine": 35,
+        "startChar": 15,
+        "endLine": 35,
+        "endChar": 43
+      },
+      "revId": "07f649db60439dc812c86dbc421c83326609ea65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6a833644_148a98cc",
+        "filename": "java/com/google/gerrit/index/query/QueryBuilder.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-11-19T09:23:30Z",
+      "side": 1,
+      "message": "Storing this flag in that instance member variable assumes that we must create one instance of the `QueryBuilder` for each query. This may or may not be the case (I didn\u0027t check in the code) but we can avoid that by having an protected method instead:\n```\nprotected boolean isOperatorRequired() {\n  return false;\n}\n```\n\nand then override this method in the `SubmitRequirementsEvaluatorImpl` to return true.",
+      "revId": "07f649db60439dc812c86dbc421c83326609ea65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b702306a_5c09ac49",
+        "filename": "java/com/google/gerrit/index/query/QueryBuilder.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-11-19T09:23:30Z",
+      "side": 1,
+      "message": "Maybe there is even a simpler solution. This method is overridden in the `ChangeQueryBuilder` to create a default predicate. If we override it in the `SubmitRequirementChangeQueryBuilder` to throw an exception (like it does here), then this is all we need.",
+      "range": {
+        "startLine": 377,
+        "startChar": 0,
+        "endLine": 379,
+        "endChar": 3
+      },
+      "revId": "07f649db60439dc812c86dbc421c83326609ea65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

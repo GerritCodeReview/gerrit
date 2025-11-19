@@ -18,10 +18,10 @@ GITILES_VERS = "1.6.0"
 GITILES_REPO = GERRIT
 
 # When updating Bouncy Castle, also update it in bazlets.
-BC_VERS = "1.80"
+BC_VERS = "1.82"
 HTTPCOMP_VERS = "4.5.14"
 JETTY_VERS = "9.4.57.v20241219"
-BYTE_BUDDY_VERSION = "1.14.9"
+BYTE_BUDDY_VERSION = "1.17.8"
 ROARING_BITMAP_VERSION = "0.9.44"
 
 def java_dependencies():
@@ -81,9 +81,9 @@ def java_dependencies():
 
     maven_jar(
         name = "javaewah",
-        artifact = "com.googlecode.javaewah:JavaEWAH:1.1.12",
+        artifact = "com.googlecode.javaewah:JavaEWAH:1.2.3",
         attach_source = False,
-        sha1 = "9feecc2b24d6bc9ff865af8d082f192238a293eb",
+        sha1 = "13a27c856e0c8808cee9a64032c58eee11c3adc9",
     )
 
     maven_jar(
@@ -106,27 +106,27 @@ def java_dependencies():
 
     maven_jar(
         name = "args4j",
-        artifact = "args4j:args4j:2.33",
-        sha1 = "bd87a75374a6d6523de82fef51fc3cfe9baf9fc9",
+        artifact = "args4j:args4j:2.37",
+        sha1 = "244f60c057d72a785227c0562d3560f42a7ea54b",
     )
 
     maven_jar(
         name = "commons-codec",
-        artifact = "commons-codec:commons-codec:1.15",
-        sha1 = "49d94806b6e3dc933dacbd8acb0fdbab8ebd1e5d",
+        artifact = "commons-codec:commons-codec:1.19.0",
+        sha1 = "8c0dbe3ae883fceda9b50a6c76e745e548073388",
     )
 
     # When upgrading commons-compress, also upgrade tukaani-xz
     maven_jar(
         name = "commons-compress",
-        artifact = "org.apache.commons:commons-compress:1.25.0",
-        sha1 = "9d35aec423da6c8a7f93d7e9e1c6b1d9fe14bb5e",
+        artifact = "org.apache.commons:commons-compress:1.28.0",
+        sha1 = "e482f2c7a88dac3c497e96aa420b6a769f59c8d7",
     )
 
     maven_jar(
         name = "commons-lang3",
-        artifact = "org.apache.commons:commons-lang3:3.8.1",
-        sha1 = "6505a72a097d9270f7a9e7bf42c4238283247755",
+        artifact = "org.apache.commons:commons-lang3:3.18.0",
+        sha1 = "fb14946f0e39748a6571de0635acbe44e7885491",
     )
 
     maven_jar(
@@ -378,25 +378,25 @@ def java_dependencies():
     maven_jar(
         name = "bcprov",
         artifact = "org.bouncycastle:bcprov-jdk18on:" + BC_VERS,
-        sha1 = "e22100b41042decf09cab914a5af8d2c57b5ac4a",
+        sha1 = "e1118397395d21909a1b7b15120d0c2a68d7fd0c",
     )
 
     maven_jar(
         name = "bcpg",
         artifact = "org.bouncycastle:bcpg-jdk18on:" + BC_VERS,
-        sha1 = "163889a825393854dbe7dc52f1a8667e715e9859",
+        sha1 = "55cd7f445018b18119e3f2e67978fb39445b791c",
     )
 
     maven_jar(
         name = "bcpkix",
         artifact = "org.bouncycastle:bcpkix-jdk18on:" + BC_VERS,
-        sha1 = "5277dfaaef2e92ce1d802499599a0ca7488f86e6",
+        sha1 = "ad7b7155abac3e4e4f73579d5176c11f7659c560",
     )
 
     maven_jar(
         name = "bcutil",
         artifact = "org.bouncycastle:bcutil-jdk18on:" + BC_VERS,
-        sha1 = "b95726d1d49a0c65010c59a3e6640311d951bfd1",
+        sha1 = "1850911d674c91ce6444783ff10478e2c6e9bbf9",
     )
 
     maven_jar(
@@ -420,8 +420,8 @@ def java_dependencies():
     # Test-only dependencies below.
     maven_jar(
         name = "junit",
-        artifact = "junit:junit:4.12",
-        sha1 = "2973d150c0dc1fefe998f834810d68f278ea58ec",
+        artifact = "junit:junit:4.13.2",
+        sha1 = "8ac9e16d933b6fb43bc7f576336b8f4d7eb5ba12",
     )
 
     maven_jar(
@@ -498,26 +498,26 @@ def java_dependencies():
 
     maven_jar(
         name = "mockito",
-        artifact = "org.mockito:mockito-core:5.6.0",
-        sha1 = "550b7a0eb22e1d72d33dcc2e5ef6954f73100d76",
+        artifact = "org.mockito:mockito-core:5.19.0",
+        sha1 = "82b320935809e3c8ff92c2007dae5dff88d76f32",
     )
 
     maven_jar(
         name = "bytebuddy",
         artifact = "net.bytebuddy:byte-buddy:" + BYTE_BUDDY_VERSION,
-        sha1 = "b69e7fff6c473d3ed2b489cdfd673a091fd94226",
+        sha1 = "af5735f63d00ca47a9375fae5c7471a36331c6ed",
     )
 
     maven_jar(
         name = "bytebuddy-agent",
         artifact = "net.bytebuddy:byte-buddy-agent:" + BYTE_BUDDY_VERSION,
-        sha1 = "dfb8707031008535048bad2b69735f46d0b6c5e5",
+        sha1 = "f09415827a71be7ed621c7bd02550678f28bc81c",
     )
 
     maven_jar(
         name = "objenesis",
-        artifact = "org.objenesis:objenesis:3.0.1",
-        sha1 = "11cfac598df9dc48bb9ed9357ed04212694b7808",
+        artifact = "org.objenesis:objenesis:3.4",
+        sha1 = "675cbe121a68019235d27f6c34b4f0ac30e07418",
     )
 
     maven_jar(

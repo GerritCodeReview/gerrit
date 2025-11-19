@@ -4441,6 +4441,9 @@ remove approvals that were necessary for the submission and it's confusing to
 see a merged change which doesn't have the necessary approvals to fulfill the
 submit requirements.
 
+See the description of the link:access-control.html#category_remove_label[
+Remove Label] permission for when users are allowed to remove votes.
+
 The request returns:
 
  * '204 No Content' if the vote is deleted successfully;

@@ -81,8 +81,10 @@ import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.MergeTip;
 import com.google.gerrit.server.git.validators.MergeValidationException;
 import com.google.gerrit.server.git.validators.MergeValidators;
+import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.RequestId;
 import com.google.gerrit.server.logging.TraceContext;
+import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.StoreSubmitRequirementsOp;
 import com.google.gerrit.server.permissions.ChangePermission;
@@ -390,38 +392,43 @@ public class MergeOp implements AutoCloseable {
    * @throws ResourceConflictException the exception that is thrown if the SR is not fulfilled
    */
   public static void checkSubmitRequirements(ChangeData cd) throws ResourceConflictException {
-    PatchSet patchSet = cd.currentPatchSet();
-    if (patchSet == null) {
-      throw new ResourceConflictException("missing current patch set for change " + cd.getId());
-    }
-    Map<SubmitRequirement, SubmitRequirementResult> srResults =
-        cd.submitRequirementsIncludingLegacy();
-    if (srResults.values().stream().allMatch(SubmitRequirementResult::fulfilled)) {
-      return;
-    } else if (srResults.isEmpty()) {
-      throw new IllegalStateException(
-          String.format(
-              "Submit requirement results for change '%s' and patchset '%s' "
-                  + "are empty in project '%s'",
-              cd.getId(), patchSet.id(), cd.change().getProject().get()));
-    }
-
-    for (SubmitRequirementResult srResult : srResults.values()) {
-      switch (srResult.status()) {
-        case SATISFIED, NOT_APPLICABLE, OVERRIDDEN, FORCED -> {}
-        case ERROR ->
-            throw new ResourceConflictException(
-                String.format(
-                    "submit requirement '%s' has an error: %s",
-                    srResult.submitRequirement().name(), srResult.errorMessage().orElse("")));
-        case UNSATISFIED ->
-            throw new ResourceConflictException(
-                String.format(
-                    "submit requirement '%s' is unsatisfied.",
-                    srResult.submitRequirement().name()));
+    try (TraceTimer timer =
+        TraceContext.newTimer(
+            "MergeOp#checkSubmitRequirements",
+            Metadata.builder().changeId(cd.getId().get()).build())) {
+      PatchSet patchSet = cd.currentPatchSet();
+      if (patchSet == null) {
+        throw new ResourceConflictException("missing current patch set for change " + cd.getId());
       }
+      Map<SubmitRequirement, SubmitRequirementResult> srResults =
+          cd.submitRequirementsIncludingLegacy();
+      if (srResults.values().stream().allMatch(SubmitRequirementResult::fulfilled)) {
+        return;
+      } else if (srResults.isEmpty()) {
+        throw new IllegalStateException(
+            String.format(
+                "Submit requirement results for change '%s' and patchset '%s' "
+                    + "are empty in project '%s'",
+                cd.getId(), patchSet.id(), cd.change().getProject().get()));
+      }
+
+      for (SubmitRequirementResult srResult : srResults.values()) {
+        switch (srResult.status()) {
+          case SATISFIED, NOT_APPLICABLE, OVERRIDDEN, FORCED -> {}
+          case ERROR ->
+              throw new ResourceConflictException(
+                  String.format(
+                      "submit requirement '%s' has an error: %s",
+                      srResult.submitRequirement().name(), srResult.errorMessage().orElse("")));
+          case UNSATISFIED ->
+              throw new ResourceConflictException(
+                  String.format(
+                      "submit requirement '%s' is unsatisfied.",
+                      srResult.submitRequirement().name()));
+        }
+      }
+      throw new IllegalStateException();
     }
-    throw new IllegalStateException();
   }
 
   private static SubmitRuleOptions submitRuleOptions(boolean allowClosed) {

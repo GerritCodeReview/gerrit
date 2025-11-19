@@ -88,30 +88,30 @@ def declare_nongoogle_deps():
         sha1 = "f9a29cea570c15844d2ec98bf8e2e523017a6a53",
     )
 
-    SLF4J_VERS = "1.7.36"
+    SLF4J_VERS = "2.0.17"
 
     maven_jar(
         name = "log-api",
         artifact = "org.slf4j:slf4j-api:" + SLF4J_VERS,
-        sha1 = "6c62681a2f655b49963a5983b8b0950a6120ae14",
+        sha1 = "d9e58ac9c7779ba3bf8142aff6c830617a7fe60f",
     )
 
     maven_jar(
         name = "log-ext",
         artifact = "org.slf4j:slf4j-ext:" + SLF4J_VERS,
-        sha1 = "99f282aea4b6dbca04d00f0ade6e5ed61ee7091a",
+        sha1 = "2038418e2312c3559629841f100d19bd3e02483b",
     )
 
     maven_jar(
         name = "impl-log4j",
         artifact = "org.slf4j:slf4j-reload4j:" + SLF4J_VERS,
-        sha1 = "db708f7d959dee1857ac524636e85ecf2e1781c1",
+        sha1 = "334b175c8ce44b3a6815fc92971916f36e15d000",
     )
 
     maven_jar(
         name = "jcl-over-slf4j",
         artifact = "org.slf4j:jcl-over-slf4j:" + SLF4J_VERS,
-        sha1 = "d877e195a05aca4a2f1ad2ff14bfec1393af4b5e",
+        sha1 = "76ea503eb688f06556a9ba69995d7eab63e34531",
     )
 
     maven_jar(
@@ -296,8 +296,8 @@ def declare_nongoogle_deps():
 
     maven_jar(
         name = "gson",
-        artifact = "com.google.code.gson:gson:2.12.1",
-        sha1 = "4e773a317740b83b43cfc3d652962856041697cb",
+        artifact = "com.google.code.gson:gson:2.13.1",
+        sha1 = "853ce06c11316b33a8eae5e9095da096a9528b8f",
     )
 
     maven_jar(
@@ -392,6 +392,6 @@ def declare_nongoogle_deps():
     # JGit's transitive dependencies
     maven_jar(
         name = "hamcrest",
-        artifact = "org.hamcrest:hamcrest:2.2",
-        sha1 = "1820c0968dba3a11a1b30669bb1f01978a91dedc",
+        artifact = "org.hamcrest:hamcrest:3.0",
+        sha1 = "8fd9b78a8e6a6510a078a9e30e9e86a6035cfaf7",
     )

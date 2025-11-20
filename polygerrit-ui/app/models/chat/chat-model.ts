@@ -496,7 +496,7 @@ export class ChatModel extends Model<ChatState> {
     const listener: ChatResponseListener = {
       emitResponse: (response: ChatResponse) => {
         const state = this.getState();
-        if (state.id !== conversationId) return;
+        if (state.id !== conversationId) return
         if (turnIndex >= state.turns.length) return;
         const geminiMessage: Partial<GeminiMessage> = {
           responseParts: extractResponseParts(response, {

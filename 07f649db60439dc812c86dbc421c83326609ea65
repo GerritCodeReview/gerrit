@@ -253,6 +253,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e6185629_876767e6",
+        "filename": "java/com/google/gerrit/index/query/QueryBuilder.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2025-11-20T10:25:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6a833644_148a98cc",
+      "revId": "07f649db60439dc812c86dbc421c83326609ea65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b702306a_5c09ac49",
@@ -266,6 +284,30 @@
       "writtenOn": "2025-11-19T09:23:30Z",
       "side": 1,
       "message": "Maybe there is even a simpler solution. This method is overridden in the `ChangeQueryBuilder` to create a default predicate. If we override it in the `SubmitRequirementChangeQueryBuilder` to throw an exception (like it does here), then this is all we need.",
+      "range": {
+        "startLine": 377,
+        "startChar": 0,
+        "endLine": 379,
+        "endChar": 3
+      },
+      "revId": "07f649db60439dc812c86dbc421c83326609ea65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "052a9eaa_9873cde5",
+        "filename": "java/com/google/gerrit/index/query/QueryBuilder.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2025-11-20T10:25:51Z",
+      "side": 1,
+      "message": "This made it really simple.",
+      "parentUuid": "b702306a_5c09ac49",
       "range": {
         "startLine": 377,
         "startChar": 0,

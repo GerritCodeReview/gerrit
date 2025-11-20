@@ -131,7 +131,7 @@ public abstract class BaseCommand implements Command {
 
   @Override
   public void setOutputStream(OutputStream out) {
-    this.out = out;
+    this.out = new AsyncOutputStream(out, 128 * 1024);
   }
 
   @Override

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b43c2e53_7625c7df",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 961,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-11-20T17:48:53Z",
+      "side": 1,
+      "message": "Remove from here and `getCommitter()` too?",
+      "revId": "8ea1591433639f9337d04ec19e0e10e1ce99f5c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

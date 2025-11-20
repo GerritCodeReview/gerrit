@@ -88,11 +88,14 @@ import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.patch.DiffNotAvailableException;
+import com.google.gerrit.server.patch.DiffOperations;
 import com.google.gerrit.server.patch.DiffSummary;
 import com.google.gerrit.server.patch.DiffSummaryKey;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListKey;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
+import com.google.gerrit.server.patch.gitdiff.ModifiedFile;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectConfig;
@@ -120,6 +123,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -383,6 +387,7 @@ public class ChangeData {
             null,
             null,
             null,
+            null,
             virtualIdAlgo,
             false,
             null,
@@ -415,6 +420,7 @@ public class ChangeData {
   private final MergeUtilFactory mergeUtilFactory;
   private final MergeabilityCache mergeabilityCache;
   private final PatchListCache patchListCache;
+  private final DiffOperations diffOperations;
   private final PatchSetUtil psUtil;
   private final ProjectCache projectCache;
   private final TrackingFooters trackingFooters;
@@ -513,6 +519,7 @@ public class ChangeData {
       MergeUtilFactory mergeUtilFactory,
       MergeabilityCache mergeabilityCache,
       PatchListCache patchListCache,
+      DiffOperations diffOperations,
       PatchSetUtil psUtil,
       ProjectCache projectCache,
       TrackingFooters trackingFooters,
@@ -539,6 +546,7 @@ public class ChangeData {
     this.mergeUtilFactory = mergeUtilFactory;
     this.mergeabilityCache = mergeabilityCache;
     this.patchListCache = patchListCache;
+    this.diffOperations = diffOperations;
     this.psUtil = psUtil;
     this.projectCache = projectCache;
     this.starredChangesReader = starredChangesReader;
@@ -613,8 +621,41 @@ public class ChangeData {
       if (!lazyload()) {
         return Collections.emptyList();
       }
-      Optional<DiffSummary> p = getDiffSummary();
-      currentFiles = p.map(DiffSummary::getPaths).orElse(Collections.emptyList());
+
+      // If the diff summary was already loaded get the path from it.
+      if (diffSummary != null) {
+        currentFiles = diffSummary.get().getPaths();
+      }
+
+      Change c = change();
+      PatchSet ps = currentPatchSet();
+      if (c == null || ps == null) {
+        return ImmutableList.of();
+      }
+
+      try {
+        // Getting the modified files from DiffOperations#getModifiedFiles is much cheaper than
+        // using #getDiffSummary().map(DiffSummary::getPaths).orElse(Collections.emptyList()) if the
+        // diff summary is not loaded yet. This is because loading the diff summary does not only
+        // compute the modified files, but also the file diff for each of the modified files.
+        // Disabling the rename computation is OK since we are only interested in the (old and new
+        // paths) that have been touched, but don't care which old path has been renamed to which
+        // new path. The difference when rename detection is off is that for renames we get 1
+        // ModifiedFile for adding the new path and 1 ModifiedFile for removing the old path instead
+        // of 1 ModifiedFile for renaming the old path to the new path.
+        ImmutableList<ModifiedFile> modifiedFiles =
+            diffOperations.getModifiedFiles(c.getProject(), ps, /* enableRenameDetection= */ false);
+
+        currentFiles =
+            modifiedFiles.stream()
+                .flatMap(modifiedFile -> Stream.of(modifiedFile.newPath(), modifiedFile.oldPath()))
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .distinct()
+                .collect(toImmutableList());
+      } catch (DiffNotAvailableException e) {
+        throw new StorageException("Unable to load modified files of change " + legacyId, e);
+      }
     }
     return currentFiles;
   }

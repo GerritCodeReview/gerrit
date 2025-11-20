@@ -32,6 +32,7 @@ import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.TestAccount;
+import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.acceptance.UseTimezone;
 import com.google.gerrit.acceptance.VerifyNoPiiInChangeNotes;
 import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
@@ -49,6 +50,7 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.entities.SubmitRequirementExpression;
 import com.google.gerrit.entities.SubmitRequirementExpressionResult;
+import com.google.gerrit.extensions.api.changes.ChangeIdentifier;
 import com.google.gerrit.extensions.api.changes.PublishChangeEditInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -1013,6 +1015,142 @@ public class SubmitRequirementPredicateIT extends AbstractDaemonTest {
     gApi.changes().id(project.get(), r.getChange().getId().get()).current().review(reviewInput);
     assertNotMatching("has:unresolved", r.getChange().getId());
     assertMatching("-has:unresolved", r.getChange().getId());
+  }
+
+  @Test
+  public void matchFileAndFolderOfNewlyAddedFile() throws Exception {
+    TestChange change =
+        changeOperations.newChange().file("a/b/c").content("abc").project(project).createAndGet();
+
+    assertMatching("file:a/b/c", change.numericChangeId());
+    assertMatching("dir:a", change.numericChangeId());
+    assertMatching("dir:a/b", change.numericChangeId());
+
+    assertNotMatching("file:other", change.numericChangeId());
+    assertNotMatching("dir:other", change.numericChangeId());
+  }
+
+  @Test
+  public void matchFileAndFolderOfDeletedFile() throws Exception {
+    ChangeIdentifier baseChangeIdentifier =
+        changeOperations.newChange().file("a/b/c").content("abc").project(project).create();
+
+    TestChange change =
+        changeOperations
+            .newChange()
+            .childOf()
+            .change(baseChangeIdentifier)
+            .file("a/b/c")
+            .delete()
+            .project(project)
+            .createAndGet();
+
+    assertMatching("file:a/b/c", change.numericChangeId());
+    assertMatching("dir:a", change.numericChangeId());
+    assertMatching("dir:a/b", change.numericChangeId());
+
+    assertNotMatching("file:other", change.numericChangeId());
+    assertNotMatching("dir:other", change.numericChangeId());
+  }
+
+  @Test
+  public void matchFileAndFolderOfRenamedFile() throws Exception {
+    ChangeIdentifier baseChangeIdentifier =
+        changeOperations.newChange().file("a/b/c").content("abc").project(project).create();
+
+    TestChange change =
+        changeOperations
+            .newChange()
+            .childOf()
+            .change(baseChangeIdentifier)
+            .file("a/b/c")
+            .renameTo("x/y/z")
+            .project(project)
+            .createAndGet();
+
+    // old path matches
+    assertMatching("file:a/b/c", change.numericChangeId());
+    assertMatching("dir:a", change.numericChangeId());
+    assertMatching("dir:a/b", change.numericChangeId());
+
+    // new path matches
+    assertMatching("file:x/y/z", change.numericChangeId());
+    assertMatching("dir:x", change.numericChangeId());
+    assertMatching("dir:x/y", change.numericChangeId());
+
+    assertNotMatching("file:other", change.numericChangeId());
+    assertNotMatching("dir:other", change.numericChangeId());
+  }
+
+  @Test
+  public void matchFileAndFolderInCleanMergeChange() throws Exception {
+    ChangeIdentifier parent1ChangeId =
+        changeOperations.newChange().project(project).file("a/b/c").content("abc").create();
+    ChangeIdentifier parent2ChangeId =
+        changeOperations.newChange().project(project).file("x/y/z").content("xyz").create();
+
+    TestChange change =
+        changeOperations
+            .newChange()
+            .project(project)
+            .mergeOf()
+            .change(parent1ChangeId)
+            .and()
+            .change(parent2ChangeId)
+            .createAndGet();
+
+    // Since it was a clean merge the auto-merge commit is empty, hence no folder matches.
+    assertNotMatching("file:x/y/z", change.numericChangeId());
+    assertNotMatching("dir:x", change.numericChangeId());
+    assertNotMatching("dir:x/y", change.numericChangeId());
+    assertNotMatching("file:a/b/c", change.numericChangeId());
+    assertNotMatching("dir:a", change.numericChangeId());
+    assertNotMatching("dir:a/b", change.numericChangeId());
+
+    assertNotMatching("file:other", change.numericChangeId());
+    assertNotMatching("dir:other", change.numericChangeId());
+  }
+
+  @Test
+  public void matchFileAndFolderInMergeChangeThatResolvedConflicts() throws Exception {
+    ChangeIdentifier parent1ChangeId =
+        changeOperations.newChange().project(project).file("a/b/c").content("abc").create();
+    ChangeIdentifier parent2ChangeId =
+        changeOperations.newChange().project(project).file("a/b/c").content("xyz").create();
+
+    TestChange change =
+        changeOperations
+            .newChange()
+            .project(project)
+            .mergeOfButBaseOnFirst()
+            .change(parent1ChangeId)
+            .and()
+            .change(parent2ChangeId)
+            .file("a/b/c")
+            .content("abc+xyz")
+            .createAndGet();
+
+    // The auto-merge commit contains the files that had conflicts.
+    assertMatching("file:a/b/c", change.numericChangeId());
+    assertMatching("dir:a", change.numericChangeId());
+    assertMatching("dir:a/b", change.numericChangeId());
+
+    assertNotMatching("file:other", change.numericChangeId());
+    assertNotMatching("dir:other", change.numericChangeId());
+  }
+
+  @Test
+  @TestProjectInput(createEmptyCommit = false)
+  public void matchFileAndFolderInInitialChange() throws Exception {
+    PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo, "subject", "a/b/c", "abc");
+    PushOneCommit.Result r = push.to("refs/for/master");
+
+    assertMatching("file:a/b/c", r.getChange().getId());
+    assertMatching("dir:a", r.getChange().getId());
+    assertMatching("dir:a/b", r.getChange().getId());
+
+    assertNotMatching("file:other", r.getChange().getId());
+    assertNotMatching("dir:other", r.getChange().getId());
   }
 
   private void addReviewers(Project.NameKey project, Change.Id changeId, Account.Id... reviewers)

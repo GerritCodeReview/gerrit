@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.patch;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.collect.ImmutableSortedMap.toImmutableSortedMap;
 import static com.google.gerrit.entities.Patch.COMMIT_MSG;
 import static com.google.gerrit.entities.Patch.MERGE_LIST;
@@ -28,6 +29,7 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.Patch.ChangeType;
+import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
@@ -111,6 +113,42 @@ public class DiffOperationsImpl implements DiffOperations {
     this.modifiedFilesLoaderFactory = modifiedFilesLoaderFactory;
     this.fileDiffCache = fileDiffCache;
     this.baseCommitUtil = baseCommit;
+  }
+
+  @Override
+  public ImmutableList<ModifiedFile> getModifiedFiles(
+      Project.NameKey project, PatchSet patchSet, boolean enableRenameDetection)
+      throws DiffNotAvailableException {
+    try (Repository repo = repoManager.openRepository(project);
+        ObjectInserter ins = repo.newObjectInserter();
+        ObjectReader reader = ins.newReader();
+        RevWalk rw = new RevWalk(reader);
+        RepoView repoView = new RepoView(repo, rw, ins)) {
+      logger.atFine().log(
+          "Opened repo %s to get modified files for %s (inserter: %s)",
+          project, patchSet.commitId().name(), ins);
+
+      // Use parentNum=0 to do the comparison against the default base.
+      // For non-merge commits the default base is the only parent (aka parent 1).
+      // Initial commits are supported when using parentNum=0.
+      // For merge commits the default base is the auto-merge commit.
+      return loadModifiedFilesAgainstParentIfNecessary(
+              project,
+              patchSet.commitId(),
+              /* parentNum= */ 0,
+              repoView,
+              ins,
+              enableRenameDetection)
+          .values()
+          .stream()
+          .collect(toImmutableList());
+    } catch (IOException e) {
+      throw new DiffNotAvailableException(
+          String.format(
+              "Unable to load modified files of patch set %s in project %s",
+              patchSet.id(), project),
+          e);
+    }
   }
 
   @Override

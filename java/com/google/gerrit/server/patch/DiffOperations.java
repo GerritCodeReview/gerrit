@@ -14,9 +14,11 @@
 
 package com.google.gerrit.server.patch;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.Patch.ChangeType;
+import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.Project.NameKey;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
@@ -47,6 +49,23 @@ import org.eclipse.jgit.revwalk.RevWalk;
  * {@link DiffOperationsForCommitValidation} for the context).
  */
 public interface DiffOperations {
+
+  /**
+   * Returns the modified files of the given patch set.
+   *
+   * <p>The modified files are the paths that have been touched in the patch set.
+   *
+   * <p>To compute the modified files the commit of the patch set is compared against the default
+   * base (the first parent for normal changes, the auto-merge commit for merge changes and the
+   * empty commit for initial changes).
+   *
+   * <p>Getting the modified files with this method is much cheaper than using {@code
+   * #listModifiedFilesAgainstParent(...).keySet()} as this method does not only compute the
+   * modified files, but also the file diff for each of the modified files.
+   */
+  ImmutableList<ModifiedFile> getModifiedFiles(
+      Project.NameKey project, PatchSet patchSet, boolean enableRenameDetection)
+      throws DiffNotAvailableException;
 
   /**
    * Returns the list of added, deleted or modified files between a commit against its base. The

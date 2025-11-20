@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cdc975aa_3d320751",
+        "filename": "MODULE.bazel",
+        "patchSetId": 26
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-11-20T14:50:40Z",
+      "side": 1,
+      "message": "That was not even necessary, since other than with our custom rules, the jars are now put into different directories on download, preventing a conflict. In the war-file the jar actually appears as `guava-3.1.8.jar` and the guava-jar is called `guava-33.4.8-jre.jar`. This is misleading and has some potential of conflict, but that should be low.",
+      "parentUuid": "da445baa_46db1a44",
+      "revId": "9e8057bf373f946d3f56cba6bc56f55fb569c646",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9f28b7b7_86b1c236",
@@ -31,6 +49,24 @@
       "writtenOn": "2025-11-19T20:20:29Z",
       "side": 1,
       "message": "Can/should we put these into a `deps.toml` like you did with `nongoogle.toml`?",
+      "revId": "9e8057bf373f946d3f56cba6bc56f55fb569c646",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "35794418_c01e609a",
+        "filename": "MODULE.bazel",
+        "patchSetId": 26
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-11-20T14:50:40Z",
+      "side": 1,
+      "message": "I already had this in mind as well.",
+      "parentUuid": "9f28b7b7_86b1c236",
       "revId": "9e8057bf373f946d3f56cba6bc56f55fb569c646",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -52,6 +88,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f15f1315_ef78bd9a",
+        "filename": "MODULE.bazel",
+        "patchSetId": 26
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-11-20T14:50:40Z",
+      "side": 1,
+      "message": "Good find. This actually also helped me to prevent a requirement of downgrading jetty in jgit.",
+      "parentUuid": "3f9ab17b_4e86e2f6",
+      "revId": "9e8057bf373f946d3f56cba6bc56f55fb569c646",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5245de18_73c80737",
@@ -65,6 +119,24 @@
       "writtenOn": "2025-11-19T20:20:29Z",
       "side": 1,
       "message": "Don\u0027t we also want `strict_visibility \u003d True`?\n```suggestion\n  # lock_file \u003d \"//:maven_install.json\",\n  strict_visibility \u003d True,\n```",
+      "revId": "9e8057bf373f946d3f56cba6bc56f55fb569c646",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a43f428_8005c59c",
+        "filename": "MODULE.bazel",
+        "patchSetId": 26
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-11-20T14:50:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5245de18_73c80737",
       "revId": "9e8057bf373f946d3f56cba6bc56f55fb569c646",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -105,6 +177,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9c293fe0_ffb53b2a",
+        "filename": "java/com/google/gerrit/extensions/BUILD",
+        "patchSetId": 26
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-11-20T14:50:40Z",
+      "side": 1,
+      "message": "Yes. This was also my thought. Your suggestion unfortunately doesn\u0027t work. I believe we might just go with downloading the javadocs using rules_jvm_external and then I rewrite that part how we publish the javadoc here.",
+      "parentUuid": "c96540be_2ea014ac",
+      "revId": "9e8057bf373f946d3f56cba6bc56f55fb569c646",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "239982f6_b3957f5b",
         "filename": "javatests/com/google/gerrit/entities/converter/BUILD",
         "patchSetId": 26
@@ -137,6 +227,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c80b0730_2a09346a",
+        "filename": "lib/antlr/BUILD",
+        "patchSetId": 26
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-11-20T14:50:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "473275d5_7afa2d93",
+      "revId": "9e8057bf373f946d3f56cba6bc56f55fb569c646",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1e7251f1_c7f29aca",
@@ -150,6 +258,24 @@
       "writtenOn": "2025-11-19T20:20:29Z",
       "side": 1,
       "message": "Add a comment with a pointer noting this is internal rules_jvm_external magic? https://github.com/bazel-contrib/rules_jvm_external/blob/6.9/private/rules/jvm_import.bzl#L32\n```suggestion\n# Special prefix added by rules_jvm_external.jvm_import() to stamped jars\n# https://github.com/bazel-contrib/rules_jvm_external/blob/6.9/private/rules/jvm_import.bzl#L32\nPROCESSED_PREFIX \u003d \"processed_\"\n```",
+      "revId": "9e8057bf373f946d3f56cba6bc56f55fb569c646",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2cad68a7_805f6c5e",
+        "filename": "tools/bzl/pkg_war.bzl",
+        "patchSetId": 26
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-11-20T14:50:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1e7251f1_c7f29aca",
       "revId": "9e8057bf373f946d3f56cba6bc56f55fb569c646",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

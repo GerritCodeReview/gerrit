@@ -463,14 +463,19 @@ public class AccountResolver {
       if (accountStates.size() > 1) {
         // An email can only belong to a single account. If multiple accounts are found it means
         // there is an inconsistency, i.e. some of the found accounts have a preferred email set
-        // that they do not own via an external ID. Hence in this case we return only the one
-        // account that actually owns the email via an external ID.
+        // that they do not own via an external ID or multiple accounts own the same email via
+        // different external IDs. In this case we return only the accounts
+        // that actually own the email via an external ID.
         for (AccountState accountState : accountStates) {
+          List<AccountState> accountStatesWithExternalIdForEmail = new ArrayList<>();
           if (accountState.externalIds().stream()
               .map(ExternalId::email)
               .filter(Objects::nonNull)
               .anyMatch(email -> email.equals(input))) {
-            return Stream.of(accountState);
+            accountStatesWithExternalIdForEmail.add(accountState);
+          }
+          if (!accountStatesWithExternalIdForEmail.isEmpty()) {
+            return accountStatesWithExternalIdForEmail.stream();
           }
         }
 

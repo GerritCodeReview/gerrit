@@ -91,6 +91,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4bad7592_0b1c001c",
+        "filename": "java/com/google/gerrit/server/git/validators/CommentCountValidator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1073779
+      },
+      "writtenOn": "2025-11-20T03:19:22Z",
+      "side": 1,
+      "message": "I saw from change.maxFileSizeDownload:\n0 or negative values mean \"unlimited\".\nBy default 0 (unlimited).",
+      "parentUuid": "1c22fdaa_5f492f5e",
+      "revId": "a664519207e52c2e190d90d146cc267d50c27f57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ce806359_fc18ddf5",
         "filename": "java/com/google/gerrit/server/git/validators/CommentCountValidator.java",
         "patchSetId": 1

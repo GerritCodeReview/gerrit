@@ -26,6 +26,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.io.ByteStreams;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.restapi.RawInput;
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.time.Instant;
@@ -34,6 +35,7 @@ import java.util.List;
 import org.eclipse.jgit.dircache.DirCacheEditor;
 import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.errors.InvalidObjectIdException;
+import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -151,8 +153,20 @@ public class ChangeFileContentModification implements TreeModification {
       if (contentLength < 0) {
         return objectInserter.insert(OBJ_BLOB, getNewContentBytes());
       }
-      InputStream contentInputStream = newContent.getInputStream();
-      return objectInserter.insert(OBJ_BLOB, contentLength, contentInputStream);
+      try {
+        InputStream contentInputStream = newContent.getInputStream();
+        return objectInserter.insert(OBJ_BLOB, contentLength, contentInputStream);
+      } catch (EOFException e) {
+        if (e.getMessage().equals(JGitText.get().shortReadOfBlock)) {
+          throw new BadContentLengthException(
+              String.format(
+                  "The provided content length %s for file %s doesn't match with the length of the"
+                      + " provided content",
+                  contentLength, filePath),
+              e);
+        }
+        throw e;
+      }
     }
 
     private byte[] getNewContentBytes() throws IOException {

@@ -1,0 +1,68 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9f82aa23_e185b7bd",
+        "filename": "java/com/google/gerrit/server/account/AccountResolver.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-11-20T17:27:59Z",
+      "side": 1,
+      "message": "I don\u0027t immediately see how this log statement follows from the condition above",
+      "range": {
+        "startLine": 342,
+        "startChar": 8,
+        "endLine": 342,
+        "endChar": 72
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "d66c6faf_d743f7c8",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "java/com/google/gerrit/server/account/AccountResolver.java",
+              "range": {
+                "startLine": 342,
+                "startChar": 0,
+                "endLine": 343,
+                "endChar": 0
+              },
+              "replacement": "        logger.atFine().log(\n            \"%s: No match for \u0027%s\u0027 because the current user is not an IdentifiedUser\",\n            getClass().getSimpleName(), input);\n"
+            }
+          ]
+        }
+      ],
+      "revId": "c4912614f778ab9fe647b2ccbad6c8dc36ddb8bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c150d89a_f48424bd",
+        "filename": "java/com/google/gerrit/server/account/AccountResolver.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 432,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-11-20T17:27:59Z",
+      "side": 1,
+      "message": "I thought classNames are always logged automatically?",
+      "range": {
+        "startLine": 432,
+        "startChar": 58,
+        "endLine": 432,
+        "endChar": 85
+      },
+      "revId": "c4912614f778ab9fe647b2ccbad6c8dc36ddb8bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

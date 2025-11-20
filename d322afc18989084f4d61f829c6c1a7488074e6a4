@@ -55,6 +55,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a087985f_f4f35c32",
+        "filename": "java/com/google/gerrit/sshd/AsyncOutputStream.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-11-20T22:27:00Z",
+      "side": 1,
+      "message": "Does this need to be synchronized to prevent another caller from interleaving your writes?",
+      "revId": "d322afc18989084f4d61f829c6c1a7488074e6a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "40cf05ad_bb3dcac4",
         "filename": "java/com/google/gerrit/sshd/BaseCommand.java",
         "patchSetId": 1

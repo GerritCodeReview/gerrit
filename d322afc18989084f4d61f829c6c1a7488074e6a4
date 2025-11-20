@@ -16,6 +16,58 @@
       "message": "This works, but I\u0027m not sure we want to do something like this yet, so I made it WIP for now. \n\nSome thoughts: doing it at this level in Gerrit does enable it for everything, but doing at other levels can offload more stuff asynchronously. For example, in jgit, CancellableDigestOutputStream also does some checksum calculations, which can also benefit from being offloaded. Another factor is that the TimeoutOutputStream constantly resets itself before and after every write, and since this class actually does some additional buffering, it can reduce that workload if it were above the TimeoutOutputStream (here in BaseCommand, it is below that). However, we have already mitigated most of the impact of TimeoutOutputStream, so it probably would not help that situation anymore. \n\nYou could say that this approach really needs a good problematic use case to tackle. For now, I am not convinced that this is worth it, but I thought that it would be valuable to test in more places since it might be more beneficial in other use cases which I have not tried yet.",
       "revId": "d322afc18989084f4d61f829c6c1a7488074e6a4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "974c6b0b_48ea6c4d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2025-11-20T19:24:03Z",
+      "side": 1,
+      "message": "Hmm, this change might be significantly better than I first thought. The use case mentioned in the commit message is not a very good one, it is a fetch of a branch that was already fetched as FETCH_HEAD, but since it didn\u0027t get saved as a publicly visible ref, it took a while for the negotiation process to identify it as a NOP, but it was a NOP because the usual progress output did not appear. Interesting that it even improved this use case at all! Perhaps it helps smooth over a bunch of the sporadic IO?\n\nIt a proper fetch, this does seem to really help the receiving phase, I can tell that the CPU usage jumps back and forth between around the 150s to 250s, versus before this change, the CPU would jump from around the 40s to 140s. On close fetches, this is taking a fetch down from around 4m14s to 3m59s. But across the ocean, it is even better, it takes a fetch down from around 6m10s to 5m30s!!! I think the CPU usage is a bit more consistent when done across the ocean, which makes sense since there is probably more waiting time due to the network latencies. So instead of the async helping by offloading CPU to another thread, it likely is helping more by just insulating the local IO from the network blocking, it allows all resources to be better used at the same time, smoothing out the bursts.",
+      "parentUuid": "13010ec9_15151fa7",
+      "revId": "d322afc18989084f4d61f829c6c1a7488074e6a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8af338ae_2cf622f9",
+        "filename": "java/com/google/gerrit/sshd/AsyncOutputStream.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2025-11-20T19:24:03Z",
+      "side": 1,
+      "message": "Capacity here is a bit of a missnommer, and probably should be improved. Currently capacity is the maximum buffer size it will use, but since this currently allows an unlimited number of buffers to be in use, the memory usage is effectively unbounded. This probably should be adjusted to use capacity as the maximum number of total bytes buffered + in flight.",
+      "revId": "d322afc18989084f4d61f829c6c1a7488074e6a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "40cf05ad_bb3dcac4",
+        "filename": "java/com/google/gerrit/sshd/BaseCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2025-11-20T19:24:03Z",
+      "side": 1,
+      "message": "Another downside of doing this here instead of in jgit, is that this only help SSH, but I think that other protocols, even ones without encryption can benefit from this over WANs as it helps fetches to continue doing local disk IO while the networks is waiting for responses.",
+      "revId": "d322afc18989084f4d61f829c6c1a7488074e6a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

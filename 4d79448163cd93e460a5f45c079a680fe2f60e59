@@ -58,6 +58,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "efa9434c_a9041de5",
+        "filename": "java/com/google/gerrit/server/git/validators/CommentCountValidator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1073779
+      },
+      "writtenOn": "2025-11-20T05:22:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3ac75942_8f199c3a",
+      "range": {
+        "startLine": 35,
+        "startChar": 69,
+        "endLine": 35,
+        "endChar": 94
+      },
+      "revId": "4d79448163cd93e460a5f45c079a680fe2f60e59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f12292fb_309b8f62",
@@ -81,6 +105,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7022ac74_7aa7cddc",
+        "filename": "java/com/google/gerrit/server/git/validators/CommentCountValidator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1073779
+      },
+      "writtenOn": "2025-11-20T05:22:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f12292fb_309b8f62",
+      "range": {
+        "startLine": 49,
+        "startChar": 68,
+        "endLine": 49,
+        "endChar": 72
+      },
+      "revId": "4d79448163cd93e460a5f45c079a680fe2f60e59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "23fdbd91_5d7722c9",
@@ -94,6 +142,24 @@
       "writtenOn": "2025-11-14T21:18:54Z",
       "side": 1,
       "message": "Remove these comments that don\u0027t document anything new. (Guessing these are AI added)",
+      "revId": "4d79448163cd93e460a5f45c079a680fe2f60e59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e7a0a36b_f3d0fb8f",
+        "filename": "java/com/google/gerrit/server/git/validators/CommentCountValidator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1073779
+      },
+      "writtenOn": "2025-11-20T05:22:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "23fdbd91_5d7722c9",
       "revId": "4d79448163cd93e460a5f45c079a680fe2f60e59",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -146,6 +212,24 @@
       "side": 1,
       "message": "We can exit much earlier when there is no user limit set? i.e before even obtaining `existingUserComments`.",
       "parentUuid": "0c9234b9_6ccfbd50",
+      "revId": "4d79448163cd93e460a5f45c079a680fe2f60e59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cfe61a9f_e7b073bb",
+        "filename": "java/com/google/gerrit/server/git/validators/CommentCountValidator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1073779
+      },
+      "writtenOn": "2025-11-20T05:22:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d7fc3234_8eccca25",
       "revId": "4d79448163cd93e460a5f45c079a680fe2f60e59",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

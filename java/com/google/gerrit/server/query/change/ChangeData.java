@@ -447,8 +447,7 @@ public class ChangeData {
   private StorageConstraint storageConstraint = StorageConstraint.NOTEDB_ONLY;
   private Change change;
   private ChangeNotes notes;
-  private String commitMessage;
-  private List<FooterLine> commitFooters;
+  private CommitData commitData;
   private PatchSet currentPatchSet;
   private Collection<PatchSet> patchSets;
   private ListMultimap<PatchSet.Id, PatchSetApproval> allApprovals;
@@ -491,10 +490,7 @@ public class ChangeData {
   private ReviewerSet pendingReviewers;
   private ReviewerByEmailSet pendingReviewersByEmail;
   private List<ReviewerStatusUpdate> reviewerUpdates;
-  private PersonIdent author;
-  private PersonIdent committer;
   private ImmutableSet<AttentionSetUpdate> attentionSet;
-  private Integer parentCount;
   private Integer unresolvedCommentCount;
   private Integer totalCommentCount;
   private LabelTypes labelTypes;
@@ -672,7 +668,7 @@ public class ChangeData {
         return Optional.empty();
       }
 
-      PatchListKey pk = PatchListKey.againstBase(ps.commitId(), parentCount);
+      PatchListKey pk = PatchListKey.againstBase(ps.commitId(), commitData.parentCount());
       DiffSummaryKey key = DiffSummaryKey.fromPatchListKey(pk);
       try {
         diffSummary = Optional.of(patchListCache.getDiffSummary(key, c.getProject()));
@@ -942,22 +938,22 @@ public class ChangeData {
 
   @Nullable
   public String commitMessage() {
-    if (commitMessage == null) {
+    if (commitData == null) {
       if (!loadCommitData()) {
         return null;
       }
     }
-    return commitMessage;
+    return commitData.commitMessage();
   }
 
   /** Returns the list of commit footers (which may be empty). */
   public List<FooterLine> commitFooters() {
-    if (commitFooters == null) {
+    if (commitData == null) {
       if (!loadCommitData()) {
         return ImmutableList.of();
       }
     }
-    return commitFooters;
+    return commitData.commitFooters();
   }
 
   public ListMultimap<String, String> trackingFooters() {
@@ -966,22 +962,22 @@ public class ChangeData {
 
   @Nullable
   public PersonIdent getAuthor() {
-    if (author == null) {
+    if (commitData == null) {
       if (!loadCommitData()) {
         return null;
       }
     }
-    return author;
+    return commitData.author();
   }
 
   @Nullable
   public PersonIdent getCommitter() {
-    if (committer == null) {
+    if (commitData == null) {
       if (!loadCommitData()) {
         return null;
       }
     }
-    return committer;
+    return commitData.committer();
   }
 
   private boolean loadCommitData() {
@@ -995,11 +991,7 @@ public class ChangeData {
       try (Repository repo = repoManager.openRepository(project());
           RevWalk walk = new RevWalk(repo)) {
         RevCommit c = walk.parseCommit(ps.commitId());
-        commitMessage = c.getFullMessage();
-        commitFooters = c.getFooterLines();
-        author = c.getAuthorIdent();
-        committer = c.getCommitterIdent();
-        parentCount = c.getParentCount();
+        commitData = new CommitData(c);
       } catch (IOException e) {
         throw new StorageException(
             String.format(
@@ -1437,12 +1429,12 @@ public class ChangeData {
 
   @Nullable
   public Boolean isMerge() {
-    if (parentCount == null) {
+    if (commitData == null) {
       if (!loadCommitData()) {
         return null;
       }
     }
-    return parentCount > 1;
+    return commitData.parentCount() > 1;
   }
 
   public Set<Account.Id> editsByUser() {
@@ -1735,6 +1727,22 @@ public class ChangeData {
       // We are not allowed to load values from NoteDb. 'field' was not populated, however,
       // we need this value for permission checks.
       throw new IllegalStateException("'" + field + "' field not populated");
+    }
+  }
+
+  record CommitData(
+      String commitMessage,
+      List<FooterLine> commitFooters,
+      PersonIdent author,
+      PersonIdent committer,
+      int parentCount) {
+    CommitData(RevCommit c) {
+      this(
+          c.getFullMessage(),
+          c.getFooterLines(),
+          c.getAuthorIdent(),
+          c.getCommitterIdent(),
+          c.getParentCount());
     }
   }
 

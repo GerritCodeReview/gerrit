@@ -42,6 +42,7 @@ import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.permissions.RefPermission;
+import com.google.gerrit.server.project.ContributorAgreementsChecker;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.update.BatchUpdate;
@@ -75,6 +76,7 @@ public class RepoMetaDataUpdater {
 
   private final PermissionBackend permissionBackend;
   private final ChangeJson.Factory jsonFactory;
+  private final ContributorAgreementsChecker contributorAgreements;
 
   @Inject
   RepoMetaDataUpdater(
@@ -86,7 +88,8 @@ public class RepoMetaDataUpdater {
       Sequences seq,
       BatchUpdate.Factory updateFactory,
       PermissionBackend permissionBackend,
-      ChangeJson.Factory jsonFactory) {
+      ChangeJson.Factory jsonFactory,
+      ContributorAgreementsChecker contributorAgreements) {
     this.metaDataUpdateFactory = metaDataUpdateFactory;
     this.user = user;
     this.projectConfigFactory = projectConfigFactory;
@@ -96,6 +99,7 @@ public class RepoMetaDataUpdater {
     this.updateFactory = updateFactory;
     this.permissionBackend = permissionBackend;
     this.jsonFactory = jsonFactory;
+    this.contributorAgreements = contributorAgreements;
   }
 
   /**
@@ -125,6 +129,8 @@ public class RepoMetaDataUpdater {
   public ConfigChangeCreator configChangeCreator(
       Project.NameKey projectName, @Nullable String message, String defaultMessage)
       throws PermissionBackendException, AuthException, IOException, ConfigInvalidException {
+    contributorAgreements.check(projectName, user.get());
+
     message = validateMessage(message, defaultMessage);
     PermissionBackend.ForProject forProject =
         permissionBackend.user(user.get()).project(projectName);

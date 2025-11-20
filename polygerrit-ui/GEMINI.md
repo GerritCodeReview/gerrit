@@ -14,6 +14,16 @@ This document provides a summary of the front-end development environment for th
   - **Browser Testing**: `playwright`
 - **Package Manager**: `yarn`
 
+## Linting
+
+The project uses `eslint` for linting. You can run the linter using the following commands from the root `gerrit` directory:
+
+- `npm run eslint`: Run linter
+- `npm run eslintfix:modified`: Fix lint errors in modified files
+- `npm run eslintfix`: Fix lint errors in all files
+
+**Note**: Imports should NOT have spaces around braces (e.g., `import {css} from 'lit';`, not `import { css } from 'lit';`).
+
 ## Key Commands
 
 The following commands should be run from the project root directory.

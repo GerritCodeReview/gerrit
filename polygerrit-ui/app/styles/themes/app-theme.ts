@@ -524,6 +524,7 @@ const appThemeCss = safeStyleSheet`
       0px 6px 10px 4px rgba(60, 64, 67, 0.15);
     --elevation-level-5: 0px 4px 4px 0px rgba(60, 64, 67, 0.3),
       0px 8px 12px 6px rgba(60, 64, 67, 0.15);
+    --elevation-color: rgba(0, 0, 0, 0.2);
 
     /* misc */
     --border-radius: 4px;

@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3d19c7f2_a461ebe9",
+        "filename": "java/com/google/gerrit/lucene/GerritIndexWriterConfig.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-11-20T09:52:48Z",
+      "side": 1,
+      "message": "If we use the JavaLoggingInputStream I\u0027m afraid they\u0027re not separate at all.\nAs we\u0027re transforming Lucene\u0027s infoStream to java.util logs, they now need to be bridged over to SLF4J, so that they can be picked up.\n\nIf we decide to keep the JavaLogging, this is needed.\nIf we revert back to the file logging, of course this is not needed.",
+      "parentUuid": "76f39070_b20b1c68",
+      "range": {
+        "startLine": 86,
+        "startChar": 0,
+        "endLine": 87,
+        "endChar": 35
+      },
+      "revId": "88b528799422f4ea07e80ed2b604b74b3f093fe5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4847b42c_6eaf5811",
         "filename": "java/com/google/gerrit/lucene/GerritIndexWriterConfig.java",
         "patchSetId": 29
@@ -37,6 +61,30 @@
       "writtenOn": "2025-11-20T08:43:21Z",
       "side": 1,
       "message": "Can you explain why this is needed?",
+      "range": {
+        "startLine": 88,
+        "startChar": 5,
+        "endLine": 88,
+        "endChar": 68
+      },
+      "revId": "88b528799422f4ea07e80ed2b604b74b3f093fe5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "faae173a_d9d3bb76",
+        "filename": "java/com/google/gerrit/lucene/GerritIndexWriterConfig.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-11-20T09:52:48Z",
+      "side": 1,
+      "message": "On L91 we\u0027re setting the logging to level fine, by default java.util will filter out anything below INFO(which is why, if you set INFO, this is not needed).\n\nTHere could be a way around this where we set L91 to log at INFO level, and then in the log4j.properties file we set this logger to WARN, so by default it wouldn\u0027t log unless we enable it via SSH command.\n\nThis would have the benefit that we don\u0027t set all of the java.util logging to info(unfortunately it doesn\u0027t look like we can restrict the logger further here...)",
+      "parentUuid": "4847b42c_6eaf5811",
       "range": {
         "startLine": 88,
         "startChar": 5,
@@ -72,6 +120,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4057d325_4b7fc968",
+        "filename": "java/com/google/gerrit/lucene/GerritIndexWriterConfig.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-11-20T09:52:48Z",
+      "side": 1,
+      "message": "We already did this when we had the tests, this approach caused a 20% increase compared to baseline while the other approach caused a ~5% increase.",
+      "parentUuid": "ff7ed9a7_529d9e7b",
+      "range": {
+        "startLine": 91,
+        "startChar": 10,
+        "endLine": 91,
+        "endChar": 35
+      },
+      "revId": "88b528799422f4ea07e80ed2b604b74b3f093fe5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "516f0ef4_d13deded",
         "filename": "lib/log/BUILD",
         "patchSetId": 29
@@ -83,6 +155,30 @@
       "writtenOn": "2025-11-20T08:43:21Z",
       "side": 1,
       "message": "I\u0027m not convinced we need one extra dependency here: my understanding is that you simply have to download the libs yourself and place them into the `$GERRIT_SITE/lib` directory. Do we really need to add this dependency with all the associated costs of keeping it up-to-date?",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 40,
+        "endChar": 1
+      },
+      "revId": "88b528799422f4ea07e80ed2b604b74b3f093fe5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d5d8612a_e7e15efa",
+        "filename": "lib/log/BUILD",
+        "patchSetId": 29
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-11-20T09:52:48Z",
+      "side": 1,
+      "message": "If we decide to keep the current approach, I\u0027ll look into this more.",
+      "parentUuid": "516f0ef4_d13deded",
       "range": {
         "startLine": 35,
         "startChar": 0,

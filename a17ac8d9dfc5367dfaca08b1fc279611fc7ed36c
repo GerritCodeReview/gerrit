@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "307d76eb_e81a6ae4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-11-20T17:51:56Z",
+      "side": 1,
+      "message": "@ekempin@google.com why does the `nongoogle_test.sh` need LC?",
+      "revId": "a17ac8d9dfc5367dfaca08b1fc279611fc7ed36c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

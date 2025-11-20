@@ -161,6 +161,8 @@ const darkThemeCss = safeStyleSheet`
     --vote-chip-unselected-text-color: white;
     --vote-chip-selected-text-color: black;
 
+    --elevation-color: rgba(0, 0, 0, 0.5);
+
     --outline-color-focus: var(--gray-100);
 
     /* misc colors */

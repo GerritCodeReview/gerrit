@@ -217,7 +217,10 @@ export class PromptBox extends LitElement {
       transition: box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);
     }
     :host(:focus-within) {
-      background: var(--search-box-focus-bg-color);
+      background: var(
+        --search-box-focus-bg-color,
+        var(--background-color-primary)
+      );
       box-shadow: 0px 1px 2px 0px var(--elevation-color),
         0px 2px 6px 2px var(--elevation-color);
     }
@@ -253,6 +256,7 @@ export class PromptBox extends LitElement {
     }
     .prompt-input {
       background: transparent;
+      color: var(--primary-text-color);
       font: inherit;
       font-size: 16px; /* $font-size-large */
       border: none;

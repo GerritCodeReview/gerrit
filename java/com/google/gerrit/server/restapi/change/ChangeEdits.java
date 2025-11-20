@@ -62,6 +62,7 @@ import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.edit.ChangeEditJson;
 import com.google.gerrit.server.edit.ChangeEditModifier;
 import com.google.gerrit.server.edit.ChangeEditUtil;
+import com.google.gerrit.server.edit.tree.BadContentLengthException;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
@@ -387,6 +388,8 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
             octalAsDecimal(fileContentInput.fileMode));
       } catch (InvalidChangeOperationException e) {
         throw new ResourceConflictException(e.getMessage());
+      } catch (BadContentLengthException e) {
+        throw new BadRequestException(e.getMessage(), e);
       }
       return Response.none();
     }

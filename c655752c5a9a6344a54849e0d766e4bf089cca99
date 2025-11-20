@@ -70,6 +70,30 @@
       },
       "revId": "c655752c5a9a6344a54849e0d766e4bf089cca99",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1bba72a8_59a64bbf",
+        "filename": "java/com/google/gerrit/server/git/validators/CommentCountValidator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1073779
+      },
+      "writtenOn": "2025-11-20T03:15:22Z",
+      "side": 0,
+      "message": "so you mean we should keep thos comment?       // This warning really applies to the set of all comments, but we need to pick one to attach\n      // the message to.",
+      "parentUuid": "e92f8ca5_0d25e4b1",
+      "range": {
+        "startLine": 51,
+        "startChar": 6,
+        "endLine": 52,
+        "endChar": 24
+      },
+      "revId": "c655752c5a9a6344a54849e0d766e4bf089cca99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

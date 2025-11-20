@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "76f39070_b20b1c68",
+        "filename": "java/com/google/gerrit/lucene/GerritIndexWriterConfig.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-11-20T08:43:21Z",
+      "side": 1,
+      "message": "This looks to me a separate change: one thing is to enable logging, another completely different thing is to bridge all the `java.util.logging*` logs to SLF4J, which could have significant performance issues because of the extra path involved.\n\nI would split into two separate changes.",
+      "range": {
+        "startLine": 86,
+        "startChar": 0,
+        "endLine": 87,
+        "endChar": 35
+      },
+      "revId": "88b528799422f4ea07e80ed2b604b74b3f093fe5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4847b42c_6eaf5811",
+        "filename": "java/com/google/gerrit/lucene/GerritIndexWriterConfig.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-11-20T08:43:21Z",
+      "side": 1,
+      "message": "Can you explain why this is needed?",
+      "range": {
+        "startLine": 88,
+        "startChar": 5,
+        "endLine": 88,
+        "endChar": 68
+      },
+      "revId": "88b528799422f4ea07e80ed2b604b74b3f093fe5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff7ed9a7_529d9e7b",
+        "filename": "java/com/google/gerrit/lucene/GerritIndexWriterConfig.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-11-20T08:43:21Z",
+      "side": 1,
+      "message": "I would also compare the performance using a single File-based stream vs. the `JavaLoggingInfoStream`. If there is a significant difference, then we should re-think if we really want to use this path and involve the extra complexity of going through the `java.util.logging` system and bridging to SLF4J.",
+      "range": {
+        "startLine": 91,
+        "startChar": 10,
+        "endLine": 91,
+        "endChar": 35
+      },
+      "revId": "88b528799422f4ea07e80ed2b604b74b3f093fe5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "516f0ef4_d13deded",
+        "filename": "lib/log/BUILD",
+        "patchSetId": 29
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-11-20T08:43:21Z",
+      "side": 1,
+      "message": "I\u0027m not convinced we need one extra dependency here: my understanding is that you simply have to download the libs yourself and place them into the `$GERRIT_SITE/lib` directory. Do we really need to add this dependency with all the associated costs of keeping it up-to-date?",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 40,
+        "endChar": 1
+      },
+      "revId": "88b528799422f4ea07e80ed2b604b74b3f093fe5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

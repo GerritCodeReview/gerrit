@@ -23,12 +23,15 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Comparator.comparing;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.UseClockStep;
 import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
+import com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.entities.AccountGroup;
@@ -37,6 +40,11 @@ import com.google.gerrit.entities.GroupReference;
 import com.google.gerrit.entities.InternalGroup;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.PermissionRule;
+import com.google.gerrit.entities.RefNames;
+import com.google.gerrit.extensions.api.access.AccessSectionInfo;
+import com.google.gerrit.extensions.api.access.PermissionInfo;
+import com.google.gerrit.extensions.api.access.PermissionRuleInfo;
+import com.google.gerrit.extensions.api.access.ProjectAccessInput;
 import com.google.gerrit.extensions.api.changes.CherryPickInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
@@ -52,7 +60,10 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
+import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.testing.ConfigSuite;
+import com.google.gson.Strictness;
+import com.google.gson.stream.JsonReader;
 import com.google.inject.Inject;
 import java.util.List;
 import org.eclipse.jgit.lib.Config;
@@ -359,6 +370,75 @@ public class AgreementsIT extends AbstractDaemonTest {
 
     // Create a change succeeds after signing the agreement
     gApi.changes().create(newChangeInput());
+  }
+
+  @Test
+  public void createAccessChangeRespectsCLA() throws Exception {
+    assume().that(isContributorAgreementsEnabled()).isTrue();
+
+    TestProjectUpdate.TestPermission permission =
+        TestProjectUpdate.allow(Permission.PUSH)
+            .ref("refs/for/refs/meta/config")
+            .group(REGISTERED_USERS)
+            .build();
+    projectOperations.project(project).forUpdate().add(permission).update();
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.OWNER).ref("refs/*").group(REGISTERED_USERS))
+        .add(allow(Permission.PUSH).ref("refs/for/" + RefNames.REFS_CONFIG).group(REGISTERED_USERS))
+        .add(allow(Permission.READ).ref(RefNames.REFS_CONFIG).group(REGISTERED_USERS))
+        .add(allow(Permission.SUBMIT).ref(RefNames.REFS_CONFIG).group(REGISTERED_USERS))
+        .update();
+
+    // Create an access change succeeds when agreement is not required
+    setUseContributorAgreements(InheritableBoolean.FALSE);
+    RestResponse rep = createPermissionsChange("agreement not required");
+    rep.assertCreated();
+    ChangeInfo got;
+    try (JsonReader jsonReader = new JsonReader(rep.getReader())) {
+      jsonReader.setStrictness(Strictness.LENIENT);
+      got = newGson().fromJson(jsonReader, ChangeInfo.class);
+      assertThat(got.subject).isEqualTo("agreement not required");
+    }
+
+    // Create an access change is not allowed when CLA is required but not signed
+    setUseContributorAgreements(InheritableBoolean.TRUE);
+    rep = createPermissionsChange("agreement required - fails");
+    rep.assertForbidden();
+    assertThat(rep.hasContent()).isTrue();
+    assertThat(rep.getEntityContent()).startsWith("No Contributor Agreement on file ");
+
+    // Sign the agreement
+    gApi.accounts().self().signAgreement(caAutoVerify.getName());
+
+    // Explicitly reset the user to force a new request context
+    requestScopeOperations.setApiUser(user.id());
+
+    // Create an access change succeeds after signing the agreement
+    rep = createPermissionsChange("agreement required - passes");
+    rep.assertCreated();
+    try (JsonReader jsonReader = new JsonReader(rep.getReader())) {
+      jsonReader.setStrictness(Strictness.LENIENT);
+      got = newGson().fromJson(jsonReader, ChangeInfo.class);
+      assertThat(got.subject).isEqualTo("agreement required - passes");
+    }
+  }
+
+  private RestResponse createPermissionsChange(String message) throws Exception {
+    ProjectAccessInput in = new ProjectAccessInput();
+    in.message = message;
+
+    PermissionInfo p = new PermissionInfo(null, null);
+    p.rules =
+        ImmutableMap.of(
+            SystemGroupBackend.REGISTERED_USERS.get(),
+            new PermissionRuleInfo(PermissionRuleInfo.Action.ALLOW, false));
+    AccessSectionInfo a = new AccessSectionInfo();
+    a.permissions = ImmutableMap.of("read", p);
+    in.add = ImmutableMap.of("refs/heads/*", a);
+
+    return userRestSession.put("/projects/" + project.get() + "/access:review", in);
   }
 
   @Test

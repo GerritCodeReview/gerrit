@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "de44216f_2f2fd37f",
+        "filename": "MODULE.bazel",
+        "patchSetId": 27
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-11-20T21:10:46Z",
+      "side": 1,
+      "message": "Not to make things harder, but I wonder if we should use a non-default name (i.e. not `maven`) for the deps that need Google LC.\n\nOn its own it probably only prevents other Bazel deps injecting artifacts into `maven` (since we\u0027re trying enforce the intent of the LC vote, this is probably reason enough to do it). However, if we do more and restructure the `lib/` dir to have a google/nongoogle split, it would make it very obvious (to both dev and reviewer) when adding a dep to a BUILD file if that dep is something Google cares about or not. On top of that, I think we can then use Bazel visibility rules to prohibit adding nongoogle deps to packages Google depends on.\n\nI don\u0027t think we should try to do that `//lib` refactor in this change, but what do you think of that idea?",
+      "revId": "c2a6bc5e1cd4dc3d2b7d75d1c266c8b2653508df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

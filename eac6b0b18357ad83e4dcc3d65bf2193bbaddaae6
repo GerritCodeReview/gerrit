@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2aaa8fe0_7d741222",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-11-20T12:54:34Z",
+      "side": 1,
+      "message": "Verified the pipeline with this new version as well.\n\n```\nFinished: SUCCESS\n```",
+      "revId": "eac6b0b18357ad83e4dcc3d65bf2193bbaddaae6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

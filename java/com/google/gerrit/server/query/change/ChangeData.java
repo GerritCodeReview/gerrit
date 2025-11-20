@@ -938,20 +938,16 @@ public class ChangeData {
 
   @Nullable
   public String commitMessage() {
-    if (commitData == null) {
-      if (!loadCommitData()) {
-        return null;
-      }
+    if (!loadCommitData()) {
+      return null;
     }
     return commitData.commitMessage();
   }
 
   /** Returns the list of commit footers (which may be empty). */
   public List<FooterLine> commitFooters() {
-    if (commitData == null) {
-      if (!loadCommitData()) {
-        return ImmutableList.of();
-      }
+    if (!loadCommitData()) {
+      return ImmutableList.of();
     }
     return commitData.commitFooters();
   }
@@ -962,25 +958,26 @@ public class ChangeData {
 
   @Nullable
   public PersonIdent getAuthor() {
-    if (commitData == null) {
-      if (!loadCommitData()) {
-        return null;
-      }
+    if (!loadCommitData()) {
+      return null;
     }
     return commitData.author();
   }
 
   @Nullable
   public PersonIdent getCommitter() {
-    if (commitData == null) {
-      if (!loadCommitData()) {
-        return null;
-      }
+    if (!loadCommitData()) {
+      return null;
     }
     return commitData.committer();
   }
 
   private boolean loadCommitData() {
+    if (commitData != null) {
+      // The commit data has already been loaded.
+      return true;
+    }
+
     PatchSet ps = currentPatchSet();
     if (ps == null) {
       return false;
@@ -1429,10 +1426,8 @@ public class ChangeData {
 
   @Nullable
   public Boolean isMerge() {
-    if (commitData == null) {
-      if (!loadCommitData()) {
-        return null;
-      }
+    if (!loadCommitData()) {
+      return null;
     }
     return commitData.parentCount() > 1;
   }

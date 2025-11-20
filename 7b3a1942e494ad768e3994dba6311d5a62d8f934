@@ -22,6 +22,30 @@
       },
       "revId": "7b3a1942e494ad768e3994dba6311d5a62d8f934",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f7a8d3c_1b03e4c0",
+        "filename": "tools/maven/mvn.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-11-20T10:06:29Z",
+      "side": 1,
+      "message": "It\u0027s a good point, let me see if I can simplify this.",
+      "parentUuid": "cf5ead49_94afd2a7",
+      "range": {
+        "startLine": 89,
+        "startChar": 0,
+        "endLine": 90,
+        "endChar": 57
+      },
+      "revId": "7b3a1942e494ad768e3994dba6311d5a62d8f934",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

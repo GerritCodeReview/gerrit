@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b5419ba7_d29377c1",
+        "filename": "java/com/google/gerrit/lucene/GerritIndexWriterConfig.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-11-21T13:19:20Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "3d19c7f2_a461ebe9",
+      "range": {
+        "startLine": 86,
+        "startChar": 0,
+        "endLine": 87,
+        "endChar": 35
+      },
+      "revId": "88b528799422f4ea07e80ed2b604b74b3f093fe5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4847b42c_6eaf5811",
@@ -95,6 +119,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2bff5e42_b88c824d",
+        "filename": "java/com/google/gerrit/lucene/GerritIndexWriterConfig.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-11-21T13:19:20Z",
+      "side": 1,
+      "message": "After conversation, we decided to revert this to its original approach in order to avoid more substantial performance risk.",
+      "parentUuid": "faae173a_d9d3bb76",
+      "range": {
+        "startLine": 88,
+        "startChar": 5,
+        "endLine": 88,
+        "endChar": 68
+      },
+      "revId": "88b528799422f4ea07e80ed2b604b74b3f093fe5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ff7ed9a7_529d9e7b",
@@ -132,6 +180,30 @@
       "side": 1,
       "message": "We already did this when we had the tests, this approach caused a 20% increase compared to baseline while the other approach caused a ~5% increase.",
       "parentUuid": "ff7ed9a7_529d9e7b",
+      "range": {
+        "startLine": 91,
+        "startChar": 10,
+        "endLine": 91,
+        "endChar": 35
+      },
+      "revId": "88b528799422f4ea07e80ed2b604b74b3f093fe5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7f0d127a_151400e1",
+        "filename": "java/com/google/gerrit/lucene/GerritIndexWriterConfig.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-11-21T13:19:20Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "4057d325_4b7fc968",
       "range": {
         "startLine": 91,
         "startChar": 10,

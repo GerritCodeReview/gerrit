@@ -52,6 +52,24 @@
       "parentUuid": "0bed144b_aeb6804d",
       "revId": "036d56f94a486911687b95504dc368bb118ed801",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "516a3b20_b664896c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2025-11-21T12:59:12Z",
+      "side": 1,
+      "message": "Thanks for the pointers!\n\nSo instead of creating a trace timer, the metrics timers just implement a simple version of the same logging. (no tags, not sensitive to tracing) 🤔\n\nIt\u0027s good enough for my current need, but I am quite tempted to change that code smell.",
+      "parentUuid": "93b809fb_a4a057a0",
+      "revId": "036d56f94a486911687b95504dc368bb118ed801",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

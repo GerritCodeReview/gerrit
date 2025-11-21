@@ -42,6 +42,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6fb518b1_f3855b8b",
+        "filename": "java/com/google/gerrit/server/account/AccountResolver.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-11-21T10:49:12Z",
+      "side": 1,
+      "message": "This searcher only applies if the input string is \"self\" or \"me\" (see the \"matches\" method above in l. 335). \"self\"/\"me\" matches the account of the current user, but we only have a current user if asUser.isIdentifiedUser() is true. Otherwise it\u0027s an anonymous request and we don\u0027t know the account of the caller or they don\u0027t have one. This means when there is no current user (asUser.isIdentifiedUser() is false) then there is no match for \"self\"/\"me\".\n\nI included the input (\"self\"/\"me\") into the log now. I omitted it before because the input is not used for the matching in the search method.\n\nDone.",
+      "parentUuid": "9f82aa23_e185b7bd",
+      "range": {
+        "startLine": 342,
+        "startChar": 8,
+        "endLine": 342,
+        "endChar": 72
+      },
+      "revId": "c4912614f778ab9fe647b2ccbad6c8dc36ddb8bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c150d89a_f48424bd",
@@ -55,6 +79,30 @@
       "writtenOn": "2025-11-20T17:27:59Z",
       "side": 1,
       "message": "I thought classNames are always logged automatically?",
+      "range": {
+        "startLine": 432,
+        "startChar": 58,
+        "endLine": 432,
+        "endChar": 85
+      },
+      "revId": "c4912614f778ab9fe647b2ccbad6c8dc36ddb8bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "58d517b4_793d4222",
+        "filename": "java/com/google/gerrit/server/account/AccountResolver.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 432,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-11-21T10:49:12Z",
+      "side": 1,
+      "message": "Yes, they are, but here we are logging the name of the inner class, e.g. \u0027ByNameAndEmail\u0027, and I think the class that is automatically logged would be the outer class, e.g. \u0027AccountResolver\u0027 (because \u0027logger\u0027 is created with FluentLogger.forEnclosingClass() in the AccountResolver class). Maybe if we would have one logger instance per inner class, then this could work, but that doesn\u0027t look nice either.",
+      "parentUuid": "c150d89a_f48424bd",
       "range": {
         "startLine": 432,
         "startChar": 58,

@@ -400,8 +400,10 @@ export class PromptBox extends LitElement {
     if (changedProperties.has('userInput')) {
       if (!this.userInput) {
         this.turnBasisForUserInput = undefined;
+        this.resetInputHeight();
+      } else {
+        this.adjustInputHeight();
       }
-      this.resetInputHeight();
     }
     if (changedProperties.has('chatInputDisabled')) {
       if (!this.chatInputDisabled) {
@@ -417,6 +419,7 @@ export class PromptBox extends LitElement {
 
   private onInput(e: Event) {
     this.userInput = (e.target as HTMLTextAreaElement).value;
+    this.adjustInputHeight();
     this.updateDynamicContextItemsDebounced();
   }
 
@@ -520,6 +523,7 @@ export class PromptBox extends LitElement {
     event.preventDefault();
     event.stopPropagation();
     action();
+    this.adjustInputHeight();
   }
 
   private onEnter(event: Event) {
@@ -551,6 +555,8 @@ export class PromptBox extends LitElement {
         // this.turnBasisForUserInput
       );
     }
+    // Reset height after sending
+    this.resetInputHeight();
   }
 
   private toggleShowAllContext() {
@@ -562,18 +568,16 @@ export class PromptBox extends LitElement {
   }
 
   private adjustInputHeight() {
-    if (!this.scrollTop || !this.promptInput) {
+    if (!this.promptInput) {
       return;
     }
-    const currentHeight =
-      Number(this.promptInput.offsetHeight) + this.scrollTop;
-    this.scrollTop = 0;
+    // Reset height to auto to correctly calculate scrollHeight for shrinking
+    this.promptInput.style.height = 'auto';
+    const scrollHeight = this.promptInput.scrollHeight;
     this.promptInput.style.height = `${Math.min(
-      currentHeight,
+      scrollHeight,
       this.maxInputHeight
     )}px`;
-
-    this.requestUpdate();
   }
 
   private resetInputHeight() {

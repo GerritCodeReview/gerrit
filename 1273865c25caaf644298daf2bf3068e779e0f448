@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7420829d_5a54cae0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-11-21T21:28:33Z",
+      "side": 1,
+      "message": "\u003e I believe, this was intensional behavior since defaultField method is used by both Submit Requirement and Change Search. We don\u0027t want to restrict users from free text search over a change but Submit Requirement should be specific.\n\nIf you believe it was intentional, we should still allow the use of the _old-style_ SR IMHO by default, and restrict them by configuration.",
+      "parentUuid": "dcb62b11_8f4cf62a",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 189
+      },
+      "revId": "1273865c25caaf644298daf2bf3068e779e0f448",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6626b546_ef001785",

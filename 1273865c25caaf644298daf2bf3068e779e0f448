@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dcb62b11_8f4cf62a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2025-11-21T15:55:12Z",
+      "side": 1,
+      "message": "I believe, this was intensional behavior since defaultField method is used by both Submit Requirement and Change Search. We don\u0027t want to restrict users from free text search over a change but Submit Requirement should be specific.",
+      "parentUuid": "2a9580ba_574fa044",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 189
+      },
+      "revId": "1273865c25caaf644298daf2bf3068e779e0f448",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6626b546_ef001785",
@@ -41,6 +65,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "19c1765e_3a6541bf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2025-11-21T15:55:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6626b546_ef001785",
+      "revId": "1273865c25caaf644298daf2bf3068e779e0f448",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fd95998b_2be250ed",
@@ -54,6 +96,24 @@
       "writtenOn": "2025-11-21T15:18:29Z",
       "side": 1,
       "message": "Do we really need this special char?\n\n\n\n```suggestion\nInvalid example:\n```",
+      "revId": "1273865c25caaf644298daf2bf3068e779e0f448",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f0e1357f_a082c286",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2025-11-21T15:55:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fd95998b_2be250ed",
       "revId": "1273865c25caaf644298daf2bf3068e779e0f448",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

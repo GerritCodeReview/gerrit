@@ -123,13 +123,13 @@ public class CheckAccess implements RestReadView<ProjectResource> {
                 String.format(
                     "user %s lacks permission %s for %s in project %s",
                     match, input.permission, input.ref, rsrc.getName())));
-      } else {
-        // We say access is okay if there are no refs, but this warrants a warning,
-        // as access denied looks the same as no branches to the user.
-        try (Repository repo = gitRepositoryManager.openRepository(rsrc.getNameKey())) {
-          if (repo.getRefDatabase().getRefsByPrefix(REFS_HEADS).isEmpty()) {
-            message = "access is OK, but repository has no branches under refs/heads/";
-          }
+      }
+
+      // We say access is okay if there are no refs, but this warrants a warning,
+      // as access denied looks the same as no branches to the user.
+      try (Repository repo = gitRepositoryManager.openRepository(rsrc.getNameKey())) {
+        if (repo.getRefDatabase().getRefsByPrefix(REFS_HEADS).isEmpty()) {
+          message = "access is OK, but repository has no branches under refs/heads/";
         }
       }
       return Response.ok(createInfo(HttpServletResponse.SC_OK, message));

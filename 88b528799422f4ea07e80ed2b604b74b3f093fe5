@@ -259,6 +259,30 @@
       },
       "revId": "88b528799422f4ea07e80ed2b604b74b3f093fe5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f8251108_af8764ec",
+        "filename": "lib/log/BUILD",
+        "patchSetId": 29
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-11-21T13:19:57Z",
+      "side": 1,
+      "message": "We\u0027ve reverted to the original approach, so this is not needed anymore.",
+      "parentUuid": "d5d8612a_e7e15efa",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 40,
+        "endChar": 1
+      },
+      "revId": "88b528799422f4ea07e80ed2b604b74b3f093fe5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -386,7 +386,57 @@ public class CheckAccessIT extends AbstractDaemonTest {
                         // name is set to the UUID
                         + "' by rule 'group "
                         + privilegedGroupUuid.get()
-                        + "')")));
+                        + "')")),
+
+            // Test 10
+            TestCase.projectRef(
+                admin.email(),
+                normalProject.get(),
+                "refs/heads/master",
+                200,
+                ImmutableList.of(
+                    "'admin' can access project '"
+                        + normalProject.get()
+                        + "' because they have the 'Administrate Server' global capability",
+                    "'admin' can perform 'read' on project '"
+                        + normalProject.get()
+                        + "' for ref 'refs/heads/master' because they have the 'Administrate"
+                        + " Server' global capability")),
+
+            // Test 11
+            TestCase.projectRef(
+                admin.email(),
+                secretRefProject.get(),
+                "refs/heads/secret/master",
+                200,
+                ImmutableList.of(
+                    "'admin' can access project '"
+                        + secretRefProject.get()
+                        + "' because they have the 'Administrate Server' global capability",
+                    "'admin' can perform 'read' on project '"
+                        + secretRefProject.get()
+                        + "' for ref 'refs/heads/secret/master' because they have the 'Administrate"
+                        + " Server' global capability")),
+
+            // Test 12
+            TestCase.project(
+                admin.email(),
+                normalProject.get(),
+                200,
+                ImmutableList.of(
+                    "'admin' can access project '"
+                        + normalProject.get()
+                        + "' because they have the 'Administrate Server' global capability")),
+
+            // Test 13
+            TestCase.project(
+                admin.email(),
+                secretProject.get(),
+                200,
+                ImmutableList.of(
+                    "'admin' can access project '"
+                        + secretProject.get()
+                        + "' because they have the 'Administrate Server' global capability")));
 
     for (TestCase tc : inputs) {
       String in = newGson().toJson(tc.input);

@@ -70,6 +70,24 @@
       "parentUuid": "93b809fb_a4a057a0",
       "revId": "036d56f94a486911687b95504dc368bb118ed801",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ffebf28a_a9b26967",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-11-21T13:21:55Z",
+      "side": 1,
+      "message": "Logging tags and tracing is controlled by the TraceContext which we open at request start and close at request end. Any logs from TraceTimer and Metrics that happen during the request should have the logging tags and are force written if tracing is enabled.\n\nNote that these are 2 different AutoClosables: 1. TraceContext: controls logging tags and tracing, 2. TraceTimer: records the execution time for one operation\n\nThe Timer metrics are like TraceTimer. TraceContext is an outer scope that applies to bother of them.",
+      "parentUuid": "516a3b20_b664896c",
+      "revId": "036d56f94a486911687b95504dc368bb118ed801",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -26,6 +26,7 @@ import com.google.common.base.Suppliers;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.common.UsedAt.Project;
 import com.google.gerrit.entities.Account;
@@ -78,6 +79,8 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
  */
 @Singleton
 public class AccountResolver {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   public static class UnresolvableAccountException extends UnprocessableEntityException {
     private static final long serialVersionUID = 1L;
     private final Result result;
@@ -305,7 +308,15 @@ public class AccountResolver {
   private abstract class AccountIdSearcher implements Searcher<Account.Id> {
     @Override
     public final Stream<AccountState> search(Account.Id input) {
-      return accountCache.get(input).stream();
+      Optional<AccountState> accountState = accountCache.get(input);
+      if (accountState.isPresent()) {
+        logger.atFine().log(
+            "%s: Matched account %s for input '%s'",
+            getClass().getSimpleName(), accountState.get().account().id(), input);
+      } else {
+        logger.atFine().log("%s: No match for input '%s'", getClass().getSimpleName(), input);
+      }
+      return accountState.stream();
     }
   }
 
@@ -328,13 +339,19 @@ public class AccountResolver {
     @Override
     public Stream<AccountState> search(String input, CurrentUser asUser) {
       if (!asUser.isIdentifiedUser()) {
+        logger.atFine().log("%s: No match for input %s", getClass().getSimpleName(), input);
         return Stream.empty();
       }
-      return Stream.of(asUser.asIdentifiedUser().state());
+      AccountState accountState = asUser.asIdentifiedUser().state();
+      logger.atFine().log(
+          "%s: Matched account %s for input %s",
+          getClass().getSimpleName(), accountState.account().id(), input);
+      return Stream.of(accountState);
     }
 
     @Override
     public boolean shortCircuitIfNoResults() {
+      logger.atFine().log("%s: shortCircuitIfNoResults=true", getClass().getSimpleName());
       return true;
     }
   }
@@ -352,6 +369,7 @@ public class AccountResolver {
 
     @Override
     public boolean shortCircuitIfNoResults() {
+      logger.atFine().log("%s: shortCircuitIfNoResults=true", getClass().getSimpleName());
       return true;
     }
   }
@@ -367,6 +385,7 @@ public class AccountResolver {
 
     @Override
     public boolean shortCircuitIfNoResults() {
+      logger.atFine().log("%s: shortCircuitIfNoResults=true", getClass().getSimpleName());
       return true;
     }
   }
@@ -379,7 +398,15 @@ public class AccountResolver {
 
     @Override
     public Stream<AccountState> search(String input) {
-      return accountCache.getByUsername(input).stream();
+      Optional<AccountState> accountState = accountCache.getByUsername(input);
+      if (accountState.isPresent()) {
+        logger.atFine().log(
+            "%s: Matched account %s for input '%s'",
+            getClass().getSimpleName(), accountState.get().account().id(), input);
+      } else {
+        logger.atFine().log("%s: No match for input '%s'", getClass().getSimpleName(), input);
+      }
+      return accountState.stream();
     }
 
     @Override
@@ -401,9 +428,19 @@ public class AccountResolver {
       // TODO(dborowitz): This would probably work as a Searcher<Address>
       int lt = nameOrEmail.indexOf('<');
       int gt = nameOrEmail.indexOf('>');
-      ImmutableSet<Account.Id> ids = emails.getAccountFor(nameOrEmail.substring(lt + 1, gt));
+      String email = nameOrEmail.substring(lt + 1, gt);
+      ImmutableSet<Account.Id> ids = emails.getAccountFor(email);
+      logger.atFine().log("%s: accounts for email %s: %s", getClass().getSimpleName(), email, ids);
       ImmutableList<AccountState> allMatches = toAccountStates(ids).collect(toImmutableList());
-      if (allMatches.isEmpty() || allMatches.size() == 1) {
+      if (allMatches.isEmpty()) {
+        logger.atFine().log(
+            "%s: No match for email %s (input=%s)", getClass().getSimpleName(), email, nameOrEmail);
+        return Stream.empty();
+      }
+      if (allMatches.size() == 1) {
+        logger.atFine().log(
+            "%s: Matched account %s for email %s (input=%s)",
+            getClass().getSimpleName(), allMatches.getFirst().account().id(), email, nameOrEmail);
         return allMatches.stream();
       }
 
@@ -411,6 +448,14 @@ public class AccountResolver {
       // subset. Otherwise, all are equally non-matching, so return the full set.
       if (lt == 0) {
         // No name was specified in the input string.
+        logger.atFine().log(
+            "%s: Matched accounts %s for email %s (input=%s)",
+            getClass().getSimpleName(),
+            allMatches.stream()
+                .map(accountState -> accountState.account().id())
+                .collect(toImmutableList()),
+            email,
+            nameOrEmail);
         return allMatches.stream();
       }
       String name = nameOrEmail.substring(0, lt - 1);
@@ -418,11 +463,33 @@ public class AccountResolver {
           allMatches.stream()
               .filter(a -> name.equals(a.account().fullName()))
               .collect(toImmutableList());
-      return !nameMatches.isEmpty() ? nameMatches.stream() : allMatches.stream();
+      if (!nameMatches.isEmpty()) {
+        logger.atFine().log(
+            "%s: Matched accounts %s for email %s and name %s (input=%s)",
+            getClass().getSimpleName(),
+            nameMatches.stream()
+                .map(accountState -> accountState.account().id())
+                .collect(toImmutableList()),
+            email,
+            name,
+            nameOrEmail);
+        return nameMatches.stream();
+      }
+
+      logger.atFine().log(
+          "%s: Matched accounts %s for email %s, no name matched (input=%s)",
+          getClass().getSimpleName(),
+          allMatches.stream()
+              .map(accountState -> accountState.account().id())
+              .collect(toImmutableList()),
+          email,
+          nameOrEmail);
+      return allMatches.stream();
     }
 
     @Override
     public boolean shortCircuitIfNoResults() {
+      logger.atFine().log("%s: shortCircuitIfNoResults=true", getClass().getSimpleName());
       return true;
     }
   }
@@ -440,27 +507,43 @@ public class AccountResolver {
 
     @Override
     public Stream<AccountState> search(String input, CurrentUser asUser) throws IOException {
-      boolean canViewSecondaryEmails = false;
       try {
         if (permissionBackend.user(asUser).test(GlobalPermission.VIEW_SECONDARY_EMAILS)) {
-          canViewSecondaryEmails = true;
+          logger.atFine().log(
+              "%s: user %s can see secondary emails",
+              getClass().getSimpleName(), asUser.getLoggableName());
+          ImmutableSet<Account.Id> ids = emails.getAccountFor(input);
+          if (!ids.isEmpty()) {
+            logger.atFine().log(
+                "%s: Matched accounts %s for input '%s'", getClass().getSimpleName(), ids, input);
+          } else {
+            logger.atFine().log("%s: No match for input '%s'", getClass().getSimpleName(), input);
+          }
+          return toAccountStates(ids);
         }
       } catch (PermissionBackendException e) {
-        // remains false
-      }
-
-      if (canViewSecondaryEmails) {
-        return toAccountStates(emails.getAccountFor(input));
+        // assume that the user cannot see secondary emails
       }
 
       // User cannot see secondary emails, hence search by preferred email only.
       List<AccountState> accountStates = accountQueryProvider.get().byPreferredEmail(input);
 
       if (accountStates.size() == 1) {
+        logger.atFine().log(
+            "%s: Matched account %s for input '%s'",
+            getClass().getSimpleName(), accountStates.getFirst().account().id(), input);
         return Stream.of(Iterables.getOnlyElement(accountStates));
       }
 
       if (accountStates.size() > 1) {
+        logger.atFine().log(
+            "%s: Accounts with preferred email %s: %s",
+            getClass().getSimpleName(),
+            input,
+            accountStates.stream()
+                .map(accountState -> accountState.account().id())
+                .collect(toImmutableList()));
+
         // An email can only belong to a single account. If multiple accounts are found it means
         // there is an inconsistency, i.e. some of the found accounts have a preferred email set
         // that they do not own via an external ID or multiple accounts own the same email via
@@ -475,6 +558,13 @@ public class AccountResolver {
             accountStatesWithExternalIdForEmail.add(accountState);
           }
           if (!accountStatesWithExternalIdForEmail.isEmpty()) {
+            logger.atFine().log(
+                "%s: Matched accounts %s for input '%s'",
+                getClass().getSimpleName(),
+                accountStatesWithExternalIdForEmail.stream()
+                    .map(as -> as.account().id())
+                    .collect(toImmutableList()),
+                input);
             return accountStatesWithExternalIdForEmail.stream();
           }
         }
@@ -482,26 +572,41 @@ public class AccountResolver {
         // None of the matched accounts owns the email, return all matches to be consistent with
         // the behavior of Emails.getAccountFor(String) that is used above if the user can see
         // secondary emails.
+        logger.atFine().log(
+            "%s: Matched accounts %s for input '%s' (none of the accounts owns the email via an"
+                + " external ID)",
+            getClass().getSimpleName(),
+            accountStates.stream()
+                .map(accountState -> accountState.account().id())
+                .collect(toImmutableList()),
+            input);
         return accountStates.stream();
       }
 
       // No match by preferred email. Since users can always see their own secondary emails, check
       // if the input matches a secondary email of the user and if yes, return the account of the
       // user.
+      logger.atFine().log(
+          "%s: No account with preferred email %s", getClass().getSimpleName(), input);
       if (asUser.isIdentifiedUser()
           && asUser.asIdentifiedUser().state().externalIds().stream()
               .map(ExternalId::email)
               .filter(Objects::nonNull)
               .anyMatch(email -> email.equals(input))) {
+        logger.atFine().log(
+            "%s: Matched account %s for input %s (user can see their own secondary email)",
+            getClass().getSimpleName(), asUser.asIdentifiedUser().getAccountId(), input);
         return Stream.of(asUser.asIdentifiedUser().state());
       }
 
       // No match.
+      logger.atFine().log("%s: No match for input %s", getClass().getSimpleName(), input);
       return Stream.empty();
     }
 
     @Override
     public boolean shortCircuitIfNoResults() {
+      logger.atFine().log("%s: shortCircuitIfNoResults=true", getClass().getSimpleName());
       return true;
     }
   }
@@ -509,7 +614,15 @@ public class AccountResolver {
   private class FromRealm extends AccountIdSearcher {
     @Override
     public Optional<Account.Id> tryParse(String input) throws IOException {
-      return Optional.ofNullable(realm.lookup(input));
+      Account.Id accountId = realm.lookup(input);
+      if (accountId != null) {
+        logger.atFine().log(
+            "%s: Matched account %s for input %s", getClass().getSimpleName(), accountId, input);
+        return Optional.of(accountId);
+      }
+
+      logger.atFine().log("%s: No match for input %s", getClass().getSimpleName(), input);
+      return Optional.empty();
     }
 
     @Override
@@ -530,7 +643,19 @@ public class AccountResolver {
 
     @Override
     public Stream<AccountState> search(String input) {
-      return accountQueryProvider.get().byFullName(input).stream();
+      List<AccountState> accountStates = accountQueryProvider.get().byFullName(input);
+      if (!accountStates.isEmpty()) {
+        logger.atFine().log(
+            "%s: Matched accounts %s for input '%s'",
+            getClass().getSimpleName(),
+            accountStates.stream()
+                .map(accountState -> accountState.account().id())
+                .collect(toImmutableList()),
+            input);
+      } else {
+        logger.atFine().log("%s: No match for input '%s'", getClass().getSimpleName(), input);
+      }
+      return accountStates.stream();
     }
 
     @Override
@@ -568,7 +693,23 @@ public class AccountResolver {
       } catch (PermissionBackendException e) {
         // remains false
       }
-      return accountQueryProvider.get().byDefault(input, canViewSecondaryEmails).stream();
+      List<AccountState> accountStates =
+          accountQueryProvider.get().byDefault(input, canViewSecondaryEmails);
+      if (!accountStates.isEmpty()) {
+        logger.atFine().log(
+            "%s: Matched accounts %s for input '%s' (canViewSecondaryEmails=%s)",
+            getClass().getSimpleName(),
+            accountStates.stream()
+                .map(accountState -> accountState.account().id())
+                .collect(toImmutableList()),
+            input,
+            canViewSecondaryEmails);
+      } else {
+        logger.atFine().log(
+            "%s: No match for input '%s' (canViewSecondaryEmails=%s)",
+            getClass().getSimpleName(), input, canViewSecondaryEmails);
+      }
+      return accountStates.stream();
     }
 
     @Override
@@ -862,6 +1003,9 @@ public class AccountResolver {
   }
 
   private static boolean isActive(AccountState accountState) {
+    logger.atFine().log(
+        "account %s is %s",
+        accountState.account().id(), accountState.account().isActive() ? "active" : "inactive");
     return accountState.account().isActive();
   }
 

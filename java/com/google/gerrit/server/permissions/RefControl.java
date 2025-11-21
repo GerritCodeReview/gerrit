@@ -30,6 +30,7 @@ import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.conditions.BooleanCondition;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.config.CapabilityConstants;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.logging.LoggingContext;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -634,6 +635,16 @@ public class RefControl {
             && (refName.equals(RefNames.REFS_CONFIG)
                 || refName.startsWith(Constants.R_HEADS)
                 || refName.startsWith(Constants.R_TAGS))) {
+          LoggingContext.getInstance()
+              .addAclLogRecord(
+                  String.format(
+                      "'%s' can perform '%s' on project '%s' for ref '%s'"
+                          + " because they have the '%s' global capability",
+                      getUser().getLoggableName(),
+                      Permission.READ,
+                      projectControl.getProject().getName(),
+                      refName,
+                      CapabilityConstants.administrateServer));
           return true;
         }
 

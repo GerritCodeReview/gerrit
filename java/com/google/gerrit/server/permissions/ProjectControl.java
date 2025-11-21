@@ -39,10 +39,12 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.GroupMembership;
 import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.config.CapabilityConstants;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.GitReceivePackGroups;
 import com.google.gerrit.server.config.GitUploadPackGroups;
 import com.google.gerrit.server.group.SystemGroupBackend;
+import com.google.gerrit.server.logging.LoggingContext;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.logging.TraceContext.TraceTimer;
@@ -303,6 +305,15 @@ public class ProjectControl {
             Metadata.builder().projectName(getProject().getName()).build())) {
       // Admins should be able to read all refs.
       if (isAdmin()) {
+        LoggingContext.getInstance()
+            .addAclLogRecord(
+                String.format(
+                    "'%s' can perform '%s' on all refs of project '%s'"
+                        + " because they have the '%s' global capability",
+                    getUser().getLoggableName(),
+                    Permission.READ,
+                    getProject().getName(),
+                    CapabilityConstants.administrateServer));
         return true;
       }
 
@@ -464,7 +475,26 @@ public class ProjectControl {
 
     private boolean can(ProjectPermission perm) {
       return switch (perm) {
-        case ACCESS -> user.isInternalUser() || isOwner() || canPerformOnAnyRef(Permission.READ);
+        case ACCESS -> {
+          if (user.isInternalUser()) {
+            yield true;
+          }
+          if (isAdmin()) {
+            LoggingContext.getInstance()
+                .addAclLogRecord(
+                    String.format(
+                        "'%s' can access project '%s'"
+                            + " because they have the '%s' global capability",
+                        getUser().getLoggableName(),
+                        getProject().getName(),
+                        CapabilityConstants.administrateServer));
+            yield true;
+          }
+          if (isDeclaredOwner() && controlForRef(ALL).canPerform(Permission.OWNER)) {
+            yield true;
+          }
+          yield canPerformOnAnyRef(Permission.READ);
+        }
         case READ -> allRefsAreVisible(Collections.emptySet());
         case CREATE_REF -> canAddRefs();
         case CREATE_TAG_REF -> canAddTagRefs();

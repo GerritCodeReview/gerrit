@@ -108,6 +108,11 @@ export class ChatHeader extends LitElement {
     md-text-button.select-model-trigger > span {
       min-width: 0;
     }
+    md-icon-button {
+      color: var(--primary-text-color);
+      --md-icon-button-icon-color: var(--primary-text-color);
+      --md-icon-button-hover-icon-color: var(--primary-text-color);
+    }
   `;
 
   @state() availableModels: ModelInfo[] = [];

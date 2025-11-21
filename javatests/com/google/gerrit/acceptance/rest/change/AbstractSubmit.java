@@ -1085,6 +1085,8 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     // Delete the change from the index, to ensure the use of the backfill mechanism
     changeIndex.delete(change.getChange().getId());
 
+    testMetricMaker.reset();
+
     submit(id, new TestSubmitInput());
     assertMerged(id);
 

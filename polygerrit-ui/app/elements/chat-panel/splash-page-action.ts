@@ -145,6 +145,9 @@ export class SplashPageAction extends LitElement {
       font-size: 24px;
       --button-background-color: transparent;
     }
+    .info-button gr-icon {
+      color: inherit;
+    }
     .chip-content {
       display: flex;
       align-items: center;

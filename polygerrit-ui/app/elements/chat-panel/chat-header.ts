@@ -12,7 +12,7 @@ import '../shared/gr-icon/gr-icon';
 
 import {MdMenu} from '@material/web/menu/menu';
 import {css, html, LitElement} from 'lit';
-import {customElement, query, state} from 'lit/decorators.js';
+import {customElement, property, query, state} from 'lit/decorators.js';
 import {styleMap} from 'lit/directives/style-map.js';
 
 import {fire} from '../../utils/event-util';
@@ -20,6 +20,7 @@ import {subscribe} from '../lit/subscription-controller';
 import {ModelInfo} from '../../api/ai-code-review';
 import {chatModelToken, ChatPanelMode} from '../../models/chat/chat-model';
 import {resolve} from '../../models/dependency';
+import {when} from 'lit/directives/when.js';
 
 @customElement('chat-header')
 export class ChatHeader extends LitElement {
@@ -109,6 +110,9 @@ export class ChatHeader extends LitElement {
       min-width: 0;
     }
   `;
+
+  @property({type: Boolean})
+  showHistoryButton = false;
 
   @state() availableModels: ModelInfo[] = [];
 
@@ -200,14 +204,21 @@ export class ChatHeader extends LitElement {
 
   private renderRightButtons() {
     return html`
-      <md-icon-button
-        class="history-button first-right-button"
-        aria-label="Show history"
-        title="Show history"
-        @click=${this.showHistory}
-      >
-        <md-icon>history</md-icon>
-      </md-icon-button>
+      ${when(
+        this.showHistoryButton,
+        () =>
+          // TODO(milutin): always render history button when history is fixed
+          html`
+            <md-icon-button
+              class="history-button first-right-button"
+              aria-label="Show history"
+              title="Show history"
+              @click=${this.showHistory}
+            >
+              <md-icon>history</md-icon>
+            </md-icon-button>
+          `
+      )}
 
       <md-icon-button
         id="moreActionsTrigger"

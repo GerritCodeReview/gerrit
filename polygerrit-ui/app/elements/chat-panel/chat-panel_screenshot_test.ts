@@ -42,6 +42,8 @@ suite('chat-panel screenshot tests', () => {
     chatModel = testResolver(chatModelToken);
 
     element = await fixture(html`<chat-panel></chat-panel>`);
+    element.showHistoryButton = true;
+    element.showAddContext = true;
     await element.updateComplete;
   });
 

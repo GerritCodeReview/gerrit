@@ -11,7 +11,13 @@ import './splash-page';
 import './user-message';
 
 import {css, html, LitElement} from 'lit';
-import {customElement, query, queryAll, state} from 'lit/decorators.js';
+import {
+  customElement,
+  property,
+  query,
+  queryAll,
+  state,
+} from 'lit/decorators.js';
 
 import {
   chatModelToken,
@@ -48,6 +54,12 @@ export class ChatPanel extends LitElement {
   @state() lastGeminiMessageMinHeight = 0;
 
   @state() privacyUrl?: string;
+
+  // TODO(milutin): Remove when chat history is integrated.
+  @property({type: Boolean}) showHistoryButton = false;
+
+  // TODO(milutin): Remove when add context is integrated.
+  @property({type: Boolean}) showAddContext = false;
 
   private readonly getChatModel = resolve(this, chatModelToken);
 
@@ -161,7 +173,7 @@ export class ChatPanel extends LitElement {
   override render() {
     return html`
       <div class="chat-panel-container">
-        <chat-header></chat-header>
+        <chat-header .showHistoryButton=${this.showHistoryButton}></chat-header>
         ${this.renderContent()}
       </div>
     `;
@@ -205,7 +217,10 @@ export class ChatPanel extends LitElement {
   private renderPromptSection() {
     return html`
       <div class="prompt-section">
-        <prompt-box .userInput=${this.userInput}></prompt-box>
+        <prompt-box
+          .userInput=${this.userInput}
+          .showAddContext=${this.showAddContext}
+        ></prompt-box>
         ${this.renderPrivacySection()}
       </div>
     `;

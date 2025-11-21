@@ -16,6 +16,24 @@
       "message": "Remove from here and `getCommitter()` too?",
       "revId": "8ea1591433639f9337d04ec19e0e10e1ce99f5c6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "acac73d3_d7ef34f3",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 961,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-11-21T09:02:34Z",
+      "side": 1,
+      "message": "Thanks! Done.",
+      "parentUuid": "b43c2e53_7625c7df",
+      "revId": "8ea1591433639f9337d04ec19e0e10e1ce99f5c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

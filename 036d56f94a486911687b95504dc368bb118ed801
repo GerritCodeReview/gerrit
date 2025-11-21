@@ -34,6 +34,24 @@
       "parentUuid": "886faf5b_65e32d24",
       "revId": "036d56f94a486911687b95504dc368bb118ed801",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "93b809fb_a4a057a0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-11-21T12:46:56Z",
+      "side": 1,
+      "message": "Sure, this is in all the Timer classes (Timer0 [1], Timer1 [2], Timer2 [3] and Timer3 [4]).\n\nFor example for Timer0:\n- writing of the start log is at [5]\n- writing of the end log and the performance log entry is at [6]\n\nNote that there are 2 ways how Timer metrics can be used:\n\n1. By calling start [7] and then auto-closing the context that was returned\n2. By calling record [8] and providing the duration\n\nIn case of 2. no start log is written, since the timer is only invoked after the operation is already done. We should use method 2. only in exception cases though.\n\n[1] https://gerrit.googlesource.com/gerrit/+/master/java/com/google/gerrit/metrics/Timer0.java\n\n[2] https://gerrit.googlesource.com/gerrit/+/master/java/com/google/gerrit/metrics/Timer1.java\n\n[3] https://gerrit.googlesource.com/gerrit/+/master/java/com/google/gerrit/metrics/Timer2.java\n\n[4] https://gerrit.googlesource.com/gerrit/+/master/java/com/google/gerrit/metrics/Timer3.java\n\n[5] https://gerrit.googlesource.com/gerrit/+/master/java/com/google/gerrit/metrics/Timer0.java#71\n\n[6] https://gerrit.googlesource.com/gerrit/+/master/java/com/google/gerrit/metrics/Timer0.java#104\n\n[7] https://gerrit.googlesource.com/gerrit/+/master/java/com/google/gerrit/metrics/Timer0.java#68",
+      "parentUuid": "0bed144b_aeb6804d",
+      "revId": "036d56f94a486911687b95504dc368bb118ed801",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

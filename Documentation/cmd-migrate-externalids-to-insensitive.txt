@@ -7,6 +7,7 @@ gerrit migrate-externalids-to-insensitive - Migrate external-ids to case insensi
 [verse]
 --
 _ssh_ -p <port> <host> _gerrit migrate-externalids-to-insensitive_
+  [--preserve-migration-mode]
 --
 
 == DESCRIPTION
@@ -28,6 +29,13 @@ Caller must be a member of the privileged 'Administrators' group.
 
 == SCRIPTING
 This command is intended to be used in scripts.
+
+== OPTIONS
+--preserve-migration-mode::
+	Skip setting `auth.userNameCaseInsensitiveMigrationMode` to `false` after the
+	migration completes successfully. This option is useful in multi-primary and
+	IaC setups where admins may prefer to update the migration mode config on all
+	primaries and/or using IaC tooling after the migration completes.
 
 == EXAMPLES
 Start the online external ids migration:

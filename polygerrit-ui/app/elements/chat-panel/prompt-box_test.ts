@@ -211,4 +211,34 @@ suite('prompt-box tests', () => {
     await element.updateComplete;
     assert.equal(element.chatInputDisabledText, 'Thinking ...');
   });
+
+  test('grows on input', async () => {
+    const promptInput = element.shadowRoot?.querySelector('#promptInput');
+    assert.isOk(promptInput);
+    const textarea = promptInput as HTMLTextAreaElement;
+
+    // Mock scrollHeight to simulate content growth
+    Object.defineProperty(textarea, 'scrollHeight', {
+      value: 50,
+      configurable: true,
+    });
+
+    textarea.value = 'line 1\nline 2';
+    textarea.dispatchEvent(new Event('input'));
+    await element.updateComplete;
+
+    assert.equal(textarea.style.height, '50px');
+
+    // Mock scrollHeight to simulate further growth
+    Object.defineProperty(textarea, 'scrollHeight', {
+      value: 100,
+      configurable: true,
+    });
+
+    textarea.value = 'line 1\nline 2\nline 3\nline 4';
+    textarea.dispatchEvent(new Event('input'));
+    await element.updateComplete;
+
+    assert.equal(textarea.style.height, '90px');
+  });
 });

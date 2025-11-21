@@ -137,6 +137,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "e7e7a871_7e5f4a27",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-11-21T16:08:22Z",
+      "side": 1,
+      "message": "It wasn\u0027t really a bug. I would say this was an unintentionally inherited behaviour. Let me explain: when users use change query to search for changes and when they specify a query without an operator, for example \"foo\", then the fallback is to create a query which searches in all kind of fields in the index. That fallback was implemented in that, not really precisely named, method `defaultField`. This behaviour is OK for general change queries.\nSubmit requirements are also based on change queries and, I believe, that fallback for the query term without an operator works because of the inheritance in the code but it is not really a desired behaviour. Submit requirement query expressions shall be as precise as possible, which means to always user operator and not allow fallback which searches in all kind of fields.",
+      "parentUuid": "8200901f_6b0188e3",
+      "revId": "1273865c25caaf644298daf2bf3068e779e0f448",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "4d7a37cc_b0d705d7",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 11

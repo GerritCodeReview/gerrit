@@ -154,12 +154,11 @@ suite('gemini-message tests', () => {
     chatModel.updateState({...chatModel.getState(), turns: [turn]});
     await element.updateComplete;
 
-    const commentContainer = element.shadowRoot?.querySelector(
-      '.suggested-comment-container'
-    );
+    const commentContainer =
+      element.shadowRoot?.querySelector('.suggested-comment');
     assert.isOk(commentContainer);
 
-    const button = commentContainer?.querySelector('md-filled-button');
+    const button = commentContainer?.querySelector('gr-button');
     assert.isOk(button);
     (button as HTMLElement).click();
 

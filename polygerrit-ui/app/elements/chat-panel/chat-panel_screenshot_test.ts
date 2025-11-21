@@ -79,4 +79,47 @@ suite('chat-panel screenshot tests', () => {
     await visualDiff(element, 'chat-panel-chat-mode');
     await visualDiffDarkTheme(element, 'chat-panel-chat-mode');
   });
+
+  test('chat mode with comment', async () => {
+    chatModel.updateState({
+      ...chatModel.getState(),
+      turns: [
+        {
+          userMessage: {
+            content: 'Fix this issue',
+            userType: UserType.USER,
+            contextItems: [],
+          },
+          geminiMessage: {
+            responseParts: [
+              {
+                id: 0,
+                type: ResponsePartType.TEXT,
+                content: 'I have created a comment for you:',
+              },
+              {
+                id: 1,
+                type: ResponsePartType.CREATE_COMMENT,
+                content: '',
+                commentCreationId: '123',
+                comment: {
+                  path: 'polygerrit-ui/app/elements/chat-panel/chat-panel.ts',
+                  line: 10,
+                  message: 'Please fix this typo.',
+                },
+              },
+            ],
+            regenerationIndex: 0,
+            references: [],
+            citations: [],
+            userType: UserType.GEMINI,
+            responseComplete: true,
+          },
+        },
+      ] as Turn[],
+    });
+    await element.updateComplete;
+    await visualDiff(element, 'chat-panel-chat-mode-with-comment');
+    await visualDiffDarkTheme(element, 'chat-panel-chat-mode-with-comment');
+  });
 });

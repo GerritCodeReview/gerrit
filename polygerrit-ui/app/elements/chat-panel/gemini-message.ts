@@ -73,11 +73,14 @@ export class GeminiMessage extends LitElement {
       .material-icon {
         vertical-align: middle;
       }
-      .suggested-comment-container {
+      .suggested-comment {
         padding: 10px;
-        background-color: var(--chat-panel-container-bg-color);
+        background-color: var(--background-color-tertiary);
+        border: 1px solid var(--border-color);
         border-radius: 5px;
         margin-bottom: 10px;
+        overflow-x: auto;
+        scrollbar-width: thin;
       }
       .thinking-indicator {
         display: flex;
@@ -103,10 +106,26 @@ export class GeminiMessage extends LitElement {
       references-dropdown {
         margin-bottom: var(--spacing-l);
       }
-      .text-content,
-      .suggested-comment-container {
+      .text-content {
         overflow-x: auto;
         scrollbar-width: thin;
+      }
+      .comment-path,
+      .comment-line {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-s);
+        margin-bottom: var(--spacing-xs);
+        color: var(--link-color);
+        text-decoration: none;
+      }
+      .comment-path gr-icon,
+      .comment-line gr-icon {
+        font-size: 16px;
+      }
+      .suggested-comment-message {
+        margin-top: var(--spacing-s);
+        margin-bottom: var(--spacing-m);
       }
     `,
   ];
@@ -232,18 +251,37 @@ export class GeminiMessage extends LitElement {
           ${when(!this.isBackgroundRequest, () =>
             this.sortedComments().map(
               comment => html`
-                <div class="suggested-comment-container">
-                  <p class="suggested-comment">
+                ${when(
+                  comment.comment.path,
+                  () => html`
+                    <div class="comment-path">
+                      <gr-icon icon="description"></gr-icon>
+                      ${comment.comment.path}
+                    </div>
+                  `
+                )}
+                ${when(
+                  comment.comment.line,
+                  () => html`
+                    <div class="comment-line">
+                      <gr-icon icon="code"></gr-icon>
+                      ${comment.comment.line}
+                    </div>
+                  `
+                )}
+                <div class="suggested-comment">
+                  <p class="suggested-comment-message">
                     <gr-formatted-text
                       .markdown=${true}
-                      .content=${comment.content}
+                      .content=${comment.comment.message}
                     ></gr-formatted-text>
                   </p>
-                  <md-filled-button
+                  <gr-button
+                    primary
                     class="add-as-comment-button"
                     @click=${() => this.onAddAsComment(comment)}
                     >Add as Comment
-                  </md-filled-button>
+                  </gr-button>
                 </div>
               `
             )

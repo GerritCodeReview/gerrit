@@ -177,6 +177,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "17dffafb_03828eba",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-11-21T21:31:13Z",
+      "side": 1,
+      "message": "\u003e It wasn\u0027t really a bug. I would say this was an unintentionally inherited behaviour. Let me explain: when users use change query to search for changes and when they specify a query without an operator, for example \"foo\", then the fallback is to create a query which searches in all kind of fields in the index. That fallback was implemented in that, not really precisely named, method `defaultField`. This behaviour is OK for general change queries.\n\nGotcha, however, it was not restricted to SRs: we don\u0027t know if that was intentional or not. Have you tried contacting the person who wrote that piece of code initially?\n\n\u003e Submit requirements are also based on change queries and, I believe, that fallback for the query term without an operator works because of the inheritance in the code but it is not really a desired behaviour.\n\nDo we have evidence that it wasn\u0027t desired?\nI mean, I agree with you, but I am just concerned we are now blocking a legitimate use-case, even if it created performance slowdowns for large setups.\n\n\u003e Submit requirement query expressions shall be as precise as possible, which means to always user operator and not allow fallback which searches in all kind of fields.\n\nSure, I agree.",
+      "parentUuid": "e7e7a871_7e5f4a27",
+      "revId": "1273865c25caaf644298daf2bf3068e779e0f448",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "4d7a37cc_b0d705d7",

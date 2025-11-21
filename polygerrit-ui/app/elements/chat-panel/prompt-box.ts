@@ -8,8 +8,8 @@ import '@material/web/chips/chip-set.js';
 import './context-chip';
 import './context-input-chip';
 
-import {css, html, LitElement} from 'lit';
-import {customElement, query, state} from 'lit/decorators.js';
+import {css, html, LitElement, nothing} from 'lit';
+import {customElement, property, query, state} from 'lit/decorators.js';
 import {when} from 'lit/directives/when.js';
 
 import {
@@ -37,6 +37,9 @@ interface PromptBoxContextItem extends ContextItem {
 @customElement('prompt-box')
 export class PromptBox extends LitElement {
   @query('#promptInput') promptInput?: HTMLTextAreaElement;
+
+  @property({type: Boolean})
+  showAddContext = false;
 
   @state() hasModelLoadingError = false;
 
@@ -311,15 +314,29 @@ export class PromptBox extends LitElement {
             @scroll=${this.onScroll}
           ></textarea>
         </div>
-        ${when(
-          this.tabChipVisible(),
-          () => html`
-            <md-chip-set class="tab-chip-set">
-              <md-assist-chip class="tab-chip" label="Tab"></md-assist-chip>
-            </md-chip-set>
-          `
-        )}
+        ${this.renderTabChip()}
       </div>
+      ${this.renderAddContext()}
+    `;
+  }
+
+  private renderTabChip() {
+    // TODO(milutin): Always render once we fix issues with external context
+    if (!this.showAddContext) return nothing;
+    return html` ${when(
+      this.tabChipVisible(),
+      () => html`
+        <md-chip-set class="tab-chip-set">
+          <md-assist-chip class="tab-chip" label="Tab"></md-assist-chip>
+        </md-chip-set>
+      `
+    )}`;
+  }
+
+  private renderAddContext() {
+    // TODO(milutin): Always render once we fix issues with external context
+    if (!this.showAddContext) return nothing;
+    return html`
       <md-chip-set class="context-chip-set">
         <context-input-chip
           @context-item-added=${(e: CustomEvent<ContextItem>) =>

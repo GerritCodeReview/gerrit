@@ -94,6 +94,30 @@
       },
       "revId": "c655752c5a9a6344a54849e0d766e4bf089cca99",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "429b9cba_58c8ba8f",
+        "filename": "java/com/google/gerrit/server/git/validators/CommentCountValidator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2025-11-22T19:20:28Z",
+      "side": 0,
+      "message": "Yes, it is a valid comment to preserve.",
+      "parentUuid": "1bba72a8_59a64bbf",
+      "range": {
+        "startLine": 51,
+        "startChar": 6,
+        "endLine": 52,
+        "endChar": 24
+      },
+      "revId": "c655752c5a9a6344a54849e0d766e4bf089cca99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

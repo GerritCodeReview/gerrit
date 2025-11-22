@@ -3,8 +3,13 @@
  * Copyright 2016 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {getSanitizeDOMValue} from '@polymer/polymer/lib/utils/settings';
 import {GrAnnotation} from '../../../api/diff';
+import {SanitizerFactory, ValueSanitizer} from 'lit';
+
+const passThroughSanitizer: ValueSanitizer = value => value;
+const passThroughSanitizerFactory: SanitizerFactory = () =>
+  passThroughSanitizer;
+let defaultSanitizerFactory: SanitizerFactory = passThroughSanitizerFactory;
 
 // TODO(wyatta): refactor this to be <MARK> rather than <HL>.
 const ANNOTATION_TAG = 'HL';
@@ -85,13 +90,10 @@ export function annotateWithElement(
   }
 
   const wrapper = document.createElement(tagName);
-  const sanitizer = getSanitizeDOMValue();
-  for (let [name, value] of Object.entries(attributes)) {
+  for (const [name, value] of Object.entries(attributes)) {
     if (!value) continue;
-    if (sanitizer) {
-      value = sanitizer(value, name, 'attribute', wrapper) as string;
-    }
-    wrapper.setAttribute(name, value);
+    const sanitizer = defaultSanitizerFactory(wrapper, name, 'attribute');
+    wrapper.setAttribute(name, sanitizer(value) as string);
   }
   for (const inner of nestedNodes) {
     parent.replaceChild(wrapper, inner);
@@ -291,4 +293,7 @@ export interface ElementSpec {
 export const TEST_ONLY = {
   _annotateText,
   splitTextNode,
+  setDefaultSanitizerFactory(factory: SanitizerFactory) {
+    defaultSanitizerFactory = factory;
+  },
 };

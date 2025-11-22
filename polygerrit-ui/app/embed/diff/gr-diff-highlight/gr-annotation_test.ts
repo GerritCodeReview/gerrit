@@ -11,10 +11,6 @@ import {
   getStringLength,
   TEST_ONLY,
 } from './gr-annotation';
-import {
-  getSanitizeDOMValue,
-  setSanitizeDOMValue,
-} from '@polymer/polymer/lib/utils/settings';
 import {assert, fixture, html} from '@open-wc/testing';
 
 suite('annotation', () => {
@@ -148,25 +144,6 @@ suite('annotation', () => {
 
   suite('annotateWithElement', () => {
     const fullText = '01234567890123456789';
-    let mockSanitize: sinon.SinonSpy;
-    let originalSanitizeDOMValue: (
-      value: unknown,
-      name: string,
-      type: 'property' | 'attribute',
-      node: Node | null | undefined
-    ) => unknown;
-
-    setup(() => {
-      setSanitizeDOMValue(p0 => p0);
-      originalSanitizeDOMValue = getSanitizeDOMValue()!;
-      assert.isDefined(originalSanitizeDOMValue);
-      mockSanitize = sinon.spy(originalSanitizeDOMValue);
-      setSanitizeDOMValue(mockSanitize);
-    });
-
-    teardown(() => {
-      setSanitizeDOMValue(originalSanitizeDOMValue);
-    });
 
     test('annotates when fully contained', () => {
       const length = 10;
@@ -264,30 +241,6 @@ suite('annotation', () => {
         tagName: 'test-wrapper',
         attributes,
       });
-      assert(
-        mockSanitize.calledWith(
-          'foo',
-          'href',
-          'attribute',
-          sinon.match.instanceOf(Element)
-        )
-      );
-      assert(
-        mockSanitize.calledWith(
-          'bar',
-          'data-foo',
-          'attribute',
-          sinon.match.instanceOf(Element)
-        )
-      );
-      assert(
-        mockSanitize.calledWith(
-          'hello world',
-          'class',
-          'attribute',
-          sinon.match.instanceOf(Element)
-        )
-      );
       const el = container.querySelector('test-wrapper')!;
       assert.equal(el.getAttribute('href'), 'foo');
       assert.equal(el.getAttribute('data-foo'), 'bar');

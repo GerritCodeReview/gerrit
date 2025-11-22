@@ -31,7 +31,6 @@
       - plugins/reviewnotes
       - plugins/singleusergroup
       - plugins/webhooks
-      - polymer-bridges
 
 - project:
     check:

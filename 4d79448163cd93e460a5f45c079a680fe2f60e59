@@ -37,6 +37,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "818bface_d43f8aa6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1073779
+      },
+      "writtenOn": "2025-11-22T04:50:35Z",
+      "side": 1,
+      "message": "’ve added the test in PostReviewIT.java, which exercises the review flow. This path is where the CommentCountValidator is actually invoked, so the test already verifies the behavior end-to-end.\n\nLet me know if you still think a separate test in CommentsIT.java is necessary.",
+      "parentUuid": "0e553742_1c549f4a",
+      "revId": "4d79448163cd93e460a5f45c079a680fe2f60e59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3ac75942_8f199c3a",
         "filename": "java/com/google/gerrit/server/git/validators/CommentCountValidator.java",
         "patchSetId": 4

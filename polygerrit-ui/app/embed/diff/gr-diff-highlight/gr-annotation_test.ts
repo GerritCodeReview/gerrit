@@ -11,11 +11,8 @@ import {
   getStringLength,
   TEST_ONLY,
 } from './gr-annotation';
-import {
-  getSanitizeDOMValue,
-  setSanitizeDOMValue,
-} from '@polymer/polymer/lib/utils/settings';
 import {assert, fixture, html} from '@open-wc/testing';
+import {setElementAttribute} from 'safevalues/dom';
 
 suite('annotation', () => {
   let str: string;
@@ -149,23 +146,9 @@ suite('annotation', () => {
   suite('annotateWithElement', () => {
     const fullText = '01234567890123456789';
     let mockSanitize: sinon.SinonSpy;
-    let originalSanitizeDOMValue: (
-      value: unknown,
-      name: string,
-      type: 'property' | 'attribute',
-      node: Node | null | undefined
-    ) => unknown;
 
     setup(() => {
-      setSanitizeDOMValue(p0 => p0);
-      originalSanitizeDOMValue = getSanitizeDOMValue()!;
-      assert.isDefined(originalSanitizeDOMValue);
-      mockSanitize = sinon.spy(originalSanitizeDOMValue);
-      setSanitizeDOMValue(mockSanitize);
-    });
-
-    teardown(() => {
-      setSanitizeDOMValue(originalSanitizeDOMValue);
+      mockSanitize = sinon.spy(setElementAttribute);
     });
 
     test('annotates when fully contained', () => {
@@ -253,6 +236,8 @@ suite('annotation', () => {
     });
 
     test('sets sanitized attributes', () => {
+      TEST_ONLY.setElementAttributeFactory(mockSanitize);
+
       const container = document.createElement('div');
       container.textContent = fullText;
       const attributes = {
@@ -264,34 +249,59 @@ suite('annotation', () => {
         tagName: 'test-wrapper',
         attributes,
       });
+
       assert(
-        mockSanitize.calledWith(
-          'foo',
-          'href',
-          'attribute',
-          sinon.match.instanceOf(Element)
-        )
+        mockSanitize.calledWith(sinon.match.instanceOf(Element), 'href', 'foo')
       );
       assert(
         mockSanitize.calledWith(
-          'bar',
+          sinon.match.instanceOf(Element),
           'data-foo',
-          'attribute',
-          sinon.match.instanceOf(Element)
+          'bar'
         )
       );
       assert(
         mockSanitize.calledWith(
-          'hello world',
+          sinon.match.instanceOf(Element),
           'class',
-          'attribute',
-          sinon.match.instanceOf(Element)
+          'hello world'
         )
       );
+
       const el = container.querySelector('test-wrapper')!;
       assert.equal(el.getAttribute('href'), 'foo');
       assert.equal(el.getAttribute('data-foo'), 'bar');
       assert.equal(el.getAttribute('class'), 'hello world');
+    });
+
+    test('sets sanitized attributes with unsafe value', () => {
+      TEST_ONLY.setElementAttributeFactory(mockSanitize);
+
+      const container = document.createElement('div');
+      container.textContent = fullText;
+      const attributes = {
+        onclick: 'alert(1)',
+        href: 'foo',
+      };
+      annotateWithElement(container, 1, length, {
+        tagName: 'test-wrapper',
+        attributes,
+      });
+
+      assert(
+        mockSanitize.calledWith(
+          sinon.match.instanceOf(Element),
+          'onclick',
+          'alert(1)'
+        )
+      );
+      assert(
+        mockSanitize.calledWith(sinon.match.instanceOf(Element), 'href', 'foo')
+      );
+
+      const el = container.querySelector('test-wrapper')!;
+      assert.equal(el.getAttribute('onclick'), 'zClosurez');
+      assert.equal(el.getAttribute('href'), 'foo');
     });
   });
 

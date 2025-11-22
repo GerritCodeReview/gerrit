@@ -11,10 +11,6 @@ import {
   getStringLength,
   TEST_ONLY,
 } from './gr-annotation';
-import {
-  getSanitizeDOMValue,
-  setSanitizeDOMValue,
-} from '@polymer/polymer/lib/utils/settings';
 import {assert, fixture, html} from '@open-wc/testing';
 
 suite('annotation', () => {
@@ -148,24 +144,14 @@ suite('annotation', () => {
 
   suite('annotateWithElement', () => {
     const fullText = '01234567890123456789';
+    let valueSpy: sinon.SinonSpy;
     let mockSanitize: sinon.SinonSpy;
-    let originalSanitizeDOMValue: (
-      value: unknown,
-      name: string,
-      type: 'property' | 'attribute',
-      node: Node | null | undefined
-    ) => unknown;
 
     setup(() => {
-      setSanitizeDOMValue(p0 => p0);
-      originalSanitizeDOMValue = getSanitizeDOMValue()!;
-      assert.isDefined(originalSanitizeDOMValue);
-      mockSanitize = sinon.spy(originalSanitizeDOMValue);
-      setSanitizeDOMValue(mockSanitize);
-    });
-
-    teardown(() => {
-      setSanitizeDOMValue(originalSanitizeDOMValue);
+      valueSpy = sinon.spy((v: string) => v);
+      mockSanitize = sinon.spy(
+        (_el: Element, _attr: string, _kind: string) => valueSpy
+      );
     });
 
     test('annotates when fully contained', () => {
@@ -253,6 +239,8 @@ suite('annotation', () => {
     });
 
     test('sets sanitized attributes', () => {
+      TEST_ONLY.setDefaultSanitizerFactory(mockSanitize);
+
       const container = document.createElement('div');
       container.textContent = fullText;
       const attributes = {
@@ -264,30 +252,31 @@ suite('annotation', () => {
         tagName: 'test-wrapper',
         attributes,
       });
+
       assert(
         mockSanitize.calledWith(
-          'foo',
+          sinon.match.instanceOf(Element),
           'href',
-          'attribute',
-          sinon.match.instanceOf(Element)
+          'attribute'
         )
       );
+      assert(valueSpy.calledWith('foo'));
       assert(
         mockSanitize.calledWith(
-          'bar',
+          sinon.match.instanceOf(Element),
           'data-foo',
-          'attribute',
-          sinon.match.instanceOf(Element)
+          'attribute'
         )
       );
+      assert(valueSpy.calledWith('bar'));
       assert(
         mockSanitize.calledWith(
-          'hello world',
+          sinon.match.instanceOf(Element),
           'class',
-          'attribute',
-          sinon.match.instanceOf(Element)
+          'attribute'
         )
       );
+      assert(valueSpy.calledWith('hello world'));
       const el = container.querySelector('test-wrapper')!;
       assert.equal(el.getAttribute('href'), 'foo');
       assert.equal(el.getAttribute('data-foo'), 'bar');

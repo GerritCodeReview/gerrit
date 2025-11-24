@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "74f66d1a_94e6ecd2",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 33
+      },
+      "lineNbr": 4130,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-11-24T11:34:35Z",
+      "side": 1,
+      "message": "Nit: the info stream is a single log per index name, therefore, it should be \u0027log\u0027 or just `persisteInfoStream`.\n\n\n\n```suggestion\n[[index.name.persistInfoStream]]index.name.persistInfoStream::\n```",
+      "range": {
+        "startLine": 4130,
+        "startChar": 30,
+        "endLine": 4130,
+        "endChar": 34
+      },
+      "revId": "469f622600bd8cdd25a56b14f8c81c9d9649b74b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

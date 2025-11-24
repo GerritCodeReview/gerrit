@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "82f01632_1c670eea",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 31
+      },
+      "lineNbr": 4130,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-11-24T08:55:13Z",
+      "side": 1,
+      "message": "This should be aligned with the other Lucene-specific logging syntax.\nAlso, the name doesn\u0027t match what it is, it should be the `infoStream`\n\n\n```suggestion\n[[index.name.persistLogs]]index.name.persistInfoStreamLogs::\n```",
+      "range": {
+        "startLine": 4130,
+        "startChar": 2,
+        "endLine": 4130,
+        "endChar": 19
+      },
+      "revId": "2cc9122719f6bb510fbe43f32ff20e23e2932a89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "32710311_244bf35e",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 31
+      },
+      "lineNbr": 4132,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-11-24T08:55:13Z",
+      "side": 1,
+      "message": "```suggestion\nEnable Lucene\u0027s info stream logging. This can be useful when admins face ongoing\n```",
+      "range": {
+        "startLine": 4132,
+        "startChar": 16,
+        "endLine": 4132,
+        "endChar": 21
+      },
+      "revId": "2cc9122719f6bb510fbe43f32ff20e23e2932a89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "39469a6c_0e89e263",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 31
+      },
+      "lineNbr": 4133,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-11-24T08:55:13Z",
+      "side": 1,
+      "message": "```suggestion\nindexing transactionality or persistence issues that are hard to debug without further information.\n```",
+      "range": {
+        "startLine": 4133,
+        "startChar": 0,
+        "endLine": 4133,
+        "endChar": 15
+      },
+      "revId": "2cc9122719f6bb510fbe43f32ff20e23e2932a89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9db40464_f5ed430b",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 31
+      },
+      "lineNbr": 4135,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-11-24T08:55:13Z",
+      "side": 1,
+      "message": "```suggestion\nNOTE: This could potentially add additional load on the system; appropriate\n```",
+      "range": {
+        "startLine": 4135,
+        "startChar": 31,
+        "endLine": 4135,
+        "endChar": 43
+      },
+      "revId": "2cc9122719f6bb510fbe43f32ff20e23e2932a89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5957604b_a4e0157a",
+        "filename": "java/com/google/gerrit/lucene/GerritIndexWriterConfig.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-11-24T08:55:13Z",
+      "side": 1,
+      "message": "This should also use the `name` and align with the info stream naming of the configuration.",
+      "range": {
+        "startLine": 87,
+        "startChar": 43,
+        "endLine": 87,
+        "endChar": 65
+      },
+      "revId": "2cc9122719f6bb510fbe43f32ff20e23e2932a89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "96dbdae5_3a27be1c",
+        "filename": "java/com/google/gerrit/lucene/GerritIndexWriterConfig.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-11-24T08:55:13Z",
+      "side": 1,
+      "message": "All Gerrit logs end with `_log`",
+      "range": {
+        "startLine": 92,
+        "startChar": 92,
+        "endLine": 92,
+        "endChar": 96
+      },
+      "revId": "2cc9122719f6bb510fbe43f32ff20e23e2932a89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

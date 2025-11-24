@@ -33,11 +33,6 @@ def resolve_url(url, redirects):
     repositories that can be rewritten in redirects set, passed as
     second arguments.
 
-    A special case is supported, when prefix neither exists in
-    REPO_ROOTS, no in redirects set: the url is returned as is.
-    This enables plugins to pass custom maven_repository URL as is
-    directly to maven_jar().
-
     Returns a resolved path for Maven artifact.
     """
     s = url.find(':')

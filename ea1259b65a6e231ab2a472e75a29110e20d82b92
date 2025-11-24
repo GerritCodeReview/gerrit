@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "867f69ac_12730194",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 34
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-11-24T11:38:53Z",
+      "side": 1,
+      "message": "We should also add a validation test in the `LuceneQuery*Test` suites that the info stream gets generated. Can be done as a follow up.",
+      "revId": "ea1259b65a6e231ab2a472e75a29110e20d82b92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

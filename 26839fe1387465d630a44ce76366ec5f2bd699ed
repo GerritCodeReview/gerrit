@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a115f18e_a062f130",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 3491318
+      },
+      "writtenOn": "2025-11-24T20:27:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1ca64941_205e199b",
+      "revId": "26839fe1387465d630a44ce76366ec5f2bd699ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e0f05218_4fec6514",
@@ -31,6 +49,30 @@
       "writtenOn": "2025-11-18T08:20:36Z",
       "side": 1,
       "message": "It should not be required to set those to null explicitly, since the default value for an Object is already null.",
+      "range": {
+        "startLine": 126,
+        "startChar": 0,
+        "endLine": 127,
+        "endChar": 35
+      },
+      "revId": "26839fe1387465d630a44ce76366ec5f2bd699ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3fc63576_184baf1e",
+        "filename": "java/com/google/gerrit/httpd/ProjectOAuthFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 3491318
+      },
+      "writtenOn": "2025-11-24T20:27:58Z",
+      "side": 1,
+      "message": "I seem to be getting compiler errors when I try to remove the null assignment,.\n```\njava/com/google/gerrit/httpd/ProjectOAuthFilter.java:184: error: variable authRequest might not have been initialized\n    if (authRequest \u003d\u003d null) {\n        ^\njava/com/google/gerrit/httpd/ProjectOAuthFilter.java:203: error: variable authInfo might not have been initialized\n    if (authRequest \u003d\u003d null || authInfo \u003d\u003d null) {\n```",
+      "parentUuid": "e0f05218_4fec6514",
       "range": {
         "startLine": 126,
         "startChar": 0,
@@ -64,6 +106,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c1879254_2c8cf7c9",
+        "filename": "java/com/google/gerrit/httpd/ProjectOAuthFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 3491318
+      },
+      "writtenOn": "2025-11-24T20:27:58Z",
+      "side": 1,
+      "message": "I have moved the `isNullOrEmpty` check to `extractAuthInfoFromBearer`, and check for null everywhere to keep it consistent. Let me know what you think.",
+      "parentUuid": "e4f84fec_8fd81730",
+      "range": {
+        "startLine": 134,
+        "startChar": 12,
+        "endLine": 134,
+        "endChar": 28
+      },
+      "revId": "26839fe1387465d630a44ce76366ec5f2bd699ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2af534ea_cd459867",
@@ -77,6 +143,30 @@
       "writtenOn": "2025-11-18T08:20:36Z",
       "side": 1,
       "message": "This can\u0027t happen, since if there would be no secret, `extractAuthInfo` would return `null`. You might however consider to change the behaviour of both extraction methods to be more similar.",
+      "range": {
+        "startLine": 144,
+        "startChar": 32,
+        "endLine": 144,
+        "endChar": 77
+      },
+      "revId": "26839fe1387465d630a44ce76366ec5f2bd699ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2a989568_55976270",
+        "filename": "java/com/google/gerrit/httpd/ProjectOAuthFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 3491318
+      },
+      "writtenOn": "2025-11-24T20:27:58Z",
+      "side": 1,
+      "message": "\u003e I have moved the `isNullOrEmpty` check to `extractAuthInfoFromBearer`, and check for null everywhere to keep it consistent. Let me know what you think.",
+      "parentUuid": "2af534ea_cd459867",
       "range": {
         "startLine": 144,
         "startChar": 32,
@@ -110,6 +200,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ff3f979b_3d127047",
+        "filename": "java/com/google/gerrit/httpd/ProjectOAuthFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 3491318
+      },
+      "writtenOn": "2025-11-24T20:27:58Z",
+      "side": 1,
+      "message": "\u003e I have moved the `isNullOrEmpty` check to `extractAuthInfoFromBearer`, and check for null everywhere to keep it consistent. Let me know what you think.",
+      "parentUuid": "419e12b2_ec1b0903",
+      "range": {
+        "startLine": 169,
+        "startChar": 32,
+        "endLine": 169,
+        "endChar": 77
+      },
+      "revId": "26839fe1387465d630a44ce76366ec5f2bd699ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f08a21da_f445746d",
@@ -123,6 +237,30 @@
       "writtenOn": "2025-11-18T08:20:36Z",
       "side": 1,
       "message": "This whole section is 100% the same as for basic auth. Please move that to a method to reduce duplication.",
+      "range": {
+        "startLine": 169,
+        "startChar": 0,
+        "endLine": 183,
+        "endChar": 74
+      },
+      "revId": "26839fe1387465d630a44ce76366ec5f2bd699ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c2615b33_8c479cae",
+        "filename": "java/com/google/gerrit/httpd/ProjectOAuthFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 3491318
+      },
+      "writtenOn": "2025-11-24T20:27:58Z",
+      "side": 1,
+      "message": "I\u0027ve tried my best to refactor to reduce the repetition. I decided to keep the `createRequestForUser` and `validateAccount` methods separate so I can easily integrate the `gitBasicAuthPolicy` check in the next CR. Let me know what you think.",
+      "parentUuid": "f08a21da_f445746d",
       "range": {
         "startLine": 169,
         "startChar": 0,

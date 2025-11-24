@@ -18,10 +18,10 @@ junit_tests(
         "//lib:guava-testlib",
         "//lib:jgit",
         "//lib:protobuf",
+        "//lib/commons:lang3",
         "//lib/guice",
         "//lib/truth",
         "//lib/truth:truth-proto-extension",
         "//proto:entities_java_proto",
-        "@commons-lang3//jar",
     ],
 )

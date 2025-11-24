@@ -16,6 +16,24 @@
       "message": "@ekempin@google.com why does the `nongoogle_test.sh` need LC?",
       "revId": "a17ac8d9dfc5367dfaca08b1fc279611fc7ed36c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "088a5dbf_46b4e0b4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-11-24T10:09:06Z",
+      "side": 1,
+      "message": "See comment at the top of the file:\n\n```\nThis test ensures that new dependencies in nongoogle.bzl go through LC review\n```\n\nSure, in this case we delete unused dependencies, which should not affect Google, but I guess the submit requirement is not that exact.",
+      "parentUuid": "307d76eb_e81a6ae4",
+      "revId": "a17ac8d9dfc5367dfaca08b1fc279611fc7ed36c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

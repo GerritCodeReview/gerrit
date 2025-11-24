@@ -83,12 +83,12 @@ in `tools/BUILD`.
 
 === Plugins with external dependencies ===
 
-If the plugin has external dependencies, then they must be included from Gerrit's
-own WORKSPACE file. This can be achieved by including them in `external_plugin_deps.bzl`.
-During the build in Gerrit tree, this file must be copied over the dummy one in
-`plugins` directory.
+If the plugin has external dependencies, then they must be imported into Gerrit's
+own Bazel module. This can be achieved by making the plugin itself a Bazel module.
+During the build in Gerrit tree, this module then has to be imported in Gerrit's
+root module.
 
-Example for content of `external_plugin_deps.bzl` file:
+Example for content of a plugin's `MODULE.bazel` file:
 
 ----
 load("//tools/bzl:maven_jar.bzl", "maven_jar")

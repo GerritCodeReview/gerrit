@@ -60,6 +60,29 @@ public abstract class QuotaResponse {
     return new AutoValue_QuotaResponse.Builder().status(Status.OK).availableTokens(tokens).build();
   }
 
+  /**
+   * Creates a successful quota response indicating that {@code tokens} are available.
+   *
+   * <p>The returned response has status {@link Status#OK}: the caller has not exceeded the quota.
+   *
+   * <p>{@code exceededQuotaMessage} specifies the client-facing message that should be used if a
+   * future request attempts to consume more than the {@code tokens} reported here and must
+   * therefore be rejected as exceeding quota. This message is not an error for the current request;
+   * it is metadata supplied by the enforcer for potential future quota failures.
+   *
+   * @param tokens the number of quota tokens currently available for this request context
+   * @param exceededQuotaMessage the message to surface to clients if a later request would exceed
+   *     the available {@code tokens}
+   * @return a {@code QuotaResponse} representing a successful quota check with the given metadata
+   */
+  public static QuotaResponse ok(long tokens, String exceededQuotaMessage) {
+    return new AutoValue_QuotaResponse.Builder()
+        .status(Status.OK)
+        .availableTokens(tokens)
+        .message(exceededQuotaMessage)
+        .build();
+  }
+
   public static QuotaResponse noOp() {
     return new AutoValue_QuotaResponse.Builder().status(Status.NO_OP).build();
   }
@@ -114,6 +137,38 @@ public abstract class QuotaResponse {
 
     public ImmutableList<QuotaResponse> error() {
       return responses().stream().filter(r -> r.status().isError()).collect(toImmutableList());
+    }
+
+    /**
+     * Returns the quota-exceeded message provided by the response with the lowest number of
+     * available tokens.
+     *
+     * <p>This message is intended to be shown to clients when a request would exceed the aggregated
+     * available quota. It allows quota enforcers to supply custom, client-facing explanations for
+     * quota-rejection scenarios.
+     *
+     * <p>Only responses that report {@link #availableTokens() available tokens} are considered.
+     * Among these, the response with the smallest token count (i.e. the most restrictive enforcer)
+     * is selected. If multiple such responses exist, their messages are joined using a comma.
+     *
+     * @return an {@code Optional} containing the quota-exceeded message (or comma-joined messages)
+     *     from the most restrictive available-tokens responses, or an empty {@code Optional} if
+     *     none of the considered responses provides such a message.
+     */
+    public Optional<String> mostRestrictiveQuotaExceededMessage() {
+      return availableTokens().stream()
+          .mapToObj(
+              minAvailableTokens ->
+                  responses().stream()
+                      .filter(
+                          r ->
+                              r.availableTokens().isPresent()
+                                  && r.availableTokens().get() == minAvailableTokens)
+                      .map(QuotaResponse::message)
+                      .flatMap(Optional::stream)
+                      .collect(Collectors.joining(",")))
+          .filter(s -> !s.isEmpty())
+          .findFirst();
     }
 
     public String errorMessage() {

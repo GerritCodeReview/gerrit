@@ -111,6 +111,17 @@ public class RepositorySizeQuotaIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void pushWithNotSufficientTokensCustomMessage() throws Exception {
+    long availableTokens = 1L;
+    String exceededQuotaCustomMessage = "Too much!";
+    when(quotaBackendWithResource.availableTokens(REPOSITORY_SIZE_GROUP))
+        .thenReturn(singletonAggregation(ok(availableTokens, exceededQuotaCustomMessage)));
+    when(quotaBackendWithUser.project(project)).thenReturn(quotaBackendWithResource);
+    assertThat(assertThrows(TransportException.class, this::pushCommit).getMessage())
+        .contains(exceededQuotaCustomMessage);
+  }
+
+  @Test
   public void errorGettingAvailableTokens() throws Exception {
     String msg = "quota error";
     when(quotaBackendWithResource.availableTokens(REPOSITORY_SIZE_GROUP))

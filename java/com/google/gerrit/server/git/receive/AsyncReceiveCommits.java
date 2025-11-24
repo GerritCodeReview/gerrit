@@ -374,12 +374,16 @@ public class AsyncReceiveCommits {
                     Throwable unpackException = t;
                     if (t instanceof TooLargePackException
                         || (t instanceof EOFException && isZeroBytesRemaining)) {
-                      unpackException =
-                          new QuotaException(
-                              String.format(
-                                  "Push rejected: it would exceed the available repository size"
-                                      + " quota of %d bytes.",
-                                  availBytes));
+                      String defaultMessage =
+                          String.format(
+                              "Push rejected: it would exceed the available repository size"
+                                  + " quota of %d bytes.",
+                              availBytes);
+                      String clientFacingMessage =
+                          availableTokens.quotaExceededMessage().isEmpty()
+                              ? defaultMessage
+                              : availableTokens.quotaExceededMessage();
+                      unpackException = new QuotaException(clientFacingMessage);
                     }
                     defaultErrorHandler.handleUnpackException(unpackException);
                   });

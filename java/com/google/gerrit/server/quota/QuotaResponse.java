@@ -21,6 +21,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Streams;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.Optional;
 import java.util.OptionalLong;
 import java.util.stream.Collectors;
@@ -58,6 +59,14 @@ public abstract class QuotaResponse {
 
   public static QuotaResponse ok(long tokens) {
     return new AutoValue_QuotaResponse.Builder().status(Status.OK).availableTokens(tokens).build();
+  }
+
+  public static QuotaResponse ok(long tokens, String exceededQuotaMessage) {
+    return new AutoValue_QuotaResponse.Builder()
+        .status(Status.OK)
+        .availableTokens(tokens)
+        .message(exceededQuotaMessage)
+        .build();
   }
 
   public static QuotaResponse noOp() {
@@ -114,6 +123,14 @@ public abstract class QuotaResponse {
 
     public ImmutableList<QuotaResponse> error() {
       return responses().stream().filter(r -> r.status().isError()).collect(toImmutableList());
+    }
+
+    public String quotaExceededMessage() {
+      return responses().stream()
+          .filter(r -> r.status().isOk() && r.availableTokens().isPresent())
+          .min(Comparator.comparingLong(r -> r.availableTokens().get()))
+          .flatMap(QuotaResponse::message)
+          .orElse("");
     }
 
     public String errorMessage() {

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d3c3ae1_f26179e7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-11-24T07:48:53Z",
+      "side": 1,
+      "message": "Thanks for working on this change. I think disallowing using the default search in submit requirements is a good idea.\n\nBreaking existing submit requirements is a concern as a broken submit requirement means that changes cannot be submitted which may block entire teams. If they are unlucky this also blocks submissions to refs/meta/config so that repairing the bad submit requirement is not possible (at least for us at Google where direct pushes are disabled). Hence I\u0027m afraid before submitting this, we must make sure that nobody at Google has such a bad submit requirement.\n\nAs a first step I think we need to prevent adding such bad submit requirements (e.g. by rejecting them in SubmitRequirementConfigValidator), but still keep all existing submit requirements working. \n\nOnce this is rolled out we need to inspect all submit requirements and fix the bad ones.\n\nOnly then we are sure that we can roll this out safely.",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 17
+      },
+      "revId": "9a472d68cca3f4e7f18d033cfea70467f42eab1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

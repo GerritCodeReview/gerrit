@@ -131,6 +131,19 @@ public class MultipleQuotaPluginsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void quotaExceededMessageIsShownForMostRestrictiveEnforcer() {
+    QuotaRequestContext ctx = QuotaRequestContext.builder().user(identifiedAdmin).build();
+    when(quotaEnforcerA.availableTokens("testGroup", ctx))
+        .thenReturn(QuotaResponse.ok(20L, "Message1"));
+    when(quotaEnforcerB.availableTokens("testGroup", ctx))
+        .thenReturn(QuotaResponse.ok(10L, "Message2"));
+
+    String quotaExceededMessage =
+        quotaBackend.user(identifiedAdmin).availableTokens("testGroup").quotaExceededMessage();
+    assertThat(quotaExceededMessage).isEqualTo("Message2");
+  }
+
+  @Test
   public void ignoreNoOpForAvailableTokens() {
     QuotaRequestContext ctx = QuotaRequestContext.builder().user(identifiedAdmin).build();
     when(quotaEnforcerA.availableTokens("testGroup", ctx)).thenReturn(QuotaResponse.noOp());

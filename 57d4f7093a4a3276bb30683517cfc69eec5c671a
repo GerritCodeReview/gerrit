@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "194b9993_e1300283",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-11-24T10:05:18Z",
+      "side": 1,
+      "message": "I believe this might also be solved by another proposed fix: https://gerrit-review.googlesource.com/c/gerrit/+/449081",
+      "revId": "57d4f7093a4a3276bb30683517cfc69eec5c671a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

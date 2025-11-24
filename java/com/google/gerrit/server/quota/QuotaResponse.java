@@ -21,6 +21,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Streams;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.Optional;
 import java.util.OptionalLong;
 import java.util.stream.Collectors;
@@ -58,6 +59,14 @@ public abstract class QuotaResponse {
 
   public static QuotaResponse ok(long tokens) {
     return new AutoValue_QuotaResponse.Builder().status(Status.OK).availableTokens(tokens).build();
+  }
+
+  public static QuotaResponse ok(long tokens, String exceededQuotaMessage) {
+    return new AutoValue_QuotaResponse.Builder()
+        .status(Status.OK)
+        .availableTokens(tokens)
+        .message(exceededQuotaMessage)
+        .build();
   }
 
   public static QuotaResponse noOp() {
@@ -114,6 +123,33 @@ public abstract class QuotaResponse {
 
     public ImmutableList<QuotaResponse> error() {
       return responses().stream().filter(r -> r.status().isError()).collect(toImmutableList());
+    }
+
+    /**
+     * Returns the quota-exceeded message provided by the response with the lowest number of
+     * available tokens.
+     *
+     * <p>This message is intended to be shown to clients when a request would exceed the aggregated
+     * available quota. It allows quota enforcers to supply custom, client-facing explanations for
+     * quota-rejection scenarios.
+     *
+     * <p>Only responses that report {@link #availableTokens() available tokens} are considered.
+     * Among these, the response with the smallest token count (i.e. the most restrictive enforcer)
+     * is selected.
+     *
+     * @return an {@code Optional} containing the quota-exceeded message from the most restrictive
+     *     available-tokens response, or an empty {@code Optional} if none of the considered
+     *     responses provides such a message.
+     */
+    public Optional<String> mostRestrictiveQuotaExceededMessage() {
+      return responses().stream()
+          .filter(r -> r.availableTokens().isPresent())
+          // Use sorted() for deterministic tie-breaking: Stable sort ensures deterministic order
+          // when availableTokens values are equal.
+          .sorted(Comparator.comparingLong(r -> r.availableTokens().get()))
+          .map(QuotaResponse::message)
+          .flatMap(Optional::stream)
+          .findFirst();
     }
 
     public String errorMessage() {

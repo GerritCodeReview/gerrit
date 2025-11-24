@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c3748f87_d0ba518f",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 31
+      },
+      "lineNbr": 4130,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-11-24T10:55:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "82f01632_1c670eea",
+      "range": {
+        "startLine": 4130,
+        "startChar": 2,
+        "endLine": 4130,
+        "endChar": 19
+      },
+      "revId": "2cc9122719f6bb510fbe43f32ff20e23e2932a89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "32710311_244bf35e",
@@ -37,6 +61,30 @@
       "writtenOn": "2025-11-24T08:55:13Z",
       "side": 1,
       "message": "```suggestion\nEnable Lucene\u0027s info stream logging. This can be useful when admins face ongoing\n```",
+      "range": {
+        "startLine": 4132,
+        "startChar": 16,
+        "endLine": 4132,
+        "endChar": 21
+      },
+      "revId": "2cc9122719f6bb510fbe43f32ff20e23e2932a89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d7246624_f85b2989",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 31
+      },
+      "lineNbr": 4132,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-11-24T10:55:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "32710311_244bf35e",
       "range": {
         "startLine": 4132,
         "startChar": 16,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cbe3f549_c8d03d61",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 31
+      },
+      "lineNbr": 4133,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-11-24T10:55:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "39469a6c_0e89e263",
+      "range": {
+        "startLine": 4133,
+        "startChar": 0,
+        "endLine": 4133,
+        "endChar": 15
+      },
+      "revId": "2cc9122719f6bb510fbe43f32ff20e23e2932a89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9db40464_f5ed430b",
@@ -83,6 +155,30 @@
       "writtenOn": "2025-11-24T08:55:13Z",
       "side": 1,
       "message": "```suggestion\nNOTE: This could potentially add additional load on the system; appropriate\n```",
+      "range": {
+        "startLine": 4135,
+        "startChar": 31,
+        "endLine": 4135,
+        "endChar": 43
+      },
+      "revId": "2cc9122719f6bb510fbe43f32ff20e23e2932a89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bdcc6c14_2556ac11",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 31
+      },
+      "lineNbr": 4135,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-11-24T10:55:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9db40464_f5ed430b",
       "range": {
         "startLine": 4135,
         "startChar": 31,
@@ -116,6 +212,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3240fa1a_205b6170",
+        "filename": "java/com/google/gerrit/lucene/GerritIndexWriterConfig.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-11-24T10:55:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5957604b_a4e0157a",
+      "range": {
+        "startLine": 87,
+        "startChar": 43,
+        "endLine": 87,
+        "endChar": 65
+      },
+      "revId": "2cc9122719f6bb510fbe43f32ff20e23e2932a89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "96dbdae5_3a27be1c",
@@ -129,6 +249,30 @@
       "writtenOn": "2025-11-24T08:55:13Z",
       "side": 1,
       "message": "All Gerrit logs end with `_log`",
+      "range": {
+        "startLine": 92,
+        "startChar": 92,
+        "endLine": 92,
+        "endChar": 96
+      },
+      "revId": "2cc9122719f6bb510fbe43f32ff20e23e2932a89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2502be46_4c19543b",
+        "filename": "java/com/google/gerrit/lucene/GerritIndexWriterConfig.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-11-24T10:55:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "96dbdae5_3a27be1c",
       "range": {
         "startLine": 92,
         "startChar": 92,

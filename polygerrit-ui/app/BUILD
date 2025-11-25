@@ -1,12 +1,12 @@
 load("@aspect_rules_js//js:defs.bzl", "js_test")
 load("@aspect_rules_ts//ts:defs.bzl", "ts_config", "ts_project")
+load("@ui_npm//:defs.bzl", "npm_link_all_packages")
 load("//tools/js:eslint.bzl", "eslint")
 load(":rules.bzl", "polygerrit_bundle")
-load("@ui_npm//:defs.bzl", "npm_link_all_packages")
-
-npm_link_all_packages(name = "node_modules")
 
 package(default_visibility = ["//visibility:public"])
+
+npm_link_all_packages(name = "node_modules")
 
 # This list must be in sync with the "include" list in the follwoing files:
 # tsconfig.json, tsconfig_bazel.json, tsconfig_bazel_test.json
@@ -110,8 +110,8 @@ filegroup(
             "node_modules_licenses/**",
         ],
     ) + [
-        "//polygerrit-ui:node_modules",
         ":node_modules",
+        "//polygerrit-ui:node_modules",
     ],
 )
 

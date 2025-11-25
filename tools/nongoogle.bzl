@@ -173,9 +173,9 @@ def declare_nongoogle_deps():
 
     maven_jar(
         name = "xerces",
-        artifact = "xerces:xercesImpl:2.8.1",
+        artifact = "xerces:xercesImpl:2.12.2",
         attach_source = False,
-        sha1 = "25101e37ec0c907db6f0612cbf106ee519c1aef1",
+        sha1 = "f051f988aa2c9b4d25d05f95742ab0cc3ed789e2",
     )
 
     maven_jar(

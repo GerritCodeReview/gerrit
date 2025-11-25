@@ -9,9 +9,9 @@ load(
     "CUSTOM_PLUGINS",
 )
 
-npm_link_all_packages(name = "node_modules")
-
 package(default_visibility = ["//visibility:public"])
+
+npm_link_all_packages(name = "node_modules")
 
 exports_files([
     "eslint.config.js",

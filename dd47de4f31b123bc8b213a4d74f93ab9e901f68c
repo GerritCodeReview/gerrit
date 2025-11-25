@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "261736c2_aae77ab3",
+        "filename": "java/com/google/gerrit/server/quota/QuotaResponse.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2025-11-25T13:07:20Z",
+      "side": 1,
+      "message": "I think we should also do an alfanumeric ordering to keep consistent ordering in case the `availableTokens` are the same",
+      "range": {
+        "startLine": 131,
+        "startChar": 11,
+        "endLine": 131,
+        "endChar": 14
+      },
+      "revId": "dd47de4f31b123bc8b213a4d74f93ab9e901f68c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7afb0b55_e5dc6556",
+        "filename": "java/com/google/gerrit/server/quota/QuotaResponse.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2025-11-25T13:07:20Z",
+      "side": 1,
+      "message": "nit: Might be handy including the plugin name in the message in case of multiple enforcerer.",
+      "range": {
+        "startLine": 132,
+        "startChar": 34,
+        "endLine": 132,
+        "endChar": 41
+      },
+      "revId": "dd47de4f31b123bc8b213a4d74f93ab9e901f68c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "92167399_900b9d53",
+        "filename": "modules/jgit",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-11-25T07:52:32Z",
+      "side": 1,
+      "message": "that fails in CI with the following error:\n```\nFetched in submodule path \u0027modules/jgit\u0027, but it did not contain 0deccf666b8908b1e48049d3504891266af68f07. Direct fetching of that commit failed.\n```\nis this version missing from gerrit-review?",
+      "revId": "da7da8bb50acb79c9e65f3cc3117a1a7172bacb2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

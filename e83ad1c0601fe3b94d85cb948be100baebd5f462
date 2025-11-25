@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a7c2a6a6_e067ca2a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2025-11-25T16:52:32Z",
+      "side": 1,
+      "message": "Any reason why we are doing it in a EOL release?",
+      "revId": "e83ad1c0601fe3b94d85cb948be100baebd5f462",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

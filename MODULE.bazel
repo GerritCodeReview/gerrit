@@ -18,8 +18,8 @@ bazel_dep(name = "rules_proto", version = "6.0.0")
 bazel_dep(name = "rbe_autoconfig")
 git_override(
     module_name = "rbe_autoconfig",
-    remote = "https://github.com/davido/rbe_autoconfig.git",
     commit = "c4d733d0399ebf2ee1ffb897be5fbaba23738e04",
+    remote = "https://github.com/davido/rbe_autoconfig.git",
 )
 
 local_path_override(
@@ -45,7 +45,9 @@ protoc.toolchain(
     version = "v25.3",
 )
 use_repo(protoc, "toolchains_protoc_hub")
+
 register_toolchains("@toolchains_protoc_hub//:all")
+
 register_toolchains("//tools:all")
 
 maven = use_extension("@rules_jvm_external//:extensions.bzl", "maven")
@@ -54,27 +56,27 @@ maven = use_extension("@rules_jvm_external//:extensions.bzl", "maven")
 # toml files.
 maven.install(
     artifacts = [],
-    repositories = [
-        "https://repo1.maven.org/maven2",
-        "https://gerrit-maven.storage.googleapis.com",
-    ],
     # lock_file = "//:maven_install.json",
     duplicate_version_warning = "error",
     fail_on_missing_checksum = True,
     fetch_sources = True,
-    known_contributing_modules = ["", "jgit"],
+    known_contributing_modules = [
+        "",
+        "jgit",
+    ],
+    repositories = [
+        "https://repo1.maven.org/maven2",
+        "https://gerrit-maven.storage.googleapis.com",
+    ],
     strict_visibility = True,
     version_conflict_policy = "pinned",
 )
-
 maven.from_toml(
     libs_versions_toml = "//tools:deps.toml",
 )
-
 maven.from_toml(
     libs_versions_toml = "//tools:nongoogle.toml",
 )
-
 use_repo(maven, "maven")
 
 # npm packages are split into different node_modules directories based on their
@@ -101,11 +103,9 @@ use_repo(maven, "maven")
 #    from devDependencies in polygerrit bundle.
 
 rules_ts_ext = use_extension("@aspect_rules_ts//ts:extensions.bzl", "ext", dev_dependency = True)
-
 rules_ts_ext.deps(
     ts_version_from = "//:package.json",
 )
-
 use_repo(rules_ts_ext, "npm_typescript")
 
 NODE_20_REPO = {
@@ -124,7 +124,6 @@ node.toolchain(
     node_repositories = NODE_20_REPO,
     node_version = "20.19.5",
 )
-
 use_repo(node, "nodejs_toolchains")
 use_repo(node, "nodejs_darwin_arm64")
 use_repo(node, "nodejs_darwin_amd64")
@@ -135,51 +134,45 @@ use_repo(node, "nodejs_linux_amd64")
 use_repo(node, "nodejs_windows_amd64")
 
 npm = use_extension("@aspect_rules_js//npm:extensions.bzl", "npm")
-
 npm.npm_translate_lock(
     name = "npm",
     data = ["//:package-lock.json"],
-    yarn_lock = "//:yarn.lock",
     pnpm_lock = "@@//:pnpm-lock.yaml",
+    yarn_lock = "//:yarn.lock",
 )
-
 use_repo(npm, "npm")
 
 npm.npm_translate_lock(
     name = "ui_npm",
-    prod = True,
-    no_optional = True,
     data = ["//:polygerrit-ui/app/package.json"],
-    yarn_lock = "//:polygerrit-ui/app/yarn.lock",
+    no_optional = True,
     pnpm_lock = "@@//polygerrit-ui/app:pnpm-lock.yaml",
+    prod = True,
+    yarn_lock = "//:polygerrit-ui/app/yarn.lock",
 )
-
 use_repo(npm, "ui_npm")
 
 npm.npm_translate_lock(
     name = "ui_dev_npm",
     data = ["//:polygerrit-ui/package.json"],
-    yarn_lock = "//:polygerrit-ui/yarn.lock",
     pnpm_lock = "@@//polygerrit-ui:pnpm-lock.yaml",
+    yarn_lock = "//:polygerrit-ui/yarn.lock",
 )
-
 use_repo(npm, "ui_dev_npm")
 
 npm.npm_translate_lock(
     name = "tools_npm",
     data = ["//:tools/node_tools/package.json"],
-    yarn_lock = "//:tools/node_tools/yarn.lock",
     pnpm_lock = "@@//tools/node_tools:pnpm-lock.yaml",
+    yarn_lock = "//:tools/node_tools/yarn.lock",
 )
-
 use_repo(npm, "tools_npm")
 
 npm.npm_translate_lock(
     name = "plugins_npm",
-    prod = True,
     data = ["//:plugins/package.json"],
-    yarn_lock = "//:plugins/yarn.lock",
     pnpm_lock = "@@//plugins:pnpm-lock.yaml",
+    prod = True,
+    yarn_lock = "//:plugins/yarn.lock",
 )
-
 use_repo(npm, "plugins_npm")

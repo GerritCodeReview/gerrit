@@ -1,4 +1,3 @@
-load("@rules_java//java:defs.bzl", "java_library")
 load("//tools/bzl:junit.bzl", "junit_tests")
 
 junit_tests(

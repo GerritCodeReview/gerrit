@@ -6,7 +6,6 @@ load(
     "CORE_PLUGINS",
     "CUSTOM_PLUGINS",
 )
-load("@build_bazel_rules_nodejs//:index.bzl", "nodejs_test")
 
 package(default_visibility = ["//visibility:public"])
 

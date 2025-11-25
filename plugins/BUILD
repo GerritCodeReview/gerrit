@@ -10,18 +10,18 @@ load(
     "CUSTOM_PLUGINS",
 )
 
-npm_link_all_packages(name = "node_modules")
-
 package(default_visibility = ["//visibility:public"])
 
+npm_link_all_packages(name = "node_modules")
+
 js_library(
-  name = "plugins-config-lib",
-  srcs = [
-      "eslint-plugin.config.js",
-      ".prettierrc.js",
-      "rollup.config.js",
-      "tsconfig-plugins-base.json",
-  ],
+    name = "plugins-config-lib",
+    srcs = [
+        ".prettierrc.js",
+        "eslint-plugin.config.js",
+        "rollup.config.js",
+        "tsconfig-plugins-base.json",
+    ],
 )
 
 genrule2(

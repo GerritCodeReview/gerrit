@@ -1,3 +1,5 @@
+load("@rules_shell//shell:sh_test.bzl", "sh_test")
+
 exports_files([
     "license-map.py",
     "test_empty.sh",

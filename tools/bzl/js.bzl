@@ -1,6 +1,7 @@
 load("@aspect_rules_rollup//rollup:defs.bzl", "rollup")
-load("//tools/terser:terser.bzl", "terser")
+load("@rules_shell//shell:sh_test.bzl", "sh_test")
 load("//tools/bzl:genrule2.bzl", "genrule2")
+load("//tools/terser:terser.bzl", "terser")
 
 ComponentInfo = provider()
 
@@ -163,8 +164,7 @@ def web_test_runner(name, srcs, data):
         arguments for Web Test Runner and its config.
       data: The bundle of JavaScript files with the tests included.
     """
-
-    native.sh_test(
+    sh_test(
         name = name,
         size = "enormous",
         srcs = srcs,

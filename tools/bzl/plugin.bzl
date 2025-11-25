@@ -2,8 +2,8 @@
 Build rules for plugins.
 """
 
-load("//:version.bzl", "GERRIT_VERSION")
 load("@rules_java//java:defs.bzl", "java_binary", "java_library")
+load("//:version.bzl", "GERRIT_VERSION")
 load("//tools/bzl:genrule2.bzl", "genrule2")
 
 IN_TREE_BUILD_MODE = True

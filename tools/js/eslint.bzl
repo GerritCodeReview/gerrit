@@ -14,8 +14,6 @@
 
 """This file contains macro to run eslint and define a eslint test rule."""
 
-load("@aspect_rules_js//js:defs.bzl", "js_binary", "js_test")
-
 load("@npm//:eslint/package_json.bzl", eslint_bin = "bin")
 
 def plugin_eslint():

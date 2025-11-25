@@ -1,10 +1,11 @@
+load("@rules_shell//shell:sh_binary.bzl", "sh_binary")
+load("@ui_dev_npm//:defs.bzl", "npm_link_all_packages")
 load("//tools/bzl:genrule2.bzl", "genrule2")
 load("//tools/bzl:js.bzl", "web_test_runner")
-load("@ui_dev_npm//:defs.bzl", "npm_link_all_packages")
-
-npm_link_all_packages(name = "node_modules")
 
 package(default_visibility = ["//visibility:public"])
+
+npm_link_all_packages(name = "node_modules")
 
 genrule2(
     name = "fonts",

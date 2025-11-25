@@ -1,5 +1,4 @@
 load("@rules_java//java:defs.bzl", "java_library")
-load("//tools/bzl:javadoc.bzl", "java_doc")
 
 # Giant kitchen-sink target.
 #

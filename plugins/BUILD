@@ -2,8 +2,8 @@ load("@aspect_bazel_lib//lib:copy_to_bin.bzl", "copy_to_bin")
 load("@aspect_rules_js//js:defs.bzl", "js_library")
 load("@plugins_npm//:defs.bzl", "npm_link_all_packages")
 load("@rules_java//java:defs.bzl", "java_binary", "java_library")
+load("@rules_jvm_external//:defs.bzl", "javadoc")
 load("//tools/bzl:genrule2.bzl", "genrule2")
-load("//tools/bzl:javadoc.bzl", "java_doc")
 load(
     "//tools/bzl:plugins.bzl",
     "CORE_PLUGINS",
@@ -161,9 +161,9 @@ java_binary(
     ],
 )
 
-java_doc(
+javadoc(
     name = "plugin-api-javadoc",
-    libs = PLUGIN_API + [
+    deps = PLUGIN_API + [
         "//antlr3:query_parser",
         "//java/com/google/gerrit/index",
         "//java/com/google/gerrit/index:query_exception",
@@ -173,8 +173,16 @@ java_doc(
         "//java/com/google/gerrit/entities",
         "//java/com/google/gerrit/util/http",
     ],
-    pkgs = ["com.google.gerrit"],
-    title = "Gerrit Review Plugin API Documentation",
+    included_packages = ["com.google.gerrit.*"],
+    javadocopts = [
+        "-Xdoclint:-missing",
+        "-protected",
+        "-encoding", "UTF-8",
+        "-charset", "UTF-8",
+        "-notimestamp",
+        "-quiet",
+        "-windowtitle", "Gerrit Review Plugin API Documentation",
+    ],
 )
 
 copy_to_bin(

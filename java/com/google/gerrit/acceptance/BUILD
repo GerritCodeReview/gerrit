@@ -1,5 +1,5 @@
 load("@rules_java//java:defs.bzl", "java_binary", "java_library")
-load("//tools/bzl:javadoc.bzl", "java_doc")
+load("@rules_jvm_external//:defs.bzl", "javadoc")
 
 FUNCTION_SRCS = [
     "testsuite/ThrowingConsumer.java",
@@ -147,11 +147,19 @@ java_library(
     visibility = ["//visibility:public"],
 )
 
-java_doc(
+javadoc(
     name = "framework-javadoc",
     testonly = True,
-    libs = [":framework-lib"],
-    pkgs = ["com.google.gerrit.acceptance"],
-    title = "Gerrit Acceptance Test Framework Documentation",
+    deps = [":framework-lib"],
+    included_packages = ["com.google.gerrit.acceptance.*"],
+    javadocopts = [
+        "-Xdoclint:-missing",
+        "-protected",
+        "-encoding", "UTF-8",
+        "-charset", "UTF-8",
+        "-notimestamp",
+        "-quiet",
+        "-windowtitle", "'Gerrit Acceptance Test Framework Documentation'",
+    ],
     visibility = ["//visibility:public"],
 )

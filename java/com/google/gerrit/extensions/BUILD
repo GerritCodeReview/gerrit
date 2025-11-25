@@ -1,5 +1,5 @@
 load("@rules_java//java:defs.bzl", "java_binary", "java_library")
-load("//tools/bzl:javadoc.bzl", "java_doc")
+load("@rules_jvm_external//:defs.bzl", "javadoc")
 
 _DOC_VERS = "6.1.0.202203080745-r"
 
@@ -44,14 +44,20 @@ java_library(
     ],
 )
 
-java_doc(
+javadoc(
     name = "extension-api-javadoc",
-    external_docs = [
-        JGIT_DOC_URL,
-        GUAVA_DOC_URL,
+    deps = [":api"],
+    included_packages = ["com.google.gerrit.extensions.*"],
+    javadocopts = [
+        "-Xdoclint:-missing",
+        "-protected",
+        "-encoding", "UTF-8",
+        "-charset", "UTF-8",
+        "-notimestamp",
+        "-quiet",
+        "-windowtitle", "'Gerrit Review Extension API Documentation'",
+        "-link", JGIT_DOC_URL,
+        "-link", GUAVA_DOC_URL,
     ],
-    libs = [":api"],
-    pkgs = ["com.google.gerrit.extensions"],
-    title = "Gerrit Review Extension API Documentation",
     visibility = ["//visibility:public"],
 )

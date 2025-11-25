@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5e27b609_eee8bee8",
+        "filename": "javatests/com/google/gerrit/acceptance/lucene/LuceneIndexInfoStreamIT.java",
+        "patchSetId": 41
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-11-25T12:53:18Z",
+      "side": 1,
+      "message": "Maybe isEmpty is clearer?\n\n\n\n```suggestion\n    assertThat(luceneChangesIndexfolders).isEmpty();\n```",
+      "range": {
+        "startLine": 52,
+        "startChar": 42,
+        "endLine": 52,
+        "endChar": 55
+      },
+      "revId": "e7539bdd04d7335509378af9f0c6de50b0a42dee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

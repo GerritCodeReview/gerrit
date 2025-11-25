@@ -15,46 +15,43 @@
 package com.google.gerrit.acceptance.lucene;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.TruthJUnit.assume;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.TestMetricMaker;
-import com.google.gerrit.index.IndexType;
+import com.google.gerrit.acceptance.config.GerritConfig;
 import org.junit.Test;
 
 public class LuceneIndexMetricsIT extends AbstractDaemonTest {
 
   protected final TestMetricMaker testMetricMaker = TestMetricMaker.getInstance();
-  private boolean isLuceneIndex =
-      IndexType.fromEnvironment().map(IndexType::isLucene).orElse(false);
 
   @Test
+  @GerritConfig(name = "index.type", value = "lucene")
   public void checkProjectsIndexMetric() throws Exception {
-    assume().that(isLuceneIndex).isTrue();
     int numberProjects = luceneIndexMetricValueOf("projects");
     gApi.projects().create("some_project");
     assertThat(luceneIndexMetricValueOf("projects")).isEqualTo(numberProjects + 1);
   }
 
   @Test
+  @GerritConfig(name = "index.type", value = "lucene")
   public void checkChangesIndexMetric() throws Exception {
-    assume().that(isLuceneIndex).isTrue();
     int numberChanges = luceneIndexMetricValueOf("changes");
     createChange();
     assertThat(luceneIndexMetricValueOf("changes")).isEqualTo(numberChanges + 1);
   }
 
   @Test
+  @GerritConfig(name = "index.type", value = "lucene")
   public void checkAccountsIndexMetric() throws Exception {
-    assume().that(isLuceneIndex).isTrue();
     int numberAccounts = luceneIndexMetricValueOf("accounts");
     gApi.accounts().create("some_account");
     assertThat(luceneIndexMetricValueOf("accounts")).isEqualTo(numberAccounts + 1);
   }
 
   @Test
+  @GerritConfig(name = "index.type", value = "lucene")
   public void checkGroupsIndexMetric() throws Exception {
-    assume().that(isLuceneIndex).isTrue();
     int numberGroups = luceneIndexMetricValueOf("groups");
     gApi.groups().create("some_group");
     assertThat(luceneIndexMetricValueOf("groups")).isEqualTo(numberGroups + 1);

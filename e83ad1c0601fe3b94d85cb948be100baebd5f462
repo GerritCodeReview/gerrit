@@ -16,6 +16,24 @@
       "message": "Any reason why we are doing it in a EOL release?",
       "revId": "e83ad1c0601fe3b94d85cb948be100baebd5f462",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba24562b_5d075628",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-11-25T16:54:09Z",
+      "side": 1,
+      "message": "It\u0027s needed by the next change in the chain.",
+      "parentUuid": "a7c2a6a6_e067ca2a",
+      "revId": "e83ad1c0601fe3b94d85cb948be100baebd5f462",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

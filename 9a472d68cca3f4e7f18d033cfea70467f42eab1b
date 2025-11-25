@@ -22,6 +22,30 @@
       },
       "revId": "9a472d68cca3f4e7f18d033cfea70467f42eab1b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "529537ac_c3aa00d9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2025-11-25T13:52:46Z",
+      "side": 1,
+      "message": "Good point. We considered it. Please check the update change and commit message for details.",
+      "parentUuid": "0d3c3ae1_f26179e7",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 17
+      },
+      "revId": "9a472d68cca3f4e7f18d033cfea70467f42eab1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

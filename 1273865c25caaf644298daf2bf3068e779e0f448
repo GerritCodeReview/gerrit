@@ -197,6 +197,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "a14f3161_b9b5350b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2025-11-25T13:52:46Z",
+      "side": 1,
+      "message": "We have made the new implementation configurational. Please check the latest patchset and commit message.",
+      "parentUuid": "17dffafb_03828eba",
+      "revId": "1273865c25caaf644298daf2bf3068e779e0f448",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "4d7a37cc_b0d705d7",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 11

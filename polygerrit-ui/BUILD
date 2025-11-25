@@ -1,5 +1,4 @@
 load("//tools/bzl:genrule2.bzl", "genrule2")
-load("@build_bazel_rules_nodejs//:index.bzl", "nodejs_test")
 load("//tools/bzl:js.bzl", "web_test_runner")
 
 package(default_visibility = ["//visibility:public"])

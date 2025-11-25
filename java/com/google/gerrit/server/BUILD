@@ -1,5 +1,5 @@
 load("@rules_java//java:defs.bzl", "java_library")
-load("//tools/bzl:javadoc.bzl", "java_doc")
+load("@rules_jvm_external//:defs.bzl", "javadoc")
 
 CONSTANTS_SRC = [
     "documentation/Constants.java",
@@ -144,9 +144,17 @@ java_library(
     ],
 )
 
-java_doc(
+javadoc(
     name = "doc",
-    libs = [":server"],
-    pkgs = ["com.google.gerrit"],
-    title = "Gerrit Review Server Documentation",
+    deps = [":server"],
+    included_packages = ["com.google.gerrit.*"],
+    javadocopts = [
+        "-Xdoclint:-missing",
+        "-protected",
+        "-encoding", "UTF-8",
+        "-charset", "UTF-8",
+        "-notimestamp",
+        "-quiet",
+        "-windowtitle", "'Gerrit Review Server Documentation'",
+    ],
 )

@@ -14,6 +14,7 @@ import {when} from 'lit/directives/when.js';
 import '../shared/gr-icon/gr-icon';
 import '../shared/gr-button/gr-button';
 import '../shared/gr-tooltip-content/gr-tooltip-content';
+import './splash-page-action-hovercard';
 
 import {Action, ContextItemType} from '../../api/ai-code-review';
 import {chatModelToken} from '../../models/chat/chat-model';
@@ -179,15 +180,18 @@ export class SplashPageAction extends LitElement {
               })}
             >
               <span class="action-text">${this.action.display_text}</span>
-              <gr-tooltip-content has-tooltip title="Capability details">
-                <gr-button
-                  flatten
-                  class="info-button"
-                  @click=${this.displayDetailsCard}
-                >
-                  <gr-icon icon="info"></gr-icon>
-                </gr-button>
-              </gr-tooltip-content>
+              <gr-button
+                id="infoButton"
+                flatten
+                class="info-button"
+                @click=${this.displayDetailsCard}
+              >
+                <gr-icon id="infoIcon" icon="info"></gr-icon>
+              </gr-button>
+              <splash-page-action-hovercard
+                for="infoIcon"
+                .action=${this.action}
+              ></splash-page-action-hovercard>
             </div>
             ${when(
               this.action.subtext,
@@ -200,6 +204,9 @@ export class SplashPageAction extends LitElement {
             )}
           </div>
         </div>
+        <splash-page-action-hovercard
+                .action=${this.action}
+              ></splash-page-action-hovercard>
       </md-assist-chip>
     `;
   }
@@ -229,8 +236,9 @@ export class SplashPageAction extends LitElement {
   }
 
   private displayDetailsCard(event: MouseEvent) {
+    // The hovercard is shown on hover. This click handler is only here to
+    // prevent the click from bubbling up to the chip and triggering the action.
     event.stopPropagation();
-    // TODO: Implement this.
   }
 }
 

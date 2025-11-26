@@ -61,17 +61,18 @@ suite('splash-page-action tests', () => {
             <div class="action-text-container">
               <div class="main-action-text-container has-subtext">
                 <span class="action-text">Test Action</span>
-                <gr-tooltip-content has-tooltip="" title="Capability details">
-                  <gr-button
-                    aria-disabled="false"
-                    class="info-button"
-                    flatten=""
-                    role="button"
-                    tabindex="0"
-                  >
-                    <gr-icon icon="info"></gr-icon>
-                  </gr-button>
-                </gr-tooltip-content>
+                <gr-button
+                  aria-disabled="false"
+                  class="info-button"
+                  flatten=""
+                  id="infoButton"
+                  role="button"
+                  tabindex="0"
+                >
+                  <gr-icon icon="info" id="infoIcon"></gr-icon>
+                </gr-button>
+                <splash-page-action-hovercard for="infoIcon">
+                </splash-page-action-hovercard>
               </div>
               <span class="action-subtext">Test subtext</span>
             </div>

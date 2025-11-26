@@ -72,7 +72,7 @@ EXPORTS = [
     "//lib/auto:auto-value-annotations",
     "//lib/auto:auto-value-gson",
     "//lib/commons:compress",
-    "//lib/commons:dbcp",
+    "//lib/commons:dbcp2",
     "//lib/commons:lang3",
     "//lib/dropwizard:dropwizard-core",
     "//lib/flogger:api",

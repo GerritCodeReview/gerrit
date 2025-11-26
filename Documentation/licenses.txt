@@ -48,10 +48,10 @@ Apache2.0
 * auto:auto-value-gson
 * commons:codec
 * commons:compress
-* commons:dbcp
+* commons:dbcp2
 * commons:lang3
 * commons:net
-* commons:pool
+* commons:pool2
 * commons:text
 * commons:validator
 * dropwizard:dropwizard-core

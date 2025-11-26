@@ -3531,6 +3531,33 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
+  public void byReviewerCount() throws Exception {
+    assume().that(getSchema().hasField(ChangeField.REVIEWER_COUNT_SPEC)).isTrue();
+
+    Project.NameKey project = Project.nameKey("repo");
+    repo = createAndOpenProject(project);
+
+    Change change1 = insert(project, newChange(repo));
+    Change change2 = insert(project, newChange(repo));
+    Change change3 = insert(project, newChange(repo));
+
+    Account.Id user1 = createAccount("user1");
+    Account.Id user2 = createAccount("user2");
+
+    addReviewer(user1, ReviewerState.REVIEWER, change1);
+    addReviewer(user1, ReviewerState.REVIEWER, change2);
+    addReviewer(user2, ReviewerState.REVIEWER, change1);
+
+    assertQuery("reviewercount:2", change1);
+    assertQuery("reviewercount:1", change2);
+    assertQuery("reviewercount:0", change3);
+    assertQuery("reviewercount:>0", change1, change2);
+    assertQuery("reviewercount:<2", change2, change3);
+    assertQuery("reviewercount:<5", change1, change2, change3);
+    assertQuery("reviewercount:>2");
+  }
+
+  @Test
   public void byReviewed() throws Exception {
     Project.NameKey project = Project.nameKey("repo");
     repo = createAndOpenProject(project);

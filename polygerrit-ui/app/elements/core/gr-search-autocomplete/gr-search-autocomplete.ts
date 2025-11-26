@@ -101,6 +101,7 @@ const SEARCH_OPERATORS: ReadonlyArray<string> = [
   'reviewedby:',
   'reviewer:',
   'reviewer:self',
+  'reviewercount:',
   'reviewerin:',
   'rule:',
   'size:',

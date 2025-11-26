@@ -46,7 +46,7 @@ import java.sql.Statement;
 import java.util.Collection;
 import java.util.Optional;
 import javax.sql.DataSource;
-import org.apache.commons.dbcp.BasicDataSource;
+import org.apache.commons.dbcp2.BasicDataSource;
 import org.eclipse.jgit.lib.Config;
 
 public abstract class JdbcAccountPatchReviewStore
@@ -142,12 +142,12 @@ public abstract class JdbcAccountPatchReviewStore
     int poolLimit = threadSettingsConfig.getDatabasePoolLimit();
     datasource.setUrl(url);
     datasource.setDriverClassName(getDriverFromUrl(url));
-    datasource.setMaxActive(cfg.getInt(ACCOUNT_PATCH_REVIEW_DB, "poolLimit", poolLimit));
+    datasource.setMaxTotal(cfg.getInt(ACCOUNT_PATCH_REVIEW_DB, "poolLimit", poolLimit));
     datasource.setMinIdle(cfg.getInt(ACCOUNT_PATCH_REVIEW_DB, "poolminidle", 4));
     datasource.setMaxIdle(
         cfg.getInt(ACCOUNT_PATCH_REVIEW_DB, "poolmaxidle", Math.min(poolLimit, 16)));
     datasource.setInitialSize(datasource.getMinIdle());
-    datasource.setMaxWait(
+    datasource.setMaxWaitMillis(
         ConfigUtil.getTimeUnit(
             cfg,
             ACCOUNT_PATCH_REVIEW_DB,

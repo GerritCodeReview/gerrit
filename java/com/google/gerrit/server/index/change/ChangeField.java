@@ -576,6 +576,17 @@ public class ChangeField {
       IndexedField.<ChangeData>integerBuilder("RevertOf")
           .build(cd -> cd.change().getRevertOf() != null ? cd.change().getRevertOf().get() : null);
 
+  /** The number of reviewers of this change. */
+  public static final IndexedField<ChangeData, Integer> REVIEWER_COUNT_FIELD =
+      IndexedField.<ChangeData>integerBuilder("ReviewerCount")
+          .stored()
+          .build(
+              cd -> cd.getReviewerCount(),
+              (cd, field) -> cd.setReviewerCount(cd.getReviewerCount()));
+
+  public static final IndexedField<ChangeData, Integer>.SearchSpec REVIEWER_COUNT_SPEC =
+      REVIEWER_COUNT_FIELD.integerRange(ChangeQueryBuilder.FIELD_REVIEWERCOUNT);
+
   public static final IndexedField<ChangeData, Integer>.SearchSpec REVERT_OF =
       REVERT_OF_FIELD.integer(ChangeQueryBuilder.FIELD_REVERTOF);
 

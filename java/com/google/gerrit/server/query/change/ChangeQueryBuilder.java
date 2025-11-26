@@ -157,7 +157,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   static final int MAX_ACCOUNTS_PER_DEFAULT_FIELD = 10;
 
   // NOTE: As new search operations are added, please keep the suggestions in
-  // gr-search-bar.ts up to date.
+  // gr-search-autocomplete.ts up to date.
 
   public static final String FIELD_ADDED = "added";
   public static final String FIELD_AGE = "age";
@@ -213,6 +213,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   public static final String FIELD_PROJECTS = "projects";
   public static final String FIELD_REF = "ref";
   public static final String FIELD_REVIEWEDBY = "reviewedby";
+  public static final String FIELD_REVIEWERCOUNT = "reviewercount";
   public static final String FIELD_REVIEWERIN = "reviewerin";
   public static final String FIELD_STAR = "star";
   public static final String FIELD_STARBY = "starby";
@@ -1457,6 +1458,11 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   public Predicate<ChangeData> cc(String who)
       throws QueryParseException, IOException, ConfigInvalidException {
     return reviewerByState(who, ReviewerStateInternal.CC, false);
+  }
+
+  @Operator
+  public Predicate<ChangeData> reviewerCount(String value) throws QueryParseException {
+    return new ReviewerCountPredicate(value);
   }
 
   @Operator

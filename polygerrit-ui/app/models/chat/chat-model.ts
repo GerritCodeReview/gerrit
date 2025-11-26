@@ -17,6 +17,7 @@ import {
   ContextItemType,
   Conversation,
   ConversationTurn,
+  CreateCommentAction,
   ModelInfo,
   Models,
   Reference,
@@ -911,9 +912,9 @@ function asGeminiResponsePart(
       type: ResponsePartType.TEXT,
       content: part.text,
     };
-  } else if (part.comment) {
+  } else if (part.create_comment_action) {
     return convertCreateCommentAction({
-      comment: part.comment,
+      create_comment_action: part.create_comment_action,
       partId: part.id,
       commentCreationId: buildCommentCreationId({
         ...turnIdentifier,
@@ -926,7 +927,7 @@ function asGeminiResponsePart(
 }
 
 function convertCreateCommentAction(kwargs: {
-  comment: Partial<CommentInfo>;
+  create_comment_action: CreateCommentAction;
   partId: number;
   commentCreationId: string;
 }): CreateCommentPart | undefined {
@@ -934,8 +935,11 @@ function convertCreateCommentAction(kwargs: {
     type: ResponsePartType.CREATE_COMMENT,
     id: kwargs.partId,
     commentCreationId: kwargs.commentCreationId,
-    content: kwargs.comment?.message ?? '',
-    comment: kwargs.comment,
+    content: kwargs.create_comment_action?.comment_text ?? '',
+    comment: {
+      ...kwargs.create_comment_action,
+      message: kwargs.create_comment_action.comment_text,
+    },
   };
 }
 

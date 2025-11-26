@@ -199,6 +199,18 @@ reviewerin:'GROUP'::
 +
 Changes that have been, or need to be, reviewed by a user in 'GROUP'.
 
+[[reviewercount]]
+reviewercount:'RELATION''COUNT'::
++
+True if the number of reviewers satisfies the given relation
+for the given number of reviewers.
++
+For example, reviewers:>2 will be true for any change which has at least
+3 reviewers.
++
+Valid relations are >=, >, \<=, <, or no relation, which will match if the
+number of reviewers is exactly equal.
+
 [[commit]]
 commit:'SHA-1'::
 +

@@ -22,7 +22,8 @@ import {pluginLoaderToken} from '../../elements/shared/gr-js-api-interface/gr-pl
 import {changeModelToken} from '../../models/change/change-model';
 import {chatProvider, createChange} from '../../test/test-data-generators';
 import {ParsedChangeInfo} from '../../types/types';
-import {visualDiffDarkTheme} from '../../test/test-utils';
+import {queryAndAssert, visualDiffDarkTheme} from '../../test/test-utils';
+import {ReferencesDropdown} from './references-dropdown';
 
 suite('chat-panel screenshot tests', () => {
   let element: ChatPanel;
@@ -121,5 +122,72 @@ suite('chat-panel screenshot tests', () => {
     await element.updateComplete;
     await visualDiff(element, 'chat-panel-chat-mode-with-comment');
     await visualDiffDarkTheme(element, 'chat-panel-chat-mode-with-comment');
+  });
+
+  test('chat mode with references', async () => {
+    chatModel.updateState({
+      ...chatModel.getState(),
+      turns: [
+        {
+          userMessage: {
+            content: 'What are the conventions?',
+            userType: UserType.USER,
+            contextItems: [],
+          },
+          geminiMessage: {
+            responseParts: [
+              {
+                id: 0,
+                type: ResponsePartType.TEXT,
+                content: 'Here are some references I found:',
+              },
+            ],
+            regenerationIndex: 0,
+            references: [
+              {
+                type: 'current_gerrit_change',
+                displayText: 'Current Gerrit Change',
+                externalUrl: '#',
+              },
+              {
+                type: 'g3doc',
+                displayText: 'fe-conventions.md',
+                externalUrl:
+                  'https://source.corp.google.com///depot/company/teams/gstore/teams/gCMS/frontend/fe-conventions.md',
+              },
+              {
+                type: 'yaqs',
+                displayText: 'YAQS 5734203896627200',
+                externalUrl: 'https://yaqs.corp.google.com/5734203896627200',
+              },
+              {
+                type: 'g3doc',
+                displayText: 'style_guidelines.md',
+                externalUrl:
+                  'https://source.corp.google.com///depot/google3/video/youtube/src/web/polymer/music/g3doc/style_guidelines.md',
+              },
+            ],
+            citations: [],
+            userType: UserType.GEMINI,
+            responseComplete: true,
+          },
+        },
+      ] as Turn[],
+    });
+    await element.updateComplete;
+    await element.updateComplete;
+    const geminiMessage = queryAndAssert(element, 'gemini-message');
+    const referencesDropdown = queryAndAssert<ReferencesDropdown>(
+      geminiMessage,
+      'references-dropdown'
+    );
+    const expandButton = queryAndAssert<HTMLButtonElement>(
+      referencesDropdown,
+      '.references-dropdown-button'
+    );
+    expandButton.click();
+    await element.updateComplete;
+    await visualDiff(element, 'chat-panel-chat-mode-with-references');
+    await visualDiffDarkTheme(element, 'chat-panel-chat-mode-with-references');
   });
 });

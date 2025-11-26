@@ -3538,6 +3538,32 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
+  public void byReviewCount() throws Exception {
+    Project.NameKey project = Project.nameKey("repo");
+    repo = createAndOpenProject(project);
+    Change change1 = insert(project, newChange(repo));
+    Change change2 = insert(project, newChange(repo));
+
+    Account.Id user1 = createAccount("user1");
+    Account.Id user2 = createAccount("user2");
+    String email1 = "email1@example.com";
+    String email2 = "email2@example.com";
+    ReviewInput in =
+        ReviewInput.noScore()
+            .reviewer(user1.toString())
+            .reviewer(user2.toString(), ReviewerState.REVIEWER, false)
+            .reviewer(email1)
+            .reviewer(email2, ReviewerState.REVIEWER, false);
+    getChangeApi(change1).current().review(in);
+
+    assertQuery("reviewercount:2", change1);
+    assertQuery("reviewercount:>0", change1);
+    assertQuery("reviewercount:0", change2);
+    assertQuery("reviewercount:<2", change2);
+    assertQuery("reviewercount:<5", change1, change2);
+  }
+
+  @Test
   public void byReviewed() throws Exception {
     Project.NameKey project = Project.nameKey("repo");
     repo = createAndOpenProject(project);

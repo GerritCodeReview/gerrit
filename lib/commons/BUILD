@@ -27,16 +27,16 @@ java_library(
 )
 
 java_library(
-    name = "dbcp",
+    name = "dbcp2",
     data = ["//lib:LICENSE-Apache2.0"],
-    exports = ["@commons-dbcp//jar"],
-    runtime_deps = [":pool"],
+    exports = ["@commons-dbcp2//jar"],
+    runtime_deps = [":pool2"],
 )
 
 java_library(
-    name = "pool",
+    name = "pool2",
     data = ["//lib:LICENSE-Apache2.0"],
-    exports = ["@commons-pool//jar"],
+    exports = ["@commons-pool2//jar"],
 )
 
 java_library(

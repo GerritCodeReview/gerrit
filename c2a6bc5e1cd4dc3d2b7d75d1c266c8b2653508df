@@ -16,6 +16,24 @@
       "message": "Not to make things harder, but I wonder if we should use a non-default name (i.e. not `maven`) for the deps that need Google LC.\n\nOn its own it probably only prevents other Bazel deps injecting artifacts into `maven` (since we\u0027re trying enforce the intent of the LC vote, this is probably reason enough to do it). However, if we do more and restructure the `lib/` dir to have a google/nongoogle split, it would make it very obvious (to both dev and reviewer) when adding a dep to a BUILD file if that dep is something Google cares about or not. On top of that, I think we can then use Bazel visibility rules to prohibit adding nongoogle deps to packages Google depends on.\n\nI don\u0027t think we should try to do that `//lib` refactor in this change, but what do you think of that idea?",
       "revId": "c2a6bc5e1cd4dc3d2b7d75d1c266c8b2653508df",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1ebec963_353407d2",
+        "filename": "MODULE.bazel",
+        "patchSetId": 27
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-11-26T12:39:03Z",
+      "side": 1,
+      "message": "Using different repository names might also lead to additional issues. With jgit the build started to work after having different bazel repos, but at runtime the dependency version conflict caused errors. I.e. we might miss such issues, if no test hits a break point. Using the same name prevents this, since there is an error on a duplicate dependency. However, this could of course be checked by a simple test that ensures no duplicate entries in both toml-files.\n\nRegarding splitting `/lib`, what about for example `guava`. IIUC Google uses it, but just uses its own version from the build. So I guess it would be fine to reference it everywhere, while lucene probably wouldn\u0027t.",
+      "parentUuid": "de44216f_2f2fd37f",
+      "revId": "c2a6bc5e1cd4dc3d2b7d75d1c266c8b2653508df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

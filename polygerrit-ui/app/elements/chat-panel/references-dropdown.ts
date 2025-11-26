@@ -11,7 +11,7 @@ import {css, html, LitElement, nothing} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
 import {when} from 'lit/directives/when.js';
 
-import {ContextItemType} from '../../api/ai-code-review';
+import {ContextItemType, Reference} from '../../api/ai-code-review';
 import {chatModelToken, Turn} from '../../models/chat/chat-model';
 import {resolve} from '../../models/dependency';
 import {subscribe} from '../lit/subscription-controller';
@@ -42,20 +42,33 @@ export class ReferencesDropdown extends LitElement {
         display: flex;
         flex-direction: row;
         align-items: center;
+        /* Match the vertical line in the mockup */
+        border-left: 1px solid var(--border-color);
+        padding-left: var(--spacing-m);
       }
       .references-dropdown-content {
-        display: block;
-        gap: var(--spacing-m);
-        padding: var(--spacing-m) var(--spacing-m) 0;
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing-s);
+        padding: var(--spacing-s) 0 0 var(--spacing-m);
+        /* Match the vertical line in the mockup */
+        border-left: 1px solid var(--border-color);
+      }
+      .references-dropdown-button {
+        --md-text-button-label-text-color: var(--link-color);
+        --md-text-button-icon-color: var(--link-color);
+        --md-text-button-label-text-font: var(--font-family);
+        --md-text-button-label-text-weight: 500;
+        --md-text-button-label-text-size: var(--font-size-normal);
+        margin-left: calc(-1 * var(--spacing-m));
       }
       .button-outer-wrapper {
         display: inline-block;
-        margin-bottom: 4px;
         max-width: 100%;
       }
       .reference-button {
         height: 32px;
-        background-color: var(--background-color-tertiary);
+        background-color: transparent;
         border-radius: 8px;
         max-width: inherit;
         /* For <a> and <button> to look like buttons. */
@@ -63,17 +76,22 @@ export class ReferencesDropdown extends LitElement {
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        padding: 0 12px;
+        padding: 0;
         text-decoration: none;
         border: none;
         font: inherit;
         cursor: pointer;
       }
+      .reference-button.pill-link {
+        background-color: var(--background-color-tertiary);
+        padding: 0 12px;
+        border-radius: 8px;
+        height: 32px;
+      }
       .reference-button.cl-references-button,
       .reference-button.list-warnings-button,
       .reference-button.selection-button {
         background-color: transparent;
-        margin-bottom: 4px;
       }
       .reference-button[disabled] {
         cursor: default;
@@ -82,14 +100,12 @@ export class ReferencesDropdown extends LitElement {
         display: flex;
         align-items: center;
         vertical-align: middle;
-        gap: var(--spacing-m);
-        color: var(--focus-outline-color);
+        gap: var(--spacing-s);
+        color: var(--primary-text-color);
         padding-top: 2px;
-        /* TODO: check typography variables */
-        /* font-family: var(--font-family-title); */
         font-weight: var(--font-weight-medium);
-        font-size: var(--font-size-small);
-        line-height: var(--line-height-small);
+        font-size: var(--font-size-normal);
+        line-height: var(--line-height-normal);
       }
       .reference-wrapper .display-text {
         text-overflow: ellipsis;
@@ -102,8 +118,11 @@ export class ReferencesDropdown extends LitElement {
       }
       .reference-wrapper .reference-icon {
         flex: 0 0 auto;
-        height: 18px;
-        width: 18px;
+        height: 20px;
+        width: 20px;
+      }
+      .reference-wrapper .reference-icon.check-icon {
+        color: var(--positive-green-text-color, #188038);
       }
       .reference-wrapper .reference-icon.selection-icon {
         max-width: 100%;
@@ -119,20 +138,16 @@ export class ReferencesDropdown extends LitElement {
       }
       .cl-references,
       .warnings-list {
-        margin: var(--spacing-m) 0;
+        margin: var(--spacing-s) 0;
         padding-left: 20px;
         list-style-type: disc;
       }
       .cl-references li,
       .warnings-list li {
-        color: var(--focus-outline-color);
+        color: var(--primary-text-color);
         overflow-wrap: break-word;
-        font-size: var(--font-size-small);
-        line-height: var(--line-height-small);
-      }
-      ul.cl-references-file-diffs {
-        padding-left: 20px;
-        list-style-type: disc;
+        font-size: var(--font-size-normal);
+        line-height: var(--line-height-normal);
       }
       .warning-icon {
         color: var(--warning-icon, purple);
@@ -142,6 +157,7 @@ export class ReferencesDropdown extends LitElement {
         margin-left: -2px;
         margin-top: -6px;
         padding-right: 2px;
+        color: var(--warning-icon, purple);
       }
     `,
   ];
@@ -196,6 +212,13 @@ export class ReferencesDropdown extends LitElement {
   }
 
   private renderReferenceIcon(type: string) {
+    if (type === 'current_gerrit_change') {
+      return html`<gr-icon
+        class="reference-icon check-icon"
+        icon="check_circle"
+        filled
+      ></gr-icon>`;
+    }
     const contextItemType = this.contextItemTypes.find(
       contextItemType => contextItemType.id === type
     );
@@ -213,7 +236,7 @@ export class ReferencesDropdown extends LitElement {
           @click=${this.toggleShowReferences}
           class="references-dropdown-button"
         >
-          <md-icon
+          <md-icon slot="icon"
             >${this.showReferences ? 'expand_less' : 'expand_more'}</md-icon
           >
           Context used (${this.totalReferencesCount})
@@ -237,30 +260,9 @@ export class ReferencesDropdown extends LitElement {
   private renderDropdownContent() {
     return html`
       <div class="references-dropdown-content">
-        ${this.validDynamicReferences.map(
-          reference => html`
-            <div class="button-outer-wrapper">
-              <a
-                class="reference-button"
-                .href=${reference.externalUrl}
-                target="_blank"
-                .title=${reference.tooltip ?? ''}
-              >
-                <div class="reference-wrapper">
-                  ${this.renderReferenceIcon(reference.type)}
-                  <span class="display-text">${reference.displayText}</span>
-                  ${when(
-                    reference.secondaryText,
-                    () => html`<span class="additional-text"
-                      >- ${reference.secondaryText}</span
-                    >`
-                  )}
-                </div>
-              </a>
-            </div>
-            <br />
-          `
-        )}
+        ${this.validDynamicReferences.map(reference => {
+          return this.renderPillLink(reference);
+        })}
         ${when(
           this.hasErrors,
           () => html`
@@ -283,6 +285,30 @@ export class ReferencesDropdown extends LitElement {
         ${when(this.hasErrors && this.listWarnings, () =>
           this.renderWarningsList()
         )}
+      </div>
+    `;
+  }
+
+  private renderPillLink(reference: Reference) {
+    return html`
+      <div class="button-outer-wrapper">
+        <a
+          class="reference-button pill-link"
+          .href=${reference.externalUrl}
+          target="_blank"
+          .title=${reference.tooltip ?? ''}
+        >
+          <div class="reference-wrapper">
+            ${this.renderReferenceIcon(reference.type)}
+            <span class="display-text">${reference.displayText}</span>
+            ${when(
+              reference.secondaryText,
+              () => html`<span class="additional-text"
+                >- ${reference.secondaryText}</span
+              >`
+            )}
+          </div>
+        </a>
       </div>
     `;
   }

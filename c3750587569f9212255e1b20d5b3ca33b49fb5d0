@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9f8921c7_67baf10d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-11-26T11:23:20Z",
+      "side": 1,
+      "message": "@ekempin@google.com Could you please check whether these version updates work for Google and vote on LC? Thanks!\n\nIn general, with using bazel modules we will be forced to have the same dependency version in Gerrit and all plugins / modules. What are your thoughts on this, especially in regards to LC?",
+      "revId": "c3750587569f9212255e1b20d5b3ca33b49fb5d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

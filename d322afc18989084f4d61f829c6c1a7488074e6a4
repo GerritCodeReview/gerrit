@@ -70,6 +70,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9a1cc9f0_9d015444",
+        "filename": "java/com/google/gerrit/sshd/AsyncOutputStream.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2025-11-26T01:26:06Z",
+      "side": 1,
+      "message": "It would it you were trying to support that, but that is not generally done since you would not have deterministic output if you were writing from multiple threads anyway.",
+      "parentUuid": "a087985f_f4f35c32",
+      "revId": "d322afc18989084f4d61f829c6c1a7488074e6a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "40cf05ad_bb3dcac4",

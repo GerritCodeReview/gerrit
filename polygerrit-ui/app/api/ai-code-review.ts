@@ -132,9 +132,13 @@ export declare interface ChatResponsePart {
   /** A text part of the response, to be rendered as markdown */
   text?: string;
   /** A suggested comment that can be shown to the user */
-  comment?: Partial<CommentInfo>;
+  create_comment_action?: CreateCommentAction;
   /** A text that can be copied to the clipboard */
   copyable_text?: CopyableText;
+}
+
+export declare interface CreateCommentAction extends Partial<CommentInfo> {
+  comment_text: string;
 }
 
 export declare interface CopyableText {

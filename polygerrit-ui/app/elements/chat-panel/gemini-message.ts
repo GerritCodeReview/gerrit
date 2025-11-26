@@ -31,7 +31,7 @@ import {
 } from '../../models/chat/chat-model';
 import {commentsModelToken} from '../../models/comments/comments-model';
 import {resolve} from '../../models/dependency';
-import {NumericChangeId} from '../../types/common';
+import {NumericChangeId, PatchSetNumber} from '../../types/common';
 import {compareComments, createNew} from '../../utils/comment-util';
 import {assert} from '../../utils/common-util';
 import {subscribe} from '../lit/subscription-controller';
@@ -55,6 +55,8 @@ export class GeminiMessage extends LitElement {
   @state() currentClNumber?: NumericChangeId;
 
   @state() showErrorDetails = false;
+
+  @state() latestPatchNum?: PatchSetNumber;
 
   private readonly getChatModel = resolve(this, chatModelToken);
 
@@ -154,6 +156,11 @@ export class GeminiMessage extends LitElement {
       () => this.getChangeModel().changeNum$,
       x => (this.currentClNumber = x)
     );
+    subscribe(
+      this,
+      () => this.getChangeModel().latestPatchNum$,
+      x => (this.latestPatchNum = x)
+    );
   }
 
   private onAddAsComment(part: CreateCommentPart) {
@@ -161,6 +168,9 @@ export class GeminiMessage extends LitElement {
       ...part.comment,
       ...createNew(part.comment.message, true),
     };
+    if (!draft.patch_set) {
+      draft.patch_set = this.latestPatchNum;
+    }
     this.getCommentsModel().saveDraft(draft);
   }
 

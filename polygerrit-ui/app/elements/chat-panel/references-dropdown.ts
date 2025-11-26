@@ -42,20 +42,39 @@ export class ReferencesDropdown extends LitElement {
         display: flex;
         flex-direction: row;
         align-items: center;
+        /* Match the vertical line in the mockup */
+        border-left: 1px solid var(--border-color);
+        padding-left: var(--spacing-m);
       }
       .references-dropdown-content {
-        display: block;
-        gap: var(--spacing-m);
-        padding: var(--spacing-m) var(--spacing-m) 0;
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing-s);
+        padding: var(--spacing-s) 0 0 var(--spacing-m);
+        /* Match the vertical line in the mockup */
+        border-left: 1px solid var(--border-color);
+      }
+      .references-dropdown-button {
+        --md-text-button-label-text-color: var(--link-color);
+        --md-text-button-icon-color: var(--link-color);
+        --md-text-button-label-text-font: var(--font-family);
+        --md-text-button-label-text-weight: 500;
+        --md-text-button-label-text-size: var(--font-size-normal);
+        --md-text-button-hover-label-text-color: var(--link-color);
+        --md-text-button-hover-icon-color: var(--link-color);
+        --md-text-button-focus-label-text-color: var(--link-color);
+        --md-text-button-focus-icon-color: var(--link-color);
+        --md-text-button-pressed-label-text-color: var(--link-color);
+        --md-text-button-pressed-icon-color: var(--link-color);
+        margin-left: calc(-1 * var(--spacing-m));
       }
       .button-outer-wrapper {
         display: inline-block;
-        margin-bottom: 4px;
         max-width: 100%;
       }
       .reference-button {
         height: 32px;
-        background-color: var(--background-color-tertiary);
+        background-color: transparent;
         border-radius: 8px;
         max-width: inherit;
         /* For <a> and <button> to look like buttons. */
@@ -63,17 +82,22 @@ export class ReferencesDropdown extends LitElement {
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        padding: 0 12px;
+        padding: 0;
         text-decoration: none;
         border: none;
         font: inherit;
         cursor: pointer;
       }
+      .reference-button.pill-link {
+        background-color: var(--background-color-tertiary);
+        padding: 0 12px;
+        border-radius: 8px;
+        height: 32px;
+      }
       .reference-button.cl-references-button,
       .reference-button.list-warnings-button,
       .reference-button.selection-button {
         background-color: transparent;
-        margin-bottom: 4px;
       }
       .reference-button[disabled] {
         cursor: default;
@@ -82,14 +106,12 @@ export class ReferencesDropdown extends LitElement {
         display: flex;
         align-items: center;
         vertical-align: middle;
-        gap: var(--spacing-m);
-        color: var(--focus-outline-color);
+        gap: var(--spacing-s);
+        color: var(--primary-text-color);
         padding-top: 2px;
-        /* TODO: check typography variables */
-        /* font-family: var(--font-family-title); */
         font-weight: var(--font-weight-medium);
-        font-size: var(--font-size-small);
-        line-height: var(--line-height-small);
+        font-size: var(--font-size-normal);
+        line-height: var(--line-height-normal);
       }
       .reference-wrapper .display-text {
         text-overflow: ellipsis;
@@ -102,8 +124,8 @@ export class ReferencesDropdown extends LitElement {
       }
       .reference-wrapper .reference-icon {
         flex: 0 0 auto;
-        height: 18px;
-        width: 18px;
+        height: 20px;
+        width: 20px;
       }
       .reference-wrapper .reference-icon.selection-icon {
         max-width: 100%;
@@ -119,20 +141,16 @@ export class ReferencesDropdown extends LitElement {
       }
       .cl-references,
       .warnings-list {
-        margin: var(--spacing-m) 0;
+        margin: var(--spacing-s) 0;
         padding-left: 20px;
         list-style-type: disc;
       }
       .cl-references li,
       .warnings-list li {
-        color: var(--focus-outline-color);
+        color: var(--primary-text-color);
         overflow-wrap: break-word;
-        font-size: var(--font-size-small);
-        line-height: var(--line-height-small);
-      }
-      ul.cl-references-file-diffs {
-        padding-left: 20px;
-        list-style-type: disc;
+        font-size: var(--font-size-normal);
+        line-height: var(--line-height-normal);
       }
       .warning-icon {
         color: var(--warning-icon, purple);
@@ -142,6 +160,7 @@ export class ReferencesDropdown extends LitElement {
         margin-left: -2px;
         margin-top: -6px;
         padding-right: 2px;
+        color: var(--warning-icon, purple);
       }
     `,
   ];
@@ -213,7 +232,7 @@ export class ReferencesDropdown extends LitElement {
           @click=${this.toggleShowReferences}
           class="references-dropdown-button"
         >
-          <md-icon
+          <md-icon slot="icon"
             >${this.showReferences ? 'expand_less' : 'expand_more'}</md-icon
           >
           Context used (${this.totalReferencesCount})
@@ -238,10 +257,10 @@ export class ReferencesDropdown extends LitElement {
     return html`
       <div class="references-dropdown-content">
         ${this.validDynamicReferences.map(
-          reference => html`
-            <div class="button-outer-wrapper">
+          reference =>
+            html`<div class="button-outer-wrapper">
               <a
-                class="reference-button"
+                class="reference-button pill-link"
                 .href=${reference.externalUrl}
                 target="_blank"
                 .title=${reference.tooltip ?? ''}
@@ -257,9 +276,7 @@ export class ReferencesDropdown extends LitElement {
                   )}
                 </div>
               </a>
-            </div>
-            <br />
-          `
+            </div>`
         )}
         ${when(
           this.hasErrors,

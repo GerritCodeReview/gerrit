@@ -136,17 +136,17 @@ def java_dependencies():
     )
 
     maven_jar(
-        name = "commons-dbcp",
-        artifact = "commons-dbcp:commons-dbcp:1.4",
-        sha1 = "30be73c965cc990b153a100aaaaafcf239f82d39",
+        name = "commons-dbcp2",
+        artifact = "org.apache.commons:commons-dbcp2:2.13.0",
+        sha1 = "6c854db2a54004880cb9d1e436d64d45a475bbcf",
     )
 
-    # Transitive dependency of commons-dbcp, do not update without
-    # also updating commons-dbcp
+    # Transitive dependency of commons-dbcp2, do not update without
+    # also updating commons-dbcp2
     maven_jar(
-        name = "commons-pool",
-        artifact = "commons-pool:commons-pool:1.5.5",
-        sha1 = "7d8ffbdc47aa0c5a8afe5dc2aaf512f369f1d19b",
+        name = "commons-pool2",
+        artifact = "org.apache.commons:commons-pool2:2.12.1",
+        sha1 = "e5c7b6c9f5a4b59be2bba213fbec70b413376fc1",
     )
 
     maven_jar(

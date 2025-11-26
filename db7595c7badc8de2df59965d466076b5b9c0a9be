@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ba428fd8_e196302a",
+        "filename": "javatests/com/google/gerrit/acceptance/server/project/SubmitRequirementsEvaluatorIT.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2025-11-26T07:56:55Z",
+      "side": 1,
+      "message": "test needs to be adapted",
+      "range": {
+        "startLine": 254,
+        "startChar": 2,
+        "endLine": 254,
+        "endChar": 8
+      },
+      "revId": "db7595c7badc8de2df59965d466076b5b9c0a9be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

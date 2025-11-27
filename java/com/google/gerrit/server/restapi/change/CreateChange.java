@@ -83,6 +83,7 @@ import com.google.gerrit.server.project.ContributorAgreementsChecker;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.restapi.project.CommitsCollection;
 import com.google.gerrit.server.restapi.project.ProjectsCollection;
@@ -447,6 +448,23 @@ public class CreateChange
                 input.merge);
         logger.atFine().log(
             "parent commit = %s", parentCommit != null ? parentCommit.name() : "NULL");
+
+        // If it was possible to create a change providing a base commit that belongs to an open or
+        // abandoned change then we should lookup the corresponding change from the index to use the
+        // patch set groups from this change, so that the new change is related to that change.
+        // But we require that the base commit is reachable from the target branch, hence the change
+        // creations fails in this case and the code below to handle this case is not needed.
+        if (basePatchSet == null && parentCommit != null) {
+          List<ChangeData> parentChanges =
+              queryProvider
+                  .get()
+                  .setLimit(1)
+                  .byBranchCommitNewOrAbandoned(input.project, input.branch, parentCommit.name());
+          if (!parentChanges.isEmpty()) {
+            ChangeData parentChange = parentChanges.getFirst();
+            groups = psUtil.current(parentChange.notes()).groups();
+          }
+        }
 
         RevCommit mergeTip = parentCommit == null ? null : rw.parseCommit(parentCommit);
 

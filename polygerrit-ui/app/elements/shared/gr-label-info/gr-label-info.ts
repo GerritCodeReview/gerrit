@@ -10,7 +10,6 @@ import '../gr-account-chip/gr-account-chip';
 import '../gr-button/gr-button';
 import '../gr-tooltip-content/gr-tooltip-content';
 import {
-  AccountId,
   AccountInfo,
   ApprovalInfo,
   isDetailedLabelInfo,

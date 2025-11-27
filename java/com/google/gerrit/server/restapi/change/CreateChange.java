@@ -83,6 +83,7 @@ import com.google.gerrit.server.project.ContributorAgreementsChecker;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.restapi.project.CommitsCollection;
 import com.google.gerrit.server.restapi.project.ProjectsCollection;
@@ -447,6 +448,18 @@ public class CreateChange
                 input.merge);
         logger.atFine().log(
             "parent commit = %s", parentCommit != null ? parentCommit.name() : "NULL");
+
+        if (basePatchSet == null) {
+          List<ChangeData> parentChanges =
+              queryProvider
+                  .get()
+                  .setLimit(1)
+                  .byBranchCommitOpen(input.project, input.branch, parentCommit.name());
+          if (!parentChanges.isEmpty()) {
+            ChangeData parentChange = parentChanges.getFirst();
+            groups = psUtil.current(parentChange.notes()).groups();
+          }
+        }
 
         RevCommit mergeTip = parentCommit == null ? null : rw.parseCommit(parentCommit);
 

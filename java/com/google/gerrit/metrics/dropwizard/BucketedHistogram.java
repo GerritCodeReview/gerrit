@@ -48,7 +48,10 @@ abstract class BucketedHistogram implements BucketedMetric {
       c.remove();
     }
     total.remove();
-    metrics.remove(name);
+    // Only remove if we're still the registered instance for this metric name.
+    // During plugin reload, a new plugin may have registered a metric with the
+    // same name, and we should not remove it.
+    metrics.remove(name, this);
   }
 
   HistogramImpl forceCreate(Object f1, Object f2) {

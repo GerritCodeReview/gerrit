@@ -45,6 +45,30 @@
       },
       "revId": "dd47de4f31b123bc8b213a4d74f93ab9e901f68c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "33e96bd6_6b129aac",
+        "filename": "java/com/google/gerrit/server/quota/QuotaResponse.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-11-27T15:51:09Z",
+      "side": 1,
+      "message": "To be honest, I haven\u0027t done this because I don\u0027t think we should be bubbling this up the client necessarily. quota enforcing failures are also logged, so I think it\u0027s ok to have them there for analysis and troubleshooting.\n\nWDYT @ponch78@gmail.com?",
+      "parentUuid": "7afb0b55_e5dc6556",
+      "range": {
+        "startLine": 132,
+        "startChar": 34,
+        "endLine": 132,
+        "endChar": 41
+      },
+      "revId": "dd47de4f31b123bc8b213a4d74f93ab9e901f68c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

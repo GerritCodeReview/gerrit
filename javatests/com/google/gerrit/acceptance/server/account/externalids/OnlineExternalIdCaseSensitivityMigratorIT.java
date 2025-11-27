@@ -27,10 +27,10 @@ import com.google.gerrit.server.account.externalids.DuplicateExternalIdKeyExcept
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIdFactory;
 import com.google.gerrit.server.account.externalids.ExternalIdKeyFactory;
-import com.google.gerrit.server.account.externalids.OnlineExternalIdCaseSensivityMigratiorExecutor;
+import com.google.gerrit.server.account.externalids.OnlineExternalIdCaseSensitivityMigratiorExecutor;
 import com.google.gerrit.server.account.externalids.storage.notedb.ExternalIdCaseSensitivityMigrator;
 import com.google.gerrit.server.account.externalids.storage.notedb.ExternalIdNotes;
-import com.google.gerrit.server.account.externalids.storage.notedb.OnlineExternalIdCaseSensivityMigrator;
+import com.google.gerrit.server.account.externalids.storage.notedb.OnlineExternalIdCaseSensitivityMigrator;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
@@ -42,16 +42,18 @@ import java.util.concurrent.ExecutorService;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.storage.file.FileBasedConfig;
+import org.eclipse.jgit.util.FS;
 import org.junit.Test;
 
-public class OnlineExternalIdCaseSensivityMigratorIT extends AbstractDaemonTest {
+public class OnlineExternalIdCaseSensitivityMigratorIT extends AbstractDaemonTest {
   private Account.Id accountId = Account.id(66);
   private boolean isUserNameCaseInsensitive = false;
 
   @Inject private ExternalIdNotes.Factory externalIdNotesFactory;
   @Inject private ExternalIdKeyFactory externalIdKeyFactory;
   @Inject private ExternalIdFactory externalIdFactory;
-  @Inject private OnlineExternalIdCaseSensivityMigrator objectUnderTest;
+  @Inject private OnlineExternalIdCaseSensitivityMigrator objectUnderTest;
 
   @Override
   public Module createModule() {
@@ -60,7 +62,7 @@ public class OnlineExternalIdCaseSensivityMigratorIT extends AbstractDaemonTest 
       protected void configure() {
         install(new FactoryModuleBuilder().build(ExternalIdCaseSensitivityMigrator.Factory.class));
         bind(ExecutorService.class)
-            .annotatedWith(OnlineExternalIdCaseSensivityMigratiorExecutor.class)
+            .annotatedWith(OnlineExternalIdCaseSensitivityMigratiorExecutor.class)
             .toInstance(MoreExecutors.newDirectExecutorService());
       }
     };
@@ -85,7 +87,7 @@ public class OnlineExternalIdCaseSensivityMigratorIT extends AbstractDaemonTest 
       assertThat(getExactExternalId(extIdNotes, SCHEME_USERNAME, "JonDoe").isPresent()).isTrue();
       assertThat(getExactExternalId(extIdNotes, SCHEME_USERNAME, "jondoe").isPresent()).isFalse();
 
-      objectUnderTest.migrate();
+      objectUnderTest.migrate(false);
 
       extIdNotes = externalIdNotesFactory.load(allUsersRepo);
       assertThat(getExactExternalId(extIdNotes, SCHEME_GERRIT, "JonDoe").isPresent()).isFalse();
@@ -93,6 +95,47 @@ public class OnlineExternalIdCaseSensivityMigratorIT extends AbstractDaemonTest 
 
       assertThat(getExactExternalId(extIdNotes, SCHEME_USERNAME, "JonDoe").isPresent()).isFalse();
       assertThat(getExactExternalId(extIdNotes, SCHEME_USERNAME, "jondoe").isPresent()).isTrue();
+
+      FileBasedConfig cfg = new FileBasedConfig(sitePaths.gerrit_config.toFile(), FS.detect());
+      cfg.load();
+      assertThat(cfg.getBoolean("auth", null, "userNameCaseInsensitiveMigrationMode", true))
+          .isFalse();
+    }
+  }
+
+  @Test
+  @GerritConfig(name = "auth.userNameCaseInsensitive", value = "true")
+  @GerritConfig(name = "auth.userNameCaseInsensitiveMigrationMode", value = "true")
+  public void shouldMigrateExternalIdWithPreserveMigrationMode()
+      throws IOException, ConfigInvalidException {
+    try (Repository allUsersRepo = repoManager.openRepository(allUsers);
+        MetaDataUpdate md = metaDataUpdateFactory.create(allUsers)) {
+      ExternalIdNotes extIdNotes = externalIdNotesFactory.load(allUsersRepo);
+
+      createExternalId(
+          md, extIdNotes, SCHEME_GERRIT, "JonDoe", accountId, isUserNameCaseInsensitive);
+      createExternalId(
+          md, extIdNotes, SCHEME_USERNAME, "JonDoe", accountId, isUserNameCaseInsensitive);
+
+      assertThat(getExactExternalId(extIdNotes, SCHEME_GERRIT, "JonDoe").isPresent()).isTrue();
+      assertThat(getExactExternalId(extIdNotes, SCHEME_GERRIT, "jondoe").isPresent()).isFalse();
+
+      assertThat(getExactExternalId(extIdNotes, SCHEME_USERNAME, "JonDoe").isPresent()).isTrue();
+      assertThat(getExactExternalId(extIdNotes, SCHEME_USERNAME, "jondoe").isPresent()).isFalse();
+
+      objectUnderTest.migrate(true);
+
+      extIdNotes = externalIdNotesFactory.load(allUsersRepo);
+      assertThat(getExactExternalId(extIdNotes, SCHEME_GERRIT, "JonDoe").isPresent()).isFalse();
+      assertThat(getExactExternalId(extIdNotes, SCHEME_GERRIT, "jondoe").isPresent()).isTrue();
+
+      assertThat(getExactExternalId(extIdNotes, SCHEME_USERNAME, "JonDoe").isPresent()).isFalse();
+      assertThat(getExactExternalId(extIdNotes, SCHEME_USERNAME, "jondoe").isPresent()).isTrue();
+
+      FileBasedConfig cfg = new FileBasedConfig(sitePaths.gerrit_config.toFile(), FS.detect());
+      cfg.load();
+      assertThat(cfg.getBoolean("auth", null, "userNameCaseInsensitiveMigrationMode", true))
+          .isTrue();
     }
   }
 
@@ -118,7 +161,7 @@ public class OnlineExternalIdCaseSensivityMigratorIT extends AbstractDaemonTest 
       assertThat(getExactExternalId(extIdNotes, SCHEME_USERNAME, "JonDoe").isPresent()).isFalse();
       assertThat(getExactExternalId(extIdNotes, SCHEME_USERNAME, "jondoe").isPresent()).isTrue();
 
-      objectUnderTest.migrate();
+      objectUnderTest.migrate(false);
     }
   }
 
@@ -156,7 +199,7 @@ public class OnlineExternalIdCaseSensivityMigratorIT extends AbstractDaemonTest 
       assertThat(getExactExternalId(extIdNotes, SCHEME_USERNAME, "JonDoe").get().email())
           .isEqualTo("test@email.com");
 
-      objectUnderTest.migrate();
+      objectUnderTest.migrate(false);
 
       extIdNotes = externalIdNotesFactory.load(allUsersRepo);
       assertThat(getExactExternalId(extIdNotes, SCHEME_GERRIT, "JonDoe").isPresent()).isFalse();
@@ -186,7 +229,7 @@ public class OnlineExternalIdCaseSensivityMigratorIT extends AbstractDaemonTest 
       assertThat(getExactExternalId(extIdNotes, SCHEME_USERNAME, "JonDoe").isPresent()).isTrue();
       assertThat(getExactExternalId(extIdNotes, SCHEME_USERNAME, "jondoe").isPresent()).isFalse();
 
-      objectUnderTest.migrate();
+      objectUnderTest.migrate(false);
 
       extIdNotes = externalIdNotesFactory.load(allUsersRepo);
       assertThat(
@@ -214,7 +257,7 @@ public class OnlineExternalIdCaseSensivityMigratorIT extends AbstractDaemonTest 
       assertThat(getExactExternalId(extIdNotes, SCHEME_USERNAME, "JonDoe").isPresent()).isTrue();
       assertThat(getExactExternalId(extIdNotes, SCHEME_USERNAME, "jondoe").isPresent()).isTrue();
 
-      assertThrows(DuplicateExternalIdKeyException.class, () -> objectUnderTest.migrate());
+      assertThrows(DuplicateExternalIdKeyException.class, () -> objectUnderTest.migrate(false));
     }
   }
 
@@ -234,7 +277,7 @@ public class OnlineExternalIdCaseSensivityMigratorIT extends AbstractDaemonTest 
       assertThat(getExactExternalId(extIdNotes, SCHEME_USERNAME, "JonDoe").isPresent()).isTrue();
       assertThat(getExactExternalId(extIdNotes, SCHEME_USERNAME, "jondoe").isPresent()).isFalse();
 
-      objectUnderTest.migrate();
+      objectUnderTest.migrate(false);
 
       extIdNotes = externalIdNotesFactory.load(allUsersRepo);
 
@@ -256,7 +299,7 @@ public class OnlineExternalIdCaseSensivityMigratorIT extends AbstractDaemonTest 
       createExternalId(
           md, extIdNotes, SCHEME_USERNAME, "JonDoe", accountId, isUserNameCaseInsensitive);
 
-      objectUnderTest.migrate();
+      objectUnderTest.migrate(false);
 
       extIdNotes = externalIdNotesFactory.load(allUsersRepo);
       assertThat(getExactExternalId(extIdNotes, SCHEME_USERNAME, "jondoe").isPresent()).isFalse();

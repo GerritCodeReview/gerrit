@@ -14,8 +14,8 @@
 
 package com.google.gerrit.sshd.commands;
 
-import com.google.gerrit.server.account.externalids.OnlineExternalIdCaseSensivityMigratiorExecutor;
-import com.google.gerrit.server.account.externalids.storage.notedb.OnlineExternalIdCaseSensivityMigrator;
+import com.google.gerrit.server.account.externalids.OnlineExternalIdCaseSensitivityMigratiorExecutor;
+import com.google.gerrit.server.account.externalids.storage.notedb.OnlineExternalIdCaseSensitivityMigrator;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.sshd.CommandModule;
 import com.google.gerrit.sshd.Commands;
@@ -30,14 +30,14 @@ public class ExternalIdCommandsModule extends CommandModule {
 
   @Override
   protected void configure() {
-    bind(OnlineExternalIdCaseSensivityMigrator.class);
+    bind(OnlineExternalIdCaseSensitivityMigrator.class);
     command(Commands.named("gerrit"), ExternalIdCaseSensitivityMigrationCommand.class);
   }
 
   @Provides
   @Singleton
-  @OnlineExternalIdCaseSensivityMigratiorExecutor
-  public ExecutorService OnlineExternalIdCaseSensivityMigratiorExecutor(WorkQueue queues) {
+  @OnlineExternalIdCaseSensitivityMigratiorExecutor
+  public ExecutorService OnlineExternalIdCaseSensitivityMigratiorExecutor(WorkQueue queues) {
     return queues.createQueue(1, "MigrateExternalIdCase", true);
   }
 }

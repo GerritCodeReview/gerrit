@@ -185,4 +185,43 @@ suite('chat-panel screenshot tests', () => {
     await visualDiff(element, 'chat-panel-chat-mode-with-references');
     await visualDiffDarkTheme(element, 'chat-panel-chat-mode-with-references');
   });
+
+  test('chat mode with citations', async () => {
+    chatModel.updateState({
+      ...chatModel.getState(),
+      models: {
+        ...chatModel.getState().models!,
+        citation_url: 'https://www.google.com',
+      },
+      turns: [
+        {
+          userMessage: {
+            content: 'What are the conventions?',
+            userType: UserType.USER,
+            contextItems: [],
+          },
+          geminiMessage: {
+            responseParts: [
+              {
+                id: 0,
+                type: ResponsePartType.TEXT,
+                content: 'Here are some references I found:',
+              },
+            ],
+            regenerationIndex: 0,
+            references: [],
+            citations: [
+              'http://example.com/citation1',
+              'http://example.com/citation2',
+            ],
+            userType: UserType.GEMINI,
+            responseComplete: true,
+          },
+        },
+      ] as Turn[],
+    });
+    await element.updateComplete;
+    await visualDiff(element, 'chat-panel-chat-mode-with-citations');
+    await visualDiffDarkTheme(element, 'chat-panel-chat-mode-with-citations');
+  });
 });

@@ -22,6 +22,30 @@
       },
       "revId": "6b6059bd65890f03d80d27a8550a2cb650cdfb32",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9848ac9c_b88e6f67",
+        "filename": "javatests/com/google/gerrit/acceptance/server/account/externalids/OnlineExternalIdCaseSensitivityMigratorIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-11-27T09:55:05Z",
+      "side": 0,
+      "message": "Yes, this is needed.\nChange If2857024ab7c1 (landed in 3.12) moved `sitePaths` to `AbstractDaemonTest`, so the shadowing `sitePaths` here needs to be removed to make `errorProne` happy and prevent the test from failing.\n\n```\n12:43:57 javatests/com/google/gerrit/acceptance/server/account/externalids/OnlineExternalIdCaseSensitivityMigratorIT.java:58: error: [HidingField] Hiding fields of superclasses may cause confusion and errors. This field is hiding a field of the same name in superclass: AbstractDaemonTest\n12:43:57   @Inject private SitePaths sitePaths;\n12:43:57                             ^\n12:43:57     (see https://errorprone.info/bugpattern/HidingField)\n```",
+      "parentUuid": "4c119384_7e5d568f",
+      "range": {
+        "startLine": 58,
+        "startChar": 2,
+        "endLine": 58,
+        "endChar": 38
+      },
+      "revId": "6b6059bd65890f03d80d27a8550a2cb650cdfb32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

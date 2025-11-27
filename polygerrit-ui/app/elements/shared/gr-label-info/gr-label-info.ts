@@ -6,8 +6,6 @@
 import '../../../styles/gr-font-styles';
 import '../../../styles/gr-voting-styles';
 import '../../../styles/shared-styles';
-import '../gr-icon/gr-icon';
-import '../gr-vote-chip/gr-vote-chip';
 import '../gr-account-chip/gr-account-chip';
 import '../gr-button/gr-button';
 import '../gr-tooltip-content/gr-tooltip-content';

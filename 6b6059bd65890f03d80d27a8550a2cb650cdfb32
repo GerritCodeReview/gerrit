@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c119384_7e5d568f",
+        "filename": "javatests/com/google/gerrit/acceptance/server/account/externalids/OnlineExternalIdCaseSensitivityMigratorIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-11-27T08:54:45Z",
+      "side": 0,
+      "message": "Is this related?",
+      "range": {
+        "startLine": 58,
+        "startChar": 2,
+        "endLine": 58,
+        "endChar": 38
+      },
+      "revId": "6b6059bd65890f03d80d27a8550a2cb650cdfb32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

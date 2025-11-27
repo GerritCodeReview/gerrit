@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6cd1f10c_f9f3ed95",
+        "filename": "javatests/com/google/gerrit/metrics/dropwizard/PluginMetricReloadTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 3911711
+      },
+      "writtenOn": "2025-11-27T07:52:25Z",
+      "side": 1,
+      "message": "Seems this test isn\u0027t building properly, will fix this.",
+      "revId": "bc9c0517ef027f137715442411e3fce864a7c291",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -96,7 +96,7 @@ suite('references-dropdown tests', () => {
         class="references-dropdown-button"
         value=""
       >
-        <md-icon aria-hidden="true">expand_more</md-icon>
+        <md-icon slot="icon" aria-hidden="true">expand_more</md-icon>
         Context used (2)
       </md-text-button>
     `

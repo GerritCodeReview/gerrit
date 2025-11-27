@@ -145,11 +145,6 @@ suite('chat-panel screenshot tests', () => {
             regenerationIndex: 0,
             references: [
               {
-                type: 'current_gerrit_change',
-                displayText: 'Current Gerrit Change',
-                externalUrl: '#',
-              },
-              {
                 type: 'g3doc',
                 displayText: 'fe-conventions.md',
                 externalUrl:

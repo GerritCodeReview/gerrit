@@ -338,6 +338,24 @@ public class DropWizardMetricMaker extends MetricMaker {
     return () -> all.forEach(CallbackMetricGlue::remove);
   }
 
+  /**
+   * Remove a metric by name only if the caller is still the registered instance.
+   *
+   * <p>This prevents old plugin instances from removing metrics registered by new instances during
+   * plugin reload. Since multiple plugin instances can exist briefly during reload, we must verify
+   * instance ownership before removal.
+   *
+   * @param name the metric name
+   * @param instance the BucketedMetric instance requesting removal
+   */
+  synchronized void remove(String name, BucketedMetric instance) {
+    if (bucketed.get(name) == instance) {
+      bucketed.remove(name);
+      descriptions.remove(name);
+    }
+  }
+
+  /** Remove a metric by name (for non-bucketed metrics). */
   synchronized void remove(String name) {
     bucketed.remove(name);
     descriptions.remove(name);

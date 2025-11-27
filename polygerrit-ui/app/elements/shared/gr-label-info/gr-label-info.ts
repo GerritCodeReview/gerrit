@@ -10,7 +10,6 @@ import '../gr-account-chip/gr-account-chip';
 import '../gr-button/gr-button';
 import '../gr-tooltip-content/gr-tooltip-content';
 import {
-  AccountId,
   AccountInfo,
   ApprovalInfo,
   isDetailedLabelInfo,
@@ -25,7 +24,6 @@ import {
   hasVoted,
   valueString,
 } from '../../../utils/label-util';
-import {getAppContext} from '../../../services/app-context';
 import {ParsedChangeInfo} from '../../../types/types';
 import {fontStyles} from '../../../styles/gr-font-styles';
 import {sharedStyles} from '../../../styles/shared-styles';

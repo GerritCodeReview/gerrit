@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f49118cf_1347d824",
+        "filename": "java/com/google/gerrit/server/quota/QuotaResponse.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-11-27T16:17:34Z",
+      "side": 1,
+      "message": "Makes sense.\nI am now using sorted().findFirst() rather than min() because it is guaranteed to be stable.",
+      "parentUuid": "261736c2_aae77ab3",
+      "range": {
+        "startLine": 131,
+        "startChar": 11,
+        "endLine": 131,
+        "endChar": 14
+      },
+      "revId": "dd47de4f31b123bc8b213a4d74f93ab9e901f68c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7afb0b55_e5dc6556",

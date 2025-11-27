@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "557bd2b3_2e04081e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-11-27T16:17:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "37bf2450_8cee9957",
+      "range": {
+        "startLine": 9,
+        "startChar": 52,
+        "endLine": 9,
+        "endChar": 58
+      },
+      "revId": "7b8090e848f836c780e486853ad91b1851f49826",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8ae2c35c_743c1401",
@@ -41,6 +65,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "db4dea75_499091b0",
+        "filename": "java/com/google/gerrit/server/git/receive/AsyncReceiveCommits.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 370,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-11-27T16:17:51Z",
+      "side": 1,
+      "message": "I was coding defensively, but you\u0027re right there\u0027s no way available bytes can ever be negative.\nFixed",
+      "parentUuid": "8ae2c35c_743c1401",
+      "revId": "7b8090e848f836c780e486853ad91b1851f49826",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b08a4a75_0a969199",
@@ -54,6 +96,30 @@
       "writtenOn": "2025-11-25T11:52:43Z",
       "side": 1,
       "message": "I presume this case is just handling exceeding of \"repository size\".\nOther cases, for example quotas on number of requests per min, will not be handled by this case.",
+      "range": {
+        "startLine": 380,
+        "startChar": 79,
+        "endLine": 380,
+        "endChar": 95
+      },
+      "revId": "7b8090e848f836c780e486853ad91b1851f49826",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a74bd518_54c9bd19",
+        "filename": "java/com/google/gerrit/server/git/receive/AsyncReceiveCommits.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-11-27T16:17:51Z",
+      "side": 1,
+      "message": "Exactly, that\u0027s a different code path.\nHTTP enforcing is done at [1]\n\n[1] https://gerrit.googlesource.com/gerrit/+/refs/heads/master/java/com/google/gerrit/httpd/restapi/RestApiQuotaEnforcer.java#52",
+      "parentUuid": "b08a4a75_0a969199",
       "range": {
         "startLine": 380,
         "startChar": 79,
@@ -87,6 +153,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "06a36241_24479f4c",
+        "filename": "javatests/com/google/gerrit/acceptance/server/quota/RepositorySizeQuotaIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-11-27T16:17:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0cf21d3a_a0a437df",
+      "range": {
+        "startLine": 98,
+        "startChar": 54,
+        "endLine": 98,
+        "endChar": 70
+      },
+      "revId": "7b8090e848f836c780e486853ad91b1851f49826",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cac90481_52991eca",
@@ -100,6 +190,30 @@
       "writtenOn": "2025-11-25T11:52:43Z",
       "side": 1,
       "message": "It might be worth adding a static variable in the RepositorySizeQuota to reuse it in the test and the code.",
+      "range": {
+        "startLine": 114,
+        "startChar": 17,
+        "endLine": 114,
+        "endChar": 95
+      },
+      "revId": "7b8090e848f836c780e486853ad91b1851f49826",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f0cff5a_8f2c5062",
+        "filename": "javatests/com/google/gerrit/acceptance/server/quota/RepositorySizeQuotaIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-11-27T16:17:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cac90481_52991eca",
       "range": {
         "startLine": 114,
         "startChar": 17,

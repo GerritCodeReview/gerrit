@@ -22,6 +22,58 @@
       },
       "revId": "971852666ae8687891b7f96effbc8584ffb2334d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "992c4c71_7ddb30ed",
+        "filename": "polygerrit-ui/app/elements/chat-panel/prompt-box.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-11-28T08:31:34Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "770a1e55_a9b068e9",
+      "range": {
+        "startLine": 157,
+        "startChar": 39,
+        "endLine": 157,
+        "endChar": 57
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "8165b269_ac96d5d0",
+          "description": "GET_AI_FIX_FOR_COMMENT prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/prompt-box.ts",
+              "range": {
+                "startLine": 47,
+                "startChar": 0,
+                "endLine": 47,
+                "endChar": 0
+              },
+              "replacement": "  @property({type: String})\n  disabledMessage \u003d \u0027Review Agent is disabled.\u0027;\n\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/prompt-box.ts",
+              "range": {
+                "startLine": 157,
+                "startChar": 0,
+                "endLine": 158,
+                "endChar": 0
+              },
+              "replacement": "      return this.disabledMessage;\n"
+            }
+          ]
+        }
+      ],
+      "revId": "971852666ae8687891b7f96effbc8584ffb2334d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

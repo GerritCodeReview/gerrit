@@ -1071,6 +1071,36 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   }
 
   @Test
+  @GerritConfig(name = "change.backfillMergeSuperSet", value = "true")
+  public void submitChangeMissingInIndexComputeMergeSupersetSucceedsWithBackfillEnabled()
+      throws Throwable {
+    // Cherry-pick strategy does not query from the index
+    assume().that(getSubmitType()).isNotEqualTo(CHERRY_PICK);
+    PushOneCommit.Result change = createChange();
+
+    // Submit using full change Id to avoid using index.
+    String id = change.getChange().project() + "~" + change.getChange().getId().get();
+    approve(id);
+
+    // Delete the change from the index, to ensure the use of the backfill mechanism
+    changeIndex.delete(change.getChange().getId());
+
+    testMetricMaker.reset();
+
+    submit(id, new TestSubmitInput());
+    assertMerged(id);
+
+    // We should not have retried
+    assertThat(
+            testMetricMaker.getCount(
+                "action/retry_attempt_count",
+                "INDEX_QUERY",
+                "completeMergeChangeSet",
+                "IOException"))
+        .isEqualTo(0);
+  }
+
+  @Test
   public void retrySubmitAfterTornTopicOnLockFailure() throws Throwable {
     assume().that(isSubmitWholeTopicEnabled()).isTrue();
 

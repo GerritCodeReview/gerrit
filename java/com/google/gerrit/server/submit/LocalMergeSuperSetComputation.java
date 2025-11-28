@@ -24,7 +24,10 @@ import com.google.common.collect.Iterables;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.entities.BranchNameKey;
+import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.SubmitRequirement;
+import com.google.gerrit.entities.SubmitRequirementResult;
 import com.google.gerrit.entities.SubmitTypeRecord;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.client.SubmitType;
@@ -49,6 +52,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -106,6 +110,13 @@ public class LocalMergeSuperSetComputation implements MergeSuperSetComputation {
   @Override
   public ChangeSet completeWithoutTopic(
       MergeOpRepoManager orm, ChangeSet changeSet, CurrentUser user) throws IOException {
+    return completeWithoutTopic(orm, changeSet, user, false);
+  }
+
+  @Override
+  public ChangeSet completeWithoutTopic(
+      MergeOpRepoManager orm, ChangeSet changeSet, CurrentUser user, boolean backfill)
+      throws IOException {
     List<ChangeData> visibleChanges = new ArrayList<>();
     List<ChangeData> nonVisibleChanges = new ArrayList<>();
 
@@ -155,7 +166,41 @@ public class LocalMergeSuperSetComputation implements MergeSuperSetComputation {
       Iterables.addAll(nonVisibleChanges, partialSet.nonVisibleChanges());
     }
 
+    if (backfill) {
+      backfillMissingChangeData(changeSet, visibleChanges, nonVisibleChanges);
+    }
     return new ChangeSet(visibleChanges, nonVisibleChanges);
+  }
+
+  //  The visibleChanges and nonVisibleChanges may not be able to find the ChangeData
+  //  passed as parameter for computing the computed merged-superset, because of a stale
+  //  change index, which may happen for distributed multi-primary Gerrit nodes or when
+  //  the reindexing is performed asynchronously.
+  //
+  //  The input ChangeSet contains the ChangeData needed and therefore can be used
+  //  to backfill the missing entry.
+  private static void backfillMissingChangeData(
+      ChangeSet changeSet, List<ChangeData> visibleChanges, List<ChangeData> nonVisibleChanges) {
+    backfillMissingChangeData(changeSet.changes(), visibleChanges);
+    backfillMissingChangeData(changeSet.nonVisibleChanges(), nonVisibleChanges);
+  }
+
+  private static void backfillMissingChangeData(
+      Collection<ChangeData> backfillChangesData, List<ChangeData> changesData) {
+    Set<Change.Id> changesDataIds =
+        changesData.stream().map(ChangeData::getId).collect(Collectors.toSet());
+    backfillChangesData.forEach(
+        cd -> {
+          if (!changesDataIds.contains(cd.getId())) {
+            cd.reloadChange();
+            // Backfill only changes that are still open
+            if (cd.change().isNew()) {
+              // Make sure that the ChangeData to backfill has evaluated submit requirements
+              Map<SubmitRequirement, SubmitRequirementResult> unused = cd.submitRequirements();
+              changesData.add(cd);
+            }
+          }
+        });
   }
 
   private static ImmutableListMultimap<BranchNameKey, ChangeData> byBranch(

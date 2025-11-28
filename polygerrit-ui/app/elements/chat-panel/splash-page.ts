@@ -12,7 +12,7 @@ import './gemini-message';
 import './splash-page-action';
 
 import {css, html, LitElement} from 'lit';
-import {customElement, state} from 'lit/decorators.js';
+import {customElement, property, state} from 'lit/decorators.js';
 import {classMap} from 'lit/directives/class-map.js';
 import {when} from 'lit/directives/when.js';
 
@@ -36,6 +36,8 @@ export class SplashPage extends LitElement {
   @state() turns: readonly Turn[] = [];
 
   @state() actions: readonly Action[] = [];
+
+  @property({type: Boolean}) isChangePrivate = false;
 
   private readonly getChatModel = resolve(this, chatModelToken);
 
@@ -202,14 +204,32 @@ export class SplashPage extends LitElement {
         <h1 class="splash-greeting">Hello, ${displayName}</h1>
         <p class="splash-question">How can I help you today?</p>
 
-        ${this.renderBackgroundRequest()}
-
-        <div class="action-container-title suggested-actions-title">
-          Capabilities
-        </div>
-
-        ${this.renderActionChipSet()}
+        ${this.renderContent()}
       </div>
+    `;
+  }
+
+  private renderContent() {
+    if (this.isChangePrivate) {
+      return html`
+        <div class="background-request-container">
+          <div class="background-request-header">
+            <md-icon class="material-icon">info</md-icon>
+            <span class="user-background-question"
+              >Review Agent is disabled on private changes.</span
+            >
+          </div>
+        </div>
+      `;
+    }
+    return html`
+      ${this.renderBackgroundRequest()}
+
+      <div class="action-container-title suggested-actions-title">
+        Capabilities
+      </div>
+
+      ${this.renderActionChipSet()}
     `;
   }
 

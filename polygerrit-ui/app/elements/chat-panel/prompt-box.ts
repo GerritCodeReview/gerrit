@@ -41,6 +41,9 @@ export class PromptBox extends LitElement {
   @property({type: Boolean})
   showAddContext = false;
 
+  @property({type: Boolean})
+  isDisabled = false;
+
   @state() hasModelLoadingError = false;
 
   @state() selectedModel?: ModelInfo;
@@ -149,6 +152,9 @@ export class PromptBox extends LitElement {
         !isBackgroundRequest)
     ) {
       return 'Thinking ...';
+    }
+    if (this.isDisabled) {
+      return 'Review Agent is disabled on private changes.';
     }
     return '';
   }

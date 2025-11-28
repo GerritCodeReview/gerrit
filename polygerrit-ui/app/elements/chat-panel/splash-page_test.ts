@@ -173,4 +173,25 @@ suite('splash-page tests', () => {
     assert.equal(turns[0].userMessage.content, 'Summarize the change');
     assert.equal(turns[0].userMessage.userType, UserType.USER);
   });
+  test('renders private change message', async () => {
+    element.isChangePrivate = true;
+    await element.updateComplete;
+    assert.shadowDom.equal(
+      element,
+      `
+      <div class="splash-container">
+        <h1 class="splash-greeting">Hello, </h1>
+        <p class="splash-question">How can I help you today?</p>
+        <div class="background-request-container">
+          <div class="background-request-header">
+            <md-icon aria-hidden="true" class="material-icon">info</md-icon>
+            <span class="user-background-question"
+              >Review Agent is disabled on private changes.</span
+            >
+          </div>
+        </div>
+      </div>
+    `
+    );
+  });
 });

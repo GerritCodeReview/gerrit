@@ -53,6 +53,19 @@ suite('chat-panel screenshot tests', () => {
     await visualDiffDarkTheme(element, 'chat-panel-splash-page');
   });
 
+  test('splash page private change', async () => {
+    const changeModel = testResolver(changeModelToken);
+    changeModel.updateState({
+      change: {
+        ...createChange(),
+        is_private: true,
+      } as ParsedChangeInfo,
+    });
+    await element.updateComplete;
+    await visualDiff(element, 'chat-panel-splash-page-private');
+    await visualDiffDarkTheme(element, 'chat-panel-splash-page-private');
+  });
+
   test('chat mode', async () => {
     chatModel.updateState({
       ...chatModel.getState(),

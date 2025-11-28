@@ -22,6 +22,30 @@
       },
       "revId": "14fed53f977c183f28f039c00c954b9bf5681b71",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c3ef5fda_ec3ccbbf",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-11-28T09:00:14Z",
+      "side": 1,
+      "message": "It\u0027s an escape character. I copied that from the documentation for the `added` search operator which introduced `IntegerRange` as a field type. Without the backslash it\u0027s rendered as a double left arrow instead of a \"less or equal\" operator. With the backslash it\u0027s rendered as a \"less or equal\" operator",
+      "parentUuid": "0de292aa_5b70819e",
+      "range": {
+        "startLine": 211,
+        "startChar": 27,
+        "endLine": 211,
+        "endChar": 28
+      },
+      "revId": "14fed53f977c183f28f039c00c954b9bf5681b71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -64,6 +64,7 @@ import com.google.gerrit.extensions.api.changes.ApplyPatchInput;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.CherryPickInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
+import com.google.gerrit.extensions.api.changes.RelatedChangeAndCommitInfo;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.api.projects.BranchInput;
@@ -619,24 +620,129 @@ public class CreateChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void createChangeWithParentCommit() throws Exception {
-    ImmutableMap<String, PushOneCommit.Result> setup =
-        changeInTwoBranches("foo", "foo.txt", "bar", "bar.txt");
+  public void createChangeWithParentCommitThatIsNotAChange() throws Exception {
+    // Create a commit by direct push (no change)
+    PushOneCommit.Result parentCommit =
+        pushFactory.create(user.newIdent(), testRepo).to("refs/heads/master");
+    parentCommit.assertOkStatus();
+
     ChangeInput input = newChangeInput(ChangeStatus.NEW);
-    input.baseCommit = setup.get("master").getCommit().getId().name();
-    ChangeInfo result = assertCreateSucceeds(input);
-    assertThat(gApi.changes().id(result.id).current().commit(false).parents.get(0).commit)
+    input.baseCommit = parentCommit.getCommit().getId().name();
+    ChangeInfo changeInfo = assertCreateSucceeds(input);
+    assertThat(gApi.changes().id(changeInfo.id).current().commit(false).parents.get(0).commit)
         .isEqualTo(input.baseCommit);
+
+    List<RelatedChangeAndCommitInfo> relatedChanges =
+        gApi.changes().id(changeInfo.id).current().related().changes;
+    assertThat(relatedChanges).hasSize(0);
   }
 
   @Test
-  public void createChangeWithParentChange() throws Exception {
-    Result change = createChange();
+  public void createChangeWithParentCommitThatIsAnOpenChange() throws Exception {
+    PushOneCommit.Result parentChange = createChange();
+
     ChangeInput input = newChangeInput(ChangeStatus.NEW);
-    input.baseChange = change.getChangeId();
-    ChangeInfo result = assertCreateSucceeds(input);
-    assertThat(gApi.changes().id(result.id).current().commit(false).parents.get(0).commit)
-        .isEqualTo(change.getCommit().getId().name());
+    input.baseCommit = parentChange.getCommit().getId().name();
+    assertCreateFails(
+        input,
+        BadRequestException.class,
+        String.format("Commit %s doesn't exist on ref refs/heads/master", input.baseCommit));
+  }
+
+  @Test
+  public void createChangeWithParentCommitThatIsAnAbandonedChange() throws Exception {
+    PushOneCommit.Result parentChange = createChange();
+    gApi.changes().id(parentChange.getChangeId()).abandon();
+
+    ChangeInput input = newChangeInput(ChangeStatus.NEW);
+    input.baseCommit = parentChange.getCommit().getId().name();
+    assertCreateFails(
+        input,
+        BadRequestException.class,
+        String.format("Commit %s doesn't exist on ref refs/heads/master", input.baseCommit));
+  }
+
+  @Test
+  public void createChangeWithParentCommitThatIsAMergedChange() throws Exception {
+    PushOneCommit.Result parentChange = createChange();
+    approve(parentChange.getChangeId());
+    gApi.changes().id(parentChange.getChangeId()).current().submit();
+
+    ChangeInput input = newChangeInput(ChangeStatus.NEW);
+    input.baseCommit = parentChange.getCommit().getId().name();
+    ChangeInfo changeInfo = assertCreateSucceeds(input);
+    assertThat(gApi.changes().id(changeInfo.id).current().commit(false).parents.get(0).commit)
+        .isEqualTo(input.baseCommit);
+
+    List<RelatedChangeAndCommitInfo> relatedChanges =
+        gApi.changes().id(changeInfo.id).current().related().changes;
+    assertThat(relatedChanges).hasSize(0);
+  }
+
+  @Test
+  public void createChangeWithOpenParentChange() throws Exception {
+    PushOneCommit.Result parentChange = createChange();
+    ChangeInput input = newChangeInput(ChangeStatus.NEW);
+    input.baseChange = parentChange.getChangeId();
+    ChangeInfo changeInfo = assertCreateSucceeds(input);
+    assertThat(gApi.changes().id(changeInfo.id).current().commit(false).parents.get(0).commit)
+        .isEqualTo(parentChange.getCommit().getId().name());
+
+    List<RelatedChangeAndCommitInfo> relatedChanges =
+        gApi.changes().id(changeInfo.id).current().related().changes;
+    assertThat(relatedChanges).hasSize(2);
+    assertThat(relatedChanges.get(0)._changeNumber).isEqualTo(changeInfo._number);
+    assertThat(relatedChanges.get(0)._revisionNumber).isEqualTo(1);
+    assertThat(relatedChanges.get(1)._changeNumber)
+        .isEqualTo(parentChange.getChange().getId().get());
+    assertThat(relatedChanges.get(1)._revisionNumber).isEqualTo(parentChange.getPatchSetId().get());
+  }
+
+  @Test
+  public void createChangeWithAbandonedParentChange() throws Exception {
+    PushOneCommit.Result parentChange = createChange();
+    gApi.changes().id(parentChange.getChangeId()).abandon();
+
+    ChangeInput input = newChangeInput(ChangeStatus.NEW);
+    input.baseChange = parentChange.getChangeId();
+    ChangeInfo changeInfo = assertCreateSucceeds(input);
+    assertThat(gApi.changes().id(changeInfo.id).current().commit(false).parents.get(0).commit)
+        .isEqualTo(parentChange.getCommit().getId().name());
+
+    // Not sure if it's expected that the new change should have a relation to the merged parent
+    // change. If this change was created by git push the changes would not be related.
+    List<RelatedChangeAndCommitInfo> relatedChanges =
+        gApi.changes().id(changeInfo.id).current().related().changes;
+    assertThat(relatedChanges).hasSize(2);
+    assertThat(relatedChanges.get(0)._changeNumber).isEqualTo(changeInfo._number);
+    assertThat(relatedChanges.get(0)._revisionNumber).isEqualTo(1);
+    assertThat(relatedChanges.get(1)._changeNumber)
+        .isEqualTo(parentChange.getChange().getId().get());
+    assertThat(relatedChanges.get(1)._revisionNumber).isEqualTo(parentChange.getPatchSetId().get());
+  }
+
+  @Test
+  public void createChangeWithMergedParentChange() throws Exception {
+    PushOneCommit.Result parentChange = createChange();
+    approve(parentChange.getChangeId());
+    gApi.changes().id(parentChange.getChangeId()).current().submit();
+
+    ChangeInput input = newChangeInput(ChangeStatus.NEW);
+    input.baseChange = parentChange.getChangeId();
+    ChangeInfo changeInfo = assertCreateSucceeds(input);
+    assertThat(gApi.changes().id(changeInfo.id).current().commit(false).parents.get(0).commit)
+        .isEqualTo(parentChange.getCommit().getId().name());
+
+    // Not sure if it's expected that the new change should have a relation to the merged parent
+    // change. If this was change was created by git push the changes would not be related.
+    List<RelatedChangeAndCommitInfo> relatedChanges =
+        gApi.changes().id(changeInfo.id).current().related().changes;
+    assertThat(relatedChanges).hasSize(2);
+    assertThat(relatedChanges.get(0)._changeNumber).isEqualTo(changeInfo._number);
+    assertThat(relatedChanges.get(0)._revisionNumber).isEqualTo(1);
+    assertThat(relatedChanges.get(1)._changeNumber)
+        .isEqualTo(parentChange.getChange().getId().get());
+    assertThat(relatedChanges.get(1)._revisionNumber).isEqualTo(parentChange.getPatchSetId().get());
   }
 
   @Test

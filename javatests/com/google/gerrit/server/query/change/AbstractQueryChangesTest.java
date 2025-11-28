@@ -3514,15 +3514,8 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     Change change3 = insert(project, newChange(repo));
     insert(project, newChange(repo));
 
-    ReviewerInput rin = new ReviewerInput();
-    rin.reviewer = user1.toString();
-    rin.state = ReviewerState.REVIEWER;
-    getChangeApi(change1).addReviewer(rin);
-
-    rin = new ReviewerInput();
-    rin.reviewer = user1.toString();
-    rin.state = ReviewerState.CC;
-    getChangeApi(change2).addReviewer(rin);
+    addReviewer(user1, ReviewerState.REVIEWER, change1);
+    addReviewer(user1, ReviewerState.CC, change2);
 
     assertQuery("is:reviewer");
     assertQuery("reviewer:self");
@@ -3575,20 +3568,9 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     Change change2 = insert(project, newChange(repo));
     Change change3 = insert(project, newChange(repo));
 
-    ReviewerInput rin = new ReviewerInput();
-    rin.reviewer = user1.toString();
-    rin.state = ReviewerState.REVIEWER;
-    getChangeApi(change1).addReviewer(rin);
-
-    rin = new ReviewerInput();
-    rin.reviewer = user2.toString();
-    rin.state = ReviewerState.REVIEWER;
-    getChangeApi(change2).addReviewer(rin);
-
-    rin = new ReviewerInput();
-    rin.reviewer = user3.toString();
-    rin.state = ReviewerState.CC;
-    getChangeApi(change3).addReviewer(rin);
+    addReviewer(user1, ReviewerState.REVIEWER, change1);
+    addReviewer(user2, ReviewerState.REVIEWER, change2);
+    addReviewer(user3, ReviewerState.CC, change3);
 
     String group = gApi.groups().create("foo").get().name;
     gApi.groups().id(group).addMembers(user2.toString(), user3.toString());
@@ -3625,15 +3607,8 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     Change change2 = insert(project, newChange(repo));
     insert(project, newChange(repo));
 
-    ReviewerInput rin = new ReviewerInput();
-    rin.reviewer = userByEmailWithName;
-    rin.state = ReviewerState.REVIEWER;
-    getChangeApi(change1).addReviewer(rin);
-
-    rin = new ReviewerInput();
-    rin.reviewer = userByEmailWithName;
-    rin.state = ReviewerState.CC;
-    getChangeApi(change2).addReviewer(rin);
+    addReviewer(userByEmailWithName, ReviewerState.REVIEWER, change1);
+    addReviewer(userByEmailWithName, ReviewerState.CC, change2);
 
     assertQuery("reviewer:\"" + userByEmailWithName + "\"", change1);
     assertQuery("cc:\"" + userByEmailWithName + "\"", change2);
@@ -3657,15 +3632,8 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     Change change2 = insert(project, newChange(repo));
     insert(project, newChange(repo));
 
-    ReviewerInput rin = new ReviewerInput();
-    rin.reviewer = userByEmail;
-    rin.state = ReviewerState.REVIEWER;
-    getChangeApi(change1).addReviewer(rin);
-
-    rin = new ReviewerInput();
-    rin.reviewer = userByEmail;
-    rin.state = ReviewerState.CC;
-    getChangeApi(change2).addReviewer(rin);
+    addReviewer(userByEmail, ReviewerState.REVIEWER, change1);
+    addReviewer(userByEmail, ReviewerState.CC, change2);
 
     assertQuery("reviewer:\"someone@example.com\"");
     assertQuery("cc:\"someone@example.com\"");
@@ -4055,10 +4023,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
         cApi.addReviewer("" + reviewerId);
       }
       for (Account.Id reviewerId : cced) {
-        ReviewerInput in = new ReviewerInput();
-        in.reviewer = reviewerId.toString();
-        in.state = ReviewerState.CC;
-        cApi.addReviewer(in);
+        AbstractQueryChangesTest.this.addReviewer(reviewerId, ReviewerState.CC, change);
       }
       DraftInput in = new DraftInput();
       in.path = Patch.COMMIT_MSG;
@@ -4295,10 +4260,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
     // Add the second user as cc to ensure that user took part of the change and can be added to the
     // attention set.
-    ReviewerInput reviewerInput = new ReviewerInput();
-    reviewerInput.reviewer = user2Id.toString();
-    reviewerInput.state = ReviewerState.CC;
-    getChangeApi(change).addReviewer(reviewerInput);
+    addReviewer(user2Id, ReviewerState.CC, change);
 
     input = new AttentionSetInput(user2Id.toString(), "reason 2");
     getChangeApi(change).addToAttentionSet(input);
@@ -5017,6 +4979,19 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   // Get the last  updated time from ChangeApi
   protected long lastUpdatedMsApi(Change c) throws Exception {
     return getChangeApi(c).get().updated.getTime();
+  }
+
+  protected void addReviewer(String user, ReviewerState state, Change change)
+      throws RestApiException {
+    ReviewerInput rin = new ReviewerInput();
+    rin.reviewer = user;
+    rin.state = state;
+    getChangeApi(change).addReviewer(rin);
+  }
+
+  protected void addReviewer(Account.Id user, ReviewerState state, Change change)
+      throws RestApiException {
+    addReviewer(user.toString(), state, change);
   }
 
   protected void approve(Change change) throws Exception {

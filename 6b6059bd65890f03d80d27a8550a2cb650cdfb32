@@ -70,6 +70,30 @@
       },
       "revId": "6b6059bd65890f03d80d27a8550a2cb650cdfb32",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d4b9fab8_06295953",
+        "filename": "javatests/com/google/gerrit/acceptance/server/account/externalids/OnlineExternalIdCaseSensitivityMigratorIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-11-28T08:49:51Z",
+      "side": 0,
+      "message": "Acknowledged",
+      "parentUuid": "87950ca0_04ecac9d",
+      "range": {
+        "startLine": 58,
+        "startChar": 2,
+        "endLine": 58,
+        "endChar": 38
+      },
+      "revId": "6b6059bd65890f03d80d27a8550a2cb650cdfb32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

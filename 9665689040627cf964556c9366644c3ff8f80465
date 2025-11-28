@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c5caea26_ce0419f3",
+        "filename": "java/com/google/gerrit/httpd/ProjectOAuthFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-11-28T12:12:46Z",
+      "side": 1,
+      "message": "nit: `validateAndGetAccount`",
+      "range": {
+        "startLine": 210,
+        "startChar": 18,
+        "endLine": 210,
+        "endChar": 33
+      },
+      "revId": "9665689040627cf964556c9366644c3ff8f80465",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

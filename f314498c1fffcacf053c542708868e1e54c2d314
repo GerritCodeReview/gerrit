@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "406c20b1_28139ae9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-11-28T13:02:21Z",
+      "side": 1,
+      "message": "but we still have the restriction of `base_commit` means change needs to be submitted and then `base_change` means change can be open?",
+      "range": {
+        "startLine": 9,
+        "startChar": 39,
+        "endLine": 11,
+        "endChar": 42
+      },
+      "revId": "f314498c1fffcacf053c542708868e1e54c2d314",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "03a97919_3318b9d1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2025-11-28T13:02:21Z",
+      "side": 1,
+      "message": "handle how?\nReading the previous sentence I understand that setting the base to be an abandoned commit is not allowed.\n\nAre you changing that?\n\nNow reading the code I am confused because you are indeed fetching `byBranchCommitNewOrAbandoned` so we will just throw an error?",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 30
+      },
+      "revId": "f314498c1fffcacf053c542708868e1e54c2d314",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

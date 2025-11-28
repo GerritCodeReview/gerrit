@@ -24,6 +24,7 @@ import {
   ChatPanelMode,
   Turn,
 } from '../../models/chat/chat-model';
+import {changeModelToken} from '../../models/change/change-model';
 import {resolve} from '../../models/dependency';
 import {subscribe} from '../lit/subscription-controller';
 
@@ -55,6 +56,8 @@ export class ChatPanel extends LitElement {
 
   @state() privacyUrl?: string;
 
+  @state() isChangePrivate = false;
+
   // TODO(milutin): Remove when chat history is integrated.
   @property({type: Boolean}) showHistoryButton = false;
 
@@ -62,6 +65,8 @@ export class ChatPanel extends LitElement {
   @property({type: Boolean}) showAddContext = false;
 
   private readonly getChatModel = resolve(this, chatModelToken);
+
+  private readonly getChangeModel = resolve(this, changeModelToken);
 
   static override styles = css`
     :host {
@@ -168,6 +173,11 @@ export class ChatPanel extends LitElement {
       () => this.getChatModel().models$,
       x => (this.privacyUrl = x?.privacy_url)
     );
+    subscribe(
+      this,
+      () => this.getChangeModel().change$,
+      x => (this.isChangePrivate = x?.is_private ?? false)
+    );
   }
 
   override render() {
@@ -185,7 +195,7 @@ export class ChatPanel extends LitElement {
         return html`<chat-history></chat-history>`;
       case Mode.SPLASH_PAGE:
         return html`
-          <splash-page></splash-page>
+          <splash-page .isChangePrivate=${this.isChangePrivate}></splash-page>
           ${this.renderPromptSection()}
         `;
       case Mode.CHAT:
@@ -220,6 +230,8 @@ export class ChatPanel extends LitElement {
         <prompt-box
           .userInput=${this.userInput}
           .showAddContext=${this.showAddContext}
+          .disabledMessage=${'Review Agent is disabled on private changes'}
+          .isDisabled=${this.isChangePrivate}
         ></prompt-box>
         ${this.renderPrivacySection()}
       </div>

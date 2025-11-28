@@ -94,6 +94,7 @@ public class PatchSetCreator {
       CodeReviewRevWalk revWalk,
       ObjectId commitTree,
       String commitMessage,
+      @Nullable List<String> groups,
       @Nullable ImmutableListMultimap<String, String> validationOptions)
       throws IOException, RestApiException, UpdateException {
     requireNonNull(destChange);
@@ -127,7 +128,13 @@ public class PatchSetCreator {
       bu.setRepository(repo, revWalk, oi);
       resultChange =
           insertPatchSet(
-              bu, repo, patchSetInserterFactory, destChange.notes(), commit, validationOptions);
+              bu,
+              repo,
+              patchSetInserterFactory,
+              destChange.notes(),
+              commit,
+              groups,
+              validationOptions);
     } catch (NoSuchChangeException | RepositoryNotFoundException e) {
       throw new ResourceConflictException(e.getMessage());
     }
@@ -161,13 +168,17 @@ public class PatchSetCreator {
       PatchSetInserter.Factory patchSetInserterFactory,
       ChangeNotes destNotes,
       CodeReviewCommit commit,
-      ImmutableListMultimap<String, String> validationOptions)
+      @Nullable List<String> groups,
+      @Nullable ImmutableListMultimap<String, String> validationOptions)
       throws IOException, UpdateException, RestApiException {
     try (RefUpdateContext ctx = RefUpdateContext.open(CHANGE_MODIFICATION)) {
       Change destChange = destNotes.getChange();
       PatchSet.Id psId = ChangeUtil.nextPatchSetId(git, destChange.currentPatchSetId());
       PatchSetInserter inserter = patchSetInserterFactory.create(destNotes, psId, commit);
       inserter.setMessage(buildMessageForPatchSet(psId));
+      if (groups != null) {
+        inserter.setGroups(groups);
+      }
       if (validationOptions != null) {
         inserter.setValidationOptions(validationOptions);
       }

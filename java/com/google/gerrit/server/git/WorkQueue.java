@@ -24,6 +24,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.MetricMaker;
@@ -413,6 +414,7 @@ public class WorkQueue {
     private final String queueName;
     private final AtomicLong priorityGenerator = new AtomicLong();
     private final PriorityBlockingQueue<ParkedTask> parked = new PriorityBlockingQueue<>();
+    private final List<RegistrationHandle> metricsRegistrationHandles;
 
     Executor(int corePoolSize, final String queueName) {
       super(
@@ -438,6 +440,7 @@ public class WorkQueue {
               );
       nanosPeriodByRunnable = new ConcurrentHashMap<>(1, 0.75f, 1);
       this.queueName = queueName;
+      this.metricsRegistrationHandles = new ArrayList<>();
     }
 
     @Override
@@ -518,55 +521,79 @@ public class WorkQueue {
     }
 
     private void buildMetrics(String queueName) {
-      metrics.newCallbackMetric(
-          getMetricName(queueName, "max_pool_size"),
-          Long.class,
-          new Description("Maximum allowed number of non parked threads in the pool")
-              .setGauge()
-              .setUnit("threads"),
-          () -> (long) getMaximumPoolSize() - parked.size());
-      metrics.newCallbackMetric(
-          getMetricName(queueName, "pool_size"),
-          Long.class,
-          new Description("Current number of non parked threads in the pool")
-              .setGauge()
-              .setUnit("threads"),
-          () -> (long) getPoolSize() - parked.size());
-      metrics.newCallbackMetric(
-          getMetricName(queueName, "parked_threads"),
-          Integer.class,
-          new Description("Current number of threads that are parked")
-              .setGauge()
-              .setUnit("threads"),
-          () -> parked.size());
-      metrics.newCallbackMetric(
-          getMetricName(queueName, "active_threads"),
-          Long.class,
-          new Description("Current number of threads that are actively executing tasks")
-              .setGauge()
-              .setUnit("threads"),
-          () -> (long) getActiveCount() - parked.size());
-      metrics.newCallbackMetric(
-          getMetricName(queueName, "scheduled_tasks"),
-          Integer.class,
-          new Description("Current number of scheduled tasks in the queue")
-              .setGauge()
-              .setUnit("tasks"),
-          () -> getQueue().size());
-      metrics.newCallbackMetric(
-          getMetricName(queueName, "total_scheduled_tasks_count"),
-          Long.class,
-          new Description("Total number of tasks that have been scheduled for execution")
-              .setCumulative()
-              .setUnit("tasks"),
-          this::getTaskCount);
-      metrics.newCallbackMetric(
-          getMetricName(queueName, "total_completed_tasks_count"),
-          Long.class,
-          new Description("Total number of tasks that have completed execution")
-              .setCumulative()
-              .setUnit("tasks"),
-          this::getCompletedTaskCount);
+      metricsRegistrationHandles.add(
+          metrics.newCallbackMetric(
+              getMetricName(queueName, "max_pool_size"),
+              Long.class,
+              new Description("Maximum allowed number of non parked threads in the pool")
+                  .setGauge()
+                  .setUnit("threads"),
+              () -> (long) getMaximumPoolSize() - parked.size()));
+      metricsRegistrationHandles.add(
+          metrics.newCallbackMetric(
+              getMetricName(queueName, "pool_size"),
+              Long.class,
+              new Description("Current number of non parked threads in the pool")
+                  .setGauge()
+                  .setUnit("threads"),
+              () -> (long) getPoolSize() - parked.size()));
+      metricsRegistrationHandles.add(
+          metrics.newCallbackMetric(
+              getMetricName(queueName, "parked_threads"),
+              Integer.class,
+              new Description("Current number of threads that are parked")
+                  .setGauge()
+                  .setUnit("threads"),
+              () -> parked.size()));
+      metricsRegistrationHandles.add(
+          metrics.newCallbackMetric(
+              getMetricName(queueName, "active_threads"),
+              Long.class,
+              new Description("Current number of threads that are actively executing tasks")
+                  .setGauge()
+                  .setUnit("threads"),
+              () -> (long) getActiveCount() - parked.size()));
+      metricsRegistrationHandles.add(
+          metrics.newCallbackMetric(
+              getMetricName(queueName, "scheduled_tasks"),
+              Integer.class,
+              new Description("Current number of scheduled tasks in the queue")
+                  .setGauge()
+                  .setUnit("tasks"),
+              () -> getQueue().size()));
+      metricsRegistrationHandles.add(
+          metrics.newCallbackMetric(
+              getMetricName(queueName, "total_scheduled_tasks_count"),
+              Long.class,
+              new Description("Total number of tasks that have been scheduled for execution")
+                  .setCumulative()
+                  .setUnit("tasks"),
+              this::getTaskCount));
+      metricsRegistrationHandles.add(
+          metrics.newCallbackMetric(
+              getMetricName(queueName, "total_completed_tasks_count"),
+              Long.class,
+              new Description("Total number of tasks that have completed execution")
+                  .setCumulative()
+                  .setUnit("tasks"),
+              this::getCompletedTaskCount));
+    }
+
+    @Override
+    public void shutdown() {
+      super.shutdown();
+      deregisterMetrics();
+    }
+
+    @Override
+    public List<Runnable> shutdownNow() {
+      List<Runnable> runnables = super.shutdownNow();
+      deregisterMetrics();
+      return runnables;
+    }
+
+    private void deregisterMetrics() {
+      metricsRegistrationHandles.forEach(RegistrationHandle::remove);
     }
 
     private String getMetricName(String queueName, String metricName) {

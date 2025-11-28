@@ -17,7 +17,7 @@ package com.google.gerrit.server.account.externalids.storage.notedb;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.server.account.externalids.ExternalId;
-import com.google.gerrit.server.account.externalids.OnlineExternalIdCaseSensivityMigratiorExecutor;
+import com.google.gerrit.server.account.externalids.OnlineExternalIdCaseSensitivityMigratiorExecutor;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.index.ReindexerAlreadyRunningException;
@@ -36,7 +36,7 @@ import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
 
 @Singleton
-public class OnlineExternalIdCaseSensivityMigrator {
+public class OnlineExternalIdCaseSensitivityMigrator {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private Executor executor;
@@ -50,8 +50,8 @@ public class OnlineExternalIdCaseSensivityMigrator {
   private boolean isUserNameCaseInsensitiveMigrationMode;
 
   @Inject
-  public OnlineExternalIdCaseSensivityMigrator(
-      @OnlineExternalIdCaseSensivityMigratiorExecutor ExecutorService executor,
+  public OnlineExternalIdCaseSensitivityMigrator(
+      @OnlineExternalIdCaseSensitivityMigratiorExecutor ExecutorService executor,
       ExternalIdCaseSensitivityMigrator.Factory migratorFactory,
       ExternalIdsNoteDbImpl externalIds,
       VersionManager versionManager,
@@ -69,7 +69,7 @@ public class OnlineExternalIdCaseSensivityMigrator {
         globalConfig.getBoolean("auth", "userNameCaseInsensitive", false);
   }
 
-  public void migrate() {
+  public void migrate(boolean preserveMigrationMode) {
     if (!isUserNameCaseInsensitive || !isUserNameCaseInsensitiveMigrationMode) {
       logger.atSevere().log(
           "External IDs online migration requires auth.userNameCaseInsensitive and"
@@ -90,7 +90,9 @@ public class OnlineExternalIdCaseSensivityMigrator {
               monitor.endTask();
             }
             try {
-              updateGerritConfig();
+              if (!preserveMigrationMode) {
+                updateGerritConfig();
+              }
               monitor.beginTask("Reindex accounts", ProgressMonitor.UNKNOWN);
 
               @SuppressWarnings("unused")

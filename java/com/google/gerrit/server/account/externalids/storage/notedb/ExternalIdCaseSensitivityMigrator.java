@@ -116,10 +116,19 @@ public class ExternalIdCaseSensitivityMigrator {
   public void migrate(Collection<ExternalId> todo, Runnable monitor)
       throws RepositoryNotFoundException, IOException, ConfigInvalidException {
     try (Repository repo = repoManager.openRepository(allUsersName)) {
+      boolean hasDuplicates = false;
       ExternalIdNotes extIdNotes = externalIdNotesFactory.load(repo);
       for (ExternalId extId : todo) {
-        recomputeExternalIdNoteId(extIdNotes, extId);
-        monitor.run();
+        try {
+          recomputeExternalIdNoteId(extIdNotes, extId);
+          monitor.run();
+        } catch (DuplicateExternalIdKeyException e) {
+          hasDuplicates = true;
+          logger.atSevere().withCause(e).log("%s", e.getMessage());
+          if (!dryRun) {
+            throw e;
+          }
+        }
       }
       if (!dryRun) {
         try (MetaDataUpdate metaDataUpdate =
@@ -133,9 +142,9 @@ public class ExternalIdCaseSensitivityMigrator {
           logger.atSevere().withCause(e).log("%s", e.getMessage());
         }
       }
-    } catch (DuplicateExternalIdKeyException e) {
-      logger.atSevere().withCause(e).log("%s", e.getMessage());
-      throw e;
+      if (hasDuplicates) {
+        throw new DuplicateKeyException("One or more duplicate external IDs were found");
+      }
     }
   }
 }

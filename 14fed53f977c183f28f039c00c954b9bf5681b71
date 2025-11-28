@@ -128,6 +128,24 @@
       "message": "Is this (un)related?",
       "revId": "14fed53f977c183f28f039c00c954b9bf5681b71",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "47b4d941_8e8f88a9",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-11-28T13:21:25Z",
+      "side": 1,
+      "message": "I noticed that this suggestion is wrong, the file to update when adding an operator apparently is `polygerrit-ui/app/elements/core/gr-search-autocomplete/gr-search-autocomplete.ts` hence I fixed this comment",
+      "parentUuid": "1f18730a_dc557788",
+      "revId": "14fed53f977c183f28f039c00c954b9bf5681b71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

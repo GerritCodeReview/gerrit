@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f2bd268_39236745",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-11-28T10:18:40Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "3cd0141e_672d2426",
+      "range": {
+        "startLine": 26,
+        "startChar": 12,
+        "endLine": 26,
+        "endChar": 29
+      },
+      "revId": "8c5e295bc76dc88235692c1aa3a37960cd449a03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cf2238ab_c8c2004b",
@@ -37,6 +61,30 @@
       "writtenOn": "2025-11-28T09:00:00Z",
       "side": 1,
       "message": "```suggestion\nPush rejected: the repository size is over the quota of \u003cquota of the repo\u003e bytes.\n```",
+      "range": {
+        "startLine": 44,
+        "startChar": 15,
+        "endLine": 45,
+        "endChar": 5
+      },
+      "revId": "8c5e295bc76dc88235692c1aa3a37960cd449a03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "209fc4ce_dc0dd137",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-11-28T10:18:40Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "cf2238ab_c8c2004b",
       "range": {
         "startLine": 44,
         "startChar": 15,

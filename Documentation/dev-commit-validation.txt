@@ -1,0 +1,1297 @@
+= Gerrit Code Review - Existing Commit Validations
+
+== ChangeIdValidator
+:linkattrs:
+Gerrit Developer Documentation
+
+=== Purpose
+
+The `ChangeIdValidator` is a built-in implementation of the
+link:../../javadoc/com/google/gerrit/server/git/validators/CommitValidationListener.html[CommitValidationListener]
+interface. It enforces that all commits pushed to Gerrit include a valid
+`Change-Id` line in the commit message footer.
+
+The validator is invoked when a commit is received through Gerrit's
+receive-pack pipeline, typically during a push to a *magic branch*
+(for example, `refs/for/<branch>`), or when updating an existing change.
+
+Each Gerrit change is uniquely identified by a `Change-Id` footer in its
+commit message. The `ChangeIdValidator` ensures that:
+
+* Commits have a `Change-Id` line in the correct location (message footer).
+* The `Change-Id` is properly formatted.
+* Only one `Change-Id` line is present.
+* When updating an existing change, the `Change-Id` matches that of the
+  target change.
+* When the project configuration requires it, missing `Change-Ids` cause
+  the push to be rejected.
+
+This validation enforces Gerrit's change tracking model and prevents
+accidental creation of duplicate changes.
+
+=== When Validation Runs
+
+The validator is triggered when:
+
+* The push target is a _magic branch_ such as `refs/for/<branch>`, used for
+  creating or updating Gerrit changes.
+* The target reference matches the `NEW_PATCHSET_PATTERN`, indicating a
+  new patch set upload.
+
+The following refs are **not validated**:
+
+* Direct pushes to regular branches (e.g., `refs/heads/main`).
+* Non-change related refs (e.g., tags).
+
+=== Validation Rules
+
+The following table summarizes the checks performed by the validator:
+
+|===
+| Condition | Description | Result
+
+| *Missing Change-Id* | No `Change-Id:` line found in footer while project requires it | Push rejected with hint to install commit-msg hook
+| *Multiple Change-Ids* | More than one `Change-Id:` line found | Push rejected, lists all found Change-Ids
+| *Invalid Change-Id format* | ID does not match Gerrit’s Change-Id pattern or uses placeholder `I000...` | Push rejected
+| *Change-Id above footer* | `Change-Id:` line found outside the message footer section | Push rejected with hint to reposition footer
+| *Change-Id mismatch* | Pushed commit's Change-Id does not match the existing change being updated | Push rejected
+| *Valid Change-Id* | Single valid footer line found, correctly formatted | Validation passes
+|===
+
+== FileCountValidator
+
+The `FileCountValidator` enforces a limit on the number of files that may be
+modified in a single Gerrit change. It prevents users from uploading commits
+that are excessively large and could degrade performance during review,
+diff computation, or replication.
+
+=== Purpose
+
+Changes that modify tens of thousands of files can cause significant load on
+Gerrit’s diff, indexing, and UI systems. The `FileCountValidator` safeguards
+against this by enforcing both:
+
+* A **maximum limit** (`change.maxFiles`), beyond which the push is rejected.
+* A **warning threshold** (`10,000` files by default), above which the event is
+  logged and a metric counter is incremented.
+
+=== When Validation Runs
+
+Validation is triggered when a commit is pushed for review (to `refs/for/\*`) or
+when Gerrit itself publishes an edit to `refs/changes/*`.
+
+Pushes that bypass review — for example, direct pushes to `refs/heads/*` —
+are **not** validated, since they do not create Gerrit changes.
+
+=== Validation Rules
+
+The validator uses Gerrit’s `DiffOperations` API to compute the number of
+modified files in the patch set. It excludes *magic files* such as
+`COMMIT_MSG` and `MERGE_LIST`, which are automatically generated.
+
+The following logic applies:
+
+|===
+| Condition | Description | Result
+
+| *File count ≤ warning threshold (10,000)* | Normal-sized change | Accepted 
+| *Warning threshold < file count ≤ maxFiles (default 100,000)* | Large change | Allowed, but a warning is logged and the metric counter is incremented
+| *File count > maxFiles* | Exceeds configured limit | Push rejected with `CommitValidationException`
+| *Diff not available* | Diff computation failed (e.g. cherry-pick or missing base) | Warning logged; validation skipped
+|===
+
+== ConfigValidator
+
+The `ConfigValidator` validates commits pushed to the repository configuration branch
+(`refs/meta/config`) by loading and verifying the `project.config` contents.
+
+=== Purpose
+
+The ConfigValidator ensures that pushes which modify a project's repository
+configuration do not introduce syntactic or semantic errors. Specifically it: Loads the `ProjectConfig` from the new commit that is being pushed to
+`refs/meta/config`. Collects `parser/validation` errors reported by `ProjectConfig`.
+
+Enforces a special inheritance rule for the All-Users project: when the
+All-Users project's `project.config` is changed, it must inherit from
+All-Projects.
+
+Rejects the push with user-facing validation messages if the configuration
+is invalid or violates the project-level rules.
+
+This protects Gerrit from accepting malformed `project.config` files and
+prevents incorrect project inheritance configurations that could break
+permission or group resolution.
+
+=== When Validation Runs
+
+Validation is performed only when the change targets the repository
+configuration branch: `refs/meta/config`.
+
+=== Validation Rules
+
+The validator performs the following checks:
+
+|===
+| Condition | Description | Result
+
+| Not on `refs/meta/config` | Push does not target repository config branch | No validation performed
+| `ProjectConfig` has validation errors | Parsing or semantic checks collected via `cfg.getValidationErrors()` | Push rejected; each error added to validation messages
+| All-Users inheritance rule violated | All-Users project config must declare All-Projects as parent | Push rejected with specific error message
+| Config parsing/IO error | `ConfigInvalidException` or `IOException` while loading config | Push rejected; server logs an error and messages include any available parse message
+|===
+
+== UploadMergesPermissionValidator
+
+The `UploadMergesPermissionValidator` enforces Gerrit’s `MERGE` upload
+permission when users attempt to push merge commits for review.  
+This validator ensures that only users granted the `MERGE` ref permission
+can upload merge commits (i.e., commits with more than one parent).
+
+=== Purpose
+
+Merge commits can significantly alter repository history and potentially
+bypass Gerrit’s normal review workflow.  
+The `UploadMergesPermissionValidator` ensures that only authorized users
+may upload merge commits by verifying the `RefPermission.MERGE` permission
+for the target reference.
+
+If a user lacks this permission, the push is rejected with a clear and
+actionable error message.
+
+=== When Validation Runs
+
+The validator runs for every received commit when a push is made to
+a review-related ref (`refs/for/*`, `refs/changes/*`, etc.) or any ref
+where commit validation is applied.
+
+It performs its check **only** when the commit is a merge commit —
+i.e., when the commit has more than one parent.
+
+[source,java]
+----
+if (receiveEvent.commit.getParentCount() <= 1) {
+  // Not a merge commit: no validation needed
+  return Collections.emptyList();
+}
+----
+
+=== Validation Rules
+
+|===
+| Condition | Description | Result
+
+| *Non-merge commit* | Commit has 0 or 1 parent | Validation skipped
+| *Merge commit with MERGE permission* | User has `RefPermission.MERGE` on target ref | Accepted
+| *Merge commit without MERGE permission* | User lacks required permission | Push rejected with message: `you are not allowed to upload merges`
+| *Permission backend failure* | Permission check failed with `PermissionBackendException` | Push rejected with message: `internal auth error`; error logged server-side
+|===
+
+== SignedOffByValidator
+
+The `SignedOffByValidator` enforces the presence of a `Signed-off-by` footer
+in commit messages when the project configuration requires it.  
+It ensures that commits are properly certified by their author, committer,
+or uploader, according to the project’s `useSignedOffBy` setting.
+
+=== Purpose
+
+Some projects require developers to explicitly certify that they have the
+right to contribute a change and agree to its license terms.  
+This certification is recorded by including a line in the commit message: Signed-off-by: Jane Doe jane@example.com
+
+When the project configuration option
+link:../../config-project.html#useSignedOffBy[`useSignedOffBy`] is enabled,
+the `SignedOffByValidator` ensures that each commit includes such a footer.
+
+The validator also allows certain exceptions when the user has permission to
+forge committer identities.
+
+=== When Validation Runs
+
+The validator runs during every commit push to Gerrit, but only for projects
+where `useSignedOffBy` is enabled.
+
+[source,java]
+----
+if (!state.is(BooleanProjectConfig.USE_SIGNED_OFF_BY)) {
+  return Collections.emptyList(); // Feature disabled: skip validation
+}
+----
+
+=== Validation Rules
+
+The validator scans the commit message footer for `Signed-off-by:` lines
+and compares the listed email addresses against:
+
+* The commit author
+* The commit committer
+* The uploader (the Gerrit user pushing the commit)
+
+|===
+| Condition | Description | Result
+
+| *useSignedOffBy = false* | Project does not require Signed-off-by lines | Validation skipped
+| *Signed-off-by matches author* | Author’s email appears in a Signed-off-by line | Valid
+| *Signed-off-by matches committer* | Committer’s email appears in a Signed-off-by line | Valid
+| *Signed-off-by matches uploader* | Uploader’s email appears in a Signed-off-by line | Valid
+| *No matching Signed-off-by* | None of the above identities appear in a Signed-off-by line | Push rejected unless user has `FORGE_COMMITTER` permission
+| *Permission check fails* | Gerrit cannot evaluate `FORGE_COMMITTER` | Push rejected with message: `internal auth error`
+|===
+
+== AuthorUploaderValidator
+
+The `AuthorUploaderValidator` ensures that the author of a commit matches the
+user uploading it to Gerrit, unless the uploader has explicit permission to
+forge author identities.  
+This validator helps maintain accountability for changes and prevents users
+from impersonating other authors in commit metadata.
+
+=== Purpose
+
+Each commit contains an *author* identity (the person who wrote the change)
+and a *committer/uploader* identity (the person who pushed the change to Gerrit).
+
+By default, Gerrit expects the uploader’s email address to match the author’s
+email in the commit metadata.  
+If they differ, the push is rejected — unless the uploader has the
+`FORGE_AUTHOR` permission for the target ref.
+
+This rule ensures that:
+* Contributors are correctly identified.
+* Users cannot attribute commits to others without authorization.
+* Only trusted users (e.g., import bots, maintainers) can act on behalf of others.
+
+=== When Validation Runs
+
+This validator runs during every commit upload to Gerrit, regardless of ref
+type, as long as commit validation is active.
+
+[source,java]
+----
+PersonIdent author = receiveEvent.commit.getAuthorIdent();
+if (user.hasEmailAddress(author.getEmailAddress())) {
+  return Collections.emptyList(); // Author matches uploader
+}
+----
+
+If the uploader and author email addresses match, validation passes immediately.  
+Otherwise, the validator checks the user’s permissions.
+
+=== Validation Rules
+
+|===
+| Condition | Description | Result
+
+| *Author == Uploader* | Uploader’s email matches commit author’s email | Accepted
+| *Author ≠ Uploader, has FORGE_AUTHOR* | User differs from author but has `FORGE_AUTHOR` permission | Accepted
+| *Author ≠ Uploader, no FORGE_AUTHOR* | User differs and lacks permission | Push rejected: `invalid author`
+| *Permission check error* | Gerrit cannot verify permissions | Push rejected: `internal auth error` (server logs error)
+|===
+
+== CommitterUploaderValidator
+
+The `CommitterUploaderValidator` ensures that the committer identity in the
+commit metadata matches the user uploading the commit to Gerrit, unless the
+uploader has explicit permission to forge committer identities.  
+This validator prevents users from impersonating other committers and helps
+maintain traceability and accountability for changes.
+
+=== Purpose
+
+A Git commit contains two identities:
+
+* **Author** — the person who wrote the change
+* **Committer** — the person who committed (applied) the change
+
+Usually, the committer is the same person as the uploader.  
+However, Gerrit requires explicit permission (`FORGE_COMMITTER`) to upload a
+commit with a mismatched committer identity.
+
+This validator enforces:
+
+* The uploader’s email must match the committer’s email, **or**
+* The uploader must have `FORGE_COMMITTER` on the target reference.
+
+This prevents unauthorized rewriting of commit metadata and impersonation.
+
+=== When Validation Runs
+
+The validator runs for every commit pushed to Gerrit (in any context where
+commit validation is active).
+
+If the uploader matches the committer, validation passes immediately. Otherwise, the validator checks `FORGE_COMMITTER`.
+
+=== Validation Rules
+
+|===
+| Condition | Description | Result
+
+| *Committer == Uploader* | Uploader’s email matches committer email | Accepted
+| *Committer ≠ Uploader, has FORGE_COMMITTER* | User differs but has permission | Accepted
+| *Committer ≠ Uploader, no FORGE_COMMITTER* | User differs and lacks permission | Push rejected (`invalid committer`)
+| *Permission check failure* | Permission backend error | Push rejected (`internal auth error`); logged at SEVERE
+|===
+
+If validation fails, the helper method `invalidEmail(...)` produces a user-friendly
+error message explaining why the committer identity is invalid and how to fix it.
+
+== AmendedGerritMergeCommitValidationListener
+
+The `AmendedGerritMergeCommitValidationListener` prevents users from uploading
+amended versions of merge commits that Gerrit created internally.  
+These merge commits are produced automatically during submit operations
+(depending on the project’s submit strategy), and users sometimes attempt to
+amend or upload them manually, often unintentionally.  
+This validator blocks such pushes unless the uploader has the special
+`FORGE_SERVER` permission.
+
+=== Purpose
+
+Gerrit automatically creates merge commits when changes are submitted using:
+
+* **Merge If Necessary**
+* **Always Merge**
+* **Cherry Pick** (when conflicts require auto-merge)
+
+These Gerrit-generated merge commits use the Gerrit server identity as their
+author (`gerritIdent`). Users sometimes accidentally amend these server-generated
+merges—for example:
+
+* Pulling changes locally
+* Amending a merge commit without noticing it’s Gerrit’s merge
+* Pushing it back to Gerrit for review
+
+This can corrupt change histories or break Gerrit’s expectations about merge
+structure.  
+This validator prevents such pushes unless the uploader is explicitly authorized.
+
+=== When Validation Runs
+
+The validation triggers when **all** of the following are true:
+
+1. The commit being pushed is a **merge commit** (parent count > 1)
+2. The **author** of the commit is exactly the Gerrit server’s identity  
+   (`gerritIdent.getName()` and `gerritIdent.getEmailAddress()`)
+3. The push attempts to upload this commit for review or to a validated ref
+
+If all conditions match, the commit appears to be a *Gerrit-generated merge*
+that a user has amended and is trying to push manually.
+
+=== Validation Rules
+
+|===
+| Condition | Description | Result
+
+| *Not a merge commit* | Parent count ≤ 1 | Validation skipped
+| *Merge commit but not authored by Gerrit* | Normal user-created merge | Accepted
+| *Merge commit authored by Gerrit, user has `FORGE_SERVER`* | User explicitly allowed to forge server commits | Accepted
+| *Merge commit authored by Gerrit, user lacks permission* | Attempt to amend Gerrit’s own merge commit | Rejected
+| *Permission backend error* | Cannot verify permissions | Rejected with `internal auth error`
+|===
+
+== BannedCommitsValidator
+
+The `BannedCommitsValidator` rejects pushes that contain commits explicitly
+marked as banned in Gerrit's *reject-commits* note map.  
+This mechanism allows administrators to blacklist commits that must never again
+enter the repository—for example, commits containing:
+
+* sensitive information,
+* legal or licensing violations,
+* corrupted histories,
+* or any commit that must be permanently excluded.
+
+=== Purpose
+
+Gerrit can store a *reject list* of commits in a `NoteMap`.  
+This validator checks whether the incoming commit is listed in that map.
+
+If a commit is banned, uploads containing it are rejected even if the commit
+would otherwise pass normal validation or would be reachable via parent links.
+
+This is an important safeguard for:
+
+* enforcing repository hygiene,  
+* preventing reintroduction of deleted or sensitive commits,  
+* stopping accidental pushes of “bad” commits after history rewrites,  
+* preventing resurrection of commits intentionally removed from the project.
+
+=== When Validation Runs
+
+This validator runs for every incoming commit in any push that goes through
+Gerrit's receive-pack processing (e.g., review pushes, direct pushes unless
+validation is bypassed).
+
+The validator simply checks:
+
+[source,java]
+----
+if (rejectCommits.contains(receiveEvent.commit)) {
+  throw new CommitValidationException(
+      "contains banned commit " + receiveEvent.commit.getName());
+}
+----
+
+If the commit appears in the banned-commits `NoteMap`, the push is rejected.
+
+=== Validation Rules
+
+|===
+| Condition | Description | Result
+
+| *Commit not in rejectCommits* | Incoming commit is not banned | Accepted
+| *Commit is in rejectCommits* | Commit hash exists in ban database | Push rejected with `"contains banned commit <sha1>"`
+| *IOException during note lookup* | Repository or note parsing error | Push rejected with `"error checking banned commits"`
+|===
+
+Unlike other validators, this one does not perform identity checks, permission
+checks, or footer parsing. It simply enforces a ban list.
+
+== GroupCommitValidator
+
+The `GroupCommitValidator` rejects attempts to update group-related branches in
+the `All-Users` repository.  
+Gerrit stores the internal representation of groups in special refs inside the
+`All-Users` project. These refs are not meant to be modified directly by users.
+This validator ensures that pushes cannot update group branches except through
+Gerrit’s controlled mechanisms.
+
+=== Purpose
+
+Gerrit manages groups as internal data structures stored under dedicated group
+refs such as: refs/groups/<XX>/<group-uuid>
+
+These refs are *authoritative* for group information (membership, names,
+descriptions, UUID assignments).  
+Modifying these refs directly via Git pushes bypasses Gerrit's permission model,
+consistency checks, audit logging, and group-index maintenance.
+
+The `GroupCommitValidator` prevents all direct updates to these refs, ensuring:
+
+* group data can only be changed using Gerrit’s group management APIs,
+* accidental or malicious pushes cannot corrupt group definitions,
+* the internal group storage remains consistent and secure.
+
+=== When Validation Runs
+
+The validator runs on every pushed commit but only applies when:
+
+1. The target project is **`All-Users`**, and  
+2. The push is **not** a push-for-review (i.e., not to `refs/for/*`), and  
+3. The ref being updated is a **group ref** as recognized by `RefNames.isGroupRef()`.
+
+Push-for-review (`refs/for/*`) bypasses this validator because the **actual**
+update occurs at submit time, where `MergeValidators.GroupMergeValidator`
+will perform the necessary checks.
+
+[source,java]
+----
+if (!allUsers.equals(receiveEvent.project.getNameKey())) {
+  return Collections.emptyList(); // Only applies to All-Users
+}
+
+if (receiveEvent.command.getRefName().startsWith(MagicBranch.NEW_CHANGE)) {
+  return Collections.emptyList(); // Reviewed pushes validated later during submit
+}
+
+if (RefNames.isGroupRef(receiveEvent.command.getRefName())) {
+  throw new CommitValidationException("group update not allowed");
+}
+----
+
+If the ref is a group ref, the push is rejected immediately.
+
+=== Validation Rules
+
+|===
+| Condition | Description | Result
+
+| *Push to non–All-Users repository* | Only All-Users stores group data | Accepted
+| *Push-for-review (`refs/for/*`)* | Gerrit will revalidate when change is submitted | Accepted
+| *Push directly to a group ref* | Group data must not be updated via Git | Rejected (`group update not allowed`)
+| *Push to other refs in All-Users* | Only group refs are protected here | Accepted
+|===
+
+== ProjectStateValidationListener
+
+The `ProjectStateValidationListener` rejects pushes to a repository when its
+current state does *not* permit write operations. 
+
+=== Purpose
+
+Every Gerrit project has an associated `ProjectState` that defines its
+administrative and operational characteristics. Among these is whether the
+project currently allows write operations.
+
+A project may disallow writes due to:
+
+* administrative freeze or maintenance,
+* repository corruption diagnosis,
+* read-only archival configuration,
+* migration or upgrade windows.
+
+When the project state indicates that writes should **not** occur,
+`ProjectState.statePermitsWrite()` returns `false`.
+
+The `ProjectStateValidationListener` enforces this by rejecting all incoming
+pushes when the project is in a non-writable state.
+
+=== When Validation Runs
+
+This validator runs for **every** pushed commit, regardless of repository,
+ref, or push type.
+
+If the project permits writes:
+
+----
+if (projectState.statePermitsWrite()) {
+  return Collections.emptyList();
+}
+----
+
+If not, the push is rejected:
+
+----
+throw new CommitValidationException("project state does not permit write");
+----
+
+=== Validation Rules
+
+|===
+| Condition | Description | Result
+
+| Project allows writes
+| Normal operating state
+| Accepted
+
+| Project prohibits writes
+| Maintenance, freeze, or read-only mode
+| Rejected (`project state does not permit write`)
+|===
+
+== GitObjectVisibilityChecker
+
+The `GitObjectVisibilityChecker` ensures that every commit being validated is
+actually visible via a fresh `ObjectReader` on the repository. This guarantees
+that the underlying Git object database is in a consistent state before Gerrit
+runs any commit validators.
+
+This validator protects against a common JGit pitfall: forgetting to call
+`ObjectInserter.flush()`. When inserted objects are not flushed, they may be
+visible only to the inserter that created them, but *not* to a new
+`ObjectReader`. This results in an inconsistent and illegal state for Gerrit's
+validation pipeline. The `GitObjectVisibilityChecker` detects this condition
+early and prevents commits from being validated or accepted while the repo is in
+this invalid state.
+
+=== Purpose
+
+Gerrit relies heavily on the assumption that all objects referenced by commits
+being validated are readable from the repository's object database. JGit,
+however, allows objects to exist temporarily only in an `ObjectInserter` buffer
+until the inserter is flushed.
+
+If an implementation forgets to call:
+
+----
+objectInserter.flush();
+----
+
+then:
+
+* a commit may appear valid from the inserter’s perspective,
+* but may *not* be readable by a normal `ObjectReader`,
+* leading to unpredictable behavior in downstream commit validators,
+* and acceptance tests may incorrectly pass despite broken logic.
+
+The `GitObjectVisibilityChecker` enforces a strict guarantee:
+
+*Any commit that Gerrit attempts to validate must be readable using a fresh,
+unrelated `ObjectReader` on the repository.*
+
+If the commit does not exist in the object database yet, the push is rejected
+immediately with an error explaining the missing flush.
+
+=== When Validation Runs
+
+This validator runs:
+
+* for **every** received commit,
+* on **all refs**,  
+* on **all projects**,  
+* regardless of push type (direct push or push-for-review).
+
+During validation, Gerrit:
+
+1. Opens the project’s underlying Git repository.
+2. Creates a *new* `ObjectReader` that has no knowledge of any unflushed objects.
+3. Checks whether the commit exists:
+   ----
+   if (!reader.has(receiveEvent.commit)) { ... }
+   ----
+4. Rejects the push if the commit is not visible.
+
+If the commit *is* visible, validation succeeds silently.
+
+=== Validation Rules
+
+|===
+| Condition | Description | Result
+
+| Commit is visible to a new `ObjectReader`
+| All objects were properly flushed to the object database
+| Accepted
+
+| Commit is *not* visible to a new `ObjectReader`
+| Inserter was not flushed; repo is in an illegal validation state
+| Rejected (IllegalStateException)
+
+| `IOException` opening repo or reader
+| Underlying storage problem
+| Rejected (`StorageException`)
+|===
+
+== AccountCommitValidator
+
+The `AccountCommitValidator` validates direct updates to account-related refs in
+the `All-Users` repository. Gerrit stores each account’s externalIds,
+preferences, and other user-specific configuration in special refs under
+`All-Users`. These refs are not intended to be modified arbitrarily by Git
+clients, as doing so can corrupt account state or bypass Gerrit’s consistency
+checks.
+
+This validator ensures that only well-formed account data is pushed and that
+invalid account configurations are rejected early.
+
+=== Purpose
+
+Gerrit stores account data (such as external IDs and user preferences) in
+per-account refs of the form:
+
+----
+refs/users/XX/XXXX
+----
+
+These refs contain authoritative configuration for each account. Updating these
+refs directly via Git could:
+
+* introduce malformed account data,
+* break invariants expected by Gerrit’s authentication or preference logic,
+* create inconsistencies in the account index,
+* bypass checks normally performed by Gerrit’s account update APIs.
+
+The `AccountCommitValidator` enforces that:
+
+* direct pushes to account refs must contain valid account configuration,
+* invalid pushes are rejected before they enter the repository,
+* pushes-for-review bypass this check because validation occurs on submit.
+
+Actual validation logic is delegated to `AccountValidator`, which inspects
+modified account-related files and returns any detected errors.
+
+=== When Validation Runs
+
+Validation occurs on every pushed commit but only applies when:
+
+1. The target project is **`All-Users`**, and  
+2. The update is **not** a push-for-review (i.e., the ref does *not* start with `refs/for/*`), and  
+3. The ref being updated is a **valid account ref**, meaning:
+   ----
+   Account.Id.fromRef(refName) != null
+   ----
+
+Pushes for review bypass this validator because account updates are validated by
+`MergeValidators.AccountMergeValidator` when the change is submitted.
+
+=== Validation Rules
+
+|===
+| Condition | Description | Result
+
+| *Push to non–All-Users repository*
+| Account data only exists in All-Users
+| Accepted (no validation)
+
+| *Push-for-review (`refs/for/*`)*
+| Account data validated later at submit time
+| Accepted
+
+| *Ref is not an account ref*
+| Only refs like `refs/users/*` are validated here
+| Accepted
+
+| *Ref corresponds to an account ID*
+| Validator delegates to `AccountValidator` to check the account config
+| Accepted if valid; rejected if errors returned
+
+| *AccountValidator reports errors*
+| Account configuration malformed or inconsistent
+| Rejected (`invalid account configuration`)
+|===
+
+== ExternalIdUpdateValidator
+
+The `ExternalIdUpdateValidator` validates direct updates to the
+`refs/meta/external-ids` branch in the `All-Users` repository. This ref stores
+Gerrit’s authoritative mapping between external identities (such as usernames,
+OAuth IDs, LDAP identifiers, SSH keys) and Gerrit account IDs.
+
+Because these external IDs are critical for authentication, identity mapping,
+and account uniqueness, corrupt or inconsistent data in this ref can severely
+impact Gerrit’s ability to authenticate users or map commits to accounts.
+
+This validator ensures that any update to `refs/meta/external-ids` maintains a
+consistent and valid external ID state before it is accepted.
+
+=== Purpose
+
+Gerrit stores user identity information in a single ref:
+
+----
+refs/meta/external-ids
+----
+
+The data stored here forms the backbone of Gerrit's identity system. Improper
+updates can cause:
+
+* broken account lookups,
+* inability to authenticate users,
+* orphaned external IDs,
+* conflicting identities referencing the same account,
+* invalid formats or missing required fields.
+
+To protect the system, Gerrit performs a full consistency check on any new
+revision pushed to this ref.
+
+The `ExternalIdUpdateValidator` enforces that:
+
+* only valid and consistent external ID updates are accepted,
+* all consistency issues are surfaced to the pusher,
+* updates containing any errors are rejected.
+
+Actual validation logic is delegated to the
+`ExternalIdsConsistencyChecker`, which inspects the new commit's contents
+and reports any detected problems.
+
+=== When Validation Runs
+
+The validator triggers **only** when both conditions are true:
+
+1. The target project is **`All-Users`**, and  
+2. The updated ref is **exactly** `refs/meta/external-ids`
+
+When the validator does run, it:
+
+1. Uses `ExternalIdsConsistencyChecker` to inspect the commit:
+   ----
+   List<ConsistencyProblemInfo> problems =
+       externalIdsConsistencyChecker.check(accountCache, receiveEvent.commit);
+   ----
+2. Converts each problem into a `CommitValidationMessage`.
+3. Rejects the push immediately if *any* of the messages is an error.
+
+=== Validation Rules
+
+|===
+| Condition | Description | Result
+
+| *Push to a non–All-Users project*
+| External IDs exist only in All-Users | Accepted
+
+| *Push to a ref other than `refs/meta/external-ids`*
+| Only this single ref is protected | Accepted
+
+| *Push to `refs/meta/external-ids` in All-Users*  
+| Consistency checks are executed | Accepted if no errors; rejected if any errors
+
+| *ConsistencyChecker reports ERROR-level problems*
+| Invalid, conflicting, or malformed external IDs | Rejected (`invalid external IDs`)
+
+| *ConsistencyChecker reports non-error problems*  
+(e.g. warnings)
+| Informational issues only | Accepted; messages returned to user
+
+| *IOException or ConfigInvalidException*
+| Underlying storage or format error | Rejected (`error validating external IDs`)
+|===
+
+== LabelConfigValidator
+
+The `LabelConfigValidator` validates changes to label configuration fields in
+the `project.config` file stored under `refs/meta/config`. Gerrit labels control
+approval categories such as Code-Review or Verified, and their configuration
+determines how scores behave across patch sets, how they copy during rebases,
+and how they block submission.
+
+This validator ensures that updates do not set or modify any deprecated label
+configuration fields that Gerrit no longer supports. Deprecated fields must not
+be added or changed; however, removing them or leaving them unchanged is
+allowed.
+
+=== Purpose
+
+Historically, Gerrit offered many label copy rules and behaviors using boolean
+flags such as:
+
+* `copyAnyScore`
+* `copyMinScore`
+* `copyMaxScore`
+* `copyAllScoresIfNoChange`
+* `copyAllScoresIfNoCodeChange`
+* `copyAllScoresOnMergeFirstParentUpdate`
+* `copyAllScoresOnTrivialRebase`
+* `copyAllScoresIfListOfFilesDidNotChange`
+* `copyValue`
+
+These fields were replaced with a more expressive and unified mechanism:
+`copyCondition`.
+
+The goals of the `LabelConfigValidator` are:
+
+* prevent new uses of deprecated fields,
+* prevent modification of deprecated fields that still exist in old configs,
+* enforce migration to the unified `copyCondition` syntax,
+* block setting label functions that are deprecated or disallowed,
+* block deletion of label functions (since the default is deprecated),
+* validate that `copyCondition` expressions are parseable,
+* allow updates that **remove** deprecated fields,
+* allow updates that do not touch any deprecated label fields.
+
+The validator ensures that Gerrit installations gradually eliminate old config
+styles and maintain consistent, modern label definitions.
+
+=== When Validation Runs
+
+The validator triggers **only if** both conditions are true:
+
+1. The updated ref is **`refs/meta/config`**, and  
+2. The modified file set includes **`project.config`**
+
+When triggered, the validator:
+
+1. Loads the new `project.config` from the incoming commit.
+2. Loads the old `project.config` from the parent commit, if parseable.
+3. For each label section (`label "<name>"`):
+   * Checks for newly-set or modified deprecated flags.
+   * Checks for deprecated `copyValue` entries.
+   * Validates label function settings and prevents invalid or deprecated values.
+   * Prevents deletion of functions, since the default is deprecated.
+   * Validates that `copyCondition` is parseable with `ApprovalQueryBuilder`.
+   * Allows warnings (instead of errors) when the *old* condition was also
+     unparseable.
+
+If any **error** messages are emitted, the push is rejected.
+
+=== Deprecated Fields
+
+The validator rejects setting or modifying any of the following deprecated
+fields:
+
+|===
+| Deprecated Field | Replacement Rule
+
+| `copyAnyScore` | `is:ANY` in `copyCondition`
+| `copyMinScore` | `is:MIN`
+| `copyMaxScore` | `is:MAX`
+| `copyAllScoresIfNoChange` | `changekind:NO_CHANGE`
+| `copyAllScoresIfNoCodeChange` | `changekind:NO_CODE_CHANGE`
+| `copyAllScoresOnMergeFirstParentUpdate` | `changekind:MERGE_FIRST_PARENT_UPDATE`
+| `copyAllScoresOnTrivialRebase` | `changekind:TRIVIAL_REBASE`
+| `copyAllScoresIfListOfFilesDidNotChange` | `has:unchanged-files`
+| `copyValue` | `is:<value>` using `copyCondition`
+|===
+
+Unset or unchanged deprecated fields are **allowed**.
+
+=== Validation Rules
+
+|===
+| Condition | Description | Result
+
+| `refs/meta/config` not updated  
+| Other refs do not contain label config  
+| Accepted
+
+| `project.config` not changed  
+| No label config modification  
+| Accepted
+
+| Deprecated field modified or newly added  
+| Old boolean-style copy rules are disallowed  
+| Rejected
+
+| `copyValue` changed or added  
+| Must be rewritten as a `copyCondition`  
+| Rejected
+
+| Disallowed label function set  
+| Only `{NO_BLOCK, NO_OP, PATCH_SET_LOCK}` are allowed  
+| Rejected
+
+| Label function deleted  
+| Defaults to deprecated function → forbidden  
+| Rejected
+
+| `copyCondition` is not parseable  
+| If old condition also unparseable → warning  
+| Otherwise → rejected
+
+| I/O or diff failure  
+| Underlying system error  
+| Rejected
+|===
+
+=== Summary of Enforcement
+
+The validator ensures that:
+
+* deprecated fields **cannot be added or changed**,
+* deprecated fields **can be removed**,
+* modern `copyCondition`-based syntax replaces old copy rules,
+* label functions remain within the set of supported values,
+* broken `copyCondition` expressions do not enter the repository,
+* configuration corruption is prevented early.
+
+== PrologRulesWarningValidator
+
+The `PrologRulesWarningValidator` validates updates to `rules.pl` in the
+`refs/meta/config` branch. Historically, Gerrit supported project-specific
+submit rules written in Prolog (`rules.pl`). These rules are now deprecated and
+replaced by modern *submit requirements*.  
+
+This validator warns (or optionally rejects) attempts to add new Prolog
+rule files via Git push. It still allows modification and removal of existing
+`rules.pl` files so that projects can migrate away from Prolog-based submit
+rules.
+
+=== Purpose
+
+Prolog submit rules have been superseded by structured submit requirements.
+They are discouraged for several reasons:
+
+* Prolog rules are hard to maintain and debug.
+* They introduce logic that is difficult to validate statically.
+* Modern submit requirements provide a safer, declarative alternative.
+* New installations should avoid Prolog rules entirely.
+
+To help enforce this transition, the `PrologRulesWarningValidator` performs the
+following:
+
+* Emits a **warning** when a new `rules.pl` file is uploaded, if the server
+  configuration explicitly allows it.
+* Rejects new `rules.pl` files outright unless `rules.allowNewRules = true`.
+* Permits modifications and deletions of existing `rules.pl`, enabling migration
+  away from legacy rules.
+
+This balance helps organizations phase out Prolog while ensuring legacy
+projects can clean up old rule files.
+
+=== When Validation Runs
+
+The validator triggers only under a precise set of conditions:
+
+1. The push targets **`refs/meta/config`**, and  
+2. The change **adds** a file named `rules.pl`
+
+When triggered:
+
+* If `rules.allowNewRules = true`, a **warning** is emitted.
+* If `rules.allowNewRules = false`, the push is **rejected**.
+
+Modifying or deleting an existing `rules.pl` file does not trigger the validator
+because `isFileAdded()` only matches newly added files.
+
+=== Configuration
+
+The behavior is controlled by a server-level configuration option:
+
+----
+[rules]
+    allowNewRules = false
+----
+
+* `false` (default): adding new `rules.pl` is rejected.  
+* `true`: adding new `rules.pl` is allowed but discouraged; a warning is emitted.
+
+=== Validation Rules
+
+|===
+| Condition | Description | Result
+
+| `refs/meta/config` not updated  
+| Prolog rules live only in this ref  
+| Accepted
+
+| `rules.pl` not added  
+| Modification or deletion is allowed  
+| Accepted
+
+| `rules.pl` added and `allowNewRules = true`  
+| New Prolog rules discouraged  
+| Warning emitted; push accepted
+
+| `rules.pl` added and `allowNewRules = false`  
+| Prolog rules deprecated; addition forbidden  
+| Rejected
+
+| Diff cannot be determined (`DiffNotAvailableException`)  
+| Validator logs a warning  
+| Accepted (no blocking)
+|===
+
+== SubmitRequirementConfigValidator
+
+The `SubmitRequirementConfigValidator` validates the expressions of submit
+requirements defined in the `project.config` file stored under
+`refs/meta/config`. Submit requirements determine whether a change is eligible
+for submission, using declarative, query-based expressions (e.g. submit
+conditions, applicability conditions, or blocking conditions).
+
+Other structural validation of submit requirement sections is performed by
+`ProjectConfig` during parsing. However, expression validation cannot be
+performed inside `ProjectConfig` itself because expression evaluation requires
+injected dependencies (such as `SubmitRequirementsEvaluator`), and
+`ProjectConfig` is cached and cannot receive injections.  
+The `SubmitRequirementConfigValidator` fills that gap by validating these
+expressions at push time.
+
+=== Purpose
+
+Submit requirements consist of one or more expressions describing when a change
+may be submitted. These expressions must adhere to Gerrit’s submit requirement
+expression language. Invalid expressions can result in:
+
+* submit requirements that never evaluate to true,
+* submit requirements that always evaluate to true unintentionally,
+* broken evaluation during change submission,
+* misleading UI indicators for change readiness.
+
+The validator ensures:
+
+* submit requirement expressions are syntactically valid,
+* expressions reference only supported fields and operators,
+* invalid or malformed expressions prevent configuration updates.
+
+By validating expressions early during ref updates, Gerrit ensures that
+misconfigured submit rules do not enter the repository and negatively impact
+change submission workflows.
+
+=== When Validation Runs
+
+Validation is performed only when:
+
+1. The updated ref is **`refs/meta/config`**, and  
+2. The modified files include **`project.config`**
+
+If either condition does not hold, the validator exits without performing any
+checks.
+
+When triggered, the validator:
+
+1. Loads the new `project.config` from the commit being pushed.
+2. Extracts all submit requirement sections defined in the file.
+3. Validates each expression using `SubmitRequirementExpressionsValidator`.
+4. Accumulates all expression validation messages.
+5. Rejects the push if any messages report errors.
+
+If expressions are valid, the update is accepted.
+
+=== Validation Rules
+
+|===
+| Condition | Description | Result
+
+| `refs/meta/config` is not updated  
+| Submit requirements exist only in this ref  
+| Accepted
+
+| `project.config` is not modified  
+| No submit requirement changes were introduced  
+| Accepted
+
+| Submit requirement expressions are valid  
+| All expressions parse and reference valid fields  
+| Accepted
+
+| Submit requirement expressions are invalid  
+| Syntax errors, unsupported predicates, or malformed expressions  
+| Rejected (`invalid submit requirement expressions`)
+
+| Underlying configuration cannot be loaded  
+| Project config invalid or unreadable  
+| Rejected
+|===
+
+== TraceValidatingCommitValidationListener
+
+The `TraceValidatingCommitValidationListener` captures tracing-related metadata
+from the logging context during commit validation. It does not reject or modify
+pushes. Instead, it records information about tracing state for later inspection
+(e.g. in tests or diagnostic tooling).
+
+This validator is used to verify that tracing information (trace IDs,
+forced-logging flags, and contextual tags) is available and propagated correctly
+within Gerrit’s commit validation pipeline.
+
+=== Purpose
+
+Gerrit includes a tracing/logging infrastructure that allows request-scoped
+metadata—such as trace IDs, debugging flags, and structured tags—to flow through
+server components. This validator serves as a passive observer that:
+
+* reads the current trace ID(s) from the logging context,
+* determines whether logging is being forcibly enabled for the current request,
+* captures all active logging tags.
+
+The listener’s role is **not** to validate repository content. Rather, it is to
+confirm that Gerrit’s commit-validation stage has access to the correct logging
+context. This is particularly useful in integration tests that ensure tracing
+information is propagated end-to-end.
+
+=== When Validation Runs
+
+The validator runs during every invocation of `onCommitReceived`, regardless of:
+* repository,
+* ref namespace,
+* push type (direct push or push-for-review),
+* commit contents.
+
+During execution, it:
+
+1. Reads the active trace IDs from `LoggingContext`.
+2. Checks whether forced logging is enabled.
+3. Retrieves all logging tags as a multimap.
+4. Stores these values in the validator’s fields for later inspection.
+
+Since the listener always returns an empty list, it never rejects a push.
+
+=== Validation Rules
+
+|===
+| Condition | Description | Result
+
+| Any commit is received  
+| Validator captures trace IDs, tags, and forced-logging state  
+| Accepted
+
+| Logging context contains trace IDs  
+| Trace IDs are recorded for test or diagnostic use  
+| Accepted
+
+| Logging context forces logging  
+| The forced-logging flag is captured  
+| Accepted
+
+| Logging context contains additional tags  
+| All tags are stored without affecting validation  
+| Accepted
+|===
+
+== CommitMessageLengthValidation
+
+The `CommitMessageLengthValidation` validator checks the structure and line
+lengths of commit messages according to server-configured limits. This validator
+helps ensure that commit messages follow commonly accepted formatting
+guidelines—such as keeping the subject line concise and wrapping paragraphs to a
+readable width.
+
+The validator can operate in two modes:
+
+* **warning mode** (default) — long subjects or excessively long lines generate
+  warnings but do not block the push,
+* **reject mode** — violations cause the push to be rejected. This mode is
+  controlled by server configuration.
+
+=== Purpose
+
+Readable and well-structured commit messages improve review quality, project
+history clarity, and automation compatibility. Gerrit supports configurable
+limits to encourage consistent commit message structure.
+
+This validator enforces the following rules:
+
+* The **subject line** (the first line of the commit message) must not exceed
+  the configured maximum length.
+* A configurable percentage of **non-empty lines** in the commit message may be
+  longer than a specified maximum width. If too many lines exceed this limit,
+  the message is considered poorly formatted.
+* Depending on configuration, violations may produce either warnings or
+  rejections.
+
+These checks follow long-established community recommendations (e.g., 50-char
+subject, 72-char wrapped paragraphs) and help maintain consistent commit
+quality across the repository.
+
+=== Configuration
+
+All configuration options are read from the `[commitmessage]` section of
+`gerrit.config`.
+
+|===
+| Key | Default | Description
+
+| `maxSubjectLength` | `50`  
+| Maximum number of characters allowed in the subject line.
+
+| `maxLineLength` | `72`  
+| Maximum allowed length of any non-empty message line.
+
+| `longLinesThreshold` | `33`  
+| Maximum percentage (0–100) of non-empty lines that may exceed `maxLineLength`
+  before the message is flagged as poorly wrapped.
+
+| `rejectTooLong` | `false`  
+| If `true`, commit messages that exceed thresholds cause the push to be
+  **rejected**.  
+| If `false`, violations produce **warnings** only.
+|===
+
+A value of `0` or greater must be supplied for numeric fields; negative values
+fall back to defaults.
+
+=== When Validation Runs
+
+This validator runs for every pushed commit, regardless of:
+
+* project,
+* ref,
+* push type (direct push or push-for-review).
+
+For each commit, the validator:
+
+1. Extracts the subject line and checks its length.
+2. Iterates over all lines in the full commit message.
+3. Counts:
+   * non-empty lines,
+   * lines exceeding the maximum line length.
+4. Determines whether the percentage of long lines is above the configured
+   threshold.
+5. Emits warnings or rejects the commit based on configuration.
+
+If all checks pass, the push proceeds without any messages.
+
+=== Validation Rules
+
+|===
+| Condition | Description | Result
+
+| Subject line longer than `maxSubjectLength`
+| Subject should be concise and readable  
+| Warning or rejection
+
+| Too many lines exceed `maxLineLength`
+| Commit message should be manually wrapped  
+| Warning or rejection
+
+| Violations with `rejectTooLong = false`
+| Formatting issues reported but push allowed  
+| Accepted with warnings
+
+| Violations with `rejectTooLong = true`
+| Strict enforcement enabled  
+| Rejected
+
+| No formatting violations
+| Commit message meets configured standards  
+| Accepted
+|===

@@ -7,7 +7,7 @@ import {
   RestApiService,
   SubmittabilityInfo,
 } from '../../services/gr-rest-api/gr-rest-api';
-import {FlowInfo} from '../../api/rest-api';
+import {FlowActionInfo, FlowInfo} from '../../api/rest-api';
 import {
   AccountCapabilityInfo,
   AccountDetailInfo,
@@ -631,6 +631,9 @@ export const grRestApiMock: RestApiService = {
     return Promise.resolve(undefined);
   },
   listFlows(): Promise<FlowInfo[] | undefined> {
+    return Promise.resolve([]);
+  },
+  listFlowActions(): Promise<FlowActionInfo[] | undefined> {
     return Promise.resolve([]);
   },
   createFlow(): Promise<FlowInfo | undefined> {

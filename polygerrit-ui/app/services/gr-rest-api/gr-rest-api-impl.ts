@@ -138,13 +138,14 @@ import {
   DeleteLabelInput,
   FileInfo,
   FixReplacementInfo,
+  FlowActionInfo,
   FlowInfo,
   FlowInput,
-  IsFlowsEnabledInfo,
   LabelDefinitionInfo,
   LabelDefinitionInput,
   SubmitRequirementInput,
 } from '../../api/rest-api';
+import {IsFlowsEnabledInfo} from '../../api/rest-api';
 import {
   FetchParams,
   FetchPromisesCache,
@@ -3785,6 +3786,18 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       errFn,
       anonymizedUrl: `${ANONYMIZED_CHANGE_BASE_URL}/is-flows-enabled`,
     }) as Promise<IsFlowsEnabledInfo | undefined>;
+  }
+
+  async listFlowActions(
+    changeNum: NumericChangeId,
+    errFn?: ErrorCallback
+  ): Promise<FlowActionInfo[] | undefined> {
+    const url = await this._changeBaseURL(changeNum);
+    return this._restApiHelper.fetchJSON({
+      url: `${url}/flows-actions`,
+      errFn,
+      anonymizedUrl: `${ANONYMIZED_CHANGE_BASE_URL}/flows-actions`,
+    }) as Promise<FlowActionInfo[] | undefined>;
   }
 
   async createFlow(

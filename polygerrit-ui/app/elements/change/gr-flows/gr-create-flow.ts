@@ -7,7 +7,7 @@ import {customElement, property, state} from 'lit/decorators.js';
 import {css, html, LitElement, PropertyValues} from 'lit';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {grFormStyles} from '../../../styles/gr-form-styles';
-import {FlowInput} from '../../../api/rest-api';
+import {FlowActionInfo, FlowInput} from '../../../api/rest-api';
 import {getAppContext} from '../../../services/app-context';
 import {NumericChangeId, ServerInfo} from '../../../types/common';
 import '../../shared/gr-button/gr-button';
@@ -61,6 +61,8 @@ export class GrCreateFlow extends LitElement {
   @state() private serverConfig?: ServerInfo;
 
   @state() flowString = '';
+
+  @state() private flowActions: FlowActionInfo[] = [];
 
   private readonly restApiService = getAppContext().restApiService;
 
@@ -146,12 +148,24 @@ export class GrCreateFlow extends LitElement {
   }
 
   override firstUpdated() {
-    this.hostUrl = window.location.origin + window.location.pathname;
+    if (!this.hostUrl) {
+      this.hostUrl = window.location.origin + window.location.pathname;
+    }
+    this.getFlowActions();
   }
 
   override updated(changedProperties: PropertyValues) {
     if (changedProperties.has('stages')) {
       this.flowString = computeFlowString(this.stages);
+    }
+  }
+
+  private async getFlowActions() {
+    if (!this.changeNum) return;
+    const actions = await this.restApiService.listFlowActions(this.changeNum);
+    this.flowActions = actions ?? [];
+    if (this.flowActions.length > 0) {
+      this.currentAction = this.flowActions[0].name;
     }
   }
 
@@ -274,12 +288,22 @@ export class GrCreateFlow extends LitElement {
                 ).value)}
             ></md-outlined-text-field>`}
         <span> -> </span>
-        <md-outlined-text-field
+        <md-outlined-select
           label="Action"
           .value=${this.currentAction}
-          @input=${(e: InputEvent) =>
-            (this.currentAction = (e.target as MdOutlinedTextField).value)}
-        ></md-outlined-text-field>
+          @change=${(e: Event) => {
+            const select = e.target as HTMLSelectElement;
+            this.currentAction = select.value;
+          }}
+        >
+          ${this.flowActions.map(
+            action => html`
+              <md-select-option .value=${action.name}>
+                <div slot="headline">${action.name}</div>
+              </md-select-option>
+            `
+          )}
+        </md-outlined-select>
         <md-outlined-text-field
           label="Parameters"
           .value=${this.currentParameter}
@@ -367,7 +391,7 @@ export class GrCreateFlow extends LitElement {
       },
     ];
     this.currentCondition = '';
-    this.currentAction = '';
+    this.currentAction = this.flowActions[0]?.name ?? '';
     this.currentParameter = '';
   }
 
@@ -379,10 +403,7 @@ export class GrCreateFlow extends LitElement {
     if (!this.changeNum) return;
 
     const allStages = [...this.stages];
-    if (
-      this.currentCondition.trim() !== '' ||
-      this.currentAction.trim() !== ''
-    ) {
+    if (this.currentCondition.trim() !== '') {
       const condition =
         this.currentConditionPrefix === 'Gerrit'
           ? `${this.hostUrl} is ${this.currentCondition}`

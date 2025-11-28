@@ -964,6 +964,11 @@ export interface RestApiService extends Finalizable {
     errFn?: ErrorCallback
   ): Promise<FlowInfo[] | undefined>;
 
+  listFlowActions(
+    changeNum: NumericChangeId,
+    errFn?: ErrorCallback
+  ): Promise<FlowActionInfo[] | undefined>;
+
   getIfFlowsIsEnabled(
     changeNum: NumericChangeId,
     errFn?: ErrorCallback

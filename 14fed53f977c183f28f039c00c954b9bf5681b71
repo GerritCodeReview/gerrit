@@ -46,6 +46,30 @@
       },
       "revId": "14fed53f977c183f28f039c00c954b9bf5681b71",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d643782e_8481b56b",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2025-11-28T09:11:56Z",
+      "side": 1,
+      "message": "Ah, it\u0027s for the entire `\u003c\u003d`, you learn something ~new~ strange everyday.\nI thought it was odd to escape one `\u003c` but not the other 😊. Thanks for the explanation.",
+      "parentUuid": "c3ef5fda_ec3ccbbf",
+      "range": {
+        "startLine": 211,
+        "startChar": 27,
+        "endLine": 211,
+        "endChar": 28
+      },
+      "revId": "14fed53f977c183f28f039c00c954b9bf5681b71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -44,6 +44,7 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.accounts.AccountInput;
 import com.google.gerrit.extensions.api.changes.ApplyPatchInput;
 import com.google.gerrit.extensions.api.changes.ApplyPatchPatchSetInput;
+import com.google.gerrit.extensions.api.changes.RelatedChangeAndCommitInfo;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -59,6 +60,7 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.patch.ApplyPatchUtil;
 import com.google.inject.Inject;
+import java.util.List;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -488,6 +490,69 @@ public class ApplyPatchIT extends AbstractDaemonTest {
 
     assertThat(gApi.changes().id(result.id).current().commit(false).parents.get(0).commit)
         .isEqualTo(in.base);
+
+    // No change relation since the change for the baseCommit is on another branch.
+    List<RelatedChangeAndCommitInfo> relatedChanges =
+        gApi.changes().id(result.id).current().related().changes;
+    assertThat(relatedChanges).hasSize(0);
+  }
+
+  @Test
+  public void applyPatchWithBaseCommitThatIsAnOpenChange_success() throws Exception {
+    PushOneCommit.Result baseChange =
+        createChange("base commit", MODIFIED_FILE_NAME, MODIFIED_FILE_ORIGINAL_CONTENT);
+    baseChange.assertOkStatus();
+
+    PushOneCommit.Result ignoredCommit =
+        createChange("Ignored file modification", MODIFIED_FILE_NAME, "Ignored file modification");
+    ignoredCommit.assertOkStatus();
+
+    ApplyPatchPatchSetInput in = buildInput(MODIFIED_FILE_DIFF);
+    in.base = baseChange.getCommit().getName();
+    in.responseFormatOptions = ImmutableList.of(ListChangesOption.CURRENT_REVISION);
+    ChangeInfo result =
+        gApi.changes()
+            .create(new ChangeInput(project.get(), "master", "Default commit message"))
+            .applyPatch(in);
+
+    assertThat(gApi.changes().id(result.id).current().commit(false).parents.get(0).commit)
+        .isEqualTo(in.base);
+
+    List<RelatedChangeAndCommitInfo> relatedChanges =
+        gApi.changes().id(result.id).current().related().changes;
+    assertThat(relatedChanges).hasSize(2);
+    assertThat(relatedChanges.get(0)._changeNumber).isEqualTo(result._number);
+    assertThat(relatedChanges.get(0)._revisionNumber).isEqualTo(2);
+    assertThat(relatedChanges.get(1)._changeNumber).isEqualTo(baseChange.getChange().getId().get());
+    assertThat(relatedChanges.get(1)._revisionNumber).isEqualTo(1);
+  }
+
+  @Test
+  public void applyPatchWithBaseCommitThatIsAMergedChange_success() throws Exception {
+    PushOneCommit.Result baseChange =
+        createChange("base commit", MODIFIED_FILE_NAME, MODIFIED_FILE_ORIGINAL_CONTENT);
+    baseChange.assertOkStatus();
+    approve(baseChange.getChangeId());
+    gApi.changes().id(baseChange.getChangeId()).current().submit();
+
+    PushOneCommit.Result ignoredCommit =
+        createChange("Ignored file modification", MODIFIED_FILE_NAME, "Ignored file modification");
+    ignoredCommit.assertOkStatus();
+
+    ApplyPatchPatchSetInput in = buildInput(MODIFIED_FILE_DIFF);
+    in.base = baseChange.getCommit().getName();
+    in.responseFormatOptions = ImmutableList.of(ListChangesOption.CURRENT_REVISION);
+    ChangeInfo result =
+        gApi.changes()
+            .create(new ChangeInput(project.get(), "master", "Default commit message"))
+            .applyPatch(in);
+
+    assertThat(gApi.changes().id(result.id).current().commit(false).parents.get(0).commit)
+        .isEqualTo(in.base);
+
+    List<RelatedChangeAndCommitInfo> relatedChanges =
+        gApi.changes().id(result.id).current().related().changes;
+    assertThat(relatedChanges).hasSize(0);
   }
 
   @Test

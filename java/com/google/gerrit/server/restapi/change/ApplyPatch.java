@@ -32,6 +32,7 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.ChangeUtil;
+import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
@@ -67,6 +68,7 @@ public class ApplyPatch implements RestModifyView<ChangeResource, ApplyPatchPatc
   private final ContributorAgreementsChecker contributorAgreements;
   private final GitRepositoryManager gitManager;
   private final Provider<InternalChangeQuery> queryProvider;
+  private final PatchSetUtil psUtil;
   private final ProjectCache projectCache;
   private final ChangeUtil changeUtil;
   private final PatchSetCreator patchSetCreator;
@@ -76,12 +78,14 @@ public class ApplyPatch implements RestModifyView<ChangeResource, ApplyPatchPatc
       ContributorAgreementsChecker contributorAgreements,
       GitRepositoryManager gitManager,
       Provider<InternalChangeQuery> queryProvider,
+      PatchSetUtil psUtil,
       ProjectCache projectCache,
       ChangeUtil changeUtil,
       PatchSetCreator patchSetCreator) {
     this.contributorAgreements = contributorAgreements;
     this.gitManager = gitManager;
     this.queryProvider = queryProvider;
+    this.psUtil = psUtil;
     this.projectCache = projectCache;
     this.changeUtil = changeUtil;
     this.patchSetCreator = patchSetCreator;
@@ -126,12 +130,27 @@ public class ApplyPatch implements RestModifyView<ChangeResource, ApplyPatchPatc
       RevCommit latestPatchset = revWalk.parseCommit(destChange.currentPatchSet().commitId());
       RevCommit baseCommit;
       ImmutableList<RevCommit> parents;
+      ImmutableList<String> groups = null;
       if (!Strings.isNullOrEmpty(input.base)) {
         baseCommit =
             CommitUtil.getBaseCommit(
                 project.get(), queryProvider.get(), revWalk, destRef, input.base);
         parents = ImmutableList.of(baseCommit);
+
+        List<ChangeData> parentChanges =
+            queryProvider
+                .get()
+                .setLimit(1)
+                .byBranchCommitNewOrAbandoned(
+                    project.get(), destBranch.branch(), baseCommit.name());
+        if (!parentChanges.isEmpty()) {
+          ChangeData parentChange = parentChanges.getFirst();
+          groups = psUtil.current(parentChange.notes()).groups();
+        }
       } else {
+        // No need to set groups, if groups is unset PatchSetInserter copies the groups from the
+        // latest patch set.
+
         if (latestPatchset.getParentCount() != 1) {
           throw new BadRequestException(
               String.format(
@@ -178,6 +197,7 @@ public class ApplyPatch implements RestModifyView<ChangeResource, ApplyPatchPatc
               revWalk,
               applyResult.getTreeId(),
               commitMessage,
+              groups,
               /* validationOptions= */ null);
       if (changeInfo.containsGitConflicts == null
           && applyResult.getErrors().stream().anyMatch(Error::isGitConflict)) {

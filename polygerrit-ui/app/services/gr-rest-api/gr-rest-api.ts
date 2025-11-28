@@ -102,6 +102,7 @@ import {
   DeleteLabelInput,
   FileInfo,
   FixReplacementInfo,
+  FlowActionInfo,
   FlowInfo,
   FlowInput,
   IsFlowsEnabledInfo,
@@ -963,6 +964,11 @@ export interface RestApiService extends Finalizable {
     changeNum: NumericChangeId,
     errFn?: ErrorCallback
   ): Promise<FlowInfo[] | undefined>;
+
+  listFlowActions(
+    changeNum: NumericChangeId,
+    errFn?: ErrorCallback
+  ): Promise<FlowActionInfo[] | undefined>;
 
   getIfFlowsIsEnabled(
     changeNum: NumericChangeId,

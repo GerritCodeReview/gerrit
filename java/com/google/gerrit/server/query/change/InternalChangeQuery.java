@@ -276,6 +276,13 @@ public class InternalChangeQuery extends InternalQuery<ChangeData, InternalChang
     return query(and(byBranchCommitPred(project, branch, hash), open()));
   }
 
+  public List<ChangeData> byBranchCommitNewOrAbandoned(String project, String branch, String hash) {
+    return query(
+        and(
+            byBranchCommitPred(project, branch, hash),
+            or(status(Change.Status.NEW), status(Change.Status.ABANDONED))));
+  }
+
   public static Predicate<ChangeData> byBranchCommitOpenPred(
       Project.NameKey project, String branch, String hash) {
     return and(byBranchCommitPred(project.get(), branch, hash), open());

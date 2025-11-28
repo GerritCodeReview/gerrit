@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e7d2bf6d_0cd4012e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-11-28T13:16:05Z",
+      "side": 1,
+      "message": "These are fields of ChangeInput, but this is a fix for ApplyPatch that takes ApplyPatchPatchSetInput as input. ApplyPatchPatchSetInput only has a `base` field that must be a commit SHA1.\n\nSo this change doesn\u0027t change anything for CreateChange and ChangeInput.",
+      "parentUuid": "406c20b1_28139ae9",
+      "range": {
+        "startLine": 9,
+        "startChar": 39,
+        "endLine": 11,
+        "endChar": 42
+      },
+      "revId": "f314498c1fffcacf053c542708868e1e54c2d314",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "03a97919_3318b9d1",
@@ -37,6 +61,30 @@
       "writtenOn": "2025-11-28T13:02:21Z",
       "side": 1,
       "message": "handle how?\nReading the previous sentence I understand that setting the base to be an abandoned commit is not allowed.\n\nAre you changing that?\n\nNow reading the code I am confused because you are indeed fetching `byBranchCommitNewOrAbandoned` so we will just throw an error?",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 30
+      },
+      "revId": "f314498c1fffcacf053c542708868e1e54c2d314",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3b0e2262_a76884f3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-11-28T13:16:05Z",
+      "side": 1,
+      "message": "\u003e Are you changing that?\n\nNo, whether the base is an abandoned change is checked in CommitUtil#getBaseCommit. If using an abandoned change as a base wasn\u0027t rejected there, then we would need to match abandon changes in ApplyPatch.\n\nThis means at moment using byBranchCommitOpen in ApplyPatch would be sufficient (since using an abandoned change as base is rejected before we reach here). But checking here for open and abandoned changes here doesn\u0027t do any harm. It has the advantage that ApplyPatch will just do the correct thing if in the future abandoned changes will be allowed to be used as base commit.\n\nFor our internal code I\u0027m not sure if the base can be an abandoned change, but if we have byBranchCommitNewOrAbandoned we can use it there too and it will work in any case.",
+      "parentUuid": "03a97919_3318b9d1",
       "range": {
         "startLine": 23,
         "startChar": 0,

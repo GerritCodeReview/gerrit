@@ -7,7 +7,8 @@ perform validation on certain operations.
 == New commit validation
 
 Plugins implementing the `CommitValidationListener` interface can
-perform additional validation checks against new commits.
+perform additional validation checks against new commits. This link:dev-commit-validation.html[list] documents
+all the existing commit validators.
 
 If the commit fails the validation, the plugin can either provide a
 message that will be sent back to the git client, or throw an exception

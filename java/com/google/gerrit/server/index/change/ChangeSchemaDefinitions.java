@@ -271,7 +271,15 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
           .build();
 
   /** Upgrade Lucene to 10.x requires reindexing. */
-  static final Schema<ChangeData> V87 = schema(V86);
+  @Deprecated static final Schema<ChangeData> V87 = schema(V86);
+
+  /** Add REVIEWERS_COUNT_FIELD */
+  static final Schema<ChangeData> V88 =
+      new Schema.Builder<ChangeData>()
+          .add(V87)
+          .addIndexedFields(ChangeField.REVIEWER_COUNT_FIELD)
+          .addSearchSpecs(ChangeField.REVIEWER_COUNT_SPEC)
+          .build();
 
   /**
    * Name of the change index to be used when contacting index backends or loading configurations.

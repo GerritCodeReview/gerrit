@@ -493,6 +493,7 @@ public class ChangeData {
   private ImmutableSet<AttentionSetUpdate> attentionSet;
   private Integer unresolvedCommentCount;
   private Integer totalCommentCount;
+  private Integer reviewerCount;
   private LabelTypes labelTypes;
   private Optional<Instant> mergedOn;
   private ImmutableSetMultimap<Project.NameKey, RefState> refStates;
@@ -1139,6 +1140,17 @@ public class ChangeData {
 
   public ReviewerByEmailSet getReviewersByEmail() {
     return reviewersByEmail;
+  }
+
+  public Integer getReviewerCount() {
+    if (reviewerCount == null) {
+      reviewerCount = reviewers().all().size();
+    }
+    return reviewerCount;
+  }
+
+  public void setReviewerCount(Integer count) {
+    this.reviewerCount = count;
   }
 
   public void setPendingReviewers(ReviewerSet pendingReviewers) {

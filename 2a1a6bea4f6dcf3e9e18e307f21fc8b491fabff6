@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4b5d5e90_779081f4",
+        "filename": "java/com/google/gerrit/server/git/receive/AsyncReceiveCommits.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-11-30T10:17:55Z",
+      "side": 1,
+      "message": "`availableTokens.quotaExceededMessage()` is an `Optional\u003cString\u003e`, so we can leverage that and inline the resolution at L385.\n\n\n\n```suggestion\n                      unpackException \u003d new QuotaException(availableTokens.quotaExceededMessage().orElse(defaultMessage));\n```",
+      "range": {
+        "startLine": 381,
+        "startChar": 0,
+        "endLine": 385,
+        "endChar": 80
+      },
+      "revId": "2a1a6bea4f6dcf3e9e18e307f21fc8b491fabff6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ca6ce679_588ff3f3",
+        "filename": "java/com/google/gerrit/server/quota/QuotaResponse.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-11-30T10:17:55Z",
+      "side": 1,
+      "message": "This deserves an explanation on why you are specifying an `exceededQuotaMessage`.\nMaybe a JavaDocs?\n\nI believe you need to clarify that:\n\n1. The response is still OK and the user has NOT exceeded the quota\n2. The `exceededQuotaMessage` *may* be used if the new data requested is over the tokens provided",
+      "range": {
+        "startLine": 64,
+        "startChar": 46,
+        "endLine": 64,
+        "endChar": 73
+      },
+      "revId": "2a1a6bea4f6dcf3e9e18e307f21fc8b491fabff6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ab50ad66_79fb67e1",
+        "filename": "java/com/google/gerrit/server/quota/QuotaResponse.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-11-30T10:17:55Z",
+      "side": 1,
+      "message": "The logic implemented by this method is quite complex and the method name isn\u0027t enough to suggest that logic.\n\nYou can either amend the method name or add a JavaDoc explaining how the message is computed.\n\nRenaming is my preferred option, suggested as an online edit.\n\nAlso, returning an actual `Optional\u003cString\u003e` is useful, as it would allow the caller to avoid if/then/else checking for emptiness.\n\n\n```suggestion\n    public Optional\u003cString\u003e quotaExceededByLowestAvailableTokensMessage() {\n```",
+      "revId": "2a1a6bea4f6dcf3e9e18e307f21fc8b491fabff6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "46e9e8af_162a2ad8",
+        "filename": "java/com/google/gerrit/server/quota/QuotaResponse.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-11-30T10:17:55Z",
+      "side": 1,
+      "message": "Could you elaborate on that statement?\nAFAIK `sorted()` is slower than `min()`, so I\u0027m not sure why you would prefer to use it.",
+      "range": {
+        "startLine": 131,
+        "startChar": 47,
+        "endLine": 131,
+        "endChar": 83
+      },
+      "revId": "2a1a6bea4f6dcf3e9e18e307f21fc8b491fabff6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "714e1faf_908f790f",
+        "filename": "java/com/google/gerrit/server/quota/QuotaResponse.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-11-30T10:17:55Z",
+      "side": 1,
+      "message": "No need to force a default here, as you may need to use a default message resolution anyway, see `AsyncReceiveCommits.java:381`\n\n```suggestion\n          .findFirst();\n```",
+      "range": {
+        "startLine": 135,
+        "startChar": 0,
+        "endLine": 136,
+        "endChar": 22
+      },
+      "revId": "2a1a6bea4f6dcf3e9e18e307f21fc8b491fabff6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

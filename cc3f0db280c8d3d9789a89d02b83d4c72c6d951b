@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "accc9041_36f728d5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-12-01T22:29:59Z",
+      "side": 1,
+      "message": "Any notable changes?",
+      "revId": "cc3f0db280c8d3d9789a89d02b83d4c72c6d951b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b5789e2_c6fa7907",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-12-01T22:29:59Z",
+      "side": 1,
+      "message": "Add Issue link to the [existing issue](https://issues.gerritcodereview.com/issues/317770591) for 3.14.0 (and update that issue to 3.18.0)\n```suggestion\nBug: Issue 317770591\nRelease-Notes: skip\n```",
+      "revId": "cc3f0db280c8d3d9789a89d02b83d4c72c6d951b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -113,6 +113,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2498d073_fdb0a961",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 21
+      },
+      "lineNbr": 6301,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-12-01T10:50:54Z",
+      "side": 1,
+      "message": "Right, I think using \"submit-requirement\" in project.config was a mistake, but it\u0027s too late to fix. In this case it\u0027s up to you which casing you prefer here.\n\nAlternatively these could be parameters in the \"change\" section which already contains another submit requirement specific parameter: change.propagateSubmitRequirementErrors",
+      "parentUuid": "0d46d795_1e205bd5",
+      "range": {
+        "startLine": 6301,
+        "startChar": 2,
+        "endLine": 6301,
+        "endChar": 20
+      },
+      "revId": "59037c3f5e13fd553fb3f1f5fb7d5a51883b8457",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "04ad4caa_0245d5c8",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 21

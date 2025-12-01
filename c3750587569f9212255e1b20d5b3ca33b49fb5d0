@@ -52,6 +52,24 @@
       "parentUuid": "59574943_124d340e",
       "revId": "c3750587569f9212255e1b20d5b3ca33b49fb5d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "efc6c95f_9b5eb083",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-12-01T10:40:07Z",
+      "side": 1,
+      "message": "Thanks for explaining. I can bring this up in our team meeting to see if anyone has an idea.\n\n\u003e More or less just by chance. Those versions as we use them are fully\n\u003e compatible. Thus, there are no issues (at least as far as I could determine it).\n\u003e This might also be true for some of the other dependencies.\n\u003e If I am now splitting that change, I will try to determine the minimum set\n\u003e to make the tests work.\n\nThanks much!",
+      "parentUuid": "bb26d1c6_b8efd3e6",
+      "revId": "c3750587569f9212255e1b20d5b3ca33b49fb5d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

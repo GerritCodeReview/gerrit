@@ -34,6 +34,24 @@
       "parentUuid": "9f8921c7_67baf10d",
       "revId": "c3750587569f9212255e1b20d5b3ca33b49fb5d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bb26d1c6_b8efd3e6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-12-01T10:35:58Z",
+      "side": 1,
+      "message": "\u003e Please make separate changes for each library upgrade and file a ticket for the review as described at https://gerrit-review.googlesource.com/Documentation/dev-processes.html#upgrading-libraries\n\nI will do so.\n\n\u003e Sorry, I don\u0027t have a solution for this. ...\n\nI am aware of that. That is why I asked. In principal we then have a similar issue with the Gerrit project. All plugins (being built in-tree) and modules need to use the same dependency version. This will require additional coordination, but in the end will be easier to maintain. We for example just had issues because two plugins used different versions of the same dependency.\n\nI don\u0027t believe that this will be much of an issue for plugins and other components directly maintained by the Gerrit project, but jgit is only loosely coupled. Maybe @matthias.sohn@sap.com can comment on this?\n\n\u003e Maybe what you could do is have your own master branch, do the version upgrade there and then regularly pull in the changes from the master branch that continues using the old versions?\n\nSince the use of bazel modules will change the build quite a bit, that would not be ideal. Also the master-branch would be stuck with bazel 7, which can\u0027t be a solution. Then we should rather use our anyways custom branch of jgit to adapt teh versions there. But also that will be quite a hassle and not always work in a straight forward fashion.\n\n\u003e How is it possible then to have an exemption for jetty?\n\nMore or less just by chance. Those versions as we use them are fully compatible. Thus, there are no issues (at least as far as I could determine it).\nThis might also be true for some of the other dependencies. If I am now splitting that change, I will try to determine the minimum set to make the tests work.",
+      "parentUuid": "59574943_124d340e",
+      "revId": "c3750587569f9212255e1b20d5b3ca33b49fb5d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

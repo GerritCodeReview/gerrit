@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d6979d87_1ee46fc9",
+        "filename": "java/com/google/gerrit/server/quota/QuotaResponse.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-12-01T19:36:02Z",
+      "side": 1,
+      "message": "If two conditions are the most restrictive ones, they should both be mentioned IMHO.",
+      "parentUuid": "f49118cf_1347d824",
+      "range": {
+        "startLine": 131,
+        "startChar": 11,
+        "endLine": 131,
+        "endChar": 14
+      },
+      "revId": "dd47de4f31b123bc8b213a4d74f93ab9e901f68c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7afb0b55_e5dc6556",
         "filename": "java/com/google/gerrit/server/quota/QuotaResponse.java",
         "patchSetId": 1

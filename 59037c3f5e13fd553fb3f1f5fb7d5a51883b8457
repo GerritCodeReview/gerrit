@@ -66,6 +66,70 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0d46d795_1e205bd5",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 21
+      },
+      "lineNbr": 6301,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-12-01T10:20:01Z",
+      "side": 1,
+      "message": "When I discussed about the naming with Hitesh I found that we use `submit-requirement` in the `project.config`:\nhttps://gerrit-review.googlesource.com/Documentation/config-submit-requirements.html#submit-requirement-subsection\n\nI also see that in the `gerrit.config` we tend to use camelCase. Anyway, it will not be ideal in the end as we will either have inconsistency between section names in `gerrit.config` and `project.config` or within `gerrit.config`.",
+      "parentUuid": "112edb6f_1b0910eb",
+      "range": {
+        "startLine": 6301,
+        "startChar": 2,
+        "endLine": 6301,
+        "endChar": 20
+      },
+      "revId": "59037c3f5e13fd553fb3f1f5fb7d5a51883b8457",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f6eb23f9_c7a33bbb",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 21
+      },
+      "lineNbr": 6301,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-12-01T10:20:01Z",
+      "side": 1,
+      "message": "I would prefer to name this like `requireOperatorForUpdate` because it is more technical and less UI action related name.",
+      "range": {
+        "startLine": 6301,
+        "startChar": 21,
+        "endLine": 6301,
+        "endChar": 43
+      },
+      "revId": "59037c3f5e13fd553fb3f1f5fb7d5a51883b8457",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "04ad4caa_0245d5c8",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 21
+      },
+      "lineNbr": 6308,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2025-12-01T10:20:01Z",
+      "side": 1,
+      "message": "As we agreed that we must not break existing submit requirements, this parameter should be out of scope of this change: split this change into two i.e. introduce this parameter into a follow-up change.",
+      "revId": "59037c3f5e13fd553fb3f1f5fb7d5a51883b8457",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1843828a_021ce232",
         "filename": "Documentation/config-submit-requirements.txt",
         "patchSetId": 21

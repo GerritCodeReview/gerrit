@@ -34,6 +34,24 @@
       "parentUuid": "de44216f_2f2fd37f",
       "revId": "c2a6bc5e1cd4dc3d2b7d75d1c266c8b2653508df",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5535fad6_9f813db9",
+        "filename": "MODULE.bazel",
+        "patchSetId": 27
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-12-01T22:24:41Z",
+      "side": 1,
+      "message": "\u003e Using different repository names might also lead to additional issues. With jgit the build started to work after having different bazel repos, but at runtime the dependency version conflict caused errors. I.e. we might miss such issues, if no test hits a break point. Using the same name prevents this, since there is an error on a duplicate dependency. However, this could of course be checked by a simple test that ensures no duplicate entries in both toml-files.\n\nHmm. Do we have a way to prevent Gerrit code from using dependencies only referred to by JGit? Or do visibility rules somehow already do that? (leaving unresolved for these questions)\n\n\u003e \n\u003e Regarding splitting `/lib`, what about for example `guava`. IIUC Google uses it, but just uses its own version from the build. So I guess it would be fine to reference it everywhere, while lucene probably wouldn\u0027t.\n\nYeah, I forgot nongoogle is actually two categories - Google uses its own version (and I guess just hopes we don\u0027t upgrade to an incompatible one?) and Google doesn\u0027t use it (lucene, sshd, etc.). My idea was with the latter in mind and I don\u0027t know what would make sense for the former. Let\u0027s just leave as you have it for now.",
+      "parentUuid": "1ebec963_353407d2",
+      "revId": "c2a6bc5e1cd4dc3d2b7d75d1c266c8b2653508df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

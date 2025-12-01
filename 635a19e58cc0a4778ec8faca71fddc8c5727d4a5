@@ -34,6 +34,24 @@
       "parentUuid": "8478c231_7ae0de3b",
       "revId": "635a19e58cc0a4778ec8faca71fddc8c5727d4a5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "39d81c2f_d95f41d3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3911711
+      },
+      "writtenOn": "2025-12-01T22:37:38Z",
+      "side": 1,
+      "message": "Bug Id 465176572.\n\nWill add this as a footer in the commit message.",
+      "parentUuid": "e2bfdf32_d3448cbe",
+      "revId": "635a19e58cc0a4778ec8faca71fddc8c5727d4a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

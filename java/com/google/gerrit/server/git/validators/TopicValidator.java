@@ -17,6 +17,9 @@ package com.google.gerrit.server.git.validators;
 import com.google.common.base.Strings;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.logging.Metadata;
+import com.google.gerrit.server.logging.TraceContext;
+import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.inject.Inject;
@@ -43,14 +46,16 @@ public class TopicValidator {
     if (Strings.isNullOrEmpty(topic)) {
       return;
     }
-    int topicSize =
-        queryProvider.get().noFields().setLimit(topicLimit + 1).byTopicOpen(topic).size();
-    if (topicSize >= topicLimit) {
-      throw new ValidationException(
-          String.format(
-              "Topic '%s' already contains maximum number of allowed changes per 'topicLimit'"
-                  + " server config value %d.",
-              topic, topicLimit));
+    try (TraceTimer ignored = TraceContext.newTimer("Validate Topic Size", Metadata.empty())) {
+      int topicSize =
+          queryProvider.get().noFields().setLimit(topicLimit + 1).byTopicOpen(topic).size();
+      if (topicSize >= topicLimit) {
+        throw new ValidationException(
+            String.format(
+                "Topic '%s' already contains maximum number of allowed changes per 'topicLimit'"
+                    + " server config value %d.",
+                topic, topicLimit));
+      }
     }
   }
 }

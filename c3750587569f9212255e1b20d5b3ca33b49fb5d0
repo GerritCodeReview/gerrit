@@ -16,6 +16,24 @@
       "message": "@ekempin@google.com Could you please check whether these version updates work for Google and vote on LC? Thanks!\n\nIn general, with using bazel modules we will be forced to have the same dependency version in Gerrit and all plugins / modules. What are your thoughts on this, especially in regards to LC?",
       "revId": "c3750587569f9212255e1b20d5b3ca33b49fb5d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "59574943_124d340e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-12-01T09:47:06Z",
+      "side": 1,
+      "message": "\u003e Could you please check whether these version updates work for Google\n\u003e and vote on LC? Thanks!\n\nPlease make separate changes for each library upgrade and file a ticket for the review as described at https://gerrit-review.googlesource.com/Documentation/dev-processes.html#upgrading-libraries\n\nWe have a weekly rotation to take care of incoming issues. This is to distribute the load fairly within the Gerrit team, i.e. it should not always be me doing these reviews.\n\n\u003e In general, with using bazel modules we will be forced to have the same\n\u003e dependency version in Gerrit and all plugins / modules.\n\u003e What are your thoughts on this, especially in regards to LC?\n\nSorry, I don\u0027t have a solution for this. At Google there is the requirement that all code uses the same version of third party libraries. This means we can only use those versions which have been approved and are available, or we need to upgrade all of Google to the new version (which can be a lot of work which is why we avoid doing this).\n\nThe problem with diverging versions between upstream and our internal code base is that as soon as an API is used that is contained in the new version, but not in the old version, our import will fail and then we would need to revert the upstream changes that introduced the usage of the new API. This is too much hassle for us, and also would be very frustrating to the community (as you have no way to detect this when making the change).\n\nMaybe what you could do is have your own master branch, do the version upgrade there and then regularly pull in the changes from the master branch that continues using the old versions?\n\n\u003e we will be forced to have the same dependency version\n\nHow is it possible then to have an exemption for jetty?",
+      "parentUuid": "9f8921c7_67baf10d",
+      "revId": "c3750587569f9212255e1b20d5b3ca33b49fb5d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,182 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f06a72a_a756974a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 21
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-12-01T09:22:35Z",
+      "side": 1,
+      "message": "I think this should say \"true\" here.",
+      "range": {
+        "startLine": 65,
+        "startChar": 39,
+        "endLine": 65,
+        "endChar": 44
+      },
+      "revId": "59037c3f5e13fd553fb3f1f5fb7d5a51883b8457",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d7418c10_6324f3de",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 21
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-12-01T09:22:35Z",
+      "side": 1,
+      "message": "Please also add tests for \"requireOperatorForEvaluation\u003dtrue\".",
+      "revId": "59037c3f5e13fd553fb3f1f5fb7d5a51883b8457",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "112edb6f_1b0910eb",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 21
+      },
+      "lineNbr": 6301,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-12-01T09:22:35Z",
+      "side": 1,
+      "message": "Please use camelCase here to be consistent with the naming of the other config sections and parameter names.",
+      "range": {
+        "startLine": 6301,
+        "startChar": 2,
+        "endLine": 6301,
+        "endChar": 20
+      },
+      "revId": "59037c3f5e13fd553fb3f1f5fb7d5a51883b8457",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1843828a_021ce232",
+        "filename": "Documentation/config-submit-requirements.txt",
+        "patchSetId": 21
+      },
+      "lineNbr": 437,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-12-01T09:22:35Z",
+      "side": 1,
+      "message": "Maybe better link to the submit requirement section on the config page. Otherwise the config page is too huge for users to be able to find the parameters that are meant here.",
+      "range": {
+        "startLine": 437,
+        "startChar": 40,
+        "endLine": 437,
+        "endChar": 81
+      },
+      "revId": "59037c3f5e13fd553fb3f1f5fb7d5a51883b8457",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "363a35dc_94c22798",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementsEvaluatorImpl.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-12-01T09:22:35Z",
+      "side": 1,
+      "message": "Instead of reading the config value each time when an expression is validated/evaluated, should we just read the config value once in the constructor?",
+      "range": {
+        "startLine": 97,
+        "startChar": 37,
+        "endLine": 97,
+        "endChar": 60
+      },
+      "revId": "59037c3f5e13fd553fb3f1f5fb7d5a51883b8457",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "328ad573_3cb6e1cd",
+        "filename": "java/com/google/gerrit/server/query/change/SubmitRequirementChangeQueryBuilder.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-12-01T09:22:35Z",
+      "side": 1,
+      "message": "Should this name be changed to \u0027operatorRequiredDuringSearch\u0027?",
+      "range": {
+        "startLine": 54,
+        "startChar": 55,
+        "endLine": 54,
+        "endChar": 80
+      },
+      "revId": "59037c3f5e13fd553fb3f1f5fb7d5a51883b8457",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ce48303_e8006d09",
+        "filename": "java/com/google/gerrit/server/query/change/SubmitRequirementChangeQueryBuilder.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-12-01T09:22:35Z",
+      "side": 1,
+      "message": "nit: should this be lower case the same as \"\u003cvalue\u003e\"?",
+      "range": {
+        "startLine": 117,
+        "startChar": 79,
+        "endLine": 117,
+        "endChar": 87
+      },
+      "revId": "59037c3f5e13fd553fb3f1f5fb7d5a51883b8457",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c356e5a5_9561a031",
+        "filename": "java/com/google/gerrit/server/submit/MergeMetrics.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-12-01T09:22:35Z",
+      "side": 1,
+      "message": "Maybe hard-code \"false\" here, as we never want this to fail.",
+      "range": {
+        "startLine": 129,
+        "startChar": 24,
+        "endLine": 129,
+        "endChar": 57
+      },
+      "revId": "59037c3f5e13fd553fb3f1f5fb7d5a51883b8457",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

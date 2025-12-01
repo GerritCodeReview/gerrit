@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5c4aeca2_64533a8d",
+        "filename": "java/com/google/gerrit/server/git/receive/AsyncReceiveCommits.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-12-01T16:35:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4b5d5e90_779081f4",
+      "range": {
+        "startLine": 381,
+        "startChar": 0,
+        "endLine": 385,
+        "endChar": 80
+      },
+      "revId": "2a1a6bea4f6dcf3e9e18e307f21fc8b491fabff6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ca6ce679_588ff3f3",
@@ -37,6 +61,30 @@
       "writtenOn": "2025-11-30T10:17:55Z",
       "side": 1,
       "message": "This deserves an explanation on why you are specifying an `exceededQuotaMessage`.\nMaybe a JavaDocs?\n\nI believe you need to clarify that:\n\n1. The response is still OK and the user has NOT exceeded the quota\n2. The `exceededQuotaMessage` *may* be used if the new data requested is over the tokens provided",
+      "range": {
+        "startLine": 64,
+        "startChar": 46,
+        "endLine": 64,
+        "endChar": 73
+      },
+      "revId": "2a1a6bea4f6dcf3e9e18e307f21fc8b491fabff6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c69f5ff8_fd1a9b82",
+        "filename": "java/com/google/gerrit/server/quota/QuotaResponse.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-12-01T16:35:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca6ce679_588ff3f3",
       "range": {
         "startLine": 64,
         "startChar": 46,
@@ -64,6 +112,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9e9b6d74_4c61dcee",
+        "filename": "java/com/google/gerrit/server/quota/QuotaResponse.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-12-01T16:35:22Z",
+      "side": 1,
+      "message": "I will add the javadocs and rename the method.\n`quotaExceededByLowestAvailableTokensMessage` sounds a bit awkward to me and a bit implementation-oriented imho.\n\nI think a more idiomatic name might be `mostRestrictiveQuotaExceededMessage`.\nI will go with that one for now. Open for discussion if you don\u0027t like it.",
+      "parentUuid": "ab50ad66_79fb67e1",
+      "revId": "2a1a6bea4f6dcf3e9e18e307f21fc8b491fabff6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "46e9e8af_162a2ad8",
@@ -87,6 +153,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "90a0460f_8482e36e",
+        "filename": "java/com/google/gerrit/server/quota/QuotaResponse.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-12-01T16:35:22Z",
+      "side": 1,
+      "message": "The reason we use `sorted()` rather than `min()` is to get deterministic tie-breaking when multiple enforcers report the same number of available tokens.\n\nThis concern was brought up by @ponch78@gmail.com here [1].\n\n`Stream.sorted()` is stable, so in the case of a tie it preserves the original order of `responses()`.\n\nI agree the current comment doesn\u0027t make that clear, I\u0027ll rephrase it to explain the tie-breaking requirement rather than just stating \"sorted is stable\".\n\nThe cost of sorting is negligible here because the number of enforcers is very small, but the deterministic behaviour avoids surprising results.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/530501/comment/261736c2_aae77ab3/",
+      "parentUuid": "46e9e8af_162a2ad8",
+      "range": {
+        "startLine": 131,
+        "startChar": 47,
+        "endLine": 131,
+        "endChar": 83
+      },
+      "revId": "2a1a6bea4f6dcf3e9e18e307f21fc8b491fabff6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "714e1faf_908f790f",
@@ -100,6 +190,30 @@
       "writtenOn": "2025-11-30T10:17:55Z",
       "side": 1,
       "message": "No need to force a default here, as you may need to use a default message resolution anyway, see `AsyncReceiveCommits.java:381`\n\n```suggestion\n          .findFirst();\n```",
+      "range": {
+        "startLine": 135,
+        "startChar": 0,
+        "endLine": 136,
+        "endChar": 22
+      },
+      "revId": "2a1a6bea4f6dcf3e9e18e307f21fc8b491fabff6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6d71eca6_23e6909a",
+        "filename": "java/com/google/gerrit/server/quota/QuotaResponse.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-12-01T16:35:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "714e1faf_908f790f",
       "range": {
         "startLine": 135,
         "startChar": 0,

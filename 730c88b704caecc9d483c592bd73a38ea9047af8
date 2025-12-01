@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "57bbc606_2482accf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-12-01T22:26:42Z",
+      "side": 1,
+      "message": "You\u0027re also updating the JGit submodule. Can you note the changes that includes?",
+      "revId": "730c88b704caecc9d483c592bd73a38ea9047af8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "22d1bc0d_8fa987d6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-12-01T22:26:42Z",
+      "side": 1,
+      "message": "Probably should get mentioned in the release notes? Or is there really no user/admin impact from this?",
+      "revId": "730c88b704caecc9d483c592bd73a38ea9047af8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

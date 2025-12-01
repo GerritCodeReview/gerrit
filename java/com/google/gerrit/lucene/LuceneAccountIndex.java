@@ -106,13 +106,13 @@ public class LuceneAccountIndex extends AbstractLuceneIndex<Account.Id, AccountS
         ACCOUNTS,
         ImmutableSet.of(),
         null,
-        new GerritIndexWriterConfig(cfg, ACCOUNTS, sitePaths),
+        new GerritIndexWriterConfig(cfg, ACCOUNTS),
         new SearcherFactory(),
         autoFlush,
         AccountIndex.ENTITY_TO_KEY);
     this.accountCache = accountCache;
 
-    indexWriterConfig = new GerritIndexWriterConfig(cfg, ACCOUNTS, sitePaths);
+    indexWriterConfig = new GerritIndexWriterConfig(cfg, ACCOUNTS);
     queryBuilder = new QueryBuilder<>(schema, indexWriterConfig.getAnalyzer());
   }
 

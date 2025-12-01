@@ -96,13 +96,13 @@ public class LuceneProjectIndex extends AbstractLuceneIndex<Project.NameKey, Pro
         PROJECTS,
         ImmutableSet.of(),
         null,
-        new GerritIndexWriterConfig(cfg, PROJECTS, sitePaths),
+        new GerritIndexWriterConfig(cfg, PROJECTS),
         new SearcherFactory(),
         autoFlush,
         ProjectIndex.ENTITY_TO_KEY);
     this.projectCache = projectCache;
 
-    indexWriterConfig = new GerritIndexWriterConfig(cfg, PROJECTS, sitePaths);
+    indexWriterConfig = new GerritIndexWriterConfig(cfg, PROJECTS);
     queryBuilder = new QueryBuilder<>(schema, indexWriterConfig.getAnalyzer());
   }
 

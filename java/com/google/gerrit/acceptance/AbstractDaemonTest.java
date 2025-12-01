@@ -283,7 +283,6 @@ public abstract class AbstractDaemonTest {
   @Inject protected TestSshKeys sshKeys;
   @Inject protected TestTicker testTicker;
   @Inject protected ThreadLocalRequestContext localCtx;
-  @Inject protected SitePaths sitePaths;
 
   @Nullable public SshSession adminSshSession;
 
@@ -308,6 +307,7 @@ public abstract class AbstractDaemonTest {
   @Inject private PluginGuiceEnvironment pluginGuiceEnvironment;
   @Inject private PluginUser.Factory pluginUserFactory;
   @Inject private RequestScopeOperations requestScopeOperations;
+  @Inject private SitePaths sitePaths;
   @Inject private ProjectOperations projectOperations;
 
   private List<Repository> toClose;

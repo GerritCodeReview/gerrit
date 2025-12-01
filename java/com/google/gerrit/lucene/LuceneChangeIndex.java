@@ -146,10 +146,8 @@ public class LuceneChangeIndex implements ChangeIndex {
             ? ImmutableSet.of()
             : ImmutableSet.of(ChangeField.MERGEABLE_SPEC.getName());
 
-    GerritIndexWriterConfig openConfig =
-        new GerritIndexWriterConfig(cfg, "changes_open", sitePaths);
-    GerritIndexWriterConfig closedConfig =
-        new GerritIndexWriterConfig(cfg, "changes_closed", sitePaths);
+    GerritIndexWriterConfig openConfig = new GerritIndexWriterConfig(cfg, "changes_open");
+    GerritIndexWriterConfig closedConfig = new GerritIndexWriterConfig(cfg, "changes_closed");
 
     queryBuilder = new QueryBuilder<>(schema, openConfig.getAnalyzer());
 

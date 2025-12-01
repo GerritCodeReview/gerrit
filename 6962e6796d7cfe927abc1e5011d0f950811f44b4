@@ -1,0 +1,279 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1137fbef_e9b03cca",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-12-01T10:31:47Z",
+      "side": 1,
+      "message": "Thanks much for documenting the validators. Much appreciated!\n\nI didn\u0027t do a full review yet, but so far I only have feedback about the description of the ChangeIdValidator and the FileCountValidator.",
+      "revId": "6962e6796d7cfe927abc1e5011d0f950811f44b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5512cce9_355fe539",
+        "filename": "Documentation/config-validation.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-12-01T10:31:47Z",
+      "side": 1,
+      "message": "Should this be a link to the page that documents the commit validators?",
+      "range": {
+        "startLine": 10,
+        "startChar": 63,
+        "endLine": 10,
+        "endChar": 67
+      },
+      "revId": "6962e6796d7cfe927abc1e5011d0f950811f44b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9f4fea6d_55729a07",
+        "filename": "Documentation/config-validation.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-12-01T10:31:47Z",
+      "side": 1,
+      "message": "I think you can drop this here if you already have the link above.",
+      "revId": "6962e6796d7cfe927abc1e5011d0f950811f44b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "79af8fc0_aa5a28b6",
+        "filename": "Documentation/dev-commit-validation.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-12-01T10:31:47Z",
+      "side": 1,
+      "message": "Which interface is implemented is not much relevant in the context of this documentation, maybe just say \"commit validator\".",
+      "range": {
+        "startLine": 9,
+        "startChar": 38,
+        "endLine": 11,
+        "endChar": 9
+      },
+      "revId": "6962e6796d7cfe927abc1e5011d0f950811f44b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "79a6c301_fd6941ec",
+        "filename": "Documentation/dev-commit-validation.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-12-01T10:31:47Z",
+      "side": 1,
+      "message": "The validator is also invoked when Gerrit itself creates commits, e.g. triggered by calls to the Gerrit REST API.",
+      "revId": "6962e6796d7cfe927abc1e5011d0f950811f44b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c0b4bbb5_49e8cb7a",
+        "filename": "Documentation/dev-commit-validation.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-12-01T10:31:47Z",
+      "side": 1,
+      "message": "Maybe drop this part. The validator only checks that the Change-Id is syntactically correct, but doesn\u0027t check if a change with this change ID exists.",
+      "range": {
+        "startLine": 16,
+        "startChar": 34,
+        "endLine": 16,
+        "endChar": 72
+      },
+      "revId": "6962e6796d7cfe927abc1e5011d0f950811f44b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d69568c6_f14ccaa4",
+        "filename": "Documentation/dev-commit-validation.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-12-01T10:31:47Z",
+      "side": 1,
+      "message": "This is not something that the ChangeIdValidator is doing. Maybe just drop this point.",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 16
+      },
+      "revId": "6962e6796d7cfe927abc1e5011d0f950811f44b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fee31cfb_8c964ddf",
+        "filename": "Documentation/dev-commit-validation.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-12-01T10:31:47Z",
+      "side": 1,
+      "message": "Should we link here to the documentation of the \"receive.requireChangeId\" parameter?",
+      "range": {
+        "startLine": 26,
+        "startChar": 11,
+        "endLine": 26,
+        "endChar": 32
+      },
+      "revId": "6962e6796d7cfe927abc1e5011d0f950811f44b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9a7ffe18_5bdc5f82",
+        "filename": "Documentation/dev-commit-validation.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-12-01T10:31:47Z",
+      "side": 1,
+      "message": "The validator is also invoked when Gerrit itself creates commits, e.g. triggered by calls to the Gerrit REST API.",
+      "revId": "6962e6796d7cfe927abc1e5011d0f950811f44b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c6ba3aa5_fb3d11f2",
+        "filename": "Documentation/dev-commit-validation.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-12-01T10:31:47Z",
+      "side": 1,
+      "message": "If a Change-Id doesn\u0027t match the push is not rejected but a new change is created. Maybe just drop this point.",
+      "range": {
+        "startLine": 57,
+        "startChar": 0,
+        "endLine": 57,
+        "endChar": 115
+      },
+      "revId": "6962e6796d7cfe927abc1e5011d0f950811f44b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9a69bc96_88883544",
+        "filename": "Documentation/dev-commit-validation.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-12-01T10:31:47Z",
+      "side": 1,
+      "message": "maybe link to the description of this parameter",
+      "range": {
+        "startLine": 74,
+        "startChar": 24,
+        "endLine": 74,
+        "endChar": 39
+      },
+      "revId": "6962e6796d7cfe927abc1e5011d0f950811f44b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "33da2b28_02465be5",
+        "filename": "Documentation/dev-commit-validation.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-12-01T10:31:47Z",
+      "side": 1,
+      "message": "This is not configurable, so it\u0027s always 10000.",
+      "range": {
+        "startLine": 75,
+        "startChar": 42,
+        "endLine": 75,
+        "endChar": 52
+      },
+      "revId": "6962e6796d7cfe927abc1e5011d0f950811f44b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f5009b76_de76b3a3",
+        "filename": "Documentation/dev-commit-validation.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-12-01T10:31:47Z",
+      "side": 1,
+      "message": "Publishing edits is just one example, generally the validator is invoked when Gerrit itself creates commits, e.g. triggered by calls to the Gerrit REST API.",
+      "range": {
+        "startLine": 81,
+        "startChar": 0,
+        "endLine": 81,
+        "endChar": 57
+      },
+      "revId": "6962e6796d7cfe927abc1e5011d0f950811f44b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

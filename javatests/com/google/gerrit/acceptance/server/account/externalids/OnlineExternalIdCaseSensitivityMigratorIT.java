@@ -31,7 +31,6 @@ import com.google.gerrit.server.account.externalids.OnlineExternalIdCaseSensitiv
 import com.google.gerrit.server.account.externalids.storage.notedb.ExternalIdCaseSensitivityMigrator;
 import com.google.gerrit.server.account.externalids.storage.notedb.ExternalIdNotes;
 import com.google.gerrit.server.account.externalids.storage.notedb.OnlineExternalIdCaseSensitivityMigrator;
-import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
@@ -55,7 +54,6 @@ public class OnlineExternalIdCaseSensitivityMigratorIT extends AbstractDaemonTes
   @Inject private ExternalIdKeyFactory externalIdKeyFactory;
   @Inject private ExternalIdFactory externalIdFactory;
   @Inject private OnlineExternalIdCaseSensitivityMigrator objectUnderTest;
-  @Inject private SitePaths sitePaths;
 
   @Override
   public Module createModule() {

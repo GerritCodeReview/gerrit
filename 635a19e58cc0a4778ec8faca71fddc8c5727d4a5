@@ -16,6 +16,24 @@
       "message": "I am missing an issue here: what is the problem we are trying to fix?\nWe should discuss the problem first and then the solution.\n\nCan you raise an issue with https://issues.gerritcodereview.com/issues/new and can we discuss there?",
       "revId": "635a19e58cc0a4778ec8faca71fddc8c5727d4a5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e2bfdf32_d3448cbe",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3911711
+      },
+      "writtenOn": "2025-12-01T22:31:39Z",
+      "side": 1,
+      "message": "Yes, sorry about that. This initially started for an issue with the replication plugin, and it wouldn\u0027t let me raise an issue for this plugin on the issue tracker, so instead I\u0027ve opened a Google Discussion: https://groups.google.com/g/repo-discuss/c/2mq4kx5XcpI/m/0dg9Kk7rAQAJ\n\nI\u0027ll open an issue for this now on Gerrit.",
+      "parentUuid": "8478c231_7ae0de3b",
+      "revId": "635a19e58cc0a4778ec8faca71fddc8c5727d4a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

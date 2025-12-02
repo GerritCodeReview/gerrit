@@ -119,6 +119,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "78f3d486_1d4b5da8",
+        "filename": "java/com/google/gerrit/server/quota/QuotaResponse.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-12-02T08:03:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b9aedbd9_750c536e",
+      "range": {
+        "startLine": 64,
+        "startChar": 46,
+        "endLine": 64,
+        "endChar": 73
+      },
+      "revId": "2a1a6bea4f6dcf3e9e18e307f21fc8b491fabff6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ab50ad66_79fb67e1",
@@ -215,6 +239,30 @@
       "side": 1,
       "message": "Ah, thanks for explaining. If you have two conditions and you\u0027re failing for both of them, we should be reporting both, not just one IMHO.",
       "parentUuid": "90a0460f_8482e36e",
+      "range": {
+        "startLine": 131,
+        "startChar": 47,
+        "endLine": 131,
+        "endChar": 83
+      },
+      "revId": "2a1a6bea4f6dcf3e9e18e307f21fc8b491fabff6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b23b565_e27c3cee",
+        "filename": "java/com/google/gerrit/server/quota/QuotaResponse.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-12-02T08:03:07Z",
+      "side": 1,
+      "message": "Thanks, I considered that as well.\nThe main reason I didn\u0027t return multiple messages is that it would be inconsistent with how `availableTokens()` already behaves.\n\nThat method selects a **single** quota response (the one with the lowest available tokens), even when multiple enforcers report the same remaining amount.\n\nTo stay aligned with this approach, this method returns the message associated with the single \"most restrictive\" response, rather than aggregating messages across enforcers.\n\nWDYT?",
+      "parentUuid": "0945b3cd_1d082b03",
       "range": {
         "startLine": 131,
         "startChar": 47,

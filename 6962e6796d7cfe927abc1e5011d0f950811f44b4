@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0d0331a8_66127f84",
+        "filename": "Documentation/config-validation.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 4373381
+      },
+      "writtenOn": "2025-12-02T11:04:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5512cce9_355fe539",
+      "range": {
+        "startLine": 10,
+        "startChar": 63,
+        "endLine": 10,
+        "endChar": 67
+      },
+      "revId": "6962e6796d7cfe927abc1e5011d0f950811f44b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9f4fea6d_55729a07",
@@ -58,6 +82,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "11277914_bdb11904",
+        "filename": "Documentation/config-validation.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 4373381
+      },
+      "writtenOn": "2025-12-02T11:04:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9f4fea6d_55729a07",
+      "revId": "6962e6796d7cfe927abc1e5011d0f950811f44b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "79af8fc0_aa5a28b6",
@@ -71,6 +113,30 @@
       "writtenOn": "2025-12-01T10:31:47Z",
       "side": 1,
       "message": "Which interface is implemented is not much relevant in the context of this documentation, maybe just say \"commit validator\".",
+      "range": {
+        "startLine": 9,
+        "startChar": 38,
+        "endLine": 11,
+        "endChar": 9
+      },
+      "revId": "6962e6796d7cfe927abc1e5011d0f950811f44b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "121809d2_2e03a992",
+        "filename": "Documentation/dev-commit-validation.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 4373381
+      },
+      "writtenOn": "2025-12-02T11:04:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "79af8fc0_aa5a28b6",
       "range": {
         "startLine": 9,
         "startChar": 38,
@@ -123,6 +189,48 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "63e4d394_4aa133d3",
+        "filename": "Documentation/dev-commit-validation.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 4373381
+      },
+      "writtenOn": "2025-12-02T11:04:47Z",
+      "side": 1,
+      "message": "What I meant here is validating ChangeId if updates are made to an existing change. The validation check which we discussed in comment #25. If this line seems ambiguous or if it should be restated let me know.",
+      "parentUuid": "c0b4bbb5_49e8cb7a",
+      "range": {
+        "startLine": 16,
+        "startChar": 34,
+        "endLine": 16,
+        "endChar": 72
+      },
+      "revId": "6962e6796d7cfe927abc1e5011d0f950811f44b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f092cd9f_4113e1bd",
+        "filename": "Documentation/dev-commit-validation.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 4373381
+      },
+      "writtenOn": "2025-12-02T11:04:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "79a6c301_fd6941ec",
+      "revId": "6962e6796d7cfe927abc1e5011d0f950811f44b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d69568c6_f14ccaa4",
         "filename": "Documentation/dev-commit-validation.txt",
         "patchSetId": 1
@@ -134,6 +242,30 @@
       "writtenOn": "2025-12-01T10:31:47Z",
       "side": 1,
       "message": "This is not something that the ChangeIdValidator is doing. Maybe just drop this point.",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 16
+      },
+      "revId": "6962e6796d7cfe927abc1e5011d0f950811f44b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d382d5c0_86b53ece",
+        "filename": "Documentation/dev-commit-validation.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 4373381
+      },
+      "writtenOn": "2025-12-02T11:04:47Z",
+      "side": 1,
+      "message": "There is a change by Martin Wallgren that states that the incoming change-id will be compared to the target change, here is the SHA for that commit: b4dfd85982a9028a8c11b3ffa2e171dce552d93. And in the code this is the part where this is being checked: \nif (change !\u003d null \u0026\u0026 !v.equals(change.getKey().get())) {\n          throw new CommitValidationException(CHANGE_ID_MISMATCH_MSG);\n        }\nThis is the reason I added this line. Do let me know if I misunderstood this and I will remove it.",
+      "parentUuid": "d69568c6_f14ccaa4",
       "range": {
         "startLine": 24,
         "startChar": 0,
@@ -167,6 +299,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca6a91b6_f0a3f852",
+        "filename": "Documentation/dev-commit-validation.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 4373381
+      },
+      "writtenOn": "2025-12-02T11:04:47Z",
+      "side": 1,
+      "message": "Yep I think that is good idea. I link it here.",
+      "parentUuid": "fee31cfb_8c964ddf",
+      "range": {
+        "startLine": 26,
+        "startChar": 11,
+        "endLine": 26,
+        "endChar": 32
+      },
+      "revId": "6962e6796d7cfe927abc1e5011d0f950811f44b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9a7ffe18_5bdc5f82",
@@ -184,6 +340,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c93238b7_861c2fbd",
+        "filename": "Documentation/dev-commit-validation.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 4373381
+      },
+      "writtenOn": "2025-12-02T11:04:47Z",
+      "side": 1,
+      "message": "Got it, I have added this point as well.",
+      "parentUuid": "9a7ffe18_5bdc5f82",
+      "revId": "6962e6796d7cfe927abc1e5011d0f950811f44b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c6ba3aa5_fb3d11f2",
@@ -197,6 +371,30 @@
       "writtenOn": "2025-12-01T10:31:47Z",
       "side": 1,
       "message": "If a Change-Id doesn\u0027t match the push is not rejected but a new change is created. Maybe just drop this point.",
+      "range": {
+        "startLine": 57,
+        "startChar": 0,
+        "endLine": 57,
+        "endChar": 115
+      },
+      "revId": "6962e6796d7cfe927abc1e5011d0f950811f44b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4616cec9_085fd25b",
+        "filename": "Documentation/dev-commit-validation.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 4373381
+      },
+      "writtenOn": "2025-12-02T11:04:47Z",
+      "side": 1,
+      "message": "Can you help in clearing my doubts as to how does the code work? I see in the code that it throws a CommitValidationException, however it does not push any messages in the CommitValidationMessage list, is it because of this that the push is not rejected and if so then how is the Exception handled, is it a warning?",
+      "parentUuid": "c6ba3aa5_fb3d11f2",
       "range": {
         "startLine": 57,
         "startChar": 0,
@@ -230,6 +428,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e127897_fd7b159b",
+        "filename": "Documentation/dev-commit-validation.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 4373381
+      },
+      "writtenOn": "2025-12-02T11:04:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a69bc96_88883544",
+      "range": {
+        "startLine": 74,
+        "startChar": 24,
+        "endLine": 74,
+        "endChar": 39
+      },
+      "revId": "6962e6796d7cfe927abc1e5011d0f950811f44b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "33da2b28_02465be5",
@@ -253,6 +475,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b28804fc_3ac011f8",
+        "filename": "Documentation/dev-commit-validation.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 4373381
+      },
+      "writtenOn": "2025-12-02T11:04:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "33da2b28_02465be5",
+      "range": {
+        "startLine": 75,
+        "startChar": 42,
+        "endLine": 75,
+        "endChar": 52
+      },
+      "revId": "6962e6796d7cfe927abc1e5011d0f950811f44b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f5009b76_de76b3a3",
@@ -266,6 +512,30 @@
       "writtenOn": "2025-12-01T10:31:47Z",
       "side": 1,
       "message": "Publishing edits is just one example, generally the validator is invoked when Gerrit itself creates commits, e.g. triggered by calls to the Gerrit REST API.",
+      "range": {
+        "startLine": 81,
+        "startChar": 0,
+        "endLine": 81,
+        "endChar": 57
+      },
+      "revId": "6962e6796d7cfe927abc1e5011d0f950811f44b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d4293ffe_b4253a8d",
+        "filename": "Documentation/dev-commit-validation.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 4373381
+      },
+      "writtenOn": "2025-12-02T11:04:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f5009b76_de76b3a3",
       "range": {
         "startLine": 81,
         "startChar": 0,

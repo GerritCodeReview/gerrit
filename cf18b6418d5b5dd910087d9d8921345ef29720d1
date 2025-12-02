@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f45b039a_dfb777ae",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-12-02T06:32:40Z",
+      "side": 1,
+      "message": "Please run `yarn` and also include the `yarn.lock` file in this change.",
+      "revId": "cf18b6418d5b5dd910087d9d8921345ef29720d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "74a5cd3d_f435035a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-12-02T06:32:40Z",
+      "side": 1,
+      "message": "Please run `yarn` and also include the `yarn.lock` file in this change.",
+      "revId": "cf18b6418d5b5dd910087d9d8921345ef29720d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

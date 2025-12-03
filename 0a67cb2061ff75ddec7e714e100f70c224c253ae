@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb13eace_afb5d073",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2025-12-03T06:13:26Z",
+      "side": 1,
+      "message": "I am not a maintainer anymore, so adding Milutin as a reviewer.\n\nAlso, you have to add a Release-Notes footer.",
+      "revId": "0a67cb2061ff75ddec7e714e100f70c224c253ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -3952,6 +3952,16 @@ Lucene documentation,role=external,window=_blank]
 +
 Defaults to -1 for (auto detection).
 
+[[index.name.persistInfoStream]]index.name.persistInfoStream::
++
+Enable Lucene's info stream logging. This can be useful when admins face ongoing
+indexing transactionality or persistence issues that are hard to debug without
+further information.
++
+NOTE: This could potentially add additional load on the system, especially if
+enabled for all indexes; appropriate tests should be carried out before enabling
+this option on a production system.
+
 [[index.name.enableAutoIOThrottle]]index.name.enableAutoIOThrottle::
 +
 Allows the control of whether automatic IO throttling is enabled and used by

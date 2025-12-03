@@ -22,6 +22,30 @@
       },
       "revId": "540121b04e1ab015f80694d5f640541f52cb02e8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "51565274_78c3acbc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-12-03T10:56:56Z",
+      "side": 1,
+      "message": "Sorry my bad, this is the revert **of the revert**",
+      "parentUuid": "1fc63caa_54fbd4d1",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 49
+      },
+      "revId": "540121b04e1ab015f80694d5f640541f52cb02e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

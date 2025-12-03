@@ -215,19 +215,19 @@ export class GrPreferences extends LitElement {
                 }}
               >
                 <md-select-option value="STD">
-                  <div slot="headline">Jun 3 ; Jun 3, 2016</div>
+                  <div slot="headline">Jun 3 ; Jun 3, 2016 (STD)</div>
                 </md-select-option>
                 <md-select-option value="US">
-                  <div slot="headline">06/03 ; 06/03/16</div>
+                  <div slot="headline">06/03 ; 06/03/16 (US)</div>
                 </md-select-option>
                 <md-select-option value="ISO">
-                  <div slot="headline">06-03 ; 2016-06-03</div>
+                  <div slot="headline">06-03 ; 2016-06-03 (ISO)</div>
                 </md-select-option>
                 <md-select-option value="EURO">
-                  <div slot="headline">3. Jun ; 03.06.2016</div>
+                  <div slot="headline">3. Jun ; 03.06.2016 (EURO)</div>
                 </md-select-option>
                 <md-select-option value="UK">
-                  <div slot="headline">03/06 ; 03/06/2016</div>
+                  <div slot="headline">03/06 ; 03/06/2016 (UK)</div>
                 </md-select-option>
               </md-outlined-select>
               <md-outlined-select

@@ -641,7 +641,11 @@ public class ChangeData {
         // ModifiedFile for adding the new path and 1 ModifiedFile for removing the old path instead
         // of 1 ModifiedFile for renaming the old path to the new path.
         ImmutableList<ModifiedFile> modifiedFiles =
-            diffOperations.getModifiedFiles(c.getProject(), ps, /* enableRenameDetection= */ false);
+            diffOperations.getModifiedFiles(
+                c.getProject(),
+                ps.commitId(),
+                /* parentNum= */ 0,
+                /* enableRenameDetection= */ false);
 
         currentFiles =
             modifiedFiles.stream()

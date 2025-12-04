@@ -34,6 +34,24 @@
       "parentUuid": "35a152ec_66db7aa8",
       "revId": "c773346d4d70676fb39565844654c86fb43478e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2fea259e_805b3a8c",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-highlight/gr-annotation.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-12-04T08:27:14Z",
+      "side": 0,
+      "message": "This is used internally. Ben haven\u0027t found solution for this. We don\u0027t have currently plan to investigate this further. Maybe next quarter. Sorry, I cannot approve it until we solve this.",
+      "parentUuid": "eada8aef_d72184e0",
+      "revId": "c773346d4d70676fb39565844654c86fb43478e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

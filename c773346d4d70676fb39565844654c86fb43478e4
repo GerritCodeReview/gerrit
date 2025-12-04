@@ -70,6 +70,24 @@
       "parentUuid": "2fea259e_805b3a8c",
       "revId": "c773346d4d70676fb39565844654c86fb43478e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e860dd8f_d715e04c",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-highlight/gr-annotation.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-12-04T18:45:29Z",
+      "side": 0,
+      "message": "Think i managed to find out how to do it and the tests work!",
+      "parentUuid": "eb8a8240_e5e1b674",
+      "revId": "c773346d4d70676fb39565844654c86fb43478e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

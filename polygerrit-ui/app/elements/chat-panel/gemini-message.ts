@@ -163,7 +163,7 @@ export class GeminiMessage extends LitElement {
     );
   }
 
-  private onAddAsComment(part: CreateCommentPart) {
+  private async onAddAsComment(part: CreateCommentPart) {
     const draft = {
       ...part.comment,
       ...createNew(part.comment.message, true),
@@ -171,7 +171,12 @@ export class GeminiMessage extends LitElement {
     if (!draft.patch_set) {
       draft.patch_set = this.latestPatchNum;
     }
-    this.getCommentsModel().saveDraft(draft);
+    // TODO(milutin): Remove this once Gemini or backend fixes the issue.
+    if (draft.range && draft.range.end_line < draft.range.start_line) {
+      draft.range.end_line = draft.range.start_line;
+    }
+    await this.getCommentsModel().saveDraft(draft);
+    this.getCommentsModel().reloadAllComments();
   }
 
   private toggleShowErrorDetails() {

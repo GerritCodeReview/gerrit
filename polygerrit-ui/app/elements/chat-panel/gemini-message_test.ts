@@ -158,13 +158,19 @@ suite('gemini-message tests', () => {
       element.shadowRoot?.querySelector('.suggested-comment');
     assert.isOk(commentContainer);
 
+    const reloadStub = sinon.stub(commentsModel, 'reloadAllComments');
+    saveDraftStub.resolves({});
+
     const button = commentContainer?.querySelector('gr-button');
     assert.isOk(button);
     (button as HTMLElement).click();
 
+    await new Promise(resolve => setTimeout(resolve, 0));
+
     assert.isTrue(saveDraftStub.called);
     const draft = saveDraftStub.lastCall.args[0];
     assert.equal(draft.message, 'test comment');
+    assert.isTrue(reloadStub.called);
   });
 
   test('renders citations', async () => {

@@ -136,16 +136,16 @@ suite('gr-preferences tests', () => {
               <span class="value">
                 <md-outlined-select value="UK">
                   <md-select-option md-menu-item="" tabindex="0" value="STD">
-                    <div slot="headline">Jun 3 ; Jun 3, 2016</div>
+                    <div slot="headline">Jun 3 ; Jun 3, 2016 (STD)</div>
                   </md-select-option>
                   <md-select-option md-menu-item="" tabindex="-1" value="US">
-                    <div slot="headline">06/03 ; 06/03/16</div>
+                    <div slot="headline">06/03 ; 06/03/16 (US)</div>
                   </md-select-option>
                   <md-select-option md-menu-item="" tabindex="-1" value="ISO">
-                    <div slot="headline">06-03 ; 2016-06-03</div>
+                    <div slot="headline">06-03 ; 2016-06-03 (ISO)</div>
                   </md-select-option>
                   <md-select-option md-menu-item="" tabindex="-1" value="EURO">
-                    <div slot="headline">3. Jun ; 03.06.2016</div>
+                    <div slot="headline">3. Jun ; 03.06.2016 (EURO)</div>
                   </md-select-option>
                   <md-select-option
                     data-aria-selected="true"
@@ -153,7 +153,7 @@ suite('gr-preferences tests', () => {
                     tabindex="-1"
                     value="UK"
                   >
-                    <div slot="headline">03/06 ; 03/06/2016</div>
+                    <div slot="headline">03/06 ; 03/06/2016 (UK)</div>
                   </md-select-option>
                 </md-outlined-select>
                 <md-outlined-select value="HHMM_12">

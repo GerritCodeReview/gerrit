@@ -16,6 +16,23 @@
       "message": "Tautan: https://gerrit-review.googlesource.com/id/Ic8aaa0728a43936cd4c6e1ed590e01ba8f0fbf5b\nDitandatangani oleh: AU Thor \u003cauthor@example.com\u003e",
       "revId": "e6d9ad4646e4ee890674321e6ed37839e5be1baf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "978f9790_d673a338",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4498548
+      },
+      "writtenOn": "2025-12-04T20:11:32Z",
+      "side": 1,
+      "message": "OKX",
+      "revId": "e6d9ad4646e4ee890674321e6ed37839e5be1baf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

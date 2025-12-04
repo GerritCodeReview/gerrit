@@ -104,4 +104,19 @@ suite('chat-model tests', () => {
     state = model.getState();
     assert.isEmpty(state.draftUserMessage.contextItems);
   });
+
+  test('conversations cleared when change becomes undefined', async () => {
+    (provider.listChatConversations as sinon.SinonStub).resolves([
+      {id: '1', title: 'test', timestamp_millis: 123},
+    ]);
+    changeModel.updateStateChange(createParsedChange());
+    // Wait for promise to resolve
+    await new Promise(resolve => setTimeout(resolve, 0));
+    let state = model.getState();
+    assert.lengthOf(state.conversations!, 1);
+
+    changeModel.updateStateChange(undefined);
+    state = model.getState();
+    assert.isUndefined(state.conversations);
+  });
 });

@@ -40,6 +40,7 @@ export class ChatHistory extends LitElement {
       flex-direction: row;
       border-bottom: 1px solid var(--hairline);
       cursor: pointer;
+      user-select: none;
     }
     .conversation-card * {
       cursor: pointer;
@@ -55,7 +56,8 @@ export class ChatHistory extends LitElement {
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      width: 100%;
+      flex: 1;
+      min-width: 0;
     }
     .conversation-content p {
       margin: 0px;

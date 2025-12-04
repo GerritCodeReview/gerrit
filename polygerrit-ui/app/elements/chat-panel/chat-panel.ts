@@ -58,9 +58,6 @@ export class ChatPanel extends LitElement {
 
   @state() isChangePrivate = false;
 
-  // TODO(milutin): Remove when chat history is integrated.
-  @property({type: Boolean}) showHistoryButton = false;
-
   // TODO(milutin): Remove when add context is integrated.
   @property({type: Boolean}) showAddContext = false;
 
@@ -183,7 +180,7 @@ export class ChatPanel extends LitElement {
   override render() {
     return html`
       <div class="chat-panel-container">
-        <chat-header .showHistoryButton=${this.showHistoryButton}></chat-header>
+        <chat-header></chat-header>
         ${this.renderContent()}
       </div>
     `;

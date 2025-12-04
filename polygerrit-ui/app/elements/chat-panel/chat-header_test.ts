@@ -36,7 +36,6 @@ suite('chat-header tests', () => {
     });
 
     element = await fixture(html`<chat-header></chat-header>`);
-    element.showHistoryButton = true;
     chatModel = testResolver(chatModelToken);
     await element.updateComplete;
   });

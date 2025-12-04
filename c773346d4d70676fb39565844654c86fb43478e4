@@ -52,6 +52,24 @@
       "parentUuid": "eada8aef_d72184e0",
       "revId": "c773346d4d70676fb39565844654c86fb43478e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eb8a8240_e5e1b674",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-highlight/gr-annotation.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-12-04T16:42:05Z",
+      "side": 0,
+      "message": "I asked on the lit discord and they suggested https://lit.dev/docs/api/templates/#SanitizerFactory\n\nI\u0027m not sure how to use it though.",
+      "parentUuid": "2fea259e_805b3a8c",
+      "revId": "c773346d4d70676fb39565844654c86fb43478e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

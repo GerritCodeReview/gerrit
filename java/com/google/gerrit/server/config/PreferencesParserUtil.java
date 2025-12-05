@@ -27,6 +27,7 @@ import static com.google.gerrit.server.git.UserConfigSections.KEY_TARGET;
 import static com.google.gerrit.server.git.UserConfigSections.KEY_URL;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
@@ -45,6 +46,21 @@ import org.eclipse.jgit.lib.Config;
 /** Helper to read default or user preferences from Git-style config files. */
 public class PreferencesParserUtil {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
+  public static final ImmutableList<MenuItem> DEFAULT_MY_MENU_ITEMS =
+      ImmutableList.of(
+          new MenuItem(/* name= */ "Dashboard", /* url= */ "/dashboard/self", /* target= */ null),
+          new MenuItem(/* name= */ "Draft Comments", /* url= */ "/q/has:draft", /* target= */ null),
+          new MenuItem(/* name= */ "Edits", /* url= */ "/q/has:edit", /* target= */ null),
+          new MenuItem(
+              /* name= */ "Watched Changes",
+              /* url= */ "/q/is:watched+is:open",
+              /* target= */ null),
+          new MenuItem(
+              /* name= */ "Starred Changes", /* url= */ "/q/is:starred", /* target= */ null),
+          new MenuItem(
+              /* name= */ "All Visible Changes", /* url= */ "/q/is:visible", /* target= */ null),
+          new MenuItem(/* name= */ "Groups", /* url= */ "/settings/#Groups", /* target= */ null));
 
   private PreferencesParserUtil() {}
 
@@ -231,13 +247,7 @@ public class PreferencesParserUtil {
       my = new ArrayList<>();
     }
     if (my.isEmpty()) {
-      my.add(new MenuItem("Dashboard", "/dashboard/self", null));
-      my.add(new MenuItem("Draft Comments", "/q/has:draft", null));
-      my.add(new MenuItem("Edits", "/q/has:edit", null));
-      my.add(new MenuItem("Watched Changes", "/q/is:watched+is:open", null));
-      my.add(new MenuItem("Starred Changes", "/q/is:starred", null));
-      my.add(new MenuItem("All Visible Changes", "/q/is:visible", null));
-      my.add(new MenuItem("Groups", "/settings/#Groups", null));
+      return DEFAULT_MY_MENU_ITEMS;
     }
     return my;
   }

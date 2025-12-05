@@ -236,9 +236,24 @@ public class CachedPreferencesTest {
   }
 
   @Test
-  public void defaultPreferences_throwingForProto() throws Exception {
+  public void defaultPreferences_notThrowingForEmptyProto() throws Exception {
     CachedPreferences defaults =
         CachedPreferences.fromUserPreferencesProto(UserPreferences.getDefaultInstance());
+    CachedPreferences userPreferences =
+        CachedPreferences.fromUserPreferencesProto(UserPreferences.getDefaultInstance());
+
+    assertThat(CachedPreferences.general(Optional.of(defaults), userPreferences)).isNotNull();
+    assertThat(CachedPreferences.diff(Optional.of(defaults), userPreferences)).isNotNull();
+    assertThat(CachedPreferences.edit(Optional.of(defaults), userPreferences)).isNotNull();
+  }
+
+  @Test
+  public void defaultPreferences_throwingForNonEmptyProto() throws Exception {
+    CachedPreferences defaults =
+        CachedPreferences.fromUserPreferencesProto(
+            UserPreferences.newBuilder()
+                .setEditPreferencesInfo(UserPreferences.EditPreferencesInfo.getDefaultInstance())
+                .build());
     CachedPreferences userPreferences =
         CachedPreferences.fromUserPreferencesProto(UserPreferences.getDefaultInstance());
     assertThrows(

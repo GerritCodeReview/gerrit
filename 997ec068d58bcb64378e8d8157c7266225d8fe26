@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ab5fab9f_db3340be",
+        "filename": "polygerrit-ui/app/api/ai-code-review.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-12-05T08:03:20Z",
+      "side": 1,
+      "message": "Should this be \u0027response?\u0027 now?\n\nI\u0027m asking because the comment below makes it sound like this is optional (not set) now when a chat_response is present.",
+      "range": {
+        "startLine": 171,
+        "startChar": 2,
+        "endLine": 171,
+        "endChar": 10
+      },
+      "revId": "997ec068d58bcb64378e8d8157c7266225d8fe26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -111,7 +111,9 @@ public final class UserPreferencesConverter {
       if (info.my != null) {
         builder =
             builder.addAllMyMenuItems(
-                info.my.stream().map(i -> menuItemToProto(i)).collect(toImmutableList()));
+                info.my.stream()
+                    .map(MenuItemConverter.MENU_ITEM_CONVERTER::toProto)
+                    .collect(toImmutableList()));
       }
       if (info.changeTable != null) {
         builder = builder.addAllChangeTable(info.changeTable);
@@ -183,7 +185,7 @@ public final class UserPreferencesConverter {
       res.my =
           proto.getMyMenuItemsCount() != 0
               ? proto.getMyMenuItemsList().stream()
-                  .map(p -> menuItemFromProto(p))
+                  .map(MenuItemConverter.MENU_ITEM_CONVERTER::fromProto)
                   .collect(toImmutableList())
               : null;
       res.changeTable = proto.getChangeTableCount() != 0 ? proto.getChangeTableList() : null;
@@ -204,28 +206,48 @@ public final class UserPreferencesConverter {
       return UserPreferences.GeneralPreferencesInfo.parser();
     }
 
-    private static UserPreferences.GeneralPreferencesInfo.MenuItem menuItemToProto(
-        MenuItem javaItem) {
-      UserPreferences.GeneralPreferencesInfo.MenuItem.Builder builder =
-          UserPreferences.GeneralPreferencesInfo.MenuItem.newBuilder();
-      builder = setIfNotNull(builder, builder::setName, trimSafe(javaItem.name));
-      builder = setIfNotNull(builder, builder::setUrl, trimSafe(javaItem.url));
-      builder = setIfNotNull(builder, builder::setTarget, trimSafe(javaItem.target));
-      builder = setIfNotNull(builder, builder::setId, trimSafe(javaItem.id));
-      return builder.build();
-    }
+    public enum MenuItemConverter
+        implements SafeProtoConverter<UserPreferences.GeneralPreferencesInfo.MenuItem, MenuItem> {
+      MENU_ITEM_CONVERTER;
 
-    private static @Nullable String trimSafe(@Nullable String s) {
-      return s == null ? s : s.trim();
-    }
+      @Override
+      public UserPreferences.GeneralPreferencesInfo.MenuItem toProto(MenuItem javaItem) {
+        UserPreferences.GeneralPreferencesInfo.MenuItem.Builder builder =
+            UserPreferences.GeneralPreferencesInfo.MenuItem.newBuilder();
+        builder = setIfNotNull(builder, builder::setName, trimSafe(javaItem.name));
+        builder = setIfNotNull(builder, builder::setUrl, trimSafe(javaItem.url));
+        builder = setIfNotNull(builder, builder::setTarget, trimSafe(javaItem.target));
+        builder = setIfNotNull(builder, builder::setId, trimSafe(javaItem.id));
+        return builder.build();
+      }
 
-    private static MenuItem menuItemFromProto(
-        UserPreferences.GeneralPreferencesInfo.MenuItem proto) {
-      return new MenuItem(
-          proto.hasName() ? proto.getName().trim() : null,
-          proto.hasUrl() ? proto.getUrl().trim() : null,
-          proto.hasTarget() ? proto.getTarget().trim() : null,
-          proto.hasId() ? proto.getId().trim() : null);
+      private static @Nullable String trimSafe(@Nullable String s) {
+        return s == null ? s : s.trim();
+      }
+
+      @Override
+      public MenuItem fromProto(UserPreferences.GeneralPreferencesInfo.MenuItem proto) {
+        return new MenuItem(
+            proto.hasName() ? proto.getName().trim() : null,
+            proto.hasUrl() ? proto.getUrl().trim() : null,
+            proto.hasTarget() ? proto.getTarget().trim() : null,
+            proto.hasId() ? proto.getId().trim() : null);
+      }
+
+      @Override
+      public Parser<UserPreferences.GeneralPreferencesInfo.MenuItem> getParser() {
+        return UserPreferences.GeneralPreferencesInfo.MenuItem.parser();
+      }
+
+      @Override
+      public Class<UserPreferences.GeneralPreferencesInfo.MenuItem> getProtoClass() {
+        return UserPreferences.GeneralPreferencesInfo.MenuItem.class;
+      }
+
+      @Override
+      public Class<MenuItem> getEntityClass() {
+        return MenuItem.class;
+      }
     }
 
     @Override

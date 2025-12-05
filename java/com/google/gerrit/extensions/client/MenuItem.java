@@ -14,8 +14,10 @@
 
 package com.google.gerrit.extensions.client;
 
+import com.google.gerrit.common.ConvertibleToProto;
 import java.util.Objects;
 
+@ConvertibleToProto
 public class MenuItem {
   public final String url;
   public final String name;

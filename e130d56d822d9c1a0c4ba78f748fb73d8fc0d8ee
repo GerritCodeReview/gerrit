@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f1dc2620_e748e51b",
+        "filename": "javatests/com/google/gerrit/server/config/CachedPreferencesTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-12-05T11:42:10Z",
+      "side": 1,
+      "message": "Should this say \"Empty\"?",
+      "range": {
+        "startLine": 239,
+        "startChar": 47,
+        "endLine": 239,
+        "endChar": 55
+      },
+      "revId": "e130d56d822d9c1a0c4ba78f748fb73d8fc0d8ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

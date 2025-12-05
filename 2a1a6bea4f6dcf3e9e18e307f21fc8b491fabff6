@@ -275,6 +275,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5ef3da45_4fc287f5",
+        "filename": "java/com/google/gerrit/server/quota/QuotaResponse.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-12-05T08:52:12Z",
+      "side": 1,
+      "message": "\u003e Thanks, I considered that as well.\n\u003e The main reason I didn\u0027t return multiple messages is that it would be inconsistent with how `availableTokens()` already behaves.\n\nWell, that\u0027s not exactly the same thing though.\n\nIf you have two enforcers that return that you have 2 tokens left, available tokens gives you the minimum of all enforcers, which is always one value.\n\nHowever, when you want the message associated with that one minimum value, then you should return 2 messages because that single value is associated with two enforcers.\n\nDoes the above make sense?\n\n\u003e That method selects a **single** quota response (the one with the lowest available tokens), even when multiple enforcers report the same remaining amount.\n\nThat method returns the *minimum value*, which of course can only be one.",
+      "parentUuid": "7b23b565_e27c3cee",
+      "range": {
+        "startLine": 131,
+        "startChar": 47,
+        "endLine": 131,
+        "endChar": 83
+      },
+      "revId": "2a1a6bea4f6dcf3e9e18e307f21fc8b491fabff6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "714e1faf_908f790f",
         "filename": "java/com/google/gerrit/server/quota/QuotaResponse.java",
         "patchSetId": 6

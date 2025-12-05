@@ -171,6 +171,8 @@ export declare interface ConversationTurn {
   response: ChatResponse;
   regeneration_index?: number;
   timestamp_millis?: number;
+  // TODO: Clean this up - when loadConversation is used we get chat_response instead of response
+  chat_response?: ChatResponse;
 }
 
 /**

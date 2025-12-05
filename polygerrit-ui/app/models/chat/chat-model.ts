@@ -958,7 +958,7 @@ function stateFromConversationResponse(
   for (let index = 0; index < responseTurns.length; index++) {
     const turn = responseTurns[index];
     const userInput = turn.user_input;
-    const turnResponse = turn.response;
+    const turnResponse = turn.response || turn.chat_response;
     const regenerationIndex = turn.regeneration_index ?? 0;
     if (!userInput || !turnResponse) {
       continue;

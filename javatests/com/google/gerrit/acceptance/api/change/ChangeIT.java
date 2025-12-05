@@ -3536,7 +3536,7 @@ public class ChangeIT extends AbstractDaemonTest {
               getAccount(admin.id()).id(), c.updated.toInstant(), serverIdent.get());
       assertThat(commitPatchSetCreation.getAuthorIdent()).isEqualTo(expectedAuthor);
       assertThat(commitPatchSetCreation.getCommitterIdent())
-          .isEqualTo(new PersonIdent(serverIdent.get(), c.updated));
+          .isEqualTo(new PersonIdent(serverIdent.get(), c.updated.toInstant()));
       assertThat(commitPatchSetCreation.getParentCount()).isEqualTo(1);
 
       RevCommit commitChangeCreation = rw.parseCommit(commitPatchSetCreation.getParent(0));
@@ -3546,7 +3546,7 @@ public class ChangeIT extends AbstractDaemonTest {
               getAccount(admin.id()).id(), c.created.toInstant(), serverIdent.get());
       assertThat(commitChangeCreation.getAuthorIdent()).isEqualTo(expectedAuthor);
       assertThat(commitChangeCreation.getCommitterIdent())
-          .isEqualTo(new PersonIdent(serverIdent.get(), c.created));
+          .isEqualTo(new PersonIdent(serverIdent.get(), c.created.toInstant()));
       assertThat(commitChangeCreation.getParentCount()).isEqualTo(0);
     }
   }

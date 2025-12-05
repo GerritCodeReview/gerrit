@@ -483,6 +483,7 @@ public class GroupsUpdate {
         case RENAMED:
         case REJECTED_MISSING_OBJECT:
         case REJECTED_OTHER_REASON:
+        case REJECTED_CURRENT_BRANCH:
         default:
           throw new StorageException(String.format("Cannot delete %s: %s", ref, result.name()));
       }

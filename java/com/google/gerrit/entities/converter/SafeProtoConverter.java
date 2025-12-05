@@ -6,7 +6,7 @@ import com.google.protobuf.Message;
 
 /**
  * An extension to {@link ProtoConverter} that enforces the Entity class and the Proto class to stay
- * in sync. The enforcement is done by {@link SafeProtoConverterTest}.
+ * in sync. The enforcement is done by {@code SafeProtoConverterTest}.
  *
  * <p>Requirements:
  *
@@ -16,7 +16,7 @@ import com.google.protobuf.Message;
  *   <li>The Java Entity class must be annotated with {@link ConvertibleToProto}.
  * </ul>
  *
- * <p>All safe converters are tested using {@link SafeProtoConverterTest}. Therefore, unless your
+ * <p>All safe converters are tested using {@code SafeProtoConverterTest}. Therefore, unless your
  * Entity class has a {@code defaults()} method, or other methods besides simple getters and
  * setters, there is no need to explicitly test your safe converter.
  */

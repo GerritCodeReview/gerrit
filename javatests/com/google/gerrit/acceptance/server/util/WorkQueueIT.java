@@ -94,7 +94,7 @@ public class WorkQueueIT extends AbstractDaemonTest {
   public void testCanceledTaskStaysUntilFinished() throws Exception {
     ScheduledExecutorService testExecutor = workQueue.createQueue(POOL_CORE_SIZE, QUEUE_NAME);
     CountDownLatch latch = new CountDownLatch(1);
-    Future taskFuture =
+    Future<?> taskFuture =
         testExecutor.submit(
             () -> {
               try {

@@ -95,7 +95,7 @@ import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 
-/** Tests for comment validation in {@link PostReview}. */
+/** Tests for comment validation in {@link com.google.gerrit.server.restapi.change.PostReview}. */
 public class PostReviewIT extends AbstractDaemonTest {
 
   @Inject private TestCommentHelper testCommentHelper;

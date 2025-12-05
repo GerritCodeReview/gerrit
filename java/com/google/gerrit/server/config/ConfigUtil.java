@@ -456,12 +456,12 @@ public class ConfigUtil {
    *
    * <p>To use this method with the proto config (see {@link
    * CachedPreferences#asUserPreferencesProto()}), the caller can first convert the proto to a java
-   * class usign one of the {@link UserPreferencesConverter} classes.
+   * class using one of the {@link UserPreferencesConverter} classes.
    *
    * <p>Fields marked with final or transient modifiers are skipped.
    *
    * @param original the original current user config
-   * @param updateDelta instance of class with config values that need to be uplied to the original
+   * @param updateDelta instance of class with config values that need to be applied to the original
    *     config
    */
   @UsedAt(Project.GOOGLE)

@@ -22,6 +22,30 @@
       },
       "revId": "997ec068d58bcb64378e8d8157c7266225d8fe26",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9c4d9a10_e78fc62d",
+        "filename": "polygerrit-ui/app/api/ai-code-review.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-12-05T08:19:24Z",
+      "side": 1,
+      "message": "It looks like one endpoint chat() - uses response and getChatConversation() - uses chat_response. \n\nI will clean it up in backend and then in front-end.",
+      "parentUuid": "ab5fab9f_db3340be",
+      "range": {
+        "startLine": 171,
+        "startChar": 2,
+        "endLine": 171,
+        "endChar": 10
+      },
+      "revId": "997ec068d58bcb64378e8d8157c7266225d8fe26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -38,7 +38,12 @@ import org.eclipse.jgit.lib.Config;
  */
 public record CachedPreferences(CachedPreferencesProto config) {
   public static final CachedPreferences EMPTY =
-      fromCachedPreferencesProto(CachedPreferencesProto.getDefaultInstance());
+      fromCachedPreferencesProto(
+          CachedPreferencesProto.newBuilder()
+              .setUserPreferences(UserPreferences.getDefaultInstance())
+              .build());
+
+  private static final String EMPTY_GIT_CONFIG_STRING = new Config().toText();
 
   public Optional<CachedPreferencesProto> nonEmptyConfig() {
     return config().equals(EMPTY.config()) ? Optional.empty() : Optional.of(config());
@@ -82,9 +87,11 @@ public record CachedPreferences(CachedPreferencesProto config) {
 
   public Config asConfig() {
     try {
+      if (isEmpty()) {
+        return new Config();
+      }
       switch (config().getPreferencesCase()) {
         case LEGACY_GIT_CONFIG, PREFERENCES_NOT_SET -> {
-          // continue below
           Config cfg = new Config();
           cfg.fromText(config().getLegacyGitConfig());
           return cfg;
@@ -95,13 +102,15 @@ public record CachedPreferences(CachedPreferencesProto config) {
       throw new StorageException(e);
     }
     throw new StorageException(
-        String.format(
-            "Cannot parse the given config as a CachedPreferencesProto proto. Got [%s]", config()));
+        String.format("Cannot parse the given config as a legacy git config. Got [%s]", config()));
   }
 
   public UserPreferences asUserPreferencesProto() {
     if (config().hasUserPreferences()) {
       return config().getUserPreferences();
+    }
+    if (isEmpty()) {
+      return EMPTY.config().getUserPreferences();
     }
     throw new StorageException(
         String.format(
@@ -132,5 +141,44 @@ public record CachedPreferences(CachedPreferencesProto config) {
     } catch (ConfigInvalidException e) {
       return preferencesParser.getJavaDefaults();
     }
+  }
+
+  @Override
+  public boolean equals(@Nullable Object obj) {
+    if (obj == this) {
+      return true;
+    }
+    if (!(obj instanceof CachedPreferences other)) {
+      return false;
+    }
+    if (this.isEmpty() && other.isEmpty()) {
+      return true;
+    }
+    return this.config().equals(other.config());
+  }
+
+  @Override
+  public int hashCode() {
+    if (this.isEmpty()) {
+      return EMPTY.config().hashCode();
+    }
+    return config().hashCode();
+  }
+
+  @Override
+  public String toString() {
+    if (isEmpty()) {
+      return EMPTY_GIT_CONFIG_STRING;
+    }
+    return "config=" + config().toString();
+  }
+
+  private boolean isEmpty() {
+    return config() == null
+        || !config().isInitialized()
+        || config().equals(CachedPreferencesProto.getDefaultInstance())
+        || (config().hasLegacyGitConfig()
+            && config().getLegacyGitConfig().equals(EMPTY_GIT_CONFIG_STRING))
+        || this.config().equals(EMPTY.config());
   }
 }

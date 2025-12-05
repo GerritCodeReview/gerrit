@@ -338,9 +338,8 @@ public class IdentifiedUser extends CurrentUser {
   public CurrentUser getUserForPermission() {
     if (permissionMode.equals(ImpersonationPermissionMode.THIS_USER)) {
       return this;
-    } else {
-      return realUser;
     }
+    return realUser;
   }
 
   @Override

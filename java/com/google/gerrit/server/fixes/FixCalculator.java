@@ -96,8 +96,8 @@ public class FixCalculator {
   /**
    * Algorithm: Input: Original text (aka srcText) Sorted list of replacements in ascending order,
    * where each replacement has: srcRange - part of the original text to be replaced, inserted or
-   * deleted (see {@link Comment.Range} for details) replacement - text to be set instead of
-   * srcRange Replacement ranges must not intersect.
+   * deleted (see {@link com.google.gerrit.entities.Comment.Range} for details) replacement - text
+   * to be set instead of srcRange Replacement ranges must not intersect.
    *
    * <p>Output: Final text (aka finalText) List of Edit, where each Edit is an instance of {@link
    * ReplaceEdit} Each ReplaceEdit cover one or more lines in the original text Each ReplaceEdit

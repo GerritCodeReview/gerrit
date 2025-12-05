@@ -24,7 +24,6 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.hash.Hashing;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
-import com.google.gerrit.extensions.client.AuthType;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Locale;

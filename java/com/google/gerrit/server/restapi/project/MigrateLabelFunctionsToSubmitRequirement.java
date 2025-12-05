@@ -239,6 +239,9 @@ public class MigrateLabelFunctionsToSubmitRequirement {
               SubmitRequirementExpression.create(String.format("-label:%s=MIN", lt.getName())));
       case MAX_NO_BLOCK ->
           builder.setSubmittabilityExpression(SubmitRequirementExpression.create(maxPart));
+      case NO_BLOCK -> {}
+      case NO_OP -> {}
+      case PATCH_SET_LOCK -> {}
       default -> {}
     }
     ImmutableList<String> refPatterns = lt.getRefPatterns();

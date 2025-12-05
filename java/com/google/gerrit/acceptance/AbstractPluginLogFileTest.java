@@ -76,7 +76,14 @@ public class AbstractPluginLogFileTest extends AbstractDaemonTest {
 
     @Inject
     public MyPluginLogFile(MySystemLog mySystemLog, ServerInformation serverInfo) {
-      super(mySystemLog, serverInfo, logName, new PatternLayout("[%d] [%t] %m%n"));
+      super(
+          mySystemLog,
+          serverInfo,
+          logName,
+          new PatternLayout("[%d] [%t] %m%n"),
+          /* jsonLayout= */ null,
+          /* textLogging= */ true,
+          /* jsonLogging= */ false);
     }
   }
 

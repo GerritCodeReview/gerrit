@@ -264,12 +264,12 @@ public class UploadArchive extends AbstractGitCommand {
 
     if (permissionBackend.user(user).project(projectName).test(ProjectPermission.READ)) {
       return true;
-    } else {
-      // Check reachability of the specific revision.
-      try (RevWalk rw = new RevWalk(repo)) {
-        RevCommit commit = rw.parseCommit(revId);
-        return commits.canRead(projectState, repo, commit);
-      }
+    }
+
+    // Check reachability of the specific revision.
+    try (RevWalk rw = new RevWalk(repo)) {
+      RevCommit commit = rw.parseCommit(revId);
+      return commits.canRead(projectState, repo, commit);
     }
   }
 }

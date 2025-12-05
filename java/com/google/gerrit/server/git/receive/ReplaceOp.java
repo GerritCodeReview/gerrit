@@ -324,7 +324,7 @@ public class ReplaceOp implements BatchUpdateOp {
       psDescription = magicBranch.message;
       approvals.putAll(magicBranch.labels);
       Set<String> hashtags = new HashSet<>(magicBranch.hashtags);
-      if (hashtags != null && !hashtags.isEmpty()) {
+      if (!hashtags.isEmpty()) {
         hashtags.addAll(notes.getHashtags());
         update.setHashtags(hashtags);
       }

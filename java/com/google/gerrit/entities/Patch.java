@@ -21,7 +21,6 @@ import com.google.common.base.Splitter;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.UsedAt;
-import com.google.gerrit.entities.Patch.FileMode;
 import java.util.List;
 
 /**

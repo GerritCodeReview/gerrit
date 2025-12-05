@@ -831,7 +831,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
       assertThat(commit.getAuthorIdent()).isEqualTo(expectedAuthor);
 
       assertThat(commit.getCommitterIdent())
-          .isEqualTo(new PersonIdent(serverIdent.get(), c.created));
+          .isEqualTo(new PersonIdent(serverIdent.get(), c.created.toInstant()));
       assertThat(commit.getParentCount()).isEqualTo(0);
     }
   }

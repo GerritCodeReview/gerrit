@@ -352,10 +352,11 @@ public class RepoSequence implements Sequence {
         int next;
         if (blob.isEmpty()) {
           throw new IllegalStateException("Expected " + refName + " to exist");
-        } else {
-          oldId = blob.get().id();
-          next = blob.get().value();
         }
+
+        oldId = blob.get().id();
+        next = blob.get().value();
+
         next = Math.max(floor, next);
 
         checkIsIncremental(next + count);
@@ -408,9 +409,8 @@ public class RepoSequence implements Sequence {
       int current;
       if (blob.isEmpty()) {
         throw new IllegalStateException("Expected " + refName + " to exist");
-      } else {
-        current = blob.get().value();
       }
+      current = blob.get().value();
       return current;
     } catch (IOException e) {
       throw new StorageException(e);

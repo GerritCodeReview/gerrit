@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "07151827_2f619dd1",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-highlight/gr-annotation.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-12-05T17:21:14Z",
+      "side": 1,
+      "message": "Hmm i\u0027m not sure if this sanitises anything.\n\nI guess you\u0027d have to do it yourself or something? Dunno. @milutin@google.com maybe you know what to do, now that we know that we can use SanitizerFactory?\n\nI\u0027m not even sure Polymer did anything either, looking at the code.\n\nhttps://github.com/search?q\u003drepo%3APolymer%2Fpolymer%20sanitizeDOMValue\u0026type\u003dcode",
+      "revId": "159c166d4a69e428872c9328accadcef044c3a87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

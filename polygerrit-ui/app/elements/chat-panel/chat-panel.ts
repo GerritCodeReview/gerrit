@@ -13,7 +13,6 @@ import './user-message';
 import {css, html, LitElement} from 'lit';
 import {
   customElement,
-  property,
   query,
   queryAll,
   state,
@@ -57,9 +56,6 @@ export class ChatPanel extends LitElement {
   @state() privacyUrl?: string;
 
   @state() isChangePrivate = false;
-
-  // TODO(milutin): Remove when add context is integrated.
-  @property({type: Boolean}) showAddContext = false;
 
   private readonly getChatModel = resolve(this, chatModelToken);
 
@@ -226,7 +222,6 @@ export class ChatPanel extends LitElement {
       <div class="prompt-section">
         <prompt-box
           .userInput=${this.userInput}
-          .showAddContext=${this.showAddContext}
           .disabledMessage=${'Review Agent is disabled on private changes'}
           .isDisabled=${this.isChangePrivate}
         ></prompt-box>

@@ -39,9 +39,6 @@ export class PromptBox extends LitElement {
   @query('#promptInput') promptInput?: HTMLTextAreaElement;
 
   @property({type: Boolean})
-  showAddContext = false;
-
-  @property({type: Boolean})
   isDisabled = false;
 
   @property({type: String})
@@ -330,8 +327,6 @@ export class PromptBox extends LitElement {
   }
 
   private renderTabChip() {
-    // TODO(milutin): Always render once we fix issues with external context
-    if (!this.showAddContext) return nothing;
     return html` ${when(
       this.tabChipVisible(),
       () => html`
@@ -343,8 +338,6 @@ export class PromptBox extends LitElement {
   }
 
   private renderAddContext() {
-    // TODO(milutin): Always render once we fix issues with external context
-    if (!this.showAddContext) return nothing;
     return html`
       <md-chip-set class="context-chip-set">
         <context-input-chip

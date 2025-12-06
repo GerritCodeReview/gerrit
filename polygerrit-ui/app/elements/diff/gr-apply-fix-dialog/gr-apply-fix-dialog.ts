@@ -18,7 +18,6 @@ import {
   PatchSetNumber,
 } from '../../../types/common';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
-import {PROVIDED_FIX_ID} from '../../../utils/comment-util';
 import {OpenFixPreviewEvent} from '../../../types/events';
 import {getAppContext} from '../../../services/app-context';
 import {DiffLayer, ParsedChangeInfo} from '../../../types/types';
@@ -450,34 +449,36 @@ export class GrApplyFixDialog extends LitElement {
     this.reporting.time(Timing.APPLY_FIX_LOAD);
     let res: Response | undefined = undefined;
     // Similar to gr-suggestion-diff-preview.ts:applyFix()
-    if (this.fixSuggestions?.[this.selectedFixIdx].fix_id === PROVIDED_FIX_ID) {
-      let errorText = '';
-      let status = '';
-      try {
-        res = await this.restApiService.applyFixSuggestion(
-          changeNum,
-          patchNum,
-          this.fixSuggestions[this.selectedFixIdx].replacements,
-          this.latestPatchNum
-        );
-      } catch (error) {
-        if (error instanceof Error) {
-          errorText = error.message;
-          status = errorText.match(/\b\d{3}\b/)?.[0] || '';
-        }
-        fireError(this, `Applying Fix failed.\n${errorText}`);
-      } finally {
-        this.reporting.timeEnd(Timing.APPLY_FIX_LOAD, {
-          method: 'apply-fix-dialog',
-          description: this.fixSuggestions?.[0].description,
-          fileExtension: getFileExtension(
-            this.fixSuggestions?.[0]?.replacements?.[0].path ?? ''
-          ),
-          success: res?.ok ?? false,
-          status: res?.status ?? status,
-          errorText,
-        });
+    const fixSuggestion = this.fixSuggestions?.[this.selectedFixIdx];
+    if (!fixSuggestion) {
+      throw new Error('No fix suggestion selected');
+    }
+    let errorText = '';
+    let status = '';
+    try {
+      res = await this.restApiService.applyFixSuggestion(
+        changeNum,
+        patchNum,
+        fixSuggestion.replacements,
+        this.latestPatchNum
+      );
+    } catch (error) {
+      if (error instanceof Error) {
+        errorText = error.message;
+        status = errorText.match(/\b\d{3}\b/)?.[0] || '';
       }
+      fireError(this, `Applying Fix failed.\n${errorText}`);
+    } finally {
+      this.reporting.timeEnd(Timing.APPLY_FIX_LOAD, {
+        method: 'apply-fix-dialog',
+        description: this.fixSuggestions?.[0].description,
+        fileExtension: getFileExtension(
+          this.fixSuggestions?.[0]?.replacements?.[0].path ?? ''
+        ),
+        success: res?.ok ?? false,
+        status: res?.status ?? status,
+        errorText,
+      });
     }
     if (res?.ok) {
       this.getNavigation().setUrl(

@@ -269,7 +269,7 @@ export class GrDiffCheckResult extends LitElement {
   }
 
   private renderAIFixButton() {
-    if (!this.shouldShowAIFixButton()) return nothing;
+    // if (!this.shouldShowAIFixButton()) return nothing;
     return html`<gr-button
       id="aiFixBtn"
       link
@@ -284,7 +284,7 @@ export class GrDiffCheckResult extends LitElement {
     >`;
   }
 
-  private shouldShowAIFixButton() {
+  shouldShowAIFixButton() {
     if (
       !this.getSuggestionsService()?.isGeneratedSuggestedFixEnabled(
         this.result?.codePointers?.[0].path
@@ -374,8 +374,7 @@ export class GrDiffCheckResult extends LitElement {
 
   private async handleAIFix(): Promise<void> {
     const codePointer = this.result?.codePointers?.[0];
-    if (!this.result || !this.result.message || !codePointer || !this.isOwner)
-      return;
+    if (!this.result || !this.result.message || !codePointer) return;
 
     this.suggestionLoading = true;
     let suggestion: FixSuggestionInfo | undefined;

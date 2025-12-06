@@ -38,7 +38,6 @@ suite('prompt-box tests', () => {
     chatModel.updateState({turns: []});
 
     element = await fixture<PromptBox>(html`<prompt-box></prompt-box>`);
-    element.showAddContext = true;
     await element.updateComplete;
   });
 

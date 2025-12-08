@@ -4,7 +4,7 @@ This module lists the external dependencies of the Gerrit project.
 
 load("//tools/bzl:maven_jar.bzl", "GERRIT", "maven_jar")
 
-CAFFEINE_VERS = "3.1.8"
+CAFFEINE_VERS = "2.9.2"
 ANTLR_VERS = "3.5.2"
 COMMONMARK_VERSION = "0.21.0"
 GREENMAIL_VERS = "1.5.5"
@@ -89,7 +89,7 @@ def java_dependencies():
     maven_jar(
         name = "caffeine",
         artifact = "com.github.ben-manes.caffeine:caffeine:" + CAFFEINE_VERS,
-        sha1 = "24795585df8afaf70a2cd534786904ea5889c047",
+        sha1 = "0a17ed335e0ce2d337750772c0709b79af35a842",
     )
 
     maven_jar(

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5cf7e9fd_7d1a6e02",
+        "filename": "plugins/external_plugin_deps.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2025-12-08T16:04:31Z",
+      "side": 1,
+      "message": "Should this be in this change?",
+      "revId": "5a8eb6c966eb8ff4c5002eb96fb3967664693e2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

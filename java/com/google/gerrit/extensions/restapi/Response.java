@@ -14,6 +14,9 @@
 
 package com.google.gerrit.extensions.restapi;
 
+import static com.google.common.base.Preconditions.checkState;
+import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
+
 import com.google.common.collect.ImmutableMultimap;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.concurrent.TimeUnit;
@@ -70,6 +73,10 @@ public abstract class Response<T> {
 
   /** Arbitrary status code with wrapped result. */
   public static <T> Response<T> withStatusCode(int statusCode, T value) {
+    checkState(
+        statusCode < SC_INTERNAL_SERVER_ERROR,
+        "Status code must be < 500. To return an internal server error REST endpoint"
+            + " implementations should throw an exception");
     return new Impl<>(statusCode, value);
   }
 

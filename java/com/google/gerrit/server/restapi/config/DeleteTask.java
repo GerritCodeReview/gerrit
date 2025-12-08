@@ -16,7 +16,6 @@ package com.google.gerrit.server.restapi.config;
 
 import static com.google.gerrit.common.data.GlobalCapability.KILL_TASK;
 import static com.google.gerrit.common.data.GlobalCapability.MAINTAIN_SERVER;
-import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 
 import com.google.gerrit.extensions.annotations.RequiresAnyCapability;
 import com.google.gerrit.extensions.common.Input;
@@ -34,8 +33,10 @@ public class DeleteTask implements RestModifyView<TaskResource, Input> {
   public Response<?> apply(TaskResource rsrc, Input input) {
     Task<?> task = rsrc.getTask();
     boolean taskDeleted = task.cancel(true);
-    return taskDeleted
-        ? Response.none()
-        : Response.withStatusCode(SC_INTERNAL_SERVER_ERROR, "Unable to kill task " + task);
+    if (taskDeleted) {
+      return Response.none();
+    }
+
+    throw new IllegalStateException("Unable to kill task " + task);
   }
 }

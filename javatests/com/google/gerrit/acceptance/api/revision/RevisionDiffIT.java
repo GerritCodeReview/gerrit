@@ -3004,6 +3004,14 @@ public class RevisionDiffIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void diffOfRootIsAnEmptyDiffResult() throws Exception {
+    addModifiedPatchSet(changeId, FILE_NAME, content -> content.replace("Line 2\n", "Line two\n"));
+
+    DiffInfo diffInfo = getDiffRequest(changeId, CURRENT, "/").withBase(initialPatchSetId).get();
+    assertThat(diffInfo).content().isEmpty();
+  }
+
+  @Test
   public void requestingDiffForOldFileNameOfRenamedFileYieldsReasonableResult() throws Exception {
     addModifiedPatchSet(changeId, FILE_NAME, content -> content.replace("Line 2\n", "Line two\n"));
     String previousPatchSetId = gApi.changes().id(changeId).get().currentRevision;

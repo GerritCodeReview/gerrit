@@ -417,7 +417,7 @@ class PatchScriptBuilder {
 
     @Nullable
     private TreeWalk find(ObjectReader reader, String path, ObjectId within) throws IOException {
-      if (path == null || within == null) {
+      if (path == null || "/".equals(path) || within == null) {
         return null;
       }
       try (RevWalk rw = new RevWalk(reader)) {

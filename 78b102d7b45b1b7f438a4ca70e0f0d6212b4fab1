@@ -16,6 +16,24 @@
       "message": "What are Code-Style and Verified and Commit-queue about?",
       "revId": "78b102d7b45b1b7f438a4ca70e0f0d6212b4fab1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "78404a3e_f404babb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2025-12-09T18:50:02Z",
+      "side": 1,
+      "message": "Verified is done by GerritCI including Code-Style.\n\nCode-Style is eslint / or google-java-format or any other linting.\n\nVerified is building gerrit and it building successfully and tests running successfully.",
+      "parentUuid": "be498832_b21d70cb",
+      "revId": "78b102d7b45b1b7f438a4ca70e0f0d6212b4fab1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -16,6 +16,24 @@
       "message": "Also store the `requireOperatorForEvaluation` in an instance member",
       "revId": "86d92caf291e3e8eb6714a2d7e38b6f87e102d42",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e3b776f3_e7895c7a",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementsEvaluatorImpl.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2025-12-09T10:53:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "81b1c6a5_2a98bcf8",
+      "revId": "86d92caf291e3e8eb6714a2d7e38b6f87e102d42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

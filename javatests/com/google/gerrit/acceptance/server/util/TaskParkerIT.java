@@ -20,6 +20,8 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.server.util.TaskListenerIT.LatchedMethod;
 import com.google.gerrit.acceptance.server.util.TaskListenerIT.LatchedRunnable;
 import com.google.gerrit.extensions.annotations.Exports;
+import com.google.gerrit.server.cancellation.RequestCancelledException;
+import com.google.gerrit.server.cancellation.RequestStateProvider.Reason;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.git.WorkQueue.Task;
 import com.google.gerrit.server.git.WorkQueue.Task.State;
@@ -95,6 +97,47 @@ public class TaskParkerIT extends AbstractDaemonTest {
     public void onStop(Task<?> task) {
       if (EXPENSIVE_TASK.equals(task.toString())) {
         expensiveTaskSemaphore.release();
+      }
+      super.onStop(task);
+    }
+  }
+
+  public static class ThrowingParker extends LatchedParker {
+    public volatile boolean throwInIsReadyToStart = false;
+    public volatile boolean throwInOnNotReadyToStart = false;
+    public volatile boolean throwInOnStart = false;
+    public volatile boolean throwInOnStop = false;
+
+    @Override
+    public boolean isReadyToStart(Task<?> task) {
+      if (throwInIsReadyToStart) {
+        throw new RequestCancelledException(
+            Reason.CLIENT_CLOSED_REQUEST, "Exception in isReadyToStart");
+      }
+      return super.isReadyToStart(task);
+    }
+
+    @Override
+    public void onNotReadyToStart(Task<?> task) {
+      if (throwInOnNotReadyToStart) {
+        throw new RequestCancelledException(
+            Reason.CLIENT_CLOSED_REQUEST, "Exception in onNotReadyToStart");
+      }
+      super.onNotReadyToStart(task);
+    }
+
+    @Override
+    public void onStart(Task<?> task) {
+      if (throwInOnStart) {
+        throw new RequestCancelledException(Reason.CLIENT_CLOSED_REQUEST, "Exception in onStart");
+      }
+      super.onStart(task);
+    }
+
+    @Override
+    public void onStop(Task<?> task) {
+      if (throwInOnStop) {
+        throw new RequestCancelledException(Reason.CLIENT_CLOSED_REQUEST, "Exception in onStop");
       }
       super.onStop(task);
     }
@@ -503,7 +546,7 @@ public class TaskParkerIT extends AbstractDaemonTest {
   }
 
   private void assertCorePoolSizeIs(int count) {
-    assertThat(count).isEqualTo(((ScheduledThreadPoolExecutor) executor).getCorePoolSize());
+    assertThat(((ScheduledThreadPoolExecutor) executor).getCorePoolSize()).isEqualTo(count);
   }
 
   private void assertCorePoolSizeIsEventually(int count) throws InterruptedException {
@@ -544,5 +587,42 @@ public class TaskParkerIT extends AbstractDaemonTest {
       assertThat(ms++).isLessThan(TIMEOUT);
       TimeUnit.MILLISECONDS.sleep(1);
     }
+  }
+
+  @Test
+  public void exceptionInOnStartStillAllowsTaskToRun() throws Exception {
+    ThrowingParker throwingParker = new ThrowingParker();
+    throwingParker.throwInOnStart = true;
+    forwarder.delegate = throwingParker;
+
+    LatchedRunnable runnable = new LatchedRunnable();
+    assertCorePoolSizeIs(1);
+
+    executor.execute(runnable);
+
+    throwingParker.isReadyToStart.assertCalledEventuallyThenComplete(true);
+    runnable.run.assertCalledEventually();
+    runnable.run.complete();
+    throwingParker.onStop.assertCalledEventually();
+  }
+
+  @Test
+  public void exceptionInOnStopStillAllowsOtherParkersToRunOnStop() throws Exception {
+    LatchedParker parker = new LatchedParker();
+    ThrowingParker throwingParker = new ThrowingParker();
+    throwingParker.throwInOnStop = true;
+    forwarder.delegate = parker;
+    forwarder2.delegate = throwingParker;
+
+    LatchedRunnable runnable = new LatchedRunnable();
+    assertCorePoolSizeIs(1);
+
+    executor.execute(runnable);
+    parker.isReadyToStart.complete();
+    throwingParker.isReadyToStart.complete();
+    runnable.run.complete();
+
+    throwingParker.onStop.assertUncalled(); // Due to cancellation exception
+    parker.onStop.assertCalledEventually();
   }
 }

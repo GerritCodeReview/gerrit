@@ -19,6 +19,8 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.extensions.annotations.Exports;
+import com.google.gerrit.server.cancellation.RequestCancelledException;
+import com.google.gerrit.server.cancellation.RequestStateProvider.Reason;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.git.WorkQueue.Task;
 import com.google.gerrit.server.git.WorkQueue.TaskListener;
@@ -166,6 +168,27 @@ public class TaskListenerIT extends AbstractDaemonTest {
     @Override
     public void onStop(Task<?> task) {
       onStop.call();
+    }
+  }
+
+  public static class ThrowingListener extends LatchedListener {
+    public volatile boolean throwInOnStart = false;
+    public volatile boolean throwInOnStop = false;
+
+    @Override
+    public void onStart(Task<?> task) {
+      if (throwInOnStart) {
+        throw new RequestCancelledException(Reason.CLIENT_CLOSED_REQUEST, "Exception in onStart");
+      }
+      super.onStart(task);
+    }
+
+    @Override
+    public void onStop(Task<?> task) {
+      if (throwInOnStop) {
+        throw new RequestCancelledException(Reason.CLIENT_CLOSED_REQUEST, "Exception in onStop");
+      }
+      super.onStop(task);
     }
   }
 
@@ -342,5 +365,18 @@ public class TaskListenerIT extends AbstractDaemonTest {
 
   private void assertAwaitQueueIsEmpty() throws InterruptedException {
     assertTaskCountIsEventually(0);
+  }
+
+  @Test
+  public void exceptionInOnStartStillAllowsTaskToRun() throws Exception {
+    ThrowingListener throwingListener = new ThrowingListener();
+    throwingListener.throwInOnStart = true;
+
+    forwarder.resetDelegate(throwingListener);
+    executor.execute(runnable);
+
+    runnable.run.assertCalledEventually();
+    runnable.run.complete();
+    throwingListener.onStop.assertCalledEventually();
   }
 }

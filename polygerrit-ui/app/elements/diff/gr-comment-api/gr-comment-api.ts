@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2017 Google LLC
+ * Copyright 2025 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
 import {
@@ -208,9 +208,10 @@ export class ChangeComments {
    * patch range for that path.
    *
    * @param patchRange The patch-range object containing patchNum and
-   * basePatchNum properties to represent the range.
+   * basePatchNum properties to represent the range. When undefined, all
+   * comments from path are returned.
    */
-  getCommentsForPath(path: string, patchRange: PatchRange): Comment[] {
+  getCommentsForPath(path: string, patchRange?: PatchRange): Comment[] {
     let comments: Comment[] = [];
     let drafts: DraftInfo[] = [];
     let robotComments: RobotCommentInfo[] = [];
@@ -226,7 +227,7 @@ export class ChangeComments {
 
     const all = comments.concat(drafts).concat(robotComments);
     const final = all
-      .filter(c => isInPatchRange(c, patchRange))
+      .filter(c => patchRange === undefined || isInPatchRange(c, patchRange))
       .map(c => {
         return {...c};
       });
@@ -330,11 +331,11 @@ export class ChangeComments {
     file: PatchSetFile,
     patchRange: PatchRange
   ): CommentThread[] {
-    const threads = createCommentThreads(
-      this.getCommentsForFile(file, patchRange)
-    );
+    const threads = createCommentThreads(this.getCommentsForFile(file));
     threads.push(...this._getPortedCommentThreads(file, patchRange));
-    return threads;
+    return threads.filter(thread =>
+      isInPatchRange(thread.comments[0], patchRange)
+    );
   }
 
   /**
@@ -347,7 +348,7 @@ export class ChangeComments {
    * @param patchRange The patch-range object containing patchNum
    * and basePatchNum properties to represent the range.
    */
-  getCommentsForFile(file: PatchSetFile, patchRange: PatchRange): Comment[] {
+  getCommentsForFile(file: PatchSetFile, patchRange?: PatchRange): Comment[] {
     const comments = this.getCommentsForPath(file.path, patchRange);
     if (file.basePath) {
       comments.push(...this.getCommentsForPath(file.basePath, patchRange));

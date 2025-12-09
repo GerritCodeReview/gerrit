@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "32968776_96c91439",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1121540
+      },
+      "writtenOn": "2025-12-09T18:40:23Z",
+      "side": 1,
+      "message": "I don\u0027t know what Frontend-Verified and Commit-Queue is about... I +1d them too, but I\u0027m not sure if I should.",
+      "revId": "a10fa5f28c383fca672d76230176b0e15072027d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

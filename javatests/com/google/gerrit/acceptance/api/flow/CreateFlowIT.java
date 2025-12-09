@@ -43,9 +43,11 @@ import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.server.flow.FlowKey;
 import com.google.gerrit.server.flow.FlowService;
+import com.google.gerrit.server.flow.FlowStageEvaluationStatus.State;
 import com.google.gerrit.server.restapi.flow.CreateFlow;
 import com.google.inject.Inject;
 import java.time.Instant;
+import java.util.Optional;
 import org.junit.Test;
 
 /**
@@ -287,11 +289,83 @@ public class CreateFlowIT extends AbstractDaemonTest {
 
   @Test
   public void numberOfFlowsPerChangeIsLimitedByDefault() throws Exception {
+    TestChange change = changeOperations.newChange().createAndGet();
+    TestFlowService testFlowService = new TestExtensions.TestFlowService();
+    try (Registration registration = extensionRegistry.newRegistration().set(testFlowService)) {
+      FlowInput flowInput = createTestFlowInputWithOneStage(accountCreator, change.id());
+      for (int i = 1; i <= CreateFlow.DEFAULT_MAX_FLOWS_PER_CHANGE; i++) {
+        FlowInfo flowInfo = gApi.changes().id(change.id()).createFlow(flowInput);
+
+        // Mark the flow as done so that we do not hit the lower limit for pending flows.
+        FlowKey flowKey = FlowKey.create(change.project(), change.numericChangeId(), flowInfo.uuid);
+        testFlowService.evaluate(
+            flowKey, ImmutableList.of(State.DONE), ImmutableList.of(Optional.empty()));
+      }
+
+      ResourceConflictException exception =
+          assertThrows(
+              ResourceConflictException.class,
+              () -> gApi.changes().id(change.id()).createFlow(flowInput));
+      assertThat(exception)
+          .hasMessageThat()
+          .isEqualTo(
+              String.format(
+                  "Too many flows (max %s flows allowed per change)",
+                  CreateFlow.DEFAULT_MAX_FLOWS_PER_CHANGE));
+    }
+  }
+
+  @Test
+  @GerritConfig(name = "flows.maxPerChange", value = "50")
+  public void numberOfFlowsPerChangeIsLimitedByConfiguration() throws Exception {
+    TestChange change = changeOperations.newChange().createAndGet();
+    TestFlowService testFlowService = new TestExtensions.TestFlowService();
+    try (Registration registration = extensionRegistry.newRegistration().set(testFlowService)) {
+      FlowInput flowInput = createTestFlowInputWithOneStage(accountCreator, change.id());
+      for (int i = 1; i <= 50; i++) {
+        FlowInfo flowInfo = gApi.changes().id(change.id()).createFlow(flowInput);
+
+        // Mark the flow as done so that we do not hit the lower limit for pending flows.
+        FlowKey flowKey = FlowKey.create(change.project(), change.numericChangeId(), flowInfo.uuid);
+        testFlowService.evaluate(
+            flowKey, ImmutableList.of(State.DONE), ImmutableList.of(Optional.empty()));
+      }
+
+      ResourceConflictException exception =
+          assertThrows(
+              ResourceConflictException.class,
+              () -> gApi.changes().id(change.id()).createFlow(flowInput));
+      assertThat(exception)
+          .hasMessageThat()
+          .isEqualTo(String.format("Too many flows (max %s flows allowed per change)", 50));
+    }
+  }
+
+  @Test
+  @GerritConfig(name = "flows.maxPerChange", value = "0")
+  public void numberOfFlowsPerChangeIsUnlimited() throws Exception {
+    TestChange change = changeOperations.newChange().createAndGet();
+    TestFlowService testFlowService = new TestExtensions.TestFlowService();
+    try (Registration registration = extensionRegistry.newRegistration().set(testFlowService)) {
+      FlowInput flowInput = createTestFlowInputWithOneStage(accountCreator, change.id());
+      for (int i = 1; i <= CreateFlow.DEFAULT_MAX_FLOWS_PER_CHANGE + 10; i++) {
+        FlowInfo flowInfo = gApi.changes().id(change.id()).createFlow(flowInput);
+
+        // Mark the flow as done so that we do not hit the lower limit for pending flows.
+        FlowKey flowKey = FlowKey.create(change.project(), change.numericChangeId(), flowInfo.uuid);
+        testFlowService.evaluate(
+            flowKey, ImmutableList.of(State.DONE), ImmutableList.of(Optional.empty()));
+      }
+    }
+  }
+
+  @Test
+  public void numberOfPendingFlowsPerChangeIsLimitedByDefault() throws Exception {
     ChangeIdentifier changeIdentifier = changeOperations.newChange().create();
     TestFlowService testFlowService = new TestExtensions.TestFlowService();
     try (Registration registration = extensionRegistry.newRegistration().set(testFlowService)) {
       FlowInput flowInput = createTestFlowInputWithOneStage(accountCreator, changeIdentifier);
-      for (int i = 1; i <= CreateFlow.DEFAULT_MAX_FLOWS_PER_CHANGE; i++) {
+      for (int i = 1; i <= CreateFlow.DEFAULT_MAX_PENDING_FLOWS_PER_CHANGE; i++) {
         gApi.changes().id(changeIdentifier).createFlow(flowInput);
       }
 
@@ -303,19 +377,19 @@ public class CreateFlowIT extends AbstractDaemonTest {
           .hasMessageThat()
           .isEqualTo(
               String.format(
-                  "Too many flows (max %s flow allowed per change)",
-                  CreateFlow.DEFAULT_MAX_FLOWS_PER_CHANGE));
+                  "Too many pending flows (max %s pending flows allowed per change)",
+                  CreateFlow.DEFAULT_MAX_PENDING_FLOWS_PER_CHANGE));
     }
   }
 
   @Test
-  @GerritConfig(name = "flows.maxPerChange", value = "50")
-  public void numberOfFlowsPerChangeIsLimitedByConfiguration() throws Exception {
+  @GerritConfig(name = "flows.maxPendingPerChange", value = "5")
+  public void numberOfPendingFlowsPerChangeIsLimitedByConfiguration() throws Exception {
     ChangeIdentifier changeIdentifier = changeOperations.newChange().create();
     TestFlowService testFlowService = new TestExtensions.TestFlowService();
     try (Registration registration = extensionRegistry.newRegistration().set(testFlowService)) {
       FlowInput flowInput = createTestFlowInputWithOneStage(accountCreator, changeIdentifier);
-      for (int i = 1; i <= 50; i++) {
+      for (int i = 1; i <= 5; i++) {
         gApi.changes().id(changeIdentifier).createFlow(flowInput);
       }
 
@@ -325,18 +399,19 @@ public class CreateFlowIT extends AbstractDaemonTest {
               () -> gApi.changes().id(changeIdentifier).createFlow(flowInput));
       assertThat(exception)
           .hasMessageThat()
-          .isEqualTo(String.format("Too many flows (max %s flow allowed per change)", 50));
+          .isEqualTo(
+              String.format("Too many pending flows (max %s pending flows allowed per change)", 5));
     }
   }
 
   @Test
-  @GerritConfig(name = "flows.maxPerChange", value = "0")
-  public void numberOfFlowsPerChangeIsUnlimited() throws Exception {
+  @GerritConfig(name = "flows.maxPendingPerChange", value = "0")
+  public void numberOfPendingFlowsPerChangeIsUnlimited() throws Exception {
     ChangeIdentifier changeIdentifier = changeOperations.newChange().create();
     TestFlowService testFlowService = new TestExtensions.TestFlowService();
     try (Registration registration = extensionRegistry.newRegistration().set(testFlowService)) {
       FlowInput flowInput = createTestFlowInputWithOneStage(accountCreator, changeIdentifier);
-      for (int i = 1; i <= CreateFlow.DEFAULT_MAX_FLOWS_PER_CHANGE + 10; i++) {
+      for (int i = 1; i <= CreateFlow.DEFAULT_MAX_PENDING_FLOWS_PER_CHANGE + 10; i++) {
         gApi.changes().id(changeIdentifier).createFlow(flowInput);
       }
     }

@@ -14,7 +14,10 @@
 
 package com.google.gerrit.server.restapi.flow;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
+
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.extensions.common.FlowInfo;
 import com.google.gerrit.extensions.common.FlowInput;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -30,6 +33,7 @@ import com.google.gerrit.server.flow.Flow;
 import com.google.gerrit.server.flow.FlowCreation;
 import com.google.gerrit.server.flow.FlowPermissionDeniedException;
 import com.google.gerrit.server.flow.FlowServiceUtil;
+import com.google.gerrit.server.flow.FlowStageEvaluationStatus.State;
 import com.google.gerrit.server.flow.InvalidFlowException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -45,6 +49,7 @@ import org.eclipse.jgit.lib.Config;
 public class CreateFlow
     implements RestCollectionModifyView<ChangeResource, FlowResource, FlowInput> {
   @VisibleForTesting public static final int DEFAULT_MAX_FLOWS_PER_CHANGE = 20;
+  @VisibleForTesting public static final int DEFAULT_MAX_PENDING_FLOWS_PER_CHANGE = 3;
 
   private final Provider<Config> cfgProvider;
   private final FlowServiceUtil flowServiceUtil;
@@ -84,17 +89,7 @@ public class CreateFlow
       flowInput = new FlowInput();
     }
 
-    int maxFlowsPerChange =
-        cfgProvider.get().getInt("flows", "maxPerChange", DEFAULT_MAX_FLOWS_PER_CHANGE);
-    if (maxFlowsPerChange > 0
-        && flowServiceUtil
-                .getFlowServiceOrThrow()
-                .listFlows(changeResource.getProject(), changeResource.getId())
-                .size()
-            >= maxFlowsPerChange) {
-      throw new ResourceConflictException(
-          String.format("Too many flows (max %s flow allowed per change)", maxFlowsPerChange));
-    }
+    checkLimits(changeResource);
 
     FlowCreation flowCreation =
         FlowJson.createFlowCreation(
@@ -110,6 +105,39 @@ public class CreateFlow
       throw new AuthException(e.getMessage(), e);
     } catch (InvalidFlowException e) {
       throw new BadRequestException(e.getMessage(), e);
+    }
+  }
+
+  private void checkLimits(ChangeResource changeResource)
+      throws MethodNotAllowedException, ResourceConflictException {
+    ImmutableList<Flow> flows =
+        flowServiceUtil
+            .getFlowServiceOrThrow()
+            .listFlows(changeResource.getProject(), changeResource.getId());
+    int maxFlowsPerChange =
+        cfgProvider.get().getInt("flows", "maxPerChange", DEFAULT_MAX_FLOWS_PER_CHANGE);
+    if (maxFlowsPerChange > 0 && flows.size() >= maxFlowsPerChange) {
+      throw new ResourceConflictException(
+          String.format("Too many flows (max %s flows allowed per change)", maxFlowsPerChange));
+    }
+
+    int maxPendingFlowsPerChange =
+        cfgProvider
+            .get()
+            .getInt("flows", "maxPendingPerChange", DEFAULT_MAX_PENDING_FLOWS_PER_CHANGE);
+    if (maxPendingFlowsPerChange > 0
+        && flows.stream()
+                .filter(
+                    flow ->
+                        flow.stages().stream()
+                            .anyMatch(stage -> State.PENDING.equals(stage.status().state())))
+                .collect(toImmutableList())
+                .size()
+            >= maxPendingFlowsPerChange) {
+      throw new ResourceConflictException(
+          String.format(
+              "Too many pending flows (max %s pending flows allowed per change)",
+              maxPendingFlowsPerChange));
     }
   }
 }

@@ -59,7 +59,6 @@ import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.submit.ChangeSet;
@@ -288,14 +287,12 @@ public class Submit
   @Override
   public UiAction.Description getDescription(RevisionResource resource)
       throws IOException, PermissionBackendException {
-    Change change = resource.getChange();
+    ChangeData changeData = resource.getChangeResource().getChangeData();
+    Change change = changeData.change();
     if (!change.isNew() || !resource.isCurrent()) {
       return null; // submit not visible
     }
-    if (!projectCache
-        .get(resource.getProject())
-        .map(ProjectState::statePermitsWrite)
-        .orElse(false)) {
+    if (!changeData.projectStatePermitsWrite()) {
       return null; // submit not visible
     }
 

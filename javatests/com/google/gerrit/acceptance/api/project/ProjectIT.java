@@ -65,6 +65,7 @@ import com.google.gerrit.extensions.api.projects.ProjectInput;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ProjectState;
 import com.google.gerrit.extensions.client.SubmitType;
+import com.google.gerrit.extensions.common.ActionInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.common.ProjectInfo;
@@ -546,6 +547,14 @@ public class ProjectIT extends AbstractDaemonTest {
       ReviewInput reviewInput = new ReviewInput();
       reviewInput.label("Code-Review", 2);
       gApi.changes().id(changeInfo.project, changeInfo._number).current().review(reviewInput);
+
+      // check that the submit action is enabled
+      Map<String, ActionInfo> actions =
+          gApi.changes().id(changeInfo.project, changeInfo._number).current().actions();
+      assertThat(actions).containsKey("submit");
+      ActionInfo submitAction = actions.get("submit");
+      assertThat(submitAction.enabled).isTrue();
+
       gApi.changes().id(changeInfo.project, changeInfo._number).current().submit();
 
       // ACTIVE is represented as null in the API

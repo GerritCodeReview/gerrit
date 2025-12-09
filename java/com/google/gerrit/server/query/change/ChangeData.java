@@ -1652,6 +1652,11 @@ public class ChangeData {
     return predicateResult.build();
   }
 
+  public boolean projectStatePermitsWrite() {
+    return isProjectConfigOnlyChange()
+        || projectCache.get(project()).orElseThrow(illegalState(project())).statePermitsWrite();
+  }
+
   public void checkStatePermitsWrite() throws ResourceConflictException {
     if (isProjectConfigOnlyChange()) {
       return;

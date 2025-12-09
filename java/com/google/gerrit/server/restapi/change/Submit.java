@@ -58,8 +58,6 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.submit.ChangeSet;
@@ -125,7 +123,6 @@ public class Submit
   private final boolean submitWholeTopic;
   private final Provider<InternalChangeQuery> queryProvider;
   private final PatchSetUtil psUtil;
-  private final ProjectCache projectCache;
   private final ChangeJson.Factory json;
   private final ChangeData.Factory changeDataFactory;
 
@@ -141,7 +138,6 @@ public class Submit
       @GerritServerConfig Config cfg,
       Provider<InternalChangeQuery> queryProvider,
       PatchSetUtil psUtil,
-      ProjectCache projectCache,
       ChangeJson.Factory json,
       ChangeData.Factory changeDataFactory) {
     this.repoManager = repoManager;
@@ -176,7 +172,6 @@ public class Submit
                 cfg.getString("change", null, "submitTopicTooltip"), DEFAULT_TOPIC_TOOLTIP));
     this.queryProvider = queryProvider;
     this.psUtil = psUtil;
-    this.projectCache = projectCache;
     this.json = json;
     this.changeDataFactory = changeDataFactory;
     this.useMergeabilityCheck = MergeabilityComputationBehavior.fromConfig(cfg).includeInApi();
@@ -288,14 +283,12 @@ public class Submit
   @Override
   public UiAction.Description getDescription(RevisionResource resource)
       throws IOException, PermissionBackendException {
-    Change change = resource.getChange();
+    ChangeData changeData = resource.getChangeResource().getChangeData();
+    Change change = changeData.change();
     if (!change.isNew() || !resource.isCurrent()) {
       return null; // submit not visible
     }
-    if (!projectCache
-        .get(resource.getProject())
-        .map(ProjectState::statePermitsWrite)
-        .orElse(false)) {
+    if (!changeData.projectStatePermitsWrite()) {
       return null; // submit not visible
     }
 

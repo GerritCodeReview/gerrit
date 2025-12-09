@@ -23,6 +23,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
@@ -294,6 +295,7 @@ public class TestExtensions {
      *     given states/messages doesn't match with the number of stages in the flow
      * @return the updated flow
      */
+    @CanIgnoreReturnValue
     public Flow evaluate(
         FlowKey flowKey,
         ImmutableList<FlowStageEvaluationStatus.State> stageStates,

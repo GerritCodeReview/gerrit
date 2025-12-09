@@ -2584,6 +2584,13 @@ mean "unlimited".
 +
 By default, `20`.
 
+[[flows.maxPendingPerChange]]flows.maxPendingPerChange::
++
+Controls how many pending flows a change can have at most. 0 or negative values
+mean "unlimited".
++
+By default, `3`.
+
 [[gc]]
 === Section gc
 

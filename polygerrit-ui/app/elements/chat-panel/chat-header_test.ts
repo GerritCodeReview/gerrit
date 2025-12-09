@@ -87,8 +87,8 @@ suite('chat-header tests', () => {
         </md-icon-button>
         <md-icon-button
           class="close-button"
-          title="Close AI Chat panel"
-          data-aria-label="Close AI Chat panel"
+          title="Close Review Agent panel"
+          data-aria-label="Close Review Agent panel"
           value=""
         >
           <md-icon aria-hidden="true">clear</md-icon>

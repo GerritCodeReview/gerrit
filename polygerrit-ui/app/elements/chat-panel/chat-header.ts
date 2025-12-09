@@ -237,8 +237,8 @@ export class ChatHeader extends LitElement {
       <md-icon-button
         class="close-button"
         @click=${this.closePanel}
-        title="Close AI Chat panel"
-        aria-label="Close AI Chat panel"
+        title="Close Review Agent panel"
+        aria-label="Close Review Agent panel"
       >
         <md-icon>clear</md-icon>
       </md-icon-button>

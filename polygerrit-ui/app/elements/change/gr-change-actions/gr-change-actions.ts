@@ -185,7 +185,7 @@ const AI_CHAT_ACTION: UIActionInfo = {
   __key: 'chat',
   __type: ActionType.CHANGE,
   enabled: true,
-  label: 'AI Chat',
+  label: 'Review Agent',
 };
 
 function isQuickApproveAction(

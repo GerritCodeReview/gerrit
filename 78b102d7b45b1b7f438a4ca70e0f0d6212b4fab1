@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "be498832_b21d70cb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1121540
+      },
+      "writtenOn": "2025-12-09T18:42:10Z",
+      "side": 1,
+      "message": "What are Code-Style and Verified and Commit-queue about?",
+      "revId": "78b102d7b45b1b7f438a4ca70e0f0d6212b4fab1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

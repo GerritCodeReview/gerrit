@@ -27,6 +27,7 @@ import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.MetricMaker;
+import com.google.gerrit.server.cancellation.RequestCancelledException;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.ScheduleConfig.Schedule;
 import com.google.gerrit.server.logging.LoggingContext;
@@ -661,11 +662,29 @@ public class WorkQueue {
     }
 
     public void onStart(Task<?> task) {
-      listeners.runEach(extension -> extension.get().onStart(task));
+      listeners.runEach(
+          extension -> {
+            TaskListener listener = extension.getProvider().get();
+            try {
+              listener.onStart(task);
+            } catch (RuntimeException e) {
+              logger.atSevere().withCause(e).log(
+                  "Exception invoking onStart for task [%s] on listener [%s]", task, listener);
+            }
+          });
     }
 
     public void onStop(Task<?> task) {
-      listeners.runEach(extension -> extension.get().onStop(task));
+      listeners.runEach(
+          extension -> {
+            TaskListener listener = extension.getProvider().get();
+            try {
+              listener.onStop(task);
+            } catch (RuntimeException e) {
+              logger.atSevere().withCause(e).log(
+                  "Exception invoking onStop for task [%s] on listener [%s]", task, listener);
+            }
+          });
       updateParked();
     }
 

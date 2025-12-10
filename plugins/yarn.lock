@@ -668,10 +668,10 @@
   resolved "https://registry.yarnpkg.com/@marijn/find-cluster-break/-/find-cluster-break-1.0.2.tgz#775374306116d51c0c500b8c4face0f9a04752d8"
   integrity sha512-l0h88YhZFyKdXIFNfSWpyjStDjGHwZ/U7iobcK1cQQD8sejsONdQtTVU+1wVN1PBw40PiiHB1vA5S7VTfQiP9g==
 
-"@material/web@^2.4.0":
-  version "2.4.0"
-  resolved "https://registry.yarnpkg.com/@material/web/-/web-2.4.0.tgz#4158df5afa2a36f55db5a5b2d77146cf6bdc84a6"
-  integrity sha512-2jYiPIYOuP2UcWXal4VdKRlkpBX02U3rgXMWp0yFQbJaOmK8MOIA3BsyuooM3VOYI+VCO70BeH1x43y5cBLvZQ==
+"@material/web@^2.4.1":
+  version "2.4.1"
+  resolved "https://registry.yarnpkg.com/@material/web/-/web-2.4.1.tgz#afd629ba350cf9485c3e19a7bfeb0476f02a0ec1"
+  integrity sha512-0sk9t25acJ72Qv3r0n9r0lgDbPaAKnpm0p+QmEAAwYyZomHxuVbgrrAdtNXaRm7jFyGh+WsTr8bhtvCnpPRFjw==
   dependencies:
     lit "^2.8.0 || ^3.0.0"
     tslib "^2.4.0"

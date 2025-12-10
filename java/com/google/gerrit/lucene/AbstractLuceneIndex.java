@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Joiner;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableList;
@@ -236,6 +237,20 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
 
     if (autoFlush.equals(AutoFlush.ENABLED)) {
       reopenThread.start();
+    }
+  }
+
+  @VisibleForTesting
+  public IndexWriter getIndexWriter() {
+    return writer;
+  }
+
+  @Override
+  public void commit() {
+    try {
+      writer.commit();
+    } catch (IOException ioe) {
+      logger.atSevere().withCause(ioe).log("Encountered issues commiting pending changes");
     }
   }
 

@@ -155,6 +155,13 @@ public interface Index<K, V> {
   void markReady(boolean ready);
 
   /**
+   * Optionally commits pending changes to the index and syncs referenced index files.
+   * Implementations that buffer state should override this to flush their state; the default
+   * implementation is a no-op.
+   */
+  default void flushAndCommit() {}
+
+  /**
    * Returns whether the index is enabled. {@code true} by default, but could be overridden by
    * implementations.
    */

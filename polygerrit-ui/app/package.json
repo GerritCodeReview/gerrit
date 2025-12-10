@@ -3,7 +3,7 @@
   "description": "Gerrit Code Review - Polygerrit dependencies",
   "browser": true,
   "dependencies": {
-    "@material/web": "^2.4.0",
+    "@material/web": "^2.4.1",
     "@polymer/decorators": "^3.0.0",
     "@polymer/font-roboto-local": "^3.0.2",
     "@polymer/polymer": "3.5.2",

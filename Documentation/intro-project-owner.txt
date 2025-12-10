@@ -721,7 +721,7 @@ capabilities is granted, you need to contact a Gerrit administrator to
 request the deletion of your project.
 
 Instead of deleting a project you may set the
-link:project-configuration.html#project-state[project state] to `ReadOnly` or
+link:config-project-config.html#project-section[project state] to `ReadOnly` or
 `Hidden`.
 
 [[project-rename]]

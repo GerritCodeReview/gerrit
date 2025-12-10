@@ -308,6 +308,12 @@ public class LuceneChangeIndex implements ChangeIndex {
     return openIndex.snapshot(id) && closedIndex.snapshot(id);
   }
 
+  @Override
+  public void flushAndCommit() throws IOException {
+    openIndex.flushAndCommit();
+    closedIndex.flushAndCommit();
+  }
+
   private Sort getSort() {
     return new Sort(
         new SortField(UPDATED_SORT_FIELD, SortField.Type.LONG, true),

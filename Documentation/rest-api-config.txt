@@ -1860,6 +1860,56 @@ documents and whether to notifyListeners or not.
   )]}'
 ----
 
+[[commit-index]]
+=== Flush Index
+--
+'POST /config/server/indexes/link:#index-name[{index-name}]/flush'
+--
+
+Flush index files to persistent storage.
+
+This endpoint allows administrators to explicitly finalize buffered index
+updates. While Gerrit normally manages index commits automatically, this
+endpoint can be used for maintenance or integration workflows that require
+all pending updates to be durably written.
+
+This endpoint is supported for all index types:
+
+* `changes`
+* `accounts`
+* `groups`
+* `projects`
+
+This endpoint requires the
+link:access-control.html#capability_maintainServer[Maintain Server]
+capability.
+
+.Request
+----
+  POST /config/server/indexes/changes/flush HTTP/1.1
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  ""
+----
+
+If an invalid index name is provided, the response body contains a warning
+message:
+
+.Response
+----
+  HTTP/1.1 404 OK
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  "Invalid index name: foobar"
+----
+
 [[cleanup.changes]]
 === Cleanup of stale changes
 

@@ -154,6 +154,9 @@ public interface Index<K, V> {
    */
   void markReady(boolean ready);
 
+  /** Commits all pending changes to the index, and syncs all referenced index files. */
+  default void commit() {}
+
   /**
    * Returns whether the index is enabled. {@code true} by default, but could be overridden by
    * implementations.

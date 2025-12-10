@@ -1860,6 +1860,44 @@ documents and whether to notifyListeners or not.
   )]}'
 ----
 
+[[commit-index]]
+=== Flush Index
+--
+'POST /config/server/indexes/link:#index-name[{index-name}]/flush'
+--
+
+Flushes all pending index updates to persistent storage immediately.
+In contrast to link:config-gerrit.html#index.name.commitWithin[index.name.commitWithin],
+which schedules index commits, this API forces the flush at call time.
+
+This endpoint allows administrators to explicitly finalize buffered index
+updates. While Gerrit normally manages index commits automatically, this
+endpoint can be used for maintenance or integration workflows that require
+all pending updates to be durably written.
+
+This endpoint is supported for all index types:
+
+* `changes`
+* `accounts`
+* `groups`
+* `projects`
+
+This endpoint requires the
+link:access-control.html#capability_maintainServer[Maintain Server]
+capability.
+
+.Request
+----
+  POST /config/server/indexes/changes/flush HTTP/1.1
+----
+
+.Response
+----
+  HTTP/1.1 204 No Content
+----
+
+If an invalid index name is provided a "`404 Not Found`" is returned.
+
 [[cleanup.changes]]
 === Cleanup of stale changes
 

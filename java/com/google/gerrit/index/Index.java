@@ -190,8 +190,10 @@ public interface Index<K, V> {
    * Optionally flushes and commits pending changes to the index and syncs referenced index files.
    * Implementations that buffer state should override this to flush their state; the default
    * implementation throws a {@link NotImplementedException} exception.
+   *
+   * @throws IOException if flushing to disk fails.
    */
-  default void flushAndCommit() {
+  default void flushAndCommit() throws IOException {
     throw new NotImplementedException();
   }
 }

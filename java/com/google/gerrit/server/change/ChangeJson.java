@@ -709,10 +709,15 @@ public class ChangeJson {
       }
     }
     if (!has(SKIP_DIFFSTAT)) {
-      Optional<ChangedLines> changedLines = cd.changedLines();
-      if (changedLines.isPresent()) {
-        out.insertions = changedLines.get().insertions;
-        out.deletions = changedLines.get().deletions;
+      try (TraceTimer timer =
+          TraceContext.newTimer(
+              "Compute diffstats",
+              Metadata.builder().changeId(cd.change().getId().get()).build())) {
+        Optional<ChangedLines> changedLines = cd.changedLines();
+        if (changedLines.isPresent()) {
+          out.insertions = changedLines.get().insertions;
+          out.deletions = changedLines.get().deletions;
+        }
       }
     }
     out.isPrivate = in.isPrivate() ? true : null;

@@ -1504,7 +1504,8 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     }
     const optionsHex = listChangesOptionsToHex(
       ListChangesOption.SUBMITTABLE,
-      ListChangesOption.SUBMIT_REQUIREMENTS
+      ListChangesOption.SUBMIT_REQUIREMENTS,
+      ListChangesOption.SKIP_DIFFSTAT
     );
     const change = await this.getChange(
       changeNum,

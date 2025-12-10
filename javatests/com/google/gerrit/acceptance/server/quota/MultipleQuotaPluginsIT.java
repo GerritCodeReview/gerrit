@@ -32,6 +32,7 @@ import com.google.gerrit.server.quota.QuotaRequestContext;
 import com.google.gerrit.server.quota.QuotaResponse;
 import com.google.inject.Inject;
 import com.google.inject.Module;
+import java.util.Optional;
 import java.util.OptionalLong;
 import org.junit.Before;
 import org.junit.Test;
@@ -128,6 +129,39 @@ public class MultipleQuotaPluginsIT extends AbstractDaemonTest {
 
     verify(quotaEnforcerA).availableTokens("testGroup", ctx);
     verify(quotaEnforcerB).availableTokens("testGroup", ctx);
+  }
+
+  @Test
+  public void quotaExceededMessageIsShownForMostRestrictiveEnforcer() {
+    QuotaRequestContext ctx = QuotaRequestContext.builder().user(identifiedAdmin).build();
+    when(quotaEnforcerA.availableTokens("testGroup", ctx))
+        .thenReturn(QuotaResponse.ok(20L, "Message1"));
+    when(quotaEnforcerB.availableTokens("testGroup", ctx))
+        .thenReturn(QuotaResponse.ok(10L, "Message2"));
+
+    Optional<String> quotaExceededMessage =
+        quotaBackend
+            .user(identifiedAdmin)
+            .availableTokens("testGroup")
+            .mostRestrictiveQuotaExceededMessage();
+    assertThat(quotaExceededMessage).hasValue("Message2");
+  }
+
+  @Test
+  public void quotaExceededMessagesAreJoinedForEquallyRestrictiveEnforcers() {
+    QuotaRequestContext ctx = QuotaRequestContext.builder().user(identifiedAdmin).build();
+    when(quotaEnforcerA.availableTokens("testGroup", ctx))
+        .thenReturn(QuotaResponse.ok(10L, "Message1"));
+    when(quotaEnforcerB.availableTokens("testGroup", ctx))
+        .thenReturn(QuotaResponse.ok(10L, "Message2"));
+
+    Optional<String> quotaExceededMessage =
+        quotaBackend
+            .user(identifiedAdmin)
+            .availableTokens("testGroup")
+            .mostRestrictiveQuotaExceededMessage();
+
+    assertThat(quotaExceededMessage).hasValue("Message1,Message2");
   }
 
   @Test

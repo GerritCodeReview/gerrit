@@ -376,9 +376,13 @@ public class AsyncReceiveCommits {
                     Throwable unpackException = t;
                     if (t instanceof TooLargePackException
                         || (t instanceof EOFException && isZeroBytesRemaining)) {
+                      String defaultMessage =
+                          String.format(DEFAULT_EXCEEDED_SIZE_QUOTA_TEMPLATE, availBytes);
                       unpackException =
                           new QuotaException(
-                              String.format(DEFAULT_EXCEEDED_SIZE_QUOTA_TEMPLATE, availBytes));
+                              availableTokens
+                                  .mostRestrictiveQuotaExceededMessage()
+                                  .orElse(defaultMessage));
                     }
                     defaultErrorHandler.handleUnpackException(unpackException);
                   });

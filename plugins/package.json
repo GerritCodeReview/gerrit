@@ -31,7 +31,7 @@
     "@codemirror/view": "^6.38.1",
     "@gerritcodereview/typescript-api": "3.13.0",
     "@lezer/highlight": "^1.2.1",
-    "@material/web": "^2.4.0",
+    "@material/web": "^2.4.1",
     "@open-wc/testing": "^4.0.0",
     "@polymer/decorators": "^3.0.0",
     "@polymer/polymer": "3.5.1",

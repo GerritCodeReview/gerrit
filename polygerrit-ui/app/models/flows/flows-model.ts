@@ -47,7 +47,12 @@ export class FlowsModel extends Model<FlowsState> {
         if (!changeNum) {
           return of(false);
         }
-        return from(this.restApiService.getIfFlowsIsEnabled(changeNum)).pipe(
+        const errFn = (response?: Response | null) => {
+          if (response?.status === 404) return;
+        };
+        return from(
+          this.restApiService.getIfFlowsIsEnabled(changeNum, errFn)
+        ).pipe(
           map(res => res?.enabled ?? false),
           catchError(() => of(false))
         );

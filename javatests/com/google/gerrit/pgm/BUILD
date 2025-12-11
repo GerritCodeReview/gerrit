@@ -1,4 +1,4 @@
-load("//tools/bzl:junit.bzl", "junit_tests")
+load("@com_googlesource_gerrit_bazlets//tools:junit.bzl", "junit_tests")
 load("//tools/bzl:license.bzl", "license_test")
 
 junit_tests(

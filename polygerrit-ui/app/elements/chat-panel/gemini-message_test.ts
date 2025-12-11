@@ -80,7 +80,7 @@ suite('gemini-message tests', () => {
       element,
       /* HTML */ `
         <div class="user-info">
-          <gr-icon class="gemini-icon" icon="star_shine" title=""></gr-icon>
+          <gr-icon class="gemini-icon" icon="robot_2" title=""></gr-icon>
         </div>
         <div class="thinking-indicator">
           <p class="text-content">Thinking ...</p>
@@ -103,7 +103,7 @@ suite('gemini-message tests', () => {
       element,
       /* HTML */ `
         <div class="user-info">
-          <gr-icon class="gemini-icon" icon="star_shine" title=""></gr-icon>
+          <gr-icon class="gemini-icon" icon="robot_2" title=""></gr-icon>
         </div>
         <p class="text-content">The server did not return any response.</p>
       `

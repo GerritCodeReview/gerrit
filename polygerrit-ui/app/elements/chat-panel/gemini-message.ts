@@ -199,7 +199,7 @@ export class GeminiMessage extends LitElement {
           <div class="user-info">
             <gr-icon
               class="gemini-icon"
-              icon="star_shine"
+              icon="robot_2"
               .title=${message.timestamp
                 ? new Date(message.timestamp).toLocaleString()
                 : ''}

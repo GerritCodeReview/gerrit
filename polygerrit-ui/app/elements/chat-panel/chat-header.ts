@@ -178,7 +178,7 @@ export class ChatHeader extends LitElement {
   private renderLeftSectionChat() {
     if (this.mode !== ChatPanelMode.CONVERSATION) return;
     return html`
-      <gr-icon class="gemini-icon" icon="star_shine"></gr-icon>
+      <gr-icon class="gemini-icon" icon="robot_2"></gr-icon>
       <md-text-button
         id="selectModelTrigger"
         class="select-model-trigger"

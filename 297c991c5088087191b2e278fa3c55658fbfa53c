@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1398fb9f_623351d8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-12-11T14:34:36Z",
+      "side": 1,
+      "message": "I am also discussing with our UX about icon. I like robot_2 better than star_shine so why not. \n\ncan you just update screenshot tests with `yarn test:screenshot-update \"**/chat-panel_screenshot_test.ts\"`\n\nand add release notes: skip",
+      "revId": "297c991c5088087191b2e278fa3c55658fbfa53c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

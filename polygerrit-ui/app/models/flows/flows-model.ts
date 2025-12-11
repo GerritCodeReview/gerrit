@@ -6,6 +6,7 @@
 import {BehaviorSubject, combineLatest, from, Observable, of} from 'rxjs';
 import {catchError, map, shareReplay, switchMap} from 'rxjs/operators';
 import {ChangeModel} from '../change/change-model';
+import {fireServerError} from '../../utils/event-util';
 import {FlowInfo, FlowInput} from '../../api/rest-api';
 import {Model} from '../base/model';
 import {define} from '../dependency';
@@ -47,7 +48,15 @@ export class FlowsModel extends Model<FlowsState> {
         if (!changeNum) {
           return of(false);
         }
-        return from(this.restApiService.getIfFlowsIsEnabled(changeNum)).pipe(
+        const errFn = (response?: Response | null) => {
+          // When 404 is returned, it means that flows are not enabled.
+          if (response?.status === 404) return;
+          if (!response) return;
+          fireServerError(response);
+        };
+        return from(
+          this.restApiService.getIfFlowsIsEnabled(changeNum, errFn)
+        ).pipe(
           map(res => res?.enabled ?? false),
           catchError(() => of(false))
         );

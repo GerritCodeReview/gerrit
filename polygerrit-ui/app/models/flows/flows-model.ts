@@ -6,6 +6,7 @@
 import {BehaviorSubject, combineLatest, from, of} from 'rxjs';
 import {catchError, map, switchMap} from 'rxjs/operators';
 import {ChangeModel} from '../change/change-model';
+import {fireServerError} from '../../utils/event-util';
 import {FlowInfo, FlowInput} from '../../api/rest-api';
 import {Model} from '../base/model';
 import {define} from '../dependency';
@@ -41,6 +42,56 @@ export class FlowsModel extends Model<FlowsState> {
       loading: true,
     });
 
+<<<<<<< HEAD   (ee0089ff1ccc8e0cab8757e0e4e59cdffe9cb3bd Enable submit action on project config only changes if proje)
+||||||| BASE   (03b9c11d62e8dd7486c695a5c680468c25c8b9c5 Update git submodules)
+    this.enabled$ = this.changeModel.changeNum$.pipe(
+      switchMap(changeNum => {
+        if (!changeNum) {
+          return of(false);
+        }
+        return from(this.restApiService.getIfFlowsIsEnabled(changeNum)).pipe(
+          map(res => res?.enabled ?? false),
+          catchError(() => of(false))
+        );
+      }),
+      shareReplay(1)
+    );
+
+    this.subscriptions.push(
+      this.enabled$.subscribe(isEnabled => {
+        this.setState({...this.getState(), isEnabled});
+      })
+    );
+
+=======
+    this.enabled$ = this.changeModel.changeNum$.pipe(
+      switchMap(changeNum => {
+        if (!changeNum) {
+          return of(false);
+        }
+        const errFn = (response?: Response | null) => {
+          // When 404 is returned, it means that flows are not enabled.
+          if (response?.status === 404) return;
+          if (!response) return;
+          fireServerError(response);
+        };
+        return from(
+          this.restApiService.getIfFlowsIsEnabled(changeNum, errFn)
+        ).pipe(
+          map(res => res?.enabled ?? false),
+          catchError(() => of(false))
+        );
+      }),
+      shareReplay(1)
+    );
+
+    this.subscriptions.push(
+      this.enabled$.subscribe(isEnabled => {
+        this.setState({...this.getState(), isEnabled});
+      })
+    );
+
+>>>>>>> CHANGE (43ce025e1db91fe86616607271622b29bee26aeb Suppress 404 popup for flow status check)
     this.subscriptions.push(
       this.changeModel.changeNum$.subscribe(changeNum => {
         this.changeNum = changeNum;

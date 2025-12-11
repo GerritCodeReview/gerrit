@@ -276,7 +276,7 @@ const ACTIONS_WITH_ICONS = new Map<
   [ChangeActions.REVERT, {icon: 'undo'}],
   [ChangeActions.STOP_EDIT, {icon: 'stop', filled: true}],
   [QUICK_APPROVE_ACTION.key, {icon: 'check'}],
-  [AI_CHAT_ACTION.__key, {icon: 'star_shine'}],
+  [AI_CHAT_ACTION.__key, {icon: 'robot_2'}],
   [RevisionActions.SUBMIT, {icon: 'done_all'}],
 ]);
 

@@ -44,7 +44,7 @@ suite('chat-header tests', () => {
     assert.shadowDom.equal(
       element,
       /* HTML */ `
-        <gr-icon class="gemini-icon" icon="star_shine"></gr-icon>
+        <gr-icon class="gemini-icon" icon="robot_2"></gr-icon>
         <md-text-button
           id="selectModelTrigger"
           class="select-model-trigger"

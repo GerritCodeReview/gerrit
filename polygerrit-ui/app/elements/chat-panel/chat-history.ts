@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import '../shared/gr-date-formatter/gr-date-formatter';
 import '../shared/gr-icon/gr-icon';
 
 import {css, html, LitElement} from 'lit';
@@ -12,7 +13,7 @@ import {customElement, state} from 'lit/decorators.js';
 import {Conversation} from '../../api/ai-code-review';
 import {chatModelToken} from '../../models/chat/chat-model';
 import {resolve} from '../../models/dependency';
-import {formatDate} from '../../utils/date-util';
+import {dateToTimestamp} from '../../utils/date-util';
 import {subscribe} from '../lit/subscription-controller';
 
 @customElement('chat-history')
@@ -89,17 +90,18 @@ export class ChatHistory extends LitElement {
             <div class="conversation-content">
               <p>${conversation.title}</p>
               <p class="ts">
-                ${this.renderTimestamp(new Date(conversation.timestamp_millis))}
+                <gr-date-formatter
+                  withTooltip
+                  .dateStr=${dateToTimestamp(
+                    new Date(conversation.timestamp_millis)
+                  )}
+                ></gr-date-formatter>
               </p>
             </div>
           </div>
         `
       )}
     `;
-  }
-
-  private renderTimestamp(timestamp: Date) {
-    return formatDate(timestamp, 'YYYY-MM-DD hh:mm a');
   }
 
   // visible for testing

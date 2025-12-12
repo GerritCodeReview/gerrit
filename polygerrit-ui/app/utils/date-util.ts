@@ -19,6 +19,10 @@ export function parseDate(dateStr: Timestamp) {
   return new Date(dateStr.replace(' ', 'T') + 'Z');
 }
 
+export function dateToTimestamp(date: Date): Timestamp {
+  return date.toISOString().replace('T', ' ').replace('Z', '') as Timestamp;
+}
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function isValidDate(date: any): date is Date {
   return date instanceof Date && !isNaN(date.valueOf());

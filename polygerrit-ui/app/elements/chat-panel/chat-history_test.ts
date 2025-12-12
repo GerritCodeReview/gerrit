@@ -3,6 +3,7 @@
  * Copyright 2025 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
+import {GrDateFormatter} from '../../elements/shared/gr-date-formatter/gr-date-formatter';
 import '../../test/common-test-setup';
 import './chat-history';
 import {ChatHistory} from './chat-history';
@@ -64,9 +65,10 @@ suite('chat-history tests', () => {
     assert.equal(title, 'Test Conversation 1');
 
     const timestamp = firstCard.querySelector(
-      '.conversation-content p.ts'
-    )?.textContent;
-    assert.include(timestamp?.trim(), '2024-01-01');
+      '.conversation-content p.ts gr-date-formatter'
+    ) as GrDateFormatter;
+    assert.isOk(timestamp);
+    assert.include(timestamp.dateStr, '2024-01-01');
   });
 
   test('clicking conversation calls loadConversation', async () => {

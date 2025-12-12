@@ -135,7 +135,10 @@ suite('gr-change-status tests', () => {
     element.resolveWeblinks = [];
     element.status = status;
     assert.isTrue(element.hasStatusLink());
-    assert.equal(element.getStatusLink(), `/q/${TEST_NUMERIC_CHANGE_ID}`);
+    assert.equal(
+      element.getStatusLink(),
+      `/c/${revertedChange.project}/+/${TEST_NUMERIC_CHANGE_ID}`
+    );
   });
 
   test('private', async () => {

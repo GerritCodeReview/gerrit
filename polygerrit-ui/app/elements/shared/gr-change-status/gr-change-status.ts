@@ -10,7 +10,7 @@ import {ChangeInfo, ChangeStates, WebLinkInfo} from '../../../types/common';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {css, html, LitElement, PropertyValues} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
-import {createSearchUrl} from '../../../models/views/search';
+import {createChangeUrl} from '../../../models/views/change';
 
 export const WIP_TOOLTIP =
   "This change isn't ready to be reviewed or submitted. " +
@@ -189,7 +189,10 @@ export class GrChangeStatus extends LitElement {
   // private but used in test
   getStatusLink(): string {
     if (this.revertedChange) {
-      return createSearchUrl({query: `${this.revertedChange._number}`});
+      return createChangeUrl({
+        changeNum: this.revertedChange._number,
+        repo: this.revertedChange.project,
+      });
     }
     if (
       this.status === ChangeStates.MERGE_CONFLICT &&

@@ -13,15 +13,12 @@ import {when} from 'lit/directives/when.js';
 
 import {ContextItem} from '../../api/ai-code-review';
 import {chatModelToken} from '../../models/chat/chat-model';
-import {navigationToken} from '../core/gr-navigation/gr-navigation';
 import {resolve} from '../../models/dependency';
 import {fire} from '../../utils/event-util';
 
 @customElement('context-chip')
 export class ContextChip extends LitElement {
   private readonly getChatModel = resolve(this, chatModelToken);
-
-  private readonly getNavigation = resolve(this, navigationToken);
 
   @property({type: String}) text = '';
 
@@ -133,10 +130,10 @@ export class ContextChip extends LitElement {
   }
 
   private navigateToUrl() {
-    const link = this.contextItem?.link;
+    const link = this.contextItem?.link?.trim();
     if (!link) return;
     const url = link.startsWith('http') ? link : `http://${link}`;
-    this.getNavigation().setUrl(url);
+    window.open(url, '_blank');
   }
 }
 

@@ -13,6 +13,7 @@ import {ChatPanel} from './chat-panel';
 import {
   ChatModel,
   chatModelToken,
+  ChatPanelMode,
   ResponsePartType,
   Turn,
   UserType,
@@ -234,5 +235,27 @@ suite('chat-panel screenshot tests', () => {
     await element.updateComplete;
     await visualDiff(element, 'chat-panel-chat-mode-with-citations');
     await visualDiffDarkTheme(element, 'chat-panel-chat-mode-with-citations');
+  });
+
+  test('chat mode history', async () => {
+    chatModel.updateState({
+      ...chatModel.getState(),
+      mode: ChatPanelMode.HISTORY,
+      conversations: [
+        {
+          id: '1',
+          title: 'Test Conversation 1',
+          timestamp_millis: 1704110400000, // 2024-01-01 12:00:00 UTC
+        },
+        {
+          id: '2',
+          title: 'Test Conversation 2',
+          timestamp_millis: 1704024000000, // 2023-12-31 12:00:00 UTC
+        },
+      ],
+    });
+    await element.updateComplete;
+    await visualDiff(element, 'chat-panel-history');
+    await visualDiffDarkTheme(element, 'chat-panel-history');
   });
 });

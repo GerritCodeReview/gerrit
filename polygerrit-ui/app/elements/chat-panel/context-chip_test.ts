@@ -14,11 +14,9 @@ import {pluginLoaderToken} from '../shared/gr-js-api-interface/gr-plugin-loader'
 import {chatProvider, createChange} from '../../test/test-data-generators';
 import {changeModelToken} from '../../models/change/change-model';
 import {ParsedChangeInfo} from '../../types/types';
-import {navigationToken} from '../core/gr-navigation/gr-navigation';
 
 suite('context-chip tests', () => {
   let element: ContextChip;
-  let setUrlStub: sinon.SinonStub;
 
   setup(async () => {
     const pluginLoader = testResolver(pluginLoaderToken);
@@ -31,9 +29,6 @@ suite('context-chip tests', () => {
     changeModel.updateState({
       change: createChange() as ParsedChangeInfo,
     });
-
-    setUrlStub = sinon.stub();
-    testResolver(navigationToken).setUrl = setUrlStub;
 
     element = await fixture(html`<context-chip></context-chip>`);
   });
@@ -121,15 +116,16 @@ suite('context-chip tests', () => {
   });
 
   test('navigates to url', async () => {
+    const openSpy = sinon.spy(window, 'open');
     const contextItem: ContextItem = {
       type_id: 'file',
       title: 'test.ts',
-      link: 'gerrit.test/test.ts',
+      link: ' gerrit.test/test.ts ',
     };
     element.contextItem = contextItem;
     await element.updateComplete;
     const chip = element.shadowRoot?.querySelector('md-filter-chip');
     chip?.click();
-    assert.isTrue(setUrlStub.calledWith('http://gerrit.test/test.ts'));
+    assert.isTrue(openSpy.calledWith('http://gerrit.test/test.ts', '_blank'));
   });
 });

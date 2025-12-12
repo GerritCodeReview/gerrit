@@ -144,6 +144,9 @@ public interface EmailFactories {
   ChangeEmail createChangeEmail(
       Project.NameKey project, Change.Id changeId, ChangeEmailDecorator changeEmailDecorator);
 
+  /** Base email decorator for change-related emails. */
+  ChangeEmail createChangeEmail(Change change, ChangeEmailDecorator changeEmailDecorator);
+
   /** Email decorator for adding a key to the account. */
   EmailDecorator createAddKeyEmail(IdentifiedUser user, AccountSshKey sshKey);
 

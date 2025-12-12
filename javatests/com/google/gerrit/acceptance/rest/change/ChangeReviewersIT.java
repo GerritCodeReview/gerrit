@@ -799,6 +799,29 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void addReviewerWithUpdatedSubject() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+
+    // Update the subject
+    String newSubject = "Updated Subject";
+    amendChange(changeId, newSubject, "file.txt", "content");
+
+    // Add reviewer
+    ReviewerInput in = new ReviewerInput();
+    in.reviewer = user.email();
+    gApi.changes().id(changeId).addReviewer(in);
+
+    // Verify email subject
+    ImmutableList<Message> messages = sender.getMessages();
+    assertThat(messages).hasSize(1);
+    Message m = messages.get(0);
+    assertThat(m.headers()).containsKey("Subject");
+    assertThat(m.headers().get("Subject").toString()).contains(newSubject);
+    assertThat(m.body()).contains(newSubject);
+  }
+
+  @Test
   public void notifyDetailsWorkOnPostReviewers() throws Exception {
     PushOneCommit.Result r = createChange();
     TestAccount userToNotify = createAccounts(1, "notify-details-post-reviewers").get(0);

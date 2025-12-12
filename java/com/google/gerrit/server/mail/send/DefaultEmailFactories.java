@@ -151,6 +151,11 @@ public class DefaultEmailFactories implements EmailFactories {
   }
 
   @Override
+  public ChangeEmail createChangeEmail(Change change, ChangeEmailDecorator changeEmailDecorator) {
+    return changeEmailFactory.create(change, changeEmailDecorator);
+  }
+
+  @Override
   public EmailDecorator createAddKeyEmail(IdentifiedUser user, AccountSshKey sshKey) {
     return addKeyEmailFactory.create(user, sshKey);
   }

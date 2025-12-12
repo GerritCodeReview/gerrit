@@ -83,8 +83,7 @@ public class ModifyReviewersEmail {
 
     // Make immutable copies of collections and hand over only immutable data types to the other
     // thread.
-    Change.Id cId = change.getId();
-    Project.NameKey projectNameKey = change.getProject();
+    // thread.
     ImmutableList<Address> immutableAddedByEmail = ImmutableList.copyOf(addedByEmail);
     ImmutableList<Address> immutableCopiedByEmail = ImmutableList.copyOf(copiedByEmail);
     ImmutableList<Address> immutableRemovedByEmail = ImmutableList.copyOf(removedByEmail);
@@ -103,7 +102,7 @@ public class ModifyReviewersEmail {
                 startReviewEmail.addRemovedReviewers(immutableToRemove);
                 startReviewEmail.addRemovedByEmailReviewers(immutableRemovedByEmail);
                 ChangeEmail changeEmail =
-                    emailFactories.createChangeEmail(projectNameKey, cId, startReviewEmail);
+                    emailFactories.createChangeEmail(change, startReviewEmail);
                 OutgoingEmail outgoingEmail =
                     emailFactories.createOutgoingEmail(REVIEW_REQUESTED, changeEmail);
                 outgoingEmail.setNotify(notify);

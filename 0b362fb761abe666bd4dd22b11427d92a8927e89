@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b5cbcbd3_1c8e6087",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-12-12T09:37:52Z",
+      "side": 1,
+      "message": "I think we can drop this footer now?",
+      "revId": "0b362fb761abe666bd4dd22b11427d92a8927e89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

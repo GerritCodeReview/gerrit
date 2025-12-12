@@ -100,6 +100,6 @@ export class GrCommitInfo extends LitElement {
       this.serverConfig
     );
     if (primaryLink) return {...primaryLink, name};
-    return {name, url: createSearchUrl({query: commit})};
+    return {name, url: createSearchUrl({query: `commit:${commit}`})};
   }
 }

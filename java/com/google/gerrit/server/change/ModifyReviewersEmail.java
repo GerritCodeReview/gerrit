@@ -22,7 +22,6 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Address;
 import com.google.gerrit.entities.Change;
-import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.SendEmailExecutor;
 import com.google.gerrit.server.mail.EmailFactories;
@@ -83,8 +82,6 @@ public class ModifyReviewersEmail {
 
     // Make immutable copies of collections and hand over only immutable data types to the other
     // thread.
-    Change.Id cId = change.getId();
-    Project.NameKey projectNameKey = change.getProject();
     ImmutableList<Address> immutableAddedByEmail = ImmutableList.copyOf(addedByEmail);
     ImmutableList<Address> immutableCopiedByEmail = ImmutableList.copyOf(copiedByEmail);
     ImmutableList<Address> immutableRemovedByEmail = ImmutableList.copyOf(removedByEmail);
@@ -103,7 +100,7 @@ public class ModifyReviewersEmail {
                 startReviewEmail.addRemovedReviewers(immutableToRemove);
                 startReviewEmail.addRemovedByEmailReviewers(immutableRemovedByEmail);
                 ChangeEmail changeEmail =
-                    emailFactories.createChangeEmail(projectNameKey, cId, startReviewEmail);
+                    emailFactories.createChangeEmail(change, startReviewEmail);
                 OutgoingEmail outgoingEmail =
                     emailFactories.createOutgoingEmail(REVIEW_REQUESTED, changeEmail);
                 outgoingEmail.setNotify(notify);

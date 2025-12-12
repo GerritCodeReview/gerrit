@@ -89,6 +89,24 @@ suite('prompt-box tests', () => {
     assert.equal(element.userInput, 'test input');
   });
 
+  test('dispatches user-input-change event on input', async () => {
+    let eventFired = false;
+    let eventDetail = null;
+    element.addEventListener('user-input-change', (e: Event) => {
+      eventFired = true;
+      eventDetail = (e as CustomEvent).detail;
+    });
+
+    const promptInput = element.shadowRoot?.querySelector('#promptInput');
+    assert.isOk(promptInput);
+    (promptInput as HTMLTextAreaElement).value = 'test input';
+    promptInput?.dispatchEvent(new Event('input'));
+    await element.updateComplete;
+
+    assert.isTrue(eventFired);
+    assert.deepEqual(eventDetail, {value: 'test input'});
+  });
+
   test('sends message on Enter', async () => {
     const initialTurns = chatModel.getState().turns.length;
     const promptInput = element.shadowRoot?.querySelector('#promptInput');

@@ -24,6 +24,7 @@ import {
 } from '../../models/chat/context-item-util';
 import {resolve} from '../../models/dependency';
 import {debounce, DelayedTask} from '../../utils/async-util';
+import {fire} from '../../utils/event-util';
 import {subscribe} from '../lit/subscription-controller';
 
 const MAX_VISIBLE_CONTEXT_ITEMS_COLLAPSED = 3;
@@ -423,6 +424,7 @@ export class PromptBox extends LitElement {
     this.userInput = (e.target as HTMLTextAreaElement).value;
     this.adjustInputHeight();
     this.updateDynamicContextItemsDebounced();
+    fire(this, 'user-input-change', {value: this.userInput});
   }
 
   private placeHolderText() {
@@ -643,9 +645,14 @@ export interface ContextItemAddedEvent extends CustomEvent<ContextItem> {
   type: 'context-item-added';
 }
 
+export interface UserInputChangedEvent extends CustomEvent<{value: string}> {
+  type: 'user-input-change';
+}
+
 declare global {
   interface HTMLElementEventMap {
     'context-item-added': ContextItemAddedEvent;
+    'user-input-change': UserInputChangedEvent;
   }
   interface HTMLElementTagNameMap {
     'prompt-box': PromptBox;

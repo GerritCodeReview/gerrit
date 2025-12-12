@@ -80,7 +80,7 @@ suite('gr-commit-info tests', () => {
       weblink,
       /* HTML */ `
         <a
-          href="/q/sha45678901234567890"
+          href="/q/commit:sha45678901234567890"
           rel="noopener noreferrer"
           target="_blank"
         >

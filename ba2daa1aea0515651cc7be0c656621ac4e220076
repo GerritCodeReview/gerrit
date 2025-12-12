@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d23a774c_92d32570",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-12-12T09:13:25Z",
+      "side": 1,
+      "message": "I think this explanation is not correct. Reloading the change data doesn\u0027t get the data from the index, but does a reload from NoteDb.\n\nSince ModifyReviewersEmail#emailReviewersAsync is only called after NoteDb has been updated, it should always get the updated data.\n\nI tried running the new test without the fix and it succeeds, so I don\u0027t think that you are fixing this issue that you intend to fix.\n\nAlso this wouldn\u0027t explain a mismatch between the subject line and the email content that is described in the linked issue.\n\nThis is still a good change as it avoids a reload from NoteDb. Also since the email sending is asynchronously I think it\u0027s possible that we could run into the opposite problem, sending the email with a newer subject: if the async email sending is delayed (e.g. because there are not enough threads for doing the email sending) and another change update happens in the meantime, then reloading the change from NoteDb gets the newer data from the next update.\n\nSo let\u0027s keep this change, but update the motivation for it.\n\nMeanwhile I found the actual cause of the issue, I\u0027ll comment on the bug.",
+      "range": {
+        "startLine": 11,
+        "startChar": 42,
+        "endLine": 12,
+        "endChar": 48
+      },
+      "revId": "ba2daa1aea0515651cc7be0c656621ac4e220076",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "870a042f_e481d6d9",
+        "filename": "java/com/google/gerrit/server/mail/send/ChangeEmailImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-12-12T09:13:25Z",
+      "side": 1,
+      "message": "This is triggering a load from NoteDb, not from the (possibly stale) index.",
+      "range": {
+        "startLine": 115,
+        "startChar": 13,
+        "endLine": 115,
+        "endChar": 32
+      },
+      "revId": "ba2daa1aea0515651cc7be0c656621ac4e220076",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

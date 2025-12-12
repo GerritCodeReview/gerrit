@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "0119a14e_f960507f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2025-12-12T09:29:38Z",
+      "side": 1,
+      "message": "Thanks a lot for finding culprit and looking into this. I changed commit message to reflect your comment.",
+      "parentUuid": "d23a774c_92d32570",
+      "range": {
+        "startLine": 11,
+        "startChar": 42,
+        "endLine": 12,
+        "endChar": 48
+      },
+      "revId": "ba2daa1aea0515651cc7be0c656621ac4e220076",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "870a042f_e481d6d9",
         "filename": "java/com/google/gerrit/server/mail/send/ChangeEmailImpl.java",
         "patchSetId": 3

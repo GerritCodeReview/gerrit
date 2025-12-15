@@ -1,0 +1,297 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a4eb1a4f_57e59c96",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 1870,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-12-15T19:53:18Z",
+      "side": 1,
+      "message": "Consider highlighting the differences and relationship between this and the [index.name.commitWithin](https://gerrit-review.googlesource.com/Documentation/config-gerrit.html#index.name.commitWithin)",
+      "range": {
+        "startLine": 1869,
+        "startChar": 0,
+        "endLine": 1870,
+        "endChar": 34
+      },
+      "revId": "cf0e3b7b2349b9bb8670fc3e6d81f5b052623a61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3ff0b774_1bbb03bd",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 1874,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-12-15T19:53:18Z",
+      "side": 1,
+      "message": "nit: How can this endpoint be used for troubleshooting? Like many other endpoints I think it could, but if this is not one of its primary cases, I would consider removing it from documentation.",
+      "range": {
+        "startLine": 1874,
+        "startChar": 38,
+        "endLine": 1874,
+        "endChar": 53
+      },
+      "revId": "cf0e3b7b2349b9bb8670fc3e6d81f5b052623a61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "50238c8f_280f4067",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 1890,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-12-15T19:53:18Z",
+      "side": 1,
+      "message": "```suggestion\n  PUT /config/server/indexes/changes/commit HTTP/1.1\n```",
+      "range": {
+        "startLine": 1890,
+        "startChar": 44,
+        "endLine": 1890,
+        "endChar": 52
+      },
+      "revId": "cf0e3b7b2349b9bb8670fc3e6d81f5b052623a61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "09c2b857_2b489e76",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 1907,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-12-15T19:53:18Z",
+      "side": 1,
+      "message": "Should we return 400 or 404 perhaps WDYT?",
+      "range": {
+        "startLine": 1907,
+        "startChar": 0,
+        "endLine": 1907,
+        "endChar": 17
+      },
+      "revId": "cf0e3b7b2349b9bb8670fc3e6d81f5b052623a61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dcf8acbf_f6377efd",
+        "filename": "java/com/google/gerrit/index/Index.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-12-15T19:53:18Z",
+      "side": 1,
+      "message": "Have you considered, as a default, adding a log WARN that informs that the implementation is not provided?",
+      "range": {
+        "startLine": 162,
+        "startChar": 0,
+        "endLine": 162,
+        "endChar": 34
+      },
+      "revId": "cf0e3b7b2349b9bb8670fc3e6d81f5b052623a61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "669931d3_22017f5f",
+        "filename": "java/com/google/gerrit/lucene/AbstractLuceneIndex.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-12-15T19:53:18Z",
+      "side": 1,
+      "message": "```suggestion\n      logger.atSevere().withCause(ioe).log(\"Encountered issues committing pending changes\");\n```",
+      "range": {
+        "startLine": 248,
+        "startChar": 63,
+        "endLine": 248,
+        "endChar": 72
+      },
+      "revId": "cf0e3b7b2349b9bb8670fc3e6d81f5b052623a61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ef438434_21b9e72c",
+        "filename": "java/com/google/gerrit/lucene/AbstractLuceneIndex.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-12-15T19:53:18Z",
+      "side": 1,
+      "message": "This is not specifically `change`s right? Could be `accounts`, `groups` or `projects`. Consider logging which index in particular failed.",
+      "range": {
+        "startLine": 248,
+        "startChar": 81,
+        "endLine": 248,
+        "endChar": 88
+      },
+      "revId": "cf0e3b7b2349b9bb8670fc3e6d81f5b052623a61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2c79fa2f_5b4d5ba9",
+        "filename": "java/com/google/gerrit/lucene/AbstractLuceneIndex.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-12-15T19:53:18Z",
+      "side": 1,
+      "message": "Any particular reason why do we want to swallow the exception here? Since we are introducing this api now, could we not define it so that it allows throwing `IOException`s?",
+      "range": {
+        "startLine": 247,
+        "startChar": 0,
+        "endLine": 249,
+        "endChar": 5
+      },
+      "revId": "cf0e3b7b2349b9bb8670fc3e6d81f5b052623a61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "286014cc_33dd1497",
+        "filename": "java/com/google/gerrit/server/restapi/config/CommitIndex.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-12-15T19:53:18Z",
+      "side": 1,
+      "message": "```suggestion\n  private final static String INVALID_INDEX_MSG \u003d \"Invalid index name: %s\";\n```",
+      "revId": "cf0e3b7b2349b9bb8670fc3e6d81f5b052623a61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1fa33163_0650e74f",
+        "filename": "java/com/google/gerrit/server/restapi/config/CommitIndex.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-12-15T19:53:18Z",
+      "side": 1,
+      "message": "This is a broader exception than AuthException, BadRequestException, ResourceConflictException, consider removing it, as it is not needed.",
+      "range": {
+        "startLine": 64,
+        "startChar": 74,
+        "endLine": 64,
+        "endChar": 85
+      },
+      "revId": "cf0e3b7b2349b9bb8670fc3e6d81f5b052623a61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a5f1dd27_edf8f4de",
+        "filename": "java/com/google/gerrit/server/restapi/config/CommitIndex.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-12-15T19:53:18Z",
+      "side": 1,
+      "message": "Why returning `200 OK` even when the index name is invalid? Shouldn\u0027t we return `400 Bad Request` in that case?",
+      "range": {
+        "startLine": 83,
+        "startChar": 4,
+        "endLine": 83,
+        "endChar": 40
+      },
+      "revId": "cf0e3b7b2349b9bb8670fc3e6d81f5b052623a61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "97f211b6_2c1240dc",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/config/IndexCommitIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-12-15T19:53:18Z",
+      "side": 1,
+      "message": "Should we add a test for non0admin callers getting 403?",
+      "range": {
+        "startLine": 29,
+        "startChar": 13,
+        "endLine": 29,
+        "endChar": 26
+      },
+      "revId": "cf0e3b7b2349b9bb8670fc3e6d81f5b052623a61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc98a88e_8f89f2f0",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/config/IndexCommitIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-12-15T19:53:18Z",
+      "side": 1,
+      "message": "Have you considered returning a `204 Created` without body response?",
+      "range": {
+        "startLine": 93,
+        "startChar": 0,
+        "endLine": 94,
+        "endChar": 68
+      },
+      "revId": "cf0e3b7b2349b9bb8670fc3e6d81f5b052623a61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

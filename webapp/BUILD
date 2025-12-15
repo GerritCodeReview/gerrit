@@ -1,4 +1,4 @@
-load("//tools/bzl:genrule2.bzl", "genrule2")
+load("@com_googlesource_gerrit_bazlets//tools:genrule2.bzl", "genrule2")
 
 genrule2(
     name = "assets",

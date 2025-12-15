@@ -16,14 +16,7 @@
 #   expose ROOT shell variable
 #   expose TMP shell variable
 
-def genrule2(cmd, **kwargs):
-    cmd = " && ".join([
-        "ROOT=$$PWD",
-        "TMP=$$(mktemp -d || mktemp -d -t bazel-tmp)",
-        "(" + cmd + ")",
-        "rm -rf $$TMP",
-    ])
-    native.genrule(
-        cmd = cmd,
-        **kwargs
-    )
+load("@com_googlesource_gerrit_bazlets//tools:genrule2.bzl", _genrule2 = "genrule2")
+
+def genrule2(*args, **kwargs):
+    _genrule2(*args, **kwargs)

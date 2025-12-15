@@ -3,6 +3,98 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "44b195eb_20c0c486",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-12-15T20:53:07Z",
+      "side": 1,
+      "message": "```suggestion\nAdd REST endpoint to commit index modifications\n```\n\nWe have a `changes` index, therefore the term _index changes_ could be misread as the _changes index_.",
+      "range": {
+        "startLine": 7,
+        "startChar": 34,
+        "endLine": 7,
+        "endChar": 41
+      },
+      "revId": "cf0e3b7b2349b9bb8670fc3e6d81f5b052623a61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c1d5caaf_1bc0ab49",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-12-15T20:53:07Z",
+      "side": 1,
+      "message": "Would it be better to throw an exception by default, so that the upper layers can be aware that the indexing backend doesn\u0027t support explicit flush?",
+      "range": {
+        "startLine": 11,
+        "startChar": 15,
+        "endLine": 11,
+        "endChar": 45
+      },
+      "revId": "cf0e3b7b2349b9bb8670fc3e6d81f5b052623a61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "55fbd4e5_33a1ec1f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-12-15T20:53:07Z",
+      "side": 1,
+      "message": "It appears to me that the introduction of the interface and its implementation in Lucene should be distinct changes.",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 21
+      },
+      "revId": "cf0e3b7b2349b9bb8670fc3e6d81f5b052623a61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4932c8dc_d2c5d2c8",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 1866,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-12-15T20:53:07Z",
+      "side": 1,
+      "message": "This should be a `POST` IMHO. The `PUT` verb is for creating resources, whilst the `POST` is for triggering an action.\n\nAlso, the verb should be `flush` rather than `commit`. The data *IS* committed and just waits to be flushed to disk. There is no rollback possible.\n\n\n\n```suggestion\n\u0027PUT /config/server/indexes/link:#index-name[{index-name}]/flush\u0027\n```",
+      "range": {
+        "startLine": 1866,
+        "startChar": 1,
+        "endLine": 1866,
+        "endChar": 4
+      },
+      "revId": "cf0e3b7b2349b9bb8670fc3e6d81f5b052623a61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a4eb1a4f_57e59c96",
         "filename": "Documentation/rest-api-config.txt",
         "patchSetId": 10
@@ -37,6 +129,30 @@
       "writtenOn": "2025-12-15T19:53:18Z",
       "side": 1,
       "message": "nit: How can this endpoint be used for troubleshooting? Like many other endpoints I think it could, but if this is not one of its primary cases, I would consider removing it from documentation.",
+      "range": {
+        "startLine": 1874,
+        "startChar": 38,
+        "endLine": 1874,
+        "endChar": 53
+      },
+      "revId": "cf0e3b7b2349b9bb8670fc3e6d81f5b052623a61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9a4addc6_9cb21779",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 1874,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-12-15T20:53:07Z",
+      "side": 1,
+      "message": "+1, this isn\u0027t for troubleshooting IMHO.",
+      "parentUuid": "3ff0b774_1bbb03bd",
       "range": {
         "startLine": 1874,
         "startChar": 38,
@@ -95,6 +211,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "92f1d60e_25a3b28a",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 1907,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-12-15T20:53:07Z",
+      "side": 1,
+      "message": "+1, it should be a `404` if the index named resource does not exist.",
+      "parentUuid": "09c2b857_2b489e76",
+      "range": {
+        "startLine": 1907,
+        "startChar": 0,
+        "endLine": 1907,
+        "endChar": 17
+      },
+      "revId": "cf0e3b7b2349b9bb8670fc3e6d81f5b052623a61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "dcf8acbf_f6377efd",
         "filename": "java/com/google/gerrit/index/Index.java",
         "patchSetId": 10
@@ -106,6 +246,30 @@
       "writtenOn": "2025-12-15T19:53:18Z",
       "side": 1,
       "message": "Have you considered, as a default, adding a log WARN that informs that the implementation is not provided?",
+      "range": {
+        "startLine": 162,
+        "startChar": 0,
+        "endLine": 162,
+        "endChar": 34
+      },
+      "revId": "cf0e3b7b2349b9bb8670fc3e6d81f5b052623a61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0904496c_0f5b93cb",
+        "filename": "java/com/google/gerrit/index/Index.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-12-15T20:53:07Z",
+      "side": 1,
+      "message": "I would rather throw an exception than perform a NOOP. A missing implementation should be either a compile or a runtime issue, rather than silently doing nothing.",
+      "parentUuid": "dcf8acbf_f6377efd",
       "range": {
         "startLine": 162,
         "startChar": 0,
@@ -158,6 +322,47 @@
         "endLine": 248,
         "endChar": 88
       },
+      "revId": "cf0e3b7b2349b9bb8670fc3e6d81f5b052623a61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e16207bc_d6005f1f",
+        "filename": "java/com/google/gerrit/lucene/AbstractLuceneIndex.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-12-15T20:53:07Z",
+      "side": 1,
+      "message": "\u003e This is not specifically `change`s right? \n\nThere you go, this is what I meant as my comment in the commit message. We should use the term _modifications_ rather than _changes_, for avoiding misreading it as the `changes index`.",
+      "parentUuid": "ef438434_21b9e72c",
+      "range": {
+        "startLine": 248,
+        "startChar": 81,
+        "endLine": 248,
+        "endChar": 88
+      },
+      "revId": "cf0e3b7b2349b9bb8670fc3e6d81f5b052623a61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "676b1fc8_14e3aeb9",
+        "filename": "java/com/google/gerrit/lucene/AbstractLuceneIndex.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-12-15T20:53:07Z",
+      "side": 1,
+      "message": "Why logging and returning? I would rather just leave the exception to propagate upstream.",
       "revId": "cf0e3b7b2349b9bb8670fc3e6d81f5b052623a61",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

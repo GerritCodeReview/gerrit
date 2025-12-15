@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2f443500_c111f00f",
+        "filename": "javatests/com/google/gerrit/acceptance/server/util/TaskParkerIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 626,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2025-12-15T16:56:09Z",
+      "side": 1,
+      "message": "This line is failing.",
+      "revId": "5366597e3e7145c97b76e7baf80a341dec19f7b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

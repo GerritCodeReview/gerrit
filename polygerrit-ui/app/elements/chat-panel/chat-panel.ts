@@ -7,6 +7,7 @@ import './chat-header';
 import './chat-history';
 import './gemini-message';
 import './prompt-box';
+import {UserInputChangedEvent} from './prompt-box';
 import './splash-page';
 import './user-message';
 
@@ -219,6 +220,8 @@ export class ChatPanel extends LitElement {
           .userInput=${this.userInput}
           .disabledMessage=${'Review Agent is disabled on private changes'}
           .isDisabled=${this.isChangePrivate}
+          @user-input-change=${(e: UserInputChangedEvent) =>
+            this.onUserInputChange(e)}
         ></prompt-box>
         ${this.renderPrivacySection()}
       </div>
@@ -271,6 +274,10 @@ export class ChatPanel extends LitElement {
         this.lastGeminiMessageMinHeight = minHeight;
       }
     }
+  }
+
+  private onUserInputChange(e: UserInputChangedEvent) {
+    this.getChatModel().updateUserInput(e.detail.value);
   }
 }
 

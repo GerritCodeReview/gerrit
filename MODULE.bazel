@@ -1,6 +1,13 @@
 # TODO(davido): Migrate all dependencies from WORKSPACE to MODULE.bazel
 # https://issues.gerritcodereview.com/issues/303819949
 
+GERRIT_VERSION = "3.13.2-SNAPSHOT"
+
+module(
+    name = "gerrit",
+    version = GERRIT_VERSION,
+)
+
 bazel_dep(name = "rules_jvm_external", version = "6.9")
 bazel_dep(name = "rules_shell", version = "0.6.1")
 
@@ -27,15 +34,16 @@ bazel_dep(name = "com_googlesource_gerrit_bazlets")
 git_override(
     module_name = "com_googlesource_gerrit_bazlets",
     remote = "https://gerrit.googlesource.com/bazlets",
-    commit = "12743a17902a947ccde6a3501822ffc21e6e04e5",
+    commit = "8d0a7317139b4a426dd18d437d7c8ac65c4f9f96",
 )
 
 gerrit_api_version = use_repo_rule(
     "@com_googlesource_gerrit_bazlets//:gerrit_api_version.bzl",
-    "gerrit_api_version"
+    "gerrit_api_version",
 )
 gerrit_api_version(
     name = "gerrit_api_version",
+    version = GERRIT_VERSION,
     visibility = ["//visibility:public"],
 )
 

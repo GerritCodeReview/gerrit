@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aefe13a9_786e3387",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 42
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-12-16T14:12:39Z",
+      "side": 1,
+      "message": "verified that build and tests succeed with the JGit update and this change",
+      "revId": "35626bb102411213a076705ae92020abb59dd227",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b75e3b4d_f4312045",
+        "filename": "MODULE.bazel",
+        "patchSetId": 41
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-12-16T13:38:28Z",
+      "side": 1,
+      "message": "Next planned JGit release is 7.6.0. Why do we need to configure a JGit version ?\nIsn\u0027t that defined by the gitlinked `modules/jgit` submodule ?",
+      "revId": "7ea0cee75c1af59ffe602ff903ce3cf9557a06f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,5 +1,5 @@
 load("@rules_java//java:defs.bzl", "java_binary", "java_library")
-load("//tools/bzl:javadoc.bzl", "java_doc")
+load("@com_googlesource_gerrit_bazlets//tools:javadoc.bzl", "java_doc")
 
 _DOC_VERS = "6.1.0.202203080745-r"
 

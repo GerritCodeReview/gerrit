@@ -1,6 +1,6 @@
 load("@rules_java//java:defs.bzl", "java_binary", "java_library")
 load("@com_googlesource_gerrit_bazlets//tools:genrule2.bzl", "genrule2")
-load("//tools/bzl:javadoc.bzl", "java_doc")
+load("@com_googlesource_gerrit_bazlets//tools:javadoc.bzl", "java_doc")
 load(
     "//tools/bzl:plugins.bzl",
     "CORE_PLUGINS",

@@ -57,7 +57,7 @@ bazel_dep(name = "com_googlesource_gerrit_bazlets")
 git_override(
     module_name = "com_googlesource_gerrit_bazlets",
     remote = "https://gerrit.googlesource.com/bazlets",
-    commit = "820e7f7e817a793b1cddb3eeab3bb58c73b19d8c",
+    commit = "2d6f00211f31f5b6f97993db60bddf080d96f779",
 )
 
 gerrit_api_version = use_repo_rule(

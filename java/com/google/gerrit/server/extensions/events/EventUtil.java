@@ -142,6 +142,9 @@ public class EventUtil {
         logger.atWarning().withCause(e).log("could not parse list change option %s", c);
       }
     }
-    return result.build();
+    ImmutableSet<ListChangesOption> changeListOptions = result.build();
+    logger.atFine().log(
+        "change list options to populate ChangeInfo for events: %s", changeListOptions);
+    return changeListOptions;
   }
 }

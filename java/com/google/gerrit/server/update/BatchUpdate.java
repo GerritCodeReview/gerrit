@@ -805,7 +805,7 @@ public class BatchUpdate implements AutoCloseable {
       PostUpdateContextImpl ctx = new PostUpdateContextImpl(opData.user(), changeDatas);
       try (TraceContext.TraceTimer ignored =
           TraceContext.newTimer(
-              opData.getClass().getSimpleName() + "#postUpdate", Metadata.empty())) {
+              opData.op().getClass().getSimpleName() + "#postUpdate", Metadata.empty())) {
         opData.op().postUpdate(ctx);
       }
     }
@@ -814,7 +814,7 @@ public class BatchUpdate implements AutoCloseable {
       PostUpdateContextImpl ctx = new PostUpdateContextImpl(opData.user(), changeDatas);
       try (TraceContext.TraceTimer ignored =
           TraceContext.newTimer(
-              opData.getClass().getSimpleName() + "#postUpdate", Metadata.empty())) {
+              opData.op().getClass().getSimpleName() + "#postUpdate", Metadata.empty())) {
         opData.op().postUpdate(ctx);
       }
     }

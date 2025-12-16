@@ -1,2 +1,23 @@
 # TODO(davido): Migrate all dependencies from WORKSPACE to MODULE.bazel
 # https://issues.gerritcodereview.com/issues/303819949
+
+bazel_dep(name = "rules_jvm_external", version = "6.7")
+bazel_dep(name = "rules_shell", version = "0.6.1")
+
+# nongoogle bazel_deps
+bazel_dep(name = "rules_java", version = "7.6.1")
+bazel_dep(name = "toolchains_protoc", version = "0.3.0")
+bazel_dep(name = "rules_proto", version = "6.0.0")
+
+bazel_dep(name = "jgit")
+local_path_override(
+    module_name = "jgit",
+    path = "./modules/jgit",
+)
+
+bazel_dep(name = "rbe_autoconfig")
+git_override(
+    module_name = "rbe_autoconfig",
+    remote = "https://github.com/davido/rbe_autoconfig.git",
+    commit = "c4d733d0399ebf2ee1ffb897be5fbaba23738e04",
+)

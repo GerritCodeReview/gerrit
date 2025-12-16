@@ -71,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8eff8a77_6d5b6255",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2025-12-16T21:04:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c1d5caaf_1bc0ab49",
+      "range": {
+        "startLine": 11,
+        "startChar": 15,
+        "endLine": 11,
+        "endChar": 45
+      },
+      "revId": "cf0e3b7b2349b9bb8670fc3e6d81f5b052623a61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "55fbd4e5_33a1ec1f",
@@ -94,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7685f132_6909381b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2025-12-16T21:04:16Z",
+      "side": 1,
+      "message": "Added in change I0b1b9117",
+      "parentUuid": "55fbd4e5_33a1ec1f",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 21
+      },
+      "revId": "cf0e3b7b2349b9bb8670fc3e6d81f5b052623a61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4932c8dc_d2c5d2c8",
@@ -107,6 +155,30 @@
       "writtenOn": "2025-12-15T20:53:07Z",
       "side": 1,
       "message": "This should be a `POST` IMHO. The `PUT` verb is for creating resources, whilst the `POST` is for triggering an action.\n\nAlso, the verb should be `flush` rather than `commit`. The data *IS* committed and just waits to be flushed to disk. There is no rollback possible.\n\n\n\n```suggestion\n\u0027PUT /config/server/indexes/link:#index-name[{index-name}]/flush\u0027\n```",
+      "range": {
+        "startLine": 1866,
+        "startChar": 1,
+        "endLine": 1866,
+        "endChar": 4
+      },
+      "revId": "cf0e3b7b2349b9bb8670fc3e6d81f5b052623a61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ec6db245_08ca6ca5",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 1866,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2025-12-16T21:04:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4932c8dc_d2c5d2c8",
       "range": {
         "startLine": 1866,
         "startChar": 1,
@@ -187,6 +259,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "74d5d686_71800070",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 1874,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2025-12-16T21:04:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a4addc6_9cb21779",
+      "range": {
+        "startLine": 1874,
+        "startChar": 38,
+        "endLine": 1874,
+        "endChar": 53
+      },
+      "revId": "cf0e3b7b2349b9bb8670fc3e6d81f5b052623a61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "50238c8f_280f4067",
@@ -200,6 +296,30 @@
       "writtenOn": "2025-12-15T19:53:18Z",
       "side": 1,
       "message": "```suggestion\n  PUT /config/server/indexes/changes/commit HTTP/1.1\n```",
+      "range": {
+        "startLine": 1890,
+        "startChar": 44,
+        "endLine": 1890,
+        "endChar": 52
+      },
+      "revId": "cf0e3b7b2349b9bb8670fc3e6d81f5b052623a61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "56c14bc3_ed4e0f7e",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 1890,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2025-12-16T21:04:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "50238c8f_280f4067",
       "range": {
         "startLine": 1890,
         "startChar": 44,
@@ -257,6 +377,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e5b8d0c7_df5ea04f",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 1907,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2025-12-16T21:04:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "92f1d60e_25a3b28a",
+      "range": {
+        "startLine": 1907,
+        "startChar": 0,
+        "endLine": 1907,
+        "endChar": 17
+      },
+      "revId": "cf0e3b7b2349b9bb8670fc3e6d81f5b052623a61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dcf8acbf_f6377efd",
@@ -294,6 +438,30 @@
       "side": 1,
       "message": "I would rather throw an exception than perform a NOOP. A missing implementation should be either a compile or a runtime issue, rather than silently doing nothing.",
       "parentUuid": "dcf8acbf_f6377efd",
+      "range": {
+        "startLine": 162,
+        "startChar": 0,
+        "endLine": 162,
+        "endChar": 34
+      },
+      "revId": "cf0e3b7b2349b9bb8670fc3e6d81f5b052623a61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2053381e_79ae763f",
+        "filename": "java/com/google/gerrit/index/Index.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2025-12-16T21:04:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0904496c_0f5b93cb",
       "range": {
         "startLine": 162,
         "startChar": 0,
@@ -391,6 +559,72 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "80236315_6fce9e38",
+        "filename": "java/com/google/gerrit/lucene/AbstractLuceneIndex.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2025-12-16T21:04:16Z",
+      "side": 1,
+      "message": "Now bubbling up the exception. Comment doesn\u0027t apply anymore",
+      "parentUuid": "669931d3_22017f5f",
+      "range": {
+        "startLine": 248,
+        "startChar": 63,
+        "endLine": 248,
+        "endChar": 72
+      },
+      "revId": "cf0e3b7b2349b9bb8670fc3e6d81f5b052623a61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "806ef116_3eb4bad7",
+        "filename": "java/com/google/gerrit/lucene/AbstractLuceneIndex.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2025-12-16T21:04:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "676b1fc8_14e3aeb9",
+      "revId": "cf0e3b7b2349b9bb8670fc3e6d81f5b052623a61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "58ea950f_96561aff",
+        "filename": "java/com/google/gerrit/lucene/AbstractLuceneIndex.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2025-12-16T21:04:16Z",
+      "side": 1,
+      "message": "Now leaving the exception bubble up",
+      "parentUuid": "e16207bc_d6005f1f",
+      "range": {
+        "startLine": 248,
+        "startChar": 81,
+        "endLine": 248,
+        "endChar": 88
+      },
+      "revId": "cf0e3b7b2349b9bb8670fc3e6d81f5b052623a61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2c79fa2f_5b4d5ba9",
@@ -404,6 +638,30 @@
       "writtenOn": "2025-12-15T19:53:18Z",
       "side": 1,
       "message": "Any particular reason why do we want to swallow the exception here? Since we are introducing this api now, could we not define it so that it allows throwing `IOException`s?",
+      "range": {
+        "startLine": 247,
+        "startChar": 0,
+        "endLine": 249,
+        "endChar": 5
+      },
+      "revId": "cf0e3b7b2349b9bb8670fc3e6d81f5b052623a61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "75f1c55e_8b2da085",
+        "filename": "java/com/google/gerrit/lucene/AbstractLuceneIndex.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2025-12-16T21:04:16Z",
+      "side": 1,
+      "message": "Amended the API to throw IOException",
+      "parentUuid": "2c79fa2f_5b4d5ba9",
       "range": {
         "startLine": 247,
         "startChar": 0,
@@ -431,6 +689,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a3247e08_fc1c13ef",
+        "filename": "java/com/google/gerrit/server/restapi/config/CommitIndex.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2025-12-16T21:04:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "286014cc_33dd1497",
+      "revId": "cf0e3b7b2349b9bb8670fc3e6d81f5b052623a61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1fa33163_0650e74f",
@@ -444,6 +720,30 @@
       "writtenOn": "2025-12-15T19:53:18Z",
       "side": 1,
       "message": "This is a broader exception than AuthException, BadRequestException, ResourceConflictException, consider removing it, as it is not needed.",
+      "range": {
+        "startLine": 64,
+        "startChar": 74,
+        "endLine": 64,
+        "endChar": 85
+      },
+      "revId": "cf0e3b7b2349b9bb8670fc3e6d81f5b052623a61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2de3eba6_a65242a4",
+        "filename": "java/com/google/gerrit/server/restapi/config/CommitIndex.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2025-12-16T21:04:16Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "1fa33163_0650e74f",
       "range": {
         "startLine": 64,
         "startChar": 74,
@@ -477,6 +777,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "53c415a9_af687a9f",
+        "filename": "java/com/google/gerrit/server/restapi/config/CommitIndex.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2025-12-16T21:04:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a5f1dd27_edf8f4de",
+      "range": {
+        "startLine": 83,
+        "startChar": 4,
+        "endLine": 83,
+        "endChar": 40
+      },
+      "revId": "cf0e3b7b2349b9bb8670fc3e6d81f5b052623a61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "97f211b6_2c1240dc",
@@ -500,6 +824,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "78390798_1c8ea4e5",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/config/IndexCommitIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2025-12-16T21:04:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "97f211b6_2c1240dc",
+      "range": {
+        "startLine": 29,
+        "startChar": 13,
+        "endLine": 29,
+        "endChar": 26
+      },
+      "revId": "cf0e3b7b2349b9bb8670fc3e6d81f5b052623a61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dc98a88e_8f89f2f0",
@@ -513,6 +861,30 @@
       "writtenOn": "2025-12-15T19:53:18Z",
       "side": 1,
       "message": "Have you considered returning a `204 Created` without body response?",
+      "range": {
+        "startLine": 93,
+        "startChar": 0,
+        "endLine": 94,
+        "endChar": 68
+      },
+      "revId": "cf0e3b7b2349b9bb8670fc3e6d81f5b052623a61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef00dfb2_90f0ad63",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/config/IndexCommitIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2025-12-16T21:04:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dc98a88e_8f89f2f0",
       "range": {
         "startLine": 93,
         "startChar": 0,

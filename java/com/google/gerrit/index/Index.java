@@ -16,6 +16,7 @@ package com.google.gerrit.index;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.exceptions.StorageException;
+import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.index.query.DataSource;
 import com.google.gerrit.index.query.FieldBundle;
 import com.google.gerrit.index.query.IndexPredicate;
@@ -183,5 +184,14 @@ public interface Index<K, V> {
    */
   default boolean snapshot(String id) throws IOException {
     return false;
+  }
+
+  /**
+   * Optionally flushes and commits pending changes to the index and syncs referenced index files.
+   * Implementations that buffer state should override this to flush their state; the default
+   * implementation throws a {@link NotImplementedException} exception.
+   */
+  default void flushAndCommit() {
+    throw new NotImplementedException();
   }
 }

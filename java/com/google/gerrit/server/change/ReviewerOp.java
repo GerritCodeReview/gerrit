@@ -24,6 +24,9 @@ import com.google.gerrit.entities.Address;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.server.logging.Metadata;
+import com.google.gerrit.server.logging.TraceContext;
+import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
@@ -49,7 +52,9 @@ public class ReviewerOp implements BatchUpdateOp {
   }
 
   public void sendEvent() {
-    eventSender.run();
+    try (TraceTimer timer = TraceContext.newTimer("ReviewerOp#sendEvent", Metadata.empty())) {
+      eventSender.run();
+    }
   }
 
   void setPatchSet(PatchSet patchSet) {

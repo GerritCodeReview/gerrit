@@ -39,6 +39,9 @@ import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.approval.ApprovalsUtil;
 import com.google.gerrit.server.extensions.events.ReviewerDeleted;
+import com.google.gerrit.server.logging.Metadata;
+import com.google.gerrit.server.logging.TraceContext;
+import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.gerrit.server.mail.EmailFactories;
 import com.google.gerrit.server.mail.send.ChangeEmail;
 import com.google.gerrit.server.mail.send.DeleteReviewerChangeEmailDecorator;
@@ -270,6 +273,15 @@ public class DeleteReviewerOp extends ReviewerOp {
     outgoingEmail.setNotify(notify);
     outgoingEmail.setMessageId(
         messageIdGenerator.fromChangeUpdate(repoView, change.currentPatchSetId()));
-    outgoingEmail.send();
+
+    try (TraceTimer timer =
+        TraceContext.newTimer(
+            "DeleteReviewerSynchronousEmailNotification",
+            Metadata.builder()
+                .projectName(currChange.getProject().get())
+                .changeId(currChange.getId().get())
+                .build())) {
+      outgoingEmail.send();
+    }
   }
 }

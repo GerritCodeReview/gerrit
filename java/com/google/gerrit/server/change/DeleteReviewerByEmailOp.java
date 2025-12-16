@@ -22,6 +22,9 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.server.ChangeMessagesUtil;
+import com.google.gerrit.server.logging.Metadata;
+import com.google.gerrit.server.logging.TraceContext;
+import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.gerrit.server.mail.EmailFactories;
 import com.google.gerrit.server.mail.send.ChangeEmail;
 import com.google.gerrit.server.mail.send.DeleteReviewerChangeEmailDecorator;
@@ -100,7 +103,16 @@ public class DeleteReviewerByEmailOp extends ReviewerOp {
         outgoingEmail.setNotify(notify);
         outgoingEmail.setMessageId(
             messageIdGenerator.fromChangeUpdate(ctx.getRepoView(), change.currentPatchSetId()));
-        outgoingEmail.send();
+
+        try (TraceTimer timer =
+            TraceContext.newTimer(
+                "DeleteReviewerByEmailSynchronousEmailNotification",
+                Metadata.builder()
+                    .projectName(change.getProject().get())
+                    .changeId(change.getId().get())
+                    .build())) {
+          outgoingEmail.send();
+        }
       } catch (Exception err) {
         logger.atSevere().withCause(err).log("Cannot email update for change %s", change.getId());
       }

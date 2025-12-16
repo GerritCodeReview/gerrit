@@ -68,6 +68,9 @@ import com.google.gerrit.server.git.validators.CommitValidationInfo;
 import com.google.gerrit.server.git.validators.CommitValidationInfoListener;
 import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.git.validators.TopicValidator;
+import com.google.gerrit.server.logging.Metadata;
+import com.google.gerrit.server.logging.TraceContext;
+import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.gerrit.server.mail.EmailFactories;
 import com.google.gerrit.server.mail.send.ChangeEmail;
 import com.google.gerrit.server.mail.send.MessageIdGenerator;
@@ -644,7 +647,15 @@ public class ChangeInserter implements InsertChangeOp {
         Future<?> possiblyIgnoredError =
             sendEmailExecutor.submit(requestScopePropagator.wrap(sender));
       } else {
-        sender.run();
+        try (TraceTimer timer =
+            TraceContext.newTimer(
+                "ChangeInserterSynchronousEmailNotification",
+                Metadata.builder()
+                    .projectName(change.getProject().get())
+                    .changeId(change.getId().get())
+                    .build())) {
+          sender.run();
+        }
       }
     }
 

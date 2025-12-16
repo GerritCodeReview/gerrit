@@ -16,6 +16,24 @@
       "message": "Next planned JGit release is 7.6.0. Why do we need to configure a JGit version ?\nIsn\u0027t that defined by the gitlinked `modules/jgit` submodule ?",
       "revId": "7ea0cee75c1af59ffe602ff903ce3cf9557a06f6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0ece91a5_f450810a",
+        "filename": "MODULE.bazel",
+        "patchSetId": 41
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-12-16T14:02:22Z",
+      "side": 1,
+      "message": "We need to import it as a bazel module as well. But we don\u0027t need to set the version for it, since we anyway use a `local_path_override` that points to the submodule. I have removed the version.",
+      "parentUuid": "b75e3b4d_f4312045",
+      "revId": "7ea0cee75c1af59ffe602ff903ce3cf9557a06f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

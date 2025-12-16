@@ -26,6 +26,9 @@ import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.events.CommentAddedListener;
 import com.google.gerrit.server.GpgException;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.logging.Metadata;
+import com.google.gerrit.server.logging.TraceContext;
+import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.patch.PatchListObjectTooLargeException;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -62,25 +65,29 @@ public class CommentAdded {
     if (listeners.isEmpty()) {
       return;
     }
-    try {
-      Event event =
-          new Event(
-              util.changeInfo(changeData),
-              util.revisionInfo(changeData.project(), ps),
-              util.accountInfo(author),
-              comment,
-              util.approvals(author, approvals, when),
-              util.approvals(author, oldApprovals, when),
-              when);
-      listeners.runEach(l -> l.onCommentAdded(event));
-    } catch (PatchListObjectTooLargeException e) {
-      logger.atWarning().log("Couldn't fire event: %s", e.getMessage());
-    } catch (PatchListNotAvailableException
-        | GpgException
-        | IOException
-        | StorageException
-        | PermissionBackendException e) {
-      logger.atSevere().withCause(e).log("Couldn't fire event");
+    try (TraceTimer timer =
+        TraceContext.newTimer(
+            "Fire CommentAdded", Metadata.builder().changeId(changeData.getId().get()).build())) {
+      try {
+        Event event =
+            new Event(
+                util.changeInfo(changeData),
+                util.revisionInfo(changeData.project(), ps),
+                util.accountInfo(author),
+                comment,
+                util.approvals(author, approvals, when),
+                util.approvals(author, oldApprovals, when),
+                when);
+        listeners.runEach(l -> l.onCommentAdded(event));
+      } catch (PatchListObjectTooLargeException e) {
+        logger.atWarning().log("Couldn't fire event: %s", e.getMessage());
+      } catch (PatchListNotAvailableException
+          | GpgException
+          | IOException
+          | StorageException
+          | PermissionBackendException e) {
+        logger.atSevere().withCause(e).log("Couldn't fire event");
+      }
     }
   }
 

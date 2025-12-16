@@ -62,6 +62,7 @@ import com.google.gerrit.server.group.GroupResolver;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
+import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.gerrit.server.mail.send.OutgoingEmailValidator;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.ChangePermission;
@@ -686,9 +687,12 @@ public class ReviewerModifier {
     }
 
     public void postUpdate(PostUpdateContext ctx) throws Exception {
-      for (ReviewerModification addition : modifications()) {
-        if (addition.op != null) {
-          addition.op.postUpdate(ctx);
+      try (TraceTimer timer =
+          TraceContext.newTimer("ReviewerMoodifier#postUpdate", Metadata.empty())) {
+        for (ReviewerModification addition : modifications()) {
+          if (addition.op != null) {
+            addition.op.postUpdate(ctx);
+          }
         }
       }
     }

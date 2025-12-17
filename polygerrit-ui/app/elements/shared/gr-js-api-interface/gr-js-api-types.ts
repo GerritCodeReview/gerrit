@@ -70,6 +70,17 @@ export interface JsApiService extends Finalizable {
   ): string;
   addElement(key: TargetElement, el: HTMLElement): void;
   getAdminMenuLinks(): MenuLink[];
+  /**
+   * This method is called before handling a commit message edit.
+   * It allows plugins to conditionally block edits.
+   * @param change The relevant change.
+   * @param msg The new commit message text.
+   * @return A promise that resolves to true if the action should proceed.
+   */
+  handleBeforeCommitMessage(
+    change: ChangeInfo | ParsedChangeInfo,
+    msg: string
+  ): Promise<boolean>;
   handleCommitMessage(change: ChangeInfo | ParsedChangeInfo, msg: string): void;
   canSubmitChange(change: ChangeInfo, revision?: RevisionInfo | null): boolean;
   getReviewPostRevert(change?: ChangeInfo): ReviewInput;

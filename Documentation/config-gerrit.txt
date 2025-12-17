@@ -1541,6 +1541,15 @@ Default is `true`.
 [[change]]
 === Section change
 
+[[change.addChangeReviewFootersToCommitMessage]]change.addChangeReviewFootersToCommitMessage::
++
+If set to `true`, review approvals (e.g. `Reviewed-by`, `Tested-by`) are added
+to the commit message as footers when the change is merged. This only applies to
+`REBASE_ALWAYS` and `CHERRY_PICK`
+link:config-project-config.html#submit-type[submit types].
++
+Default is `true`.
+
 [[change.allowBlame]]change.allowBlame::
 +
 Allow blame on side by side diff. If set to `false`, blame cannot be used.

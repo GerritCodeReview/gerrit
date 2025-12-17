@@ -147,6 +147,7 @@ public class MergeUtil {
   private final boolean useGitattributesForMerge;
   private final PluggableCommitMessageGenerator commitMessageGenerator;
   private final ChangeUtil changeUtil;
+  private final boolean addChangeReviewFootersToCommitMessage;
 
   MergeUtil(
       @Provided @GerritServerConfig Config serverConfig,
@@ -185,6 +186,8 @@ public class MergeUtil {
     this.useContentMerge = useContentMerge;
     this.useRecursiveMerge = useRecursiveMerge(serverConfig);
     this.useGitattributesForMerge = useGitattributesForMerge(serverConfig);
+    this.addChangeReviewFootersToCommitMessage =
+        serverConfig.getBoolean("change", "addChangeReviewFootersToCommitMessage", true);
   }
 
   public CodeReviewCommit getFirstFastForward(
@@ -617,7 +620,8 @@ public class MergeUtil {
    *
    * <ul>
    *   <li>Reviewed-on: <i>url</i>
-   *   <li>Reviewed-by | Tested-by | <i>Other-Label-Name</i>: <i>reviewer</i>
+   *   <li>Reviewed-by | Tested-by | <i>Other-Label-Name</i>: <i>reviewer</i> (if {@code
+   *       addChangeReviewFootersToCommitMessage} is true)
    *   <li>Change-Id
    * </ul>
    *
@@ -663,63 +667,65 @@ public class MergeUtil {
     }
     PatchSetApproval submitAudit = null;
 
-    for (PatchSetApproval a : safeGetApprovals(notes, psId)) {
-      if (a.value() <= 0) {
-        // Negative votes aren't counted.
-        continue;
-      }
-
-      if (a.isLegacySubmit()) {
-        // Submit is treated specially, below (becomes committer)
-        //
-        if (submitAudit == null || a.granted().compareTo(submitAudit.granted()) > 0) {
-          submitAudit = a;
-        }
-        continue;
-      }
-
-      final Account acc = identifiedUserFactory.create(a.accountId()).getAccount();
-      final StringBuilder identbuf = new StringBuilder();
-      if (acc.fullName() != null && acc.fullName().length() > 0) {
-        if (identbuf.length() > 0) {
-          identbuf.append(' ');
-        }
-        identbuf.append(acc.fullName());
-      }
-      if (acc.preferredEmail() != null && acc.preferredEmail().length() > 0) {
-        if (isSignedOffBy(footers, acc.preferredEmail())) {
+    if (addChangeReviewFootersToCommitMessage) {
+      for (PatchSetApproval a : safeGetApprovals(notes, psId)) {
+        if (a.value() <= 0) {
+          // Negative votes aren't counted.
           continue;
         }
-        if (identbuf.length() > 0) {
-          identbuf.append(' ');
-        }
-        identbuf.append('<');
-        identbuf.append(acc.preferredEmail());
-        identbuf.append('>');
-      }
-      if (identbuf.length() == 0) {
-        // Nothing reasonable to describe them by? Ignore them.
-        continue;
-      }
 
-      final String tag;
-      if (isCodeReview(a.labelId())) {
-        tag = "Reviewed-by";
-      } else if (isVerified(a.labelId())) {
-        tag = "Tested-by";
-      } else {
-        final Optional<LabelType> lt = project.getLabelTypes().byLabel(a.labelId());
-        if (!lt.isPresent()) {
+        if (a.isLegacySubmit()) {
+          // Submit is treated specially, below (becomes committer)
+          //
+          if (submitAudit == null || a.granted().compareTo(submitAudit.granted()) > 0) {
+            submitAudit = a;
+          }
           continue;
         }
-        tag = lt.get().getName();
-      }
 
-      if (!contains(footers, new FooterKey(tag), identbuf.toString())) {
-        msgbuf.append(tag);
-        msgbuf.append(": ");
-        msgbuf.append(identbuf);
-        msgbuf.append('\n');
+        final Account acc = identifiedUserFactory.create(a.accountId()).getAccount();
+        final StringBuilder identbuf = new StringBuilder();
+        if (acc.fullName() != null && acc.fullName().length() > 0) {
+          if (identbuf.length() > 0) {
+            identbuf.append(' ');
+          }
+          identbuf.append(acc.fullName());
+        }
+        if (acc.preferredEmail() != null && acc.preferredEmail().length() > 0) {
+          if (isSignedOffBy(footers, acc.preferredEmail())) {
+            continue;
+          }
+          if (identbuf.length() > 0) {
+            identbuf.append(' ');
+          }
+          identbuf.append('<');
+          identbuf.append(acc.preferredEmail());
+          identbuf.append('>');
+        }
+        if (identbuf.length() == 0) {
+          // Nothing reasonable to describe them by? Ignore them.
+          continue;
+        }
+
+        final String tag;
+        if (isCodeReview(a.labelId())) {
+          tag = "Reviewed-by";
+        } else if (isVerified(a.labelId())) {
+          tag = "Tested-by";
+        } else {
+          final Optional<LabelType> lt = project.getLabelTypes().byLabel(a.labelId());
+          if (!lt.isPresent()) {
+            continue;
+          }
+          tag = lt.get().getName();
+        }
+
+        if (!contains(footers, new FooterKey(tag), identbuf.toString())) {
+          msgbuf.append(tag);
+          msgbuf.append(": ");
+          msgbuf.append(identbuf);
+          msgbuf.append('\n');
+        }
       }
     }
     return msgbuf.toString();

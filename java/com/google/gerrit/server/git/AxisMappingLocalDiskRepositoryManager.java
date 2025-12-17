@@ -17,6 +17,7 @@ package com.google.gerrit.server.git;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.lifecycle.LifecycleModule;
+import com.google.gerrit.server.ModuleImpl;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
@@ -35,6 +36,7 @@ public class AxisMappingLocalDiskRepositoryManager extends LocalDiskRepositoryMa
 
   private AxisProjectNameMappingCache projectNameMappingCache;
 
+  @ModuleImpl(name = GitRepositoryManagerModule.MANAGER_MODULE)
   public static class AxisMappingLocalDiskRepositoryManagerModule extends LifecycleModule {
     @Override
     protected void configure() {

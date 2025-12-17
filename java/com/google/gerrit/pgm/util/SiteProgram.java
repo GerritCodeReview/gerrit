@@ -143,13 +143,14 @@ public abstract class SiteProgram extends AbstractProgram {
     // The only implementation of experiments is available in all programs that can use
     // gerrit.config
     modules.add(new ConfigExperimentFeaturesModule());
-    /* Axis fork start */
-    modules.add(new AxisMappingLocalDiskRepositoryManagerModule());
-    /* Axis fork end */
 
     try {
       List<Module> extraDbModules =
           LibModuleLoader.loadModules(cfgInjector, LibModuleType.DB_MODULE_TYPE);
+      /* Axis fork start */
+      // Add Axis mapping module to override the base GitRepositoryManagerModule
+      extraDbModules.add(new AxisMappingLocalDiskRepositoryManagerModule());
+      /* Axis fork end */
       extraDbModules.addAll(testDbModules);
       return Guice.createInjector(PRODUCTION, ModuleOverloader.override(modules, extraDbModules));
     } catch (CreationException ce) {

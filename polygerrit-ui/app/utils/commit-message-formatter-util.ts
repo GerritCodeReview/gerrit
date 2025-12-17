@@ -400,7 +400,7 @@ export function parseCommitMessageString(messageString: string): CommitMessage {
   // If not, move footer lines to body and make footer empty
   // This is typically the case when creating a new commit message and the footer is not yet formatted
   const hasFormattedFooterLine = footer.some(line =>
-    /^[^:]+:.+/.test(line.trim())
+    FOOTER_REGEX.test(line.trim())
   );
   if (!hasFormattedFooterLine && footer.length > 0) {
     // If body is not empty, add a blank line before appending footer

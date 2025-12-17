@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5f92e1bb_45f64d76",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 21
+      },
+      "lineNbr": 1878,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-12-17T12:56:33Z",
+      "side": 1,
+      "message": "Should we mention that this is supported by the default lucene-backend, but not necessarily by non-lucene backends (i.e. elasticsearch)?\n\n```\nsupported when the index backend implements flushAndCommit\n```",
+      "range": {
+        "startLine": 1878,
+        "startChar": 0,
+        "endLine": 1878,
+        "endChar": 47
+      },
+      "revId": "9c8bc8f8d104b6f594835f4975ddfaf0e448b2bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "61e192dc_6896a695",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 21
+      },
+      "lineNbr": 1897,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-12-17T12:56:33Z",
+      "side": 1,
+      "message": "- What HTTP status will the client get if the new method is not implemented (NotImplementedException)?\n\n- What HTTP status will the client get if an IOException is thrown?\n\nShall we mention those in the documentation?",
+      "range": {
+        "startLine": 1894,
+        "startChar": 0,
+        "endLine": 1897,
+        "endChar": 4
+      },
+      "revId": "9c8bc8f8d104b6f594835f4975ddfaf0e448b2bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "42d5b718_246dd9e9",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/config/IndexFlushIT.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-12-17T12:56:33Z",
+      "side": 1,
+      "message": "Shall we add one test where we cover that non-admin user cannot call this endpoint?",
+      "range": {
+        "startLine": 82,
+        "startChar": 28,
+        "endLine": 82,
+        "endChar": 44
+      },
+      "revId": "9c8bc8f8d104b6f594835f4975ddfaf0e448b2bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "78940ab0_132eeaa4",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/config/IndexFlushIT.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-12-17T12:56:33Z",
+      "side": 1,
+      "message": "```suggestion\n  public void flushAndCommitForbiddenForUnauthorisedUsers() throws Exception {\n```",
+      "range": {
+        "startLine": 88,
+        "startChar": 40,
+        "endLine": 88,
+        "endChar": 51
+      },
+      "revId": "9c8bc8f8d104b6f594835f4975ddfaf0e448b2bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

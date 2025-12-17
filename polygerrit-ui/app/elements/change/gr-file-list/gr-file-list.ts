@@ -339,6 +339,7 @@ export class GrFileList extends LitElement {
       css`
         :host {
           display: block;
+          container-type: inline-size;
         }
         .row {
           align-items: center;
@@ -636,19 +637,19 @@ export class GrFileList extends LitElement {
           color: var(--deemphasized-text-color);
         }
 
-        @media screen and (max-width: 1200px) {
+        @container (max-width: 1200px) {
           gr-endpoint-decorator.extra-col {
             display: none;
           }
         }
 
-        @media screen and (max-width: 1000px) {
+        @container (max-width: 1000px) {
           .reviewed {
             display: none;
           }
         }
 
-        @media screen and (max-width: 800px) {
+        @container (max-width: 800px) {
           .desktop {
             display: none;
           }

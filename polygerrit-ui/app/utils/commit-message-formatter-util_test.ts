@@ -185,6 +185,23 @@ suite('commit-message-formatter-util tests', () => {
           'Change-Id: abcdefg\n'
       );
     });
+
+    test('reproduction of bug: multiple paragraphs wrapping', () => {
+      const message =
+        'Generic subject that is long enough\n\n' +
+        'This is the first paragraph of the body which is quite long and should be wrapped correctly by the formatter without any issues.\n\n' +
+        'This is the second paragraph which triggered the bug because it looks like a footer due to a colon: happening after some words. This should be wrapped.';
+
+      const expected =
+        'Generic subject that is long enough\n\n' +
+        'This is the first paragraph of the body which is quite long and should\n' +
+        'be wrapped correctly by the formatter without any issues.\n\n' +
+        'This is the second paragraph which triggered the bug because it looks\n' +
+        'like a footer due to a colon: happening after some words. This should be\n' +
+        'wrapped.';
+
+      assert.equal(formatCommitMessageString(message), expected);
+    });
   });
 
   suite('detectFormattingErrorsInString', () => {

@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "10e2288a_d708b2b8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-12-17T12:39:37Z",
+      "side": 1,
+      "message": "nit: wrap long line",
+      "range": {
+        "startLine": 11,
+        "startChar": 51,
+        "endLine": 11,
+        "endChar": 75
+      },
+      "revId": "0bb69f1e0655be56c326af6007fe46cf71464771",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b3ec7fbb_947cdb6d",
+        "filename": "java/com/google/gerrit/index/Index.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-12-17T12:39:37Z",
+      "side": 1,
+      "message": "Current Javadoc says \"Optionally flushes...\" but then says \"default throws NotImplementedException.\" That\u0027s not \"optional\" from the caller\u0027s perspective.\nConsider rephrasing as something like:\n\n\"Flushes and commits pending changes... Implementations may override... If unsupported, the default implementation throws...\"",
+      "range": {
+        "startLine": 190,
+        "startChar": 5,
+        "endLine": 190,
+        "endChar": 15
+      },
+      "revId": "0bb69f1e0655be56c326af6007fe46cf71464771",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cfe6460e_e69cb279",
+        "filename": "java/com/google/gerrit/index/Index.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-12-17T12:39:37Z",
+      "side": 1,
+      "message": "Consider adding:\n\n```@throws NotImplementedException if the backend does not support explicit flush/commit.```",
+      "revId": "0bb69f1e0655be56c326af6007fe46cf71464771",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

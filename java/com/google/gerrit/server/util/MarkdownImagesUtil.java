@@ -22,11 +22,12 @@ import org.eclipse.jgit.lib.Config;
 
 @Singleton
 public class MarkdownImagesUtil {
-  public static final String BASE64_IMAGE_REGEX =
-      "![^\\]]*\\]\\(data:image/(?:bmp|gif|x-icon|jpeg|jpg|png|tiff|webp);base64,[^)]*\\)";
-
   // This regex is adapted from the frontend's IMAGE_MIME_PATTERN.
   // It matches base64-encoded images in Markdown format: ![alt-text](data:image/...).
+  // We use (?i) for case insensitivity and \s* to allow spaces.
+  public static final String BASE64_IMAGE_REGEX =
+      "!\\[[^\\]]*\\]\\s*\\(\\s*(?i)data:image/[^,]*;base64,[^)]*\\)";
+
   private static final Pattern BASE64_IMAGE_PATTERN = Pattern.compile(BASE64_IMAGE_REGEX);
 
   private static final String IMAGE_PLACEHOLDER = "![base64-image]";

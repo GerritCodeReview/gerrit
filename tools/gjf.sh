@@ -150,6 +150,12 @@ run_google_java_format() {
     git show --diff-filter=AM --name-only --pretty="" HEAD | grep java$ | xargs $(get_launcher_location $version) -r
 }
 
+run_on_all_files() {
+  local version=$1
+  echo 'Running google-java-format check on all files...'
+  find . -type f -name "*.java" | xargs $(get_launcher_location $version) -r
+}
+
 # MAIN
 
 SUPPORTED_VERSIONS=(1.7 1.22.0 1.24.0)
@@ -174,6 +180,10 @@ case $command in
     run)
     setup_google_java_format $VERSION
     run_google_java_format $VERSION
+    exit 0
+    ;;
+    run_on_all_files)
+    run_on_all_files $VERSION
     exit 0
     ;;
     setup)

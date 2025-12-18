@@ -28,6 +28,10 @@ export declare interface Action {
   initial_user_prompt?: string;
   // The links to the context items that are implicitly added.
   context_item_links?: string[];
+  matched_files?: string[];
+  group_id?: string;
+  group_display_text?: string;
+  external_contexts?: ContextItem[];
 }
 
 export declare interface ChatRequest {
@@ -204,6 +208,8 @@ export declare interface Models {
    * when the selected model is not available anymore.
    */
   default_model_id: string;
+
+  custom_actions?: Action[];
 
   documentation_url?: string;
 

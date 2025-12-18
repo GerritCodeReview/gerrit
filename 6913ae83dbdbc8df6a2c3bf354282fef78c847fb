@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "170761e1_c0c703f8",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1544,
+      "author": {
+        "id": 3262481
+      },
+      "writtenOn": "2025-12-18T19:59:58Z",
+      "side": 1,
+      "message": "1. Renamed to `addChangeReviewFootersToCommitMessage`\n\n2. My preference is to exclude all of the labels. Limiting to only `Reviewed-by` (i.e. `Code-Review`) would help though. The only footer we definitely want added for our project is `Reviewed-on`, which is not covered by this option.",
+      "parentUuid": "39dad9d5_6028d203",
+      "revId": "6913ae83dbdbc8df6a2c3bf354282fef78c847fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4b80d587_eb03f0f0",
@@ -31,6 +49,24 @@
       "writtenOn": "2025-12-18T17:08:12Z",
       "side": 1,
       "message": "Missing copyright/license header",
+      "revId": "6913ae83dbdbc8df6a2c3bf354282fef78c847fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f81b440c_5933bd03",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/SubmitAddApprovalsIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3262481
+      },
+      "writtenOn": "2025-12-18T19:59:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4b80d587_eb03f0f0",
       "revId": "6913ae83dbdbc8df6a2c3bf354282fef78c847fb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

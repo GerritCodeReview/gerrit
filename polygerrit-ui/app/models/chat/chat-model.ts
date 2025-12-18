@@ -500,7 +500,7 @@ export class ChatModel extends Model<ChatState> {
       turn_index: turnIndex,
       regeneration_index: turn.geminiMessage.regenerationIndex,
       client_data: JSON.stringify(clientData),
-      model_name: state.models.default_model_id,
+      model_name: state.selectedModelId ?? state.models.default_model_id,
       external_contexts: contextItems,
     };
     const listener: ChatResponseListener = {

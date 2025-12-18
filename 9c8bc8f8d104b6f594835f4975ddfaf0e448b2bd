@@ -189,6 +189,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "df4ce1d3_15d66148",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/config/IndexFlushIT.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-12-18T11:00:50Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "3a03622d_6b7108dc",
+      "range": {
+        "startLine": 82,
+        "startChar": 28,
+        "endLine": 82,
+        "endChar": 44
+      },
+      "revId": "9c8bc8f8d104b6f594835f4975ddfaf0e448b2bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "78940ab0_132eeaa4",

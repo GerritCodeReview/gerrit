@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9e9163af_efa27b76",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 21
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2025-12-18T10:53:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b22d028_ec3a3ac5",
+      "range": {
+        "startLine": 7,
+        "startChar": 21,
+        "endLine": 7,
+        "endChar": 26
+      },
+      "revId": "9c8bc8f8d104b6f594835f4975ddfaf0e448b2bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5f92e1bb_45f64d76",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "772af431_8d0df4b0",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 21
+      },
+      "lineNbr": 1878,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2025-12-18T10:53:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5f92e1bb_45f64d76",
+      "range": {
+        "startLine": 1878,
+        "startChar": 0,
+        "endLine": 1878,
+        "endChar": 47
+      },
+      "revId": "9c8bc8f8d104b6f594835f4975ddfaf0e448b2bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "61e192dc_6896a695",
@@ -60,6 +108,30 @@
       "writtenOn": "2025-12-17T12:56:33Z",
       "side": 1,
       "message": "- What HTTP status will the client get if the new method is not implemented (NotImplementedException)?\n\n- What HTTP status will the client get if an IOException is thrown?\n\nShall we mention those in the documentation?",
+      "range": {
+        "startLine": 1894,
+        "startChar": 0,
+        "endLine": 1897,
+        "endChar": 4
+      },
+      "revId": "9c8bc8f8d104b6f594835f4975ddfaf0e448b2bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0464ae9c_c5556b09",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 21
+      },
+      "lineNbr": 1897,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2025-12-18T10:53:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "61e192dc_6896a695",
       "range": {
         "startLine": 1894,
         "startChar": 0,
@@ -95,6 +167,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3a03622d_6b7108dc",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/config/IndexFlushIT.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2025-12-18T10:53:45Z",
+      "side": 1,
+      "message": "Isn\u0027t it the flushAndCommitForbiddenForUnauthorisedUsers test ?",
+      "parentUuid": "42d5b718_246dd9e9",
+      "range": {
+        "startLine": 82,
+        "startChar": 28,
+        "endLine": 82,
+        "endChar": 44
+      },
+      "revId": "9c8bc8f8d104b6f594835f4975ddfaf0e448b2bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "78940ab0_132eeaa4",
         "filename": "javatests/com/google/gerrit/acceptance/rest/config/IndexFlushIT.java",
         "patchSetId": 21
@@ -106,6 +202,30 @@
       "writtenOn": "2025-12-17T12:56:33Z",
       "side": 1,
       "message": "```suggestion\n  public void flushAndCommitForbiddenForUnauthorisedUsers() throws Exception {\n```",
+      "range": {
+        "startLine": 88,
+        "startChar": 40,
+        "endLine": 88,
+        "endChar": 51
+      },
+      "revId": "9c8bc8f8d104b6f594835f4975ddfaf0e448b2bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "72703a2a_faba271e",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/config/IndexFlushIT.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2025-12-18T10:53:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "78940ab0_132eeaa4",
       "range": {
         "startLine": 88,
         "startChar": 40,

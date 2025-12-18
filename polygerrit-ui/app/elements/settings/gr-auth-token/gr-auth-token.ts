@@ -279,7 +279,7 @@ export class GrAuthToken extends LitElement {
     return html`<div id="legacyPasswordNote">
       This account only has a legacy HTTP password configured. The legacy HTTP
       password will be accepted until the first authentication token has been
-      created. At this point the HTTP password will be removed from the account.
+      created. At that point the HTTP password will be removed from the account.
     </div>`;
   }
 

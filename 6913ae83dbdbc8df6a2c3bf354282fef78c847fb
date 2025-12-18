@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "39dad9d5_6028d203",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1544,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-12-18T17:08:12Z",
+      "side": 1,
+      "message": "Two thoughts:\n\n1. a nit on the name, can you call this something like `addChangeReviewFootersToCommitMessage`? As you note, this includes votes other than just code review, which a lot of people think of as the \"approval\", so a more generic name helps.\n2. Would it help your problem to limit the footers to ones from specific labels?",
+      "revId": "6913ae83dbdbc8df6a2c3bf354282fef78c847fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4b80d587_eb03f0f0",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/SubmitAddApprovalsIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-12-18T17:08:12Z",
+      "side": 1,
+      "message": "Missing copyright/license header",
+      "revId": "6913ae83dbdbc8df6a2c3bf354282fef78c847fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

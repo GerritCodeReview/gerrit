@@ -70,4 +70,58 @@ public class MarkdownImagesUtilTest {
     assertThat(util.replaceImagesWithPlaceholder(null)).isNull();
     assertThat(util.replaceImagesWithPlaceholder("")).isEmpty();
   }
+
+  @Test
+  public void stripImages_withSpaces() {
+    Config cfg = new Config();
+    cfg.setBoolean("change", null, "allowMarkdownBase64ImagesInComments", true);
+    MarkdownImagesUtil util = new MarkdownImagesUtil(cfg);
+
+    String comment = "![alt]( " + IMAGE_DATA + " )";
+    assertThat(util.stripImages(comment)).doesNotContain("base64");
+  }
+
+  @Test
+  public void stripImages_withUppercaseMime() {
+    Config cfg = new Config();
+    cfg.setBoolean("change", null, "allowMarkdownBase64ImagesInComments", true);
+    MarkdownImagesUtil util = new MarkdownImagesUtil(cfg);
+
+    String upperData = IMAGE_DATA.replace("image/png", "IMAGE/PNG");
+    String comment = "![alt](" + upperData + ")";
+    assertThat(util.stripImages(comment)).doesNotContain("base64");
+  }
+
+  @Test
+  public void stripImages_withMixedCaseProtocol() {
+    Config cfg = new Config();
+    cfg.setBoolean("change", null, "allowMarkdownBase64ImagesInComments", true);
+    MarkdownImagesUtil util = new MarkdownImagesUtil(cfg);
+
+    String mixedData = IMAGE_DATA.replace("data:", "Data:");
+    String comment = "![alt](" + mixedData + ")";
+    assertThat(util.stripImages(comment)).doesNotContain("base64");
+  }
+
+  @Test
+  public void stripImages_withExtraParams() {
+    Config cfg = new Config();
+    cfg.setBoolean("change", null, "allowMarkdownBase64ImagesInComments", true);
+    MarkdownImagesUtil util = new MarkdownImagesUtil(cfg);
+
+    String dataWithParam = IMAGE_DATA.replace("base64,", "name=foo.png;base64,");
+    String comment = "![alt](" + dataWithParam + ")";
+    assertThat(util.stripImages(comment)).doesNotContain("base64");
+  }
+
+  @Test
+  public void stripImages_withNewlineInBase64() {
+    Config cfg = new Config();
+    cfg.setBoolean("change", null, "allowMarkdownBase64ImagesInComments", true);
+    MarkdownImagesUtil util = new MarkdownImagesUtil(cfg);
+
+    String dataWithNewline = IMAGE_DATA.substring(0, 30) + "\n" + IMAGE_DATA.substring(30);
+    String comment = "![alt](" + dataWithNewline + ")";
+    assertThat(util.stripImages(comment)).doesNotContain("base64");
+  }
 }

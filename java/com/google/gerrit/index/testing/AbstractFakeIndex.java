@@ -83,6 +83,7 @@ public abstract class AbstractFakeIndex<K, V, D> implements Index<K, V> {
   private final String indexName;
   private final Map<K, D> indexedDocuments;
   private int queryCount;
+  private int flushAndCommitCount;
   private List<Integer> resultsSizes;
 
   AbstractFakeIndex(Schema<V> schema, SitePaths sitePaths, String indexName) {
@@ -91,6 +92,7 @@ public abstract class AbstractFakeIndex<K, V, D> implements Index<K, V> {
     this.indexName = indexName;
     this.indexedDocuments = new HashMap<>();
     this.queryCount = 0;
+    this.flushAndCommitCount = 0;
     this.resultsSizes = new ArrayList<>();
   }
 
@@ -130,6 +132,16 @@ public abstract class AbstractFakeIndex<K, V, D> implements Index<K, V> {
     synchronized (indexedDocuments) {
       return indexedDocuments.size();
     }
+  }
+
+  @Override
+  public void flushAndCommit() {
+    flushAndCommitCount += 1;
+  }
+
+  @VisibleForTesting
+  public int getFlushAndCommitCount() {
+    return flushAndCommitCount;
   }
 
   public int getQueryCount() {

@@ -240,6 +240,12 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
   }
 
   @Override
+  public void flushAndCommit() throws IOException {
+    writer.flush();
+    writer.commit();
+  }
+
+  @Override
   public void markReady(boolean ready) {
     IndexUtils.setReady(sitePaths, name, schema.getVersion(), ready);
   }

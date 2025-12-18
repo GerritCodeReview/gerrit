@@ -52,6 +52,7 @@ public class ConfigRestApiModule extends RestApiModule {
 
     child(CONFIG_KIND, "indexes").to(IndexCollection.class);
     post(INDEX_KIND, "snapshot").to(SnapshotIndex.class);
+    post(INDEX_KIND, "flush").to(FlushIndex.class);
     get(INDEX_KIND).to(GetIndex.class);
 
     get(CONFIG_KIND, "info").to(GetServerInfo.class);

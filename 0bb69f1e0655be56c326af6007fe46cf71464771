@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "af59d158_08ee4cd4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2025-12-18T10:23:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "10e2288a_d708b2b8",
+      "range": {
+        "startLine": 11,
+        "startChar": 51,
+        "endLine": 11,
+        "endChar": 75
+      },
+      "revId": "0bb69f1e0655be56c326af6007fe46cf71464771",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b3ec7fbb_947cdb6d",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dfcb47c8_c59d8528",
+        "filename": "java/com/google/gerrit/index/Index.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2025-12-18T10:23:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b3ec7fbb_947cdb6d",
+      "range": {
+        "startLine": 190,
+        "startChar": 5,
+        "endLine": 190,
+        "endChar": 15
+      },
+      "revId": "0bb69f1e0655be56c326af6007fe46cf71464771",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cfe6460e_e69cb279",
@@ -60,6 +108,24 @@
       "writtenOn": "2025-12-17T12:39:37Z",
       "side": 1,
       "message": "Consider adding:\n\n```@throws NotImplementedException if the backend does not support explicit flush/commit.```",
+      "revId": "0bb69f1e0655be56c326af6007fe46cf71464771",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "73b9c404_dd922354",
+        "filename": "java/com/google/gerrit/index/Index.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2025-12-18T10:23:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cfe6460e_e69cb279",
       "revId": "0bb69f1e0655be56c326af6007fe46cf71464771",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

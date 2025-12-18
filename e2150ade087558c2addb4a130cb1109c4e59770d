@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "14eaa91b_414eb536",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AgreementsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 396,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-12-18T22:49:06Z",
+      "side": 1,
+      "message": "abbreviating `response` to `rep` seems odd to me, I\u0027d use `resp` or `res` instead",
+      "range": {
+        "startLine": 396,
+        "startChar": 17,
+        "endLine": 396,
+        "endChar": 20
+      },
+      "revId": "e2150ade087558c2addb4a130cb1109c4e59770d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

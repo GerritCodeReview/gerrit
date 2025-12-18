@@ -24,6 +24,7 @@ import static com.google.gerrit.entities.RefNames.REFS_HEADS;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
+import static com.google.gerrit.testing.TestActionRefUpdateContext.openTestRefUpdateContext;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -52,9 +53,11 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
+import com.google.gerrit.git.RefUpdateUtil;
 import com.google.gerrit.server.events.RefReceivedEvent;
 import com.google.gerrit.server.git.validators.RefOperationValidationListener;
 import com.google.gerrit.server.git.validators.ValidationMessage;
+import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.gerrit.server.util.MagicBranch;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.inject.Inject;
@@ -507,6 +510,78 @@ public class CreateBranchIT extends AbstractDaemonTest {
     BranchInfo created = branch(testBranch).create(input).get();
     assertThat(created.ref).isEqualTo(testBranch.branch());
     assertEmptyCommit(testBranch);
+  }
+
+  @Test
+  public void canCreateBranchOnCommitThatIsOnlyReachableFromNonBranchRef() throws Exception {
+    // Create a ref outside of the refs/heads/ namespace.
+    String refName = "refs/foo/bar";
+    String revision;
+    try (RefUpdateContext ctx = openTestRefUpdateContext();
+        Repository repo = repoManager.openRepository(project);
+        RevWalk rw = new RevWalk(repo);
+        TestRepository<Repository> tr = new TestRepository<>(repo)) {
+      RevCommit commit = tr.commit().create();
+      revision = commit.name();
+
+      RefUpdate u = repo.updateRef(refName);
+      u.setExpectedOldObjectId(ObjectId.zeroId());
+      u.setNewObjectId(commit);
+      u.update(rw);
+      RefUpdateUtil.checkResult(u);
+    }
+
+    BranchInput input = new BranchInput();
+    input.revision = revision;
+    BranchInfo created = branch(testBranch).create(input).get();
+    assertThat(created.ref).isEqualTo(testBranch.branch());
+  }
+
+  @Test
+  public void cannotCreateBranchOnCommitThatIsOnlyReachableFromNonVisibleNonBranchRef()
+      throws Exception {
+    // Create a ref outside of the refs/heads/ namespace.
+    String refName = "refs/foo/bar";
+    String revision;
+    try (RefUpdateContext ctx = openTestRefUpdateContext();
+        Repository repo = repoManager.openRepository(project);
+        RevWalk rw = new RevWalk(repo);
+        TestRepository<Repository> tr = new TestRepository<>(repo)) {
+      RevCommit commit = tr.commit().create();
+      revision = commit.name();
+
+      RefUpdate u = repo.updateRef(refName);
+      u.setExpectedOldObjectId(ObjectId.zeroId());
+      u.setNewObjectId(commit);
+      u.update(rw);
+      RefUpdateUtil.checkResult(u);
+    }
+
+    // Block read access to the ref that contains the revision.
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(block(Permission.READ).ref(refName).group(REGISTERED_USERS))
+        .update();
+
+    // Use a non-admin user, since admins can always see all refs.
+    requestScopeOperations.setApiUser(user.id());
+
+    // Allow non-admin users to create branches.
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.CREATE).ref("refs/*").group(REGISTERED_USERS))
+        .update();
+
+    assertCreateFails(
+        testBranch,
+        revision,
+        UnprocessableEntityException.class,
+        String.format(
+            "Unable to resolve commit '%s'. Check that the commit exists on the server and that"
+                + " it's reachable from a branch/tag that is visible to you.",
+            revision));
   }
 
   @Test

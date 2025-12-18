@@ -19,9 +19,7 @@ import static org.eclipse.jgit.lib.Constants.R_TAGS;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableSet;
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.projects.TagInfo;
 import com.google.gerrit.extensions.api.projects.TagInput;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -62,7 +60,6 @@ import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
@@ -134,15 +131,7 @@ public class CreateTag implements RestCollectionCreateView<ProjectResource, TagR
           RevObject object = rw.parseAny(revid);
           if (object instanceof RevCommit) {
             createRefControl.checkCreateCommit(
-                identifiedUser,
-                repo,
-                repo.getRefDatabase()
-                    .getRefsByPrefixWithExclusions(
-                        RefDatabase.ALL, ImmutableSet.of(RefNames.REFS_CHANGES)),
-                (RevCommit) object,
-                resource.getNameKey(),
-                null,
-                false);
+                identifiedUser, repo, (RevCommit) object, resource.getNameKey(), null, false);
           }
           rw.reset();
           boolean isAnnotated = Strings.emptyToNull(input.message) != null;

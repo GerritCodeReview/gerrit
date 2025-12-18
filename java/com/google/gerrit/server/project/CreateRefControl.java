@@ -17,6 +17,7 @@ package com.google.gerrit.server.project;
 import static com.google.gerrit.server.project.ProjectCache.noSuchProject;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Project;
@@ -36,9 +37,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
@@ -98,15 +99,7 @@ public class CreateRefControl {
     if (object instanceof RevCommit) {
       perm.check(RefPermission.CREATE);
       if (sourceBranches.length == 0) {
-        checkCreateCommit(
-            user,
-            repo,
-            repo.getRefDatabase()
-                .getRefsByPrefix(Constants.R_HEADS, Constants.R_TAGS, RefNames.REFS_CONFIG),
-            (RevCommit) object,
-            ps.getNameKey(),
-            perm,
-            forPush);
+        checkCreateCommit(user, repo, (RevCommit) object, ps.getNameKey(), perm, forPush);
       } else {
         List<Ref> sourceRefs = new ArrayList<>();
         for (BranchNameKey src : sourceBranches) {
@@ -150,15 +143,7 @@ public class CreateRefControl {
 
       RevObject target = tag.getObject();
       if (target instanceof RevCommit) {
-        checkCreateCommit(
-            user,
-            repo,
-            repo.getRefDatabase()
-                .getRefsByPrefix(Constants.R_HEADS, Constants.R_TAGS, RefNames.REFS_CONFIG),
-            (RevCommit) target,
-            ps.getNameKey(),
-            perm,
-            forPush);
+        checkCreateCommit(user, repo, (RevCommit) target, ps.getNameKey(), perm, forPush);
       } else {
         checkCreateRef(user, repo, destBranch, target, forPush);
       }
@@ -185,7 +170,6 @@ public class CreateRefControl {
   public void checkCreateCommit(
       Provider<? extends CurrentUser> user,
       Repository repo,
-      List<Ref> refsFromWhichTheCommitMustBeReachable,
       RevCommit commit,
       Project.NameKey project,
       PermissionBackend.ForRef forRef,
@@ -214,7 +198,12 @@ public class CreateRefControl {
     }
     // Fall through to check reachability.
     if (reachable.fromRefs(
-        project, repo, commit, refsFromWhichTheCommitMustBeReachable, Optional.of(user.get()))) {
+        project,
+        repo,
+        commit,
+        repo.getRefDatabase()
+            .getRefsByPrefixWithExclusions(RefDatabase.ALL, ImmutableSet.of(RefNames.REFS_CHANGES)),
+        Optional.of(user.get()))) {
       // If the user has no push permissions, check whether the object is
       // merged into a branch or tag readable by this user. If so, they are
       // not effectively "pushing" more objects, so they can create the ref

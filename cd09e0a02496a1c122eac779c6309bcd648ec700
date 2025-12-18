@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "851bd795_7c0338cf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-12-18T16:11:30Z",
+      "side": 1,
+      "message": "I think it would be fine to have more helpers in the script if they\u0027re easy to use. I have functions like these in my bashrc (we could also put these into the script as suggestions to add, like the launcher alias):\n```sh\ngjf() { # args\n    /path/to/gerrit/tools/format/google-java-format-1.24.0 -i \"$@\"\n}\n\nformat_modified() {\n    gjf $(git diff --relative --diff-filter\u003dd --name-only -- *.java)\n}\n\nformat_staged() {\n    gjf $(git diff --relative --diff-filter\u003dd --name-only --staged -- *.java)\n}\n\nformat_tip_commit() {\n    gjf $(git diff --relative --diff-filter\u003dd --name-only HEAD^! -- *.java)\n}\n```",
+      "parentUuid": "d603822a_0bf63659",
+      "revId": "cd09e0a02496a1c122eac779c6309bcd648ec700",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "07b62506_59944c43",

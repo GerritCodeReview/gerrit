@@ -33,6 +33,24 @@
       "message": "Leaving the approval to Luca since he\u0027s taking care of most of the releases.",
       "revId": "2c8c67a9828ae39e174dbc99e20aa7dabc306bb5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "265364df_0497221e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-12-18T15:52:04Z",
+      "side": 1,
+      "message": "It\u0027s probably better now than it was when tried for past releases, but in the past it was challenging to get good notes from AI. I think the amount of change we have over 6 months for each release might still be a challenge for AI to handle well (I think in the video it was only the past few weeks?). It would be great if AI could consider the content of each patch so that it doesn\u0027t need to rely only on the commit message (like the AI review prompt does).\n\nI do agree that the footer adds an extra step in making each change and I think there are many changes where people just habitually enter `skip`. Having a local commit-msg hook that tries to help people remember to add it and maybe (using AI?) suggests having a non-skip value could help that.\n\nCan we still recommend using it for the non-skip use cases? Then at least we won\u0027t be confused by a `skip` on something that should go into the notes but there would still be a common way to identify changes that the author wants mentioned in the notes.",
+      "parentUuid": "520a29d6_d6b58e8a",
+      "revId": "2c8c67a9828ae39e174dbc99e20aa7dabc306bb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

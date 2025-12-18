@@ -70,6 +70,24 @@
       "parentUuid": "5535fad6_9f813db9",
       "revId": "c2a6bc5e1cd4dc3d2b7d75d1c266c8b2653508df",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fd230f65_bfe2b0ce",
+        "filename": "MODULE.bazel",
+        "patchSetId": 27
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-12-18T08:32:55Z",
+      "side": 1,
+      "message": "This change adapts `nongoogle_test.sh`, so that it continues to work. It now parses nongoogle.toml instead of `nongoogle.bzl`.",
+      "parentUuid": "415eb7a2_b13ae7be",
+      "revId": "c2a6bc5e1cd4dc3d2b7d75d1c266c8b2653508df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

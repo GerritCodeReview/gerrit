@@ -213,6 +213,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4d1dd0ad_7c769c11",
+        "filename": "java/com/google/gerrit/extensions/BUILD",
+        "patchSetId": 26
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-12-18T08:32:55Z",
+      "side": 1,
+      "message": "Unfortunately, using rules_jvm_external does not really work well here. I will continue to find a better solution, but would suggest to do it in a separate change.",
+      "parentUuid": "76cb4eeb_db25c037",
+      "revId": "9e8057bf373f946d3f56cba6bc56f55fb569c646",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "239982f6_b3957f5b",
         "filename": "javatests/com/google/gerrit/entities/converter/BUILD",
         "patchSetId": 26

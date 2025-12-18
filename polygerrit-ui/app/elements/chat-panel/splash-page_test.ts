@@ -184,7 +184,7 @@ suite('splash-page tests', () => {
         <p class="splash-question">How can I help you today?</p>
         <div class="background-request-container">
           <div class="background-request-header">
-            <md-icon aria-hidden="true" class="material-icon">info</md-icon>
+            <gr-icon class="material-icon filled" icon="info"></gr-icon>
             <span class="user-background-question"
               >Review Agent is disabled on private changes.</span
             >

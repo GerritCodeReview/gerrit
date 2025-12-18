@@ -203,6 +203,7 @@ export declare interface ChatState extends ConversationState {
 
   // Chat actions for the current CL.
   readonly actions?: Actions;
+  readonly customActions?: readonly Action[];
   // Error message if the actions failed to load.
   readonly actionsLoadingError?: string;
 
@@ -261,6 +262,11 @@ export class ChatModel extends Model<ChatState> {
   readonly actions$: Observable<readonly Action[]> = select(
     this.state$,
     chatState => chatState.actions?.actions ?? []
+  );
+
+  readonly customActions$: Observable<readonly Action[]> = select(
+    this.state$,
+    chatState => chatState.customActions ?? []
   );
 
   readonly defaultActionId$: Observable<string | undefined> = select(
@@ -430,7 +436,10 @@ export class ChatModel extends Model<ChatState> {
 
   getAction(id?: string) {
     const state = this.getState();
-    const actions = state.actions?.actions ?? [];
+    const actions = [
+      ...(state.customActions ?? []),
+      ...(state.actions?.actions ?? []),
+    ];
     const defaultActionId = state.actions?.default_action_id;
     return (
       actions.find(action => action.id === id) ??
@@ -700,6 +709,7 @@ export class ChatModel extends Model<ChatState> {
         this.updateState({
           models,
           modelsLoadingError: undefined,
+          customActions: models.custom_actions,
         });
       })
       .catch((error: Error) => {

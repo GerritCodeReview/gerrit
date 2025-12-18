@@ -65,6 +65,48 @@ suite('chat-panel screenshot tests', () => {
     await visualDiffDarkTheme(element, 'chat-panel-splash-page-private');
   });
 
+  test('splash page with custom actions', async () => {
+    chatModel.updateState({
+      ...chatModel.getState(),
+      actions: {
+        actions: [
+          {
+            id: 'action3',
+            display_text: 'Standard Action 1',
+            enable_splash_page_card: true,
+          },
+        ],
+        default_action_id: 'action3',
+      },
+      customActions: [
+        {
+          id: 'action1',
+          display_text: 'Custom Action 1',
+          enable_splash_page_card: true,
+        },
+        {
+          id: 'action2',
+          display_text: 'Custom Action 2',
+          enable_splash_page_card: true,
+        },
+      ],
+      models: {
+        default_model_id: 'gemini',
+        models: [
+          {
+            model_id: 'gemini',
+            short_text: 'Gemini',
+            full_display_text: 'Gemini Model',
+          },
+        ],
+        documentation_url: 'http://example.com/docs',
+      },
+    });
+    await element.updateComplete;
+    await visualDiff(element, 'chat-panel-splash-page-custom-actions');
+    await visualDiffDarkTheme(element, 'chat-panel-splash-page-custom-actions');
+  });
+
   test('chat mode', async () => {
     chatModel.updateState({
       ...chatModel.getState(),

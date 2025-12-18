@@ -104,4 +104,21 @@ suite('chat-model tests', () => {
     state = model.getState();
     assert.isEmpty(state.draftUserMessage.contextItems);
   });
+
+  test('getModels with custom_actions updates actions', async () => {
+    const customActions = [{id: 'custom', display_text: 'Custom'}];
+    (provider.getModels as sinon.SinonStub).resolves({
+      models: [],
+      default_model_id: '',
+      custom_actions: customActions,
+    });
+
+    changeModel.updateStateChange(createParsedChange());
+    // Wait for the promise to resolve
+    await new Promise(resolve => setTimeout(resolve, 0));
+
+    const state = model.getState();
+    assert.isDefined(state.customActions);
+    assert.deepEqual(state.customActions, customActions as any);
+  });
 });

@@ -37,6 +37,10 @@ export class SplashPage extends LitElement {
 
   @state() actions: readonly Action[] = [];
 
+  @state() customActions: readonly Action[] = [];
+
+  @state() documentationUrl?: string;
+
   @property({type: Boolean}) isChangePrivate = false;
 
   private readonly getChatModel = resolve(this, chatModelToken);
@@ -57,6 +61,18 @@ export class SplashPage extends LitElement {
         (this.actions = (x ?? []).filter(
           action => !!action.enable_splash_page_card
         ))
+    );
+    subscribe(
+      this,
+      () => this.getChatModel().customActions$,
+      x => (this.customActions = x ?? [])
+    );
+    subscribe(
+      this,
+      () => this.getChatModel().state$,
+      state => {
+        this.documentationUrl = state.models?.documentation_url;
+      }
     );
     subscribe(
       this,
@@ -223,13 +239,55 @@ export class SplashPage extends LitElement {
       `;
     }
     return html`
-      ${this.renderBackgroundRequest()}
+      ${this.renderBackgroundRequest()} ${this.renderCustomActions()}
+      ${this.renderActions()}
+    `;
+  }
 
+  private renderCustomActions() {
+    if (!this.customActions || this.customActions.length === 0) {
+      return '';
+    }
+    return html`
+      <div class="action-container-title autoreview-actions-title">
+        Review capabilities
+        ${this.documentationUrl
+          ? html`
+              <a
+                href=${this.documentationUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <gr-icon icon="info" class="small-icon"></gr-icon>
+              </a>
+            `
+          : ''}
+      </div>
+      ${this.renderActionChipSet(this.customActions)}
+    `;
+  }
+
+  private renderActions() {
+    if (!this.actions || this.actions.length === 0) return '';
+    const title =
+      this.customActions.length > 0 ? 'Other capabilities' : 'Capabilities';
+    return html`
       <div class="action-container-title suggested-actions-title">
-        Capabilities
+        ${title}
+        ${this.customActions.length > 0 && this.documentationUrl
+          ? html`
+              <a
+                href=${this.documentationUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <gr-icon icon="info" class="small-icon"></gr-icon>
+              </a>
+            `
+          : ''}
       </div>
 
-      ${this.renderActionChipSet()}
+      ${this.renderActionChipSet(this.actions)}
     `;
   }
 
@@ -283,10 +341,10 @@ export class SplashPage extends LitElement {
     `;
   }
 
-  private renderActionChipSet() {
+  private renderActionChipSet(actions: readonly Action[]) {
     return html`
       <md-chip-set class="action-container">
-        ${this.actions.map(
+        ${actions.map(
           (action, index, array) => html`
             <splash-page-action
               .action=${action}

@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc522250_477af4aa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-12-18T23:30:14Z",
+      "side": 1,
+      "message": "This change wasn\u0027t up-to-date with the stable-3.13, therefore has created a strange merge (see 539c8c3ccd672717a23a393639b6b8e6ef0fde8d):\n\n```\nMerge \"Merge branch \u0027stable-3.12\u0027 into stable-3.13\" into stable-3.13\n```",
+      "revId": "8990c62e949c715d6126f56838c2330ed0fc68d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

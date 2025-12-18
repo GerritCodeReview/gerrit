@@ -97,7 +97,34 @@ export class GeminiMessage extends LitElement {
         margin-left: 10px;
       }
       .server-error {
-        font-weight: bold;
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-s);
+        font-weight: 500;
+        color: var(--error-foreground);
+        margin-bottom: var(--spacing-s);
+      }
+      .error-icon {
+        color: var(--error-foreground);
+      }
+      .error-message {
+        margin-bottom: var(--spacing-m);
+        color: var(--deemphasized-text-color);
+      }
+      .error-details {
+        margin-top: var(--spacing-s);
+        margin-bottom: var(--spacing-s);
+        font-family: var(--monospace-font-family);
+        font-size: var(--font-size-small);
+        white-space: pre-wrap;
+        background-color: var(--background-color-tertiary);
+        padding: var(--spacing-s);
+        border-radius: var(--border-radius);
+      }
+      .error-actions {
+        display: flex;
+        gap: var(--spacing-m);
+        margin-top: var(--spacing-s);
       }
       .user-info {
         margin-bottom: var(--spacing-m);
@@ -179,6 +206,10 @@ export class GeminiMessage extends LitElement {
     this.getCommentsModel().reloadAllComments();
   }
 
+  private onRetry() {
+    this.getChatModel().regenerateMessage(this.turnId());
+  }
+
   private toggleShowErrorDetails() {
     this.showErrorDetails = !this.showErrorDetails;
   }
@@ -210,24 +241,23 @@ export class GeminiMessage extends LitElement {
       ${when(
         message.errorMessage,
         () => html`
-          <p class="server-error text-content">Server issue.</p>
-          <p class="error-message">
-            We were unable to fulfill your request for this due to a server
-            issue. Please reload the webpage to try again.
-          </p>
-          <md-text-button
-            @click=${() => this.toggleShowErrorDetails()}
-            class="error-details-button"
-          >
-            <gr-icon
-              icon=${this.showErrorDetails ? 'expand_less' : 'expand_more'}
-            ></gr-icon>
-            Details
-          </md-text-button>
-          ${when(
-            this.showErrorDetails,
-            () => html`<p class="error-details">${message.errorMessage}</p>`
-          )}
+          <div class="server-error text-content">
+            <gr-icon icon="error" class="error-icon"></gr-icon>
+            Server error
+          </div>
+          <div class="error-message">
+            We were unable to fulfill your request.
+            ${when(
+              this.showErrorDetails,
+              () => html`<p class="error-details">${message.errorMessage}</p>`
+            )}
+            <div class="error-actions">
+              <gr-button @click=${() => this.onRetry()} link>Retry</gr-button>
+              <gr-button @click=${() => this.toggleShowErrorDetails()} link>
+                ${this.showErrorDetails ? 'Hide details' : 'Show details'}
+              </gr-button>
+            </div>
+          </div>
         `
       )}
       ${when(!message.errorMessage && responseParts.length === 0, () =>

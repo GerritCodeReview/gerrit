@@ -133,7 +133,21 @@ suite('gemini-message tests', () => {
 
     const error = element.shadowRoot?.querySelector('.server-error');
     assert.isOk(error);
-    assert.equal(error?.textContent, 'Server issue.');
+    assert.include(error?.textContent, 'Server error');
+
+    const retryButton = element.shadowRoot?.querySelector(
+      'gr-button'
+    ) as HTMLElement;
+    assert.isOk(retryButton);
+    assert.equal(retryButton.textContent, 'Retry');
+
+    const spy = sinon.spy(chatModel, 'regenerateMessage');
+    retryButton.click();
+    assert.isTrue(spy.calledOnce);
+    assert.deepEqual(spy.firstCall.args[0], {
+      turnIndex: 0,
+      regenerationIndex: 0,
+    });
   });
 
   test('renders suggested comment', async () => {

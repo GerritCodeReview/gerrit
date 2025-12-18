@@ -178,6 +178,32 @@ suite('chat-panel screenshot tests', () => {
     await visualDiffDarkTheme(element, 'chat-panel-chat-mode-with-comment');
   });
 
+  test('chat mode with error', async () => {
+    chatModel.updateState({
+      ...chatModel.getState(),
+      turns: [
+        {
+          userMessage: {
+            content: 'Do something',
+            userType: UserType.USER,
+            contextItems: [],
+          },
+          geminiMessage: {
+            responseParts: [],
+            regenerationIndex: 0,
+            references: [],
+            citations: [],
+            userType: UserType.GEMINI,
+            errorMessage: 'Something went wrong',
+          },
+        },
+      ] as Turn[],
+    });
+    await element.updateComplete;
+    await visualDiff(element, 'chat-panel-chat-mode-with-error');
+    await visualDiffDarkTheme(element, 'chat-panel-chat-mode-with-error');
+  });
+
   test('chat mode with references', async () => {
     chatModel.updateState({
       ...chatModel.getState(),

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "07b62506_59944c43",
+        "filename": "tools/gjf.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2025-12-18T12:03:55Z",
+      "side": 1,
+      "message": "question: it will also run on `jgit` module... do we want that?",
+      "range": {
+        "startLine": 153,
+        "startChar": 0,
+        "endLine": 157,
+        "endChar": 1
+      },
+      "revId": "cd09e0a02496a1c122eac779c6309bcd648ec700",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

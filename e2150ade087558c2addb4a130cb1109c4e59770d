@@ -1,6 +1,46 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a6f43a2_b3754f86",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-12-19T08:05:45Z",
+      "side": 1,
+      "message": "Thanks much for adding the test!",
+      "revId": "e2150ade087558c2addb4a130cb1109c4e59770d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "570b1d57_0f756947",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AgreementsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-12-19T08:05:45Z",
+      "side": 1,
+      "message": "nit: Why is this not done as a part of the permission update that is done in the next line?",
+      "range": {
+        "startLine": 379,
+        "startChar": 4,
+        "endLine": 384,
+        "endChar": 76
+      },
+      "revId": "e2150ade087558c2addb4a130cb1109c4e59770d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "14eaa91b_414eb536",

@@ -43,6 +43,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4ab813ca_11b05a7f",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AgreementsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-12-19T20:10:54Z",
+      "side": 1,
+      "message": "I actually think it\u0027s duplicated on L389. This is what happens when I start a change weeks before I finish it 😄",
+      "parentUuid": "570b1d57_0f756947",
+      "range": {
+        "startLine": 379,
+        "startChar": 4,
+        "endLine": 384,
+        "endChar": 76
+      },
+      "revId": "e2150ade087558c2addb4a130cb1109c4e59770d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "14eaa91b_414eb536",
         "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AgreementsIT.java",
         "patchSetId": 2
@@ -54,6 +78,30 @@
       "writtenOn": "2025-12-18T22:49:06Z",
       "side": 1,
       "message": "abbreviating `response` to `rep` seems odd to me, I\u0027d use `resp` or `res` instead",
+      "range": {
+        "startLine": 396,
+        "startChar": 17,
+        "endLine": 396,
+        "endChar": 20
+      },
+      "revId": "e2150ade087558c2addb4a130cb1109c4e59770d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9bd22ed5_3599b8b6",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AgreementsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 396,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2025-12-19T20:10:54Z",
+      "side": 1,
+      "message": "Will fix. I copied it from one of `QueryChangesIT`, `AccessReviewIT`, or `CheckAccessIT` (if you want to fix those).",
+      "parentUuid": "14eaa91b_414eb536",
       "range": {
         "startLine": 396,
         "startChar": 17,

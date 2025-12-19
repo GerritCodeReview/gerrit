@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ab4ef38e_a81e1390",
+        "filename": "tools/node_tools/node_modules_licenses/BUILD",
+        "patchSetId": 31
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-12-19T08:39:02Z",
+      "side": 1,
+      "message": "This rule is failing due to dependency/type issues. @thomasmulhall410@yahoo.com could you have a look?",
+      "range": {
+        "startLine": 6,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 1
+      },
+      "revId": "e7d85bf9b2d885d0d6252a3998ff7f6dcdc626f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0586bb29_74513259",
+        "filename": "tools/node_tools/polygerrit_app_preprocessor/BUILD",
+        "patchSetId": 31
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2025-12-19T08:39:02Z",
+      "side": 1,
+      "message": "This rule is failing due to dependency/type issues. @thomasmulhall410@yahoo.com could you have a look?",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 1
+      },
+      "revId": "e7d85bf9b2d885d0d6252a3998ff7f6dcdc626f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

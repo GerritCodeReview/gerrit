@@ -347,6 +347,23 @@ export class ChatModel extends Model<ChatState> {
     this.filesModel.files$.subscribe(files => (this.files = files ?? []));
     this.changeModel.change$.subscribe(change => {
       this.change = change as ChangeInfo;
+      // When navigating to a different change, we want to reset the chat state.
+      // Otherwise, we might show a chat from a previous change, or have some
+      // lingering state like selected models or actions.
+      this.updateState({
+        ...initialConversationState,
+        // We need to explicitly clear these, because updateState does a shallow
+        // merge, and initialConversationState does not contain these fields.
+        models: undefined,
+        selectedModelId: undefined,
+        modelsLoadingError: undefined,
+        actions: undefined,
+        customActions: undefined,
+        actionsLoadingError: undefined,
+        contextItemTypes: undefined,
+        contextItemTypesLoadingError: undefined,
+        conversations: undefined,
+      });
       this.getModels();
       this.getActions();
       this.getContextItemTypes();

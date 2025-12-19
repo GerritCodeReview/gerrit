@@ -174,4 +174,18 @@ suite('chat-model tests', () => {
       .args[0] as ChatRequest;
     assert.equal(request.model_name, 'advanced-model');
   });
+
+  test('change navigation resets state', () => {
+    model.updateUserInput('some input');
+    model.selectModel('some-model');
+    let state = model.getState();
+    assert.equal(state.draftUserMessage.content, 'some input');
+    assert.equal(state.selectedModelId, 'some-model');
+
+    changeModel.updateStateChange(createParsedChange());
+    state = model.getState();
+    assert.equal(state.draftUserMessage.content, '');
+    assert.isUndefined(state.selectedModelId);
+    assert.isEmpty(state.turns);
+  });
 });

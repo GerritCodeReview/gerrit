@@ -26,6 +26,7 @@ const LANGUAGE_MAP = new Map<string, string>([
   ['application/xquery', 'xquery'],
   ['application/x-epp', 'epp'],
   ['application/x-erb', 'erb'],
+  ['text/ada', 'ada'],
   ['text/css', 'css'],
   ['text/html', 'html'],
   ['text/javascript', 'js'],

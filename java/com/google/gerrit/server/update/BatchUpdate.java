@@ -650,7 +650,7 @@ public class BatchUpdate implements AutoCloseable {
         }
       }
       if (indexAsync) {
-        logger.atFine().log(
+        logger.atInfo().log(
             "Asynchronously reindexing changes, %s in project %s", results.keySet(), project.get());
         // We want to index asynchronously. However, the callers will await all
         // index futures. This allows us to - even in synchronous case -

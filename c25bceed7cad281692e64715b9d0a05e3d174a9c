@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5cbe1d50_75c6392a",
+        "filename": "java/com/google/gerrit/server/extensions/events/RevisionCreated.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-12-22T20:51:18Z",
+      "side": 1,
+      "message": "My bad, the check for empty listeners is there already. This change isn\u0027t needed after all.",
+      "range": {
+        "startLine": 81,
+        "startChar": 0,
+        "endLine": 83,
+        "endChar": 5
+      },
+      "revId": "c25bceed7cad281692e64715b9d0a05e3d174a9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

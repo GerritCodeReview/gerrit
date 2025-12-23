@@ -1463,7 +1463,7 @@ export enum LabelDefinitionInfoFunction {
   AnyWithBlock = 'AnyWithBlock',
   MaxNoBlock = 'MaxNoBlock',
   NoBlock = 'NoBlock',
-  Noop = 'Noop',
+  NoOp = 'NoOp',
   PatchSetLock = 'PatchSetLock',
 }
 

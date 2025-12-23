@@ -380,7 +380,7 @@ export class GrRepoLabels extends LitElement {
     if (!fun) return false;
     return (
       fun !== LabelDefinitionInfoFunction.NoBlock &&
-      fun !== LabelDefinitionInfoFunction.Noop &&
+      fun !== LabelDefinitionInfoFunction.NoOp &&
       fun !== LabelDefinitionInfoFunction.PatchSetLock
     );
   }

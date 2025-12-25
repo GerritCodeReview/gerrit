@@ -214,15 +214,15 @@ public class CheckAccessIT extends AbstractDaemonTest {
 
   @Test
   public void httpGet() throws Exception {
-    RestResponse rep =
+    RestResponse resp =
         adminRestSession.get(
             "/projects/"
                 + normalProject.get()
                 + "/check.access"
                 + "?ref=refs/heads/master&perm=viewPrivateChanges&account="
                 + user.email());
-    rep.assertOK();
-    assertThat(rep.getEntityContent()).contains("403");
+    resp.assertOK();
+    assertThat(resp.getEntityContent()).contains("403");
   }
 
   @Test

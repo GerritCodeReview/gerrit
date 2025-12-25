@@ -60,9 +60,9 @@ public class AccessReviewIT extends AbstractDaemonTest {
     a.permissions = ImmutableMap.of("read", p);
     in.add = ImmutableMap.of("refs/heads/*", a);
 
-    RestResponse rep =
+    RestResponse resp =
         adminRestSession.put("/projects/" + defaultMessageProject.get() + "/access:review", in);
-    rep.assertCreated();
+    resp.assertCreated();
 
     List<ChangeInfo> result =
         gApi.changes()

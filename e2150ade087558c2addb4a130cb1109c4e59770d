@@ -110,6 +110,30 @@
       },
       "revId": "e2150ade087558c2addb4a130cb1109c4e59770d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c1e45473_c53021a2",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AgreementsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 396,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2025-12-25T08:31:48Z",
+      "side": 1,
+      "message": "done in https://gerrit-review.googlesource.com/c/gerrit/+/538441",
+      "parentUuid": "9bd22ed5_3599b8b6",
+      "range": {
+        "startLine": 396,
+        "startChar": 17,
+        "endLine": 396,
+        "endChar": 20
+      },
+      "revId": "e2150ade087558c2addb4a130cb1109c4e59770d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

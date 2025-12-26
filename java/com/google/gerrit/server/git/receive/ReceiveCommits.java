@@ -282,6 +282,9 @@ class ReceiveCommits {
 
   private static final String CUSTOM_KEYED_VALUE_OPTION = "custom-keyed-value";
 
+  private boolean skipNewPatchSetValidation =
+      Boolean.getBoolean("ghs.gerrit.skip-patch-set-validation");
+
   interface Factory {
     ReceiveCommits create(
         ProjectState projectState,
@@ -3248,8 +3251,10 @@ class ReceiveCommits {
         for (ReplaceRequest req : replaceByChange.values()) {
           if (req.inputCommand.getResult() == NOT_ATTEMPTED) {
             // TODO: Is it OK to ignore the return value?
-            @SuppressWarnings("unused")
-            var unused = req.validateNewPatchSet(globalRevWalk);
+            if (!skipNewPatchSetValidation) {
+              @SuppressWarnings("unused")
+              var unused = req.validateNewPatchSet(globalRevWalk);
+            }
           }
         }
       } catch (IOException | PermissionBackendException e) {

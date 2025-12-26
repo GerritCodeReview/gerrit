@@ -281,6 +281,9 @@ class ReceiveCommits {
 
   private static final String CUSTOM_KEYED_VALUE_OPTION = "custom-keyed-value";
 
+  private boolean skipNewPatchSetValidation =
+      Boolean.getBoolean("ghs.gerrit.skip-patch-set-validation");
+
   interface Factory {
     ReceiveCommits create(
         ProjectState projectState,
@@ -3456,31 +3459,36 @@ class ReceiveCommits {
           return false;
         }
 
-        try (TraceTimer traceTimer2 =
-            newTimer(
-                "validateNewPatchSetNoteDb#isMergedInto",
-                Metadata.builder().resourceCount(revisions.size()))) {
-          ReachabilityChecker checker =
-              globalRevWalk.getObjectReader().createReachabilityChecker(globalRevWalk);
-          for (RevCommit prior : revisions.keySet()) {
-            // Don't allow a change to directly depend upon itself. This is a very common error due
-            // to users making a new commit rather than amending when trying to address review
-            // comments.
+        if (!skipNewPatchSetValidation) {
 
-            // Since prior and newCommit have the same Change-Id, we must make sure that prior is
-            // not reachable from newCommit (otherwise there would be a dependency between patch
-            // sets of the same change).
-            Optional<RevCommit> unreachableCommit =
-                checker.areAllReachable(ImmutableList.of(prior), Stream.of(newCommit));
+          try (TraceTimer traceTimer2 =
+              newTimer(
+                  "validateNewPatchSetNoteDb#isMergedInto",
+                  Metadata.builder().resourceCount(revisions.size()))) {
+            ReachabilityChecker checker =
+                globalRevWalk.getObjectReader().createReachabilityChecker(globalRevWalk);
+            for (RevCommit prior : revisions.keySet()) {
+              // Don't allow a change to directly depend upon itself. This is a very common error
+              // due
+              // to users making a new commit rather than amending when trying to address review
+              // comments.
 
-            // If no unreachableCommit was returned, it means prior is reachable from newCommit and
-            // we should reject the newCommit.
-            if (unreachableCommit.isEmpty()) {
-              reject(
-                  inputCommand,
-                  RejectionReason.create(
-                      MetricBucket.DUPLICATE_CHANGE_ID, SAME_CHANGE_ID_IN_MULTIPLE_CHANGES));
-              return false;
+              // Since prior and newCommit have the same Change-Id, we must make sure that prior is
+              // not reachable from newCommit (otherwise there would be a dependency between patch
+              // sets of the same change).
+              Optional<RevCommit> unreachableCommit =
+                  checker.areAllReachable(ImmutableList.of(prior), Stream.of(newCommit));
+
+              // If no unreachableCommit was returned, it means prior is reachable from newCommit
+              // and
+              // we should reject the newCommit.
+              if (unreachableCommit.isEmpty()) {
+                reject(
+                    inputCommand,
+                    RejectionReason.create(
+                        MetricBucket.DUPLICATE_CHANGE_ID, SAME_CHANGE_ID_IN_MULTIPLE_CHANGES));
+                return false;
+              }
             }
           }
         }

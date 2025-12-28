@@ -83,7 +83,6 @@ import com.google.gerrit.extensions.webui.TopMenu;
 import com.google.gerrit.extensions.webui.WebUiPlugin;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CmdLineParserModule;
-import com.google.gerrit.server.CreateGroupPermissionSyncer;
 import com.google.gerrit.server.DeadlineChecker;
 import com.google.gerrit.server.DynamicOptions;
 import com.google.gerrit.server.ExceptionHook;
@@ -378,9 +377,6 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicSet.setOf(binder(), HashtagsEditedListener.class);
     DynamicSet.setOf(binder(), CustomKeyedValuesEditedListener.class);
     DynamicSet.setOf(binder(), ChangeMergedListener.class);
-    bind(ChangeMergedListener.class)
-        .annotatedWith(Exports.named("CreateGroupPermissionSyncer"))
-        .to(CreateGroupPermissionSyncer.class);
 
     DynamicSet.setOf(binder(), ChangeRestoredListener.class);
     DynamicSet.setOf(binder(), ChangeRevertedListener.class);

@@ -44,5 +44,6 @@ java_library(
         "//java/com/google/gerrit/entities",
         "//lib:guava",
         "//lib:jgit",
+        "//lib/flogger:api",
     ],
 )

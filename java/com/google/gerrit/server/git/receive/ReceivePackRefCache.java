@@ -16,16 +16,19 @@ package com.google.gerrit.server.git.receive;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
 
+import com.google.common.base.Stopwatch;
 import com.google.common.base.Supplier;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.RefNames;
 import java.io.IOException;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
@@ -38,6 +41,8 @@ import org.eclipse.jgit.lib.RefDatabase;
  * <p>This class is not thread safe.
  */
 public interface ReceivePackRefCache {
+
+  static final FluentLogger log = FluentLogger.forEnclosingClass();
 
   /**
    * Returns an instance that delegates all calls to the provided {@link RefDatabase}. To be used in
@@ -159,6 +164,8 @@ public interface ReceivePackRefCache {
         return;
       }
 
+      Stopwatch initRefMapWatch = Stopwatch.createStarted();
+
       refsByObjectId = MultimapBuilder.hashKeys().arrayListValues().build();
       refsByChange =
           MultimapBuilder.hashKeys(allRefs().size() / ESTIMATED_NUMBER_OF_REFS_PER_CHANGE)
@@ -174,6 +181,9 @@ public interface ReceivePackRefCache {
           }
         }
       }
+
+      long initRefMapMicros = initRefMapWatch.elapsed(TimeUnit.MICROSECONDS);
+      log.atInfo().log("lazilyInitRefMaps took %d usec", initRefMapMicros);
     }
   }
 }

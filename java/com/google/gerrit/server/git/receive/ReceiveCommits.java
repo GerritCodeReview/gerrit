@@ -2695,7 +2695,9 @@ class ReceiveCommits {
           String name = c.name();
           groupCollector.visit(c);
           ImmutableList<PatchSet.Id> existingPatchSets =
-              receivePackRefCache.patchSetIdsFromObjectId(c);
+              newChangeForAllNotInTarget
+                  ? ImmutableList.of()
+                  : receivePackRefCache.patchSetIdsFromObjectId(c);
 
           if (rejectImplicitMerges) {
             Collections.addAll(mergedParents, c.getParents());

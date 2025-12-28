@@ -28,7 +28,6 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
-import com.google.gerrit.server.CreateGroupPermissionSyncer;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.permissions.GlobalPermission;
@@ -51,7 +50,6 @@ public class SetAccess implements RestModifyView<ProjectResource, ProjectAccessI
   private final Provider<IdentifiedUser> identifiedUser;
   private final SetAccessUtil accessUtil;
   private final RepoMetaDataUpdater repoMetaDataUpdater;
-  private final CreateGroupPermissionSyncer createGroupPermissionSyncer;
 
   @Inject
   private SetAccess(
@@ -60,7 +58,6 @@ public class SetAccess implements RestModifyView<ProjectResource, ProjectAccessI
       GetAccess getAccess,
       Provider<IdentifiedUser> identifiedUser,
       SetAccessUtil accessUtil,
-      CreateGroupPermissionSyncer createGroupPermissionSyncer,
       RepoMetaDataUpdater repoMetaDataUpdater) {
     this.groupBackend = groupBackend;
     this.permissionBackend = permissionBackend;
@@ -68,7 +65,6 @@ public class SetAccess implements RestModifyView<ProjectResource, ProjectAccessI
     this.identifiedUser = identifiedUser;
     this.accessUtil = accessUtil;
     this.repoMetaDataUpdater = repoMetaDataUpdater;
-    this.createGroupPermissionSyncer = createGroupPermissionSyncer;
   }
 
   @Override
@@ -113,7 +109,6 @@ public class SetAccess implements RestModifyView<ProjectResource, ProjectAccessI
           !checkedAdmin);
 
       updater.commitConfigUpdate();
-      createGroupPermissionSyncer.syncIfNeeded();
     } catch (InvalidNameException e) {
       throw new BadRequestException(e.toString());
     } catch (ConfigInvalidException e) {

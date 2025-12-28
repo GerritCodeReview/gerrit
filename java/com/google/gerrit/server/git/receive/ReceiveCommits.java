@@ -107,7 +107,6 @@ import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.server.AclInfoController;
 import com.google.gerrit.server.CancellationMetrics;
 import com.google.gerrit.server.ChangeUtil;
-import com.google.gerrit.server.CreateGroupPermissionSyncer;
 import com.google.gerrit.server.DeadlineChecker;
 import com.google.gerrit.server.DraftCommentsReader;
 import com.google.gerrit.server.ExceptionHook;
@@ -408,7 +407,6 @@ class ReceiveCommits {
   private final PluginSetContext<CommentValidator> commentValidators;
   private final BranchCommitValidator.Factory commitValidatorFactory;
   private final Config config;
-  private final CreateGroupPermissionSyncer createGroupPermissionSyncer;
   private final CreateRefControl createRefControl;
   private final DeadlineChecker.Factory deadlineCheckerFactory;
   private final DiffOperationsForCommitValidation.Factory diffOperationsForCommitValidationFactory;
@@ -509,7 +507,6 @@ class ReceiveCommits {
       CmdLineParser.Factory optionParserFactory,
       DraftCommentsReader draftCommentsReader,
       BranchCommitValidator.Factory commitValidatorFactory,
-      CreateGroupPermissionSyncer createGroupPermissionSyncer,
       CreateRefControl createRefControl,
       DeadlineChecker.Factory deadlineCheckerFactory,
       DiffOperationsForCommitValidation.Factory diffOperationsForCommitValidationFactory,
@@ -567,7 +564,6 @@ class ReceiveCommits {
     this.commitValidatorFactory = commitValidatorFactory;
     this.config = config;
     this.createRefControl = createRefControl;
-    this.createGroupPermissionSyncer = createGroupPermissionSyncer;
     this.deadlineCheckerFactory = deadlineCheckerFactory;
     this.diffOperationsForCommitValidationFactory = diffOperationsForCommitValidationFactory;
     this.editUtil = editUtil;
@@ -3720,13 +3716,6 @@ class ReceiveCommits {
           repo.setGitwebDescription(ps.getProject().getDescription());
         } catch (IOException e) {
           throw new StorageException("cannot update description of " + project.getName(), e);
-        }
-        if (allProjectsName.equals(project.getNameKey())) {
-          try {
-            createGroupPermissionSyncer.syncIfNeeded();
-          } catch (IOException | ConfigInvalidException e) {
-            throw new StorageException("cannot update description of " + project.getName(), e);
-          }
         }
       }
     }

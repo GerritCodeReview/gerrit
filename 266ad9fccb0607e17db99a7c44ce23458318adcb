@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1348140e_91eeec7c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-12-29T11:15:47Z",
+      "side": 1,
+      "message": "This is a Google-internal issue, those are linked by a footer in this syntax: \"Bug: Google b/365577613\".",
+      "revId": "266ad9fccb0607e17db99a7c44ce23458318adcb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e9dfd751_21618a6b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-12-29T11:15:47Z",
+      "side": 1,
+      "message": "To make the \"Release-Notes\" submit requirement pass you need to add a \"Release-Notes\" footer. The value of this footer is added to the release notes later when a new Gerrit version is released. So something like \"Release-Notes: Add config to control if review footers should be included into the commit message on submit\" should work (must be a single line).",
+      "revId": "266ad9fccb0607e17db99a7c44ce23458318adcb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "35b1f7da_f70611a3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-12-29T11:15:47Z",
+      "side": 1,
+      "message": "Thanks much for implementing this! From my side this looks good!",
+      "revId": "266ad9fccb0607e17db99a7c44ce23458318adcb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "20dc9d72_3c6d4017",
+        "filename": "java/com/google/gerrit/server/git/MergeUtil.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 623,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2025-12-29T11:15:47Z",
+      "side": 1,
+      "message": "nit: Maybe update the description here.",
+      "revId": "266ad9fccb0607e17db99a7c44ce23458318adcb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

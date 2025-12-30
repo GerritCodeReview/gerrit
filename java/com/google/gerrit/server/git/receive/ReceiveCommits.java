@@ -234,6 +234,7 @@ import java.util.TreeSet;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -3296,7 +3297,7 @@ class ReceiveCommits {
     ReceiveCommand prev;
     ReceiveCommand cmd;
     PatchSetInfo info;
-    PatchSet.Id priorPatchSet;
+    final AtomicReference<PatchSet.Id> priorPatchSet = new AtomicReference<>();
     ImmutableList<String> groups = ImmutableList.of();
     ReplaceOp replaceOp;
 
@@ -3391,15 +3392,15 @@ class ReceiveCommits {
         }
 
         Change change = notes.getChange();
-        priorPatchSet = change.currentPatchSetId();
-        checkNotNull(priorPatchSet);
-        if (!revisions.containsValue(priorPatchSet)) {
+        priorPatchSet.set(change.currentPatchSetId());
+        checkNotNull(priorPatchSet.get());
+        if (!revisions.containsValue(priorPatchSet.get())) {
           metrics.psRevisionMissing.increment();
           logger.atWarning().log(
               "Change %d is missing revision for patch set %s"
                   + " (it has revisions for these patch sets: %s)",
               change.getChangeId(),
-              priorPatchSet.getId(),
+              priorPatchSet.get().getId(),
               Iterables.toString(
                   revisions.values().stream()
                       .limit(100) // Enough for "normal" changes.
@@ -3518,7 +3519,7 @@ class ReceiveCommits {
     private void sameTreeWarning(RevWalk globalRevWalk) throws IOException {
       try (TraceTimer traceTimer = newTimer("sameTreeWarning")) {
         RevCommit newCommit = globalRevWalk.parseCommit(newCommitId);
-        RevCommit priorCommit = revisions.inverse().get(priorPatchSet);
+        RevCommit priorCommit = revisions.inverse().get(priorPatchSet.get());
 
         if (newCommit.getTree().equals(priorCommit.getTree())) {
           globalRevWalk.parseBody(newCommit);
@@ -3637,11 +3638,11 @@ class ReceiveCommits {
         RevCommit newCommit = globalRevWalk.parseCommit(newCommitId);
         globalRevWalk.parseBody(newCommit);
 
-        RevCommit priorCommit = revisions.inverse().get(priorPatchSet);
+        RevCommit priorCommit = revisions.inverse().get(priorPatchSet.get());
         checkNotNull(projectState);
         checkNotNull(notes.getChange());
         checkNotNull(checkMergedInto ? inputCommand.getNewId().name() : "");
-        checkNotNull(priorPatchSet);
+        checkNotNull(priorPatchSet.get());
         checkNotNull(priorCommit);
         checkNotNull(psId);
         checkNotNull(newCommit);
@@ -3657,7 +3658,7 @@ class ReceiveCommits {
                 notes.getChange(),
                 checkMergedInto,
                 checkMergedInto ? inputCommand.getNewId().name() : "",
-                priorPatchSet,
+                priorPatchSet.get(),
                 priorCommit,
                 psId,
                 newCommit,

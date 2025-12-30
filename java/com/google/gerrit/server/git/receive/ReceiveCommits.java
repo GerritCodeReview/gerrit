@@ -15,6 +15,7 @@
 package com.google.gerrit.server.git.receive;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.collect.ImmutableListMultimap.toImmutableListMultimap;
@@ -3559,6 +3560,7 @@ class ReceiveCommits {
     private boolean newEdit() {
       try (TraceTimer traceTimer = newTimer("newEdit")) {
         psId = notes.getChange().currentPatchSetId();
+        checkNotNull(psId);
         Optional<ChangeEdit> edit;
 
         try {
@@ -3606,6 +3608,7 @@ class ReceiveCommits {
       try (TraceTimer traceTimer = newTimer("newPatchSet")) {
         RevCommit newCommit = globalRevWalk.parseCommit(newCommitId);
         psId = nextPatchSetId(notes.getChange().currentPatchSetId());
+        checkNotNull(psId);
         info = patchSetInfoFactory.get(globalRevWalk, newCommit, psId);
         cmd = new ReceiveCommand(ObjectId.zeroId(), newCommitId, psId.toRefName());
       }

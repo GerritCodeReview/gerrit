@@ -15,11 +15,14 @@
 package com.google.gerrit.server.approval;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
+import static com.google.common.flogger.LazyArgs.lazy;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Strings;
+import com.google.common.base.Supplier;
+import com.google.common.base.Suppliers;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
@@ -354,14 +357,17 @@ public class ApprovalCopier {
       AttributesNodeProvider attributesNodeProvider = repo.createAttributesNodeProvider();
       for (PatchSet.Id followUpPatchSetId : followUpPatchSets) {
         PatchSet followUpPatchSet = psUtil.get(changeNotes, followUpPatchSetId);
-        ChangeKind changeKind =
-            changeKindCache.getChangeKind(
-                changeNotes.getProjectName(),
-                revWalk,
-                repo.getConfig(),
-                attributesNodeProvider,
-                priorPatchSet.commitId(),
-                followUpPatchSet.commitId());
+        PatchSet thisPriorPatchSet = priorPatchSet; // effectively final for memoization
+        Supplier<ChangeKind> changeKind =
+            Suppliers.memoize(
+                () ->
+                    changeKindCache.getChangeKind(
+                        changeNotes.getProjectName(),
+                        revWalk,
+                        repo.getConfig(),
+                        attributesNodeProvider,
+                        thisPriorPatchSet.commitId(),
+                        followUpPatchSet.commitId()));
         boolean isMerge = isMerge(changeNotes.getProjectName(), revWalk, followUpPatchSet);
 
         if (computeCopyResult(
@@ -403,7 +409,7 @@ public class ApprovalCopier {
       Account.Id approverId,
       LabelType labelType,
       short approvalValue,
-      ChangeKind changeKind,
+      Supplier<ChangeKind> changeKindSupplier,
       boolean isMerge,
       RepoView repoView) {
     String forcedCopyCondition =
@@ -424,7 +430,7 @@ public class ApprovalCopier {
             labelType,
             approvalValue,
             targetPatchSet,
-            changeKind,
+            changeKindSupplier.get(),
             isMerge,
             repoView);
     // Use a request context to run checks as an internal user with expanded visibility. This is
@@ -468,7 +474,7 @@ public class ApprovalCopier {
               : "",
           passingAtoms,
           failingAtoms,
-          changeKind.name());
+          changeKindSupplier.get().name());
       return result;
     }
   }
@@ -532,21 +538,23 @@ public class ApprovalCopier {
 
     // Add labels from the previous patch set to the result in case the label isn't already there
     // and settings as well as change kind allow copying.
-    ChangeKind changeKind =
-        changeKindCache.getChangeKind(
-            projectName,
-            repoView.getRevWalk(),
-            repoView.getConfig(),
-            repoView.getAttributesNodeProvider(),
-            priorPatchSet.getValue().commitId(),
-            targetPatchSet.commitId());
+    Supplier<ChangeKind> changeKindSupplier =
+        Suppliers.memoize(
+            () ->
+                changeKindCache.getChangeKind(
+                    projectName,
+                    repoView.getRevWalk(),
+                    repoView.getConfig(),
+                    repoView.getAttributesNodeProvider(),
+                    priorPatchSet.getValue().commitId(),
+                    targetPatchSet.commitId()));
     boolean isMerge = isMerge(projectName, repoView.getRevWalk(), targetPatchSet);
     logger.atFine().log(
         "change kind for patch set %d of change %d against prior patch set %s is %s",
         targetPatchSet.id().get(),
         targetPatchSet.id().changeId().get(),
         priorPatchSet.getValue().id().changeId(),
-        changeKind);
+        lazy(changeKindSupplier::get));
 
     for (PatchSetApproval priorPsa : priorApprovals) {
       if (priorPsa.value() == 0) {
@@ -578,7 +586,7 @@ public class ApprovalCopier {
               priorPsa.accountId(),
               labelType.get(),
               priorPsa.value(),
-              changeKind,
+              changeKindSupplier,
               isMerge,
               repoView);
       if (approvalCopyResult.canCopy()) {

@@ -22,6 +22,7 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Strings;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Table;
 import com.google.common.flogger.FluentLogger;
@@ -508,6 +509,13 @@ public class ApprovalCopier {
       return Result.empty();
     }
 
+    ImmutableListMultimap<PatchSet.Id, PatchSetApproval> allApprovals =
+        notes.load().getApprovals().all();
+    // Bail out immediately if there are no approvals: nothing can be copied or outdated by definition.
+    if (allApprovals.isEmpty()) {
+      return Result.empty();
+    }
+
     Table<String, Account.Id, PatchSetApproval> currentApprovalsByUser = HashBasedTable.create();
     ImmutableList<PatchSetApproval> nonCopiedApprovalsForGivenPatchSet =
         notes.load().getApprovals().onlyNonCopied().get(targetPatchSet.id());
@@ -519,8 +527,7 @@ public class ApprovalCopier {
     ImmutableSet.Builder<Result.PatchSetApprovalData> outdatedApprovalsBuilder =
         ImmutableSet.builder();
 
-    ImmutableList<PatchSetApproval> priorApprovals =
-        notes.load().getApprovals().all().get(priorPatchSet.getKey());
+    ImmutableList<PatchSetApproval> priorApprovals = allApprovals.get(priorPatchSet.getKey());
 
     // Add labels from the previous patch set to the result in case the label isn't already there
     // and settings as well as change kind allow copying.

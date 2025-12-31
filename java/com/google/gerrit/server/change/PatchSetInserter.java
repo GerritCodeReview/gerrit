@@ -21,6 +21,8 @@ import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static java.util.Objects.requireNonNull;
 
+import com.google.common.base.Supplier;
+import com.google.common.base.Suppliers;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
@@ -125,7 +127,7 @@ public class PatchSetInserter implements BatchUpdateOp {
   private Change change;
   private PatchSet patchSet;
   private PatchSetInfo patchSetInfo;
-  private ChangeKind changeKind;
+  private Supplier<ChangeKind> changeKind;
   private String mailMessage;
   private ReviewerSet oldReviewers;
   private boolean oldWorkInProgressState;
@@ -304,13 +306,20 @@ public class PatchSetInserter implements BatchUpdateOp {
     ctx.addRefUpdate(ObjectId.zeroId(), commitId, getPatchSetId().toRefName());
 
     changeKind =
-        changeKindCache.getChangeKind(
-            ctx.getProject(),
-            ctx.getRevWalk(),
-            ctx.getRepoView().getConfig(),
-            ctx.getRepoView().getAttributesNodeProvider(),
-            psUtil.current(origNotes).commitId(),
-            commitId);
+        Suppliers.memoize(
+            () -> {
+              try {
+                return changeKindCache.getChangeKind(
+                    ctx.getProject(),
+                    ctx.getRevWalk(),
+                    ctx.getRepoView().getConfig(),
+                    ctx.getRepoView().getAttributesNodeProvider(),
+                    psUtil.current(origNotes).commitId(),
+                    commitId);
+              } catch (IOException e) {
+                throw new IllegalStateException(e);
+              }
+            });
 
     Optional<ReceiveCommand> autoMerge =
         autoMerger.createAutoMergeCommitIfNecessary(
@@ -431,7 +440,7 @@ public class PatchSetInserter implements BatchUpdateOp {
                   .collect(toImmutableSet()),
               oldReviewers == null ? ImmutableSet.of() : oldReviewers.byState(REVIEWER),
               oldReviewers == null ? ImmutableSet.of() : oldReviewers.byState(CC),
-              changeKind,
+              changeKind.get(),
               preUpdateMetaId)
           .sendAsync();
     }

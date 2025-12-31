@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "341c77ce_728edf92",
+        "filename": "java/com/google/gerrit/server/approval/ApprovalCopier.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-12-31T14:45:29Z",
+      "side": 1,
+      "message": "Why not simply moving the L353 here instead?\n\n\n\n```suggestion\n        PatchSet priorPatchSet \u003d sourcePatchSet; // effectively final for memoization\n```",
+      "revId": "14e3f82b4e7aaf1e1b555a642a1f83f2d5bd87c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

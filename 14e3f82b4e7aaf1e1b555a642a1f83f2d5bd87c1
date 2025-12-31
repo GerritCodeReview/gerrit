@@ -16,6 +16,24 @@
       "message": "Why not simply moving the L353 here instead?\n\n\n\n```suggestion\n        PatchSet priorPatchSet \u003d sourcePatchSet; // effectively final for memoization\n```",
       "revId": "14e3f82b4e7aaf1e1b555a642a1f83f2d5bd87c1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "90f7d31d_b4bf4cdb",
+        "filename": "java/com/google/gerrit/server/approval/ApprovalCopier.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-12-31T16:00:37Z",
+      "side": 1,
+      "message": "The reason I introduced `thisPriorPatchSet` is that `priorPatchSet` is reassigned at the end of each iteration (L392):\n\n```\npriorPatchSet \u003d followUpPatchSet;\n```\n\nSo `thisPriorPatchSet \u003d priorPatchSet` is a per-iteration snapshot to ensure the supplier computes `ChangeKind` for the correct `(prior, followUp)` pair: moving L353 here would mean using \"priorPatchSet \u003d sourcePatchSet\" **always**, which would be incorrect.",
+      "parentUuid": "341c77ce_728edf92",
+      "revId": "14e3f82b4e7aaf1e1b555a642a1f83f2d5bd87c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

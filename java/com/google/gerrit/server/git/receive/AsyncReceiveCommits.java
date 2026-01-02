@@ -270,7 +270,6 @@ public class AsyncReceiveCommits {
   private final ProjectState projectState;
   private final IdentifiedUser user;
   private final Repository repo;
-  private final AllRefsWatcher allRefsWatcher;
 
   @Inject
   AsyncReceiveCommits(
@@ -289,6 +288,7 @@ public class AsyncReceiveCommits {
       QuotaBackend quotaBackend,
       UsersSelfAdvertiseRefsHook usersSelfAdvertiseRefsHook,
       AllUsersName allUsersName,
+      AllRefsWatcher allRefsWatcher,
       @Named(RECEIVE_OVERALL_TIMEOUT_NAME) long receiveTimeoutMillis,
       @Named(RECEIVE_CANCELLATION_TIMEOUT_NAME) long cancellationTimeoutMillis,
       @Assisted ProjectState projectState,
@@ -333,7 +333,6 @@ public class AsyncReceiveCommits {
           receiveConfig.checkReferencedObjectsAreReachable);
     }
 
-    allRefsWatcher = new AllRefsWatcher();
     receivePack.setAdvertiseRefsHook(
         ReceiveCommitsAdvertiseRefsHookChain.create(
             allRefsWatcher,

@@ -27,6 +27,7 @@ import com.google.inject.Provider;
 import com.google.inject.util.Providers;
 import java.util.ArrayList;
 import java.util.List;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.transport.AdvertiseRefsHook;
 import org.eclipse.jgit.transport.AdvertiseRefsHookChain;
 
@@ -78,7 +79,7 @@ public class ReceiveCommitsAdvertiseRefsHookChain {
         Project.NameKey projectName,
         CurrentUser user) {
       return create(
-          new AllRefsWatcher(),
+          new AllRefsWatcher(new Config()),
           new UsersSelfAdvertiseRefsHook(Providers.of(user)),
           new AllUsersName(AllUsersNameProvider.DEFAULT),
           receiveConfig,

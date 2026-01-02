@@ -41,7 +41,11 @@ import {createChangeUrl} from '../../../models/views/change';
 import {userModelToken} from '../../../models/user/user-model';
 import {changeModelToken} from '../../../models/change/change-model';
 import {PatchRangeChangeEvent} from '../../diff/gr-patch-range-select/gr-patch-range-select';
+import {ValueChangedEvent} from '../../../types/events';
+import '@material/web/menu/menu';
+import '@material/web/menu/menu-item';
 import {classMap} from 'lit/directives/class-map.js';
+import '../gr-file-list-filter/gr-file-list-filter';
 
 @customElement('gr-file-list-header')
 export class GrFileListHeader extends LitElement {
@@ -68,6 +72,15 @@ export class GrFileListHeader extends LitElement {
 
   @property({type: String})
   filesExpanded?: FilesExpandedState;
+
+  @property({type: Array})
+  allFileExtensions: string[] = [];
+
+  @property({type: Object})
+  fileExtensionCounts: {[extension: string]: number} = {};
+
+  @property({type: Array})
+  visibleFileExtensions: string[] = [];
 
   @state() latestPatchNum?: PatchSetNumber;
 
@@ -204,6 +217,9 @@ export class GrFileListHeader extends LitElement {
         gr-patch-range-select {
           margin: 0 -4px;
         }
+        gr-file-list-filter {
+          margin-right: 16px;
+        }
         .fileViewActions gr-button {
           margin: 0;
         }
@@ -230,6 +246,12 @@ export class GrFileListHeader extends LitElement {
           .patchInfo-header .desktop {
             display: none;
           }
+        }
+
+        .ext-count {
+          color: var(--deemphasized-text-color);
+          margin-left: var(--spacing-s);
+          font-size: var(--font-size-small);
         }
       `,
     ];
@@ -300,6 +322,7 @@ export class GrFileListHeader extends LitElement {
               >
             </gr-tooltip-content>
           </span>
+          ${this.renderFilter()}
           ${when(
             this.fileListActionsVisible(
               this.shownFileCount,
@@ -416,6 +439,17 @@ export class GrFileListHeader extends LitElement {
   private createTitle(shortcutName: Shortcut, section: ShortcutSection) {
     return this.getShortcutsService().createTitle(shortcutName, section);
   }
+
+  private renderFilter() {
+    return html`
+      <gr-file-list-filter
+        .allFileExtensions=${this.allFileExtensions}
+        .fileExtensionCounts=${this.fileExtensionCounts}
+        .visibleFileExtensions=${this.visibleFileExtensions}
+        .horizontalAlign=${'right'}
+      ></gr-file-list-filter>
+    `;
+  }
 }
 
 declare global {
@@ -427,5 +461,6 @@ declare global {
     'expand-diffs': CustomEvent<{}>;
     'open-diff-prefs': CustomEvent<{}>;
     'open-download-dialog': CustomEvent<{}>;
+    'visible-file-extensions-changed': ValueChangedEvent<string[]>;
   }
 }

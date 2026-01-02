@@ -105,6 +105,7 @@ suite('gr-file-list-header tests', () => {
                 </gr-button>
               </gr-tooltip-content>
             </span>
+            <gr-file-list-filter> </gr-file-list-filter>
             <gr-tooltip-content
               has-tooltip=""
               title="Show/hide all inline diffs (shortcut: Shift+i)"

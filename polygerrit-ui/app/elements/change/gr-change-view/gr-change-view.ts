@@ -357,6 +357,12 @@ export class GrChangeView extends LitElement {
   @state()
   activeTab: Tab | string = Tab.FILES;
 
+  @state() fileExtensions: string[] = [];
+
+  @state() fileExtensionCounts: {[extension: string]: number} = {};
+
+  @state() hiddenFileExtensions: string[] = [];
+
   @state()
   private showSidebarChat = false;
 
@@ -1562,11 +1568,15 @@ export class GrChangeView extends LitElement {
           .editMode=${this.editMode}
           .loggedIn=${this.loggedIn}
           .shownFileCount=${this.shownFileCount ?? 0}
-          .filesExpanded=${this.fileList?.filesExpanded}
+          .allFileExtensions=${this.fileExtensions}
+          .fileExtensionCounts=${this.fileExtensionCounts}
+          .hiddenFileExtensions=${this.hiddenFileExtensions}
           @open-diff-prefs=${this.handleOpenDiffPrefs}
           @open-download-dialog=${this.handleOpenDownloadDialog}
           @expand-diffs=${this.expandAllDiffs}
           @collapse-diffs=${this.collapseAllDiffs}
+          @hidden-file-extensions-changed=${this
+            .handleHiddenFileExtensionsChanged}
         >
         </gr-file-list-header>
         <gr-revision-parents></gr-revision-parents>
@@ -1575,9 +1585,15 @@ export class GrChangeView extends LitElement {
           .change=${this.change}
           .changeNum=${this.changeNum}
           .editMode=${this.editMode}
+          .hiddenFileExtensions=${this.hiddenFileExtensions}
+          @hidden-file-extensions-changed=${this
+            .handleHiddenFileExtensionsChanged}
           @files-shown-changed=${(e: CustomEvent<{length: number}>) => {
             this.shownFileCount = e.detail.length;
           }}
+          @file-extensions-changed=${this.handleFileExtensionsChanged}
+          @file-extension-counts-changed=${this
+            .handleFileExtensionCountsChanged}
           @files-expanded-changed=${(
             _e: ValueChangedEvent<FilesExpandedState>
           ) => {
@@ -2541,6 +2557,20 @@ export class GrChangeView extends LitElement {
     e: CustomEvent<{value: ActionNameToActionInfoMap}>
   ) {
     this.currentRevisionActions = e.detail.value;
+  }
+
+  private handleFileExtensionsChanged(e: ValueChangedEvent<string[]>) {
+    this.fileExtensions = e.detail.value;
+  }
+
+  private handleFileExtensionCountsChanged(
+    e: CustomEvent<{value: {[extension: string]: number}}>
+  ) {
+    this.fileExtensionCounts = e.detail.value;
+  }
+
+  private handleHiddenFileExtensionsChanged(e: ValueChangedEvent<string[]>) {
+    this.hiddenFileExtensions = e.detail.value;
   }
 }
 

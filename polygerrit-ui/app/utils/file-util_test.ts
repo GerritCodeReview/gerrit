@@ -83,6 +83,10 @@ suite('file-util tests', () => {
       assert.equal(getFileExtension('my_file.txt'), 'txt');
       assert.equal(getFileExtension('folder/my_file.java'), 'java');
       assert.equal(getFileExtension('.hidden_file.ts'), 'ts');
+      assert.equal(getFileExtension('my.folder/my_file'), '');
+      assert.equal(getFileExtension('my.folder/my_file.ts'), 'ts');
+      assert.equal(getFileExtension('.gitignore'), '');
+      assert.equal(getFileExtension('archive.tar.gz'), 'gz');
     });
   });
 });

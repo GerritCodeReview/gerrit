@@ -214,6 +214,10 @@ export class SplashPageAction extends LitElement {
     const contextItems = (action.context_item_links ?? []).map(link =>
       parseLink(link, this.contextItemTypes)
     );
+    if (action.external_contexts) {
+      contextItems.push(...action.external_contexts);
+    }
+
     if (contextItems.some(item => !item)) {
       fireAlert(this, 'Failed to parse one or more context item links.');
     }
@@ -226,7 +230,8 @@ export class SplashPageAction extends LitElement {
       this.getChatModel().startNewChatWithUserInput(
         action.initial_user_prompt ?? '',
         action.id,
-        contextItems.filter(isDefined)
+        contextItems.filter(isDefined),
+        /* useCurrentContext */ false // we want to use the context from the action
       );
     }
   }

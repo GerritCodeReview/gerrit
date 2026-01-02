@@ -58,7 +58,7 @@ export class UserMessage extends LitElement {
   }
 
   private get regularContextItems() {
-    return this.contextItems;
+    return this.contextItems.filter(item => !!item.title);
   }
 
   private get numExcessContextItems() {

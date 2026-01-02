@@ -16,8 +16,12 @@ package com.google.gerrit.server.git.receive;
 
 import static com.google.common.base.Preconditions.checkState;
 
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.HookUtil;
 import java.util.Map;
+
+import com.google.inject.Inject;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.transport.AdvertiseRefsHook;
 import org.eclipse.jgit.transport.ReceivePack;
@@ -31,11 +35,19 @@ import org.eclipse.jgit.transport.UploadPack;
  * the repo, even if refs are filtered by a later hook or filter.
  */
 class AllRefsWatcher implements AdvertiseRefsHook {
-  private Map<String, Ref> allRefs;
+	private final boolean useRefCache;
+	private Map<String, Ref> allRefs;
+
+	@Inject
+  AllRefsWatcher(@GerritServerConfig Config config) {
+	  useRefCache = config.getBoolean("receive", "enableInMemoryRefCache", true);
+  }
 
   @Override
   public void advertiseRefs(ReceivePack rp) throws ServiceMayNotContinueException {
-    allRefs = HookUtil.ensureAllRefsAdvertised(rp);
+	  if(useRefCache) {
+		  allRefs = HookUtil.ensureAllRefsAdvertised(rp);
+	  }
   }
 
   @Override
@@ -44,7 +56,10 @@ class AllRefsWatcher implements AdvertiseRefsHook {
   }
 
   Map<String, Ref> getAllRefs() {
-    checkState(allRefs != null, "getAllRefs() only valid after refs were advertised");
-    return allRefs;
+	  if(useRefCache) {
+		  checkState(allRefs != null, "getAllRefs() only valid after refs were advertised");
+		  return allRefs;
+	  }
+	  throw new UnsupportedOperationException();
   }
 }

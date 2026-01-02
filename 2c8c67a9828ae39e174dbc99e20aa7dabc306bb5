@@ -69,6 +69,24 @@
       "parentUuid": "265364df_0497221e",
       "revId": "2c8c67a9828ae39e174dbc99e20aa7dabc306bb5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "84c13eca_b8d05f53",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-01-02T10:52:06Z",
+      "side": 1,
+      "message": "@nasser.grainawi@oss.qualcomm.com\n\n\u003e It would be great if AI could consider the content of each patch so that it doesn\u0027t need to rely only on the commit message (like the AI review prompt does).\n\nI agree, the commit message isn\u0027t enough and I wonder if AI could use MCP for extracting also the context of the patch to gather more information, rather than just the commit message.\n\n\u003e Can we still recommend using it for the non-skip use cases?\n\nYes, I agree. The problem with `Release-Notes: skip` is that people tend to just add it to satisfy the requirement, rather than really checking if there is an impact for the end user or not.\n\nMaybe adding it as a non-blocking requirement?\n\n@milutin@google.com\n\n\u003e I have very different experience with AI. Opus 4.5 or Gemini 3 can do great job to get good notes even from all commit messages in last 6 months.. I can help with prompting or writing script for that.\n\nI agree that AI does a great job of *summarising* the commit messages in a format that matches the release notes; however, they still require a *substantial* amount of work in putting in the correct shape.\n\nEither we lower the quality of the release notes and just use AI (do we then even need them? People can use the AI they want to produce them based on a `git log` command output), or we keep them as they are and we just use AI as a _helper_ to speedup our job of maintainers.\n\nWhat do you think?\n\n\n\n\n\nI would use old release notes and commit messages as example and then ask for new release notes from new commit messages. that\u0027s easy script to implement.\n\nBut this is just proposal. Up to you and Luca.",
+      "parentUuid": "e9a40218_2ac42e98",
+      "revId": "2c8c67a9828ae39e174dbc99e20aa7dabc306bb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

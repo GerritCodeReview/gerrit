@@ -45,11 +45,14 @@ export function expandFileMode(input?: string) {
 }
 
 export function getFileExtension(fileName: string): string {
-  const index = fileName.lastIndexOf('.');
-  if (index === -1) {
+  const lastSlashIndex = fileName.lastIndexOf('/');
+  const baseName =
+    lastSlashIndex === -1 ? fileName : fileName.substring(lastSlashIndex + 1);
+  const index = baseName.lastIndexOf('.');
+  if (index <= 0) {
     return '';
   }
-  return fileName.substring(index + 1);
+  return baseName.substring(index + 1);
 }
 
 export function formatBytes(bytes?: number, enablePrepend = true) {

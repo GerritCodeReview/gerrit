@@ -39,6 +39,10 @@ declare global {
     'confirm': CustomEvent<{}>;
     // prettier-ignore
     'drop': DropEvent;
+    'file-extensions-changed': CustomEvent<{value: string[]}>;
+    'file-extension-counts-changed': CustomEvent<{
+      value: {[extension: string]: number};
+    }>;
     'hide-alert': CustomEvent<{}>;
     'location-change': LocationChangeEvent;
     'iron-announce': IronAnnounceEvent;

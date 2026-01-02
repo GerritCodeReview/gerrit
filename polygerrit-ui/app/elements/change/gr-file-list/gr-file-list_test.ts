@@ -347,6 +347,27 @@ suite('gr-file-list tests', () => {
       );
     });
 
+    test('file extension filtering', async () => {
+      element.files = [
+        normalize({}, 'file.txt'),
+        normalize({}, 'file.ts'),
+        normalize({}, 'file.json'),
+      ];
+      await element.updateComplete;
+      assert.equal(queryAll(element, '.file-row').length, 3);
+      assert.deepEqual(element.fileExtensions, ['.json', '.ts', '.txt']);
+
+      element.visibleFileExtensions = ['.ts', '.json'];
+      await element.updateComplete;
+      assert.equal(queryAll(element, '.file-row').length, 2);
+
+      element.visibleFileExtensions = ['.txt'];
+      await element.updateComplete;
+      assert.equal(queryAll(element, '.file-row').length, 1);
+      const row = queryAndAssert(element, '.file-row');
+      assert.include(row.textContent!, 'file.txt');
+    });
+
     test('renders file status column', async () => {
       element.files = createFiles(1, {lines_inserted: 9});
       element.filesLeftBase = createFiles(1, {lines_inserted: 9});

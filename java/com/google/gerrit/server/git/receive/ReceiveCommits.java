@@ -284,6 +284,9 @@ class ReceiveCommits {
   private boolean skipNewPatchSetValidation =
       Boolean.getBoolean("ghs.gerrit.skip-patch-set-validation");
 
+  private boolean skipCheckImplicitMerges =
+      Boolean.getBoolean("ghs.gerrit.skip-check-implicit-merges");
+
   interface Factory {
     ReceiveCommits create(
         ProjectState projectState,
@@ -2669,7 +2672,8 @@ class ReceiveCommits {
         int total = 0;
         int alreadyTracked = 0;
         boolean rejectImplicitMerges =
-            start.getParentCount() == 1
+            !skipCheckImplicitMerges
+                && start.getParentCount() == 1
                 && projectCache
                     .get(project.getNameKey())
                     .orElseThrow(illegalState(project.getNameKey()))

@@ -16,6 +16,7 @@ import {
   stubRestApi,
 } from '../../../test/test-utils';
 import {GrFileListHeader} from './gr-file-list-header';
+import '../gr-file-list-filter/gr-file-list-filter';
 import {
   BasePatchSetNum,
   ChangeId,
@@ -280,6 +281,30 @@ suite('gr-file-list-header tests', () => {
       await element.updateComplete;
 
       assert.isNotOk(query<HTMLElement>(element, '#editControls'));
+    });
+  });
+
+  suite('filter files', () => {
+    test('filter button hidden when no extensions', async () => {
+      element.allFileExtensions = [];
+      await element.updateComplete;
+      assert.isNotOk(query(element, 'gr-file-list-filter'));
+    });
+
+    test('filter button visible when extensions exist', async () => {
+      element.allFileExtensions = ['.ts', '.json'];
+      await element.updateComplete;
+      assert.isOk(query(element, 'gr-file-list-filter'));
+    });
+
+    test('filter component is passed properties', async () => {
+      element.allFileExtensions = ['.ts', '.json'];
+      element.visibleFileExtensions = ['.ts'];
+      await element.updateComplete;
+
+      const filter = queryAndAssert(element, 'gr-file-list-filter');
+      assert.deepEqual(filter.allFileExtensions, ['.ts', '.json']);
+      assert.deepEqual(filter.visibleFileExtensions, ['.ts']);
     });
   });
 });

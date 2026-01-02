@@ -88,6 +88,7 @@ import {
   FileMode,
   fileModeToString,
   formatBytes,
+  getFileExtension,
 } from '../../../utils/file-util';
 import {ChecksIcon, iconFor} from '../../../models/checks/checks-util';
 
@@ -170,6 +171,7 @@ declare global {
     'files-shown-changed': CustomEvent<{length: number}>;
     'files-expanded-changed': ValueChangedEvent<FilesExpandedState>;
     'diff-prefs-changed': ValueChangedEvent<DiffPreferencesInfo>;
+    'file-extensions-changed': ValueChangedEvent<string[]>;
   }
   interface HTMLElementTagNameMap {
     'gr-file-list': GrFileList;
@@ -215,6 +217,11 @@ export class GrFileList extends LitElement {
 
   @property({type: Boolean})
   editMode = false;
+
+  @property({type: Array})
+  visibleFileExtensions?: string[];
+
+  @state() fileExtensions: string[] = [];
 
   private _filesExpanded = FilesExpandedState.NONE;
 
@@ -930,6 +937,34 @@ export class GrFileList extends LitElement {
       this.numFilesShown = Math.min(this.files.length, DEFAULT_NUM_FILES_SHOWN);
       this.updateSizeBarLayout();
       fire(this, 'files-shown-changed', {length: this.numFilesShown});
+
+      const newExtensions = new Set<string>();
+      const newExtensionCounts: {[extension: string]: number} = {};
+      this.files.forEach(f => {
+        if (
+          f.__path === SpecialFilePath.COMMIT_MESSAGE ||
+          f.__path === SpecialFilePath.MERGE_LIST
+        ) {
+          return;
+        }
+        const extension = getFileExtension(f.__path);
+        const ext = extension ? '.' + extension : extension;
+        newExtensions.add(ext);
+        newExtensionCounts[ext] = (newExtensionCounts[ext] || 0) + 1;
+      });
+      const newExtensionsArr = Array.from(newExtensions).sort((a, b) =>
+        a.localeCompare(b)
+      );
+      if (
+        this.fileExtensions.length !== newExtensionsArr.length ||
+        !this.fileExtensions.every(
+          (val, index) => val === newExtensionsArr[index]
+        )
+      ) {
+        this.fileExtensions = newExtensionsArr;
+        fire(this, 'file-extensions-changed', {value: this.fileExtensions});
+      }
+      fire(this, 'file-extension-counts-changed', {value: newExtensionCounts});
     }
     if (changedProperties.has('expandedFiles')) {
       this.expandedFilesChanged(changedProperties.get('expandedFiles'));
@@ -1128,9 +1163,12 @@ export class GrFileList extends LitElement {
       this.computeShowPrependedDynamicColumns();
 
     const separatorIndex = this.modifiedFiles.length;
+    const files = this.files.filter(f =>
+      this.shouldShowFile(f.status, f.__path)
+    );
 
     return incrementalRepeat({
-      values: this.files,
+      values: files,
       mapFn: (f, i) => html`
         ${when(
           i === separatorIndex &&
@@ -1505,6 +1543,24 @@ export class GrFileList extends LitElement {
         </gr-endpoint-decorator>
       </div>`
     );
+  }
+
+  private shouldShowFile(status?: FileInfoStatus, path?: string) {
+    if (status === FileInfoStatus.UNMODIFIED) return false;
+    // If no path is provided, it's a header row, so we show it.
+    if (!path) return true;
+    if (
+      path === SpecialFilePath.COMMIT_MESSAGE ||
+      path === SpecialFilePath.MERGE_LIST
+    ) {
+      return true;
+    }
+    if (this.visibleFileExtensions && this.visibleFileExtensions.length > 0) {
+      const extension = getFileExtension(path);
+      const extStr = extension ? '.' + extension : extension;
+      return this.visibleFileExtensions.includes(extStr);
+    }
+    return true;
   }
 
   private renderReviewed(file: NormalizedFileInfo) {

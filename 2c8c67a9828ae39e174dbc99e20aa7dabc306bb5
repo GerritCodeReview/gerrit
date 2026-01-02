@@ -51,6 +51,24 @@
       "parentUuid": "520a29d6_d6b58e8a",
       "revId": "2c8c67a9828ae39e174dbc99e20aa7dabc306bb5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e9a40218_2ac42e98",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-01-02T09:57:50Z",
+      "side": 1,
+      "message": "I have very different experience with AI. Opus 4.5 or Gemini 3 can do great job to get good notes even from all commit messages in last 6 months.. I can help with prompting or writing script for that. \n\nI would use old release notes and commit messages as example and then ask for new release notes from new commit messages. that\u0027s easy script to implement.\n\nBut this is just proposal. Up to you and Luca.",
+      "parentUuid": "265364df_0497221e",
+      "revId": "2c8c67a9828ae39e174dbc99e20aa7dabc306bb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

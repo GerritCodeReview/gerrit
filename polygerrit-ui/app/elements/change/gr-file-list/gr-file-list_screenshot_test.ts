@@ -60,4 +60,31 @@ suite('gr-file-list screenshot tests', () => {
     await visualDiff(element, 'gr-file-list');
     await visualDiffDarkTheme(element, 'gr-file-list');
   });
+
+  test('screenshot with file filter active', async () => {
+    element.files = [
+      normalize(
+        {lines_inserted: 15, lines_deleted: 2},
+        'polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts'
+      ),
+      normalize(
+        {lines_inserted: 40, lines_deleted: 0},
+        'polygerrit-ui/app/elements/change/gr-file-list-filter/gr-file-list-filter.ts'
+      ),
+      normalize(
+        {lines_inserted: 8, lines_deleted: 1},
+        'Documentation/rest-api-changes.txt'
+      ),
+      normalize(
+        {lines_inserted: 120, lines_deleted: 5},
+        'gerrit-server/src/main/java/ChangeUtil.java'
+      ),
+      normalize({lines_inserted: 5, lines_deleted: 0}, 'package.json'),
+    ];
+    element.hiddenFileExtensions = ['.txt', '.java'];
+    await element.updateComplete;
+
+    await visualDiff(element, 'gr-file-list-filtered');
+    await visualDiffDarkTheme(element, 'gr-file-list-filtered');
+  });
 });

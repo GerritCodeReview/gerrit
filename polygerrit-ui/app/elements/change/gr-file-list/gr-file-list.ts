@@ -86,6 +86,7 @@ import {
   FileMode,
   fileModeToString,
   formatBytes,
+  getFileExtension,
 } from '../../../utils/file-util';
 import {ChecksIcon, iconFor} from '../../../models/checks/checks-util';
 
@@ -168,6 +169,8 @@ declare global {
     'files-shown-changed': CustomEvent<{length: number}>;
     'files-expanded-changed': ValueChangedEvent<FilesExpandedState>;
     'diff-prefs-changed': ValueChangedEvent<DiffPreferencesInfo>;
+    'file-extensions-changed': ValueChangedEvent<string[]>;
+    'hidden-file-extensions-changed': ValueChangedEvent<string[]>;
   }
   interface HTMLElementTagNameMap {
     'gr-file-list': GrFileList;
@@ -216,6 +219,11 @@ export class GrFileList extends LitElement {
 
   // A promise that resolves when all file expansions are finished rendering.
   filesExpandedPromise?: Promise<void>;
+
+  @property({type: Array})
+  hiddenFileExtensions: string[] = [];
+
+  @state() fileExtensions: string[] = [];
 
   private _filesExpanded = FilesExpandedState.NONE;
 
@@ -569,11 +577,16 @@ export class GrFileList extends LitElement {
           cursor: pointer;
           opacity: 100;
         }
-        .showParentButton {
+        .showParentButton,
+        .resetFilterButton {
           line-height: var(--line-height-normal);
           margin-bottom: calc(var(--spacing-s) * -1);
           margin-left: var(--spacing-m);
           margin-top: calc(var(--spacing-s) * -1);
+        }
+        .cleanlyMergedText,
+        .filteredOutText {
+          color: var(--deemphasized-text-color);
         }
         .row:focus {
           outline: none;
@@ -954,15 +967,63 @@ export class GrFileList extends LitElement {
       this.numFilesShown = Math.min(this.files.length, DEFAULT_NUM_FILES_SHOWN);
       this.updateSizeBarLayout();
       fire(this, 'files-shown-changed', {length: this.numFilesShown});
+
+      const newExtensions = new Set<string>();
+      const newExtensionCounts: {[extension: string]: number} = {};
+      this.files.forEach(f => {
+        if (
+          f.__path === SpecialFilePath.COMMIT_MESSAGE ||
+          f.__path === SpecialFilePath.MERGE_LIST
+        ) {
+          return;
+        }
+        const extension = getFileExtension(f.__path);
+        const ext = extension ? '.' + extension : extension;
+        newExtensions.add(ext);
+        newExtensionCounts[ext] = (newExtensionCounts[ext] || 0) + 1;
+      });
+      const newExtensionsArr = Array.from(newExtensions).sort((a, b) =>
+        a.localeCompare(b)
+      );
+      if (
+        this.fileExtensions.length !== newExtensionsArr.length ||
+        !this.fileExtensions.every(
+          (val, index) => val === newExtensionsArr[index]
+        )
+      ) {
+        this.fileExtensions = newExtensionsArr;
+        fire(this, 'file-extensions-changed', {value: this.fileExtensions});
+      }
+      fire(this, 'file-extension-counts-changed', {value: newExtensionCounts});
     }
     if (changedProperties.has('expandedFiles')) {
       this.filesExpandedPromise = this.expandedFilesChanged(
         changedProperties.get('expandedFiles')
       );
     }
-    if (changedProperties.has('numFilesShown')) {
-      fire(this, 'files-shown-changed', {length: this.numFilesShown});
+    if (
+      changedProperties.has('numFilesShown') ||
+      changedProperties.has('hiddenFileExtensions')
+    ) {
+      fire(this, 'files-shown-changed', {
+        length: Math.min(
+          this.numFilesShown,
+          this.computeFilteredFiles().length
+        ),
+      });
       this.updateSizeBarLayout();
+    }
+  }
+
+  override updated(changedProperties: PropertyValues) {
+    if (
+      changedProperties.has('files') ||
+      changedProperties.has('numFilesShown') ||
+      changedProperties.has('hiddenFileExtensions')
+    ) {
+      this.fileCursor.stops = Array.from(
+        this.shadowRoot?.querySelectorAll(`.${FILE_ROW_CLASS}`) ?? []
+      );
     }
   }
 
@@ -1062,6 +1123,9 @@ export class GrFileList extends LitElement {
         ${when(this.computeShowNumCleanlyMerged(), () =>
           this.renderCleanlyMerged()
         )}
+        ${when(this.computeShowNumFilteredOut(), () =>
+          this.renderFilteredOut()
+        )}
       </div>
     `;
   }
@@ -1153,10 +1217,13 @@ export class GrFileList extends LitElement {
     const showPrependedDynamicColumns =
       this.computeShowPrependedDynamicColumns();
 
-    const separatorIndex = this.modifiedFiles.length;
+    const files = this.computeFilteredFiles();
+    const separatorIndex = this.modifiedFiles.filter(f =>
+      this.shouldShowFile(f.__path)
+    ).length;
 
     return incrementalRepeat({
-      values: this.files,
+      values: files,
       mapFn: (f, i) => html`
         ${when(
           i === separatorIndex &&
@@ -1168,7 +1235,8 @@ export class GrFileList extends LitElement {
           f as NormalizedFileInfo,
           i,
           showDynamicColumns,
-          showPrependedDynamicColumns
+          showPrependedDynamicColumns,
+          files
         )}
       `,
       initialCount: this.fileListIncrement,
@@ -1182,9 +1250,10 @@ export class GrFileList extends LitElement {
     file: NormalizedFileInfo,
     index: number,
     showDynamicColumns: boolean,
-    showPrependedDynamicColumns: boolean
+    showPrependedDynamicColumns: boolean,
+    files: NormalizedFileInfo[] = this.files
   ) {
-    const previousFileName = this.files[index - 1]?.__path;
+    const previousFileName = files[index - 1]?.__path;
     const patchSetFile = this.computePatchSetFile(file);
     return html` <div class="stickyArea">
       <div
@@ -1568,6 +1637,23 @@ export class GrFileList extends LitElement {
     );
   }
 
+  private shouldShowFile(path?: string) {
+    // If no path is provided, it's a header row, so we show it.
+    if (!path) return true;
+    if (
+      path === SpecialFilePath.COMMIT_MESSAGE ||
+      path === SpecialFilePath.MERGE_LIST
+    ) {
+      return true;
+    }
+    if (this.hiddenFileExtensions && this.hiddenFileExtensions.length > 0) {
+      const extension = getFileExtension(path);
+      const extStr = extension ? '.' + extension : extension;
+      return !this.hiddenFileExtensions.includes(extStr);
+    }
+    return true;
+  }
+
   private renderReviewed(file: NormalizedFileInfo) {
     if (!this.loggedIn) return nothing;
     const isReviewed = this.reviewed.includes(file.__path);
@@ -1677,6 +1763,33 @@ export class GrFileList extends LitElement {
             @click=${this.handleShowParent1}
           >
             Show Parent 1
+          </gr-button>
+        </div>
+      </div>
+    </div>`;
+  }
+
+  private renderFilteredOut() {
+    const showPrependedDynamicColumns =
+      this.computeShowPrependedDynamicColumns();
+    const count = this.computeNumFilteredOut();
+    const fileCount = pluralize(count, 'file');
+    return html` <div class="row">
+      <!-- endpoint: change-view-file-list-content-prepend -->
+      ${when(showPrependedDynamicColumns, () =>
+        this.renderPrependedContentEndpoints()
+      )}
+      <div role="gridcell">
+        <div>
+          <span class="filteredOutText">
+            ${fileCount} filtered out by file extension
+          </span>
+          <gr-button
+            link
+            class="resetFilterButton"
+            @click=${this.handleResetFileFilter}
+          >
+            Show all files
           </gr-button>
         </div>
       </div>
@@ -2291,7 +2404,10 @@ export class GrFileList extends LitElement {
     if (index !== undefined) {
       this.fileCursor.setCursorAtIndex(index);
     }
-    if (!this.files[this.fileCursor.index]) {
+    const idx =
+      this.fileCursor.index === -1 ? this.selectedIndex : this.fileCursor.index;
+    const files = this.computeFilteredFiles();
+    if (!files[idx]) {
       return;
     }
     if (!this.change || !this.patchNum) {
@@ -2299,7 +2415,7 @@ export class GrFileList extends LitElement {
     }
     this.getNavigation().setUrl(
       this.getViewModel().diffUrl({
-        diffView: {path: this.files[this.fileCursor.index].__path},
+        diffView: {path: files[idx].__path},
         patchNum: this.patchNum,
         basePatchNum: this.getChangeModel().urlBasePatchNum(
           this.basePatchNum,
@@ -2403,6 +2519,25 @@ export class GrFileList extends LitElement {
     );
   }
 
+  private computeShowNumFilteredOut(): boolean {
+    return this.computeNumFilteredOut() > 0;
+  }
+
+  private computeFilteredFiles(): NormalizedFileInfo[] {
+    return this.files.filter(f => this.shouldShowFile(f.__path));
+  }
+
+  private computeNumFilteredOut(): number {
+    if (!this.hiddenFileExtensions || this.hiddenFileExtensions.length === 0) {
+      return 0;
+    }
+    return this.files.filter(f => !this.shouldShowFile(f.__path)).length;
+  }
+
+  private handleResetFileFilter(): void {
+    fire(this, 'hidden-file-extensions-changed', {value: []});
+  }
+
   // Private but used in tests.
   updateDiffCursor() {
     // Overwrite the cursor's list of diffs:
@@ -2420,20 +2555,24 @@ export class GrFileList extends LitElement {
   }
 
   private incrementNumFilesShown() {
+    const totalFiles = this.computeFilteredFiles().length;
     this.numFilesShown += this.fileListIncrement;
-    if (this.numFilesShown > this.files.length) {
-      this.numFilesShown = this.files.length;
+    if (this.numFilesShown > totalFiles) {
+      this.numFilesShown = totalFiles;
     }
   }
 
   private computeFileListControlClass() {
-    return this.numFilesShown >= this.files.length ? 'invisible' : '';
+    return this.numFilesShown >= this.computeFilteredFiles().length
+      ? 'invisible'
+      : '';
   }
 
   private computeIncrementText() {
+    const totalFiles = this.computeFilteredFiles().length;
     const text = Math.min(
       this.fileListIncrement,
-      this.files.length - this.numFilesShown
+      totalFiles - this.numFilesShown
     );
     return `Show ${text} More`;
   }
@@ -2441,25 +2580,27 @@ export class GrFileList extends LitElement {
   // Private but used in tests.
   computeShowAllText() {
     // Exclude commit message from total count since it's not a real file
-    const fileCount = this.files.filter(
+    const fileCount = this.computeFilteredFiles().filter(
       f => f.__path !== SpecialFilePath.COMMIT_MESSAGE
     ).length;
     return `Show All ${fileCount} Files`;
   }
 
   private computeWarnShowAll() {
-    return this.files.length > WARN_SHOW_ALL_THRESHOLD;
+    return this.computeFilteredFiles().length > WARN_SHOW_ALL_THRESHOLD;
   }
 
   private computeShowAllWarning() {
     if (!this.computeWarnShowAll()) {
       return '';
     }
-    return `Warning: showing all ${this.files.length} files may take several seconds.`;
+    return `Warning: showing all ${
+      this.computeFilteredFiles().length
+    } files may take several seconds.`;
   }
 
   private showAllFiles() {
-    this.numFilesShown = this.files.length;
+    this.numFilesShown = this.computeFilteredFiles().length;
   }
 
   /**
@@ -2616,7 +2757,7 @@ export class GrFileList extends LitElement {
    */
   updateSizeBarLayout() {
     const stats: SizeBarLayout = createDefaultSizeBarLayout();
-    this.files
+    this.computeFilteredFiles()
       .slice(0, this.numFilesShown)
       .filter(f => !isMagicPath(f.__path))
       .forEach(f => {

@@ -211,22 +211,30 @@ export class SplashPageAction extends LitElement {
     const action = this.action;
     if (!action) return;
 
-    const contextItems = (action.context_item_links ?? []).map(link =>
-      parseLink(link, this.contextItemTypes)
-    );
-    if (contextItems.some(item => !item)) {
+    const contextItems = (action.context_item_links ?? [])
+      .map(link => parseLink(link, this.contextItemTypes))
+      .filter(isDefined);
+    if (action.external_contexts) {
+      contextItems.push(...action.external_contexts);
+    }
+
+    if (
+      (action.context_item_links ?? []).length > 0 &&
+      contextItems.length === 0
+    ) {
       fireAlert(this, 'Failed to parse one or more context item links.');
     }
     if (action.enable_send_without_input) {
       this.getChatModel().startNewChatWithPredefinedPrompt(
         action.id,
-        contextItems.filter(isDefined)
+        contextItems
       );
     } else {
       this.getChatModel().startNewChatWithUserInput(
         action.initial_user_prompt ?? '',
         action.id,
-        contextItems.filter(isDefined)
+        contextItems,
+        /* useCurrentContext */ false // we want to use the context from the action
       );
     }
   }

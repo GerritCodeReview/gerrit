@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cc8c37ff_0d60899b",
+        "filename": "polygerrit-ui/app/elements/chat-panel/splash-page-action.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-01-02T13:45:41Z",
+      "side": 1,
+      "message": "this only checks if all items were not parsed `contextItems.length \u003d\u003d\u003d 0`\n\nbefore you checked if any item was parsed as undefined\n\nThis check has regressed?",
+      "range": {
+        "startLine": 222,
+        "startChar": 6,
+        "endLine": 223,
+        "endChar": 31
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "461597dd_ff6d6925",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/splash-page-action.ts",
+              "range": {
+                "startLine": 214,
+                "startChar": 0,
+                "endLine": 217,
+                "endChar": 0
+              },
+              "replacement": "    const contextItemLinks \u003d action.context_item_links ?? [];\n    const parsedContextItems \u003d contextItemLinks.map(link \u003d\u003e\n      parseLink(link, this.contextItemTypes)\n    );\n    const contextItems \u003d parsedContextItems.filter(isDefined);\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/splash-page-action.ts",
+              "range": {
+                "startLine": 221,
+                "startChar": 0,
+                "endLine": 225,
+                "endChar": 0
+              },
+              "replacement": "    if (contextItemLinks.length \u003e contextItems.length) {\n"
+            }
+          ]
+        }
+      ],
+      "revId": "c2bef11c0bce682401f1e9f157d3dababef814a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

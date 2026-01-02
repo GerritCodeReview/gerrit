@@ -50,6 +50,30 @@
       ],
       "revId": "c2bef11c0bce682401f1e9f157d3dababef814a4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "609c518c_46f6c0c8",
+        "filename": "polygerrit-ui/app/elements/chat-panel/splash-page-action.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-01-02T14:24:42Z",
+      "side": 1,
+      "message": "I reverted it back. so the check is same. we just add external_contexts if they exists.",
+      "parentUuid": "cc8c37ff_0d60899b",
+      "range": {
+        "startLine": 222,
+        "startChar": 6,
+        "endLine": 223,
+        "endChar": 31
+      },
+      "revId": "c2bef11c0bce682401f1e9f157d3dababef814a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

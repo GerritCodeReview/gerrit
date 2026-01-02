@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b4088d43_c8478d87",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 3262481
+      },
+      "writtenOn": "2026-01-02T18:10:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1348140e_91eeec7c",
+      "revId": "266ad9fccb0607e17db99a7c44ce23458318adcb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e9dfd751_21618a6b",
@@ -31,6 +49,24 @@
       "writtenOn": "2025-12-29T11:15:47Z",
       "side": 1,
       "message": "To make the \"Release-Notes\" submit requirement pass you need to add a \"Release-Notes\" footer. The value of this footer is added to the release notes later when a new Gerrit version is released. So something like \"Release-Notes: Add config to control if review footers should be included into the commit message on submit\" should work (must be a single line).",
+      "revId": "266ad9fccb0607e17db99a7c44ce23458318adcb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "15f0fe40_64355390",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 3262481
+      },
+      "writtenOn": "2026-01-02T18:10:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e9dfd751_21618a6b",
       "revId": "266ad9fccb0607e17db99a7c44ce23458318adcb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -65,6 +101,24 @@
       "writtenOn": "2025-12-29T11:15:47Z",
       "side": 1,
       "message": "nit: Maybe update the description here.",
+      "revId": "266ad9fccb0607e17db99a7c44ce23458318adcb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2f3c55f7_942ed371",
+        "filename": "java/com/google/gerrit/server/git/MergeUtil.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 623,
+      "author": {
+        "id": 3262481
+      },
+      "writtenOn": "2026-01-02T18:10:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "20dc9d72_3c6d4017",
       "revId": "266ad9fccb0607e17db99a7c44ce23458318adcb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

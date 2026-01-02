@@ -19,7 +19,7 @@ import './core/gr-keyboard-shortcuts-dialog/gr-keyboard-shortcuts-dialog';
 import './core/gr-main-header/gr-main-header';
 import './diff/gr-diff-view/gr-diff-view';
 import './edit/gr-editor-view/gr-editor-view';
-import './plugins/gr-endpoint-decorator/gr-endpoint-decorator';
+import {GrEndpointDecorator} from './plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import './plugins/gr-plugin-host/gr-plugin-host';
 import './plugins/gr-plugin-screen/gr-plugin-screen';
 import './settings/gr-cla-view/gr-cla-view';
@@ -105,6 +105,10 @@ export class GrAppElement extends LitElement {
   @query('#keyboardShortcuts') keyboardShortcuts?: HTMLDialogElement;
 
   @query('gr-settings-view') settingsView?: GrSettingsView;
+
+  @query('gr-endpoint-decorator[name="banner"]') banner?: GrEndpointDecorator;
+
+  private bannerResizeObserver?: ResizeObserver;
 
   @property({type: Object})
   params?: AppElementParams;
@@ -269,6 +273,25 @@ export class GrAppElement extends LitElement {
     // Note: this is evaluated here to ensure that it only happens after the
     // router has been initialized. @see Issue 7837
     this.settingsUrl = createSettingsUrl();
+
+    document.addEventListener('scroll', this.handleScroll);
+  }
+
+  override disconnectedCallback() {
+    document.removeEventListener('scroll', this.handleScroll);
+    this.bannerResizeObserver?.disconnect();
+    super.disconnectedCallback();
+  }
+
+  override firstUpdated(changedProperties: PropertyValues) {
+    super.firstUpdated(changedProperties);
+    if (this.banner) {
+      this.bannerResizeObserver = new ResizeObserver(entries =>
+        this.handleBannerResize(entries)
+      );
+      this.bannerResizeObserver.observe(this.banner);
+      this.handleScroll();
+    }
   }
 
   static override get styles() {
@@ -605,6 +628,26 @@ export class GrAppElement extends LitElement {
       removeDarkTheme();
     }
   }
+
+  private handleBannerResize(entries: ResizeObserverEntry[]) {
+    for (const entry of entries) {
+      this.updateBannerOffset(entry.contentRect.height);
+    }
+  }
+
+  private updateBannerOffset(bannerHeight: number) {
+    const bannerOffset = Math.max(0, bannerHeight - window.scrollY);
+    document.documentElement.style.setProperty(
+      '--banner-offset',
+      `${bannerOffset}px`
+    );
+  }
+
+  private readonly handleScroll = () => {
+    if (this.banner) {
+      this.updateBannerOffset(this.banner.offsetHeight);
+    }
+  };
 
   private handlePageError(e: CustomEvent<PageErrorEventDetail>) {
     this.view = undefined;

@@ -287,6 +287,9 @@ class ReceiveCommits {
   private boolean skipCheckImplicitMerges =
       Boolean.getBoolean("ghs.gerrit.skip-check-implicit-merges");
 
+  private boolean skipConnectedValidation =
+      Boolean.getBoolean("ghs.gerrit.skip-connected-validation");
+
   interface Factory {
     ReceiveCommits create(
         ProjectState projectState,
@@ -2463,7 +2466,8 @@ class ReceiveCommits {
             String.format("Error walking to %s in project %s", destBranch, project.getName()), e);
       }
 
-      if (validateConnected(globalRevWalk, magicBranch.cmd, magicBranch.dest, tip)) {
+      if (skipConnectedValidation
+          || validateConnected(globalRevWalk, magicBranch.cmd, magicBranch.dest, tip)) {
         this.magicBranch = magicBranch;
         this.result.magicPush(true);
       }

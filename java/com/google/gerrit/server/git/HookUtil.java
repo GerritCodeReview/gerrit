@@ -16,9 +16,12 @@ package com.google.gerrit.server.git;
 
 import static java.util.stream.Collectors.toMap;
 
+import com.google.common.collect.Streams;
+import com.google.gerrit.entities.RefNames;
 import java.io.IOException;
 import java.util.Map;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.transport.ReceivePack;
 import org.eclipse.jgit.transport.ServiceMayNotContinueException;
 import org.eclipse.jgit.transport.UploadPack;
@@ -42,6 +45,36 @@ public class HookUtil {
     try {
       refs =
           rp.getRepository().getRefDatabase().getRefs().stream()
+              .collect(toMap(Ref::getName, r -> r));
+      rp.setAdvertisedRefs(refs, rp.getAdvertisedObjects());
+    } catch (ServiceMayNotContinueException e) {
+      throw e;
+    } catch (IOException e) {
+      throw new ServiceMayNotContinueException(e);
+    }
+    return refs;
+  }
+
+  /**
+   * Scan and advertise all refs/heads/ and refs/tags/ in the repo if refs have not already been
+   * advertised; otherwise, just return the advertised map.
+   *
+   * @param rp receive-pack handler.
+   * @return map of refs that were advertised.
+   * @throws ServiceMayNotContinueException if a problem occurred.
+   */
+  public static Map<String, Ref> ensureAllRefsHeadsTagsAdvertised(ReceivePack rp)
+      throws ServiceMayNotContinueException {
+    Map<String, Ref> refs = rp.getAdvertisedRefs();
+    if (refs != null) {
+      return refs;
+    }
+    try {
+      RefDatabase refDb = rp.getRepository().getRefDatabase();
+      refs =
+          Streams.concat(
+                  refDb.getRefsByPrefix(RefNames.REFS_HEADS).stream(),
+                  refDb.getRefsByPrefix(RefNames.REFS_TAGS).stream())
               .collect(toMap(Ref::getName, r -> r));
       rp.setAdvertisedRefs(refs, rp.getAdvertisedObjects());
     } catch (ServiceMayNotContinueException e) {

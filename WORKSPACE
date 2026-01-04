@@ -67,10 +67,6 @@ browser_repositories(
 
 declare_nongoogle_deps()
 
-load("//tools:defs.bzl", "gerrit_init")
-
-gerrit_init()
-
 # Java-Prettify external repository consumed from git submodule
 local_repository(
     name = "java-prettify",

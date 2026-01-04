@@ -28,14 +28,6 @@ def archive_dependencies():
             "sha256": "218efe8ee736d26a3572663b374a253c012b716d8af0c07e842e82f238a0a7ee",
         },
         {
-            "name": "bazel_features",
-            "strip_prefix": "bazel_features-1.11.0",
-            "urls": [
-                "https://github.com/bazel-contrib/bazel_features/releases/download/v1.11.0/bazel_features-v1.11.0.tar.gz",
-            ],
-            "sha256": "2cd9e57d4c38675d321731d65c15258f3a66438ad531ae09cb8bb14217dc8572",
-        },
-        {
             "name": "rules_java",
             "urls": [
                 "https://github.com/bazelbuild/rules_java/releases/download/7.6.1/rules_java-7.6.1.tar.gz",

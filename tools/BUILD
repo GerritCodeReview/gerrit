@@ -29,8 +29,7 @@ proto_lang_toolchain(
     target_version = VERSION,
     visibility = ["//visibility:public"],
 ) for VERSION in [
-    "17",
-    "21",
+    "25",
 ]]
 
 # Error Prone errors enabled by default; see ../.bazelrc for how this is

@@ -14,7 +14,23 @@ bazel_dep(name = "rules_proto", version = "7.1.0")
 # because they register the from-source toolchain,
 # and the first registration wins.
 bazel_dep(name = "toolchains_protoc", version = "0.6.0")
+
+protoc = use_extension("@toolchains_protoc//protoc:extensions.bzl", "protoc")
+protoc.toolchain(
+    google_protobuf = "com_google_protobuf",
+    version = "v33.0",
+)
+
 bazel_dep(name = "protobuf", version = "33.2")
+
+# TODO(davido): Use a proper release once the prebuilt toolchain is available there.
+# https://github.com/protocolbuffers/protobuf/issues/19558
+git_override(
+    module_name = "protobuf",
+    commit = "cc23698b486e690ea2eb873cc7596a87c74a3ba6",
+    remote = "https://github.com/protocolbuffers/protobuf",
+)
+
 bazel_dep(name = "jgit")
 local_path_override(
     module_name = "jgit",

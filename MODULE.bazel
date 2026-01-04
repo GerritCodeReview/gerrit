@@ -1,6 +1,7 @@
 # TODO(davido): Migrate all dependencies from WORKSPACE to MODULE.bazel
 # https://issues.gerritcodereview.com/issues/303819949
 
+bazel_dep(name = "bazel_features", version = "1.39.0")
 bazel_dep(name = "rules_jvm_external", version = "6.7")
 bazel_dep(name = "rules_shell", version = "0.6.1")
 

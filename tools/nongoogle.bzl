@@ -17,17 +17,6 @@ GUAVA_VERSION = "33.4.8-jre"
 
 GUAVA_DOC_URL = "https://guava.dev/releases/" + GUAVA_VERSION + "/api/docs/"
 
-def archive_dependencies():
-    return [
-        {
-            "name": "rules_java",
-            "urls": [
-                "https://github.com/bazelbuild/rules_java/releases/download/7.6.1/rules_java-7.6.1.tar.gz",
-            ],
-            "sha256": "f8ae9ed3887df02f40de9f4f7ac3873e6dd7a471f9cddf63952538b94b59aeb3",
-        },
-    ]
-
 def declare_nongoogle_deps():
     """loads dependencies that are not used at Google.
 
@@ -35,11 +24,6 @@ def declare_nongoogle_deps():
     dependencies must pass through library compliance review. This is
     enforced by //lib:nongoogle_test.
     """
-
-    for dependency in archive_dependencies():
-        params = {}
-        params.update(**dependency)
-        maybe(http_archive, params.pop("name"), **params)
 
     maven_jar(
         name = "log4j",

@@ -2,6 +2,9 @@
 # https://issues.gerritcodereview.com/issues/303819949
 common --enable_bzlmod
 
+# TODO(davido): Remove this hybrid mode option once bzlmod migration is completed
+common --enable_workspace
+
 # TODO(davido): Remove this flag once Polygerrit code no longer depends on empty globs.
 # Starting with Bazel 8.0.0 this flag is enabled by default.
 common --incompatible_disallow_empty_glob=false

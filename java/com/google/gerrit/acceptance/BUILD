@@ -98,10 +98,18 @@ java_library(
     ] + DEPLOY_ENV + TEST_DEPS,
 )
 
+# TODO(davido): Bazel 8.x fails when using deploy_env in this java_binary.
+# acceptance/BUILD:101:12:
+# @@rules_java+//java/bazel/rules:bazel_java_binary.bzl cannot access the
+# _transitive_validation private API.
+#
+# As a workaround, deploy_env is disabled, which increases the size of
+# framework_deploy.jar from ~22 MiB to ~96 MiB (~4.3x).
+# Re-enable deploy_env once the Bazel / rules_java issue is fixed.
 java_binary(
     name = "framework",
     testonly = True,
-    deploy_env = [":framework-deploy-env"],
+    # deploy_env = [":framework-deploy-env"],
     main_class = "Dummy",
     visibility = ["//visibility:public"],
     runtime_deps = [":framework-lib"],

@@ -43,22 +43,6 @@ def archive_dependencies():
             "sha256": "f8ae9ed3887df02f40de9f4f7ac3873e6dd7a471f9cddf63952538b94b59aeb3",
         },
         {
-            "name": "rules_proto",
-            "strip_prefix": "rules_proto-6.0.0",
-            "urls": [
-                "https://github.com/bazelbuild/rules_proto/releases/download/6.0.0/rules_proto-6.0.0.tar.gz",
-            ],
-            "sha256": "303e86e722a520f6f326a50b41cfc16b98fe6d1955ce46642a5b7a67c11c0f5d",
-        },
-        {
-            "name": "toolchains_protoc",
-            "strip_prefix": "toolchains_protoc-0.3.0",
-            "urls": [
-                "https://github.com/aspect-build/toolchains_protoc/releases/download/v0.3.0/toolchains_protoc-v0.3.0.tar.gz",
-            ],
-            "sha256": "117af61ee2f1b9b014dcac7c9146f374875551abb8a30e51d1b3c5946d25b142",
-        },
-        {
             "name": "ubuntu2204_jdk21",
             "strip_prefix": "rbe_autoconfig-5.2.0",
             "urls": [
@@ -302,8 +286,8 @@ def declare_nongoogle_deps():
 
     maven_jar(
         name = "protobuf-java",
-        artifact = "com.google.protobuf:protobuf-java:3.25.3",
-        sha1 = "d3200261955f3298e0d85c9892201e70492ce8eb",
+        artifact = "com.google.protobuf:protobuf-java:4.33.2",
+        sha1 = "c85bf5de1ad10453792675f6515401f7b8eb6860",
     )
 
     maven_jar(

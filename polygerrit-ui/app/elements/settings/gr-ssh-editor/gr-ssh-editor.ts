@@ -235,6 +235,7 @@ export class GrSshEditor extends LitElement {
 
   private showKey(e: Event) {
     const el = e.target as GrButton;
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
     const index = Number(el.getAttribute('data-index')!);
     this.keyToView = this.keys[index];
     this.viewKeyModal.showModal();
@@ -242,6 +243,7 @@ export class GrSshEditor extends LitElement {
 
   private handleDeleteKey(e: Event) {
     const el = e.target as GrButton;
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
     const index = Number(el.getAttribute('data-index')!);
     this.keysToRemove.push(this.keys[index]);
     this.keys.splice(index, 1);

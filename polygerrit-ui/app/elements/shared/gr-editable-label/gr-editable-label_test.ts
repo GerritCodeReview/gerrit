@@ -274,6 +274,7 @@ suite('gr-editable-label tests', () => {
 
       await waitUntil(() => !autocomplete.suggestionsDropdown!.isHidden);
 
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
       pressKey(autocomplete.input!, Key.ESC);
 
       await waitUntil(() => autocomplete.suggestionsDropdown!.isHidden);
@@ -285,9 +286,11 @@ suite('gr-editable-label tests', () => {
       await element.open();
       await waitUntil(() => !autocomplete.suggestionsDropdown!.isHidden);
       // Press esc to close suggestions.
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
       pressKey(autocomplete.input!, Key.ESC);
       await waitUntil(() => autocomplete.suggestionsDropdown!.isHidden);
 
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
       pressKey(autocomplete.input!, Key.ESC);
 
       await element.updateComplete;
@@ -306,6 +309,7 @@ suite('gr-editable-label tests', () => {
       await waitUntil(() => !autocomplete.suggestionsDropdown!.isHidden);
       await autocomplete.latestSuggestionUpdateComplete;
 
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
       pressKey(autocomplete.input!, Key.ENTER);
 
       await waitUntil(() => autocomplete.suggestionsDropdown!.isHidden);
@@ -327,10 +331,12 @@ suite('gr-editable-label tests', () => {
       await autocomplete.latestSuggestionUpdateComplete;
 
       // Press enter to close suggestions.
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
       pressKey(autocomplete.input!, Key.ENTER);
 
       await waitUntil(() => autocomplete.suggestionsDropdown!.isHidden);
 
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
       pressKey(autocomplete.input!, Key.ENTER);
 
       await element.updateComplete;

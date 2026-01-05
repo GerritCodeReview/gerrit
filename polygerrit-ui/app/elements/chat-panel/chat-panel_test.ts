@@ -128,6 +128,7 @@ suite('chat-panel tests', () => {
     const policy = element.shadowRoot!.querySelector('.ai-policy');
     assert.isOk(policy);
     assert.include(
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
       policy.textContent!,
       'Review agent may display inaccurate info'
     );

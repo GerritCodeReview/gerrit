@@ -206,6 +206,7 @@ suite('gr-dropdown tests', () => {
       const stub = sinon.stub(element.cursor, 'next');
       assertIsDefined(element.dropdown);
       assert.isFalse(element.dropdown.open);
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
       pressKey(element!.shadowRoot!.querySelector('#trigger')!, 'ArrowDown');
       await element.updateComplete;
       assert.isTrue(element.dropdown.open);
@@ -221,6 +222,7 @@ suite('gr-dropdown tests', () => {
       assertIsDefined(element.dropdown);
       const stub = sinon.stub(element.cursor, 'previous');
       assert.isFalse(element.dropdown.open);
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
       pressKey(element!.shadowRoot!.querySelector('#trigger')!, 'ArrowUp');
       await element.updateComplete;
       assert.isTrue(element.dropdown.open);
@@ -237,6 +239,7 @@ suite('gr-dropdown tests', () => {
       // Because enter and space are handled by the same fn, we need only to
       // test one.
       assert.isFalse(element.dropdown.open);
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
       pressKey(element!.shadowRoot!.querySelector('#trigger')!, ' ');
       await element.updateComplete;
       assert.isTrue(element.dropdown.open);

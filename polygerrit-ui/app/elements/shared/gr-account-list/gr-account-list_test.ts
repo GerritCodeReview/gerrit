@@ -471,6 +471,7 @@ suite('gr-account-list tests', () => {
       await element.updateComplete;
       const chips = element.accountChips;
       const chipsOneSpy = sinon.spy(chips[1], 'focus');
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
       pressKey(input.input!, 'ArrowLeft');
       assert.isTrue(chipsOneSpy.called);
       const chipsZeroSpy = sinon.spy(chips[0], 'focus');

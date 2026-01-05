@@ -16,6 +16,23 @@
       "message": "Привет",
       "revId": "4d3018641c66aeb344e8443ea097da12e7a7d497",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d23a49a5_767a49fe",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4549875
+      },
+      "writtenOn": "2026-01-05T10:30:29Z",
+      "side": 1,
+      "message": "git push origin HEAD:refs/for/refs/meta/config",
+      "revId": "4d3018641c66aeb344e8443ea097da12e7a7d497",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

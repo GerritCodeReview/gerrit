@@ -630,6 +630,21 @@ events with the
 `com.google.gerrit.server.events.EventDeserializer` class requires
 that the event be registered in EventTypes.
 
+== Serializing cache-eviction events
+
+If the plugin also register a new cache with a key who's type is a
+non-primitive, e.g. ProjectName, Account.Id or any other custom type, then the
+plugin needs to register the key type as well. This can be done by invoking
+`registerKeyType` like so:
+
+[source,java]
+----
+registerKeyType(CACHE_KEY_NAME, CACHE_KEY_TYPE);
+----
+
+Where `CACHE_KEY_NAME` can be any arbitrary string while `CACHE_KEY_TYPE` should
+be the class instance of the key type, e.g. `GeneralProjectName.class`
+
 == Modifying the Stream Event Flow
 
 It is possible to modify the stream event flow from plugins by registering

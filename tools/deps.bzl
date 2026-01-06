@@ -21,7 +21,7 @@ GITILES_REPO = GERRIT
 BC_VERS = "1.80"
 HTTPCOMP_VERS = "4.5.14"
 JETTY_VERS = "9.4.57.v20241219"
-BYTE_BUDDY_VERSION = "1.14.9"
+BYTE_BUDDY_VERSION = "1.18.3"
 ROARING_BITMAP_VERSION = "0.9.44"
 
 def java_dependencies():
@@ -505,13 +505,13 @@ def java_dependencies():
     maven_jar(
         name = "bytebuddy",
         artifact = "net.bytebuddy:byte-buddy:" + BYTE_BUDDY_VERSION,
-        sha1 = "b69e7fff6c473d3ed2b489cdfd673a091fd94226",
+        sha1 = "c35b2e4bf0e22e4d492936d46506bb2e6d8fafc8",
     )
 
     maven_jar(
         name = "bytebuddy-agent",
         artifact = "net.bytebuddy:byte-buddy-agent:" + BYTE_BUDDY_VERSION,
-        sha1 = "dfb8707031008535048bad2b69735f46d0b6c5e5",
+        sha1 = "5768bb83a282ecd982b2ac09e5230f3dbcf836c5",
     )
 
     maven_jar(

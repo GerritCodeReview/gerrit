@@ -31,6 +31,8 @@ import com.google.inject.name.Names;
 import com.google.inject.util.Types;
 import java.lang.reflect.Type;
 
+import static com.google.gerrit.server.cache.CacheKeyType.registerKeyType;
+
 /** Miniature DSL to support binding {@link Cache} instances in Guice. */
 public abstract class CacheModule extends FactoryModule {
   public static final String MEMORY_MODULE = "cache-memory";
@@ -169,6 +171,9 @@ public abstract class CacheModule extends FactoryModule {
 
   private <K, V> void bindCache(
       CacheProvider<K, V> m, String name, TypeLiteral<K> keyType, TypeLiteral<V> valType) {
+    if (!keyType.getRawType().isPrimitive())
+      registerKeyType(name, keyType.getRawType());
+
     Type type = Types.newParameterizedType(Cache.class, keyType.getType(), valType.getType());
     Named named = Names.named(name);
 

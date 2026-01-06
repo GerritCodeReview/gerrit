@@ -37,6 +37,7 @@ public abstract class CacheModule extends FactoryModule {
   public static final String PERSISTENT_MODULE = "cache-persistent";
 
   private static final TypeLiteral<Cache<?, ?>> ANY_CACHE = new TypeLiteral<>() {};
+  private static final TypeLiteral<CacheDef<?, ?>> ANY_CACHE_DEF = new TypeLiteral<>() {};
 
   /**
    * Declare a named in-memory cache.
@@ -182,7 +183,7 @@ public abstract class CacheModule extends FactoryModule {
     @SuppressWarnings("unchecked")
     Key<CacheDef<K, V>> cacheDefKey = (Key<CacheDef<K, V>>) Key.get(cacheDefType, named);
     bind(cacheDefKey).toInstance(m);
-
+    bind(ANY_CACHE_DEF).annotatedWith(Exports.named(name)).to(cacheDefKey);
     m.maximumWeight(1024);
   }
 }

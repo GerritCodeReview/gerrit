@@ -2293,6 +2293,21 @@ MyType(@PluginData java.nio.file.Path myDir) {
 }
 ----
 
+[[cache-def]]
+== Cache Definitions
+
+Plugins can request a view of the definitions of all registered caches by
+injecting a `DynamicMap<CacheDef<?,?>>`. This will allow plugins to inspect what
+caches are currently registered and what their schema looks like.
+
+[source,java]
+----
+@Inject
+public MyClass(DynamicMap<CacheDef<?, ?>> cacheMap) {
+  // your code
+}
+----
+
 [[secure-store]]
 == SecureStore
 

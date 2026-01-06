@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.cache;
 
+import static com.google.gerrit.server.cache.CacheKeyType.registerKeyType;
+
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
@@ -169,6 +171,9 @@ public abstract class CacheModule extends FactoryModule {
 
   private <K, V> void bindCache(
       CacheProvider<K, V> m, String name, TypeLiteral<K> keyType, TypeLiteral<V> valType) {
+    if (!keyType.getRawType().equals(String.class) && !keyType.getRawType().isPrimitive())
+      registerKeyType(name, keyType.getRawType());
+
     Type type = Types.newParameterizedType(Cache.class, keyType.getType(), valType.getType());
     Named named = Names.named(name);
 

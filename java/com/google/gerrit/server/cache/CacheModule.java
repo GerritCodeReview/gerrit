@@ -169,6 +169,10 @@ public abstract class CacheModule extends FactoryModule {
 
   private <K, V> void bindCache(
       CacheProvider<K, V> m, String name, TypeLiteral<K> keyType, TypeLiteral<V> valType) {
+    if (!keyType.getRawType().equals(String.class) && !keyType.getRawType().equals(Integer.class)) {
+      CacheKeyType.registerKeyType(name, keyType.getRawType());
+    }
+
     Type type = Types.newParameterizedType(Cache.class, keyType.getType(), valType.getType());
     Named named = Names.named(name);
 

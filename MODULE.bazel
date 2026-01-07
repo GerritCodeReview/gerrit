@@ -8,6 +8,7 @@ bazel_dep(name = "rules_shell", version = "0.6.1")
 bazel_dep(name = "rules_java", version = "7.6.1")
 bazel_dep(name = "toolchains_protoc", version = "0.3.0")
 bazel_dep(name = "rules_proto", version = "6.0.0")
+bazel_dep(name = "rules_python", version = "1.8.0-rc1")
 
 bazel_dep(name = "jgit")
 local_path_override(

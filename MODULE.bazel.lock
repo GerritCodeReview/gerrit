@@ -240,7 +240,7 @@
               ],
               "distutils_content": "",
               "strip_prefix": "python",
-              "ignore_root_user_error": false
+              "ignore_root_user_error": true
             }
           },
           "python_3_11_aarch64-unknown-linux-gnu": {
@@ -257,7 +257,7 @@
               ],
               "distutils_content": "",
               "strip_prefix": "python",
-              "ignore_root_user_error": false
+              "ignore_root_user_error": true
             }
           },
           "python_3_11_x86_64-apple-darwin": {
@@ -274,7 +274,7 @@
               ],
               "distutils_content": "",
               "strip_prefix": "python",
-              "ignore_root_user_error": false
+              "ignore_root_user_error": true
             }
           },
           "python_3_11_x86_64-pc-windows-msvc": {
@@ -291,7 +291,7 @@
               ],
               "distutils_content": "",
               "strip_prefix": "python",
-              "ignore_root_user_error": false
+              "ignore_root_user_error": true
             }
           },
           "python_3_11_x86_64-unknown-linux-gnu": {
@@ -308,7 +308,7 @@
               ],
               "distutils_content": "",
               "strip_prefix": "python",
-              "ignore_root_user_error": false
+              "ignore_root_user_error": true
             }
           },
           "python_3_11": {

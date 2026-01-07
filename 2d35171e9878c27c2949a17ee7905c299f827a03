@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "51586fec_6e20d5bb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-01-07T10:35:47Z",
+      "side": 1,
+      "message": "I am also currently working on moving to aspect-rules-js, which would allow us to get rid of concatjs, but that is a huge effort and I am stuck to getting some small stuff to work.",
+      "revId": "2d35171e9878c27c2949a17ee7905c299f827a03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

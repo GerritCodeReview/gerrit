@@ -52,6 +52,24 @@
       "parentUuid": "c44b2c5f_9cb8d2ee",
       "revId": "b0f4c7d0edf79e33483631829a2fe1af572ac722",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a18b9247_9320de8c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2026-01-07T11:09:56Z",
+      "side": 1,
+      "message": "ok, but at the end of the migration to bazel modules I\u0027d like to be able to run the jgit tests since one of the goals of adding the jgit repo as a submodule to the gerrit repo was to simplify jgit development in gerrit context. Sometimes we add new code in both jgit and gerrit depending on each other and then we need to be able to run both gerrit and jgit tests in that setup.",
+      "parentUuid": "bb331412_515591aa",
+      "revId": "b0f4c7d0edf79e33483631829a2fe1af572ac722",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

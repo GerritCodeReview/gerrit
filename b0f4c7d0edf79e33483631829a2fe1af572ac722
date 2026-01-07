@@ -34,6 +34,24 @@
       "parentUuid": "594b6288_d3de72a9",
       "revId": "b0f4c7d0edf79e33483631829a2fe1af572ac722",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bb331412_515591aa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-01-07T10:52:50Z",
+      "side": 1,
+      "message": "Although, that wouldn\u0027t work of course, but the tests should be excluded. Or we have to wait for the changes that make bazlets a module at which point we use it in Gerrit\u0027s module as well.",
+      "parentUuid": "c44b2c5f_9cb8d2ee",
+      "revId": "b0f4c7d0edf79e33483631829a2fe1af572ac722",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

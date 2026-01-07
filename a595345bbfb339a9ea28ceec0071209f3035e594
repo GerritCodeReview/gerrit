@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b9acb5f5_7dacb389",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 1605,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-01-07T22:18:51Z",
+      "side": 1,
+      "message": "Nit: Can you wrap this earlier so that it is similar in length (need not be precise) to the other lines in this file near here?",
+      "revId": "a595345bbfb339a9ea28ceec0071209f3035e594",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

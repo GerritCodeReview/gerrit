@@ -356,8 +356,8 @@ public class QueryChangesIT extends AbstractDaemonTest {
   @Test
   public void testInvalidListChangeOption() throws Exception {
     PushOneCommit.Result r = createChange();
-    RestResponse rep = adminRestSession.get("/changes/" + r.getChange().getId() + "/?O=ffffffff");
-    rep.assertBadRequest();
+    RestResponse resp = adminRestSession.get("/changes/" + r.getChange().getId() + "/?O=ffffffff");
+    resp.assertBadRequest();
   }
 
   /**

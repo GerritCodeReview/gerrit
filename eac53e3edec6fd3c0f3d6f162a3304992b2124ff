@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "389c1219_1534b5d2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4362866
+      },
+      "writtenOn": "2026-01-07T06:32:12Z",
+      "side": 1,
+      "message": "457608: Add a 2px colored bottom border to the change header to indicate status | https://gerrit-review.googlesource.com/c/gerrit/+/457608",
+      "revId": "eac53e3edec6fd3c0f3d6f162a3304992b2124ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "df755c22_a692327e",

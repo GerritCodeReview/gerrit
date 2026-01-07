@@ -3,10 +3,12 @@
  * Copyright 2021 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
+import {css, html, LitElement} from 'lit';
+import {customElement, property} from 'lit/decorators.js';
+import {join} from 'lit/directives/join.js';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-icon/gr-icon';
 import '../../shared/gr-label-info/gr-label-info';
-import {customElement, property} from 'lit/decorators.js';
 import {
   AccountInfo,
   ChangeStatus,
@@ -22,7 +24,6 @@ import {
   iconForRequirement,
 } from '../../../utils/label-util';
 import {ParsedChangeInfo} from '../../../types/types';
-import {css, html, LitElement} from 'lit';
 import {HovercardMixin} from '../../../mixins/hovercard-mixin/hovercard-mixin';
 import {fontStyles} from '../../../styles/gr-font-styles';
 import {DraftsAction} from '../../../constants/constants';
@@ -131,6 +132,12 @@ export class GrSubmitRequirementHovercard extends base {
           border-bottom: 2px solid var(--error-foreground);
         }
         .expression .passing.atom {
+          border-bottom: 2px solid var(--success-foreground);
+        }
+        .explanations .failing.atom {
+          border-bottom: 2px solid var(--error-foreground);
+        }
+        .explanations .passing.atom {
           border-bottom: 2px solid var(--success-foreground);
         }
         .button gr-icon {
@@ -381,10 +388,7 @@ export class GrSubmitRequirementHovercard extends base {
   }
 
   private getTitleFromPart(part: SubmitRequirementExpressionPart) {
-    let title = this.getTitleFromAtomStatus(part.atomStatus!);
-    if (part.atomExplanation) {
-      title += `: ${part.atomExplanation}`;
-    }
+    const title = this.getTitleFromAtomStatus(part.atomStatus!);
     return title;
   }
 
@@ -406,12 +410,36 @@ export class GrSubmitRequirementHovercard extends base {
     expression?: SubmitRequirementExpressionInfo
   ) {
     if (!expression?.expression) return '';
+    const atoms = atomizeExpression(expression);
+    let explanations = html``;
+    if (atoms.some(part => part.atomExplanation)) {
+      explanations = html`
+        <br /><br />
+        Atom explanations:<br />
+        <span class="explanations">
+          ${join(
+            atoms
+              .filter(part => part.atomExplanation)
+              .map(
+                part => html`
+                  <span
+                    class=${this.getClassFromAtomStatus(part.atomStatus!)}
+                    title=${this.getTitleFromPart(part)}
+                    >${part.value}</span
+                  >: <span class="explanation">${part.atomExplanation}</span>
+                `
+              ),
+            html`<br />`
+          )}
+        </span>
+      `;
+    }
     return html`
       <div class="section condition">
         <div class="sectionContent">
           ${name}:<br />
           <span class="expression">
-            ${atomizeExpression(expression).map(part =>
+            ${atoms.map(part =>
               part.isAtom
                 ? html`<span
                     class=${this.getClassFromAtomStatus(part.atomStatus!)}
@@ -421,6 +449,7 @@ export class GrSubmitRequirementHovercard extends base {
                 : part.value
             )}
           </span>
+          ${explanations}
         </div>
       </div>
     `;

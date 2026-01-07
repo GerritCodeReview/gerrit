@@ -22,6 +22,30 @@
       },
       "revId": "0e7a8f92c858dff6024a4d43b31a539886d3a689",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a81b1600_ae8efaf7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-01-07T11:07:26Z",
+      "side": 1,
+      "message": "It\u0027s the left over and should be moved into another change. I realised, you did the same, only saw your series later.\n\nIf you check the history of this change, I tried to upgrade to Bazel version 8, using `WORKSPACE` compatibility option in Bazel 8: `--enable_workspace`, so that we have more time to migrate to bzlmod.\n\nSee `.bazelrc`:\n\nTODO(davido): Remove this hybrid mode option once bzlmod migration is completed\ncommon --enable_workspace\n\nAs you pointed out, in one of your changes Polygerrit-UI doesn\u0027t work with bazel 8 any more. That why I reverted Upgrade from Bazel 8.x to the latest Bazel 7 Release.\n\nI also found out other issues, with bazel 8 update and filed this issue for rules_java project:\n\nhttps://github.com/bazelbuild/rules_java/issues/342",
+      "parentUuid": "9c9be79e_e189edc4",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 12
+      },
+      "revId": "0e7a8f92c858dff6024a4d43b31a539886d3a689",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

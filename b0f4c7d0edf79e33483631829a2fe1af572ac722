@@ -16,6 +16,24 @@
       "message": "I tried running the tests on MacOS 26.1 and this failed with the following error:\n\n```\nbazelisk test //...\n...\nERROR: Skipping \u0027//...\u0027: error loading package under directory \u0027\u0027: error loading package \u0027bin/modules/jgit/org.eclipse.jgit.test\u0027: at /Users/xxxx/src/git/gerrit-upstream/gerrit/bin/modules/jgit/org.eclipse.jgit.test/tests.bzl:5:5: Unable to find package for @@[unknown repo \u0027com_googlesource_gerrit_bazlets\u0027 requested from @@]//tools:junit.bzl: The repository \u0027@@[unknown repo \u0027com_googlesource_gerrit_bazlets\u0027 requested from @@]\u0027 could not be resolved: No repository visible as \u0027@com_googlesource_gerrit_bazlets\u0027 from main repository.\nERROR: error loading package under directory \u0027\u0027: error loading package \u0027bin/modules/jgit/org.eclipse.jgit.test\u0027: at /Users/xxxx/src/git/gerrit-upstream/gerrit/bin/modules/jgit/org.eclipse.jgit.test/tests.bzl:5:5: Unable to find package for @@[unknown repo \u0027com_googlesource_gerrit_bazlets\u0027 requested from @@]//tools:junit.bzl: The repository \u0027@@[unknown repo \u0027com_googlesource_gerrit_bazlets\u0027 requested from @@]\u0027 could not be resolved: No repository visible as \u0027@com_googlesource_gerrit_bazlets\u0027 from main repository.\n```",
       "revId": "b0f4c7d0edf79e33483631829a2fe1af572ac722",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c44b2c5f_9cb8d2ee",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-01-07T10:50:07Z",
+      "side": 1,
+      "message": "This is independent of this change. You are trying to also run tests for `modules/jgit` from the gerrit workspace. That doesn\u0027t work, since the Gerrit workspace does not import all bazel dependencies that jgit does. I guess `modules/jgit` should be added to `.bazelignore`.",
+      "parentUuid": "594b6288_d3de72a9",
+      "revId": "b0f4c7d0edf79e33483631829a2fe1af572ac722",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

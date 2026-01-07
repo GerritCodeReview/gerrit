@@ -1,6 +1,75 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "98561b23_aec86b70",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-01-07T21:13:14Z",
+      "side": 1,
+      "message": "```suggestion\nAutomated tooling and AI can now assist in helping the generation of release notes\n```",
+      "range": {
+        "startLine": 9,
+        "startChar": 33,
+        "endLine": 9,
+        "endChar": 52
+      },
+      "revId": "2c8c67a9828ae39e174dbc99e20aa7dabc306bb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9d0943ae_0086c26f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-01-07T21:13:14Z",
+      "side": 1,
+      "message": "This sentence isn\u0027t a direct consequence of the previous one.\n\nThe fact that AI can provide a nice summary of the commit message, does not mean that AI can understand what\u0027s the impact for the Gerrit admin after the modifications of the code.\n\nWe would need to integrate with Gerrit MCP to have that context, which isn\u0027t in place at the moment.",
+      "range": {
+        "startLine": 10,
+        "startChar": 27,
+        "endLine": 11,
+        "endChar": 42
+      },
+      "revId": "2c8c67a9828ae39e174dbc99e20aa7dabc306bb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dcb9db6b_9b85988c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-01-07T21:13:14Z",
+      "side": 1,
+      "message": "That is eventually the focus of this change: allow more Gerrit contributors by removing the `Release-Notes: skip` requirement.\n\nI am happy to give it a go for the next release and measure:\n- How many more contributions we have thanks to this relaxation of the rule\n- How the quality is impacted (or not impacted) by not having this footer\n\n@milutin@google.com do you guys use Germini (or other AI) with MCP for extracting the release notes? Or do you simply build them as a summary of the commit message?",
+      "range": {
+        "startLine": 11,
+        "startChar": 43,
+        "endLine": 12,
+        "endChar": 25
+      },
+      "revId": "2c8c67a9828ae39e174dbc99e20aa7dabc306bb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "520a29d6_d6b58e8a",
@@ -121,6 +190,23 @@
       "side": 1,
       "message": "\u003e I don\u0027t think there is a way to make submit requirement non-blocking.\n\nAgreed. I just meant putting it into https://gerrit-review.googlesource.com/Documentation/dev-crafting-changes.html as a guideline (looks like it\u0027s not mentioned anywhere in our docs currently).",
       "parentUuid": "d792db57_e2b7e6d6",
+      "revId": "2c8c67a9828ae39e174dbc99e20aa7dabc306bb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b1b3cd59_3a76dc16",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-01-07T21:13:14Z",
+      "side": 1,
+      "message": "Happy to give it a go and see if we get more contributors without impacting the quality of the release notes.",
       "revId": "2c8c67a9828ae39e174dbc99e20aa7dabc306bb5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

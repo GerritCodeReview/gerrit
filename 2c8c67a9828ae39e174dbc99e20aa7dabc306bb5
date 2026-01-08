@@ -226,6 +226,23 @@
       "message": "@luca.milanesio@gmail.com I think we should give it a go before we agree to drop the requirement?\n\nShall we try drafting 3.14 and patch releases with AI, and if we\u0027re happy with the result then we drop the requirement, not before.\n\n@milutin@google.com would you be happy to share a prompt that makes sense to you?  I assume I\u0027ll be using gemini-cli, so it\u0027ll have context of Gerrit and can add previous release notes too.",
       "revId": "2c8c67a9828ae39e174dbc99e20aa7dabc306bb5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a844d183_e651da1a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-01-08T11:42:55Z",
+      "side": 1,
+      "message": "Had a go at creating them here: I309c26b4b74a\nLet me know what you think.",
+      "revId": "2c8c67a9828ae39e174dbc99e20aa7dabc306bb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

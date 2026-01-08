@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "324c71b8_9bdab822",
+        "filename": "tools/deps.bzl",
+        "patchSetId": 43
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-01-08T22:00:14Z",
+      "side": 0,
+      "message": "It may be worth mentioning in the commit message that the Library Compliance label configuration in `project.config` on the `refs/meta/config` branch should be updated accordingly.\n\nAlternatively, we could upload a follow-up change directly to `refs/meta/config` and include it under the same topic.\n\nAt the moment, the submit requirement still references a file that is removed by this change:\n\n```\n[submit-requirement \"Library-Compliance\"]\n\tdescription \u003d Changes to specific library/metadata files require additional approval\n\tapplicableIf \u003d -branch:refs/meta/config AND (file:\\\"^lib/.*\\\" OR file:\\\"^WORKSPACE$\\\" OR file:\\\"^.gitmodule$\\\" OR file:\\\"^tools/deps.bzl$\\\")\n```\n\nIn addition, it would be good to verify whether this change has any impact on Gerrit-CI behavior, in particular on how checks are triggered.",
+      "revId": "719f64275581b78c310bc902affa0014c53a2b69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "973ea4a4_ed2193c8",
         "filename": "tools/nongoogle.bzl",
         "patchSetId": 43

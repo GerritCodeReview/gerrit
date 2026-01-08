@@ -43,6 +43,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "753cc08e_f6f294af",
+        "filename": "java/Main.java",
+        "patchSetId": 56
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2026-01-08T23:49:22Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "d60b930e_5297eb1d",
+      "range": {
+        "startLine": 59,
+        "startChar": 8,
+        "endLine": 59,
+        "endChar": 85
+      },
+      "revId": "06e6113d8fb9e7242ac14974475a0425ae5fa51d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "61915370_58aa155c",
         "filename": "tools/nongoogle.bzl",
         "patchSetId": 56
@@ -54,6 +78,30 @@
       "writtenOn": "2026-01-08T23:22:57Z",
       "side": 1,
       "message": "This version is already outdated and have number of CVEs, please update to 2.25.3.",
+      "range": {
+        "startLine": 85,
+        "startChar": 18,
+        "endLine": 85,
+        "endChar": 26
+      },
+      "revId": "06e6113d8fb9e7242ac14974475a0425ae5fa51d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bd0ea37c_4f8da012",
+        "filename": "tools/nongoogle.bzl",
+        "patchSetId": 56
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2026-01-08T23:49:22Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "61915370_58aa155c",
       "range": {
         "startLine": 85,
         "startChar": 18,
@@ -87,6 +135,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4758379f_267106c0",
+        "filename": "tools/nongoogle.bzl",
+        "patchSetId": 56
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2026-01-08T23:49:22Z",
+      "side": 1,
+      "message": "We should keep it for any deps that use it and it\u0027s harmless but i\u0027ll add a todo to remove if it if all deps don\u0027t use log4j.",
+      "parentUuid": "3e6cae8a_c59b65a1",
+      "range": {
+        "startLine": 105,
+        "startChar": 0,
+        "endLine": 109,
+        "endChar": 5
+      },
+      "revId": "06e6113d8fb9e7242ac14974475a0425ae5fa51d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3cdd026b_0cc1b3c6",
@@ -100,6 +172,30 @@
       "writtenOn": "2026-01-08T23:22:57Z",
       "side": 1,
       "message": "It looks like the SLF4J bridge artifact name is slightly off here — the correct one is `log4j-slf4j2-impl` (with `slf4j2`, not `slf4j`).\n\nWith the Log4j 2 version currently in use, the dependency would be:\n\n```python\nmaven_jar(\n    name \u003d \"impl-log4j\",\n    artifact \u003d \"org.apache.logging.log4j:log4j-slf4j2-impl:\" + LOG4J2_VERS,\n    sha1 \u003d \"a5ed4c3e2effa2575a4dde13f9101bfe23ccfb1a\",\n)\n```\n\nWhen using the older `log4j-slf4j-impl` artifact together with newer SLF4J APIs, the mismatch is usually visible at runtime. For example, starting Gerrit with additional Log4j2 debug flags from the command line:\n\n```bash\n$\u003e java -Dorg.apache.logging.log4j.level\u003dDEBUG \\\n   -Dlog4j2.debug\u003dtrue \\ \n   -Dflogger.backend_factory\u003d... \\\n   -Dflogger.logging_context\u003d... \\  \n   -jar /Users/Davido/projects/test_site/bin/gerrit.war \\\n   daemon \\\n   -d /Users/Davido/projects/test_site\n```\n\ntypically results in warnings like:\n\n[...]\n```bash\nSLF4J(W): No SLF4J providers were found.\nSLF4J(W): Defaulting to no-operation (NOP) logger implementation\nSLF4J(W): See https://www.slf4j.org/codes.html#noProviders for further details.\nSLF4J(W): Class path contains SLF4J bindings targeting slf4j-api versions 1.7.x or earlier.\nSLF4J(W): Ignoring binding found at [jar:file:/Users/Davido/.gerritcodereview/tmp/gerrit_710595449436894837_app/log4j-slf4j-impl-2.25.1.jar!/org/slf4j/impl/StaticLoggerBinder.class]\nSLF4J(W): See https://www.slf4j.org/codes.html#ignoredBindings for an explanation.\n[...]\n```\n\nUsing log4j-slf4j2-impl avoids this mismatch and ensures the SLF4J bridge matches the Log4j 2 / SLF4J 2 setup.",
+      "range": {
+        "startLine": 113,
+        "startChar": 45,
+        "endLine": 113,
+        "endChar": 61
+      },
+      "revId": "06e6113d8fb9e7242ac14974475a0425ae5fa51d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3882979a_9b47ae44",
+        "filename": "tools/nongoogle.bzl",
+        "patchSetId": 56
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2026-01-08T23:49:22Z",
+      "side": 1,
+      "message": "Whoops, thanks! Fixed.",
+      "parentUuid": "3cdd026b_0cc1b3c6",
       "range": {
         "startLine": 113,
         "startChar": 45,

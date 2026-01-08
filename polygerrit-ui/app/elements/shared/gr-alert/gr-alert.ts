@@ -52,16 +52,17 @@ export class GrAlert extends LitElement {
          */
         .content-wrapper {
           padding: var(--spacing-l) var(--spacing-xl);
+          display: flex;
+          align-items: center;
         }
         .text {
           color: var(--tooltip-text-color);
-          display: inline-block;
           max-height: 10rem;
           max-width: 80vw;
-          vertical-align: bottom;
           word-break: break-all;
         }
         gr-button.action {
+          flex-shrink: 0;
           --text-color: var(--tooltip-button-text-color);
           --gr-button-padding: 0 var(--spacing-s);
           margin-left: var(--spacing-l);

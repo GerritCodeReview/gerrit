@@ -16,6 +16,24 @@
       "message": "I am also currently working on moving to aspect-rules-js, which would allow us to get rid of concatjs, but that is a huge effort and I am stuck to getting some small stuff to work.",
       "revId": "2d35171e9878c27c2949a17ee7905c299f827a03",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8918d5ab_b18a1e97",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-01-08T22:33:08Z",
+      "side": 1,
+      "message": "Right so the same answer as in change 539402.\n\nThis change is only required if and when we move to Bazel 8.x, and it does not address the underlying struct provider syntax used by `concatjs`. Would it make sense to move this change out of the current series?",
+      "parentUuid": "51586fec_6e20d5bb",
+      "revId": "2d35171e9878c27c2949a17ee7905c299f827a03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

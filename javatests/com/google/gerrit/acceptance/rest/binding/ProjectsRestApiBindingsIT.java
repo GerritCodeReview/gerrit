@@ -46,7 +46,7 @@ import org.junit.Test;
 /**
  * Tests for checking the bindings of the projects REST API.
  *
- * <p>These tests only verify that the project REST endpoints are correctly bound, they do no test
+ * <p>These tests only verify that the project REST endpoints are correctly bound, they do not test
  * the functionality of the project REST endpoints.
  */
 public class ProjectsRestApiBindingsIT extends AbstractDaemonTest {

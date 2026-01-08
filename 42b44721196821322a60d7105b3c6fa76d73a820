@@ -33,6 +33,23 @@
       "message": "This makes it sound like we\u0027re only ignoring the submodule path when running tests, but I don\u0027t think that\u0027s what you\u0027re actually doing.",
       "revId": "42b44721196821322a60d7105b3c6fa76d73a820",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "81eaf197_069b69eb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-01-08T22:04:23Z",
+      "side": 1,
+      "message": "Release-Notes is missing.",
+      "revId": "42b44721196821322a60d7105b3c6fa76d73a820",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

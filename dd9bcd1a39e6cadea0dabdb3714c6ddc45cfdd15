@@ -16,6 +16,24 @@
       "message": "Mention version change in commit message?",
       "revId": "dd9bcd1a39e6cadea0dabdb3714c6ddc45cfdd15",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fddf675a_86af5c0c",
+        "filename": "MODULE.bazel",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-01-08T22:20:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dfe86da7_855f1ca1",
+      "revId": "dd9bcd1a39e6cadea0dabdb3714c6ddc45cfdd15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

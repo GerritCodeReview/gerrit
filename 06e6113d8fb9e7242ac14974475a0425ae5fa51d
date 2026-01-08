@@ -65,6 +65,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "654c31dd_ea75a9ad",
+        "filename": "java/Main.java",
+        "patchSetId": 56
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2026-01-08T23:49:40Z",
+      "side": 1,
+      "message": "Forgot to resolve.",
+      "parentUuid": "753cc08e_f6f294af",
+      "range": {
+        "startLine": 59,
+        "startChar": 8,
+        "endLine": 59,
+        "endChar": 85
+      },
+      "revId": "06e6113d8fb9e7242ac14974475a0425ae5fa51d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "61915370_58aa155c",
@@ -102,6 +126,30 @@
       "side": 1,
       "message": "Thanks, done.",
       "parentUuid": "61915370_58aa155c",
+      "range": {
+        "startLine": 85,
+        "startChar": 18,
+        "endLine": 85,
+        "endChar": 26
+      },
+      "revId": "06e6113d8fb9e7242ac14974475a0425ae5fa51d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dc556035_5aaa48b7",
+        "filename": "tools/nongoogle.bzl",
+        "patchSetId": 56
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2026-01-08T23:49:40Z",
+      "side": 1,
+      "message": "Forgot to resolve.",
+      "parentUuid": "bd0ea37c_4f8da012",
       "range": {
         "startLine": 85,
         "startChar": 18,

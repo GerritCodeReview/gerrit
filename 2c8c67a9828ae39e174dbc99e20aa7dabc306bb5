@@ -70,6 +70,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "d5c56dc8_28186586",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-01-08T14:12:16Z",
+      "side": 1,
+      "message": "\u003e How many more contributions we have thanks to this relaxation of the rule\n\nSurely someone doesn\u0027t not contribute to Gerrit because of this release footer, this should not be a measure of success of removing the footer I don\u0027t think...\n\nThe main aspect I\u0027m worried about is the quality of the release notes, but from my first test, doesn\u0027t look too bad.",
+      "parentUuid": "dcb9db6b_9b85988c",
+      "range": {
+        "startLine": 11,
+        "startChar": 43,
+        "endLine": 12,
+        "endChar": 25
+      },
+      "revId": "2c8c67a9828ae39e174dbc99e20aa7dabc306bb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "520a29d6_d6b58e8a",

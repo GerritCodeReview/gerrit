@@ -1619,6 +1619,13 @@ comments are rejected.
 +
 By default 5,000.
 
+[[change.maxCommentsPerUser]]change.maxCommentsPerUser::
++
+Maximum number of comments allowed per user on a single change.
+Additional comments from the same user are rejected.
++
+By default 0, which means no limit.
+
 [[change.maxFiles]]change.maxFiles::
 +
 Maximum number of files allowed per change. Larger changes are rejected and must

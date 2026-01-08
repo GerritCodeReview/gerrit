@@ -16,6 +16,24 @@
       "message": "Shouldn\u0027t that already be resolved by: https://gerrit-review.googlesource.com/c/gerrit/+/526630?",
       "revId": "f351f209622c8b5c7e615006160947ec927be0ef",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3692d6fb_852001d3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-01-08T22:30:04Z",
+      "side": 1,
+      "message": "This change is related. While working on upgrading Bazel to the 8.x series, I ran into an issue caused by the option `--incompatible_disallow_empty_glob`, which is enabled by default starting with Bazel 8.x. As a result, the solution introduced in change 526630 no longer worked, and adding the corresponding option to `.bazelrc` resolved the issue.\n\nThat said, strictly speaking this change is only required if and when we move to Bazel 8.x, and it does not address the underlying empty glob issues in the Polygerrit build itself. Would it make sense to move this change out of the current series?",
+      "parentUuid": "fd198b74_d470b5ce",
+      "revId": "f351f209622c8b5c7e615006160947ec927be0ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

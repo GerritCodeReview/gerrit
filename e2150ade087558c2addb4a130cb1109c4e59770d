@@ -65,6 +65,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b4b43dad_5817549f",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AgreementsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-01-08T18:48:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4ab813ca_11b05a7f",
+      "range": {
+        "startLine": 379,
+        "startChar": 4,
+        "endLine": 384,
+        "endChar": 76
+      },
+      "revId": "e2150ade087558c2addb4a130cb1109c4e59770d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "14eaa91b_414eb536",
@@ -126,6 +150,30 @@
       "side": 1,
       "message": "done in https://gerrit-review.googlesource.com/c/gerrit/+/538441",
       "parentUuid": "9bd22ed5_3599b8b6",
+      "range": {
+        "startLine": 396,
+        "startChar": 17,
+        "endLine": 396,
+        "endChar": 20
+      },
+      "revId": "e2150ade087558c2addb4a130cb1109c4e59770d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4dc7892e_36e2ef78",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AgreementsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 396,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-01-08T18:48:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c1e45473_c53021a2",
       "range": {
         "startLine": 396,
         "startChar": 17,

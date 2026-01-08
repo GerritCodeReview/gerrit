@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ee4b2519_e1ac77aa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-01-08T17:42:11Z",
+      "side": 1,
+      "message": "Why not? Is this a permanent limitation? Is it related to https://github.com/bazelbuild/bazel/issues/22208?",
+      "revId": "42b44721196821322a60d7105b3c6fa76d73a820",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d3dae65b_1e5d9f7e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-01-08T17:42:11Z",
+      "side": 1,
+      "message": "This makes it sound like we\u0027re only ignoring the submodule path when running tests, but I don\u0027t think that\u0027s what you\u0027re actually doing.",
+      "revId": "42b44721196821322a60d7105b3c6fa76d73a820",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

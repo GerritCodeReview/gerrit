@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "89e9f461_c7b18b9b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 56
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-01-08T23:22:57Z",
+      "side": 1,
+      "message": "I haven’t reviewed the code in detail yet and have focused primarily on testing this change.\nWhile most parts of the transition from Log4j to Log4j2 and the Log4j2 Flogger backend appear to work as expected (which is a great achievement), I was able to identify a few issues during testing that should be addressed first.",
+      "revId": "06e6113d8fb9e7242ac14974475a0425ae5fa51d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d60b930e_5297eb1d",
+        "filename": "java/Main.java",
+        "patchSetId": 56
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-01-08T23:22:57Z",
+      "side": 1,
+      "message": "It looks like one additional place may need to be updated as part of this change. \n\nThe corresponding property in `java/com/google/gerrit/pgm/init/InitLogging.java` does not appear to have been adjusted yet.\n\nAs a result, a newly initialized Gerrit site still ends up with a `gerrit.config` that references the Log4j Flogger (1.x) backend rather than the Log4j2 Flogger backend, which leads to a broken configuration for fresh installs.\n\nThis also raises the question of how existing Gerrit sites should be migrated once this change is merged. It might be helpful to mention in the commit message that the `init` program needs to be re-run, or alternatively that the `-Dflogger.backend_factory` Java system property must be updated manually. For example:\n\n```ini\n[container]\n\tjavaOptions \u003d \"-Dflogger.backend_factory\u003dcom.google.common.flogger.backend.log4j2.Log4j2BackendFactory#getInstance\"\n```",
+      "range": {
+        "startLine": 59,
+        "startChar": 8,
+        "endLine": 59,
+        "endChar": 85
+      },
+      "revId": "06e6113d8fb9e7242ac14974475a0425ae5fa51d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "61915370_58aa155c",
+        "filename": "tools/nongoogle.bzl",
+        "patchSetId": 56
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-01-08T23:22:57Z",
+      "side": 1,
+      "message": "This version is already outdated and have number of CVEs, please update to 2.25.3.",
+      "range": {
+        "startLine": 85,
+        "startChar": 18,
+        "endLine": 85,
+        "endChar": 26
+      },
+      "revId": "06e6113d8fb9e7242ac14974475a0425ae5fa51d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3e6cae8a_c59b65a1",
+        "filename": "tools/nongoogle.bzl",
+        "patchSetId": 56
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-01-08T23:22:57Z",
+      "side": 1,
+      "message": "`log4j-1.2-api` is a compatibility layer that implements the Log4j 1.2 API on top of Log4j 2, so keeping it does not reintroduce Log4j 1 itself.\n\nThat said, Gerrit core no longer uses the Log4j 1 API. I was able to remove this dependency and run a number of tests without observing any issues, which suggests that neither Gerrit core nor its core plugins and transitive dependencies rely on Log4j 1 anymore.\n\nGiven this, it may be worth considering removing this dependency, or at least adding a TODO comment to revisit it later once we are confident it is no longer needed.",
+      "range": {
+        "startLine": 105,
+        "startChar": 0,
+        "endLine": 109,
+        "endChar": 5
+      },
+      "revId": "06e6113d8fb9e7242ac14974475a0425ae5fa51d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3cdd026b_0cc1b3c6",
+        "filename": "tools/nongoogle.bzl",
+        "patchSetId": 56
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-01-08T23:22:57Z",
+      "side": 1,
+      "message": "It looks like the SLF4J bridge artifact name is slightly off here — the correct one is `log4j-slf4j2-impl` (with `slf4j2`, not `slf4j`).\n\nWith the Log4j 2 version currently in use, the dependency would be:\n\n```python\nmaven_jar(\n    name \u003d \"impl-log4j\",\n    artifact \u003d \"org.apache.logging.log4j:log4j-slf4j2-impl:\" + LOG4J2_VERS,\n    sha1 \u003d \"a5ed4c3e2effa2575a4dde13f9101bfe23ccfb1a\",\n)\n```\n\nWhen using the older `log4j-slf4j-impl` artifact together with newer SLF4J APIs, the mismatch is usually visible at runtime. For example, starting Gerrit with additional Log4j2 debug flags from the command line:\n\n```bash\n$\u003e java -Dorg.apache.logging.log4j.level\u003dDEBUG \\\n   -Dlog4j2.debug\u003dtrue \\ \n   -Dflogger.backend_factory\u003d... \\\n   -Dflogger.logging_context\u003d... \\  \n   -jar /Users/Davido/projects/test_site/bin/gerrit.war \\\n   daemon \\\n   -d /Users/Davido/projects/test_site\n```\n\ntypically results in warnings like:\n\n[...]\n```bash\nSLF4J(W): No SLF4J providers were found.\nSLF4J(W): Defaulting to no-operation (NOP) logger implementation\nSLF4J(W): See https://www.slf4j.org/codes.html#noProviders for further details.\nSLF4J(W): Class path contains SLF4J bindings targeting slf4j-api versions 1.7.x or earlier.\nSLF4J(W): Ignoring binding found at [jar:file:/Users/Davido/.gerritcodereview/tmp/gerrit_710595449436894837_app/log4j-slf4j-impl-2.25.1.jar!/org/slf4j/impl/StaticLoggerBinder.class]\nSLF4J(W): See https://www.slf4j.org/codes.html#ignoredBindings for an explanation.\n[...]\n```\n\nUsing log4j-slf4j2-impl avoids this mismatch and ensures the SLF4J bridge matches the Log4j 2 / SLF4J 2 setup.",
+      "range": {
+        "startLine": 113,
+        "startChar": 45,
+        "endLine": 113,
+        "endChar": 61
+      },
+      "revId": "06e6113d8fb9e7242ac14974475a0425ae5fa51d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

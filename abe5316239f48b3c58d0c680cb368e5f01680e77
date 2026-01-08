@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "505ca7cc_2098a12e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-01-08T07:09:20Z",
+      "side": 1,
+      "message": "Mention this issue upstream: [1]. I would also mention that the option `ignore_root_user_error` is flipped to true by default in the latest release of `rules_python` (1.8.0-rc1).\n\n[1]: https://github.com/bazel-contrib/rules_python/pull/3421",
+      "revId": "abe5316239f48b3c58d0c680cb368e5f01680e77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b12f8d5f_968a51c2",
+        "filename": "MODULE.bazel.lock",
+        "patchSetId": 3
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-01-08T07:09:20Z",
+      "side": 1,
+      "message": "This file is generated from MODULE.bazel (similar to how yarn.lock is generated from package.json) and *must not be modified manually*. Any manual changes to this file will be overwritten the next time `MODULE.bazel` is updated (for example, when adding a new `bazel_dep` or bumping a version for existing `bazel_dep`).\n\nSince the option you are looking for was flipped in the latest BCR release of `rules_python`, it should be sufficient to bump the version and explicitly depend on `rules_python` from BCR see: [1] in `MODULE.bazel`, for example:\n\n```python\nbazel_dep(name \u003d \"rules_python\", version \u003d \"1.8.0-rc1\")\n```\n\nAfter applying this change, running any Bazel command will automatically update `MODULE.bazel.lock`.\n\nAny update to `MODULE.bazel` should be accompanied by the corresponding update to the generated `MODULE.bazel.lock` file in the same commit, to avoid inconsistencies between declared and resolved dependencies.\n\nWith `bazel mod explain \u003cbzlmod\u003e` one can verify which version is used:\n\nYou can verify which version is being used with:\n\n```bash\n$\u003e bazel mod explain rules_python\n```\n\nExample output:\n\n```bash\n├───rules_python@1.8.0-rc1\n```\n\n[1]: https://registry.bazel.build/modules/rules_python/1.8.0-rc1",
+      "revId": "abe5316239f48b3c58d0c680cb368e5f01680e77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

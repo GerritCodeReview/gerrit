@@ -1,0 +1,182 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4fb5c3e3_bd234f23",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 43
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-01-08T17:00:00Z",
+      "side": 1,
+      "message": "Could you please clarify what is changing for Gerrit developers, release managers, and plugin developers? Ideally, none of these groups would be affected (at least for now) by this transition.\n\nAs far as I know, `rules_jvm_external` has its own machinery for publishing new versions to the Central Repository. Changing that would be outside the scope of this change, correct?",
+      "revId": "fa010c8e61d204674b13beb36bf9b5679d9d59e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0836ec21_e13aeae7",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 43
+      },
+      "lineNbr": 571,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-01-08T17:00:00Z",
+      "side": 1,
+      "message": "This change replaces our own machinery for downloading external dependencies (`tools/download_file.py`), so this way of caching would no longer work, and we would need to delegate that responsibility to `rules_jvm_external`.",
+      "range": {
+        "startLine": 571,
+        "startChar": 0,
+        "endLine": 571,
+        "endChar": 54
+      },
+      "revId": "fa010c8e61d204674b13beb36bf9b5679d9d59e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "78a08926_0599d4d2",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 43
+      },
+      "lineNbr": 576,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-01-08T17:00:00Z",
+      "side": 1,
+      "message": "Should we remove this, as it would no longer have any effect after this change?",
+      "range": {
+        "startLine": 575,
+        "startChar": 0,
+        "endLine": 576,
+        "endChar": 41
+      },
+      "revId": "fa010c8e61d204674b13beb36bf9b5679d9d59e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "56ff48d8_4a717560",
+        "filename": "MODULE.bazel",
+        "patchSetId": 43
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-01-08T17:00:00Z",
+      "side": 1,
+      "message": "I have some reservations about including “maven” in this central module name, given how frequently it’s used across the codebase:\n\n```bash\n$ git grep gerrit-maven | wc -l\n193\n```\n\nPublishing to the Central Repository is a build-tool-agnostic task and could be done with different systems (e.g. Bazel, Buck2, Gradle). Because of that, it might make sense to choose a more neutral name.\n\nHow about renaming it to `gerrit-deps`? This would avoid any Maven-specific connotations while still conveying the purpose of the module.\n\nI just checked and noticed that in `jgit` it’s also called `jgit_deps`. We could call it `gerrit_deps`; personally, I’d prefer using a dash rather than an underscore in Bazel context.",
+      "range": {
+        "startLine": 54,
+        "startChar": 12,
+        "endLine": 54,
+        "endChar": 24
+      },
+      "revId": "fa010c8e61d204674b13beb36bf9b5679d9d59e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "929736e1_97679f85",
+        "filename": "MODULE.bazel",
+        "patchSetId": 43
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-01-08T17:00:00Z",
+      "side": 1,
+      "message": "While testing this change, I’m seeing these rather noisy warnings when downloading sources:\n\n```bash\nWARNING: Download from https://gerrit-maven.storage.googleapis.com/com/google/auto/value/auto-value/1.11.0/auto-value-1.11.0-sources.jar failed: class java.io.FileNotFoundException GET returned 404 Not Found\nWARNING: Download from https://gerrit-maven.storage.googleapis.com/com/google/auto/value/auto-value/1.11.0/auto-value-1.11.0.jar failed: class java.io.FileNotFoundException GET returned 404 Not Found\nWARNING: Download from https://gerrit-maven.storage.googleapis.com/org/apache/pdfbox/xmpbox/2.0.24/xmpbox-2.0.24.jar failed: class java.io.FileNotFoundException GET returned 404 Not Found\n```\n\nIs this a known issue in RJE? Is there a way to avoid it?\nWe are specifying multiple repositories, and these artifacts (especially sources) are only available from Maven Central.",
+      "range": {
+        "startLine": 63,
+        "startChar": 4,
+        "endLine": 63,
+        "endChar": 25
+      },
+      "revId": "fa010c8e61d204674b13beb36bf9b5679d9d59e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2c1d9469_81d4095e",
+        "filename": "MODULE.bazel",
+        "patchSetId": 43
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-01-08T17:00:00Z",
+      "side": 1,
+      "message": "Could you clarify why this is needed? I tried removing this line, and the Gerrit build still works as expected.",
+      "range": {
+        "startLine": 64,
+        "startChar": 34,
+        "endLine": 64,
+        "endChar": 36
+      },
+      "revId": "fa010c8e61d204674b13beb36bf9b5679d9d59e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9698e6db_f3134d1a",
+        "filename": "MODULE.bazel",
+        "patchSetId": 43
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-01-08T17:00:00Z",
+      "side": 1,
+      "message": "How this actually works? I assumed it must be the same module name, but in JGit it\u0027s called `jgit_deps`?",
+      "range": {
+        "startLine": 64,
+        "startChar": 38,
+        "endLine": 64,
+        "endChar": 44
+      },
+      "revId": "fa010c8e61d204674b13beb36bf9b5679d9d59e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "727c30ec_55ebee89",
+        "filename": "MODULE.bazel",
+        "patchSetId": 43
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-01-08T17:00:00Z",
+      "side": 1,
+      "message": "Would it make sense to split this single module into two separate modules, for example:\n\n* gerrit-deps\n* gerrit-nongoogle-deps\n\nWe’d then need to pin them separately (though typically only one of them would need to change at a time):\n\n```bash\nREPIN\u003d1 bazel run @gerrit-deps//:pin\nREPIN\u003d1 bazel run @gerrit-nongoogle-deps//:pin\n```",
+      "range": {
+        "startLine": 69,
+        "startChar": 0,
+        "endLine": 77,
+        "endChar": 1
+      },
+      "revId": "fa010c8e61d204674b13beb36bf9b5679d9d59e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

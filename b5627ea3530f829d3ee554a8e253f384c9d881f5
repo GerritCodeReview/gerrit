@@ -16,6 +16,23 @@
       "message": "539507: Bump bazel version to 8.5.0 | https://gerrit-review.googlesource.com/c/gerrit/+/539507",
       "revId": "b5627ea3530f829d3ee554a8e253f384c9d881f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ed008880_e57c41b1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-01-08T22:23:44Z",
+      "side": 1,
+      "message": "LC vote is needed. This change only moves the same dependency around.",
+      "revId": "b5627ea3530f829d3ee554a8e253f384c9d881f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

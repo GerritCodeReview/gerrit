@@ -16,6 +16,24 @@
       "message": "I understand the need for this change, but I feel it might be quite invasive.\n\nWhen this change is merged, all plugins will be immediately impacted and will need to migrate to Bzlmod. Given the compatibility option I mentioned earlier, would it be possible to consider a more gradual approach for plugin authors?\n\nPerhaps we could temporarily support both modes:\n\n* New Bzlmod build\n* The old external_plugin_deps.bzl\n\nThis would allow for an easier transition and enable users to upgrade from Bazel 7.x to 8.x without forcing an immediate migration.\n\nOf course, this wouldn\u0027t be viable in the long term, especially with future versions like Bazel 9.x (which hasn’t been released yet). But I think this approach would offer more flexibility for plugin authors during the transition period.\n\nWhat do you think?",
       "revId": "ff62ab90fe09386ac5db9dd1d0b5d4fcffd975fb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f83449b6_0ff051f2",
+        "filename": "WORKSPACE.bzlmod",
+        "patchSetId": 26
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-01-09T14:51:00Z",
+      "side": 0,
+      "message": "I get your point, but I fear that we might again be stuck for quite some time.\n\nThis change will not affect all plugins, only the ones actually having external dependencies have to be adapted. Further, there is no breaking change at runtime, i.e. as long as the plugin doesn\u0027t change, users will be able to just continue to use the already available plugin artifacts. And we are doing it on the master branch. If we submit this not directly before initiating a release, there should be time for plugin maintainers to adapt the plugins.\n\nBut let me at least split this change, to provide the option.",
+      "parentUuid": "14fbfe21_1387a4a3",
+      "revId": "ff62ab90fe09386ac5db9dd1d0b5d4fcffd975fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

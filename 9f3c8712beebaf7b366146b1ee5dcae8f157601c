@@ -34,6 +34,23 @@
       "parentUuid": "17330c9b_aa7fdf03",
       "revId": "9f3c8712beebaf7b366146b1ee5dcae8f157601c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a9eebddc_e270f928",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-01-09T10:42:05Z",
+      "side": 1,
+      "message": "I just noticed that building Gerrit at HEAD results in a modified `MODULE.bazel.lock`.\n\nThis makes me suspect that not all generated changes were committed as part of the earlier update to `MODULE.bazel`.\n\nI’ve uploaded a small follow-up change 540903 to address this.\n\nOut of curiosity: does `bzlmod` provide a CI option to fail the build if `MODULE.bazel.lock` is modified (like `yarn`), so cases like this would automatically result in a Verify-1?",
+      "revId": "9f3c8712beebaf7b366146b1ee5dcae8f157601c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

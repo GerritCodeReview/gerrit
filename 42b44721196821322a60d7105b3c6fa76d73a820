@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5711a264_98a8b476",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-01-09T13:20:09Z",
+      "side": 1,
+      "message": "Yes, that seems to be the same issue.\nIn principle tests can still be run by using `bazelisk test @jgit//...`, but there are some visibility issues then, which seem to be a bug.",
+      "parentUuid": "ee4b2519_e1ac77aa",
+      "revId": "42b44721196821322a60d7105b3c6fa76d73a820",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d3dae65b_1e5d9f7e",
@@ -37,6 +55,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d58e4b72_1bb6cd7e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-01-09T13:20:09Z",
+      "side": 1,
+      "message": "No, we are actually not querying the submodule path for targets when starting a build. Note, that this is not an issue for the build, since it references jgit as a module/repository using `@jgit//`.",
+      "parentUuid": "d3dae65b_1e5d9f7e",
+      "revId": "42b44721196821322a60d7105b3c6fa76d73a820",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "81eaf197_069b69eb",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -48,6 +84,24 @@
       "writtenOn": "2026-01-08T22:04:23Z",
       "side": 1,
       "message": "Release-Notes is missing.",
+      "revId": "42b44721196821322a60d7105b3c6fa76d73a820",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1847cfb6_b37e509f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-01-09T13:20:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "81eaf197_069b69eb",
       "revId": "42b44721196821322a60d7105b3c6fa76d73a820",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

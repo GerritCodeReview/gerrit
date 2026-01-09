@@ -837,6 +837,7 @@ export class GrChangeView extends LitElement {
           background-color: var(--background-color-primary);
           border-bottom: 2px solid var(--border-color);
           display: flex;
+          flex-wrap: wrap;
           padding: var(--spacing-s) var(--spacing-l);
           position: sticky;
           top: var(--main-header-height);
@@ -880,6 +881,7 @@ export class GrChangeView extends LitElement {
           align-items: center;
           display: flex;
           flex: 1;
+          min-width: 500px;
         }
         .headerSubject {
           font-family: var(--header-font-family);
@@ -1083,6 +1085,7 @@ export class GrChangeView extends LitElement {
             font-size: var(--font-size-h3);
             font-weight: var(--font-weight-h3);
             line-height: var(--line-height-h3);
+            min-width: 0;
           }
           .desktop {
             display: none;

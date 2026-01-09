@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7eb35a0d_51530c7b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 43
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-01-09T13:07:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4fb5c3e3_bd234f23",
+      "revId": "fa010c8e61d204674b13beb36bf9b5679d9d59e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0836ec21_e13aeae7",
@@ -31,6 +49,30 @@
       "writtenOn": "2026-01-08T17:00:00Z",
       "side": 1,
       "message": "This change replaces our own machinery for downloading external dependencies (`tools/download_file.py`), so this way of caching would no longer work, and we would need to delegate that responsibility to `rules_jvm_external`.",
+      "range": {
+        "startLine": 571,
+        "startChar": 0,
+        "endLine": 571,
+        "endChar": 54
+      },
+      "revId": "fa010c8e61d204674b13beb36bf9b5679d9d59e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fc71b682_51df6a0d",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 43
+      },
+      "lineNbr": 571,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-01-09T13:07:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0836ec21_e13aeae7",
       "range": {
         "startLine": 571,
         "startChar": 0,
@@ -64,6 +106,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "57777efd_af53a75d",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 43
+      },
+      "lineNbr": 576,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-01-09T13:07:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "78a08926_0599d4d2",
+      "range": {
+        "startLine": 575,
+        "startChar": 0,
+        "endLine": 576,
+        "endChar": 41
+      },
+      "revId": "fa010c8e61d204674b13beb36bf9b5679d9d59e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "56ff48d8_4a717560",
@@ -77,6 +143,30 @@
       "writtenOn": "2026-01-08T17:00:00Z",
       "side": 1,
       "message": "I have some reservations about including “maven” in this central module name, given how frequently it’s used across the codebase:\n\n```bash\n$ git grep gerrit-maven | wc -l\n193\n```\n\nPublishing to the Central Repository is a build-tool-agnostic task and could be done with different systems (e.g. Bazel, Buck2, Gradle). Because of that, it might make sense to choose a more neutral name.\n\nHow about renaming it to `gerrit-deps`? This would avoid any Maven-specific connotations while still conveying the purpose of the module.\n\nI just checked and noticed that in `jgit` it’s also called `jgit_deps`. We could call it `gerrit_deps`; personally, I’d prefer using a dash rather than an underscore in Bazel context.",
+      "range": {
+        "startLine": 54,
+        "startChar": 12,
+        "endLine": 54,
+        "endChar": 24
+      },
+      "revId": "fa010c8e61d204674b13beb36bf9b5679d9d59e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a1c55e51_de12f43f",
+        "filename": "MODULE.bazel",
+        "patchSetId": 43
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-01-09T13:07:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "56ff48d8_4a717560",
       "range": {
         "startLine": 54,
         "startChar": 12,
@@ -136,6 +226,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "91c82050_1a0cb5f9",
+        "filename": "MODULE.bazel",
+        "patchSetId": 43
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-01-09T13:07:40Z",
+      "side": 1,
+      "message": "Wouldn\u0027t it be better to improve the functionality in RJE to go through the repository list in order. That would then only print warnings for the repositories only hosted by Google and these could maybe also made a debug log, printing a warning only, if there is no repository that contains the artifact.\n\nI don\u0027t feel it should be necessary for us to make it more complicated for ourselves just to get rid of IMO overly verbose warnings.",
+      "parentUuid": "b073794e_59363260",
+      "range": {
+        "startLine": 63,
+        "startChar": 4,
+        "endLine": 63,
+        "endChar": 25
+      },
+      "revId": "fa010c8e61d204674b13beb36bf9b5679d9d59e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2c1d9469_81d4095e",
         "filename": "MODULE.bazel",
         "patchSetId": 43
@@ -180,6 +294,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6599c4c3_c4a0e1e7",
+        "filename": "MODULE.bazel",
+        "patchSetId": 43
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-01-09T13:07:40Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "9698e6db_f3134d1a",
+      "range": {
+        "startLine": 64,
+        "startChar": 38,
+        "endLine": 64,
+        "endChar": 44
+      },
+      "revId": "fa010c8e61d204674b13beb36bf9b5679d9d59e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "345b0aa4_8c8ccdf5",
+        "filename": "MODULE.bazel",
+        "patchSetId": 43
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-01-09T13:07:40Z",
+      "side": 1,
+      "message": "Ah this can be removed. In earlier patchsets I have used the same repository name for both modules.",
+      "parentUuid": "2c1d9469_81d4095e",
+      "range": {
+        "startLine": 64,
+        "startChar": 34,
+        "endLine": 64,
+        "endChar": 36
+      },
+      "revId": "fa010c8e61d204674b13beb36bf9b5679d9d59e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "727c30ec_55ebee89",
@@ -193,6 +355,30 @@
       "writtenOn": "2026-01-08T17:00:00Z",
       "side": 1,
       "message": "Would it make sense to split this single module into two separate modules, for example:\n\n* gerrit-deps\n* gerrit-nongoogle-deps\n\nWe’d then need to pin them separately (though typically only one of them would need to change at a time):\n\n```bash\nREPIN\u003d1 bazel run @gerrit-deps//:pin\nREPIN\u003d1 bazel run @gerrit-nongoogle-deps//:pin\n```",
+      "range": {
+        "startLine": 69,
+        "startChar": 0,
+        "endLine": 77,
+        "endChar": 1
+      },
+      "revId": "fa010c8e61d204674b13beb36bf9b5679d9d59e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7e6c6579_1f031024",
+        "filename": "MODULE.bazel",
+        "patchSetId": 43
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-01-09T13:07:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "727c30ec_55ebee89",
       "range": {
         "startLine": 69,
         "startChar": 0,

@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3e1b666b_48bace59",
+        "filename": "tools/deps.bzl",
+        "patchSetId": 43
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-01-09T13:07:40Z",
+      "side": 0,
+      "message": "Change to adapts SR: https://gerrit-review.googlesource.com/c/gerrit/+/541281,edit\n\nChange adapting the CI pipeline to match new bazel files: https://gerrit-review.googlesource.com/c/gerrit-ci-scripts/+/540905",
+      "parentUuid": "324c71b8_9bdab822",
+      "revId": "719f64275581b78c310bc902affa0014c53a2b69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "973ea4a4_ed2193c8",
@@ -31,6 +49,30 @@
       "writtenOn": "2026-01-08T17:00:00Z",
       "side": 0,
       "message": "After this change, the only remaining usage of maven_jar is in the documentation:\n\n```bash\n$ git grep maven_jar.bzl\nDocumentation/dev-build-plugins.txt:load(\"//tools/bzl:maven_jar.bzl\", \"maven_jar\")\n```\n\nMaybe it’s worth mentioning why this isn’t removed as part of this change (including `tools/download_file.py`)?\n\n```bash\n$ git grep download_file.py\ntools/bzl/maven_jar.bzl:        \"_download_script\": attr.label(default \u003d Label(\"//tools:download_file.py\")),\ntools/gjf.sh:    \"$(get_tools_dir)/download_file.py\" -o \"$(get_jar_location $version)\" -u \"$url\" -v \"$sha1\"\n```\n\nI mentioned in another change that we might want to keep both dependency mechanisms for a while—continuing to support the existing `maven_jar` flow for plugin developers alongside the new RJE-based approach. Do we still want to do that, or is the plan to fully switch over in this change?",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 8,
+        "endChar": 46
+      },
+      "revId": "719f64275581b78c310bc902affa0014c53a2b69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b8044da_11b9d3f0",
+        "filename": "tools/nongoogle.bzl",
+        "patchSetId": 43
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-01-09T13:07:40Z",
+      "side": 0,
+      "message": "I would be slightly in favour of removing it completely as quickly as possible, since we otherwise might end up in a hard to maintain mix for a long time.\n\nAdding or updating is still straightforward if not even more so. Or what are your concerns with migrating completely?",
+      "parentUuid": "973ea4a4_ed2193c8",
       "range": {
         "startLine": 8,
         "startChar": 0,

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b788c2d4_c9254258",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 650,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-01-09T09:20:10Z",
+      "side": 1,
+      "message": "all this code is for a `\u003cgr-endpoint-decorator\u003e` component that we don\u0027t know how exactly it will behave?\n\nCan the resizing code be put in the Chat component instead of gr-app-element?\n\nThe code\n\n```\ndocument.documentElement.style.setProperty(\n      \u0027--banner-offset\u0027,\n      `${bannerOffset}px`\n    );\n```\n\nThis also points to the fact that we should be setting the CSS property `--banner-offset` in the banner component",
+      "range": {
+        "startLine": 631,
+        "startChar": 0,
+        "endLine": 650,
+        "endChar": 4
+      },
+      "revId": "02d516e3b8d51ebf076e03855caa027c5ed25341",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

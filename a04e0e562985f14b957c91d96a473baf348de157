@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f42e9b84_cb411d34",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2026-01-09T22:28:18Z",
+      "side": 1,
+      "message": "You probably want to update this change ontop of https://gerrit-review.googlesource.com/c/gerrit/+/259202",
+      "revId": "a04e0e562985f14b957c91d96a473baf348de157",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

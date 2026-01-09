@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6584d86a_182cdfd2",
+        "filename": "project.config",
+        "patchSetId": 3
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-01-09T21:22:00Z",
+      "side": 1,
+      "message": "Since `tools/deps.bzl` is being removed in this change: [1], it should also be removed from this submit requirement.\n\n[1]: https://gerrit-review.googlesource.com/c/gerrit/+/517822/45/tools/deps.bzl",
+      "range": {
+        "startLine": 132,
+        "startChar": 141,
+        "endLine": 132,
+        "endChar": 169
+      },
+      "revId": "ca360e214f018fb8ba0e3471c0d6e304d4681ac1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

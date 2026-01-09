@@ -81,6 +81,30 @@
       },
       "revId": "719f64275581b78c310bc902affa0014c53a2b69",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ef94a530_1dbc18c4",
+        "filename": "tools/nongoogle.bzl",
+        "patchSetId": 43
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-01-09T21:12:03Z",
+      "side": 0,
+      "message": "I just want to make sure we’re not removing this accidentally while it’s still needed.\n\nAs long as building plugins inside the Gerrit tree relies on `external_plugin_deps()`, we still depend on the old `maven_jar.bzl` machinery, even though it’s no longer used by Gerrit core itself.\n\nOnce that flow is no longer supported, then we absolutely can (and should) remove `maven_jar.bzl` and its related helpers (`download_file.py`).\n\nSo I’m fully on board with removing it - but only once the plugin-in-tree path has been fully migrated to the new RJE-based approach.",
+      "parentUuid": "8b8044da_11b9d3f0",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 8,
+        "endChar": 46
+      },
+      "revId": "719f64275581b78c310bc902affa0014c53a2b69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

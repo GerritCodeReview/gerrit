@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d594aeb_707ce988",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 45
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-01-09T21:12:03Z",
+      "side": 1,
+      "message": "Thanks for the clarification.\n\nI just wanted to add a bit of context, because the example in the commit message might be slightly misleading without it.\n\n`commons-io` is a bit of a special case: as far as I know, it’s the only dependency that is used by some core plugins (like `delete-project`) but not by Gerrit core itself. That’s why it needs to be referenced explicitly from `@gerrit_nongoogle_deps`.\n\nFor most plugin developers, however, the situation remains unchanged. If a plugin depends on libraries that Gerrit core already uses, they are typically available via:\n\n```python\nload(\n    \"//tools/bzl:plugin.bzl\",\n    \"PLUGIN_DEPS\",\n    \"PLUGIN_TEST_DEPS\",\n    \"gerrit_plugin\",\n)\n```\n\nSince `PLUGIN_DEPS` (and `PLUGIN_TEST_DEPS`) already expose the vast majority of what plugins need, no change is required in most cases.\n\nIf something is not in those, it can often still be referenced via the Gerrit core wrappers library (e.g. `//lib/mockito`).\n\nSo `commons-io` is really the exception here. It might be helpful to keep the example, but perhaps also briefly mention these other, more common cases so plugin authors have the full picture.",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 0
+      },
+      "revId": "6638081054c2afc6a475cfc66fad951fd6c5b097",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1129fb0f_c473bca6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 45
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-01-09T21:12:03Z",
+      "side": 1,
+      "message": "The CI merge error is probably unrelated and may go away once change 540903 is merged.",
+      "revId": "6638081054c2afc6a475cfc66fad951fd6c5b097",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

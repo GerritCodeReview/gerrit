@@ -51,6 +51,24 @@
       "message": "I just noticed that building Gerrit at HEAD results in a modified `MODULE.bazel.lock`.\n\nThis makes me suspect that not all generated changes were committed as part of the earlier update to `MODULE.bazel`.\n\nI’ve uploaded a small follow-up change 540903 to address this.\n\nOut of curiosity: does `bzlmod` provide a CI option to fail the build if `MODULE.bazel.lock` is modified (like `yarn`), so cases like this would automatically result in a Verify-1?",
       "revId": "9f3c8712beebaf7b366146b1ee5dcae8f157601c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "36433f98_0c24333a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-01-09T17:11:26Z",
+      "side": 1,
+      "message": "\u003e Out of curiosity: does `bzlmod` provide a CI option to fail the build if `MODULE.bazel.lock` is modified (like `yarn`), so cases like this would automatically result in a Verify-1?\n\nYes, you run with [`--lockfile_mode\u003derror`](https://bazel.build/versions/7.7.0/reference/command-line-reference#flag--lockfile_mode). Might be worth making that the default in `.bazelrc` and then include info on how to run with the other modes when updating bazel deps.",
+      "parentUuid": "a9eebddc_e270f928",
+      "revId": "9f3c8712beebaf7b366146b1ee5dcae8f157601c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

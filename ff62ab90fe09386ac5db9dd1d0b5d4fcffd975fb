@@ -22,6 +22,30 @@
       },
       "revId": "ff62ab90fe09386ac5db9dd1d0b5d4fcffd975fb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "97755d2e_bf43c638",
+        "filename": "tools/workspace_status.py",
+        "patchSetId": 36
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-01-09T14:38:37Z",
+      "side": 1,
+      "message": "I believe we still need to have the intermediate WORKSAPCE.bzlmod file, but can change the tests to directly refer to MODULE.bazel.",
+      "parentUuid": "48811484_82f9747c",
+      "range": {
+        "startLine": 19,
+        "startChar": 45,
+        "endLine": 19,
+        "endChar": 61
+      },
+      "revId": "ff62ab90fe09386ac5db9dd1d0b5d4fcffd975fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

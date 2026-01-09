@@ -26,6 +26,10 @@ public class InitLogging implements InitStep {
   private static final String JAVA_OPTIONS = "javaOptions";
   private static final String FLOGGER_BACKEND_PROPERTY = "flogger.backend_factory";
   private static final String FLOGGER_LOGGING_CONTEXT = "flogger.logging_context";
+  private static final String LOG4J1_BACKEND =
+      "com.google.common.flogger.backend.log4j.Log4jBackendFactory#getInstance";
+  private static final String LOG4J2_BACKEND =
+      "com.google.common.flogger.backend.log4j2.Log4j2BackendFactory#getInstance";
 
   private final Section container;
 
@@ -37,12 +41,9 @@ public class InitLogging implements InitStep {
   @Override
   public void run() throws Exception {
     List<String> javaOptions = new ArrayList<>(Arrays.asList(container.getList(JAVA_OPTIONS)));
-    if (!isSet(javaOptions, FLOGGER_BACKEND_PROPERTY)) {
-      javaOptions.add(
-          getJavaOption(
-              FLOGGER_BACKEND_PROPERTY,
-              "com.google.common.flogger.backend.log4j.Log4jBackendFactory#getInstance"));
-    }
+
+    upsertBackend(javaOptions);
+
     if (!isSet(javaOptions, FLOGGER_LOGGING_CONTEXT)) {
       javaOptions.add(
           getJavaOption(
@@ -50,6 +51,25 @@ public class InitLogging implements InitStep {
               "com.google.gerrit.server.logging.LoggingContext#getInstance"));
     }
     container.setList(JAVA_OPTIONS, javaOptions);
+  }
+
+  private static void upsertBackend(List<String> opts) {
+    String key = "-D" + FLOGGER_BACKEND_PROPERTY + "=";
+
+    for (int i = 0; i < opts.size(); i++) {
+      String s = opts.get(i).trim();
+      if (!s.startsWith(key)) {
+        continue;
+      }
+
+      String current = s.substring(key.length());
+      if (LOG4J1_BACKEND.equals(current)) {
+        opts.set(i, getJavaOption(FLOGGER_BACKEND_PROPERTY, LOG4J2_BACKEND));
+      }
+      return; // present (migrated or custom)
+    }
+
+    opts.add(getJavaOption(FLOGGER_BACKEND_PROPERTY, LOG4J2_BACKEND));
   }
 
   private static boolean isSet(List<String> javaOptions, String javaOptionName) {

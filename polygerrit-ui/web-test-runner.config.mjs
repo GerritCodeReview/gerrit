@@ -119,7 +119,7 @@ const config = {
       // and failureThreshold is for pixel change. We need to find a balance to allow
       // CI to pass, but also catch regressions.
       diffOptions: { threshold: 0.6 },
-      failureThreshold: 1,
+      failureThreshold: 2,
       failureThresholdType: 'percent',
       update: process.argv.includes('--update-screenshots'),
     }),

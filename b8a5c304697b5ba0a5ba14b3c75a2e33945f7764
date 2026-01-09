@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3f9ad406_bde6132c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 59
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-01-09T18:07:37Z",
+      "side": 1,
+      "message": "InitLogging currently only adds `flogger.backend_factory` when it’s missing; it doesn’t update an existing value (e.g. from the Log4j 1 backend). So “re-run init” won’t help for existing sites where the property is already set.\n\nI’ve uploaded change 541481 to migrate the Log4j 1 backend value to Log4j 2 during init. Would it make sense to rebase this change on top of that one (or include the migration here)?",
+      "range": {
+        "startLine": 29,
+        "startChar": 38,
+        "endLine": 29,
+        "endChar": 49
+      },
+      "revId": "b8a5c304697b5ba0a5ba14b3c75a2e33945f7764",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f69f420a_bd743ab7",
+        "filename": "java/com/google/gerrit/pgm/init/InitLogging.java",
+        "patchSetId": 59
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-01-09T18:07:37Z",
+      "side": 1,
+      "message": "This check only adds the backend if the option is missing.\nFor existing Gerrit sites that already have the Log4j 1 backend configured,\nthis condition will be true and the value will not be updated.",
+      "range": {
+        "startLine": 40,
+        "startChar": 4,
+        "endLine": 40,
+        "endChar": 56
+      },
+      "revId": "b8a5c304697b5ba0a5ba14b3c75a2e33945f7764",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

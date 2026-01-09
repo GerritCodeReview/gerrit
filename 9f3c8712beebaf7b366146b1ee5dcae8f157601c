@@ -69,6 +69,24 @@
       "parentUuid": "a9eebddc_e270f928",
       "revId": "9f3c8712beebaf7b366146b1ee5dcae8f157601c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b030be41_add134e1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-01-09T17:41:47Z",
+      "side": 1,
+      "message": "\u003e Yes, you run with --lockfile_mode\u003derror. Might be worth making that the default in .bazelrc and then include info on how to run with the other modes when updating bazel deps.\n\nThanks for the pointer. I think we have two main options here:\n\n* Add `--lockfile_mode\u003derror` unconditionally to .bazelrc. In that case, anyone intentionally updating `MODULE.bazel` (and therefore the lockfile) would need to pass `--lockfile_mode\u003dupdate` explicitly.\n* Enable `--lockfile_mode\u003derror` only in CI (for example via $BAZEL_OPTS when building Gerrit at HEAD), so CI fails if `MODULE.bazel.lock` changes unexpectedly and isn’t part of the review.\n\nPersonally, I would lean toward the second option, as it enforces correctness in CI without making local dependency updates more cumbersome for developers.",
+      "parentUuid": "36433f98_0c24333a",
+      "revId": "9f3c8712beebaf7b366146b1ee5dcae8f157601c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

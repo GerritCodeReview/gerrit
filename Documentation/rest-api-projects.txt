@@ -1669,6 +1669,113 @@ permissions and refs which do not exist will be filtered out from the result.
 
 ----
 
+[[diff-commits]]
+=== Diff Between Commits
+--
+'GET /projects/link:#project-name[\{project-name\}]/commits/link:#commit-id[\{commit-id\}]/diff'
+--
+
+Lists the files that differ between two commits. This is useful for comparing
+commits across multiple changes (similar to a pull request diff).
+
+The `base` query parameter is required and must be a 40-character
+SHA-1 commit ID. The commits must be in an ancestor/descendant relationship.
+All commits in the path between the base commit and the target commit must be
+visible to the caller.
+Private changes that the caller cannot access will result in a 404 error.
+
+The response format is identical to the
+link:rest-api-changes.html#list-files[List Files] endpoint for changes.
+
+.Request
+----
+  GET /projects/my-project/commits/6d2a3adb10e844c33617fc948dbeb88e868d396e/diff?base=a8a477efffbbf3b44169bb9a1d3a334cbbd9aa96 HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "/COMMIT_MSG": {
+      "status": "A",
+      "lines_inserted": 15,
+      "size_delta": 450,
+      "size": 450
+    },
+    "src/main/java/Example.java": {
+      "lines_inserted": 10,
+      "lines_deleted": 5,
+      "size_delta": 150,
+      "size": 2500
+    }
+  }
+----
+
+[[diff-file-content]]
+=== Get Diff for File
+--
+'GET /projects/link:#project-name[\{project-name\}]/commits/link:#commit-id[\{commit-id\}]/files/\{file-id\}/diff'
+--
+
+Gets the diff for a single file between two commits. The `base`
+query parameter is required (same as <<diff-commits,Diff Between Commits>>).
+
+The response format is identical to the
+link:rest-api-changes.html#get-diff[Get Diff] endpoint for changes.
+
+.Request
+----
+  GET /projects/my-project/commits/6d2a3adb10e844c33617fc948dbeb88e868d396e/files/src%2Fmain%2Fjava%2FExample.java/diff?base=a8a477efffbbf3b44169bb9a1d3a334cbbd9aa96 HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "meta_a": {
+      "name": "src/main/java/Example.java",
+      "content_type": "text/x-java",
+      "lines": 50
+    },
+    "meta_b": {
+      "name": "src/main/java/Example.java",
+      "content_type": "text/x-java",
+      "lines": 55
+    },
+    "change_type": "MODIFIED",
+    "content": [
+      {
+        "ab": [
+          "// Copyright header",
+          "package com.example;"
+        ]
+      },
+      {
+        "a": [
+          "  private int oldField;"
+        ],
+        "b": [
+          "  private int newField;",
+          "  private String additionalField;"
+        ]
+      }
+    ]
+  }
+----
+
+.Options
+* `--whitespace`: Controls whitespace handling. Valid values are `IGNORE_NONE`,
+  `IGNORE_TRAILING`, `IGNORE_LEADING_AND_TRAILING` (default), and `IGNORE_ALL`.
+* `--intraline`: If set, includes intra-line diffs.
+
 [[branch-endpoints]]
 == Branch Endpoints
 

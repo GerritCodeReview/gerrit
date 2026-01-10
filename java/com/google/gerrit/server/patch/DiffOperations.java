@@ -202,4 +202,29 @@ public interface DiffOperations {
       String fileName,
       @Nullable DiffPreferencesInfo.Whitespace whitespace)
       throws DiffNotAvailableException;
+
+  /**
+   * Returns the diff for a single file between two patchset commits with custom diff options. For
+   * deleted files, the {@code fileName} parameter should contain the old name of the file. This
+   * method will return {@link FileDiffOutput#empty(String, ObjectId, ObjectId)} if the requested
+   * file identified by {@code fileName} has unchanged content or does not exist at both commits.
+   *
+   * @param project a project name representing a git repository.
+   * @param oldCommit 20 bytes SHA-1 of the old commit used in the diff.
+   * @param newCommit 20 bytes SHA-1 of the new commit used in the diff.
+   * @param fileName the file name for which the diff should be evaluated.
+   * @param whitespace preference controlling whitespace effect in diff computation.
+   * @param diffOptions options controlling diff behavior such as rebase filtering.
+   * @return the diff for the single file between the two commits.
+   * @throws DiffNotAvailableException if an internal error occurred in Git while evaluating the
+   *     diff.
+   */
+  FileDiffOutput getModifiedFile(
+      Project.NameKey project,
+      ObjectId oldCommit,
+      ObjectId newCommit,
+      String fileName,
+      @Nullable DiffPreferencesInfo.Whitespace whitespace,
+      DiffOptions diffOptions)
+      throws DiffNotAvailableException;
 }

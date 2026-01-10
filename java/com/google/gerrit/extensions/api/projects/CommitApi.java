@@ -31,4 +31,13 @@ public interface CommitApi {
 
   /** List files in a specific commit against the parent commit. */
   Map<String, FileInfo> files(int parentNum) throws RestApiException;
+
+  /**
+   * Lists files that differ between this commit and a base commit.
+   *
+   * @param base the base commit SHA1 (40 characters)
+   * @return map of file paths to FileInfo
+   * @throws RestApiException if commits are not in ancestor/descendant relationship or not visible
+   */
+  Map<String, FileInfo> diffFiles(String base) throws RestApiException;
 }

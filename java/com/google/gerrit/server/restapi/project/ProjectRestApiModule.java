@@ -35,6 +35,7 @@ public class ProjectRestApiModule extends RestApiModule {
     bind(ProjectsCollection.class);
     bind(ListProjects.class).to(ListProjectsImpl.class);
     bind(DashboardsCollection.class);
+    bind(ProjectDiffUtils.class);
 
     DynamicMap.mapOf(binder(), BRANCH_KIND);
     DynamicMap.mapOf(binder(), CHILD_PROJECT_KIND);
@@ -80,8 +81,11 @@ public class ProjectRestApiModule extends RestApiModule {
     post(COMMIT_KIND, "cherrypick").to(CherryPickCommit.class);
     child(COMMIT_KIND, "files").to(FilesInCommitCollection.class);
     get(COMMIT_KIND, "in").to(CommitIncludedIn.class);
+    get(COMMIT_KIND, "diff").to(ListDiffFiles.class);
 
     get(PROJECT_KIND, "commits:in").to(CommitsIncludedInRefs.class);
+
+    get(FILE_KIND, "diff").to(GetDiffFile.class);
 
     get(PROJECT_KIND, "config").to(GetConfig.class);
     put(PROJECT_KIND, "config").to(PutConfig.class);

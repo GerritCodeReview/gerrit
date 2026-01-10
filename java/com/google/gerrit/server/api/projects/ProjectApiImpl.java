@@ -52,6 +52,8 @@ import com.google.gerrit.extensions.api.projects.TagInfo;
 import com.google.gerrit.extensions.common.BatchLabelInput;
 import com.google.gerrit.extensions.common.BatchSubmitRequirementInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.common.DiffInfo;
+import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.common.LabelDefinitionInfo;
 import com.google.gerrit.extensions.common.ProjectInfo;
@@ -63,8 +65,10 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.project.FileResource;
 import com.google.gerrit.server.project.ProjectJson;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.restapi.project.Check;
@@ -80,6 +84,7 @@ import com.google.gerrit.server.restapi.project.DeleteTags;
 import com.google.gerrit.server.restapi.project.GetAccess;
 import com.google.gerrit.server.restapi.project.GetConfig;
 import com.google.gerrit.server.restapi.project.GetDescription;
+import com.google.gerrit.server.restapi.project.GetDiffFile;
 import com.google.gerrit.server.restapi.project.GetHead;
 import com.google.gerrit.server.restapi.project.GetParent;
 import com.google.gerrit.server.restapi.project.Index;
@@ -109,6 +114,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import org.eclipse.jgit.lib.ObjectId;
 
 public class ProjectApiImpl implements ProjectApi {
   interface Factory {
@@ -163,6 +169,8 @@ public class ProjectApiImpl implements ProjectApi {
   private final PostSubmitRequirementsReview postSubmitRequirementsReview;
   private final LabelApiImpl.Factory labelApi;
   private final SubmitRequirementApiImpl.Factory submitRequirementApi;
+  private final GitRepositoryManager repoManager;
+  private final Provider<GetDiffFile> getDiffFile;
 
   @AssistedInject
   ProjectApiImpl(
@@ -170,6 +178,7 @@ public class ProjectApiImpl implements ProjectApi {
       CreateProject createProject,
       ProjectApiImpl.Factory projectApi,
       ProjectsCollection projects,
+      GitRepositoryManager repoManager,
       GetDescription getDescription,
       PutDescription putDescription,
       ChildProjectApiImpl.Factory childApi,
@@ -209,12 +218,14 @@ public class ProjectApiImpl implements ProjectApi {
       SubmitRequirementApiImpl.Factory submitRequirementApi,
       PostSubmitRequirements postSubmitRequirements,
       PostSubmitRequirementsReview postSubmitRequirementsReview,
+      Provider<GetDiffFile> getDiffFile,
       @Assisted ProjectResource project) {
     this(
         permissionBackend,
         createProject,
         projectApi,
         projects,
+        repoManager,
         getDescription,
         putDescription,
         childApi,
@@ -255,6 +266,7 @@ public class ProjectApiImpl implements ProjectApi {
         submitRequirementApi,
         postSubmitRequirements,
         postSubmitRequirementsReview,
+        getDiffFile,
         null);
   }
 
@@ -264,6 +276,7 @@ public class ProjectApiImpl implements ProjectApi {
       CreateProject createProject,
       ProjectApiImpl.Factory projectApi,
       ProjectsCollection projects,
+      GitRepositoryManager repoManager,
       GetDescription getDescription,
       PutDescription putDescription,
       ChildProjectApiImpl.Factory childApi,
@@ -303,12 +316,14 @@ public class ProjectApiImpl implements ProjectApi {
       SubmitRequirementApiImpl.Factory submitRequirementApi,
       PostSubmitRequirements postSubmitRequirements,
       PostSubmitRequirementsReview postSubmitRequirementsReview,
+      Provider<GetDiffFile> getDiffFile,
       @Assisted String name) {
     this(
         permissionBackend,
         createProject,
         projectApi,
         projects,
+        repoManager,
         getDescription,
         putDescription,
         childApi,
@@ -349,6 +364,7 @@ public class ProjectApiImpl implements ProjectApi {
         submitRequirementApi,
         postSubmitRequirements,
         postSubmitRequirementsReview,
+        getDiffFile,
         name);
   }
 
@@ -357,6 +373,7 @@ public class ProjectApiImpl implements ProjectApi {
       CreateProject createProject,
       ProjectApiImpl.Factory projectApi,
       ProjectsCollection projects,
+      GitRepositoryManager repoManager,
       GetDescription getDescription,
       PutDescription putDescription,
       ChildProjectApiImpl.Factory childApi,
@@ -397,11 +414,13 @@ public class ProjectApiImpl implements ProjectApi {
       SubmitRequirementApiImpl.Factory submitRequirementApi,
       PostSubmitRequirements postSubmitRequirements,
       PostSubmitRequirementsReview postSubmitRequirementsReview,
+      Provider<GetDiffFile> getDiffFile,
       String name) {
     this.permissionBackend = permissionBackend;
     this.createProject = createProject;
     this.projectApi = projectApi;
     this.projects = projects;
+    this.repoManager = repoManager;
     this.getDescription = getDescription;
     this.putDescription = putDescription;
     this.childApi = childApi;
@@ -443,6 +462,7 @@ public class ProjectApiImpl implements ProjectApi {
     this.submitRequirementApi = submitRequirementApi;
     this.postSubmitRequirements = postSubmitRequirements;
     this.postSubmitRequirementsReview = postSubmitRequirementsReview;
+    this.getDiffFile = getDiffFile;
   }
 
   @Override
@@ -580,6 +600,28 @@ public class ProjectApiImpl implements ProjectApi {
       return commitsIncludedInRefs.apply(project).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot list commits included in refs", e);
+    }
+  }
+
+  @Override
+  public Map<String, FileInfo> diffFiles(String oldCommit, String newCommit, boolean nameOnly)
+      throws RestApiException {
+    if (newCommit == null) {
+      throw new BadRequestException("new commit SHA1 is required");
+    }
+    return commit(newCommit).diffFiles(oldCommit, nameOnly);
+  }
+
+  @Override
+  public DiffInfo diffFile(String oldCommit, String newCommit, String path)
+      throws RestApiException {
+    try {
+      FileResource resource =
+          FileResource.create(
+              repoManager, checkExists().getProjectState(), ObjectId.fromString(newCommit), path);
+      return getDiffFile.get().setBase(oldCommit).apply(resource).value();
+    } catch (Exception e) {
+      throw asRestApiException("Cannot get diff file", e);
     }
   }
 

@@ -29,7 +29,9 @@ import com.google.gerrit.server.restapi.change.CherryPickCommit;
 import com.google.gerrit.server.restapi.project.CommitIncludedIn;
 import com.google.gerrit.server.restapi.project.FilesInCommitCollection;
 import com.google.gerrit.server.restapi.project.GetCommit;
+import com.google.gerrit.server.restapi.project.ListDiffFiles;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import java.util.Map;
 
@@ -44,6 +46,7 @@ public class CommitApiImpl implements CommitApi {
   private final CommitIncludedIn includedIn;
   private final CommitResource commitResource;
   private final FilesInCommitCollection.ListFiles listFiles;
+  private final Provider<ListDiffFiles> listDiffFiles;
 
   @Inject
   CommitApiImpl(
@@ -52,12 +55,14 @@ public class CommitApiImpl implements CommitApi {
       CherryPickCommit cherryPickCommit,
       CommitIncludedIn includedIn,
       FilesInCommitCollection.ListFiles listFiles,
+      Provider<ListDiffFiles> listDiffFiles,
       @Assisted CommitResource commitResource) {
     this.changes = changes;
     this.getCommit = getCommit;
     this.cherryPickCommit = cherryPickCommit;
     this.includedIn = includedIn;
     this.listFiles = listFiles;
+    this.listDiffFiles = listDiffFiles;
     this.commitResource = commitResource;
   }
 
@@ -94,6 +99,15 @@ public class CommitApiImpl implements CommitApi {
       return listFiles.setParent(parentNum).apply(commitResource).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot retrieve files", e);
+    }
+  }
+
+  @Override
+  public Map<String, FileInfo> diffFiles(String base, boolean nameOnly) throws RestApiException {
+    try {
+      return listDiffFiles.get().setBase(base).setNameOnly(nameOnly).apply(commitResource).value();
+    } catch (Exception e) {
+      throw asRestApiException("Cannot retrieve diff files", e);
     }
   }
 }

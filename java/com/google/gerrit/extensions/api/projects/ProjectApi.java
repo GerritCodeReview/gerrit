@@ -22,6 +22,8 @@ import com.google.gerrit.extensions.api.config.AccessCheckInput;
 import com.google.gerrit.extensions.common.BatchLabelInput;
 import com.google.gerrit.extensions.common.BatchSubmitRequirementInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.common.DiffInfo;
+import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.extensions.common.LabelDefinitionInfo;
 import com.google.gerrit.extensions.common.ListTagSortOption;
 import com.google.gerrit.extensions.common.ProjectInfo;
@@ -65,6 +67,29 @@ public interface ProjectApi {
 
   Map<String, Set<String>> commitsIn(Collection<String> commits, Collection<String> refs)
       throws RestApiException;
+
+  /**
+   * Lists files that differ between two commits.
+   *
+   * @param oldCommit the old commit SHA1 (40 characters)
+   * @param newCommit the new commit SHA1 (40 characters)
+   * @param nameOnly whether to return only the list of files without diff info
+   * @return map of file paths to FileInfo
+   * @throws RestApiException if commits are not in ancestor/descendant relationship or not visible
+   */
+  Map<String, FileInfo> diffFiles(String oldCommit, String newCommit, boolean nameOnly)
+      throws RestApiException;
+
+  /**
+   * Gets the diff for a specific file between two commits.
+   *
+   * @param oldCommit the old commit SHA1 (40 characters)
+   * @param newCommit the new commit SHA1 (40 characters)
+   * @param path the file path
+   * @return DiffInfo for the file
+   * @throws RestApiException if commits are not in ancestor/descendant relationship or not visible
+   */
+  DiffInfo diffFile(String oldCommit, String newCommit, String path) throws RestApiException;
 
   ListRefsRequest<BranchInfo> branches();
 

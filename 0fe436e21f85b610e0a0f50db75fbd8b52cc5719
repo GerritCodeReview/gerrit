@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c2c02137_12a8abfb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-01-10T15:36:06Z",
+      "side": 1,
+      "message": "What’s the plan for using Javadoc - should it come from RJE or from bazlets? It looks like change 536304 is using the bazlets version.",
+      "revId": "0fe436e21f85b610e0a0f50db75fbd8b52cc5719",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -34,6 +34,24 @@
       "parentUuid": "14fbfe21_1387a4a3",
       "revId": "ff62ab90fe09386ac5db9dd1d0b5d4fcffd975fb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "726ca101_8bf4dc10",
+        "filename": "WORKSPACE.bzlmod",
+        "patchSetId": 26
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-01-10T11:57:28Z",
+      "side": 0,
+      "message": "+1 on splitting the change and moving the removal of `external_plugin_deps()` and its helpers into a separate follow-up - that already helps a lot, thanks!\n\nI agree with you that this only affects plugin developers who use in-tree builds and have external dependencies, and also that this is a build-time disruption rather than a runtime one.\n\nStill, from a tooling and ecosystem perspective, I think it’s a well-established and healthy practice to give developers at least one full release cycle to adapt to such disruptive and fairly invasive changes.\n\nOne possible way to structure this could be:\n\n* *Gerrit 3.13 (today)*: announce the planned removal in 3.15 and deprecate the `external_plugin_deps()` mechanism for consuming external dependencies in in-tree plugin builds\n* *Gerrit 3.14 (e.g. May 2026)*: immediately after the 3.14 release, remove `external_plugin_deps()` and its helpers from Gerrit@HEAD\n* *Gerrit 3.15 (e.g. November 2026)*: first official release without any support for `external_plugin_deps()` and related machinery\n\nThis way, plugin maintainers get a full release cycle to migrate, while core development on HEAD is no longer blocked by maintaining the legacy mechanism after 3.14 ships.\n\nThe only downside would be that we couldn’t move to Bazel 9.0 during that time - but since Bazel 9 hasn’t even been released yet, that feels like a reasonable and low-risk trade-off.\n\nOverall, I think this kind of phased approach would make the transition much smoother for the plugin ecosystem while still keeping us on track technically.",
+      "parentUuid": "f83449b6_0ff051f2",
+      "revId": "ff62ab90fe09386ac5db9dd1d0b5d4fcffd975fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

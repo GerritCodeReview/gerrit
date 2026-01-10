@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8687a8ec_e61a3902",
+        "filename": "MODULE.bazel",
+        "patchSetId": 27
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-01-10T11:57:28Z",
+      "side": 1,
+      "message": "I can see change 535901 (the SHA1 referenced here), but I’m still trying to fully understand the intent behind this change.\n\nIn that change, the `gerrit_plugin` version is synchronized with the version in Gerrit core, and the commit message says:\n\n```\nThis change adapts the gerrit_plugin.bzl file to the version in Gerrit\ncore and makes it usable for in-tree builds of plugins.\n```\n\nIn the current change, though, it doesn’t look like the in-tree `tools/bzl/plugin.bzl` is being updated. Instead, it seems like we’re primarily pulling in `bazlets` to obtain the Gerrit Plugin-API version. Is that a fair understanding?\n\nIf so, it might be helpful to call that out explicitly in the commit message and briefly explain why this dependency is needed — that would make the motivation a lot clearer for reviewers.\n\nAlternatively, would it make sense to bring in the bazlets Plugin-API version (together with `bazlets/gerrit_plugin.bzl`) in a separate change, so this one can stay a bit more focused?",
+      "range": {
+        "startLine": 49,
+        "startChar": 0,
+        "endLine": 64,
+        "endChar": 1
+      },
+      "revId": "5d250a9ab699c2ed989851be68e33187fe0c8fc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5453dc2f_74bc63f5",
+        "filename": "MODULE.bazel",
+        "patchSetId": 27
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-01-10T11:57:28Z",
+      "side": 1,
+      "message": "I’d prefer not to document this inline to avoid adding noise to the central `MODULE.bazel` file. Since it’s already documented in `Documentation/dev-build-plugins.txt`, that seems like the right place for it.\n\nCould we also add a note to the release notes so release managers and plugin maintainers don’t miss it?",
+      "range": {
+        "startLine": 66,
+        "startChar": 0,
+        "endLine": 77,
+        "endChar": 0
+      },
+      "revId": "5d250a9ab699c2ed989851be68e33187fe0c8fc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "59fdf8bb_b83bb887",
+        "filename": "tools/bzl/plugin.bzl",
+        "patchSetId": 27
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-01-10T11:57:28Z",
+      "side": 1,
+      "message": "Since we’re planning to use Bazel’s version of this file, should we just include that here, or is there a reason to split it into a separate change?",
+      "revId": "5d250a9ab699c2ed989851be68e33187fe0c8fc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "efc5c311_b6c6103e",
+        "filename": "tools/version.py",
+        "patchSetId": 27
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-01-10T11:57:28Z",
+      "side": 1,
+      "message": "This regex is still targeting the old `version.bzl` format (`GERRIT_VERSION \u003d...`). \n\n`MODULE.bazel` uses new format (`version \u003d...`), so this won’t match anything there.\n\nAs a result, when this script runs, the version is updated in the `pom.xml` files but not in `MODULE.bazel`.",
+      "range": {
+        "startLine": 48,
+        "startChar": 25,
+        "endLine": 48,
+        "endChar": 76
+      },
+      "revId": "5d250a9ab699c2ed989851be68e33187fe0c8fc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

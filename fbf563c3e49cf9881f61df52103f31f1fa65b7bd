@@ -16,6 +16,24 @@
       "message": "Same comment as in change 517822.\n\nAt the moment, the Library-Compliance submit requirement in `project.config` on the `refs/meta/config` branch still references the `WORKSPACE` file. Since this file is no longer present, the corresponding declaration may need to be updated.",
       "revId": "fbf563c3e49cf9881f61df52103f31f1fa65b7bd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b0794a03_36f0309b",
+        "filename": "WORKSPACE",
+        "patchSetId": 36
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-01-10T09:12:15Z",
+      "side": 0,
+      "message": "This was done in change 541281.",
+      "parentUuid": "ec347170_10b27561",
+      "revId": "fbf563c3e49cf9881f61df52103f31f1fa65b7bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

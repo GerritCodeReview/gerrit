@@ -53,18 +53,18 @@ import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
 
-class PatchScriptBuilder {
+public class PatchScriptBuilder {
 
   private DiffPreferencesInfo diffPrefs;
   private final FileTypeRegistry registry;
   private IntraLineDiffCalculator intralineDiffCalculator;
 
   @Inject
-  PatchScriptBuilder(FileTypeRegistry ftr) {
+  public PatchScriptBuilder(FileTypeRegistry ftr) {
     registry = ftr;
   }
 
-  void setDiffPrefs(DiffPreferencesInfo dp) {
+  public void setDiffPrefs(DiffPreferencesInfo dp) {
     diffPrefs = dp;
   }
 
@@ -73,7 +73,7 @@ class PatchScriptBuilder {
   }
 
   /** Convert into {@link PatchScript} using the new diff cache output. */
-  PatchScript toPatchScript(Repository git, FileDiffOutput content) throws IOException {
+  public PatchScript toPatchScript(Repository git, FileDiffOutput content) throws IOException {
     PatchFileChange change =
         new PatchFileChange(
             content.edits().stream().map(TaggedEdit::jgitEdit).collect(toImmutableList()),

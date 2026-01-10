@@ -85,6 +85,30 @@
       },
       "revId": "5d250a9ab699c2ed989851be68e33187fe0c8fc7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "98587d32_63571112",
+        "filename": "tools/version.py",
+        "patchSetId": 27
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-01-10T14:59:01Z",
+      "side": 1,
+      "message": "Ah, I think I see what’s going on now (this is a pretty large change series 😊).\n\nThere’s a follow-up change 535928 (“Specify Gerrit version in MODULE.bazel”), which preserves the same pattern between the old and new locations. That’s why the existing usage in `version.py` still works - in combination with that change.\n\nGiven that, would it make sense to squash these changes so we end up with a single, consistent code state?",
+      "parentUuid": "efc5c311_b6c6103e",
+      "range": {
+        "startLine": 48,
+        "startChar": 25,
+        "endLine": 48,
+        "endChar": 76
+      },
+      "revId": "5d250a9ab699c2ed989851be68e33187fe0c8fc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0398928d_935bc743",
+        "filename": "tools/bzl/junit.bzl",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-01-10T13:54:57Z",
+      "side": 0,
+      "message": "This change feels fairly disruptive and quite invasive as it stands.\n\nAs written, it would mean that all call sites - Gerrit core, all core plugins, and any custom plugins using the in-tree build mode with unit tests - would be immediately affected and would need to update their build setup just to keep tests working.\n\nWe could make this much smoother by keeping a thin wrapper in the current location and delegating to the bazlets implementation instead, for example:\n\n```python\n# tools/bzl/junit.bzl\n# Compatibility wrapper: keep old load path, delegate to bazlets.\n\nload(\"@com_googlesource_gerrit_bazlets//tools:junit.bzl\", _junit_tests \u003d \"junit_tests\")\n\ndef junit_tests(name, srcs, **kwargs):\n    _junit_tests(name \u003d name, srcs \u003d srcs, **kwargs)\n```\n\nThat would let us move to a single source of truth in `bazlets` without forcing all downstream users to update at once.\n\nWe could even mark this location as deprecated and communicate that it will be removed in the future releases, giving plugin developers time to adapt their build toolchains. Personally, I could also imagine keeping the wrapper long-term, since it still preserves a single canonical implementation while avoiding unnecessary churn.",
+      "revId": "845840322b954109c199dd5e4ec721b9ba57d15b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

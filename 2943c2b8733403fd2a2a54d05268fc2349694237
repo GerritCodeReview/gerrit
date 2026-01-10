@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fcd465a9_204ef932",
+        "filename": "tools/bzl/genrule2.bzl",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-01-10T15:25:31Z",
+      "side": 0,
+      "message": "To reduce churn for downstream consumers, could we keep `tools/bzl:genrule2.bzl` as a small compatibility wrapper rather than removing it outright?\n\n```python\nload(\"@com_googlesource_gerrit_bazlets//tools:genrule2.bzl\", _genrule2 \u003d \"genrule2\")\n\ndef genrule2(*args, **kwargs):\n  _genrule2(*args, **kwargs)\n```\n\nThis still achieves the goal of de-duplicating the implementation (single source of truth in `bazlets`), while avoiding the need to update all existing call sites immediately.",
+      "revId": "2943c2b8733403fd2a2a54d05268fc2349694237",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

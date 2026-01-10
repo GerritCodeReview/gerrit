@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3a84f0e2_0c1bd932",
+        "filename": "tools/bzl/plugin.bzl",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-01-10T14:32:55Z",
+      "side": 0,
+      "message": "The same delegation pattern used for the `junit_test` change could also be applied here to reduce churn and avoid forcing a build migration across all plugins.\n\nWe could keep `//tools/bzl:plugin.bzl` in-tree, but turn it into a small compatibility layer that:\n\n* re-exports `gerrit_plugin` by delegating to the `bazlets` implementation, and\n* continues to export `PLUGIN_DEPS` and `PLUGIN_TEST_DEPS` (and optionally `PLUGIN_DEPS_NEVERLINK`, `IN_TREE_BUILD_MODE`) so existing call sites keep working unchanged.\n\nA minimal wrapper could look like this:\n\n```python\nload(\"@com_googlesource_gerrit_bazlets//:gerrit_plugin.bzl\", _gerrit_plugin \u003d \"gerrit_plugin\")\n\n# Keep legacy constants for in-tree consumers.\nPLUGIN_DEPS \u003d [\"//plugins:plugin-lib\"]\nPLUGIN_DEPS_NEVERLINK \u003d [\"//plugins:plugin-lib-neverlink\"]\nPLUGIN_TEST_DEPS \u003d [\n    \"//java/com/google/gerrit/acceptance:lib\",\n    \"//lib/bouncycastle:bcpg\",\n    \"//lib/bouncycastle:bcpkix\",\n    \"//lib/bouncycastle:bcprov\",\n]\n\nIN_TREE_BUILD_MODE \u003d True\n\ndef gerrit_plugin(*args, **kwargs):\n    _gerrit_plugin(*args, **kwargs)\n```\n\nIf we prefer to be fully explicit and preserve the legacy macro signature, we could instead use:\n\n```python\ndef gerrit_plugin(\n        name,\n        deps \u003d [],\n        provided_deps \u003d [],\n        srcs \u003d [],\n        resources \u003d [],\n        resource_jars \u003d [],\n        runtime_deps \u003d [],\n        manifest_entries \u003d [],\n        dir_name \u003d None,\n        target_suffix \u003d \"\",\n        deploy_env \u003d [],\n        **kwargs):\n    \"\"\"Compatibility wrapper for bazlets\u0027 gerrit_plugin.\n\n    Preserves the legacy macro signature and constants for in-tree builds,\n    while delegating the implementation to bazlets.\n    \"\"\"\n    _gerrit_plugin(\n        name \u003d name,\n        deps \u003d deps,\n        provided_deps \u003d provided_deps,\n        srcs \u003d srcs,\n        resources \u003d resources,\n        resource_jars \u003d resource_jars,\n        runtime_deps \u003d runtime_deps,\n        manifest_entries \u003d manifest_entries,\n        dir_name \u003d dir_name,\n        target_suffix \u003d target_suffix,\n        deploy_env \u003d deploy_env,\n        **kwargs\n    )\n```\n\nI tested both variants by reverting the changes in the `download-commands` plugin and running a build and tests. In both cases everything worked as expected: the constants were still taken from the Gerrit tree, while the actual `gerrit_plugin` logic was delegated to bazlets.",
+      "revId": "9c4535a16f08c3ab2ffd214f12afdc2016f18f6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

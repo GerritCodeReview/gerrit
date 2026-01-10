@@ -52,6 +52,8 @@ import com.google.gerrit.extensions.api.projects.TagInfo;
 import com.google.gerrit.extensions.common.BatchLabelInput;
 import com.google.gerrit.extensions.common.BatchSubmitRequirementInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.common.DiffInfo;
+import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.common.LabelDefinitionInfo;
 import com.google.gerrit.extensions.common.ProjectInfo;
@@ -65,6 +67,7 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.project.DiffFileResource;
 import com.google.gerrit.server.project.ProjectJson;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.restapi.project.Check;
@@ -77,6 +80,9 @@ import com.google.gerrit.server.restapi.project.CreateProject;
 import com.google.gerrit.server.restapi.project.DeleteBranches;
 import com.google.gerrit.server.restapi.project.DeleteChanges;
 import com.google.gerrit.server.restapi.project.DeleteTags;
+import com.google.gerrit.server.restapi.project.DiffCollection;
+import com.google.gerrit.server.restapi.project.GetDiffFile;
+import com.google.gerrit.server.restapi.project.ListDiffFiles;
 import com.google.gerrit.server.restapi.project.GetAccess;
 import com.google.gerrit.server.restapi.project.GetConfig;
 import com.google.gerrit.server.restapi.project.GetDescription;
@@ -163,6 +169,9 @@ public class ProjectApiImpl implements ProjectApi {
   private final PostSubmitRequirementsReview postSubmitRequirementsReview;
   private final LabelApiImpl.Factory labelApi;
   private final SubmitRequirementApiImpl.Factory submitRequirementApi;
+  private final Provider<ListDiffFiles> listDiffFiles;
+  private final Provider<GetDiffFile> getDiffFile;
+  private final DiffCollection diffCollection;
 
   @AssistedInject
   ProjectApiImpl(
@@ -209,6 +218,9 @@ public class ProjectApiImpl implements ProjectApi {
       SubmitRequirementApiImpl.Factory submitRequirementApi,
       PostSubmitRequirements postSubmitRequirements,
       PostSubmitRequirementsReview postSubmitRequirementsReview,
+      Provider<ListDiffFiles> listDiffFiles,
+      Provider<GetDiffFile> getDiffFile,
+      DiffCollection diffCollection,
       @Assisted ProjectResource project) {
     this(
         permissionBackend,
@@ -255,6 +267,9 @@ public class ProjectApiImpl implements ProjectApi {
         submitRequirementApi,
         postSubmitRequirements,
         postSubmitRequirementsReview,
+        listDiffFiles,
+        getDiffFile,
+        diffCollection,
         null);
   }
 
@@ -303,6 +318,9 @@ public class ProjectApiImpl implements ProjectApi {
       SubmitRequirementApiImpl.Factory submitRequirementApi,
       PostSubmitRequirements postSubmitRequirements,
       PostSubmitRequirementsReview postSubmitRequirementsReview,
+      Provider<ListDiffFiles> listDiffFiles,
+      Provider<GetDiffFile> getDiffFile,
+      DiffCollection diffCollection,
       @Assisted String name) {
     this(
         permissionBackend,
@@ -349,6 +367,9 @@ public class ProjectApiImpl implements ProjectApi {
         submitRequirementApi,
         postSubmitRequirements,
         postSubmitRequirementsReview,
+        listDiffFiles,
+        getDiffFile,
+        diffCollection,
         name);
   }
 
@@ -397,6 +418,9 @@ public class ProjectApiImpl implements ProjectApi {
       SubmitRequirementApiImpl.Factory submitRequirementApi,
       PostSubmitRequirements postSubmitRequirements,
       PostSubmitRequirementsReview postSubmitRequirementsReview,
+      Provider<ListDiffFiles> listDiffFiles,
+      Provider<GetDiffFile> getDiffFile,
+      DiffCollection diffCollection,
       String name) {
     this.permissionBackend = permissionBackend;
     this.createProject = createProject;
@@ -443,6 +467,9 @@ public class ProjectApiImpl implements ProjectApi {
     this.submitRequirementApi = submitRequirementApi;
     this.postSubmitRequirements = postSubmitRequirements;
     this.postSubmitRequirementsReview = postSubmitRequirementsReview;
+    this.listDiffFiles = listDiffFiles;
+    this.getDiffFile = getDiffFile;
+    this.diffCollection = diffCollection;
   }
 
   @Override
@@ -580,6 +607,27 @@ public class ProjectApiImpl implements ProjectApi {
       return commitsIncludedInRefs.apply(project).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot list commits included in refs", e);
+    }
+  }
+
+  @Override
+  public Map<String, FileInfo> diffFiles(String oldCommit, String newCommit)
+      throws RestApiException {
+    try {
+      return listDiffFiles.get().setOld(oldCommit).setNew(newCommit).apply(checkExists()).value();
+    } catch (Exception e) {
+      throw asRestApiException("Cannot list diff files", e);
+    }
+  }
+
+  @Override
+  public DiffInfo diffFile(String oldCommit, String newCommit, String path)
+      throws RestApiException {
+    try {
+      DiffFileResource resource = diffCollection.parse(checkExists(), IdString.fromDecoded(path));
+      return getDiffFile.get().setOld(oldCommit).setNew(newCommit).apply(resource).value();
+    } catch (Exception e) {
+      throw asRestApiException("Cannot get diff file", e);
     }
   }
 

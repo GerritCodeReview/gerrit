@@ -18,6 +18,7 @@ import static com.google.gerrit.server.project.BranchResource.BRANCH_KIND;
 import static com.google.gerrit.server.project.ChildProjectResource.CHILD_PROJECT_KIND;
 import static com.google.gerrit.server.project.CommitResource.COMMIT_KIND;
 import static com.google.gerrit.server.project.DashboardResource.DASHBOARD_KIND;
+import static com.google.gerrit.server.project.DiffFileResource.DIFF_FILE_KIND;
 import static com.google.gerrit.server.project.FileResource.FILE_KIND;
 import static com.google.gerrit.server.project.LabelResource.LABEL_KIND;
 import static com.google.gerrit.server.project.ProjectResource.PROJECT_KIND;
@@ -40,6 +41,7 @@ public class ProjectRestApiModule extends RestApiModule {
     DynamicMap.mapOf(binder(), CHILD_PROJECT_KIND);
     DynamicMap.mapOf(binder(), COMMIT_KIND);
     DynamicMap.mapOf(binder(), DASHBOARD_KIND);
+    DynamicMap.mapOf(binder(), DIFF_FILE_KIND);
     DynamicMap.mapOf(binder(), FILE_KIND);
     DynamicMap.mapOf(binder(), LABEL_KIND);
     DynamicMap.mapOf(binder(), PROJECT_KIND);
@@ -82,6 +84,9 @@ public class ProjectRestApiModule extends RestApiModule {
     get(COMMIT_KIND, "in").to(CommitIncludedIn.class);
 
     get(PROJECT_KIND, "commits:in").to(CommitsIncludedInRefs.class);
+
+    child(PROJECT_KIND, "diff").to(DiffCollection.class);
+    get(DIFF_FILE_KIND).to(GetDiffFile.class);
 
     get(PROJECT_KIND, "config").to(GetConfig.class);
     put(PROJECT_KIND, "config").to(PutConfig.class);

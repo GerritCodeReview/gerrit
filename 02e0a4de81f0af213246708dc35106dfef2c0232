@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "77664999_6c951651",
+        "filename": "tools/bzl/maven_jar.bzl",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-01-10T13:28:54Z",
+      "side": 0,
+      "message": "Would this affect plugin developers who use the in-tree plugin build mode with external dependencies? Or would they still be able to consume `maven_jar` from `bazlets` as before?\n\nAlternatively, would it be reasonable to keep this file in place and simply delegate to the `bazlets` version of `maven_jar`?\n\nIf we do keep the removal of this file in this commit, could we mention that explicitly in the commit message? Also, it looks like the `download_file.py` helper is only used for fetching `google-java-format` and would still need to be kept - is that correct?\n\nIf so, would it make sense to isolate the removal into its own change, in case it needs to be reverted later?",
+      "revId": "02e0a4de81f0af213246708dc35106dfef2c0232",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

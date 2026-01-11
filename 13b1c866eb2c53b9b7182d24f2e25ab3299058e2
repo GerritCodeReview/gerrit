@@ -24,6 +24,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "c3946410_678d5447",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-01-11T17:28:35Z",
+      "side": 1,
+      "message": "```suggestion\n\nRelease-Notes: Fix ProjectAccessInput in REST-API Documentation\nChange-Id: I01113210653f0cce87b4a113dd237c66b17a90e3\n```",
+      "revId": "13b1c866eb2c53b9b7182d24f2e25ab3299058e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "d50704e7_f790141a",

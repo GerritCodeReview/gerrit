@@ -5014,11 +5014,11 @@ access config.
 |=============================
 |Field Name          |        |Description
 |`remove`            |optional|
-A list of deductions to be applied to the project access as
-link:rest-api-access.html#project-access-info[ProjectAccessInfo] entities.
+A map of deductions to be applied to the project access, mapping refs to (empty) 
+link:rest-api-access.html#access-section-info[AccessSectionInfo] entities.
 |`add`               |optional|
-A list of additions to be applied to the project access as
-link:rest-api-access.html#project-access-info[ProjectAccessInfo] entities.
+A map of additions to be applied to the project access, mapping refs to
+link:rest-api-access.html#access-section-info[AccessSectionInfo] entities.
 |`message`           |optional|
 A commit message for this change.
 |`parent`            |optional|

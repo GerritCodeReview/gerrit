@@ -94,6 +94,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "8dce27a4_24b8e48a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-01-11T10:39:17Z",
+      "side": 1,
+      "message": "\u003e \u003e How many more contributions we have thanks to this relaxation of the rule\n\u003e \n\u003e Surely someone doesn\u0027t not contribute to Gerrit because of this release footer, this should not be a measure of success of removing the footer I don\u0027t think...\n\nMy understanding is that the main reason for removing this constraint is to encourage new contributors and simplify the contribution process. How would you measure success then if we don\u0027t look at how many new contributors (or contributions) we have?\n\n\u003e The main aspect I\u0027m worried about is the quality of the release notes, but from my first test, doesn\u0027t look too bad.\n\nYour [first test of using Germini AI](https://gerrit-review.googlesource.com/c/homepage/+/540901) doesn\u0027t look too *good* you mean? What Gemini has produced is a basic scaffolding, with a lot of mistakes that the release manager would have to check one-by-one and redo all by hand.",
+      "parentUuid": "d5c56dc8_28186586",
+      "range": {
+        "startLine": 11,
+        "startChar": 43,
+        "endLine": 12,
+        "endChar": 25
+      },
+      "revId": "2c8c67a9828ae39e174dbc99e20aa7dabc306bb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "520a29d6_d6b58e8a",
@@ -265,6 +289,23 @@
       "writtenOn": "2026-01-08T11:42:55Z",
       "side": 1,
       "message": "Had a go at creating them here: I309c26b4b74a\nLet me know what you think.",
+      "revId": "2c8c67a9828ae39e174dbc99e20aa7dabc306bb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e248798c_3238317b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-01-11T10:39:17Z",
+      "side": 1,
+      "message": "I\u0027ll reset my vote, after having seen what @danielesassoli@gmail.com managed to produce using Gemini CLI.\n\n@milutin@google.com do you have another prompt to try and see if Gemini CLI can do better with that?",
       "revId": "2c8c67a9828ae39e174dbc99e20aa7dabc306bb5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

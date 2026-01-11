@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "d310d4b3_10ad3b3f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-01-11T17:27:42Z",
+      "side": 1,
+      "message": "Wrap long lines",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 88
+      },
+      "revId": "13b1c866eb2c53b9b7182d24f2e25ab3299058e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "d50704e7_f790141a",
@@ -14,6 +37,29 @@
       "writtenOn": "2026-01-11T15:03:46Z",
       "side": 1,
       "message": "For reviewers: The following are the locations in the implementation which make me think that the fix is correct (besides trying it out obviously):\n\nThe REST API seems to end up in this apply function (taking ProjectAccessInput argument as documented):\nhttps://gerrit.googlesource.com/gerrit/+/refs/heads/master/java/com/google/gerrit/server/restapi/project/SetAccess.java#75\n\nThis function then calls the accessUtil.getAccessSections method in\nhttps://gerrit.googlesource.com/gerrit/+/refs/heads/master/java/com/google/gerrit/server/restapi/project/SetAccess.java#80\n\nAnd this takes Map\u003cString, AccessSectionInfo\u003e and not a list as it is currently documented, as can be seen in\nhttps://gerrit.googlesource.com/gerrit/+/refs/heads/master/java/com/google/gerrit/server/restapi/project/SetAccessUtil.java#70",
+      "revId": "13b1c866eb2c53b9b7182d24f2e25ab3299058e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ed61c18_4f34e04e",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 5017,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-01-11T17:27:42Z",
+      "side": 1,
+      "message": "nit: empty space at the end of line",
+      "range": {
+        "startLine": 5017,
+        "startChar": 80,
+        "endLine": 5017,
+        "endChar": 81
+      },
       "revId": "13b1c866eb2c53b9b7182d24f2e25ab3299058e2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

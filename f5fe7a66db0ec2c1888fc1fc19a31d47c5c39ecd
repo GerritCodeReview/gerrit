@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c946bc62_ca47fad6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4573024
+      },
+      "writtenOn": "2026-01-11T19:25:20Z",
+      "side": 1,
+      "message": "Not familiar with Gerrit UI, hope i got this right :-D",
+      "revId": "f5fe7a66db0ec2c1888fc1fc19a31d47c5c39ecd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

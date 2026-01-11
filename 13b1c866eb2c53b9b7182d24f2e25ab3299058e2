@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa9820e9_8a9335a8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 4573024
+      },
+      "writtenOn": "2026-01-11T19:25:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d310d4b3_10ad3b3f",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 88
+      },
+      "revId": "13b1c866eb2c53b9b7182d24f2e25ab3299058e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c3946410_678d5447",
@@ -37,6 +61,24 @@
       "writtenOn": "2026-01-11T17:28:35Z",
       "side": 1,
       "message": "```suggestion\n\nRelease-Notes: Fix ProjectAccessInput in REST-API Documentation\nChange-Id: I01113210653f0cce87b4a113dd237c66b17a90e3\n```",
+      "revId": "13b1c866eb2c53b9b7182d24f2e25ab3299058e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8ff0ab84_d4a3ec0b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 4573024
+      },
+      "writtenOn": "2026-01-11T19:25:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c3946410_678d5447",
       "revId": "13b1c866eb2c53b9b7182d24f2e25ab3299058e2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -71,6 +113,30 @@
       "writtenOn": "2026-01-11T17:27:42Z",
       "side": 1,
       "message": "nit: empty space at the end of line",
+      "range": {
+        "startLine": 5017,
+        "startChar": 80,
+        "endLine": 5017,
+        "endChar": 81
+      },
+      "revId": "13b1c866eb2c53b9b7182d24f2e25ab3299058e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5ec0f11d_3dfcd416",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 5017,
+      "author": {
+        "id": 4573024
+      },
+      "writtenOn": "2026-01-11T19:25:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7ed61c18_4f34e04e",
       "range": {
         "startLine": 5017,
         "startChar": 80,

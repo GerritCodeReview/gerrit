@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d50704e7_f790141a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4573024
+      },
+      "writtenOn": "2026-01-11T15:03:46Z",
+      "side": 1,
+      "message": "For reviewers: The following are the locations in the implementation which make me think that the fix is correct (besides trying it out obviously):\n\nThe REST API seems to end up in this apply function (taking ProjectAccessInput argument as documented):\nhttps://gerrit.googlesource.com/gerrit/+/refs/heads/master/java/com/google/gerrit/server/restapi/project/SetAccess.java#75\n\nThis function then calls the accessUtil.getAccessSections method in\nhttps://gerrit.googlesource.com/gerrit/+/refs/heads/master/java/com/google/gerrit/server/restapi/project/SetAccess.java#80\n\nAnd this takes Map\u003cString, AccessSectionInfo\u003e and not a list as it is currently documented, as can be seen in\nhttps://gerrit.googlesource.com/gerrit/+/refs/heads/master/java/com/google/gerrit/server/restapi/project/SetAccessUtil.java#70",
+      "revId": "13b1c866eb2c53b9b7182d24f2e25ab3299058e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

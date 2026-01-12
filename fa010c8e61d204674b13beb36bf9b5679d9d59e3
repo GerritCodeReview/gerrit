@@ -274,6 +274,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "881ae49f_acfa6612",
+        "filename": "MODULE.bazel",
+        "patchSetId": 43
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-01-12T08:58:14Z",
+      "side": 1,
+      "message": "We could use git_override to use the unreleased version of course. Of course that might bring some risk with it.",
+      "parentUuid": "51a72f11_5f2cbd74",
+      "range": {
+        "startLine": 63,
+        "startChar": 4,
+        "endLine": 63,
+        "endChar": 25
+      },
+      "revId": "fa010c8e61d204674b13beb36bf9b5679d9d59e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2c1d9469_81d4095e",
         "filename": "MODULE.bazel",
         "patchSetId": 43

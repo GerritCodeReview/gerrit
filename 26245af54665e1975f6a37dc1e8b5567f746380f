@@ -33,6 +33,24 @@
       "message": "JavaDoc missing.",
       "revId": "26245af54665e1975f6a37dc1e8b5567f746380f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0dcbbd7d_36043292",
+        "filename": "java/com/google/gerrit/server/cache/CacheKeyType.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-01-12T10:35:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c4b71026_ff5ef30b",
+      "revId": "26245af54665e1975f6a37dc1e8b5567f746380f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

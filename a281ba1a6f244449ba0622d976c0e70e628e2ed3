@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "181e9785_b87b0b9c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-01-12T13:41:06Z",
+      "side": 1,
+      "message": "This note is a good idea, thanks @nitzan@google.com!\nShould we introduce some AI guidance on the Gerrit contribution guide in tagging the AI-generated contributions?",
+      "revId": "a281ba1a6f244449ba0622d976c0e70e628e2ed3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

@@ -42,6 +42,7 @@ import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.accounts.EmailInput;
+import com.google.gerrit.extensions.api.changes.ReviewerInfo;
 import com.google.gerrit.extensions.api.changes.ReviewerInput;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.ChangeInput;
@@ -622,6 +623,22 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
         suggestReviewers(changeId, name), ImmutableList.of(foo1, foo2), ImmutableList.of());
 
     gApi.changes().id(changeId).addReviewer(foo2.id().toString());
+    assertReviewers(suggestReviewers(changeId, name), ImmutableList.of(foo1), ImmutableList.of());
+  }
+
+  @Test
+  public void suggestRemovedReviewers() throws Exception {
+    requestScopeOperations.setApiUser(user.id());
+    String changeId = createChangeFromApi();
+
+    String name = name("foo");
+    TestAccount foo1 = accountCreator.create(name + "-1");
+    ReviewerInput reviewerInput = new ReviewerInput();
+    reviewerInput.reviewer = foo1.id().toString();
+    reviewerInput.state = ReviewerState.REVIEWER;
+
+    gApi.changes().id(changeId).addReviewer(reviewerInput);
+    gApi.changes().id(changeId).reviewers().remove(gApi.changes().id(changeId).reviewers().get(0));
     assertReviewers(suggestReviewers(changeId, name), ImmutableList.of(foo1), ImmutableList.of());
   }
 

@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dde6dd60_baf8ed65",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-01-13T17:42:13Z",
+      "side": 1,
+      "message": "I\u0027m not sure you\u0027re using `primitive` the way it\u0027s used in Java. I don\u0027t think there\u0027s any way to create a cache with a primitive type (int, boolean, etc.) as the key, so I\u0027m guessing you mean something else?",
+      "revId": "c9e72f2fccb2228dee077361daa5f15bca463a21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e4c78dae_bf442ecc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-01-13T17:42:13Z",
+      "side": 1,
+      "message": "Add a test to repro this and show it works correctly now?",
+      "revId": "c9e72f2fccb2228dee077361daa5f15bca463a21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "50940abb_5e762206",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-01-13T17:42:13Z",
+      "side": 1,
+      "message": "I added [a comment](https://issues.gerritcodereview.com/issues/465491615#comment2) to this bug. It seems this is specifically an issue with multi-site 1) not reusing the persisted cache (de-)serialization logic and 2) expecting all caches (including in-memory-only ones) to be serializable even when core doesn\u0027t promise that. This change doesn\u0027t appear to solve either of those issues.",
+      "revId": "c9e72f2fccb2228dee077361daa5f15bca463a21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1cfe5f6b_739ba795",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 633,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-01-13T17:42:13Z",
+      "side": 1,
+      "message": "This is a bit of cart-before-horse since we don\u0027t have an existing doc section on plugins registering caches. I think we should add at least a minimal version of that doc first, then this change can update it with the new details on custom types.",
+      "revId": "c9e72f2fccb2228dee077361daa5f15bca463a21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5417988b_e2016a35",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 635,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-01-13T17:42:13Z",
+      "side": 1,
+      "message": "```suggestion\nIf the plugin also registers a new cache with a key whose type is a\n```",
+      "revId": "c9e72f2fccb2228dee077361daa5f15bca463a21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fbbb589e_1954f445",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 642,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-01-13T17:42:13Z",
+      "side": 1,
+      "message": "Reference the class too\n```suggestion\nCacheKeyType.registerKeyType(CACHE_KEY_NAME, CACHE_KEY_TYPE);\n```",
+      "revId": "c9e72f2fccb2228dee077361daa5f15bca463a21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "24393294_46e9a567",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 646,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-01-13T17:42:13Z",
+      "side": 1,
+      "message": "```suggestion\nbe the class instance of the key type, e.g. `GeneralProjectName.class`.\n```",
+      "revId": "c9e72f2fccb2228dee077361daa5f15bca463a21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ca96f72_e12d0dd4",
+        "filename": "java/com/google/gerrit/server/cache/CacheKeyType.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-01-13T17:42:13Z",
+      "side": 1,
+      "message": "Missing copyright/license header\n\nI\u0027m also generally puzzled by this file. Where is it being used?",
+      "revId": "c9e72f2fccb2228dee077361daa5f15bca463a21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

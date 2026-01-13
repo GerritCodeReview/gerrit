@@ -25,6 +25,7 @@ import {
   ChangeMessageId,
   CommentInfo,
   CommentInput,
+  CommitId,
   CommitInfo,
   ConfigInfo,
   ConfigInput,
@@ -405,6 +406,19 @@ export interface RestApiService extends Finalizable {
     repo: RepoName,
     errFn?: ErrorCallback
   ): Promise<ConfigInfo | undefined>;
+
+  getProjectDiffFiles(
+    project: RepoName,
+    oldCommit: CommitId,
+    newCommit: CommitId
+  ): Promise<{[path: string]: FileInfo} | undefined>;
+
+  getProjectDiffFile(
+    project: RepoName,
+    filePath: string,
+    oldCommit: CommitId,
+    newCommit: CommitId
+  ): Promise<DiffInfo | undefined>;
 
   getCapabilities(
     errFn?: ErrorCallback

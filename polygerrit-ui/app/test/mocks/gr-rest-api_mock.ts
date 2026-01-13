@@ -31,6 +31,7 @@ import {
   EditInfo,
   EditPreferencesInfo,
   EmailInfo,
+  FileInfo,
   FileNameToFileInfoMap,
   FilePathToDiffInfoMap,
   GpgKeyInfo,
@@ -397,6 +398,12 @@ export const grRestApiMock: RestApiService = {
   },
   getProjectConfig(): Promise<ConfigInfo | undefined> {
     return Promise.resolve(createConfig());
+  },
+  getProjectDiffFiles(): Promise<{[path: string]: FileInfo} | undefined> {
+    return Promise.resolve({});
+  },
+  getProjectDiffFile(): Promise<DiffInfo | undefined> {
+    return Promise.resolve(undefined);
   },
   getRelatedChanges(): Promise<RelatedChangesInfo | undefined> {
     return Promise.resolve({changes: []});

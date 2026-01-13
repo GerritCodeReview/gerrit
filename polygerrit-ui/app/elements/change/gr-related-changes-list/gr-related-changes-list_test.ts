@@ -204,6 +204,18 @@ suite('gr-related-changes-list', () => {
                 class="first"
                 title="parent changes appear below child changes"
               >
+                <gr-button
+                  aria-disabled="false"
+                  class="compare-chain-btn"
+                  link=""
+                  role="button"
+                  slot="header-end"
+                  tabindex="0"
+                  title="Compare changes in relation chain"
+                >
+                  <gr-icon icon="difference" small=""> </gr-icon>
+                  Compare
+                </gr-button>
                 <div class="relatedChangeLine show-when-collapsed">
                   <span class="marker space"> </span>
                   <gr-related-change
@@ -252,6 +264,7 @@ suite('gr-related-changes-list', () => {
             </section>
             <gr-endpoint-slot name="bottom"> </gr-endpoint-slot>
           </gr-endpoint-decorator>
+          <gr-compare-changes-dialog> </gr-compare-changes-dialog>
         `
       );
     });

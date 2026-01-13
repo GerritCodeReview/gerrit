@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e4780e80_159dd9f6",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 633,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-01-13T21:35:01Z",
+      "side": 1,
+      "message": "```suggestion\n\u003d\u003d Making cache-eviction events serializable\n```",
+      "range": {
+        "startLine": 633,
+        "startChar": 3,
+        "endLine": 633,
+        "endChar": 36
+      },
+      "revId": "f3e1a415348955b2682b312e9d09c9f98fafaadf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b0e2113c_d438cda0",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 636,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-01-13T21:35:01Z",
+      "side": 1,
+      "message": "Change to `non-string`\n\n\n\n```suggestion\nnon-string, e.g. a plugin-provided custom type, then the\n```\n\nAlso, I\u0027ve mentioned that plugins should be responsible for registering Gerrit core types.",
+      "range": {
+        "startLine": 636,
+        "startChar": 0,
+        "endLine": 636,
+        "endChar": 13
+      },
+      "revId": "f3e1a415348955b2682b312e9d09c9f98fafaadf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f7d90a88_cb217d35",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 637,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-01-13T21:35:01Z",
+      "side": 1,
+      "message": "That isn\u0027t necessarily true: that is required only if the cache events should be also serialised for being transferred to other sites or primary nodes.\n\nNot all cache events should be propagate, especially if they refer to immutable keys and therefore do not need explicit evictions.\n\n\n\n```suggestion\nplugin can register the key type as well for allowing its cache events to be serialized and propagated to other Gerrit primary nodes. This can be done by invoking\n```",
+      "range": {
+        "startLine": 637,
+        "startChar": 7,
+        "endLine": 637,
+        "endChar": 45
+      },
+      "revId": "f3e1a415348955b2682b312e9d09c9f98fafaadf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

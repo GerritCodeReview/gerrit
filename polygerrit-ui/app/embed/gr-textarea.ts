@@ -213,6 +213,7 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
           min-height: var(--gr-textarea-min-height, 4em);
           overflow-x: auto;
           padding: var(--gr-textarea-padding, 12px);
+          position: relative;
           white-space: pre-wrap;
           width: 100%;
 
@@ -224,7 +225,9 @@ export class GrTextarea extends LitElement implements GrTextareaApi {
           &[data-empty='true']::before {
             content: attr(data-placeholder);
             color: var(--text-secondary, lightgrey);
-            display: inline;
+            position: absolute;
+            top: var(--gr-textarea-padding, 12px);
+            left: var(--gr-textarea-padding, 12px);
             pointer-events: none;
           }
 

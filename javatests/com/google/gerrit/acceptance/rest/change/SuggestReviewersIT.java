@@ -626,6 +626,19 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void suggestRemovedReviewers() throws Exception {
+    requestScopeOperations.setApiUser(user.id());
+    String changeId = createChangeFromApi();
+
+    String name = name("foo");
+    TestAccount foo1 = accountCreator.create(name + "-1");
+
+    gApi.changes().id(changeId).addReviewer(foo1.id().toString());
+    gApi.changes().id(changeId).removeReviewer(foo1.id().toString());
+    assertReviewers(suggestReviewers(changeId, name), ImmutableList.of(foo1), ImmutableList.of());
+  }
+
+  @Test
   public void suggestCcAsReviewer() throws Exception {
     requestScopeOperations.setApiUser(user.id());
     String changeId = createChangeFromApi();

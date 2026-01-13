@@ -126,6 +126,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c650ec94_db08d17d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-01-13T20:05:04Z",
+      "side": 1,
+      "message": "Dani and I had some side chat on this too and I\u0027ll post what I think are the 2 points most of my feedback summarizes to:\n1. The methods that create caches in `CacheModule` already take the types, so if you\u0027re trying to capture that by making callers invoke another method, that seems very wrong. Re-use the info already provided to those methods.\n2. Even if you have the type info, if a plugin creates a cache using a key that\u0027s based on any non-core type that\u0027s complex enough to require a `TypeAdapter`, multi-site still won\u0027t be able to create (deserialize) the object correctly. If you want plugins to be able to tell multi-site about how to do that, then you need to solve this differently (maybe by having multi-site only support plugin caches whose keys implement `Serializable`?).",
+      "parentUuid": "c90728fb_16b69f8b",
+      "revId": "c9e72f2fccb2228dee077361daa5f15bca463a21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1cfe5f6b_739ba795",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 9

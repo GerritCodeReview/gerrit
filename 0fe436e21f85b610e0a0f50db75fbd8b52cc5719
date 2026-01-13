@@ -16,6 +16,24 @@
       "message": "What’s the plan for using Javadoc - should it come from RJE or from bazlets? It looks like change 536304 is using the bazlets version.",
       "revId": "0fe436e21f85b610e0a0f50db75fbd8b52cc5719",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5ebc6e05_9d149382",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-01-13T11:40:07Z",
+      "side": 1,
+      "message": "This was an attempt to get rid of the need of the duplicate GUAVA version constant, but I was unable to solve this with the RJE version. I would suggest to go with bazlets for now and consider switching to RJE potetnially later to reduce the number of rules that we have to maintain ourselves.",
+      "parentUuid": "c2c02137_12a8abfb",
+      "revId": "0fe436e21f85b610e0a0f50db75fbd8b52cc5719",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

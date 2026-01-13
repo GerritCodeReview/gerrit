@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d73b8b91_8d908882",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-01-13T17:55:44Z",
+      "side": 1,
+      "message": "I don\u0027t think there\u0027s anything stopping you from using an int as a cache key?\nBut you are right, I thought that String was a primitive type, but looks like I was wrong, let me amend.",
+      "parentUuid": "dde6dd60_baf8ed65",
+      "revId": "c9e72f2fccb2228dee077361daa5f15bca463a21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e4c78dae_bf442ecc",
@@ -31,6 +49,24 @@
       "writtenOn": "2026-01-13T17:42:13Z",
       "side": 1,
       "message": "Add a test to repro this and show it works correctly now?",
+      "revId": "c9e72f2fccb2228dee077361daa5f15bca463a21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6f33233f_5cceebee",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-01-13T17:55:44Z",
+      "side": 1,
+      "message": "Done as part of the changes to multi-site at [1].\n[1] https://review.gerrithub.io/c/GerritForge/multi-site/+/1228208/40",
+      "parentUuid": "e4c78dae_bf442ecc",
       "revId": "c9e72f2fccb2228dee077361daa5f15bca463a21",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -86,6 +122,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4bbbba1d_79d70335",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 635,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-01-13T17:55:44Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "5417988b_e2016a35",
+      "revId": "c9e72f2fccb2228dee077361daa5f15bca463a21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fbbb589e_1954f445",
@@ -99,6 +153,24 @@
       "writtenOn": "2026-01-13T17:42:13Z",
       "side": 1,
       "message": "Reference the class too\n```suggestion\nCacheKeyType.registerKeyType(CACHE_KEY_NAME, CACHE_KEY_TYPE);\n```",
+      "revId": "c9e72f2fccb2228dee077361daa5f15bca463a21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9e9aafa7_750d0350",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 642,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-01-13T17:55:44Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "fbbb589e_1954f445",
       "revId": "c9e72f2fccb2228dee077361daa5f15bca463a21",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -120,6 +192,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6cc36b14_35b753b2",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 646,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-01-13T17:55:44Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "24393294_46e9a567",
+      "revId": "c9e72f2fccb2228dee077361daa5f15bca463a21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4ca96f72_e12d0dd4",
@@ -133,6 +223,24 @@
       "writtenOn": "2026-01-13T17:42:13Z",
       "side": 1,
       "message": "Missing copyright/license header\n\nI\u0027m also generally puzzled by this file. Where is it being used?",
+      "revId": "c9e72f2fccb2228dee077361daa5f15bca463a21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3360bd5e_7aa718ee",
+        "filename": "java/com/google/gerrit/server/cache/CacheKeyType.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-01-13T17:55:44Z",
+      "side": 1,
+      "message": "It\u0027ll be then referenced by plugins and multi-site, e.g.:\nhttps://review.gerrithub.io/c/GerritForge/multi-site/+/1228208/40\nhttps://gerrit-review.googlesource.com/c/plugins/quota/+/540184",
+      "parentUuid": "4ca96f72_e12d0dd4",
       "revId": "c9e72f2fccb2228dee077361daa5f15bca463a21",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

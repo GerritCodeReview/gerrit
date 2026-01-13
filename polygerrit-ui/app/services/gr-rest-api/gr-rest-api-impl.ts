@@ -3833,4 +3833,31 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       anonymizedUrl: `${ANONYMIZED_CHANGE_BASE_URL}/flows/*`,
     });
   }
+
+  async getProjectDiffFiles(
+    project: RepoName,
+    oldCommit: CommitId,
+    newCommit: CommitId
+  ): Promise<{[path: string]: FileInfo} | undefined> {
+    return this._restApiHelper.fetchJSON({
+      url: `/projects/${encodeURIComponent(
+        project
+      )}/diff?old=${oldCommit}&new=${newCommit}`,
+      anonymizedUrl: '/projects/*/diff?old=*&new=*',
+    }) as Promise<{[path: string]: FileInfo} | undefined>;
+  }
+
+  async getProjectDiffFile(
+    project: RepoName,
+    filePath: string,
+    oldCommit: CommitId,
+    newCommit: CommitId
+  ): Promise<DiffInfo | undefined> {
+    return this._restApiHelper.fetchJSON({
+      url: `/projects/${encodeURIComponent(project)}/diff/${encodeURIComponent(
+        filePath
+      )}?old=${oldCommit}&new=${newCommit}`,
+      anonymizedUrl: '/projects/*/diff/*?old=*&new=*',
+    }) as Promise<DiffInfo | undefined>;
+  }
 }

@@ -5,13 +5,16 @@
  */
 import './gr-related-change';
 import './gr-related-collapse';
+import '../gr-compare-changes-dialog/gr-compare-changes-dialog';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '../../plugins/gr-endpoint-param/gr-endpoint-param';
 import '../../plugins/gr-endpoint-slot/gr-endpoint-slot';
+import '../../shared/gr-button/gr-button';
 import '../../shared/gr-icon/gr-icon';
+import {GrCompareChangesDialog} from '../gr-compare-changes-dialog/gr-compare-changes-dialog';
 import {classMap} from 'lit/directives/class-map.js';
 import {css, html, LitElement, TemplateResult} from 'lit';
-import {customElement, state} from 'lit/decorators.js';
+import {customElement, query, state} from 'lit/decorators.js';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {
   ChangeInfo,
@@ -72,6 +75,9 @@ export class GrRelatedChangesList extends LitElement {
 
   @state()
   sameTopicChanges: ChangeInfo[] = [];
+
+  @query('gr-compare-changes-dialog')
+  compareDialog?: GrCompareChangesDialog;
 
   private readonly getChangeModel = resolve(this, changeModelToken);
 
@@ -211,6 +217,13 @@ export class GrRelatedChangesList extends LitElement {
           border-bottom: none;
           border-top: none;
         }
+        .compare-chain-btn {
+          --gr-button-padding: var(--spacing-xs) var(--spacing-s);
+        }
+        .compare-chain-btn gr-icon {
+          font-size: 16px;
+          margin-right: var(--spacing-xs);
+        }
       `,
     ];
   }
@@ -245,14 +258,15 @@ export class GrRelatedChangesList extends LitElement {
     }
 
     return html`<gr-endpoint-decorator name="related-changes-section">
-      <gr-endpoint-param
-        name="change"
-        .value=${this.change}
-      ></gr-endpoint-param>
-      <gr-endpoint-slot name="top"></gr-endpoint-slot>
-      ${sections}
-      <gr-endpoint-slot name="bottom"></gr-endpoint-slot>
-    </gr-endpoint-decorator>`;
+        <gr-endpoint-param
+          name="change"
+          .value=${this.change}
+        ></gr-endpoint-param>
+        <gr-endpoint-slot name="top"></gr-endpoint-slot>
+        ${sections}
+        <gr-endpoint-slot name="bottom"></gr-endpoint-slot>
+      </gr-endpoint-decorator>
+      <gr-compare-changes-dialog></gr-compare-changes-dialog>`;
   }
 
   private renderRelationChain(
@@ -283,6 +297,16 @@ export class GrRelatedChangesList extends LitElement {
         .length=${this.relatedChanges.length}
         .numChangesWhenCollapsed=${sectionSize(Section.RELATED_CHANGES)}
       >
+        <gr-button
+          slot="header-end"
+          link
+          class="compare-chain-btn"
+          title="Compare changes in relation chain"
+          @click=${this.handleCompareChainClick}
+        >
+          <gr-icon icon="difference" small></gr-icon>
+          Compare
+        </gr-button>
         ${this.relatedChanges.map(
           (change, index) =>
             html`<div
@@ -712,6 +736,19 @@ export class GrRelatedChangesList extends LitElement {
       --pos;
     }
     return connected;
+  }
+
+  private handleCompareChainClick(e: Event) {
+    e.stopPropagation();
+    e.preventDefault();
+
+    if (!this.change || this.relatedChanges.length === 0) return;
+
+    this.compareDialog?.open({
+      project: this.change.project,
+      relatedChanges: this.relatedChanges,
+      currentChange: this.change,
+    });
   }
 }
 

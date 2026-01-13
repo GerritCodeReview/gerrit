@@ -52,6 +52,24 @@
       "parentUuid": "3f52bab5_85ed7547",
       "revId": "4896b863d9dfc250b78ecc6ab2036e30ecc327e9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2dad62ca_d8c9bd71",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-01-13T15:31:23Z",
+      "side": 1,
+      "message": "Oh, yeah, somehow I got confused and thought change 479141 was in 3.11, but it\u0027s definitely not. I\u0027ll abandon this one and rebase the child on the tip of stable-3.11.",
+      "parentUuid": "289e4e7c_0ecc4518",
+      "revId": "4896b863d9dfc250b78ecc6ab2036e30ecc327e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

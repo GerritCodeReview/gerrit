@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6929a856_4d43d954",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-01-13T18:20:51Z",
+      "side": 1,
+      "message": "\u003e I don\u0027t think there\u0027s anything stopping you from using an int as a cache key?\n\nWell, it\u0027s not an object and the [`cache()` methods](https://gerrit.googlesource.com/gerrit/+/master/java/com/google/gerrit/server/cache/CacheModule.java#49) need an object for the `keyType`.",
+      "parentUuid": "d73b8b91_8d908882",
+      "revId": "c9e72f2fccb2228dee077361daa5f15bca463a21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e4c78dae_bf442ecc",
         "filename": "/COMMIT_MSG",
         "patchSetId": 9

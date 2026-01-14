@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a72c2aef_ee542fae",
+        "filename": "java/com/google/gerrit/extensions/client/GeneralPreferencesInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 1121540
+      },
+      "writtenOn": "2026-01-14T16:22:43Z",
+      "side": 1,
+      "message": "It\u0027s generally considered a bad practice to use null as Strings by Java readability, because you also have empty Strings. But I see there\u0027s a second use by `downloadScheme`.",
+      "range": {
+        "startLine": 326,
+        "startChar": 4,
+        "endLine": 326,
+        "endChar": 33
+      },
+      "revId": "d759cc108588367860392c1b6e5ee73fc40e4288",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

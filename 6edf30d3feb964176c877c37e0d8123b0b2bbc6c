@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5abe3e29_e383130a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 19
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-01-14T22:24:12Z",
+      "side": 1,
+      "message": "I am wondering if we can just inject `DynamicMap\u003cCache\u003c?, ?\u003e\u003e cacheMap` and fetch the cache definition? That should allow us to understand what types of caches have what keys types?\n\n@danielesassoli@gmail.com can you explore that path?",
+      "revId": "6edf30d3feb964176c877c37e0d8123b0b2bbc6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

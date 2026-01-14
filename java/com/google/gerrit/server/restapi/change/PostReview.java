@@ -613,6 +613,15 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
           String.format("on_behalf_of account %s cannot see change", reviewer.getAccountId()), e);
     }
 
+    String impersonationClause =
+        String.format(
+            "(Posted by %s on behalf of %s)", caller.getLoggableName(), reviewer.getLoggableName());
+    if (Strings.isNullOrEmpty(in.message)) {
+      in.message = impersonationClause;
+    } else {
+      in.message = in.message + "\n\n" + impersonationClause;
+    }
+
     return new RevisionResource(
         changeResourceFactory.create(rev.getNotes(), reviewer), rev.getPatchSet());
   }

@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7f855bbb_50cd5497",
+        "filename": "java/com/google/gerrit/server/cache/CacheModule.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-01-14T19:46:17Z",
+      "side": 1,
+      "message": "We typically avoid imports like this in non-test code. Use `CacheKeyType.registerKeyType()` below.",
+      "revId": "ff8c9955cfa858efac025a3a062801084673ad2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f2749091_fa9ccde0",
         "filename": "java/com/google/gerrit/server/cache/CacheModule.java",
         "patchSetId": 15
@@ -19,6 +36,29 @@
         "startChar": 4,
         "endLine": 174,
         "endChar": 90
+      },
+      "revId": "ff8c9955cfa858efac025a3a062801084673ad2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b4f90482_aa83d90d",
+        "filename": "java/com/google/gerrit/server/cache/CacheModule.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-01-14T19:46:17Z",
+      "side": 1,
+      "message": "nit: We always use braces with if statements.\n\n```suggestion\n    if (!keyType.getRawType().equals(String.class) \u0026\u0026 !keyType.getRawType().isPrimitive()) {\n      registerKeyType(name, keyType.getRawType());\n    }\n```",
+      "range": {
+        "startLine": 174,
+        "startChar": 0,
+        "endLine": 175,
+        "endChar": 50
       },
       "revId": "ff8c9955cfa858efac025a3a062801084673ad2a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

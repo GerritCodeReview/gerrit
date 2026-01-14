@@ -74,6 +74,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1a3acdb5_5d546f3d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-01-14T19:46:17Z",
+      "side": 1,
+      "message": "The underlying cache implementations (and associated Java collections) don\u0027t support it. Any primitive will be autoboxed to an object type (i.e. `int` to `Integer`). You\u0027re never actually using an `int` or any other primitive as the key.",
+      "parentUuid": "b7f4c117_8bf61ba7",
+      "revId": "c9e72f2fccb2228dee077361daa5f15bca463a21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e4c78dae_bf442ecc",
         "filename": "/COMMIT_MSG",
         "patchSetId": 9
@@ -210,6 +228,24 @@
       "side": 1,
       "message": "I believe this should now be resolved, thanks for the suggestion, code is much much cleaner.",
       "parentUuid": "67974492_18675703",
+      "revId": "c9e72f2fccb2228dee077361daa5f15bca463a21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "33cb6add_43509a8f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-01-14T19:46:17Z",
+      "side": 1,
+      "message": "\u003e We could do that without this class at all, simply using Class.forName() would suffice.\n\nThat\u0027s not true. Serialization is a whole separate thing and that is what\u0027s ultimately needed for multi-site, as noted in [Luca\u0027s comment](https://gerrit-review.googlesource.com/c/gerrit/+/540181/comment/f7d90a88_cb217d35/). There\u0027s a whole set of classes for cache serialization in `java/com/google/gerrit/server/cache/serialize/` and they only work for persisted caches because those have [builder methods](https://gerrit.googlesource.com/gerrit/+/refs/changes/81/540181/15/java/com/google/gerrit/server/cache/PersistentCacheProvider.java#84) to set the key \u0026 value serializers.\n\n\u003e but just to ensure that we expect to be loading specific classes...\n\nYou\u0027re still trusting that any class registered as a key in a cache is \"safe\". How is that improving anything?",
+      "parentUuid": "741fe0d1_b5442d61",
       "revId": "c9e72f2fccb2228dee077361daa5f15bca463a21",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

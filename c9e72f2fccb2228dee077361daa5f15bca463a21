@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b7f4c117_8bf61ba7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-01-14T13:37:34Z",
+      "side": 1,
+      "message": "But `int.class` gives you a reference to the Class object for the int type, and satisfies the condition you mention. So I\u0027m not sure I follow the objection?",
+      "parentUuid": "6929a856_4d43d954",
+      "revId": "c9e72f2fccb2228dee077361daa5f15bca463a21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e4c78dae_bf442ecc",
         "filename": "/COMMIT_MSG",
         "patchSetId": 9
@@ -156,6 +174,24 @@
       "side": 1,
       "message": "Dani and I had some side chat on this too and I\u0027ll post what I think are the 2 points most of my feedback summarizes to:\n1. The methods that create caches in `CacheModule` already take the types, so if you\u0027re trying to capture that by making callers invoke another method, that seems very wrong. Re-use the info already provided to those methods.\n2. Even if you have the type info, if a plugin creates a cache using a key that\u0027s based on any non-core type that\u0027s complex enough to require a `TypeAdapter`, multi-site still won\u0027t be able to create (deserialize) the object correctly. If you want plugins to be able to tell multi-site about how to do that, then you need to solve this differently (maybe by having multi-site only support plugin caches whose keys implement `Serializable`?).",
       "parentUuid": "c90728fb_16b69f8b",
+      "revId": "c9e72f2fccb2228dee077361daa5f15bca463a21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "67974492_18675703",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-01-14T13:37:34Z",
+      "side": 1,
+      "message": "Regarding point 2 - This change is not really about teaching multi-site how to serialize/deserialize anything. We could do that without this class at all, simply using `Class.forName()` would suffice. However, there are potential security concerns with simply reading a class name and loading it, therefore we\u0027d like this to be a sort of \"central register\" of allowed/expected cache key types.\n\nThis is not done to teach Gson about how to serialize/deserialize objects, but just to ensure that we expect to be loading specific classes...\n\n\nI\u0027ll look into what you say in point 1, if there was a way of populating the map without explicitly having to register anything that\u0027d be great.",
+      "parentUuid": "c650ec94_db08d17d",
       "revId": "c9e72f2fccb2228dee077361daa5f15bca463a21",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

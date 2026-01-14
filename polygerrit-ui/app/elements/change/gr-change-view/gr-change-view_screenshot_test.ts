@@ -12,6 +12,7 @@ import {visualDiff} from '@web/test-runner-visual-regression';
 import {setViewport} from '@web/test-runner-commands';
 import {GrChangeView} from './gr-change-view';
 import {
+  chatProvider,
   createAccountDetailWithId,
   createChangeViewChange,
   createRevisions,
@@ -42,6 +43,7 @@ import {
 } from '../../../types/common';
 import {HttpMethod} from '../../../api/rest-api';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
+import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {ParsedChangeInfo} from '../../../types/types';
 import {ChangeStatus} from '../../../constants/constants';
 import {NormalizedFileInfo} from '../../../models/change/files-model';
@@ -137,6 +139,12 @@ suite('gr-change-view screenshot tests', () => {
     sinon
       .stub(testResolver(changeViewModelToken), 'diffUrl')
       .returns('fakeDiffUrl');
+
+    const pluginLoader = testResolver(pluginLoaderToken);
+    pluginLoader.pluginsModel.aiCodeReviewRegister({
+      pluginName: 'test-plugin',
+      provider: chatProvider,
+    });
 
     stubRestApi('getConfig').returns(
       Promise.resolve({
@@ -296,6 +304,38 @@ suite('gr-change-view screenshot tests', () => {
 
       await visualDiff(container, 'gr-change-view-801px');
       await visualDiffDarkTheme(container, 'gr-change-view-801px');
+    } finally {
+      document.body.removeChild(container);
+    }
+  });
+
+  test('full page 1280px with chat panel', async () => {
+    // Set viewport to ensure media queries respond correctly
+    await setViewport({width: 1280, height: 800});
+    // Force open the chat panel
+    (element as any).showSidebarChat = true;
+
+    const container = document.createElement('div');
+    container.style.width = '1280px';
+    container.style.height = '800px';
+    container.style.overflow = 'hidden';
+    container.style.display = 'block';
+    container.style.backgroundColor = 'var(--view-background-color, #fff)';
+    container.appendChild(element);
+    document.body.appendChild(container);
+
+    try {
+      // Wait for all nested components to render
+      await new Promise(resolve => setTimeout(resolve, 500));
+      await element.updateComplete;
+      if (element.fileList) {
+        await element.fileList.updateComplete;
+      }
+      // Additional wait for any remaining async rendering
+      await new Promise(resolve => setTimeout(resolve, 200));
+
+      await visualDiff(container, 'gr-change-view-1280px-chat-open');
+      await visualDiffDarkTheme(container, 'gr-change-view-1280px-chat-open');
     } finally {
       document.body.removeChild(container);
     }

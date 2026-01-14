@@ -1532,6 +1532,7 @@ any account.
     "allow_browser_notifications": true,
     "allow_suggest_code_while_commenting": true,
     "allow_autocompleting_comments": true,
+    "ai_chat_selected_model": "test-ai-model",
     "diff_page_sidebar": "plugin-foo",
     "default_base_for_merges": "FIRST_PARENT",
     "my": [
@@ -1588,6 +1589,7 @@ link:#preferences-input[PreferencesInput] entity.
     "allow_browser_notifications": false,
     "allow_suggest_code_while_commenting": false,
     "allow_autocompleting_comments": false,
+    "ai_chat_selected_model": "test-ai-model",
     "diff_page_sidebar": "NONE",
     "diff_view": "SIDE_BY_SIDE",
     "mute_common_path_prefixes": true,
@@ -3005,6 +3007,9 @@ a plugin implementation.
 |`allow_autocompleting_comments`  |not set if `false`|
 Whether to receive autocompletions while writing comments. This feature needs
 a plugin implementation.
+|`ai_chat_selected_model`           |optional|
+The name of the AI model selected for the AI chat. This feature needs a plugin
+implementation.
 |`diff_page_sidebar`            |optional|
 String indicating which sidebar should be open on the diff page. Set to "NONE"
 if no sidebars should be open. Plugin-supplied sidebars will be prefixed with

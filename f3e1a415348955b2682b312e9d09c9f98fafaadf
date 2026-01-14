@@ -95,6 +95,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b31af46c_12a44771",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 636,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-01-14T20:37:09Z",
+      "side": 1,
+      "message": "I\u0027ve gone with non-string, but its not just plugin provided caches, its Gerrit caches too, so I\u0027ll leave the generic types.",
+      "parentUuid": "77bc3c08_573ca64d",
+      "range": {
+        "startLine": 636,
+        "startChar": 0,
+        "endLine": 636,
+        "endChar": 13
+      },
+      "revId": "f3e1a415348955b2682b312e9d09c9f98fafaadf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f7d90a88_cb217d35",

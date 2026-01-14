@@ -288,6 +288,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cb1c8d4a_01c0191e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-01-14T22:04:51Z",
+      "side": 1,
+      "message": "\u003e \u003e You\u0027re still trusting that any class registered as a key in a cache is \"safe\". How is that improving anything?\n\u003e \n\u003e Any class name retrived from a network payload isn\u0027t safe by definition. Any class installed on the Gerrit server in the `/plugins` or `/lib` directory has to be considered as safe, as it is already in the Gerrit JVM :-)\n\nWhere are you worried about loading classes from?\n\nI\u0027m not trying to be rude or difficult. I don\u0027t think you\u0027re forming a logical argument here. It\u0027s not like a class name is enough to load some random JAR with that class from the internet. If that class isn\u0027t already in your JVM ClassLoader, it fails to instantiate. I don\u0027t see any change in security posture as a result of what this change proposes.",
+      "parentUuid": "17cdb25c_8b2d7fef",
+      "revId": "c9e72f2fccb2228dee077361daa5f15bca463a21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1cfe5f6b_739ba795",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 9

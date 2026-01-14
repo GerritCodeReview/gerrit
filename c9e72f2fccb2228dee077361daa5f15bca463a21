@@ -306,6 +306,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fd39dbec_24633051",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-01-14T22:13:39Z",
+      "side": 1,
+      "message": "See https://cwe.mitre.org/data/definitions/470.html. It is considered unsafe to dynamically execute any class based on the name read from an external network source.",
+      "parentUuid": "cb1c8d4a_01c0191e",
+      "revId": "c9e72f2fccb2228dee077361daa5f15bca463a21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1cfe5f6b_739ba795",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 9

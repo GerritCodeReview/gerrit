@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "703fc34e_ba6d4af1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-01-14T13:06:05Z",
+      "side": 1,
+      "message": "From UX discussion\n- add feature flag\n- maybe have a option to  hide left part with file names for smaller width",
+      "revId": "13817902026acb3f6d10530909166b1ac374597c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

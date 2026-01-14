@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f2749091_fa9ccde0",
+        "filename": "java/com/google/gerrit/server/cache/CacheModule.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-01-14T18:52:09Z",
+      "side": 1,
+      "message": "This is because String and primitive types can be ser/deser as they are.",
+      "range": {
+        "startLine": 174,
+        "startChar": 4,
+        "endLine": 174,
+        "endChar": 90
+      },
+      "revId": "ff8c9955cfa858efac025a3a062801084673ad2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

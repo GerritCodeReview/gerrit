@@ -387,6 +387,24 @@
       "parentUuid": "4ca96f72_e12d0dd4",
       "revId": "c9e72f2fccb2228dee077361daa5f15bca463a21",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "84501354_05861316",
+        "filename": "java/com/google/gerrit/server/cache/CacheKeyType.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-01-14T18:52:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3360bd5e_7aa718ee",
+      "revId": "c9e72f2fccb2228dee077361daa5f15bca463a21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

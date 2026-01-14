@@ -268,6 +268,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "17cdb25c_8b2d7fef",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-01-14T21:53:41Z",
+      "side": 1,
+      "message": "\u003e You\u0027re still trusting that any class registered as a key in a cache is \"safe\". How is that improving anything?\n\nAny class name retrived from a network payload isn\u0027t safe by definition. Any class installed on the Gerrit server in the `/plugins` or `/lib` directory has to be considered as safe, as it is already in the Gerrit JVM :-)",
+      "parentUuid": "33cb6add_43509a8f",
+      "revId": "c9e72f2fccb2228dee077361daa5f15bca463a21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1cfe5f6b_739ba795",

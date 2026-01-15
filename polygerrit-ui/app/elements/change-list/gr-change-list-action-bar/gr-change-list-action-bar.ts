@@ -16,6 +16,9 @@ import '../gr-change-list-topic-flow/gr-change-list-topic-flow';
 import '../gr-change-list-hashtag-flow/gr-change-list-hashtag-flow';
 import '../gr-change-list-bulk-abandon-flow/gr-change-list-bulk-abandon-flow';
 import '../gr-change-list-copy-link-flow/gr-change-list-copy-link-flow';
+import '../../shared/gr-dropdown/gr-dropdown';
+import '../../shared/gr-icon/gr-icon';
+import {fireAlert, fireReload} from '../../../utils/event-util';
 /**
  * An action bar for the top of a <gr-change-list-section> element. Assumes it
  * will be used inside a <tr> element.
@@ -37,6 +40,14 @@ export class GrChangeListActionBar extends LitElement {
       }
       .actionButtons {
         margin-right: var(--spacing-l);
+        display: flex;
+        align-items: center;
+      }
+      .actionButtons > * {
+        margin-right: var(--spacing-m);
+      }
+      gr-dropdown {
+        --gr-icon-color: var(--color-brand-pre-200);
       }
     `;
   }
@@ -80,10 +91,54 @@ export class GrChangeListActionBar extends LitElement {
             <gr-change-list-reviewer-flow></gr-change-list-reviewer-flow>
             <gr-change-list-bulk-abandon-flow></gr-change-list-bulk-abandon-flow>
             <gr-change-list-copy-link-flow></gr-change-list-copy-link-flow>
+            <gr-dropdown
+              id="moreActions"
+              link
+              @tap-item=${this.handleOverflowItemTap}
+              .items=${this.getOverflowActions()}
+            >
+              <gr-icon icon="more_vert" aria-label="More actions"></gr-icon>
+            </gr-dropdown>
           </div>
         </div>
       </td>
     `;
+  }
+
+  private getOverflowActions() {
+    return [
+      {
+        name: 'Mark as work in progress',
+        id: 'wip',
+      },
+      {
+        name: 'Start review',
+        id: 'ready',
+      },
+    ];
+  }
+
+  private handleOverflowItemTap(e: CustomEvent<{id: string}>) {
+    const id = e.detail.id;
+    if (id === 'wip') {
+      this.handleWipTap();
+    } else if (id === 'ready') {
+      this.handleReadyTap();
+    }
+  }
+
+  private async handleWipTap() {
+    const promises = this.getBulkActionsModel().markAsWip();
+    await Promise.all(promises);
+    fireAlert(this, 'Reloading page...');
+    fireReload(this);
+  }
+
+  private async handleReadyTap() {
+    const promises = this.getBulkActionsModel().markAsReady();
+    await Promise.all(promises);
+    fireAlert(this, 'Reloading page...');
+    fireReload(this);
   }
 }
 

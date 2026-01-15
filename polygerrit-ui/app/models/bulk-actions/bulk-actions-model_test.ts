@@ -555,4 +555,94 @@ suite('bulk actions model test', () => {
       'Subject 2'
     );
   });
+
+  suite('mark as wip', () => {
+    let detailedActionsStub: SinonStubbedMember<
+      RestApiService['getDetailedChangesWithActions']
+    >;
+    setup(async () => {
+      detailedActionsStub = stubRestApi('getDetailedChangesWithActions');
+      const c1 = createChange();
+      c1._number = 1 as NumericChangeId;
+      const c2 = createChange();
+      c2._number = 2 as NumericChangeId;
+
+      detailedActionsStub.returns(
+        Promise.resolve([
+          {...c1, actions: {wip: {method: HttpMethod.POST}}},
+          {...c2},
+        ])
+      );
+
+      bulkActionsModel.sync([c1, c2]);
+
+      bulkActionsModel.addSelectedChangeNum(c1._number);
+      bulkActionsModel.addSelectedChangeNum(c2._number);
+    });
+
+    test('calls markAsWip on selected changes', () => {
+      const actionStub = stubRestApi('executeChangeAction').resolves();
+      bulkActionsModel.markAsWip();
+      assert.equal(actionStub.callCount, 2);
+      assert.deepEqual(actionStub.firstCall.args.slice(0, 5), [
+        1 as NumericChangeId,
+        HttpMethod.POST,
+        '/wip',
+        undefined,
+        {message: ''},
+      ]);
+      assert.deepEqual(actionStub.secondCall.args.slice(0, 5), [
+        2 as NumericChangeId,
+        HttpMethod.POST,
+        '/wip',
+        undefined,
+        {message: ''},
+      ]);
+    });
+  });
+
+  suite('mark as ready', () => {
+    let detailedActionsStub: SinonStubbedMember<
+      RestApiService['getDetailedChangesWithActions']
+    >;
+    setup(async () => {
+      detailedActionsStub = stubRestApi('getDetailedChangesWithActions');
+      const c1 = createChange();
+      c1._number = 1 as NumericChangeId;
+      const c2 = createChange();
+      c2._number = 2 as NumericChangeId;
+
+      detailedActionsStub.returns(
+        Promise.resolve([
+          {...c1, actions: {ready: {method: HttpMethod.POST}}},
+          {...c2},
+        ])
+      );
+
+      bulkActionsModel.sync([c1, c2]);
+
+      bulkActionsModel.addSelectedChangeNum(c1._number);
+      bulkActionsModel.addSelectedChangeNum(c2._number);
+    });
+
+    test('calls markAsReady on selected changes', () => {
+      const actionStub = stubRestApi('executeChangeAction').resolves();
+      bulkActionsModel.markAsReady();
+      assert.equal(actionStub.callCount, 2);
+      assert.deepEqual(actionStub.firstCall.args.slice(0, 5), [
+        1 as NumericChangeId,
+        HttpMethod.POST,
+        '/ready',
+        undefined,
+        undefined,
+      ]);
+      assert.deepEqual(actionStub.secondCall.args.slice(0, 5), [
+        2 as NumericChangeId,
+        HttpMethod.POST,
+        '/ready',
+        undefined,
+        undefined,
+      ]);
+    });
+  });
 });

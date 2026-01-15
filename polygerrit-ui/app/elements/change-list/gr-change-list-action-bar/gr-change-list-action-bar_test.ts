@@ -70,6 +70,9 @@ suite('gr-change-list-action-bar tests', () => {
               <gr-change-list-reviewer-flow></gr-change-list-reviewer-flow>
               <gr-change-list-bulk-abandon-flow></gr-change-list-bulk-abandon-flow>
               <gr-change-list-copy-link-flow></gr-change-list-copy-link-flow>
+              <gr-dropdown id="moreActions" link="">
+                <gr-icon aria-label="More actions" icon="more_vert"></gr-icon>
+              </gr-dropdown>
             </div>
           </div>
         </td>

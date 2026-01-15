@@ -2263,6 +2263,8 @@ export class GrChangeActions
       return ActionPriority.CHAT;
     } else if (action.__key === QUICK_APPROVE_ACTION.__key) {
       return ActionPriority.REVIEW;
+    } else if (action.__key.startsWith(ADDITIONAL_ACTION_KEY_PREFIX)) {
+      return ActionPriority.DEFAULT;
     } else if (action.__primary) {
       return ActionPriority.PRIMARY;
     } else if (action.__type === ActionType.CHANGE) {

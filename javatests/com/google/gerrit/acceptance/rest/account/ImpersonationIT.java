@@ -805,7 +805,7 @@ public class ImpersonationIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     ReviewInput in = new ReviewInput();
     in.onBehalfOf = user.id().toString();
-    in.message = "Message on behalf of";
+    in.message = "test message";
 
     String endpoint = "/changes/" + r.getChangeId() + "/revisions/current/review";
     RestResponse res = adminRestSession.postWithHeaders(endpoint, in, runAsHeader(user2.id()));
@@ -823,7 +823,16 @@ public class ImpersonationIT extends AbstractDaemonTest {
     assertThat(psa.value()).isEqualTo(1);
     assertThat(psa.realAccountId()).isEqualTo(admin.id()); // not user2
 
-    assertLastChangeMessage(r.getChange(), in.message, user, admin);
+    assertLastChangeMessage(
+        r.getChange(),
+        in.message
+            + "\n\n(Posted by "
+            + user2.username()
+            + " on behalf of "
+            + user.username()
+            + ")",
+        user,
+        admin);
   }
 
   @Test

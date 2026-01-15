@@ -26,18 +26,18 @@ export enum ActionType {
 //
 // Also note that a LOWER value means HIGHER priority!
 export enum ActionPriority {
-  CHANGE = 2,
+  CHANGE = 3,
   // Only "Submit" and "Code-Review" buttons should show before "Chat".
-  CHAT = -1,
+  CHAT = 1,
   DEFAULT = 0,
   // This is a bit confusing, because this is the LOWEST priority in the list.
   // But it does not matter much, because the `primary` property is evaluated
   // first, and then the `priority` does not matter anymore.
-  PRIMARY = 3,
+  PRIMARY = 4,
   // This means that the "Code-Review" voting button is the left most button,
   // if there are no primary actions.
   REVIEW = -3,
-  REVISION = 1,
+  REVISION = 2,
 }
 
 export enum ChangeActions {

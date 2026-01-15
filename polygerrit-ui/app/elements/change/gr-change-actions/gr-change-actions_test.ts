@@ -535,6 +535,47 @@ suite('gr-change-actions tests', () => {
       assert.deepEqual(result, actions);
     });
 
+    test('action priority order with plugin action', async () => {
+      // Create 'reland' via addActionButton to mimic plugin behavior
+      const relandKey = element.addActionButton(ActionType.CHANGE, 'Reland');
+
+      // Add other relevant actions
+      element.actions = {
+        abandon: {
+          method: HttpMethod.POST,
+          label: 'Abandon',
+          title: 'Abandon this change',
+          enabled: true,
+        },
+      };
+      element.revisionActions = {
+        rebase: {
+          method: HttpMethod.POST,
+          label: 'Rebase',
+          title: 'Rebase this change',
+          enabled: true,
+        },
+      };
+
+      // Mock AI Chat action
+      sinon.stub(element.flagService, 'isEnabled').returns(true);
+      element.aiPluginsRegistered = true;
+
+      await element.updateComplete;
+      await element.reload();
+
+      const actions = element.topLevelSecondaryActions!;
+      assert.isOk(actions);
+
+      const relevantKeys = [relandKey, 'chat', 'rebase', 'abandon'];
+      const relevantActions = actions.filter(a =>
+        relevantKeys.includes(a.__key)
+      );
+      const keys = relevantActions.map(a => a.__key);
+
+      assert.deepEqual(keys, [relandKey, 'chat', 'rebase', 'abandon']);
+    });
+
     test('submit change', async () => {
       const showSpy = sinon.spy(element, 'showActionDialog');
       stubRestApi('getRepoName').returns(Promise.resolve('test' as RepoName));

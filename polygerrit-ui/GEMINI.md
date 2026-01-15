@@ -30,7 +30,7 @@ The following commands should be run from the project root directory.
 
 ### Checking for TypeScript Errors
 
-To check for TypeScript errors without running the full test suite, use the `compile` script:
+To check for TypeScript errors without running the full test suite, use the `compile` script (must be run from the **project root**, not `polygerrit-ui`):
 
 ```bash
 yarn compile
@@ -40,6 +40,7 @@ yarn compile
 
 - `yarn test`: Run all tests.
 - `yarn test:screenshot`: Run visual regression tests.
+- `yarn test:screenshot-update`: Run visual regression tests and update baseline images.
 
 ## Running Single Tests
 
@@ -58,6 +59,21 @@ If you want to run the test in watch mode, you can use `test:single`.
 ```bash
 yarn test:single:nowatch "**/gr-account-list_test.ts"
 yarn test:single:nowatch "**/gr-user-suggestion_test.ts"
+```
+
+## Common Test Utilities
+
+The `polygerrit-ui/app/test/test-utils.ts` file exports several useful utilities for testing.
+
+### Stubbing Feature Flags
+
+To stub feature flags in tests, use the `stubFlags` utility.
+
+```typescript
+import {stubFlags} from '../../test/test-utils';
+
+// ... inside your test ...
+stubFlags('isEnabled').returns(true);
 ```
 
 ## UI Elements

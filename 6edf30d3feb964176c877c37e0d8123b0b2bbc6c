@@ -88,6 +88,24 @@
       "parentUuid": "1059278f_a0e42977",
       "revId": "6edf30d3feb964176c877c37e0d8123b0b2bbc6c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c5eea1c7_97c9a54e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 19
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-01-15T14:20:50Z",
+      "side": 1,
+      "message": "I tried with what Luca suggested, using DynamicMap to see if I could overcome some of the issues I mention above, however, it seems to me that the Cache\u003c?, ?\u003e objects are instances of Guava\u0027s Cache interface, which is a generic type. Due to Java\u0027s type erasure, the generic type parameters are not available at runtime.\n\nSo I don\u0027t think that approach will work either.",
+      "parentUuid": "6d195e01_f0344be5",
+      "revId": "6edf30d3feb964176c877c37e0d8123b0b2bbc6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

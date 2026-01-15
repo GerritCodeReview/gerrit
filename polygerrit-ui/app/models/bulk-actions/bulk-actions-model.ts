@@ -10,6 +10,7 @@ import {
   ChangeStatus,
   GroupInfo,
   Hashtag,
+  HttpMethod,
   NumericChangeId,
   ReviewerState,
 } from '../../api/rest-api';
@@ -239,6 +240,55 @@ export class BulkActionsModel extends Model<BulkActionsState> {
           return responseHashtags;
         })
     );
+  }
+
+  markAsWip(
+    reason?: string,
+    // errorFn is needed to avoid showing an error dialog
+    errFn?: (changeNum: NumericChangeId) => void
+  ): Promise<Response>[] {
+    const current = this.getState();
+    return current.selectedChangeNums
+      .map(changeNum => {
+        const change = current.allChanges.get(changeNum);
+        if (!change) throw new Error('invalid change id');
+        return change;
+      })
+      .filter(change => change.actions?.wip?.enabled)
+      .map(change =>
+        this.restApiService.executeChangeAction(
+          getChangeNumber(change),
+          HttpMethod.POST,
+          '/wip',
+          undefined,
+          {message: reason ?? ''},
+          () => errFn && errFn(getChangeNumber(change))
+        )
+      );
+  }
+
+  markAsReady(
+    // errorFn is needed to avoid showing an error dialog
+    errFn?: (changeNum: NumericChangeId) => void
+  ): Promise<Response>[] {
+    const current = this.getState();
+    return current.selectedChangeNums
+      .map(changeNum => {
+        const change = current.allChanges.get(changeNum);
+        if (!change) throw new Error('invalid change id');
+        return change;
+      })
+      .filter(change => change.actions?.ready?.enabled)
+      .map(change =>
+        this.restApiService.executeChangeAction(
+          getChangeNumber(change),
+          HttpMethod.POST,
+          '/ready',
+          undefined,
+          undefined,
+          () => errFn && errFn(getChangeNumber(change))
+        )
+      );
   }
 
   async sync(changes: (ChangeInfo | RelatedChangeAndCommitInfo)[]) {

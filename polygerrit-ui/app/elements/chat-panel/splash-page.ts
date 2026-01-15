@@ -41,6 +41,8 @@ export class SplashPage extends LitElement {
 
   @state() documentationUrl?: string;
 
+  @state() capabilitiesLoaded = false;
+
   @property({type: Boolean}) isChangePrivate = false;
 
   private readonly getChatModel = resolve(this, chatModelToken);
@@ -73,6 +75,11 @@ export class SplashPage extends LitElement {
       state => {
         this.documentationUrl = state.models?.documentation_url;
       }
+    );
+    subscribe(
+      this,
+      () => this.getChatModel().capabilitiesLoaded$,
+      x => (this.capabilitiesLoaded = x)
     );
     subscribe(
       this,
@@ -226,6 +233,7 @@ export class SplashPage extends LitElement {
   }
 
   private renderContent() {
+    if (!this.capabilitiesLoaded) return '';
     if (this.isChangePrivate) {
       return html`
         <div class="background-request-container">

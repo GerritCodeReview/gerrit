@@ -114,6 +114,7 @@ import {whenVisible} from '../../../utils/dom-util';
 import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {modalStyles} from '../../../styles/gr-modal-styles';
 import {subscribe} from '../../lit/subscription-controller';
+import {chatModelToken} from '../../../models/chat/chat-model';
 import {userModelToken} from '../../../models/user/user-model';
 import {ParsedChangeInfo} from '../../../types/types';
 import {configModelToken} from '../../../models/config/config-model';
@@ -500,6 +501,8 @@ export class GrChangeActions
 
   @state() threadsWithUnappliedSuggestions?: CommentThread[];
 
+  @state() chatCapabilitiesLoaded = false;
+
   private readonly restApiService = getAppContext().restApiService;
 
   private readonly reporting = getAppContext().reportingService;
@@ -507,6 +510,8 @@ export class GrChangeActions
   private readonly flagService = getAppContext().flagsService;
 
   private readonly getPluginLoader = resolve(this, pluginLoaderToken);
+
+  private readonly getChatModel = resolve(this, chatModelToken);
 
   private readonly getUserModel = resolve(this, userModelToken);
 
@@ -522,6 +527,11 @@ export class GrChangeActions
 
   constructor() {
     super();
+    subscribe(
+      this,
+      () => this.getChatModel().capabilitiesLoaded$,
+      x => (this.chatCapabilitiesLoaded = x)
+    );
     subscribe(
       this,
       () => this.getChangeModel().latestPatchNum$,
@@ -864,6 +874,8 @@ export class GrChangeActions
           class=${action.__key}
           data-action-key=${action.__key}
           data-label=${action.label}
+          ?loading=${action.__key === AI_CHAT_ACTION.__key &&
+          !this.chatCapabilitiesLoaded}
           ?disabled=${this.calculateDisabled(action)}
           @click=${(e: MouseEvent) =>
             this.handleActionTap(e, action.__key, action.__type)}

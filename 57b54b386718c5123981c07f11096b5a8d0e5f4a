@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa4adf23_9ed65861",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2026-01-15T14:30:37Z",
+      "side": 1,
+      "message": "Sanity check: Does this work in the cases when AI Chat is not enabled (ie. non-google deployment). I wasn\u0027t able to see a place where we check ai-chat to be enabled at quick glance",
+      "revId": "57b54b386718c5123981c07f11096b5a8d0e5f4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "35eb4919_ed40b917",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 878,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2026-01-15T14:30:37Z",
+      "side": 1,
+      "message": "This file already has different way of controlling loading of the button. Ex. setLoadingOnButtonWithKey . I think the chat buttons loading state should be controlled through same mechanism for consistency.",
+      "range": {
+        "startLine": 877,
+        "startChar": 10,
+        "endLine": 878,
+        "endChar": 39
+      },
+      "revId": "57b54b386718c5123981c07f11096b5a8d0e5f4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

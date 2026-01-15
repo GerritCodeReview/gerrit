@@ -52,6 +52,24 @@
       "parentUuid": "5b214da3_d66265bd",
       "revId": "6edf30d3feb964176c877c37e0d8123b0b2bbc6c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1059278f_a0e42977",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 19
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-01-15T08:51:08Z",
+      "side": 1,
+      "message": "\u003e but it means you don\u0027t need to send the class info in the event at all, just the cache name.\n\nYeah, correct, that\u0027s what we\u0027re doing multi-site side.\n\nLet me see if I manage to get rid of this change all together then.",
+      "parentUuid": "e392a238_1350cc93",
+      "revId": "6edf30d3feb964176c877c37e0d8123b0b2bbc6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

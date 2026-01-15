@@ -34,6 +34,24 @@
       "parentUuid": "5abe3e29_e383130a",
       "revId": "6edf30d3feb964176c877c37e0d8123b0b2bbc6c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e392a238_1350cc93",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 19
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-01-15T00:13:23Z",
+      "side": 1,
+      "message": "\u003e you don\u0027t need to send the class info in the event at all, just the cache name.\n\n👍 exactly, well spotted.",
+      "parentUuid": "5b214da3_d66265bd",
+      "revId": "6edf30d3feb964176c877c37e0d8123b0b2bbc6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

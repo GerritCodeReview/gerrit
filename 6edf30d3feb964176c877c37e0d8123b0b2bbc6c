@@ -124,6 +124,24 @@
       "parentUuid": "c5eea1c7_97c9a54e",
       "revId": "6edf30d3feb964176c877c37e0d8123b0b2bbc6c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "80ffbb4e_6d579cd7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 19
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-01-15T18:38:25Z",
+      "side": 1,
+      "message": "\u003e probably with `MapBinder`\n\nUgh. You can\u0027t remove from `MapBinder`, so never mind on that. I guess that\u0027s why we have `DynamicMap` instead. Use that and it\u0027s probably nearly identical to the `DynamicMap\u003cCache\u003c?, ?\u003e\u003e cacheMap`, but `DynamicMap\u003cCacheDef\u003c?, ?\u003e\u003e cacheDefMap` instead.",
+      "parentUuid": "3e4b6086_c28d5454",
+      "revId": "6edf30d3feb964176c877c37e0d8123b0b2bbc6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

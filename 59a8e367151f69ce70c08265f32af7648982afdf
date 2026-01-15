@@ -22,6 +22,30 @@
       },
       "revId": "59a8e367151f69ce70c08265f32af7648982afdf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "af26f30a_3a7dc463",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-01-15T21:46:31Z",
+      "side": 1,
+      "message": "What about something like `/projects/{project}/commits/{commit-id}/diff?file\u003d{file}\u0026base\u003d{sha1}`?",
+      "parentUuid": "095c328f_358e8d0f",
+      "range": {
+        "startLine": 15,
+        "startChar": 2,
+        "endLine": 15,
+        "endChar": 59
+      },
+      "revId": "59a8e367151f69ce70c08265f32af7648982afdf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -403,6 +403,7 @@ message UserPreferences {
     optional bool allow_suggest_code_while_commenting = 24 [default = true];
     optional bool allow_autocompleting_comments = 25 [default = true];
     optional string diff_page_sidebar = 23 [default = "NONE"];
+    optional string ai_chat_selected_model = 26;
   }
   optional GeneralPreferencesInfo general_preferences_info = 1;
 

@@ -16,6 +16,24 @@
       "message": "I am wondering if we can just inject `DynamicMap\u003cCache\u003c?, ?\u003e\u003e cacheMap` and fetch the cache definition? That should allow us to understand what types of caches have what keys types?\n\n@danielesassoli@gmail.com can you explore that path?",
       "revId": "6edf30d3feb964176c877c37e0d8123b0b2bbc6c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5b214da3_d66265bd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 19
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-01-15T00:01:27Z",
+      "side": 1,
+      "message": "I don\u0027t know if you can get the info you want from that directly, but you might be able do something with `injector.getBindings()` and look through the keys for `TypeLiteral`s of `CacheDef` with a name that match the cache in your event and then get the instances to check the `keyType()` of each? There might be a more direct route to that... but it means you don\u0027t need to send the class info in the event at all, just the cache name.\n\nMy AI helper says you might be able to use a method like this:\n```\n@SuppressWarnings(\"unchecked\")\npublic static CacheDef\u003c?, ?\u003e findCacheByName(Injector injector, String name) {\n  for (Map.Entry\u003cKey\u003c?\u003e, Binding\u003c?\u003e\u003e e : injector.getAllBindings().entrySet()) {\n    Key\u003c?\u003e key \u003d e.getKey();\n\n    // 1) Match raw type CacheDef\n    if (!CacheDef.class.equals(key.getTypeLiteral().getRawType())) {\n      continue;\n    }\n\n    // 2) Match @Named with the given value\n    Annotation ann \u003d key.getAnnotation();\n    if (ann instanceof Named \u0026\u0026 name.equals(((Named) ann).value())) {\n      // This binding was created with Key\u003cCacheDef\u003cK,V\u003e\u003e annotated with @Named(name)\n      Object instance \u003d e.getValue().getProvider().get();\n      return (CacheDef\u003c?, ?\u003e) instance; // underlying object is your CacheProvider\u003cK,V\u003e\n    }\n  }\n  return null;\n}\n```",
+      "parentUuid": "5abe3e29_e383130a",
+      "revId": "6edf30d3feb964176c877c37e0d8123b0b2bbc6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -324,6 +324,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a619fbd1_7c244532",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-01-15T00:01:27Z",
+      "side": 1,
+      "message": "Ok, so you\u0027re worried that if someone found a way to send spoofed cache events to multi-site, you would try to create a class based on whatever class name was in the event? That\u0027s a much stricter thing than what you said about classes installed in `/plugins` or `/lib`. There\u0027s exactly 1 correct class to use for a given cache\u0027s key and any other could cause an error.\n\nIt does seem like inspecting the bindings (like we\u0027re discussing [above](https://gerrit-review.googlesource.com/c/gerrit/+/540181/comments/5abe3e29_e383130a)) would be the best path to that as I think Guice already has this info.",
+      "parentUuid": "fd39dbec_24633051",
+      "revId": "c9e72f2fccb2228dee077361daa5f15bca463a21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1cfe5f6b_739ba795",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 9

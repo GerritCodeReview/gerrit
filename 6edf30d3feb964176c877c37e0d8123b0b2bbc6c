@@ -70,6 +70,24 @@
       "parentUuid": "e392a238_1350cc93",
       "revId": "6edf30d3feb964176c877c37e0d8123b0b2bbc6c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6d195e01_f0344be5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 19
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-01-15T11:21:23Z",
+      "side": 1,
+      "message": "I\u0027ve managed to implement a working version of Nasser\u0027s change above, however, I could identify a few important drawbacks:\n- The first, maybe obvious, is that injector.getAllBindings is a huge list of all the bindings in Gerrit, not just caches, so we need to filter cache bindings out of it, which can be quite resource intensive if done often.\n- After multi-site is loaded(and therefore injector.getAllBindigs() evaluated), we don\u0027t have a way of knowing if a new cache is registered, requiring us to figure out a way of reloading the current list of caches, again, a resource intensive operation. This is not only true for plugins loaded after Gerrit started, but, as Gerrit loads plugins in alphabetical order, its simply enough for a plugin to be loaded after multi-site at startup, for multi-site to not know about it.\n- As the logic lives in multi-site, other plugins would need to duplicate efforts to take advantage of it.\n\nOverall I believe the current approach, which @nasser.grainawi@oss.qualcomm.com greatly enhanced by suggesting an \"automatic\" registration when a new cache is bound, is the best way forward.\n\nAre there any other strong objections in keeping this class in which really doesn\u0027t affect any inner workings of Gerrit and is very self contained?",
+      "parentUuid": "1059278f_a0e42977",
+      "revId": "6edf30d3feb964176c877c37e0d8123b0b2bbc6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

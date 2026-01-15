@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "095c328f_358e8d0f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2026-01-15T19:39:39Z",
+      "side": 1,
+      "message": "This URL doesn\u0027t fit with how we structure our URLs.\n\nWe use this schema \"/\u003croot-collection\u003e/\u003cid-of-member-in-root-collection\u003e/\u003csub-collection\u003e/\u003cid-of-member-in-sub-collection\u003e/\u003cendpoint-name\u003e\".\n\nHere the problem is that the \"diff\" sub-collection shouldn\u0027t contain files as members (you would expect it to contain diffs). Something like \"/projects/{project}/files/{file}/diff?old\u003d{sha1}\u0026new\u003d{sha1}\" would be more consistent with our schema. But I wouldn\u0027t consider this as a good option either, since for \"/projects/{project}/files/{file}\" we cannot tell whether {file} exists, since we don\u0027t know which commit to inspect (that\u0027s why we have the files collection under \"/projects/{project-name}/commits/{commit-id}/\" [1]. Maybe the easiest would be to have this functionality under the other endpoint above, as \"GET /projects/{project}/diff?file\u003d{file}\u0026old\u003d{sha1}\u0026new\u003d{sha1}\".\n\n[1] https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#list-files",
+      "range": {
+        "startLine": 15,
+        "startChar": 2,
+        "endLine": 15,
+        "endChar": 59
+      },
+      "revId": "59a8e367151f69ce70c08265f32af7648982afdf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

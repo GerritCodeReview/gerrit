@@ -342,7 +342,8 @@ export class ChatModel extends Model<ChatState> {
     });
 
     this.pluginsModel.aiCodeReviewPlugins$.subscribe(
-      plugins => (this.plugin = plugins[0].provider)
+      plugins =>
+        (this.plugin = plugins.length > 0 ? plugins[0].provider : undefined)
     );
     this.filesModel.files$.subscribe(files => (this.files = files ?? []));
     this.changeModel.change$.subscribe(change => {

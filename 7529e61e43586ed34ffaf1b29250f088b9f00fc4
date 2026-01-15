@@ -22,6 +22,30 @@
       },
       "revId": "7529e61e43586ed34ffaf1b29250f088b9f00fc4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6f9fc9b1_32a36c41",
+        "filename": "polygerrit-ui/app/elements/change/gr-ai-prompt-dialog/gr-ai-prompt-dialog_test.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-01-15T11:38:10Z",
+      "side": 1,
+      "message": "Thanks. I added content - it was actually empty and found out bug in regexp so i fixed that as well.",
+      "parentUuid": "38af5c3f_372d276b",
+      "range": {
+        "startLine": 97,
+        "startChar": 16,
+        "endLine": 98,
+        "endChar": 22
+      },
+      "revId": "7529e61e43586ed34ffaf1b29250f088b9f00fc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

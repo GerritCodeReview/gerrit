@@ -106,6 +106,24 @@
       "parentUuid": "6d195e01_f0344be5",
       "revId": "6edf30d3feb964176c877c37e0d8123b0b2bbc6c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3e4b6086_c28d5454",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 19
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-01-15T17:29:50Z",
+      "side": 1,
+      "message": "(I re-ordered your bullets to match the flow of logic in my responses.)\n\n\u003e After multi-site is loaded(and therefore injector.getAllBindigs() evaluated), we don\u0027t have a way of knowing if a new cache is registered, requiring us to figure out a way of reloading the current list of caches, again, a resource intensive operation. This is not only true for plugins loaded after Gerrit started, but, as Gerrit loads plugins in alphabetical order, its simply enough for a plugin to be loaded after multi-site at startup, for multi-site to not know about it.\n\nThis sounds like you ran `injector.getAllBindigs()` in a constructor in multi-site. You can do that to pre-populate a map of cache names to classes, but I think you also want to be able to run it whenever you find a cache that you haven\u0027t stored a class mapping for yet. It\u0027s basically the same method call, so there\u0027s no \"figure out a way\" really.\n\n\u003e The first, maybe obvious, is that injector.getAllBindings is a huge list of all the bindings in Gerrit, not just caches, so we need to filter cache bindings out of it, which can be quite resource intensive if done often.\n\nYes. However, I think you can easily avoid doing it often. If you take the approach I described above, you\u0027ll only run `getAllBindigs()` if a new cache appears. You could even cache negative lookups so that if you get a bunch of events for a cache that doesn\u0027t exist you won\u0027t re-run `getAllBindings()` a bunch of times.\n\n\u003e As the logic lives in multi-site, other plugins would need to duplicate efforts to take advantage of it.\n\nYes, they would. Do you see use cases where other plugins would need this same logic?\n\n\u003e Are there any other strong objections in keeping this class in which really doesn\u0027t affect any inner workings of Gerrit and is very self contained?\n\nI think I\u0027m good with the idea of Core providing a way to look up cache definitions, but having done all that research into this yesterday, I don\u0027t think the approach in `CacheKeyType` is the implementation we should use. If we\u0027re going to have this mapping, we should use our Guice layers to store it for us, probably with `MapBinder` in `bindCache()` instead of the `registerKeyType()` call.\n```\n  // Additional registration based on cache name\n  MapBinder\u003cString, CacheDef\u003c?, ?\u003e\u003e binder \u003d\n      MapBinder.newMapBinder(binder(), String.class, new TypeLiteral\u003cCacheDef\u003c?, ?\u003e\u003e(){});\n  binder.addBinding(name).toInstance(m);\n```\n\nAnd wherever the cache de-registration logic is for plugins, that needs an update to remove cache names from the map.",
+      "parentUuid": "c5eea1c7_97c9a54e",
+      "revId": "6edf30d3feb964176c877c37e0d8123b0b2bbc6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

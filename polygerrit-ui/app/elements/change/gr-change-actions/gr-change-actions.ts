@@ -114,6 +114,7 @@ import {whenVisible} from '../../../utils/dom-util';
 import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {modalStyles} from '../../../styles/gr-modal-styles';
 import {subscribe} from '../../lit/subscription-controller';
+import {chatModelToken} from '../../../models/chat/chat-model';
 import {userModelToken} from '../../../models/user/user-model';
 import {ParsedChangeInfo} from '../../../types/types';
 import {configModelToken} from '../../../models/config/config-model';
@@ -500,6 +501,10 @@ export class GrChangeActions
 
   @state() threadsWithUnappliedSuggestions?: CommentThread[];
 
+  @state() chatCapabilitiesLoaded = false;
+
+  private aiChatLoadingCleanup?: () => void;
+
   private readonly restApiService = getAppContext().restApiService;
 
   private readonly reporting = getAppContext().reportingService;
@@ -507,6 +512,8 @@ export class GrChangeActions
   private readonly flagService = getAppContext().flagsService;
 
   private readonly getPluginLoader = resolve(this, pluginLoaderToken);
+
+  private readonly getChatModel = resolve(this, chatModelToken);
 
   private readonly getUserModel = resolve(this, userModelToken);
 
@@ -522,6 +529,11 @@ export class GrChangeActions
 
   constructor() {
     super();
+    subscribe(
+      this,
+      () => this.getChatModel().capabilitiesLoaded$,
+      x => (this.chatCapabilitiesLoaded = x)
+    );
     subscribe(
       this,
       () => this.getChangeModel().latestPatchNum$,
@@ -910,6 +922,15 @@ export class GrChangeActions
       action => !action.__primary
     );
     this.menuActions = this.computeMenuActions();
+  }
+
+  override updated(changedProperties: PropertyValues) {
+    super.updated(changedProperties);
+
+    if (this.chatCapabilitiesLoaded && this.aiChatLoadingCleanup) {
+      this.aiChatLoadingCleanup();
+      this.aiChatLoadingCleanup = undefined;
+    }
   }
 
   reload() {
@@ -1517,6 +1538,15 @@ export class GrChangeActions
         break;
       }
       case AI_CHAT_ACTION.__key: {
+        if (!this.chatCapabilitiesLoaded) {
+          try {
+            this.aiChatLoadingCleanup =
+              this.setLoadingOnButtonWithKey(AI_CHAT_ACTION);
+          } catch (e) {
+            // This is expected if the button is not found in the DOM.
+          }
+          return;
+        }
         fire(this, 'ai-chat', {});
         break;
       }

@@ -64,6 +64,7 @@ import {
   ChangeModel,
   changeModelToken,
 } from '../../../models/change/change-model';
+import {ChatModel, chatModelToken} from '../../../models/chat/chat-model';
 import {GrAutogrowTextarea} from '../../shared/gr-autogrow-textarea/gr-autogrow-textarea';
 
 // TODO(dhruvsri): remove use of _populateRevertMessage as it's private
@@ -72,6 +73,7 @@ suite('gr-change-actions tests', () => {
   let navigateResetStub: SinonStubbedMember<
     ChangeModel['navigateToChangeResetReload']
   >;
+  let chatModel: ChatModel;
 
   suite('basic tests', () => {
     setup(async () => {
@@ -140,6 +142,7 @@ suite('gr-change-actions tests', () => {
         testResolver(changeModelToken),
         'navigateToChangeResetReload'
       );
+      chatModel = testResolver(chatModelToken);
 
       await element.updateComplete;
       await element.reload();
@@ -344,6 +347,36 @@ suite('gr-change-actions tests', () => {
 
         element.revisionActions = {};
         assert.isFalse(await isLoading());
+      });
+
+      test('chatCapabilitiesLoaded', async () => {
+        stubFlags('isEnabled').returns(true);
+        element.aiPluginsRegistered = true;
+        chatModel.updateState({
+          models: undefined,
+          actions: undefined,
+          modelsLoadingError: undefined,
+          actionsLoadingError: undefined,
+        });
+        element.requestUpdate();
+        await element.updateComplete;
+        const chatButton = queryAndAssert(
+          element,
+          'gr-button[data-action-key="chat"]'
+        );
+        assert.isFalse(chatButton.hasAttribute('loading'));
+
+        (chatButton as HTMLElement).click();
+        await element.updateComplete;
+        assert.isTrue(chatButton.hasAttribute('loading'));
+
+        chatModel.updateState({
+          models: {models: [], default_model_id: 'foo'},
+          actions: {actions: [], default_action_id: 'bar'},
+        });
+        element.requestUpdate();
+        await element.updateComplete;
+        assert.isFalse(chatButton.hasAttribute('loading'));
       });
     });
 

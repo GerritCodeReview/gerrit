@@ -4,13 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {css, html, LitElement} from 'lit';
-import {
-  customElement,
-  property,
-  query,
-  queryAsync,
-  state,
-} from 'lit/decorators.js';
+import {customElement, property, query, queryAsync} from 'lit/decorators.js';
 import {ifDefined} from 'lit/directives/if-defined.js';
 import {
   CursorPositionChangeEventDetail,
@@ -100,8 +94,6 @@ export class GrAutogrowTextarea
 
   private focused = false;
 
-  @state() private tokens: string[] = [];
-
   static override get styles() {
     return [
       css`
@@ -166,11 +158,12 @@ export class GrAutogrowTextarea
   }
 
   override render() {
+    const tokens = this.constrain(this.tokenize(this.value));
     return html` <div id="mirror" class="mirror-text" aria-hidden="true">
-        ${this.tokens.length === 1 && this.tokens[0] === ''
+        ${tokens.length === 1 && tokens[0] === ''
           ? html`&#160;`
-          : this.tokens.map((t, i) =>
-              i === this.tokens.length - 1 ? html`${t}&#160;` : html`${t}<br />`
+          : tokens.map((t, i) =>
+              i === tokens.length - 1 ? html`${t}&#160;` : html`${t}<br />`
             )}
       </div>
       <div class="textarea-container">
@@ -208,10 +201,6 @@ export class GrAutogrowTextarea
       ) {
         this.editableTextAreaElement.value = this.value ?? '';
       }
-      this.updateMirror();
-    }
-    if (changed.has('rows') || changed.has('maxRows')) {
-      this.updateMirror();
     }
   }
 
@@ -314,13 +303,6 @@ export class GrAutogrowTextarea
   public async getCursorPositionAsync() {
     const editableTextAreaElement = await this.editableTextArea;
     return editableTextAreaElement?.selectionStart ?? -1;
-  }
-
-  private updateMirror() {
-    if (!this.editableTextAreaElement) return;
-    this.tokens = this.constrain(
-      this.tokenize(this.editableTextAreaElement.value)
-    );
   }
 
   private tokenize(val: string): string[] {

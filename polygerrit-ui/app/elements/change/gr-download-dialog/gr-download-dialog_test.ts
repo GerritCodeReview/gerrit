@@ -350,7 +350,10 @@ suite('gr-download-dialog', () => {
     });
 
     test('handles failed patch content fetch', async () => {
-      getPatchContentStub.resolves(undefined);
+      getPatchContentStub.callsFake((_c, _p, _ctx, errFn) => {
+        if (errFn) errFn();
+        return Promise.resolve(undefined);
+      });
 
       const copyButton = queryAndAssert<GrButton>(
         element,
@@ -361,21 +364,6 @@ suite('gr-download-dialog', () => {
       await waitUntil(() => getPatchContentStub.called);
       assert.isFalse(copyToClipboardStub.called);
       assert.isTrue(fireStub.called);
-    });
-
-    test('handles error during patch content fetch', async () => {
-      const error = new Error('Network error');
-      getPatchContentStub.rejects(error);
-
-      const copyButton = queryAndAssert<GrButton>(
-        element,
-        '#copy-clipboard-button'
-      );
-      copyButton.click();
-
-      await waitUntil(() => getPatchContentStub.called);
-      assert.isFalse(copyToClipboardStub.called);
-      assert.isFalse(fireStub.called);
     });
   });
 });

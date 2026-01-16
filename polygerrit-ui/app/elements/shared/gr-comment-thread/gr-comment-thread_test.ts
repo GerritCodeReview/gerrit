@@ -9,6 +9,7 @@ import './gr-comment-thread';
 import {sortComments} from '../../../utils/comment-util';
 import {GrCommentThread} from './gr-comment-thread';
 import {
+  AccountId,
   CommentInfo,
   CommentThread,
   DraftInfo,
@@ -55,14 +56,14 @@ import {GrSuggestionTextarea} from '../gr-suggestion-textarea/gr-suggestion-text
 import {suggestionsServiceToken} from '../../../services/suggestions/suggestions-service';
 
 const c1: CommentInfo = {
-  author: {name: 'Kermit'},
+  author: {name: 'Kermit', _account_id: 1 as AccountId},
   id: 'the-root' as UrlEncodedCommentId,
   message: 'start the conversation',
   updated: '2021-11-01 10:11:12.000000000' as Timestamp,
 };
 
 const c2: CommentInfo = {
-  author: {name: 'Ms Piggy'},
+  author: {name: 'Ms Piggy', _account_id: 2 as AccountId},
   id: 'the-reply' as UrlEncodedCommentId,
   message: 'keep it going',
   updated: '2021-11-02 10:11:12.000000000' as Timestamp,
@@ -70,7 +71,7 @@ const c2: CommentInfo = {
 };
 
 const c3: DraftInfo = {
-  author: {name: 'Kermit'},
+  author: {name: 'Kermit', _account_id: 1 as AccountId},
   id: 'the-draft' as UrlEncodedCommentId,
   message: 'stop it',
   updated: '2021-11-03 10:11:12.000000000' as Timestamp,
@@ -79,7 +80,7 @@ const c3: DraftInfo = {
 };
 
 const commentWithContext = {
-  author: {name: 'Kermit'},
+  author: {name: 'Kermit', _account_id: 1 as AccountId},
   id: 'the-draft' as UrlEncodedCommentId,
   message: 'just for context',
   updated: '2021-11-03 10:11:12.000000000' as Timestamp,
@@ -343,6 +344,7 @@ suite('gr-comment-thread tests', () => {
         .stub(testResolver(commentsModelToken), 'saveDraft')
         .returns(savePromise);
       stubAdd = sinon.stub(testResolver(commentsModelToken), 'addNewDraft');
+      sinon.stub(testResolver(commentsModelToken), 'discardDraft');
 
       element.thread = createThread(c1, {...c2, unresolved: true});
       await element.updateComplete;
@@ -707,7 +709,7 @@ suite('gr-comment-thread tests', () => {
             ...createComment(),
             id: '123' as any,
             message: 'Test comment',
-            author: {name: 'Test User'},
+            author: {name: 'Test User', _account_id: 12345 as AccountId},
             patch_set: 1 as RevisionPatchSetNum,
             line: 10,
             path: 'test.txt',

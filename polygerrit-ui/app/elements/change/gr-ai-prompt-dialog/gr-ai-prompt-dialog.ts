@@ -330,13 +330,11 @@ export class GrAiPromptDialog extends LitElement {
     const content = await this.restApiService.getPatchContent(
       this.change._number,
       this.patchNum,
-      this.context
+      this.context,
+      () => fireError(this, 'Failed to get patch content')
     );
     this.loading = false;
-    if (!content) {
-      fireError(this, 'Failed to get patch content');
-      return;
-    }
+    if (!content) return;
     this.patchContent = content;
   }
 

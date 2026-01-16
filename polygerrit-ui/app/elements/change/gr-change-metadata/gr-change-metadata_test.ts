@@ -625,7 +625,7 @@ suite('gr-change-metadata tests', () => {
       ...createParsedChange(),
       current_revision: '456' as CommitId,
       revisions: {456: revision('111' as CommitId)},
-      owner: {},
+      owner: createAccountWithId(),
     };
     element.revision = revision('222' as CommitId);
     await element.updateComplete;

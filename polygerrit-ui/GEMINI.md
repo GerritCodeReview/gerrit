@@ -24,6 +24,7 @@ The project uses `eslint` for linting. You can run the linter using the followin
 
 **Note**: Imports should NOT have spaces around braces (e.g., `import {css} from 'lit';`, not `import { css } from 'lit';`).
 **Note**: Do not use `_` prefix for private properties or variables.
+**Note**: Use `// @ts-expect-error` instead of casting to `any` when suppressing TypeScript errors.
 
 ## Key Commands
 

@@ -40,6 +40,7 @@ suite('GrJsApiInterface tests', () => {
   let element: GrJsApiInterface;
   let plugin: Plugin;
   let errorStub: SinonStub;
+  let loadJsPluginStub: SinonStub;
   let pluginLoader: PluginLoader;
 
   let clock: SinonFakeTimers;
@@ -71,10 +72,12 @@ suite('GrJsApiInterface tests', () => {
       'http://test.com/plugins/testplugin/static/test.js'
     );
     testResolver(pluginLoaderToken).loadPlugins([]);
+    loadJsPluginStub = stub(pluginLoader, 'loadJsPlugin');
   });
 
   teardown(() => {
     clock.restore();
+    loadJsPluginStub.restore();
     element._removeEventCallbacks();
   });
 

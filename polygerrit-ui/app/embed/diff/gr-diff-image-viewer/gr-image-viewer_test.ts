@@ -12,6 +12,26 @@ suite('gr-image-viewer tests', () => {
   let element: GrImageViewer;
 
   setup(async () => {
+    // Mock getLibrary to avoid 404s on loading resemblejs
+    // 'libLoader' is a private static property on GrImageViewer
+    // @ts-expect-error
+    const libLoader = GrImageViewer.libLoader;
+    sinon.stub(libLoader, 'getLibrary').resolves();
+
+    // Mock window.resemble that is used in GrImageViewer.computeDiffImage
+    // @ts-expect-error
+    window.resemble = sinon.stub().returns({
+      compareTo: sinon.stub().returns({
+        ignoreNothing: sinon.stub().returns({
+          onComplete: sinon
+            .stub()
+            .callsFake(cb =>
+              cb({getImageDataUrl: () => 'data:image/png;base64,mock'})
+            ),
+        }),
+      }),
+    });
+
     element = await fixture<GrImageViewer>(
       html`<gr-image-viewer></gr-image-viewer>`
     );

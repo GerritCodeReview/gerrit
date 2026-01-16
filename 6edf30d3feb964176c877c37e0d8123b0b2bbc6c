@@ -142,6 +142,24 @@
       "parentUuid": "3e4b6086_c28d5454",
       "revId": "6edf30d3feb964176c877c37e0d8123b0b2bbc6c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d0d9c50b_46918a8c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 19
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-01-16T12:41:22Z",
+      "side": 1,
+      "message": "Abandoning as changing approach to go with DynamicMap.",
+      "parentUuid": "80ffbb4e_6d579cd7",
+      "revId": "6edf30d3feb964176c877c37e0d8123b0b2bbc6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

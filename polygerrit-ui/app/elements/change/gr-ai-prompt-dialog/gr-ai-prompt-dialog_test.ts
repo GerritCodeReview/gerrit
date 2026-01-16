@@ -9,12 +9,14 @@ import {assert, fixture, html} from '@open-wc/testing';
 import {GrAiPromptDialog} from './gr-ai-prompt-dialog';
 import {createParsedChange} from '../../../test/test-data-generators';
 import {CommitId, PatchSetNum} from '../../../api/rest-api';
-import {stubRestApi} from '../../../test/test-utils';
+import {stubRestApi, waitUntil} from '../../../test/test-utils';
 
 suite('gr-ai-prompt-dialog test', () => {
   let element: GrAiPromptDialog;
+  let getPatchContentStub: sinon.SinonStub;
   setup(async () => {
-    stubRestApi('getPatchContent').returns(Promise.resolve('test code'));
+    getPatchContentStub = stubRestApi('getPatchContent');
+    getPatchContentStub.resolves('test code');
     element = await fixture(html`<gr-ai-prompt-dialog></gr-ai-prompt-dialog>`);
     element.change = createParsedChange();
     element.change.revisions['abc'].commit!.parents = [
@@ -140,6 +142,29 @@ suite('gr-ai-prompt-dialog test', () => {
             </gr-button>
           </span>
         </section>`
+    );
+  });
+
+  test('handles failed patch content fetch', async () => {
+    getPatchContentStub.callsFake((_c, _p, _ctx, errFn) => {
+      if (errFn) errFn();
+      return Promise.resolve(undefined);
+    });
+    const fireStub = sinon.stub(element, 'dispatchEvent');
+
+    element.open();
+
+    await waitUntil(() => fireStub.called);
+
+    assert.isTrue(fireStub.called);
+    const events = fireStub.args.map(arg => arg[0]);
+    assert.isTrue(
+      events.some(
+        event =>
+          event.type === 'show-error' &&
+          (event as CustomEvent).detail.message ===
+            'Failed to get patch content'
+      )
     );
   });
 });

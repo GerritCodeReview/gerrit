@@ -313,8 +313,11 @@ export class GrAiPromptDialog extends LitElement {
   }
 
   private getNumParents() {
-    return this.change?.revisions[this.change.current_revision].commit?.parents
-      .length;
+    if (!this.change?.revisions || !this.patchNum) return 0;
+    const revision = Object.values(this.change.revisions).find(
+      rev => rev._number === this.patchNum
+    );
+    return revision?.commit?.parents?.length ?? 0;
   }
 
   private async loadPatchContent() {

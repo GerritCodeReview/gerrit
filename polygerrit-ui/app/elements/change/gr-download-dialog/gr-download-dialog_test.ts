@@ -375,7 +375,7 @@ suite('gr-download-dialog', () => {
 
       await waitUntil(() => getPatchContentStub.called);
       assert.isFalse(copyToClipboardStub.called);
-      assert.isFalse(fireStub.called);
+      assert.isTrue(fireStub.called);
     });
   });
 });

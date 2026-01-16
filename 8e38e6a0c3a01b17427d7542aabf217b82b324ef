@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0dd43ca5_63fa1d95",
+        "filename": "javatests/com/google/gerrit/server/cache/CacheFactoryIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-01-16T19:14:54Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "9e82bfd9_d5a422a0",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 32
+      },
+      "revId": "8e38e6a0c3a01b17427d7542aabf217b82b324ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dd8243a1_c93ea4c9",

@@ -367,6 +367,15 @@ export class GrDiff extends LitElement implements GrDiffApi {
   }
 
   protected override willUpdate(changedProperties: PropertyValues<this>): void {
+    if (changedProperties.has('groups')) {
+      if (this.groups?.length > 0) {
+        this.loading = false;
+      }
+    }
+    if (changedProperties.has('diff')) {
+      this.loading = true;
+    }
+
     if (
       changedProperties.has('diff') ||
       changedProperties.has('path') ||
@@ -471,11 +480,6 @@ export class GrDiff extends LitElement implements GrDiffApi {
     if (changedProperties.has('diff')) {
       // diffChanged relies on diffElement having been rendered.
       this.diffChanged();
-    }
-    if (changedProperties.has('groups')) {
-      if (this.groups?.length > 0) {
-        this.loading = false;
-      }
     }
   }
 
@@ -688,7 +692,6 @@ export class GrDiff extends LitElement implements GrDiffApi {
   }
 
   private diffChanged() {
-    this.loading = true;
     if (this.diff && this.diffElement) {
       this.diffSelection.init(this.diff, this.diffElement);
       this.highlights.init(this.diffElement, this);

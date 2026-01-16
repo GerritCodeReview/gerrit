@@ -15,7 +15,12 @@ import {
   LifeCycle,
   Timing,
 } from '../../constants/reporting';
-import {Metric, onCLS, onINP, onLCP} from 'web-vitals';
+import {
+  MetricWithAttribution,
+  onCLS,
+  onINP,
+  onLCP,
+} from 'web-vitals/attribution';
 import {getEventPath, isElementTarget} from '../../utils/dom-util';
 import {Finalizable} from '../../types/types';
 
@@ -269,7 +274,7 @@ export function initInteractionReporter(reportingService: ReportingService) {
 }
 
 export function initWebVitals(reportingService: ReportingService) {
-  function reportWebVitalMetric(name: Timing, metric: Metric) {
+  function reportWebVitalMetric(name: Timing, metric: MetricWithAttribution) {
     let score = metric.value;
     // CLS good score is 0.1 and poor score is 0.25. Logging system
     // prefers integers, so we multiple by 100;
@@ -285,6 +290,7 @@ export function initWebVitals(reportingService: ReportingService) {
         navigationType: metric.navigationType,
         rating: metric.rating,
         entries: metric.entries,
+        attribution: metric.attribution,
       }
     );
   }

@@ -3,6 +3,7 @@
  * Copyright 2022 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
+import '../test/common-test-setup';
 import {linkifyUrlsAndApplyRewrite} from './link-util';
 import {assert} from '@open-wc/testing';
 

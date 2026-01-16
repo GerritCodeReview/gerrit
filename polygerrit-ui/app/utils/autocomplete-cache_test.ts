@@ -3,6 +3,7 @@
  * Copyright 2024 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
+import '../test/common-test-setup';
 import {AutocompleteCache} from './autocomplete-cache';
 import {assert} from '@open-wc/testing';
 

@@ -34,6 +34,10 @@ suite('async-util tests', () => {
     setup(() => {
       clock = sinon.useFakeTimers();
     });
+
+    teardown(() => {
+      clock.restore();
+    });
     test('simple test', async () => {
       let resolved = false;
       const promise = timeoutPromise(1000);
@@ -78,6 +82,10 @@ suite('async-util tests', () => {
     let clock: SinonFakeTimers;
     setup(() => {
       clock = sinon.useFakeTimers();
+    });
+
+    teardown(() => {
+      clock.restore();
     });
 
     test('It resolves after timeout', async () => {
@@ -137,13 +145,15 @@ suite('async-util tests', () => {
         100
       );
       let hasCanceled = false;
-      promise.then((_value: number) => {
-        assert.fail();
-      });
-      promise.catch((reason?: any) => {
-        hasCanceled = true;
-        assert.strictEqual(reason, 'because');
-      });
+      promise.then(
+        (_value: number) => {
+          assert.fail();
+        },
+        (reason?: any) => {
+          hasCanceled = true;
+          assert.strictEqual(reason, 'because');
+        }
+      );
       await waitEventLoop();
       assert.isFalse(hasCanceled);
       promise.cancel('because');

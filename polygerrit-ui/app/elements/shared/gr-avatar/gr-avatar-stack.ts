@@ -97,7 +97,7 @@ export class GrAvatarStack extends LitElement {
     );
   }
 
-  override updated(changedProperties: PropertyValues) {
+  override willUpdate(changedProperties: PropertyValues) {
     if (changedProperties.has('accounts')) {
       if (
         this.forceFetch &&

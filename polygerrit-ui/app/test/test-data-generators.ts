@@ -900,7 +900,8 @@ export function createWebLinkInfo(): WebLinkInfo {
   return {
     name: 'gitiles',
     url: '#',
-    image_url: 'gitiles.jpg',
+    image_url:
+      'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7',
   };
 }
 

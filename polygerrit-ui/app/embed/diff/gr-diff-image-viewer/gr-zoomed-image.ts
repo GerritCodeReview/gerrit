@@ -59,7 +59,7 @@ export class GrZoomedImage extends LitElement {
     `;
   }
 
-  override updated(changedProperties: PropertyValues) {
+  override willUpdate(changedProperties: PropertyValues) {
     if (changedProperties.has('scale') || changedProperties.has('frameRect')) {
       this.updateImageStyles();
     }

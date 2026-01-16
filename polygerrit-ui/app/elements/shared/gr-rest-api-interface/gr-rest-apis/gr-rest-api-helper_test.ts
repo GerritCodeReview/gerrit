@@ -48,7 +48,7 @@ suite('gr-rest-api-helper tests', () => {
   let authService: AuthService;
 
   setup(() => {
-    clock = sinon.useFakeTimers();
+    clock = sinon.useFakeTimers({shouldClearNativeTimers: true});
     cache = new SiteBasedCache();
     fetchPromisesCache = new FetchPromisesCache();
 

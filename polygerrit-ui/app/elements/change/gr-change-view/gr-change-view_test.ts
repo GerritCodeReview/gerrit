@@ -628,7 +628,7 @@ suite('gr-change-view tests', () => {
       element.loading = false;
       await element.updateComplete;
 
-      clock = sinon.useFakeTimers();
+      clock = sinon.useFakeTimers({shouldClearNativeTimers: true});
     });
 
     teardown(() => {

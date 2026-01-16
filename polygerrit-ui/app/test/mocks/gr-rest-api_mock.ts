@@ -231,7 +231,7 @@ export const grRestApiMock: RestApiService = {
     return Promise.resolve({});
   },
   getChange(): Promise<ChangeInfo | undefined> {
-    throw new Error('getChange() not implemented by RestApiMock.');
+    return Promise.resolve(undefined);
   },
   getChangeActionURL(): Promise<string> {
     return Promise.resolve('');

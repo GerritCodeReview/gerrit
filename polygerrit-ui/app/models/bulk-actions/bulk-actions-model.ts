@@ -242,12 +242,15 @@ export class BulkActionsModel extends Model<BulkActionsState> {
   }
 
   async sync(changes: (ChangeInfo | RelatedChangeAndCommitInfo)[]) {
-    const basicChanges = new Map(changes.map(c => [getChangeNumber(c), c]));
+    const validChanges = changes.filter(c => c && isChangeInfo(c));
+    const basicChanges = new Map(
+      validChanges.map(c => [getChangeNumber(c), c])
+    );
     let currentState = this.getState();
     const selectedChangeNums = currentState.selectedChangeNums.filter(
       changeNum => basicChanges.has(changeNum)
     );
-    const selectableChangeNums = changes.map(c => getChangeNumber(c));
+    const selectableChangeNums = validChanges.map(c => getChangeNumber(c));
     this.updateState({
       loadingState: LoadingState.LOADING,
       selectedChangeNums,
@@ -255,15 +258,17 @@ export class BulkActionsModel extends Model<BulkActionsState> {
       allChanges: new Map(),
     });
 
-    if (changes.length === 0) {
+    if (validChanges.length === 0) {
       return;
     }
 
     // Don't ask for SUBMIT_REQUIREMENTS if it is already available.
-    const needsSubmitRequirements = !this.hasSubmitRequirements(changes[0]);
+    const needsSubmitRequirements = !this.hasSubmitRequirements(
+      validChanges[0]
+    );
     const changeDetails =
       await this.restApiService.getDetailedChangesWithActions(
-        changes.map(c => getChangeNumber(c)),
+        validChanges.map(c => getChangeNumber(c)),
         needsSubmitRequirements
       );
     currentState = this.getState();

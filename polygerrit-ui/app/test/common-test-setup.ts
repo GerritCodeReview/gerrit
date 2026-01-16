@@ -132,6 +132,7 @@ setup(function () {
   // `awaitPluginsLoaded` will rely on that to kick off,
   // in testing, we want to kick start this earlier.
   testResolver(pluginLoaderToken).loadPlugins([]);
+  window.emojis = [];
   testOnlyResetGrRestApiSharedObjects(getAppContext().authService);
 });
 

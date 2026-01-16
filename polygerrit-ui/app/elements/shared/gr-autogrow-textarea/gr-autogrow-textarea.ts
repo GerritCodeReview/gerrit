@@ -3,7 +3,7 @@
  * Copyright 2025 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {css, html, LitElement} from 'lit';
+import {css, html, LitElement, PropertyValues} from 'lit';
 import {
   customElement,
   property,
@@ -165,6 +165,16 @@ export class GrAutogrowTextarea
     ];
   }
 
+  override willUpdate(changedProperties: PropertyValues) {
+    if (
+      changedProperties.has('value') ||
+      changedProperties.has('rows') ||
+      changedProperties.has('maxRows')
+    ) {
+      this.updateMirror();
+    }
+  }
+
   override render() {
     return html` <div id="mirror" class="mirror-text" aria-hidden="true">
         ${this.tokens.length === 1 && this.tokens[0] === ''
@@ -208,10 +218,6 @@ export class GrAutogrowTextarea
       ) {
         this.editableTextAreaElement.value = this.value ?? '';
       }
-      this.updateMirror();
-    }
-    if (changed.has('rows') || changed.has('maxRows')) {
-      this.updateMirror();
     }
   }
 

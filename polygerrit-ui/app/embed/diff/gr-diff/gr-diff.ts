@@ -27,18 +27,18 @@ import {
   isResponsive,
   isThreadEl,
 } from '../gr-diff/gr-diff-utils';
-import {Base64ImageFile, BlameInfo} from '../../../types/common';
-import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
-import {GrDiffHighlight} from '../gr-diff-highlight/gr-diff-highlight';
-import {CoverageRange, DiffLayer, isDefined} from '../../../types/types';
+import { Base64ImageFile, BlameInfo } from '../../../types/common';
+import { DiffInfo, DiffPreferencesInfo } from '../../../types/diff';
+import { GrDiffHighlight } from '../gr-diff-highlight/gr-diff-highlight';
+import { CoverageRange, DiffLayer, isDefined } from '../../../types/types';
 import {
   GrRangedCommentLayer,
   id,
 } from '../gr-ranged-comment-layer/gr-ranged-comment-layer';
-import {DiffViewMode, Side} from '../../../constants/constants';
-import {fire, fireAlert} from '../../../utils/event-util';
-import {MovedLinkClickedEvent, ValueChangedEvent} from '../../../types/events';
-import {AbortStop} from '../../../api/core';
+import { DiffViewMode, Side } from '../../../constants/constants';
+import { fire, fireAlert } from '../../../utils/event-util';
+import { MovedLinkClickedEvent, ValueChangedEvent } from '../../../types/events';
+import { AbortStop } from '../../../api/core';
 import {
   CommentRangeLayer,
   ContentLoadNeededEventDetail,
@@ -51,16 +51,16 @@ import {
   LineNumber,
   RenderPreferences,
 } from '../../../api/diff';
-import {getShadowOrDocumentSelection} from '../../../utils/dom-util';
-import {assertIsDefined} from '../../../utils/common-util';
-import {GrDiffSelection} from '../gr-diff-selection/gr-diff-selection';
-import {property, query, state} from 'lit/decorators.js';
-import {sharedStyles} from '../../../styles/shared-styles';
-import {html, LitElement, PropertyValues} from 'lit';
-import {grSyntaxTheme} from '../gr-syntax-themes/gr-syntax-theme';
-import {grRangedCommentTheme} from '../gr-ranged-comment-themes/gr-ranged-comment-theme';
-import {DiffModel, diffModelToken} from '../gr-diff-model/gr-diff-model';
-import {provide} from '../../../models/dependency';
+import { getShadowOrDocumentSelection } from '../../../utils/dom-util';
+import { assertIsDefined } from '../../../utils/common-util';
+import { GrDiffSelection } from '../gr-diff-selection/gr-diff-selection';
+import { property, query, state } from 'lit/decorators.js';
+import { sharedStyles } from '../../../styles/shared-styles';
+import { html, LitElement, PropertyValues } from 'lit';
+import { grSyntaxTheme } from '../gr-syntax-themes/gr-syntax-theme';
+import { grRangedCommentTheme } from '../gr-ranged-comment-themes/gr-ranged-comment-theme';
+import { DiffModel, diffModelToken } from '../gr-diff-model/gr-diff-model';
+import { provide } from '../../../models/dependency';
 import {
   grDiffBinaryStyles,
   grDiffContextControlsSectionStyles,
@@ -75,8 +75,8 @@ import {
   grDiffStyles,
   grDiffTextStyles,
 } from './gr-diff-styles';
-import {GrCoverageLayer} from '../gr-coverage-layer/gr-coverage-layer';
-import {GrFocusLayer} from '../gr-focus-layer/gr-focus-layer';
+import { GrCoverageLayer } from '../gr-coverage-layer/gr-coverage-layer';
+import { GrFocusLayer } from '../gr-focus-layer/gr-focus-layer';
 import {
   getStringLength,
   GrAnnotationImpl,
@@ -86,12 +86,12 @@ import {
   GrDiffGroupType,
   hideInContextControl,
 } from './gr-diff-group';
-import {GrDiffLine} from './gr-diff-line';
-import {subscribe} from '../../../elements/lit/subscription-controller';
-import {GrDiffSection} from '../gr-diff-builder/gr-diff-section';
-import {GrDiffRow} from '../gr-diff-builder/gr-diff-row';
-import {GrDiffElement} from './gr-diff-element';
-import {getContentEditableRange} from '../../../utils/safari-selection-util';
+import { GrDiffLine } from './gr-diff-line';
+import { subscribe } from '../../../elements/lit/subscription-controller';
+import { GrDiffSection } from '../gr-diff-builder/gr-diff-section';
+import { GrDiffRow } from '../gr-diff-builder/gr-diff-row';
+import { GrDiffElement } from './gr-diff-element';
+import { getContentEditableRange } from '../../../utils/safari-selection-util';
 
 const TRAILING_WHITESPACE_PATTERN = /\s+$/;
 
@@ -151,51 +151,51 @@ export class GrDiff extends LitElement implements GrDiffApi {
   @query('gr-diff-element')
   diffElement?: GrDiffElement;
 
-  @property({type: Boolean})
+  @property({ type: Boolean })
   noAutoRender = false;
 
-  @property({type: String})
+  @property({ type: String })
   path?: string;
 
-  @property({type: Object})
+  @property({ type: Object })
   prefs?: DiffPreferencesInfo;
 
-  @property({type: Object})
+  @property({ type: Object })
   renderPrefs: RenderPreferences = {};
 
-  @property({type: Boolean, reflect: true})
+  @property({ type: Boolean, reflect: true })
   override hidden = false;
 
-  @property({type: Boolean})
+  @property({ type: Boolean })
   noRenderOnPrefsChange?: boolean;
 
-  @property({type: String})
+  @property({ type: String })
   actionHoverCardText?: string;
 
   // By default <gr-diff> highlights all ranges that are referenced by a
   // comment. This `highlightRange` property allows to also highlight one other
   // range explicitly.
-  @property({type: Object})
+  @property({ type: Object })
   highlightRange?: CommentRangeLayer;
 
-  @property({type: Array})
+  @property({ type: Array })
   coverageRanges: CoverageRange[] = [];
 
-  @property({type: Boolean})
+  @property({ type: Boolean })
   lineWrapping = false;
 
   // TODO: Migrate users to using the same property in render preferences.
-  @property({type: String})
+  @property({ type: String })
   viewMode = DiffViewMode.SIDE_BY_SIDE;
 
-  @property({type: Object})
+  @property({ type: Object })
   lineOfInterest?: DisplayLine;
 
-  @property({type: Object})
+  @property({ type: Object })
   diffRangesToFocus?: DiffRangesToFocus;
 
   // Extra message shown if files are binary to help users investigate contents.
-  @property({type: String})
+  @property({ type: String })
   binaryDiffHint = '';
 
   /**
@@ -212,38 +212,38 @@ export class GrDiff extends LitElement implements GrDiffApi {
     if (this._loading === loading) return;
     const oldLoading = this._loading;
     this._loading = loading;
-    fire(this, 'loading-changed', {value: this._loading});
+    fire(this, 'loading-changed', { value: this._loading });
     this.requestUpdate('loading', oldLoading);
   }
 
-  @property({type: Boolean})
+  @property({ type: Boolean })
   loggedIn = false;
 
-  @property({type: Object})
+  @property({ type: Object })
   diff?: DiffInfo;
 
-  @property({type: Object})
+  @property({ type: Object })
   baseImage?: Base64ImageFile;
 
-  @property({type: Object})
+  @property({ type: Object })
   revisionImage?: Base64ImageFile;
 
-  @property({type: String})
+  @property({ type: String })
   errorMessage: string | null = null;
 
-  @property({type: Array})
+  @property({ type: Array })
   blame: BlameInfo[] | null = null;
 
   // TODO: Migrate users to using the same property in render preferences.
-  @property({type: Boolean})
+  @property({ type: Boolean })
   showNewlineWarningLeft = false;
 
   // TODO: Migrate users to using the same property in render preferences.
-  @property({type: Boolean})
+  @property({ type: Boolean })
   showNewlineWarningRight = false;
 
   // TODO: Migrate users to using the same property in render preferences.
-  @property({type: Boolean})
+  @property({ type: Boolean })
   useNewImageDiffUi = false;
 
   // Private but used in tests.
@@ -266,7 +266,7 @@ export class GrDiff extends LitElement implements GrDiffApi {
    * Just the layers that are passed in from the outside. Will be joined with
    * `layersInternal` and sent to the diff model.
    */
-  @property({type: Array})
+  @property({ type: Array })
   layers: DiffLayer[] = [];
 
   /**
@@ -367,6 +367,15 @@ export class GrDiff extends LitElement implements GrDiffApi {
   }
 
   protected override willUpdate(changedProperties: PropertyValues<this>): void {
+    if (changedProperties.has('groups')) {
+      if (this.groups?.length > 0) {
+        this.loading = false;
+      }
+    }
+    if (changedProperties.has('diff')) {
+      this.loading = true;
+    }
+
     if (
       changedProperties.has('diff') ||
       changedProperties.has('path') ||
@@ -382,7 +391,7 @@ export class GrDiff extends LitElement implements GrDiffApi {
       changedProperties.has('actionHoverCardText')
     ) {
       if (this.diff && this.prefs) {
-        const renderPrefs = {...(this.renderPrefs ?? {})};
+        const renderPrefs = { ...(this.renderPrefs ?? {}) };
         // TODO: Migrate users to using render preferences directly. Then removes these overrides.
         if (renderPrefs.view_mode === undefined) {
           renderPrefs.view_mode = this.viewMode;
@@ -410,10 +419,10 @@ export class GrDiff extends LitElement implements GrDiffApi {
       }
     }
     if (changedProperties.has('baseImage')) {
-      this.diffModel.updateState({baseImage: this.baseImage});
+      this.diffModel.updateState({ baseImage: this.baseImage });
     }
     if (changedProperties.has('revisionImage')) {
-      this.diffModel.updateState({revisionImage: this.revisionImage});
+      this.diffModel.updateState({ revisionImage: this.revisionImage });
     }
     if (
       changedProperties.has('path') ||
@@ -428,7 +437,7 @@ export class GrDiff extends LitElement implements GrDiffApi {
       this.layersChanged();
     }
     if (changedProperties.has('blame')) {
-      this.diffModel.updateState({blameInfo: this.blame ?? []});
+      this.diffModel.updateState({ blameInfo: this.blame ?? [] });
     }
     if (changedProperties.has('renderPrefs')) {
       this.renderPrefsChanged();
@@ -471,11 +480,6 @@ export class GrDiff extends LitElement implements GrDiffApi {
     if (changedProperties.has('diff')) {
       // diffChanged relies on diffElement having been rendered.
       this.diffChanged();
-    }
-    if (changedProperties.has('groups')) {
-      if (this.groups?.length > 0) {
-        this.loading = false;
-      }
     }
   }
 
@@ -582,7 +586,7 @@ export class GrDiff extends LitElement implements GrDiffApi {
   createRangeComment() {
     const selectedRange = this.highlights.selectedRange;
     assertIsDefined(selectedRange, 'no range selected');
-    const {side, range} = selectedRange;
+    const { side, range } = selectedRange;
     this.diffModel.createCommentOnRange(range, side);
   }
 
@@ -688,7 +692,6 @@ export class GrDiff extends LitElement implements GrDiffApi {
   }
 
   private diffChanged() {
-    this.loading = true;
     if (this.diff && this.diffElement) {
       this.diffSelection.init(this.diff, this.diffElement);
       this.highlights.init(this.diffElement, this);
@@ -709,7 +712,7 @@ export class GrDiff extends LitElement implements GrDiffApi {
     // Watches children being added to gr-diff. We are expecting only comment
     // widgets to be direct children.
     this.nodeObserver = new MutationObserver(() => this.processNodes());
-    this.nodeObserver.observe(this, {childList: true});
+    this.nodeObserver.observe(this, { childList: true });
     // Process existing comment widgets before the first observed change.
     this.processNodes();
   }
@@ -720,7 +723,7 @@ export class GrDiff extends LitElement implements GrDiffApi {
       .map(getDataFromCommentThreadEl)
       .filter(isDefined)
       .sort(compareComments);
-    this.diffModel.updateState({comments});
+    this.diffModel.updateState({ comments });
     this.updateHighlightLayer(comments);
     for (const el of threadEls) {
       el.addEventListener('mouseenter', this.commentThreadEnterRedispatcher);
@@ -736,7 +739,7 @@ export class GrDiff extends LitElement implements GrDiffApi {
     const ranges: CommentRangeLayer[] = threads
       .filter(t => !!t.range)
       .map(t => {
-        return {range: t.range!, side: t.side, id: t.rootId};
+        return { range: t.range!, side: t.side, id: t.rootId };
       });
     if (this.highlightRange) {
       ranges.push({
@@ -779,7 +782,7 @@ export class GrDiff extends LitElement implements GrDiffApi {
       layer.removeListener?.(this.layerUpdateListener);
       layer.addListener?.(this.layerUpdateListener);
     }
-    this.diffModel.updateState({layers});
+    this.diffModel.updateState({ layers });
   }
 
   private layersInternalInit() {

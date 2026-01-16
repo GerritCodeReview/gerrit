@@ -36,6 +36,7 @@ import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.AuthResult;
+import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -155,7 +156,6 @@ class ProjectOAuthFilter implements Filter {
           return true;
         }
       }
-      authRequest = authRequestFactory.createForExternalUser(authInfo.username);
       Optional<AccountState> who =
           accountCache.getByUsername(authInfo.username).filter(a -> a.account().isActive());
       if (!who.isPresent()) {
@@ -167,6 +167,16 @@ class ProjectOAuthFilter implements Filter {
       }
 
       Account account = who.get().account();
+      Optional<ExternalId> extId =
+          who.get().externalIds().stream()
+              .filter(e -> e.key().scheme().equals(authInfo.exportName))
+              .findAny();
+      if (extId.isPresent()) {
+        authRequest = authRequestFactory.create(extId.get().key());
+        authRequest.setUserName(authInfo.username);
+      } else {
+        authRequest = authRequestFactory.createForExternalUser(authInfo.username);
+      }
       authRequest.setEmailAddress(account.preferredEmail());
       authRequest.setDisplayName(account.fullName());
       authRequest.setPassword(authInfo.tokenOrSecret);

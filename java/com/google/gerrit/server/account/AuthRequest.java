@@ -25,6 +25,7 @@ import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIdKeyFactory;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -214,5 +215,38 @@ public class AuthRequest {
 
   public void setActive(Boolean isActive) {
     this.active = isActive;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(
+        active,
+        authPlugin,
+        authProvider,
+        authProvidesAccountActiveStatus,
+        displayName,
+        emailAddress,
+        externalId,
+        password,
+        skipAuthentication,
+        userName);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null) return false;
+    if (!(obj instanceof AuthRequest)) return false;
+    AuthRequest other = (AuthRequest) obj;
+    return active == other.active
+        && Objects.equals(authPlugin, other.authPlugin)
+        && Objects.equals(authProvider, other.authProvider)
+        && authProvidesAccountActiveStatus == other.authProvidesAccountActiveStatus
+        && Objects.equals(displayName, other.displayName)
+        && Objects.equals(emailAddress, other.emailAddress)
+        && Objects.equals(externalId, other.externalId)
+        && Objects.equals(password, other.password)
+        && skipAuthentication == other.skipAuthentication
+        && Objects.equals(userName, other.userName);
   }
 }

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9e82bfd9_d5a422a0",
+        "filename": "javatests/com/google/gerrit/server/cache/CacheFactoryIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-01-16T19:08:10Z",
+      "side": 1,
+      "message": "It would be best to write something less imperative in tests and more descriptive.\nHave tried with a more functional expression?\n\n\n\n```suggestion\n    Optional\u003c? extends CacheDef\u003c?, ?\u003e\u003e def \u003d StreamSupport.stream(cacheDefs.spliterator(), false)\n            .filter(e -\u003e e.getExportName().equals(\"dummy-cache\"))\n            .map(Extension::get)\n            .findFirst();\n    assertThat(def).isPresent();\n```",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 32
+      },
+      "revId": "8e38e6a0c3a01b17427d7542aabf217b82b324ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dd8243a1_c93ea4c9",
+        "filename": "javatests/com/google/gerrit/server/cache/CacheFactoryIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-01-16T19:08:10Z",
+      "side": 1,
+      "message": "Dry-out as a static test variable.",
+      "range": {
+        "startLine": 53,
+        "startChar": 12,
+        "endLine": 53,
+        "endChar": 25
+      },
+      "revId": "8e38e6a0c3a01b17427d7542aabf217b82b324ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

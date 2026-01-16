@@ -44,12 +44,21 @@ import {Finalizable} from '../types/types';
 declare global {
   interface Window {
     sinon: typeof sinon;
+    litIssuedWarnings?: Set<string>;
   }
 }
 
 window.sinon = sinon;
+// Suppress 'Lit is in dev mode' warning. This is a development build, but we want
+// to keep the test output clean from unnecessary warnings.
+window.litIssuedWarnings = window.litIssuedWarnings || new Set();
+window.litIssuedWarnings.add('dev-mode');
 
 installPolymerResin(safeTypesBridge, (isViolation, fmt, ...args) => {
+  // Suppress 'initResin' log message from polymer-resin.
+  if (fmt === 'initResin') {
+    return;
+  }
   const log = _testOnly_defaultResinReportHandler;
   log(isViolation, fmt, ...args);
   if (isViolation) {

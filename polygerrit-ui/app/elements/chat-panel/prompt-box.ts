@@ -269,6 +269,8 @@ export class PromptBox extends LitElement {
       color: var(--primary-text-color);
       font: inherit;
       font-size: 16px; /* $font-size-large */
+      /* Explicitly set line-height to ensure consistent height in tests (e.g. 20px). */
+      line-height: 20px;
       border: none;
       outline: none;
       resize: none;

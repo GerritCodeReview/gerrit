@@ -278,10 +278,16 @@ export class GrDownloadDialog extends LitElement {
     e.preventDefault();
     e.stopPropagation();
     if (!this.change || !this.patchNum) return;
-    const patchContent = await this.restApiService.getPatchContent(
-      this.change._number,
-      this.patchNum
-    );
+    let patchContent;
+    try {
+      patchContent = await this.restApiService.getPatchContent(
+        this.change._number,
+        this.patchNum
+      );
+    } catch (e) {
+      fireError(this, 'Failed to get patch content');
+      return;
+    }
     if (!patchContent) {
       fireError(this, 'Failed to get patch content');
       return;

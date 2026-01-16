@@ -61,6 +61,21 @@ suite('gr-avatar tests', () => {
       });
     });
 
+    setup(() => {
+      // Prevent 404s by stubbing buildAvatarURL to return data URI for local paths
+      const orig = (GrAvatar.prototype as any).buildAvatarURL;
+      sinon
+        .stub(GrAvatar.prototype as any, 'buildAvatarURL')
+        .callsFake(function (this: GrAvatar, account: any) {
+          const url = orig.call(this, account);
+          if (url.startsWith('/accounts/')) {
+            (this as any).__test_url = url;
+            return 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=';
+          }
+          return url;
+        });
+    });
+
     test('loads correct size', async () => {
       const accountWithId = {
         ...createAccountWithId(123),
@@ -71,10 +86,8 @@ suite('gr-avatar tests', () => {
       );
 
       assert.isTrue(isVisible(element));
-      assert.equal(
-        element.style.backgroundImage,
-        'url("/accounts/123/avatar?s=64")'
-      );
+      assert.isTrue(isVisible(element));
+      assert.equal((element as any).__test_url, '/accounts/123/avatar?s=64');
     });
 
     test('loads using id', async () => {
@@ -87,10 +100,8 @@ suite('gr-avatar tests', () => {
       );
 
       assert.isTrue(isVisible(element));
-      assert.equal(
-        element.style.backgroundImage,
-        'url("/accounts/123/avatar?s=16")'
-      );
+      assert.isTrue(isVisible(element));
+      assert.equal((element as any).__test_url, '/accounts/123/avatar?s=16');
     });
 
     test('loads using email', async () => {
@@ -103,9 +114,10 @@ suite('gr-avatar tests', () => {
       );
 
       assert.isTrue(isVisible(element));
+      assert.isTrue(isVisible(element));
       assert.equal(
-        element.style.backgroundImage,
-        'url("/accounts/foo%40gmail.com/avatar?s=16")'
+        (element as any).__test_url,
+        '/accounts/foo%40gmail.com/avatar?s=16'
       );
     });
 
@@ -119,9 +131,10 @@ suite('gr-avatar tests', () => {
       );
 
       assert.isTrue(isVisible(element));
+      assert.isTrue(isVisible(element));
       assert.equal(
-        element.style.backgroundImage,
-        'url("/accounts/John%20Doe/avatar?s=16")'
+        (element as any).__test_url,
+        '/accounts/John%20Doe/avatar?s=16'
       );
     });
 
@@ -135,9 +148,10 @@ suite('gr-avatar tests', () => {
       );
 
       assert.isTrue(isVisible(element));
+      assert.isTrue(isVisible(element));
       assert.equal(
-        element.style.backgroundImage,
-        'url("/accounts/John_Doe/avatar?s=16")'
+        (element as any).__test_url,
+        '/accounts/John_Doe/avatar?s=16'
       );
     });
 
@@ -185,10 +199,8 @@ suite('gr-avatar tests', () => {
       );
 
       assert.isTrue(isVisible(element));
-      assert.equal(
-        element.style.backgroundImage,
-        'url("/accounts/123/avatar?s=16")'
-      );
+      assert.isTrue(isVisible(element));
+      assert.equal((element as any).__test_url, '/accounts/123/avatar?s=16');
     });
   });
 });

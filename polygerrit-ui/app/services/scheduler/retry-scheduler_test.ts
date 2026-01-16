@@ -17,7 +17,7 @@ suite('retry scheduler', () => {
   let fakeScheduler: FakeScheduler<number>;
   let scheduler: Scheduler<number>;
   setup(() => {
-    clock = sinon.useFakeTimers();
+    clock = sinon.useFakeTimers({shouldClearNativeTimers: true});
     fakeScheduler = new FakeScheduler<number>();
     scheduler = new RetryScheduler<number>(fakeScheduler, 3, 50, 1);
   });

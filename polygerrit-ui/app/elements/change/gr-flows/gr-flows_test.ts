@@ -59,7 +59,7 @@ suite('gr-flows tests', () => {
   let userModel: UserModel;
 
   setup(async () => {
-    clock = sinon.useFakeTimers();
+    clock = sinon.useFakeTimers({shouldClearNativeTimers: true});
 
     changeModel = testResolver(changeModelToken);
     userModel = testResolver(userModelToken);

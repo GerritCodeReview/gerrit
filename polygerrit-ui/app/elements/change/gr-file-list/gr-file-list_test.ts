@@ -70,7 +70,11 @@ import {GerritView} from '../../../services/router/router-model';
 
 suite('gr-diff a11y test', () => {
   test('audit', async () => {
-    assert.isAccessible(await fixture(html`<gr-file-list></gr-file-list>`));
+    const element = await fixture<GrFileList>(
+      html`<gr-file-list></gr-file-list>`
+    );
+    await element.updateComplete;
+    await assert.isAccessible(element);
   });
 });
 

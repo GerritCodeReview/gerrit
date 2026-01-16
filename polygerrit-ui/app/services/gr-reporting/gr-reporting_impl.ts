@@ -3,21 +3,26 @@
  * Copyright 2016 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {FlagsService, KnownExperimentId} from '../flags/flags';
-import {EventValue, ReportingService, Timer} from './gr-reporting';
-import {hasOwnProperty} from '../../utils/common-util';
-import {NumericChangeId} from '../../types/common';
-import {Deduping, EventDetails, ReportingOptions} from '../../api/reporting';
-import {PluginApi} from '../../api/plugin';
+import { FlagsService, KnownExperimentId } from '../flags/flags';
+import { EventValue, ReportingService, Timer } from './gr-reporting';
+import { hasOwnProperty } from '../../utils/common-util';
+import { NumericChangeId } from '../../types/common';
+import { Deduping, EventDetails, ReportingOptions } from '../../api/reporting';
+import { PluginApi } from '../../api/plugin';
 import {
   Execution,
   Interaction,
   LifeCycle,
   Timing,
 } from '../../constants/reporting';
-import {Metric, onCLS, onINP, onLCP} from 'web-vitals';
-import {getEventPath, isElementTarget} from '../../utils/dom-util';
-import {Finalizable} from '../../types/types';
+import {
+  MetricWithAttribution,
+  onCLS,
+  onINP,
+  onLCP,
+} from 'web-vitals/attribution';
+import { getEventPath, isElementTarget } from '../../utils/dom-util';
+import { Finalizable } from '../../types/types';
 
 // Latency reporting constants.
 
@@ -74,7 +79,7 @@ const PLUGIN = {
   },
 };
 
-const STARTUP_TIMERS: {[name: string]: number} = {
+const STARTUP_TIMERS: { [name: string]: number } = {
   [Timing.PLUGINS_LOADED]: 0,
   [Timing.METRICS_PLUGIN_LOADED]: 0,
   [Timing.STARTUP_CHANGE_DISPLAYED]: 0,
@@ -155,7 +160,7 @@ export function initErrorReporter(reportingService: ReportingService) {
   catchErrors();
 
   // for testing
-  return {catchErrors};
+  return { catchErrors };
 }
 
 export function initPerformanceReporter(reportingService: ReportingService) {
@@ -179,7 +184,7 @@ export function initPerformanceReporter(reportingService: ReportingService) {
           }
         }
       });
-      catchLongJsTasks.observe({entryTypes: ['longtask']});
+      catchLongJsTasks.observe({ entryTypes: ['longtask'] });
     }
   }
 }
@@ -269,7 +274,7 @@ export function initInteractionReporter(reportingService: ReportingService) {
 }
 
 export function initWebVitals(reportingService: ReportingService) {
-  function reportWebVitalMetric(name: Timing, metric: Metric) {
+  function reportWebVitalMetric(name: Timing, metric: MetricWithAttribution) {
     let score = metric.value;
     // CLS good score is 0.1 and poor score is 0.25. Logging system
     // prefers integers, so we multiple by 100;
@@ -285,6 +290,7 @@ export function initWebVitals(reportingService: ReportingService) {
         navigationType: metric.navigationType,
         rating: metric.rating,
         entries: metric.entries,
+        attribution: metric.attribution,
       }
     );
   }
@@ -356,8 +362,8 @@ interface EventInfo {
 interface PageLoadDetails {
   rpcList: SlowRpcCall[];
   hiddenDurationMs: number;
-  screenSize?: {width: number; height: number};
-  viewport?: {width: number; height: number};
+  screenSize?: { width: number; height: number };
+  viewport?: { width: number; height: number };
   usedJSHeapSizeMb?: number;
   parallelRequestsEnabled?: boolean;
 }
@@ -416,7 +422,7 @@ export class GrReporting implements ReportingService, Finalizable {
     );
   }
 
-  finalize() {}
+  finalize() { }
 
   /**
    * Reporter reports events. Events will be queued if metrics plugin is not
@@ -461,8 +467,8 @@ export class GrReporting implements ReportingService, Finalizable {
   }
 
   private _reportEvent(eventInfo: EventInfo, noLog?: boolean) {
-    const {type, value, name, eventDetails} = eventInfo;
-    document.dispatchEvent(new CustomEvent(type, {detail: eventInfo}));
+    const { type, value, name, eventDetails } = eventInfo;
+    document.dispatchEvent(new CustomEvent(type, { detail: eventInfo }));
     if (noLog) {
       return;
     }
@@ -638,7 +644,7 @@ export class GrReporting implements ReportingService, Finalizable {
   }
 
   changeDisplayed(eventDetails?: EventDetails) {
-    eventDetails = {...eventDetails, ...this._pageLoadDetails()};
+    eventDetails = { ...eventDetails, ...this._pageLoadDetails() };
     if (hasOwnProperty(this._baselines, Timing.STARTUP_CHANGE_DISPLAYED)) {
       this.timeEnd(Timing.STARTUP_CHANGE_DISPLAYED, eventDetails);
     } else {
@@ -722,7 +728,7 @@ export class GrReporting implements ReportingService, Finalizable {
       LIFECYCLE.CATEGORY.EXTENSION_DETECTED,
       LifeCycle.EXTENSION_DETECTED,
       undefined,
-      {name}
+      { name }
     );
   }
 
@@ -739,7 +745,7 @@ export class GrReporting implements ReportingService, Finalizable {
       LIFECYCLE.CATEGORY.PLUGINS_INSTALLED,
       LifeCycle.PLUGINS_INSTALLED,
       undefined,
-      {pluginsList: pluginsList || []},
+      { pluginsList: pluginsList || [] },
       false
     );
   }
@@ -751,7 +757,7 @@ export class GrReporting implements ReportingService, Finalizable {
       LIFECYCLE.CATEGORY.PLUGINS_INSTALLED,
       LifeCycle.PLUGINS_FAILED,
       undefined,
-      {pluginsList: pluginsList || []},
+      { pluginsList: pluginsList || [] },
       false
     );
   }
@@ -879,7 +885,7 @@ export class GrReporting implements ReportingService, Finalizable {
       true
     );
     if (elapsed >= SLOW_RPC_THRESHOLD) {
-      this.slowRpcList.push({anonymizedUrl, elapsed});
+      this.slowRpcList.push({ anonymizedUrl, elapsed });
     }
   }
 
@@ -981,7 +987,7 @@ export class GrReporting implements ReportingService, Finalizable {
     method: string
   ) {
     const plugin = pluginApi?.getPluginName() ?? 'unknown';
-    this.reportExecution(Execution.PLUGIN_API, {plugin, object, method});
+    this.reportExecution(Execution.PLUGIN_API, { plugin, object, method });
   }
 
   error(errorSource: string, error: Error, details?: EventDetails) {
@@ -996,7 +1002,7 @@ export class GrReporting implements ReportingService, Finalizable {
       ERROR.TYPE,
       ERROR.CATEGORY.EXCEPTION,
       errorSource,
-      {error},
+      { error },
       eventDetails
     );
   }
@@ -1006,8 +1012,8 @@ export class GrReporting implements ReportingService, Finalizable {
       ERROR.TYPE,
       ERROR.CATEGORY.ERROR_DIALOG,
       'ErrorDialog',
-      {error: new Error(message)},
-      {errorMessage: message}
+      { error: new Error(message) },
+      { errorMessage: message }
     );
   }
 
@@ -1020,9 +1026,9 @@ export class GrReporting implements ReportingService, Finalizable {
     this.reportChangeId = changeId;
 
     if (!!changeId && changeId !== originalChangeId) {
-      this.reportInteraction(Interaction.CHANGE_ID_CHANGED, {changeId});
+      this.reportInteraction(Interaction.CHANGE_ID_CHANGED, { changeId });
     }
   }
 }
 
-export const DEFAULT_STARTUP_TIMERS = {...STARTUP_TIMERS};
+export const DEFAULT_STARTUP_TIMERS = { ...STARTUP_TIMERS };

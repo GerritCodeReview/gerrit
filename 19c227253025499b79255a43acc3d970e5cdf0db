@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b5f4f6a6_3e13e4aa",
+        "filename": "javatests/com/google/gerrit/server/cache/CacheFactoryIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-01-16T22:49:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0cc22324_34d40336",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 38
+      },
+      "revId": "19c227253025499b79255a43acc3d970e5cdf0db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9525316a_2663e607",
@@ -54,6 +78,30 @@
       "writtenOn": "2026-01-16T22:28:49Z",
       "side": 1,
       "message": "Wrap long line.\n\n\n\n```suggestion\n    Optional\u003c? extends CacheDef\u003c?, ?\u003e\u003e def \u003d\n        StreamSupport.stream(cacheDefs.spliterator(), false)\n```",
+      "range": {
+        "startLine": 42,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 97
+      },
+      "revId": "19c227253025499b79255a43acc3d970e5cdf0db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1703660c_2f7794a5",
+        "filename": "javatests/com/google/gerrit/server/cache/CacheFactoryIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-01-16T22:49:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9525316a_2663e607",
       "range": {
         "startLine": 42,
         "startChar": 0,

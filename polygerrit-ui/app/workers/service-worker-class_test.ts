@@ -24,7 +24,11 @@ suite('service worker class tests', () => {
       registration: {
         showNotification: () => {},
       },
-    } as {} as ServiceWorkerGlobalScope;
+      clients: {
+        matchAll: () => Promise.resolve([]),
+        openWindow: () => Promise.resolve(undefined),
+      },
+    } as unknown as ServiceWorkerGlobalScope;
     serviceWorker = new ServiceWorker(moctCtx);
     serviceWorker.allowBrowserNotificationsPreference = true;
   });
@@ -44,12 +48,16 @@ suite('service worker class tests', () => {
         },
       },
     };
-    sinon.useFakeTimers(t3);
+    const clock = sinon.useFakeTimers({
+      now: t3,
+      shouldClearNativeTimers: true,
+    });
     sinon
       .stub(serviceWorker, 'getLatestAttentionSetChanges')
       .returns(Promise.resolve([change]));
     const changes = await serviceWorker.getChangesToNotify(account);
     assert.equal(changes[0], change);
+    clock.restore();
   });
 
   test('check race condition', async () => {

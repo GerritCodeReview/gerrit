@@ -313,8 +313,15 @@ export class GrAiPromptDialog extends LitElement {
   }
 
   private getNumParents() {
-    return this.change?.revisions[this.change.current_revision].commit?.parents
-      .length;
+    if (
+      !this.change ||
+      !this.change.current_revision ||
+      !this.change.revisions
+    ) {
+      return 0;
+    }
+    const revision = this.change.revisions[this.change.current_revision];
+    return revision?.commit?.parents.length ?? 0;
   }
 
   private async loadPatchContent() {

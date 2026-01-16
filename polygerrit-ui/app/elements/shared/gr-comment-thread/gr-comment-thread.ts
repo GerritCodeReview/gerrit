@@ -705,6 +705,7 @@ export class GrCommentThread extends LitElement {
     this.firstWillUpdate();
     if (changed.has('thread')) {
       assertIsDefined(this.thread, 'thread');
+      if (!this.thread.comments.length) return;
       assertIsDefined(this.getFirstComment(), 'first comment');
       if (!this.isDraft()) {
         // We can only do this for threads without draft, because otherwise we
@@ -800,6 +801,8 @@ export class GrCommentThread extends LitElement {
       return undefined;
     }
     return this.getViewModel().diffUrl({
+      changeNum: this.changeNum,
+      repo: this.repoName,
       patchNum: this.thread.patchNum,
       diffView: {path: this.thread.path},
     });

@@ -874,9 +874,11 @@ export class GrChangeActions
         <gr-button
           link
           class=${action.__key}
+          ?loading=${this.inProgressActionKeys.has(action.__key)}
           data-action-key=${action.__key}
           data-label=${action.label}
-          ?disabled=${this.calculateDisabled(action)}
+          ?disabled=${this.calculateDisabled(action) ||
+          this.inProgressActionKeys.has(action.__key)}
           @click=${(e: MouseEvent) =>
             this.handleActionTap(e, action.__key, action.__type)}
         >
@@ -897,6 +899,11 @@ export class GrChangeActions
     if (changedProperties.has('change')) {
       this.reload();
       this.actions = this.change?.actions ?? {};
+    }
+
+    if (this.chatCapabilitiesLoaded && this.aiChatLoadingCleanup) {
+      this.aiChatLoadingCleanup();
+      this.aiChatLoadingCleanup = undefined;
     }
 
     this.editStatusChanged();
@@ -926,11 +933,6 @@ export class GrChangeActions
 
   override updated(changedProperties: PropertyValues) {
     super.updated(changedProperties);
-
-    if (this.chatCapabilitiesLoaded && this.aiChatLoadingCleanup) {
-      this.aiChatLoadingCleanup();
-      this.aiChatLoadingCleanup = undefined;
-    }
   }
 
   reload() {
@@ -1896,28 +1898,13 @@ export class GrChangeActions
         buttonKey === '/' ? 'delete-change' : `${buttonKey}-${action.__type}`
       );
       this.requestUpdate('disabledMenuActions');
-      return () => {
-        this.inProgressActionKeys.delete(key);
-        this.actionLoadingMessage = '';
-        this.disabledMenuActions = [];
-        this.requestUpdate();
-      };
     }
 
-    // Otherwise it's a top-level action.
-    const buttonEl = this.shadowRoot!.querySelector(
-      `[data-action-key="${buttonKey}"]`
-    ) as GrButton;
-    if (!buttonEl) {
-      throw new Error(`Can't find button by data-action-key '${buttonKey}'`);
-    }
-    buttonEl.setAttribute('loading', 'true');
-    buttonEl.disabled = true;
+    this.requestUpdate();
     return () => {
-      this.inProgressActionKeys.delete(action.__key);
+      this.inProgressActionKeys.delete(key);
       this.actionLoadingMessage = '';
-      buttonEl.removeAttribute('loading');
-      buttonEl.disabled = false;
+      this.disabledMenuActions = [];
       this.requestUpdate();
     };
   }

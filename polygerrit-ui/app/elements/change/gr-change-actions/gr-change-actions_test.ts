@@ -367,8 +367,7 @@ suite('gr-change-actions tests', () => {
         assert.isFalse(chatButton.hasAttribute('loading'));
 
         (chatButton as HTMLElement).click();
-        await element.updateComplete;
-        assert.isTrue(chatButton.hasAttribute('loading'));
+        await waitUntil(() => chatButton.hasAttribute('loading'));
 
         chatModel.updateState({
           models: {models: [], default_model_id: 'foo'},
@@ -1430,6 +1429,7 @@ suite('gr-change-actions tests', () => {
         __key: key,
         label: 'label',
       });
+      await element.updateComplete;
       assert.equal(element.actionLoadingMessage, 'Rebasing...');
 
       const button = queryAndAssert<GrButton>(
@@ -1448,6 +1448,7 @@ suite('gr-change-actions tests', () => {
       assert.isOk(cleanup);
       assert.isFunction(cleanup);
       cleanup();
+      await element.updateComplete;
 
       assert.isFalse(button.hasAttribute('loading'));
       assert.isFalse(button.disabled);

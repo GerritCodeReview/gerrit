@@ -4,14 +4,16 @@ import { defaultReporter, summaryReporter } from '@web/test-runner';
 import { visualRegressionPlugin } from '@web/test-runner-visual-regression/plugin';
 import { playwrightLauncher } from '@web/test-runner-playwright';
 
-function testRunnerHtmlFactory() {
+const runUnderBazel = !!process.env['RUNFILES_DIR'];
+
+function testRunnerHtmlFactory(prefix) {
   return (testFramework) => `
     <!DOCTYPE html>
     <html>
       <head>
-        <link rel="stylesheet" href="polygerrit-ui/app/styles/main.css">
-        <link rel="stylesheet" href="polygerrit-ui/app/styles/fonts.css">
-        <link rel="stylesheet" href="polygerrit-ui/app/styles/material-icons.css">
+        <link rel="stylesheet" href="${prefix}app/styles/main.css">
+        <link rel="stylesheet" href="${prefix}app/styles/fonts.css">
+        <link rel="stylesheet" href="${prefix}app/styles/material-icons.css">
       </head>
       <body>
         <script type="module" src="${testFramework}"></script>
@@ -20,20 +22,18 @@ function testRunnerHtmlFactory() {
   `;
 }
 
-const runUnderBazel = !!process.env['RUNFILES_DIR'];
-
 function getModulesDir() {
   return runUnderBazel
     ? [
-        path.join(process.cwd(), 'external/plugins_npm/node_modules'),
-        path.join(process.cwd(), 'external/ui_npm/node_modules'),
-        path.join(process.cwd(), 'external/ui_dev_npm/node_modules'),
-      ]
+      path.join(process.cwd(), 'external/plugins_npm/node_modules'),
+      path.join(process.cwd(), 'external/ui_npm/node_modules'),
+      path.join(process.cwd(), 'external/ui_dev_npm/node_modules'),
+    ]
     : [
-        path.join(process.cwd(), 'plugins/node_modules'),
-        path.join(process.cwd(), 'app/node_modules'),
-        path.join(process.cwd(), 'node_modules'),
-      ];
+      path.join(process.cwd(), 'plugins/node_modules'),
+      path.join(process.cwd(), 'app/node_modules'),
+      path.join(process.cwd(), 'node_modules'),
+    ];
 }
 
 function getArgValue(flag) {
@@ -53,6 +53,11 @@ const testFiles = getArgValue('--test-files');
 const runScreenshots = process.argv.includes('--run-screenshots');
 const rootDir = getArgValue('--root-dir') ?? `${path.resolve(process.cwd())}/`;
 const tsConfig = getArgValue('--ts-config') ?? `${pathPrefix}app/tsconfig.json`;
+
+// When running screenshots, we serve from the root directory, so we need to
+// prepend polygerrit-ui/ to the path.
+// When running under Bazel, we also need strictly fully qualified paths.
+const stylePathPrefix = 'polygerrit-ui/';
 
 /** @type {import('@web/test-runner').TestRunnerConfig} */
 const config = {
@@ -77,22 +82,23 @@ const config = {
   ],
 
   files: runScreenshots
-      ? [
-          // If --run-screenshots is set, ONLY run screenshot tests.
-          testFiles ?? `${pathPrefix}app/**/*_screenshot_test.{ts,js}`,
-          `!${pathPrefix}**/node_modules/**/*`,
-        ]
-      : [
-          // Otherwise, run all tests EXCEPT screenshot tests
-          testFiles ?? `${pathPrefix}app/**/*_test.{ts,js}`,
-          `!${pathPrefix}**/node_modules/**/*`,
-          `!${pathPrefix}app/**/*_screenshot_test.{ts,js}`,
-        ],
+    ? [
+      // If --run-screenshots is set, ONLY run screenshot tests.
+      testFiles ?? `${pathPrefix}app/**/*_screenshot_test.{ts,js}`,
+      `!${pathPrefix}**/node_modules/**/*`,
+    ]
+    : [
+      // Otherwise, run all tests EXCEPT screenshot tests
+      testFiles ?? `${pathPrefix}app/**/*_test.{ts,js}`,
+      `!${pathPrefix}**/node_modules/**/*`,
+      `!${pathPrefix}app/**/*_screenshot_test.{ts,js}`,
+    ],
 
   port: 9876,
 
   nodeResolve: {
     modulePaths: getModulesDir(),
+    dedupe: ['lit', 'lit-html', 'lit-element'],
   },
 
   testFramework: {
@@ -127,7 +133,7 @@ const config = {
 
   // serve from gerrit root directory so that we can serve fonts from
   // /lib/fonts/ for screenshots tests, see middleware.
-  rootDir: runScreenshots ? '..' : rootDir,
+  rootDir: runUnderBazel ? rootDir : '..',
 
   reporters: [defaultReporter(), summaryReporter()],
 
@@ -143,7 +149,7 @@ const config = {
     },
   ],
 
-  testRunnerHtml: testRunnerHtmlFactory(),
+  testRunnerHtml: testRunnerHtmlFactory(stylePathPrefix),
 };
 
 export default config;

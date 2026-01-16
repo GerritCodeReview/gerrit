@@ -349,7 +349,7 @@ export class GrSuggestionTextarea extends LitElement {
   override updated(changedProperties: PropertyValues) {
     if (changedProperties.has('text')) {
       this.fireChangedEvents();
-      this.handleTextChanged();
+      void this.updateComplete.then(() => this.handleTextChanged());
     }
     if (changedProperties.has('isDragging')) {
       if (this.isDragging) {
@@ -545,8 +545,10 @@ export class GrSuggestionTextarea extends LitElement {
   }
 
   private async computeSuggestions() {
-    this.suggestions = [];
     if (this.currentSearchString === undefined) {
+      if (this.suggestions.length > 0) {
+        this.suggestions = [];
+      }
       return;
     }
     const searchString = this.currentSearchString;
@@ -557,7 +559,9 @@ export class GrSuggestionTextarea extends LitElement {
       suggestions = await this.computeReviewerSuggestions();
     }
     if (searchString === this.currentSearchString) {
-      this.suggestions = suggestions;
+      if (this.suggestions.length > 0 || suggestions.length > 0) {
+        this.suggestions = suggestions;
+      }
     }
   }
 
@@ -695,7 +699,6 @@ export class GrSuggestionTextarea extends LitElement {
   // private but used in test
   resetDropdown() {
     // hide and reset the autocomplete dropdown.
-    this.requestUpdate();
     this.currentSearchString = '';
     this.closeDropdown();
     this.specialCharIndex = -1;

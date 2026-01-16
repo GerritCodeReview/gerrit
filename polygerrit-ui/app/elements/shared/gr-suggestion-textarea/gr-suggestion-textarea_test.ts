@@ -384,6 +384,7 @@ suite('gr-suggestion-textarea tests with <gr-textarea>', () => {
 
       element.text = '';
       await element.updateComplete;
+      await waitUntil(() => element.mentionsSuggestions!.isHidden);
       assert.isTrue(element.mentionsSuggestions!.isHidden);
     });
   });
@@ -474,6 +475,7 @@ suite('gr-suggestion-textarea tests with <gr-textarea>', () => {
     sinon.stub(element.textarea!, 'getCursorPosition').returns(1);
     element.text = text;
     await element.updateComplete;
+    await waitUntil(() => !element.emojiSuggestions!.isHidden);
     assert.isFalse(element.emojiSuggestions!.isHidden);
     assert.equal(element.specialCharIndex, 0);
     assert.isTrue(!element.emojiSuggestions!.isHidden);
@@ -497,6 +499,7 @@ suite('gr-suggestion-textarea tests with <gr-textarea>', () => {
     element.text = 'test test test :smi';
     await element.updateComplete;
 
+    await waitUntil(() => element.emojiSuggestions!.isHidden);
     assert.isTrue(element.emojiSuggestions!.isHidden);
   });
 
@@ -585,6 +588,7 @@ suite('gr-suggestion-textarea tests with <gr-textarea>', () => {
     element.text = text;
     element.specialCharIndex = 10;
     await element.updateComplete;
+    await new Promise(r => setTimeout(r, 0));
     stub.restore();
     // move the cursor to the right while the suggestion popup is open
     element.setCursorPosition(22);

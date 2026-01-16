@@ -193,7 +193,7 @@ export class GrOverviewImage extends LitElement {
     this.resizeObserver.observe(this.contentTransform);
   }
 
-  override updated(changedProperties: PropertyValues) {
+  override willUpdate(changedProperties: PropertyValues) {
     if (changedProperties.has('frameRect')) {
       this.updateFrameStyle();
     }

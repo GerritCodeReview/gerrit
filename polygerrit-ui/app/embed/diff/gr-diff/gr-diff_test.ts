@@ -46,7 +46,7 @@ const DEFAULT_PREFS = createDefaultDiffPrefs();
 
 suite('gr-diff a11y test', () => {
   test('audit', async () => {
-    assert.isAccessible(await fixture(html`<gr-diff></gr-diff>`));
+    await assert.isAccessible(await fixture(html`<gr-diff></gr-diff>`));
   });
 });
 

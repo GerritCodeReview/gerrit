@@ -228,10 +228,22 @@ export class GrDropdownList extends LitElement {
   protected override willUpdate(changedProperties: PropertyValues): void {
     if (changedProperties.has('value') || changedProperties.has('items')) {
       this.updateText();
+      this.computeSelectedIndex();
     }
     if (changedProperties.has('value')) {
       fireNoBubble(this, 'value-change', {value: this.value});
     }
+  }
+
+  private computeSelectedIndex() {
+    if (this.value === undefined || this.items === undefined) {
+      this.selectedIndex = 0;
+      return;
+    }
+    const index = this.items.findIndex(
+      item => String(item.value) === this.value
+    );
+    this.selectedIndex = index >= 0 ? index : 0;
   }
 
   override updated(changedProperties: PropertyValues) {
@@ -354,9 +366,6 @@ export class GrDropdownList extends LitElement {
   }
 
   private renderMdMenuItem(item: DropdownItem, index: number) {
-    if (this.value === String(item.value)) {
-      this.selectedIndex = index;
-    }
     return html`
       <md-menu-item
         ?selected=${this.value === String(item.value)}

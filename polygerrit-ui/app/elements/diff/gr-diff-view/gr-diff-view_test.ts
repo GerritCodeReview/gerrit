@@ -982,6 +982,31 @@ suite('gr-diff-view tests', () => {
       assert.isFalse(reloadStub.called);
     });
 
+    test('initializePositions re-initializes cursor with focusLineNum', async () => {
+      element.focusLineNum = 10;
+      element.leftSide = false;
+      element.path = 'glados.txt';
+      element.patchNum = 1 as RevisionPatchSetNum;
+      element.basePatchNum = PARENT;
+      await element.updateComplete;
+
+      assertIsDefined(element.cursor);
+      assert.equal(element.cursor.initialLineNumber, 10);
+
+      // Simulate render consuming initialLineNumber
+      element.cursor.reInitCursor();
+      assert.isNull(element.cursor.initialLineNumber);
+
+      const moveToLineNumberSpy = sinon.spy(element.cursor, 'moveToLineNumber');
+
+      // Simulate view becoming active
+      element.isActiveChildView = true;
+      element.initializePositions();
+
+      // Should have re-initialized with proper line number
+      assert.isTrue(moveToLineNumberSpy.calledWith(10, Side.RIGHT));
+    });
+
     test('edit should redirect to edit page', async () => {
       element.loggedIn = true;
       element.path = 't.txt';

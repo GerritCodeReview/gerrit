@@ -84,7 +84,8 @@ export class GrAvatar extends LitElement {
     );
   }
 
-  private buildAvatarURL(account?: AccountInfo) {
+  // private but used in tests
+  buildAvatarURL(account?: AccountInfo) {
     if (!account) {
       return '';
     }

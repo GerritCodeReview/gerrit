@@ -315,6 +315,14 @@ export class ChatModel extends Model<ChatState> {
     chatState => chatState.errorMessage
   );
 
+  readonly capabilitiesLoaded$: Observable<boolean> = select(
+    this.state$,
+    state =>
+      !!state.modelsLoadingError ||
+      !!state.actionsLoadingError ||
+      (!!state.models && !!state.actions)
+  );
+
   readonly userInput$: Observable<string> = select(
     this.state$,
     chatState => chatState.draftUserMessage.content
@@ -342,7 +350,8 @@ export class ChatModel extends Model<ChatState> {
     });
 
     this.pluginsModel.aiCodeReviewPlugins$.subscribe(
-      plugins => (this.plugin = plugins[0].provider)
+      plugins =>
+        (this.plugin = plugins.length > 0 ? plugins[0].provider : undefined)
     );
     this.filesModel.files$.subscribe(files => (this.files = files ?? []));
     this.changeModel.change$.subscribe(change => {

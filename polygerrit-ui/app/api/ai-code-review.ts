@@ -259,6 +259,7 @@ export declare interface ContextItemType {
 }
 
 export declare interface ContextItem {
+  // type_id should match the types here: https://source.corp.google.com/piper///depot/google3/java/com/google/devtools/gerritcodereview/plugins/comments2code/web/ai-code-review-references.ts;bpv=1;bpt=1;l=94?q=%22referenceToGerritReference%22%20file:google3%2Fjava%2Fcom%2Fgoogle%2Fdevtools%2Fgerritcodereview%2Fplugins%2Fcomments2code%2Fweb%2Fai-code-review-references.ts&sq=package:piper%20file:%2F%2Fdepot%2Fgoogle3%20-file:google3%2Fexperimental&gsn=referenceToGerritReference&gs=KYTHE%3A%2F%2Fkythe%3A%2F%2Fgoogle3%3Flang%3Dtypescript%3Fpath%3Djava%2Fcom%2Fgoogle%2Fdevtools%2Fgerritcodereview%2Fplugins%2Fcomments2code%2Fweb%2Fai-code-review-references%23referenceToGerritReference
   type_id: string;
   link: string;
   title: string;

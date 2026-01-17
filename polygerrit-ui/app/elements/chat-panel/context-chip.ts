@@ -90,9 +90,8 @@ export class ContextChip extends LitElement {
           .isCustomAction
           ? 'custom-action-chip'
           : ''}"
-        .label=${this.text}
-        ?selected=${this.isCustomAction}
-        .title=${this.tooltip ?? ''}
+        .label=${this.contextItem?.title ?? this.text}
+        .title=${this.contextItem?.tooltip ?? this.tooltip ?? ''}
         @click=${this.navigateToUrl}
         ?removable=${this.isRemovable && !this.isSuggestion}
         @remove=${this.onRemoveContextChip}

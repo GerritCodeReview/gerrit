@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "62a6030f_86b43c1f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-01-17T11:11:21Z",
+      "side": 1,
+      "message": "Unresolving, as I don\u0027t see Nasser\u0027s fix applied.",
+      "parentUuid": "77152627_3dea2f2c",
+      "revId": "520fccb9d4df30a2575cb7567de183ab0b721555",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9237e183_2eaa8637",
         "filename": "/COMMIT_MSG",
         "patchSetId": 6
@@ -67,6 +85,24 @@
       "side": 1,
       "message": "Fix applied.",
       "parentUuid": "9237e183_2eaa8637",
+      "revId": "520fccb9d4df30a2575cb7567de183ab0b721555",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "64e68a18_1491cedd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-01-17T11:11:21Z",
+      "side": 1,
+      "message": "Unresolving, as I don\u0027t see Nasser\u0027s fix applied.",
+      "parentUuid": "c6e9ccf9_58e7494f",
       "revId": "520fccb9d4df30a2575cb7567de183ab0b721555",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

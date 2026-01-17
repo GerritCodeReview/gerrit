@@ -26,6 +26,54 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "2276ce5c_e637f720",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-01-17T11:41:10Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "cdf5868d_9b48add4",
+      "range": {
+        "startLine": 9,
+        "startChar": 52,
+        "endLine": 9,
+        "endChar": 59
+      },
+      "revId": "86921e5c41a4bc27f68aa068ea44373a679102cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "47b36cf8_40bdf45d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-01-17T11:41:10Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "cdf5868d_9b48add4",
+      "range": {
+        "startLine": 9,
+        "startChar": 52,
+        "endLine": 9,
+        "endChar": 59
+      },
+      "revId": "86921e5c41a4bc27f68aa068ea44373a679102cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "89aea057_3fbb7c08",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 9

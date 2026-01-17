@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cdf5868d_9b48add4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-01-17T11:34:50Z",
+      "side": 1,
+      "message": "```suggestion\nBy dynamically binding cache\u0027s definitions we allow Gerrit core and its plugins to access\n```",
+      "range": {
+        "startLine": 9,
+        "startChar": 52,
+        "endLine": 9,
+        "endChar": 59
+      },
+      "revId": "86921e5c41a4bc27f68aa068ea44373a679102cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "89aea057_3fbb7c08",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-01-17T11:34:50Z",
+      "side": 1,
+      "message": "Just a small nit, then we\u0027re ready to merge 👍",
+      "revId": "86921e5c41a4bc27f68aa068ea44373a679102cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

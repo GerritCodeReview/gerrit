@@ -22,6 +22,30 @@
       },
       "revId": "db32674af69ec54e7ef281d8b119eea56c025c32",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e1014336_8936c3e3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-01-17T17:40:32Z",
+      "side": 1,
+      "message": "sorry, had done it from mobile.",
+      "parentUuid": "9f2167b7_78d7905d",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 45
+      },
+      "revId": "db32674af69ec54e7ef281d8b119eea56c025c32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

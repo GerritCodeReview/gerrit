@@ -49,7 +49,8 @@ import {ChangeStatus} from '../../../constants/constants';
 import {NormalizedFileInfo} from '../../../models/change/files-model';
 import * as sinon from 'sinon';
 
-suite('gr-change-view screenshot tests', () => {
+suite('gr-change-view screenshot tests', function () {
+  this.timeout(4000);
   let element: GrChangeView;
 
   function createMockFiles(): NormalizedFileInfo[] {

@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "77152627_3dea2f2c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-01-17T10:59:01Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "1132607b_3cdf4178",
+      "revId": "520fccb9d4df30a2575cb7567de183ab0b721555",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9237e183_2eaa8637",
@@ -31,6 +49,24 @@
       "writtenOn": "2026-01-17T00:31:29Z",
       "side": 1,
       "message": "```suggestion\nRelease-Notes: Plugin API: Cache definitions (from Core and plugins) can be inspected at runtime\n```",
+      "revId": "520fccb9d4df30a2575cb7567de183ab0b721555",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c6e9ccf9_58e7494f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-01-17T10:59:01Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "9237e183_2eaa8637",
       "revId": "520fccb9d4df30a2575cb7567de183ab0b721555",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

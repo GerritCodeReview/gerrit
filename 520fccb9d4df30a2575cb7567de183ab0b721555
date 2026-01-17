@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1132607b_3cdf4178",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-01-17T00:31:29Z",
+      "side": 1,
+      "message": "nit: As Luca noted with the `show-caches` use case, they\u0027re exposed to callers in core now too.\n```suggestion\nRecord and expose cache definitions\n```",
+      "revId": "520fccb9d4df30a2575cb7567de183ab0b721555",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9237e183_2eaa8637",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-01-17T00:31:29Z",
+      "side": 1,
+      "message": "```suggestion\nRelease-Notes: Plugin API: Cache definitions (from Core and plugins) can be inspected at runtime\n```",
+      "revId": "520fccb9d4df30a2575cb7567de183ab0b721555",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

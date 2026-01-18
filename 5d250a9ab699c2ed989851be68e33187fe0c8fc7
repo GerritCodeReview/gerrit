@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "722eb93a_41cba00c",
+        "filename": "MODULE.bazel",
+        "patchSetId": 27
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-01-18T07:39:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8687a8ec_e61a3902",
+      "range": {
+        "startLine": 49,
+        "startChar": 0,
+        "endLine": 64,
+        "endChar": 1
+      },
+      "revId": "5d250a9ab699c2ed989851be68e33187fe0c8fc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5453dc2f_74bc63f5",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "55706476_eea4ffc4",
+        "filename": "MODULE.bazel",
+        "patchSetId": 27
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-01-18T07:39:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5453dc2f_74bc63f5",
+      "range": {
+        "startLine": 66,
+        "startChar": 0,
+        "endLine": 77,
+        "endChar": 0
+      },
+      "revId": "5d250a9ab699c2ed989851be68e33187fe0c8fc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "59fdf8bb_b83bb887",
@@ -60,6 +108,24 @@
       "writtenOn": "2026-01-10T11:57:28Z",
       "side": 1,
       "message": "Since we’re planning to use Bazel’s version of this file, should we just include that here, or is there a reason to split it into a separate change?",
+      "revId": "5d250a9ab699c2ed989851be68e33187fe0c8fc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2d291bcd_61f8a61e",
+        "filename": "tools/bzl/plugin.bzl",
+        "patchSetId": 27
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-01-18T07:39:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "59fdf8bb_b83bb887",
       "revId": "5d250a9ab699c2ed989851be68e33187fe0c8fc7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -101,6 +167,30 @@
       "side": 1,
       "message": "Ah, I think I see what’s going on now (this is a pretty large change series 😊).\n\nThere’s a follow-up change 535928 (“Specify Gerrit version in MODULE.bazel”), which preserves the same pattern between the old and new locations. That’s why the existing usage in `version.py` still works - in combination with that change.\n\nGiven that, would it make sense to squash these changes so we end up with a single, consistent code state?",
       "parentUuid": "efc5c311_b6c6103e",
+      "range": {
+        "startLine": 48,
+        "startChar": 25,
+        "endLine": 48,
+        "endChar": 76
+      },
+      "revId": "5d250a9ab699c2ed989851be68e33187fe0c8fc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2d7e3dc9_e64d5178",
+        "filename": "tools/version.py",
+        "patchSetId": 27
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-01-18T07:39:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "98587d32_63571112",
       "range": {
         "startLine": 48,
         "startChar": 25,

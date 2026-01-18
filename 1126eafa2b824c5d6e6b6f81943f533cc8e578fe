@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3949776e_e270a839",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 31
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-01-18T07:39:18Z",
+      "side": 1,
+      "message": "On second thought, we already treat certain Git-related modules (such as `jgit` and `java-prettify`) differently from core plugins.\n\nGiven that, it might make sense to remove the hard-coded distinction between core and custom plugins (see also `tools/bzl/plugins.bzl`).\n\nWith this change, we are moving custom plugins toward being Bazel modules, while core plugins themselves are still not Bazel modules, which feels inconsistent.\n\nInstead, have all core plugins converted to Bazel modules and included directly via `MODULE.bazel`, rather than being listed separately.\n\nAs a follow-up step, we could move the declaration of the `@gerrit_plugin_deps` repository into Gerrit core and use it to define external dependencies that are only needed by core plugins (for example `commons-io`, which is used by `delete-project` but not by Gerrit core itself). At the moment, `commons-io` is merged into `@gerrit_nongoogle_deps`, which feels like a workaround rather than a clear separation of concerns.\n\nCustom plugins could then simply add their own external dependencies on top of the existing `@gerrit_plugin_deps` repository.\n\nThis would simplify the overall structure and make dependency management more consistent.\n\nIt could, of course, be done as a follow-up change.",
+      "range": {
+        "startLine": 10,
+        "startChar": 29,
+        "endLine": 11,
+        "endChar": 38
+      },
+      "revId": "1126eafa2b824c5d6e6b6f81943f533cc8e578fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "645db50c_0cddbe51",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 31
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-01-18T07:39:18Z",
+      "side": 1,
+      "message": "Since the `oauth` plugin has external dependencies, should we also add the following line?\n\n```python\nuse_repo(maven, \"gerrit_plugin_deps\")\n```",
+      "revId": "1126eafa2b824c5d6e6b6f81943f533cc8e578fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2a9c60ec_205f7e7f",
+        "filename": "Documentation/dev-build-plugins.txt",
+        "patchSetId": 31
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-01-18T07:39:18Z",
+      "side": 1,
+      "message": "Just checking: should this be `gerrit_plugin_deps` rather than `gerrit-plugin-oauth`?",
+      "range": {
+        "startLine": 110,
+        "startChar": 1,
+        "endLine": 110,
+        "endChar": 20
+      },
+      "revId": "1126eafa2b824c5d6e6b6f81943f533cc8e578fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5c0ff2dd_38e9b4f7",
+        "filename": "Documentation/dev-build-plugins.txt",
+        "patchSetId": 31
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-01-18T07:39:18Z",
+      "side": 1,
+      "message": "Would it make sense to document how to re-pin external dependencies when building custom plugins in in-tree Gerrit build mode?\n\nFor example, in `gerrit-javamelody-plugin`, the `javamelody` dependency needs to be updated, but the plugin only supports in-tree Gerrit builds.",
+      "revId": "1126eafa2b824c5d6e6b6f81943f533cc8e578fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

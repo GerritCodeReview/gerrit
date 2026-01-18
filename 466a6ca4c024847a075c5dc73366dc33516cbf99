@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6d329ea3_2d4f27c5",
+        "filename": "MODULE.bazel",
+        "patchSetId": 46
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-01-18T16:36:18Z",
+      "side": 1,
+      "message": "Can we avoid this name, may be: `gerrit_deps_install.json`?",
+      "range": {
+        "startLine": 60,
+        "startChar": 20,
+        "endLine": 60,
+        "endChar": 33
+      },
+      "revId": "466a6ca4c024847a075c5dc73366dc33516cbf99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e240900c_e451f047",
+        "filename": "MODULE.bazel",
+        "patchSetId": 46
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-01-18T16:36:18Z",
+      "side": 1,
+      "message": "Add here: `fail_if_repin_required \u003d True` like we did in `gerrit-oauth-provider` plugin?",
+      "revId": "466a6ca4c024847a075c5dc73366dc33516cbf99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fc3a37a6_57caf6e0",
+        "filename": "MODULE.bazel",
+        "patchSetId": 46
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-01-18T16:36:18Z",
+      "side": 1,
+      "message": "Same here.",
+      "range": {
+        "startLine": 81,
+        "startChar": 20,
+        "endLine": 81,
+        "endChar": 43
+      },
+      "revId": "466a6ca4c024847a075c5dc73366dc33516cbf99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f99cdcce_fd0f142b",
+        "filename": "MODULE.bazel",
+        "patchSetId": 46
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-01-18T16:36:18Z",
+      "side": 1,
+      "message": "Maybe splitting the external dependencies into two separate `maven.install` repositories (`gerrit_deps` and `gerrit_nongoogle_deps`) is causing more issues than it solves.\n\nWhile looking into the Eclipse `.classpath` generation problem, I noticed that we now end up with multiple versions of the same libraries being pulled in via transitive dependency resolution across the two repositories. With the previous `maven_jar`-based setup, we didn’t seem to run into this kind of ambiguity as easily, since transitive dependencies were handled much more explicitly.\n\nYou can see the issue in the final artifact (example: `headless.war`). This one-liner lists duplicate artifacts (normalized by artifactId):\n\n```bash\n$\u003e bazel build :headless \u0026\u0026 \\\nunzip -Z1 bazel-bin/headless.war \\\n  | sed -n \u0027s|^WEB-INF/lib/||p\u0027 \\\n  | grep \u0027\\.jar$\u0027 \\\n  | sed -E \u0027s/-[0-9][0-9A-Za-z\\.\\-]*\\.jar$/.jar/\u0027 \\\n  | sort | uniq -d\n```\n\nOn my side this reports duplicates such as:\n\n```bash\nasm-analysis.jar\nasm-commons.jar\n[...]\ngson.jar\nguava.jar\nhttpcore.jar\nprotobuf-java.jar\nslf4j-api.jar\n[...]\n```\n\nIn some cases we even package three versions of the same library, e.g. `guava`:\n\n```\nWEB-INF/lib/guava-33.4.8-jre.jar\nWEB-INF/lib/guava-30.1-jre.jar\nWEB-INF/lib/guava-2.9.2.jar\n```\n\nOne mitigation would be to enforce a `single source of truth` by excluding overlapping artifacts from one repository, e.g.:\n\n```python\nmaven.install(\n    name \u003d \"gerrit_deps\",\n    artifacts \u003d [],\n    excluded_artifacts \u003d [\n        \"com.google.code.gson:gson\",\n        # ...\n    ],\n    # ...\n)\n```\n\nbut that quickly turns into a maintenance burden, because we\u0027d need to keep the exclude list aligned with transitive dependencies.\n\nGiven this, I think we should avoid merging this change until we have safety nets in place, like:\n\n* consolidate to a single resolved dependency universe, or\n* add a build-time bazel test that fails if multiple versions of the same library end up in the final artifact.\n\nThat would help ensure we don’t ship artifacts with duplicate JARs in different versions.\n\nIt’s worth noting that plugins can still introduce version skew via their own `gerrit_plugin_deps`, but that was already possible with the `maven_jar` setup and is a known trade-off. What’s new here is that we now see version ambiguity inside the core `release.war` itself, which feels significantly riskier.",
+      "range": {
+        "startLine": 51,
+        "startChar": 0,
+        "endLine": 87,
+        "endChar": 1
+      },
+      "revId": "466a6ca4c024847a075c5dc73366dc33516cbf99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "31ce3186_b0be88ae",
+        "filename": "tools/eclipse/BUILD",
+        "patchSetId": 46
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-01-18T16:36:18Z",
+      "side": 1,
+      "message": "While further verifying this migration with Gerrit core and custom plugins (such as `gerrit-oauth-provider`), I noticed that Eclipse `.classpath` generation currently breaks for two related reasons:\n\n* The binary JARs for external dependencies are now downloaded into a different output location than before, which means `tools/eclipse/project.py` no longer discovers them correctly and the generated `.classpath` ends up incomplete (or empty).\n* Although `fetch_sources \u003d True` is set, the source JARs are not materialized on disk yet. With `rules_jvm_external`, sources are fetched lazily and only downloaded when something explicitly depends on them. This differs from the previous `maven_jar`-based setup, where source JARs were fetched eagerly and always available.\n\nI have a working prototype that addresses these issues and will follow up with a separate change.",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 1
+      },
+      "revId": "466a6ca4c024847a075c5dc73366dc33516cbf99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

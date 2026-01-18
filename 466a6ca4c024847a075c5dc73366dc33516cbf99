@@ -89,6 +89,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "be65ad6c_ce96ac8c",
+        "filename": "MODULE.bazel",
+        "patchSetId": 46
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-01-18T22:55:39Z",
+      "side": 1,
+      "message": "An example of the ambiguity report can be found here: [1].\n\nThe root cause is that we assemble a single WAR from three independent Maven universes (`gerrit_deps`, `gerrit_nongoogle_deps`, `jgit_deps`). Each universe resolves transitive dependencies independently, so we can end up with multiple GAVs for the same GA on the combined classpath.\n\nMerging `gerrit_deps` and `gerrit_nongoogle_deps` into a single install would reduce the split, but it would not fully eliminate duplicates while `jgit_deps` remains separate and can still introduce different versions for the same GA (as already visible for `commons-*`, `bc`, `slf4j`, etc.).\n\nThe proper fix is to enforce one GAV per GA across all universes: either by converging on a single `maven_install`, or by keeping multiple installs but adding explicit pins/overrides so all installs resolve to the same versions.\n\nAlternatively, as a mitigation, we could tolerate version skew introduced by `jgit_deps` but prevent it from contributing third-party libraries to the final WAR. In this model, third-party dependencies would be taken exclusively from `gerrit_deps` (and `gerrit_nongoogle_deps` if merged), while artifacts originating from `jgit_deps` would be restricted to JGit’s own outputs, with any transitive third-party dependencies from that universe ignored.\n\nThis would effectively establish a precedence rule where Gerrit’s dependency universe always “wins” for third-party libraries, avoiding duplicate GAVs at packaging time without requiring full convergence across all installs.\n\nThis approach is less strict than full dependency convergence, but may be an acceptable compromise if aligning all versions across universes is not immediately feasible. It would correspond more or less to the behavior of the pre-`rules_jvm_external`, `maven_jar`-based setup, where Gerrit effectively controlled which third-party dependencies were packaged.\n\n[1]: https://paste.opendev.org/show/bKrxu96fDhT8ZmacKpdh/",
+      "parentUuid": "f99cdcce_fd0f142b",
+      "range": {
+        "startLine": 51,
+        "startChar": 0,
+        "endLine": 87,
+        "endChar": 1
+      },
+      "revId": "466a6ca4c024847a075c5dc73366dc33516cbf99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "31ce3186_b0be88ae",
         "filename": "tools/eclipse/BUILD",
         "patchSetId": 46

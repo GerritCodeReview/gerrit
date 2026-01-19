@@ -163,14 +163,6 @@ export class GrAppElement extends LitElement {
   constructor() {
     super();
 
-    document.addEventListener('page-error', e => {
-      this.handlePageError(e);
-    });
-    document.addEventListener('title-change', e => {
-      this.handleTitleChange(e);
-    });
-    document.addEventListener('location-change', () => this.requestUpdate());
-    document.addEventListener('gr-rpc-log', e => this.handleRpcLog(e));
     this.shortcuts.addAbstract(Shortcut.OPEN_SHORTCUT_HELP_DIALOG, () =>
       this.showKeyboardShortcuts()
     );
@@ -266,9 +258,22 @@ export class GrAppElement extends LitElement {
       this.logWelcome();
     });
 
-    // Note: this is evaluated here to ensure that it only happens after the
+    // Note: this is evaluated here to ensure that is only happens after the
     // router has been initialized. @see Issue 7837
     this.settingsUrl = createSettingsUrl();
+
+    document.addEventListener('page-error', this.handlePageError);
+    document.addEventListener('title-change', this.handleTitleChange);
+    document.addEventListener('location-change', this.handleLocationChange);
+    document.addEventListener('gr-rpc-log', this.handleRpcLog);
+  }
+
+  override disconnectedCallback() {
+    super.disconnectedCallback();
+    document.removeEventListener('page-error', this.handlePageError);
+    document.removeEventListener('title-change', this.handleTitleChange);
+    document.removeEventListener('location-change', this.handleLocationChange);
+    document.removeEventListener('gr-rpc-log', this.handleRpcLog);
   }
 
   static override get styles() {
@@ -606,7 +611,11 @@ export class GrAppElement extends LitElement {
     }
   }
 
-  private handlePageError(e: CustomEvent<PageErrorEventDetail>) {
+  private readonly handleLocationChange = () => {
+    this.requestUpdate();
+  };
+
+  private readonly handlePageError = (e: CustomEvent<PageErrorEventDetail>) => {
     this.view = undefined;
     this.errorView?.classList.add('show');
     const response = e.detail.response;
@@ -654,13 +663,17 @@ export class GrAppElement extends LitElement {
     }
   }
 
-  private handleTitleChange(e: CustomEvent<TitleChangeEventDetail>) {
+
+
+  private readonly handleTitleChange = (
+    e: CustomEvent<TitleChangeEventDetail>
+  ) => {
     if (e.detail.title) {
       document.title = e.detail.title + ' · Gerrit Code Review';
     } else {
       document.title = '';
     }
-  }
+  };
 
   private async showKeyboardShortcuts() {
     this.loadKeyboardShortcutsDialog = true;
@@ -707,9 +720,10 @@ export class GrAppElement extends LitElement {
    * Note: the REST API interface cannot use gr-reporting directly because
    * that would create a cyclic dependency.
    */
-  private handleRpcLog(e: RpcLogEvent) {
+
+  private readonly handleRpcLog = (e: RpcLogEvent) => {
     this.reporting.reportRpcTiming(e.detail.anonymizedUrl, e.detail.elapsed);
-  }
+  };
 }
 
 declare global {

@@ -2925,7 +2925,7 @@ suite('gr-change-actions tests', () => {
       stubRestApi('getChangeRevisionActions').returns(
         Promise.resolve(changeRevisionActions)
       );
-      stubRestApi('send').returns(Promise.reject(new Error('error')));
+      stubRestApi('send').returns(Promise.resolve(new Response()));
 
       sinon
         .stub(testResolver(pluginLoaderToken), 'awaitPluginsLoaded')

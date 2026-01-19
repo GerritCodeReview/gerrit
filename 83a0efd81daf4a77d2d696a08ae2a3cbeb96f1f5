@@ -70,6 +70,30 @@
       },
       "revId": "83a0efd81daf4a77d2d696a08ae2a3cbeb96f1f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e6caae2f_814d0308",
+        "filename": "polygerrit-ui/app/elements/change/gr-download-dialog/gr-download-dialog.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-01-19T15:52:49Z",
+      "side": 1,
+      "message": "Good idea, I used errF",
+      "parentUuid": "92449abf_7433c218",
+      "range": {
+        "startLine": 287,
+        "startChar": 0,
+        "endLine": 294,
+        "endChar": 5
+      },
+      "revId": "83a0efd81daf4a77d2d696a08ae2a3cbeb96f1f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

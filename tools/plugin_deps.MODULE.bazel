@@ -9,6 +9,13 @@
 
 maven = use_extension("@rules_jvm_external//:extensions.bzl", "maven")
 
+bazel_dep(name = "gerrit-plugin-gitiles")
+local_path_override(
+    module_name = "gerrit-plugin-gitiles",
+    path = "plugins/gitiles",
+)
+use_repo(maven, "gitiles_plugin_deps")
+
 bazel_dep(name = "gerrit-javamelody")
 local_path_override(
     module_name = "gerrit-javamelody",

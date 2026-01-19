@@ -7,9 +7,3 @@ local_repository = use_repo_rule(
     "@bazel_tools//tools/build_defs/repo:local.bzl",
     "local_repository",
 )
-
-# Java-Prettify external repository consumed from git submodule.
-local_repository(
-    name = "java-prettify",
-    path = "modules/java-prettify",
-)

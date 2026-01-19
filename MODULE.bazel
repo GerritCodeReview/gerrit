@@ -60,9 +60,10 @@ gerrit_api_version(
 )
 
 bazel_dep(name = "java-prettify")
-local_path_override(
-    module_name = "java-prettify",
-    path = "./modules/java-prettify",
+git_override(
+  module_name = "java-prettify",
+  remote = "https://gerrit.googlesource.com/java-prettify",
+  commit = "d50c5563fb7452966ee29ddeeec91fbc8a68d41f",
 )
 
 # Repository rules for in-tree sources.

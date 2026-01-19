@@ -24,7 +24,6 @@
     "com.google.flogger:flogger-system-backend": 1522076251,
     "com.google.flogger:google-extensions": -355130314,
     "com.google.gitiles:blame-cache": -1424275928,
-    "com.google.gitiles:gitiles-servlet": 1993647825,
     "com.google.guava:failureaccess": 1582410452,
     "com.google.guava:guava": -1316430090,
     "com.google.guava:guava-testlib": 236303964,
@@ -164,10 +163,6 @@
     "org.bouncycastle:bcpkix-jdk18on": 1954093523,
     "org.bouncycastle:bcprov-jdk18on": 402064210,
     "org.bouncycastle:bcutil-jdk18on": 1337943403,
-    "org.commonmark:commonmark": -2069536775,
-    "org.commonmark:commonmark-ext-autolink": -757855339,
-    "org.commonmark:commonmark-ext-gfm-strikethrough": 1446281012,
-    "org.commonmark:commonmark-ext-gfm-tables": -1317497584,
     "org.eclipse.jetty.ee8:jetty-ee8-nested": -685134473,
     "org.eclipse.jetty.ee8:jetty-ee8-security": 2052418638,
     "org.eclipse.jetty.ee8:jetty-ee8-servlet": -1368555033,
@@ -253,8 +248,6 @@
     "com.google.flogger:google-extensions:jar:sources": -362108063,
     "com.google.gitiles:blame-cache": -1735353948,
     "com.google.gitiles:blame-cache:jar:sources": -370259038,
-    "com.google.gitiles:gitiles-servlet": -1411302355,
-    "com.google.gitiles:gitiles-servlet:jar:sources": 192620509,
     "com.google.guava:failureaccess": -1659729860,
     "com.google.guava:failureaccess:jar:sources": 1566854204,
     "com.google.guava:guava": 1927559368,
@@ -422,14 +415,6 @@
     "org.checkerframework:checker-compat-qual:jar:sources": -673395382,
     "org.checkerframework:checker-qual": -1657280421,
     "org.checkerframework:checker-qual:jar:sources": 324669507,
-    "org.commonmark:commonmark": -1623452171,
-    "org.commonmark:commonmark-ext-autolink": 1974528869,
-    "org.commonmark:commonmark-ext-autolink:jar:sources": -679854286,
-    "org.commonmark:commonmark-ext-gfm-strikethrough": -113840165,
-    "org.commonmark:commonmark-ext-gfm-strikethrough:jar:sources": 59632380,
-    "org.commonmark:commonmark-ext-gfm-tables": 1408574166,
-    "org.commonmark:commonmark-ext-gfm-tables:jar:sources": -396710285,
-    "org.commonmark:commonmark:jar:sources": -1212467341,
     "org.eclipse.jetty.ee8:jetty-ee8-nested": 996647190,
     "org.eclipse.jetty.ee8:jetty-ee8-nested:jar:sources": 1999421701,
     "org.eclipse.jetty.ee8:jetty-ee8-security": -1856314236,
@@ -658,13 +643,6 @@
       "shasums": {
         "jar": "41dc6fe7d9967d3726cca4ff5e92247cd8c8da5ddc61b730077b8778c4829fcf",
         "sources": "9e4d550f35331762434ec1bbd448d335971f00c8ee58c91500bc8fecad156a46"
-      },
-      "version": "1.6.0"
-    },
-    "com.google.gitiles:gitiles-servlet": {
-      "shasums": {
-        "jar": "08562ea7d57d881042e0598722e011e1c40bb69317065f2f5a67277f9c946be3",
-        "sources": "1a6556cde47342a29b93c0ebca969c728ec60b97cbee40bdf4a795ef8a0eb2b2"
       },
       "version": "1.6.0"
     },
@@ -1260,34 +1238,6 @@
       },
       "version": "3.10.0"
     },
-    "org.commonmark:commonmark": {
-      "shasums": {
-        "jar": "81084a7035046fe306f0dbf16ef57a68d08ee5c97004ea867e62b5db46e98afb",
-        "sources": "a25b642c859cfed4b8a17c58390b49c6ba1cd732866f5220c0dc1dfe51962cdd"
-      },
-      "version": "0.21.0"
-    },
-    "org.commonmark:commonmark-ext-autolink": {
-      "shasums": {
-        "jar": "3cd57d5d1dbde724e6700c53a590534bb24f3e2695ff3505eba32dc4c7781ba9",
-        "sources": "08437ffd06cf5e36f6077b924802f3b0a5bc30804ce97cac858f67f9bd35f603"
-      },
-      "version": "0.21.0"
-    },
-    "org.commonmark:commonmark-ext-gfm-strikethrough": {
-      "shasums": {
-        "jar": "b5ed6fa18214e588e502385d95e878a8150f122c7a874a75a389682837b906f8",
-        "sources": "45784935ee62d09c0422f0107caa4b4ee403716a8b8e6dda2e48b3af53d51fa7"
-      },
-      "version": "0.21.0"
-    },
-    "org.commonmark:commonmark-ext-gfm-tables": {
-      "shasums": {
-        "jar": "fc05fe991f2254ab0c8f6ccb9f0b6ec1c2b6df350389ed3e411ac6f52e7a75e5",
-        "sources": "47fdcd3b69cd7d73424e2a92c4f5647e070bd035e2420ebc76c2316ffb32cc95"
-      },
-      "version": "0.21.0"
-    },
     "org.eclipse.jetty.ee8:jetty-ee8-nested": {
       "shasums": {
         "jar": "0bcc1d92d6dc482bac55979b6c9d7756f8b061295fc41cf2713354f9bd464c38",
@@ -1796,16 +1746,6 @@
     "org.bouncycastle:bcutil-jdk18on": [
       "org.bouncycastle:bcprov-jdk18on"
     ],
-    "org.commonmark:commonmark-ext-autolink": [
-      "org.commonmark:commonmark",
-      "org.nibor.autolink:autolink"
-    ],
-    "org.commonmark:commonmark-ext-gfm-strikethrough": [
-      "org.commonmark:commonmark"
-    ],
-    "org.commonmark:commonmark-ext-gfm-tables": [
-      "org.commonmark:commonmark"
-    ],
     "org.eclipse.jetty.ee8:jetty-ee8-nested": [
       "org.eclipse.jetty.toolchain:jetty-servlet-api",
       "org.eclipse.jetty:jetty-http",
@@ -2058,12 +1998,6 @@
     ],
     "com.google.gitiles:blame-cache": [
       "com.google.gitiles.blame.cache"
-    ],
-    "com.google.gitiles:gitiles-servlet": [
-      "com.google.gitiles",
-      "com.google.gitiles.blame",
-      "com.google.gitiles.doc",
-      "com.google.gitiles.doc.html"
     ],
     "com.google.guava:failureaccess": [
       "com.google.common.util.concurrent.internal"
@@ -3706,33 +3640,6 @@
       "org.checkerframework.dataflow.qual",
       "org.checkerframework.framework.qual"
     ],
-    "org.commonmark:commonmark": [
-      "org.commonmark",
-      "org.commonmark.internal",
-      "org.commonmark.internal.inline",
-      "org.commonmark.internal.renderer",
-      "org.commonmark.internal.renderer.text",
-      "org.commonmark.internal.util",
-      "org.commonmark.node",
-      "org.commonmark.parser",
-      "org.commonmark.parser.block",
-      "org.commonmark.parser.delimiter",
-      "org.commonmark.renderer",
-      "org.commonmark.renderer.html",
-      "org.commonmark.renderer.text"
-    ],
-    "org.commonmark:commonmark-ext-autolink": [
-      "org.commonmark.ext.autolink",
-      "org.commonmark.ext.autolink.internal"
-    ],
-    "org.commonmark:commonmark-ext-gfm-strikethrough": [
-      "org.commonmark.ext.gfm.strikethrough",
-      "org.commonmark.ext.gfm.strikethrough.internal"
-    ],
-    "org.commonmark:commonmark-ext-gfm-tables": [
-      "org.commonmark.ext.gfm.tables",
-      "org.commonmark.ext.gfm.tables.internal"
-    ],
     "org.eclipse.jetty.ee8:jetty-ee8-nested": [
       "org.eclipse.jetty.ee8.nested",
       "org.eclipse.jetty.ee8.nested.jmx"
@@ -4318,8 +4225,6 @@
       "com.google.flogger:google-extensions:jar:sources",
       "com.google.gitiles:blame-cache",
       "com.google.gitiles:blame-cache:jar:sources",
-      "com.google.gitiles:gitiles-servlet",
-      "com.google.gitiles:gitiles-servlet:jar:sources",
       "com.google.guava:failureaccess",
       "com.google.guava:failureaccess:jar:sources",
       "com.google.guava:guava",
@@ -4487,14 +4392,6 @@
       "org.checkerframework:checker-compat-qual:jar:sources",
       "org.checkerframework:checker-qual",
       "org.checkerframework:checker-qual:jar:sources",
-      "org.commonmark:commonmark",
-      "org.commonmark:commonmark-ext-autolink",
-      "org.commonmark:commonmark-ext-autolink:jar:sources",
-      "org.commonmark:commonmark-ext-gfm-strikethrough",
-      "org.commonmark:commonmark-ext-gfm-strikethrough:jar:sources",
-      "org.commonmark:commonmark-ext-gfm-tables",
-      "org.commonmark:commonmark-ext-gfm-tables:jar:sources",
-      "org.commonmark:commonmark:jar:sources",
       "org.eclipse.jetty.ee8:jetty-ee8-nested",
       "org.eclipse.jetty.ee8:jetty-ee8-nested:jar:sources",
       "org.eclipse.jetty.ee8:jetty-ee8-security",
@@ -4616,8 +4513,6 @@
       "com.google.flogger:google-extensions:jar:sources",
       "com.google.gitiles:blame-cache",
       "com.google.gitiles:blame-cache:jar:sources",
-      "com.google.gitiles:gitiles-servlet",
-      "com.google.gitiles:gitiles-servlet:jar:sources",
       "com.google.guava:failureaccess",
       "com.google.guava:failureaccess:jar:sources",
       "com.google.guava:guava",
@@ -4785,14 +4680,6 @@
       "org.checkerframework:checker-compat-qual:jar:sources",
       "org.checkerframework:checker-qual",
       "org.checkerframework:checker-qual:jar:sources",
-      "org.commonmark:commonmark",
-      "org.commonmark:commonmark-ext-autolink",
-      "org.commonmark:commonmark-ext-autolink:jar:sources",
-      "org.commonmark:commonmark-ext-gfm-strikethrough",
-      "org.commonmark:commonmark-ext-gfm-strikethrough:jar:sources",
-      "org.commonmark:commonmark-ext-gfm-tables",
-      "org.commonmark:commonmark-ext-gfm-tables:jar:sources",
-      "org.commonmark:commonmark:jar:sources",
       "org.eclipse.jetty.ee8:jetty-ee8-nested",
       "org.eclipse.jetty.ee8:jetty-ee8-nested:jar:sources",
       "org.eclipse.jetty.ee8:jetty-ee8-security",

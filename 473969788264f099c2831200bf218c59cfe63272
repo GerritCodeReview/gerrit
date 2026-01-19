@@ -22,6 +22,30 @@
       },
       "revId": "473969788264f099c2831200bf218c59cfe63272",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d24b681e_db2e1504",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autogrow-textarea/gr-autogrow-textarea.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-01-19T17:36:46Z",
+      "side": 1,
+      "message": "Good idea to calculate it only when the variables changed.",
+      "parentUuid": "9d94ca55_3f43b116",
+      "range": {
+        "startLine": 161,
+        "startChar": 4,
+        "endLine": 161,
+        "endChar": 61
+      },
+      "revId": "473969788264f099c2831200bf218c59cfe63272",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -293,7 +293,9 @@ export class GrRestApiHelper {
     });
 
     // Log the call after it completes.
-    resPromise.then(res => this.logCall(req, startTime, res.status));
+    resPromise
+      .then(res => this.logCall(req, startTime, res.status))
+      .catch(() => {});
     // Return the response directly (without the log).
     return resPromise;
   }

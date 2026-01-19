@@ -82,7 +82,7 @@ import {
 } from '../../../models/views/change';
 import {userModelToken} from '../../../models/user/user-model';
 import {highlightServiceToken} from '../../../services/highlight/highlight-service';
-import {noAwait, waitUntil} from '../../../utils/async-util';
+import {DelayedTask} from '../../../utils/async-util';
 import {
   ReportSource,
   suggestionsServiceToken,
@@ -474,6 +474,12 @@ export class GrCommentThread extends LitElement {
     ];
   }
 
+  override disconnectedCallback() {
+    this.editDraftTask?.cancel();
+    this.addQuoteTask?.cancel();
+    super.disconnectedCallback();
+  }
+
   override connectedCallback(): void {
     super.connectedCallback();
     // Add a default click-handler so that clicks don't bubble from a comment to gr-diff-rows.
@@ -740,22 +746,32 @@ export class GrCommentThread extends LitElement {
     }
   }
 
-  private async editDraft() {
-    await waitUntil(
-      () => !!this.draftElement,
-      'draft element not found',
-      5 * 1000
-    );
-    this.draftElement!.edit();
+  private editDraftTask?: DelayedTask;
+
+  private addQuoteTask?: DelayedTask;
+
+  private editDraft() {
+    if (this.draftElement) {
+      this.draftElement.edit();
+      return;
+    }
+    // Waiting for the draft element to appear.
+    this.editDraftTask?.cancel();
+    this.editDraftTask = new DelayedTask(() => {
+      this.editDraft();
+    }, 200);
   }
 
-  private async addQuote(quote: string) {
-    await waitUntil(
-      () => !!this.draftElement,
-      'draft element not found',
-      5 * 1000
-    );
-    await this.draftElement!.addQuote(quote);
+  private addQuote(quote: string) {
+    if (this.draftElement) {
+      this.draftElement.addQuote(quote);
+      return;
+    }
+    // Waiting for the draft element to appear.
+    this.addQuoteTask?.cancel();
+    this.addQuoteTask = new DelayedTask(() => {
+      this.addQuote(quote);
+    }, 200);
   }
 
   private isDraft() {
@@ -912,9 +928,9 @@ export class GrCommentThread extends LitElement {
     }
     if (userWantsToEdit) {
       this.getCommentsModel().addNewDraft(newReply);
-      noAwait(this.editDraft());
+      this.editDraft();
       if (quote) {
-        noAwait(this.addQuote(quote));
+        this.addQuote(quote);
       }
     } else {
       try {

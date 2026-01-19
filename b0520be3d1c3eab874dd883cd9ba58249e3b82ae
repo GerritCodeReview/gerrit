@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0db3994a_2f397ffe",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 709,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-01-19T14:38:17Z",
+      "side": 1,
+      "message": "I double checked this and we don\u0027t need it.",
+      "parentUuid": "edf169c9_7cd3ef5c",
+      "range": {
+        "startLine": 709,
+        "startChar": 6,
+        "endLine": 709,
+        "endChar": 63
+      },
+      "revId": "b0520be3d1c3eab874dd883cd9ba58249e3b82ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "99a581bd_bea740f0",
@@ -37,6 +61,30 @@
       "writtenOn": "2026-01-19T12:00:39Z",
       "side": 1,
       "message": "why are we adding this filter that wasn\u0027t present before?\n\n```\n- BulkActionsModel: Filter out undefined change objects in the `sync`\n  method.\n```\n\nThe type mentions it cannot be undefined so can you fix the test instead of changing the code here?\n\nOtherwise adding an undefined check when the type does not allow it hurts readability",
+      "range": {
+        "startLine": 245,
+        "startChar": 4,
+        "endLine": 245,
+        "endChar": 67
+      },
+      "revId": "b0520be3d1c3eab874dd883cd9ba58249e3b82ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3173e8ec_0114c819",
+        "filename": "polygerrit-ui/app/models/bulk-actions/bulk-actions-model.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-01-19T14:38:17Z",
+      "side": 1,
+      "message": "I revert these changes. I agree that they don\u0027t need to be in code.",
+      "parentUuid": "99a581bd_bea740f0",
       "range": {
         "startLine": 245,
         "startChar": 4,

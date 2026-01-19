@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f2169d22_579c6970",
+        "filename": "polygerrit-ui/app/elements/change/gr-download-dialog/gr-download-dialog.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-01-19T14:41:30Z",
+      "side": 1,
+      "message": "if we are catching this then why do we need to throw an error twice?",
+      "range": {
+        "startLine": 287,
+        "startChar": 0,
+        "endLine": 294,
+        "endChar": 5
+      },
+      "revId": "83a0efd81daf4a77d2d696a08ae2a3cbeb96f1f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

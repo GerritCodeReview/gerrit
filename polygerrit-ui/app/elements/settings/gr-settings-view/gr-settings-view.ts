@@ -427,9 +427,11 @@ export class GrSettingsView extends LitElement {
               >
                 <div slot="header">Account State:</div>
                 <div slot="main">
-                  <textarea class="account-state-output" readonly>
-${this.accountState}</textarea
-                  >
+                  <textarea
+                    class="account-state-output"
+                    readonly
+                    .value=${this.accountState ?? ''}
+                  ></textarea>
                   <p class="account-state-note">
                     Note: The account state may contain sensitive data (e.g.
                     deadnames). Share it with others only on a need to know

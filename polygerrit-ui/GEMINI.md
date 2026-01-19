@@ -23,6 +23,7 @@ The project uses `eslint` for linting. You can run the linter using the followin
 - `npm run eslintfix`: Fix lint errors in all files
 
 **Note**: Imports should NOT have spaces around braces (e.g., `import {css} from 'lit';`, not `import { css } from 'lit';`).
+**Note**: Do not use `_` prefix for private properties or variables.
 
 ## Key Commands
 

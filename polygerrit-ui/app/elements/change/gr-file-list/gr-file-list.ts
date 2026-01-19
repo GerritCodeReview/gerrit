@@ -282,6 +282,9 @@ export class GrFileList extends LitElement {
   @state()
   cleanlyMergedOldPaths: string[] = [];
 
+  // Private but used in tests.
+  patchChange?: PatchChange;
+
   private cancelForEachDiff?: () => void;
 
   @state()
@@ -927,6 +930,7 @@ export class GrFileList extends LitElement {
       this.updateDiffPreferences();
     }
     if (changedProperties.has('files')) {
+      this.patchChange = undefined;
       this.filesChanged();
       this.numFilesShown = Math.min(this.files.length, DEFAULT_NUM_FILES_SHOWN);
       this.updateSizeBarLayout();
@@ -1892,11 +1896,12 @@ export class GrFileList extends LitElement {
 
   // Private but used in tests.
   calculatePatchChange(): PatchChange {
+    if (this.patchChange) return this.patchChange;
     const magicFilesExcluded = this.files.filter(
       file => !isMagicPath(file.__path)
     );
 
-    return magicFilesExcluded.reduce((acc, obj) => {
+    this.patchChange = magicFilesExcluded.reduce((acc, obj) => {
       const inserted = obj.lines_inserted ? obj.lines_inserted : 0;
       const deleted = obj.lines_deleted ? obj.lines_deleted : 0;
       const total_size = obj.size && obj.binary ? obj.size : 0;
@@ -1913,6 +1918,7 @@ export class GrFileList extends LitElement {
         total_size: acc.total_size + total_size,
       };
     }, createDefaultPatchChange());
+    return this.patchChange;
   }
 
   private toggleHideAllCommentsAndCodePointers() {

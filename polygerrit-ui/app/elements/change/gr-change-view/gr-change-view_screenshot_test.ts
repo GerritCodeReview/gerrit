@@ -294,7 +294,7 @@ suite('gr-change-view screenshot tests', () => {
 
     try {
       // Wait for all nested components to render
-      await new Promise(resolve => setTimeout(resolve, 500));
+      await new Promise(resolve => setTimeout(resolve, 300));
       await element.updateComplete;
       if (element.fileList) {
         await element.fileList.updateComplete;
@@ -326,7 +326,7 @@ suite('gr-change-view screenshot tests', () => {
 
     try {
       // Wait for all nested components to render
-      await new Promise(resolve => setTimeout(resolve, 500));
+      await new Promise(resolve => setTimeout(resolve, 300));
       await element.updateComplete;
       if (element.fileList) {
         await element.fileList.updateComplete;

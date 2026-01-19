@@ -3,6 +3,52 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1a20e400_4c34002a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-01-19T21:53:59Z",
+      "side": 1,
+      "message": "In Gerrit it\u0027s called change instead of CL. I think this should be \"this change\" chip",
+      "range": {
+        "startLine": 7,
+        "startChar": 5,
+        "endLine": 7,
+        "endChar": 12
+      },
+      "revId": "823ca673f5e2696920bc70f96c2d24019643b585",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "326ee002_1fcc51f6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-01-19T21:53:59Z",
+      "side": 1,
+      "message": "That\u0027s good point we don\u0027t have easy access to gerrit change icon. I can later figure out which icon to use",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 95
+      },
+      "revId": "823ca673f5e2696920bc70f96c2d24019643b585",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b57e47cb_71870957",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
@@ -14,6 +60,138 @@
       "writtenOn": "2026-01-17T22:52:34Z",
       "side": 1,
       "message": "I\u0027m not sure why they didn\u0027t show up here or how they are run, but I\u0027d expect changes in some of these scuba Golden\u0027s:\n\nhttps://source.corp.google.com/h/gerrit/gerrit/+/master:polygerrit-ui/screenshots/Chromium/baseline/",
+      "revId": "823ca673f5e2696920bc70f96c2d24019643b585",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce5b4455_84c17593",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-01-19T21:53:59Z",
+      "side": 1,
+      "message": "Good approach, thank you for looking into this",
+      "revId": "823ca673f5e2696920bc70f96c2d24019643b585",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f7e4e0aa_30a02c77",
+        "filename": "polygerrit-ui/app/api/ai-code-review.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-01-19T21:53:59Z",
+      "side": 1,
+      "message": "Can you please remove this link to google3. Feel free to add type_id to this interface at least for gerrit change.",
+      "range": {
+        "startLine": 262,
+        "startChar": 0,
+        "endLine": 262,
+        "endChar": 688
+      },
+      "revId": "823ca673f5e2696920bc70f96c2d24019643b585",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "379185ef_ced656ba",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_screenshot_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-01-19T21:53:59Z",
+      "side": 1,
+      "message": "Can you please revert this timeout.\n\nyou can run `yarn test:screenshot-update \"**/gr-change-view_screenshot_test.ts\"` for new screenshot where this CL is added.",
+      "range": {
+        "startLine": 52,
+        "startChar": 0,
+        "endLine": 53,
+        "endChar": 21
+      },
+      "revId": "823ca673f5e2696920bc70f96c2d24019643b585",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3773c806_a8e92a8c",
+        "filename": "polygerrit-ui/app/elements/chat-panel/prompt-box.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-01-19T21:53:59Z",
+      "side": 1,
+      "message": "Can you use GerritNav.getUrlForChange(this.change) here?",
+      "range": {
+        "startLine": 358,
+        "startChar": 13,
+        "endLine": 358,
+        "endChar": 89
+      },
+      "revId": "823ca673f5e2696920bc70f96c2d24019643b585",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9ee80640_dc0bdba5",
+        "filename": "polygerrit-ui/app/elements/chat-panel/prompt-box.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-01-19T21:53:59Z",
+      "side": 1,
+      "message": "Commit message",
+      "range": {
+        "startLine": 362,
+        "startChar": 42,
+        "endLine": 362,
+        "endChar": 56
+      },
+      "revId": "823ca673f5e2696920bc70f96c2d24019643b585",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c229d4f_7756220c",
+        "filename": "polygerrit-ui/app/elements/chat-panel/prompt-box.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-01-19T21:53:59Z",
+      "side": 1,
+      "message": "against base",
+      "range": {
+        "startLine": 362,
+        "startChar": 21,
+        "endLine": 362,
+        "endChar": 39
+      },
       "revId": "823ca673f5e2696920bc70f96c2d24019643b585",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

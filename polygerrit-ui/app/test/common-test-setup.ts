@@ -6,29 +6,29 @@
 // TODO(dmfilippov): remove bundled-polymer.js imports when the following issue
 // https://github.com/Polymer/polymer-resin/issues/9 is resolved.
 import '../scripts/bundled-polymer';
-import { getAppContext } from '../services/app-context';
+import {getAppContext} from '../services/app-context';
 import {
   createTestAppContext,
   createTestDependencies,
 } from './test-app-context-init';
-import { testOnlyResetGrRestApiSharedObjects } from '../services/gr-rest-api/gr-rest-api-impl';
+import {testOnlyResetGrRestApiSharedObjects} from '../services/gr-rest-api/gr-rest-api-impl';
 import {
   cleanupTestUtils,
   getCleanupsCount,
   removeThemeStyles,
 } from './test-utils';
-import { safeTypesBridge } from '../utils/safe-types-util';
+import {safeTypesBridge} from '../utils/safe-types-util';
 import {
   initGerrit,
   initGlobalVariables,
 } from '../elements/gr-app-global-var-init';
-import { assert, fixtureCleanup } from '@open-wc/testing';
+import {assert, fixtureCleanup} from '@open-wc/testing';
 import {
   _testOnly_defaultResinReportHandler,
   installPolymerResin,
 } from '../scripts/polymer-resin-install';
-import { _testOnly_allTasks } from '../utils/async-util';
-import { cleanUpStorage } from '../services/storage/gr-storage_mock';
+import {_testOnly_allTasks} from '../utils/async-util';
+import {cleanUpStorage} from '../services/storage/gr-storage_mock';
 import {
   DependencyError,
   DependencyRequestEvent,
@@ -37,9 +37,9 @@ import {
 } from '../models/dependency';
 import * as sinon from 'sinon';
 import '../styles/themes/app-theme';
-import { Creator } from '../services/app-context-init';
-import { pluginLoaderToken } from '../elements/shared/gr-js-api-interface/gr-plugin-loader';
-import { Finalizable } from '../types/types';
+import {Creator} from '../services/app-context-init';
+import {pluginLoaderToken} from '../elements/shared/gr-js-api-interface/gr-plugin-loader';
+import {Finalizable} from '../types/types';
 
 declare global {
   interface Window {
@@ -110,11 +110,10 @@ const unhandledRejectionHandler = (event: PromiseRejectionEvent) => {
     reason instanceof Error
       ? reason.message
       : typeof reason === 'string'
-        ? reason
-        : 'Unknown reason';
+      ? reason
+      : 'Unknown reason';
   unhandledRejections.push(msg);
 };
-
 
 let startingWindowKeys: Set<string>;
 
@@ -123,8 +122,6 @@ setup(function () {
   currentTestName = this.currentTest?.title || 'unknown test';
   unhandledRejections.length = 0;
   window.addEventListener('unhandledrejection', unhandledRejectionHandler);
-
-
 
   // If the following asserts fails - then window.stub is
   // overwritten by some other code.
@@ -201,7 +198,7 @@ function checkGlobalVariables() {
   if (newKeys.length > 0) {
     // Clean up the new globals so they don't pollute subsequent tests
     for (const key of newKeys) {
-      delete (window as any)[key];
+      delete (window as unknown as Record<string, unknown>)[key];
     }
     assert.fail(
       `Test "${currentTestName}" leaked global variables: ${newKeys.join(', ')}`

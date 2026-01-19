@@ -24,7 +24,7 @@ suite('gr-plugin-loader tests', () => {
   let bodyStub: sinon.SinonStub;
 
   setup(() => {
-    clock = sinon.useFakeTimers();
+    clock = sinon.useFakeTimers({shouldClearNativeTimers: true});
 
     stubRestApi('getAccount').returns(
       Promise.resolve({name: 'Judy Hopps', registered_on: '' as Timestamp})

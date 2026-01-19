@@ -56,7 +56,7 @@ suite('gr-auth', () => {
     let fakeFetch: sinon.SinonStub;
     let clock: SinonFakeTimers;
     setup(() => {
-      clock = sinon.useFakeTimers();
+      clock = sinon.useFakeTimers({shouldClearNativeTimers: true});
       fakeFetch = sinon.stub(window, 'fetch');
     });
 

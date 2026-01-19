@@ -49,7 +49,7 @@ suite('GrJsApiInterface tests', () => {
   };
 
   setup(() => {
-    clock = useFakeTimers();
+    clock = useFakeTimers({shouldClearNativeTimers: true});
 
     stubRestApi('getAccount').resolves({
       name: 'Judy Hopps',

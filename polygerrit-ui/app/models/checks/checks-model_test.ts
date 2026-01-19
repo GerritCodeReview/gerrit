@@ -99,7 +99,7 @@ suite('checks-model tests', () => {
   });
 
   test('register and fetch', async () => {
-    const clock = sinon.useFakeTimers();
+    const clock = sinon.useFakeTimers({shouldClearNativeTimers: true});
     let change: ParsedChangeInfo | undefined = undefined;
     testResolver(changeModelToken).change$.subscribe(c => (change = c));
     const provider = createProvider();
@@ -131,7 +131,7 @@ suite('checks-model tests', () => {
   });
 
   test('fetch throttle', async () => {
-    const clock = sinon.useFakeTimers();
+    const clock = sinon.useFakeTimers({shouldClearNativeTimers: true});
     let change: ParsedChangeInfo | undefined = undefined;
     testResolver(changeModelToken).change$.subscribe(c => (change = c));
     const provider = createProvider();
@@ -337,7 +337,7 @@ suite('checks-model tests', () => {
   });
 
   test('polls for changes', async () => {
-    const clock = sinon.useFakeTimers();
+    const clock = sinon.useFakeTimers({shouldClearNativeTimers: true});
     let change: ParsedChangeInfo | undefined = undefined;
     testResolver(changeModelToken).change$.subscribe(c => (change = c));
     const provider = createProvider();
@@ -364,7 +364,7 @@ suite('checks-model tests', () => {
   });
 
   test('does not poll when config specifies 0 seconds', async () => {
-    const clock = sinon.useFakeTimers();
+    const clock = sinon.useFakeTimers({shouldClearNativeTimers: true});
     let change: ParsedChangeInfo | undefined = undefined;
     testResolver(changeModelToken).change$.subscribe(c => (change = c));
     const provider = createProvider();

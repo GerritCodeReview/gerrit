@@ -266,13 +266,17 @@ suite('gr-router tests', () => {
     let urlPromise: MockPromise<string>;
 
     setup(() => {
+      clock = sinon.useFakeTimers({shouldClearNativeTimers: true});
       stubRestApi('addRepoNameToCache');
       urlPromise = mockPromise<string>();
       redirectStub = sinon
         .stub(router, 'redirect')
         .callsFake(urlPromise.resolve);
       router._testOnly_startRouter();
-      clock = sinon.useFakeTimers();
+    });
+
+    teardown(() => {
+      clock.restore();
     });
 
     test('no blockers: normal redirect', async () => {

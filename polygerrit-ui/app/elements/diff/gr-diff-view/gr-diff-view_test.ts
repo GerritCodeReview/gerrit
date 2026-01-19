@@ -392,7 +392,9 @@ suite('gr-diff-view tests', () => {
     });
 
     test('keyboard shortcuts', async () => {
-      clock = sinon.useFakeTimers();
+      clock = sinon.useFakeTimers({
+        toFake: ['Date'],
+      });
       element.changeNum = 42 as NumericChangeId;
       browserModel.setScreenWidth(0);
       element.patchNum = 10 as RevisionPatchSetNum;

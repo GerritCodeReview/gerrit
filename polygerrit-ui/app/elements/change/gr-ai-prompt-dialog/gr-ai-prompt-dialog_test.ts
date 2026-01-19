@@ -9,11 +9,20 @@ import {assert, fixture, html} from '@open-wc/testing';
 import {GrAiPromptDialog} from './gr-ai-prompt-dialog';
 import {createParsedChange} from '../../../test/test-data-generators';
 import {CommitId, PatchSetNum} from '../../../api/rest-api';
+import {testResolver} from '../../../test/common-test-setup';
+import {commentsModelToken} from '../../../models/comments/comments-model';
+import {of} from 'rxjs';
 import {stubRestApi} from '../../../test/test-utils';
 
 suite('gr-ai-prompt-dialog test', () => {
   let element: GrAiPromptDialog;
   setup(async () => {
+    const commentsModel = testResolver(commentsModelToken);
+    Object.defineProperty(commentsModel, 'threads$', {
+      value: of([]),
+      writable: true,
+    });
+
     stubRestApi('getPatchContent').returns(Promise.resolve('test code'));
     element = await fixture(html`<gr-ai-prompt-dialog></gr-ai-prompt-dialog>`);
     element.change = createParsedChange();
@@ -66,6 +75,14 @@ suite('gr-ai-prompt-dialog test', () => {
                    >
                    </md-radio>
                    Just patch content
+                 </label>
+                 <label class="template-option">
+                   <md-radio
+                     name="template"
+                     tabindex="-1"
+                   >
+                   </md-radio>
+                   Resolve comments
                  </label>
                </div>
              </div>
@@ -141,5 +158,23 @@ suite('gr-ai-prompt-dialog test', () => {
           </span>
         </section>`
     );
+  });
+  test('renders help review prompt', async () => {
+    element.selectedTemplate = 'HELP_REVIEW';
+    await element.updateComplete;
+    assert.include(
+      (element as any).promptContent,
+      'You are a highly experienced code reviewer'
+    );
+  });
+
+  test('renders resolve comments prompt', async () => {
+    element.selectedTemplate = 'RESOLVE_COMMENTS';
+    await element.updateComplete;
+    assert.include(
+      (element as any).promptContent,
+      'You are an AI agent working on top of a commit'
+    );
+    assert.include((element as any).promptContent, 'No unresolved comments.');
   });
 });

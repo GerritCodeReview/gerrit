@@ -91,3 +91,12 @@ Take a Deep Breath, read the instructions again, read the inputs again. Each ins
 
 Commit Message:
 `;
+
+export const RESOLVE_COMMENTS_PROMPT = `You are an AI agent working on top of a commit in the Gerrit UI. The current commit has received the following review comments. Please resolve them.
+Comments:
+{{comments}}
+IMPORTANT NOTE: Start directly with the output, do not output any delimiters.
+Take a Deep Breath, read the instructions again, read the inputs again. Each instruction is crucial and must be executed with utmost care and attention to detail.
+
+Resolution:
+`;

@@ -16,9 +16,16 @@ import {fireError} from '../../../utils/event-util';
 import {subscribe} from '../../lit/subscription-controller';
 import {resolve} from '../../../models/dependency';
 import {changeModelToken} from '../../../models/change/change-model';
+import {commentsModelToken} from '../../../models/comments/comments-model';
+import {CommentThread} from '../../../types/common';
+import {isUnresolved} from '../../../utils/comment-util';
 import {ParsedChangeInfo} from '../../../types/types';
 import {PatchSetNum} from '../../../types/common';
-import {HELP_ME_REVIEW_PROMPT, IMPROVE_COMMIT_MESSAGE} from './prompts';
+import {
+  HELP_ME_REVIEW_PROMPT,
+  IMPROVE_COMMIT_MESSAGE,
+  RESOLVE_COMMENTS_PROMPT,
+} from './prompts';
 import {when} from 'lit/directives/when.js';
 import {copyToClipboard} from '../../../utils/common-util';
 import '@material/web/select/outlined-select';
@@ -41,6 +48,11 @@ const PROMPT_TEMPLATES = {
     id: 'patch_only',
     label: 'Just patch content',
     prompt: '{{patch}}',
+  },
+  RESOLVE_COMMENTS: {
+    id: 'resolve_comments',
+    label: 'Resolve comments',
+    prompt: RESOLVE_COMMENTS_PROMPT,
   },
 };
 
@@ -76,11 +88,15 @@ export class GrAiPromptDialog extends LitElement {
 
   @state() private context = 3;
 
+  @state() private threads: CommentThread[] = [];
+
   @state() private promptContent = '';
 
   @state() private promptSize = '';
 
   private readonly getChangeModel = resolve(this, changeModelToken);
+
+  private readonly getCommentsModel = resolve(this, commentsModelToken);
 
   private readonly restApiService = getAppContext().restApiService;
 
@@ -95,6 +111,11 @@ export class GrAiPromptDialog extends LitElement {
       this,
       () => this.getChangeModel().patchNum$,
       x => (this.patchNum = x)
+    );
+    subscribe(
+      this,
+      () => this.getCommentsModel().threads$,
+      x => (this.threads = x)
     );
   }
 
@@ -297,7 +318,8 @@ export class GrAiPromptDialog extends LitElement {
   override willUpdate(changedProperties: PropertyValues) {
     if (
       changedProperties.has('patchContent') ||
-      changedProperties.has('selectedTemplate')
+      changedProperties.has('selectedTemplate') ||
+      changedProperties.has('threads')
     ) {
       this.updatePromptContent();
     }
@@ -333,17 +355,47 @@ export class GrAiPromptDialog extends LitElement {
     this.patchContent = content;
   }
 
+  private getUnresolvedCommentsFormatted(): string {
+    const unresolvedThreads = this.threads.filter(isUnresolved);
+    if (unresolvedThreads.length === 0) return 'No unresolved comments.';
+
+    return unresolvedThreads
+      .map(thread => {
+        const comments = thread.comments.map(
+          c => `        ${c.author?.name ?? 'Unknown'}: ${c.message}`
+        );
+        let loc = '';
+        if (thread.line) {
+          loc = `Line ${thread.line}`;
+        } else if (thread.range) {
+          loc = `Lines ${thread.range.start_line}-${thread.range.end_line}`;
+        } else {
+          loc = 'File level';
+        }
+        return `    * File: ${thread.path} (${loc})
+${comments.join('\n')}`;
+      })
+      .join('\n\n');
+  }
+
   private updatePromptContent() {
     if (!this.patchContent) {
       this.promptContent = '';
       this.promptSize = '';
       return;
     }
+
     const template = PROMPT_TEMPLATES[this.selectedTemplate];
     this.promptContent = template.prompt.replace(
       '{{patch}}',
       this.patchContent
     );
+    if (this.selectedTemplate === 'RESOLVE_COMMENTS') {
+      this.promptContent = this.promptContent.replace(
+        '{{comments}}',
+        this.getUnresolvedCommentsFormatted()
+      );
+    }
     // Inserts a space before each capital letter to handle CamelCase
     const textWithSpaces = this.promptContent.replace(/([A-Z])/g, ' $1');
 

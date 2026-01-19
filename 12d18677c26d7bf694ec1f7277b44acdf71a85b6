@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5825619c_b2134149",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 22
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1124821
+      },
+      "writtenOn": "2026-01-19T01:17:13Z",
+      "side": 1,
+      "message": "540181: Expose non-string cache key types | https://gerrit-review.googlesource.com/c/gerrit/+/540181",
+      "revId": "12d18677c26d7bf694ec1f7277b44acdf71a85b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

@@ -103,9 +103,23 @@ function resolveDependency(evt: DependencyRequestEvent<unknown>) {
   evt.callback(() => testResolver(evt.dependency));
 }
 
+const unhandledRejections: string[] = [];
+const unhandledRejectionHandler = (event: PromiseRejectionEvent) => {
+  const reason = event.reason;
+  const msg =
+    reason instanceof Error
+      ? reason.message
+      : typeof reason === 'string'
+        ? reason
+        : 'Unknown reason';
+  unhandledRejections.push(msg);
+};
+
 setup(function () {
   testSetupTimestampMs = new Date().getTime();
   currentTestName = this.currentTest?.title || 'unknown test';
+  unhandledRejections.length = 0;
+  window.addEventListener('unhandledrejection', unhandledRejectionHandler);
 
   // If the following asserts fails - then window.stub is
   // overwritten by some other code.
@@ -192,6 +206,19 @@ teardown(() => {
   if (elapsedMs > 1000) {
     console.warn(
       `ATTENTION! Test "${currentTestName}" took longer than 1 second: ${elapsedMs} ms`
+    );
+  }
+  window.removeEventListener('unhandledrejection', unhandledRejectionHandler);
+  if (unhandledRejections.length > 0) {
+    const msg = `Unhandled promise rejections in test "${currentTestName}": ${unhandledRejections.join(
+      ', '
+    )}`;
+    unhandledRejections.length = 0;
+    assert.fail(msg);
+  }
+  if (getCleanupsCount() > 0) {
+    assert.fail(
+      `Test "${currentTestName}" did not clean up all resources! ${getCleanupsCount()} cleanups remaining.`
     );
   }
   currentTestName = '';

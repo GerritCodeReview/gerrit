@@ -11,7 +11,9 @@ import {
   switchMap,
   tap,
   withLatestFrom,
+  distinctUntilChanged,
 } from 'rxjs/operators';
+
 import {BranchName, ChangeInfo, RepoName, TopicName} from '../../api/rest-api';
 import {NavigationService} from '../../elements/core/gr-navigation/gr-navigation';
 import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
@@ -23,7 +25,9 @@ import {encodeURL, getBaseUrl} from '../../utils/url-util';
 import {define, Provider} from '../dependency';
 import {Model} from '../base/model';
 import {UserModel} from '../user/user-model';
+import { createDefaultPreferences } from '../../constants/constants';
 import {ViewState} from './base';
+
 import {createChangeUrl} from './change';
 
 const USER_QUERY_PATTERN = /^owner:\s?("[^"]+"|[^ ]+)$/;
@@ -208,7 +212,9 @@ export class SearchViewModel extends Model<SearchViewState | undefined> {
       this.reload$,
       this.query$,
       this.offsetNumber$,
-      this.userModel.preferenceChangesPerPage$,
+      this.userModel.preferenceChangesPerPage$.pipe(
+        startWith(createDefaultPreferences().changes_per_page)
+      ),
     ]).pipe(
       map(([_reload, query, offsetNumber, changesPerPage]) => {
         const params: [string, number, number] = [
@@ -217,8 +223,12 @@ export class SearchViewModel extends Model<SearchViewState | undefined> {
           changesPerPage,
         ];
         return params;
-      })
+      }),
+      distinctUntilChanged(
+        (a, b) => a[0] === b[0] && a[1] === b[1] && a[2] === b[2]
+      )
     );
+
 
     this.subscriptions = [
       this.reloadChangesTrigger$

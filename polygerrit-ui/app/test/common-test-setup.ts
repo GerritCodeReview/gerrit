@@ -180,7 +180,6 @@ teardown(() => {
   cleanupTestUtils();
   checkGlobalSpace();
   removeThemeStyles();
-  cancelAllTasks();
   cleanUpStorage();
   removeRequestDependencyListener();
   injectedDependencies.clear();
@@ -188,6 +187,7 @@ teardown(() => {
   for (const f of finalizers) {
     f.finalize();
   }
+  cancelAllTasks();
   const testTeardownTimestampMs = new Date().getTime();
   const elapsedMs = testTeardownTimestampMs - testSetupTimestampMs;
   if (elapsedMs > 1000) {

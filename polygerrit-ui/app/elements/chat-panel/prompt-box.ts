@@ -117,6 +117,11 @@ export class PromptBox extends LitElement {
     );
   }
 
+  override disconnectedCallback() {
+    this.updateDynamicContextItemsTask?.cancel();
+    super.disconnectedCallback();
+  }
+
   protected get suggestedContextItems(): ContextItem[] {
     return this.dynamicContextItemsSuggestions.filter(item =>
       this.contextItems.every(

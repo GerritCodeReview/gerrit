@@ -48,13 +48,18 @@ const security = window.security;
 export const _testOnly_defaultResinReportHandler =
   security.polymer_resin.CONSOLE_LOGGING_REPORT_HANDLER;
 
+let resinInstalled = false;
 export function installPolymerResin(
   safeTypesBridge: SafeTypeBridge,
   reportHandler = security.polymer_resin.CONSOLE_LOGGING_REPORT_HANDLER
 ) {
+  if (resinInstalled) {
+    return;
+  }
   window.security.polymer_resin.install({
     allowedIdentifierPrefixes: [''],
     reportHandler,
     safeTypesBridge,
   });
+  resinInstalled = true;
 }

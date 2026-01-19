@@ -41,6 +41,7 @@ import {Key, Modifier} from '../../../utils/dom-util';
 import {SinonStub, SinonStubbedMember} from 'sinon';
 import {assert, fixture, html} from '@open-wc/testing';
 import {GrButton} from '../gr-button/gr-button';
+import {GrTooltipContent} from '../gr-tooltip-content/gr-tooltip-content';
 import {testResolver} from '../../../test/common-test-setup';
 import {
   CommentsModel,
@@ -384,7 +385,17 @@ suite('gr-comment tests', () => {
             <gr-confirm-delete-comment-dialog id="confirmDeleteCommentDialog">
             </gr-confirm-delete-comment-dialog>
           </dialog>
-        `
+        `,
+        {ignoreAttributes: ['title']}
+      );
+
+      const tooltip = queryAndAssert<GrTooltipContent>(
+        element,
+        '.draftTooltip'
+      );
+      assert.equal(
+        tooltip.getAttribute('title') || (tooltip as any).originalTitle,
+        "This draft is only visible to you. To publish drafts, click the 'Reply' or 'Start review' button at the top of the change or press the 'a' key."
       );
     });
   });

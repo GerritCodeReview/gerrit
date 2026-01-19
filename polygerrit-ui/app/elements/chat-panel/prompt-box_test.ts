@@ -57,7 +57,7 @@ suite('prompt-box tests', () => {
               spellcheck="false"
               aria-label="Ask Gemini"
               placeholder="Enter a prompt here..."
-              style="height: 18px;"
+              style="height: 20px;"
             ></textarea>
           </div>
         </div>
@@ -256,6 +256,6 @@ suite('prompt-box tests', () => {
     textarea.dispatchEvent(new Event('input'));
     await element.updateComplete;
 
-    assert.equal(textarea.style.height, '90px');
+    assert.equal(textarea.style.height, '100px');
   });
 });

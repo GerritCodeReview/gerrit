@@ -141,4 +141,10 @@ maven.install(
     version_conflict_policy = "pinned",
 )
 
+bazel_dep(name = "gerrit-plugin-delete-project")
+local_path_override(
+    module_name = "gerrit-plugin-delete-project",
+    path = "./plugins/delete-project",
+)
+
 use_repo(maven, "gerrit_plugin_deps")

@@ -16,7 +16,6 @@ auto-factory
 auto-service-annotations
 auto-value
 auto-value-annotations
-commons-io
 dropwizard-core
 error-prone-annotations
 flogger

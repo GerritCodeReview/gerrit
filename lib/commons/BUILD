@@ -51,9 +51,3 @@ java_library(
     data = ["//lib:LICENSE-Apache2.0"],
     exports = ["@gerrit_deps//:commons_validator_commons_validator"],
 )
-
-java_library(
-    name = "io",
-    data = ["//lib:LICENSE-Apache2.0"],
-    exports = ["@gerrit_nongoogle_deps//:commons_io_commons_io"],
-)

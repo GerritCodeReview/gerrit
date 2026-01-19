@@ -169,7 +169,9 @@ suite('gr-change-list-topic-flow tests', () => {
 
     async function rejectPromises() {
       setChangeTopicPromises[0].reject(new Error('error'));
+      setChangeTopicPromises[0].catch(() => {});
       setChangeTopicPromises[1].reject(new Error('error'));
+      setChangeTopicPromises[1].catch(() => {});
       await element.updateComplete;
     }
 
@@ -495,7 +497,9 @@ suite('gr-change-list-topic-flow tests', () => {
 
     async function rejectPromises() {
       setChangeTopicPromises[0].reject(new Error('error'));
+      setChangeTopicPromises[0].catch(() => {});
       setChangeTopicPromises[1].reject(new Error('error'));
+      setChangeTopicPromises[1].catch(() => {});
       await element.updateComplete;
     }
 

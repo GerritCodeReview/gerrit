@@ -607,6 +607,7 @@ export class GrDiffHost extends LitElement {
       this.reporting.time(Timing.DIFF_CONTENT);
       this.syntaxLayer.setEnabled(this.isSyntaxHighlightingEnabled());
       const syntaxLayerPromise = this.syntaxLayer.process(diff);
+      syntaxLayerPromise.catch(() => {});
       await waitForEventOnce(this, 'render');
       this.subscribeToChecks();
       this.reporting.timeEnd(Timing.DIFF_CONTENT, this.timingDetails());

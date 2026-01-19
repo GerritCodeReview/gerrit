@@ -164,15 +164,18 @@ export class GrCopyClipboard extends LitElement {
             part="text-container-wrapper-style"
           >
           </textarea>`,
-          () => html` <md-outlined-text-field
-            id="input"
-            class="copyText ${classMap({hideInput: this.hideInput})}"
-            .value=${this.text ?? ''}
-            ?readOnly=${true}
-            part="text-container-wrapper-style"
-            @click=${this.handleInputClick}
-          >
-          </md-outlined-text-field>`
+          () =>
+            // We must strip newlines, otherwise md-outlined-text-field will
+            // sanitize the value and trigger a recursive update warning.
+            html` <md-outlined-text-field
+              id="input"
+              class="copyText ${classMap({hideInput: this.hideInput})}"
+              .value=${(this.text ?? '').replace(/[\r\n]/g, '')}
+              ?readOnly=${true}
+              part="text-container-wrapper-style"
+              @click=${this.handleInputClick}
+            >
+            </md-outlined-text-field>`
         )}
         ${when(
           this.shortcut,

@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b6c4f99e_5f907fe0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 31
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-01-19T08:30:30Z",
+      "side": 1,
+      "message": "Something that I also thought of. However, plugins without external dependencies wouldn\u0027t need their own module. With such a change we would force all plugin owners to create an empty module, at least if we want to have consistency. I agree however, that we could do that for `delete-project`.",
+      "parentUuid": "3949776e_e270a839",
+      "range": {
+        "startLine": 10,
+        "startChar": 29,
+        "endLine": 11,
+        "endChar": 38
+      },
+      "revId": "1126eafa2b824c5d6e6b6f81943f533cc8e578fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "645db50c_0cddbe51",
         "filename": "/COMMIT_MSG",
         "patchSetId": 31
@@ -77,6 +101,23 @@
       "writtenOn": "2026-01-18T07:39:18Z",
       "side": 1,
       "message": "Would it make sense to document how to re-pin external dependencies when building custom plugins in in-tree Gerrit build mode?\n\nFor example, in `gerrit-javamelody-plugin`, the `javamelody` dependency needs to be updated, but the plugin only supports in-tree Gerrit builds.",
+      "revId": "1126eafa2b824c5d6e6b6f81943f533cc8e578fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8f73e0fb_7bbc271f",
+        "filename": "MODULE.bazel",
+        "patchSetId": 31
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-01-19T08:30:30Z",
+      "side": 1,
+      "message": "Needs to be updated as soon as the changes have been approved.",
       "revId": "1126eafa2b824c5d6e6b6f81943f533cc8e578fe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -52,6 +52,24 @@
       "parentUuid": "f83449b6_0ff051f2",
       "revId": "ff62ab90fe09386ac5db9dd1d0b5d4fcffd975fb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "77c06005_a8847044",
+        "filename": "WORKSPACE.bzlmod",
+        "patchSetId": 26
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-01-19T08:30:30Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "726ca101_8bf4dc10",
+      "revId": "ff62ab90fe09386ac5db9dd1d0b5d4fcffd975fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

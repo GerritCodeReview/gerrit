@@ -95,6 +95,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "26aa88bd_f6a143fa",
+        "filename": "MODULE.bazel",
+        "patchSetId": 27
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-01-19T08:30:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5453dc2f_74bc63f5",
+      "range": {
+        "startLine": 66,
+        "startChar": 0,
+        "endLine": 77,
+        "endChar": 0
+      },
+      "revId": "5d250a9ab699c2ed989851be68e33187fe0c8fc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "59fdf8bb_b83bb887",
@@ -123,6 +147,24 @@
         "id": 1011323
       },
       "writtenOn": "2026-01-18T07:39:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "59fdf8bb_b83bb887",
+      "revId": "5d250a9ab699c2ed989851be68e33187fe0c8fc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "248e4480_724a5080",
+        "filename": "tools/bzl/plugin.bzl",
+        "patchSetId": 27
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-01-19T08:30:30Z",
       "side": 1,
       "message": "Done",
       "parentUuid": "59fdf8bb_b83bb887",
@@ -188,6 +230,30 @@
         "id": 1011323
       },
       "writtenOn": "2026-01-18T07:39:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "98587d32_63571112",
+      "range": {
+        "startLine": 48,
+        "startChar": 25,
+        "endLine": 48,
+        "endChar": 76
+      },
+      "revId": "5d250a9ab699c2ed989851be68e33187fe0c8fc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b8a8e898_c073a89b",
+        "filename": "tools/version.py",
+        "patchSetId": 27
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-01-19T08:30:30Z",
       "side": 1,
       "message": "Done",
       "parentUuid": "98587d32_63571112",

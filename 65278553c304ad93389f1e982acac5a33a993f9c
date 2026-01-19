@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "65b9d7f0_eefefed2",
+        "filename": "MODULE.bazel",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-01-19T12:17:09Z",
+      "side": 1,
+      "message": "When multiple plugins use a repository of the same name, merging the lock files does not work:\n\n```\nERROR: /Users/d073103/.cache/bazel/aeb2a0da29bd8bfc77fc1448cfa2bb56/external/rules_jvm_external~/private/extensions/maven.bzl:658:26: Traceback (most recent call last):\n\tFile \"/Users/d073103/.cache/bazel/aeb2a0da29bd8bfc77fc1448cfa2bb56/external/rules_jvm_external~/private/extensions/maven.bzl\", line 658, column 26, in maven_impl\n\t\t\", \".join(lock_files),\nError in join: expected string for sequence element 0, got \u0027@@gerrit-plugin-delete-project~//:gerrit_plugin_deps.lock.json\u0027 of type Label\n```\nconsider comment in code:\n\n```\n    # There should be at most one lock file per `name`\n    for repo_name, lock_files in repo_to_lock_file.items():\n        if len(lock_files) \u003e 1:\n            fail(\"There can only be one lock file for the repo %s. Lock files seen were %s\" % (\n                repo_name,\n                \", \".join(lock_files),\n            ))\n        repos.get(repo_name)[\"lock_file\"] \u003d lock_files[0]\n```",
+      "revId": "65278553c304ad93389f1e982acac5a33a993f9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

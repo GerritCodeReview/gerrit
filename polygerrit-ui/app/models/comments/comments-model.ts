@@ -888,4 +888,9 @@ export class CommentsModel extends Model<CommentState> {
       .flat()
       .find(draft => id(draft) === commentId);
   }
+
+  override finalize() {
+    this.draftToastTask?.cancel();
+    super.finalize();
+  }
 }

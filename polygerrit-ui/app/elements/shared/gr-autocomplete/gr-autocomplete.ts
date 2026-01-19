@@ -415,6 +415,7 @@ export class GrAutocomplete extends LitElement {
 
   updateSuggestions() {
     if (this.text === undefined || this.threshold === undefined) return;
+    if (!this.isConnected) return;
 
     // Reset suggestions for every update
     // This will also prevent from carrying over suggestions:

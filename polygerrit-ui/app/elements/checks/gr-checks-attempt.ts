@@ -9,7 +9,7 @@ import {CheckRun} from '../../models/checks/checks-model';
 import {ordinal} from '../../utils/string-util';
 
 @customElement('gr-checks-attempt')
-class GrChecksAttempt extends LitElement {
+export class GrChecksAttempt extends LitElement {
   @property({attribute: false})
   run?: CheckRun;
 

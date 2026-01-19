@@ -3,13 +3,9 @@
 # This module fragment is included from MODULE.bazel to keep repository
 # declarations separate from the module dependency graph.
 
-local_repository = use_repo_rule(
-    "@bazel_tools//tools/build_defs/repo:local.bzl",
-    "local_repository",
-)
-
-# Java-Prettify external repository consumed from git submodule.
-local_repository(
-    name = "java-prettify",
-    path = "modules/java-prettify",
+bazel_dep(name = "java-prettify")
+git_override(
+  module_name = "java-prettify",
+  remote = "https://gerrit.googlesource.com/java-prettify",
+  commit = "d50c5563fb7452966ee29ddeeec91fbc8a68d41f",
 )

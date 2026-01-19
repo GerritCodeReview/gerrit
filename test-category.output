@@ -1,0 +1,255 @@
+Category: no revision found
+Repeated: 20
+Prompt: The following test(s) produced this error: app/utils/patch-set-util_test.ts:, app/elements/diff/gr-patch-range-select/gr-patch-range-select_test.ts:. This should be fixed.
+
+Category: ATTENTION! A task was still active at the end of the test!
+Repeated: 18
+Prompt: The following test(s) produced this error: app/elements/chat-panel/prompt-box_test.ts:, app/elements/shared/gr-autocomplete/gr-autocomplete_test.ts:, app/elements/shared/gr-comment-thread/gr-comment-thread_test.ts:, app/elements/shared/gr-editable-content/gr-editable-content_test.ts:. This should be fixed.
+
+Category: An error was thrown in a Promise outside a test
+Repeated: 60
+Prompt: The following test(s) produced this error: app/elements/admin/gr-repo-access/gr-repo-access_test.ts:, app/elements/change/gr-change-actions/gr-change-actions_test.ts:, app/elements/change/gr-file-list/gr-file-list_test.ts:, app/services/scheduler/max-in-flight-scheduler_test.ts:, app/elements/change-list/gr-change-list-topic-flow/gr-change-list-topic-flow_test.ts:, app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper_test.ts:, app/elements/diff/gr-diff-view/gr-diff-view_test.ts:, app/elements/checks/gr-checks-runs_test.ts:, app/embed/diff/gr-syntax-layer/gr-syntax-layer-worker_test.ts:, app/elements/admin/gr-group-members/gr-group-members_test.ts:, app/elements/diff/gr-diff-host/gr-diff-host_test.ts:, app/elements/change/gr-change-view/gr-change-view_test.ts:, app/elements/shared/gr-js-api-interface/gr-change-actions-js-api_test.ts:, app/elements/change/gr-reply-dialog/gr-reply-dialog_test.ts:. This should be fixed.
+
+Category: TypeError: Cannot read properties of undefined (reading 'status')
+Repeated: 10
+Prompt: The following test(s) produced this error: app/elements/checks/gr-checks-runs_test.ts:. This should be fixed.
+
+Category: Expressions are not supported inside `textarea` elements. See https://lit.dev/msg/expression-in-textarea for more information.
+Repeated: 4
+Prompt: The following test(s) produced this error: app/elements/integration_test.ts:, app/elements/settings/gr-settings-view/gr-settings-view_test.ts:. This should be fixed.
+
+Category: Element gr-autogrow-textarea scheduled an update (generally because a property was set) after an update completed, causing a new update to be scheduled. This is inefficient and should be avoided unless the next update can only be scheduled as a side effect of the previous update. See https://lit.dev/msg/change-in-update for more information.
+Repeated: 26
+Prompt: The following test(s) produced this error: app/elements/admin/gr-repo-access/gr-repo-access_test.ts:, app/elements/change/gr-change-actions/gr-change-actions_test.ts:, app/elements/change/gr-file-list/gr-file-list_test.ts:, app/elements/admin/gr-repo/gr-repo_test.ts:, app/elements/settings/gr-settings-view/gr-settings-view_test.ts:, app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog_test.ts:, app/elements/admin/gr-create-change-dialog/gr-create-change-dialog_test.ts:, app/elements/shared/gr-editable-content/gr-editable-content_test.ts:, app/elements/admin/gr-repo-commands/gr-repo-commands_test.ts:, app/elements/shared/gr-comment/gr-comment_test.ts:, app/elements/admin/gr-admin-view/gr-admin-view_test.ts:, app/elements/settings/gr-gpg-editor/gr-gpg-editor_test.ts:, app/elements/settings/gr-account-info/gr-account-info_test.ts:, app/elements/change/gr-confirm-submit-dialog/gr-confirm-submit-dialog_test.ts:, app/elements/change/gr-confirm-abandon-dialog/gr-confirm-abandon-dialog_test.ts:, app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog_test.ts:, app/elements/shared/gr-suggestion-textarea/gr-suggestion-textarea_test.ts:, app/elements/change/gr-change-view/gr-change-view_test.ts:, app/elements/shared/gr-confirm-delete-comment-dialog/gr-confirm-delete-comment-dialog_test.ts:, app/elements/integration_test.ts:, app/elements/shared/gr-comment-thread/gr-comment-thread_test.ts:, app/elements/diff/gr-diff-host/gr-diff-host_test.ts:, app/elements/admin/gr-group/gr-group_test.ts:, app/elements/change/gr-confirm-move-dialog/gr-confirm-move-dialog_test.ts:, app/elements/change/gr-flows/gr-create-flow_test.ts:, app/elements/shared/gr-js-api-interface/gr-change-actions-js-api_test.ts:, app/elements/change/gr-flows/gr-flows_test.ts:, app/elements/shared/gr-autogrow-textarea/gr-autogrow-textarea_test.ts:, app/elements/settings/gr-ssh-editor/gr-ssh-editor_test.ts:, app/elements/admin/gr-repo-list/gr-repo-list_test.ts:, app/elements/change/gr-reply-dialog/gr-reply-dialog-it_test.ts:. This should be fixed.
+
+Category: HTTP 404 GET 0ms /changes/*~*/revisions/*/files/*/content (2026-01-19T11:47:18.237Z, 2026-01-19T11:47:18.237Z)
+Repeated: 2
+Prompt: The following test(s) produced this error: app/services/gr-rest-api/gr-rest-api-impl_test.ts:. This should be fixed.
+
+Category: HTTP 500 GET 0ms /changes/*~*/revisions/*/files/*/content (2026-01-19T11:47:18.238Z, 2026-01-19T11:47:18.238Z)
+Repeated: 2
+Prompt: The following test(s) produced this error: app/services/gr-rest-api/gr-rest-api-impl_test.ts:. This should be fixed.
+
+Category: HTTP 200 GET 0ms /changes/*~*/detail?O=9996394 (2026-01-19T11:47:18.245Z, 2026-01-19T11:47:18.245Z)
+Repeated: 2
+Prompt: The following test(s) produced this error: app/services/gr-rest-api/gr-rest-api-impl_test.ts:. This should be fixed.
+
+Category: Local storage quota exceeded: disabling
+Repeated: 2
+Prompt: The following test(s) produced this error: app/services/storage/gr-storage_test.ts:. This should be fixed.
+
+Category: Element gr-dropdown-list scheduled an update (generally because a property was set) after an update completed, causing a new update to be scheduled. This is inefficient and should be avoided unless the next update can only be scheduled as a side effect of the previous update. See https://lit.dev/msg/change-in-update for more information.
+Repeated: 8
+Prompt: The following test(s) produced this error: app/elements/admin/gr-admin-view/gr-admin-view_test.ts:, app/elements/change/gr-thread-list/gr-thread-list_test.ts:, app/elements/diff/gr-patch-range-select/gr-patch-range-select_test.ts:, app/elements/shared/gr-dropdown-list/gr-dropdown-list_test.ts:, app/elements/diff/gr-diff-view/gr-diff-view_test.ts:, app/elements/change/gr-change-view/gr-change-view_test.ts:. This should be fixed.
+
+Category: Element gr-permission scheduled an update (generally because a property was set) after an update completed, causing a new update to be scheduled. This is inefficient and should be avoided unless the next update can only be scheduled as a side effect of the previous update. See https://lit.dev/msg/change-in-update for more information.
+Repeated: 4
+Prompt: The following test(s) produced this error: app/elements/admin/gr-repo-access/gr-repo-access_test.ts:, app/elements/admin/gr-permission/gr-permission_test.ts:. This should be fixed.
+
+Category: Error: error
+Repeated: 4
+Prompt: The following test(s) produced this error: app/elements/change-list/gr-change-list-topic-flow/gr-change-list-topic-flow_test.ts:, app/elements/change/gr-change-actions/gr-change-actions_test.ts:. This should be fixed.
+
+Category: Reporting(1970-01-01T00:00:00.100Z): PluginsLoaded: 0
+Repeated: 2
+Prompt: The following test(s) produced this error: app/services/gr-reporting/gr-reporting_test.ts:. This should be fixed.
+
+Category: Reporting(1970-01-01T00:00:00.100Z): Plugins installed: {"pluginsList":[]}
+Repeated: 4
+Prompt: The following test(s) produced this error: app/services/gr-reporting/gr-reporting_test.ts:. This should be fixed.
+
+Category: Reporting(1970-01-01T00:00:00.100Z): button-click: {"name":"sendReply"}
+Repeated: 2
+Prompt: The following test(s) produced this error: app/services/gr-reporting/gr-reporting_test.ts:. This should be fixed.
+
+Category: Reporting(1970-01-01T00:00:00.100Z): PluginsLoaded: 42
+Repeated: 2
+Prompt: The following test(s) produced this error: app/services/gr-reporting/gr-reporting_test.ts:. This should be fixed.
+
+Category: Reporting(1970-01-01T00:00:00.100Z): timeAction: 0
+Repeated: 2
+Prompt: The following test(s) produced this error: app/services/gr-reporting/gr-reporting_test.ts:. This should be fixed.
+
+Category: Element gr-create-flow scheduled an update (generally because a property was set) after an update completed, causing a new update to be scheduled. This is inefficient and should be avoided unless the next update can only be scheduled as a side effect of the previous update. See https://lit.dev/msg/change-in-update for more information.
+Repeated: 4
+Prompt: The following test(s) produced this error: app/elements/change/gr-flows/gr-flows_test.ts:, app/elements/change/gr-flows/gr-create-flow_test.ts:. This should be fixed.
+
+Category: [33mfalse[39m
+Repeated: 2
+Prompt: The following test(s) produced this error: app/elements/change/gr-message/gr-message_test.ts:. This should be fixed.
+
+Category: Element gr-repo-header scheduled an update (generally because a property was set) after an update completed, causing a new update to be scheduled. This is inefficient and should be avoided unless the next update can only be scheduled as a side effect of the previous update. See https://lit.dev/msg/change-in-update for more information.
+Repeated: 2
+Prompt: The following test(s) produced this error: app/elements/change-list/gr-repo-header/gr-repo-header_test.ts:. This should be fixed.
+
+Category: Element gr-user-header scheduled an update (generally because a property was set) after an update completed, causing a new update to be scheduled. This is inefficient and should be avoided unless the next update can only be scheduled as a side effect of the previous update. See https://lit.dev/msg/change-in-update for more information.
+Repeated: 2
+Prompt: The following test(s) produced this error: app/elements/change-list/gr-user-header/gr-user-header_test.ts:. This should be fixed.
+
+Category: Element md-outlined-text-field scheduled an update (generally because a property was set) after an update completed, causing a new update to be scheduled. This is inefficient and should be avoided unless the next update can only be scheduled as a side effect of the previous update. See https://lit.dev/msg/change-in-update for more information.
+Repeated: 6
+Prompt: The following test(s) produced this error: app/elements/shared/gr-shell-command/gr-shell-command_test.ts:, app/elements/shared/gr-download-commands/gr-download-commands_test.ts:, app/elements/shared/gr-copy-clipboard/gr-copy-clipboard_test.ts:, app/elements/settings/gr-gpg-editor/gr-gpg-editor_test.ts:. This should be fixed.
+
+Category: Element gr-ssh-editor scheduled an update (generally because a property was set) after an update completed, causing a new update to be scheduled. This is inefficient and should be avoided unless the next update can only be scheduled as a side effect of the previous update. See https://lit.dev/msg/change-in-update for more information.
+Repeated: 2
+Prompt: The following test(s) produced this error: app/elements/settings/gr-ssh-editor/gr-ssh-editor_test.ts:. This should be fixed.
+
+Category: Element gr-suggestion-textarea scheduled an update (generally because a property was set) after an update completed, causing a new update to be scheduled. This is inefficient and should be avoided unless the next update can only be scheduled as a side effect of the previous update. See https://lit.dev/msg/change-in-update for more information.
+Repeated: 6
+Prompt: The following test(s) produced this error: app/elements/change/gr-reply-dialog/gr-reply-dialog-it_test.ts:, app/elements/shared/gr-suggestion-textarea/gr-suggestion-textarea_test.ts:, app/elements/shared/gr-comment/gr-comment_test.ts:, app/elements/shared/gr-comment-thread/gr-comment-thread_test.ts:, app/elements/diff/gr-diff-host/gr-diff-host_test.ts:, app/elements/change/gr-reply-dialog/gr-reply-dialog_test.ts:. This should be fixed.
+
+Category: Element gr-diff scheduled an update (generally because a property was set) after an update completed, causing a new update to be scheduled. This is inefficient and should be avoided unless the next update can only be scheduled as a side effect of the previous update. See https://lit.dev/msg/change-in-update for more information.
+Repeated: 8
+Prompt: The following test(s) produced this error: app/embed/diff/gr-diff/gr-diff_test.ts:, app/embed/diff/gr-diff-selection/gr-diff-selection_test.ts:, app/elements/change/gr-file-list/gr-file-list_test.ts:, app/elements/diff/gr-diff-host/gr-diff-host_test.ts:, app/elements/diff/gr-diff-view/gr-diff-view_test.ts:, app/embed/diff/gr-diff-cursor/gr-diff-cursor_test.ts:. This should be fixed.
+
+Category: Element gr-change-actions scheduled an update (generally because a property was set) after an update completed, causing a new update to be scheduled. This is inefficient and should be avoided unless the next update can only be scheduled as a side effect of the previous update. See https://lit.dev/msg/change-in-update for more information.
+Repeated: 2
+Prompt: The following test(s) produced this error: app/elements/change/gr-change-actions/gr-change-actions_test.ts:. This should be fixed.
+
+Category: Plugin url LOADED
+Repeated: 49
+Prompt: The following test(s) produced this error: app/elements/change/gr-change-metadata/gr-change-metadata_test.ts:, app/elements/change/gr-change-view/gr-change-view_test.ts:. This should be fixed.
+
+Category: Plugin url1 LOADED
+Repeated: 2
+Prompt: The following test(s) produced this error: app/elements/change/gr-related-changes-list/gr-related-changes-list_test.ts:. This should be fixed.
+
+Category: Plugin lgtm LOADED
+Repeated: 2
+Prompt: The following test(s) produced this error: app/elements/change/gr-reply-dialog/gr-reply-dialog-it_test.ts:. This should be fixed.
+
+Category: Symbol(Delayed Cancellation)
+Repeated: 19
+Prompt: The following test(s) produced this error: app/elements/diff/gr-diff-view/gr-diff-view_test.ts:. This should be fixed.
+
+Category: Plugin testplugin LOADED
+Repeated: 44
+Prompt: The following test(s) produced this error: app/elements/plugins/gr-event-helper/gr-event-helper_test.ts:, app/elements/shared/gr-js-api-interface/gr-plugin-action-context_test.ts:, app/elements/plugins/gr-admin-api/gr-admin-api_test.ts:, app/elements/shared/gr-js-api-interface/gr-plugin-loader_test.ts:, app/elements/shared/gr-js-api-interface/gr-plugin-rest-api_test.ts:, app/elements/shared/gr-js-api-interface/gr-js-api-interface_test.ts:, app/elements/shared/gr-js-api-interface/gr-plugin-style-api_test.ts:, app/elements/shared/gr-js-api-interface/gr-reporting-js-api_test.ts:, app/elements/plugins/gr-dom-hooks/gr-dom-hooks_test.ts:, app/elements/plugins/gr-checks-api/gr-checks-api_test.ts:, app/elements/shared/gr-js-api-interface/gr-plugin-endpoints_test.ts:, app/elements/shared/gr-js-api-interface/gr-change-reply-js-api_test.ts:, app/elements/plugins/gr-popup-interface/gr-popup-interface_test.ts:, app/elements/shared/gr-js-api-interface/gr-change-actions-js-api_test.ts:. This should be fixed.
+
+Category: Plugin not being loaded from /plugins base path: http://some/plugin/url.js — Unable to determine name.
+Repeated: 24
+Prompt: The following test(s) produced this error: app/elements/plugins/gr-endpoint-decorator/gr-endpoint-decorator_test.ts:. This should be fixed.
+
+Category: Plugin __$$__http://some/plugin/url.js LOADED
+Repeated: 8
+Prompt: The following test(s) produced this error: app/elements/plugins/gr-endpoint-decorator/gr-endpoint-decorator_test.ts:. This should be fixed.
+
+Category: TypeError: Failed to construct 'URL': Invalid URL
+Repeated: 4
+Prompt: The following test(s) produced this error: app/elements/shared/gr-js-api-interface/gr-api-utils_test.ts:. This should be fixed.
+
+Category: Plugin not being loaded from /plugins base path: http://example.com/ — Unable to determine name.
+Repeated: 2
+Prompt: The following test(s) produced this error: app/elements/shared/gr-js-api-interface/gr-api-utils_test.ts:. This should be fixed.
+
+Category: Plugin not being loaded from /plugins base path: http://example.com/static/a.js — Unable to determine name.
+Repeated: 2
+Prompt: The following test(s) produced this error: app/elements/shared/gr-js-api-interface/gr-api-utils_test.ts:. This should be fixed.
+
+Category: Accessing change.mergeable from SHOW_CHANGE is deprecated! Use info.mergeable instead.
+Repeated: 2
+Prompt: The following test(s) produced this error: app/elements/shared/gr-js-api-interface/gr-js-api-interface_test.ts:. This should be fixed.
+
+Category: Plugin test LOAD_FAILED
+Repeated: 2
+Prompt: The following test(s) produced this error: app/elements/shared/gr-js-api-interface/gr-js-api-interface_test.ts:. This should be fixed.
+
+Category: Plugin baseurlplugin LOADED
+Repeated: 2
+Prompt: The following test(s) produced this error: app/elements/shared/gr-js-api-interface/gr-js-api-interface_test.ts:. This should be fixed.
+
+Category: TypeError: Cannot read properties of undefined (reading 'length')
+Repeated: 9
+Prompt: The following test(s) produced this error: app/elements/shared/gr-js-api-interface/gr-change-actions-js-api_test.ts:. This should be fixed.
+
+Category: Plugin foo LOAD_FAILED
+Repeated: 5
+Prompt: The following test(s) produced this error: app/elements/shared/gr-js-api-interface/gr-plugin-loader_test.ts:. This should be fixed.
+
+Category: Plugin bar LOAD_FAILED
+Repeated: 3
+Prompt: The following test(s) produced this error: app/elements/shared/gr-js-api-interface/gr-plugin-loader_test.ts:. This should be fixed.
+
+Category: Plugin foo LOADED
+Repeated: 4
+Prompt: The following test(s) produced this error: app/elements/shared/gr-js-api-interface/gr-plugin-loader_test.ts:. This should be fixed.
+
+Category: Plugin bar LOADED
+Repeated: 5
+Prompt: The following test(s) produced this error: app/elements/shared/gr-js-api-interface/gr-plugin-loader_test.ts:. This should be fixed.
+
+Category: Plugin not being loaded from /plugins base path: http://localhost:9876/bar/static/test.js — Unable to determine name.
+Repeated: 7
+Prompt: The following test(s) produced this error: app/elements/shared/gr-js-api-interface/gr-plugin-loader_test.ts:. This should be fixed.
+
+Category: Plugin __$$__http://localhost:9876/bar/static/test.js LOADED
+Repeated: 2
+Prompt: The following test(s) produced this error: app/elements/shared/gr-js-api-interface/gr-plugin-loader_test.ts:. This should be fixed.
+
+Category: Plugin not being loaded from /plugins base path: http://e.com/foo/bar.js — Unable to determine name.
+Repeated: 10
+Prompt: The following test(s) produced this error: app/elements/shared/gr-js-api-interface/gr-plugin-loader_test.ts:. This should be fixed.
+
+Category: Plugin not being loaded from /plugins base path: http://e.com/bar/foo.js — Unable to determine name.
+Repeated: 5
+Prompt: The following test(s) produced this error: app/elements/shared/gr-js-api-interface/gr-plugin-loader_test.ts:. This should be fixed.
+
+Category: Plugin __$$__http://e.com/foo/bar.js LOADED
+Repeated: 2
+Prompt: The following test(s) produced this error: app/elements/shared/gr-js-api-interface/gr-plugin-loader_test.ts:. This should be fixed.
+
+Category: Plugin __$$__http://e.com/bar/foo.js LOADED
+Repeated: 2
+Prompt: The following test(s) produced this error: app/elements/shared/gr-js-api-interface/gr-plugin-loader_test.ts:. This should be fixed.
+
+Category: Plugin not being loaded from /plugins base path: http://localhost:9876/foo/bar — Unable to determine name.
+Repeated: 2
+Prompt: The following test(s) produced this error: app/elements/shared/gr-js-api-interface/gr-plugin-loader_test.ts:. This should be fixed.
+
+Category: Plugin not being loaded from /plugins base path: http://localhost:9876/foo/bar.js — Unable to determine name.
+Repeated: 2
+Prompt: The following test(s) produced this error: app/elements/shared/gr-js-api-interface/gr-plugin-loader_test.ts:. This should be fixed.
+
+Category: Plugin not being loaded from /plugins base path: http://localhost:9876/test/foo/bar.js — Unable to determine name.
+Repeated: 2
+Prompt: The following test(s) produced this error: app/elements/shared/gr-js-api-interface/gr-plugin-loader_test.ts:. This should be fixed.
+
+Category: Plugin not being loaded from /plugins base path: https://cdn.com/foo/bar.js — Unable to determine name.
+Repeated: 4
+Prompt: The following test(s) produced this error: app/elements/shared/gr-js-api-interface/gr-plugin-loader_test.ts:. This should be fixed.
+
+Category: comment thread without side
+Repeated: 4
+Prompt: The following test(s) produced this error: app/embed/diff/gr-diff/gr-diff-utils_test.ts:. This should be fixed.
+
+Category: { isCanceled: [33mtrue[39m }
+Repeated: 2
+Prompt: The following test(s) produced this error: app/embed/diff/gr-syntax-layer/gr-syntax-layer-worker_test.ts:. This should be fixed.
+
+Category: HTTP 200 GET 100ms url (1970-01-01T00:00:00.100Z, 1970-01-01T00:00:00.200Z)
+Repeated: 2
+Prompt: The following test(s) produced this error: app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper_test.ts:. This should be fixed.
+
+Category: HTTP 200 GET 100ms not url (1970-01-01T00:00:00.100Z, 1970-01-01T00:00:00.200Z)
+Repeated: 2
+Prompt: The following test(s) produced this error: app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper_test.ts:. This should be fixed.
+
+Category: HTTP  GET 0ms testhelper/dummy/url (1970-01-01T00:00:00.000Z, 1970-01-01T00:00:00.000Z)
+Repeated: 14
+Prompt: The following test(s) produced this error: app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper_test.ts:. This should be fixed.
+
+Category: HTTP  PUT 0ms testhelper/dummy/url (1970-01-01T00:00:00.000Z, 1970-01-01T00:00:00.000Z)
+Repeated: 2
+Prompt: The following test(s) produced this error: app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper_test.ts:. This should be fixed.
+
+Category: HTTP 400 GET 0ms testhelper/dummy/url (1970-01-01T00:00:00.000Z, 1970-01-01T00:00:00.000Z)
+Repeated: 8
+Prompt: The following test(s) produced this error: app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper_test.ts:. This should be fixed.
+
+Category: HTTP 429 GET 0ms testhelper/dummy/url (1970-01-01T00:00:00.000Z, 1970-01-01T00:00:00.000Z)
+Repeated: 4
+Prompt: The following test(s) produced this error: app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper_test.ts:. This should be fixed.
+
+Category: HTTP  GET 50ms testhelper/dummy/url (1970-01-01T00:00:00.000Z, 1970-01-01T00:00:00.050Z)
+Repeated: 2
+Prompt: The following test(s) produced this error: app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper_test.ts:. This should be fixed.

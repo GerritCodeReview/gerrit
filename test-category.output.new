@@ -1,0 +1,247 @@
+Category: Plugin not being loaded from /plugins base path: http://some/plugin/url.js — Unable to determine name.
+Repeated: 48
+Prompt: The following test(s) produced this error: app/test/common-test-setup.ts:98:10). This should be fixed.
+
+Category: no revision found
+Repeated: 38
+Prompt: The following test(s) produced this error: app/elements/diff/gr-patch-range-select/gr-patch-range-select_test.ts, app/utils/patch-set-util_test.ts. This should be fixed.
+
+Category: Symbol(Delayed Cancellation)
+Repeated: 36
+Prompt: The following test(s) produced this error: app/test/common-test-setup.ts:98:10). This should be fixed.
+
+Category: ATTENTION! A task was still active at the end of the test!
+Repeated: 36
+Prompt: The following test(s) produced this error: app/elements/chat-panel/prompt-box_test.ts, app/elements/shared/gr-autocomplete/gr-autocomplete_test.ts, app/elements/shared/gr-comment-thread/gr-comment-thread_test.ts, app/elements/shared/gr-editable-content/gr-editable-content_test.ts. This should be fixed.
+
+Category: Plugin not being loaded from /plugins base path: http://e.com/foo/bar.js — Unable to determine name.
+Repeated: 14
+Prompt: The following test(s) produced this error: app/elements/shared/gr-js-api-interface/gr-plugin-loader_test.ts. This should be fixed.
+
+Category: Plugin not being loaded from /plugins base path: /bar/static/test.js — Unable to determine name.
+Repeated: 12
+Prompt: The following test(s) produced this error: app/elements/shared/gr-js-api-interface/gr-plugin-loader_test.ts. This should be fixed.
+
+Category: Element gr-suggestion-textarea scheduled an update (generally because a property was set) after an update completed, causing a new update to be scheduled. This is inefficient and should be avoided unless the next update can only be scheduled as a side effect of the previous update. See https://lit.dev/msg/change-in-update for more information.
+Repeated: 12
+Prompt: The following test(s) produced this error: app/elements/change/gr-reply-dialog/gr-reply-dialog-it_test.ts, app/elements/diff/gr-diff-host/gr-diff-host_test.ts, app/elements/shared/gr-comment-thread/gr-comment-thread_test.ts, app/elements/shared/gr-comment/gr-comment_test.ts, app/elements/shar... [truncated]. This should be fixed.
+
+Category: TypeError: Cannot read properties of undefined (reading 'status')
+Repeated: 10
+Prompt: The following test(s) produced this error: app/elements/checks/gr-checks-runs_test.ts, app/models/checks/checks-util.ts:363:10). This should be fixed.
+
+Category: Plugin not being loaded from /plugins base path: http://e.com/bar/foo.js — Unable to determine name.
+Repeated: 10
+Prompt: The following test(s) produced this error: app/elements/shared/gr-js-api-interface/gr-plugin-loader_test.ts. This should be fixed.
+
+Category: Element md-outlined-text-field scheduled an update (generally because a property was set) after an update completed, causing a new update to be scheduled. This is inefficient and should be avoided unless the next update can only be scheduled as a side effect of the previous update. See https://lit.dev/msg/change-in-update for more information.
+Repeated: 8
+Prompt: The following test(s) produced this error: app/elements/settings/gr-gpg-editor/gr-gpg-editor_test.ts, app/elements/shared/gr-copy-clipboard/gr-copy-clipboard_test.ts, app/elements/shared/gr-download-commands/gr-download-commands_test.ts, app/node_modules/@material/web/textfield/internal/text-... [truncated]. This should be fixed.
+
+Category: TypeError: Cannot read properties of undefined (reading 'length')
+Repeated: 7
+Prompt: The following test(s) produced this error: app/elements/shared/gr-js-api-interface/gr-change-actions-js-api_test.ts, app/node_modules/@material/web/textfield/internal/text-field.js:415:25). This should be fixed.
+
+Category: showDiff: true,
+Repeated: 6
+Prompt: The following test(s) produced this error: app/elements/admin/gr-repo-access/gr-repo-access_test.ts, app/elements/admin/gr-repo-access/gr-repo-access_test.ts?wtr-session-id=QnbHp1h9_lc7qJ0NvyNW-:353:14)\n'[39m +, app/elements/change/gr-file-list/gr-file-list_test.ts, app/elements/change/gr-f... [truncated]. This should be fixed.
+
+Category: operator: 'strictEqual',
+Repeated: 6
+Prompt: The following test(s) produced this error: app/elements/admin/gr-repo-access/gr-repo-access_test.ts, app/elements/admin/gr-repo-access/gr-repo-access_test.ts?wtr-session-id=QnbHp1h9_lc7qJ0NvyNW-:353:14)\n'[39m +, app/elements/change/gr-file-list/gr-file-list_test.ts, app/elements/change/gr-f... [truncated]. This should be fixed.
+
+Category: Error: variable is not defined
+Repeated: 5
+Prompt: The following test(s) produced this error: app/utils/change-util.ts:249:27), app/utils/common-util.ts:58:10). This should be fixed.
+
+Category: message: "expected 'Edit' to equal 'EDIT'",
+Repeated: 4
+Prompt: The following test(s) produced this error: app/elements/admin/gr-repo-access/gr-repo-access_test.ts, app/elements/admin/gr-repo-access/gr-repo-access_test.ts?wtr-session-id=QnbHp1h9_lc7qJ0NvyNW-:353:14)\n'[39m +. This should be fixed.
+
+Category: expected: 'EDIT',
+Repeated: 4
+Prompt: The following test(s) produced this error: app/elements/admin/gr-repo-access/gr-repo-access_test.ts, app/elements/admin/gr-repo-access/gr-repo-access_test.ts?wtr-session-id=QnbHp1h9_lc7qJ0NvyNW-:353:14)\n'[39m +. This should be fixed.
+
+Category: comment thread without side
+Repeated: 4
+Prompt: The following test(s) produced this error: app/embed/diff/gr-diff/gr-diff-utils_test.ts. This should be fixed.
+
+Category: actual: 'Edit',
+Repeated: 4
+Prompt: The following test(s) produced this error: app/elements/admin/gr-repo-access/gr-repo-access_test.ts, app/elements/admin/gr-repo-access/gr-repo-access_test.ts?wtr-session-id=QnbHp1h9_lc7qJ0NvyNW-:353:14)\n'[39m +. This should be fixed.
+
+Category: Plugin not being loaded from /plugins base path: https://cdn.com/foo/bar.js — Unable to determine name.
+Repeated: 4
+Prompt: The following test(s) produced this error: app/elements/shared/gr-js-api-interface/gr-plugin-loader_test.ts. This should be fixed.
+
+Category: Error: error
+Repeated: 4
+Prompt: The following test(s) produced this error: app/elements/change-list/gr-change-list-topic-flow/gr-change-list-topic-flow_test.ts:397:12), app/elements/change/gr-change-actions/gr-change-actions_test.ts:2928:49), app/utils/common-util.ts:37:8), app/utils/common-util.ts:58:10). This should be fixed.
+
+Category: Error: Forgot to set up dependency for tests
+Repeated: 4
+Prompt: The following test(s) produced this error: app/elements/diff/gr-diff-host/gr-diff-host_test.ts, app/test/common-test-setup.ts:98:10). This should be fixed.
+
+Category: Element gr-create-flow scheduled an update (generally because a property was set) after an update completed, causing a new update to be scheduled. This is inefficient and should be avoided unless the next update can only be scheduled as a side effect of the previous update. See https://lit.dev/msg/change-in-update for more information.
+Repeated: 4
+Prompt: The following test(s) produced this error: app/elements/change/gr-flows/gr-flows_test.ts, app/models/change/change-model.ts:1093:12). This should be fixed.
+
+Category: TypeError: Cannot read properties of undefined (reading '_number')
+Repeated: 3
+Prompt: The following test(s) produced this error: app/elements/change/gr-file-list/gr-file-list_test.ts?wtr-session-id=8JZpqL3IljDcsmi-aNxF-:1357:20)\n'[39m +, app/utils/change-util.ts:249:27). This should be fixed.
+
+Category: Error: Response payload is not prefixed json. Payload:
+Repeated: 3
+Prompt: The following test(s) produced this error: app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.ts:40:10), app/models/checks/checks-util.ts:363:10). This should be fixed.
+
+Category: Element gr-permission scheduled an update (generally because a property was set) after an update completed, causing a new update to be scheduled. This is inefficient and should be avoided unless the next update can only be scheduled as a side effect of the previous update. See https://lit.dev/msg/change-in-update for more information.
+Repeated: 3
+Prompt: The following test(s) produced this error: app/elements/admin/gr-permission/gr-permission_test.ts, app/elements/admin/gr-repo-access/gr-repo-access_test.ts?wtr-session-id=QnbHp1h9_lc7qJ0NvyNW-:353:14)\n'[39m +. This should be fixed.
+
+Category: '    at testEditSaveCancelBtns (/polygerrit-ui/app/elements/admin/gr-repo-access/gr-repo-access_test.ts?wtr-session-id=QnbHp1h9_lc7qJ0NvyNW-:353:14)\n' +
+Repeated: 3
+Prompt: The following test(s) produced this error: app/elements/admin/gr-repo-access/gr-repo-access_test.ts?wtr-session-id=QnbHp1h9_lc7qJ0NvyNW-:353:14)\n'[39m +. This should be fixed.
+
+Category: message: 'expected 1 to equal 0',
+Repeated: 2
+Prompt: The following test(s) produced this error: app/elements/change/gr-file-list/gr-file-list_test.ts, app/elements/change/gr-file-list/gr-file-list_test.ts?wtr-session-id=8JZpqL3IljDcsmi-aNxF-:1357:20)\n'[39m +. This should be fixed.
+
+Category: false
+Repeated: 2
+Prompt: The following test(s) produced this error: app/elements/change/gr-message/gr-message_test.ts. This should be fixed.
+
+Category: expected: 0,
+Repeated: 2
+Prompt: The following test(s) produced this error: app/elements/change/gr-file-list/gr-file-list_test.ts, app/elements/change/gr-file-list/gr-file-list_test.ts?wtr-session-id=8JZpqL3IljDcsmi-aNxF-:1357:20)\n'[39m +. This should be fixed.
+
+Category: entry must be account or group {}
+Repeated: 2
+Prompt: The following test(s) produced this error: app/elements/admin/gr-repo-access/gr-repo-access_test.ts?wtr-session-id=QnbHp1h9_lc7qJ0NvyNW-:353:14)\n'[39m +, app/utils/common-util.ts:37:8). This should be fixed.
+
+Category: actual: 1,
+Repeated: 2
+Prompt: The following test(s) produced this error: app/elements/change/gr-file-list/gr-file-list_test.ts, app/elements/change/gr-file-list/gr-file-list_test.ts?wtr-session-id=8JZpqL3IljDcsmi-aNxF-:1357:20)\n'[39m +. This should be fixed.
+
+Category: TypeError: Failed to construct 'URL': Invalid URL
+Repeated: 2
+Prompt: The following test(s) produced this error: app/elements/shared/gr-js-api-interface/gr-api-utils.ts:24:12), app/elements/shared/gr-js-api-interface/gr-api-utils_test.ts. This should be fixed.
+
+Category: TypeError: Cannot read properties of undefined (reading 'ok')
+Repeated: 2
+Prompt: The following test(s) produced this error: app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.ts:40:10). This should be fixed.
+
+Category: Plugin not being loaded from /plugins base path: /test/foo/bar.js — Unable to determine name.
+Repeated: 2
+Prompt: The following test(s) produced this error: app/elements/shared/gr-js-api-interface/gr-plugin-loader_test.ts. This should be fixed.
+
+Category: Plugin not being loaded from /plugins base path: /foo/bar.js — Unable to determine name.
+Repeated: 2
+Prompt: The following test(s) produced this error: app/elements/shared/gr-js-api-interface/gr-plugin-loader_test.ts. This should be fixed.
+
+Category: Plugin not being loaded from /plugins base path: /foo/bar — Unable to determine name.
+Repeated: 2
+Prompt: The following test(s) produced this error: app/elements/shared/gr-js-api-interface/gr-plugin-loader_test.ts. This should be fixed.
+
+Category: Local storage quota exceeded: disabling
+Repeated: 2
+Prompt: The following test(s) produced this error: app/services/storage/gr-storage_test.ts. This should be fixed.
+
+Category: Error: group name or includedGroupSearchId undefined
+Repeated: 2
+Prompt: The following test(s) produced this error: app/elements/admin/gr-group-members/gr-group-members.ts:512:8), app/elements/admin/gr-group-members/gr-group-members_test.ts. This should be fixed.
+
+Category: Error: entry must be account or group
+Repeated: 2
+Prompt: The following test(s) produced this error: app/elements/admin/gr-repo-access/gr-repo-access_test.ts?wtr-session-id=QnbHp1h9_lc7qJ0NvyNW-:353:14)\n'[39m +, app/utils/common-util.ts:37:8). This should be fixed.
+
+Category: Error: No response
+Repeated: 2
+Prompt: The following test(s) produced this error: app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.ts:389:24), app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper_test.ts. This should be fixed.
+
+Category: Error: Fake Error
+Repeated: 2
+Prompt: The following test(s) produced this error: app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.ts:40:10), app/services/scheduler/max-in-flight-scheduler_test.ts:79:25). This should be fixed.
+
+Category: Error: Change request failed.
+Repeated: 2
+Prompt: The following test(s) produced this error: app/elements/change/gr-change-view/gr-change-view_test.ts, app/models/change/change-model.ts:1093:12). This should be fixed.
+
+Category: Element gr-zoomed-image scheduled an update (generally because a property was set) after an update completed, causing a new update to be scheduled. This is inefficient and should be avoided unless the next update can only be scheduled as a side effect of the previous update. See https://lit.dev/msg/change-in-update for more information.
+Repeated: 2
+Prompt: The following test(s) produced this error: app/embed/diff/gr-diff-image-viewer/gr-image-viewer_test.ts. This should be fixed.
+
+Category: Element gr-user-header scheduled an update (generally because a property was set) after an update completed, causing a new update to be scheduled. This is inefficient and should be avoided unless the next update can only be scheduled as a side effect of the previous update. See https://lit.dev/msg/change-in-update for more information.
+Repeated: 2
+Prompt: The following test(s) produced this error: app/elements/change-list/gr-user-header/gr-user-header_test.ts. This should be fixed.
+
+Category: Element gr-ssh-editor scheduled an update (generally because a property was set) after an update completed, causing a new update to be scheduled. This is inefficient and should be avoided unless the next update can only be scheduled as a side effect of the previous update. See https://lit.dev/msg/change-in-update for more information.
+Repeated: 2
+Prompt: The following test(s) produced this error: app/elements/settings/gr-ssh-editor/gr-ssh-editor_test.ts. This should be fixed.
+
+Category: Element gr-repo-header scheduled an update (generally because a property was set) after an update completed, causing a new update to be scheduled. This is inefficient and should be avoided unless the next update can only be scheduled as a side effect of the previous update. See https://lit.dev/msg/change-in-update for more information.
+Repeated: 2
+Prompt: The following test(s) produced this error: app/elements/change-list/gr-repo-header/gr-repo-header_test.ts. This should be fixed.
+
+Category: Element gr-overview-image scheduled an update (generally because a property was set) after an update completed, causing a new update to be scheduled. This is inefficient and should be avoided unless the next update can only be scheduled as a side effect of the previous update. See https://lit.dev/msg/change-in-update for more information.
+Repeated: 2
+Prompt: The following test(s) produced this error: app/embed/diff/gr-diff-image-viewer/gr-image-viewer_test.ts. This should be fixed.
+
+Category: Element gr-diff-view scheduled an update (generally because a property was set) after an update completed, causing a new update to be scheduled. This is inefficient and should be avoided unless the next update can only be scheduled as a side effect of the previous update. See https://lit.dev/msg/change-in-update for more information.
+Repeated: 2
+Prompt: The following test(s) produced this error: app/test/common-test-setup.ts:98:10). This should be fixed.
+
+Category: Element gr-change-actions scheduled an update (generally because a property was set) after an update completed, causing a new update to be scheduled. This is inefficient and should be avoided unless the next update can only be scheduled as a side effect of the previous update. See https://lit.dev/msg/change-in-update for more information.
+Repeated: 2
+Prompt: The following test(s) produced this error: app/elements/change/gr-change-actions/gr-change-actions_test.ts:2928:49), app/utils/common-util.ts:37:8). This should be fixed.
+
+Category: Accessing change.mergeable from SHOW_CHANGE is deprecated! Use info.mergeable instead.
+Repeated: 2
+Prompt: The following test(s) produced this error: app/elements/shared/gr-js-api-interface/gr-js-api-interface_test.ts. This should be fixed.
+
+Category: Error: first comment is not defined
+Repeated: 1
+Prompt: The following test(s) produced this error: app/models/change/change-model.ts:1093:12). This should be fixed.
+
+Category: Error: Network error when trying to fetch. Cause: No response
+Repeated: 1
+Prompt: The following test(s) produced this error: app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.ts:389:24). This should be fixed.
+
+Category: Error: Network error when trying to fetch. Cause: Cannot read properties of undefined (reading 'ok')
+Repeated: 1
+Prompt: The following test(s) produced this error: app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.ts:40:10). This should be fixed.
+
+Category: Error: Failed to lookup the repo for change number 42
+Repeated: 1
+Prompt: The following test(s) produced this error: app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.ts:40:10). This should be fixed.
+
+Category: '    at testEditSaveCancelBtns (/polygerrit-ui/
+Repeated: 1
+Prompt: The following test(s) produced this error: app/elements/admin/gr-repo-access/gr-repo-access_test.ts. This should be fixed.
+
+Category: '    at n4.<anonymous> (/polygerrit-ui/app/elements/admin/gr-repo-access/gr-repo-access_test.ts?wtr-session-id=QnbHp1h9_lc7qJ0NvyNW-:465:7)'
+Repeated: 1
+Prompt: The following test(s) produced this error: app/elements/admin/gr-repo-access/gr-repo-access_test.ts?wtr-session-id=QnbHp1h9_lc7qJ0NvyNW-:353:14)\n'[39m +. This should be fixed.
+
+Category: '    at n4.<anonymous> (/polygerrit-ui/app/elements/admin/gr-repo-access/gr-repo-access_test.ts?wtr-session-id=QnbHp1h9_lc7qJ0NvyNW-:459:7)'
+Repeated: 1
+Prompt: The following test(s) produced this error: app/elements/admin/gr-repo-access/gr-repo-access_test.ts?wtr-session-id=QnbHp1h9_lc7qJ0NvyNW-:353:14)\n'[39m +. This should be fixed.
+
+Category: '    at n4.<anonymous> (/polygerrit-ui/app/elements/admin/gr-repo-access/gr-repo-access_test.ts?wtr-session-id=QnbHp1h9_lc7qJ0NvyNW-:454:7)'
+Repeated: 1
+Prompt: The following test(s) produced this error: app/elements/admin/gr-repo-access/gr-repo-access_test.ts?wtr-session-id=QnbHp1h9_lc7qJ0NvyNW-:353:14)\n'[39m +. This should be fixed.
+
+Category: '    at async GrFileList.renderInOrder (/polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts:2105:5)'
+Repeated: 1
+Prompt: The following test(s) produced this error: app/elements/change/gr-file-list/gr-file-list_test.ts?wtr-session-id=8JZpqL3IljDcsmi-aNxF-:1357:20)\n'[39m +. This should be fixed.
+
+Category: '    at Object.reload (/polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.ts?wtr-session-id=8JZpqL3IljDcsmi-aNxF-:1357:20)\n' +
+Repeated: 1
+Prompt: The following test(s) produced this error: app/elements/change/gr-file-list/gr-file-list_test.ts?wtr-session-id=8JZpqL3IljDcsmi-aNxF-:1357:20)\n'[39m +. This should be fixed.
+
+Category: '    at Object.reload (/polygerrit-ui/
+Repeated: 1
+Prompt: The following test(s) produced this error: app/elements/change/gr-file-list/gr-file-list_test.ts. This should be fixed.
+
+Category: '    at /polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts:2122:22\n' +
+Repeated: 1
+Prompt: The following test(s) produced this error: app/elements/change/gr-file-list/gr-file-list_test.ts?wtr-session-id=8JZpqL3IljDcsmi-aNxF-:1357:20)\n'[39m +. This should be fixed.

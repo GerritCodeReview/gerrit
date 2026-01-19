@@ -59,6 +59,12 @@ gerrit_api_version(
     visibility = ["//visibility:public"],
 )
 
+bazel_dep(name = "java-prettify")
+local_path_override(
+    module_name = "java-prettify",
+    path = "./modules/java-prettify",
+)
+
 # Repository rules for in-tree sources.
 include("//tools:repos.MODULE.bazel")
 

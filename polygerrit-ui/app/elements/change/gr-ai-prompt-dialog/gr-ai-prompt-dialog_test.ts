@@ -9,11 +9,20 @@ import {assert, fixture, html} from '@open-wc/testing';
 import {GrAiPromptDialog} from './gr-ai-prompt-dialog';
 import {createParsedChange} from '../../../test/test-data-generators';
 import {CommitId, PatchSetNum} from '../../../api/rest-api';
+import {testResolver} from '../../../test/common-test-setup';
+import {commentsModelToken} from '../../../models/comments/comments-model';
+import {of} from 'rxjs';
 import {stubRestApi} from '../../../test/test-utils';
 
 suite('gr-ai-prompt-dialog test', () => {
   let element: GrAiPromptDialog;
   setup(async () => {
+    const commentsModel = testResolver(commentsModelToken);
+    Object.defineProperty(commentsModel, 'threads$', {
+      value: of([]),
+      writable: true,
+    });
+
     stubRestApi('getPatchContent').returns(Promise.resolve('test code'));
     element = await fixture(html`<gr-ai-prompt-dialog></gr-ai-prompt-dialog>`);
     element.change = createParsedChange();
@@ -66,6 +75,14 @@ suite('gr-ai-prompt-dialog test', () => {
                    >
                    </md-radio>
                    Just patch content
+                 </label>
+                 <label class="template-option">
+                   <md-radio
+                     name="template"
+                     tabindex="-1"
+                   >
+                   </md-radio>
+                   Unresolved Comments
                  </label>
                </div>
              </div>
@@ -141,5 +158,43 @@ suite('gr-ai-prompt-dialog test', () => {
           </span>
         </section>`
     );
+  });
+  test('renders help review prompt', async () => {
+    element.selectedTemplate = 'HELP_REVIEW';
+    await element.updateComplete;
+    assert.include(
+      (element as any).promptContent,
+      'You are a highly experienced code reviewer'
+    );
+  });
+
+  test('renders resolve comments prompt', async () => {
+    element.selectedTemplate = 'RESOLVE_COMMENTS';
+    await element.updateComplete;
+    assert.include((element as any).promptContent, 'No unresolved comments.');
+  });
+
+  test('renders resolve comments prompt with comments', async () => {
+    element.threads = [
+      {
+        comments: [
+          {
+            message: 'test comment',
+            author: {name: 'Tester'},
+            updated: '2025-01-01 10:00:00.000000000',
+            unresolved: true,
+          },
+        ],
+        path: 'test.txt',
+        line: 1,
+        rootId: '1',
+      },
+    ] as any[];
+    element.selectedTemplate = 'RESOLVE_COMMENTS';
+    await element.updateComplete;
+    const expected = `* File: test.txt (Line 1)
+Tester:
+test comment`;
+    assert.include((element as any).promptContent, expected);
   });
 });

@@ -122,3 +122,11 @@ maven.from_toml(
 )
 
 use_repo(maven, "gerrit_nongoogle_deps")
+
+bazel_dep(name = "gerrit-plugin-delete-project")
+local_path_override(
+    module_name = "gerrit-plugin-delete-project",
+    path = "./plugins/delete-project",
+)
+
+use_repo(maven, "gerrit_plugin_deps")

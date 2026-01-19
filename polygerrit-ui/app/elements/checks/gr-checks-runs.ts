@@ -235,6 +235,7 @@ export class GrChecksRun extends LitElement {
 
   override render() {
     if (!this.shouldRender) return html`<div class="chip">Loading ...</div>`;
+    if (!this.run) return nothing;
 
     const icon = iconForRun(this.run);
     const classes = {

@@ -73,7 +73,7 @@ suite('max-in-flight scheduler', () => {
 
   test('resumes when promise fails', async () => {
     for (let i = 0; i < 3; ++i) {
-      scheduler.schedule(async () => i);
+      scheduler.schedule(async () => i).catch(() => {});
     }
     assert.equal(fakeScheduler.scheduled.length, 2);
     fakeScheduler.reject(new Error('Fake Error'));

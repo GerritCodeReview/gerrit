@@ -859,6 +859,7 @@ export class GrCommentThread extends LitElement {
 
   private getDisplayPath() {
     if (this.isPatchsetLevel()) return 'Patchset';
+    if (!this.thread?.path) return '';
     return computeDisplayPath(this.thread?.path);
   }
 

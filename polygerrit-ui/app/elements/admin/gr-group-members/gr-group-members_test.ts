@@ -460,13 +460,13 @@ suite('gr-group-members tests', () => {
 
     const groupMemberSearchInput = queryAndAssert<GrAutocomplete>(
       element,
-      '#groupMemberSearchInput'
+      '#includedGroupSearchInput'
     );
     groupMemberSearchInput.text = memberName;
     groupMemberSearchInput.value = '1234';
 
     await element.updateComplete;
-    element.handleSavingIncludedGroups().then(() => {
+    await element.handleSavingIncludedGroups().then(() => {
       assert.isTrue(alertStub.called);
     });
   });

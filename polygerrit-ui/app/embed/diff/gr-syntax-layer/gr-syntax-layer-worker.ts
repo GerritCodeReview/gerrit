@@ -285,8 +285,10 @@ export class GrSyntaxLayerWorker implements DiffLayer {
     try {
       this.leftPromise = this.highlight(leftLanguage, leftContent);
       this.rightPromise = this.highlight(rightLanguage, rightContent);
-      this.leftRanges = await this.leftPromise;
-      this.rightRanges = await this.rightPromise;
+      [this.leftRanges, this.rightRanges] = await Promise.all([
+        this.leftPromise,
+        this.rightPromise,
+      ]);
       this.notify();
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {

@@ -1623,7 +1623,9 @@ export class GrChangeView extends LitElement {
       this.tabs!.activeTabIndex = tabIndex;
     }
     this.reportChangeDisplayed();
-    this.reportFullyLoaded();
+    // Catch the promise returned by reportFullyLoaded in updated() to prevent
+    // unhandled rejections.
+    this.reportFullyLoaded().catch(() => {});
   }
 
   private readonly handleScroll = () => {
@@ -2256,15 +2258,20 @@ export class GrChangeView extends LitElement {
   }
 
   private async reportFullyLoaded() {
-    await waitUntil(() => !!this.metadata);
+    // There is no visual indication that we are waiting for these variables to
+    // be set (e.g. valid mergeable state), so we don't want to wait too long.
+    // However, 1s was too short (see Issue 36033), so we bumped it to 10s.
+    const timeout = 10000;
+    const msg = `Timeout waiting for change view components after ${timeout}ms`;
+    await waitUntil(() => !!this.metadata, msg, timeout);
     await untilRendered(this.metadata!);
     if (this.activeTab === Tab.FILES) {
-      await waitUntil(() => !!this.fileList);
+      await waitUntil(() => !!this.fileList, msg, timeout);
       await untilRendered(this.fileList!);
     }
-    await waitUntil(() => !!this.messagesList);
+    await waitUntil(() => !!this.messagesList, msg, timeout);
     await untilRendered(this.messagesList!);
-    await waitUntil(() => this.mergeable !== undefined);
+    await waitUntil(() => this.mergeable !== undefined, msg, timeout);
     await until(this.getCommentsModel().comments$, c => c !== undefined);
     await until(this.getCommentsModel().drafts$, c => c !== undefined);
     // We are ending the timer after each change view update, because ending a

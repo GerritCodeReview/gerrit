@@ -56,7 +56,7 @@ import {css, html, LitElement, nothing, PropertyValues} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {Shortcut, ShortcutController} from './lit/shortcut-controller';
 import {cache} from 'lit/directives/cache.js';
-import {keyed} from 'lit/directives/keyed.js';
+import { repeat } from 'lit/directives/repeat.js';
 import {assertIsDefined} from '../utils/common-util';
 import {isDarkTheme, prefersDarkColorScheme} from '../utils/theme-util';
 import {AppTheme} from '../constants/constants';
@@ -357,12 +357,14 @@ export class GrAppElement extends LitElement {
       <main>
         ${this.renderChangeListView()} ${this.renderDashboardView()}
         ${
-          // `keyed(this.changeNum, ...)` makes sure that these views are not
-          // re-used across changes, which is a precaution, because we have run
-          // into issue with that. That could be re-considered at some point.
-          keyed(
-            this.changeNum,
-            html`
+      // `repeat` with a single item is used efficiently to destroy and re-create
+      // the DOM when the key (`this.changeNum`) changes, similar to `keyed`.
+      // We use `repeat` instead of `keyed` to avoid potential issues with
+      // detached nodes during view transitions.
+      repeat(
+        [this.changeNum],
+        changeNum => changeNum,
+        () => html`
               ${this.renderChangeView()} ${this.renderEditorView()}
               ${this.renderDiffView()}
             `

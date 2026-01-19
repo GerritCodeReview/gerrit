@@ -70,14 +70,6 @@ gerrit_api_version(
     visibility = ["//visibility:public"],
 )
 
-local_repository = use_repo_rule("@bazel_tools//tools/build_defs/repo:local.bzl", "local_repository")
-
-# Java-Prettify external repository consumed from git submodule
-local_repository(
-    name = "java-prettify",
-    path = "modules/java-prettify",
-)
-
 maven = use_extension("@rules_jvm_external//:extensions.bzl", "maven")
 
 # Empty maven.install call to apply the configuration to the installation from
@@ -139,6 +131,11 @@ maven.install(
     fail_if_repin_required = True,
     fail_on_missing_checksum = True,
     fetch_sources = True,
+    known_contributing_modules = [
+      "gerrit",
+      "gerrit-plugin-delete-project",
+      "gerrit-plugin-gitiles"
+    ],
     strict_visibility = True,
     version_conflict_policy = "pinned",
 )
@@ -147,6 +144,18 @@ bazel_dep(name = "gerrit-plugin-delete-project")
 local_path_override(
     module_name = "gerrit-plugin-delete-project",
     path = "./plugins/delete-project",
+)
+
+bazel_dep(name = "gerrit-plugin-gitiles")
+local_path_override(
+    module_name = "gerrit-plugin-gitiles",
+    path = "./plugins/gitiles",
+)
+bazel_dep(name = "java-prettify")
+git_override(
+  module_name = "java-prettify",
+  remote = "https://gerrit.googlesource.com/java-prettify",
+  commit = "d50c5563fb7452966ee29ddeeec91fbc8a68d41f",
 )
 
 use_repo(maven, "gerrit_plugin_deps")

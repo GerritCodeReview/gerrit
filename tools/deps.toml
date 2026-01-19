@@ -4,7 +4,6 @@ autoValueGson = "1.3.1"
 bouncyCastle = "1.80"
 byteBuddy = "1.18.3"
 caffeine = "2.9.2"
-commonmark = "0.21.0"
 gitiles = "1.6.0"
 greenmail = "1.5.5"
 httpcomp = "4.5.14"
@@ -44,10 +43,6 @@ blame-cache = { module = "com.google.gitiles:blame-cache", version.ref = "gitile
 byte-buddy = { module = "net.bytebuddy:byte-buddy", version.ref = "byteBuddy" }
 byte-buddy-agent = { module = "net.bytebuddy:byte-buddy-agent", version.ref = "byteBuddy" }
 caffeine = { module = "com.github.ben-manes.caffeine:caffeine", version.ref = "caffeine" }
-commonmark = { module = "org.commonmark:commonmark", version.ref = "commonmark" }
-commonmark-ext-autolink = { module = "org.commonmark:commonmark-ext-autolink", version.ref = "commonmark" }
-commonmark-ext-gfm-strikethrough = { module = "org.commonmark:commonmark-ext-gfm-strikethrough", version.ref = "commonmark" }
-commonmark-ext-gfm-tables = { module = "org.commonmark:commonmark-ext-gfm-tables", version.ref = "commonmark" }
 commons-codec = { module = "commons-codec:commons-codec", version = "1.15" }
 commons-compress = { module = "org.apache.commons:commons-compress", version = "1.25.0" }
 commons-dbcp = { module = "commons-dbcp:commons-dbcp", version = "1.4" }
@@ -60,7 +55,6 @@ diffutils = { module = "com.googlecode.java-diff-utils:diffutils", version = "1.
 failureaccess = { module = "com.google.guava:failureaccess", version = "1.0.1" }
 flexmark-all = { module = "com.vladsch.flexmark:flexmark-all", version = "0.64.0:lib" }
 fluent-hc = { module = "org.apache.httpcomponents:fluent-hc", version.ref = "httpcomp" }
-gitiles-servlet = { module = "com.google.gitiles:gitiles-servlet", version.ref = "gitiles" }
 greenmail = { module = "com.icegreen:greenmail", version.ref = "greenmail" }
 guava = { module = "com.github.ben-manes.caffeine:guava", version.ref = "caffeine" }
 guava-retrying = { module = "com.github.rholder:guava-retrying", version = "2.0.0" }

@@ -3651,7 +3651,8 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   async getPatchContent(
     changeNum: NumericChangeId,
     patchNum: PatchSetNum,
-    context?: number
+    context?: number,
+    errFn?: ErrorCallback
   ): Promise<string | undefined> {
     const url = await this._changeBaseURL(changeNum, patchNum);
     const params: {[key: string]: string | number} = {
@@ -3665,6 +3666,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       url: `${url}/patch`,
       params,
       anonymizedUrl: `${ANONYMIZED_REVISION_BASE_URL}/patch`,
+      errFn,
     });
     if (!response?.ok) return undefined;
     return await response.text();

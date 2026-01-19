@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b35dfc4e_28201ddb",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-01-19T09:28:11Z",
+      "side": 1,
+      "message": "we don\u0027t use `_` for variables anymore\n\nAlso document this variable",
+      "range": {
+        "startLine": 285,
+        "startChar": 10,
+        "endLine": 285,
+        "endChar": 22
+      },
+      "revId": "4b2d7c2971eb7b3aec845c87626edbe6f2b65310",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

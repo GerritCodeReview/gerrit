@@ -70,12 +70,10 @@ gerrit_api_version(
     visibility = ["//visibility:public"],
 )
 
-local_repository = use_repo_rule("@bazel_tools//tools/build_defs/repo:local.bzl", "local_repository")
-
-# Java-Prettify external repository consumed from git submodule
-local_repository(
-    name = "java-prettify",
-    path = "modules/java-prettify",
+bazel_dep(name = "java-prettify")
+local_path_override(
+    module_name = "java-prettify",
+    path = "./modules/java-prettify",
 )
 
 maven = use_extension("@rules_jvm_external//:extensions.bzl", "maven")

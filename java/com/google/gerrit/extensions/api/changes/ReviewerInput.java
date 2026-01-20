@@ -26,6 +26,7 @@ public class ReviewerInput {
   public ReviewerState state;
   public NotifyHandling notify;
   public Map<RecipientType, NotifyInfo> notifyDetails;
+  public String onBehalfOf;
 
   public boolean confirmed() {
     return (confirmed != null) ? confirmed : false;

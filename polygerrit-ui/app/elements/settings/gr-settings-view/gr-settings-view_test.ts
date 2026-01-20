@@ -177,9 +177,7 @@ suite('gr-settings-view tests', () => {
                   <textarea
                     class="account-state-output"
                     readonly=""
-                  >
-                    <!----><!---->
-                  </textarea>
+                  ></textarea>
                   <p class="account-state-note">
                     Note: The account state may contain sensitive data (e.g.
                     deadnames). Share it with others only on a need to know

@@ -198,4 +198,13 @@ suite('gr-create-change-dialog tests', () => {
     assert.equal(branches.length, 1);
     assert.equal(branches[0].name, 'test-branch');
   });
+  test('respects privateByDefault property', async () => {
+    element.privateByDefault = {
+      configured_value: InheritedBooleanInfoConfiguredValue.TRUE,
+      inherited_value: false,
+      value: true,
+    };
+    await element.updateComplete;
+    assert.isTrue(element.privateChangeCheckBox.checked);
+  });
 });

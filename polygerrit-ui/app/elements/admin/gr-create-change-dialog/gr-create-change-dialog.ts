@@ -13,6 +13,7 @@ import {
   BranchName,
   ChangeId,
   ConfigInfo,
+  InheritedBooleanInfo,
   RepoName,
 } from '../../../types/common';
 import {InheritedBooleanInfoConfiguredValue} from '../../../constants/constants';
@@ -67,6 +68,9 @@ export class GrCreateChangeDialog extends LitElement {
 
   @property({type: String})
   baseChange?: ChangeId;
+
+  @property({type: Object})
+  privateByDefault?: InheritedBooleanInfo;
 
   @state() private baseCommit?: string;
 
@@ -292,7 +296,7 @@ export class GrCreateChangeDialog extends LitElement {
 
   // private but used in test
   formatPrivateByDefaultBoolean() {
-    const config = this.repoConfig?.private_by_default;
+    const config = this.privateByDefault ?? this.repoConfig?.private_by_default;
     if (config === undefined) return false;
     switch (config.configured_value) {
       case InheritedBooleanInfoConfiguredValue.TRUE:

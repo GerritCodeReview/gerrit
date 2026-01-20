@@ -54,6 +54,8 @@ import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.DraftHandling;
+import com.google.gerrit.extensions.api.changes.ReviewerInput;
+import com.google.gerrit.extensions.api.changes.ReviewerResult;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.api.groups.GroupInput;
@@ -852,6 +854,31 @@ public class ImpersonationIT extends AbstractDaemonTest {
     assertThat(info.messages).hasSize(2);
 
     assertLastChangeMessage(r.getChange(), in.message, user, accountCreator.user2());
+  }
+
+  @Test
+  public void addReviewerOnBehalfOf() throws Exception {
+    allowCodeReviewOnBehalfOf();
+    TestAccount realUser = admin;
+    TestAccount impersonatedUser = user;
+    PushOneCommit.Result r = createChange();
+
+    ReviewerInput in = new ReviewerInput();
+    in.reviewer = admin2.email();
+    in.onBehalfOf = impersonatedUser.id().toString();
+    ReviewerResult result = gApi.changes().id(r.getChangeId()).addReviewer(in);
+
+    assertThat(result.reviewers).hasSize(1);
+    assertThat(result.reviewers.get(0)._accountId).isEqualTo(admin2.id().get());
+
+    ChangeMessage m = Iterables.getLast(cmUtil.byChange(r.getChange().notes()));
+    assertThat(m.getRealAuthor()).isEqualTo(realUser.id());
+    assertThat(m.getAuthor()).isEqualTo(impersonatedUser.id());
+
+    ChangeMessageInfo lastChangeMessageInfo =
+        Iterables.getLast(gApi.changes().id(r.getChangeId()).get().messages);
+    assertThat(lastChangeMessageInfo.realAuthor._accountId).isEqualTo(realUser.id().get());
+    assertThat(lastChangeMessageInfo.author._accountId).isEqualTo(impersonatedUser.id().get());
   }
 
   private void assertLastChangeMessage(

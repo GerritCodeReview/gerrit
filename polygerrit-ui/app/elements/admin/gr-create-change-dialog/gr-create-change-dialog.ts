@@ -139,7 +139,7 @@ export class GrCreateChangeDialog extends LitElement {
           <span class="value">
             <gr-autocomplete
               id="branchInput"
-              .text=${this.branch}
+              .text=${this.branch ?? ''}
               .query=${this.query}
               placeholder="Destination branch"
               .showBlueFocusBorder=${true}

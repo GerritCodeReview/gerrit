@@ -104,6 +104,11 @@ function resolveDependency(evt: DependencyRequestEvent<unknown>) {
 }
 
 setup(function () {
+  // Very noisy. There are a lot of plugins / reportings that are logging to
+  // console.debug and console.info. We don't want to see them in the test output.
+  sinon.stub(console, 'debug');
+  sinon.stub(console, 'info');
+
   testSetupTimestampMs = new Date().getTime();
   currentTestName = this.currentTest?.title || 'unknown test';
 

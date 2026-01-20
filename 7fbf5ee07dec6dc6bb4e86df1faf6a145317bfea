@@ -16,6 +16,23 @@
       "message": "465068839, 457583253, 454832807, 454365246, 451182462, 442989229, 416689831, 409021832, 404568027, 399449165, 393995222, 393991559, 384770165, 368409107, 364052454, 361369287, 359904344, 359909531, 359613380, 359245763, 338414703, 333408181, 333209047, 323254394, 319451097, 318052470, 317770595, 317770594, 317782003, 317770592, 317782001, 317770591, 317713423, 317713422, 309822386, 300279941, 40015471, 40013889, 40012794, 40011977, 40011502, 40010555, 40010287, 40010282, 40010134, 40010081, 40010004, 40009906, 40009894, 40009802",
       "revId": "7fbf5ee07dec6dc6bb4e86df1faf6a145317bfea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "415833ba_25c37019",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4596272
+      },
+      "writtenOn": "2026-01-20T18:48:59Z",
+      "side": 1,
+      "message": "You are a highly experienced code reviewer specializing in Git patches. Your\ntask is to analyze the provided Git patch (`patch`) and provide comprehensive\nfeedback.  Focus on identifying potential bugs, inconsistencies, security\nvulnerabilities, and areas for improvement in code style and readability.\nYour response should be detailed and constructive, offering specific suggestions\nfor remediation where applicable. Prioritize clarity and conciseness in your\nfeedback.\n\n# Step by Step Instructions\n\n1.  Read the provided `patch` carefully.  Understand the changes it introduces to the codebase.\n\n2.  Analyze the `patch` for potential issues:\n    * **Functionality:** Does the code work as intended? Are there any bugs or unexpected behavior?\n    * **Security:** Are there any security vulnerabilities introduced by the patch?\n    * **Style:** Does the code adhere to the project\u0027s coding style guidelines? Is it readable and maintainable?\n    * **Consistency:** Are there any inconsistencies with existing code or design patterns?\n    * **Testing:** Does the patch include sufficient tests to cover the changes?\n\n3.  Formulate concise and constructive feedback for each identified issue.  Provide specific suggestions for remediation where possible.\n\n4.  Summarize your findings in a clear and organized manner.  Prioritize critical issues over minor ones.\n\n5.  Review the feedback written so far. Is the feedback comprehensive and sufficiently detailed?\nIf not, go back to step 2, focusing on any areas that require further analysis or clarification.\n If yes, proceed to step 6.\n\n6.  Output the complete review.\n\n\nPatch: \n\"\"\"\nFrom 7fbf5ee07dec6dc6bb4e86df1faf6a145317bfea Mon Sep 17 00:00:00 2001\nFrom: Paladox none \u003cthomasmulhall410@yahoo.com\u003e\nDate: Sun, 12 Oct 2025 07:14:36 -0700\nSubject: [PATCH] Update caffeine to 3.1.8\n\nRelease-Notes: Update caffeine to 3.1.8\nBug: Issue 451182462\nChange-Id: I19c1e9a3cc2a24ac1dbc650dee7bd66ea8bf0d29\n---\n\ndiff --git a/WORKSPACE b/WORKSPACE\nindex 666137b..71f3dbe 100644\n--- a/WORKSPACE\n+++ b/WORKSPACE\n@@ -86,7 +86,7 @@\n \n java_dependencies()\n \n-CAFFEINE_GUAVA_SHA256 \u003d \"6e48965614557ba4d3c55a197e20c38f23a20032ef8aace37e95ed64d2ebc9a6\"\n+CAFFEINE_GUAVA_SHA256 \u003d \"e45c7c2db18810644c12bb3396cd38dbf4efaa1fa2402f27aaef6e662d8a0af5\"\n \n # TODO(davido): Rename guava.jar to caffeine-guava.jar on fetch to prevent potential\n # naming collision between caffeine guava adapter and guava library itself.\ndiff --git a/tools/deps.bzl b/tools/deps.bzl\nindex f4e1954..79cd776 100644\n--- a/tools/deps.bzl\n+++ b/tools/deps.bzl\n@@ -4,7 +4,7 @@\n \n load(\"//tools/bzl:maven_jar.bzl\", \"GERRIT\", \"maven_jar\")\n \n-CAFFEINE_VERS \u003d \"2.9.2\"\n+CAFFEINE_VERS \u003d \"3.1.8\"\n ANTLR_VERS \u003d \"3.5.2\"\n COMMONMARK_VERSION \u003d \"0.21.0\"\n GREENMAIL_VERS \u003d \"1.5.5\"\n@@ -89,7 +89,7 @@\n     maven_jar(\n         name \u003d \"caffeine\",\n         artifact \u003d \"com.github.ben-manes.caffeine:caffeine:\" + CAFFEINE_VERS,\n-        sha1 \u003d \"0a17ed335e0ce2d337750772c0709b79af35a842\",\n+        sha1 \u003d \"24795585df8afaf70a2cd534786904ea5889c047\",\n     )\n \n     maven_jar(\n\n\"\"\"\nIMPORTANT NOTE: Start directly with the output, do not output any delimiters.\nTake a Deep Breath, read the instructions again, read the inputs again. Each instruction is crucial and must be executed with utmost care and attention to detail.\n\nReview:",
+      "revId": "7fbf5ee07dec6dc6bb4e86df1faf6a145317bfea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

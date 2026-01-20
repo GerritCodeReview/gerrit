@@ -252,6 +252,9 @@ public class IndexHtmlUtil {
     if (faviconPath != null) {
       data.put("faviconPath", faviconPath);
     }
+    data.put(
+        "manifestPath",
+        urlInScriptTagOrdainer.apply(Strings.nullToEmpty(canonicalPath) + "/manifest.webmanifest"));
 
     if (urlParameterMap.containsKey("ce")) {
       data.put("polyfillCE", "true");

@@ -53,6 +53,7 @@ export class ContextChip extends LitElement {
     }
     md-filter-chip {
       --md-sys-color-primary: var(--primary-text-color);
+      --md-filter-chip-label-text-color: var(--primary-text-color);
       --md-filter-chip-container-height: 20px;
       --md-filter-chip-label-text-size: var(--font-size-small);
       --md-filter-chip-label-text-weight: var(--font-weight-medium);
@@ -90,9 +91,8 @@ export class ContextChip extends LitElement {
           .isCustomAction
           ? 'custom-action-chip'
           : ''}"
-        .label=${this.text}
-        ?selected=${this.isCustomAction}
-        .title=${this.tooltip ?? ''}
+        .label=${this.contextItem?.title ?? this.text}
+        .title=${this.contextItem?.tooltip ?? this.tooltip ?? ''}
         @click=${this.navigateToUrl}
         ?removable=${this.isRemovable && !this.isSuggestion}
         @remove=${this.onRemoveContextChip}

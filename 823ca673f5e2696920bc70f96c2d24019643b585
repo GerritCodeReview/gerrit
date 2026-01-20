@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a992f938_2ac8b09b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-01-20T22:25:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a20e400_4c34002a",
+      "range": {
+        "startLine": 7,
+        "startChar": 5,
+        "endLine": 7,
+        "endChar": 12
+      },
+      "revId": "823ca673f5e2696920bc70f96c2d24019643b585",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "326ee002_1fcc51f6",
@@ -106,6 +130,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4f6d6608_001035ba",
+        "filename": "polygerrit-ui/app/api/ai-code-review.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-01-20T22:25:40Z",
+      "side": 1,
+      "message": "Wasn\u0027t sure exactly what you meant, but I updated the comment, but let me know if you had something else in mind here.",
+      "parentUuid": "f7e4e0aa_30a02c77",
+      "range": {
+        "startLine": 262,
+        "startChar": 0,
+        "endLine": 262,
+        "endChar": 688
+      },
+      "revId": "823ca673f5e2696920bc70f96c2d24019643b585",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "379185ef_ced656ba",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_screenshot_test.ts",
         "patchSetId": 2
@@ -117,6 +165,30 @@
       "writtenOn": "2026-01-19T21:53:59Z",
       "side": 1,
       "message": "Can you please revert this timeout.\n\nyou can run `yarn test:screenshot-update \"**/gr-change-view_screenshot_test.ts\"` for new screenshot where this CL is added.",
+      "range": {
+        "startLine": 52,
+        "startChar": 0,
+        "endLine": 53,
+        "endChar": 21
+      },
+      "revId": "823ca673f5e2696920bc70f96c2d24019643b585",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "12761266_49865a22",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_screenshot_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-01-20T22:25:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "379185ef_ced656ba",
       "range": {
         "startLine": 52,
         "startChar": 0,
@@ -140,6 +212,30 @@
       "writtenOn": "2026-01-19T21:53:59Z",
       "side": 1,
       "message": "Can you use GerritNav.getUrlForChange(this.change) here?",
+      "range": {
+        "startLine": 358,
+        "startChar": 13,
+        "endLine": 358,
+        "endChar": 89
+      },
+      "revId": "823ca673f5e2696920bc70f96c2d24019643b585",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a7f10002_4020031f",
+        "filename": "polygerrit-ui/app/elements/chat-panel/prompt-box.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-01-20T22:25:40Z",
+      "side": 1,
+      "message": "I\u0027m not sure how to import that. I see it referenced in a readme, but not anywhere else in the code base.",
+      "parentUuid": "3773c806_a8e92a8c",
       "range": {
         "startLine": 358,
         "startChar": 13,
@@ -191,6 +287,54 @@
         "startChar": 21,
         "endLine": 362,
         "endChar": 39
+      },
+      "revId": "823ca673f5e2696920bc70f96c2d24019643b585",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "91d9f8ec_398e4d10",
+        "filename": "polygerrit-ui/app/elements/chat-panel/prompt-box.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-01-20T22:25:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4c229d4f_7756220c",
+      "range": {
+        "startLine": 362,
+        "startChar": 21,
+        "endLine": 362,
+        "endChar": 39
+      },
+      "revId": "823ca673f5e2696920bc70f96c2d24019643b585",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ebf11b86_ce6b7fdb",
+        "filename": "polygerrit-ui/app/elements/chat-panel/prompt-box.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-01-20T22:25:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9ee80640_dc0bdba5",
+      "range": {
+        "startLine": 362,
+        "startChar": 42,
+        "endLine": 362,
+        "endChar": 56
       },
       "revId": "823ca673f5e2696920bc70f96c2d24019643b585",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

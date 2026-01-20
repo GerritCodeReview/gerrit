@@ -1,5 +1,29 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c9500c8a_0616caf7",
+        "filename": "polygerrit-ui/app/test/common-test-setup.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-01-20T09:40:55Z",
+      "side": 1,
+      "message": "does this mean any developer debugging the tests and using `debug` and `info` will no longer see the output in the console?\n\nThis could be very tricky to debug later if that is the case",
+      "range": {
+        "startLine": 107,
+        "startChar": 0,
+        "endLine": 110,
+        "endChar": 30
+      },
+      "revId": "1faedf01870e574f0b446d724b5a8e327f7ec5e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

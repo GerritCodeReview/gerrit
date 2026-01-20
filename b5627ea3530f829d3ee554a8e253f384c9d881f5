@@ -33,6 +33,24 @@
       "message": "LC vote is needed. This change only moves the same dependency around.",
       "revId": "b5627ea3530f829d3ee554a8e253f384c9d881f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0ca9261c_56e7d22b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-01-20T08:49:15Z",
+      "side": 1,
+      "message": "In case you haven\u0027t done so yet, the process to get an LC vote would be to open a ticket in the issue tracker: https://gerrit-review.googlesource.com/Documentation/dev-processes.html#upgrading-libraries",
+      "parentUuid": "ed008880_e57c41b1",
+      "revId": "b5627ea3530f829d3ee554a8e253f384c9d881f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

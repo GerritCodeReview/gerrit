@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5e4f1658_e00ec37c",
+        "filename": "java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2026-01-20T09:40:35Z",
+      "side": 1,
+      "message": "Should this parameter be documented at: https://gerrit-review.googlesource.com/Documentation/config-gerrit.html#httpd",
+      "range": {
+        "startLine": 228,
+        "startChar": 56,
+        "endLine": 228,
+        "endChar": 88
+      },
+      "revId": "d4ff536d47490b4a5323da1f23331836eb0c8468",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

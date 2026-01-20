@@ -63,6 +63,7 @@ suite('prompt-box tests', () => {
         </div>
         <md-chip-set class="context-chip-set">
           <context-input-chip> </context-input-chip>
+          <context-chip class="this-change-context"> </context-chip>
         </md-chip-set>
       `
     );
@@ -134,7 +135,9 @@ suite('prompt-box tests', () => {
       },
     });
     await element.updateComplete;
-    const contextChips = element.shadowRoot?.querySelectorAll('context-chip');
+    const contextChips = element.shadowRoot?.querySelectorAll(
+      'context-chip.external-context'
+    );
     assert.isOk(contextChips);
     assert.equal(contextChips?.length, 2);
   });

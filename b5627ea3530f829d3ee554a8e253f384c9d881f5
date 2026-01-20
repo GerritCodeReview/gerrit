@@ -69,6 +69,24 @@
       "parentUuid": "0ca9261c_56e7d22b",
       "revId": "b5627ea3530f829d3ee554a8e253f384c9d881f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e5353bc5_78f40572",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-01-20T09:44:36Z",
+      "side": 1,
+      "message": "I agree that it shouldn\u0027t be required, but I guess the submit requirement is not able to detect that and without the ticket Googlers won\u0027t prioritize that and thus not look at it.",
+      "parentUuid": "03b6dc15_52bb278c",
+      "revId": "b5627ea3530f829d3ee554a8e253f384c9d881f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

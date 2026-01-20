@@ -22,6 +22,30 @@
       },
       "revId": "1faedf01870e574f0b446d724b5a8e327f7ec5e9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f2003b4a_b2158c40",
+        "filename": "polygerrit-ui/app/test/common-test-setup.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-01-20T11:47:39Z",
+      "side": 1,
+      "message": "That\u0027s good point. Do you use debug/info or console.log? Do you have good idea how to remove noise and at same time allow for debug/info? Maybe I sinon only when you are all tests?",
+      "parentUuid": "c9500c8a_0616caf7",
+      "range": {
+        "startLine": 107,
+        "startChar": 0,
+        "endLine": 110,
+        "endChar": 30
+      },
+      "revId": "1faedf01870e574f0b446d724b5a8e327f7ec5e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

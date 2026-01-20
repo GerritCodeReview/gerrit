@@ -93,6 +93,30 @@
       },
       "revId": "c85135b49138b0927971ff59b5418f77c312cca9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ea09baf1_150fc983",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-attempt_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-01-20T21:41:12Z",
+      "side": 1,
+      "message": "This sentence is still unclear and I do not see why using the word `ordinal` adds any clarity to the test name\n\nSeems like a word AI would use without seeing if the meaning fits\n\nTest name should describe what exactly is being tested here\n\nPrevious test name is `render nothing if isSingleAttempt` so based on that this test should be\n\n`render X if Y`",
+      "parentUuid": "ff58a847_cebafccf",
+      "range": {
+        "startLine": 43,
+        "startChar": 23,
+        "endLine": 43,
+        "endChar": 30
+      },
+      "revId": "c85135b49138b0927971ff59b5418f77c312cca9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

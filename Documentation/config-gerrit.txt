@@ -1256,14 +1256,11 @@ External group membership obtained from LDAP is cached under
 
 cache `"groups_bymember"`::
 +
-Caches the groups which contain a specific member (account). If direct
-updates are made to the `account_group_members` table, this cache should
-be flushed.
+Caches the groups which contain a specific member (account).
 
 cache `"groups_bysubgroups"`::
 +
-Caches the parent groups of a subgroup.  If direct updates are made
-to the `account_group_includes` table, this cache should be flushed.
+Caches the parent groups of a subgroup.
 
 cache `"groups_external"`::
 +

@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9041d5dd_a0381b97",
+        "filename": "polygerrit-ui/app/elements/shared/gr-avatar/gr-avatar_test.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-01-21T11:54:44Z",
+      "side": 1,
+      "message": "why is this used instead of the `element`?\n\nSame for the usage above",
+      "range": {
+        "startLine": 68,
+        "startChar": 14,
+        "endLine": 68,
+        "endChar": 39
+      },
+      "revId": "fbf23dde1c2947f3dfe98122ec146f6c144a7d51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ee62937_512cf213",
+        "filename": "polygerrit-ui/app/elements/shared/gr-avatar/gr-avatar_test.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-01-21T11:54:44Z",
+      "side": 1,
+      "message": "avoid using `any` and mock the actual type of the arg",
+      "range": {
+        "startLine": 69,
+        "startChar": 45,
+        "endLine": 69,
+        "endChar": 57
+      },
+      "revId": "fbf23dde1c2947f3dfe98122ec146f6c144a7d51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e04e05b8_713aac59",
+        "filename": "polygerrit-ui/app/elements/shared/gr-avatar/gr-avatar_test.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-01-21T11:54:44Z",
+      "side": 1,
+      "message": "what is this code doing?\n\nWhy is this needed?\n\nCan you avoid using `any` and setting thi s `__test_url` property?",
+      "range": {
+        "startLine": 72,
+        "startChar": 12,
+        "endLine": 72,
+        "endChar": 43
+      },
+      "revId": "fbf23dde1c2947f3dfe98122ec146f6c144a7d51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "932d71ef_6511a079",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-image-viewer/gr-image-viewer_test.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-01-21T11:54:44Z",
+      "side": 1,
+      "message": "why is this using `(GrImageViewer as any)` instead of `element`?\n\nDoes it make a difference?\n\nIf yes, please explain why",
+      "range": {
+        "startLine": 16,
+        "startChar": 22,
+        "endLine": 16,
+        "endChar": 54
+      },
+      "revId": "fbf23dde1c2947f3dfe98122ec146f6c144a7d51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c5a9e48e_ec080544",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-image-viewer/gr-image-viewer_test.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-01-21T11:54:44Z",
+      "side": 1,
+      "message": "is this test file using this code?\n\nIf so, where?\n\nIf not, then should this be mocked in the common-test-setup?",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 7
+      },
+      "revId": "fbf23dde1c2947f3dfe98122ec146f6c144a7d51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

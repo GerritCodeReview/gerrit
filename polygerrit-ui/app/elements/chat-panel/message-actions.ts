@@ -41,6 +41,14 @@ export class MessageActions extends LitElement {
     .feedback-button.thumbs-up-icon {
       margin-left: auto;
     }
+    md-icon-button {
+      color: var(--primary-text-color);
+      --md-icon-button-icon-color: var(--primary-text-color);
+      --md-icon-button-hover-icon-color: var(--primary-text-color);
+    }
+    md-icon-button md-icon {
+      color: var(--primary-text-color);
+    }
   `;
 
   @property({type: Object}) turnId!: UniqueTurnId;

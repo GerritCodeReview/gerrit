@@ -10,12 +10,11 @@ import {
   property,
   queryAssignedElements,
 } from 'lit/decorators.js';
-// @ts-ignore
-import * as marked from 'marked/lib/marked';
-
-if (!window.marked) {
-  window.marked = marked;
-}
+import {Marked, Renderer} from 'marked';
+import {markedHighlight} from 'marked-highlight';
+import {gfmHeadingId} from 'marked-gfm-heading-id';
+import {mangle} from 'marked-mangle';
+import {markedSmartypants} from 'marked-smartypants';
 
 declare global {
   interface Window {
@@ -28,6 +27,19 @@ declare global {
   }
 }
 
+// Perform a check to see if marked is loaded on the window, if not, load it.
+// This is to support existing usages that might rely on window.marked,
+// although we prefer local usage.
+if (!window.marked) {
+  // We expose the Marked class and Renderer constructor for compatibility
+  // with consumers that might look for them, though v17 API is different.
+  window.marked = Marked;
+  // @ts-ignore
+  window.marked.Renderer = Renderer;
+  // @ts-ignore
+  window.marked.parse = (text, options) => new Marked().parse(text, options);
+}
+
 /**
  * This is based on [marked-element](https://github.com/PolymerElements/marked-element) by Polymer
  * but converted to use Lit. It uses the [marked](https://github.com/markedjs/marked) library.
@@ -38,15 +50,7 @@ export class GrMarkedElement extends LitElement {
 
   @property({type: Boolean}) breaks = false;
 
-  @property({type: Boolean}) pedantic = false;
-
-  @property({type: Function}) renderer: Function | null = null;
-
-  @property({type: Boolean}) sanitize = false;
-
-  @property({type: Function}) sanitizer:
-    | ((html: string) => string)
-    | undefined = undefined;
+  @property({type: Object}) renderer: Renderer | null | undefined;
 
   @property({type: Boolean}) smartypants = false;
 
@@ -81,10 +85,7 @@ export class GrMarkedElement extends LitElement {
     const propsToWatch = [
       'markdown',
       'breaks',
-      'pedantic',
       'renderer',
-      'sanitize',
-      'sanitizer',
       'smartypants',
       'callback',
     ];
@@ -108,25 +109,67 @@ export class GrMarkedElement extends LitElement {
       return;
     }
 
-    const renderer = new window.marked.Renderer();
-    if (this.renderer) this.renderer(renderer);
+    const markedInstance = new Marked(
+      markedHighlight({
+        highlight: (code, lang) => this.highlight(code, lang),
+      }),
+      gfmHeadingId(),
+      mangle()
+    );
+
+    if (this.smartypants) {
+      markedInstance.use(markedSmartypants());
+    }
+
+    const renderer = new Renderer();
+    // Consumers like gr-formatted-text expect to manipulate the renderer
+    // directly before it is used.
+    // In marked v17, we can pass this renderer to markedInstance.use({ renderer }).
+    if (this.renderer) {
+      // Logic for old consumers: they expected a function that takes a renderer.
+      // We need to check if this.renderer is a function or an object/callback.
+      // The original type was Function | null.
+      // gr-formatted-text passes a function: (renderer) => { renderer.link = ... }
+      if (typeof this.renderer === 'function') {
+        (this.renderer as Function)(renderer);
+      }
+    }
+
+    markedInstance.use({renderer});
 
     const options = {
-      renderer,
-      highlight: this.highlight.bind(this),
       breaks: this.breaks,
-      sanitize: this.sanitize,
-      sanitizer: this.sanitizer,
-      pedantic: this.pedantic,
-      smartypants: this.smartypants,
     };
 
-    const output = window.marked(this.markdown, options, this.callback);
+    try {
+      // marked.parse can be string | Promise<string>
+      const output = markedInstance.parse(this.markdown, options);
 
-    this.outputElement[0].innerHTML = output;
-    this.dispatchEvent(
-      new CustomEvent('marked-render-complete', {bubbles: true, composed: true})
-    );
+      if (output instanceof Promise) {
+        output.then(out => {
+          this.outputElement[0].innerHTML = out;
+          this.dispatchEvent(
+            new CustomEvent('marked-render-complete', {
+              bubbles: true,
+              composed: true,
+            })
+          );
+          if (this.callback) this.callback(null, out);
+        });
+      } else {
+        this.outputElement[0].innerHTML = output;
+        this.dispatchEvent(
+          new CustomEvent('marked-render-complete', {
+            bubbles: true,
+            composed: true,
+          })
+        );
+        if (this.callback) this.callback(null, output);
+      }
+    } catch (e) {
+      if (this.callback) this.callback(e, null);
+      throw e;
+    }
   }
 
   private highlight(code: string, lang: string): string {

@@ -10,7 +10,7 @@ import {
   sanitizeHtml,
   sanitizeHtmlToFragment,
 } from '../../../utils/inner-html-util';
-import {unescapeHTML} from '../../../utils/syntax-util';
+
 import {resolve} from '../../../models/dependency';
 import {subscribe} from '../../lit/subscription-controller';
 import {configModelToken} from '../../../models/config/config-model';
@@ -216,14 +216,8 @@ export class GrFormattedText extends LitElement {
 
   private renderAsMarkdown() {
     // Bind `this` via closure.
-    const boundRewriteText = (text: string) => {
-      const nonAsteriskRewrites = Object.fromEntries(
-        Object.entries(this.repoCommentLinks).filter(
-          ([_name, rewrite]) => !rewrite.match.includes('\\*')
-        )
-      );
-      return linkifyUrlsAndApplyRewrite(text, nonAsteriskRewrites);
-    };
+    const boundRewriteText = (text: string) =>
+      linkifyUrlsAndApplyRewrite(text, this.repoCommentLinks);
 
     // Due to a tokenizer bug in the old version of markedjs we use, text with a
     // single asterisk is separated into 2 tokens before passing to renderer
@@ -232,15 +226,6 @@ export class GrFormattedText extends LitElement {
     // asterisk rewrites again at the end (using renderer['paragraph'] hook)
     // after all the nodes are combined.
     // Bind `this` via closure.
-    const boundRewriteAsterisks = (text: string) => {
-      const asteriskRewrites = Object.fromEntries(
-        Object.entries(this.repoCommentLinks).filter(([_name, rewrite]) =>
-          rewrite.match.includes('\\*')
-        )
-      );
-      const linkedText = linkifyUrlsAndApplyRewrite(text, asteriskRewrites);
-      return `<p>${linkedText}</p>`;
-    };
 
     const allowMarkdownBase64ImagesInComments =
       this.allowMarkdownBase64ImagesInComments;
@@ -260,7 +245,19 @@ export class GrFormattedText extends LitElement {
     // 5. Open links in a new tab by rendering with target="_blank" attribute.
     // 6. Relative links without "/" prefix are assumed to be absolute links.
     function customRenderer(renderer: {[type: string]: Function}) {
-      renderer['link'] = (href: string, title: string, text: string) => {
+      renderer['link'] = function (
+        this: any,
+        {
+          href,
+          title,
+          tokens,
+          text,
+        }: {href: string; title: string; tokens: any[]; text: string}
+      ) {
+        this.inLink = true;
+        const linkText =
+          tokens && tokens.length > 0 ? this.parser.parseInline(tokens) : text;
+        this.inLink = false;
         if (
           !href.startsWith('https://') &&
           !href.startsWith('mailto:') &&
@@ -270,14 +267,14 @@ export class GrFormattedText extends LitElement {
           href = `https://${href}`;
         }
         /* HTML */
-        return `<a
-          href="${href}"
-          ${sameOrigin(href) ? '' : 'target="_blank" rel="noopener noreferrer"'}
-          ${title ? `title="${title}"` : ''}
-          >${text}</a
-        >`;
+        return `<a href="${href}" ${
+          sameOrigin(href) ? '' : 'target="_blank" rel="noopener noreferrer"'
+        } ${title ? `title="${title}"` : ''}>${linkText}</a>`;
       };
-      renderer['image'] = (href: string, title: string, text: string) => {
+      renderer['image'] = function (
+        this: any,
+        {href, title, text}: {href: string; title: string; text: string}
+      ) {
         // Check if this is a base64-encoded image
         if (
           allowMarkdownBase64ImagesInComments &&
@@ -290,17 +287,24 @@ export class GrFormattedText extends LitElement {
         // For non-base64 images just return the markdown
         return `![${text}](${href})`;
       };
-      renderer['codespan'] = (text: string) =>
-        `<code>${unescapeHTML(text)}</code>`;
-      renderer['code'] = (text: string, infostring: string) => {
-        if (infostring === USER_SUGGESTION_INFO_STRING) {
+      renderer['codespan'] = ({text}: {text: string}) => `<code>${text}</code>`;
+      renderer['code'] = ({
+        text,
+        lang,
+      }: {
+        text: string;
+        lang: string | undefined;
+      }) => {
+        if (lang === USER_SUGGESTION_INFO_STRING) {
           // default santizer in markedjs is very restrictive, we need to use
           // existing html element to mark element. We cannot use css class for
           // it. Therefore we pick mark - as not frequently used html element to
           // represent unconverted gr-user-suggestion-fix.
           // TODO(milutin): Find a way to override sanitizer to directly use
           // gr-user-suggestion-fix
-          return `<mark>${text}</mark>`;
+          // Strip trailing backticks if marked v17 included them (e.g. no newline before fence)
+          const cleanText = text.replace(/`+\s*$/, '');
+          return `<mark>${cleanText}</mark>`;
         } else {
           return `<pre><code>${text}</code></pre>`;
         }
@@ -308,8 +312,23 @@ export class GrFormattedText extends LitElement {
       // <gr-marked-element> internals will be in charge of calling our custom
       // renderer so we write these functions separately so that 'this' is
       // preserved via closure.
-      renderer['paragraph'] = boundRewriteAsterisks;
-      renderer['text'] = boundRewriteText;
+      renderer['paragraph'] = function (this: any, {tokens}: {tokens: any[]}) {
+        const text = this.parser.parseInline(tokens);
+        return `<p>${text}</p>`;
+      };
+      renderer['text'] = function (
+        this: any,
+        {tokens, text}: {tokens: any[]; text: string}
+      ) {
+        if (this.inLink) {
+          return text;
+        }
+        // In marked v17, 'text' tokens might have tokens if they are not leaf nodes?
+        // But usually text token is just text.
+        // If tokens exist, parse them.
+        const content = tokens ? this.parser.parseInline(tokens) : text;
+        return boundRewriteText(content);
+      };
     }
 
     // The child with slot is optional but allows us control over the styling.

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c94c430_3a8b8bf3",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1260,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-01-21T20:50:36Z",
+      "side": 0,
+      "message": "Should `table` be instead replaced with `NoteDb data`? It is still possible to directly manipulate [that data](https://gerrit-review.googlesource.com/Documentation/config-groups.html#_storage_format).",
+      "revId": "62fa6f64ca92854e3d7518577b7ccf60266872a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

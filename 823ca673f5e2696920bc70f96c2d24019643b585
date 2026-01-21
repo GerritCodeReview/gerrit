@@ -71,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "47600ad3_ac3c7732",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-01-21T23:43:22Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "326ee002_1fcc51f6",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 95
+      },
+      "revId": "823ca673f5e2696920bc70f96c2d24019643b585",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b57e47cb_71870957",
@@ -302,6 +326,30 @@
       "side": 1,
       "message": "Sorry, that is old way. We currently do that with createChangeUrl",
       "parentUuid": "a7f10002_4020031f",
+      "range": {
+        "startLine": 358,
+        "startChar": 13,
+        "endLine": 358,
+        "endChar": 89
+      },
+      "revId": "823ca673f5e2696920bc70f96c2d24019643b585",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab8bbf01_b0482e40",
+        "filename": "polygerrit-ui/app/elements/chat-panel/prompt-box.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-01-21T23:43:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fd3e47e9_bc817548",
       "range": {
         "startLine": 358,
         "startChar": 13,

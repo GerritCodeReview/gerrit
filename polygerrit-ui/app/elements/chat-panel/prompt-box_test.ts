@@ -243,6 +243,7 @@ suite('prompt-box tests', () => {
     textarea.value = 'line 1\nline 2';
     textarea.dispatchEvent(new Event('input'));
     await element.updateComplete;
+    await new Promise(resolve => requestAnimationFrame(resolve));
 
     assert.equal(textarea.style.height, '50px');
 
@@ -255,6 +256,7 @@ suite('prompt-box tests', () => {
     textarea.value = 'line 1\nline 2\nline 3\nline 4';
     textarea.dispatchEvent(new Event('input'));
     await element.updateComplete;
+    await new Promise(resolve => requestAnimationFrame(resolve));
 
     assert.equal(textarea.style.height, '100px');
   });

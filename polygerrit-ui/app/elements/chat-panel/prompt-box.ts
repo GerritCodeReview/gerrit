@@ -573,17 +573,25 @@ export class PromptBox extends LitElement {
     return document.activeElement === this.promptInput;
   }
 
+  private resizeTask?: number;
+
   private adjustInputHeight() {
     if (!this.promptInput) {
       return;
     }
-    // Reset height to auto to correctly calculate scrollHeight for shrinking
-    this.promptInput.style.height = 'auto';
-    const scrollHeight = this.promptInput.scrollHeight;
-    this.promptInput.style.height = `${Math.min(
-      scrollHeight,
-      this.maxInputHeight
-    )}px`;
+    // Perform resize in the next animation frame to avoid blocking the input event
+    // and causing INP delays.
+    if (this.resizeTask !== undefined) {
+      cancelAnimationFrame(this.resizeTask);
+    }
+    this.resizeTask = requestAnimationFrame(() => {
+      if (!this.promptInput) return;
+      // Reset height to auto to correctly calculate scrollHeight for shrinking.
+      this.promptInput.style.height = 'auto';
+      const scrollHeight = this.promptInput.scrollHeight;
+      const newHeight = Math.min(scrollHeight, this.maxInputHeight);
+      this.promptInput.style.height = `${newHeight}px`;
+    });
   }
 
   private resetInputHeight() {

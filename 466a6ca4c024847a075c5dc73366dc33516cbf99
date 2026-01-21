@@ -113,6 +113,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1737e646_671dd9e2",
+        "filename": "MODULE.bazel",
+        "patchSetId": 46
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-01-21T20:37:48Z",
+      "side": 1,
+      "message": "\u003e Alternatively, as a mitigation, we could tolerate version skew introduced by `jgit_deps` but prevent it from contributing third-party libraries to the final WAR. In this model, third-party dependencies would be taken exclusively from `gerrit_deps` (and `gerrit_nongoogle_deps` if merged), while artifacts originating from `jgit_deps` would be restricted to JGit’s own outputs, with any transitive third-party dependencies from that universe ignored.\n\u003e \n\u003e This would effectively establish a precedence rule where Gerrit’s dependency universe always “wins” for third-party libraries, avoiding duplicate GAVs at packaging time without requiring full convergence across all installs.\n\u003e \n\u003e This approach is less strict than full dependency convergence, but may be an acceptable compromise if aligning all versions across universes is not immediately feasible. It would correspond more or less to the behavior of the pre-`rules_jvm_external`, `maven_jar`-based setup, where Gerrit effectively controlled which third-party dependencies were packaged.\n\u003e \n\nI think this is the approach we want to start with, since as you noted, it most closely matches what we currently have as our policy.",
+      "parentUuid": "be65ad6c_ce96ac8c",
+      "range": {
+        "startLine": 51,
+        "startChar": 0,
+        "endLine": 87,
+        "endChar": 1
+      },
+      "revId": "466a6ca4c024847a075c5dc73366dc33516cbf99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "31ce3186_b0be88ae",
         "filename": "tools/eclipse/BUILD",
         "patchSetId": 46

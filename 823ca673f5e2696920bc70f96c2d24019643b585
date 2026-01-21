@@ -170,6 +170,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d173b27_2bf983aa",
+        "filename": "polygerrit-ui/app/api/ai-code-review.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-01-21T18:49:20Z",
+      "side": 1,
+      "message": "Thanks. That\u0027s good like this now",
+      "parentUuid": "4f6d6608_001035ba",
+      "range": {
+        "startLine": 262,
+        "startChar": 0,
+        "endLine": 262,
+        "endChar": 688
+      },
+      "revId": "823ca673f5e2696920bc70f96c2d24019643b585",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "379185ef_ced656ba",
@@ -254,6 +278,30 @@
       "side": 1,
       "message": "I\u0027m not sure how to import that. I see it referenced in a readme, but not anywhere else in the code base.",
       "parentUuid": "3773c806_a8e92a8c",
+      "range": {
+        "startLine": 358,
+        "startChar": 13,
+        "endLine": 358,
+        "endChar": 89
+      },
+      "revId": "823ca673f5e2696920bc70f96c2d24019643b585",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fd3e47e9_bc817548",
+        "filename": "polygerrit-ui/app/elements/chat-panel/prompt-box.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-01-21T18:49:20Z",
+      "side": 1,
+      "message": "Sorry, that is old way. We currently do that with createChangeUrl",
+      "parentUuid": "a7f10002_4020031f",
       "range": {
         "startLine": 358,
         "startChar": 13,

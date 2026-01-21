@@ -113,6 +113,9 @@ export class ChatHeader extends LitElement {
       --md-icon-button-icon-color: var(--primary-text-color);
       --md-icon-button-hover-icon-color: var(--primary-text-color);
     }
+    md-icon-button md-icon {
+      color: var(--primary-text-color);
+    }
   `;
 
   @state() availableModels: ModelInfo[] = [];

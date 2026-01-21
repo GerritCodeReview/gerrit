@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "65e2ee59_6901dfb5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-01-21T14:59:49Z",
+      "side": 1,
+      "message": "Missing `Release-Notes` footer: can you summarise what should be included?",
+      "revId": "47e1589f286ac5da32e18276c221e833d4eb45eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

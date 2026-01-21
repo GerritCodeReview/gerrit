@@ -259,6 +259,10 @@ export declare interface ContextItemType {
 }
 
 export declare interface ContextItem {
+  /**
+   * The type of the context item, e.g. 'gerrit' or 'buganizer'.
+   * Corresponds to the 'type' of a GerritReference provided by the plugin.
+   */
   type_id: string;
   link: string;
   title: string;

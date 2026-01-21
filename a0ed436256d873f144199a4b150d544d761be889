@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e68d2180_b4c5adf8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2026-01-21T08:14:34Z",
+      "side": 1,
+      "message": "Remarking as WIP as a new permission should be added.",
+      "revId": "a0ed436256d873f144199a4b150d544d761be889",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

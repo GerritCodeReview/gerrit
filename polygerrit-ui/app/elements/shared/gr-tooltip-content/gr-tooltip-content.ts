@@ -8,6 +8,9 @@ import '../gr-tooltip/gr-tooltip';
 import {GrTooltip} from '../gr-tooltip/gr-tooltip';
 import {css, html, LitElement, PropertyValues} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
+import {debounce, DelayedTask} from '../../../utils/async-util';
+
+const SHOW_DELAY_MS = 100;
 
 const ARROW_HEIGHT = 7.2; // Height of the arrow in tooltip.
 
@@ -48,22 +51,32 @@ export class GrTooltipContent extends LitElement {
 
   private hasSetupTooltipListeners = false;
 
+  // Private but used in tests.
+  showTask?: DelayedTask;
+
+  // Private but used in tests.
+  hideTask?: DelayedTask;
+
   private readonly windowScrollHandler: () => void;
 
   private readonly showHandler: () => void;
 
   private readonly hideHandler: (e: Event) => void;
 
+
+
   constructor() {
     super();
     this.windowScrollHandler = () => this._handleWindowScroll();
-    this.showHandler = () => this._handleShowTooltip();
+    this.showHandler = () => this.debounceShow();
     this.hideHandler = (e: Event | undefined) => this._handleHideTooltip(e);
   }
 
   override disconnectedCallback() {
     this._handleHideTooltip(undefined);
     this.removeEventListener('mouseenter', this.showHandler);
+    this.removeEventListener('mouseleave', this.hideHandler);
+    this.removeEventListener('click', this.hideHandler);
     window.removeEventListener('scroll', this.windowScrollHandler);
     super.disconnectedCallback();
   }
@@ -101,6 +114,8 @@ export class GrTooltipContent extends LitElement {
       if (this.hasSetupTooltipListeners) {
         // if attribute set to false, remove the listener
         this.removeEventListener('mouseenter', this.showHandler);
+        this.removeEventListener('mouseleave', this.hideHandler);
+        this.removeEventListener('click', this.hideHandler);
         this.hasSetupTooltipListeners = false;
       }
       return;
@@ -111,6 +126,19 @@ export class GrTooltipContent extends LitElement {
     }
     this.hasSetupTooltipListeners = true;
     this.addEventListener('mouseenter', this.showHandler);
+    this.addEventListener('mouseleave', this.hideHandler);
+    this.addEventListener('click', this.hideHandler);
+  }
+
+  debounceShow() {
+    this.showTask = debounce(
+      this.showTask,
+      () => {
+        if (!this.isConnected) return;
+        this._handleShowTooltip();
+      },
+      SHOW_DELAY_MS
+    );
   }
 
   async _handleShowTooltip() {
@@ -150,12 +178,13 @@ export class GrTooltipContent extends LitElement {
     const parent = this.getTooltipParent(this);
     parent.appendChild(tooltip);
     await tooltip.updateComplete;
+    if (!this.isConnected || this.tooltip !== tooltip) {
+      return;
+    }
     this._positionTooltip(tooltip);
     tooltip.style.visibility = 'initial';
 
     window.addEventListener('scroll', this.windowScrollHandler);
-    this.addEventListener('mouseleave', this.hideHandler);
-    this.addEventListener('click', this.hideHandler);
     if (!this.lightTooltip) {
       tooltip.addEventListener('mouseleave', this.hideHandler);
     }
@@ -178,6 +207,12 @@ export class GrTooltipContent extends LitElement {
   }
 
   _handleHideTooltip(e?: Event) {
+    if (this.showTask) {
+      this.showTask.cancel();
+    }
+    if (this.hideTask) {
+      this.hideTask.cancel();
+    }
     if (this.isTouchDevice) {
       return;
     }
@@ -195,8 +230,6 @@ export class GrTooltipContent extends LitElement {
     }
 
     window.removeEventListener('scroll', this.windowScrollHandler);
-    this.removeEventListener('mouseleave', this.hideHandler);
-    this.removeEventListener('click', this.hideHandler);
     this.setAttribute('title', this.originalTitle);
     if (!this.lightTooltip) {
       this.tooltip?.removeEventListener('mouseleave', this.hideHandler);

@@ -9,7 +9,8 @@ import './gr-tooltip-content';
 import {GrTooltipContent} from './gr-tooltip-content';
 import {assert, fixture, html} from '@open-wc/testing';
 import {GrTooltip} from '../gr-tooltip/gr-tooltip';
-import {query} from '../../../test/test-utils';
+import {timeoutPromise} from '../../../utils/async-util';
+import {mockPromise, query} from '../../../test/test-utils';
 
 suite('gr-tooltip-content tests', () => {
   let element: GrTooltipContent;
@@ -250,6 +251,91 @@ suite('gr-tooltip-content tests', () => {
     element._handleHideTooltip();
     await element.updateComplete;
     assert.isNotOk(element.tooltip);
+    // fire mouse-enter
+    element._handleHideTooltip();
+    await element.updateComplete;
+    assert.isNotOk(element.tooltip);
+  });
+
+  test('debounces show tooltip', async () => {
+    element.hasTooltip = true;
+    await element.updateComplete;
+
+    element.dispatchEvent(new CustomEvent('mouseenter'));
+    await element.updateComplete;
+    assert.isNotOk(element.tooltip);
+
+    await timeoutPromise(50);
+    assert.isNotOk(element.tooltip);
+
+    await timeoutPromise(100); // total 150ms
+    await element.updateComplete;
+    assert.isOk(element.tooltip);
+  });
+
+  test('cancels show tooltip on mouseleave', async () => {
+    element.hasTooltip = true;
+    await element.updateComplete;
+
+    element.dispatchEvent(new CustomEvent('mouseenter'));
+    await element.updateComplete;
+
+    element.dispatchEvent(new CustomEvent('mouseleave'));
+    await element.updateComplete;
+
+    await timeoutPromise(300);
+    await element.updateComplete;
+    assert.isNotOk(element.tooltip);
+  });
+
+  test('does not add window scroll listener if disconnected during show', async () => {
+    element.hasTooltip = true;
+    await element.updateComplete;
+    const clock = sinon.useFakeTimers();
+    try {
+      const addListenerSpy = sinon.spy(window, 'addEventListener');
+      const updateComplete = mockPromise();
+      // Stub the getter for updateComplete on the prototype to control when it resolves
+      sinon
+        .stub(GrTooltip.prototype, 'updateComplete')
+        .get(() => updateComplete);
+
+      // Trigger show (debounced)
+      element.dispatchEvent(new CustomEvent('mouseenter'));
+
+      // Fast-forward debounce time to start _handleShowTooltip
+      clock.tick(100);
+
+      // Now _handleShowTooltip has started and is awaiting updateComplete (our mock)
+      // We disconnect the element
+      element.remove();
+
+      // Now we allow _handleShowTooltip to resume
+      updateComplete.resolve(true);
+
+      // We need to wait for the promise chain to resolve.
+      // Since updateComplete resolved, the await in _handleShowTooltip will finish.
+      // But _handleShowTooltip is async, so it puts continuation on microtask queue.
+      // We need to flush microtasks.
+      // timeoutPromise(0) uses setTimeout(0).
+      // With fake timers, we need to tick.
+      const p = timeoutPromise(0);
+      clock.tick(1);
+      await p;
+
+      // Verify window scroll listener was NOT added
+      const scrollCalls = addListenerSpy
+        .getCalls()
+        .filter(c => (c.args[0] as string) === 'scroll');
+      assert.equal(
+        scrollCalls.length,
+        0,
+        'Scroll listener should not be added after disconnect'
+      );
+    } finally {
+      clock.restore();
+      sinon.restore(); // restore spy and stub
+    }
   });
 
   suite('getTooltipParent', () => {

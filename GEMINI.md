@@ -1,93 +1,113 @@
 # Gemini Project Profile: gerrit
 
-This document provides a summary of the development environment for the gerrit project.
+## Project Overview
 
-## Overview
-
-Gerrit is a web-based code review tool, which integrates with Git and allows developers to review, approve, and merge code changes.
-
-- **Primary Language (Backend)**: Java
-- **Primary Language (Frontend)**: TypeScript (in `polygerrit-ui`)
-- **Build Tool**: Bazel
-- **Package Manager**: `yarn` (for frontend dependencies)
+Gerrit is a web-based code review system for Git. Backend is Java 21, frontend is TypeScript/Lit components, built with Bazel 7.6.1.
 
 ## Sub-projects
 
-This repository contains multiple sub-projects. For more detailed information, please refer to the `GEMINI.md` file within each sub-project directory.
-
 - **`polygerrit-ui`**: The frontend web application. See `polygerrit-ui/GEMINI.md` for details on the frontend development environment.
 
-## Backend (Java)
+## Build Commands
 
-The core backend logic is written in Java and is located in the `java/` directory. The main package is `com.google.gerrit`. Key sub-packages include:
-
-- `acceptance`: Acceptance tests
-- `server`: Core server logic, including servlets, REST API endpoints, and change processing.
-- `git`: Git-related operations and management.
-- `sshd`: SSH server implementation for Git operations and administration.
-- `index`: Indexing and search functionality.
-- `auth`: Authentication and authorization logic.
-
-### Testing (Java)
-
-Java tests are located in the `javatests/` directory, mirroring the structure of the `java/` directory. Key sub-packages include:
-
-- `acceptance`: Acceptance tests
-- `integration`: Integration tests
-- `server`: Tests for the core server logic.
-- `git`: Tests for Git-related operations.
-
-### Running Tests
-
-You can run tests using `bazel test`.
-
-**Run a specific test:**
 ```bash
-bazel test //javatests/com/google/gerrit/acceptance/rest/project:ListLabelsIT
+# Development WAR (output: bazel-bin/gerrit.war)
+bazel build gerrit
+
+# Release WAR with UI, core plugins, docs (output: bazel-bin/release.war)
+bazel build release
+
+# Build specific plugin
+bazel build plugins/<name>
 ```
 
-**Run a test suite:**
+## Running Tests
+
+### Java Tests
+
 ```bash
-bazel test //javatests/com/google/gerrit/httpd:httpd_tests
+# All tests
+bazel test --build_tests_only //...
+
+# Specific test target
+bazel test //javatests/com/google/gerrit/acceptance/rest/account:rest_account
+
+# Single test method
+bazel test --test_output=streamed \
+  --test_filter=com.google.gerrit.acceptance.api.change.ChangeIT.getAmbiguous \
+  //javatests/com/google/gerrit/acceptance/api/change:ChangeIT
+
+# Tests by tag (api, git, rest, server, ssh, notedb, edit, pgm, annotation)
+bazel test --test_tag_filters=api,git //...
+
+# Exclude flaky tests
+bazel test --test_tag_filters=-flaky //...
+
+# Force re-run (ignore cache)
+bazel test --cache_test_results=NO //...
+
+# Debug tests (attach debugger to port 5005)
+bazel test --java_debug //javatests/...
 ```
+
+## Linting & Formatting
+
 ```bash
-bazel test //javatests/com/google/gerrit/acceptance/server/change:server_change
+# Java - Google Java Format (required)
+./tools/gjf.sh setup   # First time setup
+./tools/gjf.sh run     # Format changed files
+npm run gjf            # Alternative
 ```
 
-**Run a specific test method:**
-This command runs a single test method and streams the output.
+## Local Development
+
 ```bash
-bazel test --test_output=streamed --test_filter=com.google.gerrit.server.fixes.fixCalculator.FixCalculatorVariousTest.intraline //javatests/com/google/gerrit/server:server_tests
+# Set Java path (Java 21)
+# Example for macOS ARM64 - check $(bazel info output_base)/external/ for your platform's directory
+export JAVA_HOME=$(bazel info output_base)/external/rules_java~~toolchains~remotejdk21_macos_aarch64
+export GERRIT_SITE=~/gerrit_testsite
+
+# Initialize test site (first time only)
+$JAVA_HOME/bin/java -jar bazel-bin/gerrit.war init --batch --dev -d $GERRIT_SITE
+
+# Run daemon (localhost:8080)
+$JAVA_HOME/bin/java \
+    -DsourceRoot=$(bazel info workspace) \
+    -jar bazel-bin/gerrit.war daemon -d $GERRIT_SITE --console-log
+
+# Run daemon with dev frontend (use frontend from localhost:8081)
+$JAVA_HOME/bin/java \
+    -DsourceRoot=$(bazel info workspace) \
+    -jar bazel-bin/gerrit.war daemon -d $GERRIT_SITE --console-log --dev-cdn http://localhost:8081
 ```
 
-**Run tests with a filter:**
-```bash
-bazel test //javatests/com/google/gerrit/acceptance/rest/change:rest_change_other --test_filter=SuggestReviewersIT
-```
+## Code Architecture
 
-### Code Formatting (Java)
+### Backend (java/com/google/gerrit/)
 
-The project uses `google-java-format` to format Java code, via the wrapper script `tools/gjf.sh`.
+- **server/**: Core server logic, change handling, review workflows
+- **httpd/**: REST API endpoints (servlet-based)
+- **git/**: JGit wrapper for repository operations
+- **index/**: Search backends (Lucene)
+- **entities/**: Core domain models (Change, PatchSet, Account)
+- **extensions/**: Plugin extension APIs
+- **pgm/**: CLI programs and commands
+- **acceptance/**: Test acceptance framework
 
-#### Formatting modified Java files
+### Plugins (plugins/)
 
-To format all modified Java files:
-```bash
-tools/gjf.sh run
-```
+Core plugins as Git submodules: replication, hooks, delete-project, gitiles, webhooks, etc.
+Plugins extend via extension APIs in java/com/google/gerrit/extensions/.
 
-## Documentation
+## Code Style
 
-The `Documentation/` directory contains a wealth of information about Gerrit, including:
+- Java: Google Java Style Guide, use `./tools/gjf.sh run` before committing
+- Commit messages: max 72 chars/line, present tense, include Change-Id (added by git hook)
+- **Release-Notes footer required**: Every commit must have `Release-Notes:` footer. Use `Release-Notes: skip` for small fixes/refactorings, or add a summary for notable changes
 
-- **User Guide**: `user-*.txt` files explain how to use Gerrit.
-- **Administrator Guide**: `config-*.txt` and `install-*.txt` files provide information for administrators.
-- **Developer Guide**: `dev-*.txt` files contain information for developers working on Gerrit itself.
-- **REST API**: `rest-api-*.txt` files document the REST API endpoints.
-- **Commands**: `cmd-*.txt` files document the available command-line tools.
+## Key Patterns
 
-## Git
-
-Every commit message must contain a `Release-Notes:` footer. Small changes, fixes or refactorings can just have
-`Release-Notes: skip`. If the change is relevant for being called out in release notes, then append a short
-summary to the `Release-Notes:` footer.
+- Dependency injection via Guice
+- REST endpoints return Java objects serialized to JSON
+- Changes stored in NoteDb (Git-based storage)
+- Event-driven architecture for plugins

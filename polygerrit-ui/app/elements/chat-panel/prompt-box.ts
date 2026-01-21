@@ -8,7 +8,7 @@ import '@material/web/chips/chip-set.js';
 import './context-chip';
 import './context-input-chip';
 
-import {css, html, LitElement} from 'lit';
+import {css, html, LitElement, nothing} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {when} from 'lit/directives/when.js';
 
@@ -18,13 +18,16 @@ import {
   ModelInfo,
 } from '../../api/ai-code-review';
 import {chatModelToken, Turn} from '../../models/chat/chat-model';
+import {changeModelToken} from '../../models/change/change-model';
 import {
   contextItemEquals,
   searchForContextLinks,
 } from '../../models/chat/context-item-util';
 import {resolve} from '../../models/dependency';
+import {ParsedChangeInfo} from '../../types/types';
 import {debounce, DelayedTask} from '../../utils/async-util';
 import {fire} from '../../utils/event-util';
+import {createChangeUrl} from '../../models/views/change';
 import {subscribe} from '../lit/subscription-controller';
 
 const MAX_VISIBLE_CONTEXT_ITEMS_COLLAPSED = 3;
@@ -65,6 +68,8 @@ export class PromptBox extends LitElement {
 
   @state() contextItemTypes: readonly ContextItemType[] = [];
 
+  @state() private change?: ParsedChangeInfo;
+
   // TODO(milutin): Find out if we need this.
   // @ts-ignore
   private turnBasisForUserInput?: number;
@@ -77,8 +82,15 @@ export class PromptBox extends LitElement {
 
   private readonly getChatModel = resolve(this, chatModelToken);
 
+  private readonly getChangeModel = resolve(this, changeModelToken);
+
   constructor() {
     super();
+    subscribe(
+      this,
+      () => this.getChangeModel().change$,
+      x => (this.change = x)
+    );
     subscribe(
       this,
       () => this.getChatModel().modelsLoadingError$,
@@ -340,6 +352,28 @@ export class PromptBox extends LitElement {
     )}`;
   }
 
+  private renderThisChangeChip() {
+    // This Change is implicitly added to the context, so we don't need to add it.
+    // The chip makes it clear to the user that it is already in the context.
+    if (!this.change) return nothing;
+    const changeContextItem: ContextItem = {
+      type_id: 'gerrit',
+      link: createChangeUrl({
+        change: this.change,
+      }),
+      title: 'This Change',
+      identifier: this.change.id,
+      tooltip: 'File diffs (against base), commit message, and comments.',
+    };
+    return html`
+      <context-chip
+        class="this-change-context"
+        .contextItem=${changeContextItem}
+        .isRemovable=${false}
+      ></context-chip>
+    `;
+  }
+
   private renderAddContext() {
     return html`
       <md-chip-set class="context-chip-set">
@@ -347,6 +381,7 @@ export class PromptBox extends LitElement {
           @context-item-added=${(e: CustomEvent<ContextItem>) =>
             this.onContextItemAdded(e.detail)}
         ></context-input-chip>
+        ${this.renderThisChangeChip()}
         ${(this.showAllContextItems
           ? this.contextItems
           : this.contextItems.slice(0, MAX_VISIBLE_CONTEXT_ITEMS_COLLAPSED)

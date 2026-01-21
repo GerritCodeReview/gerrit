@@ -163,6 +163,7 @@ public class ChangeInserter implements InsertChangeOp {
   private boolean updateRef;
   private Change.Id revertOf;
   private ImmutableList<InternalReviewerInput> reviewerInputs;
+  private boolean ignoreReviewerErrors;
 
   // Fields set during the insertion process.
   private ReceiveCommand cmd;
@@ -227,6 +228,7 @@ public class ChangeInserter implements InsertChangeOp {
     this.fireRevisionCreated = true;
     this.sendMail = true;
     this.updateRef = true;
+    this.ignoreReviewerErrors = false;
   }
 
   @Override
@@ -440,6 +442,12 @@ public class ChangeInserter implements InsertChangeOp {
     return this;
   }
 
+  @CanIgnoreReturnValue
+  public ChangeInserter setIgnoreReviewerErrors(boolean ignoreReviewerErrors) {
+    this.ignoreReviewerErrors = ignoreReviewerErrors;
+    return this;
+  }
+
   public void setPushCertificate(String cert) {
     pushCert = cert;
   }
@@ -569,7 +577,12 @@ public class ChangeInserter implements InsertChangeOp {
     Optional<ReviewerModification> reviewerError =
         reviewerAdditions.getFailures().stream().findFirst();
     if (reviewerError.isPresent()) {
-      throw new UnprocessableEntityException(reviewerError.get().result.error);
+      if (!ignoreReviewerErrors) {
+        throw new UnprocessableEntityException(reviewerError.get().result.error);
+      }
+      logger.atFine().log(
+          "Ignoring reviewer error on change creation for change %s: %s",
+          ctx.getChange().getId(), reviewerError.get().result.error);
     }
     reviewerAdditions.updateChange(ctx, patchSet);
 

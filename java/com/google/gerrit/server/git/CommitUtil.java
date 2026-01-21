@@ -405,6 +405,8 @@ public class CommitUtil {
             bu, changeToRevert.getId(), changeId, generatedChangeId.name());
       }
       bu.execute();
+    } catch (UnprocessableEntityException e) {
+      
     }
     return changeId;
   }

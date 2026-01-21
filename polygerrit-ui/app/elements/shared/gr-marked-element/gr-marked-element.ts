@@ -10,19 +10,13 @@ import {
   property,
   queryAssignedElements,
 } from 'lit/decorators.js';
-// @ts-ignore
-import * as marked from 'marked/lib/marked';
-
-if (!window.marked) {
-  window.marked = marked;
-}
+import {Marked, Renderer} from 'marked';
+import {markedHighlight} from 'marked-highlight';
+import {gfmHeadingId} from 'marked-gfm-heading-id';
+import {mangle} from 'marked-mangle';
+import {markedSmartypants} from 'marked-smartypants';
 
 declare global {
-  interface Window {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    marked: any;
-  }
-
   interface HTMLElementTagNameMap {
     'gr-marked-element': GrMarkedElement;
   }
@@ -38,15 +32,7 @@ export class GrMarkedElement extends LitElement {
 
   @property({type: Boolean}) breaks = false;
 
-  @property({type: Boolean}) pedantic = false;
-
-  @property({type: Function}) renderer: Function | null = null;
-
-  @property({type: Boolean}) sanitize = false;
-
-  @property({type: Function}) sanitizer:
-    | ((html: string) => string)
-    | undefined = undefined;
+  @property({type: Object}) renderer: Renderer | null | undefined;
 
   @property({type: Boolean}) smartypants = false;
 
@@ -81,10 +67,7 @@ export class GrMarkedElement extends LitElement {
     const propsToWatch = [
       'markdown',
       'breaks',
-      'pedantic',
       'renderer',
-      'sanitize',
-      'sanitizer',
       'smartypants',
       'callback',
     ];
@@ -108,25 +91,45 @@ export class GrMarkedElement extends LitElement {
       return;
     }
 
-    const renderer = new window.marked.Renderer();
-    if (this.renderer) this.renderer(renderer);
+    const markedInstance = new Marked(
+      markedHighlight({
+        highlight: (code, lang) => this.highlight(code, lang),
+      }),
+      gfmHeadingId(),
+      mangle()
+    );
+
+    if (this.smartypants) {
+      markedInstance.use(markedSmartypants());
+    }
+
+    if (this.renderer) {
+      markedInstance.use({renderer: this.renderer});
+    }
 
     const options = {
-      renderer,
-      highlight: this.highlight.bind(this),
       breaks: this.breaks,
-      sanitize: this.sanitize,
-      sanitizer: this.sanitizer,
-      pedantic: this.pedantic,
-      smartypants: this.smartypants,
     };
 
-    const output = window.marked(this.markdown, options, this.callback);
-
-    this.outputElement[0].innerHTML = output;
-    this.dispatchEvent(
-      new CustomEvent('marked-render-complete', {bubbles: true, composed: true})
-    );
+    try {
+      const output = markedInstance.parse(this.markdown, options);
+      if (typeof output !== 'string') {
+        throw new Error(
+          'marked.parse returned a Promise, but sync execution was expected.'
+        );
+      }
+      this.outputElement[0].innerHTML = output;
+      this.dispatchEvent(
+        new CustomEvent('marked-render-complete', {
+          bubbles: true,
+          composed: true,
+        })
+      );
+      if (this.callback) this.callback(null, output);
+    } catch (e) {
+      if (this.callback) this.callback(e, null);
+      throw e;
+    }
   }
 
   private highlight(code: string, lang: string): string {

@@ -140,6 +140,11 @@ github-from-package@0.0.0:
   resolved "https://registry.yarnpkg.com/github-from-package/-/github-from-package-0.0.0.tgz#97fb5d96bfde8973313f20e8288ef9a167fa64ce"
   integrity sha512-SyHy3T1v2NUXn29OsWdxmK6RwHD+vkj3v8en8AOBZ1wBQ/hCAQ5bAQTD02kW4W9tUp/3Qh6J8r9EvntiyCmOOw==
 
+github-slugger@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/github-slugger/-/github-slugger-2.0.0.tgz#52cf2f9279a21eb6c59dd385b410f0c0adda8f1a"
+  integrity sha512-IaOQ9puYtjrkq7Y0Ygl9KDZnrf/aiUJYUpVf89y8kyaxbRG7Y1SrX/jaumrv81vc61+kiMempujsM3Yw7w5qcw==
+
 highlight.js@^10.4.1:
   version "10.7.3"
   resolved "https://registry.yarnpkg.com/highlight.js/-/highlight.js-10.7.3.tgz#697272e3991356e40c3cac566a74eef681756531"
@@ -223,10 +228,34 @@ lit-html@^3.3.0:
     lit-element "^4.2.0"
     lit-html "^3.3.0"
 
-marked@^0.5.0:
-  version "0.5.2"
-  resolved "https://registry.yarnpkg.com/marked/-/marked-0.5.2.tgz#3efdb27b1fd0ecec4f5aba362bddcd18120e5ba9"
-  integrity sha512-fdZvBa7/vSQIZCi4uuwo2N3q+7jJURpMVCcbaX0S1Mg65WZ5ilXvC67MviJAsdjqqgD+CEq4RKo5AYGgINkVAA==
+marked-gfm-heading-id@^4.1.1:
+  version "4.1.3"
+  resolved "https://registry.yarnpkg.com/marked-gfm-heading-id/-/marked-gfm-heading-id-4.1.3.tgz#6b3e0bc2bc69d5124823e93ee00f05f5c6f90a5f"
+  integrity sha512-aR0i63LmFbuxU/gAgrgz1Ir+8HK6zAIFXMlckeKHpV+qKbYaOP95L4Ux5Gi+sKmCZU5qnN2rdKpvpb7PnUBIWg==
+  dependencies:
+    github-slugger "^2.0.0"
+
+marked-highlight@^2.2.1:
+  version "2.2.3"
+  resolved "https://registry.yarnpkg.com/marked-highlight/-/marked-highlight-2.2.3.tgz#e7e5e7ccfb1699356c3a45d851db8fe983689172"
+  integrity sha512-FCfZRxW/msZAiasCML4isYpxyQWKEEx44vOgdn5Kloae+Qc3q4XR7WjpKKf8oMLk7JP9ZCRd2vhtclJFdwxlWQ==
+
+marked-mangle@^1.1.10:
+  version "1.1.12"
+  resolved "https://registry.yarnpkg.com/marked-mangle/-/marked-mangle-1.1.12.tgz#7ecc1dab1e03695f3b8b9d606e8becfba8277496"
+  integrity sha512-bRrqNcfU9v3iRECb7YPvA+/xKZMjHojd9R92YwHbFjdPQ+Wc7vozkbGKAv4U8AUl798mNUuY3DTBQkedsV3TeQ==
+
+marked-smartypants@^1.1.9:
+  version "1.1.11"
+  resolved "https://registry.yarnpkg.com/marked-smartypants/-/marked-smartypants-1.1.11.tgz#72d899050023f4b8e72d2c89444c5cdcbd1679b6"
+  integrity sha512-Jt0eq/6rf9oXDfEKPzQ0z7UzVWcEAK3L6QBBQzbwV8bT304OvPVLTqpH3yvkSung9foOM4s120TMHEHP76Metg==
+  dependencies:
+    smartypants "^0.2.2"
+
+marked@^17.0.0:
+  version "17.0.1"
+  resolved "https://registry.yarnpkg.com/marked/-/marked-17.0.1.tgz#9db34197ac145e5929572ee49ef701e37ee9b2e6"
+  integrity sha512-boeBdiS0ghpWcSwoNm/jJBwdpFaMnZWRzjA6SkUMYb40SVaN1x7mmfGKp0jvexGcx+7y2La5zRZsYFZI6Qpypg==
 
 mimic-response@^3.1.0:
   version "3.1.0"
@@ -364,6 +393,11 @@ simple-get@^4.0.0:
     decompress-response "^6.0.0"
     once "^1.3.1"
     simple-concat "^1.0.0"
+
+smartypants@^0.2.2:
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/smartypants/-/smartypants-0.2.2.tgz#ad7124d8eb9ab437906db1cd7bd7aaf49e5d9a42"
+  integrity sha512-TzobUYoEft/xBtb2voRPryAUIvYguG0V7Tt3de79I1WfXgCwelqVsGuZSnu3GFGRZhXR90AeEYIM+icuB/S06Q==
 
 string_decoder@^1.1.1:
   version "1.3.0"

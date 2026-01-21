@@ -327,10 +327,14 @@ suite('gr-formatted-text tests', () => {
     });
     test('renders text with links and rewrites', async () => {
       element.content = `text
-        \ntext with plain link: http://google.com
-        \ntext with config link: LinkRewriteMe
-        \ntext without a link: NotA Link 15 cats
-        \ntext with complex link: A Link 12`;
+
+text with plain link: http://google.com
+
+text with config link: LinkRewriteMe
+
+text without a link: NotA Link 15 cats
+
+text with complex link: A Link 12`;
       await element.updateComplete;
 
       assert.shadowDom.equal(
@@ -426,13 +430,13 @@ suite('gr-formatted-text tests', () => {
 
     test('renders headings with links and rewrites', async () => {
       element.content = `# h1-heading
-        \n## h2-heading
-        \n### h3-heading
-        \n#### h4-heading
-        \n##### h5-heading
-        \n###### h6-heading
-        \n# heading with plain link: http://google.com
-        \n# heading with config link: LinkRewriteMe`;
+## h2-heading
+### h3-heading
+#### h4-heading
+##### h5-heading
+###### h6-heading
+# heading with plain link: http://google.com
+# heading with config link: LinkRewriteMe`;
       await element.updateComplete;
 
       assert.shadowDom.equal(
@@ -441,13 +445,13 @@ suite('gr-formatted-text tests', () => {
           <gr-endpoint-decorator name="formatted-text-endpoint">
             <gr-marked-element>
               <div slot="markdown-html" class="markdown-html">
-                <h1>h1-heading</h1>
-                <h2>h2-heading</h2>
-                <h3>h3-heading</h3>
-                <h4>h4-heading</h4>
-                <h5>h5-heading</h5>
-                <h6>h6-heading</h6>
-                <h1>
+                <h1 id="h1-heading">h1-heading</h1>
+                <h2 id="h2-heading">h2-heading</h2>
+                <h3 id="h3-heading">h3-heading</h3>
+                <h4 id="h4-heading">h4-heading</h4>
+                <h5 id="h5-heading">h5-heading</h5>
+                <h6 id="h6-heading">h6-heading</h6>
+                <h1 id="heading-with-plain-link-httpgooglecom">
                   heading with plain link:
                   <a
                     href="http://google.com"
@@ -457,7 +461,7 @@ suite('gr-formatted-text tests', () => {
                     http://google.com
                   </a>
                 </h1>
-                <h1>
+                <h1 id="heading-with-config-link-linkrewriteme">
                   heading with config link:
                   <a
                     href="http://google.com/LinkRewriteMe"
@@ -476,8 +480,10 @@ suite('gr-formatted-text tests', () => {
 
     test('renders inline-code without linking or rewriting', async () => {
       element.content = `\`inline code\`
-        \n\`inline code with plain link: google.com\`
-        \n\`inline code with config link: LinkRewriteMe\``;
+
+\`inline code with plain link: google.com\`
+
+\`inline code with config link: LinkRewriteMe\``;
       await element.updateComplete;
 
       assert.shadowDom.equal(
@@ -503,9 +509,17 @@ suite('gr-formatted-text tests', () => {
     });
 
     test('renders multiline-code without linking or rewriting', async () => {
-      element.content = `\`\`\`\nmultiline code\n\`\`\`
-        \n\`\`\`\nmultiline code with plain link: google.com\n\`\`\`
-        \n\`\`\`\nmultiline code with config link: LinkRewriteMe\n\`\`\``;
+      element.content = `\`\`\`
+multiline code
+\`\`\`
+
+\`\`\`
+multiline code with plain link: google.com
+\`\`\`
+
+\`\`\`
+multiline code with config link: LinkRewriteMe
+\`\`\``;
       await element.updateComplete;
 
       assert.shadowDom.equal(
@@ -606,12 +620,12 @@ suite('gr-formatted-text tests', () => {
     test('renders inline links into <a> tags', async () => {
       const origin = window.location.origin;
       element.content = `[myLink1](https://www.google.com)
-        [myLink2](/destiny)
-        [myLink3](${origin}/destiny)
-        [myLink4](google.com)
-        [myLink5](http://google.com)
-        [myLink6](mailto:google@google.com)
-      `;
+[myLink2](/destiny)
+[myLink3](${origin}/destiny)
+[myLink4](google.com)
+[myLink5](http://google.com)
+[myLink6](mailto:google@google.com)
+`;
       await element.updateComplete;
 
       assert.shadowDom.equal(
@@ -662,8 +676,10 @@ suite('gr-formatted-text tests', () => {
 
     test('renders block quotes with links and rewrites', async () => {
       element.content = `> block quote
-        \n> block quote with plain link: http://google.com
-        \n> block quote with config link: LinkRewriteMe`;
+
+> block quote with plain link: http://google.com
+
+> block quote with config link: LinkRewriteMe`;
       await element.updateComplete;
 
       assert.shadowDom.equal(
@@ -707,11 +723,14 @@ suite('gr-formatted-text tests', () => {
     });
 
     test('never renders typed html', async () => {
-      element.content = `plain text <div>foo</div>
-        \n\`inline code <div>foo</div>\`
-        \n\`\`\`\nmultiline code <div>foo</div>\`\`\`
-        \n> block quote <div>foo</div>
-        \n[inline link <div>foo</div>](http://google.com)`;
+      element.content =
+        'plain text <div>foo</div>' +
+        '\n\n`inline code <div>foo</div>`' +
+        '\n\n```' +
+        '\nmultiline code <div>foo</div>' +
+        '\n```' +
+        '\n\n> block quote <div>foo</div>' +
+        '\n\n[inline link <div>foo</div>](http://google.com)';
       await element.updateComplete;
 
       const escapedDiv = '&lt;div&gt;foo&lt;/div&gt;';

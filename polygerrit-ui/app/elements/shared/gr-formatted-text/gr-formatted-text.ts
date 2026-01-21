@@ -10,7 +10,7 @@ import {
   sanitizeHtml,
   sanitizeHtmlToFragment,
 } from '../../../utils/inner-html-util';
-import {unescapeHTML} from '../../../utils/syntax-util';
+
 import {resolve} from '../../../models/dependency';
 import {subscribe} from '../../lit/subscription-controller';
 import {configModelToken} from '../../../models/config/config-model';
@@ -24,11 +24,19 @@ import {
 } from '../../../utils/comment-util';
 import {sameOrigin} from '../../../utils/url-util';
 import '../gr-marked-element/gr-marked-element';
+import {Renderer, Token, Tokens} from 'marked';
 
 // MIME types for images we allow showing. Do not include SVG, it can contain
 // arbitrary JavaScript.
 const IMAGE_MIME_PATTERN =
   /^data:image\/(bmp|gif|x-icon|jpeg|jpg|png|tiff|webp);base64,/;
+
+interface MarkedRendererContext {
+  parser: {
+    parseInline(tokens: Token[]): string;
+  };
+  inLink?: boolean;
+}
 
 /**
  * This element optionally renders markdown and also applies some regex
@@ -216,31 +224,8 @@ export class GrFormattedText extends LitElement {
 
   private renderAsMarkdown() {
     // Bind `this` via closure.
-    const boundRewriteText = (text: string) => {
-      const nonAsteriskRewrites = Object.fromEntries(
-        Object.entries(this.repoCommentLinks).filter(
-          ([_name, rewrite]) => !rewrite.match.includes('\\*')
-        )
-      );
-      return linkifyUrlsAndApplyRewrite(text, nonAsteriskRewrites);
-    };
-
-    // Due to a tokenizer bug in the old version of markedjs we use, text with a
-    // single asterisk is separated into 2 tokens before passing to renderer
-    // ['text'] which breaks our rewrites that would span across the 2 tokens.
-    // Since upgrading our markedjs version is infeasible, we are applying those
-    // asterisk rewrites again at the end (using renderer['paragraph'] hook)
-    // after all the nodes are combined.
-    // Bind `this` via closure.
-    const boundRewriteAsterisks = (text: string) => {
-      const asteriskRewrites = Object.fromEntries(
-        Object.entries(this.repoCommentLinks).filter(([_name, rewrite]) =>
-          rewrite.match.includes('\\*')
-        )
-      );
-      const linkedText = linkifyUrlsAndApplyRewrite(text, asteriskRewrites);
-      return `<p>${linkedText}</p>`;
-    };
+    const boundRewriteText = (text: string) =>
+      linkifyUrlsAndApplyRewrite(text, this.repoCommentLinks);
 
     const allowMarkdownBase64ImagesInComments =
       this.allowMarkdownBase64ImagesInComments;
@@ -259,58 +244,86 @@ export class GrFormattedText extends LitElement {
     //    rewrites. Text within code blocks is not passed here.
     // 5. Open links in a new tab by rendering with target="_blank" attribute.
     // 6. Relative links without "/" prefix are assumed to be absolute links.
-    function customRenderer(renderer: {[type: string]: Function}) {
-      renderer['link'] = (href: string, title: string, text: string) => {
-        if (
-          !href.startsWith('https://') &&
-          !href.startsWith('mailto:') &&
-          !href.startsWith('http://') &&
-          !href.startsWith('/')
-        ) {
-          href = `https://${href}`;
-        }
-        /* HTML */
-        return `<a
-          href="${href}"
-          ${sameOrigin(href) ? '' : 'target="_blank" rel="noopener noreferrer"'}
-          ${title ? `title="${title}"` : ''}
-          >${text}</a
-        >`;
-      };
-      renderer['image'] = (href: string, title: string, text: string) => {
-        // Check if this is a base64-encoded image
-        if (
-          allowMarkdownBase64ImagesInComments &&
-          IMAGE_MIME_PATTERN.test(href)
-        ) {
-          return `<img src="${href}" alt="${text}" ${
-            title ? `title="${title}"` : ''
-          } />`;
-        }
-        // For non-base64 images just return the markdown
-        return `![${text}](${href})`;
-      };
-      renderer['codespan'] = (text: string) =>
-        `<code>${unescapeHTML(text)}</code>`;
-      renderer['code'] = (text: string, infostring: string) => {
-        if (infostring === USER_SUGGESTION_INFO_STRING) {
-          // default santizer in markedjs is very restrictive, we need to use
-          // existing html element to mark element. We cannot use css class for
-          // it. Therefore we pick mark - as not frequently used html element to
-          // represent unconverted gr-user-suggestion-fix.
-          // TODO(milutin): Find a way to override sanitizer to directly use
-          // gr-user-suggestion-fix
-          return `<mark>${text}</mark>`;
-        } else {
-          return `<pre><code>${text}</code></pre>`;
-        }
-      };
-      // <gr-marked-element> internals will be in charge of calling our custom
-      // renderer so we write these functions separately so that 'this' is
-      // preserved via closure.
-      renderer['paragraph'] = boundRewriteAsterisks;
-      renderer['text'] = boundRewriteText;
-    }
+    const customRenderer = new Renderer();
+    customRenderer['link'] = function (
+      this: MarkedRendererContext,
+      {href, title, tokens, text}: Tokens.Link
+    ) {
+      this.inLink = true;
+      const linkText =
+        tokens && tokens.length > 0 ? this.parser.parseInline(tokens) : text;
+      this.inLink = false;
+      if (
+        !href.startsWith('https://') &&
+        !href.startsWith('mailto:') &&
+        !href.startsWith('http://') &&
+        !href.startsWith('/')
+      ) {
+        href = `https://${href}`;
+      }
+      /* HTML */
+      return `<a href="${href}" ${
+        sameOrigin(href) ? '' : 'target="_blank" rel="noopener noreferrer"'
+      } ${title ? `title="${title}"` : ''}>${linkText}</a>`;
+    };
+    customRenderer['image'] = function (
+      this: MarkedRendererContext,
+      {href, title, text}: Tokens.Image
+    ) {
+      // Check if this is a base64-encoded image
+      if (
+        allowMarkdownBase64ImagesInComments &&
+        IMAGE_MIME_PATTERN.test(href)
+      ) {
+        return `<img src="${href}" alt="${text}" ${
+          title ? `title="${title}"` : ''
+        } />`;
+      }
+      // For non-base64 images just return the markdown
+      return `![${text}](${href})`;
+    };
+    customRenderer['codespan'] = ({text}: {text: string}) =>
+      `<code>${text}</code>`;
+    customRenderer['code'] = ({text, lang}: Tokens.Code) => {
+      if (lang === USER_SUGGESTION_INFO_STRING) {
+        // default santizer in markedjs is very restrictive, we need to use
+        // existing html element to mark element. We cannot use css class for
+        // it. Therefore we pick mark - as not frequently used html element to
+        // represent unconverted gr-user-suggestion-fix.
+        // TODO(milutin): Find a way to override sanitizer to directly use
+        // gr-user-suggestion-fix
+        // Strip trailing backticks if marked v17 included them (e.g. no newline before fence)
+        const cleanText = text.replace(/`+\s*$/, '');
+        return `<mark>${cleanText}</mark>`;
+      } else {
+        return `<pre><code>${text}</code></pre>`;
+      }
+    };
+    // <gr-marked-element> internals will be in charge of calling our custom
+    // renderer so we write these functions separately so that 'this' is
+    // preserved via closure.
+    customRenderer['paragraph'] = function (
+      this: MarkedRendererContext,
+      {tokens}: Tokens.Paragraph
+    ) {
+      const text = this.parser.parseInline(tokens);
+      return `<p>${text}</p>`;
+    };
+    customRenderer['text'] = function (
+      this: MarkedRendererContext,
+      token: Tokens.Text | Tokens.Escape
+    ) {
+      const {text} = token;
+      const tokens = 'tokens' in token ? token.tokens : undefined;
+      if (this.inLink) {
+        return text;
+      }
+      // In marked v17, 'text' tokens might have tokens if they are not leaf nodes?
+      // But usually text token is just text.
+      // If tokens exist, parse them.
+      const content = tokens ? this.parser.parseInline(tokens) : text;
+      return boundRewriteText(content);
+    };
 
     // The child with slot is optional but allows us control over the styling.
     // The `callback` property lets us do a final sanitization of the output

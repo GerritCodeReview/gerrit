@@ -16,6 +16,24 @@
       "message": "Missing `Release-Notes` footer: can you summarise what should be included?",
       "revId": "47e1589f286ac5da32e18276c221e833d4eb45eb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "77009bad_3c45e6d1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-01-21T15:01:05Z",
+      "side": 1,
+      "message": "Don\u0027t think there\u0027s anything worth mentioning in the release notes here.",
+      "parentUuid": "65e2ee59_6901dfb5",
+      "revId": "47e1589f286ac5da32e18276c221e833d4eb45eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

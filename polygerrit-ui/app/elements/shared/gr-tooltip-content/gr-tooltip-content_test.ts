@@ -9,6 +9,7 @@ import './gr-tooltip-content';
 import {GrTooltipContent} from './gr-tooltip-content';
 import {assert, fixture, html} from '@open-wc/testing';
 import {GrTooltip} from '../gr-tooltip/gr-tooltip';
+import {timeoutPromise} from '../../../utils/async-util';
 import {query} from '../../../test/test-utils';
 
 suite('gr-tooltip-content tests', () => {
@@ -248,6 +249,41 @@ suite('gr-tooltip-content tests', () => {
 
     // fire mouse-enter
     element._handleHideTooltip();
+    await element.updateComplete;
+    assert.isNotOk(element.tooltip);
+    // fire mouse-enter
+    element._handleHideTooltip();
+    await element.updateComplete;
+    assert.isNotOk(element.tooltip);
+  });
+
+  test('debounces show tooltip', async () => {
+    element.hasTooltip = true;
+    await element.updateComplete;
+
+    element.dispatchEvent(new CustomEvent('mouseenter'));
+    await element.updateComplete;
+    assert.isNotOk(element.tooltip);
+
+    await timeoutPromise(50);
+    assert.isNotOk(element.tooltip);
+
+    await timeoutPromise(100); // total 150ms
+    await element.updateComplete;
+    assert.isOk(element.tooltip);
+  });
+
+  test('cancels show tooltip on mouseleave', async () => {
+    element.hasTooltip = true;
+    await element.updateComplete;
+
+    element.dispatchEvent(new CustomEvent('mouseenter'));
+    await element.updateComplete;
+
+    element.dispatchEvent(new CustomEvent('mouseleave'));
+    await element.updateComplete;
+
+    await timeoutPromise(300);
     await element.updateComplete;
     assert.isNotOk(element.tooltip);
   });

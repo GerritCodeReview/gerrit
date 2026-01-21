@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a7492f2e_7a95c3c0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-01-21T09:54:25Z",
+      "side": 1,
+      "message": "Nit: this over 80 characters limit per line",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 132
+      },
+      "revId": "a0ed436256d873f144199a4b150d544d761be889",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e68d2180_b4c5adf8",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
@@ -14,6 +37,103 @@
       "writtenOn": "2026-01-21T08:14:34Z",
       "side": 1,
       "message": "Remarking as WIP as a new permission should be added.",
+      "revId": "a0ed436256d873f144199a4b150d544d761be889",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7be75cbf_71adc19d",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReviewers.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-01-21T09:54:25Z",
+      "side": 1,
+      "message": "Can this be simplified to lambda?",
+      "range": {
+        "startLine": 103,
+        "startChar": 0,
+        "endLine": 103,
+        "endChar": 35
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "ffda4448_d0c409ea",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "java/com/google/gerrit/server/restapi/change/PostReviewers.java",
+              "range": {
+                "startLine": 45,
+                "startChar": 0,
+                "endLine": 47,
+                "endChar": 0
+              },
+              "replacement": ""
+            },
+            {
+              "path": "java/com/google/gerrit/server/restapi/change/PostReviewers.java",
+              "range": {
+                "startLine": 103,
+                "startChar": 0,
+                "endLine": 113,
+                "endChar": 0
+              },
+              "replacement": "              ctx -\u003e {\n                ChangeUpdate update \u003d ctx.getUpdate(ctx.getChange().currentPatchSetId());\n                update.setChangeMessage(\n                    String.format(\n                        \"Reviewer added by %s on behalf of %s\",\n                        rsrc.getUser().getLoggableName(), user.getLoggableName()));\n                return true;\n"
+            }
+          ]
+        }
+      ],
+      "revId": "a0ed436256d873f144199a4b150d544d761be889",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cfb901e3_11d3b5d2",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReviewers.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-01-21T09:54:25Z",
+      "side": 1,
+      "message": "Doesn\u0027t this overwrite change message like \"Bob added to reviewers\"?",
+      "range": {
+        "startLine": 106,
+        "startChar": 18,
+        "endLine": 111,
+        "endChar": 30
+      },
+      "revId": "a0ed436256d873f144199a4b150d544d761be889",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ee8d43b8_c74e5ee7",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/account/ImpersonationIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 882,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-01-21T09:54:25Z",
+      "side": 1,
+      "message": "Can you add an assertion for m.getMessage() - assert that the message contains the name of the added reviewer. This ensures we don\u0027t accidentally hide who was added.",
+      "range": {
+        "startLine": 873,
+        "startChar": 0,
+        "endLine": 882,
+        "endChar": 3
+      },
       "revId": "a0ed436256d873f144199a4b150d544d761be889",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

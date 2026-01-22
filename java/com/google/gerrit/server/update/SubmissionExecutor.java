@@ -15,6 +15,7 @@
 package com.google.gerrit.server.update;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.submit.MergeOpRepoManager;
 import java.util.Collection;
@@ -27,6 +28,7 @@ public class SubmissionExecutor {
   private final ImmutableList<SubmissionListener> submissionListeners;
   private final boolean dryrun;
   private ImmutableList<BatchUpdateListener> additionalListeners = ImmutableList.of();
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public SubmissionExecutor(
       BatchUpdates batchUpdates,
@@ -63,7 +65,14 @@ public class SubmissionExecutor {
                     .map(Optional::get)
                     .collect(Collectors.toList()))
             .build();
+    logger.atWarning().log("SUBMISSION EXECUTOR, slowing down batch updates");
+
     batchUpdates.execute(updates, listeners, dryrun);
+    try {
+      Thread.sleep(30000);
+    } catch (InterruptedException e) {
+      // do nothing
+    }
   }
 
   /**

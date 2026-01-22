@@ -10,7 +10,7 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {fontStyles} from '../../../styles/gr-font-styles';
 import {dashboardHeaderStyles} from '../../../styles/dashboard-header-styles';
 import {css, html, LitElement, PropertyValues} from 'lit';
-import {customElement, property} from 'lit/decorators.js';
+import {customElement, property, state} from 'lit/decorators.js';
 import {createRepoUrl} from '../../../models/views/repo';
 import '../../shared/gr-weblink/gr-weblink';
 
@@ -19,11 +19,11 @@ export class GrRepoHeader extends LitElement {
   @property({type: String})
   repo?: RepoName;
 
-  @property({type: String})
-  _repoUrl: string | null = null;
+  @state()
+  private repoUrl: string | null = null;
 
-  @property({type: Array})
-  _webLinks: WebLinkInfo[] = [];
+  @state()
+  private webLinks: WebLinkInfo[] = [];
 
   private readonly restApiService = getAppContext().restApiService;
 
@@ -46,7 +46,7 @@ export class GrRepoHeader extends LitElement {
     ];
   }
 
-  _renderLinks(webLinks: WebLinkInfo[]) {
+  private renderLinks(webLinks: WebLinkInfo[]) {
     if (!webLinks) return;
     return html`<div>
       <span class="browse">Browse:</span>
@@ -60,31 +60,34 @@ export class GrRepoHeader extends LitElement {
     return html` <div class="info">
       <h1 class="heading-1">${this.repo}</h1>
       <hr />
-      <div>
-        <span>Detail:</span> <a href=${this._repoUrl!}>Repo settings</a>
-      </div>
-      ${this._renderLinks(this._webLinks)}
+      <div><span>Detail:</span> <a href=${this.repoUrl!}>Repo settings</a></div>
+      ${this.renderLinks(this.webLinks)}
     </div>`;
+  }
+
+  override willUpdate(changedProperties: PropertyValues) {
+    if (changedProperties.has('repo')) {
+      if (this.repo) {
+        this.repoUrl = createRepoUrl({repo: this.repo});
+      } else {
+        this.repoUrl = null;
+      }
+    }
   }
 
   override updated(changedProperties: PropertyValues) {
     if (changedProperties.has('repo')) {
-      this._repoChanged();
+      this.repoChanged();
     }
   }
 
-  _repoChanged() {
+  private repoChanged() {
     const repo = this.repo;
-    if (!repo) {
-      this._repoUrl = null;
-      return;
-    }
-
-    this._repoUrl = createRepoUrl({repo});
+    if (!repo) return;
 
     this.restApiService.getRepo(repo).then(repo => {
       if (!repo?.web_links) return;
-      this._webLinks = repo.web_links;
+      this.webLinks = repo.web_links;
     });
   }
 }

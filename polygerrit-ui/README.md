@@ -370,14 +370,16 @@ for other sinon properties). Store stub/spy in a variable and then use the
 variable:
 ```
 // Before:
-sinon.stub(GerritNav, 'getUrlForChange')
+const navService = testResolver(navigationToken);
+sinon.stub(navService, 'setUrl');
 ...
-assert.equal(GerritNav.getUrlForChange.lastCall.args[4], '#message-a12345');
+assert.equal(navService.setUrl.lastCall.firstArg, '/c/123');
 
 // After:
-const getUrlStub = sinon.stub(GerritNav, 'getUrlForChange');
+const navService = testResolver(navigationToken);
+const setUrlStub = sinon.stub(navService, 'setUrl');
 ...
-assert.equal(getUrlStub.lastCall.args[4], '#message-a12345');
+assert.equal(setUrlStub.lastCall.firstArg, '/c/123');
 ```
 
 If you need to define a type for such variable, you can use one of the following
@@ -389,7 +391,7 @@ suite('my suite', () => {
     // Non static members, option 2
     let updateHeightSpy_prototype: SinonSpyMember<typeof GrChangeView.prototype._updateRelatedChangeMaxHeight>;
     // Static members
-    let navigateToChangeStub: SinonStubbedMember<typeof GerritNav.navigateToChange>;
+    let setUrlStub: SinonStubbedMember<NavigationService['setUrl']>;
     // For interfaces
     let getMergeableStub: SinonStubbedMember<RestApiService['getMergeable']>;
 });

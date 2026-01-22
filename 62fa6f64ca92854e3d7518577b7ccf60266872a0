@@ -52,6 +52,24 @@
       "parentUuid": "2835589d_c71f9e6e",
       "revId": "62fa6f64ca92854e3d7518577b7ccf60266872a0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eea552f9_b992510d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1260,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-01-22T16:07:56Z",
+      "side": 0,
+      "message": "It\u0027s actually applicable to fewer caches than you\u0027d guess at first. We store account, group, and change data in NoteDb formats. Git data (like diffs) is cached by object-id. We also cache projects. We have warnings in several places for caches that need specific adjustment for multi-primary (without something like HA plugin doing evictions) and those same caches are the ones that should have the \"direct updates\" warning.\n\n* `accounts`: L1070 has a corrected DB table reference since [Update most documentation for NoteDb](https://gerrit-review.googlesource.com/c/gerrit/+/208035), but it\u0027s inaccurate now since the key includes the object-id\n* `change_notes` uses immutable keys\n* `changes` is 1) disabled by default with language about multi-primary and 2) has an accurate cache flush warning on L1113\n* `changes_by_project` uses immutable keys\n* `external_ids_map` uses immutable keys\n* `groups*` (other than `groups_*_persisted`) are missing or have incorrect \"direct updates\" warnings and are missing multi-primary warnings\n* `permission_sort` is missing both \"direct updates\" and multi-primary warnings\n* `projects` refers to `\"a project record\"` which is probably an outdated DB table reference. We only use `refs/meta/config` data now instead of a table. It has a multi-primary warning on L1325 (if you make changes to the project config not through *this* Gerrit process, then you need to evict/flush), but is missing the more generic \"direct updates\" warning\n* `sshkeys` has a multi-primary warning, but is missing the more generic \"direct updates\" warning\n* `tokens` is missing both \"direct updates\" and multi-primary warnings\n\nWhen I count them, it looks like there\u0027s 11 caches total (6 are within `groups*`) that need some documentation updates, but I think it\u0027s much better to do that than just remove the language entirely.",
+      "parentUuid": "a2ea5f93_9dd6a311",
+      "revId": "62fa6f64ca92854e3d7518577b7ccf60266872a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

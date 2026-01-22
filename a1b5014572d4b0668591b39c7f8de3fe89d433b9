@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ef20ea11_66c64d2f",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1185,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-01-22T15:57:51Z",
+      "side": 0,
+      "message": "This comment can be changed.",
+      "revId": "a1b5014572d4b0668591b39c7f8de3fe89d433b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a6fcfe6b_b3f796bc",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1198,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-01-22T15:57:51Z",
+      "side": 0,
+      "message": "Are you also removing prefetch for getChangesForMultipleQueries?",
+      "range": {
+        "startLine": 1195,
+        "startChar": 3,
+        "endLine": 1198,
+        "endChar": 21
+      },
+      "revId": "a1b5014572d4b0668591b39c7f8de3fe89d433b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc388e5b_a6315155",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1226,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-01-22T15:57:51Z",
+      "side": 0,
+      "message": "this is now dead code and can be removed?",
+      "range": {
+        "startLine": 1226,
+        "startChar": 2,
+        "endLine": 1226,
+        "endChar": 30
+      },
+      "revId": "a1b5014572d4b0668591b39c7f8de3fe89d433b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

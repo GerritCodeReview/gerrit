@@ -67,6 +67,16 @@ export class GrRepoHeader extends LitElement {
     </div>`;
   }
 
+  override willUpdate(changedProperties: PropertyValues) {
+    if (changedProperties.has('repo')) {
+      if (this.repo) {
+        this._repoUrl = createRepoUrl({repo: this.repo});
+      } else {
+        this._repoUrl = null;
+      }
+    }
+  }
+
   override updated(changedProperties: PropertyValues) {
     if (changedProperties.has('repo')) {
       this._repoChanged();
@@ -75,12 +85,7 @@ export class GrRepoHeader extends LitElement {
 
   _repoChanged() {
     const repo = this.repo;
-    if (!repo) {
-      this._repoUrl = null;
-      return;
-    }
-
-    this._repoUrl = createRepoUrl({repo});
+    if (!repo) return;
 
     this.restApiService.getRepo(repo).then(repo => {
       if (!repo?.web_links) return;

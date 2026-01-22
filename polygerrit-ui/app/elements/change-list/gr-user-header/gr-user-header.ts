@@ -107,7 +107,7 @@ export class GrUserHeader extends LitElement {
       </div>`;
   }
 
-  override updated(changedProperties: PropertyValues) {
+  override willUpdate(changedProperties: PropertyValues) {
     if (changedProperties.has('userId')) {
       this._accountChanged(this.userId);
     }

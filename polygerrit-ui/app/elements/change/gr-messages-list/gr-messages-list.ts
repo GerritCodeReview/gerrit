@@ -454,9 +454,20 @@ export class GrMessagesList extends LitElement {
     this.showAllActivity = (e.target as MdSwitch).selected ?? false;
   }
 
-  private refreshMessages() {
-    for (const message of queryAll<GrMessage>(this, 'gr-message')) {
-      message.requestUpdate();
+  // Private but used in tests.
+  async refreshMessages() {
+    const messages = queryAll<GrMessage>(this, 'gr-message');
+    let i = 0;
+    const batchSize = 20;
+    while (i < messages.length) {
+      if (!this.isConnected) return;
+      // Yield to main thread
+      await new Promise(resolve => setTimeout(resolve, 0));
+      const end = Math.min(i + batchSize, messages.length);
+      for (let j = i; j < end; j++) {
+        messages[j].requestUpdate();
+      }
+      i += batchSize;
     }
   }
 

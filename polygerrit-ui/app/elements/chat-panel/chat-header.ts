@@ -130,6 +130,10 @@ export class ChatHeader extends LitElement {
 
   @query('#moreActionsMenu') private moreActionsMenu?: MdMenu;
 
+  @state() private supportsHistory = true;
+
+  @state() private supportsMoreMenu = true;
+
   private readonly getChatModel = resolve(this, chatModelToken);
 
   constructor() {
@@ -153,6 +157,14 @@ export class ChatHeader extends LitElement {
       this,
       () => this.getChatModel().mode$,
       x => (this.mode = x ?? ChatPanelMode.CONVERSATION)
+    );
+    subscribe(
+      this,
+      () => this.getChatModel().provider$,
+      provider => {
+        this.supportsHistory = provider?.supports_history ?? true;
+        this.supportsMoreMenu = provider?.supports_more_menu ?? true;
+      }
     );
   }
 
@@ -212,6 +224,9 @@ export class ChatHeader extends LitElement {
         class="history-button first-right-button"
         aria-label="Show history"
         title="Show history"
+        style=${this.supportsHistory
+          ? ''
+          : 'visibility:hidden; pointer-events:none;'}
         @click=${this.showHistory}
       >
         <md-icon>history</md-icon>
@@ -222,6 +237,9 @@ export class ChatHeader extends LitElement {
         class="more-actions-trigger"
         aria-label="More actions"
         title="More"
+        style=${this.supportsMoreMenu
+          ? ''
+          : 'visibility:hidden; pointer-events:none;'}
         @click=${() =>
           this.moreActionsMenu && (this.moreActionsMenu.open = true)}
       >

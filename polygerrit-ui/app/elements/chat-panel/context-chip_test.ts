@@ -37,7 +37,7 @@ suite('context-chip tests', () => {
     assert.shadowDom.equal(
       element,
       /* HTML */ `
-        <md-filter-chip class="context-chip " removable="" title="" has-icon>
+        <md-filter-chip class="context-chip " removable="" style="" title="" has-icon>
           <gr-icon class="" icon="" slot="icon"> </gr-icon>
         </md-filter-chip>
       `

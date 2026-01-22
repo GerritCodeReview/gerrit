@@ -22,6 +22,48 @@
       },
       "revId": "9a06574ec3b29b28dbf037cd49f4107af0d0ba43",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b57a944c_63c216d0",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-image-viewer/gr-image-viewer_test.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-01-22T14:32:50Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "5c1bfe6d_ebd5e525",
+      "range": {
+        "startLine": 21,
+        "startChar": 7,
+        "endLine": 21,
+        "endChar": 27
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "1a497a67_efda0655",
+          "description": "GET_AI_FIX_FOR_COMMENT prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/embed/diff/gr-diff-image-viewer/gr-image-viewer_test.ts",
+              "range": {
+                "startLine": 21,
+                "startChar": 0,
+                "endLine": 22,
+                "endChar": 0
+              },
+              "replacement": "    // Mock window.resemble that is used in GrImageViewer.computeDiffImage\n"
+            }
+          ]
+        }
+      ],
+      "revId": "9a06574ec3b29b28dbf037cd49f4107af0d0ba43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

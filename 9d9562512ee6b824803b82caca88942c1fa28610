@@ -26,6 +26,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d8c94439_1e440be1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-tooltip-content/gr-tooltip-content.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-01-22T13:15:40Z",
+      "side": 1,
+      "message": "in hovercard mixin this same value is `550`\n\nhttps://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/mixins/hovercard-mixin/hovercard-mixin.ts;l\u003d54?q\u003d%22const%20SHOW_DELAY_MS%20%3D%20550;%22\u0026sq\u003d\n\nCan you explain why you chose a different value here?\n\nhttps://ux.stackexchange.com/questions/358/how-long-should-the-delay-be-before-a-tooltip-pops-up\n\nThere isn\u0027t an authoritative answer that I can find quickly but it would be good to document the choice made here and why we are deviating.\n\nThe normal tooltip on buttons should ideally be the same as our gr-tooltip",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 26
+      },
+      "revId": "9d9562512ee6b824803b82caca88942c1fa28610",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c9eebab1_56eb5ece",
         "filename": "polygerrit-ui/app/elements/shared/gr-tooltip-content/gr-tooltip-content.ts",
         "patchSetId": 4

@@ -92,7 +92,7 @@ export function createAppContext(): AppContext & Finalizable {
     restApiService: (ctx: Partial<AppContext>) => {
       assertIsDefined(ctx.authService, 'authService');
       assertIsDefined(ctx.flagsService, 'flagsService');
-      return new GrRestApiServiceImpl(ctx.authService, ctx.flagsService);
+      return new GrRestApiServiceImpl(ctx.authService);
     },
   };
   return create<AppContext>(appRegistry);
@@ -162,8 +162,7 @@ export function createAppDependencies(
           appContext.restApiService,
           resolver(userModelToken),
           resolver(pluginLoaderToken),
-          appContext.reportingService,
-          appContext.flagsService
+          appContext.reportingService
         ),
     ],
     [

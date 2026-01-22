@@ -59,7 +59,6 @@ import {assertIsDefined} from '../../utils/common-util';
 import {Model} from '../base/model';
 import {UserModel} from '../user/user-model';
 import {define} from '../dependency';
-import {FlagsService, KnownExperimentId} from '../../services/flags/flags';
 import {
   isOwner,
   isUploader,
@@ -539,8 +538,7 @@ export class ChangeModel extends Model<ChangeState> {
     private readonly restApiService: RestApiService,
     private readonly userModel: UserModel,
     private readonly pluginLoader: PluginLoader,
-    private readonly reporting: ReportingService,
-    private readonly flagsService: FlagsService
+    private readonly reporting: ReportingService
   ) {
     super(initialState);
     this.patchNum$ = select(
@@ -846,18 +844,6 @@ export class ChangeModel extends Model<ChangeState> {
         })
       )
       .subscribe(submittabilityInfo => {
-        // TODO(b/445644919): Remove once the submit_requirements is never
-        // requested as part of the change detail.
-        if (
-          !this.flagsService.isEnabled(
-            KnownExperimentId.ASYNC_SUBMIT_REQUIREMENTS
-          )
-        ) {
-          this.updateState({
-            submittabilityLoadingStatus: LoadingStatus.NOT_LOADED,
-          });
-          return;
-        }
         const change = fillFromSubmittabilityInfo(
           this.change,
           submittabilityInfo
@@ -1144,13 +1130,7 @@ export class ChangeModel extends Model<ChangeState> {
       return;
     }
     change = updateRevisionsWithCommitShas(change);
-    // TODO(b/445644919): Remove once the submit_requirements is never requested
-    // as part of the change detail.
-    if (
-      this.flagsService.isEnabled(KnownExperimentId.ASYNC_SUBMIT_REQUIREMENTS)
-    ) {
-      change = fillFromSubmittabilityInfo(change, this.submittabilityInfo);
-    }
+    change = fillFromSubmittabilityInfo(change, this.submittabilityInfo);
     this.updateState({
       change,
       loadingStatus: LoadingStatus.LOADED,

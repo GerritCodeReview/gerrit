@@ -578,12 +578,6 @@ export interface RestApiService extends Finalizable {
     offset?: 'n,z' | number,
     options?: string
   ): Promise<ChangeInfo[][] | undefined>;
-  getChangesForMultipleQueries(
-    changesPerPage?: number,
-    query?: string[],
-    offset?: 'n,z' | number,
-    options?: string
-  ): Promise<ChangeInfo[][] | undefined>;
 
   getDocumentationSearches(filter: string): Promise<DocResult[] | undefined>;
 

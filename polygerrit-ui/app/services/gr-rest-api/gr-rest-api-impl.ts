@@ -130,7 +130,6 @@ import {addDraftProp} from '../../utils/comment-util';
 import {BaseScheduler, Scheduler} from '../scheduler/scheduler';
 import {MaxInFlightScheduler} from '../scheduler/max-in-flight-scheduler';
 import {escapeAndWrapSearchOperatorValue} from '../../utils/string-util';
-import {FlagsService, KnownExperimentId} from '../flags/flags';
 import {RetryScheduler} from '../scheduler/retry-scheduler';
 import {
   BatchLabelInput,
@@ -157,7 +156,6 @@ import {
   SiteBasedCache,
   throwingErrorCallback,
 } from '../../elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
-import {getAppContext} from '../app-context';
 
 const MAX_PROJECT_RESULTS = 25;
 
@@ -271,12 +269,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   // Used to serialize requests for certain RPCs
   readonly _serialScheduler: Scheduler<Response>;
 
-  private readonly flags = getAppContext().flagsService;
-
-  constructor(
-    private readonly authService: AuthService,
-    private readonly flagService: FlagsService
-  ) {
+  constructor(private readonly authService: AuthService) {
     const readScheduler = createReadScheduler();
     const writeScheduler = createWriteScheduler();
     this._restApiHelper = new GrRestApiHelper(
@@ -1182,9 +1175,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   }
 
   /**
-   * Depending on an experiment this will either use `getChangesForMultipleQueries()`, which
-   * makes just one request to the REST API. Or it will fan out into multiple parallel
-   * requests and call `getChanges()` for each query.
+   * Runs multiple parallel requests and call `getChanges()` for each query.
    */
   async getChangesForDashboard(
     changesPerPage?: number,
@@ -1192,29 +1183,16 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     offset?: 'n,z' | number,
     options?: string
   ): Promise<ChangeInfo[][] | undefined> {
-    // CAUTION: Before actually enabling this experiment for everyone we will have to also change
-    // the prefetched query in the backend. As is the experiment may help improving the
-    // DashboardDisplayed metric, but it will definitely make the *Startup*DashboardDisplayed
-    // latency worse.
-    const parallelRequests = this.flagService.isEnabled(
-      KnownExperimentId.PARALLEL_DASHBOARD_REQUESTS
-    );
-    if (parallelRequests && queries && queries.length > 1) {
-      const requestPromises = queries.map(query =>
-        this.getChanges(changesPerPage, query, offset, options)
-      );
-      return Promise.all(requestPromises).then(results => {
-        if (results.includes(undefined)) return undefined;
-        return results as ChangeInfo[][];
-      });
-    } else {
-      return this.getChangesForMultipleQueries(
-        changesPerPage,
-        queries,
-        offset,
-        options
-      );
+    if (!queries) {
+      return undefined;
     }
+    const requestPromises = queries.map(query =>
+      this.getChanges(changesPerPage, query, offset, options)
+    );
+    return Promise.all(requestPromises).then(results => {
+      if (results.includes(undefined)) return undefined;
+      return results as ChangeInfo[][];
+    });
   }
 
   /**
@@ -1434,10 +1412,6 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     if (config?.receive?.enable_signed_push) {
       options.push(ListChangesOption.PUSH_CERTIFICATES);
     }
-    if (!this.flags.isEnabled(KnownExperimentId.ASYNC_SUBMIT_REQUIREMENTS)) {
-      options.push(ListChangesOption.SUBMITTABLE);
-      options.push(ListChangesOption.SUBMIT_REQUIREMENTS);
-    }
     return options;
   }
 
@@ -1499,9 +1473,6 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   async getSubmittabilityInfo(
     changeNum: NumericChangeId
   ): Promise<SubmittabilityInfo | undefined> {
-    if (!this.flags.isEnabled(KnownExperimentId.ASYNC_SUBMIT_REQUIREMENTS)) {
-      return undefined;
-    }
     const optionsHex = listChangesOptionsToHex(
       ListChangesOption.SUBMITTABLE,
       ListChangesOption.SUBMIT_REQUIREMENTS,
@@ -2383,10 +2354,6 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       'REVIEWER_UPDATES',
       'SKIP_DIFFSTAT',
     ];
-    if (!this.flags.isEnabled(KnownExperimentId.ASYNC_SUBMIT_REQUIREMENTS)) {
-      options.push('SUBMITTABLE');
-      options.push('SUBMIT_REQUIREMENTS');
-    }
     return options;
   }
 

@@ -57,7 +57,6 @@ import {
 import {assert} from '@open-wc/testing';
 import {AuthService} from '../gr-auth/gr-auth';
 import {GrAuthMock} from '../gr-auth/gr-auth_mock';
-import {FlagsServiceImplementation} from '../flags/flags_impl';
 
 const EXPECTED_QUERY_OPTIONS = listChangesOptionsToHex(
   ListChangesOption.CHANGE_ACTIONS,
@@ -86,10 +85,7 @@ suite('gr-rest-api-service-impl tests', () => {
     // fake auth
     authService = new GrAuthMock();
     sinon.stub(authService, 'authCheck').resolves(true);
-    element = new GrRestApiServiceImpl(
-      authService,
-      new FlagsServiceImplementation()
-    );
+    element = new GrRestApiServiceImpl(authService);
 
     element._projectLookup = {};
   });
@@ -1569,26 +1565,6 @@ suite('gr-rest-api-service-impl tests', () => {
   });
 
   suite('getChanges populates _projectLookup', () => {
-    test('multiple queries', async () => {
-      sinon.stub(element._restApiHelper, 'fetchJSON').resolves([
-        [
-          {_number: 1, project: 'test'},
-          {_number: 2, project: 'test'},
-        ],
-        [{_number: 3, project: 'test/test'}],
-      ] as unknown as ParsedJSON);
-      // When query instanceof Array, fetchJSON returns
-      // Array<Array<Object>>.
-      await element.getChangesForMultipleQueries(undefined, []);
-      assert.equal(Object.keys(element._projectLookup).length, 3);
-      const project1 = await element.getRepoName(1 as NumericChangeId);
-      assert.equal(project1, 'test' as RepoName);
-      const project2 = await element.getRepoName(2 as NumericChangeId);
-      assert.equal(project2, 'test' as RepoName);
-      const project3 = await element.getRepoName(3 as NumericChangeId);
-      assert.equal(project3, 'test/test' as RepoName);
-    });
-
     test('no query', async () => {
       sinon.stub(element._restApiHelper, 'fetchJSON').resolves([
         {_number: 1, project: 'test'},

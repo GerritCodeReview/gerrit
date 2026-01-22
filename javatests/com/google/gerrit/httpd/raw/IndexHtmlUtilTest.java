@@ -146,9 +146,9 @@ public class IndexHtmlUtilTest {
     String requestedPath = "/c/project/+/123/4..6";
     assertThat(IndexHtmlUtil.computeBasePatchNum(requestedPath)).isEqualTo(4);
 
-    assertThat(dynamicTemplateData(gerritApi, requestedPath, "", false, false))
+    assertThat(dynamicTemplateData(gerritApi, requestedPath, ""))
         .containsAtLeast(
-            "defaultChangeDetailHex", "9996394",
+            "defaultChangeDetailHex", "8896394",
             "changeRequestsPath", "changes/project~123");
   }
 
@@ -174,9 +174,9 @@ public class IndexHtmlUtilTest {
     String requestedPath = "/c/project/+/123";
     assertThat(IndexHtmlUtil.computeBasePatchNum(requestedPath)).isEqualTo(0);
 
-    assertThat(dynamicTemplateData(gerritApi, requestedPath, "", false, false))
+    assertThat(dynamicTemplateData(gerritApi, requestedPath, ""))
         .containsAtLeast(
-            "defaultChangeDetailHex", "1996394",
+            "defaultChangeDetailHex", "896394",
             "changeRequestsPath", "changes/project~123");
   }
 
@@ -202,7 +202,7 @@ public class IndexHtmlUtilTest {
     String requestedPath = "/c/project/+/123";
     assertThat(IndexHtmlUtil.computeBasePatchNum(requestedPath)).isEqualTo(0);
 
-    assertThat(dynamicTemplateData(gerritApi, requestedPath, "", true, false))
+    assertThat(dynamicTemplateData(gerritApi, requestedPath, ""))
         .containsAtLeast(
             "defaultChangeDetailHex", "896394",
             "submitRequirementsHex", "1100000",

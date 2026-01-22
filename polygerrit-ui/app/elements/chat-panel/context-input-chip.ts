@@ -33,6 +33,8 @@ export class ContextInputChip extends LitElement {
 
   @state() contextMenuItems: readonly ContextItemType[] = [];
 
+  @state() private supportsContext = true;
+
   private readonly getChatModel = resolve(this, chatModelToken);
 
   constructor() {
@@ -42,6 +44,13 @@ export class ContextInputChip extends LitElement {
       () => this.getChatModel().contextItemTypes$,
       (contextItemTypes: readonly ContextItemType[]) => {
         this.contextMenuItems = contextItemTypes;
+      }
+    );
+    subscribe(
+      this,
+      () => this.getChatModel().provider$,
+      provider => {
+        this.supportsContext = provider?.supports_context ?? true;
       }
     );
   }
@@ -115,12 +124,18 @@ export class ContextInputChip extends LitElement {
   `;
 
   override render() {
+    /* if (!this.supportsContext) {
+      return nothing;
+    }*/
     return html`
       <div class="context-input-container">
         <md-assist-chip
           id="addContextChip"
           .label=${'Add Context'}
           title="Add context to your query"
+          style=${this.supportsContext
+            ? ''
+            : 'visibility:hidden; pointer-events:none;'}
           aria-label="Add context to your query"
           @click=${() => this.contextMenu && (this.contextMenu.open = true)}
         >

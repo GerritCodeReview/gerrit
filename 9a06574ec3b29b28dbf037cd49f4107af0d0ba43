@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5c1bfe6d_ebd5e525",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-image-viewer/gr-image-viewer_test.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-01-22T13:26:31Z",
+      "side": 1,
+      "message": "Mock window.resemble that is used in GrImageViewer.computeDiffImage\n\ncomment was quite useful before",
+      "range": {
+        "startLine": 21,
+        "startChar": 7,
+        "endLine": 21,
+        "endChar": 27
+      },
+      "revId": "9a06574ec3b29b28dbf037cd49f4107af0d0ba43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

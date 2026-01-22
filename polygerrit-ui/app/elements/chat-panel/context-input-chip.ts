@@ -20,6 +20,7 @@ import {resolve} from '../../models/dependency';
 import {assertIsDefined} from '../../utils/common-util';
 import {fire, fireAlert} from '../../utils/event-util';
 import {subscribe} from '../lit/subscription-controller';
+import {classMap} from 'lit/directives/class-map.js';
 
 @customElement('context-input-chip')
 export class ContextInputChip extends LitElement {
@@ -33,6 +34,8 @@ export class ContextInputChip extends LitElement {
 
   @state() contextMenuItems: readonly ContextItemType[] = [];
 
+  @state() private supportsAddContext = true;
+
   private readonly getChatModel = resolve(this, chatModelToken);
 
   constructor() {
@@ -42,6 +45,13 @@ export class ContextInputChip extends LitElement {
       () => this.getChatModel().contextItemTypes$,
       (contextItemTypes: readonly ContextItemType[]) => {
         this.contextMenuItems = contextItemTypes;
+      }
+    );
+    subscribe(
+      this,
+      () => this.getChatModel().provider$,
+      provider => {
+        this.supportsAddContext = provider?.supports_add_context ?? true;
       }
     );
   }
@@ -104,6 +114,10 @@ export class ContextInputChip extends LitElement {
       height: 14px;
       margin-left: var(--spacing-m);
     }
+    .hidden {
+      visibility: hidden;
+      pointer-events: none;
+    }
     md-menu-item {
       white-space: nowrap;
       --md-menu-item-top-space: var(--spacing-s);
@@ -119,6 +133,9 @@ export class ContextInputChip extends LitElement {
       <div class="context-input-container">
         <md-assist-chip
           id="addContextChip"
+          class=${classMap({
+            hidden: !this.supportsAddContext,
+          })}
           .label=${'Add Context'}
           title="Add context to your query"
           aria-label="Add context to your query"

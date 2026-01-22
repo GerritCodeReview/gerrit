@@ -20,6 +20,7 @@ import {subscribe} from '../lit/subscription-controller';
 import {ModelInfo} from '../../api/ai-code-review';
 import {chatModelToken, ChatPanelMode} from '../../models/chat/chat-model';
 import {resolve} from '../../models/dependency';
+import {classMap} from 'lit/directives/class-map.js';
 
 @customElement('chat-header')
 export class ChatHeader extends LitElement {
@@ -69,6 +70,10 @@ export class ChatHeader extends LitElement {
       width: 16px;
       font-size: 18px;
       margin-top: -2px;
+    }
+    .hidden {
+      visibility: hidden;
+      pointer-events: none;
     }
     :host > md-icon-button,
     :host > gr-icon {
@@ -130,6 +135,10 @@ export class ChatHeader extends LitElement {
 
   @query('#moreActionsMenu') private moreActionsMenu?: MdMenu;
 
+  @state() private supportsHistory = true;
+
+  @state() private supportsMoreMenu = true;
+
   private readonly getChatModel = resolve(this, chatModelToken);
 
   constructor() {
@@ -153,6 +162,14 @@ export class ChatHeader extends LitElement {
       this,
       () => this.getChatModel().mode$,
       x => (this.mode = x ?? ChatPanelMode.CONVERSATION)
+    );
+    subscribe(
+      this,
+      () => this.getChatModel().provider$,
+      provider => {
+        this.supportsHistory = provider?.supports_history ?? true;
+        this.supportsMoreMenu = provider?.supports_more_menu ?? true;
+      }
     );
   }
 
@@ -209,7 +226,11 @@ export class ChatHeader extends LitElement {
   private renderRightButtons() {
     return html`
       <md-icon-button
-        class="history-button first-right-button"
+        class=${classMap({
+          'history-button': true,
+          'first-right-button': true,
+          hidden: !this.supportsHistory,
+        })}
         aria-label="Show history"
         title="Show history"
         @click=${this.showHistory}
@@ -219,7 +240,10 @@ export class ChatHeader extends LitElement {
 
       <md-icon-button
         id="moreActionsTrigger"
-        class="more-actions-trigger"
+        class=${classMap({
+          'more-actions-trigger': true,
+          hidden: !this.supportsMoreMenu,
+        })}
         aria-label="More actions"
         title="More"
         @click=${() =>

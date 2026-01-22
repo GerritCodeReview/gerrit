@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "aab97f9f_1685f431",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-01-22T13:17:08Z",
+      "side": 1,
+      "message": "\u003e Here is my experiment with fix (bottom 2) and without fix (top 2) https://screenshot.googleplex.com/ASW6xtjEE67AayS\n\nWhat is this screenshot of? What is it explaining?\n\nLooking at the image, it\u0027s not clear what you are looking at what the outcomes are.\n\nPlease document this in the commit message",
+      "parentUuid": "df486fb2_d175be71",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 20
+      },
+      "revId": "9d9562512ee6b824803b82caca88942c1fa28610",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d8c94439_1e440be1",
         "filename": "polygerrit-ui/app/elements/shared/gr-tooltip-content/gr-tooltip-content.ts",
         "patchSetId": 4

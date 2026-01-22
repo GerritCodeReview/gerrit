@@ -35,7 +35,6 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.httpd.raw.IndexPreloadingUtil.RequestedPage;
 import com.google.gerrit.json.OutputFormat;
 import com.google.gerrit.server.experiments.ExperimentFeatures;
-import com.google.gerrit.server.experiments.ExperimentFeaturesConstants;
 import com.google.gson.Gson;
 import com.google.template.soy.data.SanitizedContent;
 import java.net.URI;
@@ -72,21 +71,10 @@ public class IndexHtmlUtil {
       String requestedURL)
       throws URISyntaxException, RestApiException {
     ImmutableMap.Builder<String, Object> data = ImmutableMap.builder();
-    boolean asyncSubmitRequirements =
-        experimentFeatures.isFeatureEnabled(ExperimentFeaturesConstants.ASYNC_SUBMIT_REQUIREMENTS);
-    boolean parallelDashboardRequest =
-        experimentFeatures.isFeatureEnabled(
-            ExperimentFeaturesConstants.PARALLEL_DASHBOARD_REQUESTS);
     data.putAll(
             staticTemplateData(
                 canonicalURL, cdnPath, faviconPath, urlParameterMap, urlInScriptTagOrdainer))
-        .putAll(
-            dynamicTemplateData(
-                gerritApi,
-                requestedURL,
-                canonicalURL,
-                asyncSubmitRequirements,
-                parallelDashboardRequest));
+        .putAll(dynamicTemplateData(gerritApi, requestedURL, canonicalURL));
     Set<String> enabledExperiments = new HashSet<>();
     enabledExperiments.addAll(experimentFeatures.getEnabledExperimentFeatures());
     // Add all experiments enabled through url
@@ -122,11 +110,7 @@ public class IndexHtmlUtil {
 
   /** Returns dynamic parameters of {@code index.html}. */
   public static ImmutableMap<String, Object> dynamicTemplateData(
-      GerritApi gerritApi,
-      String requestedURL,
-      String canonicalURL,
-      boolean asyncSubmitRequirements,
-      boolean parallelDashboardRequest)
+      GerritApi gerritApi, String requestedURL, String canonicalURL)
       throws RestApiException, URISyntaxException {
     ImmutableMap.Builder<String, Object> data = ImmutableMap.builder();
     Map<String, SanitizedContent> initialData = new HashMap<>();
@@ -151,15 +135,11 @@ public class IndexHtmlUtil {
                 basePatchNum.equals(0)
                     ? IndexPreloadingUtil.CHANGE_DETAIL_OPTIONS_WITHOUT_PARENTS
                     : IndexPreloadingUtil.CHANGE_DETAIL_OPTIONS_WITH_PARENTS);
-        if (asyncSubmitRequirements) {
-          changeDetailOptions.remove(ListChangesOption.SUBMIT_REQUIREMENTS);
-          changeDetailOptions.remove(ListChangesOption.SUBMITTABLE);
-          data.put(
-              "submitRequirementsHex",
-              ListOption.toHex(
-                  ImmutableSet.of(
-                      ListChangesOption.SUBMIT_REQUIREMENTS, ListChangesOption.SUBMITTABLE)));
-        }
+        data.put(
+            "submitRequirementsHex",
+            ListOption.toHex(
+                ImmutableSet.of(
+                    ListChangesOption.SUBMIT_REQUIREMENTS, ListChangesOption.SUBMITTABLE)));
         data.put("defaultChangeDetailHex", ListOption.toHex(changeDetailOptions));
         data.put(
             "changeRequestsPath",
@@ -190,7 +170,6 @@ public class IndexHtmlUtil {
       if (page == RequestedPage.DASHBOARD) {
         data.put("defaultDashboardHex", ListOption.toHex(IndexPreloadingUtil.DASHBOARD_OPTIONS));
         data.put("dashboardQuery", IndexPreloadingUtil.computeDashboardQueryList());
-        data.put("parallelDashboardRequest", parallelDashboardRequest);
       }
     } catch (AuthException e) {
       logger.atFine().log("Can't inline account-related data because user is unauthenticated");

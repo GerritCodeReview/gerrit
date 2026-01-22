@@ -63,6 +63,7 @@ suite('chat-header tests', () => {
         <md-icon-button
           class="history-button first-right-button"
           data-aria-label="Show history"
+          style=""
           title="Show history"
           value=""
         >
@@ -72,6 +73,7 @@ suite('chat-header tests', () => {
           id="moreActionsTrigger"
           class="more-actions-trigger"
           data-aria-label="More actions"
+          style=""
           title="More"
           value=""
         >

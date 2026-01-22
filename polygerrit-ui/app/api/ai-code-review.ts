@@ -306,4 +306,9 @@ export declare interface AiCodeReviewProvider {
    * Get the list of context item types that the provider supports.
    */
   getContextItemTypes?(): Promise<ContextItemType[]>;
+
+  supports_add_context?: boolean;
+  supports_history?: boolean;
+  supports_more_menu?: boolean;
+  supports_this_change?: boolean;
 }

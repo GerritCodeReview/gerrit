@@ -8,13 +8,15 @@ import '@material/web/icon/icon.js';
 import '../shared/gr-icon/gr-icon';
 
 import {css, html, LitElement} from 'lit';
-import {customElement, property} from 'lit/decorators.js';
+import {customElement, property, state} from 'lit/decorators.js';
 import {when} from 'lit/directives/when.js';
 
 import {ContextItem} from '../../api/ai-code-review';
 import {chatModelToken} from '../../models/chat/chat-model';
 import {resolve} from '../../models/dependency';
 import {fire} from '../../utils/event-util';
+import {subscribe} from '../lit/subscription-controller';
+import {classMap} from 'lit/directives/class-map.js';
 
 @customElement('context-chip')
 export class ContextChip extends LitElement {
@@ -33,6 +35,19 @@ export class ContextChip extends LitElement {
   @property({type: String}) tooltip?: string;
 
   @property({type: Boolean}) isRemovable = true;
+
+  @state() private supportsThisChange = true;
+
+  constructor() {
+    super();
+    subscribe(
+      this,
+      () => this.getChatModel().provider$,
+      provider => {
+        this.supportsThisChange = provider?.supports_this_change ?? true;
+      }
+    );
+  }
 
   static override styles = css`
     :host {
@@ -80,6 +95,10 @@ export class ContextChip extends LitElement {
     .subtext {
       color: var(--deemphasized-text-color);
     }
+    .hidden {
+      visibility: hidden;
+      pointer-events: none;
+    }
   `;
 
   override render() {
@@ -87,10 +106,12 @@ export class ContextChip extends LitElement {
     const icon = type?.icon ?? '';
     return html`
       <md-filter-chip
-        class="context-chip ${this.isSuggestion ? 'suggested-chip' : ''} ${this
-          .isCustomAction
-          ? 'custom-action-chip'
-          : ''}"
+        class=${classMap({
+          'context-chip': true,
+          'suggested-chip': this.isSuggestion,
+          'custom-action-chip': this.isCustomAction,
+          hidden: !this.supportsThisChange,
+        })}
         .label=${this.contextItem?.title ?? this.text}
         .title=${this.contextItem?.tooltip ?? this.tooltip ?? ''}
         @click=${this.navigateToUrl}

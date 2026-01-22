@@ -211,6 +211,7 @@ export declare interface ChatState extends ConversationState {
   readonly contextItemTypes?: readonly ContextItemType[];
   // Error message if the context item types failed to load.
   readonly contextItemTypesLoadingError?: string;
+  readonly provider?: AiCodeReviewProvider;
 }
 
 export const initialConversationState: ConversationState = {
@@ -333,6 +334,11 @@ export class ChatModel extends Model<ChatState> {
     chatState => chatState.draftUserMessage.contextItems
   );
 
+  readonly provider$: Observable<AiCodeReviewProvider | undefined> = select(
+    this.state$,
+    state => state.provider
+  );
+
   private plugin?: AiCodeReviewProvider;
 
   private change?: ChangeInfo;
@@ -349,10 +355,15 @@ export class ChatModel extends Model<ChatState> {
       ...initialConversationState,
     });
 
-    this.pluginsModel.aiCodeReviewPlugins$.subscribe(
-      plugins =>
-        (this.plugin = plugins.length > 0 ? plugins[0].provider : undefined)
-    );
+    this.pluginsModel.aiCodeReviewPlugins$.subscribe(plugins => {
+      const provider = plugins[0]?.provider;
+
+      this.plugin = provider;
+      this.updateState({
+        provider,
+      });
+    });
+
     this.filesModel.files$.subscribe(files => (this.files = files ?? []));
     this.changeModel.change$.subscribe(change => {
       this.change = change as ChangeInfo;

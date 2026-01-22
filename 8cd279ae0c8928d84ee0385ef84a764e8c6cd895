@@ -42,6 +42,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "264fb2fe_e6c18b92",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-image-viewer/gr-image-viewer_test.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-01-22T13:22:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ad5ef9e2_5e6e0eb5",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 55
+      },
+      "revId": "8cd279ae0c8928d84ee0385ef84a764e8c6cd895",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "989907f3_39614601",
@@ -79,6 +103,30 @@
           ]
         }
       ],
+      "revId": "8cd279ae0c8928d84ee0385ef84a764e8c6cd895",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4769d086_ecc03432",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-image-viewer/gr-image-viewer_test.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-01-22T13:22:47Z",
+      "side": 1,
+      "message": "Sure, I can also change it in different change in whole app - there is 79 places.",
+      "parentUuid": "989907f3_39614601",
+      "range": {
+        "startLine": 21,
+        "startChar": 4,
+        "endLine": 21,
+        "endChar": 28
+      },
       "revId": "8cd279ae0c8928d84ee0385ef84a764e8c6cd895",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

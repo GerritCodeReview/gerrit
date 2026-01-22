@@ -1,0 +1,86 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ad5ef9e2_5e6e0eb5",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-image-viewer/gr-image-viewer_test.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-01-22T13:06:04Z",
+      "side": 1,
+      "message": "instead of mocking to any I\u0027m reading that using `ts-expect-error` is better since it avoids the use of `any`",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 55
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "d3bb287a_be543c90",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/embed/diff/gr-diff-image-viewer/gr-image-viewer_test.ts",
+              "range": {
+                "startLine": 16,
+                "startChar": 0,
+                "endLine": 18,
+                "endChar": 0
+              },
+              "replacement": "    // \u0027libLoader\u0027 is a private static property on GrImageViewer.\n    // @ts-expect-error private property\n    const libLoader \u003d GrImageViewer.libLoader;\n"
+            }
+          ]
+        }
+      ],
+      "revId": "8cd279ae0c8928d84ee0385ef84a764e8c6cd895",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "989907f3_39614601",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-image-viewer/gr-image-viewer_test.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-01-22T13:06:04Z",
+      "side": 1,
+      "message": "same as above\nbetter to use `ts-expect-error`",
+      "range": {
+        "startLine": 21,
+        "startChar": 4,
+        "endLine": 21,
+        "endChar": 28
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "5ce9e913_443238ed",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/embed/diff/gr-diff-image-viewer/gr-image-viewer_test.ts",
+              "range": {
+                "startLine": 21,
+                "startChar": 0,
+                "endLine": 22,
+                "endChar": 0
+              },
+              "replacement": "    // @ts-expect-error\n    window.resemble \u003d sinon.stub().returns({\n"
+            }
+          ]
+        }
+      ],
+      "revId": "8cd279ae0c8928d84ee0385ef84a764e8c6cd895",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

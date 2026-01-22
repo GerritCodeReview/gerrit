@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b3afb45f_42e18cb2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-tooltip-content/gr-tooltip-content.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2026-01-22T12:54:03Z",
+      "side": 1,
+      "message": "I think this is unused right now, ie. it\u0027s never assigned to.",
+      "range": {
+        "startLine": 57,
+        "startChar": 2,
+        "endLine": 58,
+        "endChar": 25
+      },
+      "revId": "465757491403789db61fb85df0da596a150db868",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

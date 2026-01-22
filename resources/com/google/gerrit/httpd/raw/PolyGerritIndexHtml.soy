@@ -33,7 +33,6 @@
   {@param? defaultChangeDetailHex: ?}
   {@param? defaultDashboardHex: ?}
   {@param? dashboardQuery: ?}
-  {@param? parallelDashboardRequest: ?}
   {@param? userIsAuthenticated: ?}
   {@param? submitRequirementsHex: ?}
   <!DOCTYPE html>{\n}
@@ -108,13 +107,9 @@
     {/if}
   {/if}
   {if $userIsAuthenticated && $defaultDashboardHex && $dashboardQuery}
-    {if !$parallelDashboardRequest}
-      <link rel="preload" href="{$canonicalPath}/changes/?O={$defaultDashboardHex}&S=0{for $query in $dashboardQuery}&q={$query}{/for}&allow-incomplete-results=true" as="fetch" type="application/json" crossorigin="anonymous"/>{\n}
-    {else}
-      {for $query in $dashboardQuery}
-        <link rel="preload" href="{$canonicalPath}/changes/?O={$defaultDashboardHex}&S=0&q={$query}&allow-incomplete-results=true" as="fetch" type="application/json" crossorigin="anonymous"/>{\n}
-      {/for}
-    {/if}
+    {for $query in $dashboardQuery}
+      <link rel="preload" href="{$canonicalPath}/changes/?O={$defaultDashboardHex}&S=0&q={$query}&allow-incomplete-results=true" as="fetch" type="application/json" crossorigin="anonymous"/>{\n}
+    {/for}
   {/if}
 
   {if $useGoogleFonts}

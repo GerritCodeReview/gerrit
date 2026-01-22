@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e6d6b0c5_1887617b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-avatar/gr-avatar_test.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-01-22T12:57:55Z",
+      "side": 1,
+      "message": "Actually prototype is needed otherwise fixture will override it. I need to look into it more closely, so i am reverting changese in gr-avatar",
+      "parentUuid": "12e6ec5e_edabced5",
+      "range": {
+        "startLine": 68,
+        "startChar": 14,
+        "endLine": 68,
+        "endChar": 39
+      },
+      "revId": "fbf23dde1c2947f3dfe98122ec146f6c144a7d51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7ee62937_512cf213",

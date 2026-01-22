@@ -16,6 +16,24 @@
       "message": "Should `table` be instead replaced with `NoteDb data`? It is still possible to directly manipulate [that data](https://gerrit-review.googlesource.com/Documentation/config-groups.html#_storage_format).",
       "revId": "62fa6f64ca92854e3d7518577b7ccf60266872a0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2835589d_c71f9e6e",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1260,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-01-22T11:08:57Z",
+      "side": 0,
+      "message": "But that\u0027s true for every other cache too? If someone is knowledgeable enough to be able to do that, you\u0027d expect him to figure out that caches will be invalidated.\n\nI\u0027m not sure we need to point that out.",
+      "parentUuid": "4c94c430_3a8b8bf3",
+      "revId": "62fa6f64ca92854e3d7518577b7ccf60266872a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

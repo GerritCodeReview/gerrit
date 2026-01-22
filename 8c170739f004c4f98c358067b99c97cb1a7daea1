@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "53abd06c_bb4b4afe",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2026-01-22T15:43:54Z",
+      "side": 1,
+      "message": "Import note: When imported to Google. PolyGerritFilter.java will need to be updated",
+      "revId": "8c170739f004c4f98c358067b99c97cb1a7daea1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

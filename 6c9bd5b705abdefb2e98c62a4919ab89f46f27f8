@@ -22,6 +22,30 @@
       },
       "revId": "6c9bd5b705abdefb2e98c62a4919ab89f46f27f8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b1e8d1c_fe7fb80b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-01-23T14:59:21Z",
+      "side": 1,
+      "message": "this.isConnected is there to prevent scheduling new async debounce tasks (this.updateSuggestionsTask) after the component has been disconnected.\n\nIn Lit, property updates (like text or threshold) can trigger \nwillUpdate even after  disconnectedCallback if they happen during teardown \n\nWithout this guard, updateSuggestions schedules a new debounce task after our  disconnectedCallback cleanup has already finished.\n\nI think it\u0027s good practice and it should be there. \n\nTest is ok",
+      "parentUuid": "2197d883_a1e1fa26",
+      "range": {
+        "startLine": 418,
+        "startChar": 4,
+        "endLine": 418,
+        "endChar": 34
+      },
+      "revId": "6c9bd5b705abdefb2e98c62a4919ab89f46f27f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

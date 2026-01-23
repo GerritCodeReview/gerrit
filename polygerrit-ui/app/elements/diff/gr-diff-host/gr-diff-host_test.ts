@@ -60,6 +60,7 @@ import {
   CommentsModel,
   commentsModelToken,
 } from '../../../models/comments/comments-model';
+import {shortcutsServiceToken} from '../../../services/shortcuts/shortcuts-service';
 
 suite('gr-diff-host tests', () => {
   let element: GrDiffHost;
@@ -68,6 +69,7 @@ suite('gr-diff-host tests', () => {
   let userModel: UserModel;
 
   setup(async () => {
+    testResolver(shortcutsServiceToken);
     stubRestApi('getAccount').callsFake(() => Promise.resolve(account));
     element = await fixture(html`<gr-diff-host
       .changeNum=${123 as NumericChangeId}

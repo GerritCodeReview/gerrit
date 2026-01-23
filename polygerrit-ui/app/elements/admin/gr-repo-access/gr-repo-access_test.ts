@@ -386,6 +386,9 @@ suite('gr-repo-access tests', () => {
       shouldShowSave: boolean,
       shouldShowSaveReview: boolean
     ) => {
+      element.modified = false;
+      element.disableSaveWithoutReview = false;
+      await element.updateComplete;
       // Edit button is visible and Save button is hidden.
       assert.equal(
         getComputedStyle(queryAndAssert<GrButton>(element, '#saveReviewBtn'))
@@ -402,7 +405,7 @@ suite('gr-repo-access tests', () => {
       );
       assert.equal(
         queryAndAssert<GrButton>(element, '#editBtn').innerText,
-        'EDIT'
+        'Edit'
       );
       assert.equal(
         getComputedStyle(
@@ -428,7 +431,7 @@ suite('gr-repo-access tests', () => {
       // disabled.
       assert.equal(
         queryAndAssert<GrButton>(element, '#editBtn').innerText,
-        'CANCEL'
+        'Cancel'
       );
       if (shouldShowSaveReview) {
         assert.notEqual(
@@ -462,6 +465,7 @@ suite('gr-repo-access tests', () => {
           bubbles: true,
         })
       );
+      await element.updateComplete;
       if (shouldShowSaveReview) {
         assert.isFalse(
           queryAndAssert<GrButton>(element, '#saveReviewBtn').disabled
@@ -516,20 +520,20 @@ suite('gr-repo-access tests', () => {
     test('button visibility for non ref owner with upload privilege', async () => {
       element.canUpload = true;
       await element.updateComplete;
-      testEditSaveCancelBtns(false, true);
+      await testEditSaveCancelBtns(false, true);
     });
 
     test('button visibility for ref owner', async () => {
       element.ownerOf = ['refs/for/*'] as GitRef[];
       await element.updateComplete;
-      testEditSaveCancelBtns(true, false);
+      await testEditSaveCancelBtns(true, false);
     });
 
     test('button visibility for ref owner and upload', async () => {
       element.ownerOf = ['refs/for/*'] as GitRef[];
       element.canUpload = true;
       await element.updateComplete;
-      testEditSaveCancelBtns(true, false);
+      await testEditSaveCancelBtns(true, false);
     });
 
     test('_handleAccessModified called with event fired', async () => {

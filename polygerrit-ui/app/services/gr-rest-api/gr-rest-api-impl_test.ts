@@ -380,7 +380,7 @@ suite('gr-rest-api-service-impl tests', () => {
   test('getAccountSuggestions using suggest query param', () => {
     const fetchStub = sinon
       .stub(element._restApiHelper, 'fetch')
-      .resolves(new Response());
+      .resolves(new Response(makePrefixedJSON([])));
     element.getAccountSuggestions('user');
     assert.isTrue(fetchStub.calledOnce);
     assert.deepEqual(fetchStub.firstCall.args[0].params, {
@@ -484,7 +484,7 @@ suite('gr-rest-api-service-impl tests', () => {
   test('savePreferences normalizes download scheme', () => {
     const fetchStub = sinon
       .stub(element._restApiHelper, 'fetch')
-      .resolves(new Response());
+      .resolves(new Response(makePrefixedJSON({})));
     element.savePreferences({download_scheme: 'HTTP'});
     assert.isTrue(fetchStub.called);
     assert.equal(
@@ -1301,7 +1301,9 @@ suite('gr-rest-api-service-impl tests', () => {
   });
 
   test('gerrit auth is used', () => {
-    const fetchStub = sinon.stub(authService, 'fetch').resolves();
+    const fetchStub = sinon
+      .stub(authService, 'fetch')
+      .resolves(new Response());
     element._restApiHelper.fetchJSON({url: 'foo'});
     assert(fetchStub.called);
   });
@@ -1916,7 +1918,7 @@ suite('gr-rest-api-service-impl tests', () => {
     assert.deepEqual(edit, expected);
   });
 
-  test('ported comment errors do not trigger error dialog', () => {
+  test('ported comment errors do not trigger error dialog', async () => {
     const change = createChange();
     const handler = sinon.stub();
     addListenerForTest(document, 'server-error', handler);
@@ -1924,7 +1926,10 @@ suite('gr-rest-api-service-impl tests', () => {
       ok: false,
     } as unknown as ParsedJSON);
 
-    element.getPortedComments(change._number, CURRENT);
+
+    element.addRepoNameToCache(change._number, TEST_PROJECT_NAME);
+
+    await element.getPortedComments(change._number, CURRENT);
 
     assert.isFalse(handler.called);
   });

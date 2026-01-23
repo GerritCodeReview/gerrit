@@ -205,10 +205,12 @@ suite('gr-rest-api-helper tests', () => {
       });
 
       test('network error, promise rejects, event thrown', async () => {
-        authFetchStub.rejects(new Error('No response'));
+        authFetchStub.callsFake(() => Promise.reject(new Error('No response')));
         const promise = helper.fetchJSON({url: '/dummy/url'});
+        promise.catch(() => {});
+        const errorPromise = assertFails(promise);
         await assertReadRequest();
-        const err = await assertFails(promise);
+        const err = await errorPromise;
         assert.equal(
           (err as Error).message,
           'Network error when trying to fetch. Cause: No response'
@@ -220,13 +222,15 @@ suite('gr-rest-api-helper tests', () => {
 
       test('network error, promise rejects, errFn called, no event', async () => {
         const errFn = sinon.stub();
-        authFetchStub.rejects(new Error('No response'));
+        authFetchStub.callsFake(() => Promise.reject(new Error('No response')));
         const promise = helper.fetchJSON({
           url: '/dummy/url',
           errFn,
         });
+        promise.catch(() => {});
+        const errorPromise = assertFails(promise);
         await assertReadRequest();
-        const err = await assertFails(promise);
+        const err = await errorPromise;
         assert.equal(
           (err as Error).message,
           'Network error when trying to fetch. Cause: No response'
@@ -291,8 +295,10 @@ suite('gr-rest-api-helper tests', () => {
         );
         const errFn = sinon.stub();
         const promise = helper.fetchJSON({url: '/dummy/url', errFn});
+        promise.catch(() => {});
+        const errorPromise = assertFails(promise);
         await assertReadRequest();
-        await assertFails(promise);
+        await errorPromise;
         await waitEventLoop();
         assert.isFalse(errFn.called);
         assert.isFalse(networkErrorCalled);
@@ -418,9 +424,11 @@ suite('gr-rest-api-helper tests', () => {
         url: '/dummy/url',
         errFn: throwInPromise,
       });
+      promise.catch(() => {});
+      const errorPromise = assertFails(promise);
       await assertReadRequest();
 
-      const err = await assertFails(promise);
+      const err = await errorPromise;
       assert.equal((err as Error).message, 'Nope');
     });
 
@@ -429,9 +437,11 @@ suite('gr-rest-api-helper tests', () => {
         url: '/dummy/url',
         errFn: throwImmediately,
       });
+      promise.catch(() => {});
+      const errorPromise = assertFails(promise);
       await assertReadRequest();
 
-      const err = await assertFails(promise);
+      const err = await errorPromise;
       assert.equal((err as Error).message, 'Error Callback error');
     });
   });

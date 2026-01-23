@@ -63,7 +63,7 @@ interface ComputedLabel {
   values: ComputedLabelValue[];
 }
 
-interface GroupSuggestion {
+interface GroupSuggestions {
   name: string;
   value: GroupInfo;
 }
@@ -157,7 +157,6 @@ export class GrPermission extends LitElement {
         }
         .header {
           align-items: baseline;
-          display: flex;
           justify-content: space-between;
           margin: var(--spacing-s) var(--spacing-m);
         }
@@ -338,7 +337,6 @@ export class GrPermission extends LitElement {
       // Restore exclusive bit to original.
       this.permission.value.exclusive = this.originalExclusiveValue;
       fire(this, 'permission-changed', {value: this.permission});
-      this.requestUpdate();
     }
   }
 

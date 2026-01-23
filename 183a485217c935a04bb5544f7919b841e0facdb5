@@ -1,0 +1,45 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dbd8d393_eea45cbd",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1243,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-01-23T12:07:26Z",
+      "side": 1,
+      "message": "I was thinking this is now dead code and can be removed.",
+      "range": {
+        "startLine": 1198,
+        "startChar": 3,
+        "endLine": 1243,
+        "endChar": 3
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "044add3a_a84ad112",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+              "range": {
+                "startLine": 1197,
+                "startChar": 0,
+                "endLine": 1244,
+                "endChar": 0
+              },
+              "replacement": ""
+            }
+          ]
+        }
+      ],
+      "revId": "183a485217c935a04bb5544f7919b841e0facdb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

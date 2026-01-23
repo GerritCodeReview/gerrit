@@ -40,6 +40,30 @@
       ],
       "revId": "183a485217c935a04bb5544f7919b841e0facdb5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7cb5b4c6_420fdd91",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1243,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2026-01-23T12:39:53Z",
+      "side": 1,
+      "message": "Weird, I thought I already removed it. Thank you for catching",
+      "parentUuid": "dbd8d393_eea45cbd",
+      "range": {
+        "startLine": 1198,
+        "startChar": 3,
+        "endLine": 1243,
+        "endChar": 3
+      },
+      "revId": "183a485217c935a04bb5544f7919b841e0facdb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -44,7 +44,6 @@ import {
   CherryPickInput,
   CommentThread,
   CommitId,
-  InheritedBooleanInfo,
   isDetailedLabelInfo,
   isQuickLabelInfo,
   LabelInfo,
@@ -116,7 +115,6 @@ import {modalStyles} from '../../../styles/gr-modal-styles';
 import {subscribe} from '../../lit/subscription-controller';
 import {userModelToken} from '../../../models/user/user-model';
 import {ParsedChangeInfo} from '../../../types/types';
-import {configModelToken} from '../../../models/config/config-model';
 import {readJSONResponsePayload} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 import {commentsModelToken} from '../../../models/comments/comments-model';
 import {when} from 'lit/directives/when.js';
@@ -406,8 +404,6 @@ export class GrChangeActions
   // The DOWNLOAD action is also added to it in `actionsChanged()`.
   @state() revisionActions?: ActionNameToActionInfoMap;
 
-  @state() privateByDefault?: InheritedBooleanInfo;
-
   @state() actionLoadingMessage = '';
 
   @state() inProgressActionKeys = new Set<string>();
@@ -497,8 +493,6 @@ export class GrChangeActions
 
   private readonly getUserModel = resolve(this, userModelToken);
 
-  private readonly getConfigModel = resolve(this, configModelToken);
-
   private readonly getChangeModel = resolve(this, changeModelToken);
 
   private readonly getStorage = resolve(this, storageServiceToken);
@@ -576,8 +570,21 @@ export class GrChangeActions
     );
     subscribe(
       this,
+<<<<<<< HEAD   (87a8c0763ee5c72ad1b74a60fe0c40a00665f3c3 Set version to 3.13.3-SNAPSHOT)
       () => this.getConfigModel().repoConfig$,
       config => (this.privateByDefault = config?.private_by_default)
+||||||| BASE   (daee7aa0957f0454b22d555c5c2c977d19611853 Fix test log noise and resource loading errors)
+      () => this.getPluginLoader().pluginsModel.aiCodeReviewPlugins$,
+      plugins => (this.aiPluginsRegistered = (plugins.length ?? 0) > 0)
+    );
+    subscribe(
+      this,
+      () => this.getConfigModel().repoConfig$,
+      config => (this.privateByDefault = config?.private_by_default)
+=======
+      () => this.getPluginLoader().pluginsModel.aiCodeReviewPlugins$,
+      plugins => (this.aiPluginsRegistered = (plugins.length ?? 0) > 0)
+>>>>>>> CHANGE (8ded61bdc9f0130a13dc81ac5b10fd0befe8f4e7 Remove unused privateByDefault from change actions)
     );
     subscribe(
       this,
@@ -779,7 +786,6 @@ export class GrChangeActions
               .branch=${this.change?.branch}
               .baseChange=${this.change?.change_id}
               .repoName=${this.change?.project}
-              .privateByDefault=${this.privateByDefault}
             ></gr-create-change-dialog>
           </div>
         </gr-dialog>

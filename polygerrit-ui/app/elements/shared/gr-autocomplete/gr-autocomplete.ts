@@ -340,6 +340,7 @@ export class GrAutocomplete extends LitElement {
     this.focus();
 
     this.updateComplete.then(() => {
+      if (!this.isConnected) return;
       this.disableDisplayingSuggestions = false;
     });
   }
@@ -396,6 +397,7 @@ export class GrAutocomplete extends LitElement {
     this.text = text;
 
     this.updateComplete.then(() => {
+      if (!this.isConnected) return;
       this.disableDisplayingSuggestions = false;
     });
   }

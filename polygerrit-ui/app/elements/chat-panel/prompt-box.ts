@@ -130,6 +130,9 @@ export class PromptBox extends LitElement {
   }
 
   override disconnectedCallback() {
+    if (this.refocusPromptInputTask) {
+      clearTimeout(this.refocusPromptInputTask);
+    }
     this.updateDynamicContextItemsTask?.cancel();
     super.disconnectedCallback();
   }
@@ -632,8 +635,13 @@ export class PromptBox extends LitElement {
     }
   }
 
+  private refocusPromptInputTask?: number;
+
   private refocusPromptInput() {
-    setTimeout(() => {
+    if (this.refocusPromptInputTask) {
+      clearTimeout(this.refocusPromptInputTask);
+    }
+    this.refocusPromptInputTask = window.setTimeout(() => {
       this.promptInput?.focus();
     });
   }

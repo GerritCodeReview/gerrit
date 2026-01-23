@@ -499,7 +499,7 @@ export class GrEditableContent extends LitElement {
    * removing distraction. It's used after pressing format button for example.
    */
   updateFormatState(skipDebounce = false) {
-    if (!this.newContent) return;
+    if (!this.newContent || !this.isConnected) return;
 
     if (skipDebounce) {
       this.formatDisabled =
@@ -536,7 +536,7 @@ export class GrEditableContent extends LitElement {
   }
 
   updateStorageWithNewContent() {
-    if (!this.storageKey) return;
+    if (!this.storageKey || !this.isConnected) return;
     const storageKey = this.storageKey;
 
     this.storeTask = debounce(

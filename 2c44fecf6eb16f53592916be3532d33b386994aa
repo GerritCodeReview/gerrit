@@ -119,6 +119,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4f8733f3_8a995626",
+        "filename": "contrib/gcng.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-01-23T23:18:44Z",
+      "side": 1,
+      "message": "Because git is what is already available on our servers, and what we have teste with. If we start to use jgit, I would add support for it.",
+      "parentUuid": "40b1ca76_a48ff0fc",
+      "range": {
+        "startLine": 195,
+        "startChar": 11,
+        "endLine": 195,
+        "endChar": 14
+      },
+      "revId": "2c44fecf6eb16f53592916be3532d33b386994aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "71f3a9ea_2ff7ea90",
@@ -132,6 +156,30 @@
       "writtenOn": "2026-01-23T08:59:27Z",
       "side": 1,
       "message": "This is something that `git` should do. JGit does it already and provides huge benefit for large repos, as you know :-)",
+      "range": {
+        "startLine": 220,
+        "startChar": 0,
+        "endLine": 224,
+        "endChar": 1
+      },
+      "revId": "2c44fecf6eb16f53592916be3532d33b386994aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f9f82eaf_80d1309c",
+        "filename": "contrib/gcng.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-01-23T23:18:44Z",
+      "side": 1,
+      "message": "Yes, this script is attempting to do many things which should make their way back into upstream tools. Think of this as a way to jump start new gc feature development, and to sometimes fill the gaps for those stuck on older tools.",
+      "parentUuid": "71f3a9ea_2ff7ea90",
       "range": {
         "startLine": 220,
         "startChar": 0,

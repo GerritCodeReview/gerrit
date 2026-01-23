@@ -107,6 +107,30 @@
       ],
       "revId": "deee438ac20fd078460cbfc5620dce2a40c785b5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c36050a9_f30df7c3",
+        "filename": "polygerrit-ui/app/elements/chat-panel/chat-header.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-01-23T11:00:32Z",
+      "side": 1,
+      "message": "amended to other places as well.",
+      "parentUuid": "6067bb40_df9cb4a2",
+      "range": {
+        "startLine": 227,
+        "startChar": 8,
+        "endLine": 229,
+        "endChar": 54
+      },
+      "revId": "deee438ac20fd078460cbfc5620dce2a40c785b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

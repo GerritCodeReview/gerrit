@@ -338,7 +338,6 @@ export class GrPermission extends LitElement {
       // Restore exclusive bit to original.
       this.permission.value.exclusive = this.originalExclusiveValue;
       fire(this, 'permission-changed', {value: this.permission});
-      this.requestUpdate();
     }
   }
 

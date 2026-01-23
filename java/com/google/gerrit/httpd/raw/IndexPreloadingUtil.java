@@ -101,10 +101,8 @@ public class IndexPreloadingUtil {
           ListChangesOption.DOWNLOAD_COMMANDS,
           ListChangesOption.MESSAGES,
           ListChangesOption.REVIEWER_UPDATES,
-          ListChangesOption.SUBMITTABLE,
           ListChangesOption.WEB_LINKS,
-          ListChangesOption.SKIP_DIFFSTAT,
-          ListChangesOption.SUBMIT_REQUIREMENTS);
+          ListChangesOption.SKIP_DIFFSTAT);
 
   public static final ImmutableSet<ListChangesOption> CHANGE_DETAIL_OPTIONS_WITH_PARENTS =
       ImmutableSet.<ListChangesOption>builder()

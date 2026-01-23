@@ -2250,11 +2250,12 @@ export class GrChangeActions
     if (quickApprove) {
       changeActionValues.unshift(quickApprove);
     }
-    const aiChat = this.getAiChatAction();
-    if (aiChat) {
-      changeActionValues.unshift(aiChat);
+    if (this.loggedIn) {
+      const aiChat = this.getAiChatAction();
+      if (aiChat) {
+        changeActionValues.unshift(aiChat);
+      }
     }
-
     return revisionActionValues
       .concat(changeActionValues)
       .sort((a, b) => this.actionComparator(a, b))

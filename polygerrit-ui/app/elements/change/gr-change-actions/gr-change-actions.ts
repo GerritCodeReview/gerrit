@@ -44,7 +44,6 @@ import {
   CherryPickInput,
   CommentThread,
   CommitId,
-  InheritedBooleanInfo,
   isDetailedLabelInfo,
   isQuickLabelInfo,
   LabelInfo,
@@ -117,7 +116,6 @@ import {subscribe} from '../../lit/subscription-controller';
 import {chatModelToken} from '../../../models/chat/chat-model';
 import {userModelToken} from '../../../models/user/user-model';
 import {ParsedChangeInfo} from '../../../types/types';
-import {configModelToken} from '../../../models/config/config-model';
 import {readJSONResponsePayload} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 import {commentsModelToken} from '../../../models/comments/comments-model';
 import {when} from 'lit/directives/when.js';
@@ -416,8 +414,6 @@ export class GrChangeActions
   // The DOWNLOAD action is also added to it in `actionsChanged()`.
   @state() revisionActions?: ActionNameToActionInfoMap;
 
-  @state() privateByDefault?: InheritedBooleanInfo;
-
   @state() actionLoadingMessage = '';
 
   @state() inProgressActionKeys = new Set<string>();
@@ -517,8 +513,6 @@ export class GrChangeActions
 
   private readonly getUserModel = resolve(this, userModelToken);
 
-  private readonly getConfigModel = resolve(this, configModelToken);
-
   private readonly getChangeModel = resolve(this, changeModelToken);
 
   private readonly getStorage = resolve(this, storageServiceToken);
@@ -603,11 +597,6 @@ export class GrChangeActions
       this,
       () => this.getPluginLoader().pluginsModel.aiCodeReviewPlugins$,
       plugins => (this.aiPluginsRegistered = (plugins.length ?? 0) > 0)
-    );
-    subscribe(
-      this,
-      () => this.getConfigModel().repoConfig$,
-      config => (this.privateByDefault = config?.private_by_default)
     );
     subscribe(
       this,
@@ -809,7 +798,6 @@ export class GrChangeActions
               .branch=${this.change?.branch}
               .baseChange=${this.change?.change_id}
               .repoName=${this.change?.project}
-              .privateByDefault=${this.privateByDefault}
             ></gr-create-change-dialog>
           </div>
         </gr-dialog>

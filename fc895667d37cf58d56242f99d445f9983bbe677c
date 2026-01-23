@@ -1,0 +1,82 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a3c5400f_89096cb1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-01-23T12:05:45Z",
+      "side": 1,
+      "message": "Thanks for resolving my NITs",
+      "revId": "fc895667d37cf58d56242f99d445f9983bbe677c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1440927d_635b2f0a",
+        "filename": "polygerrit-ui/app/elements/chat-panel/context-chip.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-01-23T12:05:45Z",
+      "side": 1,
+      "message": "Nit: this would be nice in classMap as well.",
+      "range": {
+        "startLine": 108,
+        "startChar": 9,
+        "endLine": 111,
+        "endChar": 59
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "e90d9948_ba92a5ce",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/context-chip.ts",
+              "range": {
+                "startLine": 12,
+                "startChar": 0,
+                "endLine": 12,
+                "endChar": 0
+              },
+              "replacement": "import {classMap} from \u0027lit/directives/class-map.js\u0027;\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/context-chip.ts",
+              "range": {
+                "startLine": 106,
+                "startChar": 0,
+                "endLine": 106,
+                "endChar": 0
+              },
+              "replacement": "    const classes \u003d classMap({\n      \u0027context-chip\u0027: true,\n      \u0027suggested-chip\u0027: this.isSuggestion,\n      \u0027custom-action-chip\u0027: this.isCustomAction,\n      \u0027hidden\u0027: !this.supportsThisChange,\n    });\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/context-chip.ts",
+              "range": {
+                "startLine": 108,
+                "startChar": 0,
+                "endLine": 112,
+                "endChar": 0
+              },
+              "replacement": "        class\u003d${classes}\n"
+            }
+          ]
+        }
+      ],
+      "revId": "fc895667d37cf58d56242f99d445f9983bbe677c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

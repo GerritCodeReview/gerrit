@@ -192,6 +192,7 @@ export class GrEditableContent extends LitElement {
 
   override disconnectedCallback() {
     this.storeTask?.flush();
+    this.formatCheckTask?.cancel();
     super.disconnectedCallback();
   }
 

@@ -328,6 +328,11 @@ suite('gr-editable-content tests', () => {
       await element.updateComplete;
     });
 
+    teardown(() => {
+      clock.runAll();
+      clock.restore();
+    });
+
     test('toggles between Format and Undo', async () => {
       const formatButton = queryAndAssert<GrButton>(
         element,

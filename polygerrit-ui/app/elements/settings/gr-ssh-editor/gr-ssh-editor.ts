@@ -10,7 +10,7 @@ import {SshKeyInfo} from '../../../types/common';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {getAppContext} from '../../../services/app-context';
 import {css, html, LitElement, PropertyValues} from 'lit';
-import {customElement, property, query, state} from 'lit/decorators.js';
+import {customElement, property, query} from 'lit/decorators.js';
 import {grFormStyles} from '../../../styles/gr-form-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {fire} from '../../../utils/event-util';
@@ -39,8 +39,6 @@ export class GrSshEditor extends LitElement {
 
   @property({type: Array})
   keysToRemove: SshKeyInfo[] = [];
-
-  @state() prevHasUnsavedChanges = false;
 
   @query('#addButton') addButton!: GrButton;
 
@@ -101,8 +99,6 @@ export class GrSshEditor extends LitElement {
 
   override updated(changedProperties: PropertyValues) {
     if (changedProperties.has('hasUnsavedChanges')) {
-      if (this.prevHasUnsavedChanges === this.hasUnsavedChanges) return;
-      this.prevHasUnsavedChanges = this.hasUnsavedChanges;
       fire(this, 'has-unsaved-changes-changed', {
         value: this.hasUnsavedChanges,
       });

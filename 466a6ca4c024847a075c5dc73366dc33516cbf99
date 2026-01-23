@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "45524a6c_030de7f9",
+        "filename": "MODULE.bazel",
+        "patchSetId": 46
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-01-23T13:16:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6d329ea3_2d4f27c5",
+      "range": {
+        "startLine": 60,
+        "startChar": 20,
+        "endLine": 60,
+        "endChar": 33
+      },
+      "revId": "466a6ca4c024847a075c5dc73366dc33516cbf99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e240900c_e451f047",
@@ -41,6 +65,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "604e2319_1271a4f6",
+        "filename": "MODULE.bazel",
+        "patchSetId": 46
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-01-23T13:16:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e240900c_e451f047",
+      "revId": "466a6ca4c024847a075c5dc73366dc33516cbf99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fc3a37a6_57caf6e0",
@@ -54,6 +96,30 @@
       "writtenOn": "2026-01-18T16:36:18Z",
       "side": 1,
       "message": "Same here.",
+      "range": {
+        "startLine": 81,
+        "startChar": 20,
+        "endLine": 81,
+        "endChar": 43
+      },
+      "revId": "466a6ca4c024847a075c5dc73366dc33516cbf99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1ae16b65_0fddaa65",
+        "filename": "MODULE.bazel",
+        "patchSetId": 46
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-01-23T13:16:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fc3a37a6_57caf6e0",
       "range": {
         "startLine": 81,
         "startChar": 20,
@@ -148,6 +214,30 @@
       "writtenOn": "2026-01-18T16:36:18Z",
       "side": 1,
       "message": "While further verifying this migration with Gerrit core and custom plugins (such as `gerrit-oauth-provider`), I noticed that Eclipse `.classpath` generation currently breaks for two related reasons:\n\n* The binary JARs for external dependencies are now downloaded into a different output location than before, which means `tools/eclipse/project.py` no longer discovers them correctly and the generated `.classpath` ends up incomplete (or empty).\n* Although `fetch_sources \u003d True` is set, the source JARs are not materialized on disk yet. With `rules_jvm_external`, sources are fetched lazily and only downloaded when something explicitly depends on them. This differs from the previous `maven_jar`-based setup, where source JARs were fetched eagerly and always available.\n\nI have a working prototype that addresses these issues and will follow up with a separate change.",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 1
+      },
+      "revId": "466a6ca4c024847a075c5dc73366dc33516cbf99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f7a6a53a_02acf1e0",
+        "filename": "tools/eclipse/BUILD",
+        "patchSetId": 46
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-01-23T13:16:16Z",
+      "side": 1,
+      "message": "Thanks!",
+      "parentUuid": "31ce3186_b0be88ae",
       "range": {
         "startLine": 36,
         "startChar": 0,

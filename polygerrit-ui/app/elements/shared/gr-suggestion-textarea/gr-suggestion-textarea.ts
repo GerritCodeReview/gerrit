@@ -346,10 +346,19 @@ export class GrSuggestionTextarea extends LitElement {
     }
   }
 
+  override willUpdate(changedProperties: PropertyValues) {
+    if (changedProperties.has('text')) {
+      this.handleTextChangeSync();
+    }
+  }
+
   override updated(changedProperties: PropertyValues) {
     if (changedProperties.has('text')) {
       this.fireChangedEvents();
-      this.handleTextChanged();
+      this.handleTextChangeAsync();
+    }
+    if (changedProperties.has('suggestions')) {
+      this.openOrResetDropdown();
     }
     if (changedProperties.has('isDragging')) {
       if (this.isDragging) {
@@ -544,23 +553,6 @@ export class GrSuggestionTextarea extends LitElement {
     );
   }
 
-  private async computeSuggestions() {
-    this.suggestions = [];
-    if (this.currentSearchString === undefined) {
-      return;
-    }
-    const searchString = this.currentSearchString;
-    let suggestions: (Item | EmojiSuggestion)[] = [];
-    if (this.isEmojiDropdownActive()) {
-      suggestions = this.computeEmojiSuggestions(this.currentSearchString);
-    } else if (this.isMentionsDropdownActive()) {
-      suggestions = await this.computeReviewerSuggestions();
-    }
-    if (searchString === this.currentSearchString) {
-      this.suggestions = suggestions;
-    }
-  }
-
   private openOrResetDropdown() {
     let activeDropdown: GrAutocompleteDropdown;
     let activate: () => void;
@@ -625,8 +617,30 @@ export class GrSuggestionTextarea extends LitElement {
 
   // Private but used in tests.
   async handleTextChanged() {
+    this.handleTextChangeSync();
+    await this.handleTextChangeAsync();
+  }
+
+  private handleTextChangeSync() {
     this.computeIndexAndSearchString();
-    await this.computeSuggestions();
+    if (this.currentSearchString !== undefined && this.isEmojiDropdownActive()) {
+      this.suggestions = this.computeEmojiSuggestions(this.currentSearchString);
+    } else {
+      if (this.suggestions.length > 0) this.suggestions = [];
+    }
+  }
+
+  private async handleTextChangeAsync() {
+    if (
+      this.currentSearchString !== undefined &&
+      this.isMentionsDropdownActive()
+    ) {
+      const searchString = this.currentSearchString;
+      const suggestions = await this.computeReviewerSuggestions();
+      if (searchString === this.currentSearchString) {
+        this.suggestions = suggestions;
+      }
+    }
     this.openOrResetDropdown();
     this.focus();
   }
@@ -695,7 +709,6 @@ export class GrSuggestionTextarea extends LitElement {
   // private but used in test
   resetDropdown() {
     // hide and reset the autocomplete dropdown.
-    this.requestUpdate();
     this.currentSearchString = '';
     this.closeDropdown();
     this.specialCharIndex = -1;

@@ -1,5 +1,29 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2197d883_a1e1fa26",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-01-23T14:45:53Z",
+      "side": 1,
+      "message": "what does this code do\n\nWhich property is this checking and why?\n\n```\n* Preventing `gr-autocomplete` from updating suggestions if the\n    component is no longer connected.\n```\n\nWhy is this code being triggered even if the component is disconnected?\n\nCan we fix the test instead?\n\nI would really try to avoid adding code in production components",
+      "range": {
+        "startLine": 418,
+        "startChar": 4,
+        "endLine": 418,
+        "endChar": 34
+      },
+      "revId": "6c9bd5b705abdefb2e98c62a4919ab89f46f27f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

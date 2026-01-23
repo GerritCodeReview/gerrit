@@ -203,6 +203,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "eae650da_0bf095a9",
+        "filename": "MODULE.bazel",
+        "patchSetId": 46
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-01-23T16:40:23Z",
+      "side": 1,
+      "message": "\u003e I think this is the approach we want to start with, since as you noted, it most closely matches what we currently have as our policy.\n\nMy earlier statement wasn’t accurate.\n\nIn the `maven_jar`-style setup, Gerrit effectively has a single third-party resolution, so JGit ends up *compiling* against the same artifact versions that Gerrit provides at *runtime* (i.e., the versions that get packaged into `release.war`).\n\nWith a unified `maven_install` shared between Gerrit and JGit, we would preserve that property explicitly: we would define a single set of versions (the ones Gerrit wants) and ensure that any differing versions requested by JGit converge to those.\n\nWith separate `maven_install` universes (`jgit_deps`, `gerrit_deps`, ...), we instead create independent dependency graphs that may resolve different transitive versions, as demonstrated by the ambiguity report linked above. That means JGit can compile against foo:42 resolved from `@jgit_deps`, while at runtime Gerrit ships and uses foo:41 from @gerrit_deps. This compile-time vs runtime mismatch is inherently unsafe and can lead to linkage failures (e.g. `NoSuchMethodError`, `ClassNotFoundException`).\n\nTherefore, we should converge `jgit_deps`, `gerrit_deps`, and `gerrit_nongoogle_deps` into a single `maven_install` universe (e.g. `thirdparty_deps` / `external_deps`) and update JGit to reference that unified universe as well (instead of the current `@jgit_deps`).",
+      "parentUuid": "1737e646_671dd9e2",
+      "range": {
+        "startLine": 51,
+        "startChar": 0,
+        "endLine": 87,
+        "endChar": 1
+      },
+      "revId": "466a6ca4c024847a075c5dc73366dc33516cbf99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "31ce3186_b0be88ae",
         "filename": "tools/eclipse/BUILD",
         "patchSetId": 46

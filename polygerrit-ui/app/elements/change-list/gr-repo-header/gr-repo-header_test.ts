@@ -7,7 +7,11 @@ import '../../../test/common-test-setup';
 import {assert, fixture, html} from '@open-wc/testing';
 import './gr-repo-header';
 import {GrRepoHeader} from './gr-repo-header';
-import {stubRestApi} from '../../../test/test-utils';
+import {
+  queryAndAssert,
+  stubRestApi,
+  waitEventLoop,
+} from '../../../test/test-utils';
 import {RepoName, UrlEncodedRepoName} from '../../../types/common';
 
 suite('gr-repo-header tests', () => {
@@ -41,12 +45,17 @@ suite('gr-repo-header tests', () => {
   test('repoUrl reset once repo changed', async () => {
     element.repo = undefined;
     await element.updateComplete;
-    assert.equal(element._repoUrl, undefined);
+    const href = queryAndAssert(element, 'div.info div a').getAttribute('href');
+    // Lit may render null as empty string or remove attribute depending on version/binding
+    assert.isTrue(href === null || href === '');
 
     element.repo = 'test' as RepoName;
     await element.updateComplete;
 
-    assert.equal(element._repoUrl, '/admin/repos/test');
+    assert.equal(
+      queryAndAssert(element, 'div.info div a').getAttribute('href'),
+      '/admin/repos/test'
+    );
   });
 
   test('webLinks set', async () => {
@@ -63,11 +72,16 @@ suite('gr-repo-header tests', () => {
     element.repo = undefined;
     await element.updateComplete;
 
-    assert.deepEqual(element._webLinks, []);
+    assert.isEmpty(element.shadowRoot!.querySelectorAll('gr-weblink'));
 
     element.repo = 'test' as RepoName;
     await element.updateComplete;
+    // Wait for the promise in repoChanged to resolve and trigger update
+    await waitEventLoop();
+    await element.updateComplete;
 
-    assert.deepEqual(element._webLinks, repoRes.web_links);
+    const links = element.shadowRoot!.querySelectorAll('gr-weblink');
+    assert.equal(links.length, 1);
+    assert.deepEqual(links[0].info, repoRes.web_links[0]);
   });
 });

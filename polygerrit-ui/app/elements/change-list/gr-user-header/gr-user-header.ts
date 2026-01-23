@@ -14,7 +14,7 @@ import {dashboardHeaderStyles} from '../../../styles/dashboard-header-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {fontStyles} from '../../../styles/gr-font-styles';
 import {css, html, LitElement, PropertyValues} from 'lit';
-import {customElement, property} from 'lit/decorators.js';
+import {customElement, property, state} from 'lit/decorators.js';
 import {
   createDashboardUrl,
   DashboardType,
@@ -31,11 +31,11 @@ export class GrUserHeader extends LitElement {
   @property({type: Boolean})
   loggedIn = false;
 
-  @property({type: Object})
-  _accountDetails: AccountDetailInfo | undefined;
+  @state()
+  private accountDetails: AccountDetailInfo | undefined;
 
-  @property({type: String})
-  _status = '';
+  @state()
+  private status = '';
 
   private readonly restApiService = getAppContext().restApiService;
 
@@ -56,37 +56,34 @@ export class GrUserHeader extends LitElement {
 
   override render() {
     return html`<gr-avatar
-        .account=${this._accountDetails}
+        .account=${this.accountDetails}
         .imageSize=${100}
         aria-label="Account avatar"
       ></gr-avatar>
       <div class="info">
-        <h1 class="heading-1">${this._computeHeading(this._accountDetails)}</h1>
+        <h1 class="heading-1">${this.computeHeading(this.accountDetails)}</h1>
         <hr />
-        <div class="status ${this._computeStatusClass(this._status)}">
-          <span>Status:</span> ${this._status}
+        <div class="status ${this.computeStatusClass(this.status)}">
+          <span>Status:</span> ${this.status}
         </div>
         <div>
           <span>Email:</span>
-          <a href="mailto:${this._computeDetail(this._accountDetails, 'email')}"
+          <a href="mailto:${this.computeDetail(this.accountDetails, 'email')}"
             ><!--
-          -->${this._computeDetail(this._accountDetails, 'email')}</a
+          -->${this.computeDetail(this.accountDetails, 'email')}</a
           >
         </div>
         <div>
           <span>Joined:</span>
           <gr-date-formatter
-            dateStr=${this._computeDetail(
-              this._accountDetails,
-              'registered_on'
-            )}
+            dateStr=${this.computeDetail(this.accountDetails, 'registered_on')}
           >
           </gr-date-formatter>
         </div>
         <gr-endpoint-decorator name="user-header">
           <gr-endpoint-param
             name="accountDetails"
-            .value=${this._accountDetails}
+            .value=${this.accountDetails}
           >
           </gr-endpoint-param>
           <gr-endpoint-param name="loggedIn" .value=${this.loggedIn}>
@@ -95,56 +92,56 @@ export class GrUserHeader extends LitElement {
       </div>
       <div class="info">
         <div
-          class=${this._computeDashboardLinkClass(
+          class=${this.computeDashboardLinkClass(
             this.showDashboardLink,
             this.loggedIn
           )}
         >
-          <a href=${this._computeDashboardUrl(this._accountDetails)}
+          <a href=${this.computeDashboardUrl(this.accountDetails)}
             >View dashboard</a
           >
         </div>
       </div>`;
   }
 
-  override updated(changedProperties: PropertyValues) {
+  override willUpdate(changedProperties: PropertyValues) {
     if (changedProperties.has('userId')) {
-      this._accountChanged(this.userId);
+      this.accountChanged(this.userId);
     }
   }
 
-  _accountChanged(userId?: UserId) {
+  private accountChanged(userId?: UserId) {
     if (!userId) {
-      this._accountDetails = undefined;
-      this._status = '';
+      this.accountDetails = undefined;
+      this.status = '';
       return;
     }
 
     this.restApiService
       .getAccountDetails(userId, () => {})
       .then(details => {
-        this._accountDetails = details ?? undefined;
-        this._status = details?.status ?? '';
+        this.accountDetails = details ?? undefined;
+        this.status = details?.status ?? '';
       });
   }
 
-  _computeDetail(
+  private computeDetail(
     accountDetails: AccountDetailInfo | undefined,
     name: keyof AccountDetailInfo
   ) {
     return accountDetails ? String(accountDetails[name]) : '';
   }
 
-  _computeHeading(accountDetails: AccountDetailInfo | undefined) {
+  private computeHeading(accountDetails: AccountDetailInfo | undefined) {
     if (!accountDetails) return '';
     return getDisplayName(undefined, accountDetails);
   }
 
-  _computeStatusClass(status: string) {
+  private computeStatusClass(status: string) {
     return status ? '' : 'hide';
   }
 
-  _computeDashboardUrl(accountDetails: AccountDetailInfo | undefined) {
+  private computeDashboardUrl(accountDetails: AccountDetailInfo | undefined) {
     if (!accountDetails) return '';
 
     const id = accountDetails._account_id;
@@ -157,7 +154,10 @@ export class GrUserHeader extends LitElement {
     return '';
   }
 
-  _computeDashboardLinkClass(showDashboardLink: boolean, loggedIn: boolean) {
+  private computeDashboardLinkClass(
+    showDashboardLink: boolean,
+    loggedIn: boolean
+  ) {
     return showDashboardLink && loggedIn
       ? 'dashboardLink'
       : 'dashboardLink hide';

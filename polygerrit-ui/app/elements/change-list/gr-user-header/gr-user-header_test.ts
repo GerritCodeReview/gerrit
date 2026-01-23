@@ -7,7 +7,11 @@ import '../../../test/common-test-setup';
 import {assert, fixture, html} from '@open-wc/testing';
 import './gr-user-header';
 import {GrUserHeader} from './gr-user-header';
-import {stubRestApi, waitEventLoop} from '../../../test/test-utils';
+import {
+  queryAndAssert,
+  stubRestApi,
+  waitEventLoop,
+} from '../../../test/test-utils';
 import {AccountId, EmailAddress, Timestamp} from '../../../types/common';
 
 suite('gr-user-header tests', () => {
@@ -63,20 +67,43 @@ suite('gr-user-header tests', () => {
     element.userId = 10 as AccountId;
     await waitEventLoop();
 
-    assert.isOk(element._accountDetails);
-    assert.isOk(element._status);
+    assert.ok(element.shadowRoot!.querySelector('h1.heading-1'));
+    // We can check if status is visible
+    const statusDiv = queryAndAssert(element, '.status');
+    assert.notInclude(statusDiv.className, 'hide');
+    assert.include(statusDiv.textContent, 'OOO');
 
     element.userId = undefined;
     await waitEventLoop();
 
-    assert.isUndefined(element._accountDetails);
-    assert.equal(element._status, '');
+    // Check if status is hidden or empty
+    const statusDivAfter = queryAndAssert(element, '.status');
+    // It should be hidden or empty
+    assert.include(statusDivAfter.className, 'hide');
   });
 
-  test('_computeDashboardLinkClass', () => {
-    assert.include(element._computeDashboardLinkClass(false, false), 'hide');
-    assert.include(element._computeDashboardLinkClass(true, false), 'hide');
-    assert.include(element._computeDashboardLinkClass(false, true), 'hide');
-    assert.notInclude(element._computeDashboardLinkClass(true, true), 'hide');
+  test('dashboard link class', async () => {
+    element.showDashboardLink = false;
+    element.loggedIn = false;
+    await element.updateComplete;
+    assert.include(queryAndAssert(element, '.dashboardLink').className, 'hide');
+
+    element.showDashboardLink = true;
+    element.loggedIn = false;
+    await element.updateComplete;
+    assert.include(queryAndAssert(element, '.dashboardLink').className, 'hide');
+
+    element.showDashboardLink = false;
+    element.loggedIn = true;
+    await element.updateComplete;
+    assert.include(queryAndAssert(element, '.dashboardLink').className, 'hide');
+
+    element.showDashboardLink = true;
+    element.loggedIn = true;
+    await element.updateComplete;
+    assert.notInclude(
+      queryAndAssert(element, '.dashboardLink').className,
+      'hide'
+    );
   });
 });

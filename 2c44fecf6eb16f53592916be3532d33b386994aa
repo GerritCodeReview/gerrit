@@ -94,6 +94,52 @@
       },
       "revId": "2c44fecf6eb16f53592916be3532d33b386994aa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "40b1ca76_a48ff0fc",
+        "filename": "contrib/gcng.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-01-23T08:59:27Z",
+      "side": 1,
+      "message": "Why not calling `jgit` instead?",
+      "range": {
+        "startLine": 195,
+        "startChar": 11,
+        "endLine": 195,
+        "endChar": 14
+      },
+      "revId": "2c44fecf6eb16f53592916be3532d33b386994aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "71f3a9ea_2ff7ea90",
+        "filename": "contrib/gcng.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-01-23T08:59:27Z",
+      "side": 1,
+      "message": "This is something that `git` should do. JGit does it already and provides huge benefit for large repos, as you know :-)",
+      "range": {
+        "startLine": 220,
+        "startChar": 0,
+        "endLine": 224,
+        "endChar": 1
+      },
+      "revId": "2c44fecf6eb16f53592916be3532d33b386994aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

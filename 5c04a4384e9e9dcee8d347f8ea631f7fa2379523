@@ -1,0 +1,186 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba4eab60_6080d38d",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-repo-header/gr-repo-header.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-01-23T07:45:10Z",
+      "side": 1,
+      "message": "remove _ and mark private?",
+      "range": {
+        "startLine": 86,
+        "startChar": 2,
+        "endLine": 86,
+        "endChar": 14
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "d1278cc2_9d9279f1",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/change-list/gr-repo-header/gr-repo-header.ts",
+              "range": {
+                "startLine": 82,
+                "startChar": 0,
+                "endLine": 83,
+                "endChar": 0
+              },
+              "replacement": "      this.repoChanged();\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/change-list/gr-repo-header/gr-repo-header.ts",
+              "range": {
+                "startLine": 86,
+                "startChar": 0,
+                "endLine": 87,
+                "endChar": 0
+              },
+              "replacement": "  private repoChanged() {\n"
+            }
+          ]
+        }
+      ],
+      "revId": "5c04a4384e9e9dcee8d347f8ea631f7fa2379523",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9616aa6f_afd89dd6",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-repo-header/gr-repo-header.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-01-23T07:45:10Z",
+      "side": 1,
+      "message": "remove _ and mark private?\n\nsame for other properties",
+      "range": {
+        "startLine": 92,
+        "startChar": 11,
+        "endLine": 92,
+        "endChar": 20
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "297d8878_c59afbb4",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/change-list/gr-repo-header/gr-repo-header.ts",
+              "range": {
+                "startLine": 23,
+                "startChar": 0,
+                "endLine": 24,
+                "endChar": 0
+              },
+              "replacement": "  private repoUrl: string | null \u003d null;\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/change-list/gr-repo-header/gr-repo-header.ts",
+              "range": {
+                "startLine": 26,
+                "startChar": 0,
+                "endLine": 27,
+                "endChar": 0
+              },
+              "replacement": "  private webLinks: WebLinkInfo[] \u003d [];\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/change-list/gr-repo-header/gr-repo-header.ts",
+              "range": {
+                "startLine": 49,
+                "startChar": 0,
+                "endLine": 50,
+                "endChar": 0
+              },
+              "replacement": "  private renderLinks(webLinks: WebLinkInfo[]) {\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/change-list/gr-repo-header/gr-repo-header.ts",
+              "range": {
+                "startLine": 64,
+                "startChar": 0,
+                "endLine": 65,
+                "endChar": 0
+              },
+              "replacement": "        \u003cspan\u003eDetail:\u003c/span\u003e \u003ca href\u003d${this.repoUrl!}\u003eRepo settings\u003c/a\u003e\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/change-list/gr-repo-header/gr-repo-header.ts",
+              "range": {
+                "startLine": 66,
+                "startChar": 0,
+                "endLine": 67,
+                "endChar": 0
+              },
+              "replacement": "      ${this.renderLinks(this.webLinks)}\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/change-list/gr-repo-header/gr-repo-header.ts",
+              "range": {
+                "startLine": 73,
+                "startChar": 0,
+                "endLine": 74,
+                "endChar": 0
+              },
+              "replacement": "        this.repoUrl \u003d createRepoUrl({repo: this.repo});\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/change-list/gr-repo-header/gr-repo-header.ts",
+              "range": {
+                "startLine": 75,
+                "startChar": 0,
+                "endLine": 76,
+                "endChar": 0
+              },
+              "replacement": "        this.repoUrl \u003d null;\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/change-list/gr-repo-header/gr-repo-header.ts",
+              "range": {
+                "startLine": 82,
+                "startChar": 0,
+                "endLine": 83,
+                "endChar": 0
+              },
+              "replacement": "      this.repoChanged();\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/change-list/gr-repo-header/gr-repo-header.ts",
+              "range": {
+                "startLine": 86,
+                "startChar": 0,
+                "endLine": 87,
+                "endChar": 0
+              },
+              "replacement": "  private repoChanged() {\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/change-list/gr-repo-header/gr-repo-header.ts",
+              "range": {
+                "startLine": 92,
+                "startChar": 0,
+                "endLine": 93,
+                "endChar": 0
+              },
+              "replacement": "      this.webLinks \u003d repo.web_links;\n"
+            }
+          ]
+        }
+      ],
+      "revId": "5c04a4384e9e9dcee8d347f8ea631f7fa2379523",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

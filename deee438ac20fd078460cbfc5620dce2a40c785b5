@@ -1,0 +1,112 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a731ce5e_0d775a46",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-01-23T08:56:13Z",
+      "side": 1,
+      "message": "Looks good, thanks for making it more modifiable.",
+      "revId": "deee438ac20fd078460cbfc5620dce2a40c785b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6067bb40_df9cb4a2",
+        "filename": "polygerrit-ui/app/elements/chat-panel/chat-header.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-01-23T08:56:13Z",
+      "side": 1,
+      "message": "I would prefer \n\n```\n.hidden {\n    visibility: hidden;\n    pointer-events: none;\n  }\n```\n\n```\n\u003cmd-icon-button\n  class\u003d${classMap({\n    \u0027history-button\u0027: true,       // Always applied\n    \u0027first-right-button\u0027: true,   // Always applied\n    \u0027hidden\u0027: !this.supportsHistory // Applied only if history is NOT supported\n  })}\n  aria-label\u003d\"Show history\"\n  @click\u003d${this.showHistory}\n\u003e\n```\n\nand similar to other places",
+      "range": {
+        "startLine": 227,
+        "startChar": 8,
+        "endLine": 229,
+        "endChar": 54
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "dc17ddfd_f21a689f",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/chat-header.ts",
+              "range": {
+                "startLine": 16,
+                "startChar": 0,
+                "endLine": 17,
+                "endChar": 0
+              },
+              "replacement": "import {classMap} from \u0027lit/directives/class-map.js\u0027;\nimport {styleMap} from \u0027lit/directives/style-map.js\u0027;  \n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/chat-header.ts",
+              "range": {
+                "startLine": 119,
+                "startChar": 0,
+                "endLine": 119,
+                "endChar": 0
+              },
+              "replacement": "    .hidden {\n      visibility: hidden;\n      pointer-events: none;\n    }\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/chat-header.ts",
+              "range": {
+                "startLine": 224,
+                "startChar": 0,
+                "endLine": 225,
+                "endChar": 0
+              },
+              "replacement": "        class\u003d${classMap({\n          \u0027history-button\u0027: true,\n          \u0027first-right-button\u0027: true,\n          \u0027hidden\u0027: !this.supportsHistory,\n        })}\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/chat-header.ts",
+              "range": {
+                "startLine": 227,
+                "startChar": 0,
+                "endLine": 230,
+                "endChar": 0
+              },
+              "replacement": ""
+            },
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/chat-header.ts",
+              "range": {
+                "startLine": 237,
+                "startChar": 0,
+                "endLine": 238,
+                "endChar": 0
+              },
+              "replacement": "        class\u003d${classMap({\n          \u0027more-actions-trigger\u0027: true,\n          \u0027hidden\u0027: !this.supportsMoreMenu,\n        })}\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/chat-header.ts",
+              "range": {
+                "startLine": 240,
+                "startChar": 0,
+                "endLine": 243,
+                "endChar": 0
+              },
+              "replacement": ""
+            }
+          ]
+        }
+      ],
+      "revId": "deee438ac20fd078460cbfc5620dce2a40c785b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

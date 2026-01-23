@@ -77,6 +77,30 @@
       ],
       "revId": "fc895667d37cf58d56242f99d445f9983bbe677c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "21668b55_0f58ff45",
+        "filename": "polygerrit-ui/app/elements/chat-panel/context-chip.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-01-23T12:37:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1440927d_635b2f0a",
+      "range": {
+        "startLine": 108,
+        "startChar": 9,
+        "endLine": 111,
+        "endChar": 59
+      },
+      "revId": "fc895667d37cf58d56242f99d445f9983bbe677c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

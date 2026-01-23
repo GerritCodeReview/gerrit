@@ -297,4 +297,29 @@ suite('gr-ssh-editor tests', () => {
     assert.equal(addStub.lastCall.args[0], newKeyString);
     await promise;
   });
+
+  test('has-unsaved-changes-changed fired only once per change', async () => {
+    const valueChangedSpy = sinon.spy();
+    element.addEventListener('has-unsaved-changes-changed', valueChangedSpy);
+
+    // Modify hasUnsavedChanges
+    element.hasUnsavedChanges = true;
+    await element.updateComplete;
+
+    assert.isTrue(valueChangedSpy.calledOnce);
+    assert.isTrue(valueChangedSpy.lastCall.args[0].detail.value);
+
+    // Modify again to false
+    element.hasUnsavedChanges = false;
+    await element.updateComplete;
+
+    assert.isTrue(valueChangedSpy.calledTwice);
+    assert.isFalse(valueChangedSpy.lastCall.args[0].detail.value);
+
+    // Set to same value (should not fire)
+    element.hasUnsavedChanges = false;
+    await element.updateComplete;
+
+    assert.isTrue(valueChangedSpy.calledTwice);
+  });
 });

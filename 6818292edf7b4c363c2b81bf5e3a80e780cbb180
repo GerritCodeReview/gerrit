@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "91417e7b_dbf9398c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2026-01-26T09:54:02Z",
+      "side": 1,
+      "message": "This doesn\u0027t quite make sense to me.\n\nThis means that if the element gets disconnected it will never set disableDisplayingSuggestions back to false.",
+      "range": {
+        "startLine": 343,
+        "startChar": 6,
+        "endLine": 343,
+        "endChar": 36
+      },
+      "revId": "6818292edf7b4c363c2b81bf5e3a80e780cbb180",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

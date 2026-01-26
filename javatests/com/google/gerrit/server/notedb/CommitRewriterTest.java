@@ -511,10 +511,11 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
     ImmutableList<ReviewerStatusUpdate> expectedReviewerUpdates =
         ImmutableList.of(
             ReviewerStatusUpdate.createForReviewer(
-                updateTimestamp, changeOwner.getAccountId(), otherUserId, REVIEWER),
-            ReviewerStatusUpdate.createForReviewer(updateTimestamp, otherUserId, otherUserId, CC),
+                updateTimestamp, changeOwner.getAccountId(), null, otherUserId, REVIEWER),
             ReviewerStatusUpdate.createForReviewer(
-                updateTimestamp, changeOwner.getAccountId(), otherUserId, REMOVED));
+                updateTimestamp, otherUserId, null, otherUserId, CC),
+            ReviewerStatusUpdate.createForReviewer(
+                updateTimestamp, changeOwner.getAccountId(), null, otherUserId, REMOVED));
     ChangeNotes notesAfterRewrite = newNotes(c);
 
     assertThat(notesBeforeRewrite.getReviewerUpdates()).isEqualTo(expectedReviewerUpdates);
@@ -595,13 +596,13 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
     ImmutableList<ReviewerStatusUpdate> expectedReviewerUpdates =
         ImmutableList.of(
             ReviewerStatusUpdate.createForReviewer(
-                addReviewerUpdate.when, changeOwner.getAccountId(), otherUserId, REVIEWER),
+                addReviewerUpdate.when, changeOwner.getAccountId(), null, otherUserId, REVIEWER),
             ReviewerStatusUpdate.createForReviewer(
-                updateTimestamp, changeOwner.getAccountId(), otherUserId, REMOVED),
+                updateTimestamp, changeOwner.getAccountId(), null, otherUserId, REMOVED),
             ReviewerStatusUpdate.createForReviewer(
-                addCcUpdate.when, changeOwner.getAccountId(), otherUserId, CC),
+                addCcUpdate.when, changeOwner.getAccountId(), null, otherUserId, CC),
             ReviewerStatusUpdate.createForReviewer(
-                updateTimestamp, changeOwner.getAccountId(), otherUserId, REMOVED));
+                updateTimestamp, changeOwner.getAccountId(), null, otherUserId, REMOVED));
     ChangeNotes notesAfterRewrite = newNotes(c);
 
     assertThat(notesBeforeRewrite.getReviewerUpdates()).isEqualTo(expectedReviewerUpdates);

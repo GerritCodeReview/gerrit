@@ -589,12 +589,13 @@ class ChangeNotesParser {
       parseCopiedApproval(psId, commitTimestamp, line);
     }
 
+    Account.Id updater = accountId != null ? accountId : ownerId;
     for (ReviewerStateInternal state : ReviewerStateInternal.values()) {
       for (String line : commit.getFooterLineValues(state.getFooterKey())) {
-        parseReviewer(commitTimestamp, state, line);
+        parseReviewer(commitTimestamp, updater, state, line);
       }
       for (String line : commit.getFooterLineValues(state.getByEmailFooterKey())) {
-        parseReviewerByEmail(commitTimestamp, state, line);
+        parseReviewerByEmail(commitTimestamp, updater, state, line);
       }
       // Don't update timestamp when a reviewer was added, matching RevewDb
       // behavior.
@@ -1345,7 +1346,8 @@ class ChangeNotesParser {
     return parseIdent(a);
   }
 
-  private void parseReviewer(Instant ts, ReviewerStateInternal state, String line)
+  private void parseReviewer(
+      Instant ts, Account.Id updater, ReviewerStateInternal state, String line)
       throws ConfigInvalidException {
     PersonIdent ident = RawParseUtils.parsePersonIdent(line);
     if (ident == null) {
@@ -1353,7 +1355,7 @@ class ChangeNotesParser {
     }
     Account.Id accountId = parseIdent(ident);
     ReviewerStatusUpdate update =
-        ReviewerStatusUpdate.createForReviewer(ts, ownerId, accountId, state);
+        ReviewerStatusUpdate.createForReviewer(ts, updater, accountId, state);
     reviewerUpdates.add(update);
     if (update.state() == ReviewerStateInternal.REMOVED) {
       removedReviewers.add(accountId);
@@ -1364,7 +1366,8 @@ class ChangeNotesParser {
     }
   }
 
-  private void parseReviewerByEmail(Instant ts, ReviewerStateInternal state, String line)
+  private void parseReviewerByEmail(
+      Instant ts, Account.Id updater, ReviewerStateInternal state, String line)
       throws ConfigInvalidException {
     Address adr;
     try {
@@ -1374,7 +1377,7 @@ class ChangeNotesParser {
       cie.initCause(e);
       throw cie;
     }
-    reviewerUpdates.add(ReviewerStatusUpdate.createForReviewerByEmail(ts, ownerId, adr, state));
+    reviewerUpdates.add(ReviewerStatusUpdate.createForReviewerByEmail(ts, updater, adr, state));
     if (!reviewersByEmail.containsRow(adr)) {
       reviewersByEmail.put(adr, state, ts);
     }

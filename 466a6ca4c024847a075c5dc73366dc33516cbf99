@@ -227,6 +227,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bad694f6_26054806",
+        "filename": "MODULE.bazel",
+        "patchSetId": 46
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-01-26T12:23:31Z",
+      "side": 1,
+      "message": "In regards to jgit, I would suggest that we change the dependency declaration to happen either in a constant or also in a toml-file. These can then be imported in the Gerrit build itself: https://github.com/bazel-contrib/rules_jvm_external?tab\u003dreadme-ov-file#exporting-and-consuming-artifacts-from-external-repositories.\n\nIn general, merging Gerrit and Jgit would require us to either bump dependencies in Gerrit or downgrade them in Jgit. This might be difficult considering Google\u0027s library compliance policy and keeping Jgit compatible without creating a huge fork over time. I know that we have to converge here somehow, but we should come up with a plan.\n\nHow was this done so far? Library versions were different between Gerrit and Jgit before.",
+      "parentUuid": "eae650da_0bf095a9",
+      "range": {
+        "startLine": 51,
+        "startChar": 0,
+        "endLine": 87,
+        "endChar": 1
+      },
+      "revId": "466a6ca4c024847a075c5dc73366dc33516cbf99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "31ce3186_b0be88ae",
         "filename": "tools/eclipse/BUILD",
         "patchSetId": 46

@@ -147,14 +147,13 @@ export class GrCreateFlow extends LitElement {
     ];
   }
 
-  override firstUpdated() {
+  override willUpdate(changedProperties: PropertyValues) {
     if (!this.hostUrl) {
       this.hostUrl = window.location.origin + window.location.pathname;
     }
-    this.getFlowActions();
-  }
-
-  override updated(changedProperties: PropertyValues) {
+    if (changedProperties.has('changeNum')) {
+      this.getFlowActions();
+    }
     if (changedProperties.has('stages')) {
       this.flowString = computeFlowString(this.stages);
     }

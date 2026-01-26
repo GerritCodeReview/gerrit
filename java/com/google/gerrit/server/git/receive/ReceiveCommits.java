@@ -3075,9 +3075,7 @@ class ReceiveCommits {
             // Any change owner is allowed to add hashtags when creating a change.
             bu.addOp(
                 changeId,
-                hashtagsFactory
-                    .create(new HashtagsInput(magicBranch.hashtags))
-                    .setFireEvent(false));
+                hashtagsFactory.create(new HashtagsInput(magicBranch.hashtags)).setFireEvent(true));
           }
           if (!Strings.isNullOrEmpty(magicBranch.topic)) {
             bu.addOp(changeId, setTopicFactory.create(magicBranch.topic));

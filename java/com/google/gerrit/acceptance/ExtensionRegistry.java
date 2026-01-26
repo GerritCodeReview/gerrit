@@ -28,6 +28,7 @@ import com.google.gerrit.extensions.events.CommentAddedListener;
 import com.google.gerrit.extensions.events.GitBatchRefUpdateListener;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.events.GroupIndexedListener;
+import com.google.gerrit.extensions.events.HashtagsEditedListener;
 import com.google.gerrit.extensions.events.ProjectIndexedListener;
 import com.google.gerrit.extensions.events.ReviewerAddedListener;
 import com.google.gerrit.extensions.events.ReviewerDeletedListener;
@@ -111,6 +112,7 @@ public class ExtensionRegistry {
   private final DynamicSet<ServerStateProvider> serverStateProviders;
   private final DynamicSet<AccountStateProvider> accountStateProviders;
   private final DynamicSet<AttentionSetListener> attentionSetListeners;
+  private final DynamicSet<HashtagsEditedListener> hashtagsEditedListeners;
 
   private final DynamicMap<ChangeHasOperandFactory> hasOperands;
   private final DynamicMap<ChangeIsOperandFactory> isOperands;
@@ -160,7 +162,8 @@ public class ExtensionRegistry {
       DynamicSet<ServerStateProvider> serverStateProviders,
       DynamicSet<AccountStateProvider> accountStateProviders,
       DynamicSet<AttentionSetListener> attentionSetListeners,
-      DynamicMap<ReviewerSuggestion> reviewerSuggestions) {
+      DynamicMap<ReviewerSuggestion> reviewerSuggestions,
+      DynamicSet<HashtagsEditedListener> hashtagsEditedListeners) {
     this.accountIndexedListeners = accountIndexedListeners;
     this.changeIndexedListeners = changeIndexedListeners;
     this.groupIndexedListeners = groupIndexedListeners;
@@ -204,6 +207,7 @@ public class ExtensionRegistry {
     this.accountStateProviders = accountStateProviders;
     this.attentionSetListeners = attentionSetListeners;
     this.reviewerSuggestions = reviewerSuggestions;
+    this.hashtagsEditedListeners = hashtagsEditedListeners;
   }
 
   public Registration newRegistration() {
@@ -434,6 +438,11 @@ public class ExtensionRegistry {
     @CanIgnoreReturnValue
     public Registration add(ReviewerSuggestion reviewerSuggestion, String exportName) {
       return add(reviewerSuggestions, reviewerSuggestion, exportName);
+    }
+
+    @CanIgnoreReturnValue
+    public Registration add(HashtagsEditedListener hashtagsEditedListener) {
+      return add(hashtagsEditedListeners, hashtagsEditedListener);
     }
 
     private <T> Registration add(DynamicSet<T> dynamicSet, T extension) {

@@ -98,6 +98,7 @@ import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
+import com.google.gerrit.extensions.events.HashtagsEditedListener;
 import com.google.gerrit.extensions.events.TopicEditedListener;
 import com.google.gerrit.extensions.restapi.testing.AttentionSetUpdateSubject;
 import com.google.gerrit.git.ObjectIds;
@@ -1547,28 +1548,33 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     // specify a single hashtag as option
     String hashtag1 = "tag1";
     ImmutableSet<String> expected = ImmutableSet.of(hashtag1);
-    PushOneCommit.Result r = pushTo("refs/for/master%hashtag=#" + hashtag1);
-    r.assertOkStatus();
-    r.assertChange(Change.Status.NEW, null);
+    HashtagsChangedListener hashtagsEvents = new HashtagsChangedListener();
+    try (Registration registration = extensionRegistry.newRegistration().add(hashtagsEvents)) {
+      PushOneCommit.Result r = pushTo("refs/for/master%hashtag=#" + hashtag1);
+      r.assertOkStatus();
+      r.assertChange(Change.Status.NEW, null);
+      assertThat(hashtagsEvents.count()).isEqualTo(1);
 
-    Set<String> hashtags = gApi.changes().id(r.getChangeId()).getHashtags();
-    assertThat(hashtags).containsExactlyElementsIn(expected);
+      Set<String> hashtags = gApi.changes().id(r.getChangeId()).getHashtags();
+      assertThat(hashtags).containsExactlyElementsIn(expected);
 
-    // specify a single hashtag as option in new patch set
-    String hashtag2 = "tag2";
-    PushOneCommit push =
-        pushFactory.create(
-            admin.newIdent(),
-            testRepo,
-            PushOneCommit.SUBJECT,
-            "b.txt",
-            "anotherContent",
-            r.getChangeId());
-    r = push.to("refs/for/master%hashtag=" + hashtag2);
-    r.assertOkStatus();
-    expected = ImmutableSet.of(hashtag1, hashtag2);
-    hashtags = gApi.changes().id(r.getChangeId()).getHashtags();
-    assertThat(hashtags).containsExactlyElementsIn(expected);
+      // specify a single hashtag as option in new patch set
+      String hashtag2 = "tag2";
+      PushOneCommit push =
+          pushFactory.create(
+              admin.newIdent(),
+              testRepo,
+              PushOneCommit.SUBJECT,
+              "b.txt",
+              "anotherContent",
+              r.getChangeId());
+      r = push.to("refs/for/master%hashtag=" + hashtag2);
+      r.assertOkStatus();
+      expected = ImmutableSet.of(hashtag1, hashtag2);
+      hashtags = gApi.changes().id(r.getChangeId()).getHashtags();
+      assertThat(hashtags).containsExactlyElementsIn(expected);
+      assertThat(hashtagsEvents.count()).isEqualTo(1);
+    }
   }
 
   @Test
@@ -2786,6 +2792,19 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
     @Override
     public void onTopicEdited(Event event) {
+      count.incrementAndGet();
+    }
+
+    public int count() {
+      return count.get();
+    }
+  }
+
+  private static class HashtagsChangedListener implements HashtagsEditedListener {
+    private final AtomicInteger count = new AtomicInteger();
+
+    @Override
+    public void onHashtagsEdited(Event event) {
       count.incrementAndGet();
     }
 

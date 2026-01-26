@@ -17,9 +17,7 @@ and abort the request execution to avoid doing unnecessary work. If nobody is
 waiting for the response, Gerrit shouldn't spend resources to compute it.
 
 Detecting cancelled requests is not easily possible with all protocols that a
-client may use. At the moment Gerrit only detects request cancellations for git
-pushes, but not for other request types (in particular cancelled requests are
-not detected for REST calls over HTTP, SSH commands and git clone/fetch).
+client may use.
 
 [[server-side-deadlines]]
 == Server-side deadlines
@@ -29,6 +27,15 @@ link:config-gerrit.html#deadline.id[configure server-side deadlines]. If a
 server-side deadline is exceeded by a matching request, the request is
 automatically aborted. In this case the client gets a proper error message
 informing the user about the exceeded deadline.
+
+[NOTE]
+====
+Deadlines are enforced cooperatively and may not interrupt execution immediately.
+Cancellation is only evaluated at explicit check points; long-running blocking
+operations may continue until the next check.
+Admins should not assume a hard kill after exceeding deadline, and they should
+not rely on deadlines as a precise resource cutoff.
+====
 
 Clients may override server-side deadlines by setting a
 link:#client-provided-deadlines[deadline] on the request. This means, if a
@@ -164,7 +171,10 @@ and the cancellation reason:
 |=======================
 
 This means clients always get a proper error message telling the user why the
-request has been aborted.
+request has been aborted. A deadline response indicates an exceeded deadline,
+not the actual execution outcome or that all work was rolled back.
+Clients should treat deadline errors as indeterminate and not assume success or
+failure.
 
 Errors due to aborted requests are usually not counted as internal server errors,
 but the link:metrics.html#cancellations[cancellation metrics] may be used to

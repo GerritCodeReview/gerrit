@@ -613,6 +613,7 @@ public abstract class ChangeNotesState {
           ReviewerStatusUpdateProto.newBuilder()
               .setTimestampMillis(u.date().toEpochMilli())
               .setUpdatedBy(u.updatedBy().get())
+              .setRealUpdatedBy(u.realUpdatedBy().get())
               .setState(REVIEWER_STATE_CONVERTER.reverse().convert(u.state()));
       u.reviewer()
           .ifPresent(
@@ -763,6 +764,7 @@ public abstract class ChangeNotesState {
               ReviewerStatusUpdate.createForReviewerByEmail(
                   Instant.ofEpochMilli(proto.getTimestampMillis()),
                   Account.id(proto.getUpdatedBy()),
+                  Account.id(proto.getRealUpdatedBy()),
                   Address.parse(proto.getReviewerByEmail()),
                   REVIEWER_STATE_CONVERTER.convert(proto.getState())));
         } else {
@@ -775,6 +777,7 @@ public abstract class ChangeNotesState {
               ReviewerStatusUpdate.createForReviewer(
                   Instant.ofEpochMilli(proto.getTimestampMillis()),
                   Account.id(proto.getUpdatedBy()),
+                  Account.id(proto.getRealUpdatedBy()),
                   Account.id(proto.getReviewer()),
                   REVIEWER_STATE_CONVERTER.convert(proto.getState())));
         }

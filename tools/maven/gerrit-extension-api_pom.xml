@@ -2,7 +2,13 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.google.gerrit</groupId>
   <artifactId>gerrit-extension-api</artifactId>
+<<<<<<< HEAD   (73bf554bd1c4abfbdee5c69821db5f1bf124352c Merge "Replace references to Slack with Discord in dev-roles)
   <version>3.13.2-SNAPSHOT</version>
+||||||| BASE   (a03cfafd1e174a27a9c3e543eaa7b70afb999777 Set version to 3.13.2)
+  <version>3.13.2</version>
+=======
+  <version>3.13.3-SNAPSHOT</version>
+>>>>>>> CHANGE (87a8c0763ee5c72ad1b74a60fe0c40a00665f3c3 Set version to 3.13.3-SNAPSHOT)
   <packaging>jar</packaging>
   <name>Gerrit Code Review - Extension API</name>
   <description>API for Gerrit Extensions</description>

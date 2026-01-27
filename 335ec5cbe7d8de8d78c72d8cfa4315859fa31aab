@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1b1071ec_1628302a",
+        "filename": "proto/cache.proto",
+        "patchSetId": 8
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-01-27T16:03:18Z",
+      "side": 1,
+      "message": "let\u0027s document this field explaining that when impersonating using the RUN_AS permission we want to store the is being impersonated, stored in `real_updated_by`\n\nIdeally also add an example `if User X is impersonating user Y`\n\nAlso specify the scenarios when it won\u0027t be set similar to the `int32 reviewer` field below",
+      "range": {
+        "startLine": 180,
+        "startChar": 4,
+        "endLine": 180,
+        "endChar": 30
+      },
+      "revId": "335ec5cbe7d8de8d78c72d8cfa4315859fa31aab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

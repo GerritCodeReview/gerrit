@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "598e8ba0_4834ec40",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-01-27T11:52:38Z",
+      "side": 1,
+      "message": "you need to add one footer here called `Release-Notes` which should be a small 1 line description of the CL\n\nYou can also worst case add `Release-Notes:skip`\n\nYou need this footer in order to submit the CL.",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 52
+      },
+      "revId": "5141542840bcf6ba062fb872005920b839f9682c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e347c7b8_8c11786c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-01-27T11:52:38Z",
+      "side": 1,
+      "message": "Can you confirm in the commit message that you tested these changes locally and did not notice any regression?\nOr you can just reply to this comment\n\nOtherwise if you want I can also run this locally to see there are no obvious side-effects to this change.",
+      "revId": "5141542840bcf6ba062fb872005920b839f9682c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

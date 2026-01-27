@@ -42,14 +42,6 @@ export class GrMarkedElement extends LitElement {
 
   @property({type: Function}) renderer: Function | null = null;
 
-  @property({type: Boolean}) sanitize = false;
-
-  @property({type: Function}) sanitizer:
-    | ((html: string) => string)
-    | undefined = undefined;
-
-  @property({type: Boolean}) smartypants = false;
-
   @property({type: Function}) callback: Function | null = null;
 
   @queryAssignedElements({
@@ -83,9 +75,6 @@ export class GrMarkedElement extends LitElement {
       'breaks',
       'pedantic',
       'renderer',
-      'sanitize',
-      'sanitizer',
-      'smartypants',
       'callback',
     ];
 
@@ -115,10 +104,7 @@ export class GrMarkedElement extends LitElement {
       renderer,
       highlight: this.highlight.bind(this),
       breaks: this.breaks,
-      sanitize: this.sanitize,
-      sanitizer: this.sanitizer,
       pedantic: this.pedantic,
-      smartypants: this.smartypants,
     };
 
     const output = window.marked(this.markdown, options, this.callback);

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "62fe9f35_070ee06c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 4580685
+      },
+      "writtenOn": "2026-01-27T13:37:32Z",
+      "side": 1,
+      "message": "Thanks, I added `Release-Notes: skip` since there is nothing user facing in this change.\n\nI also added \"Google-Bug-Id:\".",
+      "parentUuid": "598e8ba0_4834ec40",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 52
+      },
+      "revId": "5141542840bcf6ba062fb872005920b839f9682c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e347c7b8_8c11786c",
@@ -37,6 +61,24 @@
       "writtenOn": "2026-01-27T11:52:38Z",
       "side": 1,
       "message": "Can you confirm in the commit message that you tested these changes locally and did not notice any regression?\nOr you can just reply to this comment\n\nOtherwise if you want I can also run this locally to see there are no obvious side-effects to this change.",
+      "revId": "5141542840bcf6ba062fb872005920b839f9682c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2171c52c_f10101e6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4580685
+      },
+      "writtenOn": "2026-01-27T13:37:32Z",
+      "side": 1,
+      "message": "I confirm that I tested both by running `yarn test` and by running the app locally and verifying that markup in comments renders as markdown. I added an annotation in the change description.",
+      "parentUuid": "e347c7b8_8c11786c",
       "revId": "5141542840bcf6ba062fb872005920b839f9682c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

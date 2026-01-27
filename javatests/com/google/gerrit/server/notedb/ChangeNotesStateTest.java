@@ -662,11 +662,55 @@ public class ChangeNotesStateTest {
                     ReviewerStatusUpdate.createForReviewer(
                         Instant.ofEpochMilli(1212L),
                         Account.id(1000),
+                        Account.id(1001),
                         Account.id(2002),
                         ReviewerStateInternal.CC),
                     ReviewerStatusUpdate.createForReviewer(
                         Instant.ofEpochMilli(3434L),
                         Account.id(1000),
+                        Account.id(1002),
+                        Account.id(2001),
+                        ReviewerStateInternal.REVIEWER)))
+            .build(),
+        ChangeNotesStateProto.newBuilder()
+            .setMetaId(SHA_BYTES)
+            .setChangeId(ID.get())
+            .setColumns(colsProto)
+            .addReviewerUpdate(
+                ReviewerStatusUpdateProto.newBuilder()
+                    .setTimestampMillis(1212L)
+                    .setUpdatedBy(1000)
+                    .setRealUpdatedBy(1001)
+                    .setHasReviewer(true)
+                    .setReviewer(2002)
+                    .setState("CC"))
+            .addReviewerUpdate(
+                ReviewerStatusUpdateProto.newBuilder()
+                    .setTimestampMillis(3434L)
+                    .setUpdatedBy(1000)
+                    .setRealUpdatedBy(1002)
+                    .setHasReviewer(true)
+                    .setReviewer(2001)
+                    .setState("REVIEWER"))
+            .build());
+  }
+
+  @Test
+  public void serializeReviewerUpdatesWithoutRealUpdatedBy() throws Exception {
+    assertRoundTrip(
+        newBuilder()
+            .reviewerUpdates(
+                ImmutableList.of(
+                    ReviewerStatusUpdate.createForReviewer(
+                        Instant.ofEpochMilli(1212L),
+                        Account.id(1000),
+                        null,
+                        Account.id(2002),
+                        ReviewerStateInternal.CC),
+                    ReviewerStatusUpdate.createForReviewer(
+                        Instant.ofEpochMilli(3434L),
+                        Account.id(1000),
+                        null,
                         Account.id(2001),
                         ReviewerStateInternal.REVIEWER)))
             .build(),
@@ -700,11 +744,13 @@ public class ChangeNotesStateTest {
                     ReviewerStatusUpdate.createForReviewerByEmail(
                         Instant.ofEpochMilli(1212L),
                         Account.id(1000),
+                        Account.id(1001),
                         Address.parse("email1@example.com"),
                         ReviewerStateInternal.CC),
                     ReviewerStatusUpdate.createForReviewerByEmail(
                         Instant.ofEpochMilli(3434L),
                         Account.id(1000),
+                        Account.id(1002),
                         Address.parse("email2@example.com"),
                         ReviewerStateInternal.REVIEWER)))
             .build(),
@@ -716,6 +762,7 @@ public class ChangeNotesStateTest {
                 ReviewerStatusUpdateProto.newBuilder()
                     .setTimestampMillis(1212L)
                     .setUpdatedBy(1000)
+                    .setRealUpdatedBy(1001)
                     .setHasReviewerByEmail(true)
                     .setReviewerByEmail("email1@example.com")
                     .setState("CC"))
@@ -723,6 +770,7 @@ public class ChangeNotesStateTest {
                 ReviewerStatusUpdateProto.newBuilder()
                     .setTimestampMillis(3434L)
                     .setUpdatedBy(1000)
+                    .setRealUpdatedBy(1002)
                     .setHasReviewerByEmail(true)
                     .setReviewerByEmail("email2@example.com")
                     .setState("REVIEWER"))
@@ -1109,11 +1157,18 @@ public class ChangeNotesStateTest {
     assertThatSerializedClass(ReviewerStatusUpdate.class)
         .hasAutoValueMethods(
             ImmutableMap.of(
-                "date", Instant.class,
-                "updatedBy", Account.Id.class,
-                "reviewer", new TypeLiteral<Optional<Account.Id>>() {}.getType(),
-                "reviewerByEmail", new TypeLiteral<Optional<Address>>() {}.getType(),
-                "state", ReviewerStateInternal.class));
+                "date",
+                Instant.class,
+                "updatedBy",
+                Account.Id.class,
+                "realUpdatedBy",
+                new TypeLiteral<Optional<Account.Id>>() {}.getType(),
+                "reviewer",
+                new TypeLiteral<Optional<Account.Id>>() {}.getType(),
+                "reviewerByEmail",
+                new TypeLiteral<Optional<Address>>() {}.getType(),
+                "state",
+                ReviewerStateInternal.class));
   }
 
   @Test

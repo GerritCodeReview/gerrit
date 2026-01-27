@@ -592,10 +592,10 @@ class ChangeNotesParser {
     Account.Id updater = accountId != null ? accountId : ownerId;
     for (ReviewerStateInternal state : ReviewerStateInternal.values()) {
       for (String line : commit.getFooterLineValues(state.getFooterKey())) {
-        parseReviewer(commitTimestamp, updater, state, line);
+        parseReviewer(commitTimestamp, updater, realAccountId, state, line);
       }
       for (String line : commit.getFooterLineValues(state.getByEmailFooterKey())) {
-        parseReviewerByEmail(commitTimestamp, updater, state, line);
+        parseReviewerByEmail(commitTimestamp, updater, realAccountId, state, line);
       }
       // Don't update timestamp when a reviewer was added, matching RevewDb
       // behavior.
@@ -1347,7 +1347,11 @@ class ChangeNotesParser {
   }
 
   private void parseReviewer(
-      Instant ts, Account.Id updater, ReviewerStateInternal state, String line)
+      Instant ts,
+      Account.Id updater,
+      Account.Id realUpdater,
+      ReviewerStateInternal state,
+      String line)
       throws ConfigInvalidException {
     PersonIdent ident = RawParseUtils.parsePersonIdent(line);
     if (ident == null) {
@@ -1355,7 +1359,7 @@ class ChangeNotesParser {
     }
     Account.Id accountId = parseIdent(ident);
     ReviewerStatusUpdate update =
-        ReviewerStatusUpdate.createForReviewer(ts, updater, accountId, state);
+        ReviewerStatusUpdate.createForReviewer(ts, updater, realUpdater, accountId, state);
     reviewerUpdates.add(update);
     if (update.state() == ReviewerStateInternal.REMOVED) {
       removedReviewers.add(accountId);
@@ -1367,7 +1371,11 @@ class ChangeNotesParser {
   }
 
   private void parseReviewerByEmail(
-      Instant ts, Account.Id updater, ReviewerStateInternal state, String line)
+      Instant ts,
+      Account.Id updater,
+      Account.Id realUpdater,
+      ReviewerStateInternal state,
+      String line)
       throws ConfigInvalidException {
     Address adr;
     try {
@@ -1377,7 +1385,8 @@ class ChangeNotesParser {
       cie.initCause(e);
       throw cie;
     }
-    reviewerUpdates.add(ReviewerStatusUpdate.createForReviewerByEmail(ts, updater, adr, state));
+    reviewerUpdates.add(
+        ReviewerStatusUpdate.createForReviewerByEmail(ts, updater, realUpdater, adr, state));
     if (!reviewersByEmail.containsRow(adr)) {
       reviewersByEmail.put(adr, state, ts);
     }

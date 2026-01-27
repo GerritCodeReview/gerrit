@@ -16,7 +16,9 @@ package com.google.gerrit.server.notedb;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
+import static org.eclipse.jgit.util.ChangeIdUtil.indexOfFirstFooterLine;
 
+import com.google.common.base.Strings;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
@@ -30,11 +32,16 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.InternalUser;
 import java.io.IOException;
 import java.time.Instant;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.revwalk.FooterLine;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 
@@ -44,7 +51,9 @@ public abstract class AbstractChangeUpdate {
 
   protected final ChangeNoteUtil noteUtil;
   protected final Account.Id accountId;
+  protected final String loggableName;
   protected final Account.Id realAccountId;
+  protected final String realLoggableName;
   protected final PersonIdent authorIdent;
   protected final Instant when;
 
@@ -68,18 +77,24 @@ public abstract class AbstractChangeUpdate {
     this.change = notes.getChange();
     this.when = when;
     this.accountId = accountId(user);
+    this.loggableName = user.getLoggableName();
     Account.Id realAccountId = accountId(user.getRealUser());
     this.realAccountId = realAccountId != null ? realAccountId : accountId;
+    this.realLoggableName =
+        realAccountId != null ? user.getRealUser().getLoggableName() : loggableName;
     this.authorIdent = ident(noteUtil, serverIdent, user, when);
   }
 
-  AbstractChangeUpdate(
+  /** Copy constructor. */
+  protected AbstractChangeUpdate(
       ChangeNoteUtil noteUtil,
       PersonIdent serverIdent,
       @Nullable ChangeNotes notes,
       @Nullable Change change,
       Account.Id accountId,
+      String loggableName,
       Account.Id realAccountId,
+      String realLoggableName,
       PersonIdent authorIdent,
       Instant when) {
     checkArgument(
@@ -90,7 +105,9 @@ public abstract class AbstractChangeUpdate {
     this.notes = notes;
     this.change = change != null ? change : notes.getChange();
     this.accountId = accountId;
+    this.loggableName = loggableName;
     this.realAccountId = realAccountId;
+    this.realLoggableName = realLoggableName;
     this.authorIdent = authorIdent;
     this.when = when;
   }
@@ -232,8 +249,11 @@ public abstract class AbstractChangeUpdate {
     } else if (cb == NO_OP_UPDATE) {
       return null; // Impl is a no-op.
     }
+
     cb.setAuthor(authorIdent);
     cb.setCommitter(new PersonIdent(serverIdent, when));
+    addOptionalImpersonationMessage(cb);
+
     setParentCommit(cb, curr);
     if (cb.getTreeId() == null) {
       if (curr.equals(z)) {
@@ -266,6 +286,35 @@ public abstract class AbstractChangeUpdate {
    */
   protected abstract CommitBuilder applyImpl(RevWalk rw, ObjectInserter ins, ObjectId curr)
       throws IOException;
+
+  private void addOptionalImpersonationMessage(CommitBuilder cb) {
+    if (realAccountId.equals(accountId)) {
+      return;
+    }
+
+    if (Strings.isNullOrEmpty(cb.getMessage())) {
+      // No message for this operation.
+      return;
+    }
+
+    String impersonationClause =
+        String.format("(Posted by %s on behalf of %s)", realLoggableName, loggableName);
+
+    String[] commitMsgLines = cb.getMessage().split("\n");
+    int firstFooterLine = indexOfFirstFooterLine(commitMsgLines);
+    if (firstFooterLine == 2) {
+      // No user-visible message for this operation.
+      return;
+    }
+    cb.setMessage(
+        Stream.concat(
+                Stream.concat(
+                    Arrays.stream(commitMsgLines).limit(firstFooterLine),
+                    Stream.of(impersonationClause, "")),
+                Arrays.stream(commitMsgLines).skip(firstFooterLine))
+            .collect(Collectors.joining("\n"))
+            .trim());
+  }
 
   static final CommitBuilder NO_OP_UPDATE = new CommitBuilder();
 

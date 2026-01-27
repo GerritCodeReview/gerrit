@@ -392,6 +392,9 @@ export declare interface ChangeInfo {
   labels?: LabelNameToInfoMap;
   permitted_labels?: LabelNameToValuesMap;
   removable_reviewers?: AccountInfo[];
+  removable_labels?: {
+    [labelName: string]: {[labelValue: string]: AccountInfo[]};
+  };
   // This is documented as optional, but actually always set.
   reviewers: Reviewers;
   pending_reviewers?: AccountInfo[];

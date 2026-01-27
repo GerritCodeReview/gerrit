@@ -25,20 +25,40 @@ import java.util.Optional;
 @AutoValue
 public abstract class ReviewerStatusUpdate {
   public static ReviewerStatusUpdate createForReviewer(
-      Instant ts, Account.Id updatedBy, Account.Id reviewer, ReviewerStateInternal state) {
+      Instant ts,
+      Account.Id updatedBy,
+      Account.Id realUpdatedBy,
+      Account.Id reviewer,
+      ReviewerStateInternal state) {
     return new AutoValue_ReviewerStatusUpdate(
-        ts, updatedBy, Optional.of(reviewer), Optional.empty(), state);
+        ts,
+        updatedBy,
+        Optional.ofNullable(realUpdatedBy),
+        Optional.of(reviewer),
+        Optional.empty(),
+        state);
   }
 
   public static ReviewerStatusUpdate createForReviewerByEmail(
-      Instant ts, Account.Id updatedBy, Address reviewerByEmail, ReviewerStateInternal state) {
+      Instant ts,
+      Account.Id updatedBy,
+      Account.Id realUpdatedBy,
+      Address reviewerByEmail,
+      ReviewerStateInternal state) {
     return new AutoValue_ReviewerStatusUpdate(
-        ts, updatedBy, Optional.empty(), Optional.of(reviewerByEmail), state);
+        ts,
+        updatedBy,
+        Optional.ofNullable(realUpdatedBy),
+        Optional.empty(),
+        Optional.of(reviewerByEmail),
+        state);
   }
 
   public abstract Instant date();
 
   public abstract Account.Id updatedBy();
+
+  public abstract Optional<Account.Id> realUpdatedBy();
 
   /** Not set if a reviewer for which no Gerrit account exists is added by email. */
   public abstract Optional<Account.Id> reviewer();

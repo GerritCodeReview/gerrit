@@ -7,7 +7,6 @@ import {css, html, LitElement} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
 import {
   htmlEscape,
-  sanitizeHtml,
   sanitizeHtmlToFragment,
 } from '../../../utils/inner-html-util';
 import {unescapeHTML} from '../../../utils/syntax-util';
@@ -313,16 +312,13 @@ export class GrFormattedText extends LitElement {
     }
 
     // The child with slot is optional but allows us control over the styling.
-    // The `callback` property lets us do a final sanitization of the output
-    // HTML string before it is rendered by `<gr-marked-element>` in case any
-    // rewrites have been abused to attempt an XSS attack.
+    // No need to sanitize the output since the <gr-marked-element> component
+    // does that internally.
     return html`
       <gr-marked-element
         .markdown=${this.escapeAllButBlockQuotes(this.content)}
         .breaks=${true}
         .renderer=${customRenderer}
-        .callback=${(_error: string | null, contents: string) =>
-          sanitizeHtml(contents)}
       >
         <div class="markdown-html" slot="markdown-html"></div>
       </gr-marked-element>

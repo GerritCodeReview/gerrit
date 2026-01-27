@@ -868,6 +868,9 @@ public class ChangeJson {
               new ReviewerUpdateInfo(
                   c.date(),
                   accountLoader.get(c.updatedBy()),
+                  c.realUpdatedBy()
+                      .map(accountLoader::get)
+                      .orElseGet(() -> accountLoader.get(c.updatedBy())),
                   accountLoader.get(c.reviewer().get()),
                   c.state().asReviewerState()));
         }
@@ -877,6 +880,9 @@ public class ChangeJson {
               new ReviewerUpdateInfo(
                   c.date(),
                   accountLoader.get(c.updatedBy()),
+                  c.realUpdatedBy()
+                      .map(accountLoader::get)
+                      .orElseGet(() -> accountLoader.get(c.updatedBy())),
                   toAccountInfoByEmail(c.reviewerByEmail().get()),
                   c.state().asReviewerState()));
         }

@@ -122,6 +122,7 @@ export interface FetchRequest {
 
 export interface FormattedReviewerUpdateInfo {
   author: AccountInfo;
+  realAuthor?: AccountInfo;
   date: Timestamp;
   type: 'REVIEWER_UPDATE';
   tag: MessageTag.TAG_REVIEWER_UPDATE;

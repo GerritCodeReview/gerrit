@@ -5,6 +5,7 @@
  */
 
 import {css, html, LitElement, PropertyValues} from 'lit';
+import {sanitizeHtml} from '../../../utils/inner-html-util';
 import {
   customElement,
   property,
@@ -107,9 +108,10 @@ export class GrMarkedElement extends LitElement {
       pedantic: this.pedantic,
     };
 
-    const output = window.marked(this.markdown, options, this.callback);
+    const unsafeHtml = window.marked(this.markdown, options, this.callback) || '';
+    const safeHtml = sanitizeHtml(unsafeHtml);
 
-    this.outputElement[0].innerHTML = output;
+    this.outputElement[0].innerHTML = safeHtml;
     this.dispatchEvent(
       new CustomEvent('marked-render-complete', {bubbles: true, composed: true})
     );

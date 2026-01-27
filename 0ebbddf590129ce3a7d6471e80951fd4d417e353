@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dffaa716_4fe9ebdd",
+        "filename": "tools/bzl/pkg_war.bzl",
+        "patchSetId": 48
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-01-27T11:41:52Z",
+      "side": 1,
+      "message": "This will exclude all dependencies of jgit from the war-file, ensuring that only dependencies as defined by Gerrit will be present at runtime.\n\nNote, that the build will still use the dependencies defined by jgit to build jgit. Thus, there might still be unexpected runtime errors, which is bad.",
+      "range": {
+        "startLine": 98,
+        "startChar": 66,
+        "endLine": 98,
+        "endChar": 98
+      },
+      "revId": "0ebbddf590129ce3a7d6471e80951fd4d417e353",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

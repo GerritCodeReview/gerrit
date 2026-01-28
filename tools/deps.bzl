@@ -106,8 +106,8 @@ def java_dependencies():
 
     maven_jar(
         name = "args4j",
-        artifact = "args4j:args4j:2.33",
-        sha1 = "bd87a75374a6d6523de82fef51fc3cfe9baf9fc9",
+        artifact = "args4j:args4j:2.37",
+        sha1 = "244f60c057d72a785227c0562d3560f42a7ea54b",
     )
 
     maven_jar(

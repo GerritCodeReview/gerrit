@@ -34,6 +34,16 @@ suite('context-input-chip tests', () => {
     await element.updateComplete;
   });
 
+  async function openLinkDialogAndGetInput(): Promise<HTMLInputElement> {
+    const menuItem = element.shadowRoot?.querySelector('md-menu-item');
+    menuItem?.click();
+    await element.updateComplete;
+    assert.isTrue(element.addLinkDialogOpened);
+    return element.shadowRoot?.querySelector(
+      '.add-link-input'
+    ) as HTMLInputElement;
+  }
+
   test('renders the add context chip', () => {
     const chip = element.shadowRoot?.querySelector('md-assist-chip');
     assert.isOk(chip);
@@ -50,12 +60,7 @@ suite('context-input-chip tests', () => {
   });
 
   test('shows link dialog when menu item is clicked', async () => {
-    const menuItem = element.shadowRoot?.querySelector('md-menu-item');
-    menuItem?.click();
-    await element.updateComplete;
-
-    assert.isTrue(element.addLinkDialogOpened);
-    const input = element.shadowRoot?.querySelector('.add-link-input');
+    const input = await openLinkDialogAndGetInput();
     assert.isOk(input);
     assert.equal(element.shadowRoot?.activeElement, input);
   });
@@ -64,14 +69,8 @@ suite('context-input-chip tests', () => {
     const spy = sinon.spy();
     element.addEventListener('context-item-added', spy);
 
-    const menuItem = element.shadowRoot?.querySelector('md-menu-item');
-    menuItem?.click();
-    await element.updateComplete;
-
+    const input = await openLinkDialogAndGetInput();
     const link = 'http://www.google.com';
-    const input = element.shadowRoot?.querySelector(
-      '.add-link-input'
-    ) as HTMLInputElement;
     input.value = link;
     input.dispatchEvent(new Event('input'));
     await element.updateComplete;
@@ -87,5 +86,19 @@ suite('context-input-chip tests', () => {
       link,
       title: 'google-title',
     });
+  });
+
+  test('dismisses input on blur', async () => {
+    const input = await openLinkDialogAndGetInput();
+    input.dispatchEvent(new Event('blur'));
+    await element.updateComplete;
+    assert.isFalse(element.addLinkDialogOpened);
+  });
+
+  test('dismisses input on Escape', async () => {
+    const input = await openLinkDialogAndGetInput();
+    input.dispatchEvent(new KeyboardEvent('keydown', {key: 'Escape'}));
+    await element.updateComplete;
+    assert.isFalse(element.addLinkDialogOpened);
   });
 });

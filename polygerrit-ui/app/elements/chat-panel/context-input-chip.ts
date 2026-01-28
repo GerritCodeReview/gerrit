@@ -173,7 +173,9 @@ export class ContextInputChip extends LitElement {
                   (this.linkInputText = (e.target as HTMLInputElement).value)}
                 @keydown=${(e: KeyboardEvent) => {
                   if (e.key === 'Enter') this.addLinkContext();
+                  if (e.key === 'Escape') this.closeMenu();
                 }}
+                @blur=${() => this.closeMenu()}
               />
             </div>
           `

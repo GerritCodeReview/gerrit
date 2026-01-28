@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {combineLatest, Observable} from 'rxjs';
+import {startWith} from 'rxjs/operators';
 
 import {
   Action,
@@ -30,6 +31,7 @@ import {Model} from '../base/model';
 import {ChangeModel} from '../change/change-model';
 import {define} from '../dependency';
 import {PluginsModel} from '../plugins/plugins-model';
+import {UserModel} from '../user/user-model';
 
 import {contextItemEquals} from './context-item-util';
 import {FilesModel, NormalizedFileInfo} from '../change/files-model';
@@ -234,8 +236,14 @@ export class ChatModel extends Model<ChatState> {
   );
 
   readonly selectedModelId$: Observable<string | undefined> = select(
-    this.state$,
-    chatState => chatState.selectedModelId ?? chatState.models?.default_model_id
+    combineLatest([
+      this.state$,
+      this.userModel.preferences$.pipe(startWith(undefined)),
+    ]),
+    ([chatState, preferences]) =>
+      chatState.selectedModelId ??
+      preferences?.ai_chat_selected_model ??
+      chatState.models?.default_model_id
   );
 
   readonly availableModelsMap$: Observable<ReadonlyMap<string, ModelInfo>> =
@@ -348,7 +356,8 @@ export class ChatModel extends Model<ChatState> {
   constructor(
     private readonly pluginsModel: PluginsModel,
     private readonly changeModel: ChangeModel,
-    private readonly filesModel: FilesModel
+    private readonly filesModel: FilesModel,
+    private readonly userModel: UserModel
   ) {
     super({
       mode: ChatPanelMode.CONVERSATION,
@@ -736,6 +745,7 @@ export class ChatModel extends Model<ChatState> {
 
   selectModel(selectedModelId: string) {
     this.updateState({selectedModelId});
+    this.userModel.updatePreferences({ai_chat_selected_model: selectedModelId});
   }
 
   getModels() {

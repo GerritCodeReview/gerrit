@@ -1076,6 +1076,7 @@ export interface PreferencesInfo {
   allow_suggest_code_while_commenting?: boolean;
   allow_autocompleting_comments?: boolean;
   diff_page_sidebar?: DiffPageSidebar;
+  ai_chat_selected_model?: string;
 }
 
 /**

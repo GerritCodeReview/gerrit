@@ -9,6 +9,7 @@ import {ChatModel} from './chat-model';
 import {PluginsModel} from '../plugins/plugins-model';
 import {ChangeModel} from '../change/change-model';
 import {FilesModel} from '../change/files-model';
+import {UserModel} from '../user/user-model';
 import {BehaviorSubject} from 'rxjs';
 import {createParsedChange} from '../../test/test-data-generators';
 import {AiCodeReviewProvider, ChatRequest} from '../../api/ai-code-review';
@@ -21,6 +22,8 @@ suite('chat-model tests', () => {
   let pluginsModel: PluginsModel;
   let changeModel: ChangeModel;
   let filesModel: FilesModel;
+  let userModel: UserModel;
+  let updatePreferencesStub: sinon.SinonStub;
   let provider: AiCodeReviewProvider;
 
   setup(() => {
@@ -37,6 +40,11 @@ suite('chat-model tests', () => {
     filesModel = {
       files$: new BehaviorSubject([]),
     } as unknown as FilesModel;
+    updatePreferencesStub = sinon.stub();
+    userModel = {
+      preferences$: new BehaviorSubject({}),
+      updatePreferences: updatePreferencesStub,
+    } as unknown as UserModel;
     provider = {
       chat: sinon.stub(),
       listChatConversations: sinon.stub().resolves([]),
@@ -49,7 +57,7 @@ suite('chat-model tests', () => {
       .stub(pluginsModel, 'aiCodeReviewPlugins$')
       .get(() => new BehaviorSubject([{pluginName: 'test-plugin', provider}]));
 
-    model = new ChatModel(pluginsModel, changeModel, filesModel);
+    model = new ChatModel(pluginsModel, changeModel, filesModel, userModel);
   });
 
   test('initial state', () => {
@@ -152,6 +160,12 @@ suite('chat-model tests', () => {
 
     // Select the non-default model
     model.selectModel('advanced-model');
+
+    assert.isTrue(
+      updatePreferencesStub.calledWith({
+        ai_chat_selected_model: 'advanced-model',
+      })
+    );
 
     // Trigger a chat
     model.updateUserInput('hello');

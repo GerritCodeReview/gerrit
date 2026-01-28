@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d78ec44_56eb4f6e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-01-28T16:08:42Z",
+      "side": 1,
+      "message": "I see in the screenshot tests, there was a line number in the previous golden file.\n\nI wasn\u0027t seeing that even in the example: https://screenshot.googleplex.com/9hFKh6a7RmS9KMd\n\nSince this one example wasn\u0027t multiline, is seems like the number would still not work as expected?",
+      "revId": "0edf32818b46669d0e1c760c3711535c1d05e88b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,102 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c0a8f879_68770a56",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-01-28T19:10:41Z",
+      "side": 1,
+      "message": "Exciting to see all these improvements coming!",
+      "revId": "cfb76532639ef8ae3c690c5374b3f30f91f98f86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "627b4f0c_a9bd61ec",
+        "filename": "polygerrit-ui/app/elements/chat-panel/context-input-chip_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-01-28T19:10:41Z",
+      "side": 1,
+      "message": "Nit from AI: There\u0027s some duplicated setup logic in the two new tests. You could extract this into a helper function to keep the tests DRY (Don\u0027t Repeat Yourself).\n\nFor example:\n```ts\n  async function openLinkDialogAndGetInput(): Promise\u003cHTMLInputElement\u003e {\n    const menuItem \u003d element.shadowRoot?.querySelector(\u0027md-menu-item\u0027);\n    menuItem?.click();\n    await element.updateComplete;\n    assert.isTrue(element.addLinkDialogOpened);\n    return element.shadowRoot?.querySelector(\n      \u0027.add-link-input\u0027\n    ) as HTMLInputElement;\n  }\n\n  test(\u0027dismisses input on blur\u0027, async () \u003d\u003e {\n    const input \u003d await openLinkDialogAndGetInput();\n    input.dispatchEvent(new Event(\u0027blur\u0027));\n    await element.updateComplete;\n    assert.isFalse(element.addLinkDialogOpened);\n  });\n\n  test(\u0027dismisses input on Escape\u0027, async () \u003d\u003e {\n    const input \u003d await openLinkDialogAndGetInput();\n    input.dispatchEvent(new KeyboardEvent(\u0027keydown\u0027, {key: \u0027Escape\u0027}));\n    await element.updateComplete;\n    assert.isFalse(element.addLinkDialogOpened);\n  });\n```",
+      "range": {
+        "startLine": 92,
+        "startChar": 0,
+        "endLine": 92,
+        "endChar": 0
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "6a5b56a7_900d503d",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/context-input-chip_test.ts",
+              "range": {
+                "startLine": 92,
+                "startChar": 0,
+                "endLine": 94,
+                "endChar": 0
+              },
+              "replacement": "  async function openLinkDialogAndGetInput(): Promise\u003cHTMLInputElement\u003e {\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/context-input-chip_test.ts",
+              "range": {
+                "startLine": 97,
+                "startChar": 0,
+                "endLine": 98,
+                "endChar": 0
+              },
+              "replacement": ""
+            },
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/context-input-chip_test.ts",
+              "range": {
+                "startLine": 99,
+                "startChar": 0,
+                "endLine": 100,
+                "endChar": 0
+              },
+              "replacement": "    return element.shadowRoot?.querySelector(\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/context-input-chip_test.ts",
+              "range": {
+                "startLine": 102,
+                "startChar": 0,
+                "endLine": 102,
+                "endChar": 0
+              },
+              "replacement": "  }\n\n  test(\u0027dismisses input on blur\u0027, async () \u003d\u003e {\n    const input \u003d await openLinkDialogAndGetInput();\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/context-input-chip_test.ts",
+              "range": {
+                "startLine": 111,
+                "startChar": 0,
+                "endLine": 120,
+                "endChar": 0
+              },
+              "replacement": "    const input \u003d await openLinkDialogAndGetInput();\n"
+            }
+          ]
+        }
+      ],
+      "revId": "cfb76532639ef8ae3c690c5374b3f30f91f98f86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

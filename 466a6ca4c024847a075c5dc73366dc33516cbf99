@@ -299,6 +299,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "07c2e091_cbd76ff8",
+        "filename": "MODULE.bazel",
+        "patchSetId": 46
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-01-28T09:41:37Z",
+      "side": 1,
+      "message": "Thanks for the detailed explanation -- that helps clarify the constraints and the direction you’re proposing.\n\nI agree that we shouldn’t rely on JGit and Gerrit declaring exactly the same versions while maintaining two independent dependency graphs. That approach is inherently fragile. Instead, we should ensure that there is a single, well-defined resolution mechanism. From my perspective, this argues for either:\n\n* letting rules_jvm_external handle conflict resolution explicitly (option 2), or\n* having a single maven_install owned by Gerrit (option 3).\n\nBoth approaches preserve the property that JGit is compiled against the same dependency versions that Gerrit ships and uses at runtime, while still allowing JGit to be built standalone.\n\n\u003e Your Option 1 does not work. I actually tested that.\n\nThat matches my understanding as well. Even if we removed `jgit/MODULE.bazel`, we would still need to patch `jgit/lib/BUILD` to replace references such as `@jgit_deps//:args4j_args4j`. At that point we would be relying on fairly invasive patching, which I’d prefer to avoid. Using a shared external repository (e.g. `external_deps`) feels cleaner and more maintainable.\n\n\u003e I would also suggest that we can have a policy to always update deps in nongoogle.toml [...]\n\n+1 to simplifying the workflow where possible. I think this can work well as long as we don’t assume that versions are always identical between JGit and Gerrit, but also technically ensure that conflict resolution reliably converges on Gerrit’s dependency versions when building Gerrit.",
+      "parentUuid": "ae2c17cc_130c6107",
+      "range": {
+        "startLine": 51,
+        "startChar": 0,
+        "endLine": 87,
+        "endChar": 1
+      },
+      "revId": "466a6ca4c024847a075c5dc73366dc33516cbf99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "31ce3186_b0be88ae",
         "filename": "tools/eclipse/BUILD",
         "patchSetId": 46

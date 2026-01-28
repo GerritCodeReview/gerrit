@@ -7,9 +7,9 @@ After=syslog.target network.target
 [Service]
 Type=simple
 WorkingDirectory=/opt/gerritsrv/
-Environment=GERRIT_HOME=/opt/gerritsrv/gerrit/ JAVA_HOME=/opt/jdk1.8.0_45/
-ExecStart=/usr/bin/java -Xmx1024m -jar ${GERRIT_HOME}/bin/gerrit.war daemon -d ${GERRIT_HOME}
-User=gerritsrv
+ExecStart=/opt/gerritsrv/bin/gerrit.sh run
+ExecStop=/opt/gerritsrv/bin/gerrit.sh stop
+User=orgads
 SyslogIdentifier=GerritCodeReview
 StandardInput=socket
 

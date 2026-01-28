@@ -163,6 +163,22 @@ suite('chat-panel screenshot tests', () => {
                   message: 'Please fix this typo.',
                 },
               },
+              {
+                id: 2,
+                type: ResponsePartType.CREATE_COMMENT,
+                content: '',
+                commentCreationId: '124',
+                comment: {
+                  path: 'polygerrit-ui/app/elements/chat-panel/chat-panel.ts',
+                  range: {
+                    start_line: 10,
+                    start_character: 0,
+                    end_line: 12,
+                    end_character: 10,
+                  },
+                  message: 'Please fix this typo.',
+                },
+              },
             ],
             regenerationIndex: 0,
             references: [],

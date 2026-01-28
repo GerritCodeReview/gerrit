@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "91d71d8e_e52308a2",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 885,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-01-28T08:22:48Z",
+      "side": 1,
+      "message": "I think it would be better to set to null and not duplicate updatedBy. Same above\n\nc.realUpdatedBy().map(accountLoader::get).orElse(null)",
+      "range": {
+        "startLine": 883,
+        "startChar": 0,
+        "endLine": 885,
+        "endChar": 72
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "da874fd1_a2ef1e35",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "java/com/google/gerrit/server/change/ChangeJson.java",
+              "range": {
+                "startLine": 871,
+                "startChar": 0,
+                "endLine": 874,
+                "endChar": 0
+              },
+              "replacement": "                  c.realUpdatedBy().map(accountLoader::get).orElse(null),\n"
+            },
+            {
+              "path": "java/com/google/gerrit/server/change/ChangeJson.java",
+              "range": {
+                "startLine": 883,
+                "startChar": 0,
+                "endLine": 886,
+                "endChar": 0
+              },
+              "replacement": "                  c.realUpdatedBy().map(accountLoader::get).orElse(null),\n"
+            }
+          ]
+        }
+      ],
+      "revId": "400928fff6e1bc592648555d3cd66f580d14d36a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

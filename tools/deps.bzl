@@ -111,8 +111,8 @@ def java_dependencies():
 
     maven_jar(
         name = "commons-codec",
-        artifact = "commons-codec:commons-codec:1.15",
-        sha1 = "49d94806b6e3dc933dacbd8acb0fdbab8ebd1e5d",
+        artifact = "commons-codec:commons-codec:1.20.0",
+        sha1 = "6a671d1c456a875ff61abec63216f754078bb0ed",
     )
 
     # When upgrading commons-compress, also upgrade tukaani-xz

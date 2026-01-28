@@ -100,7 +100,7 @@
     "com.vladsch.flexmark:flexmark-util-visitor": -1002447604,
     "com.vladsch.flexmark:flexmark-youtrack-converter": -1024344568,
     "commons-beanutils:commons-beanutils": -399736270,
-    "commons-codec:commons-codec": -1724312797,
+    "commons-codec:commons-codec": -104521094,
     "commons-collections:commons-collections": -1308259318,
     "commons-dbcp:commons-dbcp": 2032916076,
     "commons-digester:commons-digester": 1688456634,
@@ -340,8 +340,8 @@
     "com.sun.mail:javax.mail": -1925012432,
     "com.sun.mail:javax.mail:jar:sources": 608124446,
     "com.vladsch.flexmark:flexmark-all:jar:lib": 1454723856,
-    "commons-codec:commons-codec": -28659539,
-    "commons-codec:commons-codec:jar:sources": -499809306,
+    "commons-codec:commons-codec": -1332445711,
+    "commons-codec:commons-codec:jar:sources": 1241814857,
     "commons-dbcp:commons-dbcp": 1878088686,
     "commons-dbcp:commons-dbcp:jar:sources": 699520492,
     "commons-io:commons-io": 1072619124,
@@ -411,7 +411,7 @@
     "org.apache.ant:ant-launcher": -333622244,
     "org.apache.ant:ant-launcher:jar:sources": -77100552,
     "org.apache.ant:ant:jar:sources": 389240804,
-    "org.apache.commons:commons-compress": -832484004,
+    "org.apache.commons:commons-compress": 151329248,
     "org.apache.commons:commons-compress:jar:sources": -1888643111,
     "org.apache.commons:commons-lang3": 1841935436,
     "org.apache.commons:commons-lang3:jar:sources": -982252396,
@@ -419,9 +419,9 @@
     "org.apache.commons:commons-math3:jar:sources": -2132756896,
     "org.apache.commons:commons-text": 869132518,
     "org.apache.commons:commons-text:jar:sources": 400790036,
-    "org.apache.httpcomponents:fluent-hc": -1791063366,
+    "org.apache.httpcomponents:fluent-hc": 213470706,
     "org.apache.httpcomponents:fluent-hc:jar:sources": -1265691559,
-    "org.apache.httpcomponents:httpclient": -930110091,
+    "org.apache.httpcomponents:httpclient": -1485924559,
     "org.apache.httpcomponents:httpclient:jar:sources": -779528763,
     "org.apache.httpcomponents:httpcore": 67453319,
     "org.apache.httpcomponents:httpcore:jar:sources": 2134002822,
@@ -532,7 +532,7 @@
     "org.nibor.autolink:autolink:jar:sources": -1863403724,
     "org.objenesis:objenesis": 1536526812,
     "org.objenesis:objenesis:jar:sources": 321662415,
-    "org.openid4java:openid4java": -469605553,
+    "org.openid4java:openid4java": 231338479,
     "org.openid4java:openid4java:jar:sources": -1312563952,
     "org.openjdk.jmh:jmh-core": 262505124,
     "org.openjdk.jmh:jmh-core:jar:sources": 814651627,
@@ -1041,10 +1041,10 @@
     },
     "commons-codec:commons-codec": {
       "shasums": {
-        "jar": "ba005f304cef92a3dede24a38ad5ac9b8afccf0d8f75839d6c1338634cf7f6e4",
-        "sources": "6c50e3dd81284139baddf94b3d0f78d25135eea0853f6495267196cdcf5949e3"
+        "jar": "6af66595f9f6a7bb58ce66518d6888d40b547c366d2262f06676eee19528ff66",
+        "sources": "ad76b2fe9ac7e07e75dfc605055e7235b9a831d1a138e42cb5e198e515f461f4"
       },
-      "version": "1.18.0"
+      "version": "1.20.0"
     },
     "commons-dbcp:commons-dbcp": {
       "shasums": {

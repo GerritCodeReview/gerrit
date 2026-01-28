@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "37e9e11a_489f52d7",
+        "filename": "polygerrit-ui/app/models/chat/chat-model.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-01-28T18:03:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b665ee11_720f10c6",
+      "revId": "3bfdbac4a7e54677c597bb46cc4bcf76a20f7b43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ddcdf684_0a8aaece",
@@ -103,6 +121,30 @@
           ]
         }
       ],
+      "revId": "3bfdbac4a7e54677c597bb46cc4bcf76a20f7b43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c8847c44_f836b21a",
+        "filename": "polygerrit-ui/app/models/chat/chat-model_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-01-28T18:03:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ddcdf684_0a8aaece",
+      "range": {
+        "startLine": 163,
+        "startChar": 7,
+        "endLine": 163,
+        "endChar": 53
+      },
       "revId": "3bfdbac4a7e54677c597bb46cc4bcf76a20f7b43",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

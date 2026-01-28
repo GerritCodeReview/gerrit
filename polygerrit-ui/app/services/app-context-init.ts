@@ -226,7 +226,8 @@ export function createAppDependencies(
         new ChatModel(
           resolver(pluginLoaderToken).pluginsModel,
           resolver(changeModelToken),
-          resolver(filesModelToken)
+          resolver(filesModelToken),
+          resolver(userModelToken)
         ),
     ],
     [

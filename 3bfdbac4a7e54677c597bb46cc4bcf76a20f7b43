@@ -1,0 +1,110 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b665ee11_720f10c6",
+        "filename": "polygerrit-ui/app/models/chat/chat-model.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-01-28T17:18:26Z",
+      "side": 1,
+      "message": "new line?",
+      "fixSuggestions": [
+        {
+          "fixId": "ac352a6c_6a60a85b",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/models/chat/chat-model.ts",
+              "range": {
+                "startLine": 33,
+                "startChar": 0,
+                "endLine": 34,
+                "endChar": 0
+              },
+              "replacement": ""
+            }
+          ]
+        }
+      ],
+      "revId": "3bfdbac4a7e54677c597bb46cc4bcf76a20f7b43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ddcdf684_0a8aaece",
+        "filename": "polygerrit-ui/app/models/chat/chat-model_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-01-28T17:18:26Z",
+      "side": 1,
+      "message": "is it possible to avoid this cast?",
+      "range": {
+        "startLine": 163,
+        "startChar": 7,
+        "endLine": 163,
+        "endChar": 53
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "83e4dd01_fcdec1c9",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/models/chat/chat-model_test.ts",
+              "range": {
+                "startLine": 26,
+                "startChar": 0,
+                "endLine": 26,
+                "endChar": 0
+              },
+              "replacement": "  let updatePreferencesStub: sinon.SinonStub;\n"
+            },
+            {
+              "path": "polygerrit-ui/app/models/chat/chat-model_test.ts",
+              "range": {
+                "startLine": 42,
+                "startChar": 0,
+                "endLine": 42,
+                "endChar": 0
+              },
+              "replacement": "    updatePreferencesStub \u003d sinon.stub();\n"
+            },
+            {
+              "path": "polygerrit-ui/app/models/chat/chat-model_test.ts",
+              "range": {
+                "startLine": 44,
+                "startChar": 0,
+                "endLine": 45,
+                "endChar": 0
+              },
+              "replacement": "      updatePreferences: updatePreferencesStub,\n"
+            },
+            {
+              "path": "polygerrit-ui/app/models/chat/chat-model_test.ts",
+              "range": {
+                "startLine": 162,
+                "startChar": 0,
+                "endLine": 167,
+                "endChar": 0
+              },
+              "replacement": "    assert.isTrue(updatePreferencesStub.calledWith({\n      ai_chat_selected_model: \u0027advanced-model\u0027,\n    }));\n"
+            }
+          ]
+        }
+      ],
+      "revId": "3bfdbac4a7e54677c597bb46cc4bcf76a20f7b43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

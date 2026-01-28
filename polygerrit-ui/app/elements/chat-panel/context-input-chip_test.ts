@@ -88,4 +88,40 @@ suite('context-input-chip tests', () => {
       title: 'google-title',
     });
   });
+
+  test('dismisses input on blur', async () => {
+    // Open the input
+    const menuItem = element.shadowRoot?.querySelector('md-menu-item');
+    menuItem?.click();
+    await element.updateComplete;
+
+    assert.isTrue(element.addLinkDialogOpened);
+    const input = element.shadowRoot?.querySelector(
+      '.add-link-input'
+    ) as HTMLInputElement;
+
+    // Simulate clicking outside (blur)
+    input.dispatchEvent(new Event('blur'));
+    await element.updateComplete;
+
+    assert.isFalse(element.addLinkDialogOpened);
+  });
+
+  test('dismisses input on Escape', async () => {
+    // Open the input
+    const menuItem = element.shadowRoot?.querySelector('md-menu-item');
+    menuItem?.click();
+    await element.updateComplete;
+
+    assert.isTrue(element.addLinkDialogOpened);
+    const input = element.shadowRoot?.querySelector(
+      '.add-link-input'
+    ) as HTMLInputElement;
+
+    // Simulate Escape key
+    input.dispatchEvent(new KeyboardEvent('keydown', {key: 'Escape'}));
+    await element.updateComplete;
+
+    assert.isFalse(element.addLinkDialogOpened);
+  });
 });

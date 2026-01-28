@@ -47,8 +47,6 @@ export class GrMarkedElement extends LitElement {
 
   @property({type: Function}) renderer: Function | null = null;
 
-  @property({type: Function}) callback: Function | null = null;
-
   @queryAssignedElements({
     flatten: true,
     slot: 'markdown-html',
@@ -80,7 +78,6 @@ export class GrMarkedElement extends LitElement {
       'breaks',
       'pedantic',
       'renderer',
-      'callback',
     ];
 
     if (propsToWatch.some(prop => changedProps.has(prop))) {
@@ -112,8 +109,7 @@ export class GrMarkedElement extends LitElement {
       pedantic: this.pedantic,
     };
 
-    const unsafeHtml =
-      window.marked(this.markdown, options, this.callback) || '';
+    const unsafeHtml = window.marked(this.markdown, options) || '';
     const safeHtml = sanitizeHtml(unsafeHtml);
 
     setElementInnerHtml(this.outputElement[0], safeHtml);

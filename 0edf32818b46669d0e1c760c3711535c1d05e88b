@@ -34,6 +34,24 @@
       "parentUuid": "8d78ec44_56eb4f6e",
       "revId": "0edf32818b46669d0e1c760c3711535c1d05e88b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "355b809f_76fea786",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-01-28T18:53:25Z",
+      "side": 1,
+      "message": "Can we add a test for the range scenario?",
+      "parentUuid": "7f0d54bd_f4e1948b",
+      "revId": "0edf32818b46669d0e1c760c3711535c1d05e88b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -16,6 +16,29 @@
       "message": "verified that build and tests succeed with the JGit update and this change",
       "revId": "35626bb102411213a076705ae92020abb59dd227",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f9e0aebf_403e6d1e",
+        "filename": "MODULE.bazel",
+        "patchSetId": 42
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-01-28T09:20:20Z",
+      "side": 1,
+      "message": "One thing to be aware of when consuming JGit as a bzlmod module is that JGit is then built against its own transitive dependency graph, while Gerrit may ship different versions of those dependencies in `release.war`.\n\nThis can result in a compile-time vs. runtime mismatch and potential linkage issues.\n\nSee also the discussion in change 517822 for additional context.",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 1
+      },
+      "revId": "35626bb102411213a076705ae92020abb59dd227",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

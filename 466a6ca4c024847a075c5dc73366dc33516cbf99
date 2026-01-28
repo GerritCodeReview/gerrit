@@ -275,6 +275,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ae2c17cc_130c6107",
+        "filename": "MODULE.bazel",
+        "patchSetId": 46
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-01-28T07:12:38Z",
+      "side": 1,
+      "message": "Considering that, I would even prefer to change the versions in jgit, i.e. increase our fork. Let me elaborate:\n\n- With just overruling versions from Gerrit, the version declaration in jgit is misleading, i.e. the apparent BOM does not match what is actually used.\n- We anyway already had the situation that if there was a breaking dependency update, that we had to deal with it (Update the dep in Gerrit or downgrade it in jgit), i.e. the fork should be limited to MODULE.bazel.\n- We already have a specific branch for Gerrit and the bazel build is exclusivele used by Gerrit.\n- Your Option 1 does not work. I actually tested that. As long as there is a MODULE.bazel, bazel will not allow to break module barriers. Might of course be that I have missed something.\n- I would also suggest that we can have a policy to always updated deps in nongoogle.toml if it was updated in jgit, in deps.toml it should at least suggested and if it doesn\u0027t get LC+1 it will be downgraded in jgit.",
+      "parentUuid": "3f790766_31fd1e1b",
+      "range": {
+        "startLine": 51,
+        "startChar": 0,
+        "endLine": 87,
+        "endChar": 1
+      },
+      "revId": "466a6ca4c024847a075c5dc73366dc33516cbf99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "31ce3186_b0be88ae",
         "filename": "tools/eclipse/BUILD",
         "patchSetId": 46

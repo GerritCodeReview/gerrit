@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dedd27e0_36666a77",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-01-28T17:18:22Z",
+      "side": 1,
+      "message": "I did a similar update in change 540081, but it\u0027s already outdated and I have not created an issue.",
+      "revId": "8dc9b65739f0443192ed34f453ee5fafc9537cbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

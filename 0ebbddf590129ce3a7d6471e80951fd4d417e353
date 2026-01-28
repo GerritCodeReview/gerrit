@@ -22,6 +22,30 @@
       },
       "revId": "0ebbddf590129ce3a7d6471e80951fd4d417e353",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac0cf0bf_5f272c3d",
+        "filename": "tools/bzl/pkg_war.bzl",
+        "patchSetId": 48
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-01-28T06:55:15Z",
+      "side": 1,
+      "message": "Right, we can’t safely do that.\n\nExcluding JGit’s dependencies from the war-file while still compiling JGit against them preserves the compile-time vs runtime mismatch, which can lead to linkage errors (see my other comment).",
+      "parentUuid": "dffaa716_4fe9ebdd",
+      "range": {
+        "startLine": 98,
+        "startChar": 66,
+        "endLine": 98,
+        "endChar": 98
+      },
+      "revId": "0ebbddf590129ce3a7d6471e80951fd4d417e353",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

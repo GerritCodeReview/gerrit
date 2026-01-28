@@ -251,6 +251,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3f790766_31fd1e1b",
+        "filename": "MODULE.bazel",
+        "patchSetId": 46
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-01-28T06:55:15Z",
+      "side": 1,
+      "message": "\u003e These can then be imported in the Gerrit build itself[...]\n\nI think our goal here is actually the inverse: we want JGit to be built against the dependency versions declared by Gerrit, and to override any versions requested by JGit where they differ.\n\nThis matches the semantics we had with the `maven_jar`-based setup: Gerrit *wins* in conflict resolution if Gerrit and JGit disagree on a dependency version. That behavior is important because Gerrit has a library-compliance policy for external dependencies that we must enforce.\n\nWith the current `maven_jar` setup, only `gerrit/WORKSPACE` is loaded; `jgit/WORKSPACE` is effectively ignored. Dependencies are exported as `//lib/foo` and consumed by JGit at compile time, even if JGit declares a different version for the same library in its own `WORKSPACE`. As a result, JGit always compiles against the exact versions that Gerrit ships at runtime (i.e. what ends up in `release.war`).\n\nAfter migrating to `rules_jvm_external` / `bzlmod`, we should preserve that same semantic property:\nJGit should compile against the same dependency versions that Gerrit ships and uses at runtime.\n\nI see a few possible ways to achieve that goal:\n\n1. **Do not import JGit as a Bazel module (at least initially).**\nWe would still migrate both Gerrit and JGit external dependencies to RJE, but JGit’s `MODULE.bazel` would not be evaluated. This directly mirrors the current `WORKSPACE`-based behavior described above.\n2. **Import JGit as a Bazel module, but use a single shared `maven_install` (e.g. external_deps) and rely on `rules_jvm_external` to resolve version conflicts in favor of Gerrit.**\nBoth Gerrit and JGit would reference the same repository. Gerrit would pin versions; JGit would not. Conflict resolution would then converge to Gerrit’s versions (using `known_contributing_modules` and pinned resolution policy, or `force_version` where needed).\n3. **Import JGit as a Bazel module, but keep exactly one `maven_install`, defined only in Gerrit (the root module).**\nIn this setup, JGit would invoke `maven_install` only when built standalone (i.e. when it is the root module). When JGit is consumed by Gerrit, its own dependency declarations would not participate in resolution, and all dependency versions would be determined by Gerrit’s `maven_install`.\nThis preserves the existing behavior where JGit is compiled against the exact set of dependencies that Gerrit provides and ships at runtime.\nThis could be implemented via a bzlmod extension and by moving the `maven_install` invocation out of `jgit/MODULE.bazel` into a Starlark file where conditional logic is possible.\n\n\u003e How was this done so far? Library versions were different between Gerrit and Jgit before.\n\nIt’s true that library versions between Gerrit and JGit have always diverged to some extent, but historically those were mostly minor version skews. The more recent situation -- where JGit bumped Jetty to 12.x while Gerrit is still on 9.x -- is new and much more impactful. That kind of divergence can only be resolved by either downgrading JGit or patching it to remain compatible with the versions (and LC+1 constraints) required by Gerrit.",
+      "parentUuid": "bad694f6_26054806",
+      "range": {
+        "startLine": 51,
+        "startChar": 0,
+        "endLine": 87,
+        "endChar": 1
+      },
+      "revId": "466a6ca4c024847a075c5dc73366dc33516cbf99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "31ce3186_b0be88ae",
         "filename": "tools/eclipse/BUILD",
         "patchSetId": 46

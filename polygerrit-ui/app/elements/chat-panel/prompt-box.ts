@@ -11,6 +11,7 @@ import './context-input-chip';
 import {css, html, LitElement, nothing} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {when} from 'lit/directives/when.js';
+import {repeat} from 'lit/directives/repeat.js';
 
 import {
   ContextItem,
@@ -387,10 +388,11 @@ export class PromptBox extends LitElement {
             this.onContextItemAdded(e.detail)}
         ></context-input-chip>
         ${this.renderThisChangeChip()}
-        ${(this.showAllContextItems
-          ? this.contextItems
-          : this.contextItems.slice(0, MAX_VISIBLE_CONTEXT_ITEMS_COLLAPSED)
-        ).map(
+        ${repeat(
+          this.showAllContextItems
+            ? this.contextItems
+            : this.contextItems.slice(0, MAX_VISIBLE_CONTEXT_ITEMS_COLLAPSED),
+          item => `${item.type_id}:${item.identifier}`,
           contextItem => html`
             <context-chip
               class="external-context"
@@ -401,13 +403,14 @@ export class PromptBox extends LitElement {
             ></context-chip>
           `
         )}
-        ${(this.showAllContextItems
-          ? this.suggestedContextItems
-          : this.suggestedContextItems.slice(
-              0,
-              MAX_VISIBLE_SUGGESTED_CONTEXT_ITEMS_COLLAPSED
-            )
-        ).map(
+        ${repeat(
+          this.showAllContextItems
+            ? this.suggestedContextItems
+            : this.suggestedContextItems.slice(
+                0,
+                MAX_VISIBLE_SUGGESTED_CONTEXT_ITEMS_COLLAPSED
+              ),
+          item => `${item.type_id}:${item.identifier}`,
           contextItem => html`
             <context-chip
               class="suggestion-context"

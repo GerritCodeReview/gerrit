@@ -323,6 +323,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fd69ee00_9e8e69ec",
+        "filename": "MODULE.bazel",
+        "patchSetId": 46
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2026-01-28T10:52:33Z",
+      "side": 1,
+      "message": "I would like to avoid that we have to downgrade JGit dependencies on its servlet-4 branch since that\u0027s causing overhead. So far we always had some divergence between versions used in JGit and Gerrit but apart from jetty this didn\u0027t cause issues since the libraries JGit depends on don\u0027t break API in minor versions.\n\nI think as long as we build JGit using the dependency versions Gerrit ships we are safe since potential issues would show up in the Gerrit build.\n\nOn the JGit master branch I update to the latest release of all dependencies regularly since that\u0027s what Eclipse IDE wants and tracks across all Eclipse projects participating in the Eclipse IDE simultaneous release. They do this to avoid multiple versions of the same dependency across the many projects participating in the simultaneous release. In OSGi runtime used by Eclipse IDE it\u0027s technically possible to use different versions of the same dependency in different bundles but this can still cause awkward issues which are hard to analyze and fix. Hence they push all the projects to always update to the latest dependency versions.\n\nFind the JGit dependency report they generate here\nhttps://github.com/eclipse-orbit/orbit-simrel/blob/main/report/maven-osgi/jgit/REPORT.md\nI use this report to find out if a JGit dependency can be updated.\nUsually I check this report at least once before any milestone, release candidate or release is approaching following the Eclipse IDE simultaneous release schedule\nhttps://github.com/eclipse-simrel/.github/blob/main/wiki/Simultaneous_Release.md\n\nBuilding JGit in the Gerrit source tree using a submodule link is useful since otherwise working on JGit changes which are supposed to be used in Gerrit is a lot more overhead. I still remember the times when I had to create a JGit release every now and then when Gerrit wanted to start using some new JGit code which was developed in JGit for Gerrit. And oftentimes there were some bugs in the new code and they had to be fixed and another release had to be created to make the fixes available to Gerrit development.",
+      "parentUuid": "07c2e091_cbd76ff8",
+      "range": {
+        "startLine": 51,
+        "startChar": 0,
+        "endLine": 87,
+        "endChar": 1
+      },
+      "revId": "466a6ca4c024847a075c5dc73366dc33516cbf99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "31ce3186_b0be88ae",
         "filename": "tools/eclipse/BUILD",
         "patchSetId": 46

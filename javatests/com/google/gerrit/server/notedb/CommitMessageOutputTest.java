@@ -377,6 +377,8 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
             + "\n"
             + "Message on behalf of other user\n"
             + "\n"
+            + "(Posted by change@owner.com on behalf of other@account.com)\n"
+            + "\n"
             + "Patch-set: 1\n"
             + "Real-user: Gerrit User 1 <1@gerrit>\n",
         commit);

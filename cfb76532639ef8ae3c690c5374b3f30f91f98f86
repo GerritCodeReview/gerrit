@@ -97,6 +97,30 @@
       ],
       "revId": "cfb76532639ef8ae3c690c5374b3f30f91f98f86",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "32b24cee_1475e92d",
+        "filename": "polygerrit-ui/app/elements/chat-panel/context-input-chip_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-01-29T08:34:18Z",
+      "side": 1,
+      "message": "Thank you for nice cleanup suggestion!",
+      "parentUuid": "627b4f0c_a9bd61ec",
+      "range": {
+        "startLine": 92,
+        "startChar": 0,
+        "endLine": 92,
+        "endChar": 0
+      },
+      "revId": "cfb76532639ef8ae3c690c5374b3f30f91f98f86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

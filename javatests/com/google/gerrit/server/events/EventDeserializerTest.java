@@ -15,10 +15,13 @@
 package com.google.gerrit.server.events;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.common.base.Supplier;
 import com.google.common.base.Suppliers;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.reflect.TypeToken;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
@@ -30,10 +33,13 @@ import com.google.gerrit.server.data.ChangeAttribute;
 import com.google.gerrit.server.data.RefUpdateAttribute;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gson.Gson;
+import com.google.gson.JsonParseException;
 import org.junit.Test;
 
 public class EventDeserializerTest {
   private final Gson gson = new EventGsonProvider().get();
+
+  public record TestComplexType(int intField) {}
 
   @Test
   public void refUpdatedEvent() {
@@ -285,6 +291,55 @@ public class EventDeserializerTest {
     Project.NameKey projectNameKey = Project.nameKey(projectString);
 
     assertThat(gson.toJson(projectNameKey)).isEqualTo(String.format("\"%s\"", projectString));
+  }
+
+  @Test
+  public void shouldDeserializeToImmutableListOfStrings() {
+    ImmutableList<String> deserializedListOfString =
+        gson.fromJson(
+            "[\"string1\",\"string2\"]", new TypeToken<ImmutableList<String>>() {}.getType());
+    assertThat(deserializedListOfString).containsExactly("string1", "string2");
+  }
+
+  @Test
+  public void shouldDeserializeToImmutableListOfAnything() {
+    ImmutableList<?> deserializedListOfAnything =
+        gson.fromJson("[1.0,2.0]", new TypeToken<ImmutableList<?>>() {}.getType());
+    assertThat(deserializedListOfAnything).containsExactly(1.0, 2.0);
+  }
+
+  @Test
+  @SuppressWarnings("rawtypes")
+  public void shouldDeserializeToRawImmutableList() {
+    ImmutableList deserializedRawList = gson.fromJson("[\"foo\",2.0]", ImmutableList.class);
+    assertThat(deserializedRawList).containsExactly("foo", 2.0);
+  }
+
+  @Test
+  public void shouldDeserializeToImmutableListOfComplexType() {
+    ImmutableList<?> deserializedListOfComplexType =
+        gson.fromJson(
+            "[{\"intField\": 1},{\"intField\": 2}]",
+            new TypeToken<ImmutableList<TestComplexType>>() {}.getType());
+    assertThat(deserializedListOfComplexType)
+        .containsExactly(new TestComplexType(1), new TestComplexType(2));
+  }
+
+  @Test
+  public void shouldDeserializeToEmptyImmutableList() {
+    ImmutableList<?> deserializedListOfComplexType =
+        gson.fromJson("[]", new TypeToken<ImmutableList<?>>() {}.getType());
+    assertThat(deserializedListOfComplexType).isEmpty();
+  }
+
+  @Test
+  public void shouldFailToDeserializeToImmutableListOfNulls() {
+    assertThrows(JsonParseException.class, () -> gson.fromJson("[null]", ImmutableList.class));
+  }
+
+  @Test
+  public void shouldFailToDeserializeNonArrayToImmutableList() {
+    assertThrows(JsonParseException.class, () -> gson.fromJson("{}", ImmutableList.class));
   }
 
   private <T> Supplier<T> createSupplier(T value) {

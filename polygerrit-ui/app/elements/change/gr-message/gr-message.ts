@@ -150,6 +150,14 @@ export class GrMessage extends LitElement {
     );
   }
 
+  private getRealAuthor() {
+    if (!this.message) return undefined;
+    if (isFormattedReviewerUpdate(this.message)) {
+      return this.message.realAuthor;
+    }
+    return this.message.real_author;
+  }
+
   static override get styles() {
     return [
       css`
@@ -331,7 +339,7 @@ export class GrMessage extends LitElement {
         this.computeShowOnBehalfOf(),
         () => html`
           <span>
-            <span class="name">${this.message?.real_author?.name}</span>
+            <span class="name">${this.getRealAuthor()?.name}</span>
             on behalf of
           </span>
         `
@@ -684,10 +692,11 @@ export class GrMessage extends LitElement {
   // private but used in tests
   computeShowOnBehalfOf() {
     if (!this.message) return false;
+    const realAuthor = this.getRealAuthor();
     return !!(
       this.author &&
-      this.message.real_author &&
-      this.author._account_id !== this.message.real_author._account_id
+      realAuthor &&
+      this.author._account_id !== realAuthor._account_id
     );
   }
 

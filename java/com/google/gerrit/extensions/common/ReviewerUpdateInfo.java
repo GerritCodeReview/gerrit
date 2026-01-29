@@ -25,6 +25,7 @@ public class ReviewerUpdateInfo {
   public Timestamp updated;
 
   public AccountInfo updatedBy;
+  public AccountInfo realUpdatedBy;
   public AccountInfo reviewer;
   public ReviewerState state;
 
@@ -34,9 +35,14 @@ public class ReviewerUpdateInfo {
   // Instant
   @SuppressWarnings("JdkObsolete")
   public ReviewerUpdateInfo(
-      Instant updated, AccountInfo updatedBy, AccountInfo reviewer, ReviewerState state) {
+      Instant updated,
+      AccountInfo updatedBy,
+      AccountInfo realUpdatedBy,
+      AccountInfo reviewer,
+      ReviewerState state) {
     this.updated = Timestamp.from(updated);
     this.updatedBy = updatedBy;
+    this.realUpdatedBy = realUpdatedBy;
     this.reviewer = reviewer;
     this.state = state;
   }
@@ -47,6 +53,7 @@ public class ReviewerUpdateInfo {
       ReviewerUpdateInfo reviewerUpdateInfo = (ReviewerUpdateInfo) o;
       return Objects.equals(updated, reviewerUpdateInfo.updated)
           && Objects.equals(updatedBy, reviewerUpdateInfo.updatedBy)
+          && Objects.equals(realUpdatedBy, reviewerUpdateInfo.realUpdatedBy)
           && Objects.equals(reviewer, reviewerUpdateInfo.reviewer)
           && Objects.equals(state, reviewerUpdateInfo.state);
     }
@@ -55,6 +62,6 @@ public class ReviewerUpdateInfo {
 
   @Override
   public int hashCode() {
-    return Objects.hash(updated, updatedBy, reviewer, state);
+    return Objects.hash(updated, updatedBy, realUpdatedBy, reviewer, state);
   }
 }

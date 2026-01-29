@@ -39,6 +39,7 @@ function isChangeInfoParserInput(
 
 interface ParserBatch {
   author: AccountInfo;
+  realAuthor?: AccountInfo;
   date: Timestamp;
   type: 'REVIEWER_UPDATE';
   tag: MessageTag.TAG_REVIEWER_UPDATE;
@@ -97,6 +98,7 @@ export class GrReviewerUpdatesParser {
     this.updateItems = {};
     return {
       author: update.updated_by,
+      realAuthor: update.real_updated_by,
       date: update.updated,
       type: 'REVIEWER_UPDATE',
       tag: MessageTag.TAG_REVIEWER_UPDATE,
@@ -139,7 +141,12 @@ export class GrReviewerUpdatesParser {
       const reviewerId = accountKey(update.reviewer);
       if (
         updateDate - batchUpdateDate > REVIEWER_UPDATE_THRESHOLD_MILLIS ||
-        update.updated_by._account_id !== this.batch.author._account_id
+        accountKey(update.updated_by) !== accountKey(this.batch.author) ||
+        !!update.real_updated_by !== !!this.batch.realAuthor ||
+        (update.real_updated_by &&
+          this.batch.realAuthor &&
+          accountKey(update.real_updated_by) !==
+            accountKey(this.batch.realAuthor))
       ) {
         // Next sequential update should form new group.
         this._completeBatch(this.batch);

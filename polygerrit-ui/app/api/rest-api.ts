@@ -1104,6 +1104,7 @@ export type Reviewers = Partial<Record<ReviewerState, AccountInfo[]>>;
 export declare interface ReviewerUpdateInfo {
   updated: Timestamp;
   updated_by: AccountInfo;
+  real_updated_by?: AccountInfo;
   reviewer: AccountInfo;
   state: ReviewerState;
 }

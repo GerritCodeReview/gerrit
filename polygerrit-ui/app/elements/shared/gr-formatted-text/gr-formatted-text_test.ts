@@ -85,6 +85,7 @@ suite('gr-formatted-text tests', () => {
       await element.updateComplete;
     });
 
+    // OK (after tokenizer changes)
     test('does not apply rewrites within links', async () => {
       element.content = 'http://google.com/LinkRewriteMe';
       await element.updateComplete;
@@ -107,6 +108,7 @@ suite('gr-formatted-text tests', () => {
       );
     });
 
+    // OK
     test('does not apply rewrites on rewritten text', async () => {
       await setCommentLinks({
         capitalizeFoo: {
@@ -135,6 +137,7 @@ suite('gr-formatted-text tests', () => {
       );
     });
 
+    // OK
     test('supports overlapping rewrites', async () => {
       await setCommentLinks({
         bracketNum: {
@@ -171,6 +174,7 @@ suite('gr-formatted-text tests', () => {
       );
     });
 
+    // OK (after tokenizer changes)
     test('renders text with links and rewrites', async () => {
       element.content = `
         text with plain link: http://google.com
@@ -213,6 +217,7 @@ suite('gr-formatted-text tests', () => {
       );
     });
 
+    // OK (but similar issue with `escaped` as below)
     test('does not render typed html', async () => {
       element.content = 'plain text <div>foo</div>';
       await element.updateComplete;
@@ -226,6 +231,7 @@ suite('gr-formatted-text tests', () => {
       );
     });
 
+    // OK
     test('does not render markdown', async () => {
       element.content = '# A Markdown Heading';
       await element.updateComplete;
@@ -239,6 +245,7 @@ suite('gr-formatted-text tests', () => {
       );
     });
 
+    // OK (after tokenizer changes)
     test('does default linking', async () => {
       const checkLinking = async (url: string, expectLinkified = true) => {
         element.content = url;
@@ -325,6 +332,7 @@ suite('gr-formatted-text tests', () => {
       element.markdown = true;
       await element.updateComplete;
     });
+    // OK
     test('renders text with links and rewrites', async () => {
       element.content = `text
         \ntext with plain link: http://google.com
@@ -378,6 +386,7 @@ suite('gr-formatted-text tests', () => {
       );
     });
 
+    // OK (MODIFIED but reverted after tokenizer changes)
     test('does not render if too long', async () => {
       element.content = `text
         text with plain link: http://google.com
@@ -424,6 +433,7 @@ suite('gr-formatted-text tests', () => {
       );
     });
 
+    // OK  (MODIFIED -- i think not modified)
     test('renders headings with links and rewrites', async () => {
       element.content = `# h1-heading
         \n## h2-heading
@@ -474,6 +484,7 @@ suite('gr-formatted-text tests', () => {
       );
     });
 
+    // OK
     test('renders inline-code without linking or rewriting', async () => {
       element.content = `\`inline code\`
         \n\`inline code with plain link: google.com\`
@@ -502,6 +513,7 @@ suite('gr-formatted-text tests', () => {
       );
     });
 
+    // OK
     test('renders multiline-code without linking or rewriting', async () => {
       element.content = `\`\`\`\nmultiline code\n\`\`\`
         \n\`\`\`\nmultiline code with plain link: google.com\n\`\`\`
@@ -530,6 +542,7 @@ suite('gr-formatted-text tests', () => {
       );
     });
 
+    // OK
     test('does not render inline images into <img> tags', async () => {
       element.content = '![img](google.com/img.png)';
       await element.updateComplete;
@@ -548,6 +561,7 @@ suite('gr-formatted-text tests', () => {
       );
     });
 
+    // OK
     test('handles @mentions', async () => {
       element.content = '@someone@google.com';
       await element.updateComplete;
@@ -576,6 +590,7 @@ suite('gr-formatted-text tests', () => {
       );
     });
 
+    // OK
     test('does not handle @mentions that is part of a code block', async () => {
       element.content = '`@`someone@google.com';
       await element.updateComplete;
@@ -603,6 +618,7 @@ suite('gr-formatted-text tests', () => {
       );
     });
 
+    // OK
     test('renders inline links into <a> tags', async () => {
       const origin = window.location.origin;
       element.content = `[myLink1](https://www.google.com)
@@ -660,6 +676,7 @@ suite('gr-formatted-text tests', () => {
       );
     });
 
+    // OK
     test('renders block quotes with links and rewrites', async () => {
       element.content = `> block quote
         \n> block quote with plain link: http://google.com
@@ -706,10 +723,13 @@ suite('gr-formatted-text tests', () => {
       );
     });
 
+    // OK (ATTENTION NEEDED to the codespan method and code)
     test('never renders typed html', async () => {
+      // TODO(marchev): Clarify if we should really leave <code></code> content
+      // unescaped.
       element.content = `plain text <div>foo</div>
         \n\`inline code <div>foo</div>\`
-        \n\`\`\`\nmultiline code <div>foo</div>\`\`\`
+        \n\`\`\`\nmultiline code <div>foo</div>\n\`\`\`
         \n> block quote <div>foo</div>
         \n[inline link <div>foo</div>](http://google.com)`;
       await element.updateComplete;
@@ -748,6 +768,7 @@ suite('gr-formatted-text tests', () => {
       );
     });
 
+    // OK
     test('renders nested block quotes', async () => {
       element.content = '> > > block quote';
       await element.updateComplete;
@@ -772,6 +793,7 @@ suite('gr-formatted-text tests', () => {
       );
     });
 
+    // OK
     test('renders rewrites with an asterisk', async () => {
       await setCommentLinks({
         customLinkRewrite: {
@@ -805,6 +827,7 @@ suite('gr-formatted-text tests', () => {
       );
     });
 
+    // ATTENTION NEEDED
     test('does default linking', async () => {
       const checkLinking = async (url: string, expectLinkified = true) => {
         element.content = url;
@@ -852,6 +875,7 @@ suite('gr-formatted-text tests', () => {
       await checkLinking('google.com.blah/path', false);
     });
 
+    // OK
     suite('user suggest fix', () => {
       setup(async () => {
         const flagsService = getAppContext().flagsService;
@@ -859,7 +883,7 @@ suite('gr-formatted-text tests', () => {
       });
 
       test('renders', async () => {
-        element.content = '```suggestion\nHello World```';
+        element.content = '```suggestion\nHello World\n```';
         await element.updateComplete;
         assert.shadowDom.equal(
           element,

@@ -9,7 +9,6 @@ import {
   htmlEscape,
   sanitizeHtmlToFragment,
 } from '../../../utils/inner-html-util';
-import {unescapeHTML} from '../../../utils/syntax-util';
 import {resolve} from '../../../models/dependency';
 import {subscribe} from '../../lit/subscription-controller';
 import {configModelToken} from '../../../models/config/config-model';
@@ -23,6 +22,7 @@ import {
 } from '../../../utils/comment-util';
 import {sameOrigin} from '../../../utils/url-util';
 import '../gr-marked-element/gr-marked-element';
+import {Renderer, Tokens} from 'marked';
 
 // MIME types for images we allow showing. Do not include SVG, it can contain
 // arbitrary JavaScript.
@@ -132,10 +132,20 @@ export class GrFormattedText extends LitElement {
       () => this.getConfigModel().repoCommentLinks$,
       repoCommentLinks => {
         this.repoCommentLinks = repoCommentLinks;
+        // "marked" follows the GFM spec and autolinks http(s) and mailto links.
+        // We use a custom linkifier here which requires autolinking to be
+        // disabled in "marked"'s tokenizer.
+        //
         // Always linkify URLs starting with https?://
         this.repoCommentLinks['ALWAYS_LINK_HTTP'] = {
           match: '(https?://((?!&(gt|lt|quot|apos);)\\S)+[\\w/~-])',
           link: '$1',
+          enabled: true,
+        };
+        // Linkify email addresses.
+        this.repoCommentLinks['ALWAYS_LINK_EMAIL'] = {
+          match: '([\\w.+-]+@[\\w.-]+\\.[\\w]{2,})',
+          link: 'mailto:$1',
           enabled: true,
         };
 
@@ -246,7 +256,7 @@ export class GrFormattedText extends LitElement {
 
     // We are overriding some gr-marked-element renderers for a few reasons:
     // 1. Disable inline images as a design/policy choice.
-    // 2. Inline code blocks ("codespan") do not unescape HTML characters when
+    // 2. Inline code blocks ("codespan") do not unescape HTML characters when  ------> seems obsolete
     //    rendering without <pre> and so we must do this manually.
     //    <gr-marked-element> is already escaping these internally. See test
     //    covering this.
@@ -258,8 +268,15 @@ export class GrFormattedText extends LitElement {
     //    rewrites. Text within code blocks is not passed here.
     // 5. Open links in a new tab by rendering with target="_blank" attribute.
     // 6. Relative links without "/" prefix are assumed to be absolute links.
-    function customRenderer(renderer: {[type: string]: Function}) {
-      renderer['link'] = (href: string, title: string, text: string) => {
+    function patchRenderer(renderer: Renderer) {
+      // Use the `function` syntax, so that we can add type annotation for
+      // `this`, allowing the overridden methods access to all members of
+      // the merged Renderer object, including to `this.parser`.
+      renderer.link = function (
+        this: Renderer,
+        {href, title, tokens}: Tokens.Link,
+      ): string {
+        const text = this.parser.parseInline(tokens);
         if (
           !href.startsWith('https://') &&
           !href.startsWith('mailto:') &&
@@ -276,7 +293,11 @@ export class GrFormattedText extends LitElement {
           >${text}</a
         >`;
       };
-      renderer['image'] = (href: string, title: string, text: string) => {
+
+      renderer.image = function (
+        this: Renderer,
+        {href, title, text}: Tokens.Image,
+      ): string {
         // Check if this is a base64-encoded image
         if (
           allowMarkdownBase64ImagesInComments &&
@@ -289,26 +310,81 @@ export class GrFormattedText extends LitElement {
         // For non-base64 images just return the markdown
         return `![${text}](${href})`;
       };
-      renderer['codespan'] = (text: string) =>
-        `<code>${unescapeHTML(text)}</code>`;
-      renderer['code'] = (text: string, infostring: string) => {
-        if (infostring === USER_SUGGESTION_INFO_STRING) {
+
+      renderer.code = function (
+        this: Renderer,
+        token: Tokens.Code,
+      ): string {
+        console.log(`!!!!! SVI: code: lang=<${token.lang}> text=<${token.text}> escaped=${token.escaped}`);
+
+        if (token.lang === USER_SUGGESTION_INFO_STRING) {
           // default santizer in markedjs is very restrictive, we need to use
           // existing html element to mark element. We cannot use css class for
           // it. Therefore we pick mark - as not frequently used html element to
           // represent unconverted gr-user-suggestion-fix.
           // TODO(milutin): Find a way to override sanitizer to directly use
           // gr-user-suggestion-fix
-          return `<mark>${text}</mark>`;
-        } else {
-          return `<pre><code>${text}</code></pre>`;
+          return `<mark>${
+            token.escaped ? token.text : htmlEscape(token.text)}</mark>`;
         }
+        // Fall back to default renderer's `code` function.
+        //token.escaped = true; // HACK
+        return Renderer.prototype.code.call(this, token);
+        // return `<pre><code>${token.escaped ? token.text : htmlEscape(token.text)}</code></pre>`;
       };
+
+      renderer.codespan = function (
+        this: Renderer,
+        {text}: Tokens.Codespan,
+      ): string {
+        console.log(`!!!!! SVI: codespan: <${text}>`);
+        // return `<code>${unescapeHTML(text)}</code>`;
+        // return `<code>${text}</code>`;
+        return `<code>${htmlEscape(text)}</code>`;
+      };
+
+      renderer.html = function (
+        this: Renderer,
+        {text}: Tokens.HTML,
+      ): string {
+        console.log(`!!!!! SVI: html: <${text}>`);
+        return htmlEscape(text).toString();
+      };
+
       // <gr-marked-element> internals will be in charge of calling our custom
       // renderer so we write these functions separately so that 'this' is
       // preserved via closure.
-      renderer['paragraph'] = boundRewriteAsterisks;
-      renderer['text'] = boundRewriteText;
+      renderer.paragraph = function (
+        this: Renderer,
+        {tokens}: Tokens.Paragraph,
+      ): string {
+        const text = this.parser.parseInline(tokens);
+        console.log(`!!!!! SVI: paragraph: text=<${text}>`);
+        return boundRewriteAsterisks(text);
+      };
+
+      renderer.text = function (
+        this: Renderer,
+        token: Tokens.Text | Tokens.Escape,
+      ): string {
+        console.log(`!!!!! SVI: text: <${token.text}>`);
+
+        // Don't process text in raw blocks.
+        if (token.type === 'escape') {
+          return htmlEscape(token.text).toString();
+        }
+        // Recurse when not in a terminal node.
+        if (token.type === 'text' && token.tokens) {
+          return this.parser.parseInline(token.tokens);
+        }
+        // Don't process escaped text as such text is supposed to be rendered
+        // as-is.
+        if (token.type === 'text' && token.escaped) {
+          return token.text;
+        }
+        // return boundRewriteText(htmlEscape(token.text));
+        return boundRewriteText(token.text);
+      };
     }
 
     // The child with slot is optional but allows us control over the styling.
@@ -318,7 +394,7 @@ export class GrFormattedText extends LitElement {
       <gr-marked-element
         .markdown=${this.escapeAllButBlockQuotes(this.content)}
         .breaks=${true}
-        .renderer=${customRenderer}
+        .renderer=${patchRenderer}
       >
         <div class="markdown-html" slot="markdown-html"></div>
       </gr-marked-element>
@@ -326,21 +402,21 @@ export class GrFormattedText extends LitElement {
   }
 
   private escapeAllButBlockQuotes(text: string) {
-    // Escaping the message should be done first to make sure user's literal
-    // input does not get rendered without affecting html added in later steps.
-    text = htmlEscape(text).toString();
-    // Unescape block quotes '>'. This is slightly dangerous as '>' can be used
-    // in HTML fragments, but it is insufficient on it's own.
-    for (;;) {
-      const newText = text.replace(
-        /(^|\n)((?:\s{0,3}&gt;)*\s{0,3})&gt;/g,
-        '$1$2>'
-      );
-      if (newText === text) {
-        break;
-      }
-      text = newText;
-    }
+    // // Escaping the message should be done first to make sure user's literal
+    // // input does not get rendered without affecting html added in later steps.
+    // text = htmlEscape(text).toString();
+    // // Unescape block quotes '>'. This is slightly dangerous as '>' can be used
+    // // in HTML fragments, but it is insufficient on it's own.
+    // for (;;) {
+    //   const newText = text.replace(
+    //     /(^|\n)((?:\s{0,3}&gt;)*\s{0,3})&gt;/g,
+    //     '$1$2>'
+    //   );
+    //   if (newText === text) {
+    //     break;
+    //   }
+    //   text = newText;
+    // }
 
     return text;
   }

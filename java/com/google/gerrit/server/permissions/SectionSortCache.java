@@ -121,11 +121,7 @@ public class SectionSortCache {
     }
   }
 
-  @AutoValue
-  abstract static class EntryKey {
-    public abstract String ref();
-
-    public abstract ImmutableList<String> patterns();
+  public record EntryKey(String ref, ImmutableList<String> patterns) {
 
     static EntryKey create(String refName, List<AccessSection> sections) {
       ImmutableList.Builder<String> patterns =
@@ -133,7 +129,7 @@ public class SectionSortCache {
       for (AccessSection s : sections) {
         patterns.add(s.getName());
       }
-      return new AutoValue_SectionSortCache_EntryKey(refName, patterns.build());
+      return new EntryKey(refName, patterns.build());
     }
 
     @Memoized

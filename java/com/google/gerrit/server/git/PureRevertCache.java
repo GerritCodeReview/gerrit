@@ -166,7 +166,7 @@ public class PureRevertCache {
         Project.NameKey project = Project.nameKey(key.getProject());
 
         try (Repository repo = repoManager.openRepository(project);
-            ObjectInserter oi = repo.newObjectInserter();
+            ObjectInserter ins = new InMemoryInserter(repo);
             RevWalk rw = new RevWalk(repo)) {
           RevCommit claimedOriginalCommit;
           try {
@@ -185,7 +185,7 @@ public class PureRevertCache {
           ThreeWayMerger merger =
               mergeUtilFactory
                   .create(projectCache.get(project).orElseThrow(illegalState(project)))
-                  .newThreeWayMerger(oi, repo);
+                  .newThreeWayMerger(ins, repo);
           merger.setBase(claimedRevertCommit.getParent(0));
           boolean success = merger.merge(claimedRevertCommit, claimedOriginalCommit);
           if (!success || merger.getResultTreeId() == null) {

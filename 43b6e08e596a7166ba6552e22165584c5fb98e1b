@@ -16,6 +16,24 @@
       "message": "Needs to be added to https://github.com/GerritCodeReview/gerrit/blob/master/polygerrit-ui/app/node_modules_licenses/licenses.ts#L330",
       "revId": "43b6e08e596a7166ba6552e22165584c5fb98e1b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e4a1cfaf_a6e42812",
+        "filename": "polygerrit-ui/app/package.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 4580685
+      },
+      "writtenOn": "2026-01-29T00:38:17Z",
+      "side": 1,
+      "message": "Done, thanks.",
+      "parentUuid": "0aa711a4_be5a188d",
+      "revId": "43b6e08e596a7166ba6552e22165584c5fb98e1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

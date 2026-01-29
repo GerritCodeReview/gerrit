@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f231975b_bb086092",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-01-29T07:05:11Z",
+      "side": 1,
+      "message": "yes I see the upside\n\nThe downside is the page will reload without the user being aware of it.\n\nThe linked bug actually wanted a `user setting` but this CL updates the behaviour for all users.\n\nI think it\u0027s ok to update this UX for all users. Ideally we would be able to reference some other product/UX following this pattern but we can definitely proceed with this CL.\n\nI\u0027m slightly worried about users not being happy if their dashboards reload silently but I guess there is no perfect solution.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 36
+      },
+      "revId": "d1bbdf89a56e61946bb6ceee53c5c0d1d14d9f1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

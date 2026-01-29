@@ -34,6 +34,24 @@
       "parentUuid": "0aa711a4_be5a188d",
       "revId": "43b6e08e596a7166ba6552e22165584c5fb98e1b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1b5d24f5_94df97d9",
+        "filename": "polygerrit-ui/app/package.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2026-01-29T02:17:25Z",
+      "side": 1,
+      "message": "Need to also run https://gerrit-review.googlesource.com/Documentation/dev-bazel.html#license",
+      "parentUuid": "e4a1cfaf_a6e42812",
+      "revId": "43b6e08e596a7166ba6552e22165584c5fb98e1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

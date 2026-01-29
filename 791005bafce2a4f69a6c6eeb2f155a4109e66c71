@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "85fb8bc0_7804d2af",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1160050
+      },
+      "writtenOn": "2026-01-29T00:26:30Z",
+      "side": 1,
+      "message": "547541: Hide dashboard page reload when changing tabs | https://gerrit-review.googlesource.com/c/gerrit/+/547541",
+      "revId": "791005bafce2a4f69a6c6eeb2f155a4109e66c71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

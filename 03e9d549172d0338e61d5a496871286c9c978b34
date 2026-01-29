@@ -1,0 +1,65 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "34af369e_7b65bac3",
+        "filename": "polygerrit-ui/app/elements/chat-panel/gemini-message.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 389,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-01-29T10:29:37Z",
+      "side": 1,
+      "message": "this looks like the same as this method here: https://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts;l\u003d865?q\u003d%22computeDisplayLine%22\u0026sq\u003d\n\nCan you move this common method into the util file and use in both places?",
+      "range": {
+        "startLine": 377,
+        "startChar": 0,
+        "endLine": 389,
+        "endChar": 1
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "8d16cc49_ce4cc445",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/gemini-message.ts",
+              "range": {
+                "startLine": 34,
+                "startChar": 0,
+                "endLine": 36,
+                "endChar": 0
+              },
+              "replacement": "import {NumericChangeId, PatchSetNumber} from \u0027../../types/common\u0027;\nimport {\n  compareComments,\n  computeDisplayLine,\n  createNew,\n} from \u0027../../utils/comment-util\u0027;\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/gemini-message.ts",
+              "range": {
+                "startLine": 299,
+                "startChar": 0,
+                "endLine": 300,
+                "endChar": 0
+              },
+              "replacement": "              const lineNumber \u003d computeDisplayLine(comment.comment);\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/gemini-message.ts",
+              "range": {
+                "startLine": 377,
+                "startChar": 0,
+                "endLine": 389,
+                "endChar": 0
+              },
+              "replacement": ""
+            }
+          ]
+        }
+      ],
+      "revId": "03e9d549172d0338e61d5a496871286c9c978b34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

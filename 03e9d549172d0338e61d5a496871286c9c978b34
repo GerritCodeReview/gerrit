@@ -60,6 +60,30 @@
       ],
       "revId": "03e9d549172d0338e61d5a496871286c9c978b34",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "670f126a_285737fe",
+        "filename": "polygerrit-ui/app/elements/chat-panel/gemini-message.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 389,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-01-29T10:50:39Z",
+      "side": 1,
+      "message": "Good idea, thanks!",
+      "parentUuid": "34af369e_7b65bac3",
+      "range": {
+        "startLine": 377,
+        "startChar": 0,
+        "endLine": 389,
+        "endChar": 1
+      },
+      "revId": "03e9d549172d0338e61d5a496871286c9c978b34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

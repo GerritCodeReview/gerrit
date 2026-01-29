@@ -21,15 +21,23 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.ReviewerInput;
 import com.google.gerrit.extensions.api.changes.ReviewerResult;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestCollectionModifyView;
+import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.change.ReviewerModifier;
 import com.google.gerrit.server.change.ReviewerModifier.ReviewerModification;
 import com.google.gerrit.server.change.ReviewerResource;
+import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.permissions.ChangePermission;
+import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.update.BatchUpdate;
@@ -48,17 +56,23 @@ public class PostReviewers
   private final ChangeData.Factory changeDataFactory;
   private final NotifyResolver notifyResolver;
   private final ReviewerModifier reviewerModifier;
+  private final AccountResolver accountResolver;
+  private final PermissionBackend permissionBackend;
 
   @Inject
   PostReviewers(
       BatchUpdate.Factory updateFactory,
       ChangeData.Factory changeDataFactory,
       NotifyResolver notifyResolver,
-      ReviewerModifier reviewerModifier) {
+      ReviewerModifier reviewerModifier,
+      AccountResolver accountResolver,
+      PermissionBackend permissionBackend) {
     this.updateFactory = updateFactory;
     this.changeDataFactory = changeDataFactory;
     this.notifyResolver = notifyResolver;
     this.reviewerModifier = reviewerModifier;
+    this.accountResolver = accountResolver;
+    this.permissionBackend = permissionBackend;
   }
 
   @Override
@@ -68,14 +82,15 @@ public class PostReviewers
           UpdateException,
           PermissionBackendException,
           ConfigInvalidException {
+    final CurrentUser user = getActingUser(rsrc.getUser(), input, rsrc.getNotes());
+
     ReviewerModification modification =
-        reviewerModifier.prepare(rsrc.getNotes(), rsrc.getUser(), input, true);
+        reviewerModifier.prepare(rsrc.getNotes(), user, input, true);
     if (modification.op == null) {
       return Response.withStatusCode(SC_BAD_REQUEST, modification.result);
     }
     try (RefUpdateContext ctx = RefUpdateContext.open(CHANGE_MODIFICATION)) {
-      try (BatchUpdate bu =
-          updateFactory.create(rsrc.getProject(), rsrc.getUser(), TimeUtil.now())) {
+      try (BatchUpdate bu = updateFactory.create(rsrc.getProject(), user, TimeUtil.now())) {
         bu.setNotify(resolveNotify(rsrc, input));
         Change.Id id = rsrc.getChange().getId();
         bu.addOp(id, modification.op);
@@ -86,6 +101,30 @@ public class PostReviewers
     // Re-read change to take into account results of the update.
     modification.gatherResults(changeDataFactory.create(rsrc.getProject(), rsrc.getId()));
     return Response.ok(modification.result);
+  }
+
+  private CurrentUser getActingUser(
+      CurrentUser caller, ReviewerInput input, ChangeNotes changeNotes)
+      throws RestApiException, PermissionBackendException, IOException, ConfigInvalidException {
+    if (input.onBehalfOf != null) {
+      return onBehalfOf(caller, input.onBehalfOf, changeNotes);
+    }
+    return caller;
+  }
+
+  private IdentifiedUser onBehalfOf(CurrentUser caller, String onBehalfOf, ChangeNotes changeNotes)
+      throws RestApiException, PermissionBackendException, IOException, ConfigInvalidException {
+    IdentifiedUser reviewer =
+        accountResolver
+            .resolve(onBehalfOf)
+            .asUniqueUserOnBehalfOf(caller, IdentifiedUser.ImpersonationPermissionMode.THIS_USER);
+    try {
+      permissionBackend.user(reviewer).change(changeNotes).check(ChangePermission.READ);
+    } catch (AuthException e) {
+      throw new ResourceConflictException(
+          String.format("on_behalf_of account %s cannot see change", reviewer.getAccountId()), e);
+    }
+    return reviewer;
   }
 
   private NotifyResolver.Result resolveNotify(ChangeResource rsrc, ReviewerInput input)

@@ -18,7 +18,9 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.base.Supplier;
 import com.google.common.base.Suppliers;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.reflect.TypeToken;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
@@ -285,6 +287,21 @@ public class EventDeserializerTest {
     Project.NameKey projectNameKey = Project.nameKey(projectString);
 
     assertThat(gson.toJson(projectNameKey)).isEqualTo(String.format("\"%s\"", projectString));
+  }
+
+  @Test
+  public void shouldDeserializeToImmutableListOfStrings() {
+    ImmutableList<String> deserializedListOfString =
+        gson.fromJson(
+            "[\"string1\",\"string2\"]", new TypeToken<ImmutableList<String>>() {}.getType());
+    assertThat(deserializedListOfString).containsExactly("string1", "string2");
+  }
+
+  @Test
+  public void shouldDeserializeToImmutableListOfAnything() {
+    ImmutableList<?> deserializedListOfAnything =
+        gson.fromJson("[1.0,2.0]", new TypeToken<ImmutableList<?>>() {}.getType());
+    assertThat(deserializedListOfAnything).containsExactly(1.0, 2.0);
   }
 
   private <T> Supplier<T> createSupplier(T value) {

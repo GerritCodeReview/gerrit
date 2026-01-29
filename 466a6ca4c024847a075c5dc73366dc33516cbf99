@@ -371,6 +371,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4822d625_6526f1ef",
+        "filename": "MODULE.bazel",
+        "patchSetId": 46
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-01-29T06:40:52Z",
+      "side": 1,
+      "message": "\u003e I pushed a series updating jgit dependencies in Gerrit:\n\nThanks, approved.\n\n\u003e having a single maven_install owned by Gerrit (option 3).\n\nI’ve just uploaded a change to the JGit repository [1] that separates library and standalone Bazel modules.\n\nWith this change, Gerrit (or any other JGit consumer) owns the `maven_install` in the root module, so JGit is built against a single dependency graph defined by the consumer.\n\nThe remaining piece is to merge `gerrit_deps` and `gerrit_nongoogle_deps` into `external_deps`, so JGit and Gerrit share one consistent dependency universe.\n\n[1]: https://review.gerrithub.io/c/eclipse-jgit/jgit/+/1230073",
+      "parentUuid": "68296b32_b068714e",
+      "range": {
+        "startLine": 51,
+        "startChar": 0,
+        "endLine": 87,
+        "endChar": 1
+      },
+      "revId": "466a6ca4c024847a075c5dc73366dc33516cbf99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "31ce3186_b0be88ae",
         "filename": "tools/eclipse/BUILD",
         "patchSetId": 46

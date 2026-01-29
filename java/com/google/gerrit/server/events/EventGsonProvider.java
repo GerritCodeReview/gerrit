@@ -15,8 +15,10 @@
 package com.google.gerrit.server.events;
 
 import com.google.common.base.Supplier;
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.EntitiesAdapterFactory;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.json.ImmutableListTypeAdapter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.inject.Provider;
@@ -29,6 +31,7 @@ public class EventGsonProvider implements Provider<Gson> {
         .registerTypeAdapter(Event.class, new EventDeserializer())
         .registerTypeAdapter(Supplier.class, new SupplierSerializer())
         .registerTypeAdapter(Supplier.class, new SupplierDeserializer())
+        .registerTypeAdapter(ImmutableList.class, new ImmutableListTypeAdapter())
         .registerTypeAdapterFactory(EntitiesAdapterFactory.create())
         .registerTypeHierarchyAdapter(Project.NameKey.class, new ProjectNameKeyAdapter())
         .create();

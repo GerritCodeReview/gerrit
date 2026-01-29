@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "edc0091a_c978dc4e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2026-01-29T13:38:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6a9062a4_7469f1f9",
+      "revId": "729e1bfde3abbd05153c5a41eed59a56a395b1a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d2312cf6_fa778b0c",
@@ -31,6 +49,24 @@
       "writtenOn": "2026-01-29T12:58:10Z",
       "side": 1,
       "message": "Probably https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#review-update-info needs to be updated",
+      "revId": "729e1bfde3abbd05153c5a41eed59a56a395b1a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d226c664_15a98bff",
+        "filename": "polygerrit-ui/app/api/rest-api.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 1107,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2026-01-29T13:38:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d2312cf6_fa778b0c",
       "revId": "729e1bfde3abbd05153c5a41eed59a56a395b1a8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

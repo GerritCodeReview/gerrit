@@ -166,7 +166,7 @@ public class PureRevertCache {
         Project.NameKey project = Project.nameKey(key.getProject());
 
         try (Repository repo = repoManager.openRepository(project);
-            ObjectInserter oi = repo.newObjectInserter();
+            ObjectInserter ins = new InMemoryInserter(repo);
             RevWalk rw = new RevWalk(repo)) {
           RevCommit claimedOriginalCommit;
           try {
@@ -185,7 +185,7 @@ public class PureRevertCache {
           ThreeWayMerger merger =
               mergeUtilFactory
                   .create(projectCache.get(project).orElseThrow(illegalState(project)))
-                  .newThreeWayMerger(oi, repo);
+                  .newThreeWayMerger(ins, repo);
           merger.setBase(claimedRevertCommit.getParent(0));
           boolean success = merger.merge(claimedRevertCommit, claimedOriginalCommit);
           if (!success || merger.getResultTreeId() == null) {
@@ -196,7 +196,7 @@ public class PureRevertCache {
           // Any differences between claimed original's parent and the rebase result indicate that
           // the claimedRevert is not a pure revert but made content changes
           try (DiffFormatter df = new DiffFormatter(DisabledOutputStream.INSTANCE)) {
-            df.setReader(oi.newReader(), repo.getConfig());
+            df.setReader(ins.newReader(), repo.getConfig());
             List<DiffEntry> entries =
                 df.scan(claimedOriginalCommit.getParent(0), merger.getResultTreeId());
             return entries.isEmpty();

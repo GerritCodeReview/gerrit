@@ -26,7 +26,9 @@ import static com.google.gerrit.extensions.client.ListChangesOption.MESSAGES;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
+import com.google.gerrit.extensions.common.ReviewerUpdateInfo;
 
+import java.util.Collection;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
@@ -52,6 +54,8 @@ import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.api.changes.ReviewerInput;
+import com.google.gerrit.extensions.api.changes.ReviewerResult;
 import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.DraftHandling;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
@@ -852,6 +856,32 @@ public class ImpersonationIT extends AbstractDaemonTest {
     assertThat(info.messages).hasSize(2);
 
     assertLastChangeMessage(r.getChange(), in.message, user, accountCreator.user2());
+  }
+
+  @Test
+  public void addReviewerOnBehalfOf() throws Exception {
+    allowRunAs();
+    TestAccount realUser = admin;
+    TestAccount impersonatedUser = user;
+    TestAccount reviewer = admin2;
+    PushOneCommit.Result r = createChange();
+    assertThat(gApi.changes().id(r.getChangeId()).get(MESSAGES).messages).hasSize(1);
+
+    ReviewerInput in = new ReviewerInput();
+    in.reviewer = reviewer.email();
+    in.onBehalfOf = impersonatedUser.id().toString();
+    ReviewerResult result = gApi.changes().id(r.getChangeId()).addReviewer(in);
+
+    assertThat(result.reviewers).hasSize(1);
+    assertThat(result.reviewers.get(0)._accountId).isEqualTo(reviewer.id().get());
+
+    Collection<ReviewerUpdateInfo> reviewerUpdates =
+        gApi.changes().id(r.getChangeId()).get().reviewerUpdates;
+    assertThat(reviewerUpdates).hasSize(1);
+    ReviewerUpdateInfo reviewerUpdate = reviewerUpdates.iterator().next();
+    assertThat(reviewerUpdate.updatedBy._accountId).isEqualTo(impersonatedUser.id().get());
+    assertThat(reviewerUpdate.reviewer._accountId).isEqualTo(reviewer.id().get());
+    assertThat(reviewerUpdate.realUpdatedBy._accountId).isEqualTo(realUser.id().get());
   }
 
   private void assertLastChangeMessage(

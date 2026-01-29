@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6a9062a4_7469f1f9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-01-29T12:58:10Z",
+      "side": 1,
+      "message": "There is some python tool in patchset",
+      "revId": "729e1bfde3abbd05153c5a41eed59a56a395b1a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d2312cf6_fa778b0c",
+        "filename": "polygerrit-ui/app/api/rest-api.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 1107,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-01-29T12:58:10Z",
+      "side": 1,
+      "message": "Probably https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#review-update-info needs to be updated",
+      "revId": "729e1bfde3abbd05153c5a41eed59a56a395b1a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

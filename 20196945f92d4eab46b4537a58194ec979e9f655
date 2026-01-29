@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a564b0f1_0fd07f53",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-01-29T15:54:45Z",
+      "side": 1,
+      "message": "```suggestion\nRecords have the benefit of being supported natively, have a\n```",
+      "range": {
+        "startLine": 11,
+        "startChar": 28,
+        "endLine": 11,
+        "endChar": 33
+      },
+      "revId": "20196945f92d4eab46b4537a58194ec979e9f655",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b69a66ed_56596f1f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-01-29T15:54:45Z",
+      "side": 1,
+      "message": "Records are serializable only when implementing Serializable (which we are not here), though [1].\nDoes `Gson` know how to serialise `ImmutableList\u003cString\u003e patterns` OOTB?\n\n[1] https://download.java.net/java/early_access/valhalla/docs/api/java.base/java/lang/Record.html#:~:text\u003dA%20record%20class%20that%20implements,to%20construct%20the%20record%20object.",
+      "range": {
+        "startLine": 12,
+        "startChar": 19,
+        "endLine": 12,
+        "endChar": 43
+      },
+      "revId": "20196945f92d4eab46b4537a58194ec979e9f655",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7220d522_c28b8bc2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-01-29T15:54:45Z",
+      "side": 1,
+      "message": "If the intent of this change is to get get Gson serialization working out of the box for this key, should we add a test to cover this expectation?",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 36
+      },
+      "revId": "20196945f92d4eab46b4537a58194ec979e9f655",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "93740152_9b254d0f",
+        "filename": "java/com/google/gerrit/server/permissions/SectionSortCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-01-29T15:54:45Z",
+      "side": 1,
+      "message": "Since `EntryKey` is not an `AutoValue` anymore, is this `Memoized` (`import com.google.auto.value.extension.memoized.Memoized`) still functioning as expected?",
+      "range": {
+        "startLine": 135,
+        "startChar": 0,
+        "endLine": 135,
+        "endChar": 13
+      },
+      "revId": "20196945f92d4eab46b4537a58194ec979e9f655",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

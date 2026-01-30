@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "abe57bfb_5e94983c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-01-30T11:03:26Z",
+      "side": 1,
+      "message": "Can you expand a bit on how it would fail? Would it throw an exception or just deserialize it incorrectly?",
+      "range": {
+        "startLine": 9,
+        "startChar": 54,
+        "endLine": 10,
+        "endChar": 21
+      },
+      "revId": "edea77db025bb9edfa915d67c50dc975a7282a68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6c8127e9_8762b557",
+        "filename": "java/com/google/gerrit/json/ImmutableListTypeAdapter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-01-30T11:03:26Z",
+      "side": 1,
+      "message": "Isn\u0027t this going to match also `ImmutableList\u003c?\u003e`?\nThe `getActualTypeArguments().length` is still `1`, and it will pick `?`?\n\nCan you add a test to cover ImmutableList with wildcard (de)serialisations?",
+      "range": {
+        "startLine": 41,
+        "startChar": 10,
+        "endLine": 41,
+        "endChar": 64
+      },
+      "revId": "edea77db025bb9edfa915d67c50dc975a7282a68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "42309170_71ccf49c",
+        "filename": "java/com/google/gerrit/json/ImmutableListTypeAdapter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-01-30T11:03:26Z",
+      "side": 1,
+      "message": "Can `jsonArrayElement` ever be `null`? If not, should we annotate it as such?",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 45,
+        "endChar": 22
+      },
+      "revId": "edea77db025bb9edfa915d67c50dc975a7282a68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6c78cd3d_b390ed94",
+        "filename": "java/com/google/gerrit/json/ImmutableListTypeAdapter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-01-30T11:03:26Z",
+      "side": 1,
+      "message": "What if element is `null` will this throw an NPE?\nShould be easy to add a test for it.",
+      "range": {
+        "startLine": 49,
+        "startChar": 0,
+        "endLine": 50,
+        "endChar": 37
+      },
+      "revId": "edea77db025bb9edfa915d67c50dc975a7282a68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fcb7c281_0b3315e1",
+        "filename": "java/com/google/gerrit/json/ImmutableListTypeAdapter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-01-30T11:03:26Z",
+      "side": 1,
+      "message": "```suggestion\n      throw new JsonParseException(\"ImmutableList\u003c?\u003e expected to have a parameterized type\");\n```",
+      "range": {
+        "startLine": 54,
+        "startChar": 72,
+        "endLine": 54,
+        "endChar": 84
+      },
+      "revId": "edea77db025bb9edfa915d67c50dc975a7282a68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

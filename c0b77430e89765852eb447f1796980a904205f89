@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5de39a35_7543ebe6",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-access/gr-repo-access_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 406,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2026-01-30T11:29:36Z",
+      "side": 1,
+      "message": "Why were this tests not failing before?\n\nAlso do we even want this kind of test? What\u0027s the value in verifying the wording on the button. It doesn\u0027t appear that there is any logic for calculating it\u0027s value",
+      "range": {
+        "startLine": 403,
+        "startChar": 6,
+        "endLine": 406,
+        "endChar": 8
+      },
+      "revId": "c0b77430e89765852eb447f1796980a904205f89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b0dcecba_6c9978c0",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1543,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2026-01-30T11:29:36Z",
+      "side": 1,
+      "message": "What\u0027s the purpse of ++ here. Can we remove it?",
+      "range": {
+        "startLine": 1543,
+        "startChar": 34,
+        "endLine": 1543,
+        "endChar": 36
+      },
+      "revId": "c0b77430e89765852eb447f1796980a904205f89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -93,6 +93,30 @@
       },
       "revId": "c0b77430e89765852eb447f1796980a904205f89",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "da6c15bb_29dd6e08",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1543,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2026-01-30T13:20:21Z",
+      "side": 1,
+      "message": "In previous test there are several elements, which make senses. It looks like this test was created by copying other ones, but there is only one element in rednerInOrder so this assert doesn\u0027t do anything. We should be able to remove it (along with callCount) in this specific test.",
+      "parentUuid": "bb74356d_8bafd2f9",
+      "range": {
+        "startLine": 1543,
+        "startChar": 34,
+        "endLine": 1543,
+        "endChar": 36
+      },
+      "revId": "c0b77430e89765852eb447f1796980a904205f89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

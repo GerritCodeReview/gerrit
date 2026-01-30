@@ -1519,7 +1519,10 @@ suite('gr-file-list tests', () => {
           },
         },
       ] as any;
-      element.renderInOrder([{path: 'p2'}, {path: 'p1'}, {path: 'p0'}], diffs);
+      await element.renderInOrder(
+        [{path: 'p2'}, {path: 'p1'}, {path: 'p0'}],
+        diffs
+      );
       await element.updateComplete;
       assert.isFalse(reviewStub.called);
     });
@@ -1536,13 +1539,13 @@ suite('gr-file-list tests', () => {
           style: {},
           prefetchDiff() {},
           reload() {
-            assert.equal(reviewStub.callCount, 0);
+            assert.equal(reviewStub.callCount, 1);
             assert.equal(callCount++, 0);
             return Promise.resolve();
           },
         },
       ] as any;
-      element.renderInOrder([{path: 'p2'}], diffs);
+      await element.renderInOrder([{path: 'p2'}], diffs);
       await element.updateComplete;
       assert.equal(reviewStub.callCount, 1);
     });
@@ -1577,11 +1580,11 @@ suite('gr-file-list tests', () => {
         },
       ] as any;
 
-      element.renderInOrder([{path: 'p'}], diffs);
+      await element.renderInOrder([{path: 'p'}], diffs);
       await element.updateComplete;
       assert.isFalse(reviewStub.called);
       delete element.diffPrefs.manual_review;
-      element.renderInOrder([{path: 'p'}], diffs);
+      await element.renderInOrder([{path: 'p'}], diffs);
       await element.updateComplete;
       // Wait for renderInOrder to finish
       await waitEventLoop();

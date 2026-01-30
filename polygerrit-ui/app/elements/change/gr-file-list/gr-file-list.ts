@@ -90,6 +90,7 @@ import {
   formatBytes,
 } from '../../../utils/file-util';
 import {ChecksIcon, iconFor} from '../../../models/checks/checks-util';
+import {PerformanceMixin} from '../../../mixins/performance-mixin';
 
 export const DEFAULT_NUM_FILES_SHOWN = 200;
 
@@ -176,7 +177,7 @@ declare global {
   }
 }
 @customElement('gr-file-list')
-export class GrFileList extends LitElement {
+export class GrFileList extends PerformanceMixin(LitElement) {
   @query('#diffPreferencesDialog')
   diffPreferencesDialog?: GrDiffPreferencesDialog;
 

@@ -164,8 +164,10 @@ const TRAILING_WHITESPACE_REGEX = /[ \t]+$/gm;
 
 const PREFIX = '#message-';
 
+import {PerformanceMixin} from '../../../mixins/performance-mixin';
+
 @customElement('gr-change-view')
-export class GrChangeView extends LitElement {
+export class GrChangeView extends PerformanceMixin(LitElement) {
   /**
    * Fired if an error occurs when fetching the change data.
    *

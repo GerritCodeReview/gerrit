@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bc15ec3c_829cd08e",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-access/gr-repo-access_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 406,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-01-30T13:09:52Z",
+      "side": 1,
+      "message": "Good point, we were not waiting for this methods so test passed and then this just thrown error. Adding await.",
+      "parentUuid": "5de39a35_7543ebe6",
+      "range": {
+        "startLine": 403,
+        "startChar": 6,
+        "endLine": 406,
+        "endChar": 8
+      },
+      "revId": "c0b77430e89765852eb447f1796980a904205f89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b0dcecba_6c9978c0",
@@ -37,6 +61,30 @@
       "writtenOn": "2026-01-30T11:29:36Z",
       "side": 1,
       "message": "What\u0027s the purpse of ++ here. Can we remove it?",
+      "range": {
+        "startLine": 1543,
+        "startChar": 34,
+        "endLine": 1543,
+        "endChar": 36
+      },
+      "revId": "c0b77430e89765852eb447f1796980a904205f89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bb74356d_8bafd2f9",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1543,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-01-30T13:09:52Z",
+      "side": 1,
+      "message": "It looks like test it with it checking order. I would leave it there.",
+      "parentUuid": "b0dcecba_6c9978c0",
       "range": {
         "startLine": 1543,
         "startChar": 34,

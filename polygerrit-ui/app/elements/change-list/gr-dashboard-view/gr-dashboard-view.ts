@@ -40,6 +40,8 @@ import {ChangeListSection} from '../gr-change-list/gr-change-list';
 import {a11yStyles} from '../../../styles/gr-a11y-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {css, html, LitElement, nothing} from 'lit';
+import {PerformanceMixin} from '../../../mixins/performance-mixin';
+
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {assertIsDefined} from '../../../utils/common-util';
 import {Shortcut} from '../../../services/shortcuts/shortcuts-config';
@@ -70,7 +72,7 @@ const slotNameBySectionName = new Map<string, string>([
 ]);
 
 @customElement('gr-dashboard-view')
-export class GrDashboardView extends LitElement {
+export class GrDashboardView extends PerformanceMixin(LitElement) {
   @query('#confirmDeleteDialog') protected confirmDeleteDialog?: GrDialog;
 
   @query('#commandsDialog') protected commandsDialog?: GrCreateCommandsDialog;

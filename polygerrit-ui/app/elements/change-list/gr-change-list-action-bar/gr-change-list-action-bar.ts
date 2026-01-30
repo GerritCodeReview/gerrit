@@ -4,6 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {css, html, LitElement, nothing} from 'lit';
+import {PerformanceMixin} from '../../../mixins/performance-mixin';
+
 import {customElement, state} from 'lit/decorators.js';
 import {bulkActionsModelToken} from '../../../models/bulk-actions/bulk-actions-model';
 import {resolve} from '../../../models/dependency';
@@ -21,7 +23,7 @@ import '../gr-change-list-copy-link-flow/gr-change-list-copy-link-flow';
  * will be used inside a <tr> element.
  */
 @customElement('gr-change-list-action-bar')
-export class GrChangeListActionBar extends LitElement {
+export class GrChangeListActionBar extends PerformanceMixin(LitElement) {
   static override get styles() {
     return css`
       :host {

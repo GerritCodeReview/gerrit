@@ -17,6 +17,8 @@ import {fire, fireAlert, fireTitleChange} from '../../../utils/event-util';
 import {getAppContext} from '../../../services/app-context';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {css, html, LitElement, nothing, PropertyValues} from 'lit';
+import {PerformanceMixin} from '../../../mixins/performance-mixin';
+
 import {customElement, query, state} from 'lit/decorators.js';
 import {
   createSearchUrl,
@@ -30,7 +32,7 @@ import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 const LIMIT_OPERATOR_PATTERN = /\blimit:(\d+)/i;
 
 @customElement('gr-change-list-view')
-export class GrChangeListView extends LitElement {
+export class GrChangeListView extends PerformanceMixin(LitElement) {
   @query('#prevArrow') protected prevArrow?:
     | HTMLAnchorElement
     | HTMLSpanElement;

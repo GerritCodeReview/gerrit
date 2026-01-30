@@ -171,8 +171,10 @@ const ButtonTooltips = {
 
 const EMPTY_REPLY_MESSAGE = 'Cannot send an empty reply.';
 
+import {PerformanceMixin} from '../../../mixins/performance-mixin';
+
 @customElement('gr-reply-dialog')
-export class GrReplyDialog extends LitElement {
+export class GrReplyDialog extends PerformanceMixin(LitElement) {
   FocusTarget = FocusTarget;
 
   private readonly reporting = getAppContext().reportingService;
@@ -756,6 +758,7 @@ export class GrReplyDialog extends LitElement {
   }
 
   override willUpdate(changedProperties: PropertyValues) {
+    super.willUpdate(changedProperties);
     if (changedProperties.has('ccPendingConfirmation')) {
       this.pendingConfirmationUpdated(this.ccPendingConfirmation);
     }

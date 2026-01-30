@@ -29,6 +29,8 @@ import {changeListStyles} from '../../../styles/gr-change-list-styles';
 import {fontStyles} from '../../../styles/gr-font-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {css, html, LitElement, nothing, PropertyValues} from 'lit';
+import {PerformanceMixin} from '../../../mixins/performance-mixin';
+
 import {customElement, property, state} from 'lit/decorators.js';
 import {Shortcut, ShortcutController} from '../../lit/shortcut-controller';
 import {queryAll} from '../../../utils/common-util';
@@ -83,7 +85,7 @@ export function computeRelativeIndex(
 }
 
 @customElement('gr-change-list')
-export class GrChangeList extends LitElement {
+export class GrChangeList extends PerformanceMixin(LitElement) {
   /**
    * The logged-in user's account, or an empty object if no user is logged
    * in.
@@ -302,6 +304,7 @@ export class GrChangeList extends LitElement {
   }
 
   override willUpdate(changedProperties: PropertyValues) {
+    super.willUpdate(changedProperties);
     if (
       changedProperties.has('loggedInUser') ||
       changedProperties.has('preferences') ||

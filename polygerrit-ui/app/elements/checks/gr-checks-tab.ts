@@ -26,8 +26,10 @@ import {GrChecksRuns} from './gr-checks-runs';
  * The "Checks" tab on the Gerrit change page. Gets its data from plugins that
  * have registered with the Checks Plugin API.
  */
+import {PerformanceMixin} from '../../mixins/performance-mixin';
+
 @customElement('gr-checks-tab')
-export class GrChecksTab extends LitElement {
+export class GrChecksTab extends PerformanceMixin(LitElement) {
   @query('.runs')
   checksRuns?: GrChecksRuns;
 

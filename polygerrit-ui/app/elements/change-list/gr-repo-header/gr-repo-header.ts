@@ -10,12 +10,14 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {fontStyles} from '../../../styles/gr-font-styles';
 import {dashboardHeaderStyles} from '../../../styles/dashboard-header-styles';
 import {css, html, LitElement, PropertyValues} from 'lit';
+import {PerformanceMixin} from '../../../mixins/performance-mixin';
+
 import {customElement, property, state} from 'lit/decorators.js';
 import {createRepoUrl} from '../../../models/views/repo';
 import '../../shared/gr-weblink/gr-weblink';
 
 @customElement('gr-repo-header')
-export class GrRepoHeader extends LitElement {
+export class GrRepoHeader extends PerformanceMixin(LitElement) {
   @property({type: String})
   repo?: RepoName;
 
@@ -66,6 +68,7 @@ export class GrRepoHeader extends LitElement {
   }
 
   override willUpdate(changedProperties: PropertyValues) {
+    super.willUpdate(changedProperties);
     if (changedProperties.has('repo')) {
       if (this.repo) {
         this.repoUrl = createRepoUrl({repo: this.repo});

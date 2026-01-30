@@ -41,8 +41,10 @@ const iconForFlowStageState = (status: FlowStageState) => {
   }
 };
 
+import {PerformanceMixin} from '../../../mixins/performance-mixin';
+
 @customElement('gr-flows')
-export class GrFlows extends LitElement {
+export class GrFlows extends PerformanceMixin(LitElement) {
   @query('#deleteFlowModal')
   deleteFlowModal?: HTMLDialogElement;
 

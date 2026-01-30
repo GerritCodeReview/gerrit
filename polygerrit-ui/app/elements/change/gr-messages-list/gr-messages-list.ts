@@ -244,8 +244,10 @@ export const TEST_ONLY = {
   computeIsImportant,
 };
 
+import {PerformanceMixin} from '../../../mixins/performance-mixin';
+
 @customElement('gr-messages-list')
-export class GrMessagesList extends LitElement {
+export class GrMessagesList extends PerformanceMixin(LitElement) {
   // TODO: Evaluate if we still need to have display: flex on the :host and
   // .header.
   static override get styles() {
@@ -351,6 +353,7 @@ export class GrMessagesList extends LitElement {
   }
 
   override willUpdate(changedProperties: PropertyValues): void {
+    super.willUpdate(changedProperties);
     if (
       changedProperties.has('messages') ||
       changedProperties.has('reviewerUpdates') ||

@@ -3,7 +3,9 @@
  * Copyright 2022 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
+import {PerformanceMixin} from '../../../mixins/performance-mixin';
 import {css, html, LitElement, PropertyValues} from 'lit';
+
 import {customElement, property, state} from 'lit/decorators.js';
 import {ChangeListSection} from '../gr-change-list/gr-change-list';
 import '../gr-change-list-action-bar/gr-change-list-action-bar';
@@ -55,7 +57,7 @@ export function computeLabelShortcut(labelName: string) {
 }
 
 @customElement('gr-change-list-section')
-export class GrChangeListSection extends LitElement {
+export class GrChangeListSection extends PerformanceMixin(LitElement) {
   @property({type: Array})
   visibleChangeTableColumns?: string[];
 
@@ -205,6 +207,7 @@ export class GrChangeListSection extends LitElement {
   }
 
   override willUpdate(changedProperties: PropertyValues) {
+    super.willUpdate(changedProperties);
     if (changedProperties.has('changeSection') && this.isLoggedIn) {
       // In case the list of changes is updated due to auto reloading, we want
       // to ensure the model removes any stale change that is not a part of the

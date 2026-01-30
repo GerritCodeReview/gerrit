@@ -22,6 +22,8 @@ import {computeMainCodeBrowserWeblink} from '../../../utils/weblink-util';
 import {shorten} from '../../../utils/patch-set-util';
 import {when} from 'lit/directives/when.js';
 
+import {PerformanceMixin} from '../../../mixins/performance-mixin';
+
 declare global {
   interface HTMLElementTagNameMap {
     'gr-commit-info': GrCommitInfo;
@@ -29,7 +31,7 @@ declare global {
 }
 
 @customElement('gr-commit-info')
-export class GrCommitInfo extends LitElement {
+export class GrCommitInfo extends PerformanceMixin(LitElement) {
   @property({type: Object})
   commitInfo?: Partial<CommitInfo>;
 

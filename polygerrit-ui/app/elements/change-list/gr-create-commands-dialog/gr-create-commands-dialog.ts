@@ -7,6 +7,8 @@ import '../../shared/gr-dialog/gr-dialog';
 import '../../shared/gr-shell-command/gr-shell-command';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {css, html, LitElement} from 'lit';
+import {PerformanceMixin} from '../../../mixins/performance-mixin';
+
 import {customElement, property, query} from 'lit/decorators.js';
 import {modalStyles} from '../../../styles/gr-modal-styles';
 
@@ -23,7 +25,7 @@ declare global {
 }
 
 @customElement('gr-create-commands-dialog')
-export class GrCreateCommandsDialog extends LitElement {
+export class GrCreateCommandsDialog extends PerformanceMixin(LitElement) {
   @query('#commandsModal')
   commandsModal?: HTMLDialogElement;
 

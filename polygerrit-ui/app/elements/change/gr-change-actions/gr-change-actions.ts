@@ -335,9 +335,11 @@ interface ActionPriorityOverride {
   priority: ActionPriority;
 }
 
+import {PerformanceMixin} from '../../../mixins/performance-mixin';
+
 @customElement('gr-change-actions')
 export class GrChangeActions
-  extends LitElement
+  extends PerformanceMixin(LitElement)
   implements GrChangeActionsElement
 {
   /**
@@ -882,6 +884,7 @@ export class GrChangeActions
   }
 
   override willUpdate(changedProperties: PropertyValues) {
+    super.willUpdate(changedProperties);
     if (changedProperties.has('change')) {
       this.reload();
       this.actions = this.change?.actions ?? {};

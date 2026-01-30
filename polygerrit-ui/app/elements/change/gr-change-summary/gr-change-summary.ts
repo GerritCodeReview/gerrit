@@ -63,8 +63,10 @@ DETAILS_QUOTA.set(Category.INFO, 2);
 DETAILS_QUOTA.set(Category.SUCCESS, 2);
 DETAILS_QUOTA.set(RunStatus.RUNNING, 2);
 
+import {PerformanceMixin} from '../../../mixins/performance-mixin';
+
 @customElement('gr-change-summary')
-export class GrChangeSummary extends LitElement {
+export class GrChangeSummary extends PerformanceMixin(LitElement) {
   @state()
   commentsLoading = true;
 

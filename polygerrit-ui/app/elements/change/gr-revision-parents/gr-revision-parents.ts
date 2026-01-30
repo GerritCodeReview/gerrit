@@ -27,8 +27,10 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {configModelToken} from '../../../models/config/config-model';
 import {getDocUrl} from '../../../utils/url-util';
 
+import {PerformanceMixin} from '../../../mixins/performance-mixin';
+
 @customElement('gr-revision-parents')
-export class GrRevisionParents extends LitElement {
+export class GrRevisionParents extends PerformanceMixin(LitElement) {
   @state() repo?: RepoName;
 
   @state() revision?: RevisionInfo;

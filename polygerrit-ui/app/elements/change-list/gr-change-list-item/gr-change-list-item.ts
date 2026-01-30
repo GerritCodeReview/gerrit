@@ -30,6 +30,7 @@ import {
 import {assertIsDefined, hasOwnProperty} from '../../../utils/common-util';
 import {changeListStyles} from '../../../styles/gr-change-list-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
+import {PerformanceMixin} from '../../../mixins/performance-mixin';
 import {css, html, LitElement, PropertyValues} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
 import {submitRequirementsStyles} from '../../../styles/gr-submit-requirements-styles';
@@ -75,7 +76,7 @@ declare global {
 }
 
 @customElement('gr-change-list-item')
-export class GrChangeListItem extends LitElement {
+export class GrChangeListItem extends PerformanceMixin(LitElement) {
   /** The logged-in user's account, or undefined if no user is logged in. */
   @property({type: Object})
   loggedInUser?: AccountInfo;
@@ -179,6 +180,7 @@ export class GrChangeListItem extends LitElement {
   }
 
   override willUpdate(changedProperties: PropertyValues<this>) {
+    super.willUpdate(changedProperties);
     // When the cursor selects this item, give it focus so that the item is read
     // out by screen readers and lets users start tabbing through the item
     if (this.selected && changedProperties.has('selected')) {

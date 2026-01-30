@@ -8,6 +8,8 @@ import '../../shared/gr-repo-branch-picker/gr-repo-branch-picker';
 import {BranchName, RepoName} from '../../../types/common';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {html, LitElement} from 'lit';
+import {PerformanceMixin} from '../../../mixins/performance-mixin';
+
 import {customElement, query, state} from 'lit/decorators.js';
 import {assertIsDefined} from '../../../utils/common-util';
 import {BindValueChangeEvent} from '../../../types/events';
@@ -20,7 +22,7 @@ export interface CreateDestinationConfirmDetail {
 }
 
 @customElement('gr-create-destination-dialog')
-export class GrCreateDestinationDialog extends LitElement {
+export class GrCreateDestinationDialog extends PerformanceMixin(LitElement) {
   /**
    * Fired when a destination has been picked. Event details contain the repo
    * name and the branch name.

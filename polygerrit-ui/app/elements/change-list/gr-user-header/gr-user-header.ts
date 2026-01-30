@@ -14,6 +14,8 @@ import {dashboardHeaderStyles} from '../../../styles/dashboard-header-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {fontStyles} from '../../../styles/gr-font-styles';
 import {css, html, LitElement, PropertyValues} from 'lit';
+import {PerformanceMixin} from '../../../mixins/performance-mixin';
+
 import {customElement, property, state} from 'lit/decorators.js';
 import {
   createDashboardUrl,
@@ -21,7 +23,7 @@ import {
 } from '../../../models/views/dashboard';
 
 @customElement('gr-user-header')
-export class GrUserHeader extends LitElement {
+export class GrUserHeader extends PerformanceMixin(LitElement) {
   @property({type: String})
   userId?: UserId;
 
@@ -105,6 +107,7 @@ export class GrUserHeader extends LitElement {
   }
 
   override willUpdate(changedProperties: PropertyValues) {
+    super.willUpdate(changedProperties);
     if (changedProperties.has('userId')) {
       this.accountChanged(this.userId);
     }

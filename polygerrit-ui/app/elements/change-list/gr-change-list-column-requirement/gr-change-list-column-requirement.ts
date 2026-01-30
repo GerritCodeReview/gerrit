@@ -7,6 +7,8 @@ import '../../change/gr-submit-requirement-dashboard-hovercard/gr-submit-require
 import '../../shared/gr-change-status/gr-change-status';
 import '../../shared/gr-icon/gr-icon';
 import {css, html, LitElement} from 'lit';
+import {PerformanceMixin} from '../../../mixins/performance-mixin';
+
 import {customElement, property} from 'lit/decorators.js';
 import {
   ApprovalInfo,
@@ -32,7 +34,7 @@ import {ifDefined} from 'lit/directives/if-defined.js';
 import {capitalizeFirstLetter} from '../../../utils/string-util';
 
 @customElement('gr-change-list-column-requirement')
-export class GrChangeListColumnRequirement extends LitElement {
+export class GrChangeListColumnRequirement extends PerformanceMixin(LitElement) {
   @property({type: Object})
   change?: ChangeInfo;
 

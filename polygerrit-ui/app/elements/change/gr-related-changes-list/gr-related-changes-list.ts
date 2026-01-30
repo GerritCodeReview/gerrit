@@ -47,8 +47,10 @@ export enum Section {
   CHERRY_PICKS = 'cherry picks',
 }
 
+import {PerformanceMixin} from '../../../mixins/performance-mixin';
+
 @customElement('gr-related-changes-list')
-export class GrRelatedChangesList extends LitElement {
+export class GrRelatedChangesList extends PerformanceMixin(LitElement) {
   @state()
   change?: ParsedChangeInfo;
 

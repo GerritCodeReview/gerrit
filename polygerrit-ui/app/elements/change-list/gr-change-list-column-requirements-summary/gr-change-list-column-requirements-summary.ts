@@ -7,6 +7,8 @@ import '../../change/gr-submit-requirement-dashboard-hovercard/gr-submit-require
 import '../../shared/gr-change-status/gr-change-status';
 import '../../shared/gr-icon/gr-icon';
 import {css, html, LitElement, TemplateResult} from 'lit';
+import {PerformanceMixin} from '../../../mixins/performance-mixin';
+
 import {customElement, property} from 'lit/decorators.js';
 import {ChangeInfo, SubmitRequirementStatus} from '../../../api/rest-api';
 import {changeStatuses} from '../../../utils/change-util';
@@ -19,7 +21,9 @@ import {submitRequirementsStyles} from '../../../styles/gr-submit-requirements-s
 import {pluralize} from '../../../utils/string-util';
 
 @customElement('gr-change-list-column-requirements-summary')
-export class GrChangeListColumnRequirementsSummary extends LitElement {
+export class GrChangeListColumnRequirementsSummary extends PerformanceMixin(
+  LitElement
+) {
   @property({type: Object})
   change?: ChangeInfo;
 

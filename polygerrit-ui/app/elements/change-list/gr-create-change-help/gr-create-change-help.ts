@@ -8,6 +8,8 @@ import '../../shared/gr-icon/gr-icon';
 import {fire} from '../../../utils/event-util';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {css, html, LitElement} from 'lit';
+import {PerformanceMixin} from '../../../mixins/performance-mixin';
+
 import {customElement} from 'lit/decorators.js';
 import {fontStyles} from '../../../styles/gr-font-styles';
 
@@ -22,7 +24,7 @@ declare global {
 }
 
 @customElement('gr-create-change-help')
-export class GrCreateChangeHelp extends LitElement {
+export class GrCreateChangeHelp extends PerformanceMixin(LitElement) {
   static override get styles() {
     return [
       sharedStyles,

@@ -402,7 +402,7 @@ suite('gr-repo-access tests', () => {
       );
       assert.equal(
         queryAndAssert<GrButton>(element, '#editBtn').innerText,
-        'EDIT'
+        'Edit'
       );
       assert.equal(
         getComputedStyle(
@@ -428,7 +428,7 @@ suite('gr-repo-access tests', () => {
       // disabled.
       assert.equal(
         queryAndAssert<GrButton>(element, '#editBtn').innerText,
-        'CANCEL'
+        'Cancel'
       );
       if (shouldShowSaveReview) {
         assert.notEqual(

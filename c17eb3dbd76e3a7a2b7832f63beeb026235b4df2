@@ -34,6 +34,24 @@
       "parentUuid": "a43553ec_7ccbf484",
       "revId": "c17eb3dbd76e3a7a2b7832f63beeb026235b4df2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ad19a22d_668121c5",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-highlight/gr-annotation.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2026-01-30T14:49:55Z",
+      "side": 1,
+      "message": "Ohh something like:\n\n```\n  try {\n    // Attempt the safe assignment. \n    // safevalues validates if \u0027value\u0027 is safe for \u0027name\u0027.\n    setElementAttribute(wrapper, name, value as string);\n  } catch (e) {\n    // If the value is deemed unsafe for a security-sensitive sink \n    // (e.g., a javascript: URL in an \u0027href\u0027), set your fallback value.\n    wrapper.setAttribute(name, \u0027zClosurez\u0027);\n  }\n```",
+      "parentUuid": "9f1912b5_73481c98",
+      "revId": "c17eb3dbd76e3a7a2b7832f63beeb026235b4df2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

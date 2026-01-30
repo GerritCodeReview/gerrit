@@ -412,7 +412,9 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
             requireNonNull(otherUser),
             ImpersonationPermissionMode.THIS_USER);
     ChangeUpdate impersonatedChangeMessageUpdate = newUpdate(c, impersonatedChangeOwner);
-    impersonatedChangeMessageUpdate.setChangeMessage("Other comment on behalf of");
+    impersonatedChangeMessageUpdate.setChangeMessage(
+        "Other comment on behalf of"
+            + "\n\n(Posted by other@account.com on behalf of change@owner.com)");
     impersonatedChangeMessageUpdate.commit();
 
     Ref metaRefBeforeRewrite = repo.exactRef(RefNames.changeMetaRef(c.getId()));
@@ -429,13 +431,19 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
 
     ChangeNotes notesAfterRewrite = newNotes(c);
     assertThat(changeMessages(notesBeforeRewrite))
-        .containsExactly("Comment on behalf of user", "Other comment on behalf of");
+        .containsExactly(
+            "Comment on behalf of user",
+            "Other comment on behalf of"
+                + "\n\n(Posted by other@account.com on behalf of change@owner.com)");
     assertThat(notesBeforeRewrite.getChangeMessages().get(0).getAuthor())
         .isEqualTo(changeOwner.getAccountId());
     assertThat(notesBeforeRewrite.getChangeMessages().get(0).getRealAuthor())
         .isEqualTo(otherUser.getAccountId());
     assertThat(changeMessages(notesAfterRewrite))
-        .containsExactly("Comment on behalf of user", "Other comment on behalf of");
+        .containsExactly(
+            "Comment on behalf of user",
+            "Other comment on behalf of"
+                + "\n\n(Posted by other@account.com on behalf of change@owner.com)");
     assertThat(notesBeforeRewrite.getChangeMessages().get(0).getAuthor())
         .isEqualTo(changeOwner.getAccountId());
     assertThat(notesBeforeRewrite.getChangeMessages().get(0).getRealAuthor())

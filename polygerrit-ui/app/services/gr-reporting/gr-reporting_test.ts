@@ -566,6 +566,22 @@ suite('gr-reporting tests', () => {
       );
     });
   });
+
+  test('console log includes details when value is present', () => {
+    const debugStub = sinon.stub(console, 'debug');
+    try {
+      service._reportEvent({
+        type: 'timing-report',
+        name: 'TestEvent',
+        value: 123,
+        eventDetails: JSON.stringify({foo: 'bar'}),
+      });
+      assert.isTrue(debugStub.calledWithMatch(/: TestEvent: 123 {"foo":"bar"}/));
+    } finally {
+      debugStub.restore();
+    }
+  });
+
 });
 
 suite('InteractionReporter', () => {

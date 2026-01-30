@@ -124,8 +124,10 @@ export interface Files {
   changeFilesByPath: FileNameToNormalizedFileInfoMap;
 }
 
+import {PerformanceMixin} from '../../../mixins/performance-mixin';
+
 @customElement('gr-diff-view')
-export class GrDiffView extends LitElement {
+export class GrDiffView extends PerformanceMixin(LitElement) {
   /**
    * Fired when user tries to navigate away while comments are pending save.
    *

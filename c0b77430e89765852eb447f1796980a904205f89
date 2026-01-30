@@ -117,6 +117,30 @@
       },
       "revId": "c0b77430e89765852eb447f1796980a904205f89",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8bbb5b73_c5ce1d8a",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1543,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-01-30T13:36:54Z",
+      "side": 1,
+      "message": "Sorry, yes here we can remove it",
+      "parentUuid": "da6c15bb_29dd6e08",
+      "range": {
+        "startLine": 1543,
+        "startChar": 34,
+        "endLine": 1543,
+        "endChar": 36
+      },
+      "revId": "c0b77430e89765852eb447f1796980a904205f89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

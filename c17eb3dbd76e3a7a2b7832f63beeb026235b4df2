@@ -16,6 +16,24 @@
       "message": "Would using setElementAttribute work from safevalues @milutin@google.com?\n\n```\nsetElementAttribute(wrapper, name, value);\n```\n\n?\n\nOnly problem is it throws an error if it can\u0027t set it e.g.\n\n```\nconst el \u003d document.createElement(\u0027span\u0027);\nel.textContent \u003d \u0027Hover me\u0027;\n\nsetElementAttribute(el, \u0027onclick\u0027, \u0027alert(1)\u0027);\n\n\u003e Error: Attribute \"onclick\" looks like an event handler attribute. Please use a safe alternative like addEventListener instead.\n```\n\nSo would have to be a try and catch although with getSanitizeDOMValue sanitizer you could still set it, just the value is replaced with zClosurez.\n\ni dugged in the code and think polymer.resin sets the value used by getSanitizeDOMValue.\n\nhttps://github.com/Polymer/polymer-resin/blob/a8831db6d3d18ac6c78e873ebe23f0acd08535c0/polymer3-resin.js#L37\n\n\nhttps://github.com/Polymer/polymer-resin/blob/a8831db6d3d18ac6c78e873ebe23f0acd08535c0/polymer-resin.js#L114",
       "revId": "c17eb3dbd76e3a7a2b7832f63beeb026235b4df2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9f1912b5_73481c98",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-highlight/gr-annotation.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2026-01-30T14:43:36Z",
+      "side": 1,
+      "message": "```\n// Grab the sanitizer Polymer uses\nconst sanitizer \u003d Polymer \u0026\u0026 Polymer.sanitizeDOMValue\n  ? Polymer.sanitizeDOMValue\n  : window.getSanitizeDOMValue?.();\n\nconsole.log(\u0027Sanitizer function:\u0027, sanitizer);\n\n// Create a test element\nconst wrapper \u003d document.createElement(\u0027a\u0027);\n\n// Try a few attributes\nconst attributes \u003d {\n  title: \u0027Hello world\u0027,\n  onclick: \u0027alert(1)\u0027,\n  href: \u0027javascript:alert(1)\u0027,\n  href2: \u0027https://example.com\u0027\n};\n\nfor (const [name, value] of Object.entries(attributes)) {\n  try {\n    const sanitized \u003d sanitizer\n      ? sanitizer(value, name, \u0027attribute\u0027, wrapper)\n      : value;\n\n    console.log(\n      `attr\u003d\"${name}\"`,\n      \u0027input \u003d\u0027, value,\n      \u0027→ sanitized \u003d\u0027, sanitized\n    );\n\n    if (sanitized !\u003d null) {\n      wrapper.setAttribute(name, sanitized);\n    }\n  } catch (e) {\n    console.error(`attr\u003d\"${name}\" threw`, e);\n  }\n}\n\nwrapper.textContent \u003d \u0027Test link\u0027;\ndocument.body.appendChild(wrapper);\n\n```\n\nto put down some code to show Polymer.sanitizeDOMValue.",
+      "parentUuid": "a43553ec_7ccbf484",
+      "revId": "c17eb3dbd76e3a7a2b7832f63beeb026235b4df2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

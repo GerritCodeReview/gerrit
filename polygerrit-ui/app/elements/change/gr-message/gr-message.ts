@@ -70,8 +70,10 @@ export interface MessageAnchorTapDetail {
   id: ChangeMessageId;
 }
 
+import {PerformanceMixin} from '../../../mixins/performance-mixin';
+
 @customElement('gr-message')
-export class GrMessage extends LitElement {
+export class GrMessage extends PerformanceMixin(LitElement) {
   /**
    * Fired when this message's reply link is tapped.
    *

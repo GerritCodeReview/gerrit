@@ -48,8 +48,10 @@ export interface DiffPreview {
   preview: DiffInfo;
 }
 
+import {PerformanceMixin} from '../../../mixins/performance-mixin';
+
 @customElement('gr-apply-fix-dialog')
-export class GrApplyFixDialog extends LitElement {
+export class GrApplyFixDialog extends PerformanceMixin(LitElement) {
   @query('#applyFixModal')
   applyFixModal?: HTMLDialogElement;
 

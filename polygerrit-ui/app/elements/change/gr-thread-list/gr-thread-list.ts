@@ -129,8 +129,10 @@ export function compareThreads(
   return 0;
 }
 
+import {PerformanceMixin} from '../../../mixins/performance-mixin';
+
 @customElement('gr-thread-list')
-export class GrThreadList extends LitElement {
+export class GrThreadList extends PerformanceMixin(LitElement) {
   @queryAll('gr-comment-thread')
   threadElements?: NodeListOf<GrCommentThread>;
 
@@ -218,6 +220,7 @@ export class GrThreadList extends LitElement {
   }
 
   override willUpdate(changed: PropertyValues) {
+    super.willUpdate(changed);
     if (changed.has('commentTabState')) this.onCommentTabStateUpdate();
     if (changed.has('scrollCommentId')) this.onScrollCommentIdUpdate();
   }

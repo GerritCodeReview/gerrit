@@ -43,8 +43,10 @@ import {changeModelToken} from '../../../models/change/change-model';
 import {PatchRangeChangeEvent} from '../../diff/gr-patch-range-select/gr-patch-range-select';
 import {classMap} from 'lit/directives/class-map.js';
 
+import {PerformanceMixin} from '../../../mixins/performance-mixin';
+
 @customElement('gr-file-list-header')
-export class GrFileListHeader extends LitElement {
+export class GrFileListHeader extends PerformanceMixin(LitElement) {
   @property({type: Object})
   account: AccountInfo | undefined;
 

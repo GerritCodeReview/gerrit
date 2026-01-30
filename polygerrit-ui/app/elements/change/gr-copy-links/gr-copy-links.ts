@@ -26,8 +26,10 @@ export interface CopyLink {
 const AWAIT_MAX_ITERS = 10;
 const AWAIT_STEP = 5;
 
+import {PerformanceMixin} from '../../../mixins/performance-mixin';
+
 @customElement('gr-copy-links')
-export class GrCopyLinks extends LitElement {
+export class GrCopyLinks extends PerformanceMixin(LitElement) {
   copyClipboardRef: Ref<GrCopyClipboard> = createRef();
 
   @property({type: Array})

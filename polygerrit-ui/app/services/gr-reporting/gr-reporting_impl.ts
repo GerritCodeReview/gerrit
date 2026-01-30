@@ -473,9 +473,15 @@ export class GrReporting implements ReportingService, Finalizable {
     }
     if (type !== ERROR.TYPE) {
       if (value !== undefined) {
-        console.debug(
-          `Reporting(${new Date().toISOString()}): ${name}: ${value}`
-        );
+        if (eventDetails !== undefined) {
+          console.debug(
+            `Reporting(${new Date().toISOString()}): ${name}: ${value} ${eventDetails}`
+          );
+        } else {
+          console.debug(
+            `Reporting(${new Date().toISOString()}): ${name}: ${value}`
+          );
+        }
       } else if (eventDetails !== undefined) {
         console.debug(
           `Reporting(${new Date().toISOString()}): ${name}: ${eventDetails}`

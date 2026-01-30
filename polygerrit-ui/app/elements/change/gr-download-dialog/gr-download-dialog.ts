@@ -28,8 +28,10 @@ import {fireError} from '../../../utils/event-util';
 
 type DownloadKind = 'zip' | 'raw' | 'base64';
 
+import {PerformanceMixin} from '../../../mixins/performance-mixin';
+
 @customElement('gr-download-dialog')
-export class GrDownloadDialog extends LitElement {
+export class GrDownloadDialog extends PerformanceMixin(LitElement) {
   /**
    * Fired when the user presses the close button.
    *
@@ -241,6 +243,7 @@ export class GrDownloadDialog extends LitElement {
   }
 
   override willUpdate(changedProperties: PropertyValues) {
+    super.willUpdate(changedProperties);
     if (changedProperties.has('change') || changedProperties.has('patchNum')) {
       this.schemesChanged();
     }

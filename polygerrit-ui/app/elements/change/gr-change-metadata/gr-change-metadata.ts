@@ -125,8 +125,10 @@ interface PushCertificateValidationInfo {
   message: string;
 }
 
+import {PerformanceMixin} from '../../../mixins/performance-mixin';
+
 @customElement('gr-change-metadata')
-export class GrChangeMetadata extends LitElement {
+export class GrChangeMetadata extends PerformanceMixin(LitElement) {
   @query('#webLinks') webLinks?: HTMLElement;
 
   // TODO: Convert to @state. That requires the change model to keep track of
@@ -796,6 +798,7 @@ export class GrChangeMetadata extends LitElement {
   }
 
   override willUpdate(changedProperties: PropertyValues) {
+    super.willUpdate(changedProperties);
     if (changedProperties.has('account')) {
       this.mutable = this.computeIsMutable();
     }

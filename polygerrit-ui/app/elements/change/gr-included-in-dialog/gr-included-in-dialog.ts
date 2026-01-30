@@ -22,8 +22,10 @@ interface DisplayGroup {
   items: string[];
 }
 
+import {PerformanceMixin} from '../../../mixins/performance-mixin';
+
 @customElement('gr-included-in-dialog')
-export class GrIncludedInDialog extends LitElement {
+export class GrIncludedInDialog extends PerformanceMixin(LitElement) {
   /**
    * Fired when the user presses the close button.
    *
@@ -158,6 +160,7 @@ export class GrIncludedInDialog extends LitElement {
   }
 
   override willUpdate(changedProperties: PropertyValues) {
+    super.willUpdate(changedProperties);
     if (changedProperties.has('changeNum')) {
       this.resetData();
     }

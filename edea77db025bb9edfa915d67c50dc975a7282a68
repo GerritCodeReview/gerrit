@@ -71,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e32b07f_44f3e390",
+        "filename": "java/com/google/gerrit/json/ImmutableListTypeAdapter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-01-30T21:33:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6c8127e9_8762b557",
+      "range": {
+        "startLine": 41,
+        "startChar": 10,
+        "endLine": 41,
+        "endChar": 64
+      },
+      "revId": "edea77db025bb9edfa915d67c50dc975a7282a68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "42309170_71ccf49c",
@@ -84,6 +108,30 @@
       "writtenOn": "2026-01-30T11:03:26Z",
       "side": 1,
       "message": "Can `jsonArrayElement` ever be `null`? If not, should we annotate it as such?",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 45,
+        "endChar": 22
+      },
+      "revId": "edea77db025bb9edfa915d67c50dc975a7282a68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b4f0145_e7d6963e",
+        "filename": "java/com/google/gerrit/json/ImmutableListTypeAdapter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-01-30T21:33:19Z",
+      "side": 1,
+      "message": "Actually *IF* that were nullable, then it would be annotated as such.\nAccording to the Gson JavaDoc, there is no mention of this parameter being null.",
+      "parentUuid": "42309170_71ccf49c",
       "range": {
         "startLine": 45,
         "startChar": 0,

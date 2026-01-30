@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "77605ea5_a73407dc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2026-01-30T06:03:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7492f2e_7a95c3c0",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 132
+      },
+      "revId": "a0ed436256d873f144199a4b150d544d761be889",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e68d2180_b4c5adf8",
@@ -37,6 +61,24 @@
       "writtenOn": "2026-01-21T08:14:34Z",
       "side": 1,
       "message": "Remarking as WIP as a new permission should be added.",
+      "revId": "a0ed436256d873f144199a4b150d544d761be889",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e4df60bd_0ee1c71d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2026-01-30T06:03:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e68d2180_b4c5adf8",
       "revId": "a0ed436256d873f144199a4b150d544d761be889",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -92,6 +134,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "21d25ca5_c1b1b75a",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReviewers.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2026-01-30T06:03:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7be75cbf_71adc19d",
+      "range": {
+        "startLine": 103,
+        "startChar": 0,
+        "endLine": 103,
+        "endChar": 35
+      },
+      "revId": "a0ed436256d873f144199a4b150d544d761be889",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cfb901e3_11d3b5d2",
@@ -115,6 +181,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "633c2c35_49caec66",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReviewers.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2026-01-30T06:03:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cfb901e3_11d3b5d2",
+      "range": {
+        "startLine": 106,
+        "startChar": 18,
+        "endLine": 111,
+        "endChar": 30
+      },
+      "revId": "a0ed436256d873f144199a4b150d544d761be889",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ee8d43b8_c74e5ee7",
@@ -128,6 +218,30 @@
       "writtenOn": "2026-01-21T09:54:25Z",
       "side": 1,
       "message": "Can you add an assertion for m.getMessage() - assert that the message contains the name of the added reviewer. This ensures we don\u0027t accidentally hide who was added.",
+      "range": {
+        "startLine": 873,
+        "startChar": 0,
+        "endLine": 882,
+        "endChar": 3
+      },
+      "revId": "a0ed436256d873f144199a4b150d544d761be889",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "65a0efa7_b30a7cb3",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/account/ImpersonationIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 882,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2026-01-30T06:03:40Z",
+      "side": 1,
+      "message": "Moved to assert the `ReviewerUpdateInfo` object instead of the change message, as apparently no visible change messages are set for reviewer updates.",
+      "parentUuid": "ee8d43b8_c74e5ee7",
       "range": {
         "startLine": 873,
         "startChar": 0,

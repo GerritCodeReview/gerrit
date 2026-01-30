@@ -402,7 +402,7 @@ suite('gr-repo-access tests', () => {
       );
       assert.equal(
         queryAndAssert<GrButton>(element, '#editBtn').innerText,
-        'EDIT'
+        'Edit'
       );
       assert.equal(
         getComputedStyle(
@@ -428,7 +428,7 @@ suite('gr-repo-access tests', () => {
       // disabled.
       assert.equal(
         queryAndAssert<GrButton>(element, '#editBtn').innerText,
-        'CANCEL'
+        'Cancel'
       );
       if (shouldShowSaveReview) {
         assert.notEqual(
@@ -462,6 +462,7 @@ suite('gr-repo-access tests', () => {
           bubbles: true,
         })
       );
+      await element.updateComplete;
       if (shouldShowSaveReview) {
         assert.isFalse(
           queryAndAssert<GrButton>(element, '#saveReviewBtn').disabled
@@ -481,6 +482,8 @@ suite('gr-repo-access tests', () => {
       element.groups = JSON.parse(JSON.stringify(accessRes.groups));
       element.capabilities = JSON.parse(JSON.stringify(capabilitiesRes));
       element.labels = JSON.parse(JSON.stringify(repoRes.labels));
+      element.disableSaveWithoutReview = false;
+      element.modified = false;
       await element.updateComplete;
     });
 
@@ -516,20 +519,20 @@ suite('gr-repo-access tests', () => {
     test('button visibility for non ref owner with upload privilege', async () => {
       element.canUpload = true;
       await element.updateComplete;
-      testEditSaveCancelBtns(false, true);
+      await testEditSaveCancelBtns(false, true);
     });
 
     test('button visibility for ref owner', async () => {
       element.ownerOf = ['refs/for/*'] as GitRef[];
       await element.updateComplete;
-      testEditSaveCancelBtns(true, false);
+      await testEditSaveCancelBtns(true, false);
     });
 
     test('button visibility for ref owner and upload', async () => {
       element.ownerOf = ['refs/for/*'] as GitRef[];
       element.canUpload = true;
       await element.updateComplete;
-      testEditSaveCancelBtns(true, false);
+      await testEditSaveCancelBtns(true, false);
     });
 
     test('_handleAccessModified called with event fired', async () => {
@@ -1565,6 +1568,7 @@ suite('gr-repo-access tests', () => {
       sinon.stub(element, 'computeAddAndRemove').returns(repoAccessInput);
 
       element.modified = true;
+      await element.updateComplete;
       queryAndAssert<GrButton>(element, '#saveReviewBtn').click();
       await element.updateComplete;
       assert.equal(

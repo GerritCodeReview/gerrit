@@ -10,24 +10,15 @@ import {
   property,
   queryAssignedElements,
 } from 'lit/decorators.js';
-// @ts-ignore
-import * as marked from 'marked/lib/marked';
+import {Marked, Renderer} from 'marked';
+import {markedHighlight} from 'marked-highlight';
 
 import {
   sanitizeHtml,
   setElementInnerHtml,
 } from '../../../utils/inner-html-util';
 
-if (!window.marked) {
-  window.marked = marked;
-}
-
 declare global {
-  interface Window {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    marked: any;
-  }
-
   interface HTMLElementTagNameMap {
     'gr-marked-element': GrMarkedElement;
   }
@@ -93,17 +84,30 @@ export class GrMarkedElement extends LitElement {
       return;
     }
 
-    const renderer = new window.marked.Renderer();
-    if (this.renderer) this.renderer(renderer);
+    const renderer = new Renderer();
+    if (this.renderer) {
+      this.renderer(renderer);
+    }
 
-    const options = {
-      renderer,
-      highlight: this.highlight.bind(this),
+    const marked = new Marked().use(
+      {tokenizer: {
+        // Return undefined to skip the default autolink/url tokenizers.
+        url() { return undefined; },
+        autolink() { return undefined; },
+      }},
+      markedHighlight({
+        highlight: (code, lang, _) => {
+          return this.highlight(code, lang);
+        }
+      }),
+    );
+
+    const unsafeHtml = marked.parse(this.markdown, {
+      async: false,
       breaks: this.breaks,
       pedantic: this.pedantic,
-    };
-
-    const unsafeHtml = window.marked(this.markdown, options) || '';
+      renderer,
+    }) || '';
     const safeHtml = sanitizeHtml(unsafeHtml);
 
     setElementInnerHtml(this.outputElement[0], safeHtml);

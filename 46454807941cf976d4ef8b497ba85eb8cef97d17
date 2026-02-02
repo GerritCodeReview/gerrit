@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "52597e0f_9c98c71b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4580685
+      },
+      "writtenOn": "2026-02-02T11:04:22Z",
+      "side": 1,
+      "message": "Test: Here is some TS code:\n\n```typescript\n  protected override updated(changedProps: PropertyValues) {\n    const propsToWatch \u003d [\u0027markdown\u0027, \u0027breaks\u0027, \u0027pedantic\u0027, \u0027renderer\u0027];\n    if (propsToWatch.some(prop \u003d\u003e changedProps.has(prop))) {\n      this.renderMarkdown();\n    }\n  }\n```\n\nand some Java:\n\n```java\nint increment(int n) {\n  return n + 1;\n}\n```\n\nAnd here is some inline code ```System.out.println(\"Hello\");```.\n\nHere are some links:\n  * \u003ca href\u003d\"http://example.com\"\u003eHTML link\u003c/a\u003e\n  * [markdown link](http://example.com)\n  * email@example.com\n  * @marchev@google.com",
+      "revId": "46454807941cf976d4ef8b497ba85eb8cef97d17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

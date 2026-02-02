@@ -146,8 +146,15 @@ suite('gr-change-list basic tests', () => {
 
   test('computeRelativeIndex', () => {
     element.sections = [
-      {results: Array.from({length: 1})},
-      {results: Array.from({length: 2})},
+      {
+        results: [{...createChange(), _number: 0 as NumericChangeId}],
+      },
+      {
+        results: [
+          {...createChange(), _number: 1 as NumericChangeId},
+          {...createChange(), _number: 2 as NumericChangeId},
+        ],
+      },
     ];
 
     let selectedChangeIndex = 0;
@@ -265,8 +272,15 @@ suite('gr-change-list basic tests', () => {
   test('keyboard shortcuts', async () => {
     sinon.stub(element, 'computeLabelNames');
     element.sections = [
-      {results: Array.from({length: 1})},
-      {results: Array.from({length: 2})},
+      {
+        results: [{...createChange(), _number: 0 as NumericChangeId}],
+      },
+      {
+        results: [
+          {...createChange(), _number: 1 as NumericChangeId},
+          {...createChange(), _number: 2 as NumericChangeId},
+        ],
+      },
     ];
     element.selectedIndex = 0;
     element.preferences = createDefaultPreferences();
@@ -343,8 +357,15 @@ suite('gr-change-list basic tests', () => {
 
     sinon.stub(element, 'computeLabelNames');
     element.sections = [
-      {results: Array.from({length: 1})},
-      {results: Array.from({length: 2})},
+      {
+        results: [{...createChange(), _number: 0 as NumericChangeId}],
+      },
+      {
+        results: [
+          {...createChange(), _number: 1 as NumericChangeId},
+          {...createChange(), _number: 2 as NumericChangeId},
+        ],
+      },
     ];
     element.selectedIndex = 0;
     element.preferences = createDefaultPreferences();

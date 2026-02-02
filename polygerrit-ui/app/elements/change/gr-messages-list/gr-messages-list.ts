@@ -46,6 +46,7 @@ import {
 import {GrFormattedText} from '../../shared/gr-formatted-text/gr-formatted-text';
 import {waitUntil} from '../../../utils/async-util';
 import {MdSwitch} from '@material/web/switch/switch';
+import {incrementalRepeat} from '../../lit/incremental-repeat';
 
 /**
  * The content of the enum is also used in the UI for the button text.
@@ -199,21 +200,47 @@ function computeCombinedMessages(
     }
   }
 
+  // Map of tag -> max revision number for that tag
+  const tagsMaxRev = new Map<string, number>();
+  let lastRevision: PatchSetNum | undefined;
+
   for (let i = 0; i < combinedMessages.length; i++) {
     const message = combinedMessages[i];
     if (message.expanded === undefined) {
       message.expanded = false;
     }
     message.commentThreads = computeThreads(message, commentThreads);
-    message._revision_number = computeRevision(message, combinedMessages);
+
+    // Compute revision (O(1) amortized tracking)
+    if (isPatchSetNumber(message._revision_number)) {
+      lastRevision = message._revision_number;
+    } else {
+      // If not set, inherit from last known
+      message._revision_number = lastRevision;
+    }
+
     message.tag = computeTag(message);
+
+    // Track max revision for tag
+    if (message.tag && message._revision_number) {
+      const currentMax = tagsMaxRev.get(message.tag) || 0;
+      if ((message._revision_number as number) > currentMax) {
+        tagsMaxRev.set(message.tag, message._revision_number as number);
+      }
+    }
   }
-  // computeIsImportant() depends on tags and revision numbers already being
-  // updated for all messages, so we have to compute this in its own forEach
-  // loop.
-  combinedMessages.forEach(m => {
-    m.isImportant = computeIsImportant(m, combinedMessages);
-  });
+
+  // Compute isImportant (O(N) pass)
+  for (let i = 0; i < combinedMessages.length; i++) {
+    const message = combinedMessages[i];
+    if (!message.tag) {
+      message.isImportant = true;
+    } else {
+      const maxRev = tagsMaxRev.get(message.tag) || 0;
+      const paramRev = (message._revision_number as number) || 0;
+      message.isImportant = paramRev >= maxRev;
+    }
+  }
   return combinedMessages;
 }
 
@@ -371,19 +398,24 @@ export class GrMessagesList extends PerformanceMixin(LitElement) {
   override render() {
     const labelExtremes = this.computeLabelExtremes();
     return html`${this.renderHeader()}
-    ${this.combinedMessages
-      .filter(m => this.showAllActivity || m.isImportant)
-      .map(
-        message => html`<gr-message
-          .change=${this.change}
-          .changeNum=${this.changeNum}
-          .message=${message}
-          .commentThreads=${message.commentThreads ?? []}
-          @message-anchor-tap=${this.handleAnchorClick}
-          .labelExtremes=${labelExtremes}
-          data-message-id=${ifDefined(getMessageId(message) as string)}
-        ></gr-message>`
-      )}`;
+    ${incrementalRepeat({
+      values: this.combinedMessages.filter(
+        m => this.showAllActivity || m.isImportant
+      ),
+      mapFn: (m: unknown) => {
+        const message = m as CombinedMessage;
+        return html`<gr-message
+        .change=${this.change}
+        .changeNum=${this.changeNum}
+        .message=${message}
+        .commentThreads=${message.commentThreads ?? []}
+        @message-anchor-tap=${this.handleAnchorClick}
+        .labelExtremes=${labelExtremes}
+        data-message-id=${ifDefined(getMessageId(message) as string)}
+      ></gr-message>`;
+      },
+      initialCount: 20,
+    })}`;
   }
 
   private renderHeader() {

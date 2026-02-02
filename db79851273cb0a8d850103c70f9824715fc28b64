@@ -1,0 +1,350 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4bde5724_57d73f30",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-02-02T13:34:22Z",
+      "side": 1,
+      "message": "this takes a `Partial\u003cChangeInfo\u003e` so you can just pass the _number as argument and no need to spread it",
+      "range": {
+        "startLine": 154,
+        "startChar": 14,
+        "endLine": 154,
+        "endChar": 26
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "e40c2653_c5da305f",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list_test.ts",
+              "range": {
+                "startLine": 62,
+                "startChar": 0,
+                "endLine": 63,
+                "endChar": 0
+              },
+              "replacement": "        results: [createChange({_number: 0 as NumericChangeId})],\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list_test.ts",
+              "range": {
+                "startLine": 66,
+                "startChar": 0,
+                "endLine": 68,
+                "endChar": 0
+              },
+              "replacement": "          createChange({_number: 1 as NumericChangeId}),\n          createChange({_number: 2 as NumericChangeId}),\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list_test.ts",
+              "range": {
+                "startLine": 87,
+                "startChar": 0,
+                "endLine": 88,
+                "endChar": 0
+              },
+              "replacement": "        results: [createChange({_number: 0 as NumericChangeId})],\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list_test.ts",
+              "range": {
+                "startLine": 91,
+                "startChar": 0,
+                "endLine": 93,
+                "endChar": 0
+              },
+              "replacement": "          createChange({_number: 1 as NumericChangeId}),\n          createChange({_number: 2 as NumericChangeId}),\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list_test.ts",
+              "range": {
+                "startLine": 97,
+                "startChar": 0,
+                "endLine": 99,
+                "endChar": 0
+              },
+              "replacement": "          createChange({_number: 3 as NumericChangeId}),\n          createChange({_number: 4 as NumericChangeId}),\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list_test.ts",
+              "range": {
+                "startLine": 150,
+                "startChar": 0,
+                "endLine": 151,
+                "endChar": 0
+              },
+              "replacement": "        results: [createChange({_number: 0 as NumericChangeId})],\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list_test.ts",
+              "range": {
+                "startLine": 154,
+                "startChar": 0,
+                "endLine": 156,
+                "endChar": 0
+              },
+              "replacement": "          createChange({_number: 1 as NumericChangeId}),\n          createChange({_number: 2 as NumericChangeId}),\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list_test.ts",
+              "range": {
+                "startLine": 196,
+                "startChar": 0,
+                "endLine": 198,
+                "endChar": 0
+              },
+              "replacement": "            createChange({\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list_test.ts",
+              "range": {
+                "startLine": 205,
+                "startChar": 0,
+                "endLine": 206,
+                "endChar": 0
+              },
+              "replacement": "            }),\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list_test.ts",
+              "range": {
+                "startLine": 245,
+                "startChar": 0,
+                "endLine": 247,
+                "endChar": 0
+              },
+              "replacement": "            createChange({\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list_test.ts",
+              "range": {
+                "startLine": 249,
+                "startChar": 0,
+                "endLine": 250,
+                "endChar": 0
+              },
+              "replacement": "            }),\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list_test.ts",
+              "range": {
+                "startLine": 276,
+                "startChar": 0,
+                "endLine": 277,
+                "endChar": 0
+              },
+              "replacement": "        results: [createChange({_number: 0 as NumericChangeId})],\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list_test.ts",
+              "range": {
+                "startLine": 280,
+                "startChar": 0,
+                "endLine": 282,
+                "endChar": 0
+              },
+              "replacement": "          createChange({_number: 1 as NumericChangeId}),\n          createChange({_number: 2 as NumericChangeId}),\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list_test.ts",
+              "range": {
+                "startLine": 289,
+                "startChar": 0,
+                "endLine": 292,
+                "endChar": 0
+              },
+              "replacement": "      createChange({_number: 0 as NumericChangeId}),\n      createChange({_number: 1 as NumericChangeId}),\n      createChange({_number: 2 as NumericChangeId}),\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list_test.ts",
+              "range": {
+                "startLine": 361,
+                "startChar": 0,
+                "endLine": 362,
+                "endChar": 0
+              },
+              "replacement": "        results: [createChange({_number: 0 as NumericChangeId})],\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list_test.ts",
+              "range": {
+                "startLine": 365,
+                "startChar": 0,
+                "endLine": 367,
+                "endChar": 0
+              },
+              "replacement": "          createChange({_number: 1 as NumericChangeId}),\n          createChange({_number: 2 as NumericChangeId}),\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list_test.ts",
+              "range": {
+                "startLine": 374,
+                "startChar": 0,
+                "endLine": 377,
+                "endChar": 0
+              },
+              "replacement": "      createChange({_number: 0 as NumericChangeId}),\n      createChange({_number: 1 as NumericChangeId}),\n      createChange({_number: 2 as NumericChangeId}),\n"
+            }
+          ]
+        }
+      ],
+      "revId": "db79851273cb0a8d850103c70f9824715fc28b64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "919e5ae7_08e7f9c4",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-02-02T13:34:22Z",
+      "side": 1,
+      "message": "Maybe I don\u0027t fully follow\n\nThe model should be making the rest API call for `getChange()` which should then result in the right value being set\n\nWhy do we need to stub this here?\n\nWhich part of the normal flow is broken here?",
+      "range": {
+        "startLine": 172,
+        "startChar": 0,
+        "endLine": 173,
+        "endChar": 68
+      },
+      "revId": "db79851273cb0a8d850103c70f9824715fc28b64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "48ed590b_bb270c7d",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-02-02T13:34:22Z",
+      "side": 1,
+      "message": "the `element.shadowDom` is unchanged after adding this?\n\nThe comment mentions `so that the patchsetLevelComment\n    // element is rendered` \n\nDo we expect new components to show up and the shadowDom to change?",
+      "range": {
+        "startLine": 233,
+        "startChar": 0,
+        "endLine": 239,
+        "endChar": 58
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "fca854f2_c74a5e8d",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.ts",
+              "range": {
+                "startLine": 233,
+                "startChar": 0,
+                "endLine": 238,
+                "endChar": 0
+              },
+              "replacement": "    // A patchset level draft is added in setup, which causes patchsetLevelComment\n    // to be rendered. We wait for it to be available in the DOM.\n"
+            }
+          ]
+        }
+      ],
+      "revId": "db79851273cb0a8d850103c70f9824715fc28b64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9dca5127_5c23b8b1",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 2517,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-02-02T13:34:22Z",
+      "side": 1,
+      "message": "can you add this at the setup then if it needs to be present in multiple tests?",
+      "range": {
+        "startLine": 2510,
+        "startChar": 0,
+        "endLine": 2517,
+        "endChar": 60
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "3b995a7d_75457d92",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.ts",
+              "range": {
+                "startLine": 193,
+                "startChar": 0,
+                "endLine": 193,
+                "endChar": 0
+              },
+              "replacement": "    // We need to add a draft to the comments model so that the patchsetLevelComment\n    // element is rendered. It is conditionally rendered based on this.patchsetLevelComment.\n    commentsModel.addNewDraft(\n      createNewPatchsetLevel(latestPatchNum, \u0027\u0027, false)\n    );\n    element.requestUpdate();\n    await element.updateComplete;\n    await waitUntil(() \u003d\u003e !!element.patchsetLevelComment);\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.ts",
+              "range": {
+                "startLine": 233,
+                "startChar": 0,
+                "endLine": 241,
+                "endChar": 0
+              },
+              "replacement": ""
+            },
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.ts",
+              "range": {
+                "startLine": 1686,
+                "startChar": 0,
+                "endLine": 1694,
+                "endChar": 0
+              },
+              "replacement": ""
+            },
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.ts",
+              "range": {
+                "startLine": 2510,
+                "startChar": 0,
+                "endLine": 2515,
+                "endChar": 0
+              },
+              "replacement": ""
+            },
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.ts",
+              "range": {
+                "startLine": 2517,
+                "startChar": 0,
+                "endLine": 2518,
+                "endChar": 0
+              },
+              "replacement": ""
+            }
+          ]
+        }
+      ],
+      "revId": "db79851273cb0a8d850103c70f9824715fc28b64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

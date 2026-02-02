@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fb6f315f_bdc58172",
+        "filename": "polygerrit-ui/app/elements/change/gr-flows/gr-create-flow.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-02-02T09:25:01Z",
+      "side": 1,
+      "message": "Nit: Maybe extracts the dialog into a separate function for better maintainability",
+      "range": {
+        "startLine": 253,
+        "startChar": 8,
+        "endLine": 253,
+        "endChar": 18
+      },
+      "revId": "a8cb3a4dc42960b5d683344550839afd20d0807c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

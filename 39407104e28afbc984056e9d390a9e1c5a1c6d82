@@ -1,0 +1,108 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c40a1958_9fd72da0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-02-02T07:14:52Z",
+      "side": 1,
+      "message": "is this specifically added to the commit message as a footer?",
+      "range": {
+        "startLine": 10,
+        "startChar": 29,
+        "endLine": 10,
+        "endChar": 35
+      },
+      "revId": "39407104e28afbc984056e9d390a9e1c5a1c6d82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac405a94_6494fbd2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-02-02T07:14:52Z",
+      "side": 1,
+      "message": "I think I am not fully understanding the distinction between the commit message and the change log message.\n\nIIUC now we are adding the impersonation message to both and before it was only on the change log messages?",
+      "revId": "39407104e28afbc984056e9d390a9e1c5a1c6d82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7110b95a_9e4d83b7",
+        "filename": "java/com/google/gerrit/server/notedb/AbstractChangeUpdate.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-02-02T07:14:52Z",
+      "side": 1,
+      "message": "Is the goal to communicate to the user that automation performed this operation?\n\nThen perhaps performed is maybe a better term?",
+      "range": {
+        "startLine": 299,
+        "startChar": 24,
+        "endLine": 299,
+        "endChar": 30
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "082ff9ca_6ff100b2",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "java/com/google/gerrit/server/notedb/AbstractChangeUpdate.java",
+              "range": {
+                "startLine": 299,
+                "startChar": 0,
+                "endLine": 300,
+                "endChar": 0
+              },
+              "replacement": "        String.format(\"(Performed by %s on behalf of %s)\", realLoggableName, loggableName);\n"
+            }
+          ]
+        }
+      ],
+      "revId": "39407104e28afbc984056e9d390a9e1c5a1c6d82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "902f42e3_181fd79b",
+        "filename": "java/com/google/gerrit/server/notedb/AbstractChangeUpdate.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-02-02T07:14:52Z",
+      "side": 1,
+      "message": "I don\u0027t understand this specific case\n\nWhat does `firstFooterLine \u003d\u003d 2` mean here and why are we not adding the impersonation?\n\ncan you maybe specify an example? Is the commit message empty in this case?\n\nEven if that is the case we probably still want to always append the impersonation message,",
+      "range": {
+        "startLine": 302,
+        "startChar": 0,
+        "endLine": 306,
+        "endChar": 5
+      },
+      "revId": "39407104e28afbc984056e9d390a9e1c5a1c6d82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

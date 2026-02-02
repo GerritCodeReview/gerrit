@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import * as sinon from 'sinon';
+import {BehaviorSubject} from 'rxjs';
 import '../../../test/common-test-setup';
 import './gr-reply-dialog';
 import {
@@ -77,6 +78,7 @@ import {createNewPatchsetLevel} from '../../../utils/comment-util';
 import {Timing} from '../../../constants/reporting';
 import {ParsedChangeInfo} from '../../../types/types';
 import {changeModelToken} from '../../../models/change/change-model';
+import {changeViewModelToken} from '../../../models/views/change';
 
 function cloneableResponse(status: number, text: string) {
   return {
@@ -166,6 +168,18 @@ suite('gr-reply-dialog tests', () => {
     stubRestApi('getChange').returns(Promise.resolve(change as ChangeInfo));
     stubRestApi('getChangeSuggestedReviewers').returns(Promise.resolve([]));
 
+    // We need to stub the ChangeModel.change$ to return the valid change object.
+    // Otherwise, the component will subscribe to the default empty behavior subject
+    // and overwrite the element.change we set above with undefined.
+    // This allows us to test the component state without waiting for the async fetch loop.
+    const changeModel = testResolver(changeModelToken);
+    const change$ = new BehaviorSubject<ParsedChangeInfo | undefined>(change);
+    sinon.stub(changeModel, 'change$').get(() => change$);
+    const latestPatchNum$ = new BehaviorSubject<PatchSetNumber | undefined>(
+      latestPatchNum
+    );
+    sinon.stub(changeModel, 'latestPatchNum$').get(() => latestPatchNum$);
+
     element = await fixture<GrReplyDialog>(html`
       <gr-reply-dialog></gr-reply-dialog>
     `);
@@ -177,12 +191,22 @@ suite('gr-reply-dialog tests', () => {
       Verified: ['-1', ' 0', '+1'],
     };
     element.draftCommentThreads = [];
+
+    // Initialize the view model state first to ensure models (like CommentsModel)
+    // have the correct context (changeNum, repo).
+    testResolver(changeViewModelToken).updateState({
+      changeNum,
+      repo: change.project,
+    });
+
     commentsModel = testResolver(commentsModelToken);
     commentsModel.addNewDraft(
       createNewPatchsetLevel(latestPatchNum, '', false)
     );
 
+    element.requestUpdate();
     await element.updateComplete;
+    await waitUntil(() => !!element.patchsetLevelComment);
   });
 
   function stubSaveReview(
@@ -215,7 +239,7 @@ suite('gr-reply-dialog tests', () => {
     return promise;
   }
 
-  test('renders', () => {
+  test('renders', async () => {
     assert.shadowDom.equal(
       element,
       /* HTML */ `

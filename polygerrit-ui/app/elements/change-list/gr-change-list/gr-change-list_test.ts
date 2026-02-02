@@ -59,12 +59,12 @@ suite('gr-change-list basic tests', () => {
     element.config = createServerInfo();
     element.sections = [
       {
-        results: [{...createChange(), _number: 0 as NumericChangeId}],
+        results: [createChange({_number: 0 as NumericChangeId})],
       },
       {
         results: [
-          {...createChange(), _number: 1 as NumericChangeId},
-          {...createChange(), _number: 2 as NumericChangeId},
+          createChange({_number: 1 as NumericChangeId}),
+          createChange({_number: 2 as NumericChangeId}),
         ],
       },
     ];
@@ -84,18 +84,18 @@ suite('gr-change-list basic tests', () => {
     element.selectedIndex = 0;
     element.sections = [
       {
-        results: [{...createChange(), _number: 0 as NumericChangeId}],
+        results: [createChange({_number: 0 as NumericChangeId})],
       },
       {
         results: [
-          {...createChange(), _number: 1 as NumericChangeId},
-          {...createChange(), _number: 2 as NumericChangeId},
+          createChange({_number: 1 as NumericChangeId}),
+          createChange({_number: 2 as NumericChangeId}),
         ],
       },
       {
         results: [
-          {...createChange(), _number: 3 as NumericChangeId},
-          {...createChange(), _number: 4 as NumericChangeId},
+          createChange({_number: 3 as NumericChangeId}),
+          createChange({_number: 4 as NumericChangeId}),
         ],
       },
     ];
@@ -146,8 +146,15 @@ suite('gr-change-list basic tests', () => {
 
   test('computeRelativeIndex', () => {
     element.sections = [
-      {results: Array.from({length: 1})},
-      {results: Array.from({length: 2})},
+      {
+        results: [createChange({_number: 0 as NumericChangeId})],
+      },
+      {
+        results: [
+          createChange({_number: 1 as NumericChangeId}),
+          createChange({_number: 2 as NumericChangeId}),
+        ],
+      },
     ];
 
     let selectedChangeIndex = 0;
@@ -186,8 +193,7 @@ suite('gr-change-list basic tests', () => {
       for (const labelList of labelLists) {
         sections.push({
           results: [
-            {
-              ...createChange(),
+            createChange({
               _number: changeNumber++ as NumericChangeId,
               submit_requirements: labelList.map(label => {
                 return {
@@ -195,7 +201,7 @@ suite('gr-change-list basic tests', () => {
                   name: label,
                 };
               }),
-            },
+            }),
           ],
         });
       }
@@ -235,11 +241,10 @@ suite('gr-change-list basic tests', () => {
       for (const labelList of labelLists) {
         sections.push({
           results: [
-            {
-              ...createChange(),
+            createChange({
               _number: changeNumber++ as NumericChangeId,
               labels: Object.fromEntries(labelList.map(label => [label, {}])),
-            },
+            }),
           ],
         });
       }
@@ -265,16 +270,23 @@ suite('gr-change-list basic tests', () => {
   test('keyboard shortcuts', async () => {
     sinon.stub(element, 'computeLabelNames');
     element.sections = [
-      {results: Array.from({length: 1})},
-      {results: Array.from({length: 2})},
+      {
+        results: [createChange({_number: 0 as NumericChangeId})],
+      },
+      {
+        results: [
+          createChange({_number: 1 as NumericChangeId}),
+          createChange({_number: 2 as NumericChangeId}),
+        ],
+      },
     ];
     element.selectedIndex = 0;
     element.preferences = createDefaultPreferences();
     element.config = createServerInfo();
     element.changes = [
-      {...createChange(), _number: 0 as NumericChangeId},
-      {...createChange(), _number: 1 as NumericChangeId},
-      {...createChange(), _number: 2 as NumericChangeId},
+      createChange({_number: 0 as NumericChangeId}),
+      createChange({_number: 1 as NumericChangeId}),
+      createChange({_number: 2 as NumericChangeId}),
     ];
     // explicitly trigger sectionsChanged so that cursor stops are properly
     // updated
@@ -343,16 +355,23 @@ suite('gr-change-list basic tests', () => {
 
     sinon.stub(element, 'computeLabelNames');
     element.sections = [
-      {results: Array.from({length: 1})},
-      {results: Array.from({length: 2})},
+      {
+        results: [createChange({_number: 0 as NumericChangeId})],
+      },
+      {
+        results: [
+          createChange({_number: 1 as NumericChangeId}),
+          createChange({_number: 2 as NumericChangeId}),
+        ],
+      },
     ];
     element.selectedIndex = 0;
     element.preferences = createDefaultPreferences();
     element.config = createServerInfo();
     element.changes = [
-      {...createChange(), _number: 0 as NumericChangeId},
-      {...createChange(), _number: 1 as NumericChangeId},
-      {...createChange(), _number: 2 as NumericChangeId},
+      createChange({_number: 0 as NumericChangeId}),
+      createChange({_number: 1 as NumericChangeId}),
+      createChange({_number: 2 as NumericChangeId}),
     ];
     // explicitly trigger sectionsChanged so that cursor stops are properly
     // updated

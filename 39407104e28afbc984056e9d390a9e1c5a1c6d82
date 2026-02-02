@@ -103,6 +103,53 @@
       },
       "revId": "39407104e28afbc984056e9d390a9e1c5a1c6d82",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7cf933db_b06b9e21",
+        "filename": "java/com/google/gerrit/server/notedb/AbstractChangeUpdate.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-02-02T09:39:40Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "902f42e3_181fd79b",
+      "range": {
+        "startLine": 302,
+        "startChar": 0,
+        "endLine": 306,
+        "endChar": 5
+      },
+      "revId": "39407104e28afbc984056e9d390a9e1c5a1c6d82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e818b540_2da5a231",
+        "filename": "java/com/google/gerrit/server/notedb/AbstractChangeUpdate.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-02-02T09:39:40Z",
+      "side": 1,
+      "message": "NIT: This could be done simpler with just with StringBuilder? But I am out of touch with java.",
+      "range": {
+        "startLine": 307,
+        "startChar": 0,
+        "endLine": 314,
+        "endChar": 21
+      },
+      "revId": "39407104e28afbc984056e9d390a9e1c5a1c6d82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

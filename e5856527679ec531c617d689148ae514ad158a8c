@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d2c0d9ab_36d2e1b7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2026-02-03T14:20:06Z",
+      "side": 1,
+      "message": "Maybe cover this with a test.",
+      "revId": "e5856527679ec531c617d689148ae514ad158a8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "885e4cbd_6ca59a50",
+        "filename": "java/com/google/gerrit/server/git/CommitUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 457,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2026-02-03T14:20:06Z",
+      "side": 1,
+      "message": "I think you could also do:\n\n  accountCache.get(accountId).isPresent()\n  \nAlso see https://gerrit-review.git.corp.google.com/c/gerrit/+/500424",
+      "range": {
+        "startLine": 446,
+        "startChar": 2,
+        "endLine": 457,
+        "endChar": 0
+      },
+      "revId": "e5856527679ec531c617d689148ae514ad158a8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

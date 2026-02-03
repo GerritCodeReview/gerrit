@@ -1136,7 +1136,13 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
             accounts = parseAccountIgnoreVisibility(value);
           }
         } else if (key.equalsIgnoreCase(ARG_ID_GROUP)) {
-          group = parseGroup(value).getUUID();
+          String groupValue = value;
+          if (groupValue.length() >= 2
+              && groupValue.startsWith("\"")
+              && groupValue.endsWith("\"")) {
+            groupValue = groupValue.substring(1, groupValue.length() - 1);
+          }
+          group = parseGroup(groupValue).getUUID();
         } else if (key.equalsIgnoreCase(ARG_COUNT)) {
           if (!isInt(value)) {
             throw new QueryParseException("Invalid count argument. Value should be an integer");

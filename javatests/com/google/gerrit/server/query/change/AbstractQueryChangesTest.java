@@ -1897,6 +1897,28 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
+  public void byLabelGroupWithSpaces() throws Exception {
+    Account.Id user1 = createAccount("user1");
+    Project.NameKey project = Project.nameKey("repo");
+    repo = createAndOpenProject(project);
+
+    // create group and add users
+    String g1 = createGroup("group with spaces", "Administrators");
+    gApi.groups().id(g1).addMembers("user1");
+
+    // create a change
+    Change change1 = insert(project, newChange(repo), user1);
+
+    // post a review with user1
+    setRequestContextForUser(user1);
+    getChangeApi(change1).current().review(new ReviewInput().label("Code-Review", 1));
+
+    // verify that query with user1 will return results.
+    setRequestContextForUser(userId);
+    assertQuery("label:Code-Review=+1,group=\"group with spaces\"", change1);
+  }
+
+  @Test
   public void byLabelExternalGroup() throws Exception {
     Account.Id user1 = createAccount("user1");
     Account.Id user2 = createAccount("user2");

@@ -72,6 +72,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7250ee08_6bfca441",
+        "filename": "java/com/google/gerrit/json/ImmutableListTypeAdapter.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-02-03T09:42:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "883bc106_afb0640e",
+      "range": {
+        "startLine": 44,
+        "startChar": 16,
+        "endLine": 44,
+        "endChar": 70
+      },
+      "revId": "2c3ab0eada3681a1a74f047ce10a5e32368471b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1402cc21_08969200",
@@ -294,6 +318,30 @@
         "id": 1006192
       },
       "writtenOn": "2026-02-03T09:42:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8b0489b2_b0efcf5f",
+      "range": {
+        "startLine": 297,
+        "startChar": 0,
+        "endLine": 297,
+        "endChar": 7
+      },
+      "revId": "2c3ab0eada3681a1a74f047ce10a5e32368471b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "51e56004_e429d79c",
+        "filename": "javatests/com/google/gerrit/server/events/EventDeserializerTest.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-02-03T09:42:50Z",
       "side": 1,
       "message": "Done",
       "parentUuid": "8b0489b2_b0efcf5f",

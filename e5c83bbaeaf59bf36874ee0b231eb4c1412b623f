@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ae76740f_62d622c2",
+        "filename": "java/com/google/gerrit/json/ImmutableListTypeAdapter.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-02-03T09:42:50Z",
+      "side": 1,
+      "message": "nit: a raw `ImmutableList` type",
+      "range": {
+        "startLine": 28,
+        "startChar": 44,
+        "endLine": 28,
+        "endChar": 60
+      },
+      "revId": "e5c83bbaeaf59bf36874ee0b231eb4c1412b623f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -25,6 +25,7 @@ import com.google.gerrit.entities.PatchSetInfo;
 import com.google.gerrit.entities.SubmissionId;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.PatchSetUtil;
+import com.google.gerrit.server.config.SendEmailEnabled;
 import com.google.gerrit.server.config.SendEmailExecutor;
 import com.google.gerrit.server.extensions.events.ChangeMerged;
 import com.google.gerrit.server.mail.EmailFactories;
@@ -76,6 +77,7 @@ public class MergedByPushOp implements BatchUpdateOp {
   private final ExecutorService sendEmailExecutor;
   private final ChangeMerged changeMerged;
   private final MessageIdGenerator messageIdGenerator;
+  private final boolean sendEmailEnabled;
 
   private final PatchSet.Id psId;
   private final SubmissionId submissionId;
@@ -95,6 +97,7 @@ public class MergedByPushOp implements BatchUpdateOp {
       EmailFactories emailFactories,
       PatchSetUtil psUtil,
       @SendEmailExecutor ExecutorService sendEmailExecutor,
+      @SendEmailEnabled Boolean sendEmailEnabled,
       ChangeMerged changeMerged,
       MessageIdGenerator messageIdGenerator,
       @Assisted RequestScopePropagator requestScopePropagator,
@@ -107,6 +110,7 @@ public class MergedByPushOp implements BatchUpdateOp {
     this.emailFactories = emailFactories;
     this.psUtil = psUtil;
     this.sendEmailExecutor = sendEmailExecutor;
+    this.sendEmailEnabled = sendEmailEnabled;
     this.changeMerged = changeMerged;
     this.messageIdGenerator = messageIdGenerator;
     this.requestScopePropagator = requestScopePropagator;
@@ -179,7 +183,7 @@ public class MergedByPushOp implements BatchUpdateOp {
 
   @Override
   public void postUpdate(PostUpdateContext ctx) {
-    if (!correctBranch) {
+    if (!correctBranch || !sendEmailEnabled) {
       return;
     }
     @SuppressWarnings("unused") // Runnable already handles errors

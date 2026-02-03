@@ -24,6 +24,7 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.NotifyResolver;
+import com.google.gerrit.server.config.SendEmailEnabled;
 import com.google.gerrit.server.config.SendEmailExecutor;
 import com.google.gerrit.server.mail.EmailFactories;
 import com.google.gerrit.server.mail.send.ChangeEmail;
@@ -59,6 +60,7 @@ class EmailMerge implements Runnable, RequestContext {
   private final EmailFactories emailFactories;
   private final ThreadLocalRequestContext requestContext;
   private final MessageIdGenerator messageIdGenerator;
+  private final boolean sendEmailEnabled;
 
   private final Project.NameKey project;
   private final Change change;
@@ -71,6 +73,7 @@ class EmailMerge implements Runnable, RequestContext {
   @Inject
   EmailMerge(
       @SendEmailExecutor ExecutorService executor,
+      @SendEmailEnabled Boolean sendEmailEnabled,
       EmailFactories emailFactories,
       ThreadLocalRequestContext requestContext,
       MessageIdGenerator messageIdGenerator,
@@ -82,6 +85,7 @@ class EmailMerge implements Runnable, RequestContext {
       @Assisted String stickyApprovalDiff,
       @Assisted List<FileDiffOutput> modifiedFiles) {
     this.sendEmailsExecutor = executor;
+    this.sendEmailEnabled = sendEmailEnabled;
     this.emailFactories = emailFactories;
     this.requestContext = requestContext;
     this.messageIdGenerator = messageIdGenerator;
@@ -95,6 +99,9 @@ class EmailMerge implements Runnable, RequestContext {
   }
 
   void sendAsync() {
+    if (!sendEmailEnabled) {
+      return;
+    }
     @SuppressWarnings("unused")
     Future<?> possiblyIgnoredError = sendEmailsExecutor.submit(this);
   }

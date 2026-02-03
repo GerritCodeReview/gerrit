@@ -34,9 +34,11 @@ import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.RevertInput;
@@ -56,6 +58,7 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.permissions.PermissionDeniedException;
+import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.gerrit.testing.FakeEmailSender.Message;
 import com.google.inject.Inject;
 import java.util.ArrayList;
@@ -66,6 +69,8 @@ import java.util.Map;
 import java.util.regex.Pattern;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.lib.RefUpdate;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.RefSpec;
 import org.junit.Test;
 
@@ -486,6 +491,58 @@ public class RevertIT extends AbstractDaemonTest {
     List<Integer> reviewers =
         result.get(ReviewerState.REVIEWER).stream().map(a -> a._accountId).collect(toList());
     assertThat(reviewers).contains(admin.id().get());
+  }
+
+  @Test
+  public void revertDoesNotAddDeletedReviewersOrCcs() throws Exception {
+    PushOneCommit.Result r = createChange();
+
+    TestAccount reviewer =
+        accountCreator.create("reviewer-temp", "reviewer-temp@example.com", "Reviewer Temp", null);
+    TestAccount cc = accountCreator.create("cc-temp", "cc-temp@example.com", "CC Temp", null);
+    TestAccount reverter = accountCreator.admin2();
+
+    ReviewInput in = ReviewInput.approve();
+    in.reviewer(reviewer.email());
+    in.reviewer(cc.email(), ReviewerState.CC, true);
+    in.reviewer(reverter.email());
+
+    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).review(in);
+    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).submit();
+
+    // Delete reviewer and CC accounts
+    deleteAccount(reviewer.id());
+    deleteAccount(cc.id());
+
+    requestScopeOperations.setApiUser(reverter.id());
+    Map<ReviewerState, Collection<AccountInfo>> result =
+        gApi.changes().id(r.getChangeId()).revert().get().reviewers;
+
+    // The deleted reviewer and CC should not be added.
+    // Only the change owner (admin) should be added as reviewer (since they are not deleted).
+    // Reverter (admin2) is the new owner, so they are not in reviewers list.
+    if (result.containsKey(ReviewerState.REVIEWER)) {
+      List<Integer> reviewers =
+          result.get(ReviewerState.REVIEWER).stream().map(a -> a._accountId).collect(toList());
+      assertThat(reviewers).containsExactly(admin.id().get());
+    }
+    if (result.containsKey(ReviewerState.CC)) {
+      List<Integer> ccs =
+          result.get(ReviewerState.CC).stream().map(a -> a._accountId).collect(toList());
+      assertThat(ccs).isEmpty();
+    }
+  }
+
+  private void deleteAccount(Account.Id id) throws Exception {
+    try (RefUpdateContext ctx =
+        RefUpdateContext.open(RefUpdateContext.RefUpdateType.ACCOUNTS_UPDATE)) {
+      try (Repository repo = repoManager.openRepository(allUsers)) {
+        RefUpdate ru = repo.updateRef(RefNames.refsUsers(id));
+        ru.setForceUpdate(true);
+        RefUpdate.Result result = ru.delete();
+        assertThat(result).isEqualTo(RefUpdate.Result.FORCED);
+      }
+    }
   }
 
   @Test

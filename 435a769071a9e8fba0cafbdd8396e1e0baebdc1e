@@ -1,0 +1,45 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2e52b433_8802ca10",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1143,
+      "author": {
+        "id": 1121540
+      },
+      "writtenOn": "2026-02-03T11:19:45Z",
+      "side": 1,
+      "message": "Depends on the spec that you have, would you also consider `.replace(\"\\\\\\\"\", \"\\\"\")`?",
+      "range": {
+        "startLine": 1143,
+        "startChar": 11,
+        "endLine": 1143,
+        "endChar": 74
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "8fefc59b_c3e329cb",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+              "range": {
+                "startLine": 1143,
+                "startChar": 0,
+                "endLine": 1144,
+                "endChar": 0
+              },
+              "replacement": "            groupValue \u003d groupValue.substring(1, groupValue.length() - 1).replace(\"\\\\\\\"\", \"\\\"\");\n"
+            }
+          ]
+        }
+      ],
+      "revId": "435a769071a9e8fba0cafbdd8396e1e0baebdc1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -22,6 +22,30 @@
       },
       "revId": "2c3ab0eada3681a1a74f047ce10a5e32368471b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e6ea2ef7_49b58b7e",
+        "filename": "java/com/google/gerrit/json/ImmutableListTypeAdapter.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-02-03T08:46:07Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "1402cc21_08969200",
+      "range": {
+        "startLine": 48,
+        "startChar": 41,
+        "endLine": 48,
+        "endChar": 52
+      },
+      "revId": "2c3ab0eada3681a1a74f047ce10a5e32368471b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

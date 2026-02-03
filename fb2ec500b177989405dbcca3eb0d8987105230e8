@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "00bf1f4d_92badd24",
+        "filename": "java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-02-03T20:31:16Z",
+      "side": 1,
+      "message": "The `this.sendMail` detects if the operation should trigger an e-mail notification or not. Abusing this flag with the enablement of the e-mail subsystem would cause the trigger e-mails if someone calls the `setSendMail(true)` even if the sending of e-mail is disabled.\n\n```suggestion\n    this.sendEmailEnabled \u003d sendEmailEnabled;\n    this.sendMail \u003d true;\n```",
+      "revId": "fb2ec500b177989405dbcca3eb0d8987105230e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e4bc75a2_e01b7e3b",
+        "filename": "java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 606,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-02-03T20:31:16Z",
+      "side": 1,
+      "message": "```suggestion\n    if (sendMail \u0026\u0026 sendEmailEnabled) {\n```",
+      "revId": "fb2ec500b177989405dbcca3eb0d8987105230e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cc79a078_262264c4",
+        "filename": "java/com/google/gerrit/server/change/EmailNewPatchSet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-02-03T20:31:16Z",
+      "side": 1,
+      "message": "We can also skip creating the asyncSender if email sending is disabled.",
+      "revId": "fb2ec500b177989405dbcca3eb0d8987105230e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c49fc951_4fd248f6",
+        "filename": "java/com/google/gerrit/server/change/EmailReviewComments.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-02-03T20:31:16Z",
+      "side": 1,
+      "message": "We can also skip creating the asyncSender if email sending is disabled.",
+      "revId": "fb2ec500b177989405dbcca3eb0d8987105230e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3e3b04eb_69a33800",
+        "filename": "java/com/google/gerrit/server/change/ModifyReviewersEmail.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-02-03T20:31:16Z",
+      "side": 1,
+      "message": "Use an early return consistently, like in all other classes.\n\n```suggestion\n    if (!sendEmailEnabled) {\n       return;\n    }\n```",
+      "revId": "fb2ec500b177989405dbcca3eb0d8987105230e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b6c3cae5_4758a861",
+        "filename": "java/com/google/gerrit/server/git/MergedByPushOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-02-03T20:31:16Z",
+      "side": 1,
+      "message": "Use an early return consistently, like in all other classes.\n\n```suggestion\n    if (!sendEmailEnabled) {\n       return;\n    }\n```",
+      "revId": "fb2ec500b177989405dbcca3eb0d8987105230e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

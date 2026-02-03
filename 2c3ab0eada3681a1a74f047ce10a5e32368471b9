@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "86b41fa9_62e290ca",
+        "filename": "java/com/google/gerrit/json/ImmutableListTypeAdapter.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-02-03T08:53:27Z",
+      "side": 1,
+      "message": "In what cases can we have an `ImmutableList` with a number of parameters different from 1? There is no constructor for that, is there?\n\nShould we not just throw an exception if we are getting a type that has a number of parameters different from one?",
+      "range": {
+        "startLine": 44,
+        "startChar": 16,
+        "endLine": 44,
+        "endChar": 70
+      },
+      "revId": "2c3ab0eada3681a1a74f047ce10a5e32368471b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1402cc21_08969200",
         "filename": "java/com/google/gerrit/json/ImmutableListTypeAdapter.java",
         "patchSetId": 12
@@ -43,6 +66,98 @@
         "startChar": 41,
         "endLine": 48,
         "endChar": 52
+      },
+      "revId": "2c3ab0eada3681a1a74f047ce10a5e32368471b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3ec2dbd0_08cd3d29",
+        "filename": "java/com/google/gerrit/json/ImmutableListTypeAdapter.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-02-03T08:53:27Z",
+      "side": 1,
+      "message": "```suggestion\n            \"Expected a JSON Array being deserialized to an ImmutableList\u003c\u003e\");\n```",
+      "range": {
+        "startLine": 48,
+        "startChar": 41,
+        "endLine": 48,
+        "endChar": 52
+      },
+      "revId": "2c3ab0eada3681a1a74f047ce10a5e32368471b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d7227d8_c37c1ac2",
+        "filename": "javatests/com/google/gerrit/server/events/EventDeserializerTest.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-02-03T08:53:27Z",
+      "side": 1,
+      "message": "Does this need to be public?",
+      "range": {
+        "startLine": 42,
+        "startChar": 2,
+        "endLine": 42,
+        "endChar": 8
+      },
+      "revId": "2c3ab0eada3681a1a74f047ce10a5e32368471b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b0d14f2b_06684f3d",
+        "filename": "javatests/com/google/gerrit/server/events/EventDeserializerTest.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-02-03T08:53:27Z",
+      "side": 1,
+      "message": "Spurious semicolon?",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 43,
+        "endChar": 3
+      },
+      "revId": "2c3ab0eada3681a1a74f047ce10a5e32368471b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b0489b2_b0efcf5f",
+        "filename": "javatests/com/google/gerrit/server/events/EventDeserializerTest.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-02-03T08:53:27Z",
+      "side": 1,
+      "message": "Shall we check we can handle empty lists?",
+      "range": {
+        "startLine": 297,
+        "startChar": 0,
+        "endLine": 297,
+        "endChar": 7
       },
       "revId": "2c3ab0eada3681a1a74f047ce10a5e32368471b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a69efbc9_15d3a8aa",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/account/ImpersonationIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 811,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2026-02-03T15:52:13Z",
+      "side": 1,
+      "message": "[optional] The original change is created in testSubmitWithRunAs which hard-codes the author to admin. Instead of using this knowledge here to verify the original author, it may be cleaner to pass originalAuthor into the testSubmitWithRunAs method.",
+      "revId": "01dcd392193f195f05f9955154c7aa650f6ec4e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

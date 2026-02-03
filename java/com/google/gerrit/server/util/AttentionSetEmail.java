@@ -23,6 +23,7 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.change.NotifyResolver;
+import com.google.gerrit.server.config.SendEmailEnabled;
 import com.google.gerrit.server.config.SendEmailExecutor;
 import com.google.gerrit.server.mail.EmailFactories;
 import com.google.gerrit.server.mail.send.AttentionSetChangeEmailDecorator;
@@ -64,10 +65,12 @@ public class AttentionSetEmail {
 
   private final ExecutorService sendEmailsExecutor;
   private final AsyncSender asyncSender;
+  private final boolean sendEmailEnabled;
 
   @Inject
   AttentionSetEmail(
       @SendEmailExecutor ExecutorService executor,
+      @SendEmailEnabled Boolean sendEmailEnabled,
       ThreadLocalRequestContext requestContext,
       MessageIdGenerator messageIdGenerator,
       AccountTemplateUtil accountTemplateUtil,
@@ -78,6 +81,7 @@ public class AttentionSetEmail {
       @Assisted String reason,
       @Assisted Account.Id attentionUserId) {
     this.sendEmailsExecutor = executor;
+    this.sendEmailEnabled = sendEmailEnabled;
 
     MessageId messageId;
     try {
@@ -103,6 +107,9 @@ public class AttentionSetEmail {
   }
 
   public void sendAsync() {
+    if (!sendEmailEnabled) {
+      return;
+    }
     @SuppressWarnings("unused")
     Future<?> possiblyIgnoredError = sendEmailsExecutor.submit(asyncSender);
   }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "64f73cdd_2dc46e25",
+        "filename": "javatests/com/google/gerrit/server/events/EventDeserializerTest.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-02-03T09:52:34Z",
+      "side": 1,
+      "message": "```suggestion\n    ImmutableList\u003cTestComplexType\u003e deserializedListOfComplexType \u003d\n```",
+      "range": {
+        "startLine": 320,
+        "startChar": 18,
+        "endLine": 320,
+        "endChar": 19
+      },
+      "revId": "aae0983f45f8ecd0840e91cc05d86a1a774e9e81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

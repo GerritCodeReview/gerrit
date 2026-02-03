@@ -29,6 +29,7 @@ import com.google.gerrit.entities.SubmitRequirementResult;
 import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.config.SendEmailEnabled;
 import com.google.gerrit.server.config.SendEmailExecutor;
 import com.google.gerrit.server.mail.EmailFactories;
 import com.google.gerrit.server.mail.send.ChangeEmail;
@@ -69,12 +70,14 @@ public class EmailNewPatchSet {
   private final ExecutorService sendEmailExecutor;
   private final ThreadLocalRequestContext threadLocalRequestContext;
   private final AsyncSender asyncSender;
+  private final boolean sendEmailEnabled;
 
   private RequestScopePropagator requestScopePropagator;
 
   @Inject
   EmailNewPatchSet(
       @SendEmailExecutor ExecutorService sendEmailExecutor,
+      @SendEmailEnabled Boolean sendEmailEnabled,
       ThreadLocalRequestContext threadLocalRequestContext,
       EmailFactories emailFactories,
       PatchSetInfoFactory patchSetInfoFactory,
@@ -88,6 +91,7 @@ public class EmailNewPatchSet {
       @Assisted ChangeKind changeKind,
       @Assisted ObjectId preUpdateMetaId) {
     this.sendEmailExecutor = sendEmailExecutor;
+    this.sendEmailEnabled = sendEmailEnabled;
     this.threadLocalRequestContext = threadLocalRequestContext;
 
     MessageId messageId;
@@ -135,6 +139,9 @@ public class EmailNewPatchSet {
   }
 
   public void sendAsync() {
+    if (!sendEmailEnabled) {
+      return;
+    }
     @SuppressWarnings("unused")
     Future<?> possiblyIgnoredError =
         sendEmailExecutor.submit(

@@ -27,6 +27,7 @@ import com.google.gerrit.entities.EmailHeader.StringEmailHeader;
 import com.google.gerrit.exceptions.EmailException;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.config.SendEmailEnabled;
 import com.google.gerrit.server.mail.Encryption;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.AbstractModule;
@@ -91,8 +92,8 @@ public class SmtpEmailSender implements EmailSender {
   private int expiryDays;
 
   @Inject
-  SmtpEmailSender(@GerritServerConfig Config cfg) {
-    enabled = cfg.getBoolean("sendemail", null, "enable", true);
+  SmtpEmailSender(@GerritServerConfig Config cfg, @SendEmailEnabled Boolean enabled) {
+    this.enabled = enabled;
     connectTimeout =
         Ints.checkedCast(
             ConfigUtil.getTimeUnit(

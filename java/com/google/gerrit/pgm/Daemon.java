@@ -92,6 +92,7 @@ import com.google.gerrit.server.config.GerritOptions;
 import com.google.gerrit.server.config.GerritRuntime;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.LogConfig;
+import com.google.gerrit.server.config.SendEmailEnabledModule;
 import com.google.gerrit.server.config.SysExecutorModule;
 import com.google.gerrit.server.events.EventBroker.EventBrokerModule;
 import com.google.gerrit.server.events.StreamEventsApiListener.StreamEventsApiListenerModule;
@@ -543,6 +544,7 @@ public class Daemon extends SiteProgram {
     modules.add(new StartupChecksModule());
     modules.add(new GerritInstanceNameModule());
     modules.add(new GerritInstanceIdModule());
+    modules.add(new SendEmailEnabledModule());
     if (MoreObjects.firstNonNull(httpd, true)) {
       modules.add(
           new CanonicalWebUrlModule() {

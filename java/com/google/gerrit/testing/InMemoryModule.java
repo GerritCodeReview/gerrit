@@ -87,6 +87,7 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.GerritServerId;
 import com.google.gerrit.server.config.GerritServerIdProvider;
 import com.google.gerrit.server.config.GlobalPluginConfigProvider;
+import com.google.gerrit.server.config.SendEmailEnabledModule;
 import com.google.gerrit.server.config.SendEmailExecutor;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.config.TrackingFooters;
@@ -267,6 +268,7 @@ public class InMemoryModule extends FactoryModule {
     install(NoSshKeyCache.module());
     install(new GerritInstanceNameModule());
     install(new GerritInstanceIdModule());
+    install(new SendEmailEnabledModule());
     install(
         new CanonicalWebUrlModule() {
           @Override

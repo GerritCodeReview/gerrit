@@ -58,6 +58,7 @@ import com.google.gerrit.server.approval.ApprovalsUtil;
 import com.google.gerrit.server.change.ReviewerModifier.InternalReviewerInput;
 import com.google.gerrit.server.change.ReviewerModifier.ReviewerModification;
 import com.google.gerrit.server.change.ReviewerModifier.ReviewerModificationList;
+import com.google.gerrit.server.config.SendEmailEnabled;
 import com.google.gerrit.server.config.SendEmailExecutor;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.extensions.events.CommentAdded;
@@ -136,6 +137,7 @@ public class ChangeInserter implements InsertChangeOp {
   private final DiffOperationsForCommitValidation.Factory diffOperationsForCommitValidationFactory;
   private final PluginSetContext<ValidationOptionsListener> validationOptionsListeners;
   private final PluginSetContext<CommitValidationInfoListener> commitValidationInfoListeners;
+  private final boolean sendEmailEnabled;
 
   private final Change.Id changeId;
   private final PatchSet.Id psId;
@@ -184,6 +186,7 @@ public class ChangeInserter implements InsertChangeOp {
       ChangeMessagesUtil cmUtil,
       EmailFactories emailFactories,
       @SendEmailExecutor ExecutorService sendEmailExecutor,
+      @SendEmailEnabled Boolean sendEmailEnabled,
       CommitValidators.Factory commitValidatorsFactory,
       TopicValidator topicValidator,
       CommentAdded commentAdded,
@@ -226,6 +229,7 @@ public class ChangeInserter implements InsertChangeOp {
     this.approvals = Collections.emptyMap();
     this.fireRevisionCreated = true;
     this.sendMail = true;
+    this.sendEmailEnabled = sendEmailEnabled;
     this.updateRef = true;
   }
 
@@ -601,7 +605,7 @@ public class ChangeInserter implements InsertChangeOp {
   public void postUpdate(PostUpdateContext ctx) throws Exception {
     reviewerAdditions.postUpdate(ctx);
     NotifyResolver.Result notify = ctx.getNotify(change.getId());
-    if (sendMail) {
+    if (sendMail && sendEmailEnabled) {
       Runnable sender =
           new Runnable() {
             @Override

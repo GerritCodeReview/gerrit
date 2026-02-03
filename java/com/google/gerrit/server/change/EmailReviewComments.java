@@ -28,6 +28,7 @@ import com.google.gerrit.entities.SubmitRequirement;
 import com.google.gerrit.entities.SubmitRequirementResult;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.config.SendEmailEnabled;
 import com.google.gerrit.server.config.SendEmailExecutor;
 import com.google.gerrit.server.mail.EmailFactories;
 import com.google.gerrit.server.mail.send.ChangeEmail;
@@ -83,10 +84,12 @@ public class EmailReviewComments {
 
   private final ExecutorService sendEmailsExecutor;
   private final AsyncSender asyncSender;
+  private final boolean sendEmailEnabled;
 
   @Inject
   EmailReviewComments(
       @SendEmailExecutor ExecutorService executor,
+      @SendEmailEnabled Boolean sendEmailEnabled,
       PatchSetInfoFactory patchSetInfoFactory,
       EmailFactories emailFactories,
       ThreadLocalRequestContext requestContext,
@@ -99,6 +102,7 @@ public class EmailReviewComments {
       @Nullable @Assisted("patchSetComment") String patchSetComment,
       @Assisted List<LabelVote> labels) {
     this.sendEmailsExecutor = executor;
+    this.sendEmailEnabled = sendEmailEnabled;
 
     MessageId messageId;
     try {
@@ -140,6 +144,9 @@ public class EmailReviewComments {
   }
 
   public void sendAsync() {
+    if (!sendEmailEnabled) {
+      return;
+    }
     @SuppressWarnings("unused")
     Future<?> possiblyIgnoredError = sendEmailsExecutor.submit(asyncSender);
   }

@@ -23,6 +23,7 @@ import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Address;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.config.SendEmailEnabled;
 import com.google.gerrit.server.config.SendEmailExecutor;
 import com.google.gerrit.server.mail.EmailFactories;
 import com.google.gerrit.server.mail.send.ChangeEmail;
@@ -42,14 +43,17 @@ public class ModifyReviewersEmail {
   private final EmailFactories emailFactories;
   private final ExecutorService sendEmailsExecutor;
   private final MessageIdGenerator messageIdGenerator;
+  private final boolean sendEmailEnabled;
 
   @Inject
   ModifyReviewersEmail(
       EmailFactories emailFactories,
       @SendEmailExecutor ExecutorService sendEmailsExecutor,
+      @SendEmailEnabled Boolean sendEmailEnabled,
       MessageIdGenerator messageIdGenerator) {
     this.emailFactories = emailFactories;
     this.sendEmailsExecutor = sendEmailsExecutor;
+    this.sendEmailEnabled = sendEmailEnabled;
     this.messageIdGenerator = messageIdGenerator;
   }
 
@@ -86,33 +90,35 @@ public class ModifyReviewersEmail {
     ImmutableList<Address> immutableCopiedByEmail = ImmutableList.copyOf(copiedByEmail);
     ImmutableList<Address> immutableRemovedByEmail = ImmutableList.copyOf(removedByEmail);
 
-    @SuppressWarnings("unused")
-    Future<?> possiblyIgnoredError =
-        sendEmailsExecutor.submit(
-            () -> {
-              try {
-                StartReviewChangeEmailDecorator startReviewEmail =
-                    emailFactories.createStartReviewChangeEmail();
-                startReviewEmail.addReviewers(immutableToMail);
-                startReviewEmail.addReviewersByEmail(immutableAddedByEmail);
-                startReviewEmail.addExtraCC(immutableToCopy);
-                startReviewEmail.addExtraCCByEmail(immutableCopiedByEmail);
-                startReviewEmail.addRemovedReviewers(immutableToRemove);
-                startReviewEmail.addRemovedByEmailReviewers(immutableRemovedByEmail);
-                ChangeEmail changeEmail =
-                    emailFactories.createChangeEmail(change, startReviewEmail);
-                OutgoingEmail outgoingEmail =
-                    emailFactories.createOutgoingEmail(REVIEW_REQUESTED, changeEmail);
-                outgoingEmail.setNotify(notify);
-                outgoingEmail.setFrom(userId);
-                outgoingEmail.setMessageId(
-                    messageIdGenerator.fromChangeUpdate(
-                        change.getProject(), change.currentPatchSetId()));
-                outgoingEmail.send();
-              } catch (Exception err) {
-                logger.atSevere().withCause(err).log(
-                    "Cannot send email to new reviewers of change %s", change.getId());
-              }
-            });
+    if (sendEmailEnabled) {
+      @SuppressWarnings("unused")
+      Future<?> possiblyIgnoredError =
+          sendEmailsExecutor.submit(
+              () -> {
+                try {
+                  StartReviewChangeEmailDecorator startReviewEmail =
+                      emailFactories.createStartReviewChangeEmail();
+                  startReviewEmail.addReviewers(immutableToMail);
+                  startReviewEmail.addReviewersByEmail(immutableAddedByEmail);
+                  startReviewEmail.addExtraCC(immutableToCopy);
+                  startReviewEmail.addExtraCCByEmail(immutableCopiedByEmail);
+                  startReviewEmail.addRemovedReviewers(immutableToRemove);
+                  startReviewEmail.addRemovedByEmailReviewers(immutableRemovedByEmail);
+                  ChangeEmail changeEmail =
+                      emailFactories.createChangeEmail(change, startReviewEmail);
+                  OutgoingEmail outgoingEmail =
+                      emailFactories.createOutgoingEmail(REVIEW_REQUESTED, changeEmail);
+                  outgoingEmail.setNotify(notify);
+                  outgoingEmail.setFrom(userId);
+                  outgoingEmail.setMessageId(
+                      messageIdGenerator.fromChangeUpdate(
+                          change.getProject(), change.currentPatchSetId()));
+                  outgoingEmail.send();
+                } catch (Exception err) {
+                  logger.atSevere().withCause(err).log(
+                      "Cannot send email to new reviewers of change %s", change.getId());
+                }
+              });
+    }
   }
 }

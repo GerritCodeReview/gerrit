@@ -58,6 +58,7 @@ import com.google.gerrit.server.approval.ApprovalsUtil;
 import com.google.gerrit.server.change.ReviewerModifier.InternalReviewerInput;
 import com.google.gerrit.server.change.ReviewerModifier.ReviewerModification;
 import com.google.gerrit.server.change.ReviewerModifier.ReviewerModificationList;
+import com.google.gerrit.server.config.SendEmailEnabled;
 import com.google.gerrit.server.config.SendEmailExecutor;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.extensions.events.CommentAdded;
@@ -184,6 +185,7 @@ public class ChangeInserter implements InsertChangeOp {
       ChangeMessagesUtil cmUtil,
       EmailFactories emailFactories,
       @SendEmailExecutor ExecutorService sendEmailExecutor,
+      @SendEmailEnabled Boolean sendEmailEnabled,
       CommitValidators.Factory commitValidatorsFactory,
       TopicValidator topicValidator,
       CommentAdded commentAdded,
@@ -225,7 +227,7 @@ public class ChangeInserter implements InsertChangeOp {
     this.reviewerInputs = ImmutableList.of();
     this.approvals = Collections.emptyMap();
     this.fireRevisionCreated = true;
-    this.sendMail = true;
+    this.sendMail = sendEmailEnabled;
     this.updateRef = true;
   }
 

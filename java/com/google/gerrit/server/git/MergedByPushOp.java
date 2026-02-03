@@ -25,6 +25,7 @@ import com.google.gerrit.entities.PatchSetInfo;
 import com.google.gerrit.entities.SubmissionId;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.PatchSetUtil;
+import com.google.gerrit.server.config.SendEmailEnabled;
 import com.google.gerrit.server.config.SendEmailExecutor;
 import com.google.gerrit.server.extensions.events.ChangeMerged;
 import com.google.gerrit.server.mail.EmailFactories;
@@ -76,6 +77,7 @@ public class MergedByPushOp implements BatchUpdateOp {
   private final ExecutorService sendEmailExecutor;
   private final ChangeMerged changeMerged;
   private final MessageIdGenerator messageIdGenerator;
+  private final boolean sendEmailEnabled;
 
   private final PatchSet.Id psId;
   private final SubmissionId submissionId;
@@ -95,6 +97,7 @@ public class MergedByPushOp implements BatchUpdateOp {
       EmailFactories emailFactories,
       PatchSetUtil psUtil,
       @SendEmailExecutor ExecutorService sendEmailExecutor,
+      @SendEmailEnabled Boolean sendEmailEnabled,
       ChangeMerged changeMerged,
       MessageIdGenerator messageIdGenerator,
       @Assisted RequestScopePropagator requestScopePropagator,
@@ -107,6 +110,7 @@ public class MergedByPushOp implements BatchUpdateOp {
     this.emailFactories = emailFactories;
     this.psUtil = psUtil;
     this.sendEmailExecutor = sendEmailExecutor;
+    this.sendEmailEnabled = sendEmailEnabled;
     this.changeMerged = changeMerged;
     this.messageIdGenerator = messageIdGenerator;
     this.requestScopePropagator = requestScopePropagator;
@@ -182,41 +186,44 @@ public class MergedByPushOp implements BatchUpdateOp {
     if (!correctBranch) {
       return;
     }
-    @SuppressWarnings("unused") // Runnable already handles errors
-    Future<?> possiblyIgnoredError =
-        sendEmailExecutor.submit(
-            requestScopePropagator.wrap(
-                new Runnable() {
-                  @Override
-                  public void run() {
-                    try {
-                      // The stickyApprovalDiff is always empty here since this is not supported
-                      // for direct pushes.
-                      ChangeEmail changeEmail =
-                          emailFactories.createChangeEmail(
-                              ctx.getProject(),
-                              psId.changeId(),
-                              emailFactories.createMergedChangeEmail(
-                                  /* stickyApprovalDiff= */ Optional.empty(),
-                                  /* modifiedFiles= */ List.of()));
-                      changeEmail.setPatchSet(patchSet, info);
-                      OutgoingEmail outgoingEmail =
-                          emailFactories.createOutgoingEmail(CHANGE_MERGED, changeEmail);
-                      outgoingEmail.setFrom(ctx.getAccountId());
-                      outgoingEmail.setMessageId(
-                          messageIdGenerator.fromChangeUpdate(ctx.getRepoView(), patchSet.id()));
-                      outgoingEmail.send();
-                    } catch (Exception e) {
-                      logger.atSevere().withCause(e).log(
-                          "Cannot send email for submitted patch set %s", psId);
-                    }
-                  }
 
-                  @Override
-                  public String toString() {
-                    return "send-email merged";
-                  }
-                }));
+    if (sendEmailEnabled) {
+      @SuppressWarnings("unused") // Runnable already handles errors
+      Future<?> possiblyIgnoredError =
+          sendEmailExecutor.submit(
+              requestScopePropagator.wrap(
+                  new Runnable() {
+                    @Override
+                    public void run() {
+                      try {
+                        // The stickyApprovalDiff is always empty here since this is not supported
+                        // for direct pushes.
+                        ChangeEmail changeEmail =
+                            emailFactories.createChangeEmail(
+                                ctx.getProject(),
+                                psId.changeId(),
+                                emailFactories.createMergedChangeEmail(
+                                    /* stickyApprovalDiff= */ Optional.empty(),
+                                    /* modifiedFiles= */ List.of()));
+                        changeEmail.setPatchSet(patchSet, info);
+                        OutgoingEmail outgoingEmail =
+                            emailFactories.createOutgoingEmail(CHANGE_MERGED, changeEmail);
+                        outgoingEmail.setFrom(ctx.getAccountId());
+                        outgoingEmail.setMessageId(
+                            messageIdGenerator.fromChangeUpdate(ctx.getRepoView(), patchSet.id()));
+                        outgoingEmail.send();
+                      } catch (Exception e) {
+                        logger.atSevere().withCause(e).log(
+                            "Cannot send email for submitted patch set %s", psId);
+                      }
+                    }
+
+                    @Override
+                    public String toString() {
+                      return "send-email merged";
+                    }
+                  }));
+    }
 
     changeMerged.fire(
         ctx.getChangeData(change), patchSet, ctx.getAccount(), mergeResultRevId, ctx.getWhen());

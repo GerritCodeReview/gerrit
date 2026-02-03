@@ -110,6 +110,24 @@
       "message": "We should also test for `ImmutableList\u003cComplexType\u003e` here.",
       "revId": "06e8b2c0628b3f00fd0f8512b640fe247d7ac6fb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "db169c39_584c10d9",
+        "filename": "javatests/com/google/gerrit/server/events/EventDeserializerTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-02-03T08:43:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "227e114f_c6f9c72d",
+      "revId": "06e8b2c0628b3f00fd0f8512b640fe247d7ac6fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

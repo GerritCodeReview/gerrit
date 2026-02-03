@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1402cc21_08969200",
+        "filename": "java/com/google/gerrit/json/ImmutableListTypeAdapter.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-02-03T08:45:48Z",
+      "side": 1,
+      "message": "```suggestion\n            \"Expected a JSON Array being deserialized to an ImmutableList\u003c\u003e\");\n```",
+      "range": {
+        "startLine": 48,
+        "startChar": 41,
+        "endLine": 48,
+        "endChar": 52
+      },
+      "revId": "2c3ab0eada3681a1a74f047ce10a5e32368471b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

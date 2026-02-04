@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e839ce22_e3d08236",
+        "filename": "java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-02-04T16:54:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fe34974a_600fb17d",
+      "revId": "fb2ec500b177989405dbcca3eb0d8987105230e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e4bc75a2_e01b7e3b",
@@ -49,6 +67,24 @@
       "writtenOn": "2026-02-03T20:31:16Z",
       "side": 1,
       "message": "```suggestion\n    if (sendMail \u0026\u0026 sendEmailEnabled) {\n```",
+      "revId": "fb2ec500b177989405dbcca3eb0d8987105230e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b3a2a990_7d05676a",
+        "filename": "java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 606,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-02-04T16:54:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e4bc75a2_e01b7e3b",
       "revId": "fb2ec500b177989405dbcca3eb0d8987105230e8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -70,6 +106,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "050e7c0e_b132d000",
+        "filename": "java/com/google/gerrit/server/change/EmailNewPatchSet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-02-04T16:54:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cc79a078_262264c4",
+      "revId": "fb2ec500b177989405dbcca3eb0d8987105230e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c49fc951_4fd248f6",
@@ -83,6 +137,24 @@
       "writtenOn": "2026-02-03T20:31:16Z",
       "side": 1,
       "message": "We can also skip creating the asyncSender if email sending is disabled.",
+      "revId": "fb2ec500b177989405dbcca3eb0d8987105230e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "05b5844d_1c612283",
+        "filename": "java/com/google/gerrit/server/change/EmailReviewComments.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-02-04T16:54:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c49fc951_4fd248f6",
       "revId": "fb2ec500b177989405dbcca3eb0d8987105230e8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -104,6 +176,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d8bfc416_c34ddf06",
+        "filename": "java/com/google/gerrit/server/change/ModifyReviewersEmail.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-02-04T16:54:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3e3b04eb_69a33800",
+      "revId": "fb2ec500b177989405dbcca3eb0d8987105230e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b6c3cae5_4758a861",
@@ -117,6 +207,24 @@
       "writtenOn": "2026-02-03T20:31:16Z",
       "side": 1,
       "message": "Use an early return consistently, like in all other classes.\n\n```suggestion\n    if (!sendEmailEnabled) {\n       return;\n    }\n```",
+      "revId": "fb2ec500b177989405dbcca3eb0d8987105230e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b6eff0fb_87364a08",
+        "filename": "java/com/google/gerrit/server/git/MergedByPushOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-02-04T16:54:05Z",
+      "side": 1,
+      "message": "This method is a bit different; we don\u0027t just send an email, we also fire a notification about the change being merged:\n\n```\n    changeMerged.fire(\n        ctx.getChangeData(change), patchSet, ctx.getAccount(), mergeResultRevId, ctx.getWhen());\n```",
+      "parentUuid": "b6c3cae5_4758a861",
       "revId": "fb2ec500b177989405dbcca3eb0d8987105230e8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

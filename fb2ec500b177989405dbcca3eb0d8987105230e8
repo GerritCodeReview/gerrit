@@ -227,6 +227,24 @@
       "parentUuid": "b6c3cae5_4758a861",
       "revId": "fb2ec500b177989405dbcca3eb0d8987105230e8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "efdda760_ceee4e35",
+        "filename": "java/com/google/gerrit/server/git/MergedByPushOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-02-04T21:05:06Z",
+      "side": 1,
+      "message": "Oh, good catch!",
+      "parentUuid": "b6eff0fb_87364a08",
+      "revId": "fb2ec500b177989405dbcca3eb0d8987105230e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

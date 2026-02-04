@@ -173,7 +173,8 @@ public class AccountManager {
         throw new AccountException("Authentication error, account not found");
       }
       if (!act.get().isActive()) {
-        throw new AccountException("Authentication error, account inactive");
+        throw new AccountException(
+            "Authentication error, account %s inactive".formatted(act.get().id()));
       }
 
       // return the identity to the caller.

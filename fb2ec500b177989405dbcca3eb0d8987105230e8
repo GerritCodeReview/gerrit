@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fe34974a_600fb17d",
+        "filename": "java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-02-04T08:39:51Z",
+      "side": 1,
+      "message": "Good catch.\nI thought the only usage of `setSendMail(false)` was from the `ConsistencyCheckerIT` test, but `ReceiveCommits` also explicitly sets this explicitly with `setSendMail(true)`: not sure why, since the default is already `true`.\n\nAnyway, I will keep the two flags separated.",
+      "parentUuid": "00bf1f4d_92badd24",
+      "revId": "fb2ec500b177989405dbcca3eb0d8987105230e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e4bc75a2_e01b7e3b",
         "filename": "java/com/google/gerrit/server/change/ChangeInserter.java",
         "patchSetId": 3

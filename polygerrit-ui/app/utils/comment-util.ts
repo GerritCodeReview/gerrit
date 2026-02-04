@@ -717,7 +717,11 @@ export function computeDisplayLine(excludePath: {
   if (excludePath.path === SpecialFilePath.PATCHSET_LEVEL_COMMENTS) return '';
   if (excludePath.line === FILE) return FILE;
   if (excludePath.line) return `#${excludePath.line}`;
-  if (excludePath.range) return `#${excludePath.range.end_line}`;
+  if (excludePath.range) {
+    // If the range is wrong, we display the start line. Happens to AI generated comments.
+    if (excludePath.range.end_line < excludePath.range.start_line) return `#${excludePath.range.start_line}`;
+    return `#${excludePath.range.end_line}`;
+  }
   return '';
 }
 

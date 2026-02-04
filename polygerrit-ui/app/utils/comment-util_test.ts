@@ -730,6 +730,20 @@ suite('comment-util', () => {
       );
     });
 
+    test('invalid range', () => {
+      assert.equal(
+        computeDisplayLine({
+          range: {
+            start_line: 12,
+            start_character: 1,
+            end_line: 1,
+            end_character: 10,
+          },
+        }),
+        '#12'
+      );
+    });
+
     test('empty', () => {
       assert.equal(computeDisplayLine({}), '');
     });

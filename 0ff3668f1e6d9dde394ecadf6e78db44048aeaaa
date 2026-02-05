@@ -52,6 +52,24 @@
       "parentUuid": "bbb36864_81349489",
       "revId": "0ff3668f1e6d9dde394ecadf6e78db44048aeaaa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "82b0a2b1_96ed14d0",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 4602262
+      },
+      "writtenOn": "2026-02-05T19:27:03Z",
+      "side": 1,
+      "message": "\u003e \u003e Approved\n\u003e Done\n\u003e ```suggestion\n\u003e         return \u0027was \u0027 + state;\n\u003e ```no removal approved\n\u003e Done\nFinished for today\nAlip Rodham Clinton(Google)Owner\nApproved and Published \nPublic",
+      "parentUuid": "4306071b_18659a94",
+      "revId": "0ff3668f1e6d9dde394ecadf6e78db44048aeaaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

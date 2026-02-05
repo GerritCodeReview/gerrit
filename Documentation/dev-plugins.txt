@@ -99,14 +99,18 @@ modules in the manifest. Up to three modules can be named in the
 manifest. `Gerrit-Module` supplies bindings to the core server;
 `Gerrit-SshModule` supplies SSH commands to the SSH server (if
 enabled); `Gerrit-HttpModule` supplies servlets and filters to the HTTP
-server (if enabled). If no modules are named automatic registration
-will be performed by scanning all classes in the plugin JAR for
+server (if enabled) and `Gerrit-ApiModule` supplies bindings that
+exposed to all the other plugins loaded in Gerrit, which can be
+used for implementing cross-plugin communication.
+If no modules are named automatic registration will be performed
+by scanning all classes in the plugin JAR for
 `@Listen` and `@Export("")` annotations.
 
 ----
 Gerrit-Module:     tld.example.project.CoreModuleClassName
 Gerrit-SshModule:  tld.example.project.SshModuleClassName
 Gerrit-HttpModule: tld.example.project.HttpModuleClassName
+Gerrit-ApiModule:  tls.example.project.ApiModuleClassName
 ----
 
 === Batch runtime
@@ -129,7 +133,8 @@ enabled, not `Gerrit-SysModule`.
 
 === Cross-Plugin communication
 
-A plugin can optionally declare an API to be used by other plugins.
+A plugin can declare an API to be used by other plugins using the `Gerrit-ApiModule`
+declaration in the `MANIFEST.MF`:
 
 ---
 Gerrit-ApiModule: tld.example.project.APIClassName

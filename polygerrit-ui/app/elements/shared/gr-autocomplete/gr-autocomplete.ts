@@ -221,6 +221,10 @@ export class GrAutocomplete extends LitElement {
             --gr-autocomplete-text-field-border-radius,
             var(--border-radius)
           );
+          padding: var(
+            --gr-autocomplete-text-field-padding,
+            0
+          );
         }
         md-outlined-text-field.borderless {
           --md-outlined-text-field-outline-width: 0;

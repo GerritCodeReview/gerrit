@@ -16,6 +16,24 @@
       "message": "In this screenshot, some of the text gets cut off in the textbox.",
       "revId": "96fd25c08b0f3b6e12d97911dc0e59f8d7641672",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b94d475c_09a7607e",
+        "filename": "polygerrit-ui/screenshots/Chromium/baseline/gr-create-flow-dialog.png",
+        "patchSetId": 19
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-02-06T21:35:51Z",
+      "side": 1,
+      "message": "Yes, but it\u0027s a bug in screenshot library, because in browser it works well. \n\nFor example also icon for information is cross here in screenshot test golden file.",
+      "parentUuid": "5ed0bae8_ebd169dd",
+      "revId": "96fd25c08b0f3b6e12d97911dc0e59f8d7641672",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6479cbbf_9343e569",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-02-06T06:30:23Z",
+      "side": 1,
+      "message": "The sync between `MODULE.bazel` and `MODULE.bazel.lock` appears to have been fixed in change 542021. See my comment there for details.",
+      "revId": "c3214730f582144c202ee97ad6bf80f20286d953",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

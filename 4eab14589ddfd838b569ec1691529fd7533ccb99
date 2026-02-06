@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0fcd6480_66177bb8",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-02-06T09:34:20Z",
+      "side": 1,
+      "message": "Not just implemented but also used.\n\nYou can have plugin I that provides an interface, plugin A that implementation and plugin B that uses it.",
+      "parentUuid": "d100b4d1_7a3e9dbd",
+      "range": {
+        "startLine": 132,
+        "startChar": 45,
+        "endLine": 132,
+        "endChar": 49
+      },
+      "revId": "4eab14589ddfd838b569ec1691529fd7533ccb99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "29000b14_051f08b2",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 9
@@ -49,6 +73,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8775b837_03879b71",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-02-06T09:34:20Z",
+      "side": 1,
+      "message": "It could also be the one that registered the module. Your _\"not the one which defined the API module\"_ is inaccurate.",
+      "parentUuid": "29000b14_051f08b2",
+      "range": {
+        "startLine": 138,
+        "startChar": 0,
+        "endLine": 140,
+        "endChar": 5
+      },
+      "revId": "4eab14589ddfd838b569ec1691529fd7533ccb99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "02ef184b_ae9123a9",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 9
@@ -60,6 +108,24 @@
       "writtenOn": "2026-02-06T08:09:53Z",
       "side": 1,
       "message": "Please add a small but complete example here for both `plugin B` exposing and API and `plugin A` implementing that API.",
+      "revId": "4eab14589ddfd838b569ec1691529fd7533ccb99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1ae740c8_6ab82168",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-02-06T09:34:20Z",
+      "side": 1,
+      "message": "\u003e Please add a small but complete example here for both `plugin B` exposing and API and `plugin A` implementing that API.\n\nThe I63c9b7f2 has links to complete examples, and the Gerrit code-base now has them in the replication plugin. Would you include them as links or copy\u0026paste the code into the documentation instead?",
+      "parentUuid": "02ef184b_ae9123a9",
       "revId": "4eab14589ddfd838b569ec1691529fd7533ccb99",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -51,13 +51,20 @@ export class GrCreateFlow extends LitElement {
   private createModal?: HTMLDialogElement;
 
   @state()
-  private stages: Stage[] = [];
+  // private but used in tests
+  stages: Stage[] = [];
 
-  @state() private currentCondition = '';
+  @state()
+  // private but used in tests
+  currentCondition = '';
 
-  @state() private currentAction = '';
+  @state()
+  // private but used in tests
+  currentAction = '';
 
-  @state() private currentParameter = '';
+  @state()
+  // private but used in tests
+  currentParameter = '';
 
   @state() private currentConditionPrefix = 'Gerrit';
 
@@ -67,7 +74,9 @@ export class GrCreateFlow extends LitElement {
 
   @state() flowString = '';
 
-  @state() private flowActions: FlowActionInfo[] = [];
+  @state()
+  // private but used in tests
+  flowActions: FlowActionInfo[] = [];
 
   private readonly restApiService = getAppContext().restApiService;
 

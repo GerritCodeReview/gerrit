@@ -22,6 +22,30 @@
       },
       "revId": "1459bf72e0067b4642addcdada69b3f8752b0d51",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "588167e2_729bb9e5",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 26
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-02-06T09:09:08Z",
+      "side": 1,
+      "message": "This is the `lazy` pattern: the assignment needs to happen lazily but only once.",
+      "parentUuid": "b4d5f48e_7789628c",
+      "range": {
+        "startLine": 147,
+        "startChar": 0,
+        "endLine": 148,
+        "endChar": 13
+      },
+      "revId": "1459bf72e0067b4642addcdada69b3f8752b0d51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

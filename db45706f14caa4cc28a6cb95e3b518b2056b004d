@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eb9ee5af_c899746e",
+        "filename": "polygerrit-ui/app/elements/change/gr-flows/gr-create-flow.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 427,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-02-06T12:00:53Z",
+      "side": 1,
+      "message": "given how much space we have, I would suggest just removing this toggle entirely\n\nWe have enough vertical space to render everything\n\nThe user will not understand the raw flow dialog by default and I expect the user relies on the Gerrit change query autocomplete to build their query\n\nIf you want to keep the toggle, then consider keeping it visible by default\n\nWe can ofc track usage and make more informed decisions once we launch",
+      "range": {
+        "startLine": 420,
+        "startChar": 0,
+        "endLine": 427,
+        "endChar": 0
+      },
+      "revId": "db45706f14caa4cc28a6cb95e3b518b2056b004d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

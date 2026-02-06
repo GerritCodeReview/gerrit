@@ -321,7 +321,7 @@ export function makePrefixedJSON(obj: any) {
 }
 
 export async function visualDiffDarkTheme(
-  element: LitElement | HTMLElement,
+  element: LitElement | HTMLElement | Element,
   name: string
 ) {
   applyDarkTheme();

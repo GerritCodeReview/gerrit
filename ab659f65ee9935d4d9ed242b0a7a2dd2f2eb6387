@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "56c6d087_91a9d730",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-02-06T06:25:32Z",
+      "side": 1,
+      "message": "I tried to rebase and I get a massive conflict.\nWas the MODULE.bazel.lock eventually updated?\n\nI also tried to remove it on master and regenerate, and it creates exactly the same one.\n\nShould this change be abandoned then?",
+      "revId": "ab659f65ee9935d4d9ed242b0a7a2dd2f2eb6387",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

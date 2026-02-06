@@ -118,6 +118,30 @@
       },
       "revId": "8642c107d1ac3c1fb54cfc58479bb25825732d1c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5bebba4f_467014e7",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-02-06T12:07:20Z",
+      "side": 1,
+      "message": "Thanks for checking!\n\nThis change is specifically meant to catch the case where `MODULE.bazel` is updated but the corresponding `MODULE.bazel.lock` change is not committed.\n\nWith `--lockfile_mode\u003derror` enabled, both local and CI builds fail in that situation, as described in the Test Plan.\n\nModifying only `MODULE.bazel.lock` is a slightly different use case: Bazel treats the lockfile as an input snapshot and does not necessarily re-generate and compare it during a normal Bazel build, so a successful build in that case is expected.\n\nIf we want to additionally enforce that *the checked-in lockfile always matches Bazel’s generated output*, that could be implemented as a follow-up CI check. At a high level, such a check would look like:\n\n```bash\n# Regenerate lockfile deterministically according to Bazel\u0027s rules\nbazelisk mod deps --lockfile_mode\u003dupdate\n\n# Fail if regeneration changed the checked-in lockfile\nif git diff --exit-code -- MODULE.bazel.lock fails:\n  print instructions to run:\n    bazelisk mod deps --lockfile_mode\u003dupdate\n  fail the CI job\n```\n\nThat additional *lockfile canonicality* check is outside the scope of this change, but I’m happy to try to add it in a follow-up if we think it’s useful.\n\nAlso worth noting that this is consistent with existing workflows in the Gerrit repository. For example, the NodeJS toolchain already requires committing lockfile updates (e.g. `yarn.lock`), and the developer documentation explicitly states:\n\n```\nDocumentation/dev-bazel.txt\nAfter the update, commit all changes to the repository (including `yarn.lock`).\n```\n\nThis change applies the same expectation to Bazel modules: lockfile updates are intentional, explicit, and reviewed.",
+      "parentUuid": "75658668_fb1f366d",
+      "range": {
+        "startLine": 101,
+        "startChar": 4,
+        "endLine": 101,
+        "endChar": 44
+      },
+      "revId": "8642c107d1ac3c1fb54cfc58479bb25825732d1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

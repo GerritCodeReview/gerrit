@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3d7c7941_53fb1682",
+        "filename": "polygerrit-ui/app/elements/change/gr-flows/gr-create-flow.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 468,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-02-06T17:30:39Z",
+      "side": 1,
+      "message": "why is this optional?",
+      "range": {
+        "startLine": 468,
+        "startChar": 30,
+        "endLine": 468,
+        "endChar": 39
+      },
+      "revId": "fe3d27d7b65cb3305d8bb2a21345b0c096b96833",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "787ec18b_0f61c3c9",
+        "filename": "polygerrit-ui/app/elements/change/gr-flows/gr-create-flow.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 595,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-02-06T17:30:39Z",
+      "side": 1,
+      "message": "maybe leave a top level TODO that we want to at some point dynamically fetch this information\n\nThe list of actions is being fetched dynamically until now but this code hardcodes these actions",
+      "range": {
+        "startLine": 595,
+        "startChar": 2,
+        "endLine": 595,
+        "endChar": 52
+      },
+      "revId": "fe3d27d7b65cb3305d8bb2a21345b0c096b96833",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "75375dbf_12544d5f",
+        "filename": "polygerrit-ui/app/elements/change/gr-flows/gr-create-flow.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 596,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-02-06T17:30:39Z",
+      "side": 1,
+      "message": "we probably don\u0027t want to hardcode `google.com` here\n\nMaybe just mention email instead?",
+      "range": {
+        "startLine": 596,
+        "startChar": 43,
+        "endLine": 596,
+        "endChar": 58
+      },
+      "revId": "fe3d27d7b65cb3305d8bb2a21345b0c096b96833",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3d6692cd_fabf9a11",
+        "filename": "polygerrit-ui/app/elements/change/gr-flows/gr-create-flow.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 597,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-02-06T17:30:39Z",
+      "side": 1,
+      "message": "did you verify this is the parameter format the action handler is expecting?",
+      "range": {
+        "startLine": 597,
+        "startChar": 27,
+        "endLine": 597,
+        "endChar": 54
+      },
+      "revId": "fe3d27d7b65cb3305d8bb2a21345b0c096b96833",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3a57664c_bc4de8c9",
+        "filename": "polygerrit-ui/app/elements/change/gr-flows/gr-create-flow.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 598,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-02-06T17:30:39Z",
+      "side": 1,
+      "message": "maybe mention no parameter required because submit throws an error if one is provided",
+      "range": {
+        "startLine": 598,
+        "startChar": 29,
+        "endLine": 598,
+        "endChar": 39
+      },
+      "revId": "fe3d27d7b65cb3305d8bb2a21345b0c096b96833",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5c9d2559_60f81346",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-autocomplete/gr-search-autocomplete.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-02-06T17:30:39Z",
+      "side": 1,
+      "message": "why do we need this code?\n\nIf the slot is not provided then nothing gets rendered?",
+      "range": {
+        "startLine": 215,
+        "startChar": 0,
+        "endLine": 220,
+        "endChar": 0
+      },
+      "revId": "fe3d27d7b65cb3305d8bb2a21345b0c096b96833",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -438,7 +438,7 @@ suite('gr-flows tests', () => {
     });
 
     test('filters by DONE', async () => {
-      element['statusFilter'] = FlowStageState.DONE;
+      element.statusFilter = FlowStageState.DONE;
       await element.updateComplete;
 
       const flowElements = element.shadowRoot!.querySelectorAll('.flow');
@@ -447,7 +447,7 @@ suite('gr-flows tests', () => {
     });
 
     test('filters by PENDING', async () => {
-      element['statusFilter'] = FlowStageState.PENDING;
+      element.statusFilter = FlowStageState.PENDING;
       await element.updateComplete;
 
       const flowElements = element.shadowRoot!.querySelectorAll('.flow');
@@ -456,7 +456,7 @@ suite('gr-flows tests', () => {
     });
 
     test('filters by FAILED', async () => {
-      element['statusFilter'] = FlowStageState.FAILED;
+      element.statusFilter = FlowStageState.FAILED;
       await element.updateComplete;
 
       const flowElements = element.shadowRoot!.querySelectorAll('.flow');
@@ -465,7 +465,7 @@ suite('gr-flows tests', () => {
     });
 
     test('filters by TERMINATED', async () => {
-      element['statusFilter'] = FlowStageState.TERMINATED;
+      element.statusFilter = FlowStageState.TERMINATED;
       await element.updateComplete;
 
       const flowElements = element.shadowRoot!.querySelectorAll('.flow');
@@ -479,7 +479,7 @@ suite('gr-flows tests', () => {
       let flowElements = element.shadowRoot!.querySelectorAll('.flow');
       assert.equal(flowElements.length, 1);
 
-      element['statusFilter'] = 'all';
+      element.statusFilter = 'all';
       await element.updateComplete;
 
       flowElements = element.shadowRoot!.querySelectorAll('.flow');

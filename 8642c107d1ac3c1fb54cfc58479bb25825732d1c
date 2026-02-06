@@ -22,6 +22,30 @@
       },
       "revId": "8642c107d1ac3c1fb54cfc58479bb25825732d1c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "43b2ca02_ea022f9b",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-02-06T10:09:31Z",
+      "side": 1,
+      "message": "Yes, that’s exactly what this change is doing.\n\nBy adding `--lockfile_mode\u003derror` to our default Bazel flags, the build now enforces strict synchronization between `MODULE.bazel` and `MODULE.bazel.lock`.\n\nIf `MODULE.bazel` changes in a way that would require updating the lockfile, Bazel fails the build and prints actionable feedback, e.g.:\n\n```\n... not permitted with --lockfile_mode\u003derror.\nPlease run `bazel mod deps --lockfile_mode\u003dupdate` to update your lockfile.\n```\n\nSo we already get the “generated lock file is different -\u003e provide feedback” behavior, and we avoid silently rewriting `MODULE.bazel.lock` during normal builds. Updating the lockfile remains an explicit, intentional step via:\n\n```\n $\u003e bazelisk mod deps --lockfile_mode\u003dupdate\n```",
+      "parentUuid": "b3d29477_db021aa2",
+      "range": {
+        "startLine": 101,
+        "startChar": 4,
+        "endLine": 101,
+        "endChar": 44
+      },
+      "revId": "8642c107d1ac3c1fb54cfc58479bb25825732d1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

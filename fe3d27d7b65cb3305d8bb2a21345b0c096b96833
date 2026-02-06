@@ -305,6 +305,30 @@
       },
       "revId": "fe3d27d7b65cb3305d8bb2a21345b0c096b96833",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "caef1305_7b6aa3da",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-autocomplete/gr-search-autocomplete.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-02-06T18:24:15Z",
+      "side": 1,
+      "message": "Good idea, that\u0027s much simpler",
+      "parentUuid": "9911bdc1_ca57e92c",
+      "range": {
+        "startLine": 215,
+        "startChar": 0,
+        "endLine": 220,
+        "endChar": 0
+      },
+      "revId": "fe3d27d7b65cb3305d8bb2a21345b0c096b96833",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

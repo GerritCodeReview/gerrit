@@ -22,6 +22,30 @@
       },
       "revId": "56884b9c71831fca05eb568869575dc3d0619b48",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a02e36ba_805d1dcd",
+        "filename": "java/com/google/gerrit/entities/AccountGroup.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-02-06T16:51:54Z",
+      "side": 0,
+      "message": "No, as this is a record all fields are implicitly final, so this is no longer needed.",
+      "parentUuid": "f09bc7ca_3b4883fa",
+      "range": {
+        "startLine": 94,
+        "startChar": 0,
+        "endLine": 102,
+        "endChar": 5
+      },
+      "revId": "56884b9c71831fca05eb568869575dc3d0619b48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

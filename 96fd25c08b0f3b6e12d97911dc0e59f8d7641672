@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ed0bae8_ebd169dd",
+        "filename": "polygerrit-ui/screenshots/Chromium/baseline/gr-create-flow-dialog.png",
+        "patchSetId": 19
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2026-02-06T21:17:07Z",
+      "side": 1,
+      "message": "In this screenshot, some of the text gets cut off in the textbox.",
+      "revId": "96fd25c08b0f3b6e12d97911dc0e59f8d7641672",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

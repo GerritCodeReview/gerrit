@@ -106,6 +106,7 @@ export class GrSmartSearch extends LitElement {
       this.fetchProjects(predicate, expression);
     return html`
       <gr-search-autocomplete
+        showSearchIcon
         id="search"
         .value=${this.searchQuery}
         .projectSuggestions=${projectSuggestions}
@@ -114,7 +115,6 @@ export class GrSmartSearch extends LitElement {
         .verticalOffset=${this.verticalOffset}
         @commit=${this.handleInputCommit}
       >
-        <gr-icon icon="search" slot="leading-icon" aria-hidden="true"></gr-icon>
       </gr-search-autocomplete>
     `;
   }

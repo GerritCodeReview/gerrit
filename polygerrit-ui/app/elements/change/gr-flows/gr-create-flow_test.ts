@@ -10,7 +10,6 @@ import {GrCreateFlow} from './gr-create-flow';
 import {queryAll, queryAndAssert} from '../../../test/test-utils';
 import {NumericChangeId} from '../../../types/common';
 import {GrButton} from '../../shared/gr-button/gr-button';
-import {GrAutogrowTextarea} from '../../shared/gr-autogrow-textarea/gr-autogrow-textarea';
 import {GrSearchAutocomplete} from '../../core/gr-search-autocomplete/gr-search-autocomplete';
 import {FlowsModel, flowsModelToken} from '../../../models/flows/flows-model';
 import {testResolver} from '../../../test/common-test-setup';
@@ -416,9 +415,9 @@ suite('gr-create-flow tests', () => {
     );
     const grDialog = queryAndAssert<GrDialog>(createModal, 'gr-dialog');
 
-    const rawFlowTextarea = queryAndAssert<GrAutogrowTextarea>(
+    const rawFlowTextarea = queryAndAssert<MdOutlinedTextField>(
       grDialog,
-      'gr-autogrow-textarea[label="Raw Flow"]'
+      'md-outlined-text-field[label="Flow definition"]'
     );
     assert.isDefined(rawFlowTextarea);
     assert.equal(rawFlowTextarea.value, '');

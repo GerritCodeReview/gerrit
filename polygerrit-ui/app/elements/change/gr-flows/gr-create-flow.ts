@@ -61,6 +61,10 @@ export class GrCreateFlow extends LitElement {
 
   @state() private currentConditionPrefix = 'Gerrit';
 
+  @state() private titleText = '';
+
+  @state() private guidedBuilderExpanded = true;
+
   @state() private loading = false;
 
   @state() private serverConfig?: ServerInfo;
@@ -130,6 +134,20 @@ export class GrCreateFlow extends LitElement {
           width: 72ch;
           margin-bottom: var(--spacing-m);
           border-color: var(--primary-text-color, black);
+        }
+        .guided-builder-header {
+          display: flex;
+          align-items: center;
+          gap: var(--spacing-s);
+          justify-content: center;
+          color: var(--link-color);
+          margin-top: var(--spacing-l);
+          margin-bottom: var(--spacing-m);
+          border: 1px solid var(--border-color);
+          border-radius: var(--border-radius, 4px);
+          padding: var(--spacing-m);
+          cursor: pointer;
+          user-select: none;
         }
         .add-stage-row {
           display: flex;
@@ -257,7 +275,8 @@ export class GrCreateFlow extends LitElement {
     return html`
       <dialog id="createModal" tabindex="-1">
         <gr-dialog
-          confirm-label="Create"
+          confirm-label="Create flow"
+          cancel-label="Close"
           ?disabled=${this.loading}
           @confirm=${this.handleCreateFlow}
           @cancel=${() => {
@@ -266,91 +285,129 @@ export class GrCreateFlow extends LitElement {
         >
           <div slot="header">Create new flow</div>
           <div class="main" slot="main">
+            <md-outlined-text-field
+              label="Title"
+              .value=${this.titleText}
+              @input=${(e: InputEvent) =>
+                (this.titleText = (e.target as MdOutlinedTextField).value)}
+              style="width: 100%; margin-bottom: var(--spacing-m);"
+            ></md-outlined-text-field>
             <div class="raw-flow-container">
-              <gr-autogrow-textarea
-                placeholder="raw flow"
-                label="Raw Flow"
+              <md-outlined-text-field
+                type="textarea"
+                rows="4"
+                label="Flow definition"
                 .value=${this.flowString}
                 @input=${(e: InputEvent) => {
-                  this.flowString = (e.target as HTMLTextAreaElement).value;
+                  this.flowString = (e.target as MdOutlinedTextField).value;
 
                   this.parseStagesFromRawFlow(this.flowString);
                 }}
-              ></gr-autogrow-textarea>
-              <gr-copy-clipboard
-                .text=${this.flowString}
-                buttonTitle="Copy raw flow to clipboard"
-                hideinput
-              ></gr-copy-clipboard>
+                style="width: 100%; margin-bottom: var(--spacing-m);"
+              ></md-outlined-text-field>
             </div>
-            <div>${this.renderTable()}</div>
-            <div class="add-stage-row">
-              <md-outlined-select
-                value=${this.currentConditionPrefix}
-                @change=${(e: Event) => {
-                  const select = e.target as HTMLSelectElement;
+            <div
+              class="guided-builder-header"
+              @click=${(e: Event) => this.toggleGuidedBuilder(e)}
+              @keydown=${(e: KeyboardEvent) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  this.toggleGuidedBuilder(e);
+                }
+              }}
+              role="button"
+              tabindex="0"
+            >
+              <gr-icon
+                icon=${this.guidedBuilderExpanded
+                  ? 'expand_less'
+                  : 'expand_more'}
+                filled
+              ></gr-icon>
+              <span>Guided Builder</span>
+            </div>
+            ${when(
+              this.guidedBuilderExpanded,
+              () => html`
+                <div>${this.renderTable()}</div>
+                <div class="add-stage-row">
+                  <md-outlined-select
+                    value=${this.currentConditionPrefix}
+                    @change=${(e: Event) => {
+                      const select = e.target as HTMLSelectElement;
 
-                  this.currentConditionPrefix = select.value;
-                }}
-              >
-                <md-select-option value="Gerrit">
-                  <div slot="headline">Gerrit</div>
-                </md-select-option>
-                <md-select-option value="Other">
-                  <div slot="headline">Other</div>
-                </md-select-option>
-              </md-outlined-select>
-              ${this.currentConditionPrefix === 'Gerrit'
-                ? html`<gr-search-autocomplete
-                    .placeholder=${'Create condition'}
-                    .value=${this.currentCondition}
-                    .projectSuggestions=${this.projectSuggestions}
-                    .groupSuggestions=${this.groupSuggestions}
-                    .accountSuggestions=${this.accountSuggestions}
-                    @text-changed=${this.handleGerritConditionTextChanged}
-                  ></gr-search-autocomplete>`
-                : html`<md-outlined-text-field
-                    label="Condition"
-                    .value=${this.currentCondition}
+                      this.currentConditionPrefix = select.value;
+                    }}
+                  >
+                    <md-select-option value="Gerrit">
+                      <div slot="headline">Gerrit</div>
+                    </md-select-option>
+                    <md-select-option value="Other">
+                      <div slot="headline">Other</div>
+                    </md-select-option>
+                  </md-outlined-select>
+                  ${this.currentConditionPrefix === 'Gerrit'
+                    ? html`<gr-search-autocomplete
+                        .placeholder=${'Create condition'}
+                        .value=${this.currentCondition}
+                        .projectSuggestions=${this.projectSuggestions}
+                        .groupSuggestions=${this.groupSuggestions}
+                        .accountSuggestions=${this.accountSuggestions}
+                        @text-changed=${this.handleGerritConditionTextChanged}
+                      ></gr-search-autocomplete>`
+                    : html`<md-outlined-text-field
+                        label="Condition"
+                        .value=${this.currentCondition}
+                        @input=${(e: InputEvent) =>
+                          (this.currentCondition = (
+                            e.target as MdOutlinedTextField
+                          ).value)}
+                      ></md-outlined-text-field>`}
+                  <span> -> </span>
+                  <md-outlined-select
+                    label="Action"
+                    .value=${this.currentAction}
+                    @change=${(e: Event) => {
+                      const select = e.target as HTMLSelectElement;
+
+                      this.currentAction = select.value;
+                    }}
+                  >
+                    ${this.flowActions.map(
+                      action => html`
+                        <md-select-option .value=${action.name}>
+                          <div slot="headline">${action.name}</div>
+                        </md-select-option>
+                      `
+                    )}
+                  </md-outlined-select>
+                  <md-outlined-text-field
+                    label="Parameters"
+                    .value=${this.currentParameter}
                     @input=${(e: InputEvent) =>
-                      (this.currentCondition = (
+                      (this.currentParameter = (
                         e.target as MdOutlinedTextField
                       ).value)}
-                  ></md-outlined-text-field>`}
-              <span> -> </span>
-              <md-outlined-select
-                label="Action"
-                .value=${this.currentAction}
-                @change=${(e: Event) => {
-                  const select = e.target as HTMLSelectElement;
-
-                  this.currentAction = select.value;
-                }}
-              >
-                ${this.flowActions.map(
-                  action => html`
-                    <md-select-option .value=${action.name}>
-                      <div slot="headline">${action.name}</div>
-                    </md-select-option>
-                  `
-                )}
-              </md-outlined-select>
-              <md-outlined-text-field
-                label="Parameters"
-                .value=${this.currentParameter}
-                @input=${(e: InputEvent) =>
-                  (this.currentParameter = (
-                    e.target as MdOutlinedTextField
-                  ).value)}
-              ></md-outlined-text-field>
-              <gr-button aria-label="Add Stage" @click=${this.handleAddStage}
-                >Add Stage</gr-button
-              >
-            </div>
+                  ></md-outlined-text-field>
+                  <gr-button
+                    aria-label="Add Stage"
+                    @click=${this.handleAddStage}
+                    >Add Stage</gr-button
+                  >
+                </div>
+              `
+            )}
           </div>
         </gr-dialog>
       </dialog>
     `;
+  }
+
+  private toggleGuidedBuilder(e?: Event) {
+    if (e) {
+      e.stopPropagation();
+      e.preventDefault();
+    }
+    this.guidedBuilderExpanded = !this.guidedBuilderExpanded;
   }
 
   private handleGerritConditionTextChanged(e: ValueChangedEvent) {

@@ -101,13 +101,11 @@ public final class AccountGroup {
   }
 
   public static Id id(int id) {
-    return new AutoValue_AccountGroup_Id(id);
+    return new Id(id);
   }
 
   /** Synthetic key to link to within the database */
-  @AutoValue
-  public abstract static class Id {
-    abstract int id();
+  public record Id(int id) {
 
     public int get() {
       return id();
@@ -119,7 +117,7 @@ public final class AccountGroup {
     }
 
     @Override
-    public final String toString() {
+    public String toString() {
       return Integer.toString(get());
     }
   }

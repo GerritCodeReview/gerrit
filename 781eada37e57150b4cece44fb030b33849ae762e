@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4173a32f_86de60af",
+        "filename": "polygerrit-ui/app/elements/change/gr-flows/gr-create-flow_screenshot_test.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-02-06T10:24:06Z",
+      "side": 1,
+      "message": "we have `gr-create-flow_test.ts` already\n\nDo we need a separate file for the screenshot test?\n\nNot sure what the pattern that we normally follow is.",
+      "range": {
+        "startLine": 2,
+        "startChar": 4,
+        "endLine": 2,
+        "endChar": 11
+      },
+      "revId": "781eada37e57150b4cece44fb030b33849ae762e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

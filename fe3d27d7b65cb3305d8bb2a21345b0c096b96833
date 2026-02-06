@@ -281,6 +281,30 @@
       },
       "revId": "fe3d27d7b65cb3305d8bb2a21345b0c096b96833",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9911bdc1_ca57e92c",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-autocomplete/gr-search-autocomplete.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-02-06T18:10:12Z",
+      "side": 1,
+      "message": "So the goal is not to render this slot element for GrCreateFlow?\n\nCan we pass an explicit property to not render this element instead?\n\nI think it\u0027s better if the parent component explicitly controls this behaviour rather than the child component making decisions based on the existence of the slot property",
+      "parentUuid": "e43defae_74a8d551",
+      "range": {
+        "startLine": 215,
+        "startChar": 0,
+        "endLine": 220,
+        "endChar": 0
+      },
+      "revId": "fe3d27d7b65cb3305d8bb2a21345b0c096b96833",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

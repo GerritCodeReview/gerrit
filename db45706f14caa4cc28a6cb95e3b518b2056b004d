@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "4bcead64_e42d88a7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-02-06T13:47:57Z",
+      "side": 1,
+      "message": "I implemented better UI for add stages",
+      "parentUuid": "b91db2a7_b1b82e92",
+      "range": {
+        "startLine": 24,
+        "startChar": 12,
+        "endLine": 24,
+        "endChar": 39
+      },
+      "revId": "db45706f14caa4cc28a6cb95e3b518b2056b004d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "085d2098_012102bc",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 6
@@ -54,6 +78,30 @@
       "writtenOn": "2026-02-06T12:00:53Z",
       "side": 1,
       "message": "given how much space we have, I would suggest just removing this toggle entirely\n\nWe have enough vertical space to render everything\n\nThe user will not understand the raw flow dialog by default and I expect the user relies on the Gerrit change query autocomplete to build their query\n\nIf you want to keep the toggle, then consider keeping it visible by default\n\nWe can ofc track usage and make more informed decisions once we launch",
+      "range": {
+        "startLine": 420,
+        "startChar": 0,
+        "endLine": 427,
+        "endChar": 0
+      },
+      "revId": "db45706f14caa4cc28a6cb95e3b518b2056b004d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a1734beb_9411f915",
+        "filename": "polygerrit-ui/app/elements/change/gr-flows/gr-create-flow.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 427,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-02-06T13:47:57Z",
+      "side": 1,
+      "message": "Yes, it\u0027s visible by default. We will see. We can remove it in future. It was in mock",
+      "parentUuid": "eb9ee5af_c899746e",
       "range": {
         "startLine": 420,
         "startChar": 0,

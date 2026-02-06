@@ -12,7 +12,7 @@ import {
 import {AutocompleteSuggestion} from '../../../utils/autocomplete-util';
 import {MergeabilityComputationBehavior} from '../../../constants/constants';
 import {sharedStyles} from '../../../styles/shared-styles';
-import {css, html, LitElement, PropertyValues} from 'lit';
+import {css, html, LitElement, nothing, PropertyValues} from 'lit';
 import {
   customElement,
   property,
@@ -201,12 +201,20 @@ export class GrSearchAutocomplete extends LitElement {
           flex: 1;
           outline: none;
         }
+        form {
+          padding: var(--gr-search-autocomplete-padding, 0);
+        }
 
         md-icon-button {
           --md-icon-button-icon-size: 20px;
         }
       `,
     ];
+  }
+
+  private hasNamedSlot(name: string): boolean {
+    const slot = this.querySelectorAll(`[slot="${name}"]`);
+    return !!slot && slot.length > 0;
   }
 
   override render() {
@@ -225,9 +233,13 @@ export class GrSearchAutocomplete extends LitElement {
             this.handleQueryTextChanged(e);
           }}
         >
-          <div slot="leading-icon">
-            <slot name="leading-icon"></slot>
-          </div>
+          ${this.hasNamedSlot('leading-icon')
+            ? html`
+                <div slot="leading-icon">
+                  <slot name="leading-icon"></slot>
+                </div>
+              `
+            : nothing}
           ${when(
             this.inputVal?.length > 0,
             () => html`

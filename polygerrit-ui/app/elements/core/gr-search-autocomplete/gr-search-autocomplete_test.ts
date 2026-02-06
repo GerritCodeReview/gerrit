@@ -65,9 +65,6 @@ suite('gr-search-autocomplete tests', () => {
             skip-commit-on-item-select=""
             tab-complete=""
           >
-            <div slot="leading-icon">
-              <slot name="leading-icon"></slot>
-            </div>
             <a
               class="help"
               href="https://mydocumentationurl.google.com/user-search.html"

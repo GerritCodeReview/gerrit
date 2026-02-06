@@ -106,6 +106,7 @@ export class GrSmartSearch extends LitElement {
       this.fetchProjects(predicate, expression);
     return html`
       <gr-search-autocomplete
+        showLeadingIcon
         id="search"
         .value=${this.searchQuery}
         .projectSuggestions=${projectSuggestions}

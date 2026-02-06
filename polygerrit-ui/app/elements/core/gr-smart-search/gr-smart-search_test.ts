@@ -28,7 +28,7 @@ suite('gr-smart-search tests', () => {
   test('renders', () => {
     assert.shadowDom.equal(
       element,
-      /* HTML */ ' <gr-search-autocomplete id="search"> <gr-icon icon="search" slot="leading-icon" aria-hidden="true"></gr-icon> </gr-search-autocomplete> '
+      /* HTML */ ' <gr-search-autocomplete showLeadingIcon id="search"> <gr-icon icon="search" slot="leading-icon" aria-hidden="true"></gr-icon> </gr-search-autocomplete> '
     );
   });
 

@@ -1,0 +1,185 @@
+= Gerrit Code Review - Flows
+
+[[introduction]]
+== What are Flows?
+
+Gerrit Flows enhance user productivity by allowing you to define conditional
+actions on a change. It works similarly to Startblock in Critique or
+Bugjuggler in Buganizer. With Flows, you can define that change
+interactions (such as voting, adding reviewers, or submission) should only
+happen when certain events occur, e.g., "submit change only after change 1234 is merged".
+
+[[definitions]]
+== Definitions
+
+Flow::
+A sequence of stages associated with a specific Gerrit change.
+Flow Stage::
+A single rule expressed as `condition -> action`. Stages are
+ordered, and a stage only becomes active when all previous stages have
+completed. When a stage is active, its condition is evaluated
+regularly. Once the condition is met, the action is executed, and
+the stage is marked as completed.
+Stage Condition::
+A boolean expression composed of one or more obstacles.
+Obstacle::
+A predicate that must be fulfilled for a condition to be met, e.g.,
+`change 1234 is merged` or `it is Monday`.
+Stage Action::
+An action that is performed on the change once the stage
+condition is met, e.g., `submit` or `add-reviewer`.
+
+[[syntax]]
+== Syntax
+
+A flow consists of one or more stages, separated by semicolons (`;`). Each
+stage is evaluated in order.
+
+A stage has the form `condition -> action`, where `condition` is mandatory
+and `action` is optional. If no action is provided, Gerrit waits for the
+condition to be met before proceeding to the next stage.
+
+[[conditions]]
+=== Conditions
+
+A condition consists of one or more obstacles. Multiple obstacles can be
+combined as follows:
+
+`obstacle1, obstacle2`:: Both obstacles must be met (logical AND).
+`obstacle1 || obstacle2`:: At least one obstacle must be met (logical OR).
+
+* `wait 24h` or `wait until Monday`
+* Bugs related obstacles: `b/1234 is fixed`
+
+[[gerrit-obstacles]]
+=== Gerrit Obstacles
+
+Gerrit-specific obstacles allow checking the status of changes within Gerrit.
+The syntax for Gerrit obstacles is:
+
+----
+gerrit <host-name> has <change-id> with <query>
+gerrit-host <host-name> has <change-id> with <query>
+----
+
+Where `<query>` uses the standard link:user-search.html[Gerrit query syntax].
+
+Examples:
+
+* Check if change 1234 is merged:
++
+----
+gerrit my-host has 1234 with status:merged
+----
+* Check if change 4567 has a `Code-Review+2` vote:
++
+----
+gerrit-host my-host has 4567 with label:Code-Review+2
+----
+
+Common queries include:
+
+* `status:merged`, `status:wip`, `status:open`
+* `reviewedby:<username>`
+* `is:submittable`
+* `label:<label>=<score>` e.g. `label:Verified=+1`
+
+[[actions]]
+=== Actions
+
+When a stage condition is met, the defined action is executed. The following
+actions are supported:
+
+[cols="1,2"]
+|===
+| Action | Description
+
+| `add-reviewer <user1> [<user2> ...]`
+| Add one or more users as reviewers. Users can be specified by email address.
+If a user is already a reviewer, they are added to the attention set.
+`$owner` can be used to refer to the change owner.
+
+| `cc <user1> [<user2> ...]`
+| Add one or more users to CC.
+
+| `remove-reviewer <user1> [<user2> ...]`
+| Remove one or more users from reviewers.
+
+| `vote <label><score>`
+| Vote on a label, e.g., `vote Code-Review+2` or `vote Verified-1`.
+
+| `abandon`
+| Abandon the change.
+
+| `restore`
+| Restore the change.
+
+| `submit`
+| Submit the change.
+
+| `rebase`
+| Rebase the change.
+
+| `topic <topic-name>`
+| Set a topic on the change.
+
+| `delete topic`
+| Delete the topic from the change.
+
+| `hashtag <hashtag-name>`
+| Add a hashtag to the change.
+
+| `delete hashtag <hashtag-name>`
+| Remove a hashtag from the change.
+
+| `wip`
+| Set the change to work-in-progress.
+
+| `ready`
+| Mark the change as ready for review.
+
+| `message <message-text>`
+| Post a message on the change.
+|===
+
+[[example]]
+== Example
+
+Below is an example of a flow with three stages:
+
+----
+gerrit-host my-host has 1234 with status:merged;
+b/5678 is fixed, wait until Monday -> add-reviewer john@google.com jane@google.com;
+is:submittable -> submit
+----
+
+This flow is interpreted as follows:
+
+. Stage 1: Wait until change 1234 on host `my-host` is merged. No action is
+performed.
+. Stage 2: Once stage 1 is complete, wait until Buganizer issue 5678 is
+fixed AND it is Monday. Then, add `john@google.com` and
+`jane@google.com` as reviewers.
+. Stage 3: Once stage 2 is complete, wait until the change becomes
+submittable. Then, submit the change.
+
+[[ui]]
+== User Interface
+
+Gerrit Flows can be managed in a dedicated 'Flows' tab on the change page.
+This tab allows you to:
+
+* View existing flows on a change.
+* See which stages of a flow have completed.
+* Add new flows to a change.
+* Remove flows from a change.
+
+While flows can be defined as a single string, the UI will provide assistance
+in constructing flows, conditions and actions.
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

@@ -58,7 +58,8 @@ export class GrFlows extends LitElement {
 
   @state() private flowIdToDelete?: string;
 
-  @state() private statusFilter: FlowStageState | 'all' = 'all';
+  @state() // private but used in tests
+  statusFilter: FlowStageState | 'all' = 'all';
 
   private readonly getChangeModel = resolve(this, changeModelToken);
 

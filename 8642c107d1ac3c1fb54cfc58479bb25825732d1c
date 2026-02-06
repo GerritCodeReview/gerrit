@@ -94,6 +94,30 @@
       },
       "revId": "8642c107d1ac3c1fb54cfc58479bb25825732d1c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "75658668_fb1f366d",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-02-06T10:26:04Z",
+      "side": 1,
+      "message": "I tried but it looks like it succeeded: https://gerrit-ci.gerritforge.com/job/Gerrit-verifier-chrome-latest/33447/console\n\nIs that normal? I thought that modifications would have failed the build.",
+      "parentUuid": "f273ce32_13ae9c8d",
+      "range": {
+        "startLine": 101,
+        "startChar": 4,
+        "endLine": 101,
+        "endChar": 44
+      },
+      "revId": "8642c107d1ac3c1fb54cfc58479bb25825732d1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

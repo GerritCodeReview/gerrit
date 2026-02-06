@@ -43,13 +43,11 @@ public final class AccountGroup {
   }
 
   public static UUID uuid(String n) {
-    return new AutoValue_AccountGroup_UUID(n);
+    return new UUID(n);
   }
 
   /** Globally unique identifier. */
-  @AutoValue
-  public abstract static class UUID implements Comparable<UUID> {
-    abstract String uuid();
+  public record UUID(String uuid) implements Comparable<UUID> {
 
     public String get() {
       return uuid();
@@ -92,12 +90,12 @@ public final class AccountGroup {
     }
 
     @Override
-    public final int compareTo(UUID o) {
+    public int compareTo(UUID o) {
       return uuid().compareTo(o.uuid());
     }
 
     @Override
-    public final String toString() {
+    public String toString() {
       return KeyUtil.encode(get());
     }
   }

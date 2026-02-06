@@ -75,6 +75,37 @@ See link:https://gerrit.googlesource.com/gerrit/+/master/polygerrit-ui/README.md
 [[build]]
 == Building on the Command Line
 
+=== Bazel module lockfile strictness
+
+Gerrit uses Bazel modules with a checked-in lockfile (`MODULE.bazel.lock`).
+To avoid accidental desynchronization between `MODULE.bazel` and the lockfile,
+the build runs with strict lockfile checking:
+
+----
+--lockfile_mode=error
+----
+
+With this mode, Bazel will fail the build if the lockfile is out of date.
+
+If you see an error like:
+
+----
+ERROR: Missing checksum for registry file ... not permitted with --lockfile_mode=error
+----
+
+it means that `MODULE.bazel.lock` needs to be updated.
+
+To update the lockfile explicitly, run:
+
+```
+  $ bazelisk mod deps --lockfile_mode=update
+```
+
+and commit the resulting changes to `MODULE.bazel.lock`.
+
+Note: Changes that do not modify `MODULE.bazel` should normally not modify
+`MODULE.bazel.lock`. Any lockfile update should be intentional and reviewed.
+
 === Gerrit Development WAR File
 
 To build the Gerrit web application:

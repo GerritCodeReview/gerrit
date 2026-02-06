@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fcdc9a49_210bf7ab",
+        "filename": "polygerrit-ui/app/elements/change/gr-flows/gr-create-flow_screenshot_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-02-06T09:03:11Z",
+      "side": 1,
+      "message": "why are we using `any` here?",
+      "range": {
+        "startLine": 25,
+        "startChar": 4,
+        "endLine": 25,
+        "endChar": 35
+      },
+      "revId": "597359fea8bb789bea401b455baad824a284934e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba230989_997d2ee5",
+        "filename": "polygerrit-ui/app/elements/change/gr-flows/gr-create-flow_screenshot_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-02-06T09:03:11Z",
+      "side": 1,
+      "message": "can we avoid casting here similar to `element[\u0027stages\u0027]`?",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 26
+      },
+      "revId": "597359fea8bb789bea401b455baad824a284934e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2e274f53_280cbd62",
+        "filename": "polygerrit-ui/app/elements/change/gr-flows/gr-create-flow_screenshot_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-02-06T09:03:11Z",
+      "side": 1,
+      "message": "go/tsjs-style#properties-used-outside-of-class-lexical-scope\n\nTS style guide explicitly forbids using this syntax to bypass private property access which AI is fond of\n\nUpdate this code to follow the existing pattern of marking properties `//private but used in tests`",
+      "range": {
+        "startLine": 45,
+        "startChar": 4,
+        "endLine": 45,
+        "endChar": 32
+      },
+      "revId": "597359fea8bb789bea401b455baad824a284934e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

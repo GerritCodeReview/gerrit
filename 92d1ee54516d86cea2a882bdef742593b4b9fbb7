@@ -16,6 +16,24 @@
       "message": "This change does not modify `MODULE.bazel`, therefore `MODULE.bazel.lock` should not have been updated.\n\nThe update was required because the sync was broken in change 540661.\n\nI addressed this in change 540903, but the review became stale.",
       "revId": "92d1ee54516d86cea2a882bdef742593b4b9fbb7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "34a3edbf_07e6a4d5",
+        "filename": "MODULE.bazel.lock",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-02-06T07:12:33Z",
+      "side": 1,
+      "message": "To avoid this kind of desynchronization and accidental fixes in the future, I introduced a strict synchronization mode in change 549761.",
+      "parentUuid": "d5aef0d1_35d1fb9d",
+      "revId": "92d1ee54516d86cea2a882bdef742593b4b9fbb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

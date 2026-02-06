@@ -376,6 +376,30 @@
       },
       "revId": "fe3d27d7b65cb3305d8bb2a21345b0c096b96833",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "99dff7f6_f5ed6f9c",
+        "filename": "polygerrit-ui/app/elements/core/gr-smart-search/gr-smart-search.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-02-06T18:54:17Z",
+      "side": 1,
+      "message": "Thanks - that\u0027s bug. I now see it.",
+      "parentUuid": "235ededc_bd98a67d",
+      "range": {
+        "startLine": 117,
+        "startChar": 8,
+        "endLine": 117,
+        "endChar": 80
+      },
+      "revId": "fe3d27d7b65cb3305d8bb2a21345b0c096b96833",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -136,7 +136,7 @@ def _war_impl(ctx):
 
     transitive_lib_deps = depset(transitive = transitive_libs)
     for dep in transitive_lib_deps.to_list():
-        if dep.basename.startswith(PROCESSED_PREFIX + "auto-") or dep.path.find("jgit_deps") != -1:
+        if dep.basename.startswith(PROCESSED_PREFIX + "auto-"):
             continue
         cmd += _add_file(dep, build_output + "/WEB-INF/lib/")
         inputs.append(dep)

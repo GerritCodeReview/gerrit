@@ -63,6 +63,30 @@
       },
       "revId": "35626bb102411213a076705ae92020abb59dd227",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "30990771_678709a5",
+        "filename": "MODULE.bazel",
+        "patchSetId": 42
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-02-07T19:33:20Z",
+      "side": 1,
+      "message": "Thanks @david.ostrovsky@gmail.com for sharing your concerns. At the moment, Gerrit@master is not releasable. Should this change be reverted, and discuss a way forward?",
+      "parentUuid": "b1cf2c72_48020c7e",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 1
+      },
+      "revId": "35626bb102411213a076705ae92020abb59dd227",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

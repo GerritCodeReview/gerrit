@@ -39,6 +39,30 @@
       },
       "revId": "35626bb102411213a076705ae92020abb59dd227",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b1cf2c72_48020c7e",
+        "filename": "MODULE.bazel",
+        "patchSetId": 42
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-02-07T13:15:33Z",
+      "side": 1,
+      "message": "This change appears to introduce duplicate entries in release.war, in some cases with conflicting versions.\n\nTo better understand the impact, I reverted this change together with its parent commits, built `headless.war`, and compared it against the `headless.war` produced from Gerrit@HEAD (with this change included).\n\nThe comparison shows several discrepancies, including parallel inclusion of different versions of the same libraries (for example `sshd-*`, `xz`, `commons-*`, `gson`, and `BouncyCastle` artifacts). This suggests that enabling the JGit repository via bzlmod currently leads to overlapping dependency graphs between the Bazel-built JGit artifacts and the dependencies already shipped in `release.war`.\n\nIn addition, some of the diverted or processed artifacts may not go through the same library compliance and verification workflow as the versions currently shipped in release.war, which could introduce further risk.\n\nBelow is the diff output used to derive this comparison:\n\n```bash\n$ comm -3 \u003c(awk \u0027{print $4}\u0027 deps_maven_jar.txt | grep -E \u0027\\.jar$\u0027 | sed -E \u0027s#^WEB-INF/(lib|pgm-lib)/##\u0027 | sort -u) \u003c(awk \u0027{print $4}\u0027 deps_jgit_bzl_mod.txt | grep -E \u0027\\.jar$\u0027 | sed -E \u0027s#^WEB-INF/(lib|pgm-lib)/##\u0027 | sort -u) | sed $\u0027s/^\\t/ONLY IN B: /; s/^/ONLY IN A: /\u0027\nONLY IN A: bcutil-jdk18on-1.80.jar\nONLY IN A: ONLY IN B: commons-text-1.15.0.jar\nONLY IN A: commons-text-1.2.jar\nONLY IN A: gson-2.12.1.jar\nONLY IN A: ONLY IN B: gson-2.13.2.jar\nONLY IN A: ONLY IN B: processed_bcpg-jdk18on-1.83.jar\nONLY IN A: ONLY IN B: processed_bcpkix-jdk18on-1.83.jar\nONLY IN A: ONLY IN B: processed_bcprov-jdk18on-1.83.jar\nONLY IN A: ONLY IN B: processed_bcutil-jdk18on-1.83.jar\nONLY IN A: ONLY IN B: processed_commons-codec-1.20.0.jar\nONLY IN A: ONLY IN B: processed_commons-compress-1.28.0.jar\nONLY IN A: ONLY IN B: processed_commons-io-2.21.0.jar\nONLY IN A: ONLY IN B: processed_commons-lang3-3.20.0.jar\nONLY IN A: ONLY IN B: processed_jakarta.servlet-api-4.0.4.jar\nONLY IN A: ONLY IN B: processed_jcl-over-slf4j-1.7.36.jar\nONLY IN A: ONLY IN B: processed_slf4j-api-2.0.17.jar\nONLY IN A: ONLY IN B: processed_sshd-common-2.16.0.jar\nONLY IN A: ONLY IN B: processed_sshd-core-2.16.0.jar\nONLY IN A: ONLY IN B: processed_sshd-osgi-2.16.0.jar\nONLY IN A: ONLY IN B: processed_sshd-sftp-2.16.0.jar\nONLY IN A: sshd-mina-2.16.0.jar\nONLY IN A: ONLY IN B: sshd-mina-2.17.1.jar\nONLY IN A: sshd-osgi-2.16.0.jar\nONLY IN A: ONLY IN B: sshd-osgi-2.17.1.jar\nONLY IN A: sshd-sftp-2.16.0.jar\nONLY IN A: ONLY IN B: sshd-sftp-2.17.1.jar\nONLY IN A: xz-1.10.jar\nONLY IN A: ONLY IN B: xz-1.11.jar\n```\n\nFrom my perspective, this is a release-blocking issue, as a release built from Gerrit@HEAD may include conflicting runtime dependencies now leaking from the JGit transitive dependency graph, and some of the JGit-provided dependency versions may not have gone through the standard library compliance and approval workflow.\n\nWould it make sense to track this in a dedicated Gerrit issue and follow up there, so we can agree on the intended dependency alignment and next steps?",
+      "parentUuid": "f9e0aebf_403e6d1e",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 1
+      },
+      "revId": "35626bb102411213a076705ae92020abb59dd227",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

@@ -4,7 +4,7 @@ java_library(
     name = "runtime",
     data = ["//lib:LICENSE-prologcafe"],
     visibility = ["//visibility:public"],
-    exports = ["@gerrit_deps//:com_googlecode_prolog_cafe_prolog_runtime"],
+    exports = ["@external_deps//:com_googlecode_prolog_cafe_prolog_runtime"],
 )
 
 java_library(
@@ -12,14 +12,14 @@ java_library(
     data = ["//lib:LICENSE-prologcafe"],
     neverlink = 1,
     visibility = ["//visibility:public"],
-    exports = ["@gerrit_deps//:com_googlecode_prolog_cafe_prolog_runtime"],
+    exports = ["@external_deps//:com_googlecode_prolog_cafe_prolog_runtime"],
 )
 
 java_library(
     name = "compiler",
     data = ["//lib:LICENSE-prologcafe"],
     visibility = ["//visibility:public"],
-    exports = ["@gerrit_deps//:com_googlecode_prolog_cafe_prolog_compiler"],
+    exports = ["@external_deps//:com_googlecode_prolog_cafe_prolog_compiler"],
     runtime_deps = [
         ":io",
         ":runtime",
@@ -29,14 +29,14 @@ java_library(
 java_library(
     name = "io",
     data = ["//lib:LICENSE-prologcafe"],
-    exports = ["@gerrit_deps//:com_googlecode_prolog_cafe_prolog_io"],
+    exports = ["@external_deps//:com_googlecode_prolog_cafe_prolog_io"],
 )
 
 java_library(
     name = "cafeteria",
     data = ["//lib:LICENSE-prologcafe"],
     visibility = ["//visibility:public"],
-    exports = ["@gerrit_deps//:com_googlecode_prolog_cafe_prolog_cafeteria"],
+    exports = ["@external_deps//:com_googlecode_prolog_cafe_prolog_cafeteria"],
     runtime_deps = [
         "io",
         "runtime",

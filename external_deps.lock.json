@@ -3,7 +3,7 @@
   "__INPUT_ARTIFACTS_HASH": {
     "antlr:antlr": 1249073166,
     "aopalliance:aopalliance": -1416324331,
-    "args4j:args4j": 1223353088,
+    "args4j:args4j": 484840357,
     "ch.qos.reload4j:reload4j": -1216325797,
     "com.github.ben-manes.caffeine:caffeine": 1735183231,
     "com.github.ben-manes.caffeine:guava": -2131703186,
@@ -17,6 +17,7 @@
     "com.google.code.gson:gson": 245099245,
     "com.google.common.html.types:types": 1474029483,
     "com.google.errorprone:error_prone_annotations": -1409032738,
+    "com.google.errorprone:error_prone_type_annotations": -1223112919,
     "com.google.escapevelocity:escapevelocity": -17168624,
     "com.google.flogger:flogger": -825712792,
     "com.google.flogger:flogger-log4j-backend": 1730247028,
@@ -38,7 +39,7 @@
     "com.google.truth.extensions:truth-liteproto-extension": 1463279446,
     "com.google.truth.extensions:truth-proto-extension": 1270333764,
     "com.google.truth:truth": -790731381,
-    "com.googlecode.javaewah:JavaEWAH": 1888112392,
+    "com.googlecode.javaewah:JavaEWAH": 1414179411,
     "com.googlecode.prolog-cafe:prolog-cafeteria": 1472963375,
     "com.googlecode.prolog-cafe:prolog-compiler": -348984778,
     "com.googlecode.prolog-cafe:prolog-io": -1081577073,
@@ -46,6 +47,8 @@
     "com.h2database:h2": 867138720,
     "com.ibm.icu:icu4j": -802150924,
     "com.icegreen:greenmail": -1151466560,
+    "com.jcraft:jsch": 1133842314,
+    "com.jcraft:jzlib": 864660349,
     "com.ryanharter.auto.value:auto-value-gson-extension": 520453879,
     "com.ryanharter.auto.value:auto-value-gson-factory": 1068512450,
     "com.ryanharter.auto.value:auto-value-gson-runtime": 187755792,
@@ -101,12 +104,12 @@
     "com.vladsch.flexmark:flexmark-util-visitor": -1002447604,
     "com.vladsch.flexmark:flexmark-youtrack-converter": -1024344568,
     "commons-beanutils:commons-beanutils": -399736270,
-    "commons-codec:commons-codec": 828154456,
+    "commons-codec:commons-codec": -1724312797,
     "commons-collections:commons-collections": -1308259318,
     "commons-dbcp:commons-dbcp": -873877417,
     "commons-digester:commons-digester": 1688456634,
     "commons-io:commons-io": -1192334111,
-    "commons-logging:commons-logging": 2056692342,
+    "commons-logging:commons-logging": 416626737,
     "commons-net:commons-net": 1227155931,
     "commons-pool:commons-pool": -2015226625,
     "commons-validator:commons-validator": -89255997,
@@ -124,13 +127,17 @@
     "log4j:log4j": 182326902,
     "net.bytebuddy:byte-buddy": -628486182,
     "net.bytebuddy:byte-buddy-agent": -1065427230,
+    "net.java.dev.jna:jna": 929040997,
+    "net.java.dev.jna:jna-platform": 1235639073,
     "net.minidev:json-smart": -1043043954,
+    "net.sf.jopt-simple:jopt-simple": 906822697,
     "net.sourceforge.nekohtml:nekohtml": 1723624706,
     "org.antlr:antlr": -2055062274,
     "org.antlr:antlr-runtime": -2145792567,
     "org.antlr:stringtemplate": -752719922,
     "org.apache.commons:commons-compress": -1289113474,
-    "org.apache.commons:commons-lang3": -1897960160,
+    "org.apache.commons:commons-lang3": 109544183,
+    "org.apache.commons:commons-math3": -1738699872,
     "org.apache.commons:commons-text": -1886494041,
     "org.apache.httpcomponents:fluent-hc": 58615850,
     "org.apache.httpcomponents:httpclient": 1643860045,
@@ -152,6 +159,7 @@
     "org.apache.sshd:sshd-osgi": 1671034928,
     "org.apache.sshd:sshd-sftp": 2079258759,
     "org.asciidoctor:asciidoctorj": -457860213,
+    "org.assertj:assertj-core": -1145412507,
     "org.bouncycastle:bcpg-jdk18on": 235240928,
     "org.bouncycastle:bcpkix-jdk18on": 1954093523,
     "org.bouncycastle:bcprov-jdk18on": 402064210,
@@ -160,14 +168,18 @@
     "org.commonmark:commonmark-ext-autolink": -1853742120,
     "org.commonmark:commonmark-ext-gfm-strikethrough": 350394231,
     "org.commonmark:commonmark-ext-gfm-tables": 1881582931,
-    "org.eclipse.jetty:jetty-http": -1084689220,
-    "org.eclipse.jetty:jetty-io": 1206202206,
+    "org.eclipse.jetty.ee8:jetty-ee8-nested": -685134473,
+    "org.eclipse.jetty.ee8:jetty-ee8-security": 2052418638,
+    "org.eclipse.jetty.ee8:jetty-ee8-servlet": -1368555033,
+    "org.eclipse.jetty:jetty-http": 1984891007,
+    "org.eclipse.jetty:jetty-io": 1765684893,
     "org.eclipse.jetty:jetty-jmx": -1704061949,
-    "org.eclipse.jetty:jetty-security": 879497732,
-    "org.eclipse.jetty:jetty-server": 1530157281,
+    "org.eclipse.jetty:jetty-security": 1160320567,
+    "org.eclipse.jetty:jetty-server": 280305722,
     "org.eclipse.jetty:jetty-servlet": 697742931,
-    "org.eclipse.jetty:jetty-util": 1271788162,
-    "org.eclipse.jetty:jetty-util-ajax": -1924489267,
+    "org.eclipse.jetty:jetty-session": 292732683,
+    "org.eclipse.jetty:jetty-util": -1520256775,
+    "org.eclipse.jetty:jetty-util-ajax": -726746674,
     "org.hamcrest:hamcrest": 1547523135,
     "org.jruby:jruby-complete": -2103568068,
     "org.json:json": -811907600,
@@ -176,6 +188,8 @@
     "org.nibor.autolink:autolink": -342487050,
     "org.objenesis:objenesis": 748376655,
     "org.openid4java:openid4java": -842286787,
+    "org.openjdk.jmh:jmh-core": 983716932,
+    "org.openjdk.jmh:jmh-generator-annprocess": -1162360421,
     "org.ow2.asm:asm": 1206815935,
     "org.ow2.asm:asm-analysis": 53497832,
     "org.ow2.asm:asm-commons": 1607605466,
@@ -188,6 +202,7 @@
     "org.slf4j:slf4j-ext": 890682116,
     "org.slf4j:slf4j-log4j12": -630224096,
     "org.slf4j:slf4j-reload4j": -1466046388,
+    "org.slf4j:slf4j-simple": -487947767,
     "org.tukaani:xz": 64286142,
     "repositories": 2019057769,
     "xerces:xercesImpl": -1165914651,
@@ -286,6 +301,10 @@
     "com.ibm.icu:icu4j:jar:sources": 864352766,
     "com.icegreen:greenmail": 798674118,
     "com.icegreen:greenmail:jar:sources": -1978817971,
+    "com.jcraft:jsch": 1986987929,
+    "com.jcraft:jsch:jar:sources": 707308247,
+    "com.jcraft:jzlib": 1581025040,
+    "com.jcraft:jzlib:jar:sources": 807243431,
     "com.ryanharter.auto.value:auto-value-gson-extension": -887048407,
     "com.ryanharter.auto.value:auto-value-gson-extension:jar:sources": 1925708692,
     "com.ryanharter.auto.value:auto-value-gson-factory": -1576123811,
@@ -332,8 +351,14 @@
     "net.bytebuddy:byte-buddy-agent": -36999869,
     "net.bytebuddy:byte-buddy-agent:jar:sources": -1736884395,
     "net.bytebuddy:byte-buddy:jar:sources": -102524345,
+    "net.java.dev.jna:jna": -1916526385,
+    "net.java.dev.jna:jna-platform": 459618853,
+    "net.java.dev.jna:jna-platform:jar:sources": -2077304647,
+    "net.java.dev.jna:jna:jar:sources": 1518406952,
     "net.minidev:json-smart": -1913865264,
     "net.minidev:json-smart:jar:sources": 475976688,
+    "net.sf.jopt-simple:jopt-simple": 1531230776,
+    "net.sf.jopt-simple:jopt-simple:jar:sources": -1087190884,
     "net.sourceforge.nekohtml:nekohtml": 589300296,
     "net.sourceforge.nekohtml:nekohtml:jar:sources": 1455941061,
     "org.antlr:ST4": 943007212,
@@ -348,6 +373,8 @@
     "org.apache.commons:commons-compress:jar:sources": 128824058,
     "org.apache.commons:commons-lang3": 1593572986,
     "org.apache.commons:commons-lang3:jar:sources": 1589181154,
+    "org.apache.commons:commons-math3": 1532637713,
+    "org.apache.commons:commons-math3:jar:sources": 1655744467,
     "org.apache.commons:commons-text": -1205775100,
     "org.apache.commons:commons-text:jar:sources": 1247506591,
     "org.apache.httpcomponents:fluent-hc": 1857459163,
@@ -380,6 +407,8 @@
     "org.apache.sshd:sshd-sftp:jar:sources": 1450030982,
     "org.asciidoctor:asciidoctorj": -943976727,
     "org.asciidoctor:asciidoctorj:jar:sources": -1022891917,
+    "org.assertj:assertj-core": -1968284012,
+    "org.assertj:assertj-core:jar:sources": 1906472612,
     "org.bouncycastle:bcpg-jdk18on": -733747199,
     "org.bouncycastle:bcpg-jdk18on:jar:sources": -1694649401,
     "org.bouncycastle:bcpkix-jdk18on": -1768219399,
@@ -400,6 +429,14 @@
     "org.commonmark:commonmark-ext-gfm-tables": -435057552,
     "org.commonmark:commonmark-ext-gfm-tables:jar:sources": -1247551792,
     "org.commonmark:commonmark:jar:sources": -1275158082,
+    "org.eclipse.jetty.ee8:jetty-ee8-nested": 1225428153,
+    "org.eclipse.jetty.ee8:jetty-ee8-nested:jar:sources": 1999421701,
+    "org.eclipse.jetty.ee8:jetty-ee8-security": 667551496,
+    "org.eclipse.jetty.ee8:jetty-ee8-security:jar:sources": 447244400,
+    "org.eclipse.jetty.ee8:jetty-ee8-servlet": 368157283,
+    "org.eclipse.jetty.ee8:jetty-ee8-servlet:jar:sources": -2138255372,
+    "org.eclipse.jetty.toolchain:jetty-servlet-api": 626738376,
+    "org.eclipse.jetty.toolchain:jetty-servlet-api:jar:sources": -717561233,
     "org.eclipse.jetty:jetty-http": -2051325092,
     "org.eclipse.jetty:jetty-http:jar:sources": -882391521,
     "org.eclipse.jetty:jetty-io": 1774579468,
@@ -412,6 +449,8 @@
     "org.eclipse.jetty:jetty-server:jar:sources": -710016839,
     "org.eclipse.jetty:jetty-servlet": -974397932,
     "org.eclipse.jetty:jetty-servlet:jar:sources": 1281350506,
+    "org.eclipse.jetty:jetty-session": 1978843064,
+    "org.eclipse.jetty:jetty-session:jar:sources": 244883860,
     "org.eclipse.jetty:jetty-util": 2086696316,
     "org.eclipse.jetty:jetty-util-ajax": -451213174,
     "org.eclipse.jetty:jetty-util-ajax:jar:sources": 1686109257,
@@ -434,6 +473,10 @@
     "org.objenesis:objenesis:jar:sources": 707329220,
     "org.openid4java:openid4java": 1656473252,
     "org.openid4java:openid4java:jar:sources": 789962531,
+    "org.openjdk.jmh:jmh-core": -381500549,
+    "org.openjdk.jmh:jmh-core:jar:sources": -1014071512,
+    "org.openjdk.jmh:jmh-generator-annprocess": -1315975534,
+    "org.openjdk.jmh:jmh-generator-annprocess:jar:sources": 81479330,
     "org.ow2.asm:asm": 1540593910,
     "org.ow2.asm:asm-analysis": 1735619699,
     "org.ow2.asm:asm-analysis:jar:sources": 609078251,
@@ -456,6 +499,8 @@
     "org.slf4j:slf4j-ext:jar:sources": 1756640360,
     "org.slf4j:slf4j-reload4j": 874028571,
     "org.slf4j:slf4j-reload4j:jar:sources": 1517828526,
+    "org.slf4j:slf4j-simple": 2142683014,
+    "org.slf4j:slf4j-simple:jar:sources": 334190933,
     "org.tukaani:xz": 1462559085,
     "org.tukaani:xz:jar:sources": 1791731254,
     "xerces:xercesImpl": -723395208,
@@ -789,6 +834,20 @@
       },
       "version": "1.5.5"
     },
+    "com.jcraft:jsch": {
+      "shasums": {
+        "jar": "d492b15a6d2ea3f1cc39c422c953c40c12289073dbe8360d98c0f6f9ec74fc44",
+        "sources": "e01ff2d282aa1b492bbb6187b3e363cd20a6ef51a6f23ae0ec4be179570a8480"
+      },
+      "version": "0.1.55"
+    },
+    "com.jcraft:jzlib": {
+      "shasums": {
+        "jar": "89b1360f407381bf61fde411019d8cbd009ebb10cff715f3669017a031027560",
+        "sources": "35ebd67941ce7024e6e7d80b60a4252a9687fa0f909a7079ac904bef6c1658cf"
+      },
+      "version": "1.1.3"
+    },
     "com.ryanharter.auto.value:auto-value-gson-extension": {
       "shasums": {
         "jar": "261be84be30a56994e132d718a85efcd579197a2edb9426b84c5722c56955eca",
@@ -955,12 +1014,33 @@
       },
       "version": "1.18.4"
     },
+    "net.java.dev.jna:jna": {
+      "shasums": {
+        "jar": "260c4b1e22b1db9e110ee441c4f13ce115f841fa48c41d78750986214b395557",
+        "sources": "0b9224e215b3c6a464959e3f994ddd64c14d46fb4014facd6afa1cc18e469466"
+      },
+      "version": "5.18.1"
+    },
+    "net.java.dev.jna:jna-platform": {
+      "shasums": {
+        "jar": "ad14c1b1ec4f43d396231219dfa635ebf828f738eac9f890ea1bc07795892d9a",
+        "sources": "5ffcac4b35114c6539ab9485592a90153ddeefb60e675dd9e8a2ee24e54ec1bc"
+      },
+      "version": "5.18.1"
+    },
     "net.minidev:json-smart": {
       "shasums": {
         "jar": "cebda25c3191aa441673c43d7a5a9567aa5d86a10101ae915a885c90bcee8771",
         "sources": "7ba6ecb7ac2b651136e0bd5c8d763ecbf7baa7e6196edd2c26e296e01195db38"
       },
       "version": "1.1.1"
+    },
+    "net.sf.jopt-simple:jopt-simple": {
+      "shasums": {
+        "jar": "df26cc58f235f477db07f753ba5a3ab243ebe5789d9f89ecf68dd62ea9a66c28",
+        "sources": "06b283801a5a94ef697b7f2c79a048c4e2f848b3daddda61cab74d882bdd97a5"
+      },
+      "version": "5.0.4"
     },
     "net.sourceforge.nekohtml:nekohtml": {
       "shasums": {
@@ -1010,6 +1090,13 @@
         "sources": "b15732a13e40df7f07c30f2cb8572874798e8dde581f1398943d2ad3765bafaa"
       },
       "version": "3.18.0"
+    },
+    "org.apache.commons:commons-math3": {
+      "shasums": {
+        "jar": "1e56d7b058d28b65abd256b8458e3885b674c1d588fa43cd7d1cbb9c7ef2b308",
+        "sources": "e2ff85a3c360d56c51a7021614a194f3fbaf224054642ac535016f118322934d"
+      },
+      "version": "3.6.1"
     },
     "org.apache.commons:commons-text": {
       "shasums": {
@@ -1123,6 +1210,13 @@
       },
       "version": "1.5.8.1"
     },
+    "org.assertj:assertj-core": {
+      "shasums": {
+        "jar": "c4a445426c3c2861666863b842cc4ec7bbb1c4226fefd370b6d2fe83d6c4ff0f",
+        "sources": "5ba6de05730cf76021001f8437f35db4cb5b513465d4ace8c3a6fcd68d9a19ee"
+      },
+      "version": "3.27.7"
+    },
     "org.bouncycastle:bcpg-jdk18on": {
       "shasums": {
         "jar": "4077fd4517761c98a81944c70a376ce73f4eb3e44c03db1eb5d699fc28ab48aa",
@@ -1193,6 +1287,34 @@
       },
       "version": "0.24.0"
     },
+    "org.eclipse.jetty.ee8:jetty-ee8-nested": {
+      "shasums": {
+        "jar": "0bcc1d92d6dc482bac55979b6c9d7756f8b061295fc41cf2713354f9bd464c38",
+        "sources": "82f199d42bbfaecdf1574347191f9177af11d4ea692760cd0a84d0b8c89b4a53"
+      },
+      "version": "12.1.5"
+    },
+    "org.eclipse.jetty.ee8:jetty-ee8-security": {
+      "shasums": {
+        "jar": "789ba4518cd2848563473d636270b42c541d34cf79bed36c84e3ce811f76c2cd",
+        "sources": "f232e995398de354b6d4c8fe67b60a708bae0b0cccfe933787ed8966886e3139"
+      },
+      "version": "12.1.5"
+    },
+    "org.eclipse.jetty.ee8:jetty-ee8-servlet": {
+      "shasums": {
+        "jar": "3c27e08483b1f2860e727c7577e094e63af595159dabe28022dd4e10e37f12b0",
+        "sources": "4a2e1e23c428c562bc456cc62e8bb0848f571c7505460b56927d51240e899474"
+      },
+      "version": "12.1.5"
+    },
+    "org.eclipse.jetty.toolchain:jetty-servlet-api": {
+      "shasums": {
+        "jar": "d90bf1f8a9d2ba89f4510bb51e1516dcf94ef6dc034e00f233654abdd78f2210",
+        "sources": "4184a1bf70ea545bceb0a5aef1061e1f9986d9fe8f22a1cc77cf22931fcb9029"
+      },
+      "version": "4.0.6"
+    },
     "org.eclipse.jetty:jetty-http": {
       "shasums": {
         "jar": "02c6514977f0051dfdecf8d0799acf7a88fd8008a5fd9320a92f2e5db45d297b",
@@ -1234,6 +1356,13 @@
         "sources": "d3214106ebbfa9034aa041ea26caa080a99c494ae6275f88c95bc63796bc0367"
       },
       "version": "9.4.57.v20241219"
+    },
+    "org.eclipse.jetty:jetty-session": {
+      "shasums": {
+        "jar": "ebe4f30c6fe7656294d884e1dc8eea4c77b6c861e3c010847a76fd78164ae166",
+        "sources": "629906b99619eee119e44ff3c786c89ef20350958e16546fd62fb4ec7f08c6d9"
+      },
+      "version": "12.1.5"
     },
     "org.eclipse.jetty:jetty-util": {
       "shasums": {
@@ -1312,6 +1441,20 @@
       },
       "version": "1.0.0"
     },
+    "org.openjdk.jmh:jmh-core": {
+      "shasums": {
+        "jar": "dc0eaf2bbf0036a70b60798c785d6e03a9daf06b68b8edb0f1ba9eb3421baeb3",
+        "sources": "fd4beda07b3b94cd0e32199401bbb2d9ed3371a770c8c320761b9442ff3e8e05"
+      },
+      "version": "1.37"
+    },
+    "org.openjdk.jmh:jmh-generator-annprocess": {
+      "shasums": {
+        "jar": "6a5604b5b804e0daca1145df1077609321687734a8b49387e49f10557c186c77",
+        "sources": "cc1b661fb209ae1a433e331e8e78bab680674153b0a6ac69d47d11c60fb5e47e"
+      },
+      "version": "1.37"
+    },
     "org.ow2.asm:asm": {
       "shasums": {
         "jar": "6f3828a215c920059a5efa2fb55c233d6c54ec5cadca99ce1b1bdd10077c7ddd",
@@ -1386,6 +1529,13 @@
       "shasums": {
         "jar": "62dfd069563dbce91d276c9a38d557da49df7be15b03bb898b63b5390c6bb889",
         "sources": "58faf8a8a2892fae5b699277c20c38291da093444a0618b2ba08aca016e6d6c5"
+      },
+      "version": "2.0.17"
+    },
+    "org.slf4j:slf4j-simple": {
+      "shasums": {
+        "jar": "ddfea59ac074c6d3e24ac2c38622d2d963895e17f70b38ed4bdae4d780be6964",
+        "sources": "30b660e79419bfcebd678e75bdfe3644eaf325f50253a68395d93634da5953df"
       },
       "version": "2.0.17"
     },
@@ -1566,6 +1716,9 @@
     "junit:junit": [
       "org.hamcrest:hamcrest-core"
     ],
+    "net.java.dev.jna:jna-platform": [
+      "net.java.dev.jna:jna"
+    ],
     "net.sourceforge.nekohtml:nekohtml": [
       "xerces:xercesImpl"
     ],
@@ -1629,6 +1782,9 @@
       "com.beust:jcommander",
       "org.jruby:jruby-complete"
     ],
+    "org.assertj:assertj-core": [
+      "net.bytebuddy:byte-buddy"
+    ],
     "org.bouncycastle:bcpg-jdk18on": [
       "org.bouncycastle:bcprov-jdk18on",
       "org.bouncycastle:bcutil-jdk18on"
@@ -1648,6 +1804,23 @@
     ],
     "org.commonmark:commonmark-ext-gfm-tables": [
       "org.commonmark:commonmark"
+    ],
+    "org.eclipse.jetty.ee8:jetty-ee8-nested": [
+      "org.eclipse.jetty.toolchain:jetty-servlet-api",
+      "org.eclipse.jetty:jetty-http",
+      "org.eclipse.jetty:jetty-security",
+      "org.eclipse.jetty:jetty-server",
+      "org.eclipse.jetty:jetty-session",
+      "org.slf4j:slf4j-api"
+    ],
+    "org.eclipse.jetty.ee8:jetty-ee8-security": [
+      "org.eclipse.jetty.ee8:jetty-ee8-nested",
+      "org.slf4j:slf4j-api"
+    ],
+    "org.eclipse.jetty.ee8:jetty-ee8-servlet": [
+      "org.eclipse.jetty.ee8:jetty-ee8-nested",
+      "org.eclipse.jetty.ee8:jetty-ee8-security",
+      "org.slf4j:slf4j-api"
     ],
     "org.eclipse.jetty:jetty-http": [
       "org.eclipse.jetty:jetty-io",
@@ -1671,6 +1844,10 @@
       "org.eclipse.jetty:jetty-security",
       "org.eclipse.jetty:jetty-util-ajax"
     ],
+    "org.eclipse.jetty:jetty-session": [
+      "org.eclipse.jetty:jetty-server",
+      "org.slf4j:slf4j-api"
+    ],
     "org.eclipse.jetty:jetty-util-ajax": [
       "org.eclipse.jetty:jetty-util"
     ],
@@ -1684,6 +1861,13 @@
       "net.sourceforge.nekohtml:nekohtml",
       "org.apache.httpcomponents:httpclient",
       "xerces:xercesImpl"
+    ],
+    "org.openjdk.jmh:jmh-core": [
+      "net.sf.jopt-simple:jopt-simple",
+      "org.apache.commons:commons-math3"
+    ],
+    "org.openjdk.jmh:jmh-generator-annprocess": [
+      "org.openjdk.jmh:jmh-core"
     ],
     "org.ow2.asm:asm-analysis": [
       "org.ow2.asm:asm-tree"
@@ -1711,6 +1895,9 @@
     ],
     "org.slf4j:slf4j-reload4j": [
       "ch.qos.reload4j:reload4j",
+      "org.slf4j:slf4j-api"
+    ],
+    "org.slf4j:slf4j-simple": [
       "org.slf4j:slf4j-api"
     ]
   },
@@ -2151,6 +2338,15 @@
       "com.icegreen.greenmail.user",
       "com.icegreen.greenmail.util"
     ],
+    "com.jcraft:jsch": [
+      "com.jcraft.jsch",
+      "com.jcraft.jsch.jce",
+      "com.jcraft.jsch.jcraft",
+      "com.jcraft.jsch.jgss"
+    ],
+    "com.jcraft:jzlib": [
+      "com.jcraft.jzlib"
+    ],
     "com.ryanharter.auto.value:auto-value-gson-extension": [
       "autovaluegson.shaded.com.google.auto.common",
       "autovaluegson.shaded.com.google.common.annotations",
@@ -2497,9 +2693,37 @@
       "net.bytebuddy.agent",
       "net.bytebuddy.agent.utility.nullability"
     ],
+    "net.java.dev.jna:jna": [
+      "com.sun.jna",
+      "com.sun.jna.internal",
+      "com.sun.jna.ptr",
+      "com.sun.jna.win32"
+    ],
+    "net.java.dev.jna:jna-platform": [
+      "com.sun.jna.platform",
+      "com.sun.jna.platform.bsd",
+      "com.sun.jna.platform.dnd",
+      "com.sun.jna.platform.linux",
+      "com.sun.jna.platform.mac",
+      "com.sun.jna.platform.unix",
+      "com.sun.jna.platform.unix.aix",
+      "com.sun.jna.platform.unix.solaris",
+      "com.sun.jna.platform.win32",
+      "com.sun.jna.platform.win32.COM",
+      "com.sun.jna.platform.win32.COM.tlb",
+      "com.sun.jna.platform.win32.COM.tlb.imp",
+      "com.sun.jna.platform.win32.COM.util",
+      "com.sun.jna.platform.win32.COM.util.annotation",
+      "com.sun.jna.platform.wince"
+    ],
     "net.minidev:json-smart": [
       "net.minidev.json",
       "net.minidev.json.parser"
+    ],
+    "net.sf.jopt-simple:jopt-simple": [
+      "joptsimple",
+      "joptsimple.internal",
+      "joptsimple.util"
     ],
     "net.sourceforge.nekohtml:nekohtml": [
       "org.cyberneko.html",
@@ -2592,6 +2816,83 @@
       "org.apache.commons.lang3.time",
       "org.apache.commons.lang3.tuple",
       "org.apache.commons.lang3.util"
+    ],
+    "org.apache.commons:commons-math3": [
+      "org.apache.commons.math3",
+      "org.apache.commons.math3.analysis",
+      "org.apache.commons.math3.analysis.differentiation",
+      "org.apache.commons.math3.analysis.function",
+      "org.apache.commons.math3.analysis.integration",
+      "org.apache.commons.math3.analysis.integration.gauss",
+      "org.apache.commons.math3.analysis.interpolation",
+      "org.apache.commons.math3.analysis.polynomials",
+      "org.apache.commons.math3.analysis.solvers",
+      "org.apache.commons.math3.complex",
+      "org.apache.commons.math3.dfp",
+      "org.apache.commons.math3.distribution",
+      "org.apache.commons.math3.distribution.fitting",
+      "org.apache.commons.math3.exception",
+      "org.apache.commons.math3.exception.util",
+      "org.apache.commons.math3.filter",
+      "org.apache.commons.math3.fitting",
+      "org.apache.commons.math3.fitting.leastsquares",
+      "org.apache.commons.math3.fraction",
+      "org.apache.commons.math3.genetics",
+      "org.apache.commons.math3.geometry",
+      "org.apache.commons.math3.geometry.enclosing",
+      "org.apache.commons.math3.geometry.euclidean.oned",
+      "org.apache.commons.math3.geometry.euclidean.threed",
+      "org.apache.commons.math3.geometry.euclidean.twod",
+      "org.apache.commons.math3.geometry.euclidean.twod.hull",
+      "org.apache.commons.math3.geometry.hull",
+      "org.apache.commons.math3.geometry.partitioning",
+      "org.apache.commons.math3.geometry.partitioning.utilities",
+      "org.apache.commons.math3.geometry.spherical.oned",
+      "org.apache.commons.math3.geometry.spherical.twod",
+      "org.apache.commons.math3.linear",
+      "org.apache.commons.math3.ml.clustering",
+      "org.apache.commons.math3.ml.clustering.evaluation",
+      "org.apache.commons.math3.ml.distance",
+      "org.apache.commons.math3.ml.neuralnet",
+      "org.apache.commons.math3.ml.neuralnet.oned",
+      "org.apache.commons.math3.ml.neuralnet.sofm",
+      "org.apache.commons.math3.ml.neuralnet.sofm.util",
+      "org.apache.commons.math3.ml.neuralnet.twod",
+      "org.apache.commons.math3.ml.neuralnet.twod.util",
+      "org.apache.commons.math3.ode",
+      "org.apache.commons.math3.ode.events",
+      "org.apache.commons.math3.ode.nonstiff",
+      "org.apache.commons.math3.ode.sampling",
+      "org.apache.commons.math3.optim",
+      "org.apache.commons.math3.optim.linear",
+      "org.apache.commons.math3.optim.nonlinear.scalar",
+      "org.apache.commons.math3.optim.nonlinear.scalar.gradient",
+      "org.apache.commons.math3.optim.nonlinear.scalar.noderiv",
+      "org.apache.commons.math3.optim.nonlinear.vector",
+      "org.apache.commons.math3.optim.nonlinear.vector.jacobian",
+      "org.apache.commons.math3.optim.univariate",
+      "org.apache.commons.math3.optimization",
+      "org.apache.commons.math3.optimization.direct",
+      "org.apache.commons.math3.optimization.fitting",
+      "org.apache.commons.math3.optimization.general",
+      "org.apache.commons.math3.optimization.linear",
+      "org.apache.commons.math3.optimization.univariate",
+      "org.apache.commons.math3.primes",
+      "org.apache.commons.math3.random",
+      "org.apache.commons.math3.special",
+      "org.apache.commons.math3.stat",
+      "org.apache.commons.math3.stat.clustering",
+      "org.apache.commons.math3.stat.correlation",
+      "org.apache.commons.math3.stat.descriptive",
+      "org.apache.commons.math3.stat.descriptive.moment",
+      "org.apache.commons.math3.stat.descriptive.rank",
+      "org.apache.commons.math3.stat.descriptive.summary",
+      "org.apache.commons.math3.stat.inference",
+      "org.apache.commons.math3.stat.interval",
+      "org.apache.commons.math3.stat.ranking",
+      "org.apache.commons.math3.stat.regression",
+      "org.apache.commons.math3.transform",
+      "org.apache.commons.math3.util"
     ],
     "org.apache.commons:commons-text": [
       "org.apache.commons.text",
@@ -3038,6 +3339,37 @@
       "org.asciidoctor.log",
       "org.asciidoctor.log.internal"
     ],
+    "org.assertj:assertj-core": [
+      "org.assertj.core.annotation",
+      "org.assertj.core.annotations",
+      "org.assertj.core.api",
+      "org.assertj.core.api.exception",
+      "org.assertj.core.api.filter",
+      "org.assertj.core.api.iterable",
+      "org.assertj.core.api.junit.jupiter",
+      "org.assertj.core.api.recursive",
+      "org.assertj.core.api.recursive.assertion",
+      "org.assertj.core.api.recursive.comparison",
+      "org.assertj.core.condition",
+      "org.assertj.core.configuration",
+      "org.assertj.core.data",
+      "org.assertj.core.description",
+      "org.assertj.core.error",
+      "org.assertj.core.error.array2d",
+      "org.assertj.core.error.future",
+      "org.assertj.core.error.uri",
+      "org.assertj.core.extractor",
+      "org.assertj.core.groups",
+      "org.assertj.core.internal",
+      "org.assertj.core.internal.annotation",
+      "org.assertj.core.matcher",
+      "org.assertj.core.presentation",
+      "org.assertj.core.util",
+      "org.assertj.core.util.diff",
+      "org.assertj.core.util.diff.myers",
+      "org.assertj.core.util.introspection",
+      "org.assertj.core.util.xml"
+    ],
     "org.bouncycastle:bcpg-jdk18on": [
       "org.bouncycastle.apache.bzip2",
       "org.bouncycastle.bcpg",
@@ -3412,6 +3744,25 @@
       "org.commonmark.ext.gfm.tables",
       "org.commonmark.ext.gfm.tables.internal"
     ],
+    "org.eclipse.jetty.ee8:jetty-ee8-nested": [
+      "org.eclipse.jetty.ee8.nested",
+      "org.eclipse.jetty.ee8.nested.jmx"
+    ],
+    "org.eclipse.jetty.ee8:jetty-ee8-security": [
+      "org.eclipse.jetty.ee8.security",
+      "org.eclipse.jetty.ee8.security.authentication"
+    ],
+    "org.eclipse.jetty.ee8:jetty-ee8-servlet": [
+      "org.eclipse.jetty.ee8.servlet",
+      "org.eclipse.jetty.ee8.servlet.jmx",
+      "org.eclipse.jetty.ee8.servlet.listener"
+    ],
+    "org.eclipse.jetty.toolchain:jetty-servlet-api": [
+      "javax.servlet",
+      "javax.servlet.annotation",
+      "javax.servlet.descriptor",
+      "javax.servlet.http"
+    ],
     "org.eclipse.jetty:jetty-http": [
       "org.eclipse.jetty.http",
       "org.eclipse.jetty.http.compression",
@@ -3444,6 +3795,9 @@
       "org.eclipse.jetty.servlet",
       "org.eclipse.jetty.servlet.jmx",
       "org.eclipse.jetty.servlet.listener"
+    ],
+    "org.eclipse.jetty:jetty-session": [
+      "org.eclipse.jetty.session"
     ],
     "org.eclipse.jetty:jetty-util": [
       "org.eclipse.jetty.util",
@@ -3808,6 +4162,25 @@
       "org.openid4java.server",
       "org.openid4java.util"
     ],
+    "org.openjdk.jmh:jmh-core": [
+      "org.openjdk.jmh",
+      "org.openjdk.jmh.annotations",
+      "org.openjdk.jmh.generators.core",
+      "org.openjdk.jmh.infra",
+      "org.openjdk.jmh.profile",
+      "org.openjdk.jmh.results",
+      "org.openjdk.jmh.results.format",
+      "org.openjdk.jmh.runner",
+      "org.openjdk.jmh.runner.format",
+      "org.openjdk.jmh.runner.link",
+      "org.openjdk.jmh.runner.options",
+      "org.openjdk.jmh.util",
+      "org.openjdk.jmh.util.lines"
+    ],
+    "org.openjdk.jmh:jmh-generator-annprocess": [
+      "org.openjdk.jmh.generators",
+      "org.openjdk.jmh.generators.annotations"
+    ],
     "org.ow2.asm:asm": [
       "org.objectweb.asm",
       "org.objectweb.asm.signature"
@@ -3854,6 +4227,9 @@
     ],
     "org.slf4j:slf4j-reload4j": [
       "org.slf4j.reload4j"
+    ],
+    "org.slf4j:slf4j-simple": [
+      "org.slf4j.simple"
     ],
     "org.tukaani:xz": [
       "org.tukaani.xz",
@@ -4003,6 +4379,10 @@
       "com.ibm.icu:icu4j:jar:sources",
       "com.icegreen:greenmail",
       "com.icegreen:greenmail:jar:sources",
+      "com.jcraft:jsch",
+      "com.jcraft:jsch:jar:sources",
+      "com.jcraft:jzlib",
+      "com.jcraft:jzlib:jar:sources",
       "com.ryanharter.auto.value:auto-value-gson-extension",
       "com.ryanharter.auto.value:auto-value-gson-extension:jar:sources",
       "com.ryanharter.auto.value:auto-value-gson-factory",
@@ -4049,8 +4429,14 @@
       "net.bytebuddy:byte-buddy-agent",
       "net.bytebuddy:byte-buddy-agent:jar:sources",
       "net.bytebuddy:byte-buddy:jar:sources",
+      "net.java.dev.jna:jna",
+      "net.java.dev.jna:jna-platform",
+      "net.java.dev.jna:jna-platform:jar:sources",
+      "net.java.dev.jna:jna:jar:sources",
       "net.minidev:json-smart",
       "net.minidev:json-smart:jar:sources",
+      "net.sf.jopt-simple:jopt-simple",
+      "net.sf.jopt-simple:jopt-simple:jar:sources",
       "net.sourceforge.nekohtml:nekohtml",
       "net.sourceforge.nekohtml:nekohtml:jar:sources",
       "org.antlr:ST4",
@@ -4065,6 +4451,8 @@
       "org.apache.commons:commons-compress:jar:sources",
       "org.apache.commons:commons-lang3",
       "org.apache.commons:commons-lang3:jar:sources",
+      "org.apache.commons:commons-math3",
+      "org.apache.commons:commons-math3:jar:sources",
       "org.apache.commons:commons-text",
       "org.apache.commons:commons-text:jar:sources",
       "org.apache.httpcomponents:fluent-hc",
@@ -4097,6 +4485,8 @@
       "org.apache.sshd:sshd-sftp:jar:sources",
       "org.asciidoctor:asciidoctorj",
       "org.asciidoctor:asciidoctorj:jar:sources",
+      "org.assertj:assertj-core",
+      "org.assertj:assertj-core:jar:sources",
       "org.bouncycastle:bcpg-jdk18on",
       "org.bouncycastle:bcpg-jdk18on:jar:sources",
       "org.bouncycastle:bcpkix-jdk18on",
@@ -4117,6 +4507,14 @@
       "org.commonmark:commonmark-ext-gfm-tables",
       "org.commonmark:commonmark-ext-gfm-tables:jar:sources",
       "org.commonmark:commonmark:jar:sources",
+      "org.eclipse.jetty.ee8:jetty-ee8-nested",
+      "org.eclipse.jetty.ee8:jetty-ee8-nested:jar:sources",
+      "org.eclipse.jetty.ee8:jetty-ee8-security",
+      "org.eclipse.jetty.ee8:jetty-ee8-security:jar:sources",
+      "org.eclipse.jetty.ee8:jetty-ee8-servlet",
+      "org.eclipse.jetty.ee8:jetty-ee8-servlet:jar:sources",
+      "org.eclipse.jetty.toolchain:jetty-servlet-api",
+      "org.eclipse.jetty.toolchain:jetty-servlet-api:jar:sources",
       "org.eclipse.jetty:jetty-http",
       "org.eclipse.jetty:jetty-http:jar:sources",
       "org.eclipse.jetty:jetty-io",
@@ -4129,6 +4527,8 @@
       "org.eclipse.jetty:jetty-server:jar:sources",
       "org.eclipse.jetty:jetty-servlet",
       "org.eclipse.jetty:jetty-servlet:jar:sources",
+      "org.eclipse.jetty:jetty-session",
+      "org.eclipse.jetty:jetty-session:jar:sources",
       "org.eclipse.jetty:jetty-util",
       "org.eclipse.jetty:jetty-util-ajax",
       "org.eclipse.jetty:jetty-util-ajax:jar:sources",
@@ -4151,6 +4551,10 @@
       "org.objenesis:objenesis:jar:sources",
       "org.openid4java:openid4java",
       "org.openid4java:openid4java:jar:sources",
+      "org.openjdk.jmh:jmh-core",
+      "org.openjdk.jmh:jmh-core:jar:sources",
+      "org.openjdk.jmh:jmh-generator-annprocess",
+      "org.openjdk.jmh:jmh-generator-annprocess:jar:sources",
       "org.ow2.asm:asm",
       "org.ow2.asm:asm-analysis",
       "org.ow2.asm:asm-analysis:jar:sources",
@@ -4173,6 +4577,8 @@
       "org.slf4j:slf4j-ext:jar:sources",
       "org.slf4j:slf4j-reload4j",
       "org.slf4j:slf4j-reload4j:jar:sources",
+      "org.slf4j:slf4j-simple",
+      "org.slf4j:slf4j-simple:jar:sources",
       "org.tukaani:xz",
       "org.tukaani:xz:jar:sources",
       "xerces:xercesImpl",
@@ -4271,6 +4677,10 @@
       "com.ibm.icu:icu4j:jar:sources",
       "com.icegreen:greenmail",
       "com.icegreen:greenmail:jar:sources",
+      "com.jcraft:jsch",
+      "com.jcraft:jsch:jar:sources",
+      "com.jcraft:jzlib",
+      "com.jcraft:jzlib:jar:sources",
       "com.ryanharter.auto.value:auto-value-gson-extension",
       "com.ryanharter.auto.value:auto-value-gson-extension:jar:sources",
       "com.ryanharter.auto.value:auto-value-gson-factory",
@@ -4317,8 +4727,14 @@
       "net.bytebuddy:byte-buddy-agent",
       "net.bytebuddy:byte-buddy-agent:jar:sources",
       "net.bytebuddy:byte-buddy:jar:sources",
+      "net.java.dev.jna:jna",
+      "net.java.dev.jna:jna-platform",
+      "net.java.dev.jna:jna-platform:jar:sources",
+      "net.java.dev.jna:jna:jar:sources",
       "net.minidev:json-smart",
       "net.minidev:json-smart:jar:sources",
+      "net.sf.jopt-simple:jopt-simple",
+      "net.sf.jopt-simple:jopt-simple:jar:sources",
       "net.sourceforge.nekohtml:nekohtml",
       "net.sourceforge.nekohtml:nekohtml:jar:sources",
       "org.antlr:ST4",
@@ -4333,6 +4749,8 @@
       "org.apache.commons:commons-compress:jar:sources",
       "org.apache.commons:commons-lang3",
       "org.apache.commons:commons-lang3:jar:sources",
+      "org.apache.commons:commons-math3",
+      "org.apache.commons:commons-math3:jar:sources",
       "org.apache.commons:commons-text",
       "org.apache.commons:commons-text:jar:sources",
       "org.apache.httpcomponents:fluent-hc",
@@ -4365,6 +4783,8 @@
       "org.apache.sshd:sshd-sftp:jar:sources",
       "org.asciidoctor:asciidoctorj",
       "org.asciidoctor:asciidoctorj:jar:sources",
+      "org.assertj:assertj-core",
+      "org.assertj:assertj-core:jar:sources",
       "org.bouncycastle:bcpg-jdk18on",
       "org.bouncycastle:bcpg-jdk18on:jar:sources",
       "org.bouncycastle:bcpkix-jdk18on",
@@ -4385,6 +4805,14 @@
       "org.commonmark:commonmark-ext-gfm-tables",
       "org.commonmark:commonmark-ext-gfm-tables:jar:sources",
       "org.commonmark:commonmark:jar:sources",
+      "org.eclipse.jetty.ee8:jetty-ee8-nested",
+      "org.eclipse.jetty.ee8:jetty-ee8-nested:jar:sources",
+      "org.eclipse.jetty.ee8:jetty-ee8-security",
+      "org.eclipse.jetty.ee8:jetty-ee8-security:jar:sources",
+      "org.eclipse.jetty.ee8:jetty-ee8-servlet",
+      "org.eclipse.jetty.ee8:jetty-ee8-servlet:jar:sources",
+      "org.eclipse.jetty.toolchain:jetty-servlet-api",
+      "org.eclipse.jetty.toolchain:jetty-servlet-api:jar:sources",
       "org.eclipse.jetty:jetty-http",
       "org.eclipse.jetty:jetty-http:jar:sources",
       "org.eclipse.jetty:jetty-io",
@@ -4397,6 +4825,8 @@
       "org.eclipse.jetty:jetty-server:jar:sources",
       "org.eclipse.jetty:jetty-servlet",
       "org.eclipse.jetty:jetty-servlet:jar:sources",
+      "org.eclipse.jetty:jetty-session",
+      "org.eclipse.jetty:jetty-session:jar:sources",
       "org.eclipse.jetty:jetty-util",
       "org.eclipse.jetty:jetty-util-ajax",
       "org.eclipse.jetty:jetty-util-ajax:jar:sources",
@@ -4419,6 +4849,10 @@
       "org.objenesis:objenesis:jar:sources",
       "org.openid4java:openid4java",
       "org.openid4java:openid4java:jar:sources",
+      "org.openjdk.jmh:jmh-core",
+      "org.openjdk.jmh:jmh-core:jar:sources",
+      "org.openjdk.jmh:jmh-generator-annprocess",
+      "org.openjdk.jmh:jmh-generator-annprocess:jar:sources",
       "org.ow2.asm:asm",
       "org.ow2.asm:asm-analysis",
       "org.ow2.asm:asm-analysis:jar:sources",
@@ -4441,6 +4875,8 @@
       "org.slf4j:slf4j-ext:jar:sources",
       "org.slf4j:slf4j-reload4j",
       "org.slf4j:slf4j-reload4j:jar:sources",
+      "org.slf4j:slf4j-simple",
+      "org.slf4j:slf4j-simple:jar:sources",
       "org.tukaani:xz",
       "org.tukaani:xz:jar:sources",
       "xerces:xercesImpl",
@@ -4788,6 +5224,16 @@
         "org.jruby.embed.jsr223.JRubyEngineFactory"
       ]
     },
+    "org.openjdk.jmh:jmh-generator-annprocess": {
+      "javax.annotation.processing.Processor": [
+        "org.openjdk.jmh.generators.BenchmarkProcessor"
+      ]
+    },
+    "org.openjdk.jmh:jmh-generator-annprocess:jar:sources": {
+      "javax.annotation.processing.Processor": [
+        "org.openjdk.jmh.generators.BenchmarkProcessor"
+      ]
+    },
     "org.slf4j:jcl-over-slf4j": {
       "org.apache.commons.logging.LogFactory": [
         "org.apache.commons.logging.impl.SLF4JLogFactory"
@@ -4806,6 +5252,16 @@
     "org.slf4j:slf4j-reload4j:jar:sources": {
       "org.slf4j.spi.SLF4JServiceProvider": [
         "org.slf4j.reload4j.Reload4jServiceProvider"
+      ]
+    },
+    "org.slf4j:slf4j-simple": {
+      "org.slf4j.spi.SLF4JServiceProvider": [
+        "org.slf4j.simple.SimpleServiceProvider"
+      ]
+    },
+    "org.slf4j:slf4j-simple:jar:sources": {
+      "org.slf4j.spi.SLF4JServiceProvider": [
+        "org.slf4j.simple.SimpleServiceProvider"
       ]
     },
     "xerces:xercesImpl": {

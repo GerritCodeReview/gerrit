@@ -5,8 +5,8 @@ java_library(
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
     exports = [
-        "@gerrit_deps//:org_apache_sshd_sshd_mina",
-        "@gerrit_deps//:org_apache_sshd_sshd_osgi",
+        "@external_deps//:org_apache_sshd_sshd_mina",
+        "@external_deps//:org_apache_sshd_sshd_osgi",
     ],
     runtime_deps = [":core"],
 )
@@ -15,12 +15,12 @@ java_library(
     name = "sshd-sftp",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = ["@gerrit_deps//:org_apache_sshd_sshd_sftp"],
+    exports = ["@external_deps//:org_apache_sshd_sshd_sftp"],
 )
 
 java_library(
     name = "core",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = ["@gerrit_deps//:org_apache_mina_mina_core"],
+    exports = ["@external_deps//:org_apache_mina_mina_core"],
 )

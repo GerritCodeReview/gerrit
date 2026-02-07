@@ -492,7 +492,7 @@ is then used by `curl`:
 Maven dependencies are maintained in two separate files: `tools/deps.toml` and
 `tools/nongoogle.toml`. Depending on whether Google will use the dependency
 or not, dependencies should be added to one or the other file. If unsure, the
-dependency should be added to `tools/deps.bzl`. A Googler will check the dependency
+dependency should be added to `tools/deps.toml`. A Googler will check the dependency
 during review and provide feedback.
 
 When adding a new maven dependency add a line like this:
@@ -510,7 +510,7 @@ In both cases, the dependencies have to be repinned. To do that, run:
 
 [source,bash]
 ----
-REPIN=1 bazel run @gerrit_deps//:pin
+REPIN=1 bazel run @external_deps//:pin
 ----
 
 == Building against unpublished Maven JARs

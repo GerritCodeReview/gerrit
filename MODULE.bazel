@@ -36,7 +36,7 @@ maven = use_extension("@rules_jvm_external//:extensions.bzl", "maven")
 # Empty maven.install call to apply the configuration to the installation from
 # toml files.
 maven.install(
-    name = "gerrit_deps",
+    name = "external_deps",
     artifacts = [],
     duplicate_version_warning = "error",
     excluded_artifacts = [
@@ -98,7 +98,7 @@ maven.install(
         "com.vladsch.flexmark:flexmark-youtrack-converter",
         # headless.war must not ship legacy Log4j 1.x / commons-logging stacks.
         # These get pulled transitively via Flogger's log4j backend (see: //:headless -> //lib/flogger:api
-        # -> @gerrit_deps//:com_google_flogger_flogger_log4j_backend -> log4j:log4j) and can conflict with
+        # -> @external_deps//:com_google_flogger_flogger_log4j_backend -> log4j:log4j) and can conflict with
         # our SLF4J + reload4j logging setup. Exclude to keep the runtime classpath clean and avoid
         # packaging obsolete logging implementations.
         "log4j:log4j",
@@ -108,20 +108,20 @@ maven.install(
     fail_if_repin_required = True,
     fail_on_missing_checksum = True,
     fetch_sources = True,
-    lock_file = "//:gerrit_deps.lock.json",
+    lock_file = "//:external_deps.lock.json",
     repositories = [
         "https://repo1.maven.org/maven2",
         "https://gerrit-maven.storage.googleapis.com",
     ],
-    strict_visibility = True,
+    strict_visibility = False,
     version_conflict_policy = "pinned",
 )
 maven.from_toml(
-    name = "gerrit_deps",
+    name = "external_deps",
     libs_versions_toml = "//tools:deps.toml",
 )
 maven.from_toml(
-    name = "gerrit_deps",
+    name = "external_deps",
     libs_versions_toml = "//tools:nongoogle.toml",
 )
-use_repo(maven, "gerrit_deps")
+use_repo(maven, "external_deps")

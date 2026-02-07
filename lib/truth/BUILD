@@ -5,7 +5,7 @@ java_library(
     testonly = True,
     data = ["//lib:LICENSE-DO_NOT_DISTRIBUTE"],
     visibility = ["//visibility:public"],
-    exports = ["@gerrit_deps//:com_google_truth_truth"],
+    exports = ["@external_deps//:com_google_truth_truth"],
     runtime_deps = [
         ":diffutils",
         "//lib:guava",
@@ -18,7 +18,7 @@ java_library(
     testonly = True,
     data = ["//lib:LICENSE-DO_NOT_DISTRIBUTE"],
     visibility = ["//visibility:public"],
-    exports = ["@gerrit_deps//:com_google_truth_extensions_truth_java8_extension"],
+    exports = ["@external_deps//:com_google_truth_extensions_truth_java8_extension"],
     runtime_deps = [
         ":truth",
         "//lib:guava",
@@ -30,7 +30,7 @@ java_library(
     testonly = True,
     data = ["//lib:LICENSE-DO_NOT_DISTRIBUTE"],
     visibility = ["//visibility:private"],
-    exports = ["@gerrit_deps//:com_google_truth_extensions_truth_liteproto_extension"],
+    exports = ["@external_deps//:com_google_truth_extensions_truth_liteproto_extension"],
     runtime_deps = [
         ":truth",
         "//lib:guava",
@@ -43,7 +43,7 @@ java_library(
     testonly = True,
     data = ["//lib:LICENSE-DO_NOT_DISTRIBUTE"],
     visibility = ["//visibility:private"],
-    exports = ["@gerrit_deps//:io_github_java_diff_utils_java_diff_utils"],
+    exports = ["@external_deps//:io_github_java_diff_utils_java_diff_utils"],
 )
 
 java_library(
@@ -53,7 +53,7 @@ java_library(
     visibility = ["//visibility:public"],
     exports = [
         ":truth-liteproto-extension",
-        "@gerrit_deps//:com_google_truth_extensions_truth_proto_extension",
+        "@external_deps//:com_google_truth_extensions_truth_proto_extension",
     ],
     runtime_deps = [
         ":truth",

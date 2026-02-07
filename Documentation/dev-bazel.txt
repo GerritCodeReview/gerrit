@@ -510,7 +510,7 @@ In both cases, the dependencies have to be repinned. To do that, run:
 
 [source,bash]
 ----
-REPIN=1 bazel run @gerrit_deps//:pin
+REPIN=1 bazel run @external_deps//:pin
 ----
 
 == Building against unpublished Maven JARs

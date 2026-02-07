@@ -4,7 +4,7 @@ java_library(
     name = "consumer",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = ["@gerrit_deps//:org_openid4java_openid4java"],
+    exports = ["@external_deps//:org_openid4java_openid4java"],
     runtime_deps = [
         ":nekohtml",
         ":xerces",
@@ -17,12 +17,12 @@ java_library(
 java_library(
     name = "nekohtml",
     data = ["//lib:LICENSE-Apache2.0"],
-    exports = ["@gerrit_deps//:net_sourceforge_nekohtml_nekohtml"],
+    exports = ["@external_deps//:net_sourceforge_nekohtml_nekohtml"],
     runtime_deps = [":xerces"],
 )
 
 java_library(
     name = "xerces",
     data = ["//lib:LICENSE-Apache2.0"],
-    exports = ["@gerrit_deps//:xerces_xercesImpl"],
+    exports = ["@external_deps//:xerces_xercesImpl"],
 )

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "917ad124_5aedc594",
+        "filename": "WORKSPACE",
+        "patchSetId": 48
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-02-07T17:45:46Z",
+      "side": 0,
+      "message": "We should keep this rename. As discussed in [1], having two artifacts in release.war -- `guava-2.9.2.jar` and `guava-33.4.8-jre.jar` -- is quite confusing.\n\nThe Caffeine Guava adapter should consistently be named `caffeine-guava-\u003cversion\u003e.jar`. To avoid reintroducing the ambiguity, it would be better to move this renaming logic into `pkg_war.bzl` rather than removing it entirely.\n\n[1]: https://github.com/ben-manes/caffeine/issues/364",
+      "range": {
+        "startLine": 86,
+        "startChar": 0,
+        "endLine": 90,
+        "endChar": 0
+      },
+      "revId": "b548783ddcfc836814fa1e50c8b328a36d83bbf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

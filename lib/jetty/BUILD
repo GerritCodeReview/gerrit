@@ -6,7 +6,7 @@ java_library(
     visibility = ["//visibility:public"],
     exports = [
         ":util-ajax",
-        "@gerrit_deps//:org_eclipse_jetty_jetty_servlet",
+        "@external_deps//:org_eclipse_jetty_jetty_servlet",
     ],
     runtime_deps = [":security"],
 )
@@ -15,7 +15,7 @@ java_library(
     name = "security",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = ["@gerrit_deps//:org_eclipse_jetty_jetty_security"],
+    exports = ["@external_deps//:org_eclipse_jetty_jetty_security"],
     runtime_deps = [":server"],
 )
 
@@ -25,7 +25,7 @@ java_library(
     visibility = ["//visibility:public"],
     exports = [
         ":http",
-        "@gerrit_deps//:org_eclipse_jetty_jetty_server",
+        "@external_deps//:org_eclipse_jetty_jetty_server",
     ],
 )
 
@@ -35,7 +35,7 @@ java_library(
     visibility = ["//visibility:public"],
     exports = [
         ":http",
-        "@gerrit_deps//:org_eclipse_jetty_jetty_jmx",
+        "@external_deps//:org_eclipse_jetty_jetty_jmx",
     ],
 )
 
@@ -45,7 +45,7 @@ java_library(
     visibility = ["//visibility:public"],
     exports = [
         ":io",
-        "@gerrit_deps//:org_eclipse_jetty_jetty_http",
+        "@external_deps//:org_eclipse_jetty_jetty_http",
     ],
 )
 
@@ -54,18 +54,18 @@ java_library(
     data = ["//lib:LICENSE-Apache2.0"],
     exports = [
         ":util",
-        "@gerrit_deps//:org_eclipse_jetty_jetty_io",
+        "@external_deps//:org_eclipse_jetty_jetty_io",
     ],
 )
 
 java_library(
     name = "util",
     data = ["//lib:LICENSE-Apache2.0"],
-    exports = ["@gerrit_deps//:org_eclipse_jetty_jetty_util"],
+    exports = ["@external_deps//:org_eclipse_jetty_jetty_util"],
 )
 
 java_library(
     name = "util-ajax",
     data = ["//lib:LICENSE-Apache2.0"],
-    exports = ["@gerrit_deps//:org_eclipse_jetty_jetty_util_ajax"],
+    exports = ["@external_deps//:org_eclipse_jetty_jetty_util_ajax"],
 )

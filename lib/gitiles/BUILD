@@ -19,35 +19,35 @@ java_library(
     name = "cm-autolink",
     data = ["//lib:LICENSE-commonmark"],
     visibility = ["//visibility:public"],
-    exports = ["@gerrit_deps//:org_commonmark_commonmark_ext_autolink"],
+    exports = ["@external_deps//:org_commonmark_commonmark_ext_autolink"],
 )
 
 java_library(
     name = "commonmark",
     data = ["//lib:LICENSE-commonmark"],
     visibility = ["//visibility:public"],
-    exports = ["@gerrit_deps//:org_commonmark_commonmark"],
+    exports = ["@external_deps//:org_commonmark_commonmark"],
 )
 
 java_library(
     name = "gfm-strikethrough",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = ["@gerrit_deps//:org_commonmark_commonmark_ext_gfm_strikethrough"],
+    exports = ["@external_deps//:org_commonmark_commonmark_ext_gfm_strikethrough"],
 )
 
 java_library(
     name = "gfm-tables",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = ["@gerrit_deps//:org_commonmark_commonmark_ext_gfm_tables"],
+    exports = ["@external_deps//:org_commonmark_commonmark_ext_gfm_tables"],
 )
 
 java_library(
     name = "gitiles-servlet",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = ["@gerrit_deps//:com_google_gitiles_gitiles_servlet"],
+    exports = ["@external_deps//:com_google_gitiles_gitiles_servlet"],
 )
 
 java_library(

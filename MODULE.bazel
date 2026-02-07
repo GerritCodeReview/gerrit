@@ -33,11 +33,55 @@ register_toolchains("//tools:all")
 
 maven = use_extension("@rules_jvm_external//:extensions.bzl", "maven")
 
+# Root-level dependency versions declared by Gerrit must take precedence over
+# versions contributed by layered modules (e.g. JGit) when resolving the shared
+# maven.install("external_deps") repository.
+#
+# rules_jvm_external currently lacks a mechanism for the root module to globally
+# enforce its declared versions across the layered Maven graph when using
+# bzlmod. In particular, version_conflict_policy = "pinned" still fails early
+# with duplicate artifacts when multiple modules contribute different versions.
+#
+# As a workaround, we explicitly force the root-selected versions here via
+# maven.amend_artifact(force_version = "true") for GA coordinates that may also
+# be introduced transitively by JGit.
+#
+# Versions themselves are sourced from deps.toml and the pinned lockfile.
+#
+# TODO(davido): Remove this workaround once global root version enforcement is
+# supported in rules_jvm_external:
+# https://github.com/bazel-contrib/rules_jvm_external/issues/1549
+_GERRIT_FORCED_ARTIFACTS = [
+    "args4j:args4j",
+    "com.googlecode.javaewah:JavaEWAH",
+    "commons-codec:commons-codec",
+    "org.apache.commons:commons-lang3",
+    "org.eclipse.jetty:jetty-http",
+    "org.eclipse.jetty:jetty-io",
+    "org.eclipse.jetty:jetty-security",
+    "org.eclipse.jetty:jetty-server",
+    "org.eclipse.jetty:jetty-util",
+    "org.eclipse.jetty:jetty-util-ajax",
+]
+
+[
+    maven.amend_artifact(
+        name = "external_deps",
+        coordinates = coord,
+        force_version = "true",
+    )
+    for coord in _GERRIT_FORCED_ARTIFACTS
+]
+
 # Empty maven.install call to apply the configuration to the installation from
 # toml files.
 maven.install(
-    name = "gerrit_deps",
+    name = "external_deps",
     artifacts = [],
+    # CRITICAL: Must remain "error".
+    # This guarantees fail-fast behavior if multiple versions of the same
+    # artifact are introduced by contributing modules. Downgrading this to
+    # "warn" would allow version skew to silently leak into release.war.
     duplicate_version_warning = "error",
     excluded_artifacts = [
         # Although flexmark is published as many small modules, the `flexmark-all`
@@ -136,20 +180,23 @@ maven.install(
     fail_if_repin_required = True,
     fail_on_missing_checksum = True,
     fetch_sources = True,
-    lock_file = "//:gerrit_deps.lock.json",
+    known_contributing_modules = [
+        "jgit",
+        "gerrit",
+    ],
+    lock_file = "//:external_deps.lock.json",
     repositories = [
         "https://repo1.maven.org/maven2",
         "https://gerrit-maven.storage.googleapis.com",
     ],
-    strict_visibility = True,
     version_conflict_policy = "pinned",
 )
 maven.from_toml(
-    name = "gerrit_deps",
+    name = "external_deps",
     libs_versions_toml = "//tools:deps.toml",
 )
 maven.from_toml(
-    name = "gerrit_deps",
+    name = "external_deps",
     libs_versions_toml = "//tools:nongoogle.toml",
 )
-use_repo(maven, "gerrit_deps")
+use_repo(maven, "external_deps")

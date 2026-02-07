@@ -62,10 +62,6 @@ def _add_context(in_file, output):
     ]
 
 def _should_skip_runtime_jar(dep):
-    # Do not package any jars coming from jgit_deps.
-    if "jgit_deps" in dep.path:
-        return True
-
     raw = dep.basename
     if raw.startswith(PROCESSED_PREFIX):
         raw = raw[len(PROCESSED_PREFIX):]

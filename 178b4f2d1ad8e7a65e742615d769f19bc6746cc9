@@ -34,6 +34,24 @@
       "parentUuid": "d6d8de62_4cb4e434",
       "revId": "178b4f2d1ad8e7a65e742615d769f19bc6746cc9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6eefd532_14a09269",
+        "filename": "MODULE.bazel",
+        "patchSetId": 47
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-02-07T19:41:55Z",
+      "side": 1,
+      "message": "Thanks for calling this out.\n\nI added a report comparing the previously built headless.war\n(`maven_jar`-based setup) against the WAR produced by this change [1].\n\nThe observed differences are expected and understood:\n- Newly added jars correspond to runtime dependencies that were\n  already present on the Bazel classpath but were previously not\n  packaged as standalone artifacts in the WAR.\n- Removed jars reflect version alignment (e.g. gson, protobuf,\n  sshd, commons-text) and case-normalization differences.\n- Guava / Caffeine artifacts are unchanged, apart from the explicit\n  renaming of caffeine-guava to avoid name collisions.\n\n[1]: https://paste.opendev.org/show/bCkTJRoD09ZNCLoOCGrK/",
+      "parentUuid": "eab7665d_62ad4aa6",
+      "revId": "178b4f2d1ad8e7a65e742615d769f19bc6746cc9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

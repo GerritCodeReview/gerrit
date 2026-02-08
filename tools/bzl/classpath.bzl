@@ -9,6 +9,9 @@
 #       One source-jar path per line. Used to attach sources to libraries in
 #       the IDE.
 #
+#   - %{name}.processor_classpath
+#       One annotation-processor jar path per line. Used to construct Eclipse .factorypath.
+#
 # Important implementation details:
 #
 # * With rules_jvm_external, many Maven artifacts (including sources) are
@@ -29,6 +32,7 @@ load("@rules_java//java:defs.bzl", "JavaInfo")
 def _classpath_collector_impl(ctx):
     runtime_sets = []
     source_sets = []
+    processor_sets = []
 
     for d in ctx.attr.deps:
         if JavaInfo in d:
@@ -42,11 +46,16 @@ def _classpath_collector_impl(ctx):
 
             source_sets.append(j.transitive_source_jars)
 
+            ap = j.annotation_processing
+            if ap and hasattr(ap, "processor_classpath"):
+                processor_sets.append(ap.processor_classpath)
+
         elif hasattr(d, "files"):
             runtime_sets.append(d.files)
 
     runtime_files = depset(transitive = runtime_sets).to_list()
     source_files = depset(transitive = source_sets).to_list()
+    processor_files = depset(transitive = processor_sets).to_list()
 
     # Runtime classpath: metadata file.
     ctx.actions.write(
@@ -90,6 +99,24 @@ fi
 """,
     )
 
+    # Processor classpath: metadata file.
+    ctx.actions.write(
+        output = ctx.outputs.processors,
+        content = "\n".join(sorted([f.path for f in processor_files])),
+    )
+
+    # Force processor jars to be present on disk.
+    processor_stamp = ctx.actions.declare_file(ctx.label.name + ".processors_materialized")
+    ctx.actions.run_shell(
+        inputs = processor_files,
+        outputs = [processor_stamp],
+        arguments = [processor_stamp.path],
+        command = r"""
+set -euo pipefail
+: > "$1"
+""",
+    )
+
 classpath_collector = rule(
     implementation = _classpath_collector_impl,
     attrs = {
@@ -98,5 +125,6 @@ classpath_collector = rule(
     outputs = {
         "runtime": "%{name}.runtime_classpath",
         "sources": "%{name}.source_classpath",
+        "processors": "%{name}.processor_classpath",
     },
 )

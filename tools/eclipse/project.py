@@ -22,7 +22,6 @@ import re
 import sys
 
 MAIN = '//tools/eclipse:classpath'
-AUTO = '//lib/auto:auto-value'
 AUTO_COLLECT = '//tools/eclipse:autovalue_classpath_collect'
 
 def JRE(java_vers = '21'):
@@ -34,7 +33,6 @@ def JRE(java_vers = '21'):
 
 # Map of targets to corresponding classpath collector rules
 cp_targets = {
-    AUTO: '//tools/eclipse:autovalue_classpath_collect',
     MAIN: '//tools/eclipse:main_classpath_collect',
 }
 
@@ -88,13 +86,10 @@ bazel_exe = find_bazel()
 
 
 def _build_bazel_cmd(*args):
-    build = False
     cmd = [bazel_exe]
     if batch_option:
         cmd.append('--batch')
     for arg in args:
-        if arg == "build":
-            build = True
         cmd.append(arg)
     if custom_java:
         cmd.append('--config=java%s' % custom_java)

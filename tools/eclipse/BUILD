@@ -59,3 +59,4 @@ classpath_collector(
         "@external_deps//:javax_inject_javax_inject",
     ],
 )
+

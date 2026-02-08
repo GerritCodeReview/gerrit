@@ -105,6 +105,10 @@ def retrieve_ext_location():
     return subprocess.check_output(_build_bazel_cmd('info', 'output_base')).strip()
 
 
+def retrieve_exec_root():
+    return subprocess.check_output(_build_bazel_cmd('info', 'execution_root')).strip()
+
+
 def gen_bazel_path(ext_location):
     bazel = subprocess.check_output(['which', bazel_exe]).strip().decode('UTF-8')
     with open(os.path.join(ROOT, ".bazel_path"), 'w') as fd:
@@ -114,15 +118,33 @@ def gen_bazel_path(ext_location):
 
 
 def _query_classpath(target):
-    deps = []
     t = cp_targets[target]
     try:
         subprocess.check_call(_build_bazel_cmd('build', t))
     except subprocess.CalledProcessError:
         exit(1)
-    name = 'bazel-bin/tools/eclipse/' + t.split(':')[1] + '.runtime_classpath'
-    deps = [line.rstrip('\n') for line in open(name)]
-    return deps
+
+    base = 'bazel-bin/tools/eclipse/' + t.split(':')[1]
+
+    runtime_name = base + '.runtime_classpath'
+    runtime = [line.rstrip('\n') for line in open(runtime_name)]
+
+    sources = []
+    sources_name = base + '.source_classpath'
+    if os.path.exists(sources_name):
+        sources = [line.rstrip('\n') for line in open(sources_name)]
+
+    return runtime, sources
+
+
+def _normalize_jar_basename(p):
+    b = os.path.basename(p)
+    for pref in ('processed_', 'header_'):
+        if b.startswith(pref):
+            b = b[len(pref):]
+    if b.endswith('-sources.jar'):
+        b = b[:-len('-sources.jar')] + '.jar'
+    return b
 
 
 def gen_project(name='gerrit', root=ROOT):
@@ -227,13 +249,19 @@ def gen_classpath(ext):
     # Classpath entries are absolute for cross-cell support
     java_library = re.compile('bazel-out/.*?-fastbuild/bin/(.*)/[^/]+[.]jar$')
     proto_library = re.compile('bazel-out/.*?-fastbuild/bin/(.*)proto/(.*)_proto-speed[.]jar$')
-    srcs = re.compile('(.*/external/[^/]+)/jar/(.*)[.]jar')
-    for p in _query_classpath(MAIN):
+
+    runtime_cp, source_cp = _query_classpath(MAIN)
+
+    source_by_basename = {}
+    for p in source_cp:
+        source_by_basename[_normalize_jar_basename(p)] = p
+
+    for p in runtime_cp:
         if p.endswith('-src.jar'):
             continue
 
         m = java_library.match(p)
-        if m:
+        if m and "/external/" not in p:
             src.add(m.group(1))
             # Exceptions: both source and lib
             if p.endswith('libquery_parser.jar') or \
@@ -291,13 +319,17 @@ def gen_classpath(ext):
     for libs in [lib]:
         for j in sorted(libs):
             s = None
-            m = srcs.match(j)
-            if m:
-                prefix = m.group(1)
-                suffix = m.group(2)
-                p = os.path.join(prefix, "jar", "%s-src.jar" % suffix)
-                if os.path.exists(p):
-                    s = p
+
+            # Attach sources using the classpath_collector output from rules_jvm_external.
+            # This replaces the previous heuristic-based source lookup.
+            key = _normalize_jar_basename(j)
+            if key in source_by_basename:
+                sp = source_by_basename[key]
+                if sp.startswith("external"):
+                    s = os.path.join(ext, sp)
+                else:
+                    s = sp
+
             if args.plugins:
                 classpathentry('lib', j, s, exported=True)
             else:
@@ -332,7 +364,10 @@ def gen_classpath(ext):
 def gen_factorypath(ext):
     doc = xml.dom.minidom.getDOMImplementation().createDocument(
         None, 'factorypath', None)
-    for jar in _query_classpath(AUTO):
+
+    runtime, _ = _query_classpath(AUTO)
+
+    for jar in runtime:
         e = doc.createElement('factorypathentry')
         e.setAttribute('kind', 'EXTJAR')
         e.setAttribute('id', os.path.join(ext, jar))
@@ -346,11 +381,12 @@ def gen_factorypath(ext):
 
 
 try:
-    ext_location = retrieve_ext_location().decode("utf-8")
+    output_base = retrieve_ext_location().decode("utf-8")
+    exec_root = retrieve_exec_root().decode("utf-8")
     gen_project(args.project_name)
-    gen_classpath(ext_location)
-    gen_factorypath(ext_location)
-    gen_bazel_path(ext_location)
+    gen_classpath(exec_root)
+    gen_factorypath(output_base)
+    gen_bazel_path(output_base)
 
     try:
         subprocess.check_call(_build_bazel_cmd('build', MAIN))
@@ -359,3 +395,4 @@ try:
 except KeyboardInterrupt:
     print('Interrupted by user', file=sys.stderr)
     exit(1)
+

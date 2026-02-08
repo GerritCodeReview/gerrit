@@ -3,6 +3,7 @@ load("@rules_java//java:defs.bzl", "java_library", "java_plugin")
 java_plugin(
     name = "auto-annotation-plugin",
     processor_class = "com.google.auto.value.processor.AutoAnnotationProcessor",
+    visibility = ["//tools/eclipse:__pkg__"],
     deps = [
         "@external_deps//:com_google_auto_value_auto_value",
         "@external_deps//:com_google_auto_value_auto_value_annotations",
@@ -13,7 +14,7 @@ java_plugin(
     name = "auto-factory-plugin",
     generates_api = 1,
     processor_class = "com.google.auto.factory.processor.AutoFactoryProcessor",
-    visibility = ["//visibility:private"],
+    visibility = ["//tools/eclipse:__pkg__"],
     deps = [
         "@external_deps//:com_google_auto_auto_common",
         "@external_deps//:com_google_auto_factory_auto_factory",
@@ -29,6 +30,7 @@ java_plugin(
 java_plugin(
     name = "auto-builder-plugin",
     processor_class = "com.google.auto.value.processor.AutoBuilderProcessor",
+    visibility = ["//tools/eclipse:__pkg__"],
     deps = [
         "@external_deps//:com_google_auto_auto_common",
         "@external_deps//:com_google_auto_factory_auto_factory",
@@ -44,6 +46,7 @@ java_plugin(
 java_plugin(
     name = "auto-value-plugin",
     processor_class = "com.google.auto.value.processor.AutoValueProcessor",
+    visibility = ["//tools/eclipse:__pkg__"],
     deps = [
         "@external_deps//:com_google_auto_value_auto_value",
         "@external_deps//:com_google_auto_value_auto_value_annotations",
@@ -53,6 +56,7 @@ java_plugin(
 java_plugin(
     name = "auto-oneof-plugin",
     processor_class = "com.google.auto.value.processor.AutoOneOfProcessor",
+    visibility = ["//tools/eclipse:__pkg__"],
     deps = [
         "@external_deps//:com_google_auto_value_auto_value",
         "@external_deps//:com_google_auto_value_auto_value_annotations",
@@ -62,6 +66,7 @@ java_plugin(
 java_plugin(
     name = "auto-value-gson-plugin",
     processor_class = "com.ryanharter.auto.value.gson.factory.AutoValueGsonAdapterFactoryProcessor",
+    visibility = ["//tools/eclipse:__pkg__"],
     deps = [
         "@external_deps//:com_google_auto_value_auto_value",
         "@external_deps//:com_google_auto_value_auto_value_annotations",

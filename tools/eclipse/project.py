@@ -22,7 +22,7 @@ import re
 import sys
 
 MAIN = '//tools/eclipse:classpath'
-AUTO = '//lib/auto:auto-value'
+AUTO_COLLECT = '//tools/eclipse:autovalue_classpath_collect'
 
 def JRE(java_vers = '21'):
     return '/'.join([
@@ -33,7 +33,6 @@ def JRE(java_vers = '21'):
 
 # Map of targets to corresponding classpath collector rules
 cp_targets = {
-    AUTO: '//tools/eclipse:autovalue_classpath_collect',
     MAIN: '//tools/eclipse:main_classpath_collect',
 }
 
@@ -87,13 +86,10 @@ bazel_exe = find_bazel()
 
 
 def _build_bazel_cmd(*args):
-    build = False
     cmd = [bazel_exe]
     if batch_option:
         cmd.append('--batch')
     for arg in args:
-        if arg == "build":
-            build = True
         cmd.append(arg)
     if custom_java:
         cmd.append('--config=java%s' % custom_java)
@@ -361,13 +357,37 @@ def gen_classpath(ext):
                       file=sys.stderr)
 
 
+def _prefer_unprocessed_jar(ext, jar):
+    b = os.path.basename(jar)
+    if b.startswith('processed_'):
+        alt = os.path.join(os.path.dirname(jar), b[len('processed_'):])
+    elif b.startswith('header_'):
+        alt = os.path.join(os.path.dirname(jar), b[len('header_'):])
+    else:
+        return jar
+    if os.path.exists(os.path.join(ext, alt)):
+        return alt
+    return jar
+
+
 def gen_factorypath(ext):
     doc = xml.dom.minidom.getDOMImplementation().createDocument(
         None, 'factorypath', None)
 
-    runtime, _ = _query_classpath(AUTO)
+    try:
+        subprocess.check_call(_build_bazel_cmd('build', AUTO_COLLECT))
+    except subprocess.CalledProcessError:
+        exit(1)
 
-    for jar in runtime:
+    base = 'bazel-bin/tools/eclipse/' + AUTO_COLLECT.split(':')[1]
+    processors_name = base + '.processor_classpath'
+
+    processors = []
+    if os.path.exists(processors_name):
+        processors = [line.rstrip('\n') for line in open(processors_name)]
+
+    for jar in processors:
+        jar = _prefer_unprocessed_jar(ext, jar)
         e = doc.createElement('factorypathentry')
         e.setAttribute('kind', 'EXTJAR')
         e.setAttribute('id', os.path.join(ext, jar))
@@ -385,7 +405,7 @@ try:
     exec_root = retrieve_exec_root().decode("utf-8")
     gen_project(args.project_name)
     gen_classpath(exec_root)
-    gen_factorypath(output_base)
+    gen_factorypath(exec_root)
     gen_bazel_path(output_base)
 
     try:

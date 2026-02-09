@@ -87,6 +87,30 @@
       },
       "revId": "35626bb102411213a076705ae92020abb59dd227",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e56d0bc1_7124ed99",
+        "filename": "MODULE.bazel",
+        "patchSetId": 42
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-02-09T09:32:25Z",
+      "side": 1,
+      "message": "That or we follow @david.ostrovsky@gmail.com \u0027s suggestion in jgit: https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1230814. I have already talked with @matthias.sohn@gmail.com about it and he wanted to have a look at it.",
+      "parentUuid": "30990771_678709a5",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 1
+      },
+      "revId": "35626bb102411213a076705ae92020abb59dd227",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

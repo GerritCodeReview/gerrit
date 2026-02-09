@@ -22,6 +22,30 @@
       },
       "revId": "f7d6cc8dadda840c993011a8d89a1d50dfbb50d5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd1bd6ed_55f57c51",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 3882,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-02-09T22:25:35Z",
+      "side": 1,
+      "message": "I see this was fixed with Ib5ce7563af00336062f3d1c1715a822bbef69bbb.\n\nWe do need that fix also on stable-3.13 then.",
+      "parentUuid": "6cfa70ee_f862dfa1",
+      "range": {
+        "startLine": 3879,
+        "startChar": 0,
+        "endLine": 3882,
+        "endChar": 5
+      },
+      "revId": "f7d6cc8dadda840c993011a8d89a1d50dfbb50d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

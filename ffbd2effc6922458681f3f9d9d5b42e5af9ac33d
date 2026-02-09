@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "737a2457_a6d8c2cd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2026-02-09T09:52:11Z",
+      "side": 1,
+      "message": "the update was rejected by Google, see https://issues.gerritcodereview.com/issues/479234132",
+      "revId": "ffbd2effc6922458681f3f9d9d5b42e5af9ac33d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

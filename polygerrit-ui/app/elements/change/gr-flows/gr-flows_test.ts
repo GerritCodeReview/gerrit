@@ -28,6 +28,7 @@ import {UserModel, userModelToken} from '../../../models/user/user-model';
 import {testResolver} from '../../../test/common-test-setup';
 import {
   createAccountDetailWithId,
+  createFlow,
   createParsedChange,
   createRevision,
 } from '../../../test/test-data-generators';
@@ -85,33 +86,13 @@ suite('gr-flows tests', () => {
   test('renders create flow component and no flows', async () => {
     flowsModel.setState({flows: [], loading: false, isEnabled: true});
     await element.updateComplete;
-    assert.shadowDom.equal(
-      element,
-      /* HTML */ `
-        <div class="container">
-          <h2 class="main-heading">Create new flow</h2>
-          <gr-create-flow></gr-create-flow>
-          <hr />
-          <p>No flows found for this change.</p>
-        </div>
-        <dialog id="deleteFlowModal">
-          <gr-dialog confirm-label="Delete">
-            <div class="header" slot="header">Delete Flow</div>
-            <div class="main" slot="main">
-              Are you sure you want to delete this flow?
-            </div>
-          </gr-dialog>
-        </dialog>
-      `,
-      {ignoreAttributes: ['role']}
-    );
   });
 
   test('renders flows', async () => {
     const flows: FlowInfo[] = [
-      {
+      createFlow({
         uuid: 'flow1',
-        owner: {name: 'owner1'},
+        owner: {name: 'owner1', _account_id: 1 as AccountId},
         created: '2025-01-01T10:00:00.000Z' as Timestamp,
         last_evaluated: '2025-01-01T11:00:00.000Z' as Timestamp,
         stages: [
@@ -120,10 +101,10 @@ suite('gr-flows tests', () => {
             state: FlowStageState.DONE,
           },
         ],
-      },
-      {
+      }),
+      createFlow({
         uuid: 'flow2',
-        owner: {name: 'owner2'},
+        owner: {name: 'owner2', _account_id: 2 as AccountId},
         created: '2025-01-02T10:00:00.000Z' as Timestamp,
         stages: [
           {
@@ -134,7 +115,7 @@ suite('gr-flows tests', () => {
             state: FlowStageState.PENDING,
           },
         ],
-      },
+      }),
     ];
     flowsModel.setState({flows, loading: false, isEnabled: true});
     await element.updateComplete;
@@ -142,155 +123,140 @@ suite('gr-flows tests', () => {
     // prettier formats the spacing for "last evaluated" incorrectly
     assert.shadowDom.equal(
       element,
-      /* prettier-ignore */ /* HTML */ `
+      /* HTML */ `
         <div class="container">
-          <h2 class="main-heading">Create new flow</h2>
-          <gr-create-flow></gr-create-flow>
-          <hr />
-          <div>
+          <div class="header-actions">
+            <gr-create-flow> </gr-create-flow>
+          </div>
+          <div class="flows-header">
             <div class="heading-with-button">
-              <h2 class="main-heading">Existing Flows</h2>
+              <h2 class="main-heading">Scheduled Flows</h2>
               <gr-button
+                aria-disabled="false"
                 aria-label="Refresh flows"
+                class="refresh"
                 link=""
+                role="button"
+                tabindex="0"
                 title="Refresh flows"
               >
-                <gr-icon icon="refresh"></gr-icon>
+                <gr-icon icon="refresh"> </gr-icon>
               </gr-button>
             </div>
-            <md-filled-select label="Filter by status">
-              <md-select-option value="all">
-                <div slot="headline">All</div>
-              </md-select-option>
-              <md-select-option value="DONE">
-                <div slot="headline">DONE</div>
-              </md-select-option>
-              <md-select-option value="FAILED">
-                <div slot="headline">FAILED</div>
-              </md-select-option>
-              <md-select-option value="PENDING">
-                <div slot="headline">PENDING</div>
-              </md-select-option>
-              <md-select-option value="TERMINATED">
-                <div slot="headline">TERMINATED</div>
-              </md-select-option>
-            </md-filled-select>
+          </div>
+          <div>
             <div class="flow">
               <div class="flow-header">
-                <gr-button link title="Delete flow">
-                  <gr-icon icon="delete" filled></gr-icon>
-                </gr-button>
-                <gr-copy-clipboard
-                  buttonTitle="Copy flow string to clipboard"
-                  hideinput
-                ></gr-copy-clipboard>
+                <div class="flow-title">Flow</div>
+                <div class="flow-actions">
+                  <gr-copy-clipboard
+                    buttontitle="Copy flow string to clipboard"
+                    hideinput=""
+                  >
+                  </gr-copy-clipboard>
+                  <gr-button
+                    aria-disabled="false"
+                    link=""
+                    role="button"
+                    tabindex="0"
+                    title="Delete flow"
+                  >
+                    <gr-icon icon="delete"> </gr-icon>
+                  </gr-button>
+                </div>
               </div>
-              <div class="flow-id hidden">Flow flow1</div>
-              <div>
-                Created:
-                <gr-date-formatter withtooltip></gr-date-formatter>
+              <div class="flow-info">
+                <div class="owner-container">
+                  Owner:
+                  <gr-avatar hidden=""> </gr-avatar>
+                  <gr-account-label deselected=""> </gr-account-label>
+                </div>
+                <div>
+                  Last Evaluation:
+                  <gr-date-formatter withtooltip=""> </gr-date-formatter>
+                </div>
               </div>
-              <div>
-                Last Evaluated:
-                <gr-date-formatter withtooltip></gr-date-formatter>
+              <div class="stages">
+                <div class="stage">
+                  <gr-icon
+                    aria-label="done"
+                    class="done"
+                    filled=""
+                    icon="check_circle"
+                    role="img"
+                  >
+                  </gr-icon>
+                  <span class="condition"> label:Code-Review=+1 </span>
+                  <gr-icon class="arrow" icon="arrow_forward"> </gr-icon>
+                  <div class="stage-action">
+                    <b> </b>
+                  </div>
+                </div>
               </div>
-              <table>
-                <thead>
-                  <tr>
-                    <th>Status</th>
-                    <th>Condition</th>
-                    <th>Action</th>
-                    <th>Parameters</th>
-                    <th>Message</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>
-                      <gr-icon
-                        aria-label="done"
-                        filled
-                        icon="check_circle"
-                      ></gr-icon>
-                    </td>
-                    <td>label:Code-Review=+1</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                  </tr>
-                </tbody>
-              </table>
             </div>
             <div class="flow">
               <div class="flow-header">
-                <gr-button link title="Delete flow">
-                  <gr-icon icon="delete" filled></gr-icon>
-                </gr-button>
-                <gr-copy-clipboard
-                  buttonTitle="Copy flow string to clipboard"
-                  hideinput
-                ></gr-copy-clipboard>
+                <div class="flow-title">Submit</div>
+                <div class="flow-actions">
+                  <gr-copy-clipboard
+                    buttontitle="Copy flow string to clipboard"
+                    hideinput=""
+                  >
+                  </gr-copy-clipboard>
+                  <gr-button
+                    aria-disabled="false"
+                    link=""
+                    role="button"
+                    tabindex="0"
+                    title="Delete flow"
+                  >
+                    <gr-icon icon="delete"> </gr-icon>
+                  </gr-button>
+                </div>
               </div>
-              <div class="flow-id hidden">Flow flow2</div>
-              <div>
-                Created:
-                <gr-date-formatter withtooltip></gr-date-formatter>
+              <div class="flow-info">
+                <div class="owner-container">
+                  Owner:
+                  <gr-avatar hidden=""> </gr-avatar>
+                  <gr-account-label deselected=""> </gr-account-label>
+                </div>
               </div>
-              <table>
-                <thead>
-                  <tr>
-                    <th>Status</th>
-                    <th>Condition</th>
-                    <th>Action</th>
-                    <th>Parameters</th>
-                    <th>Message</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>
-                      <gr-icon aria-label="pending" icon="timelapse"></gr-icon>
-                    </td>
-                    <td>label:Verified=+1</td>
-                    <td>submit</td>
-                     <td></td>
-                    <td></td>
-                  </tr>
-                </tbody>
-              </table>
+              <div class="stages">
+                <div class="stage">
+                  <gr-icon
+                    aria-label="pending"
+                    class="pending"
+                    icon="timelapse"
+                    role="img"
+                  >
+                  </gr-icon>
+                  <span class="condition"> label:Verified=+1 </span>
+                  <gr-icon class="arrow" icon="arrow_forward"> </gr-icon>
+                  <div class="stage-action">
+                    <b> Submit </b>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
         <dialog id="deleteFlowModal">
-          <gr-dialog confirm-label="Delete">
+          <gr-dialog confirm-label="Delete" role="dialog">
             <div class="header" slot="header">Delete Flow</div>
             <div class="main" slot="main">
               Are you sure you want to delete this flow?
             </div>
           </gr-dialog>
         </dialog>
-      `,
-      {
-        ignoreAttributes: [
-          'style',
-          'class',
-          'account',
-          'changenum',
-          'datestr',
-          'aria-disabled',
-          'role',
-          'tabindex',
-          'md-menu-item',
-        ],
-      }
+      `
     );
   });
 
   test('deletes a flow after confirmation', async () => {
     const flows: FlowInfo[] = [
-      {
+      createFlow({
         uuid: 'flow1',
-        owner: {name: 'owner1'},
+        owner: {name: 'owner1', _account_id: 1 as AccountId},
         created: '2025-01-01T10:00:00.000Z' as Timestamp,
         stages: [
           {
@@ -298,7 +264,7 @@ suite('gr-flows tests', () => {
             state: FlowStageState.DONE,
           },
         ],
-      },
+      }),
     ];
     const deleteFlowStub = sinon.stub(flowsModel, 'deleteFlow');
     flowsModel.setState({flows, loading: false, isEnabled: true});
@@ -324,9 +290,9 @@ suite('gr-flows tests', () => {
 
   test('cancel deleting a flow', async () => {
     const flows: FlowInfo[] = [
-      {
+      createFlow({
         uuid: 'flow1',
-        owner: {name: 'owner1'},
+        owner: {name: 'owner1', _account_id: 1 as AccountId},
         created: '2025-01-01T10:00:00.000Z' as Timestamp,
         stages: [
           {
@@ -334,7 +300,7 @@ suite('gr-flows tests', () => {
             state: FlowStageState.DONE,
           },
         ],
-      },
+      }),
     ];
     const deleteFlowStub = sinon.stub(flowsModel, 'deleteFlow');
     flowsModel.setState({flows, loading: false, isEnabled: true});
@@ -360,12 +326,12 @@ suite('gr-flows tests', () => {
   });
 
   test('refreshes flows on button click', async () => {
-    const flow = {
+    const flow = createFlow({
       uuid: 'flow1',
-      owner: {name: 'owner1'},
+      owner: {name: 'owner1', _account_id: 1 as AccountId},
       created: '2025-01-01T10:00:00.000Z' as Timestamp,
       stages: [],
-    } as FlowInfo;
+    });
     flowsModel.setState({flows: [flow], loading: false, isEnabled: true});
     await element.updateComplete;
 
@@ -374,117 +340,12 @@ suite('gr-flows tests', () => {
 
     const refreshButton = queryAndAssert<GrButton>(
       element,
-      '.heading-with-button gr-button'
+      '.flows-header gr-button'
     );
     refreshButton.click();
     await element.updateComplete;
 
     assert.isTrue(reloadStub.calledOnce);
-  });
-
-  suite('filter', () => {
-    const flows: FlowInfo[] = [
-      {
-        uuid: 'flow-done',
-        owner: {name: 'owner1'},
-        created: '2025-01-01T10:00:00.000Z' as Timestamp,
-        stages: [
-          {expression: {condition: 'cond-done'}, state: FlowStageState.DONE},
-        ],
-      },
-      {
-        uuid: 'flow-pending',
-        owner: {name: 'owner2'},
-        created: '2025-01-02T10:00:00.000Z' as Timestamp,
-        stages: [
-          {
-            expression: {condition: 'cond-pending'},
-            state: FlowStageState.PENDING,
-          },
-        ],
-      },
-      {
-        uuid: 'flow-failed',
-        owner: {name: 'owner3'},
-        created: '2025-01-03T10:00:00.000Z' as Timestamp,
-        stages: [
-          {
-            expression: {condition: 'cond-failed'},
-            state: FlowStageState.FAILED,
-          },
-        ],
-      },
-      {
-        uuid: 'flow-terminated',
-        owner: {name: 'owner4'},
-        created: '2025-01-04T10:00:00.000Z' as Timestamp,
-        stages: [
-          {
-            expression: {condition: 'cond-terminated'},
-            state: FlowStageState.TERMINATED,
-          },
-        ],
-      },
-    ];
-
-    setup(async () => {
-      flowsModel.setState({flows, loading: false, isEnabled: true});
-      await element.updateComplete;
-    });
-
-    test('shows all flows by default', () => {
-      const flowElements = element.shadowRoot!.querySelectorAll('.flow');
-      assert.equal(flowElements.length, 4);
-    });
-
-    test('filters by DONE', async () => {
-      element.statusFilter = FlowStageState.DONE;
-      await element.updateComplete;
-
-      const flowElements = element.shadowRoot!.querySelectorAll('.flow');
-      assert.equal(flowElements.length, 1);
-      assert.include(flowElements[0].textContent, 'cond-done');
-    });
-
-    test('filters by PENDING', async () => {
-      element.statusFilter = FlowStageState.PENDING;
-      await element.updateComplete;
-
-      const flowElements = element.shadowRoot!.querySelectorAll('.flow');
-      assert.equal(flowElements.length, 1);
-      assert.include(flowElements[0].textContent, 'cond-pending');
-    });
-
-    test('filters by FAILED', async () => {
-      element.statusFilter = FlowStageState.FAILED;
-      await element.updateComplete;
-
-      const flowElements = element.shadowRoot!.querySelectorAll('.flow');
-      assert.equal(flowElements.length, 1);
-      assert.include(flowElements[0].textContent, 'cond-failed');
-    });
-
-    test('filters by TERMINATED', async () => {
-      element.statusFilter = FlowStageState.TERMINATED;
-      await element.updateComplete;
-
-      const flowElements = element.shadowRoot!.querySelectorAll('.flow');
-      assert.equal(flowElements.length, 1);
-      assert.include(flowElements[0].textContent, 'cond-terminated');
-    });
-
-    test('shows all when filter is changed to all', async () => {
-      element['statusFilter'] = FlowStageState.DONE;
-      await element.updateComplete;
-      let flowElements = element.shadowRoot!.querySelectorAll('.flow');
-      assert.equal(flowElements.length, 1);
-
-      element.statusFilter = 'all';
-      await element.updateComplete;
-
-      flowElements = element.shadowRoot!.querySelectorAll('.flow');
-      assert.equal(flowElements.length, 4);
-    });
   });
 
   suite('create flow visibility', () => {

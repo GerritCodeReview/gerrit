@@ -97,6 +97,7 @@ import {EditRevisionInfo, ParsedChangeInfo} from '../types/types';
 import {
   DetailedLabelInfo,
   FixReplacementInfo,
+  FlowInfo,
   PatchSetNumber,
   QuickLabelInfo,
   SubmitRequirementExpressionInfo,
@@ -1880,4 +1881,14 @@ export function setAllcheckRuns(model: ChecksModel) {
     undefined,
     ChecksPatchset.LATEST
   );
+}
+
+export function createFlow(partial: Partial<FlowInfo> = {}): FlowInfo {
+  return {
+    uuid: 'flow1',
+    owner: createAccountWithId(),
+    created: dateToTimestamp(new Date(2025, 0, 1, 10, 0, 0)),
+    stages: [],
+    ...partial,
+  };
 }

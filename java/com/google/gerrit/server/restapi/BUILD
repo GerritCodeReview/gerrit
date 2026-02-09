@@ -6,7 +6,10 @@ package(
 
 java_library(
     name = "restapi",
-    srcs = glob(["**/*.java"]),
+    srcs = glob(
+        ["**/*.java"],
+        exclude = ["project/ProjectAccessModifier.java"],
+    ),
     deps = [
         "//antlr3:query_parser",
         "//java/com/google/gerrit/common:annotations",
@@ -48,5 +51,21 @@ java_library(
         "//lib/guice",
         "//lib/guice:guice-assistedinject",
         "//proto:entities_java_proto",
+    ],
+)
+
+java_library(
+    name = "project_access_modifier",
+    srcs = glob(["project/ProjectAccessModifier.java"]),
+    visibility = ["//visibility:public"],
+    deps = [
+        ":restapi",
+        "//java/com/google/gerrit/entities",
+        "//java/com/google/gerrit/entities/converter:converters",
+        "//java/com/google/gerrit/exceptions",
+        "//java/com/google/gerrit/extensions:api",
+        "//java/com/google/gerrit/server",
+        "//lib:guava",
+        "//lib/guice",
     ],
 )

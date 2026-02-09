@@ -51,6 +51,7 @@ import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.extensions.api.changes.AttentionSetInput;
 import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
@@ -919,6 +920,102 @@ public class ImpersonationIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void addToAttentionSetWithRunAs() throws Exception {
+    allowRunAs();
+    TestAccount realUser = admin;
+    TestAccount impersonatedUser = user;
+    TestAccount userToAddToAttentionSet = admin2;
+
+    TestRepository<InMemoryRepository> impersonatedUserRepo =
+        cloneProject(project, impersonatedUser);
+    PushOneCommit.Result r =
+        pushFactory
+            .create(
+                impersonatedUser.newIdent(), impersonatedUserRepo, "subject", "a.txt", "content")
+            .to("refs/for/master");
+    String changeId = r.getChangeId();
+
+    ChangeInfo info = gApi.changes().id(changeId).get();
+    assertThat(info.attentionSet).isNull();
+
+    // The user to be added to the attention set must be a reviewer.
+    // The change owner (the impersonated user) can add reviewers.
+    requestScopeOperations.setApiUser(impersonatedUser.id());
+    gApi.changes().id(changeId).addReviewer(userToAddToAttentionSet.email());
+    requestScopeOperations.setApiUser(realUser.id());
+
+    AttentionSetInput attentionSetInput =
+        new AttentionSetInput(userToAddToAttentionSet.email(), "test attention message");
+
+    RestResponse res =
+        adminRestSession.postWithHeaders(
+            "/changes/" + changeId + "/attention",
+            attentionSetInput,
+            runAsHeader(impersonatedUser.id()));
+    res.assertOK();
+
+    info = gApi.changes().id(changeId).get();
+    assertThat(info.attentionSet).isNotNull();
+    assertThat(info.attentionSet).hasSize(1);
+    assertThat(Iterables.getOnlyElement(info.attentionSet.values()).account._accountId)
+        .isEqualTo(userToAddToAttentionSet.id().get());
+
+    assertLastChangeMessage(
+        r.getChange(),
+        "", // No change message is expected to be created when adding to attention set.
+        impersonatedUser,
+        realUser);
+  }
+
+  @Test
+  public void removeFromAttentionSetWithRunAs() throws Exception {
+    allowRunAs();
+    TestAccount realUser = admin;
+    TestAccount impersonatedUser = user;
+    TestAccount userInAttentionSet = admin2;
+
+    TestRepository<InMemoryRepository> impersonatedUserRepo =
+        cloneProject(project, impersonatedUser);
+    PushOneCommit.Result r =
+        pushFactory
+            .create(
+                impersonatedUser.newIdent(), impersonatedUserRepo, "subject", "a.txt", "content")
+            .to("refs/for/master");
+    String changeId = r.getChangeId();
+
+    // Add user to attention set as change owner.
+    requestScopeOperations.setApiUser(impersonatedUser.id());
+    gApi.changes().id(changeId).addReviewer(userInAttentionSet.email());
+    gApi.changes()
+        .id(changeId)
+        .addToAttentionSet(
+            new AttentionSetInput(userInAttentionSet.email(), "test attention message"));
+    requestScopeOperations.setApiUser(realUser.id());
+
+    ChangeInfo info = gApi.changes().id(changeId).get();
+    assertThat(info.attentionSet).hasSize(1);
+
+    AttentionSetInput attentionSetInput =
+        new AttentionSetInput(null, "test removed attention message");
+
+    RestResponse res =
+        adminRestSession.postWithHeaders(
+            "/changes/" + changeId + "/attention/" + userInAttentionSet.id().get() + "/delete",
+            attentionSetInput,
+            runAsHeader(impersonatedUser.id()));
+    res.assertNoContent();
+
+    info = gApi.changes().id(changeId).get();
+    assertThat(info.attentionSet).isEmpty();
+
+    assertLastChangeMessage(
+        r.getChange(),
+        "", // No change message is expected to be created when removing from attention set.
+        impersonatedUser,
+        realUser);
+  }
+
+  @Test
   public void runAsValidUser() throws Exception {
     allowRunAs();
     RestResponse res = adminRestSession.getWithHeaders("/accounts/self", runAsHeader(user.id()));
@@ -1138,12 +1235,13 @@ public class ImpersonationIT extends AbstractDaemonTest {
 
   private String concatImpersonationClause(
       String message, TestAccount author, TestAccount realAuthor) {
-    return message
-        + "\n\n(Performed by "
-        + realAuthor.username()
-        + " on behalf of "
-        + author.username()
-        + ")";
+    String impersonationClause =
+        String.format(
+            "(Performed by %s on behalf of %s)", realAuthor.username(), author.username());
+    if (message.isEmpty()) {
+      return impersonationClause;
+    }
+    return message + "\n\n" + impersonationClause;
   }
 
   private void allowCodeReviewOnBehalfOf() throws Exception {

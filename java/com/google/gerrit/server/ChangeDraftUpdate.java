@@ -31,14 +31,18 @@ public interface ChangeDraftUpdate {
     ChangeDraftUpdate create(
         ChangeNotes notes,
         Account.Id accountId,
+        String loggableName,
         Account.Id realAccountId,
+        String realLoggableName,
         PersonIdent authorIdent,
         Instant when);
 
     ChangeDraftUpdate create(
         Change change,
         Account.Id accountId,
+        String loggableName,
         Account.Id realAccountId,
+        String realLoggableName,
         PersonIdent authorIdent,
         Instant when);
   }

@@ -81,7 +81,9 @@ public class ChangeDraftNotesUpdate extends AbstractChangeUpdate implements Chan
     ChangeDraftNotesUpdate create(
         ChangeNotes notes,
         @Assisted("effective") Account.Id accountId,
+        @Assisted("effective") String loggableName,
         @Assisted("real") Account.Id realAccountId,
+        @Assisted("real") String realLoggableName,
         PersonIdent authorIdent,
         Instant when);
 
@@ -89,7 +91,9 @@ public class ChangeDraftNotesUpdate extends AbstractChangeUpdate implements Chan
     ChangeDraftNotesUpdate create(
         Change change,
         @Assisted("effective") Account.Id accountId,
+        @Assisted("effective") String loggableName,
         @Assisted("real") Account.Id realAccountId,
+        @Assisted("real") String realLoggableName,
         PersonIdent authorIdent,
         Instant when);
   }
@@ -240,10 +244,22 @@ public class ChangeDraftNotesUpdate extends AbstractChangeUpdate implements Chan
       ChangeNumberVirtualIdAlgorithm virtualIdFunc,
       @Assisted ChangeNotes notes,
       @Assisted("effective") Account.Id accountId,
+      @Assisted("effective") String loggableName,
       @Assisted("real") Account.Id realAccountId,
+      @Assisted("real") String realLoggableName,
       @Assisted PersonIdent authorIdent,
       @Assisted Instant when) {
-    super(noteUtil, serverIdent, notes, null, accountId, realAccountId, authorIdent, when);
+    super(
+        noteUtil,
+        serverIdent,
+        notes,
+        null,
+        accountId,
+        loggableName,
+        realAccountId,
+        realLoggableName,
+        authorIdent,
+        when);
     this.draftsProject = allUsers;
     this.experimentFeatures = experimentFeatures;
     this.virtualIdFunc = virtualIdFunc;
@@ -258,10 +274,22 @@ public class ChangeDraftNotesUpdate extends AbstractChangeUpdate implements Chan
       ChangeNumberVirtualIdAlgorithm virtualIdFunc,
       @Assisted Change change,
       @Assisted("effective") Account.Id accountId,
+      @Assisted("effective") String loggableName,
       @Assisted("real") Account.Id realAccountId,
+      @Assisted("real") String realLoggableName,
       @Assisted PersonIdent authorIdent,
       @Assisted Instant when) {
-    super(noteUtil, serverIdent, null, change, accountId, realAccountId, authorIdent, when);
+    super(
+        noteUtil,
+        serverIdent,
+        null,
+        change,
+        accountId,
+        loggableName,
+        realAccountId,
+        realLoggableName,
+        authorIdent,
+        when);
     this.draftsProject = allUsers;
     this.experimentFeatures = experimentFeatures;
     this.virtualIdFunc = virtualIdFunc;
@@ -330,7 +358,9 @@ public class ChangeDraftNotesUpdate extends AbstractChangeUpdate implements Chan
             virtualIdFunc,
             new Change(getChange()),
             accountId,
+            loggableName,
             realAccountId,
+            realLoggableName,
             authorIdent,
             when);
     clonedUpdate.delete.putAll(delete);

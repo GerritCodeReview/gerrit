@@ -52,6 +52,24 @@
       "parentUuid": "eab7665d_62ad4aa6",
       "revId": "178b4f2d1ad8e7a65e742615d769f19bc6746cc9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a6626908_7dcc9d8d",
+        "filename": "MODULE.bazel",
+        "patchSetId": 47
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-02-09T10:16:36Z",
+      "side": 1,
+      "message": "Thanks!\nShould we add some kind of test, so that we can discover when unwanted transitive dependencies are added, e.g. if a new dependency is added. I guess this could be done based on the maven lock file.",
+      "parentUuid": "6eefd532_14a09269",
+      "revId": "178b4f2d1ad8e7a65e742615d769f19bc6746cc9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

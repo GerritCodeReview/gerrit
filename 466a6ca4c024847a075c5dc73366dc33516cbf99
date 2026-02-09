@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "41b9ec67_233955df",
+        "filename": "MODULE.bazel",
+        "patchSetId": 46
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-02-09T10:16:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "21bfe310_bc148e36",
+      "revId": "466a6ca4c024847a075c5dc73366dc33516cbf99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6d329ea3_2d4f27c5",

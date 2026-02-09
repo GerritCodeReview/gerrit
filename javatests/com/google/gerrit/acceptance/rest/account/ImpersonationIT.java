@@ -30,6 +30,7 @@ import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
+import com.google.common.truth.Expect;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
@@ -89,9 +90,12 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 
 public class ImpersonationIT extends AbstractDaemonTest {
+  @Rule public final Expect expect = Expect.create();
+
   @Inject private AccountControl.Factory accountControlFactory;
   @Inject private ApprovalsUtil approvalsUtil;
   @Inject private ChangeMessagesUtil cmUtil;
@@ -629,6 +633,74 @@ public class ImpersonationIT extends AbstractDaemonTest {
     }
   }
 
+  @CanIgnoreReturnValue
+  private ChangeData testSubmitWithRunAs(
+      Project.NameKey project, TestAccount realUser, TestAccount impersonatedUser)
+      throws Exception {
+    allowRunAs();
+    // Grant submit permission to all registered users. This will cover the impersonated user.
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.SUBMIT).ref("refs/heads/*").group(REGISTERED_USERS))
+        .add(
+            allowLabel(TestLabels.codeReview().getName())
+                .ref("refs/heads/*")
+                .group(REGISTERED_USERS)
+                .range(-2, 2))
+        .update();
+
+    PushOneCommit.Result r = createChange(cloneProject(project, admin));
+    String changeId = r.getChangeId();
+
+    // The realUser approves the change
+    requestScopeOperations.setApiUser(realUser.id());
+    gApi.changes().id(changeId).current().review(ReviewInput.approve());
+    SubmitInput in = new SubmitInput();
+
+    try (Repository repo = repoManager.openRepository(project)) {
+      String changeMetaRef = changeMetaRef(r.getChange().getId());
+      createRefLogFileIfMissing(repo, changeMetaRef);
+      createRefLogFileIfMissing(repo, "refs/heads/master");
+      createRefLogFileIfMissing(repo, patchSetRef(PatchSet.id(r.getChange().getId(), 2)));
+
+      // Currently, the real user must be the admin user. If use wish to change that, modify the
+      // below call to create a new session.
+      expect
+          .withMessage("testSubmitWithRunAs#realUser must be admin")
+          .that(realUser.id())
+          .isEqualTo(admin.id());
+      RestResponse res =
+          adminRestSession.postWithHeaders(
+              "/changes/" + changeId + "/revisions/current/submit",
+              in,
+              runAsHeader(impersonatedUser.id()));
+      res.assertOK();
+      ChangeInfo info = newGson().fromJson(res.getEntityContent(), ChangeInfo.class);
+      assertThat(info.status).isEqualTo(com.google.gerrit.extensions.client.ChangeStatus.MERGED);
+
+      ChangeData cd = r.getChange();
+
+      PatchSetApproval submitter =
+          approvalsUtil.getSubmitter(cd.notes(), cd.currentPatchSet().id());
+      assertThat(submitter.accountId()).isEqualTo(impersonatedUser.id());
+      assertThat(submitter.realAccountId()).isEqualTo(realUser.id());
+
+      RevCommit changeMetaCommit = projectOperations.project(project).getHead(changeMetaRef);
+      assertThat(changeMetaCommit.getCommitterIdent().getEmailAddress())
+          .isEqualTo(serverIdent.get().getEmailAddress());
+      assertThat(changeMetaCommit.getAuthorIdent().getEmailAddress())
+          .isEqualTo(changeNoteUtil.getAccountIdAsEmailAddress(impersonatedUser.id()));
+
+      ReflogEntry changeMetaRefLogEntry =
+          repo.getRefDatabase().getReflogReader(changeMetaRef).getLastEntry();
+      assertThat(changeMetaRefLogEntry.getWho().getEmailAddress())
+          .isEqualTo(impersonatedUser.email());
+
+      return cd;
+    }
+  }
+
   @Test
   public void submitOnBehalfOfInvalidUser() throws Exception {
     allowSubmitOnBehalfOf();
@@ -711,6 +783,75 @@ public class ImpersonationIT extends AbstractDaemonTest {
             () -> gApi.changes().id(changeId).current().submit(in));
     assertThat(thrown).hasMessageThat().contains("not found");
     assertThat(thrown).hasMessageThat().contains(in.onBehalfOf);
+  }
+
+  @Test
+  @UseLocalDisk
+  public void submitWithRunAs_mergeAlways() throws Exception {
+    TestAccount impersonatedUser = admin2; // Must not be `admin`.
+
+    // Create a project with MERGE_ALWAYS submit strategy so that a merge commit is created on
+    // submit and we can verify its committer and author and the ref log for the update of the
+    // target branch.
+    Project.NameKey project =
+        projectOperations.newProject().submitType(SubmitType.MERGE_ALWAYS).create();
+
+    testSubmitWithRunAs(project, admin, impersonatedUser);
+
+    // The merge commit is created by the server and has the impersonated user as the author.
+    RevCommit mergeCommit = projectOperations.project(project).getHead("refs/heads/master");
+    assertThat(mergeCommit.getCommitterIdent().getEmailAddress())
+        .isEqualTo(serverIdent.get().getEmailAddress());
+    assertThat(mergeCommit.getAuthorIdent().getEmailAddress()).isEqualTo(impersonatedUser.email());
+
+    // The ref log for the target branch records the impersonated user.
+    try (Repository repo = repoManager.openRepository(project)) {
+      ReflogEntry targetBranchRefLogEntry =
+          repo.getRefDatabase().getReflogReader("refs/heads/master").getLastEntry();
+      assertThat(targetBranchRefLogEntry.getWho().getEmailAddress())
+          .isEqualTo(impersonatedUser.email());
+    }
+  }
+
+  @Test
+  @UseLocalDisk
+  public void submitWithRunAs_rebaseAlways() throws Exception {
+    TestAccount originalAuthor = admin; // user that creates and authors the change that is rebased
+    TestAccount impersonatedUser = user; // Must not be `admin`.
+
+    // Create a project with REBASE_ALWAYS submit strategy so that a new patch set is created on
+    // submit and we can verify its committer and author and the ref log for the update of the
+    // patch set ref and the target branch.
+    Project.NameKey project =
+        projectOperations.newProject().submitType(SubmitType.REBASE_ALWAYS).create();
+
+    ChangeData cd = testSubmitWithRunAs(project, admin, impersonatedUser);
+
+    // Rebase on submit is expected to create a new patch set.
+    assertThat(cd.currentPatchSet().id().get()).isEqualTo(2);
+
+    // The patch set commit is created by the impersonated user and has the author of the rebased
+    // commit as the author.
+    RevCommit newPatchSetCommit =
+        projectOperations.project(project).getHead(cd.currentPatchSet().refName());
+    assertThat(newPatchSetCommit.getCommitterIdent().getEmailAddress())
+        .isEqualTo(impersonatedUser.email());
+    assertThat(newPatchSetCommit.getAuthorIdent().getEmailAddress())
+        .isEqualTo(originalAuthor.email());
+
+    try (Repository repo = repoManager.openRepository(project)) {
+      // The ref log for the patch set ref records the impersonated user.
+      ReflogEntry patchSetRefLogEntry =
+          repo.getRefDatabase().getReflogReader(cd.currentPatchSet().refName()).getLastEntry();
+      assertThat(patchSetRefLogEntry.getWho().getEmailAddress())
+          .isEqualTo(impersonatedUser.email());
+
+      // The ref log for the target branch records the impersonated user.
+      ReflogEntry targetBranchRefLogEntry =
+          repo.getRefDatabase().getReflogReader("refs/heads/master").getLastEntry();
+      assertThat(targetBranchRefLogEntry.getWho().getEmailAddress())
+          .isEqualTo(impersonatedUser.email());
+    }
   }
 
   @Test

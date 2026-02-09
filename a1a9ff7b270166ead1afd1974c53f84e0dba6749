@@ -16,6 +16,23 @@
       "message": "FUCK YOU ALL Kiven Bagolor / Justine Mae Perez",
       "revId": "a1a9ff7b270166ead1afd1974c53f84e0dba6749",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "17e4603b_4a15adfc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-02-09T15:28:01Z",
+      "side": 1,
+      "message": "FYI: in change 549767, commons-io was prepared to be packaged into\nrelease.war and exposed via the Gerrit plugin API. The delete-project\nplugin was updated accordingly to consume commons-io from the plugin API.\n\nI can keep the commons-io preparation as a separate prerequisite change,\nor squash it into the commons-compress 1.28 upgrade if you prefer a\nsingle, self-contained change.",
+      "revId": "a1a9ff7b270166ead1afd1974c53f84e0dba6749",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

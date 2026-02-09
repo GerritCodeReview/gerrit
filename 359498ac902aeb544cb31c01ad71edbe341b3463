@@ -22,6 +22,30 @@
       },
       "revId": "359498ac902aeb544cb31c01ad71edbe341b3463",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "20c35915_e3d0a073",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-02-09T21:07:27Z",
+      "side": 1,
+      "message": "This is now fixed in follow-up change.",
+      "parentUuid": "c937c021_184474ff",
+      "range": {
+        "startLine": 7,
+        "startChar": 27,
+        "endLine": 7,
+        "endChar": 33
+      },
+      "revId": "359498ac902aeb544cb31c01ad71edbe341b3463",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

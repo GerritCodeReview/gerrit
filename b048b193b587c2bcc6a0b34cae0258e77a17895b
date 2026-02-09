@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "62d9d457_2c3d7af5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2026-02-09T09:53:06Z",
+      "side": 1,
+      "message": "rejected by Google, see https://issues.gerritcodereview.com/issues/479458084",
+      "revId": "b048b193b587c2bcc6a0b34cae0258e77a17895b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

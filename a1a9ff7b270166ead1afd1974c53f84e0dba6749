@@ -33,6 +33,24 @@
       "message": "FYI: in change 549767, commons-io was prepared to be packaged into\nrelease.war and exposed via the Gerrit plugin API. The delete-project\nplugin was updated accordingly to consume commons-io from the plugin API.\n\nI can keep the commons-io preparation as a separate prerequisite change,\nor squash it into the commons-compress 1.28 upgrade if you prefer a\nsingle, self-contained change.",
       "revId": "a1a9ff7b270166ead1afd1974c53f84e0dba6749",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "23c67e6b_608024cb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2026-02-09T20:57:59Z",
+      "side": 1,
+      "message": "please keep it as a separate prerequisite change",
+      "parentUuid": "17e4603b_4a15adfc",
+      "revId": "a1a9ff7b270166ead1afd1974c53f84e0dba6749",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

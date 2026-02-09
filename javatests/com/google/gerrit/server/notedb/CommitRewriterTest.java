@@ -429,13 +429,21 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
 
     ChangeNotes notesAfterRewrite = newNotes(c);
     assertThat(changeMessages(notesBeforeRewrite))
-        .containsExactly("Comment on behalf of user", "Other comment on behalf of");
+        .containsExactly(
+            "Comment on behalf of user",
+            "Other comment on behalf of"
+                + "\n\n"
+                + "(Performed by other@account.com on behalf of change@owner.com)");
     assertThat(notesBeforeRewrite.getChangeMessages().get(0).getAuthor())
         .isEqualTo(changeOwner.getAccountId());
     assertThat(notesBeforeRewrite.getChangeMessages().get(0).getRealAuthor())
         .isEqualTo(otherUser.getAccountId());
     assertThat(changeMessages(notesAfterRewrite))
-        .containsExactly("Comment on behalf of user", "Other comment on behalf of");
+        .containsExactly(
+            "Comment on behalf of user",
+            "Other comment on behalf of"
+                + "\n\n"
+                + "(Performed by other@account.com on behalf of change@owner.com)");
     assertThat(notesBeforeRewrite.getChangeMessages().get(0).getAuthor())
         .isEqualTo(changeOwner.getAccountId());
     assertThat(notesBeforeRewrite.getChangeMessages().get(0).getRealAuthor())

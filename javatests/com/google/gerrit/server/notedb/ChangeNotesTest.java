@@ -3564,7 +3564,11 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.commit();
 
     ChangeMessage msg = Iterables.getLast(newNotes(c).getChangeMessages());
-    assertThat(msg.getMessage()).isEqualTo("Message on behalf of other user");
+    assertThat(msg.getMessage())
+        .isEqualTo(
+            "Message on behalf of other user"
+                + "\n\n"
+                + "(Performed by change@owner.com on behalf of other@account.com)");
     assertThat(msg.getAuthor()).isEqualTo(otherUserId);
     assertThat(msg.getRealAuthor()).isEqualTo(changeOwner.getAccountId());
   }

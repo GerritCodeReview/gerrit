@@ -16,7 +16,9 @@ package com.google.gerrit.server.notedb;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
+import static org.eclipse.jgit.util.ChangeIdUtil.indexOfFirstFooterLine;
 
+import com.google.common.base.Strings;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
@@ -44,7 +46,9 @@ public abstract class AbstractChangeUpdate {
 
   protected final ChangeNoteUtil noteUtil;
   protected final Account.Id accountId;
+  protected final String loggableName;
   protected final Account.Id realAccountId;
+  protected final String realLoggableName;
   protected final PersonIdent authorIdent;
   protected final Instant when;
 
@@ -68,18 +72,24 @@ public abstract class AbstractChangeUpdate {
     this.change = notes.getChange();
     this.when = when;
     this.accountId = accountId(user);
+    this.loggableName = user.getLoggableName();
     Account.Id realAccountId = accountId(user.getRealUser());
     this.realAccountId = realAccountId != null ? realAccountId : accountId;
+    this.realLoggableName =
+        realAccountId != null ? user.getRealUser().getLoggableName() : loggableName;
     this.authorIdent = ident(noteUtil, serverIdent, user, when);
   }
 
-  AbstractChangeUpdate(
+  /** Copy constructor. */
+  protected AbstractChangeUpdate(
       ChangeNoteUtil noteUtil,
       PersonIdent serverIdent,
       @Nullable ChangeNotes notes,
       @Nullable Change change,
       Account.Id accountId,
+      String loggableName,
       Account.Id realAccountId,
+      String realLoggableName,
       PersonIdent authorIdent,
       Instant when) {
     checkArgument(
@@ -90,7 +100,9 @@ public abstract class AbstractChangeUpdate {
     this.notes = notes;
     this.change = change != null ? change : notes.getChange();
     this.accountId = accountId;
+    this.loggableName = loggableName;
     this.realAccountId = realAccountId;
+    this.realLoggableName = realLoggableName;
     this.authorIdent = authorIdent;
     this.when = when;
   }
@@ -232,8 +244,11 @@ public abstract class AbstractChangeUpdate {
     } else if (cb == NO_OP_UPDATE) {
       return null; // Impl is a no-op.
     }
+
     cb.setAuthor(authorIdent);
     cb.setCommitter(new PersonIdent(serverIdent, when));
+    addOptionalImpersonationMessage(cb);
+
     setParentCommit(cb, curr);
     if (cb.getTreeId() == null) {
       if (curr.equals(z)) {
@@ -266,6 +281,32 @@ public abstract class AbstractChangeUpdate {
    */
   protected abstract CommitBuilder applyImpl(RevWalk rw, ObjectInserter ins, ObjectId curr)
       throws IOException;
+
+  private void addOptionalImpersonationMessage(CommitBuilder cb) {
+    if (realAccountId == null || realAccountId.equals(accountId)) {
+      return;
+    }
+
+    if (Strings.isNullOrEmpty(cb.getMessage())) {
+      // No message for this operation.
+      return;
+    }
+
+    String impersonationClause =
+        String.format("(Performed by %s on behalf of %s)", realLoggableName, loggableName);
+
+    String[] commitMsgLines = cb.getMessage().split("\n");
+    int firstFooterLine = indexOfFirstFooterLine(commitMsgLines);
+    StringBuilder b = new StringBuilder();
+    for (int i = 0; i < firstFooterLine; i++) {
+      b.append(commitMsgLines[i]).append('\n');
+    }
+    b.append(impersonationClause).append("\n\n");
+    for (int i = firstFooterLine; i < commitMsgLines.length; i++) {
+      b.append(commitMsgLines[i]).append('\n');
+    }
+    cb.setMessage(b.toString().trim());
+  }
 
   static final CommitBuilder NO_OP_UPDATE = new CommitBuilder();
 

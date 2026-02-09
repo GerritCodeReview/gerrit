@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd767da3_0f967f1c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-02-09T21:53:52Z",
+      "side": 1,
+      "message": "Why was this cherry-picked to stable-3.13? Were we expecting to fix any issues?",
+      "revId": "8c56c9e526f821177d53c24b6b3cb1795dd58fcf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

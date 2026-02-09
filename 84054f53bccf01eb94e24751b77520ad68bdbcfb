@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "74bbe0c9_cae2104e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-02-09T20:34:28Z",
+      "side": 1,
+      "message": "Sending just for UI review. I will improve code later",
+      "revId": "84054f53bccf01eb94e24751b77520ad68bdbcfb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -16,6 +16,24 @@
       "message": "Not blocking for this change and can be done in a follow up change, but can a test be added to prevent this regression from happening again?",
       "revId": "19576238ed48a2fc6269479d8aaf2a6c3bee4d99",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "27366e91_4adbf8dd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-02-09T22:41:27Z",
+      "side": 1,
+      "message": "Agreed, but I believe the test *was there*, but it was disabled during the refactoring. We should enable it again.",
+      "parentUuid": "817ab358_0208b3ff",
+      "revId": "19576238ed48a2fc6269479d8aaf2a6c3bee4d99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

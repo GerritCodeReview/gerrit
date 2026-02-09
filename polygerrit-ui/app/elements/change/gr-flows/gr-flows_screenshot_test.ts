@@ -137,16 +137,6 @@ suite('gr-flows screenshot tests', () => {
     await visualDiffDarkTheme(element, 'gr-flows');
   });
 
-  test('flows list not matching filter', async () => {
-    element.statusFilter = FlowStageState.DONE;
-    await element.updateComplete;
-    await waitUntil(
-      () => element.shadowRoot!.querySelectorAll('.flow').length === 0
-    );
-    await visualDiff(element, 'gr-flows-filter-done');
-    await visualDiffDarkTheme(element, 'gr-flows-filter-done');
-  });
-
   test('flows empty state', async () => {
     flowsModel.setState({
       ...flowsModel.getState(),

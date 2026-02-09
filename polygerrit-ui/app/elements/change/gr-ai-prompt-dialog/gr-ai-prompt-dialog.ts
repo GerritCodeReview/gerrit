@@ -24,6 +24,7 @@ import {PatchSetNum} from '../../../types/common';
 import {HELP_ME_REVIEW_PROMPT, IMPROVE_COMMIT_MESSAGE} from './prompts';
 import {when} from 'lit/directives/when.js';
 import {copyToClipboard} from '../../../utils/common-util';
+import {Interaction} from '../../../constants/reporting';
 import '@material/web/select/outlined-select';
 import '@material/web/select/select-option';
 import {materialStyles} from '../../../styles/gr-material-styles';
@@ -96,6 +97,8 @@ export class GrAiPromptDialog extends LitElement {
   private readonly getCommentsModel = resolve(this, commentsModelToken);
 
   private readonly restApiService = getAppContext().restApiService;
+
+  private readonly reporting = getAppContext().reportingService;
 
   constructor() {
     super();
@@ -417,6 +420,12 @@ ${comments.join('\n\n')}`;
     e.preventDefault();
     e.stopPropagation();
     if (!this.promptContent) return;
+    
+    this.reporting.reportInteraction(Interaction.COPY_AI_PROMPT, {
+      template: this.selectedTemplate,
+      context: this.context,
+    });
+
     await copyToClipboard(this.promptContent, 'AI Prompt');
   }
 

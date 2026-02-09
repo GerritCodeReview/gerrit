@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c937c021_184474ff",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-02-09T10:08:05Z",
+      "side": 1,
+      "message": "commons-compress 1.28 introduced a compile-time dependency on commons-io, as you already pointed out in my attempt to revert it: [1].\n\nThis change therefore must add //lib/commons:io to Gerrit and include it in the Git integration tests and in release.war. That addition was missed.\n\nThis raises the question of why CI is still green, even though a required compile-time dependency was not explicitly added.\n\nThe reason is the same as described in my comment on change: 488984.\n\n\nInspecting the contents of release.war explains why CI remains green despite the missing dependency: the transitive closure is currently leaking from JGit itself:\n\n```bash\n✔ ~/projects/gerrit3 [update_commons_compress L|✚ 1…13]\n11:02 $ unzip -l bazel-bin/release.war | grep commons-\n   702952  01-01-1980 00:00   WEB-INF/lib/commons-lang3-3.18.0.jar\n   401080  01-01-1980 00:00   WEB-INF/lib/processed_commons-codec-1.20.0.jar\n    73426  01-01-1980 00:00   WEB-INF/lib/asm-commons-9.7.jar\n   186077  01-01-1980 00:00   WEB-INF/lib/commons-validator-1.6.jar\n   160519  01-01-1980 00:00   WEB-INF/lib/commons-dbcp-1.4.jar\n   264873  01-01-1980 00:00   WEB-INF/lib/commons-text-1.15.0.jar\n   713920  01-01-1980 00:00   WEB-INF/lib/processed_commons-lang3-3.20.0.jar\n  1117221  01-01-1980 00:00   WEB-INF/lib/commons-compress-1.28.0.jar\n  1117299  01-01-1980 00:00   WEB-INF/lib/processed_commons-compress-1.28.0.jar\n   307410  01-01-1980 00:00   WEB-INF/lib/commons-net-3.6.jar\n   100193  01-01-1980 00:00   WEB-INF/lib/commons-pool-1.5.5.jar\n   585331  01-01-1980 00:00   WEB-INF/lib/processed_commons-io-2.21.0.jar\n   401021  01-01-1980 00:00   WEB-INF/lib/commons-codec-1.20.0.jar\n✔ ~/projects/gerrit3 [update_commons_compress L|✚ 1…13]\n11:03 $ unzip -l bazel-bin/release.war | grep processed\n   395300  01-01-1980 00:00   WEB-INF/lib/processed_sshd-sftp-2.16.0.jar\n  1161454  01-01-1980 00:00   WEB-INF/lib/processed_bcpkix-jdk18on-1.83.jar\n    69947  01-01-1980 00:00   WEB-INF/lib/processed_slf4j-api-2.0.17.jar\n   973485  01-01-1980 00:00   WEB-INF/lib/processed_sshd-common-2.16.0.jar\n  8492458  01-01-1980 00:00   WEB-INF/lib/processed_bcprov-jdk18on-1.83.jar\n   401080  01-01-1980 00:00   WEB-INF/lib/processed_commons-codec-1.20.0.jar\n    16824  01-01-1980 00:00   WEB-INF/lib/processed_jcl-over-slf4j-1.7.36.jar\n   707261  01-01-1980 00:00   WEB-INF/lib/processed_bcutil-jdk18on-1.83.jar\n  1935456  01-01-1980 00:00   WEB-INF/lib/processed_sshd-osgi-2.16.0.jar\n    84616  01-01-1980 00:00   WEB-INF/lib/processed_jakarta.servlet-api-4.0.4.jar\n   713920  01-01-1980 00:00   WEB-INF/lib/processed_commons-lang3-3.20.0.jar\n   736491  01-01-1980 00:00   WEB-INF/lib/processed_bcpg-jdk18on-1.83.jar\n   968686  01-01-1980 00:00   WEB-INF/lib/processed_sshd-core-2.16.0.jar\n  1117299  01-01-1980 00:00   WEB-INF/lib/processed_commons-compress-1.28.0.jar\n   585331  01-01-1980 00:00   WEB-INF/lib/processed_commons-io-2.21.0.jar\n```\n\nIn particular, processed_commons-io-2.21.0.jar is present even though it is not explicitly declared, which masks the missing dependency.\n\nFor example, in the last patch set of change: 517822 we excluded shipping the jgit_deps transitive closure. With that change applied, together with this one, we would potentially observe a ClassNotFoundException, which is also what we would then expect CI to catch.\n\n[1]: https://review.gerrithub.io/c/eclipse-jgit/jgit/+/1230827",
+      "range": {
+        "startLine": 7,
+        "startChar": 27,
+        "endLine": 7,
+        "endChar": 33
+      },
+      "revId": "359498ac902aeb544cb31c01ad71edbe341b3463",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -78,6 +78,13 @@ export class ContextChip extends LitElement {
       margin: 0;
       border-radius: 8px;
     }
+    md-filter-chip.no-link {
+      --md-filter-chip-unselected-hover-state-layer-color: transparent;
+      --md-ripple-hover-color: transparent;
+      --md-ripple-pressed-color: transparent;
+      --md-ripple-focus-color: transparent;
+    }
+
     .context-chip-icon-base {
       width: 12px;
       height: 12px;
@@ -110,6 +117,7 @@ export class ContextChip extends LitElement {
           'context-chip': true,
           'suggested-chip': this.isSuggestion,
           'custom-action-chip': this.isCustomAction,
+          'no-link': !this.contextItem?.link,
           hidden: !this.supportsThisChange,
         })}
         .label=${this.contextItem?.title ?? this.text}
@@ -118,11 +126,14 @@ export class ContextChip extends LitElement {
         ?removable=${this.isRemovable && !this.isSuggestion}
         @remove=${this.onRemoveContextChip}
       >
-        <gr-icon
-          slot="icon"
-          class=${this.isCustomAction ? 'custom-action-icon' : ''}
-          .icon=${icon}
-        ></gr-icon>
+        ${when(
+          icon,
+          () => html` <gr-icon
+            slot="icon"
+            class=${this.isCustomAction ? 'custom-action-icon' : ''}
+            .icon=${icon}
+          ></gr-icon>`
+        )}
         ${when(
           this.subText,
           () => html`<span class="subtext">: ${this.subText}</span>`
@@ -150,9 +161,13 @@ export class ContextChip extends LitElement {
     fire(this, 'accept-context-item-suggestion', {});
   }
 
-  private navigateToUrl() {
+  private navigateToUrl(e: MouseEvent) {
     const link = this.contextItem?.link?.trim();
-    if (!link) return;
+    if (!link) {
+      e.preventDefault();
+      e.stopPropagation();
+      return;
+    }
     const url = link.startsWith('http') ? link : `http://${link}`;
     window.open(url, '_blank');
   }

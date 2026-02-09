@@ -37,8 +37,7 @@ suite('context-chip tests', () => {
     assert.shadowDom.equal(
       element,
       /* HTML */ `
-        <md-filter-chip class="context-chip " removable="" title="" has-icon>
-          <gr-icon class="" icon="" slot="icon"> </gr-icon>
+        <md-filter-chip class="context-chip no-link" removable="" title="">
         </md-filter-chip>
       `
     );
@@ -127,5 +126,43 @@ suite('context-chip tests', () => {
     const chip = element.shadowRoot?.querySelector('md-filter-chip');
     chip?.click();
     assert.isTrue(openSpy.calledWith('http://gerrit.test/test.ts', '_blank'));
+  });
+
+  test('has no-link class when no link', async () => {
+    const contextItem: ContextItem = {
+      type_id: 'file',
+      title: 'test.ts',
+      link: '',
+    };
+    element.contextItem = contextItem;
+    await element.updateComplete;
+    const chip = element.shadowRoot?.querySelector('md-filter-chip');
+    assert.isTrue(chip?.classList.contains('no-link'));
+  });
+
+  test('does not have no-link class when has link', async () => {
+    const contextItem: ContextItem = {
+      type_id: 'file',
+      title: 'test.ts',
+      link: ' http://gerrit.test/test.ts ',
+    };
+    element.contextItem = contextItem;
+    await element.updateComplete;
+    const chip = element.shadowRoot?.querySelector('md-filter-chip');
+    assert.isFalse(chip?.classList.contains('no-link'));
+  });
+
+  test('does not navigate on click when no link', async () => {
+    const openSpy = sinon.spy(window, 'open');
+    const contextItem: ContextItem = {
+      type_id: 'file',
+      title: 'test.ts',
+      link: '',
+    };
+    element.contextItem = contextItem;
+    await element.updateComplete;
+    const chip = element.shadowRoot?.querySelector('md-filter-chip');
+    chip?.click();
+    assert.isFalse(openSpy.called);
   });
 });

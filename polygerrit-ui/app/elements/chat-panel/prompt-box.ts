@@ -28,7 +28,6 @@ import {resolve} from '../../models/dependency';
 import {ParsedChangeInfo} from '../../types/types';
 import {debounce, DelayedTask} from '../../utils/async-util';
 import {fire} from '../../utils/event-util';
-import {createChangeUrl} from '../../models/views/change';
 import {subscribe} from '../lit/subscription-controller';
 
 const MAX_VISIBLE_CONTEXT_ITEMS_COLLAPSED = 3;
@@ -364,9 +363,8 @@ export class PromptBox extends LitElement {
     if (!this.change) return nothing;
     const changeContextItem: ContextItem = {
       type_id: 'gerrit',
-      link: createChangeUrl({
-        change: this.change,
-      }),
+      // Don't include link in the chip since it's already on the change page.
+      link: '',
       title: 'This Change',
       identifier: this.change.id,
       tooltip: 'File diffs (against base), commit message, and comments.',

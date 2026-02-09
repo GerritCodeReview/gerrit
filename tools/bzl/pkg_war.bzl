@@ -96,6 +96,8 @@ def _war_impl(ctx):
 
     transitive_lib_deps = depset(transitive = transitive_libs)
     for dep in transitive_lib_deps.to_list():
+        if "jgit_deps" in dep.path:
+            continue
         if dep.basename in SKIP_DEPS:
             continue
         cmd += _add_file(dep, build_output + "/WEB-INF/lib/")
@@ -108,6 +110,8 @@ def _war_impl(ctx):
 
     transitive_pgmlib_deps = depset(transitive = transitive_pgmlibs)
     for dep in transitive_pgmlib_deps.to_list():
+        if "jgit_deps" in dep.path:
+            continue
         if dep.basename in SKIP_DEPS:
             continue
         if dep not in inputs:

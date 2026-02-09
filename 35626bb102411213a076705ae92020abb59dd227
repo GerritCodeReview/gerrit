@@ -135,6 +135,30 @@
       },
       "revId": "35626bb102411213a076705ae92020abb59dd227",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "17126fd8_f06bf341",
+        "filename": "MODULE.bazel",
+        "patchSetId": 42
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-02-09T12:24:31Z",
+      "side": 1,
+      "message": "FYI: change 550182 removes the leakage of JGit’s transitive dependency\nclosure (jgit_deps) into release.war.\n\nThis intentionally demonstrates the risk introduced by splitting JGit’s\ncompile-time dependency graph from Gerrit’s runtime classpath: tests still\nexecute with JGit’s full transitive closure available, while the WAR is\nbuilt without it, even though avoiding version skew is desirable and\nintentional.\n\nAs a result, CI may pass while the produced release.war fails at runtime\nwith missing dependencies (e.g. commons-io via commons-compress 1.28),\nexposing false-positive integration test results.\n\nExcept for explicitly documented and accepted limitations, false-positive\nintegration test results for a release artifact should not occur and\nsignificantly reduce confidence in the current dependency model.",
+      "parentUuid": "4ba810d2_a39342a0",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 1
+      },
+      "revId": "35626bb102411213a076705ae92020abb59dd227",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

@@ -1,5 +1,29 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6cfa70ee_f862dfa1",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 3882,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-02-09T22:15:08Z",
+      "side": 1,
+      "message": "If labels aren\u0027t returned, the UI won\u0027t be able to display them. See the Issue 481248236.",
+      "range": {
+        "startLine": 3879,
+        "startChar": 0,
+        "endLine": 3882,
+        "endChar": 5
+      },
+      "revId": "f7d6cc8dadda840c993011a8d89a1d50dfbb50d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

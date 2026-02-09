@@ -36,6 +36,7 @@ import com.google.gerrit.acceptance.testsuite.change.ChangeOperations;
 import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AccountGroup;
@@ -339,17 +340,7 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
                 changeNoteUtil.getAccountIdAsEmailAddress(rebaser)));
 
     // Verify the message that has been posted on the change.
-    Collection<ChangeMessageInfo> changeMessages = changeInfo2.messages;
-    // Before the rebase the change had 2 messages for the upload of the 2 patch sets. Rebase is
-    // expected to add another message.
-    assertThat(changeMessages).hasSize(3);
-    ChangeMessageInfo changeMessage = Iterables.getLast(changeMessages);
-    assertThat(changeMessage.message)
-        .isEqualTo(
-            "Patch Set 3: Patch Set 2 was rebased on behalf of "
-                + AccountTemplateUtil.getAccountTemplate(uploader));
-    assertThat(changeMessage.author._accountId).isEqualTo(uploader.get());
-    assertThat(changeMessage.realAuthor._accountId).isEqualTo(rebaser.get());
+    assertRebaseChangeMessage(changeToBeRebased, 3, uploader, rebaser);
   }
 
   @Test
@@ -571,6 +562,7 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
     rebaseInput.onBehalfOfUploader = true;
     gApi.changes().id(changeToBeRebased.get()).rebase(rebaseInput);
 
+    assertRebaseChangeMessage(changeToBeRebased, 2, uploader, null);
     RevisionInfo currentRevisionInfo =
         gApi.changes().id(changeToBeRebased.get()).get().getCurrentRevision();
     // The change had 1 patch set before the rebase, now it should be 2
@@ -670,6 +662,7 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
     rebaseInput.onBehalfOfUploader = true;
     gApi.changes().id(changeToBeRebased.get()).rebase(rebaseInput);
 
+    assertRebaseChangeMessage(changeToBeRebased, 3, uploader, rebaser);
     RevisionInfo currentRevisionInfo =
         gApi.changes().id(changeToBeRebased.get()).get().getCurrentRevision();
     // The change had 2 patch set before the rebase, now it should be 3
@@ -773,6 +766,7 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
     rebaseInput.onBehalfOfUploader = true;
     gApi.changes().id(changeToBeRebased.get()).rebase(rebaseInput);
 
+    assertRebaseChangeMessage(changeToBeRebased, 2, uploader, rebaser);
     RevisionInfo currentRevisionInfo =
         gApi.changes().id(changeToBeRebased.get()).get().getCurrentRevision();
     // The change had 1 patch set before the rebase, now it should be 2
@@ -867,6 +861,7 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
     rebaseInput.onBehalfOfUploader = true;
     gApi.changes().id(changeToBeRebased.get()).rebase(rebaseInput);
 
+    assertRebaseChangeMessage(changeToBeRebased, 2, uploader, rebaser);
     RevisionInfo currentRevisionInfo =
         gApi.changes().id(changeToBeRebased.get()).get().getCurrentRevision();
     // The change had 1 patch set before the rebase, now it should be 2
@@ -920,6 +915,7 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
     rebaseInput.onBehalfOfUploader = true;
     gApi.changes().id(changeToBeRebased.get()).rebase(rebaseInput);
 
+    assertRebaseChangeMessage(changeToBeRebased, 2, uploader, rebaser);
     RevisionInfo currentRevisionInfo =
         gApi.changes().id(changeToBeRebased.get()).get().getCurrentRevision();
     // The change had 1 patch set before the rebase, now it should be 2
@@ -1435,6 +1431,43 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
         .forUpdate()
         .add(block(permission).ref("refs/*").group(groupUuid))
         .update();
+  }
+
+  private void assertRebaseChangeMessage(
+      Change.Id changeId,
+      int expectedPatchSetNum,
+      Account.Id expectedUploader,
+      @Nullable Account.Id expectedRealUploader)
+      throws RestApiException {
+    Collection<ChangeMessageInfo> changeMessages = gApi.changes().id(changeId.get()).get().messages;
+
+    // Expect 1 change message per patch set.
+    assertThat(changeMessages).hasSize(expectedPatchSetNum);
+
+    ChangeMessageInfo changeMessage = Iterables.getLast(changeMessages);
+    assertThat(changeMessage.author._accountId).isEqualTo(expectedUploader.get());
+
+    if (expectedRealUploader != null) {
+      assertThat(changeMessage.message)
+          .isEqualTo(
+              String.format(
+                  "Patch Set %d: Patch Set %d was rebased on behalf of %s"
+                      + "\n\n"
+                      + "(Performed by %s on behalf of %s)",
+                  expectedPatchSetNum,
+                  expectedPatchSetNum - 1,
+                  AccountTemplateUtil.getAccountTemplate(expectedUploader),
+                  accountOperations.account(expectedRealUploader).get().getLoggableName(),
+                  accountOperations.account(expectedUploader).get().getLoggableName()));
+      assertThat(changeMessage.realAuthor._accountId).isEqualTo(expectedRealUploader.get());
+    } else {
+      assertThat(changeMessage.message)
+          .isEqualTo(
+              String.format(
+                  "Patch Set %d: Patch Set %d was rebased",
+                  expectedPatchSetNum, expectedPatchSetNum - 1));
+      assertThat(changeMessage.realAuthor).isNull();
+    }
   }
 
   @FunctionalInterface

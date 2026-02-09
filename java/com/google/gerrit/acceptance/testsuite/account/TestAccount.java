@@ -42,6 +42,11 @@ public abstract class TestAccount {
     return ImmutableSet.copyOf(Sets.difference(emails(), ImmutableSet.of(preferredEmail().get())));
   }
 
+  public String getLoggableName() {
+    // Logic should be kept in sync with IdentifiedUser#getLoggableName.
+    return username().orElseGet(() -> preferredEmail().orElseGet(() -> "a/" + accountId().get()));
+  }
+
   static Builder builder() {
     return new AutoValue_TestAccount.Builder();
   }

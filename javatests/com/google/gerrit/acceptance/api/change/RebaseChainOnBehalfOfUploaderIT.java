@@ -1411,10 +1411,14 @@ public class RebaseChainOnBehalfOfUploaderIT extends AbstractDaemonTest {
       assertThat(changeMessage.message)
           .isEqualTo(
               String.format(
-                  "Patch Set %d: Patch Set %d was rebased on behalf of %s",
+                  "Patch Set %d: Patch Set %d was rebased on behalf of %s"
+                      + "\n\n"
+                      + "(Performed by %s on behalf of %s)",
                   expectedPatchSetNum,
                   expectedPatchSetNum - 1,
-                  AccountTemplateUtil.getAccountTemplate(expectedUploader)));
+                  AccountTemplateUtil.getAccountTemplate(expectedUploader),
+                  accountOperations.account(expectedRealUploader).get().getLoggableName(),
+                  accountOperations.account(expectedUploader).get().getLoggableName()));
       assertThat(changeMessage.realAuthor._accountId).isEqualTo(expectedRealUploader.get());
     } else {
       assertThat(changeMessage.message)

@@ -782,9 +782,7 @@ public class ImpersonationIT extends AbstractDaemonTest {
             runAsHeader(user.id()));
     res.assertOK();
 
-    ChangeMessageInfo m = Iterables.getLast(gApi.changes().id(r.getChangeId()).get().messages);
-    assertThat(m.message).endsWith(in.message);
-    assertThat(m.author._accountId).isEqualTo(user.id().get());
+    assertLastChangeMessage(r.getChange(), in.message, user, admin);
 
     CommentInfo c =
         Iterables.getOnlyElement(
@@ -800,11 +798,11 @@ public class ImpersonationIT extends AbstractDaemonTest {
   public void runAsWithOnBehalfOf() throws Exception {
     // - Has the same restrictions as on_behalf_of (e.g. requires labels).
     // - Takes the effective user from on_behalf_of (user).
-    // - Takes the real user from the real caller, not the intermediate
-    //   X-Gerrit-RunAs user (user2).
+    // - Takes the real user from the real caller (admin), not the intermediate
+    //   X-Gerrit-RunAs user (runAsHeaderUser).
     allowRunAs();
     allowCodeReviewOnBehalfOf();
-    TestAccount user2 = accountCreator.user2();
+    TestAccount runAsHeaderUser = accountCreator.user2();
 
     PushOneCommit.Result r = createChange();
     ReviewInput in = new ReviewInput();
@@ -812,31 +810,23 @@ public class ImpersonationIT extends AbstractDaemonTest {
     in.message = "test message";
 
     String endpoint = "/changes/" + r.getChangeId() + "/revisions/current/review";
-    RestResponse res = adminRestSession.postWithHeaders(endpoint, in, runAsHeader(user2.id()));
+    RestResponse res =
+        adminRestSession.postWithHeaders(endpoint, in, runAsHeader(runAsHeaderUser.id()));
     res.assertForbidden();
     assertThat(res.getEntityContent())
         .isEqualTo("label required to post review on behalf of \"" + in.onBehalfOf + '"');
 
     in.label("Code-Review", 1);
-    adminRestSession.postWithHeaders(endpoint, in, runAsHeader(user2.id())).assertOK();
+    adminRestSession.postWithHeaders(endpoint, in, runAsHeader(runAsHeaderUser.id())).assertOK();
 
     PatchSetApproval psa = Iterables.getOnlyElement(r.getChange().approvals().values());
     assertThat(psa.patchSetId().get()).isEqualTo(1);
     assertThat(psa.label()).isEqualTo("Code-Review");
     assertThat(psa.accountId()).isEqualTo(user.id());
     assertThat(psa.value()).isEqualTo(1);
-    assertThat(psa.realAccountId()).isEqualTo(admin.id()); // not user2
+    assertThat(psa.realAccountId()).isEqualTo(admin.id()); // not runAsHeaderUser
 
-    assertLastChangeMessage(
-        r.getChange(),
-        in.message
-            + "\n\n(Posted by "
-            + user2.username()
-            + " on behalf of "
-            + user.username()
-            + ")",
-        user,
-        admin);
+    assertLastChangeMessage(r.getChange(), in.message, user, admin);
   }
 
   @Test
@@ -921,20 +911,34 @@ public class ImpersonationIT extends AbstractDaemonTest {
       TestAccount expectedRealAuthor)
       throws RestApiException {
     ChangeMessage m = Iterables.getLast(cmUtil.byChange(changeData.notes()));
-    assertThat(m.getMessage()).endsWith(expectedMessage);
     assertThat(m.getAuthor()).isEqualTo(expectedAuthor.id());
     assertThat(m.getRealAuthor()).isEqualTo(expectedRealAuthor.id());
 
     ChangeMessageInfo lastChangeMessageInfo =
         Iterables.getLast(gApi.changes().id(changeData.getId().get()).get().messages);
-    assertThat(lastChangeMessageInfo.message).endsWith(expectedMessage);
     assertThat(lastChangeMessageInfo.author._accountId).isEqualTo(expectedAuthor.id().get());
     if (expectedAuthor.id().equals(expectedRealAuthor.id())) {
+      assertThat(lastChangeMessageInfo.message).endsWith(expectedMessage);
+      assertThat(m.getMessage()).endsWith(expectedMessage);
       assertThat(lastChangeMessageInfo.realAuthor).isNull();
     } else {
+      assertThat(lastChangeMessageInfo.message)
+          .endsWith(concatImpersonationClause(expectedMessage, expectedAuthor, expectedRealAuthor));
+      assertThat(m.getMessage())
+          .endsWith(concatImpersonationClause(expectedMessage, expectedAuthor, expectedRealAuthor));
       assertThat(lastChangeMessageInfo.realAuthor._accountId)
           .isEqualTo(expectedRealAuthor.id().get());
     }
+  }
+
+  private String concatImpersonationClause(
+      String message, TestAccount author, TestAccount realAuthor) {
+    return message
+        + "\n\n(Performed by "
+        + realAuthor.username()
+        + " on behalf of "
+        + author.username()
+        + ")";
   }
 
   private void allowCodeReviewOnBehalfOf() throws Exception {

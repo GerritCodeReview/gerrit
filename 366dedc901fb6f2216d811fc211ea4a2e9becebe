@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1ac5f5c7_5533673c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2026-02-09T21:33:15Z",
+      "side": 1,
+      "message": "@milutin@google.com: we need Library-Compliance approval for this change to get the commons-compress update in",
+      "revId": "366dedc901fb6f2216d811fc211ea4a2e9becebe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

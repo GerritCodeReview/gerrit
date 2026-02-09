@@ -184,6 +184,7 @@ def declare_nongoogle_deps():
         sha1 = "76716d529710fc03d1d429b43e3cedd4419f78d4",
     )
 
+    # Transitive dependency of commons-compress
     maven_jar(
         name = "commons-io",
         artifact = "commons-io:commons-io:2.20.0",

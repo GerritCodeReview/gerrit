@@ -41,7 +41,6 @@ java_library(
         "//lib/auto:auto-value-annotations",
         "//lib/bouncycastle:bcprov-neverlink",
         "//lib/commons:codec",
-        "//lib/commons:compress",
         "//lib/commons:lang3",
         "//lib/errorprone:annotations",
         "//lib/flogger:api",

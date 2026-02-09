@@ -61,7 +61,10 @@ java_library(
     data = ["//lib:LICENSE-jgit"],
     visibility = ["//visibility:public"],
     exports = ["@jgit//org.eclipse.jgit.archive:jgit-archive"],
-    runtime_deps = [":jgit"],
+    runtime_deps = [
+        ":jgit",
+        "//lib/commons:compress",
+    ],
 )
 
 java_library(

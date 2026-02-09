@@ -10,7 +10,6 @@ java_library(
         "//lib:automaton",
         "//lib:guava",
         "//lib:jgit",
-        "//lib:jgit-archive",
         "//lib/errorprone:annotations",
     ],
 )

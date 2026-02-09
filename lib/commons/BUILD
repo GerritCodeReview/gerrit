@@ -12,6 +12,7 @@ java_library(
     name = "compress",
     data = ["//lib:LICENSE-Apache2.0"],
     exports = ["@commons-compress//jar"],
+    runtime_deps = [":io"],
 )
 
 java_library(

@@ -111,6 +111,30 @@
       },
       "revId": "35626bb102411213a076705ae92020abb59dd227",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ba810d2_a39342a0",
+        "filename": "MODULE.bazel",
+        "patchSetId": 42
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-02-09T10:21:02Z",
+      "side": 1,
+      "message": "I would prefer to avoid reverting this change and instead focus on defining a clear way forward: merging the `jgit_deps` and Gerrit\u0027s Maven dependency graphs into a single transitive closure, where Gerrit’s dependency choices take precedence over conflicting versions from JGit.\n\nThe split dependency graph introduced here has made issues much harder to detect. A concrete example is the recent `commons-compress` update attempt: version 1.28 introduced a compile-time dependency on `commons-io`, which means that the upgrade change should have added `//lib/commons:io` to Gerrit and included it in the Git integration tests and `release.war`. That addition was missed, see change 547428.\n\nCI remains green for the same reason described in my comment here, where the JGit transitive closure leaks into `release.war` and masks missing dependencies.\n\nWith that leakage removed (e.g. as in the last patch set of change 517822), CI would instead fail with a `ClassNotFoundException`, which is what we should expect and rely on.",
+      "parentUuid": "e56d0bc1_7124ed99",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 1
+      },
+      "revId": "35626bb102411213a076705ae92020abb59dd227",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

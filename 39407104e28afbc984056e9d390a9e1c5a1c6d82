@@ -24,6 +24,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2a75ab98_b7b349c1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2026-02-09T15:18:09Z",
+      "side": 1,
+      "message": "No, the clause is part of the \"regular\" message. Footers of the author and the real-author are added regardless.",
+      "parentUuid": "c40a1958_9fd72da0",
+      "range": {
+        "startLine": 10,
+        "startChar": 29,
+        "endLine": 10,
+        "endChar": 35
+      },
+      "revId": "39407104e28afbc984056e9d390a9e1c5a1c6d82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "42527df7_5cae0220",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2026-02-09T15:18:09Z",
+      "side": 1,
+      "message": "No, this is not a footer, but a text.",
+      "parentUuid": "c40a1958_9fd72da0",
+      "range": {
+        "startLine": 10,
+        "startChar": 29,
+        "endLine": 10,
+        "endChar": 35
+      },
+      "revId": "39407104e28afbc984056e9d390a9e1c5a1c6d82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ac405a94_6494fbd2",
@@ -37,6 +85,24 @@
       "writtenOn": "2026-02-02T07:14:52Z",
       "side": 1,
       "message": "I think I am not fully understanding the distinction between the commit message and the change log message.\n\nIIUC now we are adding the impersonation message to both and before it was only on the change log messages?",
+      "revId": "39407104e28afbc984056e9d390a9e1c5a1c6d82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c5af8e89_ceba2870",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2026-02-09T15:18:09Z",
+      "side": 1,
+      "message": "It was always to both, but only for some operations which are using the `AbstractChangeUpdate` class. Now, this is added for all operations.",
+      "parentUuid": "ac405a94_6494fbd2",
       "revId": "39407104e28afbc984056e9d390a9e1c5a1c6d82",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -78,6 +144,30 @@
           ]
         }
       ],
+      "revId": "39407104e28afbc984056e9d390a9e1c5a1c6d82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "91d8f836_350e5676",
+        "filename": "java/com/google/gerrit/server/notedb/AbstractChangeUpdate.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2026-02-09T15:18:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7110b95a_9e4d83b7",
+      "range": {
+        "startLine": 299,
+        "startChar": 24,
+        "endLine": 299,
+        "endChar": 30
+      },
       "revId": "39407104e28afbc984056e9d390a9e1c5a1c6d82",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -129,6 +219,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "35171ace_09cddda6",
+        "filename": "java/com/google/gerrit/server/notedb/AbstractChangeUpdate.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2026-02-09T15:18:09Z",
+      "side": 1,
+      "message": "Sorry, that was a leftover from a previous iteration.",
+      "parentUuid": "7cf933db_b06b9e21",
+      "range": {
+        "startLine": 302,
+        "startChar": 0,
+        "endLine": 306,
+        "endChar": 5
+      },
+      "revId": "39407104e28afbc984056e9d390a9e1c5a1c6d82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e818b540_2da5a231",
@@ -142,6 +256,30 @@
       "writtenOn": "2026-02-02T09:39:40Z",
       "side": 1,
       "message": "NIT: This could be done simpler with just with StringBuilder? But I am out of touch with java.",
+      "range": {
+        "startLine": 307,
+        "startChar": 0,
+        "endLine": 314,
+        "endChar": 21
+      },
+      "revId": "39407104e28afbc984056e9d390a9e1c5a1c6d82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6f4c596f_8a78f9aa",
+        "filename": "java/com/google/gerrit/server/notedb/AbstractChangeUpdate.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2026-02-09T15:18:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e818b540_2da5a231",
       "range": {
         "startLine": 307,
         "startChar": 0,

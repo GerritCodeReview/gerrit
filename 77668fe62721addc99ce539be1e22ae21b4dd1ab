@@ -22,6 +22,30 @@
       },
       "revId": "77668fe62721addc99ce539be1e22ae21b4dd1ab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8edbbc11_3b297c5a",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReview.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 623,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2026-02-09T15:18:09Z",
+      "side": 0,
+      "message": "This is actually added for both. The change message is based on the commit message.",
+      "parentUuid": "72db3ee9_7cdf08b2",
+      "range": {
+        "startLine": 616,
+        "startChar": 4,
+        "endLine": 623,
+        "endChar": 5
+      },
+      "revId": "77668fe62721addc99ce539be1e22ae21b4dd1ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

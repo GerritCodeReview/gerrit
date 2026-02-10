@@ -126,8 +126,7 @@ suite('gr-repo-dashboards tests', () => {
   suite('404', () => {
     test('fires page-error', async () => {
       const response = {status: 404} as Response;
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      stubRestApi('getRepoDashboards').callsFake((_repo: any, errFn: any) => {
+      stubRestApi('getRepoDashboards').callsFake((_repo, errFn) => {
         errFn!(response);
         return Promise.resolve([]);
       });

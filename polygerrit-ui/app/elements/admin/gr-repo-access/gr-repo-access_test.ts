@@ -363,8 +363,7 @@ suite('gr-repo-access tests', () => {
     const response = {status: 404} as Response;
 
     stubRestApi('getRepoAccessRights').callsFake(
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (_repoName: any, errFn: any) => {
+      (_repoName, errFn) => {
         if (errFn !== undefined) {
           errFn(response);
         }

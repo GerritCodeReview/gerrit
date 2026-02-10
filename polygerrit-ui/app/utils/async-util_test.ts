@@ -99,8 +99,8 @@ suite('async-util tests', () => {
         hasResolved = true;
         assert.equal(value, 5);
       });
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      promise.catch((_reason?: any) => {
+
+      promise.catch((_reason?: unknown) => {
         assert.fail();
       });
       await waitEventLoop();
@@ -128,8 +128,8 @@ suite('async-util tests', () => {
         hasResolved = true;
         assert.equal(value, 5);
       });
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      promise.catch((_reason?: any) => {
+
+      promise.catch((_reason?: unknown) => {
         assert.fail();
       });
       promise.flush();
@@ -151,8 +151,8 @@ suite('async-util tests', () => {
         (_value: number) => {
           assert.fail();
         },
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        (reason?: any) => {
+
+        (reason?: unknown) => {
           hasCanceled = true;
           assert.strictEqual(reason, 'because');
         }
@@ -178,8 +178,8 @@ suite('async-util tests', () => {
         hasResolved1 = true;
         assert.equal(value, 6);
       });
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      promise1.catch((_reason?: any) => {
+
+      promise1.catch((_reason?: unknown) => {
         assert.fail();
       });
       await waitEventLoop();
@@ -196,8 +196,8 @@ suite('async-util tests', () => {
         hasResolved2 = true;
         assert.equal(value, 6);
       });
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      promise2.catch((_reason?: any) => {
+
+      promise2.catch((_reason?: unknown) => {
         assert.fail();
       });
       clock.tick(99);
@@ -224,8 +224,8 @@ suite('async-util tests', () => {
         hasResolved1 = true;
         assert.equal(value, 5);
       });
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      promise1.catch((_reason?: any) => {
+
+      promise1.catch((_reason?: unknown) => {
         assert.fail();
       });
       await waitEventLoop();
@@ -244,8 +244,7 @@ suite('async-util tests', () => {
         hasResolved2 = true;
         assert.equal(value, 6);
       });
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      promise2.catch((_reason?: any) => {
+      promise2.catch((_reason?: unknown) => {
         assert.fail();
       });
       clock.tick(99);

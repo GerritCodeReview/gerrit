@@ -1160,8 +1160,7 @@ suite('gr-repo tests', () => {
 
     const pageErrorFired = mockPromise();
     const response = {...new Response(), status: 404};
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    stubRestApi('getProjectConfig').callsFake((_: any, errFn: any) => {
+    stubRestApi('getProjectConfig').callsFake((_repo, errFn) => {
       if (errFn !== undefined) {
         errFn(response);
       }

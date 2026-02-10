@@ -122,8 +122,8 @@ suite('gr-endpoint-decorator', () => {
     return (
       decorationHook
         .getLastAttached()
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        .then((element: any) => {
+
+        .then((element: unknown) => {
           assert.strictEqual(element, module);
         })
         .then(() => {
@@ -144,8 +144,8 @@ suite('gr-endpoint-decorator', () => {
     return (
       decorationHookWithSlot
         .getLastAttached()
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        .then((element: any) => {
+
+        .then((element: unknown) => {
           assert.strictEqual(element, module);
         })
         .then(() => {
@@ -166,8 +166,7 @@ suite('gr-endpoint-decorator', () => {
     return (
       replacementHook
         .getLastAttached()
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        .then((element: any) => {
+        .then((element: unknown) => {
           assert.strictEqual(element, module);
         })
         .then(() => {

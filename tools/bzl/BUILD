@@ -1,7 +1,9 @@
 exports_files([
+    "diff_allowlist.sh",
     "license-map.py",
     "test_empty.sh",
     "test_license.sh",
+    "war_checks.bzl",
 ])
 
 sh_test(

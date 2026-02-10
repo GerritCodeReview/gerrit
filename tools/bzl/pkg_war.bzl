@@ -56,46 +56,85 @@ EXCLUDE_WAR_JAR_PREFIXES = [
     "listenablefuture-9999.0-empty-to-avoid-conflict-with-guava",
 ]
 
+# Identifiers that should not be tracked in third-party WAR allowlists.
+THIRD_PARTY_EXCLUDE_ID_PREFIXES = [
+    "com_google_",
+    "gerrit_",
+]
+
+# Gerrit-internal jars whose normalized IDs do not retain the com_google_/gerrit_
+# namespace after normalization and should not appear in third-party allowlists.
+THIRD_PARTY_EXCLUDE_ID_EXACT = [
+    "index",
+    "libcache_proto-speed",
+    "libentities_proto-speed",
+    "libgerrit-prolog-common",
+    "libjgit-archive",
+    "libjgit-servlet",
+    "libquery_parser",
+    "libssh-apache",
+    "log4j-config",
+]
+
+def war_jar_name(f):
+    """Return the jar file name as it will appear inside the WAR."""
+    raw = f.basename
+    if raw.startswith(PROCESSED_PREFIX):
+        raw = raw[len(PROCESSED_PREFIX):]
+
+    sp = f.short_path
+
+    # Rename ONLY caffeine's "guava" artifact (not Google Guava)
+    # Matches: .../com/github/ben-manes/caffeine/guava/<ver>/processed_guava-<ver>.jar
+    if "/com/github/ben-manes/caffeine/guava/" in sp and raw.startswith("guava-") and raw.endswith(".jar"):
+        raw = "caffeine-" + raw  # -> caffeine-guava-<ver>.jar
+
+    # Keep existing Gerrit naming rules
+    if sp.startswith("gerrit-"):
+        raw = sp.split("/")[0] + "-" + raw
+    elif sp.startswith("java/"):
+        raw = sp[5:].replace("/", "_")
+
+    return raw
+
+def normalize_jar_id(jar_name):
+    """Version-agnostic jar identity used for allowlists/inventories."""
+    n = jar_name
+    if n.endswith(".jar"):
+        n = n[:-4]
+    i = n.rfind("-")
+
+    # Strip trailing "-<version-ish>" where the suffix begins with a digit.
+    if i > 0 and n[i + 1:i + 2].isdigit():
+        n = n[:i]
+    return n
+
+def should_skip_packaged_jar(jar_name):
+    """jar_name must be the post-processed name (war_jar_name output)."""
+    for pfx in EXCLUDE_WAR_JAR_PREFIXES:
+        if jar_name.startswith(pfx):
+            return True
+    return False
+
+def is_third_party_jar_id(jar_id):
+    """Return True if jar_id should be tracked in third-party allowlists."""
+    if jar_id in THIRD_PARTY_EXCLUDE_ID_EXACT:
+        return False
+    for pfx in THIRD_PARTY_EXCLUDE_ID_PREFIXES:
+        if jar_id.startswith(pfx):
+            return False
+    return True
+
 def _add_context(in_file, output):
     return [
         "unzip -qd %s %s" % (output, in_file.path),
     ]
 
-def _should_skip_runtime_jar(dep):
-    raw = dep.basename
-    if raw.startswith(PROCESSED_PREFIX):
-        raw = raw[len(PROCESSED_PREFIX):]
-
-    for pfx in EXCLUDE_WAR_JAR_PREFIXES:
-        if raw.startswith(pfx):
-            return True
-
-    return False
-
 def _add_file(in_file, output):
-    input_path = in_file.path
-    short_path = in_file.short_path
-    n = in_file.basename
-
-    # Strip rules_jvm_external processed_ prefix for naming decisions
-    raw = n
-    if raw.startswith(PROCESSED_PREFIX):
-        raw = raw[len(PROCESSED_PREFIX):]
-
-    # Rename ONLY caffeine's "guava" artifact (not Google Guava)
-    # Matches: .../com/github/ben-manes/caffeine/guava/<ver>/processed_guava-<ver>.jar
-    if "/com/github/ben-manes/caffeine/guava/" in short_path and raw.startswith("guava-") and raw.endswith(".jar"):
-        raw = "caffeine-" + raw  # -> caffeine-guava-<ver>.jar
-
-    # Keep existing Gerrit naming rules
-    if short_path.startswith("gerrit-"):
-        raw = short_path.split("/")[0] + "-" + raw
-    elif short_path.startswith("java/"):
-        raw = short_path[5:].replace("/", "_")
-
+    raw = war_jar_name(in_file)
     output_path = output + raw
     return [
-        "test -L %s || ln -s $(pwd)/%s %s" % (output_path, input_path, output_path),
+        "test -L %s || ln -s $(pwd)/%s %s" % (output_path, in_file.path, output_path),
     ]
 
 def _make_war(input_dir, output):
@@ -112,6 +151,10 @@ def _war_impl(ctx):
     war = ctx.outputs.war
     build_output = war.path + ".build_output"
     inputs = []
+
+    # Metadata we expose for checks/tools.
+    jar_entries = []
+    jar_ids = []
 
     # Create war layout
     cmd = [
@@ -130,10 +173,18 @@ def _war_impl(ctx):
             transitive_libs.append(j.files)
 
     for dep in depset(transitive = transitive_libs).to_list():
-        if _should_skip_runtime_jar(dep):
+        packaged = war_jar_name(dep)
+        if should_skip_packaged_jar(packaged):
             continue
+
         cmd += _add_file(dep, build_output + "/WEB-INF/lib/")
         inputs.append(dep)
+
+        jar_entries.append("WEB-INF/lib/" + packaged)
+
+        jid = normalize_jar_id(packaged)
+        if is_third_party_jar_id(jid):
+            jar_ids.append(jid)
 
     # Add pgm libs
     transitive_pgmlibs = []
@@ -141,11 +192,19 @@ def _war_impl(ctx):
         transitive_pgmlibs.append(j[JavaInfo].transitive_runtime_jars)
 
     for dep in depset(transitive = transitive_pgmlibs).to_list():
-        if _should_skip_runtime_jar(dep):
+        packaged = war_jar_name(dep)
+        if should_skip_packaged_jar(packaged):
             continue
+
         if dep not in inputs:
             cmd += _add_file(dep, build_output + "/WEB-INF/pgm-lib/")
             inputs.append(dep)
+
+            jar_entries.append("WEB-INF/pgm-lib/" + packaged)
+
+            jid = normalize_jar_id(packaged)
+            if is_third_party_jar_id(jid):
+                jar_ids.append(jid)
 
     # Add context
     transitive_context_libs = []
@@ -160,6 +219,20 @@ def _war_impl(ctx):
         cmd += _add_context(dep, build_output)
         inputs.append(dep)
 
+    # Write deterministic manifests for checks.
+    #
+    # NOTE: The manifests are produced as independent actions.
+    # Bazel will only execute the actions needed for the requested output,
+    # so building *.war.entries.txt does not materialize the WAR.
+    ctx.actions.write(
+        output = ctx.outputs.jars,
+        content = "\n".join(sorted(depset(jar_ids).to_list())) + "\n",
+    )
+    ctx.actions.write(
+        output = ctx.outputs.entries,
+        content = "\n".join(sorted(jar_entries)) + "\n",
+    )
+
     # Add zip war
     cmd.append(_make_war(build_output, war))
 
@@ -171,6 +244,10 @@ def _war_impl(ctx):
         use_default_shell_env = True,
     )
 
+    return [
+        DefaultInfo(files = depset([war, ctx.outputs.jars, ctx.outputs.entries])),
+    ]
+
 # context: go to the root directory
 # libs: go to the WEB-INF/lib directory
 # pgmlibs: go to the WEB-INF/pgm-lib directory
@@ -180,7 +257,11 @@ _pkg_war = rule(
         "libs": attr.label_list(allow_files = jar_filetype),
         "pgmlibs": attr.label_list(allow_files = False),
     },
-    outputs = {"war": "%{name}.war"},
+    outputs = {
+        "war": "%{name}.war",
+        "jars": "%{name}.war.jars.txt",
+        "entries": "%{name}.war.entries.txt",
+    },
     implementation = _war_impl,
 )
 

@@ -709,12 +709,18 @@ suite('gr-formatted-text tests', () => {
     test('never renders typed html', async () => {
       element.content = `plain text <div>foo</div>
         \n\`inline code <div>foo</div>\`
-        \n\`\`\`\nmultiline code <div>foo</div>\`\`\`
+        \n\`\`\`\nmultiline code <div>foo</div>\n\`\`\`
         \n> block quote <div>foo</div>
-        \n[inline link <div>foo</div>](http://google.com)`;
+        \n[inline link <div>foo</div>](http://google.com)
+        \n<div>foo</div>
+        \n<div>**markdown** and <b>HTML</b> in HTML blocks stay as-is</div>`;
       await element.updateComplete;
 
       const escapedDiv = '&lt;div&gt;foo&lt;/div&gt;';
+      const escapedDivWithMixedContent =
+        '&lt;div&gt;' +
+        '**markdown** and &lt;b&gt;HTML&lt;/b&gt; in HTML blocks stay as-is' +
+        '&lt;/div&gt;';
       assert.shadowDom.equal(
         element,
         /* HTML */ `
@@ -741,6 +747,8 @@ suite('gr-formatted-text tests', () => {
                     >inline link ${escapedDiv}</a
                   >
                 </p>
+                ${escapedDiv}
+        \n${escapedDivWithMixedContent}
               </div>
             </gr-marked-element>
           </gr-endpoint-decorator>
@@ -859,7 +867,7 @@ suite('gr-formatted-text tests', () => {
       });
 
       test('renders', async () => {
-        element.content = '```suggestion\nHello World```';
+        element.content = '```suggestion\nHello World\n```';
         await element.updateComplete;
         assert.shadowDom.equal(
           element,

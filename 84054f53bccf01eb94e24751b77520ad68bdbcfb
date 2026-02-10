@@ -50,6 +50,23 @@
       "message": "Please add screenshots to the commit message by running the change locally to make reviews easier\n\nOverall the change does make the UI look a lot nicer.\n\nhttps://screenshot.googleplex.com/AmjHdQeD7CPsMik\n\nReferencing this, I noticed a few things\n\nA lot of horizontal space is now unused making the cards compress a lot\nThe \"filter\" dropdown is moved all the way to the right\nThe action add-reviewer is rendereding over 2 lines",
       "revId": "84054f53bccf01eb94e24751b77520ad68bdbcfb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "97d0886e_7eb572d0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-02-10T07:29:02Z",
+      "side": 1,
+      "message": "There was also the \"reload\" icon present next to `Existing Flows`\n\nRemoving the header makes sense but please bring the reload icon back",
+      "revId": "84054f53bccf01eb94e24751b77520ad68bdbcfb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

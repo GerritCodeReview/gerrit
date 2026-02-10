@@ -33,6 +33,23 @@
       "message": "A few thoughts:\nhttps://screenshot.googleplex.com/5N9eYEvqXhG7bnr\n\n- Should the Owner be shown? I know this wasn\u0027t visible in the previous screenshot, but does look like there\u0027s some data set in the test.\n- The filter drop-down looks out of place. I went back to reference the mocks and I didn\u0027t see one added. I wonder if the filter is required? It seems like it would only be helpful if there were a large number of flows. Perhaps we can remove it for the time being?\n- What does the copy to clipboard do? If it is useful and we want to keep it, the icons (copy and delete) are not vertically aligned.  \n- Should add some additional margin inside the card, between items\n- Border between owner \u0026 statuses can be removed",
       "revId": "84054f53bccf01eb94e24751b77520ad68bdbcfb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1bd12b67_dabde4d6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-02-10T07:24:12Z",
+      "side": 1,
+      "message": "Please add screenshots to the commit message by running the change locally to make reviews easier\n\nOverall the change does make the UI look a lot nicer.\n\nhttps://screenshot.googleplex.com/AmjHdQeD7CPsMik\n\nReferencing this, I noticed a few things\n\nA lot of horizontal space is now unused making the cards compress a lot\nThe \"filter\" dropdown is moved all the way to the right\nThe action add-reviewer is rendereding over 2 lines",
+      "revId": "84054f53bccf01eb94e24751b77520ad68bdbcfb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

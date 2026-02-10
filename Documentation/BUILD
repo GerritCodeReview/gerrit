@@ -1,5 +1,6 @@
 load("//tools/bzl:asciidoc.bzl", "documentation_attributes", "genasciidoc", "genasciidoc_zip")
 load("//tools/bzl:license.bzl", "license_map")
+load("//tools/bzl:war_checks.bzl", "war_jars_allowlist_test")
 
 package(default_visibility = ["//visibility:public"])
 
@@ -41,6 +42,12 @@ filegroup(
         ":prettify_files",
         "//:LICENSES.txt",
     ],
+)
+
+war_jars_allowlist_test(
+    name = "check_release_war_jars",
+    allowlist = ":release_war_jars.txt",
+    war_jars_manifest = "//:release.war.jars.txt",
 )
 
 license_map(

@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "59ee3752_f6b88fad",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-02-10T18:00:10Z",
+      "side": 1,
+      "message": "nit: needed",
+      "range": {
+        "startLine": 18,
+        "startChar": 51,
+        "endLine": 18,
+        "endChar": 55
+      },
+      "revId": "d9ec96c733ab5462c63f0b6456162d97c09a8df6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "c2ae9e77_3385429d",
@@ -36,6 +59,29 @@
         "startChar": 55,
         "endLine": 325,
         "endChar": 61
+      },
+      "revId": "d9ec96c733ab5462c63f0b6456162d97c09a8df6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "65320694_eedf302e",
+        "filename": "polygerrit-ui/app/elements/change/gr-flows/gr-flows_test.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-02-10T18:00:10Z",
+      "side": 1,
+      "message": "why did the `shadowDom` test become a check for the length of the flows?\n\nWe should bring the shadomDom back",
+      "range": {
+        "startLine": 122,
+        "startChar": 0,
+        "endLine": 124,
+        "endChar": 41
       },
       "revId": "d9ec96c733ab5462c63f0b6456162d97c09a8df6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

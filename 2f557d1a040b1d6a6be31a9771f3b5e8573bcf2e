@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "09bdf4d0_6064d7b1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-02-10T17:47:55Z",
+      "side": 1,
+      "message": "```suggestion\nThis immutable flag can be used from the high-availability and multi-site\n```",
+      "range": {
+        "startLine": 23,
+        "startChar": 41,
+        "endLine": 23,
+        "endChar": 72
+      },
+      "revId": "2f557d1a040b1d6a6be31a9771f3b5e8573bcf2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "55609e9b_3deea4b3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-02-10T17:47:55Z",
+      "side": 1,
+      "message": "I am wondering if evictions then should be just forwarded to a NO-OP if a cache is declared immutable.\n\nThe evictions block the cache and can cause hiccups to the system. If the entries are immutable, there\u0027s no point in performing any explicit evictions isn\u0027t it?",
+      "range": {
+        "startLine": 24,
+        "startChar": 38,
+        "endLine": 24,
+        "endChar": 53
+      },
+      "revId": "2f557d1a040b1d6a6be31a9771f3b5e8573bcf2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5e60fe46_827c8c9b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-02-10T17:47:55Z",
+      "side": 1,
+      "message": "👍",
+      "range": {
+        "startLine": 25,
+        "startChar": 13,
+        "endLine": 25,
+        "endChar": 69
+      },
+      "revId": "2f557d1a040b1d6a6be31a9771f3b5e8573bcf2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -294,13 +294,15 @@ suite('gr-change-view screenshot tests', () => {
 
     try {
       // Wait for all nested components to render
-      await new Promise(resolve => setTimeout(resolve, 300));
+      await waitUntil(() => !!element.fileList);
       await element.updateComplete;
       if (element.fileList) {
         await element.fileList.updateComplete;
       }
       // Additional wait for any remaining async rendering
-      await new Promise(resolve => setTimeout(resolve, 200));
+      await waitUntil(
+        () => !!element.shadowRoot!.querySelector('gr-file-list')
+      );
 
       await visualDiff(container, 'gr-change-view-801px');
       await visualDiffDarkTheme(container, 'gr-change-view-801px');
@@ -326,13 +328,15 @@ suite('gr-change-view screenshot tests', () => {
 
     try {
       // Wait for all nested components to render
-      await new Promise(resolve => setTimeout(resolve, 300));
+      await waitUntil(() => !!element.fileList);
       await element.updateComplete;
       if (element.fileList) {
         await element.fileList.updateComplete;
       }
       // Additional wait for any remaining async rendering
-      await new Promise(resolve => setTimeout(resolve, 200));
+      await waitUntil(
+        () => !!element.shadowRoot!.querySelector('gr-file-list')
+      );
 
       await visualDiff(container, 'gr-change-view-1280px-chat-open');
       await visualDiffDarkTheme(container, 'gr-change-view-1280px-chat-open');

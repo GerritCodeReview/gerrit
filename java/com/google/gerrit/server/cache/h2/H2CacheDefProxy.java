@@ -89,6 +89,11 @@ class H2CacheDefProxy<K, V> implements PersistentCacheDef<K, V> {
   }
 
   @Override
+  public boolean isImmutable() {
+    return source.isImmutable();
+  }
+
+  @Override
   public long diskLimit() {
     return source.diskLimit();
   }

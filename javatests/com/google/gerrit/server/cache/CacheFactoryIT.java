@@ -26,6 +26,7 @@ import org.junit.Test;
 
 public class CacheFactoryIT extends AbstractDaemonTest {
   private static final String CACHE_NAME = "dummy-cache";
+  private static final String IMMUTABLE_CACHE_NAME = "immutable-cache";
 
   @Inject private DynamicMap<CacheDef<?, ?>> cacheDefs;
 
@@ -38,14 +39,24 @@ public class CacheFactoryIT extends AbstractDaemonTest {
   public void newCacheDefIsAvailableInDynamicMap() {
     assertThat(cacheDefs).isNotNull();
 
-    Optional<? extends CacheDef<?, ?>> def =
-        StreamSupport.stream(cacheDefs.spliterator(), false)
-            .filter(e -> e.getExportName().equals(CACHE_NAME))
-            .map(Extension::get)
-            .findFirst();
+    Optional<? extends CacheDef<?, ?>> def = getCacheDef(CACHE_NAME);
     assertThat(def).isPresent();
     assertThat(def.get().keyType().getRawType()).isEqualTo(String.class);
     assertThat(def.get().valueType().getRawType()).isEqualTo(String.class);
+  }
+
+  @Test
+  public void immutableFlag() {
+    Optional<? extends CacheDef<?, ?>> def = getCacheDef(IMMUTABLE_CACHE_NAME);
+    assertThat(def).isPresent();
+    assertThat(def.get().isImmutable()).isTrue();
+  }
+
+  private Optional<? extends CacheDef<?, ?>> getCacheDef(String name) {
+    return StreamSupport.stream(cacheDefs.spliterator(), false)
+        .filter(e -> e.getExportName().equals(name))
+        .map(Extension::get)
+        .findFirst();
   }
 
   public static class TestModule extends CacheModule {
@@ -53,6 +64,7 @@ public class CacheFactoryIT extends AbstractDaemonTest {
     @Override
     protected void configure() {
       cache(CACHE_NAME, String.class, String.class);
+      cache(IMMUTABLE_CACHE_NAME, String.class, String.class).immutable();
     }
   }
 }

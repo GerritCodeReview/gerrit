@@ -428,6 +428,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "09a18f7a_c149ed69",
+        "filename": "MODULE.bazel",
+        "patchSetId": 46
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-02-10T20:07:57Z",
+      "side": 1,
+      "message": "The gerrit_deps and jgit_deps dependency graphs were fully unified in follow-up change 550161, so this is now resolved.",
+      "parentUuid": "4822d625_6526f1ef",
+      "range": {
+        "startLine": 51,
+        "startChar": 0,
+        "endLine": 87,
+        "endChar": 1
+      },
+      "revId": "466a6ca4c024847a075c5dc73366dc33516cbf99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "31ce3186_b0be88ae",
@@ -465,6 +489,30 @@
       "side": 1,
       "message": "Thanks!",
       "parentUuid": "31ce3186_b0be88ae",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 1
+      },
+      "revId": "466a6ca4c024847a075c5dc73366dc33516cbf99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a82f95a8_1a3ff25e",
+        "filename": "tools/eclipse/BUILD",
+        "patchSetId": 46
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-02-10T20:07:57Z",
+      "side": 1,
+      "message": "Eclipse .classpath / .factorypath file generation issues were resolved in follow-up change 549764 and change 549765.",
+      "parentUuid": "f7a6a53a_02acf1e0",
       "range": {
         "startLine": 36,
         "startChar": 0,

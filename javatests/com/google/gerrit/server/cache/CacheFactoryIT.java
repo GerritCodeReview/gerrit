@@ -20,14 +20,19 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.Extension;
 import com.google.inject.Inject;
+import com.google.inject.name.Named;
 import java.util.Optional;
 import java.util.stream.StreamSupport;
 import org.junit.Test;
 
 public class CacheFactoryIT extends AbstractDaemonTest {
   private static final String CACHE_NAME = "dummy-cache";
+  private static final String IMMUTABLE_CACHE_NAME = "immutable-cache";
 
   @Inject private DynamicMap<CacheDef<?, ?>> cacheDefs;
+
+  @Inject
+  private @Named(IMMUTABLE_CACHE_NAME) CacheDef<String, String> immutableCacheDef;
 
   @Override
   public com.google.inject.Module createModule() {
@@ -48,11 +53,17 @@ public class CacheFactoryIT extends AbstractDaemonTest {
     assertThat(def.get().valueType().getRawType()).isEqualTo(String.class);
   }
 
+  @Test
+  public void immutableFlag() {
+    assertThat(immutableCacheDef.isImmutable()).isTrue();
+  }
+
   public static class TestModule extends CacheModule {
 
     @Override
     protected void configure() {
       cache(CACHE_NAME, String.class, String.class);
+      cache(IMMUTABLE_CACHE_NAME, String.class, String.class).immutable();
     }
   }
 }

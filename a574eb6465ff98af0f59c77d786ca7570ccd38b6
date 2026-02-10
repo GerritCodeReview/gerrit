@@ -22,6 +22,30 @@
       },
       "revId": "a574eb6465ff98af0f59c77d786ca7570ccd38b6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "28f70c6c_8242272f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 52
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-02-10T19:31:36Z",
+      "side": 1,
+      "message": "All of these dependencies are now explicitly excluded again, restoring the pre-migration release.war contents and avoiding the need to add new license entries.",
+      "parentUuid": "ea648304_2dcafddd",
+      "range": {
+        "startLine": 48,
+        "startChar": 0,
+        "endLine": 58,
+        "endChar": 0
+      },
+      "revId": "a574eb6465ff98af0f59c77d786ca7570ccd38b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

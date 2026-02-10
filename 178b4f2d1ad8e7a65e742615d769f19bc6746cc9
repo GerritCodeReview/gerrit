@@ -88,6 +88,24 @@
       "parentUuid": "a6626908_7dcc9d8d",
       "revId": "178b4f2d1ad8e7a65e742615d769f19bc6746cc9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "54c4e56c_67bbb47c",
+        "filename": "MODULE.bazel",
+        "patchSetId": 47
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-02-10T19:31:36Z",
+      "side": 1,
+      "message": "I added a Bazel test in follow-up change 550941 that checks the set of JARs packaged into release.war, so we’ll catch unexpected transitive additions early.\n\nThe test compares the generated WAR JAR manifest against a checked-in allowlist and fails on any new additions.",
+      "parentUuid": "d3864369_b435ba5f",
+      "revId": "178b4f2d1ad8e7a65e742615d769f19bc6746cc9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

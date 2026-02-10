@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ea648304_2dcafddd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 52
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-02-10T07:40:06Z",
+      "side": 1,
+      "message": "On second thought, we can’t add new JARs to `release.war` without also adding their licenses.\n\nThe license test isn’t flagging these because it’s not aware of the `rules_jvm_external` transitive dependency graph.\n\nWe should either exclude all of the JARs listed above, or explicitly add licenses for them if we believe they’re justified and actually used (and were just missing before?).",
+      "range": {
+        "startLine": 48,
+        "startChar": 0,
+        "endLine": 58,
+        "endChar": 0
+      },
+      "revId": "a574eb6465ff98af0f59c77d786ca7570ccd38b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

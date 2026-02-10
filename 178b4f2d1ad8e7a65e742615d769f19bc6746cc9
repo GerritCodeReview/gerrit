@@ -70,6 +70,24 @@
       "parentUuid": "6eefd532_14a09269",
       "revId": "178b4f2d1ad8e7a65e742615d769f19bc6746cc9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d3864369_b435ba5f",
+        "filename": "MODULE.bazel",
+        "patchSetId": 47
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-02-10T07:40:06Z",
+      "side": 1,
+      "message": "+1 on adding a test that flags when new dependencies start getting packaged into release.war.\n\nThis would help us catch unintended transitive additions early, especially when upgrading or introducing new dependencies.",
+      "parentUuid": "a6626908_7dcc9d8d",
+      "revId": "178b4f2d1ad8e7a65e742615d769f19bc6746cc9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

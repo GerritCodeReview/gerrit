@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4687654b_f130d652",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-02-10T09:17:47Z",
+      "side": 1,
+      "message": "Can you see if AI can fix some of these usages as well?\n\nUse of any is discouraged and I am confident AI can fix some of them\n\nShould be a simple prompt I think. I can also prompt it if you prefer in a separate CL",
+      "revId": "72739543c63133fcaac85c966665563d4cc31208",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

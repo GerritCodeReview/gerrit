@@ -287,6 +287,90 @@ You can then copy by doing:
 Note: Follow link:#npm-binary[NPM Binaries] for adding npm package dependencies licenses.
       This is for js_licenses.txt.
 
+[[release-war-metadata]]
+== Release WAR metadata outputs
+
+The `pkg_war` rule emits deterministic metadata files describing the
+contents of a generated WAR. These files are produced without
+materializing or unpacking the WAR archive and are intended for checks
+and diagnostics.
+
+=== <name>.war.jars.txt
+
+This file contains the normalized, version-agnostic identifiers of
+third-party JARs that would be packaged into the WAR.
+
+It is used by the `//Documentation:check_release_war_jars` test as a
+guardrail against unintended changes to the runtime dependency set
+shipped in `release.war`.
+
+The identifiers are normalized to remain stable across dependency
+upgrades (for example by stripping version suffixes and excluding
+Gerrit-internal artifacts).
+
+=== <name>.war.entries.txt
+
+This file lists the full entry paths of all JAR files as they would
+appear inside the WAR (for example `WEB-INF/lib/foo.jar` or
+`WEB-INF/pgm-lib/bar.jar`).
+
+This output is intended as a lightweight diagnostic aid and for future
+checks on WAR layout. It allows inspection of:
+* which JARs are packaged
+* where they are placed inside the WAR (lib vs pgm-lib)
+* whether duplicate entries or unintended version skews (multiple
+  versions of the same library) are introduced
+
+without requiring the WAR to be built or unpacked.
+
+At present, this file is not consumed by an automated test, but it is
+kept to support debugging and potential future validation of WAR
+structure.
+
+[[release-war-jars]]
+== Release WAR dependency allowlist
+
+The set of third-party JARs packaged into `release.war` is checked by the
+`//Documentation:check_release_war_jars` test. This test acts as a guardrail
+to detect unintended changes to the runtime dependency set shipped in Gerrit
+releases.
+
+To run the check:
+
+----
+  bazelisk test //Documentation:check_release_war_jars
+----
+
+If the test fails with:
+
+----
+  WAR packaged third-party JAR set changed
+----
+
+the runtime dependency set of `release.war` has changed.
+
+If the change is expected and has been reviewed, refresh the allowlist:
+
+----
+  bazelisk build //:release.war.jars.txt
+  cp bazel-bin/release.war.jars.txt Documentation/release_war_jars.txt
+----
+
+Changes to the packaged dependency set may also require updating license
+metadata. All runtime dependencies that are shipped in `release.war` must be
+reachable from the Bazel dependency graph so that license checks can locate
+them.
+
+When adding or modifying dependencies:
+* Ensure new runtime dependencies are wired explicitly (for example as
+  `runtime_deps`) into the appropriate `//lib` wrapper targets.
+* Update or add license metadata as needed.
+* Run the license check:
+
+----
+  bazelisk test //Documentation:check_licenses
+----
+
 [[tests]]
 == Running Unit Tests
 

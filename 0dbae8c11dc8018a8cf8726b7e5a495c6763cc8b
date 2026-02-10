@@ -104,6 +104,46 @@
       "message": "Approved \nDone",
       "revId": "0dbae8c11dc8018a8cf8726b7e5a495c6763cc8b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "45d94a12_6e9663de",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-02-10T22:20:02Z",
+      "side": 1,
+      "message": "Adding additional test coverage for the improvement would be helpful as well.",
+      "revId": "0dbae8c11dc8018a8cf8726b7e5a495c6763cc8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a39b15b6_d77bc438",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-02-10T22:20:02Z",
+      "side": 1,
+      "message": "This `else` block appears to modify `_lastState` prematurely, which seems incorrect.\n\n`_lastState` should represent the state of reviewers *before* the current batch of updates is processed. By modifying it here, if a user is added and then removed within the same batch, they will be treated as if they were already a reviewer.\n\nThis leads to the message \"removed from REVIEWER\", when the more accurate message (from your changes in `_getUpdateMessage`) would be \"was REMOVED\".\n\nWas this `else` block intended to be included? Removing it seems to align better with the overall goal of this change.",
+      "range": {
+        "startLine": 128,
+        "startChar": 0,
+        "endLine": 128,
+        "endChar": 0
+      },
+      "revId": "0dbae8c11dc8018a8cf8726b7e5a495c6763cc8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

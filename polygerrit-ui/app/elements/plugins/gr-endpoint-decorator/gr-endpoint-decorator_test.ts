@@ -119,18 +119,16 @@ suite('gr-endpoint-decorator', () => {
     assert.isOk(module);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     assert.equal((module as any)['first-param'], 'barbar');
-    return (
-      decorationHook
-        .getLastAttached()
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        .then((element: any) => {
-          assert.strictEqual(element, module);
-        })
-        .then(() => {
-          element.remove();
-          assert.equal(decorationHook.getAllAttached().length, 0);
-        })
-    );
+    return decorationHook
+      .getLastAttached()
+
+      .then((element: unknown) => {
+        assert.strictEqual(element, module);
+      })
+      .then(() => {
+        element.remove();
+        assert.equal(decorationHook.getAllAttached().length, 0);
+      });
   });
 
   test('decoration with slot', () => {
@@ -141,18 +139,16 @@ suite('gr-endpoint-decorator', () => {
     assert.isOk(module);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     assert.equal((module as any)['first-param'], 'barbar');
-    return (
-      decorationHookWithSlot
-        .getLastAttached()
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        .then((element: any) => {
-          assert.strictEqual(element, module);
-        })
-        .then(() => {
-          element.remove();
-          assert.equal(decorationHookWithSlot.getAllAttached().length, 0);
-        })
-    );
+    return decorationHookWithSlot
+      .getLastAttached()
+
+      .then((element: unknown) => {
+        assert.strictEqual(element, module);
+      })
+      .then(() => {
+        element.remove();
+        assert.equal(decorationHookWithSlot.getAllAttached().length, 0);
+      });
   });
 
   test('replacement', () => {
@@ -163,18 +159,15 @@ suite('gr-endpoint-decorator', () => {
     assert.isOk(module);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     assert.equal((module as any)['second-param'], 'foofoo');
-    return (
-      replacementHook
-        .getLastAttached()
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        .then((element: any) => {
-          assert.strictEqual(element, module);
-        })
-        .then(() => {
-          element.remove();
-          assert.equal(replacementHook.getAllAttached().length, 0);
-        })
-    );
+    return replacementHook
+      .getLastAttached()
+      .then((element: unknown) => {
+        assert.strictEqual(element, module);
+      })
+      .then(() => {
+        element.remove();
+        assert.equal(replacementHook.getAllAttached().length, 0);
+      });
   });
 
   test('late registration', async () => {

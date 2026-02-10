@@ -362,15 +362,12 @@ suite('gr-repo-access tests', () => {
   test('fires page-error', async () => {
     const response = {status: 404} as Response;
 
-    stubRestApi('getRepoAccessRights').callsFake(
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (_repoName: any, errFn: any) => {
-        if (errFn !== undefined) {
-          errFn(response);
-        }
-        return Promise.resolve(undefined);
+    stubRestApi('getRepoAccessRights').callsFake((_repoName, errFn) => {
+      if (errFn !== undefined) {
+        errFn(response);
       }
-    );
+      return Promise.resolve(undefined);
+    });
 
     const promise = mockPromise();
     addListenerForTest(document, 'page-error', e => {

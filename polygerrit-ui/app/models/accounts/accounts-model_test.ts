@@ -54,8 +54,7 @@ suite('accounts-model tests', () => {
   test('invalid account makes only one request', () => {
     const response = {...new Response(), status: 404};
     const getAccountDetails = stubRestApi('getAccountDetails').callsFake(
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (_: any, errFn: any) => {
+      (_, errFn) => {
         if (errFn !== undefined) {
           errFn(response);
         }

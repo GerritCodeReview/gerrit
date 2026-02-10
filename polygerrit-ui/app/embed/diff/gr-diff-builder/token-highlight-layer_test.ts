@@ -31,11 +31,9 @@ function dispatchMouseEvent(type: string, node: Element) {
 }
 
 class MockListener {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  private results: any[][] = [];
+  private results: unknown[][] = [];
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  notify(...args: any[]) {
+  notify(...args: unknown[]) {
     this.results.push(args);
   }
 
@@ -111,8 +109,7 @@ suite('token-highlight-layer', () => {
 
   suite('annotate', () => {
     function assertAnnotation(
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      args: any[],
+      args: unknown[],
       expected: {
         parent: HTMLElement;
         offset: number;

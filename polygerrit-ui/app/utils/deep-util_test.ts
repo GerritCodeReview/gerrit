@@ -160,12 +160,10 @@ suite('compare-util tests', () => {
   });
 
   test('deepEqual recursively deeper', () => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const a: {link?: any} = {};
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const b: {link?: any} = {};
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const c: {link?: any} = {};
+    const a: {link?: unknown} = {};
+
+    const b: {link?: unknown} = {};
+    const c: {link?: unknown} = {};
     a.link = b;
     b.link = c;
     c.link = a;

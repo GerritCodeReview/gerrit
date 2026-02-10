@@ -390,8 +390,7 @@ suite('gr-plugin-list tests', () => {
     test('fires page-error', async () => {
       const response = {status: 404} as Response;
       stubRestApi('getPlugins').callsFake(
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        (_filter: any, _pluginsPerPage: any, _offset: any, errFn: any) => {
+        (_filter, _pluginsPerPage, _offset, errFn) => {
           if (errFn !== undefined) {
             errFn(response);
           }

@@ -23,6 +23,21 @@ import {
   Timestamp,
 } from '../../api/rest-api';
 
+interface AdminLinksExpected {
+  totalLength?: number;
+  groupListShown?: boolean;
+  pluginListShown?: boolean;
+  serverInfoShown?: boolean;
+  projectPageShown?: boolean;
+  groupPageShown?: boolean;
+  groupSubpageLength?: number;
+  pluginGeneratedLinks?: Array<{
+    url: string;
+    text: string;
+    capability?: string;
+  }>;
+}
+
 suite('admin links', () => {
   let capabilityStub: sinon.SinonStub;
   let menuLinkStub: sinon.SinonStub;
@@ -35,8 +50,7 @@ suite('admin links', () => {
   const testAdminLinks = async (
     account: AccountDetailInfo | undefined,
     options: AdminNavLinksOption | undefined,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    expected: any
+    expected: AdminLinksExpected
   ) => {
     const res = await getAdminLinks(
       account,
@@ -75,7 +89,7 @@ suite('admin links', () => {
         res.links[1].subsection.children!.length,
         expected.groupSubpageLength
       );
-    } else if (expected.totalLength > 1) {
+    } else if (expected.totalLength !== undefined && expected.totalLength > 1) {
       assert.isNotOk(res.links[1].subsection);
     }
 
@@ -115,8 +129,7 @@ suite('admin links', () => {
   };
 
   suite('logged out', () => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    let expected: any;
+    let expected: AdminLinksExpected;
 
     setup(() => {
       expected = {
@@ -166,8 +179,7 @@ suite('admin links', () => {
       name: 'test-user',
       registered_on: '' as Timestamp,
     };
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    let expected: any;
+    let expected: AdminLinksExpected;
 
     setup(() => {
       expected = {
@@ -207,8 +219,7 @@ suite('admin links', () => {
       name: 'test-user',
       registered_on: '' as Timestamp,
     };
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    let expected: any;
+    let expected: AdminLinksExpected;
 
     setup(() => {
       capabilityStub.returns(Promise.resolve({viewPlugins: true}));
@@ -308,8 +319,7 @@ suite('admin links', () => {
       name: 'test-user',
       registered_on: '' as Timestamp,
     };
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    let expected: any;
+    let expected: AdminLinksExpected;
 
     setup(() => {
       capabilityStub.returns(Promise.resolve({pluginCapability: true}));
@@ -336,8 +346,7 @@ suite('admin links', () => {
       name: 'test-user',
       registered_on: '' as Timestamp,
     };
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    let expected: any;
+    let expected: AdminLinksExpected;
 
     setup(() => {
       capabilityStub.returns(Promise.resolve({}));

@@ -36,6 +36,7 @@ class CacheProvider<K, V> implements Provider<Cache<K, V>>, CacheBinding<K, V>, 
   private final TypeLiteral<V> valType;
   private String configKey;
   private long maximumWeight;
+  private boolean immutable;
   private Duration expireAfterWrite;
   private Duration expireFromMemoryAfterAccess;
   private Duration refreshAfterWrite;
@@ -68,6 +69,13 @@ class CacheProvider<K, V> implements Provider<Cache<K, V>>, CacheBinding<K, V>, 
   public CacheBinding<K, V> maximumWeight(long weight) {
     checkNotFrozen();
     maximumWeight = weight;
+    return this;
+  }
+
+  @Override
+  public CacheBinding<K, V> immutable() {
+    checkNotFrozen();
+    immutable = true;
     return this;
   }
 
@@ -145,6 +153,11 @@ class CacheProvider<K, V> implements Provider<Cache<K, V>>, CacheBinding<K, V>, 
   @Override
   public long maximumWeight() {
     return maximumWeight;
+  }
+
+  @Override
+  public boolean isImmutable() {
+    return immutable;
   }
 
   @Override

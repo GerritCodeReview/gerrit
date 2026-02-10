@@ -44,6 +44,8 @@ public interface CacheDef<K, V> {
 
   long maximumWeight();
 
+  boolean isImmutable();
+
   @Nullable
   Duration expireAfterWrite();
 

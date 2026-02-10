@@ -306,6 +306,11 @@ public class DefaultMemoryCacheFactoryTest {
       }
 
       @Override
+      public boolean isImmutable() {
+        return false;
+      }
+
+      @Override
       @Nullable
       public Duration expireAfterWrite() {
         return null;

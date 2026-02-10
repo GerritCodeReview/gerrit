@@ -25,6 +25,10 @@ public interface CacheBinding<K, V> {
   @CanIgnoreReturnValue
   CacheBinding<K, V> maximumWeight(long weight);
 
+  /** Marks this cache as immutable */
+  @CanIgnoreReturnValue
+  CacheBinding<K, V> immutable();
+
   /** Set the time an element lives after last write before being expired. */
   @CanIgnoreReturnValue
   CacheBinding<K, V> expireAfterWrite(Duration duration);

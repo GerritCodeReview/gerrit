@@ -85,6 +85,60 @@
       "parentUuid": "7888a838_428b3db3",
       "revId": "84054f53bccf01eb94e24751b77520ad68bdbcfb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3ff72c6b_265d1b80",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-02-10T13:10:12Z",
+      "side": 1,
+      "message": "I returned it back",
+      "parentUuid": "97d0886e_7eb572d0",
+      "revId": "84054f53bccf01eb94e24751b77520ad68bdbcfb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "65b04d80_f28eaa56",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-02-10T13:10:12Z",
+      "side": 1,
+      "message": "ok, removed limit to 600px and use everything\nalso make sure action is not over 2 lines",
+      "parentUuid": "1bd12b67_dabde4d6",
+      "revId": "84054f53bccf01eb94e24751b77520ad68bdbcfb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "22e00242_2633ac2e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-02-10T13:10:12Z",
+      "side": 1,
+      "message": "Thank you for great feedback\n - leaving creator/owner there if it is ok. \n - remove filter drop-down for now\n - keeping copy but aligning i will do in future changes - it\u0027s super difficult - it took me a lot of time in ai-chat, i need to change copy button so it\u0027s easier to make it align\n  - added margin - nice\n  - removed border - i agree\n  \nI can improve it more in future. I just want to put it closer to mock.",
+      "parentUuid": "b3c7056a_71537f6a",
+      "revId": "84054f53bccf01eb94e24751b77520ad68bdbcfb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

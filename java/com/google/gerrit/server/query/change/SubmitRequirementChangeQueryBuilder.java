@@ -110,7 +110,6 @@ public class SubmitRequirementChangeQueryBuilder extends ChangeQueryBuilder {
     if (!operatorRequiredDuringSearch) {
       return super.defaultField(value);
     }
-    logger.atSevere().log("Operator is missing in submit requirement term:  %s", value);
     throw error(
         "Operator is missing in submit requirement term: "
             + value

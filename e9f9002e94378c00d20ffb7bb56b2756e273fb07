@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6305899f_dfb6dc5d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-02-11T14:28:02Z",
+      "side": 1,
+      "message": "We need LC here, and should create gerrit issue?",
+      "revId": "e9f9002e94378c00d20ffb7bb56b2756e273fb07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

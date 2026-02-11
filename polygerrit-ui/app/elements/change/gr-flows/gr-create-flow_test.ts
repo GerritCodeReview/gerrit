@@ -160,7 +160,10 @@ suite('gr-create-flow tests', () => {
       },
     ]);
 
-    let removeButtons = queryAll<GrButton>(grDialog, 'tr gr-button');
+    let removeButtons = queryAll<GrButton>(
+      grDialog,
+      '.stage-list-item gr-button'
+    );
     assert.lengthOf(removeButtons, 2);
 
     removeButtons[0].click();
@@ -174,7 +177,7 @@ suite('gr-create-flow tests', () => {
         parameterStr: '',
       },
     ]);
-    removeButtons = queryAll<GrButton>(grDialog, 'tr gr-button');
+    removeButtons = queryAll<GrButton>(grDialog, '.stage-list-item gr-button');
     assert.lengthOf(removeButtons, 1);
   });
 
@@ -471,7 +474,10 @@ suite('gr-create-flow tests', () => {
     );
 
     // Remove first stage
-    const removeButtons = queryAll<GrButton>(grDialog, 'tr gr-button');
+    const removeButtons = queryAll<GrButton>(
+      grDialog,
+      '.stage-list-item gr-button'
+    );
     removeButtons[0].click();
     await element.updateComplete;
 

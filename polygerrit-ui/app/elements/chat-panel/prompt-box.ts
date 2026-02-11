@@ -22,6 +22,7 @@ import {chatModelToken, Turn} from '../../models/chat/chat-model';
 import {changeModelToken} from '../../models/change/change-model';
 import {
   contextItemEquals,
+  searchForBugsInCommitMessage,
   searchForContextLinks,
 } from '../../models/chat/context-item-util';
 import {resolve} from '../../models/dependency';
@@ -63,6 +64,8 @@ export class PromptBox extends LitElement {
   @state() contextItems: readonly PromptBoxContextItem[] = [];
 
   @state() dynamicContextItemsSuggestions: PromptBoxContextItem[] = [];
+
+  @state() commitMessageContextItems: readonly PromptBoxContextItem[] = [];
 
   @state() showAllContextItems = false;
 
@@ -135,7 +138,11 @@ export class PromptBox extends LitElement {
   }
 
   protected get suggestedContextItems(): ContextItem[] {
-    return this.dynamicContextItemsSuggestions.filter(item =>
+    const suggestions: ContextItem[] = [
+      ...this.commitMessageContextItems,
+      ...this.dynamicContextItemsSuggestions,
+    ];
+    return suggestions.filter(item =>
       this.contextItems.every(
         existingItem => !contextItemEquals(item, existingItem)
       )
@@ -442,6 +449,17 @@ export class PromptBox extends LitElement {
     this.maxInputHeight = this.lineHeight * MAX_VISIBLE_INPUT_LINES;
   }
 
+  override willUpdate(
+    changedProperties: Map<string | number | symbol, unknown>
+  ) {
+    if (
+      changedProperties.has('change') ||
+      changedProperties.has('contextItemTypes')
+    ) {
+      this.updateCommitMessageContextItems();
+    }
+  }
+
   override updated(changedProperties: Map<string | number | symbol, unknown>) {
     if (changedProperties.has('userInput')) {
       if (!this.userInput) {
@@ -681,6 +699,31 @@ export class PromptBox extends LitElement {
         this.removeContextItem(contextItem);
       }
     });
+  }
+
+  private updateCommitMessageContextItems() {
+    const currentRevisionSha = this.change?.current_revision;
+    const currentRevision = currentRevisionSha
+      ? this.change?.revisions?.[currentRevisionSha]
+      : undefined;
+
+    const commitMessage =
+      currentRevision && 'commit' in currentRevision
+        ? currentRevision.commit?.message
+        : undefined;
+    if (!commitMessage) {
+      this.commitMessageContextItems = [];
+      return;
+    }
+    const contextLinks = searchForContextLinks(
+      commitMessage,
+      this.contextItemTypes
+    );
+    const bugs = searchForBugsInCommitMessage(
+      commitMessage,
+      this.contextItemTypes
+    );
+    this.commitMessageContextItems = [...contextLinks, ...bugs];
   }
 }
 

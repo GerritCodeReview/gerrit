@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6c58c101_8e35bd95",
+        "filename": "polygerrit-ui/app/elements/change/gr-flows/gr-flows_test.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-02-11T13:10:29Z",
+      "side": 1,
+      "message": "Do we need to set this empty here?\n\nThe reloadStub call should work with the default stages as well?",
+      "range": {
+        "startLine": 296,
+        "startChar": 29,
+        "endLine": 296,
+        "endChar": 39
+      },
+      "revId": "5c930857f096e025a59c74afc0b5fa42712c9d7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

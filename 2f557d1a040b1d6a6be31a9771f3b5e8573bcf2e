@@ -97,6 +97,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "bbe39ed9_3bb20522",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-02-11T12:05:22Z",
+      "side": 1,
+      "message": "I believe this is a perfect start, flagging the cache as immutable.\nIn a follow-up cache, in the builder, we can override the eviction method and just do nothing if the cache is immutable.",
+      "parentUuid": "d7a66567_3b265eb6",
+      "range": {
+        "startLine": 24,
+        "startChar": 38,
+        "endLine": 24,
+        "endChar": 53
+      },
+      "revId": "2f557d1a040b1d6a6be31a9771f3b5e8573bcf2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "5e60fe46_827c8c9b",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2

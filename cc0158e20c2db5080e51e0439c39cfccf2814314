@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0dcebabc_46e40bc1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-02-11T12:05:22Z",
+      "side": 1,
+      "message": "Missing `Release-Notes`",
+      "revId": "cc0158e20c2db5080e51e0439c39cfccf2814314",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

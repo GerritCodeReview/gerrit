@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bcfd1ffb_438a3e3b",
+        "filename": "MODULE.bazel",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-02-11T10:17:42Z",
+      "side": 1,
+      "message": "Have you tried:\n\n```\nmaven.amend_artifact(\n  name \u003d \"external_deps\",\n  coordinates \u003d \"args4j:args4j:2.33,\n  force_version \u003d True,\n)\n```",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 1
+      },
+      "revId": "32eed3821e9a651745abf7422d901909718242cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

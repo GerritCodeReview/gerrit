@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7d9ec810_adbda23a",
+        "filename": "plugins/package.json",
+        "patchSetId": 4
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-02-11T21:37:03Z",
+      "side": 1,
+      "message": "@david.ostrovsky@gmail.com what would be the best Bazel way to generate this file automatically as dependency?",
+      "range": {
+        "startLine": 34,
+        "startChar": 41,
+        "endLine": 34,
+        "endChar": 86
+      },
+      "revId": "6df4d8d77cd9d153b8349da8929494aeef75a8a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

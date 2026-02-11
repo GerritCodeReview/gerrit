@@ -16,6 +16,24 @@
       "message": "We need LC here, and should create gerrit issue?",
       "revId": "e9f9002e94378c00d20ffb7bb56b2756e273fb07",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab6bdce4_906f981f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-02-11T15:10:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6305899f_dfb6dc5d",
+      "revId": "e9f9002e94378c00d20ffb7bb56b2756e273fb07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

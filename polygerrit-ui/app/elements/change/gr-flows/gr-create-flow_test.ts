@@ -481,6 +481,39 @@ suite('gr-create-flow tests', () => {
     );
   });
 
+  test('typing -> does not get overwritten', async () => {
+    // Open Dialog
+    const createButton = queryAndAssert<GrButton>(
+      element,
+      'gr-button[aria-label="Create Flow"]'
+    );
+    createButton.click();
+    await element.updateComplete;
+    const createModal = queryAndAssert<HTMLDialogElement>(
+      element,
+      '#createModal'
+    );
+    const grDialog = queryAndAssert<GrDialog>(createModal, 'gr-dialog');
+
+    // Find textarea
+    const rawFlowTextarea = queryAndAssert<MdOutlinedTextField>(
+      grDialog,
+      'md-outlined-text-field[label="Flow definition"]'
+    );
+
+    // Simulate user typing a condition and '-> '
+    rawFlowTextarea.value = 'cond 1 -';
+    rawFlowTextarea.dispatchEvent(new InputEvent('input'));
+    await element.updateComplete;
+    assert.equal(element.flowString, 'cond 1 -');
+
+    rawFlowTextarea.value = 'cond 1 -> ';
+    rawFlowTextarea.dispatchEvent(new InputEvent('input'));
+    await element.updateComplete;
+    // Expected to preserve '-> ' and not revert to 'cond 1'
+    assert.equal(element.flowString, 'cond 1 -> ');
+  });
+
   suite('parseStagesFromRawFlow tests', () => {
     test('parses a single condition', async () => {
       const rawFlow = 'cond 1';

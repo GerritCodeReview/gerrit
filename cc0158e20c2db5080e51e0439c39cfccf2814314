@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b489e48c_fa9fd47e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-02-11T22:41:28Z",
+      "side": 1,
+      "message": "I think this is almost the same as declaring the cache as persisted. It\u0027s not documented this way, but IIUC, we\u0027ve largely expected (through code reviews and designs) that all persisted caches have immutable entries. Otherwise it\u0027s very hard for multi-primary systems to ever use persisted caches. Would it help your larger use case if we made this a clearer expectation (and then high-availability could depend on it)?",
+      "revId": "cc0158e20c2db5080e51e0439c39cfccf2814314",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0dcebabc_46e40bc1",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3

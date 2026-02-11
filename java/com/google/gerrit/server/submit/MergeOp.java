@@ -95,6 +95,7 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
+import com.google.gerrit.server.submit.MergeOp.CommitStatus;
 import com.google.gerrit.server.submit.MergeOpRepoManager.OpenBranch;
 import com.google.gerrit.server.submit.MergeOpRepoManager.OpenRepo;
 import com.google.gerrit.server.update.BatchUpdate;
@@ -536,7 +537,13 @@ public class MergeOp implements AutoCloseable {
                       impersonatedName, cd.getId().get())));
           return;
         }
-        if (!can.contains(ChangePermission.SUBMIT_AS)) {
+        // THIS_USER: Permissions are checked against the impersonated user.
+        //  REAL_USER: Permissions are checked against the user who initiated the impersonation.
+        // Verify the user doing the impersonation has SUBMIT_AS permission
+        if (!permissionBackend
+            .user(caller, ImpersonationPermissionMode.REAL_USER)
+            .change(cd)
+            .test(ChangePermission.SUBMIT_AS)) {
           if (triggeringChangeId.get() != cd.getId().get()) {
             logger.atFine().log(
                 "Change %d cannot be submitted by user %s on behalf of user %s because it depends"

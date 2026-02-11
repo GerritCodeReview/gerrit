@@ -479,9 +479,11 @@ public class LabelsJson {
         ChangeUtil.status(cd.change()));
 
     // Include a user in the output for this label if either:
+    //  - They are the change owner.
     //  - They are an explicit reviewer.
     //  - They ever voted on this change.
     Set<Account.Id> allUsers = new HashSet<>();
+    allUsers.add(cd.change().getOwner());
     allUsers.addAll(cd.reviewers().byState(ReviewerStateInternal.REVIEWER));
     for (PatchSetApproval psa : cd.approvals().values()) {
       allUsers.add(psa.accountId());

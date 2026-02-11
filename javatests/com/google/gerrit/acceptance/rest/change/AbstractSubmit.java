@@ -81,6 +81,7 @@ import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.events.ChangeIndexedListener;
@@ -1504,9 +1505,8 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   protected void assertApproved(String changeId, TestAccount user) throws Throwable {
     ChangeInfo c = get(changeId, DETAILED_LABELS);
     LabelInfo cr = c.labels.get(LabelId.CODE_REVIEW);
-    assertThat(cr.all).hasSize(1);
-    assertThat(cr.all.get(0).value).isEqualTo(2);
-    assertThat(Account.id(cr.all.get(0)._accountId)).isEqualTo(user.id());
+    ApprovalInfo approval = cr.all.stream().filter(a -> a._accountId.equals(user.id().get())).findFirst().get();
+    assertThat(approval.value).isEqualTo(2);
   }
 
   protected void assertMerged(String changeId) throws RestApiException {

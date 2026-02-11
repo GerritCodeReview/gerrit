@@ -182,7 +182,7 @@ public class CustomLabelIT extends AbstractDaemonTest {
       revision(r).review(input);
       ChangeInfo c = getWithLabels(r);
       LabelInfo q = c.labels.get(P_LABEL_NAME);
-      assertThat(q.all).hasSize(1);
+      assertThat(q.all).hasSize(2);
       assertThat(q.approved).isNull();
       assertThat(q.recommended).isNull();
       assertThat(q.disliked).isNull();

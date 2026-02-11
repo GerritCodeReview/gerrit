@@ -22,6 +22,30 @@
       },
       "revId": "32eed3821e9a651745abf7422d901909718242cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "96b625d3_42bcbfd1",
+        "filename": "MODULE.bazel",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-02-11T10:29:56Z",
+      "side": 1,
+      "message": "Thanks! Using `maven.amend_artifact()` fixed it indeed.\n\nWill upload an update in a moment.",
+      "parentUuid": "bcfd1ffb_438a3e3b",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 1
+      },
+      "revId": "32eed3821e9a651745abf7422d901909718242cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

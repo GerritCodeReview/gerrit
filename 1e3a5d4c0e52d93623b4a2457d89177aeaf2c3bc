@@ -39,6 +39,30 @@
       },
       "revId": "1e3a5d4c0e52d93623b4a2457d89177aeaf2c3bc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "57c08feb_1490e670",
+        "filename": "MODULE.bazel",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-02-11T12:39:07Z",
+      "side": 1,
+      "message": "You\u0027re commenting on the old patch set. The version are not needed, as they coming from toml file, as you pointed out. I fixed that in the latest patch set.",
+      "parentUuid": "14339fc6_27e6464e",
+      "range": {
+        "startLine": 40,
+        "startChar": 4,
+        "endLine": 40,
+        "endChar": 35
+      },
+      "revId": "1e3a5d4c0e52d93623b4a2457d89177aeaf2c3bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

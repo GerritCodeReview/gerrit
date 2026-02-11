@@ -32,13 +32,20 @@ git_override(
 register_toolchains("//tools:all")
 
 maven = use_extension("@rules_jvm_external//:extensions.bzl", "maven")
+maven.artifact(
+    name = "external_deps",
+    artifact = "args4j",
+    force_version = True,
+    group = "args4j",
+    version = "2.33",
+)
 
 # Empty maven.install call to apply the configuration to the installation from
 # toml files.
 maven.install(
     name = "external_deps",
     artifacts = [],
-    duplicate_version_warning = "error",
+    duplicate_version_warning = "warn",
     excluded_artifacts = [
         # Although flexmark is published as many small modules, the `flexmark-all`
         # artifact is a shaded aggregate that already includes all required classes.
@@ -136,6 +143,10 @@ maven.install(
     fail_if_repin_required = True,
     fail_on_missing_checksum = True,
     fetch_sources = True,
+    known_contributing_modules = [
+        "jgit",
+        "gerrit",
+    ],
     lock_file = "//:external_deps.lock.json",
     repositories = [
         "https://repo1.maven.org/maven2",

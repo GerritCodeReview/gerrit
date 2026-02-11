@@ -33,6 +33,35 @@ register_toolchains("//tools:all")
 
 maven = use_extension("@rules_jvm_external//:extensions.bzl", "maven")
 
+# The versions used in Gerrit override versions from JGit.
+# GA-only on purpose: versions come from deps.toml + lockfile.
+_GERRIT_FORCED_ARTIFACTS = [
+    "args4j:args4j",
+    "com.googlecode.javaewah:JavaEWAH",
+    "commons-codec:commons-codec",
+    "commons-io:commons-io",
+    "junit:junit",
+    "org.apache.commons:commons-compress",
+    "org.apache.commons:commons-lang3",
+    "org.eclipse.jetty:jetty-http",
+    "org.eclipse.jetty:jetty-io",
+    "org.eclipse.jetty:jetty-security",
+    "org.eclipse.jetty:jetty-server",
+    "org.eclipse.jetty:jetty-util",
+    "org.eclipse.jetty:jetty-util-ajax",
+    "org.hamcrest:hamcrest",
+    "org.mockito:mockito-core",
+]
+
+[
+    maven.amend_artifact(
+        name = "external_deps",
+        coordinates = coord,
+        force_version = "true",
+    )
+    for coord in _GERRIT_FORCED_ARTIFACTS
+]
+
 # Empty maven.install call to apply the configuration to the installation from
 # toml files.
 maven.install(
@@ -136,6 +165,10 @@ maven.install(
     fail_if_repin_required = True,
     fail_on_missing_checksum = True,
     fetch_sources = True,
+    known_contributing_modules = [
+        "jgit",
+        "gerrit",
+    ],
     lock_file = "//:external_deps.lock.json",
     repositories = [
         "https://repo1.maven.org/maven2",

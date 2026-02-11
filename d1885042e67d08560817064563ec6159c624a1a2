@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1b3b59dd_0ff7b95f",
+        "filename": "polygerrit-ui/app/elements/change/gr-flows/gr-flows_test.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-02-11T11:37:02Z",
+      "side": 1,
+      "message": "move this to the test-data-generater in a method called `createFlow` similar to `createChange` and remove the casting as well\n\n`const flow \u003d createFlow()`\n\nAvoid casting to FlowInfo by using `as FlowInfo`",
+      "range": {
+        "startLine": 328,
+        "startChar": 17,
+        "endLine": 333,
+        "endChar": 18
+      },
+      "revId": "d1885042e67d08560817064563ec6159c624a1a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

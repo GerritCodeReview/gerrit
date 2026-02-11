@@ -28,6 +28,11 @@ cp ${plugins_path}/tsconfig-plugins-base.json ${api_path}/tsconfig-plugins-base.
 
 ${bazel_bin} build //${api_path}:js_plugin_api_npm_package
 
+if [ "$1" == "--pack" ]; then
+  echo 'Creating npm package gerritcodereview-typescript-api-<version>.tgz'
+  ${bazel_bin} run //${api_path}:js_plugin_api_npm_package.pack
+fi
+
 if [ "$1" == "--upload" ]; then
   echo 'Uploading npm package @gerritcodereview/typescript-api'
   ${bazel_bin} run //${api_path}:js_plugin_api_npm_package.publish

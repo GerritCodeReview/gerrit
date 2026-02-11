@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8e01cbcd_f3f62720",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-02-11T11:36:07Z",
+      "side": 1,
+      "message": "Is this the correct way to have a local NPM package for Gerrit typescript API?",
+      "revId": "f4213cc4b52521fa9d95ec27f1423cff3cf969fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

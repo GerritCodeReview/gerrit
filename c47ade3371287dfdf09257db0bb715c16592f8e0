@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4e4adcea_84b8ff8e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-02-11T15:57:02Z",
+      "side": 1,
+      "message": "what is the corruption happening and why?\n\nReading the commit message and the code I do not understand why this code is required\n\nWhere is the duplication happening and how?\n\nCan we fix the root cause instead of adding custom handling?\n\nMaybe add concrete steps to reproduce the issue in the commit message",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 24
+      },
+      "revId": "c47ade3371287dfdf09257db0bb715c16592f8e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

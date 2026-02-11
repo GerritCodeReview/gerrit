@@ -168,21 +168,7 @@ suite('gr-flows tests', () => {
                 </div>
               </div>
               <div class="stages">
-                <div class="stage">
-                  <gr-icon
-                    aria-label="done"
-                    class="done"
-                    filled=""
-                    icon="check_circle"
-                    role="img"
-                  >
-                  </gr-icon>
-                  <span class="condition"> label:Code-Review=+1 </span>
-                  <gr-icon class="arrow" icon="arrow_forward"> </gr-icon>
-                  <div class="stage-action">
-                    <b> </b>
-                  </div>
-                </div>
+                <gr-flow-rule></gr-flow-rule>
               </div>
             </div>
             <div class="flow">
@@ -213,20 +199,7 @@ suite('gr-flows tests', () => {
                 </div>
               </div>
               <div class="stages">
-                <div class="stage">
-                  <gr-icon
-                    aria-label="pending"
-                    class="pending"
-                    icon="timelapse"
-                    role="img"
-                  >
-                  </gr-icon>
-                  <span class="condition"> label:Verified=+1 </span>
-                  <gr-icon class="arrow" icon="arrow_forward"> </gr-icon>
-                  <div class="stage-action">
-                    <b> Submit </b>
-                  </div>
-                </div>
+                <gr-flow-rule></gr-flow-rule>
               </div>
             </div>
           </div>

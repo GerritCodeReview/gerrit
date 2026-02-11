@@ -56,6 +56,18 @@ export function capitalizeFirstLetter(str: string) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
+/**
+ * Formats a flow action name for display.
+ * Converts snake_case (e.g., 'add_reviewer') to Title Case (e.g., 'Add Reviewer').
+ */
+export function formatActionName(name?: string): string {
+  if (!name) return '';
+  return name
+    .split('_')
+    .map(word => capitalizeFirstLetter(word))
+    .join(' ');
+}
+
 export function trimWithEllipsis(
   s: string | undefined,
   maxLength: number

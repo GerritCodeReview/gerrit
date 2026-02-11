@@ -568,5 +568,65 @@ suite('gr-create-flow tests', () => {
         },
       ]);
     });
+
+    test('rewrites existing url prefix', async () => {
+      const rawFlow = 'http://old-url.com/c/123 is cond 1 -> act-1 p1';
+      element['parseStagesFromRawFlow'](rawFlow);
+      await element.updateComplete;
+      assert.deepEqual(element['stages'], [
+        {
+          condition:
+            'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is cond 1',
+          action: 'act-1',
+          parameterStr: 'p1',
+        },
+      ]);
+    });
+  });
+
+  suite('getConditionToSubmit tests', () => {
+    test('strips existing url prefix', () => {
+      const condition = 'http://old-url.com/c/123 is status:open';
+      const result = element['getConditionToSubmit'](condition);
+      assert.equal(
+        result,
+        'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is status:open'
+      );
+    });
+
+    test('strips an already matched hostUrl prefix', () => {
+      const condition =
+        'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is status:open';
+      const result = element['getConditionToSubmit'](condition);
+      assert.equal(
+        result,
+        'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is status:open'
+      );
+    });
+
+    test('strips bare "is " prefix', () => {
+      const condition = 'is status:open ';
+      const result = element['getConditionToSubmit'](condition);
+      assert.equal(
+        result,
+        'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is status:open'
+      );
+    });
+
+    test('handles regular condition', () => {
+      const condition = 'status:open';
+      const result = element['getConditionToSubmit'](condition);
+      assert.equal(
+        result,
+        'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is status:open'
+      );
+    });
+
+    test('passes condition as-is if prefix is not Gerrit', () => {
+      element['currentConditionPrefix'] = 'Other';
+      const condition = 'is status:open';
+      const result = element['getConditionToSubmit'](condition);
+      assert.equal(result, 'is status:open');
+    });
   });
 });

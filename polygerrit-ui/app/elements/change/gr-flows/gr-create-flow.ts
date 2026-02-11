@@ -306,8 +306,30 @@ export class GrCreateFlow extends LitElement {
       } else {
         stage.condition = stageStr.trim();
       }
+      const urlMatch = stage.condition.match(/^https?:\/\/[^\s]+\s+is\s+(.*)/);
+      if (urlMatch) {
+        stage.condition = `${this.hostUrl} is ${urlMatch[1]}`;
+      }
       return stage;
     });
+  }
+
+  private getConditionToSubmit(condition: string) {
+    if (this.currentConditionPrefix !== 'Gerrit') {
+      return condition;
+    }
+    let userCond = condition.trim();
+    // If the user pasted a condition that already has a URL prefix (e.g. from copy-pasting an existing flow)
+    // we should strip it before prepending the *current* hostUrl.
+    const urlMatch = userCond.match(/^https?:\/\/[^\s]+\s+is\s+(.*)/);
+    if (urlMatch) {
+      userCond = urlMatch[1];
+    }
+    // Just in case they only copied the "is " part
+    if (userCond.startsWith('is ')) {
+      userCond = userCond.substring(3).trim();
+    }
+    return `${this.hostUrl} is ${userCond}`;
   }
 
   override render() {
@@ -525,10 +547,7 @@ export class GrCreateFlow extends LitElement {
   private handleAddStage() {
     if (this.currentCondition.trim() === '' && this.currentAction.trim() === '')
       return;
-    const condition =
-      this.currentConditionPrefix === 'Gerrit'
-        ? `${this.hostUrl} is ${this.currentCondition}`
-        : this.currentCondition;
+    const condition = this.getConditionToSubmit(this.currentCondition);
     this.stages = [
       ...this.stages,
       {
@@ -551,10 +570,7 @@ export class GrCreateFlow extends LitElement {
 
     const allStages = [...this.stages];
     if (this.currentCondition.trim() !== '') {
-      const condition =
-        this.currentConditionPrefix === 'Gerrit'
-          ? `${this.hostUrl} is ${this.currentCondition}`
-          : this.currentCondition;
+      const condition = this.getConditionToSubmit(this.currentCondition);
       allStages.push({
         condition,
         action: this.currentAction,

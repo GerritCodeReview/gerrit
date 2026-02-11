@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fdbe3982_97cf6841",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 471,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2026-02-11T13:09:48Z",
+      "side": 1,
+      "message": "Remove permission here",
+      "range": {
+        "startLine": 471,
+        "startChar": 70,
+        "endLine": 471,
+        "endChar": 96
+      },
+      "revId": "3e36d9745479a0f9d657438da645f60199b4d4bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

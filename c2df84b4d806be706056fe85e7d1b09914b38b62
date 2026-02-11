@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5e17e51f_68cac170",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-02-11T23:21:39Z",
+      "side": 1,
+      "message": "Can you include the relevant \"why\" portion from your bug into the commit message? We try not to rely on issue links for those kinds of details.",
+      "revId": "c2df84b4d806be706056fe85e7d1b09914b38b62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b6ce1ffa_c363ef18",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-02-11T23:21:39Z",
+      "side": 1,
+      "message": "Not using the URI could lead to some path safety issues (in particular, a `;` won\u0027t be escaped now). Can you add some tests for this change to show it\u0027s doing what you expect? Might also be worth adding something like `.replace(\";\", \"\\\\;\")` just for extra safety.",
+      "revId": "c2df84b4d806be706056fe85e7d1b09914b38b62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

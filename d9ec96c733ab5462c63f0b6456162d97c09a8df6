@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "f0cf754e_b2fac06b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-02-11T09:59:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "59ee3752_f6b88fad",
+      "range": {
+        "startLine": 18,
+        "startChar": 51,
+        "endLine": 18,
+        "endChar": 55
+      },
+      "revId": "d9ec96c733ab5462c63f0b6456162d97c09a8df6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "c2ae9e77_3385429d",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 8
@@ -64,6 +88,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e9535dfd_4fd40198",
+        "filename": "polygerrit-ui/app/elements/change/gr-flows/gr-flows.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-02-11T09:59:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e26f4c90_5f12a165",
+      "range": {
+        "startLine": 325,
+        "startChar": 55,
+        "endLine": 325,
+        "endChar": 61
+      },
+      "revId": "d9ec96c733ab5462c63f0b6456162d97c09a8df6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "36c4ddc0_c0a95259",
+        "filename": "polygerrit-ui/app/elements/change/gr-flows/gr-flows.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-02-11T09:59:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e26f4c90_5f12a165",
+      "range": {
+        "startLine": 325,
+        "startChar": 55,
+        "endLine": 325,
+        "endChar": 61
+      },
+      "revId": "d9ec96c733ab5462c63f0b6456162d97c09a8df6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "65320694_eedf302e",
@@ -77,6 +149,30 @@
       "writtenOn": "2026-02-10T18:00:10Z",
       "side": 1,
       "message": "why did the `shadowDom` test become a check for the length of the flows?\n\nWe should bring the shadomDom back",
+      "range": {
+        "startLine": 122,
+        "startChar": 0,
+        "endLine": 124,
+        "endChar": 41
+      },
+      "revId": "d9ec96c733ab5462c63f0b6456162d97c09a8df6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7a8b59d8_830ebf53",
+        "filename": "polygerrit-ui/app/elements/change/gr-flows/gr-flows_test.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-02-11T09:59:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "65320694_eedf302e",
       "range": {
         "startLine": 122,
         "startChar": 0,
@@ -123,6 +219,24 @@
       "writtenOn": "2026-02-10T17:40:25Z",
       "side": 1,
       "message": "I haven\u0027t seen the mocks, but wouldn\u0027t it be better to have the cards be the same width?",
+      "revId": "d9ec96c733ab5462c63f0b6456162d97c09a8df6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "108602f6_d7e58fd4",
+        "filename": "polygerrit-ui/screenshots/Chromium/baseline/gr-flows-multiple.png",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-02-11T09:59:08Z",
+      "side": 1,
+      "message": "Yes, I tried same width - but it is hard to find good value. With @dhruvsri@google.com we agreed currently on width of content. This is one liner, I think we can go back to width when we will have better understanding how long are rules. is it ok for you?",
+      "parentUuid": "3dbedd43_de503d4d",
       "revId": "d9ec96c733ab5462c63f0b6456162d97c09a8df6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

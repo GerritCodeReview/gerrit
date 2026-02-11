@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bed1c4c9_b57f0d64",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-endpoint-decorator/gr-endpoint-decorator_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-02-11T11:31:13Z",
+      "side": 1,
+      "message": "based on this we can remove the `any` type assigned to `decorationHookWithSlot`?\n\nIt might end up being derived from `GerritElementExtensions`?",
+      "range": {
+        "startLine": 83,
+        "startChar": 4,
+        "endLine": 83,
+        "endChar": 59
+      },
+      "revId": "a8c225fd74cd896bc98dcc7630c99ed785d00604",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "42e42ab8_c8d9c334",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-endpoint-decorator/gr-endpoint-decorator_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-02-11T11:31:13Z",
+      "side": 1,
+      "message": "remove this usage of any?",
+      "range": {
+        "startLine": 120,
+        "startChar": 0,
+        "endLine": 121,
+        "endChar": 59
+      },
+      "revId": "a8c225fd74cd896bc98dcc7630c99ed785d00604",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

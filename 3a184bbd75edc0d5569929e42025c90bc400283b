@@ -34,6 +34,24 @@
       "parentUuid": "cded66c0_295f57d3",
       "revId": "3a184bbd75edc0d5569929e42025c90bc400283b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "22560dfe_7ac81762",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2026-02-11T14:54:37Z",
+      "side": 1,
+      "message": "There are already some tests for SubmitAs in ChangeIT (see line 3190) I think yours are testing roughly the same thing. I think the better option is to make sure the existing test is catching the issue that you fixed in change 551104",
+      "parentUuid": "e90e9b72_a5fb7dbe",
+      "revId": "3a184bbd75edc0d5569929e42025c90bc400283b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

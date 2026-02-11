@@ -22,6 +22,30 @@
       },
       "revId": "3e36d9745479a0f9d657438da645f60199b4d4bf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "636a36ce_f01e9ee1",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 471,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-02-11T13:25:17Z",
+      "side": 1,
+      "message": "Done\nAdding tests in Change 551122",
+      "parentUuid": "fdbe3982_97cf6841",
+      "range": {
+        "startLine": 471,
+        "startChar": 70,
+        "endLine": 471,
+        "endChar": 96
+      },
+      "revId": "3e36d9745479a0f9d657438da645f60199b4d4bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

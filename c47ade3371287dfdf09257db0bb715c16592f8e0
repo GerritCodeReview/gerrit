@@ -22,6 +22,29 @@
       },
       "revId": "c47ade3371287dfdf09257db0bb715c16592f8e0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3e0eada1_d479560f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-02-11T16:01:30Z",
+      "side": 1,
+      "message": "I coped `https://gerrit-review.git.corp.google.com/c/TestRepo/+/551161 is owner:dhruvsri@google.com -\u003e submit` and pasted it into the raw Flow input and I don\u0027t see the word `is` duplicated in the resulting Flow\n\nIn which case is this duplicated?",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 24
+      },
+      "revId": "c47ade3371287dfdf09257db0bb715c16592f8e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

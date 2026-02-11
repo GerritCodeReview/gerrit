@@ -143,6 +143,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "c7c07241_3a6b3a34",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-02-11T18:50:29Z",
+      "side": 1,
+      "message": "\u003e @matthias.sohn@gmail.com: Matthias brought a important question: when an cached entity gets deleted then we have to remove it from the cache, even if the cache is immutable. \n\nWell, it depends, doesn\u0027t it?\nSome caches may also want to \"track\" deleted items, therefore the deletion can still be tracked and associated with an `ObjectId.zeros()`\n\n\u003e This questions the whole idea of the immutable flag.\n\u003e At the place where we listen for cache evictions we don\u0027t know if the eviction was because of an update or because of a deletion. This would mean that we cannot forward eviction to no-op for immutable caches and that we also must propagate all cache evictions.\n\n\u003e Taking a step back: why do we have the `cache.pattern` config parameter in the high-availability plugin? Why don\u0027t we forward evictions of all caches?\n\nNow that we have a `DynamicMap\u003cCacheDef\u003e` we can automatically get that list.\nBearing in mind that the plugin should be clever and understand when to get the new ones, as plugins can contribute their own caches and be loaded *after* the high-availability plugin.\n\n\u003e Further, why do we have this hardcoded in the `CachePatternMatcher`:\n\u003e ```\n\u003e   private static final List\u003cString\u003e DEFAULT_PATTERNS \u003d\n\u003e       ImmutableList.of(\"^groups.*\", \"ldap_usernames\", \"projects\", \"sshkeys\", \"tokens\");\n\u003e ```\n\nThat comes from back in the ages of the initial version from Ericsson and the discussion doesn\u0027t belong to this change :-).",
+      "parentUuid": "a802852d_a4e78978",
+      "range": {
+        "startLine": 24,
+        "startChar": 38,
+        "endLine": 24,
+        "endChar": 53
+      },
+      "revId": "2f557d1a040b1d6a6be31a9771f3b5e8573bcf2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "5e60fe46_827c8c9b",

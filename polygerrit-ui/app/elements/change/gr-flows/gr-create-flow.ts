@@ -21,6 +21,7 @@ import '../../shared/gr-copy-clipboard/gr-copy-clipboard';
 import {resolve} from '../../../models/dependency';
 import {configModelToken} from '../../../models/config/config-model';
 import {flowsModelToken} from '../../../models/flows/flows-model';
+import './gr-flow-rule';
 import {subscribe} from '../../lit/subscription-controller';
 import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 import {modalStyles} from '../../../styles/gr-modal-styles';
@@ -207,14 +208,27 @@ export class GrCreateFlow extends LitElement {
         .stage-row > gr-search-autocomplete {
           flex: 1;
         }
-        table {
-          border-collapse: collapse;
+        .stages-list {
+          display: flex;
+          flex-direction: column;
+          gap: var(--spacing-m);
         }
-        th,
-        td {
+        .stage-list-item {
+          display: flex;
+          align-items: center;
+          gap: var(--spacing-m);
+        }
+        .stage-number {
+          font-weight: var(--font-weight-bold);
+          color: var(--deemphasized-text-color);
+          min-width: 1.5em;
+        }
+        .flow-rule {
+          flex: 1;
           border: 1px solid var(--border-color);
-          padding: var(--spacing-s);
-          text-align: left;
+          padding: var(--spacing-m) var(--spacing-l);
+          border-radius: var(--border-radius);
+          background-color: var(--background-color-primary);
         }
         .full-width-text-field {
           width: 100%;
@@ -243,42 +257,32 @@ export class GrCreateFlow extends LitElement {
     }
   }
 
-  private renderTable() {
+  private renderStages() {
     return when(
       this.stages.length > 0,
       () => html`
-        <table>
-          <thead>
-            <tr>
-              <th>Stage</th>
-              <th>Condition</th>
-              <th>Action</th>
-              <th>Parameters</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            ${this.stages.map(
-              (stage, index) => html`
-                <tr>
-                  <td>${index + 1}</td>
-                  <td>${stage.condition}</td>
-                  <td>${stage.action}</td>
-                  <td>${stage.parameterStr}</td>
-                  <td>
-                    <gr-button
-                      link
-                      @click=${() => this.handleRemoveStage(index)}
-                      title="Delete stage"
-                    >
-                      <gr-icon icon="delete" filled></gr-icon>
-                    </gr-button>
-                  </td>
-                </tr>
-              `
-            )}
-          </tbody>
-        </table>
+        <div class="stages-list">
+          ${this.stages.map(
+            (stage, index) => html`
+              <div class="stage-list-item">
+                <span class="stage-number">${index + 1}</span>
+                <gr-flow-rule
+                  class="flow-rule"
+                  .condition=${stage.condition}
+                  .action=${stage.action}
+                  .parameterStr=${stage.parameterStr}
+                ></gr-flow-rule>
+                <gr-button
+                  link
+                  @click=${() => this.handleRemoveStage(index)}
+                  title="Delete stage"
+                >
+                  <gr-icon icon="delete" filled></gr-icon>
+                </gr-button>
+              </div>
+            `
+          )}
+        </div>
       `
     );
   }
@@ -380,7 +384,7 @@ export class GrCreateFlow extends LitElement {
             ${when(
               this.guidedBuilderExpanded,
               () => html`
-                <div>${this.renderTable()}</div>
+                <div>${this.renderStages()}</div>
                 <div class="add-stage-box">
                   <div class="stage-label">Condition: IF</div>
                   <div class="stage-row">

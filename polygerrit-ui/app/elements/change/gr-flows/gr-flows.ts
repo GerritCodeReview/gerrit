@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {customElement, query, state} from 'lit/decorators.js';
-import {css, html, LitElement, nothing, TemplateResult} from 'lit';
+import {css, html, LitElement, TemplateResult} from 'lit';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {grFormStyles} from '../../../styles/gr-form-styles';
 import {resolve} from '../../../models/dependency';
@@ -15,7 +15,6 @@ import {
   AccountId,
   FlowInfo,
   FlowStageInfo,
-  FlowStageState,
 } from '../../../api/rest-api';
 import {flowsModelToken} from '../../../models/flows/flows-model';
 import {NumericChangeId} from '../../../types/common';
@@ -27,24 +26,10 @@ import '@material/web/select/select-option';
 import '../../shared/gr-account-label/gr-account-label';
 import '../../shared/gr-avatar/gr-avatar';
 import '../../shared/gr-date-formatter/gr-date-formatter';
-import {capitalizeFirstLetter} from '../../../utils/string-util';
+import {formatActionName} from '../../../utils/flows-util';
+import './gr-flow-rule';
 import {computeFlowStringFromFlowStageInfo} from '../../../utils/flows-util';
 import {userModelToken} from '../../../models/user/user-model';
-
-const iconForFlowStageState = (status: FlowStageState) => {
-  switch (status) {
-    case FlowStageState.DONE:
-      return {icon: 'check_circle', filled: true, class: 'done'};
-    case FlowStageState.PENDING:
-      return {icon: 'timelapse', filled: false, class: 'pending'};
-    case FlowStageState.FAILED:
-      return {icon: 'error', filled: true, class: 'failed'};
-    case FlowStageState.TERMINATED:
-      return {icon: 'error', filled: true, class: 'failed'};
-    default:
-      return {icon: 'help', filled: false, class: 'other'};
-  }
-};
 
 @customElement('gr-flows')
 export class GrFlows extends LitElement {
@@ -144,51 +129,11 @@ export class GrFlows extends LitElement {
         .stages {
           padding: var(--spacing-m) var(--spacing-l);
         }
-        .stage {
-          display: flex;
-          align-items: center;
-          gap: var(--spacing-m);
+        gr-flow-rule {
           margin-bottom: var(--spacing-m);
         }
-        .stage:last-child {
+        gr-flow-rule:last-child {
           margin-bottom: 0;
-        }
-        .stage-action {
-          display: flex;
-          align-items: center;
-          flex-wrap: wrap;
-          gap: var(--spacing-s);
-        }
-        .parameter {
-          background-color: var(--background-color-secondary);
-          padding: 2px 4px;
-          border-radius: var(--border-radius);
-          font-family: var(--monospace-font-family);
-          font-size: var(--font-size-small);
-        }
-        .arrow {
-          color: var(--deemphasized-text-color);
-          margin: 0 var(--spacing-xs);
-          font-size: 16px;
-        }
-        .condition {
-          color: var(--deemphasized-text-color);
-        }
-        .hidden {
-          display: none;
-        }
-        gr-icon {
-          font-size: var(--line-height-normal, 20px);
-          vertical-align: middle;
-        }
-        gr-icon.done {
-          color: var(--success-foreground);
-        }
-        gr-icon.pending {
-          color: var(--deemphasized-text-color);
-        }
-        gr-icon.failed {
-          color: var(--error-foreground);
         }
         .refresh {
           top: -4px;
@@ -309,56 +254,23 @@ export class GrFlows extends LitElement {
     );
   }
 
-  /**
-   * Formats a flow action name for display.
-   * Converts snake_case (e.g., 'add_reviewer') to Title Case (e.g., 'Add Reviewer').
-   */
-  private formatActionName(name?: string): string {
-    if (!name) return '';
-    return name
-      .split('_')
-      .map(word => capitalizeFirstLetter(word))
-      .join(' ');
-  }
-
-  private renderParameters(parameters?: string[]) {
-    if (!parameters || parameters.length === 0) return nothing;
-    return html`
-      ${parameters.map(
-        p => html`<span class="parameter"><code>${p}</code></span>`
-      )}
-    `;
-  }
-
   private getFlowTitle(flow: FlowInfo) {
     const lastStage = flow.stages[flow.stages.length - 1];
     const name = lastStage?.expression?.action?.name;
     if (!name) return 'Flow';
-    return this.formatActionName(name);
+    return formatActionName(name);
   }
 
   private renderStageRow(stage: FlowStageInfo): TemplateResult {
-    const icon = iconForFlowStageState(stage.state);
     const action = stage.expression.action;
 
-    const actionText = this.formatActionName(action?.name);
-
     return html`
-      <div class="stage">
-        <gr-icon
-          class=${icon.class}
-          icon=${icon.icon}
-          ?filled=${icon.filled}
-          aria-label=${stage.state.toLowerCase()}
-          role="img"
-        ></gr-icon>
-        <span class="condition">${stage.expression.condition}</span>
-        <gr-icon icon="arrow_forward" class="arrow"></gr-icon>
-        <div class="stage-action">
-          <b>${actionText}</b>
-          ${this.renderParameters(action?.parameters)}
-        </div>
-      </div>
+      <gr-flow-rule
+        .state=${stage.state}
+        .condition=${stage.expression.condition}
+        .action=${action?.name}
+        .parameters=${action?.parameters}
+      ></gr-flow-rule>
     `;
   }
 

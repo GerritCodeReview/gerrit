@@ -5,6 +5,7 @@
  */
 
 import {FlowStageInfo} from '../api/rest-api';
+import {capitalizeFirstLetter} from './string-util';
 
 export const STAGE_SEPARATOR = ';';
 
@@ -37,4 +38,16 @@ export function computeFlowStringFromFlowStageInfo(stages: FlowStageInfo[]) {
       };
     })
   );
+}
+
+/**
+ * Formats a flow action name for display.
+ * Converts snake_case (e.g., 'add_reviewer') to Title Case (e.g., 'Add Reviewer').
+ */
+export function formatActionName(name?: string): string {
+  if (!name) return '';
+  return name
+    .split('_')
+    .map(word => capitalizeFirstLetter(word))
+    .join(' ');
 }

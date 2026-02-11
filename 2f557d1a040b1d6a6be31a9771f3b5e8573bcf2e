@@ -119,6 +119,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "a802852d_a4e78978",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-02-11T15:16:38Z",
+      "side": 1,
+      "message": "@matthias.sohn@gmail.com: Matthias brought a important question: when an cached entity gets deleted then we have to remove it from the cache, even if the cache is immutable. This questions the whole idea of the immutable flag.\nAt the place where we listen for cache evictions we don\u0027t know if the eviction was because of an update or because of a deletion. This would mean that we cannot forward eviction to no-op for immutable caches and that we also must propagate all cache evictions.\n\nTaking a step back: why do we have the `cache.pattern` config parameter in the high-availability plugin? Why don\u0027t we forward evictions of all caches? Further, why do we have this hardcoded in the `CachePatternMatcher`:\n```\n  private static final List\u003cString\u003e DEFAULT_PATTERNS \u003d\n      ImmutableList.of(\"^groups.*\", \"ldap_usernames\", \"projects\", \"sshkeys\", \"tokens\");\n```",
+      "parentUuid": "bbe39ed9_3bb20522",
+      "range": {
+        "startLine": 24,
+        "startChar": 38,
+        "endLine": 24,
+        "endChar": 53
+      },
+      "revId": "2f557d1a040b1d6a6be31a9771f3b5e8573bcf2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "5e60fe46_827c8c9b",

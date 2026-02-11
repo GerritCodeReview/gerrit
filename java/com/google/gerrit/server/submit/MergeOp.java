@@ -536,7 +536,10 @@ public class MergeOp implements AutoCloseable {
                       impersonatedName, cd.getId().get())));
           return;
         }
-        if (!can.contains(ChangePermission.SUBMIT_AS)) {
+        if (!permissionBackend
+            .user(caller, ImpersonationPermissionMode.THIS_USER)
+            .change(cd)
+            .test(ChangePermission.SUBMIT_AS)) {
           if (triggeringChangeId.get() != cd.getId().get()) {
             logger.atFine().log(
                 "Change %d cannot be submitted by user %s on behalf of user %s because it depends"

@@ -22,6 +22,7 @@ caffeine-guava
 commons-codec
 commons-compress
 commons-dbcp
+commons-io
 commons-lang3
 commons-net
 commons-pool

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c033a18f_067d0319",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-02-11T14:17:34Z",
+      "side": 1,
+      "message": "@milutin@google.com \n\nLC is required here even though there are no library changes.\nShould I still create a Gerrit issue for this change, or can it be approved as-is?",
+      "revId": "54bd34b04755351bdf4f6c89b7cca0aa15500bfa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

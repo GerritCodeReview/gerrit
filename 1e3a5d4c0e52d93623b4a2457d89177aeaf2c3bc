@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "37c44d02_53fe8b48",
+        "filename": "MODULE.bazel",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-02-11T12:30:48Z",
+      "side": 1,
+      "message": "Should we then remove the entries in the corresponding toml-files to avoid double maintenance of versions?",
+      "revId": "1e3a5d4c0e52d93623b4a2457d89177aeaf2c3bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "14339fc6_27e6464e",
+        "filename": "MODULE.bazel",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-02-11T12:30:48Z",
+      "side": 1,
+      "message": "Should we put this into a seperate list, since it is the only nongoogle dep? Might be easier to keep track of then.",
+      "range": {
+        "startLine": 40,
+        "startChar": 4,
+        "endLine": 40,
+        "endChar": 35
+      },
+      "revId": "1e3a5d4c0e52d93623b4a2457d89177aeaf2c3bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

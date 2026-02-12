@@ -22,6 +22,30 @@
       },
       "revId": "e361ae1b74307a4386df6002d7912ec0cff93ebb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "149bc7c6_c82d3b3a",
+        "filename": "polygerrit-ui/app/elements/change/gr-flows/gr-flows.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-02-12T14:46:50Z",
+      "side": 1,
+      "message": "Good point. I put messages into tooltip and only for failed stages we show fully rendered error",
+      "parentUuid": "ac553525_59042fe3",
+      "range": {
+        "startLine": 270,
+        "startChar": 9,
+        "endLine": 270,
+        "endChar": 38
+      },
+      "revId": "e361ae1b74307a4386df6002d7912ec0cff93ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -34,6 +34,24 @@
       "parentUuid": "2efd82d0_06ec9baf",
       "revId": "ae67b0f2ad7b436c5d39d997a827b9ad2a6963a7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "03f628c4_99f4c763",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4580685
+      },
+      "writtenOn": "2026-02-12T22:24:37Z",
+      "side": 1,
+      "message": "Thanks for verifying!\n\nI have trouble reproducing this. I copy-pasted your comment (as markup) into a new Reply, pressed \"Preview\" and the rendering was identical in both versions. Did you do something else?",
+      "parentUuid": "670c0548_de7da8d0",
+      "revId": "ae67b0f2ad7b436c5d39d997a827b9ad2a6963a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

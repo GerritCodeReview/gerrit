@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac553525_59042fe3",
+        "filename": "polygerrit-ui/app/elements/change/gr-flows/gr-flows.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-02-12T13:46:40Z",
+      "side": 1,
+      "message": "all messages are not guaranteed to be errors\n\nGiven we cannot be sure of this, keep the value default and the formatting as well\n\nIdeally we should have a separate field for it but for now we cannot be sure I think",
+      "range": {
+        "startLine": 270,
+        "startChar": 9,
+        "endLine": 270,
+        "endChar": 38
+      },
+      "revId": "e361ae1b74307a4386df6002d7912ec0cff93ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

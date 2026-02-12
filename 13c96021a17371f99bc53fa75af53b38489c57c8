@@ -22,6 +22,30 @@
       },
       "revId": "13c96021a17371f99bc53fa75af53b38489c57c8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d2015b5_df2581f1",
+        "filename": "polygerrit-ui/app/elements/change/gr-flows/gr-flow-rule.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-02-12T13:32:31Z",
+      "side": 1,
+      "message": "Good point, then it can be calculated only when parameterStr changes. And it is cleaner.\n\nBtw. I also returned bolding that was removed during refactoring",
+      "parentUuid": "0d5bea2d_775e130e",
+      "range": {
+        "startLine": 95,
+        "startChar": 0,
+        "endLine": 96,
+        "endChar": 78
+      },
+      "revId": "13c96021a17371f99bc53fa75af53b38489c57c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

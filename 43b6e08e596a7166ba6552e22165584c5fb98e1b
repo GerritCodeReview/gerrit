@@ -52,6 +52,24 @@
       "parentUuid": "e4a1cfaf_a6e42812",
       "revId": "43b6e08e596a7166ba6552e22165584c5fb98e1b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "36bf434d_7d6fa311",
+        "filename": "polygerrit-ui/app/package.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 4580685
+      },
+      "writtenOn": "2026-02-12T18:02:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1b5d24f5_94df97d9",
+      "revId": "43b6e08e596a7166ba6552e22165584c5fb98e1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

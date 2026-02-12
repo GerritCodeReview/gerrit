@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d42f24e9_c6e6d0b5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-02-12T02:19:42Z",
+      "side": 1,
+      "message": "https://screenshot.googleplex.com/9nvkMBq5sciAHfo\n\nThe icon does not appear to be vertically aligned with the text. I also wonder if the icon should be to the left of the text to be consistent with the icon next to \"add context\"?",
+      "revId": "c33bcc672410a04db122e23d4fd504176679c128",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d543e08_3c63f299",
+        "filename": "polygerrit-ui/app/elements/chat-panel/context-chip.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-02-12T02:19:42Z",
+      "side": 1,
+      "message": "**Problem**\n\nThe `handleChipClick` method is `private` but it is used in the component\u0027s template. According to the style guide, properties and methods used from a template are considered to be used outside the lexical scope of the class and must not be `private`. For Polymer/Lit components, they should be `public` or `protected`.\n\n**Suggestion**\n\nChange the visibility of `handleChipClick` to `protected`.\n\n```typescript\n   protected handleChipClick(e: MouseEvent) {\n     // Always prevent the default filter chip behavior (selection/checkmark).\n     e.preventDefault();\n     e.stopPropagation();\n \n     if (this.isSuggestion) {\n       fire(this, \u0027accept-context-item-suggestion\u0027, {});\n       return;\n     }\n \n     const link \u003d this.contextItem?.link?.trim();\n     if (link) {\n       const url \u003d link.startsWith(\u0027http\u0027) ? link : `http://${link}`;\n       window.open(url, \u0027_blank\u0027);\n     }\n   }\n```\n\n**Reference**\n\nFrom the style guide section \"Properties used outside of class lexical scope\":\n\n\u003e Properties used from outside the lexical scope of their containing class, such\n\u003e as an Angular component\u0027s properties used from a template, *must not* use\n\u003e `private` visibility, as they are used outside of the lexical scope of their\n\u003e containing class.\n\u003e\n\u003e Use either `protected` or `public` as appropriate to the property in question.\n\u003e Angular and AngularJS template properties should use `protected`, but Polymer\n\u003e should use `public`.",
+      "range": {
+        "startLine": 159,
+        "startChar": 0,
+        "endLine": 159,
+        "endChar": 0
+      },
+      "revId": "c33bcc672410a04db122e23d4fd504176679c128",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

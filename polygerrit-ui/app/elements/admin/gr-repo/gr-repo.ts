@@ -48,6 +48,8 @@ import {configModelToken} from '../../../models/config/config-model';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {computeMainCodeBrowserWeblink} from '../../../utils/weblink-util';
 import {Command} from '../../shared/gr-download-commands/gr-download-commands';
+import {getDocUrl} from '../../../utils/url-util';
+import {ifDefined} from 'lit/directives/if-defined.js';
 import '@material/web/textfield/outlined-text-field';
 import {materialStyles} from '../../../styles/gr-material-styles';
 import '../../shared/gr-autogrow-textarea/gr-autogrow-textarea';
@@ -130,6 +132,8 @@ export class GrRepo extends LitElement {
 
   @state() private pluginConfigChanged = false;
 
+  @state() private docsBaseUrl = '';
+
   private readonly getUserModel = resolve(this, userModelToken);
 
   private readonly restApiService = getAppContext().restApiService;
@@ -155,6 +159,11 @@ export class GrRepo extends LitElement {
       () => this.getConfigModel().serverConfig$,
       config => (this.serverConfig = config)
     );
+    subscribe(
+      this,
+      () => this.getConfigModel().docsBaseUrl$,
+      docsBaseUrl => (this.docsBaseUrl = docsBaseUrl)
+    );
   }
 
   override connectedCallback() {
@@ -178,6 +187,12 @@ export class GrRepo extends LitElement {
         h2.edited:after {
           color: var(--deemphasized-text-color);
           content: ' *';
+        }
+        .title a {
+          display: inline-block;
+          vertical-align: middle;
+          margin-left: var(--spacing-s);
+          text-decoration: none;
         }
         #options .repositorySettings {
           display: none;
@@ -325,7 +340,7 @@ export class GrRepo extends LitElement {
   private renderState() {
     return html`
       <section>
-        <span class="title">State</span>
+        ${this.renderTitle('State', 'state')}
         <span class="value">
           <md-outlined-select
             id="stateSelect"
@@ -349,7 +364,7 @@ export class GrRepo extends LitElement {
   private renderSubmitType() {
     return html`
       <section>
-        <span class="title">Submit type</span>
+        ${this.renderTitle('Submit type', 'submit.action')}
         <span class="value">
           <md-outlined-select
             id="submitTypeSelect"
@@ -373,7 +388,7 @@ export class GrRepo extends LitElement {
   private renderContentMerges() {
     return html`
       <section>
-        <span class="title">Allow content merges</span>
+        ${this.renderTitle('Allow content merges', 'submit.mergeContent')}
         <span class="value">
           <md-outlined-select
             id="contentMergeSelect"
@@ -397,9 +412,10 @@ export class GrRepo extends LitElement {
   private renderNewChange() {
     return html`
       <section>
-        <span class="title">
-          Create a new change for every commit not in the target branch
-        </span>
+        ${this.renderTitle(
+          'Create a new change for every commit not in the target branch',
+          'receive.createNewChangeForAllNotInTarget'
+        )}
         <span class="value">
           <md-outlined-select
             id="newChangeSelect"
@@ -426,7 +442,10 @@ export class GrRepo extends LitElement {
   private renderChangeId() {
     return html`
       <section>
-        <span class="title">Require Change-Id in commit message</span>
+        ${this.renderTitle(
+          'Require Change-Id in commit message',
+          'receive.requireChangeId'
+        )}
         <span class="value">
           <md-outlined-select
             id="requireChangeIdSelect"
@@ -455,7 +474,7 @@ export class GrRepo extends LitElement {
           ? 'showConfig'
           : ''}"
       >
-        <span class="title">Enable signed push</span>
+        ${this.renderTitle('Enable signed push', 'receive.enableSignedPush')}
         <span class="value">
           <md-outlined-select
             id="enableSignedPush"
@@ -484,7 +503,7 @@ export class GrRepo extends LitElement {
           ? 'showConfig'
           : ''}"
       >
-        <span class="title">Require signed push</span>
+        ${this.renderTitle('Require signed push', 'receive.requireSignedPush')}
         <span class="value">
           <md-outlined-select
             id="requireSignedPush"
@@ -511,9 +530,10 @@ export class GrRepo extends LitElement {
   private renderRejectImplicitMerges() {
     return html`
       <section>
-        <span class="title">
-          Reject implicit merges when changes are pushed for review</span
-        >
+        ${this.renderTitle(
+          'Reject implicit merges when changes are pushed for review',
+          'receive.rejectImplicitMerges'
+        )}
         <span class="value">
           <md-outlined-select
             id="rejectImplicitMergesSelect"
@@ -540,9 +560,10 @@ export class GrRepo extends LitElement {
   private renderUnRegisteredCc() {
     return html`
       <section>
-        <span class="title">
-          Enable adding unregistered users as reviewers and CCs on changes</span
-        >
+        ${this.renderTitle(
+          'Enable adding unregistered users as reviewers and CCs on changes',
+          'reviewer.enableByEmail'
+        )}
         <span class="value">
           <md-outlined-select
             id="unRegisteredCcSelect"
@@ -569,7 +590,10 @@ export class GrRepo extends LitElement {
   private renderPrivateByDefault() {
     return html`
       <section>
-        <span class="title"> Set all new changes private by default</span>
+        ${this.renderTitle(
+          'Set all new changes private by default',
+          'change.privateByDefault'
+        )}
         <span class="value">
           <md-outlined-select
             id="setAllnewChangesPrivateByDefaultSelect"
@@ -593,9 +617,10 @@ export class GrRepo extends LitElement {
   private renderWorkInProgressByDefault() {
     return html`
       <section>
-        <span class="title">
-          Set new changes to "work in progress" by default</span
-        >
+        ${this.renderTitle(
+          'Set new changes to "work in progress" by default',
+          'change.workInProgressByDefault'
+        )}
         <span class="value">
           <md-outlined-select
             id="setAllNewChangesWorkInProgressByDefaultSelect"
@@ -623,7 +648,10 @@ export class GrRepo extends LitElement {
   private renderMaxGitObjectSize() {
     return html`
       <section>
-        <span class="title">Maximum Git object size limit</span>
+        ${this.renderTitle(
+          'Maximum Git object size limit',
+          'receive.maxObjectSizeLimit'
+        )}
         <span class="value">
           <md-outlined-text-field
             id="maxGitObjSizeInput"
@@ -647,9 +675,10 @@ export class GrRepo extends LitElement {
   private renderMatchAuthoredDateWithCommitterDate() {
     return html`
       <section>
-        <span class="title"
-          >Match authored date with committer date upon submit</span
-        >
+        ${this.renderTitle(
+          'Match authored date with committer date upon submit',
+          'submit.matchAuthorToCommitterDate'
+        )}
         <span class="value">
           <md-outlined-select
             id="matchAuthoredDateWithCommitterDateSelect"
@@ -676,7 +705,10 @@ export class GrRepo extends LitElement {
   private renderRejectEmptyCommit() {
     return html`
       <section>
-        <span class="title">Reject empty commit upon submit</span>
+        ${this.renderTitle(
+          'Reject empty commit upon submit',
+          'submit.rejectEmptyCommit'
+        )}
         <span class="value">
           <md-outlined-select
             id="rejectEmptyCommitSelect"
@@ -703,9 +735,10 @@ export class GrRepo extends LitElement {
   private renderContributorAgreement() {
     return html`
       <section>
-        <span class="title">
-          Require a valid contributor agreement to upload</span
-        >
+        ${this.renderTitle(
+          'Require a valid contributor agreement to upload',
+          'receive.requireContributorAgreement'
+        )}
         <span class="value">
           <md-outlined-select
             id="contributorAgreementSelect"
@@ -732,7 +765,10 @@ export class GrRepo extends LitElement {
   private renderUseSignedOffBy() {
     return html`
       <section>
-        <span class="title">Require Signed-off-by in commit message</span>
+        ${this.renderTitle(
+          'Require Signed-off-by in commit message',
+          'receive.requireSignedOffBy'
+        )}
         <span class="value">
           <md-outlined-select
             id="useSignedOffBySelect"
@@ -770,6 +806,33 @@ export class GrRepo extends LitElement {
         `
       )}
     </div>`;
+  }
+
+  private renderTitle(title: string, anchor: string) {
+    let helpUrl: string | undefined = undefined;
+    if (this.docsBaseUrl) {
+      helpUrl = getDocUrl(
+        this.docsBaseUrl,
+        `config-project-config.html#${anchor}`
+      );
+    }
+    return html`
+      <span class="title">
+        ${title}
+        ${when(
+          helpUrl,
+          () => html`
+            <a
+              href=${ifDefined(helpUrl)}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <gr-icon icon="help" title="Help"></gr-icon>
+            </a>
+          `
+        )}
+      </span>
+    `;
   }
 
   override willUpdate(changedProperties: PropertyValues) {

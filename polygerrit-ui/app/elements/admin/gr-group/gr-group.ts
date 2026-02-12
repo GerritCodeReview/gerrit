@@ -13,6 +13,8 @@ import {fire, firePageError, fireTitleChange} from '../../../utils/event-util';
 import {resolve} from '../../../models/dependency';
 import {getAppContext} from '../../../services/app-context';
 import {ErrorCallback} from '../../../api/rest';
+import {getDocUrl} from '../../../utils/url-util';
+import {ifDefined} from 'lit/directives/if-defined.js';
 import {ValueChangedEvent} from '../../../types/events';
 import {fontStyles} from '../../../styles/gr-font-styles';
 import {grFormStyles} from '../../../styles/gr-form-styles';
@@ -92,6 +94,8 @@ export class GrGroup extends LitElement {
 
   @state() enableDeleteGroup?: boolean;
 
+  @state() private docsBaseUrl = '';
+
   private readonly restApiService = getAppContext().restApiService;
 
   private readonly getNavigation = resolve(this, navigationToken);
@@ -106,6 +110,11 @@ export class GrGroup extends LitElement {
       config => {
         this.enableDeleteGroup = !!config?.groups.enable_delete_group;
       }
+    );
+    subscribe(
+      this,
+      () => this.getConfigModel().docsBaseUrl$,
+      docsBaseUrl => (this.docsBaseUrl = docsBaseUrl)
     );
     this.query = (input: string) => this.getGroupSuggestions(input);
   }
@@ -127,6 +136,12 @@ export class GrGroup extends LitElement {
         h3.edited:after {
           color: var(--deemphasized-text-color);
           content: ' *';
+        }
+        h3 a {
+          display: inline-block;
+          vertical-align: middle;
+          margin-left: var(--spacing-s);
+          text-decoration: none;
         }
         gr-autogrow-textarea {
           background-color: var(--view-background-color);
@@ -283,12 +298,12 @@ export class GrGroup extends LitElement {
     // for the selection to work correctly.
     // We also convert undefined to false using boolean.
     return html`
-      <h3
-        id="options"
-        class="heading-3 ${this.computeHeaderClass(groupOptionsEdited)}"
-      >
-        Group Options
-      </h3>
+      ${this.renderTitle(
+        'Group Options',
+        this.computeHeaderClass(groupOptionsEdited),
+        'rest-api-groups.html#group-options',
+        'options'
+      )}
       <fieldset>
         <section>
           <span class="title">
@@ -353,6 +368,35 @@ export class GrGroup extends LitElement {
         </div>
       `
     );
+  }
+
+  private renderTitle(
+    title: string,
+    headerClass: string,
+    docsUrl?: string,
+    id?: string
+  ) {
+    let helpUrl: string | undefined = undefined;
+    if (this.docsBaseUrl && docsUrl) {
+      helpUrl = getDocUrl(this.docsBaseUrl, docsUrl);
+    }
+    return html`
+      <h3 id=${ifDefined(id)} class="heading-3 ${headerClass}">
+        ${title}
+        ${when(
+          helpUrl,
+          () => html`
+            <a
+              href=${ifDefined(helpUrl)}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <gr-icon icon="help" title="Help"></gr-icon>
+            </a>
+          `
+        )}
+      </h3>
+    `;
   }
 
   override willUpdate(changedProperties: PropertyValues) {

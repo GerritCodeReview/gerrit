@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d5bea2d_775e130e",
+        "filename": "polygerrit-ui/app/elements/change/gr-flows/gr-flow-rule.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-02-12T13:03:59Z",
+      "side": 1,
+      "message": "this method is a bit confusing\n\nWe have `this.parameters` already so `getParameters` should ideally just return `this.parameters`.\n\nIIUC it is something that is computed from `this.parameterStr` when `this.parameters` is not populated?\n\nHow is this re-computed when `this.parameterStr` changes?\n\nShould this rather be in the `willUpdate` method reacting to changes in `this.parameterStr`?",
+      "range": {
+        "startLine": 95,
+        "startChar": 0,
+        "endLine": 96,
+        "endChar": 78
+      },
+      "revId": "13c96021a17371f99bc53fa75af53b38489c57c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

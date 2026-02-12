@@ -37,14 +37,16 @@ suite('gr-flow-rule tests', () => {
       element,
       /* HTML */ `
         <div class="stage">
-          <gr-icon
-            aria-label="done"
-            class="done"
-            filled=""
-            icon="check_circle"
-            role="img"
-          >
-          </gr-icon>
+          <gr-tooltip-content has-tooltip="" title="">
+            <gr-icon
+              aria-label="done"
+              class="done"
+              filled=""
+              icon="check_circle"
+              role="img"
+            >
+            </gr-icon>
+          </gr-tooltip-content>
           <span class="condition"> label:Code-Review=+1 </span>
         </div>
       `
@@ -83,6 +85,36 @@ suite('gr-flow-rule tests', () => {
             <span class="parameter">
               <code> user@example.com </code>
             </span>
+          </div>
+        </div>
+      `
+    );
+  });
+
+  test('renders error message in tooltip', async () => {
+    element.state = FlowStageState.FAILED;
+    element.condition = 'label:Code-Review=+1';
+    element.action = 'add_reviewer';
+    element.errorMessage = 'An error occurred';
+    await element.updateComplete;
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `
+        <div class="stage">
+          <gr-tooltip-content has-tooltip="" title="An error occurred">
+            <gr-icon
+              aria-label="failed"
+              class="failed"
+              icon="error"
+              role="img"
+              filled=""
+            >
+            </gr-icon>
+          </gr-tooltip-content>
+          <span class="condition"> label:Code-Review=+1 </span>
+          <gr-icon class="arrow" icon="arrow_forward"> </gr-icon>
+          <div class="stage-action">
+            <b> Add Reviewer </b>
           </div>
         </div>
       `

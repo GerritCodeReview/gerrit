@@ -9,11 +9,15 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {FlowStageState} from '../../../api/rest-api';
 import {formatActionName} from '../../../utils/flows-util';
 import '../../shared/gr-icon/gr-icon';
+import '../../shared/gr-tooltip-content/gr-tooltip-content';
 
 @customElement('gr-flow-rule')
 export class GrFlowRule extends LitElement {
   @property({type: String})
   state?: FlowStageState;
+
+  @property({type: String})
+  errorMessage?: string;
 
   @property({type: String})
   condition = '';
@@ -117,13 +121,18 @@ export class GrFlowRule extends LitElement {
     return html`
       <div class="stage">
         ${icon
-          ? html`<gr-icon
-              class=${icon.class}
-              icon=${icon.icon}
-              ?filled=${icon.filled}
-              aria-label=${this.state?.toLowerCase() ?? ''}
-              role="img"
-            ></gr-icon>`
+          ? html`<gr-tooltip-content
+              has-tooltip=${this.errorMessage ? 'true' : 'false'}
+              title=${this.errorMessage || ''}
+            >
+              <gr-icon
+                class=${icon.class}
+                icon=${icon.icon}
+                ?filled=${icon.filled}
+                aria-label=${this.state?.toLowerCase() ?? ''}
+                role="img"
+              ></gr-icon>
+            </gr-tooltip-content>`
           : nothing}
         <span class="condition">${this.condition}</span>
         ${this.action

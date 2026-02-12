@@ -88,4 +88,33 @@ suite('gr-flow-rule tests', () => {
       `
     );
   });
+
+  test('renders error message directly', async () => {
+    element.state = FlowStageState.FAILED;
+    element.condition = 'label:Code-Review=+1';
+    element.action = 'add_reviewer';
+    element.errorMessage = 'An error occurred';
+    await element.updateComplete;
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `
+        <div class="stage">
+          <gr-icon
+            aria-label="failed"
+            class="failed"
+            icon="error"
+            role="img"
+            filled=""
+          >
+          </gr-icon>
+          <span class="condition"> label:Code-Review=+1 </span>
+          <gr-icon class="arrow" icon="arrow_forward"> </gr-icon>
+          <div class="stage-action">
+            <b> Add Reviewer </b>
+          </div>
+          <span class="error"> An error occurred </span>
+        </div>
+      `
+    );
+  });
 });

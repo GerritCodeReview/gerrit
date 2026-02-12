@@ -16,6 +16,9 @@ export class GrFlowRule extends LitElement {
   state?: FlowStageState;
 
   @property({type: String})
+  errorMessage?: string;
+
+  @property({type: String})
   condition = '';
 
   @property({type: String})
@@ -74,6 +77,9 @@ export class GrFlowRule extends LitElement {
           color: var(--deemphasized-text-color);
         }
         gr-icon.failed {
+          color: var(--error-foreground);
+        }
+        .error {
           color: var(--error-foreground);
         }
       `,
@@ -136,6 +142,9 @@ export class GrFlowRule extends LitElement {
                 <b>${actionText}</b>
                 ${this.renderParameters()}
               </div>`
+          : nothing}
+        ${this.errorMessage
+          ? html`<span class="error">${this.errorMessage}</span>`
           : nothing}
       </div>
     `;

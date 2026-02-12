@@ -322,7 +322,16 @@ suite('gr-permission tests', () => {
           <section class="gr-form-styles" id="permission">
             <div id="mainContainer">
               <div class="header">
-                <span class="title"> Priority </span>
+                <span class="title">
+                  Priority
+                  <a
+                    href="/Documentation/access-control.html#category_review_labels"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    <gr-icon icon="help" title="Help"></gr-icon>
+                  </a>
+                </span>
                 <div class="right">
                   <md-switch disabled="" id="exclusiveToggle"> </md-switch>
                   Not Exclusive

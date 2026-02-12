@@ -168,3 +168,50 @@ export function toSortedPermissionsArray<T>(obj?: {
       a.id.localeCompare(b.id)
     );
 }
+
+/**
+ * The category names are defined in `gerrit/Documentation/access-control.txt`.
+ */
+const DocsDocAnchors: Record<string, string> = {
+  [AccessPermissionId.ABANDON]: 'category_abandon',
+  [AccessPermissionId.ADD_PATCH_SET]: 'category_add_patch_set',
+  [AccessPermissionId.CREATE]: 'category_create',
+  [AccessPermissionId.CREATE_TAG]: 'category_create_annotated',
+  [AccessPermissionId.CREATE_SIGNED_TAG]: 'category_create_signed',
+  [AccessPermissionId.DELETE]: 'category_delete',
+  [AccessPermissionId.DELETE_CHANGES]: 'category_delete_changes',
+  [AccessPermissionId.DELETE_OWN_CHANGES]: 'category_delete_own_changes',
+  [AccessPermissionId.EDIT_HASHTAGS]: 'category_edit_hashtags',
+  [AccessPermissionId.EDIT_TOPIC_NAME]: 'category_edit_topic_name',
+  [AccessPermissionId.FORGE_AUTHOR]: 'category_forge_author',
+  [AccessPermissionId.FORGE_COMMITTER]: 'category_forge_committer',
+  [AccessPermissionId.FORGE_SERVER_AS_COMMITTER]: 'category_forge_server',
+  [AccessPermissionId.OWNER]: 'category_owner',
+  [AccessPermissionId.PUSH]: 'category_push',
+  [AccessPermissionId.PUSH_MERGE]: 'category_push_merge',
+  [AccessPermissionId.READ]: 'category_read',
+  [AccessPermissionId.REBASE]: 'category_rebase',
+  [AccessPermissionId.REVERT]: 'category_revert',
+  [AccessPermissionId.REMOVE_REVIEWER]: 'category_remove_reviewer',
+  [AccessPermissionId.SUBMIT]: 'category_submit',
+  [AccessPermissionId.SUBMIT_AS]: 'category_submit_on_behalf_of',
+  [AccessPermissionId.TOGGLE_WIP_STATE]:
+    'category_toggle_work_in_progress_state',
+  [AccessPermissionId.VIEW_PRIVATE_CHANGES]: 'category_view_private_changes',
+};
+
+export function getAccessDocsAnchor(permissionId: string): string | undefined {
+  if (permissionId in DocsDocAnchors) {
+    return DocsDocAnchors[permissionId];
+  }
+  if (
+    permissionId.startsWith('label-') ||
+    permissionId.startsWith('labelAs-')
+  ) {
+    return 'category_review_labels';
+  }
+  if (permissionId.startsWith('removeLabel-')) {
+    return 'category_remove_label';
+  }
+  return undefined;
+}

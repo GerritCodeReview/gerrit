@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f2291d08_f08ec593",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4641797
+      },
+      "writtenOn": "2026-02-12T04:27:54Z",
+      "side": 1,
+      "message": "Filistin 8mm tarafından çekilen şut defans hatası da edemiyor olmak çok güzel oldu",
+      "revId": "d7bb6aa363431d15f6f866c3343eb5199c964a34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

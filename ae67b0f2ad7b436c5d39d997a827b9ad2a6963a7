@@ -16,6 +16,24 @@
       "message": "Awesome! Thank you for doing this! Testing around and i notice if i do:\n\n```\n\u003cdiv\u003e\nhello\n\u003c/div\u003e\n```\n\nbefore this change, it shows as is shown above in the preview. But under this change it shows `\u003cdiv\u003e hello \u003c/div\u003e`. Not sure if this is a bug / unattended behaviour or if that actually fixes a bug.\n\nI\u0027m going to give this a +2 with the above comment as a question. It works for me when i mention a user, write text etc.",
       "revId": "ae67b0f2ad7b436c5d39d997a827b9ad2a6963a7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "670c0548_de7da8d0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-02-12T18:45:38Z",
+      "side": 1,
+      "message": "Unresolving so Svilen can answer",
+      "parentUuid": "2efd82d0_06ec9baf",
+      "revId": "ae67b0f2ad7b436c5d39d997a827b9ad2a6963a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

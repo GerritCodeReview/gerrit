@@ -9,11 +9,16 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {FlowStageState} from '../../../api/rest-api';
 import {formatActionName} from '../../../utils/flows-util';
 import '../../shared/gr-icon/gr-icon';
+import '../../shared/gr-tooltip-content/gr-tooltip-content';
+import {ifDefined} from 'lit/directives/if-defined.js';
 
 @customElement('gr-flow-rule')
 export class GrFlowRule extends LitElement {
   @property({type: String})
   state?: FlowStageState;
+
+  @property({type: String})
+  message?: string;
 
   @property({type: String})
   condition = '';
@@ -76,6 +81,9 @@ export class GrFlowRule extends LitElement {
         gr-icon.failed {
           color: var(--error-foreground);
         }
+        .error {
+          color: var(--error-foreground);
+        }
       `,
     ];
   }
@@ -112,6 +120,13 @@ export class GrFlowRule extends LitElement {
     `;
   }
 
+  private isFailingState() {
+    return (
+      this.state === FlowStageState.FAILED ||
+      this.state === FlowStageState.TERMINATED
+    );
+  }
+
   override render() {
     const actionText = formatActionName(this.action);
     const icon = this.state
@@ -121,13 +136,22 @@ export class GrFlowRule extends LitElement {
     return html`
       <div class="stage">
         ${icon
-          ? html`<gr-icon
-              class=${icon.class}
-              icon=${icon.icon}
-              ?filled=${icon.filled}
-              aria-label=${this.state?.toLowerCase() ?? ''}
-              role="img"
-            ></gr-icon>`
+          ? html`<gr-tooltip-content
+              ?has-tooltip=${!!this.message && !this.isFailingState()}
+              title=${ifDefined(
+                this.message && !this.isFailingState()
+                  ? this.message
+                  : undefined
+              )}
+            >
+              <gr-icon
+                class=${icon.class}
+                icon=${icon.icon}
+                ?filled=${icon.filled}
+                aria-label=${this.state?.toLowerCase() ?? ''}
+                role="img"
+              ></gr-icon>
+            </gr-tooltip-content>`
           : nothing}
         <span class="condition">${this.condition}</span>
         ${this.action
@@ -136,6 +160,9 @@ export class GrFlowRule extends LitElement {
                 <b>${actionText}</b>
                 ${this.renderParameters()}
               </div>`
+          : nothing}
+        ${this.message && this.isFailingState()
+          ? html`<span class="error">${this.message}</span>`
           : nothing}
       </div>
     `;

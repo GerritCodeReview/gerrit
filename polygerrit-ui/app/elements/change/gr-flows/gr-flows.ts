@@ -267,6 +267,7 @@ export class GrFlows extends LitElement {
     return html`
       <gr-flow-rule
         .state=${stage.state}
+        .message=${stage.message}
         .condition=${stage.expression.condition}
         .action=${action?.name}
         .parameters=${action?.parameters}

@@ -709,7 +709,7 @@ suite('gr-formatted-text tests', () => {
     test('never renders typed html', async () => {
       element.content = `plain text <div>foo</div>
         \n\`inline code <div>foo</div>\`
-        \n\`\`\`\nmultiline code <div>foo</div>\`\`\`
+        \n\`\`\`\nmultiline code <div>foo</div>\n\`\`\`
         \n> block quote <div>foo</div>
         \n[inline link <div>foo</div>](http://google.com)`;
       await element.updateComplete;
@@ -859,7 +859,7 @@ suite('gr-formatted-text tests', () => {
       });
 
       test('renders', async () => {
-        element.content = '```suggestion\nHello World```';
+        element.content = '```suggestion\nHello World\n```';
         await element.updateComplete;
         assert.shadowDom.equal(
           element,

@@ -167,6 +167,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "ca286922_e02145bd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-02-12T09:47:54Z",
+      "side": 1,
+      "message": "\u003e \u003e Taking a step back: why do we have the `cache.pattern` config parameter in the high-availability plugin? Why don\u0027t we forward evictions of all caches?\n\u003e \n\u003e Now that we have a `DynamicMap\u003cCacheDef\u003e` we can automatically get that list.\n\nAFAIU, every cache defined using the CacheModule API (define in core or in a plugin) registers cache removal listener(s), which is a DynamicSet, and HA plugin is one of the listeners (via its `CacheEvictionHandler`). Every cache removal listener will get notified for every cache key eviction. That `cache.pattern` is used to rather restrict which cache removals are forwarded. This is why I asked why we don\u0027t forward removals for all caches (maybe minus immutable caches).\n\n\u003e Bearing in mind that the plugin should be clever and understand when to get the new ones, as plugins can contribute their own caches and be loaded *after* the high-availability plugin.\n\nAFAIU, even if a plugin X is loaded after the HA plugin, the HA plugin will get notified for all cache removals for caches from the plugin X (if they are defined using the `CacheModule` API).",
+      "parentUuid": "c7c07241_3a6b3a34",
+      "range": {
+        "startLine": 24,
+        "startChar": 38,
+        "endLine": 24,
+        "endChar": 53
+      },
+      "revId": "2f557d1a040b1d6a6be31a9771f3b5e8573bcf2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "5e60fe46_827c8c9b",

@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c13d631b_36b03325",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-02-12T09:50:29Z",
+      "side": 1,
+      "message": "Nice work!\nUI looks a lot better now.",
+      "revId": "6e048e5349a459fa039003f5e56905390b36807c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7221ba34_906a1cac",
@@ -18,6 +35,53 @@
         "startLine": 273,
         "startChar": 0,
         "endLine": 273,
+        "endChar": 0
+      },
+      "revId": "6e048e5349a459fa039003f5e56905390b36807c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ffdd7ab4_94e92241",
+        "filename": "polygerrit-ui/app/elements/change/gr-flows/gr-create-flow.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-02-12T09:50:29Z",
+      "side": 1,
+      "message": "You can also just let the child component do this calculation to make `gr-create-flow` even simpler.",
+      "parentUuid": "7221ba34_906a1cac",
+      "range": {
+        "startLine": 273,
+        "startChar": 0,
+        "endLine": 273,
+        "endChar": 0
+      },
+      "revId": "6e048e5349a459fa039003f5e56905390b36807c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "82657b86_b5901817",
+        "filename": "polygerrit-ui/app/utils/string-util.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-02-12T09:50:29Z",
+      "side": 1,
+      "message": "this method doesn\u0027t feel like it\u0027s generic enough to be in `string-util` since it requires specific information about an `Action` which is a flows specific concept\n\nIf you want to keep it in utils, you can move it to `flows-util` if it doesn\u0027t already exist.",
+      "range": {
+        "startLine": 59,
+        "startChar": 0,
+        "endLine": 70,
         "endChar": 0
       },
       "revId": "6e048e5349a459fa039003f5e56905390b36807c",

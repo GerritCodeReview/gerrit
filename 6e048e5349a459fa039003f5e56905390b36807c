@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7221ba34_906a1cac",
+        "filename": "polygerrit-ui/app/elements/change/gr-flows/gr-create-flow.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-02-12T00:15:50Z",
+      "side": 1,
+      "message": "Nit from AI: \nFor improved readability, you could extract this logic into a private helper function, for example:\n\n```ts\nprivate getParameters(parameterStr?: string): string[] | undefined {\n  if (!parameterStr?.trim()) return undefined;\n  return parameterStr.trim().split(/\\s+/);\n}\n```",
+      "range": {
+        "startLine": 273,
+        "startChar": 0,
+        "endLine": 273,
+        "endChar": 0
+      },
+      "revId": "6e048e5349a459fa039003f5e56905390b36807c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

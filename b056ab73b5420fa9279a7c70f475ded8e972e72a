@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9cd2644c_493e9c87",
+        "filename": "polygerrit-ui/app/elements/change/gr-flows/gr-flow-rule_test.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-02-12T14:50:00Z",
+      "side": 1,
+      "message": "what does `warning message` mean if the state is Pending?\n\ninstead make it a successful state and add some useful additional message that we could show the user",
+      "range": {
+        "startLine": 125,
+        "startChar": 0,
+        "endLine": 126,
+        "endChar": 43
+      },
+      "revId": "b056ab73b5420fa9279a7c70f475ded8e972e72a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

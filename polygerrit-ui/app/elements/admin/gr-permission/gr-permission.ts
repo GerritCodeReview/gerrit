@@ -13,7 +13,12 @@ import {
   PermissionArray,
   PermissionArrayItem,
   toSortedPermissionsArray,
+  getAccessDocsAnchor,
 } from '../../../utils/access-util';
+import {resolve} from '../../../models/dependency';
+import {configModelToken} from '../../../models/config/config-model';
+import {subscribe} from '../../lit/subscription-controller';
+import {getDocUrl} from '../../../utils/url-util';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {
   GitRef,
@@ -112,15 +117,24 @@ export class GrPermission extends LitElement {
   @state()
   originalExclusiveValue?: boolean;
 
+  @state()
+  private docsBaseUrl = '';
+
   @query('#groupAutocomplete')
   private groupAutocomplete!: GrAutocomplete;
 
   private readonly restApiService = getAppContext().restApiService;
+  private readonly getConfigModel = resolve(this, configModelToken);
 
   constructor() {
     super();
     this.query = () => this.getGroupSuggestions();
     this.addEventListener('access-saved', () => this.handleAccessSaved());
+    subscribe(
+      this,
+      () => this.getConfigModel().docsBaseUrl$,
+      docsBaseUrl => (this.docsBaseUrl = docsBaseUrl)
+    );
   }
 
   override connectedCallback() {
@@ -172,6 +186,12 @@ export class GrPermission extends LitElement {
         .title {
           margin-bottom: var(--spacing-s);
         }
+        .title a {
+          display: inline-block;
+          vertical-align: middle;
+          margin-left: var(--spacing-s);
+          text-decoration: none;
+        }
         #addRule,
         #removeBtn {
           display: none;
@@ -220,7 +240,21 @@ export class GrPermission extends LitElement {
       >
         <div id="mainContainer">
           <div class="header">
-            <span class="title">${this.name}</span>
+            <span class="title">
+              ${this.name}
+              ${when(
+                this.computeHelpUrl(),
+                () => html`
+                  <a
+                    href=${this.computeHelpUrl()!}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <gr-icon icon="help" title="Help"></gr-icon>
+                  </a>
+                `
+              )}
+            </span>
             <div class="right">
               ${when(
                 !this.permissionIsOwnerOrGlobal(
@@ -301,6 +335,17 @@ export class GrPermission extends LitElement {
     }
     this.originalExclusiveValue = !!this.permission.value.exclusive;
     this.requestUpdate();
+  }
+
+  private computeHelpUrl(): string | undefined {
+    if (!this.permission || !this.permission.id || !this.docsBaseUrl) {
+      return undefined;
+    }
+    const anchor = getAccessDocsAnchor(this.permission.id as string);
+    if (!anchor) {
+      return undefined;
+    }
+    return getDocUrl(this.docsBaseUrl, `access-control.html#${anchor}`);
   }
 
   private handleAccessSaved() {

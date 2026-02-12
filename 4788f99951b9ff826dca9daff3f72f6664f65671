@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "24e7d257_e90d1ec0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-02-12T13:12:19Z",
+      "side": 1,
+      "message": "I think errors are supposed to be rare so initially let\u0027s render it by default\n\nWe want users to see and report them as easy as possible\n\nlater we can consider moving it to a tooltip",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 13
+      },
+      "revId": "4788f99951b9ff826dca9daff3f72f6664f65671",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

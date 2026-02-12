@@ -67,8 +67,8 @@ def java_dependencies():
 
     maven_jar(
         name = "servlet-api",
-        artifact = "javax.servlet:javax.servlet-api:3.1.0",
-        sha1 = "3cd63d075497751784b2fa84be59432f4905bf7c",
+        artifact = "javax.servlet:javax.servlet-api:4.0.1",
+        sha1 = "a27082684a2ff0bf397666c3943496c44541d1ca",
     )
 
     maven_jar(

@@ -22,6 +22,30 @@
       },
       "revId": "136d6a6e8ded96b6ae0ee32aebc4d3a4f1461f74",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2d7ff520_cfc5bac5",
+        "filename": "polygerrit-ui/app/api/flows.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-02-13T11:23:35Z",
+      "side": 1,
+      "message": "Added `ChangeInfo` similar to `getChatConversation`",
+      "parentUuid": "8cb5e302_02316e68",
+      "range": {
+        "startLine": 37,
+        "startChar": 57,
+        "endLine": 37,
+        "endChar": 73
+      },
+      "revId": "136d6a6e8ded96b6ae0ee32aebc4d3a4f1461f74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

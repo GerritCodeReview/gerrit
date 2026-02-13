@@ -5,6 +5,7 @@ CORE_PLUGINS = [
     "download-commands",
     "gitiles",
     "hooks",
+    "oauth",
     "plugin-manager",
     "replication",
     "replication:replication-api",

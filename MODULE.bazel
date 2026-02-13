@@ -229,19 +229,12 @@ maven.from_toml(
 )
 use_repo(maven, "external_deps")
 
-maven.install(
-    name = "external_plugin_deps",
-    artifacts = [],
-    repositories = [
-        "https://repo1.maven.org/maven2",
-    ],
-    lock_file = "//:external_plugin_deps.lock.json",
-    duplicate_version_warning = "error",
-    fail_if_repin_required = True,
-    fail_on_missing_checksum = True,
-    fetch_sources = True,
-    strict_visibility = True,
-    version_conflict_policy = "pinned",
+# Import core plugins that declare their own external dependencies
+# via bzlmod. The oauth plugin is provided from the in-tree
+# plugins/oauth submodule using a local path override.
+bazel_dep(name = "gerrit-oauth-provider")
+local_path_override(
+    module_name = "gerrit-oauth-provider",
+    path = "plugins/oauth",
 )
-
 use_repo(maven, "external_plugin_deps")

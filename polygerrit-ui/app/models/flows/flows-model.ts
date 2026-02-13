@@ -10,15 +10,18 @@ import {fireServerError} from '../../utils/event-util';
 import {FlowInfo, FlowInput} from '../../api/rest-api';
 import {Model} from '../base/model';
 import {define} from '../dependency';
+import {PluginsModel} from '../plugins/plugins-model';
 
 import {NumericChangeId} from '../../types/common';
 import {getAppContext} from '../../services/app-context';
+import {FlowsProvider} from '../../api/flows';
 
 export interface FlowsState {
   isEnabled: boolean;
   flows: FlowInfo[];
   loading: boolean;
   errorMessage?: string;
+  provider?: FlowsProvider;
 }
 
 export const flowsModelToken = define<FlowsModel>('flows-model');
@@ -36,7 +39,12 @@ export class FlowsModel extends Model<FlowsState> {
 
   private readonly restApiService = getAppContext().restApiService;
 
-  constructor(private readonly changeModel: ChangeModel) {
+  private plugin?: FlowsProvider;
+
+  constructor(
+    private readonly changeModel: ChangeModel,
+    private readonly pluginsModel: PluginsModel
+  ) {
     super({
       isEnabled: false,
       flows: [],
@@ -102,6 +110,15 @@ export class FlowsModel extends Model<FlowsState> {
           });
         })
     );
+
+    this.pluginsModel.flowPlugins$.subscribe(plugins => {
+      const provider = plugins[0]?.provider;
+
+      this.plugin = provider;
+      this.updateState({
+        provider,
+      });
+    });
   }
 
   reload() {

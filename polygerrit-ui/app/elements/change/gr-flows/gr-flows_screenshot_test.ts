@@ -125,7 +125,12 @@ suite('gr-flows screenshot tests', () => {
       },
     ];
 
-    flowsModel.setState({flows, loading: false, isEnabled: true});
+    flowsModel.setState({
+      flows,
+      loading: false,
+      isEnabled: true,
+      providers: [],
+    });
     await element.updateComplete;
     await waitUntil(
       () => element.shadowRoot!.querySelectorAll('.flow').length === 1
@@ -141,6 +146,7 @@ suite('gr-flows screenshot tests', () => {
     flowsModel.setState({
       ...flowsModel.getState(),
       flows: [],
+      providers: [],
     });
     await element.updateComplete;
     await waitUntil(
@@ -158,6 +164,7 @@ suite('gr-flows screenshot tests', () => {
       ...flowsModel.getState(),
       flows: [],
       loading: true,
+      providers: [],
     });
     await element.updateComplete;
     await waitUntil(
@@ -208,6 +215,7 @@ suite('gr-flows screenshot tests', () => {
           ],
         },
       ],
+      providers: [],
     });
     await element.updateComplete;
     await waitUntil(

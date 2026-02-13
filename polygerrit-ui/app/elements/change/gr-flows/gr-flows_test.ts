@@ -84,7 +84,12 @@ suite('gr-flows tests', () => {
   });
 
   test('renders create flow component and no flows', async () => {
-    flowsModel.setState({flows: [], loading: false, isEnabled: true});
+    flowsModel.setState({
+      flows: [],
+      loading: false,
+      isEnabled: true,
+      providers: [],
+    });
     await element.updateComplete;
   });
 
@@ -108,7 +113,12 @@ suite('gr-flows tests', () => {
         ],
       }),
     ];
-    flowsModel.setState({flows, loading: false, isEnabled: true});
+    flowsModel.setState({
+      flows,
+      loading: false,
+      isEnabled: true,
+      providers: [],
+    });
     await element.updateComplete;
 
     // prettier formats the spacing for "last evaluated" incorrectly
@@ -219,7 +229,12 @@ suite('gr-flows tests', () => {
   test('deletes a flow after confirmation', async () => {
     const flows: FlowInfo[] = [createFlow()];
     const deleteFlowStub = sinon.stub(flowsModel, 'deleteFlow');
-    flowsModel.setState({flows, loading: false, isEnabled: true});
+    flowsModel.setState({
+      flows,
+      loading: false,
+      isEnabled: true,
+      providers: [],
+    });
     await element.updateComplete;
 
     const deleteButton = queryAndAssert<GrButton>(element, '.flow gr-button');
@@ -243,7 +258,12 @@ suite('gr-flows tests', () => {
   test('cancel deleting a flow', async () => {
     const flows: FlowInfo[] = [createFlow()];
     const deleteFlowStub = sinon.stub(flowsModel, 'deleteFlow');
-    flowsModel.setState({flows, loading: false, isEnabled: true});
+    flowsModel.setState({
+      flows,
+      loading: false,
+      isEnabled: true,
+      providers: [],
+    });
     await element.updateComplete;
 
     const deleteButton = queryAndAssert<GrButton>(element, '.flow gr-button');
@@ -267,7 +287,12 @@ suite('gr-flows tests', () => {
 
   test('refreshes flows on button click', async () => {
     const flow = createFlow();
-    flowsModel.setState({flows: [flow], loading: false, isEnabled: true});
+    flowsModel.setState({
+      flows: [flow],
+      loading: false,
+      isEnabled: true,
+      providers: [],
+    });
     await element.updateComplete;
 
     const reloadStub = flowsModel.reload as sinon.SinonStub;
@@ -285,7 +310,12 @@ suite('gr-flows tests', () => {
 
   suite('create flow visibility', () => {
     setup(async () => {
-      flowsModel.setState({flows: [], loading: false, isEnabled: true});
+      flowsModel.setState({
+        flows: [],
+        loading: false,
+        isEnabled: true,
+        providers: [],
+      });
       await element.updateComplete;
     });
 

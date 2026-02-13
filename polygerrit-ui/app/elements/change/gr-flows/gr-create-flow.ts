@@ -206,14 +206,18 @@ export class GrCreateFlow extends LitElement {
       () =>
         combineLatest([
           this.getChangeModel().change$,
-          this.getFlowsModel().provider$,
+          this.getFlowsModel().providers$,
         ]),
-      async ([change, provider]) => {
-        if (!change || !provider) return;
-        // TODO: add handling for multiple providers
-        this.customConditions = await provider.getCustomConditions(
-          change as ChangeInfo
+      async ([change, providers]) => {
+        if (!change || providers.length === 0) {
+          this.customConditions = [];
+          return;
+        }
+        const conditionsPromises = providers.map(provider =>
+          provider.getCustomConditions(change as ChangeInfo)
         );
+        const allConditions = await Promise.all(conditionsPromises);
+        this.customConditions = allConditions.flat();
       }
     );
 

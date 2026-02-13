@@ -16,6 +16,24 @@
       "message": "After recent refactoring of bzlmod integration series this change is doesn\u0027t seem to be required any more?",
       "revId": "c41a9d069d4ccc44d94fb4c1cbdba6ec8a3a6e87",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a3a4acb8_0f7f5967",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-02-13T21:55:17Z",
+      "side": 1,
+      "message": "It seems to be needed for change 517885.",
+      "parentUuid": "2440c676_35447fb4",
+      "revId": "c41a9d069d4ccc44d94fb4c1cbdba6ec8a3a6e87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

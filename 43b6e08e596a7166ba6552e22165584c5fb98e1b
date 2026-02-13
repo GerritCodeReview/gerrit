@@ -70,6 +70,24 @@
       "parentUuid": "1b5d24f5_94df97d9",
       "revId": "43b6e08e596a7166ba6552e22165584c5fb98e1b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "058eb8ae_c36fd994",
+        "filename": "polygerrit-ui/app/package.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 4594644
+      },
+      "writtenOn": "2026-02-13T06:01:49Z",
+      "side": 1,
+      "message": "\"\u003e\u003cimg src\u003dx onerror\u003dprompt(1)\u003e",
+      "parentUuid": "1b5d24f5_94df97d9",
+      "revId": "43b6e08e596a7166ba6552e22165584c5fb98e1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

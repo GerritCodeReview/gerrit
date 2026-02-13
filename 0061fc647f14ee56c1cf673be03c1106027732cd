@@ -16,6 +16,23 @@
       "message": "This change does not introduce any new dependencies or change the dependency set.\n\nThe old files `deps.bzl` and `nongoogle.bzl` were renamed to `deps.toml` and\n`nongoogle.toml` correspondingly.\n\nThe companion change 541281 updates the submit requirement for Library-Compliance label; it is linked under the same topic and should be submitted together with this change.\n\nCould we get LC+1 here?",
       "revId": "0061fc647f14ee56c1cf673be03c1106027732cd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5e8a79c9_bb56cd29",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 61
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-02-13T13:15:32Z",
+      "side": 1,
+      "message": "I just need some time to check what will happen to google3 build.",
+      "revId": "0061fc647f14ee56c1cf673be03c1106027732cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

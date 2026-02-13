@@ -11,6 +11,7 @@ import {GrPopupInterface} from '../../plugins/gr-popup-interface/gr-popup-interf
 import {GrAdminApi} from '../../plugins/gr-admin-api/gr-admin-api';
 import {GrAnnotationActionsInterface} from './gr-annotation-actions-js-api';
 import {GrEventHelper} from '../../plugins/gr-event-helper/gr-event-helper';
+import {GrFlowsApi} from './gr-flows-api';
 import {GrPluginRestApi} from './gr-plugin-rest-api';
 import {EndpointType, GrPluginEndpoints} from './gr-plugin-endpoints';
 import {getPluginNameFromUrl} from './gr-api-utils';
@@ -206,6 +207,10 @@ export class Plugin implements PluginApi {
 
   checks(): GrChecksApi {
     return new GrChecksApi(this.report, this.pluginsModel, this);
+  }
+
+  flows(): GrFlowsApi {
+    return new GrFlowsApi(this.pluginsModel);
   }
 
   changeUpdates(): GrChangeUpdatesApi {

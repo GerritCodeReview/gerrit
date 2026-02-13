@@ -16,6 +16,7 @@ import {CoverageProvider, TokenHoverListener} from '../../api/annotation';
 import {SuggestionsProvider} from '../../api/suggestions';
 import {ChangeUpdatesPublisher} from '../../api/change-updates';
 import {AiCodeReviewProvider} from '../../api/ai-code-review';
+import {FlowsProvider} from '../../api/flows';
 
 export interface CoveragePlugin {
   pluginName: string;
@@ -36,6 +37,11 @@ export interface ChangeUpdatesPlugin {
 export interface AiCodeReviewPlugin {
   pluginName: string;
   provider: AiCodeReviewProvider;
+}
+
+export interface FlowsPlugin {
+  pluginName: string;
+  provider: FlowsProvider;
 }
 
 export interface SuggestionPlugin {
@@ -79,6 +85,11 @@ interface PluginsState {
    * List of plugins that have called aiCodeReview().register().
    */
   aiCodeReviewPlugins: AiCodeReviewPlugin[];
+
+  /**
+   * List of plugins that have called flows().register().
+   */
+  flowsPlugins: FlowsPlugin[];
 
   /**
    * List of plugins that have called suggestions().register().
@@ -135,6 +146,7 @@ export class PluginsModel extends Model<PluginsState> {
       changeUpdatesPlugins: [],
       checksPlugins: [],
       aiCodeReviewPlugins: [],
+      flowsPlugins: [],
       suggestionsPlugins: [],
       tokenHighlightPlugins: [],
     });
@@ -205,6 +217,22 @@ export class PluginsModel extends Model<PluginsState> {
       return;
     }
     nextState.aiCodeReviewPlugins.push(plugin);
+    this.setState(nextState);
+  }
+
+  registerFlowsProvider(plugin: FlowsPlugin) {
+    const nextState = {...this.getState()};
+    nextState.flowsPlugins = [...nextState.flowsPlugins];
+    const alreadyRegistered = nextState.flowsPlugins.some(
+      p => p.pluginName === plugin.pluginName
+    );
+    if (alreadyRegistered) {
+      console.warn(
+        `${plugin.pluginName} tried to register twice as a flows provider. Ignored.`
+      );
+      return;
+    }
+    nextState.flowsPlugins.push(plugin);
     this.setState(nextState);
   }
 

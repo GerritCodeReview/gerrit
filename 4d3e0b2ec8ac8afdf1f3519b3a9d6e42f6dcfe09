@@ -16,6 +16,29 @@
       "message": "I remember in initial discussions we wanted these to be part of frontend plugins. Do we really need a backend api for serving the list of conditions here?",
       "revId": "4d3e0b2ec8ac8afdf1f3519b3a9d6e42f6dcfe09",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2725f54c_680da01c",
+        "filename": "java/com/google/gerrit/server/flow/FlowCustomCondition.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2026-02-13T11:00:16Z",
+      "side": 1,
+      "message": "nit: 2026",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "4d3e0b2ec8ac8afdf1f3519b3a9d6e42f6dcfe09",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

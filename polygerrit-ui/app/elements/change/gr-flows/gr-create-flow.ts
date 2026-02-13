@@ -8,7 +8,7 @@ import {css, html, LitElement, PropertyValues} from 'lit';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {materialStyles} from '../../../styles/gr-material-styles';
 import {grFormStyles} from '../../../styles/gr-form-styles';
-import {FlowActionInfo, FlowInput} from '../../../api/rest-api';
+import {ChangeInfo, FlowActionInfo, FlowInput} from '../../../api/rest-api';
 import {getAppContext} from '../../../services/app-context';
 import {NumericChangeId, ServerInfo} from '../../../types/common';
 import '../../shared/gr-button/gr-button';
@@ -38,6 +38,10 @@ import {
   Stage,
   STAGE_SEPARATOR,
 } from '../../../utils/flows-util';
+import {FlowCustomConditionInfo, FlowsProvider} from '../../../api/flows';
+import {changeModelToken} from '../../../models/change/change-model';
+import {ParsedChangeInfo} from '../../../types/types';
+import {combineLatest} from 'rxjs';
 
 const MAX_AUTOCOMPLETE_RESULTS = 10;
 
@@ -87,6 +91,8 @@ export class GrCreateFlow extends LitElement {
 
   private readonly getFlowsModel = resolve(this, flowsModelToken);
 
+  private readonly getChangeModel = resolve(this, changeModelToken);
+
   private readonly projectSuggestions: SuggestionProvider = (
     predicate,
     expression
@@ -96,6 +102,12 @@ export class GrCreateFlow extends LitElement {
     predicate,
     expression
   ) => this.fetchGroups(predicate, expression);
+
+  private flowsProvider?: FlowsProvider;
+
+  private change?: ParsedChangeInfo;
+
+  private customConditions: FlowCustomConditionInfo[] = [];
 
   private readonly accountSuggestions: SuggestionProvider = (
     predicate,
@@ -124,6 +136,33 @@ export class GrCreateFlow extends LitElement {
       () => this.getConfigModel().serverConfig$,
       config => (this.serverConfig = config)
     );
+    subscribe(
+      this,
+      () => this.getChangeModel().change$,
+      x => (this.change = x)
+    );
+    subscribe(
+      this,
+      () => this.getFlowsModel().provider$,
+      provider => {
+        this.flowsProvider = provider;
+      }
+    );
+    subscribe(
+      this,
+      () =>
+        combineLatest([
+          this.getChangeModel().change$,
+          this.getFlowsModel().provider$,
+        ]),
+      async ([change, provider]) => {
+        if (!change || !provider) return;
+        this.customConditions = await provider.getCustomConditions(
+          change as ChangeInfo
+        );
+      }
+    );
+
     this.hostUrl = window.location.origin + window.location.pathname;
   }
 
@@ -331,6 +370,15 @@ export class GrCreateFlow extends LitElement {
     `;
   }
 
+  private renderConditions() {
+    return html`<md-select-option value="Gerrit">
+        <div slot="headline">Gerrit</div>
+      </md-select-option>
+      <md-select-option value="Other">
+        <div slot="headline">Other</div>
+      </md-select-option>`;
+  }
+
   private renderCreateFlowDialog() {
     return html`
       <dialog id="createModal" tabindex="-1">
@@ -354,7 +402,6 @@ export class GrCreateFlow extends LitElement {
                 .value=${this.flowString}
                 @input=${(e: InputEvent) => {
                   this.flowString = (e.target as MdOutlinedTextField).value;
-
                   this.parseStagesFromRawFlow(this.flowString);
                 }}
               ></md-outlined-text-field>
@@ -395,16 +442,10 @@ export class GrCreateFlow extends LitElement {
                       value=${this.currentConditionPrefix}
                       @change=${(e: Event) => {
                         const select = e.target as HTMLSelectElement;
-
                         this.currentConditionPrefix = select.value;
                       }}
                     >
-                      <md-select-option value="Gerrit">
-                        <div slot="headline">Gerrit</div>
-                      </md-select-option>
-                      <md-select-option value="Other">
-                        <div slot="headline">Other</div>
-                      </md-select-option>
+                      ${this.renderConditions()}
                     </md-outlined-select>
                     ${this.currentConditionPrefix === 'Gerrit'
                       ? html`<gr-search-autocomplete

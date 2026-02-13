@@ -114,4 +114,20 @@ public interface FlowService {
    */
   ImmutableList<FlowActionType> listActions(Project.NameKey projectName, Change.Id changeId)
       throws StorageException;
+
+  /**
+   * Lists the custom conditions for the change. When configuring flows, the user specifies a
+   * condition and the actions that can be performed. By default "Gerrit" conditions are supported
+   * which match a change query with the change on which the flow is created. Flows can support
+   * evaluating any custom condition unrelated to the Gerrit change such as "wait 1 week" as long as
+   * the evaluator supports such conditions.
+   *
+   * @param projectName The name of the project that contains the change.
+   * @param changeId The ID of the change for which the actions should be listed.
+   * @return The actions of the change. The service may filter out actions that are not visible to
+   *     the current user.
+   * @throws StorageException thrown if accessing the flow storage has failed
+   */
+  ImmutableList<FlowCustomCondition> listCustomConditions(
+      Project.NameKey projectName, Change.Id changeId) throws StorageException;
 }

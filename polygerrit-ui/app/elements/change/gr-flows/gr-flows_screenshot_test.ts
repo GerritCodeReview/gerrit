@@ -141,6 +141,7 @@ suite('gr-flows screenshot tests', () => {
     flowsModel.setState({
       ...flowsModel.getState(),
       flows: [],
+      providers: [],
     });
     await element.updateComplete;
     await waitUntil(
@@ -158,6 +159,7 @@ suite('gr-flows screenshot tests', () => {
       ...flowsModel.getState(),
       flows: [],
       loading: true,
+      providers: [],
     });
     await element.updateComplete;
     await waitUntil(
@@ -208,6 +210,7 @@ suite('gr-flows screenshot tests', () => {
           ],
         },
       ],
+      providers: [],
     });
     await element.updateComplete;
     await waitUntil(

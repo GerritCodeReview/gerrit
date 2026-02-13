@@ -22,7 +22,7 @@ export interface FlowsState {
   flows: FlowInfo[];
   loading: boolean;
   errorMessage?: string;
-  provider?: FlowsProvider;
+  providers: FlowsProvider[];
 }
 
 export const flowsModelToken = define<FlowsModel>('flows-model');
@@ -32,6 +32,11 @@ export class FlowsModel extends Model<FlowsState> {
 
   readonly loading$ = this.state$.pipe(map(s => s.loading));
 
+  readonly providers$: Observable<FlowsProvider[]> = select(
+    this.state$,
+    state => state.providers
+  );
+
   readonly enabled$: Observable<boolean>;
 
   private readonly reload$ = new BehaviorSubject<void>(undefined);
@@ -39,11 +44,6 @@ export class FlowsModel extends Model<FlowsState> {
   private changeNum?: NumericChangeId;
 
   private readonly restApiService = getAppContext().restApiService;
-
-  readonly provider$: Observable<FlowsProvider | undefined> = select(
-    this.state$,
-    state => state.provider
-  );
 
   constructor(
     private readonly changeModel: ChangeModel,
@@ -53,6 +53,7 @@ export class FlowsModel extends Model<FlowsState> {
       isEnabled: false,
       flows: [],
       loading: true,
+      providers: [],
     });
 
     this.enabled$ = this.changeModel.changeNum$.pipe(
@@ -116,9 +117,11 @@ export class FlowsModel extends Model<FlowsState> {
     );
 
     this.pluginsModel.flowsPlugins$.subscribe(plugins => {
-      const provider = plugins[0]?.provider;
+      const providers = plugins
+        .map(p => p.provider)
+        .filter((p): p is FlowsProvider => p !== undefined);
       this.updateState({
-        provider,
+        providers,
       });
     });
   }

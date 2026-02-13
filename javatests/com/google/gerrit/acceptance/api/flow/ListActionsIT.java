@@ -65,17 +65,19 @@ public class ListActionsIT extends AbstractDaemonTest {
     ChangeIdentifier changeIdentifier = changeOperations.newChange().create();
 
     TestExtensions.TestFlowService testFlowService = new TestExtensions.TestFlowService();
-    testFlowService.setActions(ImmutableList.of(action("action1"), action("action2")));
+    testFlowService.setActions(ImmutableList.of(action("action1", "param1"), action("action2", "param2")));
 
     try (Registration registration = extensionRegistry.newRegistration().set(testFlowService)) {
       List<FlowActionTypeInfo> actions = gApi.changes().id(changeIdentifier).flowsActions();
       assertThat(actions).hasSize(2);
       assertThat(actions.get(0).name).isEqualTo("action1");
+      assertThat(actions.get(0).parametersPlaceholder).isEqualTo("param1");
       assertThat(actions.get(1).name).isEqualTo("action2");
+      assertThat(actions.get(1).parametersPlaceholder).isEqualTo("param2");
     }
   }
 
-  private static FlowActionType action(String name) {
-    return FlowActionType.builder(name).build();
+  private static FlowActionType action(String name, String parametersPlaceholder) {
+    return FlowActionType.builder(name).parametersPlaceholder(parametersPlaceholder).build();
   }
 }

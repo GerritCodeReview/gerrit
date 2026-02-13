@@ -51,6 +51,7 @@ public class ListActions implements RestReadView<ChangeResource> {
                 flowAction -> {
                   FlowActionTypeInfo flowActionTypeInfo = new FlowActionTypeInfo();
                   flowActionTypeInfo.name = flowAction.name();
+                  flowActionTypeInfo.parametersPlaceholder = flowAction.parametersPlaceholder();
                   return flowActionTypeInfo;
                 })
             .collect(Collectors.toList()));

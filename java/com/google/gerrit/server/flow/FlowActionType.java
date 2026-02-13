@@ -15,6 +15,7 @@
 package com.google.gerrit.server.flow;
 
 import com.google.auto.value.AutoValue;
+import com.google.gerrit.common.Nullable;
 
 /**
  * An action type to be triggered when the condition of a flow expression becomes satisfied.
@@ -29,6 +30,12 @@ public abstract class FlowActionType {
    * <p>Which action types are supported depends on the flow service implementation.
    */
   public abstract String name();
+
+  /**
+   * The text to display in the UI as placeholder for the parameters input field.
+   */
+  @Nullable
+  public abstract String parametersPlaceholder();
 
   /** Creates a {@link Builder} for this flow action type instance. */
   public abstract Builder toBuilder();
@@ -47,6 +54,9 @@ public abstract class FlowActionType {
   public abstract static class Builder {
     /** Sets the name of the action type. */
     public abstract Builder name(String name);
+
+    /** Sets the parameters placeholder of the action type. */
+    public abstract Builder parametersPlaceholder(@Nullable String parametersPlaceholder);
 
     /** Builds the {@link FlowActionType}. */
     public abstract FlowActionType build();

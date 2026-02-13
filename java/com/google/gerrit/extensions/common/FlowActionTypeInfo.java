@@ -28,4 +28,9 @@ public class FlowActionTypeInfo {
    * <p>Which action types are supported depends on the flow service implementation.
    */
   public String name;
+
+  /**
+   * The parameters placeholder text to display in the UI.
+   */
+  public String parametersPlaceholder;
 }

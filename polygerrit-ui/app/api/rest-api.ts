@@ -713,6 +713,7 @@ export declare interface FetchInfo {
 export declare interface FlowActionInfo {
   name: string;
   parameters?: string[];
+  parameters_placeholder?: string;
 }
 
 /**

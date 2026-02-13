@@ -598,13 +598,14 @@ export class GrCreateFlow extends LitElement {
     this.createModal?.close();
   }
 
-  // TODO: we want to at some point dynamically fetch this information.
-  // The list of actions is being fetched dynamically but
-  // this code hardcodes these actions for now.
-  private getParametersPlaceholder(action: string) {
-    if (action === 'add-reviewer') return 'user@example.com';
-    if (action === 'vote') return '<Label>+/-<Value>';
-    if (action === 'submit') return 'no parameter required';
+  // TODO: remove eventually when we fully migrated to fetching placeholders from the backend.
+  private getParametersPlaceholder(actionName: string) {
+    const action = this.flowActions.find(a => a.name === actionName);
+    if (action?.parameters_placeholder) return action.parameters_placeholder;
+
+    if (actionName === 'add-reviewer') return 'user@example.com';
+    if (actionName === 'vote') return '<Label>+/-<Value>';
+    if (actionName === 'submit') return 'no parameter required';
     return 'Parameters';
   }
 }

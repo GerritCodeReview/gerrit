@@ -65,3 +65,8 @@
 	path = polymer-bridges
 	url = ../polymer-bridges
 	branch = .
+
+[submodule "plugins/oauth"]
+	path = plugins/oauth
+	url = ../plugins/oauth
+	branch = .

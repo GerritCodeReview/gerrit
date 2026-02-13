@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f6be21fc_4ef71f55",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2026-02-13T10:52:00Z",
+      "side": 1,
+      "message": "I remember in initial discussions we wanted these to be part of frontend plugins. Do we really need a backend api for serving the list of conditions here?",
+      "revId": "4d3e0b2ec8ac8afdf1f3519b3a9d6e42f6dcfe09",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

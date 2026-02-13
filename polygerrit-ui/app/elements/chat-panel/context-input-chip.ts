@@ -84,11 +84,6 @@ export class ContextInputChip extends LitElement {
     .add-icon {
       color: var(--primary-text-color);
     }
-    .add-context-text {
-      font-size: var(--font-size-small);
-      font-weight: var(--font-weight-medium);
-      color: var(--primary-text-color);
-    }
     .add-link-container {
       position: absolute;
       text-align: center;

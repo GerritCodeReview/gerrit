@@ -24,6 +24,7 @@ import {changeModelToken} from '../../models/change/change-model';
 import {chatProvider, createChange} from '../../test/test-data-generators';
 import {ParsedChangeInfo} from '../../types/types';
 import {queryAndAssert, visualDiffDarkTheme} from '../../test/test-utils';
+import {PromptBox} from './prompt-box';
 import {ReferencesDropdown} from './references-dropdown';
 
 suite('chat-panel screenshot tests', () => {
@@ -42,6 +43,14 @@ suite('chat-panel screenshot tests', () => {
       change: createChange() as ParsedChangeInfo,
     });
     chatModel = testResolver(chatModelToken);
+    chatModel.updateState({
+      ...chatModel.getState(),
+      draftUserMessage: {
+        contextItems: [],
+        content: '',
+        userType: UserType.USER,
+      },
+    });
 
     element = await fixture(html`<chat-panel></chat-panel>`);
     await element.updateComplete;
@@ -341,5 +350,27 @@ suite('chat-panel screenshot tests', () => {
     await element.updateComplete;
     await visualDiff(element, 'chat-panel-history');
     await visualDiffDarkTheme(element, 'chat-panel-history');
+  });
+
+  test('chat mode with suggested context items', async () => {
+    const promptBox = queryAndAssert<PromptBox>(element, 'prompt-box');
+    promptBox.commitMessageContextItems = [
+      {
+        type_id: 'buganizer',
+        title: 'b/12345',
+        identifier: '12345',
+        link: 'http://b/12345',
+      },
+      {
+        type_id: 'buganizer',
+        title: 'b/123456789',
+        identifier: '123456789',
+        link: 'http://b/123456789',
+      },
+    ];
+    await element.updateComplete;
+
+    await visualDiff(element, 'chat-panel-prompt-box-suggested-items');
+    await visualDiffDarkTheme(element, 'chat-panel-prompt-box-suggested-items');
   });
 });

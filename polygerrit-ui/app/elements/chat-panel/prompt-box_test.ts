@@ -11,16 +11,20 @@ import {
   ChatModel,
   chatModelToken,
   ChatState,
+  UserType,
 } from '../../models/chat/chat-model';
 import {testResolver} from '../../test/common-test-setup';
 import {pluginLoaderToken} from '../shared/gr-js-api-interface/gr-plugin-loader';
 import {chatProvider, createChange} from '../../test/test-data-generators';
-import {changeModelToken} from '../../models/change/change-model';
+import {ChangeModel, changeModelToken} from '../../models/change/change-model';
 import {ParsedChangeInfo} from '../../types/types';
+import sinon from 'sinon';
+import {ContextItem} from '../../api/ai-code-review';
 
 suite('prompt-box tests', () => {
   let element: PromptBox;
   let chatModel: ChatModel;
+  let changeModel: ChangeModel;
 
   setup(async () => {
     const pluginLoader = testResolver(pluginLoaderToken);
@@ -29,13 +33,20 @@ suite('prompt-box tests', () => {
       provider: chatProvider,
     });
 
-    const changeModel = testResolver(changeModelToken);
+    changeModel = testResolver(changeModelToken);
     changeModel.updateState({
       change: createChange() as ParsedChangeInfo,
     });
 
     chatModel = testResolver(chatModelToken);
-    chatModel.updateState({turns: []});
+    chatModel.updateState({
+      turns: [],
+      draftUserMessage: {
+        contextItems: [],
+        content: '',
+        userType: UserType.USER,
+      },
+    });
 
     element = await fixture<PromptBox>(html`<prompt-box></prompt-box>`);
     await element.updateComplete;
@@ -152,6 +163,54 @@ suite('prompt-box tests', () => {
     );
     assert.isOk(suggestedChips);
     assert.equal(suggestedChips?.length, 1);
+  });
+
+  test('accepts suggested context item', async () => {
+    const addContextItemSpy = sinon.spy(chatModel, 'addContextItem');
+    const suggestion: ContextItem = {
+      type_id: 'file',
+      title: 'suggested.ts',
+      link: 'link3',
+      identifier: 'id3',
+    };
+    element.dynamicContextItemsSuggestions = [suggestion];
+    await element.updateComplete;
+
+    const suggestedChip = element.shadowRoot?.querySelector(
+      '.suggestion-context'
+    );
+    assert.isOk(suggestedChip);
+    suggestedChip.dispatchEvent(new Event('accept-context-item-suggestion'));
+    await element.updateComplete;
+
+    assert.isTrue(addContextItemSpy.calledOnceWith(suggestion));
+  });
+
+  test('removes context item', async () => {
+    const removeContextItemSpy = sinon.spy(chatModel, 'removeContextItem');
+    const item: ContextItem = {
+      type_id: 'file',
+      title: 'test.ts',
+      link: 'link1',
+      identifier: 'id1',
+    };
+    chatModel.updateState({
+      ...chatModel.getState(),
+      draftUserMessage: {
+        ...chatModel.getState().draftUserMessage,
+        contextItems: [item],
+      },
+    });
+    await element.updateComplete;
+
+    const contextChip = element.shadowRoot?.querySelector(
+      'context-chip.external-context'
+    );
+    assert.isOk(contextChip);
+    contextChip.dispatchEvent(new Event('remove-context-chip'));
+    await element.updateComplete;
+
+    assert.isTrue(removeContextItemSpy.calledOnceWith(item));
   });
 
   test('shows context toggle when too many items', async () => {

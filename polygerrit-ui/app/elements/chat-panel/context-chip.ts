@@ -58,7 +58,9 @@ export class ContextChip extends LitElement {
     md-filter-chip.suggested-chip {
       opacity: 0.5;
       border-style: dashed;
+      border-width: 1px;
       border-color: var(--border-color);
+      --md-filter-chip-outline-color: transparent;
     }
     md-filter-chip.suggested-chip:hover {
       opacity: 0.7;
@@ -110,6 +112,15 @@ export class ContextChip extends LitElement {
       visibility: hidden;
       pointer-events: none;
     }
+    .context-chip-container {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      align-items: center;
+    }
+    .context-chip-title {
+      padding-top: 2px;
+    }
   `;
 
   override render() {
@@ -128,7 +139,7 @@ export class ContextChip extends LitElement {
         this.tooltip ??
         this.contextItem?.title ??
         this.text}
-        @click=${this.navigateToUrl}
+        @click=${this.handleChipClick}
         ?removable=${this.isRemovable && !this.isSuggestion}
         @remove=${this.onRemoveContextChip}
       >
@@ -140,22 +151,16 @@ export class ContextChip extends LitElement {
             .icon=${icon}
           ></gr-icon>`
         )}
-        ${truncatePath(this.contextItem?.title ?? this.text, 2)}
-        ${when(
-          this.subText,
-          () => html`<span class="subtext">: ${this.subText}</span>`
-        )}
-        ${when(
-          this.isSuggestion,
-          () => html`
-            <md-icon
-              slot="trailing-icon"
-              @click=${this.onAcceptContextItemSuggestion}
-            >
-              add
-            </md-icon>
-          `
-        )}
+        <div class="context-chip-container">
+          <span class="context-chip-title">
+            ${truncatePath(this.contextItem?.title ?? this.text, 2)}
+            ${when(
+              this.subText,
+              () => html`<span class="subtext">: ${this.subText}</span>`
+            )}
+          </span>
+          ${when(this.isSuggestion, () => html` <gr-icon icon="add"></gr-icon> `)}
+        </div>
       </md-filter-chip>
     `;
   }
@@ -164,19 +169,21 @@ export class ContextChip extends LitElement {
     fire(this, 'remove-context-chip', {});
   }
 
-  private onAcceptContextItemSuggestion() {
-    fire(this, 'accept-context-item-suggestion', {});
-  }
+  protected handleChipClick(e: MouseEvent) {
+    // Always prevent the default filter chip behavior (selection/checkmark).
+    e.preventDefault();
+    e.stopPropagation();
 
-  private navigateToUrl(e: MouseEvent) {
-    const link = this.contextItem?.link?.trim();
-    if (!link) {
-      e.preventDefault();
-      e.stopPropagation();
+    if (this.isSuggestion) {
+      fire(this, 'accept-context-item-suggestion', {});
       return;
     }
-    const url = link.startsWith('http') ? link : `http://${link}`;
-    window.open(url, '_blank');
+
+    const link = this.contextItem?.link?.trim();
+    if (link) {
+      const url = link.startsWith('http') ? link : `http://${link}`;
+      window.open(url, '_blank');
+    }
   }
 }
 

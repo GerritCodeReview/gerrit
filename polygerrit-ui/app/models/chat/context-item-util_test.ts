@@ -8,9 +8,11 @@ import {assert} from '@open-wc/testing';
 import {
   contextItemEquals,
   parseLink,
+  searchForBugsInCommitMessage,
   searchForContextLinks,
 } from './context-item-util';
 import {ContextItem, ContextItemType} from '../../api/ai-code-review';
+import sinon from 'sinon';
 
 suite('context-item-util tests', () => {
   const fileContextItemType: ContextItemType = {
@@ -154,6 +156,126 @@ suite('context-item-util tests', () => {
         identifier: '/x/y/z.txt',
       };
       assert.isFalse(contextItemEquals(item1, item2));
+    });
+  });
+
+  suite('searchForBugsInCommitMessage', () => {
+    let buganizerContextItemTypes: ContextItemType[];
+    let parseSpy: sinon.SinonSpy;
+
+    setup(() => {
+      parseSpy = sinon.spy((url: string) => {
+        const match = url.match(/b\/(\d+)/);
+        if (match) {
+          return {
+            type_id: 'buganizer',
+            title: `b/${match[1]}`,
+            link: `http://b/${match[1]}`,
+            identifier: match[1],
+          };
+        }
+        return undefined;
+      });
+
+      buganizerContextItemTypes = [
+        {
+          id: 'buganizer',
+          name: 'Buganizer',
+          icon: 'bug_report',
+          placeholder: 'b/...',
+          regex:
+            /(?:^|\s)(?:https:\/\/(?:b|buganizer)\.corp\.google\.com\/issues\/|b\/)([1-9]\d*)(?:\/.*)?/,
+          parse: parseSpy,
+        },
+      ];
+    });
+
+    test('finds bug in "bug: 12345678" line', () => {
+      const message = 'Fixes a bug.\n\nbug: 12345678';
+      const result = searchForBugsInCommitMessage(
+        message,
+        buganizerContextItemTypes
+      );
+      assert.equal(result.length, 1);
+      assert.equal(result[0].identifier, '12345678');
+      assert.isTrue(parseSpy.calledWith('b/12345678'));
+    });
+
+    test('finds bug in "fixes: 12345678" line', () => {
+      const message = 'Fixes a bug.\n\nfixes = 12345678';
+      const result = searchForBugsInCommitMessage(
+        message,
+        buganizerContextItemTypes
+      );
+      assert.equal(result.length, 1);
+      assert.equal(result[0].identifier, '12345678');
+    });
+
+    test('finds multiple bugs', () => {
+      const message = 'Fixes a bug.\n\nbug: 12345678, 87654321';
+      const result = searchForBugsInCommitMessage(
+        message,
+        buganizerContextItemTypes
+      );
+      assert.equal(result.length, 2);
+      assert.deepEqual(
+        result.map(r => r.identifier),
+        ['12345678', '87654321']
+      );
+    });
+
+    test('does not find bug if no keyword', () => {
+      const message = 'This is a commit message.\n\n12345678';
+      const result = searchForBugsInCommitMessage(
+        message,
+        buganizerContextItemTypes
+      );
+      assert.equal(result.length, 0);
+    });
+
+    test('does not find bug if keyword but no number', () => {
+      const message = 'This is a commit message.\n\nbug: ';
+      const result = searchForBugsInCommitMessage(
+        message,
+        buganizerContextItemTypes
+      );
+      assert.equal(result.length, 0);
+    });
+
+    test('ignores b/ links', () => {
+      const message = 'Fixes a bug.\n\nbug: b/12345678';
+      const result = searchForBugsInCommitMessage(
+        message,
+        buganizerContextItemTypes
+      );
+      assert.equal(result.length, 0);
+    });
+
+    test('ignores urls', () => {
+      const message = 'Fixes a bug.\n\nbug: http://b/12345678';
+      const result = searchForBugsInCommitMessage(
+        message,
+        buganizerContextItemTypes
+      );
+      assert.equal(result.length, 0);
+    });
+
+    test('ignores short numbers', () => {
+      const message = 'Fixes a bug and 1 more feature on the count of 123.';
+      const result = searchForBugsInCommitMessage(
+        message,
+        buganizerContextItemTypes
+      );
+      assert.equal(result.length, 0);
+    });
+
+    test('does not find bug in "debugging"', () => {
+      const message = 'Enable debugging for feature X 12345678';
+      const result = searchForBugsInCommitMessage(
+        message,
+        buganizerContextItemTypes
+      );
+      assert.equal(result.length, 0);
     });
   });
 });

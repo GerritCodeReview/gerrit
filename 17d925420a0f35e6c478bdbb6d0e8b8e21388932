@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a3185d72_32761583",
+        "filename": "polygerrit-ui/app/elements/change/gr-flows/gr-create-flow.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2026-02-13T16:12:45Z",
+      "side": 1,
+      "message": "I think it\u0027s possible that multiple plugins provide custom conditions (one default one, one from android). Maybe you should concatenate lists here.",
+      "range": {
+        "startLine": 143,
+        "startChar": 47,
+        "endLine": 143,
+        "endChar": 66
+      },
+      "revId": "17d925420a0f35e6c478bdbb6d0e8b8e21388932",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

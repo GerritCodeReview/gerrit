@@ -33,7 +33,7 @@
     "com.google.inject:guice": -1660789120,
     "com.google.j2objc:j2objc-annotations": -727464895,
     "com.google.jimfs:jimfs": -1004381565,
-    "com.google.protobuf:protobuf-java": 1226523227,
+    "com.google.protobuf:protobuf-java": 1906581597,
     "com.google.template:soy": -1478719887,
     "com.google.truth.extensions:truth-java8-extension": -129319374,
     "com.google.truth.extensions:truth-liteproto-extension": 1463279446,
@@ -238,7 +238,7 @@
     "com.google.code.findbugs:jsr305:jar:sources": 1130389911,
     "com.google.code.gson:gson": -1287986166,
     "com.google.code.gson:gson:jar:sources": -1236668210,
-    "com.google.common.html.types:types": 1189612871,
+    "com.google.common.html.types:types": -560413073,
     "com.google.common.html.types:types:jar:sources": 1541167117,
     "com.google.errorprone:error_prone_annotations": -2118374750,
     "com.google.errorprone:error_prone_annotations:jar:sources": -88858373,
@@ -273,15 +273,15 @@
     "com.google.jimfs:jimfs:jar:sources": 1692501412,
     "com.google.jsinterop:jsinterop-annotations": 1916195800,
     "com.google.jsinterop:jsinterop-annotations:jar:sources": -1738684177,
-    "com.google.protobuf:protobuf-java": -51579755,
-    "com.google.protobuf:protobuf-java:jar:sources": 969385994,
-    "com.google.template:soy": 2049363766,
+    "com.google.protobuf:protobuf-java": -1428941287,
+    "com.google.protobuf:protobuf-java:jar:sources": -121171885,
+    "com.google.template:soy": 844020978,
     "com.google.template:soy:jar:sources": 934091432,
     "com.google.truth.extensions:truth-java8-extension": 2072975728,
     "com.google.truth.extensions:truth-java8-extension:jar:sources": -404559504,
     "com.google.truth.extensions:truth-liteproto-extension": -47385409,
     "com.google.truth.extensions:truth-liteproto-extension:jar:sources": -96134878,
-    "com.google.truth.extensions:truth-proto-extension": 653857181,
+    "com.google.truth.extensions:truth-proto-extension": 92287925,
     "com.google.truth.extensions:truth-proto-extension:jar:sources": -1961892523,
     "com.google.truth:truth": 1710077790,
     "com.google.truth:truth:jar:sources": -1194452779,
@@ -738,10 +738,10 @@
     },
     "com.google.protobuf:protobuf-java": {
       "shasums": {
-        "jar": "c5b582aa127fb62c5fc3077329d522dfb7930b4e9a625c08760b681b2ba5aab7",
-        "sources": "a8b63a553d0e3cc9d4fce0e38d37d75a6d3b7e172d06303d5ed8546866ce2e50"
+        "jar": "3ca892fd6ea8b37d01bb6917dbc0bf2637548b756753f65a28d4f1d4d982347f",
+        "sources": "ed30fe6a51c7c15a6f123448304c97185f2039f2aeca9d5e3b4f53de3a4c813c"
       },
-      "version": "4.33.2"
+      "version": "4.33.4"
     },
     "com.google.template:soy": {
       "shasums": {

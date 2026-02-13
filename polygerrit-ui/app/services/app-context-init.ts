@@ -261,6 +261,13 @@ export function createAppDependencies(
           resolver(changeModelToken)
         ),
     ],
-    [flowsModelToken, () => new FlowsModel(resolver(changeModelToken))],
+    [
+      flowsModelToken,
+      () =>
+        new FlowsModel(
+          resolver(changeModelToken),
+          resolver(pluginLoaderToken).pluginsModel
+        ),
+    ],
   ]);
 }

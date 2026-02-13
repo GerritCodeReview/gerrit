@@ -52,7 +52,7 @@ lucene-queryparser = { module = "org.apache.lucene:lucene-queryparser", version.
 mina-core = { module = "org.apache.mina:mina-core", version = "2.2.4" }
 nekohtml = { module = "net.sourceforge.nekohtml:nekohtml", version = "1.9.10" }
 openid-consumer = { module = "org.openid4java:openid4java", version = "1.0.0" }
-protobuf-java = { module = "com.google.protobuf:protobuf-java", version = "4.33.2" }
+protobuf-java = { module = "com.google.protobuf:protobuf-java", version = "4.33.4" }
 soy = { module = "com.google.template:soy", version = "2024-01-30" }
 sshd-mina = { module = "org.apache.sshd:sshd-mina", version.ref = "sshd" }
 sshd-osgi = { module = "org.apache.sshd:sshd-osgi", version.ref = "sshd" }

@@ -10,15 +10,19 @@ import {fireServerError} from '../../utils/event-util';
 import {FlowInfo, FlowInput} from '../../api/rest-api';
 import {Model} from '../base/model';
 import {define} from '../dependency';
+import {PluginsModel} from '../plugins/plugins-model';
 
 import {NumericChangeId} from '../../types/common';
 import {getAppContext} from '../../services/app-context';
+import {FlowsProvider} from '../../api/flows';
+import {select} from '../../utils/observable-util';
 
 export interface FlowsState {
   isEnabled: boolean;
   flows: FlowInfo[];
   loading: boolean;
   errorMessage?: string;
+  provider?: FlowsProvider;
 }
 
 export const flowsModelToken = define<FlowsModel>('flows-model');
@@ -36,7 +40,15 @@ export class FlowsModel extends Model<FlowsState> {
 
   private readonly restApiService = getAppContext().restApiService;
 
-  constructor(private readonly changeModel: ChangeModel) {
+  readonly provider$: Observable<FlowsProvider | undefined> = select(
+    this.state$,
+    state => state.provider
+  );
+
+  constructor(
+    private readonly changeModel: ChangeModel,
+    private readonly pluginsModel: PluginsModel
+  ) {
     super({
       isEnabled: false,
       flows: [],
@@ -102,6 +114,13 @@ export class FlowsModel extends Model<FlowsState> {
           });
         })
     );
+
+    this.pluginsModel.flowsPlugins$.subscribe(plugins => {
+      const provider = plugins[0]?.provider;
+      this.updateState({
+        provider,
+      });
+    });
   }
 
   reload() {

@@ -38,6 +38,7 @@ import {
   Stage,
   STAGE_SEPARATOR,
 } from '../../../utils/flows-util';
+import {FlowsProvider} from '../../../api/flows';
 
 const MAX_AUTOCOMPLETE_RESULTS = 10;
 
@@ -97,6 +98,8 @@ export class GrCreateFlow extends LitElement {
     expression
   ) => this.fetchGroups(predicate, expression);
 
+  private flowsProvider?: FlowsProvider;
+
   private readonly accountSuggestions: SuggestionProvider = (
     predicate,
     expression
@@ -123,6 +126,11 @@ export class GrCreateFlow extends LitElement {
       this,
       () => this.getConfigModel().serverConfig$,
       config => (this.serverConfig = config)
+    );
+    subscribe(
+      this,
+      () => this.getFlowsModel().provider$,
+      provider => (this.flowsProvider = provider)
     );
     this.hostUrl = window.location.origin + window.location.pathname;
   }
@@ -395,7 +403,6 @@ export class GrCreateFlow extends LitElement {
                       value=${this.currentConditionPrefix}
                       @change=${(e: Event) => {
                         const select = e.target as HTMLSelectElement;
-
                         this.currentConditionPrefix = select.value;
                       }}
                     >

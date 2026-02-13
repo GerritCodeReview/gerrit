@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f29e64d6_5a488b9f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-02-13T21:31:48Z",
+      "side": 1,
+      "message": "I fixed the vertical spacing. The icon at the end for suggestions and at the beginning for \"add context\" is consistent with how Critique does it. They work differently and the suggestions have a leading icon as well, so I think this makes sense as is.",
+      "parentUuid": "d42f24e9_c6e6d0b5",
+      "revId": "c33bcc672410a04db122e23d4fd504176679c128",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0d543e08_3c63f299",
@@ -58,6 +76,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "03d72fd2_30b1c47b",
+        "filename": "polygerrit-ui/app/elements/chat-panel/context-chip.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-02-13T21:31:48Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "0d543e08_3c63f299",
+      "range": {
+        "startLine": 159,
+        "startChar": 0,
+        "endLine": 159,
+        "endChar": 0
+      },
+      "revId": "c33bcc672410a04db122e23d4fd504176679c128",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6a4f8ff1_48de5e0c",
@@ -71,6 +113,24 @@
       "writtenOn": "2026-02-12T15:14:35Z",
       "side": 1,
       "message": "From AI:\n\n1. Regex False Positives (Word Boundaries) In polygerrit-ui/app/models/chat/context-item-util.ts, the keywordRegex checks for the presence of keywords like \"bug\" or \"fix\" anywhere in the line:\n\nTypeScript\nconst keywordRegex \u003d\n  /(?:bug|fix|issue|fixed|fixes|bugfix|google-bug-id|cts-coverage-bug|crs-fixed)/i;\nBecause this regex lacks word boundaries (\\b), it will match words that contain these keywords.\n\nScenario: A commit message contains \"Enable debugging for feature X 12345678\".\n\nResult: The regex matches \"bug\" inside \"debugging\", and \"12345678\" is incorrectly flagged as a bug ID.\n\nFix: Wrap the keywords in word boundaries or ensuring they appear at the start of the line/word.\n\nTypeScript\n// Example fix\nconst keywordRegex \u003d\n  /\\b(?:bug|fix|issue|fixed|fixes|bugfix|google-bug-id|cts-coverage-bug|crs-fixed)\\b/i;",
+      "revId": "c33bcc672410a04db122e23d4fd504176679c128",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "25f4b748_d3baa5e1",
+        "filename": "polygerrit-ui/app/models/chat/context-item-util.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-02-13T21:31:48Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "6a4f8ff1_48de5e0c",
       "revId": "c33bcc672410a04db122e23d4fd504176679c128",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -132,6 +132,8 @@ export class PluginsModel extends Model<PluginsState> {
     state => state.aiCodeReviewPlugins
   );
 
+  public flowsPlugins$ = select(this.state$, state => state.flowsPlugins);
+
   public suggestionsPlugins$ = select(
     this.state$,
     state => state.suggestionsPlugins

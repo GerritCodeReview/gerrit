@@ -8,6 +8,7 @@ import {AnnotationPluginApi} from './annotation';
 import {ChangeReplyPluginApi} from './change-reply';
 import {ChecksPluginApi} from './checks';
 import {EventHelperPluginApi} from './event-helper';
+import {FlowsPluginApi} from './flows';
 import {PluginElement} from './hook';
 import {PopupPluginApi} from './popup';
 import {ReportingPluginApi} from './reporting';
@@ -71,6 +72,7 @@ export declare interface PluginApi {
   changeReply(): ChangeReplyPluginApi;
   changeUpdates(): ChangeUpdatesPluginApi;
   checks(): ChecksPluginApi;
+  flows(): FlowsPluginApi;
   suggestions(): SuggestionsPluginApi;
   eventHelper(element: Node): EventHelperPluginApi;
   getPluginName(): string;

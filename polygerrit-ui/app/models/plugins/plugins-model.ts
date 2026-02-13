@@ -16,6 +16,7 @@ import {CoverageProvider, TokenHoverListener} from '../../api/annotation';
 import {SuggestionsProvider} from '../../api/suggestions';
 import {ChangeUpdatesPublisher} from '../../api/change-updates';
 import {AiCodeReviewProvider} from '../../api/ai-code-review';
+import {FlowsProvider} from '../../api/flows';
 
 export interface CoveragePlugin {
   pluginName: string;
@@ -36,6 +37,11 @@ export interface ChangeUpdatesPlugin {
 export interface AiCodeReviewPlugin {
   pluginName: string;
   provider: AiCodeReviewProvider;
+}
+
+export interface FlowsPlugin {
+  pluginName: string;
+  provider: FlowsProvider;
 }
 
 export interface SuggestionPlugin {

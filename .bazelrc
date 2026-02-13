@@ -2,6 +2,7 @@
 # https://issues.gerritcodereview.com/issues/303819949
 common --enable_bzlmod
 common --incompatible_enable_proto_toolchain_resolution
+common --@protobuf//bazel/toolchains:prefer_prebuilt_protoc
 
 build --workspace_status_command="python3 ./tools/workspace_status.py"
 build --repository_cache=~/.gerritcodereview/bazel-cache/repository

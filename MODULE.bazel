@@ -11,11 +11,7 @@ bazel_dep(name = "rules_java", version = "8.11.0")
 bazel_dep(name = "rules_proto", version = "7.1.0")
 bazel_dep(name = "rules_python", version = "1.8.0-rc1")
 
-# This must come BEFORE bazel_dep(name = "protobuf")
-# because they register the from-source toolchain,
-# and the first registration wins.
-bazel_dep(name = "toolchains_protoc", version = "0.6.0")
-bazel_dep(name = "protobuf", version = "33.2")
+bazel_dep(name = "protobuf", version = "33.4")
 bazel_dep(name = "jgit")
 local_path_override(
     module_name = "jgit",

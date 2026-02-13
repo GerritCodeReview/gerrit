@@ -87,6 +87,24 @@
       "message": "https://gerrit-review.googlesource.com/c/gerrit/+/546784",
       "revId": "ae67b0f2ad7b436c5d39d997a827b9ad2a6963a7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9f7dc3a2_b372c23c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4580685
+      },
+      "writtenOn": "2026-02-13T00:23:59Z",
+      "side": 1,
+      "message": "Thanks, I see what you mean now. So this is about rendering HTML code that is _not_ inside a code block, like this:\n\n\u003cdiv\u003e\n  hello\n\u003c/div\u003e\nAnd this is text that immediately follows.\n\nSeems that the new `renderer.html` implementation does not respect that we want to keep the new lines (`breaks: true`). Will update and follow up. Great catch!",
+      "parentUuid": "d2a4954b_f15c53db",
+      "revId": "ae67b0f2ad7b436c5d39d997a827b9ad2a6963a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

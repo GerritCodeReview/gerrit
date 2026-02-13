@@ -420,7 +420,7 @@ suite('gr-create-flow tests', () => {
 
     const rawFlowTextarea = queryAndAssert<MdOutlinedTextField>(
       grDialog,
-      'md-outlined-text-field[label="Flow definition"]'
+      'md-outlined-text-field[label="Copy and Paste existing flows"]'
     );
     assert.isDefined(rawFlowTextarea);
     assert.equal(rawFlowTextarea.value, '');
@@ -504,7 +504,7 @@ suite('gr-create-flow tests', () => {
     // Find textarea
     const rawFlowTextarea = queryAndAssert<MdOutlinedTextField>(
       grDialog,
-      'md-outlined-text-field[label="Flow definition"]'
+      'md-outlined-text-field[label="Copy and Paste existing flows"]'
     );
 
     // Simulate user typing a condition and '-> '

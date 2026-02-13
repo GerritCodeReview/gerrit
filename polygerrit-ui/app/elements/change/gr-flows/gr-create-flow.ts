@@ -350,7 +350,7 @@ export class GrCreateFlow extends LitElement {
                 class="full-width-text-field"
                 type="textarea"
                 rows="4"
-                label="Flow definition"
+                label="Copy and Paste existing flows"
                 .value=${this.flowString}
                 @input=${(e: InputEvent) => {
                   this.flowString = (e.target as MdOutlinedTextField).value;

@@ -40,6 +40,7 @@ import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.flow.Flow;
 import com.google.gerrit.server.flow.FlowActionType;
 import com.google.gerrit.server.flow.FlowCreation;
+import com.google.gerrit.server.flow.FlowCustomCondition;
 import com.google.gerrit.server.flow.FlowExpression;
 import com.google.gerrit.server.flow.FlowKey;
 import com.google.gerrit.server.flow.FlowPermissionDeniedException;
@@ -280,6 +281,12 @@ public class TestExtensions {
                       && e.getKey().changeId().equals(changeId))
           .map(Map.Entry::getValue)
           .collect(toImmutableList());
+    }
+
+    @Override
+    public ImmutableList<FlowCustomCondition> listCustomConditions(
+        Project.NameKey projectName, Change.Id changeId) throws StorageException {
+      return ImmutableList.of();
     }
 
     /**

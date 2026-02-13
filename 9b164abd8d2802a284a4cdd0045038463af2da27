@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "939b99a9_a2931a32",
+        "filename": "polygerrit-ui/app/elements/chat-panel/context-input-chip.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-02-13T21:35:16Z",
+      "side": 0,
+      "message": "discovered that this was dead code.",
+      "range": {
+        "startLine": 87,
+        "startChar": 4,
+        "endLine": 87,
+        "endChar": 21
+      },
+      "revId": "9b164abd8d2802a284a4cdd0045038463af2da27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

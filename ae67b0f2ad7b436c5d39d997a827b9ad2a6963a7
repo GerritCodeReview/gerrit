@@ -105,6 +105,24 @@
       "parentUuid": "d2a4954b_f15c53db",
       "revId": "ae67b0f2ad7b436c5d39d997a827b9ad2a6963a7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6de5c9a3_c9010bbb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4580685
+      },
+      "writtenOn": "2026-02-14T15:02:47Z",
+      "side": 1,
+      "message": "Done.\n\nThere were multiple ways to achieve this, but I preferred disabling the tokenizer for _inline_ HTML (so that it doesn\u0027t interfere with the lexer\u0027s state for tags that we would\u0027t semantically interpret, like \u003ca\u003e), AND overriding the renderer for _block-level_ HTML (so that we can nicely render it in a paragraph).\n\nI added a few tests to cover various use cases.\n\nOverall, the new behavior looks almost identical to the old version, save a few edge cases that might not be worth the extra complexity (covered in tests).",
+      "parentUuid": "9f7dc3a2_b372c23c",
+      "revId": "ae67b0f2ad7b436c5d39d997a827b9ad2a6963a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

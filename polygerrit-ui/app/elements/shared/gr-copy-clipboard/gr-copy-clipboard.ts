@@ -49,7 +49,7 @@ export class GrCopyClipboard extends LitElement {
   @property({type: Boolean})
   hasTooltip = false;
 
-  @property({type: Boolean})
+  @property({type: Boolean, reflect: true})
   hideInput = false;
 
   @property({type: String})
@@ -67,6 +67,14 @@ export class GrCopyClipboard extends LitElement {
 
   @property({type: Boolean, reflect: true})
   nowrap = false;
+
+  /**
+   * By default, the copy icon is small (20x20px) to fit inline alongside text.
+   * Consumer components can set this to false to use the standard 24x24px icon
+   * size, which also removes the default extra button padding when hideInput is true.
+   */
+  @property({type: Boolean, reflect: true})
+  smallIcon = true;
 
   @query('#icon')
   iconEl!: GrIcon;
@@ -191,7 +199,11 @@ export class GrCopyClipboard extends LitElement {
             aria-description="Click to copy to clipboard"
           >
             <div>
-              <gr-icon id="icon" icon="content_copy" small></gr-icon>
+              <gr-icon
+                id="icon"
+                icon="content_copy"
+                ?small=${this.smallIcon}
+              ></gr-icon>
             </div>
           </gr-button>
         </gr-tooltip-content>

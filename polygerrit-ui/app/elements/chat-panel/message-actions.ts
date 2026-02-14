@@ -82,6 +82,7 @@ export class MessageActions extends LitElement {
         ?hidden=${!this.isLatest}
         .text=${this.getGeminiMessageText()}
         hideInput
+        .smallIcon=${false}
       ></gr-copy-clipboard>
 
       <md-icon-button

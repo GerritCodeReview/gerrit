@@ -111,6 +111,7 @@ export class GrFlows extends LitElement {
         }
         .flow-actions {
           display: flex;
+          align-items: center;
         }
         .flow-info {
           display: flex;
@@ -295,6 +296,7 @@ export class GrFlows extends LitElement {
                     .text=${computeFlowStringFromFlowStageInfo(flow.stages)}
                     buttonTitle="Copy flow string to clipboard"
                     hideinput
+                    .smallIcon=${false}
                   ></gr-copy-clipboard>
                   <gr-button
                     link

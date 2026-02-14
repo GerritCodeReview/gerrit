@@ -1,0 +1,179 @@
+# Module-file fragment for Java/Maven external dependencies.
+#
+# This file is included from the root MODULE.bazel via include().
+# It contains the rules_jvm_external configuration for Gerrit:
+#  - forced artifact versions to keep Gerrit and JGit aligned
+#  - excluded artifacts to prevent duplicate classes and unwanted runtimes
+#  - TOML-based dependency import + lockfile enforcement
+#
+# NOTE: MODULE/.MODULE.bazel files are evaluated in the bzlmod resolution phase
+# and do not allow load() or function definitions. Keep this file self-contained.
+
+maven = use_extension("@rules_jvm_external//:extensions.bzl", "maven")
+
+# Although flexmark is published as many small modules, the `flexmark-all`
+# artifact is a shaded aggregate that already includes all required classes.
+# Exclude the modular artifacts to avoid duplicate classes in the WAR.
+_FLEXMARK_GROUP = "com.vladsch.flexmark"
+
+_FLEXMARK_MODULES = [
+    "flexmark",
+    "flexmark-ext-abbreviation",
+    "flexmark-ext-admonition",
+    "flexmark-ext-anchorlink",
+    "flexmark-ext-aside",
+    "flexmark-ext-attributes",
+    "flexmark-ext-autolink",
+    "flexmark-ext-definition",
+    "flexmark-ext-emoji",
+    "flexmark-ext-enumerated-reference",
+    "flexmark-ext-escaped-character",
+    "flexmark-ext-footnotes",
+    "flexmark-ext-gfm-issues",
+    "flexmark-ext-gfm-strikethrough",
+    "flexmark-ext-gfm-tasklist",
+    "flexmark-ext-gfm-users",
+    "flexmark-ext-gitlab",
+    "flexmark-ext-ins",
+    "flexmark-ext-jekyll-front-matter",
+    "flexmark-ext-jekyll-tag",
+    "flexmark-ext-macros",
+    "flexmark-ext-media-tags",
+    "flexmark-ext-resizable-image",
+    "flexmark-ext-superscript",
+    "flexmark-ext-tables",
+    "flexmark-ext-toc",
+    "flexmark-ext-typographic",
+    "flexmark-ext-wikilink",
+    "flexmark-ext-xwiki-macros",
+    "flexmark-ext-yaml-front-matter",
+    "flexmark-ext-youtube-embedded",
+    "flexmark-html2md-converter",
+    "flexmark-jira-converter",
+    "flexmark-pdf-converter",
+    "flexmark-profile-pegdown",
+    "flexmark-util",
+    "flexmark-util-ast",
+    "flexmark-util-builder",
+    "flexmark-util-collection",
+    "flexmark-util-data",
+    "flexmark-util-dependency",
+    "flexmark-util-format",
+    "flexmark-util-html",
+    "flexmark-util-misc",
+    "flexmark-util-options",
+    "flexmark-util-sequence",
+    "flexmark-util-visitor",
+    "flexmark-youtrack-converter",
+]
+
+_OTHER_EXCLUDES = [
+    # Logging clashes / legacy implementations.
+    "log4j:log4j",
+    "org.slf4j:slf4j-log4j12",
+
+    # openid4java transitively depends on commons-logging; not needed at runtime.
+    "commons-logging:commons-logging",
+
+    # commons-validator: exclude unused transitive commons-* stack.
+    "commons-beanutils:commons-beanutils",
+    "commons-collections:commons-collections",
+    "commons-digester:commons-digester",
+
+    # sshd-common/core bundled inside sshd-osgi in your runtime set.
+    "org.apache.sshd:sshd-common",
+    "org.apache.sshd:sshd-core",
+
+    # Unused Lucene modules (keep WAR footprint aligned with pre-migration).
+    "org.apache.lucene:lucene-facet",
+    "org.apache.lucene:lucene-queries",
+    "org.apache.lucene:lucene-sandbox",
+
+    # soy-template transitives not required at runtime.
+    "com.google.escapevelocity:escapevelocity",
+    "javax.annotation:jsr250-api",
+    "org.json:json",
+
+    # Redundant legacy XML APIs already provided by JDK; pulled via html/xml parsers.
+    "xml-apis:xml-apis",
+]
+
+EXCLUDED_ARTIFACTS = (
+    ["%s:%s" % (_FLEXMARK_GROUP, a) for a in _FLEXMARK_MODULES] +
+    _OTHER_EXCLUDES
+)
+
+# Root-level dependency versions declared by Gerrit must take precedence over
+# versions contributed by layered modules (e.g. JGit) when resolving the shared
+# maven.install("external_deps") repository.
+#
+# rules_jvm_external currently lacks a mechanism for the root module to globally
+# enforce its declared versions across the layered Maven graph when using
+# bzlmod. In particular, version_conflict_policy = "pinned" still fails early
+# with duplicate artifacts when multiple modules contribute different versions.
+#
+# As a workaround, we explicitly force the root-selected versions here via
+# maven.amend_artifact(force_version = "true") for GA coordinates that may also
+# be introduced transitively by JGit.
+#
+# Versions themselves are sourced from deps.toml and the pinned lockfile.
+#
+# TODO(davido): Remove this workaround once global root version enforcement is
+# supported in rules_jvm_external:
+# https://github.com/bazel-contrib/rules_jvm_external/issues/1549
+_GERRIT_FORCED_ARTIFACTS = [
+    "args4j:args4j",
+    "com.googlecode.javaewah:JavaEWAH",
+    "commons-codec:commons-codec",
+    "org.apache.commons:commons-lang3",
+    "org.eclipse.jetty:jetty-http",
+    "org.eclipse.jetty:jetty-io",
+    "org.eclipse.jetty:jetty-security",
+    "org.eclipse.jetty:jetty-server",
+    "org.eclipse.jetty:jetty-util",
+    "org.eclipse.jetty:jetty-util-ajax",
+]
+
+[
+    maven.amend_artifact(
+        name = "external_deps",
+        coordinates = coord,
+        force_version = "true",
+    )
+    for coord in _GERRIT_FORCED_ARTIFACTS
+]
+
+# Empty maven.install call to apply the configuration to the installation from
+# toml files.
+maven.install(
+    name = "external_deps",
+    artifacts = [],
+    # CRITICAL: Must remain "error".
+    # This guarantees fail-fast behavior if multiple versions of the same
+    # artifact are introduced by contributing modules. Downgrading this to
+    # "warn" would allow version skew to silently leak into release.war.
+    duplicate_version_warning = "error",
+    excluded_artifacts = EXCLUDED_ARTIFACTS,
+    fail_if_repin_required = True,
+    fail_on_missing_checksum = True,
+    fetch_sources = True,
+    known_contributing_modules = [
+        "jgit",
+        "gerrit",
+    ],
+    lock_file = "//:external_deps.lock.json",
+    repositories = [
+        "https://repo1.maven.org/maven2",
+        "https://gerrit-maven.storage.googleapis.com",
+    ],
+    version_conflict_policy = "pinned",
+)
+maven.from_toml(
+    name = "external_deps",
+    libs_versions_toml = "//tools:deps.toml",
+)
+maven.from_toml(
+    name = "external_deps",
+    libs_versions_toml = "//tools:nongoogle.toml",
+)
+use_repo(maven, "external_deps")

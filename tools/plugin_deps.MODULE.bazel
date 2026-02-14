@@ -1,0 +1,18 @@
+# Module-file fragment for plugin modules that bring their own bzlmod deps.
+#
+# This file is included from the root MODULE.bazel via include().
+# It wires in plugin modules and exposes any repos they create (e.g. Maven repos)
+# via use_repo().
+#
+# NOTE: This file must be self-contained: bindings do not cross include()
+# boundaries, so it re-declares the rules_jvm_external extension handle.
+
+maven = use_extension("@rules_jvm_external//:extensions.bzl", "maven")
+
+bazel_dep(name = "gerrit-oauth-provider")
+local_path_override(
+    module_name = "gerrit-oauth-provider",
+    path = "plugins/oauth",
+)
+
+use_repo(maven, "external_plugin_deps")

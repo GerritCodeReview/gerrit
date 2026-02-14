@@ -709,7 +709,7 @@ suite('gr-formatted-text tests', () => {
     test('never renders typed html', async () => {
       element.content = `plain text <div>foo</div>
         \n\`inline code <div>foo</div>\`
-        \n\`\`\`\nmultiline code <div>foo</div>\`\`\`
+        \n\`\`\`\nmultiline code <div>foo</div>\n\`\`\`
         \n> block quote <div>foo</div>
         \n[inline link <div>foo</div>](http://google.com)`;
       await element.updateComplete;
@@ -740,6 +740,91 @@ suite('gr-formatted-text tests', () => {
                     target="_blank"
                     >inline link ${escapedDiv}</a
                   >
+                </p>
+              </div>
+            </gr-marked-element>
+          </gr-endpoint-decorator>
+        `
+      );
+    });
+
+    test('treats HTML outside code blocks as text', async () => {
+      element.content = `
+<div>
+  Hello
+</div>
+
+<div>
+  Hello
+</div>
+with text
+afterwards.
+
+
+<div>Single-line block</div>
+
+Text with <span>inline HTML</span>
+and more text.
+
+Some
+<div>text in div</div>
+on several lines.
+
+Some
+\\<div>text in escaped div</div>
+on several lines.
+
+An <a href="example.com">inline HTML link</a>.
+
+An <a href="example.com">inline HTML link with **markup**</a>.
+
+An <a href="example.com">inline HTML link with [markup link](http://google.com)</a>.
+`;
+      await element.updateComplete;
+
+      const escapedHtml = '&lt;div&gt;<br>  Hello<br>&lt;/div&gt;';
+      assert.shadowDom.equal(
+        element,
+        /* HTML */ `
+          <gr-endpoint-decorator name="formatted-text-endpoint">
+            <gr-marked-element>
+              <div slot="markdown-html" class="markdown-html">
+                <p>${escapedHtml}</p>
+                <p>
+                  ${escapedHtml}<br />
+                  with text<br />
+                  afterwards.
+                </p>
+                <p>&lt;div&gt;Single-line block&lt;/div&gt;</p>
+                <p>
+                  Text with &lt;span&gt;inline HTML&lt;/span&gt;<br />
+                  and more text.
+                </p>
+                <p>Some</p>
+                <p>
+                  &lt;div&gt;text in div&lt;/div&gt;<br />
+                  on several lines.
+                </p>
+                <p>
+                  Some<br />
+                  &lt;div&gt;text in escaped div&lt;/div&gt;<br />
+                  on several lines.
+                </p>
+                <p>
+                  An &lt;a href="example.com"&gt;inline HTML link&lt;/a&gt;.
+                </p>
+                <p>
+                  An &lt;a href="example.com"&gt;inline HTML link with
+                  <strong>markup</strong>&lt;/a&gt;.
+                </p>
+                <p>
+                  An &lt;a href="example.com"&gt;inline HTML link with
+                  <a
+                    href="http://google.com"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                    >markup link</a
+                  >&lt;/a&gt;.
                 </p>
               </div>
             </gr-marked-element>
@@ -859,7 +944,7 @@ suite('gr-formatted-text tests', () => {
       });
 
       test('renders', async () => {
-        element.content = '```suggestion\nHello World```';
+        element.content = '```suggestion\nHello World\n```';
         await element.updateComplete;
         assert.shadowDom.equal(
           element,

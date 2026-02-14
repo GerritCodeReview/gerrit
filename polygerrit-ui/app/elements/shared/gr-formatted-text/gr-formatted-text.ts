@@ -9,7 +9,6 @@ import {
   htmlEscape,
   sanitizeHtmlToFragment,
 } from '../../../utils/inner-html-util';
-import {unescapeHTML} from '../../../utils/syntax-util';
 import {resolve} from '../../../models/dependency';
 import {subscribe} from '../../lit/subscription-controller';
 import {configModelToken} from '../../../models/config/config-model';
@@ -23,6 +22,7 @@ import {
 } from '../../../utils/comment-util';
 import {sameOrigin} from '../../../utils/url-util';
 import '../gr-marked-element/gr-marked-element';
+import {Renderer, Tokenizer, Tokens} from 'marked';
 
 // MIME types for images we allow showing. Do not include SVG, it can contain
 // arbitrary JavaScript.
@@ -138,6 +138,12 @@ export class GrFormattedText extends LitElement {
           link: '$1',
           enabled: true,
         };
+        // Linkify email addresses.
+        this.repoCommentLinks['ALWAYS_LINK_EMAIL'] = {
+          match: '([\\w.+-]+@[\\w.-]+\\.[\\w]{2,})',
+          link: 'mailto:$1',
+          enabled: true,
+        };
 
         // List of common TLDs to specifically match for schemeless URLs.
         const TLD_REGEX = [
@@ -215,51 +221,31 @@ export class GrFormattedText extends LitElement {
 
   private renderAsMarkdown() {
     // Bind `this` via closure.
-    const boundRewriteText = (text: string) => {
-      const nonAsteriskRewrites = Object.fromEntries(
-        Object.entries(this.repoCommentLinks).filter(
-          ([_name, rewrite]) => !rewrite.match.includes('\\*')
-        )
-      );
-      return linkifyUrlsAndApplyRewrite(text, nonAsteriskRewrites);
-    };
-
-    // Due to a tokenizer bug in the old version of markedjs we use, text with a
-    // single asterisk is separated into 2 tokens before passing to renderer
-    // ['text'] which breaks our rewrites that would span across the 2 tokens.
-    // Since upgrading our markedjs version is infeasible, we are applying those
-    // asterisk rewrites again at the end (using renderer['paragraph'] hook)
-    // after all the nodes are combined.
-    // Bind `this` via closure.
-    const boundRewriteAsterisks = (text: string) => {
-      const asteriskRewrites = Object.fromEntries(
-        Object.entries(this.repoCommentLinks).filter(([_name, rewrite]) =>
-          rewrite.match.includes('\\*')
-        )
-      );
-      const linkedText = linkifyUrlsAndApplyRewrite(text, asteriskRewrites);
-      return `<p>${linkedText}</p>`;
-    };
+    //
+    // <gr-marked-element> internals will be in charge of calling our custom
+    // renderer so we write this utility function separately so that 'this' is
+    // preserved via closure.
+    const boundRewriteText = (text: string) =>
+      linkifyUrlsAndApplyRewrite(text, this.repoCommentLinks);
 
     const allowMarkdownBase64ImagesInComments =
       this.allowMarkdownBase64ImagesInComments;
 
     // We are overriding some gr-marked-element renderers for a few reasons:
     // 1. Disable inline images as a design/policy choice.
-    // 2. Inline code blocks ("codespan") do not unescape HTML characters when
-    //    rendering without <pre> and so we must do this manually.
-    //    <gr-marked-element> is already escaping these internally. See test
-    //    covering this.
-    // 3. Multiline code blocks ("code") is similarly handling escaped
-    //    characters using <pre>. The convention is to only use <pre> for multi-
-    //    line code blocks so it is not used for inline code blocks. See test
-    //    for this.
-    // 4. Rewrite plain text ("text") to apply linking and other config-based
+    // 2. Rewrite plain text ("text") to apply linking and other config-based
     //    rewrites. Text within code blocks is not passed here.
-    // 5. Open links in a new tab by rendering with target="_blank" attribute.
-    // 6. Relative links without "/" prefix are assumed to be absolute links.
-    function customRenderer(renderer: {[type: string]: Function}) {
-      renderer['link'] = (href: string, title: string, text: string) => {
+    // 3. Open links in a new tab by rendering with target="_blank" attribute.
+    // 4. Relative links without "/" prefix are assumed to be absolute links.
+    function patchRenderer(renderer: Renderer) {
+      // Use the `function` syntax, so that we can add type annotation for
+      // `this`, allowing the overridden methods access to all members of
+      // the merged Renderer object, including to `this.parser`.
+      renderer.link = function (
+        this: Renderer,
+        {href, title, tokens}: Tokens.Link
+      ): string {
+        const text = this.parser.parseInline(tokens);
         if (
           !href.startsWith('https://') &&
           !href.startsWith('mailto:') &&
@@ -276,7 +262,11 @@ export class GrFormattedText extends LitElement {
           >${text}</a
         >`;
       };
-      renderer['image'] = (href: string, title: string, text: string) => {
+
+      renderer.image = function (
+        this: Renderer,
+        {href, title, text}: Tokens.Image
+      ): string {
         // Check if this is a base64-encoded image
         if (
           allowMarkdownBase64ImagesInComments &&
@@ -289,26 +279,72 @@ export class GrFormattedText extends LitElement {
         // For non-base64 images just return the markdown
         return `![${text}](${href})`;
       };
-      renderer['codespan'] = (text: string) =>
-        `<code>${unescapeHTML(text)}</code>`;
-      renderer['code'] = (text: string, infostring: string) => {
-        if (infostring === USER_SUGGESTION_INFO_STRING) {
-          // default santizer in markedjs is very restrictive, we need to use
-          // existing html element to mark element. We cannot use css class for
-          // it. Therefore we pick mark - as not frequently used html element to
-          // represent unconverted gr-user-suggestion-fix.
+
+      renderer.code = function (this: Renderer, token: Tokens.Code): string {
+        if (token.lang === USER_SUGGESTION_INFO_STRING) {
+          // Default sanitizer in gr-marked-element is very restrictive, so
+          // we need to use an existing html element to insert the content to.
+          // We cannot use css class for it. Therefore we pick <mark> - as not
+          // frequently used html element - to represent unconverted
+          // gr-user-suggestion-fix.
           // TODO(milutin): Find a way to override sanitizer to directly use
           // gr-user-suggestion-fix
-          return `<mark>${text}</mark>`;
-        } else {
-          return `<pre><code>${text}</code></pre>`;
+          return `<mark>${
+            token.escaped ? token.text : htmlEscape(token.text)
+          }</mark>`;
         }
+        // Fall back to default renderer's `code` function.
+        return Renderer.prototype.code.call(this, token);
       };
-      // <gr-marked-element> internals will be in charge of calling our custom
-      // renderer so we write these functions separately so that 'this' is
-      // preserved via closure.
-      renderer['paragraph'] = boundRewriteAsterisks;
-      renderer['text'] = boundRewriteText;
+
+      // Treat HTML as plaintext and don't render it.
+      // Assumes that inline HTML is already disabled in the tokenizer, so it
+      // needs to render only block-level HTML.
+      renderer.html = function (this: Renderer, {text}: Tokens.HTML): string {
+        // Keep all new lines except the trailing ones, thus respecting
+        // the `breaks: true` option.
+        text = text.replace(/\n+$/, '');
+        return (
+          '<p>' + htmlEscape(text).toString().replaceAll('\n', '<br>') + '</p>'
+        );
+      };
+
+      renderer.text = function (
+        this: Renderer,
+        token: Tokens.Text | Tokens.Escape
+      ): string {
+        // Don't process text in raw blocks.
+        if (token.type === 'escape') {
+          return htmlEscape(token.text).toString();
+        }
+        // Recurse when not in a terminal node.
+        if (token.type === 'text' && token.tokens) {
+          return this.parser.parseInline(token.tokens);
+        }
+        return boundRewriteText(
+          token.type === 'text' && token.escaped
+            ? token.text
+            : htmlEscape(token.text).toString()
+        );
+      };
+    }
+
+    // Disables "marked"'s default autolinking of URLs and emails, since we
+    // want to use our own custom linkification. Disables tokenizing of
+    // inline HTML tags, so that they are treated as text.
+    function patchTokenizer(tokenizer: Tokenizer) {
+      // Return undefined to skip the default autolink/url tokenizers.
+      tokenizer.url = () => undefined;
+      tokenizer.autolink = () => undefined;
+
+      // Return undefined to skip the default tag tokenizer. This effectively
+      // causes _inline_ HTML tags to be treated as text, as opposed to HTML.
+      //
+      // Preventing rendering of inline HTML should better happen in the
+      // tokenizer (as opposed to the renderer), since the default `tag`
+      // tokenizer makes changes to the lexer's state for some HTML tags
+      // (like <a>), which is undesired.
+      tokenizer.tag = () => undefined;
     }
 
     // The child with slot is optional but allows us control over the styling.
@@ -316,33 +352,14 @@ export class GrFormattedText extends LitElement {
     // does that internally.
     return html`
       <gr-marked-element
-        .markdown=${this.escapeAllButBlockQuotes(this.content)}
+        .markdown=${this.content}
         .breaks=${true}
-        .renderer=${customRenderer}
+        .renderer=${patchRenderer}
+        .tokenizer=${patchTokenizer}
       >
         <div class="markdown-html" slot="markdown-html"></div>
       </gr-marked-element>
     `;
-  }
-
-  private escapeAllButBlockQuotes(text: string) {
-    // Escaping the message should be done first to make sure user's literal
-    // input does not get rendered without affecting html added in later steps.
-    text = htmlEscape(text).toString();
-    // Unescape block quotes '>'. This is slightly dangerous as '>' can be used
-    // in HTML fragments, but it is insufficient on it's own.
-    for (;;) {
-      const newText = text.replace(
-        /(^|\n)((?:\s{0,3}&gt;)*\s{0,3})&gt;/g,
-        '$1$2>'
-      );
-      if (newText === text) {
-        break;
-      }
-      text = newText;
-    }
-
-    return text;
   }
 
   override updated() {

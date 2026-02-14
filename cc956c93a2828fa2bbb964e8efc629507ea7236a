@@ -16,6 +16,23 @@
       "message": "TEST: rendering of HTML outside and inside of code blocks: \n\n\u003cdiv\u003e\n  Hello\n\u003c/div\u003e\n\n\u003cdiv\u003e\n  Hello\n\u003c/div\u003e\nwith text\nafterwards.\n\n\n\n\u003cdiv\u003eSingle-line block\u003c/div\u003e\n\nText with \u003cspan\u003einline HTML\u003c/span\u003e\nand more text.\n\n\n\n\nSome\n\u003cdiv\u003etext\u003c/div\u003e\non several lines.\n\n\nSome\n\\\u003cdiv\u003eescaped text\u003c/div\u003e\non several lines.\n\n\nHTML in a code block:\n\n```html\n\u003cdiv\u003e\n  This is HTML \u003cstrong\u003einside a code block\u003c/strong\u003e.\n\u003c/div\u003e\n```\n\nThis is `\u003ci\u003eHTML in a codespan\u003c/i\u003e`.\n\nAn \u003ca href\u003d\"example.com\"\u003einline HTML link\u003c/a\u003e.\n\nAn \u003ca href\u003d\"example.com\"\u003einline HTML link with **markup**\u003c/a\u003e.\n\nAn \u003ca href\u003d\"example.com\"\u003einline HTML link with [markup link](http://google.com)\u003c/a\u003e.",
       "revId": "cc956c93a2828fa2bbb964e8efc629507ea7236a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fb62aff0_c1fcf2b1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4594644
+      },
+      "writtenOn": "2026-02-14T17:03:44Z",
+      "side": 1,
+      "message": "\u003ch1\u003etest\u003c/h1\u003e \u003ca href\u003d\"https://google.com\"\u003egoogle\u003c/a\u003e",
+      "revId": "cc956c93a2828fa2bbb964e8efc629507ea7236a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

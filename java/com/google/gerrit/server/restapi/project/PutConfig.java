@@ -47,6 +47,7 @@ import com.google.gerrit.server.EnableSignedPush;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.PluginConfigFactory;
 import com.google.gerrit.server.config.ProjectConfigEntry;
+import com.google.gerrit.server.experiments.ExperimentFeatures;
 import com.google.gerrit.server.extensions.webui.UiActions;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -84,6 +85,7 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
   private final Provider<CurrentUser> user;
   private final PermissionBackend permissionBackend;
   private final ProjectConfig.Factory projectConfigFactory;
+  private final ExperimentFeatures experimentFeatures;
 
   private final RepoMetaDataUpdater repoMetaDataUpdater;
 
@@ -99,7 +101,8 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
       Provider<CurrentUser> user,
       PermissionBackend permissionBackend,
       ProjectConfig.Factory projectConfigFactory,
-      RepoMetaDataUpdater repoMetaDataUpdater) {
+      RepoMetaDataUpdater repoMetaDataUpdater,
+      ExperimentFeatures experimentFeatures) {
     this.serverEnableSignedPush = serverEnableSignedPush;
     this.projectStateFactory = projectStateFactory;
     this.pluginConfigEntries = pluginConfigEntries;
@@ -111,6 +114,7 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
     this.permissionBackend = permissionBackend;
     this.projectConfigFactory = projectConfigFactory;
     this.repoMetaDataUpdater = repoMetaDataUpdater;
+    this.experimentFeatures = experimentFeatures;
   }
 
   @Override
@@ -146,6 +150,7 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
               projectConfigFactory.read(updater.getRepository(), projectName).getCacheable());
       return ConfigInfoCreator.constructInfo(
           serverEnableSignedPush,
+          experimentFeatures.isFeatureEnabled("UiFeature__enable_ai_chat"),
           newProjectState,
           user.get(),
           pluginConfigEntries,

@@ -35,6 +35,7 @@ public class ConfigInput {
   public InheritableBoolean matchAuthorToCommitterDate;
   public InheritableBoolean rejectEmptyCommit;
   public InheritableBoolean skipAddingAuthorAndCommitterAsReviewers;
+  public InheritableBoolean enableAiChat;
   public String maxObjectSizeLimit;
   public SubmitType submitType;
   public ProjectState state;

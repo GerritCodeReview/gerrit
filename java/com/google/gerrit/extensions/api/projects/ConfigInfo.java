@@ -41,6 +41,7 @@ public class ConfigInfo {
   public InheritedBooleanInfo matchAuthorToCommitterDate;
   public InheritedBooleanInfo rejectEmptyCommit;
   public InheritedBooleanInfo skipAddingAuthorAndCommitterAsReviewers;
+  public InheritedBooleanInfo enableAiChat;
 
   public MaxObjectSizeLimitInfo maxObjectSizeLimit;
   @Deprecated // Equivalent to defaultSubmitType.value

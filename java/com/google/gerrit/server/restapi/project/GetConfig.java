@@ -23,6 +23,7 @@ import com.google.gerrit.server.EnableSignedPush;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.PluginConfigFactory;
 import com.google.gerrit.server.config.ProjectConfigEntry;
+import com.google.gerrit.server.experiments.ExperimentFeatures;
 import com.google.gerrit.server.extensions.webui.UiActions;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -40,6 +41,7 @@ public class GetConfig implements RestReadView<ProjectResource> {
   private final PermissionBackend permissionBackend;
   private final UiActions uiActions;
   private final DynamicMap<RestView<ProjectResource>> views;
+  private final ExperimentFeatures experimentFeatures;
 
   @Inject
   public GetConfig(
@@ -49,7 +51,8 @@ public class GetConfig implements RestReadView<ProjectResource> {
       AllProjectsName allProjects,
       PermissionBackend permissionBackend,
       UiActions uiActions,
-      DynamicMap<RestView<ProjectResource>> views) {
+      DynamicMap<RestView<ProjectResource>> views,
+      ExperimentFeatures experimentFeatures) {
     this.serverEnableSignedPush = serverEnableSignedPush;
     this.pluginConfigEntries = pluginConfigEntries;
     this.allProjects = allProjects;
@@ -57,6 +60,7 @@ public class GetConfig implements RestReadView<ProjectResource> {
     this.permissionBackend = permissionBackend;
     this.uiActions = uiActions;
     this.views = views;
+    this.experimentFeatures = experimentFeatures;
   }
 
   @Override
@@ -69,6 +73,7 @@ public class GetConfig implements RestReadView<ProjectResource> {
     return Response.ok(
         ConfigInfoCreator.constructInfo(
             serverEnableSignedPush,
+            experimentFeatures.isFeatureEnabled("UiFeature__enable_ai_chat"),
             resource.getProjectState(),
             resource.getUser(),
             readConfigAllowed ? pluginConfigEntries : DynamicMap.emptyMap(),

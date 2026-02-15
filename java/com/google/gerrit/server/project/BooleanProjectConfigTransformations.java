@@ -76,6 +76,9 @@ public class BooleanProjectConfigTransformations {
               new Mapper(
                   i -> i.skipAddingAuthorAndCommitterAsReviewers,
                   (i, v) -> i.skipAddingAuthorAndCommitterAsReviewers = v))
+          .put(
+              BooleanProjectConfig.ENABLE_AI_CHAT,
+              new Mapper(i -> i.enableAiChat, (i, v) -> i.enableAiChat = v))
           .build();
 
   static {

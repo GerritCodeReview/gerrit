@@ -45,7 +45,8 @@ public enum BooleanProjectConfig {
   REJECT_EMPTY_COMMIT("submit", "rejectEmptyCommit"),
   WORK_IN_PROGRESS_BY_DEFAULT("change", "workInProgressByDefault"),
   SKIP_ADDING_AUTHOR_AND_COMMITTER_AS_REVIEWERS(
-      "reviewer", "skipAddingAuthorAndCommitterAsReviewers");
+      "reviewer", "skipAddingAuthorAndCommitterAsReviewers"),
+  ENABLE_AI_CHAT("ai", "enableChat", true);
 
   // Git config
   private final String section;

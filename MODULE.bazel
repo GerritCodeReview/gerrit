@@ -44,7 +44,7 @@ register_toolchains("//tools:all")
 bazel_dep(name = "com_googlesource_gerrit_bazlets")
 git_override(
     module_name = "com_googlesource_gerrit_bazlets",
-    commit = "5a2a653fcf77ac3fca619f9944246ca7f339849d",
+    commit = "36fe0395b55eb127f85661c82fd26e4844fab060",
     remote = "https://gerrit.googlesource.com/bazlets",
 )
 

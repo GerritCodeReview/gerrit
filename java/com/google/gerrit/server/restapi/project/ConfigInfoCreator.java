@@ -54,6 +54,7 @@ public class ConfigInfoCreator {
   @SuppressWarnings("deprecation")
   public static ConfigInfo constructInfo(
       boolean serverEnableSignedPush,
+      boolean enableAiChat,
       ProjectState projectState,
       CurrentUser user,
       DynamicMap<ProjectConfigEntry> pluginConfigEntries,
@@ -78,6 +79,10 @@ public class ConfigInfoCreator {
     if (!serverEnableSignedPush) {
       configInfo.enableSignedPush = null;
       configInfo.requireSignedPush = null;
+    }
+
+    if (!enableAiChat) {
+      configInfo.enableAiChat = null;
     }
 
     configInfo.maxObjectSizeLimit = getMaxObjectSizeLimit(projectState, p);

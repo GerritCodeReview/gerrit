@@ -16,6 +16,24 @@
       "message": "Should we directly squash that into I8962cc4968cda0b29b9506dfa30ffd47686af5ef?",
       "revId": "2348a03bd08d63d0c0436e49eb84fc3b606b3a86",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6992e4a2_f6b203b2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 19
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-02-16T09:16:04Z",
+      "side": 1,
+      "message": "This is something that I actually also considered, but I’d prefer to keep these as two commits because they introduce logically separate changes with different risk profiles.\n\n* change 517822 migrates the dependency fetching/resolution mechanism to `bzlmod` + `rules_jvm_external` while intentionally preserving the existing two-graph model and WAR contents (via exclusions and packaging filters). This is a plumbing change and serves as a safe landing point where runtime behavior is expected to remain aligned with the pre-migration setup.\n* this commit then changes the dependency model itself by unifying Gerrit and JGit onto a shared Maven graph, aligns the servlet API, and introduces root-level pin enforcement via `maven.amend_artifact` to prevent cross-module version skew. This is a semantic resolution change and therefore much harder to debug if combined with the migration step.\n\nKeeping them split improves reviewability (different concerns), bisectability, and revertability: if graph unification introduces a runtime/classpath regression during WAR assembly, we can revert that independently without losing the migration to rules_jvm_external.\n\nI agree that squashing would reduce history noise and avoid temporarily landing the transitional two-graph setup, but having an intermediate behavior-preserving step makes it significantly easier to validate the migration separately from the resolution-model change.",
+      "parentUuid": "83515f1f_85ff3aa4",
+      "revId": "2348a03bd08d63d0c0436e49eb84fc3b606b3a86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

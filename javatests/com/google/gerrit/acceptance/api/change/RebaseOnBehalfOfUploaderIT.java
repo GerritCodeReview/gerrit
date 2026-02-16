@@ -1457,8 +1457,8 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
                   expectedPatchSetNum,
                   expectedPatchSetNum - 1,
                   AccountTemplateUtil.getAccountTemplate(expectedUploader),
-                  accountOperations.account(expectedRealUploader).get().getLoggableName(),
-                  accountOperations.account(expectedUploader).get().getLoggableName()));
+                  AccountTemplateUtil.getAccountTemplate(expectedRealUploader),
+                  AccountTemplateUtil.getAccountTemplate(expectedUploader)));
       assertThat(changeMessage.realAuthor._accountId).isEqualTo(expectedRealUploader.get());
     } else {
       assertThat(changeMessage.message)

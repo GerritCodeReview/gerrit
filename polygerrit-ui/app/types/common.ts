@@ -820,6 +820,7 @@ export interface ConfigInput {
   match_author_to_committer_date?: InheritedBooleanInfoConfiguredValue;
   reject_implicit_merges?: InheritedBooleanInfoConfiguredValue;
   reject_empty_commit?: InheritedBooleanInfoConfiguredValue;
+  enable_ai_chat?: InheritedBooleanInfoConfiguredValue;
   max_object_size_limit?: MaxObjectSizeLimitInfo;
   submit_type?: SubmitType;
   state?: RepoState;

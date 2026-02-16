@@ -16,6 +16,24 @@
       "message": "This change seems unintended",
       "revId": "49c72f1f4bd9f2b4e527c93137489fae698c8d4a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d527ee19_020c6898",
+        "filename": "plugins/plugin-manager",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-02-16T13:43:18Z",
+      "side": 0,
+      "message": "Without change 552401, one test is failing in `plugin-manager`. It uses `release.war` with all plugins and validates the core plugins, that shipped in release.war. With this change oauth plugin is added, but the test was failing.",
+      "parentUuid": "38630ee0_1762ff5b",
+      "revId": "49c72f1f4bd9f2b4e527c93137489fae698c8d4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

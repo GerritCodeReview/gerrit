@@ -67,6 +67,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "04f4f3da_10673f81",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 31
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-02-16T11:05:52Z",
+      "side": 1,
+      "message": "This line is already added by this change here. So it does not have to be added again by a user wanting to add a plugin with external dependencies.",
+      "parentUuid": "645db50c_0cddbe51",
+      "revId": "1126eafa2b824c5d6e6b6f81943f533cc8e578fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2a9c60ec_205f7e7f",
         "filename": "Documentation/dev-build-plugins.txt",
         "patchSetId": 31
@@ -78,6 +96,30 @@
       "writtenOn": "2026-01-18T07:39:18Z",
       "side": 1,
       "message": "Just checking: should this be `gerrit_plugin_deps` rather than `gerrit-plugin-oauth`?",
+      "range": {
+        "startLine": 110,
+        "startChar": 1,
+        "endLine": 110,
+        "endChar": 20
+      },
+      "revId": "1126eafa2b824c5d6e6b6f81943f533cc8e578fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "77856def_e857b1bb",
+        "filename": "Documentation/dev-build-plugins.txt",
+        "patchSetId": 31
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-02-16T11:05:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2a9c60ec_205f7e7f",
       "range": {
         "startLine": 110,
         "startChar": 1,
@@ -101,6 +143,24 @@
       "writtenOn": "2026-01-18T07:39:18Z",
       "side": 1,
       "message": "Would it make sense to document how to re-pin external dependencies when building custom plugins in in-tree Gerrit build mode?\n\nFor example, in `gerrit-javamelody-plugin`, the `javamelody` dependency needs to be updated, but the plugin only supports in-tree Gerrit builds.",
+      "revId": "1126eafa2b824c5d6e6b6f81943f533cc8e578fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "960bf7fd_3caded9d",
+        "filename": "Documentation/dev-build-plugins.txt",
+        "patchSetId": 31
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-02-16T11:05:52Z",
+      "side": 1,
+      "message": "That is the same as with the `oauth` plugin. It will also need a `MODULE.bazel` that defines the maven dependencies. Maybe oauth is just a bad example, because it also supports standalone builds?",
+      "parentUuid": "5c0ff2dd_38e9b4f7",
       "revId": "1126eafa2b824c5d6e6b6f81943f533cc8e578fe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

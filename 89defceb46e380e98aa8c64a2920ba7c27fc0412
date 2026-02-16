@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "37934eb2_cc710c1c",
+        "filename": "MODULE.bazel",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-02-16T14:02:28Z",
+      "side": 0,
+      "message": "I think we should limit the nongoogle classification to dependencies that are actually shipped with Gerrit (i.e. runtime artifacts ending up in release.war), which is what tools/nongoogle.toml tracks today for Library-Compliance purposes.\n\nBazel module dependencies such as rules_java, rules_proto, etc. are build-time tooling only and are neither packaged nor part of Gerrit’s runtime surface, so marking them as “nongoogle” would mix build infrastructure with shipped third-party libraries.\n\nWith the recent WAR / plugin runtime-jar allowlist checks, we already have guardrails ensuring that the set of shipped dependencies remains explicit and reviewable, so I’d prefer to keep nongoogle scoped to runtime libraries only and leave Bazel module deps unannotated.",
+      "parentUuid": "94a35605_199451cd",
+      "revId": "89defceb46e380e98aa8c64a2920ba7c27fc0412",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1e395338_9fe7322d",
@@ -31,6 +49,24 @@
       "writtenOn": "2026-02-16T11:25:04Z",
       "side": 0,
       "message": "We now have a lot of file under `tools` dealing with dependencies. IMHO it would make sense to create `tools/deps` or similar to group them more explicitly.",
+      "revId": "89defceb46e380e98aa8c64a2920ba7c27fc0412",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4d2bce77_e3b9e89e",
+        "filename": "tools/java_deps.MODULE.bazel",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-02-16T14:02:28Z",
+      "side": 0,
+      "message": "Agree in principle. For this series I’d prefer to keep the changes minimal and land the functionality first.\n\nI can follow up with a small cleanup that groups dependency-related modules under e.g. tools/deps/ (or align with whatever structure we already prefer in Gerrit).\nIf you have a preference between tools/deps vs tools/third_party naming, I’m happy to follow it.",
+      "parentUuid": "1e395338_9fe7322d",
       "revId": "89defceb46e380e98aa8c64a2920ba7c27fc0412",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

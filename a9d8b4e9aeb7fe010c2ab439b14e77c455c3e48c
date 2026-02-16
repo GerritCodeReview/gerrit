@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5a1adda9_231c8c0c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3491318
+      },
+      "writtenOn": "2026-02-16T20:06:50Z",
+      "side": 1,
+      "message": "I\u0027m abandoning this one since the above change has now merged.",
+      "parentUuid": "88cf9d78_a057a8f2",
+      "revId": "a9d8b4e9aeb7fe010c2ab439b14e77c455c3e48c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e62350be_576a49eb",
         "filename": "java/com/google/gerrit/server/account/AuthRequest.java",
         "patchSetId": 8

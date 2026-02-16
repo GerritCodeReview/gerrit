@@ -68,10 +68,16 @@ def _classpath_collector_impl(ctx):
     ctx.actions.run_shell(
         inputs = runtime_files,
         outputs = [runtime_stamp],
-        arguments = [runtime_stamp.path],
+        arguments = [runtime_stamp.path] + [f.path for f in runtime_files],
         command = r"""
 set -euo pipefail
-: > "$1"
+OUT="$1"
+shift
+# Touch/validate inputs to force materialization of symlinks/remote outputs.
+for f in "$@"; do
+  test -e "$f"
+done
+: > "$OUT"
 """,
     )
 
@@ -110,10 +116,16 @@ fi
     ctx.actions.run_shell(
         inputs = processor_files,
         outputs = [processor_stamp],
-        arguments = [processor_stamp.path],
+        arguments = [processor_stamp.path] + [f.path for f in processor_files],
         command = r"""
 set -euo pipefail
-: > "$1"
+OUT="$1"
+shift
+# Touch/validate inputs to force materialization of symlinks/remote outputs.
+for f in "$@"; do
+  test -e "$f"
+done
+: > "$OUT"
 """,
     )
 

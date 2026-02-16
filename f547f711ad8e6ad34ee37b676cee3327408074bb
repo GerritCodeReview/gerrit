@@ -22,6 +22,30 @@
       },
       "revId": "f547f711ad8e6ad34ee37b676cee3327408074bb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e531c74_8f3fc805",
+        "filename": "Documentation/release_war_jars.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-02-16T14:16:53Z",
+      "side": 1,
+      "message": "Good point.\n\nWe could sort case-insensitively for readability while still keeping the comparison itself case-sensitive, but this check is meant to be a strict guardrail and we don’t want to hide casing-only differences (e.g. JavaEWAH vs javaewah).\n\nAlso, we use the same normalization logic in bazlets for plugin WAR checks, so any change here would need to be mirrored there to keep core and plugin guardrails consistent.\n\nGiven that ordering is already ignored via sort -u (the test compares sets, not lists), I’d prefer to keep the current exact matching semantics unless we plan to update bazlets in tandem.",
+      "parentUuid": "8848999f_f9d54266",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 2,
+        "endChar": 13
+      },
+      "revId": "f547f711ad8e6ad34ee37b676cee3327408074bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

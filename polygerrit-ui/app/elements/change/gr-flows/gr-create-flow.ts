@@ -42,6 +42,7 @@ import {FlowCustomConditionInfo} from '../../../api/flows';
 import {changeModelToken} from '../../../models/change/change-model';
 import {combineLatest} from 'rxjs';
 import {getUserName} from '../../../utils/display-name-util';
+import {LabelSuggestionsProvider} from '../../../utils/label-suggestions-provider';
 
 const MAX_AUTOCOMPLETE_RESULTS = 10;
 
@@ -93,6 +94,10 @@ export class GrCreateFlow extends LitElement {
 
   private readonly getChangeModel = resolve(this, changeModelToken);
 
+  private readonly labelSuggestionsProvider = new LabelSuggestionsProvider(
+    this.restApiService
+  );
+
   private readonly projectSuggestions: SuggestionProvider = (
     predicate,
     expression
@@ -102,6 +107,11 @@ export class GrCreateFlow extends LitElement {
     predicate,
     expression
   ) => this.fetchGroups(predicate, expression);
+
+  private readonly labelSuggestions: SuggestionProvider = (
+    predicate,
+    expression
+  ) => this.labelSuggestionsProvider.getSuggestions(predicate, expression);
 
   private customConditions: FlowCustomConditionInfo[] = [];
 
@@ -160,6 +170,11 @@ export class GrCreateFlow extends LitElement {
       this,
       () => this.getConfigModel().serverConfig$,
       config => (this.serverConfig = config)
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().change$,
+      change => this.labelSuggestionsProvider.setRepoName(change?.project)
     );
     subscribe(
       this,
@@ -484,6 +499,7 @@ export class GrCreateFlow extends LitElement {
                           .projectSuggestions=${this.projectSuggestions}
                           .groupSuggestions=${this.groupSuggestions}
                           .accountSuggestions=${this.accountSuggestions}
+                          .labelSuggestions=${this.labelSuggestions}
                           @text-changed=${this.handleGerritConditionTextChanged}
                         ></gr-search-autocomplete>`
                       : html`<md-outlined-text-field

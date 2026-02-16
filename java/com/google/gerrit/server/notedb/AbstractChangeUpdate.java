@@ -20,6 +20,7 @@ import static org.eclipse.jgit.util.ChangeIdUtil.indexOfFirstFooterLine;
 
 import com.google.common.base.Strings;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.server.util.AccountTemplateUtil;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
@@ -72,12 +73,19 @@ public abstract class AbstractChangeUpdate {
     this.change = notes.getChange();
     this.when = when;
     this.accountId = accountId(user);
-    this.loggableName = user.getLoggableName();
+    this.loggableName = getFormattedLoggableName(user);
     Account.Id realAccountId = accountId(user.getRealUser());
     this.realAccountId = realAccountId != null ? realAccountId : accountId;
     this.realLoggableName =
-        realAccountId != null ? user.getRealUser().getLoggableName() : loggableName;
+        realAccountId != null ? getFormattedLoggableName(user.getRealUser()) : loggableName;
     this.authorIdent = ident(noteUtil, serverIdent, user, when);
+  }
+
+  private static String getFormattedLoggableName(CurrentUser user) {
+    if (!user.isIdentifiedUser()) {
+      return user.getLoggableName();
+    }
+    return AccountTemplateUtil.getAccountTemplate(user.getAccountId());
   }
 
   /** Copy constructor. */
@@ -293,7 +301,10 @@ public abstract class AbstractChangeUpdate {
     }
 
     String impersonationClause =
-        String.format("(Performed by %s on behalf of %s)", realLoggableName, loggableName);
+        String.format(
+            "(Performed by %s on behalf of %s)",
+            AccountTemplateUtil.getAccountTemplate(realAccountId),
+            AccountTemplateUtil.getAccountTemplate(accountId));
 
     String[] commitMsgLines = cb.getMessage().split("\n");
     int firstFooterLine = indexOfFirstFooterLine(commitMsgLines);

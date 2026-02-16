@@ -171,6 +171,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cdb877a0_6654a88b",
+        "filename": "polygerrit-ui/app/utils/label-suggestions-provider.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-02-16T18:23:06Z",
+      "side": 1,
+      "message": "Yes, that is a good point.\n\nTackling in Change 552587",
+      "parentUuid": "45da33d3_318805b6",
+      "revId": "845012a3303264989d6b1a4c5f6cb6e946db9327",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f599291b_47cd1c9a",

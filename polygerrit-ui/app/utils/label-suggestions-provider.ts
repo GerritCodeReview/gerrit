@@ -10,33 +10,38 @@ import {RepoName} from '../types/common';
 
 export class LabelSuggestionsProvider {
   private repoName?: RepoName;
+  private cachedLabelsPromise?: Promise<LabelDefinitionInfo[] | undefined>;
 
   constructor(readonly restApiService: RestApiService) {}
 
   setRepoName(repoName?: RepoName) {
-    this.repoName = repoName;
+    if (this.repoName !== repoName) {
+      this.repoName = repoName;
+      this.cachedLabelsPromise = undefined; // Invalidate cache for new repo
+    }
   }
 
   async getSuggestions(
     predicate: string,
     expression: string
   ): Promise<AutocompleteSuggestion[]> {
-    if (!this.repoName) return Promise.resolve([]);
+    if (!this.repoName) return [];
 
-    return this.restApiService
-      .getRepoLabels(this.repoName)
-      .then(labels => {
-        if (!labels) return [];
-        return labels
-          .map(label => label.name)
-          .filter(name => name.toLowerCase().includes(expression.toLowerCase()))
-          .map(name => {
-            return {text: `${predicate}:${name}`};
-          });
-      })
-      .catch(err => {
+    if (!this.cachedLabelsPromise) {
+      this.cachedLabelsPromise = this.restApiService.getRepoLabels(this.repoName).catch(err => {
         getAppContext().reportingService.error('LabelSuggestionsProvider', err);
-        return [];
+        return undefined; // Ensure caught errors resolve safely and don't break the cache
       });
+    }
+
+    return this.cachedLabelsPromise.then(labels => {
+      if (!labels) return [];
+      return labels
+        .map(label => label.name)
+        .filter(name => name.toLowerCase().includes(expression.toLowerCase()))
+        .map(name => {
+          return {text: `${predicate}:${name}`};
+        });
+    });
   }
 }

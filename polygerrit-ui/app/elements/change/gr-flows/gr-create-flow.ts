@@ -41,6 +41,7 @@ import {
 import {FlowCustomConditionInfo} from '../../../api/flows';
 import {changeModelToken} from '../../../models/change/change-model';
 import {combineLatest} from 'rxjs';
+import {getUserName} from '../../../utils/display-name-util';
 
 const MAX_AUTOCOMPLETE_RESULTS = 10;
 
@@ -122,6 +123,31 @@ export class GrCreateFlow extends LitElement {
       expression,
       this.serverConfig
     );
+  };
+
+  private readonly reviewerSuggestions: SuggestionProvider = expression => {
+    const accountFetcher = (expr: string) =>
+      this.restApiService.queryAccounts(
+        expr,
+        MAX_AUTOCOMPLETE_RESULTS,
+        undefined,
+        undefined,
+        throwingErrorCallback
+      );
+    return accountFetcher(expression).then(accounts => {
+      if (!accounts) {
+        return [];
+      }
+      return accounts
+        .filter(account => !!account.email)
+        .map(account => {
+          const userName = getUserName(this.serverConfig, account);
+          return {
+            label: `${userName}:${account.email}`,
+            text: account.email,
+          };
+        });
+    });
   };
 
   constructor() {
@@ -229,6 +255,16 @@ export class GrCreateFlow extends LitElement {
         }
         .stage-row > md-outlined-text-field,
         .stage-row > gr-search-autocomplete {
+          flex: 1;
+        }
+        .stage-row > gr-autocomplete {
+          background-color: var(--background-color-primary);
+          --gr-autocomplete-border-radius: var(--border-radius, 4px);
+          --view-background-color: transparent;
+          --gr-autocomplete-height: 42px;
+        }
+        .stage-row > md-outlined-text-field,
+        .stage-row > gr-autocomplete {
           flex: 1;
         }
         .stages-list {
@@ -477,17 +513,7 @@ export class GrCreateFlow extends LitElement {
                         `
                       )}
                     </md-outlined-select>
-                    <md-outlined-text-field
-                      label="Parameters"
-                      .placeholder=${this.getParametersPlaceholder(
-                        this.currentAction
-                      )}
-                      .value=${this.currentParameter}
-                      @input=${(e: InputEvent) =>
-                        (this.currentParameter = (
-                          e.target as MdOutlinedTextField
-                        ).value)}
-                    ></md-outlined-text-field>
+                    ${this.renderParameterInputField()}
                   </div>
                   <div class="stage-row" style="margin-top: var(--spacing-m);">
                     <gr-button
@@ -640,6 +666,27 @@ export class GrCreateFlow extends LitElement {
     if (action === 'vote') return '<Label>+/-<Value>';
     if (action === 'submit') return 'no parameter required';
     return 'Parameters';
+  }
+
+  private renderParameterInputField() {
+    return html`${this.currentAction === 'add-reviewer'
+      ? html`<gr-autocomplete
+          class="parameter-input autocomplete-input"
+          label="Parameters"
+          .placeholder=${this.getParametersPlaceholder(this.currentAction)}
+          .text=${this.currentParameter}
+          .query=${this.reviewerSuggestions}
+          @text-changed=${(e: ValueChangedEvent) =>
+            (this.currentParameter = e.detail.value ?? '')}
+        ></gr-autocomplete>`
+      : html`<md-outlined-text-field
+          class="parameter-input textfield-input"
+          label="Parameters"
+          .placeholder=${this.getParametersPlaceholder(this.currentAction)}
+          .value=${this.currentParameter}
+          @input=${(e: InputEvent) =>
+            (this.currentParameter = (e.target as MdOutlinedTextField).value)}
+        ></md-outlined-text-field>`}`;
   }
 }
 

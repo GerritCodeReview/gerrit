@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c2fcac10_65e70312",
+        "filename": "tools/eclipse/project.py",
+        "patchSetId": 16
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-02-16T09:35:31Z",
+      "side": 1,
+      "message": "This doesn\u0027t seem to be used.",
+      "revId": "83a5e17df1b09eeac3706a6b1ffc9574399c0641",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

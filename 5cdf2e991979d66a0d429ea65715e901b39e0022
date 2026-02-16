@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8c7d53d5_c4a8a402",
+        "filename": "polygerrit-ui/app/elements/change/gr-flows/gr-create-flow.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-02-16T13:06:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8c01e90f_0d8ecc87",
+      "range": {
+        "startLine": 271,
+        "startChar": 0,
+        "endLine": 271,
+        "endChar": 0
+      },
+      "revId": "5cdf2e991979d66a0d429ea65715e901b39e0022",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "72d45693_96b4145d",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a3a83d92_7efa552d",
+        "filename": "polygerrit-ui/app/elements/change/gr-flows/gr-create-flow.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 683,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-02-16T13:06:47Z",
+      "side": 1,
+      "message": "Yes, to allow specifying multiple reviewers.",
+      "parentUuid": "72d45693_96b4145d",
+      "range": {
+        "startLine": 683,
+        "startChar": 11,
+        "endLine": 683,
+        "endChar": 24
+      },
+      "revId": "5cdf2e991979d66a0d429ea65715e901b39e0022",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8b0d4760_e74623da",
@@ -60,6 +108,30 @@
       "writtenOn": "2026-02-16T12:59:44Z",
       "side": 1,
       "message": "Can you simplify this with \n```\nif (this.currentAction \u003d\u003d\u003d \u0027add-reviewer\u0027) {\n  return html``\nelse\n  return html``",
+      "range": {
+        "startLine": 675,
+        "startChar": 2,
+        "endLine": 696,
+        "endChar": 3
+      },
+      "revId": "5cdf2e991979d66a0d429ea65715e901b39e0022",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8c1030f2_9cdcc2bc",
+        "filename": "polygerrit-ui/app/elements/change/gr-flows/gr-create-flow.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 696,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-02-16T13:06:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8b0d4760_e74623da",
       "range": {
         "startLine": 675,
         "startChar": 2,

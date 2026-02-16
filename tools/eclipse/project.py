@@ -200,6 +200,9 @@ def gen_classpath(ext):
         classpathentry('src', 'modules/jgit/org.eclipse.jgit.ssh.apache/src')
         classpathentry('src', 'modules/jgit/org.eclipse.jgit.ssh.apache/resources')
 
+    def import_prettify_sources():
+        classpathentry('src', 'modules/java-prettify/src')
+
     def classpathentry(kind, path, src=None, out=None, exported=None, excluding=None):
         e = doc.createElement('classpathentry')
         e.setAttribute('kind', kind)
@@ -281,6 +284,7 @@ def gen_classpath(ext):
     classpathentry('src', 'javatests', out='eclipse-out/test')
     classpathentry('src', 'resources')
     import_jgit_sources()
+    import_prettify_sources()
     for s in sorted(src):
         out = None
 
@@ -322,6 +326,12 @@ def gen_classpath(ext):
             # broken .classpath.
             if (os.path.basename(j).startswith("processed_") or
                 os.path.basename(j).startswith("header_")) and not os.path.exists(j):
+                continue
+
+            # java-prettify is available as sources in modules/java-prettify.
+            # The external repo may not provide a binary jar under bazel-out,
+            # which breaks Eclipse. Compile from sources in the IDE instead.
+            if j.endswith("external/_main~_repo_rules~java-prettify/libjava-prettify.jar"):
                 continue
 
             s = None

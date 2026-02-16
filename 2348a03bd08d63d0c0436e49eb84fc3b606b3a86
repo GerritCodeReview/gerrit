@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "83515f1f_85ff3aa4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 19
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-02-16T08:18:20Z",
+      "side": 1,
+      "message": "Should we directly squash that into I8962cc4968cda0b29b9506dfa30ffd47686af5ef?",
+      "revId": "2348a03bd08d63d0c0436e49eb84fc3b606b3a86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

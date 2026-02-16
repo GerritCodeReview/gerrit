@@ -160,6 +160,9 @@ export class GrSearchAutocomplete extends LitElement {
   @property({type: Object})
   accountSuggestions: SuggestionProvider = () => Promise.resolve([]);
 
+  @property({type: Object})
+  labelSuggestions: SuggestionProvider = () => Promise.resolve([]);
+
   @state()
   mergeabilityComputationBehavior?: MergeabilityComputationBehavior;
 
@@ -329,6 +332,10 @@ export class GrSearchAutocomplete extends LitElement {
     if (/^-?(parentproject|project|repo)$/.test(predicate)) {
       // Fetch projects.
       return this.projectSuggestions(predicate, expression);
+    }
+
+    if (/^-?label$/.test(predicate)) {
+      return this.labelSuggestions(predicate, expression);
     }
 
     if (

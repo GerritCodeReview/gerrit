@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "94a35605_199451cd",
+        "filename": "MODULE.bazel",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-02-16T11:25:04Z",
+      "side": 0,
+      "message": "Should we still somehow mark bazel dependencies not being used by Google?",
+      "revId": "89defceb46e380e98aa8c64a2920ba7c27fc0412",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1e395338_9fe7322d",
+        "filename": "tools/java_deps.MODULE.bazel",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-02-16T11:25:04Z",
+      "side": 0,
+      "message": "We now have a lot of file under `tools` dealing with dependencies. IMHO it would make sense to create `tools/deps` or similar to group them more explicitly.",
+      "revId": "89defceb46e380e98aa8c64a2920ba7c27fc0412",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

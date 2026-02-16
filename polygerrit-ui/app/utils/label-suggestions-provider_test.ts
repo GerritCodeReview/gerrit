@@ -53,6 +53,7 @@ suite('LabelSuggestionsProvider tests', () => {
     const repoName = 'test-repo' as RepoName;
     provider.setRepoName(repoName);
     await provider.getSuggestions('label', 'Code');
+    assert.isTrue(getRepoLabelsStub.calledOnce);
     assert.isTrue(getRepoLabelsStub.calledWith(repoName));
   });
 
@@ -86,5 +87,41 @@ suite('LabelSuggestionsProvider tests', () => {
     provider.setRepoName(repoName);
     const suggestions = await provider.getSuggestions('label', 'Code');
     assert.isEmpty(suggestions);
+  });
+
+  test('caches suggestions', async () => {
+    const repoName = 'test-repo' as RepoName;
+    provider.setRepoName(repoName);
+
+    await provider.getSuggestions('label', 'Code');
+    assert.isTrue(getRepoLabelsStub.calledOnce);
+
+    await provider.getSuggestions('label', 'Verified');
+    assert.isTrue(getRepoLabelsStub.calledOnce); // Should not be called again
+  });
+
+  test('invalidates cache when repo name changes', async () => {
+    const repoName1 = 'test-repo-1' as RepoName;
+    provider.setRepoName(repoName1);
+    await provider.getSuggestions('label', 'Code');
+    assert.isTrue(getRepoLabelsStub.calledOnce);
+    assert.isTrue(getRepoLabelsStub.calledWith(repoName1));
+
+    const repoName2 = 'test-repo-2' as RepoName;
+    provider.setRepoName(repoName2);
+    await provider.getSuggestions('label', 'Code');
+    assert.isTrue(getRepoLabelsStub.calledTwice);
+    assert.isTrue(getRepoLabelsStub.calledWith(repoName2));
+  });
+
+  test('does not invalidate cache when repo name is the same', async () => {
+    const repoName = 'test-repo' as RepoName;
+    provider.setRepoName(repoName);
+    await provider.getSuggestions('label', 'Code');
+    assert.isTrue(getRepoLabelsStub.calledOnce);
+
+    provider.setRepoName(repoName); // Set same repo name again
+    await provider.getSuggestions('label', 'Code');
+    assert.isTrue(getRepoLabelsStub.calledOnce);
   });
 });

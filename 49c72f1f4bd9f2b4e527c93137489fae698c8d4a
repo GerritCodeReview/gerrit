@@ -22,6 +22,30 @@
       },
       "revId": "49c72f1f4bd9f2b4e527c93137489fae698c8d4a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f90e98f1_c4656e2f",
+        "filename": "Documentation/dev-build-plugins.txt",
+        "patchSetId": 34
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-02-16T16:03:05Z",
+      "side": 1,
+      "message": "I tried wiring the `oauth` plugin to use `@external_deps` in in-tree build mode.\n\nThe in-tree build fails because `external_deps` doesn’t define plugin-only artifacts that are not shipped in release.war (e.g. `com.sap.cloud.security:java-security`).\n\nFor example:\n\n```\nno such target \u0027@…external_deps//:com_sap_cloud_security_env\u0027\n```\n\nTo make this work we’d have to add those plugin-specific deps to Gerrit core’s deps/lockfile so the labels exist, which doesn’t scale across gerrit plugins (this was feasible for Gerrit — JGit integration, though).\n\nSo plugin deps need to remain in a separate `maven_install`. The overlap/allowlist checks in `bazlets` are intended to prevent plugins from bundling libraries already provided by Gerrit and avoid version skew at runtime.\n\nWhat I’m already testing with two new `bazlets` checks (see the end of this series):\n\n* `runtime_jars_allowlist_test`: ensures that no new runtime dependencies are added unnoticed\n* `oauth_no_overlap_with_gerrit`: fails if the plugin bundles artifacts already present in Gerrit’s release.war.jars.txt",
+      "parentUuid": "90d5cae3_83c588d8",
+      "range": {
+        "startLine": 141,
+        "startChar": 12,
+        "endLine": 141,
+        "endChar": 30
+      },
+      "revId": "49c72f1f4bd9f2b4e527c93137489fae698c8d4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

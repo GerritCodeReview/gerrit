@@ -85,6 +85,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f3b1e53c_b7321460",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 31
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-02-16T16:03:05Z",
+      "side": 1,
+      "message": "I think for the in-tree build mode it still has to be exported explicitly from Gerrit — or am I missing something?\n\nI commented out:\n\n```python\n#use_repo(maven, \"external_plugin_deps\")\n```\n\nin `tools/plugin_deps.MODULE.bazel` and then \n \n```bash\n bazelisk build plugins/oauth\n```\n\nfails during the analysis phase with:\n\n```\nNo repository visible as \u0027@external_plugin_deps\u0027 (plugins/oauth/BUILD:19:14)\n```\n\nThis suggests that `oauth` still depends on `@external_plugin_deps`, so Gerrit core still needs to expose that repo for in-tree plugin builds.\n\nThe failure happens before any fetching/building — it’s purely repository visibility/resolution.",
+      "parentUuid": "04f4f3da_10673f81",
+      "revId": "1126eafa2b824c5d6e6b6f81943f533cc8e578fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2a9c60ec_205f7e7f",
         "filename": "Documentation/dev-build-plugins.txt",
         "patchSetId": 31
@@ -161,6 +179,24 @@
       "side": 1,
       "message": "That is the same as with the `oauth` plugin. It will also need a `MODULE.bazel` that defines the maven dependencies. Maybe oauth is just a bad example, because it also supports standalone builds?",
       "parentUuid": "5c0ff2dd_38e9b4f7",
+      "revId": "1126eafa2b824c5d6e6b6f81943f533cc8e578fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "45a19bf3_b57b0a0b",
+        "filename": "Documentation/dev-build-plugins.txt",
+        "patchSetId": 31
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-02-16T16:03:05Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "960bf7fd_3caded9d",
       "revId": "1126eafa2b824c5d6e6b6f81943f533cc8e578fe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

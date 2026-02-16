@@ -290,6 +290,9 @@ export class GrAutocomplete extends LitElement {
         @input=${(e: InputEvent) => {
           const target = e.target as HTMLInputElement;
           this.text = target.value;
+          if (this.multi) {
+            this.value = this.text;
+          }
         }}
         .placeholder=${this.placeholder}
         @keydown=${this.handleKeydown}

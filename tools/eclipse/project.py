@@ -314,6 +314,16 @@ def gen_classpath(ext):
 
     for libs in [lib]:
         for j in sorted(libs):
+            j = _prefer_unprocessed_jar("", j)
+
+            # Some rules_jvm_external entries can be listed as processed_* jars
+            # that are not materialized locally. Eclipse treats them as missing
+            # required libraries. Skip such entries rather than generating a
+            # broken .classpath.
+            if (os.path.basename(j).startswith("processed_") or
+                os.path.basename(j).startswith("header_")) and not os.path.exists(j):
+                continue
+
             s = None
 
             # Attach sources using the classpath_collector output from rules_jvm_external.

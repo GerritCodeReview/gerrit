@@ -231,6 +231,16 @@ export class GrCreateFlow extends LitElement {
         .stage-row > gr-search-autocomplete {
           flex: 1;
         }
+        .stage-row > gr-autocomplete {
+          background-color: var(--background-color-primary);
+          --gr-autocomplete-border-radius: var(--border-radius, 4px);
+          --view-background-color: transparent;
+          --gr-autocomplete-height: 42px;
+        }
+        .stage-row > md-outlined-text-field,
+        .stage-row > gr-autocomplete {
+          flex: 1;
+        }
         .stages-list {
           display: flex;
           flex-direction: column;
@@ -477,17 +487,7 @@ export class GrCreateFlow extends LitElement {
                         `
                       )}
                     </md-outlined-select>
-                    <md-outlined-text-field
-                      label="Parameters"
-                      .placeholder=${this.getParametersPlaceholder(
-                        this.currentAction
-                      )}
-                      .value=${this.currentParameter}
-                      @input=${(e: InputEvent) =>
-                        (this.currentParameter = (
-                          e.target as MdOutlinedTextField
-                        ).value)}
-                    ></md-outlined-text-field>
+                    ${this.renderParameterInputField()}
                   </div>
                   <div class="stage-row" style="margin-top: var(--spacing-m);">
                     <gr-button
@@ -640,6 +640,27 @@ export class GrCreateFlow extends LitElement {
     if (action === 'vote') return '<Label>+/-<Value>';
     if (action === 'submit') return 'no parameter required';
     return 'Parameters';
+  }
+
+  private renderParameterInputField() {
+    return html`${this.currentAction === 'add-reviewer'
+      ? html`<gr-autocomplete
+          class="parameter-input autocomplete-input"
+          label="Parameters"
+          .placeholder=${this.getParametersPlaceholder(this.currentAction)}
+          .text=${this.currentParameter}
+          .query=${this.accountSuggestions}
+          @text-changed=${(e: ValueChangedEvent) =>
+            (this.currentParameter = e.detail.value ?? '')}
+        ></gr-autocomplete>`
+      : html`<md-outlined-text-field
+          class="parameter-input textfield-input"
+          label="Parameters"
+          .placeholder=${this.getParametersPlaceholder(this.currentAction)}
+          .value=${this.currentParameter}
+          @input=${(e: InputEvent) =>
+            (this.currentParameter = (e.target as MdOutlinedTextField).value)}
+        ></md-outlined-text-field>`}`;
   }
 }
 

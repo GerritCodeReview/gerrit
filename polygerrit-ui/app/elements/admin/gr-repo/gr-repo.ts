@@ -55,6 +55,7 @@ import {GrAutogrowTextarea} from '../../shared/gr-autogrow-textarea/gr-autogrow-
 import {formStyles} from '../../../styles/form-styles';
 import '@material/web/select/outlined-select';
 import '@material/web/select/select-option';
+import {KnownExperimentId} from '../../../services/flags/flags';
 
 const STATES = {
   active: {value: RepoState.ACTIVE, label: 'Active'},
@@ -133,6 +134,8 @@ export class GrRepo extends LitElement {
   private readonly getUserModel = resolve(this, userModelToken);
 
   private readonly restApiService = getAppContext().restApiService;
+
+  private readonly flagsService = getAppContext().flagsService;
 
   private readonly getNavigation = resolve(this, navigationToken);
 
@@ -313,7 +316,7 @@ export class GrRepo extends LitElement {
         ${this.renderUnRegisteredCc()} ${this.renderPrivateByDefault()}
         ${this.renderWorkInProgressByDefault()} ${this.renderMaxGitObjectSize()}
         ${this.renderMatchAuthoredDateWithCommitterDate()}
-        ${this.renderRejectEmptyCommit()}
+        ${this.renderRejectEmptyCommit()} ${this.renderEnableAiChat()}
       </fieldset>
       <h3 id="Options" class="heading-3">Contributor Agreements</h3>
       <fieldset id="agreements">
@@ -688,6 +691,36 @@ export class GrRepo extends LitElement {
             ${this.formatBooleanSelect(
               this.repoConfig?.reject_empty_commit
             ).map(
+              item => html`
+                <md-select-option value=${item.value}>
+                  <div slot="headline">${item.label}</div>
+                </md-select-option>
+              `
+            )}
+          </md-outlined-select>
+        </span>
+      </section>
+    `;
+  }
+
+  private renderEnableAiChat() {
+    if (
+      !this.flagsService.isEnabled(KnownExperimentId.ENABLE_AI_CHAT) ||
+      !this.repoConfig?.enable_ai_chat
+    ) {
+      return nothing;
+    }
+    return html`
+      <section>
+        <span class="title">Enable AI chat</span>
+        <span class="value">
+          <md-outlined-select
+            id="enableAiChatSelect"
+            value=${this.repoConfig?.enable_ai_chat?.configured_value ?? ''}
+            ?disabled=${this.readOnly}
+            @change=${this.handleEnableAiChatSelectChange}
+          >
+            ${this.formatBooleanSelect(this.repoConfig?.enable_ai_chat).map(
               item => html`
                 <md-select-option value=${item.value}>
                   <div slot="headline">${item.label}</div>
@@ -1116,6 +1149,11 @@ export class GrRepo extends LitElement {
       return true;
     }
     if (
+      this.isEdited(originalConfig.enable_ai_chat, repoConfig.enable_ai_chat)
+    ) {
+      return true;
+    }
+    if (
       this.isEdited(
         originalConfig.use_contributor_agreements,
         repoConfig.use_contributor_agreements
@@ -1328,6 +1366,14 @@ export class GrRepo extends LitElement {
     if (!this.repoConfig?.reject_empty_commit || this.loading) return;
     const select = e.target as HTMLSelectElement;
     this.repoConfig.reject_empty_commit.configured_value =
+      select.value as InheritedBooleanInfoConfiguredValue;
+    this.requestUpdate();
+  }
+
+  private handleEnableAiChatSelectChange(e: Event) {
+    if (!this.repoConfig?.enable_ai_chat || this.loading) return;
+    const select = e.target as HTMLSelectElement;
+    this.repoConfig.enable_ai_chat.configured_value =
       select.value as InheritedBooleanInfoConfiguredValue;
     this.requestUpdate();
   }

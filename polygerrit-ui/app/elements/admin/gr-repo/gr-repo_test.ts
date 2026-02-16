@@ -14,6 +14,7 @@ import {
   addListenerForTest,
   queryAll,
   queryAndAssert,
+  stubFlags,
   stubRestApi,
 } from '../../../test/test-utils';
 import {
@@ -52,6 +53,7 @@ import {ChangeInfo} from '../../../api/rest-api';
 import {MdOutlinedTextField} from '@material/web/textfield/outlined-text-field';
 import {GrAutogrowTextarea} from '../../shared/gr-autogrow-textarea/gr-autogrow-textarea';
 import {MdOutlinedSelect} from '@material/web/select/outlined-select';
+import {KnownExperimentId} from '../../../services/flags/flags';
 
 suite('gr-repo tests', () => {
   let element: GrRepo;
@@ -101,6 +103,10 @@ suite('gr-repo tests', () => {
       configured_value: InheritedBooleanInfoConfiguredValue.FALSE,
     },
     enable_reviewer_by_email: {
+      value: false,
+      configured_value: InheritedBooleanInfoConfiguredValue.FALSE,
+    },
+    enable_ai_chat: {
       value: false,
       configured_value: InheritedBooleanInfoConfiguredValue.FALSE,
     },
@@ -1260,6 +1266,7 @@ suite('gr-repo tests', () => {
         match_author_to_committer_date:
           InheritedBooleanInfoConfiguredValue.TRUE,
         reject_empty_commit: InheritedBooleanInfoConfiguredValue.TRUE,
+        enable_ai_chat: InheritedBooleanInfoConfiguredValue.FALSE,
         max_object_size_limit: '10' as MaxObjectSizeLimitInfo,
         submit_type: SubmitType.FAST_FORWARD_ONLY,
         state: RepoState.READ_ONLY,
@@ -1498,6 +1505,26 @@ suite('gr-repo tests', () => {
       assert.isTrue(
         saveStub.lastCall.calledWithExactly(REPO as RepoName, configInputObj)
       );
+    });
+
+    test('enable AI chat hidden when experiment disabled', async () => {
+      await element.loadRepo();
+      await element.updateComplete;
+      const select = element.shadowRoot!.querySelector('#enableAiChatSelect');
+      assert.isNotOk(select);
+    });
+
+    test('enable AI chat shown when experiment enabled', async () => {
+      stubFlags('isEnabled')
+        .withArgs(KnownExperimentId.ENABLE_AI_CHAT)
+        .returns(true);
+      await element.loadRepo();
+      await element.updateComplete;
+      const select = queryAndAssert<MdOutlinedSelect>(
+        element,
+        '#enableAiChatSelect'
+      );
+      assert.equal(select.value, 'FALSE');
     });
 
     test('saveReviewBtn visible', async () => {

@@ -16,9 +16,18 @@ import {
   createDraft,
   createRun,
 } from '../../../test/test-data-generators';
-import {FlowInfo, FlowStageState, Timestamp} from '../../../api/rest-api';
+import {
+  FlowInfo,
+  FlowStageState,
+  InheritedBooleanInfoConfiguredValue,
+  Timestamp,
+} from '../../../api/rest-api';
 import {testResolver} from '../../../test/common-test-setup';
+import {stubFlags} from '../../../test/test-utils';
 import {UserModel, userModelToken} from '../../../models/user/user-model';
+import {KnownExperimentId} from '../../../services/flags/flags';
+import {configModelToken} from '../../../models/config/config-model';
+import {createConfig} from '../../../test/test-data-generators';
 import {
   CommentsModel,
   commentsModelToken,
@@ -83,26 +92,53 @@ suite('gr-change-summary test', () => {
                       clickablechips=""
                       showcommentcategoryname=""
                     ></gr-comments-summary>
-                    <gr-button
-                      aria-disabled="false"
-                      link=""
-                      role="button"
-                      tabindex="0"
-                    >
-                      Create AI Review Prompt
-                    </gr-button>
                   </div>
                 </td>
               </tr>
             </tbody>
           </table>
         </div>
-        <dialog id="aiPromptModal" tabindex="-1">
-          <gr-ai-prompt-dialog id="aiPromptDialog" role="dialog">
-          </gr-ai-prompt-dialog>
-        </dialog>
       `
     );
+  });
+
+  test('renders AI chat button when experiment enabled', async () => {
+    stubFlags('isEnabled')
+      .withArgs(KnownExperimentId.ENABLE_AI_CHAT)
+      .returns(true);
+    element = await fixture(html`<gr-change-summary></gr-change-summary>`);
+    element.commentsLoading = false;
+    element.commentThreads = [
+      createCommentThread([{...createComment(), unresolved: true}]),
+    ];
+    await element.updateComplete;
+    const button = element.shadowRoot!.querySelector('gr-button[link]');
+    assert.isOk(button);
+    assert.include(button.textContent, 'Create AI Review Prompt');
+    assert.isOk(element.shadowRoot!.querySelector('#aiPromptModal'));
+  });
+
+  test('hides AI chat button when config disabled', async () => {
+    stubFlags('isEnabled')
+      .withArgs(KnownExperimentId.ENABLE_AI_CHAT)
+      .returns(true);
+    element = await fixture(html`<gr-change-summary></gr-change-summary>`);
+    const configModel = testResolver(configModelToken);
+    configModel.updateRepoConfig({
+      ...createConfig(),
+      enable_ai_chat: {
+        value: false,
+        configured_value: InheritedBooleanInfoConfiguredValue.FALSE,
+      },
+    });
+    element.commentsLoading = false;
+    element.commentThreads = [
+      createCommentThread([{...createComment(), unresolved: true}]),
+    ];
+    await element.updateComplete;
+    const button = element.shadowRoot!.querySelector('gr-button[link]');
+    assert.isNotOk(button);
+    assert.isNotOk(element.shadowRoot!.querySelector('#aiPromptModal'));
   });
 
   test('renders checks summary message', async () => {

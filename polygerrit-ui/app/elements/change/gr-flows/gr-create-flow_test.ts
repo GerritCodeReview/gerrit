@@ -8,7 +8,12 @@ import './gr-create-flow';
 import {assert, fixture, html} from '@open-wc/testing';
 import {GrCreateFlow} from './gr-create-flow';
 import {query, queryAll, queryAndAssert} from '../../../test/test-utils';
-import {AccountId, EmailAddress, NumericChangeId} from '../../../types/common';
+import {
+  AccountId,
+  EmailAddress,
+  NumericChangeId,
+  RepoName,
+} from '../../../types/common';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrAutocomplete} from '../../shared/gr-autocomplete/gr-autocomplete';
 import {GrSearchAutocomplete} from '../../core/gr-search-autocomplete/gr-search-autocomplete';
@@ -16,7 +21,10 @@ import {FlowsModel, flowsModelToken} from '../../../models/flows/flows-model';
 import {testResolver} from '../../../test/common-test-setup';
 import {MdOutlinedTextField} from '@material/web/textfield/outlined-text-field';
 import {getAppContext} from '../../../services/app-context';
-import {FlowActionInfo} from '../../../api/rest-api';
+import {
+  FlowActionInfo,
+  LabelDefinitionInfoFunction,
+} from '../../../api/rest-api';
 import {MdOutlinedSelect} from '@material/web/select/outlined-select';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
 
@@ -31,6 +39,7 @@ suite('gr-create-flow tests', () => {
       .resolves([
         {name: 'act-1'},
         {name: 'act-2'},
+        {name: 'vote'},
         {name: 'add-reviewer'},
       ] as FlowActionInfo[]);
 
@@ -564,6 +573,8 @@ suite('gr-create-flow tests', () => {
     });
 
     test('shows correct placeholder for vote', async () => {
+      // @ts-expect-error
+      element.repoLabels = [];
       element.currentAction = 'vote';
       await element.updateComplete;
       const textfield = queryAndAssert<MdOutlinedTextField>(
@@ -677,6 +688,119 @@ suite('gr-create-flow tests', () => {
         element.currentParameter,
         'test1@example.com,test2@example.com'
       );
+    });
+  });
+
+  suite('vote action', () => {
+    setup(async () => {
+      // @ts-expect-error
+      element.repoLabels = [
+        {
+          name: 'Code-Review',
+          values: {
+            '-2': 'Do not submit',
+            '-1': "I would prefer that you didn't submit this",
+            ' 0': 'No score',
+            '+1': 'Looks good to me, but someone else must approve',
+            '+2': 'Looks good to me, approved',
+          },
+          project_name: '' as RepoName,
+          function: LabelDefinitionInfoFunction.MaxWithBlock,
+          default_value: 0,
+        },
+        {
+          name: 'Verified',
+          values: {
+            '-1': 'Fails',
+            ' 0': 'No score',
+            '+1': 'Verified',
+          },
+          project_name: '' as RepoName,
+          function: LabelDefinitionInfoFunction.MaxWithBlock,
+          default_value: 0,
+        },
+      ];
+      await element.updateComplete;
+    });
+
+    test('sets default label and value when action is changed to vote', async () => {
+      const actionInput = queryAndAssert<MdOutlinedSelect>(
+        element,
+        'md-outlined-select[label="Action"]'
+      );
+      actionInput.value = 'vote';
+      actionInput.dispatchEvent(new Event('change'));
+      await element.updateComplete;
+
+      assert.equal(element['selectedLabelForVote'], 'Code-Review');
+      assert.equal(element['selectedValueForVote'], '-2');
+      assert.equal(element['currentParameter'], 'Code-Review-2');
+    });
+
+    test('updates parameter when label is changed', async () => {
+      const actionInput = queryAndAssert<MdOutlinedSelect>(
+        element,
+        'md-outlined-select[label="Action"]'
+      );
+      actionInput.value = 'vote';
+      actionInput.dispatchEvent(new Event('change'));
+      await element.updateComplete;
+
+      const voteParamInputs = queryAll<MdOutlinedSelect>(
+        element,
+        '.vote-parameter-input'
+      );
+      const labelSelect = voteParamInputs[0];
+
+      labelSelect.value = 'Verified';
+      labelSelect.dispatchEvent(new Event('input', {bubbles: true}));
+      labelSelect.dispatchEvent(new Event('change', {bubbles: true}));
+      await element.updateComplete;
+
+      assert.equal(element['selectedLabelForVote'], 'Verified');
+      assert.equal(element['selectedValueForVote'], '-1');
+      assert.equal(element['currentParameter'], 'Verified-1');
+    });
+
+    test('updates parameter when value is changed', async () => {
+      const actionInput = queryAndAssert<MdOutlinedSelect>(
+        element,
+        'md-outlined-select[label="Action"]'
+      );
+      actionInput.value = 'vote';
+      actionInput.dispatchEvent(new Event('change'));
+      await element.updateComplete;
+
+      const voteParamInputs = queryAll<MdOutlinedSelect>(
+        element,
+        '.vote-parameter-input'
+      );
+      const valueSelect = voteParamInputs[1];
+
+      valueSelect.value = '+1';
+      valueSelect.dispatchEvent(new Event('input', {bubbles: true}));
+      valueSelect.dispatchEvent(new Event('change', {bubbles: true}));
+      await element.updateComplete;
+
+      assert.equal(element['selectedLabelForVote'], 'Code-Review');
+      assert.equal(element['selectedValueForVote'], '+1');
+      assert.equal(element['currentParameter'], 'Code-Review+1');
+    });
+
+    test('renders text input for vote when no labels are available', async () => {
+      element.repoLabels = [];
+      await element.updateComplete;
+
+      const actionInput = queryAndAssert<MdOutlinedSelect>(
+        element,
+        'md-outlined-select[label="Action"]'
+      );
+      actionInput.value = 'vote';
+      actionInput.dispatchEvent(new Event('change'));
+      await element.updateComplete;
+
+      assert.isNotNull(query(element, '.textfield-input'));
+      assert.lengthOf(queryAll(element, '.vote-parameter-input'), 0);
     });
   });
 

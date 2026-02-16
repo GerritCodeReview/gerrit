@@ -10,7 +10,7 @@ import {materialStyles} from '../../../styles/gr-material-styles';
 import {grFormStyles} from '../../../styles/gr-form-styles';
 import {ChangeInfo, FlowActionInfo, FlowInput} from '../../../api/rest-api';
 import {getAppContext} from '../../../services/app-context';
-import {NumericChangeId, ServerInfo} from '../../../types/common';
+import {NumericChangeId, RepoName, ServerInfo} from '../../../types/common';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-dialog/gr-dialog';
 import '../../core/gr-search-autocomplete/gr-search-autocomplete';
@@ -21,6 +21,7 @@ import '../../shared/gr-copy-clipboard/gr-copy-clipboard';
 import {resolve} from '../../../models/dependency';
 import {configModelToken} from '../../../models/config/config-model';
 import {flowsModelToken} from '../../../models/flows/flows-model';
+import {repoViewModelToken} from '../../../models/views/repo';
 import './gr-flow-rule';
 import {subscribe} from '../../lit/subscription-controller';
 import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
@@ -42,6 +43,7 @@ import {FlowCustomConditionInfo} from '../../../api/flows';
 import {changeModelToken} from '../../../models/change/change-model';
 import {combineLatest} from 'rxjs';
 import {getUserName} from '../../../utils/display-name-util';
+import {LabelSuggestionsProvider} from '../../../utils/label-suggestions-provider';
 
 const MAX_AUTOCOMPLETE_RESULTS = 10;
 
@@ -79,6 +81,8 @@ export class GrCreateFlow extends LitElement {
 
   @state() private serverConfig?: ServerInfo;
 
+  @state() private repoName?: RepoName;
+
   @state() flowString = '';
 
   @state()
@@ -93,6 +97,12 @@ export class GrCreateFlow extends LitElement {
 
   private readonly getChangeModel = resolve(this, changeModelToken);
 
+  private readonly getRepoViewModel = resolve(this, repoViewModelToken);
+
+  private readonly labelSuggestionsProvider = new LabelSuggestionsProvider(
+    this.restApiService
+  );
+
   private readonly projectSuggestions: SuggestionProvider = (
     predicate,
     expression
@@ -102,6 +112,11 @@ export class GrCreateFlow extends LitElement {
     predicate,
     expression
   ) => this.fetchGroups(predicate, expression);
+
+  private readonly labelSuggestions: SuggestionProvider = (
+    predicate,
+    expression
+  ) => this.labelSuggestionsProvider.getSuggestions(predicate, expression);
 
   private customConditions: FlowCustomConditionInfo[] = [];
 
@@ -167,9 +182,12 @@ export class GrCreateFlow extends LitElement {
         combineLatest([
           this.getChangeModel().change$,
           this.getFlowsModel().provider$,
+          this.getRepoViewModel().state$,
         ]),
-      async ([change, provider]) => {
+      async ([change, provider, repoViewState]) => {
         if (!change || !provider) return;
+        this.repoName = repoViewState?.repo;
+        this.labelSuggestionsProvider.setRepoName(this.repoName);
         // TODO: add handling for multiple providers
         this.customConditions = await provider.getCustomConditions(
           change as ChangeInfo
@@ -484,6 +502,7 @@ export class GrCreateFlow extends LitElement {
                           .projectSuggestions=${this.projectSuggestions}
                           .groupSuggestions=${this.groupSuggestions}
                           .accountSuggestions=${this.accountSuggestions}
+                          .labelSuggestions=${this.labelSuggestions}
                           @text-changed=${this.handleGerritConditionTextChanged}
                         ></gr-search-autocomplete>`
                       : html`<md-outlined-text-field

@@ -8,7 +8,12 @@ import {css, html, LitElement, PropertyValues} from 'lit';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {materialStyles} from '../../../styles/gr-material-styles';
 import {grFormStyles} from '../../../styles/gr-form-styles';
-import {ChangeInfo, FlowActionInfo, FlowInput} from '../../../api/rest-api';
+import {
+  ChangeInfo,
+  FlowActionInfo,
+  FlowInput,
+  LabelDefinitionInfo,
+} from '../../../api/rest-api';
 import {getAppContext} from '../../../services/app-context';
 import {NumericChangeId, ServerInfo} from '../../../types/common';
 import '../../shared/gr-button/gr-button';
@@ -71,6 +76,16 @@ export class GrCreateFlow extends LitElement {
   @state()
   // private but used in tests
   currentParameter = '';
+
+  @state()
+  // private but used in tests
+  repoLabels?: LabelDefinitionInfo[];
+
+  @state()
+  private selectedLabelForVote?: string;
+
+  @state()
+  private selectedValueForVote?: string;
 
   @state() private currentConditionPrefix = 'Gerrit';
 
@@ -174,7 +189,16 @@ export class GrCreateFlow extends LitElement {
     subscribe(
       this,
       () => this.getChangeModel().change$,
-      change => this.labelSuggestionsProvider.setRepoName(change?.project)
+      async change => {
+        if (change) {
+          this.labelSuggestionsProvider.setRepoName(change.project);
+          this.repoLabels = await this.restApiService.getRepoLabels(
+            change.project
+          );
+        } else {
+          this.repoLabels = undefined;
+        }
+      }
     );
     subscribe(
       this,
@@ -261,6 +285,9 @@ export class GrCreateFlow extends LitElement {
         }
         .stage-row > md-outlined-select {
           width: 15em;
+        }
+        .stage-row > .vote-parameter-input {
+          flex: 1;
         }
         .stage-row > md-outlined-text-field {
           background-color: var(--background-color-primary);
@@ -518,11 +545,7 @@ export class GrCreateFlow extends LitElement {
                     <md-outlined-select
                       label="Action"
                       .value=${this.currentAction}
-                      @change=${(e: Event) => {
-                        const select = e.target as HTMLSelectElement;
-
-                        this.currentAction = select.value;
-                      }}
+                      @change=${this.handleActionChanged}
                     >
                       ${this.flowActions.map(
                         action => html`
@@ -555,6 +578,45 @@ export class GrCreateFlow extends LitElement {
     e.stopPropagation();
     e.preventDefault();
     this.guidedBuilderExpanded = !this.guidedBuilderExpanded;
+  }
+
+  private setDefaultVoteLabelAndValue() {
+    const labels = (this.repoLabels ?? []).map(l => l.name);
+    if (labels.length > 0) {
+      this.selectedLabelForVote = labels[0];
+      const selectedLabelInfo = this.repoLabels?.find(
+        l => l.name === this.selectedLabelForVote
+      );
+      const labelValues = selectedLabelInfo
+        ? Object.keys(selectedLabelInfo.values)
+        : [];
+      if (labelValues.length > 0) {
+        this.selectedValueForVote = labelValues[0];
+      }
+    }
+  }
+
+  private handleActionChanged(e: Event) {
+    const select = e.target as HTMLSelectElement;
+    this.currentAction = select.value;
+    this.currentParameter = '';
+    this.selectedLabelForVote = undefined;
+    this.selectedValueForVote = undefined;
+
+    if (this.currentAction === 'vote') {
+      this.setDefaultVoteLabelAndValue();
+      this.updateCurrentParameterForVote();
+    }
+  }
+
+  private updateCurrentParameterForVote() {
+    if (this.currentAction !== 'vote') return;
+
+    if (this.selectedLabelForVote && this.selectedValueForVote) {
+      this.currentParameter = `${this.selectedLabelForVote}${this.selectedValueForVote}`;
+    } else {
+      this.currentParameter = '';
+    }
   }
 
   private handleGerritConditionTextChanged(e: ValueChangedEvent) {
@@ -687,23 +749,90 @@ export class GrCreateFlow extends LitElement {
     return 'Parameters';
   }
 
-  private renderParameterInputField() {
-    if (this.currentAction === 'submit') {
-      return html``;
+  private renderAddReviewerParameterInputField() {
+    return html`<gr-autocomplete
+      class="parameter-input autocomplete-input"
+      label="Parameters"
+      .placeholder=${this.getParametersPlaceholder(this.currentAction)}
+      .text=${this.currentParameter}
+      .query=${this.reviewerSuggestions}
+      ?multi=${true}
+      @text-changed=${(e: ValueChangedEvent) => {
+        this.currentParameter = e.detail.value ?? '';
+      }}
+    ></gr-autocomplete>`;
+  }
+
+  private renderVoteParameterInputField() {
+    const labelNames = (this.repoLabels ?? []).map(l => l.name);
+    if (this.repoLabels?.length === 0) {
+      // Fallback to text input if labels aren't loaded.
+      return this.renderDefaultParameterInputField();
     }
-    if (this.currentAction === 'add-reviewer') {
-      return html`<gr-autocomplete
-        class="parameter-input autocomplete-input"
-        label="Parameters"
-        .placeholder=${this.getParametersPlaceholder(this.currentAction)}
-        .text=${this.currentParameter}
-        .query=${this.reviewerSuggestions}
-        ?multi=${true}
-        @text-changed=${(e: ValueChangedEvent) => {
-          this.currentParameter = e.detail.value ?? '';
+
+    const selectedLabelInfo = this.selectedLabelForVote
+      ? this.repoLabels?.find(l => l.name === this.selectedLabelForVote)
+      : undefined;
+    const labelValues = selectedLabelInfo
+      ? Object.keys(selectedLabelInfo.values)
+      : [];
+
+    return html`
+      <md-outlined-select
+        class="vote-parameter-input"
+        label="Label"
+        value=${this.selectedLabelForVote ?? ''}
+        @change=${(e: Event) => {
+          // TODO: Remove the reading from attribute
+          // For some reason in the test, the value is only read from the attribute and not from the value property
+          this.selectedLabelForVote =
+            ((e.target as HTMLSelectElement).value ||
+              (e.target as HTMLSelectElement).getAttribute('value')) ??
+            '';
+          const newSelectedLabelInfo = this.repoLabels?.find(
+            l => l.name === this.selectedLabelForVote
+          );
+          const newLabelValues = newSelectedLabelInfo
+            ? Object.keys(newSelectedLabelInfo.values)
+            : [];
+          this.selectedValueForVote = newLabelValues[0] ?? undefined;
+          this.updateCurrentParameterForVote();
         }}
-      ></gr-autocomplete>`;
-    }
+      >
+        ${labelNames.map(
+          label => html`
+            <md-select-option value=${label}>
+              <div slot="headline">${label}</div>
+            </md-select-option>
+          `
+        )}
+      </md-outlined-select>
+      <md-outlined-select
+        class="vote-parameter-input"
+        label="Value"
+        value=${this.selectedValueForVote ?? ''}
+        @change=${(e: Event) => {
+          // TODO: Remove the reading from attribute
+          // For some reason in the test, the value is only read from the attribute and not from the value property
+          this.selectedValueForVote =
+            ((e.target as HTMLSelectElement).value ||
+              (e.target as HTMLSelectElement).getAttribute('value')) ??
+            '';
+          this.updateCurrentParameterForVote();
+        }}
+      >
+        ${labelValues.map(
+          val => html`
+            <md-select-option value=${val}>
+              <div slot="headline">${val}</div>
+            </md-select-option>
+          `
+        )}
+      </md-outlined-select>
+    `;
+  }
+
+  private renderDefaultParameterInputField() {
     return html`<md-outlined-text-field
       class="parameter-input textfield-input"
       label="Parameters"
@@ -712,6 +841,16 @@ export class GrCreateFlow extends LitElement {
       @input=${(e: InputEvent) =>
         (this.currentParameter = (e.target as MdOutlinedTextField).value)}
     ></md-outlined-text-field>`;
+  }
+
+  private renderParameterInputField() {
+    if (this.currentAction === 'add-reviewer') {
+      return this.renderAddReviewerParameterInputField();
+    }
+    if (this.currentAction === 'vote') {
+      return this.renderVoteParameterInputField();
+    }
+    return this.renderDefaultParameterInputField();
   }
 }
 

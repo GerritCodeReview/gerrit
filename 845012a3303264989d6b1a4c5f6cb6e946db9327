@@ -155,6 +155,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "45da33d3_318805b6",
+        "filename": "polygerrit-ui/app/utils/label-suggestions-provider.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-02-16T18:20:23Z",
+      "side": 1,
+      "message": "\"The difference is that \n\nfetchProjects\n and \n\nfetchGroups\n pass the user\u0027s current keystroke expression to the backend to filter the results on the server-side (e.g., they call \n\ngetSuggestedRepos(expression)\n). Because the query changes on every keystroke, a new network request is required.\n\nHowever, \n\ngetRepoLabels(this.repoName)\n does not accept a search string. It fetches all labels for the repository at once, and then the filtering happens entirely on the frontend inside the .filter(name \u003d\u003e name.includes(expression)) block.\n\nWithout caching, this means typing \u0027Code\u0027 will fetch the exact same full list of repository labels 4 separate times over the network, whereas \n\nfetchProjects\n fetches 4 distinct, smaller, server-filtered lists. Fetching the full list once and caching it for the frontend-filtering step will prevent spamming the /labels endpoint.\"",
+      "parentUuid": "88171956_a0177fc4",
+      "revId": "845012a3303264989d6b1a4c5f6cb6e946db9327",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f599291b_47cd1c9a",
         "filename": "polygerrit-ui/app/utils/label-suggestions-provider_test.ts",
         "patchSetId": 6

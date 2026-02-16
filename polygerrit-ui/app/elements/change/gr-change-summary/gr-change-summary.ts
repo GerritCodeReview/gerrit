@@ -46,6 +46,10 @@ import {userModelToken} from '../../../models/user/user-model';
 import {assertIsDefined} from '../../../utils/common-util';
 import {GrAiPromptDialog} from '../gr-ai-prompt-dialog/gr-ai-prompt-dialog';
 import {flowsModelToken} from '../../../models/flows/flows-model';
+import {configModelToken} from '../../../models/config/config-model';
+import {ConfigInfo} from '../../../types/common';
+import {KnownExperimentId} from '../../../services/flags/flags';
+import {InheritedBooleanInfoConfiguredValue} from '../../../api/rest-api';
 
 function handleSpaceOrEnter(e: KeyboardEvent, handler: () => void) {
   if (modifierPressed(e)) return;
@@ -104,6 +108,9 @@ export class GrChangeSummary extends LitElement {
   @state()
   flows: FlowInfo[] = [];
 
+  @state()
+  repoConfig?: ConfigInfo;
+
   @query('#aiPromptModal')
   aiPromptModal?: HTMLDialogElement;
 
@@ -121,6 +128,10 @@ export class GrChangeSummary extends LitElement {
   private readonly getChangeModel = resolve(this, changeModelToken);
 
   private readonly getFlowsModel = resolve(this, flowsModelToken);
+
+  private readonly getConfigModel = resolve(this, configModelToken);
+
+  private readonly flagsService = getAppContext().flagsService;
 
   private readonly reporting = getAppContext().reportingService;
 
@@ -196,6 +207,11 @@ export class GrChangeSummary extends LitElement {
         ).filter(isUnresolved);
         this.mentionCount = unresolvedThreadsMentioningSelf.length;
       }
+    );
+    subscribe(
+      this,
+      () => this.getConfigModel().repoConfig$,
+      x => (this.repoConfig = x)
     );
     subscribe(
       this,
@@ -570,6 +586,23 @@ export class GrChangeSummary extends LitElement {
     this.aiPromptDialog?.open();
   }
 
+  private isAiChatEnabled(): boolean {
+    if (!this.flagsService.isEnabled(KnownExperimentId.ENABLE_AI_CHAT))
+      return false;
+    const config = this.repoConfig?.enable_ai_chat;
+    if (config === undefined) return true;
+    switch (config.configured_value) {
+      case InheritedBooleanInfoConfiguredValue.FALSE:
+        return false;
+      case InheritedBooleanInfoConfiguredValue.TRUE:
+        return true;
+      case InheritedBooleanInfoConfiguredValue.INHERIT:
+        return config.inherited_value !== false;
+      default:
+        return true;
+    }
+  }
+
   private handleAiPromptDialogClose() {
     assertIsDefined(this.aiPromptModal, 'aiPromptModal');
     this.aiPromptModal.close();
@@ -591,21 +624,25 @@ export class GrChangeSummary extends LitElement {
                   showCommentCategoryName
                   clickableChips
                 ></gr-comments-summary>
-                <gr-button link @click=${this.handleOpenAiPromptDialog}
-                  >Create AI Review Prompt</gr-button
-                >
+                ${this.isAiChatEnabled()
+                  ? html`<gr-button link @click=${this.handleOpenAiPromptDialog}
+                      >Create AI Review Prompt</gr-button
+                    >`
+                  : nothing}
               </div>
             </td>
           </tr>
           ${this.renderChecksSummary()} ${this.renderFlowsSummary()}
         </table>
       </div>
-      <dialog id="aiPromptModal" tabindex="-1">
-        <gr-ai-prompt-dialog
-          id="aiPromptDialog"
-          @close=${this.handleAiPromptDialogClose}
-        ></gr-ai-prompt-dialog>
-      </dialog>
+      ${this.isAiChatEnabled()
+        ? html`<dialog id="aiPromptModal" tabindex="-1">
+            <gr-ai-prompt-dialog
+              id="aiPromptDialog"
+              @close=${this.handleAiPromptDialogClose}
+            ></gr-ai-prompt-dialog>
+          </dialog>`
+        : nothing}
     `;
   }
 

@@ -119,8 +119,13 @@ import {ParsedChangeInfo} from '../../../types/types';
 import {readJSONResponsePayload} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 import {commentsModelToken} from '../../../models/comments/comments-model';
 import {when} from 'lit/directives/when.js';
-import {ValidationOptionInfo} from '../../../api/rest-api';
+import {
+  InheritedBooleanInfoConfiguredValue,
+  ValidationOptionInfo,
+} from '../../../api/rest-api';
 import {KnownExperimentId} from '../../../services/flags/flags';
+import {configModelToken} from '../../../models/config/config-model';
+import {ConfigInfo} from '../../../types/common';
 
 const ERR_BRANCH_EMPTY = 'The destination branch can’t be empty.';
 const ERR_COMMIT_EMPTY = 'The commit message can’t be empty.';
@@ -497,6 +502,8 @@ export class GrChangeActions
 
   @state() threadsWithUnappliedSuggestions?: CommentThread[];
 
+  @state() repoConfig?: ConfigInfo;
+
   @state() chatCapabilitiesLoaded = false;
 
   private aiChatLoadingCleanup?: () => void;
@@ -518,6 +525,8 @@ export class GrChangeActions
   private readonly getStorage = resolve(this, storageServiceToken);
 
   private readonly getNavigation = resolve(this, navigationToken);
+
+  private readonly getConfigModel = resolve(this, configModelToken);
 
   private readonly getCommentsModel = resolve(this, commentsModelToken);
 
@@ -597,6 +606,11 @@ export class GrChangeActions
       this,
       () => this.getPluginLoader().pluginsModel.aiCodeReviewPlugins$,
       plugins => (this.aiPluginsRegistered = (plugins.length ?? 0) > 0)
+    );
+    subscribe(
+      this,
+      () => this.getConfigModel().repoConfig$,
+      x => (this.repoConfig = x)
     );
     subscribe(
       this,
@@ -1249,8 +1263,26 @@ export class GrChangeActions
     this._hideQuickApproveAction = true;
   }
 
+  private isAiChatEnabledByConfig(): boolean {
+    const config = this.repoConfig?.enable_ai_chat;
+    if (config === undefined) return true;
+    switch (config.configured_value) {
+      case InheritedBooleanInfoConfiguredValue.FALSE:
+        return false;
+      case InheritedBooleanInfoConfiguredValue.TRUE:
+        return true;
+      case InheritedBooleanInfoConfiguredValue.INHERIT:
+        return config.inherited_value !== false;
+      default:
+        return true;
+    }
+  }
+
   private getAiChatAction(): UIActionInfo | null {
     if (!this.flagService.isEnabled(KnownExperimentId.ENABLE_AI_CHAT)) {
+      return null;
+    }
+    if (!this.isAiChatEnabledByConfig()) {
       return null;
     }
     if (!this.aiPluginsRegistered) {

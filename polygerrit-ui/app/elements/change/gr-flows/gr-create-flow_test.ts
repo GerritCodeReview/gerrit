@@ -7,9 +7,10 @@ import '../../../test/common-test-setup';
 import './gr-create-flow';
 import {assert, fixture, html} from '@open-wc/testing';
 import {GrCreateFlow} from './gr-create-flow';
-import {queryAll, queryAndAssert} from '../../../test/test-utils';
-import {NumericChangeId} from '../../../types/common';
+import {query, queryAll, queryAndAssert} from '../../../test/test-utils';
+import {AccountId, EmailAddress, NumericChangeId} from '../../../types/common';
 import {GrButton} from '../../shared/gr-button/gr-button';
+import {GrAutocomplete} from '../../shared/gr-autocomplete/gr-autocomplete';
 import {GrSearchAutocomplete} from '../../core/gr-search-autocomplete/gr-search-autocomplete';
 import {FlowsModel, flowsModelToken} from '../../../models/flows/flows-model';
 import {testResolver} from '../../../test/common-test-setup';
@@ -30,7 +31,7 @@ suite('gr-create-flow tests', () => {
       .resolves([
         {name: 'act-1'},
         {name: 'act-2'},
-        {name: 'single action'},
+        {name: 'add-reviewer'},
       ] as FlowActionInfo[]);
 
     flowsModel = testResolver(flowsModelToken);
@@ -45,479 +46,638 @@ suite('gr-create-flow tests', () => {
     await element.updateComplete;
   });
 
-  test('renders initially', () => {
-    const createButton = queryAndAssert<GrButton>(
-      element,
-      'gr-button[aria-label="Create Flow"]'
-    );
-    createButton.click();
-    const createModal = queryAndAssert<HTMLDialogElement>(
-      element,
-      '#createModal'
-    );
-    assert.isTrue(createModal.open);
+  suite('default actions', () => {
+    test('renders initially', () => {
+      const createButton = queryAndAssert<GrButton>(
+        element,
+        'gr-button[aria-label="Create Flow"]'
+      );
+      createButton.click();
+      const createModal = queryAndAssert<HTMLDialogElement>(
+        element,
+        '#createModal'
+      );
+      assert.isTrue(createModal.open);
 
-    const grDialog = queryAndAssert<GrDialog>(createModal, 'gr-dialog');
+      const grDialog = queryAndAssert<GrDialog>(createModal, 'gr-dialog');
 
-    assert.isDefined(queryAndAssert(grDialog, 'gr-search-autocomplete'));
-    assert.isDefined(
-      queryAndAssert(grDialog, 'md-outlined-select[label="Action"]')
-    );
-    assert.isDefined(
-      queryAndAssert(grDialog, 'md-outlined-text-field[label="Parameters"]')
-    );
-    assert.isDefined(
-      queryAndAssert(grDialog, 'gr-button[aria-label="Add Stage"]')
-    );
+      assert.isDefined(queryAndAssert(grDialog, 'gr-search-autocomplete'));
+      assert.isDefined(
+        queryAndAssert(grDialog, 'md-outlined-select[label="Action"]')
+      );
+      assert.isDefined(
+        queryAndAssert(grDialog, 'md-outlined-text-field[label="Parameters"]')
+      );
+      assert.isDefined(
+        queryAndAssert(grDialog, 'gr-button[aria-label="Add Stage"]')
+      );
+    });
+
+    test('opens and closes dialog', async () => {
+      const createButton = queryAndAssert<GrButton>(
+        element,
+        'gr-button[aria-label="Create Flow"]'
+      );
+      const createModal = queryAndAssert<HTMLDialogElement>(
+        element,
+        '#createModal'
+      );
+
+      createButton.click();
+      await element.updateComplete;
+      assert.isTrue(createModal.open);
+
+      const grDialog = queryAndAssert<GrDialog>(createModal, 'gr-dialog');
+      const cancelButton = queryAndAssert<GrButton>(grDialog, '#cancel');
+      cancelButton.click();
+      await element.updateComplete;
+      assert.isFalse(createModal.open);
+    });
+
+    test('adds and removes stages', async () => {
+      const createButton = queryAndAssert<GrButton>(
+        element,
+        'gr-button[aria-label="Create Flow"]'
+      );
+      createButton.click();
+      await element.updateComplete;
+      const createModal = queryAndAssert<HTMLDialogElement>(
+        element,
+        '#createModal'
+      );
+      const grDialog = queryAndAssert<GrDialog>(createModal, 'gr-dialog');
+
+      const searchAutocomplete = queryAndAssert<GrSearchAutocomplete>(
+        grDialog,
+        'gr-search-autocomplete'
+      );
+      const actionInput = queryAndAssert<MdOutlinedSelect>(
+        grDialog,
+        'md-outlined-select[label="Action"]'
+      );
+      const addButton = queryAndAssert<GrButton>(
+        grDialog,
+        'gr-button[aria-label="Add Stage"]'
+      );
+
+      searchAutocomplete.value = 'cond 1';
+      await element.updateComplete;
+      actionInput.value = 'act-1';
+      actionInput.dispatchEvent(new Event('change'));
+      await element.updateComplete;
+      addButton.click();
+      await element.updateComplete;
+
+      assert.deepEqual(element['stages'], [
+        {
+          condition:
+            'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is cond 1',
+          action: 'act-1',
+          parameterStr: '',
+        },
+      ]);
+      assert.equal(element['currentCondition'], '');
+      assert.equal(element['currentAction'], 'act-1');
+
+      searchAutocomplete.value = 'cond 2';
+      await element.updateComplete;
+      actionInput.value = 'act-2';
+      actionInput.dispatchEvent(new Event('change'));
+      await element.updateComplete;
+      addButton.click();
+      await element.updateComplete;
+
+      assert.deepEqual(element['stages'], [
+        {
+          condition:
+            'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is cond 1',
+          action: 'act-1',
+          parameterStr: '',
+        },
+        {
+          condition:
+            'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is cond 2',
+          action: 'act-2',
+          parameterStr: '',
+        },
+      ]);
+
+      let removeButtons = queryAll<GrButton>(
+        grDialog,
+        '.stage-list-item gr-button'
+      );
+      assert.lengthOf(removeButtons, 2);
+
+      removeButtons[0].click();
+      await element.updateComplete;
+
+      assert.deepEqual(element['stages'], [
+        {
+          condition:
+            'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is cond 2',
+          action: 'act-2',
+          parameterStr: '',
+        },
+      ]);
+      removeButtons = queryAll<GrButton>(
+        grDialog,
+        '.stage-list-item gr-button'
+      );
+      assert.lengthOf(removeButtons, 1);
+    });
+
+    test('creates a flow with one stage', async () => {
+      const createFlowStub = sinon.stub(flowsModel, 'createFlow');
+
+      const createButton = queryAndAssert<GrButton>(
+        element,
+        'gr-button[aria-label="Create Flow"]'
+      );
+      createButton.click();
+      await element.updateComplete;
+      const createModal = queryAndAssert<HTMLDialogElement>(
+        element,
+        '#createModal'
+      );
+      const grDialog = queryAndAssert<GrDialog>(createModal, 'gr-dialog');
+
+      const searchAutocomplete = queryAndAssert<GrSearchAutocomplete>(
+        grDialog,
+        'gr-search-autocomplete'
+      );
+      const actionInput = queryAndAssert<MdOutlinedSelect>(
+        grDialog,
+        'md-outlined-select[label="Action"]'
+      );
+      searchAutocomplete.value = 'single condition';
+      await element.updateComplete;
+      actionInput.value = 'add-reviewer';
+      actionInput.dispatchEvent(new Event('change'));
+      await element.updateComplete;
+
+      const confirmButton = queryAndAssert<GrButton>(grDialog, '#confirm');
+      confirmButton.click();
+      await element.updateComplete;
+
+      assert.isTrue(createFlowStub.calledOnce);
+      const flowInput = createFlowStub.lastCall.args[0];
+      assert.deepEqual(flowInput.stage_expressions, [
+        {
+          condition:
+            'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is single condition',
+          action: {name: 'add-reviewer'},
+        },
+      ]);
+      assert.isFalse(createModal.open);
+    });
+
+    test('creates a flow with parameters', async () => {
+      const createFlowStub = sinon.stub(flowsModel, 'createFlow');
+
+      const createButton = queryAndAssert<GrButton>(
+        element,
+        'gr-button[aria-label="Create Flow"]'
+      );
+      createButton.click();
+      await element.updateComplete;
+      const createModal = queryAndAssert<HTMLDialogElement>(
+        element,
+        '#createModal'
+      );
+      const grDialog = queryAndAssert<GrDialog>(createModal, 'gr-dialog');
+
+      const searchAutocomplete = queryAndAssert<GrSearchAutocomplete>(
+        grDialog,
+        'gr-search-autocomplete'
+      );
+      const actionInput = queryAndAssert<MdOutlinedSelect>(
+        grDialog,
+        'md-outlined-select[label="Action"]'
+      );
+      const parametersInput = queryAndAssert<MdOutlinedTextField>(
+        grDialog,
+        'md-outlined-text-field[label="Parameters"]'
+      );
+      searchAutocomplete.value = 'single condition';
+      await element.updateComplete;
+      actionInput.value = 'add-reviewer';
+      actionInput.dispatchEvent(new Event('change'));
+      await element.updateComplete;
+      parametersInput.value = 'param1 param2';
+      parametersInput.dispatchEvent(new Event('input'));
+      await element.updateComplete;
+
+      const confirmButton = queryAndAssert<GrButton>(grDialog, '#confirm');
+      confirmButton.click();
+      await element.updateComplete;
+
+      assert.isTrue(createFlowStub.calledOnce);
+      const flowInput = createFlowStub.lastCall.args[0];
+      assert.deepEqual(flowInput.stage_expressions, [
+        {
+          condition:
+            'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is single condition',
+          action: {name: 'add-reviewer', parameters: ['param1', 'param2']},
+        },
+      ]);
+      assert.isFalse(createModal.open);
+    });
+
+    test('creates a flow with multiple stages', async () => {
+      const createFlowStub = sinon.stub(flowsModel, 'createFlow');
+
+      const createButton = queryAndAssert<GrButton>(
+        element,
+        'gr-button[aria-label="Create Flow"]'
+      );
+      createButton.click();
+      await element.updateComplete;
+      const createModal = queryAndAssert<HTMLDialogElement>(
+        element,
+        '#createModal'
+      );
+      const grDialog = queryAndAssert<GrDialog>(createModal, 'gr-dialog');
+
+      const searchAutocomplete = queryAndAssert<GrSearchAutocomplete>(
+        grDialog,
+        'gr-search-autocomplete'
+      );
+      const actionInput = queryAndAssert<MdOutlinedSelect>(
+        grDialog,
+        'md-outlined-select[label="Action"]'
+      );
+      const addButton = queryAndAssert<GrButton>(
+        grDialog,
+        'gr-button[aria-label="Add Stage"]'
+      );
+
+      searchAutocomplete.value = 'cond 1';
+      await element.updateComplete;
+      actionInput.value = 'act-1';
+      actionInput.dispatchEvent(new Event('change'));
+      await element.updateComplete;
+      addButton.click();
+      await element.updateComplete;
+
+      searchAutocomplete.value = 'cond 2';
+      await element.updateComplete;
+      actionInput.value = 'act-2';
+      actionInput.dispatchEvent(new Event('change'));
+      await element.updateComplete;
+      addButton.click();
+      await element.updateComplete;
+
+      const confirmButton = queryAndAssert<GrButton>(grDialog, '#confirm');
+      confirmButton.click();
+      await element.updateComplete;
+
+      assert.isTrue(createFlowStub.calledOnce);
+      const flowInput = createFlowStub.lastCall.args[0];
+      assert.deepEqual(flowInput.stage_expressions, [
+        {
+          condition:
+            'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is cond 1',
+          action: {name: 'act-1'},
+        },
+        {
+          condition:
+            'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is cond 2',
+          action: {name: 'act-2'},
+        },
+      ]);
+      assert.isFalse(createModal.open);
+    });
+
+    test('create flow with added stages and current input', async () => {
+      const createFlowStub = sinon.stub(flowsModel, 'createFlow');
+
+      const createButton = queryAndAssert<GrButton>(
+        element,
+        'gr-button[aria-label="Create Flow"]'
+      );
+      createButton.click();
+      await element.updateComplete;
+      const createModal = queryAndAssert<HTMLDialogElement>(
+        element,
+        '#createModal'
+      );
+      const grDialog = queryAndAssert<GrDialog>(createModal, 'gr-dialog');
+
+      const searchAutocomplete = queryAndAssert<GrSearchAutocomplete>(
+        grDialog,
+        'gr-search-autocomplete'
+      );
+      const actionInput = queryAndAssert<MdOutlinedSelect>(
+        grDialog,
+        'md-outlined-select[label="Action"]'
+      );
+      const addButton = queryAndAssert<GrButton>(
+        grDialog,
+        'gr-button[aria-label="Add Stage"]'
+      );
+
+      searchAutocomplete.value = 'cond 1';
+      await element.updateComplete;
+      actionInput.value = 'act-1';
+      actionInput.dispatchEvent(new Event('change'));
+      await element.updateComplete;
+      addButton.click();
+      await element.updateComplete;
+      searchAutocomplete.value = 'cond 2';
+      await element.updateComplete;
+      actionInput.value = 'act-2';
+      actionInput.dispatchEvent(new Event('change'));
+      await element.updateComplete;
+
+      const confirmButton = queryAndAssert<GrButton>(grDialog, '#confirm');
+      confirmButton.click();
+      await element.updateComplete;
+
+      assert.isTrue(createFlowStub.calledOnce);
+      const flowInput = createFlowStub.lastCall.args[0];
+      assert.deepEqual(flowInput.stage_expressions, [
+        {
+          condition:
+            'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is cond 1',
+          action: {name: 'act-1'},
+        },
+        {
+          condition:
+            'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is cond 2',
+          action: {name: 'act-2'},
+        },
+      ]);
+      assert.isFalse(createModal.open);
+    });
+
+    test('raw flow textarea is updated', async () => {
+      const createButton = queryAndAssert<GrButton>(
+        element,
+        'gr-button[aria-label="Create Flow"]'
+      );
+      createButton.click();
+      await element.updateComplete;
+      const createModal = queryAndAssert<HTMLDialogElement>(
+        element,
+        '#createModal'
+      );
+      const grDialog = queryAndAssert<GrDialog>(createModal, 'gr-dialog');
+
+      const rawFlowTextarea = queryAndAssert<MdOutlinedTextField>(
+        grDialog,
+        'md-outlined-text-field[label="Copy and Paste existing flows"]'
+      );
+      assert.isDefined(rawFlowTextarea);
+      assert.equal(rawFlowTextarea.value, '');
+
+      const searchAutocomplete = queryAndAssert<GrSearchAutocomplete>(
+        grDialog,
+        'gr-search-autocomplete'
+      );
+      const actionInput = queryAndAssert<MdOutlinedSelect>(
+        grDialog,
+        'md-outlined-select[label="Action"]'
+      );
+      const paramsInput = queryAndAssert<MdOutlinedTextField>(
+        grDialog,
+        'md-outlined-text-field[label="Parameters"]'
+      );
+      const addButton = queryAndAssert<GrButton>(
+        grDialog,
+        'gr-button[aria-label="Add Stage"]'
+      );
+
+      // Add first stage
+      searchAutocomplete.value = 'cond 1';
+      await element.updateComplete;
+      actionInput.value = 'act-1';
+      actionInput.dispatchEvent(new Event('change'));
+      await element.updateComplete;
+      addButton.click();
+      await element.updateComplete;
+
+      assert.equal(
+        element.flowString,
+        'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is cond 1 -> act-1'
+      );
+
+      // Add second stage with parameters
+      searchAutocomplete.value = 'cond 2';
+      await element.updateComplete;
+      actionInput.value = 'act-2';
+      actionInput.dispatchEvent(new Event('change'));
+      await element.updateComplete;
+      paramsInput.value = 'param';
+      paramsInput.dispatchEvent(new Event('input'));
+      await element.updateComplete;
+      addButton.click();
+      await element.updateComplete;
+
+      assert.equal(
+        element.flowString,
+        'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is cond 1 -> act-1;https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is cond 2 -> act-2 param'
+      );
+
+      // Remove first stage
+      const removeButtons = queryAll<GrButton>(
+        grDialog,
+        '.stage-list-item gr-button'
+      );
+      removeButtons[0].click();
+      await element.updateComplete;
+
+      assert.equal(
+        element.flowString,
+        'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is cond 2 -> act-2 param'
+      );
+    });
+
+    test('typing -> does not get overwritten', async () => {
+      // Open Dialog
+      const createButton = queryAndAssert<GrButton>(
+        element,
+        'gr-button[aria-label="Create Flow"]'
+      );
+      createButton.click();
+      await element.updateComplete;
+      const createModal = queryAndAssert<HTMLDialogElement>(
+        element,
+        '#createModal'
+      );
+      const grDialog = queryAndAssert<GrDialog>(createModal, 'gr-dialog');
+
+      // Find textarea
+      const rawFlowTextarea = queryAndAssert<MdOutlinedTextField>(
+        grDialog,
+        'md-outlined-text-field[label="Copy and Paste existing flows"]'
+      );
+
+      // Simulate user typing a condition and '-> '
+      rawFlowTextarea.value = 'cond 1 -';
+      rawFlowTextarea.dispatchEvent(new InputEvent('input'));
+      await element.updateComplete;
+      assert.equal(element.flowString, 'cond 1 -');
+
+      rawFlowTextarea.value = 'cond 1 -> ';
+      rawFlowTextarea.dispatchEvent(new InputEvent('input'));
+      await element.updateComplete;
+      // Expected to preserve '-> ' and not revert to 'cond 1'
+      assert.equal(element.flowString, 'cond 1 -> ');
+    });
   });
 
-  test('opens and closes dialog', async () => {
-    const createButton = queryAndAssert<GrButton>(
-      element,
-      'gr-button[aria-label="Create Flow"]'
-    );
-    const createModal = queryAndAssert<HTMLDialogElement>(
-      element,
-      '#createModal'
-    );
+  suite('parameter input field', () => {
+    test('renders md-outlined-text-field for non-add-reviewer action', async () => {
+      const actionInput = queryAndAssert<MdOutlinedSelect>(
+        element,
+        'md-outlined-select[label="Action"]'
+      );
+      actionInput.value = 'act-1';
+      actionInput.dispatchEvent(new Event('change'));
+      await element.updateComplete;
 
-    createButton.click();
-    await element.updateComplete;
-    assert.isTrue(createModal.open);
+      assert.isNotNull(query(element, '.textfield-input'));
+      assert.isUndefined(query(element, '.autocomplete-input'));
+    });
 
-    const grDialog = queryAndAssert<GrDialog>(createModal, 'gr-dialog');
-    const cancelButton = queryAndAssert<GrButton>(grDialog, '#cancel');
-    cancelButton.click();
-    await element.updateComplete;
-    assert.isFalse(createModal.open);
+    test('renders gr-autocomplete for add-reviewer action', async () => {
+      const actionInput = queryAndAssert<MdOutlinedSelect>(
+        element,
+        'md-outlined-select[label="Action"]'
+      );
+      actionInput.value = 'add-reviewer';
+      actionInput.dispatchEvent(new Event('change'));
+      await element.updateComplete;
+
+      assert.isNotNull(query(element, '.autocomplete-input'));
+      assert.isUndefined(query(element, '.textfield-input'));
+    });
+
+    test('shows correct placeholder for add-reviewer', async () => {
+      element.currentAction = 'add-reviewer';
+      await element.updateComplete;
+      const autocomplete = queryAndAssert<GrAutocomplete>(
+        element,
+        '.autocomplete-input'
+      );
+      assert.equal(autocomplete.placeholder, 'user@example.com');
+    });
+
+    test('shows correct placeholder for vote', async () => {
+      element.currentAction = 'vote';
+      await element.updateComplete;
+      const textfield = queryAndAssert<MdOutlinedTextField>(
+        element,
+        '.textfield-input'
+      );
+      assert.equal(textfield.placeholder, '<Label>+/-<Value>');
+    });
+
+    test('shows correct placeholder for submit', async () => {
+      element.currentAction = 'submit';
+      await element.updateComplete;
+      const textfield = queryAndAssert<MdOutlinedTextField>(
+        element,
+        '.textfield-input'
+      );
+      assert.equal(textfield.placeholder, 'no parameter required');
+    });
+
+    test('shows default placeholder for other actions', async () => {
+      element.currentAction = 'some-other-action';
+      await element.updateComplete;
+      const textfield = queryAndAssert<MdOutlinedTextField>(
+        element,
+        '.textfield-input'
+      );
+      assert.equal(textfield.placeholder, 'Parameters');
+    });
   });
 
-  test('adds and removes stages', async () => {
-    const createButton = queryAndAssert<GrButton>(
-      element,
-      'gr-button[aria-label="Create Flow"]'
-    );
-    createButton.click();
-    await element.updateComplete;
-    const createModal = queryAndAssert<HTMLDialogElement>(
-      element,
-      '#createModal'
-    );
-    const grDialog = queryAndAssert<GrDialog>(createModal, 'gr-dialog');
+  suite('reviewer suggestions', () => {
+    let queryAccountsStub: sinon.SinonStub;
 
-    const searchAutocomplete = queryAndAssert<GrSearchAutocomplete>(
-      grDialog,
-      'gr-search-autocomplete'
-    );
-    const actionInput = queryAndAssert<MdOutlinedSelect>(
-      grDialog,
-      'md-outlined-select[label="Action"]'
-    );
-    const addButton = queryAndAssert<GrButton>(
-      grDialog,
-      'gr-button[aria-label="Add Stage"]'
-    );
+    setup(() => {
+      const restApi = getAppContext().restApiService;
+      queryAccountsStub = sinon.stub(restApi, 'queryAccounts').resolves([
+        {
+          _account_id: 1 as AccountId,
+          name: 'Test User 1',
+          email: 'test1@example.com' as EmailAddress,
+        },
+        {
+          _account_id: 2 as AccountId,
+          name: 'Test User 2',
+          email: 'test2@example.com' as EmailAddress,
+        },
+      ]);
+      queryAccountsStub.resetHistory();
+    });
 
-    searchAutocomplete.value = 'cond 1';
-    await element.updateComplete;
-    actionInput.value = 'act-1';
-    actionInput.dispatchEvent(new Event('change'));
-    await element.updateComplete;
-    addButton.click();
-    await element.updateComplete;
+    test('simulates typing two reviewer suggestions', async () => {
+      // Open dialog
+      const createButton = queryAndAssert<GrButton>(
+        element,
+        'gr-button[aria-label="Create Flow"]'
+      );
+      createButton.click();
+      await element.updateComplete;
+      const createModal = queryAndAssert<HTMLDialogElement>(
+        element,
+        '#createModal'
+      );
+      const grDialog = queryAndAssert<GrDialog>(createModal, 'gr-dialog');
 
-    assert.deepEqual(element['stages'], [
-      {
-        condition:
-          'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is cond 1',
-        action: 'act-1',
-        parameterStr: '',
-      },
-    ]);
-    assert.equal(element['currentCondition'], '');
-    assert.equal(element['currentAction'], 'act-1');
+      // Set action to add-reviewer
+      const actionInput = queryAndAssert<MdOutlinedSelect>(
+        grDialog,
+        'md-outlined-select[label="Action"]'
+      );
+      actionInput.value = 'add-reviewer';
+      actionInput.dispatchEvent(new Event('change'));
+      await element.updateComplete;
 
-    searchAutocomplete.value = 'cond 2';
-    await element.updateComplete;
-    actionInput.value = 'act-2';
-    actionInput.dispatchEvent(new Event('change'));
-    await element.updateComplete;
-    addButton.click();
-    await element.updateComplete;
+      const autocomplete = queryAndAssert<GrAutocomplete>(
+        grDialog,
+        '.autocomplete-input'
+      );
 
-    assert.deepEqual(element['stages'], [
-      {
-        condition:
-          'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is cond 1',
-        action: 'act-1',
-        parameterStr: '',
-      },
-      {
-        condition:
-          'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is cond 2',
-        action: 'act-2',
-        parameterStr: '',
-      },
-    ]);
+      // Simulate typing 't' and selecting first suggestion
+      autocomplete.text = 't';
+      await element.updateComplete;
+      await autocomplete.updateComplete;
+      autocomplete.value = 'test1@example.com';
+      autocomplete.dispatchEvent(
+        new CustomEvent('text-changed', {
+          detail: {value: 'test1@example.com'},
+        })
+      );
+      await element.updateComplete;
 
-    let removeButtons = queryAll<GrButton>(
-      grDialog,
-      '.stage-list-item gr-button'
-    );
-    assert.lengthOf(removeButtons, 2);
+      assert.equal(element.currentParameter, 'test1@example.com');
 
-    removeButtons[0].click();
-    await element.updateComplete;
+      // Simulate typing ','
+      autocomplete.text = 'test1@example.com,';
+      autocomplete.dispatchEvent(new InputEvent('input'));
+      await element.updateComplete;
 
-    assert.deepEqual(element['stages'], [
-      {
-        condition:
-          'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is cond 2',
-        action: 'act-2',
-        parameterStr: '',
-      },
-    ]);
-    removeButtons = queryAll<GrButton>(grDialog, '.stage-list-item gr-button');
-    assert.lengthOf(removeButtons, 1);
-  });
+      assert.equal(element.currentParameter, 'test1@example.com,');
 
-  test('creates a flow with one stage', async () => {
-    const createFlowStub = sinon.stub(flowsModel, 'createFlow');
+      // Simulate typing 'u' and selecting second suggestion
+      autocomplete.text = 'test1@example.com,u';
+      autocomplete.value = 'test1@example.com,test2@example.com';
+      autocomplete.dispatchEvent(
+        new CustomEvent('text-changed', {
+          detail: {value: 'test1@example.com,test2@example.com'},
+        })
+      );
+      await element.updateComplete;
 
-    const createButton = queryAndAssert<GrButton>(
-      element,
-      'gr-button[aria-label="Create Flow"]'
-    );
-    createButton.click();
-    await element.updateComplete;
-    const createModal = queryAndAssert<HTMLDialogElement>(
-      element,
-      '#createModal'
-    );
-    const grDialog = queryAndAssert<GrDialog>(createModal, 'gr-dialog');
-
-    const searchAutocomplete = queryAndAssert<GrSearchAutocomplete>(
-      grDialog,
-      'gr-search-autocomplete'
-    );
-    const actionInput = queryAndAssert<MdOutlinedSelect>(
-      grDialog,
-      'md-outlined-select[label="Action"]'
-    );
-    searchAutocomplete.value = 'single condition';
-    await element.updateComplete;
-    actionInput.value = 'single action';
-    actionInput.dispatchEvent(new Event('change'));
-    await element.updateComplete;
-
-    const confirmButton = queryAndAssert<GrButton>(grDialog, '#confirm');
-    confirmButton.click();
-    await element.updateComplete;
-
-    assert.isTrue(createFlowStub.calledOnce);
-    const flowInput = createFlowStub.lastCall.args[0];
-    assert.deepEqual(flowInput.stage_expressions, [
-      {
-        condition:
-          'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is single condition',
-        action: {name: 'single action'},
-      },
-    ]);
-    assert.isFalse(createModal.open);
-  });
-
-  test('creates a flow with parameters', async () => {
-    const createFlowStub = sinon.stub(flowsModel, 'createFlow');
-
-    const createButton = queryAndAssert<GrButton>(
-      element,
-      'gr-button[aria-label="Create Flow"]'
-    );
-    createButton.click();
-    await element.updateComplete;
-    const createModal = queryAndAssert<HTMLDialogElement>(
-      element,
-      '#createModal'
-    );
-    const grDialog = queryAndAssert<GrDialog>(createModal, 'gr-dialog');
-
-    const searchAutocomplete = queryAndAssert<GrSearchAutocomplete>(
-      grDialog,
-      'gr-search-autocomplete'
-    );
-    const actionInput = queryAndAssert<MdOutlinedSelect>(
-      grDialog,
-      'md-outlined-select[label="Action"]'
-    );
-    const parametersInput = queryAndAssert<MdOutlinedTextField>(
-      grDialog,
-      'md-outlined-text-field[label="Parameters"]'
-    );
-    searchAutocomplete.value = 'single condition';
-    await element.updateComplete;
-    actionInput.value = 'single action';
-    actionInput.dispatchEvent(new Event('change'));
-    await element.updateComplete;
-    parametersInput.value = 'param1 param2';
-    parametersInput.dispatchEvent(new Event('input'));
-    await element.updateComplete;
-
-    const confirmButton = queryAndAssert<GrButton>(grDialog, '#confirm');
-    confirmButton.click();
-    await element.updateComplete;
-
-    assert.isTrue(createFlowStub.calledOnce);
-    const flowInput = createFlowStub.lastCall.args[0];
-    assert.deepEqual(flowInput.stage_expressions, [
-      {
-        condition:
-          'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is single condition',
-        action: {name: 'single action', parameters: ['param1', 'param2']},
-      },
-    ]);
-    assert.isFalse(createModal.open);
-  });
-
-  test('creates a flow with multiple stages', async () => {
-    const createFlowStub = sinon.stub(flowsModel, 'createFlow');
-
-    const createButton = queryAndAssert<GrButton>(
-      element,
-      'gr-button[aria-label="Create Flow"]'
-    );
-    createButton.click();
-    await element.updateComplete;
-    const createModal = queryAndAssert<HTMLDialogElement>(
-      element,
-      '#createModal'
-    );
-    const grDialog = queryAndAssert<GrDialog>(createModal, 'gr-dialog');
-
-    const searchAutocomplete = queryAndAssert<GrSearchAutocomplete>(
-      grDialog,
-      'gr-search-autocomplete'
-    );
-    const actionInput = queryAndAssert<MdOutlinedSelect>(
-      grDialog,
-      'md-outlined-select[label="Action"]'
-    );
-    const addButton = queryAndAssert<GrButton>(
-      grDialog,
-      'gr-button[aria-label="Add Stage"]'
-    );
-
-    searchAutocomplete.value = 'cond 1';
-    await element.updateComplete;
-    actionInput.value = 'act-1';
-    actionInput.dispatchEvent(new Event('change'));
-    await element.updateComplete;
-    addButton.click();
-    await element.updateComplete;
-
-    searchAutocomplete.value = 'cond 2';
-    await element.updateComplete;
-    actionInput.value = 'act-2';
-    actionInput.dispatchEvent(new Event('change'));
-    await element.updateComplete;
-    addButton.click();
-    await element.updateComplete;
-
-    const confirmButton = queryAndAssert<GrButton>(grDialog, '#confirm');
-    confirmButton.click();
-    await element.updateComplete;
-
-    assert.isTrue(createFlowStub.calledOnce);
-    const flowInput = createFlowStub.lastCall.args[0];
-    assert.deepEqual(flowInput.stage_expressions, [
-      {
-        condition:
-          'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is cond 1',
-        action: {name: 'act-1'},
-      },
-      {
-        condition:
-          'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is cond 2',
-        action: {name: 'act-2'},
-      },
-    ]);
-    assert.isFalse(createModal.open);
-  });
-
-  test('create flow with added stages and current input', async () => {
-    const createFlowStub = sinon.stub(flowsModel, 'createFlow');
-
-    const createButton = queryAndAssert<GrButton>(
-      element,
-      'gr-button[aria-label="Create Flow"]'
-    );
-    createButton.click();
-    await element.updateComplete;
-    const createModal = queryAndAssert<HTMLDialogElement>(
-      element,
-      '#createModal'
-    );
-    const grDialog = queryAndAssert<GrDialog>(createModal, 'gr-dialog');
-
-    const searchAutocomplete = queryAndAssert<GrSearchAutocomplete>(
-      grDialog,
-      'gr-search-autocomplete'
-    );
-    const actionInput = queryAndAssert<MdOutlinedSelect>(
-      grDialog,
-      'md-outlined-select[label="Action"]'
-    );
-    const addButton = queryAndAssert<GrButton>(
-      grDialog,
-      'gr-button[aria-label="Add Stage"]'
-    );
-
-    searchAutocomplete.value = 'cond 1';
-    await element.updateComplete;
-    actionInput.value = 'act-1';
-    actionInput.dispatchEvent(new Event('change'));
-    await element.updateComplete;
-    addButton.click();
-    await element.updateComplete;
-    searchAutocomplete.value = 'cond 2';
-    await element.updateComplete;
-    actionInput.value = 'act-2';
-    actionInput.dispatchEvent(new Event('change'));
-    await element.updateComplete;
-
-    const confirmButton = queryAndAssert<GrButton>(grDialog, '#confirm');
-    confirmButton.click();
-    await element.updateComplete;
-
-    assert.isTrue(createFlowStub.calledOnce);
-    const flowInput = createFlowStub.lastCall.args[0];
-    assert.deepEqual(flowInput.stage_expressions, [
-      {
-        condition:
-          'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is cond 1',
-        action: {name: 'act-1'},
-      },
-      {
-        condition:
-          'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is cond 2',
-        action: {name: 'act-2'},
-      },
-    ]);
-    assert.isFalse(createModal.open);
-  });
-
-  test('raw flow textarea is updated', async () => {
-    const createButton = queryAndAssert<GrButton>(
-      element,
-      'gr-button[aria-label="Create Flow"]'
-    );
-    createButton.click();
-    await element.updateComplete;
-    const createModal = queryAndAssert<HTMLDialogElement>(
-      element,
-      '#createModal'
-    );
-    const grDialog = queryAndAssert<GrDialog>(createModal, 'gr-dialog');
-
-    const rawFlowTextarea = queryAndAssert<MdOutlinedTextField>(
-      grDialog,
-      'md-outlined-text-field[label="Copy and Paste existing flows"]'
-    );
-    assert.isDefined(rawFlowTextarea);
-    assert.equal(rawFlowTextarea.value, '');
-
-    const searchAutocomplete = queryAndAssert<GrSearchAutocomplete>(
-      grDialog,
-      'gr-search-autocomplete'
-    );
-    const actionInput = queryAndAssert<MdOutlinedSelect>(
-      grDialog,
-      'md-outlined-select[label="Action"]'
-    );
-    const paramsInput = queryAndAssert<MdOutlinedTextField>(
-      grDialog,
-      'md-outlined-text-field[label="Parameters"]'
-    );
-    const addButton = queryAndAssert<GrButton>(
-      grDialog,
-      'gr-button[aria-label="Add Stage"]'
-    );
-
-    // Add first stage
-    searchAutocomplete.value = 'cond 1';
-    await element.updateComplete;
-    actionInput.value = 'act-1';
-    actionInput.dispatchEvent(new Event('change'));
-    await element.updateComplete;
-    addButton.click();
-    await element.updateComplete;
-
-    assert.equal(
-      element.flowString,
-      'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is cond 1 -> act-1'
-    );
-
-    // Add second stage with parameters
-    searchAutocomplete.value = 'cond 2';
-    await element.updateComplete;
-    actionInput.value = 'act-2';
-    actionInput.dispatchEvent(new Event('change'));
-    await element.updateComplete;
-    paramsInput.value = 'param';
-    paramsInput.dispatchEvent(new Event('input'));
-    await element.updateComplete;
-    addButton.click();
-    await element.updateComplete;
-
-    assert.equal(
-      element.flowString,
-      'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is cond 1 -> act-1;https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is cond 2 -> act-2 param'
-    );
-
-    // Remove first stage
-    const removeButtons = queryAll<GrButton>(
-      grDialog,
-      '.stage-list-item gr-button'
-    );
-    removeButtons[0].click();
-    await element.updateComplete;
-
-    assert.equal(
-      element.flowString,
-      'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321 is cond 2 -> act-2 param'
-    );
-  });
-
-  test('typing -> does not get overwritten', async () => {
-    // Open Dialog
-    const createButton = queryAndAssert<GrButton>(
-      element,
-      'gr-button[aria-label="Create Flow"]'
-    );
-    createButton.click();
-    await element.updateComplete;
-    const createModal = queryAndAssert<HTMLDialogElement>(
-      element,
-      '#createModal'
-    );
-    const grDialog = queryAndAssert<GrDialog>(createModal, 'gr-dialog');
-
-    // Find textarea
-    const rawFlowTextarea = queryAndAssert<MdOutlinedTextField>(
-      grDialog,
-      'md-outlined-text-field[label="Copy and Paste existing flows"]'
-    );
-
-    // Simulate user typing a condition and '-> '
-    rawFlowTextarea.value = 'cond 1 -';
-    rawFlowTextarea.dispatchEvent(new InputEvent('input'));
-    await element.updateComplete;
-    assert.equal(element.flowString, 'cond 1 -');
-
-    rawFlowTextarea.value = 'cond 1 -> ';
-    rawFlowTextarea.dispatchEvent(new InputEvent('input'));
-    await element.updateComplete;
-    // Expected to preserve '-> ' and not revert to 'cond 1'
-    assert.equal(element.flowString, 'cond 1 -> ');
+      assert.equal(
+        element.currentParameter,
+        'test1@example.com,test2@example.com'
+      );
+    });
   });
 
   suite('parseStagesFromRawFlow tests', () => {

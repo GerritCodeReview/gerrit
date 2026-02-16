@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cd28b647_04debe40",
+        "filename": "polygerrit-ui/app/elements/change/gr-flows/gr-create-flow.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-02-16T17:55:24Z",
+      "side": 1,
+      "message": "can you add this nice addition to gr-smart-search? Or you are missing repo, so it\u0027s not possible?",
+      "revId": "845012a3303264989d6b1a4c5f6cb6e946db9327",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "564ccfac_61e8e0b4",
+        "filename": "polygerrit-ui/app/utils/label-suggestions-provider.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-02-16T17:55:24Z",
+      "side": 1,
+      "message": "```\n constructor(private readonly restApiService: RestApiService) {}\n```",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 3
+      },
+      "revId": "845012a3303264989d6b1a4c5f6cb6e946db9327",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "18df0eab_d7eb53d1",
+        "filename": "polygerrit-ui/app/utils/label-suggestions-provider.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-02-16T17:55:24Z",
+      "side": 1,
+      "message": "i think this can be normal method (no need for arrow)",
+      "revId": "845012a3303264989d6b1a4c5f6cb6e946db9327",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e65058ec_7b2e1092",
+        "filename": "polygerrit-ui/app/utils/label-suggestions-provider.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-02-16T17:55:24Z",
+      "side": 1,
+      "message": "Currently, this.restApiService.getRepoLabels(this.repoName) is called every single time getSuggestions is invoked. Because autocomplete queries are triggered on individual keystrokes, this will lead to spamming the backend with excessive API requests. Can you please add caching?\n\n\n```\nprivate cachedLabelsPromise?: Promise\u003cLabelDefinitionInfo[] | undefined\u003e;\n\nsetRepoName(repoName?: RepoName) {\n  if (this.repoName !\u003d\u003d repoName) {\n    this.repoName \u003d repoName;\n    this.cachedLabelsPromise \u003d undefined; // Invalidate cache for new repo\n  }\n}\n\n// Inside getSuggestions:\nif (!this.cachedLabelsPromise) {\n  this.cachedLabelsPromise \u003d this.restApiService.getRepoLabels(this.repoName).catch(err \u003d\u003e {\n    getAppContext().reportingService.error(\u0027LabelSuggestionsProvider\u0027, err);\n    return undefined; // Ensure caught errors resolve safely and don\u0027t break the cache\n  });\n}\n\nreturn this.cachedLabelsPromise.then(labels \u003d\u003e {\n  if (!labels) return [];\n  // map/filter logic...\n});\n```",
+      "revId": "845012a3303264989d6b1a4c5f6cb6e946db9327",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f599291b_47cd1c9a",
+        "filename": "polygerrit-ui/app/utils/label-suggestions-provider_test.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-02-16T17:55:24Z",
+      "side": 1,
+      "message": "2026",
+      "revId": "845012a3303264989d6b1a4c5f6cb6e946db9327",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

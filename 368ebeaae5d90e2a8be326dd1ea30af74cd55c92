@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "25853cbe_1557d0bb",
+        "filename": "polygerrit-ui/app/elements/change/gr-flows/gr-create-flow.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 597,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-02-17T12:29:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e2790be0_ac418691",
+      "range": {
+        "startLine": 583,
+        "startChar": 2,
+        "endLine": 597,
+        "endChar": 3
+      },
+      "revId": "368ebeaae5d90e2a8be326dd1ea30af74cd55c92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "85a81f5e_4a8619f3",
@@ -37,6 +61,30 @@
       "writtenOn": "2026-02-17T11:46:02Z",
       "side": 1,
       "message": "You probably want:\n```\nif (!this.repoLabels || this.repoLabels.length \u003d\u003d\u003d 0) {\n  return this.renderDefaultParameterInputField();\n}\n```\n\nundefined \u003d\u003d\u003d 0 is false",
+      "range": {
+        "startLine": 768,
+        "startChar": 4,
+        "endLine": 768,
+        "endChar": 40
+      },
+      "revId": "368ebeaae5d90e2a8be326dd1ea30af74cd55c92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b0523c2e_e9847a48",
+        "filename": "polygerrit-ui/app/elements/change/gr-flows/gr-create-flow.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 768,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-02-17T12:29:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "85a81f5e_4a8619f3",
       "range": {
         "startLine": 768,
         "startChar": 4,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1fc7368d_9ea18933",
+        "filename": "polygerrit-ui/app/elements/change/gr-flows/gr-create-flow.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 791,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-02-17T12:29:06Z",
+      "side": 1,
+      "message": "I am using this in the test `updates parameter when value is changed`\n\nThat test fails without this hack.",
+      "parentUuid": "713bbfd4_4cef9f47",
+      "range": {
+        "startLine": 786,
+        "startChar": 10,
+        "endLine": 791,
+        "endChar": 15
+      },
+      "revId": "368ebeaae5d90e2a8be326dd1ea30af74cd55c92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f9f1778e_ca0db099",
@@ -83,6 +155,30 @@
       "writtenOn": "2026-02-17T11:46:02Z",
       "side": 1,
       "message": "Does it correctly works for 0?",
+      "range": {
+        "startLine": 813,
+        "startChar": 21,
+        "endLine": 813,
+        "endChar": 41
+      },
+      "revId": "368ebeaae5d90e2a8be326dd1ea30af74cd55c92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1bbbdf30_963d5c03",
+        "filename": "polygerrit-ui/app/elements/change/gr-flows/gr-create-flow.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 813,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-02-17T12:29:06Z",
+      "side": 1,
+      "message": "UI handles it correctly but the handler throws a wrong error.\n\nI assigned a bug to fix the handler to me.\n\nNice catch!",
+      "parentUuid": "f9f1778e_ca0db099",
       "range": {
         "startLine": 813,
         "startChar": 21,

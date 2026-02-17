@@ -46,6 +46,30 @@
       },
       "revId": "49c72f1f4bd9f2b4e527c93137489fae698c8d4a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b58586f_ca292873",
+        "filename": "Documentation/dev-build-plugins.txt",
+        "patchSetId": 34
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-02-17T12:20:57Z",
+      "side": 1,
+      "message": "I suggested a slightly different approach in change 553005 \u003cnd corresponding change 552744 in `oauth` plugin, where plugins own and manage their runtime dependency lock files themselves rather than contributing them to a shared `maven.install()` repository.\n\nIn particular for plugins that support standalone build mode, letting each plugin declare its runtime dependencies in a plugin-scoped repository (for example \u003cplugin\u003e_plugin_deps) with its own lock file keeps the dependency graph self-contained and reproducible.\n\nWhen such a plugin is built in-tree, Gerrit can simply import the plugin-provided repository via `use_repo()` without needing to replicate those plugin-specific artifacts in core’s dependency set or repin anything in CI. This avoids having to add plugin-only libraries (for example `com.sap.cloud.security:java-security`) to Gerrit’s global deps/lockfile just to make labels resolve.\n\nThe existing overlap/allowlist checks in bazlets (e.g. `runtime_jars_allowlist_test` and `\u003cplugin\u003e_no_overlap_with_gerrit`) still ensure that plugins do not accidentally bundle libraries already provided by Gerrit’s runtime, so this approach should remain safe from version skew at runtime.\n\nFor plugins that support both standalone and in-tree builds, this workflow also keeps ownership of runtime dependencies clearly within the plugin repository while allowing Gerrit to consume them without additional repinning in the core workspace (e.g. in CI pipelines).",
+      "parentUuid": "f90e98f1_c4656e2f",
+      "range": {
+        "startLine": 141,
+        "startChar": 12,
+        "endLine": 141,
+        "endChar": 30
+      },
+      "revId": "49c72f1f4bd9f2b4e527c93137489fae698c8d4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,5 +1,29 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9279603d_d19b64b1",
+        "filename": "java/com/google/gerrit/server/approval/ApprovalCopier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 489,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-02-17T13:58:24Z",
+      "side": 1,
+      "message": "We log as severe if the operation failed. In this case it did not fail and returned a `false` (do not copy) result. If we really want the operation to fail, why not re-throwing the exception instead?",
+      "range": {
+        "startLine": 489,
+        "startChar": 13,
+        "endLine": 489,
+        "endChar": 23
+      },
+      "revId": "5f630ee14ce7a5e7f91ccb2b6e24ea4ecf2b2760",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

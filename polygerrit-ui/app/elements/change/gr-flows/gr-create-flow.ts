@@ -110,9 +110,13 @@ export class GrCreateFlow extends LitElement {
 
   private readonly getChangeModel = resolve(this, changeModelToken);
 
-  private readonly labelSuggestionsProvider = new LabelSuggestionsProvider(
-    this.restApiService
-  );
+  @state()
+  private attentionSetEmail = '';
+
+  @state()
+  private attentionSetReason = '';
+
+  private readonly labelSuggestionsProvider: LabelSuggestionsProvider;
 
   private readonly projectSuggestions: SuggestionProvider = (
     predicate,
@@ -124,10 +128,10 @@ export class GrCreateFlow extends LitElement {
     expression
   ) => this.fetchGroups(predicate, expression);
 
-  private readonly labelSuggestions: SuggestionProvider = (
-    predicate,
-    expression
-  ) => this.labelSuggestionsProvider.getSuggestions(predicate, expression);
+  private get labelSuggestions(): SuggestionProvider {
+    return (predicate, expression) =>
+      this.labelSuggestionsProvider.getSuggestions(predicate, expression);
+  }
 
   private customConditions: FlowCustomConditionInfo[] = [];
 
@@ -182,6 +186,7 @@ export class GrCreateFlow extends LitElement {
 
   constructor() {
     super();
+    this.labelSuggestionsProvider = new LabelSuggestionsProvider(this.restApiService);
     subscribe(
       this,
       () => this.getConfigModel().serverConfig$,
@@ -277,6 +282,7 @@ export class GrCreateFlow extends LitElement {
         }
         .stage-row {
           display: flex;
+          flex-wrap: wrap; /* allow items to wrap to the next line */
           align-items: center;
           gap: var(--spacing-s);
           margin-bottom: var(--spacing-m);
@@ -598,6 +604,8 @@ export class GrCreateFlow extends LitElement {
     this.currentParameter = '';
     this.selectedLabelForVote = undefined;
     this.selectedValueForVote = undefined;
+    this.attentionSetEmail = '';
+    this.attentionSetReason = '';
 
     if (this.currentAction === 'vote') {
       this.setDefaultVoteLabelAndValue();
@@ -669,6 +677,15 @@ export class GrCreateFlow extends LitElement {
   private handleAddStage() {
     if (this.currentCondition.trim() === '' && this.currentAction.trim() === '')
       return;
+
+    let parameterToUse = this.currentParameter;
+    if (
+      this.currentAction === 'add-to-attention-set' ||
+      this.currentAction === 'remove-from-attention-set'
+    ) {
+      parameterToUse = `${this.attentionSetEmail} ${this.attentionSetReason}`.trim();
+    }
+
     const condition =
       this.currentConditionPrefix === 'Gerrit'
         ? `${this.hostUrl} is ${this.currentCondition}`
@@ -678,12 +695,14 @@ export class GrCreateFlow extends LitElement {
       {
         condition,
         action: this.currentAction,
-        parameterStr: this.currentParameter,
+        parameterStr: parameterToUse,
       },
     ];
     this.currentCondition = '';
     this.currentAction = this.flowActions[0]?.name ?? '';
     this.currentParameter = '';
+    this.attentionSetEmail = '';
+    this.attentionSetReason = '';
   }
 
   private handleRemoveStage(index: number) {
@@ -741,20 +760,25 @@ export class GrCreateFlow extends LitElement {
     if (action?.parameters_placeholder) return action.parameters_placeholder;
 
     if (actionName === 'add-reviewer') return 'user@example.com';
+    if (actionName === 'add-to-attention-set') return 'user@example.com <reason>';
+    if (actionName === 'remove-from-attention-set') return 'user@example.com <reason>';
     if (actionName === 'vote') return '<Label>+/-<Value>';
     return 'Parameters';
   }
 
-  private renderAddReviewerParameterInputField() {
+  private renderAddReviewerParameterInputField(
+    currentValue: string,
+    onTextChanged: (value: string) => void
+  ) {
     return html`<gr-autocomplete
       class="parameter-input autocomplete-input"
       label="Parameters"
       .placeholder=${this.getParametersPlaceholder(this.currentAction)}
-      .text=${this.currentParameter}
+      .text=${currentValue}
       .query=${this.reviewerSuggestions}
       ?multi=${true}
       @text-changed=${(e: ValueChangedEvent) => {
-        this.currentParameter = e.detail.value ?? '';
+        onTextChanged(e.detail.value ?? '');
       }}
     ></gr-autocomplete>`;
   }
@@ -763,7 +787,10 @@ export class GrCreateFlow extends LitElement {
     const labelNames = (this.repoLabels ?? []).map(l => l.name).filter(unique);
     if (!this.repoLabels || this.repoLabels.length === 0) {
       // Fallback to text input if labels aren't loaded.
-      return this.renderDefaultParameterInputField();
+      return this.renderDefaultParameterInputField(
+        this.currentParameter,
+        value => (this.currentParameter = value)
+      );
     }
 
     const selectedLabelInfo = this.selectedLabelForVote
@@ -828,30 +855,55 @@ export class GrCreateFlow extends LitElement {
     `;
   }
 
-  private renderDefaultParameterInputField() {
+  private renderDefaultParameterInputField(
+    currentValue: string,
+    onInput: (value: string) => void
+  ) {
     return html`<md-outlined-text-field
       class="parameter-input textfield-input"
       label="Parameters"
       .placeholder=${this.getParametersPlaceholder(this.currentAction)}
-      .value=${this.currentParameter}
-      @input=${(e: InputEvent) =>
-        (this.currentParameter = (e.target as MdOutlinedTextField).value)}
+      .value=${currentValue}
+      @input=${(e: InputEvent) => {
+        onInput((e.target as MdOutlinedTextField).value);
+      }}
     ></md-outlined-text-field>`;
+  }
+
+  private renderAttentionSetParameterInputFields() {
+    return html`
+      ${this.renderAddReviewerParameterInputField(
+        this.attentionSetEmail,
+        value => (this.attentionSetEmail = value)
+      )}
+      ${this.renderDefaultParameterInputField(
+        this.attentionSetReason,
+        value => (this.attentionSetReason = value)
+      )}
+    `;
   }
 
   private renderParameterInputField() {
     if (this.currentAction === 'submit') return undefined;
+    if (this.currentAction === 'add-reviewer') {
+      return this.renderAddReviewerParameterInputField(
+        this.currentParameter,
+        value => (this.currentParameter = value)
+      );
+    }
     if (
-      this.currentAction === 'add-reviewer' ||
       this.currentAction === 'add-to-attention-set' ||
       this.currentAction === 'remove-from-attention-set'
     ) {
-      return this.renderAddReviewerParameterInputField();
+      return this.renderAttentionSetParameterInputFields();
     }
     if (this.currentAction === 'vote') {
       return this.renderVoteParameterInputField();
     }
-    return this.renderDefaultParameterInputField();
+    return this.renderDefaultParameterInputField(
+      this.currentParameter,
+      value => (this.currentParameter = value)
+    );
   }
 }
 

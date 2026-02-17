@@ -373,4 +373,61 @@ suite('chat-panel screenshot tests', () => {
     await visualDiff(element, 'chat-panel-prompt-box-suggested-items');
     await visualDiffDarkTheme(element, 'chat-panel-prompt-box-suggested-items');
   });
+
+  test('splash page scrolling', async () => {
+    const customActions = Array.from({length: 15}).map((_, i) => {
+      return {
+        id: `action${i}`,
+        display_text: `Custom Action ${i}`,
+        enable_splash_page_card: true,
+      };
+    });
+    chatModel.updateState({
+      ...chatModel.getState(),
+      actions: {
+        actions: [],
+        default_action_id: '',
+      },
+      customActions,
+      models: {
+        default_model_id: 'gemini',
+        models: [
+          {
+            model_id: 'gemini',
+            short_text: 'Gemini',
+            full_display_text: 'Gemini Model',
+          },
+        ],
+        documentation_url: 'http://example.com/docs',
+      },
+    });
+    element.style.display = 'block';
+    element.style.width = '400px';
+    element.style.height = '400px';
+    await element.updateComplete;
+    await visualDiff(element, 'chat-panel-splash-page-scrolling');
+    await visualDiffDarkTheme(element, 'chat-panel-splash-page-scrolling');
+  });
+
+  test('chat mode history scrolling', async () => {
+    const conversations = Array.from({length: 15}).map((_, i) => {
+      return {
+        id: `${i}`,
+        title: `Long Conversation Title Number ${i}`,
+        timestamp_millis: 1704110400000 - i * 1000000,
+      };
+    });
+
+    chatModel.updateState({
+      ...chatModel.getState(),
+      mode: ChatPanelMode.HISTORY,
+      conversations,
+    });
+    element.style.display = 'block';
+    element.style.width = '400px';
+    element.style.height = '400px';
+    await element.updateComplete;
+    await visualDiff(element, 'chat-panel-history-scrolling');
+    await visualDiffDarkTheme(element, 'chat-panel-history-scrolling');
+  });
 });

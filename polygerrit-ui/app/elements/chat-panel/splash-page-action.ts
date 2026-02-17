@@ -172,7 +172,7 @@ export class SplashPageAction extends LitElement {
         <div class="chip-content">
           <gr-icon
             class="action-icon"
-            icon=${this.action.icon ?? 'warning'}
+            icon=${this.action.icon ?? 'ai'}
           ></gr-icon>
           <div class="action-text-container">
             <div

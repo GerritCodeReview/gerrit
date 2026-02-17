@@ -609,7 +609,12 @@ export class GrCreateFlow extends LitElement {
     if (this.currentAction !== 'vote') return;
 
     if (this.selectedLabelForVote && this.selectedValueForVote) {
-      this.currentParameter = `${this.selectedLabelForVote}${this.selectedValueForVote}`;
+      let value = this.selectedValueForVote;
+      // Returned value from labels[value] has an extra space
+      if (value.trim() === '0') {
+        value = '+0';
+      }
+      this.currentParameter = `${this.selectedLabelForVote}${value}`;
     } else {
       this.currentParameter = '';
     }

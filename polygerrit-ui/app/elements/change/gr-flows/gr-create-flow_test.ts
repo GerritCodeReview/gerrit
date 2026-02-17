@@ -791,6 +791,37 @@ suite('gr-create-flow tests', () => {
       assert.equal(element['currentParameter'], 'Code-Review+1');
     });
 
+    test('updates parameter to +0 when value is 0', async () => {
+      const actionInput = queryAndAssert<MdOutlinedSelect>(
+        element,
+        'md-outlined-select[label="Action"]'
+      );
+      actionInput.value = 'vote';
+      actionInput.dispatchEvent(new Event('change'));
+      await element.updateComplete;
+
+      const voteParamInputs = queryAll<MdOutlinedSelect>(
+        element,
+        '.vote-parameter-input'
+      );
+      const valueSelect = voteParamInputs[1];
+
+      // TODO: remove setting of attributes and fix reading from value
+      valueSelect.setAttribute('value', '0');
+      valueSelect.value = '0';
+      valueSelect.dispatchEvent(
+        new Event('input', {bubbles: true, composed: true})
+      );
+      valueSelect.dispatchEvent(
+        new Event('change', {bubbles: true, composed: true})
+      );
+      await element.updateComplete;
+
+      assert.equal(element['selectedLabelForVote'], 'Code-Review');
+      assert.equal(element['selectedValueForVote'], '0');
+      assert.equal(element['currentParameter'], 'Code-Review+0');
+    });
+
     test('renders text input for vote when no labels are available', async () => {
       element.repoLabels = [];
       await element.updateComplete;

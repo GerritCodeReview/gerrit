@@ -81,8 +81,12 @@ export class ChatPanel extends LitElement {
       border: 1px solid var(--border-color);
       border-radius: 16px;
     }
-    splash-page {
+    splash-page,
+    chat-history {
       scrollbar-width: thin;
+      overflow-y: auto;
+      flex-grow: 1;
+      min-height: 0;
     }
     .messages-container {
       flex-grow: 1;

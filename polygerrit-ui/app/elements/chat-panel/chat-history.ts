@@ -32,6 +32,9 @@ export class ChatHistory extends LitElement {
   }
 
   static override styles = css`
+    :host {
+      display: block;
+    }
     .conversation-card {
       width: 85%;
       margin: 0 auto;

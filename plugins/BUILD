@@ -35,6 +35,15 @@ genrule2(
           "zip -qr $$ROOT/$@ .",
 )
 
+genrule2(
+    name = "core_plugins_list",
+    outs = ["core.plugins.txt"],
+    cmd =
+        "cat > $@ <<'EOF'\n" +
+        "\n".join([(n.split(":")[1] if ":" in n else n) for n in (CORE_PLUGINS + CUSTOM_PLUGINS)]) +
+        "\nEOF\n",
+)
+
 PLUGIN_API = [
     "//java/com/google/gerrit/server",
     "//java/com/google/gerrit/server/ioutil",

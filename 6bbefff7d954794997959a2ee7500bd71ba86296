@@ -16,6 +16,23 @@
       "message": "@beckysiegel@google.com could you review please? :)",
       "revId": "6bbefff7d954794997959a2ee7500bd71ba86296",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1928fb86_6c915be2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-02-17T19:01:39Z",
+      "side": 1,
+      "message": "I think this change would best be split into:\nFirst- the code changes for removing the last bits of polymer from the code (the element update)\nSecond- the actual removal of dependencies.\n\nFor the second part, I am not currently familiar with the setup so I\u0027d prefer a review from someone who has been more in the loop recently.",
+      "revId": "6bbefff7d954794997959a2ee7500bd71ba86296",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

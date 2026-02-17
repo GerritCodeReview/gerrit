@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "593450f2_d261f2cb",
+        "filename": "polygerrit-ui/app/elements/shared/gr-icon/custom-icons.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-02-17T22:26:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f7b79767_74a3a66c",
+      "range": {
+        "startLine": 3,
+        "startChar": 13,
+        "endLine": 3,
+        "endChar": 17
+      },
+      "revId": "94cc6d0f04d8ffbff0bc1f365dd71f8d1904dfb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b2a6039b_5ec47147",
@@ -64,6 +88,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "15e4c64e_7b0f5393",
+        "filename": "polygerrit-ui/app/elements/shared/gr-icon/custom-icons.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-02-17T22:26:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b2a6039b_5ec47147",
+      "range": {
+        "startLine": 19,
+        "startChar": 58,
+        "endLine": 19,
+        "endChar": 109
+      },
+      "revId": "94cc6d0f04d8ffbff0bc1f365dd71f8d1904dfb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2cfced20_0867fda0",
@@ -77,6 +125,30 @@
       "writtenOn": "2026-02-17T21:43:56Z",
       "side": 1,
       "message": "Maybe this can be just\n\n```\n@property({type: Boolean, reflect: true}) custom \u003d false;\n\nthis.custom \u003d this.icon ? customIcons[this.icon] : undefined;\n```",
+      "range": {
+        "startLine": 40,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 5
+      },
+      "revId": "94cc6d0f04d8ffbff0bc1f365dd71f8d1904dfb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f2d9dc69_95d92dec",
+        "filename": "polygerrit-ui/app/elements/shared/gr-icon/gr-icon.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-02-17T22:26:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2cfced20_0867fda0",
       "range": {
         "startLine": 40,
         "startChar": 0,

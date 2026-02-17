@@ -687,7 +687,11 @@ export class GrCreateFlow extends LitElement {
   }
 
   private renderParameterInputField() {
-    if (this.currentAction === 'add-reviewer') {
+    if (
+      this.currentAction === 'add-reviewer' ||
+      this.currentAction === 'add-to-attention-set' ||
+      this.currentAction === 'remove-from-attention-set'
+    ) {
       return html`<gr-autocomplete
         class="parameter-input autocomplete-input"
         label="Parameters"

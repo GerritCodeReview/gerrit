@@ -5,6 +5,7 @@ CORE_PLUGINS = [
     "download-commands",
     "gitiles",
     "hooks",
+    "javamelody",
     "oauth",
     "plugin-manager",
     "replication",

@@ -41,7 +41,8 @@ export class LabelSuggestionsProvider {
         });
     }
 
-    return this.cachedLabelsPromise.then(labels => {
+    if (!this.cachedLabelsPromise) return Promise.resolve([]);
+    return this.cachedLabelsPromise!.then(labels => {
       if (!labels) return [];
       return labels
         .map(label => label.name)

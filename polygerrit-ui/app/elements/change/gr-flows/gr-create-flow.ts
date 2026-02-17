@@ -329,7 +329,9 @@ export class GrCreateFlow extends LitElement {
   private async getFlowActions() {
     if (!this.changeNum) return;
     const actions = await this.restApiService.listFlowActions(this.changeNum);
-    this.flowActions = actions ?? [];
+    this.flowActions = (actions ?? []).sort((a, b) =>
+      a.name.localeCompare(b.name)
+    );
     if (this.flowActions.length > 0) {
       this.currentAction = this.flowActions[0].name;
     }
@@ -682,11 +684,13 @@ export class GrCreateFlow extends LitElement {
 
     if (actionName === 'add-reviewer') return 'user@example.com';
     if (actionName === 'vote') return '<Label>+/-<Value>';
-    if (actionName === 'submit') return 'no parameter required';
     return 'Parameters';
   }
 
   private renderParameterInputField() {
+    if (this.currentAction === 'submit') {
+      return html``;
+    }
     if (this.currentAction === 'add-reviewer') {
       return html`<gr-autocomplete
         class="parameter-input autocomplete-input"

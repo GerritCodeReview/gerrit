@@ -101,10 +101,19 @@ abstract class AbstractChangeControl {
         case SUBMIT_AS ->
             permissionBackend.user(getUser()).test(GlobalPermission.RUN_AS)
                 || refControl.canPerform(changePermissionName(perm));
+        case AI_REVIEW -> canAiReview();
       };
     } catch (StorageException e) {
       throw new PermissionBackendException("unavailable", e);
     }
+  }
+
+  /**
+   * TODO(AI review experiment): When {@code UiFeature__enable_ai_chat} is removed, replace with
+   * {@code refControl.canPerform(Permission.AI_REVIEW)} to use standard default-deny model.
+   */
+  private boolean canAiReview() {
+    return refControl.canPerformDefaultAllow(Permission.AI_REVIEW);
   }
 
   /** Can this user see this change? */

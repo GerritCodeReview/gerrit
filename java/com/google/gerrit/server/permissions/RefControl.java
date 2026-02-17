@@ -198,6 +198,43 @@ public class RefControl {
     return canPerform(permissionName, false, false);
   }
 
+  /**
+   * Default-allow variant of {@link #canPerform}: grants access unless explicitly restricted.
+   *
+   * <p>Unlike standard Gerrit permissions which are default-deny (require an explicit ALLOW), this
+   * method defaults to granting access. It only denies when the user matches an explicit DENY or
+   * BLOCK rule. When ALLOW rules are configured, it falls back to standard {@link #canPerform}
+   * evaluation.
+   *
+   * <p>This exists because the AI review feature uses an opt-out model during the experiment phase:
+   * all users have access unless an admin explicitly restricts specific groups via DENY or BLOCK.
+   *
+   * <p>TODO(AI review experiment): Remove when {@code UiFeature__enable_ai_chat} is removed.
+   * Replace call sites with {@link #canPerform}.
+   */
+  boolean canPerformDefaultAllow(String permissionName) {
+    if (!relevant.getAllowRules(permissionName).isEmpty()) {
+      return canPerform(permissionName);
+    }
+    for (PermissionRule pr : relevant.getDenyRules(permissionName)) {
+      if (projectControl.match(pr, false)) {
+        if (logger.atFine().isEnabled() || LoggingContext.getInstance().isAclLogging()) {
+          String logMessage =
+              String.format(
+                  "'%s' cannot perform '%s' on project '%s' for ref '%s'"
+                      + " because this permission is denied",
+                  getUser().getLoggableName(),
+                  permissionName,
+                  projectControl.getProject().getName(),
+                  refName);
+          LoggingContext.getInstance().addAclLogRecord(logMessage);
+        }
+        return false;
+      }
+    }
+    return !isBlocked(permissionName, false, false);
+  }
+
   ForRef asForRef() {
     return new ForRefImpl();
   }

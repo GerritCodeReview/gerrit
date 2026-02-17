@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4b1c28c1_cb9c2ec4",
+        "filename": "java/com/google/gerrit/server/restapi/project/GetConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-02-17T16:41:12Z",
+      "side": 1,
+      "message": "We should DRY this string as the front-end does in `flags.ts`, e.g. `ENABLE_AI_CHAT \u003d \u0027UiFeature__enable_ai_chat\u0027`",
+      "range": {
+        "startLine": 76,
+        "startChar": 49,
+        "endLine": 76,
+        "endChar": 74
+      },
+      "revId": "c52eac60c6b94d51e22ad5c200d254cec3d0891e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a47faf63_4ca66363",
+        "filename": "java/com/google/gerrit/server/restapi/project/PutConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-02-17T16:41:12Z",
+      "side": 1,
+      "message": "We should DRY this string as the front-end does in `flags.ts`, e.g. `ENABLE_AI_CHAT \u003d \u0027UiFeature__enable_ai_chat\u0027`",
+      "range": {
+        "startLine": 153,
+        "startChar": 46,
+        "endLine": 153,
+        "endChar": 73
+      },
+      "revId": "c52eac60c6b94d51e22ad5c200d254cec3d0891e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

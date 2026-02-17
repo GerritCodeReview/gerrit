@@ -41,3 +41,6 @@ include("//tools:repos.MODULE.bazel")
 
 # External dependency wiring is split out.
 include("//tools:java_deps.MODULE.bazel")
+
+# Wiring for external dependencies contributed by in-tree plugins.
+include("//plugins:external_plugin_deps.MODULE.bazel")

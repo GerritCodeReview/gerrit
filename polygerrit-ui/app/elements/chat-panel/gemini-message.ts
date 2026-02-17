@@ -234,7 +234,7 @@ export class GeminiMessage extends LitElement {
           <div class="user-info">
             <gr-icon
               class="gemini-icon"
-              icon="robot_2"
+              icon="ai"
               .title=${message.timestamp
                 ? new Date(message.timestamp).toLocaleString()
                 : ''}

@@ -4,8 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {css, html, LitElement} from 'lit';
+import {css, LitElement, nothing, SVGTemplateResult} from 'lit';
 import {customElement, property} from 'lit/decorators.js';
+import {customIcons} from './custom-icons';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -31,6 +32,16 @@ export class GrIcon extends LitElement {
 
   @property({type: Boolean, reflect: true})
   filled?: boolean;
+
+  @property({type: Boolean, reflect: true})
+  custom = false;
+
+  private customIcon?: SVGTemplateResult;
+
+  override willUpdate() {
+    this.customIcon = this.icon ? customIcons[this.icon] : undefined;
+    this.custom = !!this.customIcon;
+  }
 
   static override get styles() {
     return [
@@ -66,14 +77,23 @@ export class GrIcon extends LitElement {
         /* This is the trick such that the name of the icon doesn't appear in
          * search
          */
-        :host::before {
+        :host(:not([custom]))::before {
           content: attr(icon);
+        }
+        svg {
+          width: var(--gr-icon-size, 20px);
+          height: var(--gr-icon-size, 20px);
+          fill: currentColor;
+        }
+        :host([small]) svg {
+          width: var(--gr-icon-size, 16px);
+          height: var(--gr-icon-size, 16px);
         }
       `,
     ];
   }
 
   override render() {
-    return html``;
+    return this.customIcon ?? nothing;
   }
 }

@@ -3,9 +3,6 @@
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-// TODO(dmfilippov): remove bundled-polymer.js imports when the following issue
-// https://github.com/Polymer/polymer-resin/issues/9 is resolved.
-import '../scripts/bundled-polymer';
 import {getAppContext} from '../services/app-context';
 import {
   createTestAppContext,

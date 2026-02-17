@@ -39,5 +39,6 @@
     "@polymer/polymer": "3.5.2"
   },
   "license": "Apache-2.0",
-  "private": true
+  "private": true,
+  "devDependencies": {}
 }

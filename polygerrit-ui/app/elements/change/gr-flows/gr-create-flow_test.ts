@@ -32,6 +32,8 @@ suite('gr-create-flow tests', () => {
         {name: 'act-1'},
         {name: 'act-2'},
         {name: 'add-reviewer'},
+        {name: 'submit'},
+        {name: 'vote'},
       ] as FlowActionInfo[]);
 
     flowsModel = testResolver(flowsModelToken);
@@ -573,14 +575,11 @@ suite('gr-create-flow tests', () => {
       assert.equal(textfield.placeholder, '<Label>+/-<Value>');
     });
 
-    test('shows correct placeholder for submit', async () => {
+    test('hides the parameter input for submit', async () => {
       element.currentAction = 'submit';
       await element.updateComplete;
-      const textfield = queryAndAssert<MdOutlinedTextField>(
-        element,
-        '.textfield-input'
-      );
-      assert.equal(textfield.placeholder, 'no parameter required');
+      assert.isUndefined(query(element, '.textfield-input'));
+      assert.isUndefined(query(element, '.autocomplete-input'));
     });
 
     test('shows default placeholder for other actions', async () => {

@@ -51,6 +51,8 @@ import {LabelSuggestionsProvider} from '../../../services/label-suggestions-prov
 import {unique} from '../../../utils/common-util';
 
 const MAX_AUTOCOMPLETE_RESULTS = 10;
+// TODO: Allow the user to specify this
+const ATTENTION_SET_REASON = 'Performed by Gerrit Flows';
 
 @customElement('gr-create-flow')
 export class GrCreateFlow extends LitElement {
@@ -605,6 +607,20 @@ export class GrCreateFlow extends LitElement {
     }
   }
 
+  private updateCurrentParameter(e: ValueChangedEvent) {
+    if (
+      this.currentAction === 'add-to-attention-set' ||
+      this.currentAction === 'remove-from-attention-set'
+    ) {
+      // TODO: allow the user to specify any reason
+      this.currentParameter =
+        this.currentParameter.trim() + ' ' + ATTENTION_SET_REASON;
+      return;
+    }
+    this.currentParameter = e.detail.value ?? '';
+    return;
+  }
+
   private updateCurrentParameterForVote() {
     if (this.currentAction !== 'vote') return;
 
@@ -754,7 +770,7 @@ export class GrCreateFlow extends LitElement {
       .query=${this.reviewerSuggestions}
       ?multi=${true}
       @text-changed=${(e: ValueChangedEvent) => {
-        this.currentParameter = e.detail.value ?? '';
+        this.updateCurrentParameter(e);
       }}
     ></gr-autocomplete>`;
   }

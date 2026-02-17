@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2cda8b28_7893b38c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-02-17T21:52:02Z",
+      "side": 1,
+      "message": "Thank you - I was struggling to solve this one.",
+      "revId": "6060a1abeda95b1ebf1fd12bec08f514bad162d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cac4a63d_c4c650fa",
+        "filename": "polygerrit-ui/app/elements/shared/gr-content-with-sidebar/gr-content-with-sidebar_screenshot_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-02-17T21:52:02Z",
+      "side": 1,
+      "message": "```suggestion\n * Copyright 2026 Google LLC\n```\nnit",
+      "range": {
+        "startLine": 3,
+        "startChar": 13,
+        "endLine": 3,
+        "endChar": 17
+      },
+      "revId": "6060a1abeda95b1ebf1fd12bec08f514bad162d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

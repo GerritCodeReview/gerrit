@@ -22,24 +22,10 @@
     lit "^2.8.0 || ^3.0.0"
     tslib "^2.4.0"
 
-"@polymer/decorators@^3.0.0":
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/@polymer/decorators/-/decorators-3.0.0.tgz#e4212ac976d9abd1210f560b6e1be4165c1c0183"
-  integrity sha512-qh+VID9nDV9q3ABvIfWgm7/+udl7v2HKsMLPXFm8tj1fI7qr7yWJMFwS3xWBkMmuNPtmkS8MDP0vqLAQIEOWzg==
-  dependencies:
-    "@polymer/polymer" "^3.0.5"
-
 "@polymer/font-roboto-local@^3.0.2":
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/@polymer/font-roboto-local/-/font-roboto-local-3.0.2.tgz#563cd6cabbcaef54999d654c0f3d476bcc49ce58"
   integrity sha512-mCd9TcjwnCxU+7uVHCkbREGU+OmzStvYh3ru5DSaftOQDnMrLAzernEv/QCcfSPRgTMHij+pIUN4tcaGeDGcYg==
-
-"@polymer/polymer@3.5.2", "@polymer/polymer@^3.0.2", "@polymer/polymer@^3.0.5":
-  version "3.5.2"
-  resolved "https://registry.yarnpkg.com/@polymer/polymer/-/polymer-3.5.2.tgz#af0e7e13976df53ace6728e841121c36aca351de"
-  integrity sha512-fWwImY/UH4bb2534DVSaX+Azs2yKg8slkMBHOyGeU2kKx7Xmxp6Lee0jP8p6B3d7c1gFUPB2Z976dTUtX81pQA==
-  dependencies:
-    "@webcomponents/shadycss" "^1.9.1"
 
 "@types/resemblejs@^4.1.3":
   version "4.1.3"
@@ -56,15 +42,10 @@
   resolved "https://registry.yarnpkg.com/@types/trusted-types/-/trusted-types-2.0.7.tgz#baccb07a970b91707df3a3e8ba6896c57ead2d11"
   integrity sha512-ScaPdn1dQczgbl0QFTeTOmVHFULt394XJgOQNoyVhZ6r2vLnMLJfBPd53SB52T/3G36VI1/g2MZaX0cwDuXsfw==
 
-"@webcomponents/shadycss@^1.11.2", "@webcomponents/shadycss@^1.9.1":
+"@webcomponents/shadycss@^1.11.2":
   version "1.11.2"
   resolved "https://registry.yarnpkg.com/@webcomponents/shadycss/-/shadycss-1.11.2.tgz#7539b0ad29598aa2eafee8b341059e20ac9e1006"
   integrity sha512-vRq+GniJAYSBmTRnhCYPAPq6THYqovJ/gzGThWbgEZUQaBccndGTi1hdiUP15HzEco0I6t4RCtXyX0rsSmwgPw==
-
-"@webcomponents/webcomponentsjs@^2.0.3":
-  version "2.8.0"
-  resolved "https://registry.yarnpkg.com/@webcomponents/webcomponentsjs/-/webcomponentsjs-2.8.0.tgz#ab21f027594fa827c1889e8b646da7be27c7908a"
-  integrity sha512-loGD63sacRzOzSJgQnB9ZAhaQGkN7wl2Zuw7tsphI5Isa0irijrRo6EnJii/GgjGefIFO8AIO7UivzRhFaEk9w==
 
 base64-js@^1.3.1:
   version "1.5.1"
@@ -266,17 +247,6 @@ once@^1.3.1, once@^1.4.0:
   integrity sha512-lNaJgI+2Q5URQBkccEKHTQOPaXdUxnZZElQTZY0MFUAuaEqe1E+Nyvgdz/aIyNi6Z9MzO5dv1H8n58/GELp3+w==
   dependencies:
     wrappy "1"
-
-"polymer-bridges@file:../../polymer-bridges":
-  version "1.0.0"
-
-polymer-resin@^2.0.1:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/polymer-resin/-/polymer-resin-2.0.1.tgz#08abcf0ea47bac746450cefa96caab1ebea199a8"
-  integrity sha512-Vak/4JiuToOKzvvjzcpISoFAlI7AwbOk79bZhqWNAZcqdzqEeFwos5hytjLV90d00TzVbff1LREaFpWR35zOjg==
-  dependencies:
-    "@polymer/polymer" "^3.0.2"
-    "@webcomponents/webcomponentsjs" "^2.0.3"
 
 prebuild-install@^7.1.3:
   version "7.1.3"

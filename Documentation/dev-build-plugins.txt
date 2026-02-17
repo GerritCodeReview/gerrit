@@ -90,84 +90,105 @@ removed with Gerrit 3.15. Please migrate to using Bazel modules as described
 below. The documentation of the deprecated `external_plugins_deps.bzl`
 functionality has been moved to a dedicated section below.
 
-If a plugin require external Java dependencies, they can install those in its
-`MODULE.bazel` using rules_jvm_external. The bazel repository for the maven
-dependencies has to be called `gerrit_plugin_deps`. Such a `MODULE.bazel`-file
+If a plugin requires external Java dependencies, they can install those in its
+`MODULE.bazel` using `rules_jvm_external`. The Maven repository containing the
+plugin runtime dependencies must be plugin-scoped (for example
+`<plugin>_plugin_deps`) and must not use a shared repository name across
+plugins when built in-tree with Bzlmod. Such a `MODULE.bazel` file
 might look as follows:
 
 ----
-module(name = "gerrit-plugin-delete-project")
+module(name = "gerrit-oauth-provider")
 
-bazel_dep(name = "rules_jvm_external", version = "6.9")
+bazel_dep(name = "rules_jvm_external", version = "6.10")
 
 maven = use_extension("@rules_jvm_external//:extensions.bzl", "maven")
 
 maven.install(
-    name = "gerrit_plugin_deps",
+    name = "oauth_plugin_deps",
     artifacts = [
-        "commons-io:commons-io:2.20.0",
-    ],
-    repositories = [
-        "https://repo1.maven.org/maven2",
+        "com.fasterxml.jackson.core:jackson-databind:2.10.2",
+        "com.github.scribejava:scribejava-apis:6.9.0",
+        "com.sap.cloud.security:java-security:3.6.0",
     ],
     duplicate_version_warning = "error",
+    excluded_artifacts = [
+        "commons-io:commons-io",
+        "com.github.ben-manes.caffeine:caffeine",
+        "org.slf4j:slf4j-api",
+    ],
     fail_if_repin_required = True,
     fail_on_missing_checksum = True,
     fetch_sources = True,
-    lock_file = "//:gerrit_plugin_deps.lock.json",
-    strict_visibility = True,
+    lock_file = "//:oauth_plugin_deps.lock.json",
+    repositories = [
+        "https://repo1.maven.org/maven2",
+    ],
     version_conflict_policy = "pinned",
 )
 
-use_repo(maven, "gerrit_plugin_deps")
+use_repo(maven, "oauth_plugin_deps")
 ----
 
-After creating the `MODULE.bazel`-file create and update the lock-file for the
-plugin:
+If the plugin has external dependencies, its Bazel module must be loaded from
+Gerrit's own `MODULE.bazel` file and the plugin-scoped Maven repository
+imported via `use_repo()`. Gerrit must not define a `maven.install()` for
+plugin runtime dependencies, as plugins may contribute their own lock files.
+This can be achieved by loading the plugin's Bazel module in Gerrit's own
+module (`MODULE.bazel` file), e.g.:
 
 ----
-cd plugins/delete-project
-touch gerrit_plugin_deps.lock.json
-bazelisk run @gerrit_plugin_deps//:pin
-bazelisk mod deps --lockfile_mode=update
-----
-
-If the plugin has external dependencies, then they must be included from Gerrit's
-own MODULE.bazel file. This can be achieved by loading the plugin's bazel module
-in Gerrit's own module (`MODULE.bazel`-file), e.g.:
-
-----
-maven.install(
-    name = "gerrit_plugin_deps",
-    artifacts = [],
-    repositories = [
-        "https://repo1.maven.org/maven2",
-        "https://gerrit-maven.storage.googleapis.com",
-    ],
-    lock_file = "//:gerrit_plugin_deps.lock.json",
-    ...
-)
-
 bazel_dep(name = "gerrit-plugin-oauth")
 local_path_override(
     module_name = "gerrit-plugin-oauth",
-    path = "./plugins/oauth",
+    path = "plugins/oauth",
 )
 
-use_repo(maven, "gerrit_plugin_deps")
+use_repo(maven, "oauth_plugin_deps")
 ----
 
-If at least one plugin with external dependencies is being built in-tree the
-`gerrit_plugin_deps` repository has to be imported with
-`use_repo(maven, "gerrit_plugin_deps")`. If some plugin changes its external
-dependencies, repin the dependencies in Gerrit core by running:
+After creating the `MODULE.bazel` file, create and update the plugin’s Maven
+lock file:
 
 ----
-REPIN=1 bazelisk run @gerrit_plugin_deps//:pin
+cd plugins/oauth
+touch oauth_plugin_deps.lock.json
+bazelisk run @oauth_plugin_deps//:pin
 ----
 
-Note, that this will fail as long as no plugin contributes a dependency to that
-repository.
+The generated Maven lock file (for example `oauth_plugin_deps.lock.json`) is owned
+by the plugin and must be checked into the plugin repository.
+
+When the plugin is built in-tree, Gerrit imports the plugin-scoped Maven
+repository via `use_repo()`, but does not resolve or repin its
+dependencies. The plugin Maven lock file remains owned and maintained by
+the plugin in both standalone and in-tree build modes.
+
+If Bazel module lockfile mode is enabled (for example via
+`--lockfile_mode=error`), the Bzlmod module graph lock file
+(`MODULE.bazel.lock`) must be updated from the workspace root:
+
+Standalone build:
+
+----
+cd plugins/oauth
+bazelisk mod deps --lockfile_mode=update
+----
+
+In-tree build:
+
+----
+cd gerrit
+bazelisk mod deps --lockfile_mode=update
+----
+
+[NOTE]
+When multiple plugins are built in-tree, `rules_jvm_external` merges
+`maven.install()` tags with the same name across all modules. Plugin runtime
+dependencies must therefore be declared in plugin-scoped repositories
+(e.g. `<plugin>_plugin_deps`) that own their lock files. Shared repository
+names must not define a `lock_file` in more than one module, otherwise the
+build will fail during module extension evaluation.
 
 === Bundle custom plugin in release.war ===
 

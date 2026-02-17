@@ -14,5 +14,4 @@ local_path_override(
     module_name = "gerrit-oauth-provider",
     path = "plugins/oauth",
 )
-
-use_repo(maven, "external_plugin_deps")
+use_repo(maven, "oauth_plugin_deps")

@@ -70,3 +70,8 @@
 	path = plugins/oauth
 	url = ../plugins/oauth
 	branch = .
+
+[submodule "plugins/javamelody"]
+	path = plugins/javamelody
+	url = ../plugins/javamelody
+	branch = .

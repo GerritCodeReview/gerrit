@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "634bf678_14540093",
+        "filename": "polygerrit-ui/app/elements/change/gr-flows/gr-create-flow.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 767,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-02-17T11:46:02Z",
+      "side": 1,
+      "message": "Just question: do we need unique here?",
+      "range": {
+        "startLine": 767,
+        "startChar": 23,
+        "endLine": 767,
+        "endChar": 63
+      },
+      "revId": "c2a2dab1457b37cb267d978e68ad2c59e3590bf4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -9,6 +9,13 @@
 
 maven = use_extension("@rules_jvm_external//:extensions.bzl", "maven")
 
+bazel_dep(name = "gerrit-javamelody")
+local_path_override(
+    module_name = "gerrit-javamelody",
+    path = "plugins/javamelody",
+)
+use_repo(maven, "javamelody_plugin_deps")
+
 bazel_dep(name = "gerrit-oauth-provider")
 local_path_override(
     module_name = "gerrit-oauth-provider",

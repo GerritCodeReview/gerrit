@@ -10,14 +10,24 @@ import {
   property,
   queryAssignedElements,
 } from 'lit/decorators.js';
-import {Marked, Renderer, Tokenizer} from 'marked';
+// @ts-ignore
+import * as marked from 'marked/lib/marked';
 
 import {
   sanitizeHtml,
   setElementInnerHtml,
 } from '../../../utils/inner-html-util';
 
+if (!window.marked) {
+  window.marked = marked;
+}
+
 declare global {
+  interface Window {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    marked: any;
+  }
+
   interface HTMLElementTagNameMap {
     'gr-marked-element': GrMarkedElement;
   }
@@ -36,8 +46,6 @@ export class GrMarkedElement extends LitElement {
   @property({type: Boolean}) pedantic = false;
 
   @property({type: Function}) renderer: Function | null = null;
-
-  @property({type: Function}) tokenizer: Function | null = null;
 
   @queryAssignedElements({
     flatten: true,
@@ -65,13 +73,7 @@ export class GrMarkedElement extends LitElement {
   }
 
   protected override updated(changedProps: PropertyValues) {
-    const propsToWatch = [
-      'markdown',
-      'breaks',
-      'pedantic',
-      'renderer',
-      'tokenizer',
-    ];
+    const propsToWatch = ['markdown', 'breaks', 'pedantic', 'renderer'];
     if (propsToWatch.some(prop => changedProps.has(prop))) {
       this.renderMarkdown();
     }
@@ -91,24 +93,16 @@ export class GrMarkedElement extends LitElement {
       return;
     }
 
-    const renderer = new Renderer();
-    if (this.renderer) {
-      this.renderer(renderer);
-    }
-    const tokenizer = new Tokenizer();
-    if (this.tokenizer) {
-      this.tokenizer(tokenizer);
-    }
+    const renderer = new window.marked.Renderer();
+    if (this.renderer) this.renderer(renderer);
 
-    const marked = new Marked();
-    const unsafeHtml =
-      marked.parse(this.markdown, {
-        async: false,
-        breaks: this.breaks,
-        pedantic: this.pedantic,
-        renderer,
-        tokenizer,
-      }) || '';
+    const options = {
+      renderer,
+      breaks: this.breaks,
+      pedantic: this.pedantic,
+    };
+
+    const unsafeHtml = window.marked(this.markdown, options) || '';
     const safeHtml = sanitizeHtml(unsafeHtml);
 
     setElementInnerHtml(this.outputElement[0], safeHtml);

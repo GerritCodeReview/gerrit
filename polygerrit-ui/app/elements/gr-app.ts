@@ -3,24 +3,8 @@
  * Copyright 2015 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {safeTypesBridge} from '../utils/safe-types-util';
 import './font-roboto-local-loader';
 import '../types/globals';
-// Sets up global Polymer variable, because plugins requires it.
-import '../scripts/bundled-polymer';
-
-/**
- * setCancelSyntheticClickEvents is set to true by
- * default which will cancel synthetic click events
- * on older touch device.
- * See https://github.com/Polymer/polymer/issues/5289
- */
-import {
-  setCancelSyntheticClickEvents,
-  setPassiveTouchGestures,
-} from '@polymer/polymer/lib/utils/settings';
-setCancelSyntheticClickEvents(false);
-setPassiveTouchGestures(true);
 
 import {initGerrit, initGlobalVariables} from './gr-app-global-var-init';
 import './gr-app-element';
@@ -30,7 +14,6 @@ import {
   provide,
   Provider,
 } from '../models/dependency';
-import {installPolymerResin} from '../scripts/polymer-resin-install';
 
 import {
   createAppContext,
@@ -48,8 +31,6 @@ import {getAppContext} from '../services/app-context';
 import {Finalizable} from '../types/types';
 
 initGlobalVariables(createAppContext(), true);
-
-installPolymerResin(safeTypesBridge);
 
 @customElement('gr-app')
 export class GrApp extends LitElement {

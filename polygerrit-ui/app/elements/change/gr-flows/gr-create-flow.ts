@@ -688,10 +688,20 @@ export class GrCreateFlow extends LitElement {
   }
 
   private renderParameterInputField() {
+<<<<<<< PATCH SET (db375503ac2098e43dd2a5a3bce7d0e766c864c8 Render email autocomplete for attention set actions)
+    if (
+      this.currentAction === 'add-reviewer' ||
+      this.currentAction === 'add-to-attention-set' ||
+      this.currentAction === 'remove-from-attention-set'
+    ) {
+||||||| BASE      (a3eb48e25a14c2b0daead64fdcf05e5a236b8b91 Merge "Migrate the PolyGerrit UI to the latest version of th)
+    if (this.currentAction === 'add-reviewer') {
+=======
     if (this.currentAction === 'submit') {
       return html``;
     }
     if (this.currentAction === 'add-reviewer') {
+>>>>>>> BASE      (44c8ca807ae8d0bf5cad01dbcf5b20f5e3f9e9c2 Hide Submit Action placeholder by default)
       return html`<gr-autocomplete
         class="parameter-input autocomplete-input"
         label="Parameters"

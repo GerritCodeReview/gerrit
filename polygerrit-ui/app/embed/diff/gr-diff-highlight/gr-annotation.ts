@@ -3,8 +3,11 @@
  * Copyright 2016 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {getSanitizeDOMValue} from '@polymer/polymer/lib/utils/settings';
 import {GrAnnotation} from '../../../api/diff';
+import {setElementAttribute} from 'safevalues/dom';
+
+// Used for testing only
+let setElementAttributeFn = setElementAttribute;
 
 // TODO(wyatta): refactor this to be <MARK> rather than <HL>.
 const ANNOTATION_TAG = 'HL';
@@ -85,13 +88,20 @@ export function annotateWithElement(
   }
 
   const wrapper = document.createElement(tagName);
-  const sanitizer = getSanitizeDOMValue();
-  for (let [name, value] of Object.entries(attributes)) {
+  for (const [name, value] of Object.entries(attributes)) {
     if (!value) continue;
-    if (sanitizer) {
-      value = sanitizer(value, name, 'attribute', wrapper) as string;
+    // Must be in a try and catch as it throws if the value is unsafe.
+    // This brings similar behaviour to Polymer.sanitizeDOMValue,
+    // in that it replaces a bad value with zClosurez.
+    try {
+      // Attempt the safe assignment.
+      // safevalues validates if 'value' is safe for 'name'.
+      setElementAttributeFn(wrapper, name, value);
+    } catch (e) {
+      // If the value is deemed unsafe for a security-sensitive sink
+      // (e.g., a javascript: URL in an 'href'), set your fallback value.
+      wrapper.setAttribute(name, 'zClosurez');
     }
-    wrapper.setAttribute(name, value);
   }
   for (const inner of nestedNodes) {
     parent.replaceChild(wrapper, inner);
@@ -291,4 +301,7 @@ export interface ElementSpec {
 export const TEST_ONLY = {
   _annotateText,
   splitTextNode,
+  setElementAttributeFactory(factory: typeof setElementAttribute) {
+    setElementAttributeFn = factory;
+  },
 };

@@ -101,10 +101,21 @@ abstract class AbstractChangeControl {
         case SUBMIT_AS ->
             permissionBackend.user(getUser()).test(GlobalPermission.RUN_AS)
                 || refControl.canPerform(changePermissionName(perm));
+        case AI_REVIEW -> canAiReview();
       };
     } catch (StorageException e) {
       throw new PermissionBackendException("unavailable", e);
     }
+  }
+
+  private boolean canAiReview() {
+    if (projectControl.isAdmin()) {
+      return true;
+    }
+    if (!refControl.hasPermissionRules(Permission.AI_REVIEW)) {
+      return true;
+    }
+    return refControl.canPerform(Permission.AI_REVIEW);
   }
 
   /** Can this user see this change? */

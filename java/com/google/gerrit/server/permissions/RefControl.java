@@ -193,6 +193,11 @@ public class RefControl {
     return null;
   }
 
+  boolean hasPermissionRules(String permissionName) {
+    return !relevant.getAllowRules(permissionName).isEmpty()
+        || !relevant.getBlockRules(permissionName).isEmpty();
+  }
+
   /** True if the user has this permission. Works only for non labels. */
   boolean canPerform(String permissionName) {
     return canPerform(permissionName, false, false);

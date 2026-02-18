@@ -36,6 +36,7 @@ import static com.google.gerrit.extensions.client.ListChangesOption.SUBMITTABLE;
 import static com.google.gerrit.extensions.client.ListChangesOption.SUBMIT_REQUIREMENTS;
 import static com.google.gerrit.extensions.client.ListChangesOption.TRACKING_IDS;
 import static com.google.gerrit.server.ChangeMessagesUtil.createChangeMessageInfo;
+import static com.google.gerrit.server.experiments.ExperimentFeaturesConstants.ENABLE_AI_CHAT;
 import static com.google.gerrit.server.experiments.ExperimentFeaturesConstants.SKIP_SUBMIT_RECORDS_WITHOUT_SUBMIT_REQUIREMENTS;
 import static com.google.gerrit.server.util.AttentionSetUtil.additionsOnly;
 import static com.google.gerrit.server.util.AttentionSetUtil.removalsOnly;
@@ -818,6 +819,21 @@ public class ChangeJson {
 
     if (has(CURRENT_ACTIONS) || has(CHANGE_ACTIONS)) {
       actionJson.addChangeActions(out, cd);
+      // TODO(AI review experiment): Remove experiment gate when UiFeature__enable_ai_chat is
+      // removed.
+      if (experimentFeatures.isFeatureEnabled(ENABLE_AI_CHAT)) {
+        try {
+          out.canAiReview =
+              toBoolean(
+                  permissionBackend
+                      .user(userProvider.get())
+                      .change(cd)
+                      .test(ChangePermission.AI_REVIEW));
+        } catch (PermissionBackendException e) {
+          logger.atWarning().withCause(e).log(
+              "Failed to check AI review permission for change %s", cd.getId());
+        }
+      }
     }
 
     if (has(TRACKING_IDS)) {

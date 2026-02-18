@@ -222,10 +222,16 @@ suite('gr-create-flow tests', () => {
         grDialog,
         'md-outlined-select[label="Action"]'
       );
+      const addButton = queryAndAssert<GrButton>(
+        grDialog,
+        'gr-button[aria-label="Add Stage"]'
+      );
       searchAutocomplete.value = 'single condition';
       await element.updateComplete;
       actionInput.value = 'add-reviewer';
       actionInput.dispatchEvent(new Event('change'));
+      await element.updateComplete;
+      addButton.click();
       await element.updateComplete;
 
       const confirmButton = queryAndAssert<GrButton>(grDialog, '#confirm');
@@ -271,6 +277,10 @@ suite('gr-create-flow tests', () => {
         grDialog,
         'md-outlined-text-field[label="Parameters"]'
       );
+      const addButton = queryAndAssert<GrButton>(
+        grDialog,
+        'gr-button[aria-label="Add Stage"]'
+      );
       searchAutocomplete.value = 'single condition';
       await element.updateComplete;
       actionInput.value = 'add-reviewer';
@@ -278,6 +288,8 @@ suite('gr-create-flow tests', () => {
       await element.updateComplete;
       parametersInput.value = 'param1 param2';
       parametersInput.dispatchEvent(new Event('input'));
+      await element.updateComplete;
+      addButton.click();
       await element.updateComplete;
 
       const confirmButton = queryAndAssert<GrButton>(grDialog, '#confirm');
@@ -536,6 +548,105 @@ suite('gr-create-flow tests', () => {
       await element.updateComplete;
       // Expected to preserve '-> ' and not revert to 'cond 1'
       assert.equal(element.flowString, 'cond 1 -> ');
+    });
+
+    test('handleAddStage fails with empty condition', async () => {
+      const alertStub = sinon.stub();
+      element.addEventListener('show-alert', alertStub);
+
+      const createButton = queryAndAssert<GrButton>(
+        element,
+        'gr-button[aria-label="Create Flow"]'
+      );
+      createButton.click();
+      await element.updateComplete;
+
+      const grDialog = queryAndAssert<GrDialog>(element, 'gr-dialog');
+      const actionInput = queryAndAssert<MdOutlinedSelect>(
+        grDialog,
+        'md-outlined-select[label="Action"]'
+      );
+      const addButton = queryAndAssert<GrButton>(
+        grDialog,
+        'gr-button[aria-label="Add Stage"]'
+      );
+
+      actionInput.value = 'act-1';
+      actionInput.dispatchEvent(new Event('change'));
+      await element.updateComplete;
+
+      addButton.click();
+      await element.updateComplete;
+
+      assert.isTrue(alertStub.calledOnce);
+      assert.equal(
+        alertStub.lastCall.args[0].detail.message,
+        'Condition string cannot be empty.'
+      );
+      assert.lengthOf(element['stages'], 0);
+    });
+
+    test('handleCreateFlow fails with empty condition in added stages', async () => {
+      const alertStub = sinon.stub();
+      element.addEventListener('show-alert', alertStub);
+      const createFlowStub = sinon.stub(flowsModel, 'createFlow');
+
+      const createButton = queryAndAssert<GrButton>(
+        element,
+        'gr-button[aria-label="Create Flow"]'
+      );
+      createButton.click();
+      await element.updateComplete;
+
+      const grDialog = queryAndAssert<GrDialog>(element, 'gr-dialog');
+
+      // Add a stage with empty condition via raw flow textarea
+      const rawFlowTextarea = queryAndAssert<MdOutlinedTextField>(
+        grDialog,
+        'md-outlined-text-field[label="Copy and Paste existing flows"]'
+      );
+      rawFlowTextarea.value = '-> act-1';
+      rawFlowTextarea.dispatchEvent(new InputEvent('input'));
+      await element.updateComplete;
+
+      assert.lengthOf(element['stages'], 1);
+      assert.equal(element['stages'][0].condition, '');
+
+      const confirmButton = queryAndAssert<GrButton>(grDialog, '#confirm');
+      confirmButton.click();
+      await element.updateComplete;
+
+      assert.isTrue(alertStub.calledOnce);
+      assert.equal(
+        alertStub.lastCall.args[0].detail.message,
+        'All stages must have a condition.'
+      );
+      assert.isFalse(createFlowStub.called);
+    });
+
+    test('handleCreateFlow fails if no stages are added', async () => {
+      const alertStub = sinon.stub();
+      element.addEventListener('show-alert', alertStub);
+      const createFlowStub = sinon.stub(flowsModel, 'createFlow');
+
+      const createButton = queryAndAssert<GrButton>(
+        element,
+        'gr-button[aria-label="Create Flow"]'
+      );
+      createButton.click();
+      await element.updateComplete;
+
+      const grDialog = queryAndAssert<GrDialog>(element, 'gr-dialog');
+      const confirmButton = queryAndAssert<GrButton>(grDialog, '#confirm');
+      confirmButton.click();
+      await element.updateComplete;
+
+      assert.isTrue(alertStub.calledOnce);
+      assert.equal(
+        alertStub.lastCall.args[0].detail.message,
+        'Add at least one stage with a condition.'
+      );
+      assert.isFalse(createFlowStub.called);
     });
   });
 

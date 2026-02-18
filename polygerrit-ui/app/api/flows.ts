@@ -11,7 +11,7 @@ import {ChangeInfo} from './rest-api';
  *
  * <p>Which custom conditions are supported depends on the flow service implementation.
  */
-export interface FlowCustomConditionInfo {
+export declare interface FlowCustomConditionInfo {
   /**
    * The name of the custom condition.
    *

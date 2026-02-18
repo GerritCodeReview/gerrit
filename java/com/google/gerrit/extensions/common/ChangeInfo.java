@@ -93,6 +93,7 @@ public class ChangeInfo {
   public Boolean isPrivate;
   public Boolean workInProgress;
   public Boolean hasReviewStarted;
+  public Boolean canAiReview;
   public Integer revertOf;
   public String submissionId;
   public Integer cherryPickOfChange;

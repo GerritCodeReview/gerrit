@@ -7748,6 +7748,8 @@ When present, change is marked as private.
 When present, change is marked as Work In Progress.
 |`has_review_started` |optional, not set if `false`|
 When present, change has been marked Ready at some point in time.
+|`can_ai_review`      |optional|
+Set to `true` if AI review is allowed on the change.
 |`revert_of`          |optional|
 The change number of the change that this change reverts.
 |`submission_id`      |optional|

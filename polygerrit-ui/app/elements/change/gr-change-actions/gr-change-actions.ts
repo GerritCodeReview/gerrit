@@ -1253,6 +1253,9 @@ export class GrChangeActions
     if (!this.flagService.isEnabled(KnownExperimentId.ENABLE_AI_CHAT)) {
       return null;
     }
+    if (!this.change?.can_ai_review) {
+      return null;
+    }
     if (!this.aiPluginsRegistered) {
       return null;
     }

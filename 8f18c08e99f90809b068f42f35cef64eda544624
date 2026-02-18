@@ -22,6 +22,30 @@
       },
       "revId": "8f18c08e99f90809b068f42f35cef64eda544624",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7bdb655f_ec17d323",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/account/ImpersonationIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1169,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2026-02-18T07:31:00Z",
+      "side": 1,
+      "message": "This is just an additional text. Rephrased it.",
+      "parentUuid": "2a2535ae_286a910f",
+      "range": {
+        "startLine": 1169,
+        "startChar": 43,
+        "endLine": 1169,
+        "endChar": 53
+      },
+      "revId": "8f18c08e99f90809b068f42f35cef64eda544624",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

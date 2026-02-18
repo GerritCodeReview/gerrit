@@ -80,7 +80,8 @@ export class GrCreateFlow extends LitElement {
 
   @state()
   // private but used in tests
-  repoLabels?: LabelDefinitionInfo[];
+  repoLabels?: Pick<LabelDefinitionInfo, 'name'> &
+    Pick<LabelDefinitionInfo, 'values'>[];
 
   @state()
   private selectedLabelForVote?: string;
@@ -190,12 +191,18 @@ export class GrCreateFlow extends LitElement {
     subscribe(
       this,
       () => this.getChangeModel().change$,
-      async change => {
+      change => {
         if (change) {
           this.labelSuggestionsProvider.setRepoName(change.project);
-          this.repoLabels = await this.restApiService.getRepoLabels(
-            change.project
-          );
+          const permittedLabels = change.permitted_labels ?? {};
+          this.repoLabels = Object.entries(permittedLabels)
+            .sort(([nameA], [nameB]) => nameA.localeCompare(nameB))
+            .map(([name, values]) => {
+              return {
+                name,
+                values: Object.fromEntries(values.map(v => [v, ''])),
+              };
+            });
         } else {
           this.repoLabels = undefined;
         }

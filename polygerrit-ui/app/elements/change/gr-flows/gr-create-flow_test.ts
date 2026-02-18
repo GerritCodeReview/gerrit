@@ -18,12 +18,18 @@ import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrAutocomplete} from '../../shared/gr-autocomplete/gr-autocomplete';
 import {GrSearchAutocomplete} from '../../core/gr-search-autocomplete/gr-search-autocomplete';
 import {FlowsModel, flowsModelToken} from '../../../models/flows/flows-model';
+import {changeModelToken} from '../../../models/change/change-model';
+import {
+  createParsedChange,
+  createRevision,
+} from '../../../test/test-data-generators';
 import {testResolver} from '../../../test/common-test-setup';
 import {MdOutlinedTextField} from '@material/web/textfield/outlined-text-field';
 import {getAppContext} from '../../../services/app-context';
 import {
   FlowActionInfo,
   LabelDefinitionInfoFunction,
+  RevisionPatchSetNum,
 } from '../../../api/rest-api';
 import {MdOutlinedSelect} from '@material/web/select/outlined-select';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
@@ -925,6 +931,62 @@ suite('gr-create-flow tests', () => {
           parameterStr: '',
         },
       ]);
+    });
+  });
+
+  suite('repoLabels calculation', () => {
+    test('repoLabels is calculated from change.permitted_labels', async () => {
+      const changeModel = testResolver(changeModelToken);
+      changeModel.updateStateChange({
+        ...createParsedChange(),
+        project: 'test-project' as RepoName,
+        permitted_labels: {
+          'Code-Review': ['-1', ' 0', '+1'],
+          Verified: ['-1', ' 0', '+1'],
+        },
+        revisions: {
+          a: createRevision(1 as RevisionPatchSetNum),
+        },
+      });
+      await element.updateComplete;
+
+      assert.isDefined(element['repoLabels']);
+      assert.lengthOf(element['repoLabels'], 2);
+      assert.equal(element['repoLabels'][0].name, 'Code-Review');
+      assert.deepEqual(element['repoLabels'][0].values, {
+        '-1': '',
+        ' 0': '',
+        '+1': '',
+      });
+      assert.equal(element['repoLabels'][1].name, 'Verified');
+      assert.deepEqual(element['repoLabels'][1].values, {
+        '-1': '',
+        ' 0': '',
+        '+1': '',
+      });
+    });
+
+    test('repoLabels is sorted by name', async () => {
+      const changeModel = testResolver(changeModelToken);
+      changeModel.updateStateChange({
+        ...createParsedChange(),
+        project: 'test-project' as RepoName,
+        permitted_labels: {
+          Verified: ['-1', ' 0', '+1'],
+          'Code-Review': ['-1', ' 0', '+1'],
+          'A-Label': [' 0'],
+        },
+        revisions: {
+          a: createRevision(1 as RevisionPatchSetNum),
+        },
+      });
+      await element.updateComplete;
+
+      assert.isDefined(element['repoLabels']);
+      assert.lengthOf(element['repoLabels'], 3);
+      assert.equal(element['repoLabels'][0].name, 'A-Label');
+      assert.equal(element['repoLabels'][1].name, 'Code-Review');
+      assert.equal(element['repoLabels'][2].name, 'Verified');
     });
   });
 });

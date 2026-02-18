@@ -46,6 +46,7 @@ import {userModelToken} from '../../../models/user/user-model';
 import {assertIsDefined} from '../../../utils/common-util';
 import {GrAiPromptDialog} from '../gr-ai-prompt-dialog/gr-ai-prompt-dialog';
 import {flowsModelToken} from '../../../models/flows/flows-model';
+import {KnownExperimentId} from '../../../services/flags/flags';
 
 function handleSpaceOrEnter(e: KeyboardEvent, handler: () => void) {
   if (modifierPressed(e)) return;
@@ -104,6 +105,9 @@ export class GrChangeSummary extends LitElement {
   @state()
   flows: FlowInfo[] = [];
 
+  @state()
+  canAiReview = false;
+
   @query('#aiPromptModal')
   aiPromptModal?: HTMLDialogElement;
 
@@ -123,6 +127,12 @@ export class GrChangeSummary extends LitElement {
   private readonly getFlowsModel = resolve(this, flowsModelToken);
 
   private readonly reporting = getAppContext().reportingService;
+
+  private readonly flagsService = getAppContext().flagsService;
+
+  private readonly aiChatEnabled = this.flagsService.isEnabled(
+    KnownExperimentId.ENABLE_AI_CHAT
+  );
 
   constructor() {
     super();
@@ -201,6 +211,13 @@ export class GrChangeSummary extends LitElement {
       this,
       () => this.getFlowsModel().flows$,
       x => (this.flows = x)
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().change$,
+      change => {
+        this.canAiReview = this.aiChatEnabled && !!change?.can_ai_review;
+      }
     );
   }
 
@@ -591,21 +608,25 @@ export class GrChangeSummary extends LitElement {
                   showCommentCategoryName
                   clickableChips
                 ></gr-comments-summary>
-                <gr-button link @click=${this.handleOpenAiPromptDialog}
-                  >Create AI Review Prompt</gr-button
-                >
+                ${this.canAiReview
+                  ? html`<gr-button link @click=${this.handleOpenAiPromptDialog}
+                      >Create AI Review Prompt</gr-button
+                    >`
+                  : nothing}
               </div>
             </td>
           </tr>
           ${this.renderChecksSummary()} ${this.renderFlowsSummary()}
         </table>
       </div>
-      <dialog id="aiPromptModal" tabindex="-1">
-        <gr-ai-prompt-dialog
-          id="aiPromptDialog"
-          @close=${this.handleAiPromptDialogClose}
-        ></gr-ai-prompt-dialog>
-      </dialog>
+      ${this.canAiReview
+        ? html`<dialog id="aiPromptModal" tabindex="-1">
+            <gr-ai-prompt-dialog
+              id="aiPromptDialog"
+              @close=${this.handleAiPromptDialogClose}
+            ></gr-ai-prompt-dialog>
+          </dialog>`
+        : nothing}
     `;
   }
 

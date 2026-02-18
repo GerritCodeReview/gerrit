@@ -83,6 +83,44 @@ suite('gr-change-summary test', () => {
                       clickablechips=""
                       showcommentcategoryname=""
                     ></gr-comments-summary>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      `
+    );
+  });
+
+  test('renders AI review button when canAiReview is true', async () => {
+    commentsModel.setState({
+      drafts: {
+        a: [createDraft(), createDraft(), createDraft()],
+      },
+      discardedDrafts: [],
+    });
+    element.commentsLoading = false;
+    element.commentThreads = [
+      createCommentThread([createComment()]),
+      createCommentThread([{...createComment(), unresolved: true}]),
+    ];
+    element.canAiReview = true;
+    await element.updateComplete;
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `
+        <div>
+          <table class="info">
+            <tbody>
+              <tr>
+                <td class="key">Comments</td>
+                <td class="value">
+                  <div class="value-content">
+                    <gr-comments-summary
+                      clickablechips=""
+                      showcommentcategoryname=""
+                    ></gr-comments-summary>
                     <gr-button
                       aria-disabled="false"
                       link=""

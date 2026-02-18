@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a328e8e4_ff32b20b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-02-18T16:18:29Z",
+      "side": 1,
+      "message": "After this change, the chat-panel icon has disappeared. It was previously a robot, now there\u0027s nothing. Is that expected @sarahsilva@google.com?",
+      "revId": "03c04c80208d045d246a358a1dfdb1076322c377",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

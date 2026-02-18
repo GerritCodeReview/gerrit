@@ -774,6 +774,8 @@ Some
 \\<div>text in escaped div</div>
 on several lines.
 
+<div>**markdown** and <b>HTML</b> in HTML blocks stay as-is</div>
+
 An <a href="example.com">inline HTML link</a>.
 
 An <a href="example.com">inline HTML link with **markup**</a>.
@@ -783,6 +785,10 @@ An <a href="example.com">inline HTML link with [markup link](http://google.com)<
       await element.updateComplete;
 
       const escapedHtml = '&lt;div&gt;<br>  Hello<br>&lt;/div&gt;';
+      const escapedHtmlWithMixedContent =
+        '&lt;div&gt;' +
+        '**markdown** and &lt;b&gt;HTML&lt;/b&gt; in HTML blocks stay as-is' +
+        '&lt;/div&gt;';
       assert.shadowDom.equal(
         element,
         /* HTML */ `
@@ -810,6 +816,7 @@ An <a href="example.com">inline HTML link with [markup link](http://google.com)<
                   &lt;div&gt;text in escaped div&lt;/div&gt;<br />
                   on several lines.
                 </p>
+                <p>${escapedHtmlWithMixedContent}</p>
                 <p>
                   An &lt;a href="example.com"&gt;inline HTML link&lt;/a&gt;.
                 </p>

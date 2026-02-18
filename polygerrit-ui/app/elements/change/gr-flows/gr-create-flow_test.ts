@@ -18,6 +18,8 @@ import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrAutocomplete} from '../../shared/gr-autocomplete/gr-autocomplete';
 import {GrSearchAutocomplete} from '../../core/gr-search-autocomplete/gr-search-autocomplete';
 import {FlowsModel, flowsModelToken} from '../../../models/flows/flows-model';
+import {changeModelToken} from '../../../models/change/change-model';
+import {createChange} from '../../../test/test-data-generators';
 import {testResolver} from '../../../test/common-test-setup';
 import {MdOutlinedTextField} from '@material/web/textfield/outlined-text-field';
 import {getAppContext} from '../../../services/app-context';
@@ -925,6 +927,36 @@ suite('gr-create-flow tests', () => {
           parameterStr: '',
         },
       ]);
+    });
+  });
+
+  suite('repoLabels calculation', () => {
+    test('repoLabels is calculated from change.permitted_labels', async () => {
+      const changeModel = testResolver(changeModelToken);
+      changeModel.updateStateChange({
+        ...createChange(),
+        project: 'test-project' as RepoName,
+        permitted_labels: {
+          'Code-Review': ['-1', ' 0', '+1'],
+          'Verified': ['-1', ' 0', '+1'],
+        },
+      });
+      await element.updateComplete;
+
+      assert.isDefined(element['repoLabels']);
+      assert.lengthOf(element['repoLabels']!, 2);
+      assert.equal(element['repoLabels']![0].name, 'Code-Review');
+      assert.deepEqual(element['repoLabels']![0].values, {
+        '-1': '',
+        ' 0': '',
+        '+1': '',
+      });
+      assert.equal(element['repoLabels']![1].name, 'Verified');
+      assert.deepEqual(element['repoLabels']![1].values, {
+        '-1': '',
+        ' 0': '',
+        '+1': '',
+      });
     });
   });
 });

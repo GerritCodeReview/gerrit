@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b2c73b8d_87a69031",
+        "filename": "java/com/google/gerrit/server/permissions/AbstractChangeControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2026-02-18T22:22:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1df656c4_feb246cd",
+      "range": {
+        "startLine": 112,
+        "startChar": 0,
+        "endLine": 114,
+        "endChar": 5
+      },
+      "revId": "262c5df2b91ee8fcca6bc9715fce3509cbfe11d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6497ee21_f718b488",
@@ -54,6 +78,30 @@
       "writtenOn": "2026-02-18T18:04:27Z",
       "side": 1,
       "message": "There is a problem here, as we\u0027ll be missing the `DENY` condition.\n\n`DENY` rules work by not adding the `ALLOW`, see the comment at `PermissionCollection.java:219`:\n\n```java\n        if (pr.getAction() \u003d\u003d PermissionRule.Action.DENY) {\n          // DENY rules work by not adding ALLOW rules. Nothing else to do.\n          continue;\n        }\n```\n\nIf I define an explicit `DENY` rule saying I don\u0027t want a branch reviewed by AI, it would be considered irrelevant and granted anyway.",
+      "range": {
+        "startLine": 197,
+        "startChar": 12,
+        "endLine": 197,
+        "endChar": 60
+      },
+      "revId": "262c5df2b91ee8fcca6bc9715fce3509cbfe11d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "36f9b9ba_623549be",
+        "filename": "java/com/google/gerrit/server/permissions/RefControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2026-02-18T22:22:16Z",
+      "side": 1,
+      "message": "there is a problem with the fact that by default we want to preserve the existing behaviour: enabling the experiment grants it to everyone... AFAIU that is not what is supported natively in Gerrit where permission is granted only when `ALLOW` is specified up in the hierarchy. So I believe it boils down to two options:\n1. if we want to stick to the existing Gerrit\u0027s behaviour then we need to `ALLOW` it somewhere in the hierarchy and `DENY`/`BLOCK` below\n2. develop temporary grant-by-default and ALOW/DENY/BLOCK as we have now in the chain...\n\nWDYT?",
+      "parentUuid": "6497ee21_f718b488",
       "range": {
         "startLine": 197,
         "startChar": 12,

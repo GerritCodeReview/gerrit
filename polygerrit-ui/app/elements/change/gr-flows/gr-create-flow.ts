@@ -190,12 +190,19 @@ export class GrCreateFlow extends LitElement {
     subscribe(
       this,
       () => this.getChangeModel().change$,
-      async change => {
+      change => {
         if (change) {
           this.labelSuggestionsProvider.setRepoName(change.project);
-          this.repoLabels = await this.restApiService.getRepoLabels(
-            change.project
-          );
+          const permittedLabels = change.permitted_labels ?? {};
+          this.repoLabels = Object.entries(permittedLabels)
+            .sort()
+            .map(
+              ([name, values]) =>
+                ({
+                  name,
+                  values: Object.fromEntries(values.map(v => [v, ''])),
+                } as LabelDefinitionInfo)
+            );
         } else {
           this.repoLabels = undefined;
         }

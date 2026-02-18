@@ -7,6 +7,7 @@ import '../../shared/gr-button/gr-button';
 import '../../shared/gr-icon/gr-icon';
 import '../gr-permission/gr-permission';
 import {
+  AccessPermissionId,
   AccessPermissions,
   PermissionArray,
   PermissionArrayItem,
@@ -38,6 +39,8 @@ import {repeat} from 'lit/directives/repeat.js';
 import '@material/web/select/outlined-select';
 import '@material/web/select/select-option';
 import {MdOutlinedSelect} from '@material/web/select/outlined-select';
+import {getAppContext} from '../../../services/app-context';
+import {KnownExperimentId} from '../../../services/flags/flags';
 
 const GLOBAL_NAME = 'GLOBAL_CAPABILITIES';
 
@@ -47,6 +50,8 @@ const REFS_NAME = 'refs/';
 
 @customElement('gr-access-section')
 export class GrAccessSection extends LitElement {
+  private readonly flagsService = getAppContext().flagsService;
+
   @query('#permissionSelect') private permissionSelect?: MdOutlinedSelect;
 
   @property({type: String})
@@ -356,7 +361,10 @@ export class GrAccessSection extends LitElement {
       );
     }
     return allPermissions.filter(
-      permission => !section.value.permissions[permission.id]
+      permission =>
+        !section.value.permissions[permission.id] &&
+        (permission.id !== AccessPermissionId.AI_REVIEW ||
+          this.flagsService.isEnabled(KnownExperimentId.ENABLE_AI_CHAT))
     );
   }
 

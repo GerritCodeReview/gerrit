@@ -119,6 +119,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3223bb93_b61e6826",
+        "filename": "polygerrit-ui/app/elements/change/gr-flows/gr-create-flow.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-02-18T13:29:41Z",
+      "side": 1,
+      "message": "Actually it should be\n\n```\n  repoLabels?: (Pick\u003cLabelDefinitionInfo, \u0027name\u0027\u003e \u0026\n    Pick\u003cLabelDefinitionInfo, \u0027values\u0027\u003e)[];\n```\n\nBrackets are required.",
+      "parentUuid": "fc4fb173_7b92a614",
+      "range": {
+        "startLine": 204,
+        "startChar": 18,
+        "endLine": 204,
+        "endChar": 40
+      },
+      "revId": "5878f18ab56566af0519c60f647b9a85452ff7d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ddffa60f_57bbd6b5",

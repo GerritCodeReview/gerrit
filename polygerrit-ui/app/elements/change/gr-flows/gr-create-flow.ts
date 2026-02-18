@@ -49,6 +49,7 @@ import {combineLatest} from 'rxjs';
 import {getUserName} from '../../../utils/display-name-util';
 import {LabelSuggestionsProvider} from '../../../services/label-suggestions-provider';
 import {unique} from '../../../utils/common-util';
+import {fireAlert} from '../../../utils/event-util';
 
 const MAX_AUTOCOMPLETE_RESULTS = 10;
 
@@ -700,8 +701,10 @@ export class GrCreateFlow extends LitElement {
   }
 
   private handleAddStage() {
-    if (this.currentCondition.trim() === '' && this.currentAction.trim() === '')
+    if (this.currentCondition.trim() === '') {
+      fireAlert(this, 'Condition string cannot be empty.');
       return;
+    }
     const condition =
       this.currentConditionPrefix === 'Gerrit'
         ? `${this.hostUrl} is ${this.currentCondition}`
@@ -727,6 +730,12 @@ export class GrCreateFlow extends LitElement {
     if (!this.changeNum) return;
 
     const allStages = [...this.stages];
+
+    if (allStages.length === 0) {
+      fireAlert(this, 'Add at least one stage with a condition.');
+      return;
+    }
+
     if (this.currentCondition.trim() !== '') {
       const condition =
         this.currentConditionPrefix === 'Gerrit'
@@ -739,7 +748,10 @@ export class GrCreateFlow extends LitElement {
       });
     }
 
-    if (allStages.length === 0) return; // Or show an error
+    if (allStages.some(s => s.condition.trim() === '')) {
+      fireAlert(this, 'All stages must have a condition.');
+      return;
+    }
 
     this.loading = true;
     const flowInput: FlowInput = {

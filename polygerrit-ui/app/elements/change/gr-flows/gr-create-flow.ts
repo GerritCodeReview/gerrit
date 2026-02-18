@@ -13,6 +13,7 @@ import {
   FlowActionInfo,
   FlowInput,
   LabelDefinitionInfo,
+  LabelDefinitionInfoFunction,
 } from '../../../api/rest-api';
 import {getAppContext} from '../../../services/app-context';
 import {NumericChangeId, ServerInfo} from '../../../types/common';
@@ -190,12 +191,21 @@ export class GrCreateFlow extends LitElement {
     subscribe(
       this,
       () => this.getChangeModel().change$,
-      async change => {
+      change => {
         if (change) {
           this.labelSuggestionsProvider.setRepoName(change.project);
-          this.repoLabels = await this.restApiService.getRepoLabels(
-            change.project
-          );
+          const permittedLabels = change.permitted_labels ?? {};
+          this.repoLabels = Object.entries(permittedLabels)
+            .sort(([nameA], [nameB]) => nameA.localeCompare(nameB))
+            .map(([name, values]) => {
+              return {
+                name,
+                values: Object.fromEntries(values.map(v => [v, ''])),
+                project_name: change.project,
+                function: LabelDefinitionInfoFunction.MaxWithBlock,
+                default_value: 0,
+              };
+            });
         } else {
           this.repoLabels = undefined;
         }

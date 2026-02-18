@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d6db1c71_149a9bef",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-02-18T18:04:27Z",
+      "side": 1,
+      "message": "It doesn\u0027t work as expected: I explicitly `DENY` AI review on a branch, but that\u0027s still allowed.",
+      "revId": "262c5df2b91ee8fcca6bc9715fce3509cbfe11d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1df656c4_feb246cd",
@@ -19,6 +36,29 @@
         "startChar": 0,
         "endLine": 114,
         "endChar": 5
+      },
+      "revId": "262c5df2b91ee8fcca6bc9715fce3509cbfe11d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6497ee21_f718b488",
+        "filename": "java/com/google/gerrit/server/permissions/RefControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-02-18T18:04:27Z",
+      "side": 1,
+      "message": "There is a problem here, as we\u0027ll be missing the `DENY` condition.\n\n`DENY` rules work by not adding the `ALLOW`, see the comment at `PermissionCollection.java:219`:\n\n```java\n        if (pr.getAction() \u003d\u003d PermissionRule.Action.DENY) {\n          // DENY rules work by not adding ALLOW rules. Nothing else to do.\n          continue;\n        }\n```\n\nIf I define an explicit `DENY` rule saying I don\u0027t want a branch reviewed by AI, it would be considered irrelevant and granted anyway.",
+      "range": {
+        "startLine": 197,
+        "startChar": 12,
+        "endLine": 197,
+        "endChar": 60
       },
       "revId": "262c5df2b91ee8fcca6bc9715fce3509cbfe11d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a6293e67_9513a91a",
+        "filename": "java/com/google/gerrit/server/change/AddReviewersOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-02-18T11:02:40Z",
+      "side": 1,
+      "message": "adding/removing a reviewer does create a change message?\n\nDid you mean `do` instead of `do not`?",
+      "range": {
+        "startLine": 125,
+        "startChar": 7,
+        "endLine": 125,
+        "endChar": 53
+      },
+      "revId": "e12ef56da1f00751a1b86fdbbea848fb1faddea2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

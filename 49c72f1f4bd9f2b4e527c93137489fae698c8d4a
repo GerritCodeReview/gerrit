@@ -70,6 +70,30 @@
       },
       "revId": "49c72f1f4bd9f2b4e527c93137489fae698c8d4a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5a669997_5eef2019",
+        "filename": "Documentation/dev-build-plugins.txt",
+        "patchSetId": 34
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-02-18T08:54:46Z",
+      "side": 1,
+      "message": "\u003e The existing overlap/allowlist checks in bazlets (e.g. runtime_jars_allowlist_test and \u003cplugin\u003e_no_overlap_with_gerrit) still ensure that plugins do not accidentally bundle libraries already provided by Gerrit’s runtime, so this approach should remain safe from version skew at runtime.\n\nThis only works for in-tree builds, but not if the plugin is built standalone. Of course our CI currently only performs in-tree builds, but for some users with unofficial plugins this might lead to unwanted results. We should at least document that.",
+      "parentUuid": "7b58586f_ca292873",
+      "range": {
+        "startLine": 141,
+        "startChar": 12,
+        "endLine": 141,
+        "endChar": 30
+      },
+      "revId": "49c72f1f4bd9f2b4e527c93137489fae698c8d4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

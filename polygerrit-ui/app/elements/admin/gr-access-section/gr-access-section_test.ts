@@ -7,9 +7,11 @@ import * as sinon from 'sinon';
 import '../../../test/common-test-setup';
 import './gr-access-section';
 import {
+  AccessPermissionId,
   AccessPermissions,
   toSortedPermissionsArray,
 } from '../../../utils/access-util';
+import {stubFlags} from '../../../test/test-utils';
 import {GrAccessSection} from './gr-access-section';
 import {GitRef} from '../../../types/common';
 import {queryAndAssert} from '../../../utils/common-util';
@@ -362,12 +364,34 @@ suite('gr-access-section tests', () => {
       assert.deepEqual(element.computePermissions(), expectedPermissions);
 
       // For everything else, include possible label values before filtering.
+      // AI Review is excluded because the experiment flag is disabled.
       element.section.id = 'refs/for/*' as GitRef;
       assert.deepEqual(
         element.computePermissions(),
         labelOptions
           .concat(toSortedPermissionsArray(AccessPermissions))
-          .filter(permission => permission.id !== 'read')
+          .filter(
+            permission =>
+              permission.id !== 'read' &&
+              permission.id !== AccessPermissionId.AI_REVIEW
+          )
+      );
+    });
+
+    test('computePermissions includes AI Review when flag enabled', () => {
+      stubFlags('isEnabled').returns(true);
+
+      element.section = {
+        id: 'refs/for/*' as GitRef,
+        value: {
+          permissions: {},
+        },
+      };
+      element.labels = {'Code-Review': {values: {}, default_value: 0}};
+
+      const permissions = element.computePermissions();
+      assert.isTrue(
+        permissions.some(p => p.id === AccessPermissionId.AI_REVIEW)
       );
     });
 

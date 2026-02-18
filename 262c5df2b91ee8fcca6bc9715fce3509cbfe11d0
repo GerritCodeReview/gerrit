@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1df656c4_feb246cd",
+        "filename": "java/com/google/gerrit/server/permissions/AbstractChangeControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-02-18T17:36:27Z",
+      "side": 1,
+      "message": "Why do we want this shortcut?\n\nI would just leave the ACL definitions to allow the administrator to perform AI review or not.",
+      "range": {
+        "startLine": 112,
+        "startChar": 0,
+        "endLine": 114,
+        "endChar": 5
+      },
+      "revId": "262c5df2b91ee8fcca6bc9715fce3509cbfe11d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

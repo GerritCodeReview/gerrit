@@ -72,7 +72,6 @@ import com.google.gerrit.extensions.common.ReviewerUpdateInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
-import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.CommentsUtil;
@@ -80,6 +79,7 @@ import com.google.gerrit.server.account.AccountControl;
 import com.google.gerrit.server.approval.ApprovalsUtil;
 import com.google.gerrit.server.project.testing.TestLabels;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.util.AccountTemplateUtil;
 import com.google.inject.Inject;
 import java.util.Collection;
 import org.apache.http.Header;
@@ -103,6 +103,7 @@ public class ImpersonationIT extends AbstractDaemonTest {
   @Inject private CommentsUtil commentsUtil;
   @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
+  @Inject private AccountTemplateUtil accountTemplateUtil;
 
   private TestAccount admin2;
   private GroupInfo newGroup;
@@ -1151,6 +1152,59 @@ public class ImpersonationIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void voteOnBehalfOfWithDisplayName() throws Exception {
+    allowCodeReviewOnBehalfOf();
+    TestAccount realUser = admin;
+    TestAccount impersonatedUser =
+        accountCreator.create("impersonated-display", null, null, "impersonated-display-name");
+    gApi.accounts().id(impersonatedUser.id().get()).setName("Impersonated Full Name");
+
+    PushOneCommit.Result r = createChange();
+
+    ReviewInput in = ReviewInput.recommend();
+    in.onBehalfOf = impersonatedUser.id().toString();
+    in.message = "Message on behalf of";
+    gApi.changes().id(r.getChangeId()).current().review(in);
+
+    assertLastChangeMessage(r.getChange(), in.message, impersonatedUser, realUser);
+  }
+
+  @Test
+  public void voteOnBehalfOfWithFullName() throws Exception {
+    allowCodeReviewOnBehalfOf();
+    TestAccount realUser = admin;
+    TestAccount impersonatedUser =
+        accountCreator.create("impersonated-fullname", null, "Impersonated Full Name", null);
+    // Ensure display name is not set
+    gApi.accounts().id(impersonatedUser.id().get()).setDisplayName("");
+
+    PushOneCommit.Result r = createChange();
+
+    ReviewInput in = ReviewInput.recommend();
+    in.onBehalfOf = impersonatedUser.id().toString();
+    in.message = "Message on behalf of";
+    gApi.changes().id(r.getChangeId()).current().review(in);
+
+    assertLastChangeMessage(r.getChange(), in.message, impersonatedUser, realUser);
+  }
+
+  @Test
+  public void voteOnBehalfOfWithNoName() throws Exception {
+    allowCodeReviewOnBehalfOf();
+    TestAccount realUser = admin;
+    TestAccount impersonatedUser = accountCreator.create("impersonated-noname", null, null, null);
+
+    PushOneCommit.Result r = createChange();
+
+    ReviewInput in = ReviewInput.recommend();
+    in.onBehalfOf = impersonatedUser.id().toString();
+    in.message = "Message on behalf of";
+    gApi.changes().id(r.getChangeId()).current().review(in);
+
+    assertLastChangeMessage(r.getChange(), in.message, impersonatedUser, realUser);
+  }
+
+  @Test
   public void addReviewerOnBehalfOf() throws Exception {
     allowRunAs();
     TestAccount realUser = admin;
@@ -1211,23 +1265,24 @@ public class ImpersonationIT extends AbstractDaemonTest {
       String expectedMessage,
       TestAccount expectedAuthor,
       TestAccount expectedRealAuthor)
-      throws RestApiException {
+      throws Exception {
     ChangeMessage m = Iterables.getLast(cmUtil.byChange(changeData.notes()));
     assertThat(m.getAuthor()).isEqualTo(expectedAuthor.id());
     assertThat(m.getRealAuthor()).isEqualTo(expectedRealAuthor.id());
 
     ChangeMessageInfo lastChangeMessageInfo =
-        Iterables.getLast(gApi.changes().id(changeData.getId().get()).get().messages);
+        Iterables.getLast(gApi.changes().id(changeData.getId().get()).get(MESSAGES).messages);
     assertThat(lastChangeMessageInfo.author._accountId).isEqualTo(expectedAuthor.id().get());
     if (expectedAuthor.id().equals(expectedRealAuthor.id())) {
       assertThat(lastChangeMessageInfo.message).endsWith(expectedMessage);
       assertThat(m.getMessage()).endsWith(expectedMessage);
       assertThat(lastChangeMessageInfo.realAuthor).isNull();
     } else {
-      assertThat(lastChangeMessageInfo.message)
-          .endsWith(concatImpersonationClause(expectedMessage, expectedAuthor, expectedRealAuthor));
-      assertThat(m.getMessage())
-          .endsWith(concatImpersonationClause(expectedMessage, expectedAuthor, expectedRealAuthor));
+      String expectedTemplateFullMessage =
+          concatImpersonationClause(expectedMessage, expectedAuthor, expectedRealAuthor);
+      assertThat(m.getMessage()).endsWith(expectedTemplateFullMessage);
+
+      assertThat(lastChangeMessageInfo.message).endsWith(expectedTemplateFullMessage);
       assertThat(lastChangeMessageInfo.realAuthor._accountId)
           .isEqualTo(expectedRealAuthor.id().get());
     }
@@ -1237,7 +1292,9 @@ public class ImpersonationIT extends AbstractDaemonTest {
       String message, TestAccount author, TestAccount realAuthor) {
     String impersonationClause =
         String.format(
-            "(Performed by %s on behalf of %s)", realAuthor.username(), author.username());
+            "(Performed by %s on behalf of %s)",
+            AccountTemplateUtil.getAccountTemplate(realAuthor.id()),
+            AccountTemplateUtil.getAccountTemplate(author.id()));
     if (message.isEmpty()) {
       return impersonationClause;
     }

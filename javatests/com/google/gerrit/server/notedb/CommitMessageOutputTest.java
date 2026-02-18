@@ -26,6 +26,7 @@ import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.SubmissionId;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser.ImpersonationPermissionMode;
+import com.google.gerrit.server.util.AccountTemplateUtil;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.testing.TestChanges;
 import java.time.ZoneOffset;
@@ -377,7 +378,11 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
             + "\n"
             + "Message on behalf of other user\n"
             + "\n"
-            + "(Performed by change@owner.com on behalf of other@account.com)\n"
+            + String.format(
+                "(Performed by %s on behalf of %s)",
+                AccountTemplateUtil.getAccountTemplate(changeOwner.getAccountId()),
+                AccountTemplateUtil.getAccountTemplate(otherUser.getAccountId()))
+            + "\n"
             + "\n"
             + "Patch-set: 1\n"
             + "Real-user: Gerrit User 1 <1@gerrit>",

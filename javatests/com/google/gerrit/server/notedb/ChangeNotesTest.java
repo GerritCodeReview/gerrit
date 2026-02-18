@@ -3568,7 +3568,10 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
         .isEqualTo(
             "Message on behalf of other user"
                 + "\n\n"
-                + "(Performed by change@owner.com on behalf of other@account.com)");
+                + String.format(
+                    "(Performed by %s on behalf of %s)",
+                    AccountTemplateUtil.getAccountTemplate(changeOwner.getAccountId()),
+                    AccountTemplateUtil.getAccountTemplate(otherUser.getAccountId())));
     assertThat(msg.getAuthor()).isEqualTo(otherUserId);
     assertThat(msg.getRealAuthor()).isEqualTo(changeOwner.getAccountId());
   }

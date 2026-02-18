@@ -427,6 +427,7 @@ export declare interface ChangeInfo {
   contains_git_conflicts?: boolean;
   submit_requirements?: SubmitRequirementResultInfo[];
   submit_records?: SubmitRecordInfo[];
+  can_ai_review?: boolean;
 }
 
 // The ID of the change in the format "'<project>~<branch>~<Change-Id>'"

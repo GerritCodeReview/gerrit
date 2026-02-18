@@ -110,6 +110,30 @@
       },
       "revId": "262c5df2b91ee8fcca6bc9715fce3509cbfe11d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "57de2028_73d7529e",
+        "filename": "java/com/google/gerrit/server/permissions/RefControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2026-02-18T22:24:34Z",
+      "side": 1,
+      "message": "The coverage verification is available [here](https://gerrit-review.googlesource.com/c/gerrit/+/553504/6/javatests/com/google/gerrit/acceptance/api/change/AiReviewPermissionIT.java)",
+      "parentUuid": "36f9b9ba_623549be",
+      "range": {
+        "startLine": 197,
+        "startChar": 12,
+        "endLine": 197,
+        "endChar": 60
+      },
+      "revId": "262c5df2b91ee8fcca6bc9715fce3509cbfe11d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

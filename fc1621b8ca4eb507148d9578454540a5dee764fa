@@ -16,6 +16,29 @@
       "message": "Can we request a Library-Compliance (LC) review here to help streamline dependency alignment between JGit and Gerrit?",
       "revId": "fc1621b8ca4eb507148d9578454540a5dee764fa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "af9e3562_016a4d73",
+        "filename": "tools/deps.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-02-18T20:23:40Z",
+      "side": 1,
+      "message": "Google’s internal builds currently use `javax.servlet:javax.servlet-api:4.0.1` (see change 552441).\n\nThis change introduces `jakarta.servlet:jakarta.servlet-api:4.0.4`, which still provides the `javax.servlet.*` namespace but uses different Maven coordinates.\n\nDo we want to align Servlet API usage across JGit (servlet-4), Gerrit, and Gitiles to the same coordinates to avoid dependency divergence?",
+      "range": {
+        "startLine": 68,
+        "startChar": 4,
+        "endLine": 72,
+        "endChar": 5
+      },
+      "revId": "fc1621b8ca4eb507148d9578454540a5dee764fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

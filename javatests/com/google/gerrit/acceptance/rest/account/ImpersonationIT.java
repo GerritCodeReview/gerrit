@@ -1231,6 +1231,65 @@ public class ImpersonationIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void addReviewerOnBehalfOf_consolidatedChangeMessage() throws Exception {
+    allowRunAs();
+    TestAccount realUser = admin;
+    TestAccount impersonatedUser = user;
+    TestAccount reviewer = admin2;
+    PushOneCommit.Result r = createChange();
+    assertThat(gApi.changes().id(r.getChangeId()).get(MESSAGES).messages).hasSize(1);
+
+    ReviewerInput in = new ReviewerInput();
+    in.reviewer = reviewer.email();
+    in.onBehalfOf = impersonatedUser.id().toString();
+    gApi.changes().id(r.getChangeId()).addReviewer(in);
+
+    ChangeInfo info = gApi.changes().id(r.getChangeId()).get(MESSAGES);
+    assertThat(info.messages).hasSize(2);
+    ChangeMessageInfo lastMessage = Iterables.getLast(info.messages);
+    assertThat(lastMessage.message).startsWith("Added reviewer");
+    assertThat(lastMessage.message).doesNotContain("Performed by");
+
+    Collection<ReviewerUpdateInfo> reviewerUpdates = info.reviewerUpdates;
+    assertThat(reviewerUpdates).hasSize(1);
+    ReviewerUpdateInfo reviewerUpdate = reviewerUpdates.iterator().next();
+    assertThat(reviewerUpdate.updatedBy._accountId).isEqualTo(impersonatedUser.id().get());
+    assertThat(reviewerUpdate.reviewer._accountId).isEqualTo(reviewer.id().get());
+    assertThat(reviewerUpdate.realUpdatedBy._accountId).isEqualTo(realUser.id().get());
+  }
+
+  @Test
+  public void removeReviewerOnBehalfOf_consolidatedChangeMessage() throws Exception {
+    allowRunAs();
+    TestAccount realUser = admin;
+    TestAccount impersonatedUser = user;
+    TestAccount reviewer = admin2;
+    PushOneCommit.Result r = createChange();
+    gApi.changes().id(r.getChangeId()).addReviewer(reviewer.email());
+    assertThat(gApi.changes().id(r.getChangeId()).get(MESSAGES).messages).hasSize(2);
+
+    DeleteReviewerInput in = new DeleteReviewerInput();
+    in.onBehalfOf = impersonatedUser.id().toString();
+    adminRestSession
+        .delete("/changes/" + r.getChangeId() + "/reviewers/" + reviewer.id().get(), in)
+        .assertOK();
+
+    ChangeInfo info = gApi.changes().id(r.getChangeId()).get(MESSAGES);
+    assertThat(info.messages).hasSize(3);
+    ChangeMessageInfo lastMessage = Iterables.getLast(info.messages);
+    assertThat(lastMessage.message).startsWith("Removed reviewer");
+    assertThat(lastMessage.message).doesNotContain("Performed by");
+
+    Collection<ReviewerUpdateInfo> reviewerUpdates = info.reviewerUpdates;
+    assertThat(reviewerUpdates).hasSize(2); // One for add, one for remove
+    ReviewerUpdateInfo reviewerUpdate =
+        reviewerUpdates.stream().filter(u -> u.state.equals("REMOVED")).findFirst().get();
+    assertThat(reviewerUpdate.updatedBy._accountId).isEqualTo(impersonatedUser.id().get());
+    assertThat(reviewerUpdate.reviewer._accountId).isEqualTo(reviewer.id().get());
+    assertThat(reviewerUpdate.realUpdatedBy._accountId).isEqualTo(realUser.id().get());
+  }
+
+  @Test
   public void addReviewerWithRunAs() throws Exception {
     allowRunAs();
     TestAccount realUser = admin;

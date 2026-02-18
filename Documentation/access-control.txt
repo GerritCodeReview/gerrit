@@ -1044,6 +1044,54 @@ keyed values (even without having the `Edit Custom Keyed Values` access right
 assigned).
 
 
+[[category_ai_review]]
+=== AI Review
+
+This category controls who is able to use AI-assisted review features,
+such as the "Review Agent" and "Create AI Review Prompt" buttons.
+
+This permission is only effective when the `UiFeature__enable_ai_chat`
+experiment is enabled.
+
+[NOTE]
+Unlike all other Gerrit permissions which use a default-deny model
+(access is denied unless an explicit 'ALLOW' rule grants it), the
+`aiReview` permission uses a *default-allow* model during the experiment
+phase. This means:
+
+* When no `aiReview` rules are configured, all users have access.
+* 'DENY' and 'BLOCK' rules can be used on their own to restrict specific
+  groups, without needing to first grant 'ALLOW' to everyone else.
+* When 'ALLOW' rules are present, the permission switches to the standard
+  model: only users matching an 'ALLOW' rule have access.
+* Site administrators are subject to the same rules as other users.
+
+This non-standard behavior will be removed when the experiment ends, at
+which point `aiReview` will follow the standard default-deny model like
+all other permissions.
+
+To restrict AI review to a specific group on all branches:
+
+----
+  [access "refs/heads/*"]
+    aiReview = group AI Reviewers
+----
+
+To deny a specific group while keeping access for everyone else:
+
+----
+  [access "refs/heads/*"]
+    aiReview = deny group Restricted Users
+----
+
+To block a group across all child projects (cannot be overridden):
+
+----
+  [access "refs/heads/*"]
+    aiReview = block group Restricted Users
+----
+
+
 [[example_roles]]
 == Examples of typical roles in a project
 

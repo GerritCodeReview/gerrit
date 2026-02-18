@@ -60,6 +60,7 @@ public abstract class AbstractChangeUpdate {
   @Nullable protected PatchSet.Id psId;
   private ObjectId result;
   boolean rootOnly;
+  private boolean suppressImpersonationMessage;
 
   protected AbstractChangeUpdate(
       ChangeNotes notes,
@@ -137,6 +138,10 @@ public abstract class AbstractChangeUpdate {
       return serverIdent;
     }
     throw new IllegalStateException();
+  }
+
+  public void setSuppressImpersonationMessage(boolean suppress) {
+    this.suppressImpersonationMessage = suppress;
   }
 
   public Change.Id getId() {
@@ -291,7 +296,7 @@ public abstract class AbstractChangeUpdate {
       throws IOException;
 
   private void addOptionalImpersonationMessage(CommitBuilder cb) {
-    if (realAccountId == null || realAccountId.equals(accountId)) {
+    if (suppressImpersonationMessage || realAccountId == null || realAccountId.equals(accountId)) {
       return;
     }
 

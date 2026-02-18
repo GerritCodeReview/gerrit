@@ -46,6 +46,30 @@
       },
       "revId": "8f18c08e99f90809b068f42f35cef64eda544624",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7d76d43f_1ab8b868",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/account/ImpersonationIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1169,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-02-18T07:33:29Z",
+      "side": 1,
+      "message": "Ok the actual check is happening here\n\n```\n      String expectedTemplateFullMessage \u003d\n          concatImpersonationClause\n```",
+      "parentUuid": "7bdb655f_ec17d323",
+      "range": {
+        "startLine": 1169,
+        "startChar": 43,
+        "endLine": 1169,
+        "endChar": 53
+      },
+      "revId": "8f18c08e99f90809b068f42f35cef64eda544624",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

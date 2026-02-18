@@ -16,6 +16,24 @@
       "message": "I think you want to squash this into the parent since we expect it to work this way as soon as the new review perm is introduced.",
       "revId": "b9315ff13ad9285af01b666979d69009a0e397bc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d7ef7348_2587e617",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-02-18T23:20:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eb88aba0_37b074f7",
+      "revId": "b9315ff13ad9285af01b666979d69009a0e397bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

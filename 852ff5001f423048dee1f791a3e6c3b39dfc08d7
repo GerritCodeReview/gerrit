@@ -183,6 +183,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "28444289_6facf35d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 961,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-02-18T23:24:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "373fe0d4_30eb198b",
+      "revId": "852ff5001f423048dee1f791a3e6c3b39dfc08d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "60175338_6db0ba2f",

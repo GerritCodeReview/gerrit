@@ -253,6 +253,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2eb723ce_4059a02c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-02-18T23:24:23Z",
+      "side": 1,
+      "message": "@ekempin@google.com can you take another look at this now? I think it won\u0027t cause issues for you with the new default implicit perm.",
+      "parentUuid": "2fa2722d_3fe4ca2d",
+      "revId": "bea114f75efad1ff9cf0c06696f267f68c7fc5d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "acc92e95_1cf66119",
         "filename": "java/com/google/gerrit/server/restapi/change/PostReview.java",
         "patchSetId": 4
@@ -300,6 +318,24 @@
       "side": 1,
       "message": "Or we change this to be a \"Change Metadata Write\" permission. That would cover a lot of things (maybe more than I intend), but it\u0027s a name that would probably scare people. It sounds more like a role, but maybe \"Change Participant\"? I think that term implies a level of power granted roughly equivalent to what this would do. i.e. you don\u0027t get any \"write\" perms on a change without this. If we don\u0027t like that name, we could also try something like \"Simple/Basic Change Write\".",
       "parentUuid": "14fd2dff_42df660a",
+      "revId": "bea114f75efad1ff9cf0c06696f267f68c7fc5d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "868854fc_8a68c9bc",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReview.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-02-18T23:24:23Z",
+      "side": 1,
+      "message": "Deferring these as separate perms for a follow-up change.",
+      "parentUuid": "4f558480_ea48e24d",
       "revId": "bea114f75efad1ff9cf0c06696f267f68c7fc5d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

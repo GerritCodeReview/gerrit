@@ -352,6 +352,7 @@ suite('gr-change-actions tests', () => {
       test('chatCapabilitiesLoaded', async () => {
         stubFlags('isEnabled').returns(true);
         element.aiPluginsRegistered = true;
+        element.change = {...element.change!, can_ai_review: true};
         chatModel.updateState({
           models: undefined,
           actions: undefined,
@@ -573,13 +574,20 @@ suite('gr-change-actions tests', () => {
       // Create 'reland' via addActionButton to mimic plugin behavior
       const relandKey = element.addActionButton(ActionType.CHANGE, 'Reland');
 
-      // Add other relevant actions
-      element.actions = {
-        abandon: {
-          method: HttpMethod.POST,
-          label: 'Abandon',
-          title: 'Abandon this change',
-          enabled: true,
+      // Mock AI Chat action - set can_ai_review before actions to avoid
+      // change setter overwriting element.actions
+      stubFlags('isEnabled').returns(true);
+      element.aiPluginsRegistered = true;
+      element.change = {
+        ...element.change!,
+        can_ai_review: true,
+        actions: {
+          abandon: {
+            method: HttpMethod.POST,
+            label: 'Abandon',
+            title: 'Abandon this change',
+            enabled: true,
+          },
         },
       };
       element.revisionActions = {
@@ -590,10 +598,6 @@ suite('gr-change-actions tests', () => {
           enabled: true,
         },
       };
-
-      // Mock AI Chat action
-      stubFlags('isEnabled').returns(true);
-      element.aiPluginsRegistered = true;
 
       await element.updateComplete;
       await element.reload();

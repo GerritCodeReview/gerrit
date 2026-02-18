@@ -167,6 +167,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "373fe0d4_30eb198b",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 961,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-02-18T03:09:29Z",
+      "side": 1,
+      "message": "\u003e We could also do both. Start with adding the fine-grained perms, then add the broader category.\n\nI think I\u0027ve landed on this as the appropriate path forward for now. I think we should rename `Review` as `PostReviewComment` so that it\u0027s very explicit what permission it grants and we should implicitly allow any user who can vote on a label to also post comments.\n\nIf we want a bigger toggle for any write action, I think we should come back to that later and really figure out how that UX (both for end users and admins) will work.",
+      "parentUuid": "74d69dd9_da556a76",
+      "revId": "852ff5001f423048dee1f791a3e6c3b39dfc08d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "60175338_6db0ba2f",
         "filename": "Documentation/access-control.txt",
         "patchSetId": 8

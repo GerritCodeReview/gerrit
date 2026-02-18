@@ -46,6 +46,30 @@
       },
       "revId": "e12ef56da1f00751a1b86fdbbea848fb1faddea2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6fab56de_98b87c2f",
+        "filename": "java/com/google/gerrit/server/change/AddReviewersOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-02-18T12:28:32Z",
+      "side": 1,
+      "message": "```\nNote that updating the reviewers does not generate a change message.\nInstead, a `ReviewerUpdateInfo` object is saved. Later, in the FE, the\nmessage and the reviewer-update lists are combined.\n```\n\nThis was the relevant bit.",
+      "parentUuid": "dd34890a_106da645",
+      "range": {
+        "startLine": 125,
+        "startChar": 7,
+        "endLine": 125,
+        "endChar": 53
+      },
+      "revId": "e12ef56da1f00751a1b86fdbbea848fb1faddea2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

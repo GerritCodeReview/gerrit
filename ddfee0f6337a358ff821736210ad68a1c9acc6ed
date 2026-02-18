@@ -16,6 +16,24 @@
       "message": "I\u0027d be nice to add some screenshot tests here, to ensure no future regressions.",
       "revId": "ddfee0f6337a358ff821736210ad68a1c9acc6ed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b5d92ca2_97d8dd1d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-02-18T15:16:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5b102f11_dbf0264b",
+      "revId": "ddfee0f6337a358ff821736210ad68a1c9acc6ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -455,6 +455,24 @@ export class GrCreateFlow extends LitElement {
       ${this.renderCustomConditions()}`;
   }
 
+  private renderDocumentationLink() {
+    const condition = this.customConditions.find(
+      condition => condition.name === this.currentAction
+    );
+    if (!condition || !condition.documentation) return;
+    return html` <a
+      href=${condition.documentation}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      <gr-icon
+        icon="help"
+        slot="trailing-icon"
+        title="Read documentation"
+      ></gr-icon>
+    </a>`;
+  }
+
   private renderCreateFlowDialog() {
     return html`
       <dialog id="createModal" tabindex="-1">
@@ -540,7 +558,9 @@ export class GrCreateFlow extends LitElement {
                             (this.currentCondition = (
                               e.target as MdOutlinedTextField
                             ).value)}
-                        ></md-outlined-text-field>`}
+                        >
+                          ${this.renderDocumentationLink()}
+                        </md-outlined-text-field>`}
                   </div>
                   <div class="stage-label">Action: Then</div>
                   <div class="stage-row">

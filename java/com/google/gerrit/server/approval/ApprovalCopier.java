@@ -486,9 +486,9 @@ public class ApprovalCopier {
       evaluateAtoms(copyConditionPredicate, ctx, passingAtoms, failingAtoms);
       return result;
     } catch (QueryParseException e) {
-      logger.atSevere().withCause(e).log(
-          "Unable to copy label because config is invalid. This should have been caught before.");
-      return false;
+      throw new IllegalStateException(
+          "Unable to copy label because config is invalid. This should have been caught before.",
+          e);
     }
   }
 

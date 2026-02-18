@@ -22,6 +22,30 @@
       },
       "revId": "e12ef56da1f00751a1b86fdbbea848fb1faddea2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dd34890a_106da645",
+        "filename": "java/com/google/gerrit/server/change/AddReviewersOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2026-02-18T11:09:08Z",
+      "side": 1,
+      "message": "Nope, I meant what I wrote.\n\nSee the description of I8890d5e96a4239169646998f01938f8838e5631b for context.",
+      "parentUuid": "a6293e67_9513a91a",
+      "range": {
+        "startLine": 125,
+        "startChar": 7,
+        "endLine": 125,
+        "endChar": 53
+      },
+      "revId": "e12ef56da1f00751a1b86fdbbea848fb1faddea2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

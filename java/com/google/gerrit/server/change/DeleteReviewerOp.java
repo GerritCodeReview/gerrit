@@ -126,6 +126,13 @@ public class DeleteReviewerOp extends ReviewerOp {
           PermissionBackendException,
           ResourceConflictException,
           IOException {
+    currChange = ctx.getChange();
+    setPatchSet(psUtil.current(ctx.getNotes()));
+
+    // Reviewer updates do not create change messages. In case of impersonation, we do not want to
+    // add an extra message to the log.
+    ctx.getUpdate(patchSet.id()).setSuppressImpersonationMessage(true);
+
     Account.Id reviewerId = reviewer.id();
     // Check of removing this reviewer (even if there is no vote processed by the loop below) is OK
     removeReviewerControl.checkRemoveReviewer(ctx.getNotes(), ctx.getUser(), reviewerId);
@@ -136,8 +143,6 @@ public class DeleteReviewerOp extends ReviewerOp {
               "Reviewer %s doesn't exist in the change, hence can't delete it",
               reviewer.getName()));
     }
-    currChange = ctx.getChange();
-    setPatchSet(psUtil.current(ctx.getNotes()));
 
     LabelTypes labelTypes =
         projectCache

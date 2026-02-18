@@ -121,6 +121,11 @@ public class AddReviewersOp extends ReviewerOp {
   @Override
   public boolean updateChange(ChangeContext ctx) throws RestApiException, IOException {
     change = ctx.getChange();
+
+    // Reviewer updates do not create change messages. In case of impersonation, we do not want to
+    // add an extra message to the log.
+    ctx.getUpdate(change.currentPatchSetId()).setSuppressImpersonationMessage(true);
+
     if (!accountIds.isEmpty()) {
       if (state == CC) {
         addedCCs =

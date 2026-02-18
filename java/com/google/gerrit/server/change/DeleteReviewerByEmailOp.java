@@ -71,9 +71,14 @@ public class DeleteReviewerByEmailOp extends ReviewerOp {
 
   @Override
   public boolean updateChange(ChangeContext ctx) throws PermissionBackendException, AuthException {
+    PatchSet.Id psId = ctx.getChange().currentPatchSetId();
+
+    // Reviewer updates do not create change messages. In case of impersonation, we do not want to
+    // add an extra message to the log.
+    ctx.getUpdate(psId).setSuppressImpersonationMessage(true);
+
     removeReviewerControl.checkRemoveReviewer(ctx.getNotes(), ctx.getUser(), null);
     change = ctx.getChange();
-    PatchSet.Id psId = ctx.getChange().currentPatchSetId();
     ChangeUpdate update = ctx.getUpdate(psId);
     update.removeReviewerByEmail(reviewer);
     // The reviewer is not a registered Gerrit user, thus the email address can be used in

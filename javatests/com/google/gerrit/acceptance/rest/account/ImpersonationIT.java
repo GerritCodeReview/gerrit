@@ -1085,7 +1085,9 @@ public class ImpersonationIT extends AbstractDaemonTest {
             runAsHeader(user.id()));
     res.assertOK();
 
-    assertLastChangeMessage(r.getChange(), in.message, user, admin);
+    ChangeMessageInfo m = Iterables.getLast(gApi.changes().id(r.getChangeId()).get().messages);
+    assertThat(m.message).endsWith(in.message);
+    assertThat(m.author._accountId).isEqualTo(user.id().get());
 
     CommentInfo c =
         Iterables.getOnlyElement(

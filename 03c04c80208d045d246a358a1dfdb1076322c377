@@ -52,6 +52,24 @@
       "parentUuid": "566edc4d_41a2ef3e",
       "revId": "03c04c80208d045d246a358a1dfdb1076322c377",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1be0de27_49e4456b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-02-19T06:55:03Z",
+      "side": 1,
+      "message": "Thanks, Sarah, for the quick fix. It works nicely, and I see the new shiny spark icon 🎉\n\nRe-taking all the screenshots for my Gerrit v3.14 presentation at the GerritMeets in Sunnyvale, CA (https://www.meetup.com/gerritmeets/events/312898799/) ... if you don\u0027t have plans for lunch, you can pop over and have lunch on us.",
+      "parentUuid": "6c2ceec2_17b298fd",
+      "revId": "03c04c80208d045d246a358a1dfdb1076322c377",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

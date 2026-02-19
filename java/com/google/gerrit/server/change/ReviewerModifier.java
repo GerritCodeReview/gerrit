@@ -130,6 +130,13 @@ public class ReviewerModifier {
 
     /** Whether the visibility check for the reviewer account should be skipped. */
     public boolean skipVisibilityCheck = false;
+
+    /**
+     * Whether an existing REVIEWER should be downgraded to CC if the input state is CC.
+     *
+     * <p>If false, and the account is already a REVIEWER, the state will remain REVIEWER.
+     */
+    public boolean allowDowngradeToCC = true;
   }
 
   public static InternalReviewerInput newReviewerInput(
@@ -161,6 +168,7 @@ public class ReviewerModifier {
     in.state = CC;
     in.notify = notify;
     in.otherFailureBehavior = FailureBehavior.IGNORE_ALL;
+    in.allowDowngradeToCC = false;
     return Optional.of(in);
   }
 
@@ -527,6 +535,10 @@ public class ReviewerModifier {
                 this.reviewersByEmail,
                 state(),
                 forGroup);
+        if (input instanceof InternalReviewerInput) {
+          ((AddReviewersOp) op)
+              .setAllowDowngradeToCC(((InternalReviewerInput) input).allowDowngradeToCC);
+        }
       }
       this.exactMatchFound = exactMatchFound;
     }

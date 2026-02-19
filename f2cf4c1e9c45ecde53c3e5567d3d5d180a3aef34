@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "332129af_8dd5c3fe",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-02-19T14:54:54Z",
+      "side": 1,
+      "message": "\u003e Found a better fix\n\nLet\u0027s get the fix approved before we submit the revert\n\nYou can create the fix as a child CL",
+      "revId": "f2cf4c1e9c45ecde53c3e5567d3d5d180a3aef34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

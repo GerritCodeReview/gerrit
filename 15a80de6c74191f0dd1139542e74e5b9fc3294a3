@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0f6d4b5c_f2f1da8f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-02-19T15:33:47Z",
+      "side": 1,
+      "message": "https://github.com/material-components/material-web/blob/main/docs/components/icon-button.md#api\n\n```\nThe default behavior of the button. May be \"button\", \"reset\", or \"submit\" (default).\n```\n\nOk so the main issue is the default is somehow `submit` that is causing this page to reload?\n\nUltra weird but yeah I guess a combo of `form` + `submit` button can cause this\n\nMaybe add this API docs to the commit message and add a comment to the code that the `type\u003d\"button\"` is required so that the page does not reload",
+      "revId": "15a80de6c74191f0dd1139542e74e5b9fc3294a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

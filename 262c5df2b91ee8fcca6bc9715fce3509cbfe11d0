@@ -158,6 +158,30 @@
       },
       "revId": "262c5df2b91ee8fcca6bc9715fce3509cbfe11d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bc1325f5_16273271",
+        "filename": "java/com/google/gerrit/server/permissions/RefControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-02-19T07:23:10Z",
+      "side": 1,
+      "message": "Yes, much better. Just a minor comment on the lack of ACL evaluation tracing.",
+      "parentUuid": "f91b5460_3f09bd3c",
+      "range": {
+        "startLine": 197,
+        "startChar": 12,
+        "endLine": 197,
+        "endChar": 60
+      },
+      "revId": "262c5df2b91ee8fcca6bc9715fce3509cbfe11d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

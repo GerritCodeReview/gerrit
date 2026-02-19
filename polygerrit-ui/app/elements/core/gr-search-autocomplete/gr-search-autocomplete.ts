@@ -271,7 +271,7 @@ export class GrSearchAutocomplete extends LitElement {
                 rel="noopener noreferrer"
                 tabindex="-1"
               >
-                <md-icon-button touch-target="none">
+                <md-icon-button touch-target="none" type="button">
                   <gr-icon icon="help" title="read documentation"></gr-icon>
                 </md-icon-button>
               </a>

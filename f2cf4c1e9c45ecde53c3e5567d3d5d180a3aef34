@@ -16,6 +16,23 @@
       "message": "\u003e Found a better fix\n\nLet\u0027s get the fix approved before we submit the revert\n\nYou can create the fix as a child CL",
       "revId": "f2cf4c1e9c45ecde53c3e5567d3d5d180a3aef34",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a6d954c0_f50a74e7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-02-19T15:34:49Z",
+      "side": 1,
+      "message": "Update the commit message with the link to the fix",
+      "revId": "f2cf4c1e9c45ecde53c3e5567d3d5d180a3aef34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

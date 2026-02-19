@@ -136,6 +136,18 @@ export class FlowsModel extends Model<FlowsState> {
     this.reload();
   }
 
+  async validate(
+    actionName: string,
+    parameters: string
+  ): Promise<string | undefined> {
+    for (const provider of this.getState().providers) {
+      if (!provider.validate) continue;
+      const errorMessage = await provider.validate(actionName, parameters);
+      if (errorMessage) return errorMessage;
+    }
+    return undefined;
+  }
+
   async createFlow(flowInput: FlowInput) {
     if (!this.changeNum) return;
     if (!this.getState().isEnabled) return;

@@ -39,6 +39,14 @@ export declare interface FlowsProvider {
    * List all custom conditions for the current user and the given change.
    */
   getCustomConditions(change: ChangeInfo): Promise<FlowCustomConditionInfo[]>;
+
+  /**
+   * Validates the given action and parameters.
+   *
+   * @return a promise that resolves to an error message, or undefined if the
+   *     validation was successful.
+   */
+  validate(actionName: string, parameters: string): Promise<string | undefined>;
 }
 
 export declare interface FlowsPluginApi {

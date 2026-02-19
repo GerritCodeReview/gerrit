@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6568dc5e_6afb9da7",
+        "filename": ".gitmodules",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-02-19T08:55:41Z",
+      "side": 0,
+      "message": "Please mention in the commit message that we are removing the Prettify submodule and will now consume it directly as a Bazel module during the Gitiles plugin build.\n\nZuul-CI also needs to be updated to avoid fetching this submodule during the plugin build. Please revert change 413380.",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 3,
+        "endChar": 23
+      },
+      "revId": "4235d7804767d6a3472e900ca5ba6495d7c5eca1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

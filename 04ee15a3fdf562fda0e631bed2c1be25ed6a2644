@@ -16,6 +16,24 @@
       "message": "We should also add the ACL logging for allowing an easier troubleshooting of common permission issues, as we do for all of the other permissions evaluations.\n\nExample:\n```\n    if (logger.atFine().isEnabled() || LoggingContext.getInstance().isAclLogging()) {\n      String logMessage \u003d\n          String.format(\n              \"\u0027%s\u0027 cannot perform \u0027%s\u0027 on project \u0027%s\u0027 for ref \u0027%s\u0027\",\n              getUser().getLoggableName(),\n              permissionName,\n              withForce,\n              projectControl.getProject().getName(),\n              refName);\n      LoggingContext.getInstance().addAclLogRecord(logMessage);\n      logger.atFine().log(\"%s\", logMessage);\n    }\n```",
       "revId": "04ee15a3fdf562fda0e631bed2c1be25ed6a2644",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2ffaec48_19df901f",
+        "filename": "java/com/google/gerrit/server/permissions/RefControl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2026-02-19T07:52:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d62a4872_2bda1215",
+      "revId": "04ee15a3fdf562fda0e631bed2c1be25ed6a2644",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

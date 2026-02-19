@@ -1,5 +1,29 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "67a4edc6_bba7602e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 1258,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-02-19T16:51:18Z",
+      "side": 1,
+      "message": "Wait a minute. This is breaking review agent functionality for google. Can we check if it is false  then return nulll and true or undefined are ok?\n\nI will prepare change",
+      "range": {
+        "startLine": 1256,
+        "startChar": 4,
+        "endLine": 1258,
+        "endChar": 5
+      },
+      "revId": "173547050b6f09cf8e1a53991527ff23e432c938",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

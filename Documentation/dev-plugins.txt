@@ -146,6 +146,16 @@ ones.
 However, these are not the only classes available for consumption; API plugins
 can also define and provide interfaces and concrete classes for other plugins.
 
+It is also possible to expose the whole plugin as the API to be used by other plugins.
+This is done by setting the `Gerrit-ApiPlugin` to `*`:
+
+---
+Gerrit-ApiModule: *
+---
+
+In that case, all bindings defined in plugin's `Gerrit-Module` are exposed to
+other plugins.
+
 This enables plugins to influence other plugins by customizing or extending the
 their behaviour.
 

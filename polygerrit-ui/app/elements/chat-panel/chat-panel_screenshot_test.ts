@@ -395,4 +395,46 @@ suite('chat-panel screenshot tests', () => {
     await visualDiff(element, 'chat-panel-history-scrolling');
     await visualDiffDarkTheme(element, 'chat-panel-history-scrolling');
   });
+
+  test('chat mode with models menu open', async () => {
+    chatModel.updateState({
+      ...chatModel.getState(),
+      models: {
+        default_model_id: 'gemini',
+        models: [
+          {
+            model_id: 'gemini',
+            short_text: 'Gemini',
+            full_display_text: 'Gemini Model',
+          },
+          {
+            model_id: 'gemini-ultra',
+            short_text: 'Gemini Ultra',
+            full_display_text: 'Gemini Ultra Model',
+          },
+          {
+            model_id: 'gemini-pro',
+            short_text: 'Gemini Pro',
+            full_display_text: 'Gemini Pro Model',
+          },
+        ],
+        documentation_url: 'http://example.com/docs',
+      },
+      turns: [],
+    });
+    element.style.display = 'block';
+    element.style.height = '600px';
+    await element.updateComplete;
+    const chatHeader = queryAndAssert(element, 'chat-header');
+    const selectModelTrigger = queryAndAssert<HTMLElement>(
+      chatHeader,
+      '#selectModelTrigger'
+    );
+    selectModelTrigger.click();
+    await element.updateComplete;
+    // Wait for the menu animation
+    await new Promise(resolve => setTimeout(resolve, 500));
+    await visualDiff(element, 'chat-panel-models-menu-open');
+    await visualDiffDarkTheme(element, 'chat-panel-models-menu-open');
+  });
 });

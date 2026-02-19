@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ad4d6fb9_e1fc5905",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-02-19T07:47:57Z",
+      "side": 1,
+      "message": "Missing documentation update on the REST-API",
+      "revId": "afbb684245baa89ed4dc28272c7b050385bc1788",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c0622c73_f45df2e3",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 7751,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-02-19T07:47:57Z",
+      "side": 1,
+      "message": "```suggestion\n|`can_ai_review`.     |optional, set to `true` if AI review is allowed on the change|\n|`revert_of`          |optional|\n```",
+      "revId": "afbb684245baa89ed4dc28272c7b050385bc1788",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

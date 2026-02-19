@@ -341,13 +341,16 @@ public class StreamEventsApiListener
     try {
       ChangeNotes notes = getNotes(ev.getChange());
       Change change = notes.getChange();
-      ReviewerAddedEvent event = new ReviewerAddedEvent(change);
 
-      event.change = changeAttributeSupplier(change, notes);
-      event.patchSet =
+      Supplier<ChangeAttribute> changeAttrs = changeAttributeSupplier(change, notes);
+      Supplier<PatchSetAttribute> patchSetAttrs =
           patchSetAttributeSupplier(changeDataFactory.create(notes), psUtil.current(notes));
-      event.adder = accountAttributeSupplier(ev.getWho());
+      Supplier<AccountAttribute> adderAccountAttrs = accountAttributeSupplier(ev.getWho());
       for (AccountInfo reviewer : ev.getReviewers()) {
+        ReviewerAddedEvent event = new ReviewerAddedEvent(change);
+        event.change = changeAttrs;
+        event.patchSet = patchSetAttrs;
+        event.adder = adderAccountAttrs;
         event.reviewer = accountAttributeSupplier(reviewer);
         dispatcher.run(d -> d.postEvent(event));
       }

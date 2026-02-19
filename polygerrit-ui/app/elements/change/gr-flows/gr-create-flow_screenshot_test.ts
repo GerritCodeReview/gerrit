@@ -65,4 +65,14 @@ suite('gr-create-flow screenshot tests', () => {
     await visualDiff(dialog, 'gr-create-flow-dialog');
     await visualDiffDarkTheme(dialog, 'gr-create-flow-dialog');
   });
+
+  test('raw mode screenshot', async () => {
+    // Switch to raw mode
+    element.isRawMode = true;
+    await element.updateComplete;
+
+    const dialog = queryAndAssert(element, '#createModal');
+    await visualDiff(dialog, 'gr-create-flow-dialog-raw-mode');
+    await visualDiffDarkTheme(dialog, 'gr-create-flow-dialog-raw-mode');
+  });
 });

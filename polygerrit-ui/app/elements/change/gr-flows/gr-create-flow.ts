@@ -103,6 +103,8 @@ export class GrCreateFlow extends LitElement {
   // private but used in tests
   flowActions: FlowActionInfo[] = [];
 
+  @state() isRawMode = false;
+
   private readonly restApiService = getAppContext().restApiService;
 
   private readonly getConfigModel = resolve(this, configModelToken);
@@ -359,7 +361,8 @@ export class GrCreateFlow extends LitElement {
     }
     if (
       changedProperties.has('stages') &&
-      !changedProperties.has('flowString')
+      !changedProperties.has('flowString') &&
+      !this.isRawMode
     ) {
       this.flowString = computeFlowString(this.stages);
     }
@@ -503,9 +506,21 @@ export class GrCreateFlow extends LitElement {
                 .value=${this.flowString}
                 @input=${(e: InputEvent) => {
                   this.flowString = (e.target as MdOutlinedTextField).value;
-                  this.parseStagesFromRawFlow(this.flowString);
+                  this.isRawMode = true;
                 }}
               ></md-outlined-text-field>
+              ${when(
+                this.isRawMode,
+                () => html`<gr-button
+                  @click=${() => {
+                    this.parseStagesFromRawFlow(this.flowString);
+                    this.isRawMode = false;
+                    this.flowString = computeFlowString(this.stages);
+                  }}
+                  title="Parse raw flow into stages"
+                  >Parse</gr-button
+                >`
+              )}
               <gr-copy-clipboard
                 .text=${this.flowString}
                 buttonTitle="Copy raw flow to clipboard"
@@ -535,9 +550,13 @@ export class GrCreateFlow extends LitElement {
             ${when(
               this.guidedBuilderExpanded,
               () => html`
-                <div>${this.renderStages()}</div>
-                <div class="add-stage-box">
-                  <div class="stage-label">Condition: IF</div>
+                ${when(
+                  this.isRawMode,
+                  () => html`<div style="margin-top: var(--spacing-m); color: var(--deemphasized-text-color);">Guided builder is disabled while editing raw flow. Click 'Parse' to enable.</div>`,
+                  () => html`
+                    <div>${this.renderStages()}</div>
+                    <div class="add-stage-box">
+                      <div class="stage-label">Condition: IF</div>
                   <div class="stage-row">
                     <md-outlined-select
                       value=${this.currentConditionPrefix}
@@ -594,7 +613,8 @@ export class GrCreateFlow extends LitElement {
                       >Add Stage</gr-button
                     >
                   </div>
-                </div>
+                </div>`
+                )}
               `
             )}
           </div>
@@ -725,6 +745,11 @@ export class GrCreateFlow extends LitElement {
 
   private async handleCreateFlow() {
     if (!this.changeNum) return;
+
+    if (this.isRawMode) {
+      this.parseStagesFromRawFlow(this.flowString);
+      this.isRawMode = false;
+    }
 
     const allStages = [...this.stages];
     if (this.currentCondition.trim() !== '') {

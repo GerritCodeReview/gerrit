@@ -263,14 +263,18 @@ export class GrSearchAutocomplete extends LitElement {
           ${when(
             !this.inputVal?.length,
             () => html`
-              <md-icon-button
+              <a
                 class="help"
                 slot="trailing-icon"
-                touch-target="none"
-                @click=${this.handleHelpClick}
+                href=${getDocUrl(this.docsBaseUrl, 'user-search.html')}
+                target="_blank"
+                rel="noopener noreferrer"
+                tabindex="-1"
               >
-                <gr-icon icon="help" title="read documentation"></gr-icon>
-              </md-icon-button>
+                <md-icon-button touch-target="none">
+                  <gr-icon icon="help" title="read documentation"></gr-icon>
+                </md-icon-button>
+              </a>
             `
           )}
         </gr-autocomplete>
@@ -409,14 +413,6 @@ export class GrSearchAutocomplete extends LitElement {
     assertIsDefined(this.queryInput, 'queryInput');
     this.queryInput.focus();
     this.queryInput.selectAll();
-  }
-
-  private handleHelpClick(e: Event) {
-    // There is another handler listening to this event triggering a reload
-    // of the change page, hence this event handler is required
-    e.preventDefault();
-    e.stopPropagation();
-    window.open(getDocUrl(this.docsBaseUrl, 'user-search.html'), '_blank');
   }
 
   private handleQueryTextChanged(e: ValueChangedEvent) {

@@ -65,14 +65,18 @@ suite('gr-search-autocomplete tests', () => {
             skip-commit-on-item-select=""
             tab-complete=""
           >
-            <md-icon-button
+            <a
               class="help"
+              href="https://mydocumentationurl.google.com/user-search.html"
+              rel="noopener noreferrer"
               slot="trailing-icon"
-              touch-target="none"
-              value=""
+              tabindex="-1"
+              target="_blank"
             >
-              <gr-icon icon="help" title="read documentation"> </gr-icon>
-            </md-icon-button>
+              <md-icon-button touch-target="none" value="">
+                <gr-icon icon="help" title="read documentation"> </gr-icon>
+              </md-icon-button>
+            </a>
           </gr-autocomplete>
         </form>
       `

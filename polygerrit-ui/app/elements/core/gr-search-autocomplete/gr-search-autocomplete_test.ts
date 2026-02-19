@@ -73,7 +73,7 @@ suite('gr-search-autocomplete tests', () => {
               tabindex="-1"
               target="_blank"
             >
-              <md-icon-button touch-target="none" value="">
+              <md-icon-button touch-target="none" type="button" value="">
                 <gr-icon icon="help" title="read documentation"> </gr-icon>
               </md-icon-button>
             </a>

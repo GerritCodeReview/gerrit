@@ -150,7 +150,7 @@ suite('gr-create-flow tests', () => {
         },
       ]);
       assert.equal(element['currentCondition'], '');
-      assert.equal(element['currentAction'], 'act-1');
+      assert.equal(element['currentAction'], '');
 
       searchAutocomplete.value = 'cond 2';
       await element.updateComplete;
@@ -626,6 +626,31 @@ suite('gr-create-flow tests', () => {
   });
 
   suite('parameter input field', () => {
+    test('is disabled when no action is selected', async () => {
+      element.currentAction = '';
+      await element.updateComplete;
+
+      let textfield = queryAndAssert<MdOutlinedTextField>(
+        element,
+        '.textfield-input'
+      );
+      assert.isTrue(textfield.disabled);
+
+      const actionInput = queryAndAssert<MdOutlinedSelect>(
+        element,
+        'md-outlined-select[label="Action"]'
+      );
+      actionInput.value = 'act-1';
+      actionInput.dispatchEvent(new Event('change'));
+      await element.updateComplete;
+
+      textfield = queryAndAssert<MdOutlinedTextField>(
+        element,
+        '.textfield-input'
+      );
+      assert.isFalse(textfield.disabled);
+    });
+
     test('renders md-outlined-text-field for non-add-reviewer action', async () => {
       const actionInput = queryAndAssert<MdOutlinedSelect>(
         element,

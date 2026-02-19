@@ -82,6 +82,7 @@ public class AddReviewersOp extends ReviewerOp {
   private final Collection<Address> addresses;
   private final ReviewerState state;
   private final boolean forGroup;
+  private boolean allowDowngradeToCC = true;
 
   // Unlike addedCCs, addedReviewers is a PatchSetApproval because the ReviewerResult returned
   // via the REST API is supposed to include vote information.
@@ -118,6 +119,10 @@ public class AddReviewersOp extends ReviewerOp {
     this.forGroup = forGroup;
   }
 
+  public void setAllowDowngradeToCC(boolean allowDowngradeToCC) {
+    this.allowDowngradeToCC = allowDowngradeToCC;
+  }
+
   @Override
   public boolean updateChange(ChangeContext ctx) throws RestApiException, IOException {
     change = ctx.getChange();
@@ -130,7 +135,10 @@ public class AddReviewersOp extends ReviewerOp {
       if (state == CC) {
         addedCCs =
             approvalsUtil.addCcs(
-                ctx.getNotes(), ctx.getUpdate(change.currentPatchSetId()), accountIds, forGroup);
+                ctx.getNotes(),
+                ctx.getUpdate(change.currentPatchSetId()),
+                accountIds,
+                forGroup || !allowDowngradeToCC);
       } else {
         addedReviewers =
             approvalsUtil.addReviewers(

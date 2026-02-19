@@ -37,6 +37,8 @@ import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_REVI
 import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_ACCOUNTS;
 import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
 import static com.google.gerrit.extensions.client.ListChangesOption.MESSAGES;
+import static com.google.gerrit.extensions.client.ReviewerState.CC;
+import static com.google.gerrit.extensions.client.ReviewerState.REVIEWER;
 import static com.google.gerrit.extensions.common.testing.EditInfoSubject.assertThat;
 import static com.google.gerrit.server.git.receive.ReceiveConstants.PUSH_OPTION_SKIP_VALIDATION;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
@@ -802,6 +804,30 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
                 + ",r="
                 + user.email());
     r.assertErrorStatus(nonExistingEmail + " does not identify a registered user or group");
+  }
+
+  @Test
+  public void authorRemainsReviewerOnNewPatchSet() throws Exception {
+    PushOneCommit.Result r = pushTo("refs/for/master");
+    String changeId = r.getChangeId();
+
+    TestAccount user = accountCreator.user1();
+    gApi.changes().id(changeId).addReviewer(user.email());
+
+    PushOneCommit push =
+        pushFactory.create(user.newIdent(), testRepo, "Subject", "file.txt", "content", changeId);
+    r = push.to("refs/for/master");
+    r.assertOkStatus();
+
+    ChangeInfo changeInfo = gApi.changes().id(changeId).get();
+    Collection<AccountInfo> reviewers = changeInfo.reviewers.get(REVIEWER);
+    assertThat(reviewers).isNotNull();
+    assertThat(reviewers.stream().anyMatch(a -> a._accountId == user.id().get())).isTrue();
+
+    Collection<AccountInfo> ccs = changeInfo.reviewers.get(CC);
+    if (ccs != null) {
+      assertThat(ccs.stream().anyMatch(a -> a._accountId == user.id().get())).isFalse();
+    }
   }
 
   @Test

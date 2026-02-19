@@ -35,6 +35,7 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.jar.Attributes;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
 import org.eclipse.jgit.internal.storage.file.FileSnapshot;
@@ -143,7 +144,8 @@ public class JarPluginProvider implements ServerPluginProvider {
       URLClassLoader pluginLoader =
           URLClassLoader.newInstance(urls.toArray(new URL[urls.size()]), parentClassLoader);
 
-      if (manifest.getMainAttributes().getValue(ServerPlugin.API_MODULE) != null) {
+      Attributes attributes = manifest.getMainAttributes();
+      if (attributes.getValue(ServerPlugin.API_MODULE) != null) {
         pluginApiClassLoader = pluginLoader;
       }
 

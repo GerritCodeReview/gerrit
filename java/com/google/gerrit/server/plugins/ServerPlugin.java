@@ -52,6 +52,7 @@ public class ServerPlugin extends Plugin {
   protected Class<? extends Module> sshModule;
   protected Class<? extends Module> httpModule;
   private Class<? extends Module> apiModuleClass;
+  private boolean wholePluginIsApi;
 
   private Injector apiInjector;
   private Injector sysInjector;
@@ -111,7 +112,11 @@ public class ServerPlugin extends Plugin {
       this.sysModule = load(sysName, classLoader);
       this.sshModule = load(sshName, classLoader);
       this.httpModule = load(httpName, classLoader);
-      this.apiModuleClass = load(apiName, classLoader);
+      if ("*".equals(apiName)) {
+        this.wholePluginIsApi = true;
+      } else {
+        this.apiModuleClass = load(apiName, classLoader);
+      }
     } catch (ClassNotFoundException e) {
       throw new InvalidPluginException("Unable to load plugin Guice Modules", e);
     }
@@ -221,14 +226,16 @@ public class ServerPlugin extends Plugin {
     }
 
     Injector baseInjector;
-    if (apiModuleClass == null) {
+    if (apiModuleClass == null && !wholePluginIsApi) {
       baseInjector = newRootInjector(env);
     } else {
       baseInjector = newRootInjectorWithApiModule(env, apiModuleClass);
     }
     serverManager.add(baseInjector);
 
-    if (sysModule != null) {
+    if (wholePluginIsApi) {
+      sysInjector = baseInjector;
+    } else if (sysModule != null) {
       sysInjector = baseInjector.createChildInjector(baseInjector.getInstance(sysModule));
       serverManager.add(sysInjector);
     } else if (auto != null && auto.sysModule != null) {
@@ -294,8 +301,12 @@ public class ServerPlugin extends Plugin {
     Injector baseInjector =
         Optional.ofNullable(env.getApiInjector())
             .orElseGet(() -> Guice.createInjector(env.getSysModule()));
-    apiModule = Optional.of(baseInjector.getInstance(apiModuleClass));
-    apiInjector = baseInjector.createChildInjector(apiModule.get());
+    if (wholePluginIsApi) {
+      apiInjector = baseInjector.createChildInjector(baseInjector.getInstance(sysModule));
+    } else {
+      apiModule = Optional.of(baseInjector.getInstance(apiModuleClass));
+      apiInjector = baseInjector.createChildInjector(apiModule.get());
+    }
 
     return apiInjector.createChildInjector(
         new ServerPluginInfoModule(this, env.getServerMetrics()));

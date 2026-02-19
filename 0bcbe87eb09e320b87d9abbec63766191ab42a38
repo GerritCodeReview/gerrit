@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0b5b4649_43beb37e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-02-19T17:30:26Z",
+      "side": 1,
+      "message": "Do we know if any of these new versions bring useful features to Gerrit? I\u0027m thinking Commonmark in particular.",
+      "revId": "0bcbe87eb09e320b87d9abbec63766191ab42a38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

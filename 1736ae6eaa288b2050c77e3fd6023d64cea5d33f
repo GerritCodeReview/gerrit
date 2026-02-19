@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2185b54d_22b35f53",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-02-19T18:25:25Z",
+      "side": 1,
+      "message": "I would mention that this has been specifically seen with the webhooks plugin, but likely could happen to others.",
+      "revId": "1736ae6eaa288b2050c77e3fd6023d64cea5d33f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

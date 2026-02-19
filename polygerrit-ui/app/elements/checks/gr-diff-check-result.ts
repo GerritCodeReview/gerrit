@@ -6,6 +6,7 @@
 import '../shared/gr-icon/gr-icon';
 import {css, html, LitElement, nothing, PropertyValues} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
+import {KnownExperimentId} from '../../services/flags/flags';
 import {RunResult} from '../../models/checks/checks-model';
 import {
   computeIsExpandable,
@@ -285,6 +286,13 @@ export class GrDiffCheckResult extends LitElement {
   }
 
   private shouldShowAIFixButton() {
+    if (
+      !getAppContext().flagsService.isEnabled(
+        KnownExperimentId.ML_SUGGESTED_EDIT_GET_FIX
+      )
+    ) {
+      return false;
+    }
     if (
       !this.getSuggestionsService()?.isGeneratedSuggestedFixEnabled(
         this.result?.codePointers?.[0].path

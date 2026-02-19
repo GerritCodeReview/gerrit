@@ -8,6 +8,7 @@ import {checkRun1} from '../../test/test-data-generators';
 import {RunResult} from '../../models/checks/checks-model';
 import '../../test/common-test-setup';
 import {queryAndAssert} from '../../utils/common-util';
+import {stubFlags} from '../../test/test-utils';
 import './gr-diff-check-result';
 import {GrDiffCheckResult} from './gr-diff-check-result';
 import {GrButton} from '../shared/gr-button/gr-button';
@@ -25,6 +26,7 @@ suite('gr-diff-check-result tests', () => {
     sinon
       .stub(suggestionsService, 'isGeneratedSuggestedFixEnabled')
       .returns(true);
+    stubFlags('isEnabled').returns(true);
     sinon.stub(suggestionsService, 'generateSuggestedFix').resolves({
       description: 'AI suggested fix',
       replacements: [

@@ -19,6 +19,7 @@ import {customElement, property, query, state} from 'lit/decorators.js';
 import './gr-checks-action';
 import './gr-hovercard-run';
 import '../shared/gr-tooltip-content/gr-tooltip-content';
+import {KnownExperimentId} from '../../services/flags/flags';
 import {
   Action,
   Category,
@@ -625,6 +626,9 @@ export class GrResultRow extends LitElement {
     }
 
     if (
+      getAppContext().flagsService.isEnabled(
+        KnownExperimentId.ML_SUGGESTED_EDIT_GET_FIX
+      ) &&
       this.getSuggestionsService()?.isGeneratedSuggestedFixEnabled(
         this.result?.codePointers?.[0]?.path
       ) &&

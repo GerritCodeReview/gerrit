@@ -25,6 +25,7 @@ import {
   mockPromise,
   query,
   queryAndAssert,
+  stubFlags,
   stubRestApi,
   waitUntil,
   waitUntilCalled,
@@ -606,6 +607,7 @@ suite('gr-comment-thread tests', () => {
       sinon
         .stub(suggestionsService, 'isGeneratedSuggestedFixEnabled')
         .returns(true);
+      stubFlags('isEnabled').returns(true);
 
       element.isOwner = true;
       element.account = createAccountDetailWithId(13);

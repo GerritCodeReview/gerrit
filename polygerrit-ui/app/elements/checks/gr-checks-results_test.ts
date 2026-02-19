@@ -20,7 +20,12 @@ import {
 } from '../../test/test-data-generators';
 import {resolve} from '../../models/dependency';
 import {createLabelInfo} from '../../test/test-data-generators';
-import {assertIsDefined, query, queryAndAssert} from '../../utils/common-util';
+import {
+  assertIsDefined,
+  query,
+  queryAndAssert,
+} from '../../utils/common-util';
+import {stubFlags} from '../../test/test-utils';
 import {PatchSetNumber} from '../../api/rest-api';
 import {GrDropdownList} from '../shared/gr-dropdown-list/gr-dropdown-list';
 
@@ -33,6 +38,7 @@ suite('gr-result-row test', () => {
       html`<gr-result-row .result=${result}></gr-result-row>`
     );
     element.shouldRender = true;
+    stubFlags('isEnabled').returns(true);
   });
 
   test('renders label association', async () => {

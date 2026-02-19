@@ -33,6 +33,7 @@ import {
   createDefaultDiffPrefs,
   SpecialFilePath,
 } from '../../../constants/constants';
+import {KnownExperimentId} from '../../../services/flags/flags';
 import {computeDisplayPath} from '../../../utils/path-list-util';
 import {
   AccountDetailInfo,
@@ -998,6 +999,13 @@ export class GrCommentThread extends LitElement {
   }
 
   private shouldShowAIFixButton(): boolean {
+    if (
+      !getAppContext().flagsService.isEnabled(
+        KnownExperimentId.ML_SUGGESTED_EDIT_GET_FIX
+      )
+    ) {
+      return false;
+    }
     if (!this.thread || !this.account) return false;
     if (this.thread.comments.length !== 1) return false;
     const comment = this.thread.comments[0];

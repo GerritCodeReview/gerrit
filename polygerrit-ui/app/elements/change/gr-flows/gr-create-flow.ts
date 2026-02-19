@@ -372,9 +372,6 @@ export class GrCreateFlow extends LitElement {
     this.flowActions = (actions ?? []).sort((a, b) =>
       a.name.localeCompare(b.name)
     );
-    if (this.flowActions.length > 0) {
-      this.currentAction = this.flowActions[0].name;
-    }
   }
 
   private renderStages() {
@@ -874,6 +871,7 @@ export class GrCreateFlow extends LitElement {
       label="Parameters"
       .placeholder=${this.getParametersPlaceholder(this.currentAction)}
       .value=${this.currentParameter}
+      ?disabled=${!this.currentAction}
       @input=${(e: InputEvent) =>
         (this.currentParameter = (e.target as MdOutlinedTextField).value)}
     ></md-outlined-text-field>`;

@@ -6,11 +6,11 @@ load("//tools/bzl:maven_jar.bzl", "GERRIT", "maven_jar")
 
 CAFFEINE_VERS = "2.9.2"
 ANTLR_VERS = "3.5.2"
-COMMONMARK_VERSION = "0.21.0"
+COMMONMARK_VERSION = "0.24.0"
 GREENMAIL_VERS = "1.5.5"
 MAIL_VERS = "1.6.0"
 MIME4J_VERS = "0.8.1"
-OW2_VERS = "9.7"
+OW2_VERS = "9.9.1"
 AUTO_VALUE_GSON_VERSION = "1.3.1"
 PROLOG_VERS = "1.4.4"
 PROLOG_REPO = GERRIT
@@ -94,8 +94,8 @@ def java_dependencies():
 
     maven_jar(
         name = "guava-failureaccess",
-        artifact = "com.google.guava:failureaccess:1.0.1",
-        sha1 = "1dcf1de382a0bf95a3d8b0849546c88bac1292c9",
+        artifact = "com.google.guava:failureaccess:1.0.3",
+        sha1 = "aeaffd00d57023a2c947393ed251f0354f0985fc",
     )
 
     maven_jar(
@@ -112,8 +112,8 @@ def java_dependencies():
 
     maven_jar(
         name = "commons-codec",
-        artifact = "commons-codec:commons-codec:1.15",
-        sha1 = "49d94806b6e3dc933dacbd8acb0fdbab8ebd1e5d",
+        artifact = "commons-codec:commons-codec:1.18.0",
+        sha1 = "ee45d1cf6ec2cc2b809ff04b4dc7aec858e0df8f",
     )
 
     # When upgrading commons-compress, also upgrade tukaani-xz
@@ -171,26 +171,26 @@ def java_dependencies():
     maven_jar(
         name = "commonmark",
         artifact = "org.commonmark:commonmark:" + COMMONMARK_VERSION,
-        sha1 = "c98f0473b17c87fe4fa2fc62a7c6523a2fe018f0",
+        sha1 = "59af01016ece382b55b4acb6a5190b08879c637c",
     )
 
     maven_jar(
         name = "cm-autolink",
         artifact = "org.commonmark:commonmark-ext-autolink:" + COMMONMARK_VERSION,
-        sha1 = "55c0312cf443fa3d5af0daeeeca00d6deee3cf90",
+        sha1 = "703e28852088ff1b4b3a06622416fd807147bd84",
     )
 
     maven_jar(
         name = "gfm-strikethrough",
         artifact = "org.commonmark:commonmark-ext-gfm-strikethrough:" + COMMONMARK_VERSION,
-        sha1 = "953f4b71e133a98fcca93f3c3f4e58b895b76d1f",
+        sha1 = "9e9c1e5b50340643099d52c6b841f60fb6f54c27",
     )
 
     maven_jar(
         name = "gfm-tables",
         artifact = "org.commonmark:commonmark-ext-gfm-tables:" + COMMONMARK_VERSION,
         attach_source = False,
-        sha1 = "fb7d65fa89a4cfcd2f51535d2549b570cf1dbd1a",
+        sha1 = "8a30c4e89ce33450c47604325751bec613bce541",
     )
 
     maven_jar(
@@ -203,8 +203,8 @@ def java_dependencies():
     # Transitive dependency of flexmark and gitiles
     maven_jar(
         name = "autolink",
-        artifact = "org.nibor.autolink:autolink:0.10.0",
-        sha1 = "6579ea7079be461e5ffa99f33222a632711cc671",
+        artifact = "org.nibor.autolink:autolink:0.11.0",
+        sha1 = "32abc7854d5801d19ff16be92362fa4c511d9a70",
     )
 
     maven_jar(
@@ -240,31 +240,31 @@ def java_dependencies():
     maven_jar(
         name = "ow2-asm",
         artifact = "org.ow2.asm:asm:" + OW2_VERS,
-        sha1 = "073d7b3086e14beb604ced229c302feff6449723",
+        sha1 = "2ceea6ab43bcae1979b2a6d85fc0ca429877e5ab",
     )
 
     maven_jar(
         name = "ow2-asm-analysis",
         artifact = "org.ow2.asm:asm-analysis:" + OW2_VERS,
-        sha1 = "e4a258b7eb96107106c0599f0061cfc1832fe07a",
+        sha1 = "1ab8d9316ef7a67240087919a708246c37ed1660",
     )
 
     maven_jar(
         name = "ow2-asm-commons",
         artifact = "org.ow2.asm:asm-commons:" + OW2_VERS,
-        sha1 = "e86dda4696d3c185fcc95d8d311904e7ce38a53f",
+        sha1 = "ab35de4c537184a09339069f1a3b3aacf2289149",
     )
 
     maven_jar(
         name = "ow2-asm-tree",
         artifact = "org.ow2.asm:asm-tree:" + OW2_VERS,
-        sha1 = "e446a17b175bfb733b87c5c2560ccb4e57d69f1a",
+        sha1 = "b6b1b3366296163b4b1f540731aad0a2baa484d8",
     )
 
     maven_jar(
         name = "ow2-asm-util",
         artifact = "org.ow2.asm:asm-util:" + OW2_VERS,
-        sha1 = "c0655519f24d92af2202cb681cd7c1569df6ead6",
+        sha1 = "e51f5b0ae0b0c1960687ae970a2a3434d39d8abb",
     )
 
     maven_jar(
@@ -371,8 +371,8 @@ def java_dependencies():
 
     maven_jar(
         name = "icu4j",
-        artifact = "com.ibm.icu:icu4j:77.1",
-        sha1 = "38693cf0b1d7362a8b726af74dc06026a7c23809",
+        artifact = "com.ibm.icu:icu4j:78.2",
+        sha1 = "31b9d9a35d283432d0ce1a8b6e2631dcfd046ab8",
     )
 
     maven_jar(
@@ -432,8 +432,8 @@ def java_dependencies():
 
     maven_jar(
         name = "diffutils",
-        artifact = "com.googlecode.java-diff-utils:diffutils:1.3.0",
-        sha1 = "7e060dd5b19431e6d198e91ff670644372f60fbd",
+        artifact = "io.github.java-diff-utils:java-diff-utils:4.16",
+        sha1 = "cca1e7dc2460d0afeebc3fc4a3386eadede08c5a",
     )
 
     maven_jar(
@@ -498,8 +498,8 @@ def java_dependencies():
 
     maven_jar(
         name = "mockito",
-        artifact = "org.mockito:mockito-core:5.6.0",
-        sha1 = "550b7a0eb22e1d72d33dcc2e5ef6954f73100d76",
+        artifact = "org.mockito:mockito-core:5.21.0",
+        sha1 = "121287b8287464a5a7af2e47d5dbc49ca38a892f",
     )
 
     maven_jar(

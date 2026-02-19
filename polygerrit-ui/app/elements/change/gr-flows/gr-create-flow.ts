@@ -48,8 +48,9 @@ import {changeModelToken} from '../../../models/change/change-model';
 import {combineLatest} from 'rxjs';
 import {getUserName} from '../../../utils/display-name-util';
 import {LabelSuggestionsProvider} from '../../../services/label-suggestions-provider';
-import {unique} from '../../../utils/common-util';
+import {queryAndAssert, unique} from '../../../utils/common-util';
 import {fireAlert} from '../../../utils/event-util';
+import {MdOutlinedSelect} from '@material/web/select/outlined-select.js';
 
 const MAX_AUTOCOMPLETE_RESULTS = 10;
 
@@ -372,9 +373,6 @@ export class GrCreateFlow extends LitElement {
     this.flowActions = (actions ?? []).sort((a, b) =>
       a.name.localeCompare(b.name)
     );
-    if (this.flowActions.length > 0) {
-      this.currentAction = this.flowActions[0].name;
-    }
   }
 
   private renderStages() {
@@ -718,8 +716,17 @@ export class GrCreateFlow extends LitElement {
       },
     ];
     this.currentCondition = '';
-    this.currentAction = this.flowActions[0]?.name ?? '';
+    this.currentAction = '';
+    this.resetActionDropdown();
     this.currentParameter = '';
+  }
+
+  private resetActionDropdown() {
+    const actionDropdown = queryAndAssert<MdOutlinedSelect>(
+      this,
+      'md-outlined-select[label="Action"]'
+    );
+    actionDropdown.reset();
   }
 
   private handleRemoveStage(index: number) {
@@ -874,6 +881,7 @@ export class GrCreateFlow extends LitElement {
       label="Parameters"
       .placeholder=${this.getParametersPlaceholder(this.currentAction)}
       .value=${this.currentParameter}
+      ?disabled=${!this.currentAction}
       @input=${(e: InputEvent) =>
         (this.currentParameter = (e.target as MdOutlinedTextField).value)}
     ></md-outlined-text-field>`;

@@ -16,6 +16,24 @@
       "message": "Missing `Forward-Compatible: checked`, once you\u0027ve verified that it is forward compatible.",
       "revId": "2bf6ede4990850bdafb3d7e00fcfdf48b8e5e793",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1bc10b8f_6217ae10",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2026-02-19T06:39:39Z",
+      "side": 1,
+      "message": "I have verified that new permission gets ignored by the Gerrit without this change IOW we are good to go.",
+      "parentUuid": "d6ac017c_ae28765f",
+      "revId": "2bf6ede4990850bdafb3d7e00fcfdf48b8e5e793",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

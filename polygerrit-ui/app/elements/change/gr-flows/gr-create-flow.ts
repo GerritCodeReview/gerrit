@@ -463,7 +463,7 @@ export class GrCreateFlow extends LitElement {
 
   private renderDocumentationLink() {
     const condition = this.customConditions.find(
-      condition => condition.name === this.currentAction
+      condition => condition.name === this.currentConditionPrefix
     );
     if (!condition || !condition.documentation) return;
     return html` <a

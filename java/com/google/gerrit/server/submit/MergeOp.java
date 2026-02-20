@@ -749,6 +749,12 @@ public class MergeOp implements AutoCloseable {
                 changeData.getId(), changeData.change().getStatus().name());
             continue;
           }
+          if (!permissionBackend.user(caller).change(changeData).test(ChangePermission.SUBMIT)) {
+            logger.atFine().log(
+                "Change %s is skipped during submit because user %s lacks submit permission",
+                changeData.getId(), caller.getLoggableName());
+            continue;
+          }
           filteredChanges.add(changeData);
         }
 

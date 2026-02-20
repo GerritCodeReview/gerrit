@@ -1232,9 +1232,9 @@ class ReceiveCommits {
                 Metadata.builder().resourceCount(newChanges.size()))) {
           try {
             submit(newChanges, replaceByChange.values());
-          } catch (ResourceConflictException e) {
+          } catch (ResourceConflictException | AuthException e) {
             addError(e.getMessage());
-            reject(magicBranchCmd, RejectionReason.create(MetricBucket.CONFLICT, "conflict"));
+            reject(magicBranchCmd, RejectionReason.create(MetricBucket.CONFLICT, e.getMessage()));
           } catch (RestApiException
               | StorageException
               | UpdateException

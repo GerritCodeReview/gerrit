@@ -81,6 +81,7 @@ import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
+import com.google.gerrit.acceptance.TestExtensions.TestCommitValidationListener;
 import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.acceptance.UseClockStep;
 import com.google.gerrit.acceptance.UseTimezone;
@@ -1131,6 +1132,51 @@ public class ChangeIT extends AbstractDaemonTest {
             String.format(
                 "Cannot delete change %s: patch set 1 is already merged",
                 change.numericChangeId()));
+  }
+
+  @Test
+  @GerritConfig(name = "change.submitWholeTopic", value = "true")
+  public void submitTopicSkipsChangeOnWhichSubmitIsDisallowed() throws Exception {
+    TestAccount user1 = accountCreator.user1();
+    String topic = "submit-topic";
+    String testBranch = "allowed-submit-branch";
+    pushHead(testRepo, "refs/heads/" + testBranch);
+    requestScopeOperations.setApiUser(user1.id());
+    TestChange changeOnMaster =
+        changeOperations.newChange().topic(topic).project(project).branch("master").createAndGet();
+    requestScopeOperations.setApiUser(admin.id());
+    gApi.changes().id(changeOnMaster.id().id()).current().review(ReviewInput.approve());
+
+    // Block submit permission for admins on master
+    // Similar to permissionToSubmitForSomeChangesInTopic in SubmittedTogetherIT.java
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(block(Permission.SUBMIT).ref("refs/heads/master").group(REGISTERED_USERS))
+        .add(
+            allow(Permission.SUBMIT)
+                .ref("refs/for/refs/heads/" + testBranch)
+                .group(adminGroupUuid()))
+        .update();
+
+    // Create the change on the test branch and submit it by force pushing.
+    // The whole topic is attempted.
+    GitUtil.fetch(testRepo, "refs/heads/" + testBranch + ":testBranchHead");
+    testRepo.reset("testBranchHead");
+    PushOneCommit push =
+        pushFactory.create(admin.newIdent(), testRepo, "Subject", "file.txt", "content");
+    PushOneCommit.Result r = push.to("refs/for/" + testBranch + "%topic=" + topic + ",submit");
+    r.assertErrorStatus(
+        String.format(
+            "Change %s is skipped during submit because user %s lacks submit permission",
+            changeOnMaster.id().id(), admin.username()));
+
+    // The change on the test branch should not be merged because the whole topic submission failed.
+    assertThat(gApi.changes().id(r.getChangeId()).get().status).isEqualTo(ChangeStatus.NEW);
+
+    // The change on master should still be new.
+    assertThat(gApi.changes().id(changeOnMaster.id().id()).get().status)
+        .isEqualTo(ChangeStatus.NEW);
   }
 
   @Test

@@ -81,6 +81,7 @@ import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
+import com.google.gerrit.acceptance.TestExtensions.TestCommitValidationListener;
 import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.acceptance.UseClockStep;
 import com.google.gerrit.acceptance.UseTimezone;
@@ -202,6 +203,7 @@ import com.google.inject.name.Named;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.MessageFormat;
+import com.google.gerrit.acceptance.testsuite.change.TestPatchset;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -1131,6 +1133,43 @@ public class ChangeIT extends AbstractDaemonTest {
             String.format(
                 "Cannot delete change %s: patch set 1 is already merged",
                 change.numericChangeId()));
+  }
+
+  @Test
+  public void submitTopicSkipsChangeOnWhichSubmitIsDisallowed() throws Exception {
+    TestAccount user1 = accountCreator.user1();
+    String topic = "disallowed-submit-topic";
+    String testBranch = "disallowed-submit-branch";
+    pushHead(testRepo, "refs/heads/" + testBranch);
+    requestScopeOperations.setApiUser(user1.id());
+    TestChange changeOnMaster =
+        changeOperations.newChange().topic(topic).project(project).branch("master").createAndGet();
+    TestChange changeOnTestBranch =
+        changeOperations.newChange().topic(topic).project(project).branch(testBranch).createAndGet();
+    requestScopeOperations.setApiUser(admin.id());
+
+    gApi.changes().id(changeOnMaster.id().id()).current().review(ReviewInput.approve());
+    gApi.changes().id(changeOnTestBranch.id().id()).current().review(ReviewInput.approve());
+
+    // Block submit permission for admins on master
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(block(Permission.SUBMIT).ref("refs/heads/master").group(adminGroupUuid()))
+        .update();
+
+    // When submitting the change on the test branch by force pushing, the whole topic is attempted.
+    TestPatchset ps = changeOperations.change(changeOnTestBranch.id()).currentPatchset().get();
+    GitUtil.fetch(testRepo, ps.get().refName() + ":ps_to_submit");
+    testRepo.reset("ps_to_submit");
+    pushHead(testRepo, "refs/for/" + testBranch + "%submit", /* force= */ true);
+
+    // The change on the test branch should be merged because the admin has submit permissions on that
+    // branch.
+    assertThat(gApi.changes().id(changeOnTestBranch.id().id()).get().status).isEqualTo(MERGED);
+
+    // The change on master should be skipped because the admin doesn't have submit permission.
+    assertThat(gApi.changes().id(changeOnMaster.id().id()).get().status).isEqualTo(ChangeStatus.NEW);
   }
 
   @Test

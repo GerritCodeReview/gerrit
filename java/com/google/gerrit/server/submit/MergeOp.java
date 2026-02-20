@@ -742,11 +742,19 @@ public class MergeOp implements AutoCloseable {
         // At this point, any change that isn't new can be filtered out since they were only here
         // in the first place due to stale index.
         List<ChangeData> filteredChanges = new ArrayList<>();
+        System.out.println("calculating filteredChanges");
         for (ChangeData changeData : noteDbChangeSet.changes()) {
           if (!changeData.change().getStatus().equals(Status.NEW)) {
             logger.atFine().log(
                 "Change %s has status %s due to stale index, so it is skipped during submit",
                 changeData.getId(), changeData.change().getStatus().name());
+            continue;
+          }
+          if (!permissionBackend.user(caller).change(changeData).test(ChangePermission.SUBMIT)) {
+            System.out.println("skipping change in filteredChanges");
+            logger.atFine().log(
+                "Change %s is skipped during submit because user %s lacks submit permission",
+                changeData.getId(), caller.getLoggableName());
             continue;
           }
           filteredChanges.add(changeData);

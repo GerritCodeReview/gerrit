@@ -351,6 +351,10 @@ export class GrCreateFlow extends LitElement {
           margin-top: var(--spacing-s);
           margin-bottom: var(--spacing-m);
         }
+        md-icon-button {
+          --md-icon-button-icon-size: 20px;
+        }
+
       `,
     ];
   }
@@ -467,15 +471,16 @@ export class GrCreateFlow extends LitElement {
     );
     if (!condition || !condition.documentation) return;
     return html` <a
+      class="help"
+      slot="trailing-icon"
       href=${condition.documentation}
       target="_blank"
       rel="noopener noreferrer"
+      tabindex="-1"
     >
-      <gr-icon
-        icon="help"
-        slot="trailing-icon"
-        title="Read documentation"
-      ></gr-icon>
+      <md-icon-button touch-target="none" type="button">
+        <gr-icon icon="help" title="read documentation"></gr-icon>
+      </md-icon-button>
     </a>`;
   }
 

@@ -1134,6 +1134,41 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void submitTopicSkipsChangeOnWhichSubmitIsDisallowed() throws Exception {
+    TestAccount user1 = accountCreator.user1();
+    String topic = "disallowed-submit-topic";
+    String testBranch = "disallowed-submit-branch";
+    gApi.projects().name(project.get()).branch(testBranch).create(new BranchInput());
+
+    requestScopeOperations.setApiUser(user1.id());
+    TestChange changeOnMaster =
+        changeOperations.newChange().topic(topic).branch("master").createAndGet();
+    TestChange changeOnTestBranch =
+        changeOperations.newChange().topic(topic).branch(testBranch).createAndGet();
+    requestScopeOperations.setApiUser(admin.id());
+
+    gApi.changes().id(changeOnMaster.id().id()).current().review(ReviewInput.approve());
+    gApi.changes().id(changeOnTestBranch.id().id()).current().review(ReviewInput.approve());
+
+    // Block submit permission for admins on master
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(block(Permission.SUBMIT).ref("refs/heads/master").group(adminGroupUuid()))
+        .update();
+
+    // When submitting the change on the test branch, the whole topic is attempted.
+    gApi.changes().id(changeOnTestBranch.id().id()).submit();
+
+    // The change on the test branch should be merged because the admin has submit permissions on that
+    // branch.
+    assertThat(gApi.changes().id(changeOnTestBranch.id().id()).get().status).isEqualTo(MERGED);
+
+    // The change on master should be skipped because the admin doesn't have submit permission.
+    assertThat(gApi.changes().id(changeOnMaster.id().id()).get().status).isEqualTo(ChangeStatus.NEW);
+  }
+
+  @Test
   public void deleteChangeUpdatesIndex() throws Exception {
     TestChange change = changeOperations.newChange().project(project).createAndGet();
 

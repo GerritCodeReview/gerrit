@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "58299bf2_cdf91054",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2026-02-20T08:47:09Z",
+      "side": 1,
+      "message": "I like the idea, but I\u0027m not sure about the heuristics.\nShould the author/committer not be downgraded because of their role, or because they was an explicit user-initiated change to make them reviewers?\nIf the later, this should also apply for other reviewers which were added explicitly, but their downgrading is done implicitly.",
+      "revId": "c052ac68f5c5b5a494c05d0c06c5fe4ae134ba58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

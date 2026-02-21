@@ -16,6 +16,24 @@
       "message": "Do we know if any of these new versions bring useful features to Gerrit? I\u0027m thinking Commonmark in particular.",
       "revId": "0bcbe87eb09e320b87d9abbec63766191ab42a38",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5c1b7eda_3883718e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2026-02-21T20:00:00Z",
+      "side": 1,
+      "message": "release notes:\n\n- ASM: https://asm.ow2.io/versions.html, adds opcodes for Java 24,25,26, few new features, bugfixes\n- autolink: https://github.com/robinst/autolink-java/blob/main/CHANGELOG.md, Modular JAR: Require at least Java 9 and add a module descriptor (module-info), remove no longer necessary Automatic-Module-Name header\n- commonmark: https://github.com/commonmark/commonmark-java/releases, brings a bunch of new features \n- commons-codec: https://commons.apache.org/proper/commons-codec/changes.html\n- diffutils: no release notes, git log is here: https://github.com/java-diff-utils/java-diff-utils/commits/master\n- guava: https://github.com/google/guava/releases/tag/v33.5.0\n- guava failureaccess: ?\n- icu4j: https://github.com/unicode-org/icu/releases, updates to CLDR 48.1, Unicode 17, locale data improvements, bugfixes\n- mockito: https://github.com/mockito/mockito/releases",
+      "parentUuid": "0b5b4649_43beb37e",
+      "revId": "0bcbe87eb09e320b87d9abbec63766191ab42a38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

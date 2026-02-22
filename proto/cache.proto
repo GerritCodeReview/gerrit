@@ -365,6 +365,7 @@ message AccountProto {
   string status = 7;
   string meta_id = 8;
   string unique_tag = 9;
+  string avatar_email = 10;
 }
 
 // Serialized form of com.google.gerrit.server.account.CachedAccountDetails.Key.

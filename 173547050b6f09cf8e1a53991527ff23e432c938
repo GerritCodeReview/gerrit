@@ -22,6 +22,29 @@
       },
       "revId": "173547050b6f09cf8e1a53991527ff23e432c938",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2eaa2d68_fb9b1a3b",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-summary/gr-change-summary.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-02-22T17:38:59Z",
+      "side": 1,
+      "message": "This is different feature. I would put it under different feature flag if needed. But then I need to enable it 100% in google before you introduce a flag. It was released already in previous version of Gerrit why do you need to put it under feature flag? This is just simple way how to copy prompts for AI. \n\nBtw. this broke feature in google. It has still quite high usage even with Review Agent enabled.",
+      "range": {
+        "startLine": 133,
+        "startChar": 1,
+        "endLine": 135,
+        "endChar": 4
+      },
+      "revId": "173547050b6f09cf8e1a53991527ff23e432c938",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

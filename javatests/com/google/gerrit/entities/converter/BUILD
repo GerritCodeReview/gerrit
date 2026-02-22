@@ -22,6 +22,7 @@ junit_tests(
         "//lib/guice",
         "//lib/truth",
         "//lib/truth:truth-proto-extension",
+        "//proto:cache_java_proto",
         "//proto:entities_java_proto",
     ],
 )

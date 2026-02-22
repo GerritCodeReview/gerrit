@@ -54,6 +54,7 @@ public class AccountProperties {
   public static final String KEY_FULL_NAME = "fullName";
   public static final String KEY_DISPLAY_NAME = "displayName";
   public static final String KEY_PREFERRED_EMAIL = "preferredEmail";
+  public static final String KEY_AVATAR_EMAIL = "avatarEmail";
   public static final String KEY_STATUS = "status";
 
   private final Account.Id accountId;
@@ -95,6 +96,9 @@ public class AccountProperties {
     String preferredEmail = get(accountConfig, KEY_PREFERRED_EMAIL);
     accountBuilder.setPreferredEmail(preferredEmail);
 
+    String avatarEmail = get(accountConfig, KEY_AVATAR_EMAIL);
+    accountBuilder.setAvatarEmail(avatarEmail);
+
     accountBuilder.setStatus(get(accountConfig, KEY_STATUS));
     accountBuilder.setMetaId(metaId != null ? metaId.name() : null);
     accountBuilder.setUniqueTag(accountBuilder.metaId());
@@ -113,6 +117,7 @@ public class AccountProperties {
     accountDelta
         .getPreferredEmail()
         .ifPresent(preferredEmail -> set(cfg, KEY_PREFERRED_EMAIL, preferredEmail));
+    accountDelta.getAvatarEmail().ifPresent(avatarEmail -> set(cfg, KEY_AVATAR_EMAIL, avatarEmail));
     accountDelta.getStatus().ifPresent(status -> set(cfg, KEY_STATUS, status));
   }
 

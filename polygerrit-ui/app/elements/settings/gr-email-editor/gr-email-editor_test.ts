@@ -43,6 +43,7 @@ suite('gr-email-editor tests', () => {
             <tr>
               <th class="emailColumn">Email</th>
               <th class="preferredHeader">Preferred</th>
+              <th class="avatarHeader">Avatar</th>
               <th></th>
             </tr>
           </thead>
@@ -51,6 +52,10 @@ suite('gr-email-editor tests', () => {
               <td class="emailColumn">email@one.com</td>
               <td class="preferredControl">
                 <md-radio class="preferredRadio" name="preferred" tabindex="-1">
+                </md-radio>
+              </td>
+              <td class="avatarControl">
+                <md-radio class="avatarRadio" name="avatar" tabindex="0">
                 </md-radio>
               </td>
               <td>
@@ -75,6 +80,10 @@ suite('gr-email-editor tests', () => {
                 >
                 </md-radio>
               </td>
+              <td class="avatarControl">
+                <md-radio class="avatarRadio" name="avatar" tabindex="0">
+                </md-radio>
+              </td>
               <td>
                 <gr-button
                   aria-disabled="true"
@@ -91,6 +100,10 @@ suite('gr-email-editor tests', () => {
               <td class="emailColumn">email@three.com</td>
               <td class="preferredControl">
                 <md-radio class="preferredRadio" name="preferred" tabindex="-1">
+                </md-radio>
+              </td>
+              <td class="avatarControl">
+                <md-radio class="avatarRadio" name="avatar" tabindex="0">
                 </md-radio>
               </td>
               <td>
@@ -123,13 +136,19 @@ suite('gr-email-editor tests', () => {
 
     assert.equal(rows.length, 3);
 
-    assert.isFalse((rows[0].querySelector('md-radio') as MdRadio).checked);
+    assert.isFalse(
+      (rows[0].querySelector('md-radio.preferredRadio') as MdRadio).checked
+    );
     assert.isNotOk(rows[0].querySelector('gr-button')!.disabled);
 
-    assert.isTrue((rows[1].querySelector('md-radio') as MdRadio).checked);
+    assert.isTrue(
+      (rows[1].querySelector('md-radio.preferredRadio') as MdRadio).checked
+    );
     assert.isOk(rows[1].querySelector('gr-button')!.disabled);
 
-    assert.isFalse((rows[2].querySelector('md-radio') as MdRadio).checked);
+    assert.isFalse(
+      (rows[2].querySelector('md-radio.preferredRadio') as MdRadio).checked
+    );
     assert.isNotOk(rows[2].querySelector('gr-button')!.disabled);
 
     assert.isFalse(hasUnsavedChangesSpy.called);
@@ -144,7 +163,7 @@ suite('gr-email-editor tests', () => {
 
     const radios = element
       .shadowRoot!.querySelector('table')!
-      .querySelectorAll<HTMLInputElement>('md-radio');
+      .querySelectorAll<HTMLInputElement>('md-radio.preferredRadio');
     await element.updateComplete;
 
     assert.isFalse(hasUnsavedChangesSpy.called);
@@ -215,7 +234,7 @@ suite('gr-email-editor tests', () => {
 
     // Delete the first email and set the last as preferred.
     rows[0].querySelector('gr-button')!.click();
-    rows[2].querySelector<HTMLInputElement>('md-radio')!.click();
+    rows[2].querySelector<HTMLInputElement>('md-radio.preferredRadio')!.click();
     await element.updateComplete;
 
     assert.isTrue(hasUnsavedChangesSpy.called);

@@ -28,17 +28,33 @@ public enum AccountProtoConverter implements ProtoConverter<AccountProto, Accoun
 
   @Override
   public AccountProto toProto(Account account) {
-    return AccountProto.newBuilder()
-        .setId(account.id().get())
-        .setRegisteredOn(account.registeredOn().toEpochMilli())
-        .setInactive(account.inactive())
-        .setFullName(Strings.nullToEmpty(account.fullName()))
-        .setDisplayName(Strings.nullToEmpty(account.displayName()))
-        .setPreferredEmail(Strings.nullToEmpty(account.preferredEmail()))
-        .setStatus(Strings.nullToEmpty(account.status()))
-        .setMetaId(Strings.nullToEmpty(account.metaId()))
-        .setUniqueTag(Strings.nullToEmpty(account.uniqueTag()))
-        .build();
+    AccountProto.Builder builder =
+        AccountProto.newBuilder()
+            .setId(account.id().get())
+            .setRegisteredOn(account.registeredOn().toEpochMilli())
+            .setInactive(account.inactive());
+    if (account.fullName() != null) {
+      builder.setFullName(account.fullName());
+    }
+    if (account.displayName() != null) {
+      builder.setDisplayName(account.displayName());
+    }
+    if (account.preferredEmail() != null) {
+      builder.setPreferredEmail(account.preferredEmail());
+    }
+    if (account.avatarEmail() != null) {
+      builder.setAvatarEmail(account.avatarEmail());
+    }
+    if (account.status() != null) {
+      builder.setStatus(account.status());
+    }
+    if (account.metaId() != null) {
+      builder.setMetaId(account.metaId());
+    }
+    if (account.uniqueTag() != null) {
+      builder.setUniqueTag(account.uniqueTag());
+    }
+    return builder.build();
   }
 
   @Override
@@ -48,6 +64,7 @@ public enum AccountProtoConverter implements ProtoConverter<AccountProto, Accoun
             .setFullName(Strings.emptyToNull(proto.getFullName()))
             .setDisplayName(Strings.emptyToNull(proto.getDisplayName()))
             .setPreferredEmail(Strings.emptyToNull(proto.getPreferredEmail()))
+            .setAvatarEmail(Strings.emptyToNull(proto.getAvatarEmail()))
             .setInactive(proto.getInactive())
             .setStatus(Strings.emptyToNull(proto.getStatus()))
             .setMetaId(Strings.emptyToNull(proto.getMetaId()))

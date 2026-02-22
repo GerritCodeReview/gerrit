@@ -208,7 +208,6 @@ export class GrButton extends LitElement {
           class=${buttonClass}
           ?disabled=${this.disabled || this.loading}
           part="md-elevated-button"
-          touch-target="none"
           role="button"
           tabindex="-1"
         >
@@ -226,7 +225,6 @@ export class GrButton extends LitElement {
         class=${buttonClass}
         ?disabled=${this.disabled || this.loading}
         part="md-text-button"
-        touch-target="none"
         role="button"
         tabindex="-1"
       >

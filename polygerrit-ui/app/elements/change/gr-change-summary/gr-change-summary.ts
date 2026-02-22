@@ -46,7 +46,6 @@ import {userModelToken} from '../../../models/user/user-model';
 import {assertIsDefined} from '../../../utils/common-util';
 import {GrAiPromptDialog} from '../gr-ai-prompt-dialog/gr-ai-prompt-dialog';
 import {flowsModelToken} from '../../../models/flows/flows-model';
-import {KnownExperimentId} from '../../../services/flags/flags';
 
 function handleSpaceOrEnter(e: KeyboardEvent, handler: () => void) {
   if (modifierPressed(e)) return;
@@ -127,12 +126,6 @@ export class GrChangeSummary extends LitElement {
   private readonly getFlowsModel = resolve(this, flowsModelToken);
 
   private readonly reporting = getAppContext().reportingService;
-
-  private readonly flagsService = getAppContext().flagsService;
-
-  private readonly aiChatEnabled = this.flagsService.isEnabled(
-    KnownExperimentId.ENABLE_AI_CHAT
-  );
 
   constructor() {
     super();
@@ -216,7 +209,7 @@ export class GrChangeSummary extends LitElement {
       this,
       () => this.getChangeModel().change$,
       change => {
-        this.canAiReview = this.aiChatEnabled && !!change?.can_ai_review;
+        this.canAiReview = change?.can_ai_review !== false;
       }
     );
   }
@@ -608,7 +601,7 @@ export class GrChangeSummary extends LitElement {
                   showCommentCategoryName
                   clickableChips
                 ></gr-comments-summary>
-                ${this.canAiReview !== false
+                ${this.canAiReview
                   ? html`<gr-button link @click=${this.handleOpenAiPromptDialog}
                       >Create AI Review Prompt</gr-button
                     >`

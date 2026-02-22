@@ -65,6 +65,7 @@ public class AccountRestApiModule extends RestApiModule {
     get(EMAIL_KIND).to(GetEmail.class);
     put(EMAIL_KIND).to(PutEmail.class);
     put(EMAIL_KIND, "preferred").to(PutPreferred.class);
+    put(EMAIL_KIND, "avatar").to(PutAvatarEmail.class);
 
     get(ACCOUNT_KIND, "external.ids").to(GetExternalIds.class);
     post(ACCOUNT_KIND, "external.ids:delete").to(DeleteExternalIds.class);

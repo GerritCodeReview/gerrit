@@ -33,6 +33,9 @@ export class GrEmailEditor extends LitElement {
   /* private but used in test */
   @state() newPreferred = '';
 
+  /* private but used in test */
+  @state() newAvatar = '';
+
   readonly restApiService = getAppContext().restApiService;
 
   private readonly getUserModel = resolve(this, userModelToken);
@@ -64,11 +67,13 @@ export class GrEmailEditor extends LitElement {
           min-width: 32.5em;
           width: auto;
         }
-        #emailTable .preferredHeader {
+        #emailTable .preferredHeader,
+        #emailTable .avatarHeader {
           text-align: center;
           width: 6em;
         }
-        #emailTable .preferredControl {
+        #emailTable .preferredControl,
+        #emailTable .avatarControl {
           height: auto;
           text-align: center;
         }
@@ -83,6 +88,7 @@ export class GrEmailEditor extends LitElement {
           <tr>
             <th class="emailColumn">Email</th>
             <th class="preferredHeader">Preferred</th>
+            <th class="avatarHeader">Avatar</th>
             <th></th>
           </tr>
         </thead>
@@ -103,6 +109,16 @@ export class GrEmailEditor extends LitElement {
           .value=${email.email}
           ?checked=${!!email.preferred}
           @change=${this.handlePreferredChange}
+        >
+        </md-radio>
+      </td>
+      <td class="avatarControl">
+        <md-radio
+          class="avatarRadio"
+          name="avatar"
+          .value=${email.email}
+          ?checked=${!!email.avatar}
+          @change=${this.handleAvatarChange}
         >
         </md-radio>
       </td>
@@ -130,9 +146,14 @@ export class GrEmailEditor extends LitElement {
       );
     }
 
+    if (this.newAvatar) {
+      promises.push(this.restApiService.setAvatarAccountEmail(this.newAvatar));
+    }
+
     return Promise.all(promises).then(async () => {
       this.emailsToRemove = [];
       this.newPreferred = '';
+      this.newAvatar = '';
       await this.getUserModel().loadEmails(true);
       this.setHasUnsavedChanges();
     });
@@ -164,6 +185,23 @@ export class GrEmailEditor extends LitElement {
         this.setHasUnsavedChanges();
       } else if (this.emails[i].preferred) {
         delete this.emails[i].preferred;
+        this.setHasUnsavedChanges();
+        this.requestUpdate();
+      }
+    }
+  }
+
+  private handleAvatarChange(e: Event) {
+    if (!(e.target instanceof MdRadio)) return;
+    const avatar = e.target.value;
+    for (let i = 0; i < this.emails.length; i++) {
+      if (avatar === this.emails[i].email) {
+        this.emails[i].avatar = true;
+        this.requestUpdate();
+        this.newAvatar = avatar;
+        this.setHasUnsavedChanges();
+      } else if (this.emails[i].avatar) {
+        delete this.emails[i].avatar;
         this.setHasUnsavedChanges();
         this.requestUpdate();
       }

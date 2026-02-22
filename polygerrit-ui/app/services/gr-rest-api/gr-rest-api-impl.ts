@@ -913,6 +913,32 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     }
   }
 
+  async setAvatarAccountEmail(email: string): Promise<void> {
+    await this._restApiHelper.fetch({
+      fetchOptions: {
+        method: HttpMethod.PUT,
+      },
+      url: `/accounts/self/emails/${encodeURIComponent(email)}/avatar`,
+      anonymizedUrl: '/accounts/self/emails/*/avatar',
+      reportServerError: true,
+    });
+    // If result of getAccountEmails is in cache, update it in the cache
+    // so we don't have to invalidate it.
+    const cachedEmails = this._cache.get(
+      '/accounts/self/emails'
+    ) as unknown as EmailInfo[];
+    if (cachedEmails) {
+      const emails = cachedEmails.map(entry => {
+        if (entry.email === email) {
+          return {...entry, avatar: true};
+        } else {
+          return {...entry, avatar: false};
+        }
+      });
+      this._cache.set('/accounts/self/emails', emails as unknown as ParsedJSON);
+    }
+  }
+
   _updateCachedAccount(obj: Partial<AccountDetailInfo>): void {
     // If result of getAccount is in cache, update it in the cache
     // so we don't have to invalidate it.

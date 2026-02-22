@@ -43,6 +43,7 @@ suite('gr-email-editor tests', () => {
             <tr>
               <th class="emailColumn">Email</th>
               <th class="preferredHeader">Preferred</th>
+              <th class="avatarHeader">Avatar</th>
               <th></th>
             </tr>
           </thead>
@@ -51,6 +52,10 @@ suite('gr-email-editor tests', () => {
               <td class="emailColumn">email@one.com</td>
               <td class="preferredControl">
                 <md-radio class="preferredRadio" name="preferred" tabindex="-1">
+                </md-radio>
+              </td>
+              <td class="avatarControl">
+                <md-radio class="avatarRadio" name="avatar" tabindex="0">
                 </md-radio>
               </td>
               <td>
@@ -75,6 +80,10 @@ suite('gr-email-editor tests', () => {
                 >
                 </md-radio>
               </td>
+              <td class="avatarControl">
+                <md-radio class="avatarRadio" name="avatar" tabindex="0">
+                </md-radio>
+              </td>
               <td>
                 <gr-button
                   aria-disabled="true"
@@ -91,6 +100,10 @@ suite('gr-email-editor tests', () => {
               <td class="emailColumn">email@three.com</td>
               <td class="preferredControl">
                 <md-radio class="preferredRadio" name="preferred" tabindex="-1">
+                </md-radio>
+              </td>
+              <td class="avatarControl">
+                <md-radio class="avatarRadio" name="avatar" tabindex="0">
                 </md-radio>
               </td>
               <td>

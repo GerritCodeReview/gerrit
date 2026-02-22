@@ -417,6 +417,16 @@ public class IdentifiedUser extends CurrentUser {
     return state().account();
   }
 
+  /**
+   * Returns the email address to use for avatar lookup.
+   *
+   * @return the avatar email if set, otherwise the preferred email, may be null if neither is set
+   */
+  @Nullable
+  public String getEffectiveAvatarEmail() {
+    return getAccount().effectiveAvatarEmail();
+  }
+
   public boolean hasEmailAddress(String email) {
     if (validEmails.contains(email)) {
       return true;

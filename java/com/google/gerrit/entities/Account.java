@@ -52,6 +52,8 @@ import java.util.Optional;
  * @param fullName The full name of the user ("Given-name Surname" style).
  * @param displayName An optional display name of the user to be shown in the UI.
  * @param preferredEmail The email address the user prefers to be contacted through.
+ * @param avatarEmail The email address used for avatar lookup (e.g. Gravatar). If null, falls back
+ *     to preferredEmail.
  * @param inactive Is this user inactive? This is used to avoid showing some users (eg. former
  *     employees) in auto-suggest.
  * @param status The user-settable status of this account (e.g. busy, OOO, available)
@@ -66,6 +68,7 @@ public record Account(
     @Nullable String fullName,
     @Nullable String displayName,
     @Nullable String preferredEmail,
+    @Nullable String avatarEmail,
     boolean inactive,
     @Nullable String status,
     @Nullable String metaId,
@@ -221,6 +224,16 @@ public record Account(
     return !inactive();
   }
 
+  /**
+   * Returns the email address to use for avatar lookup.
+   *
+   * @return avatarEmail if set, otherwise preferredEmail
+   */
+  @Nullable
+  public String effectiveAvatarEmail() {
+    return avatarEmail() != null ? avatarEmail() : preferredEmail();
+  }
+
   public Builder toBuilder() {
     return new AutoBuilder_Account_Builder(this);
   }
@@ -249,6 +262,11 @@ public record Account(
     public abstract String preferredEmail();
 
     public abstract Builder setPreferredEmail(String preferredEmail);
+
+    @Nullable
+    public abstract String avatarEmail();
+
+    public abstract Builder setAvatarEmail(String avatarEmail);
 
     public abstract boolean inactive();
 
@@ -289,6 +307,7 @@ public record Account(
         .add("fullName", fullName())
         .add("displayName", displayName())
         .add("preferredEmail", preferredEmail())
+        .add("avatarEmail", avatarEmail())
         .add("inactive", inactive())
         .add("status", status())
         .add("metaId", metaId())

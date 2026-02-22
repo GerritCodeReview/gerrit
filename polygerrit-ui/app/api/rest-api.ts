@@ -693,6 +693,7 @@ export type EmailAddress = BrandType<string, '_emailAddress'>;
 export declare interface EmailInfo {
   email: EmailAddress;
   preferred?: boolean;
+  avatar?: boolean;
   pending_confirmation?: boolean;
 }
 

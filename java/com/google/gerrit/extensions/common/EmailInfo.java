@@ -17,9 +17,14 @@ package com.google.gerrit.extensions.common;
 public class EmailInfo {
   public String email;
   public Boolean preferred;
+  public Boolean avatar;
   public Boolean pendingConfirmation;
 
   public void preferred(String e) {
     this.preferred = (e != null && e.equals(email)) ? true : null;
+  }
+
+  public void avatar(String e) {
+    this.avatar = (e != null && e.equals(email)) ? true : null;
   }
 }

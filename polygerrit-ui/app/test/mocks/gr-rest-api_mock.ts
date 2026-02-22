@@ -612,6 +612,9 @@ export const grRestApiMock: RestApiService = {
   setPreferredAccountEmail(): Promise<void> {
     return Promise.resolve();
   },
+  setAvatarAccountEmail(): Promise<void> {
+    return Promise.resolve();
+  },
   setRepoAccessRights(): Promise<Response> {
     return Promise.resolve(new Response());
   },

@@ -264,6 +264,7 @@ export interface RestApiService extends Finalizable {
   ): Promise<EmailInfo[] | undefined>;
   deleteAccountEmail(email: string): Promise<Response>;
   setPreferredAccountEmail(email: string): Promise<void>;
+  setAvatarAccountEmail(email: string): Promise<void>;
 
   getAccountSSHKeys(): Promise<SshKeyInfo[] | undefined>;
   deleteAccountSSHKey(key: string): void;

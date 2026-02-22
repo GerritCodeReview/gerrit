@@ -83,6 +83,15 @@ public abstract class AccountDelta {
   public abstract Optional<String> getPreferredEmail();
 
   /**
+   * Returns the new value for the avatar email.
+   *
+   * @return the new value for the avatar email, {@code Optional#empty()} if the avatar email is not
+   *     being updated, {@code Optional#of("")} if the avatar email is unset (falls back to
+   *     preferredEmail), the wrapped value is never {@code null}
+   */
+  public abstract Optional<String> getAvatarEmail();
+
+  /**
    * Returns the new value for the active flag.
    *
    * @return the new value for the active flag, {@code Optional#empty()} if the active flag is not
@@ -220,6 +229,15 @@ public abstract class AccountDelta {
      */
     @CanIgnoreReturnValue
     public abstract Builder setPreferredEmail(@Nullable String preferredEmail);
+
+    /**
+     * Sets a new avatar email for the account.
+     *
+     * @param avatarEmail the new avatar email, if {@code null} or empty string the avatar email is
+     *     unset (falls back to preferredEmail for avatar lookup)
+     */
+    @CanIgnoreReturnValue
+    public abstract Builder setAvatarEmail(@Nullable String avatarEmail);
 
     /**
      * Sets the active flag for the account.
@@ -566,6 +584,12 @@ public abstract class AccountDelta {
       @Override
       public Builder setPreferredEmail(String preferredEmail) {
         delegate.setPreferredEmail(Strings.nullToEmpty(preferredEmail));
+        return this;
+      }
+
+      @Override
+      public Builder setAvatarEmail(String avatarEmail) {
+        delegate.setAvatarEmail(Strings.nullToEmpty(avatarEmail));
         return this;
       }
 

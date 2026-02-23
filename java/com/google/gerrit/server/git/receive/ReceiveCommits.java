@@ -203,6 +203,7 @@ import com.google.gerrit.server.update.SuperprojectUpdateOnSubmission;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType;
+import com.google.gerrit.server.util.JujutsuChangeIdUtil;
 import com.google.gerrit.server.util.LabelVote;
 import com.google.gerrit.server.util.MagicBranch;
 import com.google.gerrit.server.util.RequestScopePropagator;
@@ -2711,10 +2712,19 @@ class ReceiveCommits {
           }
 
           List<String> idList = changeUtil.getChangeIdsFromFooter(c);
+          boolean hasChangeId;
           if (!idList.isEmpty()) {
             pending.put(c, lookupByChangeKey(c, Change.key(idList.get(idList.size() - 1).trim())));
+            hasChangeId = true;
           } else {
-            pending.put(c, lookupByCommit(c));
+            Optional<String> jjId = JujutsuChangeIdUtil.getChangeIdFromCommitHeader(c);
+            if (jjId.isPresent()) {
+              pending.put(c, lookupByChangeKey(c, Change.key(jjId.get())));
+              hasChangeId = true;
+            } else {
+              pending.put(c, lookupByCommit(c));
+              hasChangeId = false;
+            }
           }
 
           int n = pending.size() + newChanges.size();
@@ -2786,7 +2796,7 @@ class ReceiveCommits {
             // TODO(dborowitz): Should we early return here?
           }
 
-          if (idList.isEmpty()) {
+          if (!hasChangeId) {
             newChanges.add(new CreateRequest(c, magicBranch.dest.branch(), newProgress));
             continue;
           }
@@ -3056,6 +3066,11 @@ class ReceiveCommits {
   }
 
   private static boolean isValidChangeId(String idStr) {
+    // Accept both the traditional Gerrit Change-Id format (I + 40 hex chars) and
+    // the Jujutsu change-id format (32 lowercase letters).
+    if (JujutsuChangeIdUtil.isJujutsuChangeId(idStr)) {
+      return true;
+    }
     return idStr.matches("^I[0-9a-fA-F]{40}$") && !idStr.matches("^I00*$");
   }
 

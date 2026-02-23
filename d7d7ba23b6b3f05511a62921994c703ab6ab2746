@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "37f778a5_4669dee1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-02-23T16:29:19Z",
+      "side": 1,
+      "message": "Can you please add a screenshot test as well?",
+      "revId": "d7d7ba23b6b3f05511a62921994c703ab6ab2746",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

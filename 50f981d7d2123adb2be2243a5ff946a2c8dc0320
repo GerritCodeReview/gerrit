@@ -16,6 +16,24 @@
       "message": "This seems like a lot of code/config in Gerrit for a problem that seems like it could be solved by the user adding their preferred email to the avatar lookup service. Am I missing something here?",
       "revId": "50f981d7d2123adb2be2243a5ff946a2c8dc0320",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "78dc9d1b_e510b794",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 3117294
+      },
+      "writtenOn": "2026-02-23T23:10:25Z",
+      "side": 1,
+      "message": "The use case that motivated this: On Google\u0027s Gerrit (chromium-review), avatars come from your Google Account profile photo, not Gravatar. I use `helmut@januschka.com` as my preferred email (for commit notifications, etc.), but that\u0027s not a Google account.\n\nMy actual Google account is `hjanuschka@gmail.com`, which has my profile photo. Currently there\u0027s no way to tell Gerrit \"use this other email for avatar lookup\" without changing my preferred email\n\nThe alternative of \"add your preferred email to the avatar service\" doesn\u0027t work here because:\n- Google Account avatars are tied to the account itself, not configurable per-email\n- I can\u0027t add a profile photo to a non-Google email address\n\ni really would love to see this hapenning, but if you think this is too niche a use case, I understand, its OWNERS rules!",
+      "parentUuid": "d6384edf_22e8c10f",
+      "revId": "50f981d7d2123adb2be2243a5ff946a2c8dc0320",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

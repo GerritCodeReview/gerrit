@@ -1639,9 +1639,19 @@ export class GrChangeActions
   }
 
   // private but used in test
-  handleRebaseConfirm(e: CustomEvent<ConfirmRebaseEventDetail>) {
+  async handleRebaseConfirm(e: CustomEvent<ConfirmRebaseEventDetail>) {
     assertIsDefined(this.confirmRebase, 'confirmRebase');
     assertIsDefined(this.actionsModal, 'actionsModal');
+
+    if (
+      !(await this.getPluginLoader().jsApiService.handleBeforeRebase(
+        this.change as ChangeInfo
+      ))
+    ) {
+      // Exit early and abort rebase if a plugin hook requests it.
+      return;
+    }
+
     const payload = {
       base: e.detail.base,
       allow_conflicts: e.detail.allowConflicts,

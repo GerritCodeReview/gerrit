@@ -157,6 +157,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2f891f18_bdd3a751",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 752,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-02-23T23:42:40Z",
+      "side": 1,
+      "message": "Confirmed this is a noop for us as force push is disabled and audited.",
+      "parentUuid": "5e919a54_9a7cca41",
+      "revId": "48c6e20e1f5be0ddb01e000380ec12244d1faa8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8fcb1d85_c6faf8a2",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 26

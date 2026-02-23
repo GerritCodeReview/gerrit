@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "30492fa4_8bf1876b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2026-02-23T09:17:28Z",
+      "side": 1,
+      "message": "this allows to use the version of serviceuser plugin from the master branch with gerrit core from stable-3.13",
+      "revId": "b73c17849ff6c0d348add932af6547b7c0e56cd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

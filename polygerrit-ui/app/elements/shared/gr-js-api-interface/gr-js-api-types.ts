@@ -61,6 +61,13 @@ export interface JsApiService extends Finalizable {
    * @return A promise that resolves to true if the action should proceed.
    */
   handleBeforePublishEdit(change: ChangeInfo): Promise<boolean>;
+  /**
+   * This method is called before a rebase.
+   * It allows plugins to conditionally block the rebase.
+   * @param change The relevant change.
+   * @return A promise that resolves to true if the rebase should proceed.
+   */
+  handleBeforeRebase(change: ChangeInfo): Promise<boolean>;
   handlePublishEdit(change: ChangeInfo, revision?: RevisionInfo | null): void;
   handleShowChange(detail: ShowChangeDetail): Promise<void>;
   handleShowRevisionActions(detail: ShowRevisionActionsDetail): void;

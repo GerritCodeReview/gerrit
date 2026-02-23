@@ -46,6 +46,7 @@ export enum EventType {
   REPLY_SENT = 'replysent',
   BEFORE_PUBLISH_EDIT = 'before-publish-edit',
   PUBLISH_EDIT = 'publish-edit',
+  BEFORE_REBASE = 'before-rebase',
 }
 
 export declare interface PluginApi {

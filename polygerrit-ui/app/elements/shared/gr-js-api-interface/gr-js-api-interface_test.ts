@@ -117,6 +117,15 @@ suite('GrJsApiInterface tests', () => {
     assert.isTrue(errorStub.calledOnce);
   });
 
+  test('handleBeforeRebase event', async () => {
+    const handleBeforeRebaseStub = stub().returns(true);
+    element.addEventCallback(EventType.BEFORE_REBASE, handleBeforeRebaseStub);
+    const testChange = createChange();
+    const result = await element.handleBeforeRebase(testChange);
+    assert.isTrue(result);
+    assert.isTrue(handleBeforeRebaseStub.calledWith(testChange));
+  });
+
   test('show-revision-actions event', async () => {
     const showRevisionActionsStub = stub();
     const testChange: ChangeInfo = {

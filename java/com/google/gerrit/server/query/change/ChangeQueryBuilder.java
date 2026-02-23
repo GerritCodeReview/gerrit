@@ -95,6 +95,7 @@ import com.google.gerrit.server.query.change.ChangePredicates.EditByPredicatePro
 import com.google.gerrit.server.query.change.PredicateArgs.ValOp;
 import com.google.gerrit.server.rules.SubmitRule;
 import com.google.gerrit.server.submit.SubmitDryRun;
+import com.google.gerrit.server.util.JujutsuChangeIdUtil;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;

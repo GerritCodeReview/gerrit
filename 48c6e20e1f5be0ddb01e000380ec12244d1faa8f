@@ -39,6 +39,63 @@
       "message": "Should this silently skip or hard fail? I feel like failing would be less surprising to users and it matches the behavior when one change in the topic is invisible (L735).",
       "revId": "48c6e20e1f5be0ddb01e000380ec12244d1faa8f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8fcb1d85_c6faf8a2",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 1150,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-02-23T20:33:10Z",
+      "side": 1,
+      "message": "You also grant submit permission on `refs/for/`, which is an important part of the setup. I think Luca said without that, it doesn\u0027t reproduce the issue.",
+      "revId": "48c6e20e1f5be0ddb01e000380ec12244d1faa8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c09b6a6_514c95cf",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 1162,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-02-23T20:33:10Z",
+      "side": 1,
+      "message": "This isn\u0027t what a typical git user would consider \"force pushing\" and I think in Gerrit we call this \"auto-merge during push\": https://gerrit-review.googlesource.com/Documentation/user-upload.html#auto_merge",
+      "revId": "48c6e20e1f5be0ddb01e000380ec12244d1faa8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8fdf7031_4df90c1d",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 1173,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-02-23T20:33:10Z",
+      "side": 1,
+      "message": "```suggestion\n    // that branch.\n```",
+      "range": {
+        "startLine": 1172,
+        "startChar": 0,
+        "endLine": 1173,
+        "endChar": 14
+      },
+      "revId": "48c6e20e1f5be0ddb01e000380ec12244d1faa8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

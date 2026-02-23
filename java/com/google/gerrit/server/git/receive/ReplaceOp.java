@@ -83,6 +83,7 @@ import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Context;
 import com.google.gerrit.server.update.PostUpdateContext;
 import com.google.gerrit.server.update.RepoContext;
+import com.google.gerrit.server.util.JujutsuChangeIdUtil;
 import com.google.gerrit.server.util.LabelVote;
 import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.gerrit.server.validators.ValidationException;
@@ -541,7 +542,14 @@ public class ReplaceOp implements BatchUpdateOp {
     change.setCurrentPatchSet(info);
 
     List<String> idList = changeUtil.getChangeIdsFromFooter(commit);
-    change.setKey(Change.key(idList.get(idList.size() - 1).trim()));
+    if (!idList.isEmpty()) {
+      change.setKey(Change.key(idList.get(idList.size() - 1).trim()));
+    } else {
+      // For Jujutsu commits the change ID lives in a commit-object header, not the message footer.
+      // Update the key from the header if present; otherwise leave the existing key unchanged.
+      JujutsuChangeIdUtil.getChangeIdFromCommitHeader(commit)
+          .ifPresent(jjId -> change.setKey(Change.key(jjId)));
+    }
   }
 
   @Override

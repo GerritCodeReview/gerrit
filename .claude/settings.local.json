@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl -s https://git-meta.com/)",
+      "WebFetch(domain:git-meta.com)"
+    ]
+  }
+}

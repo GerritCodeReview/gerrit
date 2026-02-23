@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d6384edf_22e8c10f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-02-23T22:59:51Z",
+      "side": 1,
+      "message": "This seems like a lot of code/config in Gerrit for a problem that seems like it could be solved by the user adding their preferred email to the avatar lookup service. Am I missing something here?",
+      "revId": "50f981d7d2123adb2be2243a5ff946a2c8dc0320",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

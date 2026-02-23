@@ -67,6 +67,7 @@ import com.google.gerrit.server.project.ProjectNotifyFilterValidator;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.ReceiveCommitControl;
 import com.google.gerrit.server.query.approval.ApprovalQueryBuilder;
+import com.google.gerrit.server.util.JujutsuChangeIdUtil;
 import com.google.gerrit.server.util.MagicBranch;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -463,6 +464,9 @@ public class CommitValidators {
       List<String> idList = changeUtil.getChangeIdsFromFooter(commit);
 
       if (idList.isEmpty()) {
+        if (JujutsuChangeIdUtil.hasJujutsuChangeId(commit)) {
+          return Collections.emptyList();
+        }
         String shortMsg = commit.getShortMessage();
         if (shortMsg.startsWith(CHANGE_ID_PREFIX)
             && CHANGE_ID.matcher(shortMsg.substring(CHANGE_ID_PREFIX.length()).trim()).matches()) {

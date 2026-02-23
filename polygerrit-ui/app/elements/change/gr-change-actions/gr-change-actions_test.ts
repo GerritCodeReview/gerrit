@@ -764,6 +764,26 @@ suite('gr-change-actions tests', () => {
       ]);
     });
 
+    test('rebase change aborted by handleBeforeRebase', async () => {
+      const fireActionStub = sinon.stub(element, 'fireAction');
+      const handleBeforeRebaseStub = sinon
+        .stub(testResolver(pluginLoaderToken).jsApiService, 'handleBeforeRebase')
+        .returns(Promise.resolve(false));
+
+      await element.handleRebaseConfirm(
+        new CustomEvent('', {
+          detail: {
+            base: '1234',
+            allowConflicts: false,
+            rebaseChain: false,
+          },
+        })
+      );
+
+      assert.isFalse(fireActionStub.called);
+      assert.isTrue(handleBeforeRebaseStub.called);
+    });
+
     test('rebase change with validation options', async () => {
       const fireActionStub = sinon.stub(element, 'fireAction');
       const confirmRebaseDialog = queryAndAssert<GrConfirmRebaseDialog>(

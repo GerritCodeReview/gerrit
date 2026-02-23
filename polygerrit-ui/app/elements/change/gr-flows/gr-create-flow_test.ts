@@ -448,6 +448,9 @@ suite('gr-create-flow tests', () => {
       );
       const grDialog = queryAndAssert<GrDialog>(createModal, 'gr-dialog');
 
+      element.copyPasteExpanded = true;
+      await element.updateComplete;
+
       const rawFlowTextarea = queryAndAssert<MdOutlinedTextField>(
         grDialog,
         'md-outlined-text-field[label="Copy and Paste existing flows"]'
@@ -531,6 +534,9 @@ suite('gr-create-flow tests', () => {
       );
       const grDialog = queryAndAssert<GrDialog>(createModal, 'gr-dialog');
 
+      element.copyPasteExpanded = true;
+      await element.updateComplete;
+
       // Find textarea
       const rawFlowTextarea = queryAndAssert<MdOutlinedTextField>(
         grDialog,
@@ -599,6 +605,9 @@ suite('gr-create-flow tests', () => {
       await element.updateComplete;
 
       const grDialog = queryAndAssert<GrDialog>(element, 'gr-dialog');
+
+      element.copyPasteExpanded = true;
+      await element.updateComplete;
 
       // Add a stage with empty condition via raw flow textarea
       const rawFlowTextarea = queryAndAssert<MdOutlinedTextField>(

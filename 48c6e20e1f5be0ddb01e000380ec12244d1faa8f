@@ -139,6 +139,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5e919a54_9a7cca41",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 752,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-02-23T23:03:54Z",
+      "side": 1,
+      "message": "\u003e tl;dr: Yes, let\u0027s raise an error with details of which changes were sumitted.\n\nTo clarify, if we raise an error, no changes will be submitted. The user in your accident example should get info from the error on which change(s) they don\u0027t have permission for and then either 1) fix their conflicting topic name or 2) get permission to submit without review in that repo/branch.",
+      "parentUuid": "3020e032_97edd51d",
+      "revId": "48c6e20e1f5be0ddb01e000380ec12244d1faa8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8fcb1d85_c6faf8a2",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 26

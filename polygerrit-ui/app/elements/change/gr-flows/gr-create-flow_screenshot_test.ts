@@ -42,6 +42,8 @@ suite('gr-create-flow screenshot tests', () => {
       },
     ];
 
+    element.documentationLink = 'http://link.to.documentation'
+
     element.currentCondition = 'status:merged';
     element.currentAction = 'submit';
     element.currentParameter = '';
@@ -64,5 +66,12 @@ suite('gr-create-flow screenshot tests', () => {
 
     await visualDiff(dialog, 'gr-create-flow-dialog');
     await visualDiffDarkTheme(dialog, 'gr-create-flow-dialog');
+  });
+
+  test('create-flow header screenshot', async () => {
+    const header = queryAndAssert<HTMLDivElement>(element, '.create-flow-header');
+
+    await visualDiff(header, 'gr-create-flow-dialog-header');
+    await visualDiffDarkTheme(header, 'gr-create-flow-dialog-header');
   });
 });

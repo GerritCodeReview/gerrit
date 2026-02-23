@@ -497,7 +497,6 @@ public class PatchSetInserter implements BatchUpdateOp {
                 permissionBackend.user(ctx.getUser()).project(ctx.getProject()),
                 origNotes.getChange().getDest(),
                 ctx.getIdentifiedUser(),
-                new NoSshInfo(),
                 ctx.getRevWalk(),
                 origNotes.getChange())
             .patchSet(psId)

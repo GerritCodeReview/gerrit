@@ -729,7 +729,6 @@ public class ChangeInserter implements InsertChangeOp {
                 permissionBackend.user(ctx.getUser()).project(ctx.getProject()),
                 BranchNameKey.create(ctx.getProject(), refName),
                 ctx.getIdentifiedUser(),
-                new NoSshInfo(),
                 ctx.getRevWalk(),
                 change)
             .patchSet(psId)

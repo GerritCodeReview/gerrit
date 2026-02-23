@@ -108,7 +108,7 @@ export class GrCreateFlow extends LitElement {
   // private but used in tests
   flowActions: FlowActionInfo[] = [];
 
-  @state() private documentationLink?: string;
+  @state() documentationLink?: string;
 
   private readonly restApiService = getAppContext().restApiService;
 
@@ -248,6 +248,10 @@ export class GrCreateFlow extends LitElement {
       grFormStyles,
       modalStyles,
       css`
+        .create-flow-header {
+          display: flex;
+          align-items: center;
+        }
         md-outlined-text-field,
         gr-search-autocomplete,
         md-outlined-select {
@@ -445,15 +449,17 @@ export class GrCreateFlow extends LitElement {
 
   override render() {
     return html`
-      <gr-button
-        aria-label="Create Flow"
-        @click=${() => {
-          this.createModal?.showModal();
-        }}
-      >
-        Create Flow
-      </gr-button>
-      ${this.renderDocumentationLink(this.documentationLink)}
+      <div class="create-flow-header">
+        <gr-button
+          aria-label="Create Flow"
+          @click=${() => {
+            this.createModal?.showModal();
+          }}
+        >
+          Create Flow
+        </gr-button>
+        ${this.renderDocumentationLink(this.documentationLink)}
+      </div>
       ${this.renderCreateFlowDialog()}
     `;
   }

@@ -38,7 +38,6 @@ import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.gerrit.server.patch.DiffOperationsForCommitValidation;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.project.ProjectState;
-import com.google.gerrit.server.ssh.SshInfo;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
@@ -58,7 +57,6 @@ public class BranchCommitValidator {
   private final PermissionBackend.ForProject permissions;
   private final Project project;
   private final BranchNameKey branch;
-  private final SshInfo sshInfo;
 
   interface Factory {
     BranchCommitValidator create(
@@ -95,11 +93,9 @@ public class BranchCommitValidator {
   BranchCommitValidator(
       CommitValidators.Factory commitValidatorsFactory,
       PermissionBackend permissionBackend,
-      SshInfo sshInfo,
       @Assisted ProjectState projectState,
       @Assisted BranchNameKey branch,
       @Assisted IdentifiedUser user) {
-    this.sshInfo = sshInfo;
     this.user = user;
     this.branch = branch;
     this.commitValidatorsFactory = commitValidatorsFactory;
@@ -198,7 +194,6 @@ public class BranchCommitValidator {
                   permissions,
                   branch,
                   user.asIdentifiedUser(),
-                  sshInfo,
                   rejectCommits,
                   receiveEvent.revWalk,
                   change,

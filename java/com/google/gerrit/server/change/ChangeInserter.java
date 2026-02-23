@@ -86,7 +86,6 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
-import com.google.gerrit.server.ssh.NoSshInfo;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Context;
 import com.google.gerrit.server.update.InsertChangeOp;
@@ -729,7 +728,6 @@ public class ChangeInserter implements InsertChangeOp {
                 permissionBackend.user(ctx.getUser()).project(ctx.getProject()),
                 BranchNameKey.create(ctx.getProject(), refName),
                 ctx.getIdentifiedUser(),
-                new NoSshInfo(),
                 ctx.getRevWalk(),
                 change)
             .patchSet(psId)

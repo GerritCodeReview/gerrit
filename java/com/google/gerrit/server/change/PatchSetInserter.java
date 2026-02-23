@@ -59,7 +59,6 @@ import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.ssh.NoSshInfo;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.PostUpdateContext;
@@ -497,7 +496,6 @@ public class PatchSetInserter implements BatchUpdateOp {
                 permissionBackend.user(ctx.getUser()).project(ctx.getProject()),
                 origNotes.getChange().getDest(),
                 ctx.getIdentifiedUser(),
-                new NoSshInfo(),
                 ctx.getRevWalk(),
                 origNotes.getChange())
             .patchSet(psId)

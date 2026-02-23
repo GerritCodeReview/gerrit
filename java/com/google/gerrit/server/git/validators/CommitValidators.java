@@ -67,8 +67,6 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.approval.ApprovalQueryBuilder;
-import com.google.gerrit.server.ssh.HostKey;
-import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gerrit.server.util.MagicBranch;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -150,7 +148,6 @@ public class CommitValidators {
         PermissionBackend.ForProject forProject,
         BranchNameKey branch,
         IdentifiedUser user,
-        SshInfo sshInfo,
         NoteMap rejectCommits,
         RevWalk rw,
         @Nullable Change change,
@@ -167,9 +164,7 @@ public class CommitValidators {
           .add(new FileCountValidator(config, urlFormatter.get(), metricMaker))
           .add(new CommitterUploaderValidator(user, perm, urlFormatter.get()))
           .add(new SignedOffByValidator(user, perm, projectState))
-          .add(
-              new ChangeIdValidator(
-                  changeUtil, projectState, user, urlFormatter.get(), config, sshInfo, change))
+          .add(new ChangeIdValidator(changeUtil, projectState, urlFormatter.get(), config, change))
           .add(new ConfigValidator(projectConfigFactory, branch, user, rw, allUsers, allProjects))
           .add(new BannedCommitsValidator(rejectCommits));
 
@@ -190,7 +185,6 @@ public class CommitValidators {
         PermissionBackend.ForProject forProject,
         BranchNameKey branch,
         IdentifiedUser user,
-        SshInfo sshInfo,
         RevWalk rw,
         @Nullable Change change) {
       PermissionBackend.ForRef perm = forProject.ref(branch.branch());
@@ -204,9 +198,7 @@ public class CommitValidators {
           .add(new AuthorUploaderValidator(user, perm, urlFormatter.get()))
           .add(new FileCountValidator(config, urlFormatter.get(), metricMaker))
           .add(new SignedOffByValidator(user, perm, projectState))
-          .add(
-              new ChangeIdValidator(
-                  changeUtil, projectState, user, urlFormatter.get(), config, sshInfo, change))
+          .add(new ChangeIdValidator(changeUtil, projectState, urlFormatter.get(), config, change))
           .add(new ConfigValidator(projectConfigFactory, branch, user, rw, allUsers, allProjects));
 
       Iterator<PluginSetEntryContext<CommitValidationListener>> pluginValidatorsIt =
@@ -387,24 +379,18 @@ public class CommitValidators {
     private final ProjectState projectState;
     private final UrlFormatter urlFormatter;
     private final String installCommitMsgHookCommand;
-    private final SshInfo sshInfo;
-    private final IdentifiedUser user;
     private final Change change;
 
     public ChangeIdValidator(
         ChangeUtil changeUtil,
         ProjectState projectState,
-        IdentifiedUser user,
         UrlFormatter urlFormatter,
         Config config,
-        SshInfo sshInfo,
         Change change) {
       this.changeUtil = changeUtil;
       this.projectState = projectState;
-      this.user = user;
       this.urlFormatter = urlFormatter;
       installCommitMsgHookCommand = config.getString("gerrit", null, "installCommitMsgHookCommand");
-      this.sshInfo = sshInfo;
       this.change = change;
     }
 
@@ -499,10 +485,7 @@ public class CommitValidators {
       if (installCommitMsgHookCommand != null) {
         return installCommitMsgHookCommand;
       }
-      final List<HostKey> hostKeys = sshInfo.getHostKeys();
 
-      // If there are no SSH keys, the commit-msg hook must be installed via
-      // HTTP(S)
       Optional<String> webUrl = urlFormatter.getWebUrl();
 
       String httpHook =
@@ -510,42 +493,8 @@ public class CommitValidators {
               "f=\"$(git rev-parse --git-dir)/hooks/commit-msg\"; curl -o \"$f\""
                   + " %stools/hooks/commit-msg ; chmod +x \"$f\"",
               webUrl.get());
-
-      if (hostKeys.isEmpty()) {
-        checkState(webUrl.isPresent());
-        return httpHook;
-      }
-
-      // SSH keys exist, so the hook might be able to be installed with scp.
-      String sshHost;
-      int sshPort;
-      String host = hostKeys.get(0).getHost();
-      int c = host.lastIndexOf(':');
-      if (0 <= c) {
-        if (host.startsWith("*:")) {
-          checkState(webUrl.isPresent());
-          sshHost = getGerritHost(webUrl.get());
-        } else {
-          sshHost = host.substring(0, c);
-        }
-        sshPort = Integer.parseInt(host.substring(c + 1));
-      } else {
-        sshHost = host;
-        sshPort = 22;
-      }
-
-      // TODO(15944): Remove once both SFTP/SCP protocol are supported.
-      //
-      // In newer versions of OpenSSH, the default hook installation command will fail with a
-      // cryptic error because the scp binary defaults to a different protocol.
-      String scpFlagHint = "(for OpenSSH >= 9.0 you need to add the flag '-O' to the scp command)";
-
-      String sshHook =
-          String.format(
-              "gitdir=$(git rev-parse --git-dir); scp -p -P %d %s@%s:hooks/commit-msg"
-                  + " ${gitdir}/hooks/",
-              sshPort, user.getUserName().orElse("<USERNAME>"), sshHost);
-      return String.format("  %s\n%s\nor, for http(s):\n  %s", sshHook, scpFlagHint, httpHook);
+      checkState(webUrl.isPresent());
+      return httpHook;
     }
   }
 

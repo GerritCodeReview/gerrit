@@ -45,6 +45,30 @@
       },
       "revId": "173547050b6f09cf8e1a53991527ff23e432c938",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b8a7b6a0_18e39016",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-summary/gr-change-summary.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-02-23T20:06:47Z",
+      "side": 1,
+      "message": "\u003e ... why do you need to put it under feature flag? This is just simple way how to copy prompts for AI. \n\nThere have been several requests (both mailing list and in Discord) to support disabling any AI-related features in Gerrit. I think we\u0027ve been clear so far that we\u0027re not making any guarantees, but there\u0027s interest in providing a best-effort solution for those admins/users who want to avoid AI in Gerrit.",
+      "parentUuid": "2eaa2d68_fb9b1a3b",
+      "range": {
+        "startLine": 133,
+        "startChar": 1,
+        "endLine": 135,
+        "endChar": 4
+      },
+      "revId": "173547050b6f09cf8e1a53991527ff23e432c938",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

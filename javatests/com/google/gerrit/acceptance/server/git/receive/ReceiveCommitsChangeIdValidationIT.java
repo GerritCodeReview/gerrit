@@ -15,17 +15,28 @@
 package com.google.gerrit.acceptance.server.git.receive;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.config.GerritConfig;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.transport.PushResult;
 import org.junit.Test;
 
 /** Tests for checking the validation of Change-Id during receive-commits. */
 public class ReceiveCommitsChangeIdValidationIT extends AbstractDaemonTest {
+
+  private static final String JJ_CHANGE_ID = "mlqnqnkrxpuvuuxzlzoltostwlwyskpx";
 
   @Test
   public void disallowTruncatingChangeIdAcrossPatchSets() throws Exception {
@@ -94,6 +105,55 @@ public class ReceiveCommitsChangeIdValidationIT extends AbstractDaemonTest {
             + "  git commit --amend --no-edit\n"
             + "Finally, push your changes again\n\n$";
     assertThat(pushResult.getMessage()).matches(missingChangeIdRegex);
+  }
+
+  @Test
+  public void pushWithJujutsuChangeId_acceptedWithoutChangeIdFooter() throws Exception {
+    resetHeadToJjCommit("Commit from Jujutsu with Change-Id header\n");
+
+    PushResult result = GitUtil.pushHead(testRepo, "refs/for/master");
+    GitUtil.assertPushOk(result, "refs/for/master");
+
+    assertThat(gApi.changes().id(project.get() + "~master~" + JJ_CHANGE_ID).get().changeId)
+        .isEqualTo(JJ_CHANGE_ID);
+  }
+
+  @Test
+  public void pushWithBothJujutsuAndGerritChangeId_gerritFooterHasPriority() throws Exception {
+    String gerritChangeId = "I0000000000000000000000000000000000000099";
+    resetHeadToJjCommit(
+        "Commit with both header and footer change IDs\n\nChange-Id: " + gerritChangeId + "\n");
+
+    PushResult result = GitUtil.pushHead(testRepo, "refs/for/master");
+    GitUtil.assertPushOk(result, "refs/for/master");
+
+    assertThat(gApi.changes().id(gerritChangeId).get().changeId).isEqualTo(gerritChangeId);
+    assertThrows(
+        ResourceNotFoundException.class,
+        () -> gApi.changes().id(project.get() + "~master~" + JJ_CHANGE_ID).get());
+  }
+
+  /** Builds a raw JJ-style commit (change-id in commit-object header) and resets HEAD to it. */
+  private void resetHeadToJjCommit(String message) throws Exception {
+    PersonIdent ident = admin.newIdent();
+    ObjectId head = testRepo.getRepository().resolve("HEAD");
+    StringBuilder raw = new StringBuilder();
+    raw.append("tree 4b825dc642cb6eb9a060e54bf8d69288fbee4904\n"); // empty tree
+    if (head != null) {
+      raw.append("parent ").append(head.name()).append("\n");
+    }
+    raw.append("author ").append(ident.toExternalString()).append("\n");
+    raw.append("committer ").append(ident.toExternalString()).append("\n");
+    raw.append("change-id ").append(JJ_CHANGE_ID).append("\n");
+    raw.append("\n");
+    raw.append(message);
+
+    ObjectId commitId;
+    try (ObjectInserter ins = testRepo.getRepository().newObjectInserter()) {
+      commitId = ins.insert(Constants.OBJ_COMMIT, raw.toString().getBytes(UTF_8));
+      ins.flush();
+    }
+    testRepo.reset(commitId);
   }
 
   @CanIgnoreReturnValue

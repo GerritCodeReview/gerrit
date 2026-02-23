@@ -83,6 +83,7 @@ import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Context;
 import com.google.gerrit.server.update.PostUpdateContext;
 import com.google.gerrit.server.update.RepoContext;
+import com.google.gerrit.server.util.JujutsuChangeIdUtil;
 import com.google.gerrit.server.util.LabelVote;
 import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.gerrit.server.validators.ValidationException;
@@ -541,7 +542,12 @@ public class ReplaceOp implements BatchUpdateOp {
     change.setCurrentPatchSet(info);
 
     List<String> idList = changeUtil.getChangeIdsFromFooter(commit);
-    change.setKey(Change.key(idList.get(idList.size() - 1).trim()));
+    if (!idList.isEmpty()) {
+      change.setKey(Change.key(idList.get(idList.size() - 1).trim()));
+    } else {
+      JujutsuChangeIdUtil.getChangeIdFromCommitHeader(commit)
+          .ifPresent(jjId -> change.setKey(Change.key(jjId)));
+    }
   }
 
   @Override

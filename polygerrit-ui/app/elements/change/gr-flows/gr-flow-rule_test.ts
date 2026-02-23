@@ -8,10 +8,12 @@ import './gr-flow-rule';
 import {GrFlowRule} from './gr-flow-rule';
 import {assert, fixture, html} from '@open-wc/testing';
 import {FlowStageState} from '../../../api/rest-api';
+import {stubRestApi} from '../../../test/test-utils';
+import {createAccountDetailWithId} from '../../../test/test-data-generators';
+import {EmailAddress, UserId} from '../../../types/common';
 
 suite('gr-flow-rule tests', () => {
   let element: GrFlowRule;
-
   setup(async () => {
     element = await fixture<GrFlowRule>(
       html`<gr-flow-rule .condition=${'label:Code-Review=+1'}></gr-flow-rule>`
@@ -89,6 +91,64 @@ suite('gr-flow-rule tests', () => {
         </div>
       `
     );
+  });
+
+  test('renders email parameter as account chip when account exists', async () => {
+    const account = {
+      ...createAccountDetailWithId(1),
+      email: 'user@example.com' as EmailAddress,
+    };
+    const getAccountDetailsStub = stubRestApi('getAccountDetails');
+    getAccountDetailsStub
+      .withArgs('user@example.com' as UserId)
+      .resolves(account);
+    getAccountDetailsStub
+      .withArgs('not-found@example.com' as UserId)
+      .resolves(undefined);
+
+    element.action = 'add_reviewer';
+    element.parameters = [
+      'user@example.com',
+      'not-an-email',
+      'not-found@example.com',
+    ];
+    await element.updateComplete;
+
+    // wait for async account fetching and re-rendering
+    await new Promise(resolve => setTimeout(resolve, 0));
+    await element.updateComplete;
+
+    assert.isTrue(
+      getAccountDetailsStub.calledWith('user@example.com' as UserId)
+    );
+    assert.isTrue(
+      getAccountDetailsStub.calledWith('not-found@example.com' as UserId)
+    );
+    // getAccountDetails should not be called for 'not-an-email'
+    assert.equal(getAccountDetailsStub.callCount, 2);
+
+    const params = element.shadowRoot?.querySelectorAll(
+      '.account-parameter, .parameter'
+    );
+    assert.isOk(params);
+    assert.equal(params.length, 3);
+
+    const accountParam = params[0];
+    assert.isTrue(accountParam.classList.contains('account-parameter'));
+    const avatar = accountParam.querySelector('gr-avatar');
+    assert.isOk(avatar);
+    assert.deepEqual(avatar.account, account);
+    const label = accountParam.querySelector('gr-account-label');
+    assert.isOk(label);
+    assert.deepEqual(label.account, account);
+
+    const notAnEmailParam = params[1];
+    assert.isTrue(notAnEmailParam.classList.contains('parameter'));
+    assert.equal(notAnEmailParam.textContent?.trim(), 'not-an-email');
+
+    const notFoundParam = params[2];
+    assert.isTrue(notFoundParam.classList.contains('parameter'));
+    assert.equal(notFoundParam.textContent?.trim(), 'not-found@example.com');
   });
 
   test('renders error message directly', async () => {

@@ -95,6 +95,7 @@ import com.google.gerrit.server.query.change.ChangePredicates.EditByPredicatePro
 import com.google.gerrit.server.query.change.PredicateArgs.ValOp;
 import com.google.gerrit.server.rules.SubmitRule;
 import com.google.gerrit.server.submit.SubmitDryRun;
+import com.google.gerrit.server.util.JujutsuChangeIdUtil;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
@@ -649,6 +650,10 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
       }
     } else if (PAT_CHANGE_ID.matcher(query).matches()) {
       return ChangePredicates.idPrefix(parseChangeId(query));
+    } else if (JujutsuChangeIdUtil.isJujutsuChangeId(query) || query.matches("^[a-z]{4,31}$")) {
+      // Accept full (32-char) and abbreviated JJ change IDs (lowercase letters only).
+      // JJ change IDs are stored as Change.Key so the same idPrefix lookup works.
+      return ChangePredicates.idPrefix(query);
     }
 
     throw new QueryParseException("Invalid change format");

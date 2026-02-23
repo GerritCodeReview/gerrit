@@ -121,6 +121,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3020e032_97edd51d",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 752,
+      "author": {
+        "id": 1019407
+      },
+      "writtenOn": "2026-02-23T22:59:07Z",
+      "side": 1,
+      "message": "I\u0027m trying to think through the cases where an admin with elevated permissions would want to use submitted together while bypassing review.\n\n* Reverting a change where submitted together was used\n* Doing a forward fix that requires cherry picking changes in multiple repos\n\nIn either case, if the person trying to bypass review doesn\u0027t have the required visibility or other permissions on a change, they would want to know that the full set of changes were not applied, rather than thinking they had put out the fire when in fact a far corner is still burning.\n\nOther cases where this could trigger:\n* A malicious user is trying to bypass code review\n* An accident in the global topics namespace occurs\n\nA malicious user is going to check that the code review bypass succeeded, there is no benefit to suppressing an eerror.\n\nGiving an error for an accident in the topics namespace tells the submitter that their topic name was not unique enough. The error message needs to be detailed enough that they see their intended changes got through. In general I don\u0027t think bypassing code review when using topics is ever a good idea, emergency fixes should be small in scope and people should be able to get by by pushing each change independently. So I\u0027m fine with the overhead here.\n\ntl;dr: Yes, let\u0027s raise an error with details of which changes were sumitted.",
+      "parentUuid": "abe0f3d5_9c64ca3a",
+      "revId": "48c6e20e1f5be0ddb01e000380ec12244d1faa8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8fcb1d85_c6faf8a2",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 26

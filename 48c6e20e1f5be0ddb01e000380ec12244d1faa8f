@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6785fde6_77cbe4e5",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 746,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-02-23T20:34:28Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "ab56eb82_24c6aa71",
+      "range": {
+        "startLine": 742,
+        "startChar": 0,
+        "endLine": 746,
+        "endChar": 68
+      },
+      "revId": "48c6e20e1f5be0ddb01e000380ec12244d1faa8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "20e14956_525fe4f2",
@@ -37,6 +61,24 @@
       "writtenOn": "2026-02-23T20:29:24Z",
       "side": 1,
       "message": "Should this silently skip or hard fail? I feel like failing would be less surprising to users and it matches the behavior when one change in the topic is invisible (L735).",
+      "revId": "48c6e20e1f5be0ddb01e000380ec12244d1faa8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1f466293_6a3c5fa2",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 752,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-02-23T20:34:28Z",
+      "side": 1,
+      "message": "This might break callers incorrectly using this feature so I would be initially hesitant to \"fail\" since it would lead to a bigger issue for the caller.\n\nI am also worried that our internal customers force us to either revert this change while they update their tooling etc causing us to be in a difficult situation.\n\nIdeally I think an error makes more sense but I would say we first release with a silent failure to see the downstream effects of this fix and then update it to throw an error?\n\nWDYT?",
+      "parentUuid": "20e14956_525fe4f2",
       "revId": "48c6e20e1f5be0ddb01e000380ec12244d1faa8f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

@@ -3,14 +3,18 @@
  * Copyright 2026 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {customElement, property} from 'lit/decorators.js';
+import {customElement, property, state} from 'lit/decorators.js';
 import {css, html, LitElement, nothing, PropertyValues} from 'lit';
 import {sharedStyles} from '../../../styles/shared-styles';
-import {FlowStageState} from '../../../api/rest-api';
+import {AccountDetailInfo, FlowStageState} from '../../../api/rest-api';
 import {formatActionName} from '../../../utils/flows-util';
 import '../../shared/gr-icon/gr-icon';
 import '../../shared/gr-tooltip-content/gr-tooltip-content';
 import {ifDefined} from 'lit/directives/if-defined.js';
+import {getAppContext} from '../../../services/app-context';
+import '../../shared/gr-avatar/gr-avatar';
+import '../../shared/gr-account-label/gr-account-label';
+import {UserId} from '../../../types/common';
 
 @customElement('gr-flow-rule')
 export class GrFlowRule extends LitElement {
@@ -31,6 +35,11 @@ export class GrFlowRule extends LitElement {
 
   @property({type: String})
   parameterStr?: string;
+
+  @state()
+  private accounts = new Map<string, AccountDetailInfo | null>();
+
+  private readonly restApiService = getAppContext().restApiService;
 
   static override get styles() {
     return [
@@ -56,6 +65,14 @@ export class GrFlowRule extends LitElement {
           border-radius: var(--border-radius);
           font-family: var(--monospace-font-family);
           font-size: var(--font-size-small);
+        }
+        .account-parameter {
+          display: inline-flex;
+          align-items: center;
+          gap: var(--spacing-s);
+          background-color: var(--background-color-secondary);
+          padding: 2px 4px;
+          border-radius: var(--border-radius);
         }
         .arrow {
           color: var(--deemphasized-text-color);
@@ -109,14 +126,57 @@ export class GrFlowRule extends LitElement {
         ? this.parameterStr.trim().split(/\s+/)
         : [];
     }
+    if (changedProperties.has('parameters')) {
+      this.updateAccounts();
+    }
+  }
+
+  private updateAccounts() {
+    if (!this.parameters) {
+      if (this.accounts.size > 0) this.accounts = new Map();
+      return;
+    }
+
+    const promises = this.parameters.map(async p => {
+      // Simple email regex check
+      if (/\S+@\S+\.\S+/.test(p)) {
+        try {
+          const account = await this.restApiService.getAccountDetails(
+            p as UserId
+          );
+          return {key: p, value: account ?? null};
+        } catch (e) {
+          console.error(`Failed to fetch account for ${p}`, e);
+          return {key: p, value: null};
+        }
+      }
+      return {key: p, value: null};
+    });
+
+    Promise.all(promises).then(results => {
+      const newAccounts = new Map<string, AccountDetailInfo | null>();
+      for (const result of results) {
+        newAccounts.set(result.key, result.value);
+      }
+      this.accounts = newAccounts;
+    });
   }
 
   private renderParameters() {
     if (!this.parameters || this.parameters.length === 0) return nothing;
     return html`
-      ${this.parameters.map(
-        p => html`<span class="parameter"><code>${p}</code></span>`
-      )}
+      ${this.parameters.map(p => {
+        const account = this.accounts.get(p);
+        if (account) {
+          return html`
+            <span class="account-parameter">
+              <gr-avatar .account=${account} .imageSize=${16}></gr-avatar>
+              <gr-account-label .account=${account}></gr-account-label>
+            </span>
+          `;
+        }
+        return html`<span class="parameter"><code>${p}</code></span>`;
+      })}
     `;
   }
 

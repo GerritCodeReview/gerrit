@@ -95,6 +95,8 @@ export class GrCreateFlow extends LitElement {
 
   @state() private guidedBuilderExpanded = true;
 
+  @state() copyPasteExpanded = false;
+
   @state() private loading = false;
 
   @state() private serverConfig?: ServerInfo;
@@ -254,7 +256,7 @@ export class GrCreateFlow extends LitElement {
         .main {
           width: 680px; /* 85ch equivalent to prevent screenshot flakiness */
         }
-        .guided-builder-header {
+        .section-header {
           display: flex;
           align-items: center;
           gap: var(--spacing-s);
@@ -497,26 +499,8 @@ export class GrCreateFlow extends LitElement {
         >
           <div slot="header">Create new flow</div>
           <div class="main" slot="main">
-            <div class="raw-flow-container">
-              <md-outlined-text-field
-                class="full-width-text-field"
-                type="textarea"
-                rows="4"
-                label="Copy and Paste existing flows"
-                .value=${this.flowString}
-                @input=${(e: InputEvent) => {
-                  this.flowString = (e.target as MdOutlinedTextField).value;
-                  this.parseStagesFromRawFlow(this.flowString);
-                }}
-              ></md-outlined-text-field>
-              <gr-copy-clipboard
-                .text=${this.flowString}
-                buttonTitle="Copy raw flow to clipboard"
-                hideinput
-              ></gr-copy-clipboard>
-            </div>
             <div
-              class="guided-builder-header"
+              class="section-header"
               @click=${(e: Event) => this.toggleGuidedBuilder(e)}
               @keydown=${(e: KeyboardEvent) => {
                 if (e.key === 'Enter' || e.key === ' ') {
@@ -600,6 +584,47 @@ export class GrCreateFlow extends LitElement {
                 </div>
               `
             )}
+            <div
+              class="section-header"
+              @click=${(e: Event) => this.toggleCopyPaste(e)}
+              @keydown=${(e: KeyboardEvent) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  this.toggleCopyPaste(e);
+                }
+              }}
+              role="button"
+              tabindex="0"
+              aria-expanded=${this.copyPasteExpanded ? 'true' : 'false'}
+            >
+              <gr-icon
+                icon=${this.copyPasteExpanded ? 'expand_less' : 'expand_more'}
+                filled
+              ></gr-icon>
+              <span>Copy and Paste existing Flows</span>
+            </div>
+            ${when(
+              this.copyPasteExpanded,
+              () => html`
+                <div class="raw-flow-container">
+                  <md-outlined-text-field
+                    class="full-width-text-field"
+                    type="textarea"
+                    rows="4"
+                    label="Copy and Paste existing flows"
+                    .value=${this.flowString}
+                    @input=${(e: InputEvent) => {
+                      this.flowString = (e.target as MdOutlinedTextField).value;
+                      this.parseStagesFromRawFlow(this.flowString);
+                    }}
+                  ></md-outlined-text-field>
+                  <gr-copy-clipboard
+                    .text=${this.flowString}
+                    buttonTitle="Copy raw flow to clipboard"
+                    hideinput
+                  ></gr-copy-clipboard>
+                </div>
+              `
+            )}
           </div>
         </gr-dialog>
       </dialog>
@@ -610,6 +635,12 @@ export class GrCreateFlow extends LitElement {
     e.stopPropagation();
     e.preventDefault();
     this.guidedBuilderExpanded = !this.guidedBuilderExpanded;
+  }
+
+  private toggleCopyPaste(e: Event) {
+    e.stopPropagation();
+    e.preventDefault();
+    this.copyPasteExpanded = !this.copyPasteExpanded;
   }
 
   private setDefaultVoteLabelAndValue() {

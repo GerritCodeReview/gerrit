@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ab56eb82_24c6aa71",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 746,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-02-23T20:29:24Z",
+      "side": 1,
+      "message": "This comment doesn\u0027t apply to the new condition, so I think you want to move it inside the loop.\n```suggestion\n        List\u003cChangeData\u003e filteredChanges \u003d new ArrayList\u003c\u003e();\n        for (ChangeData changeData : noteDbChangeSet.changes()) {\n          // At this point, any change that isn\u0027t new can be filtered out since they were only here\n          // in the first place due to stale index.\n          if (!changeData.change().getStatus().equals(Status.NEW)) {\n```",
+      "range": {
+        "startLine": 742,
+        "startChar": 0,
+        "endLine": 746,
+        "endChar": 68
+      },
+      "revId": "48c6e20e1f5be0ddb01e000380ec12244d1faa8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "20e14956_525fe4f2",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 752,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-02-23T20:29:24Z",
+      "side": 1,
+      "message": "Should this silently skip or hard fail? I feel like failing would be less surprising to users and it matches the behavior when one change in the topic is invisible (L735).",
+      "revId": "48c6e20e1f5be0ddb01e000380ec12244d1faa8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

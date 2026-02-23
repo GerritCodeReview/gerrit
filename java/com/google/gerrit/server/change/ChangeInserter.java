@@ -92,6 +92,7 @@ import com.google.gerrit.server.update.InsertChangeOp;
 import com.google.gerrit.server.update.PostUpdateContext;
 import com.google.gerrit.server.update.RepoContext;
 import com.google.gerrit.server.util.CommitMessageUtil;
+import com.google.gerrit.server.util.JujutsuChangeIdUtil;
 import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.inject.Inject;
@@ -257,6 +258,10 @@ public class ChangeInserter implements InsertChangeOp {
     List<String> idList = changeUtil.getChangeIdsFromFooter(commit);
     if (!idList.isEmpty()) {
       return Change.key(idList.get(idList.size() - 1).trim());
+    }
+    Optional<String> jjId = JujutsuChangeIdUtil.getChangeIdFromCommitHeader(commit);
+    if (jjId.isPresent()) {
+      return Change.key(jjId.get());
     }
     // A Change-Id is generated for the review, but not appended to the commit message.
     // This can happen if requireChangeId is false.

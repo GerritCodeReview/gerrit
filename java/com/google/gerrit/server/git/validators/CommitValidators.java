@@ -487,14 +487,12 @@ public class CommitValidators {
       }
 
       Optional<String> webUrl = urlFormatter.getWebUrl();
-
-      String httpHook =
-          String.format(
-              "f=\"$(git rev-parse --git-dir)/hooks/commit-msg\"; curl -o \"$f\""
-                  + " %stools/hooks/commit-msg ; chmod +x \"$f\"",
-              webUrl.get());
       checkState(webUrl.isPresent());
-      return httpHook;
+
+      return String.format(
+          "f=\"$(git rev-parse --git-dir)/hooks/commit-msg\"; curl -o \"$f\""
+              + " %stools/hooks/commit-msg ; chmod +x \"$f\"",
+          webUrl.get());
     }
   }
 

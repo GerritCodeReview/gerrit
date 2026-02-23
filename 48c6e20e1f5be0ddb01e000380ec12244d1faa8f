@@ -85,6 +85,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8bf57ae6_06785655",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 752,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-02-23T20:38:17Z",
+      "side": 1,
+      "message": "Since any current tooling will have different behavior either way, I think the failure is better. Customers finding out in a month that something changed will still be an escalation + panic to figure out what to do about all the changes that weren\u0027t submitted that they expected to be submitted.\n\nIf you\u0027re that concerned about it, I would start with adding only the log message and not changing the behavior. Then you could reach out to customers proactively if you see log messages. I don\u0027t know how that works from a security release perspective though.",
+      "parentUuid": "1f466293_6a3c5fa2",
+      "revId": "48c6e20e1f5be0ddb01e000380ec12244d1faa8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8fcb1d85_c6faf8a2",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 26

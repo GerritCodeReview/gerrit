@@ -69,6 +69,24 @@
       "message": "-2 only for blocking the merge until the security releases are out, not for disagreeent 😊",
       "revId": "c776e51ccba8e23b96a936d20bb4cf492f84cd1a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d713d1a2_7a7a5d1b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 29
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-02-24T10:59:10Z",
+      "side": 1,
+      "message": "SGTM\n\n@luca.milanesio@gmail.com there is also the unit test in the plugin failing\n\nChange 555161 is causing the CI on this change to fail\n\nI don\u0027t think we can merge the two changes? Can you please also take over the release for that?",
+      "parentUuid": "84b82bad_5a2de713",
+      "revId": "c776e51ccba8e23b96a936d20bb4cf492f84cd1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

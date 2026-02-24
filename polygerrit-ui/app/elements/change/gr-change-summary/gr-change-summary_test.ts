@@ -280,6 +280,7 @@ suite('gr-change-summary test', () => {
         loading: false,
         isEnabled: true,
         providers: [],
+        autosubmitProviders: []
       });
       await element.updateComplete;
       const flowsSummary = queryAndAssert(element, '.flowsSummary');

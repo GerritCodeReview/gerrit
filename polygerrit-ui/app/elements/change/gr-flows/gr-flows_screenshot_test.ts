@@ -130,6 +130,7 @@ suite('gr-flows screenshot tests', () => {
       loading: false,
       isEnabled: true,
       providers: [],
+      autosubmitProviders: [],
     });
     await element.updateComplete;
     await waitUntil(

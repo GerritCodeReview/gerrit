@@ -14,7 +14,7 @@ import {PluginsModel} from '../plugins/plugins-model';
 
 import {NumericChangeId} from '../../types/common';
 import {getAppContext} from '../../services/app-context';
-import {FlowsProvider} from '../../api/flows';
+import {FlowsAutosubmitProvider, FlowsProvider} from '../../api/flows';
 import {select} from '../../utils/observable-util';
 import {isDefined} from '../../types/types';
 
@@ -24,6 +24,7 @@ export interface FlowsState {
   loading: boolean;
   errorMessage?: string;
   providers: FlowsProvider[];
+  autosubmitProviders: FlowsAutosubmitProvider[];
 }
 
 export const flowsModelToken = define<FlowsModel>('flows-model');
@@ -36,6 +37,19 @@ export class FlowsModel extends Model<FlowsState> {
   readonly providers$: Observable<FlowsProvider[]> = select(
     this.state$,
     state => state.providers
+  );
+
+  readonly autosubmitProviders$: Observable<FlowsAutosubmitProvider[]> = select(
+    this.state$,
+    state => state.autosubmitProviders
+  );
+
+  readonly isAutosubmitEnabled$: Observable<boolean> = select(
+    this.autosubmitProviders$,
+    autosubmitProviders =>
+      autosubmitProviders.some(
+        autosubmitProvider => !!autosubmitProvider.isAutosubmitEnabled()
+      )
   );
 
   readonly enabled$: Observable<boolean>;
@@ -55,6 +69,7 @@ export class FlowsModel extends Model<FlowsState> {
       flows: [],
       loading: true,
       providers: [],
+      autosubmitProviders: [],
     });
 
     this.enabled$ = this.changeModel.changeNum$.pipe(

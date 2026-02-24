@@ -89,6 +89,7 @@ suite('gr-flows tests', () => {
       loading: false,
       isEnabled: true,
       providers: [],
+      autosubmitProviders: []
     });
     await element.updateComplete;
   });
@@ -118,6 +119,7 @@ suite('gr-flows tests', () => {
       loading: false,
       isEnabled: true,
       providers: [],
+      autosubmitProviders: []
     });
     await element.updateComplete;
 
@@ -234,6 +236,7 @@ suite('gr-flows tests', () => {
       loading: false,
       isEnabled: true,
       providers: [],
+      autosubmitProviders: []
     });
     await element.updateComplete;
 
@@ -263,6 +266,7 @@ suite('gr-flows tests', () => {
       loading: false,
       isEnabled: true,
       providers: [],
+      autosubmitProviders: []
     });
     await element.updateComplete;
 
@@ -292,6 +296,7 @@ suite('gr-flows tests', () => {
       loading: false,
       isEnabled: true,
       providers: [],
+      autosubmitProviders: []
     });
     await element.updateComplete;
 
@@ -315,6 +320,7 @@ suite('gr-flows tests', () => {
         loading: false,
         isEnabled: true,
         providers: [],
+        autosubmitProviders: []
       });
       await element.updateComplete;
     });

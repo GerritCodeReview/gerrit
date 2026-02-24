@@ -143,6 +143,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "adb6ccdd_24695c26",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 20
+      },
+      "lineNbr": 1722,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-02-24T20:44:21Z",
+      "side": 1,
+      "message": "I think two things are important:\n1. Making it clear how to remove Autosubmit (There are times you really need to turn this off)\n2. Making it clear that autosubmit is on for a change\n\nIf we can accomplish these two things in some way, then we should be good for MVP.",
+      "parentUuid": "251322e5_d2a14e8a",
+      "range": {
+        "startLine": 1722,
+        "startChar": 36,
+        "endLine": 1722,
+        "endChar": 57
+      },
+      "revId": "d4b5e613ca5e2d4a4cdb0b8f38fca003b1c5be5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3c0c1c8d_0bd42632",

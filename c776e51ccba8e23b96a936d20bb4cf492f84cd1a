@@ -34,6 +34,41 @@
       "parentUuid": "8262922d_2b1032c2",
       "revId": "c776e51ccba8e23b96a936d20bb4cf492f84cd1a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "84b82bad_5a2de713",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 29
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-02-24T10:45:21Z",
+      "side": 1,
+      "message": "@dhruvsri@google.com sure, no problem at all. I\u0027ll just add a -2 vote for blocking the merge.\n\nOnce ready, I can cherry-pick to the security branches and prepare the security releases.\n\nWe can merge *ONLY* when all the security releases are ready to be announced to everyone.",
+      "parentUuid": "b6410427_5039416b",
+      "revId": "c776e51ccba8e23b96a936d20bb4cf492f84cd1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b4f44136_163120c4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 29
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-02-24T10:45:21Z",
+      "side": 1,
+      "message": "-2 only for blocking the merge until the security releases are out, not for disagreeent 😊",
+      "revId": "c776e51ccba8e23b96a936d20bb4cf492f84cd1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

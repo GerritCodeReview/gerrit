@@ -46,10 +46,23 @@ export declare interface FlowsProvider {
   getDocumentation(): string;
 }
 
+export declare interface FlowsAutosubmitProvider {
+  /**
+   * Returns true if autosubmit is enabled .
+   */
+  isAutosubmitEnabled(): boolean;
+}
+
 export declare interface FlowsPluginApi {
   /**
    * Must only be called once. You cannot register twice (throws an error).
    * You cannot unregister.
    */
   register(provider: FlowsProvider): void;
+
+  /**
+   * Must only be called once. You cannot register twice (throws an error).
+   * You cannot unregister.
+   */
+  registerAutosubmitProvider(provider: FlowsAutosubmitProvider): void;
 }

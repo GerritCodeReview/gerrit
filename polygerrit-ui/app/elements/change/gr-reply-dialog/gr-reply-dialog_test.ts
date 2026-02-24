@@ -32,6 +32,7 @@ import {
   createComment,
   createCommentThread,
   createDraft,
+  createFlow,
   createLabelInfo,
   createRevision,
   createServiceUserWithId,
@@ -77,6 +78,14 @@ import {createNewPatchsetLevel} from '../../../utils/comment-util';
 import {Timing} from '../../../constants/reporting';
 import {ParsedChangeInfo} from '../../../types/types';
 import {changeModelToken} from '../../../models/change/change-model';
+import {
+  FlowsModel,
+  flowsModelToken,
+  SUBMIT_ACTION_NAME,
+  SUBMIT_CONDITION,
+} from '../../../models/flows/flows-model';
+import {MdCheckbox} from '@material/web/checkbox/checkbox';
+import {FlowStageState} from '../../../api/rest-api';
 
 function cloneableResponse(status: number, text: string) {
   return {
@@ -2681,6 +2690,96 @@ suite('gr-reply-dialog tests', () => {
       assert.equal(element.patchsetLevelDraftMessage, '');
 
       assert.deepEqual(element.draftCommentThreads[0].comments[0], draft);
+    });
+  });
+
+  suite('autosubmit checkbox rendering', () => {
+    let flowsModel: FlowsModel;
+
+    setup(() => {
+      flowsModel = testResolver(flowsModelToken);
+    });
+
+    test('checkbox rendered when isAutosubmitEnabled is true', async () => {
+      element.isAutosubmitEnabled = true;
+      await element.updateComplete;
+      assert.isTrue(isVisible(queryAndAssert(element, '#autosubmit')));
+    });
+
+    test('checkbox not rendered when isAutosubmitEnabled is false', async () => {
+      element.isAutosubmitEnabled = false;
+      await element.updateComplete;
+      assert.isNotOk(query(element, '#autosubmit'));
+    });
+
+    test('checkbox not rendered if autosubmit flow is already present', async () => {
+      const flow = createFlow({
+        stages: [
+          {
+            expression: {
+              condition: SUBMIT_CONDITION,
+              action: {name: SUBMIT_ACTION_NAME},
+            },
+            state: FlowStageState.DONE,
+          },
+        ],
+      });
+      flowsModel.setState({...flowsModel.getState(), flows: [flow]});
+      await waitUntil(() => flowsModel.getState().flows.length > 0);
+
+      await element.updateComplete;
+      assert.isNotOk(query(element, '#autosubmit'));
+    });
+  });
+
+  suite('createAutosubmitFlow', () => {
+    let createAutosubmitFlowStub: sinon.SinonStub;
+
+    setup(async () => {
+      createAutosubmitFlowStub = sinon.stub(
+        element.getFlowsModel(),
+        'createAutosubmitFlow'
+      );
+      sinon.stub(element, 'saveReview').resolves({
+        change_info: createChange(),
+      });
+      element.getChangeModel().updateState({
+        change: createChange() as ParsedChangeInfo,
+      });
+      element.getFlowsModel().updateState({
+        isEnabled: true,
+        autosubmitProviders: [
+          {
+            isAutosubmitEnabled: () => true,
+          },
+        ],
+      });
+      await element.updateComplete;
+    });
+
+    test('createAutosubmitFlow is called when autosubmitChecked is true', async () => {
+      queryAndAssert<MdCheckbox>(element, '#autosubmit').click();
+      await element.updateComplete;
+
+      await element.send(false, false);
+      await waitUntil(() => !!createAutosubmitFlowStub.calledOnce);
+    });
+
+    test('createAutosubmitFlow is not called when autosubmitChecked is false', async () => {
+      element.autosubmitChecked = false;
+      await element.updateComplete;
+
+      await element.send(false, false);
+      assert.isFalse(createAutosubmitFlowStub.called);
+    });
+
+    test('createAutosubmitFlow is not called when isAutosubmitEnabled is false', async () => {
+      element.isAutosubmitEnabled = false;
+      element.autosubmitChecked = true;
+      await element.updateComplete;
+
+      await element.send(false, false);
+      assert.isFalse(createAutosubmitFlowStub.called);
     });
   });
 

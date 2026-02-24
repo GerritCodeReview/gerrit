@@ -25,7 +25,10 @@ import '@material/web/textfield/outlined-text-field.js';
 import '../../shared/gr-copy-clipboard/gr-copy-clipboard';
 import {resolve} from '../../../models/dependency';
 import {configModelToken} from '../../../models/config/config-model';
-import {flowsModelToken} from '../../../models/flows/flows-model';
+import {
+  CHANGE_PREFIX,
+  flowsModelToken,
+} from '../../../models/flows/flows-model';
 import './gr-flow-rule';
 import {subscribe} from '../../lit/subscription-controller';
 import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
@@ -238,7 +241,7 @@ export class GrCreateFlow extends LitElement {
       }
     );
 
-    this.hostUrl = window.location.origin + window.location.pathname;
+    this.hostUrl = CHANGE_PREFIX;
   }
 
   static override get styles() {

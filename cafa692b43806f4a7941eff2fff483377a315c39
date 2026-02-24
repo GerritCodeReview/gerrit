@@ -16,6 +16,24 @@
       "message": "Do you have a screencast or demo where we can see the difference in behavior?",
       "revId": "cafa692b43806f4a7941eff2fff483377a315c39",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9c041681_7c816970",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2026-02-24T23:44:57Z",
+      "side": 1,
+      "message": "The difference in behaviour is mostly the click surfface is outside. Current behaviour meant you had to click near the centre to get effects. Even though it was clickable from the entire button, only near the centre did it have effects.\n\nThis can\u0027t be enabled everywhere since it could impact buttons next to each other (this was an issue that we had when trying to convert gr-diff-context to use md-*-button, ben put it as a plain button instead so no effects).\n\nSee https://limewire.com/?referrer\u003dpq7i8xx7p2 (gerrit-review vs my local install that has the change)\n\nReally not sure why they didn\u0027t make it so the effect covered the whole button (preferred) when touch target is set to none.",
+      "parentUuid": "d3208a19_0ab77bfc",
+      "revId": "cafa692b43806f4a7941eff2fff483377a315c39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

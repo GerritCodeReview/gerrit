@@ -95,6 +95,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "41ae8ccc_e6d6949c",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 20
+      },
+      "lineNbr": 1722,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-02-24T19:40:41Z",
+      "side": 1,
+      "message": "No rest API call in Gerrit throws an error\n\nhttp://google3/third_party/javascript/polygerrit/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.ts?l\u003d380\n\nThe default handling is here\n\nIf no custom errFn is provided, then the thrown error is caught and a user visible network error is fired.",
+      "parentUuid": "cfca84c3_7ea30a51",
+      "range": {
+        "startLine": 1722,
+        "startChar": 0,
+        "endLine": 1722,
+        "endChar": 0
+      },
+      "revId": "d4b5e613ca5e2d4a4cdb0b8f38fca003b1c5be5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "251322e5_d2a14e8a",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 20
+      },
+      "lineNbr": 1722,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-02-24T19:40:41Z",
+      "side": 1,
+      "message": "Yeah we can show it but then the user\u0027s will expect that unselecting the checkbox will result in `Autosubmit` behaviour being removed.\n\nI prefer to go ahead with a simpler version and see if user\u0027s report wanting this feature.\nTypically when I enable Autosubmit I don\u0027t really change it back.\n\nIf you feel strongly, I am happy to add that in a follow up CL.",
+      "parentUuid": "854468eb_21a35ebc",
+      "range": {
+        "startLine": 1722,
+        "startChar": 36,
+        "endLine": 1722,
+        "endChar": 57
+      },
+      "revId": "d4b5e613ca5e2d4a4cdb0b8f38fca003b1c5be5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3c0c1c8d_0bd42632",

@@ -103,6 +103,7 @@ import {changeModelToken} from '../../../models/change/change-model';
 import {LabelNameToValuesMap, PatchSetNumber} from '../../../api/rest-api';
 import {css, html, LitElement, nothing, PropertyValues} from 'lit';
 import {sharedStyles} from '../../../styles/shared-styles';
+import {flowsModelToken} from '../../../models/flows/flows-model';
 import {when} from 'lit/directives/when.js';
 import {classMap} from 'lit/directives/class-map.js';
 import {
@@ -180,6 +181,8 @@ export class GrReplyDialog extends LitElement {
   private readonly getChangeModel = resolve(this, changeModelToken);
 
   private readonly getCommentsModel = resolve(this, commentsModelToken);
+
+  private readonly getFlowsModel = resolve(this, flowsModelToken);
 
   // TODO: update type to only ParsedChangeInfo
   @property({type: Object})
@@ -354,6 +357,12 @@ export class GrReplyDialog extends LitElement {
 
   @state()
   private draggedAccount: AccountInfo | null = null;
+
+  @state()
+  isAutosubmitEnabled = false;
+
+  @state()
+  autosubmitChecked = false;
 
   @state()
   private draggedFrom: GrAccountList | null = null;
@@ -592,6 +601,13 @@ export class GrReplyDialog extends LitElement {
         .patchsetLevelContainer.unresolved {
           background-color: var(--unresolved-comment-background-color);
         }
+        .autosubmit-label {
+          display: flex;
+          align-items: center;
+        }
+        .autosubmit-text {
+          padding-left: var(--spacing-m);
+        }
         .privateVisiblityInfo {
           display: flex;
           justify-content: center;
@@ -708,6 +724,11 @@ export class GrReplyDialog extends LitElement {
           t => !(isDraft(getFirstComment(t)) && isPatchsetLevel(t))
         ))
     );
+    subscribe(
+      this,
+      () => this.getFlowsModel().isAutosubmitEnabled$,
+      x => (this.isAutosubmitEnabled = x)
+    );
   }
 
   override connectedCallback() {
@@ -812,7 +833,7 @@ export class GrReplyDialog extends LitElement {
         <section class="newReplyDialog textareaContainer">
           ${this.renderReplyText()}
         </section>
-        ${this.renderDraftsSection()}
+        ${this.renderDraftsSection()} ${this.renderAutosubmitSection()}
         <div class="stickyBottom newReplyDialog">
           <gr-endpoint-decorator name="reply-bottom">
             <gr-endpoint-param
@@ -997,6 +1018,24 @@ export class GrReplyDialog extends LitElement {
           </gr-endpoint-param>
         </gr-endpoint-decorator>
       </div>
+    `;
+  }
+
+  private renderAutosubmitSection() {
+    if (!this.isAutosubmitEnabled) return;
+    return html`
+      <section class="autosubmitContainer">
+        <div class="autosubmit">
+          <label class="autosubmit-label">
+            <md-checkbox
+              id="autosubmit"
+              @change=${this.handleAutosubmitChanged}
+              ?checked=${this.autosubmitChecked}
+            ></md-checkbox>
+            <span class="autosubmit-text">Autosubmit Change</span>
+          </label>
+        </div>
+      </section>
     `;
   }
 
@@ -1331,6 +1370,11 @@ export class GrReplyDialog extends LitElement {
   private handleIncludeCommentsChanged(e: Event) {
     if (!(e.target instanceof MdCheckbox)) return;
     this.includeComments = e.target.checked;
+  }
+
+  private handleAutosubmitChanged(e: Event) {
+    if (!(e.target instanceof MdCheckbox)) return;
+    this.autosubmitChecked = e.target.checked;
   }
 
   setLabelValue(label: string, value: string): void {

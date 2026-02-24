@@ -16,6 +16,24 @@
       "message": "@Dhruv @Terry, please see my message on the maintainers list: we cannot merge this change as-is if we want to treat this as a security issue.\nHappy to discuss together in a joint call.",
       "revId": "c776e51ccba8e23b96a936d20bb4cf492f84cd1a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b6410427_5039416b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 29
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-02-24T10:40:59Z",
+      "side": 1,
+      "message": "@luca.milanesio@gmail.com can we get someone from the community who is more familiar with the release processor to take over this fix?\n\nI am happy to resolve any pending comments and get this CL to a +2 state.\n\nDirect Push is disabled at Google so this does not affect our internal installation that much,",
+      "parentUuid": "8262922d_2b1032c2",
+      "revId": "c776e51ccba8e23b96a936d20bb4cf492f84cd1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

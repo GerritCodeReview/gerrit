@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c5274a4f_78212fcd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-02-24T19:38:30Z",
+      "side": 1,
+      "message": "\u003e In general, yes. But for the case of Gerrit\u0027s persisted caches, I think they\u0027re always immutable.\n\nAFAIK, such assumption never existed in Gerrit code.\nWhile most of the persistent caches appear to be immutable I think that there are at least some that are mutable, for example: `changes_by_project`\n\n\u003e To my point above, I don\u0027t think you ever need to forward an eviction for a persisted cache. Evictions for persisted caches are effectively based on size constraints, not staleness.\n\nI don\u0027t believe that this assumption is true. Persistent caches can be evicted just as non-persistent caches: check the code in the `H2CacheImpl.invalidate` method.\nWe can also propagate evictions of persistent caches. The eviction removes the element both from the in-memory cache and its associated persisted part.",
+      "parentUuid": "ce763139_c721d9f2",
+      "revId": "cc0158e20c2db5080e51e0439c39cfccf2814314",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0dcebabc_46e40bc1",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3

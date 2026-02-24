@@ -16,7 +16,7 @@ import {CoverageProvider, TokenHoverListener} from '../../api/annotation';
 import {SuggestionsProvider} from '../../api/suggestions';
 import {ChangeUpdatesPublisher} from '../../api/change-updates';
 import {AiCodeReviewProvider} from '../../api/ai-code-review';
-import {FlowsProvider} from '../../api/flows';
+import {FlowsAutosubmitProvider, FlowsProvider} from '../../api/flows';
 
 export interface CoveragePlugin {
   pluginName: string;
@@ -42,6 +42,11 @@ export interface AiCodeReviewPlugin {
 export interface FlowsPlugin {
   pluginName: string;
   provider: FlowsProvider;
+}
+
+export interface FlowsAutosubmitPlugin {
+  pluginName: string;
+  provider: FlowsAutosubmitProvider;
 }
 
 export interface SuggestionPlugin {
@@ -90,6 +95,11 @@ interface PluginsState {
    * List of plugins that have called flows().register().
    */
   flowsPlugins: FlowsPlugin[];
+
+  /**
+   * List of plugins that have called flows().registerAutosubmitProvider().
+   */
+  flowsAutosubmitPlugins: FlowsAutosubmitPlugin[];
 
   /**
    * List of plugins that have called suggestions().register().

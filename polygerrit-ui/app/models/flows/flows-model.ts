@@ -151,6 +151,11 @@ export class FlowsModel extends Model<FlowsState> {
     this.reload();
   }
 
+  async createAutosubmitFlow() {
+    if (!this.changeNum) return;
+    if (!this.getState().isEnabled) return;
+  }
+
   async createFlow(flowInput: FlowInput) {
     if (!this.changeNum) return;
     if (!this.getState().isEnabled) return;

@@ -116,6 +116,30 @@
       },
       "revId": "d4b5e613ca5e2d4a4cdb0b8f38fca003b1c5be5d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e84ea072_51b84f7b",
+        "filename": "polygerrit-ui/app/models/flows/flows-model.ts",
+        "patchSetId": 20
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-02-24T16:39:41Z",
+      "side": 1,
+      "message": "`CHANGE_PREFIX + \u0027 is status:abandoned\u0027;` could be another one for example.",
+      "parentUuid": "487fc0b0_59abd43f",
+      "range": {
+        "startLine": 33,
+        "startChar": 50,
+        "endLine": 33,
+        "endChar": 55
+      },
+      "revId": "d4b5e613ca5e2d4a4cdb0b8f38fca003b1c5be5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

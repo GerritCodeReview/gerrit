@@ -29,6 +29,8 @@ export interface FlowsState {
 
 export const flowsModelToken = define<FlowsModel>('flows-model');
 
+export const CHANGE_PREFIX = window.location.origin + window.location.pathname;
+
 export class FlowsModel extends Model<FlowsState> {
   readonly flows$ = this.state$.pipe(map(s => s.flows));
 
@@ -148,6 +150,22 @@ export class FlowsModel extends Model<FlowsState> {
     if (!this.changeNum) return;
     if (!this.getState().isEnabled) return;
     await this.restApiService.deleteFlow(this.changeNum, flowId);
+    this.reload();
+  }
+
+  async createAutosubmitFlow() {
+    if (!this.changeNum) return;
+    if (!this.getState().isEnabled) return;
+    await this.restApiService.createFlow(this.changeNum, {
+      stage_expressions: [
+        {
+          condition: CHANGE_PREFIX + ' is is:submittable',
+          action: {
+            name: 'submit',
+          },
+        },
+      ],
+    });
     this.reload();
   }
 

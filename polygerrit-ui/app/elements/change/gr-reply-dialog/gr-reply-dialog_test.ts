@@ -77,6 +77,7 @@ import {createNewPatchsetLevel} from '../../../utils/comment-util';
 import {Timing} from '../../../constants/reporting';
 import {ParsedChangeInfo} from '../../../types/types';
 import {changeModelToken} from '../../../models/change/change-model';
+import {MdCheckbox} from '@material/web/checkbox/checkbox';
 
 function cloneableResponse(status: number, text: string) {
   return {
@@ -2681,6 +2682,63 @@ suite('gr-reply-dialog tests', () => {
       assert.equal(element.patchsetLevelDraftMessage, '');
 
       assert.deepEqual(element.draftCommentThreads[0].comments[0], draft);
+    });
+  });
+
+  suite('autosubmit checkbox rendering', () => {
+    test('checkbox rendered when isAutosubmitEnabled is true', async () => {
+      element.isAutosubmitEnabled = true;
+      await element.updateComplete;
+      assert.isTrue(isVisible(queryAndAssert(element, '#autosubmit')));
+    });
+
+    test('checkbox not rendered when isAutosubmitEnabled is false', async () => {
+      element.isAutosubmitEnabled = false;
+      await element.updateComplete;
+      assert.isNotOk(query(element, '#autosubmit'));
+    });
+  });
+
+  suite('createAutosubmitFlow', () => {
+    let createAutosubmitFlowStub: sinon.SinonStub;
+
+    setup(() => {
+      createAutosubmitFlowStub = sinon.stub(
+        element.getFlowsModel(),
+        'createAutosubmitFlow'
+      );
+      sinon.stub(element, 'saveReview').resolves({
+        change_info: createChange(),
+      });
+    });
+
+    test('createAutosubmitFlow is called when autosubmitChecked is true', async () => {
+      element.isAutosubmitEnabled = true;
+      await element.updateComplete;
+
+      queryAndAssert<MdCheckbox>(element, '#autosubmit').click();
+      await element.updateComplete;
+
+      await element.send(false, false);
+      await waitUntil(() => !!createAutosubmitFlowStub.calledOnce);
+    });
+
+    test('createAutosubmitFlow is not called when autosubmitChecked is false', async () => {
+      element.isAutosubmitEnabled = true;
+      element.autosubmitChecked = false;
+      await element.updateComplete;
+
+      await element.send(false, false);
+      assert.isFalse(createAutosubmitFlowStub.called);
+    });
+
+    test('createAutosubmitFlow is not called when isAutosubmitEnabled is false', async () => {
+      element.isAutosubmitEnabled = false;
+      element.autosubmitChecked = true;
+      await element.updateComplete;
+
+      await element.send(false, false);
+      assert.isFalse(createAutosubmitFlowStub.called);
     });
   });
 

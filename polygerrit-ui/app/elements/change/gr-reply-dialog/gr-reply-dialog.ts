@@ -103,6 +103,7 @@ import {changeModelToken} from '../../../models/change/change-model';
 import {LabelNameToValuesMap, PatchSetNumber} from '../../../api/rest-api';
 import {css, html, LitElement, nothing, PropertyValues} from 'lit';
 import {sharedStyles} from '../../../styles/shared-styles';
+import {flowsModelToken, FlowsModel} from '../../../models/flows/flows-model';
 import {when} from 'lit/directives/when.js';
 import {classMap} from 'lit/directives/class-map.js';
 import {
@@ -180,6 +181,8 @@ export class GrReplyDialog extends LitElement {
   private readonly getChangeModel = resolve(this, changeModelToken);
 
   private readonly getCommentsModel = resolve(this, commentsModelToken);
+
+  private readonly getFlowsModel = resolve(this, flowsModelToken);
 
   // TODO: update type to only ParsedChangeInfo
   @property({type: Object})
@@ -707,6 +710,11 @@ export class GrReplyDialog extends LitElement {
         (this.draftCommentThreads = threads.filter(
           t => !(isDraft(getFirstComment(t)) && isPatchsetLevel(t))
         ))
+    );
+    subscribe(
+      this,
+      () => this.getFlowsModel().isAutosubmitEnabled$,
+      x => (this.isAutosubmitEnabled = x)
     );
   }
 
@@ -1331,6 +1339,11 @@ export class GrReplyDialog extends LitElement {
   private handleIncludeCommentsChanged(e: Event) {
     if (!(e.target instanceof MdCheckbox)) return;
     this.includeComments = e.target.checked;
+  }
+
+  private handleAutosubmitChanged(e: Event) {
+    if (!(e.target instanceof MdCheckbox)) return;
+    this.autosubmitChecked = e.target.checked;
   }
 
   setLabelValue(label: string, value: string): void {

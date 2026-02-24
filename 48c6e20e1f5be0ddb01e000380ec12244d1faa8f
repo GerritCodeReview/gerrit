@@ -173,6 +173,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "441393a4_3140643f",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 752,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-02-24T10:56:55Z",
+      "side": 1,
+      "message": "Changing to throw an error as discussed.",
+      "parentUuid": "2f891f18_bdd3a751",
+      "revId": "48c6e20e1f5be0ddb01e000380ec12244d1faa8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8fcb1d85_c6faf8a2",
@@ -186,6 +204,24 @@
       "writtenOn": "2026-02-23T20:33:10Z",
       "side": 1,
       "message": "You also grant submit permission on `refs/for/`, which is an important part of the setup. I think Luca said without that, it doesn\u0027t reproduce the issue.",
+      "revId": "48c6e20e1f5be0ddb01e000380ec12244d1faa8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7d23603c_977548b9",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 1150,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-02-24T10:56:55Z",
+      "side": 1,
+      "message": "Updated the comment to mention that force push permission on testBranch is also required.",
+      "parentUuid": "8fcb1d85_c6faf8a2",
       "revId": "48c6e20e1f5be0ddb01e000380ec12244d1faa8f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -209,6 +245,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bb872edf_cbd268ec",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 1162,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-02-24T10:56:55Z",
+      "side": 1,
+      "message": "I found a lot of other test using this hence I used the same format.\n\nAre you suggesting the code should be updated to use some other form of direct push or the comment?\n\nFWIW when I reproduced locally, I also used the `%submit` option on the `git push` command",
+      "parentUuid": "4c09b6a6_514c95cf",
+      "revId": "48c6e20e1f5be0ddb01e000380ec12244d1faa8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8fdf7031_4df90c1d",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 26
@@ -220,6 +274,30 @@
       "writtenOn": "2026-02-23T20:33:10Z",
       "side": 1,
       "message": "```suggestion\n    // that branch.\n```",
+      "range": {
+        "startLine": 1172,
+        "startChar": 0,
+        "endLine": 1173,
+        "endChar": 14
+      },
+      "revId": "48c6e20e1f5be0ddb01e000380ec12244d1faa8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0bfb58ed_c033f4be",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 1173,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-02-24T10:56:55Z",
+      "side": 1,
+      "message": "Obsolete.",
+      "parentUuid": "8fdf7031_4df90c1d",
       "range": {
         "startLine": 1172,
         "startChar": 0,

@@ -361,14 +361,7 @@ export class GrReplyDialog extends LitElement {
   @state()
   private draggedAccount: AccountInfo | null = null;
 
-  @state()
-  isAutosubmitEnabled = false;
 
-  @state()
-  showAutosubmitInfoMessage = false;
-
-  @state()
-  autosubmitChecked = false;
 
   @state()
   private draggedFrom: GrAccountList | null = null;
@@ -739,36 +732,6 @@ export class GrReplyDialog extends LitElement {
         (this.draftCommentThreads = threads.filter(
           t => !(isDraft(getFirstComment(t)) && isPatchsetLevel(t))
         ))
-    );
-    subscribe(
-      this,
-      () =>
-        combineLatest([
-          this.getFlowsModel().isAutosubmitEnabled$,
-          this.getFlowsModel().enabled$,
-          this.getFlowsModel().flows$,
-          this.getChangeModel().isOwner$,
-        ]),
-      ([isAutosubmitEnabled, isFlowsEnabled, _, isOwner]) => {
-        this.isAutosubmitEnabled =
-          isAutosubmitEnabled &&
-          isFlowsEnabled &&
-          !this.getFlowsModel().hasAutosubmitFlowAlready() &&
-          isOwner;
-        this.showAutosubmitInfoMessage =
-          isAutosubmitEnabled &&
-          isFlowsEnabled &&
-          this.getFlowsModel().hasAutosubmitFlowAlready();
-      }
-    );
-    subscribe(
-      this,
-      () => this.getFlowsModel().providers$,
-      providers => {
-        this.flowsDocumentationLink = providers
-          .map(p => p.getDocumentation())
-          .find(doc => !!doc);
-      }
     );
   }
 

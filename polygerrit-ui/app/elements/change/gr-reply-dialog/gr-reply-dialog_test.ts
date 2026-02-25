@@ -2760,6 +2760,25 @@ suite('gr-reply-dialog tests', () => {
     });
   });
 
+  suite('autosubmit info message rendering', () => {
+    test('info message rendered when showAutosubmitInfoMessage is true', async () => {
+      element.showAutosubmitInfoMessage = true;
+      await element.updateComplete;
+      const autosubmitInfo = queryAndAssert(element, '.autosubmit-info');
+      assert.isTrue(isVisible(autosubmitInfo));
+      const icon = queryAndAssert(autosubmitInfo, 'gr-icon');
+      assert.equal(icon.icon, 'info');
+      const text = queryAndAssert(autosubmitInfo, 'span');
+      assert.equal(text.textContent, 'The change has Autosubmit enabled.');
+    });
+
+    test('info message not rendered when showAutosubmitInfoMessage is false', async () => {
+      element.showAutosubmitInfoMessage = false;
+      await element.updateComplete;
+      assert.isNotOk(query(element, '.autosubmit-info'));
+    });
+  });
+
   suite('createAutosubmitFlow', () => {
     let createAutosubmitFlowStub: sinon.SinonStub;
 

@@ -365,6 +365,9 @@ export class GrReplyDialog extends LitElement {
   isAutosubmitEnabled = false;
 
   @state()
+  showAutosubmitInfoMessage = false;
+
+  @state()
   autosubmitChecked = false;
 
   @state()
@@ -613,6 +616,14 @@ export class GrReplyDialog extends LitElement {
         .autosubmit-text {
           padding-left: var(--spacing-m);
         }
+        .autosubmit-info {
+          display: flex;
+          align-items: center;
+        }
+        .autosubmit-info gr-icon {
+          color: var(--info-foreground);
+          margin-right: var(--spacing-m);
+        }
         .privateVisiblityInfo {
           display: flex;
           justify-content: center;
@@ -744,6 +755,9 @@ export class GrReplyDialog extends LitElement {
           isFlowsEnabled &&
           !this.getFlowsModel().hasAutosubmitFlowAlready() &&
           isOwner;
+        this.showAutosubmitInfoMessage = isAutosubmitEnabled &&
+          isFlowsEnabled &&
+          this.getFlowsModel().hasAutosubmitFlowAlready();
       }
     );
     subscribe(
@@ -1064,22 +1078,34 @@ export class GrReplyDialog extends LitElement {
   }
 
   private renderAutosubmitSection() {
-    if (!this.isAutosubmitEnabled) return;
-    return html`
-      <section class="autosubmitContainer">
-        <div class="autosubmit">
-          <label class="autosubmit-label">
-            <md-checkbox
-              id="autosubmit"
-              @change=${this.handleAutosubmitChanged}
-              ?checked=${this.autosubmitChecked}
-            ></md-checkbox>
-            <span class="autosubmit-text">Enable Autosubmit</span>
-            ${this.renderDocumentationLink()}
-          </label>
-        </div>
-      </section>
-    `;
+    if (this.showAutosubmitInfoMessage) {
+      return html`
+        <section class="autosubmitContainer">
+          <div class="autosubmit-info">
+            <gr-icon icon="info"></gr-icon>
+            <span>The change has Autosubmit enabled.</span>
+          </div>
+        </section>
+      `;
+    }
+    if (this.isAutosubmitEnabled) {
+      return html`
+        <section class="autosubmitContainer">
+          <div class="autosubmit">
+            <label class="autosubmit-label">
+              <md-checkbox
+                id="autosubmit"
+                @change=${this.handleAutosubmitChanged}
+                ?checked=${this.autosubmitChecked}
+              ></md-checkbox>
+              <span class="autosubmit-text">Enable Autosubmit</span>
+              ${this.renderDocumentationLink()}
+            </label>
+          </div>
+        </section>
+      `;
+    }
+    return nothing;
   }
 
   private renderDraftsSection() {

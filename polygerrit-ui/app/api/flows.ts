@@ -51,6 +51,16 @@ export declare interface FlowsAutosubmitProvider {
    * Returns true if autosubmit is enabled .
    */
   isAutosubmitEnabled(): boolean;
+
+  /**
+   * Returns the submit condition for autosubmit.
+   */
+  getSubmitCondition(): string | undefined;
+
+  /**
+   * Returns the submit action for autosubmit.
+   */
+  getSubmitAction(): {name: string} | undefined;
 }
 
 export declare interface FlowsPluginApi {

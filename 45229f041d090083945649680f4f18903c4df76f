@@ -16,6 +16,24 @@
       "message": "Previously, we had the possibility of falling back to SSH if HTTP wasn\u0027t defined.\nNow, if webUrl is not defined, we don\u0027t give any option to the user.\n\nMost probably `canonicalWebUrl` will always be set hence it is not going to be a problem. Howerver, I was wondering if it makes sense to be more explicit in the user error in case is not set. WDYT?",
       "revId": "45229f041d090083945649680f4f18903c4df76f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e38f3981_2eae2018",
+        "filename": "java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 519,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-02-25T18:04:41Z",
+      "side": 0,
+      "message": "Good point, I hadn\u0027t considered that `canonicalWebUrl` could not be defined.\n\nIn that case then, I\u0027d error by saying that an `installCommitMsgHookCommand` should be defined.\n\nWDYT?",
+      "parentUuid": "7a5e2a15_a73f7b42",
+      "revId": "45229f041d090083945649680f4f18903c4df76f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -139,10 +139,11 @@ import {
   readJSONResponsePayload,
   ResponsePayload,
 } from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
-import {combineLatest} from 'rxjs';
+import '../../shared/gr-autosubmit-checkbox/gr-autosubmit-checkbox';
 
 export enum FocusTarget {
   ANY = 'any',
+
   BODY = 'body',
   CCS = 'cc',
   REVIEWERS = 'reviewers',
@@ -306,6 +307,9 @@ export class GrReplyDialog extends LitElement {
   @state()
   includeComments = true;
 
+  @state()
+  autosubmitChecked = false;
+
   @state() reviewers: AccountInput[] = [];
 
   @state()
@@ -360,15 +364,6 @@ export class GrReplyDialog extends LitElement {
 
   @state()
   private draggedAccount: AccountInfo | null = null;
-
-  @state()
-  isAutosubmitEnabled = false;
-
-  @state()
-  showAutosubmitInfoMessage = false;
-
-  @state()
-  autosubmitChecked = false;
 
   @state()
   private draggedFrom: GrAccountList | null = null;
@@ -740,36 +735,6 @@ export class GrReplyDialog extends LitElement {
           t => !(isDraft(getFirstComment(t)) && isPatchsetLevel(t))
         ))
     );
-    subscribe(
-      this,
-      () =>
-        combineLatest([
-          this.getFlowsModel().isAutosubmitEnabled$,
-          this.getFlowsModel().enabled$,
-          this.getFlowsModel().flows$,
-          this.getChangeModel().isOwner$,
-        ]),
-      ([isAutosubmitEnabled, isFlowsEnabled, _, isOwner]) => {
-        this.isAutosubmitEnabled =
-          isAutosubmitEnabled &&
-          isFlowsEnabled &&
-          !this.getFlowsModel().hasAutosubmitFlowAlready() &&
-          isOwner;
-        this.showAutosubmitInfoMessage =
-          isAutosubmitEnabled &&
-          isFlowsEnabled &&
-          this.getFlowsModel().hasAutosubmitFlowAlready();
-      }
-    );
-    subscribe(
-      this,
-      () => this.getFlowsModel().providers$,
-      providers => {
-        this.flowsDocumentationLink = providers
-          .map(p => p.getDocumentation())
-          .find(doc => !!doc);
-      }
-    );
   }
 
   override connectedCallback() {
@@ -874,7 +839,10 @@ export class GrReplyDialog extends LitElement {
         <section class="newReplyDialog textareaContainer">
           ${this.renderReplyText()}
         </section>
-        ${this.renderDraftsSection()} ${this.renderAutosubmitSection()}
+        ${this.renderDraftsSection()}
+        <gr-autosubmit-checkbox
+          @autosubmit-checked-changed=${this.handleAutosubmitChanged}
+        ></gr-autosubmit-checkbox>
         <div class="stickyBottom newReplyDialog">
           <gr-endpoint-decorator name="reply-bottom">
             <gr-endpoint-param
@@ -1060,53 +1028,6 @@ export class GrReplyDialog extends LitElement {
         </gr-endpoint-decorator>
       </div>
     `;
-  }
-
-  private renderDocumentationLink() {
-    if (!this.flowsDocumentationLink) return;
-    return html` <a
-      class="help"
-      slot="trailing-icon"
-      href=${this.flowsDocumentationLink}
-      target="_blank"
-      rel="noopener noreferrer"
-      tabindex="-1"
-    >
-      <md-icon-button touch-target="none" type="button">
-        <gr-icon icon="help" title="read documentation"></gr-icon>
-      </md-icon-button>
-    </a>`;
-  }
-
-  private renderAutosubmitSection() {
-    if (this.showAutosubmitInfoMessage) {
-      return html`
-        <section class="autosubmitContainer">
-          <div class="autosubmit-info">
-            <gr-icon icon="info"></gr-icon>
-            <span>Autosubmit Enabled.</span>
-          </div>
-        </section>
-      `;
-    }
-    if (this.isAutosubmitEnabled) {
-      return html`
-        <section class="autosubmitContainer">
-          <div class="autosubmit">
-            <label class="autosubmit-label">
-              <md-checkbox
-                id="autosubmit"
-                @change=${this.handleAutosubmitChanged}
-                ?checked=${this.autosubmitChecked}
-              ></md-checkbox>
-              <span class="autosubmit-text">Enable Autosubmit</span>
-              ${this.renderDocumentationLink()}
-            </label>
-          </div>
-        </section>
-      `;
-    }
-    return nothing;
   }
 
   private renderDraftsSection() {
@@ -1747,7 +1668,7 @@ export class GrReplyDialog extends LitElement {
         // The request finished and reloads if necessary are asynchronously
         // scheduled.
         this.reporting.timeEnd(Timing.SEND_REPLY);
-        if (this.isAutosubmitEnabled && this.autosubmitChecked) {
+        if (this.autosubmitChecked) {
           await this.getFlowsModel().createAutosubmitFlow();
         }
       });

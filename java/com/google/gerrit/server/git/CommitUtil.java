@@ -74,6 +74,8 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.InvalidObjectIdException;
@@ -95,6 +97,11 @@ import org.eclipse.jgit.util.ChangeIdUtil;
 @Singleton
 public class CommitUtil {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
+  private static final Pattern patternRevertSubject = Pattern.compile("Revert \"(.+)\"");
+  private static final Pattern patternRevertSubjectWithNum =
+      Pattern.compile("Revert\\^(\\d+) \"(.+)\"");
+  private static final Pattern FOOTER_PATTERN = Pattern.compile("^[a-zA-Z0-9-]+:.*");
 
   private final GitRepositoryManager repoManager;
   private final Provider<PersonIdent> serverIdent;
@@ -245,7 +252,7 @@ public class CommitUtil {
     return id;
   }
 
-  public static String getBugAndIssueFooters(RevCommit commit) {
+  private static String getBugAndIssueFooters(RevCommit commit) {
     StringBuilder footers = new StringBuilder();
     for (FooterLine footerLine : commit.getFooterLines()) {
       String key = footerLine.getKey();
@@ -296,26 +303,22 @@ public class CommitUtil {
 
     Change changeToRevert = notes.getChange();
     String subject = changeToRevert.getSubject();
-    if (subject.length() > 63) {
-      subject = subject.substring(0, 59) + "...";
-    }
-    if (message == null) {
-      message =
-          MessageFormat.format(
-              ChangeMessages.revertChangeDefaultMessage, subject, patch.commitId().name());
-    }
+
+    message = getRevertMessage(message, subject, patch.commitId().name(), false);
 
     String newFooters = getBugAndIssueFooters(commitToRevert);
     if (!newFooters.isEmpty()) {
+      Set<String> messageLines =
+          Arrays.stream(message.split("\n"))
+              .map(String::trim)
+              .map(String::toLowerCase)
+              .collect(Collectors.toSet());
       StringBuilder footersToAdd = new StringBuilder();
       for (String footer : Splitter.on('\n').split(newFooters)) {
         if (footer.isEmpty()) {
           continue;
         }
-        boolean alreadyExists =
-            Arrays.stream(message.split("\n"))
-                .anyMatch(line -> line.trim().equalsIgnoreCase(footer.trim()));
-        if (!alreadyExists) {
+        if (!messageLines.contains(footer.trim().toLowerCase())) {
           footersToAdd.append(footer).append("\n");
         }
       }
@@ -324,7 +327,7 @@ public class CommitUtil {
         String trimmedMsg = message.trim();
         List<String> lines = Splitter.on('\n').splitToList(trimmedMsg);
         String lastLine = lines.isEmpty() ? "" : lines.get(lines.size() - 1);
-        boolean endsWithFooter = lastLine.matches("^[a-zA-Z0-9-]+:.*");
+        boolean endsWithFooter = FOOTER_PATTERN.matcher(lastLine).matches();
 
         if (endsWithFooter) {
           message = trimmedMsg + "\n" + footersToAdd.toString().trim();
@@ -354,6 +357,47 @@ public class CommitUtil {
     revertCommit.setNoConflictsForNonMergeCommit();
 
     return revertCommit;
+  }
+
+  public String getRevertMessage(
+      @Nullable String initialMessage, String subject, String commitId, boolean isSubmission) {
+    if (isSubmission) {
+      if (subject.length() > 60) {
+        subject = subject.substring(0, 56) + "...";
+      }
+    } else {
+      if (subject.length() > 63) {
+        subject = subject.substring(0, 59) + "...";
+      }
+    }
+
+    Matcher matcher = patternRevertSubjectWithNum.matcher(subject);
+    boolean matchesNum = matcher.matches();
+    if (!matchesNum) {
+      matcher = patternRevertSubject.matcher(subject);
+    }
+
+    if (matchesNum || matcher.matches()) {
+      int nextNum = matchesNum ? Integer.parseInt(matcher.group(1)) + 1 : 2;
+      String originalSubject = matchesNum ? matcher.group(2) : matcher.group(1);
+
+      return MessageFormat.format(
+          ChangeMessages.revertSubmissionOfRevertSubmissionUserMessage,
+          nextNum,
+          originalSubject,
+          MessageFormat.format(ChangeMessages.revertSubmissionDefaultMessage, commitId),
+          initialMessage != null ? initialMessage : "");
+    }
+
+    if (initialMessage != null) {
+      if (isSubmission) {
+        return MessageFormat.format(
+            ChangeMessages.revertSubmissionUserMessage, subject, initialMessage);
+      }
+      return initialMessage;
+    }
+
+    return MessageFormat.format(ChangeMessages.revertChangeDefaultMessage, subject, commitId);
   }
 
   private Change.Id createRevertChangeFromCommit(

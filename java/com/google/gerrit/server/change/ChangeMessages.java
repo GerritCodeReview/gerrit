@@ -18,7 +18,8 @@ public class ChangeMessages {
   public static String revertChangeDefaultMessage = "Revert \"{0}\"\n\nThis reverts commit {1}.";
   public static String revertSubmissionDefaultMessage = "This reverts commit {0}.";
   public static String revertSubmissionUserMessage = "Revert \"{0}\"\n\n{1}";
-  public static String revertSubmissionOfRevertSubmissionUserMessage = "Revert^{0} \"{1}\"\n\n{2}";
+  public static String revertSubmissionOfRevertSubmissionUserMessage =
+      "Revert^{0} \"{1}\"\n\n{2}\n\n{3}";
 
   public static String reviewerCantSeeChange = "{0} does not have permission to see this change";
   public static String reviewerInvalid = "{0} is not a valid user identifier";

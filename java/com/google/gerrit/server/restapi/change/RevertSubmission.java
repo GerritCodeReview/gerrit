@@ -48,7 +48,6 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.change.ChangeJson;
-import com.google.gerrit.server.change.ChangeMessages;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.change.RevisionResource;
@@ -77,7 +76,6 @@ import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.io.IOException;
-import java.text.MessageFormat;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -87,8 +85,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -124,9 +120,6 @@ public class RevertSubmission
   private CherryPickInput cherryPickInput;
   private Change cherryPickBaseChange;
   private List<ChangeInfo> results;
-  private static final Pattern patternRevertSubject = Pattern.compile("Revert \"(.+)\"");
-  private static final Pattern patternRevertSubjectWithNum =
-      Pattern.compile("Revert\\^(\\d+) \"(.+)\"");
 
   @Inject
   RevertSubmission(
@@ -384,44 +377,11 @@ public class RevertSubmission
   }
 
   private String getMessage(String initialMessage, ChangeNotes changeNotes) {
-    String subject = changeNotes.getChange().getSubject();
-    if (subject.length() > 60) {
-      subject = subject.substring(0, 56) + "...";
-    }
-    if (initialMessage == null) {
-      initialMessage =
-          MessageFormat.format(
-              ChangeMessages.revertSubmissionDefaultMessage,
-              changeNotes.getCurrentPatchSet().commitId().name());
-    }
-
-    // For performance purposes: Almost all cases will end here.
-    if (!subject.startsWith("Revert")) {
-      return MessageFormat.format(
-          ChangeMessages.revertSubmissionUserMessage, subject, initialMessage);
-    }
-
-    Matcher matcher = patternRevertSubjectWithNum.matcher(subject);
-
-    if (matcher.matches()) {
-      return MessageFormat.format(
-          ChangeMessages.revertSubmissionOfRevertSubmissionUserMessage,
-          Integer.valueOf(matcher.group(1)) + 1,
-          matcher.group(2),
-          changeNotes.getCurrentPatchSet().commitId().name());
-    }
-
-    matcher = patternRevertSubject.matcher(subject);
-    if (matcher.matches()) {
-      return MessageFormat.format(
-          ChangeMessages.revertSubmissionOfRevertSubmissionUserMessage,
-          2,
-          matcher.group(1),
-          changeNotes.getCurrentPatchSet().commitId().name());
-    }
-
-    return MessageFormat.format(
-        ChangeMessages.revertSubmissionUserMessage, subject, initialMessage);
+    return commitUtil.getRevertMessage(
+        initialMessage,
+        changeNotes.getChange().getSubject(),
+        changeNotes.getCurrentPatchSet().commitId().name(),
+        true);
   }
 
   /**

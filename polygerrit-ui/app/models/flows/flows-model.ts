@@ -175,16 +175,33 @@ export class FlowsModel extends Model<FlowsState> {
   async createAutosubmitFlow() {
     if (!this.changeNum) return;
     if (!this.getState().isEnabled) return;
-    await this.restApiService.createFlow(this.changeNum, {
-      stage_expressions: [
-        {
-          condition: SUBMIT_CONDITION,
-          action: {
-            name: SUBMIT_ACTION_NAME,
+
+    const autosubmitProvider = this.getState().autosubmitProviders.find(
+      provider => provider.getSubmitCondition() || provider.getSubmitAction()
+    );
+
+    if (!autosubmitProvider) {
+      await this.restApiService.createFlow(this.changeNum, {
+        stage_expressions: [
+          {
+            condition: SUBMIT_CONDITION,
+            action: {
+              name: SUBMIT_ACTION_NAME,
+            },
           },
-        },
-      ],
-    });
+        ],
+      });
+    } else {
+      await this.restApiService.createFlow(this.changeNum, {
+        stage_expressions: [
+          {
+            condition: CHANGE_PREFIX + autosubmitProvider.getSubmitCondition(),
+            action: autosubmitProvider.getSubmitAction(),
+          },
+        ],
+      });
+    }
+
     this.reload();
   }
 

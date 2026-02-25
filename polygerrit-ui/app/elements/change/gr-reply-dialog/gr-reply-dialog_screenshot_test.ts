@@ -31,7 +31,7 @@ suite('gr-reply-dialog screenshot tests', () => {
   });
 
   test('autosubmit checkbox rendered', async () => {
-    element.isAutosubmitEnabled = true;
+    element.autosubmitChecked = true;
     await element.updateComplete;
     await visualDiff(element, 'gr-reply-dialog-autosubmit');
     await visualDiffDarkTheme(element, 'gr-reply-dialog-autosubmit');

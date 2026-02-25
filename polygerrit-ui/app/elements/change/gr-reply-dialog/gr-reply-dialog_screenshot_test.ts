@@ -43,6 +43,8 @@ suite('gr-reply-dialog screenshot tests', () => {
       autosubmitProviders: [
         {
           isAutosubmitEnabled: () => true,
+          getSubmitCondition: () => '',
+          getSubmitAction: () => undefined,
         },
       ],
     });

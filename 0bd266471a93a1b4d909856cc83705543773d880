@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "059fa5ae_e9cc008e",
+        "filename": "java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 496,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-02-25T18:00:50Z",
+      "side": 1,
+      "message": "Not related, but this guard should go before line #491",
+      "range": {
+        "startLine": 496,
+        "startChar": 6,
+        "endLine": 496,
+        "endChar": 37
+      },
+      "revId": "0bd266471a93a1b4d909856cc83705543773d880",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

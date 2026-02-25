@@ -53,13 +53,15 @@ import com.google.gerrit.server.mail.send.ChangeEmail;
 import com.google.gerrit.server.mail.send.MessageIdGenerator;
 import com.google.gerrit.server.mail.send.OutgoingEmail;
 import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gerrit.server.notedb.ReviewerStateInternal;
+import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.PostUpdateContext;
+import com.google.gerrit.server.update.RepoView;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.gerrit.server.util.CommitMessageUtil;
@@ -69,13 +71,18 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.time.Instant;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.InvalidObjectIdException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
@@ -94,6 +101,64 @@ import org.eclipse.jgit.util.ChangeIdUtil;
 /** Static utilities for working with {@link RevCommit}s. */
 @Singleton
 public class CommitUtil {
+  private static final Pattern PATTERN_REVERT_SUBJECT = Pattern.compile("Revert \"(.*)\"");
+  private static final Pattern PATTERN_REVERT_SUBJECT_WITH_NUM =
+      Pattern.compile("Revert\\(\\d+\\) \"(.*)\"");
+
+  public static String getRevertMessage(
+      String initialMessage, ChangeNotes changeNotes, boolean isSubmission) {
+    String subject = changeNotes.getChange().getSubject();
+    int maxLength = isSubmission ? 56 : 59;
+    if (subject.length() > maxLength + 4) {
+      subject = subject.substring(0, maxLength) + "...";
+    }
+    if (initialMessage == null) {
+      initialMessage =
+          MessageFormat.format(
+              isSubmission
+                  ? ChangeMessages.revertSubmissionDefaultMessage
+                  : ChangeMessages.revertDefaultMessage,
+              changeNotes.getCurrentPatchSet().commitId().name());
+    }
+
+    // For performance purposes: Almost all cases will end here.
+    if (!subject.startsWith("Revert")) {
+      return MessageFormat.format(
+          isSubmission
+              ? ChangeMessages.revertSubmissionUserMessage
+              : ChangeMessages.revertUserMessage,
+          subject,
+          initialMessage);
+    }
+
+    Matcher matcher = PATTERN_REVERT_SUBJECT_WITH_NUM.matcher(subject);
+    if (matcher.matches()) {
+      return MessageFormat.format(
+          isSubmission
+              ? ChangeMessages.revertSubmissionOfRevertSubmissionUserMessage
+              : ChangeMessages.revertOfRevertUserMessage,
+          Integer.valueOf(matcher.group(1)) + 1,
+          matcher.group(2),
+          initialMessage);
+    }
+
+    matcher = PATTERN_REVERT_SUBJECT.matcher(subject);
+    if (matcher.matches()) {
+      return MessageFormat.format(
+          isSubmission
+              ? ChangeMessages.revertSubmissionOfRevertSubmissionUserMessage
+              : ChangeMessages.revertOfRevertUserMessage,
+          2,
+          matcher.group(1),
+          initialMessage);
+    }
+
+    return MessageFormat.format(
+        isSubmission ? ChangeMessages.revertSubmissionUserMessage : ChangeMessages.revertUserMessage,
+        subject,
+        initialMessage);
+  }
+
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final GitRepositoryManager repoManager;
@@ -295,15 +360,7 @@ public class CommitUtil {
     revWalk.parseHeaders(parentToCommitToRevert);
 
     Change changeToRevert = notes.getChange();
-    String subject = changeToRevert.getSubject();
-    if (subject.length() > 63) {
-      subject = subject.substring(0, 59) + "...";
-    }
-    if (message == null) {
-      message =
-          MessageFormat.format(
-              ChangeMessages.revertChangeDefaultMessage, subject, patch.commitId().name());
-    }
+    message = getRevertMessage(message, notes, /* isSubmission= */ false);
 
     String newFooters = getBugAndIssueFooters(commitToRevert);
     if (!newFooters.isEmpty()) {

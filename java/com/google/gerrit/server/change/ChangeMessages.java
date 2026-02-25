@@ -15,7 +15,9 @@
 package com.google.gerrit.server.change;
 
 public class ChangeMessages {
-  public static String revertChangeDefaultMessage = "Revert \"{0}\"\n\nThis reverts commit {1}.";
+  public static String revertDefaultMessage = "This reverts commit {0}.";
+  public static String revertUserMessage = "Revert \"{0}\"\n\n{1}";
+  public static String revertOfRevertUserMessage = "Revert^{0} \"{1}\"\n\n{2}";
   public static String revertSubmissionDefaultMessage = "This reverts commit {0}.";
   public static String revertSubmissionUserMessage = "Revert \"{0}\"\n\n{1}";
   public static String revertSubmissionOfRevertSubmissionUserMessage = "Revert^{0} \"{1}\"\n\n{2}";

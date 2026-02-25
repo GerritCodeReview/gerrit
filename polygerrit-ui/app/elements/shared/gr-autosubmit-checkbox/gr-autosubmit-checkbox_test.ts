@@ -49,6 +49,8 @@ suite('gr-autosubmit-checkbox tests', () => {
         autosubmitProviders: [
           {
             isAutosubmitEnabled: () => true,
+            getSubmitCondition: () => '',
+            getSubmitAction: () => undefined,
           },
         ],
       });
@@ -93,7 +95,13 @@ suite('gr-autosubmit-checkbox tests', () => {
 
       flowsModel.updateState({
         isEnabled: true,
-        autosubmitProviders: [{isAutosubmitEnabled: () => true}],
+        autosubmitProviders: [
+          {
+            isAutosubmitEnabled: () => true,
+            getSubmitCondition: () => '',
+            getSubmitAction: () => undefined,
+          },
+        ],
         flows: [],
       });
 

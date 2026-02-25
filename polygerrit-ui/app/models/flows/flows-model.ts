@@ -175,16 +175,29 @@ export class FlowsModel extends Model<FlowsState> {
   async createAutosubmitFlow() {
     if (!this.changeNum) return;
     if (!this.getState().isEnabled) return;
+
+    // See if some plugin wants to modify the default submit behaviour
+    const autosubmitProvider = this.getState().autosubmitProviders.find(
+      provider => !!provider.getSubmitCondition()
+    );
+
+    const defaultAction = {
+      name: SUBMIT_ACTION_NAME,
+    };
+
     await this.restApiService.createFlow(this.changeNum, {
       stage_expressions: [
         {
-          condition: SUBMIT_CONDITION,
-          action: {
-            name: SUBMIT_ACTION_NAME,
-          },
+          condition: autosubmitProvider
+            ? autosubmitProvider.getSubmitCondition()!
+            : SUBMIT_CONDITION,
+          action: autosubmitProvider
+            ? autosubmitProvider.getSubmitAction()
+            : defaultAction,
         },
       ],
     });
+
     this.reload();
   }
 

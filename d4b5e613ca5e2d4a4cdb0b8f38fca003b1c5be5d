@@ -191,6 +191,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c2170654_4df76bc4",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 20
+      },
+      "lineNbr": 1722,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-02-25T08:06:03Z",
+      "side": 1,
+      "message": "\u003e we think the MVP should be disable (but checked) and a link that directs users to the flows tab to remove.\n\nSGTM\n\nCurrently we are not even at MVP and only at Alpha so I would prefer to roll this forward and see what the very very small number of users(none in Android/Chrome) think.\n\nI am happy to resolve this issue before rolling it out for Android/Chrome but I prefer to get some feedback from the small users and more usage in the backend.\n\nLooping in @nitzan@google.com for her opinions as well.",
+      "parentUuid": "d704da57_01d8441a",
+      "range": {
+        "startLine": 1722,
+        "startChar": 36,
+        "endLine": 1722,
+        "endChar": 57
+      },
+      "revId": "d4b5e613ca5e2d4a4cdb0b8f38fca003b1c5be5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3c0c1c8d_0bd42632",

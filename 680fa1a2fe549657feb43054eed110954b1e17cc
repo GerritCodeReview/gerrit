@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c789419f_c0f776ba",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 34
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-02-25T14:37:30Z",
+      "side": 1,
+      "message": "The fix does create a regression on the submit on change create/update functionality, see my comments.\n\nAlso, check my comments on the https://issues.gerritcodereview.com/issues/486131256 as I believe the fix shouldn\u0027t be in `MergeOp` but in `ReceiveCommit`.",
+      "revId": "680fa1a2fe549657feb43054eed110954b1e17cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "85685ea9_36aff20c",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 34
+      },
+      "lineNbr": 752,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-02-25T14:37:30Z",
+      "side": 1,
+      "message": "This isn\u0027t right IMHO. This checks that the user has the `SUBMIT` permission on the target branch of the branch, but that\u0027s not what the `%submit` option should check on the receive-commit.\n\nThe `UPDATE_BY_SUBMIT` permission should be checked against the `refs/for/\u003ctarget ref\u003e` and not against `\u003ctarget ref\u003e`.\n\nSee `ReceiveCommit.java:2361`:\n\n```\n      if (magicBranch.submit) {\n        err \u003d checkRefPermission(magicBranch.perm, RefPermission.UPDATE_BY_SUBMIT);\n        if (err.isPresent()) {\n          rejectProhibited(cmd, err.get());\n          return;\n        }\n      }\n```",
+      "range": {
+        "startLine": 752,
+        "startChar": 14,
+        "endLine": 752,
+        "endChar": 64
+      },
+      "revId": "680fa1a2fe549657feb43054eed110954b1e17cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "84aa4229_485a1eca",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 34
+      },
+      "lineNbr": 1143,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-02-25T14:37:30Z",
+      "side": 1,
+      "message": "This is incorrect, it should be `refs/for/\u003cref\u003e`.\n\n\n\n```suggestion\n    pushHead(testRepo, \"refs/for/refs/heads/\" + testBranch);\n```",
+      "range": {
+        "startLine": 1143,
+        "startChar": 23,
+        "endLine": 1143,
+        "endChar": 49
+      },
+      "revId": "680fa1a2fe549657feb43054eed110954b1e17cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

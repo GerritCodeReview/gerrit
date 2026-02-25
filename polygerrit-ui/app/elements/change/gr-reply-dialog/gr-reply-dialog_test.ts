@@ -67,7 +67,7 @@ import {GrLabelScores} from '../gr-label-scores/gr-label-scores';
 import {assert, fixture, html, waitUntil} from '@open-wc/testing';
 import {accountKey} from '../../../utils/account-util';
 import {GrButton} from '../../shared/gr-button/gr-button';
-import {GrAccountLabel} from '../../shared/gr-account-label/gr-account-label';
+import {GrIcon} from '../../shared/gr-icon/gr-icon';
 import {Key, Modifier} from '../../../utils/dom-util';
 import {GrComment} from '../../shared/gr-comment/gr-comment';
 import {testResolver} from '../../../test/common-test-setup';
@@ -89,6 +89,7 @@ import {
 } from '../../../models/flows/flows-model';
 import {MdCheckbox} from '@material/web/checkbox/checkbox';
 import {FlowStageState} from '../../../api/rest-api';
+import {GrAccountLabel} from '../../shared/gr-account-label/gr-account-label';
 
 function cloneableResponse(status: number, text: string) {
   return {
@@ -2757,6 +2758,25 @@ suite('gr-reply-dialog tests', () => {
       userModel.setAccount(createAccountDetailWithId(456 as AccountId));
       await element.updateComplete;
       assert.isTrue(element.isAutosubmitEnabled);
+    });
+  });
+
+  suite('autosubmit info message rendering', () => {
+    test('info message rendered when showAutosubmitInfoMessage is true', async () => {
+      element.showAutosubmitInfoMessage = true;
+      await element.updateComplete;
+      const autosubmitInfo = queryAndAssert(element, '.autosubmit-info');
+      assert.isTrue(isVisible(autosubmitInfo));
+      const icon = queryAndAssert<GrIcon>(autosubmitInfo, 'gr-icon');
+      assert.equal(icon.icon, 'info');
+      const text = queryAndAssert(autosubmitInfo, 'span');
+      assert.equal(text.textContent, 'Autosubmit Enabled.');
+    });
+
+    test('info message not rendered when showAutosubmitInfoMessage is false', async () => {
+      element.showAutosubmitInfoMessage = false;
+      await element.updateComplete;
+      assert.isNotOk(query(element, '.autosubmit-info'));
     });
   });
 

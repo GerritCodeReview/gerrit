@@ -11,10 +11,15 @@ import {fixture, html} from '@open-wc/testing';
 import {visualDiff} from '@web/test-runner-visual-regression';
 import {GrReplyDialog} from './gr-reply-dialog';
 import {visualDiffDarkTheme} from '../../../test/test-utils';
-import {createChange} from '../../../test/test-data-generators';
+import {
+  createAccountDetailWithId,
+  createChange,
+} from '../../../test/test-data-generators';
 import {testResolver} from '../../../test/common-test-setup';
 import {commentsModelToken} from '../../../models/comments/comments-model';
 import {PatchSetNumber} from '../../../api/rest-api';
+import {userModelToken} from '../../../models/user/user-model';
+import {ParsedChangeInfo} from '../../../types/types';
 
 suite('gr-reply-dialog screenshot tests', () => {
   let element: GrReplyDialog;
@@ -27,11 +32,26 @@ suite('gr-reply-dialog screenshot tests', () => {
     );
     element.change = createChange();
     element.latestPatchNum = 1 as PatchSetNumber;
+    const change = createChange();
+    const userModel = testResolver(userModelToken);
+    userModel.setAccount(createAccountDetailWithId(change.owner._account_id));
+    element.getChangeModel().updateState({
+      change: change as ParsedChangeInfo,
+    });
+    element.getFlowsModel().updateState({
+      isEnabled: true,
+      autosubmitProviders: [
+        {
+          isAutosubmitEnabled: () => true,
+        },
+      ],
+    });
+    await element.updateComplete;
     await element.updateComplete;
   });
 
   test('autosubmit checkbox rendered', async () => {
-    element.isAutosubmitEnabled = true;
+    element.autosubmitChecked = true;
     await element.updateComplete;
     await visualDiff(element, 'gr-reply-dialog-autosubmit');
     await visualDiffDarkTheme(element, 'gr-reply-dialog-autosubmit');

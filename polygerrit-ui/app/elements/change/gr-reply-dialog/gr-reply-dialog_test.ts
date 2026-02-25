@@ -33,9 +33,7 @@ import {
   createComment,
   createCommentThread,
   createDraft,
-  createFlow,
   createLabelInfo,
-  createParsedChange,
   createRevision,
   createServiceUserWithId,
 } from '../../../test/test-data-generators';
@@ -67,7 +65,6 @@ import {GrLabelScores} from '../gr-label-scores/gr-label-scores';
 import {assert, fixture, html, waitUntil} from '@open-wc/testing';
 import {accountKey} from '../../../utils/account-util';
 import {GrButton} from '../../shared/gr-button/gr-button';
-import {GrIcon} from '../../shared/gr-icon/gr-icon';
 import {Key, Modifier} from '../../../utils/dom-util';
 import {GrComment} from '../../shared/gr-comment/gr-comment';
 import {testResolver} from '../../../test/common-test-setup';
@@ -80,16 +77,10 @@ import {createNewPatchsetLevel} from '../../../utils/comment-util';
 import {Timing} from '../../../constants/reporting';
 import {ParsedChangeInfo} from '../../../types/types';
 import {changeModelToken} from '../../../models/change/change-model';
-import {userModelToken} from '../../../models/user/user-model';
-import {
-  FlowsModel,
-  flowsModelToken,
-  SUBMIT_ACTION_NAME,
-  SUBMIT_CONDITION,
-} from '../../../models/flows/flows-model';
-import {MdCheckbox} from '@material/web/checkbox/checkbox';
-import {FlowStageState} from '../../../api/rest-api';
 import {GrAccountLabel} from '../../shared/gr-account-label/gr-account-label';
+import {userModelToken} from '../../../models/user/user-model';
+import {MdCheckbox} from '@material/web/checkbox/checkbox';
+import {GrAutosubmitCheckbox} from '../../shared/gr-autosubmit-checkbox/gr-autosubmit-checkbox';
 
 function cloneableResponse(status: number, text: string) {
   return {
@@ -287,6 +278,9 @@ suite('gr-reply-dialog tests', () => {
                 <gr-endpoint-param name="change"> </gr-endpoint-param>
               </gr-endpoint-decorator>
             </div>
+          </section>
+          <section class="autosubmitContainer">
+            <gr-autosubmit-checkbox> </gr-autosubmit-checkbox>
           </section>
           <div class="newReplyDialog stickyBottom">
             <gr-endpoint-decorator name="reply-bottom">
@@ -2697,89 +2691,6 @@ suite('gr-reply-dialog tests', () => {
     });
   });
 
-  suite('autosubmit checkbox rendering', () => {
-    let flowsModel: FlowsModel;
-
-    setup(() => {
-      flowsModel = testResolver(flowsModelToken);
-    });
-
-    test('checkbox rendered when isAutosubmitEnabled is true', async () => {
-      element.isAutosubmitEnabled = true;
-      await element.updateComplete;
-      assert.isTrue(isVisible(queryAndAssert(element, '#autosubmit')));
-    });
-
-    test('checkbox not rendered when isAutosubmitEnabled is false', async () => {
-      element.isAutosubmitEnabled = false;
-      await element.updateComplete;
-      assert.isNotOk(query(element, '#autosubmit'));
-    });
-
-    test('checkbox not rendered if autosubmit flow is already present', async () => {
-      const flow = createFlow({
-        stages: [
-          {
-            expression: {
-              condition: SUBMIT_CONDITION,
-              action: {name: SUBMIT_ACTION_NAME},
-            },
-            state: FlowStageState.DONE,
-          },
-        ],
-      });
-      flowsModel.setState({...flowsModel.getState(), flows: [flow]});
-      await waitUntil(() => flowsModel.getState().flows.length > 0);
-
-      await element.updateComplete;
-      assert.isNotOk(query(element, '#autosubmit'));
-    });
-
-    test('isAutosubmitEnabled depends on isOwner', async () => {
-      const userModel = testResolver(userModelToken);
-      const changeModel = testResolver(changeModelToken);
-
-      flowsModel.updateState({
-        isEnabled: true,
-        autosubmitProviders: [{isAutosubmitEnabled: () => true}],
-        flows: [],
-      });
-
-      // Case 1: user is NOT owner
-      userModel.setAccount(createAccountDetailWithId(123 as AccountId));
-      changeModel.updateStateChange({
-        ...createParsedChange(),
-        owner: {_account_id: 456 as AccountId},
-      });
-      await element.updateComplete;
-      assert.isFalse(element.isAutosubmitEnabled);
-
-      // Case 2: user IS owner
-      userModel.setAccount(createAccountDetailWithId(456 as AccountId));
-      await element.updateComplete;
-      assert.isTrue(element.isAutosubmitEnabled);
-    });
-  });
-
-  suite('autosubmit info message rendering', () => {
-    test('info message rendered when showAutosubmitInfoMessage is true', async () => {
-      element.showAutosubmitInfoMessage = true;
-      await element.updateComplete;
-      const autosubmitInfo = queryAndAssert(element, '.autosubmit-info');
-      assert.isTrue(isVisible(autosubmitInfo));
-      const icon = queryAndAssert<GrIcon>(autosubmitInfo, 'gr-icon');
-      assert.equal(icon.icon, 'info');
-      const text = queryAndAssert(autosubmitInfo, 'span');
-      assert.equal(text.textContent, 'Autosubmit Enabled.');
-    });
-
-    test('info message not rendered when showAutosubmitInfoMessage is false', async () => {
-      element.showAutosubmitInfoMessage = false;
-      await element.updateComplete;
-      assert.isNotOk(query(element, '.autosubmit-info'));
-    });
-  });
-
   suite('createAutosubmitFlow', () => {
     let createAutosubmitFlowStub: sinon.SinonStub;
 
@@ -2809,8 +2720,13 @@ suite('gr-reply-dialog tests', () => {
     });
 
     test('createAutosubmitFlow is called when autosubmitChecked is true', async () => {
-      await waitUntil(() => !!element.isAutosubmitEnabled);
-      queryAndAssert<MdCheckbox>(element, '#autosubmit').click();
+      const checkbox = queryAndAssert<GrAutosubmitCheckbox>(
+        element,
+        'gr-autosubmit-checkbox'
+      );
+      queryAndAssert<MdCheckbox>(checkbox, 'md-checkbox').click();
+
+      await waitUntil(() => !!element.autosubmitChecked);
 
       await element.send(false, false);
       await waitUntil(() => !!createAutosubmitFlowStub.calledOnce);
@@ -2818,15 +2734,6 @@ suite('gr-reply-dialog tests', () => {
 
     test('createAutosubmitFlow is not called when autosubmitChecked is false', async () => {
       element.autosubmitChecked = false;
-      await element.updateComplete;
-
-      await element.send(false, false);
-      assert.isFalse(createAutosubmitFlowStub.called);
-    });
-
-    test('createAutosubmitFlow is not called when isAutosubmitEnabled is false', async () => {
-      element.isAutosubmitEnabled = false;
-      element.autosubmitChecked = true;
       await element.updateComplete;
 
       await element.send(false, false);

@@ -26,6 +26,7 @@ import {
 } from '../../../constants/constants';
 import {StandardLabels} from '../../../utils/label-util';
 import {
+  createAccountDetailWithId,
   createAccountWithEmail,
   createAccountWithId,
   createChange,
@@ -78,6 +79,7 @@ import {createNewPatchsetLevel} from '../../../utils/comment-util';
 import {Timing} from '../../../constants/reporting';
 import {ParsedChangeInfo} from '../../../types/types';
 import {changeModelToken} from '../../../models/change/change-model';
+import {UserModel, userModelToken} from '../../../models/user/user-model';
 import {
   FlowsModel,
   flowsModelToken,
@@ -2730,6 +2732,33 @@ suite('gr-reply-dialog tests', () => {
       await element.updateComplete;
       assert.isNotOk(query(element, '#autosubmit'));
     });
+
+    test('isAutosubmitEnabled depends on isOwner', async () => {
+      const userModel = testResolver(userModelToken);
+      const changeModel = testResolver(changeModelToken);
+
+      flowsModel.updateState({
+        isEnabled: true,
+        autosubmitProviders: [{isAutosubmitEnabled: () => true}],
+        flows: [],
+      });
+
+      // Case 1: user is NOT owner
+      userModel.setAccount(createAccountDetailWithId(123 as AccountId));
+      changeModel.updateState({
+        change: {
+          ...createChange(),
+          owner: {_account_id: 456 as AccountId},
+        } as ParsedChangeInfo,
+      });
+      await element.updateComplete;
+      assert.isFalse(element.isAutosubmitEnabled);
+
+      // Case 2: user IS owner
+      userModel.setAccount(createAccountDetailWithId(456 as AccountId));
+      await element.updateComplete;
+      assert.isTrue(element.isAutosubmitEnabled);
+    });
   });
 
   suite('createAutosubmitFlow', () => {
@@ -2743,8 +2772,11 @@ suite('gr-reply-dialog tests', () => {
       sinon.stub(element, 'saveReview').resolves({
         change_info: createChange(),
       });
+      const change = createChange();
+      const userModel = testResolver(userModelToken);
+      userModel.setAccount(createAccountDetailWithId(change.owner._account_id));
       element.getChangeModel().updateState({
-        change: createChange() as ParsedChangeInfo,
+        change: change as ParsedChangeInfo,
       });
       element.getFlowsModel().updateState({
         isEnabled: true,
@@ -2758,8 +2790,8 @@ suite('gr-reply-dialog tests', () => {
     });
 
     test('createAutosubmitFlow is called when autosubmitChecked is true', async () => {
+      await waitUntil(() => !!element.isAutosubmitEnabled);
       queryAndAssert<MdCheckbox>(element, '#autosubmit').click();
-      await element.updateComplete;
 
       await element.send(false, false);
       await waitUntil(() => !!createAutosubmitFlowStub.calledOnce);

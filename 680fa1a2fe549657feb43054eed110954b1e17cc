@@ -1,6 +1,46 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "35e0e22d_8235ceb3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 34
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-02-25T14:40:00Z",
+      "side": 1,
+      "message": "Pushing to `refs/for/\u003cbranch\u003e` isn\u0027t force pushing.\n\n\n\n```suggestion\nWhen uploading a change with submit on a change with a topic, explicitly check that the user has the\n```",
+      "range": {
+        "startLine": 9,
+        "startChar": 5,
+        "endLine": 9,
+        "endChar": 18
+      },
+      "revId": "680fa1a2fe549657feb43054eed110954b1e17cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2c0e9cd9_d75a4fe7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 34
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-02-25T14:40:00Z",
+      "side": 1,
+      "message": "```suggestion\npermission to upload a change with submit on all individual changes.\n```",
+      "revId": "680fa1a2fe549657feb43054eed110954b1e17cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "c789419f_c0f776ba",
@@ -32,6 +72,23 @@
       "side": 1,
       "message": "\u003e as I believe the fix shouldn\u0027t be in MergeOp but in ReceiveCommit.\n\n@luca.milanesio@gmail.com if you have more context can you upload the fix? I am not that familiar with this code",
       "parentUuid": "c789419f_c0f776ba",
+      "revId": "680fa1a2fe549657feb43054eed110954b1e17cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c22371e9_cd2f9f0c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 34
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-02-25T14:40:00Z",
+      "side": 1,
+      "message": "Adding Saša as a member of the ESC, who should be dealing with security issues as well.",
       "revId": "680fa1a2fe549657feb43054eed110954b1e17cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

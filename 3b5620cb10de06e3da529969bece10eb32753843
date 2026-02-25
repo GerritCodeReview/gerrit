@@ -16,6 +16,24 @@
       "message": "Not sure how hard it is to add a test for it. Have you considered it?",
       "revId": "3b5620cb10de06e3da529969bece10eb32753843",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f39583e9_6e149c9c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-02-25T18:05:43Z",
+      "side": 1,
+      "message": "Wasn\u0027t there before, so didn\u0027t think we\u0027d need to add it now.\n\nBut if we decide to tie the error logic to the presence of this, then I\u0027ll add a test.",
+      "parentUuid": "356a25c8_9a4793a1",
+      "revId": "3b5620cb10de06e3da529969bece10eb32753843",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

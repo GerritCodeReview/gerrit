@@ -348,6 +348,33 @@ public class RevertIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void revertOfRevertWithSetMessage() throws Exception {
+    PushOneCommit.Result result = createChange();
+    gApi.changes().id(result.getChangeId()).current().review(ReviewInput.approve());
+    gApi.changes().id(result.getChangeId()).revision(result.getCommit().name()).submit();
+
+    // First revert
+    ChangeInfo revertChange = gApi.changes().id(result.getChangeId()).revert().get();
+    gApi.changes().id(revertChange.id).current().review(ReviewInput.approve());
+    gApi.changes().id(revertChange.id).current().submit();
+
+    // Revert of revert with custom message
+    RevertInput revertInput = new RevertInput();
+    revertInput.message = "Custom message for double revert";
+    ChangeInfo doubleRevertChange = gApi.changes().id(revertChange.id).revert(revertInput).get();
+
+    String actualSubject = doubleRevertChange.subject;
+    String commitMessage = gApi.changes().id(doubleRevertChange.id).current().commit(false).message;
+
+    assertThat(actualSubject)
+        .isEqualTo("Revert^2 \"" + result.getChange().change().getSubject() + "\"");
+    assertThat(commitMessage)
+        .startsWith("Revert^2 \"" + result.getChange().change().getSubject() + "\"");
+    assertThat(commitMessage).contains("Custom message for double revert");
+    assertThat(commitMessage).contains("This reverts commit " + revertChange.currentRevision);
+  }
+
+  @Test
   public void revertWithSetMessageChangeIdIgnored() throws Exception {
     PushOneCommit.Result result = createChange();
     gApi.changes().id(result.getChangeId()).current().review(ReviewInput.approve());

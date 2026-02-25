@@ -2713,6 +2713,8 @@ suite('gr-reply-dialog tests', () => {
         autosubmitProviders: [
           {
             isAutosubmitEnabled: () => true,
+            getSubmitCondition: () => '',
+            getSubmitAction: () => undefined,
           },
         ],
       });

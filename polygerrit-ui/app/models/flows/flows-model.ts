@@ -136,6 +136,13 @@ export class FlowsModel extends Model<FlowsState> {
         })
     );
 
+    this.pluginsModel.flowsAutosubmitPlugin$.subscribe(plugins => {
+      const providers = plugins.map(p => p.provider).filter(isDefined);
+      this.updateState({
+        autosubmitProviders: providers,
+      });
+    });
+
     this.pluginsModel.flowsPlugins$.subscribe(plugins => {
       const providers = plugins.map(p => p.provider).filter(isDefined);
       this.updateState({

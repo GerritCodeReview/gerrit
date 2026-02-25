@@ -144,6 +144,11 @@ export class PluginsModel extends Model<PluginsState> {
 
   public flowsPlugins$ = select(this.state$, state => state.flowsPlugins);
 
+  readonly flowsAutosubmitPlugin$ = select(
+    this.state$,
+    state => state.flowsAutosubmitPlugins
+  );
+
   public suggestionsPlugins$ = select(
     this.state$,
     state => state.suggestionsPlugins

@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2491f153_b40abf1d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 34
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-02-25T14:39:38Z",
+      "side": 1,
+      "message": "\u003e as I believe the fix shouldn\u0027t be in MergeOp but in ReceiveCommit.\n\n@luca.milanesio@gmail.com if you have more context can you upload the fix? I am not that familiar with this code",
+      "parentUuid": "c789419f_c0f776ba",
+      "revId": "680fa1a2fe549657feb43054eed110954b1e17cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "85685ea9_36aff20c",
         "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
         "patchSetId": 34

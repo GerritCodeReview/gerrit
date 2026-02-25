@@ -361,14 +361,7 @@ export class GrReplyDialog extends LitElement {
   @state()
   private draggedAccount: AccountInfo | null = null;
 
-  @state()
-  isAutosubmitEnabled = false;
 
-  @state()
-  showAutosubmitInfoMessage = false;
-
-  @state()
-  autosubmitChecked = false;
 
   @state()
   private draggedFrom: GrAccountList | null = null;
@@ -740,6 +733,39 @@ export class GrReplyDialog extends LitElement {
           t => !(isDraft(getFirstComment(t)) && isPatchsetLevel(t))
         ))
     );
+<<<<<<< PATCH SET (963434a72e389b566145c2870b67810826341253 Create gr-autosubmit-checkbox)
+
+||||||| BASE      (a496398651ce4123f4711e9a2b311ebb2d48d048 Show info message to non-owners if autosubmit is configured)
+    subscribe(
+      this,
+      () =>
+        combineLatest([
+          this.getFlowsModel().isAutosubmitEnabled$,
+          this.getFlowsModel().enabled$,
+          this.getFlowsModel().flows$,
+          this.getChangeModel().isOwner$,
+        ]),
+      ([isAutosubmitEnabled, isFlowsEnabled, _, isOwner]) => {
+        this.isAutosubmitEnabled =
+          isAutosubmitEnabled &&
+          isFlowsEnabled &&
+          !this.getFlowsModel().hasAutosubmitFlowAlready() &&
+          isOwner;
+        this.showAutosubmitInfoMessage = isAutosubmitEnabled &&
+          isFlowsEnabled &&
+          this.getFlowsModel().hasAutosubmitFlowAlready();
+      }
+    );
+    subscribe(
+      this,
+      () => this.getFlowsModel().providers$,
+      providers => {
+        this.flowsDocumentationLink = providers
+          .map(p => p.getDocumentation())
+          .find(doc => !!doc);
+      }
+    );
+=======
     subscribe(
       this,
       () =>
@@ -770,6 +796,7 @@ export class GrReplyDialog extends LitElement {
           .find(doc => !!doc);
       }
     );
+>>>>>>> BASE      (31c4372d755ab25a78fe66db7e96d49ed23ef038 Show info message to non-owners if autosubmit is configured)
   }
 
   override connectedCallback() {

@@ -736,12 +736,14 @@ export class GrReplyDialog extends LitElement {
           this.getFlowsModel().isAutosubmitEnabled$,
           this.getFlowsModel().enabled$,
           this.getFlowsModel().flows$,
+          this.getChangeModel().isOwner$,
         ]),
-      ([isAutosubmitEnabled, isFlowsEnabled, _]) => {
+      ([isAutosubmitEnabled, isFlowsEnabled, _, isOwner]) => {
         this.isAutosubmitEnabled =
           isAutosubmitEnabled &&
           isFlowsEnabled &&
-          !this.getFlowsModel().hasAutosubmitFlowAlready();
+          !this.getFlowsModel().hasAutosubmitFlowAlready() &&
+          isOwner;
       }
     );
     subscribe(

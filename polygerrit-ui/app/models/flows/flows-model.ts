@@ -29,9 +29,12 @@ export interface FlowsState {
 
 export const flowsModelToken = define<FlowsModel>('flows-model');
 
-export const CHANGE_PREFIX = window.location.origin + window.location.pathname;
-export const SUBMIT_CONDITION = CHANGE_PREFIX + ' is is:submittable';
+export const SUBMIT_CONDITION = getChangePrefix() + ' is is:submittable';
 export const SUBMIT_ACTION_NAME = 'submit';
+
+export function getChangePrefix() {
+  return window.location.origin + window.location.pathname;
+}
 
 export class FlowsModel extends Model<FlowsState> {
   readonly flows$ = this.state$.pipe(map(s => s.flows));

@@ -26,8 +26,8 @@ import '../../shared/gr-copy-clipboard/gr-copy-clipboard';
 import {resolve} from '../../../models/dependency';
 import {configModelToken} from '../../../models/config/config-model';
 import {
-  CHANGE_PREFIX,
   flowsModelToken,
+  getChangePrefix,
 } from '../../../models/flows/flows-model';
 import './gr-flow-rule';
 import {subscribe} from '../../lit/subscription-controller';
@@ -241,7 +241,7 @@ export class GrCreateFlow extends LitElement {
       }
     );
 
-    this.hostUrl = CHANGE_PREFIX;
+    this.hostUrl = getChangePrefix();
   }
 
   static override get styles() {

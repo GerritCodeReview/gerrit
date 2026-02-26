@@ -34,6 +34,24 @@
       "parentUuid": "d6384edf_22e8c10f",
       "revId": "50f981d7d2123adb2be2243a5ff946a2c8dc0320",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7250ef00_d7ed286e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-02-26T05:04:03Z",
+      "side": 1,
+      "message": "Thanks for sharing that use case. If you want to [create an issue](https://issues.gerritcodereview.com/issues/new?component\u003d1369887\u0026template\u003d1834263), you can use that text as the background info and then link the issue number below (L21).\n\nI\u0027m guessing you\u0027ve tried this, but does it work to add your `helmut@januschka.com` email in the Google account \"Alternate emails\" setting?",
+      "parentUuid": "78dc9d1b_e510b794",
+      "revId": "50f981d7d2123adb2be2243a5ff946a2c8dc0320",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

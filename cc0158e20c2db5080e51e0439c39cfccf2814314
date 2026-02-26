@@ -74,6 +74,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ddaa31ce_3708f63f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-02-26T05:35:13Z",
+      "side": 1,
+      "message": "\u003e \u003e In general, yes. But for the case of Gerrit\u0027s persisted caches, I think they\u0027re always immutable.\n\u003e \n\u003e AFAIK, such assumption never existed in Gerrit code.\n\nI agree, it\u0027s not in the code. It\u0027s more of how it has evolved to be used (I think initially driven by how Google\u0027s persisted caches work, but I can\u0027t recall for sure).\n\n\u003e While most of the persistent caches appear to be immutable I think that there are at least some that are mutable, for example: `changes_by_project`\n\nTrue. I forgot I was actually hesitant to change that one to support persistence for that reason, but since it doesn\u0027t use the value as-is and always tries to update it, I thought it was close enough.\n\n\u003e \n\u003e \u003e To my point above, I don\u0027t think you ever need to forward an eviction for a persisted cache. Evictions for persisted caches are effectively based on size constraints, not staleness.\n\u003e \n\u003e I don\u0027t believe that this assumption is true. Persistent caches can be evicted just as non-persistent caches: check the code in the `H2CacheImpl.invalidate` method.\n\u003e We can also propagate evictions of persistent caches. The eviction removes the element both from the in-memory cache and its associated persisted part.\n\nI agree they can. But I think it would always be safe to ignore those evictions, though maybe not optimal, like in the `changes_by_project` case.\n\nI\u0027m not opposed to adding this immutable flag. I was just trying to offer what I thought was a simpler solution based on what already existed.",
+      "parentUuid": "c5274a4f_78212fcd",
+      "revId": "cc0158e20c2db5080e51e0439c39cfccf2814314",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0dcebabc_46e40bc1",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3

@@ -848,7 +848,8 @@
     },
 
     _computeSendButtonLabel(canBeStarted) {
-      return canBeStarted ? ButtonLabels.START_REVIEW : ButtonLabels.SEND;
+      //TODO: old version (return canBeStarted ? ButtonLabels.START_REVIEW : ButtonLabels.SEND;)
+      return canBeStarted ? ButtonLabels.SEND + ' and ' + ButtonLabels.START_REVIEW : ButtonLabels.SEND;
     },
 
     _computeSendButtonTooltip(canBeStarted) {

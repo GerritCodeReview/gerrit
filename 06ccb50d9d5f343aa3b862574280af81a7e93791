@@ -16,6 +16,23 @@
       "message": "{yo soy}",
       "revId": "06ccb50d9d5f343aa3b862574280af81a7e93791",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "05fd6210_ddd89fde",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3653538
+      },
+      "writtenOn": "2026-02-26T20:35:39Z",
+      "side": 1,
+      "message": "543741: Record and expose cache definitions | https://gerrit-review.googlesource.com/c/gerrit/+/543741",
+      "revId": "06ccb50d9d5f343aa3b862574280af81a7e93791",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

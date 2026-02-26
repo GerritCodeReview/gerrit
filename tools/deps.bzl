@@ -425,12 +425,6 @@ def java_dependencies():
     )
 
     maven_jar(
-        name = "hamcrest-core",
-        artifact = "org.hamcrest:hamcrest-core:1.3",
-        sha1 = "42a25dc3219429f0e5d060061f71acb49bf010a0",
-    )
-
-    maven_jar(
         name = "diffutils",
         artifact = "io.github.java-diff-utils:java-diff-utils:4.16",
         sha1 = "cca1e7dc2460d0afeebc3fc4a3386eadede08c5a",

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b878aa5a_c5cc3a78",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 64
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2026-02-26T19:40:13Z",
+      "side": 1,
+      "message": "tools/deps.bzl and toml refer to the same packages and version.",
+      "revId": "91f225fa1deb9412a1134f439d0836efbd23879a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

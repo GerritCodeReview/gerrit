@@ -28,6 +28,7 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.UrlFormatter;
 import com.google.gerrit.server.util.CommitMessageUtil;
+import com.google.gerrit.server.util.JujutsuChangeIdUtil;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
@@ -148,6 +149,12 @@ public class ChangeUtil {
     // Check that the commit message without footers is not empty
     @SuppressWarnings("unused")
     var unused = CommitMessageUtil.checkAndSanitizeCommitMessage(revCommit.getShortMessage());
+
+    // Jujutsu changes carry their ID in a commit-object header, not a message footer.
+    // Skip footer-based Change-Id validation for JJ changes.
+    if (JujutsuChangeIdUtil.isJujutsuChangeId(currentChangeId)) {
+      return;
+    }
 
     List<String> changeIdFooters = getChangeIdsFromFooter(revCommit);
     if (requireChangeId && changeIdFooters.isEmpty()) {

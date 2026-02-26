@@ -54,6 +54,7 @@ import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.util.JujutsuChangeIdUtil;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.PostUpdateContext;
@@ -621,6 +622,8 @@ public class RebaseChangeOp implements BatchUpdateOp {
           new PersonIdent(
               cb.getAuthor(), cb.getCommitter().getWhenAsInstant(), cb.getCommitter().getZoneId()));
     }
+    JujutsuChangeIdUtil.getChangeIdFromCommitHeader(original)
+        .ifPresent(jjId -> cb.addExtraHeader("change-id", jjId));
     ObjectId objectId = ctx.getInserter().insert(cb);
     CodeReviewCommit commit = ((CodeReviewRevWalk) ctx.getRevWalk()).parseCommit(objectId);
     commit.setConflicts(parentCommit, original, base, strategy, filesWithGitConflicts);

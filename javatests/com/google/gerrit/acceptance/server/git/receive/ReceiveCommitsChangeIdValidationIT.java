@@ -24,6 +24,7 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.config.GerritConfig;
+import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
@@ -133,14 +134,46 @@ public class ReceiveCommitsChangeIdValidationIT extends AbstractDaemonTest {
         () -> gApi.changes().id(project.get() + "~master~" + JJ_CHANGE_ID).get());
   }
 
-  /** Builds a raw JJ-style commit (change-id in commit-object header) and resets HEAD to it. */
+  @Test
+  public void pushRebasedJujutsuCommit_autoClosesChange() throws Exception {
+    // Resolve the remote master tip via the API — the local clone may not have
+    // refs/heads/master set up, so resolve("refs/heads/master") can return null.
+    ObjectId masterTip =
+        ObjectId.fromString(gApi.projects().name(project.get()).branch("master").get().revision);
+
+    // Step 1: push the original JJ commit to refs/for/master to create the change.
+    resetHeadToJjCommit("Commit from Jujutsu\n");
+    PushResult result = GitUtil.pushHead(testRepo, "refs/for/master");
+    GitUtil.assertPushOk(result, "refs/for/master");
+
+    assertThat(gApi.changes().id(project.get() + "~master~" + JJ_CHANGE_ID).get().status)
+        .isEqualTo(ChangeStatus.NEW);
+
+    // Step 2: simulate a rebase — build a sibling commit rooted at the same master tip.
+    // Same jj change-id header, different message → different SHA.
+    resetHeadToJjCommit(masterTip, "Commit from Jujutsu (rebased)\n");
+
+    // Step 3: push the rebased commit directly to refs/heads/master.
+    PushResult directPush = GitUtil.pushHead(testRepo, "refs/heads/master");
+    GitUtil.assertPushOk(directPush, "refs/heads/master");
+
+    // The change must be auto-closed even though the commit SHA changed.
+    assertThat(gApi.changes().id(project.get() + "~master~" + JJ_CHANGE_ID).get().status)
+        .isEqualTo(ChangeStatus.MERGED);
+  }
+
+  /** Builds a raw JJ commit with HEAD as parent and resets HEAD to it. */
   private void resetHeadToJjCommit(String message) throws Exception {
+    resetHeadToJjCommit(testRepo.getRepository().resolve("HEAD"), message);
+  }
+
+  /** Builds a raw JJ commit with the given parent and resets HEAD to it. */
+  private void resetHeadToJjCommit(ObjectId parent, String message) throws Exception {
     PersonIdent ident = admin.newIdent();
-    ObjectId head = testRepo.getRepository().resolve("HEAD");
     StringBuilder raw = new StringBuilder();
     raw.append("tree 4b825dc642cb6eb9a060e54bf8d69288fbee4904\n"); // empty tree
-    if (head != null) {
-      raw.append("parent ").append(head.name()).append("\n");
+    if (parent != null) {
+      raw.append("parent ").append(parent.name()).append("\n");
     }
     raw.append("author ").append(ident.toExternalString()).append("\n");
     raw.append("committer ").append(ident.toExternalString()).append("\n");

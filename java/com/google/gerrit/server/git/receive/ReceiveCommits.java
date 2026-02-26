@@ -4031,6 +4031,33 @@ class ReceiveCommits {
                               continue COMMIT;
                             }
                           }
+
+                          // No Gerrit Change-Id footer: check for a Jujutsu change-id commit
+                          // header (32 lowercase letters stored before the blank line in the
+                          // raw commit object).
+                          Optional<String> jjChangeId =
+                              JujutsuChangeIdUtil.getChangeIdFromCommitHeader(c);
+                          if (jjChangeId.isPresent()) {
+                            if (changeDataByKey == null) {
+                              changeDataByKey =
+                                  retryHelper
+                                      .changeIndexQuery(
+                                          "queryOpenChangesByKeyByBranch",
+                                          q -> openChangesByKeyByBranch(q, branch))
+                                      .call();
+                            }
+                            ChangeData onto = changeDataByKey.get(Change.key(jjChangeId.get()));
+                            if (onto != null) {
+                              newPatchSets++;
+                              ChangeNotes ontoNotes = onto.notes();
+                              ReplaceRequest req =
+                                  new ReplaceRequest(
+                                      globalRevWalk, ontoNotes.getChangeId(), c, cmd, false);
+                              req.notes = ontoNotes;
+                              replaceAndClose.add(req);
+                              continue COMMIT;
+                            }
+                          }
                         }
 
                         for (ReplaceRequest req : replaceAndClose) {

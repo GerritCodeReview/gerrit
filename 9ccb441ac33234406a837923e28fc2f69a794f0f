@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cf5c9ad7_15044d28",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-02-26T19:10:09Z",
+      "side": 1,
+      "message": "I may be missing some context here, but my understanding was that Google3 uses a single-version strategy for dependencies. In the Gitiles dependency update (change 552441), servlet-api is listed as 4.0.1.\n\nDo you know where the 3.1.0 version is coming from in this case? It would be helpful to understand whether this is being introduced transitively or via a specific component.\n\nAlso, are you observing a similar latency impact in Gitiles, and has a Gitiles build including the `servlet-api` upgrade already been deployed internally?\n\nIf we do end up reverting this change in Gerrit, it might be worth considering whether corresponding upgrades in Gitiles (change 552441) or JGit (e.g. the servlet-4 branch) should be handled consistently as well:\nhttps://jgit.gerrithub.io/c/eclipse-jgit/jgit/+/1231780",
+      "revId": "9ccb441ac33234406a837923e28fc2f69a794f0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

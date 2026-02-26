@@ -948,6 +948,11 @@ export class GrChangeView extends LitElement {
         .commitMessage gr-formatted-text {
           overflow-wrap: anywhere;
         }
+        .jjChangeId {
+          color: var(--deemphasized-text-color);
+          font-family: var(--font-family);
+          margin-top: var(--spacing-l);
+        }
         #commitMessageEditor {
           /* Account for border and padding and rounding errors. */
           min-width: calc(72ch + 2px + 2 * var(--spacing-m) + 0.4px);
@@ -1406,6 +1411,7 @@ export class GrChangeView extends LitElement {
                   .markdown=${false}
                 ></gr-formatted-text>
               </gr-editable-content>
+              ${this.renderJujutsuChangeId()}
             </div>
             <h3 class="assistive-tech-only">Comments and Checks Summary</h3>
             <gr-change-summary></gr-change-summary>
@@ -1423,6 +1429,23 @@ export class GrChangeView extends LitElement {
         </div>
       </div>
     </div>`;
+  }
+
+  private renderJujutsuChangeId() {
+    const changeId = this.change?.change_id;
+    if (
+      !changeId ||
+      !/^[a-z]{32}$/.test(changeId) ||
+      this.editingCommitMessage
+    ) {
+      return nothing;
+    }
+    return html`
+      <div class="jjChangeId">
+        <hr />
+        JJ change-id: <span>${changeId}</span>
+      </div>
+    `;
   }
 
   private renderTabHeaders() {

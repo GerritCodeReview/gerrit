@@ -32,6 +32,7 @@ import com.google.gerrit.metrics.Field;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.config.GerritImportedServerIdsProvider;
+import com.google.gerrit.server.util.JujutsuChangeIdUtil;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -69,6 +70,7 @@ public class ChangeFinder {
     TRIPLET,
     NUMERIC_ID,
     I_HASH,
+    JJ_CHANGE_ID,
     PROJECT_NUMERIC_ID,
     COMMIT_HASH
   }
@@ -161,6 +163,15 @@ public class ChangeFinder {
     InternalChangeQuery query = queryProvider.get().noFields();
     if (queryLimit > 0) {
       query.setLimit(queryLimit);
+    }
+
+    // Try Jujutsu change-id (32 lowercase letters stored as the Change.Key).
+    // Must be checked before the commit hash pattern since a JJ id composed entirely
+    // of hex characters [a-f0-9] would otherwise be misidentified as an abbreviated
+    // commit SHA.
+    if (JujutsuChangeIdUtil.isJujutsuChangeId(id)) {
+      changeIdCounter.increment(ChangeIdType.JJ_CHANGE_ID);
+      return asChangeNotes(query.byKeyPrefix(id));
     }
 
     // Try commit hash

@@ -59,6 +59,7 @@ import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.PostUpdateContext;
 import com.google.gerrit.server.update.RepoContext;
 import com.google.gerrit.server.util.AccountTemplateUtil;
+import com.google.gerrit.server.util.JujutsuChangeIdUtil;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
@@ -621,6 +622,8 @@ public class RebaseChangeOp implements BatchUpdateOp {
           new PersonIdent(
               cb.getAuthor(), cb.getCommitter().getWhenAsInstant(), cb.getCommitter().getZoneId()));
     }
+    JujutsuChangeIdUtil.getChangeIdFromCommitHeader(original)
+        .ifPresent(jjId -> cb.addExtraHeader("change-id", jjId));
     ObjectId objectId = ctx.getInserter().insert(cb);
     CodeReviewCommit commit = ((CodeReviewRevWalk) ctx.getRevWalk()).parseCommit(objectId);
     commit.setConflicts(parentCommit, original, base, strategy, filesWithGitConflicts);

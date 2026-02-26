@@ -45,6 +45,7 @@ import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.gerrit.server.util.CommitMessageUtil;
+import com.google.gerrit.server.util.JujutsuChangeIdUtil;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -211,6 +212,8 @@ public class PutMessage implements RestModifyView<ChangeResource, CommitMessageI
 
     builder.setCommitter(committer);
     builder.setMessage(commitMessage);
+    JujutsuChangeIdUtil.getChangeIdFromCommitHeader(basePatchSetCommit)
+        .ifPresent(jjId -> builder.addExtraHeader("change-id", jjId));
     ObjectId newCommitId = objectInserter.insert(builder);
     objectInserter.flush();
     return newCommitId;

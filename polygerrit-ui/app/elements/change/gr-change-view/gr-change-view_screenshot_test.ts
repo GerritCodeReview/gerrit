@@ -281,6 +281,36 @@ suite('gr-change-view screenshot tests', () => {
     await element.updateComplete;
   });
 
+  test('jujutsu change-id banner', async () => {
+    await setViewport({width: 801, height: 900});
+
+    const changeModel = testResolver(changeModelToken);
+    changeModel.updateStateChange({
+      ...element.change!,
+      // @ts-expect-error: JJ change-id is not a standard ChangeId format
+      change_id: 'mlqnqnkrxpuvuuxzlzoltostwlwyskpx',
+    });
+    await element.updateComplete;
+
+    const jjDiv = element.shadowRoot!.querySelector('.jjChangeId');
+    await waitUntil(() => jjDiv !== null);
+
+    const container = document.createElement('div');
+    container.style.width = '500px';
+    container.style.padding = '8px';
+    container.style.backgroundColor = 'var(--view-background-color, #fff)';
+    const clone = jjDiv!.cloneNode(true) as Element;
+    container.appendChild(clone);
+    document.body.appendChild(container);
+
+    try {
+      await visualDiff(container, 'gr-change-view-jj-change-id');
+      await visualDiffDarkTheme(container, 'gr-change-view-jj-change-id');
+    } finally {
+      document.body.removeChild(container);
+    }
+  });
+
   test('full page at 801px width', async () => {
     // Set viewport to ensure media queries respond correctly
     await setViewport({width: 801, height: 900});

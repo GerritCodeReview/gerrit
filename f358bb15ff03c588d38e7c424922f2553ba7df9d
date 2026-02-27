@@ -3,6 +3,40 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "508e43a1_92212a5a",
+        "filename": "java/com/google/gerrit/server/git/DecoratedDag.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-02-27T05:45:02Z",
+      "side": 1,
+      "message": "using is/can/has/should prefix is better naming for boolean methods [1]\n\n```suggestion\n    public boolean shouldWalkParents(DecoratedDag dag, Node node) {\n```\n\n[1] https://wiki.eclipse.org/Recommenders/CodingConventions#is_prefix_should_be_used_for_boolean_variables_and_methods.",
+      "revId": "f358bb15ff03c588d38e7c424922f2553ba7df9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "416fefd5_634bb814",
+        "filename": "java/com/google/gerrit/server/git/TagSet.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-02-27T05:45:02Z",
+      "side": 1,
+      "message": "I ran this through a review helper and it pointed out we never remove now-undecorated nodes from the dag.\n\n\u003e When a ref moves, refresh removes the decoration from the old node but never removes that\n\u003e now-undecorated node from dag.decorated (and prune() only rewires parents). This means \n\u003e ref churn or deleted refs will leave stale nodes in dag.decorated, so the serialized cache grows\n\u003e unboundedly and the in-memory DAG keeps accumulating old commits. That’s a\n\u003e correctness/performance regression versus the old bitmap approach. Consider dropping nodes\n\u003e with empty decorations from dag.decorated (and possibly from the map) when a decoration is\n\u003e removed.\n\nI\u0027ve added a test to `TagSetTest` that shows the issue.",
+      "revId": "f358bb15ff03c588d38e7c424922f2553ba7df9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "efc25632_a65a72d5",
         "filename": "java/com/google/gerrit/server/git/TagSet.java",
         "patchSetId": 11

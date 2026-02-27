@@ -10,7 +10,7 @@ import {grFormStyles} from '../../../styles/gr-form-styles';
 import {resolve} from '../../../models/dependency';
 import {changeModelToken} from '../../../models/change/change-model';
 import {subscribe} from '../../lit/subscription-controller';
-import {FlowInfo, FlowStageInfo} from '../../../api/rest-api';
+import {FlowInfo, FlowStageInfo, FlowStageState} from '../../../api/rest-api';
 import {flowsModelToken} from '../../../models/flows/flows-model';
 import {NumericChangeId} from '../../../types/common';
 import './gr-create-flow';
@@ -253,6 +253,14 @@ export class GrFlows extends LitElement {
     `;
   }
 
+  private isFlowSuccessful(flow: FlowInfo): boolean {
+    if (!flow.stages || flow.stages.length === 0) {
+      return false;
+    }
+    const lastStage = flow.stages[flow.stages.length - 1];
+    return lastStage.state === FlowStageState.DONE;
+  }
+
   private renderFlowsList() {
     if (this.loading) {
       return html`<p>Loading...</p>`;
@@ -280,6 +288,7 @@ export class GrFlows extends LitElement {
                     () => html`
                       <gr-button
                         link
+                        ?disabled=${this.isFlowSuccessful(flow)}
                         @click=${() => this.openConfirmDialog(flow.uuid)}
                         title="Delete flow"
                       >

@@ -16,6 +16,23 @@
       "message": "LC+1 is still missing.",
       "revId": "d209e40fff3588833f6525b4a035da47110413f9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b7ed6d8e_e0e44e12",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-02-27T08:56:20Z",
+      "side": 1,
+      "message": "This change updates Gerrit external dependencies to align with the versions currently used internally at Google, following the recent Gitiles dependency update (change 552441).\n\nSince this is a combined dependency update that affects external libraries, could a Googler please take a look and provide a Library-Compliance +1 if everything looks good?\n\nIf it would be preferable to split this into individual dependency updates for LC review (as documented here: [1]), I’d be happy to do that instead — please let me know what you recommend.\n\n[1]:https://gerrit-review.googlesource.com/Documentation/dev-processes.html#upgrading-libraries",
+      "revId": "d209e40fff3588833f6525b4a035da47110413f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

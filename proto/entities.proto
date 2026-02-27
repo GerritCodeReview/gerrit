@@ -110,9 +110,9 @@ message ChangeMessage {
 // Serialized form of com.google.gerrit.extensions.client.ChangeStatus.
 // Next ID: 3
 enum ChangeStatus {
- NEW = 0;
- MERGED = 1;
- ABANDONED = 2;
+  NEW = 0;
+  MERGED = 1;
+  ABANDONED = 2;
 }
 
 // Serialized form of com.google.gerrit.entities.PatchSet.Conflicts.
@@ -148,29 +148,29 @@ message MergeInput {
 // Serialized form of com.google.gerrit.extensions.api.changes.ApplyPatchInput.
 // Next ID: 3
 message ApplyPatchInput {
- optional string patch = 1;
- optional bool allow_conflicts = 2;
+  optional string patch = 1;
+  optional bool allow_conflicts = 2;
 }
 
 // Serialized form of com.google.gerrit.extensions.api.accounts.AccountInput.
 // Next ID: 9
 message AccountInput {
- optional string username = 1;
- optional string name = 2;
- optional string display_name = 3;
- optional string email = 4;
- optional string ssh_key = 5;
- optional string http_password = 6;
- repeated string groups = 7;
- repeated AuthTokenInput tokens = 8;
+  optional string username = 1;
+  optional string name = 2;
+  optional string display_name = 3;
+  optional string email = 4;
+  optional string ssh_key = 5;
+  optional string http_password = 6;
+  repeated string groups = 7;
+  repeated AuthTokenInput tokens = 8;
 }
 
 // Serialized form of com.google.gerrit.extensions.auth.AuthTokenInput.
 // Next ID: 4
 message AuthTokenInput {
- optional string id = 1;
- optional string token = 2;
- optional string lifetime = 3;
+  optional string id = 1;
+  optional string token = 2;
+  optional string lifetime = 3;
 }
 
 // Serialized form of com.google.gerrit.extensions.client.ListChangesOption.
@@ -485,7 +485,7 @@ message HumanComment {
     optional int32 end_char = 4;
   }
 
-  // Next Id: 5
+  // Next Id: 6
   message InFilePosition {
     optional string file_path = 1;
     enum Side {
@@ -498,12 +498,16 @@ message HumanComment {
     // http://google3/third_party/java_src/gerritcodereview/gerrit/Documentation/rest-api-changes.txt?l=7423
     optional Side side = 2 [default = REVISION];
 
-    // If neither range nor line number set, the comment is on the file level. It is possible
-    // (though not required) for both values to be set. in this case, it is expected that the line
-    // number is identical to the range's end line.
+    // If neither range nor line number set, the comment is on the file level.
+    // It is possible (though not required) for both values to be set. in this
+    // case, it is expected that the line number is identical to the range's end
+    // line.
     optional Range position_range = 3;
     // 1-based
     optional int32 line_number = 4 [default = 1];
+    // 1-based. If side is PARENT, this field denotes which parent (1, 2, ...).
+    // If not set and side is PARENT, it refers to the Base (0).
+    optional int32 parent_number = 5;
   }
 
   // If not set, the comment is on the patchset level.

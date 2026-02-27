@@ -66,6 +66,7 @@ public enum HumanCommentProtoConverter
           InFilePosition.newBuilder()
               .setFilePath(val.key.filename)
               .setSide(val.side <= 0 ? Side.PARENT : Side.REVISION);
+      inFilePos.setParentNumber(val.side <= 0 ? -val.side : 0);
       if (val.range != null) {
         inFilePos.setPositionRange(toRangeProto(val.range));
       }
@@ -132,8 +133,8 @@ public enum HumanCommentProtoConverter
             accountIdConverter.fromProto(proto.getAccountId()),
             Instant.ofEpochMilli(proto.getWrittenOnMillis()),
             optInFilePosition.isPresent()
-                ? (short) optInFilePosition.get().getSide().getNumber()
-                : Side.REVISION_VALUE,
+                ? getSide(optInFilePosition.get())
+                : (short) Side.REVISION_VALUE,
             proto.getCommentText(),
             proto.getServerId(),
             proto.getUnresolved(),
@@ -192,6 +193,16 @@ public enum HumanCommentProtoConverter
   @Override
   public Parser<Entities.HumanComment> getParser() {
     return Entities.HumanComment.parser();
+  }
+
+  private static short getSide(InFilePosition pos) {
+    if (pos.getSide() == Side.PARENT) {
+      if (pos.hasParentNumber()) {
+        return (short) -pos.getParentNumber();
+      }
+      return (short) 0;
+    }
+    return (short) 1;
   }
 
   @Override

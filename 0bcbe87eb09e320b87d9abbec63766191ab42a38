@@ -34,6 +34,24 @@
       "parentUuid": "0b5b4649_43beb37e",
       "revId": "0bcbe87eb09e320b87d9abbec63766191ab42a38",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6d577dd4_0b80c04e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-02-27T08:07:52Z",
+      "side": 1,
+      "message": "Thanks @matthias.sohn@gmail.com, I added the references to the commit message.",
+      "parentUuid": "5c1b7eda_3883718e",
+      "revId": "0bcbe87eb09e320b87d9abbec63766191ab42a38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

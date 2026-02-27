@@ -524,13 +524,13 @@ export class GrCreateFlow extends LitElement {
               tabindex="0"
               aria-expanded=${this.guidedBuilderExpanded ? 'true' : 'false'}
             >
+              <span>Guided Builder</span>
               <gr-icon
                 icon=${this.guidedBuilderExpanded
                   ? 'expand_less'
                   : 'expand_more'}
                 filled
               ></gr-icon>
-              <span>Guided Builder</span>
             </div>
             ${when(
               this.guidedBuilderExpanded,
@@ -614,11 +614,11 @@ export class GrCreateFlow extends LitElement {
               tabindex="0"
               aria-expanded=${this.copyPasteExpanded ? 'true' : 'false'}
             >
+              <span>Copy and Paste existing Flows</span>
               <gr-icon
                 icon=${this.copyPasteExpanded ? 'expand_less' : 'expand_more'}
                 filled
               ></gr-icon>
-              <span>Copy and Paste existing Flows</span>
             </div>
             ${when(
               this.copyPasteExpanded,

@@ -11,6 +11,7 @@ import {fixture, html} from '@open-wc/testing';
 import {visualDiff} from '@web/test-runner-visual-regression';
 import {GrFlows} from './gr-flows';
 import {
+  query,
   stubRestApi,
   visualDiffDarkTheme,
   waitUntil,
@@ -32,6 +33,7 @@ import {UserModel, userModelToken} from '../../../models/user/user-model';
 import {testResolver} from '../../../test/common-test-setup';
 import {
   createAccountDetailWithId,
+  createAccountWithId,
   createParsedChange,
   createRevision,
 } from '../../../test/test-data-generators';
@@ -43,6 +45,7 @@ function setChangeWithUploader(
   changeModel.updateState({
     change: {
       ...createParsedChange(),
+      owner: createAccountWithId(1),
       _number: 123 as NumericChangeId,
       revisions: {
         rev1: {
@@ -136,6 +139,7 @@ suite('gr-flows screenshot tests', () => {
     await waitUntil(
       () => element.shadowRoot!.querySelectorAll('.flow').length === 1
     );
+    await waitUntil(() => !!element.isOwner);
   });
 
   test('flows list', async () => {
@@ -184,11 +188,10 @@ suite('gr-flows screenshot tests', () => {
       accountLoaded: true,
     });
     await element.updateComplete;
-    await waitUntil(
-      () =>
-        !!element.shadowRoot!.textContent?.includes(
-          'New flows can only be added by change uploader.'
-        )
+    await waitUntil(() =>
+      query(element, '.header-actions')!.textContent?.includes(
+        'New flows can only be added by change owner.'
+      )
     );
     await visualDiff(element, 'gr-flows-not-uploader');
     await visualDiffDarkTheme(element, 'gr-flows-not-uploader');

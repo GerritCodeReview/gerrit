@@ -10,12 +10,7 @@ import {grFormStyles} from '../../../styles/gr-form-styles';
 import {resolve} from '../../../models/dependency';
 import {changeModelToken} from '../../../models/change/change-model';
 import {subscribe} from '../../lit/subscription-controller';
-import {
-  AccountDetailInfo,
-  AccountId,
-  FlowInfo,
-  FlowStageInfo,
-} from '../../../api/rest-api';
+import {FlowInfo, FlowStageInfo} from '../../../api/rest-api';
 import {flowsModelToken} from '../../../models/flows/flows-model';
 import {NumericChangeId} from '../../../types/common';
 import './gr-create-flow';
@@ -29,7 +24,6 @@ import '../../shared/gr-date-formatter/gr-date-formatter';
 import {formatActionName} from '../../../utils/flows-util';
 import './gr-flow-rule';
 import {computeFlowStringFromFlowStageInfo} from '../../../utils/flows-util';
-import {userModelToken} from '../../../models/user/user-model';
 
 @customElement('gr-flows')
 export class GrFlows extends LitElement {
@@ -40,17 +34,13 @@ export class GrFlows extends LitElement {
 
   @state() private changeNum?: NumericChangeId;
 
-  @state() private changeUploader?: AccountId;
-
-  @state() private account?: AccountDetailInfo;
+  @state() isOwner = false;
 
   @state() private loading = true;
 
   @state() private flowIdToDelete?: string;
 
   private readonly getChangeModel = resolve(this, changeModelToken);
-
-  private readonly getUserModel = resolve(this, userModelToken);
 
   private readonly getFlowsModel = resolve(this, flowsModelToken);
 
@@ -154,18 +144,8 @@ export class GrFlows extends LitElement {
     );
     subscribe(
       this,
-      () => this.getChangeModel().change$,
-      change => {
-        this.changeUploader =
-          change?.revisions[change?.current_revision].uploader?._account_id;
-      }
-    );
-    subscribe(
-      this,
-      () => this.getUserModel().account$,
-      account => {
-        this.account = account;
-      }
+      () => this.getChangeModel().isOwner$,
+      x => (this.isOwner = x)
     );
     subscribe(
       this,
@@ -204,13 +184,13 @@ export class GrFlows extends LitElement {
       <div class="container">
         <div class="header-actions">
           ${when(
-            this.showCreateFlow(),
+            this.isOwner,
             () =>
               html`<gr-create-flow
                 .changeNum=${this.changeNum}
               ></gr-create-flow>`,
             () =>
-              html`<b>Note:</b> New flows can only be added by change uploader.`
+              html`<b>Note:</b> New flows can only be added by change owner.`
           )}
         </div>
         <div class="flows-header">
@@ -250,13 +230,6 @@ export class GrFlows extends LitElement {
         </div>
       </gr-dialog>
     </dialog>`;
-  }
-
-  private showCreateFlow() {
-    return (
-      this.account?._account_id !== undefined &&
-      this.account._account_id === this.changeUploader
-    );
   }
 
   private getFlowTitle(flow: FlowInfo) {
@@ -302,13 +275,18 @@ export class GrFlows extends LitElement {
                     hideinput
                     .smallIcon=${false}
                   ></gr-copy-clipboard>
-                  <gr-button
-                    link
-                    @click=${() => this.openConfirmDialog(flow.uuid)}
-                    title="Delete flow"
-                  >
-                    <gr-icon icon="delete"></gr-icon>
-                  </gr-button>
+                  ${when(
+                    this.isOwner,
+                    () => html`
+                      <gr-button
+                        link
+                        @click=${() => this.openConfirmDialog(flow.uuid)}
+                        title="Delete flow"
+                      >
+                        <gr-icon icon="delete"></gr-icon>
+                      </gr-button>
+                    `
+                  )}
                 </div>
               </div>
 

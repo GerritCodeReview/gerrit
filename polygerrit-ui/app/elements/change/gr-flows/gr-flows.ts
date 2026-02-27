@@ -10,7 +10,7 @@ import {grFormStyles} from '../../../styles/gr-form-styles';
 import {resolve} from '../../../models/dependency';
 import {changeModelToken} from '../../../models/change/change-model';
 import {subscribe} from '../../lit/subscription-controller';
-import {FlowInfo, FlowStageInfo} from '../../../api/rest-api';
+import {FlowInfo, FlowStageInfo, FlowState} from '../../../api/rest-api';
 import {flowsModelToken} from '../../../models/flows/flows-model';
 import {NumericChangeId} from '../../../types/common';
 import './gr-create-flow';
@@ -247,6 +247,14 @@ export class GrFlows extends LitElement {
         .parameters=${action?.parameters}
       ></gr-flow-rule>
     `;
+  }
+
+  private isFlowSuccessful(flow: FlowInfo): boolean {
+    if (!flow.stages || flow.stages.length === 0) {
+      return false;
+    }
+    const lastStage = flow.stages[flow.stages.length - 1];
+    return lastStage.state === FlowState.SUCCESSFUL;
   }
 
   private renderFlowsList() {

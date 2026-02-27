@@ -344,7 +344,10 @@ export class GrPermission extends LitElement {
     if (!this.permission || !this.permission.id || !this.docsBaseUrl) {
       return undefined;
     }
-    const anchor = getAccessDocsAnchor(this.permission.id as string);
+    let anchor = getAccessDocsAnchor(this.permission.id as string);
+    if (!anchor && this.section === 'GLOBAL_CAPABILITIES') {
+      anchor = `capability_${this.permission.id}`;
+    }
     if (!anchor) {
       return undefined;
     }

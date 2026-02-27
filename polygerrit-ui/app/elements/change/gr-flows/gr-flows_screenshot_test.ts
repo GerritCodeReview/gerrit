@@ -11,6 +11,7 @@ import {fixture, html} from '@open-wc/testing';
 import {visualDiff} from '@web/test-runner-visual-regression';
 import {GrFlows} from './gr-flows';
 import {
+  query,
   stubRestApi,
   visualDiffDarkTheme,
   waitUntil,
@@ -179,6 +180,7 @@ suite('gr-flows screenshot tests', () => {
   });
 
   test('cannot create flow (not uploader)', async () => {
+    debugger;
     userModel.setState({
       account: createAccountDetailWithId(2 as AccountId),
       accountLoaded: true,
@@ -186,8 +188,8 @@ suite('gr-flows screenshot tests', () => {
     await element.updateComplete;
     await waitUntil(
       () =>
-        !!element.shadowRoot!.textContent?.includes(
-          'New flows can only be added by change uploader.'
+        query(element, '.header-actions')!.textContent?.includes(
+          'New flows can only be added by change owner.'
         )
     );
     await visualDiff(element, 'gr-flows-not-uploader');

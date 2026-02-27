@@ -71,6 +71,9 @@ export class GrAutosubmitCheckbox extends LitElement {
           display: flex;
           align-items: center;
         }
+        .autosubmit-info label {
+          background: var(--info-background);
+        }
         .autosubmit-info gr-icon {
           color: var(--info-foreground);
           margin-right: var(--spacing-m);
@@ -131,8 +134,13 @@ export class GrAutosubmitCheckbox extends LitElement {
     if (this.showAutosubmitInfoMessage) {
       return html`
         <div class="autosubmit-info">
-          <gr-icon icon="info"></gr-icon>
-          <span>Autosubmit Enabled.</span>
+          <label>
+            <gr-icon icon="info"></gr-icon>
+            <span
+              >This change will submit/merge automatically when all requirements
+              are met.</span
+            >
+          </label>
         </div>
       `;
     }

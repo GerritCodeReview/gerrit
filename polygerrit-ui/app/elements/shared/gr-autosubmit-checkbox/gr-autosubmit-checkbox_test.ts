@@ -165,7 +165,10 @@ suite('gr-autosubmit-checkbox tests', () => {
       const icon = queryAndAssert<GrIcon>(autosubmitInfo, 'gr-icon');
       assert.equal(icon.icon, 'info');
       const text = queryAndAssert(autosubmitInfo, 'span');
-      assert.equal(text.textContent, 'Autosubmit Enabled.');
+      assert.equal(
+        text.textContent,
+        'This change will submit/merge automatically when all requirements are met.'
+      );
     });
 
     test('info message not rendered when showAutosubmitInfoMessage is false', async () => {

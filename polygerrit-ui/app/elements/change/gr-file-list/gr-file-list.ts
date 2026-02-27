@@ -216,6 +216,9 @@ export class GrFileList extends LitElement {
   @property({type: Boolean})
   editMode = false;
 
+  // A promise that resolves when all file expansions are finished rendering.
+  filesExpandedPromise?: Promise<void>;
+
   private _filesExpanded = FilesExpandedState.NONE;
 
   get filesExpanded() {
@@ -937,7 +940,9 @@ export class GrFileList extends LitElement {
       fire(this, 'files-shown-changed', {length: this.numFilesShown});
     }
     if (changedProperties.has('expandedFiles')) {
-      this.expandedFilesChanged(changedProperties.get('expandedFiles'));
+      this.filesExpandedPromise = this.expandedFilesChanged(
+        changedProperties.get('expandedFiles')
+      );
     }
     if (changedProperties.has('numFilesShown')) {
       fire(this, 'files-shown-changed', {length: this.numFilesShown});
@@ -1956,7 +1961,7 @@ export class GrFileList extends LitElement {
     ].scrollIntoView({block: 'nearest'});
   }
 
-  private toggleFileExpandedByIndex(index: number) {
+  toggleFileExpandedByIndex(index: number) {
     this.toggleFileExpanded(this.computePatchSetFile(this.files[index]));
   }
 

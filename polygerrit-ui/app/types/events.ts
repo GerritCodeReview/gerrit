@@ -11,7 +11,11 @@ import {
   PatchSetNum,
 } from './common';
 import {FetchRequest} from './types';
-import {LineNumberEventDetail, MovedLinkClickedEventDetail} from '../api/diff';
+import {
+  LineNumberEventDetail,
+  MovedLinkClickedEventDetail,
+  Side,
+} from '../api/diff';
 import {Category, RunStatus} from '../api/checks';
 
 // TODO: Local events that are only fired by one component should also be
@@ -47,6 +51,7 @@ declare global {
     'line-cursor-moved-in': LineNumberEvent;
     'line-cursor-moved-out': LineNumberEvent;
     'moved-link-clicked': MovedLinkClickedEvent;
+    'open-diff-in-change-view': OpenDiffInChangeViewEvent;
     'open-fix-preview': OpenFixPreviewEvent;
     'reply-to-comment': ReplyToCommentEvent;
     // prettier-ignore
@@ -163,6 +168,14 @@ export interface OpenFixPreviewEventDetail {
   onCloseFixPreviewCallbacks: ((fixapplied: boolean) => void)[];
 }
 export type OpenFixPreviewEvent = CustomEvent<OpenFixPreviewEventDetail>;
+
+export interface OpenDiffInChangeViewEventDetail {
+  path: string;
+  lineNum?: number;
+  side?: Side;
+}
+export type OpenDiffInChangeViewEvent =
+  CustomEvent<OpenDiffInChangeViewEventDetail>;
 
 export interface ReplyToCommentEventDetail {
   content: string;

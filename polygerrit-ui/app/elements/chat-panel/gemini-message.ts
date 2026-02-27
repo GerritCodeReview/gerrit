@@ -38,6 +38,7 @@ import {
   createNew,
 } from '../../utils/comment-util';
 import {assert} from '../../utils/common-util';
+import {fire} from '../../utils/event-util';
 import {subscribe} from '../lit/subscription-controller';
 
 @customElement('gemini-message')
@@ -157,6 +158,23 @@ export class GeminiMessage extends LitElement {
       .comment-line gr-icon {
         font-size: 16px;
       }
+      .link-button {
+        display: flex;
+        font-family: inherit;
+        font-size: inherit;
+        font-weight: inherit;
+        color: var(--link-color);
+        padding: 0;
+        margin: 0;
+        border: none;
+        background: none;
+        cursor: pointer;
+        text-decoration: none;
+        text-align: left;
+      }
+      .link-button:hover {
+        text-decoration: underline;
+      }
       .suggested-comment-message {
         margin-top: var(--spacing-s);
         margin-bottom: var(--spacing-m);
@@ -216,6 +234,10 @@ export class GeminiMessage extends LitElement {
 
   private toggleShowErrorDetails() {
     this.showErrorDetails = !this.showErrorDetails;
+  }
+
+  private handleFileClick(path: string, lineNum?: number) {
+    fire(this, 'open-diff-in-change-view', {path, lineNum});
   }
 
   override render() {
@@ -300,24 +322,44 @@ export class GeminiMessage extends LitElement {
           )}
           ${when(!this.isBackgroundRequest, () =>
             this.sortedComments().map(comment => {
-              const lineNumber = computeDisplayLine(comment.comment);
+              const displayLine = computeDisplayLine(comment.comment);
+              const lineNum =
+                typeof displayLine === 'string' && displayLine.startsWith('#')
+                  ? Number(displayLine.substring(1))
+                  : typeof displayLine === 'number'
+                  ? displayLine
+                  : undefined;
               return html`
                 ${when(
                   comment.comment.path,
                   () => html`
-                    <div class="comment-path">
+                    <button
+                      class="comment-path link-button"
+                      @click=${() =>
+                        this.handleFileClick(
+                          comment.comment.path as string,
+                          lineNum
+                        )}
+                    >
                       <gr-icon icon="description"></gr-icon>
                       ${comment.comment.path}
-                    </div>
+                    </button>
                   `
                 )}
                 ${when(
-                  lineNumber,
+                  displayLine,
                   () => html`
-                    <div class="comment-line">
+                    <button
+                      class="comment-line link-button"
+                      @click=${() =>
+                        this.handleFileClick(
+                          comment.comment.path as string,
+                          lineNum
+                        )}
+                    >
                       <gr-icon icon="code"></gr-icon>
-                      ${lineNumber}
-                    </div>
+                      ${displayLine}
+                    </button>
                   `
                 )}
                 <div class="suggested-comment">

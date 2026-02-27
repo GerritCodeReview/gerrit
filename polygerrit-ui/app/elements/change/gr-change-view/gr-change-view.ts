@@ -90,12 +90,14 @@ import {
 import {
   EditableContentSaveEvent,
   FileActionTapEvent,
+  OpenDiffInChangeViewEvent,
   OpenFixPreviewEvent,
   ShowReplyDialogEvent,
   SwitchTabEvent,
   TabState,
   ValueChangedEvent,
 } from '../../../types/events';
+import {Side} from '../../../api/diff';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrMessagesList} from '../gr-messages-list/gr-messages-list';
 import {GrThreadList} from '../gr-thread-list/gr-thread-list';
@@ -478,6 +480,9 @@ export class GrChangeView extends LitElement {
       this.handleCommitMessageCancel()
     );
     this.addEventListener('open-fix-preview', e => this.onOpenFixPreview(e));
+    this.addEventListener('open-diff-in-change-view', e =>
+      this.onOpenDiffInChangeView(e)
+    );
     this.addEventListener('show-tab', e => this.setActiveTab(e));
     this.addEventListener(
       'close-chat-panel',
@@ -1893,6 +1898,47 @@ export class GrChangeView extends LitElement {
   private collapseAllDiffs() {
     assertIsDefined(this.fileList);
     this.fileList.collapseAllDiffs();
+  }
+
+  private async onOpenDiffInChangeView(e: OpenDiffInChangeViewEvent) {
+    if (!this.fileList) return;
+    const {path, lineNum, side} = e.detail;
+
+    if (this.activeTab !== Tab.FILES) {
+      this.setActiveTab(
+        new CustomEvent('show-tab', {detail: {tab: Tab.FILES}})
+      );
+    }
+
+    const fileIndex = this.fileList.files.findIndex(f => f.__path === path);
+    if (fileIndex !== -1) {
+      this.fileList.fileCursor.setCursorAtIndex(fileIndex, true);
+      const isExpanded = this.fileList.expandedFiles.some(f => f.path === path);
+      if (!isExpanded) {
+        this.fileList.toggleFileExpandedByIndex(fileIndex);
+        await this.fileList.updateComplete;
+        await this.fileList.filesExpandedPromise;
+      }
+      if (lineNum !== undefined) {
+        await waitUntil(() => {
+          const diffHost = this.fileList!.diffs.find(d => d.path === path);
+          return !!diffHost;
+        });
+        const diffHost = this.fileList.diffs.find(d => d.path === path);
+        if (diffHost) {
+          if (isExpanded) {
+            await diffHost.waitForReloadToRender();
+          }
+          // Wait another event loop tick for the dom to settle.
+          await new Promise(resolve => setTimeout(resolve));
+          this.fileList.diffCursor?.moveToLineNumber(
+            lineNum,
+            side ?? Side.RIGHT,
+            path
+          );
+        }
+      }
+    }
   }
 
   /**

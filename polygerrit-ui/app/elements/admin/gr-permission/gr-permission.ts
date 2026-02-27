@@ -118,8 +118,9 @@ export class GrPermission extends LitElement {
   @state()
   originalExclusiveValue?: boolean;
 
+  // private but used in test
   @state()
-  private docsBaseUrl = '';
+  docsBaseUrl = '';
 
   @query('#groupAutocomplete')
   private groupAutocomplete!: GrAutocomplete;
@@ -340,11 +341,15 @@ export class GrPermission extends LitElement {
     this.requestUpdate();
   }
 
-  private computeHelpUrl(): string | undefined {
+  // private but used in test
+  computeHelpUrl(): string | undefined {
     if (!this.permission || !this.permission.id || !this.docsBaseUrl) {
       return undefined;
     }
-    const anchor = getAccessDocsAnchor(this.permission.id as string);
+    let anchor = getAccessDocsAnchor(this.permission.id as string);
+    if (!anchor && this.section === 'GLOBAL_CAPABILITIES') {
+      anchor = `capability_${this.permission.id}`;
+    }
     if (!anchor) {
       return undefined;
     }

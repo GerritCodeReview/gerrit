@@ -33,18 +33,16 @@ import {
   createRevision,
 } from '../../../test/test-data-generators';
 
-function setChangeWithUploader(
-  changeModel: ChangeModel,
-  uploaderId: AccountId
-) {
+function setChangeWithOwner(changeModel: ChangeModel, ownerId: AccountId) {
   changeModel.updateState({
     change: {
       ...createParsedChange(),
       _number: 123 as NumericChangeId,
+      owner: createAccountDetailWithId(ownerId),
       revisions: {
         rev1: {
           ...createRevision(1),
-          uploader: createAccountDetailWithId(uploaderId),
+          uploader: createAccountDetailWithId(ownerId),
         },
       },
       current_revision: 'rev1' as CommitId,
@@ -71,7 +69,7 @@ suite('gr-flows tests', () => {
 
     element = await fixture<GrFlows>(html`<gr-flows></gr-flows>`);
     await element.updateComplete;
-    setChangeWithUploader(changeModel, 123 as AccountId);
+    setChangeWithOwner(changeModel, 123 as AccountId);
     userModel.setState({
       account: createAccountDetailWithId(123 as AccountId),
       accountLoaded: true,
@@ -325,10 +323,10 @@ suite('gr-flows tests', () => {
       await element.updateComplete;
     });
 
-    test('shows gr-create-flow when current user is uploader', async () => {
-      const uploaderId = 123 as AccountId;
+    test('shows gr-create-flow when current user is owner', async () => {
+      const ownerId = 123 as AccountId;
       const currentUserId = 123 as AccountId;
-      setChangeWithUploader(changeModel, uploaderId);
+      setChangeWithOwner(changeModel, ownerId);
       userModel.setState({
         account: createAccountDetailWithId(currentUserId),
         accountLoaded: true,
@@ -339,10 +337,10 @@ suite('gr-flows tests', () => {
       assert.isNotNull(createFlow);
     });
 
-    test('hides gr-create-flow when current user is not uploader', async () => {
-      const uploaderId = 456 as AccountId;
+    test('hides gr-create-flow when current user is not owner', async () => {
+      const ownerId = 456 as AccountId;
       const currentUserId = 123 as AccountId;
-      setChangeWithUploader(changeModel, uploaderId);
+      setChangeWithOwner(changeModel, ownerId);
       userModel.setState({
         account: createAccountDetailWithId(currentUserId),
         accountLoaded: true,

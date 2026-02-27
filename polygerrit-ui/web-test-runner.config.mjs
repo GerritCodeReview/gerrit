@@ -1,7 +1,10 @@
 import path from 'path';
+import fs from 'fs';
 import { esbuildPlugin } from '@web/dev-server-esbuild';
 import { defaultReporter, summaryReporter } from '@web/test-runner';
 import { visualRegressionPlugin } from '@web/test-runner-visual-regression/plugin';
+import pixelmatch from 'pixelmatch';
+import { PNG } from 'pngjs';
 import { playwrightLauncher } from '@web/test-runner-playwright';
 
 const runUnderBazel = !!process.env['RUNFILES_DIR'];
@@ -128,6 +131,53 @@ const config = {
       failureThreshold: 2,
       failureThresholdType: 'percent',
       update: process.argv.includes('--update-screenshots'),
+      // The visual regression plugin by default blindly overwrites all goldens
+      // when the --update-screenshots flag is used. This modifies file timestamps
+      // and pollutes version control with identical images or sub-threshold
+      // aliasing diffs. We intercept the saveBaseline hook to diff the image in
+      // memory and only save it if the visual diff exceeds our 2% threshold.
+      saveBaseline: async ({ filePath, content }) => {
+        let oldContent;
+        try {
+          oldContent = await fs.promises.readFile(filePath);
+        } catch (e) {
+          // file doesn't exist
+        }
+
+        if (oldContent) {
+          if (content.equals(oldContent)) {
+            return;
+          }
+
+          let basePng;
+          let newPng;
+          try {
+            basePng = PNG.sync.read(oldContent);
+            newPng = PNG.sync.read(content);
+          } catch(e) {
+            console.warn('Failed to parse PNGs for diff checking', e);
+          }
+
+          if (basePng && newPng && basePng.width === newPng.width && basePng.height === newPng.height) {
+            const numDiffPixels = pixelmatch(
+              basePng.data,
+              newPng.data,
+              null,
+              basePng.width,
+              basePng.height,
+              { threshold: 0.6 }
+            );
+
+            const diffPercentage = (numDiffPixels / (basePng.width * basePng.height)) * 100;
+            if (diffPercentage <= 2) {
+              return;
+            }
+          }
+        }
+
+        await fs.promises.mkdir(path.dirname(filePath), { recursive: true });
+        await fs.promises.writeFile(filePath, content);
+      },
     }),
   ],
 

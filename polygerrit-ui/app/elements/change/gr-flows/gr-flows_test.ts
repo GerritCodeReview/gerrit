@@ -128,9 +128,6 @@ suite('gr-flows tests', () => {
       element,
       /* HTML */ `
         <div class="container">
-          <div class="header-actions">
-            <gr-create-flow> </gr-create-flow>
-          </div>
           <div class="flows-header">
             <div class="heading-with-button">
               <h2 class="main-heading">Scheduled Flows</h2>
@@ -145,6 +142,9 @@ suite('gr-flows tests', () => {
               >
                 <gr-icon icon="refresh"> </gr-icon>
               </gr-button>
+            </div>
+            <div class="header-actions">
+              <gr-create-flow> </gr-create-flow>
             </div>
           </div>
           <div>

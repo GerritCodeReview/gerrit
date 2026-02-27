@@ -172,6 +172,27 @@ suite('gr-permission tests', () => {
       );
     });
 
+    test('computeHelpUrl', async () => {
+      element.docsBaseUrl = 'https://docs.com/';
+
+      element.permission = {id: 'abandon' as GitRef, value: {rules: {}}};
+      assert.equal(
+        element.computeHelpUrl(),
+        'https://docs.com/access-control.html#category_abandon'
+      );
+
+      element.permission = {id: 'priority' as GitRef, value: {rules: {}}};
+      element.section = 'GLOBAL_CAPABILITIES' as GitRef;
+      assert.equal(
+        element.computeHelpUrl(),
+        'https://docs.com/access-control.html#capability_priority'
+      );
+
+      element.permission = {id: 'unknown' as GitRef, value: {rules: {}}};
+      element.section = 'refs/heads/*' as GitRef;
+      assert.isUndefined(element.computeHelpUrl());
+    });
+
     test('computeGroupName', async () => {
       const groups = {
         abc123: {id: '1' as GroupId, name: 'test group' as GroupName},

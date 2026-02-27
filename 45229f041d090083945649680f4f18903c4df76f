@@ -34,6 +34,24 @@
       "parentUuid": "7a5e2a15_a73f7b42",
       "revId": "45229f041d090083945649680f4f18903c4df76f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "502d1abf_a7c6a000",
+        "filename": "java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 519,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-02-27T10:03:33Z",
+      "side": 0,
+      "message": "Sounds good",
+      "parentUuid": "e38f3981_2eae2018",
+      "revId": "45229f041d090083945649680f4f18903c4df76f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

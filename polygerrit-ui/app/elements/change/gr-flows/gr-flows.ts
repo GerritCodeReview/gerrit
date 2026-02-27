@@ -216,15 +216,19 @@ export class GrFlows extends LitElement {
         <div class="flows-header">
           <div class="heading-with-button">
             <h2 class="main-heading">Scheduled Flows</h2>
-            <gr-button
-              link
-              @click=${() => this.getFlowsModel().reload()}
-              aria-label="Refresh flows"
-              title="Refresh flows"
-              class="refresh"
-            >
-              <gr-icon icon="refresh"></gr-icon>
-            </gr-button>
+            ${when(
+              this.flows.length > 0,
+              () =>
+                html`<gr-button
+                  link
+                  @click=${() => this.getFlowsModel().reload()}
+                  aria-label="Refresh flows"
+                  title="Refresh flows"
+                  class="refresh"
+                >
+                  <gr-icon icon="refresh"></gr-icon>
+                </gr-button>`
+            )}
           </div>
         </div>
         ${this.renderFlowsList()}

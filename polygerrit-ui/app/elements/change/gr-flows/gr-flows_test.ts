@@ -226,6 +226,66 @@ suite('gr-flows tests', () => {
     );
   });
 
+  test('disables delete button for successful flows', async () => {
+    const flows: FlowInfo[] = [
+      createFlow({
+        stages: [
+          {
+            expression: {
+              condition: 'label:Verified=+1',
+              action: {name: 'submit'},
+            },
+            state: FlowStageState.SUCCESSFUL,
+          },
+        ],
+      }),
+    ];
+    flowsModel.setState({
+      flows,
+      loading: false,
+      isEnabled: true,
+      providers: [],
+      autosubmitProviders: [],
+    });
+    await element.updateComplete;
+
+    const deleteButton = queryAndAssert<GrButton>(
+      element,
+      '[title="Delete flow"]'
+    );
+    assert.isTrue(deleteButton.disabled);
+  });
+
+  test('does not disable delete button for pending flows', async () => {
+    const flows: FlowInfo[] = [
+      createFlow({
+        stages: [
+          {
+            expression: {
+              condition: 'label:Verified=+1',
+              action: {name: 'submit'},
+            },
+            state: FlowStageState.PENDING,
+          },
+        ],
+      }),
+    ];
+    flowsModel.setState({
+      flows,
+      loading: false,
+      isEnabled: true,
+      providers: [],
+      autosubmitProviders: [],
+    });
+    await element.updateComplete;
+
+    const deleteButton = queryAndAssert<GrButton>(
+      element,
+      '[title="Delete flow"]'
+    );
+    assert.isFalse(deleteButton.disabled);
+  });
+
   test('deletes a flow after confirmation', async () => {
     const flows: FlowInfo[] = [createFlow()];
     const deleteFlowStub = sinon.stub(flowsModel, 'deleteFlow');

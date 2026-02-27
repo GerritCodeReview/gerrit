@@ -202,17 +202,6 @@ export class GrFlows extends LitElement {
   override render() {
     return html`
       <div class="container">
-        <div class="header-actions">
-          ${when(
-            this.showCreateFlow(),
-            () =>
-              html`<gr-create-flow
-                .changeNum=${this.changeNum}
-              ></gr-create-flow>`,
-            () =>
-              html`<b>Note:</b> New flows can only be added by change uploader.`
-          )}
-        </div>
         <div class="flows-header">
           <div class="heading-with-button">
             <h2 class="main-heading">Scheduled Flows</h2>
@@ -225,6 +214,17 @@ export class GrFlows extends LitElement {
             >
               <gr-icon icon="refresh"></gr-icon>
             </gr-button>
+          </div>
+          <div class="header-actions">
+            ${when(
+              this.showCreateFlow(),
+              () =>
+                html`<gr-create-flow
+                  .changeNum=${this.changeNum}
+                ></gr-create-flow>`,
+              () =>
+                html`<b>Note:</b> New flows can only be added by change uploader.`
+            )}
           </div>
         </div>
         ${this.renderFlowsList()}

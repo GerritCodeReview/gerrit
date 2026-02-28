@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b58893d1_a8b75dbf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 65
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-02-28T07:24:00Z",
+      "side": 1,
+      "message": "Rebased and resolve conflicts: the approvals need to be restored.",
+      "revId": "92f8ab25eaa5f0a8c88df1f920ca50e7231be56c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

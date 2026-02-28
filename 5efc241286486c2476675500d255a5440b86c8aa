@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b908b052_aa806dde",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4640249
+      },
+      "writtenOn": "2026-02-28T11:35:28Z",
+      "side": 1,
+      "message": "Hi Thomas,Could you please rebase this change on the latest master branch? This change appears to need a fresh foundation due to its age and the verification failures.Current situation:- The Frontend-Verified check is failing with a git submodule update timeout (retcode: -15), which appears to be a CI/infrastructure issue rather than a code problem- This change is part of a large series (71+ changes submitted together) which may need coordination- The copyright dates (2016) are correct in both the local and bazlets versions of genrule2.bzl- The code change itself looks good - removing duplicate code and using the shared version from bazlets is the right approachA rebase should help resolve the verification issues and ensure this change is based on the current codebase. Please also consider davido\u0027s earlier suggestion about the compatibility wrapper.Thank you!",
+      "revId": "5efc241286486c2476675500d255a5440b86c8aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

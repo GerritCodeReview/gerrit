@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "027290d9_a97946ce",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 45
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4661964
+      },
+      "writtenOn": "2026-03-02T10:48:46Z",
+      "side": 1,
+      "message": "Cq-Include-Trybots: luci.gerrit.try:Verify gerrit CL,Verify git-repo CL,Verify git-repohooks CL,Verify luci-test CL",
+      "revId": "6bdbfb0c00e95ec9325fcc12ea56d5a818e34590",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

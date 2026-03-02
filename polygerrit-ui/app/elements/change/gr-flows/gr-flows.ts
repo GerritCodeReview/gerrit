@@ -129,6 +129,9 @@ export class GrFlows extends LitElement {
         .refresh {
           top: -4px;
         }
+        .no-flows-message {
+          padding-bottom: var(--spacing-l);
+        }
       `,
     ];
   }
@@ -266,7 +269,7 @@ export class GrFlows extends LitElement {
       return html`<p>Loading...</p>`;
     }
     if (this.flows.length === 0) {
-      return html`<p>No flows found for this change.</p>`;
+      return html`<div class="no-flows-message"><p>No flows found for this change.</p></div>`;
     }
 
     return html`

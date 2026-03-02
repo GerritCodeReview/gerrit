@@ -320,8 +320,8 @@ export function createCommitInfoWithRequiredCommit(
 }
 
 export function createPatchRange(
-  basePatchNum?: number,
-  patchNum?: number
+  basePatchNum?: BasePatchSetNum | number,
+  patchNum?: RevisionPatchSetNum | number
 ): PatchRange {
   return {
     basePatchNum: (basePatchNum ?? PARENT) as BasePatchSetNum,

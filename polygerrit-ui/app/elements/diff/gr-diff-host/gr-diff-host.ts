@@ -5,6 +5,7 @@
  */
 import '../../shared/gr-comment-thread/gr-comment-thread';
 import '../../checks/gr-diff-check-result';
+import '../gr-diff-ai-result/gr-diff-ai-result';
 import '../../../embed/diff/gr-diff/gr-diff';
 import {
   getDiffLength,
@@ -75,6 +76,12 @@ import {resolve} from '../../../models/dependency';
 import {browserModelToken} from '../../../models/browser/browser-model';
 import {commentsModelToken} from '../../../models/comments/comments-model';
 import {checksModelToken, RunResult} from '../../../models/checks/checks-model';
+import {
+  chatModelToken,
+  CreateCommentPart,
+  ResponsePartType,
+  Turn,
+} from '../../../models/chat/chat-model';
 import {distinctUntilChanged, map} from 'rxjs/operators';
 import {deepEqual} from '../../../utils/deep-util';
 import {Category} from '../../../api/checks';
@@ -83,7 +90,7 @@ import {
   CODE_MAX_LINES,
   highlightServiceToken,
 } from '../../../services/highlight/highlight-service';
-import {html, LitElement, PropertyValues} from 'lit';
+import {html, LitElement, nothing, PropertyValues} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {ValueChangedEvent} from '../../../types/events';
 import {
@@ -208,6 +215,12 @@ export class GrDiffHost extends LitElement {
   @state()
   checks: RunResult[] = [];
 
+  @state()
+  aiResults: CreateCommentPart[] = [];
+
+  @state()
+  private turns?: readonly Turn[];
+
   @property({type: Boolean})
   lineWrapping = false;
 
@@ -305,6 +318,8 @@ export class GrDiffHost extends LitElement {
 
   private readonly getChecksModel = resolve(this, checksModelToken);
 
+  private readonly getChatModel = resolve(this, chatModelToken);
+
   private readonly getPluginLoader = resolve(this, pluginLoaderToken);
 
   // visible for testing
@@ -376,6 +391,11 @@ export class GrDiffHost extends LitElement {
         this.prefs = diffPreferences;
       }
     );
+    subscribe(
+      this,
+      () => this.getChatModel().turns$,
+      turns => (this.turns = turns)
+    );
   }
 
   override connectedCallback() {
@@ -443,6 +463,13 @@ export class GrDiffHost extends LitElement {
         this.path,
         this.changeNum
       );
+    }
+    if (
+      changedProperties.has('turns') ||
+      changedProperties.has('path') ||
+      changedProperties.has('patchRange')
+    ) {
+      this.computeAiResults();
     }
   }
 
@@ -518,6 +545,11 @@ export class GrDiffHost extends LitElement {
           this.checks,
           c => c.internalResultId,
           c => this.renderCheck(c)
+        )}
+        ${repeat(
+          this.aiResults,
+          r => r.commentCreationId,
+          r => this.renderAiResult(r)
         )}
       </gr-diff>`
     );
@@ -755,6 +787,52 @@ export class GrDiffHost extends LitElement {
         line-num=${line}
         range=${ifDefined(rangeAttr)}
       ></gr-diff-check-result>
+    `;
+  }
+
+  private computeAiResults() {
+    if (!this.flags.isEnabled(KnownExperimentId.ENABLE_AI_COMMENTS)) return;
+
+    const path = this.path;
+    const patchNum = this.patchRange?.patchNum;
+    if (!path || !patchNum || patchNum === EDIT || !this.turns) {
+      this.aiResults = [];
+      return;
+    }
+
+    const results: CreateCommentPart[] = [];
+    for (const turn of this.turns) {
+      for (const part of turn.geminiMessage?.responseParts ?? []) {
+        if (
+          part.type === ResponsePartType.CREATE_COMMENT &&
+          part.comment.path === this.path &&
+          part.comment.message
+        ) {
+          results.push(part);
+        }
+      }
+    }
+    this.aiResults = results;
+  }
+
+  private renderAiResult(result: CreateCommentPart) {
+    if (!result.comment.message) return nothing;
+    const line = result.comment.range?.end_line ?? result.comment.line ?? FILE;
+    let rangeAttr: string | undefined = undefined;
+    if (result.comment.range) {
+      rangeAttr = `${JSON.stringify(result.comment.range)}`;
+    }
+
+    return html`
+      <gr-diff-ai-result
+        class="comment-thread"
+        .rootId=${result.commentCreationId}
+        .result=${result}
+        slot=${`${Side.RIGHT}-${line}`}
+        diff-side=${Side.RIGHT}
+        line-num=${line}
+        range=${ifDefined(rangeAttr)}
+      ></gr-diff-ai-result>
     `;
   }
 

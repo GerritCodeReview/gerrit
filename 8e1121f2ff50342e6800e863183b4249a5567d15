@@ -20,6 +20,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "579fce16_6db5be1e",
+        "filename": "polygerrit-ui/app/elements/admin/gr-permission/gr-permission_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-03-02T08:07:58Z",
+      "side": 1,
+      "message": "In the rest of the codebase we just mark the property non-private\n\nWe should maybe change this practice but for now let\u0027s align with the existing code and remove these ts expect error checks.\n\n```\nsubscribe(\n      this,\n      () \u003d\u003e this.getConfigModel().docsBaseUrl$,\n      docsBaseUrl \u003d\u003e (this.docsBaseUrl \u003d docsBaseUrl)\n    );\n```\n\nYou can set the value in the `getConfigModel` instead.",
+      "range": {
+        "startLine": 176,
+        "startChar": 0,
+        "endLine": 177,
+        "endChar": 25
+      },
+      "revId": "8e1121f2ff50342e6800e863183b4249a5567d15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2aa40f3a_381ef0f6",
         "filename": "polygerrit-ui/app/elements/admin/gr-permission/gr-permission_test.ts",
         "patchSetId": 2

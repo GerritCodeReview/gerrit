@@ -199,6 +199,40 @@ suite('gr-create-flow tests', () => {
       assert.lengthOf(removeButtons, 1);
     });
 
+    test('shows preview title when stages are added', async () => {
+      const createButton = queryAndAssert<GrButton>(
+        element,
+        'gr-button[aria-label="Create Flow"]'
+      );
+      createButton.click();
+      await element.updateComplete;
+      const grDialog = queryAndAssert<GrDialog>(element, 'gr-dialog');
+
+      let labels = queryAll(grDialog, '.stage-label');
+      assert.isFalse(
+        Array.from(labels).some(l => l.textContent?.includes('Preview'))
+      );
+
+      const searchAutocomplete = queryAndAssert<GrSearchAutocomplete>(
+        grDialog,
+        'gr-search-autocomplete'
+      );
+      const addButton = queryAndAssert<GrButton>(
+        grDialog,
+        'gr-button[aria-label="Add Stage"]'
+      );
+
+      searchAutocomplete.value = 'cond 1';
+      await element.updateComplete;
+      addButton.click();
+      await element.updateComplete;
+
+      labels = queryAll(grDialog, '.stage-label');
+      assert.isTrue(
+        Array.from(labels).some(l => l.textContent?.includes('Preview'))
+      );
+    });
+
     test('creates a flow with one stage', async () => {
       const createFlowStub = sinon.stub(flowsModel, 'createFlow');
 

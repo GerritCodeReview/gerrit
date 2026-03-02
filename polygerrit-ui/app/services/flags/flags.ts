@@ -22,5 +22,6 @@ export enum KnownExperimentId {
   ML_SUGGESTED_EDIT_FEEDBACK = 'UiFeature__ml_suggested_edit_feedback',
   ML_SUGGESTED_EDIT_EDITABLE_SUGGESTION = 'UiFeature__ml_suggested_edit_editable_suggestion',
   ENABLE_AI_CHAT = 'UiFeature__enable_ai_chat',
+  ENABLE_AI_COMMENTS = 'UiFeature__enable_ai_comments',
   ML_SUGGESTED_EDIT_GET_FIX = 'UiFeature__ml_suggested_edit_get_fix',
 }

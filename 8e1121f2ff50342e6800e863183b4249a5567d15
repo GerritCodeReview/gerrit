@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1dc662ae_1c870324",
+        "filename": "polygerrit-ui/app/elements/admin/gr-permission/gr-permission_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-03-02T09:06:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "579fce16_6db5be1e",
+      "range": {
+        "startLine": 176,
+        "startChar": 0,
+        "endLine": 177,
+        "endChar": 25
+      },
+      "revId": "8e1121f2ff50342e6800e863183b4249a5567d15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2aa40f3a_381ef0f6",
@@ -54,6 +78,30 @@
       "writtenOn": "2026-03-02T08:04:54Z",
       "side": 1,
       "message": "which error are we expecting here?",
+      "range": {
+        "startLine": 190,
+        "startChar": 7,
+        "endLine": 190,
+        "endChar": 27
+      },
+      "revId": "8e1121f2ff50342e6800e863183b4249a5567d15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fd56cdb6_ae0828e3",
+        "filename": "polygerrit-ui/app/elements/admin/gr-permission/gr-permission_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-03-02T09:06:13Z",
+      "side": 1,
+      "message": "Sorry, because of private. I changed it and removed",
+      "parentUuid": "2aa40f3a_381ef0f6",
       "range": {
         "startLine": 190,
         "startChar": 7,

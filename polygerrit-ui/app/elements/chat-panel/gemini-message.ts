@@ -13,7 +13,7 @@ import './citations-box';
 import './references-dropdown';
 import './message-actions';
 
-import {css, html, LitElement, PropertyValues} from 'lit';
+import {css, html, LitElement, nothing, PropertyValues} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
 import {when} from 'lit/directives/when.js';
 
@@ -33,7 +33,8 @@ import {
 import {commentsModelToken} from '../../models/comments/comments-model';
 import {resolve} from '../../models/dependency';
 import {getAppContext} from '../../services/app-context';
-import {NumericChangeId, PatchSetNumber} from '../../types/common';
+import {NumericChangeId, PatchSetNumber, RepoName} from '../../types/common';
+import {KnownExperimentId} from '../../services/flags/flags';
 import {
   compareComments,
   computeDisplayLine,
@@ -79,6 +80,8 @@ export class GeminiMessage extends LitElement {
   private readonly getFilesModel = resolve(this, filesModelToken);
 
   private readonly reportingService = getAppContext().reportingService;
+
+  private readonly flagsService = getAppContext().flagsService;
 
   static override styles = [
     materialStyles,
@@ -389,20 +392,27 @@ export class GeminiMessage extends LitElement {
                     </button>
                   `
                 )}
-                <div class="suggested-comment">
-                  <p class="suggested-comment-message">
-                    <gr-formatted-text
-                      .markdown=${true}
-                      .content=${comment.comment.message}
-                    ></gr-formatted-text>
-                  </p>
-                  <gr-button
-                    primary
-                    class="add-as-comment-button"
-                    @click=${() => this.onAddAsComment(comment)}
-                    >Add as Comment
-                  </gr-button>
-                </div>
+                ${when(
+                  !this.flagsService.isEnabled(
+                    KnownExperimentId.ENABLE_AI_COMMENTS
+                  ),
+                  () => html`
+                    <div class="suggested-comment">
+                      <p class="suggested-comment-message">
+                        <gr-formatted-text
+                          .markdown=${true}
+                          .content=${comment.comment.message}
+                        ></gr-formatted-text>
+                      </p>
+                      <gr-button
+                        primary
+                        class="add-as-comment-button"
+                        @click=${() => this.onAddAsComment(comment)}
+                        >Add as Comment
+                      </gr-button>
+                    </div>
+                  `
+                )}
               `;
             })
           )}

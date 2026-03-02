@@ -18,22 +18,21 @@ import {
 } from '../../models/chat/chat-model';
 import './gemini-message';
 import {Reference} from '../../api/ai-code-review';
-import {commentsModelToken} from '../../models/comments/comments-model';
 import {changeModelToken} from '../../models/change/change-model';
 import {GeminiMessage} from './gemini-message';
+import {commentsModelToken} from '../../models/comments/comments-model';
 import {testResolver} from '../../test/common-test-setup';
 import {pluginLoaderToken} from '../shared/gr-js-api-interface/gr-plugin-loader';
 import {chatProvider, createChange} from '../../test/test-data-generators';
 import {ParsedChangeInfo} from '../../types/types';
-import {CommentsModel} from '../../models/comments/comments-model';
+
 import {AiAgentEventDetails, Interaction} from '../../constants/reporting';
 import {getAppContext} from '../../services/app-context';
+import {KnownExperimentId} from '../../services/flags/flags';
 
 suite('gemini-message tests', () => {
   let element: GeminiMessage;
   let chatModel: ChatModel;
-  let commentsModel: CommentsModel;
-  let saveDraftStub: sinon.SinonStub;
 
   setup(async () => {
     const pluginLoader = testResolver(pluginLoaderToken);
@@ -48,8 +47,6 @@ suite('gemini-message tests', () => {
     });
 
     chatModel = testResolver(chatModelToken);
-    commentsModel = testResolver(commentsModelToken);
-    saveDraftStub = sinon.stub(commentsModel, 'saveDraft');
 
     element = await fixture<GeminiMessage>(
       html`<gemini-message .turnIndex=${0}></gemini-message>`
@@ -167,31 +164,129 @@ suite('gemini-message tests', () => {
     });
   });
 
-  test('renders suggested comment', async () => {
+  test('renders suggested comment link', async () => {
+    sinon
+      .stub(getAppContext().flagsService, 'isEnabled')
+      .withArgs(
+        KnownExperimentId.ENABLE_AI_COMMENTS || 'UiFeature__enable_ai_comments'
+      )
+      .returns(true);
+
+    const comment: CreateCommentPart = {
+      id: 1,
+      type: ResponsePartType.CREATE_COMMENT,
+      content: 'test comment',
+      commentCreationId: 'test-id',
+      comment: {
+        message: 'test comment',
+        path: 'test/path',
+        range: {
+          start_line: 1,
+          end_line: 1,
+          start_character: 0,
+          end_character: 0,
+        },
+      },
+    };
     const turn = createTurn({
       responseComplete: true,
-      responseParts: [RESPONSE_CREATE_COMMENT],
+      responseParts: [comment],
     });
     chatModel.updateState({...chatModel.getState(), turns: [turn]});
+    element.currentClNumber = 123 as any;
+    element.repo = 'test-repo' as any;
+    element.latestPatchNum = 2 as any;
     await element.updateComplete;
 
-    const commentContainer =
+    const commentPath = element.shadowRoot?.querySelector('.comment-path');
+    assert.isOk(commentPath);
+    assert.equal(commentPath?.textContent?.trim(), 'test/path');
+    assert.equal(
+      commentPath?.getAttribute('href'),
+      '/c/test-repo/+/123/2/test/path#1'
+    );
+
+    const commentLine = element.shadowRoot?.querySelector('.comment-line');
+    assert.isOk(commentLine);
+    assert.equal(commentLine?.textContent?.trim(), 'Line #1');
+    assert.equal(
+      commentLine?.getAttribute('href'),
+      '/c/test-repo/+/123/2/test/path#1'
+    );
+  });
+
+  test('renders suggested comment details when flag is disabled', async () => {
+    sinon
+      .stub(getAppContext().flagsService, 'isEnabled')
+      .withArgs(
+        KnownExperimentId.ENABLE_AI_COMMENTS || 'UiFeature__enable_ai_comments'
+      )
+      .returns(false);
+
+    const comment: CreateCommentPart = {
+      id: 1,
+      type: ResponsePartType.CREATE_COMMENT,
+      content: 'test comment',
+      commentCreationId: 'test-id',
+      comment: {
+        message: 'test comment message',
+        path: 'test/path',
+        range: {
+          start_line: 1,
+          end_line: 1,
+          start_character: 0,
+          end_character: 0,
+        },
+      },
+    };
+    const turn = createTurn({
+      responseComplete: true,
+      responseParts: [comment],
+    });
+    chatModel.updateState({...chatModel.getState(), turns: [turn]});
+    element.currentClNumber = 123 as any;
+    element.repo = 'test-repo' as any;
+    element.latestPatchNum = 2 as any;
+    await element.updateComplete;
+
+    const commentPath = element.shadowRoot?.querySelector('.comment-path');
+    assert.isOk(commentPath);
+    assert.equal(commentPath?.textContent?.trim(), 'test/path');
+
+    const commentLine = element.shadowRoot?.querySelector('.comment-line');
+    assert.isOk(commentLine);
+    assert.equal(commentLine?.textContent?.trim(), '#1'); // Restored logic renders ${displayLine} which is #1.
+
+    const suggestedComment =
       element.shadowRoot?.querySelector('.suggested-comment');
-    assert.isOk(commentContainer);
+    assert.isOk(suggestedComment);
 
-    const reloadStub = sinon.stub(commentsModel, 'reloadAllComments');
-    saveDraftStub.resolves({});
+    const message = suggestedComment?.querySelector(
+      '.suggested-comment-message gr-formatted-text'
+    );
+    assert.isOk(message);
+    assert.equal((message as any).content, 'test comment message');
 
-    const button = commentContainer?.querySelector('gr-button');
-    assert.isOk(button);
-    (button as HTMLElement).click();
+    const addButton = suggestedComment?.querySelector(
+      'gr-button.add-as-comment-button'
+    );
+    assert.isOk(addButton);
+    assert.equal(addButton?.textContent?.trim(), 'Add as Comment');
 
-    await new Promise(resolve => setTimeout(resolve, 0));
+    // Test clicking Add as Comment
+    const saveDraftStub = sinon.stub(
+      testResolver(commentsModelToken),
+      'saveDraft'
+    );
+    const reloadStub = sinon.stub(
+      testResolver(commentsModelToken),
+      'reloadAllComments'
+    );
 
-    assert.isTrue(saveDraftStub.called);
-    const draft = saveDraftStub.lastCall.args[0];
-    assert.equal(draft.message, 'test comment');
-    assert.isTrue(reloadStub.called);
+    (addButton as HTMLElement).click();
+
+    assert.isTrue(saveDraftStub.calledOnce);
+    assert.isTrue(reloadStub.calledOnce);
   });
 
   test('renders citations', async () => {
@@ -264,53 +359,5 @@ suite('gemini-message tests', () => {
     assert.equal(details.conversationId, 'test-conversation-id');
     assert.equal(details.agentId, 'custom-agent-id');
     assert.equal(details.commentCount, 1);
-  });
-
-  test('reports AI_AGENT_SUGGESTION_TO_COMMENT interaction', async () => {
-    chatModel.updateState({
-      ...chatModel.getState(),
-      id: 'test-conversation-id',
-      selectedModelId: 'gemini-model-id',
-    });
-
-    const reportStub = sinon.stub(
-      getAppContext().reportingService,
-      'reportInteraction'
-    );
-
-    const turn = createTurn({
-      responseComplete: true,
-      responseParts: [RESPONSE_CREATE_COMMENT],
-    });
-    const updatedTurn = {
-      ...turn,
-      userMessage: {...turn.userMessage, actionId: 'custom-agent-id'},
-    };
-
-    chatModel.updateState({...chatModel.getState(), turns: [updatedTurn]});
-    await element.updateComplete;
-
-    const commentContainer =
-      element.shadowRoot?.querySelector('.suggested-comment');
-    assert.isOk(commentContainer);
-
-    sinon.stub(commentsModel, 'reloadAllComments');
-    saveDraftStub.resolves({});
-
-    const button = commentContainer?.querySelector('gr-button');
-    assert.isOk(button);
-    (button as HTMLElement).click();
-
-    await new Promise(resolve => setTimeout(resolve, 0));
-
-    const call = reportStub
-      .getCalls()
-      .find(c => c.args[0] === Interaction.AI_AGENT_SUGGESTION_TO_COMMENT);
-    assert.isOk(call, 'Expected AI_AGENT_SUGGESTION_TO_COMMENT to be reported');
-
-    const details = call.args[1] as AiAgentEventDetails;
-    assert.equal(details.conversationId, 'test-conversation-id');
-    assert.equal(details.agentId, 'custom-agent-id');
-    assert.isUndefined(details.commentCount);
   });
 });

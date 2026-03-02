@@ -1780,6 +1780,7 @@ export class GrFileList extends LitElement {
       file
     );
     return html`<gr-comments-summary
+      .path=${file.__path}
       .commentThreads=${commentThreads}
       .draftCount=${draftCount}
       emptyWhenNoComments

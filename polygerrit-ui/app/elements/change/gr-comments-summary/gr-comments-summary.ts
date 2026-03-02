@@ -6,7 +6,7 @@
 import '../gr-change-summary/gr-summary-chip';
 import '../../shared/gr-avatar/gr-avatar-stack';
 import '../../shared/gr-icon/gr-icon';
-import {css, html, LitElement, nothing} from 'lit';
+import {css, html, LitElement, nothing, PropertyValues} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
 import {
   getFirstComment,
@@ -21,7 +21,14 @@ import {SummaryChipStyles} from '../gr-change-summary/gr-summary-chip';
 import {subscribe} from '../../lit/subscription-controller';
 import {resolve} from '../../../models/dependency';
 import {userModelToken} from '../../../models/user/user-model';
+import {
+  chatModelToken,
+  ResponsePartType,
+  Turn,
+} from '../../../models/chat/chat-model';
 import {when} from 'lit/directives/when.js';
+import {getAppContext} from '../../../services/app-context';
+import {KnownExperimentId} from '../../../services/flags/flags';
 import {spinnerStyles} from '../../../styles/gr-spinner-styles';
 
 @customElement('gr-comments-summary')
@@ -50,10 +57,21 @@ export class GrCommentsSummary extends LitElement {
   @property({type: Boolean})
   showAvatarForResolved = false;
 
+  @property({type: String})
+  path?: string;
+
   @state()
   selfAccount?: AccountInfo;
 
+  @state()
+  turns?: readonly Turn[];
+
+  @state()
+  aiCount = 0;
+
   private readonly getUserModel = resolve(this, userModelToken);
+
+  private readonly getChatModel = resolve(this, chatModelToken);
 
   constructor() {
     super();
@@ -62,6 +80,44 @@ export class GrCommentsSummary extends LitElement {
       () => this.getUserModel().account$,
       x => (this.selfAccount = x)
     );
+    subscribe(
+      this,
+      () => this.getChatModel().turns$,
+      turns => {
+        if (
+          !getAppContext().flagsService.isEnabled(
+            KnownExperimentId.ENABLE_AI_COMMENTS
+          )
+        ) {
+          this.turns = [];
+          this.aiCount = 0;
+          return;
+        }
+        this.turns = turns;
+      }
+    );
+  }
+
+  override willUpdate(changedProperties: PropertyValues) {
+    if (changedProperties.has('turns') || changedProperties.has('path')) {
+      if (!this.turns) {
+        this.aiCount = 0;
+      } else {
+        let count = 0;
+        for (const turn of this.turns) {
+          for (const part of turn.geminiMessage?.responseParts ?? []) {
+            if (
+              part.type === ResponsePartType.CREATE_COMMENT &&
+              part.comment?.message &&
+              (!this.path || part.comment.path === this.path)
+            ) {
+              count++;
+            }
+          }
+        }
+        this.aiCount = count;
+      }
+    }
   }
 
   static override get styles() {
@@ -108,7 +164,8 @@ export class GrCommentsSummary extends LitElement {
         () => html`<span class="loadingSpin"></span>`
       )}
       ${this.renderZeroState(countResolvedComments, countUnresolvedComments)}
-      ${this.renderDraftChip()} ${this.renderMentionChip()}
+      ${this.renderDraftChip()} ${this.renderAiChip()}
+      ${this.renderMentionChip()}
       ${this.renderUnresolvedCommentsChip(
         countUnresolvedComments,
         unresolvedAuthors
@@ -125,6 +182,7 @@ export class GrCommentsSummary extends LitElement {
       this.emptyWhenNoComments ||
       !!countResolvedComments ||
       !!this.draftCount ||
+      !!this.aiCount ||
       !!countUnresolvedComments
     )
       return nothing;
@@ -133,6 +191,24 @@ export class GrCommentsSummary extends LitElement {
     }
 
     return html`<span class="zeroState"> No comments</span>`;
+  }
+
+  private renderAiChip() {
+    if (!this.aiCount) return nothing;
+    return html` <gr-summary-chip
+      class="aiSummary"
+      styleType=${SummaryChipStyles.AI}
+      category=${CommentTabState.AI}
+      icon="insights"
+      .clickable=${this.clickableChips}
+      title=${this.showCommentCategoryName
+        ? nothing
+        : pluralize(this.aiCount, 'AI result')}
+    >
+      ${this.showCommentCategoryName
+        ? pluralize(this.aiCount, 'AI result')
+        : this.aiCount}</gr-summary-chip
+    >`;
   }
 
   private renderMentionChip() {

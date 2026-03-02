@@ -47,6 +47,7 @@ declare global {
     'line-cursor-moved-in': LineNumberEvent;
     'line-cursor-moved-out': LineNumberEvent;
     'moved-link-clicked': MovedLinkClickedEvent;
+    'open-diff-in-change-view': OpenDiffInChangeViewEvent;
     'open-fix-preview': OpenFixPreviewEvent;
     'reply-to-comment': ReplyToCommentEvent;
     // prettier-ignore
@@ -164,6 +165,13 @@ export interface OpenFixPreviewEventDetail {
 }
 export type OpenFixPreviewEvent = CustomEvent<OpenFixPreviewEventDetail>;
 
+export interface OpenDiffInChangeViewEventDetail {
+  path: string;
+  lineNum?: number;
+}
+export type OpenDiffInChangeViewEvent =
+  CustomEvent<OpenDiffInChangeViewEventDetail>;
+
 export interface ReplyToCommentEventDetail {
   content: string;
   userWantsToEdit: boolean;
@@ -234,6 +242,7 @@ export enum CommentTabState {
   DRAFTS = 'drafts',
   SHOW_ALL = 'show all',
   MENTIONS = 'mentions',
+  AI = 'ai',
 }
 export interface ChecksTabState {
   statusOrCategory?: RunStatus | Category;

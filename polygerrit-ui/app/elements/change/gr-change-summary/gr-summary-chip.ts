@@ -17,6 +17,7 @@ export enum SummaryChipStyles {
   INFO = 'info',
   WARNING = 'warning',
   CHECK = 'check',
+  AI = 'ai',
   UNDEFINED = '',
 }
 
@@ -103,6 +104,16 @@ export class GrSummaryChip extends LitElement {
         }
         .summaryChip.check gr-icon {
           color: var(--gray-foreground);
+        }
+        .summaryChip.ai {
+          border-color: var(--status-private);
+          background: var(--tag-purple);
+        }
+        button.summaryChip.ai:hover {
+          box-shadow: var(--elevation-level-1);
+        }
+        .summaryChip.ai gr-icon {
+          color: var(--status-private);
         }
       `,
     ];

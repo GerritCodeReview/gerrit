@@ -39,7 +39,7 @@ import {GrEditConstants} from '../../edit/gr-edit-constants';
 import {pluralize, trimWithEllipsis} from '../../../utils/string-util';
 import {untilRendered, whenVisible} from '../../../utils/dom-util';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
-import {ChangeStatus, DiffViewMode, Tab} from '../../../constants/constants';
+import {ChangeStatus, DiffViewMode, Side, Tab} from '../../../constants/constants';
 import {getAppContext} from '../../../services/app-context';
 import {
   computeAllPatchSets,
@@ -90,6 +90,7 @@ import {
 import {
   EditableContentSaveEvent,
   FileActionTapEvent,
+  OpenDiffInChangeViewEvent,
   OpenFixPreviewEvent,
   ShowReplyDialogEvent,
   SwitchTabEvent,
@@ -141,6 +142,10 @@ import {
   ChangeViewState,
   createChangeUrl,
 } from '../../../models/views/change';
+import {
+  chatModelToken,
+  ResponsePartType,
+} from '../../../models/chat/chat-model';
 import {rootUrl} from '../../../utils/url-util';
 import {userModelToken} from '../../../models/user/user-model';
 import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
@@ -230,6 +235,9 @@ export class GrChangeView extends LitElement {
 
   @state()
   commentThreads?: CommentThread[];
+
+  @state()
+  aiThreads: CommentThread[] = [];
 
   // Don't use, use serverConfig instead.
   private _serverConfig?: ServerInfo;
@@ -414,6 +422,8 @@ export class GrChangeView extends LitElement {
 
   private readonly getViewModel = resolve(this, changeViewModelToken);
 
+  private readonly getChatModel = resolve(this, chatModelToken);
+
   private readonly getFlowsModel = resolve(this, flowsModelToken);
 
   private readonly getRelatedChangesModel = resolve(
@@ -476,6 +486,9 @@ export class GrChangeView extends LitElement {
     );
     this.addEventListener('editable-content-cancel', () =>
       this.handleCommitMessageCancel()
+    );
+    this.addEventListener('open-diff-in-change-view', e =>
+      this.onOpenDiffInChangeView(e)
     );
     this.addEventListener('open-fix-preview', e => this.onOpenFixPreview(e));
     this.addEventListener('show-tab', e => this.setActiveTab(e));
@@ -636,6 +649,33 @@ export class GrChangeView extends LitElement {
       () => this.getCommentsModel().threadsSaved$,
       threads => {
         this.commentThreads = threads;
+      }
+    );
+    subscribe(
+      this,
+      () => this.getChatModel().turns$,
+      turns => {
+        const aiThreads: CommentThread[] = [];
+        for (const turn of turns ?? []) {
+          for (const part of turn.geminiMessage?.responseParts ?? []) {
+            if (
+              part.type === ResponsePartType.CREATE_COMMENT &&
+              part.comment?.message
+            ) {
+              const thread = {
+                rootId: part.commentCreationId,
+                comments: [part.comment as any],
+                path: part.comment.path,
+                line: part.comment.range?.end_line ?? part.comment.line,
+                patchNum: part.comment.patch_set,
+              } as unknown as CommentThread;
+              (thread as any).isAiSuggestion = true;
+              (thread as any).aiResult = part;
+              aiThreads.push(thread);
+            }
+          }
+        }
+        this.aiThreads = aiThreads;
       }
     );
     subscribe(
@@ -1541,7 +1581,7 @@ export class GrChangeView extends LitElement {
     return html`
       <h3 class="assistive-tech-only">Comments</h3>
       <gr-thread-list
-        .threads=${this.commentThreads ?? []}
+        .threads=${[...(this.commentThreads ?? []), ...(this.aiThreads ?? [])]}
         .commentTabState=${this.tabState}
         .unresolvedOnly=${this.unresolvedOnly}
         .scrollCommentId=${this.scrollCommentId}
@@ -1633,6 +1673,44 @@ export class GrChangeView extends LitElement {
   private onOpenFixPreview(e: OpenFixPreviewEvent) {
     assertIsDefined(this.applyFixDialog);
     this.applyFixDialog.open(e);
+  }
+
+  private async onOpenDiffInChangeView(e: OpenDiffInChangeViewEvent) {
+    if (!this.fileList) return;
+    const {path, lineNum} = e.detail;
+
+    if (this.activeTab !== Tab.FILES) {
+      this.setActiveTab(
+        new CustomEvent('show-tab', {detail: {tab: Tab.FILES}})
+      );
+    }
+
+    const fileIndex = this.fileList.files.findIndex(f => f.__path === path);
+    if (fileIndex !== -1) {
+      this.fileList.fileCursor.setCursorAtIndex(fileIndex, true);
+      const isExpanded = this.fileList.expandedFiles.some(f => f.path === path);
+      if (!isExpanded) {
+        // @ts-expect-error: accessing private method
+        this.fileList.toggleFileExpandedByIndex(fileIndex);
+      }
+      if (lineNum !== undefined) {
+        await waitUntil(() => {
+          const diffHost = this.fileList!.diffs.find(d => d.path === path);
+          return !!diffHost;
+        });
+        const diffHost = this.fileList.diffs.find(d => d.path === path);
+        if (diffHost) {
+          await diffHost.waitForReloadToRender();
+          // Wait another event loop tick for the dom to settle.
+          await new Promise(resolve => setTimeout(resolve));
+          this.fileList.diffCursor?.moveToLineNumber(
+            lineNum,
+            Side.RIGHT,
+            path
+          );
+        }
+      }
+    }
   }
 
   // Private but used in tests.

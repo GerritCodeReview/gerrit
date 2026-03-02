@@ -13,7 +13,7 @@ import './citations-box';
 import './references-dropdown';
 import './message-actions';
 
-import {css, html, LitElement} from 'lit';
+import {css, html, LitElement, nothing} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
 import {when} from 'lit/directives/when.js';
 
@@ -24,20 +24,20 @@ import {
 } from '../../models/change/files-model';
 import {
   chatModelToken,
-  CreateCommentPart,
   GeminiMessage as GeminiMessageModel,
   ResponsePartType,
   Turn,
 } from '../../models/chat/chat-model';
-import {commentsModelToken} from '../../models/comments/comments-model';
 import {resolve} from '../../models/dependency';
-import {NumericChangeId, PatchSetNumber} from '../../types/common';
+import {NumericChangeId, PatchSetNumber, RepoName} from '../../types/common';
+import {createDiffUrl} from '../../models/views/change';
 import {
   compareComments,
   computeDisplayLine,
   createNew,
 } from '../../utils/comment-util';
 import {assert} from '../../utils/common-util';
+import {fire} from '../../utils/event-util';
 import {subscribe} from '../lit/subscription-controller';
 
 @customElement('gemini-message')
@@ -62,9 +62,9 @@ export class GeminiMessage extends LitElement {
 
   @state() latestPatchNum?: PatchSetNumber;
 
-  private readonly getChatModel = resolve(this, chatModelToken);
+  @state() repo?: RepoName;
 
-  private readonly getCommentsModel = resolve(this, commentsModelToken);
+  private readonly getChatModel = resolve(this, chatModelToken);
 
   private readonly getChangeModel = resolve(this, changeModelToken);
 
@@ -192,22 +192,11 @@ export class GeminiMessage extends LitElement {
       () => this.getChangeModel().latestPatchNum$,
       x => (this.latestPatchNum = x)
     );
-  }
-
-  private async onAddAsComment(part: CreateCommentPart) {
-    const draft = {
-      ...part.comment,
-      ...createNew(part.comment.message, true),
-    };
-    if (!draft.patch_set) {
-      draft.patch_set = this.latestPatchNum;
-    }
-    // TODO(milutin): Remove this once Gemini or backend fixes the issue.
-    if (draft.range && draft.range.end_line < draft.range.start_line) {
-      draft.range.end_line = draft.range.start_line;
-    }
-    await this.getCommentsModel().saveDraft(draft);
-    this.getCommentsModel().reloadAllComments();
+    subscribe(
+      this,
+      () => this.getChangeModel().repo$,
+      x => (this.repo = x)
+    );
   }
 
   private onRetry() {
@@ -301,39 +290,38 @@ export class GeminiMessage extends LitElement {
           ${when(!this.isBackgroundRequest, () =>
             this.sortedComments().map(comment => {
               const lineNumber = computeDisplayLine(comment.comment);
+              const path = comment.comment.path;
+              if (!path || !lineNumber || !this.currentClNumber || !this.repo) {
+                return nothing;
+              }
+              const lineNumStr = String(lineNumber).replace('#', '');
+              const lineNumParsed = Number(lineNumStr);
+              const lineNum = Number.isNaN(lineNumParsed) ? undefined : lineNumParsed;
+              const href = createDiffUrl({
+                changeNum: this.currentClNumber,
+                repo: this.repo,
+                patchNum: this.latestPatchNum,
+                diffView: {path, lineNum},
+              });
+
+              const onClick = (e: MouseEvent) => {
+                if (e.metaKey || e.ctrlKey || e.button !== 0) return;
+                e.preventDefault();
+                fire(this, 'open-diff-in-change-view', {
+                  path,
+                  lineNum,
+                });
+              };
+
               return html`
-                ${when(
-                  comment.comment.path,
-                  () => html`
-                    <div class="comment-path">
-                      <gr-icon icon="description"></gr-icon>
-                      ${comment.comment.path}
-                    </div>
-                  `
-                )}
-                ${when(
-                  lineNumber,
-                  () => html`
-                    <div class="comment-line">
-                      <gr-icon icon="code"></gr-icon>
-                      ${lineNumber}
-                    </div>
-                  `
-                )}
-                <div class="suggested-comment">
-                  <p class="suggested-comment-message">
-                    <gr-formatted-text
-                      .markdown=${true}
-                      .content=${comment.comment.message}
-                    ></gr-formatted-text>
-                  </p>
-                  <gr-button
-                    primary
-                    class="add-as-comment-button"
-                    @click=${() => this.onAddAsComment(comment)}
-                    >Add as Comment
-                  </gr-button>
-                </div>
+                <a class="comment-path" href=${href} @click=${onClick}>
+                  <gr-icon icon="description"></gr-icon>
+                  ${path}
+                </a>
+                <a class="comment-line" href=${href} @click=${onClick}>
+                  <gr-icon icon="code"></gr-icon>
+                  Line ${lineNumber}
+                </a>
               `;
             })
           )}

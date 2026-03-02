@@ -17,20 +17,16 @@ import {
 } from '../../models/chat/chat-model';
 import './gemini-message';
 import {Reference} from '../../api/ai-code-review';
-import {commentsModelToken} from '../../models/comments/comments-model';
 import {changeModelToken} from '../../models/change/change-model';
 import {GeminiMessage} from './gemini-message';
 import {testResolver} from '../../test/common-test-setup';
 import {pluginLoaderToken} from '../shared/gr-js-api-interface/gr-plugin-loader';
 import {chatProvider, createChange} from '../../test/test-data-generators';
 import {ParsedChangeInfo} from '../../types/types';
-import {CommentsModel} from '../../models/comments/comments-model';
 
 suite('gemini-message tests', () => {
   let element: GeminiMessage;
   let chatModel: ChatModel;
-  let commentsModel: CommentsModel;
-  let saveDraftStub: sinon.SinonStub;
 
   setup(async () => {
     const pluginLoader = testResolver(pluginLoaderToken);
@@ -45,8 +41,6 @@ suite('gemini-message tests', () => {
     });
 
     chatModel = testResolver(chatModelToken);
-    commentsModel = testResolver(commentsModelToken);
-    saveDraftStub = sinon.stub(commentsModel, 'saveDraft');
 
     element = await fixture<GeminiMessage>(
       html`<gemini-message .turnIndex=${0}></gemini-message>`
@@ -150,7 +144,7 @@ suite('gemini-message tests', () => {
     });
   });
 
-  test('renders suggested comment', async () => {
+  test('renders suggested comment link', async () => {
     const comment: CreateCommentPart = {
       id: 1,
       type: ResponsePartType.CREATE_COMMENT,
@@ -158,7 +152,13 @@ suite('gemini-message tests', () => {
       commentCreationId: 'test-id',
       comment: {
         message: 'test comment',
-        path: '/test/path',
+        path: 'test/path',
+        range: {
+          start_line: 1,
+          end_line: 1,
+          start_character: 0,
+          end_character: 0,
+        },
       },
     };
     const turn = createTurn({
@@ -166,25 +166,26 @@ suite('gemini-message tests', () => {
       responseParts: [comment],
     });
     chatModel.updateState({...chatModel.getState(), turns: [turn]});
+    element.currentClNumber = 123 as any;
+    element.repo = 'test-repo' as any;
+    element.latestPatchNum = 2 as any;
     await element.updateComplete;
 
-    const commentContainer =
-      element.shadowRoot?.querySelector('.suggested-comment');
-    assert.isOk(commentContainer);
+    const commentPath = element.shadowRoot?.querySelector('.comment-path');
+    assert.isOk(commentPath);
+    assert.equal(commentPath?.textContent?.trim(), 'test/path');
+    assert.equal(
+      commentPath?.getAttribute('href'),
+      '/c/test-repo/+/123/2/test/path#1'
+    );
 
-    const reloadStub = sinon.stub(commentsModel, 'reloadAllComments');
-    saveDraftStub.resolves({});
-
-    const button = commentContainer?.querySelector('gr-button');
-    assert.isOk(button);
-    (button as HTMLElement).click();
-
-    await new Promise(resolve => setTimeout(resolve, 0));
-
-    assert.isTrue(saveDraftStub.called);
-    const draft = saveDraftStub.lastCall.args[0];
-    assert.equal(draft.message, 'test comment');
-    assert.isTrue(reloadStub.called);
+    const commentLine = element.shadowRoot?.querySelector('.comment-line');
+    assert.isOk(commentLine);
+    assert.equal(commentLine?.textContent?.trim(), 'Line #1');
+    assert.equal(
+      commentLine?.getAttribute('href'),
+      '/c/test-repo/+/123/2/test/path#1'
+    );
   });
 
   test('renders citations', async () => {

@@ -16,6 +16,29 @@
       "message": "Thanks for adding this!",
       "revId": "8e1121f2ff50342e6800e863183b4249a5567d15",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2aa40f3a_381ef0f6",
+        "filename": "polygerrit-ui/app/elements/admin/gr-permission/gr-permission_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-03-02T08:04:54Z",
+      "side": 1,
+      "message": "which error are we expecting here?",
+      "range": {
+        "startLine": 190,
+        "startChar": 7,
+        "endLine": 190,
+        "endChar": 27
+      },
+      "revId": "8e1121f2ff50342e6800e863183b4249a5567d15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

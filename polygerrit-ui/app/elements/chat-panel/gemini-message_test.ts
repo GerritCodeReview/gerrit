@@ -18,22 +18,19 @@ import {
 } from '../../models/chat/chat-model';
 import './gemini-message';
 import {Reference} from '../../api/ai-code-review';
-import {commentsModelToken} from '../../models/comments/comments-model';
 import {changeModelToken} from '../../models/change/change-model';
 import {GeminiMessage} from './gemini-message';
 import {testResolver} from '../../test/common-test-setup';
 import {pluginLoaderToken} from '../shared/gr-js-api-interface/gr-plugin-loader';
 import {chatProvider, createChange} from '../../test/test-data-generators';
 import {ParsedChangeInfo} from '../../types/types';
-import {CommentsModel} from '../../models/comments/comments-model';
+
 import {AiAgentEventDetails, Interaction} from '../../constants/reporting';
 import {getAppContext} from '../../services/app-context';
 
 suite('gemini-message tests', () => {
   let element: GeminiMessage;
   let chatModel: ChatModel;
-  let commentsModel: CommentsModel;
-  let saveDraftStub: sinon.SinonStub;
 
   setup(async () => {
     const pluginLoader = testResolver(pluginLoaderToken);
@@ -48,8 +45,6 @@ suite('gemini-message tests', () => {
     });
 
     chatModel = testResolver(chatModelToken);
-    commentsModel = testResolver(commentsModelToken);
-    saveDraftStub = sinon.stub(commentsModel, 'saveDraft');
 
     element = await fixture<GeminiMessage>(
       html`<gemini-message .turnIndex=${0}></gemini-message>`
@@ -167,31 +162,48 @@ suite('gemini-message tests', () => {
     });
   });
 
-  test('renders suggested comment', async () => {
+  test('renders suggested comment link', async () => {
+    const comment: CreateCommentPart = {
+      id: 1,
+      type: ResponsePartType.CREATE_COMMENT,
+      content: 'test comment',
+      commentCreationId: 'test-id',
+      comment: {
+        message: 'test comment',
+        path: 'test/path',
+        range: {
+          start_line: 1,
+          end_line: 1,
+          start_character: 0,
+          end_character: 0,
+        },
+      },
+    };
     const turn = createTurn({
       responseComplete: true,
-      responseParts: [RESPONSE_CREATE_COMMENT],
+      responseParts: [comment],
     });
     chatModel.updateState({...chatModel.getState(), turns: [turn]});
+    element.currentClNumber = 123 as any;
+    element.repo = 'test-repo' as any;
+    element.latestPatchNum = 2 as any;
     await element.updateComplete;
 
-    const commentContainer =
-      element.shadowRoot?.querySelector('.suggested-comment');
-    assert.isOk(commentContainer);
+    const commentPath = element.shadowRoot?.querySelector('.comment-path');
+    assert.isOk(commentPath);
+    assert.equal(commentPath?.textContent?.trim(), 'test/path');
+    assert.equal(
+      commentPath?.getAttribute('href'),
+      '/c/test-repo/+/123/2/test/path#1'
+    );
 
-    const reloadStub = sinon.stub(commentsModel, 'reloadAllComments');
-    saveDraftStub.resolves({});
-
-    const button = commentContainer?.querySelector('gr-button');
-    assert.isOk(button);
-    (button as HTMLElement).click();
-
-    await new Promise(resolve => setTimeout(resolve, 0));
-
-    assert.isTrue(saveDraftStub.called);
-    const draft = saveDraftStub.lastCall.args[0];
-    assert.equal(draft.message, 'test comment');
-    assert.isTrue(reloadStub.called);
+    const commentLine = element.shadowRoot?.querySelector('.comment-line');
+    assert.isOk(commentLine);
+    assert.equal(commentLine?.textContent?.trim(), 'Line #1');
+    assert.equal(
+      commentLine?.getAttribute('href'),
+      '/c/test-repo/+/123/2/test/path#1'
+    );
   });
 
   test('renders citations', async () => {
@@ -266,51 +278,5 @@ suite('gemini-message tests', () => {
     assert.equal(details.commentCount, 1);
   });
 
-  test('reports AI_AGENT_SUGGESTION_TO_COMMENT interaction', async () => {
-    chatModel.updateState({
-      ...chatModel.getState(),
-      id: 'test-conversation-id',
-      selectedModelId: 'gemini-model-id',
-    });
 
-    const reportStub = sinon.stub(
-      getAppContext().reportingService,
-      'reportInteraction'
-    );
-
-    const turn = createTurn({
-      responseComplete: true,
-      responseParts: [RESPONSE_CREATE_COMMENT],
-    });
-    const updatedTurn = {
-      ...turn,
-      userMessage: {...turn.userMessage, actionId: 'custom-agent-id'},
-    };
-
-    chatModel.updateState({...chatModel.getState(), turns: [updatedTurn]});
-    await element.updateComplete;
-
-    const commentContainer =
-      element.shadowRoot?.querySelector('.suggested-comment');
-    assert.isOk(commentContainer);
-
-    sinon.stub(commentsModel, 'reloadAllComments');
-    saveDraftStub.resolves({});
-
-    const button = commentContainer?.querySelector('gr-button');
-    assert.isOk(button);
-    (button as HTMLElement).click();
-
-    await new Promise(resolve => setTimeout(resolve, 0));
-
-    const call = reportStub
-      .getCalls()
-      .find(c => c.args[0] === Interaction.AI_AGENT_SUGGESTION_TO_COMMENT);
-    assert.isOk(call, 'Expected AI_AGENT_SUGGESTION_TO_COMMENT to be reported');
-
-    const details = call.args[1] as AiAgentEventDetails;
-    assert.equal(details.conversationId, 'test-conversation-id');
-    assert.equal(details.agentId, 'custom-agent-id');
-    assert.isUndefined(details.commentCount);
-  });
 });

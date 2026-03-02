@@ -60,6 +60,7 @@ import {
   CommentsModel,
   commentsModelToken,
 } from '../../../models/comments/comments-model';
+import {CreateCommentPart} from '../../../models/chat/chat-model';
 
 suite('gr-diff-host tests', () => {
   let element: GrDiffHost;
@@ -946,6 +947,41 @@ suite('gr-diff-host tests', () => {
             slot="right-FILE"
           >
           </gr-diff-check-result>
+        `
+      );
+    });
+  });
+
+  suite('render ai results', () => {
+    test('uses start_line when end_line is invalid', async () => {
+      const result: CreateCommentPart = {
+        commentCreationId: 'test-id',
+        comment: {
+          message: 'AI suggestion',
+          range: {
+            start_line: 12,
+            start_character: 0,
+            end_line: 0,
+            end_character: 0,
+          },
+        },
+      } as CreateCommentPart;
+
+      element.patchRange = createPatchRange(1, 2);
+      element.aiResults = [result];
+      await element.updateComplete;
+
+      assert.lightDom.equal(
+        element.diffElement,
+        /* HTML */ `
+          <gr-diff-ai-result
+            class="comment-thread"
+            diff-side="right"
+            line-num="12"
+            range='{"start_line":12,"start_character":0,"end_line":0,"end_character":0}'
+            slot="right-12"
+          >
+          </gr-diff-ai-result>
         `
       );
     });

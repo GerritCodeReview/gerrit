@@ -2205,7 +2205,7 @@ operations.
 [[container.slave]]container.slave::
 +
 Backward compatibility for link:#container.replica[`container.replica`]
-config setting.
+config setting. If not set, defaults to false.
 
 [[container.startupTimeout]]container.startupTimeout::
 +

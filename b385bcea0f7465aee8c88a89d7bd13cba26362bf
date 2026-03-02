@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "37a4aa08_4001b5a9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2026-03-02T09:52:57Z",
+      "side": 1,
+      "message": "```suggestion\nplugin. An example would be the gcp/aws based extension of message\n```",
+      "revId": "b385bcea0f7465aee8c88a89d7bd13cba26362bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5126fadf_349c3eec",
+        "filename": "java/com/google/gerrit/server/plugins/ServerPlugin.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2026-03-02T09:52:57Z",
+      "side": 1,
+      "message": "how about this name ?\n\n```suggestion\n  private boolean exportAllBindings;\n```",
+      "revId": "b385bcea0f7465aee8c88a89d7bd13cba26362bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

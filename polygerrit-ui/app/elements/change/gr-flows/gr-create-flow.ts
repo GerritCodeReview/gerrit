@@ -581,6 +581,9 @@ export class GrCreateFlow extends LitElement {
                       .value=${this.currentAction}
                       @change=${this.handleActionChanged}
                     >
+                      <md-select-option .value=${''}>
+                        <div slot="headline">No action</div>
+                      </md-select-option>
                       ${this.flowActions.map(
                         action => html`
                           <md-select-option .value=${action.name}>

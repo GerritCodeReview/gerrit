@@ -27,9 +27,11 @@ import {
   query,
   queryAll,
   queryAndAssert,
+  stubFlags,
   stubReporting,
   stubRestApi,
 } from '../../../test/test-utils';
+import {KnownExperimentId} from '../../../services/flags/flags';
 import {
   Base64ImageFile,
   BasePatchSetNum,
@@ -60,6 +62,13 @@ import {
   CommentsModel,
   commentsModelToken,
 } from '../../../models/comments/comments-model';
+import {
+  ChatModel,
+  chatModelToken,
+  ResponsePartType,
+  Turn,
+} from '../../../models/chat/chat-model';
+import {BehaviorSubject} from 'rxjs';
 
 suite('gr-diff-host tests', () => {
   let element: GrDiffHost;
@@ -1472,6 +1481,119 @@ suite('gr-diff-host tests', () => {
         assert.isNull(element.hasTrailingNewlines(diff, false));
         assert.isFalse(element.hasTrailingNewlines(diff, true));
       });
+    });
+  });
+
+  suite('AI results', () => {
+    let myElement: GrDiffHost;
+    let chatModel: ChatModel;
+    let turns$: BehaviorSubject<Turn[]>;
+    let originalTurnsDescriptor: PropertyDescriptor | undefined;
+
+    setup(async () => {
+      chatModel = testResolver(chatModelToken);
+      originalTurnsDescriptor = Object.getOwnPropertyDescriptor(
+        chatModel,
+        'turns$'
+      );
+
+      turns$ = new BehaviorSubject<Turn[]>([]);
+
+      Object.defineProperty(chatModel, 'turns$', {
+        get: () => turns$,
+        configurable: true,
+      });
+
+      stubFlags('isEnabled').callsFake(
+        id => id === KnownExperimentId.ENABLE_AI_COMMENTS
+      );
+
+      myElement = await fixture(html`<gr-diff-host
+        .changeNum=${123 as NumericChangeId}
+        .path=${'some/path'}
+        .file=${{path: 'some/path'}}
+        .change=${createChange()}
+        .patchRange=${createPatchRange(1, 2)}
+      ></gr-diff-host>`);
+
+      await myElement.updateComplete;
+    });
+
+    teardown(() => {
+      if (originalTurnsDescriptor) {
+        Object.defineProperty(chatModel, 'turns$', originalTurnsDescriptor);
+      } else {
+        delete (chatModel as any).turns$;
+      }
+    });
+
+    test('updates aiResults when turns$ emits', async () => {
+      const turn = {
+        geminiMessage: {
+          responseParts: [
+            {
+              type: ResponsePartType.CREATE_COMMENT,
+              comment: {
+                path: 'some/path',
+                message: 'AI comment',
+              },
+            },
+          ],
+        },
+      } as any;
+      turns$.next([turn]);
+      await myElement.updateComplete;
+
+      assert.lengthOf(myElement.aiResults, 1);
+      assert.equal(myElement.aiResults[0].comment.message, 'AI comment');
+    });
+
+    test('clears aiResults when path changes', async () => {
+      const turn = {
+        geminiMessage: {
+          responseParts: [
+            {
+              type: ResponsePartType.CREATE_COMMENT,
+              comment: {
+                path: 'some/path',
+                message: 'AI comment',
+              },
+            },
+          ],
+        },
+      } as any;
+      turns$.next([turn]);
+      await myElement.updateComplete;
+      assert.lengthOf(myElement.aiResults, 1);
+
+      myElement.path = 'other/path';
+      await myElement.updateComplete;
+
+      assert.isEmpty(myElement.aiResults);
+    });
+
+    test('clears aiResults when patchRange changes to EDIT', async () => {
+      const turn = {
+        geminiMessage: {
+          responseParts: [
+            {
+              type: ResponsePartType.CREATE_COMMENT,
+              comment: {
+                path: 'some/path',
+                message: 'AI comment',
+              },
+            },
+          ],
+        },
+      } as any;
+      turns$.next([turn]);
+      await myElement.updateComplete;
+      assert.lengthOf(myElement.aiResults, 1);
+
+      myElement.patchRange = createPatchRange(1, EDIT as any);
+      await myElement.updateComplete;
+
+      assert.isEmpty(myElement.aiResults);
     });
   });
 });

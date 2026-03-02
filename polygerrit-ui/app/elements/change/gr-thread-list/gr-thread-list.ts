@@ -5,6 +5,7 @@
  */
 import '../../../styles/shared-styles';
 import '../../shared/gr-comment-thread/gr-comment-thread';
+import '../../diff/gr-diff-ai-result/gr-diff-ai-result';
 import '../../shared/gr-dropdown-list/gr-dropdown-list';
 import {SpecialFilePath} from '../../../constants/constants';
 import {
@@ -194,6 +195,9 @@ export class GrThreadList extends LitElement {
   @state()
   mentionsOnly = false;
 
+  @state()
+  aiOnly = false;
+
   private readonly getChangeModel = resolve(this, changeModelToken);
 
   private readonly getUserModel = resolve(this, userModelToken);
@@ -232,6 +236,9 @@ export class GrThreadList extends LitElement {
         break;
       case CommentTabState.DRAFTS:
         this.handleOnlyDrafts();
+        break;
+      case CommentTabState.AI:
+        this.handleOnlyAi();
         break;
       case CommentTabState.SHOW_ALL:
         this.handleAllComments();
@@ -400,6 +407,18 @@ export class GrThreadList extends LitElement {
   }
 
   private renderCommentThread(thread: CommentThread, isFirst: boolean) {
+    if ((thread as any).isAiSuggestion) {
+      return html`
+        <gr-diff-ai-result
+          .rootId=${thread.rootId}
+          .result=${(thread as any).aiResult}
+          .thread=${thread}
+          ?show-comment-context=${this.showCommentContext}
+          ?show-file-name=${isFirst}
+          show-file-path
+        ></gr-diff-ai-result>
+      `;
+    }
     return html`
       <gr-comment-thread
         .thread=${thread}
@@ -442,6 +461,7 @@ export class GrThreadList extends LitElement {
   private getCommentsDropdownValue() {
     if (this.mentionsOnly) return CommentTabState.MENTIONS;
     if (this.draftsOnly) return CommentTabState.DRAFTS;
+    if (this.aiOnly) return CommentTabState.AI;
     if (this.unresolvedOnly) return CommentTabState.UNRESOLVED;
     return CommentTabState.SHOW_ALL;
   }
@@ -469,6 +489,15 @@ export class GrThreadList extends LitElement {
       items.push({
         text: `Drafts (${threads.filter(isDraftThread).length})`,
         value: CommentTabState.DRAFTS,
+      });
+    }
+    const aiThreadsCount = threads.filter(
+      t => (t as any).isAiSuggestion
+    ).length;
+    if (aiThreadsCount > 0) {
+      items.push({
+        text: `AI (${aiThreadsCount})`,
+        value: CommentTabState.AI,
       });
     }
     items.push({
@@ -502,6 +531,9 @@ export class GrThreadList extends LitElement {
         break;
       case CommentTabState.DRAFTS:
         this.handleOnlyDrafts();
+        break;
+      case CommentTabState.AI:
+        this.handleOnlyAi();
         break;
       default:
         this.handleAllComments();
@@ -556,6 +588,7 @@ export class GrThreadList extends LitElement {
       return false;
 
     if (this.draftsOnly && !isDraftThread(thread)) return false;
+    if (this.aiOnly && !(thread as any).isAiSuggestion) return false;
     if (this.unresolvedOnly && !isUnresolved(thread)) return false;
 
     return true;
@@ -565,16 +598,26 @@ export class GrThreadList extends LitElement {
     this.unresolvedOnly = true;
     this.draftsOnly = false;
     this.mentionsOnly = false;
+    this.aiOnly = false;
   }
 
   private handleOnlyMentions() {
     this.mentionsOnly = true;
     this.unresolvedOnly = true;
     this.draftsOnly = false;
+    this.aiOnly = false;
   }
 
   private handleOnlyDrafts() {
     this.draftsOnly = true;
+    this.unresolvedOnly = false;
+    this.mentionsOnly = false;
+    this.aiOnly = false;
+  }
+
+  private handleOnlyAi() {
+    this.aiOnly = true;
+    this.draftsOnly = false;
     this.unresolvedOnly = false;
     this.mentionsOnly = false;
   }
@@ -583,6 +626,7 @@ export class GrThreadList extends LitElement {
     this.draftsOnly = false;
     this.unresolvedOnly = false;
     this.mentionsOnly = false;
+    this.aiOnly = false;
   }
 
   private queryThreadElement(rootId: string): GrCommentThread | undefined {

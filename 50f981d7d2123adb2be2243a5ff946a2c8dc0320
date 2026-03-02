@@ -52,6 +52,24 @@
       "parentUuid": "78dc9d1b_e510b794",
       "revId": "50f981d7d2123adb2be2243a5ff946a2c8dc0320",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "57b8cb77_16fdaf42",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 3117294
+      },
+      "writtenOn": "2026-03-02T11:38:17Z",
+      "side": 1,
+      "message": "thanks issue filed, https://issues.gerritcodereview.com/issues/488937351\ntried the alternative email approach, does not work (in fact i had this configured for a while; one of the last attempts to get the avatar working), just wanted to say, its a bigger diff but mostly plumbing!",
+      "parentUuid": "7250ef00_d7ed286e",
+      "revId": "50f981d7d2123adb2be2243a5ff946a2c8dc0320",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -98,7 +98,7 @@ export class GrFlows extends LitElement {
         }
         .flow-header {
           background-color: var(--background-color-secondary);
-          padding: var(--spacing-m) var(--spacing-l);
+          padding: 0 var(--spacing-l);
           border-bottom: 1px solid var(--border-color);
           display: flex;
           justify-content: space-between;

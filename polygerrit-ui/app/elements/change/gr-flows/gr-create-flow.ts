@@ -356,10 +356,6 @@ export class GrCreateFlow extends LitElement {
         }
         .flow-rule {
           flex: 1;
-          border: 1px solid var(--border-color);
-          padding: var(--spacing-m) var(--spacing-l);
-          border-radius: var(--border-radius);
-          background-color: var(--background-color-primary);
         }
         .full-width-text-field {
           width: 100%;
@@ -397,6 +393,9 @@ export class GrCreateFlow extends LitElement {
     return when(
       this.stages.length > 0,
       () => html`
+        <div class="stage-label" style="margin-top: var(--spacing-l)">
+          Preview
+        </div>
         <div class="stages-list">
           ${this.stages.map(
             (stage, index) => html`
@@ -535,7 +534,6 @@ export class GrCreateFlow extends LitElement {
             ${when(
               this.guidedBuilderExpanded,
               () => html`
-                <div>${this.renderStages()}</div>
                 <div class="add-stage-box">
                   <div class="stage-label">Condition: IF</div>
                   <div class="stage-row">
@@ -600,6 +598,7 @@ export class GrCreateFlow extends LitElement {
                     >
                   </div>
                 </div>
+                ${this.renderStages()}
               `
             )}
             <div

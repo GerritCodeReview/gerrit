@@ -536,6 +536,10 @@ case "$ACTION" in
                 echo -16 > "/proc/${PID}/oom_adj"
             fi
         fi
+    elif test -f "/proc/${PID}/oom_score_adj" && ! [ "$(cat "/proc/${PID}/oom_score_adj")" = "0" ]; then
+        :
+    elif test -f "/proc/${PID}/oom_adj" && ! [ "$(cat "/proc/${PID}/oom_adj")" = "0" ]; then
+        :
     elif test "$(uname -s)" = "Linux" && test -d "/proc/${PID}"; then
         echo "WARNING: Could not adjust Gerrit's process for the kernel's out-of-memory killer."
         echo "         This may be caused by ${0} not being run as root."

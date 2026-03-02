@@ -5,6 +5,7 @@
  */
 import '../../shared/gr-comment-thread/gr-comment-thread';
 import '../../checks/gr-diff-check-result';
+import '../gr-diff-ai-result/gr-diff-ai-result';
 import '../../../embed/diff/gr-diff/gr-diff';
 import {
   getDiffLength,
@@ -75,6 +76,11 @@ import {resolve} from '../../../models/dependency';
 import {browserModelToken} from '../../../models/browser/browser-model';
 import {commentsModelToken} from '../../../models/comments/comments-model';
 import {checksModelToken, RunResult} from '../../../models/checks/checks-model';
+import {
+  chatModelToken,
+  CreateCommentPart,
+  ResponsePartType,
+} from '../../../models/chat/chat-model';
 import {distinctUntilChanged, map} from 'rxjs/operators';
 import {deepEqual} from '../../../utils/deep-util';
 import {Category} from '../../../api/checks';
@@ -83,7 +89,7 @@ import {
   CODE_MAX_LINES,
   highlightServiceToken,
 } from '../../../services/highlight/highlight-service';
-import {html, LitElement, PropertyValues} from 'lit';
+import {html, LitElement, nothing, PropertyValues} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {ValueChangedEvent} from '../../../types/events';
 import {
@@ -208,6 +214,9 @@ export class GrDiffHost extends LitElement {
   @state()
   checks: RunResult[] = [];
 
+  @state()
+  aiResults: CreateCommentPart[] = [];
+
   @property({type: Boolean})
   lineWrapping = false;
 
@@ -305,6 +314,8 @@ export class GrDiffHost extends LitElement {
 
   private readonly getChecksModel = resolve(this, checksModelToken);
 
+  private readonly getChatModel = resolve(this, chatModelToken);
+
   private readonly getPluginLoader = resolve(this, pluginLoaderToken);
 
   // visible for testing
@@ -321,6 +332,8 @@ export class GrDiffHost extends LitElement {
   readonly syntaxLayer: GrSyntaxLayerWorker;
 
   private checksSubscription?: Subscription;
+
+  private aiSubscription?: Subscription;
 
   /**
    * This key is used for the `keyed()` directive when rendering `gr-diff` and
@@ -396,6 +409,10 @@ export class GrDiffHost extends LitElement {
     if (this.checksSubscription) {
       this.checksSubscription.unsubscribe();
       this.checksSubscription = undefined;
+    }
+    if (this.aiSubscription) {
+      this.aiSubscription.unsubscribe();
+      this.aiSubscription = undefined;
     }
     this.clear();
     super.disconnectedCallback();
@@ -519,6 +536,11 @@ export class GrDiffHost extends LitElement {
           c => c.internalResultId,
           c => this.renderCheck(c)
         )}
+        ${repeat(
+          this.aiResults,
+          r => r.commentCreationId,
+          r => this.renderAiResult(r)
+        )}
       </gr-diff>`
     );
   }
@@ -610,6 +632,7 @@ export class GrDiffHost extends LitElement {
       syntaxLayerPromise.catch(() => {});
       await waitForEventOnce(this, 'render');
       this.subscribeToChecks();
+      this.subscribeToAiResults();
       this.reporting.timeEnd(Timing.DIFF_CONTENT, this.timingDetails());
 
       if (shouldReportMetric) {
@@ -755,6 +778,67 @@ export class GrDiffHost extends LitElement {
         line-num=${line}
         range=${ifDefined(rangeAttr)}
       ></gr-diff-check-result>
+    `;
+  }
+
+  private subscribeToAiResults() {
+    if (!this.flags.isEnabled(KnownExperimentId.ENABLE_AI_COMMENTS)) return;
+    if (this.aiSubscription) {
+      this.aiSubscription.unsubscribe();
+      this.aiSubscription = undefined;
+      this.aiResults = [];
+    }
+
+    const path = this.path;
+    const patchNum = this.patchRange?.patchNum;
+    if (!path || !patchNum || patchNum === EDIT) return;
+    this.aiSubscription = this.getChatModel()
+      .turns$.pipe(
+        map(turns => {
+          if (!turns) return [];
+          const results: CreateCommentPart[] = [];
+          for (const turn of turns) {
+            for (const part of turn.geminiMessage?.responseParts ?? []) {
+              if (
+                part.type === ResponsePartType.CREATE_COMMENT &&
+                part.comment.path === this.path &&
+                part.comment.message
+              ) {
+                results.push(part);
+              }
+            }
+          }
+          return results;
+        }),
+        distinctUntilChanged(deepEqual)
+      )
+      .subscribe(results => (this.aiResults = results));
+  }
+
+  private renderAiResult(result: CreateCommentPart) {
+    if (!result.comment.message) return nothing;
+    let line = result.comment.range?.end_line ?? result.comment.line ?? FILE;
+    if (
+      result.comment.range &&
+      result.comment.range.end_line < result.comment.range.start_line
+    ) {
+      line = result.comment.range.start_line;
+    }
+    let rangeAttr: string | undefined = undefined;
+    if (result.comment.range) {
+      rangeAttr = `${JSON.stringify(result.comment.range)}`;
+    }
+
+    return html`
+      <gr-diff-ai-result
+        class="comment-thread"
+        .rootId=${result.commentCreationId}
+        .result=${result}
+        slot=${`${Side.RIGHT}-${line}`}
+        diff-side=${Side.RIGHT}
+        line-num=${line}
+        range=${ifDefined(rangeAttr)}
+      ></gr-diff-ai-result>
     `;
   }
 

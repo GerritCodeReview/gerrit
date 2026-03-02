@@ -86,6 +86,26 @@ suite('gr-create-flow tests', () => {
       );
     });
 
+    test('action dropdown shows "No action" by default', async () => {
+      const createButton = queryAndAssert<GrButton>(
+        element,
+        'gr-button[aria-label="Create Flow"]'
+      );
+      createButton.click();
+      await element.updateComplete;
+
+      const actionInput = queryAndAssert<MdOutlinedSelect>(
+        element,
+        'md-outlined-select[label="Action"]'
+      );
+      const options = queryAll(actionInput, 'md-select-option');
+
+      assert.isTrue(options.length > 1);
+      assert.equal(options[0].textContent?.trim(), 'No action');
+      assert.equal((options[0] as any).value, '');
+      assert.equal(actionInput.value, '');
+    });
+
     test('opens and closes dialog', async () => {
       const createButton = queryAndAssert<GrButton>(
         element,

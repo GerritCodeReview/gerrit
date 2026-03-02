@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9e483f5f_d9f5c81a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-03-02T10:46:04Z",
+      "side": 1,
+      "message": "Add a note about what part of the sh script we\u0027re in? i.e.\n\"When setting up the out-of-memory settings ...\"",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 56
+      },
+      "revId": "4ab406710b7e1c9052e123ceaa6e0c1cee044071",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1d34bb7d_d63c28b8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-03-02T10:46:04Z",
+      "side": 1,
+      "message": "Please add a `Release-Notes` footer with a short description of the change, repeating the title is acceptable.\n\nThis will help release managers when it comes to do the next release.",
+      "revId": "4ab406710b7e1c9052e123ceaa6e0c1cee044071",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

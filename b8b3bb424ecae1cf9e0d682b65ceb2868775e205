@@ -16,6 +16,24 @@
       "message": "Remove empty line here, otherwise it\u0027s not considered a footer.",
       "revId": "b8b3bb424ecae1cf9e0d682b65ceb2868775e205",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "55509e25_ccb1536e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-03-02T13:22:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "affd0be1_f86ff6c8",
+      "revId": "b8b3bb424ecae1cf9e0d682b65ceb2868775e205",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

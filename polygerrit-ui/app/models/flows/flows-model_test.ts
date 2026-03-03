@@ -6,6 +6,7 @@
 import {testResolver} from '../../test/common-test-setup';
 import {
   FlowsModel,
+  getChangePrefix,
   getSubmitCondition,
   SUBMIT_ACTION_NAME,
 } from './flows-model';
@@ -149,7 +150,7 @@ suite('flows-model tests', () => {
     assert.deepEqual(args[1], {
       stage_expressions: [
         {
-          condition: 'custom condition',
+          condition: getChangePrefix() + ' is custom condition',
           action: {name: 'custom action'},
         },
       ],

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3a87c400_4b577089",
+        "filename": "java/com/google/gerrit/server/mail/send/AuthTokenExpiredEmailDecorator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2026-03-03T21:33:15Z",
+      "side": 1,
+      "message": "Should be removed i think?\n\nSince handled by `import com.google.common.base.Strings;` below.\n\nI think google did this because this import isn\u0027t available to them?\n\nhttps://github.com/GerritCodeReview/gerrit/commit/4577b06a88e20393f44bd92e716900fcb8629479",
+      "revId": "5aa582435cbb80bf602b8d98a79f177740129ef7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

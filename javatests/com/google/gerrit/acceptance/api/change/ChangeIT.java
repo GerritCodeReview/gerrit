@@ -194,6 +194,7 @@ import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.gerrit.server.util.AccountTemplateUtil;
 import com.google.gerrit.server.util.CommitMessageUtil;
+import com.google.gerrit.server.util.MagicBranch;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.testing.FakeEmailSender.Message;
 import com.google.inject.AbstractModule;
@@ -4537,6 +4538,68 @@ public class ChangeIT extends AbstractDaemonTest {
         .add(allow(Permission.SUBMIT).ref("refs/*").group(REGISTERED_USERS))
         .update();
     assertThrows(AuthException.class, () -> gApi.changes().id(r1.getChangeId()).current().submit());
+  }
+
+  @Test
+  @GerritConfig(name = "change.submitWholeTopic", value = "true")
+  public void submitTopicFailsWhenUpdateBySubmitMissingOnAnyBranch() throws Exception {
+    requestScopeOperations.setApiUser(admin.id());
+    String allowedSubmitBranch = "allowed-submit-branch";
+    String restrictedBranch = "restricted-branch";
+
+    Project.NameKey restrictedProject = createProjectOverAPI("restricted", allProjects, true, null);
+    createBranch(BranchNameKey.create(restrictedProject, restrictedBranch));
+
+    try (TestRepository<InMemoryRepository> testRestrictedRepo =
+        cloneProject(restrictedProject, admin)) {
+      createBranch(BranchNameKey.create(project, allowedSubmitBranch));
+      AccountGroup.UUID submitGroup = groupOperations.newGroup().create();
+      gApi.groups().id(submitGroup.get()).addMembers(admin.username());
+      String topic = "submit-topic";
+
+      projectOperations
+          .project(allProjects)
+          .forUpdate()
+          .add(block(Permission.SUBMIT).ref(RefNames.REFS_HEADS).group(submitGroup));
+      projectOperations
+          .project(restrictedProject)
+          .forUpdate()
+          .add(
+              block(Permission.SUBMIT)
+                  .ref(MagicBranch.NEW_CHANGE + RefNames.fullName(restrictedBranch))
+                  .group(submitGroup));
+      projectOperations
+          .project(project)
+          .forUpdate()
+          .add(
+              allow(Permission.SUBMIT)
+                  .ref(MagicBranch.NEW_CHANGE + RefNames.fullName(allowedSubmitBranch))
+                  .group(submitGroup))
+          .update();
+
+      PushOneCommit push1 =
+          pushFactory.create(
+              admin.newIdent(), testRestrictedRepo, "Subject", "file.txt", "content");
+      PushOneCommit.Result push1Res =
+          push1.to(MagicBranch.NEW_CHANGE + restrictedBranch + "%topic=" + topic);
+      push1Res.assertOkStatus();
+
+      PushOneCommit push2 =
+          pushFactory.create(admin.newIdent(), testRepo, "Subject", "file.txt", "content");
+      PushOneCommit.Result push2Res =
+          push2.to(MagicBranch.NEW_CHANGE + allowedSubmitBranch + "%topic=" + topic + ",submit");
+      push2Res.assertErrorStatus(
+          String.format(
+              "prohibited by Gerrit: not permitted: update by submit on %s",
+              RefNames.fullName(restrictedBranch)));
+
+      assertChangeNotSubmitted(push1Res.getChangeId());
+      assertChangeNotSubmitted(push2Res.getChangeId());
+    }
+  }
+
+  private void assertChangeNotSubmitted(String changeId) throws RestApiException {
+    assertThat(gApi.changes().id(changeId).get().status).isEqualTo(ChangeStatus.NEW);
   }
 
   @Test

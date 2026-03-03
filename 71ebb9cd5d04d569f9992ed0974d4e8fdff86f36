@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dcd7fe37_4f9c13a0",
+        "filename": "polygerrit-ui/app/models/flows/flows-model.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-03-03T19:14:16Z",
+      "side": 1,
+      "message": "```\nlet condition \u003d getSubmitCondition();\nconst customCondition \u003d autosubmitProvider?.getSubmitCondition();\n\nif (customCondition) {\n  condition \u003d `${getChangePrefix()} is ${customCondition}`;\n}\n\nawait this.restApiService.createFlow(this.changeNum, {\n  stage_expressions: [\n    {\n      condition,\n      action: autosubmitProvider?.getSubmitAction() ?? defaultAction,\n    },\n  ],\n});\n```",
+      "range": {
+        "startLine": 193,
+        "startChar": 0,
+        "endLine": 205,
+        "endChar": 10
+      },
+      "revId": "71ebb9cd5d04d569f9992ed0974d4e8fdff86f36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

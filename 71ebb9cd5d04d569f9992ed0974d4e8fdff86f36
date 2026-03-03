@@ -22,6 +22,30 @@
       },
       "revId": "71ebb9cd5d04d569f9992ed0974d4e8fdff86f36",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "36da8eed_71bad70d",
+        "filename": "polygerrit-ui/app/models/flows/flows-model.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-03-03T19:18:23Z",
+      "side": 1,
+      "message": "Why is this code better than the written code?\n\nIIUC you are storing `autosubmitProvider?.getSubmitCondition();` in a variable?",
+      "parentUuid": "dcd7fe37_4f9c13a0",
+      "range": {
+        "startLine": 193,
+        "startChar": 0,
+        "endLine": 205,
+        "endChar": 10
+      },
+      "revId": "71ebb9cd5d04d569f9992ed0974d4e8fdff86f36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

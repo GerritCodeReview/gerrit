@@ -191,15 +191,17 @@ export class FlowsModel extends Model<FlowsState> {
       name: SUBMIT_ACTION_NAME,
     };
 
+    let condition = getSubmitCondition();
+    if (autosubmitProvider?.getSubmitCondition()) {
+      condition =
+        getChangePrefix() + ' is ' + autosubmitProvider.getSubmitCondition();
+    }
+
     await this.restApiService.createFlow(this.changeNum, {
       stage_expressions: [
         {
-          condition: autosubmitProvider
-            ? autosubmitProvider.getSubmitCondition()!
-            : getSubmitCondition(),
-          action: autosubmitProvider
-            ? autosubmitProvider.getSubmitAction()
-            : defaultAction,
+          condition,
+          action: autosubmitProvider?.getSubmitAction() ?? defaultAction,
         },
       ],
     });

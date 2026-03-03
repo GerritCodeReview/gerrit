@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d71486ba_bfe2e3d5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-03-03T14:34:32Z",
+      "side": 1,
+      "message": "If the whole plugin is actually an API, why not simply setting the `com.example.app.Module` in the `Gerrit-ApiModule` and skip the `Gerrit-Module` definition altogether?",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 8
+      },
+      "revId": "b385bcea0f7465aee8c88a89d7bd13cba26362bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "37a4aa08_4001b5a9",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -14,6 +37,52 @@
       "writtenOn": "2026-03-02T09:52:57Z",
       "side": 1,
       "message": "```suggestion\nplugin. An example would be the gcp/aws based extension of message\n```",
+      "revId": "b385bcea0f7465aee8c88a89d7bd13cba26362bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "44954893_1169729b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-03-03T14:34:32Z",
+      "side": 1,
+      "message": "Can you define what is the `base plugin`? Is a plugin that expose an Api?\n\nIf you found an issue with the current x-plugin implementation, can you raise it and explain the full use-case?\nMaybe is this something that can be fixed?",
+      "range": {
+        "startLine": 23,
+        "startChar": 35,
+        "endLine": 24,
+        "endChar": 6
+      },
+      "revId": "b385bcea0f7465aee8c88a89d7bd13cba26362bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "953f6694_504079bc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-03-03T14:34:32Z",
+      "side": 1,
+      "message": "It would be best to make a simpler example, using some hypothetical interface and implementation?",
+      "range": {
+        "startLine": 24,
+        "startChar": 8,
+        "endLine": 24,
+        "endChar": 67
+      },
       "revId": "b385bcea0f7465aee8c88a89d7bd13cba26362bf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

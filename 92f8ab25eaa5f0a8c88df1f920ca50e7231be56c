@@ -16,6 +16,29 @@
       "message": "Rebased and resolve conflicts: the approvals need to be restored.",
       "revId": "92f8ab25eaa5f0a8c88df1f920ca50e7231be56c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9d99fb9e_af4280e3",
+        "filename": "Documentation/dev-release-subproject.txt",
+        "patchSetId": 65
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-03-03T12:50:57Z",
+      "side": 1,
+      "message": "missing `\n```suggestion\n`tools/nongoogle.toml` to the `SNAPSHOT` version.\n```",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 48
+      },
+      "revId": "92f8ab25eaa5f0a8c88df1f920ca50e7231be56c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

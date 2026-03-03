@@ -52,6 +52,24 @@
       "parentUuid": "55509e25_ccb1536e",
       "revId": "b8b3bb424ecae1cf9e0d682b65ceb2868775e205",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8eb0e8ba_c8315280",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-03-03T21:11:31Z",
+      "side": 1,
+      "message": "@lorenzo.buzzi@vdsrail.com, yeah, eventually one of the maintainers will hopefully review the change and get it merged. For now I think you\u0027ve done your part.\n\nThanks again for the contribution.",
+      "parentUuid": "61f50e94_473587df",
+      "revId": "b8b3bb424ecae1cf9e0d682b65ceb2868775e205",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

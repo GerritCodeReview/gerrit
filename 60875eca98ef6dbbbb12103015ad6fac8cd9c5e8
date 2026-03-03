@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a5bef669_000a85b2",
+        "filename": "polygerrit-ui/app/api/ai-code-review.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-03-03T22:25:41Z",
+      "side": 1,
+      "message": "I don\u0027t think we have any reference to google3, so I would not add this reference to the proto.",
+      "range": {
+        "startLine": 17,
+        "startChar": 2,
+        "endLine": 18,
+        "endChar": 68
+      },
+      "revId": "60875eca98ef6dbbbb12103015ad6fac8cd9c5e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

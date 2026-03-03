@@ -189,6 +189,7 @@ import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.restapi.change.ReplyAttentionSetUpdates;
+import com.google.gerrit.server.submit.ChangeSet;
 import com.google.gerrit.server.submit.MergeOp;
 import com.google.gerrit.server.submit.MergeOpRepoManager;
 import com.google.gerrit.server.update.BatchUpdate;
@@ -2307,12 +2308,9 @@ class ReceiveCommits {
         return;
       }
 
-      if (magicBranch.submit) {
-        err = checkRefPermission(magicBranch.perm, RefPermission.UPDATE_BY_SUBMIT);
-        if (err.isPresent()) {
-          rejectProhibited(cmd, err.get());
-          return;
-        }
+      if (magicBranch.submit
+          && checkCanUpdateBySubmit(magicBranch.cmd, magicBranch.perm).isPresent()) {
+        return;
       }
 
       RevCommit tip;
@@ -3153,9 +3151,38 @@ class ReceiveCommits {
         submitInput.notifyDetails.put(
             RecipientType.BCC,
             new NotifyInfo(magicBranch.notifyBcc.stream().map(Object::toString).collect(toList())));
-        op.merge(tipChange, user, false, submitInput, false);
+        op.merge(
+            tipChange,
+            user,
+            false,
+            submitInput,
+            false,
+            this::checkUpdateChangesBySubmitPermissions);
       }
     }
+  }
+
+  private Optional<AuthException> checkUpdateChangesBySubmitPermissions(
+      ChangeSet changeSetForSubmission) throws PermissionBackendException {
+    PermissionBackend.WithUser withUserPerm = permissionBackend.user(user);
+    for (BranchNameKey changeBranch : changeSetForSubmission.changesByBranch().keys()) {
+      Optional<AuthException> err =
+          checkCanUpdateBySubmit(
+              magicBranch.cmd,
+              withUserPerm.project(changeBranch.project()).ref(changeBranch.branch()));
+      if (err.isPresent()) {
+        return err;
+      }
+    }
+    return Optional.empty();
+  }
+
+  private Optional<AuthException> checkCanUpdateBySubmit(
+      ReceiveCommand cmd, PermissionBackend.ForRef forChangeDest)
+      throws PermissionBackendException {
+    Optional<AuthException> err = checkRefPermission(forChangeDest, RefPermission.UPDATE_BY_SUBMIT);
+    err.ifPresent(e -> rejectProhibited(cmd, e));
+    return err;
   }
 
   private void preparePatchSetsForReplace(

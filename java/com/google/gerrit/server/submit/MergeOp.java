@@ -284,6 +284,11 @@ public class MergeOp implements AutoCloseable {
     }
   }
 
+  @FunctionalInterface
+  public interface PreMergeChecker {
+    Optional<AuthException> check(ChangeSet changeSet) throws PermissionBackendException;
+  }
+
   private final ChangeMessagesUtil cmUtil;
   private final BatchUpdate.Factory batchUpdateFactory;
   private final BatchUpdates batchUpdates;
@@ -693,18 +698,60 @@ public class MergeOp implements AutoCloseable {
    * @throws RestApiException if an error occurred.
    * @throws PermissionBackendException if permissions can't be checked
    * @throws IOException an error occurred reading from NoteDb.
-   * @return the merged change
+   * @return the merged change or null if the change failed the preMergeChecker
    */
   // TODO: dryrun was introduced in https://gerrit-review.git.corp.google.com/c/gerrit/+/82911 and
   // has never been used. Consider removing it. Since it was never used  and this file has been
   // through many refactorings since, it's likely that the implementation is broken.
   @CanIgnoreReturnValue
+  @Nullable
   public Change merge(
       Change change,
       IdentifiedUser caller,
       boolean checkSubmitRules,
       SubmitInput submitInput,
       boolean dryrun)
+      throws ConfigInvalidException,
+          PermissionBackendException,
+          UpdateException,
+          IOException,
+          RestApiException {
+    return merge(change, caller, checkSubmitRules, submitInput, dryrun, (cs) -> Optional.empty());
+  }
+
+  /**
+   * Merges the given change.
+   *
+   * <p>Depending on the server configuration, more changes may be affected, e.g. by submission of a
+   * topic or via superproject subscriptions. All affected changes are integrated using the projects
+   * integration strategy.
+   *
+   * @param change the change to be merged.
+   * @param caller the identity of the user that is recorded as the one performing the merge. In
+   *     case of impersonation {@code caller.getRealUser()} contains the user triggering the merge.
+   * @param checkSubmitRules whether submit rules and submit requirements should be evaluated.
+   * @param submitInput parameters regarding the merge
+   * @param dryrun if true, this includes calculating all projects affected by the submission,
+   *     checking for possible submission problems (ACLs, merge conflicts, etc) but not the merge
+   *     itself.
+   * @param preMergeChecker function for checking if the merge should continue or not
+   * @throws RestApiException if an error occurred.
+   * @throws PermissionBackendException if permissions can't be checked
+   * @throws IOException an error occurred reading from NoteDb.
+   * @return the merged change or null if the change failed the preMergeChecker
+   */
+  // TODO: dryrun was introduced in https://gerrit-review.git.corp.google.com/c/gerrit/+/82911 and
+  // has never been used. Consider removing it. Since it was never used  and this file has been
+  // through many refactorings since, it's likely that the implementation is broken.
+  @CanIgnoreReturnValue
+  @Nullable
+  public Change merge(
+      Change change,
+      IdentifiedUser caller,
+      boolean checkSubmitRules,
+      SubmitInput submitInput,
+      boolean dryrun,
+      PreMergeChecker preMergeChecker)
       throws RestApiException,
           UpdateException,
           IOException,
@@ -728,6 +775,10 @@ public class MergeOp implements AutoCloseable {
       try {
 
         ChangeSet indexBackedChangeSet = completeMergeChangeSetWithRetry(change);
+
+        if (preMergeChecker.check(indexBackedChangeSet).isPresent()) {
+          return null;
+        }
 
         if (indexBackedChangeSet.furtherHiddenChanges()) {
           throw new AuthException(

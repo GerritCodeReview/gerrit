@@ -34,6 +34,24 @@
       "parentUuid": "affd0be1_f86ff6c8",
       "revId": "b8b3bb424ecae1cf9e0d682b65ceb2868775e205",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "61f50e94_473587df",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1163940
+      },
+      "writtenOn": "2026-03-03T10:55:08Z",
+      "side": 1,
+      "message": "@danielesassoli@gmail.com, I am inexperienced with code review mechanisms.\nI have made the requested corrections. Now I see that there is a \"Your turn\" section in my dashboard that contains a reference to my commit.\nDo I need to actively do something or simply wait for a reviewer to vote on my changes?",
+      "parentUuid": "55509e25_ccb1536e",
+      "revId": "b8b3bb424ecae1cf9e0d682b65ceb2868775e205",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

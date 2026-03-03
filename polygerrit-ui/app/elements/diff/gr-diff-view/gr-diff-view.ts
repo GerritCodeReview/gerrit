@@ -1558,6 +1558,7 @@ export class GrDiffView extends LitElement {
     // on how much the change view was scrolled.
     // Hence, reset the scroll position here.
     document.documentElement.scrollTop = 0;
+    this.initCursor();
     this.reInitCursor();
     this.diffHost?.initLayers();
     this.classList.remove('hideComments');

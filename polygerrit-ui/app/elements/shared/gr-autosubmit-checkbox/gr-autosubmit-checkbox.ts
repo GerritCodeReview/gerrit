@@ -63,19 +63,23 @@ export class GrAutosubmitCheckbox extends LitElement {
       formStyles,
       sharedStyles,
       css`
-        .autosubmit-label {
-          display: flex;
-          align-items: center;
-        }
-        .autosubmit-text {
-          padding-left: var(--spacing-m);
-        }
+        .autosubmit,
         .autosubmit-info {
           display: flex;
           align-items: center;
+          background-color: var(--info-background);
+          padding: var(--spacing-s) var(--spacing-m);
+          border-radius: var(--border-radius);
+          color: var(--info-foreground);
         }
-        .autosubmit-info label {
-          background: var(--info-background);
+        .autosubmit-label {
+          display: flex;
+          align-items: center;
+          width: 100%;
+        }
+        .autosubmit-text {
+          padding-left: var(--spacing-m);
+          flex-grow: 1;
         }
         .autosubmit-info gr-icon {
           color: var(--info-foreground);
@@ -86,7 +90,8 @@ export class GrAutosubmitCheckbox extends LitElement {
           --md-checkbox-icon-size: 15px;
         }
         :host {
-          padding: var(--spacing-m) 0;
+          display: block;
+          margin: var(--spacing-m) 0;
         }
       `,
     ];
@@ -143,10 +148,8 @@ export class GrAutosubmitCheckbox extends LitElement {
     if (this.showAutosubmitInfoMessage) {
       return html`
         <div class="autosubmit-info">
-          <label>
-            <gr-icon icon="info"></gr-icon>
-            <span>${autosubmitMessage}</span>
-          </label>
+          <gr-icon icon="info"></gr-icon>
+          <span>${autosubmitMessage}</span>
         </div>
       `;
     }

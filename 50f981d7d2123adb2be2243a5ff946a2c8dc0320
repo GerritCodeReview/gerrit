@@ -70,6 +70,75 @@
       "parentUuid": "7250ef00_d7ed286e",
       "revId": "50f981d7d2123adb2be2243a5ff946a2c8dc0320",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "69c9fc6b_10e42268",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-03-04T04:45:07Z",
+      "side": 1,
+      "message": "Yeah, out of the whole change, introducing the new API probably causes the most overhead. The avatar plugins have been very stable over time, so it\u0027ll be a little annoying to need to create `stable-3.13` branches in them, but that\u0027s not a huge deal.",
+      "parentUuid": "57b8cb77_16fdaf42",
+      "revId": "50f981d7d2123adb2be2243a5ff946a2c8dc0320",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "07ce459d_89872c8f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-03-04T04:45:07Z",
+      "side": 1,
+      "message": "```suggestion\nFeature: Issue 488937351\n```",
+      "revId": "50f981d7d2123adb2be2243a5ff946a2c8dc0320",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "adbf5080_4410d005",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-03-04T04:45:07Z",
+      "side": 1,
+      "message": "I\u0027m good with this. @milutin@google.com do you have any FE or Google concerns with this?",
+      "revId": "50f981d7d2123adb2be2243a5ff946a2c8dc0320",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "30cd977b_9024f3ef",
+        "filename": "java/com/google/gerrit/server/restapi/account/PutAvatarEmail.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-03-04T04:45:07Z",
+      "side": 1,
+      "message": "```suggestion\n// Copyright (C) 2026 The Android Open Source Project\n```",
+      "revId": "50f981d7d2123adb2be2243a5ff946a2c8dc0320",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

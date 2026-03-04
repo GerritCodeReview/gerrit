@@ -43,7 +43,6 @@ export class GrLabelScores extends LitElement {
         .scoresTable {
           display: table;
           width: 100%;
-          table-layout: fixed;
         }
         .mergedMessage,
         .abandonedMessage {

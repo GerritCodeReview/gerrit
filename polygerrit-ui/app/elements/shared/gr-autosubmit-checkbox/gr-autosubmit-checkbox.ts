@@ -178,11 +178,16 @@ export class GrAutosubmitCheckbox extends LitElement {
       target="_blank"
       rel="noopener noreferrer"
       tabindex="-1"
+      @click=${() => this.handleDocumentationClicked()}
     >
       <md-icon-button touch-target="none" type="button">
         <gr-icon icon="help" title="read documentation"></gr-icon>
       </md-icon-button>
     </a>`;
+  }
+
+  private handleDocumentationClicked() {
+    this.reporting.reportInteraction('flows-documentation-link-clicked');
   }
 
   private handleAutosubmitChanged(e: Event) {

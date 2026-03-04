@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "42f1acb8_1ae2bb79",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-03-04T19:30:53Z",
+      "side": 1,
+      "message": "What might help here is to add some screenshot testing for the layout\n\nhttps://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list_screenshot_test.ts;l\u003d1?q\u003df:gerrit%20screenshot_test\u0026sq\u003d\n\nYou can look at this example here on how to set it up\n\nHopefully you are using some AI Agent so this boilerplate stuff can be easily prompted and this review comment is not so annoying \n\n;)\n\nIdeally add the test as a parent change and then we can see the diff of this change on it\u0027s own(which should be 0)\n\nReadme is here: https://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/README.md;l\u003d181?q\u003d%22We%20use%20screenshot%20tests%20to%20prevent%20unintended%20visual%20regressions%22\u0026sq\u003d\u0026ss\u003dgerrit\n\nAgain hopefully can be fed straight into the model and is not so annoying to setup",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 3
+      },
+      "revId": "990c5376849543aab1cfe4f39f51dd77c5b147d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1d6c0215_1a1c2a22",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4

@@ -94,6 +94,30 @@
       },
       "revId": "73048811f989535de5f487f32317fc50f0b196e1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5a7ce6ed_3d1b3a30",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-scores/gr-label-scores.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-03-04T21:24:50Z",
+      "side": 0,
+      "message": "The original commit that introduced this is I05aaf29683, it then assumed its current form with Ib7dffc4c1eb9. In either case there\u0027s nothing specifically about adding a table-layout but maybe @milutin@google.com can shed some light?\n\nI suspect it was simply mist, as having a vote higher than +2 is very unusual (nonetheless, we have a use case for this...)",
+      "parentUuid": "da9cbb69_4f7e12c4",
+      "range": {
+        "startLine": 46,
+        "startChar": 10,
+        "endLine": 46,
+        "endChar": 30
+      },
+      "revId": "73048811f989535de5f487f32317fc50f0b196e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

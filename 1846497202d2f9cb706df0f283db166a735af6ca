@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3fdfec1a_e7185f17",
+        "filename": "plugins/gitiles",
+        "patchSetId": 26
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-03-04T06:02:28Z",
+      "side": 1,
+      "message": "This change wasn\u0027t merged yet.",
+      "revId": "1846497202d2f9cb706df0f283db166a735af6ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

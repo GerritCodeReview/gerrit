@@ -179,6 +179,26 @@ public class CommitUtil {
   public Change.Id createRevertChange(
       ChangeNotes notes, CurrentUser user, RevertInput input, Instant timestamp)
       throws RestApiException, UpdateException, ConfigInvalidException, IOException {
+    return createRevertChange(notes, user, input, timestamp, false);
+  }
+
+  /**
+   * Allows creating a revert change with an option to specify if it is a submission revert.
+   *
+   * @param notes ChangeNotes of the change being reverted.
+   * @param user Current User performing the revert.
+   * @param input the RevertInput entity for conducting the revert.
+   * @param timestamp timestamp for the created change.
+   * @param isSubmission whether the revert is being done as part of reverting a submission.
+   * @return ObjectId that represents the newly created commit.
+   */
+  public Change.Id createRevertChange(
+      ChangeNotes notes,
+      CurrentUser user,
+      RevertInput input,
+      Instant timestamp,
+      boolean isSubmission)
+      throws RestApiException, UpdateException, ConfigInvalidException, IOException {
     String message = Strings.emptyToNull(input.message);
     try (RefUpdateContext ctx = RefUpdateContext.open(CHANGE_MODIFICATION)) {
       try (Repository git = repoManager.openRepository(notes.getProjectName());
@@ -187,7 +207,8 @@ public class CommitUtil {
           CodeReviewRevWalk revWalk = CodeReviewCommit.newRevWalk(reader)) {
         ObjectId generatedChangeId = CommitMessageUtil.generateChangeId();
         CodeReviewCommit revertCommit =
-            createRevertCommit(message, notes, user, timestamp, oi, revWalk, generatedChangeId);
+            createRevertCommit(
+                message, notes, user, timestamp, oi, revWalk, generatedChangeId, isSubmission);
         return createRevertChangeFromCommit(
             revertCommit, input, notes, user, generatedChangeId, timestamp, oi, revWalk, git);
       } catch (RepositoryNotFoundException e) {
@@ -208,12 +229,28 @@ public class CommitUtil {
   public CodeReviewCommit createRevertCommit(
       String message, ChangeNotes notes, CurrentUser user, Instant ts)
       throws RestApiException, IOException {
+    return createRevertCommit(message, notes, user, ts, false);
+  }
+
+  /**
+   * Wrapper function for creating a revert Commit with an option to specify if it is a submission.
+   *
+   * @param message Commit message for the revert commit.
+   * @param notes ChangeNotes of the change being reverted.
+   * @param user Current User performing the revert.
+   * @param ts Timestamp of creation for the commit.
+   * @param isSubmission whether the revert is being done as part of reverting a submission.
+   * @return that newly created revert commit.
+   */
+  public CodeReviewCommit createRevertCommit(
+      String message, ChangeNotes notes, CurrentUser user, Instant ts, boolean isSubmission)
+      throws RestApiException, IOException {
 
     try (Repository git = repoManager.openRepository(notes.getProjectName());
         ObjectInserter oi = git.newObjectInserter();
         ObjectReader reader = oi.newReader();
         CodeReviewRevWalk revWalk = CodeReviewCommit.newRevWalk(reader)) {
-      return createRevertCommit(message, notes, user, ts, oi, revWalk, null);
+      return createRevertCommit(message, notes, user, ts, oi, revWalk, null, isSubmission);
     } catch (RepositoryNotFoundException e) {
       throw new ResourceNotFoundException(notes.getProjectName().toString(), e);
     }
@@ -274,6 +311,7 @@ public class CommitUtil {
    * @param revWalk Used for parsing the original commit.
    * @param generatedChangeId The changeId for the commit message, can be null since it is not
    *     needed for commits, only for changes.
+   * @param isSubmission whether the revert is being done as part of reverting a submission.
    * @return ObjectId that represents the newly created commit.
    * @throws ResourceConflictException Can't revert the initial commit.
    * @throws IOException Thrown in case of I/O errors.
@@ -285,7 +323,8 @@ public class CommitUtil {
       Instant ts,
       ObjectInserter oi,
       CodeReviewRevWalk revWalk,
-      @Nullable ObjectId generatedChangeId)
+      @Nullable ObjectId generatedChangeId,
+      boolean isSubmission)
       throws ResourceConflictException, IOException {
 
     PatchSet patch = notes.getCurrentPatchSet();
@@ -304,7 +343,7 @@ public class CommitUtil {
     Change changeToRevert = notes.getChange();
     String subject = changeToRevert.getSubject();
 
-    message = getRevertMessage(message, subject, patch.commitId().name(), false);
+    message = getRevertMessage(message, subject, patch.commitId().name(), isSubmission);
 
     String newFooters = getBugAndIssueFooters(commitToRevert);
     if (!newFooters.isEmpty()) {

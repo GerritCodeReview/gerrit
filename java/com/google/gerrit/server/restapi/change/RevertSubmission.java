@@ -243,7 +243,6 @@ public class RevertSubmission
     cherryPickInput = createCherryPickInput(revertInput);
     Instant timestamp = TimeUtil.now();
 
-    String initialMessage = revertInput.message;
     for (BranchNameKey projectAndBranch : changesPerProjectAndBranch.keySet()) {
       cherryPickInput.base = null;
       Project.NameKey project = projectAndBranch.project();
@@ -260,7 +259,6 @@ public class RevertSubmission
               .collect(Collectors.toSet());
 
       revertAllChangesInProjectAndBranch(
-          initialMessage,
           revertInput,
           project,
           sortedChangesInProjectAndBranch,
@@ -273,9 +271,7 @@ public class RevertSubmission
     return revertSubmissionInfo;
   }
 
-  // Warning: reuses and modifies revertInput.message.
   private void revertAllChangesInProjectAndBranch(
-      String initialMessage,
       RevertInput revertInput,
       Project.NameKey project,
       Iterator<PatchSetData> sortedChangesInProjectAndBranch,
@@ -293,8 +289,6 @@ public class RevertSubmission
         cherryPickInput.base = getBase(changeNotes, commitIdsInProjectAndBranch).name();
       }
 
-      // Set revert message for the current revert change.
-      revertInput.message = getMessage(initialMessage, changeNotes);
       if (cherryPickInput.base.equals(changeNotes.getCurrentPatchSet().commitId().getName())) {
         // This is the code in case this is the first revert of this project + branch, and the
         // revert would be on top of the change being reverted.
@@ -309,7 +303,8 @@ public class RevertSubmission
       RevertInput revertInput, Project.NameKey project, ChangeNotes changeNotes, Instant timestamp)
       throws IOException, ConfigInvalidException, UpdateException, RestApiException {
     RevCommit revCommit =
-        commitUtil.createRevertCommit(revertInput.message, changeNotes, user.get(), timestamp);
+        commitUtil.createRevertCommit(
+            revertInput.message, changeNotes, user.get(), timestamp, true);
     // TODO (paiking): As a future change, the revert should just be done directly on the
     // target rather than just creating a commit and then cherry-picking it.
     cherryPickInput.message = revCommit.getFullMessage();
@@ -351,7 +346,7 @@ public class RevertSubmission
       throws IOException, RestApiException, UpdateException, ConfigInvalidException {
 
     Change.Id revertId =
-        commitUtil.createRevertChange(changeNotes, user.get(), revertInput, timestamp);
+        commitUtil.createRevertChange(changeNotes, user.get(), revertInput, timestamp, true);
     results.add(json.noOptions().format(changeNotes.getProjectName(), revertId));
     ChangeNotes revertChange =
         changeNotesFactory.createChecked(changeNotes.getProjectName(), revertId);
@@ -374,14 +369,6 @@ public class RevertSubmission
     cherryPickInput.topic = revertInput.topic;
     cherryPickInput.allowEmpty = true;
     return cherryPickInput;
-  }
-
-  private String getMessage(String initialMessage, ChangeNotes changeNotes) {
-    return commitUtil.getRevertMessage(
-        initialMessage,
-        changeNotes.getChange().getSubject(),
-        changeNotes.getCurrentPatchSet().commitId().name(),
-        true);
   }
 
   /**

@@ -16,6 +16,24 @@
       "message": "Actually I think using `[]` at all here was a slip. Everywhere else we use `test` (see L383 for an almost identical usage). How does this look?\n```suggestion\n    elif test \"$(uname -s)\" \u003d \"Linux\" \u0026\u0026 test -d \"/proc/${PID}\" ; then\n```",
       "revId": "ff0186cfe8774b9e8c1043fe68a92bd3b59cb1a4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "360c43ba_9035be0e",
+        "filename": "resources/com/google/gerrit/pgm/init/gerrit.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 539,
+      "author": {
+        "id": 1163940
+      },
+      "writtenOn": "2026-03-04T08:22:30Z",
+      "side": 1,
+      "message": "@nasser.grainawi@oss.qualcomm.com I agree with you. It\u0027s best to stick with the style of the rest of the code.",
+      "parentUuid": "dabf8a91_5badf92d",
+      "revId": "ff0186cfe8774b9e8c1043fe68a92bd3b59cb1a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

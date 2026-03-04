@@ -115,6 +115,8 @@ export class GrCreateFlow extends LitElement {
 
   private readonly restApiService = getAppContext().restApiService;
 
+  private readonly reportingService = getAppContext().reportingService;
+
   private readonly getConfigModel = resolve(this, configModelToken);
 
   private readonly getFlowsModel = resolve(this, flowsModelToken);
@@ -491,6 +493,10 @@ export class GrCreateFlow extends LitElement {
       target="_blank"
       rel="noopener noreferrer"
       tabindex="-1"
+      @click=${() =>
+        this.reportingService.reportInteraction(
+          'flows-documentation-link-clicked'
+        )}
     >
       <md-icon-button touch-target="none" type="button">
         <gr-icon icon="help" title="read documentation"></gr-icon>

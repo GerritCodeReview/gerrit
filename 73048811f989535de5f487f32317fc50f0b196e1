@@ -118,6 +118,30 @@
       },
       "revId": "73048811f989535de5f487f32317fc50f0b196e1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fdcbd597_bb4ec18e",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-scores/gr-label-scores.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-03-04T21:38:00Z",
+      "side": 0,
+      "message": "I don\u0027t remember but I think it was added to have align votes in two categories. This was bug i was fixing in that change https://imgur.com/a/yMIfOKN",
+      "parentUuid": "5a7ce6ed_3d1b3a30",
+      "range": {
+        "startLine": 46,
+        "startChar": 10,
+        "endLine": 46,
+        "endChar": 30
+      },
+      "revId": "73048811f989535de5f487f32317fc50f0b196e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

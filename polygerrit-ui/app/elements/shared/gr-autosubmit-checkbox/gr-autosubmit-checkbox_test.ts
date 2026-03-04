@@ -234,5 +234,26 @@ suite('gr-autosubmit-checkbox tests', () => {
         reportStub.calledWith('autosubmit-checkbox-clicked', {checked: true})
       );
     });
+
+    test('reports when documentation link is clicked', async () => {
+      element.isAutosubmitEnabled = true;
+      element.getFlowsModel().updateState({
+        providers: [
+          {
+            getCustomConditions: async () => [],
+            getDocumentation: () => 'http://example.com',
+          },
+        ],
+      });
+      await element.updateComplete;
+      reportStub.resetHistory();
+
+      const link = queryAndAssert<HTMLElement>(element, '.help');
+      link.click();
+
+      assert.isTrue(
+        reportStub.calledWith('autosubmit-documentation-link-clicked')
+      );
+    });
   });
 });

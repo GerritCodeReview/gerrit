@@ -83,6 +83,15 @@ suite('change-util tests', () => {
     assert.deepEqual(statuses, [ChangeStates.MERGE_CONFLICT]);
   });
 
+  test('Git conflict', () => {
+    const change = {
+      ...createChangeWithStatus(ChangeStatus.NEW, true),
+      contains_git_conflicts: true,
+    };
+    const statuses = changeStatuses(change);
+    assert.deepEqual(statuses, [ChangeStates.GIT_CONFLICT]);
+  });
+
   test('Merge conflict', () => {
     const change = createChangeWithStatus(ChangeStatus.NEW, false);
     const statuses = changeStatuses(change);
@@ -99,9 +108,15 @@ suite('change-util tests', () => {
     const change = createChangeWithStatus(ChangeStatus.MERGED);
     assert.deepEqual(changeStatuses(change), [ChangeStates.MERGED]);
     change.is_private = true;
-    assert.deepEqual(changeStatuses(change), [ChangeStates.MERGED]);
+    assert.deepEqual(changeStatuses(change), [
+      ChangeStates.PRIVATE,
+      ChangeStates.MERGED,
+    ]);
     change.work_in_progress = true;
-    assert.deepEqual(changeStatuses(change), [ChangeStates.MERGED]);
+    assert.deepEqual(changeStatuses(change), [
+      ChangeStates.PRIVATE,
+      ChangeStates.MERGED,
+    ]);
   });
 
   test('Merged and Reverted status', () => {
@@ -132,9 +147,15 @@ suite('change-util tests', () => {
     const change = createChangeWithStatus(ChangeStatus.ABANDONED, false);
     assert.deepEqual(changeStatuses(change), [ChangeStates.ABANDONED]);
     change.is_private = true;
-    assert.deepEqual(changeStatuses(change), [ChangeStates.ABANDONED]);
+    assert.deepEqual(changeStatuses(change), [
+      ChangeStates.PRIVATE,
+      ChangeStates.ABANDONED,
+    ]);
     change.work_in_progress = true;
-    assert.deepEqual(changeStatuses(change), [ChangeStates.ABANDONED]);
+    assert.deepEqual(changeStatuses(change), [
+      ChangeStates.PRIVATE,
+      ChangeStates.ABANDONED,
+    ]);
   });
 
   test('Revert status', () => {
@@ -145,8 +166,8 @@ suite('change-util tests', () => {
     assert.deepEqual(changeStatuses(change), [ChangeStates.REVERT]);
     change.is_private = true;
     assert.deepEqual(changeStatuses(change), [
-      ChangeStates.REVERT,
       ChangeStates.PRIVATE,
+      ChangeStates.REVERT,
     ]);
   });
 
@@ -174,7 +195,7 @@ suite('change-util tests', () => {
       labels: {},
     };
     const statuses = changeStatuses(change);
-    assert.deepEqual(statuses, [ChangeStates.WIP, ChangeStates.PRIVATE]);
+    assert.deepEqual(statuses, [ChangeStates.PRIVATE, ChangeStates.WIP]);
   });
 
   test('Merge conflict with private and wip', () => {
@@ -190,10 +211,46 @@ suite('change-util tests', () => {
     };
     const statuses = changeStatuses(change);
     assert.deepEqual(statuses, [
+      ChangeStates.PRIVATE,
       ChangeStates.MERGE_CONFLICT,
       ChangeStates.WIP,
-      ChangeStates.PRIVATE,
     ]);
+  });
+
+  test('Private prevents READY_TO_SUBMIT', () => {
+    const change = {
+      ...createChange(),
+      status: ChangeStatus.NEW,
+      mergeable: true,
+      is_private: true,
+      submittable: true,
+    };
+    const statuses = changeStatuses(change, {mergeable: true});
+    assert.deepEqual(statuses, [ChangeStates.PRIVATE]);
+  });
+
+  test('WIP prevents READY_TO_SUBMIT', () => {
+    const change = {
+      ...createChange(),
+      status: ChangeStatus.NEW,
+      mergeable: true,
+      work_in_progress: true,
+      submittable: true,
+    };
+    const statuses = changeStatuses(change, {mergeable: true});
+    assert.deepEqual(statuses, [ChangeStates.WIP]);
+  });
+
+  test('Git conflict prevents READY_TO_SUBMIT', () => {
+    const change = {
+      ...createChange(),
+      status: ChangeStatus.NEW,
+      mergeable: true,
+      contains_git_conflicts: true,
+      submittable: true,
+    };
+    const statuses = changeStatuses(change, {mergeable: true});
+    assert.deepEqual(statuses, [ChangeStates.GIT_CONFLICT]);
   });
 
   test('hasHumanReviewer', () => {

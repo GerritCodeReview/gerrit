@@ -33,6 +33,24 @@
       "message": "This commit isn\u0027t merged yet. Looks like we need either change 525943 merged or update this commit-id for change 549784 and get that change merged.",
       "revId": "2a74126857a7b40c71d272cdcfef9ba477fedbec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ff86cb7a_214ccfa3",
+        "filename": "plugins/gitiles",
+        "patchSetId": 66
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-03-04T05:59:44Z",
+      "side": 1,
+      "message": "Thanks for noticing. I\u0027ve approved change 525943 and assigned `rules_jvm_external` topic to all three related changes.",
+      "parentUuid": "52ac26c7_b199742b",
+      "revId": "2a74126857a7b40c71d272cdcfef9ba477fedbec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "706d7631_d2ef6f50",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-03-04T22:04:15Z",
+      "side": 1,
+      "message": "@dhruvsri@google.com While I look at this, is it possible that the `gr-label-score-row_screenshot_test.ts` tests are wrong? I don\u0027t see the label description in the output screenshots?",
+      "parentUuid": "42f1acb8_1ae2bb79",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 3
+      },
+      "revId": "990c5376849543aab1cfe4f39f51dd77c5b147d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1d6c0215_1a1c2a22",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4

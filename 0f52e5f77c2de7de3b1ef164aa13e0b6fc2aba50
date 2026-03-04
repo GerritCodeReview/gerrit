@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "43023ff0_ed7ce137",
+        "filename": "polygerrit-ui/app/constants/reporting.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-03-04T23:56:02Z",
+      "side": 1,
+      "message": "The comment is acurate, but maybe \"changeId\" should be \"changeInfoId\" to be more clear?",
+      "parentUuid": "b9207e77_c0ee41ef",
+      "range": {
+        "startLine": 183,
+        "startChar": 3,
+        "endLine": 183,
+        "endChar": 45
+      },
+      "revId": "0f52e5f77c2de7de3b1ef164aa13e0b6fc2aba50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "229cd3d5_176b5b00",
         "filename": "polygerrit-ui/app/constants/reporting.ts",
         "patchSetId": 2
@@ -37,6 +61,30 @@
       "writtenOn": "2026-03-04T23:46:51Z",
       "side": 1,
       "message": "I wonder if we should use the change number instead since it\u0027s more readable and host + change number are unique together? (would like Milutin feedback on this)",
+      "range": {
+        "startLine": 184,
+        "startChar": 2,
+        "endLine": 184,
+        "endChar": 10
+      },
+      "revId": "0f52e5f77c2de7de3b1ef164aa13e0b6fc2aba50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6d2b842d_a59bee90",
+        "filename": "polygerrit-ui/app/constants/reporting.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-03-04T23:56:02Z",
+      "side": 1,
+      "message": "I thought including the project would be helpful context since agents can run on specific projects.",
+      "parentUuid": "229cd3d5_176b5b00",
       "range": {
         "startLine": 184,
         "startChar": 2,
@@ -83,6 +131,30 @@
       "writtenOn": "2026-03-04T23:46:51Z",
       "side": 1,
       "message": "One other thing to consider here is how you\u0027d want to classify an \"uploader\". They would not be the change owner, but would be the uploader of a revision.",
+      "range": {
+        "startLine": 472,
+        "startChar": 10,
+        "endLine": 472,
+        "endChar": 18
+      },
+      "revId": "0f52e5f77c2de7de3b1ef164aa13e0b6fc2aba50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f61c7c69_6dd005cf",
+        "filename": "polygerrit-ui/app/elements/chat-panel/gemini-message.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 472,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-03-04T23:56:02Z",
+      "side": 1,
+      "message": "Hmm...at that point they are sort of acting like an author, so maybe we could categorize them as an author. Or create a new \"uploader\" category to be more explicit.",
+      "parentUuid": "016bc2e2_017a4fac",
       "range": {
         "startLine": 472,
         "startChar": 10,

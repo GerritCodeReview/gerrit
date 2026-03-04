@@ -94,6 +94,30 @@
       },
       "revId": "49c72f1f4bd9f2b4e527c93137489fae698c8d4a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2c638457_1fe8abb5",
+        "filename": "Documentation/dev-build-plugins.txt",
+        "patchSetId": 34
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-03-04T07:26:50Z",
+      "side": 1,
+      "message": "While it\u0027s true that the new tests only work for the in-tree build mode, the situation prior to the `bzlmod` migration was worse: there was no mechanism to verify whether external dependencies shaded into the final plugin artifact overlap with the dependencies included in `release.war`.\n\nIn other words, plugins could accidentally bundle libraries that were already provided by Gerrit\u0027s runtime without any automated detection. The new checks at least provide coverage for in-tree builds and help prevent such conflicts going forward.",
+      "parentUuid": "5a669997_5eef2019",
+      "range": {
+        "startLine": 141,
+        "startChar": 12,
+        "endLine": 141,
+        "endChar": 30
+      },
+      "revId": "49c72f1f4bd9f2b4e527c93137489fae698c8d4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

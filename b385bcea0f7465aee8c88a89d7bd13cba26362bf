@@ -161,6 +161,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a3ba5edf_9f3b4ddb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-03-04T15:01:15Z",
+      "side": 1,
+      "message": "Let\u0027s await with this feature. I may have found a solution for splitting the high-availability plugin with the existing x-plugin features.",
+      "revId": "b385bcea0f7465aee8c88a89d7bd13cba26362bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5126fadf_349c3eec",
         "filename": "java/com/google/gerrit/server/plugins/ServerPlugin.java",
         "patchSetId": 3

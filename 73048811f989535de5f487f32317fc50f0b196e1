@@ -70,6 +70,30 @@
       },
       "revId": "73048811f989535de5f487f32317fc50f0b196e1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "da9cbb69_4f7e12c4",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-scores/gr-label-scores.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-03-04T19:25:55Z",
+      "side": 0,
+      "message": "\u003e why this was originally added and why removing this is safe\n\nThis part is still missing.\n\nI am not asking about the fix but about the code that is being removed.\n\nI see that the reported issue is fixed but removing it can create some unintended consequences.\n\nHence my question of why this was originally added and why this is safe",
+      "parentUuid": "6894c6cd_0e0007a9",
+      "range": {
+        "startLine": 46,
+        "startChar": 10,
+        "endLine": 46,
+        "endChar": 30
+      },
+      "revId": "73048811f989535de5f487f32317fc50f0b196e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

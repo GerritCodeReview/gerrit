@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d3c11cfa_10d52ffa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-03-04T11:17:15Z",
+      "side": 1,
+      "message": "Interesting idea, could also be done that way. Let me change it",
+      "parentUuid": "d71486ba_bfe2e3d5",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 8
+      },
+      "revId": "b385bcea0f7465aee8c88a89d7bd13cba26362bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "37a4aa08_4001b5a9",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -77,6 +101,54 @@
       "writtenOn": "2026-03-03T14:34:32Z",
       "side": 1,
       "message": "It would be best to make a simpler example, using some hypothetical interface and implementation?",
+      "range": {
+        "startLine": 24,
+        "startChar": 8,
+        "endLine": 24,
+        "endChar": 67
+      },
+      "revId": "b385bcea0f7465aee8c88a89d7bd13cba26362bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ec8a909d_e877bfc3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-03-04T11:17:15Z",
+      "side": 1,
+      "message": "Actually, the motivation comes from the analogy with how Gerrit core exposes its internals to plugins: basically, plugins have full access to Gerrit core and can inject (almost) everything from Gerrit core. Why would x-plugin dependency feature also not allow the same?",
+      "parentUuid": "44954893_1169729b",
+      "range": {
+        "startLine": 23,
+        "startChar": 35,
+        "endLine": 24,
+        "endChar": 6
+      },
+      "revId": "b385bcea0f7465aee8c88a89d7bd13cba26362bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eab6f0e9_faa6d4fa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-03-04T11:17:15Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "953f6694_504079bc",
       "range": {
         "startLine": 24,
         "startChar": 8,

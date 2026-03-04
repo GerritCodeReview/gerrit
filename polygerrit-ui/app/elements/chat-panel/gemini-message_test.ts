@@ -12,6 +12,7 @@ import {
   CreateCommentPart,
   GeminiMessage as GeminiMessageModel,
   ResponsePartType,
+  TextPart,
   Turn,
   UserType,
 } from '../../models/chat/chat-model';
@@ -25,6 +26,8 @@ import {pluginLoaderToken} from '../shared/gr-js-api-interface/gr-plugin-loader'
 import {chatProvider, createChange} from '../../test/test-data-generators';
 import {ParsedChangeInfo} from '../../types/types';
 import {CommentsModel} from '../../models/comments/comments-model';
+import {AiAgentEventDetails, Interaction} from '../../constants/reporting';
+import {getAppContext} from '../../services/app-context';
 
 suite('gemini-message tests', () => {
   let element: GeminiMessage;
@@ -71,6 +74,22 @@ suite('gemini-message tests', () => {
     };
   }
 
+  const RESPONSE_TEXT: TextPart = {
+    id: 0,
+    type: ResponsePartType.TEXT,
+    content: 'test message',
+  };
+  const RESPONSE_CREATE_COMMENT: CreateCommentPart = {
+    id: 1,
+    type: ResponsePartType.CREATE_COMMENT,
+    content: 'test comment',
+    commentCreationId: 'test-id',
+    comment: {
+      message: 'test comment',
+      path: '/test/path',
+    },
+  };
+
   test('renders thinking', async () => {
     const turn = createTurn({responseComplete: false});
     chatModel.updateState({...chatModel.getState(), turns: [turn]});
@@ -113,9 +132,7 @@ suite('gemini-message tests', () => {
   test('renders text response', async () => {
     const turn = createTurn({
       responseComplete: true,
-      responseParts: [
-        {id: 0, type: ResponsePartType.TEXT, content: 'test message'},
-      ],
+      responseParts: [RESPONSE_TEXT],
     });
     chatModel.updateState({...chatModel.getState(), turns: [turn]});
     await element.updateComplete;
@@ -151,19 +168,9 @@ suite('gemini-message tests', () => {
   });
 
   test('renders suggested comment', async () => {
-    const comment: CreateCommentPart = {
-      id: 1,
-      type: ResponsePartType.CREATE_COMMENT,
-      content: 'test comment',
-      commentCreationId: 'test-id',
-      comment: {
-        message: 'test comment',
-        path: '/test/path',
-      },
-    };
     const turn = createTurn({
       responseComplete: true,
-      responseParts: [comment],
+      responseParts: [RESPONSE_CREATE_COMMENT],
     });
     chatModel.updateState({...chatModel.getState(), turns: [turn]});
     await element.updateComplete;
@@ -190,9 +197,7 @@ suite('gemini-message tests', () => {
   test('renders citations', async () => {
     const turn = createTurn({
       responseComplete: true,
-      responseParts: [
-        {id: 0, type: ResponsePartType.TEXT, content: 'test message'},
-      ],
+      responseParts: [RESPONSE_TEXT],
       citations: ['http://example.com'],
     });
     chatModel.updateState({...chatModel.getState(), turns: [turn]});
@@ -213,9 +218,7 @@ suite('gemini-message tests', () => {
     ];
     const turn = createTurn({
       responseComplete: true,
-      responseParts: [
-        {id: 0, type: ResponsePartType.TEXT, content: 'test message'},
-      ],
+      responseParts: [RESPONSE_TEXT],
       references,
     });
     chatModel.updateState({...chatModel.getState(), turns: [turn]});
@@ -226,5 +229,43 @@ suite('gemini-message tests', () => {
       'references-dropdown'
     );
     assert.isOk(referencesDropdown);
+  });
+
+  test('reports AI_AGENT_SUGGESTIONS_SHOWN interaction', async () => {
+    chatModel.updateState({
+      ...chatModel.getState(),
+      id: 'test-conversation-id',
+      selectedModelId: 'gemini-model-id',
+    });
+
+    const reportStub = sinon.stub(
+      getAppContext().reportingService,
+      'reportInteraction'
+    );
+
+    const turn = createTurn({
+      responseComplete: true,
+      responseParts: [RESPONSE_TEXT, RESPONSE_CREATE_COMMENT],
+    });
+    const updatedTurn = {
+      ...turn,
+      userMessage: {...turn.userMessage, actionId: 'custom-agent-id'},
+    };
+
+    chatModel.updateState({...chatModel.getState(), turns: [updatedTurn]});
+    await element.updateComplete;
+
+    assert.isTrue(reportStub.calledOnce);
+    assert.equal(
+      reportStub.firstCall.args[0],
+      Interaction.AI_AGENT_SUGGESTIONS_SHOWN
+    );
+    const details = reportStub.firstCall.args[1] as AiAgentEventDetails;
+    assert.equal(details.host, window.location.host);
+    assert.equal(details.changeId, 'test-project~test-branch~TestChangeId');
+    assert.equal(details.userRole, 'reviewer');
+    assert.equal(details.conversationId, 'test-conversation-id');
+    assert.equal(details.agentId, 'custom-agent-id');
+    assert.equal(details.commentCount, 1);
   });
 });

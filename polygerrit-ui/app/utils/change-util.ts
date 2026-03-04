@@ -89,17 +89,22 @@ export function changeStatuses(
 ): ChangeStates[] {
   const states: ChangeStates[] = [];
 
+  if (change.is_private) {
+    states.push(ChangeStates.PRIVATE);
+  }
+
   if (change.status === ChangeStatus.MERGED) {
+    states.push(ChangeStates.MERGED);
     if (options?.revertingChangeStatus === ChangeStatus.MERGED) {
-      return [ChangeStates.MERGED, ChangeStates.REVERT_SUBMITTED];
+      states.push(ChangeStates.REVERT_SUBMITTED);
+    } else if (options?.revertingChangeStatus !== undefined) {
+      states.push(ChangeStates.REVERT_CREATED);
     }
-    if (options?.revertingChangeStatus !== undefined) {
-      return [ChangeStates.MERGED, ChangeStates.REVERT_CREATED];
-    }
-    return [ChangeStates.MERGED];
+    return states;
   }
   if (change.status === ChangeStatus.ABANDONED) {
-    return [ChangeStates.ABANDONED];
+    states.push(ChangeStates.ABANDONED);
+    return states;
   }
 
   if (change.revert_of) {
@@ -113,9 +118,6 @@ export function changeStatuses(
   }
   if (change.work_in_progress) {
     states.push(ChangeStates.WIP);
-  }
-  if (change.is_private) {
-    states.push(ChangeStates.PRIVATE);
   }
 
   // The gr-change-list table does not want READY TO SUBMIT or ACTIVE and it

@@ -179,6 +179,12 @@ public class CommitUtil {
   public Change.Id createRevertChange(
       ChangeNotes notes, CurrentUser user, RevertInput input, Instant timestamp)
       throws RestApiException, UpdateException, ConfigInvalidException, IOException {
+    return createRevertChange(notes, user, input, timestamp, false);
+  }
+
+  public Change.Id createRevertChange(
+      ChangeNotes notes, CurrentUser user, RevertInput input, Instant timestamp, boolean isSubmission)
+      throws RestApiException, UpdateException, ConfigInvalidException, IOException {
     String message = Strings.emptyToNull(input.message);
     try (RefUpdateContext ctx = RefUpdateContext.open(CHANGE_MODIFICATION)) {
       try (Repository git = repoManager.openRepository(notes.getProjectName());
@@ -187,7 +193,7 @@ public class CommitUtil {
           CodeReviewRevWalk revWalk = CodeReviewCommit.newRevWalk(reader)) {
         ObjectId generatedChangeId = CommitMessageUtil.generateChangeId();
         CodeReviewCommit revertCommit =
-            createRevertCommit(message, notes, user, timestamp, oi, revWalk, generatedChangeId);
+            createRevertCommit(message, notes, user, timestamp, oi, revWalk, generatedChangeId, isSubmission);
         return createRevertChangeFromCommit(
             revertCommit, input, notes, user, generatedChangeId, timestamp, oi, revWalk, git);
       } catch (RepositoryNotFoundException e) {
@@ -208,12 +214,18 @@ public class CommitUtil {
   public CodeReviewCommit createRevertCommit(
       String message, ChangeNotes notes, CurrentUser user, Instant ts)
       throws RestApiException, IOException {
+    return createRevertCommit(message, notes, user, ts, false);
+  }
+
+  public CodeReviewCommit createRevertCommit(
+      String message, ChangeNotes notes, CurrentUser user, Instant ts, boolean isSubmission)
+      throws RestApiException, IOException {
 
     try (Repository git = repoManager.openRepository(notes.getProjectName());
         ObjectInserter oi = git.newObjectInserter();
         ObjectReader reader = oi.newReader();
         CodeReviewRevWalk revWalk = CodeReviewCommit.newRevWalk(reader)) {
-      return createRevertCommit(message, notes, user, ts, oi, revWalk, null);
+      return createRevertCommit(message, notes, user, ts, oi, revWalk, null, isSubmission);
     } catch (RepositoryNotFoundException e) {
       throw new ResourceNotFoundException(notes.getProjectName().toString(), e);
     }
@@ -285,7 +297,8 @@ public class CommitUtil {
       Instant ts,
       ObjectInserter oi,
       CodeReviewRevWalk revWalk,
-      @Nullable ObjectId generatedChangeId)
+      @Nullable ObjectId generatedChangeId,
+      boolean isSubmission)
       throws ResourceConflictException, IOException {
 
     PatchSet patch = notes.getCurrentPatchSet();
@@ -304,7 +317,7 @@ public class CommitUtil {
     Change changeToRevert = notes.getChange();
     String subject = changeToRevert.getSubject();
 
-    message = getRevertMessage(message, subject, patch.commitId().name(), false);
+    message = getRevertMessage(message, subject, patch.commitId().name(), isSubmission);
 
     String newFooters = getBugAndIssueFooters(commitToRevert);
     if (!newFooters.isEmpty()) {

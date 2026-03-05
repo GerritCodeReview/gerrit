@@ -42,6 +42,8 @@ import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.TestAccount;
+import com.google.gerrit.acceptance.config.GerritConfig;
+import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
 import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
@@ -89,6 +91,7 @@ import org.junit.Test;
 
 public class ChangeReviewersIT extends AbstractDaemonTest {
 
+  @Inject private AccountOperations accountOperations;
   @Inject private GroupOperations groupOperations;
   @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
@@ -1352,6 +1355,49 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
                 .query("project:" + project.get() + " AND reviewer:" + user.email() + "")
                 .get())
         .isEmpty();
+  }
+
+  @Test
+  @Sandboxed
+  @GerritConfig(name = "accounts.visibility", value = "SAME_GROUP")
+  public void addInvisibleAccountAsReviewerFails() throws Exception {
+    Account.Id user1 = accountOperations.newAccount().create();
+    Account.Id user2 = accountOperations.newAccount().fullname("User Two").create();
+
+    // user1 cannot see user2 because they are not in the same group.
+    requestScopeOperations.setApiUser(user1);
+
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+
+    ReviewerInput in = new ReviewerInput();
+    in.reviewer = user2.toString();
+
+    RestResponse resp = userRestSession.post("/changes/" + changeId + "/reviewers", in);
+    ReviewerResult result = readContentFromJson(resp, SC_BAD_REQUEST, ReviewerResult.class);
+    assertThat(result.error).contains("account " + user2.get() + " is not visible");
+  }
+
+  @Test
+  @Sandboxed
+  @GerritConfig(name = "accounts.visibility", value = "SAME_GROUP")
+  public void addInvisibleAccountByEmailAsReviewerFails() throws Exception {
+    Account.Id user1 = accountOperations.newAccount().create();
+    String user2Email = "user2@example.com";
+    accountOperations.newAccount().fullname("User Two").preferredEmail(user2Email).create();
+
+    // user1 cannot see user2 because they are not in the same group.
+    requestScopeOperations.setApiUser(user1);
+
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+
+    ReviewerInput in = new ReviewerInput();
+    in.reviewer = user2Email;
+
+    RestResponse resp = userRestSession.post("/changes/" + changeId + "/reviewers", in);
+    ReviewerResult result = readContentFromJson(resp, SC_BAD_REQUEST, ReviewerResult.class);
+    assertThat(result.error).contains("account " + user2Email + " is not visible");
   }
 
   private void assertThatUserIsOnlyReviewer(String changeId) throws Exception {

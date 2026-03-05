@@ -414,7 +414,7 @@ public class ReviewerModifier {
 
   @Nullable
   private ReviewerModification addByEmail(ReviewerInput input, ChangeNotes notes, CurrentUser user)
-      throws PermissionBackendException {
+      throws PermissionBackendException, IOException, ConfigInvalidException {
     if (!permissionBackend
         .user(anonymousProvider.get())
         .change(notes)
@@ -423,6 +423,13 @@ public class ReviewerModifier {
           input,
           FailureType.OTHER,
           MessageFormat.format(ChangeMessages.reviewerCantSeeChange, input.reviewer));
+    }
+
+    if (!accountResolver.resolveIncludeInactiveIgnoreVisibility(input.reviewer).asList().isEmpty()) {
+      return fail(
+          input,
+          FailureType.OTHER,
+          MessageFormat.format(ChangeMessages.accountNotVisible, input.reviewer));
     }
 
     Address adr = Address.tryParse(input.reviewer);

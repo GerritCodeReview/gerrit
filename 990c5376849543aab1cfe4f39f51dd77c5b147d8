@@ -117,6 +117,23 @@
       },
       "revId": "990c5376849543aab1cfe4f39f51dd77c5b147d8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0193b563_0e7aa91c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-03-05T18:24:31Z",
+      "side": 1,
+      "message": "Bit of an update @dhruvsri@google.com @milutin@google.com, I believe this is a regression that was introduced with I05aaf29683, it\u0027s not apparent, as for it to show you need to enable submit requirements(which was still an experiment at the time) and then configure one.\nI\u0027ll update the issue.",
+      "revId": "990c5376849543aab1cfe4f39f51dd77c5b147d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

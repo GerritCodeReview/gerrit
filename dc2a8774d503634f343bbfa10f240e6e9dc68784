@@ -16,6 +16,24 @@
       "message": "When the user cannot see the account, we must not let the user know whether the account exists, i.e. the response must be the same if the account is not visible and if the account doesn\u0027t exist. This is to prevent probing of account existence.\n\nE.g. users should not be able to try out random names to find out which accounts do exist.\n\nAt least this is how we handled this so far.",
       "revId": "dc2a8774d503634f343bbfa10f240e6e9dc68784",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b18ea1f3_49438582",
+        "filename": "java/com/google/gerrit/server/change/ReviewerModifier.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-03-05T15:34:36Z",
+      "side": 1,
+      "message": "If you want to enable admins to debug better, you could add this check and only log it on the server-side. But maybe it\u0027s better to have admins use X-RunAs and the [query account API](https://gerrit-review.googlesource.com/Documentation/rest-api-accounts.html#query-account) to debug that?",
+      "parentUuid": "69b1f22e_82fbecac",
+      "revId": "dc2a8774d503634f343bbfa10f240e6e9dc68784",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

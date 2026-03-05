@@ -414,7 +414,7 @@ public class ReviewerModifier {
 
   @Nullable
   private ReviewerModification addByEmail(ReviewerInput input, ChangeNotes notes, CurrentUser user)
-      throws PermissionBackendException {
+      throws PermissionBackendException, IOException, ConfigInvalidException {
     if (!permissionBackend
         .user(anonymousProvider.get())
         .change(notes)
@@ -427,6 +427,18 @@ public class ReviewerModifier {
 
     Address adr = Address.tryParse(input.reviewer);
     if (adr == null || !validator.isValid(adr.email())) {
+      // When calling with "IgnoreVisibility" we find a result meaning the caller does
+      // not have permission to view the reviewer
+      if (!accountResolver
+          .resolveIncludeInactiveIgnoreVisibility(input.reviewer)
+          .asList()
+          .isEmpty()) {
+        return fail(
+            input,
+            FailureType.OTHER,
+            MessageFormat.format(ChangeMessages.accountNotVisible, input.reviewer));
+      }
+
       return fail(
           input,
           FailureType.NOT_FOUND,

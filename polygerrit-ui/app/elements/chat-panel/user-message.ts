@@ -17,6 +17,7 @@ import {resolve} from '../../models/dependency';
 import {userModelToken} from '../../models/user/user-model';
 import {AccountDetailInfo} from '../../types/common';
 import {subscribe} from '../lit/subscription-controller';
+import {materialStyles} from '../../styles/gr-material-styles';
 
 const MAX_VISIBLE_CONTEXT_ITEMS_COLLAPSED = 3;
 
@@ -82,7 +83,9 @@ export class UserMessage extends LitElement {
     return this.showAllContextItems ? '▲' : `+${this.numExcessContextItems}`;
   }
 
-  static override styles = css`
+  static override styles = [
+    materialStyles,
+    css`
     :host {
       display: flex;
       flex-direction: column;
@@ -131,7 +134,8 @@ export class UserMessage extends LitElement {
       --md-filter-chip-label-text-color: var(--primary-default, purple);
       cursor: pointer;
     }
-  `;
+  `,
+  ];
 
   override render() {
     if (!this.message) {

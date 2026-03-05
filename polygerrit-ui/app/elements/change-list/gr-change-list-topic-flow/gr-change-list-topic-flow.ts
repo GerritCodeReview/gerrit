@@ -29,6 +29,7 @@ import {Interaction} from '../../../constants/reporting';
 import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 import '@material/web/menu/menu';
 import {MdMenu} from '@material/web/menu/menu';
+import {materialStyles} from '../../../styles/gr-material-styles';
 
 @customElement('gr-change-list-topic-flow')
 export class GrChangeListTopicFlow extends LitElement {
@@ -59,6 +60,7 @@ export class GrChangeListTopicFlow extends LitElement {
 
   static override get styles() {
     return [
+      materialStyles,
       spinnerStyles,
       css`
         md-menu {

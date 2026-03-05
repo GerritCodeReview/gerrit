@@ -23,6 +23,7 @@ import {userModelToken} from '../../models/user/user-model';
 import {AccountDetailInfo, ServerInfo} from '../../types/common';
 import {subscribe} from '../lit/subscription-controller';
 import {getDisplayName} from '../../utils/display-name-util';
+import {materialStyles} from '../../styles/gr-material-styles';
 
 /**
  * A component for displaying a splash page when there are no chat messages.
@@ -99,7 +100,9 @@ export class SplashPage extends LitElement {
     return turn?.userMessage.isBackgroundRequest ? turn : undefined;
   }
 
-  static override styles = css`
+  static override styles = [
+    materialStyles,
+    css`
     :host {
       overflow: auto;
       padding-left: 20px;
@@ -216,7 +219,8 @@ export class SplashPage extends LitElement {
       margin-right: 8px;
     }
     /* TODO: find small-icon styles equivalent for .small-icon */
-  `;
+  `,
+  ];
 
   override render() {
     const config = {user: {anonymous_coward_name: ''}} as ServerInfo;

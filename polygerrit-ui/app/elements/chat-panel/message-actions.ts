@@ -18,6 +18,7 @@ import {
 } from '../../models/chat/chat-model';
 import {resolve} from '../../models/dependency';
 import {subscribe} from '../lit/subscription-controller';
+import {materialStyles} from '../../styles/gr-material-styles';
 
 /**
  * Component to display message actions for a Gemini message (e.g. thumbs up,
@@ -25,7 +26,9 @@ import {subscribe} from '../lit/subscription-controller';
  */
 @customElement('message-actions')
 export class MessageActions extends LitElement {
-  static override styles = css`
+  static override styles = [
+    materialStyles,
+    css`
     :host {
       display: flex;
     }
@@ -49,7 +52,8 @@ export class MessageActions extends LitElement {
     md-icon-button md-icon {
       color: var(--primary-text-color);
     }
-  `;
+  `,
+  ];
 
   @property({type: Object}) turnId!: UniqueTurnId;
 

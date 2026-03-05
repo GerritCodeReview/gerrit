@@ -20,6 +20,7 @@ import {ChangeInfo} from '../../../types/common';
 import {ParsedChangeInfo} from '../../../types/types';
 import {fire} from '../../../utils/event-util';
 import {changeIsMerged} from '../../../utils/change-util';
+import {materialStyles} from '../../../styles/gr-material-styles';
 
 export interface AutosubmitCheckedChangedEventDetail {
   checked: boolean;
@@ -60,6 +61,7 @@ export class GrAutosubmitCheckbox extends LitElement {
 
   static override get styles() {
     return [
+      materialStyles,
       formStyles,
       sharedStyles,
       css`

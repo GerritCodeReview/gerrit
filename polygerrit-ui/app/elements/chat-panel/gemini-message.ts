@@ -40,6 +40,7 @@ import {
 import {assert} from '../../utils/common-util';
 import {fire} from '../../utils/event-util';
 import {subscribe} from '../lit/subscription-controller';
+import {materialStyles} from '../../styles/gr-material-styles';
 
 @customElement('gemini-message')
 export class GeminiMessage extends LitElement {
@@ -72,6 +73,7 @@ export class GeminiMessage extends LitElement {
   private readonly getFilesModel = resolve(this, filesModelToken);
 
   static override styles = [
+    materialStyles,
     css`
       :host {
         display: block;

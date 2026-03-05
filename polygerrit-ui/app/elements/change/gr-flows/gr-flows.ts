@@ -24,6 +24,7 @@ import '../../shared/gr-date-formatter/gr-date-formatter';
 import {formatActionName} from '../../../utils/flows-util';
 import './gr-flow-rule';
 import {computeFlowStringFromFlowStageInfo} from '../../../utils/flows-util';
+import {materialStyles} from '../../../styles/gr-material-styles';
 
 @customElement('gr-flows')
 export class GrFlows extends LitElement {
@@ -46,6 +47,7 @@ export class GrFlows extends LitElement {
 
   static override get styles() {
     return [
+      materialStyles,
       sharedStyles,
       grFormStyles,
       css`

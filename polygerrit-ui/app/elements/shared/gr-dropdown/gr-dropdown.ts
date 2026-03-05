@@ -23,6 +23,7 @@ import '@material/web/divider/divider';
 import '@material/web/menu/menu';
 import '@material/web/menu/menu-item';
 import {MdMenu} from '@material/web/menu/menu';
+import {materialStyles} from '../../../styles/gr-material-styles';
 
 const REL_NOOPENER = 'noopener';
 const REL_EXTERNAL = 'external';
@@ -51,6 +52,7 @@ export class GrDropdown extends LitElement {
 
   static override get styles() {
     return [
+      materialStyles,
       sharedStyles,
       css`
         :host {

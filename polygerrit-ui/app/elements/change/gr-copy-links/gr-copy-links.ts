@@ -15,6 +15,7 @@ import {GrCopyClipboard} from '../../shared/gr-copy-clipboard/gr-copy-clipboard'
 import '@material/web/menu/menu';
 import {MdMenu} from '@material/web/menu/menu';
 import {MdOutlinedTextField} from '@material/web/textfield/outlined-text-field';
+import {materialStyles} from '../../../styles/gr-material-styles';
 
 export interface CopyLink {
   label: string;
@@ -49,6 +50,7 @@ export class GrCopyLinks extends LitElement {
 
   static override get styles() {
     return [
+      materialStyles,
       formStyles,
       css`
         md-menu {

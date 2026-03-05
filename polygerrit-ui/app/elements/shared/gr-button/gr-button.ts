@@ -14,6 +14,7 @@ import {classMap} from 'lit/directives/class-map.js';
 import {Interaction} from '../../../constants/reporting';
 import '@material/web/button/elevated-button';
 import '@material/web/button/text-button';
+import {materialStyles} from '../../../styles/gr-material-styles';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -59,6 +60,7 @@ export class GrButton extends LitElement {
 
   static override get styles() {
     return [
+      materialStyles,
       votingStyles,
       spinnerStyles,
       css`

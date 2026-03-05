@@ -18,6 +18,7 @@ import {resolve} from '../../models/dependency';
 import {fire} from '../../utils/event-util';
 import {subscribe} from '../lit/subscription-controller';
 import {classMap} from 'lit/directives/class-map.js';
+import {materialStyles} from '../../styles/gr-material-styles';
 
 @customElement('context-chip')
 export class ContextChip extends LitElement {
@@ -50,7 +51,9 @@ export class ContextChip extends LitElement {
     );
   }
 
-  static override styles = css`
+  static override styles = [
+    materialStyles,
+    css`
     :host {
       overflow: hidden;
       max-width: 300px;
@@ -121,7 +124,8 @@ export class ContextChip extends LitElement {
     .context-chip-title {
       padding-top: 2px;
     }
-  `;
+  `,
+  ];
 
   override render() {
     const type = this.getChatModel().contextItemToType(this.contextItem);

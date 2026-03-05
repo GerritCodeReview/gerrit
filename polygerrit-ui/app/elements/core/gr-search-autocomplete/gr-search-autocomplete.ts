@@ -27,6 +27,7 @@ import {ValueChangedEvent} from '../../../types/events';
 import {getDocUrl} from '../../../utils/url-util';
 import '@material/web/iconbutton/icon-button';
 import {when} from 'lit/directives/when.js';
+import {materialStyles} from '../../../styles/gr-material-styles';
 
 // Possible static search options for auto complete, without negations.
 const SEARCH_OPERATORS: ReadonlyArray<string> = [
@@ -195,6 +196,7 @@ export class GrSearchAutocomplete extends LitElement {
 
   static override get styles() {
     return [
+      materialStyles,
       sharedStyles,
       css`
         form {

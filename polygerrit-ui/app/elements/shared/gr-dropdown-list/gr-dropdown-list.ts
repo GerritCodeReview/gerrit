@@ -28,6 +28,7 @@ import '@material/web/menu/menu-item';
 import {MdMenu} from '@material/web/menu/menu';
 import {isSafari, Key} from '../../../utils/dom-util';
 import {GrCursorManager} from '../gr-cursor-manager/gr-cursor-manager';
+import {materialStyles} from '../../../styles/gr-material-styles';
 
 /**
  * Required values are text and value. mobileText and triggerText will
@@ -110,6 +111,7 @@ export class GrDropdownList extends LitElement {
 
   static override get styles() {
     return [
+      materialStyles,
       sharedStyles,
       css`
         :host {

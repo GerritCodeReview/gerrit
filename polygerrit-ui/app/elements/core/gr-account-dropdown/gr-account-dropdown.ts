@@ -16,6 +16,7 @@ import {resolve} from '../../../models/dependency';
 import {configModelToken} from '../../../models/config/config-model';
 import {subscribe} from '../../lit/subscription-controller';
 import '@material/web/icon/icon';
+import {materialStyles} from '../../../styles/gr-material-styles';
 
 const INTERPOLATE_URL_PATTERN = /\${([\w]+)}/g;
 
@@ -90,6 +91,7 @@ export class GrAccountDropdown extends LitElement {
 
   static override get styles() {
     return [
+      materialStyles,
       sharedStyles,
       css`
         gr-dropdown {

@@ -36,6 +36,7 @@ import '@material/web/icon/icon';
 import '@material/web/iconbutton/icon-button';
 import {when} from 'lit/directives/when.js';
 import {isElementTarget, isFirefox, isSafari} from '../../../utils/dom-util';
+import {materialStyles} from '../../../styles/gr-material-styles';
 
 type MainHeaderLink = RequireProperties<DropdownLink, 'url' | 'name'>;
 
@@ -240,6 +241,7 @@ export class GrMainHeader extends LitElement {
 
   static override get styles() {
     return [
+      materialStyles,
       sharedStyles,
       css`
         :host {

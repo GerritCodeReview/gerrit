@@ -22,6 +22,7 @@ import {resolve} from '../../models/dependency';
 import {isDefined} from '../../types/types';
 import {fireAlert} from '../../utils/event-util';
 import {subscribe} from '../lit/subscription-controller';
+import {materialStyles} from '../../styles/gr-material-styles';
 
 /**
  * A component that renders a single action as a clickable chip on the chat
@@ -49,7 +50,9 @@ export class SplashPageAction extends LitElement {
     );
   }
 
-  static override styles = css`
+  static override styles = [
+    materialStyles,
+    css`
     :host {
       display: flex;
       justify-content: center;
@@ -152,7 +155,8 @@ export class SplashPageAction extends LitElement {
       display: flex;
       align-items: center;
     }
-  `;
+  `,
+  ];
 
   override render() {
     if (!this.action) return;

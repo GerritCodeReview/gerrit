@@ -30,6 +30,7 @@ import {ParsedChangeInfo} from '../../types/types';
 import {debounce, DelayedTask} from '../../utils/async-util';
 import {fire} from '../../utils/event-util';
 import {subscribe} from '../lit/subscription-controller';
+import {materialStyles} from '../../styles/gr-material-styles';
 
 const MAX_VISIBLE_CONTEXT_ITEMS_COLLAPSED = 3;
 const MAX_VISIBLE_SUGGESTED_CONTEXT_ITEMS_COLLAPSED = 1;
@@ -238,7 +239,9 @@ export class PromptBox extends LitElement {
     return this.showAllContextItems ? '▲' : `+${this.numExcessContextItems}`;
   }
 
-  static override styles = css`
+  static override styles = [
+    materialStyles,
+    css`
     :host {
       background-color: var(--background-color-tertiary);
       border-radius: 8px;
@@ -324,7 +327,8 @@ export class PromptBox extends LitElement {
       display: flex;
       padding: 0 4px;
     }
-  `;
+  `,
+  ];
 
   override render() {
     return html`

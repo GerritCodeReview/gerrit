@@ -23,6 +23,7 @@ import '@material/web/menu/menu';
 import {MdMenu} from '@material/web/menu/menu';
 import '@material/web/textfield/filled-text-field';
 import {MdFilledTextField} from '@material/web/textfield/filled-text-field';
+import {materialStyles} from '../../../styles/gr-material-styles';
 
 const AWAIT_MAX_ITERS = 10;
 const AWAIT_STEP = 5;
@@ -87,6 +88,7 @@ export class GrEditableLabel extends LitElement {
 
   static override get styles() {
     return [
+      materialStyles,
       sharedStyles,
       css`
         :host {

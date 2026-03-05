@@ -21,6 +21,7 @@ import {assertIsDefined} from '../../utils/common-util';
 import {fire, fireAlert} from '../../utils/event-util';
 import {subscribe} from '../lit/subscription-controller';
 import {classMap} from 'lit/directives/class-map.js';
+import {materialStyles} from '../../styles/gr-material-styles';
 
 @customElement('context-input-chip')
 export class ContextInputChip extends LitElement {
@@ -58,15 +59,17 @@ export class ContextInputChip extends LitElement {
     );
   }
 
-  static override styles = css`
-    .context-input-container {
-      position: relative;
-    }
-    /* .mat-mdc-standard-chip replaced by md-assist-chip */
-    md-assist-chip {
-      --md-assist-chip-container-height: 22px;
-      --md-assist-chip-label-text-size: var(--font-size-small);
-      --md-assist-chip-label-text-weight: var(--font-weight-medium);
+  static override styles = [
+    materialStyles,
+    css`
+      .context-input-container {
+        position: relative;
+      }
+      /* .mat-mdc-standard-chip replaced by md-assist-chip */
+      md-assist-chip {
+        --md-assist-chip-container-height: 22px;
+        --md-assist-chip-label-text-size: var(--font-size-small);
+        --md-assist-chip-label-text-weight: var(--font-weight-medium);
       --md-assist-chip-label-text-color: var(--primary-text-color);
       --md-assist-chip-outline-color: var(--border-color);
       --md-assist-chip-hover-label-text-color: var(--primary-text-color);
@@ -131,7 +134,8 @@ export class ContextInputChip extends LitElement {
       --md-menu-item-trailing-space: var(--spacing-m);
       --md-menu-item-one-line-container-height: 24px;
     }
-  `;
+  `,
+  ];
 
   override render() {
     return html`

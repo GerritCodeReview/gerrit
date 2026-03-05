@@ -15,6 +15,7 @@ import {ContextItemType} from '../../api/ai-code-review';
 import {chatModelToken, Turn} from '../../models/chat/chat-model';
 import {resolve} from '../../models/dependency';
 import {subscribe} from '../lit/subscription-controller';
+import {materialStyles} from '../../styles/gr-material-styles';
 
 /**
  * A component to display a dropdown with references used by the model.
@@ -34,6 +35,7 @@ export class ReferencesDropdown extends LitElement {
   @state() private listWarnings = false;
 
   static override styles = [
+    materialStyles,
     css`
       :host {
         display: block;

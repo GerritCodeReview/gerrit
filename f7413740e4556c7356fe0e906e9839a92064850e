@@ -16,6 +16,24 @@
       "message": "I would have expected this to trigger screenshot updates?",
       "revId": "f7413740e4556c7356fe0e906e9839a92064850e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ceab214d_296cbca7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-03-05T20:35:04Z",
+      "side": 1,
+      "message": "We don\u0027t have big coverage with screenshot test. It\u0027s quite new in Gerrit - I started to use it just last year. And I think we have screenshot test mostly where I already fixed dark theme 😊",
+      "parentUuid": "a3c026c3_0b184237",
+      "revId": "f7413740e4556c7356fe0e906e9839a92064850e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

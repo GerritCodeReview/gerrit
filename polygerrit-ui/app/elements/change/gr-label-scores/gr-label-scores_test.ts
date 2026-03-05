@@ -82,11 +82,11 @@ suite('gr-label-scores tests', () => {
     assert.shadowDom.equal(
       element,
       /* HTML */ `
-        <h3 class="heading-4">Trigger Votes</h3>
-        <div class="scoresTable">
-          <gr-label-score-row name="Code-Review"> </gr-label-score-row>
-          <gr-label-score-row name="Verified"> </gr-label-score-row>
+        <div class="sectionHeaderRow">
+          <h3 class="heading-4">Trigger Votes</h3>
         </div>
+        <gr-label-score-row name="Code-Review"> </gr-label-score-row>
+        <gr-label-score-row name="Verified"> </gr-label-score-row>
         <div class="mergedMessage" hidden="">
           Because this change has been merged, votes may not be decreased.
         </div>

@@ -145,6 +145,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3378211e_244d0664",
+        "filename": "polygerrit-ui/app/constants/reporting.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-03-05T09:38:13Z",
+      "side": 1,
+      "message": "We already add change id to each event. https://source.corp.google.com/h/gerrit/gerrit/+/master:polygerrit-ui/app/services/gr-reporting/gr-reporting_impl.ts;l\u003d357",
+      "parentUuid": "6d2b842d_a59bee90",
+      "range": {
+        "startLine": 184,
+        "startChar": 2,
+        "endLine": 184,
+        "endChar": 10
+      },
+      "revId": "0f52e5f77c2de7de3b1ef164aa13e0b6fc2aba50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fbebe026_3c23b36c",
         "filename": "polygerrit-ui/app/constants/reporting.ts",
         "patchSetId": 2
@@ -161,6 +185,69 @@
         "startChar": 1,
         "endLine": 185,
         "endChar": 10
+      },
+      "revId": "0f52e5f77c2de7de3b1ef164aa13e0b6fc2aba50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "10a27d03_3837ead1",
+        "filename": "polygerrit-ui/app/constants/reporting.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-03-05T09:38:13Z",
+      "side": 1,
+      "message": "Thoughts on using an enum here?",
+      "revId": "0f52e5f77c2de7de3b1ef164aa13e0b6fc2aba50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8a0ac418_2ac4eaab",
+        "filename": "polygerrit-ui/app/constants/reporting.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-03-05T09:38:13Z",
+      "side": 1,
+      "message": "We have event for this, this needs just sql join",
+      "range": {
+        "startLine": 185,
+        "startChar": 0,
+        "endLine": 185,
+        "endChar": 32
+      },
+      "revId": "0f52e5f77c2de7de3b1ef164aa13e0b6fc2aba50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e7f5d704_64d2c63e",
+        "filename": "polygerrit-ui/app/constants/reporting.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-03-05T09:38:13Z",
+      "side": 1,
+      "message": "Thoughts on using an enum here?",
+      "range": {
+        "startLine": 185,
+        "startChar": 2,
+        "endLine": 185,
+        "endChar": 34
       },
       "revId": "0f52e5f77c2de7de3b1ef164aa13e0b6fc2aba50",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
@@ -203,6 +290,30 @@
       "side": 1,
       "message": "Hmm...at that point they are sort of acting like an author, so maybe we could categorize them as an author. Or create a new \"uploader\" category to be more explicit.",
       "parentUuid": "016bc2e2_017a4fac",
+      "range": {
+        "startLine": 472,
+        "startChar": 10,
+        "endLine": 472,
+        "endChar": 18
+      },
+      "revId": "0f52e5f77c2de7de3b1ef164aa13e0b6fc2aba50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "518a00a0_0f1ad5b0",
+        "filename": "polygerrit-ui/app/elements/chat-panel/gemini-message.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 472,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-03-05T09:38:13Z",
+      "side": 1,
+      "message": "I would just not calculate this and do sql join. https://source.corp.google.com/h/gerrit/gerrit/+/master:polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts?q\u003d%22roleDetails(this.change,%20this.account)%22\u0026ss\u003dh%2Fgerrit%2Fgerrit%2F%2B%2Frefs%2Fheads%2Fmaster:polygerrit-ui%2F",
+      "parentUuid": "f61c7c69_6dd005cf",
       "range": {
         "startLine": 472,
         "startChar": 10,

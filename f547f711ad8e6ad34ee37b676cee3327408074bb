@@ -68,6 +68,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "af6dc184_309e9161",
+        "filename": "Documentation/release_war_jars.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-03-05T15:26:16Z",
+      "side": 1,
+      "message": "The list is already sorted. The question is whether the sorting should be case-insensitive.\n\nI added a few more reviewers to get additional opinions.",
+      "parentUuid": "0e531c74_8f3fc805",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 2,
+        "endChar": 13
+      },
+      "revId": "f547f711ad8e6ad34ee37b676cee3327408074bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fe7697f7_b02850ea",
         "filename": "tools/bzl/pkg_war.bzl",
         "patchSetId": 14

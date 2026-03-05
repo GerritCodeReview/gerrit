@@ -142,6 +142,30 @@
       },
       "revId": "73048811f989535de5f487f32317fc50f0b196e1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "59771938_fe2f4009",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-scores/gr-label-scores.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-03-05T13:39:02Z",
+      "side": 0,
+      "message": "I can\u0027t access the screenshot you linked, but I believe I know what you mean.\n\nI\u0027ve added a few screenshots to the issue to show what it looks like when you have multiple submit requirements and also when you have a very long label name.\n\n\nIn the case of a very long label name, the name ends up being overlapped by the votes.",
+      "parentUuid": "fdcbd597_bb4ec18e",
+      "range": {
+        "startLine": 46,
+        "startChar": 10,
+        "endLine": 46,
+        "endChar": 30
+      },
+      "revId": "73048811f989535de5f487f32317fc50f0b196e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

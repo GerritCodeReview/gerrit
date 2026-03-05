@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "69b1f22e_82fbecac",
+        "filename": "java/com/google/gerrit/server/change/ReviewerModifier.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2026-03-05T10:32:42Z",
+      "side": 1,
+      "message": "When the user cannot see the account, we must not let the user know whether the account exists, i.e. the response must be the same if the account is not visible and if the account doesn\u0027t exist. This is to prevent probing of account existence.\n\nE.g. users should not be able to try out random names to find out which accounts do exist.\n\nAt least this is how we handled this so far.",
+      "revId": "dc2a8774d503634f343bbfa10f240e6e9dc68784",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

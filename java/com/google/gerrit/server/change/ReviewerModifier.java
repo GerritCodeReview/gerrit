@@ -303,6 +303,13 @@ public class ReviewerModifier {
         exactMatchFound = true;
       }
     } catch (UnprocessableEntityException e) {
+      if (accountResolver.resolveIncludeInactiveIgnoreVisibility(input.reviewer).asList().size()
+          == 1) {
+        return fail(
+            input,
+            FailureType.OTHER,
+            MessageFormat.format(ChangeMessages.accountNotVisible, input.reviewer));
+      }
       // Caller might choose to ignore this NOT_FOUND result if they find another result e.g. by
       // group, but if not, the error message will be useful.
       return fail(input, FailureType.NOT_FOUND, e.getMessage());
@@ -414,7 +421,7 @@ public class ReviewerModifier {
 
   @Nullable
   private ReviewerModification addByEmail(ReviewerInput input, ChangeNotes notes, CurrentUser user)
-      throws PermissionBackendException {
+      throws PermissionBackendException, IOException, ConfigInvalidException {
     if (!permissionBackend
         .user(anonymousProvider.get())
         .change(notes)
@@ -423,6 +430,16 @@ public class ReviewerModifier {
           input,
           FailureType.OTHER,
           MessageFormat.format(ChangeMessages.reviewerCantSeeChange, input.reviewer));
+    }
+
+    if (!accountResolver
+        .resolveIncludeInactiveIgnoreVisibility(input.reviewer)
+        .asList()
+        .isEmpty()) {
+      return fail(
+          input,
+          FailureType.OTHER,
+          MessageFormat.format(ChangeMessages.accountNotVisible, input.reviewer));
     }
 
     Address adr = Address.tryParse(input.reviewer);

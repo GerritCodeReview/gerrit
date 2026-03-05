@@ -388,9 +388,17 @@ ${comments.join('\n\n')}`;
       return;
     }
     const template = PROMPT_TEMPLATES[this.selectedTemplate];
+
+    // Security compliance: Removing 2nd line of patchContent as it contains personal data.
+    const lines = this.patchContent.split('\n');
+    if (lines.length > 1 && lines[1].toLowerCase().startsWith('from:')) {
+      lines.splice(1, 1);
+    }
+    const sanitizedPatchContent = lines.join('\n');
+
     this.promptContent = template.prompt.replace(
       '{{patch}}',
-      this.patchContent
+      sanitizedPatchContent
     );
     if (this.selectedTemplate === 'RESOLVE_COMMENTS') {
       this.promptContent = this.promptContent.replace(

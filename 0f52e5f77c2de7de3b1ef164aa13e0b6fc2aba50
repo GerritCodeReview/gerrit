@@ -96,6 +96,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3ef52478_1eb824bb",
+        "filename": "polygerrit-ui/app/constants/reporting.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-03-05T22:03:29Z",
+      "side": 1,
+      "message": "Removed since Milutin pointed out the change ID is already included everytime.",
+      "parentUuid": "b7da83ae_70549ba4",
+      "range": {
+        "startLine": 183,
+        "startChar": 3,
+        "endLine": 183,
+        "endChar": 45
+      },
+      "revId": "0f52e5f77c2de7de3b1ef164aa13e0b6fc2aba50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "229cd3d5_176b5b00",
@@ -157,6 +181,30 @@
       "side": 1,
       "message": "We already add change id to each event. https://source.corp.google.com/h/gerrit/gerrit/+/master:polygerrit-ui/app/services/gr-reporting/gr-reporting_impl.ts;l\u003d357",
       "parentUuid": "6d2b842d_a59bee90",
+      "range": {
+        "startLine": 184,
+        "startChar": 2,
+        "endLine": 184,
+        "endChar": 10
+      },
+      "revId": "0f52e5f77c2de7de3b1ef164aa13e0b6fc2aba50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "483f09fd_8a205dc3",
+        "filename": "polygerrit-ui/app/constants/reporting.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-03-05T22:03:29Z",
+      "side": 1,
+      "message": "oh, nice! i\u0027ll remove this then.",
+      "parentUuid": "3378211e_244d0664",
       "range": {
         "startLine": 184,
         "startChar": 2,
@@ -295,6 +343,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c2bae78c_6beffd93",
+        "filename": "polygerrit-ui/app/constants/reporting.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-03-05T22:03:29Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "fbebe026_3c23b36c",
+      "range": {
+        "startLine": 185,
+        "startChar": 1,
+        "endLine": 185,
+        "endChar": 10
+      },
+      "revId": "0f52e5f77c2de7de3b1ef164aa13e0b6fc2aba50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9cb771b9_9c3db016",
+        "filename": "polygerrit-ui/app/constants/reporting.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-03-05T22:03:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8a0ac418_2ac4eaab",
+      "range": {
+        "startLine": 185,
+        "startChar": 0,
+        "endLine": 185,
+        "endChar": 32
+      },
+      "revId": "0f52e5f77c2de7de3b1ef164aa13e0b6fc2aba50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "016bc2e2_017a4fac",
@@ -356,6 +452,30 @@
       "side": 1,
       "message": "I would just not calculate this and do sql join. https://source.corp.google.com/h/gerrit/gerrit/+/master:polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts?q\u003d%22roleDetails(this.change,%20this.account)%22\u0026ss\u003dh%2Fgerrit%2Fgerrit%2F%2B%2Frefs%2Fheads%2Fmaster:polygerrit-ui%2F",
       "parentUuid": "f61c7c69_6dd005cf",
+      "range": {
+        "startLine": 472,
+        "startChar": 10,
+        "endLine": 472,
+        "endChar": 18
+      },
+      "revId": "0f52e5f77c2de7de3b1ef164aa13e0b6fc2aba50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f62109fb_97bfbbe0",
+        "filename": "polygerrit-ui/app/elements/chat-panel/gemini-message.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 472,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-03-05T22:03:29Z",
+      "side": 1,
+      "message": "thanks! I\u0027ve added accountId instead so we can join them.",
+      "parentUuid": "518a00a0_0f1ad5b0",
       "range": {
         "startLine": 472,
         "startChar": 10,

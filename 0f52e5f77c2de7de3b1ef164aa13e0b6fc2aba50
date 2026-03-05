@@ -484,6 +484,30 @@
       },
       "revId": "0f52e5f77c2de7de3b1ef164aa13e0b6fc2aba50",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "482ea7d0_89cbb12d",
+        "filename": "polygerrit-ui/app/elements/chat-panel/gemini-message.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 472,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-03-05T22:40:07Z",
+      "side": 1,
+      "message": "We have for each event session_id which can join all events in same run (in one tab) so accountId is also not needed. But up to you.",
+      "parentUuid": "f62109fb_97bfbbe0",
+      "range": {
+        "startLine": 472,
+        "startChar": 10,
+        "endLine": 472,
+        "endChar": 18
+      },
+      "revId": "0f52e5f77c2de7de3b1ef164aa13e0b6fc2aba50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

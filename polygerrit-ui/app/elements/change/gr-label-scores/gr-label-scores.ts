@@ -43,7 +43,9 @@ export class GrLabelScores extends LitElement {
         .scoresTable {
           display: table;
           width: 100%;
-          table-layout: fixed;
+        }
+        .sectionHeaderRow {
+          display: table-row;
         }
         .mergedMessage,
         .abandonedMessage {
@@ -89,10 +91,10 @@ export class GrLabelScores extends LitElement {
         label => !this.permittedLabels || this.permittedLabels[label.name]
       ).length === 0
     ) {
-      return html`<h3 class="heading-4">Submit requirements votes</h3>
+      return html`<div class="sectionHeaderRow"><h3 class="heading-4">Submit requirements votes</h3></div>
         <div class="permissionMessage">You don't have permission to vote</div>`;
     }
-    return html`<h3 class="heading-4">Submit requirements votes</h3>
+    return html`<div class="sectionHeaderRow"><h3 class="heading-4">Submit requirements votes</h3></div>
       ${this.renderLabels(labels)}`;
   }
 
@@ -109,13 +111,12 @@ export class GrLabelScores extends LitElement {
     ) {
       return nothing;
     }
-    return html`<h3 class="heading-4">Trigger Votes</h3>
+    return html`<div class="sectionHeaderRow"><h3 class="heading-4">Trigger Votes</h3></div>
       ${this.renderLabels(labels)}`;
   }
 
   private renderLabels(labels: Label[]) {
-    return html`<div class="scoresTable">
-      ${labels
+    return html`${labels
         .filter(
           label =>
             this.permittedLabels?.[label.name] &&
@@ -131,8 +132,7 @@ export class GrLabelScores extends LitElement {
               this.permittedLabels
             )}
           ></gr-label-score-row>`
-        )}
-    </div>`;
+        )}`;
   }
 
   private renderErrorMessages() {

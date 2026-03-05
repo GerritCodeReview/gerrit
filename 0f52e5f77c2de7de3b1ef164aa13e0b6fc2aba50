@@ -74,6 +74,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b7da83ae_70549ba4",
+        "filename": "polygerrit-ui/app/constants/reporting.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-03-05T00:07:39Z",
+      "side": 1,
+      "message": "It\u0027s this \"ChangeInfoId\" which is described as: The ID of the change in the format \"\u0027\u003cproject\u003e~ \u003cbranch\u003e ~\u003cChange-Id\u003e\u0027\"\n\nBut I don\u0027t think branch is included anymore. \n\nhttps://source.corp.google.com/h/gerrit/gerrit/+/master:polygerrit-ui/app/api/rest-api.ts;drc\u003d173547050b6f09cf8e1a53991527ff23e432c938;l\u003d377\n\nI did test it locally, so I\u0027m confident.",
+      "parentUuid": "437b2c47_d0ee6d72",
+      "range": {
+        "startLine": 183,
+        "startChar": 3,
+        "endLine": 183,
+        "endChar": 45
+      },
+      "revId": "0f52e5f77c2de7de3b1ef164aa13e0b6fc2aba50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "229cd3d5_176b5b00",
         "filename": "polygerrit-ui/app/constants/reporting.ts",
         "patchSetId": 2

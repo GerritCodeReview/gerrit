@@ -25,6 +25,7 @@ public class ChangeMessages {
   public static String reviewerInvalid = "{0} is not a valid user identifier";
   public static String reviewerNotFoundUserOrGroup =
       "{0} does not identify a registered user or group";
+  public static String accountNotVisible = "account {0} is not visible";
 
   public static String groupRemovalIsNotAllowed =
       "Groups can't be removed from reviewers, so can't remove {0}.";

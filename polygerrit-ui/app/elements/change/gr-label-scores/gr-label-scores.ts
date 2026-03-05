@@ -43,7 +43,19 @@ export class GrLabelScores extends LitElement {
         .scoresTable {
           display: table;
           width: 100%;
-          table-layout: fixed;
+        }
+        .sectionHeaderRow {
+          display: table-row;
+        }
+        .sectionHeaderCell {
+          display: table-cell;
+          padding-left: var(--label-score-padding-left, 0);
+          padding-top: var(--spacing-l);
+          padding-bottom: var(--spacing-s);
+          white-space: nowrap;
+        }
+        .sectionHeaderRow:first-child .sectionHeaderCell {
+          padding-top: 0;
         }
         .mergedMessage,
         .abandonedMessage {
@@ -73,7 +85,7 @@ export class GrLabelScores extends LitElement {
   }
 
   override render() {
-    return html`${this.renderSubmitReqsLabels()}${this.renderTriggerVotes()}
+    return html`<div class="scoresTable">${this.renderSubmitReqsLabels()}${this.renderTriggerVotes()}</div>
     ${this.renderErrorMessages()}`;
   }
 
@@ -89,10 +101,10 @@ export class GrLabelScores extends LitElement {
         label => !this.permittedLabels || this.permittedLabels[label.name]
       ).length === 0
     ) {
-      return html`<h3 class="heading-4">Submit requirements votes</h3>
+      return html`<div class="sectionHeaderRow"><div class="sectionHeaderCell heading-4">Submit requirements votes</div></div>
         <div class="permissionMessage">You don't have permission to vote</div>`;
     }
-    return html`<h3 class="heading-4">Submit requirements votes</h3>
+    return html`<div class="sectionHeaderRow"><div class="sectionHeaderCell heading-4">Submit requirements votes</div></div>
       ${this.renderLabels(labels)}`;
   }
 
@@ -109,13 +121,12 @@ export class GrLabelScores extends LitElement {
     ) {
       return nothing;
     }
-    return html`<h3 class="heading-4">Trigger Votes</h3>
+    return html`<div class="sectionHeaderRow"><div class="sectionHeaderCell heading-4">Trigger Votes</div></div>
       ${this.renderLabels(labels)}`;
   }
 
   private renderLabels(labels: Label[]) {
-    return html`<div class="scoresTable">
-      ${labels
+    return html`${labels
         .filter(
           label =>
             this.permittedLabels?.[label.name] &&
@@ -131,8 +142,7 @@ export class GrLabelScores extends LitElement {
               this.permittedLabels
             )}
           ></gr-label-score-row>`
-        )}
-    </div>`;
+        )}`;
   }
 
   private renderErrorMessages() {

@@ -76,9 +76,6 @@ export class GrLabelScoreRow extends LitElement {
         .buttonsCell {
           white-space: nowrap;
         }
-        .selectedValueCell {
-          width: 52%;
-        }
         .labelMessage {
           color: var(--deemphasized-text-color);
         }

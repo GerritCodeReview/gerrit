@@ -169,4 +169,22 @@ export enum Interaction {
   COMMENT_COMPLETION_SUGGESTION_FETCHED = 'comment-completion-suggestion-fetched',
 
   COPY_AI_PROMPT = 'copy-ai-prompt',
+
+  // AI agent suggests comments/fixes to user.
+  AI_AGENT_SUGGESTIONS_SHOWN = 'ai-agent-suggestions-shown',
 }
+
+/**
+ * EventDetails to be passed to the reportInteraction method for AI agent
+ * interactions.
+ */
+export type AiAgentEventDetails = {
+  host: string;
+  userAccountId?: number;
+  agentId: string;
+  conversationId: string;
+  // Each agent reponse in a conversation is a turn.
+  turnIndex: number;
+  // commentCount is 0 if agent ran but didn't suggest any comments/fixes.
+  commentCount: number;
+};

@@ -14,7 +14,7 @@ CORE_PLUGINS = [
 ]
 
 CUSTOM_PLUGINS = [
-    # Add custom core plugins here
+    "sap-ai-review",
 ]
 
 CUSTOM_PLUGINS_TEST_DEPS = [

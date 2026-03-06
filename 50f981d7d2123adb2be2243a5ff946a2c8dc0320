@@ -162,6 +162,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "534ac372_4d44a40b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-03-06T17:18:43Z",
+      "side": 1,
+      "message": "I am sorry, I havne\u0027t had time to check it. I will check FE on Monday if it is ok. @nitzan@google.com is this ok on backend, should we enable/disable this in google?",
+      "parentUuid": "c3be419a_c3bd131d",
+      "revId": "50f981d7d2123adb2be2243a5ff946a2c8dc0320",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "30cd977b_9024f3ef",
         "filename": "java/com/google/gerrit/server/restapi/account/PutAvatarEmail.java",
         "patchSetId": 7

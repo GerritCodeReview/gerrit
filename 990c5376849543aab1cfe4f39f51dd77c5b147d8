@@ -146,6 +146,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6d4c3076_e562f60b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2026-03-06T15:49:06Z",
+      "side": 1,
+      "message": "Oh actually it\u0027s https://github.com/GerritCodeReview/gerrit/blob/master/polygerrit-ui/app/elements/change/gr-label-score-row/gr-label-score-row.ts#L141.\n\nRunning an experiment i see it\u0027s setting display none on it.",
+      "parentUuid": "14964b2b_f0b1f691",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 3
+      },
+      "revId": "990c5376849543aab1cfe4f39f51dd77c5b147d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1d6c0215_1a1c2a22",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4

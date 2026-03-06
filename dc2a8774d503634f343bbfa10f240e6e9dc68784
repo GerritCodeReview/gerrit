@@ -52,6 +52,24 @@
       "parentUuid": "b18ea1f3_49438582",
       "revId": "dc2a8774d503634f343bbfa10f240e6e9dc68784",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "14ce1f27_635986c3",
+        "filename": "java/com/google/gerrit/server/change/ReviewerModifier.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-03-06T10:52:40Z",
+      "side": 1,
+      "message": "\u003e But maybe it\u0027s better to have admins use X-RunAs and the query account API to debug that?\n\nAdding logging is better because it enables AI to self-debug the issue in the future.\n\nThese integrations are already in the work in most companies I believe.",
+      "parentUuid": "286cbf2f_af211acb",
+      "revId": "dc2a8774d503634f343bbfa10f240e6e9dc68784",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

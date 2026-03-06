@@ -103,7 +103,7 @@ import {changeModelToken} from '../../../models/change/change-model';
 import {LabelNameToValuesMap, PatchSetNumber} from '../../../api/rest-api';
 import {css, html, LitElement, nothing, PropertyValues} from 'lit';
 import {sharedStyles} from '../../../styles/shared-styles';
-import {flowsModelToken} from '../../../models/flows/flows-model';
+import {flowsModelToken, getChangePrefix} from '../../../models/flows/flows-model';
 import {when} from 'lit/directives/when.js';
 import {classMap} from 'lit/directives/class-map.js';
 import {
@@ -1599,8 +1599,35 @@ export class GrReplyDialog extends LitElement {
     }
 
     assertIsDefined(this.change, 'change');
-    reviewInput.reviewers = this.computeReviewers();
+    const computedReviewers = this.computeReviewers();
+    const addedReviewers = computedReviewers.filter(
+      r => r.state === ReviewerState.REVIEWER
+    );
+
+    if (addedReviewers.length > 0) {
+      await this.getFlowsModel().createFlow({
+        stage_expressions: [
+          {
+            condition: getChangePrefix() + ' is label:Verified+1',
+            action: {
+              name: 'add-reviewer',
+              parameters: ['milutin@google.com'],
+            },
+          },
+        ],
+      });
+      reviewInput.reviewers = computedReviewers.filter(
+        r => r.state !== ReviewerState.REVIEWER
+      );
+    } else {
+      reviewInput.reviewers = computedReviewers;
+    }
+
     this.reportStartReview(reviewInput);
+
+    fireReload(this);
+
+    return;
 
     const errFn = (r?: Response | null) => this.handle400Error(r);
     if (

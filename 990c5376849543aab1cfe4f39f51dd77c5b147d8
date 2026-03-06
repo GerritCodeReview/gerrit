@@ -74,6 +74,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b62ca8c2_e8019658",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-03-06T13:31:33Z",
+      "side": 1,
+      "message": "@dhruvsri@google.com I\u0027ll be happy to provide some screenshot tests, but I believe the current ones aren\u0027t working as expected? The fix seems non-trivial to me, if the current tests could be fixed it would make it a lot easier to add tests for this change too.",
+      "parentUuid": "cd376bbc_9840dedf",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 3
+      },
+      "revId": "990c5376849543aab1cfe4f39f51dd77c5b147d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1d6c0215_1a1c2a22",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4

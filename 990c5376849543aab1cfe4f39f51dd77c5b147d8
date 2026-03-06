@@ -122,6 +122,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "14964b2b_f0b1f691",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2026-03-06T15:24:49Z",
+      "side": 1,
+      "message": "I think https://github.com/GerritCodeReview/gerrit/blob/0796a7f6f6dc9ca98da48064e5aed253dfed682e/polygerrit-ui/app/elements/change/gr-label-score-row/gr-label-score-row.ts#L187 isn\u0027t fired. I think this is because we don\u0027t do any selecting, we just set .label on the element.",
+      "parentUuid": "1d9c3583_a9d3c639",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 3
+      },
+      "revId": "990c5376849543aab1cfe4f39f51dd77c5b147d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1d6c0215_1a1c2a22",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "42b76f5c_523ea204",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2026-03-06T14:15:16Z",
+      "side": 1,
+      "message": "You need to update gr-label-scores_test.ts",
+      "revId": "85b4af58f3cc318f8bd9a785cb857ec71ade403a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

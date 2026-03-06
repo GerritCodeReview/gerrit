@@ -33,6 +33,24 @@
       "message": "Making it possible for admins to check account visibility sounds like a good idea. Could also be an admin-restricted REST endpoint.",
       "revId": "0d76ca4c4ce186f41c45ba24b4062d586c5541e2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "748ab4f6_0f0126d8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-03-06T16:55:49Z",
+      "side": 1,
+      "message": "\u003e Making it possible for admins to check account visibility sounds like a good idea\n\nNice, good to know it\u0027s in the right direction 😊\n\nI\u0027ll make incremental changes if that is ok towards it.",
+      "parentUuid": "f9addbe6_b0447061",
+      "revId": "0d76ca4c4ce186f41c45ba24b4062d586c5541e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

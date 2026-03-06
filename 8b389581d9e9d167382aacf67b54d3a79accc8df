@@ -1,5 +1,29 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e31e6e32_b3ac12f7",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-score-row/gr-label-score-row_screenshot_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-03-06T16:36:58Z",
+      "side": 1,
+      "message": "maybe for a follow up change\n\nCan you also update this test/add new test to have multiple labels? @thomasmulhall410@yahoo.com?",
+      "range": {
+        "startLine": 43,
+        "startChar": 2,
+        "endLine": 43,
+        "endChar": 34
+      },
+      "revId": "8b389581d9e9d167382aacf67b54d3a79accc8df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

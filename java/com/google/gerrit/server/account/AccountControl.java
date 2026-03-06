@@ -39,6 +39,33 @@ import java.util.Set;
 public class AccountControl {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
+  /** The result of a visibility check along with a reason. */
+  public static class VisibilityDecision {
+    private final boolean visible;
+    private final String reason;
+
+    public static VisibilityDecision show(String reason) {
+      return new VisibilityDecision(true, reason);
+    }
+
+    public static VisibilityDecision hide(String reason) {
+      return new VisibilityDecision(false, reason);
+    }
+
+    private VisibilityDecision(boolean visible, String reason) {
+      this.visible = visible;
+      this.reason = reason;
+    }
+
+    public boolean isVisible() {
+      return visible;
+    }
+
+    public String getReason() {
+      return reason;
+    }
+  }
+
   public static class Factory {
     private final PermissionBackend permissionBackend;
     private final ProjectCache projectCache;
@@ -130,17 +157,18 @@ public class AccountControl {
    */
   public boolean canSee(Account.Id otherUser) {
     return canSee(
-        new OtherUser() {
-          @Override
-          Account.Id getId() {
-            return otherUser;
-          }
+            new OtherUser() {
+              @Override
+              Account.Id getId() {
+                return otherUser;
+              }
 
-          @Override
-          IdentifiedUser createUser() {
-            return userFactory.create(otherUser);
-          }
-        });
+              @Override
+              IdentifiedUser createUser() {
+                return userFactory.create(otherUser);
+              }
+            })
+        .isVisible();
   }
 
   /**
@@ -152,35 +180,45 @@ public class AccountControl {
    */
   public boolean canSee(AccountState otherUser) {
     return canSee(
-        new OtherUser() {
-          @Override
-          Account.Id getId() {
-            return otherUser.account().id();
-          }
+            new OtherUser() {
+              @Override
+              Account.Id getId() {
+                return otherUser.account().id();
+              }
 
-          @Override
-          IdentifiedUser createUser() {
-            return userFactory.create(otherUser);
-          }
-        });
+              @Override
+              IdentifiedUser createUser() {
+                return userFactory.create(otherUser);
+              }
+            })
+        .isVisible();
   }
 
-  private boolean canSee(OtherUser otherUser) {
+  private VisibilityDecision canSee(OtherUser otherUser) {
     if (accountVisibility == AccountVisibility.ALL) {
-      logger.atFine().log(
-          "user %s can see account %d (accountVisibility = %s)",
-          user.getLoggableName(), otherUser.getId().get(), AccountVisibility.ALL);
-      return true;
-    } else if (user.isIdentifiedUser() && user.getAccountId().equals(otherUser.getId())) {
+      String reason =
+          String.format(
+              "user %s can see account %d (accountVisibility = %s)",
+              user.getLoggableName(), otherUser.getId().get(), AccountVisibility.ALL);
+      logger.atFine().log("%s", reason);
+      return VisibilityDecision.show(reason);
+    }
+    if (user.isIdentifiedUser() && user.getAccountId().equals(otherUser.getId())) {
       // I can always see myself.
-      logger.atFine().log(
-          "user %s can see own account %d", user.getLoggableName(), otherUser.getId().get());
-      return true;
-    } else if (canViewAll()) {
-      logger.atFine().log(
-          "user %s can see account %d (view all accounts = true)",
-          user.getLoggableName(), otherUser.getId().get());
-      return true;
+      String reason =
+          String.format(
+              "user %s can see account %d (user can see own account)",
+              user.getLoggableName(), otherUser.getId().get());
+      logger.atFine().log("%s", reason);
+      return VisibilityDecision.show(reason);
+    }
+    if (canViewAll()) {
+      String reason =
+          String.format(
+              "user %s can see account %d (view all accounts = true)",
+              user.getLoggableName(), otherUser.getId().get());
+      logger.atFine().log("%s", reason);
+      return VisibilityDecision.show(reason);
     }
 
     switch (accountVisibility) {
@@ -201,20 +239,24 @@ public class AccountControl {
           }
 
           if (user.getEffectiveGroups().containsAnyOf(usersGroups)) {
-            logger.atFine().log(
-                "user %s can see account %d because they share a group (accountVisibility = %s)",
-                user.getLoggableName(), otherUser.getId().get(), AccountVisibility.SAME_GROUP);
-            return true;
+            String reason =
+                String.format(
+                    "user %s can see account %d (they share a group (accountVisibility = %s))",
+                    user.getLoggableName(), otherUser.getId().get(), AccountVisibility.SAME_GROUP);
+            logger.atFine().log("%s", reason);
+            return VisibilityDecision.show(reason);
           }
 
-          logger.atFine().log(
-              "user %s cannot see account %d because they don't share a group"
-                  + " (accountVisibility = %s)",
-              user.getLoggableName(), otherUser.getId().get(), AccountVisibility.SAME_GROUP);
+          String reason =
+              String.format(
+                  "user %s cannot see account %d (they don't share a group (accountVisibility ="
+                      + " %s))",
+                  user.getLoggableName(), otherUser.getId().get(), AccountVisibility.SAME_GROUP);
+          logger.atFine().log("%s", reason);
           logger.atFine().log("groups of user %s: %s", user.getLoggableName(), groupsOf(user));
           logger.atFine().log(
               "groups of other user %s: %s", otherUser.getUser().getLoggableName(), usersGroups);
-          return false;
+          return VisibilityDecision.hide(reason);
         }
       case VISIBLE_GROUP:
         {
@@ -222,33 +264,39 @@ public class AccountControl {
           for (AccountGroup.UUID usersGroup : usersGroups) {
             try {
               if (groupControlFactory.controlFor(usersGroup).isVisible()) {
-                logger.atFine().log(
-                    "user %s can see account %d because it is member of the visible group %s"
-                        + " (accountVisibility = %s)",
-                    user.getLoggableName(),
-                    otherUser.getId().get(),
-                    usersGroup.get(),
-                    AccountVisibility.VISIBLE_GROUP);
-                return true;
+                String reason =
+                    String.format(
+                        "user %s can see account %d (account is member of the visible group %s"
+                            + " (accountVisibility = %s))",
+                        user.getLoggableName(),
+                        otherUser.getId().get(),
+                        usersGroup.get(),
+                        AccountVisibility.VISIBLE_GROUP);
+                logger.atFine().log("%s", reason);
+                return VisibilityDecision.show(reason);
               }
             } catch (NoSuchGroupException e) {
               continue;
             }
           }
 
-          logger.atFine().log(
-              "user %s cannot see account %d because none of its groups are visible"
-                  + " (accountVisibility = %s)",
-              user.getLoggableName(), otherUser.getId().get(), AccountVisibility.VISIBLE_GROUP);
+          String reason =
+              String.format(
+                  "user %s cannot see account %d (none of its groups are visible"
+                      + " (accountVisibility = %s))",
+                  user.getLoggableName(), otherUser.getId().get(), AccountVisibility.VISIBLE_GROUP);
+          logger.atFine().log("%s", reason);
           logger.atFine().log(
               "groups of other user %s: %s", otherUser.getUser().getLoggableName(), usersGroups);
-          return false;
+          return VisibilityDecision.hide(reason);
         }
       case NONE:
-        logger.atFine().log(
-            "user %s cannot see account %d (accountVisibility = %s)",
-            user.getLoggableName(), otherUser.getId().get(), AccountVisibility.NONE);
-        return false;
+        String reason =
+            String.format(
+                "user %s cannot see account %d (accountVisibility = %s)",
+                user.getLoggableName(), otherUser.getId().get(), AccountVisibility.NONE);
+        logger.atFine().log("%s", reason);
+        return VisibilityDecision.hide(reason);
       case ALL:
       default:
         throw new IllegalStateException("Bad AccountVisibility " + accountVisibility);

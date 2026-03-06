@@ -46,6 +46,30 @@
       },
       "revId": "8b389581d9e9d167382aacf67b54d3a79accc8df",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bbfc4433_88250c3b",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-score-row/gr-label-score-row_screenshot_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-03-06T19:14:19Z",
+      "side": 1,
+      "message": "Ahh ok then we probably need a screenshot test for some other component 😊\nThanks for clarifying.",
+      "parentUuid": "dc73dd75_d7357cf8",
+      "range": {
+        "startLine": 43,
+        "startChar": 2,
+        "endLine": 43,
+        "endChar": 34
+      },
+      "revId": "8b389581d9e9d167382aacf67b54d3a79accc8df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

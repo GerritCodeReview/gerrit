@@ -143,6 +143,12 @@ def _normalize_jar_basename(p):
     return b
 
 
+def _resolve_repo_path(output_base, p):
+    if p.startswith("external"):
+        return os.path.join(output_base, p)
+    return p
+
+
 def gen_project(name='gerrit', root=ROOT):
     p = os.path.join(root, '.project')
     with open(p, 'w') as fd:
@@ -183,7 +189,7 @@ def gen_plugin_classpath(root):
 </classpath>""" % {"testpath": testpath}, file=fd)
 
 
-def gen_classpath(ext):
+def gen_classpath(exec_root, output_base):
     def make_classpath():
         impl = xml.dom.minidom.getDOMImplementation()
         return impl.createDocument(None, 'classpath', None)
@@ -276,8 +282,7 @@ def gen_classpath(ext):
             if p.endswith(
                "external/bazel_tools/tools/jdk/TestRunner_deploy.jar"):
                 continue
-            if p.startswith("external"):
-                p = os.path.join(ext, p)
+            p = _resolve_repo_path(output_base, p)
             lib.add(p)
 
     classpathentry('src', 'java')
@@ -340,11 +345,8 @@ def gen_classpath(ext):
             # This replaces the previous heuristic-based source lookup.
             key = _normalize_jar_basename(j)
             if key in source_by_basename:
-                sp = source_by_basename[key]
-                if sp.startswith("external"):
-                    s = os.path.join(ext, sp)
-                else:
-                    s = sp
+                sp = _resolve_repo_path(output_base, source_by_basename[key])
+                s = sp
 
             if args.plugins:
                 classpathentry('lib', j, s, exported=True)
@@ -390,7 +392,7 @@ def _prefer_unprocessed_jar(ext, jar):
     return jar
 
 
-def gen_factorypath(ext):
+def gen_factorypath(exec_root, output_base):
     doc = xml.dom.minidom.getDOMImplementation().createDocument(
         None, 'factorypath', None)
 
@@ -407,10 +409,14 @@ def gen_factorypath(ext):
         processors = [line.rstrip('\n') for line in open(processors_name)]
 
     for jar in processors:
-        jar = _prefer_unprocessed_jar(ext, jar)
+        jar = _prefer_unprocessed_jar(exec_root, jar)
+        jar = _resolve_repo_path(output_base, jar)
         e = doc.createElement('factorypathentry')
         e.setAttribute('kind', 'EXTJAR')
-        e.setAttribute('id', os.path.join(ext, jar))
+        if os.path.isabs(jar):
+            e.setAttribute('id', jar)
+        else:
+            e.setAttribute('id', os.path.join(exec_root, jar))
         e.setAttribute('enabled', 'true')
         e.setAttribute('runInBatchMode', 'false')
         doc.documentElement.appendChild(e)
@@ -424,8 +430,8 @@ try:
     output_base = retrieve_ext_location().decode("utf-8")
     exec_root = retrieve_exec_root().decode("utf-8")
     gen_project(args.project_name)
-    gen_classpath(exec_root)
-    gen_factorypath(exec_root)
+    gen_classpath(exec_root, output_base)
+    gen_factorypath(exec_root, output_base)
     gen_bazel_path(output_base)
 
     try:

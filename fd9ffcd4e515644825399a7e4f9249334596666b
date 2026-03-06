@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "976ba73f_0ffad810",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-03-06T07:02:15Z",
+      "side": 1,
+      "message": "This is needed to support plugins that still depend on the legacy `maven_jar` toolchain (e.g. `high-availability`) and have not yet been migrated to `bzlmod` and `rules_java_external`.",
+      "revId": "fd9ffcd4e515644825399a7e4f9249334596666b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

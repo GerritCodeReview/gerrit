@@ -180,6 +180,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1aecce86_8b688929",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3117294
+      },
+      "writtenOn": "2026-03-06T19:42:05Z",
+      "side": 1,
+      "message": "not sure what \"in google\" means in that case, just wanted to make clear, that my journey to this started coming from chromium gerrit 🙈, would be sad end to the story if it is not enabled there. happy to address any given feedback, to fullfill requirements to get it run there.",
+      "parentUuid": "534ac372_4d44a40b",
+      "revId": "50f981d7d2123adb2be2243a5ff946a2c8dc0320",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "30cd977b_9024f3ef",
         "filename": "java/com/google/gerrit/server/restapi/account/PutAvatarEmail.java",
         "patchSetId": 7

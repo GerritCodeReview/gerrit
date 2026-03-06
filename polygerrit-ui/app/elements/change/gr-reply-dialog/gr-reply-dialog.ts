@@ -1599,7 +1599,30 @@ export class GrReplyDialog extends LitElement {
     }
 
     assertIsDefined(this.change, 'change');
-    reviewInput.reviewers = this.computeReviewers();
+    const computedReviewers = this.computeReviewers();
+    const addedReviewers = computedReviewers.filter(
+      r => r.state === ReviewerState.REVIEWER
+    );
+
+    if (addedReviewers.length > 0) {
+      await this.getFlowsModel().createFlow({
+        stage_expressions: [
+          {
+            condition: 'label:Verified+1',
+            action: {
+              name: 'add-reviewer',
+              parameters: addedReviewers.map(r => r.reviewer.toString()),
+            },
+          },
+        ],
+      });
+      reviewInput.reviewers = computedReviewers.filter(
+        r => r.state !== ReviewerState.REVIEWER
+      );
+    } else {
+      reviewInput.reviewers = computedReviewers;
+    }
+
     this.reportStartReview(reviewInput);
 
     const errFn = (r?: Response | null) => this.handle400Error(r);

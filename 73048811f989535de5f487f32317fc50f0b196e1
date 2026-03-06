@@ -166,6 +166,30 @@
       },
       "revId": "73048811f989535de5f487f32317fc50f0b196e1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "13ee75df_afd32bea",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-scores/gr-label-scores.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-03-06T13:22:08Z",
+      "side": 0,
+      "message": "The latest patchset accounts for this issue too.",
+      "parentUuid": "59771938_fe2f4009",
+      "range": {
+        "startLine": 46,
+        "startChar": 10,
+        "endLine": 46,
+        "endChar": 30
+      },
+      "revId": "73048811f989535de5f487f32317fc50f0b196e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -11,6 +11,7 @@ import {fixture, html} from '@open-wc/testing';
 import {visualDiff} from '@web/test-runner-visual-regression';
 import {GrLabelScoreRow} from './gr-label-score-row';
 import {visualDiffDarkTheme} from '../../../test/test-utils';
+import {setViewport} from '@web/test-runner-commands';
 
 suite('gr-label-score-row screenshot tests', () => {
   let element: GrLabelScoreRow;
@@ -40,10 +41,12 @@ suite('gr-label-score-row screenshot tests', () => {
   });
 
   test('label score row screenshot', async () => {
+    await setViewport({ width: 1200, height: 800 });
+
     // Create a container with a fixed width to stabilize the component's dimensions.
     const container = document.createElement('div');
 
-    container.style.width = '392px';
+    container.style.width = '700px';
     container.style.display = 'inline-block';
     container.appendChild(element);
 

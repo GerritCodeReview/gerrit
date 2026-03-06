@@ -88,6 +88,24 @@
       "parentUuid": "14ce1f27_635986c3",
       "revId": "dc2a8774d503634f343bbfa10f240e6e9dc68784",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "505577fe_aeeaf011",
+        "filename": "java/com/google/gerrit/server/change/ReviewerModifier.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-03-06T11:32:36Z",
+      "side": 1,
+      "message": "https://cs.opensource.google/gerrit/gerrit/gerrit/+/master:java/com/google/gerrit/server/account/AccountControl.java;l\u003d240?q\u003d%22user%20%25s%20cannot%20see%20account%20%25d%20because%20none%20of%20its%20groups%22\u0026sq\u003d\n\nyeah the logs are indeed present\n\nI think I should instead make it extend `check.access` or make an internal only API `isAccountVisible` which should returns if account X can see Y.\n\nAbandoning again...",
+      "parentUuid": "7516fced_a5ed3e73",
+      "revId": "dc2a8774d503634f343bbfa10f240e6e9dc68784",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

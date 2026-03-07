@@ -241,6 +241,7 @@ export class GeminiMessage extends LitElement {
     }
     await this.getCommentsModel().saveDraft(draft);
     this.getCommentsModel().reloadAllComments();
+    this.reportSuggestionToComment();
   }
 
   private onRetry() {
@@ -446,21 +447,33 @@ export class GeminiMessage extends LitElement {
     };
   }
 
+  getAiAgentReportingDetails(): AiAgentEventDetails {
+    const agentId = this.turns[this.turnIndex]?.userMessage?.actionId ?? '';
+    return {
+      host: window.location.host,
+      agentId,
+      conversationId: this.conversationId ?? '',
+      turnIndex: this.turnIndex,
+    };
+  }
+
   private reportSuggestionsShown() {
     if (!this.conversationId) return;
     this.reportedSuggestionsShown = true;
 
-    const agentId = this.turns[this.turnIndex]?.userMessage?.actionId ?? '';
-    const details: AiAgentEventDetails = {
-      host: window.location.host,
-      agentId,
-      conversationId: this.conversationId,
-      turnIndex: this.turnIndex,
-      commentCount: this.sortedComments().length,
-    };
     this.reportingService.reportInteraction(
       Interaction.AI_AGENT_SUGGESTIONS_SHOWN,
-      details
+      {
+        ...this.getAiAgentReportingDetails(),
+        commentCount: this.sortedComments().length,
+      }
+    );
+  }
+
+  private reportSuggestionToComment() {
+    this.reportingService.reportInteraction(
+      Interaction.AI_AGENT_SUGGESTION_TO_COMMENT,
+      this.getAiAgentReportingDetails()
     );
   }
 }

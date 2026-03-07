@@ -266,4 +266,53 @@ suite('gemini-message tests', () => {
     assert.equal(details.agentId, 'custom-agent-id');
     assert.equal(details.commentCount, 1);
   });
+
+  test('reports AI_AGENT_SUGGESTION_TO_COMMENT interaction', async () => {
+    chatModel.updateState({
+      ...chatModel.getState(),
+      id: 'test-conversation-id',
+      selectedModelId: 'gemini-model-id',
+    });
+
+    const reportStub = sinon.stub(
+      getAppContext().reportingService,
+      'reportInteraction'
+    );
+
+    const turn = createTurn({
+      responseComplete: true,
+      responseParts: [RESPONSE_CREATE_COMMENT],
+    });
+    const updatedTurn = {
+      ...turn,
+      userMessage: {...turn.userMessage, actionId: 'custom-agent-id'},
+    };
+
+    chatModel.updateState({...chatModel.getState(), turns: [updatedTurn]});
+    await element.updateComplete;
+
+    const commentContainer =
+      element.shadowRoot?.querySelector('.suggested-comment');
+    assert.isOk(commentContainer);
+
+    sinon.stub(commentsModel, 'reloadAllComments');
+    saveDraftStub.resolves({});
+
+    const button = commentContainer?.querySelector('gr-button');
+    assert.isOk(button);
+    (button as HTMLElement).click();
+
+    await new Promise(resolve => setTimeout(resolve, 0));
+
+    const call = reportStub
+      .getCalls()
+      .find(c => c.args[0] === Interaction.AI_AGENT_SUGGESTION_TO_COMMENT);
+    assert.isOk(call, 'Expected AI_AGENT_SUGGESTION_TO_COMMENT to be reported');
+
+    const details = call.args[1] as AiAgentEventDetails;
+    assert.equal(details.host, window.location.host);
+    assert.equal(details.conversationId, 'test-conversation-id');
+    assert.equal(details.agentId, 'custom-agent-id');
+    assert.isUndefined(details.commentCount);
+  });
 });

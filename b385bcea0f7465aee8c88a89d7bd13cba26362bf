@@ -178,6 +178,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c05b7fc8_562ad8a1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-03-07T10:37:54Z",
+      "side": 1,
+      "message": "Ah, interesting. Do you have a WIP change to share?",
+      "parentUuid": "a3ba5edf_9f3b4ddb",
+      "revId": "b385bcea0f7465aee8c88a89d7bd13cba26362bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5126fadf_349c3eec",
         "filename": "java/com/google/gerrit/server/plugins/ServerPlugin.java",
         "patchSetId": 3

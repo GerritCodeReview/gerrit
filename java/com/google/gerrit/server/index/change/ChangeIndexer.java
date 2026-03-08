@@ -485,26 +485,26 @@ public class ChangeIndexer {
   /**
    * Synchronously check if a change is stale, and reindex if it is.
    *
-   * @param cd the change data to be checked for staleness.
+   * @param project the project to which the change belongs.
+   * @param id ID of the change to index.unique
    * @return true if the change was stale, false if it was up-to-date
    */
-  public boolean reindexIfStale(ChangeData cd) {
-    return reindexIfStale(cd.project(), cd.getId());
+  public boolean reindexIfStale(Project.NameKey project, Change.Id id) {
+    return reindexIfStale(changeDataFactory.create(project, id));
   }
 
   /**
    * Synchronously check if a change is stale, and reindex if it is.
    *
-   * @param project the project to which the change belongs.
-   * @param id ID of the change to index.
+   * @param cd the change data to be checked for staleness.
    * @return true if the change was stale, false if it was up-to-date
    */
-  public boolean reindexIfStale(Project.NameKey project, Change.Id id) {
+  public boolean reindexIfStale(ChangeData cd) {
     try {
-      StalenessCheckResult stalenessCheckResult = stalenessChecker.check(id);
+      StalenessCheckResult stalenessCheckResult = stalenessChecker.check(cd.virtualId());
       if (stalenessCheckResult.isStale()) {
         logger.atInfo().log("Reindexing stale document %s", stalenessCheckResult);
-        indexImpl(changeDataFactory.create(project, id));
+        indexImpl(cd);
         return true;
       }
     } catch (Exception e) {
@@ -512,7 +512,8 @@ public class ChangeIndexer {
         throw e;
       }
       logger.atFine().log(
-          "Change %s belongs to deleted project %s, aborting reindexing the change.", id, project);
+          "Change %s belongs to deleted project %s, aborting reindexing the change.",
+          cd.getId(), cd.project());
     }
     return false;
   }

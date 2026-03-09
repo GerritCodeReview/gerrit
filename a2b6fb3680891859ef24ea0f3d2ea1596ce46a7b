@@ -16,6 +16,24 @@
       "message": "hey guys, let me know how you\u0027d like me to tackle this.\nIf you run the test locally you can see it failing and the produced screenshot will have overlapping label names/votes/descriptions.\n\nShould I add my change on top of this or merge them into one?\nI don\u0027t believe we currently have a test for multiple labels across multiple scenarios.",
       "revId": "a2b6fb3680891859ef24ea0f3d2ea1596ce46a7b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8ea37591_5099c420",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-03-09T10:56:44Z",
+      "side": 1,
+      "message": "\u003e If you run the test locally you can see it failing and the produced screenshot will have overlapping label names/votes/descriptions.\n\nYeah it\u0027s fine in this change to have them overlap and we can submit since this is existing code.\n\nYour fix should then show the diff",
+      "parentUuid": "94945b67_e71af23b",
+      "revId": "a2b6fb3680891859ef24ea0f3d2ea1596ce46a7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

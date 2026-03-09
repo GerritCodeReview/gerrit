@@ -186,7 +186,7 @@ suite('splash-page tests', () => {
           <div class="background-request-header">
             <md-icon aria-hidden="true" class="material-icon">info</md-icon>
             <span class="user-background-question"
-              >Review Agent is disabled on private changes.</span
+              >AI Chat is disabled on private changes.</span>
             >
           </div>
         </div>

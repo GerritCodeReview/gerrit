@@ -48,7 +48,7 @@ export class PromptBox extends LitElement {
   isDisabled = false;
 
   @property({type: String})
-  disabledMessage = 'Review Agent is disabled.';
+  disabledMessage = 'AI Chat is disabled.';
 
   @state() hasModelLoadingError = false;
 

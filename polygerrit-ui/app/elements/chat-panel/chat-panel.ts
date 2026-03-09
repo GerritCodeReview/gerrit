@@ -222,7 +222,7 @@ export class ChatPanel extends LitElement {
       <div class="prompt-section">
         <prompt-box
           .userInput=${this.userInput}
-          .disabledMessage=${'Review Agent is disabled on private changes'}
+          .disabledMessage=${'AI Chat is disabled on private changes'}
           .isDisabled=${this.isChangePrivate}
           @user-input-change=${(e: UserInputChangedEvent) =>
             this.onUserInputChange(e)}
@@ -236,7 +236,7 @@ export class ChatPanel extends LitElement {
     if (!this.privacyUrl) return;
     return html`
       <div class="ai-policy">
-        Review agent may display inaccurate info.
+        AI chat may display inaccurate info.
         <a href=${this.privacyUrl} target="_blank">AI privacy policy</a>
       </div>
     `;

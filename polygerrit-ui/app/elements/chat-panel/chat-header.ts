@@ -211,7 +211,7 @@ export class ChatHeader extends LitElement {
         ?disabled=${!this.selectedModel}
       >
         <div class="title-group">
-          <span class="title">Review Agent</span>
+          <span class="title">AI Chat</span>
           ${this.selectedModel
             ? html`
                 <div class="subtitle">
@@ -268,8 +268,8 @@ export class ChatHeader extends LitElement {
       <md-icon-button
         class="close-button"
         @click=${this.closePanel}
-        title="Close Review Agent panel"
-        aria-label="Close Review Agent panel"
+        title="Close AI Chat panel"
+        aria-label="Close AI Chat panel"
       >
         <md-icon>clear</md-icon>
       </md-icon-button>

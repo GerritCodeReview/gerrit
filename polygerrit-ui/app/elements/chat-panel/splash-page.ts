@@ -248,7 +248,7 @@ export class SplashPage extends LitElement {
           <div class="background-request-header">
             <md-icon class="material-icon">info</md-icon>
             <span class="user-background-question"
-              >Review Agent is disabled on private changes.</span
+              >AI Chat is disabled on private changes.</span
             >
           </div>
         </div>

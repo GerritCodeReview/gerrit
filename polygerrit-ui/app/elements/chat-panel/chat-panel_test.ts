@@ -50,7 +50,7 @@ suite('chat-panel tests', () => {
           <div class="prompt-section">
             <prompt-box></prompt-box>
             <div class="ai-policy">
-              Review agent may display inaccurate info.
+              AI chat may display inaccurate info.
               <a href="http://privacy.url" target="_blank">
                 AI privacy policy
               </a>
@@ -113,7 +113,7 @@ suite('chat-panel tests', () => {
           <div class="prompt-section">
             <prompt-box></prompt-box>
             <div class="ai-policy">
-              Review agent may display inaccurate info.
+              AI chat may display inaccurate info.
               <a href="http://privacy.url" target="_blank">
                 AI privacy policy
               </a>
@@ -129,7 +129,7 @@ suite('chat-panel tests', () => {
     assert.isOk(policy);
     assert.include(
       policy.textContent!,
-      'Review agent may display inaccurate info'
+      'AI chat may display inaccurate info'
     );
     const link = policy.querySelector('a');
     assert.isOk(link);

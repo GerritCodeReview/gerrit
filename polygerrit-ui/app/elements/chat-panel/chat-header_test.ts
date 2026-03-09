@@ -51,7 +51,7 @@ suite('chat-header tests', () => {
           value=""
         >
           <div class="title-group">
-            <span class="title">Review Agent</span>
+            <span class="title">AI Chat</span>
             <div class="subtitle">
               <span class="subtitle-text">Gemini Pro</span>
               <md-icon aria-hidden="true" class="arrow-drop-down"
@@ -87,8 +87,8 @@ suite('chat-header tests', () => {
         </md-icon-button>
         <md-icon-button
           class="close-button"
-          title="Close Review Agent panel"
-          data-aria-label="Close Review Agent panel"
+          title="Close AI Chat panel"
+          data-aria-label="Close AI Chat panel"
           value=""
         >
           <md-icon aria-hidden="true">clear</md-icon>

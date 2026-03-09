@@ -270,6 +270,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7d19b1ed_f108cdc5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2026-03-09T19:41:19Z",
+      "side": 1,
+      "message": "Thanks @helmut@januschka.com!\nI think we should also add a test that alerts us when the proto is not being updated along with `Account.java`. That\u0027s the main reason that `SafeProtoConverterTest` is using reflection.\nCould you please look into that?\n\nThis test can definitely be a preceding change.",
+      "parentUuid": "b2801be8_f5879216",
+      "revId": "50f981d7d2123adb2be2243a5ff946a2c8dc0320",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "30cd977b_9024f3ef",
         "filename": "java/com/google/gerrit/server/restapi/account/PutAvatarEmail.java",
         "patchSetId": 7

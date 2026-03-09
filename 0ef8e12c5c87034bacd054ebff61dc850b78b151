@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6d4e5ab6_9409dc7c",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-scores/gr-label-scores.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-03-09T11:47:54Z",
+      "side": 0,
+      "message": "is this class obsolete now?\n\nCan we remove the CSS for this then?\n\n```\n        .scoresTable {\n          display: table;\n          width: 100%;\n          table-layout: fixed;\n        }\n```",
+      "range": {
+        "startLine": 117,
+        "startChar": 16,
+        "endLine": 117,
+        "endChar": 41
+      },
+      "revId": "0ef8e12c5c87034bacd054ebff61dc850b78b151",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

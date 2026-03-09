@@ -198,6 +198,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9203dc11_2dadc005",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2026-03-09T11:47:32Z",
+      "side": 1,
+      "message": "As long as `AccountProtoConverter` ignores the new field - this change won\u0027t have any effect in Google.\n\nThat being said, it also means that the new field won\u0027t be cached, as the cache is using the `AccountProto` class - this is a bug.\n\nTo avoid this bug in the future,we should either convert `AccountProtoConverter` to a `SafeProtoConverter`; or alternatively add similar tests to `AccountProtoConverterTest` which cover the `SafeProtoConverterTest` requirements.\n\n@helmut@januschka.com do you happen to have the capacity for implementing the above? I\u0027m happy to review the change.\n\nThanks!\n\n---\n\nBesides, there are some extra import steps here, but otherwise - this is good to go for Google BE. @milutin@google.com fill free to loop me in for the import proccess.",
+      "parentUuid": "1aecce86_8b688929",
+      "revId": "50f981d7d2123adb2be2243a5ff946a2c8dc0320",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "30cd977b_9024f3ef",
         "filename": "java/com/google/gerrit/server/restapi/account/PutAvatarEmail.java",
         "patchSetId": 7

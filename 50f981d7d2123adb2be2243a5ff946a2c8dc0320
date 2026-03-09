@@ -234,6 +234,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "42d90c7b_87b20f08",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3117294
+      },
+      "writtenOn": "2026-03-09T14:02:15Z",
+      "side": 1,
+      "message": "ok after taking a look, i think it should be done in this CL, will give it a try",
+      "parentUuid": "3791f20f_23ef7fbf",
+      "revId": "50f981d7d2123adb2be2243a5ff946a2c8dc0320",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "30cd977b_9024f3ef",
         "filename": "java/com/google/gerrit/server/restapi/account/PutAvatarEmail.java",
         "patchSetId": 7

@@ -288,6 +288,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "323f4394_c894c63f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3117294
+      },
+      "writtenOn": "2026-03-09T20:38:05Z",
+      "side": 1,
+      "message": "added test, that should fail in case a field is added/removed",
+      "parentUuid": "7d19b1ed_f108cdc5",
+      "revId": "50f981d7d2123adb2be2243a5ff946a2c8dc0320",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "30cd977b_9024f3ef",
         "filename": "java/com/google/gerrit/server/restapi/account/PutAvatarEmail.java",
         "patchSetId": 7

@@ -252,6 +252,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b2801be8_f5879216",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3117294
+      },
+      "writtenOn": "2026-03-09T16:32:56Z",
+      "side": 1,
+      "message": "@nitzan@google.com looked into converting `AccountProtoConverter` to `SafeProtoConverter`, but it doesn\u0027t work: Account uses null for unset string fields, while proto defaults strings to `\"\"`.\n\nInstead I went with adding `AccountProtoConverterTest` with round-trip tests covering all fields.\n\nHappy to revisit the SafeProtoConverter approach if you could guide me through the `\"\"`  vs `null` cases.",
+      "parentUuid": "42d90c7b_87b20f08",
+      "revId": "50f981d7d2123adb2be2243a5ff946a2c8dc0320",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "30cd977b_9024f3ef",
         "filename": "java/com/google/gerrit/server/restapi/account/PutAvatarEmail.java",
         "patchSetId": 7

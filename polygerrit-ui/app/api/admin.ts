@@ -11,6 +11,7 @@ export declare interface MenuLink {
   capability: string | null;
 }
 
+
 export declare interface AdminPluginApi {
   addMenuLink(text: string, url: string, capability?: string): void;
 

@@ -325,6 +325,14 @@ export class GrChangeSummary extends LitElement {
           line-height: var(--line-height-normal);
           color: var(--primary-text-color);
         }
+        /* 
+         * https://github.com/angular/components/issues/31207
+         * It's not possible to assign a custom touch target to md-buttons.
+         * This results in the buttons overflowing into the checks-chip.
+         */
+        gr-checks-chip {
+          z-index: 2;
+        }
       `,
     ];
   }

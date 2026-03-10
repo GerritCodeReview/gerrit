@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "865528d8_9b2104cf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-03-10T13:30:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "345c28ed_3f441dc2",
+      "range": {
+        "startLine": 7,
+        "startChar": 19,
+        "endLine": 7,
+        "endChar": 29
+      },
+      "revId": "d1ab45b83513ed12a923fe0c689ce4cf99fa81d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "49311e91_3740c2ac",
@@ -61,6 +85,30 @@
       "writtenOn": "2026-03-10T12:54:50Z",
       "side": 1,
       "message": "```suggestion\nBefore this change, a DynamicItem defined and bound in Gerrit core could\n```",
+      "range": {
+        "startLine": 9,
+        "startChar": 12,
+        "endLine": 9,
+        "endChar": 18
+      },
+      "revId": "d1ab45b83513ed12a923fe0c689ce4cf99fa81d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d60584a6_503417ac",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-03-10T13:30:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "49311e91_3740c2ac",
       "range": {
         "startLine": 9,
         "startChar": 12,
@@ -94,6 +142,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "82d060b3_1d89327a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-03-10T13:30:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b234e474_914ef9ca",
+      "range": {
+        "startLine": 18,
+        "startChar": 48,
+        "endLine": 18,
+        "endChar": 50
+      },
+      "revId": "d1ab45b83513ed12a923fe0c689ce4cf99fa81d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0b6aa3f5_5e5c55f0",
@@ -107,6 +179,30 @@
       "writtenOn": "2026-03-10T12:53:28Z",
       "side": 1,
       "message": "There are no tests covering this case in your change: can you add one?",
+      "range": {
+        "startLine": 197,
+        "startChar": 0,
+        "endLine": 200,
+        "endChar": 67
+      },
+      "revId": "d1ab45b83513ed12a923fe0c689ce4cf99fa81d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5f6d6fe5_0d16fee2",
+        "filename": "java/com/google/gerrit/extensions/registration/DynamicItem.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-03-10T13:30:59Z",
+      "side": 1,
+      "message": "True. This code also wasn\u0027t covered before my change and I wasn\u0027t sure how to write a test to reach this code.... If you have a hint let me know.",
+      "parentUuid": "0b6aa3f5_5e5c55f0",
       "range": {
         "startLine": 197,
         "startChar": 0,

@@ -636,6 +636,8 @@ public class RefControl {
               pde.setAdvice(
                   "You need 'Submit' rights on refs/for/ to submit changes during change upload.");
           case WRITE_CONFIG -> pde.setAdvice("You need 'Write' rights on refs/meta/config.");
+          case VOTE ->
+              pde.setAdvice("You need to get permission to vote on the ref for this label");
         }
         throw pde;
       }
@@ -745,6 +747,9 @@ public class RefControl {
             && canForgeCommitter()
             && canForgeGerritServerIdentity()
             && canUploadMerges();
+      }
+      case VOTE -> {
+        return canPerform("Vote");
       }
     }
     throw new PermissionBackendException(perm + " unsupported");

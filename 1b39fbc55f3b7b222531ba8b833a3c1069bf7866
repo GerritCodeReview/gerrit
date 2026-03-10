@@ -16,6 +16,24 @@
       "message": "```suggestion\nwould be helpful to be redirected to the relevant section directly\n```",
       "revId": "1b39fbc55f3b7b222531ba8b833a3c1069bf7866",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "121d05c7_2c2518b3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-03-10T07:49:57Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "9f814561_4ddb98f9",
+      "revId": "1b39fbc55f3b7b222531ba8b833a3c1069bf7866",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -46,7 +46,7 @@ export enum ChangeActions {
   SUBMIT = 'submit',
   UNREVIEWED = 'unreviewed',
   WIP = 'wip',
-  INCLUDED_IN = 'includedIn',
+  INCLUDED_IN = 'includedIn1',
 }
 
 export enum RevisionActions {

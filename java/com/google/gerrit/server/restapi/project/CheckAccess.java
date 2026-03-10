@@ -31,11 +31,13 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.permissions.DefaultPermissionMappings;
 import com.google.gerrit.server.permissions.GlobalPermission;
+import com.google.gerrit.server.permissions.LabelPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.project.ProjectResource;
+import com.google.gerrit.server.util.LabelVote;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.Optional;
@@ -95,34 +97,53 @@ public class CheckAccess implements RestReadView<ProjectResource> {
                 HttpServletResponse.SC_FORBIDDEN,
                 String.format("user %s cannot see project %s", match, rsrc.getName())));
       }
-      RefPermission refPerm;
+      RefPermission refPerm = null;
+      LabelVote labelVote = null;
       if (!Strings.isNullOrEmpty(input.permission)) {
         if (Strings.isNullOrEmpty(input.ref)) {
           throw new BadRequestException("must set 'ref' when specifying 'permission'");
         }
         Optional<RefPermission> rp = DefaultPermissionMappings.refPermission(input.permission);
-        if (!rp.isPresent()) {
-          throw new BadRequestException(
-              String.format("'%s' is not recognized as ref permission", input.permission));
+        if (rp.isPresent()) {
+          refPerm = rp.get();
+        } else {
+          try {
+            labelVote = LabelVote.parseWithEquals(input.permission);
+            refPerm = RefPermission.VOTE;
+          } catch (IllegalArgumentException e) {
+            throw new BadRequestException(
+                String.format("'%s' is not recognized as ref permission", input.permission));
+          }
         }
-
-        refPerm = rp.get();
       } else {
         refPerm = RefPermission.READ;
       }
 
       String message = null;
-      if (!Strings.isNullOrEmpty(input.ref)
-          && !permissionBackend
-              .absentUser(match)
-              .ref(BranchNameKey.create(rsrc.getNameKey(), input.ref))
-              .test(refPerm)) {
-        return Response.ok(
-            createInfo(
-                HttpServletResponse.SC_FORBIDDEN,
-                String.format(
-                    "user %s lacks permission %s for %s in project %s",
-                    match, input.permission, input.ref, rsrc.getName())));
+      if (!Strings.isNullOrEmpty(input.ref)) {
+        boolean can;
+        if (refPerm == RefPermission.VOTE) {
+          can =
+              permissionBackend
+                  .absentUser(match)
+                  .ref(BranchNameKey.create(rsrc.getNameKey(), input.ref))
+                  .changeToBeCreated(false)
+                  .testOrFalse(new LabelPermission.WithValue(labelVote));
+        } else {
+          can =
+              permissionBackend
+                  .absentUser(match)
+                  .ref(BranchNameKey.create(rsrc.getNameKey(), input.ref))
+                  .test(refPerm);
+        }
+        if (!can) {
+          return Response.ok(
+              createInfo(
+                  HttpServletResponse.SC_FORBIDDEN,
+                  String.format(
+                      "user %s lacks permission %s for %s in project %s",
+                      match, input.permission, input.ref, rsrc.getName())));
+        }
       }
 
       // We say access is okay if there are no refs, but this warrants a warning,

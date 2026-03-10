@@ -16,13 +16,13 @@ package com.google.gerrit.extensions.registration;
 
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
 import com.google.inject.Binder;
 import com.google.inject.BindingAnnotation;
 import com.google.inject.Key;
 import com.google.inject.Provider;
-import com.google.inject.ProvisionException;
 import com.google.inject.Scopes;
 import com.google.inject.TypeLiteral;
 import com.google.inject.binder.LinkedBindingBuilder;
@@ -42,6 +42,7 @@ import java.util.concurrent.atomic.AtomicReference;
  * exception is thrown.
  */
 public class DynamicItem<T> {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   /** Annotate a DynamicItem to be final and being bound at most once. */
   @Target({ElementType.TYPE})
@@ -193,11 +194,10 @@ public class DynamicItem<T> {
     Extension<T> old = null;
     while (!ref.compareAndSet(old, item)) {
       old = ref.get();
-      if (old != null && !PluginName.GERRIT.equals(old.getPluginName())) {
-        throw new ProvisionException(
-            String.format(
-                "%s already provided by %s, ignoring plugin %s",
-                key.getTypeLiteral(), old.getPluginName(), pluginName));
+      if (old != null) {
+        logger.atFine().log(
+            "%s already provided by %s will be replaced by plugin %s",
+            key.getTypeLiteral(), old.getPluginName(), pluginName);
       }
     }
 
@@ -221,17 +221,10 @@ public class DynamicItem<T> {
     Extension<T> old = null;
     while (!ref.compareAndSet(old, item)) {
       old = ref.get();
-      if (old != null
-          && !PluginName.GERRIT.equals(old.getPluginName())
-          && !pluginName.equals(old.getPluginName())) {
-        // We allow to replace:
-        // 1. Gerrit core items, e.g. websession cache
-        //    can be replaced by plugin implementation
-        // 2. Reload of current plugin
-        throw new ProvisionException(
-            String.format(
-                "%s already provided by %s, ignoring plugin %s",
-                this.key.getTypeLiteral(), old.getPluginName(), pluginName));
+      if (old != null) {
+        logger.atFine().log(
+            "%s already provided by %s will be replaced by plugin %s",
+            key.getTypeLiteral(), old.getPluginName(), pluginName);
       }
     }
     return new ReloadableHandle(key, item, old);

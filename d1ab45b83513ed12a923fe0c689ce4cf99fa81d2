@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "345c28ed_3f441dc2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-03-10T12:57:18Z",
+      "side": 1,
+      "message": "Allow `replacing` (not repicating)",
+      "parentUuid": "abb35fda_9e6b11e6",
+      "range": {
+        "startLine": 7,
+        "startChar": 19,
+        "endLine": 7,
+        "endChar": 29
+      },
+      "revId": "d1ab45b83513ed12a923fe0c689ce4cf99fa81d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "49311e91_3740c2ac",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3

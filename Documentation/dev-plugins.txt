@@ -146,6 +146,11 @@ ones.
 However, these are not the only classes available for consumption; API plugins
 can also define and provide interfaces and concrete classes for other plugins.
 
+Note that it is also possible to replace DynamicItem bound by one plugin by
+another binding in another plugin. This can be used when exposing a DynamicItem
+via an API module: we can bind a default impelmentation in the plugin declaring
+the DynamicItem and then replace the implementation by another plugin.
+
 This enables plugins to influence other plugins by customizing or extending the
 their behaviour.
 

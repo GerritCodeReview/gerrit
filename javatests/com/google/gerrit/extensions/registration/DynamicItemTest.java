@@ -31,6 +31,7 @@ import org.junit.Test;
 
 public class DynamicItemTest {
   private static final String PLUGIN_NAME = "plugin-name";
+  private static final String ANOTHER_PLUGIN = "another-plugin";
 
   private static final String UNEXPECTED_PLUGIN_NAME = "unexpected-plugin";
   private static final String DYNAMIC_ITEM_1 = "item-1";
@@ -56,7 +57,43 @@ public class DynamicItemTest {
   }
 
   @Test
-  public void shouldAssignDynamicItemTwice() {
+  public void shouldAssignDynamicItemTwice_GerritCoreThenPlugin() {
+    shouldAssignDynamicItemTwice(PluginName.GERRIT, ANOTHER_PLUGIN);
+  }
+
+  @Test
+  public void shouldAssignDynamicItemTwice_PluginOverridesPlugin() {
+    shouldAssignDynamicItemTwice(PLUGIN_NAME, ANOTHER_PLUGIN);
+  }
+
+  private void shouldAssignDynamicItemTwice(String initialPlugin, String overridingPlugin) {
+    ImmutableMap<TypeLiteral<?>, DynamicItem<?>> bindings =
+        ImmutableMap.of(STRING_TYPE_LITERAL, DynamicItem.itemOf(String.class, null));
+
+    ImmutableList<RegistrationHandle> gerritRegistrations =
+        PrivateInternals_DynamicTypes.attachItems(
+            newInjector(
+                (binder) -> {
+                  DynamicItem.itemOf(binder, String.class);
+                  DynamicItem.bind(binder, String.class).toInstance(DYNAMIC_ITEM_1);
+                }),
+            initialPlugin,
+            bindings);
+    assertThat(gerritRegistrations).hasSize(1);
+    assertDynamicItem(bindings.get(STRING_TYPE_LITERAL), DYNAMIC_ITEM_1, initialPlugin);
+
+    ImmutableList<RegistrationHandle> pluginRegistrations =
+        PrivateInternals_DynamicTypes.attachItems(
+            newInjector(
+                (binder) -> DynamicItem.bind(binder, String.class).toInstance(DYNAMIC_ITEM_2)),
+            overridingPlugin,
+            bindings);
+    assertThat(pluginRegistrations).hasSize(1);
+    assertDynamicItem(bindings.get(STRING_TYPE_LITERAL), DYNAMIC_ITEM_2, overridingPlugin);
+  }
+
+  @Test
+  public void shouldAssignDynamicItemAlreadyAssigned() {
     ImmutableMap<TypeLiteral<?>, DynamicItem<?>> bindings =
         ImmutableMap.of(STRING_TYPE_LITERAL, DynamicItem.itemOf(String.class, null));
 

@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "57586cd0_c616cd1f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-03-10T12:29:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d322f74b_90d9d0e2",
+      "revId": "2af03d21814e90b8c55067e8b3d129070b1d6076",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "45d3784c_fc661ca3",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
@@ -31,6 +49,24 @@
       "writtenOn": "2026-03-10T12:04:42Z",
       "side": 1,
       "message": "I believe we should also amend the documentation saying that it is now possible to override DynamicItems set by other plugins.",
+      "revId": "2af03d21814e90b8c55067e8b3d129070b1d6076",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7a746d02_3afe5b8f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-03-10T12:29:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "45d3784c_fc661ca3",
       "revId": "2af03d21814e90b8c55067e8b3d129070b1d6076",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -58,6 +94,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2c7547cc_f5ee033d",
+        "filename": "java/com/google/gerrit/extensions/registration/DynamicItem.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-03-10T12:29:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "105c75ad_226df296",
+      "range": {
+        "startLine": 198,
+        "startChar": 15,
+        "endLine": 198,
+        "endChar": 21
+      },
+      "revId": "2af03d21814e90b8c55067e8b3d129070b1d6076",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ebff4d3d_d39c9594",
@@ -71,6 +131,24 @@
       "writtenOn": "2026-03-10T12:04:42Z",
       "side": 1,
       "message": "Maybe lower the level to trace?",
+      "revId": "2af03d21814e90b8c55067e8b3d129070b1d6076",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9f021b95_12dc0339",
+        "filename": "java/com/google/gerrit/extensions/registration/DynamicItem.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-03-10T12:29:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ebff4d3d_d39c9594",
       "revId": "2af03d21814e90b8c55067e8b3d129070b1d6076",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

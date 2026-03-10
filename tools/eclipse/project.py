@@ -328,10 +328,10 @@ def gen_classpath(ext):
                 os.path.basename(j).startswith("header_")) and not os.path.exists(j):
                 continue
 
-            # java-prettify is available as sources in modules/java-prettify.
-            # The external repo may not provide a binary jar under bazel-out,
-            # which breaks Eclipse. Compile from sources in the IDE instead.
-            if j.endswith("external/_main~_repo_rules~java-prettify/libjava-prettify.jar"):
+            # java-prettify is vendored in-tree under modules/java-prettify.
+            # Eclipse compiles it directly from sources, so ignore the external
+            # libjava-prettify.jar entry produced by Bazel.
+            if os.path.basename(j) == "libjava-prettify.jar" and "/external/" in j:
                 continue
 
             s = None

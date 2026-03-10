@@ -72,7 +72,10 @@ public enum RefPermission implements GerritPermission {
   READ_CONFIG("read ref config"),
 
   /** Write access to ref's config section in {@code project.config}. */
-  WRITE_CONFIG("write ref config");
+  WRITE_CONFIG("write ref config"),
+
+  /** Vote a certain value on the label. */
+  VOTE;
 
   private final String description;
 

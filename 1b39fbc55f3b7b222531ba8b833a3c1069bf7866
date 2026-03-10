@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9f814561_4ddb98f9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-03-10T02:03:06Z",
+      "side": 1,
+      "message": "```suggestion\nwould be helpful to be redirected to the relevant section directly\n```",
+      "revId": "1b39fbc55f3b7b222531ba8b833a3c1069bf7866",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

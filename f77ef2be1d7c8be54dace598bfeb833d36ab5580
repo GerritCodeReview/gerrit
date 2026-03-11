@@ -16,6 +16,24 @@
       "message": "anything from my side i can do?\ngerrit says: \"hasfooter:\"Release-Notes\" needs to be set, am i supposed to add this as a commit message trailer?",
       "revId": "f77ef2be1d7c8be54dace598bfeb833d36ab5580",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6be274a8_0dac733e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-03-11T19:06:02Z",
+      "side": 1,
+      "message": "Just add `Release-Notes: Allow users to select which email address is used for avatar lookup` which is the headline of the mention of this feature on the release notes.",
+      "parentUuid": "4b51c9ef_3173ca87",
+      "revId": "f77ef2be1d7c8be54dace598bfeb833d36ab5580",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

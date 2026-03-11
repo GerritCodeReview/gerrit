@@ -16,6 +16,23 @@
       "message": "https://gerrit-review.googlesource.com/q/Ib3919bb9927232720c3d1c753b8938f45ffdc9df",
       "revId": "ea9c5e7b0034e6ee964021cb56559e5cef74e02e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2bff10a9_284dbd88",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4685709
+      },
+      "writtenOn": "2026-03-11T20:02:06Z",
+      "side": 1,
+      "message": "delete bug",
+      "revId": "ea9c5e7b0034e6ee964021cb56559e5cef74e02e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

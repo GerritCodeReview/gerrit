@@ -55,6 +55,7 @@ import {LabelSuggestionsProvider} from '../../../services/label-suggestions-prov
 import {queryAndAssert, unique} from '../../../utils/common-util';
 import {fireAlert} from '../../../utils/event-util';
 import {MdOutlinedSelect} from '@material/web/select/outlined-select.js';
+import {Interaction} from '../../../constants/reporting';
 
 const MAX_AUTOCOMPLETE_RESULTS = 10;
 
@@ -372,6 +373,10 @@ export class GrCreateFlow extends LitElement {
         }
       `,
     ];
+  }
+
+  protected override firstUpdated() {
+    this.reportingService.reportInteraction(Interaction.FLOWS_TAB_RENDERED);
   }
 
   override willUpdate(changedProperties: PropertyValues) {

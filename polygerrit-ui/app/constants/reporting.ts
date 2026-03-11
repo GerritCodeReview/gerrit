@@ -174,6 +174,10 @@ export enum Interaction {
   AI_AGENT_SUGGESTIONS_SHOWN = 'ai-agent-suggestions-shown',
   // AI agent suggestions are promoted to a draft comment by user.
   AI_AGENT_SUGGESTION_TO_COMMENT = 'ai-agent-suggestion-to-comment',
+
+  FLOWS_TAB_RENDERED = 'flows-tab-rendered',
+  CREATE_FLOW_DIALOG_OPENED = 'create-flow-dialog-opened',
+  FLOW_CREATED = 'flow-created',
 }
 
 /**

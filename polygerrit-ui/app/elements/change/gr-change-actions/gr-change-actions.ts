@@ -35,6 +35,7 @@ import {
 } from '../../../constants/constants';
 import {TargetElement} from '../../../api/plugin';
 import {
+  AccountId,
   AccountInfo,
   ActionInfo,
   ActionNameToActionInfoMap,
@@ -289,6 +290,8 @@ const EDIT_ACTIONS: Set<string> = new Set([
 
 const AWAIT_CHANGE_ATTEMPTS = 5;
 const AWAIT_CHANGE_TIMEOUT_MS = 1000;
+export const REMOVE_DELTE_ACCOUNTS_MESSAGE =
+  'The following accounts are deleted and need to be removed from reviewers/CC before submitting:';
 
 const SKIP_ACTION_KEYS: string[] = [
   // REVIEWED/UNREVIEWED is made obsolete by AttentionSet. Once the
@@ -380,6 +383,9 @@ export class GrChangeActions
   @query('#confirmDeleteEditDialog') confirmDeleteEditDialog?: GrDialog;
 
   @query('#confirmPublishEditDialog') confirmPublishEditDialog?: GrDialog;
+
+  @query('#confirmDeleteReviewerDialog')
+  confirmDeleteReviewerDialog?: GrDialog;
 
   @query('#moreActions') moreActions?: GrDropdown;
 
@@ -498,6 +504,8 @@ export class GrChangeActions
   @state() threadsWithUnappliedSuggestions?: CommentThread[];
 
   @state() chatCapabilitiesLoaded = false;
+
+  @state() deletedReviewers: AccountInfo[] = [];
 
   private aiChatLoadingCleanup?: () => void;
 
@@ -846,6 +854,26 @@ export class GrChangeActions
               </p>`
             )}
             Do you really want to publish the edit?
+          </div>
+        </gr-dialog>
+        <gr-dialog
+          id="confirmDeleteReviewerDialog"
+          class="confirmDialog"
+          confirm-label="OK"
+          @confirm=${this.handleConfirmDialogCancel}
+          @cancel=${this.handleConfirmDialogCancel}
+        >
+          <div class="header" slot="header">Invalid reviewers</div>
+          <div class="main" slot="main">
+            ${REMOVE_DELTE_ACCOUNTS_MESSAGE}
+            <ul>
+              ${this.deletedReviewers.map(
+                acc =>
+                  html`<li>
+                    ${acc.name ?? acc.email ?? acc.username ?? acc._account_id}
+                  </li>`
+              )}
+            </ul>
           </div>
         </gr-dialog>
       </dialog>
@@ -1390,6 +1418,25 @@ export class GrChangeActions
   // private but used in test
   canSubmitChange() {
     if (!this.change) return false;
+    const deletedVoters = new Map<AccountId, AccountInfo>();
+    for (const label of Object.values(this.change.labels ?? {})) {
+      if (!isDetailedLabelInfo(label) || !label.all) continue;
+      for (const approval of label.all) {
+        if (approval.deleted && approval._account_id !== undefined) {
+          deletedVoters.set(approval._account_id, approval);
+        }
+      }
+    }
+
+    if (deletedVoters.size > 0) {
+      this.deletedReviewers = [...deletedVoters.values()];
+      assertIsDefined(
+        this.confirmDeleteReviewerDialog,
+        'confirmDeleteReviewerDialog'
+      );
+      this.showActionDialog(this.confirmDeleteReviewerDialog);
+      return false;
+    }
     const change = this.change as ChangeInfo;
     const revision = this.getRevision(change, this.latestPatchNum);
     return this.getPluginLoader().jsApiService.canSubmitChange(

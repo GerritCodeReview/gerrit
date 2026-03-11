@@ -28,7 +28,11 @@ import {
   stubRestApi,
   waitUntil,
 } from '../../../test/test-utils';
-import {assertUIActionInfo, GrChangeActions} from './gr-change-actions';
+import {
+  assertUIActionInfo,
+  GrChangeActions,
+  REMOVE_DELTE_ACCOUNTS_MESSAGE,
+} from './gr-change-actions';
 import {
   AccountId,
   ActionInfo,
@@ -301,6 +305,18 @@ suite('gr-change-actions tests', () => {
               <div class="header" slot="header">Publish Change Edit</div>
               <div class="main" slot="main">
                 Do you really want to publish the edit?
+              </div>
+            </gr-dialog>
+            <gr-dialog
+              class="confirmDialog"
+              confirm-label="OK"
+              id="confirmDeleteReviewerDialog"
+              role="dialog"
+            >
+              <div class="header" slot="header">Invalid reviewers</div>
+              <div class="main" slot="main">
+                ${REMOVE_DELTE_ACCOUNTS_MESSAGE}
+                <ul></ul>
               </div>
             </gr-dialog>
           </dialog>
@@ -2969,6 +2985,87 @@ suite('gr-change-actions tests', () => {
           .rebaseOnCurrent,
         false
       );
+    });
+  });
+
+  suite('canSubmitChange', () => {
+    let element: GrChangeActions;
+
+    setup(async () => {
+      element = await fixture<GrChangeActions>(html`
+        <gr-change-actions></gr-change-actions>
+      `);
+      element.change = createChangeViewChange();
+      element.changeNum = 42 as NumericChangeId;
+      element.latestPatchNum = 2 as PatchSetNumber;
+      sinon
+        .stub(testResolver(pluginLoaderToken).jsApiService, 'canSubmitChange')
+        .returns(true);
+      await element.updateComplete;
+    });
+
+    test('show error if a reviewer is deleted', async () => {
+      element.change = {
+        ...createChangeViewChange(),
+        labels: {
+          'Code-Review': {
+            all: [
+              {
+                _account_id: 1 as AccountId,
+                name: 'name 1',
+                deleted: true,
+              },
+            ],
+            values: {
+              '-1': 'No',
+              ' 0': 'No score',
+              '+1': 'Yes',
+            },
+          },
+        },
+      };
+      await element.updateComplete;
+      const showDialogSpy = sinon.spy(element, 'showActionDialog');
+
+      const canSubmit = element.canSubmitChange();
+
+      assert.isFalse(canSubmit);
+      assert.isTrue(showDialogSpy.called);
+      assert.deepEqual(element.deletedReviewers, [
+        {
+          _account_id: 1 as AccountId,
+          name: 'name 1',
+          deleted: true,
+        },
+      ]);
+    });
+
+    test('return true if no reviewer is deleted', async () => {
+      element.change = {
+        ...createChangeViewChange(),
+        labels: {
+          'Code-Review': {
+            all: [
+              {
+                _account_id: 1 as AccountId,
+                name: 'name 1',
+              },
+            ],
+            values: {
+              '-1': 'No',
+              ' 0': 'No score',
+              '+1': 'Yes',
+            },
+          },
+        },
+      };
+      await element.updateComplete;
+      const showDialogSpy = sinon.spy(element, 'showActionDialog');
+
+      const canSubmit = element.canSubmitChange();
+
+      assert.isTrue(canSubmit);
+      assert.isFalse(showDialogSpy.called);
     });
   });
 });

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4b51c9ef_3173ca87",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3117294
+      },
+      "writtenOn": "2026-03-11T18:43:24Z",
+      "side": 1,
+      "message": "anything from my side i can do?\ngerrit says: \"hasfooter:\"Release-Notes\" needs to be set, am i supposed to add this as a commit message trailer?",
+      "revId": "f77ef2be1d7c8be54dace598bfeb833d36ab5580",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

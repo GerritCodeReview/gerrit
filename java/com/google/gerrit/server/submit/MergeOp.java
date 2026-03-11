@@ -33,21 +33,26 @@ import com.google.auto.value.AutoValue;
 import com.google.common.base.Joiner;
 import com.google.common.base.Stopwatch;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSetMultimap;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
+import com.google.common.collect.Multimaps;
 import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.BooleanProjectConfig;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Change.Status;
 import com.google.gerrit.entities.PatchSet;
+import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.SubmissionId;
 import com.google.gerrit.entities.SubmitRecord;
@@ -73,10 +78,12 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.IdentifiedUser.ImpersonationPermissionMode;
 import com.google.gerrit.server.InternalUser;
+import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.experiments.ExperimentFeatures;
+import com.google.gerrit.server.experiments.ExperimentFeaturesConstants;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.MergeTip;
 import com.google.gerrit.server.git.validators.MergeValidationException;
@@ -316,6 +323,7 @@ public class MergeOp implements AutoCloseable {
   private final Map<Change.Id, Change> updatedChanges;
 
   private final ExperimentFeatures experimentFeatures;
+  private final AccountCache accountCache;
 
   private final ProjectCache projectCache;
   private final long hasImplicitMergeTimeoutSeconds;
@@ -355,6 +363,7 @@ public class MergeOp implements AutoCloseable {
       MergeMetrics mergeMetrics,
       ProjectCache projectCache,
       ExperimentFeatures experimentFeatures,
+      AccountCache accountCache,
       @GerritServerConfig Config config,
       PermissionBackend permissionBackend) {
     this.cmUtil = cmUtil;
@@ -378,6 +387,7 @@ public class MergeOp implements AutoCloseable {
     this.mergeMetrics = mergeMetrics;
     this.projectCache = projectCache;
     this.experimentFeatures = experimentFeatures;
+    this.accountCache = accountCache;
     // Undocumented - experimental, can be removed.
     hasImplicitMergeTimeoutSeconds =
         ConfigUtil.getTimeUnit(
@@ -399,11 +409,16 @@ public class MergeOp implements AutoCloseable {
    * @param cd change that is being checked
    * @throws ResourceConflictException the exception that is thrown if the SR is not fulfilled
    */
-  public static void checkSubmitRequirements(ChangeData cd) throws ResourceConflictException {
+  public void checkSubmitRequirements(ChangeData cd) throws ResourceConflictException {
     try (TraceTimer timer =
         TraceContext.newTimer(
             "MergeOp#checkSubmitRequirements",
             Metadata.builder().changeId(cd.getId().get()).build())) {
+      if (experimentFeatures.isFeatureEnabled(
+          ExperimentFeaturesConstants.IGNORE_VOTES_OF_DELETED_ACCOUNTS)) {
+        cd.setCurrentApprovals(
+            ImmutableList.copyOf(filterOutApprovalsOfDeletedAccounts(cd.currentApprovals())));
+      }
       PatchSet patchSet = cd.currentPatchSet();
       if (patchSet == null) {
         throw new ResourceConflictException("missing current patch set for change " + cd.getId());
@@ -459,7 +474,7 @@ public class MergeOp implements AutoCloseable {
     }
   }
 
-  private static void addProblemForChange(
+  private void addProblemForChange(
       Change.Id triggeringChangeId,
       ChangeData cd,
       boolean allowMerged,
@@ -618,7 +633,7 @@ public class MergeOp implements AutoCloseable {
    *     case of impersonation {@code caller.getRealUser()} contains the user triggering the merge.
    * @return List of problems preventing merge
    */
-  public static ImmutableList<ChangeProblem> checkCommonSubmitProblems(
+  public ImmutableList<ChangeProblem> checkCommonSubmitProblems(
       Change triggeringChange,
       ChangeSet cs,
       boolean allowMerged,
@@ -646,10 +661,48 @@ public class MergeOp implements AutoCloseable {
 
   private void checkSubmitRulesAndState(Change triggeringChange, ChangeSet cs, boolean allowMerged)
       throws ResourceConflictException {
+    if (experimentFeatures.isFeatureEnabled(ExperimentFeaturesConstants.IGNORE_VOTES_OF_DELETED_ACCOUNTS)) {
+      for (ChangeData cd : cs.changes()) {
+        cd.setCurrentApprovals(
+            ImmutableList.copyOf(filterOutApprovalsOfDeletedAccounts(cd.currentApprovals())));
+      }
+    }
     checkCommonSubmitProblems(triggeringChange, cs, allowMerged, permissionBackend, caller).stream()
         .forEach(cp -> commitStatus.problem(cp.getChangeId(), cp.getProblem()));
     commitStatus.maybeFailVerbose();
     mergeMetrics.countChangesThatWereSubmittedWithRebaserApproval(cs);
+  }
+
+  public Iterable<PatchSetApproval> filterOutApprovalsOfDeletedAccounts(
+      Iterable<PatchSetApproval> psas) {
+    if (!experimentFeatures.isFeatureEnabled(
+        ExperimentFeaturesConstants.IGNORE_VOTES_OF_DELETED_ACCOUNTS)) {
+      return psas;
+    }
+
+    try (TraceTimer traceTimer =
+        TraceContext.newTimer("Filtering out approvals of deleted accounts", Metadata.empty())) {
+      return Iterables.filter(psas, psa -> !isDeletedAccount(psa.accountId()));
+    }
+  }
+
+  private ImmutableListMultimap<PatchSet.Id, PatchSetApproval> filterOutApprovalsOfDeletedAccounts(
+      ListMultimap<PatchSet.Id, PatchSetApproval> approvals) {
+    if (!experimentFeatures.isFeatureEnabled(
+        ExperimentFeaturesConstants.IGNORE_VOTES_OF_DELETED_ACCOUNTS)) {
+      return ImmutableListMultimap.copyOf(approvals);
+    }
+
+    try (TraceTimer traceTimer =
+        TraceContext.newTimer("Filtering out approvals of deleted accounts", Metadata.empty())) {
+      return ImmutableListMultimap.copyOf(
+          Multimaps.filterEntries(
+              approvals, entry -> !isDeletedAccount(entry.getValue().accountId())));
+    }
+  }
+
+  private boolean isDeletedAccount(Account.Id accountId) {
+    return !accountCache.get(accountId).isPresent();
   }
 
   private void bypassSubmitRulesAndRequirements(ChangeSet cs) {

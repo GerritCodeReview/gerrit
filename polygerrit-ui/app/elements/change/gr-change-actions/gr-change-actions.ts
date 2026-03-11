@@ -35,6 +35,7 @@ import {
 } from '../../../constants/constants';
 import {TargetElement} from '../../../api/plugin';
 import {
+  AccountId,
   AccountInfo,
   ActionInfo,
   ActionNameToActionInfoMap,
@@ -381,6 +382,9 @@ export class GrChangeActions
 
   @query('#confirmPublishEditDialog') confirmPublishEditDialog?: GrDialog;
 
+  @query('#confirmDeleteReviewerDialog')
+  confirmDeleteReviewerDialog?: GrDialog;
+
   @query('#moreActions') moreActions?: GrDropdown;
 
   @query('#secondaryActions') secondaryActions?: HTMLElement;
@@ -498,6 +502,8 @@ export class GrChangeActions
   @state() threadsWithUnappliedSuggestions?: CommentThread[];
 
   @state() chatCapabilitiesLoaded = false;
+
+  @state() deletedReviewers: AccountInfo[] = [];
 
   private aiChatLoadingCleanup?: () => void;
 
@@ -846,6 +852,27 @@ export class GrChangeActions
               </p>`
             )}
             Do you really want to publish the edit?
+          </div>
+        </gr-dialog>
+        <gr-dialog
+          id="confirmDeleteReviewerDialog"
+          class="confirmDialog"
+          confirm-label="OK"
+          @confirm=${this.handleConfirmDialogCancel}
+          @cancel=${this.handleConfirmDialogCancel}
+        >
+          <div class="header" slot="header">Invalid reviewers</div>
+          <div class="main" slot="main">
+            The following accounts are deleted and need to be removed from
+            reviewers/CC before submitting:
+            <ul>
+              ${this.deletedReviewers.map(
+                acc =>
+                  html`<li>
+                    ${acc.name ?? acc.email ?? acc.username ?? acc._account_id}
+                  </li>`
+              )}
+            </ul>
           </div>
         </gr-dialog>
       </dialog>
@@ -1390,6 +1417,25 @@ export class GrChangeActions
   // private but used in test
   canSubmitChange() {
     if (!this.change) return false;
+    const deletedVoters = new Map<AccountId, AccountInfo>();
+    for (const label of Object.values(this.change.labels ?? {})) {
+      if (!isDetailedLabelInfo(label) || !label.all) continue;
+      for (const approval of label.all) {
+        if (approval.deleted && approval._account_id !== undefined) {
+          deletedVoters.set(approval._account_id, approval);
+        }
+      }
+    }
+
+    if (deletedVoters.size > 0) {
+      this.deletedReviewers = [...deletedVoters.values()];
+      assertIsDefined(
+        this.confirmDeleteReviewerDialog,
+        'confirmDeleteReviewerDialog'
+      );
+      this.showActionDialog(this.confirmDeleteReviewerDialog);
+      return false;
+    }
     const change = this.change as ChangeInfo;
     const revision = this.getRevision(change, this.latestPatchNum);
     return this.getPluginLoader().jsApiService.canSubmitChange(

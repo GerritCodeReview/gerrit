@@ -248,7 +248,10 @@ public class Submit
   @Nullable
   private String problemsForSubmittingChangeset(ChangeData cd, ChangeSet cs, CurrentUser user) {
     Optional<String> reason =
-        MergeOp.checkCommonSubmitProblems(cd.change(), cs, false, permissionBackend, user).stream()
+        mergeOpProvider
+            .get()
+            .checkCommonSubmitProblems(cd.change(), cs, false, permissionBackend, user)
+            .stream()
             .findFirst()
             .map(MergeOp.ChangeProblem::getProblem);
     if (reason.isPresent()) {
@@ -294,7 +297,7 @@ public class Submit
 
     ChangeData cd = resource.getChangeResource().getChangeData();
     try {
-      MergeOp.checkSubmitRequirements(cd);
+      mergeOpProvider.get().checkSubmitRequirements(cd);
     } catch (ResourceConflictException e) {
       return null; // submit not visible
     }

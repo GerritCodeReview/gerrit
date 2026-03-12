@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d3fa13c4_ba545520",
+        "filename": "polygerrit-ui/screenshots/Chromium/baseline/gr-flows.png",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3976824
+      },
+      "writtenOn": "2026-03-12T22:24:38Z",
+      "side": 1,
+      "message": "The message looks strange next to the button, could it be a full width banner above the button with a link to the documentation?",
+      "revId": "ef11339a928cc7966472f6db5f8381f628fcce3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

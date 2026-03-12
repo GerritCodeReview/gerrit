@@ -331,7 +331,7 @@ public class GitFileDiffCacheImpl implements GitFileDiffCache {
      */
     private GitFileDiff createGitFileDiff(
         DiffEntry diffEntry, GitFileDiffCacheKey key, CloseablePool<DiffFormatter> diffPool)
-        throws IOException {
+        throws IOException, DiffNotAvailableException {
       if (!key.useTimeout()) {
         try (CloseablePool<DiffFormatter>.Handle formatter = diffPool.get();
             TraceTimer timer =
@@ -375,10 +375,13 @@ public class GitFileDiffCacheImpl implements GitFileDiffCache {
                 + " returning a negative git file diff",
             key.newFilePath(), key.diffAlgorithm());
         metrics.timeouts.increment();
-        return GitFileDiff.createNegative(
-            AbbreviatedObjectId.fromObjectId(key.oldTree()),
-            AbbreviatedObjectId.fromObjectId(key.newTree()),
-            key.newFilePath());
+        throw new DiffNotAvailableException(
+            "Timeout reached while computing git file diff for "
+                + key.newFilePath()
+                + " with "
+                + key.diffAlgorithm()
+                + " diff algorithm.",
+            e);
       } catch (ExecutionException e) {
         // If there was an error computing the result, carry it
         // up to the caller so the cache knows this key is invalid.

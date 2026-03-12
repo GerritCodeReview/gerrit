@@ -18,6 +18,7 @@ import {getAppContext} from '../../../services/app-context';
 import {NumericChangeId, ServerInfo} from '../../../types/common';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-dialog/gr-dialog';
+import '../../shared/gr-icon/gr-icon';
 import '../../core/gr-search-autocomplete/gr-search-autocomplete';
 import '@material/web/select/outlined-select.js';
 import '@material/web/select/select-option.js';
@@ -371,6 +372,19 @@ export class GrCreateFlow extends LitElement {
         md-icon-button {
           --md-icon-button-icon-size: 20px;
         }
+        .info {
+          background-color: var(--info-background);
+          padding: var(--spacing-m);
+          border-radius: var(--border-radius);
+          display: flex;
+          align-items: center;
+          color: var(--info-foreground);
+          margin-left: var(--spacing-m);
+        }
+        .info gr-icon {
+          color: var(--info-foreground);
+          margin-right: var(--spacing-m);
+        }
       `,
     ];
   }
@@ -472,6 +486,12 @@ export class GrCreateFlow extends LitElement {
           Create Flow
         </gr-button>
         ${this.renderDocumentationLink(this.documentationLink)}
+        <div class="info">
+          <span>
+            Automate your workflow such as adding reviewers, starting reviews,
+            submitting changes and more
+          </span>
+        </div>
       </div>
       ${this.renderCreateFlowDialog()}
     `;

@@ -51,7 +51,7 @@ public class ServerPlugin extends Plugin {
   protected Class<? extends Module> batchModule;
   protected Class<? extends Module> sshModule;
   protected Class<? extends Module> httpModule;
-  private Class<? extends Module> apiModuleClass;
+  protected Class<? extends Module> apiModuleClass;
 
   private Injector apiInjector;
   private Injector sysInjector;

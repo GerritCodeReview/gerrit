@@ -1,0 +1,19 @@
+#!/bin/bash
+
+cp -f bazel-bin/plugins/foo-0/foo-0.jar $SITE/plugins
+cp -f bazel-bin/plugins/foo-1/foo-1.jar $SITE/plugins
+cp -f bazel-bin/plugins/foo-4/foo-4.jar $SITE/plugins
+
+cp -f bazel-bin/plugins/bar-0/bar-0.jar $SITE/plugins
+cp -f bazel-bin/plugins/bar-1/bar-1.jar $SITE/plugins
+cp -f bazel-bin/plugins/bar-4/bar-4.jar $SITE/plugins
+
+cp -f bazel-bin/plugins/foo-0/foo-0.jar $SITE_NEW/plugins
+cp -f bazel-bin/plugins/foo-1/foo-1.jar $SITE_NEW/plugins
+cp -f bazel-bin/plugins/foo-2/foo-2.jar $SITE_NEW/plugins
+cp -f bazel-bin/plugins/foo-4/foo-4.jar $SITE_NEW/plugins
+
+cp -f bazel-bin/plugins/bar-0/bar-0.jar $SITE_NEW/plugins
+cp -f bazel-bin/plugins/bar-1/bar-1.jar $SITE_NEW/plugins
+cp -f bazel-bin/plugins/bar-2/bar-2.jar $SITE_NEW/plugins
+cp -f bazel-bin/plugins/bar-4/bar-4.jar $SITE_NEW/plugins

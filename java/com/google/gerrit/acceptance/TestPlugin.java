@@ -25,6 +25,8 @@ import java.lang.annotation.Target;
 public @interface TestPlugin {
   String name();
 
+  String apiModule() default "";
+
   String sysModule() default "";
 
   String httpModule() default "";

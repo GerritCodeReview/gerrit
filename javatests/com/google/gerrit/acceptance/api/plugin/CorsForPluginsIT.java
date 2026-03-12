@@ -60,7 +60,8 @@ public class CorsForPluginsIT extends AbstractDaemonTest {
   @Test
   public void noCorsConfig_CorsNotAllowed() throws Exception {
     try (AutoCloseable ignored =
-        installPlugin("foo", null, FooPluginHttpModule.class, null, PluginContentScanner.EMPTY)) {
+        installPlugin(
+            "foo", null, null, FooPluginHttpModule.class, null, PluginContentScanner.EMPTY)) {
 
       RestResponse rsp = execute("/plugins/foo/Documentation/foo.html", "evil");
       assertThat(rsp.getHeader(ACCESS_CONTROL_ALLOW_ORIGIN)).isNull();
@@ -74,7 +75,8 @@ public class CorsForPluginsIT extends AbstractDaemonTest {
   @GerritConfig(name = "site.allowOriginRegex", value = "friend")
   public void configConfigured_onlyMatchingOriginAllowed() throws Exception {
     try (AutoCloseable ignored =
-        installPlugin("foo", null, FooPluginHttpModule.class, null, PluginContentScanner.EMPTY)) {
+        installPlugin(
+            "foo", null, null, FooPluginHttpModule.class, null, PluginContentScanner.EMPTY)) {
 
       RestResponse rsp;
 

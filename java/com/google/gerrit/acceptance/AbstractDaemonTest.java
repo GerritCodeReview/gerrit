@@ -1763,7 +1763,7 @@ public abstract class AbstractDaemonTest {
 
   protected AutoCloseable installPlugin(String pluginName, Class<? extends Module> sysModuleClass)
       throws Exception {
-    return installPlugin(pluginName, sysModuleClass, null, null);
+    return installPlugin(pluginName, null, sysModuleClass, null, null);
   }
 
   protected AutoCloseable installPlugin(
@@ -1772,16 +1772,29 @@ public abstract class AbstractDaemonTest {
       @Nullable Class<? extends Module> httpModuleClass,
       @Nullable Class<? extends Module> sshModuleClass)
       throws Exception {
-    return installPlugin(pluginName, sysModuleClass, httpModuleClass, sshModuleClass, null);
+    return installPlugin(pluginName, null, sysModuleClass, httpModuleClass, sshModuleClass, null);
   }
 
   protected AutoCloseable installPlugin(
       String pluginName,
+      @Nullable Class<? extends Module> apiModuleClass,
+      @Nullable Class<? extends Module> sysModuleClass,
+      @Nullable Class<? extends Module> httpModuleClass,
+      @Nullable Class<? extends Module> sshModuleClass)
+      throws Exception {
+    return installPlugin(
+        pluginName, apiModuleClass, sysModuleClass, httpModuleClass, sshModuleClass, null);
+  }
+
+  protected AutoCloseable installPlugin(
+      String pluginName,
+      @Nullable Class<? extends Module> apiModuleClass,
       @Nullable Class<? extends Module> sysModuleClass,
       @Nullable Class<? extends Module> httpModuleClass,
       @Nullable Class<? extends Module> sshModuleClass,
       PluginContentScanner scanner)
       throws Exception {
+    checkStatic(apiModuleClass);
     checkStatic(sysModuleClass);
     checkStatic(httpModuleClass);
     checkStatic(sshModuleClass);
@@ -1792,6 +1805,7 @@ public abstract class AbstractDaemonTest {
             pluginUserFactory.create(pluginName),
             scanner,
             getClass().getClassLoader(),
+            apiModuleClass != null ? apiModuleClass.getName() : null,
             sysModuleClass != null ? sysModuleClass.getName() : null,
             httpModuleClass != null ? httpModuleClass.getName() : null,
             sshModuleClass != null ? sshModuleClass.getName() : null,

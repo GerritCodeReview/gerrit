@@ -1,0 +1,153 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "611ae48b_4c57c579",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-03-12T10:44:57Z",
+      "side": 1,
+      "message": "I still think we should fix the submit requirement, though, as you mentioned that the change will show as the SR is satisfied *BUT* not submittable, which could be seen as a UI bug.",
+      "revId": "2e624c96ea4ed20fb6641d9f18344e6d1530beba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e2be505f_0e56589e",
+        "filename": "java/com/google/gerrit/server/experiments/ExperimentFeaturesConstants.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-03-12T10:44:57Z",
+      "side": 1,
+      "message": "To me, this should be the default! If you would like someone to allow votes from deleted accounts, then we should flip this feature flag and consider it.\n\n\n\n```suggestion\n  /** Whether to consider votes of deleted accounts. */\n  public static final String CONSIDER_VOTES_OF_DELETED_ACCOUNTS \u003d\n      \"GerritBackendFeature__consider_votes_of_deleted_accounts\";\n```",
+      "range": {
+        "startLine": 68,
+        "startChar": 0,
+        "endLine": 70,
+        "endChar": 63
+      },
+      "revId": "2e624c96ea4ed20fb6641d9f18344e6d1530beba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3881f8cd_9cd1c288",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-03-12T10:44:57Z",
+      "side": 1,
+      "message": "```suggestion\n      if (!experimentFeatures.isFeatureEnabled(\n          ExperimentFeaturesConstants.CONSIDER_VOTES_OF_DELETED_ACCOUNTS)) {\n```",
+      "range": {
+        "startLine": 417,
+        "startChar": 0,
+        "endLine": 418,
+        "endChar": 74
+      },
+      "revId": "2e624c96ea4ed20fb6641d9f18344e6d1530beba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "14465f09_b2478604",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 665,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-03-12T10:44:57Z",
+      "side": 1,
+      "message": "```suggestion\n    if (experimentFeatures.isFeatureEnabled(\n        ExperimentFeaturesConstants.CONSIDER_VOTES_OF_DELETED_ACCOUNTS)) {\n        return;\n    }\n```",
+      "range": {
+        "startLine": 664,
+        "startChar": 0,
+        "endLine": 665,
+        "endChar": 72
+      },
+      "revId": "2e624c96ea4ed20fb6641d9f18344e6d1530beba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "044afdc5_20589767",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 682,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-03-12T10:44:57Z",
+      "side": 1,
+      "message": "```suggestion\n    if (experimentFeatures.isFeatureEnabled(\n        ExperimentFeaturesConstants.CONSIDER_VOTES_OF_DELETED_ACCOUNTS)) {\n      return psas;\n    }\n```",
+      "range": {
+        "startLine": 679,
+        "startChar": 0,
+        "endLine": 682,
+        "endChar": 5
+      },
+      "revId": "2e624c96ea4ed20fb6641d9f18344e6d1530beba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f2fcf4be_35e73054",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/SubmitWithDeletedUserIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-03-12T10:44:57Z",
+      "side": 1,
+      "message": "```suggestion\n\n  @Test\n```",
+      "range": {
+        "startLine": 62,
+        "startChar": 0,
+        "endLine": 66,
+        "endChar": 75
+      },
+      "revId": "2e624c96ea4ed20fb6641d9f18344e6d1530beba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e5af4793_602e5517",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/SubmitWithDeletedUserIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-03-12T10:44:57Z",
+      "side": 1,
+      "message": "```suggestion\n  @Test\n  @GerritConfig(\n      name \u003d \"experiments.enabled\",\n      value \u003d ExperimentFeaturesConstants.CONSIDER_VOTES_OF_DELETED_ACCOUNTS)  \n```",
+      "revId": "2e624c96ea4ed20fb6641d9f18344e6d1530beba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

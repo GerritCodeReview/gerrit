@@ -20,6 +20,7 @@ import java.nio.file.Path;
 
 public class TestServerPlugin extends ServerPlugin {
   private final ClassLoader classLoader;
+  private String apiName;
   private String sysName;
   private String httpName;
   private String sshName;
@@ -29,12 +30,23 @@ public class TestServerPlugin extends ServerPlugin {
       String pluginCanonicalWebUrl,
       PluginUser user,
       ClassLoader classLoader,
+      String apiName,
       String sysName,
       String httpName,
       String sshName,
       Path dataDir)
       throws InvalidPluginException {
-    this(name, pluginCanonicalWebUrl, user, null, classLoader, sysName, httpName, sshName, dataDir);
+    this(
+        name,
+        pluginCanonicalWebUrl,
+        user,
+        null,
+        classLoader,
+        apiName,
+        sysName,
+        httpName,
+        sshName,
+        dataDir);
   }
 
   public TestServerPlugin(
@@ -43,6 +55,7 @@ public class TestServerPlugin extends ServerPlugin {
       PluginUser user,
       PluginContentScanner scanner,
       ClassLoader classLoader,
+      String apiName,
       String sysName,
       String httpName,
       String sshName,
@@ -60,6 +73,7 @@ public class TestServerPlugin extends ServerPlugin {
         null,
         GerritRuntime.DAEMON);
     this.classLoader = classLoader;
+    this.apiName = apiName;
     this.sysName = sysName;
     this.httpName = httpName;
     this.sshName = sshName;
@@ -68,6 +82,7 @@ public class TestServerPlugin extends ServerPlugin {
 
   private void loadGuiceModules() throws InvalidPluginException {
     try {
+      this.apiModuleClass = load(apiName, classLoader);
       this.sysModule = load(sysName, classLoader);
       this.httpModule = load(httpName, classLoader);
       this.sshModule = load(sshName, classLoader);

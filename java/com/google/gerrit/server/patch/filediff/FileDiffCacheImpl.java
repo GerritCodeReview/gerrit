@@ -36,6 +36,7 @@ import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.gerrit.server.patch.AutoMerger;
 import com.google.gerrit.server.patch.ComparisonType;
+import com.google.gerrit.server.patch.DiffExecutor;
 import com.google.gerrit.server.patch.DiffNotAvailableException;
 import com.google.gerrit.server.patch.DiffUtil;
 import com.google.gerrit.server.patch.Text;
@@ -58,6 +59,10 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import java.util.stream.Collectors;
 import org.eclipse.jgit.diff.EditList;
 import org.eclipse.jgit.diff.RawText;
@@ -146,12 +151,16 @@ public class FileDiffCacheImpl implements FileDiffCache {
   static class FileDiffLoader extends CacheLoader<FileDiffCacheKey, FileDiffOutput> {
     private final GitRepositoryManager repoManager;
     private final AllDiffsEvaluator.Factory allDiffsEvaluatorFactory;
+    private final ExecutorService diffExecutor;
 
     @Inject
     FileDiffLoader(
-        AllDiffsEvaluator.Factory allDiffsEvaluatorFactory, GitRepositoryManager manager) {
+        AllDiffsEvaluator.Factory allDiffsEvaluatorFactory,
+        GitRepositoryManager manager,
+        @DiffExecutor ExecutorService diffExecutor) {
       this.allDiffsEvaluatorFactory = allDiffsEvaluatorFactory;
       this.repoManager = manager;
+      this.diffExecutor = diffExecutor;
     }
 
     @Override
@@ -392,8 +401,32 @@ public class FileDiffCacheImpl implements FileDiffCache {
     private Map<FileDiffCacheKey, FileDiffOutput> createFileEntries(
         ObjectReader reader, List<FileDiffCacheKey> keys, RevWalk rw)
         throws DiffNotAvailableException, IOException {
-      Map<AugmentedFileDiffCacheKey, AllFileGitDiffs> allFileDiffs =
-          allDiffsEvaluatorFactory.create(rw).execute(wrapKeys(keys, rw));
+      Map<AugmentedFileDiffCacheKey, AllFileGitDiffs> allFileDiffs;
+      try {
+        Future<Map<AugmentedFileDiffCacheKey, AllFileGitDiffs>> future =
+            diffExecutor.submit(
+                () -> allDiffsEvaluatorFactory.create(rw).execute(wrapKeys(keys, rw)));
+        allFileDiffs = future.get(1, TimeUnit.MINUTES);
+      } catch (InterruptedException | TimeoutException e) {
+        logger.atWarning().withCause(e).log(
+            "Timeout reached while computing diff for keys: %s",
+            keys.stream().map(FileDiffCacheKey::toString).collect(Collectors.joining(", ")));
+        Map<FileDiffCacheKey, FileDiffOutput> result = new HashMap<>();
+        for (FileDiffCacheKey key : keys) {
+          result.put(
+              key,
+              FileDiffOutput.createExpensive(key.newFilePath(), key.oldCommit(), key.newCommit()));
+        }
+        return result;
+      } catch (ExecutionException e) {
+        if (e.getCause() instanceof DiffNotAvailableException) {
+          throw (DiffNotAvailableException) e.getCause();
+        }
+        if (e.getCause() instanceof IOException) {
+          throw (IOException) e.getCause();
+        }
+        throw new DiffNotAvailableException(e);
+      }
 
       Map<FileDiffCacheKey, FileDiffOutput> result = new HashMap<>();
 
@@ -406,7 +439,7 @@ public class FileDiffCacheImpl implements FileDiffCache {
           // negative result.
           result.put(
               augmentedKey.key(),
-              FileDiffOutput.createNegative(
+              FileDiffOutput.createExpensive(
                   mainGitDiff.newPath().orElse(""),
                   augmentedKey.key().oldCommit(),
                   augmentedKey.key().newCommit()));

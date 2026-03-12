@@ -367,10 +367,8 @@ public class DiffOperationsImpl implements DiffOperations {
                 key.newFilePath(),
                 // Use the fallback diff algorithm
                 DiffAlgorithm.HISTOGRAM_NO_FALLBACK,
-                // We don't enforce timeouts with the fallback algorithm. Timeouts were introduced
-                // because of a bug in JGit that happens only when the histogram algorithm uses
-                // Myers as fallback. See https://issues.gerritcodereview.com/issues/40000618
-                /* useTimeout= */ false,
+                // Enforce a timeout even when falling back
+                /* useTimeout= */ true,
                 key.whitespace());
         logger.atFine().log(
             "fallback to computing git file diff for %s with %s as diff algorithm and no timeout",
@@ -393,7 +391,7 @@ public class DiffOperationsImpl implements DiffOperations {
     ImmutableMap.Builder<String, FileDiffOutput> diffs = ImmutableMap.builder();
 
     for (FileDiffOutput fileDiffOutput : fileDiffOutputs) {
-      if (fileDiffOutput.isEmpty()
+      if ((fileDiffOutput.isEmpty() && !fileDiffOutput.isNegative())
           || (diffOptions.skipFilesWithAllEditsDueToRebase() && allDueToRebase(fileDiffOutput))) {
         continue;
       }

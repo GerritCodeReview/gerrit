@@ -3,6 +3,46 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ad3a44e1_feef598e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2026-03-12T07:28:20Z",
+      "side": 1,
+      "message": "For reference that\u0027s change 511021, it was not removing approvals from deleted users but ignoring them. Maybe also mention that the latency problem was caused by retrieving the accounts from the account cache which is needed to check if the user is deleted.\n\nI still think change 511021 is the right fix and that it\u0027s a bug with the account cache that it\u0027s not performing well enough, but I agree that it\u0027s better to have this simpler fix now until that issue can be resolved.",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 25
+      },
+      "revId": "8622726dc26315e246b4590658154209012447c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dd77bd43_00524b81",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2026-03-12T07:28:20Z",
+      "side": 1,
+      "message": "Maybe list the drawbacks of this simpler approach for transparency, e.g. the submit requirements say that the change is submittable and then it isn\u0027t etc.",
+      "revId": "8622726dc26315e246b4590658154209012447c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "825a3011_39e74acf",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 8

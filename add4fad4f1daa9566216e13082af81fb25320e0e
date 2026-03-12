@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "392a3e3d_d8049b46",
+        "filename": "polygerrit-ui/app/api/ai-code-review.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1159190
+      },
+      "writtenOn": "2026-03-12T18:42:06Z",
+      "side": 1,
+      "message": "Just double checking but is `cl` the proper terminology? I know I\u0027ve used \"change\" in the past and not sure if cl is a Google Critique term.",
+      "range": {
+        "startLine": 42,
+        "startChar": 2,
+        "endLine": 42,
+        "endChar": 11
+      },
+      "revId": "add4fad4f1daa9566216e13082af81fb25320e0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

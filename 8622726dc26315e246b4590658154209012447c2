@@ -98,6 +98,24 @@
       "message": "The vulnerability process requires fixes to be made to a special branch\n\nThis is just to get an initial review",
       "revId": "8622726dc26315e246b4590658154209012447c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "990173ec_2ddfd98b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-03-12T12:54:04Z",
+      "side": 1,
+      "message": "I don\u0027t believe we\u0027ll need the full security protocol here, as IMHO this is just a bug, not really a security vulnerability.\nLet\u0027s what to see what other maintainers say.",
+      "parentUuid": "825a3011_39e74acf",
+      "revId": "8622726dc26315e246b4590658154209012447c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

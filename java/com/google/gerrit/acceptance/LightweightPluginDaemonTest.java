@@ -42,6 +42,7 @@ public class LightweightPluginDaemonTest extends AbstractDaemonTest {
             canonicalWebUrl.get() + "plugins/" + name,
             pluginUserFactory.create(name),
             getClass().getClassLoader(),
+            testPlugin.apiModule(),
             testPlugin.sysModule(),
             testPlugin.httpModule(),
             testPlugin.sshModule(),

@@ -366,12 +366,12 @@ public class RevertIT extends AbstractDaemonTest {
     String actualSubject = doubleRevertChange.subject;
     String commitMessage = gApi.changes().id(doubleRevertChange.id).current().commit(false).message;
 
-    assertThat(actualSubject)
-        .isEqualTo("Revert^2 \"" + result.getChange().change().getSubject() + "\"");
+    assertThat(actualSubject).isEqualTo("Custom message for double revert");
     assertThat(commitMessage)
-        .startsWith("Revert^2 \"" + result.getChange().change().getSubject() + "\"");
-    assertThat(commitMessage).contains("Custom message for double revert");
-    assertThat(commitMessage).contains("This reverts commit " + revertChange.currentRevision);
+        .isEqualTo(
+            String.format(
+                "Custom message for double revert\n\nChange-Id: %s\n",
+                doubleRevertChange.changeId));
   }
 
   @Test

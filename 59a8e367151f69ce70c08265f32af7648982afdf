@@ -46,6 +46,30 @@
       },
       "revId": "59a8e367151f69ce70c08265f32af7648982afdf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "958d7ff3_eb9154e1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-03-12T15:04:11Z",
+      "side": 1,
+      "message": "I changed it to \n- GET /projects/{project}/commits/{commit-id}/diff?base\u003d{sha1}\n  Lists files that differ between two commits.\n\n- GET /projects/{project}/commits/{commit-id}/files/{file}/diff?base\u003d{sha1}",
+      "parentUuid": "af26f30a_3a7dc463",
+      "range": {
+        "startLine": 15,
+        "startChar": 2,
+        "endLine": 15,
+        "endChar": 59
+      },
+      "revId": "59a8e367151f69ce70c08265f32af7648982afdf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

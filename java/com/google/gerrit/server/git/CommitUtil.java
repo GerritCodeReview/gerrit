@@ -400,6 +400,13 @@ public class CommitUtil {
 
   public String getRevertMessage(
       @Nullable String initialMessage, String subject, String commitId, boolean isSubmission) {
+    // If a message is specified in the non-submission case, it should be
+    // returned directly.
+    if (initialMessage != null && !isSubmission) {
+      return initialMessage;
+    }
+
+
     if (isSubmission) {
       if (subject.length() > 60) {
         subject = subject.substring(0, 56) + "...";
@@ -429,11 +436,11 @@ public class CommitUtil {
     }
 
     if (initialMessage != null) {
-      if (isSubmission) {
-        return MessageFormat.format(
-            ChangeMessages.revertSubmissionUserMessage, subject, initialMessage);
-      }
-      return initialMessage;
+      // Note that the case of an initial message in the non-submission case
+      // was handled at the top of the function, so it is ok to always return
+      // the revertSubmission message here.
+      return MessageFormat.format(
+          ChangeMessages.revertSubmissionUserMessage, subject, initialMessage);
     }
 
     return MessageFormat.format(ChangeMessages.revertChangeDefaultMessage, subject, commitId);

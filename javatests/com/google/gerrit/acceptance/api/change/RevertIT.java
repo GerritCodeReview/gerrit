@@ -348,6 +348,34 @@ public class RevertIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void revertOfRevert() throws Exception {
+    PushOneCommit.Result result = createChange();
+    gApi.changes().id(result.getChangeId()).current().review(ReviewInput.approve());
+    gApi.changes().id(result.getChangeId()).revision(result.getCommit().name()).submit();
+
+    // First revert
+    ChangeInfo revertChange = gApi.changes().id(result.getChangeId()).revert().get();
+    gApi.changes().id(revertChange.id).current().review(ReviewInput.approve());
+    gApi.changes().id(revertChange.id).current().submit();
+
+    // Revert of revert
+    ChangeInfo doubleRevertChange = gApi.changes().id(revertChange.id).revert().get();
+
+    String actualSubject = doubleRevertChange.subject;
+    String commitMessage = gApi.changes().id(doubleRevertChange.id).current().commit(false).message;
+
+    assertThat(actualSubject)
+        .isEqualTo("Revert^2 \"" + result.getChange().change().getSubject() + "\"");
+    assertThat(commitMessage)
+        .isEqualTo(
+            String.format(
+                "Revert^2 \"%s\"\n\nThis reverts commit %s.\n\nChange-Id: %s\n",
+                result.getChange().change().getSubject(),
+                revertChange.currentRevision,
+                doubleRevertChange.changeId));
+  }
+
+  @Test
   public void revertOfRevertWithSetMessage() throws Exception {
     PushOneCommit.Result result = createChange();
     gApi.changes().id(result.getChangeId()).current().review(ReviewInput.approve());
@@ -366,12 +394,44 @@ public class RevertIT extends AbstractDaemonTest {
     String actualSubject = doubleRevertChange.subject;
     String commitMessage = gApi.changes().id(doubleRevertChange.id).current().commit(false).message;
 
-    assertThat(actualSubject)
-        .isEqualTo("Revert^2 \"" + result.getChange().change().getSubject() + "\"");
+    assertThat(actualSubject).isEqualTo(revertInput.message);
     assertThat(commitMessage)
-        .startsWith("Revert^2 \"" + result.getChange().change().getSubject() + "\"");
-    assertThat(commitMessage).contains("Custom message for double revert");
-    assertThat(commitMessage).contains("This reverts commit " + revertChange.currentRevision);
+        .isEqualTo(
+            String.format(
+                "Custom message for double revert\n\nChange-Id: %s\n",
+                doubleRevertChange.changeId));
+  }
+
+  @Test
+  public void revertOfRevertWithSetMessageSimulatingUiPayload() throws Exception {
+    PushOneCommit.Result result = createChange();
+    gApi.changes().id(result.getChangeId()).current().review(ReviewInput.approve());
+    gApi.changes().id(result.getChangeId()).revision(result.getCommit().name()).submit();
+
+    // First revert
+    ChangeInfo revertChange = gApi.changes().id(result.getChangeId()).revert().get();
+    gApi.changes().id(revertChange.id).current().review(ReviewInput.approve());
+    gApi.changes().id(revertChange.id).current().submit();
+
+    // Revert of revert with custom message that matches the "Revert^2" pattern
+    RevertInput revertInput = new RevertInput();
+    String expectedSubject = "Revert^2 \"" + result.getChange().change().getSubject() + "\"";
+    revertInput.message =
+        expectedSubject
+            + "\n\nThis reverts commit "
+            + revertChange.currentRevision
+            + ".\n\nReason for revert: My amazing reason\n";
+
+    ChangeInfo doubleRevertChange = gApi.changes().id(revertChange.id).revert(revertInput).get();
+
+    String actualSubject = doubleRevertChange.subject;
+    String commitMessage = gApi.changes().id(doubleRevertChange.id).current().commit(false).message;
+
+    assertThat(actualSubject).isEqualTo(expectedSubject);
+    assertThat(commitMessage)
+        .isEqualTo(
+            String.format(
+                "%s\nChange-Id: %s\n", revertInput.message, doubleRevertChange.changeId));
   }
 
   @Test
@@ -1154,6 +1214,65 @@ public class RevertIT extends AbstractDaemonTest {
             String.format(
                 "Revert^2 \"second change\"\n\nThis reverts commit %s.\n\n%s\n\nChange-Id: %s\n",
                 secondRevertCommit, commitMessage, doubleRevertSecond.changeId));
+  }
+
+  @Test
+  public void revertSubmissionOfRevertSubmission() throws Exception {
+    String firstResult = createChange("first change", "a.txt", "message").getChangeId();
+    String secondResult = createChange("second change", "b.txt", "message").getChangeId();
+    approve(firstResult);
+    approve(secondResult);
+    gApi.changes().id(secondResult).current().submit();
+
+    // First revert
+    List<ChangeInfo> revertChanges =
+        gApi.changes().id(firstResult).revertSubmission().revertChanges;
+    ChangeInfo firstRevert =
+        revertChanges.stream()
+            .filter(c -> c.subject.equals("Revert \"first change\""))
+            .findFirst()
+            .get();
+    ChangeInfo secondRevert =
+        revertChanges.stream()
+            .filter(c -> c.subject.equals("Revert \"second change\""))
+            .findFirst()
+            .get();
+
+    approve(firstRevert.id);
+    approve(secondRevert.id);
+    gApi.changes().id(firstRevert.id).current().submit();
+
+    // Revert of revert
+    List<ChangeInfo> doubleRevertChanges =
+        gApi.changes().id(firstRevert.id).revertSubmission().revertChanges;
+
+    ChangeInfo doubleRevertFirst =
+        doubleRevertChanges.stream()
+            .filter(c -> c.subject.equals("Revert^2 \"first change\""))
+            .findFirst()
+            .get();
+    ChangeInfo doubleRevertSecond =
+        doubleRevertChanges.stream()
+            .filter(c -> c.subject.equals("Revert^2 \"second change\""))
+            .findFirst()
+            .get();
+
+    String firstRevertCommit = gApi.changes().id(firstRevert.id).current().commit(false).commit;
+    String commitMessage1 = gApi.changes().id(doubleRevertFirst.id).current().commit(false).message;
+    assertThat(commitMessage1)
+        .isEqualTo(
+            String.format(
+                "Revert^2 \"first change\"\n\nThis reverts commit %s.\n\nChange-Id: %s\n",
+                firstRevertCommit, doubleRevertFirst.changeId));
+
+    String secondRevertCommit = gApi.changes().id(secondRevert.id).current().commit(false).commit;
+    String commitMessage2 =
+        gApi.changes().id(doubleRevertSecond.id).current().commit(false).message;
+    assertThat(commitMessage2)
+        .isEqualTo(
+            String.format(
+                "Revert^2 \"second change\"\n\nThis reverts commit %s.\n\nChange-Id: %s\n",
+                secondRevertCommit, doubleRevertSecond.changeId));
   }
 
   @Test

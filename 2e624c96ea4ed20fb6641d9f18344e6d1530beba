@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "78d344f3_89b917ef",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-03-12T12:32:17Z",
+      "side": 1,
+      "message": "\u003e \u003e which could be seen as a UI bug.\n\u003e \n\u003e Yeah I called this out in the commit message.\n\u003e \n\u003e This is already a very rare scenario and the accompanying UI changes make it clear to the user what to do in this case so I think the worst parts are mitigated.\n\u003e \n\u003e However, yes it\u0027s definitely not the most optimal fix.\n\nAck.\n\n\u003e \u003e I still think we should fix the submit requirement\n\u003e \n\u003e yeah this was already attempted and led to latency increases. Let\u0027s first see if we actually get user complaints to help prioritise.\n\nGotcha, makes sense to stop the bleeding now and prepare for a better fix later on as a follow-up.",
+      "parentUuid": "97a7fa83_14049e22",
+      "revId": "2e624c96ea4ed20fb6641d9f18344e6d1530beba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e2be505f_0e56589e",

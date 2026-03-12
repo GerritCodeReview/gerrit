@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9940a0bd_abde4ad1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-03-12T12:32:17Z",
+      "side": 1,
+      "message": "```suggestion\nRelease-Notes: Removes the validity of approvals given by deleted users, with the possibility of enabling it again with a feature switch.\nChange-Id: I8a5d183e762f774fc0f5a886e51afe184232d076\n```",
+      "revId": "6271d3dba142c3e56749f8e0e55ca7f69ff9196a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

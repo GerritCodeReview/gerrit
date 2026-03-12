@@ -34,8 +34,23 @@ export enum ActionEnum {
   ACTION_CL_GOAL = 11,
 }
 
+/**
+ * The metadata source for a custom action.
+ */
+export declare interface MetadataSource {
+  cl_number?: number;
+}
+
+/**
+ * The source of a custom action.
+ */
+export declare interface CustomActionSource {
+  custom_action_id: string;
+  metadata_source?: MetadataSource;
+}
+
 export declare interface Action {
-  actionType?: ActionEnum;
+  action_type?: ActionEnum;
   id: string;
   display_text: string;
   hover_text?: string;
@@ -54,6 +69,7 @@ export declare interface Action {
   group_id?: string;
   group_display_text?: string;
   external_contexts?: ContextItem[];
+  custom_action_source?: CustomActionSource;
 }
 
 export declare interface ChatRequest {

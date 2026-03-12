@@ -16,6 +16,24 @@
       "message": "Nit: there are 2 linebreaks here. Is this intentional?",
       "revId": "e70c3f68a804eae02b8ebb90eecc8881efd6e930",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "16fb9a65_f5c07f10",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-03-12T09:59:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "23395e3a_7f525977",
+      "revId": "e70c3f68a804eae02b8ebb90eecc8881efd6e930",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

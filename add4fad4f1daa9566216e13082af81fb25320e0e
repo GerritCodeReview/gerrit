@@ -22,6 +22,30 @@
       },
       "revId": "add4fad4f1daa9566216e13082af81fb25320e0e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d592af27_5cca8ceb",
+        "filename": "polygerrit-ui/app/api/ai-code-review.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-03-12T19:01:07Z",
+      "side": 1,
+      "message": "in this case it is a critique cl we are referering to because that is where the agent configs live.",
+      "parentUuid": "392a3e3d_d8049b46",
+      "range": {
+        "startLine": 42,
+        "startChar": 2,
+        "endLine": 42,
+        "endChar": 11
+      },
+      "revId": "add4fad4f1daa9566216e13082af81fb25320e0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

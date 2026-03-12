@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d6e52c2_e7d6f7b5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-03-12T07:32:38Z",
+      "side": 1,
+      "message": "\u003e I still think change 511021 is the right fix and that it\u0027s a bug with the account cache\n\n+1\n\nFor extra context, this bug will appear in an internal review if we don\u0027t close it within a short deadline hence this simpler fix initially.",
+      "parentUuid": "ad3a44e1_feef598e",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 25
+      },
+      "revId": "8622726dc26315e246b4590658154209012447c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dd77bd43_00524b81",
@@ -37,6 +61,24 @@
       "writtenOn": "2026-03-12T07:28:20Z",
       "side": 1,
       "message": "Maybe list the drawbacks of this simpler approach for transparency, e.g. the submit requirements say that the change is submittable and then it isn\u0027t etc.",
+      "revId": "8622726dc26315e246b4590658154209012447c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4c00840a_5ca31ee3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-03-12T07:32:38Z",
+      "side": 1,
+      "message": "Done.\nAlso added that the UX will be similar to the user lacking permission(everything looks green but the user cannot submit)",
+      "parentUuid": "dd77bd43_00524b81",
       "revId": "8622726dc26315e246b4590658154209012447c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

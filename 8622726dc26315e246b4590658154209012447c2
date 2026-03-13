@@ -134,6 +134,24 @@
       "parentUuid": "990173ec_2ddfd98b",
       "revId": "8622726dc26315e246b4590658154209012447c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "63476cdb_753d75e7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2026-03-13T06:52:39Z",
+      "side": 1,
+      "message": "Indeed this issue doesn\u0027t look that severe. Dhruv and I discussed a bit more about the attack vector yesterday. One scenario where this could be exploited involves external IDs and and external groups:\n\n1. User A (external ID) has a Gerrit account X\n2. User A is a member of an external group to which Code-Review+2 permissions are assigned in Gerrit.\n3. User A is trusted as otherwise they wouldn\u0027t have been granted Code-Review+2 permissions.\n4. The concern is, if user A gets compromised an attacker could use this identity to make code changes without code review (instead of needing 2 compromised users). For this the attacker would do:\n5. Upload a change as user A using Gerrit account X\n6. Delete Gerrit account X\n7. Create a new Gerrit account Y for the same user A identity (creating a new Gerrit account for the same external identity resulting in a new Gerrit account may be specific to Google, if at this point Gerrit account X would be resurrected instead of creating a new Gerrit account Y the problem could not happen).\n8. Since Gerrit account Y has user A as external ID the external group memberships for user A apply. Hence Gerrit account Y has permissions for Code-Review+2 via the external group.\n9. Now the change from Gerrit account X can be approved from Gerrit account Y (which is a self-approval since both had the same external identity of user A).\n\nFWIW this scenario is only interesting for internal hosts where it\u0027s not possible to register new accounts for arbitrary emails, but only for external IDs that are strictly controlled. For external hosts a maintainer can always register a new account for a new identity (e.g. arbitrary email), upload a change as that identity (uploading changes is usually allowed for all users) and then approve it as their maintainer identity. This continues to be possible even if this issue is fixed.\n\nJust adding this explanation here for clarification, since I myself got confused about how this can be exploited quite a few times already.\n\nI agree that deleting approvals of deleted accounts, as suggested by Dhruv in this change, is a good mitigation. I\u0027m not too much concerned about UX glitches since this is dealing with an edge case that shouldn\u0027t happen often. Hence the potential for user confusion is very limited.",
+      "parentUuid": "053d18d7_ab42da8b",
+      "revId": "8622726dc26315e246b4590658154209012447c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

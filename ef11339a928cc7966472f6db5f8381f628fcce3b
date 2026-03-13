@@ -34,6 +34,24 @@
       "parentUuid": "d3fa13c4_ba545520",
       "revId": "ef11339a928cc7966472f6db5f8381f628fcce3b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0d9cb18f_b507b456",
+        "filename": "polygerrit-ui/screenshots/Chromium/baseline/gr-flows.png",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-03-13T07:52:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "40f950b5_f1161374",
+      "revId": "ef11339a928cc7966472f6db5f8381f628fcce3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

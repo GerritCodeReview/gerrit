@@ -16,6 +16,24 @@
       "message": "The vulnerability process requires fixes to be made to a special branch\n\nThis is just to get an initial review",
       "revId": "91d360eb77633e78fec8ce8b368aa6dd0a863ef2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f633d511_c723e2f7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-03-13T09:58:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dd55e554_ce6d832d",
+      "revId": "91d360eb77633e78fec8ce8b368aa6dd0a863ef2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

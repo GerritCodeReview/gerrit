@@ -152,6 +152,24 @@
       "parentUuid": "053d18d7_ab42da8b",
       "revId": "8622726dc26315e246b4590658154209012447c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "568ca724_33b6af95",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-03-13T09:06:35Z",
+      "side": 1,
+      "message": "\u003e I agree that deleting approvals of deleted accounts, as suggested by Dhruv in this change, is a good mitigation\n\nThanks for a great summary.\n\nResolving the thread.\n\n@nitzan@google.com @luca.milanesio@gmail.com can I get a review on the change please 😊",
+      "parentUuid": "63476cdb_753d75e7",
+      "revId": "8622726dc26315e246b4590658154209012447c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

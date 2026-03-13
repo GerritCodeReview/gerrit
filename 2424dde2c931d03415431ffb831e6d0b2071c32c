@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6600aa8b_b18f0dec",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-ai-result/gr-diff-ai-result.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-03-13T22:39:09Z",
+      "side": 1,
+      "message": "AI comments are still only visible to the user who ran the agent until they convert it to a comment, right?",
+      "range": {
+        "startLine": 191,
+        "startChar": 23,
+        "endLine": 191,
+        "endChar": 30
+      },
+      "revId": "2424dde2c931d03415431ffb831e6d0b2071c32c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -16,6 +16,23 @@
       "message": "all green now except cr+1 🤗",
       "revId": "5ad7482953855ca2267639859d195965ba9262a5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "da4700a2_c58f8c39",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3117294
+      },
+      "writtenOn": "2026-03-13T11:48:35Z",
+      "side": 1,
+      "message": "folks sorry that i produce so much noise and notifications, but i am stuck with `Verified-1` the plugins (in chain) - have some error i have no clou on.\n\nplease let me know how i could resolve the sitation and get this landed",
+      "revId": "5ad7482953855ca2267639859d195965ba9262a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

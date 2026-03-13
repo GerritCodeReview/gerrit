@@ -16,6 +16,46 @@
       "message": "It\u0027s a complex CL, but looks good! I\u0027m excited to try it behind the experiment.",
       "revId": "73200c2bc4b8e30d74a59195a22df887f06a6354",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3a5a6831_505af482",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-ai-result/gr-diff-ai-result.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-03-13T23:04:49Z",
+      "side": 1,
+      "message": "I imagined this being part of gr-diff-check-result, since we want findings to ultimately be reported through the findings API",
+      "revId": "73200c2bc4b8e30d74a59195a22df887f06a6354",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c6185f51_60636f04",
+        "filename": "polygerrit-ui/app/models/chat/chat-model.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 1009,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-03-13T23:04:49Z",
+      "side": 1,
+      "message": "can we add a bug here instead?",
+      "range": {
+        "startLine": 1009,
+        "startChar": 10,
+        "endLine": 1009,
+        "endChar": 17
+      },
+      "revId": "73200c2bc4b8e30d74a59195a22df887f06a6354",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

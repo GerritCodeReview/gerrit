@@ -33,6 +33,42 @@
       "message": "Why? If used internally, please add a `@UsedBy` annotation.",
       "revId": "4ec72e7948531e67b2dcb66645e12abe4c1d9633",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "72cd39d2_3eae6757",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 690,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-03-13T09:14:52Z",
+      "side": 1,
+      "message": "Removed.\n\nWas not required.\n\nLeft over from some previous attempt.",
+      "parentUuid": "f23b420c_5a6c4e71",
+      "revId": "4ec72e7948531e67b2dcb66645e12abe4c1d9633",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b503e9e8_8345cdea",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 690,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-03-13T09:14:52Z",
+      "side": 1,
+      "message": "Removed.\n\nWas not required.\n\nLeft over from some previous attempt.",
+      "parentUuid": "170b98b6_ff3677b0",
+      "revId": "4ec72e7948531e67b2dcb66645e12abe4c1d9633",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

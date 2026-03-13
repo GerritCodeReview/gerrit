@@ -1,0 +1,45 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5f458eaa_189899b7",
+        "filename": "polygerrit-ui/app/elements/change/gr-flows/gr-create-flow.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-03-13T22:24:13Z",
+      "side": 1,
+      "message": "this looks unused since there\u0027s not a gr-icon added inside of info",
+      "range": {
+        "startLine": 383,
+        "startChar": 7,
+        "endLine": 386,
+        "endChar": 9
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "b4983e93_f71f1a37",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-flows/gr-create-flow.ts",
+              "range": {
+                "startLine": 383,
+                "startChar": 0,
+                "endLine": 387,
+                "endChar": 0
+              },
+              "replacement": ""
+            }
+          ]
+        }
+      ],
+      "revId": "d8b2988def51aaf3892a0404cf0e7c99655c0588",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -28,6 +28,7 @@ import {ParsedChangeInfo} from '../../types/types';
 import {CommentsModel} from '../../models/comments/comments-model';
 import {AiAgentEventDetails, Interaction} from '../../constants/reporting';
 import {getAppContext} from '../../services/app-context';
+import {KnownExperimentId} from '../../services/flags/flags';
 
 suite('gemini-message tests', () => {
   let element: GeminiMessage;
@@ -192,6 +193,36 @@ suite('gemini-message tests', () => {
     const draft = saveDraftStub.lastCall.args[0];
     assert.equal(draft.message, 'test comment');
     assert.isTrue(reloadStub.called);
+  });
+
+  test('renders suggested comment - hidden when flag is on', async () => {
+    sinon.stub(getAppContext().flagsService, 'isEnabled')
+      .withArgs(KnownExperimentId.ENABLE_AI_COMMENTS)
+      .returns(true);
+
+    const testComment: CreateCommentPart = {
+      ...RESPONSE_CREATE_COMMENT,
+      comment: {
+        ...RESPONSE_CREATE_COMMENT.comment,
+        line: 1,
+      },
+    };
+    const turn = createTurn({
+      responseComplete: true,
+      responseParts: [testComment],
+    });
+    chatModel.updateState({...chatModel.getState(), turns: [turn]});
+    await element.updateComplete;
+
+    const commentContainer =
+      element.shadowRoot?.querySelector('.suggested-comment');
+    assert.isNotOk(commentContainer);
+
+    // Verify that file path and line are still rendered
+    const pathButton = element.shadowRoot?.querySelector('.comment-path');
+    assert.isOk(pathButton);
+    const lineButton = element.shadowRoot?.querySelector('.comment-line');
+    assert.isOk(lineButton);
   });
 
   test('renders citations', async () => {

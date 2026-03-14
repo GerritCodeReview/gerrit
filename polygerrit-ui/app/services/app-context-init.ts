@@ -217,7 +217,8 @@ export function createAppDependencies(
           resolver(changeViewModelToken),
           resolver(changeModelToken),
           appContext.reportingService,
-          resolver(pluginLoaderToken).pluginsModel
+          resolver(pluginLoaderToken).pluginsModel,
+          () => resolver(chatModelToken)
         ),
     ],
     [

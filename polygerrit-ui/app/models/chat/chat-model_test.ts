@@ -5,14 +5,18 @@
  */
 import '../../test/common-test-setup';
 import {assert} from '@open-wc/testing';
-import {ChatModel} from './chat-model';
+import {ChatModel, CreateCommentPart, ResponsePartType} from './chat-model';
 import {PluginsModel} from '../plugins/plugins-model';
 import {ChangeModel} from '../change/change-model';
 import {FilesModel} from '../change/files-model';
 import {UserModel} from '../user/user-model';
 import {BehaviorSubject} from 'rxjs';
 import {createParsedChange} from '../../test/test-data-generators';
-import {AiCodeReviewProvider, ChatRequest} from '../../api/ai-code-review';
+import {
+  AiCodeReviewProvider,
+  ChatRequest,
+  ChatResponseListener,
+} from '../../api/ai-code-review';
 
 import sinon from 'sinon';
 import {ParsedChangeInfo} from '../../types/types';
@@ -130,6 +134,62 @@ suite('chat-model tests', () => {
     assert.isDefined(state.customActions);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     assert.deepEqual(state.customActions, customActions as any);
+  });
+
+  test('convertCreateCommentAction sanitizes invalid ranges', async () => {
+    const invalidRange = {
+      start_line: 10,
+      start_character: 0,
+      end_line: 5,
+      end_character: 0,
+    };
+    const action = {
+      comment_text: 'test comment',
+      range: invalidRange,
+    };
+
+    provider.chat = (_request: ChatRequest, listener: ChatResponseListener) => {
+      listener.emitResponse({
+        response_parts: [
+          {
+            id: 0,
+            create_comment_action: action,
+          },
+        ],
+        references: [],
+        citations: [],
+      });
+      listener.done();
+    };
+
+    // Mock getActions before updating change to ensure it's used.
+    (provider.getActions as sinon.SinonStub).resolves({
+      actions: [
+        {
+          id: 'default-action',
+          display_text: 'Default Action',
+          initial_user_prompt: 'Hello',
+        },
+      ],
+      default_action_id: 'default-action',
+    });
+
+    changeModel.updateStateChange(createParsedChange());
+    await new Promise(resolve => setTimeout(resolve, 0));
+
+    model.chat('hello', 'default-action', 0);
+
+    await new Promise(resolve => setTimeout(resolve, 0));
+
+    const state = model.getState();
+    assert.lengthOf(state.turns, 1);
+    const geminiMessage = state.turns[0].geminiMessage;
+    assert.lengthOf(geminiMessage.responseParts, 1);
+    const part = geminiMessage.responseParts[0];
+    assert.equal(part.type, ResponsePartType.CREATE_COMMENT);
+    const commentPart = part as CreateCommentPart;
+    assert.isDefined(commentPart.comment.range);
+    assert.equal(commentPart.comment.range.end_line, 10);
   });
 
   test('chat uses selected model', async () => {

@@ -37,6 +37,12 @@ import {
 } from '../change/change-model';
 import {assert} from '@open-wc/testing';
 import {testResolver} from '../../test/common-test-setup';
+import {
+  chatModelToken,
+  ResponsePartType,
+  Turn,
+  UserType,
+} from '../../models/chat/chat-model';
 import {changeViewModelToken} from '../views/change';
 import {NumericChangeId, PatchSetNumber} from '../../api/rest-api';
 import {pluginLoaderToken} from '../../elements/shared/gr-js-api-interface/gr-plugin-loader';
@@ -89,7 +95,8 @@ suite('checks-model tests', () => {
       testResolver(changeViewModelToken),
       testResolver(changeModelToken),
       getAppContext().reportingService,
-      testResolver(pluginLoaderToken).pluginsModel
+      testResolver(pluginLoaderToken).pluginsModel,
+      () => testResolver(chatModelToken)
     );
     model.checksLatest$.subscribe(c => (current = c[PLUGIN_NAME]));
   });
@@ -230,6 +237,66 @@ suite('checks-model tests', () => {
     );
     assert.isFalse(current.loading);
     assert.isFalse(current.firstTimeLoad);
+  });
+
+  test('integrates AI comments from ChatModel', async () => {
+    const chatModel = testResolver(chatModelToken);
+    const turn: Turn = {
+      userMessage: {
+        userType: UserType.USER,
+        content: 'test',
+        contextItems: [],
+      },
+      geminiMessage: {
+        userType: UserType.GEMINI,
+        responseComplete: true,
+        responseParts: [
+          {
+            id: 1,
+            type: ResponsePartType.CREATE_COMMENT,
+            content: 'test comment',
+            commentCreationId: 'test-id',
+            comment: {
+              message: 'test comment',
+              path: '/test/path',
+              patch_set: 1 as PatchSetNumber,
+            },
+          },
+        ],
+        regenerationIndex: 0,
+        references: [],
+        citations: [],
+      },
+    };
+
+    // Initialize changeModel state to ensure latestPatchNum is set
+    const testChange = updateRevisionsWithCommitShas(createParsedChange());
+    testResolver(changeModelToken).updateStateChange(testChange);
+
+    // Set selected patchset to match
+    testResolver(changeViewModelToken).updateState({
+      checksPatchset: 1 as PatchSetNumber,
+    });
+
+    // Subscribe to results before triggering update
+    let results: CheckResult[] | undefined = undefined;
+    model.allResults$.subscribe(allResults => (results = allResults));
+
+    let aiCommentsState: ChecksProviderState | undefined = undefined;
+    model.checksLatest$.subscribe(c => (aiCommentsState = c['ai_comments']));
+
+    // Trigger chatModel update
+    chatModel.updateState({...chatModel.getState(), turns: [turn]});
+
+    await waitUntil(() => results !== undefined && results.length > 0);
+
+    assert.equal(results!.length, 1);
+    assert.isTrue(!!aiCommentsState);
+    assert.equal(aiCommentsState!.runs.length, 1);
+    assert.equal(aiCommentsState!.runs[0].checkName, 'AI review Agent run');
+    assert.equal(results![0].summary, 'test comment');
+    assert.equal(results![0].message, 'test comment');
+    assert.equal(results![0].codePointers?.[0].path, '/test/path');
   });
 
   test('model.updateStateSetResults', () => {

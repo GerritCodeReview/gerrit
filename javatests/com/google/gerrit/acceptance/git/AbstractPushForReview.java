@@ -2950,6 +2950,33 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
       r.assertMessage("-o gerrit~bar: other description\n-o gerrit~foo: some description\n");
     }
   }
+  
+	@Test
+	public void pluginPushOptionsHelpForDirectPush() throws Exception {
+		PluginPushOption fooOption = new TestPluginPushOption("foo", "some description", true);
+		PluginPushOption barOption = new TestPluginPushOption("bar", "other description", true);
+		try (Registration registration = extensionRegistry.newRegistration().add(fooOption).add(barOption)) {
+			PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo, "change2", "b.txt", "content");
+			push.setPushOptions(ImmutableList.of("help"));
+			PushOneCommit.Result r = push.to("refs/heads/master");
+			r.assertErrorStatus("see help");
+			r.assertMessage("Help for direct pushes:\n");
+			r.assertMessage("--help (-h)                            : display this help text (default:\n"
+					+ "                                          false)\n");
+			r.assertMessage("custom-keyed-value CUSTOM_KEYED_VALUES : custom keyed value in the format\n"
+					+ "                                          '<key>:<value>'\n");
+			r.assertMessage("deadline NAME                          : sets deadline\n");
+			r.assertMessage("notedb NAME                            : set allow or disallow setting for\n"
+					+ "                                          notedb changes\n");
+			r.assertMessage("push-justification NAME                : justification for the push if the\n"
+					+ "                                          'submit' option is used to submit on\n"
+					+ "                                          push\n");
+			r.assertMessage("skip-validation                        : skips commit validation (default:\n"
+					+ "                                          false)\n");
+			r.assertMessage("trace NAME                             : enable tracing with optional name\n");
+			r.assertMessage("-o gerrit~bar: other description\n-o gerrit~foo: some description\n");
+		}
+	}
 
   @Test
   public void pushNoteDbRef() throws Exception {

@@ -1470,6 +1470,29 @@ class ReceiveCommits {
         }
       }
 
+		RegularBranchInput regularBranchInput = new RegularBranchInput();
+		// Only use parser here for printing documentation of push options supported
+		CmdLineParser cmdLineParser = optionParserFactory.create(regularBranchInput);
+		String helpOption = "help";
+
+		if (pushOptions.containsKey(helpOption)) {
+
+			logger.atFine().log("found help push option");
+
+			StringWriter w = new StringWriter();
+			w.write("\nHelp for direct pushes:\n\n");
+			cmdLineParser.printUsage(w, null);
+
+			String pluginPushOptionsHelp = pluginPushOptionDescriptions();
+			if (!pluginPushOptionsHelp.isEmpty()) {
+				w.write("\nPlugin push options:\n" + pluginPushOptionsHelp);
+			}
+			addMessage(w.toString());
+			reject(cmd, RejectionReason.create(MetricBucket.HELP_REQUESTED, "see help"));
+			return;
+
+		}
+      
       switch (cmd.getType()) {
         case CREATE -> parseCreate(globalRevWalk, ins, cmd);
         case UPDATE -> parseUpdate(globalRevWalk, ins, cmd);
@@ -1837,6 +1860,27 @@ class ReceiveCommits {
     return RejectionReason.create(
         MetricBucket.PROHIBITED, "prohibited by Gerrit: " + e.getMessage());
   }
+
+	static class RegularBranchInput {
+
+		@Option(name = "notedb", metaVar = "NAME", usage = "set allow or disallow setting for notedb changes")
+		String notedb;
+
+		@Option(name = "trace", metaVar = "NAME", usage = "enable tracing with optional name")
+		String trace;
+
+		@Option(name = "deadline", metaVar = "NAME", usage = "sets deadline")
+		String deadline;
+
+		@Option(name = "push-justification", metaVar = "NAME", usage = "justification for the push if the 'submit' option is used to submit on push")
+		String pushJustification;
+
+		@Option(name = "custom-keyed-value", metaVar = "CUSTOM_KEYED_VALUES", usage = "custom keyed value in the format '<key>:<value>'")
+		String customKeyedValues;
+
+		@Option(name = "skip-validation", usage = "skips commit validation")
+		boolean skipValidation;
+	}
 
   static class MagicBranchInput {
     private static final Splitter COMMAS = Splitter.on(',').omitEmptyStrings();
@@ -2264,15 +2308,7 @@ class ReceiveCommits {
         w.write("\nHelp for refs/for/branch:\n\n");
         magicBranch.cmdLineParser.printUsage(w, null);
 
-        String pluginPushOptionsHelp =
-            StreamSupport.stream(pluginPushOptions.entries().spliterator(), /* parallel= */ false)
-                .map(
-                    e ->
-                        String.format(
-                            "-o %s~%s: %s",
-                            e.getPluginName(), e.get().getName(), e.get().getDescription()))
-                .sorted()
-                .collect(joining("\n"));
+        String pluginPushOptionsHelp = pluginPushOptionDescriptions();
         if (!pluginPushOptionsHelp.isEmpty()) {
           w.write("\nPlugin push options:\n" + pluginPushOptionsHelp);
         }
@@ -2504,6 +2540,12 @@ class ReceiveCommits {
     return StreamSupport.stream(pluginPushOptions.entries().spliterator(), /* parallel= */ false)
         .anyMatch(e -> pushOptionName.equals(e.getPluginName() + "~" + e.get().getName()));
   }
+  
+	private String pluginPushOptionDescriptions() {
+		return StreamSupport.stream(pluginPushOptions.entries().spliterator(), /* parallel= */ false)
+				.map(e -> String.format("-o %s~%s: %s", e.getPluginName(), e.get().getName(), e.get().getDescription()))
+				.sorted().collect(joining("\n"));
+	}
 
   // Validate that the new commits are connected with the target
   // branch.  If they aren't, we want to abort. We do this check by

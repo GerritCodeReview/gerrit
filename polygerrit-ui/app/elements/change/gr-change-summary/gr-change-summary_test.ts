@@ -94,6 +94,16 @@ suite('gr-change-summary test', () => {
                   </div>
                 </td>
               </tr>
+              <tr>
+                <td class="key">Checks</td>
+                <td class="value">
+                  <div class="checksSummary">
+                    <span class="loading zeroState" role="status">
+                      No results
+                    </span>
+                  </div>
+                </td>
+              </tr>
             </tbody>
           </table>
         </div>
@@ -141,6 +151,16 @@ suite('gr-change-summary test', () => {
                     >
                       Create AI Review Prompt
                     </gr-button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="key">Checks</td>
+                <td class="value">
+                  <div class="checksSummary">
+                    <span class="loading zeroState" role="status">
+                      No results
+                    </span>
                   </div>
                 </td>
               </tr>

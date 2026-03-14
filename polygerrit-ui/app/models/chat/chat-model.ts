@@ -1002,15 +1002,23 @@ function convertCreateCommentAction(kwargs: {
   partId: number;
   commentCreationId: string;
 }): CreateCommentPart | undefined {
+  const comment = {
+    ...kwargs.create_comment_action,
+    message: kwargs.create_comment_action.comment_text,
+  };
+  // TODO(milutin): Remove this once Gemini or backend fixes the issue.
+  if (comment.range && comment.range.end_line < comment.range.start_line) {
+    comment.range = {
+      ...comment.range,
+      end_line: comment.range.start_line,
+    };
+  }
   return {
     type: ResponsePartType.CREATE_COMMENT,
     id: kwargs.partId,
     commentCreationId: kwargs.commentCreationId,
     content: kwargs.create_comment_action?.comment_text ?? '',
-    comment: {
-      ...kwargs.create_comment_action,
-      message: kwargs.create_comment_action.comment_text,
-    },
+    comment,
   };
 }
 

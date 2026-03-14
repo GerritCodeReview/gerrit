@@ -382,6 +382,9 @@ suite('gr-change-view tests', () => {
                       <span> Comments </span>
                     </gr-tooltip-content>
                   </md-secondary-tab>
+                  <md-secondary-tab data-name="checks" md-tab="" tabindex="-1">
+                    <span> Checks </span>
+                  </md-secondary-tab>
                   <md-secondary-tab
                     data-name="change-view-tab-header-url"
                     md-tab=""
@@ -559,11 +562,14 @@ suite('gr-change-view tests', () => {
       );
       const tabs = element.shadowRoot!.querySelector('#tabs')!;
       const mdTabs = tabs.querySelectorAll<HTMLElement>('md-secondary-tab');
+
       // 4 Tabs are : Files, Comment Threads, Plugin
-      assert.equal(tabs.querySelectorAll('md-secondary-tab').length, 3);
+      // Tabs are : Files, Comment Threads, Flows, Plugin
+      assert.equal(tabs.querySelectorAll('md-secondary-tab').length, 4);
       assert.equal(mdTabs[0].dataset.name, 'files');
       assert.equal(mdTabs[1].dataset.name, 'comments');
-      assert.equal(mdTabs[2].dataset.name, 'change-view-tab-header-url');
+      assert.equal(mdTabs[2].dataset.name, 'checks');
+      assert.equal(mdTabs[3].dataset.name, 'change-view-tab-header-url');
     });
 
     test('setActiveTab switched tab correctly', async () => {
@@ -604,7 +610,7 @@ suite('gr-change-view tests', () => {
 
     test('switching to plugin tab renders the plugin tab content', async () => {
       const mdTabs = element.shadowRoot!.querySelector('#tabs')!;
-      mdTabs.querySelectorAll<HTMLElement>('md-secondary-tab')[2].click();
+      mdTabs.querySelectorAll<HTMLElement>('md-secondary-tab')[3].click();
       await element.updateComplete;
       await element.updateComplete;
       const tabContent = queryAndAssert(element, '.tabContent');

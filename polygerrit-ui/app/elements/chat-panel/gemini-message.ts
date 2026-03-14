@@ -33,6 +33,7 @@ import {
 import {commentsModelToken} from '../../models/comments/comments-model';
 import {resolve} from '../../models/dependency';
 import {getAppContext} from '../../services/app-context';
+import {KnownExperimentId} from '../../services/flags/flags';
 import {NumericChangeId, PatchSetNumber} from '../../types/common';
 import {
   compareComments,
@@ -67,6 +68,10 @@ export class GeminiMessage extends LitElement {
   @state() latestPatchNum?: PatchSetNumber;
 
   @state() private conversationId?: string;
+
+  @state() private isAiCommentsEnabled = getAppContext().flagsService.isEnabled(
+    KnownExperimentId.ENABLE_AI_COMMENTS
+  );
 
   private reportedSuggestionsShown = false;
 
@@ -271,6 +276,7 @@ export class GeminiMessage extends LitElement {
     if (this.turnIndex >= this.turns.length) return;
     const message = this.message();
     if (!message) return;
+
     const responseParts = message.responseParts;
     const textParts = responseParts.filter(
       part => part.type === ResponsePartType.TEXT
@@ -389,20 +395,25 @@ export class GeminiMessage extends LitElement {
                     </button>
                   `
                 )}
-                <div class="suggested-comment">
-                  <p class="suggested-comment-message">
-                    <gr-formatted-text
-                      .markdown=${true}
-                      .content=${comment.comment.message}
-                    ></gr-formatted-text>
-                  </p>
-                  <gr-button
-                    primary
-                    class="add-as-comment-button"
-                    @click=${() => this.onAddAsComment(comment)}
-                    >Add as Comment
-                  </gr-button>
-                </div>
+                ${when(
+                  !this.isAiCommentsEnabled,
+                  () => html`
+                    <div class="suggested-comment">
+                      <p class="suggested-comment-message">
+                        <gr-formatted-text
+                          .markdown=${true}
+                          .content=${comment.comment.message}
+                        ></gr-formatted-text>
+                      </p>
+                      <gr-button
+                        primary
+                        class="add-as-comment-button"
+                        @click=${() => this.onAddAsComment(comment)}
+                        >Add as Comment
+                      </gr-button>
+                    </div>
+                  `
+                )}
               `;
             })
           )}

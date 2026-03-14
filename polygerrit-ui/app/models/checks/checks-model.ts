@@ -47,10 +47,12 @@ import {
   RunStatus,
 } from '../../api/checks';
 import {ChangeModel} from '../change/change-model';
+import {ChatModel, ResponsePartType, Turn} from '../chat/chat-model';
 import {ChangeInfo, NumericChangeId, PatchSetNumber} from '../../types/common';
 import {getCurrentRevision} from '../../utils/change-util';
 import {getShaByPatchNum} from '../../utils/patch-set-util';
 import {ReportingService} from '../../services/gr-reporting/gr-reporting';
+import {FlagsService, KnownExperimentId} from '../../services/flags/flags';
 import {Execution, Interaction, Timing} from '../../constants/reporting';
 import {fire, fireAlert} from '../../utils/event-util';
 import {Model} from '../base/model';
@@ -297,13 +299,18 @@ export class ChecksModel extends Model<ChecksState> {
     private readonly changeViewModel: ChangeViewModel,
     private readonly changeModel: ChangeModel,
     private readonly reporting: ReportingService,
-    private readonly pluginsModel: PluginsModel
+    private readonly flagsService: FlagsService,
+    private readonly pluginsModel: PluginsModel,
+    private readonly getChatModel: () => ChatModel
   ) {
     super({
       pluginStateLatest: {},
       pluginStateSelected: {},
     });
     this.reporting.time(Timing.CHECKS_LOAD);
+
+    this.updateStateSetProvider('ai_comments', ChecksPatchset.LATEST);
+    this.updateStateSetProvider('ai_comments', ChecksPatchset.SELECTED);
 
     this.checksSelectedPatchsetNumber$ = select(
       this.changeViewModel.checksPatchset$,
@@ -482,6 +489,33 @@ export class ChecksModel extends Model<ChecksState> {
         )
         .subscribe(([_, state]) => this.reportStats(state)),
     ];
+
+    // We use setTimeout to break a circular dependency at runtime:
+    // ChecksModel -> ChatModel -> FilesModel -> ChecksModel.
+    // ChatModel needs FilesModel to get the list of files to send to Gemini.
+    // FilesModel needs ChecksModel for addUnmodified.
+    // ChecksModel needs ChatModel to listen for AI comments.
+    // By delaying the subscription, we allow all models to be instantiated
+    // before resolving the dependencies.
+    setTimeout(() => {
+      this.subscriptions.push(
+        this.changeModel.changeNum$
+          .pipe(
+            filter(cn => !!cn),
+            switchMap(() => {
+              const chatModel = this.getChatModel();
+              return combineLatest([
+                chatModel.turns$,
+                this.changeModel.latestPatchNum$,
+                this.checksSelectedPatchsetNumber$,
+              ]);
+            })
+          )
+          .subscribe(([turns, latestPs, selectedPs]) => {
+            this.updateAiComments(turns ?? [], latestPs, selectedPs);
+          })
+      );
+    }, 0);
     this.visibilityChangeListener = () => {
       this.documentVisibilityChange$.next(undefined);
     };
@@ -489,6 +523,115 @@ export class ChecksModel extends Model<ChecksState> {
       'visibilitychange',
       this.visibilityChangeListener
     );
+  }
+
+  private updateAiComments(
+    turns: readonly Turn[],
+    latestPs?: PatchSetNumber,
+    selectedPs?: PatchSetNumber
+  ) {
+    if (!latestPs) return;
+
+    if (!this.flagsService.isEnabled(KnownExperimentId.ENABLE_AI_COMMENTS)) {
+      this.updateStateSetResults(
+        'ai_comments',
+        [],
+        [],
+        [],
+        undefined,
+        ChecksPatchset.LATEST
+      );
+      if (selectedPs && selectedPs !== latestPs) {
+        this.updateStateSetResults(
+          'ai_comments',
+          [],
+          [],
+          [],
+          undefined,
+          ChecksPatchset.SELECTED
+        );
+      }
+      return;
+    }
+
+    const latestRuns = this.mapTurnsToRuns(turns, latestPs, latestPs);
+    const selectedRuns = selectedPs
+      ? this.mapTurnsToRuns(turns, selectedPs, latestPs)
+      : [];
+
+    this.updateStateSetResults(
+      'ai_comments',
+      latestRuns,
+      [],
+      [],
+      undefined,
+      ChecksPatchset.LATEST
+    );
+
+    if (selectedPs && selectedPs !== latestPs) {
+      this.updateStateSetResults(
+        'ai_comments',
+        selectedRuns,
+        [],
+        [],
+        undefined,
+        ChecksPatchset.SELECTED
+      );
+    }
+  }
+
+  private mapTurnsToRuns(
+    turns: readonly Turn[],
+    targetPs: PatchSetNumber,
+    latestPs: PatchSetNumber
+  ): CheckRunApi[] {
+    const results: CheckResultApi[] = [];
+
+    for (const turn of turns) {
+      if (!turn.geminiMessage.responseParts) continue;
+      for (const part of turn.geminiMessage.responseParts) {
+        if (part.type === ResponsePartType.CREATE_COMMENT) {
+          const createCommentPart = part;
+          const comment = createCommentPart.comment;
+          if (!comment) continue;
+          const commentPs = (comment.patch_set as PatchSetNumber) ?? latestPs;
+
+          if (commentPs !== targetPs) continue;
+
+          const result: CheckResultApi = {
+            externalId: createCommentPart.commentCreationId,
+            category: Category.INFO,
+            summary: comment.message ?? 'AI Comment',
+            message: comment.message,
+            codePointers: comment.path
+              ? [
+                  {
+                    path: comment.path,
+                    range: comment.range ?? {
+                      start_line: 0,
+                      start_character: 0,
+                      end_line: 0,
+                      end_character: 0,
+                    },
+                  },
+                ]
+              : [],
+          };
+          results.push(result);
+        }
+      }
+    }
+
+    if (results.length === 0) return [];
+
+    return [
+      {
+        checkName: 'AI review Agent run',
+        status: RunStatus.COMPLETED,
+        results,
+        patchset: targetPs,
+      },
+    ];
   }
 
   private reportStats(state: {[name: string]: ChecksProviderState}) {

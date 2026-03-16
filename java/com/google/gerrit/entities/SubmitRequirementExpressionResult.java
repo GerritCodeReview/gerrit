@@ -159,6 +159,8 @@ public abstract class SubmitRequirementExpressionResult {
     ERROR,
 
     /** Submit requirement expression was not evaluated. */
-    NOT_EVALUATED
+    NOT_EVALUATED,
+
+    TIMEOUT
   }
 }

@@ -1622,7 +1622,7 @@ public class ChangeField {
                   + ","
                   + srResult.submitRequirement().name().toLowerCase(Locale.US));
         }
-        case UNSATISFIED -> {
+        case UNSATISFIED, TIMEOUT -> {
           result.add(
               SubmitRecord.Label.Status.NEED.name()
                   + ","

@@ -18,6 +18,7 @@ import com.google.auto.value.AutoValue;
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
 import com.google.gson.Gson;
 import com.google.gson.TypeAdapter;
+import java.time.Duration;
 import java.util.Optional;
 
 /**
@@ -86,6 +87,13 @@ public abstract class SubmitRequirement {
   public static TypeAdapter<SubmitRequirement> typeAdapter(Gson gson) {
     return new AutoValue_SubmitRequirement.GsonTypeAdapter(gson);
   }
+
+  /**
+   * Maximum time allowed to evaluate this submit requirement before timing out.
+   *
+   * <p>Default is 2 seconds.
+   */
+  public Duration executionDeadline = Duration.ofSeconds(2);
 
   @AutoValue.Builder
   public abstract static class Builder {

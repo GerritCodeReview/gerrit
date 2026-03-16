@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "09137c2e_f6f92896",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementsEvaluatorImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-03-16T12:34:21Z",
+      "side": 1,
+      "message": "These white spaces are intented as without it, code reading felt difficult",
+      "revId": "6aa28baecaba84f782cefb2cbffa61fd91f3490c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

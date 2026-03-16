@@ -20,6 +20,10 @@ import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.a
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.server.project.testing.TestLabels.value;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.MoreCollectors;
@@ -47,18 +51,27 @@ import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
+import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.project.SubmitRequirementEvaluationException;
 import com.google.gerrit.server.project.SubmitRequirementsEvaluatorImpl;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder.ChangeIsOperandFactory;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
+import com.google.gerrit.server.query.change.SubmitRequirementChangeQueryBuilder;
 import com.google.gerrit.server.query.change.SubmitRequirementPredicate;
+import com.google.gerrit.server.util.OneOffRequestContext;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.util.Optional;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 @NoHttpd
 public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
@@ -68,6 +81,9 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
   @Inject private ExtensionRegistry extensionRegistry;
   @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private ChangeOperations changeOperations;
+  @Inject SubmitRequirementChangeQueryBuilder.Factory queryBuilderFactory;
+  @Inject PluginSetContext<SubmitRequirement> globalSubmitRequirements;
+  @Inject OneOffRequestContext oneOffRequestContext;
 
   private ChangeData changeData;
   private String changeId;
@@ -1077,5 +1093,63 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
     public Predicate<ChangeData> create(ChangeQueryBuilder builder) throws QueryParseException {
       return this;
     }
+  }
+
+  @Test
+  @GerritConfig(name = "submitRequirement.executionTimeout", value = "2")
+  @GerritConfig(name = "submitRequirement.evaluationThreads", value = "2")
+  public void evaluateRequirement_timesOut_returnsTimeoutResult() throws Exception {
+    ExecutorService mockExecutor = Mockito.mock(ExecutorService.class);
+    Future<SubmitRequirementResult> timedOutFuture = Mockito.mock(Future.class);
+    SubmitRequirementsEvaluatorImpl evaluatorWithMockedExecutor =
+        new SubmitRequirementsEvaluatorImpl(
+            queryBuilderFactory,
+            projectCache,
+            globalSubmitRequirements,
+            cfg,
+            oneOffRequestContext,
+            mockExecutor);
+
+    SubmitRequirement sr =
+        SubmitRequirement.builder()
+            .setName("timeout-test")
+            .setSubmittabilityExpression(SubmitRequirementExpression.create("is:true"))
+            .setAllowOverrideInChildProjects(false)
+            .build();
+
+    when(mockExecutor.submit((Callable<SubmitRequirementResult>) any())).thenReturn(timedOutFuture);
+    when(timedOutFuture.get(anyLong(), any(TimeUnit.class)))
+        .thenThrow(new TimeoutException("Simulated timeout"));
+
+    SubmitRequirementResult result =
+        evaluatorWithMockedExecutor.evaluateRequirement(sr, changeData);
+
+    verify(timedOutFuture).cancel(true);
+    assertThat(result.submittabilityExpressionResult()).isPresent();
+    assertThat(result.submittabilityExpressionResult().get().status())
+        .isEqualTo(SubmitRequirementExpressionResult.Status.TIMEOUT);
+    assertThat(result.submitRequirement()).isEqualTo(sr);
+  }
+
+  @Test
+  @GerritConfig(name = "submitRequirement.executionTimeout", value = "2")
+  @GerritConfig(name = "submitRequirement.evaluationThreads", value = "-1")
+  public void evaluateRequirement_negativeThreads_runsDirectExecutor_noTimeout() {
+    SubmitRequirement sr =
+        SubmitRequirement.builder()
+            .setName("direct-exec-test")
+            .setSubmittabilityExpression(SubmitRequirementExpression.create("is:true"))
+            .setAllowOverrideInChildProjects(false)
+            .build();
+
+    SubmitRequirementResult result = evaluator.evaluateRequirement(sr, changeData);
+
+    assertThat(result.submittabilityExpressionResult()).isPresent();
+
+    SubmitRequirementExpressionResult exprResult = result.submittabilityExpressionResult().get();
+
+    assertThat(exprResult.status()).isEqualTo(SubmitRequirementExpressionResult.Status.PASS);
+
+    assertThat(result.status()).isEqualTo(SubmitRequirementResult.Status.SATISFIED);
   }
 }

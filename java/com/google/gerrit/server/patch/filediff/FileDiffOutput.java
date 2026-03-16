@@ -121,6 +121,12 @@ public abstract class FileDiffOutput implements Serializable {
    */
   public abstract Optional<Boolean> negative();
 
+  /**
+   * Returns {@code true} if the diff computation was not able to compute a diff, i.e. for diffs
+   * taking a very long time to compute.
+   */
+  public abstract Optional<Boolean> tooExpensiveToCompute();
+
   public abstract Builder toBuilder();
 
   /** A boolean indicating if all underlying edits of the file diff are due to rebase. */
@@ -177,6 +183,17 @@ public abstract class FileDiffOutput implements Serializable {
         .build();
   }
 
+  /**
+   * Create an expensive file diff. We use this to cache diffs for entries that result in timeouts.
+   */
+  public static FileDiffOutput createExpensive(
+      String filePath, ObjectId oldCommitId, ObjectId newCommitId) {
+    return empty(filePath, oldCommitId, newCommitId).toBuilder()
+        .negative(Optional.of(true))
+        .tooExpensiveToCompute(Optional.of(true))
+        .build();
+  }
+
   /** Returns true if this entity represents an unchanged file between two commits. */
   public boolean isEmpty() {
     return headerLines().isEmpty() && edits().isEmpty();
@@ -188,6 +205,14 @@ public abstract class FileDiffOutput implements Serializable {
    */
   public boolean isNegative() {
     return negative().isPresent() && negative().get();
+  }
+
+  /**
+   * Returns {@code true} if the diff computation was not able to compute a diff. We cache
+   * tooExpensiveToCompute result in this case.
+   */
+  public boolean isTooExpensive() {
+    return tooExpensiveToCompute().isPresent() && tooExpensiveToCompute().get();
   }
 
   public static Builder builder() {
@@ -215,6 +240,9 @@ public abstract class FileDiffOutput implements Serializable {
       s += stringSize(s);
     }
     if (negative().isPresent()) {
+      result += 1;
+    }
+    if (tooExpensiveToCompute().isPresent()) {
       result += 1;
     }
     return result;
@@ -255,6 +283,8 @@ public abstract class FileDiffOutput implements Serializable {
 
     public abstract Builder negative(Optional<Boolean> value);
 
+    public abstract Builder tooExpensiveToCompute(Optional<Boolean> value);
+
     public abstract FileDiffOutput build();
   }
 
@@ -287,6 +317,9 @@ public abstract class FileDiffOutput implements Serializable {
 
     private static final FieldDescriptor NEW_SHA_DESCRIPTOR =
         FileDiffOutputProto.getDescriptor().findFieldByNumber(16);
+
+    private static final FieldDescriptor TOO_EXPENSIVE_DESCRIPTOR =
+        FileDiffOutputProto.getDescriptor().findFieldByNumber(17);
 
     @Override
     public byte[] serialize(FileDiffOutput fileDiff) {
@@ -330,6 +363,10 @@ public abstract class FileDiffOutput implements Serializable {
 
       if (fileDiff.negative().isPresent()) {
         builder.setNegative(fileDiff.negative().get());
+      }
+
+      if (fileDiff.tooExpensiveToCompute().isPresent()) {
+        builder.setTooExpensiveToCompute(fileDiff.tooExpensiveToCompute().get());
       }
 
       if (fileDiff.oldMode().isPresent()) {
@@ -387,6 +424,9 @@ public abstract class FileDiffOutput implements Serializable {
       }
       if (proto.hasField(NEGATIVE_DESCRIPTOR)) {
         builder.negative(Optional.of(proto.getNegative()));
+      }
+      if (proto.hasField(TOO_EXPENSIVE_DESCRIPTOR)) {
+        builder.tooExpensiveToCompute(Optional.of(proto.getTooExpensiveToCompute()));
       }
       if (proto.hasField(OLD_MODE_DESCRIPTOR)) {
         builder.oldMode(Optional.of(FILE_MODE_CONVERTER.convert(proto.getOldMode())));

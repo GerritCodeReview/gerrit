@@ -22,6 +22,30 @@
       },
       "revId": "4c11d4270b62f28ea6a6daa3d5511e8bf134b2a8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1a6a84bb_77eb48f8",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 686,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-03-16T15:36:13Z",
+      "side": 1,
+      "message": "That would fail requests if it simply has a deleted user?\n\nWe only want to fail requests that would succeed only due to the deleted users.\n\nThe UI change guides users to remove it so this is only for the case where the Submit button is bypassed for direct API access.",
+      "parentUuid": "3643cc3f_a0ddff82",
+      "range": {
+        "startLine": 675,
+        "startChar": 1,
+        "endLine": 686,
+        "endChar": 3
+      },
+      "revId": "4c11d4270b62f28ea6a6daa3d5511e8bf134b2a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

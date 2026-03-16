@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2b7a7ee1_49c1b5a1",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementsEvaluatorImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-03-16T15:33:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ba681631_8d301fe5",
+      "revId": "b53ebd7c4f449b8dd932fdbba0193adb46678f7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4298735a_c2b4f6a2",
@@ -31,6 +49,24 @@
       "writtenOn": "2026-03-16T12:45:41Z",
       "side": 1,
       "message": "same as above. had to add it since Thread.sleep(10000);. Will be removed during finalising the change.",
+      "revId": "b53ebd7c4f449b8dd932fdbba0193adb46678f7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "65d7e5e4_901afb82",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementsEvaluatorImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-03-16T15:33:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4298735a_c2b4f6a2",
       "revId": "b53ebd7c4f449b8dd932fdbba0193adb46678f7f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fdf398b1_55db0dba",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-03-16T15:33:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "45542a2b_e8cf5a8f",
+      "range": {
+        "startLine": 9,
+        "startChar": 10,
+        "endLine": 9,
+        "endChar": 19
+      },
+      "revId": "6aa28baecaba84f782cefb2cbffa61fd91f3490c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4f3f3437_78a996f7",
@@ -37,6 +61,24 @@
       "writtenOn": "2026-03-16T12:45:34Z",
       "side": 1,
       "message": "Since this is inside the `SubmitRequirementExpressionResult` I wonder if this is related to the execution time or only to evaluating the submit requirement expression?",
+      "revId": "6aa28baecaba84f782cefb2cbffa61fd91f3490c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "51823ded_b15b5101",
+        "filename": "java/com/google/gerrit/entities/SubmitRequirementExpressionResult.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-03-16T15:33:38Z",
+      "side": 1,
+      "message": "We need this since https://gerrit-review.googlesource.com/c/gerrit/+/561921/3/java/com/google/gerrit/extensions/common/SubmitRequirementExpressionInfo.java#65 Both ENUMs should match.",
+      "parentUuid": "4f3f3437_78a996f7",
       "revId": "6aa28baecaba84f782cefb2cbffa61fd91f3490c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -58,6 +100,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9b79470b_c179eb43",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementsEvaluatorImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-03-16T15:33:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3a8fe0ea_9cdb74c0",
+      "revId": "6aa28baecaba84f782cefb2cbffa61fd91f3490c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "09137c2e_f6f92896",
@@ -75,6 +135,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0dbd0fcb_42e670ee",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementsEvaluatorImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-03-16T15:33:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "09137c2e_f6f92896",
+      "revId": "6aa28baecaba84f782cefb2cbffa61fd91f3490c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "77c4a3a7_ff91838b",
@@ -88,6 +166,30 @@
       "writtenOn": "2026-03-16T12:45:34Z",
       "side": 1,
       "message": "Why is this part necessary now and it wasn\u0027t necessary before this change?",
+      "range": {
+        "startLine": 232,
+        "startChar": 0,
+        "endLine": 252,
+        "endChar": 5
+      },
+      "revId": "6aa28baecaba84f782cefb2cbffa61fd91f3490c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f81e801_4f8b039f",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementsEvaluatorImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-03-16T15:33:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "77c4a3a7_ff91838b",
       "range": {
         "startLine": 232,
         "startChar": 0,

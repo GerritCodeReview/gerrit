@@ -189,7 +189,15 @@ export class ReferencesDropdown extends LitElement {
   }
 
   private get dynamicReferences() {
-    return this.turn?.geminiMessage.references ?? [];
+    const references = this.turn?.geminiMessage.references ?? [];
+    const seenUrls = new Set<string>();
+    return references.filter(reference => {
+      if (seenUrls.has(reference.externalUrl)) {
+        return false;
+      }
+      seenUrls.add(reference.externalUrl);
+      return true;
+    });
   }
 
   get validDynamicReferences() {

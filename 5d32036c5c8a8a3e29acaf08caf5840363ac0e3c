@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "23002315_abbede15",
+        "filename": "java/com/google/gerrit/extensions/common/FileInfo.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2026-03-16T19:12:45Z",
+      "side": 1,
+      "message": "Maybe `diffIsTooExpensiveToCompute`? Is it only used by the proto?",
+      "range": {
+        "startLine": 31,
+        "startChar": 17,
+        "endLine": 31,
+        "endChar": 38
+      },
+      "revId": "5d32036c5c8a8a3e29acaf08caf5840363ac0e3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "36ad7f19_6696da6a",
+        "filename": "java/com/google/gerrit/server/patch/filediff/FileDiffOutput.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2026-03-16T19:12:45Z",
+      "side": 1,
+      "message": "Please add this comment on all places in which a similar field is added.",
+      "revId": "5d32036c5c8a8a3e29acaf08caf5840363ac0e3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f3e1adb1_9eeae3b2",
+        "filename": "java/com/google/gerrit/server/patch/filediff/FileDiffOutput.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2026-03-16T19:12:45Z",
+      "side": 1,
+      "message": "[For a separate change] while here, consider converting this to a SafeProtoConverter.",
+      "revId": "5d32036c5c8a8a3e29acaf08caf5840363ac0e3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

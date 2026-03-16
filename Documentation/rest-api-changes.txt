@@ -9790,7 +9790,8 @@ of the following: +
   * `PASS` - expression was evaluated and result is true. +
   * `FAIL` - expression was evaluated and result is false. +
   * `ERROR` - an error occurred while evaluating the expression. +
-  * `NOT_EVALUATED` - expression was not evaluated.
+  * `NOT_EVALUATED` - expression was not evaluated. +
+  * `TIMEOUT` - expression was TIMEOUT while evaluating.
 |`passing_atoms`|optional|
 A list of passing atoms as strings. For the above expression,
 `passing_atoms` can contain ["branch:refs/heads/foo"] if the branch predicate is

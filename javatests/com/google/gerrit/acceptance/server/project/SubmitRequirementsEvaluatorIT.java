@@ -59,6 +59,7 @@ import com.google.inject.Provider;
 import java.util.Optional;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 @NoHttpd
 public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
@@ -1077,5 +1078,31 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
     public Predicate<ChangeData> create(ChangeQueryBuilder builder) throws QueryParseException {
       return this;
     }
+  }
+
+  @Test
+  public void evaluateRequirementInternal_timesOut_returnsTimeoutResult() throws Exception {
+    SubmitRequirement sr =
+        SubmitRequirement.builder()
+            .setName("timeout-test")
+            .setSubmittabilityExpression(SubmitRequirementExpression.create("is:true"))
+            .setAllowOverrideInChildProjects(false)
+            .build();
+
+    SubmitRequirementsEvaluatorImpl spy = Mockito.spy(evaluator);
+
+    Mockito.doAnswer(
+            invocation -> {
+              Thread.sleep(2500); // longer than timeout
+              return SubmitRequirementExpressionResult.notEvaluated(sr.submittabilityExpression());
+            })
+        .when(spy)
+        .evaluateExpression(Mockito.any(), Mockito.any());
+
+    SubmitRequirementResult result = spy.evaluateRequirement(sr, changeData);
+
+    assertThat(result.submittabilityExpressionResult()).isPresent();
+    SubmitRequirementExpressionResult exprResult = result.submittabilityExpressionResult().get();
+    assertThat(exprResult.status()).isEqualTo(SubmitRequirementExpressionResult.Status.TIMEOUT);
   }
 }

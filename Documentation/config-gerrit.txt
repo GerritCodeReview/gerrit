@@ -6363,6 +6363,46 @@ submit requirements expression or not.
 By default false.
 +
 
+[[submitRequirement.executionTimeout]]submitRequirement.executionTimeout::
+Maximum time (in seconds) allowed for evaluating a submit requirement while
+accessing a change.
+If the evaluation exceeds this timeout, the evaluation is aborted and the
+submit requirement is marked as `TIMEOUT`.
+This helps to prevent long-running or expensive submit requirement expressions
+evaluation.
+- If set to 0 or config is missing, there is no timeout and the evaluation
+will run until evaluation is completed, regardless of how long it takes.
+- If set to to a positive value, evaluation will timeout the SR and change
+cannot be submitted.
++
+By default 0.
++
+----
+Note:
+Timeout configured is applicable per Submit Requirement i.e. it
+applies collectively to the total time needed to evaluate all of these
+expressions: applicableIf, submittableIf, overrideIf.
+
+If submitRequirement.evaluationThreads is set to negative value (<= 0),
+submitRequirement.executionTimeout is not applicable and the evaluation will
+run until evaluation is completed.
+If submitRequirement.evaluationThreads is set to positive value, then the
+evaluation timeout will run based on configured value.
+----
+
+[[submitRequirement.evaluationThreads]]submitRequirement.evaluationThreads::
+Maximum number of threads to be use for evaluating submit requirements for a
+change.
+- If the config property is set to 0, then the number of threads is set to the
+number of available CPUs.
+- If the value is negative, then direct executor is used and the evaluation is
+executed in the same thread as the request.
+- If the value is positive, then the specified number of threads will be used
+for evaluation.
++
+By default -1.
++
+
 
 [[suggest]]
 === Section suggest

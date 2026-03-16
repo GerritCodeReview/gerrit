@@ -1322,6 +1322,7 @@ export enum SubmitRequirementExpressionInfoStatus {
   FAIL = 'FAIL',
   ERROR = 'ERROR',
   NOT_EVALUATED = 'NOT_EVALUATED',
+  TIMEOUT = 'TIMEOUT',
 }
 
 /**

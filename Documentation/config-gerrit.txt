@@ -6363,6 +6363,17 @@ submit requirements expression or not.
 By default false.
 +
 
+[[submitRequirement.executionTimeout]]submitRequirement.executionTimeout::
+Maximum time allowed for evaluating a submit requirement
+while accessing a change.
+If the evaluation exceeds this timeout, the evaluation is aborted
+and the submit requirement is marked as timeout.
+This helps to prevent long-running or expensive submit requirement
+expressions evaluation.
++
+Default value is 2 Sec.
++
+
 
 [[suggest]]
 === Section suggest

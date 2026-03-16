@@ -178,4 +178,53 @@ suite('references-dropdown tests', () => {
       'Failed to load file2.txt: File not found'
     );
   });
+
+  test('deduplicates by externalUrl but not by displayText', async () => {
+    const references: Reference[] = [
+      {
+        type: 'FILE',
+        displayText: 'file1.txt',
+        externalUrl: 'http://example.com/file1',
+      },
+      {
+        type: 'FILE',
+        displayText: 'file1.txt',
+        externalUrl: 'http://example.com/file1',
+      },
+      {
+        type: 'FILE',
+        displayText: 'file1.txt',
+        externalUrl: 'http://anotherExample.com/file1',
+      },
+    ];
+    chatModel.updateState({
+      ...chatModel.getState(),
+      turns: [createTurn(references)],
+    });
+    await element.updateComplete;
+
+    assert.equal(element.totalReferencesCount, 2);
+
+    const button = element.shadowRoot?.querySelector(
+      '.references-dropdown-button'
+    );
+    assert.isOk(button);
+    assert.include(button!.textContent, 'Context used (2)');
+
+    (button as HTMLElement).click();
+    await element.updateComplete;
+
+    const referenceLinks = element.shadowRoot?.querySelectorAll(
+      '.reference-button.pill-link'
+    );
+    assert.equal(referenceLinks?.length, 2);
+    assert.equal(
+      (referenceLinks![0] as HTMLAnchorElement).href,
+      'http://example.com/file1'
+    );
+    assert.equal(
+      (referenceLinks![1] as HTMLAnchorElement).href,
+      'http://anotherExample.com/file1'
+    );
+  });
 });

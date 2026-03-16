@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3643cc3f_a0ddff82",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 686,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2026-03-16T15:25:35Z",
+      "side": 1,
+      "message": "Why not `void checkForApprovalsOfDeletedAccounts(...)` and if deleted `throw new ResourceConflictException(\"Approval made by deleted account\")`?",
+      "range": {
+        "startLine": 675,
+        "startChar": 1,
+        "endLine": 686,
+        "endChar": 3
+      },
+      "revId": "4c11d4270b62f28ea6a6daa3d5511e8bf134b2a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

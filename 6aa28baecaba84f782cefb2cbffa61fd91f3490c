@@ -3,6 +3,63 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "45542a2b_e8cf5a8f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-03-16T12:45:34Z",
+      "side": 1,
+      "message": "execution",
+      "range": {
+        "startLine": 9,
+        "startChar": 10,
+        "endLine": 9,
+        "endChar": 19
+      },
+      "revId": "6aa28baecaba84f782cefb2cbffa61fd91f3490c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f3f3437_78a996f7",
+        "filename": "java/com/google/gerrit/entities/SubmitRequirementExpressionResult.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-03-16T12:45:34Z",
+      "side": 1,
+      "message": "Since this is inside the `SubmitRequirementExpressionResult` I wonder if this is related to the execution time or only to evaluating the submit requirement expression?",
+      "revId": "6aa28baecaba84f782cefb2cbffa61fd91f3490c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3a8fe0ea_9cdb74c0",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementsEvaluatorImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-03-16T12:45:34Z",
+      "side": 1,
+      "message": "Thread pools in Gerrit shall be created via the WorkQueue class. This ensures that the submitted/pending/running tasks are monitored with the list-tasks [1] REST endpoint and also via the SSH show-queue command.\n\n[1] https://gerrit-review.googlesource.com/Documentation/rest-api-config.html#list-tasks",
+      "revId": "6aa28baecaba84f782cefb2cbffa61fd91f3490c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "09137c2e_f6f92896",
         "filename": "java/com/google/gerrit/server/project/SubmitRequirementsEvaluatorImpl.java",
         "patchSetId": 1
@@ -14,6 +71,29 @@
       "writtenOn": "2026-03-16T12:34:21Z",
       "side": 1,
       "message": "These white spaces are intented as without it, code reading felt difficult",
+      "revId": "6aa28baecaba84f782cefb2cbffa61fd91f3490c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "77c4a3a7_ff91838b",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementsEvaluatorImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-03-16T12:45:34Z",
+      "side": 1,
+      "message": "Why is this part necessary now and it wasn\u0027t necessary before this change?",
+      "range": {
+        "startLine": 232,
+        "startChar": 0,
+        "endLine": 252,
+        "endChar": 5
+      },
       "revId": "6aa28baecaba84f782cefb2cbffa61fd91f3490c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

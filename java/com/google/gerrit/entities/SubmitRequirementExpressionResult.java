@@ -159,6 +159,9 @@ public abstract class SubmitRequirementExpressionResult {
     ERROR,
 
     /** Submit requirement expression was not evaluated. */
-    NOT_EVALUATED
+    NOT_EVALUATED,
+
+    /** Submit requirement expression was timeout as maintained in gerrit.config. */
+    TIMEOUT
   }
 }

@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "40e96972_d33f9045",
+        "filename": "polygerrit-ui/app/elements/settings/gr-ssh-editor/gr-ssh-editor_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-03-16T14:44:55Z",
+      "side": 1,
+      "message": "Random range comment",
+      "range": {
+        "startLine": 305,
+        "startChar": 0,
+        "endLine": 310,
+        "endChar": 0
+      },
+      "revId": "fbb40c01b82fd30e0a6578cd9e7d3c36dc97b3dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cf3a5d9f_1cc8ad29",
+        "filename": "polygerrit-ui/app/elements/settings/gr-ssh-editor/gr-ssh-editor_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-03-16T14:44:55Z",
+      "side": 1,
+      "message": "Random one-line comment 1",
+      "revId": "fbb40c01b82fd30e0a6578cd9e7d3c36dc97b3dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "492438d4_57a1bdd0",
+        "filename": "polygerrit-ui/app/elements/settings/gr-ssh-editor/gr-ssh-editor_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-03-16T14:44:55Z",
+      "side": 1,
+      "message": "Random one-line comment 2",
+      "revId": "fbb40c01b82fd30e0a6578cd9e7d3c36dc97b3dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -18,6 +18,7 @@ import static com.google.common.collect.ImmutableMap.toImmutableMap;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.PredicateResult;
@@ -43,6 +44,13 @@ import com.google.inject.Scopes;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import java.util.function.Function;
 import java.util.stream.Stream;
 import org.eclipse.jgit.lib.Config;
@@ -61,6 +69,7 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
   // This is so that the evaluation does not depend on who is running the current request (e.g.
   // a "ownerin" predicate with group that is not visible to the person making this request).
   private final OneOffRequestContext requestContext;
+  private final ExecutorService executor = Executors.newCachedThreadPool();
 
   public static Module module() {
     return new FactoryModule() {
@@ -145,24 +154,28 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
       return SubmitRequirementExpressionResult.error(expression, e.getMessage());
     }
   }
-
   private SubmitRequirementResult evaluateRequirementInternal(SubmitRequirement sr, ChangeData cd) {
     try (TraceTimer timer =
         TraceContext.newTimer(
             "Evaluate submit requirement " + sr.name(),
             Metadata.builder().changeId(cd.change().getId().get()).build())) {
+      Callable<SubmitRequirementResult> task =
+          () -> {
       Optional<SubmitRequirementExpressionResult> applicabilityResult =
           sr.applicabilityExpression().isPresent()
               ? Optional.of(evaluateExpression(sr.applicabilityExpression().get(), cd))
               : Optional.empty();
+
       Optional<SubmitRequirementExpressionResult> submittabilityResult =
           Optional.of(
               SubmitRequirementExpressionResult.notEvaluated(sr.submittabilityExpression()));
+
       Optional<SubmitRequirementExpressionResult> overrideResult =
           sr.overrideExpression().isPresent()
               ? Optional.of(
                   SubmitRequirementExpressionResult.notEvaluated(sr.overrideExpression().get()))
               : Optional.empty();
+
       if (!sr.applicabilityExpression().isPresent()
           || SubmitRequirementResult.assertPass(applicabilityResult)) {
         submittabilityResult = Optional.of(evaluateExpression(sr.submittabilityExpression(), cd));
@@ -203,7 +216,63 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
           .applicabilityExpressionResult(applicabilityResult)
           .overrideExpressionResult(overrideResult)
           .build();
+    };
+      Future<SubmitRequirementResult> future = executor.submit(task);
+
+      try {
+        // TODO upcoming change:executionTimeout should come from project.config-> SR configuration.
+        return future.get(sr.executionDeadline.getSeconds(), TimeUnit.SECONDS);
+
+      } catch (TimeoutException e) {
+        future.cancel(true);
+        logger.atWarning().log(
+            "Submit requirement '%s' evaluation timed out", sr.name());
+
+        return timeoutResult(sr, cd);
+      } catch (ExecutionException | InterruptedException e) {
+          logger.atSevere().log(
+            "Error evaluating Submit requirement: %s", sr.name());
+        return SubmitRequirementResult.builder()
+            .legacy(Optional.of(false))
+            .submitRequirement(sr)
+            .patchSetCommitId(cd.currentPatchSet().commitId())
+            .submittabilityExpressionResult(
+                Optional.of(
+                    SubmitRequirementExpressionResult.error(
+                        sr.submittabilityExpression(),
+                        "Error during SR evaluation: " + e.getCause().getMessage())))
+            .applicabilityExpressionResult(
+                sr.applicabilityExpression()
+                    .map(expr -> SubmitRequirementExpressionResult.error(expr, "Error during SR evaluation: " + e.getCause().getMessage())))
+            .overrideExpressionResult(
+                sr.overrideExpression()
+                    .map(expr -> SubmitRequirementExpressionResult.error(expr, "Error during SR evaluation: " + e.getCause().getMessage())))
+            .build();
+      }
     }
+  }
+
+  private SubmitRequirementResult timeoutResult(SubmitRequirement sr, ChangeData cd) {
+    SubmitRequirementExpressionResult failed =
+        SubmitRequirementExpressionResult.create(
+            sr.submittabilityExpression(),
+            SubmitRequirementExpressionResult.Status.TIMEOUT,
+            ImmutableList.of(),
+            ImmutableList.of("deadline_exceeded")
+            );
+
+    return SubmitRequirementResult.builder()
+        .legacy(Optional.of(false))
+        .submitRequirement(sr)
+        .patchSetCommitId(cd.currentPatchSet().commitId())
+        .submittabilityExpressionResult(Optional.of(failed))
+        .applicabilityExpressionResult(
+            sr.applicabilityExpression()
+                .map(SubmitRequirementExpressionResult::notEvaluated))
+        .overrideExpressionResult(
+            sr.overrideExpression()
+                .map(SubmitRequirementExpressionResult::notEvaluated))
+        .build();
   }
 
   /**

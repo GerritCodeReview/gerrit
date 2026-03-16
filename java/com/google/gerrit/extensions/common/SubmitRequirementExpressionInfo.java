@@ -76,7 +76,9 @@ public class SubmitRequirementExpressionInfo {
     ERROR,
 
     /** Expression was not evaluated. */
-    NOT_EVALUATED
+    NOT_EVALUATED,
+
+    TIMEOUT
   }
 
   @Override

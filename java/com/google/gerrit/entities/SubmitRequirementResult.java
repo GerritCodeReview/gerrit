@@ -177,7 +177,13 @@ public abstract class SubmitRequirementResult {
      * The "submit requirement" was bypassed during submission, e.g. by pushing for review with the
      * %submit option.
      */
-    FORCED
+    FORCED,
+
+    /**
+     * The "submit requirement" was timed out since evaluation took longer than configured in
+     * Project.config > current submit requirement > timeout.
+     */
+    TIMEOUT
   }
 
   @AutoValue.Builder

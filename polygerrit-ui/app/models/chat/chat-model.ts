@@ -352,12 +352,27 @@ export class ChatModel extends Model<ChatState> {
     this.selectedModelId$ = select(
       combineLatest([
         this.state$,
+        this.availableModelsMap$,
         this.userModel.preferences$.pipe(startWith(undefined)),
       ]),
-      ([chatState, preferences]) =>
-        chatState.selectedModelId ??
-        preferences?.ai_chat_selected_model ??
-        chatState.models?.default_model_id
+      ([chatState, availableModelsMap, preferences]) => {
+        const idFromState = chatState.selectedModelId;
+        if (idFromState && availableModelsMap.has(idFromState)) {
+          return idFromState;
+        }
+
+        const idFromPrefs = preferences?.ai_chat_selected_model;
+        if (idFromPrefs && availableModelsMap.has(idFromPrefs)) {
+          return idFromPrefs;
+        }
+
+        const defaultId = chatState.models?.default_model_id;
+        if (defaultId && availableModelsMap.has(defaultId)) {
+          return defaultId;
+        }
+
+        return availableModelsMap.values().next().value?.model_id;
+      }
     );
 
     this.selectedModel$ = select(
@@ -551,6 +566,23 @@ export class ChatModel extends Model<ChatState> {
       clientData.isBackgroundRequest = isBackgroundRequest;
     }
 
+    const availableModelsMap = new Map(
+      (state.models.models ?? []).map(m => [m.model_id, m])
+    );
+    let resolvedModelName: string | undefined;
+    if (state.selectedModelId && availableModelsMap.has(state.selectedModelId)) {
+      resolvedModelName = state.selectedModelId;
+    } else {
+      const prefsId = this.userModel.getState().preferences?.ai_chat_selected_model;
+      if (prefsId && availableModelsMap.has(prefsId)) {
+        resolvedModelName = prefsId;
+      } else if (state.models.default_model_id && availableModelsMap.has(state.models.default_model_id)) {
+        resolvedModelName = state.models.default_model_id;
+      } else {
+        resolvedModelName = availableModelsMap.values().next().value?.model_id;
+      }
+    }
+
     const request: ChatRequest = {
       action,
       prompt: userMessage.content,
@@ -560,7 +592,7 @@ export class ChatModel extends Model<ChatState> {
       turn_index: turnIndex,
       regeneration_index: turn.geminiMessage.regenerationIndex,
       client_data: JSON.stringify(clientData),
-      model_name: state.selectedModelId ?? state.models.default_model_id,
+      model_name: resolvedModelName ?? state.models.default_model_id,
       external_contexts: contextItems,
     };
     const listener: ChatResponseListener = {

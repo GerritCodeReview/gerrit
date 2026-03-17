@@ -69,6 +69,24 @@
       "parentUuid": "81117827_2516cfda",
       "revId": "5ad7482953855ca2267639859d195965ba9262a5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f365a01e_e00d07be",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3117294
+      },
+      "writtenOn": "2026-03-17T19:47:08Z",
+      "side": 1,
+      "message": "ok so you mean landing this CL, and unchaining the avatar plugin ones?",
+      "parentUuid": "81117827_2516cfda",
+      "revId": "5ad7482953855ca2267639859d195965ba9262a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

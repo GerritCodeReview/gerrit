@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7bba6c4c_46c15781",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-03-17T21:35:52Z",
+      "side": 1,
+      "message": "Since this is only listing files, can we add a required parameter that indicates that? That way in the future we could have the API provide the actual diff too. Maybe use the same naming as the similar git option `--name-only`?\n```suggestion\n- GET /projects/{project}/commits/{commit-id}/diff?nameOnly\u0026base\u003d{sha1}\n```",
+      "revId": "8cb53edd5bb7043d93e9c772e3c5cc4c135d0dd0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f153c221_422190e0",
+        "filename": "java/com/google/gerrit/server/restapi/project/ProjectDiffUtils.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-03-17T21:35:52Z",
+      "side": 1,
+      "message": "2026?\n```suggestion\n// Copyright (C) 2026 The Android Open Source Project\n```",
+      "revId": "8cb53edd5bb7043d93e9c772e3c5cc4c135d0dd0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

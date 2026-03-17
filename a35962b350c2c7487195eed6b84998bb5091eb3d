@@ -93,6 +93,30 @@
       },
       "revId": "a35962b350c2c7487195eed6b84998bb5091eb3d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9333de86_4f1d293d",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 6672,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-03-17T12:23:54Z",
+      "side": 1,
+      "message": "Ah, thanks for spotting that. In that case it\u0027s fine if it\u0027s not deprecated.\nApologies for the confusion, I don\u0027t think we need to add this then, you ok to abandon it?",
+      "parentUuid": "4376d7f1_54f75862",
+      "range": {
+        "startLine": 6669,
+        "startChar": 0,
+        "endLine": 6672,
+        "endChar": 20
+      },
+      "revId": "a35962b350c2c7487195eed6b84998bb5091eb3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

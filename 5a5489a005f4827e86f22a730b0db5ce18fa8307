@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "369ca745_fefcedf8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-03-17T12:57:18Z",
+      "side": 1,
+      "message": "Add tests.",
+      "revId": "5a5489a005f4827e86f22a730b0db5ce18fa8307",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

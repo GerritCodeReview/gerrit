@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6f4a4440_1debb407",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 50
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2026-03-17T22:41:07Z",
+      "side": 1,
+      "message": "WORKSPACE is still mentioned in a couple of files, when WORKSPACE is deleted we should probably remove most of these occurrences\n\n```\n$ git grep -l WORKSPACE\n.bazelrc\nDocumentation/dev:bazel.txt\nDocumentation/dev:build-plugins.txt\nDocumentation/dev:crafting-changes.txt\nMODULE.bazel\nMODULE.bazel.lock\njava/com/google/gerrit/launcher/GerritLauncher.java\nresources/com/google/gerrit/server/mime/mime:types.properties\ntools/download_file.py\n```",
+      "revId": "ef07b2df45a3d2db4855b6f5f25b75f639e16300",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

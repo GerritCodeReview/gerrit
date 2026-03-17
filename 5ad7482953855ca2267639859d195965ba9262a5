@@ -33,6 +33,24 @@
       "message": "folks sorry that i produce so much noise and notifications, but i am stuck with `Verified-1` the plugins (in chain) - have some error i have no clou on.\n\nplease let me know how i could resolve the sitation and get this landed",
       "revId": "5ad7482953855ca2267639859d195965ba9262a5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "81117827_2516cfda",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2026-03-17T18:38:29Z",
+      "side": 1,
+      "message": "If you are 100% sure that if all changes will be submitted together - they will WAI, it is possible to override the Verified bit.\n\nHowever, if possible, it is safer to split the change and create a verifiable chain of changes.",
+      "parentUuid": "da4700a2_c58f8c39",
+      "revId": "5ad7482953855ca2267639859d195965ba9262a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

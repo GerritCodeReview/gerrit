@@ -354,10 +354,17 @@ export class ChatModel extends Model<ChatState> {
         this.state$,
         this.userModel.preferences$.pipe(startWith(undefined)),
       ]),
-      ([chatState, preferences]) =>
-        chatState.selectedModelId ??
-        preferences?.ai_chat_selected_model ??
-        chatState.models?.default_model_id
+      ([chatState, preferences]) => {
+        const id =
+          chatState.selectedModelId ??
+          preferences?.ai_chat_selected_model ??
+          chatState.models?.default_model_id;
+        if (!chatState.models) return id;
+        const isAvailable = chatState.models.models?.some(
+          m => m.model_id === id
+        );
+        return isAvailable ? id : chatState.models.default_model_id;
+      }
     );
 
     this.selectedModel$ = select(
@@ -560,7 +567,14 @@ export class ChatModel extends Model<ChatState> {
       turn_index: turnIndex,
       regeneration_index: turn.geminiMessage.regenerationIndex,
       client_data: JSON.stringify(clientData),
-      model_name: state.selectedModelId ?? state.models.default_model_id,
+      model_name: (() => {
+        const id =
+          state.selectedModelId ??
+          this.userModel.getState().preferences?.ai_chat_selected_model ??
+          state.models.default_model_id;
+        const isAvailable = state.models.models?.some(m => m.model_id === id);
+        return isAvailable ? id : state.models.default_model_id;
+      })(),
       external_contexts: contextItems,
     };
     const listener: ChatResponseListener = {

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "daacc61b_6953639b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-03-17T11:24:41Z",
+      "side": 1,
+      "message": "We can\u0027t we keep the `1.18.4` on JGit\u0027s `servlet-4`?\nNot sure if Google can update bytebuddy on master.\n\n@dhruvsri@google.com could you check for us?",
+      "range": {
+        "startLine": 9,
+        "startChar": 46,
+        "endLine": 10,
+        "endChar": 16
+      },
+      "revId": "e9834faab1b0fdfa0d2466cf298672d29042e149",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

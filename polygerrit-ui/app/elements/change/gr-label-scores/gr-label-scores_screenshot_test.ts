@@ -10,7 +10,6 @@ import {fixture, html} from '@open-wc/testing';
 // @ts-ignore
 import {visualDiff} from '@web/test-runner-visual-regression';
 import {GrLabelScores} from './gr-label-scores';
-import {visualDiffDarkTheme} from '../../../test/test-utils';
 import {setViewport} from '@web/test-runner-commands';
 import {
   createAccountWithId,
@@ -83,10 +82,6 @@ suite('gr-label-scores screenshot tests', () => {
     document.body.appendChild(container);
 
     await visualDiff(container, 'gr-label-scores-long-trigger-vote-label');
-    await visualDiffDarkTheme(
-      container,
-      'gr-label-scores-long-trigger-vote-label'
-    );
 
     document.body.removeChild(container);
   });

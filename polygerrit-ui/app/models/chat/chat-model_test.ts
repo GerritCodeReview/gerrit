@@ -191,6 +191,66 @@ suite('chat-model tests', () => {
     assert.equal(request.model_name, 'advanced-model');
   });
 
+  test('selectedModelId$ falls back when preferred model is unavailable', async () => {
+    const models = {
+      models: [
+        {
+          model_id: 'default-model',
+        },
+      ],
+      default_model_id: 'default-model',
+    };
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (provider.getModels as sinon.SinonStub).resolves(models as any);
+
+    changeModel.updateStateChange(createParsedChange());
+    await new Promise(resolve => setTimeout(resolve, 0));
+
+    model.selectModel('removed-model');
+
+    let selectedModelId;
+    const sub = model.selectedModelId$.subscribe(id => (selectedModelId = id));
+    assert.equal(selectedModelId, 'default-model');
+    sub.unsubscribe();
+  });
+
+  test('chat falls back to default model when selected model is unavailable', async () => {
+    const models = {
+      models: [
+        {
+          model_id: 'default-model',
+        },
+      ],
+      default_model_id: 'default-model',
+    };
+    const actions = {
+      actions: [
+        {
+          id: 'default-action',
+          display_text: 'Default Action',
+          initial_user_prompt: 'Hello',
+        },
+      ],
+      default_action_id: 'default-action',
+    };
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (provider.getActions as sinon.SinonStub).resolves(actions as any);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (provider.getModels as sinon.SinonStub).resolves(models as any);
+
+    changeModel.updateStateChange(createParsedChange());
+    await new Promise(resolve => setTimeout(resolve, 0));
+
+    model.selectModel('removed-model');
+
+    model.updateUserInput('hello');
+    model.chat('hello', undefined, 0);
+
+    const request = (provider.chat as sinon.SinonStub).lastCall
+      .args[0] as ChatRequest;
+    assert.equal(request.model_name, 'default-model');
+  });
+
   test('change navigation resets state', () => {
     model.updateUserInput('some input');
     model.selectModel('some-model');

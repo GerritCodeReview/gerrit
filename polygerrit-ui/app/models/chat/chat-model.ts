@@ -24,6 +24,7 @@ import {
   Reference,
 } from '../../api/ai-code-review';
 import {ChangeInfo, CommentInfo, FileInfoStatus} from '../../api/rest-api';
+import {PreferencesInfo} from '../../types/common';
 import {isDefined} from '../../types/types';
 import {assert, assertIsDefined, cryptoUuid} from '../../utils/common-util';
 import {select} from '../../utils/observable-util';
@@ -355,9 +356,7 @@ export class ChatModel extends Model<ChatState> {
         this.userModel.preferences$.pipe(startWith(undefined)),
       ]),
       ([chatState, preferences]) =>
-        chatState.selectedModelId ??
-        preferences?.ai_chat_selected_model ??
-        chatState.models?.default_model_id
+        this.getEffectiveModelId(chatState, preferences)
     );
 
     this.selectedModel$ = select(
@@ -412,6 +411,21 @@ export class ChatModel extends Model<ChatState> {
       this.getContextItemTypes();
       this.listConversations();
     });
+  }
+
+  private getEffectiveModelId(
+    state: ChatState,
+    preferences?: PreferencesInfo
+  ): string | undefined {
+    const id =
+      state.selectedModelId ??
+      preferences?.ai_chat_selected_model ??
+      state.models?.default_model_id;
+
+    if (!state.models?.models) return id;
+
+    const isAvailable = state.models.models.some(m => m.model_id === id);
+    return isAvailable ? id : state.models.default_model_id;
   }
 
   contextItemToType(contextItem?: ContextItem): ContextItemType | undefined {
@@ -560,7 +574,10 @@ export class ChatModel extends Model<ChatState> {
       turn_index: turnIndex,
       regeneration_index: turn.geminiMessage.regenerationIndex,
       client_data: JSON.stringify(clientData),
-      model_name: state.selectedModelId ?? state.models.default_model_id,
+      model_name: this.getEffectiveModelId(
+        state,
+        this.userModel.getState().preferences
+      ),
       external_contexts: contextItems,
     };
     const listener: ChatResponseListener = {

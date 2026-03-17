@@ -51,6 +51,24 @@
       "parentUuid": "da4700a2_c58f8c39",
       "revId": "5ad7482953855ca2267639859d195965ba9262a5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2db812f6_ab1d04df",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-03-17T19:46:53Z",
+      "side": 1,
+      "message": "I think the problem could be broken tip builds for those plugins. As Helmut mentioned, the errors seem unrelated to his changes.",
+      "parentUuid": "81117827_2516cfda",
+      "revId": "5ad7482953855ca2267639859d195965ba9262a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

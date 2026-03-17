@@ -6666,6 +6666,11 @@ The `whitespace` parameter can be specified to control how whitespace
 differences are reported in the result.  Valid values are `IGNORE_NONE`,
 `IGNORE_TRAILING`, `IGNORE_LEADING_AND_TRAILING` or `IGNORE_ALL`.
 
+NOTE: Since version 3.3.0, the `context` parameter is accepted for
+backward compatibility but has no effect. The diff endpoint always
+returns the full file content. Context limiting, if needed, should
+be done client-side.
+
 [[preview-stored-fix]]
 === Preview Stored Fix
 --

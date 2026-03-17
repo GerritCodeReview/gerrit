@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "14eee55b_91daf5ac",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 24
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2026-03-17T22:44:06Z",
+      "side": 1,
+      "message": "Should we document this in developer documentation ?",
+      "revId": "dedf6abfe0545878a41e24343cfa7378bb82d3b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2db5f630_f61b8ea1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 24
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2026-03-17T22:44:06Z",
+      "side": 1,
+      "message": "Should we document this in developer documentation ?",
+      "revId": "dedf6abfe0545878a41e24343cfa7378bb82d3b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

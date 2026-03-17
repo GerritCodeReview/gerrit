@@ -40,10 +40,8 @@ export class GrLabelScores extends LitElement {
     return [
       fontStyles,
       css`
-        .scoresTable {
-          display: table;
-          width: 100%;
-          table-layout: fixed;
+        .sectionHeaderRow {
+          display: table-row;
         }
         .mergedMessage,
         .abandonedMessage {
@@ -89,10 +87,14 @@ export class GrLabelScores extends LitElement {
         label => !this.permittedLabels || this.permittedLabels[label.name]
       ).length === 0
     ) {
-      return html`<h3 class="heading-4">Submit requirements votes</h3>
+      return html`<div class="sectionHeaderRow">
+          <h3 class="heading-4">Submit requirements votes</h3>
+        </div>
         <div class="permissionMessage">You don't have permission to vote</div>`;
     }
-    return html`<h3 class="heading-4">Submit requirements votes</h3>
+    return html`<div class="sectionHeaderRow">
+        <h3 class="heading-4">Submit requirements votes</h3>
+      </div>
       ${this.renderLabels(labels)}`;
   }
 
@@ -109,30 +111,28 @@ export class GrLabelScores extends LitElement {
     ) {
       return nothing;
     }
-    return html`<h3 class="heading-4">Trigger Votes</h3>
+    return html`<div class="sectionHeaderRow">
+        <h3 class="heading-4">Trigger Votes</h3>
+      </div>
       ${this.renderLabels(labels)}`;
   }
 
   private renderLabels(labels: Label[]) {
-    return html`<div class="scoresTable">
-      ${labels
-        .filter(
-          label =>
-            this.permittedLabels?.[label.name] &&
-            this.permittedLabels?.[label.name].length > 0
-        )
-        .map(
-          label => html`<gr-label-score-row
-            .label=${label}
-            .name=${label.name}
-            .labels=${this.change?.labels}
-            .permittedLabels=${this.permittedLabels}
-            .orderedLabelValues=${computeOrderedLabelValues(
-              this.permittedLabels
-            )}
-          ></gr-label-score-row>`
-        )}
-    </div>`;
+    return html`${labels
+      .filter(
+        label =>
+          this.permittedLabels?.[label.name] &&
+          this.permittedLabels?.[label.name].length > 0
+      )
+      .map(
+        label => html`<gr-label-score-row
+          .label=${label}
+          .name=${label.name}
+          .labels=${this.change?.labels}
+          .permittedLabels=${this.permittedLabels}
+          .orderedLabelValues=${computeOrderedLabelValues(this.permittedLabels)}
+        ></gr-label-score-row>`
+      )}`;
   }
 
   private renderErrorMessages() {

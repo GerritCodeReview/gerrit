@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "af25ee26_b898c0a3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-03-17T08:38:00Z",
+      "side": 1,
+      "message": "Gerrit project requires the `Release-Notes` footer, please add it",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 52
+      },
+      "revId": "a35962b350c2c7487195eed6b84998bb5091eb3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3bdc6bc2_c8c7e14d",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 1

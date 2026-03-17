@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3bdc6bc2_c8c7e14d",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 6672,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-03-17T08:37:23Z",
+      "side": 1,
+      "message": "I don\u0027t believe this is the right place to position this? \nAFAIK, we talk about the context parameter only at line 5505, WDYT of adding the note there?",
+      "range": {
+        "startLine": 6669,
+        "startChar": 0,
+        "endLine": 6672,
+        "endChar": 20
+      },
+      "revId": "a35962b350c2c7487195eed6b84998bb5091eb3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

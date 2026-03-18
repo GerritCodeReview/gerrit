@@ -1,0 +1,175 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a299b86d_7bf194d1",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 15
+      },
+      "lineNbr": 6367,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-03-18T14:08:07Z",
+      "side": 1,
+      "message": "The text width for documenting configuration options in this file seems to be 80 characters. Try to utilise that text width fully, don\u0027t make lines too short (but also don\u0027t exceed 80 characters).",
+      "revId": "9f7ee7af1b831b8145d3a309461add618aeaecac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fc9ad153_fd262a02",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 15
+      },
+      "lineNbr": 6372,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-03-18T14:08:07Z",
+      "side": 1,
+      "message": "Is this timeout the total time for evaluating all submit requirement parts (applicableIf, submittableIf, overrideIf) or is it applied separately for each of those parts? This need to be documented here.",
+      "range": {
+        "startLine": 6367,
+        "startChar": 1,
+        "endLine": 6372,
+        "endChar": 23
+      },
+      "revId": "9f7ee7af1b831b8145d3a309461add618aeaecac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e9a48404_673e5ebd",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 15
+      },
+      "lineNbr": 6374,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-03-18T14:08:07Z",
+      "side": 1,
+      "message": "How to setup \"no timeout\" i.e. preserve the behaviour before this change? A common patter is that zero means no timeout. I would also suggest that zero becomes default value, this way we preserve the current behaviour after upgrade and Gerrit admins need not pay attention to this new option immediately.",
+      "revId": "9f7ee7af1b831b8145d3a309461add618aeaecac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "89292d21_41a85efc",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementsEvaluatorImpl.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-03-18T14:08:07Z",
+      "side": 1,
+      "message": "This config option also needs to be documented in the config-gerrit.txt",
+      "revId": "9f7ee7af1b831b8145d3a309461add618aeaecac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "52cfbd43_459f2979",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementsEvaluatorImpl.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-03-18T14:08:07Z",
+      "side": 1,
+      "message": "This executor is not used to evaluate deadlines, handling of deadlines is done in in thread which performs `Future.get` and that is not a thread that will run inside that executor. This name shall rather be just `sr-evaluator` or `submit-requirement-evaluator`\n\nI suggest to move creation of this executor outside of this constructor. Move it into a Guice module. Use `@Provides` method. Further, it",
+      "range": {
+        "startLine": 105,
+        "startChar": 13,
+        "endLine": 105,
+        "endChar": 35
+      },
+      "revId": "9f7ee7af1b831b8145d3a309461add618aeaecac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f5ac3a20_c8a76dc3",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementsEvaluatorImpl.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-03-18T14:08:07Z",
+      "side": 1,
+      "message": "Remove this line.",
+      "revId": "9f7ee7af1b831b8145d3a309461add618aeaecac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2bab503c_9041d2d8",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementsEvaluatorImpl.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-03-18T14:08:07Z",
+      "side": 1,
+      "message": "This value can be extracted once (in the constructor) and stored in a field.",
+      "range": {
+        "startLine": 238,
+        "startChar": 12,
+        "endLine": 238,
+        "endChar": 95
+      },
+      "revId": "9f7ee7af1b831b8145d3a309461add618aeaecac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8972c5ba_614944ec",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementsEvaluatorImpl.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-03-18T14:08:07Z",
+      "side": 1,
+      "message": "This line did\u0027t need to be changed, the added prefix text `evaluateRequirementInternal::` doesn\u0027t add any value here.",
+      "revId": "9f7ee7af1b831b8145d3a309461add618aeaecac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "06ac46bf_88aa819e",
+        "filename": "javatests/com/google/gerrit/acceptance/server/project/SubmitRequirementsEvaluatorIT.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 1096,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-03-18T14:08:07Z",
+      "side": 1,
+      "message": "This is usually not a good (testing) pattern. Try not to rely on threads sleeping. What can be done is to pass a mock of ExecutorService to the SubmitRequirementsEvaluatorImpl constructor. The mocked ExecutorService shall return a mocked Future when executor.submit is called. The mocked \nFuture shall throw a TimeoutException when its Future.get(timeout) method is called. It shall throw that exception immediately. We do not really need to test that Future.get(timeout) really waits that long before timing out (this is guaranteed by JDK). Instead we test that the result is correct when evaluation times out.",
+      "revId": "9f7ee7af1b831b8145d3a309461add618aeaecac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

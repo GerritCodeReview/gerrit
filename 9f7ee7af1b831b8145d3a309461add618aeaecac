@@ -100,6 +100,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a4ed01b7_2088fa60",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementsEvaluatorImpl.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-03-18T14:12:07Z",
+      "side": 1,
+      "message": "Continuing my unfinished comment:\nFurther, when thee `executionTimeout` is zero (means no timeout) we can return `MoreExecutors.directExecutor` from the provider method. This means that the submit requirements will be executed in the calling thread, exactly like before your change. This fully preserves the old behaviour when no timeouts are set.",
+      "parentUuid": "52cfbd43_459f2979",
+      "range": {
+        "startLine": 105,
+        "startChar": 13,
+        "endLine": 105,
+        "endChar": 35
+      },
+      "revId": "9f7ee7af1b831b8145d3a309461add618aeaecac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f5ac3a20_c8a76dc3",
         "filename": "java/com/google/gerrit/server/project/SubmitRequirementsEvaluatorImpl.java",
         "patchSetId": 15

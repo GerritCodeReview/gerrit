@@ -26,6 +26,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e938c2f8_49e4f0fb",
+        "filename": "java/com/google/gerrit/server/patch/filediff/FileDiffCacheImpl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-03-18T11:04:08Z",
+      "side": 1,
+      "message": "cannot use RevWalk across multiple threads\n\nIf this executor is needed, it needs to be opened per thread",
+      "range": {
+        "startLine": 402,
+        "startChar": 58,
+        "endLine": 402,
+        "endChar": 68
+      },
+      "revId": "5d32036c5c8a8a3e29acaf08caf5840363ac0e3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "36ad7f19_6696da6a",
         "filename": "java/com/google/gerrit/server/patch/filediff/FileDiffOutput.java",
         "patchSetId": 8

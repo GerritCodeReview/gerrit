@@ -64,6 +64,37 @@ declare global {
   }
 }
 
+const REFRESH_INTERVAL_MS = 60 * 60 * 1000; // 1 hour
+
+export const dateFormatterManager = {
+  formatters: new Set<GrDateFormatter>(),
+  refreshTimer: null as ReturnType<typeof setInterval> | null,
+
+  register(formatter: GrDateFormatter) {
+    this.formatters.add(formatter);
+    if (this.refreshTimer === null) {
+      this.refreshTimer = setInterval(() => {
+        for (const f of this.formatters) {
+          f.requestUpdate();
+        }
+      }, REFRESH_INTERVAL_MS);
+    }
+  },
+
+  unregister(formatter: GrDateFormatter) {
+    this.formatters.delete(formatter);
+    if (this.formatters.size === 0 && this.refreshTimer !== null) {
+      clearInterval(this.refreshTimer);
+      this.refreshTimer = null;
+    }
+  },
+
+  // visible for testing
+  _testOnly_getRefreshTimer() {
+    return this.refreshTimer;
+  },
+};
+
 @customElement('gr-date-formatter')
 export class GrDateFormatter extends LitElement {
   @property({type: String})
@@ -117,6 +148,16 @@ export class GrDateFormatter extends LitElement {
       () => this.getUserModel().preferences$,
       prefs => this.setPreferences(prefs)
     );
+  }
+
+  override connectedCallback() {
+    super.connectedCallback();
+    dateFormatterManager.register(this);
+  }
+
+  override disconnectedCallback() {
+    dateFormatterManager.unregister(this);
+    super.disconnectedCallback();
   }
 
   // private but used by tests

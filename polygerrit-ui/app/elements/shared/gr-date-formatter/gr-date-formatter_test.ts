@@ -6,7 +6,7 @@
 import * as sinon from 'sinon';
 import '../../../test/common-test-setup';
 import './gr-date-formatter';
-import {GrDateFormatter} from './gr-date-formatter';
+import {dateFormatterManager, GrDateFormatter} from './gr-date-formatter';
 import {parseDate} from '../../../utils/date-util';
 import {assert, fixture, html} from '@open-wc/testing';
 import {query, queryAndAssert} from '../../../test/test-utils';
@@ -31,6 +31,57 @@ const lightTemplate = html`
 
 suite('gr-date-formatter tests', () => {
   let element: GrDateFormatter;
+
+  suite('dateFormatterManager', () => {
+    let requestUpdateStub: sinon.SinonStub;
+
+    setup(async () => {
+      element = await fixture<GrDateFormatter>(basicTemplate);
+      requestUpdateStub = sinon.stub(element, 'requestUpdate');
+      // Ensure clean state. (Element connectedCallback already called register)
+      dateFormatterManager.formatters.clear();
+      if (dateFormatterManager._testOnly_getRefreshTimer() !== null) {
+        clearInterval(dateFormatterManager._testOnly_getRefreshTimer()!);
+        dateFormatterManager.refreshTimer = null;
+      }
+    });
+
+    teardown(() => {
+      if (dateFormatterManager._testOnly_getRefreshTimer() !== null) {
+        clearInterval(dateFormatterManager._testOnly_getRefreshTimer()!);
+        dateFormatterManager.refreshTimer = null;
+      }
+      dateFormatterManager.formatters.clear();
+    });
+
+    test('register and unregister', () => {
+      assert.equal(dateFormatterManager.formatters.size, 0);
+      assert.isNull(dateFormatterManager._testOnly_getRefreshTimer());
+
+      dateFormatterManager.register(element);
+      assert.equal(dateFormatterManager.formatters.size, 1);
+      assert.isNotNull(dateFormatterManager._testOnly_getRefreshTimer());
+
+      dateFormatterManager.unregister(element);
+      assert.equal(dateFormatterManager.formatters.size, 0);
+      assert.isNull(dateFormatterManager._testOnly_getRefreshTimer());
+    });
+
+    test('timer calls requestUpdate', () => {
+      const clock = sinon.useFakeTimers();
+      dateFormatterManager.register(element);
+
+      assert.isFalse(requestUpdateStub.called);
+
+      clock.tick(60 * 60 * 1000);
+      assert.isTrue(requestUpdateStub.calledOnce);
+
+      clock.tick(60 * 60 * 1000);
+      assert.isTrue(requestUpdateStub.calledTwice);
+
+      clock.restore();
+    });
+  });
 
   /**
    * Parse server-formatted date and normalize into current timezone.

@@ -315,17 +315,13 @@ export class GrFormattedText extends LitElement {
       ): string {
         // Don't process text in raw blocks.
         if (token.type === 'escape') {
-          return htmlEscape(token.text).toString();
+          return token.text;
         }
         // Recurse when not in a terminal node.
         if (token.type === 'text' && token.tokens) {
           return this.parser.parseInline(token.tokens);
         }
-        return boundRewriteText(
-          token.type === 'text' && token.escaped
-            ? token.text
-            : htmlEscape(token.text).toString()
-        );
+        return boundRewriteText(token.text);
       };
     }
 

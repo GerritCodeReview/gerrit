@@ -22,6 +22,7 @@ import {PreferencesInfo, Timestamp} from '../../../types/common';
 import {resolve} from '../../../models/dependency';
 import {userModelToken} from '../../../models/user/user-model';
 import {subscribe} from '../../lit/subscription-controller';
+import {PeriodicUpdateManager} from '../../../utils/periodic-update-util';
 
 const TimeFormats = {
   TIME_12: 'h:mm A', // 2:14 PM
@@ -63,6 +64,12 @@ declare global {
     'gr-date-formatter': GrDateFormatter;
   }
 }
+
+const REFRESH_INTERVAL_MS = 60 * 60 * 1000; // 1 hour
+
+export const dateFormatterManager = new PeriodicUpdateManager<GrDateFormatter>(
+  REFRESH_INTERVAL_MS
+);
 
 @customElement('gr-date-formatter')
 export class GrDateFormatter extends LitElement {
@@ -117,6 +124,16 @@ export class GrDateFormatter extends LitElement {
       () => this.getUserModel().preferences$,
       prefs => this.setPreferences(prefs)
     );
+  }
+
+  override connectedCallback() {
+    super.connectedCallback();
+    dateFormatterManager.register(this);
+  }
+
+  override disconnectedCallback() {
+    dateFormatterManager.unregister(this);
+    super.disconnectedCallback();
   }
 
   // private but used by tests

@@ -1632,6 +1632,12 @@ public class ChangeField {
                   + ","
                   + srResult.submitRequirement().name().toLowerCase(Locale.US));
         }
+        case TIMEOUT -> {
+          result.add(
+              SubmitRecord.Label.Status.NEED.name()
+                  + ","
+                  + srResult.submitRequirement().name().toLowerCase(Locale.US));
+        }
         case NOT_APPLICABLE, ERROR ->
             result.add(
                 SubmitRecord.Label.Status.IMPOSSIBLE.name()

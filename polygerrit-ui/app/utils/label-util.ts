@@ -342,6 +342,8 @@ export function iconForStatus(
       return {icon: 'error', filled: true};
     case SubmitRequirementStatus.FORCED:
       return {icon: 'check_circle', filled: true};
+    case SubmitRequirementStatus.TIMEOUT:
+      return {icon: 'block'};
     default:
       assertNever(status, `Unsupported status: ${status}`);
   }

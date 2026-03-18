@@ -108,6 +108,11 @@ public abstract class SubmitRequirementResult {
 
   @Memoized
   public Status status() {
+    if (isTimeout(submittabilityExpressionResult())
+        || isTimeout(applicabilityExpressionResult())
+        || isTimeout(overrideExpressionResult())) {
+      return Status.TIMEOUT;
+    }
     if (forced().orElse(false)) {
       return Status.FORCED;
     } else if (assertError(submittabilityExpressionResult())
@@ -123,6 +128,11 @@ public abstract class SubmitRequirementResult {
     } else {
       return Status.UNSATISFIED;
     }
+  }
+
+  private static boolean isTimeout(Optional<SubmitRequirementExpressionResult> r) {
+    return r.isPresent()
+        && r.get().status() == SubmitRequirementExpressionResult.Status.TIMEOUT;
   }
 
   /** Returns true if the submit requirement is fulfilled and can allow change submission. */
@@ -177,7 +187,11 @@ public abstract class SubmitRequirementResult {
      * The "submit requirement" was bypassed during submission, e.g. by pushing for review with the
      * %submit option.
      */
-    FORCED
+    FORCED,
+    /**
+     * The submit requirement is TIMEOUT during evaluation.
+     */
+    TIMEOUT
   }
 
   @AutoValue.Builder

@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "91349f37_b973d948",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 24
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-03-18T12:17:04Z",
+      "side": 1,
+      "message": "I think this does not need to go into developer documentation.\n\nThis change is purely behavior-preserving during the Bazel modules migration.\n\nPreviously, modules/jgit was excluded from //... via the local_repository boundary. After removing that in a follow-up change, .bazelignore keeps the same behavior.\n\nSo semantically nothing changes for developers — bazelisk test //... did not run JGit tests before and will not do so afterwards.\n\nI’ve also extended the commit message to explain this in more detail and clarify why the .bazelignore entry is needed.",
+      "parentUuid": "14eee55b_91daf5ac",
+      "revId": "dedf6abfe0545878a41e24343cfa7378bb82d3b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2db5f630_f61b8ea1",
@@ -31,6 +49,24 @@
       "writtenOn": "2026-03-17T22:44:06Z",
       "side": 1,
       "message": "Should we document this in developer documentation ?",
+      "revId": "dedf6abfe0545878a41e24343cfa7378bb82d3b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "88cd43e7_bb84fe70",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 24
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-03-18T12:17:04Z",
+      "side": 1,
+      "message": "Same as above.",
+      "parentUuid": "2db5f630_f61b8ea1",
       "revId": "dedf6abfe0545878a41e24343cfa7378bb82d3b0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

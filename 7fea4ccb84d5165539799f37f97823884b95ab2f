@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4e4d26f2_fa292fce",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-03-18T10:41:58Z",
+      "side": 1,
+      "message": "A Protobuf version upgrade should likely be exempt from LC, as it is a Google-maintained dependency.",
+      "revId": "7fea4ccb84d5165539799f37f97823884b95ab2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

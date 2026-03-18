@@ -90,6 +90,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ed37e0a7_82205dd2",
+        "filename": "Documentation/release_war_jars.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-03-18T10:04:00Z",
+      "side": 1,
+      "message": "I updated the manifest generation to sort case-insensitively for better readability.\n\nNote that this only affects the presentation order of the generated files. The test itself compares normalized sets (sort -u), so ordering is not part of the semantics and remains unchanged.\n\nI also regenerated and updated Documentation/release_war_jars.txt to reflect the new ordering.",
+      "parentUuid": "af6dc184_309e9161",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 2,
+        "endChar": 13
+      },
+      "revId": "f547f711ad8e6ad34ee37b676cee3327408074bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fe7697f7_b02850ea",

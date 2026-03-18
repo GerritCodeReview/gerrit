@@ -22,6 +22,30 @@
       },
       "revId": "8792a909cd7a595ebe87a989592c594ba36df3cb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d31c8428_cdef1063",
+        "filename": "MODULE.bazel",
+        "patchSetId": 40
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-03-18T12:23:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0bae5072_cb8c4476",
+      "range": {
+        "startLine": 232,
+        "startChar": 0,
+        "endLine": 248,
+        "endChar": 0
+      },
+      "revId": "8792a909cd7a595ebe87a989592c594ba36df3cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

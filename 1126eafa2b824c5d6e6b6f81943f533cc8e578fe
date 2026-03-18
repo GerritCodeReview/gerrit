@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "913bbefb_78ce664a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 31
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-03-18T12:23:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b6c4f99e_5f907fe0",
+      "range": {
+        "startLine": 10,
+        "startChar": 29,
+        "endLine": 11,
+        "endChar": 38
+      },
+      "revId": "1126eafa2b824c5d6e6b6f81943f533cc8e578fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "645db50c_0cddbe51",
@@ -97,6 +121,24 @@
       "side": 1,
       "message": "I think for the in-tree build mode it still has to be exported explicitly from Gerrit — or am I missing something?\n\nI commented out:\n\n```python\n#use_repo(maven, \"external_plugin_deps\")\n```\n\nin `tools/plugin_deps.MODULE.bazel` and then \n \n```bash\n bazelisk build plugins/oauth\n```\n\nfails during the analysis phase with:\n\n```\nNo repository visible as \u0027@external_plugin_deps\u0027 (plugins/oauth/BUILD:19:14)\n```\n\nThis suggests that `oauth` still depends on `@external_plugin_deps`, so Gerrit core still needs to expose that repo for in-tree plugin builds.\n\nThe failure happens before any fetching/building — it’s purely repository visibility/resolution.",
       "parentUuid": "04f4f3da_10673f81",
+      "revId": "1126eafa2b824c5d6e6b6f81943f533cc8e578fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f388c9e_f727ae10",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 31
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-03-18T12:23:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f3b1e53c_b7321460",
       "revId": "1126eafa2b824c5d6e6b6f81943f533cc8e578fe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -214,6 +256,24 @@
       "writtenOn": "2026-01-19T08:30:30Z",
       "side": 1,
       "message": "Needs to be updated as soon as the changes have been approved.",
+      "revId": "1126eafa2b824c5d6e6b6f81943f533cc8e578fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "69404cbc_48cef8be",
+        "filename": "MODULE.bazel",
+        "patchSetId": 31
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-03-18T12:23:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8f73e0fb_7bbc271f",
       "revId": "1126eafa2b824c5d6e6b6f81943f533cc8e578fe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -34,6 +34,24 @@
       "parentUuid": "85499f1d_ea92822f",
       "revId": "90377f6c400d4365a0fecc17aac3282a464a9697",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "271453e0_f4f76ed5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-03-18T12:23:47Z",
+      "side": 1,
+      "message": "Looking at `task` plugin, `external_plugin_deps.bzl` just get included from `WORKSPACE` file:\n\n```python\nload(\"//:external_plugin_deps.bzl\", \"external_plugin_deps\")\n```\n\n\nWith `bzlmod` standalone plugin would provide its own MODULE.bazel and consume external dependencies using `rules_jvm_external`.\n\nYou can check `oauth` plugin (so without UI), that supports standalone mode, and was fully migrated to Bazel modules.\n\nSee change 526562.",
+      "parentUuid": "942242e4_dbfdc733",
+      "revId": "90377f6c400d4365a0fecc17aac3282a464a9697",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

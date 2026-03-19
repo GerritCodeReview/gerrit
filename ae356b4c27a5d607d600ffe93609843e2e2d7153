@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0d8f8c38_c77c2064",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-03-19T13:31:34Z",
+      "side": 1,
+      "message": "\u003e Without it, standard commands like \"eslintfix\" fail for me\n\nCan you provide exact steps how to reproduce the problem?\n\nCan it be, that `WORKSPACE` still mentioned and should be replace with `MODULE.bazel``",
+      "revId": "ae356b4c27a5d607d600ffe93609843e2e2d7153",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

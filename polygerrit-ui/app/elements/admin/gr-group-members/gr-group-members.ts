@@ -364,6 +364,7 @@ export class GrGroupMembers extends LitElement {
       .getGroupConfig(this.groupId, errFn)
       .then(config => {
         if (!config || !config.name) {
+          this.loading = false;
           return Promise.resolve();
         }
 

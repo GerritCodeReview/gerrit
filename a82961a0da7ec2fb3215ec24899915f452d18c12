@@ -16,6 +16,24 @@
       "message": "why is jgit handled differently than java-prettify ?",
       "revId": "a82961a0da7ec2fb3215ec24899915f452d18c12",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b545ee17_d506f807",
+        "filename": "MODULE.bazel",
+        "patchSetId": 6
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-03-19T17:03:37Z",
+      "side": 1,
+      "message": "`jgit` is handled differently because it is an actual Bazel module: it has module metadata and contributes to bzlmod resolution, including the shared Maven graph.\n\nSo the correct pattern is `bazel_dep(name \u003d \"jgit\")` plus `local_path_override(...)` to point that module at our in-tree checkout.\n\n`java-prettify` is not a bzlmod module. It does not participate in module resolution and does not contribute module metadata; it is just a local source repository with `BUILD` files. For that case, `local_repository(...)` is the appropriate mechanism.\n\nSo the distinction is not really “has external deps vs not”, but “is a real Bazel module vs just a repository”. If `java-prettify` is ever converted into a proper Bazel module, we could treat it the same way as `jgit`.",
+      "parentUuid": "b541a90e_00905eaf",
+      "revId": "a82961a0da7ec2fb3215ec24899915f452d18c12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

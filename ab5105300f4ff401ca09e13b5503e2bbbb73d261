@@ -16,6 +16,24 @@
       "message": "Can you add a new screenshot test with the new icon?\n\nDo you know why the other screenshots differ? Seems to look OK but curious",
       "revId": "ab5105300f4ff401ca09e13b5503e2bbbb73d261",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3d814236_020dd7ad",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-03-19T20:15:53Z",
+      "side": 1,
+      "message": "I tried to add a few other screenshots but ran into some issues. I can try again. were there particular ones you thought we should cover? \n\nThe other ones, I think they just didn\u0027t get updated in the past.",
+      "parentUuid": "3fdf0689_df03e356",
+      "revId": "ab5105300f4ff401ca09e13b5503e2bbbb73d261",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

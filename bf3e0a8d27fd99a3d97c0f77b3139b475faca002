@@ -87,6 +87,24 @@
       "parentUuid": "14712d3d_a2154713",
       "revId": "bf3e0a8d27fd99a3d97c0f77b3139b475faca002",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0eeedf7c_3016869f",
+        "filename": "MODULE.bazel",
+        "patchSetId": 45
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-03-19T23:01:42Z",
+      "side": 1,
+      "message": "Why do we need to define `GERRIT_VERSION` here?\nWe were used to having it in `version.bzl` and loading it.\n\nI am concerned that every time we make a new release we would need a new Library-Compliance +1, which doesn\u0027t make sense.",
+      "parentUuid": "187f5742_8fb9eb6f",
+      "revId": "bf3e0a8d27fd99a3d97c0f77b3139b475faca002",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

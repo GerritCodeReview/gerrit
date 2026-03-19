@@ -34,6 +34,24 @@
       "parentUuid": "0d8f8c38_c77c2064",
       "revId": "ae356b4c27a5d607d600ffe93609843e2e2d7153",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2747d834_ed07ba74",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-03-19T14:02:03Z",
+      "side": 1,
+      "message": "```\nThis error message from Bazel indicates that it cannot find the definition for the external repository named @build_bazel_rules_nodejs. This repository contains the rules necessary to build, test, and work with Node.js projects within a Bazel workspace.\n\nThe specific error means that a BUILD or .bzl file (in this case, //:index.bzl as referenced from polygerrit-ui/app) is trying to load() something from @build_bazel_rules_nodejs, but this repository hasn\u0027t been declared in your Bazel WORKSPACE file.\n\nHow to Fix:\n\nYou need to define the @build_bazel_rules_nodejs external repository in the WORKSPACE file located at the root of your Bazel project. You can do this using the http_archive rule.\n\n```\n\nThis was it\u0027s thinking",
+      "parentUuid": "f4c92987_6be4e0a0",
+      "revId": "ae356b4c27a5d607d600ffe93609843e2e2d7153",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -70,6 +70,24 @@
       "parentUuid": "f4c92987_6be4e0a0",
       "revId": "ae356b4c27a5d607d600ffe93609843e2e2d7153",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4df8cce1_f7d6dfe0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-03-19T14:07:45Z",
+      "side": 1,
+      "message": "```\ndhruvsri-macbookpro3:gerrit dhruvsri$ bazelisk version\nBazelisk version: development\nBuild label: 9.0.1\nBuild target: @@//src/main/java/com/google/devtools/build/lib/bazel:BazelServer\nBuild time: Tue Mar 10 16:56:10 2026 (1773161770)\nBuild timestamp: 1773161770\nBuild timestamp as int: 1773161770\n```\n\n`bazelisk build ls polygerrit-ui/app:lint_bin` this fails for me with the same error\n\n```\nERROR: Skipping \u0027polygerrit-ui/app:lint_bin\u0027: error loading package \u0027polygerrit-ui/app\u0027: Unable to find package for @@[unknown repo \u0027build_bazel_rules_nodejs\u0027 requested from @@]//:index.bzl: The repository \u0027@@[unknown repo \u0027build_bazel_rules_nodejs\u0027 requested from @@]\u0027 could not be resolved: No repository visible as \u0027@build_bazel_rules_nodejs\u0027 from main repository.\nERROR: error loading package \u0027polygerrit-ui/app\u0027: Unable to find package for @@[unknown repo \u0027build_bazel_rules_nodejs\u0027 requested from @@]//:index.bzl: The repository \u0027@@[unknown repo \u0027build_bazel_rules_nodejs\u0027 requested from @@]\u0027 could not be resolved: No repository visible as \u0027@build_bazel_rules_nodejs\u0027 from main repository.\nINFO: Elapsed time: 5.138s\nINFO: 0 processes.\nERROR: Build did NOT complete successfully\n```\n\n```\nnecessary because the environment\u0027s version of Bazel (9.0.1) was failing\n      to resolve repositories correctly when using the .bzlmod extension,\n      despite Bzlmod being enabled\n```\n\nGemini also said the issue is `9.0.1` so maybe my version is too far ahead?",
+      "parentUuid": "8c14c152_05b05a4b",
+      "revId": "ae356b4c27a5d607d600ffe93609843e2e2d7153",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

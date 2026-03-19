@@ -308,6 +308,65 @@ suite('gr-create-flow tests', () => {
       assert.isFalse(createModal.open);
     });
 
+    test('creates a flow with multiple reviewers separated by commas', async () => {
+      const createFlowStub = sinon.stub(flowsModel, 'createFlow');
+
+      const createButton = queryAndAssert<GrButton>(
+        element,
+        'gr-button[aria-label="Create Flow"]'
+      );
+      createButton.click();
+      await element.updateComplete;
+      const grDialog = queryAndAssert<GrDialog>(
+        element,
+        '#createModal gr-dialog'
+      );
+
+      const searchAutocomplete = queryAndAssert<GrSearchAutocomplete>(
+        grDialog,
+        'gr-search-autocomplete'
+      );
+      const actionInput = queryAndAssert<MdOutlinedSelect>(
+        grDialog,
+        'md-outlined-select[label="Action"]'
+      );
+      searchAutocomplete.value = 'single condition';
+      await element.updateComplete;
+      actionInput.value = 'add-reviewer';
+      actionInput.dispatchEvent(new Event('change'));
+      await element.updateComplete;
+
+      const parametersInput = queryAndAssert<GrAutocomplete>(
+        grDialog,
+        '.autocomplete-input'
+      );
+      parametersInput.text = 'user1@example.com, user2@example.com';
+      parametersInput.dispatchEvent(
+        new CustomEvent('text-changed', {
+          detail: {value: 'user1@example.com, user2@example.com'},
+        })
+      );
+      await element.updateComplete;
+
+      const addButton = queryAndAssert<GrButton>(
+        grDialog,
+        'gr-button[aria-label="Add Stage"]'
+      );
+      addButton.click();
+      await element.updateComplete;
+
+      const confirmButton = queryAndAssert<GrButton>(grDialog, '#confirm');
+      confirmButton.click();
+      await element.updateComplete;
+
+      assert.isTrue(createFlowStub.calledOnce);
+      const flowInput = createFlowStub.lastCall.args[0];
+      assert.deepEqual(flowInput.stage_expressions[0].action!.parameters, [
+        'user1@example.com',
+        'user2@example.com',
+      ]);
+    });
+
     test('creates a flow with multiple stages', async () => {
       const createFlowStub = sinon.stub(flowsModel, 'createFlow');
 

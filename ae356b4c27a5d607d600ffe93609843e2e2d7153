@@ -16,6 +16,24 @@
       "message": "\u003e Without it, standard commands like \"eslintfix\" fail for me\n\nCan you provide exact steps how to reproduce the problem?\n\nCan it be, that `WORKSPACE` still mentioned and should be replace with `MODULE.bazel``",
       "revId": "ae356b4c27a5d607d600ffe93609843e2e2d7153",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4c92987_6be4e0a0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-03-19T13:53:27Z",
+      "side": 1,
+      "message": "1. Clone a fresh Gerrit repo\n\n2. Run `npm run eslintfix`\n\n3. Notice this error\n```\nERROR: Skipping \u0027polygerrit-ui/app:lint_bin\u0027: error loading package \u0027polygerrit-ui/app\u0027: Unable to find package for @@[unknown repo \u0027build_bazel_rules_nodejs\u0027 requested from @@]//:index.bzl: The repository \u0027@@[unknown repo \u0027build_bazel_rules_nodejs\u0027 requested from @@]\u0027 could not be resolved: No repository visible as \u0027@build_bazel_rules_nodejs\u0027 from main repository.\nERROR: error loading package \u0027polygerrit-ui/app\u0027: Unable to find package for @@[unknown repo \u0027build_bazel_rules_nodejs\u0027 requested from @@]//:index.bzl: The repository \u0027@@[unknown repo \u0027build_bazel_rules_nodejs\u0027 requested from @@]\u0027 could not be resolved: No repository visible as \u0027@build_bazel_rules_nodejs\u0027 from main repository.\nINFO: Elapsed time: 0.148s\nINFO: 0 processes.\nERROR: Build did NOT complete successfully\nERROR: Build failed. Not running target\n```\n\n4. Ask Gemini to fix this and arrive at this change",
+      "parentUuid": "0d8f8c38_c77c2064",
+      "revId": "ae356b4c27a5d607d600ffe93609843e2e2d7153",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -22,6 +22,30 @@
       },
       "revId": "a863f091653038d4393ca8cec5e23f295a5d9e34",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9a4d36f5_97ec0bf3",
+        "filename": "WORKSPACE",
+        "patchSetId": 51
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-03-19T14:17:00Z",
+      "side": 0,
+      "message": "Bazel Modules migration is still ongoing.\n\nWe still depend on Bazel 7.6.1 (`.bazelversion`).\n\nAfter removal of `WORKSPACE` (better to say, moving its content to WORKSPACE.bzlmod`) outdated `bazelisk` version would fail to detect `.bazelversion` file and use the latest available Bazel version (9.0.1 as of today).\n\nGiven that Bazel 9.x removed old `WORKSPACE` file support, hybrid mode we use today wouldn\u0027t work.\n\nUpdating Bazelisk to at least v.1.27.0 should fix it for you.\n\nSee also explanation the commit message of Zuul/jobs change 562881.\n\nYou can download the latest `bazelisk` version from GitHub release page: [1].\n\n[1]: https://github.com/bazelbuild/bazelisk/releases/tag/v1.28.1",
+      "parentUuid": "7772ca29_00225bc9",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 79
+      },
+      "revId": "a863f091653038d4393ca8cec5e23f295a5d9e34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1a38577d_4110c2f4",
+        "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-03-19T11:14:43Z",
+      "side": 1,
+      "message": "I don\u0027t think this class actually has anything to do with `DateFormatterManager` itself.\n\nBetter to rename it to something that specifies it triggers `requestUpdate` periodically and move into it\u0027s own class.\n\nFor each `formatter` you only do `requestUpdate` so make it generic for any component and move to utils.",
+      "range": {
+        "startLine": 69,
+        "startChar": 6,
+        "endLine": 69,
+        "endChar": 26
+      },
+      "revId": "22dba18d5fe146fdcf1f470b69b2c297a817604e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

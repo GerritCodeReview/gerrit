@@ -52,6 +52,24 @@
       "parentUuid": "f4c92987_6be4e0a0",
       "revId": "ae356b4c27a5d607d600ffe93609843e2e2d7153",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8c14c152_05b05a4b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-03-19T14:04:30Z",
+      "side": 1,
+      "message": "The above steps worked for me:\n\n```\n$ bazelisk build ls polygerrit-ui/app:lint_bin\n[...]\nTarget //polygerrit-ui/app:lint_bin up-to-date:\n  bazel-bin/polygerrit-ui/app/lint_bin.sh\n  bazel-bin/polygerrit-ui/app/lint_bin_require_patch.cjs\nINFO: Elapsed time: 12.839s, Critical Path: 4.94s\nINFO: 7 processes: 7 internal.\nINFO: Build completed successfully, 7 total actions\n```\n\nAnd:\n\n\n```\n$ npm run eslintfix\n\n\u003e gerrit@3.11.0 eslintfix\n\u003e npm run safe_bazelisk run polygerrit-ui/app:lint_bin -- -- --fix $(pwd)/polygerrit-ui/app\n\n\n\u003e gerrit@3.11.0 safe_bazelisk\n\u003e if which bazelisk \u003e/dev/null; then bazel_bin\u003dbazelisk; else bazel_bin\u003dbazel; fi \u0026\u0026 $bazel_bin run polygerrit-ui/app:lint_bin -- --fix /Users/Davido/projects/gerrit2/polygerrit-ui/app\n\nINFO: Invocation ID: e71023b0-ef01-400a-8292-682b4bf7fd78\nINFO: Options provided by the client:\n  Inherited \u0027common\u0027 options: --isatty\u003d1 --terminal_columns\u003d184\nINFO: Reading rc options for \u0027run\u0027 from /Users/Davido/projects/gerrit2/.bazelrc:\n  Inherited \u0027common\u0027 options: --enable_bzlmod --incompatible_enable_proto_toolchain_resolution --@protobuf//bazel/toolchains:prefer_prebuilt_protoc\nINFO: Reading rc options for \u0027run\u0027 from /Users/Davido/projects/gerrit2/.bazelrc:\n  Inherited \u0027build\u0027 options: --workspace_status_command\u003dpython3 ./tools/workspace_status.py --repository_cache\u003d~/.gerritcodereview/bazel-cache/repository --action_env\u003dPATH --disk_cache\u003d~/.gerritcodereview/bazel-cache/cas --java_language_version\u003d21 --java_runtime_version\u003dremotejdk_21 --tool_java_language_version\u003d21 --tool_java_runtime_version\u003dremotejdk_21 --incompatible_strict_action_env --announce_rc\nINFO: Analyzed target //polygerrit-ui/app:lint_bin (2 packages loaded, 8 targets configured).\nINFO: Found 1 target...\nTarget //polygerrit-ui/app:lint_bin up-to-date:\n  bazel-bin/polygerrit-ui/app/lint_bin.sh\n  bazel-bin/polygerrit-ui/app/lint_bin_require_patch.cjs\nINFO: Elapsed time: 1.774s, Critical Path: 1.34s\nINFO: 2 processes: 2 internal.\nINFO: Build completed successfully, 2 total actions\nINFO: Running command line: bazel-bin/polygerrit-ui/app/lint_bin.sh --fix /Users/Davido/projects/gerrit2/polygerrit-ui/app\nnpm notice\nnpm notice New minor version of npm available! 11.3.0 -\u003e 11.12.0\nnpm notice Changelog: https://github.com/npm/cli/releases/tag/v11.12.0\nnpm notice To update run: npm install -g npm@11.12.0\nnpm notice\n```\n\nI am on this change:\n\n77453f4c9f94b269880ae7e4fa2b7dd61bacb159 Merge \"Fix infinite loading and group visibility in Gerrit access pages\"\n\nNote: that the content fron WORKSPACE was moved to WORKSPACE.bzlmod.\n\nWhat is you baselisk version?\n\nI suspect, you bazelisk version is outdated!\n\nYou need at least 1.27.0\n\nSee this Zul/jobs change 562881 where we have a similar issue and had to update `bazelisk` version.\n\nTry this:\n\n```\n$ bazelisk version\nBazelisk version: v1.27.0\nBuild label: 7.6.1\nBuild target: @@//src/main/java/com/google/devtools/build/lib/bazel:BazelServer\nBuild time: Mon Mar 31 17:22:39 2025 (1743441759)\nBuild timestamp: 1743441759\nBuild timestamp as int: 1743441759\n```\n\nWhat this produces for you?",
+      "parentUuid": "f4c92987_6be4e0a0",
+      "revId": "ae356b4c27a5d607d600ffe93609843e2e2d7153",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

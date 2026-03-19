@@ -123,7 +123,10 @@ export class GrFlowRule extends LitElement {
   override willUpdate(changedProperties: PropertyValues) {
     if (changedProperties.has('parameterStr')) {
       this.parameters = this.parameterStr?.trim()
-        ? this.parameterStr.trim().split(/\s+/)
+        ? this.parameterStr
+            .trim()
+            .split(/[\s,]+/)
+            .filter(p => p.length > 0)
         : [];
     }
     if (changedProperties.has('parameters')) {

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9fb68dda_b47bec21",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-03-19T10:27:10Z",
+      "side": 1,
+      "message": "@milutin@google.com Could you please take a look and provide an LC+1 on this minor `rules_java` update?\n\nSince `rules_java` is a Google-maintained project, this change is expected to be low risk.",
+      "revId": "44e261dba07cb9136f5a899a803208171f5ffa68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

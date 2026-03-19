@@ -93,6 +93,17 @@ suite('gr-flow-rule tests', () => {
     );
   });
 
+  test('parses parameterStr with commas and spaces', async () => {
+    element.parameterStr =
+      'user1@example.com, user2@example.com ,user3@example.com';
+    await element.updateComplete;
+    assert.deepEqual(element.parameters, [
+      'user1@example.com',
+      'user2@example.com',
+      'user3@example.com',
+    ]);
+  });
+
   test('renders email parameter as account chip when account exists', async () => {
     const account = {
       ...createAccountDetailWithId(1),

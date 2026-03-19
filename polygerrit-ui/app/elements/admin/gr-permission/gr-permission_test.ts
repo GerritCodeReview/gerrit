@@ -204,7 +204,11 @@ suite('gr-permission tests', () => {
       );
       assert.equal(
         element.computeGroupName(groups, 'bcd234' as GitRef),
-        'bcd234' as GroupName
+        'bcd234 (Group is unavailable)' as GroupName
+      );
+      assert.equal(
+        element.computeGroupName(groups, 'cde345' as GitRef),
+        'cde345 (Group is unavailable)' as GroupName
       );
     });
 

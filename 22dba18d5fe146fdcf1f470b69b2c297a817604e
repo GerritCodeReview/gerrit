@@ -46,6 +46,30 @@
       },
       "revId": "22dba18d5fe146fdcf1f470b69b2c297a817604e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff6ec476_bdf6a96f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-03-19T11:34:50Z",
+      "side": 1,
+      "message": "Code is unchanged? 😊",
+      "parentUuid": "0121c473_eed36c3b",
+      "range": {
+        "startLine": 69,
+        "startChar": 6,
+        "endLine": 69,
+        "endChar": 26
+      },
+      "revId": "22dba18d5fe146fdcf1f470b69b2c297a817604e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

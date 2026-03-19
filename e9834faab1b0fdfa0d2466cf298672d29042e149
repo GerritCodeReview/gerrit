@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1bb77295_f14e340a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-03-19T15:24:21Z",
+      "side": 1,
+      "message": "It\u0027s ok. Google already has this version. Usually minor versions are ok to update",
+      "parentUuid": "daacc61b_6953639b",
+      "range": {
+        "startLine": 9,
+        "startChar": 46,
+        "endLine": 10,
+        "endChar": 16
+      },
+      "revId": "e9834faab1b0fdfa0d2466cf298672d29042e149",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b98d25ed_7ef1e51c",

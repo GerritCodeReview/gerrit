@@ -88,6 +88,24 @@
       "parentUuid": "8c14c152_05b05a4b",
       "revId": "ae356b4c27a5d607d600ffe93609843e2e2d7153",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "218697f1_2efa107b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-03-19T14:13:19Z",
+      "side": 1,
+      "message": "```\nBazelisk version: development\nBuild label: 9.0.1\n```\n\nThat\u0027s the problems with your bazelisk.\n\nAs I said, you bazelisk version it too old!\n\nYou need `bazelisk` 1.27.0, just download it here: [1] and try agin.\n\n[1]: https://github.com/bazelbuild/bazelisk/releases/tag/v1.28.1.",
+      "parentUuid": "4df8cce1_f7d6dfe0",
+      "revId": "ae356b4c27a5d607d600ffe93609843e2e2d7153",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

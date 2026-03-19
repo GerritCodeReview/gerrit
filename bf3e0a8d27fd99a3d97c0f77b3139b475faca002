@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d3382c6e_4af01975",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 45
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-03-19T08:34:45Z",
+      "side": 1,
+      "message": "@milutin@google.com Could you please take a look and provide an LC+1?\n\nGiven that this change is effectively a no-op with respect to external dependencies, it should be safe to proceed.",
+      "revId": "bf3e0a8d27fd99a3d97c0f77b3139b475faca002",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

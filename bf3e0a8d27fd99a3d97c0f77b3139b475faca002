@@ -16,6 +16,23 @@
       "message": "@milutin@google.com Could you please take a look and provide an LC+1?\n\nGiven that this change is effectively a no-op with respect to external dependencies, it should be safe to proceed.",
       "revId": "bf3e0a8d27fd99a3d97c0f77b3139b475faca002",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "52c93213_57a9aa72",
+        "filename": "MODULE.bazel",
+        "patchSetId": 45
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2026-03-19T13:35:07Z",
+      "side": 1,
+      "message": "shouldn\u0027t that be 3.14.0-SNAPSHOT since 3.13.4 has sailed and on master we are heading for 3.14 now ? Or at least 3.13.5-SNAPSHOT since 3.13.4 is the latest release.",
+      "revId": "bf3e0a8d27fd99a3d97c0f77b3139b475faca002",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

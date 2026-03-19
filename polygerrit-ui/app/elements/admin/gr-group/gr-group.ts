@@ -375,7 +375,10 @@ export class GrGroup extends LitElement {
       this.groupId,
       errFn
     );
-    if (!config || !config.name) return;
+    if (!config || !config.name) {
+      this.loading = false;
+      return;
+    }
 
     if (config.description === undefined) {
       config.description = '';

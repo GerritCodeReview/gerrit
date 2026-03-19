@@ -105,6 +105,23 @@
       "parentUuid": "f365a01e_e00d07be",
       "revId": "5ad7482953855ca2267639859d195965ba9262a5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8e312a1b_2cfd5bff",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3117294
+      },
+      "writtenOn": "2026-03-19T10:25:32Z",
+      "side": 1,
+      "message": "@milutin@google.com thanks for reviewing the avatar-cls.\ncould you unblock this CL too (i think the -1 inherited due to in-chain -1\u0027s?)?",
+      "revId": "5ad7482953855ca2267639859d195965ba9262a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

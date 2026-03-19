@@ -157,6 +157,24 @@
       "parentUuid": "90b5425a_86cf6d77",
       "revId": "5ad7482953855ca2267639859d195965ba9262a5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "908f5c81_c6aa4b27",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3117294
+      },
+      "writtenOn": "2026-03-19T13:40:58Z",
+      "side": 1,
+      "message": "sadly i have not real insights of the chromium installation, as i am a non-googler.\nbut it looks like they are using: plugins/avatars-external - dont know whom to ask, if they have custom avatar plugin (that indeed would need a update too)",
+      "parentUuid": "692813ae_9fe2a60e",
+      "revId": "5ad7482953855ca2267639859d195965ba9262a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

@@ -34,6 +34,24 @@
       "parentUuid": "3fdf0689_df03e356",
       "revId": "ab5105300f4ff401ca09e13b5503e2bbbb73d261",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "94c3bf6a_788c4914",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-03-19T20:20:53Z",
+      "side": 1,
+      "message": "Also, just making sure you saw the ai icon in the gr-check-result and gr-diff-checks-results screenshots... I tried to implement it how Matt mocked it.",
+      "parentUuid": "3d814236_020dd7ad",
+      "revId": "ab5105300f4ff401ca09e13b5503e2bbbb73d261",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

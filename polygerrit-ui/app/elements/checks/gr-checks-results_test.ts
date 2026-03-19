@@ -69,6 +69,7 @@ suite('gr-result-row test', () => {
           <gr-hovercard-run> </gr-hovercard-run>
           <div class="name" role="button" tabindex="0">
             FAKE Error Finder Finder Finder Finder Finder Finder Finder
+            <gr-icon custom="" icon="ai" small=""> </gr-icon>
           </div>
           <div class="space"></div>
         </div>
@@ -132,6 +133,13 @@ suite('gr-result-row test', () => {
         </div>
       `
     );
+  });
+
+  test('renders isAiPowered', async () => {
+    element.result = {...element.result!, isAiPowered: true};
+    await element.updateComplete;
+    const aiIcon = queryAndAssert(element, 'gr-icon[icon="ai"]');
+    assert.isOk(aiIcon);
   });
 
   test('click summary, toggle expand', async () => {
@@ -244,6 +252,11 @@ suite('gr-result-expanded test', () => {
             <span> Link to image </span>
           </a>
         </div>
+        <div>
+          <gr-icon custom="" icon="ai" small=""> </gr-icon>
+          <span class="ai-generated"> AI Generated </span>
+          by FAKE Error Finder Finder Finder Finder Finder Finder Finder
+        </div>
         <gr-endpoint-decorator name="check-result-expanded">
           <gr-endpoint-param name="run"> </gr-endpoint-param>
           <gr-endpoint-param name="result"> </gr-endpoint-param>
@@ -266,6 +279,11 @@ suite('gr-result-expanded test', () => {
       element,
       /* HTML */ `
         <div class="links"></div>
+        <div>
+          <gr-icon custom="" icon="ai" small=""> </gr-icon>
+          <span class="ai-generated"> AI Generated </span>
+          by FAKE Super Check
+        </div>
         <gr-endpoint-decorator name="check-result-expanded">
           <gr-endpoint-param name="run"> </gr-endpoint-param>
           <gr-endpoint-param name="result"> </gr-endpoint-param>

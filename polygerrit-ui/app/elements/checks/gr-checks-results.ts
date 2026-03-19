@@ -423,6 +423,9 @@ export class GrResultRow extends LitElement {
         </tr>
       `;
     }
+    const aiIcon = this.result.isAiPowered
+      ? html`<gr-icon small icon="ai"></gr-icon>`
+      : nothing;
     return html`
       <tr class=${classMap({container: true, collapsed: !this.isExpanded})}>
         <td class="nameCol" @click=${this.toggleExpandedClick}>
@@ -435,7 +438,7 @@ export class GrResultRow extends LitElement {
               @click=${this.toggleExpandedClick}
               @keydown=${this.toggleExpandedPress}
             >
-              ${this.result.checkName}
+              ${this.result.checkName} ${aiIcon}
             </div>
             ${this.renderAttempt()}
             <div class="space"></div>
@@ -798,6 +801,9 @@ export class GrResultExpanded extends LitElement {
         .useful gr-checks-action {
           display: block;
         }
+        .ai-generated {
+          font-weight: var(--font-weight-medium);
+        }
       `,
     ];
   }
@@ -807,6 +813,7 @@ export class GrResultExpanded extends LitElement {
     return html`
       ${this.renderFirstPrimaryLink()} ${this.renderOtherPrimaryLinks()}
       ${this.renderSecondaryLinks()} ${this.renderCodePointers()}
+      ${this.renderAiLabel()}
       <gr-endpoint-decorator
         name="check-result-expanded"
         .targetPlugin=${this.result.pluginName}
@@ -824,6 +831,16 @@ export class GrResultExpanded extends LitElement {
       </gr-endpoint-decorator>
       ${this.renderFix()} ${this.renderNotUseful()}
     `;
+  }
+
+  private renderAiLabel() {
+    if (!this.result?.isAiPowered) {
+      return nothing;
+    }
+    return html`<div>
+      <gr-icon small icon="ai"></gr-icon>
+      <span class="ai-generated">AI Generated</span> by ${this.result.checkName}
+    </div>`;
   }
 
   private renderFirstPrimaryLink() {

@@ -248,6 +248,9 @@ export class GrChecksRun extends LitElement {
       primaryTriggerAction(this.run) ??
       primaryAction(this.run) ??
       triggerAction(this.run);
+    const aiIcon = this.run.isAiPowered
+      ? html`<gr-icon small icon="ai"></gr-icon>`
+      : nothing;
 
     return html`
       <div
@@ -266,7 +269,7 @@ export class GrChecksRun extends LitElement {
           ></gr-icon>
           ${this.renderAdditionalIcon()}
           <span class="name">${this.run.checkName}</span>
-          ${this.renderETA()}
+          ${aiIcon} ${this.renderETA()}
         </div>
         <div class="middle">
           <gr-checks-attempt .run=${this.run}></gr-checks-attempt>

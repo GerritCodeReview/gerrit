@@ -27,6 +27,17 @@ suite('gr-hovercard-run tests', () => {
     element.mouseHide(new MouseEvent('click'));
   });
 
+  test('render ai icon when isAiPowered is true', async () => {
+    const attemptMap = createAttemptMap(checkRun4Att);
+    const attemptDetails = attemptMap.get(checkRun4_4.checkName)!.attempts;
+    const run: CheckRun = {...checkRun4_4, attemptDetails, isAiPowered: true};
+    element.run = run;
+    await element.updateComplete;
+
+    const aiIcon = element.shadowRoot?.querySelector('gr-icon[icon="ai"]');
+    assert.isOk(aiIcon);
+  });
+
   test('render checkRun4', async () => {
     const attemptMap = createAttemptMap(checkRun4Att);
     const attemptDetails = attemptMap.get(checkRun4_4.checkName)!.attempts;
@@ -52,6 +63,7 @@ suite('gr-hovercard-run tests', () => {
             <div class="sectionContent">
               <h3 class="heading-3 name">
                 <span> FAKE Elimination Long Long Long Long Long </span>
+                <gr-icon custom="" icon="ai" small=""></gr-icon>
               </h3>
             </div>
           </div>

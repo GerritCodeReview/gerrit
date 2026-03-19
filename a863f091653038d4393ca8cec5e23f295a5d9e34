@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7772ca29_00225bc9",
+        "filename": "WORKSPACE",
+        "patchSetId": 51
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-03-19T13:24:43Z",
+      "side": 0,
+      "message": "this is breaking my ability to build Gerrit\n\n```\n   3. Fixed Bazel configuration: Renamed WORKSPACE.bzlmod to WORKSPACE. This was\n      necessary because the environment\u0027s version of Bazel (9.0.1) was failing\n      to resolve repositories correctly when using the .bzlmod extension,\n      despite Bzlmod being enabled.\n```\n\nGemini is creating Change 563422 as the fix and that fixes my build\n\nIs this expected? Can I bring back this file?\n\n@thomas.draebing@sap.com?",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 79
+      },
+      "revId": "a863f091653038d4393ca8cec5e23f295a5d9e34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

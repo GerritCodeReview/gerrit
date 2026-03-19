@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b541a90e_00905eaf",
+        "filename": "MODULE.bazel",
+        "patchSetId": 6
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2026-03-19T15:38:02Z",
+      "side": 1,
+      "message": "why is jgit handled differently than java-prettify ?",
+      "revId": "a82961a0da7ec2fb3215ec24899915f452d18c12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

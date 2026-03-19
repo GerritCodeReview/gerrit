@@ -850,7 +850,9 @@ export class GrCreateFlow extends LitElement {
             name: stage.action,
           };
           if (stage.parameterStr.length > 0) {
-            action.parameters = stage.parameterStr.split(' ');
+            action.parameters = stage.parameterStr
+              .split(/[\s,]+/)
+              .filter(p => p.length > 0);
           }
           return {
             condition: stage.condition,

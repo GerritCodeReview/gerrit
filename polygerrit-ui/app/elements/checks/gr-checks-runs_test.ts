@@ -213,6 +213,7 @@ suite('gr-checks-run test', () => {
             <span class="name">
               FAKE Error Finder Finder Finder Finder Finder Finder Finder
             </span>
+            <gr-icon custom="" icon="ai" small=""> </gr-icon>
           </div>
           <div class="middle">
             <gr-checks-attempt> </gr-checks-attempt>

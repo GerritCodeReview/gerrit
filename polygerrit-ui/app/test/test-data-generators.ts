@@ -1332,6 +1332,7 @@ export const checkRun0: CheckRun = {
   isLatestAttempt: true,
   attemptDetails: [],
   worstCategory: Category.ERROR,
+  isAiPowered: true,
   results: [
     {
       internalResultId: 'f0r0',
@@ -1411,6 +1412,7 @@ export const checkRun1: CheckRun = {
   isLatestAttempt: true,
   attemptDetails: [],
   worstCategory: Category.ERROR,
+  isAiPowered: true,
   results: [
     {
       internalResultId: 'f1r0',
@@ -1665,6 +1667,7 @@ export const checkRun4_4: CheckRun = {
   isLatestAttempt: true,
   attemptDetails: [],
   worstCategory: Category.INFO,
+  isAiPowered: true,
   results: [
     {
       internalResultId: 'f44r0',

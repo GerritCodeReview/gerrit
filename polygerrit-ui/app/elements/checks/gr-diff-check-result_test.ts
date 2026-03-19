@@ -70,6 +70,9 @@ suite('gr-diff-check-result tests', () => {
                 FAKE Super Check
               </div>
             </div>
+            <div class="ai-icon-wrapper">
+              <gr-icon custom="" icon="ai" small></gr-icon>
+            </div>
             <div class="summary">We think that you could improve this.</div>
             <div class="message">
               There is a lot to be said. A lot. I say, a lot.

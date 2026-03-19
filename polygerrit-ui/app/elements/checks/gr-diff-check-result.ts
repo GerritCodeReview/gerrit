@@ -157,6 +157,15 @@ export class GrDiffCheckResult extends LitElement {
           display: flex;
           justify-content: flex-end;
         }
+        .ai-icon-wrapper {
+          margin-right: var(--spacing-s);
+        }
+        .container .ai-icon-wrapper gr-icon {
+          font-size: calc(var(--line-height-normal) - 4px);
+          position: relative;
+          top: 2px;
+          color: var(--deemphasized-text-color);
+        }
       `,
     ];
   }
@@ -191,6 +200,11 @@ export class GrDiffCheckResult extends LitElement {
     if (!this.result) return;
     const cat = this.result.category.toLowerCase();
     const icon = iconFor(this.result.category);
+    const aiIcon = this.result.isAiPowered
+      ? html`<div class="ai-icon-wrapper">
+          <gr-icon small icon="ai"></gr-icon>
+        </div>`
+      : nothing;
     return html`
       <div class="${cat} container font-normal">
         <div class="header" @click=${this.toggleExpandedClick}>
@@ -208,6 +222,7 @@ export class GrDiffCheckResult extends LitElement {
               ${this.result.checkName}
             </div>
           </div>
+          ${aiIcon}
           <!-- The &nbsp; is for being able to shrink a tiny amount without
                 the text itself getting shrunk with an ellipsis. -->
           <div class="summary">${this.result.summary}&nbsp;</div>

@@ -126,6 +126,7 @@ export type RunResult = CheckResult &
   Pick<CheckRun, 'patchset'> &
   Pick<CheckRun, 'isLatestAttempt'> &
   Pick<CheckRun, 'checkName'> &
+  Pick<CheckRun, 'isAiPowered'> &
   Pick<CheckRun, 'labelName'> &
   Pick<CheckRun, 'status'> &
   Pick<CheckRun, 'statusLink'> &
@@ -146,6 +147,7 @@ export function runResult(run: CheckRun, result: CheckResult): RunResult {
     patchset: run.patchset,
     isLatestAttempt: run.isLatestAttempt,
     checkName: run.checkName,
+    isAiPowered: run.isAiPowered,
     labelName: run.labelName,
     status: run.status,
     statusLink: run.statusLink,

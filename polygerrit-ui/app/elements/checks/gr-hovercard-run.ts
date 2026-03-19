@@ -18,7 +18,7 @@ import {durationString, fromNow} from '../../utils/date-util';
 import {RunStatus} from '../../api/checks';
 import {ordinal} from '../../utils/string-util';
 import {HovercardMixin} from '../../mixins/hovercard-mixin/hovercard-mixin';
-import {css, html, LitElement} from 'lit';
+import {css, html, LitElement, nothing} from 'lit';
 import {checksStyles} from './gr-checks-styles';
 import {when} from 'lit/directives/when.js';
 
@@ -123,6 +123,9 @@ export class GrHovercardRun extends base {
     if (!this.run) return '';
     const icon = this.computeIcon();
     const chipIcon = this.computeChipIcon();
+    const aiIcon = this.run.isAiPowered
+      ? html`<gr-icon small icon="ai"></gr-icon>`
+      : nothing;
     return html`
       <div id="container" role="tooltip" tabindex="-1">
         <div class="section">
@@ -150,6 +153,7 @@ export class GrHovercardRun extends base {
           <div class="sectionContent">
             <h3 class="name heading-3">
               <span>${this.run.checkName}</span>
+              ${aiIcon}
               ${when(this.attempt, () => html`(Attempt ${this.attempt})`)}
             </h3>
           </div>

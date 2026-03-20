@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7544f5c5_943b40b7",
+        "filename": "polygerrit-ui/app/models/chat/chat-model.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-03-20T18:15:54Z",
+      "side": 1,
+      "message": "Should `isDataRequested` be reset to `false` here? \n\nCurrently, once a user opens the chat on one change, `isDataRequested` remains `true` for the rest of the session. When they navigate to a new change, the `if (this.isDataRequested)` check below (line 440) will evaluate to `true` and immediately fetch all data, defeating the lazy-loading optimization for all subsequent changes.",
+      "range": {
+        "startLine": 420,
+        "startChar": 0,
+        "endLine": 420,
+        "endChar": 0
+      },
+      "revId": "d9d19f7991beec2cad245a7059a7a851ae7e805a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "44ae1122_cebdb939",
+        "filename": "polygerrit-ui/app/models/chat/chat-model.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 444,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-03-20T18:15:54Z",
+      "side": 1,
+      "message": "can we extract these into a util to reduce duplicate code. something like this.getAllChatData() that can also be called in loadChatData",
+      "range": {
+        "startLine": 441,
+        "startChar": 0,
+        "endLine": 444,
+        "endChar": 33
+      },
+      "revId": "d9d19f7991beec2cad245a7059a7a851ae7e805a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0840f873_a5e54b3a",
+        "filename": "polygerrit-ui/app/models/chat/chat-model.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 798,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-03-20T18:15:54Z",
+      "side": 1,
+      "message": "You added `conversationsLoadingError` to `ChatState` and reset it to `undefined` at the beginning of this method, but the error here is still assigned to `errorMessage`. Should this be updated to `conversationsLoadingError: error.message`?",
+      "range": {
+        "startLine": 798,
+        "startChar": 0,
+        "endLine": 798,
+        "endChar": 0
+      },
+      "revId": "d9d19f7991beec2cad245a7059a7a851ae7e805a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "501c4747_d0b74690",
+        "filename": "polygerrit-ui/app/models/chat/chat-model.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 801,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-03-20T18:15:54Z",
+      "side": 1,
+      "message": "Unlike `getModels()`, `getActions()`, and `getContextItemTypes()`, this promise is never cleared in a `.finally()` block. As a result, subsequent calls to `listConversations()` (e.g., to refresh the list) will always return the previously resolved promise instead of making a new API request.",
+      "range": {
+        "startLine": 801,
+        "startChar": 0,
+        "endLine": 801,
+        "endChar": 0
+      },
+      "revId": "d9d19f7991beec2cad245a7059a7a851ae7e805a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

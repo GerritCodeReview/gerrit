@@ -36,6 +36,8 @@ suite('splash-page-action tests', () => {
     });
 
     chatModel = testResolver(chatModelToken);
+    chatModel.loadChatData();
+    await new Promise(r => setTimeout(r, 0));
 
     element = await fixture<SplashPageAction>(
       html`<splash-page-action></splash-page-action>`

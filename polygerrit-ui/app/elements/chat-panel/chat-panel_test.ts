@@ -35,6 +35,8 @@ suite('chat-panel tests', () => {
       change: createChange() as ParsedChangeInfo,
     });
     chatModel = testResolver(chatModelToken);
+    chatModel.loadChatData();
+    await new Promise(r => setTimeout(r, 0));
 
     element = await fixture(html`<chat-panel></chat-panel>`);
     await element.updateComplete;

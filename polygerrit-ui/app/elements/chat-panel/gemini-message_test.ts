@@ -48,6 +48,8 @@ suite('gemini-message tests', () => {
     });
 
     chatModel = testResolver(chatModelToken);
+    chatModel.loadChatData();
+    await new Promise(r => setTimeout(r, 0));
     commentsModel = testResolver(commentsModelToken);
     saveDraftStub = sinon.stub(commentsModel, 'saveDraft');
 

@@ -41,6 +41,8 @@ suite('splash-page tests', () => {
     });
 
     chatModel = testResolver(chatModelToken);
+    chatModel.loadChatData();
+    await new Promise(r => setTimeout(r, 0));
     userModel = testResolver(userModelToken);
 
     element = await fixture<SplashPage>(html`<splash-page></splash-page>`);

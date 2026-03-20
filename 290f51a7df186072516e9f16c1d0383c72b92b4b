@@ -34,6 +34,24 @@
       "parentUuid": "155fd26d_e654d565",
       "revId": "290f51a7df186072516e9f16c1d0383c72b92b4b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ee9a78d5_91129792",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-03-20T14:27:24Z",
+      "side": 1,
+      "message": "Are those lint checks open source? If so, I’d be happy to add them to the Gerrit CI toolchain.",
+      "parentUuid": "75d7f8b2_6c771fb7",
+      "revId": "290f51a7df186072516e9f16c1d0383c72b92b4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

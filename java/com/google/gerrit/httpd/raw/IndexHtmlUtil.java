@@ -145,11 +145,14 @@ public class IndexHtmlUtil {
         if (asyncSubmitRequirements) {
           changeDetailOptions.remove(ListChangesOption.SUBMIT_REQUIREMENTS);
           changeDetailOptions.remove(ListChangesOption.SUBMITTABLE);
+          changeDetailOptions.remove(ListChangesOption.SKIP_DIFFSTAT);
           data.put(
               "submitRequirementsHex",
               ListOption.toHex(
                   ImmutableSet.of(
-                      ListChangesOption.SUBMIT_REQUIREMENTS, ListChangesOption.SUBMITTABLE)));
+                      ListChangesOption.SUBMIT_REQUIREMENTS,
+                      ListChangesOption.SUBMITTABLE,
+                      ListChangesOption.SKIP_DIFFSTAT)));
         }
         data.put("defaultChangeDetailHex", ListOption.toHex(changeDetailOptions));
         data.put(

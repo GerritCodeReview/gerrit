@@ -71,6 +71,7 @@ suite('chat-model tests', () => {
 
   test('change subscription triggers API calls', () => {
     changeModel.updateStateChange(createParsedChange());
+    model.loadChatData();
     assert.isTrue((provider.getModels as sinon.SinonStub).called);
     assert.isTrue((provider.getActions as sinon.SinonStub).called);
     assert.isTrue((provider.getContextItemTypes as sinon.SinonStub).called);
@@ -126,6 +127,7 @@ suite('chat-model tests', () => {
     });
 
     changeModel.updateStateChange(createParsedChange());
+    model.loadChatData();
     // Wait for the promise to resolve
     await new Promise(resolve => setTimeout(resolve, 0));
 
@@ -160,6 +162,7 @@ suite('chat-model tests', () => {
     (provider.getModels as sinon.SinonStub).resolves(models);
 
     changeModel.updateStateChange(createParsedChange());
+    model.loadChatData();
     await new Promise(resolve => setTimeout(resolve, 0));
 
     // Select the non-default model
@@ -207,6 +210,7 @@ suite('chat-model tests', () => {
     (provider.getModels as sinon.SinonStub).resolves(models as any);
 
     changeModel.updateStateChange(createParsedChange());
+    model.loadChatData();
     await new Promise(resolve => setTimeout(resolve, 0));
 
     model.selectModel('removed-model');
@@ -242,6 +246,7 @@ suite('chat-model tests', () => {
     (provider.getModels as sinon.SinonStub).resolves(models as any);
 
     changeModel.updateStateChange(createParsedChange());
+    model.loadChatData();
     await new Promise(resolve => setTimeout(resolve, 0));
 
     model.selectModel('removed-model');

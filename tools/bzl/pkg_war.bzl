@@ -77,7 +77,14 @@ THIRD_PARTY_EXCLUDE_ID_EXACT = [
 ]
 
 def war_jar_name(f):
-    """Return the jar file name as it will appear inside the WAR."""
+    """Return the jar file name as it will appear inside the WAR.
+
+    Args:
+      f: The jar file to process.
+
+    Returns:
+      The jar file name as it will appear inside the WAR.
+    """
     raw = f.basename
     if raw.startswith(PROCESSED_PREFIX):
         raw = raw[len(PROCESSED_PREFIX):]
@@ -98,8 +105,14 @@ def war_jar_name(f):
     return raw
 
 def normalize_jar_id(jar_name):
-    """Version-agnostic jar identity used for allowlists/inventories."""
-    n = jar_name
+    """Version-agnostic jar identity used for allowlists/inventories.
+
+    Args:
+      jar_name: The original jar name.
+
+    Returns:
+      The version-agnostic jar identity.
+    """
     if n.endswith(".jar"):
         n = n[:-4]
     i = n.rfind("-")
@@ -110,14 +123,30 @@ def normalize_jar_id(jar_name):
     return n
 
 def should_skip_packaged_jar(jar_name):
-    """jar_name must be the post-processed name (war_jar_name output)."""
+    """Returns True if the packaged jar should be skipped.
+
+    jar_name must be the post-processed name (war_jar_name output).
+
+    Args:
+      jar_name: The post-processed jar name.
+
+    Returns:
+      True if the packaged jar should be skipped, False otherwise.
+    """
     for pfx in EXCLUDE_WAR_JAR_PREFIXES:
         if jar_name.startswith(pfx):
             return True
     return False
 
 def is_third_party_jar_id(jar_id):
-    """Return True if jar_id should be tracked in third-party allowlists."""
+    """Return True if jar_id should be tracked in third-party allowlists.
+
+    Args:
+      jar_id: The version-agnostic jar identity.
+
+    Returns:
+      True if jar_id should be tracked in third-party allowlists, False otherwise.
+    """
     if jar_id in THIRD_PARTY_EXCLUDE_ID_EXACT:
         return False
     for pfx in THIRD_PARTY_EXCLUDE_ID_PREFIXES:
@@ -269,6 +298,15 @@ _pkg_war = rule(
 )
 
 def pkg_war(name, ui = "polygerrit", context = [], doc = False, **kwargs):
+    """Rule for packaging the Gerrit WAR.
+
+    Args:
+      name: The name of the target.
+      ui: The UI type, e.g. "polygerrit".
+      context: The list of context dependencies.
+      doc: Whether to include documentation.
+      **kwargs: Additional keyword arguments.
+    """
     doc_ctx = []
     doc_lib = []
     ui_deps = []

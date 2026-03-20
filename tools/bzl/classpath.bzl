@@ -28,6 +28,8 @@
 #   Bazel does not automatically expand "@paramfile" in run_shell, so the
 #   script explicitly strips the '@' prefix and reads the file.
 
+"""Utility rule for IDE integration."""
+
 load("@rules_java//java:defs.bzl", "JavaInfo")
 
 def _classpath_collector_impl(ctx):
@@ -68,6 +70,7 @@ def _classpath_collector_impl(ctx):
     ctx.actions.run_shell(
         inputs = runtime_files,
         outputs = [ctx.outputs.runtime],
+        mnemonic = "ClasspathCollector",
         arguments = [ctx.outputs.runtime.path, pf],
         command = r"""
 set -euo pipefail
@@ -95,6 +98,7 @@ fi
     ctx.actions.run_shell(
         inputs = source_files,
         outputs = [ctx.outputs.sources],
+        mnemonic = "ClasspathCollector",
         arguments = [ctx.outputs.sources.path, pf],
         command = r"""
 set -euo pipefail
@@ -122,6 +126,7 @@ fi
     ctx.actions.run_shell(
         inputs = processor_files,
         outputs = [ctx.outputs.processors],
+        mnemonic = "ClasspathCollector",
         arguments = [ctx.outputs.processors.path, pf],
         command = r"""
 set -euo pipefail

@@ -23,7 +23,12 @@ import {
   Models,
   Reference,
 } from '../../api/ai-code-review';
-import {ChangeInfo, CommentInfo, FileInfoStatus} from '../../api/rest-api';
+import {
+  ChangeInfo,
+  CommentInfo,
+  FileInfoStatus,
+  NumericChangeId,
+} from '../../api/rest-api';
 import {PreferencesInfo} from '../../types/common';
 import {isDefined} from '../../types/types';
 import {assert, assertIsDefined, cryptoUuid} from '../../utils/common-util';
@@ -214,6 +219,7 @@ export declare interface ChatState extends ConversationState {
   readonly contextItemTypes?: readonly ContextItemType[];
   // Error message if the context item types failed to load.
   readonly contextItemTypesLoadingError?: string;
+  readonly conversationsLoadingError?: string;
   readonly provider?: AiCodeReviewProvider;
 }
 
@@ -227,8 +233,6 @@ export const initialConversationState: ConversationState = {
     contextItems: [],
   },
 };
-
-export const chatModelToken = define<ChatModel>('chat-model');
 
 export class ChatModel extends Model<ChatState> {
   readonly models$: Observable<Models | undefined> = select(
@@ -339,6 +343,18 @@ export class ChatModel extends Model<ChatState> {
 
   private files: NormalizedFileInfo[] = [];
 
+  private conversationsFetchPromise?: Promise<void>;
+
+  private modelsFetchPromise?: Promise<void>;
+
+  private actionsFetchPromise?: Promise<void>;
+
+  private contextItemTypesFetchPromise?: Promise<void>;
+
+  private currentChangeNum?: NumericChangeId;
+
+  private isDataRequested = false;
+
   constructor(
     private readonly pluginsModel: PluginsModel,
     private readonly changeModel: ChangeModel,
@@ -380,7 +396,7 @@ export class ChatModel extends Model<ChatState> {
       // If the plugin registers after the change object was loaded, the
       // initial fetch would have silently returned undefined, leaving capabilitiesLoaded
       // in an infinite loading state. We must re-trigger the fetches when the plugin arrives.
-      if (this.change) {
+      if (this.change && this.isDataRequested) {
         this.getModels();
         this.getActions();
         this.getContextItemTypes();
@@ -390,12 +406,18 @@ export class ChatModel extends Model<ChatState> {
 
     this.filesModel.files$.subscribe(files => (this.files = files ?? []));
     this.changeModel.change$.subscribe(change => {
-      const isNewChange = change?._number !== this.change?._number;
+      if (!change) {
+        this.change = undefined;
+        return;
+      }
+      const isNewChange = change._number !== this.currentChangeNum;
       this.change = change as ChangeInfo;
       // We only want to reset the chat state and fetch models when navigating
       // to a different change. Otherwise, property updates on the change
       // object (e.g. submittability loaded) will trigger duplicate requests.
       if (!isNewChange) return;
+
+      this.currentChangeNum = change._number;
 
       this.updateState({
         ...initialConversationState,
@@ -410,15 +432,29 @@ export class ChatModel extends Model<ChatState> {
         contextItemTypes: undefined,
         contextItemTypesLoadingError: undefined,
         conversations: undefined,
+        conversationsLoadingError: undefined,
       });
 
       if (!this.change) return;
 
+      if (this.isDataRequested) {
+        this.getModels();
+        this.getActions();
+        this.getContextItemTypes();
+        this.listConversations();
+      }
+    });
+  }
+
+  loadChatData(): void {
+    if (this.isDataRequested) return;
+    this.isDataRequested = true;
+    if (this.change) {
       this.getModels();
       this.getActions();
       this.getContextItemTypes();
       this.listConversations();
-    });
+    }
   }
 
   private getEffectiveModelId(
@@ -750,9 +786,11 @@ export class ChatModel extends Model<ChatState> {
   }
 
   listConversations() {
-    if (!this.change) return;
-    return this.plugin
-      ?.listChatConversations?.(this.change)
+    if (!this.change || !this.plugin?.listChatConversations) return;
+    if (this.conversationsFetchPromise) return this.conversationsFetchPromise;
+    this.updateState({conversationsLoadingError: undefined});
+    this.conversationsFetchPromise = this.plugin
+      .listChatConversations(this.change)
       .then((conversations: Conversation[]) => {
         this.updateState({conversations});
       })
@@ -760,6 +798,7 @@ export class ChatModel extends Model<ChatState> {
         this.updateState({errorMessage: error.message});
         console.error('Failed to list chat conversations', error);
       });
+    return this.conversationsFetchPromise;
   }
 
   loadConversation(conversationId: string) {
@@ -788,9 +827,10 @@ export class ChatModel extends Model<ChatState> {
   }
 
   getModels() {
-    if (!this.change) return;
-    return this.plugin
-      ?.getModels?.(this.change)
+    if (!this.change || !this.plugin?.getModels) return;
+    if (this.modelsFetchPromise) return this.modelsFetchPromise;
+    this.modelsFetchPromise = this.plugin
+      .getModels(this.change)
       .then((models: Models) => {
         this.updateState({
           models,
@@ -804,13 +844,18 @@ export class ChatModel extends Model<ChatState> {
           modelsLoadingError: error.message,
         });
         console.error('Failed to get chat models', error);
+      })
+      .finally(() => {
+        this.modelsFetchPromise = undefined;
       });
+    return this.modelsFetchPromise;
   }
 
   getActions() {
-    if (!this.change) return;
-    return this.plugin
-      ?.getActions?.(this.change)
+    if (!this.change || !this.plugin?.getActions) return;
+    if (this.actionsFetchPromise) return this.actionsFetchPromise;
+    this.actionsFetchPromise = this.plugin
+      .getActions(this.change)
       .then((actions: Actions) => {
         this.updateState({
           actions,
@@ -823,12 +868,19 @@ export class ChatModel extends Model<ChatState> {
           actionsLoadingError: error.message,
         });
         console.error('Failed to get chat actions', error);
+      })
+      .finally(() => {
+        this.actionsFetchPromise = undefined;
       });
+    return this.actionsFetchPromise;
   }
 
   getContextItemTypes() {
-    return this.plugin
-      ?.getContextItemTypes?.()
+    if (!this.plugin?.getContextItemTypes) return;
+    if (this.contextItemTypesFetchPromise)
+      return this.contextItemTypesFetchPromise;
+    this.contextItemTypesFetchPromise = this.plugin
+      .getContextItemTypes()
       .then((contextItemTypes: ContextItemType[]) => {
         this.updateState({
           contextItemTypes,
@@ -841,7 +893,11 @@ export class ChatModel extends Model<ChatState> {
           contextItemTypesLoadingError: error.message,
         });
         console.error('Failed to get chat context types', error);
+      })
+      .finally(() => {
+        this.contextItemTypesFetchPromise = undefined;
       });
+    return this.contextItemTypesFetchPromise;
   }
 }
 
@@ -1110,3 +1166,5 @@ function stateFromConversationResponse(
     id: conversationId,
   };
 }
+
+export const chatModelToken = define<ChatModel>('chat-model');

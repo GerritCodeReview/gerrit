@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a24aab3_4a190f84",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 16
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-03-20T22:10:42Z",
+      "side": 1,
+      "message": "@milutin@google.com we don\u0027t change Java version in that change.\n\nDo you have concerns to approve it? Should we remove that change from this series?",
+      "revId": "73e2b45730ded941060433c74a349ef57103b952",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

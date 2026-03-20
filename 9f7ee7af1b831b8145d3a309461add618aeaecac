@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ed5a52bb_742771df",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 15
+      },
+      "lineNbr": 6367,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-03-20T12:40:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a299b86d_7bf194d1",
+      "revId": "9f7ee7af1b831b8145d3a309461add618aeaecac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fc9ad153_fd262a02",
@@ -31,6 +49,30 @@
       "writtenOn": "2026-03-18T14:08:07Z",
       "side": 1,
       "message": "Is this timeout the total time for evaluating all submit requirement parts (applicableIf, submittableIf, overrideIf) or is it applied separately for each of those parts? This need to be documented here.",
+      "range": {
+        "startLine": 6367,
+        "startChar": 1,
+        "endLine": 6372,
+        "endChar": 23
+      },
+      "revId": "9f7ee7af1b831b8145d3a309461add618aeaecac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4105972_e4e725ee",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 15
+      },
+      "lineNbr": 6372,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-03-20T12:40:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fc9ad153_fd262a02",
       "range": {
         "startLine": 6367,
         "startChar": 1,
@@ -58,6 +100,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "854d2858_333cbfe5",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 15
+      },
+      "lineNbr": 6374,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-03-20T12:40:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e9a48404_673e5ebd",
+      "revId": "9f7ee7af1b831b8145d3a309461add618aeaecac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "89292d21_41a85efc",
@@ -71,6 +131,24 @@
       "writtenOn": "2026-03-18T14:08:07Z",
       "side": 1,
       "message": "This config option also needs to be documented in the config-gerrit.txt",
+      "revId": "9f7ee7af1b831b8145d3a309461add618aeaecac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a242d823_22b857db",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementsEvaluatorImpl.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-03-20T12:40:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "89292d21_41a85efc",
       "revId": "9f7ee7af1b831b8145d3a309461add618aeaecac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -122,6 +200,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "405e180b_d36d4297",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementsEvaluatorImpl.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-03-20T12:40:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a4ed01b7_2088fa60",
+      "range": {
+        "startLine": 105,
+        "startChar": 13,
+        "endLine": 105,
+        "endChar": 35
+      },
+      "revId": "9f7ee7af1b831b8145d3a309461add618aeaecac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f5ac3a20_c8a76dc3",
@@ -135,6 +237,24 @@
       "writtenOn": "2026-03-18T14:08:07Z",
       "side": 1,
       "message": "Remove this line.",
+      "revId": "9f7ee7af1b831b8145d3a309461add618aeaecac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "35efa8b2_084053d1",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementsEvaluatorImpl.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-03-20T12:40:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f5ac3a20_c8a76dc3",
       "revId": "9f7ee7af1b831b8145d3a309461add618aeaecac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -162,6 +282,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "93a7c34d_5bf3c835",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementsEvaluatorImpl.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-03-20T12:40:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2bab503c_9041d2d8",
+      "range": {
+        "startLine": 238,
+        "startChar": 12,
+        "endLine": 238,
+        "endChar": 95
+      },
+      "revId": "9f7ee7af1b831b8145d3a309461add618aeaecac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8972c5ba_614944ec",
@@ -179,6 +323,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "53926beb_5069175b",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementsEvaluatorImpl.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-03-20T12:40:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8972c5ba_614944ec",
+      "revId": "9f7ee7af1b831b8145d3a309461add618aeaecac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "06ac46bf_88aa819e",
@@ -192,6 +354,24 @@
       "writtenOn": "2026-03-18T14:08:07Z",
       "side": 1,
       "message": "This is usually not a good (testing) pattern. Try not to rely on threads sleeping. What can be done is to pass a mock of ExecutorService to the SubmitRequirementsEvaluatorImpl constructor. The mocked ExecutorService shall return a mocked Future when executor.submit is called. The mocked \nFuture shall throw a TimeoutException when its Future.get(timeout) method is called. It shall throw that exception immediately. We do not really need to test that Future.get(timeout) really waits that long before timing out (this is guaranteed by JDK). Instead we test that the result is correct when evaluation times out.",
+      "revId": "9f7ee7af1b831b8145d3a309461add618aeaecac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "75c8b4df_5a80c47e",
+        "filename": "javatests/com/google/gerrit/acceptance/server/project/SubmitRequirementsEvaluatorIT.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 1096,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-03-20T12:40:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "06ac46bf_88aa819e",
       "revId": "9f7ee7af1b831b8145d3a309461add618aeaecac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

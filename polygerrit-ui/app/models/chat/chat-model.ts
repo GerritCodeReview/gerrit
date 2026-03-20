@@ -370,6 +370,8 @@ export class ChatModel extends Model<ChatState> {
     this.pluginsModel.aiCodeReviewPlugins$.subscribe(plugins => {
       const provider = plugins[0]?.provider;
 
+      if (this.plugin === provider) return;
+
       this.plugin = provider;
       this.updateState({
         provider,
@@ -388,10 +390,13 @@ export class ChatModel extends Model<ChatState> {
 
     this.filesModel.files$.subscribe(files => (this.files = files ?? []));
     this.changeModel.change$.subscribe(change => {
+      const isNewChange = change?._number !== this.change?._number;
       this.change = change as ChangeInfo;
-      // When navigating to a different change, we want to reset the chat state.
-      // Otherwise, we might show a chat from a previous change, or have some
-      // lingering state like selected models or actions.
+      // We only want to reset the chat state and fetch models when navigating
+      // to a different change. Otherwise, property updates on the change
+      // object (e.g. submittability loaded) will trigger duplicate requests.
+      if (!isNewChange) return;
+
       this.updateState({
         ...initialConversationState,
         // We need to explicitly clear these, because updateState does a shallow
@@ -406,6 +411,9 @@ export class ChatModel extends Model<ChatState> {
         contextItemTypesLoadingError: undefined,
         conversations: undefined,
       });
+
+      if (!this.change) return;
+
       this.getModels();
       this.getActions();
       this.getContextItemTypes();

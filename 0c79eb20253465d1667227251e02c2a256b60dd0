@@ -16,6 +16,24 @@
       "message": "Why is this needed on master? I believe the fix already existed and it was just cherry-picked to stable-3.12.",
       "revId": "0c79eb20253465d1667227251e02c2a256b60dd0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "522da1a3_33caefc3",
+        "filename": "polygerrit-ui/screenshots/Chrome/baseline/gr-label-scores-long-trigger-vote-label.png",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-03-20T10:10:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3d7fa9c0_1a278539",
+      "revId": "0c79eb20253465d1667227251e02c2a256b60dd0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -13,6 +13,7 @@ import {testResolver} from '../../test/common-test-setup';
 import {pluginLoaderToken} from '../shared/gr-js-api-interface/gr-plugin-loader';
 import {chatProvider, createChange} from '../../test/test-data-generators';
 import {changeModelToken} from '../../models/change/change-model';
+import {chatModelToken} from '../../models/chat/chat-model';
 import {ParsedChangeInfo} from '../../types/types';
 
 suite('context-input-chip tests', () => {
@@ -31,6 +32,7 @@ suite('context-input-chip tests', () => {
     });
 
     element = await fixture(html`<context-input-chip></context-input-chip>`);
+    testResolver(chatModelToken).loadChatData();
     await element.updateComplete;
   });
 

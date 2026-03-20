@@ -55,6 +55,8 @@ suite('citations-box tests', () => {
 
     element = await fixture(html`<citations-box></citations-box>`);
     chatModel = testResolver(chatModelToken);
+    chatModel.loadChatData();
+    await new Promise(r => setTimeout(r, 0));
     await element.updateComplete;
   });
 

@@ -16,6 +16,24 @@
       "message": "Can we enable Starlark lint rules in open-source Gerrit?\n\nShould we enforce additional `buildifier` checks in Gerrit CI?\n\nCurrently, we only validate BUILD file formatting.",
       "revId": "290f51a7df186072516e9f16c1d0383c72b92b4b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "75d7f8b2_6c771fb7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-03-20T14:17:10Z",
+      "side": 1,
+      "message": "Yes, we have buildifier checks, but they trigger only with new changes in build files. \n\nIt depends if you are interested in such lint. Unfortunetly I don\u0027t have time to introduce it to gerrit because it\u0027s not big issue, it just now triggered in 2 imports.",
+      "parentUuid": "155fd26d_e654d565",
+      "revId": "290f51a7df186072516e9f16c1d0383c72b92b4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

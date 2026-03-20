@@ -142,6 +142,7 @@ public class IndexHtmlUtil {
                 basePatchNum.equals(0)
                     ? IndexPreloadingUtil.CHANGE_DETAIL_OPTIONS_WITHOUT_PARENTS
                     : IndexPreloadingUtil.CHANGE_DETAIL_OPTIONS_WITH_PARENTS);
+<<<<<<< HEAD   (3918d6abd4f45ac8a689503faeac305ab9648d07 Merge branch 'stable-3.12' into stable-3.13)
         if (asyncSubmitRequirements) {
           changeDetailOptions.remove(ListChangesOption.SUBMIT_REQUIREMENTS);
           changeDetailOptions.remove(ListChangesOption.SUBMITTABLE);
@@ -151,6 +152,21 @@ public class IndexHtmlUtil {
                   ImmutableSet.of(
                       ListChangesOption.SUBMIT_REQUIREMENTS, ListChangesOption.SUBMITTABLE)));
         }
+||||||| BASE   (d3dfbf5f7cf6e727b6eec29e8dd1afe430d5f2c4 Merge "Fix redundant chat requests on change property update)
+        data.put(
+            "submitRequirementsHex",
+            ListOption.toHex(
+                ImmutableSet.of(
+                    ListChangesOption.SUBMIT_REQUIREMENTS, ListChangesOption.SUBMITTABLE)));
+=======
+        data.put(
+            "submitRequirementsHex",
+            ListOption.toHex(
+                ImmutableSet.of(
+                    ListChangesOption.SUBMIT_REQUIREMENTS,
+                    ListChangesOption.SUBMITTABLE,
+                    ListChangesOption.SKIP_DIFFSTAT)));
+>>>>>>> CHANGE (75db2cf46026276e26eb141005fdbbf9965fce03 Include SKIP_DIFFSTAT in preloaded submitRequirementsHex)
         data.put("defaultChangeDetailHex", ListOption.toHex(changeDetailOptions));
         data.put(
             "changeRequestsPath",

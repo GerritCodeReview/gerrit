@@ -139,7 +139,9 @@ public class IndexHtmlUtil {
             "submitRequirementsHex",
             ListOption.toHex(
                 ImmutableSet.of(
-                    ListChangesOption.SUBMIT_REQUIREMENTS, ListChangesOption.SUBMITTABLE)));
+                    ListChangesOption.SUBMIT_REQUIREMENTS,
+                    ListChangesOption.SUBMITTABLE,
+                    ListChangesOption.SKIP_DIFFSTAT)));
         data.put("defaultChangeDetailHex", ListOption.toHex(changeDetailOptions));
         data.put(
             "changeRequestsPath",

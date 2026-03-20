@@ -1580,6 +1580,7 @@ export class GrChangeActions
         break;
       }
       case AI_CHAT_ACTION.__key: {
+        this.getChatModel().loadChatData();
         if (!this.chatCapabilitiesLoaded) {
           try {
             this.aiChatLoadingCleanup =

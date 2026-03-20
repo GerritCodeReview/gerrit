@@ -52,6 +52,8 @@ suite('user-message tests', () => {
     });
 
     chatModel = testResolver(chatModelToken);
+    chatModel.loadChatData();
+    await new Promise(r => setTimeout(r, 0));
 
     // Set context items for chatModel before initial render
     chatModel.updateState({

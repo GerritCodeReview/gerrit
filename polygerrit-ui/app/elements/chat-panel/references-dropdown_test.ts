@@ -37,6 +37,8 @@ suite('references-dropdown tests', () => {
     });
 
     chatModel = testResolver(chatModelToken);
+    chatModel.loadChatData();
+    await new Promise(r => setTimeout(r, 0));
 
     element = await fixture<ReferencesDropdown>(
       html`<references-dropdown .turnIndex=${0}></references-dropdown>`

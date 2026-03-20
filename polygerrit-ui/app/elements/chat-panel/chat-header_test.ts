@@ -37,6 +37,8 @@ suite('chat-header tests', () => {
 
     element = await fixture(html`<chat-header></chat-header>`);
     chatModel = testResolver(chatModelToken);
+    chatModel.loadChatData();
+    await new Promise(r => setTimeout(r, 0));
     await element.updateComplete;
   });
 
@@ -99,13 +101,13 @@ suite('chat-header tests', () => {
           class="select-model-menu"
           aria-hidden="true"
         >
-          <md-menu-item md-menu-item="" tabindex="0">
+          <md-menu-item md-menu-item="">
             <md-icon slot="start" style="visibility:visible;" aria-hidden="true"
               >done</md-icon
             >
             Gemini Pro
           </md-menu-item>
-          <md-menu-item md-menu-item="" tabindex="-1">
+          <md-menu-item md-menu-item="">
             <md-icon slot="start" style="visibility:hidden;" aria-hidden="true"
               >done</md-icon
             >

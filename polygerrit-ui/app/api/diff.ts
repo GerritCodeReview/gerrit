@@ -492,8 +492,14 @@ export interface CommentRangeLayer {
 
 /** Data used by GrAnnotation to generate elements. */
 export declare interface ElementSpec {
-  tagName: string;
-  attributes?: {[key: string]: unknown};
+  tagName: 'a' | 'span';
+  attributes?: {
+    href?: string;
+    target?: string;
+    rel?: string;
+    'data-dc-diff-link-layer'?: string;
+    'data-token-hovercard-selected'?: string;
+  };
 }
 
 /** Used to annotate segments of an HTMLElement with a class string. */

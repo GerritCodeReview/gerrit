@@ -3,7 +3,6 @@
  * Copyright 2016 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {getSanitizeDOMValue} from '@polymer/polymer/lib/utils/settings';
 import {GrAnnotation} from '../../../api/diff';
 
 // TODO(wyatta): refactor this to be <MARK> rather than <HL>.
@@ -85,12 +84,8 @@ export function annotateWithElement(
   }
 
   const wrapper = document.createElement(tagName);
-  const sanitizer = getSanitizeDOMValue();
-  for (let [name, value] of Object.entries(attributes)) {
+  for (const [name, value] of Object.entries(attributes)) {
     if (!value) continue;
-    if (sanitizer) {
-      value = sanitizer(value, name, 'attribute', wrapper) as string;
-    }
     wrapper.setAttribute(name, value);
   }
   for (const inner of nestedNodes) {
@@ -284,8 +279,14 @@ export const GrAnnotationImpl: GrAnnotation = {
  *
  */
 export interface ElementSpec {
-  tagName: string;
-  attributes?: {[attributeName: string]: string | undefined};
+  tagName: 'a' | 'span';
+  attributes?: {
+    href?: string;
+    target?: string;
+    rel?: string;
+    'data-dc-diff-link-layer'?: string;
+    'data-token-hovercard-selected'?: string;
+  };
 }
 
 export const TEST_ONLY = {

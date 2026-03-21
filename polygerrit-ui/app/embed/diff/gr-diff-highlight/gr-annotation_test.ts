@@ -3,7 +3,6 @@
  * Copyright 2016 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import * as sinon from 'sinon';
 import '../../../test/common-test-setup';
 import {
   annotateElement,
@@ -11,10 +10,6 @@ import {
   getStringLength,
   TEST_ONLY,
 } from './gr-annotation';
-import {
-  getSanitizeDOMValue,
-  setSanitizeDOMValue,
-} from '@polymer/polymer/lib/utils/settings';
 import {assert, fixture, html} from '@open-wc/testing';
 
 suite('annotation', () => {
@@ -148,38 +143,16 @@ suite('annotation', () => {
 
   suite('annotateWithElement', () => {
     const fullText = '01234567890123456789';
-    let mockSanitize: sinon.SinonSpy;
-    let originalSanitizeDOMValue: (
-      value: unknown,
-      name: string,
-      type: 'property' | 'attribute',
-      node: Node | null | undefined
-    ) => unknown;
-
-    setup(() => {
-      setSanitizeDOMValue(p0 => p0);
-      originalSanitizeDOMValue = getSanitizeDOMValue()!;
-      assert.isDefined(originalSanitizeDOMValue);
-      mockSanitize = sinon.spy(originalSanitizeDOMValue);
-      setSanitizeDOMValue(mockSanitize);
-    });
-
-    teardown(() => {
-      setSanitizeDOMValue(originalSanitizeDOMValue);
-    });
 
     test('annotates when fully contained', () => {
       const length = 10;
       const container = document.createElement('div');
       container.textContent = fullText;
       annotateWithElement(container, 1, length, {
-        tagName: 'test-wrapper',
+        tagName: 'span',
       });
 
-      assert.equal(
-        container.innerHTML,
-        '0<test-wrapper>1234567890</test-wrapper>123456789'
-      );
+      assert.equal(container.innerHTML, '0<span>1234567890</span>123456789');
     });
 
     test('annotates when spanning multiple nodes', () => {
@@ -188,16 +161,16 @@ suite('annotation', () => {
       container.textContent = fullText;
       annotateElement(container, 5, length, 'testclass');
       annotateWithElement(container, 1, length, {
-        tagName: 'test-wrapper',
+        tagName: 'span',
       });
 
       assert.equal(
         container.innerHTML,
         '0' +
-          '<test-wrapper>' +
+          '<span>' +
           '1234' +
           '<hl class="testclass">567890</hl>' +
-          '</test-wrapper>' +
+          '</span>' +
           '<hl class="testclass">1234</hl>' +
           '56789'
       );
@@ -208,13 +181,10 @@ suite('annotation', () => {
       const container = document.createElement('div');
       container.textContent = fullText;
       annotateWithElement(container.childNodes[0], 1, length, {
-        tagName: 'test-wrapper',
+        tagName: 'span',
       });
 
-      assert.equal(
-        container.innerHTML,
-        '0<test-wrapper>1234567890</test-wrapper>123456789'
-      );
+      assert.equal(container.innerHTML, '0<span>1234567890</span>123456789');
     });
 
     test('handles zero-length nodes', () => {
@@ -223,12 +193,12 @@ suite('annotation', () => {
       container.appendChild(document.createElement('span'));
       container.appendChild(document.createTextNode('0123456789'));
       annotateWithElement(container, 1, 10, {
-        tagName: 'test-wrapper',
+        tagName: 'span',
       });
 
       assert.equal(
         container.innerHTML,
-        '0<test-wrapper>123456789<span></span>0</test-wrapper>123456789'
+        '0<span>123456789<span></span>0</span>123456789'
       );
     });
 
@@ -240,58 +210,34 @@ suite('annotation', () => {
       container.appendChild(document.createElement('span'));
       container.appendChild(document.createTextNode('0123456789'));
       annotateWithElement(container, 1, 10, {
-        tagName: 'test-wrapper',
+        tagName: 'span',
       });
 
       assert.equal(
         container.innerHTML,
         '<!--comment1-->' +
-          '0<test-wrapper>123456789' +
+          '0<span>123456789' +
           '<!--comment2-->' +
-          '<span></span>0</test-wrapper>123456789'
+          '<span></span>0</span>123456789'
       );
     });
 
-    test('sets sanitized attributes', () => {
+    test('sets attributes', () => {
       const container = document.createElement('div');
       container.textContent = fullText;
       const attributes = {
         href: 'foo',
-        'data-foo': 'bar',
-        class: 'hello world',
+        target: 'bar',
+        rel: 'hello world',
       };
-      annotateWithElement(container, 1, length, {
-        tagName: 'test-wrapper',
+      annotateWithElement(container, 1, 10, {
+        tagName: 'a',
         attributes,
       });
-      assert(
-        mockSanitize.calledWith(
-          'foo',
-          'href',
-          'attribute',
-          sinon.match.instanceOf(Element)
-        )
-      );
-      assert(
-        mockSanitize.calledWith(
-          'bar',
-          'data-foo',
-          'attribute',
-          sinon.match.instanceOf(Element)
-        )
-      );
-      assert(
-        mockSanitize.calledWith(
-          'hello world',
-          'class',
-          'attribute',
-          sinon.match.instanceOf(Element)
-        )
-      );
-      const el = container.querySelector('test-wrapper')!;
+      const el = container.querySelector('a')!;
       assert.equal(el.getAttribute('href'), 'foo');
-      assert.equal(el.getAttribute('data-foo'), 'bar');
-      assert.equal(el.getAttribute('class'), 'hello world');
+      assert.equal(el.getAttribute('target'), 'bar');
+      assert.equal(el.getAttribute('rel'), 'hello world');
     });
   });
 

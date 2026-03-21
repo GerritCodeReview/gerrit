@@ -16,6 +16,24 @@
       "message": "This depends on `bazlets` series, that wasn\u0027t merged yet, see change 552601.",
       "revId": "bd94fcfee02b4aadd7ef623e86bd6df4fa89c6ad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "adb78909_483845e6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-03-21T09:59:45Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "c7e77653_32fb0d4c",
+      "revId": "bd94fcfee02b4aadd7ef623e86bd6df4fa89c6ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

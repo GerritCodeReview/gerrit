@@ -5,7 +5,6 @@
  */
 import {css} from 'lit';
 
-const $_documentContainer = document.createElement('template');
 
 export const checksStyles = css`
   gr-icon.error {
@@ -21,13 +20,3 @@ export const checksStyles = css`
     color: var(--success-foreground);
   }
 `;
-
-$_documentContainer.innerHTML = `<dom-module id="gr-checks-styles">
-  <template>
-    <style>
-    ${checksStyles.cssText}
-    </style>
-  </template>
-</dom-module>`;
-
-document.head.appendChild($_documentContainer.content);

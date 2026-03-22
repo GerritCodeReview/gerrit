@@ -26,7 +26,6 @@
   {@param? faviconPath: ?}
   {@param? manifestPath: ?}
   {@param? versionInfo: ?}
-  {@param? polyfillCE: ?}
   {@param? useGoogleFonts: ?}
   {@param? changeNum: ?}
   {@param? changeRequestsPath: ?}
@@ -66,7 +65,6 @@
     {if $versionInfo}window.VERSION_INFO = '{$versionInfo}';{/if}
     {if $staticResourcePath != ''}window.STATIC_RESOURCE_PATH = '{$staticResourcePath}';{/if}
     {if $assetsPath}window.ASSETS_PATH = '{$assetsPath}';{/if}
-    {if $polyfillCE}if (window.customElements) window.customElements.forcePolyfill = true;{/if}
     {if $gerritInitialData}
       // INITIAL_DATA is a string that represents a JSON map. It's inlined here so that we can
       // spare calls to the API when starting up the app.
@@ -146,7 +144,6 @@
   {/if}
   <link rel="preload" as="style" href="{$staticResourcePath}/styles/main.css">{\n}
 
-  <script src="{$staticResourcePath}/bower_components/webcomponentsjs/webcomponents-loader.js"></script>{\n}
 
   // Content between webcomponents-loader and the load of the main app element
   // run before polymer-resin is installed so may have security consequences.

@@ -237,9 +237,6 @@ public class IndexHtmlUtil {
         "manifestPath",
         urlInScriptTagOrdainer.apply(Strings.nullToEmpty(canonicalPath) + "/manifest.webmanifest"));
 
-    if (urlParameterMap.containsKey("ce")) {
-      data.put("polyfillCE", "true");
-    }
     if (urlParameterMap.containsKey("gf")) {
       data.put("useGoogleFonts", "true");
     }

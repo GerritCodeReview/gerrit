@@ -22,6 +22,7 @@ import com.google.common.flogger.FluentLogger;
 import com.google.common.io.BaseEncoding;
 import com.google.gerrit.auth.oauth.OAuthTokenCache;
 import com.google.gerrit.entities.Account;
+import com.google.gerrit.extensions.auth.oauth.OAuthAuthorizationInfo;
 import com.google.gerrit.extensions.auth.oauth.OAuthServiceProvider;
 import com.google.gerrit.extensions.auth.oauth.OAuthToken;
 import com.google.gerrit.extensions.auth.oauth.OAuthUserInfo;
@@ -60,13 +61,14 @@ class OAuthSession {
   private final AccountManager accountManager;
   private final CanonicalWebUrl urlProvider;
   private final OAuthTokenCache tokenCache;
+  private final ExternalIdKeyFactory externalIdKeyFactory;
+  private final AuthRequest.Factory authRequestFactory;
   private OAuthServiceProvider serviceProvider;
   private OAuthUserInfo user;
   private Account.Id accountId;
   private String redirectToken;
   private boolean linkMode;
-  private final ExternalIdKeyFactory externalIdKeyFactory;
-  private final AuthRequest.Factory authRequestFactory;
+  private String pkceVerifier;
 
   @Inject
   OAuthSession(
@@ -107,7 +109,8 @@ class OAuthSession {
       }
 
       logger.atFine().log("Login-Retrieve-User %s", this);
-      OAuthToken token = oauth.getAccessToken(new OAuthVerifier(request.getParameter("code")));
+      OAuthToken token =
+          oauth.getAccessToken(new OAuthVerifier(request.getParameter("code")), this.pkceVerifier);
       user = oauth.getUserInfo(token);
 
       if (isLoggedIn()) {
@@ -126,7 +129,12 @@ class OAuthSession {
     // we cannot use LoginUrlToken.getToken() method,
     // because it relies on getPathInfo() and it is always null here.
     redirectToken = redirectToken.substring(request.getContextPath().length());
-    response.sendRedirect(oauth.getAuthorizationUrl() + "&state=" + state);
+
+    OAuthAuthorizationInfo authInfo = oauth.getAuthorizationInfo();
+    // capture the verifier in the session
+    this.pkceVerifier = authInfo.getPkceVerifier();
+
+    response.sendRedirect(authInfo.getAuthorizationUrl() + "&state=" + state);
     return false;
   }
 
@@ -228,6 +236,7 @@ class OAuthSession {
     user = null;
     redirectToken = null;
     serviceProvider = null;
+    pkceVerifier = null;
   }
 
   private boolean checkState(ServletRequest request) {

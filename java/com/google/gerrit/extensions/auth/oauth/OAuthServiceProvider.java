@@ -14,6 +14,7 @@
 
 package com.google.gerrit.extensions.auth.oauth;
 
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
 import java.io.IOException;
 
@@ -26,7 +27,19 @@ public interface OAuthServiceProvider {
    *
    * @return the OAuth service URL to redirect your users for authentication
    */
-  String getAuthorizationUrl();
+  default String getAuthorizationUrl() {
+    return getAuthorizationInfo().getAuthorizationUrl();
+  }
+
+  /**
+   * Returns the URL where you should redirect your users to authenticate your application.
+   *
+   * @return the OAuth service URL to redirect your users for authentication and verifier string
+   *     generated during initial authorization phase
+   */
+  default OAuthAuthorizationInfo getAuthorizationInfo() {
+    return new OAuthAuthorizationInfo(getAuthorizationUrl(), null);
+  }
 
   /**
    * Retrieve the access token
@@ -34,11 +47,24 @@ public interface OAuthServiceProvider {
    * @param verifier verifier code
    * @return access token
    */
-  OAuthToken getAccessToken(OAuthVerifier verifier);
+  default OAuthToken getAccessToken(OAuthVerifier verifier) {
+    return getAccessToken(verifier, null);
+  }
 
   /**
-   * After establishing of secure communication channel, this method supossed to access the
-   * protected resoure and retrieve the username.
+   * Retrieve the access token
+   *
+   * @param verifier verifier code
+   * @param codeVerifier verifier string generated during initial authorization phase
+   * @return access token
+   */
+  default OAuthToken getAccessToken(OAuthVerifier verifier, @Nullable String codeVerifier) {
+    return getAccessToken(verifier);
+  }
+
+  /**
+   * After establishing of secure communication channel, this method supposed to access the
+   * protected resource and retrieve the user name.
    *
    * @return OAuth user information
    */

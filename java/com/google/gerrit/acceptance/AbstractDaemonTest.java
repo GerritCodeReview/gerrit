@@ -14,6 +14,7 @@
 
 package com.google.gerrit.acceptance;
 
+
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.truth.OptionalSubject.optionals;

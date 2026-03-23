@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dcfd3a1c_b1db4723",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-03-23T10:54:22Z",
+      "side": 1,
+      "message": "We shall wait for the Google\u0027s replication to complete into gerrit-review/jgit, otherwise this change cannot be verified.",
+      "revId": "5da670ba0ac4d3857dc6ae602cb675fda736bd14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

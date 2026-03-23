@@ -16,6 +16,24 @@
       "message": "Nice! Last time I checked, @brohlfs@google.com said it should stay—has that changed?",
       "revId": "3b921bbf52695135d8c710b8a30e521a6942fb54",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ae8ff3da_9e05cbe8",
+        "filename": "polymer-bridges",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-03-23T11:46:42Z",
+      "side": 0,
+      "message": "Ben has left the Gerrit project. 😊\n\n@milutin@google.com is taking over the removal. There were some internal blockers which he is actively resolving.",
+      "parentUuid": "60d879fd_bb31e4c6",
+      "revId": "3b921bbf52695135d8c710b8a30e521a6942fb54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

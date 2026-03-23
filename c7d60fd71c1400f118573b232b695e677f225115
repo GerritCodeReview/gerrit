@@ -16,6 +16,24 @@
       "message": "This should now pass.",
       "revId": "c7d60fd71c1400f118573b232b695e677f225115",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8c1128ad_735f225d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2026-03-23T14:06:17Z",
+      "side": 1,
+      "message": "the new merge commit for the servlet-4 branch\nhttps://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1233364 \nwas merged upstream in the JGit repo, but replication to gerrit-review didn\u0027t replicate it yet.",
+      "parentUuid": "5f524068_8a25d948",
+      "revId": "c7d60fd71c1400f118573b232b695e677f225115",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

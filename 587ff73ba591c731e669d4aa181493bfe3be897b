@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9bcefd46_205b8272",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 18
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-03-23T15:23:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ad5a9989_32876264",
+      "range": {
+        "startLine": 21,
+        "startChar": 38,
+        "endLine": 21,
+        "endChar": 58
+      },
+      "revId": "587ff73ba591c731e669d4aa181493bfe3be897b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7252e77c_31866910",
@@ -37,6 +61,30 @@
       "writtenOn": "2026-03-23T14:20:22Z",
       "side": 1,
       "message": "Normally, we only explain what this change does in its commit message. The follow-up change\u0027s commit message will explain what it does.",
+      "range": {
+        "startLine": 33,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 0
+      },
+      "revId": "587ff73ba591c731e669d4aa181493bfe3be897b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "98cb451c_17d55c2f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 18
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-03-23T15:23:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7252e77c_31866910",
       "range": {
         "startLine": 33,
         "startChar": 0,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb848f4b_79c6d71e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 18
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-03-23T15:23:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b30299e6_3b3b138c",
+      "range": {
+        "startLine": 42,
+        "startChar": 17,
+        "endLine": 42,
+        "endChar": 28
+      },
+      "revId": "587ff73ba591c731e669d4aa181493bfe3be897b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1f6209e8_5248d956",
@@ -87,6 +159,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "186d5d03_7bf3b304",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 18
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-03-23T15:23:13Z",
+      "side": 1,
+      "message": "I dont see a bug info. If the white text you are referencing it in the screenshot then that was added by me. And yes, by mistake I named. SR with my name. I would be careful next time.",
+      "parentUuid": "1f6209e8_5248d956",
+      "revId": "587ff73ba591c731e669d4aa181493bfe3be897b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9500414c_e96a5e65",
@@ -100,6 +190,30 @@
       "writtenOn": "2026-03-23T14:20:22Z",
       "side": 1,
       "message": "I noticed that this change uses both \"deadline\" and \"execution timeout\" to refer to the same thing. It should consistently use one of the terms, at least in the user facing documentation and option names and also in the REST request/response.",
+      "range": {
+        "startLine": 6366,
+        "startChar": 56,
+        "endLine": 6366,
+        "endChar": 72
+      },
+      "revId": "587ff73ba591c731e669d4aa181493bfe3be897b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6590b3a9_72d83d3c",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 6366,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-03-23T15:23:13Z",
+      "side": 1,
+      "message": "Changed all to execution timeout",
+      "parentUuid": "9500414c_e96a5e65",
       "range": {
         "startLine": 6366,
         "startChar": 56,
@@ -133,6 +247,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "82f520da_f2343096",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 6368,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-03-23T15:23:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fa62c72b_047f82cd",
+      "range": {
+        "startLine": 6367,
+        "startChar": 0,
+        "endLine": 6368,
+        "endChar": 7
+      },
+      "revId": "587ff73ba591c731e669d4aa181493bfe3be897b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "de95609a_af3079f8",
@@ -150,6 +288,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6eef1ac0_10bc55c1",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 6373,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-03-23T15:23:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "de95609a_af3079f8",
+      "revId": "587ff73ba591c731e669d4aa181493bfe3be897b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "953c7434_a29e83bc",
@@ -163,6 +319,30 @@
       "writtenOn": "2026-03-23T14:20:22Z",
       "side": 1,
       "message": "to a positive value\n\nWe don\u0027t use \u003e0 anywhere in this file.",
+      "range": {
+        "startLine": 6375,
+        "startChar": 10,
+        "endLine": 6375,
+        "endChar": 15
+      },
+      "revId": "587ff73ba591c731e669d4aa181493bfe3be897b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "667eed31_da10bb44",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 6375,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-03-23T15:23:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "953c7434_a29e83bc",
       "range": {
         "startLine": 6375,
         "startChar": 10,
@@ -196,6 +376,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b78abd63_5e836ac7",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 6381,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-03-23T15:23:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ce7323da_75c0d05c",
+      "range": {
+        "startLine": 6381,
+        "startChar": 21,
+        "endLine": 6381,
+        "endChar": 23
+      },
+      "revId": "587ff73ba591c731e669d4aa181493bfe3be897b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5adb3b8b_873a67ff",
@@ -209,6 +413,30 @@
       "writtenOn": "2026-03-23T14:20:22Z",
       "side": 1,
       "message": "This is imprecise, shall be someting like \"If the number of concurrently evaluated submit requirements exceeds the number of the threads in the thread pool\".\n\nHowever, this is a well known property of using a thread pool and we shall rather not explain it here. I propose to remote this sentence",
+      "range": {
+        "startLine": 6387,
+        "startChar": 0,
+        "endLine": 6387,
+        "endChar": 36
+      },
+      "revId": "587ff73ba591c731e669d4aa181493bfe3be897b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5ede924b_55618a16",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 6387,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-03-23T15:23:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5adb3b8b_873a67ff",
       "range": {
         "startLine": 6387,
         "startChar": 0,
@@ -242,6 +470,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "658adb84_5997a75d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 6390,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-03-23T15:23:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a3112c4_2c6b11a9",
+      "range": {
+        "startLine": 6390,
+        "startChar": 10,
+        "endLine": 6390,
+        "endChar": 30
+      },
+      "revId": "587ff73ba591c731e669d4aa181493bfe3be897b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5a77dc3d_37fb6708",
@@ -255,6 +507,30 @@
       "writtenOn": "2026-03-23T14:20:22Z",
       "side": 1,
       "message": "This note belongs rather to the executionTimeout documentation",
+      "range": {
+        "startLine": 6400,
+        "startChar": 0,
+        "endLine": 6402,
+        "endChar": 34
+      },
+      "revId": "587ff73ba591c731e669d4aa181493bfe3be897b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9b3c56e2_c73bdee6",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 6402,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-03-23T15:23:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a77dc3d_37fb6708",
       "range": {
         "startLine": 6400,
         "startChar": 0,
@@ -288,6 +564,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b9ede799_20c64ce7",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 6404,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-03-23T15:23:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16f94c23_38cb34d5",
+      "range": {
+        "startLine": 6403,
+        "startChar": 56,
+        "endLine": 6404,
+        "endChar": 34
+      },
+      "revId": "587ff73ba591c731e669d4aa181493bfe3be897b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9b38200a_3cd9f0ab",
@@ -301,6 +601,24 @@
       "writtenOn": "2026-03-23T14:20:22Z",
       "side": 1,
       "message": "Missing license header",
+      "revId": "587ff73ba591c731e669d4aa181493bfe3be897b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f66b2e76_668e3b73",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementExecutor.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-03-23T15:23:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9b38200a_3cd9f0ab",
       "revId": "587ff73ba591c731e669d4aa181493bfe3be897b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -328,6 +646,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "23bee7b3_3c64ef3f",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementsEvaluatorImpl.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-03-23T15:23:13Z",
+      "side": 1,
+      "message": "Was expecting this comment. Intellij is not allowing me to do that. If I import it and use just a name, Intellij throws an error.",
+      "parentUuid": "54e190c0_61966958",
+      "range": {
+        "startLine": 91,
+        "startChar": 7,
+        "endLine": 91,
+        "endChar": 65
+      },
+      "revId": "587ff73ba591c731e669d4aa181493bfe3be897b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4eede6dc_2bcd0ba2",
@@ -341,6 +683,24 @@
       "writtenOn": "2026-03-23T14:20:22Z",
       "side": 1,
       "message": "import this class and use just the name here",
+      "revId": "587ff73ba591c731e669d4aa181493bfe3be897b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b18fe09e_e00faf8c",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementsEvaluatorImpl.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-03-23T15:23:13Z",
+      "side": 1,
+      "message": "same as above.",
+      "parentUuid": "4eede6dc_2bcd0ba2",
       "revId": "587ff73ba591c731e669d4aa181493bfe3be897b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -379,6 +739,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c211c169_c9a06589",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementsEvaluatorImpl.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-03-23T15:23:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "229efd75_bba3a0f1",
+      "revId": "587ff73ba591c731e669d4aa181493bfe3be897b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3d341d3a_a51ff4f7",
@@ -402,6 +780,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f95e957_5e840a0e",
+        "filename": "javatests/com/google/gerrit/acceptance/server/project/SubmitRequirementsEvaluatorIT.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 1121,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-03-23T15:23:13Z",
+      "side": 1,
+      "message": "Yes, test is passing.",
+      "parentUuid": "3d341d3a_a51ff4f7",
+      "range": {
+        "startLine": 1121,
+        "startChar": 29,
+        "endLine": 1121,
+        "endChar": 87
+      },
+      "revId": "587ff73ba591c731e669d4aa181493bfe3be897b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2d5455eb_d52b6d7f",
@@ -415,6 +817,30 @@
       "writtenOn": "2026-03-23T14:20:22Z",
       "side": 1,
       "message": "Maybe we call it `timedOutFuture` instead of `mockFuture`... I mean we see from the code that it is mocked and we can use the name to describe its intended use",
+      "range": {
+        "startLine": 1123,
+        "startChar": 9,
+        "endLine": 1123,
+        "endChar": 19
+      },
+      "revId": "587ff73ba591c731e669d4aa181493bfe3be897b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3b1866d8_9976b3eb",
+        "filename": "javatests/com/google/gerrit/acceptance/server/project/SubmitRequirementsEvaluatorIT.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 1123,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-03-23T15:23:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d5455eb_d52b6d7f",
       "range": {
         "startLine": 1123,
         "startChar": 9,

@@ -18,5 +18,5 @@ maven_package(
         "gerrit-plugin-api": "//plugins:plugin-api_deploy.jar",
     },
     version = GERRIT_API_VERSION,
-    war = {"gerrit-war": "//:release"},
+    war = {"gerrit-war": "//:release.war"},
 )

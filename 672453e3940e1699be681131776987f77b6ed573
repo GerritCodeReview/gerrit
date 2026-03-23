@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "00b52082_4c3ae512",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-03-23T13:48:43Z",
+      "side": 1,
+      "message": "Friendly ping — would it be possible to approve this so it can be included in the stable-3.14 branch and avoid Bazel warnings?",
+      "revId": "672453e3940e1699be681131776987f77b6ed573",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

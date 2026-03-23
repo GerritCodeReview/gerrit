@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "60d879fd_bb31e4c6",
+        "filename": "polymer-bridges",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-03-23T11:44:08Z",
+      "side": 0,
+      "message": "Nice! Last time I checked, @brohlfs@google.com said it should stay—has that changed?",
+      "revId": "3b921bbf52695135d8c710b8a30e521a6942fb54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

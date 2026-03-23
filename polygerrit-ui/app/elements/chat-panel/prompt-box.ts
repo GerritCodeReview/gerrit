@@ -377,6 +377,7 @@ export class PromptBox extends LitElement {
       // Don't include link in the chip since it's already on the change page.
       link: '',
       title: 'This Change',
+      icon: 'commit',
       identifier: this.change.id,
       tooltip: 'File diffs (against base), commit message, and comments.',
     };

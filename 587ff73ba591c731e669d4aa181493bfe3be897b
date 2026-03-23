@@ -1,0 +1,428 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ad5a9989_32876264",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 18
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-03-23T14:20:22Z",
+      "side": 1,
+      "message": "either mention that this default means \"no timeout\" or remove this part from here... it is anyway documented in the config-gerrit.txt",
+      "range": {
+        "startLine": 21,
+        "startChar": 38,
+        "endLine": 21,
+        "endChar": 58
+      },
+      "revId": "587ff73ba591c731e669d4aa181493bfe3be897b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7252e77c_31866910",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 18
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-03-23T14:20:22Z",
+      "side": 1,
+      "message": "Normally, we only explain what this change does in its commit message. The follow-up change\u0027s commit message will explain what it does.",
+      "range": {
+        "startLine": 33,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 0
+      },
+      "revId": "587ff73ba591c731e669d4aa181493bfe3be897b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b30299e6_3b3b138c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 18
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-03-23T14:20:22Z",
+      "side": 1,
+      "message": "The previous sentence says `UNRESOLVED`",
+      "range": {
+        "startLine": 42,
+        "startChar": 17,
+        "endLine": 42,
+        "endChar": 28
+      },
+      "revId": "587ff73ba591c731e669d4aa181493bfe3be897b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1f6209e8_5248d956",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 18
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-03-23T14:20:22Z",
+      "side": 1,
+      "message": "Is this referenced from any part of the commit message? Btw, that screenshot seems to contain some debug info in it and also your name as a submit requirement. We shall avoid putting personal names in the code, documentation and commit messages.",
+      "revId": "587ff73ba591c731e669d4aa181493bfe3be897b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9500414c_e96a5e65",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 6366,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-03-23T14:20:22Z",
+      "side": 1,
+      "message": "I noticed that this change uses both \"deadline\" and \"execution timeout\" to refer to the same thing. It should consistently use one of the terms, at least in the user facing documentation and option names and also in the REST request/response.",
+      "range": {
+        "startLine": 6366,
+        "startChar": 56,
+        "endLine": 6366,
+        "endChar": 72
+      },
+      "revId": "587ff73ba591c731e669d4aa181493bfe3be897b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa62c72b_047f82cd",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 6368,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-03-23T14:20:22Z",
+      "side": 1,
+      "message": "What does `exeuctionTimeout \u003d 2` mean? What is the time unit?",
+      "range": {
+        "startLine": 6367,
+        "startChar": 0,
+        "endLine": 6368,
+        "endChar": 7
+      },
+      "revId": "587ff73ba591c731e669d4aa181493bfe3be897b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "de95609a_af3079f8",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 6373,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-03-23T14:20:22Z",
+      "side": 1,
+      "message": "It seems like the usage of numbered lists is not compatible with the rest of this document. I didn\u0027t find any example in this file. Use bulleted list instead.",
+      "revId": "587ff73ba591c731e669d4aa181493bfe3be897b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "953c7434_a29e83bc",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 6375,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-03-23T14:20:22Z",
+      "side": 1,
+      "message": "to a positive value\n\nWe don\u0027t use \u003e0 anywhere in this file.",
+      "range": {
+        "startLine": 6375,
+        "startChar": 10,
+        "endLine": 6375,
+        "endChar": 15
+      },
+      "revId": "587ff73ba591c731e669d4aa181493bfe3be897b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ce7323da_75c0d05c",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 6381,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-03-23T14:20:22Z",
+      "side": 1,
+      "message": "to the total time needed to evaluate all of these expressions:",
+      "range": {
+        "startLine": 6381,
+        "startChar": 21,
+        "endLine": 6381,
+        "endChar": 23
+      },
+      "revId": "587ff73ba591c731e669d4aa181493bfe3be897b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5adb3b8b_873a67ff",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 6387,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-03-23T14:20:22Z",
+      "side": 1,
+      "message": "This is imprecise, shall be someting like \"If the number of concurrently evaluated submit requirements exceeds the number of the threads in the thread pool\".\n\nHowever, this is a well known property of using a thread pool and we shall rather not explain it here. I propose to remote this sentence",
+      "range": {
+        "startLine": 6387,
+        "startChar": 0,
+        "endLine": 6387,
+        "endChar": 36
+      },
+      "revId": "587ff73ba591c731e669d4aa181493bfe3be897b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1a3112c4_2c6b11a9",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 6390,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-03-23T14:20:22Z",
+      "side": 1,
+      "message": "available CPUs\n\nto be consistent with the rest of this file",
+      "range": {
+        "startLine": 6390,
+        "startChar": 10,
+        "endLine": 6390,
+        "endChar": 30
+      },
+      "revId": "587ff73ba591c731e669d4aa181493bfe3be897b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5a77dc3d_37fb6708",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 6402,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-03-23T14:20:22Z",
+      "side": 1,
+      "message": "This note belongs rather to the executionTimeout documentation",
+      "range": {
+        "startLine": 6400,
+        "startChar": 0,
+        "endLine": 6402,
+        "endChar": 34
+      },
+      "revId": "587ff73ba591c731e669d4aa181493bfe3be897b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "16f94c23_38cb34d5",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 6404,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-03-23T14:20:22Z",
+      "side": 1,
+      "message": "something is missing in this sentence",
+      "range": {
+        "startLine": 6403,
+        "startChar": 56,
+        "endLine": 6404,
+        "endChar": 34
+      },
+      "revId": "587ff73ba591c731e669d4aa181493bfe3be897b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9b38200a_3cd9f0ab",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementExecutor.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-03-23T14:20:22Z",
+      "side": 1,
+      "message": "Missing license header",
+      "revId": "587ff73ba591c731e669d4aa181493bfe3be897b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "54e190c0_61966958",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementsEvaluatorImpl.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-03-23T14:20:22Z",
+      "side": 1,
+      "message": "import this class and use here just the class name (without package name)",
+      "range": {
+        "startLine": 91,
+        "startChar": 7,
+        "endLine": 91,
+        "endChar": 65
+      },
+      "revId": "587ff73ba591c731e669d4aa181493bfe3be897b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4eede6dc_2bcd0ba2",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementsEvaluatorImpl.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-03-23T14:20:22Z",
+      "side": 1,
+      "message": "import this class and use just the name here",
+      "revId": "587ff73ba591c731e669d4aa181493bfe3be897b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "229efd75_bba3a0f1",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementsEvaluatorImpl.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-03-23T14:20:22Z",
+      "side": 1,
+      "message": "Use `this.executionTimeout \u003d ` to be consistent with the lines above this line.",
+      "revId": "587ff73ba591c731e669d4aa181493bfe3be897b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "711d7a22_439fab48",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementsEvaluatorImpl.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-03-23T14:20:22Z",
+      "side": 1,
+      "message": "We need to support time units like other similar config options do and not assume that this is seconds or any other time unit. Check in gerrit-config.txt how other similar parameters are defined and check in the code how time unit are supported when parsing those options.",
+      "revId": "587ff73ba591c731e669d4aa181493bfe3be897b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3d341d3a_a51ff4f7",
+        "filename": "javatests/com/google/gerrit/acceptance/server/project/SubmitRequirementsEvaluatorIT.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 1121,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-03-23T14:20:22Z",
+      "side": 1,
+      "message": "I didn\u0027t try it but wouldn\u0027t just `any()` be enough here?",
+      "range": {
+        "startLine": 1121,
+        "startChar": 29,
+        "endLine": 1121,
+        "endChar": 87
+      },
+      "revId": "587ff73ba591c731e669d4aa181493bfe3be897b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d5455eb_d52b6d7f",
+        "filename": "javatests/com/google/gerrit/acceptance/server/project/SubmitRequirementsEvaluatorIT.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 1123,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-03-23T14:20:22Z",
+      "side": 1,
+      "message": "Maybe we call it `timedOutFuture` instead of `mockFuture`... I mean we see from the code that it is mocked and we can use the name to describe its intended use",
+      "range": {
+        "startLine": 1123,
+        "startChar": 9,
+        "endLine": 1123,
+        "endChar": 19
+      },
+      "revId": "587ff73ba591c731e669d4aa181493bfe3be897b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

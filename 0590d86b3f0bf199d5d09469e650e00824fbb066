@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ff46a6bb_5b4b63fc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2026-03-23T12:24:36Z",
+      "side": 1,
+      "message": "Although this seems to be under an experiment which was later removed in https://github.com/GerritCodeReview/gerrit/commit/6879bdb8afd162dbe4adc81814e907344ee3bbde#diff-eef9df3b05e5198b5118ad60fc56d438b81a73ff17e375ca56a2df8f79589a06\n\nWe can still backport this i guess to keep parity.",
+      "revId": "0590d86b3f0bf199d5d09469e650e00824fbb066",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -304,6 +304,7 @@ export declare interface ContextItem {
   type_id: string;
   link: string;
   title: string;
+  icon?: string;
   identifier?: string;
   tooltip?: string;
   error_message?: string;

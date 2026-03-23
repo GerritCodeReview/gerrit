@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a136d376_0fee2776",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-03-23T12:17:39Z",
+      "side": 1,
+      "message": "Deployment to Maven fails with:\n```\nERROR: /home/jenkins/workspace/gerrit-release/gerrit/tools/maven/BUILD:4:14: in cmd attribute of genrule rule //tools/maven:gen_war_deploy: label \u0027//:release\u0027 in $(location) expression expands to more than one file, please use $(locations //:release) instead.  Files (at most 5 shown) are: [bazel-out/k8-fastbuild/bin/release.war, bazel-out/k8-fastbuild/bin/release.war.entries.txt, bazel-out/k8-fastbuild/bin/release.war.jars.txt]. Since this rule was created by the macro \u0027maven_package\u0027, the error might have been caused by the macro implementation\nERROR: /home/jenkins/workspace/gerrit-release/gerrit/tools/maven/BUILD:4:14: Analysis of target \u0027//tools/maven:gen_war_deploy\u0027 failed\nERROR: Analysis of target \u0027//tools/maven:gen_war_deploy\u0027 failed; build aborted\nINFO: Elapsed time: 0.374s, Critical Path: 0.12s\nINFO: 1 process: 1 internal.\nERROR: Build did NOT complete successfully\n+ echo \u0027bazelisk failed to build gen_war_deploy. Use VERBOSE\u003d1 for more info\u0027\nbazelisk failed to build gen_war_deploy. Use VERBOSE\u003d1 for more info\n+ exit 1\n****** WAR DEPLOYMENT FAILURE ******\n```",
+      "revId": "7907f2d8846b1832b98d25a3e330256a2b22ebfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

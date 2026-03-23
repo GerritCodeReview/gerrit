@@ -16,6 +16,24 @@
       "message": "I am a little puzzled with this change vs the predecessor change, which also introduces a TIMEOUT value",
       "revId": "483cf92bf2d0854f687cd4f2de4a61f886d81172",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b008ec02_cef1ddd7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-03-23T16:18:49Z",
+      "side": 1,
+      "message": "This is for the UI. So you can see timeout as a SR status. Please check the screenshot. \nEarlier change, 561921 markout `TIMEOUT` status to failed SR expression.\nE.g. `submittability_expression_result.status` is `TIMEOUT` but on UI you will see Code-Review as `UNSATISFIED`.\n\n\"submit_requirements\": [\n{\n      \"name\": \"Code-Review\",\n      \"status\": \"UNSATISFIED\",\n      \"submittability_expression_result\": {\n        \"expression\": \"label:Code-Review\u003dMAX AND -label:Code-Review\u003dMIN\",\n        \"status\": \"TIMEOUT\",\n      }\n    },\n\nThis change mark `submit_requirements.status` as well TIMEOUT. With this change, UI will show SR status as `TIMEOUT` as shown in screenshot",
+      "parentUuid": "76cf0406_8cf9f020",
+      "revId": "483cf92bf2d0854f687cd4f2de4a61f886d81172",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

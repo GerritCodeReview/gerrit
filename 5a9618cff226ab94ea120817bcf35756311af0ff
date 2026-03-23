@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b244ddae_f6123b50",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-03-23T07:19:13Z",
+      "side": 1,
+      "message": "I believe we should raise an issue for this problem, document in the release notes in the **Known Issues** section and refer here in the footer as `Bug: Issue NNNN`.",
+      "range": {
+        "startLine": 16,
+        "startChar": 7,
+        "endLine": 18,
+        "endChar": 53
+      },
+      "revId": "5a9618cff226ab94ea120817bcf35756311af0ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

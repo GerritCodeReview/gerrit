@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "35b87a80_4bcee8f3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2026-03-23T19:12:39Z",
+      "side": 1,
+      "message": "Need Release-Notes: \u003centry\u003e here",
+      "revId": "d428c75061e16137ab05430f0518b06108ab40d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

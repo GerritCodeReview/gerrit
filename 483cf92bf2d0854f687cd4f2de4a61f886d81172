@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "76cf0406_8cf9f020",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-03-23T13:54:22Z",
+      "side": 1,
+      "message": "I am a little puzzled with this change vs the predecessor change, which also introduces a TIMEOUT value",
+      "revId": "483cf92bf2d0854f687cd4f2de4a61f886d81172",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

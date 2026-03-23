@@ -129,7 +129,7 @@ export class ContextChip extends LitElement {
 
   override render() {
     const type = this.getChatModel().contextItemToType(this.contextItem);
-    const icon = type?.icon ?? '';
+    const icon = this.contextItem?.icon ?? type?.icon ?? '';
     return html`
       <md-filter-chip
         class=${classMap({

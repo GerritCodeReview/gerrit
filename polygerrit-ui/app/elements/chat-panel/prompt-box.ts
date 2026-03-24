@@ -373,7 +373,7 @@ export class PromptBox extends LitElement {
     // The chip makes it clear to the user that it is already in the context.
     if (!this.change) return nothing;
     const changeContextItem: ContextItem = {
-      type_id: 'gerrit',
+      type_id: 'gerrit_change',
       // Don't include link in the chip since it's already on the change page.
       link: '',
       title: 'This Change',

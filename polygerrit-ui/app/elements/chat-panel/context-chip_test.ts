@@ -84,6 +84,23 @@ suite('context-chip tests', () => {
     assert.equal(chip?.title, 'test tooltip');
   });
 
+  test('renders with gerrit change icon', async () => {
+    const contextItem: ContextItem = {
+      type_id: 'gerrit_change',
+      title: 'This Change',
+      link: '',
+      tooltip: 'File diffs (against base), commit message, and comments.',
+    };
+    element.contextItem = contextItem;
+    await element.updateComplete;
+
+    // Should use gr-icon element with commit
+    const icon = element.shadowRoot?.querySelector('gr-icon');
+
+    assert.isOk(icon, 'Expected gr-icon to be rendered');
+    assert.equal(icon.getAttribute('icon'), 'commit');
+  });
+
   test('is removable', async () => {
     element.isRemovable = true;
     element.isSuggestion = false;

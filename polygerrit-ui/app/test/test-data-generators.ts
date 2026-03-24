@@ -1310,6 +1310,16 @@ export const chatContextItemTypes: ContextItemType[] = [
       };
     },
   },
+  {
+    id: 'gerrit_change',
+    name: 'Gerrit Change',
+    icon: 'commit',
+    placeholder: '',
+    regex: /.*/,
+    parse() {
+      return undefined;
+    },
+  },
 ];
 
 export const chatProvider: AiCodeReviewProvider = {

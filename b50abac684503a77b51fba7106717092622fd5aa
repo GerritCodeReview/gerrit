@@ -74,6 +74,30 @@
       },
       "revId": "b50abac684503a77b51fba7106717092622fd5aa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0c81cd55_51dca920",
+        "filename": "polygerrit-ui/app/elements/chat-panel/prompt-box.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 1131691
+      },
+      "writtenOn": "2026-03-24T17:57:54Z",
+      "side": 1,
+      "message": "Ah, I had missed where the type was defined. Thanks for the link",
+      "parentUuid": "493023cf_4dbbdc41",
+      "range": {
+        "startLine": 380,
+        "startChar": 0,
+        "endLine": 380,
+        "endChar": 21
+      },
+      "revId": "b50abac684503a77b51fba7106717092622fd5aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

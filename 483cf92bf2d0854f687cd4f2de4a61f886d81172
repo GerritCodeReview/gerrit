@@ -34,6 +34,24 @@
       "parentUuid": "76cf0406_8cf9f020",
       "revId": "483cf92bf2d0854f687cd4f2de4a61f886d81172",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dbb0b9b0_7f9aefe1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-03-24T11:38:07Z",
+      "side": 1,
+      "message": "OK, I see. In that case include that info (that it is about the UI) in the commit message subject.",
+      "parentUuid": "b008ec02_cef1ddd7",
+      "revId": "483cf92bf2d0854f687cd4f2de4a61f886d81172",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5cf71d69_a510a2c9",
+        "filename": "java/com/google/gerrit/httpd/raw/IndexHtmlUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-03-24T22:03:02Z",
+      "side": 1,
+      "message": "Comment removed by: Milutin Kristofic; Reason: ai generated",
+      "revId": "2bad3dfee07bb7ca583b0f2b98745337003142ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

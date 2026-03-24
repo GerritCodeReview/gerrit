@@ -68,9 +68,17 @@ public class IndexServletTest {
     serverConfig.setStringList(
         "experiments", null, "disabled", ImmutableList.of("DisabledFeature"));
     ExperimentFeatures experimentFeatures = new ConfigExperimentFeatures(serverConfig);
+    com.google.common.cache.Cache<
+            String, com.google.gerrit.server.config.ServerConfigCacheImpl.ServerConfigData>
+        serverConfigCache = com.google.common.cache.CacheBuilder.newBuilder().build();
     IndexServlet servlet =
         new IndexServlet(
-            testCanonicalUrl, testCdnPath, testFaviconURL, gerritApi, experimentFeatures);
+            testCanonicalUrl,
+            testCdnPath,
+            testFaviconURL,
+            gerritApi,
+            experimentFeatures,
+            serverConfigCache);
 
     FakeHttpServletResponse response = new FakeHttpServletResponse();
 

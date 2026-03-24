@@ -146,7 +146,14 @@ public class IndexHtmlUtilTest {
     String requestedPath = "/c/project/+/123/4..6";
     assertThat(IndexHtmlUtil.computeBasePatchNum(requestedPath)).isEqualTo(4);
 
-    assertThat(dynamicTemplateData(gerritApi, requestedPath, ""))
+    assertThat(
+            dynamicTemplateData(
+                gerritApi,
+                requestedPath,
+                "",
+                serverApi.getInfo(),
+                serverApi.getVersion(),
+                serverApi.topMenus()))
         .containsAtLeast(
             "defaultChangeDetailHex", "8896394",
             "changeRequestsPath", "changes/project~123");
@@ -174,7 +181,14 @@ public class IndexHtmlUtilTest {
     String requestedPath = "/c/project/+/123";
     assertThat(IndexHtmlUtil.computeBasePatchNum(requestedPath)).isEqualTo(0);
 
-    assertThat(dynamicTemplateData(gerritApi, requestedPath, ""))
+    assertThat(
+            dynamicTemplateData(
+                gerritApi,
+                requestedPath,
+                "",
+                serverApi.getInfo(),
+                serverApi.getVersion(),
+                serverApi.topMenus()))
         .containsAtLeast(
             "defaultChangeDetailHex", "896394",
             "changeRequestsPath", "changes/project~123");
@@ -202,7 +216,14 @@ public class IndexHtmlUtilTest {
     String requestedPath = "/c/project/+/123";
     assertThat(IndexHtmlUtil.computeBasePatchNum(requestedPath)).isEqualTo(0);
 
-    assertThat(dynamicTemplateData(gerritApi, requestedPath, ""))
+    assertThat(
+            dynamicTemplateData(
+                gerritApi,
+                requestedPath,
+                "",
+                serverApi.getInfo(),
+                serverApi.getVersion(),
+                serverApi.topMenus()))
         .containsAtLeast(
             "defaultChangeDetailHex", "896394",
             "submitRequirementsHex", "1900000",

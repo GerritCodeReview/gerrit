@@ -32,6 +32,11 @@ import java.io.OutputStream;
 import java.net.URISyntaxException;
 import java.util.Map;
 import java.util.function.Function;
+import com.google.common.cache.Cache;
+import java.util.concurrent.ExecutionException;
+import com.google.gerrit.extensions.common.ServerInfo;
+import java.util.List;
+import com.google.gerrit.extensions.webui.TopMenu;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -48,18 +53,27 @@ public class IndexServlet extends HttpServlet {
   private final ExperimentFeatures experimentFeatures;
   private final SoySauce soySauce;
   private final Function<String, SanitizedContent> urlOrdainer;
+  private final Cache<String, ServerInfo> serverInfoCache;
+  private final Cache<String, String> serverVersionCache;
+  private final Cache<String, List<TopMenu.MenuEntry>> topMenusCache;
 
   IndexServlet(
       @Nullable String canonicalUrl,
       @Nullable String cdnPath,
       @Nullable String faviconPath,
       GerritApi gerritApi,
-      ExperimentFeatures experimentFeatures) {
+      ExperimentFeatures experimentFeatures,
+      Cache<String, ServerInfo> serverInfoCache,
+      Cache<String, String> serverVersionCache,
+      Cache<String, List<TopMenu.MenuEntry>> topMenusCache) {
     this.canonicalUrl = canonicalUrl;
     this.cdnPath = cdnPath;
     this.faviconPath = faviconPath;
     this.gerritApi = gerritApi;
     this.experimentFeatures = experimentFeatures;
+    this.serverInfoCache = serverInfoCache;
+    this.serverVersionCache = serverVersionCache;
+    this.topMenusCache = topMenusCache;
     this.soySauce =
         SoyFileSet.builder()
             .add(Resources.getResource(POLY_GERRIT_INDEX_HTML_SOY), POLY_GERRIT_INDEX_HTML_SOY)
@@ -75,6 +89,10 @@ public class IndexServlet extends HttpServlet {
   protected void doGet(HttpServletRequest req, HttpServletResponse rsp) throws IOException {
     SoySauce.Renderer renderer;
     try {
+      ServerInfo serverInfo = serverInfoCache.get("server_info", () -> gerritApi.config().server().getInfo());
+      String serverVersion = serverVersionCache.get("server_version", () -> gerritApi.config().server().getVersion());
+      List<TopMenu.MenuEntry> topMenus = topMenusCache.get("server_top_menus", () -> gerritApi.config().server().topMenus());
+
       Map<String, String[]> parameterMap = req.getParameterMap();
       // TODO(hiesel): Remove URL ordainer as parameter once Soy is consistent
       ImmutableMap<String, Object> templateData =
@@ -86,9 +104,12 @@ public class IndexServlet extends HttpServlet {
               faviconPath,
               parameterMap,
               urlOrdainer,
-              getRequestUrl(req));
+              getRequestUrl(req),
+              serverInfo,
+              serverVersion,
+              topMenus);
       renderer = soySauce.renderTemplate("com.google.gerrit.httpd.raw.Index").setData(templateData);
-    } catch (URISyntaxException | RestApiException e) {
+    } catch (URISyntaxException | RestApiException | ExecutionException e) {
       throw new IOException(e);
     }
 

@@ -30,6 +30,7 @@ import com.google.gerrit.extensions.api.accounts.AccountApi;
 import com.google.gerrit.extensions.api.config.Server;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.ListOption;
+import com.google.gerrit.extensions.common.ServerInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.httpd.raw.IndexPreloadingUtil.RequestedPage;
@@ -68,13 +69,16 @@ public class IndexHtmlUtil {
       String faviconPath,
       Map<String, String[]> urlParameterMap,
       Function<String, SanitizedContent> urlInScriptTagOrdainer,
-      String requestedURL)
+      String requestedURL,
+      ServerInfo serverInfo,
+      String serverVersion)
       throws URISyntaxException, RestApiException {
     ImmutableMap.Builder<String, Object> data = ImmutableMap.builder();
     data.putAll(
             staticTemplateData(
                 canonicalURL, cdnPath, faviconPath, urlParameterMap, urlInScriptTagOrdainer))
-        .putAll(dynamicTemplateData(gerritApi, requestedURL, canonicalURL));
+        .putAll(
+            dynamicTemplateData(gerritApi, requestedURL, canonicalURL, serverInfo, serverVersion));
     Set<String> enabledExperiments = new HashSet<>();
     enabledExperiments.addAll(experimentFeatures.getEnabledExperimentFeatures());
     // Add all experiments enabled through url
@@ -110,17 +114,20 @@ public class IndexHtmlUtil {
 
   /** Returns dynamic parameters of {@code index.html}. */
   public static ImmutableMap<String, Object> dynamicTemplateData(
-      GerritApi gerritApi, String requestedURL, String canonicalURL)
+      GerritApi gerritApi,
+      String requestedURL,
+      String canonicalURL,
+      ServerInfo serverInfo,
+      String serverVersion)
       throws RestApiException, URISyntaxException {
     ImmutableMap.Builder<String, Object> data = ImmutableMap.builder();
     Map<String, SanitizedContent> initialData = new HashMap<>();
-    Server serverApi = gerritApi.config().server();
     initialData.put(
-        addCanonicalUrl("/config/server/info", canonicalURL),
-        serializeObject(GSON, serverApi.getInfo()));
+        addCanonicalUrl("/config/server/info", canonicalURL), serializeObject(GSON, serverInfo));
     initialData.put(
         addCanonicalUrl("/config/server/version", canonicalURL),
-        serializeObject(GSON, serverApi.getVersion()));
+        serializeObject(GSON, serverVersion));
+    Server serverApi = gerritApi.config().server();
     initialData.put(
         addCanonicalUrl("/config/server/top-menus", canonicalURL),
         serializeObject(GSON, serverApi.topMenus()));

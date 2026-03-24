@@ -17,11 +17,14 @@ package com.google.gerrit.httpd.raw;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static javax.servlet.http.HttpServletResponse.SC_OK;
 
+import com.google.common.cache.Cache;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.io.Resources;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.api.GerritApi;
+import com.google.gerrit.extensions.common.ServerInfo;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.server.config.ServerConfigCacheImpl;
 import com.google.gerrit.server.experiments.ExperimentFeatures;
 import com.google.template.soy.SoyFileSet;
 import com.google.template.soy.data.SanitizedContent;
@@ -31,6 +34,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URISyntaxException;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 import java.util.function.Function;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -48,18 +52,21 @@ public class IndexServlet extends HttpServlet {
   private final ExperimentFeatures experimentFeatures;
   private final SoySauce soySauce;
   private final Function<String, SanitizedContent> urlOrdainer;
+  private final Cache<String, ServerConfigCacheImpl.ServerConfigData> serverConfigCache;
 
   IndexServlet(
       @Nullable String canonicalUrl,
       @Nullable String cdnPath,
       @Nullable String faviconPath,
       GerritApi gerritApi,
-      ExperimentFeatures experimentFeatures) {
+      ExperimentFeatures experimentFeatures,
+      Cache<String, ServerConfigCacheImpl.ServerConfigData> serverConfigCache) {
     this.canonicalUrl = canonicalUrl;
     this.cdnPath = cdnPath;
     this.faviconPath = faviconPath;
     this.gerritApi = gerritApi;
     this.experimentFeatures = experimentFeatures;
+    this.serverConfigCache = serverConfigCache;
     this.soySauce =
         SoyFileSet.builder()
             .add(Resources.getResource(POLY_GERRIT_INDEX_HTML_SOY), POLY_GERRIT_INDEX_HTML_SOY)
@@ -75,6 +82,17 @@ public class IndexServlet extends HttpServlet {
   protected void doGet(HttpServletRequest req, HttpServletResponse rsp) throws IOException {
     SoySauce.Renderer renderer;
     try {
+      ServerConfigCacheImpl.ServerConfigData configData =
+          serverConfigCache.get(
+              ServerConfigCacheImpl.SINGLETON_KEY,
+              () ->
+                  ServerConfigCacheImpl.ServerConfigData.create(
+                      gerritApi.config().server().getInfo(),
+                      gerritApi.config().server().getVersion()));
+
+      ServerInfo serverInfo = configData.serverInfo();
+      String serverVersion = configData.serverVersion();
+
       Map<String, String[]> parameterMap = req.getParameterMap();
       // TODO(hiesel): Remove URL ordainer as parameter once Soy is consistent
       ImmutableMap<String, Object> templateData =
@@ -86,10 +104,17 @@ public class IndexServlet extends HttpServlet {
               faviconPath,
               parameterMap,
               urlOrdainer,
-              getRequestUrl(req));
+              getRequestUrl(req),
+              serverInfo,
+              serverVersion);
       renderer = soySauce.renderTemplate("com.google.gerrit.httpd.raw.Index").setData(templateData);
     } catch (URISyntaxException | RestApiException e) {
       throw new IOException(e);
+    } catch (ExecutionException e) {
+      if (e.getCause() instanceof RestApiException) {
+        throw new IOException(e.getCause());
+      }
+      throw new IOException(e.getCause() != null ? e.getCause() : e);
     }
 
     rsp.setCharacterEncoding(UTF_8.name());

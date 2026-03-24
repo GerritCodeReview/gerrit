@@ -195,6 +195,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5bbf9143_509b7a6f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 18
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-03-24T13:28:39Z",
+      "side": 1,
+      "message": "😄 I misread your earlier msg. Got it.",
+      "parentUuid": "4baa09e5_cc83d006",
+      "revId": "587ff73ba591c731e669d4aa181493bfe3be897b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9500414c_e96a5e65",

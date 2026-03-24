@@ -179,6 +179,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4baa09e5_cc83d006",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 18
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-03-24T11:51:26Z",
+      "side": 1,
+      "message": "Not \"bug\" but \"debug\" info. For example, in one of the screenshots the UI displays this message: Since evaluationThreads is 0, threads \u003d CPU of the system.",
+      "parentUuid": "186d5d03_7bf3b304",
+      "revId": "587ff73ba591c731e669d4aa181493bfe3be897b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9500414c_e96a5e65",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 18
@@ -660,6 +678,30 @@
       "side": 1,
       "message": "Was expecting this comment. Intellij is not allowing me to do that. If I import it and use just a name, Intellij throws an error.",
       "parentUuid": "54e190c0_61966958",
+      "range": {
+        "startLine": 91,
+        "startChar": 7,
+        "endLine": 91,
+        "endChar": 65
+      },
+      "revId": "587ff73ba591c731e669d4aa181493bfe3be897b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aba80be8_bb361a85",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementsEvaluatorImpl.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-03-24T11:51:26Z",
+      "side": 1,
+      "message": "How can that be? IntelliJ shall know how to handle imports? Other annotations in this class are imported (like @Provides, @Singleton, etc...)\nDoes bazel build produce the same error?\nA limitation in Intellij is not a justification for suboptimal code.",
+      "parentUuid": "23bee7b3_3c64ef3f",
       "range": {
         "startLine": 91,
         "startChar": 7,

@@ -253,6 +253,7 @@ to any group).
 
 Reference-level access control is also possible.
 
+[[reference_types]]
 Permissions can be set on a single reference name to match one
 branch (e.g. `refs/heads/master`), or on a reference namespace
 (e.g. `+refs/heads/*+`) to match any branch starting with that

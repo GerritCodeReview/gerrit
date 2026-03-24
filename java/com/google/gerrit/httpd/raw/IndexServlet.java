@@ -22,6 +22,7 @@ import com.google.common.io.Resources;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.server.config.CachedServerConfig;
 import com.google.gerrit.server.experiments.ExperimentFeatures;
 import com.google.template.soy.SoyFileSet;
 import com.google.template.soy.data.SanitizedContent;
@@ -45,6 +46,7 @@ public class IndexServlet extends HttpServlet {
   @Nullable private final String cdnPath;
   @Nullable private final String faviconPath;
   private final GerritApi gerritApi;
+  private final CachedServerConfig cachedServerConfig;
   private final ExperimentFeatures experimentFeatures;
   private final SoySauce soySauce;
   private final Function<String, SanitizedContent> urlOrdainer;
@@ -54,11 +56,13 @@ public class IndexServlet extends HttpServlet {
       @Nullable String cdnPath,
       @Nullable String faviconPath,
       GerritApi gerritApi,
+      CachedServerConfig cachedServerConfig,
       ExperimentFeatures experimentFeatures) {
     this.canonicalUrl = canonicalUrl;
     this.cdnPath = cdnPath;
     this.faviconPath = faviconPath;
     this.gerritApi = gerritApi;
+    this.cachedServerConfig = cachedServerConfig;
     this.experimentFeatures = experimentFeatures;
     this.soySauce =
         SoyFileSet.builder()
@@ -80,6 +84,7 @@ public class IndexServlet extends HttpServlet {
       ImmutableMap<String, Object> templateData =
           IndexHtmlUtil.templateData(
               gerritApi,
+              cachedServerConfig,
               experimentFeatures,
               canonicalUrl,
               cdnPath,

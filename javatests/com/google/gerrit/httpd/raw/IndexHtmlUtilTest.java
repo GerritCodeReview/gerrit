@@ -24,10 +24,9 @@ import static org.mockito.Mockito.when;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.accounts.Accounts;
-import com.google.gerrit.extensions.api.config.Config;
-import com.google.gerrit.extensions.api.config.Server;
 import com.google.gerrit.extensions.common.ServerInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.server.config.CachedServerConfig;
 import com.google.template.soy.data.SanitizedContent;
 import com.google.template.soy.data.UnsafeSanitizedContentOrdainer;
 import java.util.HashMap;
@@ -129,24 +128,20 @@ public class IndexHtmlUtilTest {
     Accounts accountsApi = mock(Accounts.class);
     when(accountsApi.self()).thenThrow(new AuthException("user needs to be authenticated"));
 
-    Server serverApi = mock(Server.class);
-    when(serverApi.getVersion()).thenReturn("123");
-    when(serverApi.topMenus()).thenReturn(ImmutableList.of());
-    ServerInfo serverInfo = new ServerInfo();
-    serverInfo.defaultTheme = "my-default-theme";
-    when(serverApi.getInfo()).thenReturn(serverInfo);
-
-    Config configApi = mock(Config.class);
-    when(configApi.server()).thenReturn(serverApi);
-
     GerritApi gerritApi = mock(GerritApi.class);
     when(gerritApi.accounts()).thenReturn(accountsApi);
-    when(gerritApi.config()).thenReturn(configApi);
+
+    CachedServerConfig cachedServerConfig = mock(CachedServerConfig.class);
+    when(cachedServerConfig.getVersion()).thenReturn("123");
+    when(cachedServerConfig.topMenus()).thenReturn(ImmutableList.of());
+    ServerInfo serverInfo = new ServerInfo();
+    serverInfo.defaultTheme = "my-default-theme";
+    when(cachedServerConfig.getInfo()).thenReturn(serverInfo);
 
     String requestedPath = "/c/project/+/123/4..6";
     assertThat(IndexHtmlUtil.computeBasePatchNum(requestedPath)).isEqualTo(4);
 
-    assertThat(dynamicTemplateData(gerritApi, requestedPath, ""))
+    assertThat(dynamicTemplateData(gerritApi, cachedServerConfig, requestedPath, ""))
         .containsAtLeast(
             "defaultChangeDetailHex", "8896394",
             "changeRequestsPath", "changes/project~123");
@@ -157,24 +152,20 @@ public class IndexHtmlUtilTest {
     Accounts accountsApi = mock(Accounts.class);
     when(accountsApi.self()).thenThrow(new AuthException("user needs to be authenticated"));
 
-    Server serverApi = mock(Server.class);
-    when(serverApi.getVersion()).thenReturn("123");
-    when(serverApi.topMenus()).thenReturn(ImmutableList.of());
-    ServerInfo serverInfo = new ServerInfo();
-    serverInfo.defaultTheme = "my-default-theme";
-    when(serverApi.getInfo()).thenReturn(serverInfo);
-
-    Config configApi = mock(Config.class);
-    when(configApi.server()).thenReturn(serverApi);
-
     GerritApi gerritApi = mock(GerritApi.class);
     when(gerritApi.accounts()).thenReturn(accountsApi);
-    when(gerritApi.config()).thenReturn(configApi);
+
+    CachedServerConfig cachedServerConfig = mock(CachedServerConfig.class);
+    when(cachedServerConfig.getVersion()).thenReturn("123");
+    when(cachedServerConfig.topMenus()).thenReturn(ImmutableList.of());
+    ServerInfo serverInfo = new ServerInfo();
+    serverInfo.defaultTheme = "my-default-theme";
+    when(cachedServerConfig.getInfo()).thenReturn(serverInfo);
 
     String requestedPath = "/c/project/+/123";
     assertThat(IndexHtmlUtil.computeBasePatchNum(requestedPath)).isEqualTo(0);
 
-    assertThat(dynamicTemplateData(gerritApi, requestedPath, ""))
+    assertThat(dynamicTemplateData(gerritApi, cachedServerConfig, requestedPath, ""))
         .containsAtLeast(
             "defaultChangeDetailHex", "896394",
             "changeRequestsPath", "changes/project~123");
@@ -185,24 +176,20 @@ public class IndexHtmlUtilTest {
     Accounts accountsApi = mock(Accounts.class);
     when(accountsApi.self()).thenThrow(new AuthException("user needs to be authenticated"));
 
-    Server serverApi = mock(Server.class);
-    when(serverApi.getVersion()).thenReturn("123");
-    when(serverApi.topMenus()).thenReturn(ImmutableList.of());
-    ServerInfo serverInfo = new ServerInfo();
-    serverInfo.defaultTheme = "my-default-theme";
-    when(serverApi.getInfo()).thenReturn(serverInfo);
-
-    Config configApi = mock(Config.class);
-    when(configApi.server()).thenReturn(serverApi);
-
     GerritApi gerritApi = mock(GerritApi.class);
     when(gerritApi.accounts()).thenReturn(accountsApi);
-    when(gerritApi.config()).thenReturn(configApi);
+
+    CachedServerConfig cachedServerConfig = mock(CachedServerConfig.class);
+    when(cachedServerConfig.getVersion()).thenReturn("123");
+    when(cachedServerConfig.topMenus()).thenReturn(ImmutableList.of());
+    ServerInfo serverInfo = new ServerInfo();
+    serverInfo.defaultTheme = "my-default-theme";
+    when(cachedServerConfig.getInfo()).thenReturn(serverInfo);
 
     String requestedPath = "/c/project/+/123";
     assertThat(IndexHtmlUtil.computeBasePatchNum(requestedPath)).isEqualTo(0);
 
-    assertThat(dynamicTemplateData(gerritApi, requestedPath, ""))
+    assertThat(dynamicTemplateData(gerritApi, cachedServerConfig, requestedPath, ""))
         .containsAtLeast(
             "defaultChangeDetailHex", "896394",
             "submitRequirementsHex", "1900000",

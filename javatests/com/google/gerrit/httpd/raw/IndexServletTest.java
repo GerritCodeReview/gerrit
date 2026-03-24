@@ -26,6 +26,7 @@ import com.google.gerrit.extensions.api.config.Config;
 import com.google.gerrit.extensions.api.config.Server;
 import com.google.gerrit.extensions.common.ServerInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.server.config.CachedServerConfig;
 import com.google.gerrit.server.experiments.ConfigExperimentFeatures;
 import com.google.gerrit.server.experiments.ExperimentFeatures;
 import com.google.gerrit.server.experiments.ExperimentFeaturesConstants;
@@ -56,6 +57,11 @@ public class IndexServletTest {
     when(gerritApi.accounts()).thenReturn(accountsApi);
     when(gerritApi.config()).thenReturn(configApi);
 
+    CachedServerConfig cachedServerConfig = mock(CachedServerConfig.class);
+    when(cachedServerConfig.getVersion()).thenReturn("123");
+    when(cachedServerConfig.topMenus()).thenReturn(ImmutableList.of());
+    when(cachedServerConfig.getInfo()).thenReturn(serverInfo);
+
     String testCanonicalUrl = "foo-url";
     String testCdnPath = "bar-cdn";
     String testFaviconURL = "zaz-url";
@@ -70,7 +76,12 @@ public class IndexServletTest {
     ExperimentFeatures experimentFeatures = new ConfigExperimentFeatures(serverConfig);
     IndexServlet servlet =
         new IndexServlet(
-            testCanonicalUrl, testCdnPath, testFaviconURL, gerritApi, experimentFeatures);
+            testCanonicalUrl,
+            testCdnPath,
+            testFaviconURL,
+            gerritApi,
+            cachedServerConfig,
+            experimentFeatures);
 
     FakeHttpServletResponse response = new FakeHttpServletResponse();
 

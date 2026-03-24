@@ -274,10 +274,12 @@ public class StaticModule extends ServletModule {
         @CanonicalWebUrl @Nullable String canonicalUrl,
         @GerritServerConfig Config cfg,
         GerritApi gerritApi,
+        com.google.gerrit.server.restapi.config.CachedServerConfig cachedServerConfig,
         ExperimentFeatures experimentFeatures) {
       String cdnPath = options.devCdn().orElseGet(() -> cfg.getString("gerrit", null, "cdnPath"));
       String faviconPath = cfg.getString("gerrit", null, "faviconPath");
-      return new IndexServlet(canonicalUrl, cdnPath, faviconPath, gerritApi, experimentFeatures);
+      return new IndexServlet(
+          canonicalUrl, cdnPath, faviconPath, gerritApi, cachedServerConfig, experimentFeatures);
     }
 
     @Provides

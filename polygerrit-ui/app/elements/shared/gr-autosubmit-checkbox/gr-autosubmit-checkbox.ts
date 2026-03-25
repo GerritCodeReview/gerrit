@@ -79,7 +79,7 @@ export class GrAutosubmitCheckbox extends LitElement {
         }
         #autosubmit,
         .autosubmit-text {
-          padding-left: var(--spacing-m);
+          margin-left: var(--spacing-m);
         }
         .autosubmit-info gr-icon {
           color: var(--info-foreground);

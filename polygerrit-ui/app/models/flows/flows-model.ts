@@ -121,6 +121,7 @@ export class FlowsModel extends Model<FlowsState> {
           switchMap(([changeNum, _, enabled]) => {
             if (!changeNum || !enabled) return of([]);
             this.setState({...this.getState(), loading: true});
+            console.log('listing flows');
             return from(this.restApiService.listFlows(changeNum)).pipe(
               catchError(err => {
                 this.setState({

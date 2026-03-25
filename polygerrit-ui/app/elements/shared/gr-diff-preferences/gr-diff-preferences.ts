@@ -5,11 +5,16 @@
  */
 import '../../../styles/shared-styles';
 import '../gr-button/gr-button';
-import {DiffPreferencesInfo, IgnoreWhitespaceType} from '../../../types/diff';
+import {
+  DiffPreferencesInfo,
+  DiffResponsiveMode,
+  IgnoreWhitespaceType,
+} from '../../../types/diff';
 import {subscribe} from '../../lit/subscription-controller';
 import {grFormStyles} from '../../../styles/gr-form-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {css, html, LitElement} from 'lit';
+import {when} from 'lit/directives/when.js';
 import {customElement, query, state} from 'lit/decorators.js';
 import {convertToString} from '../../../utils/string-util';
 import {fire} from '../../../utils/event-util';
@@ -122,16 +127,46 @@ export class GrDiffPreferences extends LitElement {
             </md-outlined-select>
           </span>
         </section>
-        <section>
-          <label for="lineWrappingInput" class="title">Fit to screen</label>
-          <span class="value">
-            <md-checkbox
-              id="lineWrappingInput"
-              ?checked=${!!this.diffPrefs?.line_wrapping}
-              @change=${this.handleLineWrappingTap}
-            ></md-checkbox>
-          </span>
-        </section>
+        ${when(
+          this.diffPrefs?.responsive_mode !== undefined,
+          () => html`
+            <section>
+              <label for="lineWrappingSelect" class="title"
+                >Fit to screen</label
+              >
+              <span class="value">
+                <md-outlined-select
+                  id="lineWrappingSelect"
+                  value=${this.getResponsiveModeValue()}
+                  @change=${this.handleResponsiveModeChange}
+                >
+                  <md-select-option value="NONE">
+                    <div slot="headline">None</div>
+                  </md-select-option>
+                  <md-select-option value="SHRINK_ONLY">
+                    <div slot="headline">Shrink only</div>
+                  </md-select-option>
+                  <md-select-option value="FULL_RESPONSIVE">
+                    <div slot="headline">Full responsive</div>
+                  </md-select-option>
+                </md-outlined-select>
+              </span>
+            </section>
+          `,
+          // TODO: Remove this conditional logic once backend support is guaranteed.
+          () => html`
+            <section>
+              <label for="lineWrappingInput" class="title">Fit to screen</label>
+              <span class="value">
+                <md-checkbox
+                  id="lineWrappingInput"
+                  ?checked=${!!this.diffPrefs?.line_wrapping}
+                  @change=${this.handleLineWrappingTap}
+                ></md-checkbox>
+              </span>
+            </section>
+          `
+        )}
         <section>
           <label for="columnsInput" class="title">Diff width</label>
           <span class="value">
@@ -278,7 +313,27 @@ export class GrDiffPreferences extends LitElement {
   }
 
   private readonly handleLineWrappingTap = () => {
-    this.diffPrefs!.line_wrapping = this.lineWrappingInput!.checked;
+    if (!this.diffPrefs) return;
+    this.diffPrefs.line_wrapping = this.lineWrappingInput!.checked;
+    fire(this, 'has-unsaved-changes-changed', {
+      value: this.hasUnsavedChanges(),
+    });
+  };
+
+  private getResponsiveModeValue() {
+    if (this.diffPrefs?.responsive_mode) {
+      return this.diffPrefs.responsive_mode;
+    }
+    return this.diffPrefs?.line_wrapping ? 'FULL_RESPONSIVE' : 'NONE';
+  }
+
+  private readonly handleResponsiveModeChange = (e: Event) => {
+    if (!this.diffPrefs) return;
+    const select = e.target as MdOutlinedSelect;
+    this.diffPrefs.responsive_mode = select.value as DiffResponsiveMode;
+    // Keep line_wrapping in sync for backward compatibility.
+    this.diffPrefs.line_wrapping = select.value === 'FULL_RESPONSIVE';
+    this.requestUpdate();
     fire(this, 'has-unsaved-changes-changed', {
       value: this.hasUnsavedChanges(),
     });
@@ -344,6 +399,8 @@ export class GrDiffPreferences extends LitElement {
       this.originalDiffPrefs?.context !== this.diffPrefs?.context ||
       Boolean(this.originalDiffPrefs?.line_wrapping) !==
         Boolean(this.diffPrefs?.line_wrapping) ||
+      this.originalDiffPrefs?.responsive_mode !==
+        this.diffPrefs?.responsive_mode ||
       this.originalDiffPrefs?.line_length !== this.diffPrefs?.line_length ||
       this.originalDiffPrefs?.tab_size !== this.diffPrefs?.tab_size ||
       this.originalDiffPrefs?.font_size !== this.diffPrefs?.font_size ||

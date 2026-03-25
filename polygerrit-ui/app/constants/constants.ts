@@ -283,6 +283,7 @@ export function createDefaultDiffPrefs(): DiffPreferencesInfo {
     ignore_whitespace: 'IGNORE_NONE',
     line_length: 100,
     line_wrapping: false,
+    responsive_mode: 'NONE',
     show_line_endings: true,
     show_tabs: true,
     show_whitespace_errors: true,

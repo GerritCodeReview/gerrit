@@ -42,6 +42,12 @@ public class DiffPreferencesInfo {
     IGNORE_ALL
   }
 
+  public enum ResponsiveMode {
+    NONE,
+    SHRINK_ONLY,
+    FULL_RESPONSIVE
+  }
+
   public Integer context;
   public Integer tabSize;
   public Integer fontSize;
@@ -60,7 +66,8 @@ public class DiffPreferencesInfo {
   public Boolean renderEntireFile;
   public Boolean hideEmptyPane;
   public Boolean matchBrackets;
-  public Boolean lineWrapping;
+  @Deprecated public Boolean lineWrapping;
+  public ResponsiveMode responsiveMode;
   public Whitespace ignoreWhitespace;
   public Boolean retainHeader;
   public Boolean skipDeleted;
@@ -93,6 +100,7 @@ public class DiffPreferencesInfo {
         && equalBooleanPreferencesFields(this.hideEmptyPane, other.hideEmptyPane)
         && equalBooleanPreferencesFields(this.matchBrackets, other.matchBrackets)
         && equalBooleanPreferencesFields(this.lineWrapping, other.lineWrapping)
+        && Objects.equals(this.responsiveMode, other.responsiveMode)
         && Objects.equals(this.ignoreWhitespace, other.ignoreWhitespace)
         && equalBooleanPreferencesFields(this.retainHeader, other.retainHeader)
         && equalBooleanPreferencesFields(this.skipDeleted, other.skipDeleted)
@@ -122,6 +130,7 @@ public class DiffPreferencesInfo {
         hideEmptyPane,
         matchBrackets,
         lineWrapping,
+        responsiveMode,
         ignoreWhitespace,
         retainHeader,
         skipDeleted,
@@ -151,6 +160,7 @@ public class DiffPreferencesInfo {
         .add("hideEmptyPane", hideEmptyPane)
         .add("matchBrackets", matchBrackets)
         .add("lineWrapping", lineWrapping)
+        .add("responsiveMode", responsiveMode)
         .add("ignoreWhitespace", ignoreWhitespace)
         .add("retainHeader", retainHeader)
         .add("skipDeleted", skipDeleted)
@@ -180,6 +190,7 @@ public class DiffPreferencesInfo {
     i.hideEmptyPane = false;
     i.matchBrackets = false;
     i.lineWrapping = false;
+    i.responsiveMode = ResponsiveMode.NONE;
     i.ignoreWhitespace = Whitespace.IGNORE_NONE;
     i.retainHeader = false;
     i.skipDeleted = false;

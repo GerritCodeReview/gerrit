@@ -407,7 +407,7 @@ message UserPreferences {
   }
   optional GeneralPreferencesInfo general_preferences_info = 1;
 
-  // Next ID: 25
+  // Next ID: 26
   message DiffPreferencesInfo {
     optional int32 context = 1 [default = 10];
     optional int32 tab_size = 2 [default = 8];
@@ -441,6 +441,13 @@ message UserPreferences {
     optional bool skip_deleted = 22;
     optional bool skip_unchanged = 23;
     optional bool skip_uncommented = 24;
+
+    enum ResponsiveMode {
+      NONE = 0;
+      SHRINK_ONLY = 1;
+      FULL_RESPONSIVE = 2;
+    }
+    optional ResponsiveMode responsive_mode = 25;
   }
   optional DiffPreferencesInfo diff_preferences_info = 2;
 

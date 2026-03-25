@@ -16,6 +16,7 @@ import {
 import {DiffPreferencesInfo} from '../../../api/diff';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {assert, fixture, html} from '@open-wc/testing';
+import {MdOutlinedSelect} from '@material/web/select/outlined-select';
 
 suite('gr-diff-preferences-dialog', () => {
   let element: GrDiffPreferencesDialog;
@@ -24,7 +25,7 @@ suite('gr-diff-preferences-dialog', () => {
   setup(async () => {
     originalDiffPrefs = {
       ...createDefaultDiffPrefs(),
-      line_wrapping: true,
+      responsive_mode: 'FULL_RESPONSIVE',
     };
 
     stubRestApi('getDiffPreferences').returns(
@@ -78,6 +79,68 @@ suite('gr-diff-preferences-dialog', () => {
     element.open();
     await element.updateComplete;
     assert.isUndefined(element.diffPrefsChanged);
+    assert.equal(
+      queryAndAssert<MdOutlinedSelect>(
+        queryAndAssert(element, '#diffPreferences'),
+        '#lineWrappingSelect'
+      ).value,
+      'FULL_RESPONSIVE'
+    );
+
+    const select = queryAndAssert<MdOutlinedSelect>(
+      queryAndAssert(element, '#diffPreferences'),
+      '#lineWrappingSelect'
+    );
+    select.value = 'NONE';
+    select.dispatchEvent(new Event('change'));
+    await element.updateComplete;
+    assert.equal(
+      queryAndAssert<MdOutlinedSelect>(
+        queryAndAssert(element, '#diffPreferences'),
+        '#lineWrappingSelect'
+      ).value,
+      'NONE'
+    );
+    assert.isTrue(element.diffPrefsChanged);
+    assert.equal(originalDiffPrefs.responsive_mode, 'FULL_RESPONSIVE');
+
+    stubRestApi('saveDiffPreferences').resolves(
+      new Response(
+        makePrefixedJSON({
+          ...originalDiffPrefs,
+          responsive_mode: 'NONE',
+        })
+      )
+    );
+
+    queryAndAssert<GrButton>(element, '#saveButton').click();
+    await element.updateComplete;
+    // Original prefs must remains unchanged, dialog must expose a new object
+    assert.equal(originalDiffPrefs.responsive_mode, 'FULL_RESPONSIVE');
+    await waitUntil(() => element.diffPrefsChanged === false);
+  });
+});
+
+suite('gr-diff-preferences-dialog legacy tests', () => {
+  let element: GrDiffPreferencesDialog;
+  let legacyPrefs: DiffPreferencesInfo;
+
+  setup(async () => {
+    legacyPrefs = {
+      ...createDefaultDiffPrefs(),
+      responsive_mode: undefined,
+      line_wrapping: true,
+    };
+    stubRestApi('getDiffPreferences').returns(Promise.resolve(legacyPrefs));
+    element = await fixture<GrDiffPreferencesDialog>(html`
+      <gr-diff-preferences-dialog></gr-diff-preferences-dialog>
+    `);
+  });
+
+  test('legacy changes applies only on save', async () => {
+    element.open();
+    await element.updateComplete;
+    assert.isUndefined(element.diffPrefsChanged);
     assert.isTrue(
       queryAndAssert<HTMLInputElement>(
         queryAndAssert(element, '#diffPreferences'),
@@ -97,12 +160,12 @@ suite('gr-diff-preferences-dialog', () => {
       ).checked
     );
     assert.isTrue(element.diffPrefsChanged);
-    assert.isTrue(originalDiffPrefs.line_wrapping);
+    assert.isTrue(legacyPrefs.line_wrapping);
 
     stubRestApi('saveDiffPreferences').resolves(
       new Response(
         makePrefixedJSON({
-          ...originalDiffPrefs,
+          ...legacyPrefs,
           line_wrapping: false,
         })
       )
@@ -111,7 +174,7 @@ suite('gr-diff-preferences-dialog', () => {
     queryAndAssert<GrButton>(element, '#saveButton').click();
     await element.updateComplete;
     // Original prefs must remains unchanged, dialog must expose a new object
-    assert.isTrue(originalDiffPrefs.line_wrapping);
+    assert.isTrue(legacyPrefs.line_wrapping);
     await waitUntil(() => element.diffPrefsChanged === false);
   });
 });

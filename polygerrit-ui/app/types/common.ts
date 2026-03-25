@@ -125,7 +125,7 @@ import {
   VotingRangeInfo,
   WebLinkInfo,
 } from '../api/rest-api';
-import {DiffInfo, IgnoreWhitespaceType} from './diff';
+import {DiffInfo, DiffResponsiveMode, IgnoreWhitespaceType} from './diff';
 import {LineNumber, PatchRange} from '../api/diff';
 
 export type {
@@ -163,6 +163,7 @@ export type {
   ContextLine,
   ContributorAgreementInfo,
   DetailedLabelInfo,
+  DiffResponsiveMode,
   DownloadInfo,
   DownloadSchemeInfo,
   EditPatchSet,
@@ -1004,6 +1005,7 @@ export interface DiffPreferenceInput {
   tab_size?: number;
   font_size?: number;
   line_wrapping?: boolean;
+  responsive_mode?: DiffResponsiveMode;
   indent_with_tabs?: boolean;
 }
 

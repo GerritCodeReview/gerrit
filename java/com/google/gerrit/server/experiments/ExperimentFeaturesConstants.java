@@ -23,8 +23,13 @@ public class ExperimentFeaturesConstants {
   public static String GERRIT_BACKEND_FEATURE_ATTACH_NONCE_TO_DOCUMENTATION =
       "GerritBackendFeature__attach_nonce_to_documentation";
 
+  /** Whether the new diff responsive mode preference is enabled. */
+  public static final String GERRIT_BACKEND_FEATURE_DIFF_RESPONSIVE_MODE =
+      "GerritBackendFeature__diff_responsive_mode";
+
   /** Features, enabled by default in the current release. */
-  public static final ImmutableSet<String> DEFAULT_ENABLED_FEATURES = ImmutableSet.of();
+  public static final ImmutableSet<String> DEFAULT_ENABLED_FEATURES =
+      ImmutableSet.of(GERRIT_BACKEND_FEATURE_DIFF_RESPONSIVE_MODE);
 
   /**
    * If true, gerrit checks implicit merges on each merge operations.

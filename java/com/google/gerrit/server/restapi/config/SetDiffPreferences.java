@@ -26,6 +26,8 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.account.StoredPreferences;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.ConfigResource;
+import com.google.gerrit.server.experiments.ExperimentFeatures;
+import com.google.gerrit.server.experiments.ExperimentFeaturesConstants;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -41,12 +43,16 @@ public class SetDiffPreferences implements RestModifyView<ConfigResource, DiffPr
 
   private final Provider<MetaDataUpdate.User> metaDataUpdateFactory;
   private final AllUsersName allUsersName;
+  private final ExperimentFeatures experimentFeatures;
 
   @Inject
   SetDiffPreferences(
-      Provider<MetaDataUpdate.User> metaDataUpdateFactory, AllUsersName allUsersName) {
+      Provider<MetaDataUpdate.User> metaDataUpdateFactory,
+      AllUsersName allUsersName,
+      ExperimentFeatures experimentFeatures) {
     this.metaDataUpdateFactory = metaDataUpdateFactory;
     this.allUsersName = allUsersName;
+    this.experimentFeatures = experimentFeatures;
   }
 
   @Override
@@ -56,12 +62,24 @@ public class SetDiffPreferences implements RestModifyView<ConfigResource, DiffPr
     if (input == null) {
       throw new BadRequestException("input must be provided");
     }
+
+    if (!experimentFeatures.isFeatureEnabled(
+        ExperimentFeaturesConstants.GERRIT_BACKEND_FEATURE_DIFF_RESPONSIVE_MODE)) {
+      input.responsiveMode = null;
+    }
+
     if (!hasSetFields(input)) {
       throw new BadRequestException("unsupported option");
     }
 
     try (MetaDataUpdate md = metaDataUpdateFactory.get().create(allUsersName)) {
       DiffPreferencesInfo updatedPrefs = StoredPreferences.updateDefaultDiffPreferences(md, input);
+
+      if (!experimentFeatures.isFeatureEnabled(
+          ExperimentFeaturesConstants.GERRIT_BACKEND_FEATURE_DIFF_RESPONSIVE_MODE)) {
+        updatedPrefs.responsiveMode = null;
+      }
+
       return Response.ok(updatedPrefs);
     }
   }

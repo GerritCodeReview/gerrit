@@ -22,6 +22,8 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.config.ConfigResource;
 import com.google.gerrit.server.config.DefaultPreferencesCache;
 import com.google.gerrit.server.config.PreferencesParserUtil;
+import com.google.gerrit.server.experiments.ExperimentFeatures;
+import com.google.gerrit.server.experiments.ExperimentFeaturesConstants;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
@@ -31,17 +33,27 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 public class GetDiffPreferences implements RestReadView<ConfigResource> {
 
   private final DefaultPreferencesCache defaultPreferenceCache;
+  private final ExperimentFeatures experimentFeatures;
 
   @Inject
-  GetDiffPreferences(DefaultPreferencesCache defaultPreferenceCache) {
+  GetDiffPreferences(
+      DefaultPreferencesCache defaultPreferenceCache, ExperimentFeatures experimentFeatures) {
     this.defaultPreferenceCache = defaultPreferenceCache;
+    this.experimentFeatures = experimentFeatures;
   }
 
   @Override
   public Response<DiffPreferencesInfo> apply(ConfigResource configResource)
       throws BadRequestException, ResourceConflictException, IOException, ConfigInvalidException {
-    return Response.ok(
+    DiffPreferencesInfo prefs =
         PreferencesParserUtil.parseDiffPreferences(
-            defaultPreferenceCache.get().asConfig(), null, null));
+            defaultPreferenceCache.get().asConfig(), null, null);
+
+    if (!experimentFeatures.isFeatureEnabled(
+        ExperimentFeaturesConstants.GERRIT_BACKEND_FEATURE_DIFF_RESPONSIVE_MODE)) {
+      prefs.responsiveMode = null;
+    }
+
+    return Response.ok(prefs);
   }
 }

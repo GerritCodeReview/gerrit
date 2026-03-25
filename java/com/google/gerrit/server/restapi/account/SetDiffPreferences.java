@@ -27,6 +27,8 @@ import com.google.gerrit.server.UserInitiated;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.AccountsUpdate;
+import com.google.gerrit.server.experiments.ExperimentFeatures;
+import com.google.gerrit.server.experiments.ExperimentFeaturesConstants;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -54,15 +56,18 @@ public class SetDiffPreferences implements RestModifyView<AccountResource, DiffP
   private final Provider<CurrentUser> self;
   private final PermissionBackend permissionBackend;
   private final Provider<AccountsUpdate> accountsUpdateProvider;
+  private final ExperimentFeatures experimentFeatures;
 
   @Inject
   SetDiffPreferences(
       Provider<CurrentUser> self,
       PermissionBackend permissionBackend,
-      @UserInitiated Provider<AccountsUpdate> accountsUpdateProvider) {
+      @UserInitiated Provider<AccountsUpdate> accountsUpdateProvider,
+      ExperimentFeatures experimentFeatures) {
     this.self = self;
     this.permissionBackend = permissionBackend;
     this.accountsUpdateProvider = accountsUpdateProvider;
+    this.experimentFeatures = experimentFeatures;
   }
 
   @Override
@@ -80,12 +85,24 @@ public class SetDiffPreferences implements RestModifyView<AccountResource, DiffP
       throw new BadRequestException("input must be provided");
     }
 
+    if (!experimentFeatures.isFeatureEnabled(
+        ExperimentFeaturesConstants.GERRIT_BACKEND_FEATURE_DIFF_RESPONSIVE_MODE)) {
+      input.responsiveMode = null;
+    }
+
     Account.Id id = rsrc.getUser().getAccountId();
-    return Response.ok(
+    DiffPreferencesInfo prefs =
         accountsUpdateProvider
             .get()
             .update("Set Diff Preferences via API", id, u -> u.setDiffPreferences(input))
             .map(AccountState::diffPreferences)
-            .orElseThrow(() -> new ResourceNotFoundException(IdString.fromDecoded(id.toString()))));
+            .orElseThrow(() -> new ResourceNotFoundException(IdString.fromDecoded(id.toString())));
+
+    if (!experimentFeatures.isFeatureEnabled(
+        ExperimentFeaturesConstants.GERRIT_BACKEND_FEATURE_DIFF_RESPONSIVE_MODE)) {
+      prefs.responsiveMode = null;
+    }
+
+    return Response.ok(prefs);
   }
 }

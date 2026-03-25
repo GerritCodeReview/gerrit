@@ -25,6 +25,8 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.experiments.ExperimentFeatures;
+import com.google.gerrit.server.experiments.ExperimentFeaturesConstants;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -51,13 +53,18 @@ public class GetDiffPreferences implements RestReadView<AccountResource> {
   private final Provider<CurrentUser> self;
   private final PermissionBackend permissionBackend;
   private final AccountCache accountCache;
+  private final ExperimentFeatures experimentFeatures;
 
   @Inject
   GetDiffPreferences(
-      Provider<CurrentUser> self, PermissionBackend permissionBackend, AccountCache accountCache) {
+      Provider<CurrentUser> self,
+      PermissionBackend permissionBackend,
+      AccountCache accountCache,
+      ExperimentFeatures experimentFeatures) {
     this.self = self;
     this.permissionBackend = permissionBackend;
     this.accountCache = accountCache;
+    this.experimentFeatures = experimentFeatures;
   }
 
   @Override
@@ -68,10 +75,17 @@ public class GetDiffPreferences implements RestReadView<AccountResource> {
     }
 
     Account.Id id = rsrc.getUser().getAccountId();
-    return Response.ok(
+    DiffPreferencesInfo prefs =
         accountCache
             .get(id)
             .map(AccountState::diffPreferences)
-            .orElseThrow(() -> new ResourceNotFoundException(IdString.fromDecoded(id.toString()))));
+            .orElseThrow(() -> new ResourceNotFoundException(IdString.fromDecoded(id.toString())));
+
+    if (!experimentFeatures.isFeatureEnabled(
+        ExperimentFeaturesConstants.GERRIT_BACKEND_FEATURE_DIFF_RESPONSIVE_MODE)) {
+      prefs.responsiveMode = null;
+    }
+
+    return Response.ok(prefs);
   }
 }

@@ -19,7 +19,9 @@ import static com.google.gerrit.acceptance.PreferencesAssertionUtil.assertPrefs;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
+import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
+import com.google.gerrit.extensions.client.DiffPreferencesInfo.ResponsiveMode;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import org.junit.Test;
 
@@ -30,6 +32,12 @@ public class DiffPreferencesIT extends AbstractDaemonTest {
     DiffPreferencesInfo d = DiffPreferencesInfo.defaults();
     DiffPreferencesInfo o = gApi.accounts().id(admin.id().get()).getDiffPreferences();
     assertPrefs(o, d);
+  }
+
+  @Test
+  public void responsiveModeDefault() throws Exception {
+    DiffPreferencesInfo d = DiffPreferencesInfo.defaults();
+    assertThat(d.responsiveMode).isEqualTo(DiffPreferencesInfo.ResponsiveMode.NONE);
   }
 
   @Test
@@ -61,6 +69,7 @@ public class DiffPreferencesIT extends AbstractDaemonTest {
     i.hideEmptyPane ^= true;
     i.matchBrackets ^= true;
     i.lineWrapping ^= true;
+    i.responsiveMode = DiffPreferencesInfo.ResponsiveMode.SHRINK_ONLY;
 
     DiffPreferencesInfo o = gApi.accounts().id(admin.id().get()).setDiffPreferences(i);
     assertPrefs(o, i);
@@ -164,5 +173,32 @@ public class DiffPreferencesIT extends AbstractDaemonTest {
     a = gApi.accounts().id(admin.id().get()).getDiffPreferences();
     assertThat(a.lineLength).isEqualTo(d.lineLength);
     assertPrefs(a, d, "lineLength");
+  }
+
+  @Test
+  @GerritConfig(
+      name = "experiments.enabled",
+      value = "GerritBackendFeature__diff_responsive_mode")
+  public void responsiveModeWithFeatureFlagEnabled() throws Exception {
+    DiffPreferencesInfo i = new DiffPreferencesInfo();
+    i.responsiveMode = ResponsiveMode.SHRINK_ONLY;
+    gApi.accounts().id(admin.id().get()).setDiffPreferences(i);
+
+    DiffPreferencesInfo o = gApi.accounts().id(admin.id().get()).getDiffPreferences();
+    assertThat(o.responsiveMode).isEqualTo(ResponsiveMode.SHRINK_ONLY);
+  }
+
+  @Test
+  @GerritConfig(
+      name = "experiments.disabled",
+      value = "GerritBackendFeature__diff_responsive_mode")
+  public void responsiveModeWithFeatureFlagDisabled() throws Exception {
+    // Setting it should be ignored when flag is disabled
+    DiffPreferencesInfo i = new DiffPreferencesInfo();
+    i.responsiveMode = ResponsiveMode.SHRINK_ONLY;
+    gApi.accounts().id(admin.id().get()).setDiffPreferences(i);
+
+    DiffPreferencesInfo o = gApi.accounts().id(admin.id().get()).getDiffPreferences();
+    assertThat(o.responsiveMode).isNull();
   }
 }

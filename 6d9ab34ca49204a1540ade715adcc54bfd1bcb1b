@@ -210,6 +210,24 @@
       "parentUuid": "f69d5e45_ad83bda8",
       "revId": "6d9ab34ca49204a1540ade715adcc54bfd1bcb1b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e6cf5805_978f5081",
+        "filename": "javatests/com/google/gerrit/acceptance/server/project/SubmitRequirementsEvaluatorIT.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 1121,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-03-25T11:13:27Z",
+      "side": 1,
+      "message": "I misunderstood your earlier comment on last patchset. with just any() without cast, its complaining about which submit method to call out of those 2 mentioned above.",
+      "parentUuid": "9cd2edf0_44db462a",
+      "revId": "6d9ab34ca49204a1540ade715adcc54bfd1bcb1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

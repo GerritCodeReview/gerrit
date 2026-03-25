@@ -429,6 +429,13 @@ message UserPreferences {
     optional bool match_brackets = 18;
     optional bool line_wrapping = 19;
 
+    enum ResponsiveMode {
+      NONE = 0;
+      SHRINK_ONLY = 1;
+      FULL_RESPONSIVE = 2;
+    }
+    optional ResponsiveMode responsive_mode = 25;
+
     enum Whitespace {
       IGNORE_NONE = 0;
       IGNORE_TRAILING = 1;

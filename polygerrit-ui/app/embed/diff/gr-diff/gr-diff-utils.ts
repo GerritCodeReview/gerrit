@@ -46,6 +46,9 @@ export function getResponsiveMode(
   if (renderPrefs?.responsive_mode) {
     return renderPrefs.responsive_mode;
   }
+  if (prefs?.responsive_mode) {
+    return prefs.responsive_mode;
+  }
   // Backwards compatibility to the line_wrapping param.
   if (prefs?.line_wrapping) {
     return 'FULL_RESPONSIVE';

@@ -226,6 +226,7 @@ export declare interface DiffPreferencesInfo {
   // Hides the FILE and LOST diff rows. Default is TRUE.
   show_file_comment_button?: boolean;
   line_wrapping?: boolean;
+  responsive_mode?: DiffResponsiveMode;
 }
 
 /**

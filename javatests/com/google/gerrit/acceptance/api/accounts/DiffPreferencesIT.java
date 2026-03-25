@@ -33,6 +33,12 @@ public class DiffPreferencesIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void responsiveModeDefault() throws Exception {
+    DiffPreferencesInfo d = DiffPreferencesInfo.defaults();
+    assertThat(d.responsiveMode).isEqualTo(DiffPreferencesInfo.ResponsiveMode.NONE);
+  }
+
+  @Test
   public void setDiffPreferences() throws Exception {
     DiffPreferencesInfo i = DiffPreferencesInfo.defaults();
 
@@ -61,6 +67,7 @@ public class DiffPreferencesIT extends AbstractDaemonTest {
     i.hideEmptyPane ^= true;
     i.matchBrackets ^= true;
     i.lineWrapping ^= true;
+    i.responsiveMode = DiffPreferencesInfo.ResponsiveMode.SHRINK_ONLY;
 
     DiffPreferencesInfo o = gApi.accounts().id(admin.id().get()).setDiffPreferences(i);
     assertPrefs(o, i);

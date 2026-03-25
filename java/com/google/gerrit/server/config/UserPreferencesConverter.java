@@ -295,6 +295,12 @@ public final class UserPreferencesConverter {
       builder =
           setEnumIfNotNull(
               builder,
+              builder::setResponsiveMode,
+              UserPreferences.DiffPreferencesInfo.ResponsiveMode::valueOf,
+              info.responsiveMode);
+      builder =
+          setEnumIfNotNull(
+              builder,
               builder::setIgnoreWhitespace,
               UserPreferences.DiffPreferencesInfo.Whitespace::valueOf,
               info.ignoreWhitespace);
@@ -330,6 +336,10 @@ public final class UserPreferencesConverter {
       res.hideEmptyPane = proto.hasHideEmptyPane() ? proto.getHideEmptyPane() : null;
       res.matchBrackets = proto.hasMatchBrackets() ? proto.getMatchBrackets() : null;
       res.lineWrapping = proto.hasLineWrapping() ? proto.getLineWrapping() : null;
+      res.responsiveMode =
+          proto.hasResponsiveMode()
+              ? DiffPreferencesInfo.ResponsiveMode.valueOf(proto.getResponsiveMode().name())
+              : null;
       res.ignoreWhitespace =
           proto.hasIgnoreWhitespace()
               ? DiffPreferencesInfo.Whitespace.valueOf(proto.getIgnoreWhitespace().name())

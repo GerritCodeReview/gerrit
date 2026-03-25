@@ -19,7 +19,9 @@ import static com.google.gerrit.acceptance.PreferencesAssertionUtil.assertPrefs;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
+import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
+import com.google.gerrit.extensions.client.DiffPreferencesInfo.ResponsiveMode;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import org.junit.Test;
 
@@ -30,6 +32,12 @@ public class DiffPreferencesIT extends AbstractDaemonTest {
     DiffPreferencesInfo d = DiffPreferencesInfo.defaults();
     DiffPreferencesInfo o = gApi.accounts().id(admin.id().get()).getDiffPreferences();
     assertPrefs(o, d);
+  }
+
+  @Test
+  public void responsiveModeDefault() throws Exception {
+    DiffPreferencesInfo d = DiffPreferencesInfo.defaults();
+    assertThat(d.responsiveMode).isEqualTo(DiffPreferencesInfo.ResponsiveMode.NONE);
   }
 
   @Test
@@ -61,9 +69,11 @@ public class DiffPreferencesIT extends AbstractDaemonTest {
     i.hideEmptyPane ^= true;
     i.matchBrackets ^= true;
     i.lineWrapping ^= true;
+    i.responsiveMode = DiffPreferencesInfo.ResponsiveMode.SHRINK_ONLY;
 
     DiffPreferencesInfo o = gApi.accounts().id(admin.id().get()).setDiffPreferences(i);
     assertPrefs(o, i);
+
     // Re-getting the preferences should yield the same fields
     o = gApi.accounts().id(admin.id().get()).getDiffPreferences();
     assertPrefs(o, i);

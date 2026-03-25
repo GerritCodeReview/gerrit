@@ -84,9 +84,27 @@ suite('gr-diff-preferences tests', () => {
           </span>
         </section>
         <section>
-          <label class="title" for="lineWrappingInput"> Fit to screen </label>
+          <label class="title" for="lineWrappingSelect"> Fit to screen </label>
           <span class="value">
-            <md-checkbox id="lineWrappingInput"> </md-checkbox>
+            <md-outlined-select id="lineWrappingSelect" value="NONE">
+              <md-select-option md-menu-item="" tabindex="0" value="NONE">
+                <div slot="headline">None</div>
+              </md-select-option>
+              <md-select-option
+                md-menu-item=""
+                tabindex="-1"
+                value="SHRINK_ONLY"
+              >
+                <div slot="headline">Shrink only</div>
+              </md-select-option>
+              <md-select-option
+                md-menu-item=""
+                tabindex="-1"
+                value="FULL_RESPONSIVE"
+              >
+                <div slot="headline">Full responsive</div>
+              </md-select-option>
+            </md-outlined-select>
           </span>
         </section>
         <section>
@@ -213,8 +231,8 @@ suite('gr-diff-preferences tests', () => {
     assert.equal(contextInput.value, `${diffPreferences.context}`);
 
     const lineWrappingInput = valueOf('Fit to screen', 'diffPreferences')
-      .firstElementChild as HTMLInputElement;
-    assert.equal(lineWrappingInput.checked, diffPreferences.line_wrapping);
+      .firstElementChild as MdOutlinedSelect;
+    assert.equal(lineWrappingInput.value, diffPreferences.responsive_mode);
 
     const lineLengthInput = valueOf('Diff width', 'diffPreferences')
       .firstElementChild as MdOutlinedTextField;

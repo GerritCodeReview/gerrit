@@ -56,12 +56,14 @@ public class SetDiffPreferences implements RestModifyView<ConfigResource, DiffPr
     if (input == null) {
       throw new BadRequestException("input must be provided");
     }
+
     if (!hasSetFields(input)) {
       throw new BadRequestException("unsupported option");
     }
 
     try (MetaDataUpdate md = metaDataUpdateFactory.get().create(allUsersName)) {
       DiffPreferencesInfo updatedPrefs = StoredPreferences.updateDefaultDiffPreferences(md, input);
+
       return Response.ok(updatedPrefs);
     }
   }

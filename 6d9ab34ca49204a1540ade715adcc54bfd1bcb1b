@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "57530956_79aa802d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 23
+      },
+      "lineNbr": 6387,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-03-25T10:40:48Z",
+      "side": 1,
+      "message": "should be `\u003c 0` here or simply remove this as we all know what negative means",
+      "range": {
+        "startLine": 6387,
+        "startChar": 65,
+        "endLine": 6387,
+        "endChar": 69
+      },
+      "revId": "6d9ab34ca49204a1540ade715adcc54bfd1bcb1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d1baff21_58c30f55",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 23
+      },
+      "lineNbr": 6391,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-03-25T10:40:48Z",
+      "side": 1,
+      "message": "This is the expected behaviour and not necessary to explain here",
+      "range": {
+        "startLine": 6390,
+        "startChar": 0,
+        "endLine": 6391,
+        "endChar": 54
+      },
+      "revId": "6d9ab34ca49204a1540ade715adcc54bfd1bcb1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d434ccb1_8716e3f6",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementExecutor.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-03-25T10:40:48Z",
+      "side": 1,
+      "message": "should be 2026",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "6d9ab34ca49204a1540ade715adcc54bfd1bcb1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "544f60a2_c5d2c489",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementsEvaluatorImpl.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-03-25T10:40:48Z",
+      "side": 1,
+      "message": "Import SubmitRequirementExecutor and use non qualified name here.",
+      "revId": "6d9ab34ca49204a1540ade715adcc54bfd1bcb1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f69d5e45_ad83bda8",
+        "filename": "javatests/com/google/gerrit/acceptance/server/project/SubmitRequirementsEvaluatorIT.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 1121,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-03-25T10:40:48Z",
+      "side": 1,
+      "message": "In a previous comment you confirmed that using just `any()` here (without a cast) was enough? Remove that cast here.",
+      "revId": "6d9ab34ca49204a1540ade715adcc54bfd1bcb1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

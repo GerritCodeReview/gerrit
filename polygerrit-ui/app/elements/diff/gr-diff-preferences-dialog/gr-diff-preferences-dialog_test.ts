@@ -16,6 +16,7 @@ import {
 import {DiffPreferencesInfo} from '../../../api/diff';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {assert, fixture, html} from '@open-wc/testing';
+import {MdOutlinedSelect} from '@material/web/select/outlined-select';
 
 suite('gr-diff-preferences-dialog', () => {
   let element: GrDiffPreferencesDialog;
@@ -24,7 +25,7 @@ suite('gr-diff-preferences-dialog', () => {
   setup(async () => {
     originalDiffPrefs = {
       ...createDefaultDiffPrefs(),
-      line_wrapping: true,
+      responsive_mode: 'FULL_RESPONSIVE',
     };
 
     stubRestApi('getDiffPreferences').returns(
@@ -78,32 +79,36 @@ suite('gr-diff-preferences-dialog', () => {
     element.open();
     await element.updateComplete;
     assert.isUndefined(element.diffPrefsChanged);
-    assert.isTrue(
-      queryAndAssert<HTMLInputElement>(
+    assert.equal(
+      queryAndAssert<MdOutlinedSelect>(
         queryAndAssert(element, '#diffPreferences'),
-        '#lineWrappingInput'
-      ).checked
+        '#lineWrappingSelect'
+      ).value,
+      'FULL_RESPONSIVE'
     );
 
-    queryAndAssert<HTMLInputElement>(
+    const select = queryAndAssert<MdOutlinedSelect>(
       queryAndAssert(element, '#diffPreferences'),
-      '#lineWrappingInput'
-    ).click();
+      '#lineWrappingSelect'
+    );
+    select.value = 'NONE';
+    select.dispatchEvent(new Event('change'));
     await element.updateComplete;
-    assert.isFalse(
-      queryAndAssert<HTMLInputElement>(
+    assert.equal(
+      queryAndAssert<MdOutlinedSelect>(
         queryAndAssert(element, '#diffPreferences'),
-        '#lineWrappingInput'
-      ).checked
+        '#lineWrappingSelect'
+      ).value,
+      'NONE'
     );
     assert.isTrue(element.diffPrefsChanged);
-    assert.isTrue(originalDiffPrefs.line_wrapping);
+    assert.equal(originalDiffPrefs.responsive_mode, 'FULL_RESPONSIVE');
 
     stubRestApi('saveDiffPreferences').resolves(
       new Response(
         makePrefixedJSON({
           ...originalDiffPrefs,
-          line_wrapping: false,
+          responsive_mode: 'NONE',
         })
       )
     );
@@ -111,7 +116,7 @@ suite('gr-diff-preferences-dialog', () => {
     queryAndAssert<GrButton>(element, '#saveButton').click();
     await element.updateComplete;
     // Original prefs must remains unchanged, dialog must expose a new object
-    assert.isTrue(originalDiffPrefs.line_wrapping);
+    assert.equal(originalDiffPrefs.responsive_mode, 'FULL_RESPONSIVE');
     await waitUntil(() => element.diffPrefsChanged === false);
   });
 });

@@ -744,8 +744,7 @@ public class ChangeJson {
     out.starred = isStarredByCurrentUser(cd, user);
     out.labels = labelsJson.labelsFor(accountLoader, cd, has(LABELS), has(DETAILED_LABELS));
     if (!experimentFeatures.isFeatureEnabled(
-            SKIP_SUBMIT_RECORDS_WITHOUT_SUBMIT_REQUIREMENTS, cd.project())
-        || has(SUBMIT_REQUIREMENTS)) {
+        SKIP_SUBMIT_RECORDS_WITHOUT_SUBMIT_REQUIREMENTS, cd.project())) {
       out.requirements = requirementsFor(cd);
       out.submitRecords = submitRecordsFor(cd);
     }

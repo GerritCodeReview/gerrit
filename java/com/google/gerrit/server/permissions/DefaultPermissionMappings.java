@@ -67,11 +67,28 @@ public class DefaultPermissionMappings {
 
   static {
     checkMapContainsAllEnumValues(CAPABILITIES, GlobalPermission.class);
+    checkMapContainsAllEnumValues(PROJECT_PERMISSIONS, ProjectPermission.class);
+    checkMapContainsAllEnumValues(REF_PERMISSIONS, RefPermission.class);
+    checkMapContainsAllEnumValues(CHANGE_PERMISSIONS, ChangePermission.class);
   }
 
   private static final ImmutableBiMap<ProjectPermission, String> PROJECT_PERMISSIONS =
       ImmutableBiMap.<ProjectPermission, String>builder()
+          .put(ProjectPermission.ACCESS, "access")
           .put(ProjectPermission.READ, Permission.READ)
+          .put(ProjectPermission.CREATE_REF, "createRef")
+          .put(ProjectPermission.CREATE_TAG_REF, "createTagRef")
+          .put(ProjectPermission.CREATE_CHANGE, "createChange")
+          .put(ProjectPermission.RUN_RECEIVE_PACK, "runReceivePack")
+          .put(ProjectPermission.RUN_UPLOAD_PACK, "runUploadPack")
+          .put(ProjectPermission.READ_CONFIG, "readConfig")
+          .put(ProjectPermission.WRITE_CONFIG, "writeConfig")
+          .put(ProjectPermission.BAN_COMMIT, "banCommit")
+          .put(ProjectPermission.READ_REFLOG, "readReflog")
+          .put(ProjectPermission.PUSH_AT_LEAST_ONE_REF, "pushAtLeastOneRef")
+          .put(
+              ProjectPermission.UPDATE_CONFIG_WITHOUT_CREATING_CHANGE,
+              "updateConfigWithoutCreatingChange")
           .build();
 
   private static final ImmutableBiMap<RefPermission, String> REF_PERMISSIONS =
@@ -80,24 +97,36 @@ public class DefaultPermissionMappings {
           .put(RefPermission.CREATE, Permission.CREATE)
           .put(RefPermission.DELETE, Permission.DELETE)
           .put(RefPermission.UPDATE, Permission.PUSH)
+          .put(RefPermission.FORCE_UPDATE, "forceUpdate")
+          .put(RefPermission.SET_HEAD, "setHead")
           .put(RefPermission.FORGE_AUTHOR, Permission.FORGE_AUTHOR)
           .put(RefPermission.FORGE_COMMITTER, Permission.FORGE_COMMITTER)
           .put(RefPermission.FORGE_SERVER, Permission.FORGE_SERVER)
+          .put(RefPermission.MERGE, Permission.PUSH_MERGE)
+          .put(RefPermission.SKIP_VALIDATION, "skipValidation")
+          .put(RefPermission.CREATE_CHANGE, "createChange")
           .put(RefPermission.CREATE_TAG, Permission.CREATE_TAG)
           .put(RefPermission.CREATE_SIGNED_TAG, Permission.CREATE_SIGNED_TAG)
+          .put(RefPermission.UPDATE_BY_SUBMIT, "updateBySubmit")
           .put(RefPermission.READ_PRIVATE_CHANGES, Permission.VIEW_PRIVATE_CHANGES)
+          .put(RefPermission.READ_CONFIG, "readConfig")
+          .put(RefPermission.WRITE_CONFIG, "writeConfig")
           .build();
 
   private static final ImmutableBiMap<ChangePermission, String> CHANGE_PERMISSIONS =
       ImmutableBiMap.<ChangePermission, String>builder()
           .put(ChangePermission.READ, Permission.READ)
+          .put(ChangePermission.RESTORE, "restore")
+          .put(ChangePermission.DELETE, Permission.DELETE)
           .put(ChangePermission.ABANDON, Permission.ABANDON)
+          .put(ChangePermission.EDIT_DESCRIPTION, "editDescription")
           .put(ChangePermission.EDIT_CUSTOM_KEYED_VALUES, Permission.EDIT_CUSTOM_KEYED_VALUES)
           .put(ChangePermission.EDIT_HASHTAGS, Permission.EDIT_HASHTAGS)
           .put(ChangePermission.EDIT_TOPIC_NAME, Permission.EDIT_TOPIC_NAME)
           .put(ChangePermission.REMOVE_REVIEWER, Permission.REMOVE_REVIEWER)
           .put(ChangePermission.ADD_PATCH_SET, Permission.ADD_PATCH_SET)
           .put(ChangePermission.REBASE, Permission.REBASE)
+          .put(ChangePermission.REBASE_ON_BEHALF_OF_UPLOADER, "rebaseOnBehalfOfUploader")
           .put(ChangePermission.REVERT, Permission.REVERT)
           .put(ChangePermission.SUBMIT, Permission.SUBMIT)
           .put(ChangePermission.SUBMIT_AS, Permission.SUBMIT_AS)

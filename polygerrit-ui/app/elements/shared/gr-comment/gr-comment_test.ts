@@ -1087,41 +1087,6 @@ suite('gr-comment tests', () => {
       );
     });
 
-    test('editing draft comment preserves fix suggestion', async () => {
-      const comment: DraftInfo = {
-        ...createDraft(),
-        author: {
-          name: 'Mr. Peanutbutter',
-          email: 'tenn1sballchaser@aol.com' as EmailAddress,
-        },
-        line: 5,
-        path: 'test',
-        savingState: SavingState.OK,
-        message: 'hello world',
-        fix_suggestions: [generatedFixSuggestion],
-      };
-      element = await fixture(
-        html`<gr-comment
-          .account=${account}
-          .showPatchset=${true}
-          .comment=${comment}
-          .initiallyCollapsed=${false}
-        ></gr-comment>`
-      );
-      assert.isFalse(element.editing);
-
-      element.edit();
-      await element.updateComplete;
-
-      assert.isTrue(element.editing);
-      assert.deepEqual(element.generatedFixSuggestion, generatedFixSuggestion);
-      assert.deepEqual(
-        element.previewedGeneratedFixSuggestion,
-        generatedFixSuggestion
-      );
-      assert.isTrue(element.generateSuggestion);
-    });
-
     suite('save', () => {
       const savePromise = mockPromise<DraftInfo>();
       let saveDraftStub: SinonStub;

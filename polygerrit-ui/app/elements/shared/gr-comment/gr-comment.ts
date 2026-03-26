@@ -1476,11 +1476,6 @@ export class GrComment extends LitElement {
         this.originalMessage = this.messageText;
         this.originalUnresolved = this.unresolved;
       }
-      if (this.comment?.fix_suggestions?.[0]) {
-        this.generatedFixSuggestion = this.comment.fix_suggestions[0];
-        this.previewedGeneratedFixSuggestion = this.comment.fix_suggestions[0];
-        this.generateSuggestion = true;
-      }
     }
 
     // Parent components such as the reply dialog might be interested in whether

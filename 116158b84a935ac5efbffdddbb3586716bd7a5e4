@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "20ab8b8c_94f65ce0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-03-26T18:09:50Z",
+      "side": 1,
+      "message": "Thanks for contributing!",
+      "revId": "116158b84a935ac5efbffdddbb3586716bd7a5e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eb451eaa_07bf61aa",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1473,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-03-26T18:09:50Z",
+      "side": 1,
+      "message": "Can you please run the code formatter on the files you modified? See https://gerrit-review.googlesource.com/Documentation/dev-crafting-changes.html#style",
+      "revId": "116158b84a935ac5efbffdddbb3586716bd7a5e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8ba199a8_a1ac256d",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1478,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-03-26T18:09:50Z",
+      "side": 1,
+      "message": "I think you want to use `cmdLineParser.wasHelpRequestedByOption()` here.\n\nIf you can, it would be nice to replace the current `parsePushOptions()` method with functionality from `cmdLineParser`.",
+      "revId": "116158b84a935ac5efbffdddbb3586716bd7a5e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0328f2bb_d95c5b51",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1864,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-03-26T18:09:50Z",
+      "side": 1,
+      "message": "I think we want a base class that\u0027s shared by both `RegularBranchInput` and `MagicBranchInput`. If `RegularBranchInput` is always a subset, then that can be the base, but you shouldn\u0027t duplicate code between them.",
+      "revId": "116158b84a935ac5efbffdddbb3586716bd7a5e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c9472438_38e89b59",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-03-26T18:47:26Z",
+      "side": 1,
+      "message": "Were you able to verify this locally?",
+      "revId": "7aca65d5223e8819682b6c7c9018286766a79537",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "91b100df_25985bd2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown/gr-dropdown.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-03-26T18:47:26Z",
+      "side": 1,
+      "message": "We can probably leave off this comment because it could easily become obsolete since nothing prevents them from diverging.",
+      "range": {
+        "startLine": 68,
+        "startChar": 0,
+        "endLine": 68,
+        "endChar": 53
+      },
+      "revId": "7aca65d5223e8819682b6c7c9018286766a79537",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

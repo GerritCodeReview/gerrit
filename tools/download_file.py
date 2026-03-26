@@ -89,7 +89,7 @@ args = parser.parse_args()
 root_dir = args.o
 while root_dir and path.dirname(root_dir) != root_dir:
     root_dir, n = path.split(root_dir)
-    if n == 'WORKSPACE':
+    if n == 'MODULE.bazel':
         break
 
 redirects = download_properties(root_dir)

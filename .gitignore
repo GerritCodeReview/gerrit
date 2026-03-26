@@ -57,7 +57,6 @@ js-to-ts.sh
 !/plugins/commit-message-length-validator
 !/plugins/delete-project
 !/plugins/download-commands
-!/plugins/external_plugin_deps.bzl
 !/plugins/gitiles
 !/plugins/hooks
 !/plugins/plugin-manager

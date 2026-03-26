@@ -86,11 +86,11 @@ parser.add_argument('-x', action='append', help='file to delete from ZIP')
 parser.add_argument('--exclude_java_sources', action='store_true')
 args = parser.parse_args()
 
-root_dir = args.o
+root_dir = path.abspath(path.dirname(args.o))
 while root_dir and path.dirname(root_dir) != root_dir:
-    root_dir, n = path.split(root_dir)
-    if n == 'WORKSPACE':
+    if path.exists(path.join(root_dir, 'MODULE.bazel')):
         break
+    root_dir = path.dirname(root_dir)
 
 redirects = download_properties(root_dir)
 cache_ent = cache_entry(args)

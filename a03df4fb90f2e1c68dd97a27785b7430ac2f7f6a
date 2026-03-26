@@ -16,6 +16,24 @@
       "message": "@luca.milanesio@gmail.com this got reverted on master [1].\nShould we revert this too?\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/565663",
       "revId": "a03df4fb90f2e1c68dd97a27785b7430ac2f7f6a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "51aa8033_307efa4e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2026-03-26T12:55:17Z",
+      "side": 1,
+      "message": "Yes.",
+      "parentUuid": "8c2d6d36_5d6853ee",
+      "revId": "a03df4fb90f2e1c68dd97a27785b7430ac2f7f6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

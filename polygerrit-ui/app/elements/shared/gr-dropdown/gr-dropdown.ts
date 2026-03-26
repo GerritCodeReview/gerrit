@@ -65,6 +65,10 @@ export class GrDropdown extends LitElement {
           text-decoration: none;
           width: 100%;
         }
+        .dropdown-menu {
+          position: relative;
+          z-index: 120;
+        }
         .dropdown-content {
           min-width: 112px;
           max-width: 280px;
@@ -268,32 +272,34 @@ export class GrDropdown extends LitElement {
       >
         <slot></slot>
       </gr-button>
-      <md-menu
-        default-focus="none"
-        id="dropdown"
-        anchor="trigger"
-        tabindex="-1"
-        .menuCorner=${this.horizontalAlign === 'left'
-          ? 'start-start'
-          : this.horizontalAlign === 'center'
-          ? 'start-end'
-          : 'end-start'}
-        .yOffset=${this.verticalOffset}
-        ?quick=${true}
-        .skipRestoreFocus=${true}
-        @opened=${() => {
-          this.opened = true;
-        }}
-        @closing=${this.handleMenuClosing}
-        @closed=${() => {
-          this.opened = false;
-          this.hadKeyboardEvent = false;
-          // This is an ugly hack but works.
-          this.cursor.target?.removeAttribute('selected');
-        }}
-      >
-        ${this.renderDropdownContent()}
-      </md-menu>
+      <div class="dropdown-menu">
+        <md-menu
+          default-focus="none"
+          id="dropdown"
+          anchor="trigger"
+          tabindex="-1"
+          .menuCorner=${this.horizontalAlign === 'left'
+            ? 'start-start'
+            : this.horizontalAlign === 'center'
+            ? 'start-end'
+            : 'end-start'}
+          .yOffset=${this.verticalOffset}
+          ?quick=${true}
+          .skipRestoreFocus=${true}
+          @opened=${() => {
+            this.opened = true;
+          }}
+          @closing=${this.handleMenuClosing}
+          @closed=${() => {
+            this.opened = false;
+            this.hadKeyboardEvent = false;
+            // This is an ugly hack but works.
+            this.cursor.target?.removeAttribute('selected');
+          }}
+        >
+          ${this.renderDropdownContent()}
+        </md-menu>
+      </div>
     </div>`;
   }
 

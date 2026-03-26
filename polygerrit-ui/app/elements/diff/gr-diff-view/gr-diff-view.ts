@@ -533,6 +533,7 @@ export class GrDiffView extends LitElement {
         .headerLeft {
           display: flex;
           align-items: center;
+          min-width: 0;
         }
         gr-patch-range-select {
           display: block;

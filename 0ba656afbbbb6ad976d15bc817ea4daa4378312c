@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9035a84a_124581df",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3757754
+      },
+      "writtenOn": "2026-03-26T06:14:31Z",
+      "side": 1,
+      "message": "@nasser.grainawi@oss.qualcomm.com Please find your comments addressed in patchset 2",
+      "revId": "0ba656afbbbb6ad976d15bc817ea4daa4378312c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

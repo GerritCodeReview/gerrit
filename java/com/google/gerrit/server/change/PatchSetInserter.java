@@ -475,6 +475,7 @@ public class PatchSetInserter implements BatchUpdateOp {
             ctx.getRevWalk().getObjectReader(),
             commitId,
             ctx.getIdentifiedUser(),
+            origNotes.getChange().getCherryPickOf(),
             diffOperationsForCommitValidationFactory.create(
                 ctx.getRepoView(), ctx.getInserter()))) {
       if (!validate) {

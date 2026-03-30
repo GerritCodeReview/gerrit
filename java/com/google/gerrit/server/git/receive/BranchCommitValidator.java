@@ -182,6 +182,7 @@ public class BranchCommitValidator {
               objectReader,
               commit,
               user,
+              change != null ? change.getCherryPickOf() : null,
               diffOperationsForCommitValidation)) {
         CommitValidators validators;
         if (isMerged) {

@@ -707,6 +707,7 @@ public class ChangeInserter implements InsertChangeOp {
             ctx.getRevWalk().getObjectReader(),
             commitId,
             ctx.getIdentifiedUser(),
+            change.getCherryPickOf(),
             diffOperationsForCommitValidationFactory.create(
                 ctx.getRepoView(), ctx.getInserter()))) {
       if (!validate) {

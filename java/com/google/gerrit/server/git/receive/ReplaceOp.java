@@ -284,8 +284,8 @@ public class ReplaceOp implements BatchUpdateOp {
               ctx.getRevWalk().getObjectReader(),
               commitId,
               ctx.getIdentifiedUser(),
-              diffOperationsForCommitValidationFactory.create(
-                  ctx.getRepoView(), ctx.getInserter()))) {
+              diffOperationsForCommitValidationFactory.create(ctx.getRepoView(), ctx.getInserter()),
+              change.getCherryPickOf())) {
         commitValidationInfoListeners.runEach(
             commitValidationInfoListener ->
                 commitValidationInfoListener.commitValidated(validationInfos, event, patchSetId));

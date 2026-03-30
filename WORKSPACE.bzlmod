@@ -29,6 +29,8 @@ load("//plugins:external_plugin_deps.bzl", "external_plugin_deps")
 
 http_archive(
     name = "build_bazel_rules_nodejs",
+    patch_args = ["-p1"],
+    patches = ["//tools/bzl/patches:rules_nodejs_5_8_5_bazel8.patch"],
     sha256 = "a1295b168f183218bc88117cf00674bcd102498f294086ff58318f830dd9d9d1",
     urls = ["https://github.com/bazelbuild/rules_nodejs/releases/download/5.8.5/rules_nodejs-5.8.5.tar.gz"],
 )

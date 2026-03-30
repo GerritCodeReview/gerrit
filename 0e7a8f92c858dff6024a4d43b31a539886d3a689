@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b8e502b8_4be9b2df",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-03-30T15:56:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a81b1600_ae8efaf7",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 12
+      },
+      "revId": "0e7a8f92c858dff6024a4d43b31a539886d3a689",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "421621d6_6e5841d3",
@@ -61,6 +85,24 @@
       "writtenOn": "2026-01-08T22:37:11Z",
       "side": 1,
       "message": "@thomas.draebing@sap.com I add you as reviewer to webhook-plugin change.",
+      "revId": "0e7a8f92c858dff6024a4d43b31a539886d3a689",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d4d6de48_12b53e64",
+        "filename": "plugins/webhooks",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-03-30T15:56:44Z",
+      "side": 1,
+      "message": "Not applicable any more.",
+      "parentUuid": "421621d6_6e5841d3",
       "revId": "0e7a8f92c858dff6024a4d43b31a539886d3a689",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -1,7 +1,7 @@
 # Plugin packaging support kept outside the root module declaration:
 # - bazlets dependency pin
 # - generated Gerrit API version repo for artifact versioning and stamping
-GERRIT_VERSION = "3.14.0-rc0"
+GERRIT_VERSION = "3.14.0-rc1"
 
 bazel_dep(name = "com_googlesource_gerrit_bazlets")
 git_override(

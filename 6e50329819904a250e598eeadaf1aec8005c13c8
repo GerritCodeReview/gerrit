@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f9e9dd5f_c613d9ec",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1483,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-03-30T11:21:56Z",
+      "side": 0,
+      "message": "this code would normally have triggered even when the user was saving a comment\n\nIs that intentional?\n\nMaybe this code should only run when `isSaving(this.comment)` is false similar to the code above?",
+      "range": {
+        "startLine": 1479,
+        "startChar": 0,
+        "endLine": 1483,
+        "endChar": 7
+      },
+      "revId": "6e50329819904a250e598eeadaf1aec8005c13c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

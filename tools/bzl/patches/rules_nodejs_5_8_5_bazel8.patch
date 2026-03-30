@@ -1,0 +1,87 @@
+diff --git aa/internal/common/copy_to_bin.bzl bb/internal/common/copy_to_bin.bzl
+index 88ce33e..905be56 100755
+--- aa/internal/common/copy_to_bin.bzl
++++ bb/internal/common/copy_to_bin.bzl
+@@ -58,7 +58,7 @@ def copy_to_bin(name, srcs, **kwargs):
+         name = name,
+         srcs = srcs,
+         is_windows = select({
+-            "@bazel_tools//src/conditions:host_windows": True,
++            "@platforms//os:windows": True,
+             "//conditions:default": False,
+         }),
+         **kwargs
+diff --git aa/internal/common/params_file.bzl bb/internal/common/params_file.bzl
+index 7a3ee6c..a1ee07f 100755
+--- aa/internal/common/params_file.bzl
++++ bb/internal/common/params_file.bzl
+@@ -125,7 +125,7 @@ def params_file(
+         data = data,
+         newline = newline or "auto",
+         is_windows = select({
+-            "@bazel_tools//src/conditions:host_windows": True,
++            "@platforms//os:windows": True,
+             "//conditions:default": False,
+         }),
+         **kwargs
+diff --git aa/internal/js_library/js_library.bzl bb/internal/js_library/js_library.bzl
+index d387f94..bbfad21 100755
+--- aa/internal/js_library/js_library.bzl
++++ bb/internal/js_library/js_library.bzl
+@@ -417,7 +417,7 @@ def js_library(
+         # TODO: remove once legacy module_mapping is removed
+         module_name = package_name if package_name != "$node_modules$" else None,
+         is_windows = select({
+-            "@bazel_tools//src/conditions:host_windows": True,
++            "@platforms//os:windows": True,
+             "//conditions:default": False,
+         }),
+         **kwargs
+diff --git aa/internal/linker/npm_link.bzl bb/internal/linker/npm_link.bzl
+index 29a4b65..a673ce9 100755
+--- aa/internal/linker/npm_link.bzl
++++ bb/internal/linker/npm_link.bzl
+@@ -151,7 +151,7 @@ set to the target's package & the files provided from the targets DefaultInfo.
+         package_name = package_name,
+         package_path = package_path,
+         is_windows = select({
+-            "@bazel_tools//src/conditions:host_windows": True,
++            "@platforms//os:windows": True,
+             "//conditions:default": False,
+         }),
+         **kwargs
+diff --git aa/internal/pkg_npm/pkg_npm.bzl bb/internal/pkg_npm/pkg_npm.bzl
+index dbd3f1e..edcb93f 100755
+--- aa/internal/pkg_npm/pkg_npm.bzl
++++ bb/internal/pkg_npm/pkg_npm.bzl
+@@ -373,7 +373,7 @@ def pkg_npm_macro(name, tgz = None, **kwargs):
+     native.alias(
+         name = name + ".pack",
+         actual = select({
+-            "@bazel_tools//src/conditions:host_windows": name + ".pack.bat",
++            "@platforms//os:windows": name + ".pack.bat",
+             "//conditions:default": name + ".pack.sh",
+         }),
+     )
+@@ -381,7 +381,7 @@ def pkg_npm_macro(name, tgz = None, **kwargs):
+     native.alias(
+         name = name + ".publish",
+         actual = select({
+-            "@bazel_tools//src/conditions:host_windows": name + ".publish.bat",
++            "@platforms//os:windows": name + ".publish.bat",
+             "//conditions:default": name + ".publish.sh",
+         }),
+     )
+diff --git aa/third_party/github.com/bazelbuild/bazel-skylib/rules/private/copy_file_private.bzl bb/third_party/github.com/bazelbuild/bazel-skylib/rules/private/copy_file_private.bzl
+index 8b19fba..d8e68be 100755
+--- aa/third_party/github.com/bazelbuild/bazel-skylib/rules/private/copy_file_private.bzl
++++ bb/third_party/github.com/bazelbuild/bazel-skylib/rules/private/copy_file_private.bzl
+@@ -203,7 +203,7 @@ def copy_file(name, src, out, is_directory = False, is_executable = False, allow
+         src = src,
+         out = out,
+         is_windows = select({
+-            "@bazel_tools//src/conditions:host_windows": True,
++            "@platforms//os:windows": True,
+             "//conditions:default": False,
+         }),
+         is_executable = is_executable,

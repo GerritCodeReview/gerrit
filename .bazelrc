@@ -1,10 +1,14 @@
 # TODO(davido): Migrate all dependencies from WORKSPACE to MODULE.bazel
 # https://issues.gerritcodereview.com/issues/303819949
+# Remove hybrid mode option once bzlmod migration is completed
+common --enable_workspace
 common --enable_bzlmod --lockfile_mode=error
 common --incompatible_enable_proto_toolchain_resolution
 common --@protobuf//bazel/toolchains:prefer_prebuilt_protoc
 # Enable Gerrit-tree-only plugin checks (standalone plugin builds skip them).
 common --@com_googlesource_gerrit_bazlets//flags:in_gerrit_tree=true
+common --incompatible_disallow_struct_provider_syntax=false
+common --incompatible_disallow_empty_glob=false
 
 build --workspace_status_command="python3 ./tools/workspace_status.py"
 build --repository_cache=~/.gerritcodereview/bazel-cache/repository

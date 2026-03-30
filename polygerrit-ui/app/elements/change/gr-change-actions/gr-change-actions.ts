@@ -2104,6 +2104,9 @@ export class GrChangeActions
         break;
       }
       default:
+        if (isQuickApproveAction(action)) {
+          this.getPluginLoader().jsApiService.handleReplySent();
+        }
         this.getChangeModel().navigateToChangeResetReload();
         break;
     }

@@ -16,6 +16,23 @@
       "message": "Hey @milutin@google.com, do you mind giving LC+1 to this cherry-pick to 3.14 as well? thanks!",
       "revId": "a3a0b15f823f245e568ada1cf47fa039cedf035a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a93c9556_f15fd7dc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-03-30T09:49:25Z",
+      "side": 1,
+      "message": "I believe moving to Java 25 is fine and desirable for master, which is heading to Gerrit 3.15. Isn\u0027t it too late in the game for Gerrit 3.14, though?",
+      "revId": "a3a0b15f823f245e568ada1cf47fa039cedf035a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

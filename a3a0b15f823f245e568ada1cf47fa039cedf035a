@@ -51,6 +51,24 @@
       "parentUuid": "a93c9556_f15fd7dc",
       "revId": "a3a0b15f823f245e568ada1cf47fa039cedf035a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "26a2792e_bf229dc0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-03-30T10:07:07Z",
+      "side": 1,
+      "message": "Ack, I was misled by the commit message.\n\nCan we incorporate this information into the cherry-picked change commit message to clarify?",
+      "parentUuid": "901f8974_f149a49c",
+      "revId": "a3a0b15f823f245e568ada1cf47fa039cedf035a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

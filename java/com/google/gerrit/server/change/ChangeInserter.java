@@ -639,9 +639,54 @@ public class ChangeInserter implements InsertChangeOp {
   }
 
   private void validate(RepoContext ctx) throws IOException, ResourceConflictException {
+<<<<<<< HEAD   (c66b85ebebc3a9932ec78a1571d33fa638ba9a77 Fix properly closing a popup under a plugin)
     if (!validate) {
       return;
     }
+||||||| BASE   (f1fcfe070d9aeeb3f18066cf12698073ddd7fcbd Merge "Revert "Preserve fix suggestion when editing draft co)
+    try (CommitReceivedEvent event =
+        new CommitReceivedEvent(
+            cmd,
+            projectState.getProject(),
+            change.getDest().branch(),
+            validationOptions,
+            ctx.getRepoView().getConfig(),
+            ctx.getRevWalk().getObjectReader(),
+            commitId,
+            ctx.getIdentifiedUser(),
+            diffOperationsForCommitValidationFactory.create(
+                ctx.getRepoView(), ctx.getInserter()))) {
+      if (!validate) {
+        if (validationInfos != null) {
+          commitValidationInfoListeners.runEach(
+              commitValidationInfoListener ->
+                  commitValidationInfoListener.commitValidated(validationInfos, event, psId));
+        }
+        return;
+      }
+=======
+    try (CommitReceivedEvent event =
+        new CommitReceivedEvent(
+            cmd,
+            projectState.getProject(),
+            change.getDest().branch(),
+            validationOptions,
+            ctx.getRepoView().getConfig(),
+            ctx.getRevWalk().getObjectReader(),
+            commitId,
+            ctx.getIdentifiedUser(),
+            change.getCherryPickOf(),
+            diffOperationsForCommitValidationFactory.create(
+                ctx.getRepoView(), ctx.getInserter()))) {
+      if (!validate) {
+        if (validationInfos != null) {
+          commitValidationInfoListeners.runEach(
+              commitValidationInfoListener ->
+                  commitValidationInfoListener.commitValidated(validationInfos, event, psId));
+        }
+        return;
+      }
+>>>>>>> CHANGE (3299370ab5fc387bc7bbebb4a5390812e00d5d2d Expose cherryPickOf in CommitReceivedEvent)
 
     try {
       try (CommitReceivedEvent event =

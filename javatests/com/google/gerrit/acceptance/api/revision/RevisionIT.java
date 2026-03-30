@@ -837,6 +837,63 @@ public class RevisionIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void cherryPickSetsCherryPickOfInCommitReceivedEvent() throws Exception {
+    PushOneCommit.Result r = createChange();
+    CherryPickInput in = new CherryPickInput();
+    in.destination = "foo";
+    in.message = "cherry-pick";
+    gApi.projects().name(project.get()).branch(in.destination).create(new BranchInput());
+
+    TestCommitValidationListener testCommitValidationListener = new TestCommitValidationListener();
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(testCommitValidationListener)) {
+      gApi.changes().id(r.getChangeId()).current().cherryPick(in);
+      assertThat(testCommitValidationListener.receiveEvent.cherryPickOf)
+          .isEqualTo(PatchSet.id(r.getChange().getId(), 1));
+    }
+  }
+
+  @Test
+  public void regularPushDoesNotSetCherryPickOfInCommitReceivedEvent() throws Exception {
+    TestCommitValidationListener testCommitValidationListener = new TestCommitValidationListener();
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(testCommitValidationListener)) {
+      createChange();
+      assertThat(testCommitValidationListener.receiveEvent.cherryPickOf).isNull();
+    }
+  }
+
+  @Test
+  public void pushNewPatchSetToCherryPickedChangeSetsCherryPickOfInCommitReceivedEvent()
+      throws Exception {
+    // Create a change on master.
+    PushOneCommit.Result r = createChange();
+    Change.Id origChangeId = r.getChange().getId();
+
+    // Create branch foo and cherry-pick the change to it.
+    BranchInput branchInput = new BranchInput();
+    branchInput.revision = r.getCommit().getParent(0).name();
+    gApi.projects().name(project.get()).branch("foo").create(branchInput);
+
+    CherryPickInput cherryPickInput = new CherryPickInput();
+    cherryPickInput.destination = "foo";
+    cherryPickInput.message = r.getCommit().getFullMessage();
+    ChangeApi cherryPicked =
+        gApi.changes().id(r.getChangeId()).current().cherryPick(cherryPickInput);
+    String cherryPickedChangeId = cherryPicked.get().changeId;
+
+    // Push a new patchset to the cherry-picked change and verify that cherryPickOf is set
+    // in the CommitReceivedEvent during push validation.
+    TestCommitValidationListener testCommitValidationListener = new TestCommitValidationListener();
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(testCommitValidationListener)) {
+      amendChange(cherryPickedChangeId, "refs/for/foo", admin, testRepo);
+      assertThat(testCommitValidationListener.receiveEvent.cherryPickOf)
+          .isEqualTo(PatchSet.id(origChangeId, 1));
+    }
+  }
+
+  @Test
   public void cherryPickToExistingChangeUpdatesCherryPickOf() throws Exception {
     PushOneCommit.Result r1 =
         pushFactory

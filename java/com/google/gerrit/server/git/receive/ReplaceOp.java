@@ -254,6 +254,49 @@ public class ReplaceOp implements BatchUpdateOp {
 
     cmd = new ReceiveCommand(ObjectId.zeroId(), commitId, patchSetId.toRefName());
     ctx.addRefUpdate(cmd);
+<<<<<<< HEAD   (c66b85ebebc3a9932ec78a1571d33fa638ba9a77 Fix properly closing a popup under a plugin)
+||||||| BASE   (f1fcfe070d9aeeb3f18066cf12698073ddd7fcbd Merge "Revert "Preserve fix suggestion when editing draft co)
+
+    if (validationInfos != null) {
+      try (CommitReceivedEvent event =
+          new CommitReceivedEvent(
+              cmd,
+              projectState.getProject(),
+              change.getDest().branch(),
+              pushOptions,
+              ctx.getRepoView().getConfig(),
+              ctx.getRevWalk().getObjectReader(),
+              commitId,
+              ctx.getIdentifiedUser(),
+              diffOperationsForCommitValidationFactory.create(
+                  ctx.getRepoView(), ctx.getInserter()))) {
+        commitValidationInfoListeners.runEach(
+            commitValidationInfoListener ->
+                commitValidationInfoListener.commitValidated(validationInfos, event, patchSetId));
+      }
+    }
+=======
+
+    if (validationInfos != null) {
+      try (CommitReceivedEvent event =
+          new CommitReceivedEvent(
+              cmd,
+              projectState.getProject(),
+              change.getDest().branch(),
+              pushOptions,
+              ctx.getRepoView().getConfig(),
+              ctx.getRevWalk().getObjectReader(),
+              commitId,
+              ctx.getIdentifiedUser(),
+              change.getCherryPickOf(),
+              diffOperationsForCommitValidationFactory.create(
+                  ctx.getRepoView(), ctx.getInserter()))) {
+        commitValidationInfoListeners.runEach(
+            commitValidationInfoListener ->
+                commitValidationInfoListener.commitValidated(validationInfos, event, patchSetId));
+      }
+    }
+>>>>>>> CHANGE (3299370ab5fc387bc7bbebb4a5390812e00d5d2d Expose cherryPickOf in CommitReceivedEvent)
   }
 
   @Override

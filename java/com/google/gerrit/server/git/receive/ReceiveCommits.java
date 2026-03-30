@@ -2655,6 +2655,22 @@ class ReceiveCommits {
                 "Creating new change for %s even though it is already tracked", name);
           }
 
+<<<<<<< HEAD   (c66b85ebebc3a9932ec78a1571d33fa638ba9a77 Fix properly closing a popup under a plugin)
+||||||| BASE   (f1fcfe070d9aeeb3f18066cf12698073ddd7fcbd Merge "Revert "Preserve fix suggestion when editing draft co)
+          // Validate the received commits. Do not invoke the CommitValidationInfoListener's yet
+          // because we create changes/patch-sets for the commits only later and we need to provide
+          // the patch set ID, that we don't know yet, to CommitValidationInfoListener's.
+=======
+          Change change = null;
+          ChangeLookup lookup = pending.get(c);
+          if (lookup.changeKey != null && lookup.destChanges.size() == 1) {
+            change = lookup.destChanges.getFirst().change();
+          }
+
+          // Validate the received commits. Do not invoke the CommitValidationInfoListener's yet
+          // because we create changes/patch-sets for the commits only later and we need to provide
+          // the patch set ID, that we don't know yet, to CommitValidationInfoListener's.
+>>>>>>> CHANGE (3299370ab5fc387bc7bbebb4a5390812e00d5d2d Expose cherryPickOf in CommitReceivedEvent)
           BranchCommitValidator.Result validationResult =
               validator.validateCommit(
                   repo,
@@ -2666,7 +2682,17 @@ class ReceiveCommits {
                   ImmutableListMultimap.copyOf(pushOptions),
                   magicBranch.merged,
                   rejectCommits,
+<<<<<<< HEAD   (c66b85ebebc3a9932ec78a1571d33fa638ba9a77 Fix properly closing a popup under a plugin)
                   null);
+||||||| BASE   (f1fcfe070d9aeeb3f18066cf12698073ddd7fcbd Merge "Revert "Preserve fix suggestion when editing draft co)
+                  /* invokeCommitValidationInfoListeners= */ false,
+                  /* change= */ null);
+          validationInfosByCommit.put(c.name(), validationResult.validationInfos());
+=======
+                  /* invokeCommitValidationInfoListeners= */ false,
+                  change);
+          validationInfosByCommit.put(c.name(), validationResult.validationInfos());
+>>>>>>> CHANGE (3299370ab5fc387bc7bbebb4a5390812e00d5d2d Expose cherryPickOf in CommitReceivedEvent)
           messages.addAll(validationResult.messages());
           if (!validationResult.isValid()) {
             // Not a change the user can propose? Abort as early as possible.

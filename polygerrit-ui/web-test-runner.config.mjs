@@ -26,17 +26,20 @@ function testRunnerHtmlFactory(prefix) {
 }
 
 function getModulesDir() {
-  return runUnderBazel
-    ? [
-      path.join(process.cwd(), 'external/plugins_npm/node_modules'),
-      path.join(process.cwd(), 'external/ui_npm/node_modules'),
-      path.join(process.cwd(), 'external/ui_dev_npm/node_modules'),
-    ]
-    : [
+  if (!runUnderBazel) {
+    return [
       path.join(process.cwd(), 'plugins/node_modules'),
       path.join(process.cwd(), 'app/node_modules'),
       path.join(process.cwd(), 'node_modules'),
     ];
+  }
+
+  const runfilesRoot = path.dirname(process.cwd());
+  return [
+    path.join(runfilesRoot, 'plugins_npm', 'node_modules'),
+    path.join(runfilesRoot, 'ui_npm', 'node_modules'),
+    path.join(runfilesRoot, 'ui_dev_npm', 'node_modules'),
+  ];
 }
 
 function getArgValue(flag) {

@@ -456,18 +456,72 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
   }
 
   @Test
-  public void subscriptionDeepRelative() throws Exception {
+  public void subscriptionRelative() throws Exception {
     Project.NameKey nest = createProjectForPush(getSubmitType());
     TestRepository<?> subRepo = cloneProject(nest);
     // master is allowed to be subscribed to any superprojects branch:
     allowMatchingSubmoduleSubscription(nest, "refs/heads/master", superKey, null);
 
     pushChangeTo(subRepo, "master");
-    createRelativeSubmoduleSubscription(superRepo, "master", "../", nest, "master");
+    createSubmoduleSubscription(superRepo, "master", "../" + nest, nest, "master");
 
     ObjectId subHEAD = pushChangeTo(subRepo, "master");
 
     expectToHaveSubmoduleState(superRepo, "master", nest, subHEAD);
+  }
+
+  @Test
+  public void subscriptionNonRootRelative() throws Exception {
+    // Check that relative projects names work, even if ../../ doesn't reach the
+    // root.
+    Project.NameKey superKey =
+        projectOperations.newProject().name("path/to/super").submitType(getSubmitType()).create();
+    grantPush(superKey);
+    Project.NameKey subKey =
+        projectOperations.newProject().name("path/other/sub").submitType(getSubmitType()).create();
+    grantPush(subKey);
+
+    TestRepository<?> superRepo = cloneProject(superKey);
+    TestRepository<?> subRepo = cloneProject(subKey);
+    // master is allowed to be subscribed to any superprojects branch:
+    allowMatchingSubmoduleSubscription(subKey, "refs/heads/master", superKey, null);
+
+    pushChangeTo(subRepo, "master");
+    createSubmoduleSubscription(superRepo, "master", "../../other/sub", subKey, "master");
+
+    ObjectId subHEAD = pushChangeTo(subRepo, "master");
+
+    expectToHaveSubmoduleState(superRepo, "master", subKey, subHEAD);
+  }
+
+  @Test
+  public void subscriptionRelativeStartsWithParent() throws Exception {
+    // Check that relative projects names has to start with ../ to avoid
+    // confusion if the subRepo name is super.git/sub.git or super/sub.git.
+    Project.NameKey subKey =
+        projectOperations.newProject().name(superKey + "/sub").submitType(getSubmitType()).create();
+    grantPush(subKey);
+
+    TestRepository<?> subRepo = cloneProject(subKey);
+    // master is allowed to be subscribed to any superprojects branch:
+    allowMatchingSubmoduleSubscription(subKey, "refs/heads/master", superKey, null);
+
+    // Create the submodule via an initial subscription.
+    createSubmoduleSubscription(superRepo, "master", "../" + superKey + "/sub", subKey, "master");
+    ObjectId subHEAD = pushChangeTo(subRepo, "master");
+    expectToHaveSubmoduleState(superRepo, "master", subKey, subHEAD);
+
+    ObjectId subHEADbeforeSubscribing = pushChangeTo(subRepo, "master");
+
+    deleteAllSubscriptions(superRepo, "master");
+    createSubmoduleSubscription(superRepo, "master", "./sub", subKey, "master");
+    pushChangeTo(subRepo, "master");
+    expectToHaveSubmoduleState(superRepo, "master", subKey, subHEADbeforeSubscribing);
+
+    deleteAllSubscriptions(superRepo, "master");
+    createSubmoduleSubscription(superRepo, "master", "sub", subKey, "master");
+    pushChangeTo(subRepo, "master");
+    expectToHaveSubmoduleState(superRepo, "master", subKey, subHEADbeforeSubscribing);
   }
 
   @Test

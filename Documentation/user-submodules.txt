@@ -220,35 +220,50 @@ can use relative submodules. This means that instead of providing the
 entire URL to the submodule a relative path is stated in the
 .gitmodules file.
 
-Gerrit will try to match the entire project name of the submodule
-including directories. Therefore it is important to supply the full
-path name of the Gerrit project, not only relative to the super
-repository. See the following example:
+For Gerrit to use relative project name matching, the project path need to
+start with "../". Otherwise, Gerrit wouldn't know if the path would be
+"super/sub" or "super.git/sub". See the following example:
 
 We have a super repository placed under a sub directory.
 
   product/super_repository.git
 
-To this repository we wish add a submodule "deeper" into the directory
-structure.
+To this repository we wish add two submodules.
 
   product/framework/subcomponent.git
+  product/super_repository/deeper.git
 
-Now we need to edit the .gitmodules to include the complete path to
-the Gerrit project. Observe that we need to use two "../" to include
-the complete Gerrit project path.
-
-  path = subcomponent.git
-  url = ../../product/framework/subcomponent.git
-  branch = master
-
-In contrast the following will not setup proper submodule
-subscription, even if the submodule will be successfully cloned by git
-from Gerrit.
+Now we need to edit the .gitmodules to include relative paths to
+the Gerrit project. Observe that the paths need to start with "../".
 
   path = subcomponent.git
   url = ../framework/subcomponent.git
   branch = master
+
+  path = deeper.git
+  url = ../super_repository/deeper.git
+  branch = .
+
+The following urls also work.
+
+  path = subcomponent.git
+  url = ../../product/framework/subcomponent.git
+  branch = .
+
+  path = deeper.git
+  url = ../../product/super_repository/deeper.git
+  branch = master
+
+In contrast the following urls will not setup proper submodule
+subscription.
+
+  path = subcomponent.git
+  url = deeper.git
+  branch = .
+
+  path = subcomponent.git
+  url = ./deeper.git
+  branch = .
 
 == Removing Subscriptions
 

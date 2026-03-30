@@ -242,30 +242,16 @@ public abstract class AbstractSubmoduleSubscription extends AbstractDaemonTest {
     pushSubmoduleConfig(repo, branch, config);
   }
 
-  protected void createRelativeSubmoduleSubscription(
+  protected void createSubmoduleSubscription(
       TestRepository<?> repo,
       String branch,
-      String subscribeToRepoPrefix,
+      String url,
       Project.NameKey subscribeToRepo,
       String subscribeToBranch)
       throws Exception {
     Config config = new Config();
-    prepareRelativeSubmoduleConfigEntry(
-        config, subscribeToRepoPrefix, subscribeToRepo, subscribeToBranch);
+    prepareSubmoduleConfigEntry(config, url, subscribeToRepo, subscribeToBranch);
     pushSubmoduleConfig(repo, branch, config);
-  }
-
-  protected void prepareRelativeSubmoduleConfigEntry(
-      Config config,
-      String subscribeToRepoPrefix,
-      Project.NameKey subscribeToRepo,
-      String subscribeToBranch) {
-    String url = subscribeToRepoPrefix + subscribeToRepo.get();
-    config.setString("submodule", subscribeToRepo.get(), "path", subscribeToRepo.get());
-    config.setString("submodule", subscribeToRepo.get(), "url", url);
-    if (subscribeToBranch != null) {
-      config.setString("submodule", subscribeToRepo.get(), "branch", subscribeToBranch);
-    }
   }
 
   protected void prepareSubmoduleConfigEntry(
@@ -285,8 +271,16 @@ public abstract class AbstractSubmoduleSubscription extends AbstractDaemonTest {
     // detect if it's configured for automatic updates. It doesn't matter if
     // it serves from that URL.
     String url = cfg.getString("gerrit", null, "canonicalWebUrl") + "/" + subscribeToRepo;
+    prepareSubmoduleConfigEntry(config, url, subscribeToRepo, subscribeToBranch);
+  }
+
+  protected void prepareSubmoduleConfigEntry(
+      Config config,
+      String subscribeToUrl,
+      Project.NameKey subscribeToRepoPath,
+      String subscribeToBranch) {
     config.setString("submodule", subscribeToRepoPath.get(), "path", subscribeToRepoPath.get());
-    config.setString("submodule", subscribeToRepoPath.get(), "url", url);
+    config.setString("submodule", subscribeToRepoPath.get(), "url", subscribeToUrl);
     if (subscribeToBranch != null) {
       config.setString("submodule", subscribeToRepoPath.get(), "branch", subscribeToBranch);
     }

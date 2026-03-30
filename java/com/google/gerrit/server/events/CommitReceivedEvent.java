@@ -15,6 +15,8 @@
 package com.google.gerrit.server.events;
 
 import com.google.common.collect.ImmutableListMultimap;
+import com.google.gerrit.common.Nullable;
+import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.patch.DiffOperationsForCommitValidation;
@@ -44,6 +46,9 @@ public class CommitReceivedEvent extends RefEvent implements AutoCloseable {
    */
   public DiffOperationsForCommitValidation diffOperations;
 
+  /** The source change and patch set that this commit was cherry-picked from */
+  @Nullable public PatchSet.Id cherryPickOf;
+
   public CommitReceivedEvent() {
     super(TYPE);
   }
@@ -57,7 +62,8 @@ public class CommitReceivedEvent extends RefEvent implements AutoCloseable {
       ObjectReader reader,
       ObjectId commitId,
       IdentifiedUser user,
-      DiffOperationsForCommitValidation diffOperations)
+      DiffOperationsForCommitValidation diffOperations,
+      @Nullable PatchSet.Id cherryPickOf)
       throws IOException {
     this();
     this.command = command;
@@ -69,6 +75,7 @@ public class CommitReceivedEvent extends RefEvent implements AutoCloseable {
     this.commit = revWalk.parseCommit(commitId);
     this.user = user;
     this.diffOperations = diffOperations;
+    this.cherryPickOf = cherryPickOf;
     revWalk.parseBody(commit);
   }
 

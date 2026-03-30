@@ -33,6 +33,24 @@
       "message": "I believe moving to Java 25 is fine and desirable for master, which is heading to Gerrit 3.15. Isn\u0027t it too late in the game for Gerrit 3.14, though?",
       "revId": "a3a0b15f823f245e568ada1cf47fa039cedf035a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "901f8974_f149a49c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-03-30T10:04:25Z",
+      "side": 1,
+      "message": "The commit message is quite confusing. This change does not modify anything related to Java itself; it only addresses some build-time warnings.\n\nAlso, change 539509, which updates the target Java bytecode version to Java 25, is still pending approval and has not yet been merged into Gerrit HEAD.",
+      "parentUuid": "a93c9556_f15fd7dc",
+      "revId": "a3a0b15f823f245e568ada1cf47fa039cedf035a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

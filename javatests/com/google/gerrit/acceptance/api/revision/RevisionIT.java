@@ -954,6 +954,33 @@ public class RevisionIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void cherryPickSetsCherryPickOfInCommitReceivedEvent() throws Exception {
+    PushOneCommit.Result r = createChange();
+    CherryPickInput in = new CherryPickInput();
+    in.destination = "foo";
+    in.message = "cherry-pick";
+    gApi.projects().name(project.get()).branch(in.destination).create(new BranchInput());
+
+    TestCommitValidationListener testCommitValidationListener = new TestCommitValidationListener();
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(testCommitValidationListener)) {
+      gApi.changes().id(r.getChangeId()).current().cherryPick(in);
+      assertThat(testCommitValidationListener.receiveEvent.cherryPickOf)
+          .isEqualTo(PatchSet.id(r.getChange().getId(), 1));
+    }
+  }
+
+  @Test
+  public void regularPushDoesNotSetCherryPickOfInCommitReceivedEvent() throws Exception {
+    TestCommitValidationListener testCommitValidationListener = new TestCommitValidationListener();
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(testCommitValidationListener)) {
+      createChange();
+      assertThat(testCommitValidationListener.receiveEvent.cherryPickOf).isNull();
+    }
+  }
+
+  @Test
   public void cherryPickToExistingChangeUpdatesCherryPickOf() throws Exception {
     PushOneCommit.Result r1 =
         pushFactory

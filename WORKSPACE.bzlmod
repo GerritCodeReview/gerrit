@@ -27,10 +27,16 @@ workspace(
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 load("//plugins:external_plugin_deps.bzl", "external_plugin_deps")
 
+# TODO(davido): Remove after upstream Bazel 8 fix lands in rules_nodejs.
+# Uses fork replacing deprecated host_* constraints to silence Bazel 8 warnings.
+# https://github.com/bazel-contrib/rules_nodejs/pull/3909
 http_archive(
     name = "build_bazel_rules_nodejs",
-    sha256 = "a1295b168f183218bc88117cf00674bcd102498f294086ff58318f830dd9d9d1",
-    urls = ["https://github.com/bazelbuild/rules_nodejs/releases/download/5.8.5/rules_nodejs-5.8.5.tar.gz"],
+    sha256 = "7e48a3a8229381cad0c4b319a2497287ff5f8d35270e9c77804c67c4e2462432",
+    strip_prefix = "rules_nodejs-a66fc4faa359baac6fdef43a4272f83c48539cf9",
+    urls = [
+        "https://github.com/davido/rules_nodejs/archive/a66fc4faa359baac6fdef43a4272f83c48539cf9.tar.gz",
+    ],
 )
 
 load("@build_bazel_rules_nodejs//:repositories.bzl", "build_bazel_rules_nodejs_dependencies")

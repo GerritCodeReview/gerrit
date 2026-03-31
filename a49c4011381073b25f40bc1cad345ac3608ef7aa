@@ -16,6 +16,24 @@
       "message": "Requires fix for aspect_rules_js: https://github.com/aspect-build/rules_js/pull/2403\n\nPlugin builds not yet working.",
       "revId": "a49c4011381073b25f40bc1cad345ac3608ef7aa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5fd21b7e_20492381",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-03-31T13:12:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cbc319d7_3b6fe836",
+      "revId": "a49c4011381073b25f40bc1cad345ac3608ef7aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

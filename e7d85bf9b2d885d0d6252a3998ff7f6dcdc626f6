@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5c5ea7ac_98f14fdf",
+        "filename": "tools/node_tools/node_modules_licenses/BUILD",
+        "patchSetId": 31
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-03-31T13:12:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ab4ef38e_a81e1390",
+      "range": {
+        "startLine": 6,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 1
+      },
+      "revId": "e7d85bf9b2d885d0d6252a3998ff7f6dcdc626f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0586bb29_74513259",
@@ -37,6 +61,30 @@
       "writtenOn": "2025-12-19T08:39:02Z",
       "side": 1,
       "message": "This rule is failing due to dependency/type issues. @thomasmulhall410@yahoo.com could you have a look?",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 1
+      },
+      "revId": "e7d85bf9b2d885d0d6252a3998ff7f6dcdc626f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "40f563ba_5b74e255",
+        "filename": "tools/node_tools/polygerrit_app_preprocessor/BUILD",
+        "patchSetId": 31
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-03-31T13:12:10Z",
+      "side": 1,
+      "message": "This is not applicable any more.",
+      "parentUuid": "0586bb29_74513259",
       "range": {
         "startLine": 7,
         "startChar": 0,

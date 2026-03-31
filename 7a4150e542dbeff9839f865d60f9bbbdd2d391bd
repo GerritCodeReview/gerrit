@@ -16,6 +16,24 @@
       "message": "I think this broke the dropdown?\n\nIt\u0027s now a big distance (gap): https://postimg.cc/njjzZB13",
       "revId": "7a4150e542dbeff9839f865d60f9bbbdd2d391bd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "27e2b082_5f44a3ce",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-03-31T12:03:18Z",
+      "side": 1,
+      "message": "Can you please roll this back?",
+      "parentUuid": "9001b4da_2fd1939a",
+      "revId": "7a4150e542dbeff9839f865d60f9bbbdd2d391bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

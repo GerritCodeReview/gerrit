@@ -5,6 +5,7 @@ load(
     _gerrit_js_bundle = "gerrit_js_bundle",
     _js_component = "js_component",
 )
+load("@rules_shell//shell:sh_test.bzl", "sh_test")
 
 gerrit_js_bundle = _gerrit_js_bundle
 js_component = _js_component
@@ -26,7 +27,7 @@ def web_test_runner(name, srcs, data):
       data: The bundle of JavaScript files with the tests included.
     """
 
-    native.sh_test(
+    sh_test(
         name = name,
         size = "enormous",
         srcs = srcs,

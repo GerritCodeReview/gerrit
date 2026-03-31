@@ -1,3 +1,4 @@
+load("@rules_java//java:defs.bzl", "java_library")
 load("//javatests/com/google/gerrit/acceptance:tests.bzl", "acceptance_tests")
 
 acceptance_tests(

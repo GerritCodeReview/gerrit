@@ -1,3 +1,5 @@
+load("@rules_shell//shell:sh_test.bzl", "sh_test")
+
 filegroup(
     name = "server",
     srcs = glob(

@@ -728,9 +728,9 @@ public final class GerritLauncher {
         throw new FileNotFoundException("Cannot extract path from " + u);
       }
 
-      // Pop up to the top-level source folder by looking for WORKSPACE.
+      // Pop up to the top-level source folder by looking for MODULE.bazel.
       dir = Path.of(u.getPath());
-      while (!Files.isRegularFile(dir.resolve("WORKSPACE"))) {
+      while (!Files.isRegularFile(dir.resolve("MODULE.bazel"))) {
         Path parent = dir.getParent();
         if (parent == null) {
           throw new FileNotFoundException("Cannot find source root from " + u);

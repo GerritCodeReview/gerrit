@@ -74,7 +74,7 @@ prolog-cafeteria
 prolog-compiler
 prolog-io
 prolog-runtime
-protobuf-java
+protobuf-java-4.35.0-RC1
 reload4j
 RoaringBitmap
 shims

@@ -3154,6 +3154,9 @@ class ReceiveCommits {
           }
 
           bu.setNotify(magicBranch.getNotifyForNewChange());
+          logger.atFine().log(
+              "Inserting change with reviewers %s and ccs %s",
+              magicBranch.getReviewers(), magicBranch.getCcs());
           bu.insertChange(
               ins.setReviewersAndCcsAsStrings(magicBranch.getReviewers(), magicBranch.getCcs())
                   .setApprovals(approvals)

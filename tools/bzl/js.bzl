@@ -1,3 +1,5 @@
+load("@rules_shell//shell:sh_test.bzl", "sh_test")
+
 def web_test_runner(name, srcs, data):
     """Creates a Web Test Runner test target.
 
@@ -15,7 +17,7 @@ def web_test_runner(name, srcs, data):
       data: The bundle of JavaScript files with the tests included.
     """
 
-    native.sh_test(
+    sh_test(
         name = name,
         size = "enormous",
         srcs = srcs,

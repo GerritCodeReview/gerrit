@@ -36,6 +36,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "afbdffdb_fa1ef69e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-03-31T13:09:19Z",
+      "side": 1,
+      "message": "Thank you for bringing these modes to Gerrit! It looks good - there are also already good reviewer comments.",
+      "revId": "74a432bee29139dfa29a5d4e1446eb13a0e25039",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2096a4c2_ffcde6e9",

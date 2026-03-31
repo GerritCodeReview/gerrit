@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "123037de_ac3a1d80",
+        "filename": "java/com/google/gerrit/server/events/CommitReceivedEvent.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-03-31T16:11:00Z",
+      "side": 1,
+      "message": "Can you move this just below line 40?\n```suggestion\n  /** The source change and patch set that this commit was cherry-picked from (if any) */\n  @Nullable public PatchSet.Id cherryPickOf;\n```",
+      "range": {
+        "startLine": 49,
+        "startChar": 0,
+        "endLine": 50,
+        "endChar": 44
+      },
+      "revId": "8573569276d7925dc9b598131dd6f891efbf8ded",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

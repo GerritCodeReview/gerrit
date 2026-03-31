@@ -269,7 +269,7 @@ cd reviewers
 bazel build reviewers
 ----
 
-=== Managing external dependencies using `external_plugin_deps.bzl` ===
+== Managing external dependencies using `external_plugin_deps.bzl` ==
 
 [NOTE]
 This functionality has been deprecated.

@@ -809,15 +809,15 @@ gcloud alpha remote-build-execution worker-pools create default \
     --disk-size=200
 ```
 
-Note, that we are using Ubuntu2204 docker image from bazel project:
+Note, that we are using Ubuntu2404 docker image from bazel project:
 
 
 ```
-docker pull gcr.io/bazel-public/ubuntu2204-java17@sha256:ffe37746a34537d8e73cef5a20ccd3a4e3ec7af3e7410cba87387ba97c0e520f
+docker pull gcr.io/bazel-public/ubuntu2404@sha256:a5e969f2208ae4ab3cbe18cd85971f1f602345a650495674736a66b3ef9a55d1
 ```
 
 Re-build rbe_autoconfig project, conduct a new release and switch to using it
-in `WORKSPACE` file. For more details see this
+in `MODULE.bazel` file. For more details see this
 link:https://github.com/davido/rbe_autoconfig[repository,role=external,window=_blank]
 
 Note, to authenticate to the gcr.io registry, the following command must be

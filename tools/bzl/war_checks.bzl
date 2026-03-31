@@ -1,3 +1,5 @@
+load("@rules_shell//shell:sh_test.bzl", "sh_test")
+
 """Reusable checks for WAR content guardrails."""
 
 def war_jars_allowlist_test(name, war_jars_manifest, allowlist, **kwargs):
@@ -9,7 +11,7 @@ def war_jars_allowlist_test(name, war_jars_manifest, allowlist, **kwargs):
         allowlist: label of the checked-in allowlist file
         **kwargs: forwarded to sh_test
     """
-    native.sh_test(
+    sh_test(
         name = name,
         srcs = ["//tools/bzl:diff_allowlist.sh"],
         args = [

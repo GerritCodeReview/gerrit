@@ -46,6 +46,30 @@
       },
       "revId": "23872fcbc966962dd3742fc4f4428310f4c106d3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "99656a4d_9b2a7648",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1283,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-04-01T09:37:11Z",
+      "side": 0,
+      "message": "\u003e we are checking previewedGeneratedFixSuggestion\n\nHow?\n\nCan you add how it works to the commit message?\n\n\u003e once we get suggestion we call autosave.\n\nSGTM\n\nSpecify in the commit message as well that there will no impact for the user.",
+      "parentUuid": "bd372a69_efffc1cf",
+      "range": {
+        "startLine": 1276,
+        "startChar": 0,
+        "endLine": 1283,
+        "endChar": 3
+      },
+      "revId": "23872fcbc966962dd3742fc4f4428310f4c106d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

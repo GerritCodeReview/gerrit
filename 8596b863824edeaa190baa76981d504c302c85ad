@@ -1,0 +1,124 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f56dfb54_aa9924b2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-04-01T16:31:55Z",
+      "side": 1,
+      "message": "You\u0027re also updating the tests, but you don\u0027t mention that. Can you include that in the commit message please?",
+      "revId": "8596b863824edeaa190baa76981d504c302c85ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d3f43788_c4c40de4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-04-01T16:31:55Z",
+      "side": 1,
+      "message": "```suggestion\nRelease-Notes: Fixed submodule subscription docs for relative URLs\nChange-Id: I4c860ceed1deebca48d76ec33a104ca554405152\n```",
+      "revId": "8596b863824edeaa190baa76981d504c302c85ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "600e1190_c917b02e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-04-01T16:31:55Z",
+      "side": 1,
+      "message": "Looks like the tests in `javatests/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsWholeTopicMergeIT.java` are failing. Do those need updates?",
+      "revId": "8596b863824edeaa190baa76981d504c302c85ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ad10dc49_aeef714b",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-04-01T16:31:55Z",
+      "side": 1,
+      "message": "```suggestion\nNow we need to edit the `.gitmodules` file to include relative paths to\n```",
+      "range": {
+        "startLine": 236,
+        "startChar": 25,
+        "endLine": 236,
+        "endChar": 36
+      },
+      "revId": "8596b863824edeaa190baa76981d504c302c85ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "42ee96fd_171066cf",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-04-01T16:31:55Z",
+      "side": 1,
+      "message": "Can you use `----` code fences and complete gitmodules syntax here (and below for the other gitmodules examples) so that it\u0027s easier for a user to get it right?\n```suggestion\n.product/super_repository.git .gitmodules\n----\n  [submodule \"framework/subcomponent\"]\n    path \u003d subcomponent.git\n    url \u003d ../framework/subcomponent.git\n    branch \u003d master\n\n  [submodule \"super_repository/deeper\"]\n    path \u003d deeper.git\n    url \u003d ../super_repository/deeper.git\n    branch \u003d .\n----\n```",
+      "range": {
+        "startLine": 238,
+        "startChar": 0,
+        "endLine": 245,
+        "endChar": 12
+      },
+      "revId": "8596b863824edeaa190baa76981d504c302c85ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "04eeb050_9f50f790",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-04-01T16:31:55Z",
+      "side": 1,
+      "message": "For this one, you should probably have a file heading that clearly states it\u0027s wrong\n```\n.INCORRECT .gitmodules\n----\n\u003cconfig\u003e\n----\n```",
+      "range": {
+        "startLine": 260,
+        "startChar": 0,
+        "endLine": 266,
+        "endChar": 12
+      },
+      "revId": "8596b863824edeaa190baa76981d504c302c85ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -55,6 +55,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ad8475c9_de515f1c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-04-01T06:35:15Z",
+      "side": 1,
+      "message": "Removing Spam",
+      "parentUuid": "9a679997_34a43987",
+      "revId": "5914a9c3abcc24781067778c94873dbbbcfb7ed1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a9db13b5_6f85ecc4",
         "filename": "java/com/google/gerrit/server/index/change/ChangeIndexer.java",
         "patchSetId": 2

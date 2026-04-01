@@ -161,6 +161,7 @@ export class GrDiffCheckResult extends LitElement {
         div.tags {
           display: flex;
           justify-content: flex-start;
+          align-items: center;
         }
         div.actions {
           display: flex;

@@ -767,6 +767,9 @@ export class GrResultExpanded extends LitElement {
         .ai-generated {
           font-weight: var(--font-weight-medium);
         }
+        .header-content {
+          margin-bottom: var(--spacing-m);
+        }
       `,
     ];
   }
@@ -774,9 +777,11 @@ export class GrResultExpanded extends LitElement {
   override render() {
     if (!this.result) return '';
     return html`
-      ${this.renderFirstPrimaryLink()} ${this.renderOtherPrimaryLinks()}
-      ${this.renderSecondaryLinks()} ${this.renderCodePointers()}
-      ${this.renderAiLabel()}
+      <div class="header-content">
+        ${this.renderFirstPrimaryLink()} ${this.renderOtherPrimaryLinks()}
+        ${this.renderSecondaryLinks()} ${this.renderCodePointers()}
+        ${this.renderAiLabel()}
+      </div>
       <gr-endpoint-decorator
         name="check-result-expanded"
         .targetPlugin=${this.result.pluginName}

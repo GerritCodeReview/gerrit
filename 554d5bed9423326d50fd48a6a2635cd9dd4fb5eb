@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1ea7d013_8a78ad2d",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-04-01T19:34:27Z",
+      "side": 1,
+      "message": "Please fix this WARNING reported by autoreview_issue_finding: Since these lifecycle methods now only call `super`, they can be safely removed.\n\nSince these lifecycle methods now only call `super`, they can be safely removed.",
+      "range": {
+        "startLine": 153,
+        "startChar": 0,
+        "endLine": 153,
+        "endChar": 0
+      },
+      "revId": "554d5bed9423326d50fd48a6a2635cd9dd4fb5eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3b1a647a_57446b6a",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-04-01T19:34:27Z",
+      "side": 1,
+      "message": "Please fix this WARNING reported by autoreview_issue_finding: Since background reloading has been removed, `isBackgroundReload` is never `true`. You can remove this parameter and the `if (!isBackgroundReload)` check on line 380.\n\nSince background reloading has been removed, `isBackgroundReload` is never `true`. You can remove this parameter and the `if (!isBackgroundReload)` check on line 380.",
+      "range": {
+        "startLine": 369,
+        "startChar": 0,
+        "endLine": 369,
+        "endChar": 0
+      },
+      "revId": "554d5bed9423326d50fd48a6a2635cd9dd4fb5eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

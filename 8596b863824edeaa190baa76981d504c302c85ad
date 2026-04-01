@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2182a060_0a37fadb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 4415287
+      },
+      "writtenOn": "2026-04-01T20:18:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f56dfb54_aa9924b2",
+      "revId": "8596b863824edeaa190baa76981d504c302c85ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d3f43788_c4c40de4",
@@ -31,6 +49,24 @@
       "writtenOn": "2026-04-01T16:31:55Z",
       "side": 1,
       "message": "```suggestion\nRelease-Notes: Fixed submodule subscription docs for relative URLs\nChange-Id: I4c860ceed1deebca48d76ec33a104ca554405152\n```",
+      "revId": "8596b863824edeaa190baa76981d504c302c85ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "26fc024d_83847e22",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 4415287
+      },
+      "writtenOn": "2026-04-01T20:18:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d3f43788_c4c40de4",
       "revId": "8596b863824edeaa190baa76981d504c302c85ad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -52,6 +88,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7ea16c81_a2a94235",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4415287
+      },
+      "writtenOn": "2026-04-01T20:18:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "600e1190_c917b02e",
+      "revId": "8596b863824edeaa190baa76981d504c302c85ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ad10dc49_aeef714b",
@@ -65,6 +119,30 @@
       "writtenOn": "2026-04-01T16:31:55Z",
       "side": 1,
       "message": "```suggestion\nNow we need to edit the `.gitmodules` file to include relative paths to\n```",
+      "range": {
+        "startLine": 236,
+        "startChar": 25,
+        "endLine": 236,
+        "endChar": 36
+      },
+      "revId": "8596b863824edeaa190baa76981d504c302c85ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "201d1079_70035e81",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 4415287
+      },
+      "writtenOn": "2026-04-01T20:18:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ad10dc49_aeef714b",
       "range": {
         "startLine": 236,
         "startChar": 25,
@@ -98,6 +176,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5dd251b7_caec3c38",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 4415287
+      },
+      "writtenOn": "2026-04-01T20:18:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "42ee96fd_171066cf",
+      "range": {
+        "startLine": 238,
+        "startChar": 0,
+        "endLine": 245,
+        "endChar": 12
+      },
+      "revId": "8596b863824edeaa190baa76981d504c302c85ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "04eeb050_9f50f790",
@@ -111,6 +213,30 @@
       "writtenOn": "2026-04-01T16:31:55Z",
       "side": 1,
       "message": "For this one, you should probably have a file heading that clearly states it\u0027s wrong\n```\n.INCORRECT .gitmodules\n----\n\u003cconfig\u003e\n----\n```",
+      "range": {
+        "startLine": 260,
+        "startChar": 0,
+        "endLine": 266,
+        "endChar": 12
+      },
+      "revId": "8596b863824edeaa190baa76981d504c302c85ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bbd0c79d_058816b7",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 4415287
+      },
+      "writtenOn": "2026-04-01T20:18:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "04eeb050_9f50f790",
       "range": {
         "startLine": 260,
         "startChar": 0,

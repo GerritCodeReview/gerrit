@@ -40,39 +40,56 @@ suite('gr-dropdown tests', () => {
         >
           <slot> </slot>
         </gr-button>
-        <md-menu
-          anchor="trigger"
-          aria-hidden="true"
-          default-focus="none"
-          id="dropdown"
-          quick=""
-          tabindex="-1"
-        >
-          <div class="dropdown-content">
-            <gr-tooltip-content has-tooltip="" title="hello">
-              <span class="itemAction" data-id="foo" tabindex="-1">
-                <md-menu-item
-                  active=""
-                  data-index="0"
-                  md-menu-item=""
-                  selected=""
-                >
-                  item one
-                </md-menu-item>
-              </span>
-            </gr-tooltip-content>
-            <md-divider role="separator" tabindex="-1"> </md-divider>
-            <gr-tooltip-content>
-              <a class="itemAction" href="http://bar" tabindex="-1">
-                <md-menu-item data-index="1" md-menu-item="">
-                  item two
-                </md-menu-item>
-              </a>
-            </gr-tooltip-content>
-          </div>
-        </md-menu>
+        <div class="dropdown-menu">
+          <md-menu
+            anchor="trigger"
+            aria-hidden="true"
+            default-focus="none"
+            id="dropdown"
+            quick=""
+            tabindex="-1"
+          >
+            <div class="dropdown-content">
+              <gr-tooltip-content has-tooltip="" title="hello">
+                <span class="itemAction" data-id="foo" tabindex="-1">
+                  <md-menu-item
+                    active=""
+                    data-index="0"
+                    md-menu-item=""
+                    selected=""
+                  >
+                    item one
+                  </md-menu-item>
+                </span>
+              </gr-tooltip-content>
+              <md-divider role="separator" tabindex="-1"> </md-divider>
+              <gr-tooltip-content>
+                <a class="itemAction" href="http://bar" tabindex="-1">
+                  <md-menu-item data-index="1" md-menu-item="">
+                    item two
+                  </md-menu-item>
+                </a>
+              </gr-tooltip-content>
+            </div>
+          </md-menu>
+        </div>
       </div>`
     );
+  });
+
+  test('css variables control positioning', async () => {
+    const dropdownMenu = element.shadowRoot?.querySelector('.dropdown-menu');
+    assert.isOk(dropdownMenu);
+    let styles = window.getComputedStyle(dropdownMenu);
+    assert.equal(styles.position, 'static');
+    assert.equal(styles.zIndex, 'auto');
+
+    element.style.setProperty('--gr-dropdown-position', 'relative');
+    element.style.setProperty('--gr-dropdown-z-index', '120');
+
+    styles = window.getComputedStyle(dropdownMenu);
+    assert.equal(styles.position, 'relative');
+    assert.equal(styles.zIndex, '120');
   });
 
   test('tap on trigger opens menu, then closes', () => {

@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7e975ba8_43a2b36d",
+        "filename": "java/com/google/gerrit/server/events/CommitReceivedEvent.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2026-04-01T08:02:09Z",
+      "side": 1,
+      "message": "Check whether any documentation needs to be updated.",
+      "range": {
+        "startLine": 31,
+        "startChar": 13,
+        "endLine": 31,
+        "endChar": 32
+      },
+      "revId": "8573569276d7925dc9b598131dd6f891efbf8ded",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "123037de_ac3a1d80",
         "filename": "java/com/google/gerrit/server/events/CommitReceivedEvent.java",
         "patchSetId": 2
@@ -19,6 +42,29 @@
         "startChar": 0,
         "endLine": 50,
         "endChar": 44
+      },
+      "revId": "8573569276d7925dc9b598131dd6f891efbf8ded",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "59ec0af5_17aabfef",
+        "filename": "java/com/google/gerrit/server/events/CommitReceivedEvent.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2026-04-01T08:02:09Z",
+      "side": 1,
+      "message": "Check whether other events have also used nullable fields.",
+      "range": {
+        "startLine": 66,
+        "startChar": 6,
+        "endLine": 66,
+        "endChar": 15
       },
       "revId": "8573569276d7925dc9b598131dd6f891efbf8ded",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

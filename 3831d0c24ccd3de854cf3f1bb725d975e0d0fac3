@@ -34,6 +34,24 @@
       "parentUuid": "926103f0_d2f94610",
       "revId": "3831d0c24ccd3de854cf3f1bb725d975e0d0fac3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "33e6c363_3d8002d4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-04-01T14:11:33Z",
+      "side": 1,
+      "message": "Yeah commit message got overwritten on upload.\n\nReason is worsening performance.\n\nI am hoping that reducing the number of requests has a positive effect on the end metric.",
+      "parentUuid": "926103f0_d2f94610",
+      "revId": "3831d0c24ccd3de854cf3f1bb725d975e0d0fac3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -17,6 +17,7 @@ package com.google.gerrit.server;
 import static java.util.Comparator.comparingInt;
 import static java.util.stream.Collectors.toSet;
 
+import com.google.common.base.Splitter;
 import com.google.common.collect.Ordering;
 import com.google.common.io.BaseEncoding;
 import com.google.gerrit.common.FooterConstants;
@@ -32,6 +33,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.security.SecureRandom;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
@@ -167,7 +169,12 @@ public class ChangeUtil {
 
   private static final Pattern LINK_CHANGE_ID_PATTERN = Pattern.compile("I[0-9a-f]{40}");
 
-  public List<String> getChangeIdsFromFooter(RevCommit c) {
+  public List<String> getChangeIdsFromCommit(RevCommit c) {
+    List<String> ids = getChangeIdsFromFooter(c);
+    return ids.isEmpty() ? getChangeIdsFromHeader(c) : ids;
+  }
+
+  private List<String> getChangeIdsFromFooter(RevCommit c) {
     List<String> changeIds = c.getFooterLines(FooterConstants.CHANGE_ID);
     if (!enableLinkChangeIdFooters) {
       return changeIds;
@@ -191,5 +198,31 @@ public class ChangeUtil {
     }
 
     return changeIds;
+  }
+
+  private List<String> getChangeIdsFromHeader(RevCommit c) {
+    List<String> changeIds = new ArrayList<>();
+    byte[] raw = c.getRawBuffer();
+    if (raw == null) {
+      return changeIds;
+    }
+    int endOfHeaders = findEndOfHeaders(raw);
+    int length = endOfHeaders > 0 ? endOfHeaders : raw.length;
+    String headers = new String(raw, 0, length, java.nio.charset.StandardCharsets.UTF_8);
+    for (String line : Splitter.on('\n').split(headers)) {
+      if (line.startsWith("Change-Id ")) {
+        changeIds.add(line.substring("Change-Id ".length()).trim());
+      }
+    }
+    return changeIds;
+  }
+
+  private static int findEndOfHeaders(byte[] raw) {
+    for (int i = 0; i < raw.length - 1; i++) {
+      if (raw[i] == '\n' && raw[i + 1] == '\n') {
+        return i;
+      }
+    }
+    return -1;
   }
 }

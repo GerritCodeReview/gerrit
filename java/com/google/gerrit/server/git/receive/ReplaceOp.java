@@ -539,7 +539,7 @@ public class ReplaceOp implements BatchUpdateOp {
     change.setStatus(Change.Status.NEW);
     change.setCurrentPatchSet(info);
 
-    List<String> idList = changeUtil.getChangeIdsFromFooter(commit);
+    List<String> idList = changeUtil.getChangeIdsFromCommit(commit);
     change.setKey(Change.key(idList.get(idList.size() - 1).trim()));
   }
 

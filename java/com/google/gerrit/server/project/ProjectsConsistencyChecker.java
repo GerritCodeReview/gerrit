@@ -172,7 +172,7 @@ public class ProjectsConsistencyChecker {
         mergedSha1s.add(commitId);
 
         // Consider all Change-Id lines since this is what ReceiveCommits#autoCloseChanges does.
-        List<String> changeIds = changeUtil.getChangeIdsFromFooter(commit);
+        List<String> changeIds = changeUtil.getChangeIdsFromCommit(commit);
 
         // Number of predicates that we need to add for this commit, 1 per Change-Id plus one for
         // the commit.

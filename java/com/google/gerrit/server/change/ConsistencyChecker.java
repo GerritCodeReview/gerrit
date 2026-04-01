@@ -462,7 +462,7 @@ public class ConsistencyChecker {
         case 0 -> {
           // No patch set for this commit; insert one.
           rw.parseBody(commit);
-          String changeId = Iterables.getFirst(changeUtil.getChangeIdsFromFooter(commit), null);
+          String changeId = Iterables.getFirst(changeUtil.getChangeIdsFromCommit(commit), null);
           // Missing Change-Id footer is ok, but mismatched is not.
           if (changeId != null && !changeId.equals(change().getKey().get())) {
             problem(

@@ -19,6 +19,7 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.common.collect.ImmutableMap;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.config.GerritConfig;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -94,6 +95,33 @@ public class ReceiveCommitsChangeIdValidationIT extends AbstractDaemonTest {
             + "  git commit --amend --no-edit\n"
             + "Finally, push your changes again\n\n$";
     assertThat(pushResult.getMessage()).matches(missingChangeIdRegex);
+  }
+
+  @Test
+  public void pushWithChangeIdInHeader_accepted() throws Exception {
+    RevCommit parent = createParentCommit();
+
+    org.eclipse.jgit.lib.ObjectInserter ins = testRepo.getRepository().newObjectInserter();
+    
+    String changeId = "I0123456789abcdef0123456789abcdef01234567";
+    
+    StringBuilder raw = new StringBuilder();
+    raw.append("tree ").append(parent.getTree().name()).append("\n");
+    raw.append("parent ").append(parent.name()).append("\n");
+    raw.append("author ").append(admin.newIdent().toExternalString()).append("\n");
+    raw.append("committer ").append(admin.newIdent().toExternalString()).append("\n");
+    raw.append("Change-Id ").append(changeId).append("\n"); // Header
+    raw.append("\n");
+    raw.append("Subject\n\nMessage body without Change-Id in footer\n");
+
+    org.eclipse.jgit.lib.ObjectId commitId = ins.insert(org.eclipse.jgit.lib.Constants.OBJ_COMMIT, raw.toString().getBytes("UTF-8"));
+    ins.flush();
+    
+    testRepo.reset(commitId);
+
+    org.eclipse.jgit.transport.PushResult pushResult = GitUtil.pushHead(testRepo, "refs/for/master");
+    
+    GitUtil.assertPushOk(pushResult, "refs/for/master");
   }
 
   @CanIgnoreReturnValue

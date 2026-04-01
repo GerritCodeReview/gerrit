@@ -402,7 +402,7 @@ public class CommitValidators {
       }
       RevCommit commit = receiveEvent.commit;
       List<CommitValidationMessage> messages = new ArrayList<>();
-      List<String> idList = changeUtil.getChangeIdsFromFooter(commit);
+      List<String> idList = changeUtil.getChangeIdsFromCommit(commit);
 
       if (idList.isEmpty()) {
         String shortMsg = commit.getShortMessage();

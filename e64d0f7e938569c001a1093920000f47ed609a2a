@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3b759c04_005fa997",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-04-01T19:54:04Z",
+      "side": 1,
+      "message": "This fix is making it even worse by hiding buttons under file path name https://screenshot.googleplex.com/8zaMwvBQAJXYdd7",
+      "revId": "e64d0f7e938569c001a1093920000f47ed609a2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

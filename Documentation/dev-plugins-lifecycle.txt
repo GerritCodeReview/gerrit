@@ -209,6 +209,65 @@ During the development, the plugin's maintainer can reward contributors
 requesting to be more involved and making them maintainers of his plugin,
 adding them to the list of the project owners.
 
+[[branching_strategy]]
+== Branching Strategy
+
+Plugin maintainers are encouraged to adopt a minimal-branching approach that
+balances compatibility across Gerrit core versions with sustainable maintenance
+overhead.
+
+[[development_branch_strategy]]
+=== Development Branch Strategy
+
+The plugin `master` branch is the primary development branch when no stable
+branches exist. The goal is to keep `master` compatible with the current
+Gerrit core release for as long as possible, avoiding premature branch
+proliferation.
+
+When stable branches exist, new features should be developed on the oldest
+supported stable branch that can support them, then merged forward through
+any intermediate stable branches and finally into `master`. This ensures the
+feature is immediately available to users on older Gerrit versions without
+requiring a separate backport.
+
+[[reactive_branching]]
+=== Just-in-Time Branching
+
+Plugin branches are created reactively, not proactively. There is no
+requirement to create a plugin branch for every Gerrit core release.
+
+The decision flow is:
+
+. Develop on plugin `master`.
+. Test plugin `master` against the target Gerrit core version.
+. If it builds and works → continue using `master`; no new branch is needed.
+. If it breaks:
+  .. Identify the last commit on `master` that was compatible.
+  .. Create a stable branch from that commit.
+  .. Continue development for the new Gerrit core version on `master`.
+
+A single plugin branch may remain compatible with multiple consecutive Gerrit
+core versions. Branches should only diverge when API or behavioral
+incompatibilities make it unavoidable.
+
+[[core_version_relationship]]
+=== Relationship to Gerrit Core Versions
+
+There is no required one-to-one mapping between plugin branches and Gerrit
+core versions. A single plugin branch can cover multiple Gerrit releases as
+long as no incompatible API changes are introduced. Creating a dedicated branch
+for every Gerrit release is discouraged, as it increases backport complexity
+and maintenance overhead.
+
+[[ci_limitations]]
+=== CI Limitations and Expectations
+
+Plugins are not continuously built against multiple Gerrit core versions
+simultaneously. CI coverage does not guarantee early detection of
+incompatibilities between a plugin and a given Gerrit core version. Some
+breakages may only surface at runtime. This is an accepted trade-off given the
+overhead of maintaining full multi-version CI pipelines.
+
 [[plugin_release]]
 == Plugin Release
 

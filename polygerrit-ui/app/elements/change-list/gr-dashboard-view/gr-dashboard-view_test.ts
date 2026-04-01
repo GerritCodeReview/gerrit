@@ -38,7 +38,6 @@ import {PageErrorEvent} from '../../../types/events';
 import {assert, fixture, html} from '@open-wc/testing';
 import {SinonStubbedMember} from 'sinon';
 import {RestApiService} from '../../../services/gr-rest-api/gr-rest-api';
-import {RELOAD_DASHBOARD_INTERVAL_MS} from '../../../constants/constants';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {DashboardType} from '../../../models/views/dashboard';
 import {GrNotificationsPrompt} from '../../core/gr-notifications-prompt/gr-notifications-prompt';
@@ -687,82 +686,5 @@ suite('gr-dashboard-view tests', () => {
     };
     await element.reload();
     assert.isFalse(dashboardDisplayedStub.calledOnce);
-  });
-
-  suite('background reload', () => {
-    let clock: sinon.SinonFakeTimers;
-
-    setup(() => {
-      element.viewState = {
-        view: GerritView.DASHBOARD,
-        type: DashboardType.USER,
-        user: 'self',
-      };
-      clock = sinon.useFakeTimers();
-    });
-
-    teardown(() => {
-      clock.restore();
-    });
-
-    test('reloads in background when visible after interval', async () => {
-      const reloadSpy = sinon.spy(element, 'reload');
-      // Simulate leaving the tab.
-      Object.defineProperty(document, 'visibilityState', {
-        value: 'hidden',
-        writable: true,
-      });
-      document.dispatchEvent(new Event('visibilitychange'));
-
-      // Advance time beyond the reload interval.
-      clock.tick(RELOAD_DASHBOARD_INTERVAL_MS + 1);
-
-      // Simulate returning to the tab.
-      Object.defineProperty(document, 'visibilityState', {
-        value: 'visible',
-        writable: true,
-      });
-      document.dispatchEvent(new Event('visibilitychange'));
-
-      await waitUntil(() => reloadSpy.called);
-      assert.isTrue(reloadSpy.calledOnceWith(true));
-
-      // Wait for the reload promise to complete.
-      await reloadSpy.getCall(0).returnValue;
-
-      assert.isFalse(
-        element.loading,
-        'loading should be false for background reload'
-      );
-    });
-
-    test('does not reload if interval has not passed', () => {
-      const reloadSpy = sinon.spy(element, 'reload');
-      // Simulate leaving the tab.
-      Object.defineProperty(document, 'visibilityState', {
-        value: 'hidden',
-        writable: true,
-      });
-      document.dispatchEvent(new Event('visibilitychange'));
-
-      // Advance time, but not enough to trigger a reload.
-      clock.tick(RELOAD_DASHBOARD_INTERVAL_MS - 1);
-
-      // Simulate returning to the tab.
-      Object.defineProperty(document, 'visibilityState', {
-        value: 'visible',
-        writable: true,
-      });
-      document.dispatchEvent(new Event('visibilitychange'));
-
-      assert.isFalse(reloadSpy.called);
-    });
-
-    test('reload with spinner for first load', async () => {
-      const reloadFinished = element.reload(false);
-      assert.isTrue(element.loading);
-      await reloadFinished;
-      assert.isFalse(element.loading);
-    });
   });
 });

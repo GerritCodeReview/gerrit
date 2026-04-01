@@ -254,7 +254,7 @@ public class ChangeInserter implements InsertChangeOp {
   private Change.Key getChangeKey(RevWalk rw) throws IOException {
     RevCommit commit = rw.parseCommit(commitId);
     rw.parseBody(commit);
-    List<String> idList = changeUtil.getChangeIdsFromFooter(commit);
+    List<String> idList = changeUtil.getChangeIdsFromCommit(commit);
     if (!idList.isEmpty()) {
       return Change.key(idList.get(idList.size() - 1).trim());
     }

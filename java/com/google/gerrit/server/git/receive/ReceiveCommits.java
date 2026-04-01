@@ -2634,7 +2634,7 @@ class ReceiveCommits {
       } catch (IOException e) {
         throw new StorageException("Can't parse commit", e);
       }
-      List<String> idList = changeUtil.getChangeIdsFromFooter(create.commit);
+      List<String> idList = changeUtil.getChangeIdsFromCommit(create.commit);
 
       if (idList.isEmpty()) {
         messages.add(
@@ -2709,7 +2709,7 @@ class ReceiveCommits {
             }
           }
 
-          List<String> idList = changeUtil.getChangeIdsFromFooter(c);
+          List<String> idList = changeUtil.getChangeIdsFromCommit(c);
           if (!idList.isEmpty()) {
             pending.put(c, lookupByChangeKey(c, Change.key(idList.get(idList.size() - 1).trim())));
           } else {
@@ -3985,7 +3985,7 @@ class ReceiveCommits {
                             }
                           }
 
-                          for (String changeId : changeUtil.getChangeIdsFromFooter(c)) {
+                          for (String changeId : changeUtil.getChangeIdsFromCommit(c)) {
                             if (changeDataByKey == null) {
                               changeDataByKey =
                                   retryHelper

@@ -648,7 +648,7 @@ public class MergeUtil {
       msgbuf.append('\n');
     }
 
-    if (changeUtil.getChangeIdsFromFooter(n).isEmpty()) {
+    if (changeUtil.getChangeIdsFromCommit(n).isEmpty()) {
       msgbuf.append(FooterConstants.CHANGE_ID.getName());
       msgbuf.append(": ");
       msgbuf.append(c.getKey().get());

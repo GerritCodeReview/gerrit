@@ -245,7 +245,7 @@ public class ApplyPatch implements RestModifyView<ChangeResource, ApplyPatchPatc
             .orElseThrow(illegalState(project))
             .is(BooleanProjectConfig.REQUIRE_CHANGE_ID);
     changeUtil.ensureChangeIdIsCorrect(
-        changeIdRequired, changeUtil.getChangeIdsFromFooter(latestPatchset).get(0), commitMessage);
+        changeIdRequired, changeUtil.getChangeIdsFromCommit(latestPatchset).get(0), commitMessage);
 
     return commitMessage;
   }

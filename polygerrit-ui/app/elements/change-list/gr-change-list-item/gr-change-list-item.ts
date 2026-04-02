@@ -376,7 +376,7 @@ export class GrChangeListItem extends LitElement {
 
     return html`
       <td class="cell star">
-        <gr-change-star .change=${this.change}></gr-change-star>
+        <gr-change-star .changeNum=${this.change?._number}></gr-change-star>
       </td>
     `;
   }

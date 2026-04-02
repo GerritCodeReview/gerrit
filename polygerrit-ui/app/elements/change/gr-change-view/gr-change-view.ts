@@ -1265,7 +1265,7 @@ export class GrChangeView extends LitElement {
           }}
           ><gr-change-star
             id="changeStar"
-            .change=${this.change}
+            .changeNum=${this.change?._number}
             @toggle-star=${(e: CustomEvent<ChangeStarToggleStarDetail>) =>
               this.handleToggleStar(e)}
             ?hidden=${!this.loggedIn}

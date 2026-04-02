@@ -4,25 +4,28 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../../../test/common-test-setup';
-import {queryAndAssert} from '../../../test/test-utils';
+import {queryAndAssert, stubRestApi} from '../../../test/test-utils';
 import {GrChangeStar} from './gr-change-star';
 import './gr-change-star';
 import {createChange} from '../../../test/test-data-generators';
 import {assert, fixture, html} from '@open-wc/testing';
+import {NumericChangeId} from '../../../types/common';
 
 suite('gr-change-star tests', () => {
   let element: GrChangeStar;
 
   setup(async () => {
     element = await fixture(html`<gr-change-star></gr-change-star>`);
-    element.change = {
+    stubRestApi('getChange').resolves({
       ...createChange(),
       starred: true,
-    };
+    });
+    element.changeNum = 123 as NumericChangeId;
     await element.updateComplete;
   });
 
-  test('renders starred', () => {
+  test('renders starred', async () => {
+    await element.updateComplete;
     assert.shadowDom.equal(
       element,
       /* HTML */ `
@@ -38,8 +41,10 @@ suite('gr-change-star tests', () => {
   });
 
   test('renders unstarred', async () => {
-    element.change!.starred = false;
-    element.requestUpdate('change');
+    element.change = {
+      ...createChange(),
+      starred: false,
+    };
     await element.updateComplete;
 
     assert.shadowDom.equal(
@@ -57,7 +62,10 @@ suite('gr-change-star tests', () => {
   });
 
   test('starring', async () => {
-    element.change!.starred = false;
+    element.change = {
+      ...createChange(),
+      starred: false,
+    };
     await element.updateComplete;
     assert.equal(element.change!.starred, false);
 
@@ -67,7 +75,10 @@ suite('gr-change-star tests', () => {
   });
 
   test('unstarring', async () => {
-    element.change!.starred = true;
+    element.change = {
+      ...createChange(),
+      starred: true,
+    };
     await element.updateComplete;
     assert.equal(element.change!.starred, true);
 

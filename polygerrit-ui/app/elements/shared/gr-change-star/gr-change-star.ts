@@ -4,18 +4,24 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../gr-icon/gr-icon';
-import {ChangeInfo} from '../../../types/common';
+import {
+  ChangeInfo,
+  ListChangesOption,
+  NumericChangeId,
+} from '../../../types/common';
 import {
   Shortcut,
   ShortcutSection,
 } from '../../../services/shortcuts/shortcuts-config';
 import {sharedStyles} from '../../../styles/shared-styles';
-import {css, html, LitElement} from 'lit';
-import {customElement, property} from 'lit/decorators.js';
+import {css, html, LitElement, PropertyValues} from 'lit';
+import {customElement, property, state} from 'lit/decorators.js';
 import {resolve} from '../../../models/dependency';
 import {shortcutsServiceToken} from '../../../services/shortcuts/shortcuts-service';
 import {assertIsDefined} from '../../../utils/common-util';
 import {fire} from '../../../utils/event-util';
+import {restApiServiceToken} from '../../../services/gr-rest-api/gr-rest-api';
+import {listChangesOptionsToHex} from '../../../utils/change-util';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -36,10 +42,15 @@ export class GrChangeStar extends LitElement {
    * @event toggle-star
    */
 
-  @property({type: Object})
+  @property({type: Number})
+  changeNum?: NumericChangeId;
+
+  @state()
   change?: ChangeInfo;
 
   private readonly getShortcutsService = resolve(this, shortcutsServiceToken);
+
+  private readonly restApiService = resolve(this, restApiServiceToken);
 
   static override get styles() {
     return [
@@ -55,6 +66,22 @@ export class GrChangeStar extends LitElement {
         }
       `,
     ];
+  }
+
+  override updated(changedProperties: PropertyValues) {
+    if (changedProperties.has('changeNum') && this.changeNum !== undefined) {
+      this.fetchChange();
+    }
+  }
+
+  private async fetchChange() {
+    if (this.changeNum === undefined) return;
+    const change = await this.restApiService.getChange(
+      this.changeNum,
+      undefined,
+      listChangesOptionsToHex(ListChangesOption.STAR)
+    );
+    this.change = change;
   }
 
   override render() {
@@ -89,8 +116,10 @@ export class GrChangeStar extends LitElement {
     assertIsDefined(this.change, 'change');
 
     const newVal = !this.change.starred;
-    this.change.starred = newVal;
-    this.requestUpdate('change');
+    this.change = {
+      ...this.change,
+      starred: newVal,
+    };
     const detail: ChangeStarToggleStarDetail = {
       change: this.change,
       starred: newVal,

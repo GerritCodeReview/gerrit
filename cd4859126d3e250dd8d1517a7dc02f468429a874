@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "42b4d0a8_30d804ba",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010224
+      },
+      "writtenOn": "2026-04-02T05:12:21Z",
+      "side": 1,
+      "message": "How will this allow us to better support jj? It might be good to explain that in the commit message.",
+      "revId": "cd4859126d3e250dd8d1517a7dc02f468429a874",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

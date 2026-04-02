@@ -379,7 +379,14 @@ export class GrChangeListItem extends LitElement {
 
     return html`
       <td class="cell star">
+<<<<<<< PATCH SET (4e7783f778edcefd824b211738258b45b9169dd7 Set experiment to true for testing)
+        <gr-change-star .change=${this.change} .loading=${this.starsLoading}>
+        </gr-change-star></gr-change-star>
+||||||| BASE      (b6691cee5102d065881d63dbc3cbefde490dec3e Make a second request for fetching if change is starred)
+        <gr-change-star .change=${this.change}></gr-change-star>
+=======
         <gr-change-star .change=${this.change} .loading=${this.starsLoading}></gr-change-star>
+>>>>>>> BASE      (2f201972530b24950f715f911835bf495d3bbad3 Make a second request for fetching if change is starred)
       </td>
     `;
   }

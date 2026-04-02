@@ -12,12 +12,17 @@ import '../gr-create-destination-dialog/gr-create-destination-dialog';
 import '../gr-user-header/gr-user-header';
 import '../../core/gr-notifications-prompt/gr-notifications-prompt';
 import {getAppContext} from '../../../services/app-context';
-import {changeIsOpen} from '../../../utils/change-util';
+import {
+  changeIsOpen,
+  listChangesOptionsToHex,
+} from '../../../utils/change-util';
+import {KnownExperimentId} from '../../../services/flags/flags';
 import {parseDate} from '../../../utils/date-util';
 import {
   AccountDetailInfo,
   ChangeInfo,
   DashboardId,
+  ListChangesOption,
   PreferencesInput,
   RepoName,
   UserId,
@@ -104,6 +109,9 @@ export class GrDashboardView extends LitElement {
   // private but used in test
   @state() showNotificationsPrompt = false;
 
+  // private but used in test
+  @state() starsLoading = false;
+
   private reporting = getAppContext().reportingService;
 
   private readonly restApiService = getAppContext().restApiService;
@@ -148,6 +156,17 @@ export class GrDashboardView extends LitElement {
     );
     this.addEventListener('reload', () => this.reload());
     this.shortcuts.addAbstract(Shortcut.UP_TO_DASHBOARD, () => this.reload());
+  }
+
+  override connectedCallback() {
+    super.connectedCallback();
+    if (
+      getAppContext().flagsService.isEnabled(
+        KnownExperimentId.DASHBOARD_LAZY_LOADING
+      )
+    ) {
+      this.starsLoading = true;
+    }
   }
 
   static override get styles() {
@@ -266,6 +285,7 @@ export class GrDashboardView extends LitElement {
           .preferences=${this.preferences}
           .sections=${this.results}
           .usp=${'dashboard'}
+          .starsLoading=${this.starsLoading}
           @toggle-star=${(e: CustomEvent<ChangeStarToggleStarDetail>) => {
             this.handleToggleStar(e);
           }}
@@ -366,6 +386,13 @@ export class GrDashboardView extends LitElement {
       this.reporting.time(Timing.DASHBOARD_DISPLAYED);
     }
     this.firstTimeLoad = false;
+    if (
+      getAppContext().flagsService.isEnabled(
+        KnownExperimentId.DASHBOARD_LAZY_LOADING
+      )
+    ) {
+      this.starsLoading = true;
+    }
 
     const {project, type, dashboard, title, user, sections} = this.viewState;
 
@@ -467,6 +494,50 @@ export class GrDashboardView extends LitElement {
           changelistSection.name === YOUR_TURN.name &&
           changelistSection.results.length > 0
       ).length !== 0;
+
+    if (
+      getAppContext().flagsService.isEnabled(
+        KnownExperimentId.DASHBOARD_LAZY_LOADING
+      )
+    ) {
+      this.makeSecondRequestForStarredChanges(queries);
+    }
+  }
+
+  private makeSecondRequestForStarredChanges(queries: string[]) {
+    this.starsLoading = true;
+    const secondRequestOptions = listChangesOptionsToHex(
+      ListChangesOption.STAR
+    );
+    this.restApiService
+      .getChangesForDashboard(
+        undefined,
+        queries,
+        undefined,
+        secondRequestOptions
+      )
+      .then(results => {
+        if (!results) {
+          console.error('loading star information failed');
+          this.starsLoading = false;
+          return;
+        }
+        this.results = this.results?.map((section, i) => {
+          return {
+            ...section,
+            results: section.results.map((change, j) => {
+              return {
+                ...change,
+                starred:
+                  results[i] && results[i][j]
+                    ? results[i][j].starred
+                    : change.starred,
+              };
+            }),
+          };
+        });
+        this.starsLoading = false;
+      });
   }
 
   /**

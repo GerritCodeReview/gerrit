@@ -110,6 +110,9 @@ export class GrChangeListItem extends LitElement {
   @property({type: Number})
   globalIndex = 0;
 
+  @property({type: Boolean})
+  starsLoaded = false;
+
   /** Callback to call to request the item to be selected in the list. */
   @property({type: Function})
   triggerSelectionCallback?: (globalIndex: number) => void;
@@ -372,7 +375,7 @@ export class GrChangeListItem extends LitElement {
   }
 
   private renderCellStar() {
-    if (!this.isLoggedIn) return;
+    if (!this.isLoggedIn || !this.starsLoaded) return;
 
     return html`
       <td class="cell star">

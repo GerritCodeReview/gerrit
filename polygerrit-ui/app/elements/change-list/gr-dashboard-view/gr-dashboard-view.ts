@@ -160,10 +160,8 @@ export class GrDashboardView extends LitElement {
   override connectedCallback() {
     super.connectedCallback();
     if (
-      getAppContext().flagsService.isEnabled(
-        KnownExperimentId.DASHBOARD_LAZY_LOADING
-      )
-    ) {
+true    ) {
+      console.log("stars: setting loading stars to true", Date.now());
       this.starsLoading = true;
     }
   }
@@ -427,6 +425,7 @@ export class GrDashboardView extends LitElement {
     res: UserDashboard | undefined,
     isLoggedInUserDashboard: boolean
   ) {
+    console.log("stars: fetching dashboard changes");
     if (!res) return;
     let queries: string[];
 
@@ -496,11 +495,10 @@ export class GrDashboardView extends LitElement {
       ).length !== 0;
 
     if (
-      getAppContext().flagsService.isEnabled(
-        KnownExperimentId.DASHBOARD_LAZY_LOADING
-      )
+      true
     ) {
-      this.makeSecondRequestForStarredChanges(queries);
+      console.log("stars: making second queries");
+      window.setInterval(() => this.makeSecondRequestForStarredChanges(queries), 3 * 1000);
     }
   }
 
@@ -536,6 +534,7 @@ export class GrDashboardView extends LitElement {
             }),
           };
         });
+        console.log("stars: setting loading to false", Date.now());
         this.starsLoading = false;
       });
   }

@@ -700,7 +700,11 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     for (RevisionNoteBuilder b : toUpdate.values()) {
       for (Comment c : b.put.values()) {
         if (existing.contains(c.key)) {
-          throw new StorageException("Cannot update existing published comment: " + c);
+          logger.atWarning().log(
+              "Republishing of an existing published comment was requested: %s. Skipping this"
+                  + " update.",
+              c);
+          b.put.remove(c.key);
         }
       }
     }

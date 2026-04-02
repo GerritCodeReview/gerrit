@@ -9,6 +9,7 @@ import './gr-dashboard-view';
 import {GrDashboardView} from './gr-dashboard-view';
 import {GerritView} from '../../../services/router/router-model';
 import {changeIsOpen} from '../../../utils/change-util';
+import {KnownExperimentId} from '../../../services/flags/flags';
 import {ChangeStatus} from '../../../constants/constants';
 import {
   createAccountDetailWithId,
@@ -26,6 +27,7 @@ import {
   waitUntil,
 } from '../../../test/test-utils';
 import {
+  ChangeInfo,
   ChangeInfoId,
   DashboardId,
   EmailAddress,
@@ -156,6 +158,72 @@ suite('gr-dashboard-view tests', () => {
       await element.reload();
       await element.updateComplete;
       assert.isTrue(checkbox.checked);
+    });
+  });
+
+  suite('lazy loading stars', () => {
+    setup(async () => {
+      stubFlags('isEnabled')
+        .withArgs(KnownExperimentId.DASHBOARD_LAZY_LOADING)
+        .returns(true);
+      element.loggedInUser = createAccountDetailWithId(1);
+    });
+
+    test('makeSecondRequestForStarredChanges is called', async () => {
+      const change1 = {
+        ...createChange(),
+        id: '1' as ChangeInfoId,
+        starred: false,
+      };
+      const change1Starred = {...change1, starred: true};
+      // The second array is for the 'owner:self limit:1' query
+      getChangesStub.onFirstCall().returns(Promise.resolve([[change1], []]));
+      getChangesStub
+        .onSecondCall()
+        .returns(Promise.resolve([[change1Starred], []]));
+
+      element.viewState = {
+        view: GerritView.DASHBOARD,
+        type: DashboardType.CUSTOM,
+        user: 'self',
+        sections: [{name: 'test1', query: 'test1', hideIfEmpty: true}],
+      };
+      await element.reload();
+      await element.updateComplete;
+
+      assert.isTrue(getChangesStub.calledTwice);
+      assert.isFalse(element.starsLoading);
+      assert.isDefined(element.results);
+      assert.isTrue(element.results[0].results[0].starred);
+    });
+
+    test('starsLoading is true during second request', async () => {
+      const change1 = {
+        ...createChange(),
+        id: '1' as ChangeInfoId,
+        starred: false,
+      };
+      const firstRequestPromise = Promise.resolve([[change1], []]);
+      const secondRequestPromise = mockPromise<ChangeInfo[][] | undefined>();
+      getChangesStub.onFirstCall().returns(firstRequestPromise);
+      getChangesStub.onSecondCall().returns(secondRequestPromise);
+
+      element.viewState = {
+        view: GerritView.DASHBOARD,
+        type: DashboardType.CUSTOM,
+        user: 'self',
+        sections: [{name: 'test1', query: 'test1', hideIfEmpty: true}],
+      };
+      const reloadPromise = element.reload();
+      await firstRequestPromise;
+      // Wait for first request to finish and second request to start
+      await waitUntil(() => getChangesStub.calledTwice);
+
+      assert.isTrue(element.starsLoading);
+
+      secondRequestPromise.resolve([[{...change1, starred: true}], []]);
+      await reloadPromise;
+      assert.isFalse(element.starsLoading);
     });
   });
 

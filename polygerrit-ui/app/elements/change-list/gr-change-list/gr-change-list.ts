@@ -118,6 +118,9 @@ export class GrChangeList extends LitElement {
   @property({type: Boolean})
   showReviewedState = false;
 
+  @property({type: Boolean})
+  starsLoading = false;
+
   @property({type: Array})
   changeTableColumns?: string[];
 
@@ -277,6 +280,7 @@ export class GrChangeList extends LitElement {
         .isCursorMoving=${this.isCursorMoving}
         .loggedInUser=${this.loggedInUser}
         .dashboardUser=${this.dashboardUser}
+        .starsLoading=${this.starsLoading}
         .selectedIndex=${computeRelativeIndex(
           this.selectedIndex,
           sectionIndex,

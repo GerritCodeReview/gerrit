@@ -101,6 +101,9 @@ export class GrChangeListItem extends LitElement {
   sectionName?: string;
 
   @property({type: Boolean})
+  starsLoading = false;
+
+  @property({type: Boolean})
   showNumber = false;
 
   @property({type: String})
@@ -372,7 +375,7 @@ export class GrChangeListItem extends LitElement {
   }
 
   private renderCellStar() {
-    if (!this.isLoggedIn) return;
+    if (!this.isLoggedIn || this.starsLoading) return;
 
     return html`
       <td class="cell star">

@@ -118,6 +118,9 @@ export class GrChangeList extends LitElement {
   @property({type: Boolean})
   showReviewedState = false;
 
+  @property({type: Boolean})
+  starsLoading = false;
+
   @property({type: Array})
   changeTableColumns?: string[];
 
@@ -285,6 +288,7 @@ export class GrChangeList extends LitElement {
         .showNumber=${this.showNumber}
         .visibleChangeTableColumns=${this.visibleChangeTableColumns}
         .usp=${this.usp}
+        .starsLoading=${this.starsLoading}
         .startIndex=${startIndex}
         .triggerSelectionCallback=${(index: number) => {
           this.selectedIndex = index;

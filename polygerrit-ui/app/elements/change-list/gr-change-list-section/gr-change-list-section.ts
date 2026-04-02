@@ -77,6 +77,9 @@ export class GrChangeListSection extends LitElement {
   @property({type: Boolean})
   isCursorMoving = false;
 
+  @property({type: Boolean})
+  starsLoading = false;
+
   /**
    * The logged-in user's account, or an empty object if no user is logged
    * in.
@@ -371,6 +374,7 @@ export class GrChangeListSection extends LitElement {
         .selected=${selected}
         .change=${change}
         .sectionName=${this.changeSection.name}
+        .starsLoading=${this.starsLoading}
         .visibleChangeTableColumns=${columns}
         .showNumber=${!!this.showNumber}
         .usp=${this.usp}

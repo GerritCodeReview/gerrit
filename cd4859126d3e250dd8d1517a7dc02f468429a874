@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d33a5960_d3b930a5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-04-02T07:29:22Z",
+      "side": 1,
+      "message": "Not sure what you mean here? And how this fits in the wider context of supporting JJ change-id headers.\n\nThe community discussed an approach to supporting JJ headers at [1], but don\u0027t believe this was part of it. Could you expand on how this fits within that view?\n\nIf it helps, I created a series of experimental changes to see what work would be needed to support this at [2], feel free to use them as inspiration.\n\n[1] https://www.gerritcodereview.com/design-docs/support-jujutsu-solution.html\n[2] https://gerrit-review.googlesource.com/c/gerrit/+/555301",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 47
+      },
+      "revId": "cd4859126d3e250dd8d1517a7dc02f468429a874",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "42b4d0a8_30d804ba",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 3

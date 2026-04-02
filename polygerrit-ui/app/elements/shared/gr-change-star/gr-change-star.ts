@@ -57,6 +57,7 @@ export class GrChangeStar extends LitElement {
           display: block !important;
         }
         .loadingSpin {
+          display: block;
           width: 16px;
           height: 16px;
         }

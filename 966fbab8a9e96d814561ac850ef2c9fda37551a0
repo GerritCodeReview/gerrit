@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fd9878d8_50fa4e8d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4223656
+      },
+      "writtenOn": "2026-04-02T00:07:09Z",
+      "side": 1,
+      "message": "I tested this locally with a patch to jj which adds a Change-Id git header and it works",
+      "revId": "966fbab8a9e96d814561ac850ef2c9fda37551a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

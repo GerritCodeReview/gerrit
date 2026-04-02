@@ -374,6 +374,7 @@ export class GrChangeListSection extends LitElement {
         .selected=${selected}
         .change=${change}
         .sectionName=${this.changeSection.name}
+        .starsLoading=${this.starsLoading}
         .visibleChangeTableColumns=${columns}
         .showNumber=${!!this.showNumber}
         .usp=${this.usp}

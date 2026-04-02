@@ -375,11 +375,12 @@ export class GrChangeListItem extends LitElement {
   }
 
   private renderCellStar() {
-    if (!this.isLoggedIn || this.starsLoading) return;
+    if (!this.isLoggedIn) return;
 
     return html`
       <td class="cell star">
-        <gr-change-star .change=${this.change}></gr-change-star>
+        <gr-change-star .change=${this.change} .loading=${this.starsLoading}>
+        </gr-change-star></gr-change-star>
       </td>
     `;
   }

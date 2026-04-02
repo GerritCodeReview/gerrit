@@ -5,7 +5,7 @@
  */
 import '../../test/common-test-setup';
 import {assert} from '@open-wc/testing';
-import {ChatModel} from './chat-model';
+import {ChatModel, Turn, UserType} from './chat-model';
 import {PluginsModel} from '../plugins/plugins-model';
 import {ChangeModel} from '../change/change-model';
 import {FilesModel} from '../change/files-model';
@@ -287,5 +287,62 @@ suite('chat-model tests', () => {
     assert.isTrue((provider.getModels as sinon.SinonStub).calledOnce);
     assert.isTrue((provider.getActions as sinon.SinonStub).calledOnce);
     assert.isTrue((provider.getContextItemTypes as sinon.SinonStub).calledOnce);
+  });
+
+  test('regenerateMessage increments regenerationIndex when no error', () => {
+    const turn: Turn = {
+      userMessage: {
+        content: 'hello',
+        userType: UserType.USER,
+        contextItems: [],
+      },
+      geminiMessage: {
+        userType: UserType.GEMINI,
+        responseParts: [],
+        regenerationIndex: 0,
+        references: [],
+        citations: [],
+      },
+    };
+    model.updateState({
+      ...model.getState(),
+      turns: [turn],
+    });
+
+    sinon.stub(model, 'sendChatRequest');
+
+    model.regenerateMessage({turnIndex: 0, regenerationIndex: 0});
+
+    const state = model.getState();
+    assert.equal(state.turns[0].geminiMessage.regenerationIndex, 1);
+  });
+
+  test('regenerateMessage does not increment regenerationIndex when error exists', () => {
+    const turn: Turn = {
+      userMessage: {
+        content: 'hello',
+        userType: UserType.USER,
+        contextItems: [],
+      },
+      geminiMessage: {
+        userType: UserType.GEMINI,
+        responseParts: [],
+        regenerationIndex: 0,
+        references: [],
+        citations: [],
+        errorMessage: 'error',
+      },
+    };
+    model.updateState({
+      ...model.getState(),
+      turns: [turn],
+    });
+
+    sinon.stub(model, 'sendChatRequest');
+
+    model.regenerateMessage({turnIndex: 0, regenerationIndex: 0});
+
+    const state = model.getState();
+    assert.equal(state.turns[0].geminiMessage.regenerationIndex, 0);
   });
 });

@@ -39,6 +39,9 @@ export class GrChangeStar extends LitElement {
   @property({type: Object})
   change?: ChangeInfo;
 
+  @property({type: Boolean})
+  loading = false;
+
   private readonly getShortcutsService = resolve(this, shortcutsServiceToken);
 
   static override get styles() {
@@ -53,11 +56,19 @@ export class GrChangeStar extends LitElement {
           visibility: hidden;
           display: block !important;
         }
+        .loadingSpin {
+          display: block;
+          width: 16px;
+          height: 16px;
+        }
       `,
     ];
   }
 
   override render() {
+    if (this.loading) {
+      return html`<span class="loadingSpin"></span>`;
+    }
     return html`
       <button
         role="checkbox"

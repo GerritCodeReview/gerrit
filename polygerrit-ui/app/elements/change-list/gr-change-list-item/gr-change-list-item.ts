@@ -101,6 +101,9 @@ export class GrChangeListItem extends LitElement {
   sectionName?: string;
 
   @property({type: Boolean})
+  starsLoading = false;
+
+  @property({type: Boolean})
   showNumber = false;
 
   @property({type: String})
@@ -376,7 +379,10 @@ export class GrChangeListItem extends LitElement {
 
     return html`
       <td class="cell star">
-        <gr-change-star .change=${this.change}></gr-change-star>
+        <gr-change-star
+          .change=${this.change}
+          .loading=${this.starsLoading}
+        ></gr-change-star>
       </td>
     `;
   }

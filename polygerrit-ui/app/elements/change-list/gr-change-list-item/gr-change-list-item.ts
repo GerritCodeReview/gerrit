@@ -372,7 +372,7 @@ export class GrChangeListItem extends LitElement {
   }
 
   private renderCellStar() {
-    if (!this.isLoggedIn) return;
+    if (!this.isLoggedIn || !this.starsLoading) return;
 
     return html`
       <td class="cell star">

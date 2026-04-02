@@ -16,6 +16,24 @@
       "message": "How will this allow us to better support jj? It might be good to explain that in the commit message.",
       "revId": "cd4859126d3e250dd8d1517a7dc02f468429a874",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac8f0bd8_a11226ad",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-04-02T05:22:35Z",
+      "side": 1,
+      "message": "+1\nA bug/DD for context would be nice as well.\n\nAre there more changes planned in this series/in the future as well?",
+      "parentUuid": "42b4d0a8_30d804ba",
+      "revId": "cd4859126d3e250dd8d1517a7dc02f468429a874",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

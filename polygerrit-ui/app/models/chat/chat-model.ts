@@ -447,11 +447,18 @@ export class ChatModel extends Model<ChatState> {
   }
 
   regenerateMessage(turnId: UniqueTurnId) {
-    const nextMessage = thinkingGeminiMessage(turnId.regenerationIndex + 1);
     const state = this.getState();
-    let turns = state.turns;
     const turnIndex = turnId.turnIndex;
+    let turns = state.turns;
     assert(turnIndex < turns.length, 'turnIndex out of bounds');
+    const turn = turns[turnIndex];
+
+    const nextMessage = thinkingGeminiMessage(
+      turn.geminiMessage.errorMessage
+        ? turn.geminiMessage.regenerationIndex
+        : turnId.regenerationIndex + 1
+    );
+
     turns = [
       ...turns.slice(0, turnIndex),
       {
@@ -469,7 +476,7 @@ export class ChatModel extends Model<ChatState> {
       contextUpdated: true,
     });
 
-    this.sendChatRequest(turnId.turnIndex);
+    this.sendChatRequest(turnIndex);
   }
 
   updateUserInput(content: string) {

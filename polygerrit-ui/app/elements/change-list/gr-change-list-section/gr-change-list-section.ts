@@ -98,6 +98,9 @@ export class GrChangeListSection extends LitElement {
   @property({type: Number})
   startIndex = 0;
 
+  @property({type: Boolean})
+  starsLoaded = false;
+
   /** Callback to call to request the item to be selected in the list. */
   @property({type: Function})
   triggerSelectionCallback?: (globalIndex: number) => void;
@@ -376,6 +379,7 @@ export class GrChangeListSection extends LitElement {
         .usp=${this.usp}
         .labelNames=${this.labelNames}
         .globalIndex=${this.startIndex + index}
+        .starsLoaded=${this.starsLoaded}
         .triggerSelectionCallback=${this.triggerSelectionCallback}
         aria-label=${ariaLabel}
         role="button"

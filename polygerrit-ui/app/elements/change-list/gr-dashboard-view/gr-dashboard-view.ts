@@ -12,12 +12,13 @@ import '../gr-create-destination-dialog/gr-create-destination-dialog';
 import '../gr-user-header/gr-user-header';
 import '../../core/gr-notifications-prompt/gr-notifications-prompt';
 import {getAppContext} from '../../../services/app-context';
-import {changeIsOpen} from '../../../utils/change-util';
+import {changeIsOpen, listChangesOptionsToHex} from '../../../utils/change-util';
 import {parseDate} from '../../../utils/date-util';
 import {
   AccountDetailInfo,
   ChangeInfo,
   DashboardId,
+  ListChangesOption,
   PreferencesInput,
   RepoName,
   UserId,
@@ -103,6 +104,8 @@ export class GrDashboardView extends LitElement {
 
   // private but used in test
   @state() showNotificationsPrompt = false;
+
+  @state() private starsLoaded = false;
 
   private reporting = getAppContext().reportingService;
 
@@ -266,6 +269,7 @@ export class GrDashboardView extends LitElement {
           .preferences=${this.preferences}
           .sections=${this.results}
           .usp=${'dashboard'}
+          .starsLoaded=${this.starsLoaded}
           @toggle-star=${(e: CustomEvent<ChangeStarToggleStarDetail>) => {
             this.handleToggleStar(e);
           }}
@@ -366,6 +370,7 @@ export class GrDashboardView extends LitElement {
       this.reporting.time(Timing.DASHBOARD_DISPLAYED);
     }
     this.firstTimeLoad = false;
+    this.starsLoaded = false;
 
     const {project, type, dashboard, title, user, sections} = this.viewState;
 
@@ -427,9 +432,16 @@ export class GrDashboardView extends LitElement {
       }
     }
 
+    const firstRequestOptions = listChangesOptionsToHex(
+      ListChangesOption.LABELS,
+      ListChangesOption.DETAILED_ACCOUNTS,
+      ListChangesOption.SUBMIT_REQUIREMENTS
+    );
     const changes = await this.restApiService.getChangesForDashboard(
       undefined,
-      queries
+      queries,
+      undefined,
+      firstRequestOptions
     );
     if (!changes) {
       throw new Error('getChanges returns undefined');
@@ -467,6 +479,39 @@ export class GrDashboardView extends LitElement {
           changelistSection.name === YOUR_TURN.name &&
           changelistSection.results.length > 0
       ).length !== 0;
+
+    if (this.loggedInUser) {
+      const secondRequestOptions = listChangesOptionsToHex(
+        ListChangesOption.STAR
+      );
+      this.restApiService
+        .getChangesForDashboard(
+          undefined,
+          queries,
+          undefined,
+          secondRequestOptions
+        )
+        .then(results => {
+          if (!results) return;
+          this.results = this.results?.map((section, i) => {
+            return {
+              ...section,
+              results: section.results.map((change, j) => {
+                return {
+                  ...change,
+                  starred:
+                    results[i] && results[i][j]
+                      ? results[i][j].starred
+                      : change.starred,
+                };
+              }),
+            };
+          });
+          this.starsLoaded = true;
+        });
+    } else {
+      this.starsLoaded = true;
+    }
   }
 
   /**

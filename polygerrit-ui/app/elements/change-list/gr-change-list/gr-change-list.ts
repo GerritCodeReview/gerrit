@@ -133,6 +133,9 @@ export class GrChangeList extends LitElement {
   @property({type: Boolean})
   isCursorMoving = false;
 
+  @property({type: Boolean})
+  starsLoaded = false;
+
   // private but used in test
   @state() config?: ServerInfo;
 
@@ -286,6 +289,7 @@ export class GrChangeList extends LitElement {
         .visibleChangeTableColumns=${this.visibleChangeTableColumns}
         .usp=${this.usp}
         .startIndex=${startIndex}
+        .starsLoaded=${this.starsLoaded}
         .triggerSelectionCallback=${(index: number) => {
           this.selectedIndex = index;
           this.cursor.setCursorAtIndex(this.selectedIndex);

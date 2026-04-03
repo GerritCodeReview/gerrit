@@ -17,6 +17,7 @@ import {testResolver} from '../../test/common-test-setup';
 import {pluginLoaderToken} from '../../elements/shared/gr-js-api-interface/gr-plugin-loader';
 import {changeModelToken} from '../../models/change/change-model';
 import {chatProvider, createChange} from '../../test/test-data-generators';
+import {queryAndAssert} from '../../utils/common-util';
 import {ParsedChangeInfo} from '../../types/types';
 
 suite('chat-panel tests', () => {
@@ -125,11 +126,10 @@ suite('chat-panel tests', () => {
   });
 
   test('renders privacy policy if url is present', async () => {
-    const policy = element.shadowRoot!.querySelector('.ai-policy');
+    const policy = queryAndAssert(element, '.ai-policy');
     assert.isOk(policy);
     assert.include(
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-      policy.textContent!,
+      policy.textContent ?? '',
       'Review agent may display inaccurate info'
     );
     const link = policy.querySelector('a');

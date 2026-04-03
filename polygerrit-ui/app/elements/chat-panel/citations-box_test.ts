@@ -15,6 +15,7 @@ import {
 import './citations-box';
 import {CitationsBox} from './citations-box';
 import {testResolver} from '../../test/common-test-setup';
+import {queryAndAssert} from '../../utils/common-util';
 import {pluginLoaderToken} from '../shared/gr-js-api-interface/gr-plugin-loader';
 import {changeModelToken} from '../../models/change/change-model';
 import {chatProvider, createChange} from '../../test/test-data-generators';
@@ -175,12 +176,10 @@ suite('citations-box tests', () => {
     element.turnIndex = 1;
     await element.updateComplete;
 
-    const summary = element.shadowRoot?.querySelector(
-      '.citations-summary-message'
-    );
+    const summary = queryAndAssert(element, '.citations-summary-message');
     assert.isOk(summary);
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-    assert.include(summary.textContent!, '2 citations');
+
+    assert.include(summary.textContent ?? '', '2 citations');
 
     const items = element.shadowRoot?.querySelectorAll('.citation-item');
     assert.isOk(items);

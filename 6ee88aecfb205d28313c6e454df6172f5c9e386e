@@ -16,6 +16,24 @@
       "message": "running the tests fails with errors on java-prettify:\n\n```\n$ bazelisk test //...\nINFO: Invocation ID: ef4a843f-d568-4e10-b27d-27dca9466aa1\nINFO: Reading \u0027startup\u0027 options from /Users/xxxxxxx/.bazelrc: --output_user_root\u003d/Users/xxxxxxx/SAPDevelop/.cache/bazel, --host_jvm_args\u003d-Djavax.net.ssl.trustStore\u003d/Users/xxxxxxx/certs/cacerts, --host_jvm_args\u003d-Djavax.net.ssl.trustStorePassword\u003dchangeit\nINFO: Options provided by the client:\n  Inherited \u0027common\u0027 options: --isatty\u003d1 --terminal_columns\u003d256\nINFO: Reading rc options for \u0027test\u0027 from /Users/xxxxxxx/SAPDevelop/git/gerrit-upstream/gerrit/.bazelrc:\n  Inherited \u0027common\u0027 options: --lockfile_mode\u003derror --incompatible_enable_proto_toolchain_resolution --@protobuf//bazel/toolchains:prefer_prebuilt_protoc --@com_googlesource_gerrit_bazlets//flags:in_gerrit_tree\u003dtrue --incompatible_disallow_struct_provider_syntax\u003dfalse --incompatible_disallow_empty_glob\u003dfalse --@aspect_rules_ts//ts:default_to_tsc_transpiler\nINFO: Reading rc options for \u0027test\u0027 from /Users/xxxxxxx/SAPDevelop/git/gerrit-upstream/gerrit/.bazelrc:\n  Inherited \u0027build\u0027 options: --incompatible_autoload_externally\u003d+java_library,+java_binary --workspace_status_command\u003dpython3 ./tools/workspace_status.py --repository_cache\u003d~/.gerritcodereview/bazel-cache/repository --action_env\u003dPATH --disk_cache\u003d~/.gerritcodereview/bazel-cache/cas --java_language_version\u003d21 --java_runtime_version\u003dremotejdk_21 --tool_java_language_version\u003d21 --tool_java_runtime_version\u003dremotejdk_21 --incompatible_strict_action_env --announce_rc\nINFO: Reading rc options for \u0027test\u0027 from /Users/xxxxxxx/SAPDevelop/git/gerrit-upstream/gerrit/.bazelrc:\n  \u0027test\u0027 options: --build_tests_only --test_output\u003derrors\nERROR: /Users/xxxxxxx/SAPDevelop/git/gerrit-upstream/gerrit/modules/java-prettify/BUILD:1:13: //modules/java-prettify:java-prettify: no such attribute \u0027srcs\u0027 in \u0027java_library\u0027 rule\nERROR: /Users/xxxxxxx/SAPDevelop/git/gerrit-upstream/gerrit/modules/java-prettify/BUILD:1:13: //modules/java-prettify:java-prettify: no such attribute \u0027resources\u0027 in \u0027java_library\u0027 rule (did you mean \u0027features\u0027?)\nERROR: /Users/xxxxxxx/SAPDevelop/git/gerrit-upstream/gerrit/modules/java-prettify/BUILD:11:12: //modules/java-prettify:java-prettify-example: no such attribute \u0027main_class\u0027 in \u0027java_binary\u0027 rule\nERROR: /Users/xxxxxxx/SAPDevelop/git/gerrit-upstream/gerrit/modules/java-prettify/BUILD:11:12: //modules/java-prettify:java-prettify-example: no such attribute \u0027runtime_deps\u0027 in \u0027java_binary\u0027 rule\nERROR: package contains errors: modules/java-prettify\nERROR: package contains errors: modules/java-prettify: //modules/java-prettify:java-prettify: no such attribute \u0027srcs\u0027 in \u0027java_library\u0027 rule\nERROR: Skipping \u0027//...\u0027: Error evaluating \u0027//...\u0027: error loading package \u0027modules/java-prettify\u0027: Package \u0027modules/java-prettify\u0027 contains errors\nERROR: Error evaluating \u0027//...\u0027: error loading package \u0027modules/java-prettify\u0027: Package \u0027modules/java-prettify\u0027 contains errors\nINFO: Elapsed time: 1.067s\nINFO: 0 processes.\nERROR: Build did NOT complete successfully\nERROR: Couldn\u0027t start the build. Unable to run tests\n```",
       "revId": "6ee88aecfb205d28313c6e454df6172f5c9e386e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5ffd9fb6_ef8c460d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-04-03T12:12:14Z",
+      "side": 1,
+      "message": "I believe in `java-prettify` module, see change 569141 is missing.",
+      "parentUuid": "54878410_a7f33284",
+      "revId": "6ee88aecfb205d28313c6e454df6172f5c9e386e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

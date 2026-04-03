@@ -68,7 +68,19 @@ suite('gr-hovercard-account-contents tests', () => {
           </div>
           <div class="account">
             <h3 class="heading-3 name">Kermit The Frog</h3>
-            <div class="email">kermit@gmail.com</div>
+            <div class="email">
+              <span>kermit@gmail.com</span>
+              <gr-button
+                aria-disabled="false"
+                class="copyEmailButton"
+                link=""
+                role="button"
+                tabindex="0"
+                title="Copy email to clipboard"
+              >
+                <gr-icon icon="content_copy"></gr-icon>
+              </gr-button>
+            </div>
           </div>
         </div>
         <gr-endpoint-decorator name="hovercard-status">
@@ -211,6 +223,32 @@ suite('gr-hovercard-account-contents tests', () => {
       '.voteable .value'
     );
     assert.equal(voteableEl.innerText, 'Bar: +1');
+  });
+
+  test('copy email to clipboard', async () => {
+    const writeTextStub = sinon
+      .stub(navigator.clipboard, 'writeText')
+      .returns(Promise.resolve());
+    const showAlertListener = sinon.spy();
+    element.addEventListener('show-alert', showAlertListener);
+
+    const button = queryAndAssert<GrButton>(element, '.copyEmailButton');
+    assert.isOk(button);
+    button.click();
+    await element.updateComplete;
+
+    assert.isTrue(writeTextStub.calledOnce);
+    assert.equal(writeTextStub.lastCall.args[0], 'kermit@gmail.com');
+    await writeTextStub.lastCall.returnValue;
+    assert.isTrue(showAlertListener.called);
+
+    writeTextStub.restore();
+  });
+
+  test('copy email button is not shown without email', async () => {
+    element.account = {...ACCOUNT, email: undefined};
+    await element.updateComplete;
+    assert.isUndefined(query(element, '.copyEmailButton'));
   });
 
   test('remove reviewer', async () => {

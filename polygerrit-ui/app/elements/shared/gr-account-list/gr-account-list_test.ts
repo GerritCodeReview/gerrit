@@ -404,7 +404,7 @@ suite('gr-account-list tests', () => {
       '#input'
     );
     input.text = 'newTest';
-    input.input!.focus();
+    queryAndAssert(input, '#input').focus();
     await element.updateComplete;
     await input.latestSuggestionUpdateComplete;
     assert.isTrue(getSuggestionsStub.calledOnce);
@@ -448,7 +448,7 @@ suite('gr-account-list tests', () => {
       // on input field update
       assert.equal(input.nativeInput.selectionStart, 0);
       input.text = 'test';
-      input.input!.focus();
+      queryAndAssert(input, '#input').focus();
       await element.updateComplete;
       assert.equal(element.accounts.length, 2);
       pressKey(input.nativeInput, 'Backspace');
@@ -467,12 +467,12 @@ suite('gr-account-list tests', () => {
       input.text = '';
       element.accounts = [makeAccount(), makeAccount()];
       await element.updateComplete;
-      input.input!.focus();
+      queryAndAssert(input, '#input').focus();
       await element.updateComplete;
       const chips = element.accountChips;
       const chipsOneSpy = sinon.spy(chips[1], 'focus');
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-      pressKey(input.input!, 'ArrowLeft');
+
+      pressKey(queryAndAssert(input, '#input'), 'ArrowLeft');
       assert.isTrue(chipsOneSpy.called);
       const chipsZeroSpy = sinon.spy(chips[0], 'focus');
       pressKey(chips[1], 'ArrowLeft');

@@ -137,6 +137,25 @@ export class GrHovercardAccountContents extends LitElement {
         .email {
           color: var(--deemphasized-text-color);
         }
+        .email {
+          display: flex;
+          align-items: center;
+          gap: var(--spacing-xs);
+          color: var(--deemphasized-text-color);
+        }
+        .copyEmailButton {
+          color: var(--deemphasized-text-color);
+          padding: 0;
+          margin: 0;
+          cursor: pointer;
+          --gr-button-padding: 0;
+        }
+        .copyEmailButton gr-icon {
+          font-size: 14px;
+        }
+        .copyEmailButton:hover {
+          color: var(--primary-text-color);
+        }
         .action {
           border-top: 1px solid var(--border-color);
           padding: var(--spacing-s) var(--spacing-l);
@@ -189,7 +208,18 @@ export class GrHovercardAccountContents extends LitElement {
         </div>
         <div class="account">
           <h3 class="name heading-3">${this.account.name}</h3>
-          <div class="email">${this.account.email}</div>
+          <div class="email">
+            <span>${this.account.email}</span>
+            ${this.account.email
+              ? html`<gr-button
+                  link
+                  class="copyEmailButton"
+                  title="Copy email to clipboard"
+                  @click=${this.handleCopyEmailToClipboard}
+                  ><gr-icon icon="content_copy"></gr-icon
+                ></gr-button>`
+              : nothing}
+          </div>
         </div>
       </div>
       ${this.renderAccountStatusPlugins()} ${this.renderAccountStatus()}
@@ -219,6 +249,16 @@ export class GrHovercardAccountContents extends LitElement {
       ${this.renderNeedsAttention()} ${this.renderAddToAttention()}
       ${this.renderRemoveFromAttention()} ${this.renderReviewerOrCcActions()}
     `;
+  }
+
+  private handleCopyEmailToClipboard() {
+    if (!this.account?.email) return;
+    navigator.clipboard.writeText(this.account.email).then(() => {
+      fire(this, 'show-alert', {
+        message: `Email '${this.account.email}' copied to clipboard`,
+        dismissOnNavigation: true,
+      });
+    });
   }
 
   private renderReviewerOrCcActions() {

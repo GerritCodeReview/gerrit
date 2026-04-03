@@ -12,13 +12,17 @@ import {
   computeIsExpandable,
   LATEST_ATTEMPT,
   rectifyFix,
+  reportCommentDraft,
+  reportGetAIFix,
   sortAttemptChoices,
   stringToAttemptChoice,
   toComment,
 } from './checks-util';
+import {Interaction} from '../../constants/reporting';
 import {Fix, Replacement} from '../../api/checks';
 import {PROVIDED_FIX_ID} from '../../utils/comment-util';
 import {CommentRange, RevisionPatchSetNum} from '../../api/rest-api';
+import {ReportingService} from '../../services/gr-reporting/gr-reporting';
 import {
   createCheckFix,
   createCheckLink,
@@ -243,6 +247,107 @@ suite('checks-util tests', () => {
       const comment = toComment(result);
       assert.isUndefined(comment.range);
       assert.isUndefined(comment.line);
+    });
+  });
+
+  suite('AI agent reporting', () => {
+    let reportInteractionStub: sinon.SinonStub;
+
+    setup(() => {
+      reportInteractionStub = sinon.stub();
+    });
+
+    test('reportGetAIFix', () => {
+      const reporting = {
+        reportInteraction: reportInteractionStub,
+      } as unknown as ReportingService;
+      const runResult = {
+        ...createRunResult(),
+        externalId: JSON.stringify({
+          agentId: 'test-agent',
+          conversationId: 'test-conv',
+          turnIndex: 1,
+        }),
+      };
+
+      reportGetAIFix(reporting, runResult);
+
+      assert.isTrue(reportInteractionStub.calledOnce);
+      assert.equal(
+        reportInteractionStub.lastCall.args[0],
+        Interaction.AI_AGENT_GET_FIX_CLICKED
+      );
+      assert.deepEqual(reportInteractionStub.lastCall.args[1], {
+        agentId: 'test-agent',
+        conversationId: 'test-conv',
+        turnIndex: 1,
+      });
+    });
+
+    test('reportCommentDraft', () => {
+      const reporting = {
+        reportInteraction: reportInteractionStub,
+      } as unknown as ReportingService;
+      const runResult = {
+        ...createRunResult(),
+        externalId: JSON.stringify({
+          agentId: 'test-agent',
+          conversationId: 'test-conv',
+          turnIndex: 2,
+        }),
+      };
+
+      reportCommentDraft(reporting, runResult);
+
+      assert.isTrue(reportInteractionStub.calledOnce);
+      assert.equal(
+        reportInteractionStub.lastCall.args[0],
+        Interaction.AI_AGENT_SUGGESTION_TO_COMMENT
+      );
+      assert.deepEqual(reportInteractionStub.lastCall.args[1], {
+        agentId: 'test-agent',
+        conversationId: 'test-conv',
+        turnIndex: 2,
+      });
+    });
+
+    test('does not report if externalId is missing', () => {
+      const reporting = {
+        reportInteraction: reportInteractionStub,
+      } as unknown as ReportingService;
+      const runResult = createRunResult();
+
+      reportGetAIFix(reporting, runResult);
+      assert.isFalse(reportInteractionStub.called);
+
+      reportCommentDraft(reporting, runResult);
+      assert.isFalse(reportInteractionStub.called);
+    });
+
+    test('does not report if externalId is invalid JSON', () => {
+      const reporting = {
+        reportInteraction: reportInteractionStub,
+      } as unknown as ReportingService;
+      const runResult = {
+        ...createRunResult(),
+        externalId: 'invalid-json',
+      };
+
+      reportGetAIFix(reporting, runResult);
+      assert.isFalse(reportInteractionStub.called);
+    });
+
+    test('does not report if externalId is missing required fields', () => {
+      const reporting = {
+        reportInteraction: reportInteractionStub,
+      } as unknown as ReportingService;
+      const runResult = {
+        ...createRunResult(),
+        externalId: JSON.stringify({agentId: 'test-agent'}),
+      };
+
+      reportGetAIFix(reporting, runResult);
+      assert.isFalse(reportInteractionStub.called);
     });
   });
 });

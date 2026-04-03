@@ -39,7 +39,7 @@ suite('gr-editable-label tests', () => {
       element,
       '#input'
     );
-    input = mdFilledTextField.shadowRoot!.querySelector('input')!;
+    input = queryAndAssert<HTMLInputElement>(mdFilledTextField, 'input');
   });
 
   test('renders', () => {
@@ -274,8 +274,7 @@ suite('gr-editable-label tests', () => {
 
       await waitUntil(() => !autocomplete.suggestionsDropdown!.isHidden);
 
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-      pressKey(autocomplete.input!, Key.ESC);
+      pressKey(queryAndAssert(autocomplete, '#input'), Key.ESC);
 
       await waitUntil(() => autocomplete.suggestionsDropdown!.isHidden);
       assert.isTrue(element.dropdown?.open);
@@ -286,12 +285,11 @@ suite('gr-editable-label tests', () => {
       await element.open();
       await waitUntil(() => !autocomplete.suggestionsDropdown!.isHidden);
       // Press esc to close suggestions.
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-      pressKey(autocomplete.input!, Key.ESC);
+
+      pressKey(queryAndAssert(autocomplete, '#input'), Key.ESC);
       await waitUntil(() => autocomplete.suggestionsDropdown!.isHidden);
 
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-      pressKey(autocomplete.input!, Key.ESC);
+      pressKey(queryAndAssert(autocomplete, '#input'), Key.ESC);
 
       await element.updateComplete;
       // Dialogue is closed, save not triggered.
@@ -309,8 +307,7 @@ suite('gr-editable-label tests', () => {
       await waitUntil(() => !autocomplete.suggestionsDropdown!.isHidden);
       await autocomplete.latestSuggestionUpdateComplete;
 
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-      pressKey(autocomplete.input!, Key.ENTER);
+      pressKey(queryAndAssert(autocomplete, '#input'), Key.ENTER);
 
       await waitUntil(() => autocomplete.suggestionsDropdown!.isHidden);
       await element.updateComplete;
@@ -331,13 +328,12 @@ suite('gr-editable-label tests', () => {
       await autocomplete.latestSuggestionUpdateComplete;
 
       // Press enter to close suggestions.
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-      pressKey(autocomplete.input!, Key.ENTER);
+
+      pressKey(queryAndAssert(autocomplete, '#input'), Key.ENTER);
 
       await waitUntil(() => autocomplete.suggestionsDropdown!.isHidden);
 
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-      pressKey(autocomplete.input!, Key.ENTER);
+      pressKey(queryAndAssert(autocomplete, '#input'), Key.ENTER);
 
       await element.updateComplete;
       // Dialogue is closed, save triggered.

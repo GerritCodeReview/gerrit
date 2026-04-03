@@ -204,14 +204,11 @@ suite('gr-dropdown tests', () => {
       const stub = sinon.stub(element.cursor, 'next');
       assertIsDefined(element.dropdown);
       assert.isFalse(element.dropdown.open);
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-      pressKey(element!.shadowRoot!.querySelector('#trigger')!, 'ArrowDown');
+
+      pressKey(queryAndAssert(element, '#trigger'), 'ArrowDown');
       await element.updateComplete;
       assert.isTrue(element.dropdown.open);
-      pressKey(
-        element!.shadowRoot!.querySelectorAll('md-menu-item')[0],
-        'ArrowDown'
-      );
+      pressKey(queryAll(element, 'md-menu-item')[0], 'ArrowDown');
       await element.updateComplete;
       assert.isTrue(stub.called);
     });
@@ -220,14 +217,11 @@ suite('gr-dropdown tests', () => {
       assertIsDefined(element.dropdown);
       const stub = sinon.stub(element.cursor, 'previous');
       assert.isFalse(element.dropdown.open);
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-      pressKey(element!.shadowRoot!.querySelector('#trigger')!, 'ArrowUp');
+
+      pressKey(queryAndAssert(element, '#trigger'), 'ArrowUp');
       await element.updateComplete;
       assert.isTrue(element.dropdown.open);
-      pressKey(
-        element!.shadowRoot!.querySelectorAll('md-menu-item')[0],
-        'ArrowUp'
-      );
+      pressKey(queryAll(element, 'md-menu-item')[0], 'ArrowUp');
       await element.updateComplete;
       assert.isTrue(stub.called);
     });
@@ -237,8 +231,8 @@ suite('gr-dropdown tests', () => {
       // Because enter and space are handled by the same fn, we need only to
       // test one.
       assert.isFalse(element.dropdown.open);
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-      pressKey(element!.shadowRoot!.querySelector('#trigger')!, ' ');
+
+      pressKey(queryAndAssert(element, '#trigger'), ' ');
       await element.updateComplete;
       assert.isTrue(element.dropdown.open);
       await element.updateComplete;
@@ -250,7 +244,7 @@ suite('gr-dropdown tests', () => {
         ':not([hidden])'
       );
       const stub = sinon.stub(el, 'click');
-      pressKey(element!.shadowRoot!.querySelectorAll('md-menu-item')[0], ' ');
+      pressKey(queryAll(element, 'md-menu-item')[0], ' ');
       await element.updateComplete;
       assert.isTrue(stub.called);
     });

@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "76489bf8_8d494532",
+        "filename": ".bazelrc",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-04-03T11:10:37Z",
+      "side": 1,
+      "message": "How do we ensure that we can still build and produce a Java 21 if needed?",
+      "revId": "4b880d49333b3a6d40beba3b605b022a540d1b6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

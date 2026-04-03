@@ -131,9 +131,9 @@ suite('gr-result-row test', () => {
     await element.updateComplete;
     assert.isFalse(element.isExpanded);
 
-    const summaryDiv: HTMLElement =
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-      element.shadowRoot!.querySelector('.summary')!;
+    const summaryDiv: HTMLElement = element.shadowRoot!.querySelector(
+      '.summary'
+    ) as HTMLElement;
     summaryDiv.click();
     await element.updateComplete;
     assert.isTrue(element.isExpanded);

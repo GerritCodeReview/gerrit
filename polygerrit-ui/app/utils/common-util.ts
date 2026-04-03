@@ -60,7 +60,7 @@ export function assertIsDefined<T>(
 }
 
 export function queryAll<E extends Element = Element>(
-  el: Element,
+  el: Element | undefined,
   selector: string
 ): NodeListOf<E> {
   if (!el) throw new Error('element not defined');

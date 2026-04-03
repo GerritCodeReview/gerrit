@@ -39,6 +39,11 @@ function getBazelSettings() {
 }
 
 module.exports = defineConfig([
+  {
+    linterOptions: {
+      reportUnusedDisableDirectives: 'off',
+    },
+  },
   globalIgnores([
     '**/node_modules',
     '**/rollup.config.js',

@@ -29,6 +29,7 @@ proto_lang_toolchain(
     target_version = VERSION,
     visibility = ["//visibility:public"],
 ) for VERSION in [
+    "21",
     "25",
 ]]
 

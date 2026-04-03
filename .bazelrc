@@ -33,12 +33,31 @@ build --tool_java_runtime_version=remotejdk_25
 build:remote --config=config_gcp
 build:remote --config=build_shared
 
-# Define remote21 configuration alias
+# Define remote_gcp configuration alias
 build:remote_gcp --config=remote
 
 # Builds and executes on BuildBuddy RBE using remotejdk_25
 build:remote_bb --config=config_bb
 build:remote_bb --config=build_shared
+
+# Builds using remotejdk_21, executes using remotejdk_21 or local_jdk
+build:build_java21_shared --java_language_version=21
+build:build_java21_shared --java_runtime_version=remotejdk_21
+build:build_java21_shared --tool_java_language_version=21
+build:build_java21_shared --tool_java_runtime_version=remotejdk_21
+
+build:java21 --config=build_java21_shared
+
+# Builds and executes on RBE using remotejdk_21
+build:remote21 --config=config_gcp
+build:remote21 --config=build_java21_shared
+
+# Define remote21 configuration alias
+build:remote21_gcp --config=remote21
+
+# Builds and executes on BuildBuddy RBE using remotejdk_21
+build:remote21_bb --config=config_bb
+build:remote21_bb --config=build_java21_shared
 
 # Builds using remotejdk_25, executes using remotejdk_25 or local_jdk
 build:build_java25_shared --java_language_version=25

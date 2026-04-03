@@ -495,8 +495,8 @@ export class GrGroupMembers extends LitElement {
     if (!this.groupMembers) return;
 
     const el = e.target as GrButton;
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-    const index = Number(el.getAttribute('data-index')!);
+
+    const index = Number(el.getAttribute('data-index'));
     const keys = this.groupMembers[index];
     const item =
       keys.username || keys.name || keys.email || keys._account_id?.toString();
@@ -547,8 +547,8 @@ export class GrGroupMembers extends LitElement {
     if (!this.includedGroups) return;
 
     const el = e.target as GrButton;
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-    const index = Number(el.getAttribute('data-index')!);
+
+    const index = Number(el.getAttribute('data-index'));
     const keys = this.includedGroups[index];
 
     const id = decodeURIComponent(keys.id).replace(/\+/g, ' ') as GroupId;

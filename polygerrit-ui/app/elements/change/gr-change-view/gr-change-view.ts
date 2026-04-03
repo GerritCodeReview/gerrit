@@ -1616,8 +1616,7 @@ export class GrChangeView extends LitElement {
   }
 
   override updated() {
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-    const tabs = [...queryAll<HTMLElement>(this.tabs!, 'md-secondary-tab')];
+    const tabs = [...queryAll<HTMLElement>(this.tabs, 'md-secondary-tab')];
     const tabIndex = tabs.findIndex(t => t.dataset['name'] === this.activeTab);
 
     if (tabIndex !== -1 && this.tabs!.activeTabIndex !== tabIndex) {

@@ -68,7 +68,16 @@ suite('gr-hovercard-account-contents tests', () => {
           </div>
           <div class="account">
             <h3 class="heading-3 name">Kermit The Frog</h3>
-            <div class="email">kermit@gmail.com</div>
+            <div class="email">
+              <span>kermit@gmail.com</span>
+              <gr-copy-clipboard
+                buttontitle="Copy email to clipboard"
+                copytargetname="Email"
+                hastooltip=""
+                hideinput=""
+              >
+              </gr-copy-clipboard>
+            </div>
           </div>
         </div>
         <gr-endpoint-decorator name="hovercard-status">
@@ -110,7 +119,16 @@ suite('gr-hovercard-account-contents tests', () => {
           </div>
           <div class="account">
             <h3 class="heading-3 name">Kermit The Frog</h3>
-            <div class="email">kermit@gmail.com</div>
+            <div class="email">
+              <span>kermit@gmail.com</span>
+              <gr-copy-clipboard
+                buttontitle="Copy email to clipboard"
+                copytargetname="Email"
+                hastooltip=""
+                hideinput=""
+              >
+              </gr-copy-clipboard>
+            </div>
           </div>
         </div>
         <gr-endpoint-decorator name="hovercard-status">
@@ -211,6 +229,17 @@ suite('gr-hovercard-account-contents tests', () => {
       '.voteable .value'
     );
     assert.equal(voteableEl.innerText, 'Bar: +1');
+  });
+
+  test('copy email clipboard is shown when email exists', () => {
+    const copyClipboard = queryAndAssert(element, 'gr-copy-clipboard');
+    assert.isOk(copyClipboard);
+  });
+
+  test('copy email clipboard is not shown without email', async () => {
+    element.account = {...ACCOUNT, email: undefined};
+    await element.updateComplete;
+    assert.isUndefined(query(element, 'gr-copy-clipboard'));
   });
 
   test('remove reviewer', async () => {

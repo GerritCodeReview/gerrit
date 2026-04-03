@@ -5,6 +5,7 @@
  */
 import '../gr-avatar/gr-avatar';
 import '../gr-button/gr-button';
+import '../gr-copy-clipboard/gr-copy-clipboard';
 import '../gr-icon/gr-icon';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '../../plugins/gr-endpoint-param/gr-endpoint-param';
@@ -137,6 +138,12 @@ export class GrHovercardAccountContents extends LitElement {
         .email {
           color: var(--deemphasized-text-color);
         }
+        .email {
+          display: flex;
+          align-items: center;
+          gap: var(--spacing-xs);
+          color: var(--deemphasized-text-color);
+        }
         .action {
           border-top: 1px solid var(--border-color);
           padding: var(--spacing-s) var(--spacing-l);
@@ -189,7 +196,18 @@ export class GrHovercardAccountContents extends LitElement {
         </div>
         <div class="account">
           <h3 class="name heading-3">${this.account.name}</h3>
-          <div class="email">${this.account.email}</div>
+          <div class="email">
+            <span>${this.account.email}</span>
+            ${this.account.email
+              ? html`<gr-copy-clipboard
+                  hideInput
+                  .text=${this.account.email}
+                  copyTargetName="Email"
+                  hasTooltip
+                  buttonTitle="Copy email to clipboard"
+                ></gr-copy-clipboard>`
+              : nothing}
+          </div>
         </div>
       </div>
       ${this.renderAccountStatusPlugins()} ${this.renderAccountStatus()}

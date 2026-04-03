@@ -16,6 +16,24 @@
       "message": "This is being fixed with https://gerrit-review.googlesource.com/c/gerrit/+/569261 and https://gerrit-review.googlesource.com/c/gerrit/+/569262/",
       "revId": "bbc2dc7e68d012db4cfc4154418ca51802b9971a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c7bda98d_3ad0b9ee",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-04-03T21:16:20Z",
+      "side": 1,
+      "message": "Oh! Thank you!",
+      "parentUuid": "eb51d528_2f61f95f",
+      "revId": "bbc2dc7e68d012db4cfc4154418ca51802b9971a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

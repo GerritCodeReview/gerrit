@@ -179,7 +179,6 @@ suite('citations-box tests', () => {
       '.citations-summary-message'
     );
     assert.isOk(summary);
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
     assert.include(summary.textContent!, '2 citations');
 
     const items = element.shadowRoot?.querySelectorAll('.citation-item');

@@ -148,7 +148,6 @@ suite('gr-result-row test', () => {
     assert.isFalse(element.isExpanded);
 
     const summaryDiv: HTMLElement =
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
       element.shadowRoot!.querySelector('.summary')!;
     summaryDiv.click();
     await element.updateComplete;

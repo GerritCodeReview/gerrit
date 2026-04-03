@@ -495,7 +495,6 @@ export class GrGroupMembers extends LitElement {
     if (!this.groupMembers) return;
 
     const el = e.target as GrButton;
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
     const index = Number(el.getAttribute('data-index')!);
     const keys = this.groupMembers[index];
     const item =
@@ -547,7 +546,6 @@ export class GrGroupMembers extends LitElement {
     if (!this.includedGroups) return;
 
     const el = e.target as GrButton;
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
     const index = Number(el.getAttribute('data-index')!);
     const keys = this.includedGroups[index];
 

@@ -48,10 +48,10 @@ import {testResolver} from '../../../test/common-test-setup';
 suite('gr-message tests', () => {
   let element: GrMessage;
 
-  suite('when admin and logged in', () => {
+  suite('when maintain server and logged in', () => {
     setup(async () => {
       element = await fixture<GrMessage>(html`<gr-message></gr-message>`);
-      element.isAdmin = true;
+      element.isMaintainServer = true;
     });
 
     test('can see delete button', async () => {

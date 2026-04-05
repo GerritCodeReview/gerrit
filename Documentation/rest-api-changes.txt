@@ -3091,9 +3091,11 @@ which contains the name of the user who deleted the change message and the
 reason why it was deleted. The reason can be provided in the request body as a
 link:#delete-change-message-input[DeleteChangeMessageInput] entity.
 
-Note that only users with the
-link:access-control.html#capability_administrateServer[Administrate Server]
-global capability are permitted to delete a change message.
+Users with the
+link:access-control.html#capability_maintainServer[Maintain Server]
+global capability may delete a change message. Administrators may also
+delete a change message, since they implicitly pass `Maintain Server`
+permission checks.
 
 To delete a change message, send a DELETE request:
 
@@ -5959,9 +5961,10 @@ the comment and the reason why it's deleted.
 This endpoint also marks the comment as resolved since deleted comments are not
 actionable.
 
-Note that only users with the
-link:access-control.html#capability_administrateServer[Administrate Server]
-global capability are permitted to delete a comment.
+Note that users with the
+link:access-control.html#capability_maintainServer[Maintain Server]
+global capability may delete a comment. Administrators may also delete a
+comment, since they implicitly pass `Maintain Server` permission checks.
 
 Deletion reason can be provided in the request body as a
 link:#delete-comment-input[DeleteCommentInput] entity.

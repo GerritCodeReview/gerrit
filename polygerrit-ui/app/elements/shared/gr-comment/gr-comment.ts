@@ -282,7 +282,7 @@ export class GrComment extends LitElement {
   account?: AccountDetailInfo;
 
   @state()
-  isAdmin = false;
+  isMaintainServer = false;
 
   @state()
   isOwner = false;
@@ -402,8 +402,8 @@ export class GrComment extends LitElement {
     );
     subscribe(
       this,
-      () => this.getUserModel().isAdmin$,
-      x => (this.isAdmin = x)
+      () => this.getUserModel().isMaintainServer$,
+      x => (this.isMaintainServer = x)
     );
 
     subscribe(
@@ -815,7 +815,7 @@ export class GrComment extends LitElement {
    * a draft. It is an action applied to published comments.
    */
   private renderDeleteButton() {
-    if (!this.isAdmin || isDraft(this.comment)) return;
+    if (!this.isMaintainServer || isDraft(this.comment)) return;
     if (this.collapsed) return;
     return html`
       <gr-button

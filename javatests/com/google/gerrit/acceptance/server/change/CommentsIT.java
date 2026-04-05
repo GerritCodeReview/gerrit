@@ -19,8 +19,10 @@ import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.PushOneCommit.FILE_NAME;
 import static com.google.gerrit.acceptance.PushOneCommit.SUBJECT;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowCapability;
 import static com.google.gerrit.entities.Patch.COMMIT_MSG;
 import static com.google.gerrit.entities.Patch.PATCHSET_LEVEL;
+import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static com.google.gerrit.truth.MapSubject.assertThatMap;
 import static java.util.stream.Collectors.toList;
@@ -39,6 +41,7 @@ import com.google.gerrit.acceptance.testsuite.change.TestHumanComment;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.RawInputUtil;
+import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.HumanComment;
@@ -1919,7 +1922,7 @@ public class CommentsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void deleteCommentCannotBeAppliedByUser() throws Exception {
+  public void deleteCommentCannotBeAppliedByRegularUser() throws Exception {
     PushOneCommit.Result result = createChange();
     CommentInput targetComment = CommentsUtil.addComment(gApi, result.getChangeId());
 
@@ -1936,6 +1939,28 @@ public class CommentsIT extends AbstractDaemonTest {
     assertThrows(
         AuthException.class,
         () -> gApi.changes().id(result.getChangeId()).current().comment(uuid).delete(input));
+  }
+
+  @Test
+  public void deleteCommentCanBeAppliedByUserWithMaintainServer() throws Exception {
+    PushOneCommit.Result result = createChange();
+    CommentInput targetComment = CommentsUtil.addComment(gApi, result.getChangeId());
+
+    Map<String, List<CommentInfo>> commentsMap =
+        getPublishedComments(result.getChangeId(), result.getCommit().name());
+    String uuid = commentsMap.get(targetComment.path).get(0).id;
+
+    projectOperations
+        .allProjectsForUpdate()
+        .add(allowCapability(GlobalCapability.MAINTAIN_SERVER).group(REGISTERED_USERS))
+        .update();
+
+    DeleteCommentInput input = new DeleteCommentInput("contains confidential information");
+    CommentInfo updated =
+        gApi.changes().id(result.getChangeId()).current().comment(uuid).delete(input);
+
+    assertThat(updated.message).contains("Comment removed by:");
+    assertThat(updated.message).contains("Reason: " + input.reason);
   }
 
   @Test

@@ -117,7 +117,7 @@ export class GrMessage extends LitElement {
   config?: ServerInfo;
 
   @state()
-  isAdmin = false;
+  isMaintainServer = false;
 
   @state()
   private isDeletingChangeMsg = false;
@@ -145,8 +145,8 @@ export class GrMessage extends LitElement {
     );
     subscribe(
       this,
-      () => this.getUserModel().isAdmin$,
-      x => (this.isAdmin = x)
+      () => this.getUserModel().isMaintainServer$,
+      x => (this.isMaintainServer = x)
     );
   }
 
@@ -450,7 +450,7 @@ export class GrMessage extends LitElement {
   }
 
   private renderActionContainer() {
-    if (!this.isAdmin || !this.loggedIn || this.computeIsAutomated()) {
+    if (!this.isMaintainServer || !this.loggedIn || this.computeIsAutomated()) {
       return nothing;
     }
     return html` <div class="replyActionContainer">

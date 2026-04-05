@@ -81,7 +81,7 @@ public class DeleteComment implements RestModifyView<HumanCommentResource, Delet
           PermissionBackendException,
           UpdateException {
     CurrentUser user = userProvider.get();
-    permissionBackend.user(user).check(GlobalPermission.ADMINISTRATE_SERVER);
+    permissionBackend.user(user).check(GlobalPermission.MAINTAIN_SERVER);
 
     if (input == null) {
       input = new DeleteCommentInput();

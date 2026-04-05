@@ -120,6 +120,11 @@ export class UserModel extends Model<UserState> {
     capabilities => capabilities?.administrateServer ?? false
   );
 
+  readonly isMaintainServer$: Observable<boolean> = select(
+    this.capabilities$,
+    capabilities => capabilities?.maintainServer ?? false
+  );
+
   readonly preferences$: Observable<PreferencesInfo> = select(
     this.state$,
     userState => userState.preferences

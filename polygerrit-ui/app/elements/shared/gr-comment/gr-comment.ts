@@ -286,7 +286,7 @@ export class GrComment extends LitElement {
   account?: AccountDetailInfo;
 
   @state()
-  isAdmin = false;
+  hasDeleteComment = false;
 
   @state()
   isOwner = false;
@@ -406,8 +406,8 @@ export class GrComment extends LitElement {
     );
     subscribe(
       this,
-      () => this.getUserModel().isAdmin$,
-      x => (this.isAdmin = x)
+      () => this.getUserModel().hasDeleteComment$,
+      x => (this.hasDeleteComment = x)
     );
 
     subscribe(
@@ -815,11 +815,12 @@ export class GrComment extends LitElement {
   }
 
   /**
-   * Deleting a comment is an admin feature. It means more than just discarding
-   * a draft. It is an action applied to published comments.
+   * Deleting a published comment requires "Delete Comment" capability.
+   * It means more than just discarding a draft. It is an action applied
+   * to published comments.
    */
   private renderDeleteButton() {
-    if (!this.isAdmin || isDraft(this.comment)) return;
+    if (!this.hasDeleteComment || isDraft(this.comment)) return;
     if (this.collapsed) return;
     return html`
       <gr-button
@@ -1751,8 +1752,9 @@ export class GrComment extends LitElement {
   }
 
   /**
-   * Deleting a *published* comment is an admin feature. It means more than just
-   * discarding a draft.
+   * Deleting a published comment requires the "Delete Comment" capability.
+   * It means more than just discarding a draft. It is an action applied to
+   * published comments.
    */
   // private, but visible for testing
   async handleConfirmDeleteComment() {

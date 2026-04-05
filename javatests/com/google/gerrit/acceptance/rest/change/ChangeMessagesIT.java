@@ -193,13 +193,24 @@ public class ChangeMessagesIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void deleteCannotBeAppliedWithoutAdministrateServerCapability() throws Exception {
+  public void deleteCannotBeAppliedWithoutMaintainServerCapability() throws Exception {
     int changeNum = createOneChangeWithMultipleChangeMessagesInHistory();
     requestScopeOperations.setApiUser(user.id());
 
     AuthException thrown =
         assertThrows(AuthException.class, () -> deleteOneChangeMessage(changeNum, 0, user, "spam"));
-    assertThat(thrown).hasMessageThat().isEqualTo("administrate server not permitted");
+    assertThat(thrown).hasMessageThat().isEqualTo("maintain server not permitted");
+  }
+
+  @Test
+  public void deleteCanBeAppliedWithMaintainServerCapability() throws Exception {
+    projectOperations
+        .allProjectsForUpdate()
+        .add(allowCapability(GlobalCapability.MAINTAIN_SERVER).group(REGISTERED_USERS))
+        .update();
+    int changeNum = createOneChangeWithMultipleChangeMessagesInHistory();
+    requestScopeOperations.setApiUser(user.id());
+    deleteOneChangeMessage(changeNum, 0, user, "spam");
   }
 
   @Test

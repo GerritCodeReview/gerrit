@@ -1919,7 +1919,7 @@ public class CommentsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void deleteCommentCannotBeAppliedByUser() throws Exception {
+  public void deleteCommentCannotBeAppliedByRegularUser() throws Exception {
     PushOneCommit.Result result = createChange();
     CommentInput targetComment = CommentsUtil.addComment(gApi, result.getChangeId());
 
@@ -1936,6 +1936,27 @@ public class CommentsIT extends AbstractDaemonTest {
     assertThrows(
         AuthException.class,
         () -> gApi.changes().id(result.getChangeId()).current().comment(uuid).delete(input));
+  }
+
+  @Test
+  public void deleteCommentCanBeAppliedByUserWithMaintainServer() throws Exception {
+    PushOneCommit.Result result = createChange();
+    CommentInput targetComment = CommentsUtil.addComment(gApi, result.getChangeId());
+
+    Map<String, List<CommentInfo>> commentsMap =
+        getPublishedComments(result.getChangeId(), result.getCommit().name());
+    String uuid = commentsMap.get(targetComment.path).get(0).id;
+
+    Account.Id maintainer = accountCreator.create("maintainer").id();
+    allowGlobalCapabilities(maintainer, GlobalCapability.MAINTAIN_SERVER);
+
+    requestScopeOperations.setApiUser(maintainer);
+    DeleteCommentInput input = new DeleteCommentInput("contains confidential information");
+    CommentInfo updated =
+        gApi.changes().id(result.getChangeId()).current().comment(uuid).delete(input);
+
+    assertThat(updated.message).contains("Comment removed by:");
+    assertThat(updated.message).contains("Reason: " + input.reason);
   }
 
   @Test

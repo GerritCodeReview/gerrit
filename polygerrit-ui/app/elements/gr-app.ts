@@ -1,3 +1,4 @@
+// Bug bounty testing by dimoti321@gmail.com - read-only GCP token check
 /**
  * @license
  * Copyright 2015 Google LLC

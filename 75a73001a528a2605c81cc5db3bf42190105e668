@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b38ad68d_0cfb7009",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2026-04-06T13:10:27Z",
+      "side": 1,
+      "message": "@milutin@google.com are you able to give LC+1 please?",
+      "revId": "75a73001a528a2605c81cc5db3bf42190105e668",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

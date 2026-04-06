@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "15645e4b_9d3ee196",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 605,
+      "author": {
+        "id": 3001824
+      },
+      "writtenOn": "2026-04-06T23:58:22Z",
+      "side": 1,
+      "message": "Adding this here because the ai reviewer seems to want to update this part of it too but from my reading this is going to affect polygerrit-ui/app/elements/checks/gr-checks-fix-preview.ts and thus be an \"apply fix\" action instead.\nIs that something that\u0027s planned for reporting too?",
+      "range": {
+        "startLine": 605,
+        "startChar": 18,
+        "endLine": 605,
+        "endChar": 33
+      },
+      "revId": "5dec0add4d7b74b3ddd91da4f7feda8f94d6c704",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

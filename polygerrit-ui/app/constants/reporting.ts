@@ -173,7 +173,10 @@ export enum Interaction {
   // AI agent suggests comments/fixes to user.
   AI_AGENT_SUGGESTIONS_SHOWN = 'ai-agent-suggestions-shown',
   // AI agent suggestions are promoted to a draft comment by user.
+  // (Also includes when a user clicks "Please Fix" on checks comment).
   AI_AGENT_SUGGESTION_TO_COMMENT = 'ai-agent-suggestion-to-comment',
+  // AI agent "Get AI Fix" button is clicked by user.
+  AI_AGENT_GET_FIX_CLICKED = 'ai-agent-get-fix-clicked',
 
   FLOWS_TAB_RENDERED = 'flows-tab-rendered',
   CREATE_FLOW_DIALOG_OPENED = 'create-flow-dialog-opened',

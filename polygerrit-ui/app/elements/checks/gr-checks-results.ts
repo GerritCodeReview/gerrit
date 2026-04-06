@@ -49,6 +49,7 @@ import {
   LATEST_ATTEMPT,
   otherPrimaryLinks,
   rectifyFix,
+  reportAiAgentGetAIFix,
   secondaryLinks,
   sortAttemptChoices,
   stringToAttemptChoice,
@@ -693,6 +694,7 @@ export class GrResultRow extends LitElement {
     if (!this.result || !this.result.message || !codePointer) return;
 
     this.suggestionLoading = true;
+    reportAiAgentGetAIFix(this.reporting, this.result);
     let suggestion: FixSuggestionInfo | undefined;
     try {
       suggestion = await this.getSuggestionsService().generateSuggestedFix({

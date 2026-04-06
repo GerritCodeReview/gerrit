@@ -11,7 +11,7 @@ import {
   GrResultRow,
 } from './gr-checks-results';
 import {html} from 'lit';
-import {assert, fixture} from '@open-wc/testing';
+import {assert, fixture, waitUntil} from '@open-wc/testing';
 import {checksModelToken, RunResult} from '../../models/checks/checks-model';
 import {
   checkRun0,
@@ -22,8 +22,12 @@ import {resolve} from '../../models/dependency';
 import {createLabelInfo} from '../../test/test-data-generators';
 import {assertIsDefined, query, queryAndAssert} from '../../utils/common-util';
 import {stubFlags} from '../../test/test-utils';
-import {PatchSetNumber} from '../../api/rest-api';
+import {Interaction} from '../../constants/reporting';
+import {FixId, NumericChangeId, PatchSetNumber} from '../../api/rest-api';
 import {GrDropdownList} from '../shared/gr-dropdown-list/gr-dropdown-list';
+import {getAppContext} from '../../services/app-context';
+import {suggestionsServiceToken} from '../../services/suggestions/suggestions-service';
+import {testResolver} from '../../test/common-test-setup';
 
 suite('gr-result-row test', () => {
   let element: GrResultRow;
@@ -131,9 +135,7 @@ suite('gr-result-row test', () => {
     await element.updateComplete;
     assert.isFalse(element.isExpanded);
 
-    const summaryDiv: HTMLElement =
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-      element.shadowRoot!.querySelector('.summary')!;
+    const summaryDiv = queryAndAssert<HTMLElement>(element, '.summary');
     summaryDiv.click();
     await element.updateComplete;
     assert.isTrue(element.isExpanded);
@@ -141,6 +143,49 @@ suite('gr-result-row test', () => {
     summaryDiv.click();
     await element.updateComplete;
     assert.isFalse(element.isExpanded);
+  });
+
+  test('reports AI_AGENT_GET_FIX_CLICKED when AI fix clicked', async () => {
+    const reportingStub = sinon.stub(
+      getAppContext().reportingService,
+      'reportInteraction'
+    );
+    const checksModel = testResolver(checksModelToken);
+    checksModel.changeNum = 123 as NumericChangeId;
+    const suggestionsService = testResolver(suggestionsServiceToken);
+    sinon
+      .stub(suggestionsService, 'isGeneratedSuggestedFixEnabled')
+      .returns(true);
+    sinon.stub(suggestionsService, 'generateSuggestedFix').resolves({
+      description: 'AI suggested fix',
+      replacements: [],
+      fix_id: '1' as FixId,
+    });
+
+    element.isOwner = true;
+    element.result = {
+      ...element.result!,
+      message: 'Test message',
+      externalId: JSON.stringify({
+        agentId: 'test-agent',
+        conversationId: 'test-conv',
+        turnIndex: 1,
+      }),
+      codePointers: [{path: 'test/path', range: {start_line: 1, end_line: 1}}],
+    } as RunResult;
+    // Mock the button or just call handleAIFix
+    // In gr-result-row, handleAIFix is private, but it's triggered by 'get-ai-fix-for-check-result' event
+    element.dispatchEvent(new CustomEvent('get-ai-fix-for-check-result'));
+    await waitUntil(() =>
+      reportingStub.calledWith(
+        Interaction.AI_AGENT_GET_FIX_CLICKED,
+        sinon.match({
+          agentId: 'test-agent',
+          conversationId: 'test-conv',
+          turnIndex: 1,
+        })
+      )
+    );
   });
 });
 

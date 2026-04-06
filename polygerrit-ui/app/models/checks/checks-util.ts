@@ -23,6 +23,8 @@ import {CommentSide} from '../../constants/constants';
 import {DraftInfo, FixSuggestionInfo} from '../../types/common';
 import {OpenFixPreviewEventDetail} from '../../types/events';
 import {isDefined} from '../../types/types';
+import {AiAgentEventDetails, Interaction} from '../../constants/reporting';
+import {ReportingService as Reporting} from '../../services/gr-reporting/gr-reporting';
 import {createNew, PROVIDED_FIX_ID} from '../../utils/comment-util';
 import {assert, assertIsDefined, assertNever} from '../../utils/common-util';
 import {fire} from '../../utils/event-util';
@@ -591,4 +593,60 @@ export function computeIsExpandable(result?: CheckResultApi) {
   const hasPointers = (result?.codePointers ?? []).length > 0;
   const hasFixes = (result?.fixes ?? []).length > 0;
   return hasMessage || hasMultipleLinks || hasPointers || hasFixes;
+}
+
+function getAiAgentEventDetails(
+  runResult: RunResult
+): AiAgentEventDetails | undefined {
+  const externalId = runResult.externalId;
+  if (!externalId) return;
+  // Use JSON.parse. We expect agentId, conversationId, turnIndex.
+  try {
+    const {agentId, conversationId, turnIndex} = JSON.parse(externalId);
+    if (
+      !agentId ||
+      !conversationId ||
+      turnIndex === null ||
+      turnIndex === undefined
+    ) {
+      return;
+    }
+    return {
+      agentId,
+      conversationId,
+      turnIndex: Number(turnIndex),
+    };
+  } catch (e) {
+    return undefined;
+  }
+}
+
+/**
+ * Reports a "Get AI Fix" click interaction on a Code Review Agent check.
+ */
+export function reportAiAgentGetAIFix(
+  reporting: Reporting,
+  runResult: RunResult
+) {
+  const eventDetails = getAiAgentEventDetails(runResult);
+  if (!eventDetails) return;
+  reporting.reportInteraction(
+    Interaction.AI_AGENT_GET_FIX_CLICKED,
+    eventDetails
+  );
+}
+
+/**
+ * Reports a "Please Fix" click interaction on a Code Review Agent check.
+ */
+export function reportAiAgentCommentDraft(
+  reporting: Reporting,
+  runResult: RunResult
+) {
+  const eventDetails = getAiAgentEventDetails(runResult);
+  if (!eventDetails) return;
+  reporting.reportInteraction(
+    Interaction.AI_AGENT_SUGGESTION_TO_COMMENT,
+    eventDetails
+  );
 }

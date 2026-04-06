@@ -3,7 +3,7 @@
  * Copyright 2021 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {assert} from '@open-wc/testing';
+import {assert, waitUntil} from '@open-wc/testing';
 import {checkRun1} from '../../test/test-data-generators';
 import {RunResult} from '../../models/checks/checks-model';
 import '../../test/common-test-setup';
@@ -12,16 +12,30 @@ import {stubFlags} from '../../test/test-utils';
 import './gr-diff-check-result';
 import {GrDiffCheckResult} from './gr-diff-check-result';
 import {GrButton} from '../shared/gr-button/gr-button';
-import {suggestionsServiceToken} from '../../services/suggestions/suggestions-service';
+import {
+  SuggestionsService,
+  suggestionsServiceToken,
+} from '../../services/suggestions/suggestions-service';
 import {testResolver} from '../../test/common-test-setup';
+import {checksModelToken} from '../../models/checks/checks-model';
+import {Interaction} from '../../constants/reporting';
+import {getAppContext} from '../../services/app-context';
+import {FixId, NumericChangeId} from '../../api/rest-api';
 
 suite('gr-diff-check-result tests', () => {
   let element: GrDiffCheckResult;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  let suggestionsService: any;
+
+  let reportingStub: sinon.SinonStub;
+  let suggestionsService: SuggestionsService;
 
   setup(async () => {
     suggestionsService = testResolver(suggestionsServiceToken);
+    reportingStub = sinon.stub(
+      getAppContext().reportingService,
+      'reportInteraction'
+    );
+    const checksModel = testResolver(checksModelToken);
+    checksModel.changeNum = 123 as NumericChangeId;
 
     sinon
       .stub(suggestionsService, 'isGeneratedSuggestedFixEnabled')
@@ -29,6 +43,7 @@ suite('gr-diff-check-result tests', () => {
     stubFlags('isEnabled').returns(true);
     sinon.stub(suggestionsService, 'generateSuggestedFix').resolves({
       description: 'AI suggested fix',
+      fix_id: '1' as FixId,
       replacements: [
         {
           path: 'test/path',
@@ -138,6 +153,11 @@ suite('gr-diff-check-result tests', () => {
         category: 'ERROR',
         summary: 'Test Summary',
         message: 'Test Message',
+        externalId: JSON.stringify({
+          agentId: 'test-agent',
+          conversationId: 'test-conv',
+          turnIndex: 1,
+        }),
         codePointers: [
           {
             path: 'test/path',
@@ -162,10 +182,39 @@ suite('gr-diff-check-result tests', () => {
       // Click the AI fix button
       const aiFixButton = queryAndAssert<GrButton>(element, '#aiFixBtn');
       aiFixButton.click();
-      await element.updateComplete;
+      await waitUntil(() => element.isExpanded);
 
-      // Should be expanded after suggestion is found
-      assert.isTrue(element.isExpanded);
+      assert.isTrue(
+        reportingStub.calledWith(
+          Interaction.AI_AGENT_GET_FIX_CLICKED,
+          sinon.match({
+            agentId: 'test-agent',
+            conversationId: 'test-conv',
+            turnIndex: 1,
+          })
+        )
+      );
     });
+  });
+  test('reports AI_AGENT_SUGGESTION_TO_COMMENT when please-fix clicked', async () => {
+    element.result = {
+      ...checkRun1,
+      ...checkRun1.results?.[0],
+      externalId: JSON.stringify({
+        agentId: 'test-agent',
+        conversationId: 'test-conv',
+        turnIndex: 1,
+      }),
+    } as RunResult;
+    element.isOwner = true;
+    await element.updateComplete;
+
+    const pleaseFixButton = queryAndAssert(element, '#please-fix');
+    const button = queryAndAssert<GrButton>(pleaseFixButton, 'gr-button');
+    button.click();
+
+    assert.isTrue(
+      reportingStub.calledWith(Interaction.AI_AGENT_SUGGESTION_TO_COMMENT)
+    );
   });
 });

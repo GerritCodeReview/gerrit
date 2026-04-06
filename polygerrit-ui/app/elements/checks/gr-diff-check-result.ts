@@ -13,6 +13,8 @@ import {
   createFixAction,
   createPleaseFixComment,
   iconFor,
+  reportAiAgentCommentDraft,
+  reportAiAgentGetAIFix,
 } from '../../models/checks/checks-util';
 import {modifierPressed} from '../../utils/dom-util';
 import './gr-checks-results';
@@ -355,6 +357,7 @@ export class GrDiffCheckResult extends LitElement {
       name: 'Please Fix',
       callback: () => {
         assertIsDefined(this.result, 'result');
+        reportAiAgentCommentDraft(this.reporting, this.result);
         this.getCommentsModel().saveDraft(createPleaseFixComment(this.result));
         return undefined;
       },
@@ -417,6 +420,7 @@ export class GrDiffCheckResult extends LitElement {
       return;
 
     this.suggestionLoading = true;
+    reportAiAgentGetAIFix(this.reporting, this.result);
     let suggestion: FixSuggestionInfo | undefined;
     try {
       suggestion = await this.getSuggestionsService().generateSuggestedFix({

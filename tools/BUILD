@@ -22,6 +22,10 @@ proto_lang_toolchain(
     name = "error_prone_warnings_toolchain_java" + VERSION,
     configuration = dict(),
     java_runtime = "@rules_java//toolchains:remotejdk_" + VERSION,
+    # TODO(davido): Remove once protobuf no longer relies on sun.misc.Unsafe
+    # methods that require this JVM flag on JDK 24+.
+    # See: protocolbuffers/protobuf#20760.
+    javabuilder_jvm_opts = ["--sun-misc-unsafe-memory-access=allow"] if int(VERSION) >= 24 else [],
     package_configuration = [
         ":error_prone",
     ],

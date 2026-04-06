@@ -82,6 +82,8 @@ export class GrPopupInterface implements PopupPluginApi {
       return;
     }
     this.popup.close();
+    this.popup.remove();
+    this.popup = null;
     this.openingPromise = null;
   }
 }

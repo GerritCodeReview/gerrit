@@ -26,8 +26,12 @@ proto_lang_toolchain(
     # methods that require this JVM flag on JDK 24+.
     # See: protocolbuffers/protobuf#20760.
     javabuilder_jvm_opts = ["--sun-misc-unsafe-memory-access=allow"] if int(VERSION) >= 24 else [],
+    javacopts = [
+        "-Xlint:-removal",
+    ],
     package_configuration = [
         ":error_prone",
+        ":first_party_removal_warnings",
     ],
     source_version = VERSION,
     target_version = VERSION,
@@ -442,7 +446,15 @@ java_package_configuration(
         "-Xep:ZoneIdOfZ:ERROR",
         "-Xlint:unchecked",
     ],
-    packages = ["error_prone_packages"],
+    packages = [":error_prone_packages"],
+)
+
+java_package_configuration(
+    name = "first_party_removal_warnings",
+    javacopts = [
+        "-Xlint:removal",
+    ],
+    packages = [":error_prone_packages"],
 )
 
 package_group(

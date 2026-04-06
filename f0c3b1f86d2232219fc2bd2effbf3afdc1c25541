@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "af1ea99e_351cbdf7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-04-06T20:44:30Z",
+      "side": 1,
+      "message": "This might be good, but I think creating a new permission just for deleting comments/messages is probably better. For example, on gerrit-review, non-Google trusted users wouldn\u0027t get Maintain Server perm, but could potentially get a Delete Comment/Message perm.",
+      "revId": "f0c3b1f86d2232219fc2bd2effbf3afdc1c25541",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "aefed6d4_a436cb1d",

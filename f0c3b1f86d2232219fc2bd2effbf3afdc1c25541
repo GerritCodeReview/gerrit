@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aefed6d4_a436cb1d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4754210
+      },
+      "writtenOn": "2026-04-06T09:43:19Z",
+      "side": 1,
+      "message": "569641: Allow Maintain Server to delete comments and change messages | https://gerrit-review.googlesource.com/c/gerrit/+/569641",
+      "revId": "f0c3b1f86d2232219fc2bd2effbf3afdc1c25541",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

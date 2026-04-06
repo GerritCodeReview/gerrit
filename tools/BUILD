@@ -22,8 +22,12 @@ proto_lang_toolchain(
     name = "error_prone_warnings_toolchain_java" + VERSION,
     configuration = dict(),
     java_runtime = "@rules_java//toolchains:remotejdk_" + VERSION,
+    javacopts = [
+        "-Xlint:-removal",
+    ],
     package_configuration = [
         ":error_prone",
+        ":first_party_removal_warnings",
     ],
     source_version = VERSION,
     target_version = VERSION,
@@ -437,7 +441,15 @@ java_package_configuration(
         "-Xep:ZoneIdOfZ:ERROR",
         "-Xlint:unchecked",
     ],
-    packages = ["error_prone_packages"],
+    packages = [":error_prone_packages"],
+)
+
+java_package_configuration(
+    name = "first_party_removal_warnings",
+    javacopts = [
+        "-Xlint:removal",
+    ],
+    packages = [":error_prone_packages"],
 )
 
 package_group(

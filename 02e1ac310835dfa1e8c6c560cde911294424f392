@@ -1,0 +1,246 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3e77f377_3d45fea8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-04-07T22:44:45Z",
+      "side": 1,
+      "message": "Thanks for doing this!",
+      "revId": "02e1ac310835dfa1e8c6c560cde911294424f392",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0dce8a60_0dd85367",
+        "filename": "polygerrit-ui/app/api/ai-code-review.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-04-07T22:44:45Z",
+      "side": 1,
+      "message": "I don\u0027t think a description exists for the actions. I don\u0027t see it on the GERRIT_CAPABILITIES.textproto or backend types.",
+      "range": {
+        "startLine": 56,
+        "startChar": 0,
+        "endLine": 56,
+        "endChar": 23
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "cc4d5840_06e8aa53",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/api/ai-code-review.ts",
+              "range": {
+                "startLine": 56,
+                "startChar": 0,
+                "endLine": 57,
+                "endChar": 0
+              },
+              "replacement": ""
+            }
+          ]
+        }
+      ],
+      "revId": "02e1ac310835dfa1e8c6c560cde911294424f392",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2b3f96f1_610c9dd0",
+        "filename": "polygerrit-ui/app/elements/chat-panel/splash-page-action.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-04-07T22:44:45Z",
+      "side": 1,
+      "message": "Please fix this WARNING reported by autoreview issue finding: This CSS class appears to be unused in the `render()` function. The description in the modal uses `.description-section`. If it\u0027s not needed, it should be removed.\n\nThis CSS class appears to be unused in the `render()` function. The description in the modal uses `.description-section`. If it\u0027s not needed, it should be removed.",
+      "range": {
+        "startLine": 133,
+        "startChar": 0,
+        "endLine": 133,
+        "endChar": 0
+      },
+      "revId": "02e1ac310835dfa1e8c6c560cde911294424f392",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b23d158a_4930d3e1",
+        "filename": "polygerrit-ui/app/elements/chat-panel/splash-page-action.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-04-07T22:44:45Z",
+      "side": 1,
+      "message": "Please fix this WARNING reported by autoreview issue finding: These class names (`diffHeader`, `diffActions`) suggest they are specific to a diff view, but this is a general \"Capability details\" modal. Consider using more generic names like `modalHeader` and `modalActions` unless these are intentionally matching styles for diff-related dialogs.\n\nThese class names (`diffHeader`, `diffActions`) suggest they are specific to a diff view, but this is a general \"Capability details\" modal. Consider using more generic names like `modalHeader` and `modalActions` unless these are intentionally matching styles for diff-related dialogs.",
+      "range": {
+        "startLine": 171,
+        "startChar": 0,
+        "endLine": 171,
+        "endChar": 0
+      },
+      "revId": "02e1ac310835dfa1e8c6c560cde911294424f392",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f203ab8a_eee83dff",
+        "filename": "polygerrit-ui/app/elements/chat-panel/splash-page-action.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-04-07T22:44:45Z",
+      "side": 1,
+      "message": "You can group this with the other .diffActions class selector in the CSS.",
+      "range": {
+        "startLine": 180,
+        "startChar": 7,
+        "endLine": 180,
+        "endChar": 18
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "72c26f20_53a21d29",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/splash-page-action.ts",
+              "range": {
+                "startLine": 1,
+                "startChar": 0,
+                "endLine": 1,
+                "endChar": 0
+              },
+              "replacement": "        border-top: 1px solid var(--border-color);\n        display: flex;\n        justify-content: flex-end;\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/splash-page-action.ts",
+              "range": {
+                "startLine": 180,
+                "startChar": 0,
+                "endLine": 185,
+                "endChar": 0
+              },
+              "replacement": ""
+            }
+          ]
+        }
+      ],
+      "revId": "02e1ac310835dfa1e8c6c560cde911294424f392",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cc1c8cc1_21b9a3a4",
+        "filename": "polygerrit-ui/app/elements/chat-panel/splash-page-action.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-04-07T22:44:45Z",
+      "side": 1,
+      "message": "we can just remove this since the description doesn\u0027t exist.",
+      "range": {
+        "startLine": 318,
+        "startChar": 12,
+        "endLine": 320,
+        "endChar": 18
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "fe2da9c3_355b3e14",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/splash-page-action.ts",
+              "range": {
+                "startLine": 318,
+                "startChar": 0,
+                "endLine": 322,
+                "endChar": 0
+              },
+              "replacement": ""
+            }
+          ]
+        }
+      ],
+      "revId": "02e1ac310835dfa1e8c6c560cde911294424f392",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e3fa7c16_51155a1a",
+        "filename": "polygerrit-ui/app/elements/chat-panel/splash-page-action.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-04-07T22:44:45Z",
+      "side": 1,
+      "message": "It would be nice to link to the GERRIT_CAPABILITIES file (we can create a cs link with the action ID). And critique also shows the \"Matched files in this CL\".",
+      "range": {
+        "startLine": 336,
+        "startChar": 12,
+        "endLine": 336,
+        "endChar": 15
+      },
+      "revId": "02e1ac310835dfa1e8c6c560cde911294424f392",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "11119d9a_945af9cc",
+        "filename": "polygerrit-ui/app/elements/chat-panel/splash-page-action_test.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-04-07T22:44:45Z",
+      "side": 1,
+      "message": "It would be nice to have a screenshot test of the modal too.",
+      "range": {
+        "startLine": 45,
+        "startChar": 2,
+        "endLine": 45,
+        "endChar": 6
+      },
+      "revId": "02e1ac310835dfa1e8c6c560cde911294424f392",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

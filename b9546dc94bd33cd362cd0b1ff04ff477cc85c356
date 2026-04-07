@@ -33,6 +33,24 @@
       "message": "Can\u0027t we just exclude this specific query from the latency computations instead?",
       "revId": "b9546dc94bd33cd362cd0b1ff04ff477cc85c356",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bc0b2e1f_a4972d2c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 30
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-04-07T08:03:26Z",
+      "side": 1,
+      "message": "\u003e Can\u0027t we just exclude this specific query from the latency computations instead?\n\nWhat do you mean?\n\nThis is the default query for all dashboards.\n\nHow can we exclude this query?",
+      "parentUuid": "39640231_58edf11e",
+      "revId": "b9546dc94bd33cd362cd0b1ff04ff477cc85c356",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

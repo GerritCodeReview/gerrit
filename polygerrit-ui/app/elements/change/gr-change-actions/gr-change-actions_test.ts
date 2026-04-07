@@ -32,6 +32,7 @@ import {
   assertUIActionInfo,
   GrChangeActions,
   REMOVE_DELTE_ACCOUNTS_MESSAGE,
+  QUICK_APPROVE_ACTION,
 } from './gr-change-actions';
 import {
   AccountId,
@@ -2292,6 +2293,19 @@ suite('gr-change-actions tests', () => {
         assert.deepEqual((payload as ReviewInput).labels, {foo: 1});
       });
 
+      test('calls handleReplySent on quick approve success', async () => {
+        const handleReplySentStub = sinon.stub(
+          testResolver(pluginLoaderToken).jsApiService,
+          'handleReplySent'
+        );
+
+        await element.handleResponse(
+          QUICK_APPROVE_ACTION,
+          new Response()
+        );
+        assert.isTrue(handleReplySentStub.called);
+      });
+
       test('not added when multiple labels are required without code review', async () => {
         element.change = {
           ...createChangeViewChange(),
@@ -3090,6 +3104,10 @@ suite('gr-change-actions tests', () => {
 
       assert.isTrue(canSubmit);
       assert.isFalse(showDialogSpy.called);
+    });
+  });
+});
+     assert.isFalse(showDialogSpy.called);
     });
   });
 });

@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8d2903d7_3d4e7651",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1010224
+      },
+      "writtenOn": "2026-04-07T02:06:57Z",
+      "side": 1,
+      "message": "We already have `jj metaedit --update-change-id` for generating a new change id. I think having `jj metaedit --change-id \u003cchange id\u003e` would also make sense.",
+      "parentUuid": "1c478738_5703981b",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 47
+      },
+      "revId": "cd4859126d3e250dd8d1517a7dc02f468429a874",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "42b4d0a8_30d804ba",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 3

@@ -113,6 +113,9 @@ export class GrChangeList extends LitElement {
   @property({type: Number}) selectedIndex = 0;
 
   @property({type: Boolean})
+  limitInitialResults = false;
+
+  @property({type: Boolean})
   showNumber?: boolean; // No default value to prevent flickering.
 
   @property({type: Boolean})
@@ -281,6 +284,7 @@ export class GrChangeList extends LitElement {
         .loggedInUser=${this.loggedInUser}
         .dashboardUser=${this.dashboardUser}
         .starsLoading=${this.starsLoading}
+        .limitInitialResults=${this.limitInitialResults}
         .selectedIndex=${computeRelativeIndex(
           this.selectedIndex,
           sectionIndex,

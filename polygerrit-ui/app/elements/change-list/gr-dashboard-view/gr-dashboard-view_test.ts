@@ -43,6 +43,7 @@ import {RestApiService} from '../../../services/gr-rest-api/gr-rest-api';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {DashboardType} from '../../../models/views/dashboard';
 import {GrNotificationsPrompt} from '../../core/gr-notifications-prompt/gr-notifications-prompt';
+import {GrChangeList} from '../gr-change-list/gr-change-list';
 
 suite('gr-dashboard-view tests', () => {
   let element: GrDashboardView;
@@ -224,6 +225,24 @@ suite('gr-dashboard-view tests', () => {
       secondRequestPromise.resolve([[{...change1, starred: true}], []]);
       await reloadPromise;
       assert.isFalse(element.starsLoading);
+    });
+
+    test('limitInitialResults is passed to gr-change-list', async () => {
+      element.viewState = {
+        view: GerritView.DASHBOARD,
+        type: DashboardType.CUSTOM,
+        user: 'self',
+        sections: [{name: 'test1', query: 'test1', hideIfEmpty: true}],
+      };
+      getChangesStub.returns(Promise.resolve([[], []]));
+      await element.reload();
+      await element.updateComplete;
+
+      const changeList = queryAndAssert<GrChangeList>(
+        element,
+        'gr-change-list'
+      );
+      assert.isTrue(changeList.limitInitialResults);
     });
   });
 

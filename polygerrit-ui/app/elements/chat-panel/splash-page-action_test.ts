@@ -49,37 +49,73 @@ suite('splash-page-action tests', () => {
       hover_text: 'Test hover',
       subtext: 'Test subtext',
       icon: 'test-icon',
+      initial_user_prompt: 'Test prompt',
     };
     element.action = action;
     await element.updateComplete;
     assert.shadowDom.equal(
       element,
       /* HTML */ `
-        <md-assist-chip class="action-chip" title="Test hover">
-          <div class="chip-content">
-            <gr-icon class="action-icon" icon="test-icon"></gr-icon>
-            <div class="action-text-container">
-              <div class="main-action-text-container has-subtext">
-                <span class="action-text">Test Action</span>
-                <gr-tooltip-content has-tooltip="" title="Capability details">
-                  <gr-button
-                    aria-disabled="false"
-                    class="info-button"
-                    flatten=""
-                    role="button"
-                    tabindex="0"
-                  >
-                    <gr-icon icon="info"></gr-icon>
-                  </gr-button>
-                </gr-tooltip-content>
+        <div class="container">
+          <md-assist-chip class="action-chip" title="Test hover">
+            <div class="chip-content">
+              <gr-icon class="action-icon" icon="test-icon"></gr-icon>
+              <div class="action-text-container">
+                <div class="main-action-text-container has-subtext">
+                  <span class="action-text">Test Action</span>
+                </div>
+
+                <span class="action-subtext">Test subtext</span>
               </div>
-              <span class="action-subtext">Test subtext</span>
+            </div>
+          </md-assist-chip>
+          <gr-tooltip-content
+            class="info-button-container"
+            has-tooltip=""
+            title="Capability details"
+          >
+            <gr-button
+              aria-disabled="false"
+              class="info-button"
+              flatten=""
+              role="button"
+              tabindex="0"
+            >
+              <gr-icon icon="info"></gr-icon>
+            </gr-button>
+          </gr-tooltip-content>
+        </div>
+        <dialog id="detailsModal" tabindex="-1">
+          <div role="dialog" aria-labelledby="detailsTitle">
+            <h3 class="heading-3 modalHeader" id="detailsTitle">Test Action</h3>
+            <div class="detailsContent">
+              <div class="modal-row">
+                <gr-icon icon="terminal"></gr-icon>
+                <div class="modal-row-content">
+                  <div class="modal-row-title">Instruction:</div>
+                  <div class="modal-row-text">Test prompt</div>
+                </div>
+              </div>
+            </div>
+            <div class="modalActions">
+              <gr-button
+                aria-disabled="false"
+                id="closeButton"
+                link=""
+                primary=""
+                role="button"
+                tabindex="0"
+              >
+                Close
+              </gr-button>
             </div>
           </div>
-        </md-assist-chip>
+        </dialog>
       `
     );
   });
+
+
 
   test('handles click with predefined prompt', async () => {
     // Summarize action
@@ -103,6 +139,31 @@ suite('splash-page-action tests', () => {
     const chip = element.shadowRoot?.querySelector('md-assist-chip');
     assert.isOk(chip);
     chip.click();
+
+    const turns = chatModel.getState().turns;
+    assert.lengthOf(turns, 0);
+  });
+
+  test('opens details dialog on info button click', async () => {
+    element.action = {
+      id: 'test-action',
+      display_text: 'Test Action',
+    };
+    await element.updateComplete;
+
+    const infoButton = element.shadowRoot?.querySelector('.info-button');
+    assert.isOk(infoButton);
+
+    const dialog = element.shadowRoot?.querySelector(
+      '#detailsModal'
+    ) as HTMLDialogElement;
+    assert.isOk(dialog);
+    assert.isFalse(dialog.open);
+
+    (infoButton as HTMLElement).click();
+    await element.updateComplete;
+
+    assert.isTrue(dialog.open);
 
     const turns = chatModel.getState().turns;
     assert.lengthOf(turns, 0);

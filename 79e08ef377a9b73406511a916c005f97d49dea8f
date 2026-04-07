@@ -16,6 +16,24 @@
       "message": "Why skip the advertisement for the release notes? This is a change in behavior as the dashboard reload mechanism has been removed.\n\nI believe it should be mentioned, or am I getting it wrong?",
       "revId": "79e08ef377a9b73406511a916c005f97d49dea8f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fb7cdb2c_a35370df",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-04-07T08:05:03Z",
+      "side": 1,
+      "message": "Yeah you are correct 😊\n\nI think I need to do a better job of writing `Release-Notes`. My default is somehow `skip` because most changes are not user facing.\n\nI\u0027ll try to remember it more.",
+      "parentUuid": "1f7a3db7_5be98e35",
+      "revId": "79e08ef377a9b73406511a916c005f97d49dea8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

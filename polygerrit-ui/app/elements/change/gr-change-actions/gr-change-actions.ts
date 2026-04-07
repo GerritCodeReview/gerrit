@@ -2064,7 +2064,7 @@ export class GrChangeActions
           cherrypickChangeInfo._number,
           cherrypickChangeInfo.project
         );
-        const reachable = this.waitForChangeReachable(
+        const reachable = await this.waitForChangeReachable(
           cherrypickChangeInfo._number
         );
         if (!reachable) return;
@@ -2104,6 +2104,9 @@ export class GrChangeActions
         break;
       }
       default:
+        if (isQuickApproveAction(action)) {
+          this.getPluginLoader().jsApiService.handleReplySent();
+        }
         this.getChangeModel().navigateToChangeResetReload();
         break;
     }

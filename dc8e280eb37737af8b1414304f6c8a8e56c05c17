@@ -16,6 +16,24 @@
       "message": "I think we want to be more flexible with this approach. Due to the ease of upgrade nature of plugins, I would be in favor of developing features on the oldest supported stable branch which supports them.",
       "revId": "dc8e280eb37737af8b1414304f6c8a8e56c05c17",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "72b9f0e2_bd7a9efb",
+        "filename": "Documentation/dev-plugins-lifecycle.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1096249
+      },
+      "writtenOn": "2026-04-07T05:00:40Z",
+      "side": 1,
+      "message": "Thanks, updated doc. PTAL",
+      "parentUuid": "7ae5fa12_0ee5635f",
+      "revId": "dc8e280eb37737af8b1414304f6c8a8e56c05c17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

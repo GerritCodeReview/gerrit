@@ -2292,6 +2292,23 @@ suite('gr-change-actions tests', () => {
         assert.deepEqual((payload as ReviewInput).labels, {foo: 1});
       });
 
+      test('calls handleReplySent on quick approve success', async () => {
+        const handleReplySentStub = sinon.stub(
+          testResolver(pluginLoaderToken).jsApiService,
+          'handleReplySent'
+        );
+
+        await element.handleResponse(
+          {
+            __key: 'review',
+            __type: ActionType.CHANGE,
+            label: 'l',
+          },
+          new Response()
+        );
+        assert.isTrue(handleReplySentStub.called);
+      });
+
       test('not added when multiple labels are required without code review', async () => {
         element.change = {
           ...createChangeViewChange(),

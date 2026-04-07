@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1c478738_5703981b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 4223656
+      },
+      "writtenOn": "2026-04-07T01:35:11Z",
+      "side": 1,
+      "message": "Thank you for that, those links are very helpful, as I was missing significant context.\n\nUpon reading the document, I overall think that while my approach is simpler, I can definitely see some advantages to the more complex and thorough approach defined in the design doc. I do, however, have two major concerns.\n\nMy biggest issue is that there is no mention of change reassociation. I *think* it could be solved by giving jj deeper control over the change-id, but I\u0027m not 100% sure on that.\n* In particular, I think a `jj change-id touch` and `jj change-id swap` would *probably* suffice, and a `jj change-id set` may be helpful but not sure if it\u0027s required yet ( @martinvonz@google.com WDYT?)\n* How would you deal with if you wanted the child to be the gerrit commit when when squashing commits?\n\nThe other issue I have is git compatibility and adoption. I really don\u0027t like the idea that we do all this work, then disable it by default, knowing that almost nobody will turn the feature back on. It seems far better to just preserve change-id in rebase and cherry-pick to git itself, seeing that they seem amenable to the idea. Is there a reason that was not the chosen solution?",
+      "parentUuid": "d33a5960_d3b930a5",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 47
+      },
+      "revId": "cd4859126d3e250dd8d1517a7dc02f468429a874",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "42b4d0a8_30d804ba",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 3

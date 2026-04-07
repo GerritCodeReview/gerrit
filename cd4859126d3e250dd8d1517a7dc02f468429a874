@@ -74,6 +74,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "66822a35_039a6181",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 4223656
+      },
+      "writtenOn": "2026-04-07T03:21:27Z",
+      "side": 1,
+      "message": "SGTM, but I think some way to specifically swap two change IDs is really important. Like if I do a split then try uploading and realise I\u0027ve associated the wrong one, it\u0027d be nice to be able to just swap them instead of a several-step process where it\u0027s easy to make mistakes.\n\nThat was why I thought it\u0027d be good to have a specific subcommand for dealing with various operations on the change-id. WDYT? I feel like we\u0027d struggle to put that in metaedit with a convenient API.\n\nFYI I\u0027ve made a patch to git that fixes the compatibility on the git end.\n\nhttps://lore.kernel.org/git/CAH7WC73-4p0RrqKNSh2G-xfpfO7QHZiXHbU_UFRkM3Q\u003dbMWTDw@mail.gmail.com/T/#u",
+      "parentUuid": "8d2903d7_3d4e7651",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 47
+      },
+      "revId": "cd4859126d3e250dd8d1517a7dc02f468429a874",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "42b4d0a8_30d804ba",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 3

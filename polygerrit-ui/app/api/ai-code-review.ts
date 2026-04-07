@@ -53,6 +53,7 @@ export declare interface Action {
   action_type?: ActionEnum;
   id: string;
   display_text: string;
+  description?: string;
   hover_text?: string;
   // The subtext for this action. This is displayed below the label.
   subtext?: string;

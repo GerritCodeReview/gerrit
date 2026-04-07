@@ -1,0 +1,62 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ef2a87e4_cd2c3b40",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-04-07T23:55:45Z",
+      "side": 1,
+      "message": "For code style errors, you can try running yarn eslintfix",
+      "revId": "b64c1868a8d1e145e5fcd7f8b56341f1ee3a8cfc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "23b32f6f_88e3a604",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 2050,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-04-07T23:55:45Z",
+      "side": 1,
+      "message": "why are you removing the await here and adding it below?",
+      "range": {
+        "startLine": 2050,
+        "startChar": 26,
+        "endLine": 2050,
+        "endChar": 30
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "2c2a6295_9bc3eec5",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+              "range": {
+                "startLine": 2050,
+                "startChar": 0,
+                "endLine": 2051,
+                "endChar": 0
+              },
+              "replacement": "        const reachable \u003d await this.waitForChangeReachable(\n"
+            }
+          ]
+        }
+      ],
+      "revId": "b64c1868a8d1e145e5fcd7f8b56341f1ee3a8cfc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

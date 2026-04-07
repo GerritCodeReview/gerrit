@@ -16,6 +16,23 @@
       "message": "based on the data, it looks like only one host uses this: play.google.com",
       "revId": "b9546dc94bd33cd362cd0b1ff04ff477cc85c356",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "39640231_58edf11e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 30
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2026-04-07T07:46:16Z",
+      "side": 1,
+      "message": "Can\u0027t we just exclude this specific query from the latency computations instead?",
+      "revId": "b9546dc94bd33cd362cd0b1ff04ff477cc85c356",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

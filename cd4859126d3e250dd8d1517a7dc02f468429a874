@@ -146,6 +146,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fd2efafc_140454b0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1010224
+      },
+      "writtenOn": "2026-04-07T16:32:42Z",
+      "side": 1,
+      "message": "No, `jj metaedit` already exists and isn\u0027t specifically there to support Gerrit.",
+      "parentUuid": "409637e7_3462144a",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 47
+      },
+      "revId": "cd4859126d3e250dd8d1517a7dc02f468429a874",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "42b4d0a8_30d804ba",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 3

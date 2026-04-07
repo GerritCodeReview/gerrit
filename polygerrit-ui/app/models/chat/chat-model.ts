@@ -184,7 +184,7 @@ export declare interface ConversationState {
    */
   readonly contextUpdated?: boolean;
 
-  /*
+  /**
    * The conversation ID which uniquely identifies a conversation. May be empty
    * if the conversation has not been started yet.
    */

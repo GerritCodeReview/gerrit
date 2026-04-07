@@ -7,7 +7,7 @@ import '@material/web/iconbutton/icon-button.js';
 import '@material/web/progress/circular-progress.js';
 
 import {css, html, LitElement} from 'lit';
-import {customElement, property, state} from 'lit/decorators.js';
+import {customElement, property, state, query} from 'lit/decorators.js';
 import {classMap} from 'lit/directives/class-map.js';
 import {when} from 'lit/directives/when.js';
 
@@ -23,6 +23,7 @@ import {isDefined} from '../../types/types';
 import {fireAlert} from '../../utils/event-util';
 import {subscribe} from '../lit/subscription-controller';
 import {materialStyles} from '../../styles/gr-material-styles';
+import {modalStyles} from '../../styles/gr-modal-styles';
 
 /**
  * A component that renders a single action as a clickable chip on the chat
@@ -39,6 +40,8 @@ export class SplashPageAction extends LitElement {
 
   @state() contextItemTypes: readonly ContextItemType[] = [];
 
+  @query('#detailsModal') private detailsModal?: HTMLDialogElement;
+
   private readonly getChatModel = resolve(this, chatModelToken);
 
   constructor() {
@@ -52,6 +55,7 @@ export class SplashPageAction extends LitElement {
 
   static override styles = [
     materialStyles,
+    modalStyles,
     css`
       :host {
         display: flex;
@@ -126,6 +130,15 @@ export class SplashPageAction extends LitElement {
         text-overflow: ellipsis;
         white-space: nowrap;
       }
+      .action-description {
+        margin-left: 20px;
+        font-family: var(--font-family);
+        font-size: var(--font-size-small);
+        color: var(--deemphasized-text-color);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
       .action-subtext {
         vertical-align: super;
         margin-left: 5px;
@@ -155,6 +168,88 @@ export class SplashPageAction extends LitElement {
         display: flex;
         align-items: center;
       }
+      .diffHeader,
+      .diffActions {
+        padding: var(--spacing-l) var(--spacing-xl);
+        background-color: var(--dialog-background-color);
+      }
+      .diffHeader {
+        border-bottom: 1px solid var(--border-color);
+        font-weight: var(--font-weight-medium);
+      }
+      .diffActions {
+        border-top: 1px solid var(--border-color);
+        display: flex;
+        justify-content: flex-end;
+      }
+      .detailsContent {
+        padding: var(--spacing-m) var(--spacing-xl);
+        background-color: var(--dialog-background-color);
+        flex: 1;
+        overflow: auto;
+      }
+      .info-button:hover {
+        background-color: var(--hover-background-color, rgba(0, 0, 0, 0.08));
+        border-radius: 50%;
+      }
+      .container {
+        position: relative;
+        display: flex;
+        width: 100%;
+        align-items: center;
+      }
+      .action-chip {
+        width: 100%;
+      }
+      .info-button-container {
+        position: absolute;
+        right: var(--spacing-s);
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 1;
+      }
+      #detailsModal {
+        width: calc(72ch + 2px + 2 * var(--spacing-m) + 0.4px);
+        max-width: 90vw;
+        height: 300px;
+        max-height: 90vh;
+      }
+      #detailsModal > div {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+      }
+      .description-section {
+        margin-bottom: var(--spacing-m);
+      }
+      .modal-row {
+        display: flex;
+        align-items: flex-start;
+        margin-top: var(--spacing-m);
+        gap: var(--spacing-s);
+      }
+      .modal-row gr-icon {
+        color: var(--deemphasized-text-color);
+        margin-top: 2px;
+      }
+      .modal-row-content {
+        display: flex;
+        flex-direction: column;
+      }
+      .modal-row-title {
+        color: var(--deemphasized-text-color);
+        font-weight: var(--font-weight-bold);
+      }
+      .modal-row-text {
+        color: var(--primary-text-color);
+      }
+      .link-row {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-xs);
+        color: var(--link-color);
+        cursor: pointer;
+      }
     `,
   ];
 
@@ -168,50 +263,105 @@ export class SplashPageAction extends LitElement {
     };
 
     return html`
-      <md-assist-chip
-        class=${classMap(chipClasses)}
-        title=${this.action.hover_text ?? ''}
-        @click=${this.handleAction}
-      >
-        <div class="chip-content">
-          <gr-icon
-            class="action-icon"
-            icon=${this.action.icon ?? 'ai'}
-          ></gr-icon>
-          <div class="action-text-container">
-            <div
-              class=${classMap({
-                'main-action-text-container': true,
-                'has-subtext': !!this.action.subtext,
-              })}
-            >
-              <span class="action-text">${this.action.display_text}</span>
-              <gr-tooltip-content has-tooltip title="Capability details">
-                <gr-button
-                  flatten
-                  class="info-button"
-                  @click=${this.displayDetailsCard}
-                >
-                  <gr-icon icon="info"></gr-icon>
-                </gr-button>
-              </gr-tooltip-content>
-            </div>
-            ${when(
-              this.action.subtext,
-              () => html` <span
+      <div class="container">
+        <md-assist-chip
+          class=${classMap(chipClasses)}
+          title=${this.action.hover_text ?? ''}
+          @click=${this.handleAction}
+        >
+          <div class="chip-content">
+            <gr-icon
+              class="action-icon"
+              icon=${this.action.icon ?? 'ai'}
+            ></gr-icon>
+            <div class="action-text-container">
+              <div
                 class=${classMap({
-                  'action-subtext': true,
+                  'main-action-text-container': true,
+                  'has-subtext': !!this.action.subtext,
                 })}
-                >${this.action?.subtext}</span
-              >`
+              >
+                <span class="action-text">${this.action.display_text}</span>
+              </div>
+              ${when(
+                this.action.subtext,
+                () => html` <span
+                  class=${classMap({
+                    'action-subtext': true,
+                  })}
+                  >${this.action?.subtext}</span
+                >`
+              )}
+            </div>
+          </div>
+        </md-assist-chip>
+        <gr-tooltip-content
+          class="info-button-container"
+          has-tooltip
+          title="Capability details"
+        >
+          <gr-button
+            flatten
+            class="info-button"
+            @click=${this.displayDetailsCard}
+          >
+            <gr-icon icon="info"></gr-icon>
+          </gr-button>
+        </gr-tooltip-content>
+      </div>
+      <dialog id="detailsModal" tabindex="-1">
+        <div role="dialog" aria-labelledby="detailsTitle">
+          <h3 class="heading-3 diffHeader" id="detailsTitle">
+            ${this.action?.display_text}
+          </h3>
+          <div class="detailsContent">
+            <div class="description-section">
+              ${this.action?.description || 'No description provided'}
+            </div>
+            
+            ${when(
+              this.action?.initial_user_prompt,
+              () => html`
+                <div class="modal-row">
+                  <gr-icon icon="terminal"></gr-icon>
+                  <div class="modal-row-content">
+                    <div class="modal-row-title">Instruction:</div>
+                    <div class="modal-row-text">
+                      ${this.action?.initial_user_prompt}
+                    </div>
+                  </div>
+                </div>
+              `
             )}
+
+
+          </div>
+          <div class="diffActions">
+            <gr-button
+              id="closeButton"
+              link=""
+              primary=""
+              @click=${() => this.detailsModal?.close()}
+            >
+              Close
+            </gr-button>
           </div>
         </div>
-      </md-assist-chip>
+      </dialog>
     `;
   }
 
-  private handleAction() {
+  private handleAction(e?: MouseEvent) {
+    if (e) {
+      const path = e.composedPath();
+      const isInfoButtonClick = path.some(
+        target =>
+          target instanceof HTMLElement &&
+          target.classList.contains('info-button')
+      );
+      if (isInfoButtonClick) return;
+    }
+
     const action = this.action;
     if (!action) return;
 
@@ -242,8 +392,10 @@ export class SplashPageAction extends LitElement {
 
   private displayDetailsCard(event: MouseEvent) {
     event.stopPropagation();
-    // TODO: Implement this.
+    this.detailsModal?.showModal();
   }
+
+
 }
 
 declare global {

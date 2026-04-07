@@ -139,37 +139,58 @@ export class ChatPanel extends LitElement {
     subscribe(
       this,
       () => this.getChatModel().turns$,
-      x => (this.turns = x ?? [])
+      x => {
+        console.info('ChatPanel initialization - turns:', x);
+        this.turns = x ?? [];
+      }
     );
     subscribe(
       this,
       () => this.getChatModel().conversationId$,
-      x => (this.conversationId = x)
+      x => {
+        console.info('ChatPanel initialization - conversationId:', x);
+        this.conversationId = x;
+      }
     );
     subscribe(
       this,
       () => this.getChatModel().nextTurnIndex$,
-      x => (this.nextTurnIndex = x)
+      x => {
+        console.info('ChatPanel initialization - nextTurnIndex:', x);
+        this.nextTurnIndex = x;
+      }
     );
     subscribe(
       this,
       () => this.getChatModel().mode$,
-      x => (this.chatPanelMode = x)
+      x => {
+        console.info('ChatPanel initialization - mode:', x);
+        this.chatPanelMode = x;
+      }
     );
     subscribe(
       this,
       () => this.getChatModel().userInput$,
-      x => (this.userInput = x)
+      x => {
+        console.info('ChatPanel initialization - userInput:', x);
+        this.userInput = x;
+      }
     );
     subscribe(
       this,
       () => this.getChatModel().models$,
-      x => (this.privacyUrl = x?.privacy_url)
+      x => {
+        console.info('ChatPanel initialization - models:', x);
+        this.privacyUrl = x?.privacy_url;
+      }
     );
     subscribe(
       this,
       () => this.getChangeModel().change$,
-      x => (this.isChangePrivate = x?.is_private ?? false)
+      x => {
+        console.info('ChatPanel initialization - change:', x);
+        this.isChangePrivate = x?.is_private ?? false;
+      }
     );
   }
 

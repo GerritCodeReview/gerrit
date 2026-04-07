@@ -51,6 +51,24 @@
       "parentUuid": "39640231_58edf11e",
       "revId": "b9546dc94bd33cd362cd0b1ff04ff477cc85c356",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8afebf53_5732e26a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 30
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-04-07T11:14:43Z",
+      "side": 1,
+      "message": "Yeah that is fairly confusing because I see that this section is rendered for multiple hosts.\n\nMight be something off with the metrics.",
+      "parentUuid": "334c2cdb_52ea5895",
+      "revId": "b9546dc94bd33cd362cd0b1ff04ff477cc85c356",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

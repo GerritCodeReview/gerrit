@@ -286,6 +286,9 @@ export class GrDashboardView extends LitElement {
           .sections=${this.results}
           .usp=${'dashboard'}
           .starsLoading=${this.starsLoading}
+          .limitInitialResults=${getAppContext().flagsService.isEnabled(
+            KnownExperimentId.DASHBOARD_LAZY_LOADING
+          )}
           @toggle-star=${(e: CustomEvent<ChangeStarToggleStarDetail>) => {
             this.handleToggleStar(e);
           }}

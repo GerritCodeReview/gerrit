@@ -114,6 +114,8 @@ export class GrDashboardView extends LitElement {
 
   private reporting = getAppContext().reportingService;
 
+  private flagsService = getAppContext().flagsService;
+
   private readonly restApiService = getAppContext().restApiService;
 
   private readonly getUserModel = resolve(this, userModelToken);
@@ -160,11 +162,7 @@ export class GrDashboardView extends LitElement {
 
   override connectedCallback() {
     super.connectedCallback();
-    if (
-      getAppContext().flagsService.isEnabled(
-        KnownExperimentId.DASHBOARD_LAZY_LOADING
-      )
-    ) {
+    if (this.flagsService.isEnabled(KnownExperimentId.DASHBOARD_LAZY_LOADING)) {
       this.starsLoading = true;
     }
   }
@@ -286,6 +284,9 @@ export class GrDashboardView extends LitElement {
           .sections=${this.results}
           .usp=${'dashboard'}
           .starsLoading=${this.starsLoading}
+          .limitInitialResults=${this.flagsService.isEnabled(
+            KnownExperimentId.DASHBOARD_LAZY_LOADING
+          )}
           @toggle-star=${(e: CustomEvent<ChangeStarToggleStarDetail>) => {
             this.handleToggleStar(e);
           }}
@@ -386,11 +387,7 @@ export class GrDashboardView extends LitElement {
       this.reporting.time(Timing.DASHBOARD_DISPLAYED);
     }
     this.firstTimeLoad = false;
-    if (
-      getAppContext().flagsService.isEnabled(
-        KnownExperimentId.DASHBOARD_LAZY_LOADING
-      )
-    ) {
+    if (this.flagsService.isEnabled(KnownExperimentId.DASHBOARD_LAZY_LOADING)) {
       this.starsLoading = true;
     }
 
@@ -495,11 +492,7 @@ export class GrDashboardView extends LitElement {
           changelistSection.results.length > 0
       ).length !== 0;
 
-    if (
-      getAppContext().flagsService.isEnabled(
-        KnownExperimentId.DASHBOARD_LAZY_LOADING
-      )
-    ) {
+    if (this.flagsService.isEnabled(KnownExperimentId.DASHBOARD_LAZY_LOADING)) {
       this.makeSecondRequestForStarredChanges(queries);
     }
   }

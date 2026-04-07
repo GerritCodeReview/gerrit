@@ -22,6 +22,30 @@
       },
       "revId": "5dec0add4d7b74b3ddd91da4f7feda8f94d6c704",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4f20e033_6c91baf6",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 605,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-04-07T22:46:53Z",
+      "side": 1,
+      "message": "I think this is for if the result has a predefined fix (like remove these lines/ add these lines). But our agent responses don\u0027t have fixes at this time.",
+      "parentUuid": "15645e4b_9d3ee196",
+      "range": {
+        "startLine": 605,
+        "startChar": 18,
+        "endLine": 605,
+        "endChar": 33
+      },
+      "revId": "5dec0add4d7b74b3ddd91da4f7feda8f94d6c704",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

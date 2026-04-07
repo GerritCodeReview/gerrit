@@ -122,6 +122,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "409637e7_3462144a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-04-07T07:52:00Z",
+      "side": 1,
+      "message": "\u003eIt seems far better to just preserve change-id in rebase and cherry-pick to git itself, seeing that they seem amenable to the idea. \n\nWhere they? As far as I know the thread ended with a \"not-anytime-soon\" by Junio?\nI can also Junio at [1] wasn\u0027t so sure about change-id headers in git.\n\nDon\u0027t get me wrong, I agree it\u0027d be great to have them in git, but doesn\u0027t seem like the community is on the same wave length.\n\nI\u0027m also losing track a bit about `jj metaedit`, is this related to Gerrit strictly?\n\n\n\n\u003eAlso I just took a look at your commits. They generally look good to me, is there anything in particular that made them experimental and do not submit?\n\nAs you suggest, I simply haven\u0027t tested them thoroughly enough but I plan to get back to them in the not too distant future.\n[1] https://lore.kernel.org/git/xmqqqzor76nh.fsf@gitster.g/",
+      "parentUuid": "bcae3412_0c77bdaf",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 47
+      },
+      "revId": "cd4859126d3e250dd8d1517a7dc02f468429a874",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "42b4d0a8_30d804ba",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 3

@@ -458,4 +458,45 @@ suite('gr-change-list section', () => {
       assert.deepEqual(element.processQuery(query), expectedQuery);
     });
   });
+
+  suite('limitInitialResults', () => {
+    setup(async () => {
+      const results = [];
+      for (let i = 0; i < 15; i++) {
+        results.push({
+          ...createChange(),
+          _number: i as NumericChangeId,
+          id: i.toString() as ChangeInfoId,
+        });
+      }
+      element.changeSection = {
+        name: 'test',
+        query: 'test',
+        results,
+      };
+      element.limitInitialResults = true;
+      await element.updateComplete;
+    });
+
+    test('renders only 10 changes initially', () => {
+      const rows = queryAll(element, 'gr-change-list-item');
+      assert.equal(rows.length, 10);
+      const loadMore = queryAndAssert(element, '.loadMore');
+      assert.ok(loadMore);
+    });
+
+    test('renders all changes when Load more is clicked', async () => {
+      const loadMoreButton = queryAndAssert(element, '.loadMore gr-button');
+      const eventStub = sinon.stub();
+      element.addEventListener('load-more-clicked', eventStub);
+
+      loadMoreButton.click();
+      await element.updateComplete;
+
+      const rows = queryAll(element, 'gr-change-list-item');
+      assert.equal(rows.length, 15);
+      assert.isNotOk(query(element, '.loadMore'));
+      assert.isTrue(eventStub.calledOnce);
+    });
+  });
 });

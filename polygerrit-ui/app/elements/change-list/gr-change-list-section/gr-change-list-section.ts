@@ -27,6 +27,7 @@ import {subscribe} from '../../lit/subscription-controller';
 import {classMap} from 'lit/directives/class-map.js';
 import {formStyles} from '../../../styles/form-styles';
 import {UserId} from '../../../types/common';
+import '../../shared/gr-button/gr-button';
 import '@material/web/checkbox/checkbox';
 import {materialStyles} from '../../../styles/gr-material-styles';
 import {when} from 'lit/directives/when.js';
@@ -102,6 +103,9 @@ export class GrChangeListSection extends LitElement {
   @property({type: Function})
   triggerSelectionCallback?: (globalIndex: number) => void;
 
+  @property({type: Boolean})
+  limitInitialResults = false;
+
   // private but used in tests
   @state()
   numSelected = 0;
@@ -112,6 +116,9 @@ export class GrChangeListSection extends LitElement {
   // Private but used in test
   @state()
   bulkActionsLoaded = false;
+
+  @state()
+  private showFullSection = false;
 
   bulkActionsModel: BulkActionsModel = new BulkActionsModel(
     getAppContext().restApiService
@@ -171,6 +178,17 @@ export class GrChangeListSection extends LitElement {
         .selection:has(.loadingSpin):not(:has(md-checkbox)) {
           padding-right: 4px !important;
         }
+        .loadMore {
+          background-color: var(--background-color-primary);
+        }
+        .loadMore:last-child {
+          --last-border-bottom: 1px solid var(--border-color);
+          --last-border-radius: 4px;
+        }
+        .loadMore .cell {
+          text-align: center;
+          width: 100%;
+        }
       `,
     ];
   }
@@ -216,6 +234,10 @@ export class GrChangeListSection extends LitElement {
   override render() {
     const columns = this.computeColumns();
     const colSpan = this.computeColspan(columns);
+    const results =
+      this.limitInitialResults && !this.showFullSection
+        ? this.changeSection.results.slice(0, 10)
+        : this.changeSection.results;
     return html`
       <tbody>
         <tr class="groupGap"></tr>
@@ -225,9 +247,10 @@ export class GrChangeListSection extends LitElement {
         ${this.isEmpty()
           ? this.renderNoChangesRow(colSpan)
           : this.renderColumnHeaders(columns)}
-        ${this.changeSection.results.map((change, index) =>
+        ${results.map((change, index) =>
           this.renderChangeRow(change, index, columns)
         )}
+        ${this.renderLoadMore(colSpan)}
       </tbody>
     `;
   }
@@ -248,6 +271,40 @@ export class GrChangeListSection extends LitElement {
         </td>
       </tr>
     `;
+  }
+
+  private renderLoadMore(colSpan: number) {
+    if (
+      !this.limitInitialResults ||
+      this.showFullSection ||
+      this.changeSection.results.length <= 10
+    ) {
+      return;
+    }
+
+    return html`
+      <tr class="loadMore">
+        <td class="leftPadding" aria-hidden="true"></td>
+        <td
+          class="star"
+          aria-hidden=${!this.isLoggedIn}
+          ?hidden=${!this.isLoggedIn}
+        ></td>
+        <td class="cell" colspan=${colSpan}>
+          <gr-button link @click=${this.handleLoadMore}> Load more </gr-button>
+        </td>
+      </tr>
+    `;
+  }
+
+  private handleLoadMore() {
+    this.showFullSection = true;
+    this.dispatchEvent(
+      new CustomEvent('load-more-clicked', {
+        composed: true,
+        bubbles: true,
+      })
+    );
   }
 
   private renderSectionHeader(colSpan: number) {

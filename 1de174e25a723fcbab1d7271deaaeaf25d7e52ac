@@ -16,6 +16,24 @@
       "message": "Module.bazel.lock should be updated as well?\nAlso Release-Notes footer is missing.",
       "revId": "1de174e25a723fcbab1d7271deaaeaf25d7e52ac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e82a197f_309f0399",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-04-07T11:18:44Z",
+      "side": 1,
+      "message": "The module lock did not change, when I ran a sync.",
+      "parentUuid": "d7a6a0b8_bf6d5d40",
+      "revId": "1de174e25a723fcbab1d7271deaaeaf25d7e52ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

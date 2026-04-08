@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ff99a306_3071fb48",
+        "filename": "java/com/google/gerrit/extensions/common/FileInfo.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-04-08T12:16:16Z",
+      "side": 1,
+      "message": "\u003e Maybe diffIsTooExpensiveToCompute\n\nRenamed\n\n\u003e Is it only used by the proto?\n\nNot sure I understand. I want to return this to the frontend so we can explain to the user they need to review this by downloading the change.\n\nSo it\u0027s used in the `FileInfo` REST API response.",
+      "parentUuid": "23002315_abbede15",
+      "range": {
+        "startLine": 31,
+        "startChar": 17,
+        "endLine": 31,
+        "endChar": 38
+      },
+      "revId": "5d32036c5c8a8a3e29acaf08caf5840363ac0e3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e938c2f8_49e4f0fb",
         "filename": "java/com/google/gerrit/server/patch/filediff/FileDiffCacheImpl.java",
         "patchSetId": 8
@@ -37,6 +61,30 @@
       "writtenOn": "2026-03-18T11:04:08Z",
       "side": 1,
       "message": "cannot use RevWalk across multiple threads\n\nIf this executor is needed, it needs to be opened per thread",
+      "range": {
+        "startLine": 402,
+        "startChar": 58,
+        "endLine": 402,
+        "endChar": 68
+      },
+      "revId": "5d32036c5c8a8a3e29acaf08caf5840363ac0e3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "21ef98b3_26747596",
+        "filename": "java/com/google/gerrit/server/patch/filediff/FileDiffCacheImpl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-04-08T12:16:16Z",
+      "side": 1,
+      "message": "826369278 as an example for doing something proposal",
+      "parentUuid": "e938c2f8_49e4f0fb",
       "range": {
         "startLine": 402,
         "startChar": 58,
@@ -60,6 +108,24 @@
       "writtenOn": "2026-03-16T19:12:45Z",
       "side": 1,
       "message": "Please add this comment on all places in which a similar field is added.",
+      "revId": "5d32036c5c8a8a3e29acaf08caf5840363ac0e3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0fc6bf77_e4aee7d7",
+        "filename": "java/com/google/gerrit/server/patch/filediff/FileDiffOutput.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-04-08T12:16:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "36ad7f19_6696da6a",
       "revId": "5d32036c5c8a8a3e29acaf08caf5840363ac0e3c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

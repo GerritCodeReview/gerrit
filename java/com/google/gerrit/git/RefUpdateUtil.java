@@ -15,6 +15,7 @@
 package com.google.gerrit.git;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
+import static com.google.common.flogger.LazyArgs.lazy;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Joiner;
@@ -64,15 +65,18 @@ public class RefUpdateUtil {
   public static void executeChecked(BatchRefUpdate bru, RevWalk rw) throws IOException {
     logger.atFine().log(
         "Executing ref updates: %s\n",
-        Joiner.on("\n")
-            .join(
-                bru.getCommands().stream()
-                    .map(
-                        cmd ->
-                            String.format(
-                                "%s (new tree ID: %s)",
-                                cmd, getNewTreeId(rw, cmd).map(ObjectId::name).orElse("n/a")))
-                    .collect(toImmutableList())));
+        lazy(
+            () ->
+                Joiner.on("\n")
+                    .join(
+                        bru.getCommands().stream()
+                            .map(
+                                cmd ->
+                                    String.format(
+                                        "%s (new tree ID: %s)",
+                                        cmd,
+                                        getNewTreeId(rw, cmd).map(ObjectId::name).orElse("n/a")))
+                            .collect(toImmutableList()))));
     bru.execute(rw, NullProgressMonitor.INSTANCE);
     checkResults(bru);
   }

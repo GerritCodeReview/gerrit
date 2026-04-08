@@ -1238,23 +1238,29 @@ public class ChangeData {
       List<Comment> comments = publishedComments().stream().collect(toList());
       logger.atFine().log(
           "published comments: %s",
-          comments.stream()
-              .map(
-                  c ->
-                      String.format(
-                          "%s -> {parentUuid = %s, unresolved = %s}",
-                          c.key,
-                          c.parentUuid,
-                          c instanceof HumanComment ? ((HumanComment) c).unresolved : "n/a"))
-              .collect(toImmutableList()));
+          lazy(
+              () ->
+                  comments.stream()
+                      .map(
+                          c ->
+                              String.format(
+                                  "%s -> {parentUuid = %s, unresolved = %s}",
+                                  c.key,
+                                  c.parentUuid,
+                                  c instanceof HumanComment
+                                      ? ((HumanComment) c).unresolved
+                                      : "n/a"))
+                      .collect(toImmutableList())));
 
       ImmutableSet<CommentThread<Comment>> commentThreads =
           CommentThreads.forComments(comments).getThreads();
       logger.atFine().log(
           "comment threads: %s",
-          commentThreads.stream()
-              .map(t -> t.comments().stream().map(c -> c.key).collect(toImmutableList()))
-              .collect(toImmutableList()));
+          lazy(
+              () ->
+                  commentThreads.stream()
+                      .map(t -> t.comments().stream().map(c -> c.key).collect(toImmutableList()))
+                      .collect(toImmutableList())));
       unresolvedCommentCount =
           (int) commentThreads.stream().filter(CommentThread::unresolved).count();
     }

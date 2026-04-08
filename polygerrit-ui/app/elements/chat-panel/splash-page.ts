@@ -358,6 +358,7 @@ export class SplashPage extends LitElement {
   }
 
   private renderActionChipSet(actions: readonly Action[]) {
+    console.log('SplashPage rendering actions:', actions);
     return html`
       <md-chip-set class="action-container">
         ${actions.map(

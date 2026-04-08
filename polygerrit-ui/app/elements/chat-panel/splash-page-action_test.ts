@@ -89,11 +89,11 @@ suite('splash-page-action tests', () => {
           <div role="dialog" aria-labelledby="detailsTitle">
             <h3 class="heading-3 modalHeader" id="detailsTitle">Test Action</h3>
             <div class="detailsContent">
-              <div class="modal-row">
+              <div class="modal-row instruction-row">
                 <gr-icon icon="terminal"></gr-icon>
                 <div class="modal-row-content">
                   <div class="modal-row-title">Instruction:</div>
-                  <div class="modal-row-text">Test prompt</div>
+                  <div class="modal-row-text instruction-text collapsed">Test prompt</div>
                 </div>
               </div>
             </div>
@@ -165,5 +165,55 @@ suite('splash-page-action tests', () => {
 
     const turns = chatModel.getState().turns;
     assert.lengthOf(turns, 0);
+  });
+
+  test('computeCodeSearchLink', () => {
+    assert.equal(
+      (element as any).computeCodeSearchLink(
+        '//depot/google3/configs/GERRIT_CAPABILITIES.textproto:symbol'
+      ),
+      'http://cs/depot/google3/configs/GERRIT_CAPABILITIES.textproto'
+    );
+    assert.equal(
+      (element as any).computeCodeSearchLink(
+        '//depot/google3/configs/GERRIT_CAPABILITIES.textproto'
+      ),
+      'http://cs/depot/google3/configs/GERRIT_CAPABILITIES.textproto'
+    );
+    assert.equal(
+      (element as any).computeCodeSearchLink('just/path'),
+      'just/path'
+    );
+    assert.equal((element as any).computeCodeSearchLink(''), '');
+    assert.equal((element as any).computeCodeSearchLink(undefined), '');
+  });
+
+  test('renders with custom_action_source', async () => {
+    const action: Action = {
+      id: 'test-action',
+      display_text: 'Test Action',
+      custom_action_source: {
+        custom_action_id:
+          '//depot/google3/configs/GERRIT_CAPABILITIES.textproto:symbol',
+      },
+    };
+    element.action = action;
+    await element.updateComplete;
+
+    const modal = element.shadowRoot?.querySelector('#detailsModal');
+    assert.isOk(modal);
+
+    const sourceLink = modal?.querySelector(
+      '.modal-row-text a'
+    ) as HTMLAnchorElement;
+    assert.isOk(sourceLink);
+    assert.equal(
+      sourceLink.href,
+      'http://cs/depot/google3/configs/GERRIT_CAPABILITIES.textproto'
+    );
+    assert.equal(
+      sourceLink.innerText.trim(),
+      'Capability Definition'
+    );
   });
 });

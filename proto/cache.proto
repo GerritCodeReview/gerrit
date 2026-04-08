@@ -761,6 +761,7 @@ message FileDiffOutputProto {
   string new_mode = 14; // ENUM as string
   bytes old_sha = 15;
   bytes new_sha = 16;
+  bool diffs_too_expensive_to_compute = 17;
 }
 
 // Serialized form of com.google.gerrit.server.ReviewerSet

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e0516faa_e300405a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2026-04-08T13:47:25Z",
+      "side": 1,
+      "message": "The removed logs are FINE-level logs, used for debugging. Is it possible to wrap the logging statements with \"if FINE logging enabled\" instead of removing them?",
+      "revId": "09b1ae6ab3cfc458c5dd6958da6f3e69afa660f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

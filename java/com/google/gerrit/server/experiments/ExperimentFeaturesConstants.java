@@ -71,4 +71,8 @@ public class ExperimentFeaturesConstants {
 
   /** Whether AI chat/review features are enabled in the UI. */
   public static final String ENABLE_AI_CHAT = "UiFeature__enable_ai_chat";
+
+  /** Whether to enforce a timeout during file diff computation. */
+  public static final String TIMEOUT_FILE_DIFF_COMPUTATION =
+      "GerritBackendFeature__timeout_file_diff_computation";
 }

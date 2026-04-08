@@ -18,6 +18,7 @@ import '../shared/gr-tooltip-content/gr-tooltip-content';
 import {Action, ContextItemType} from '../../api/ai-code-review';
 import {chatModelToken} from '../../models/chat/chat-model';
 import {parseLink} from '../../models/chat/context-item-util';
+
 import {resolve} from '../../models/dependency';
 import {isDefined} from '../../types/types';
 import {fireAlert} from '../../utils/event-util';
@@ -241,6 +242,9 @@ export class SplashPageAction extends LitElement {
       .modal-row-text {
         color: var(--primary-text-color);
       }
+      .modal-row-text a {
+        color: var(--info-foreground);
+      }
       .instruction-row {
         flex: 1;
         min-height: 0;
@@ -381,6 +385,27 @@ export class SplashPageAction extends LitElement {
                 </div>
               `
             )}
+            ${when(
+              this.action?.custom_action_source?.custom_action_id,
+              () => html`
+                <div class="modal-row">
+                  <gr-icon icon="link"></gr-icon>
+                  <div class="modal-row-content">
+                    <div class="modal-row-text">
+                      <a
+                        href=${this.computeCodeSearchLink(
+                          this.action?.custom_action_source?.custom_action_id
+                        )}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Capability Definition
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              `
+            )}
           </div>
           <div class="modalActions">
             <gr-button
@@ -395,6 +420,19 @@ export class SplashPageAction extends LitElement {
         </div>
       </dialog>
     `;
+  }
+
+  private computeCodeSearchLink(source?: string): string {
+    if (!source) return '';
+    let link = source;
+    const colonIndex = link.indexOf(':');
+    if (colonIndex !== -1) {
+      link = link.substring(0, colonIndex);
+    }
+    if (link.startsWith('//')) {
+      link = 'http://cs/' + link.substring(2);
+    }
+    return link;
   }
 
   private handleAction() {

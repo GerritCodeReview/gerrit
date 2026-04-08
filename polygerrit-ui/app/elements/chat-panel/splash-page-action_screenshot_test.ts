@@ -39,6 +39,9 @@ suite('splash-page-action screenshot tests', () => {
       id: 'test-action',
       display_text: 'Test Action',
       initial_user_prompt: 'Test prompt',
+      custom_action_source: {
+        custom_action_id: '//depot/google3/some/file.ts',
+      },
     };
     element.action = action;
     await element.updateComplete;
@@ -67,6 +70,9 @@ suite('splash-page-action screenshot tests', () => {
       initial_user_prompt:
         'This is a long instruction text. We want to test that it collapses properly and can be expanded. ' +
         'By forcing the state in the test, we guarantee that the button appears regardless of font rendering differences.',
+      custom_action_source: {
+        custom_action_id: '//depot/google3/some/file.ts',
+      },
     };
     element.action = action;
     await element.updateComplete;

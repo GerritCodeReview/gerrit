@@ -59,4 +59,49 @@ suite('splash-page-action screenshot tests', () => {
     await visualDiff(modal, 'splash-page-action-details-modal');
     await visualDiffDarkTheme(modal, 'splash-page-action-details-modal');
   });
+
+  test('details modal rendering with long instructions', async () => {
+    const action: Action = {
+      id: 'test-action',
+      display_text: 'Test Action',
+      initial_user_prompt:
+        'This is a long instruction text. We want to test that it collapses properly and can be expanded. ' +
+        'By forcing the state in the test, we guarantee that the button appears regardless of font rendering differences.',
+    };
+    element.action = action;
+    await element.updateComplete;
+
+    // Trigger the modal to open
+    const infoButton = element.shadowRoot?.querySelector(
+      '.info-button'
+    ) as HTMLElement;
+    assert.isOk(infoButton);
+    infoButton.click();
+
+    await element.updateComplete;
+
+    const modal = element.shadowRoot?.querySelector(
+      '#detailsModal'
+    ) as HTMLElement;
+    assert.isOk(modal);
+
+    // Force the showExpandButton state to true to make the test robust
+    (element as unknown as {showExpandButton: boolean}).showExpandButton = true;
+    await element.updateComplete;
+
+    await visualDiff(modal, 'splash-page-action-details-modal-long');
+    await visualDiffDarkTheme(modal, 'splash-page-action-details-modal-long');
+
+    // Force the isInstructionExpanded state to true to test expanded rendering
+    (
+      element as unknown as {isInstructionExpanded: boolean}
+    ).isInstructionExpanded = true;
+    await element.updateComplete;
+
+    await visualDiff(modal, 'splash-page-action-details-modal-expanded');
+    await visualDiffDarkTheme(
+      modal,
+      'splash-page-action-details-modal-expanded'
+    );
+  });
 });

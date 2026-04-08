@@ -40,6 +40,10 @@ export class SplashPageAction extends LitElement {
 
   @state() contextItemTypes: readonly ContextItemType[] = [];
 
+  @state() private isInstructionExpanded = false;
+
+  @state() private showExpandButton = false;
+
   @query('#detailsModal') private detailsModal?: HTMLDialogElement;
 
   private readonly getChatModel = resolve(this, chatModelToken);
@@ -177,7 +181,9 @@ export class SplashPageAction extends LitElement {
         padding: var(--spacing-m) var(--spacing-xl);
         background-color: var(--dialog-background-color);
         flex: 1;
-        overflow: auto;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
       }
       .info-button:hover {
         background-color: var(--hover-background-color, rgba(0, 0, 0, 0.08));
@@ -202,8 +208,7 @@ export class SplashPageAction extends LitElement {
       #detailsModal {
         width: calc(72ch + 2px + 2 * var(--spacing-m) + 0.4px);
         max-width: 90vw;
-        height: 300px;
-        max-height: 90vh;
+        max-height: 400px;
       }
       #detailsModal > div {
         display: flex;
@@ -233,6 +238,39 @@ export class SplashPageAction extends LitElement {
       }
       .modal-row-text {
         color: var(--primary-text-color);
+      }
+      .instruction-row {
+        flex: 1;
+        min-height: 0;
+      }
+      .instruction-row .modal-row-content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+      }
+      .instruction-text {
+        flex: 1;
+      }
+      .instruction-text.collapsed {
+        max-height: 100px;
+        overflow: hidden;
+      }
+      .instruction-text.expanded {
+        max-height: none;
+        overflow-y: auto;
+      }
+      .expand-button {
+        color: var(--link-color);
+        cursor: pointer;
+        padding: var(--spacing-xs) 0;
+        font-size: var(--font-size-small);
+        background: none;
+        border: none;
+        text-align: left;
+      }
+      .expand-button:hover {
+        text-decoration: underline;
       }
       .link-row {
         display: flex;
@@ -309,13 +347,33 @@ export class SplashPageAction extends LitElement {
             ${when(
               this.action?.initial_user_prompt,
               () => html`
-                <div class="modal-row">
+                <div class="modal-row instruction-row">
                   <gr-icon icon="terminal"></gr-icon>
                   <div class="modal-row-content">
                     <div class="modal-row-title">Instruction:</div>
-                    <div class="modal-row-text">
+                    <div
+                      class="modal-row-text instruction-text ${this
+                        .isInstructionExpanded
+                        ? 'expanded'
+                        : 'collapsed'}"
+                    >
                       ${this.action?.initial_user_prompt}
                     </div>
+                    ${when(
+                      this.showExpandButton,
+                      () => html`
+                        <button
+                          class="expand-button"
+                          @click=${() =>
+                            (this.isInstructionExpanded =
+                              !this.isInstructionExpanded)}
+                        >
+                          ${this.isInstructionExpanded
+                            ? 'Show less'
+                            : 'Show more'}
+                        </button>
+                      `
+                    )}
                   </div>
                 </div>
               `
@@ -365,9 +423,14 @@ export class SplashPageAction extends LitElement {
     }
   }
 
-  private displayDetailsCard(event: MouseEvent) {
+  private async displayDetailsCard(event: MouseEvent) {
     event.stopPropagation();
     this.detailsModal?.showModal();
+    await this.updateComplete;
+    const textEl = this.shadowRoot?.querySelector('.instruction-text');
+    if (textEl) {
+      this.showExpandButton = textEl.scrollHeight > 100;
+    }
   }
 }
 

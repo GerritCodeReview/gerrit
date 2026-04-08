@@ -328,9 +328,6 @@ public abstract class QueryProcessor<T> {
           String queryString = queryStrings != null ? queryStrings.get(i) : null;
           ImmutableList<T> matchesList = matches.get(i).toList();
           int limit = limits.get(i);
-          logger.atFine().log(
-              "Matches[%d]:\n%s",
-              i, matchesList.stream().map(this::formatForLogging).collect(toList()));
           out.add(QueryResult.create(queryString, predicates.get(i), limit, matchesList));
         }
       }

@@ -62,34 +62,8 @@ public class RefUpdateUtil {
    * @throws IOException if any result was not {@code OK}.
    */
   public static void executeChecked(BatchRefUpdate bru, RevWalk rw) throws IOException {
-    logger.atFine().log(
-        "Executing ref updates: %s\n",
-        Joiner.on("\n")
-            .join(
-                bru.getCommands().stream()
-                    .map(
-                        cmd ->
-                            String.format(
-                                "%s (new tree ID: %s)",
-                                cmd, getNewTreeId(rw, cmd).map(ObjectId::name).orElse("n/a")))
-                    .collect(toImmutableList())));
     bru.execute(rw, NullProgressMonitor.INSTANCE);
     checkResults(bru);
-  }
-
-  private static Optional<ObjectId> getNewTreeId(RevWalk revWalk, ReceiveCommand cmd) {
-    if (ReceiveCommand.Type.DELETE.equals(cmd.getType())) {
-      // Ref deletions do not have a new tree.
-      return Optional.empty();
-    }
-
-    try {
-      return Optional.of(revWalk.parseCommit(cmd.getNewId()).getTree());
-    } catch (IOException e) {
-      logger.atWarning().withCause(e).log(
-          "Failed parsing new commit %s for ref update: %s", cmd.getNewId().name(), cmd);
-      return Optional.empty();
-    }
   }
 
   /**

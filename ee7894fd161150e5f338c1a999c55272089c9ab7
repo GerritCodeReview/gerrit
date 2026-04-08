@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6063f964_322deef6",
+        "filename": "prologtests/examples/run.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-04-08T20:03:27Z",
+      "side": 1,
+      "message": "How is this related to the bump to Bazel 8.6.0?",
+      "revId": "ee7894fd161150e5f338c1a999c55272089c9ab7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "43d1a5a9_1ae16113",
+        "filename": "tools/bzl/pkg_war.bzl",
+        "patchSetId": 3
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-04-08T20:03:27Z",
+      "side": 1,
+      "message": "```suggestion\n    return jar_name in (\"libcore.jar\", \"liblite_runtime_only.jar\")\n```",
+      "range": {
+        "startLine": 142,
+        "startChar": 0,
+        "endLine": 144,
+        "endChar": 16
+      },
+      "revId": "ee7894fd161150e5f338c1a999c55272089c9ab7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

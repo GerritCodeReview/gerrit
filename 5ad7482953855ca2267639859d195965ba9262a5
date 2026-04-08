@@ -263,6 +263,24 @@
       "parentUuid": "0f9b7051_b668d830",
       "revId": "5ad7482953855ca2267639859d195965ba9262a5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "40ffdbf8_a3364e7f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3117294
+      },
+      "writtenOn": "2026-04-08T19:41:17Z",
+      "side": 1,
+      "message": "ok, sad, @nasser.grainawi@oss.qualcomm.com i see exact same error on gerrit-review too.\n\nit feels like google imported it, so i see the avatar radio button, but simply cannot save, on  both gerrit instances\n\n@milutin@google.com - filing feature request on chromium side?",
+      "parentUuid": "b0fc685a_d94f0cca",
+      "revId": "5ad7482953855ca2267639859d195965ba9262a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

@@ -59,6 +59,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "54124d90_59cf500e",
+        "filename": "polygerrit-ui/app/api/ai-code-review.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 3001824
+      },
+      "writtenOn": "2026-04-08T00:29:06Z",
+      "side": 1,
+      "message": "I removed it. It was aspirational and I wanted to go and add it to the source but in the end this might be more effort than needed.\n\nI still think a \"description\" is useful but this shouldn\u0027t be the space for this discussion.",
+      "parentUuid": "0dce8a60_0dd85367",
+      "range": {
+        "startLine": 56,
+        "startChar": 0,
+        "endLine": 56,
+        "endChar": 23
+      },
+      "revId": "02e1ac310835dfa1e8c6c560cde911294424f392",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2b3f96f1_610c9dd0",
@@ -82,6 +106,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0ad3433a_68abbd90",
+        "filename": "polygerrit-ui/app/elements/chat-panel/splash-page-action.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 3001824
+      },
+      "writtenOn": "2026-04-08T00:29:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2b3f96f1_610c9dd0",
+      "range": {
+        "startLine": 133,
+        "startChar": 0,
+        "endLine": 133,
+        "endChar": 0
+      },
+      "revId": "02e1ac310835dfa1e8c6c560cde911294424f392",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b23d158a_4930d3e1",
@@ -95,6 +143,30 @@
       "writtenOn": "2026-04-07T22:44:45Z",
       "side": 1,
       "message": "Please fix this WARNING reported by autoreview issue finding: These class names (`diffHeader`, `diffActions`) suggest they are specific to a diff view, but this is a general \"Capability details\" modal. Consider using more generic names like `modalHeader` and `modalActions` unless these are intentionally matching styles for diff-related dialogs.\n\nThese class names (`diffHeader`, `diffActions`) suggest they are specific to a diff view, but this is a general \"Capability details\" modal. Consider using more generic names like `modalHeader` and `modalActions` unless these are intentionally matching styles for diff-related dialogs.",
+      "range": {
+        "startLine": 171,
+        "startChar": 0,
+        "endLine": 171,
+        "endChar": 0
+      },
+      "revId": "02e1ac310835dfa1e8c6c560cde911294424f392",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "37f5cbd0_6725abfa",
+        "filename": "polygerrit-ui/app/elements/chat-panel/splash-page-action.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 3001824
+      },
+      "writtenOn": "2026-04-08T00:29:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b23d158a_4930d3e1",
       "range": {
         "startLine": 171,
         "startChar": 0,
@@ -156,6 +228,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a747bbd7_510de9c1",
+        "filename": "polygerrit-ui/app/elements/chat-panel/splash-page-action.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 3001824
+      },
+      "writtenOn": "2026-04-08T00:29:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f203ab8a_eee83dff",
+      "range": {
+        "startLine": 180,
+        "startChar": 7,
+        "endLine": 180,
+        "endChar": 18
+      },
+      "revId": "02e1ac310835dfa1e8c6c560cde911294424f392",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cc1c8cc1_21b9a3a4",
@@ -197,6 +293,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1fb3740b_be1d24c6",
+        "filename": "polygerrit-ui/app/elements/chat-panel/splash-page-action.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 3001824
+      },
+      "writtenOn": "2026-04-08T00:29:06Z",
+      "side": 1,
+      "message": "Done see above",
+      "parentUuid": "cc1c8cc1_21b9a3a4",
+      "range": {
+        "startLine": 318,
+        "startChar": 12,
+        "endLine": 320,
+        "endChar": 18
+      },
+      "revId": "02e1ac310835dfa1e8c6c560cde911294424f392",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e3fa7c16_51155a1a",
@@ -220,6 +340,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3122dd39_3e719906",
+        "filename": "polygerrit-ui/app/elements/chat-panel/splash-page-action.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 3001824
+      },
+      "writtenOn": "2026-04-08T00:29:06Z",
+      "side": 1,
+      "message": "Acknowledged. I\u0027ll add more in a future change.",
+      "parentUuid": "e3fa7c16_51155a1a",
+      "range": {
+        "startLine": 336,
+        "startChar": 12,
+        "endLine": 336,
+        "endChar": 15
+      },
+      "revId": "02e1ac310835dfa1e8c6c560cde911294424f392",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "11119d9a_945af9cc",
@@ -233,6 +377,30 @@
       "writtenOn": "2026-04-07T22:44:45Z",
       "side": 1,
       "message": "It would be nice to have a screenshot test of the modal too.",
+      "range": {
+        "startLine": 45,
+        "startChar": 2,
+        "endLine": 45,
+        "endChar": 6
+      },
+      "revId": "02e1ac310835dfa1e8c6c560cde911294424f392",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d420c3be_e40650de",
+        "filename": "polygerrit-ui/app/elements/chat-panel/splash-page-action_test.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 3001824
+      },
+      "writtenOn": "2026-04-08T00:29:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "11119d9a_945af9cc",
       "range": {
         "startLine": 45,
         "startChar": 2,

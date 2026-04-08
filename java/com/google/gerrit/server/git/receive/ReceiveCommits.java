@@ -955,8 +955,9 @@ class ReceiveCommits {
       queueSuccessMessages(newChanges);
 
       logger.atFine().log(
-          "Command results: %s",
-          commands.stream().map(ReceiveCommits::commandToString).collect(joining(",")));
+          lazy(
+              () -> "Command results: %s",
+              commands.stream().map(ReceiveCommits::commandToString).collect(joining(","))));
     }
   }
 

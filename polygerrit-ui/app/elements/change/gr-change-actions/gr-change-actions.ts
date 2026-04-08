@@ -2047,9 +2047,7 @@ export class GrChangeActions
           revertChangeInfo._number,
           revertChangeInfo.project
         );
-        const reachable = await this.waitForChangeReachable(
-          revertChangeInfo._number
-        );
+        const reachable = this.waitForChangeReachable(revertChangeInfo._number);
         if (!reachable) return;
         await this.setReviewOnRevert(revertChangeInfo._number);
         this.getNavigation().setUrl(
@@ -2064,7 +2062,7 @@ export class GrChangeActions
           cherrypickChangeInfo._number,
           cherrypickChangeInfo.project
         );
-        const reachable = this.waitForChangeReachable(
+        const reachable = await this.waitForChangeReachable(
           cherrypickChangeInfo._number
         );
         if (!reachable) return;
@@ -2104,6 +2102,9 @@ export class GrChangeActions
         break;
       }
       default:
+        if (isQuickApproveAction(action)) {
+          this.getPluginLoader().jsApiService.handleReplySent();
+        }
         this.getChangeModel().navigateToChangeResetReload();
         break;
     }

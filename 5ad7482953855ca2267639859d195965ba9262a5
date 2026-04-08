@@ -175,6 +175,23 @@
       "parentUuid": "692813ae_9fe2a60e",
       "revId": "5ad7482953855ca2267639859d195965ba9262a5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2aaae12c_24311456",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3117294
+      },
+      "writtenOn": "2026-04-08T09:15:22Z",
+      "side": 1,
+      "message": "i got a question, 3.14 has this CL. which is awesome.\ni already see it in UI - but saving leads to:\n\n```\nAn error occurred\nError 405: This REST endpoint is disabled.\n\nEndpoint: /accounts/self/emails/*/avatar\nTrace Id: 1775639665703-4f5d7056\n```\n\nany ideas, if i did something wrong? (this also happens on chromium gerrit; its also on the same version now)",
+      "revId": "5ad7482953855ca2267639859d195965ba9262a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

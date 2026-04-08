@@ -62,17 +62,19 @@ public class RefUpdateUtil {
    * @throws IOException if any result was not {@code OK}.
    */
   public static void executeChecked(BatchRefUpdate bru, RevWalk rw) throws IOException {
-    logger.atFine().log(
-        "Executing ref updates: %s\n",
-        Joiner.on("\n")
-            .join(
-                bru.getCommands().stream()
-                    .map(
-                        cmd ->
-                            String.format(
-                                "%s (new tree ID: %s)",
-                                cmd, getNewTreeId(rw, cmd).map(ObjectId::name).orElse("n/a")))
-                    .collect(toImmutableList())));
+    if (logger.atFine().isEnabled()) {
+      logger.atFine().log(
+          "Executing ref updates: %s\n",
+          Joiner.on("\n")
+              .join(
+                  bru.getCommands().stream()
+                      .map(
+                          cmd ->
+                              String.format(
+                                  "%s (new tree ID: %s)",
+                                  cmd, getNewTreeId(rw, cmd).map(ObjectId::name).orElse("n/a")))
+                      .collect(toImmutableList())));
+    }
     bru.execute(rw, NullProgressMonitor.INSTANCE);
     checkResults(bru);
   }

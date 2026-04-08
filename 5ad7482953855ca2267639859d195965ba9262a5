@@ -245,6 +245,24 @@
       "parentUuid": "2aaae12c_24311456",
       "revId": "5ad7482953855ca2267639859d195965ba9262a5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b0fc685a_d94f0cca",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-04-08T18:30:44Z",
+      "side": 1,
+      "message": "Unfortunately it was decided by Gerrit team when importing to google that this feature is for now disabled in Google. You can file feature request, but unfortunately Gerrit team is prioritizing less features and more stability.",
+      "parentUuid": "0f9b7051_b668d830",
+      "revId": "5ad7482953855ca2267639859d195965ba9262a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

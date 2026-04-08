@@ -281,6 +281,24 @@
       "parentUuid": "b0fc685a_d94f0cca",
       "revId": "5ad7482953855ca2267639859d195965ba9262a5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f88ad5b7_8ee69653",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-04-08T19:48:12Z",
+      "side": 1,
+      "message": "Yes, just report with on chromium with bug icon on top right corner",
+      "parentUuid": "40ffdbf8_a3364e7f",
+      "revId": "5ad7482953855ca2267639859d195965ba9262a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

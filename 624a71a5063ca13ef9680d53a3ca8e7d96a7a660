@@ -16,6 +16,24 @@
       "message": "would be good to have some test coverage for this.",
       "revId": "624a71a5063ca13ef9680d53a3ca8e7d96a7a660",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe3c72aa_2c2f7f2d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-04-08T19:52:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cc74e4c6_8471e648",
+      "revId": "624a71a5063ca13ef9680d53a3ca8e7d96a7a660",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

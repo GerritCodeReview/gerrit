@@ -46,6 +46,30 @@
       },
       "revId": "3299370ab5fc387bc7bbebb4a5390812e00d5d2d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ba1a2c35_ce0024b6",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 2751,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-04-08T04:15:29Z",
+      "side": 1,
+      "message": "Yes, that\u0027s true. Doing this lookup early doesn\u0027t seem harmful, so let\u0027s go with what you have.",
+      "parentUuid": "334d8342_6e07af82",
+      "range": {
+        "startLine": 2747,
+        "startChar": 0,
+        "endLine": 2751,
+        "endChar": 11
+      },
+      "revId": "3299370ab5fc387bc7bbebb4a5390812e00d5d2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

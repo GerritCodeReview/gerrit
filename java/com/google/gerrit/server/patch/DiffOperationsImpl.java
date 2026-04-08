@@ -33,6 +33,8 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.server.cache.CacheModule;
+import com.google.gerrit.server.experiments.ExperimentFeatures;
+import com.google.gerrit.server.experiments.ExperimentFeaturesConstants;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.diff.ModifiedFilesCache;
 import com.google.gerrit.server.patch.diff.ModifiedFilesCacheImpl;
@@ -84,6 +86,7 @@ public class DiffOperationsImpl implements DiffOperations {
   private final ModifiedFilesLoader.Factory modifiedFilesLoaderFactory;
   private final FileDiffCache fileDiffCache;
   private final BaseCommitUtil baseCommitUtil;
+  private final ExperimentFeatures experimentFeatures;
 
   public static Module module() {
     return new CacheModule() {
@@ -105,13 +108,15 @@ public class DiffOperationsImpl implements DiffOperations {
       ModifiedFilesCacheImpl modifiedFilesCacheImpl,
       ModifiedFilesLoader.Factory modifiedFilesLoaderFactory,
       FileDiffCache fileDiffCache,
-      BaseCommitUtil baseCommit) {
+      BaseCommitUtil baseCommit,
+      ExperimentFeatures experimentFeatures) {
     this.repoManager = repoManager;
     this.modifiedFilesCache = modifiedFilesCache;
     this.modifiedFilesCacheImpl = modifiedFilesCacheImpl;
     this.modifiedFilesLoaderFactory = modifiedFilesLoaderFactory;
     this.fileDiffCache = fileDiffCache;
     this.baseCommitUtil = baseCommit;
+    this.experimentFeatures = experimentFeatures;
   }
 
   @Override
@@ -247,7 +252,8 @@ public class DiffOperationsImpl implements DiffOperations {
               newCommit,
               fileName,
               DEFAULT_DIFF_ALGORITHM,
-              /* useTimeout= */ true,
+              experimentFeatures.isFeatureEnabled(
+                  ExperimentFeaturesConstants.TIMEOUT_FILE_DIFF_COMPUTATION, project),
               whitespace);
       return getModifiedFileForKey(key);
     } catch (IOException e) {
@@ -271,7 +277,8 @@ public class DiffOperationsImpl implements DiffOperations {
             newCommit,
             fileName,
             DEFAULT_DIFF_ALGORITHM,
-            /* useTimeout= */ true,
+            experimentFeatures.isFeatureEnabled(
+                ExperimentFeaturesConstants.TIMEOUT_FILE_DIFF_COMPUTATION, project),
             whitespace);
     return getModifiedFileForKey(key);
   }
@@ -289,6 +296,9 @@ public class DiffOperationsImpl implements DiffOperations {
       ImmutableList<ModifiedFile> modifiedFiles =
           modifiedFilesCache.get(createModifiedFilesKey(project, oldCommit, newCommit));
 
+      boolean useTimeout =
+          experimentFeatures.isFeatureEnabled(
+              ExperimentFeaturesConstants.TIMEOUT_FILE_DIFF_COMPUTATION, project);
       List<FileDiffCacheKey> fileCacheKeys = new ArrayList<>();
       fileCacheKeys.add(
           createFileDiffCacheKey(
@@ -297,7 +307,7 @@ public class DiffOperationsImpl implements DiffOperations {
               newCommit,
               COMMIT_MSG,
               DEFAULT_DIFF_ALGORITHM,
-              /* useTimeout= */ true,
+              useTimeout,
               /* whitespace= */ null));
 
       if (cmp.isAgainstAutoMerge() || isMergeAgainstParent(cmp, project, newCommit)) {
@@ -308,7 +318,7 @@ public class DiffOperationsImpl implements DiffOperations {
                 newCommit,
                 MERGE_LIST,
                 DEFAULT_DIFF_ALGORITHM,
-                /* useTimeout= */ true,
+                useTimeout,
                 /* whitespace= */ null));
       }
 
@@ -324,7 +334,7 @@ public class DiffOperationsImpl implements DiffOperations {
                             ? entity.newPath().get()
                             : entity.oldPath().get(),
                         DEFAULT_DIFF_ALGORITHM,
-                        /* useTimeout= */ true,
+                        useTimeout,
                         /* whitespace= */ null))
             .forEach(fileCacheKeys::add);
       }
@@ -367,10 +377,9 @@ public class DiffOperationsImpl implements DiffOperations {
                 key.newFilePath(),
                 // Use the fallback diff algorithm
                 DiffAlgorithm.HISTOGRAM_NO_FALLBACK,
-                // We don't enforce timeouts with the fallback algorithm. Timeouts were introduced
-                // because of a bug in JGit that happens only when the histogram algorithm uses
-                // Myers as fallback. See https://issues.gerritcodereview.com/issues/40000618
-                /* useTimeout= */ false,
+                // Enforce a timeout even when falling back
+                experimentFeatures.isFeatureEnabled(
+                    ExperimentFeaturesConstants.TIMEOUT_FILE_DIFF_COMPUTATION, key.project()),
                 key.whitespace());
         logger.atFine().log(
             "fallback to computing git file diff for %s with %s as diff algorithm and no timeout",
@@ -393,7 +402,7 @@ public class DiffOperationsImpl implements DiffOperations {
     ImmutableMap.Builder<String, FileDiffOutput> diffs = ImmutableMap.builder();
 
     for (FileDiffOutput fileDiffOutput : fileDiffOutputs) {
-      if (fileDiffOutput.isEmpty()
+      if ((fileDiffOutput.isEmpty() && !fileDiffOutput.isNegative())
           || (diffOptions.skipFilesWithAllEditsDueToRebase() && allDueToRebase(fileDiffOutput))) {
         continue;
       }

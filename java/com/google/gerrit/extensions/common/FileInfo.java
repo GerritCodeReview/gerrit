@@ -29,6 +29,12 @@ public class FileInfo {
   public long sizeDelta;
   public long size;
 
+  /**
+   * Returns {@code true} if the diff computation was not able to compute a diff, i.e. for diffs
+   * taking a very long time to compute.
+   */
+  public Boolean diffsTooExpensiveToCompute;
+
   @Override
   public boolean equals(Object o) {
     if (o instanceof FileInfo) {
@@ -43,14 +49,23 @@ public class FileInfo {
           && Objects.equals(linesInserted, fileInfo.linesInserted)
           && Objects.equals(linesDeleted, fileInfo.linesDeleted)
           && sizeDelta == fileInfo.sizeDelta
-          && size == fileInfo.size;
+          && size == fileInfo.size
+          && Objects.equals(diffsTooExpensiveToCompute, fileInfo.diffsTooExpensiveToCompute);
     }
     return false;
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(status, binary, oldPath, linesInserted, linesDeleted, sizeDelta, size);
+    return Objects.hash(
+        status,
+        binary,
+        oldPath,
+        linesInserted,
+        linesDeleted,
+        sizeDelta,
+        size,
+        diffsTooExpensiveToCompute);
   }
 
   @Override
@@ -78,6 +93,8 @@ public class FileInfo {
         + sizeDelta
         + ", size="
         + size
+        + ", diffsTooExpensiveToCompute="
+        + diffsTooExpensiveToCompute
         + "}";
   }
 }

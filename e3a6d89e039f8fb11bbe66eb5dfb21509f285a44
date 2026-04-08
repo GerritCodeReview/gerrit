@@ -93,6 +93,30 @@
       },
       "revId": "e3a6d89e039f8fb11bbe66eb5dfb21509f285a44",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f5eef7a5_ca5dd4d0",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-popup-interface/gr-popup-interface.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-04-08T11:20:04Z",
+      "side": 1,
+      "message": "\u003e thus it always creates a new element.\n\nYeah explicitly removing the element makes sense if it\u0027s re-created on every `open`.\n\nMaybe add a comment here of why `remove` is required.",
+      "parentUuid": "5e263fc0_73bc46c2",
+      "range": {
+        "startLine": 85,
+        "startChar": 4,
+        "endLine": 85,
+        "endChar": 24
+      },
+      "revId": "e3a6d89e039f8fb11bbe66eb5dfb21509f285a44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

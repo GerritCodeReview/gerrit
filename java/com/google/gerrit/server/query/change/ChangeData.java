@@ -1236,25 +1236,9 @@ public class ChangeData {
       }
 
       List<Comment> comments = publishedComments().stream().collect(toList());
-      logger.atFine().log(
-          "published comments: %s",
-          comments.stream()
-              .map(
-                  c ->
-                      String.format(
-                          "%s -> {parentUuid = %s, unresolved = %s}",
-                          c.key,
-                          c.parentUuid,
-                          c instanceof HumanComment ? ((HumanComment) c).unresolved : "n/a"))
-              .collect(toImmutableList()));
 
       ImmutableSet<CommentThread<Comment>> commentThreads =
           CommentThreads.forComments(comments).getThreads();
-      logger.atFine().log(
-          "comment threads: %s",
-          commentThreads.stream()
-              .map(t -> t.comments().stream().map(c -> c.key).collect(toImmutableList()))
-              .collect(toImmutableList()));
       unresolvedCommentCount =
           (int) commentThreads.stream().filter(CommentThread::unresolved).count();
     }
@@ -1330,8 +1314,6 @@ public class ChangeData {
           }
         }
 
-        logger.atFine().log(
-            "Submit requirements evaluated for open change: %s", submitRequirements);
         return submitRequirements;
       }
       // Closed changes: Load submit requirement results from NoteDb.
@@ -1339,8 +1321,6 @@ public class ChangeData {
           notes().getSubmitRequirementsResult().stream()
               .filter(r -> !r.isLegacy())
               .collect(Collectors.toMap(r -> r.submitRequirement(), Function.identity()));
-      logger.atFine().log(
-          "Submit requirements loaded from NoteDb for closed change: %s", submitRequirements);
     }
     return submitRequirements;
   }

@@ -17,7 +17,6 @@ package com.google.gerrit.index.query;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableList.toImmutableList;
-import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
@@ -328,9 +327,6 @@ public abstract class QueryProcessor<T> {
           String queryString = queryStrings != null ? queryStrings.get(i) : null;
           ImmutableList<T> matchesList = matches.get(i).toList();
           int limit = limits.get(i);
-          logger.atFine().log(
-              "Matches[%d]:\n%s",
-              i, matchesList.stream().map(this::formatForLogging).collect(toList()));
           out.add(QueryResult.create(queryString, predicates.get(i), limit, matchesList));
         }
       }

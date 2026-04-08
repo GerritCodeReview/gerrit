@@ -953,10 +953,6 @@ class ReceiveCommits {
       }
 
       queueSuccessMessages(newChanges);
-
-      logger.atFine().log(
-          "Command results: %s",
-          commands.stream().map(ReceiveCommits::commandToString).collect(joining(",")));
     }
   }
 
@@ -2812,10 +2808,7 @@ class ReceiveCommits {
           List<ChangeData> changes = p.destChanges;
           if (changes.size() > 1) {
             logger.atFine().log(
-                "Multiple changes in branch %s with Change-Id %s: %s",
-                magicBranch.dest,
-                p.changeKey,
-                changes.stream().map(cd -> cd.getId().toString()).collect(joining()));
+                "Multiple changes in branch %s with Change-Id %s", magicBranch.dest, p.changeKey);
             // WTF, multiple changes in this branch have the same key?
             // Since the commit is new, the user should recreate it with
             // a different Change-Id. In practice, we should never see
@@ -4144,16 +4137,5 @@ class ReceiveCommits {
 
   private static boolean isConfig(ReceiveCommand cmd) {
     return cmd.getRefName().equals(RefNames.REFS_CONFIG);
-  }
-
-  private static String commandToString(ReceiveCommand cmd) {
-    StringBuilder b = new StringBuilder();
-    b.append(cmd);
-    b.append("  (").append(cmd.getResult());
-    if (cmd.getMessage() != null) {
-      b.append(": ").append(cmd.getMessage());
-    }
-    b.append(")\n");
-    return b.toString();
   }
 }

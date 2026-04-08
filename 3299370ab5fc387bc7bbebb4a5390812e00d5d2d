@@ -22,6 +22,30 @@
       },
       "revId": "3299370ab5fc387bc7bbebb4a5390812e00d5d2d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "334d8342_6e07af82",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 2751,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2026-04-08T03:43:12Z",
+      "side": 1,
+      "message": "We\u0027d want to validate the commit when it results in a new change, right ? So, 2858 might not be the right place.",
+      "parentUuid": "5b3d905d_7e6b273b",
+      "range": {
+        "startLine": 2747,
+        "startChar": 0,
+        "endLine": 2751,
+        "endChar": 11
+      },
+      "revId": "3299370ab5fc387bc7bbebb4a5390812e00d5d2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

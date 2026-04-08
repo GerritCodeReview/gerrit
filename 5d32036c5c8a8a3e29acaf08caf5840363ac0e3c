@@ -169,6 +169,24 @@
       "message": "[For a separate change] while here, consider converting this to a SafeProtoConverter.",
       "revId": "5d32036c5c8a8a3e29acaf08caf5840363ac0e3c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1b663299_23f5c31d",
+        "filename": "java/com/google/gerrit/server/patch/filediff/FileDiffOutput.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-04-08T12:58:45Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "f3e1adb1_9eeae3b2",
+      "revId": "5d32036c5c8a8a3e29acaf08caf5840363ac0e3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

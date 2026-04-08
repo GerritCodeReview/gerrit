@@ -17,6 +17,7 @@ package com.google.gerrit.index.query;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableList.toImmutableList;
+import static com.google.common.flogger.LazyArgs.lazy;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.Throwables;
@@ -330,7 +331,7 @@ public abstract class QueryProcessor<T> {
           int limit = limits.get(i);
           logger.atFine().log(
               "Matches[%d]:\n%s",
-              i, matchesList.stream().map(this::formatForLogging).collect(toList()));
+              i, lazy(() -> matchesList.stream().map(this::formatForLogging).collect(toList())));
           out.add(QueryResult.create(queryString, predicates.get(i), limit, matchesList));
         }
       }

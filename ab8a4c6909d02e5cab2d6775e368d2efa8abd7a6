@@ -33,6 +33,24 @@
       "message": "Can be removed",
       "revId": "ab8a4c6909d02e5cab2d6775e368d2efa8abd7a6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "899a338d_57d5cd54",
+        "filename": "polygerrit-ui/app/BUILD",
+        "patchSetId": 49
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-04-08T15:54:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f77c7e1f_b13bbbed",
+      "revId": "ab8a4c6909d02e5cab2d6775e368d2efa8abd7a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

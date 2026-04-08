@@ -16,6 +16,24 @@
       "message": "nit: Seems not directly related, i.e. the old filename wasn\u0027t used for some time already. Maybe it makes sense to use a separate change to update .gitignore.",
       "revId": "dc32f8fad53e2000a56943221c8a8c314e212715",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3fbdcfee_bfc2ac94",
+        "filename": ".gitignore",
+        "patchSetId": 49
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-04-08T15:54:42Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "9b36adcc_def771cf",
+      "revId": "dc32f8fad53e2000a56943221c8a8c314e212715",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

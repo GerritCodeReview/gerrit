@@ -89,11 +89,13 @@ suite('splash-page-action tests', () => {
           <div role="dialog" aria-labelledby="detailsTitle">
             <h3 class="heading-3 modalHeader" id="detailsTitle">Test Action</h3>
             <div class="detailsContent">
-              <div class="modal-row">
+              <div class="modal-row instruction-row">
                 <gr-icon icon="terminal"></gr-icon>
                 <div class="modal-row-content">
                   <div class="modal-row-title">Instruction:</div>
-                  <div class="modal-row-text">Test prompt</div>
+                  <div class="modal-row-text instruction-text collapsed">
+                    Test prompt
+                  </div>
                 </div>
               </div>
             </div>

@@ -52,6 +52,7 @@ public class FileDiffOutputSerializerTest {
             .headerLines(ImmutableList.of("header line 1", "header line 2"))
             .edits(edits)
             .negative(Optional.of(true))
+            .diffsTooExpensiveToCompute(Optional.of(true))
             .build();
 
     byte[] serialized = FileDiffOutput.Serializer.INSTANCE.serialize(fileDiff);

@@ -97,6 +97,15 @@ public class FileInfoJsonImpl implements FileInfoJson {
     for (String path : fileDiffs.keySet()) {
       FileDiffOutput fileDiff = fileDiffs.get(path);
       FileInfo fileInfo = new FileInfo();
+      if (fileDiff.isNegative() || fileDiff.isTooExpensive()) {
+        fileInfo.diffsTooExpensiveToCompute = true;
+        fileInfo.status =
+            fileDiff.changeType() != Patch.ChangeType.MODIFIED
+                ? fileDiff.changeType().getCode()
+                : null;
+        result.put(path, fileInfo);
+        continue;
+      }
       fileInfo.status =
           fileDiff.changeType() != Patch.ChangeType.MODIFIED
               ? fileDiff.changeType().getCode()

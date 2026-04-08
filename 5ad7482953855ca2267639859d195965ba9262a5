@@ -227,6 +227,24 @@
       "parentUuid": "1b122b90_ff3fcea8",
       "revId": "5ad7482953855ca2267639859d195965ba9262a5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0f9b7051_b668d830",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-04-08T16:52:13Z",
+      "side": 1,
+      "message": "To clarify, you\u0027re seeing that on gerrit-review and chromium-review? If yes, seems like a googlesource host-specific issue. @milutin@google.com do you have ideas?",
+      "parentUuid": "2aaae12c_24311456",
+      "revId": "5ad7482953855ca2267639859d195965ba9262a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

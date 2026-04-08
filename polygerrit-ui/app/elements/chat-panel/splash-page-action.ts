@@ -18,6 +18,8 @@ import '../shared/gr-tooltip-content/gr-tooltip-content';
 import {Action, ContextItemType} from '../../api/ai-code-review';
 import {chatModelToken} from '../../models/chat/chat-model';
 import {parseLink} from '../../models/chat/context-item-util';
+
+const COLLAPSED_INSTRUCTION_HEIGHT_PX = 100;
 import {resolve} from '../../models/dependency';
 import {isDefined} from '../../types/types';
 import {fireAlert} from '../../utils/event-util';
@@ -253,7 +255,7 @@ export class SplashPageAction extends LitElement {
         flex: 1;
       }
       .instruction-text.collapsed {
-        max-height: 100px;
+        max-height: ${COLLAPSED_INSTRUCTION_HEIGHT_PX}px;
         overflow: hidden;
       }
       .instruction-text.expanded {
@@ -378,6 +380,28 @@ export class SplashPageAction extends LitElement {
                 </div>
               `
             )}
+            ${when(
+              this.action?.custom_action_source?.custom_action_id,
+              () => html`
+                <div class="modal-row">
+                  <gr-icon icon="link"></gr-icon>
+                  <div class="modal-row-content">
+                    <div class="modal-row-title">Source:</div>
+                    <div class="modal-row-text">
+                      <a
+                        href=${this.computeCodeSearchLink(
+                          this.action?.custom_action_source?.custom_action_id
+                        )}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Capability Definition
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              `
+            )}
           </div>
           <div class="modalActions">
             <gr-button
@@ -392,6 +416,19 @@ export class SplashPageAction extends LitElement {
         </div>
       </dialog>
     `;
+  }
+
+  private computeCodeSearchLink(source?: string): string {
+    if (!source) return '';
+    let link = source;
+    const colonIndex = link.indexOf(':');
+    if (colonIndex !== -1) {
+      link = link.substring(0, colonIndex);
+    }
+    if (link.startsWith('//')) {
+      link = 'http://cs/' + link.substring(2);
+    }
+    return link;
   }
 
   private handleAction() {
@@ -429,7 +466,8 @@ export class SplashPageAction extends LitElement {
     await this.updateComplete;
     const textEl = this.shadowRoot?.querySelector('.instruction-text');
     if (textEl) {
-      this.showExpandButton = textEl.scrollHeight > 100;
+      this.showExpandButton =
+        textEl.scrollHeight > COLLAPSED_INSTRUCTION_HEIGHT_PX;
     }
   }
 }

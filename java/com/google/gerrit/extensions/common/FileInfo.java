@@ -28,6 +28,7 @@ public class FileInfo {
   public Integer linesDeleted;
   public long sizeDelta;
   public long size;
+  public Boolean tooExpensiveToCompute;
 
   @Override
   public boolean equals(Object o) {
@@ -43,14 +44,23 @@ public class FileInfo {
           && Objects.equals(linesInserted, fileInfo.linesInserted)
           && Objects.equals(linesDeleted, fileInfo.linesDeleted)
           && sizeDelta == fileInfo.sizeDelta
-          && size == fileInfo.size;
+          && size == fileInfo.size
+          && Objects.equals(tooExpensiveToCompute, fileInfo.tooExpensiveToCompute);
     }
     return false;
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(status, binary, oldPath, linesInserted, linesDeleted, sizeDelta, size);
+    return Objects.hash(
+        status,
+        binary,
+        oldPath,
+        linesInserted,
+        linesDeleted,
+        sizeDelta,
+        size,
+        tooExpensiveToCompute);
   }
 
   @Override
@@ -78,6 +88,8 @@ public class FileInfo {
         + sizeDelta
         + ", size="
         + size
+        + ", tooExpensiveToCompute="
+        + tooExpensiveToCompute
         + "}";
   }
 }

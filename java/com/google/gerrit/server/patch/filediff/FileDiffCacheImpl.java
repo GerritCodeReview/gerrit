@@ -36,6 +36,7 @@ import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.gerrit.server.patch.AutoMerger;
 import com.google.gerrit.server.patch.ComparisonType;
+import com.google.gerrit.server.patch.DiffExecutor;
 import com.google.gerrit.server.patch.DiffNotAvailableException;
 import com.google.gerrit.server.patch.DiffUtil;
 import com.google.gerrit.server.patch.Text;
@@ -58,6 +59,10 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import java.util.stream.Collectors;
 import org.eclipse.jgit.diff.EditList;
 import org.eclipse.jgit.diff.RawText;
@@ -146,12 +151,16 @@ public class FileDiffCacheImpl implements FileDiffCache {
   static class FileDiffLoader extends CacheLoader<FileDiffCacheKey, FileDiffOutput> {
     private final GitRepositoryManager repoManager;
     private final AllDiffsEvaluator.Factory allDiffsEvaluatorFactory;
+    private final ExecutorService diffExecutor;
 
     @Inject
     FileDiffLoader(
-        AllDiffsEvaluator.Factory allDiffsEvaluatorFactory, GitRepositoryManager manager) {
+        AllDiffsEvaluator.Factory allDiffsEvaluatorFactory,
+        GitRepositoryManager manager,
+        @DiffExecutor ExecutorService diffExecutor) {
       this.allDiffsEvaluatorFactory = allDiffsEvaluatorFactory;
       this.repoManager = manager;
+      this.diffExecutor = diffExecutor;
     }
 
     @Override
@@ -191,7 +200,7 @@ public class FileDiffCacheImpl implements FileDiffCache {
                 fileKeys.add(key);
               }
             }
-            result.putAll(createFileEntries(reader, fileKeys, rw));
+            result.putAll(createFileEntries(project, reader, fileKeys, rw));
           } catch (IOException e) {
             logger.atWarning().log("Failed to open the repository %s: %s", project, e.getMessage());
           }
@@ -390,12 +399,45 @@ public class FileDiffCacheImpl implements FileDiffCache {
     }
 
     private Map<FileDiffCacheKey, FileDiffOutput> createFileEntries(
-        ObjectReader reader, List<FileDiffCacheKey> keys, RevWalk rw)
+        Project.NameKey project, ObjectReader reader, List<FileDiffCacheKey> keys, RevWalk rw)
         throws DiffNotAvailableException, IOException {
-      Map<AugmentedFileDiffCacheKey, AllFileGitDiffs> allFileDiffs =
-          allDiffsEvaluatorFactory.create(rw).execute(wrapKeys(keys, rw));
+      Map<FileDiffCacheKey, Future<Map<AugmentedFileDiffCacheKey, AllFileGitDiffs>>> futures =
+          new HashMap<>();
+      for (FileDiffCacheKey key : keys) {
+        List<AugmentedFileDiffCacheKey> augmentedKeys = wrapKeys(ImmutableList.of(key), rw);
+        futures.put(
+            key,
+            diffExecutor.submit(
+                () -> {
+                  try (Repository repo = repoManager.openRepository(project);
+                      ObjectReader innerReader = repo.newObjectReader();
+                      RevWalk innerRw = new RevWalk(innerReader)) {
+                    return allDiffsEvaluatorFactory.create(innerRw).execute(augmentedKeys);
+                  }
+                }));
+      }
 
+      Map<AugmentedFileDiffCacheKey, AllFileGitDiffs> allFileDiffs = new HashMap<>();
       Map<FileDiffCacheKey, FileDiffOutput> result = new HashMap<>();
+      for (FileDiffCacheKey key : keys) {
+        try {
+          allFileDiffs.putAll(futures.get(key).get(1, TimeUnit.MINUTES));
+        } catch (InterruptedException | TimeoutException e) {
+          logger.atWarning().withCause(e).log(
+              "Timeout reached while computing diff for key: %s", key);
+          result.put(
+              key,
+              FileDiffOutput.createExpensive(key.newFilePath(), key.oldCommit(), key.newCommit()));
+        } catch (ExecutionException e) {
+          if (e.getCause() instanceof DiffNotAvailableException) {
+            throw (DiffNotAvailableException) e.getCause();
+          }
+          if (e.getCause() instanceof IOException) {
+            throw (IOException) e.getCause();
+          }
+          throw new DiffNotAvailableException(e);
+        }
+      }
 
       for (AugmentedFileDiffCacheKey augmentedKey : allFileDiffs.keySet()) {
         AllFileGitDiffs allDiffs = allFileDiffs.get(augmentedKey);
@@ -406,7 +448,7 @@ public class FileDiffCacheImpl implements FileDiffCache {
           // negative result.
           result.put(
               augmentedKey.key(),
-              FileDiffOutput.createNegative(
+              FileDiffOutput.createExpensive(
                   mainGitDiff.newPath().orElse(""),
                   augmentedKey.key().oldCommit(),
                   augmentedKey.key().newCommit()));

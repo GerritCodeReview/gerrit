@@ -6,7 +6,7 @@
 import '@material/web/iconbutton/icon-button.js';
 import '@material/web/progress/circular-progress.js';
 
-import {css, html, LitElement} from 'lit';
+import {css, html, LitElement, PropertyValues} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {classMap} from 'lit/directives/class-map.js';
 import {when} from 'lit/directives/when.js';
@@ -40,6 +40,10 @@ export class SplashPageAction extends LitElement {
 
   @state() contextItemTypes: readonly ContextItemType[] = [];
 
+  @state() private isInstructionExpanded = false;
+
+  @state() private showExpandButton = false;
+
   @query('#detailsModal') private detailsModal?: HTMLDialogElement;
 
   private readonly getChatModel = resolve(this, chatModelToken);
@@ -51,6 +55,15 @@ export class SplashPageAction extends LitElement {
       () => this.getChatModel().contextItemTypes$,
       types => (this.contextItemTypes = types)
     );
+  }
+
+  override updated(changedProperties: PropertyValues) {
+    super.updated(changedProperties);
+    const textEl = this.shadowRoot?.querySelector('.instruction-text');
+    if (textEl) {
+      // Show expand button if scroll height is greater than collapsed max-height (100px)
+      this.showExpandButton = textEl.scrollHeight > 100;
+    }
   }
 
   static override styles = [
@@ -177,7 +190,9 @@ export class SplashPageAction extends LitElement {
         padding: var(--spacing-m) var(--spacing-xl);
         background-color: var(--dialog-background-color);
         flex: 1;
-        overflow: auto;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
       }
       .info-button:hover {
         background-color: var(--hover-background-color, rgba(0, 0, 0, 0.08));
@@ -202,8 +217,7 @@ export class SplashPageAction extends LitElement {
       #detailsModal {
         width: calc(72ch + 2px + 2 * var(--spacing-m) + 0.4px);
         max-width: 90vw;
-        height: 300px;
-        max-height: 90vh;
+        max-height: 400px;
       }
       #detailsModal > div {
         display: flex;
@@ -233,6 +247,39 @@ export class SplashPageAction extends LitElement {
       }
       .modal-row-text {
         color: var(--primary-text-color);
+      }
+      .instruction-row {
+        flex: 1;
+        min-height: 0;
+      }
+      .instruction-row .modal-row-content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+      }
+      .instruction-text {
+        flex: 1;
+      }
+      .instruction-text.collapsed {
+        max-height: 100px;
+        overflow: hidden;
+      }
+      .instruction-text.expanded {
+        max-height: none;
+        overflow-y: auto;
+      }
+      .expand-button {
+        color: var(--link-color);
+        cursor: pointer;
+        padding: var(--spacing-xs) 0;
+        font-size: var(--font-size-small);
+        background: none;
+        border: none;
+        text-align: left;
+      }
+      .expand-button:hover {
+        text-decoration: underline;
       }
       .link-row {
         display: flex;
@@ -309,12 +356,54 @@ export class SplashPageAction extends LitElement {
             ${when(
               this.action?.initial_user_prompt,
               () => html`
-                <div class="modal-row">
+                <div class="modal-row instruction-row">
                   <gr-icon icon="terminal"></gr-icon>
                   <div class="modal-row-content">
                     <div class="modal-row-title">Instruction:</div>
-                    <div class="modal-row-text">
+                    <div
+                      class="modal-row-text instruction-text ${this
+                        .isInstructionExpanded
+                        ? 'expanded'
+                        : 'collapsed'}"
+                    >
                       ${this.action?.initial_user_prompt}
+                    </div>
+                    ${when(
+                      this.showExpandButton,
+                      () => html`
+                        <button
+                          class="expand-button"
+                          @click=${() =>
+                            (this.isInstructionExpanded =
+                              !this.isInstructionExpanded)}
+                        >
+                          ${this.isInstructionExpanded
+                            ? 'Show less'
+                            : 'Show more'}
+                        </button>
+                      `
+                    )}
+                  </div>
+                </div>
+              `
+            )}
+            ${when(
+              this.action?.custom_action_source?.custom_action_id,
+              () => html`
+                <div class="modal-row">
+                  <gr-icon icon="link"></gr-icon>
+                  <div class="modal-row-content">
+                    <div class="modal-row-title">Source:</div>
+                    <div class="modal-row-text">
+                      <a
+                        href=${this.computeCodeSearchLink(
+                          this.action?.custom_action_source?.custom_action_id
+                        )}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Capability Definition
+                      </a>
                     </div>
                   </div>
                 </div>
@@ -334,6 +423,19 @@ export class SplashPageAction extends LitElement {
         </div>
       </dialog>
     `;
+  }
+
+  private computeCodeSearchLink(source?: string): string {
+    if (!source) return '';
+    let link = source;
+    const colonIndex = link.indexOf(':');
+    if (colonIndex !== -1) {
+      link = link.substring(0, colonIndex);
+    }
+    if (link.startsWith('//')) {
+      link = 'http://cs/' + link.substring(2);
+    }
+    return link;
   }
 
   private handleAction() {
@@ -365,9 +467,14 @@ export class SplashPageAction extends LitElement {
     }
   }
 
-  private displayDetailsCard(event: MouseEvent) {
+  private async displayDetailsCard(event: MouseEvent) {
     event.stopPropagation();
     this.detailsModal?.showModal();
+    await this.updateComplete;
+    const textEl = this.shadowRoot?.querySelector('.instruction-text');
+    if (textEl) {
+      this.showExpandButton = textEl.scrollHeight > 100;
+    }
   }
 }
 

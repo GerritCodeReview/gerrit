@@ -157,7 +157,8 @@ suite('checks-model tests', () => {
     assert.equal(fetchSpy.callCount, 0);
 
     // 600 ms is greater than the 500 ms throttle time.
-    clock.tick(600);
+    await clock.tickAsync(600);
+    await Promise.resolve(); // Flush microtasks
     // emits at 'trailing' of throttle interval
     assert.equal(fetchSpy.callCount, 1);
 
@@ -169,9 +170,48 @@ suite('checks-model tests', () => {
     assert.equal(fetchSpy.callCount, 2);
 
     // 600 ms is greater than the 500 ms throttle time.
-    clock.tick(600);
+    await clock.tickAsync(600);
     // emits at 'trailing' of throttle interval
     assert.equal(fetchSpy.callCount, 3);
+  });
+
+  test('fetch deduplication', async () => {
+    const clock = sinon.useFakeTimers({shouldClearNativeTimers: true});
+    let change: ParsedChangeInfo | undefined = undefined;
+    testResolver(changeModelToken).change$.subscribe(c => (change = c));
+    const provider = createProvider();
+    
+    let resolveFetch: (value: any) => void;
+    const fetchPromise = new Promise(resolve => {
+      resolveFetch = resolve;
+    });
+    const fetchStub = sinon.stub(provider, 'fetch').returns(fetchPromise as any);
+
+    model.register({
+      pluginName: 'test-plugin',
+      provider,
+      config: CONFIG_POLLING_NONE,
+    });
+    await waitUntil(() => change === undefined);
+
+    const testChange = updateRevisionsWithCommitShas(createParsedChange());
+    testResolver(changeModelToken).updateStateChange(testChange);
+    await waitUntil(() => deepEqual(change, testChange));
+
+    // Advance time by 600ms to trigger the throttled fetch
+    clock.tick(600);
+    
+    // Both LATEST and SELECTED streams should share the same promise
+    assert.equal(fetchStub.callCount, 1);
+    
+    resolveFetch!({
+      responseCode: ResponseCode.OK,
+      runs: [],
+    });
+    
+    await clock.tickAsync(1); // Let promises resolve
+    
+    clock.restore();
   });
 
   test('triggerAction', async () => {

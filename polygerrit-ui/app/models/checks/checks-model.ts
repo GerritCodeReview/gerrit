@@ -237,6 +237,8 @@ export class ChecksModel extends Model<ChecksState> {
 
   private checkToPluginMap = new Map<string, string>();
 
+  private inFlightFetches = new Map<string, Promise<FetchResponse>>();
+
   // visible for testing
   changeNum?: NumericChangeId;
 
@@ -960,13 +962,25 @@ export class ChecksModel extends Model<ChecksState> {
     patchset: ChecksPatchset
   ): Observable<FetchResponse> {
     this.updateStateSetLoading(pluginName, patchset);
-    const timer = this.reporting.getTimer('ChecksPluginFetch');
-    const fetchPromise = this.providers[pluginName]
-      .fetch(data)
-      .then(response => {
-        timer.end({pluginName});
-        return response;
-      });
+    
+    const key = `${pluginName}-${data.changeNumber}-${data.patchsetNumber}`;
+    let fetchPromise = this.inFlightFetches.get(key);
+    
+    if (!fetchPromise) {
+      const timer = this.reporting.getTimer('ChecksPluginFetch');
+      fetchPromise = this.providers[pluginName]
+        .fetch(data)
+        .then(response => {
+          timer.end({pluginName});
+          this.inFlightFetches.delete(key);
+          return response;
+        })
+        .catch(e => {
+          this.inFlightFetches.delete(key);
+          throw e;
+        });
+      this.inFlightFetches.set(key, fetchPromise);
+    }
 
     return from(fetchPromise)
       .pipe(timeout(FETCH_RESULT_TIMEOUT_MS))

@@ -135,7 +135,7 @@ final class ShowConnections extends SshCommand {
                 time(now, start),
                 age(idle),
                 username(sd),
-                hostname(io.getRemoteAddress())));
+                hostname(sd != null ? sd.getRemoteAddress() : io.getRemoteAddress())));
       }
     } else {
       stdout.print(String.format("%-8s   %-15s %s\n", "Session", "User", "Remote Host"));
@@ -146,7 +146,10 @@ final class ShowConnections extends SshCommand {
 
         stdout.print(
             String.format(
-                "%8s   %-15.15s %s\n", id(sd), username(sd), hostname(io.getRemoteAddress())));
+                "%8s   %-15.15s %s\n",
+                id(sd),
+                username(sd),
+                hostname(sd != null ? sd.getRemoteAddress() : io.getRemoteAddress())));
       }
     }
 

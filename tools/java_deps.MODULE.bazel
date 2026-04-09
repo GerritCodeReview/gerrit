@@ -84,6 +84,9 @@ _OTHER_EXCLUDES = [
     "org.apache.sshd:sshd-common",
     "org.apache.sshd:sshd-core",
 
+    # sshd-scp transitively included by sshd-contrib; not needed at runtime.
+    "org.apache.sshd:sshd-scp",
+
     # Unused Lucene modules (keep WAR footprint aligned with pre-migration).
     "org.apache.lucene:lucene-facet",
     "org.apache.lucene:lucene-queries",

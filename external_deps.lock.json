@@ -152,9 +152,11 @@
     "org.apache.lucene:lucene-sandbox": 1803509280,
     "org.apache.mina:mina-core": -1403307213,
     "org.apache.sshd:sshd-common": 1844247612,
+    "org.apache.sshd:sshd-contrib": -39536630,
     "org.apache.sshd:sshd-core": 602454664,
     "org.apache.sshd:sshd-mina": 582747848,
     "org.apache.sshd:sshd-osgi": -115413327,
+    "org.apache.sshd:sshd-scp": -734172109,
     "org.apache.sshd:sshd-sftp": 292810504,
     "org.asciidoctor:asciidoctorj": -457860213,
     "org.assertj:assertj-core": -1145412507,
@@ -396,6 +398,8 @@
     "org.apache.lucene:lucene-queryparser:jar:sources": 1992621418,
     "org.apache.mina:mina-core": -584591076,
     "org.apache.mina:mina-core:jar:sources": 71382131,
+    "org.apache.sshd:sshd-contrib": 1304887517,
+    "org.apache.sshd:sshd-contrib:jar:sources": 1178523345,
     "org.apache.sshd:sshd-mina": -36716477,
     "org.apache.sshd:sshd-mina:jar:sources": 97528844,
     "org.apache.sshd:sshd-osgi": 1810958617,
@@ -1174,6 +1178,13 @@
       },
       "version": "2.2.9"
     },
+    "org.apache.sshd:sshd-contrib": {
+      "shasums": {
+        "jar": "75a7f7ebd5d9698c0a504bb55aed0cc73d99744c80343f766c1fdeee0ab5ca14",
+        "sources": "2c0a7ed03ba0b906ece637e9276db6322ac39df50331a970f527df2941ca2d6c"
+      },
+      "version": "2.19.0"
+    },
     "org.apache.sshd:sshd-mina": {
       "shasums": {
         "jar": "da1088d16ba7953444b7d9aefcfc60c9b5e000bf26542d4c3ed0573f692bf14a",
@@ -1759,6 +1770,11 @@
       "org.apache.lucene:lucene-core"
     ],
     "org.apache.mina:mina-core": [
+      "org.slf4j:slf4j-api"
+    ],
+    "org.apache.sshd:sshd-contrib": [
+      "org.apache.sshd:sshd-sftp",
+      "org.slf4j:jcl-over-slf4j",
       "org.slf4j:slf4j-api"
     ],
     "org.apache.sshd:sshd-mina": [
@@ -3230,6 +3246,23 @@
       "org.apache.mina.util",
       "org.apache.mina.util.byteaccess"
     ],
+    "org.apache.sshd:sshd-contrib": [
+      "org.apache.sshd.contrib.client.auth.password",
+      "org.apache.sshd.contrib.common.channel.throttle",
+      "org.apache.sshd.contrib.common.compression",
+      "org.apache.sshd.contrib.common.io",
+      "org.apache.sshd.contrib.common.session.helpers",
+      "org.apache.sshd.contrib.common.signature",
+      "org.apache.sshd.contrib.common.util.io",
+      "org.apache.sshd.contrib.common.util.security.androidopenssl",
+      "org.apache.sshd.contrib.server.scp",
+      "org.apache.sshd.contrib.server.session.proxyprotocol",
+      "org.apache.sshd.contrib.server.session.proxyprotocolv2",
+      "org.apache.sshd.contrib.server.session.proxyprotocolv2.data",
+      "org.apache.sshd.contrib.server.session.proxyprotocolv2.exception",
+      "org.apache.sshd.contrib.server.session.proxyprotocolv2.utils",
+      "org.apache.sshd.contrib.server.subsystem.sftp"
+    ],
     "org.apache.sshd:sshd-mina": [
       "org.apache.sshd.mina"
     ],
@@ -4557,6 +4590,8 @@
       "org.apache.lucene:lucene-queryparser:jar:sources",
       "org.apache.mina:mina-core",
       "org.apache.mina:mina-core:jar:sources",
+      "org.apache.sshd:sshd-contrib",
+      "org.apache.sshd:sshd-contrib:jar:sources",
       "org.apache.sshd:sshd-mina",
       "org.apache.sshd:sshd-mina:jar:sources",
       "org.apache.sshd:sshd-osgi",
@@ -4855,6 +4890,8 @@
       "org.apache.lucene:lucene-queryparser:jar:sources",
       "org.apache.mina:mina-core",
       "org.apache.mina:mina-core:jar:sources",
+      "org.apache.sshd:sshd-contrib",
+      "org.apache.sshd:sshd-contrib:jar:sources",
       "org.apache.sshd:sshd-mina",
       "org.apache.sshd:sshd-mina:jar:sources",
       "org.apache.sshd:sshd-osgi",

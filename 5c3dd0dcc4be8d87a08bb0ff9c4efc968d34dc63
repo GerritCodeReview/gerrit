@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c2d91dfa_efeca99b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-04-09T12:47:05Z",
+      "side": 1,
+      "message": "Can we wait for data. I found this issue I want to build hypothesis for this removal",
+      "revId": "5c3dd0dcc4be8d87a08bb0ff9c4efc968d34dc63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

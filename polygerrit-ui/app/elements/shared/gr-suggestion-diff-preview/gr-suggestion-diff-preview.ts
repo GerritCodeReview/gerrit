@@ -90,7 +90,11 @@ export class GrSuggestionDiffPreview extends LitElement {
    * fix suggestion info currently in gr-comment.
    */
   @state()
-  public previewLoadedFor?: FixSuggestionInfo;
+  public previewLoadedFor?: {
+    fixSuggestionInfo: FixSuggestionInfo;
+    changeNum: NumericChangeId;
+    patchSet: RevisionPatchSetNum;
+  };
 
   @state() repo?: RepoName;
 
@@ -283,6 +287,16 @@ export class GrSuggestionDiffPreview extends LitElement {
 
   private async fetchFixPreview() {
     if (!this.changeNum || !this.patchSet || !this.fixSuggestionInfo) return;
+    if (
+      this.previewLoadedFor &&
+      this.previewLoadedFor.changeNum === this.changeNum &&
+      this.previewLoadedFor.patchSet === this.patchSet &&
+      replacementsToString(
+        this.previewLoadedFor.fixSuggestionInfo.replacements
+      ) === replacementsToString(this.fixSuggestionInfo.replacements)
+    ) {
+      return;
+    }
 
     this.reporting.time(Timing.PREVIEW_FIX_LOAD);
     const res = await this.restApiService.getFixPreview(
@@ -300,7 +314,12 @@ export class GrSuggestionDiffPreview extends LitElement {
     });
     if (currentPreviews.length > 0) {
       this.preview = currentPreviews[0];
-      this.previewLoadedFor = this.fixSuggestionInfo;
+      this.previewLoadedFor = {
+        fixSuggestionInfo: this.fixSuggestionInfo,
+        changeNum: this.changeNum,
+        patchSet: this.patchSet,
+      };
+
       this.previewed = true;
 
       fire(this, 'preview-loaded', {

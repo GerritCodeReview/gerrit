@@ -30,6 +30,7 @@ import {
   Timestamp,
   UrlEncodedCommentId,
 } from '../../../types/common';
+import {RevisionPatchSetNum} from '../../../api/rest-api';
 import {
   createComment,
   createDraft,
@@ -1122,7 +1123,11 @@ suite('gr-comment tests', () => {
           '#suggestionDiffPreview'
         );
         suggestionDiffPreview.previewed = true;
-        suggestionDiffPreview.previewLoadedFor = generatedFixSuggestion;
+        suggestionDiffPreview.previewLoadedFor = {
+          fixSuggestionInfo: generatedFixSuggestion,
+          changeNum: 42 as NumericChangeId,
+          patchSet: 1 as RevisionPatchSetNum,
+        };
         await element.updateComplete;
         // trigger event preview-loaded on suggestionDiffPreview with detail
         suggestionDiffPreview.dispatchEvent(

@@ -17,6 +17,7 @@ import {
 import {wrapInProvider} from '../../../models/di-provider-element';
 import {commentModelToken} from '../gr-comment-model/gr-comment-model';
 import {CommentModel} from '../gr-comment-model/gr-comment-model';
+import {NumericChangeId, RevisionPatchSetNum} from '../../../api/rest-api';
 import {getAppContext} from '../../../services/app-context';
 import {stubFlags, visualDiffDarkTheme} from '../../../test/test-utils';
 
@@ -47,7 +48,11 @@ suite('gr-user-suggestion-fix screenshot tests', () => {
   test('screenshot', async () => {
     await element.updateComplete;
     // mock preview because it's calculated on backend
-    element.suggestionDiffPreview!.previewLoadedFor = createFixSuggestionInfo();
+    element.suggestionDiffPreview!.previewLoadedFor = {
+      fixSuggestionInfo: createFixSuggestionInfo(),
+      changeNum: 42 as NumericChangeId,
+      patchSet: 1 as RevisionPatchSetNum,
+    };
     element.suggestionDiffPreview!.preview = {
       filepath: 'test.ts',
       preview: {

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "85a037f4_0c2de207",
+        "filename": "MODULE.bazel",
+        "patchSetId": 11
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-04-09T20:21:17Z",
+      "side": 1,
+      "message": "This TODO can be removed now.",
+      "revId": "3acc1307bf57c2d7a524edf7a6032b24601839ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -16,6 +16,23 @@
       "message": "fuck you im 50",
       "revId": "9076fdc73bb7d4cbd032bc06f6d9d2c323d8b69d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a81de039_95c0e1d6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-04-09T06:51:16Z",
+      "side": 1,
+      "message": "This could be useful for\n - diff whole chain (like github PRs) in Gerrit frontend\n - AI review agent reviewing whole chain\n\nAdding @beckysiegel@google.com to decide if it should be put into Gerrit",
+      "revId": "9076fdc73bb7d4cbd032bc06f6d9d2c323d8b69d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

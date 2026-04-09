@@ -827,6 +827,18 @@ suite('gr-change-view tests', () => {
     });
   });
 
+  suite('preferences', () => {
+    test('auto-expand review agent panel', async () => {
+      const prefs = {
+        ...createDefaultPreferences(),
+        auto_expand_review_agent_panel: true,
+      };
+      userModel.setPreferences(prefs);
+      await element.updateComplete;
+      assert.isTrue((element as any).showSidebarChat);
+    });
+  });
+
   suite('thread list and change log tabs', () => {
     setup(() => {
       element.changeNum = TEST_NUMERIC_CHANGE_ID;

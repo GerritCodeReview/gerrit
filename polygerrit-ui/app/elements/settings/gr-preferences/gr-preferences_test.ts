@@ -329,6 +329,14 @@ suite('gr-preferences tests', () => {
                 <md-checkbox id="insertSignedOff"> </md-checkbox>
               </span>
             </section>
+            <section>
+              <label class="title" for="autoExpandReviewAgentPanel">
+                Auto-expand Review Agent panel
+              </label>
+              <span class="value">
+                <md-checkbox id="autoExpandReviewAgentPanel"> </md-checkbox>
+              </span>
+            </section>
           </div>
           <gr-button
             aria-disabled="true"
@@ -553,6 +561,29 @@ suite('gr-preferences tests', () => {
     stubRestApi('savePreferences').callsFake(
       (prefs: Partial<PreferencesInfo>) => {
         assert.equal(prefs.work_in_progress_by_default, true);
+        return Promise.resolve(createDefaultPreferences());
+      }
+    );
+
+    // Save the change.
+    await element.save();
+    assert.isFalse(element.hasUnsavedChanges());
+  });
+
+  test('auto-expand review agent panel', async () => {
+    assert.isFalse(element.hasUnsavedChanges());
+
+    const autoExpand = valueOf(
+      'Auto-expand Review Agent panel',
+      'preferences'
+    ).firstElementChild! as HTMLSpanElement;
+    autoExpand.click();
+
+    assert.isTrue(element.hasUnsavedChanges());
+
+    stubRestApi('savePreferences').callsFake(
+      (prefs: Partial<PreferencesInfo>) => {
+        assert.isTrue(prefs.auto_expand_review_agent_panel);
         return Promise.resolve(createDefaultPreferences());
       }
     );

@@ -1589,6 +1589,7 @@ link:#preferences-input[PreferencesInput] entity.
     "allow_browser_notifications": false,
     "allow_suggest_code_while_commenting": false,
     "allow_autocompleting_comments": false,
+    "auto_expand_review_agent_panel": true,
     "ai_chat_selected_model": "test-ai-model",
     "diff_page_sidebar": "NONE",
     "diff_view": "SIDE_BY_SIDE",
@@ -1644,6 +1645,7 @@ link:#preferences-info[PreferencesInfo] entity.
     "disable_keyboard_shortcuts": true,
     "disable_token_highlighting": true,
     "work_in_progress_by_default": true,
+    "auto_expand_review_agent_panel": true,
     "mute_common_path_prefixes": true,
     "my": [
       {
@@ -3010,6 +3012,8 @@ a plugin implementation.
 |`ai_chat_selected_model`           |optional|
 The name of the AI model selected for the AI chat. This feature needs a plugin
 implementation.
+|`auto_expand_review_agent_panel`|not set if `false`|
+Whether to auto-expand the Review Agent panel by default when loading a change.
 |`diff_page_sidebar`            |optional|
 String indicating which sidebar should be open on the diff page. Set to "NONE"
 if no sidebars should be open. Plugin-supplied sidebars will be prefixed with
@@ -3091,6 +3095,8 @@ a plugin implementation.
 |`allow_autocompleting_comments`  |not set if `false`|
 Whether to receive autocompletions while writing comments. This feature needs
 a plugin implementation.
+|`auto_expand_review_agent_panel`|not set if `false`|
+Whether to auto-expand the Review Agent panel by default when loading a change.
 |`diff_page_sidebar`            |optional|
 String indicating which sidebar should be open on the diff page. Set to "NONE"
 if no sidebars should be open. Plugin-supplied sidebars will be prefixed with

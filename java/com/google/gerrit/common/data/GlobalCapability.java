@@ -135,6 +135,9 @@ public class GlobalCapability {
   /** Can view secondary emails of other accounts. */
   public static final String VIEW_SECONDARY_EMAILS = "viewSecondaryEmails";
 
+  /** Can delete published comments and change messages on changes. */
+  public static final String DELETE_COMMENT = "deleteComment";
+
   private static final List<String> NAMES_ALL;
   private static final List<String> NAMES_LC;
   private static final String[] RANGE_NAMES = {
@@ -148,6 +151,7 @@ public class GlobalCapability {
     NAMES_ALL.add(BATCH_CHANGES_LIMIT);
     NAMES_ALL.add(CREATE_ACCOUNT);
     NAMES_ALL.add(CREATE_GROUP);
+    NAMES_ALL.add(DELETE_COMMENT);
     NAMES_ALL.add(DELETE_GROUP);
     NAMES_ALL.add(CREATE_PROJECT);
     NAMES_ALL.add(EMAIL_REVIEWERS);

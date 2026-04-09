@@ -84,7 +84,7 @@ public class DeleteChangeMessage
       ChangeMessageResource resource, DeleteChangeMessageInput input)
       throws RestApiException, PermissionBackendException, UpdateException, IOException {
     CurrentUser user = userProvider.get();
-    permissionBackend.user(user).check(GlobalPermission.ADMINISTRATE_SERVER);
+    permissionBackend.user(user).check(GlobalPermission.DELETE_COMMENT);
 
     String newChangeMessage =
         createNewChangeMessage(user.asIdentifiedUser().getAccountId(), input.reason);

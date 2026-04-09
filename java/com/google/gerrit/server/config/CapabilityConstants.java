@@ -20,6 +20,7 @@ public class CapabilityConstants {
   public static String batchChangesLimit = "Batch Changes Limit";
   public static String createAccount = "Create Account";
   public static String createGroup = "Create Group";
+  public static String deleteComment = "Delete Comment";
   public static String deleteGroup = "Delete Group";
   public static String createProject = "Create Project";
   public static String emailReviewers = "Email Reviewers";

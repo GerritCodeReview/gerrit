@@ -63,7 +63,7 @@ suite('splash-page-action screenshot tests', () => {
     await visualDiffDarkTheme(modal, 'splash-page-action-details-modal');
   });
 
-  test('details modal rendering with long instructions', async () => {
+  test('details modal rendering with long instructions and matched files', async () => {
     const action: Action = {
       id: 'test-action',
       display_text: 'Test Action',
@@ -73,6 +73,13 @@ suite('splash-page-action screenshot tests', () => {
       custom_action_source: {
         custom_action_id: '//depot/google3/some/file.ts',
       },
+      matched_files: [
+        'file1.txt',
+        'file2.txt',
+        'file3.txt',
+        'file4.txt',
+        'file5.txt',
+      ],
     };
     element.action = action;
     await element.updateComplete;
@@ -98,16 +105,52 @@ suite('splash-page-action screenshot tests', () => {
     await visualDiff(modal, 'splash-page-action-details-modal-long');
     await visualDiffDarkTheme(modal, 'splash-page-action-details-modal-long');
 
-    // Force the isInstructionExpanded state to true to test expanded rendering
+    // Force the isInstructionExpanded and isFilesExpanded state to true to test expanded rendering
     (
       element as unknown as {isInstructionExpanded: boolean}
     ).isInstructionExpanded = true;
+    (element as unknown as {isFilesExpanded: boolean}).isFilesExpanded = true;
     await element.updateComplete;
 
     await visualDiff(modal, 'splash-page-action-details-modal-expanded');
     await visualDiffDarkTheme(
       modal,
       'splash-page-action-details-modal-expanded'
+    );
+  });
+
+  test('details modal rendering with many matched files', async () => {
+    const action = {
+      id: 'test-action',
+      display_text: 'Test Action',
+      initial_user_prompt: 'Test prompt',
+      matched_files: Array.from(
+        {length: 25},
+        (_, i) => `//depot/google3/some/file_${i}.ts`
+      ),
+    };
+    element.action = action as unknown as Action; // Cast to avoid strict type checking if Action interface doesn't match perfectly in test
+    await element.updateComplete;
+
+    // Trigger the modal to open
+    const infoButton = element.shadowRoot?.querySelector(
+      '.info-button'
+    ) as HTMLElement;
+    infoButton.click();
+    await element.updateComplete;
+
+    const modal = element.shadowRoot?.querySelector(
+      '#detailsModal'
+    ) as HTMLElement;
+
+    // Force files expanded
+    (element as unknown as {isFilesExpanded: boolean}).isFilesExpanded = true;
+    await element.updateComplete;
+
+    await visualDiff(modal, 'splash-page-action-details-modal-overflow');
+    await visualDiffDarkTheme(
+      modal,
+      'splash-page-action-details-modal-overflow'
     );
   });
 });

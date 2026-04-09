@@ -298,13 +298,16 @@ export class GrFixSuggestions extends LitElement {
           ${this.renderToggle()}
         </div>
       </div>
-      <gr-suggestion-diff-preview
-        .fixSuggestionInfo=${this.getFixSuggestions()?.[0]}
-        .patchSet=${this.comment?.patch_set}
-        .editable=${editableSuggestionEnabled && this.isEditingSuggestion}
-        .commentId=${id(this.comment!)}
-        @preview-loaded=${() => (this.previewLoaded = true)}
-      ></gr-suggestion-diff-preview>`;
+      ${when(
+        !this.collapsed,
+        () => html`<gr-suggestion-diff-preview
+          .fixSuggestionInfo=${this.getFixSuggestions()?.[0]}
+          .patchSet=${this.comment?.patch_set}
+          .editable=${editableSuggestionEnabled && this.isEditingSuggestion}
+          .commentId=${id(this.comment!)}
+          @preview-loaded=${() => (this.previewLoaded = true)}
+        ></gr-suggestion-diff-preview>`
+      )}`;
   }
 
   private renderChangeEditButton() {

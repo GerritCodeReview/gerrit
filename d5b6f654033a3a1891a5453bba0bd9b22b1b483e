@@ -16,6 +16,23 @@
       "message": "Due to missing npm publish in CI verification pipeline, the change 567301 introduced regression, that should be fixed in that change.\n\nAs a follow-up and lesson learned, we should add `./polygerrit-ui/app/api/publish.sh --pack` coverage to the CI pipeline so that similar regressions are caught during verification.",
       "revId": "d5b6f654033a3a1891a5453bba0bd9b22b1b483e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fca49cdb_4cdcaf79",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2026-04-09T16:59:13Z",
+      "side": 1,
+      "message": "@milutin@google.com could you give LC+1 please?",
+      "revId": "d5b6f654033a3a1891a5453bba0bd9b22b1b483e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

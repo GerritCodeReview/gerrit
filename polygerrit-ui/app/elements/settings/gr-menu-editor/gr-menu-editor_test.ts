@@ -77,7 +77,7 @@ suite('gr-menu-editor tests', () => {
                   <td>first name</td>
                   <td class="urlCell">/first/url</td>
                   <td>
-                    <md-checkbox checked="" disabled=""> </md-checkbox>
+                    <md-checkbox checked=""> </md-checkbox>
                   </td>
                   <td class="buttonColumn">
                     <gr-button
@@ -120,7 +120,7 @@ suite('gr-menu-editor tests', () => {
                   <td>second name</td>
                   <td class="urlCell">/second/url</td>
                   <td>
-                    <md-checkbox disabled=""> </md-checkbox>
+                    <md-checkbox> </md-checkbox>
                   </td>
                   <td class="buttonColumn">
                     <gr-button
@@ -163,7 +163,7 @@ suite('gr-menu-editor tests', () => {
                   <td>third name</td>
                   <td class="urlCell">/third/url</td>
                   <td>
-                    <md-checkbox checked="" disabled=""> </md-checkbox>
+                    <md-checkbox checked=""> </md-checkbox>
                   </td>
                   <td class="buttonColumn">
                     <gr-button
@@ -226,7 +226,7 @@ suite('gr-menu-editor tests', () => {
                     </md-outlined-text-field>
                   </th>
                   <th>
-                    <md-checkbox id="lineWrappingInput"> </md-checkbox>
+                    <md-checkbox> </md-checkbox>
                   </th>
                   <th></th>
                   <th></th>

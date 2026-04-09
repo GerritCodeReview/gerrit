@@ -132,8 +132,8 @@ export class GrMenuEditor extends LitElement {
         <td class="urlCell">${item.url}</td>
         <td>
           <md-checkbox
-            disabled
             ?checked=${item.target === '_blank'}
+            @change=${(e: Event) => this.handleCheckboxChange(e, index)}
           ></md-checkbox>
         </td>
         <td class="buttonColumn">
@@ -201,7 +201,6 @@ export class GrMenuEditor extends LitElement {
         </th>
         <th>
           <md-checkbox
-            id="lineWrappingInput"
             ?checked=${this.newTarget}
             @change=${() => (this.newTarget = !this.newTarget)}
           ></md-checkbox>
@@ -253,6 +252,7 @@ export class GrMenuEditor extends LitElement {
     });
     this.newName = '';
     this.newUrl = '';
+    this.newTarget = false;
     this.requestUpdate('menuItems');
   }
 
@@ -261,6 +261,17 @@ export class GrMenuEditor extends LitElement {
       e.stopPropagation();
       this.handleAddButton();
     }
+  }
+
+  private handleCheckboxChange(e: Event, index: number) {
+    const checkbox = e.target as HTMLInputElement;
+
+    this.menuItems[index] = {
+      ...this.menuItems[index],
+      target: checkbox.checked ? '_blank' : undefined,
+    };
+
+    this.requestUpdate('menuItems');
   }
 }
 

@@ -54,6 +54,7 @@ nekohtml = { module = "net.sourceforge.nekohtml:nekohtml", version = "1.9.10" }
 openid-consumer = { module = "org.openid4java:openid4java", version = "1.0.0" }
 protobuf-java = { module = "com.google.protobuf:protobuf-java", version = "4.36.1" }
 soy = { module = "com.google.template:soy", version = "2024-01-30" }
+sshd-contrib = { module = "org.apache.sshd:sshd-contrib", version.ref = "sshd" }
 sshd-mina = { module = "org.apache.sshd:sshd-mina", version.ref = "sshd" }
 sshd-osgi = { module = "org.apache.sshd:sshd-osgi", version.ref = "sshd" }
 sshd-sftp = { module = "org.apache.sshd:sshd-sftp", version.ref = "sshd" }

@@ -10,6 +10,7 @@ junit_tests(
         "//java/com/google/gerrit/sshd",
         "//java/com/google/gerrit/testing:gerrit-junit",
         "//lib/mina:sshd",
+        "//lib/mockito",
         "//lib/truth",
     ],
 )

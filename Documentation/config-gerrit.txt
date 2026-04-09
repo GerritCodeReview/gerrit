@@ -6340,6 +6340,19 @@ to `MINA`.
 +
 By default, `NIO2`.
 
+[[sshd.enableProxyProtocol]]sshd.enableProxyProtocol::
++
+If `true`, enables parsing HAProxy PROXY protocol headers on incoming
+SSH connections, so Gerrit can see the original client address instead
+of the proxy/load balancer address.
++
+This should only be enabled when all SSH traffic comes from trusted
+proxies that always send a valid PROXY header. Enabling this on a public
+listener without such a trusted proxy in front may allow clients to
+spoof source addresses.
++
+By default, `false`.
+
 [[sshd.listenAddress]]sshd.listenAddress::
 +
 Specifies the local addresses the internal SSHD should listen

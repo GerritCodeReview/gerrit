@@ -72,6 +72,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "81b4af1e_0ebb8bef",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1653,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-04-09T10:08:32Z",
+      "side": 1,
+      "message": "Also not async code can be slow. You can calculate O(n^2) on huge data and whole thread is blocked",
+      "parentUuid": "d792a543_a0385069",
+      "range": {
+        "startLine": 1651,
+        "startChar": 0,
+        "endLine": 1653,
+        "endChar": 5
+      },
+      "revId": "d582d3ef2a7f251e30960a9001d83b132167d912",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a98fef1b_ec5b27ff",
@@ -133,6 +157,30 @@
       "side": 1,
       "message": "\u003e let\u0027s be sure that there isn\u0027t any regression\n\nHow will you check using these logs if a regression happened? Do you have any previous data?\n\nPlease specify in the commit message which hypothesis you are validating.\n\nFrom what I can see, this should happen instantly.\n\nIf you also agree this should happen instantly then specify in the commit message.\n\nThen you can add that you are adding some sanity checks that this part could be slow in some worst case. (although we don\u0027t really expect this)\n\nIt\u0027s ok to experiment but it should be clearly explained in the commit message.\n\n\u003e Logs will be removed in future\n\nOk then please add this to the commit message.",
       "parentUuid": "1acb3ae0_9bcc5644",
+      "range": {
+        "startLine": 762,
+        "startChar": 0,
+        "endLine": 765,
+        "endChar": 23
+      },
+      "revId": "d582d3ef2a7f251e30960a9001d83b132167d912",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ed147d64_275bfe1f",
+        "filename": "polygerrit-ui/app/models/comments/comments-model.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 765,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-04-09T10:08:32Z",
+      "side": 1,
+      "message": "i can chain logs with session id.\ni will update commit message",
+      "parentUuid": "32e3f1ac_ed9eb912",
       "range": {
         "startLine": 762,
         "startChar": 0,

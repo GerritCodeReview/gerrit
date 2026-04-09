@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "20841767_9e0dd606",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-04-09T13:53:07Z",
+      "side": 1,
+      "message": "We should wait with merging it, as this commit broke publishing of npm package. I\u0027m investigating the problem.",
+      "revId": "7dec1394d1360674d3f4b85ddda14b09010c9855",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

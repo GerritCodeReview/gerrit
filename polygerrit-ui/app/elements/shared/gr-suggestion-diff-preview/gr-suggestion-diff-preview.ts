@@ -283,6 +283,9 @@ export class GrSuggestionDiffPreview extends LitElement {
 
   private async fetchFixPreview() {
     if (!this.changeNum || !this.patchSet || !this.fixSuggestionInfo) return;
+    if (this.previewLoadedFor?.fix_id === this.fixSuggestionInfo.fix_id) {
+      return;
+    }
 
     this.reporting.time(Timing.PREVIEW_FIX_LOAD);
     const res = await this.restApiService.getFixPreview(

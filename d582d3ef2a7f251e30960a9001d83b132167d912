@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc2c4b09_60732003",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1653,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-04-09T09:35:54Z",
+      "side": 1,
+      "message": "IIUC there is no async code here or any requests being made?\n\nDo we expect this code to be slow?\n\nI would assume this runs instantly\n\nWhen you tested it locally, what kind of numbers are you seeing?\n\n```\n  isFixSuggestionChanged(): boolean {\n    return !deepEqual(this.comment?.fix_suggestions, this.getFixSuggestions());\n  }\n```\n\nThis runs a `deepEqual` which should finish instantly, same for `getFixSuggestions`",
+      "range": {
+        "startLine": 1651,
+        "startChar": 0,
+        "endLine": 1653,
+        "endChar": 5
+      },
+      "revId": "d582d3ef2a7f251e30960a9001d83b132167d912",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a98fef1b_ec5b27ff",
+        "filename": "polygerrit-ui/app/models/comments/comments-model.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 765,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-04-09T09:35:54Z",
+      "side": 1,
+      "message": "same for these, if you can maybe add some examples in the commit message of results you get when running locally",
+      "range": {
+        "startLine": 762,
+        "startChar": 0,
+        "endLine": 765,
+        "endChar": 23
+      },
+      "revId": "d582d3ef2a7f251e30960a9001d83b132167d912",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -931,25 +931,39 @@ export class GrComment extends LitElement {
   private reportHintInteractionSaved() {
     if (this.autocompleteAcceptedHints.length === 0) return;
     const content = this.messageText.trimEnd();
-    const acceptedHintsConcatenated = this.autocompleteAcceptedHints.join('');
-    const numExtraCharacters =
-      content.length - acceptedHintsConcatenated.length;
-    let distance = levenshteinDistance(acceptedHintsConcatenated, content);
-    if (numExtraCharacters > 0) {
-      distance -= numExtraCharacters;
-    }
-    const context = {
-      ...this.createAutocompletionBaseContext(),
-      similarCharacters: acceptedHintsConcatenated.length - distance,
-      maxSimilarCharacters: acceptedHintsConcatenated.length,
-      acceptedSuggestionsCount: this.autocompleteAcceptedHints.length,
-      totalAcceptedCharacters: acceptedHintsConcatenated.length,
-      savedDraftLength: content.length,
+    const baseContext = this.createAutocompletionBaseContext();
+    // Create a copy since this method is executed asynchronously
+    const autcompletedHints = [...this.autocompleteAcceptedHints];
+    const report = () => {
+      const acceptedHintsConcatenated = autcompletedHints.join('');
+      const numExtraCharacters =
+        content.length - acceptedHintsConcatenated.length;
+      let distance = levenshteinDistance(acceptedHintsConcatenated, content);
+      if (numExtraCharacters > 0) {
+        distance -= numExtraCharacters;
+      }
+      const context = {
+        ...baseContext,
+        similarCharacters: acceptedHintsConcatenated.length - distance,
+        maxSimilarCharacters: acceptedHintsConcatenated.length,
+        acceptedSuggestionsCount: autcompletedHints.length,
+        totalAcceptedCharacters: acceptedHintsConcatenated.length,
+        savedDraftLength: content.length,
+      };
+      this.reportHintInteraction(
+        Interaction.COMMENT_COMPLETION_SAVE_DRAFT,
+        context
+      );
     };
-    this.reportHintInteraction(
-      Interaction.COMMENT_COMPLETION_SAVE_DRAFT,
-      context
-    );
+    // https://developer.mozilla.org/en-US/docs/Web/API/Window/requestIdleCallback
+    // The window.requestIdleCallback() method queues a function to be called during a browser's idle periods.
+    // This enables developers to perform background and low priority work on the main thread
+    // without impacting latency-critical events
+    if (window.requestIdleCallback) {
+      window.requestIdleCallback(report);
+    } else {
+      setTimeout(report, 1);
+    }
   }
 
   private reportHintInteraction(

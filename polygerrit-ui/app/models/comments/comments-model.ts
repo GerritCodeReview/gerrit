@@ -747,22 +747,31 @@ export class CommentsModel extends Model<CommentState> {
     if (showToast) this.showStartRequest();
     const timing = isNew(draft) ? Timing.DRAFT_CREATE : Timing.DRAFT_UPDATE;
     const timer = this.reporting.getTimer(timing);
+    const beforeNetworkTimer = this.reporting.getTimer(
+      `${timing} - beforeNetwork`
+    );
 
     let savedComment;
     try {
+      beforeNetworkTimer.end();
+      const networkTimer = this.reporting.getTimer(`${timing} - network`);
       const result = await this.restApiService.saveDiffDraft(
         changeNum,
         draft.patch_set,
         convertToCommentInput(draft)
       );
+      networkTimer.end();
       if (changeNum !== this.changeNum) return draft;
       if (!result.ok) throw new Error('request failed');
+      const parseTimer = this.reporting.getTimer(`${timing} - parse`);
       savedComment = (await readJSONResponsePayload(result))
         .parsed as unknown as CommentInfo;
+      parseTimer.end();
     } catch (error) {
       if (showToast) this.handleFailedDraftRequest();
       const draftError: DraftInfo = {...draft, savingState: SavingState.ERROR};
       this.modifyState(s => setDraft(s, draftError));
+      timer.end({error: true});
       return draftError;
     }
 

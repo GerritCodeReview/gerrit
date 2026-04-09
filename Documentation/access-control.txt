@@ -1526,6 +1526,16 @@ link:#capability_administrateServer[Administrate Server] capability.
 This capability is only effective when `groups.enableDeleteGroup` is enabled.
 
 
+[[capability_deleteComment]]
+=== Delete Comment
+
+Allow deletion of published comment and change messages.
+
+This capability allows the deletion of published comments via the web UI and via
+link:rest-api-changes.html#delete-change-message][REST],
+link:rest-api-changes.html#delete-comment][REST].
+
+
 [[capability_emailReviewers]]
 === Email Reviewers
 

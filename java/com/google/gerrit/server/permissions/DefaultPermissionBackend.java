@@ -196,6 +196,7 @@ public class DefaultPermissionBackend extends PermissionBackend {
             has(globalPermissionName(perm)) || can(GlobalPermission.MAINTAIN_SERVER);
         case CREATE_ACCOUNT,
                 CREATE_GROUP,
+                DELETE_COMMENT,
                 DELETE_GROUP,
                 CREATE_PROJECT,
                 MAINTAIN_SERVER,

@@ -1208,5 +1208,80 @@ suite('gr-comment tests', () => {
       assert.isFalse(setStub.called);
       assert.isUndefined(element.autocompleteHint);
     });
+
+    test('waits for running request', async () => {
+      const suggestionsService = testResolver(suggestionsServiceToken);
+      const promise1 = mockPromise<AutocompletionContext>();
+      const promise2 = mockPromise<AutocompletionContext>();
+      const stub = sinon.stub(suggestionsService, 'autocompleteComment');
+      stub.onCall(0).returns(promise1);
+      stub.onCall(1).returns(promise2);
+
+      const p1 = element.autocompleteComment();
+      assert.isTrue(stub.calledOnce);
+
+      const p2 = element.autocompleteComment();
+      assert.isTrue(stub.calledOnce);
+
+      promise1.resolve({
+        draftContent: 'test',
+        commentCompletion: ' completion 1',
+        responseCode: ResponseCode.OK,
+      });
+      await p1;
+
+      await waitUntil(() => stub.calledTwice);
+
+      promise2.resolve({
+        draftContent: 'test',
+        commentCompletion: ' completion 2',
+        responseCode: ResponseCode.OK,
+      });
+      await p2;
+    });
+  });
+
+  suite('generateSuggestEdit', () => {
+    test('waits for running request', async () => {
+      const suggestionsService = testResolver(suggestionsServiceToken);
+      const promise1 = mockPromise<FixSuggestionInfo>();
+      const promise2 = mockPromise<FixSuggestionInfo>();
+      const stub = sinon.stub(
+        suggestionsService,
+        'generateSuggestedFixForComment'
+      );
+      stub.onCall(0).returns(promise1);
+      stub.onCall(1).returns(promise2);
+
+      element.generateSuggestion = true;
+      stubFlags('isEnabled')
+        .withArgs(KnownExperimentId.ML_SUGGESTED_EDIT_V2)
+        .returns(true);
+      sinon.stub(element, 'showGeneratedSuggestion').returns(true);
+      element.messageText = 'test message';
+      await element.updateComplete;
+
+      const p1 = element.generateSuggestEdit();
+      assert.isTrue(stub.calledOnce);
+
+      const p2 = element.generateSuggestEdit();
+      assert.isTrue(stub.calledOnce);
+
+      promise1.resolve({
+        description: 'suggestion 1',
+        fix_id: '1' as FixId,
+        replacements: [],
+      });
+      await p1;
+
+      await waitUntil(() => stub.calledTwice);
+
+      promise2.resolve({
+        description: 'suggestion 2',
+        fix_id: '2' as FixId,
+        replacements: [],
+      });
+      await p2;
+    });
   });
 });

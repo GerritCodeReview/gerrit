@@ -242,6 +242,10 @@ export class GrComment extends LitElement {
 
   readonly autocompleteCache = new AutocompleteCache();
 
+  private autocompletePromise?: Promise<AutocompletionContext | undefined>;
+
+  private generateSuggestionPromise?: Promise<FixSuggestionInfo | undefined>;
+
   /* The 'dirty' state of !comment.unresolved, which will be saved on demand. */
   @state()
   unresolved = true;
@@ -1255,19 +1259,27 @@ export class GrComment extends LitElement {
       this.wasSuggestionEdited
     )
       return;
+
+    if (this.generateSuggestionPromise) {
+      await this.generateSuggestionPromise;
+    }
+
     this.generatedSuggestionId = uuid();
     this.suggestionLoading = true;
+    this.generateSuggestionPromise =
+      this.getSuggestionsService().generateSuggestedFixForComment(
+        this.comment,
+        this.messageText,
+        this.generatedSuggestionId,
+        ReportSource.FIX_FOR_REVIEWER_COMMENT
+      );
+
     let suggestion: FixSuggestionInfo | undefined;
     try {
-      suggestion =
-        await this.getSuggestionsService().generateSuggestedFixForComment(
-          this.comment,
-          this.messageText,
-          this.generatedSuggestionId,
-          ReportSource.FIX_FOR_REVIEWER_COMMENT
-        );
+      suggestion = await this.generateSuggestionPromise;
     } finally {
       this.suggestionLoading = false;
+      this.generateSuggestionPromise = undefined;
     }
 
     if (!suggestion) return;
@@ -1279,12 +1291,25 @@ export class GrComment extends LitElement {
   // private but visible for testing
   async autocompleteComment() {
     if (!this.autocompleteEnabled) return;
+
+    if (this.autocompletePromise) {
+      await this.autocompletePromise;
+    }
+
     const commentText = this.messageText;
-    const context = await this.getSuggestionsService().autocompleteComment(
+    this.autocompletePromise = this.getSuggestionsService().autocompleteComment(
       this.comment,
       this.messageText,
       this.comments
     );
+
+    let context: AutocompletionContext | undefined;
+    try {
+      context = await this.autocompletePromise;
+    } finally {
+      this.autocompletePromise = undefined;
+    }
+
     if (!context) return;
     this.reportHintInteraction(
       Interaction.COMMENT_COMPLETION_SUGGESTION_FETCHED,

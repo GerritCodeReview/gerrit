@@ -98,6 +98,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6a405e45_b708a51d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1653,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-04-09T10:11:01Z",
+      "side": 1,
+      "message": "\u003e You can calculate O(n^2) on huge data and whole thread is blocked\n\nWhere is this calculation happening?\n\nThis is exactly what I am asking for in the commit message 😊\n\nWhich calculation do you already expect to be expensive?\n\nIs `deepEqual` doing O(n^2) work on large objects?",
+      "parentUuid": "81b4af1e_0ebb8bef",
+      "range": {
+        "startLine": 1651,
+        "startChar": 0,
+        "endLine": 1653,
+        "endChar": 5
+      },
+      "revId": "d582d3ef2a7f251e30960a9001d83b132167d912",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a98fef1b_ec5b27ff",
         "filename": "polygerrit-ui/app/models/comments/comments-model.ts",
         "patchSetId": 2

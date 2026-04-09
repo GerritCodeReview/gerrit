@@ -86,6 +86,7 @@ Apache2.0
 * lucene:lucene-queryparser
 * mime4j:core
 * mime4j:dom
+* mina:contrib
 * mina:core
 * mina:sshd
 * mina:sshd-sftp
@@ -4434,4 +4435,3 @@ web-vitals
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]
-

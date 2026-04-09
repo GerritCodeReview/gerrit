@@ -18,6 +18,8 @@ import {
   FetchRequest as FetchRequestBase,
 } from '../../../../types/types';
 import {ErrorCallback} from '../../../../api/rest';
+import {getAppContext} from '../../../../services/app-context';
+import {Timer} from '../../../../services/gr-reporting/gr-reporting';
 import {Scheduler, Task} from '../../../../services/scheduler/scheduler';
 import {RetryError} from '../../../../services/scheduler/retry-scheduler';
 
@@ -261,11 +263,11 @@ export class GrRestApiHelper {
     private readonly writeScheduler: Scheduler<Response>
   ) {}
 
-  private schedule(method: string, task: Task<Response>): Promise<Response> {
+  private schedule(method: string, task: Task<Response>, name?: string): Promise<Response> {
     if (method === 'PUT' || method === 'POST' || method === 'DELETE') {
-      return this.writeScheduler.schedule(task);
+      return this.writeScheduler.schedule(task, name);
     } else {
-      return this.readScheduler.schedule(task);
+      return this.readScheduler.schedule(task, name);
     }
   }
 
@@ -276,7 +278,32 @@ export class GrRestApiHelper {
   private fetchImpl(req: FetchRequest): Promise<Response> {
     const method = req.fetchOptions?.method ?? HttpMethod.GET;
     const startTime = Date.now();
+
+    const isWrite =
+      method === 'PUT' || method === 'POST' || method === 'DELETE';
+    const requestName = `${method} - ${req.anonymizedUrl || req.url}`;
+    let schedulerTimer: Timer | undefined;
+    let waitingCount = 0;
+
+    if (isWrite) {
+      waitingCount = this.writeScheduler.waitingCount;
+      console.info('[SchedulerWait] request:', requestName, 'count:', waitingCount, 'waiting:', this.writeScheduler.waitingRequests);
+      // 5 matches the max in flight limit of the write scheduler.
+      if (waitingCount >= 5) {
+        schedulerTimer = getAppContext().reportingService.getTimer(
+          'scheduler-waiting-time'
+        );
+      }
+    }
+
     const task = async () => {
+      if (schedulerTimer) {
+        schedulerTimer.end({
+          count: waitingCount,
+          request: requestName,
+          waitingRequests: this.writeScheduler.waitingRequests,
+        });
+      }
       const res = await this._auth.fetch(req.url, req.fetchOptions);
       // Check for "too many requests" error and throw RetryError to cause a
       // retry in this case, if the scheduler attempts retries.
@@ -284,13 +311,15 @@ export class GrRestApiHelper {
       return res;
     };
 
-    const resPromise = this.schedule(method, task).catch((err: unknown) => {
-      if (err instanceof RetryError) {
-        return err.payload;
-      } else {
-        throw err;
+    const resPromise = this.schedule(method, task, requestName).catch(
+      (err: unknown) => {
+        if (err instanceof RetryError) {
+          return err.payload;
+        } else {
+          throw err;
+        }
       }
-    });
+    );
 
     // Log the call after it completes.
     resPromise.then(res => this.logCall(req, startTime, res.status));

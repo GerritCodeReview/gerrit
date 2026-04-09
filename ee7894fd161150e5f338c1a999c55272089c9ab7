@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c5ebaf2_4a949c3d",
+        "filename": "prologtests/examples/run.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-04-09T03:47:08Z",
+      "side": 1,
+      "message": "This is one of the Bazel 8 follow-up adjustments mentioned in the commit message, specifically “Fix Prolog tests under Bazel runfiles.”\n\nBazel 8 changed the runfiles layout for external repositories. Paths like `external/\u003crepo\u003e` no longer resolve the same way under `_main/external`, so the Prolog test wrapper needs to normalize them relative to `TEST_SRCDIR`.\n\nThis script change does that by remapping external/... paths to the Bazel 8 runfiles layout, handling paths that still point into _main/external/..., and resolving Java home-style paths to the actual Java binary.\n\nWithout this adjustment, the Prolog tests fail under Bazel 8 because the Java/toolchain paths no longer match the new runfiles structure.",
+      "parentUuid": "6063f964_322deef6",
+      "revId": "ee7894fd161150e5f338c1a999c55272089c9ab7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "43d1a5a9_1ae16113",
@@ -31,6 +49,54 @@
       "writtenOn": "2026-04-08T20:03:27Z",
       "side": 1,
       "message": "```suggestion\n    return jar_name in (\"libcore.jar\", \"liblite_runtime_only.jar\")\n```",
+      "range": {
+        "startLine": 142,
+        "startChar": 0,
+        "endLine": 144,
+        "endChar": 16
+      },
+      "revId": "ee7894fd161150e5f338c1a999c55272089c9ab7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4c7a777c_3c504629",
+        "filename": "tools/bzl/pkg_war.bzl",
+        "patchSetId": 3
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-04-09T03:47:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "43d1a5a9_1ae16113",
+      "range": {
+        "startLine": 142,
+        "startChar": 0,
+        "endLine": 144,
+        "endChar": 16
+      },
+      "revId": "ee7894fd161150e5f338c1a999c55272089c9ab7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0cc54d8b_97a693c1",
+        "filename": "tools/bzl/pkg_war.bzl",
+        "patchSetId": 3
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-04-09T03:47:08Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "43d1a5a9_1ae16113",
       "range": {
         "startLine": 142,
         "startChar": 0,

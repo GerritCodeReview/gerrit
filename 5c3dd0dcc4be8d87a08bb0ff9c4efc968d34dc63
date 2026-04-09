@@ -52,6 +52,24 @@
       "parentUuid": "c2d91dfa_efeca99b",
       "revId": "5c3dd0dcc4be8d87a08bb0ff9c4efc968d34dc63",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c6419c9_396a5522",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-04-09T15:45:44Z",
+      "side": 1,
+      "message": "\u003e What is the downside for this change?\n\nIf you vote -2 then actually providing a reason for this is expected.\n\n\u003e Could you please let me handle comments\n\nSo you want to make this same change? That is fine with me but please communicate this clearly.",
+      "parentUuid": "036b1a15_bcf80bd1",
+      "revId": "5c3dd0dcc4be8d87a08bb0ff9c4efc968d34dc63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

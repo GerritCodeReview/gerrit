@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e7566e10_a0047e3d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2026-04-09T12:22:04Z",
+      "side": 1,
+      "message": "with the java-prettify update build and tests succeed locally",
+      "revId": "e75fb673d31906cd4a3b4766498772b3a0e35287",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

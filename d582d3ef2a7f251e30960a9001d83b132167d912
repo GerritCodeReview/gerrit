@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "26f6ddee_a10cc6ed",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1653,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-04-09T09:44:10Z",
+      "side": 1,
+      "message": "Just to be sure, I would like to measure it. there can be large fix that takes long time to compare. I am really looking at anything that can have potential issue.\n\nIf this logs will not be useful i will remove them.",
+      "parentUuid": "dc2c4b09_60732003",
+      "range": {
+        "startLine": 1651,
+        "startChar": 0,
+        "endLine": 1653,
+        "endChar": 5
+      },
+      "revId": "d582d3ef2a7f251e30960a9001d83b132167d912",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a98fef1b_ec5b27ff",
@@ -37,6 +61,30 @@
       "writtenOn": "2026-04-09T09:35:54Z",
       "side": 1,
       "message": "same for these, if you can maybe add some examples in the commit message of results you get when running locally",
+      "range": {
+        "startLine": 762,
+        "startChar": 0,
+        "endLine": 765,
+        "endChar": 23
+      },
+      "revId": "d582d3ef2a7f251e30960a9001d83b132167d912",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1acb3ae0_9bcc5644",
+        "filename": "polygerrit-ui/app/models/comments/comments-model.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 765,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-04-09T09:44:10Z",
+      "side": 1,
+      "message": "Can we please have more logs. let\u0027s be sure that there isn\u0027t any regression. My local running is not that useful as p99 in users. Logs will be removed in future",
+      "parentUuid": "a98fef1b_ec5b27ff",
       "range": {
         "startLine": 762,
         "startChar": 0,

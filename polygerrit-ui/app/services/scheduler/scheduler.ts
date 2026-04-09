@@ -5,10 +5,20 @@
  */
 export type Task<T> = () => Promise<T>;
 export interface Scheduler<T> {
-  schedule(task: Task<T>): Promise<T>;
+  schedule(task: Task<T>, name?: string): Promise<T>;
+  get activeCount(): number;
+  get activeRequests(): string[];
 }
 export class BaseScheduler<T> implements Scheduler<T> {
-  schedule(task: Task<T>) {
+  schedule(task: Task<T>, _name?: string) {
     return task();
+  }
+
+  get activeCount() {
+    return 0;
+  }
+
+  get activeRequests() {
+    return [];
   }
 }

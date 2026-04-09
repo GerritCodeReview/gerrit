@@ -9,7 +9,15 @@ type FakeTask = (error?: unknown) => Promise<void>;
 export class FakeScheduler<T> implements Scheduler<T> {
   readonly scheduled: Array<FakeTask> = [];
 
-  schedule(task: Task<T>) {
+  get activeCount() {
+    return this.scheduled.length;
+  }
+
+  get activeRequests() {
+    return [];
+  }
+
+  schedule(task: Task<T>, _name?: string) {
     return new Promise<T>((resolve, reject) => {
       this.scheduled.push(async (error?: unknown) => {
         if (error) {

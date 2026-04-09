@@ -33,15 +33,26 @@ export class RetryScheduler<T> implements Scheduler<T> {
     private backoffFactor: number = 1.618
   ) {}
 
-  async schedule(task: Task<T>): Promise<T> {
+  get activeCount(): number {
+    return this.base.activeCount;
+  }
+
+  get activeRequests(): string[] {
+    return this.base.activeRequests;
+  }
+
+  async schedule(task: Task<T>, name?: string): Promise<T> {
     let tries = 0;
     let timeout = this.backoffIntervalMs;
 
     const worker: Task<T> = async () => {
       try {
-        return await this.base.schedule(task);
+        return await this.base.schedule(task, name);
       } catch (e: unknown) {
         if (e instanceof RetryError && tries++ < this.maxRetry) {
+          console.info(
+            `[RetryScheduler] Retrying task, try ${tries} after ${timeout}ms`
+          );
           await untilTimeout(timeout);
           timeout = timeout * this.backoffFactor;
           return await worker();

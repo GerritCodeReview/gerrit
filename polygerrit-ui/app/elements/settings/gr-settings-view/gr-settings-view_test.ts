@@ -215,19 +215,7 @@ suite('gr-settings-view tests', () => {
             </gr-button>
           </fieldset>
           <gr-menu-editor id="Menu"> </gr-menu-editor>
-          <h2 id="ChangeTableColumns">Change Table Columns</h2>
-          <fieldset id="changeTableColumns">
-            <gr-change-table-editor> </gr-change-table-editor>
-            <gr-button
-              aria-disabled="true"
-              disabled=""
-              id="saveChangeTable"
-              role="button"
-              tabindex="-1"
-            >
-              Save Changes
-            </gr-button>
-          </fieldset>
+          <gr-change-table-editor id="ChangeTableColumns"> </gr-change-table-editor>
           <h2 id="Notifications">Notifications</h2>
           <fieldset id="watchedProjects">
             <gr-watched-projects-editor id="watchedProjectsEditor">
@@ -374,22 +362,6 @@ suite('gr-settings-view tests', () => {
     assert.isTrue(addEmailStub.called);
     await addEmailStub.lastCall.returnValue;
     assert.isNotOk(element.lastSentVerificationEmail);
-  });
-
-  test('handleSaveChangeTable', () => {
-    let newColumns = ['Owner', 'Project', 'Branch'];
-    element.localChangeTableColumns = newColumns.slice(0);
-    element.showNumber = false;
-    element.handleSaveChangeTable();
-    assert.deepEqual(element.prefs.change_table, newColumns);
-    assert.isNotOk(element.prefs.legacycid_in_change_table);
-
-    newColumns = ['Size'];
-    element.localChangeTableColumns = newColumns;
-    element.showNumber = true;
-    element.handleSaveChangeTable();
-    assert.deepEqual(element.prefs.change_table, newColumns);
-    assert.isTrue(element.prefs.legacycid_in_change_table);
   });
 
   test('showHttpAuth', async () => {

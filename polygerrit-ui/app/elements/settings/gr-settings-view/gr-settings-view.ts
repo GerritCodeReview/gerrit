@@ -27,11 +27,7 @@ import {GrWatchedProjectsEditor} from '../gr-watched-projects-editor/gr-watched-
 import {GrGroupList} from '../gr-group-list/gr-group-list';
 import {GrIdentities} from '../gr-identities/gr-identities';
 import {GrDiffPreferences} from '../../shared/gr-diff-preferences/gr-diff-preferences';
-import {
-  AccountDetailInfo,
-  PreferencesInput,
-  ServerInfo,
-} from '../../../types/common';
+import {AccountDetailInfo, ServerInfo} from '../../../types/common';
 import {GrSshEditor} from '../gr-ssh-editor/gr-ssh-editor';
 import {GrGpgEditor} from '../gr-gpg-editor/gr-gpg-editor';
 import {GrEmailEditor} from '../gr-email-editor/gr-email-editor';
@@ -50,10 +46,7 @@ import {grFormStyles} from '../../../styles/gr-form-styles';
 import {subscribe} from '../../lit/subscription-controller';
 import {resolve} from '../../../models/dependency';
 import {settingsViewModelToken} from '../../../models/views/settings';
-import {
-  changeTablePrefs,
-  userModelToken,
-} from '../../../models/user/user-model';
+import {userModelToken} from '../../../models/user/user-model';
 import {modalStyles} from '../../../styles/gr-modal-styles';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {rootUrl} from '../../../utils/url-util';
@@ -103,16 +96,9 @@ export class GrSettingsView extends LitElement {
 
   @query('#emailEditor', true) emailEditor!: GrEmailEditor;
 
-  @state() prefs: PreferencesInput = {};
-
   @state() private accountInfoChanged = false;
 
-  // private but used in test
-  @state() localChangeTableColumns: string[] = [];
-
   @state() private loading = true;
-
-  @state() private changeTableChanged = false;
 
   @state() private diffPrefsChanged = false;
 
@@ -179,18 +165,6 @@ export class GrSettingsView extends LitElement {
       () => this.getUserModel().account$,
       acc => {
         this.account = acc;
-      }
-    );
-    subscribe(
-      this,
-      () => this.getUserModel().preferences$,
-      prefs => {
-        if (!prefs) {
-          throw new Error('getPreferences returned undefined');
-        }
-        this.prefs = prefs;
-        this.showNumber = !!prefs.legacycid_in_change_table;
-        this.localChangeTableColumns = changeTablePrefs(prefs);
       }
     );
   }
@@ -491,33 +465,8 @@ export class GrSettingsView extends LitElement {
             >
           </fieldset>
           <gr-menu-editor id="Menu"></gr-menu-editor>
-          <h2
-            id="ChangeTableColumns"
-            class=${this.computeHeaderClass(this.changeTableChanged)}
-          >
-            Change Table Columns
-          </h2>
-          <fieldset id="changeTableColumns">
-            <gr-change-table-editor
-              .showNumber=${this.showNumber}
-              @show-number-changed=${(e: ValueChangedEvent<boolean>) => {
-                this.showNumber = e.detail.value;
-                this.changeTableChanged = true;
-              }}
-              .displayedColumns=${this.localChangeTableColumns}
-              @displayed-columns-changed=${(e: ValueChangedEvent<string[]>) => {
-                this.localChangeTableColumns = e.detail.value;
-                this.changeTableChanged = true;
-              }}
-            >
-            </gr-change-table-editor>
-            <gr-button
-              id="saveChangeTable"
-              @click=${this.handleSaveChangeTable}
-              ?disabled=${!this.changeTableChanged}
-              >Save Changes</gr-button
-            >
-          </fieldset>
+          <gr-change-table-editor id="ChangeTableColumns">
+          </gr-change-table-editor>
           <h2
             id="Notifications"
             class=${this.computeHeaderClass(this.watchedProjectsChanged)}
@@ -688,14 +637,6 @@ export class GrSettingsView extends LitElement {
 
   reloadAccountDetail() {
     Promise.all([this.accountInfo.loadData()]);
-  }
-
-  // private but used in test
-  async handleSaveChangeTable() {
-    this.prefs.change_table = this.localChangeTableColumns;
-    this.prefs.legacycid_in_change_table = this.showNumber;
-    await this.getUserModel().updatePreferences(this.prefs);
-    this.changeTableChanged = false;
   }
 
   private computeHeaderClass(changed?: boolean) {

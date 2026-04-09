@@ -22,6 +22,30 @@
       },
       "revId": "f3f23d31d9f8a9f469a2562b61dee2065c11c850",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "74277664_371f4332",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-04-09T10:23:21Z",
+      "side": 1,
+      "message": "we can see CPU blocking if time of parts that should be fast will be slow. Parts outside of waiting for network",
+      "parentUuid": "a621df4f_0f8ed488",
+      "range": {
+        "startLine": 16,
+        "startChar": 28,
+        "endLine": 16,
+        "endChar": 51
+      },
+      "revId": "f3f23d31d9f8a9f469a2562b61dee2065c11c850",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

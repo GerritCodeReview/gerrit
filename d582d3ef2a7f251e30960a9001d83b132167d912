@@ -120,6 +120,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b18f60fd_b094a02d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1653,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-04-09T10:23:21Z",
+      "side": 1,
+      "message": "deepEqual and levinsh distance i think can be slow.",
+      "parentUuid": "6a405e45_b708a51d",
+      "range": {
+        "startLine": 1651,
+        "startChar": 0,
+        "endLine": 1653,
+        "endChar": 5
+      },
+      "revId": "d582d3ef2a7f251e30960a9001d83b132167d912",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a98fef1b_ec5b27ff",

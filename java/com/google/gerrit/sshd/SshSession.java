@@ -27,8 +27,8 @@ public class SshSession {
   public static final AttributeKey<SshSession> KEY = new AttributeKey<>();
 
   private final int sessionId;
-  private final SocketAddress remoteAddress;
-  private final String remoteAsString;
+  private volatile SocketAddress remoteAddress;
+  private volatile String remoteAsString;
 
   private volatile CurrentUser identity;
   private volatile String username;
@@ -75,6 +75,13 @@ public class SshSession {
 
   public SocketAddress getRemoteAddress() {
     return remoteAddress;
+  }
+
+  void updateRemoteAddress(SocketAddress remoteAddress) {
+    if (remoteAddress != null) {
+      this.remoteAddress = remoteAddress;
+      this.remoteAsString = format(remoteAddress);
+    }
   }
 
   public String getRemoteAddressAsString() {

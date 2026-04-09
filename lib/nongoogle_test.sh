@@ -49,6 +49,7 @@ nekohtml
 openid-consumer
 protobuf-java
 soy
+sshd-contrib
 sshd-mina
 sshd-osgi
 sshd-sftp

@@ -18,6 +18,7 @@ import {
 import {getAppContext} from '../../../services/app-context';
 import {GrSuggestionDiffPreview} from './gr-suggestion-diff-preview';
 import {stubFlags} from '../../../test/test-utils';
+import {NumericChangeId, RevisionPatchSetNum} from '../../../api/rest-api';
 
 suite('gr-suggestion-diff-preview tests', () => {
   let element: GrSuggestionDiffPreview;
@@ -52,7 +53,11 @@ suite('gr-suggestion-diff-preview tests', () => {
 
   test('render diff', async () => {
     stubFlags('isEnabled').returns(true);
-    element.previewLoadedFor = createFixSuggestionInfo();
+    element.previewLoadedFor = {
+      fixSuggestionInfo: createFixSuggestionInfo(),
+      changeNum: 42 as NumericChangeId,
+      patchSet: 1 as RevisionPatchSetNum,
+    };
     element.codeText =
       '  private handleClick(e: MouseEvent) {\ne.stopPropagation();\ne.preventDefault();';
     element.preview = {

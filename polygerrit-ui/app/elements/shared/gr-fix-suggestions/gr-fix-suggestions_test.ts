@@ -71,4 +71,24 @@ suite('gr-fix-suggestions', () => {
       `
     );
   });
+
+  test('collapsed state does not render preview', async () => {
+    element.collapsed = true;
+    await element.updateComplete;
+
+    const preview = element.shadowRoot?.querySelector(
+      'gr-suggestion-diff-preview'
+    );
+    assert.isNotOk(preview, 'Preview should not be rendered when collapsed');
+  });
+
+  test('expanded state renders preview', async () => {
+    element.collapsed = false;
+    await element.updateComplete;
+
+    const preview = element.shadowRoot?.querySelector(
+      'gr-suggestion-diff-preview'
+    );
+    assert.isOk(preview, 'Preview should be rendered when expanded');
+  });
 });

@@ -41,6 +41,7 @@ java_library(
         "//lib/guice:guice-servlet",  # SSH should not depend on servlet
         "//lib/log:log4j",
         "//lib/mina:core",
+        "//lib/mina:contrib",
         "//lib/mina:sshd",
     ],
 )

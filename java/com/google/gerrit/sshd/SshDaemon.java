@@ -91,12 +91,14 @@ import org.apache.sshd.common.mac.Mac;
 import org.apache.sshd.common.random.Random;
 import org.apache.sshd.common.random.SingletonRandomFactory;
 import org.apache.sshd.common.session.Session;
+import org.apache.sshd.common.session.SessionListener;
 import org.apache.sshd.common.session.helpers.AbstractSession;
 import org.apache.sshd.common.session.helpers.DefaultUnknownChannelReferenceHandler;
 import org.apache.sshd.common.util.buffer.Buffer;
 import org.apache.sshd.common.util.buffer.ByteArrayBuffer;
 import org.apache.sshd.common.util.net.SshdSocketAddress;
 import org.apache.sshd.common.util.security.SecurityUtils;
+import org.apache.sshd.contrib.server.session.proxyprotocolv2.ProxyProtocolV2Acceptor;
 import org.apache.sshd.mina.MinaServiceFactoryFactory;
 import org.apache.sshd.mina.MinaSession;
 import org.apache.sshd.server.ServerBuilder;
@@ -111,6 +113,7 @@ import org.apache.sshd.server.forward.ForwardingFilter;
 import org.apache.sshd.server.global.CancelTcpipForwardHandler;
 import org.apache.sshd.server.global.NoMoreSessionsHandler;
 import org.apache.sshd.server.global.TcpipForwardHandler;
+import org.apache.sshd.server.session.ServerSession;
 import org.apache.sshd.server.session.ServerSessionImpl;
 import org.apache.sshd.server.session.SessionFactory;
 import org.bouncycastle.crypto.prng.RandomGenerator;
@@ -208,6 +211,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
     final String kerberosPrincipal = cfg.getString("sshd", null, "kerberosPrincipal");
 
     final boolean enableCompression = cfg.getBoolean("sshd", "enableCompression", false);
+    final boolean enableProxyProtocol = cfg.getBoolean("sshd", "enableProxyProtocol", false);
 
     SshSessionBackend backend = cfg.getEnum("sshd", null, "backend", SshSessionBackend.NIO2);
     boolean channelIdTracking = cfg.getBoolean("sshd", "enableChannelIdTracking", true);
@@ -236,6 +240,9 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
     setCommandFactory(commandFactory);
     setShellFactory(noShell);
     setSessionDisconnectHandler(logMaxConnectionsPerUserExceeded);
+    if (enableProxyProtocol) {
+      setServerProxyAcceptor(new ProxyProtocolV2Acceptor());
+    }
 
     final AtomicInteger connected = new AtomicInteger();
     metricMaker.newCallbackMetric(
@@ -269,16 +276,23 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
 
             ServerSessionImpl s = super.createSession(io);
             int id = idGenerator.next();
-            SocketAddress peer = io.getRemoteAddress();
-            final SshSession sd = new SshSession(id, peer);
-            s.setAttribute(SshSession.KEY, sd);
+
+            s.addSessionListener(
+                new SessionListener() {
+                  @Override
+                  public void sessionPeerIdentificationReceived(
+                      Session session, String version, List<String> extraLines) {
+                    s.setAttribute(SshSession.KEY, createSshSession(id, s, io));
+                  }
+                });
 
             // Log a session close without authentication as a failure.
             //
             s.addCloseFutureListener(
                 future -> {
                   connected.decrementAndGet();
-                  if (sd.isAuthenticationError()) {
+                  SshSession sd = s.getAttribute(SshSession.KEY);
+                  if (sd != null && sd.isAuthenticationError()) {
                     authFailures.increment();
                     sshLog.onAuthFail(sd);
                   }
@@ -299,6 +313,14 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
             new CancelTcpipForwardHandler()));
 
     hostKeys = computeHostKeys();
+  }
+
+  static SshSession createSshSession(int id, ServerSession session, IoSession io) {
+    SocketAddress peer = session.getClientAddress();
+    if (peer == null) {
+      peer = io.getRemoteAddress();
+    }
+    return new SshSession(id, peer);
   }
 
   @Override

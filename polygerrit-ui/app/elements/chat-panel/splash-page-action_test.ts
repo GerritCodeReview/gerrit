@@ -220,4 +220,62 @@ suite('splash-page-action tests', () => {
     );
     assert.equal(sourceLink.innerText.trim(), 'Capability Definition');
   });
+
+  test('renders with matched_files', async () => {
+    const action: Action = {
+      id: 'test-action',
+      display_text: 'Test Action',
+      matched_files: ['file1.txt', 'file2.txt'],
+    };
+    element.action = action;
+    await element.updateComplete;
+
+    const modal = element.shadowRoot?.querySelector('#detailsModal');
+    assert.isOk(modal);
+
+    const fileItems = modal?.querySelectorAll('.file-item');
+    assert.equal(fileItems?.length, 2);
+    assert.equal(fileItems?.[0].textContent?.trim(), 'file1.txt');
+    assert.equal(fileItems?.[1].textContent?.trim(), 'file2.txt');
+
+    const expandButton = modal?.querySelector(
+      '.matched-files-row .expand-button'
+    );
+    assert.isNotOk(expandButton);
+  });
+
+  test('renders with many matched_files and expands', async () => {
+    const action: Action = {
+      id: 'test-action',
+      display_text: 'Test Action',
+      matched_files: [
+        'file1.txt',
+        'file2.txt',
+        'file3.txt',
+        'file4.txt',
+        'file5.txt',
+      ],
+    };
+    element.action = action;
+    await element.updateComplete;
+
+    const modal = element.shadowRoot?.querySelector('#detailsModal');
+    assert.isOk(modal);
+
+    let fileItems = modal?.querySelectorAll('.file-item');
+    assert.equal(fileItems?.length, 4);
+
+    const expandButton = modal?.querySelector(
+      '.matched-files-row .expand-button'
+    ) as HTMLElement;
+    assert.isOk(expandButton);
+    assert.equal(expandButton.innerText.trim(), 'Show more');
+
+    expandButton.click();
+    await element.updateComplete;
+
+    fileItems = modal?.querySelectorAll('.file-item');
+    assert.equal(fileItems?.length, 5);
+    assert.equal(expandButton.innerText.trim(), 'Show less');
+  });
 });

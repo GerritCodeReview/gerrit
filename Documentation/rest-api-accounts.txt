@@ -3010,6 +3010,8 @@ a plugin implementation.
 |`ai_chat_selected_model`           |optional|
 The name of the AI model selected for the AI chat. This feature needs a plugin
 implementation.
+|`auto_expand_review_agent_panel`|not set if `false`|
+Whether to auto-expand the Review Agent panel by default when loading a change.
 |`diff_page_sidebar`            |optional|
 String indicating which sidebar should be open on the diff page. Set to "NONE"
 if no sidebars should be open. Plugin-supplied sidebars will be prefixed with
@@ -3091,6 +3093,8 @@ a plugin implementation.
 |`allow_autocompleting_comments`  |not set if `false`|
 Whether to receive autocompletions while writing comments. This feature needs
 a plugin implementation.
+|`auto_expand_review_agent_panel`|not set if `false`|
+Whether to auto-expand the Review Agent panel by default when loading a change.
 |`diff_page_sidebar`            |optional|
 String indicating which sidebar should be open on the diff page. Set to "NONE"
 if no sidebars should be open. Plugin-supplied sidebars will be prefixed with

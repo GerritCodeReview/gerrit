@@ -1079,6 +1079,7 @@ export interface PreferencesInfo {
   allow_autocompleting_comments?: boolean;
   diff_page_sidebar?: DiffPageSidebar;
   ai_chat_selected_model?: string;
+  auto_expand_review_agent_panel?: boolean;
 }
 
 /**

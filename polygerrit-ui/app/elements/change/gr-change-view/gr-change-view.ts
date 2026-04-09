@@ -359,6 +359,8 @@ export class GrChangeView extends LitElement {
   @state()
   private showSidebarChat = false;
 
+  private autoExpandDone = false;
+
   @property({type: Boolean})
   unresolvedOnly = true;
 
@@ -627,6 +629,16 @@ export class GrChangeView extends LitElement {
       () => this.getUserModel().preferenceDiffViewMode$,
       diffViewMode => {
         this.diffViewMode = diffViewMode;
+      }
+    );
+    subscribe(
+      this,
+      () => this.getUserModel().preferences$,
+      prefs => {
+        if (prefs.auto_expand_review_agent_panel && !this.autoExpandDone) {
+          this.showSidebarChat = true;
+          this.autoExpandDone = true;
+        }
       }
     );
     subscribe(

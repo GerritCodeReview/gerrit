@@ -6,7 +6,7 @@
 import '@material/web/iconbutton/icon-button.js';
 import '@material/web/progress/circular-progress.js';
 
-import {css, html, LitElement} from 'lit';
+import {css, html, LitElement, nothing} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {classMap} from 'lit/directives/class-map.js';
 import {when} from 'lit/directives/when.js';
@@ -44,6 +44,8 @@ export class SplashPageAction extends LitElement {
   @state() contextItemTypes: readonly ContextItemType[] = [];
 
   @state() private isInstructionExpanded = false;
+
+  @state() private isFilesExpanded = false;
 
   @state() private showExpandButton = false;
 
@@ -211,7 +213,7 @@ export class SplashPageAction extends LitElement {
       #detailsModal {
         width: calc(72ch + 2px + 2 * var(--spacing-m) + 0.4px);
         max-width: 90vw;
-        max-height: 400px;
+        max-height: 80vh;
       }
       #detailsModal > div {
         display: flex;
@@ -277,6 +279,15 @@ export class SplashPageAction extends LitElement {
       }
       .expand-button:hover {
         text-decoration: underline;
+      }
+      .file-list {
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing-xs);
+      }
+      .file-item {
+        word-break: break-all;
+        color: var(--primary-text-color);
       }
       .link-row {
         display: flex;
@@ -386,6 +397,20 @@ export class SplashPageAction extends LitElement {
               `
             )}
             ${when(
+              this.action?.matched_files &&
+                this.action.matched_files.length > 0,
+              () => html`
+                <div class="modal-row matched-files-row">
+                  <gr-icon icon="folder"></gr-icon>
+                  <div class="modal-row-content">
+                    <div class="modal-row-text">
+                      ${this.renderMatchedFiles()}
+                    </div>
+                  </div>
+                </div>
+              `
+            )}
+            ${when(
               this.action?.custom_action_source?.custom_action_id,
               () => html`
                 <div class="modal-row">
@@ -464,9 +489,39 @@ export class SplashPageAction extends LitElement {
     }
   }
 
+  private renderMatchedFiles() {
+    const files = this.action?.matched_files || [];
+    if (files.length === 0) return nothing;
+
+    const showAll = this.isFilesExpanded || files.length <= 4;
+    const filesToDisplay = showAll ? files : files.slice(0, 4);
+
+    return html`
+      <div class="modal-row-title">Matched files:</div>
+      <div class="file-list ${this.isFilesExpanded ? 'expanded' : ''}">
+        ${filesToDisplay.map(
+          file => html`<div class="file-item">${file}</div>`
+        )}
+      </div>
+      ${when(
+        files.length > 4,
+        () => html`
+          <button
+            class="expand-button"
+            aria-expanded=${this.isFilesExpanded}
+            @click=${() => (this.isFilesExpanded = !this.isFilesExpanded)}
+          >
+            ${this.isFilesExpanded ? 'Show less' : 'Show more'}
+          </button>
+        `
+      )}
+    `;
+  }
+
   private async displayDetailsCard(event: MouseEvent) {
     event.stopPropagation();
     this.isInstructionExpanded = false;
+    this.isFilesExpanded = false;
     this.detailsModal?.showModal();
     await this.updateComplete;
     const textEl = this.shadowRoot?.querySelector('.instruction-text');

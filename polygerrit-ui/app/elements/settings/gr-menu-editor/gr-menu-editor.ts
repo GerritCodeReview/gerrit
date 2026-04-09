@@ -71,6 +71,10 @@ export class GrMenuEditor extends LitElement {
         tbody tr:last-of-type td .moveDownButton {
           display: none;
         }
+        td.nameCell {
+          min-width: 11em;
+          width: auto;
+        }
         td.urlCell {
           overflow-wrap: anywhere;
         }
@@ -79,6 +83,14 @@ export class GrMenuEditor extends LitElement {
         }
         th {
           white-space: nowrap;
+        }
+        tfoot th:nth-child(1),
+        tfoot th:nth-child(2),
+        tfoot th:nth-child(3) {
+          padding-right: 1em;
+        }
+        table {
+          margin-bottom: 8px;
         }
       `,
     ];
@@ -128,12 +140,12 @@ export class GrMenuEditor extends LitElement {
   private renderMenuItemRow(item: TopMenuItemInfo, index: number) {
     return html`
       <tr>
-        <td>${item.name}</td>
+        <td class="nameCell">${item.name}</td>
         <td class="urlCell">${item.url}</td>
         <td>
           <md-checkbox
-            disabled
             ?checked=${item.target === '_blank'}
+            @change=${(e: Event) => this.handleCheckboxChange(e, index)}
           ></md-checkbox>
         </td>
         <td class="buttonColumn">
@@ -201,7 +213,6 @@ export class GrMenuEditor extends LitElement {
         </th>
         <th>
           <md-checkbox
-            id="lineWrappingInput"
             ?checked=${this.newTarget}
             @change=${() => (this.newTarget = !this.newTarget)}
           ></md-checkbox>
@@ -253,6 +264,7 @@ export class GrMenuEditor extends LitElement {
     });
     this.newName = '';
     this.newUrl = '';
+    this.newTarget = false;
     this.requestUpdate('menuItems');
   }
 
@@ -261,6 +273,17 @@ export class GrMenuEditor extends LitElement {
       e.stopPropagation();
       this.handleAddButton();
     }
+  }
+
+  private handleCheckboxChange(e: Event, index: number) {
+    const checkbox = e.target as HTMLInputElement;
+
+    this.menuItems[index] = {
+      ...this.menuItems[index],
+      target: checkbox.checked ? '_blank' : undefined,
+    };
+
+    this.requestUpdate('menuItems');
   }
 }
 

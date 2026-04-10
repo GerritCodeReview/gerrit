@@ -431,7 +431,12 @@ public abstract class JdbcAccountPatchReviewStore
     return 0;
   }
 
-  private static String createH2Url(Path path) {
-    return new StringBuilder().append("jdbc:h2:").append(path.toUri().toString()).toString();
+  @VisibleForTesting
+  static String createH2Url(Path path) {
+    return new StringBuilder()
+        .append("jdbc:h2:file:")
+        .append(path.toAbsolutePath().toString())
+        .toString()
+        .replace(";", "\\;");
   }
 }

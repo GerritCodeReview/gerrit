@@ -140,6 +140,7 @@ public class UserPreferencesConverterTest {
             .addAllChangeTable(ImmutableList.of("table1", "table2"))
             .setAllowBrowserNotifications(true)
             .setDiffPageSidebar("plugin-insight")
+            .setAutoExpandReviewAgentPanel(true)
             .build();
     UserPreferences.GeneralPreferencesInfo resProto =
         GENERAL_PREFERENCES_INFO_CONVERTER.toProto(

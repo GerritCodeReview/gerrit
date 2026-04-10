@@ -1660,31 +1660,18 @@ export class GrComment extends LitElement {
     assert(isDraft(this.comment), 'only drafts are editable');
     assert(!isSaving(this.comment), 'saving already in progress');
 
-    const prefix = isNew(this.comment)
-      ? 'CreateDraftComment'
-      : 'UpdateDraftComment';
-    const totalTimer = this.reporting.getTimer(`${prefix} - rawSave`);
     const draft: DraftInfo = {
       ...this.comment,
       message: this.messageText.trimEnd(),
       unresolved: this.unresolved,
     };
 
-    const fixTimer = this.reporting.getTimer(
-      `${prefix} - isFixSuggestionChanged`
-    );
     if (this.isFixSuggestionChanged()) {
       draft.fix_suggestions = this.getFixSuggestions();
     }
-    fixTimer.end();
 
-    const hintTimer = this.reporting.getTimer(
-      `${prefix} - reportHintInteractionSaved`
-    );
     this.reportHintInteractionSaved();
-    hintTimer.end();
 
-    totalTimer.end();
     return this.getCommentsModel().saveDraft(draft, options.showToast);
   }
 

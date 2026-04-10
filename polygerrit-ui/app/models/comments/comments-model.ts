@@ -67,7 +67,7 @@ import {
 import {isDefined} from '../../types/types';
 import {ChangeViewModel} from '../views/change';
 import {NavigationService} from '../../elements/core/gr-navigation/gr-navigation';
-import {readJSONResponsePayload} from '../../elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
+import {parsePrefixedJSON} from '../../elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 
 export interface CommentState {
   /** undefined means 'still loading' */
@@ -747,13 +747,8 @@ export class CommentsModel extends Model<CommentState> {
     if (showToast) this.showStartRequest();
     const timing = isNew(draft) ? Timing.DRAFT_CREATE : Timing.DRAFT_UPDATE;
     const timer = this.reporting.getTimer(timing);
-    const beforeNetworkTimer = this.reporting.getTimer(
-      `${timing} - beforeNetwork`
-    );
-
     let savedComment;
     try {
-      beforeNetworkTimer.end();
       const networkTimer = this.reporting.getTimer(`${timing} - network`);
       const result = await this.restApiService.saveDiffDraft(
         changeNum,
@@ -763,9 +758,19 @@ export class CommentsModel extends Model<CommentState> {
       networkTimer.end();
       if (changeNum !== this.changeNum) return draft;
       if (!result.ok) throw new Error('request failed');
+
       const parseTimer = this.reporting.getTimer(`${timing} - parse`);
-      savedComment = (await readJSONResponsePayload(result))
-        .parsed as unknown as CommentInfo;
+      const textTimer = this.reporting.getTimer(`${timing} - parse - text`);
+      const text = await result.text();
+      textTimer.end();
+
+      const jsonTimer = this.reporting.getTimer(`${timing} - parse - json`);
+      try {
+        savedComment = parsePrefixedJSON(text) as unknown as CommentInfo;
+      } catch (_) {
+        throw new Error(`Response payload is not prefixed json. Payload: ${text}`);
+      }
+      jsonTimer.end();
       parseTimer.end();
     } catch (error) {
       if (showToast) this.handleFailedDraftRequest();

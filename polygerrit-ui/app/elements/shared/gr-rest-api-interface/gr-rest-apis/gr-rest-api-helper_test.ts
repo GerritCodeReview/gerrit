@@ -157,6 +157,21 @@ suite('gr-rest-api-helper tests', () => {
         response.status,
       ]);
     });
+
+    test('fetch falls back to requestOrigin for scheduler reporting', async () => {
+      const scheduleStub = sinon
+        .stub(readScheduler, 'schedule')
+        .resolves(new Response());
+
+      await helper.fetch({
+        fetchOptions: getFetchOptions({requestOrigin: 'plugin:my-plugin'}),
+        url: '/dummy/url',
+      });
+
+      assert.isTrue(scheduleStub.calledOnce);
+      const name = scheduleStub.lastCall.args[1];
+      assert.equal(name, 'GET - plugin:my-plugin');
+    });
   });
 
   suite('fetchJSON()', () => {

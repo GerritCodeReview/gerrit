@@ -285,7 +285,9 @@ export class GrRestApiHelper {
 
     const isWrite =
       method === 'PUT' || method === 'POST' || method === 'DELETE';
-    const requestName = `${method} - ${req.anonymizedUrl || 'unknown'}`;
+    const origin = req.fetchOptions?.headers?.get(REQUEST_ORIGIN_HEADER);
+    const pluginName = origin?.startsWith('plugin:') ? origin : undefined;
+    const requestName = `${method} - ${req.anonymizedUrl || pluginName || 'unknown'}`;
     const debugRequestName = `${method} - ${req.anonymizedUrl || req.url}`;
     let schedulerTimer: Timer | undefined;
     let activeCount = 0;

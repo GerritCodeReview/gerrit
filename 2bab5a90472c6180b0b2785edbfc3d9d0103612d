@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cfbe4a5c_6b8ec8db",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2026-04-10T09:02:16Z",
+      "side": 1,
+      "message": "It seems there was a deployment to gerrit-review backend today? Today i noticed that the diff view is a little different. That it\u0027s like when a new user joins or the default pref is used. When opening Fit to screen it now shows NONE and 2 other options. Shouldn\u0027t there be a migration for the existing pref or at least it should fallback to what you set before?",
+      "revId": "2bab5a90472c6180b0b2785edbfc3d9d0103612d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

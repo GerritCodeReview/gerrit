@@ -226,4 +226,13 @@ test comment`;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     assert.include((element as any).promptContent, expected);
   });
+
+  test('preserves dollar signs in patch content', async () => {
+    element.patchContent = '+IMAGE="${SCRIPT_NAME}_$$"';
+    element.selectedTemplate = 'PATCH_ONLY';
+    await element.updateComplete;
+
+    const promptContent = Reflect.get(element, 'promptContent') as string;
+    assert.include(promptContent, '+IMAGE="${SCRIPT_NAME}_$$"');
+  });
 });

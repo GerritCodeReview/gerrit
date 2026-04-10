@@ -398,12 +398,12 @@ ${comments.join('\n\n')}`;
 
     this.promptContent = template.prompt.replace(
       '{{patch}}',
-      sanitizedPatchContent
+      () => sanitizedPatchContent
     );
     if (this.selectedTemplate === 'RESOLVE_COMMENTS') {
       this.promptContent = this.promptContent.replace(
         '{{comments}}',
-        this.getUnresolvedCommentsFormatted()
+        () => this.getUnresolvedCommentsFormatted()
       );
     }
     // Inserts a space before each capital letter to handle CamelCase

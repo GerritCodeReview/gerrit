@@ -38,6 +38,7 @@ import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.testing.InMemoryModule;
 import com.google.inject.Inject;
+import java.nio.file.Path;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
@@ -197,5 +198,63 @@ public class AllProjectsCreatorTest {
     expectedConfig.setString("project", null, "description", description);
     Config config = readAllProjectsConfig(repoManager, allProjectsName);
     assertTwoConfigsEquivalent(config, expectedConfig);
+  }
+
+  @Test
+  public void checkCreateH2Url() {
+    com.google.common.truth.Truth.assertThat(
+            JdbcAccountPatchReviewStore.createH2Url(Path.of("test")))
+        .isEqualTo("jdbc:h2:file:" + Path.of("test").toAbsolutePath());
+    com.google.common.truth.Truth.assertThat(
+            JdbcAccountPatchReviewStore.createH2Url(Path.of("test.db")))
+        .isEqualTo("jdbc:h2:file:" + Path.of("test.db").toAbsolutePath());
+    com.google.common.truth.Truth.assertThat(
+            JdbcAccountPatchReviewStore.createH2Url(Path.of("test.db.mv.db")))
+        .isEqualTo("jdbc:h2:file:" + Path.of("test.db.mv.db").toAbsolutePath());
+    com.google.common.truth.Truth.assertThat(
+            JdbcAccountPatchReviewStore.createH2Url(Path.of("test.db.mv.db.trace.db")))
+        .isEqualTo("jdbc:h2:file:" + Path.of("test.db.mv.db.trace.db").toAbsolutePath());
+  }
+
+  @Test
+  public void checkCreateH2UrlWithPath() {
+    com.google.common.truth.Truth.assertThat(
+            JdbcAccountPatchReviewStore.createH2Url(Path.of("path/to/test")))
+        .isEqualTo("jdbc:h2:file:" + Path.of("path/to/test").toAbsolutePath());
+    com.google.common.truth.Truth.assertThat(
+            JdbcAccountPatchReviewStore.createH2Url(Path.of("path/to/test.db")))
+        .isEqualTo("jdbc:h2:file:" + Path.of("path/to/test.db").toAbsolutePath());
+    com.google.common.truth.Truth.assertThat(
+            JdbcAccountPatchReviewStore.createH2Url(Path.of("path/to/test.db.mv.db")))
+        .isEqualTo("jdbc:h2:file:" + Path.of("path/to/test.db.mv.db").toAbsolutePath());
+    com.google.common.truth.Truth.assertThat(
+            JdbcAccountPatchReviewStore.createH2Url(Path.of("path/to/test.db.mv.db.trace.db")))
+        .isEqualTo("jdbc:h2:file:" + Path.of("path/to/test.db.mv.db.trace.db").toAbsolutePath());
+  }
+
+  @Test
+  public void checkCreateH2UrlWithSemicolon() {
+    com.google.common.truth.Truth.assertThat(
+            JdbcAccountPatchReviewStore.createH2Url(Path.of("test;test")))
+        .isEqualTo(
+            "jdbc:h2:file:" + Path.of("test;test").toAbsolutePath().toString().replace(";", "\\;"));
+    com.google.common.truth.Truth.assertThat(
+            JdbcAccountPatchReviewStore.createH2Url(Path.of("test.db;test")))
+        .isEqualTo(
+            "jdbc:h2:file:"
+                + Path.of("test.db;test").toAbsolutePath().toString().replace(";", "\\;"));
+    com.google.common.truth.Truth.assertThat(
+            JdbcAccountPatchReviewStore.createH2Url(Path.of("test.db.mv.db;test")))
+        .isEqualTo(
+            "jdbc:h2:file:"
+                + Path.of("test.db.mv.db;test").toAbsolutePath().toString().replace(";", "\\;"));
+    com.google.common.truth.Truth.assertThat(
+            JdbcAccountPatchReviewStore.createH2Url(Path.of("test.db.mv.db.trace.db;test")))
+        .isEqualTo(
+            "jdbc:h2:file:"
+                + Path.of("test.db.mv.db.trace.db;test")
+                    .toAbsolutePath()
+                    .toString()
+                    .replace(";", "\\;"));
   }
 }

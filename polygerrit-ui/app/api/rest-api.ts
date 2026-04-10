@@ -773,6 +773,7 @@ export declare interface FileInfo {
   new_mode?: number;
   old_sha?: string;
   new_sha?: string;
+  diffs_too_expensive_to_compute?: boolean;
 }
 
 /**

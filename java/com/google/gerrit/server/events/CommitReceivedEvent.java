@@ -15,6 +15,8 @@
 package com.google.gerrit.server.events;
 
 import com.google.common.collect.ImmutableListMultimap;
+import com.google.gerrit.common.Nullable;
+import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.patch.DiffOperationsForCommitValidation;
@@ -37,6 +39,9 @@ public class CommitReceivedEvent extends RefEvent implements AutoCloseable {
   public RevCommit commit;
   public IdentifiedUser user;
 
+  /** The source change and patch set that this commit was cherry-picked from (if any) */
+  @Nullable public PatchSet.Id cherryPickOf;
+
   /**
    * Use this for computing the modified files of the received commits. Using {@link
    * com.google.gerrit.server.patch.DiffOperations} from commit validators is not safe, see javadoc
@@ -57,6 +62,7 @@ public class CommitReceivedEvent extends RefEvent implements AutoCloseable {
       ObjectReader reader,
       ObjectId commitId,
       IdentifiedUser user,
+      @Nullable PatchSet.Id cherryPickOf,
       DiffOperationsForCommitValidation diffOperations)
       throws IOException {
     this();
@@ -68,6 +74,7 @@ public class CommitReceivedEvent extends RefEvent implements AutoCloseable {
     this.revWalk = new RevWalk(reader);
     this.commit = revWalk.parseCommit(commitId);
     this.user = user;
+    this.cherryPickOf = cherryPickOf;
     this.diffOperations = diffOperations;
     revWalk.parseBody(commit);
   }

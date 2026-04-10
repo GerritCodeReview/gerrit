@@ -67,6 +67,9 @@ export class GrPreferences extends LitElement {
 
   @query('#insertSignedOff') insertSignedOff!: MdCheckbox;
 
+  @query('#autoExpandReviewAgentPanel')
+  autoExpandReviewAgentPanel!: MdCheckbox;
+
   @state() prefs?: PreferencesInput;
 
   @state() private originalPrefs?: PreferencesInput;
@@ -427,6 +430,22 @@ export class GrPreferences extends LitElement {
               ></md-checkbox>
             </span>
           </section>
+          <section>
+            <label for="autoExpandReviewAgentPanel" class="title"
+              >Auto-expand Review Agent panel</label
+            >
+            <span class="value">
+              <md-checkbox
+                id="autoExpandReviewAgentPanel"
+                ?checked=${!!this.prefs?.auto_expand_review_agent_panel}
+                @change=${() => {
+                  this.prefs!.auto_expand_review_agent_panel =
+                    this.autoExpandReviewAgentPanel.checked;
+                  this.requestUpdate();
+                }}
+              ></md-checkbox>
+            </span>
+          </section>
         </div>
         <gr-button
           id="savePrefs"
@@ -616,7 +635,9 @@ export class GrPreferences extends LitElement {
       Boolean(this.originalPrefs?.disable_token_highlighting) !==
         Boolean(this.prefs?.disable_token_highlighting) ||
       Boolean(this.originalPrefs?.signed_off_by) !==
-        Boolean(this.prefs?.signed_off_by)
+        Boolean(this.prefs?.signed_off_by) ||
+      Boolean(this.originalPrefs?.auto_expand_review_agent_panel) !==
+        Boolean(this.prefs?.auto_expand_review_agent_panel)
     );
   }
 

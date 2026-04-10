@@ -87,6 +87,7 @@ public class GeneralPreferencesIT extends AbstractDaemonTest {
     i.allowSuggestCodeWhileCommenting ^= false;
     i.allowAutocompletingComments ^= false;
     i.aiChatSelectedModel = "test-ai-model";
+    i.autoExpandReviewAgentPanel = true;
     i.diffPageSidebar = "plugin-insight";
     i.diffView = DiffView.UNIFIED_DIFF;
     i.my = new ArrayList<>();
@@ -105,6 +106,7 @@ public class GeneralPreferencesIT extends AbstractDaemonTest {
     assertThat(o.aiChatSelectedModel).isEqualTo(i.aiChatSelectedModel);
     assertThat(o.diffPageSidebar).isEqualTo(i.diffPageSidebar);
     assertThat(o.disableKeyboardShortcuts).isEqualTo(i.disableKeyboardShortcuts);
+    assertThat(o.autoExpandReviewAgentPanel).isEqualTo(i.autoExpandReviewAgentPanel);
   }
 
   @Test

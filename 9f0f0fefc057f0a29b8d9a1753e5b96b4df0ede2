@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "24cc8ffa_1ca49fcc",
+        "filename": "polygerrit-ui/app/elements/chat-panel/splash-page-action.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 367,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-04-10T00:33:17Z",
+      "side": 1,
+      "message": "Consider adding `aria-expanded\u003d\"${this.isInstructionExpanded}\"` to the button to improve accessibility for screen reader users.",
+      "range": {
+        "startLine": 367,
+        "startChar": 0,
+        "endLine": 367,
+        "endChar": 0
+      },
+      "revId": "9f0f0fefc057f0a29b8d9a1753e5b96b4df0ede2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

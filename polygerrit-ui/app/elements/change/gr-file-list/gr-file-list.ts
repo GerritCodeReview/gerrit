@@ -642,6 +642,11 @@ export class GrFileList extends LitElement {
           display: inline-block;
           color: var(--deemphasized-text-color);
         }
+        .expensiveDiff {
+          color: var(--warning-foreground);
+          font-weight: var(--font-weight-bold);
+          margin-left: var(--spacing-m);
+        }
 
         @container (max-width: 1200px) {
           gr-endpoint-decorator.extra-col {
@@ -1326,6 +1331,12 @@ export class GrFileList extends LitElement {
     `;
   }
 
+  private handleDownloadLocally(e: Event) {
+    e.preventDefault();
+    e.stopPropagation();
+    fire(this, 'open-download-dialog', {});
+  }
+
   private renderFilePath(file: NormalizedFileInfo, previousFilePath?: string) {
     return html`
       <span class="path" role="gridcell">
@@ -1345,6 +1356,18 @@ export class GrFileList extends LitElement {
             .text=${file.__path}
           ></gr-copy-clipboard>
         </a>
+        ${when(
+          file.diffs_too_expensive_to_compute,
+          () => html`
+            <span class="expensiveDiff">
+              <gr-icon icon="warning"></gr-icon>
+              Diff too expensive to compute.
+              <gr-button link @click=${this.handleDownloadLocally}>
+                Please download locally to review
+              </gr-button>
+            </span>
+          `
+        )}
         ${when(
           file.old_path,
           () => html`
@@ -1470,29 +1493,42 @@ export class GrFileList extends LitElement {
         "Commit message" row content with incorrect column headers.
         -->
       <div class=${this.computeClass('', file.__path)}>
-        <span
-          class="removed"
-          tabindex="0"
-          aria-label=${`${file.lines_deleted} removed`}
-          ?hidden=${!!file.binary}
-        >
-          -${file.lines_deleted}
-        </span>
-        <span
-          class="added"
-          tabindex="0"
-          aria-label=${`${file.lines_inserted} added`}
-          ?hidden=${!!file.binary}
-        >
-          +${file.lines_inserted}
-        </span>
-        <span
-          class=${ifDefined(this.computeBinaryClass(file.size_delta))}
-          ?hidden=${!file.binary}
-        >
-          ${formatBytes(file.size_delta)}
-          ${this.formatPercentage(file.size, file.size_delta)}
-        </span>
+        ${when(
+          file.diffs_too_expensive_to_compute,
+          () => html`
+            <gr-tooltip-content
+              title="Diff too expensive to compute"
+              has-tooltip
+            >
+              <gr-icon icon="warning" class="warning"></gr-icon>
+            </gr-tooltip-content>
+          `,
+          () => html`
+            <span
+              class="removed"
+              tabindex="0"
+              aria-label=${`${file.lines_deleted} removed`}
+              ?hidden=${!!file.binary}
+            >
+              -${file.lines_deleted}
+            </span>
+            <span
+              class="added"
+              tabindex="0"
+              aria-label=${`${file.lines_inserted} added`}
+              ?hidden=${!!file.binary}
+            >
+              +${file.lines_inserted}
+            </span>
+            <span
+              class=${ifDefined(this.computeBinaryClass(file.size_delta))}
+              ?hidden=${!file.binary}
+            >
+              ${formatBytes(file.size_delta)}
+              ${this.formatPercentage(file.size, file.size_delta)}
+            </span>
+          `
+        )}
       </div>
     </div>`;
   }

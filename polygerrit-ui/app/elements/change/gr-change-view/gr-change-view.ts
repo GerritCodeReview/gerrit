@@ -1535,6 +1535,7 @@ export class GrChangeView extends LitElement {
             this.requestUpdate();
           }}
           @file-action-tap=${this.handleFileActionTap}
+          @open-download-dialog=${this.handleOpenDownloadDialog}
         >
         </gr-file-list>
       </div>

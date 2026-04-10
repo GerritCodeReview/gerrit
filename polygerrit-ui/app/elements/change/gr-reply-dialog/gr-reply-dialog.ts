@@ -2244,11 +2244,19 @@ export class GrReplyDialog extends LitElement {
       this.disabled === undefined ||
       this.commentEditing === undefined ||
       this.change?.labels === undefined ||
-      this.account === undefined
+      this.account === undefined ||
+      this.autosubmitChecked === undefined
     ) {
       return undefined;
     }
     if (this.commentEditing || this.disabled) {
+      return true;
+    }
+    // If the user is creating an autosubmit flow then allow sending reply
+    if (
+      this.autosubmitChecked &&
+      !this.getFlowsModel().hasAutosubmitFlowAlready()
+    ) {
       return true;
     }
     if (this.canBeStarted === true) {

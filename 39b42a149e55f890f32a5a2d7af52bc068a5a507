@@ -118,6 +118,30 @@
       },
       "revId": "39b42a149e55f890f32a5a2d7af52bc068a5a507",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e800ccaf_4e9e4962",
+        "filename": "polygerrit-ui/app/elements/shared/gr-suggestion-diff-preview/gr-suggestion-diff-preview.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-04-10T16:51:58Z",
+      "side": 1,
+      "message": "I don\u0027t think we need the same change in gr-apply-fix-dialog.ts.\n\nIn that component, fetchFixPreview is called imperatively when the user opens the dialog or clicks next/previous, rather than automatically in the updated() lifecycle method.",
+      "parentUuid": "46393399_fbd3221e",
+      "range": {
+        "startLine": 294,
+        "startChar": 0,
+        "endLine": 296,
+        "endChar": 69
+      },
+      "revId": "39b42a149e55f890f32a5a2d7af52bc068a5a507",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

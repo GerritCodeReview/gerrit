@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dfd2922f_b238567e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-04-10T20:35:52Z",
+      "side": 1,
+      "message": "Looks good, thanks for contributing!",
+      "revId": "dfbc3d29f0a995be23800f9628806d70eb5fce23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e6d0c546_cc284a67",
+        "filename": "polygerrit-ui/app/elements/settings/gr-preferences/gr-preferences.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 436,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-04-10T20:35:52Z",
+      "side": 1,
+      "message": "I would move it closer to other ai features \nOther preferences in:\n          ${this.renderGenerateSuggestionWhenCommenting()}\n          ${this.renderAiCommentAutocompletion()}",
+      "range": {
+        "startLine": 434,
+        "startChar": 0,
+        "endLine": 436,
+        "endChar": 13
+      },
+      "revId": "dfbc3d29f0a995be23800f9628806d70eb5fce23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d1715f4_8f532c7c",
+        "filename": "polygerrit-ui/app/elements/settings/gr-preferences/gr-preferences.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 448,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-04-10T20:35:52Z",
+      "side": 1,
+      "message": "This should be visible only when the feature is enabled - can you check how we decide if review agent button is enabled?",
+      "range": {
+        "startLine": 433,
+        "startChar": 10,
+        "endLine": 448,
+        "endChar": 20
+      },
+      "revId": "dfbc3d29f0a995be23800f9628806d70eb5fce23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

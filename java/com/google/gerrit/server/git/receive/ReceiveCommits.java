@@ -2655,6 +2655,12 @@ class ReceiveCommits {
                 "Creating new change for %s even though it is already tracked", name);
           }
 
+          Change change = null;
+          ChangeLookup lookup = pending.get(c);
+          if (lookup.changeKey != null && lookup.destChanges.size() == 1) {
+            change = lookup.destChanges.get(0).change();
+          }
+
           BranchCommitValidator.Result validationResult =
               validator.validateCommit(
                   repo,
@@ -2666,7 +2672,7 @@ class ReceiveCommits {
                   ImmutableListMultimap.copyOf(pushOptions),
                   magicBranch.merged,
                   rejectCommits,
-                  null);
+                  change);
           messages.addAll(validationResult.messages());
           if (!validationResult.isValid()) {
             // Not a change the user can propose? Abort as early as possible.

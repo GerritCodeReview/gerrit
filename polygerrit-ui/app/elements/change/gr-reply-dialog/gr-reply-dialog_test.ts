@@ -2347,6 +2347,20 @@ suite('gr-reply-dialog tests', () => {
     assert.isTrue(element.isSendDisabled());
   });
 
+  test('isSendDisabled_autosubmit', () => {
+    element.canBeStarted = false;
+    element.draftCommentThreads = [];
+    element.patchsetLevelDraftMessage = '';
+    element.reviewersMutated = false;
+    element.labelsChanged = false;
+    element.includeComments = false;
+    element.disabled = false;
+    element.commentEditing = false;
+    element.account = makeAccount();
+    element.autosubmitChecked = true;
+    assert.isFalse(element.isSendDisabled());
+  });
+
   test('isSendDisabled_draftCommentsSend', () => {
     // Mock nonempty comment draft array; with sending comments.
     element.canBeStarted = false;

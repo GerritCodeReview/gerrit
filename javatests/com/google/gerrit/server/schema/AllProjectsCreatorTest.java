@@ -198,4 +198,34 @@ public class AllProjectsCreatorTest {
     Config config = readAllProjectsConfig(repoManager, allProjectsName);
     assertTwoConfigsEquivalent(config, expectedConfig);
   }
+
+   @Test
+  public void checkCreateH2Url() {
+    assertThat(SchemaCreatorImpl.createH2Url("test")).isEqualTo("jdbc:h2:test");
+    assertThat(SchemaCreatorImpl.createH2Url("test.db")).isEqualTo("jdbc:h2:test.db");
+    assertThat(SchemaCreatorImpl.createH2Url("test.db.mv.db")).isEqualTo("jdbc:h2:test.db");
+    assertThat(SchemaCreatorImpl.createH2Url("test.db.mv.db.trace.db"))
+        .isEqualTo("jdbc:h2:test.db");  }
+
+  @Test
+  public void checkCreateH2UrlWithPath() {
+    assertThat(SchemaCreatorImpl.createH2Url("path/to/test")).isEqualTo("jdbc:h2:path/to/test");
+    assertThat(SchemaCreatorImpl.createH2Url("path/to/test.db"))
+        .isEqualTo("jdbc:h2:path/to/test.db");
+    assertThat(SchemaCreatorImpl.createH2Url("path/to/test.db.mv.db"))
+        .isEqualTo("jdbc:h2:path/to/test.db");
+    assertThat(SchemaCreatorImpl.createH2Url("path/to/test.db.mv.db.trace.db"))
+        .isEqualTo("jdbc:h2:path/to/test.db");
+  }
+
+  @Test
+  public void checkCreateH2UrlWithSemicolon() {
+    assertThat(SchemaCreatorImpl.createH2Url("test;test")).isEqualTo("jdbc:h2:test\\;test");
+    assertThat(SchemaCreatorImpl.createH2Url("test.db;test"))
+        .isEqualTo("jdbc:h2:test.db\\;test");
+    assertThat(SchemaCreatorImpl.createH2Url("test.db.mv.db;test"))
+        .isEqualTo("jdbc:h2:test.db\\;test");
+    assertThat(SchemaCreatorImpl.createH2Url("test.db.mv.db.trace.db;test"))
+        .isEqualTo("jdbc:h2:test.db\\;test");
+  }
 }

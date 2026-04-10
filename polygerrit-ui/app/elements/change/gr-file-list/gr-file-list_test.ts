@@ -411,6 +411,37 @@ suite('gr-file-list tests', () => {
       assert.notOk(fileMode);
     });
 
+    test('renders warning icon for expensive diffs', async () => {
+      element.files = [
+        {
+          __path: 'expensive.txt',
+          lines_inserted: 0,
+          lines_deleted: 0,
+          diffs_too_expensive_to_compute: true,
+          size: 0,
+          size_delta: 0,
+        },
+      ];
+      await element.updateComplete;
+      const fileRows = queryAll<HTMLDivElement>(element, '.file-row');
+      const statsCol = queryAndAssert(fileRows?.[0], '.stats');
+      assert.dom.equal(
+        statsCol,
+        /* HTML */ `
+          <div class="stats" role="gridcell">
+            <div class="">
+              <gr-tooltip-content
+                has-tooltip=""
+                title="Diff too expensive to compute"
+              >
+                <gr-icon class="warning" icon="warning"> </gr-icon>
+              </gr-tooltip-content>
+            </div>
+          </div>
+        `
+      );
+    });
+
     test('renders file status column header', async () => {
       element.files = createFiles(1, {lines_inserted: 9});
       element.filesLeftBase = createFiles(1, {lines_inserted: 9});

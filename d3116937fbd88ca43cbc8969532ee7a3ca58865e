@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cbb9d345_3fb54b7d",
+        "filename": "polygerrit-ui/app/elements/settings/gr-change-table-editor/gr-change-table-editor.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2026-04-10T12:48:36Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "bd96a154_6d8c2bf8",
+      "range": {
+        "startLine": 184,
+        "startChar": 0,
+        "endLine": 184,
+        "endChar": 0
+      },
+      "revId": "d3116937fbd88ca43cbc8969532ee7a3ca58865e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "77642c80_2f0ffdac",
@@ -64,6 +88,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4ad86538_9ec1e85f",
+        "filename": "polygerrit-ui/app/elements/settings/gr-change-table-editor/gr-change-table-editor.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2026-04-10T12:48:36Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "77642c80_2f0ffdac",
+      "range": {
+        "startLine": 194,
+        "startChar": 0,
+        "endLine": 194,
+        "endChar": 0
+      },
+      "revId": "d3116937fbd88ca43cbc8969532ee7a3ca58865e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b07761d0_83151e4d",
@@ -77,6 +125,30 @@
       "writtenOn": "2026-04-10T11:49:48Z",
       "side": 1,
       "message": "Please fix this WARNING reported by autoreview issue finding: Since `handleSaveChangeTable` is an `async` function, this test should be made `async` and the calls to it should be awaited (`await element.handleSaveChangeTable()`). This ensures the promise returned by `updatePreferences` is fully handled in the test environment before the assertions run.\n\nSince `handleSaveChangeTable` is an `async` function, this test should be made `async` and the calls to it should be awaited (`await element.handleSaveChangeTable()`). This ensures the promise returned by `updatePreferences` is fully handled in the test environment before the assertions run.",
+      "range": {
+        "startLine": 238,
+        "startChar": 0,
+        "endLine": 238,
+        "endChar": 0
+      },
+      "revId": "d3116937fbd88ca43cbc8969532ee7a3ca58865e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7a3446af_630fe435",
+        "filename": "polygerrit-ui/app/elements/settings/gr-change-table-editor/gr-change-table-editor_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2026-04-10T12:48:36Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "b07761d0_83151e4d",
       "range": {
         "startLine": 238,
         "startChar": 0,

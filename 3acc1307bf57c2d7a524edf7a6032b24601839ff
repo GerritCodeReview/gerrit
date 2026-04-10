@@ -16,6 +16,24 @@
       "message": "This TODO can be removed now.",
       "revId": "3acc1307bf57c2d7a524edf7a6032b24601839ff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "11b8a692_736c25a5",
+        "filename": "MODULE.bazel",
+        "patchSetId": 11
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-04-10T05:34:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "85a037f4_0c2de207",
+      "revId": "3acc1307bf57c2d7a524edf7a6032b24601839ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

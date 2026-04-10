@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "591e4afb_78061538",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-04-10T00:29:12Z",
+      "side": 1,
+      "message": "I think this is maybe intentional, so feel free to disregard. \n\nWARNING reported by autoreview issue finding: There are a few issues here:\n\n1. **Alignment:** This row is missing the `selection` column cell. If you are logged in, the `star` cell will align with the `selection` column, and the button will start at the `star` column.\n2. **Colspan:** `colSpan` is the total number of columns in the table. By rendering 2 cells and then a `td` with `colspan\u003d${colSpan}`, this row becomes wider than the table (total `colSpan + 2`).\n\nEven though `renderNoChangesRow` seems to have a similar issue, we should try to align this correctly. Ideally, the button cell should span all columns after the padding.\n\n```typescript\n    return html`\n      \u003ctr class\u003d\"loadMore\"\u003e\n        \u003ctd class\u003d\"leftPadding\" aria-hidden\u003d\"true\"\u003e\u003c/td\u003e\n        \u003ctd class\u003d\"selection\" ?hidden\u003d${!this.isLoggedIn}\u003e\u003c/td\u003e\n        \u003ctd\n          class\u003d\"star\"\n          aria-hidden\u003d${!this.isLoggedIn}\n          ?hidden\u003d${!this.isLoggedIn}\n        \u003e\u003c/td\u003e\n        \u003ctd class\u003d\"cell\" colspan\u003d${colSpan - (this.isLoggedIn ? 3 : 1)}\u003e\n          \u003cgr-button link @click\u003d${this.handleLoadMore}\u003e Load more \u003c/gr-button\u003e\n        \u003c/td\u003e\n      \u003c/tr\u003e\n    `;\n```\n(Note: The number of columns to subtract depends on how many you render before it. If `isLoggedIn` is true, you have padding, selection, and star \u003d 3).\n\nThere are a few issues here:\n\n1. **Alignment:** This row is missing the `selection` column cell. If you are logged in, the `star` cell will align with the `selection` column, and the button will start at the `star` column.\n2. **Colspan:** `colSpan` is the total number of columns in the table. By rendering 2 cells and then a `td` with `colspan\u003d${colSpan}`, this row becomes wider than the table (total `colSpan + 2`).\n\nEven though `renderNoChangesRow` seems to have a similar issue, we should try to align this correctly. Ideally, the button cell should span all columns after the padding.\n\n```typescript\n    return html`\n      \u003ctr class\u003d\"loadMore\"\u003e\n        \u003ctd class\u003d\"leftPadding\" aria-hidden\u003d\"true\"\u003e\u003c/td\u003e\n        \u003ctd class\u003d\"selection\" ?hidden\u003d${!this.isLoggedIn}\u003e\u003c/td\u003e\n        \u003ctd\n          class\u003d\"star\"\n          aria-hidden\u003d${!this.isLoggedIn}\n          ?hidden\u003d${!this.isLoggedIn}\n        \u003e\u003c/td\u003e\n        \u003ctd class\u003d\"cell\" colspan\u003d${colSpan - (this.isLoggedIn ? 3 : 1)}\u003e\n          \u003cgr-button link @click\u003d${this.handleLoadMore}\u003e Load more \u003c/gr-button\u003e\n        \u003c/td\u003e\n      \u003c/tr\u003e\n    `;\n```\n(Note: The number of columns to subtract depends on how many you render before it. If `isLoggedIn` is true, you have padding, selection, and star \u003d 3).",
+      "range": {
+        "startLine": 290,
+        "startChar": 0,
+        "endLine": 290,
+        "endChar": 0
+      },
+      "revId": "067b20fb8d6c240b5634071ce12ba981855cd2b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

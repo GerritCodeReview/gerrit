@@ -290,6 +290,7 @@ public class UserPreferencesConverterTest {
             .setHideEmptyPane(true)
             .setMatchBrackets(false)
             .setLineWrapping(true)
+            .setResponsiveMode(UserPreferences.DiffPreferencesInfo.ResponsiveMode.FULL_RESPONSIVE)
             .setIgnoreWhitespace(Whitespace.IGNORE_TRAILING)
             .setRetainHeader(true)
             .setSkipDeleted(false)
@@ -324,6 +325,19 @@ public class UserPreferencesConverterTest {
         UserPreferences.DiffPreferencesInfo.getDefaultInstance();
     DiffPreferencesInfo res = DIFF_PREFERENCES_INFO_CONVERTER.fromProto(proto);
     assertThat(res).isEqualTo(new DiffPreferencesInfo());
+  }
+
+  @Test
+  public void diffPreferencesInfo_migrationFromLineWrapping() {
+    UserPreferences.DiffPreferencesInfo protoWithLineWrapping =
+        UserPreferences.DiffPreferencesInfo.newBuilder().setLineWrapping(true).build();
+    DiffPreferencesInfo res = DIFF_PREFERENCES_INFO_CONVERTER.fromProto(protoWithLineWrapping);
+    assertThat(res.responsiveMode).isEqualTo(DiffPreferencesInfo.ResponsiveMode.FULL_RESPONSIVE);
+
+    UserPreferences.DiffPreferencesInfo protoWithNoLineWrapping =
+        UserPreferences.DiffPreferencesInfo.newBuilder().setLineWrapping(false).build();
+    res = DIFF_PREFERENCES_INFO_CONVERTER.fromProto(protoWithNoLineWrapping);
+    assertThat(res.responsiveMode).isEqualTo(DiffPreferencesInfo.ResponsiveMode.NONE);
   }
 
   @Test

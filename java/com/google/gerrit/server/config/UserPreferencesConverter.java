@@ -336,10 +336,17 @@ public final class UserPreferencesConverter {
       res.hideEmptyPane = proto.hasHideEmptyPane() ? proto.getHideEmptyPane() : null;
       res.matchBrackets = proto.hasMatchBrackets() ? proto.getMatchBrackets() : null;
       res.lineWrapping = proto.hasLineWrapping() ? proto.getLineWrapping() : null;
-      res.responsiveMode =
-          proto.hasResponsiveMode()
-              ? DiffPreferencesInfo.ResponsiveMode.valueOf(proto.getResponsiveMode().name())
-              : null;
+      if (proto.hasResponsiveMode()) {
+        res.responsiveMode =
+            DiffPreferencesInfo.ResponsiveMode.valueOf(proto.getResponsiveMode().name());
+      } else if (proto.hasLineWrapping()) {
+        res.responsiveMode =
+            proto.getLineWrapping()
+                ? DiffPreferencesInfo.ResponsiveMode.FULL_RESPONSIVE
+                : DiffPreferencesInfo.ResponsiveMode.NONE;
+      } else {
+        res.responsiveMode = null;
+      }
       res.ignoreWhitespace =
           proto.hasIgnoreWhitespace()
               ? DiffPreferencesInfo.Whitespace.valueOf(proto.getIgnoreWhitespace().name())

@@ -3,3 +3,4 @@ host=gerrit-review.googlesource.com
 scheme=https
 project=gerrit.git
 defaultbranch=master
+

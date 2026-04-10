@@ -22,6 +22,30 @@
       },
       "revId": "067b20fb8d6c240b5634071ce12ba981855cd2b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9a660b9e_6f153ce8",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-section/gr-change-list-section.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-04-10T05:33:29Z",
+      "side": 1,
+      "message": "\u003e Ideally, the button cell should span all columns after the padding.\n\nhttps://screenshot.googleplex.com/4M4xXYbeT56DFt9\n\nBased on the screenshot it is spanning all cells so I will resolve this comment as AI being wrong.\n\nHonestly it\u0027s not easy to parse all this text so maybe I missed some obvious bug but it\u0027s behind a Mendel flag so hopefully we get reports of major issues when we are at 1% or 5%.\n\nThanks for the review!",
+      "parentUuid": "591e4afb_78061538",
+      "range": {
+        "startLine": 290,
+        "startChar": 0,
+        "endLine": 290,
+        "endChar": 0
+      },
+      "revId": "067b20fb8d6c240b5634071ce12ba981855cd2b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

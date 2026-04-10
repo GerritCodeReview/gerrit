@@ -642,6 +642,11 @@ export class GrFileList extends LitElement {
           display: inline-block;
           color: var(--deemphasized-text-color);
         }
+        .expensiveDiff {
+          color: var(--warning-foreground);
+          font-weight: var(--font-weight-bold);
+          margin-left: var(--spacing-m);
+        }
 
         @container (max-width: 1200px) {
           gr-endpoint-decorator.extra-col {
@@ -1345,6 +1350,15 @@ export class GrFileList extends LitElement {
             .text=${file.__path}
           ></gr-copy-clipboard>
         </a>
+        ${when(
+          file.diffs_too_expensive_to_compute,
+          () => html`
+            <span class="expensiveDiff">
+              <gr-icon icon="warning"></gr-icon>
+              Diff too expensive to compute. Please download locally to review.
+            </span>
+          `
+        )}
         ${when(
           file.old_path,
           () => html`

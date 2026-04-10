@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d56a8b1b_30787926",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-04-10T11:49:48Z",
+      "side": 1,
+      "message": "Looks like very nice cleanup, thanks!",
+      "revId": "d3116937fbd88ca43cbc8969532ee7a3ca58865e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bd96a154_6d8c2bf8",
+        "filename": "polygerrit-ui/app/elements/settings/gr-change-table-editor/gr-change-table-editor.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-04-10T11:49:48Z",
+      "side": 1,
+      "message": "Please fix this WARNING reported by autoreview issue finding: When a user unchecks and then re-checks a column, it is appended to the end of the `localChangeTableColumns` array, changing the array order. However, since `hasUnsavedChanges()` uses `.some()` (which is order-independent), it won\u0027t detect this order change as an \"unsaved change\", and the Save button will remain disabled. If the user saves along with another change, their table columns will unexpectedly be reordered in the UI.\\n\\nIf the intention is to maintain the predefined column order (as the previous DOM-based logic inherently did), consider re-ordering `localChangeTableColumns` based on `this.defaultColumns` when a column is checked:\\n```ts\\nthis.localChangeTableColumns \u003d this.defaultColumns.filter(c \u003d\u003e\\n  c \u003d\u003d\u003d column || this.localChangeTableColumns.includes(c)\\n);\\n```\\nAlternatively, if you want to allow users to reorder columns by unchecking/checking, you should update `hasUnsavedChanges()` to be order-sensitive so the Save button becomes enabled.\n\nWhen a user unchecks and then re-checks a column, it is appended to the end of the `localChangeTableColumns` array, changing the array order. However, since `hasUnsavedChanges()` uses `.some()` (which is order-independent), it won\u0027t detect this order change as an \"unsaved change\", and the Save button will remain disabled. If the user saves along with another change, their table columns will unexpectedly be reordered in the UI.\\n\\nIf the intention is to maintain the predefined column order (as the previous DOM-based logic inherently did), consider re-ordering `localChangeTableColumns` based on `this.defaultColumns` when a column is checked:\\n```ts\\nthis.localChangeTableColumns \u003d this.defaultColumns.filter(c \u003d\u003e\\n  c \u003d\u003d\u003d column || this.localChangeTableColumns.includes(c)\\n);\\n```\\nAlternatively, if you want to allow users to reorder columns by unchecking/checking, you should update `hasUnsavedChanges()` to be order-sensitive so the Save button becomes enabled.",
+      "range": {
+        "startLine": 184,
+        "startChar": 0,
+        "endLine": 184,
+        "endChar": 0
+      },
+      "revId": "d3116937fbd88ca43cbc8969532ee7a3ca58865e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "77642c80_2f0ffdac",
+        "filename": "polygerrit-ui/app/elements/settings/gr-change-table-editor/gr-change-table-editor.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-04-10T11:49:48Z",
+      "side": 1,
+      "message": "AI Comment: As a best practice in Lit, it\u0027s generally preferred to avoid mutating state objects directly. Instead of mutating `this.prefs` and manually calling `this.requestUpdate(\u0027prefs\u0027)`, you can create a new object. This ensures proper reactivity tracking out-of-the-box:\\n\\n```ts\\nthis.prefs \u003d {\\n  ...this.prefs,\\n  change_table: this.localChangeTableColumns,\\n  legacycid_in_change_table: this.showNumber,\\n};\\nawait this.getUserModel().updatePreferences(this.prefs);\\n```",
+      "range": {
+        "startLine": 194,
+        "startChar": 0,
+        "endLine": 194,
+        "endChar": 0
+      },
+      "revId": "d3116937fbd88ca43cbc8969532ee7a3ca58865e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b07761d0_83151e4d",
+        "filename": "polygerrit-ui/app/elements/settings/gr-change-table-editor/gr-change-table-editor_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-04-10T11:49:48Z",
+      "side": 1,
+      "message": "Please fix this WARNING reported by autoreview issue finding: Since `handleSaveChangeTable` is an `async` function, this test should be made `async` and the calls to it should be awaited (`await element.handleSaveChangeTable()`). This ensures the promise returned by `updatePreferences` is fully handled in the test environment before the assertions run.\n\nSince `handleSaveChangeTable` is an `async` function, this test should be made `async` and the calls to it should be awaited (`await element.handleSaveChangeTable()`). This ensures the promise returned by `updatePreferences` is fully handled in the test environment before the assertions run.",
+      "range": {
+        "startLine": 238,
+        "startChar": 0,
+        "endLine": 238,
+        "endChar": 0
+      },
+      "revId": "d3116937fbd88ca43cbc8969532ee7a3ca58865e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

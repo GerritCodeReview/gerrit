@@ -1,5 +1,98 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fcbc5c8e_02b8b42f",
+        "filename": "java/com/google/gerrit/server/patch/DiffOperationsImpl.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2026-04-10T14:06:39Z",
+      "side": 1,
+      "message": "Why not \"isNegative\" in this case? Also how does your change affect isNegative()",
+      "range": {
+        "startLine": 405,
+        "startChar": 39,
+        "endLine": 405,
+        "endChar": 40
+      },
+      "revId": "8fecd595e43df9dab2e6d6f874fca88bdede9049",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0147273e_61f2cc67",
+        "filename": "java/com/google/gerrit/server/patch/filediff/FileDiffCacheImpl.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2026-04-10T14:06:39Z",
+      "side": 1,
+      "message": "You already have experiment evaluation stored in FileDiffCacheKey, why do you need to evaluate experiment separately here in this class? It should probably only be in one of the two places",
+      "range": {
+        "startLine": 168,
+        "startChar": 11,
+        "endLine": 168,
+        "endChar": 29
+      },
+      "revId": "8fecd595e43df9dab2e6d6f874fca88bdede9049",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "68f078b7_ba6781c8",
+        "filename": "java/com/google/gerrit/server/patch/filediff/FileDiffCacheImpl.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 409,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2026-04-10T14:06:39Z",
+      "side": 1,
+      "message": "Readability nit: Generally LinkedHaspMap is preferred. go/java-practices/choosing-collections#deterministic",
+      "range": {
+        "startLine": 409,
+        "startChar": 73,
+        "endLine": 409,
+        "endChar": 80
+      },
+      "revId": "8fecd595e43df9dab2e6d6f874fca88bdede9049",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9975e660_4d6219b7",
+        "filename": "java/com/google/gerrit/server/patch/filediff/FileDiffCacheImpl.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 422,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2026-04-10T14:06:39Z",
+      "side": 1,
+      "message": "I don\u0027t know if this is a problem. But I remember that openRepository can be expensive. Unfortunately, iirc it\u0027s also not thread safe, so you can\u0027t re-use it across threads, so I don\u0027t have a better proposal here. But if you don\u0027t get as much of speed-up as you expected, this might be one of the reasons.",
+      "range": {
+        "startLine": 422,
+        "startChar": 55,
+        "endLine": 422,
+        "endChar": 69
+      },
+      "revId": "8fecd595e43df9dab2e6d6f874fca88bdede9049",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

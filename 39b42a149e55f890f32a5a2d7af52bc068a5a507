@@ -70,6 +70,30 @@
       },
       "revId": "39b42a149e55f890f32a5a2d7af52bc068a5a507",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3faa176f_1ca85f50",
+        "filename": "polygerrit-ui/app/elements/shared/gr-suggestion-diff-preview/gr-suggestion-diff-preview.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-04-10T14:34:46Z",
+      "side": 1,
+      "message": "Sorry, you are right that it is called from updated. I will still prefer to leave method like this so I renamed as you suggested.",
+      "parentUuid": "38deab94_6c0547d4",
+      "range": {
+        "startLine": 294,
+        "startChar": 0,
+        "endLine": 296,
+        "endChar": 69
+      },
+      "revId": "39b42a149e55f890f32a5a2d7af52bc068a5a507",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

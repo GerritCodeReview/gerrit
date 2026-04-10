@@ -2251,6 +2251,13 @@ export class GrReplyDialog extends LitElement {
     if (this.commentEditing || this.disabled) {
       return true;
     }
+    // If the user is creating an autosubmit flow then allow sending reply
+    if (
+      this.autosubmitChecked &&
+      !this.getFlowsModel().hasAutosubmitFlowAlready()
+    ) {
+      return false;
+    }
     if (this.canBeStarted === true) {
       return false;
     }

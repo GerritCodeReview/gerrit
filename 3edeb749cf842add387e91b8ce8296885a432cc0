@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "58d56df2_861a74e1",
+        "filename": "polygerrit-ui/app/elements/change/gr-ai-prompt-dialog/gr-ai-prompt-dialog_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-04-10T16:42:53Z",
+      "side": 1,
+      "message": "nit: since this is the same string as the patch content, could you save it as the expected value first?\n```suggestion\n    const expected \u003d \u0027+IMAGE\u003d\"${SCRIPT_NAME}_$$\"\u0027;\n    element.patchContent \u003d expected;\n    element.selectedTemplate \u003d \u0027PATCH_ONLY\u0027;\n    await element.updateComplete;\n\n    const promptContent \u003d Reflect.get(element, \u0027promptContent\u0027) as string;\n    assert.include(promptContent, expected);\n```",
+      "range": {
+        "startLine": 231,
+        "startChar": 0,
+        "endLine": 236,
+        "endChar": 64
+      },
+      "revId": "3edeb749cf842add387e91b8ce8296885a432cc0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

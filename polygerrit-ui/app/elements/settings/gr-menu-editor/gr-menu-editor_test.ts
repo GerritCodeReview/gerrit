@@ -59,8 +59,8 @@ suite('gr-menu-editor tests', () => {
       element,
       /* HTML */ `
         <div class="gr-form-styles">
-          <h2 class="heading-2" id="Menu">Menu</h2>
-          <fieldset id="menu">
+          <h2 class="heading-2">Menu</h2>
+          <fieldset>
             <table>
               <thead>
                 <tr>
@@ -74,8 +74,30 @@ suite('gr-menu-editor tests', () => {
               </thead>
               <tbody>
                 <tr>
-                  <td class="nameCell">first name</td>
-                  <td class="urlCell">/first/url</td>
+                  <td class="nameCell">
+                    first name
+                    <gr-button
+                      aria-disabled="false"
+                      id="editBtn"
+                      link=""
+                      role="button"
+                      tabindex="0"
+                    >
+                      <gr-icon filled="" icon="edit" small=""> </gr-icon>
+                    </gr-button>
+                  </td>
+                  <td class="urlCell">
+                    /first/url
+                    <gr-button
+                      aria-disabled="false"
+                      id="editBtn"
+                      link=""
+                      role="button"
+                      tabindex="0"
+                    >
+                      <gr-icon filled="" icon="edit" small=""> </gr-icon>
+                    </gr-button>
+                  </td>
                   <td>
                     <md-checkbox checked=""> </md-checkbox>
                   </td>
@@ -117,8 +139,30 @@ suite('gr-menu-editor tests', () => {
                   </td>
                 </tr>
                 <tr>
-                  <td class="nameCell">second name</td>
-                  <td class="urlCell">/second/url</td>
+                  <td class="nameCell">
+                    second name
+                    <gr-button
+                      aria-disabled="false"
+                      id="editBtn"
+                      link=""
+                      role="button"
+                      tabindex="0"
+                    >
+                      <gr-icon filled="" icon="edit" small=""> </gr-icon>
+                    </gr-button>
+                  </td>
+                  <td class="urlCell">
+                    /second/url
+                    <gr-button
+                      aria-disabled="false"
+                      id="editBtn"
+                      link=""
+                      role="button"
+                      tabindex="0"
+                    >
+                      <gr-icon filled="" icon="edit" small=""> </gr-icon>
+                    </gr-button>
+                  </td>
                   <td>
                     <md-checkbox> </md-checkbox>
                   </td>
@@ -160,8 +204,30 @@ suite('gr-menu-editor tests', () => {
                   </td>
                 </tr>
                 <tr>
-                  <td class="nameCell">third name</td>
-                  <td class="urlCell">/third/url</td>
+                  <td class="nameCell">
+                    third name
+                    <gr-button
+                      aria-disabled="false"
+                      id="editBtn"
+                      link=""
+                      role="button"
+                      tabindex="0"
+                    >
+                      <gr-icon filled="" icon="edit" small=""> </gr-icon>
+                    </gr-button>
+                  </td>
+                  <td class="urlCell">
+                    /third/url
+                    <gr-button
+                      aria-disabled="false"
+                      id="editBtn"
+                      link=""
+                      role="button"
+                      tabindex="0"
+                    >
+                      <gr-icon filled="" icon="edit" small=""> </gr-icon>
+                    </gr-button>
+                  </td>
                   <td>
                     <md-checkbox checked=""> </md-checkbox>
                   </td>
@@ -208,7 +274,6 @@ suite('gr-menu-editor tests', () => {
                   <th>
                     <md-outlined-text-field
                       autocomplete=""
-                      class="showBlueFocusBorder"
                       inputmode=""
                       placeholder="New Title"
                       type="text"
@@ -218,7 +283,6 @@ suite('gr-menu-editor tests', () => {
                   <th>
                     <md-outlined-text-field
                       autocomplete=""
-                      class="newUrlInput showBlueFocusBorder"
                       inputmode=""
                       placeholder="New URL"
                       type="text"
@@ -390,5 +454,79 @@ suite('gr-menu-editor tests', () => {
     element.newUrl = 'new url';
     element.handleAddButton();
     assertMenuNamesEqual(element, ['new name']);
+  });
+
+  test('edit name', async () => {
+    const editBtn = queryAndAssert<GrButton>(
+      element,
+      'tbody tr:nth-child(1) td.nameCell #editBtn'
+    );
+    editBtn.click();
+    await element.updateComplete;
+
+    const input = queryAndAssert<HTMLInputElement>(
+      element,
+      'tbody tr:nth-child(1) .editNameInput'
+    );
+
+    input.value = 'updated name';
+    input.dispatchEvent(new Event('input'));
+    await element.updateComplete;
+
+    assert.equal(element.menuItems[0].name, 'updated name');
+  });
+
+  test('edit url', async () => {
+    const editBtn = queryAndAssert<GrButton>(
+      element,
+      'tbody tr:nth-child(1) td.urlCell #editBtn'
+    );
+    editBtn.click();
+    await element.updateComplete;
+
+    const input = queryAndAssert<HTMLInputElement>(
+      element,
+      'tbody tr:nth-child(1) .editUrlInput'
+    );
+
+    input.value = '/updated/url';
+    input.dispatchEvent(new Event('input'));
+    await element.updateComplete;
+
+    assert.equal(element.menuItems[0].url, '/updated/url');
+  });
+
+  test('cancel editing restores original value after change', async () => {
+    const originalName = element.menuItems[0].name;
+
+    queryAndAssert<GrButton>(
+      element,
+      'tbody tr:nth-child(1) td.nameCell #editBtn'
+    ).click();
+
+    await element.updateComplete;
+
+    const input = queryAndAssert<HTMLInputElement>(
+      element,
+      'tbody tr:nth-child(1) .editNameInput'
+    );
+
+    input.value = 'modified name';
+    input.dispatchEvent(new Event('input'));
+    await element.updateComplete;
+
+    assert.equal(element.menuItems[0].name, 'modified name');
+
+    queryAndAssert<GrButton>(
+      element,
+      'tbody tr:nth-child(1) #cancelBtn'
+    ).click();
+
+    await element.updateComplete;
+
+    assert.equal(element.menuItems[0].name, originalName);
+
+    assert.isNull(element.editingIndex);
+    assert.isNull(element.editingField);
   });
 });

@@ -214,8 +214,13 @@ class H2CacheFactory extends PersistentCacheBaseFactory implements LifecycleList
 
   private <V, K> SqlStore<K, V> newSqlStore(PersistentCacheDef<K, V> def, long maxSize) {
     StringBuilder url = new StringBuilder();
-    url.append("jdbc:h2:")
-        .append(cacheDir.resolve(def.name() + "-v" + COMPATIBILITY_VERSION).toUri());
+    url.append("jdbc:h2:file:")
+        .append(
+            cacheDir
+                .resolve(def.name() + "-v" + COMPATIBILITY_VERSION)
+                .toAbsolutePath()
+                .toString()
+                .replace(";", "\\;"));
     if (h2CacheSize >= 0) {
       url.append(";CACHE_SIZE=");
       // H2 CACHE_SIZE is always given in KB

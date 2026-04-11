@@ -22,4 +22,5 @@ format_multirun(
     name = "format",
     java = ":java-format",
     java_fix_args = ["--replace"],
+    starlark = "@buildifier_prebuilt//:buildifier",
 )

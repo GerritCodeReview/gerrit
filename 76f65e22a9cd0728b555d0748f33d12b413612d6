@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e013125_53662caa",
+        "filename": "tools/js/eslint.bzl",
+        "patchSetId": 54
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-04-11T14:17:51Z",
+      "side": 1,
+      "message": "I started to work on it in change 572261.",
+      "range": {
+        "startLine": 73,
+        "startChar": 4,
+        "endLine": 73,
+        "endChar": 33
+      },
+      "revId": "76f65e22a9cd0728b555d0748f33d12b413612d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

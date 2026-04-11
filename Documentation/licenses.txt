@@ -1,4 +1,5 @@
-= Gerrit Code Review - Licenses
+
+#= Gerrit Code Review - Licenses
 
 // DO NOT EDIT - GENERATED AUTOMATICALLY.
 

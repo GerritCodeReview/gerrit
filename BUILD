@@ -1,3 +1,4 @@
+load("@aspect_rules_js//js:defs.bzl", "js_library")
 load("@com_googlesource_gerrit_bazlets//tools:genrule2.bzl", "genrule2")
 load("@npm//:defs.bzl", "npm_link_all_packages")
 load("//tools/bzl:pkg_war.bzl", "pkg_war")
@@ -5,6 +6,15 @@ load("//tools/bzl:pkg_war.bzl", "pkg_war")
 npm_link_all_packages(name = "node_modules")
 
 package(default_visibility = ["//visibility:public"])
+
+js_library(
+    name = "eslintrc",
+    srcs = ["eslint.config.js"],
+    visibility = ["//visibility:public"],
+    deps = [
+        "//polygerrit-ui/app:eslint_config_lib",
+    ],
+)
 
 genrule(
     name = "gen_version",

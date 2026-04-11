@@ -1,7 +1,9 @@
+load("@aspect_rules_js//js:defs.bzl", "js_library")
 load("@aspect_rules_ts//ts:defs.bzl", "ts_config", "ts_project")
 load("@npm//:lit-analyzer/package_json.bzl", lit_analyzer_bin = "bin")
 load("@ui_npm//:defs.bzl", "npm_link_all_packages")
 load("//tools/js:eslint.bzl", "eslint")
+load("//tools/lint:linters.bzl", "eslint_test")
 load(":rules.bzl", "polygerrit_bundle")
 
 npm_link_all_packages(name = "node_modules")
@@ -137,6 +139,44 @@ filegroup(
         ":node_modules",
         ":pg_code",
         "//polygerrit-ui:node_modules",
+    ],
+)
+
+eslint_test(
+    name = "rules_lint_eslint_test",
+    srcs = [":compile_pg_with_tests"],
+)
+
+js_library(
+    name = "eslint_config_lib",
+    srcs = [
+        ".eslint-ts-resolver.config.js",
+        ".prettierrc.js",
+        "eslint.config.js",
+        "eslint-bazel.config.js",
+        "tsconfig.json",
+        "tsconfig_eslint.json",
+    ],
+    visibility = [
+        "//:__pkg__",
+        "//tools/lint:__pkg__",
+    ],
+    deps = [
+        "//:node_modules/@eslint/eslintrc",
+        "//:node_modules/@eslint/js",
+        "//:node_modules/@typescript-eslint/eslint-plugin",
+        "//:node_modules/eslint",
+        "//:node_modules/eslint-config-google",
+        "//:node_modules/eslint-plugin-es-x",
+        "//:node_modules/eslint-plugin-html",
+        "//:node_modules/eslint-plugin-import",
+        "//:node_modules/eslint-plugin-jsdoc",
+        "//:node_modules/eslint-plugin-lit",
+        "//:node_modules/eslint-plugin-n",
+        "//:node_modules/eslint-plugin-prettier",
+        "//:node_modules/eslint-plugin-regex",
+        "//:node_modules/gts",
+        "//:node_modules/typescript",
     ],
 )
 

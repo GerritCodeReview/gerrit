@@ -1,0 +1,10 @@
+load("@npm//:eslint/package_json.bzl", eslint_bin = "bin")
+
+package(default_visibility = ["//visibility:public"])
+
+eslint_bin.eslint_binary(
+    name = "eslint",
+    data = [
+        "//:eslintrc",
+    ],
+)

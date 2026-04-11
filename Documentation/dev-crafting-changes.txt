@@ -162,6 +162,27 @@ run `./tools/gjf.sh setup` to download a local copy and set up a
 wrapper script. If you run your own copy, please use the same version,
 as there may be slight differences between versions.
 
+Alternatively, Bazel can be used to run the repository-managed formatter.
+
+To check formatting:
+
+====
+  bazel run //tools/format:format.check
+====
+
+To apply formatting fixes:
+
+====
+  bazel run //tools/format:format
+====
+
+To run the pinned google-java-format binary on a specific file:
+
+====
+  GJF="$(bazel run --run_under=echo //tools/format:java-format)"
+  "$GJF" --replace path/to/File.java
+====
+
 [[code-rules]]
 == Code Rules
 === Final

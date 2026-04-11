@@ -64,7 +64,6 @@ js-to-ts.sh
 !/plugins/singleusergroup
 !/plugins/webhooks
 /test_site
-/tools/format
 /tools/maven/gerrit-*_pom.xml.asc
 /tools/polygerrit-updater
 /.ts-out/*

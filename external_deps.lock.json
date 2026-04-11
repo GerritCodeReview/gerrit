@@ -25,6 +25,7 @@
     "com.google.flogger:google-extensions": -355130314,
     "com.google.gitiles:blame-cache": -1424275928,
     "com.google.gitiles:gitiles-servlet": 1993647825,
+    "com.google.googlejavaformat:google-java-format": -1756842473,
     "com.google.guava:failureaccess": -2032498474,
     "com.google.guava:guava": -1756621521,
     "com.google.guava:guava-testlib": -203887467,
@@ -254,6 +255,8 @@
     "com.google.gitiles:blame-cache:jar:sources": -370259038,
     "com.google.gitiles:gitiles-servlet": -1411302355,
     "com.google.gitiles:gitiles-servlet:jar:sources": 192620509,
+    "com.google.googlejavaformat:google-java-format": -1531508393,
+    "com.google.googlejavaformat:google-java-format:jar:sources": 1654872576,
     "com.google.guava:failureaccess": -121989663,
     "com.google.guava:failureaccess:jar:sources": 2092951686,
     "com.google.guava:guava": -1983533712,
@@ -666,6 +669,13 @@
         "sources": "1a6556cde47342a29b93c0ebca969c728ec60b97cbee40bdf4a795ef8a0eb2b2"
       },
       "version": "1.6.0"
+    },
+    "com.google.googlejavaformat:google-java-format": {
+      "shasums": {
+        "jar": "b2a52e363d51dd86b3b38d1a8dd51538541b42ff1048769684681c676550f043",
+        "sources": "2c3195a5032287616b3839078bd82d19780b2c0cb75932d9f92153421b6c2c93"
+      },
+      "version": "1.35.0"
     },
     "com.google.guava:failureaccess": {
       "shasums": {
@@ -1603,6 +1613,9 @@
       "com.google.flogger:flogger",
       "com.google.flogger:flogger-system-backend"
     ],
+    "com.google.googlejavaformat:google-java-format": [
+      "com.google.guava:guava"
+    ],
     "com.google.guava:guava": [
       "com.google.errorprone:error_prone_annotations",
       "com.google.guava:failureaccess",
@@ -2063,6 +2076,12 @@
       "com.google.gitiles.blame",
       "com.google.gitiles.doc",
       "com.google.gitiles.doc.html"
+    ],
+    "com.google.googlejavaformat:google-java-format": [
+      "com.google.googlejavaformat",
+      "com.google.googlejavaformat.java",
+      "com.google.googlejavaformat.java.filer",
+      "com.google.googlejavaformat.java.javadoc"
     ],
     "com.google.guava:failureaccess": [
       "com.google.common.util.concurrent.internal"
@@ -4335,6 +4354,8 @@
       "com.google.gitiles:blame-cache:jar:sources",
       "com.google.gitiles:gitiles-servlet",
       "com.google.gitiles:gitiles-servlet:jar:sources",
+      "com.google.googlejavaformat:google-java-format",
+      "com.google.googlejavaformat:google-java-format:jar:sources",
       "com.google.guava:failureaccess",
       "com.google.guava:failureaccess:jar:sources",
       "com.google.guava:guava",
@@ -4633,6 +4654,8 @@
       "com.google.gitiles:blame-cache:jar:sources",
       "com.google.gitiles:gitiles-servlet",
       "com.google.gitiles:gitiles-servlet:jar:sources",
+      "com.google.googlejavaformat:google-java-format",
+      "com.google.googlejavaformat:google-java-format:jar:sources",
       "com.google.guava:failureaccess",
       "com.google.guava:failureaccess:jar:sources",
       "com.google.guava:guava",
@@ -4916,6 +4939,14 @@
     "com.google.flogger:flogger-log4j-backend": {
       "com.google.common.flogger.backend.system.BackendFactory": [
         "com.google.common.flogger.backend.log4j.Log4jBackendFactory"
+      ]
+    },
+    "com.google.googlejavaformat:google-java-format": {
+      "java.util.spi.ToolProvider": [
+        "com.google.googlejavaformat.java.GoogleJavaFormatToolProvider"
+      ],
+      "javax.tools.Tool": [
+        "com.google.googlejavaformat.java.GoogleJavaFormatTool"
       ]
     },
     "com.google.jimfs:jimfs": {

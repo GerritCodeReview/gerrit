@@ -22,6 +22,9 @@ bazel_dep(name = "rules_shell", version = "0.6.1")
 # Libraries / toolchains.
 bazel_dep(name = "protobuf", version = "34.1")
 
+# Linter and formatter
+bazel_dep(name = "buildifier_prebuilt", version = "8.5.1.2")
+
 # In-tree modules.
 bazel_dep(name = "jgit")
 local_path_override(

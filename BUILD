@@ -1,21 +1,20 @@
+load("@aspect_rules_js//js:defs.bzl", "js_library")
+load("@buildifier_prebuilt//:rules.bzl", "buildifier")
 load("@com_googlesource_gerrit_bazlets//tools:genrule2.bzl", "genrule2")
 load("@npm//:defs.bzl", "npm_link_all_packages")
 load("//tools/bzl:pkg_war.bzl", "pkg_war")
-load("@aspect_rules_js//js:defs.bzl", "js_library")
-
-npm_link_all_packages(name = "node_modules")
 
 package(default_visibility = ["//visibility:public"])
 
-load("@aspect_rules_js//js:defs.bzl", "js_library")
+npm_link_all_packages(name = "node_modules")
 
 js_library(
     name = "eslintrc",
     srcs = ["eslint.config.js"],
+    visibility = ["//visibility:public"],
     deps = [
         "//polygerrit-ui/app:eslint_config_lib",
     ],
-    visibility = ["//visibility:public"],
 )
 
 genrule(
@@ -91,4 +90,13 @@ genrule2(
         "cd $$TMP",
         "zip -qr $$ROOT/$@ .",
     ]),
+)
+
+buildifier(
+    name = "buildifier",
+    lint_mode = "fix",
+    mode = "fix",
+    tags = [
+        "manual",
+    ],
 )

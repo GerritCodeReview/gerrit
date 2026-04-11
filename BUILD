@@ -6,6 +6,11 @@ npm_link_all_packages(name = "node_modules")
 
 package(default_visibility = ["//visibility:public"])
 
+alias(
+    name = "format",
+    actual = "//tools/format",
+)
+
 genrule(
     name = "gen_version",
     outs = ["version.txt"],

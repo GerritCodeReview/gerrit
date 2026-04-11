@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "662a4c7d_440afa8f",
+        "filename": "polygerrit-ui/app/node_modules_licenses/licenses.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-04-11T15:14:28Z",
+      "side": 1,
+      "message": "Looks like this license entry is now stale. In change 564341, `webcomponentsjs` was removed, but this entry remained because it was transitively included via `polymer-resin`.\n\nSince `polymer-resin` is removed in this commit, this license should be removed as well.",
+      "range": {
+        "startLine": 143,
+        "startChar": 2,
+        "endLine": 146,
+        "endChar": 4
+      },
+      "revId": "d2c29e744a0b94efe314df4f38d74db9b329205f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

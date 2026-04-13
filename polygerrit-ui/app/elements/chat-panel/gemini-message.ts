@@ -339,7 +339,10 @@ export class GeminiMessage extends LitElement {
         () => html`
           ${textParts.map(
             responsePart => html`
-              <p class="text-content text-response">
+              <p
+                class="text-content text-response"
+                @copy=${this.reportContentCopied}
+              >
                 <gr-formatted-text
                   .markdown=${true}
                   .content=${responsePart.content}
@@ -389,7 +392,10 @@ export class GeminiMessage extends LitElement {
                     </button>
                   `
                 )}
-                <div class="suggested-comment">
+                <div
+                  class="suggested-comment"
+                  @copy=${this.reportContentCopied}
+                >
                   <p class="suggested-comment-message">
                     <gr-formatted-text
                       .markdown=${true}
@@ -416,6 +422,7 @@ export class GeminiMessage extends LitElement {
               <message-actions
                 .turnId=${this.turnId()}
                 .isLatest=${this.isLatest}
+                @item-copied=${this.reportCopyButtonClicked}
               ></message-actions>
             `
           )}
@@ -472,6 +479,20 @@ export class GeminiMessage extends LitElement {
   private reportSuggestionToComment() {
     this.reportingService.reportInteraction(
       Interaction.AI_AGENT_SUGGESTION_TO_COMMENT,
+      this.getAiAgentReportingDetails()
+    );
+  }
+
+  private reportCopyButtonClicked() {
+    this.reportingService.reportInteraction(
+      Interaction.AI_AGENT_SUGGESTION_COPY_BUTTON_CLICKED,
+      this.getAiAgentReportingDetails()
+    );
+  }
+
+  private reportContentCopied() {
+    this.reportingService.reportInteraction(
+      Interaction.AI_AGENT_SUGGESTION_CONTENT_COPIED,
       this.getAiAgentReportingDetails()
     );
   }

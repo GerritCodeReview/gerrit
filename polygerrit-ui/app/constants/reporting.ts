@@ -175,6 +175,9 @@ export enum Interaction {
   // AI agent suggestions are promoted to a draft comment by user.
   // (Also includes when a user clicks "Please Fix" on checks comment).
   AI_AGENT_SUGGESTION_TO_COMMENT = 'ai-agent-suggestion-to-comment',
+  // AI agent suggestion copy interactions.
+  AI_AGENT_SUGGESTION_COPY_BUTTON_CLICKED = 'ai-agent-suggestion-copy-button-clicked',
+  AI_AGENT_SUGGESTION_CONTENT_COPIED = 'ai-agent-suggestion-content-copied',
   // AI agent "Get AI Fix" button is clicked by user.
   AI_AGENT_GET_FIX_CLICKED = 'ai-agent-get-fix-clicked',
 

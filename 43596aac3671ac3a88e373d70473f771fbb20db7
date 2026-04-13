@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "951a6b36_15683be4",
+        "filename": "polygerrit-ui/app/elements/settings/gr-menu-editor/gr-menu-editor.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-04-13T09:23:29Z",
+      "side": 0,
+      "message": "isn\u0027t this missing?",
+      "range": {
+        "startLine": 108,
+        "startChar": 19,
+        "endLine": 108,
+        "endChar": 27
+      },
+      "revId": "43596aac3671ac3a88e373d70473f771fbb20db7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -41,6 +41,8 @@ export class GrChangeTableEditor extends LitElement {
   // private but used in test
   @state() showNumber?: boolean;
 
+  @state() labelFilterInput: string = ''; // comma-separated
+
   private readonly getConfigModel = resolve(this, configModelToken);
 
   private readonly getUserModel = resolve(this, userModelToken);
@@ -57,10 +59,10 @@ export class GrChangeTableEditor extends LitElement {
           width: auto;
         }
         #changeCols .visibleHeader {
-          text-align: center;
+          text-align: left;
         }
         .checkboxContainer {
-          text-align: center;
+          text-align: left;
         }
       `,
     ];
@@ -85,6 +87,7 @@ export class GrChangeTableEditor extends LitElement {
         this.prefs = prefs;
         this.showNumber = !!prefs.legacycid_in_change_table;
         this.localChangeTableColumns = changeTablePrefs(prefs);
+        this.labelFilterInput = prefs.label_filter ?? '';
       }
     );
   }
@@ -122,6 +125,19 @@ export class GrChangeTableEditor extends LitElement {
               </tr>
 
               ${this.defaultColumns.map(col => this.renderRow(col))}
+              <tr>
+                <td><label for="labelsFilter">Shown Labels</label></td>
+                <td style="width: auto">
+                  <md-outlined-text-field
+                    id="labelsFilter"
+                    class="showBlueFocusBorder"
+                    style="width: 20em; display: block"
+                    placeholder="CR,V (leave empty to see all labels)"
+                    .value=${this.labelFilterInput}
+                    @input=${this.handleLabelsFilterInput}
+                  ></md-outlined-text-field>
+                </td>
+              </tr>
             </tbody>
           </table>
           <gr-button
@@ -167,6 +183,14 @@ export class GrChangeTableEditor extends LitElement {
   }
 
   /**
+   * Handle input in the labels filter text field and update the labelFilterInput property
+   * accordingly.
+   */
+  private handleLabelsFilterInput(e: Event) {
+    this.labelFilterInput = (e.target as HTMLInputElement).value;
+  }
+
+  /**
    * Handle a click on a displayed column checkboxes (excluding number) and
    * update the localChangeTableColumns property accordingly.
    */
@@ -196,26 +220,24 @@ export class GrChangeTableEditor extends LitElement {
 
   // private but used in test
   async handleSaveChangeTable() {
-    const newPrefs = {
+    await this.getUserModel().updatePreferences({
       ...this.prefs,
       change_table: this.localChangeTableColumns,
       legacycid_in_change_table: this.showNumber,
-    };
-
-    await this.getUserModel().updatePreferences(newPrefs);
+      label_filter: this.labelFilterInput.trim() || undefined,
+    });
   }
 
   private hasUnsavedChanges(): boolean {
     const prefsColumns = changeTablePrefs(this.prefs);
-
     const columnsChanged =
       prefsColumns.length !== this.localChangeTableColumns.length ||
       prefsColumns.some(c => !this.localChangeTableColumns.includes(c));
-
     const numberChanged =
       !!this.prefs.legacycid_in_change_table !== !!this.showNumber;
-
-    return columnsChanged || numberChanged;
+    const savedFilter = this.prefs.label_filter ?? '';
+    const labelsChanged = savedFilter !== this.labelFilterInput.trim();
+    return columnsChanged || numberChanged || labelsChanged;
   }
 }
 

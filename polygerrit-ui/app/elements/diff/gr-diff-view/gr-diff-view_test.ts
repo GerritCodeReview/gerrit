@@ -182,6 +182,26 @@ suite('gr-diff-view tests', () => {
       sinon.restore();
     });
 
+    test('expensive diff warning', async () => {
+      const openDownloadDialogStub = sinon.stub(
+        element,
+        'handleOpenDownloadDialog' as any
+      );
+      element.file = {
+        ...createFileInfo(),
+        __path: 'some/path.txt',
+        diffs_too_expensive_to_compute: true,
+      };
+      await element.updateComplete;
+      const warning = query(element, '.expensiveDiff');
+      assert.isOk(warning);
+      assert.include(warning!.textContent, 'Diff too expensive to compute');
+
+      const downloadButton = queryAndAssert<GrButton>(warning, 'gr-button');
+      downloadButton.click();
+      await waitUntil(() => openDownloadDialogStub.called);
+    });
+
     test('toggle left diff with a hotkey', () => {
       assertIsDefined(element.diffHost);
       const toggleLeftDiffStub = sinon.stub(element.diffHost, 'toggleLeftDiff');

@@ -16,6 +16,24 @@
       "message": "Can\u0027t this be added to the above? Although i note it shows as off by default. So this may require a change to turn it on by default to keep current behaviour?",
       "revId": "6f4c0fcc6c302dfffc1c958fed72e9be7a8c101a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "38027e0f_dd69e650",
+        "filename": "polygerrit-ui/app/constants/constants.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2026-04-13T13:05:15Z",
+      "side": 1,
+      "message": "I did try adding it above, but that was resulting in \"Labels\" showing as an empty column itself in the UI - then I could filter it out when ColumnNames are being iterated over to display the names (I think around https://gerrit-review.googlesource.com/c/gerrit/+/572402/5/polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.ts#372), but I thought it would be better to avoid that. Since it\u0027s not really a column name. And it\u0027s a little confusing to filter out the \"column that isn\u0027t a column\" \"Labels\", while showing the actual label columns which are named after the specific label e.g. CR, V, ... - that was the thought process behind separating it there.\n\nIt should be true by default https://gerrit-review.googlesource.com/c/gerrit/+/572402/5/polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.ts#122",
+      "parentUuid": "c5fc8371_d5c2691d",
+      "revId": "6f4c0fcc6c302dfffc1c958fed72e9be7a8c101a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

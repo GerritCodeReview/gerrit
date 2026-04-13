@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "72e0bc95_68e6f26d",
+        "filename": "polygerrit-ui/app/api/rest-api.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 776,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-04-13T09:58:20Z",
+      "side": 1,
+      "message": "Please fix this WARNING reported by autoreview issue finding: The commit message mentions that the backend is \"returning `too_expensive_to_compute` as true\", but here you are defining `diffs_too_expensive_to_compute`. If the backend field is actually named `too_expensive_to_compute`, this UI logic will fail because the property will be undefined. Please double-check the exact field name sent by the backend and make sure they match.\n\nThe commit message mentions that the backend is \"returning `too_expensive_to_compute` as true\", but here you are defining `diffs_too_expensive_to_compute`. If the backend field is actually named `too_expensive_to_compute`, this UI logic will fail because the property will be undefined. Please double-check the exact field name sent by the backend and make sure they match.",
+      "range": {
+        "startLine": 776,
+        "startChar": 0,
+        "endLine": 776,
+        "endChar": 0
+      },
+      "revId": "a1c93e597ee2aeb7b163b6f5f83a7da4a021ff1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

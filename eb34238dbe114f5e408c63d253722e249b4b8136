@@ -108,6 +108,30 @@
       },
       "revId": "eb34238dbe114f5e408c63d253722e249b4b8136",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2bce6fdf_61d512d5",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1358,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-04-13T09:31:06Z",
+      "side": 1,
+      "message": "I put it inside a `gr-button` similar to the `Mark Reviewed` button we already render in the file header.",
+      "parentUuid": "006a4906_f3ca74b2",
+      "range": {
+        "startLine": 1358,
+        "startChar": 52,
+        "endLine": 1358,
+        "endChar": 68
+      },
+      "revId": "eb34238dbe114f5e408c63d253722e249b4b8136",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

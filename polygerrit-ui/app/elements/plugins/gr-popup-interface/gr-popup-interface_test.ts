@@ -71,8 +71,7 @@ suite('gr-popup-interface tests', () => {
       assert.isOk(instance._getElement());
       assert.isTrue(instance._getElement()!.opened);
       instance.close();
-      assert.isOk(instance._getElement());
-      assert.isFalse(instance._getElement()!.opened);
+      assert.isNull(instance._getElement());
     });
   });
 
@@ -90,8 +89,7 @@ suite('gr-popup-interface tests', () => {
       assert.isOk(instance._getElement());
       assert.isTrue(instance._getElement()!.opened);
       instance.close();
-      assert.isOk(instance._getElement());
-      assert.isFalse(instance._getElement()!.opened);
+      assert.isNull(instance._getElement());
     });
   });
 });

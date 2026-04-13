@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "db74a5f4_ec62d64b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 871,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-04-13T10:47:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a816a6b9_34255cbc",
+      "range": {
+        "startLine": 868,
+        "startChar": 14,
+        "endLine": 871,
+        "endChar": 16
+      },
+      "revId": "b83dfca77c64a5355b0f91305b505684ae0a6bff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "54f19248_b3eae166",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d9a20859_963c8291",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view_test.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-04-13T10:47:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "54f19248_b3eae166",
+      "range": {
+        "startLine": 196,
+        "startChar": 0,
+        "endLine": 196,
+        "endChar": 0
+      },
+      "revId": "b83dfca77c64a5355b0f91305b505684ae0a6bff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a83f23af_f640f51d",
@@ -60,6 +108,30 @@
       "writtenOn": "2026-04-13T09:56:13Z",
       "side": 1,
       "message": "Please fix this WARNING reported by autoreview issue finding: Similarly, you can use `queryAndAssert` here to simplify:\n```typescript\nconst diffContainer \u003d queryAndAssert(element, \u0027.diffContainer\u0027);\nassert.isTrue(diffContainer.classList.contains(\u0027hidden\u0027));\n```\n\nSimilarly, you can use `queryAndAssert` here to simplify:\n```typescript\nconst diffContainer \u003d queryAndAssert(element, \u0027.diffContainer\u0027);\nassert.isTrue(diffContainer.classList.contains(\u0027hidden\u0027));\n```",
+      "range": {
+        "startLine": 200,
+        "startChar": 0,
+        "endLine": 200,
+        "endChar": 0
+      },
+      "revId": "b83dfca77c64a5355b0f91305b505684ae0a6bff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "050460c8_84a60ff0",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view_test.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-04-13T10:47:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a83f23af_f640f51d",
       "range": {
         "startLine": 200,
         "startChar": 0,

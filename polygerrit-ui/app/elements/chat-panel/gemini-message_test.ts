@@ -313,4 +313,119 @@ suite('gemini-message tests', () => {
     assert.equal(details.agentId, 'custom-agent-id');
     assert.isUndefined(details.commentCount);
   });
+
+  test('reports AI_AGENT_SUGGESTION_COPY_BUTTON_CLICKED interaction', async () => {
+    chatModel.updateState({
+      ...chatModel.getState(),
+      id: 'test-conversation-id',
+      selectedModelId: 'gemini-model-id',
+    });
+    const reportStub = sinon.stub(
+      getAppContext().reportingService,
+      'reportInteraction'
+    );
+    const turn = createTurn({
+      responseComplete: true,
+      responseParts: [RESPONSE_TEXT],
+    });
+    const updatedTurn = {
+      ...turn,
+      userMessage: {...turn.userMessage, actionId: 'custom-agent-id'},
+    };
+    chatModel.updateState({...chatModel.getState(), turns: [updatedTurn]});
+    element.isLatest = true;
+    await element.updateComplete;
+    const messageActions = element.shadowRoot?.querySelector('message-actions');
+    assert.isOk(messageActions);
+    messageActions?.dispatchEvent(
+      new CustomEvent('item-copied', {bubbles: true, composed: true})
+    );
+
+    const call = reportStub
+      .getCalls()
+      .find(
+        c => c.args[0] === Interaction.AI_AGENT_SUGGESTION_COPY_BUTTON_CLICKED
+      );
+    assert.isOk(
+      call,
+      'Expected AI_AGENT_SUGGESTION_COPY_BUTTON_CLICKED to be reported'
+    );
+
+    const details = call.args[1] as AiAgentEventDetails;
+    assert.equal(details.conversationId, 'test-conversation-id');
+    assert.equal(details.agentId, 'custom-agent-id');
+  });
+
+  test('reports AI_AGENT_SUGGESTION_CONTENT_COPIED on text response copy', async () => {
+    chatModel.updateState({
+      ...chatModel.getState(),
+      id: 'test-conversation-id',
+      selectedModelId: 'gemini-model-id',
+    });
+    const reportStub = sinon.stub(
+      getAppContext().reportingService,
+      'reportInteraction'
+    );
+    const turn = createTurn({
+      responseComplete: true,
+      responseParts: [RESPONSE_TEXT],
+    });
+    const updatedTurn = {
+      ...turn,
+      userMessage: {...turn.userMessage, actionId: 'custom-agent-id'},
+    };
+    chatModel.updateState({...chatModel.getState(), turns: [updatedTurn]});
+    await element.updateComplete;
+    const textResponse = element.shadowRoot?.querySelector('.text-response');
+    assert.isOk(textResponse);
+
+    textResponse?.dispatchEvent(
+      new CustomEvent('copy', {bubbles: true, composed: true})
+    );
+
+    const call = reportStub
+      .getCalls()
+      .find(c => c.args[0] === Interaction.AI_AGENT_SUGGESTION_CONTENT_COPIED);
+    assert.isOk(
+      call,
+      'Expected AI_AGENT_SUGGESTION_CONTENT_COPIED to be reported'
+    );
+  });
+
+  test('reports AI_AGENT_SUGGESTION_CONTENT_COPIED on suggested comment copy', async () => {
+    chatModel.updateState({
+      ...chatModel.getState(),
+      id: 'test-conversation-id',
+      selectedModelId: 'gemini-model-id',
+    });
+    const reportStub = sinon.stub(
+      getAppContext().reportingService,
+      'reportInteraction'
+    );
+    const turn = createTurn({
+      responseComplete: true,
+      responseParts: [RESPONSE_CREATE_COMMENT],
+    });
+    const updatedTurn = {
+      ...turn,
+      userMessage: {...turn.userMessage, actionId: 'custom-agent-id'},
+    };
+    chatModel.updateState({...chatModel.getState(), turns: [updatedTurn]});
+    await element.updateComplete;
+    const commentContainer =
+      element.shadowRoot?.querySelector('.suggested-comment');
+    assert.isOk(commentContainer);
+
+    commentContainer?.dispatchEvent(
+      new CustomEvent('copy', {bubbles: true, composed: true})
+    );
+
+    const call = reportStub
+      .getCalls()
+      .find(c => c.args[0] === Interaction.AI_AGENT_SUGGESTION_CONTENT_COPIED);
+    assert.isOk(
+      call,
+      'Expected AI_AGENT_SUGGESTION_CONTENT_COPIED to be reported'
+    );
+  });
 });

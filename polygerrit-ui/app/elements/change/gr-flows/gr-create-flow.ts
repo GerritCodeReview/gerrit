@@ -50,7 +50,7 @@ import {
 } from '../../../utils/flows-util';
 import {FlowCustomConditionInfo} from '../../../api/flows';
 import {changeModelToken} from '../../../models/change/change-model';
-import {combineLatest} from 'rxjs';
+import {combineLatest, first} from 'rxjs';
 import {getUserName} from '../../../utils/display-name-util';
 import {LabelSuggestionsProvider} from '../../../services/label-suggestions-provider';
 import {queryAndAssert, unique} from '../../../utils/common-util';
@@ -145,6 +145,8 @@ export class GrCreateFlow extends LitElement {
   ) => this.labelSuggestionsProvider.getSuggestions(predicate, expression);
 
   private customConditions: FlowCustomConditionInfo[] = [];
+
+  @state() private disabledActions: string[] = [];
 
   private readonly accountSuggestions: SuggestionProvider = (
     predicate,
@@ -405,10 +407,17 @@ export class GrCreateFlow extends LitElement {
 
   private async getFlowActions() {
     if (!this.changeNum) return;
-    const actions = await this.restApiService.listFlowActions(this.changeNum);
-    this.flowActions = (actions ?? []).sort((a, b) =>
-      a.name.localeCompare(b.name)
+    const providers = await this.getFlowsModel().providers$.pipe(first()).toPromise();
+    const disabledActionsPromises = providers.map(provider =>
+      provider.getDisabledActions(this.changeNum)
     );
+    const disabledActionsArrays = await Promise.all(disabledActionsPromises);
+    const disabledActions = new Set(disabledActionsArrays.flat());
+
+    const actions = await this.restApiService.listFlowActions(this.changeNum);
+    this.flowActions = (actions ?? [])
+      .filter(action => !disabledActions.has(action.name))
+      .sort((a, b) => a.name.localeCompare(b.name));
   }
 
   private renderStages() {

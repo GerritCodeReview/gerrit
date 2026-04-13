@@ -22,6 +22,52 @@
       },
       "revId": "b83dfca77c64a5355b0f91305b505684ae0a6bff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "54f19248_b3eae166",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view_test.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-04-13T09:56:13Z",
+      "side": 1,
+      "message": "Please fix this WARNING reported by autoreview issue finding: Consider using `queryAndAssert` instead of `query`. It will avoid potential `TypeError`s if the element is not found, and you won\u0027t need the `assert.isOk(warning)` check.\n```typescript\nconst warning \u003d queryAndAssert(element, \u0027.expensiveDiff\u0027);\n```\n\nConsider using `queryAndAssert` instead of `query`. It will avoid potential `TypeError`s if the element is not found, and you won\u0027t need the `assert.isOk(warning)` check.\n```typescript\nconst warning \u003d queryAndAssert(element, \u0027.expensiveDiff\u0027);\n```",
+      "range": {
+        "startLine": 196,
+        "startChar": 0,
+        "endLine": 196,
+        "endChar": 0
+      },
+      "revId": "b83dfca77c64a5355b0f91305b505684ae0a6bff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a83f23af_f640f51d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view_test.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-04-13T09:56:13Z",
+      "side": 1,
+      "message": "Please fix this WARNING reported by autoreview issue finding: Similarly, you can use `queryAndAssert` here to simplify:\n```typescript\nconst diffContainer \u003d queryAndAssert(element, \u0027.diffContainer\u0027);\nassert.isTrue(diffContainer.classList.contains(\u0027hidden\u0027));\n```\n\nSimilarly, you can use `queryAndAssert` here to simplify:\n```typescript\nconst diffContainer \u003d queryAndAssert(element, \u0027.diffContainer\u0027);\nassert.isTrue(diffContainer.classList.contains(\u0027hidden\u0027));\n```",
+      "range": {
+        "startLine": 200,
+        "startChar": 0,
+        "endLine": 200,
+        "endChar": 0
+      },
+      "revId": "b83dfca77c64a5355b0f91305b505684ae0a6bff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

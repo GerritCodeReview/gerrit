@@ -16,6 +16,24 @@
       "message": "This file was removed, but there is still at least one remaining caller: `polygerrit-ui/app/embed/gr-diff.ts` imports `../scripts/bundled-polymer`.\n\nCould you remove that last reference as well?",
       "revId": "da543a0d5073fe250284f97f75aee7fbbc2eb545",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "07ae52dc_f94b03d1",
+        "filename": "polygerrit-ui/app/scripts/bundled-polymer.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2026-04-13T09:40:58Z",
+      "side": 0,
+      "message": "Thanks, done.",
+      "parentUuid": "a79e42c0_48eff033",
+      "revId": "da543a0d5073fe250284f97f75aee7fbbc2eb545",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

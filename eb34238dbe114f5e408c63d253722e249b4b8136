@@ -1,0 +1,65 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f5410ea9_0b904f14",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1358,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2026-04-13T07:04:44Z",
+      "side": 1,
+      "message": "How hard is to make those 2 words a link that opens the \"download patch\" menu?\n\nAttaching the AI fix, though I\u0027m not sure it\u0027s correct.",
+      "range": {
+        "startLine": 1358,
+        "startChar": 52,
+        "endLine": 1358,
+        "endChar": 68
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "aec53a58_64b29448",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+              "range": {
+                "startLine": 1,
+                "startChar": 0,
+                "endLine": 1,
+                "endChar": 0
+              },
+              "replacement": "        .expensiveDiff .download-link {\n          color: var(--link-color);\n          cursor: pointer;\n          text-decoration: underline;\n        }\n\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+              "range": {
+                "startLine": 1358,
+                "startChar": 0,
+                "endLine": 1359,
+                "endChar": 0
+              },
+              "replacement": "              Diff too expensive to compute. Please\n              \u003cspan\n                class\u003d\"download-link\"\n                role\u003d\"button\"\n                tabindex\u003d\"0\"\n                @click\u003d${this.handleDownloadLocally}\n                @keydown\u003d${this.handleDownloadLocally}\n                \u003edownload locally\u003c/span\n              \u003e\n              to review.\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+              "range": {
+                "startLine": 1,
+                "startChar": 0,
+                "endLine": 1,
+                "endChar": 0
+              },
+              "replacement": "  private handleDownloadLocally(e: Event) {\n    if (this.isClickEvent(e)) {\n      e.preventDefault();\n      e.stopPropagation();\n      fire(this, \u0027open-download-dialog\u0027);\n    }\n  }\n\n"
+            }
+          ]
+        }
+      ],
+      "revId": "eb34238dbe114f5e408c63d253722e249b4b8136",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "720c136a_4c53653a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-04-13T23:45:51Z",
+      "side": 1,
+      "message": "This can be a separate change, but can we also add this to the AI checks and AI checks comments? This change has examples with how to filter just for the AI review agents so we don\u0027t track all checks. https://gerrit-review.git.corp.google.com/c/gerrit/+/568862",
+      "revId": "2614feb45e35ed5c7c8ac9d81511987c39197ede",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "861862a7_797470ed",
+        "filename": "polygerrit-ui/app/elements/chat-panel/gemini-message.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-04-13T23:45:51Z",
+      "side": 1,
+      "message": "Can we put this on a div around all the chat content? \n\nEvent Bubbling: The use of @copy on individual \u003cp\u003e and \u003cdiv\u003e elements is effective for capturing copies within those blocks. Note that if a user performs a large selection spanning multiple blocks and copies, the event target might be their common parent (the shadow root), which wouldn\u0027t trigger these specific listeners.",
+      "range": {
+        "startLine": 344,
+        "startChar": 17,
+        "endLine": 344,
+        "endChar": 21
+      },
+      "revId": "2614feb45e35ed5c7c8ac9d81511987c39197ede",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

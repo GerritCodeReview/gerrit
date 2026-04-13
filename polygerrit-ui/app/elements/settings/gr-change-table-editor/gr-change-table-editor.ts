@@ -10,7 +10,7 @@ import {css, html, LitElement} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {grFormStyles} from '../../../styles/gr-form-styles';
-import {ColumnNames} from '../../../constants/constants';
+import {ColumnNames, LABELS_COLUMN_PREFIX} from '../../../constants/constants';
 import {subscribe} from '../../lit/subscription-controller';
 import {resolve} from '../../../models/dependency';
 import {configModelToken} from '../../../models/config/config-model';
@@ -41,6 +41,8 @@ export class GrChangeTableEditor extends LitElement {
   // private but used in test
   @state() showNumber?: boolean;
 
+  @state() labelFilterInput: string = ''; // comma-separated
+
   private readonly getConfigModel = resolve(this, configModelToken);
 
   private readonly getUserModel = resolve(this, userModelToken);
@@ -57,10 +59,10 @@ export class GrChangeTableEditor extends LitElement {
           width: auto;
         }
         #changeCols .visibleHeader {
-          text-align: center;
+          text-align: left;
         }
         .checkboxContainer {
-          text-align: center;
+          text-align: left;
         }
       `,
     ];
@@ -85,6 +87,12 @@ export class GrChangeTableEditor extends LitElement {
         this.prefs = prefs;
         this.showNumber = !!prefs.legacycid_in_change_table;
         this.localChangeTableColumns = changeTablePrefs(prefs);
+        const labelsEntry = (prefs.change_table ?? []).find(c =>
+          c.startsWith(LABELS_COLUMN_PREFIX)
+        );
+        this.labelFilterInput = labelsEntry
+          ? labelsEntry.slice(LABELS_COLUMN_PREFIX.length)
+          : '';
       }
     );
   }
@@ -122,6 +130,19 @@ export class GrChangeTableEditor extends LitElement {
               </tr>
 
               ${this.defaultColumns.map(col => this.renderRow(col))}
+              <tr>
+                <td><label for="labelsFilter">Shown Labels</label></td>
+                <td style="width: auto">
+                  <md-outlined-text-field
+                    id="labelsFilter"
+                    class="showBlueFocusBorder"
+                    style="width: 20em; display: block"
+                    placeholder="CR,V (leave empty to see all labels)"
+                    .value=${this.labelFilterInput}
+                    @input=${this.handleLabelsFilterInput}
+                  ></md-outlined-text-field>
+                </td>
+              </tr>
             </tbody>
           </table>
           <gr-button
@@ -167,6 +188,14 @@ export class GrChangeTableEditor extends LitElement {
   }
 
   /**
+   * Handle input in the labels filter text field and update the labelFilterInput property
+   * accordingly.
+   */
+  private handleLabelsFilterInput(e: Event) {
+    this.labelFilterInput = (e.target as HTMLInputElement).value;
+  }
+
+  /**
    * Handle a click on a displayed column checkboxes (excluding number) and
    * update the localChangeTableColumns property accordingly.
    */
@@ -196,26 +225,32 @@ export class GrChangeTableEditor extends LitElement {
 
   // private but used in test
   async handleSaveChangeTable() {
-    const newPrefs = {
+    const changeTable = [...this.localChangeTableColumns];
+    if (this.labelFilterInput.trim().length > 0) {
+      changeTable.push(LABELS_COLUMN_PREFIX + this.labelFilterInput.trim());
+    }
+    await this.getUserModel().updatePreferences({
       ...this.prefs,
-      change_table: this.localChangeTableColumns,
+      change_table: changeTable,
       legacycid_in_change_table: this.showNumber,
-    };
-
-    await this.getUserModel().updatePreferences(newPrefs);
+    });
   }
 
   private hasUnsavedChanges(): boolean {
     const prefsColumns = changeTablePrefs(this.prefs);
-
     const columnsChanged =
       prefsColumns.length !== this.localChangeTableColumns.length ||
       prefsColumns.some(c => !this.localChangeTableColumns.includes(c));
-
     const numberChanged =
       !!this.prefs.legacycid_in_change_table !== !!this.showNumber;
-
-    return columnsChanged || numberChanged;
+    const savedEntry = (this.prefs.change_table ?? []).find(c =>
+      c.startsWith(LABELS_COLUMN_PREFIX)
+    );
+    const savedFilter = savedEntry
+      ? savedEntry.slice(LABELS_COLUMN_PREFIX.length)
+      : '';
+    const labelsChanged = savedFilter !== this.labelFilterInput.trim();
+    return columnsChanged || numberChanged || labelsChanged;
   }
 }
 

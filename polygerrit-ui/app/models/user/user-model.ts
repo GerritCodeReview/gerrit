@@ -23,6 +23,7 @@ import {
   createDefaultDiffPrefs,
   createDefaultEditPrefs,
   createDefaultPreferences,
+  LABELS_COLUMN_PREFIX,
 } from '../../constants/constants';
 import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
 import {DiffPreferencesInfo} from '../../types/diff';
@@ -36,6 +37,7 @@ export function changeTablePrefs(prefs: Partial<PreferencesInfo>) {
   const cols = prefs.change_table ?? [];
   if (cols.length === 0) return Object.values(ColumnNames);
   return cols
+    .filter(col => !col.startsWith(LABELS_COLUMN_PREFIX))
     .map(column => (column === 'Project' ? ColumnNames.REPO : column))
     .map(column => (column === ' Status ' ? ColumnNames.STATUS : column));
 }

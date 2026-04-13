@@ -105,6 +105,8 @@ export enum ColumnNames {
   STATUS = 'Status',
 }
 
+export const LABELS_COLUMN_PREFIX = 'Labels:';
+
 /**
  * @description Modes for gr-diff-cursor
  * The scroll behavior for the cursor. Values are 'never' and

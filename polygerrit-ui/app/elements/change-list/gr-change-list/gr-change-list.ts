@@ -18,7 +18,11 @@ import {
   UserId,
 } from '../../../types/common';
 import {fire, fireReload} from '../../../utils/event-util';
-import {ColumnNames, ScrollMode} from '../../../constants/constants';
+import {
+  ColumnNames,
+  LABELS_COLUMN_PREFIX,
+  ScrollMode,
+} from '../../../constants/constants';
 import {
   getRequirements,
   orderSubmitRequirementNames,
@@ -32,7 +36,10 @@ import {css, html, LitElement, nothing, PropertyValues} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
 import {Shortcut, ShortcutController} from '../../lit/shortcut-controller';
 import {queryAll} from '../../../utils/common-util';
-import {GrChangeListSection} from '../gr-change-list-section/gr-change-list-section';
+import {
+  computeLabelShortcut,
+  GrChangeListSection,
+} from '../gr-change-list-section/gr-change-list-section';
 import {ValueChangedEvent} from '../../../types/events';
 import {resolve} from '../../../models/dependency';
 import {createChangeUrl} from '../../../models/views/change';
@@ -114,6 +121,9 @@ export class GrChangeList extends LitElement {
 
   @property({type: Boolean})
   showNumber?: boolean; // No default value to prevent flickering.
+
+  @property({type: Array})
+  labelFilter: string[] = []; // empty = show all
 
   @property({type: Boolean})
   showReviewedState = false;
@@ -363,14 +373,23 @@ export class GrChangeList extends LitElement {
       this.visibleChangeTableColumns = Object.values(ColumnNames).filter(col =>
         prefColumns.includes(col)
       );
+      const labelsEntry = (this.preferences.change_table ?? []).find(c =>
+        c.startsWith(LABELS_COLUMN_PREFIX)
+      );
+      this.labelFilter = labelsEntry
+        ? labelsEntry
+            .slice(LABELS_COLUMN_PREFIX.length)
+            .split(',')
+            .map(s => s.trim())
+            .filter(s => s.length > 0)
+        : [];
     }
   }
 
-  // private but used in test
   computeLabelNames(sections: ChangeListSection[]) {
     if (!sections) return [];
     if (this.config?.submit_requirement_dashboard_columns?.length) {
-      return this.config?.submit_requirement_dashboard_columns;
+      return this.config.submit_requirement_dashboard_columns;
     }
     const changes = sections.map(section => section.results).flat();
     let labels: string[] = [];
@@ -382,7 +401,13 @@ export class GrChangeList extends LitElement {
         .flat()
         .map(requirement => requirement.name);
     }
-    return orderSubmitRequirementNames(labels.filter(unique));
+    const allLabels = orderSubmitRequirementNames(labels.filter(unique));
+    if (this.labelFilter.length === 0) return allLabels;
+    return allLabels.filter(
+      l =>
+        this.labelFilter.includes(l) ||
+        this.labelFilter.includes(computeLabelShortcut(l))
+    );
   }
 
   private changesChanged() {

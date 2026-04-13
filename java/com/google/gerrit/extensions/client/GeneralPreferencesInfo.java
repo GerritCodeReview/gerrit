@@ -150,6 +150,7 @@ public class GeneralPreferencesInfo {
   public Boolean allowSuggestCodeWhileCommenting;
   public Boolean allowAutocompletingComments;
   public String aiChatSelectedModel;
+  public String labelFilter;
 
   /**
    * The sidebar section that the user prefers to have open on the diff page, or "NONE" if all
@@ -232,7 +233,8 @@ public class GeneralPreferencesInfo {
         && equalBooleanPreferencesFields(
             this.allowAutocompletingComments, other.allowAutocompletingComments)
         && Objects.equals(this.diffPageSidebar, other.diffPageSidebar)
-        && Objects.equals(this.aiChatSelectedModel, other.aiChatSelectedModel);
+        && Objects.equals(this.aiChatSelectedModel, other.aiChatSelectedModel)
+        && Objects.equals(this.labelFilter, other.labelFilter);
   }
 
   @Override
@@ -263,7 +265,8 @@ public class GeneralPreferencesInfo {
         allowSuggestCodeWhileCommenting,
         allowAutocompletingComments,
         diffPageSidebar,
-        aiChatSelectedModel);
+        aiChatSelectedModel,
+        labelFilter);
   }
 
   @Override
@@ -295,6 +298,7 @@ public class GeneralPreferencesInfo {
         .add("allowAutocompletingComments", allowAutocompletingComments)
         .add("diffPageSidebar", diffPageSidebar)
         .add("aiChatSelectedModel", aiChatSelectedModel)
+        .add("labelFilter", labelFilter)
         .toString();
   }
 
@@ -324,6 +328,7 @@ public class GeneralPreferencesInfo {
     p.allowAutocompletingComments = true;
     p.diffPageSidebar = "NONE";
     p.aiChatSelectedModel = null;
+    p.labelFilter = null;
     return p;
   }
 }

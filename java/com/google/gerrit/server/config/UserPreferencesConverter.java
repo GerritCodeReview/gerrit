@@ -131,6 +131,7 @@ public final class UserPreferencesConverter {
               builder, builder::setAllowAutocompletingComments, info.allowAutocompletingComments);
       builder = setIfNotNull(builder, builder::setDiffPageSidebar, info.diffPageSidebar);
       builder = setIfNotNull(builder, builder::setAiChatSelectedModel, info.aiChatSelectedModel);
+      builder = setIfNotNull(builder, builder::setLabelFilter, info.labelFilter);
       return builder.build();
     }
 
@@ -201,6 +202,7 @@ public final class UserPreferencesConverter {
       res.diffPageSidebar = proto.hasDiffPageSidebar() ? proto.getDiffPageSidebar() : null;
       res.aiChatSelectedModel =
           proto.hasAiChatSelectedModel() ? proto.getAiChatSelectedModel() : null;
+      res.labelFilter = proto.hasLabelFilter() ? proto.getLabelFilter() : null;
       return res;
     }
 

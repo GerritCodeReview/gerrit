@@ -22,6 +22,7 @@ import {
 } from '../../../test/test-utils';
 import {Key} from '../../../utils/dom-util';
 import {
+  ColumnNames,
   createDefaultPreferences,
   TimeFormat,
 } from '../../../constants/constants';
@@ -621,5 +622,90 @@ suite('gr-change-list basic tests', () => {
     await element.updateComplete;
 
     assert.isNotOk(query<HTMLElement>(element, '.bad'));
+  });
+
+  test('show all labels when no label filter set', () => {
+    element.labelFilter = [];
+    element.config = createServerInfo();
+    const sections: ChangeListSection[] = [
+      {
+        results: [
+          {
+            ...createChange(),
+            _number: 0 as NumericChangeId,
+            submit_requirements: [
+              {
+                ...createSubmitRequirementResultInfo(),
+                name: 'Code-Review',
+              },
+              {
+                ...createSubmitRequirementResultInfo(),
+                name: 'Verified',
+              },
+            ],
+          },
+        ],
+      },
+    ];
+    assert.deepEqual(element.computeLabelNames(sections), [
+      'Code-Review',
+      'Verified',
+    ]);
+  });
+
+  test('show only filtered labels when label filter set', () => {
+    element.labelFilter = ['Code-Review'];
+    element.config = createServerInfo();
+    const sections: ChangeListSection[] = [
+      {
+        results: [
+          {
+            ...createChange(),
+            _number: 0 as NumericChangeId,
+            submit_requirements: [
+              {
+                ...createSubmitRequirementResultInfo(),
+                name: 'Code-Review',
+              },
+              {
+                ...createSubmitRequirementResultInfo(),
+                name: 'Verified',
+              },
+            ],
+          },
+        ],
+      },
+    ];
+    assert.deepEqual(element.computeLabelNames(sections), ['Code-Review']);
+  });
+  test('update labels shown according to user preference', async () => {
+    element.loggedInUser = {_account_id: 1001 as AccountId};
+    element.config = createServerInfo();
+
+    // No label filter — show all
+    userModel.setPreferences({
+      ...createDefaultPreferences(),
+      change_table: Object.values(ColumnNames),
+    });
+    await element.updateComplete;
+    assert.deepEqual(element.labelFilter, []);
+
+    // With label filter — show only specified labels
+    userModel.setPreferences({
+      ...createDefaultPreferences(),
+      change_table: Object.values(ColumnNames),
+      label_filter: 'Code-Review,Verified',
+    });
+    await element.updateComplete;
+    assert.deepEqual(element.labelFilter, ['Code-Review', 'Verified']);
+
+    // Empty label filter — show all again
+    userModel.setPreferences({
+      ...createDefaultPreferences(),
+      change_table: Object.values(ColumnNames),
+      label_filter: '',
+    });
+    await element.updateComplete;
+    assert.deepEqual(element.labelFilter, []);
   });
 });

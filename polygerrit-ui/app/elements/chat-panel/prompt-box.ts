@@ -70,8 +70,10 @@ export class PromptBox extends LitElement {
 
   @state() showAllContextItems = false;
 
-  @state() contextItemTypes: readonly ContextItemType[] = [];
+  // Debugging, DO NOT SUBMIT.
+  @state() private contextItemTypes: readonly ContextItemType[] = [];
 
+  // This should definitely be public.
   @state() private change?: ParsedChangeInfo;
 
   // TODO(milutin): Find out if we need this.

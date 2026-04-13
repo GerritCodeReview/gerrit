@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4815ec3d_1bcbc6bc",
+        "filename": "polygerrit-ui/app/package.json",
+        "patchSetId": 16
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-04-13T05:34:47Z",
+      "side": 0,
+      "message": "`resources/com/google/gerrit/httpd/raw/PolyGerritIndexHtml.soy` still mentions `polymer-resin` in the comment above the asset import block. Is that comment still accurate after this change, or should it be updated/removed as part of the Polymer cleanup?",
+      "range": {
+        "startLine": 23,
+        "startChar": 4,
+        "endLine": 23,
+        "endChar": 30
+      },
+      "revId": "13f2b6e816a92d75486bd84cf4fd8397298c9d6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

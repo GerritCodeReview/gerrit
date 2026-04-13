@@ -22,7 +22,9 @@ import {
 } from '../../../test/test-utils';
 import {Key} from '../../../utils/dom-util';
 import {
+  ColumnNames,
   createDefaultPreferences,
+  LABELS_COLUMN_KEY,
   TimeFormat,
 } from '../../../constants/constants';
 import {AccountId, NumericChangeId} from '../../../types/common';
@@ -621,5 +623,54 @@ suite('gr-change-list basic tests', () => {
     await element.updateComplete;
 
     assert.isNotOk(query<HTMLElement>(element, '.bad'));
+  });
+    
+  test('Show labels depending on user preference', () => {
+    element.showLabels = false;
+    element.config = createServerInfo();
+    const sections: ChangeListSection[] = [
+      {
+        results: [
+          {
+            ...createChange(),
+            _number: 0 as NumericChangeId,
+            submit_requirements: [
+              {
+                ...createSubmitRequirementResultInfo(),
+                name: 'Code-Review',
+              },
+              {
+                ...createSubmitRequirementResultInfo(),
+                name: 'Verified',
+              },
+            ],
+          },
+        ],
+      },
+    ];
+    assert.deepEqual(element.computeLabelNames(sections), []);
+    element.showLabels = true;
+    assert.deepEqual(element.computeLabelNames(sections), [
+      'Code-Review',
+      'Verified',
+    ]);
+  });
+
+  test('showLabels variable updates according to LABELS_COLUMN_KEY', async () => {
+    element.loggedInUser = {_account_id: 1001 as AccountId};
+    element.preferences = {
+      time_format: TimeFormat.HHMM_12,
+      change_table: Object.values(ColumnNames), // no LABELS_COLUMN_KEY
+    };
+    element.config = createServerInfo();
+    await element.updateComplete;
+    assert.isFalse(element.showLabels);
+    element.preferences = {
+      time_format: TimeFormat.HHMM_12,
+      change_table: [...Object.values(ColumnNames), LABELS_COLUMN_KEY],
+    };
+    element.config = createServerInfo();
+    await element.updateComplete;
+    assert.isTrue(element.showLabels);
   });
 });

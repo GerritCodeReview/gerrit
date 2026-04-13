@@ -10,7 +10,7 @@ import {css, html, LitElement} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {grFormStyles} from '../../../styles/gr-form-styles';
-import {ColumnNames} from '../../../constants/constants';
+import {ColumnNames, LABELS_COLUMN_KEY} from '../../../constants/constants';
 import {subscribe} from '../../lit/subscription-controller';
 import {resolve} from '../../../models/dependency';
 import {configModelToken} from '../../../models/config/config-model';
@@ -40,6 +40,7 @@ export class GrChangeTableEditor extends LitElement {
 
   // private but used in test
   @state() showNumber?: boolean;
+  @state() showLabels?: boolean;
 
   private readonly getConfigModel = resolve(this, configModelToken);
 
@@ -85,6 +86,7 @@ export class GrChangeTableEditor extends LitElement {
         this.prefs = prefs;
         this.showNumber = !!prefs.legacycid_in_change_table;
         this.localChangeTableColumns = changeTablePrefs(prefs);
+        this.showLabels = (prefs.change_table ?? []).includes(LABELS_COLUMN_KEY);
       }
     );
   }
@@ -122,6 +124,17 @@ export class GrChangeTableEditor extends LitElement {
               </tr>
 
               ${this.defaultColumns.map(col => this.renderRow(col))}
+              <tr>
+              <td><label for="labelsCheckbox">Labels</label></td>
+              <td class="checkboxContainer">
+                <md-checkbox
+                  id="labelsCheckbox"
+                  name="labels"
+                  .checked=${this.showLabels ?? true}
+                  @change=${this.handleLabelsCheckboxClick}
+                ></md-checkbox>
+              </td>
+              </tr>
             </tbody>
           </table>
           <gr-button
@@ -165,7 +178,17 @@ export class GrChangeTableEditor extends LitElement {
 
     this.showNumber = newValue;
   }
-
+  /**
+   * Handle a click on the labels checkbox and update the showLabels property
+   * accordingly.
+   */
+  private handleLabelsCheckboxClick(e: Event) {
+    const checkbox = e.target as MdCheckbox;
+    const oldValue = this.showLabels ?? true;
+    const newValue = checkbox.checked;
+    if (oldValue === newValue) return;
+    this.showLabels = newValue;
+  }
   /**
    * Handle a click on a displayed column checkboxes (excluding number) and
    * update the localChangeTableColumns property accordingly.
@@ -196,9 +219,12 @@ export class GrChangeTableEditor extends LitElement {
 
   // private but used in test
   async handleSaveChangeTable() {
+    const changeTable = this.showLabels
+      ? [...this.localChangeTableColumns, LABELS_COLUMN_KEY]
+      : this.localChangeTableColumns;
     const newPrefs = {
       ...this.prefs,
-      change_table: this.localChangeTableColumns,
+      change_table: changeTable,
       legacycid_in_change_table: this.showNumber,
     };
 
@@ -206,7 +232,7 @@ export class GrChangeTableEditor extends LitElement {
   }
 
   private hasUnsavedChanges(): boolean {
-    const prefsColumns = changeTablePrefs(this.prefs);
+    const prefsColumns = changeTablePrefs(this.prefs); // never contains LABELS_COLUMN_KEY
 
     const columnsChanged =
       prefsColumns.length !== this.localChangeTableColumns.length ||
@@ -215,7 +241,10 @@ export class GrChangeTableEditor extends LitElement {
     const numberChanged =
       !!this.prefs.legacycid_in_change_table !== !!this.showNumber;
 
-    return columnsChanged || numberChanged;
+    const savedLabels = (this.prefs.change_table ?? []).includes(LABELS_COLUMN_KEY);
+    const labelsChanged = savedLabels !== (this.showLabels ?? true);
+
+    return columnsChanged || numberChanged || labelsChanged;
   }
 }
 

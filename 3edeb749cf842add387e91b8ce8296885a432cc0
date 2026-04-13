@@ -22,6 +22,30 @@
       },
       "revId": "3edeb749cf842add387e91b8ce8296885a432cc0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4f4d8e59_49b73eb8",
+        "filename": "polygerrit-ui/app/elements/change/gr-ai-prompt-dialog/gr-ai-prompt-dialog_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-04-13T06:29:58Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "58d56df2_861a74e1",
+      "range": {
+        "startLine": 231,
+        "startChar": 0,
+        "endLine": 236,
+        "endChar": 64
+      },
+      "revId": "3edeb749cf842add387e91b8ce8296885a432cc0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -22,6 +22,30 @@
       },
       "revId": "a1c93e597ee2aeb7b163b6f5f83a7da4a021ff1a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e9cf6c9_1352abcd",
+        "filename": "polygerrit-ui/app/api/rest-api.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 776,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-04-13T10:42:34Z",
+      "side": 1,
+      "message": "Field is `diffs_too_expensive_to_compute`.\n\nUpdated commit message.",
+      "parentUuid": "72e0bc95_68e6f26d",
+      "range": {
+        "startLine": 776,
+        "startChar": 0,
+        "endLine": 776,
+        "endChar": 0
+      },
+      "revId": "a1c93e597ee2aeb7b163b6f5f83a7da4a021ff1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

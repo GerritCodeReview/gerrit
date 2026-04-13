@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e53f125e_bc9bae41",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1532,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2026-04-13T11:37:59Z",
+      "side": 1,
+      "message": "```suggestion\nAllow deletion of published comments and change messages.\n```",
+      "revId": "a92c1dfab04855522eb4ed3e9f3afc55dce9c487",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

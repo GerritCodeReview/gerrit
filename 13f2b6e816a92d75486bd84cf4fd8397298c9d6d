@@ -22,6 +22,30 @@
       },
       "revId": "13f2b6e816a92d75486bd84cf4fd8397298c9d6d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b43bbfc3_498df5a9",
+        "filename": "polygerrit-ui/app/package.json",
+        "patchSetId": 16
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2026-04-13T09:43:16Z",
+      "side": 0,
+      "message": "It should be changed. Not entirely sure if it should be removed or updated tho.",
+      "parentUuid": "4815ec3d_1bcbc6bc",
+      "range": {
+        "startLine": 23,
+        "startChar": 4,
+        "endLine": 23,
+        "endChar": 30
+      },
+      "revId": "13f2b6e816a92d75486bd84cf4fd8397298c9d6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -86,6 +86,7 @@ import {customElement, property, query, state} from 'lit/decorators.js';
 import {a11yStyles} from '../../../styles/gr-a11y-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {ifDefined} from 'lit/directives/if-defined.js';
+import {classMap} from 'lit/directives/class-map.js';
 import {when} from 'lit/directives/when.js';
 import {styleMap} from 'lit/directives/style-map.js';
 import {
@@ -724,6 +725,15 @@ export class GrDiffView extends LitElement {
           --md-checkbox-container-size: 15px;
           --md-checkbox-icon-size: 15px;
         }
+        .expensiveDiff {
+          color: var(--warning-foreground);
+          font-weight: var(--font-weight-bold);
+          padding: var(--spacing-m) var(--spacing-xl);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: var(--spacing-s);
+        }
       `,
     ];
   }
@@ -843,7 +853,25 @@ export class GrDiffView extends LitElement {
     return html`
       ${this.renderStickyHeader()}
       <h2 class="assistive-tech-only">Diff view</h2>
-      <div class="diffContainer ${this.shownSidebar && 'sidebarOpen'}">
+      ${when(
+        this.file?.diffs_too_expensive_to_compute,
+        () => html`
+          <div class="expensiveDiff">
+            <gr-icon icon="warning"></gr-icon>
+            Diff too expensive to compute.
+            <gr-button link @click=${this.handleOpenDownloadDialog}>
+              Please download locally to review
+            </gr-button>
+          </div>
+        `
+      )}
+      <div
+        class=${classMap({
+          diffContainer: true,
+          sidebarOpen: !!this.shownSidebar,
+          hidden: !!this.file?.diffs_too_expensive_to_compute,
+        })}
+      >
         <gr-diff-host
           id="diffHost"
           .changeNum=${this.changeNum}
@@ -1417,7 +1445,8 @@ export class GrDiffView extends LitElement {
     this.diffHost.toggleLeftDiff();
   }
 
-  private handleOpenDownloadDialog() {
+  // private but used in tests
+  handleOpenDownloadDialog() {
     assertIsDefined(this.downloadModal, 'downloadModal');
     this.downloadModal.showModal();
     whenVisible(this.downloadModal, () => {

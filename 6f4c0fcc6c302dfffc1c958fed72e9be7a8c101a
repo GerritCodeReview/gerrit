@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c5fc8371_d5c2691d",
+        "filename": "polygerrit-ui/app/constants/constants.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2026-04-13T12:37:23Z",
+      "side": 1,
+      "message": "Can\u0027t this be added to the above? Although i note it shows as off by default. So this may require a change to turn it on by default to keep current behaviour?",
+      "revId": "6f4c0fcc6c302dfffc1c958fed72e9be7a8c101a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

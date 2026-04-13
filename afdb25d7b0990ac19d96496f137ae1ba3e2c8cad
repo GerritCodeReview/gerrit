@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a8c54222_38c0e45f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-04-13T18:42:19Z",
+      "side": 1,
+      "message": "This needs to get picked back onto stable-3.12.",
+      "revId": "afdb25d7b0990ac19d96496f137ae1ba3e2c8cad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

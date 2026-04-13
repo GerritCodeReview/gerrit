@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2e7cf9a3_ec2f235a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-04-13T17:44:49Z",
+      "side": 1,
+      "message": "I think the link color needs to be lighter for the dark mode.",
+      "revId": "4b2adace9b4ab4dcd5b582745eaffc3400e1d32d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

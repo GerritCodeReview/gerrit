@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "68f7cd23_d699e3e7",
+        "filename": "polygerrit-ui/app/elements/chat-panel/splash-page-action.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-04-13T23:34:37Z",
+      "side": 1,
+      "message": "Please fix this WARNING reported by autoreview issue finding: If there are many matched files (e.g., 20+), they might overflow the modal\u0027s `max-height: 400px` since this container doesn\u0027t have overflow handling. \n\nConsider adding `overflow-y: auto` and a `max-height` to `.file-list` when expanded, similar to `.instruction-text.expanded`.\n\nIf there are many matched files (e.g., 20+), they might overflow the modal\u0027s `max-height: 400px` since this container doesn\u0027t have overflow handling. \n\nConsider adding `overflow-y: auto` and a `max-height` to `.file-list` when expanded, similar to `.instruction-text.expanded`.",
+      "range": {
+        "startLine": 283,
+        "startChar": 0,
+        "endLine": 283,
+        "endChar": 0
+      },
+      "revId": "1780a6e3784a3a00777001a15cb10b99007c2127",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eb7db368_b30d137c",
+        "filename": "polygerrit-ui/app/elements/chat-panel/splash-page-action.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 406,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-04-13T23:34:37Z",
+      "side": 1,
+      "message": "Please fix this WARNING reported by autoreview issue finding: For consistency with the \"Instruction:\" row (line 370), consider adding a title here.\n\n```html\n\u003cdiv class\u003d\"modal-row-title\"\u003eMatched files:\u003c/div\u003e\n```\n\nFor consistency with the \"Instruction:\" row (line 370), consider adding a title here.\n\n```html\n\u003cdiv class\u003d\"modal-row-title\"\u003eMatched files:\u003c/div\u003e\n```",
+      "range": {
+        "startLine": 406,
+        "startChar": 0,
+        "endLine": 406,
+        "endChar": 0
+      },
+      "revId": "1780a6e3784a3a00777001a15cb10b99007c2127",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2b1dac81_f9bd18b4",
+        "filename": "polygerrit-ui/app/elements/chat-panel/splash-page-action.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 508,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-04-13T23:34:37Z",
+      "side": 1,
+      "message": "Please fix this WARNING reported by autoreview issue finding: Please add `aria-expanded\u003d${this.isFilesExpanded}` for accessibility, matching the implementation of the instruction expand button at line 384.\n\nPlease add `aria-expanded\u003d${this.isFilesExpanded}` for accessibility, matching the implementation of the instruction expand button at line 384.",
+      "range": {
+        "startLine": 508,
+        "startChar": 0,
+        "endLine": 508,
+        "endChar": 0
+      },
+      "revId": "1780a6e3784a3a00777001a15cb10b99007c2127",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

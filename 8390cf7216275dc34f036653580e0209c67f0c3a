@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "92afe526_b656315e",
+        "filename": ".gitreview",
+        "patchSetId": 17
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-04-13T18:53:57Z",
+      "side": 1,
+      "message": "Did you intend to change this?",
+      "revId": "8390cf7216275dc34f036653580e0209c67f0c3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ec51dc89_2757387f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-04-13T18:53:57Z",
+      "side": 1,
+      "message": "Test fails in CI:\n```\n12:05:00 javatests/com/google/gerrit/server/cache/h2/H2CacheFactoryTest.java:60: error: cannot find symbol\n12:05:00             EnumSet.noneOf(H2CacheFactory.CacheOptions.class),\n12:05:00                                          ^\n12:05:00   symbol:   class CacheOptions\n12:05:00   location: class H2CacheFactory\n12:05:00 javatests/com/google/gerrit/server/cache/h2/H2CacheFactoryTest.java:55: error: [strict] Using type org.eclipse.jgit.lib.Config from an indirect dependency (TOOL_INFO: \"bazel-out/k8-fastbuild/bin/external/jgit+/org.eclipse.jgit/jgit.jar\").\n12:05:00             new Config(),\n12:05:00                 ^\n12:05:00 javatests/com/google/gerrit/server/cache/h2/H2CacheFactoryTest.java:56: error: [strict] Using type com.google.gerrit.extensions.registration.DynamicMap from an indirect dependency (TOOL_INFO: \"//java/com/google/gerrit/extensions:api\"). See command below **\n12:05:00             DynamicMap.emptyMap(),\n12:05:00             ^\n12:05:00 javatests/com/google/gerrit/server/cache/h2/H2CacheFactoryTest.java:63: error: [strict] Using type com.google.gerrit.server.cache.PersistentCacheDef from an indirect dependency (TOOL_INFO: \"//java/com/google/gerrit/server\"). See command below **\n12:05:00     PersistentCacheDef\u003cString, String\u003e def \u003d new SimplePersistentCacheDef(\"demo-cache\");\n12:05:00     ^\n12:05:00  ** Please add the following dependencies: \n12:05:00   //java/com/google/gerrit/extensions:api //java/com/google/gerrit/server to //javatests/com/google/gerrit/server/cache/h2:tests \n12:05:00  ** You can use the following buildozer command: \n12:05:00 buildozer \u0027add deps //java/com/google/gerrit/extensions:api //java/com/google/gerrit/server\u0027 //javatests/com/google/gerrit/server/cache/h2:tests \n```",
+      "revId": "8390cf7216275dc34f036653580e0209c67f0c3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -51,6 +51,24 @@
       "message": "Not using the URI could lead to some path safety issues (in particular, a `;` won\u0027t be escaped now). Can you add some tests for this change to show it\u0027s doing what you expect? Might also be worth adding something like `.replace(\";\", \"\\\\;\")` just for extra safety.",
       "revId": "c2df84b4d806be706056fe85e7d1b09914b38b62",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "06b7f844_fb045ea8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4597336
+      },
+      "writtenOn": "2026-04-13T06:39:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b6ce1ffa_c363ef18",
+      "revId": "c2df84b4d806be706056fe85e7d1b09914b38b62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

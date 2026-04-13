@@ -321,7 +321,7 @@ message PaginationToken {
 // Proto representation of the User preferences classes
 // Next ID: 4
 message UserPreferences {
-  // Next ID: 26
+  // Next ID: 28
   message GeneralPreferencesInfo {
     // Number of changes to show in a screen.
     optional int32 changes_per_page = 1 [default = 25];
@@ -404,6 +404,7 @@ message UserPreferences {
     optional bool allow_autocompleting_comments = 25 [default = true];
     optional string diff_page_sidebar = 23 [default = "NONE"];
     optional string ai_chat_selected_model = 26;
+    optional string label_filter = 27;
   }
   optional GeneralPreferencesInfo general_preferences_info = 1;
 

@@ -57,6 +57,7 @@ import {queryAndAssert, unique} from '../../../utils/common-util';
 import {fireAlert} from '../../../utils/event-util';
 import {MdOutlinedSelect} from '@material/web/select/outlined-select.js';
 import {Interaction} from '../../../constants/reporting';
+import {isDefined} from '../../../types/types';
 
 const MAX_AUTOCOMPLETE_RESULTS = 10;
 
@@ -145,6 +146,8 @@ export class GrCreateFlow extends LitElement {
   ) => this.labelSuggestionsProvider.getSuggestions(predicate, expression);
 
   private customConditions: FlowCustomConditionInfo[] = [];
+
+  @state() private disabledActions: string[] = [];
 
   private readonly accountSuggestions: SuggestionProvider = (
     predicate,
@@ -242,6 +245,14 @@ export class GrCreateFlow extends LitElement {
         );
         const allConditions = await Promise.all(conditionsPromises);
         this.customConditions = allConditions.flat();
+
+        const disabledActions = providers
+          .map(
+            provider =>
+              provider.getDisabledActions && provider.getDisabledActions()
+          )
+          .flat();
+        this.disabledActions = Array.from(disabledActions).filter(isDefined);
       }
     );
 
@@ -406,9 +417,9 @@ export class GrCreateFlow extends LitElement {
   private async getFlowActions() {
     if (!this.changeNum) return;
     const actions = await this.restApiService.listFlowActions(this.changeNum);
-    this.flowActions = (actions ?? []).sort((a, b) =>
-      a.name.localeCompare(b.name)
-    );
+    this.flowActions = (actions ?? [])
+      .filter(action => !this.disabledActions.includes(action.name))
+      .sort((a, b) => a.name.localeCompare(b.name));
   }
 
   private renderStages() {

@@ -126,6 +126,14 @@ suite('gr-change-table-editor tests', () => {
                   <md-checkbox id="Status" name="Status"> </md-checkbox>
                 </td>
               </tr>
+              <tr>
+                <td>
+                  <label for="labelsCheckbox"> Labels </label>
+                </td>
+                <td class="checkboxContainer">
+                  <md-checkbox id="labelsCheckbox" name="labels"> </md-checkbox>
+                </td>
+              </tr>
             </tbody>
           </table>
           <gr-button
@@ -145,9 +153,9 @@ suite('gr-change-table-editor tests', () => {
     const rows = queryAndAssert(element, 'tbody').querySelectorAll('tr');
     let tds;
 
-    // The `+ 1` is for the number column, which isn't included in the change
-    // table behavior's list.
-    assert.equal(rows.length, element.defaultColumns.length + 1);
+    // The `+ 2` is for the number column and the labels column, which aren't
+    // included in the change table behavior's list.
+    assert.equal(rows.length, element.defaultColumns.length + 2);
     for (let i = 0; i < element.defaultColumns.length; i++) {
       tds = rows[i + 1].querySelectorAll('td');
       assert.equal(tds[0].textContent, element.defaultColumns[i]);

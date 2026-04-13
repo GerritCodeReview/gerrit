@@ -18,7 +18,11 @@ import {
   UserId,
 } from '../../../types/common';
 import {fire, fireReload} from '../../../utils/event-util';
-import {ColumnNames, ScrollMode} from '../../../constants/constants';
+import {
+  ColumnNames,
+  LABELS_COLUMN_KEY,
+  ScrollMode,
+} from '../../../constants/constants';
 import {
   getRequirements,
   orderSubmitRequirementNames,
@@ -114,6 +118,9 @@ export class GrChangeList extends LitElement {
 
   @property({type: Boolean})
   showNumber?: boolean; // No default value to prevent flickering.
+
+  @property({type: Boolean})
+  showLabels = true;
 
   @property({type: Boolean})
   showReviewedState = false;
@@ -287,6 +294,7 @@ export class GrChangeList extends LitElement {
           this.sections
         )}
         .showNumber=${this.showNumber}
+        .showLabels=${this.showLabels}
         .visibleChangeTableColumns=${this.visibleChangeTableColumns}
         .usp=${this.usp}
         .startIndex=${startIndex}
@@ -355,6 +363,7 @@ export class GrChangeList extends LitElement {
 
     this.changeTableColumns = Object.values(ColumnNames);
     this.showNumber = false;
+    this.showLabels = true;
     this.visibleChangeTableColumns = Object.values(ColumnNames);
     if (this.loggedInUser && this.preferences) {
       this.showNumber = !!this.preferences?.legacycid_in_change_table;
@@ -363,6 +372,10 @@ export class GrChangeList extends LitElement {
       this.visibleChangeTableColumns = Object.values(ColumnNames).filter(col =>
         prefColumns.includes(col)
       );
+      const rawChangeTable = this.preferences.change_table ?? [];
+      this.showLabels =
+        rawChangeTable.length === 0 ||
+        rawChangeTable.includes(LABELS_COLUMN_KEY);
     }
   }
 
@@ -372,6 +385,7 @@ export class GrChangeList extends LitElement {
     if (this.config?.submit_requirement_dashboard_columns?.length) {
       return this.config?.submit_requirement_dashboard_columns;
     }
+    if (!this.showLabels) return [];
     const changes = sections.map(section => section.results).flat();
     let labels: string[] = [];
     if (this.config?.dashboard_show_all_labels) {

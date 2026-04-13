@@ -724,6 +724,15 @@ export class GrDiffView extends LitElement {
           --md-checkbox-container-size: 15px;
           --md-checkbox-icon-size: 15px;
         }
+        .expensiveDiff {
+          color: var(--warning-foreground);
+          font-weight: var(--font-weight-bold);
+          padding: var(--spacing-m) var(--spacing-xl);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: var(--spacing-s);
+        }
       `,
     ];
   }
@@ -843,7 +852,24 @@ export class GrDiffView extends LitElement {
     return html`
       ${this.renderStickyHeader()}
       <h2 class="assistive-tech-only">Diff view</h2>
-      <div class="diffContainer ${this.shownSidebar && 'sidebarOpen'}">
+      ${when(
+        this.file?.diffs_too_expensive_to_compute,
+        () => html`
+          <div class="expensiveDiff">
+            <gr-icon icon="warning"></gr-icon>
+            Diff too expensive to compute.
+            <gr-button link @click=${this.handleOpenDownloadDialog}>
+              Please download locally to review
+            </gr-button>
+          </div>
+        `
+      )}
+      <div
+        class="diffContainer ${this.shownSidebar ? 'sidebarOpen' : ''} ${this
+          .file?.diffs_too_expensive_to_compute
+          ? 'hidden'
+          : ''}"
+      >
         <gr-diff-host
           id="diffHost"
           .changeNum=${this.changeNum}
@@ -1417,7 +1443,8 @@ export class GrDiffView extends LitElement {
     this.diffHost.toggleLeftDiff();
   }
 
-  private handleOpenDownloadDialog() {
+  // private but used in tests
+  handleOpenDownloadDialog() {
     assertIsDefined(this.downloadModal, 'downloadModal');
     this.downloadModal.showModal();
     whenVisible(this.downloadModal, () => {

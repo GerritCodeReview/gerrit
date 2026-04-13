@@ -32,7 +32,7 @@ suite('gr-change-table-editor tests', () => {
       // ColumnNames.STATUS omitted for testing
     ];
 
-    element.displayedColumns = columns;
+    element.localChangeTableColumns = columns;
     element.showNumber = false;
     element.serverConfig = createServerInfo();
     await element.updateComplete;
@@ -42,92 +42,101 @@ suite('gr-change-table-editor tests', () => {
     assert.shadowDom.equal(
       element,
       /* HTML */ ` <div class="gr-form-styles">
-        <table id="changeCols">
-          <thead>
-            <tr>
-              <th class="nameHeader">Column</th>
-              <th class="visibleHeader">Visible</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>
-                <label for="numberCheckbox"> Number </label>
-              </td>
-              <td class="checkboxContainer">
-                <md-checkbox id="numberCheckbox" name="number"> </md-checkbox>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label for="Subject"> Subject </label>
-              </td>
-              <td class="checkboxContainer">
-                <md-checkbox checked="" id="Subject" name="Subject">
-                </md-checkbox>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label for="Owner"> Owner </label>
-              </td>
-              <td class="checkboxContainer">
-                <md-checkbox checked="" id="Owner" name="Owner"> </md-checkbox>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label for="Reviewers"> Reviewers </label>
-              </td>
-              <td class="checkboxContainer">
-                <md-checkbox checked="" id="Reviewers" name="Reviewers">
-                </md-checkbox>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label for="Repo"> Repo </label>
-              </td>
-              <td class="checkboxContainer">
-                <md-checkbox checked="" id="Repo" name="Repo"> </md-checkbox>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label for="Branch"> Branch </label>
-              </td>
-              <td class="checkboxContainer">
-                <md-checkbox checked="" id="Branch" name="Branch">
-                </md-checkbox>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label for="Updated"> Updated </label>
-              </td>
-              <td class="checkboxContainer">
-                <md-checkbox checked="" id="Updated" name="Updated">
-                </md-checkbox>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label for="Size"> Size </label>
-              </td>
-              <td class="checkboxContainer">
-                <md-checkbox checked="" id="Size" name="Size"> </md-checkbox>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label for="Status"> Status </label>
-              </td>
-              <td class="checkboxContainer">
-                <md-checkbox id="Status" name="Status"> </md-checkbox>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <h2 class="edited heading-2" id="ChangeTableColumns">
+          Change Table Columns
+        </h2>
+        <fieldset id="changeTableColumns">
+          <table id="changeCols">
+            <thead>
+              <tr>
+                <th class="nameHeader">Column</th>
+                <th class="visibleHeader">Visible</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <label for="numberCheckbox"> Number </label>
+                </td>
+                <td class="checkboxContainer">
+                  <md-checkbox id="numberCheckbox" name="number"> </md-checkbox>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label for="Subject"> Subject </label>
+                </td>
+                <td class="checkboxContainer">
+                  <md-checkbox id="Subject" name="Subject"> </md-checkbox>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label for="Owner"> Owner </label>
+                </td>
+                <td class="checkboxContainer">
+                  <md-checkbox id="Owner" name="Owner"> </md-checkbox>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label for="Reviewers"> Reviewers </label>
+                </td>
+                <td class="checkboxContainer">
+                  <md-checkbox id="Reviewers" name="Reviewers"> </md-checkbox>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label for="Repo"> Repo </label>
+                </td>
+                <td class="checkboxContainer">
+                  <md-checkbox id="Repo" name="Repo"> </md-checkbox>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label for="Branch"> Branch </label>
+                </td>
+                <td class="checkboxContainer">
+                  <md-checkbox id="Branch" name="Branch"> </md-checkbox>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label for="Updated"> Updated </label>
+                </td>
+                <td class="checkboxContainer">
+                  <md-checkbox id="Updated" name="Updated"> </md-checkbox>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label for="Size"> Size </label>
+                </td>
+                <td class="checkboxContainer">
+                  <md-checkbox id="Size" name="Size"> </md-checkbox>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label for="Status"> Status </label>
+                </td>
+                <td class="checkboxContainer">
+                  <md-checkbox id="Status" name="Status"> </md-checkbox>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <gr-button
+            aria-disabled="false"
+            id="saveChangeTable"
+            role="button"
+            tabindex="0"
+          >
+            Save Changes
+          </gr-button>
+        </fieldset>
       </div>`
     );
   });
@@ -151,17 +160,17 @@ suite('gr-change-table-editor tests', () => {
       'table tr:nth-child(2) md-checkbox'
     );
     const isChecked = checkbox.checked;
-    const displayedLength = element.displayedColumns.length;
+    const displayedLength = element.localChangeTableColumns.length;
     assert.isTrue(isChecked);
 
     checkbox.click();
     await element.updateComplete;
 
-    assert.equal(element.displayedColumns.length, displayedLength - 1);
+    assert.equal(element.localChangeTableColumns.length, displayedLength - 1);
   });
 
   test('show and hide item', async () => {
-    element.displayedColumns = [
+    element.localChangeTableColumns = [
       ColumnNames.STATUS,
       ColumnNames.OWNER,
       ColumnNames.REPO,
@@ -183,37 +192,23 @@ suite('gr-change-table-editor tests', () => {
     );
     assert.equal(checkboxOwner.name, 'Owner');
 
-    assert.equal(element.displayedColumns.length, 5);
+    assert.equal(element.localChangeTableColumns.length, 5);
     assert.isFalse(checkboxSubject.checked);
     assert.isTrue(checkboxOwner.checked);
 
     checkboxSubject.click();
     await element.updateComplete;
 
-    assert.equal(element.displayedColumns.length, 6);
+    assert.equal(element.localChangeTableColumns.length, 6);
     assert.isTrue(checkboxSubject.checked);
     assert.isTrue(checkboxOwner.checked);
 
     checkboxOwner.click();
     await element.updateComplete;
 
-    assert.equal(element.displayedColumns.length, 5);
+    assert.equal(element.localChangeTableColumns.length, 5);
     assert.isTrue(checkboxSubject.checked);
     assert.isFalse(checkboxOwner.checked);
-  });
-
-  test('getDisplayedColumns', () => {
-    const enabledColumns = columns;
-    assert.deepEqual(element.getDisplayedColumns(), enabledColumns);
-    const input = queryAndAssert<MdCheckbox>(
-      element,
-      '.checkboxContainer md-checkbox[name=Subject]'
-    );
-    input.click();
-    assert.deepEqual(
-      element.getDisplayedColumns(),
-      enabledColumns.filter(c => c !== 'Subject')
-    );
   });
 
   test('handleNumberCheckboxClick', async () => {
@@ -231,12 +226,28 @@ suite('gr-change-table-editor tests', () => {
   });
 
   test('handleTargetClick', () => {
-    assert.include(element.displayedColumns, 'Subject');
+    assert.include(element.localChangeTableColumns, 'Subject');
     const subjectInput = queryAndAssert<MdCheckbox>(
       element,
       '.checkboxContainer md-checkbox[name=Subject]'
     );
     subjectInput.click();
-    assert.notInclude(element.displayedColumns, 'Subject');
+    assert.notInclude(element.localChangeTableColumns, 'Subject');
+  });
+
+  test('handleSaveChangeTable', async () => {
+    let newColumns = ['Owner', 'Project', 'Branch'];
+    element.localChangeTableColumns = newColumns.slice(0);
+    element.showNumber = false;
+    await element.handleSaveChangeTable();
+    assert.deepEqual(element.prefs.change_table, newColumns);
+    assert.isNotOk(element.prefs.legacycid_in_change_table);
+
+    newColumns = ['Size'];
+    element.localChangeTableColumns = newColumns;
+    element.showNumber = true;
+    await element.handleSaveChangeTable();
+    assert.deepEqual(element.prefs.change_table, newColumns);
+    assert.isTrue(element.prefs.legacycid_in_change_table);
   });
 });

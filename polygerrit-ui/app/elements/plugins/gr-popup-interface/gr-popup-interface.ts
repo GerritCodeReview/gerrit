@@ -58,6 +58,15 @@ export class GrPopupInterface implements PopupPluginApi {
         .getLastAttached()
         .then(async hookEl => {
           const popup = document.createElement('gr-plugin-popup');
+          // Pressing esc closes the dialog, but keeps the element in the
+          // tree. This will never be used again because plugin.popup() will
+          // just create a new element. We need to remove the element as not
+          // to waste resources.
+          popup.addEventListener('keydown', (event: KeyboardEvent) => {
+            if (event.key === 'Escape') {
+              this.close();
+            }
+          });
           if (this.moduleName) {
             const el = popup.appendChild(
               document.createElement(this.moduleName) as CustomPluginEl
@@ -82,6 +91,11 @@ export class GrPopupInterface implements PopupPluginApi {
       return;
     }
     this.popup.close();
+    // We have to call .remove() otherwise a new element is created
+    // each time this class is called with open(). Rather than openening
+    // the existing element. Leading to wasted resources.
+    this.popup.remove();
+    this.popup = null;
     this.openingPromise = null;
   }
 }

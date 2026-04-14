@@ -325,6 +325,15 @@ suite('gr-formatted-text tests', () => {
       element.markdown = true;
       await element.updateComplete;
     });
+
+    test('applies overflow-wrap: break-word to markdown-html', async () => {
+      element.content = 'text';
+      await element.updateComplete;
+      const div = queryAndAssert<HTMLElement>(element, 'div.markdown-html');
+      const style = window.getComputedStyle(div);
+      assert.equal(style.overflowWrap, 'break-word');
+    });
+
     test('renders text with links and rewrites', async () => {
       element.content = `text
         \ntext with plain link: http://google.com

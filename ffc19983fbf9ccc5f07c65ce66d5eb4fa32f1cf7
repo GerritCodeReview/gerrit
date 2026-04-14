@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2033f5d9_1835e210",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-04-14T08:40:19Z",
+      "side": 1,
+      "message": "This is definitely user-facing; I believe it should have been mentioned and not skipped.",
+      "range": {
+        "startLine": 14,
+        "startChar": 15,
+        "endLine": 14,
+        "endChar": 19
+      },
+      "revId": "ffc19983fbf9ccc5f07c65ce66d5eb4fa32f1cf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5811e5d0_3715339b",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 3

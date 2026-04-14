@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3351a7a0_7efc9b0e",
+        "filename": ".gitreview",
+        "patchSetId": 20
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-04-14T17:32:02Z",
+      "side": 1,
+      "message": "Still shows up as changed?",
+      "revId": "55c464c70d3a52b2bc475048e8644e63a3780632",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0ba3ffb4_2bcb7662",
+        "filename": "javatests/com/google/gerrit/server/schema/AllProjectsCreatorTest.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-04-14T17:32:02Z",
+      "side": 1,
+      "message": "Sorry I didn\u0027t notice this earlier, but why are these new tests added to this class? I\u0027m not following how they\u0027re connected to `AllProjectsCreator`. Maybe create a new `JdbcAccountPatchReviewStoreTest` for them?",
+      "revId": "55c464c70d3a52b2bc475048e8644e63a3780632",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

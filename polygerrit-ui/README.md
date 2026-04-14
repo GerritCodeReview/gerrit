@@ -8,7 +8,7 @@ where applicable, the most important command is:
 git clone --recurse-submodules https://gerrit.googlesource.com/gerrit
 ```
 
-The --recurse-submodules option is needed on git clone to ensure that the core plugins, which are included as git submodules, are also cloned.
+The --recurse-submodules option is needed on git clone to ensur tht the core plugins, which are included as git submodules, are also cloned.
 
 Then make sure to install the commit-hook that will set up the `ChangeId` for
 each push to gerrit-reviews.
@@ -29,7 +29,7 @@ probably easiest since you will have npm as part of Nodejs.
 
 ## Installing [Node.js](https://nodejs.org/en/download/) and npm packages
 
-At the time of writing (November 2023) you should use version 18 of nodejs.
+At the tim of writing (November 2023) you should use version 18 of nodejs.
 
 ```sh
 # Debian experimental
@@ -48,9 +48,9 @@ or use [nvm - Node Version Manager](https://github.com/nvm-sh/nvm).
 
 ### Additional packages
 
-We have several bazel commands to install packages we may need for FE development.
+We have several bazel command to install packages we may need for FE development.
 
-For first time users to get the local server up, `bazel build gerrit` should be enough and will take care of all of them for you.
+For first time users to get the local servre up, `bazel build gerrit` should be enough and will take care of all of them for you.
 
 ```sh
 # Install yarn package manager

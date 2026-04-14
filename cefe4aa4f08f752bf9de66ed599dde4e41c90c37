@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f9af851e_1b90859f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-04-14T19:43:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a0438cd2_4fe66330",
+      "range": {
+        "startLine": 13,
+        "startChar": 15,
+        "endLine": 13,
+        "endChar": 26
+      },
+      "revId": "cefe4aa4f08f752bf9de66ed599dde4e41c90c37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "150df7b3_8131e472",
@@ -37,6 +61,30 @@
       "writtenOn": "2026-04-14T17:29:09Z",
       "side": 1,
       "message": "formatting?",
+      "range": {
+        "startLine": 1617,
+        "startChar": 0,
+        "endLine": 1621,
+        "endChar": 8
+      },
+      "revId": "cefe4aa4f08f752bf9de66ed599dde4e41c90c37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "84e92f16_d3ecf450",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1621,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-04-14T19:43:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "150df7b3_8131e472",
       "range": {
         "startLine": 1617,
         "startChar": 0,

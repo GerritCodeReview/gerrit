@@ -337,88 +337,91 @@ export class GeminiMessage extends LitElement {
       ${when(
         !message.errorMessage && responseParts.length > 0,
         () => html`
-          ${textParts.map(
-            responsePart => html`
-              <p class="text-content text-response">
-                <gr-formatted-text
-                  .markdown=${true}
-                  .content=${responsePart.content}
-                ></gr-formatted-text>
-              </p>
-            `
-          )}
-          ${when(!this.isBackgroundRequest, () =>
-            this.sortedComments().map(comment => {
-              const displayLine = computeDisplayLine(comment.comment);
-              const lineNum =
-                typeof displayLine === 'string' && displayLine.startsWith('#')
-                  ? Number(displayLine.substring(1))
-                  : typeof displayLine === 'number'
-                  ? displayLine
-                  : undefined;
-              return html`
-                ${when(
-                  comment.comment.path,
-                  () => html`
-                    <button
-                      class="comment-path link-button"
-                      @click=${() =>
-                        this.handleFileClick(
-                          comment.comment.path as string,
-                          lineNum
-                        )}
-                    >
-                      <gr-icon icon="description"></gr-icon>
-                      ${comment.comment.path}
-                    </button>
-                  `
-                )}
-                ${when(
-                  displayLine,
-                  () => html`
-                    <button
-                      class="comment-line link-button"
-                      @click=${() =>
-                        this.handleFileClick(
-                          comment.comment.path as string,
-                          lineNum
-                        )}
-                    >
-                      <gr-icon icon="code"></gr-icon>
-                      ${displayLine}
-                    </button>
-                  `
-                )}
-                <div class="suggested-comment">
-                  <p class="suggested-comment-message">
-                    <gr-formatted-text
-                      .markdown=${true}
-                      .content=${comment.comment.message}
-                    ></gr-formatted-text>
-                  </p>
-                  <gr-button
-                    primary
-                    class="add-as-comment-button"
-                    @click=${() => this.onAddAsComment(comment)}
-                    >Add as Comment
-                  </gr-button>
-                </div>
-              `;
-            })
-          )}
-          ${when(
-            message.responseComplete && !this.isBackgroundRequest,
-            () => html`
-              <citations-box .turnIndex=${this.turnIndex}></citations-box>
-              <references-dropdown
-                .turnIndex=${this.turnIndex}
-              ></references-dropdown>
-              <message-actions
-                .turnId=${this.turnId()}
-                .isLatest=${this.isLatest}
-              ></message-actions>
-            `
-          )}
+          <div @copy=${this.reportContentCopied}>
+            ${textParts.map(
+              responsePart => html`
+                <p class="text-content text-response">
+                  <gr-formatted-text
+                    .markdown=${true}
+                    .content=${responsePart.content}
+                  ></gr-formatted-text>
+                </p>
+              `
+            )}
+            ${when(!this.isBackgroundRequest, () =>
+              this.sortedComments().map(comment => {
+                const displayLine = computeDisplayLine(comment.comment);
+                const lineNum =
+                  typeof displayLine === 'string' && displayLine.startsWith('#')
+                    ? Number(displayLine.substring(1))
+                    : typeof displayLine === 'number'
+                    ? displayLine
+                    : undefined;
+                return html`
+                  ${when(
+                    comment.comment.path,
+                    () => html`
+                      <button
+                        class="comment-path link-button"
+                        @click=${() =>
+                          this.handleFileClick(
+                            comment.comment.path as string,
+                            lineNum
+                          )}
+                      >
+                        <gr-icon icon="description"></gr-icon>
+                        ${comment.comment.path}
+                      </button>
+                    `
+                  )}
+                  ${when(
+                    displayLine,
+                    () => html`
+                      <button
+                        class="comment-line link-button"
+                        @click=${() =>
+                          this.handleFileClick(
+                            comment.comment.path as string,
+                            lineNum
+                          )}
+                      >
+                        <gr-icon icon="code"></gr-icon>
+                        ${displayLine}
+                      </button>
+                    `
+                  )}
+                  <div class="suggested-comment">
+                    <p class="suggested-comment-message">
+                      <gr-formatted-text
+                        .markdown=${true}
+                        .content=${comment.comment.message}
+                      ></gr-formatted-text>
+                    </p>
+                    <gr-button
+                      primary
+                      class="add-as-comment-button"
+                      @click=${() => this.onAddAsComment(comment)}
+                      >Add as Comment
+                    </gr-button>
+                  </div>
+                `;
+              })
+            )}
+            ${when(
+              message.responseComplete && !this.isBackgroundRequest,
+              () => html`
+                <citations-box .turnIndex=${this.turnIndex}></citations-box>
+                <references-dropdown
+                  .turnIndex=${this.turnIndex}
+                ></references-dropdown>
+                <message-actions
+                  .turnId=${this.turnId()}
+                  .isLatest=${this.isLatest}
+                  @item-copied=${this.reportCopyButtonClicked}
+                ></message-actions>
+              `
+            )}
+          </div>
         `
       )}
     `;
@@ -472,6 +475,20 @@ export class GeminiMessage extends LitElement {
   private reportSuggestionToComment() {
     this.reportingService.reportInteraction(
       Interaction.AI_AGENT_SUGGESTION_TO_COMMENT,
+      this.getAiAgentReportingDetails()
+    );
+  }
+
+  private reportCopyButtonClicked() {
+    this.reportingService.reportInteraction(
+      Interaction.AI_AGENT_SUGGESTION_COPY_BUTTON_CLICKED,
+      this.getAiAgentReportingDetails()
+    );
+  }
+
+  private reportContentCopied() {
+    this.reportingService.reportInteraction(
+      Interaction.AI_AGENT_SUGGESTION_CONTENT_COPIED,
       this.getAiAgentReportingDetails()
     );
   }

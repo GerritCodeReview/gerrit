@@ -70,6 +70,11 @@ export declare interface Action {
   group_display_text?: string;
   external_contexts?: ContextItem[];
   custom_action_source?: CustomActionSource;
+
+  /**
+   * Optional URL pointing to the definition of this capability.
+   */
+  capability_definition_url?: string;
 }
 
 export declare interface ChatRequest {

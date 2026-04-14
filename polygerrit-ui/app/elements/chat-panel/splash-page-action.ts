@@ -411,16 +411,14 @@ export class SplashPageAction extends LitElement {
               `
             )}
             ${when(
-              this.action?.custom_action_source?.custom_action_id,
+              this.action?.capability_definition_url,
               () => html`
                 <div class="modal-row">
                   <gr-icon icon="link"></gr-icon>
                   <div class="modal-row-content">
                     <div class="modal-row-text">
                       <a
-                        href=${this.computeCodeSearchLink(
-                          this.action?.custom_action_source?.custom_action_id
-                        )}
+                        href=${this.action.capability_definition_url}
                         target="_blank"
                         rel="noopener noreferrer"
                       >
@@ -445,19 +443,6 @@ export class SplashPageAction extends LitElement {
         </div>
       </dialog>
     `;
-  }
-
-  private computeCodeSearchLink(source?: string): string {
-    if (!source) return '';
-    let link = source;
-    const colonIndex = link.indexOf(':');
-    if (colonIndex !== -1) {
-      link = link.substring(0, colonIndex);
-    }
-    if (link.startsWith('//')) {
-      link = 'http://cs/' + link.substring(2);
-    }
-    return link;
   }
 
   private handleAction() {

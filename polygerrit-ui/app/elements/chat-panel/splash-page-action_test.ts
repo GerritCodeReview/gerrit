@@ -168,41 +168,11 @@ suite('splash-page-action tests', () => {
     const turns = chatModel.getState().turns;
     assert.lengthOf(turns, 0);
   });
-  test('computeCodeSearchLink', () => {
-    const elementWithPrivateMethods = element as unknown as {
-      computeCodeSearchLink: (s?: string) => string;
-    };
-    assert.equal(
-      elementWithPrivateMethods.computeCodeSearchLink(
-        '//depot/google3/configs/GERRIT_CAPABILITIES.textproto:symbol'
-      ),
-      'http://cs/depot/google3/configs/GERRIT_CAPABILITIES.textproto'
-    );
-    assert.equal(
-      elementWithPrivateMethods.computeCodeSearchLink(
-        '//depot/google3/configs/GERRIT_CAPABILITIES.textproto'
-      ),
-      'http://cs/depot/google3/configs/GERRIT_CAPABILITIES.textproto'
-    );
-    assert.equal(
-      elementWithPrivateMethods.computeCodeSearchLink('just/path'),
-      'just/path'
-    );
-    assert.equal(elementWithPrivateMethods.computeCodeSearchLink(''), '');
-    assert.equal(
-      elementWithPrivateMethods.computeCodeSearchLink(undefined),
-      ''
-    );
-  });
-
-  test('renders with custom_action_source', async () => {
+  test('renders capability definition link when URL is present', async () => {
     const action: Action = {
       id: 'test-action',
       display_text: 'Test Action',
-      custom_action_source: {
-        custom_action_id:
-          '//depot/google3/configs/GERRIT_CAPABILITIES.textproto:symbol',
-      },
+      capability_definition_url: 'https://example.com',
     };
     element.action = action;
     await element.updateComplete;
@@ -214,11 +184,23 @@ suite('splash-page-action tests', () => {
       '.modal-row-text a'
     ) as HTMLAnchorElement;
     assert.isOk(sourceLink);
-    assert.equal(
-      sourceLink.href,
-      'http://cs/depot/google3/configs/GERRIT_CAPABILITIES.textproto'
-    );
+    assert.equal(sourceLink.href, 'https://example.com/');
     assert.equal(sourceLink.innerText.trim(), 'Capability Definition');
+  });
+
+  test('does not render link when URL is absent', async () => {
+    const action: Action = {
+      id: 'test-action',
+      display_text: 'Test Action',
+    };
+    element.action = action;
+    await element.updateComplete;
+
+    const modal = element.shadowRoot?.querySelector('#detailsModal');
+    assert.isOk(modal);
+
+    const sourceLink = modal?.querySelector('.modal-row-text a');
+    assert.isNull(sourceLink);
   });
 
   test('renders with matched_files', async () => {

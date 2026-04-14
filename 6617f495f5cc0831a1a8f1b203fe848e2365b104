@@ -1,0 +1,118 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "afc2cdd4_f75542b4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-04-14T15:22:05Z",
+      "side": 1,
+      "message": "The closing `]` is missing",
+      "range": {
+        "startLine": 16,
+        "startChar": 23,
+        "endLine": 16,
+        "endChar": 24
+      },
+      "revId": "6617f495f5cc0831a1a8f1b203fe848e2365b104",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1acd68ef_d9f131b4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-04-14T15:22:05Z",
+      "side": 1,
+      "message": "indent that json to make it more readable",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 2
+      },
+      "revId": "6617f495f5cc0831a1a8f1b203fe848e2365b104",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "940a3be7_7deafd7b",
+        "filename": "java/com/google/gerrit/entities/SubmitRequirementResult.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-04-14T15:22:05Z",
+      "side": 1,
+      "message": "Considering the coding style in this method I would make this also an `else if` to keep the style consistent.\n\nHowever, all the `else if` lines here can and should be converted into just `if` lines because the first condition that evaluates to true also returns form the method. This can be done in a predecessor change or in a follow-up change.",
+      "revId": "6617f495f5cc0831a1a8f1b203fe848e2365b104",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8ba8ab17_76e7eef6",
+        "filename": "java/com/google/gerrit/entities/SubmitRequirementResult.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-04-14T15:22:05Z",
+      "side": 1,
+      "message": "As a more modern version this can be checked using the `Optional.filter`:\n```\nreturn r.filter(v -\u003e v.status() \u003d\u003d SubmitRequirementExpressionResult.Status.TIMEOUT).isPresent()\n```",
+      "revId": "6617f495f5cc0831a1a8f1b203fe848e2365b104",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a3088b2d_d78911c0",
+        "filename": "java/com/google/gerrit/entities/SubmitRequirementResult.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-04-14T15:22:05Z",
+      "side": 1,
+      "message": "add an empty line above, follow the code style around your change",
+      "revId": "6617f495f5cc0831a1a8f1b203fe848e2365b104",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b004811a_e137a291",
+        "filename": "java/com/google/gerrit/extensions/common/SubmitRequirementResultInfo.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-04-14T15:22:05Z",
+      "side": 1,
+      "message": "add an empty line above",
+      "revId": "6617f495f5cc0831a1a8f1b203fe848e2365b104",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

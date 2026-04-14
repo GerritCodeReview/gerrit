@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "257e90c0_15d7d318",
+        "filename": "polygerrit-ui/app/elements/settings/gr-change-table-editor/gr-change-table-editor.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2026-04-14T16:22:37Z",
+      "side": 0,
+      "message": "With a text field involved along with the checkboxes, the alignment looks very strange centered, hence this change",
+      "revId": "556d2ee8ce118ce64a1c3f1c9943acd076acc5be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

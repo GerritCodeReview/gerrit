@@ -2030,6 +2030,45 @@ suite('gr-rest-api-service-impl tests', () => {
     });
   });
 
+  suite('getFixPreview', () => {
+    const fixReplacementInfo = createFixReplacementInfo();
+    let fetchJSONStub: sinon.SinonStub;
+
+    setup(() => {
+      element.addRepoNameToCache(123 as NumericChangeId, TEST_PROJECT_NAME);
+      fetchJSONStub = sinon
+        .stub(element._restApiHelper, 'fetchJSON')
+        .resolves({} as unknown as ParsedJSON);
+    });
+
+    test('getFixPreview caches results', async () => {
+      await element.getFixPreview(123 as NumericChangeId, 1 as PatchSetNum, [
+        fixReplacementInfo,
+      ]);
+      assert.isTrue(fetchJSONStub.calledOnce);
+
+      // Call again with same params
+      await element.getFixPreview(123 as NumericChangeId, 1 as PatchSetNum, [
+        fixReplacementInfo,
+      ]);
+      // Should not call fetchJSON again
+      assert.isTrue(fetchJSONStub.calledOnce);
+    });
+
+    test('getFixPreview does not cache for different params', async () => {
+      await element.getFixPreview(123 as NumericChangeId, 1 as PatchSetNum, [
+        fixReplacementInfo,
+      ]);
+      assert.isTrue(fetchJSONStub.calledOnce);
+
+      // Call with different patchNum
+      await element.getFixPreview(123 as NumericChangeId, 2 as PatchSetNum, [
+        fixReplacementInfo,
+      ]);
+      assert.isTrue(fetchJSONStub.calledTwice);
+    });
+  });
+
   suite('flow api', () => {
     const changeNum = 123 as NumericChangeId;
     const flowId = 'test-flow-id';

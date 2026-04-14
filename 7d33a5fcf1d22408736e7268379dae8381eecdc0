@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f3c98cef_eea54aad",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2026-04-14T20:07:34Z",
+      "side": 1,
+      "message": "Needs Release-Notes footer.",
+      "revId": "7d33a5fcf1d22408736e7268379dae8381eecdc0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1c754a1d_0d782b32",
+        "filename": "polygerrit-ui/app/elements/settings/gr-change-table-editor/gr-change-table-editor.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2026-04-14T20:07:34Z",
+      "side": 1,
+      "message": "Move this into a class.",
+      "revId": "7d33a5fcf1d22408736e7268379dae8381eecdc0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

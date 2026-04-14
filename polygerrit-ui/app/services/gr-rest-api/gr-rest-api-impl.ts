@@ -172,11 +172,21 @@ const ANONYMIZED_REVISION_BASE_URL =
   ANONYMIZED_CHANGE_BASE_URL + '/revisions/*';
 
 let siteBasedCache = new SiteBasedCache(); // Shared across instances.
-let fetchPromisesCache = new FetchPromisesCache(); // Shared across instances.
+// Shared across instances. Note: fetchPromisesCache only matches on URL and params,
+// not request bodies, hence it does not safely support POST requests with payloads.
+let fetchPromisesCache = new FetchPromisesCache();
 let pendingRequest: {[promiseName: string]: Array<Promise<unknown>>} = {}; // Shared across instances.
 let grEtagDecorator = new GrEtagDecorator(); // Shared across instances.
 // TODO: consider changing this to Map()
 let projectLookup: {[changeNum: string]: Promise<RepoName> | undefined} = {}; // Shared across instances.
+// Shared across instances. Specifically allocated for fix previews because FetchPromisesCache
+// doesn't reflect POST request bodies in its keys, and fix previews are currently the only POST requests
+// that require deduplication across Lit components.
+let fixPreviewCache = new Map<
+  string,
+  Promise<FilePathToDiffInfoMap | undefined>
+>();
+
 
 function suppress404s(res?: Response | null) {
   if (!res || res.status === 404) return;
@@ -227,6 +237,7 @@ export function testOnlyResetGrRestApiSharedObjects(authService: AuthService) {
   pendingRequest = {};
   grEtagDecorator = new GrEtagDecorator();
   projectLookup = {};
+  fixPreviewCache = new Map();
   authService.clearCache();
 }
 
@@ -2588,15 +2599,37 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     patchNum: PatchSetNum,
     fixReplacementInfos: FixReplacementInfo[]
   ): Promise<FilePathToDiffInfoMap | undefined> {
-    const url = await this._changeBaseURL(changeNum, patchNum);
-    return this._restApiHelper.fetchJSON({
-      fetchOptions: getFetchOptions({
-        method: HttpMethod.POST,
-        body: {fix_replacement_infos: fixReplacementInfos},
-      }),
-      url: `${url}/fix:preview`,
-      anonymizedUrl: `${ANONYMIZED_REVISION_BASE_URL}/fix:preview`,
-    }) as Promise<FilePathToDiffInfoMap | undefined>;
+    const key = `${changeNum}-${patchNum}-${JSON.stringify(
+      fixReplacementInfos
+    )}`;
+    if (fixPreviewCache.has(key)) {
+      return fixPreviewCache.get(key);
+    }
+
+    const promise = (async () => {
+      try {
+        const url = await this._changeBaseURL(changeNum, patchNum);
+        const response = (await this._restApiHelper.fetchJSON({
+          fetchOptions: getFetchOptions({
+            method: HttpMethod.POST,
+            body: {fix_replacement_infos: fixReplacementInfos},
+          }),
+          url: `${url}/fix:preview`,
+          anonymizedUrl: `${ANONYMIZED_REVISION_BASE_URL}/fix:preview`,
+        })) as FilePathToDiffInfoMap | undefined;
+
+        if (response === undefined) {
+          fixPreviewCache.delete(key);
+        }
+        return response;
+      } catch (err) {
+        fixPreviewCache.delete(key);
+        throw err;
+      }
+    })();
+
+    fixPreviewCache.set(key, promise);
+    return promise;
   }
 
   async applyFixSuggestion(

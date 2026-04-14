@@ -1614,8 +1614,11 @@ export class GrReplyDialog extends LitElement {
     // timer will be ended.
     this.reporting.time(Timing.SEND_REPLY);
     this.getNavigation().blockNavigation('sending review');
+    const networkTimer = this.reporting.getTimer('SendReply - network');
     return this.saveReview(reviewInput, errFn)
       .then(result => {
+        networkTimer.end();
+
         // change-info is not set only if request resulted in error.
         if (!result?.change_info) {
           return;
@@ -1634,9 +1637,11 @@ export class GrReplyDialog extends LitElement {
           current_revision: this.change?.current_revision,
           current_revision_number: this.change?.current_revision_number,
         };
+        const parseTimer = this.reporting.getTimer('SendReply - parse');
         this.getChangeModel().updateStateChange(
           GrReviewerUpdatesParser.parse(updatedChange as ChangeViewChangeInfo)
         );
+        parseTimer.end();
         if (reloadRequired) {
           fireReload(this);
         } else {
@@ -1649,7 +1654,11 @@ export class GrReplyDialog extends LitElement {
         this.includeComments = true;
         fireNoBubble(this, 'send', {});
         fireIronAnnounce(this, 'Reply sent');
+        const pluginAfterTimer = this.reporting.getTimer(
+          'SendReply - pluginAfter'
+        );
         this.getPluginLoader().jsApiService.handleReplySent();
+        pluginAfterTimer.end();
       })
       .finally(async () => {
         this.getNavigation().releaseNavigation('sending review');

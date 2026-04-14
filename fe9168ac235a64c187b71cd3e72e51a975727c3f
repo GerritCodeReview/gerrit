@@ -16,6 +16,24 @@
       "message": "hey @milutin@google.com do we know what are the browers that will not be supported anymore after this change?\n\nWe are just trying to assess whether we want to cherry-pick this to 3.14, depending on its impact. Thanks",
       "revId": "fe9168ac235a64c187b71cd3e72e51a975727c3f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "79c20c34_380ca88d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-04-14T13:20:23Z",
+      "side": 1,
+      "message": "I think only very old browsers are not working. Google is not providing this file for long time (over year) \n\nGemini replied this:\nThe commit message explicitly states:\n\n\"PolyGerrit relies exclusively on modern browser features like native Custom Elements and Shadow DOM, making this polyfill obsolete.\"\n\nThis means that the browsers that will no longer be supported are those that lack native support for these features. Specifically:\n\nInternet Explorer 11 (IE11 does not support these natively).\nLegacy Edge (non-Chromium).\nVery old versions of modern browsers (generally released before 2018-2020, e.g., Chrome \u003c 54, Firefox \u003c 63, Safari \u003c 10.1).",
+      "parentUuid": "cad3b010_014042be",
+      "revId": "fe9168ac235a64c187b71cd3e72e51a975727c3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

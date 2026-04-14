@@ -10,6 +10,7 @@ import {css, html, LitElement, nothing} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {classMap} from 'lit/directives/class-map.js';
 import {when} from 'lit/directives/when.js';
+import {ifDefined} from 'lit/directives/if-defined.js';
 
 import '../shared/gr-icon/gr-icon';
 import '../shared/gr-button/gr-button';
@@ -411,15 +412,15 @@ export class SplashPageAction extends LitElement {
               `
             )}
             ${when(
-              this.action?.custom_action_source?.custom_action_id,
+              this.action?.capability_definition_url,
               () => html`
                 <div class="modal-row">
                   <gr-icon icon="link"></gr-icon>
                   <div class="modal-row-content">
                     <div class="modal-row-text">
                       <a
-                        href=${this.computeCodeSearchLink(
-                          this.action?.custom_action_source?.custom_action_id
+                        href=${ifDefined(
+                          this.action?.capability_definition_url
                         )}
                         target="_blank"
                         rel="noopener noreferrer"
@@ -445,19 +446,6 @@ export class SplashPageAction extends LitElement {
         </div>
       </dialog>
     `;
-  }
-
-  private computeCodeSearchLink(source?: string): string {
-    if (!source) return '';
-    let link = source;
-    const colonIndex = link.indexOf(':');
-    if (colonIndex !== -1) {
-      link = link.substring(0, colonIndex);
-    }
-    if (link.startsWith('//')) {
-      link = 'http://cs/' + link.substring(2);
-    }
-    return link;
   }
 
   private handleAction() {

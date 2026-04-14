@@ -22,6 +22,30 @@
       },
       "revId": "d244d9d4f8ae7c94564ac04df6e1f65e6fa32b12",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bcdde928_f19cef32",
+        "filename": "polygerrit-ui/app/elements/chat-panel/splash-page-action.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 436,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-04-14T08:43:14Z",
+      "side": 1,
+      "message": "For context, Gerrit is run by multiple installations(SAP/Qualcomm etc) and Google is just one user of it.\n\nFor all of them, the link will not work since they don\u0027t have `cs` enabled 😊\n\nThat is usually why we do most of the work via plugins.",
+      "parentUuid": "32fff992_31723984",
+      "range": {
+        "startLine": 425,
+        "startChar": 0,
+        "endLine": 436,
+        "endChar": 3
+      },
+      "revId": "d244d9d4f8ae7c94564ac04df6e1f65e6fa32b12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

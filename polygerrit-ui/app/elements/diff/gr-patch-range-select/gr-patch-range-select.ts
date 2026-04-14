@@ -20,6 +20,7 @@ import {
   shorten,
 } from '../../../utils/patch-set-util';
 import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
+import {RevisionKind} from '../../../constants/constants';
 import {
   AccountInfo,
   ApprovalInfo,
@@ -314,9 +315,11 @@ export class GrPatchRangeSelect extends LitElement {
     const rev = getRevisionByPatchNum(this.sortedRevisions, this.patchNum);
 
     const dropdownContent: DropdownItem[] = this.availablePatches
-      .filter(basePatch =>
-        this.isValidLeftPatchNum(basePatch.num, this.patchNum!)
-      )
+      .filter(basePatch => {
+        if (basePatch.num === this.basePatchNum) return true;
+        const isValid = this.isValidLeftPatchNum(basePatch.num, this.patchNum!);
+        return isValid;
+      })
       .map(basePatch =>
         this.createDropdownEntry(basePatch.num, 'Patchset ', basePatch.sha)
       );
@@ -544,11 +547,28 @@ export class GrPatchRangeSelect extends LitElement {
   ) {
     const rev = getRevisionByPatchNum(this.sortedRevisions, patchNum);
 
-    return rev?.description
-      ? (addFrontSpace ? ' ' : '') +
-          rev.description.substring(0, PATCH_DESC_MAX_LENGTH)
-      : '';
+    if (rev?.description) {
+      return (
+        (addFrontSpace ? ' ' : '') +
+        rev.description.substring(0, PATCH_DESC_MAX_LENGTH)
+      );
+    }
+
+    if (
+      rev?.kind === RevisionKind.TRIVIAL_REBASE ||
+      rev?.kind === RevisionKind.TRIVIAL_REBASE_WITH_MESSAGE_UPDATE
+    ) {
+      return (addFrontSpace ? ' ' : '') + 'Rebase';
+    }
+
+    if (rev?.kind === RevisionKind.NO_CODE_CHANGE) {
+      return (addFrontSpace ? ' ' : '') + 'Commit message changes';
+    }
+
+    return '';
   }
+
+
 
   private computePatchSetDate(patchNum: PatchSetNum): Timestamp | undefined {
     const rev = getRevisionByPatchNum(this.sortedRevisions, patchNum);

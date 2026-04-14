@@ -26,7 +26,7 @@ import {
   UrlEncodedCommentId,
 } from '../../../types/common';
 import {EditRevisionInfo, ParsedChangeInfo} from '../../../types/types';
-import {SpecialFilePath} from '../../../constants/constants';
+import {RevisionKind, SpecialFilePath} from '../../../constants/constants';
 import {
   createAccountDetailWithId,
   createChangeViewState,
@@ -569,6 +569,45 @@ suite('gr-patch-range-select tests', () => {
       ),
       expectedResult
     );
+  });
+
+  suite('computePatchSetDescription', () => {
+    setup(async () => {
+      element.availablePatches = [
+        {num: 4, sha: 'sha4'} as PatchSet,
+        {num: 3, sha: 'sha3'} as PatchSet,
+        {num: 2, sha: 'sha2'} as PatchSet,
+        {num: 1, sha: 'sha1'} as PatchSet,
+      ];
+      element.sortedRevisions = [
+        {...createRevision(4), kind: RevisionKind.TRIVIAL_REBASE},
+        {...createRevision(3), kind: RevisionKind.REWORK},
+        {
+          ...createRevision(2),
+          kind: RevisionKind.TRIVIAL_REBASE_WITH_MESSAGE_UPDATE,
+        },
+        {...createRevision(1), kind: RevisionKind.REWORK},
+      ];
+      element.revisionInfo = getInfo(element.sortedRevisions);
+      element.patchNum = 4 as PatchSetNumber;
+      element.basePatchNum = PARENT;
+      await element.updateComplete;
+    });
+
+
+
+    test('computePatchSetDescription fallback to kind', () => {
+      assert.equal(
+        element['computePatchSetDescription'](4 as PatchSetNum),
+        'Rebase'
+      );
+      assert.equal(element['computePatchSetDescription'](3 as PatchSetNum), '');
+      assert.equal(
+        element['computePatchSetDescription'](2 as PatchSetNum),
+        'Rebase'
+      );
+      assert.equal(element['computePatchSetDescription'](1 as PatchSetNum), '');
+    });
   });
 });
 

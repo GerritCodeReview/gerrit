@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aec2e21c_71fa9c39",
+        "filename": "javatests/com/google/gerrit/server/schema/JdbcAccountPatchReviewStoreTest.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-04-15T05:27:01Z",
+      "side": 1,
+      "message": "one last nit:\n```suggestion\n// Copyright (C) 2026 The Android Open Source Project\n```",
+      "revId": "840987e74959a32eb7210d1b1f39f06dac4570ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

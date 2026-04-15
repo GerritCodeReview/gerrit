@@ -356,6 +356,30 @@
       },
       "revId": "f9763daf0909aaf02d378d673e730190ecfebd30",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c6fe71bd_6955459b",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-04-15T10:10:03Z",
+      "side": 1,
+      "message": "Ok so we have 2 separate methods\n\n`_restApiHelper.fetchCacheJSON` and `_restApiHelper.fetchJSON({`\n\nhttp://google3/third_party/javascript/polygerrit/services/gr-rest-api/gr-rest-api-impl.ts?l\u003d291\n\nThat decides if the fetch should use the cache or not\n\nhttp://google3/third_party/javascript/polygerrit/elements/shared/gr-js-api-interface/gr-plugin-rest-api.ts?rcl\u003d900053538\u0026l\u003d54 \n\nThe caller then specifies a `noCache` property to decide if they want this request cached or not.\n\nIn the `rest-api-impl` sometimes we use the cache and sometimes we don\u0027t\n\nhttp://google3/third_party/javascript/polygerrit/services/gr-rest-api/gr-rest-api-impl.ts?l\u003d3305\n\nIt\u0027s configured at the caller level\n\nSo I think we can do something similar here.\n\nHave a generic cache for POST requests based on key and then only update the `getFixPreview` method to use the cache similar to how `getAccountSSHKeys` uses the cache but `generateAccountAuthToken` does not use the cache",
+      "parentUuid": "c9e96cb0_e3657374",
+      "range": {
+        "startLine": 180,
+        "startChar": 0,
+        "endLine": 183,
+        "endChar": 32
+      },
+      "revId": "f9763daf0909aaf02d378d673e730190ecfebd30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

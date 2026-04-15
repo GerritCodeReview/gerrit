@@ -380,6 +380,30 @@
       },
       "revId": "f9763daf0909aaf02d378d673e730190ecfebd30",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0124e680_bdda0ccc",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-04-15T10:14:16Z",
+      "side": 1,
+      "message": "We don\u0027t want to cache any other post request, just fix:reply. That\u0027s not good to cache POST requests. I don\u0027t understand which requests do you want to cache except of fix reply?",
+      "parentUuid": "c6fe71bd_6955459b",
+      "range": {
+        "startLine": 180,
+        "startChar": 0,
+        "endLine": 183,
+        "endChar": 32
+      },
+      "revId": "f9763daf0909aaf02d378d673e730190ecfebd30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

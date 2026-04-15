@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3db4326a_b628a5ac",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-04-15T10:17:55Z",
+      "side": 1,
+      "message": "Adding Nitzan to help us decide how to continue with this change.",
+      "revId": "abdd1ec55452f190833f5cbf524e06c795a5766c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

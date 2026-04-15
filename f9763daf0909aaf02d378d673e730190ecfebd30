@@ -428,6 +428,30 @@
       },
       "revId": "f9763daf0909aaf02d378d673e730190ecfebd30",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5e2f7b32_421ac546",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-04-15T10:17:38Z",
+      "side": 1,
+      "message": "\u003e Have a generic cache for POST requests based on key and then only update the getFixPreview method to use the cache similar to how getAccountSSHKeys uses the cache but generateAccountAuthToken does not use the cache\n\nI want the `getFixPreview` method to be similar to the `getAccountSSHKeys` method\n\nThat ensures the REST API handlers are behaving similarly.\n\nThat means the method should call a `fetchWithCache` method instead of currently creating a cache for only it\u0027s use.\n\nThat ensures that other POST method can also opt into the cache if they want. I am not asking you to update multiple POST methods.\n\nhttp://google3/third_party/javascript/polygerrit/services/gr-rest-api/gr-rest-api-impl.ts?l\u003d3305",
+      "parentUuid": "cff724bf_4cd27499",
+      "range": {
+        "startLine": 180,
+        "startChar": 0,
+        "endLine": 183,
+        "endChar": 32
+      },
+      "revId": "f9763daf0909aaf02d378d673e730190ecfebd30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

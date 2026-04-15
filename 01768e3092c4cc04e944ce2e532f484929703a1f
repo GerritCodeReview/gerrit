@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1a4bf482_9fc095c2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-04-15T07:20:53Z",
+      "side": 1,
+      "message": "can you add more details here?\n\nWhere is the call happening?\n\nWhy is it requesting the same preview multiple times?\n\nCan we fix the caller and fix the root cause?",
+      "range": {
+        "startLine": 11,
+        "startChar": 33,
+        "endLine": 12,
+        "endChar": 23
+      },
+      "revId": "01768e3092c4cc04e944ce2e532f484929703a1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

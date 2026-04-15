@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7dbade6e_c26e0792",
+        "filename": "polygerrit-ui/app/elements/settings/gr-menu-editor/gr-menu-editor_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 551,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-04-15T15:04:08Z",
+      "side": 1,
+      "message": "Consider using standard `assert.deepEqual(element.menuItems, element.originalPrefs.my)` directly here and on line 574 instead of `assert.isTrue(deepEqual(...))`. \n\nIf the test ever fails, `assert.deepEqual` will print a helpful diff showing exactly what didn\u0027t match, whereas `assert.isTrue` will only print `expected false to be true`. You can also remove the `deepEqual` import from `utils/deep-util.ts` if you do this.",
+      "range": {
+        "startLine": 551,
+        "startChar": 0,
+        "endLine": 551,
+        "endChar": 0
+      },
+      "revId": "8d9563af7734cf2dc69b2fe7ff2fcf26010436f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

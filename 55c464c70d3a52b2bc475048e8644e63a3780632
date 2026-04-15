@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "faace9eb_f6438308",
+        "filename": ".gitreview",
+        "patchSetId": 20
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 4597336
+      },
+      "writtenOn": "2026-04-15T05:23:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3351a7a0_7efc9b0e",
+      "revId": "55c464c70d3a52b2bc475048e8644e63a3780632",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0ba3ffb4_2bcb7662",
@@ -31,6 +49,24 @@
       "writtenOn": "2026-04-14T17:32:02Z",
       "side": 1,
       "message": "Sorry I didn\u0027t notice this earlier, but why are these new tests added to this class? I\u0027m not following how they\u0027re connected to `AllProjectsCreator`. Maybe create a new `JdbcAccountPatchReviewStoreTest` for them?",
+      "revId": "55c464c70d3a52b2bc475048e8644e63a3780632",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c11d9efb_147d0aeb",
+        "filename": "javatests/com/google/gerrit/server/schema/AllProjectsCreatorTest.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 4597336
+      },
+      "writtenOn": "2026-04-15T05:23:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0ba3ffb4_2bcb7662",
       "revId": "55c464c70d3a52b2bc475048e8644e63a3780632",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

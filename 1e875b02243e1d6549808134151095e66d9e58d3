@@ -1,5 +1,29 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7404e58d_a8698c79",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 836,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-04-15T13:30:49Z",
+      "side": 1,
+      "message": "this being part of all ChangeInfo is a bit suboptimal since it makes all requests slower\n\nI think it should be exposed as a separate API if required but not be generically part of ChangeInfo\n\nAt Google this value is always true so having this check is not that beneficial for us",
+      "range": {
+        "startLine": 822,
+        "startChar": 0,
+        "endLine": 836,
+        "endChar": 7
+      },
+      "revId": "1e875b02243e1d6549808134151095e66d9e58d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

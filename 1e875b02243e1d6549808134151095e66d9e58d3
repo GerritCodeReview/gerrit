@@ -22,6 +22,30 @@
       },
       "revId": "1e875b02243e1d6549808134151095e66d9e58d3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fd509b82_ee4bacd2",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 836,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-04-15T13:50:02Z",
+      "side": 1,
+      "message": "\u003e this being part of all ChangeInfo is a bit suboptimal since it makes all requests slower\n\u003e \n\u003e I think it should be exposed as a separate API if required but not be generically part of ChangeInfo\n\nAssuming that it\u0027s a separate brand-new API call, it would require yet another round-trip with the backend, and potentially a lot more data transferred.\n\n\u003e At Google this value is always true so having this check is not that beneficial for us\n\nTrue, but with another REST-API the front-end will have to make that call anyway, even for Google, so your frontends would slow down. Is it worth it? Do you have other solutions?",
+      "parentUuid": "7404e58d_a8698c79",
+      "range": {
+        "startLine": 822,
+        "startChar": 0,
+        "endLine": 836,
+        "endChar": 7
+      },
+      "revId": "1e875b02243e1d6549808134151095e66d9e58d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

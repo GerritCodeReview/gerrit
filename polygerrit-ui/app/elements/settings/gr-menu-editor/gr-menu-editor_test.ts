@@ -543,4 +543,35 @@ suite('gr-menu-editor tests', () => {
     assert.isNull(element.editingIndex);
     assert.isNull(element.editingField);
   });
+
+  test('checkbox toggle does not leave dirty state after reverting', async () => {
+    const saveButton = queryAndAssert<GrButton>(element, 'gr-button#save');
+
+    assert.deepEqual(element.menuItems, element.originalPrefs.my);
+    assert.isTrue(saveButton.hasAttribute('disabled'));
+
+    let checkbox = queryAndAssert<HTMLInputElement>(
+      element,
+      'tbody tr:nth-child(2) md-checkbox'
+    );
+
+    checkbox.click();
+    await element.updateComplete;
+
+    assert.notDeepEqual(element.menuItems, element.originalPrefs.my);
+
+    assert.isFalse(saveButton.hasAttribute('disabled'));
+
+    checkbox = queryAndAssert<HTMLInputElement>(
+      element,
+      'tbody tr:nth-child(2) md-checkbox'
+    );
+
+    checkbox.click();
+    await element.updateComplete;
+
+    assert.deepEqual(element.menuItems, element.originalPrefs.my);
+
+    assert.isTrue(saveButton.hasAttribute('disabled'));
+  });
 });

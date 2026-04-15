@@ -46,6 +46,7 @@ import {userModelToken} from '../../../models/user/user-model';
 import {assertIsDefined} from '../../../utils/common-util';
 import {GrAiPromptDialog} from '../gr-ai-prompt-dialog/gr-ai-prompt-dialog';
 import {flowsModelToken} from '../../../models/flows/flows-model';
+import {KnownExperimentId} from '../../../services/flags/flags';
 
 function handleSpaceOrEnter(e: KeyboardEvent, handler: () => void) {
   if (modifierPressed(e)) return;
@@ -121,6 +122,8 @@ export class GrChangeSummary extends LitElement {
   private readonly getChangeModel = resolve(this, changeModelToken);
 
   private readonly getFlowsModel = resolve(this, flowsModelToken);
+
+  private readonly flagsService = getAppContext().flagsService;
 
   private readonly reporting = getAppContext().reportingService;
 
@@ -591,21 +594,28 @@ export class GrChangeSummary extends LitElement {
                   showCommentCategoryName
                   clickableChips
                 ></gr-comments-summary>
-                <gr-button link @click=${this.handleOpenAiPromptDialog}
-                  >Create AI Review Prompt</gr-button
-                >
+                ${when(
+                  this.flagsService.isEnabled(KnownExperimentId.GET_AI_PROMPT),
+                  () =>
+                    html`<gr-button link @click=${this.handleOpenAiPromptDialog}
+                      >Create AI Review Prompt</gr-button
+                    >`
+                )}
               </div>
             </td>
           </tr>
           ${this.renderChecksSummary()} ${this.renderFlowsSummary()}
         </table>
       </div>
-      <dialog id="aiPromptModal" tabindex="-1">
-        <gr-ai-prompt-dialog
-          id="aiPromptDialog"
-          @close=${this.handleAiPromptDialogClose}
-        ></gr-ai-prompt-dialog>
-      </dialog>
+      ${when(
+        this.flagsService.isEnabled(KnownExperimentId.GET_AI_PROMPT),
+        () => html` <dialog id="aiPromptModal" tabindex="-1">
+          <gr-ai-prompt-dialog
+            id="aiPromptDialog"
+            @close=${this.handleAiPromptDialogClose}
+          ></gr-ai-prompt-dialog>
+        </dialog>`
+      )}
     `;
   }
 

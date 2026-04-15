@@ -4276,6 +4276,22 @@ either enabled by default or explicitly in the config.
   disabled = ExperimentKey
 ----
 
+[[experiments.ui_feature_get_ai_prompt]]
+==== UiFeature__get_ai_prompt
+
+Controls the visibility of the AI Review Prompt action in the change screen UI.
+
+When enabled, the "Create AI Review Prompt" button and dialog are shown in the UI.
+
+This experiment is enabled by default. It can be disabled explicitly:
+
+----
+[experiments]
+  disabled = UiFeature__get_ai_prompt
+----
+
+Disabling this experiment hides the AI Review Prompt action from the UI.
+
 [[ldap]]
 === Section ldap
 

@@ -23,8 +23,17 @@ public class ExperimentFeaturesConstants {
   public static String GERRIT_BACKEND_FEATURE_ATTACH_NONCE_TO_DOCUMENTATION =
       "GerritBackendFeature__attach_nonce_to_documentation";
 
-  /** Features, enabled by default in the current release. */
-  public static final ImmutableSet<String> DEFAULT_ENABLED_FEATURES = ImmutableSet.of();
+  /**
+   * Enables the AI Review Prompt button and dialog in the change screen UI.
+   *
+   * <p>This feature is enabled by default but can be disabled via [experiments] disabled =
+   * UiFeature__get_ai_prompt.
+   */
+  public static final String UI_FEATURE_GET_AI_PROMPT = "UiFeature__get_ai_prompt";
+
+  /** Features enabled by default in the current release. */
+  public static final ImmutableSet<String> DEFAULT_ENABLED_FEATURES =
+      ImmutableSet.of(UI_FEATURE_GET_AI_PROMPT);
 
   /**
    * If true, gerrit checks implicit merges on each merge operations.

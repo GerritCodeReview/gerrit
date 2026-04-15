@@ -27,6 +27,8 @@ import {GrChecksChip} from './gr-checks-chip';
 import {CheckRun} from '../../../models/checks/checks-model';
 import {Category, RunStatus} from '../../../api/checks';
 import {FlowsModel, flowsModelToken} from '../../../models/flows/flows-model';
+import {getAppContext} from '../../../services/app-context';
+import {KnownExperimentId} from '../../../services/flags/flags';
 
 function createFlow(partial: Partial<FlowInfo> = {}): FlowInfo {
   return {
@@ -57,52 +59,112 @@ suite('gr-change-summary test', () => {
   });
 
   test('renders', async () => {
-    commentsModel.setState({
-      drafts: {
-        a: [createDraft(), createDraft(), createDraft()],
-      },
-      discardedDrafts: [],
-    });
-    element.commentsLoading = false;
-    element.commentThreads = [
-      createCommentThread([createComment()]),
-      createCommentThread([{...createComment(), unresolved: true}]),
-    ];
-    await element.updateComplete;
-    assert.shadowDom.equal(
-      element,
-      /* HTML */ `
-        <div>
-          <table class="info">
-            <tbody>
-              <tr>
-                <td class="key">Comments</td>
-                <td class="value">
-                  <div class="value-content">
-                    <gr-comments-summary
-                      clickablechips=""
-                      showcommentcategoryname=""
-                    ></gr-comments-summary>
-                    <gr-button
-                      aria-disabled="false"
-                      link=""
-                      role="button"
-                      tabindex="0"
-                    >
-                      Create AI Review Prompt
-                    </gr-button>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <dialog id="aiPromptModal" tabindex="-1">
-          <gr-ai-prompt-dialog id="aiPromptDialog" role="dialog">
-          </gr-ai-prompt-dialog>
-        </dialog>
-      `
-    );
+    const flagsService = getAppContext().flagsService;
+    const isEnabledStub = sinon.stub(flagsService, 'isEnabled');
+    isEnabledStub.returns(false);
+    isEnabledStub.withArgs(KnownExperimentId.GET_AI_PROMPT).returns(true);
+
+    try {
+      commentsModel.setState({
+        drafts: {
+          a: [createDraft(), createDraft(), createDraft()],
+        },
+        discardedDrafts: [],
+      });
+      element.commentsLoading = false;
+      element.commentThreads = [
+        createCommentThread([createComment()]),
+        createCommentThread([{...createComment(), unresolved: true}]),
+      ];
+      await element.updateComplete;
+      assert.shadowDom.equal(
+        element,
+        /* HTML */ `
+          <div>
+            <table class="info">
+              <tbody>
+                <tr>
+                  <td class="key">Comments</td>
+                  <td class="value">
+                    <div class="value-content">
+                      <gr-comments-summary
+                        clickablechips=""
+                        showcommentcategoryname=""
+                      ></gr-comments-summary>
+                      <gr-button
+                        aria-disabled="false"
+                        link=""
+                        role="button"
+                        tabindex="0"
+                      >
+                        Create AI Review Prompt
+                      </gr-button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <dialog id="aiPromptModal" tabindex="-1">
+            <gr-ai-prompt-dialog id="aiPromptDialog" role="dialog">
+            </gr-ai-prompt-dialog>
+          </dialog>
+        `
+      );
+    } finally {
+      isEnabledStub.restore();
+    }
+  });
+
+  test('does not render AI review prompt when experiment is disabled', async () => {
+    const flagsService = getAppContext().flagsService;
+    const isEnabledStub = sinon.stub(flagsService, 'isEnabled');
+    isEnabledStub.returns(true);
+    isEnabledStub.withArgs(KnownExperimentId.GET_AI_PROMPT).returns(false);
+
+    try {
+      const disabledElement = await fixture<GrChangeSummary>(
+        html`<gr-change-summary></gr-change-summary>`
+      );
+
+      commentsModel.setState({
+        drafts: {
+          a: [createDraft(), createDraft(), createDraft()],
+        },
+        discardedDrafts: [],
+      });
+      disabledElement.commentsLoading = false;
+      disabledElement.commentThreads = [
+        createCommentThread([createComment()]),
+        createCommentThread([{...createComment(), unresolved: true}]),
+      ];
+
+      await disabledElement.updateComplete;
+      assert.shadowDom.equal(
+        disabledElement,
+        /* HTML */ `
+          <div>
+            <table class="info">
+              <tbody>
+                <tr>
+                  <td class="key">Comments</td>
+                  <td class="value">
+                    <div class="value-content">
+                      <gr-comments-summary
+                        clickablechips=""
+                        showcommentcategoryname=""
+                      ></gr-comments-summary>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        `
+      );
+    } finally {
+      isEnabledStub.restore();
+    }
   });
 
   test('renders checks summary message', async () => {

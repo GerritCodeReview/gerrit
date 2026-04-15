@@ -60,7 +60,8 @@ public class IndexServletTest {
     String testCdnPath = "bar-cdn";
     String testFaviconURL = "zaz-url";
 
-    assertThat(ExperimentFeaturesConstants.DEFAULT_ENABLED_FEATURES).isEmpty();
+    assertThat(ExperimentFeaturesConstants.DEFAULT_ENABLED_FEATURES)
+        .containsExactly(ExperimentFeaturesConstants.UI_FEATURE_GET_AI_PROMPT);
 
     org.eclipse.jgit.lib.Config serverConfig = new org.eclipse.jgit.lib.Config();
     serverConfig.setStringList(

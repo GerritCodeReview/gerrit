@@ -74,6 +74,30 @@ public class ExperimentFeaturesIT extends AbstractDaemonTest {
   public void configOverride_defaultFeatureDisabled() {
     assertThat(experimentFeatures.isFeatureEnabled("enabledFeature")).isTrue();
     assertThat(experimentFeatures.isFeatureEnabled("UiFeature__patchset_comments")).isFalse();
-    assertThat(experimentFeatures.getEnabledExperimentFeatures()).containsExactly("enabledFeature");
+
+    ImmutableSet<String> expectedEnabledFeatures =
+        new ImmutableSet.Builder<String>()
+            .addAll(ExperimentFeaturesConstants.DEFAULT_ENABLED_FEATURES)
+            .add("enabledFeature")
+            .build();
+
+    assertThat(experimentFeatures.getEnabledExperimentFeatures())
+        .isEqualTo(expectedEnabledFeatures);
+  }
+
+  @Test
+  @GerritConfig(
+      name = "experiments.disabled",
+      values = {"UiFeature__get_ai_prompt"})
+  public void configOverride_getAiPromptDisabled() {
+    assertThat(experimentFeatures.isFeatureEnabled("UiFeature__get_ai_prompt")).isFalse();
+
+    ImmutableSet<String> expectedEnabledFeatures =
+        ExperimentFeaturesConstants.DEFAULT_ENABLED_FEATURES.stream()
+            .filter(feature -> !feature.equals("UiFeature__get_ai_prompt"))
+            .collect(ImmutableSet.toImmutableSet());
+
+    assertThat(experimentFeatures.getEnabledExperimentFeatures())
+        .isEqualTo(expectedEnabledFeatures);
   }
 }

@@ -72,6 +72,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "696330f2_a51ded93",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-04-15T09:45:55Z",
+      "side": 1,
+      "message": "The updated commit message clarifies that FetchPromisesCache only caches URL + query parameters safely. Since fix:preview leverages HTTP POST with specific JSON payloads (replacement infos), using FetchPromisesCache directly would cause overlap collisions.",
+      "parentUuid": "fe35ae3f_fb491de5",
+      "range": {
+        "startLine": 10,
+        "startChar": 48,
+        "endLine": 12,
+        "endChar": 24
+      },
+      "revId": "f9763daf0909aaf02d378d673e730190ecfebd30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "edabbea2_dac37626",
@@ -143,6 +167,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6be3dd1f_fe9d9ccb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-04-15T09:45:55Z",
+      "side": 1,
+      "message": "I\u0027ve added explicit code pointers to the instantiation within the updated message.",
+      "parentUuid": "23b3e238_19b6b8ef",
+      "range": {
+        "startLine": 14,
+        "startChar": 10,
+        "endLine": 14,
+        "endChar": 68
+      },
+      "revId": "f9763daf0909aaf02d378d673e730190ecfebd30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "adec233c_317e4bd2",
@@ -204,6 +252,30 @@
       "side": 1,
       "message": "Ok so fetchCacheJSON does not work for POST requests\n\nUpdate the comment in `fetchPromisesCache \u003d new FetchPromisesCache` to specify this?\n\nWe should still cache this at the REST API layer creating a new `PostRequestsCache`.\n\nThen we solve the problem for all caches.\n\nCurrently it only solves it for `fixPreviewCache`",
       "parentUuid": "b13083a6_9172ae23",
+      "range": {
+        "startLine": 180,
+        "startChar": 0,
+        "endLine": 183,
+        "endChar": 32
+      },
+      "revId": "f9763daf0909aaf02d378d673e730190ecfebd30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0b37fcce_18a877d0",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-04-15T09:45:55Z",
+      "side": 1,
+      "message": "FetchPromisesCache only generates its cache key from the URL and query parameters. Since getFixPreview utilizes an HTTP POST method with a specific JSON payload containing replacements, FetchPromisesCache would mistakenly assume requests targeted at the same URL but containing completely different replacement bodies are identical, causing incorrect overlap cache hits. A distinct fixPreviewCache was preferred because getFixPreview is currently the only POST request that suffers from this inflight request deduplication dilemma across Lit components. I\u0027ve updated the comment in gr-rest-api-impl.ts to explicitly clarify this restriction for future readers!",
+      "parentUuid": "13db1ba6_c3e7d9b3",
       "range": {
         "startLine": 180,
         "startChar": 0,

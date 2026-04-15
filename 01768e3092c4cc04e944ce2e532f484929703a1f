@@ -22,6 +22,30 @@
       },
       "revId": "01768e3092c4cc04e944ce2e532f484929703a1f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "afd51a69_e3eb35f0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-04-15T08:42:09Z",
+      "side": 1,
+      "message": "I updated commit message. Reply dialog has list of comments, they have fixes, these fixes are new components so we call fix:preview for each potentially blocking send reply request. I will monitor how much this improve performance - when i tested i had 0 fix:preview because they were stored from comment tab in send reply in this fix vs 2 when i had 2 fixes in comments. \n\nI will keep investigating this area to make sure how to improve this more if this will not be enough",
+      "parentUuid": "1a4bf482_9fc095c2",
+      "range": {
+        "startLine": 11,
+        "startChar": 33,
+        "endLine": 12,
+        "endChar": 23
+      },
+      "revId": "01768e3092c4cc04e944ce2e532f484929703a1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

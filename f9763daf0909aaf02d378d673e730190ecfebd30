@@ -308,6 +308,30 @@
       },
       "revId": "f9763daf0909aaf02d378d673e730190ecfebd30",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a9b21092_be970c8e",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-04-15T09:56:16Z",
+      "side": 1,
+      "message": "You don\u0027t want that. First of all usually post have different outcome. We don\u0027t want to cache post requests like we don\u0027t want to cache all GET requests. You don\u0027t want to cache change info, or send reply.\n\nfix:preview is very good idea to cache. for specific, change and patchset and replacementinfo it always returns same result. and we request is on many navigations (comments tab, diff view, reply dialog)",
+      "parentUuid": "0a58169b_5461c0d3",
+      "range": {
+        "startLine": 180,
+        "startChar": 0,
+        "endLine": 183,
+        "endChar": 32
+      },
+      "revId": "f9763daf0909aaf02d378d673e730190ecfebd30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

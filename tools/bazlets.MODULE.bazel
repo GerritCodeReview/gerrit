@@ -6,7 +6,13 @@ GERRIT_VERSION = "3.14.0-SNAPSHOT"
 bazel_dep(name = "com_googlesource_gerrit_bazlets")
 git_override(
     module_name = "com_googlesource_gerrit_bazlets",
+<<<<<<< HEAD   (024e1037d99a12e4943c0bc4e5134cbbbffcf887 Set version to 3.14.0-SNAPSHOT)
     commit = "01ec9c2481186396dde1bc6f5166f7d95bdae134",
+||||||| BASE   (2dfb06fa7e4d9893c8ac63170ca85ec96149f05d Merge "Refine draft comment save telemetry")
+    commit = "fe7c19542f8dc0a5720be3a93dbbdd05551003ec",
+=======
+    commit = "31e8579d49bc4b7f2cdc3bed3367449c606586c4",
+>>>>>>> CHANGE (2e156212267c7eb6a59121bef7bb0334019b28fe Update bazlets to 31e8579d49)
     remote = "https://gerrit.googlesource.com/bazlets",
 )
 

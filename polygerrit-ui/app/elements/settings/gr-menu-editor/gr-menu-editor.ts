@@ -384,9 +384,17 @@ export class GrMenuEditor extends LitElement {
   private handleCheckboxChange(e: Event, index: number) {
     const checked = (e.target as HTMLInputElement).checked;
 
-    this.menuItems = this.menuItems.map((item, i) =>
-      i === index ? {...item, target: checked ? '_blank' : undefined} : item
-    );
+    this.menuItems = this.menuItems.map((item, i) => {
+      if (i !== index) return item;
+
+      if (checked) {
+        return {...item, target: '_blank'};
+      }
+
+      const newItem = {...item};
+      delete newItem.target;
+      return newItem;
+    });
   }
 
   // visible for testing

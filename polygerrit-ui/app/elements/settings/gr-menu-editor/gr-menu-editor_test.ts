@@ -12,6 +12,7 @@ import {TopMenuItemInfo} from '../../../types/common';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {assert, fixture, html} from '@open-wc/testing';
 import {createDefaultPreferences} from '../../../constants/constants';
+import {deepEqual} from '../../../utils/deep-util';
 
 suite('gr-menu-editor tests', () => {
   let element: GrMenuEditor;
@@ -542,5 +543,36 @@ suite('gr-menu-editor tests', () => {
 
     assert.isNull(element.editingIndex);
     assert.isNull(element.editingField);
+  });
+
+  test('checkbox toggle does not leave dirty state after reverting', async () => {
+    const saveButton = queryAndAssert<GrButton>(element, 'gr-button#save');
+
+    assert.isTrue(deepEqual(element.menuItems, element.originalPrefs.my));
+    assert.isTrue(saveButton.hasAttribute('disabled'));
+
+    let checkbox = queryAndAssert<HTMLInputElement>(
+      element,
+      'tbody tr:nth-child(2) md-checkbox'
+    );
+
+    checkbox.click();
+    await element.updateComplete;
+
+    assert.isFalse(deepEqual(element.menuItems, element.originalPrefs.my));
+
+    assert.isFalse(saveButton.hasAttribute('disabled'));
+
+    checkbox = queryAndAssert<HTMLInputElement>(
+      element,
+      'tbody tr:nth-child(2) md-checkbox'
+    );
+
+    checkbox.click();
+    await element.updateComplete;
+
+    assert.isTrue(deepEqual(element.menuItems, element.originalPrefs.my));
+
+    assert.isTrue(saveButton.hasAttribute('disabled'));
   });
 });

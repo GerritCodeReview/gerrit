@@ -16,6 +16,24 @@
       "message": "Aren\u0027t drafts auto-saved on a high frequency? Can we only apply the change to manual saves / change of focus saves?",
       "revId": "a6d26e3d116156aae4a2e74cc64485a28179a313",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a481c427_1fe96482",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-04-16T13:50:17Z",
+      "side": 1,
+      "message": "I think manual save is sending same request as auto-save. But update and create comments are now quite fast in our SLO so I would do it only for send reply.",
+      "parentUuid": "951a7e78_957a3be6",
+      "revId": "a6d26e3d116156aae4a2e74cc64485a28179a313",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -3,8 +3,7 @@
  * Copyright 2016 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '../../../elements/shared/gr-tooltip/gr-tooltip';
-import {GrTooltip} from '../../../elements/shared/gr-tooltip/gr-tooltip';
+/* eslint-disable lit/prefer-static-styles */
 import {fire} from '../../../utils/event-util';
 import {html, LitElement} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
@@ -24,12 +23,8 @@ declare global {
 
 @customElement('gr-selection-action-box')
 export class GrSelectionActionBox extends LitElement {
-  @query('#tooltip')
-  tooltip?: GrTooltip;
-
-  @state() private isSlotAssigned = false;
-
-  @query('slot') slotElement!: HTMLSlotElement;
+  @query('.menu')
+  menuElement?: HTMLElement;
 
   @property({type: Boolean})
   positionBelow = false;
@@ -46,30 +41,42 @@ export class GrSelectionActionBox extends LitElement {
   constructor() {
     super();
     // See https://crbug.com/gerrit/4767
-    this.addEventListener('mousedown', e => this.handleMouseDown(e));
   }
 
   override render() {
-    // We create the gr-tooltip anyway even if the slot is assigned so that
-    // we reuse the logic for positioning the tooltip (in placeAbove/Below).
     return html`
-      <slot
-        name="selectionActionBox"
-        ?invisible=${this.invisible}
-        @slotchange=${this.handleSlotChange}
-      >
-        <gr-tooltip
-          id="tooltip"
-          text=${this.hoverCardText}
-          ?position-below=${this.positionBelow}
-        ></gr-tooltip>
-      </slot>
+      <style>
+        gr-selection-action-box .menu {
+          background-color: var(--tooltip-background-color, #333);
+          box-shadow: var(--elevation-level-2);
+          color: var(--tooltip-text-color, white);
+          font-size: var(--font-size-small);
+          border-radius: 4px;
+          display: flex;
+          flex-direction: column;
+          position: absolute;
+          z-index: 120;
+          overflow: hidden;
+        }
+        gr-selection-action-box .menu[invisible] {
+          visibility: hidden;
+        }
+        gr-selection-action-box .menu-item {
+          cursor: pointer;
+          color: var(--tooltip-text-color, white);
+          padding: var(--spacing-m) var(--spacing-l);
+          white-space: nowrap;
+        }
+        gr-selection-action-box .menu-item:hover {
+          background-color: rgba(255, 255, 255, 0.1);
+        }
+      </style>
+      <div class="menu" ?invisible=${this.invisible}>
+        <div class="menu-item" @mousedown=${this.handleCommentClick}>
+          ${this.hoverCardText}
+        </div>
+      </div>
     `;
-  }
-
-  private handleSlotChange() {
-    const assignedNodes = this.slotElement.assignedNodes({flatten: true});
-    this.isSlotAssigned = assignedNodes.length > 0;
   }
 
   /**
@@ -83,13 +90,10 @@ export class GrSelectionActionBox extends LitElement {
     return this;
   }
 
-  // TODO(b/315277651): This is very similar in purpose to gr-tooltip-content.
-  //   We should figure out a way to reuse as much of the logic as possible.
-  async placeAbove(el: Text | Element | Range) {
-    if (!this.tooltip) return;
-    await this.tooltip.updateComplete;
+  placeAbove(el: Text | Element | Range) {
+    if (!this.menuElement) return;
     const rect = this.getTargetBoundingRect(el);
-    const boxRect = this.tooltip.getBoundingClientRect();
+    const boxRect = this.menuElement.getBoundingClientRect();
     const parentRect = this.getParentBoundingClientRect();
     if (parentRect === null) {
       return;
@@ -102,11 +106,10 @@ export class GrSelectionActionBox extends LitElement {
     fire(this, 'selection-action-box-visible', {});
   }
 
-  async placeBelow(el: Text | Element | Range) {
-    if (!this.tooltip) return;
-    await this.tooltip.updateComplete;
+  placeBelow(el: Text | Element | Range) {
+    if (!this.menuElement) return;
     const rect = this.getTargetBoundingRect(el);
-    const boxRect = this.tooltip.getBoundingClientRect();
+    const boxRect = this.menuElement.getBoundingClientRect();
     const parentRect = this.getParentBoundingClientRect();
     if (parentRect === null) {
       return;
@@ -145,14 +148,8 @@ export class GrSelectionActionBox extends LitElement {
     return rect;
   }
 
-  // visible for testing
-  handleMouseDown(e: MouseEvent) {
-    if (this.isSlotAssigned) {
-      return;
-    }
-    if (e.button !== 0) {
-      return;
-    } // 0 = main button
+  private handleCommentClick(e: MouseEvent) {
+    if (e.button !== 0) return; // 0 = main button
     e.preventDefault();
     e.stopPropagation();
     fire(this, 'create-comment-requested', {});

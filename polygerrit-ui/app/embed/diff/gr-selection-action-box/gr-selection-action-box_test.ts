@@ -36,9 +36,9 @@ suite('gr-selection-action-box', () => {
       element.innerHTML,
       /* HTML */ `
         <!---->
-        <slot name="selectionActionBox" invisible="">
-          <gr-tooltip id="tooltip" text="Press c to comment"></gr-tooltip>
-        </slot>
+        <div class="menu" invisible="">
+          <div class="menu-item">Press c to comment</div>
+        </div>
       `
     );
   });
@@ -50,8 +50,7 @@ suite('gr-selection-action-box', () => {
   });
 
   suite('mousedown reacts only to main button', () => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    let e: any;
+    let e: Partial<MouseEvent>;
 
     setup(() => {
       e = {
@@ -62,7 +61,8 @@ suite('gr-selection-action-box', () => {
     });
 
     test('event handled if main button', () => {
-      element.handleMouseDown(e);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (element as any).handleCommentClick(e);
       assert.isTrue(e.preventDefault.called);
       assert.equal(
         dispatchEventStub.lastCall.args[0].type,
@@ -72,7 +72,8 @@ suite('gr-selection-action-box', () => {
 
     test('event ignored if not main button', () => {
       e.button = 1;
-      element.handleMouseDown(e);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (element as any).handleCommentClick(e);
       assert.isFalse(e.preventDefault.called);
       assert.isFalse(dispatchEventStub.called);
     });
@@ -102,46 +103,46 @@ suite('gr-selection-action-box', () => {
           width: 100,
           height: 60,
         } as DOMRect);
-      assert.isOk(element.tooltip);
+      assert.isOk(element.menuElement);
       sinon
-        .stub(element.tooltip, 'getBoundingClientRect')
+        .stub(element.menuElement, 'getBoundingClientRect')
         .returns({width: 10, height: 10} as DOMRect);
     });
 
     test('renders visible', async () => {
-      await element.placeAbove(target);
+      element.placeAbove(target);
       await element.updateComplete;
       assertEqualIgnoreWhitespaceAndNewlines(
         element.innerHTML,
         /* HTML */ `
           <!---->
-          <slot name="selectionActionBox">
-            <gr-tooltip id="tooltip" text="Press c to comment"></gr-tooltip>
-          </slot>
+          <div class="menu">
+            <div class="menu-item">Press c to comment</div>
+          </div>
         `
       );
     });
 
     test('placeAbove for Element argument', async () => {
-      await element.placeAbove(target);
+      element.placeAbove(target);
       assert.equal(element.style.top, '25px');
       assert.equal(element.style.left, '72px');
     });
 
     test('placeAbove for Text Node argument', async () => {
-      await element.placeAbove(target.firstElementChild!);
+      element.placeAbove(target.firstElementChild!);
       assert.equal(element.style.top, '25px');
       assert.equal(element.style.left, '72px');
     });
 
     test('placeBelow for Element argument', async () => {
-      await element.placeBelow(target);
+      element.placeBelow(target);
       assert.equal(element.style.top, '45px');
       assert.equal(element.style.left, '72px');
     });
 
     test('placeBelow for Text Node argument', async () => {
-      await element.placeBelow(target.firstElementChild!);
+      element.placeBelow(target.firstElementChild!);
       assert.equal(element.style.top, '45px');
       assert.equal(element.style.left, '72px');
     });
@@ -149,7 +150,7 @@ suite('gr-selection-action-box', () => {
     test('uses document.createRange', async () => {
       const createRangeSpy = sinon.spy(document, 'createRange');
       getTargetBoundingRectStub.restore();
-      await element.placeAbove(target.firstChild as HTMLElement);
+      element.placeAbove(target.firstChild as HTMLElement);
       assert.isTrue(createRangeSpy.called);
     });
   });
@@ -163,6 +164,8 @@ function assertEqualIgnoreWhitespaceAndNewlines(
     str
       .replace(/\r/g, '')
       .replace(/\n/g, '')
+      .replace(/<style>.*?<\/style>/g, '')
+      .replace(/<!--\?lit\$[0-9]*\$-->/g, '')
       .replace(/\s+/g, ' ')
       .replace(/\s+>/g, '>')
       .trim();

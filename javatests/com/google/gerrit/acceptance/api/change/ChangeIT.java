@@ -2660,7 +2660,7 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void deleteVoteFromMergedChangeNotPossibleForAdmin() throws Exception {
+  public void deleteVoteFromMergedChangePossibleForAdmin() throws Exception {
     projectOperations
         .project(project)
         .forUpdate()
@@ -2680,15 +2680,13 @@ public class ChangeIT extends AbstractDaemonTest {
     requestScopeOperations.setApiUser(admin.id());
     gApi.changes().id(changeId).current().submit();
 
-    ResourceConflictException thrown =
-        assertThrows(
-            ResourceConflictException.class,
-            () ->
-                gApi.changes()
-                    .id(r.getChangeId())
-                    .reviewer(user.id().toString())
-                    .deleteVote(LabelId.CODE_REVIEW));
-    assertThat(thrown).hasMessageThat().contains("cannot remove votes from merged change");
+    gApi.changes()
+        .id(r.getChangeId())
+        .reviewer(user.id().toString())
+        .deleteVote(LabelId.CODE_REVIEW);
+
+    assertThat(gApi.changes().id(r.getChangeId()).reviewer(user.id().toString()).votes())
+        .containsEntry(LabelId.CODE_REVIEW, (short) 0);
   }
 
   @Test

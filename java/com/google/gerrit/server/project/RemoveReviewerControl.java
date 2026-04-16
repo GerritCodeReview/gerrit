@@ -56,8 +56,13 @@ public class RemoveReviewerControl {
   public void checkRemoveReviewerApproval(
       ChangeNotes notes, CurrentUser currentUser, PatchSetApproval approval)
       throws PermissionBackendException, AuthException, ResourceConflictException {
-    if (notes.getChange().isMerged() && approval.value() != 0) {
+    if (notes.getChange().isMerged()
+        && approval.value() != 0
+        && !permissionBackend.user(currentUser).test(GlobalPermission.ADMINISTRATE_SERVER)) {
       throw new ResourceConflictException("cannot remove votes from merged change");
+    }
+    if (notes.getChange().isMerged() && approval.isLegacySubmit()) {
+      throw new ResourceConflictException("cannot remove the submit record from a merged change");
     }
 
     checkRemoveReviewer(notes, currentUser, approval.accountId(), approval.value());
@@ -98,7 +103,9 @@ public class RemoveReviewerControl {
   public boolean testRemoveReviewer(
       ChangeData cd, CurrentUser currentUser, @Nullable Account.Id reviewer, int value)
       throws PermissionBackendException {
-    if (cd.change().isMerged() && value != 0) {
+    if (cd.change().isMerged()
+        && value != 0
+        && !permissionBackend.user(currentUser).test(GlobalPermission.ADMINISTRATE_SERVER)) {
       return false;
     }
 

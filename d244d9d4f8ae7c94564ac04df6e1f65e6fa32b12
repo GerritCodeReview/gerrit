@@ -46,6 +46,30 @@
       },
       "revId": "d244d9d4f8ae7c94564ac04df6e1f65e6fa32b12",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aaca527b_35279241",
+        "filename": "polygerrit-ui/app/elements/chat-panel/splash-page-action.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 436,
+      "author": {
+        "id": 3001824
+      },
+      "writtenOn": "2026-04-16T18:10:55Z",
+      "side": 1,
+      "message": "Acknowledged (resolving as this isn\u0027t the current state checked in)",
+      "parentUuid": "bcdde928_f19cef32",
+      "range": {
+        "startLine": 425,
+        "startChar": 0,
+        "endLine": 436,
+        "endChar": 3
+      },
+      "revId": "d244d9d4f8ae7c94564ac04df6e1f65e6fa32b12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

@@ -66,6 +66,57 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bebe25e8_36304168",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1024047
+      },
+      "writtenOn": "2026-04-16T19:38:59Z",
+      "side": 1,
+      "message": "Nit unless we load thousands/millions. You can use expected size since IIUC the list end up sizeof(allchanges)",
+      "range": {
+        "startLine": 342,
+        "startChar": 83,
+        "endLine": 342,
+        "endChar": 87
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "b7092654_350f35a4",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "java/com/google/gerrit/server/change/ChangeJson.java",
+              "range": {
+                "startLine": 342,
+                "startChar": 0,
+                "endLine": 343,
+                "endChar": 0
+              },
+              "replacement": ""
+            },
+            {
+              "path": "java/com/google/gerrit/server/change/ChangeJson.java",
+              "range": {
+                "startLine": 1,
+                "startChar": 0,
+                "endLine": 1,
+                "endChar": 0
+              },
+              "replacement": "      Map\u003cChange.Id, ChangeInfo\u003e cache \u003d\n          new java.util.concurrent.ConcurrentHashMap\u003c\u003e(allChanges.size());\n"
+            }
+          ]
+        }
+      ],
+      "revId": "bbd0848a806beba42a420b356a4a165c0c53f64b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "20600b44_603f3f1b",
         "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 2

@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "b1b8e583_1e9424e1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 61
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-04-16T08:58:59Z",
+      "side": 1,
+      "message": "What is reason for switch from yarn to pnpm? Can we have both system for a while especially when i am interested only in compiling frontend and running tests?",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 51
+      },
+      "revId": "f0960a0e020f3d0227cc996a8e5bdf7caaf88ee7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "015fb016_600cf205",

@@ -47,6 +47,10 @@ export class GrTriggerVoteHovercard extends base {
         div.sectionIcon {
           flex: 0 0 30px;
         }
+        .sectionContent {
+          flex: 1;
+          min-width: 0;
+        }
         div.sectionIcon gr-icon {
           position: relative;
           font-size: 20px;

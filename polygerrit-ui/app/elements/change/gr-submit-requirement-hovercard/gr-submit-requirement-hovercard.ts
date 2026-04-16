@@ -109,7 +109,11 @@ export class GrSubmitRequirementHovercard extends base {
         div.section {
           margin: 0 var(--spacing-xl) var(--spacing-m) var(--spacing-xl);
           display: flex;
-          align-items: center;
+          align-items: flex-start;
+        }
+        .sectionContent {
+          flex: 1;
+          min-width: 0;
         }
         div.sectionIcon {
           flex: 0 0 30px;

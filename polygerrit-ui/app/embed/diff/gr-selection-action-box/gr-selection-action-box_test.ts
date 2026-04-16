@@ -36,9 +36,9 @@ suite('gr-selection-action-box', () => {
       element.innerHTML,
       /* HTML */ `
         <!---->
-        <slot name="selectionActionBox" invisible="">
-          <gr-tooltip id="tooltip" text="Press c to comment"></gr-tooltip>
-        </slot>
+        <div class="menu" invisible="">
+          <div class="menu-item">Press c to comment</div>
+        </div>
       `
     );
   });
@@ -62,7 +62,11 @@ suite('gr-selection-action-box', () => {
     });
 
     test('event handled if main button', () => {
-      element.handleMouseDown(e);
+      const menuItem = element.querySelector('.menu-item') as HTMLElement;
+      assert.isOk(menuItem);
+      e.target = menuItem;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (element as any).handleMenuMouseDown(e);
       assert.isTrue(e.preventDefault.called);
       assert.equal(
         dispatchEventStub.lastCall.args[0].type,
@@ -72,7 +76,11 @@ suite('gr-selection-action-box', () => {
 
     test('event ignored if not main button', () => {
       e.button = 1;
-      element.handleMouseDown(e);
+      const menuItem = element.querySelector('.menu-item') as HTMLElement;
+      assert.isOk(menuItem);
+      e.target = menuItem;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (element as any).handleMenuMouseDown(e);
       assert.isFalse(e.preventDefault.called);
       assert.isFalse(dispatchEventStub.called);
     });
@@ -102,9 +110,9 @@ suite('gr-selection-action-box', () => {
           width: 100,
           height: 60,
         } as DOMRect);
-      assert.isOk(element.tooltip);
+      assert.isOk(element.menuElement);
       sinon
-        .stub(element.tooltip, 'getBoundingClientRect')
+        .stub(element.menuElement, 'getBoundingClientRect')
         .returns({width: 10, height: 10} as DOMRect);
     });
 
@@ -115,9 +123,9 @@ suite('gr-selection-action-box', () => {
         element.innerHTML,
         /* HTML */ `
           <!---->
-          <slot name="selectionActionBox">
-            <gr-tooltip id="tooltip" text="Press c to comment"></gr-tooltip>
-          </slot>
+          <div class="menu">
+            <div class="menu-item">Press c to comment</div>
+          </div>
         `
       );
     });
@@ -136,13 +144,13 @@ suite('gr-selection-action-box', () => {
 
     test('placeBelow for Element argument', async () => {
       await element.placeBelow(target);
-      assert.equal(element.style.top, '45px');
+      assert.equal(element.style.top, '107px');
       assert.equal(element.style.left, '72px');
     });
 
     test('placeBelow for Text Node argument', async () => {
       await element.placeBelow(target.firstElementChild!);
-      assert.equal(element.style.top, '45px');
+      assert.equal(element.style.top, '107px');
       assert.equal(element.style.left, '72px');
     });
 
@@ -163,8 +171,11 @@ function assertEqualIgnoreWhitespaceAndNewlines(
     str
       .replace(/\r/g, '')
       .replace(/\n/g, '')
+      .replace(/<style>.*?<\/style>/g, '')
+      .replace(/<!--\?lit\$[0-9]*\$-->/g, '')
+      .replace(/>\s+/g, '>')
+      .replace(/\s+</g, '<')
       .replace(/\s+/g, ' ')
-      .replace(/\s+>/g, '>')
       .trim();
   if (normalize(actual) !== normalize(expected)) {
     throw new Error(`Assertion failed:

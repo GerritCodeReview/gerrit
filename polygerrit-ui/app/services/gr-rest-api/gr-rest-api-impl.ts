@@ -1335,7 +1335,8 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     if (!changeNum) return;
     const optionsHex = listChangesOptionsToHex(
       ListChangesOption.ALL_REVISIONS,
-      ListChangesOption.ALL_FILES
+      ListChangesOption.ALL_FILES,
+      ListChangesOption.SKIP_DIFFSTAT
     );
 
     const change = await this.getChange(changeNum, undefined, optionsHex);

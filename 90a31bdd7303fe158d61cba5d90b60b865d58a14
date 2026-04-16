@@ -16,6 +16,110 @@
       "message": "Frontend code looks good to me.",
       "revId": "90a31bdd7303fe158d61cba5d90b60b865d58a14",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5afeec94_12a41512",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-04-16T16:29:57Z",
+      "side": 1,
+      "message": "Hi I  just saw some random AI findings when importing to google. Feel free to ignore",
+      "revId": "90a31bdd7303fe158d61cba5d90b60b865d58a14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e5946208_d0f0561e",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-04-16T16:29:57Z",
+      "side": 1,
+      "message": "If `this.config?.submit_requirement_dashboard_columns` is populated by the host, the function returns early here. This bypasses the new `labelFilter` logic completely, meaning the user\u0027s \"Shown Labels\" preference will be ignored in those environments. \n\nYou should likely store this in a variable instead of returning early so the user\u0027s filter is still applied to the configured columns at the end of the method.",
+      "range": {
+        "startLine": 384,
+        "startChar": 0,
+        "endLine": 384,
+        "endChar": 0
+      },
+      "revId": "90a31bdd7303fe158d61cba5d90b60b865d58a14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2e777e2a_6e45e227",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 400,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-04-16T16:29:57Z",
+      "side": 1,
+      "message": "Consider doing a case-insensitive match here. That way, a user can enter \"cr,v\" into the preferences field without having to worry about perfectly matching the capitalization of \"CR\" and \"V\".",
+      "range": {
+        "startLine": 400,
+        "startChar": 0,
+        "endLine": 400,
+        "endChar": 0
+      },
+      "revId": "90a31bdd7303fe158d61cba5d90b60b865d58a14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "71a483cc_52334146",
+        "filename": "polygerrit-ui/app/elements/settings/gr-change-table-editor/gr-change-table-editor_test.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-04-16T16:29:57Z",
+      "side": 1,
+      "message": "Do you know why this is here?",
+      "range": {
+        "startLine": 140,
+        "startChar": 18,
+        "endLine": 140,
+        "endChar": 32
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "c53227cf_1a7ea3bc",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/settings/gr-change-table-editor/gr-change-table-editor_test.ts",
+              "range": {
+                "startLine": 140,
+                "startChar": 0,
+                "endLine": 141,
+                "endChar": 0
+              },
+              "replacement": ""
+            }
+          ]
+        }
+      ],
+      "revId": "90a31bdd7303fe158d61cba5d90b60b865d58a14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

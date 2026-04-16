@@ -839,7 +839,7 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void removeReviewerWithVoteOnMergedChangeForChangeOwnerFails() throws Exception {
+  public void removeReviewerWithVoteOnMergedChangeForAdministrateServerSucceeds() throws Exception {
     PushOneCommit.Result r = createChange();
 
     requestScopeOperations.setApiUser(user.id());
@@ -855,12 +855,10 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
         .review(new ReviewInput().label(LabelId.CODE_REVIEW, 2));
     gApi.changes().id(r.getChangeId()).current().submit();
 
-    assertThat(gApi.changes().id(r.getChangeId()).get().removableReviewers).isEmpty();
-    ResourceConflictException thrown =
-        assertThrows(
-            ResourceConflictException.class,
-            () -> gApi.changes().id(r.getChangeId()).reviewer(user.email()).remove());
-    assertThat(thrown).hasMessageThat().contains("cannot remove votes from merged change");
+    gApi.changes().id(r.getChangeId()).reviewer(user.email()).remove();
+
+    ChangeInfo changeInfo = gApi.changes().id(r.getChangeId()).get(DETAILED_LABELS);
+    assertThat(changeInfo).hasExactlyVotes(vote(LabelId.CODE_REVIEW, admin.id(), 2));
   }
 
   @Test

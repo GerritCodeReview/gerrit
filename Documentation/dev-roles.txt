@@ -175,7 +175,7 @@ following tasks (but are not required to do so):
   link:dev-design-docs.html[design docs] and raising concerns during
   the design review
 * serving as link:#mentor[mentor]
-* doing releases (see link#release-manager[release manager])
+* doing releases (see link:#release-manager[release manager])
 
 Maintainers can:
 

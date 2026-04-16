@@ -48,6 +48,7 @@ import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
+import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.LabelPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -189,7 +190,12 @@ public class LabelsJson {
         TraceContext.newTimer(
             "Get removable labels",
             Metadata.builder().changeId(cd.change().getId().get()).build())) {
-      if (cd.change().isMerged()) {
+
+      boolean isMerged = cd.change().isMerged();
+      boolean canRemoveVotesOnMergedChange =
+          !isMerged || permissionBackend.user(user).test(GlobalPermission.ADMINISTRATE_SERVER);
+
+      if (!canRemoveVotesOnMergedChange) {
         return new HashMap<>();
       }
 

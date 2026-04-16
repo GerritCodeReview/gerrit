@@ -32,6 +32,9 @@ import com.google.gerrit.server.change.AttentionSetUnchangedOp;
 import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.change.ReviewerResource;
 import com.google.gerrit.server.change.VoteResource;
+import com.google.gerrit.server.permissions.GlobalPermission;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.update.context.RefUpdateContext;
@@ -48,6 +51,7 @@ public class DeleteVote implements RestModifyView<VoteResource, DeleteVoteInput>
   private final NotifyResolver notifyResolver;
 
   private final AddToAttentionSetOp.Factory attentionSetOpFactory;
+  private final PermissionBackend permissionBackend;
   private final Provider<CurrentUser> currentUserProvider;
   private final DeleteVoteOp.Factory deleteVoteOpFactory;
 
@@ -56,18 +60,20 @@ public class DeleteVote implements RestModifyView<VoteResource, DeleteVoteInput>
       BatchUpdate.Factory updateFactory,
       NotifyResolver notifyResolver,
       AddToAttentionSetOp.Factory attentionSetOpFactory,
+      PermissionBackend permissionBackend,
       Provider<CurrentUser> currentUserProvider,
       DeleteVoteOp.Factory deleteVoteOpFactory) {
     this.updateFactory = updateFactory;
     this.notifyResolver = notifyResolver;
     this.attentionSetOpFactory = attentionSetOpFactory;
+    this.permissionBackend = permissionBackend;
     this.currentUserProvider = currentUserProvider;
     this.deleteVoteOpFactory = deleteVoteOpFactory;
   }
 
   @Override
   public Response<Object> apply(VoteResource rsrc, DeleteVoteInput input)
-      throws RestApiException, UpdateException, IOException, ConfigInvalidException {
+      throws RestApiException, UpdateException, IOException, ConfigInvalidException, PermissionBackendException {
     if (input == null) {
       input = new DeleteVoteInput();
     }
@@ -79,10 +85,15 @@ public class DeleteVote implements RestModifyView<VoteResource, DeleteVoteInput>
     }
     ReviewerResource r = rsrc.getReviewer();
     Change change = r.getChange();
+    CurrentUser user = currentUserProvider.get();
 
-    if (change.isMerged()) {
+    if (change.isMerged()
+        && !permissionBackend
+            .user(user)
+            .test(GlobalPermission.ADMINISTRATE_SERVER)) {
       throw new ResourceConflictException("cannot remove votes from merged change");
     }
+
     if (r.getRevisionResource() != null && !r.getRevisionResource().isCurrent()) {
       throw new MethodNotAllowedException("Cannot delete vote on non-current patch set");
     }
@@ -104,7 +115,7 @@ public class DeleteVote implements RestModifyView<VoteResource, DeleteVoteInput>
         if (!input.ignoreAutomaticAttentionSetRules
             && !r.getReviewerUser()
                 .getAccountId()
-                .equals(currentUserProvider.get().getAccountId())) {
+                .equals(user.getAccountId())) {
           bu.addOp(
               change.getId(),
               attentionSetOpFactory.create(

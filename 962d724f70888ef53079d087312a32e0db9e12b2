@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b7dba157_eac8d43a",
+        "filename": "polygerrit-ui/app/node_modules_licenses/BUILD",
+        "patchSetId": 59
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-04-16T05:10:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "15c16a8e_1f304d7d",
+      "range": {
+        "startLine": 75,
+        "startChar": 0,
+        "endLine": 75,
+        "endChar": 0
+      },
+      "revId": "962d724f70888ef53079d087312a32e0db9e12b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bec91187_297a98be",
@@ -54,6 +78,30 @@
       "writtenOn": "2026-04-13T13:22:18Z",
       "side": 1,
       "message": "If `currentDir` reaches the root directory (`/`) and doesn\u0027t end with `node_modules`, `path.dirname(\u0027/\u0027)` will continue to return `/`. This will cause an infinite loop!\n\nAdd a check to break the loop if `currentDir` stops changing:\n```typescript\n      const nextDir \u003d path.dirname(currentDir);\n      if (nextDir \u003d\u003d\u003d currentDir) {\n        break;\n      }\n      currentDir \u003d nextDir;\n```",
+      "range": {
+        "startLine": 102,
+        "startChar": 0,
+        "endLine": 102,
+        "endChar": 0
+      },
+      "revId": "962d724f70888ef53079d087312a32e0db9e12b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef85b347_42c12d3b",
+        "filename": "tools/node_tools/node_modules_licenses/installed-node-modules-map.ts",
+        "patchSetId": 59
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-04-16T05:10:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bec91187_297a98be",
       "range": {
         "startLine": 102,
         "startChar": 0,
@@ -87,6 +135,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0c1f1fc6_f5b272c8",
+        "filename": "tools/node_tools/node_modules_licenses/installed-node-modules-map.ts",
+        "patchSetId": 59
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-04-16T05:10:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e20620aa_b5aa1ef1",
+      "range": {
+        "startLine": 114,
+        "startChar": 0,
+        "endLine": 114,
+        "endChar": 0
+      },
+      "revId": "962d724f70888ef53079d087312a32e0db9e12b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c86be855_417b2958",
@@ -100,6 +172,30 @@
       "writtenOn": "2026-04-13T13:22:18Z",
       "side": 1,
       "message": "The parameter name `path` shadows the imported `path` module. \n\nAdditionally, if `path` does not contain `/node_modules/`, `lastIndexOf` returns `-1`. This will evaluate to `path.substring(-1 + 14)`, which incorrectly chops off the first 13 characters of the path instead of returning safely.\n\nConsider renaming the parameter and adding a check for `-1`.",
+      "range": {
+        "startLine": 132,
+        "startChar": 0,
+        "endLine": 132,
+        "endChar": 0
+      },
+      "revId": "962d724f70888ef53079d087312a32e0db9e12b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d2327ab_cb45f022",
+        "filename": "tools/node_tools/node_modules_licenses/installed-node-modules-map.ts",
+        "patchSetId": 59
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-04-16T05:10:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c86be855_417b2958",
       "range": {
         "startLine": 132,
         "startChar": 0,
@@ -133,6 +229,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2860b41b_7126b33f",
+        "filename": "tools/node_tools/node_modules_licenses/license-map-generator.ts",
+        "patchSetId": 59
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-04-16T05:10:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8adca4a5_0b6f9c35",
+      "range": {
+        "startLine": 62,
+        "startChar": 0,
+        "endLine": 62,
+        "endChar": 0
+      },
+      "revId": "962d724f70888ef53079d087312a32e0db9e12b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d7db6153_bb095932",
@@ -146,6 +266,30 @@
       "writtenOn": "2026-04-13T13:22:18Z",
       "side": 1,
       "message": "Like in `license-map-generator.ts`, this `../../../` hack shouldn\u0027t be needed if `chdir \u003d \"\"` is set in the `js_run_binary` rule. Paths provided by Bazel will already be correct relative to the workspace root.",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 0
+      },
+      "revId": "962d724f70888ef53079d087312a32e0db9e12b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "54086c6f_5e104d21",
+        "filename": "tools/node_tools/node_modules_licenses/utils.ts",
+        "patchSetId": 59
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-04-16T05:10:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d7db6153_bb095932",
       "range": {
         "startLine": 34,
         "startChar": 0,

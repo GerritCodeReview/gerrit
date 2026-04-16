@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "015fb016_600cf205",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 61
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-04-16T05:10:16Z",
+      "side": 1,
+      "message": "@milutin@google.com \n\nGood point, thanks! I fixed this and updated the path handling to avoid the brittle relative paths and work properly with Bazel’s execroot.",
+      "revId": "f0960a0e020f3d0227cc996a8e5bdf7caaf88ee7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "07aba536_aeb99fa9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 55
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-04-16T05:10:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b78c73c5_54e98f5c",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 29
+      },
+      "revId": "b966cc8d1f30e25d62693710091c020d32e5b1e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d80100b4_bdbe8bdc",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f0255822_dbd1edff",
+        "filename": "polygerrit-ui/app/package.json",
+        "patchSetId": 55
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-04-16T05:10:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d80100b4_bdbe8bdc",
+      "range": {
+        "startLine": 11,
+        "startChar": 4,
+        "endLine": 11,
+        "endChar": 47
+      },
+      "revId": "b966cc8d1f30e25d62693710091c020d32e5b1e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b6684613_fc42aa2e",
@@ -60,6 +108,30 @@
       "writtenOn": "2026-04-11T15:28:59Z",
       "side": 1,
       "message": "This is stale.\n\nThis migration patch predates upstream change 564341, which removed the legacy `@webcomponents/webcomponentsjs` polyfill. These files should no longer be packaged into the final artifact.",
+      "range": {
+        "startLine": 137,
+        "startChar": 0,
+        "endLine": 139,
+        "endChar": 0
+      },
+      "revId": "b966cc8d1f30e25d62693710091c020d32e5b1e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "79bb4556_0a7b90e6",
+        "filename": "polygerrit-ui/app/rules.bzl",
+        "patchSetId": 55
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-04-16T05:10:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b6684613_fc42aa2e",
       "range": {
         "startLine": 137,
         "startChar": 0,

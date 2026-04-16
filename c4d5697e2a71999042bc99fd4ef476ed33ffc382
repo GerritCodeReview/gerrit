@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "28683242_d3f5106e",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 556,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-04-16T13:19:45Z",
+      "side": 0,
+      "message": "is this comment still relevant?\nIf yes, we should retain it.",
+      "range": {
+        "startLine": 551,
+        "startChar": 8,
+        "endLine": 556,
+        "endChar": 22
+      },
+      "revId": "c4d5697e2a71999042bc99fd4ef476ed33ffc382",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

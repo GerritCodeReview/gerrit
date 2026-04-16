@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "37c120fc_e0860fdf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-04-16T13:19:45Z",
+      "side": 1,
+      "message": "This was attempted and reverted in Change 199234\n\nThat commit message says\n\n```\nGiven the complexity and the number of potentially non-thread safe\ndependencies of ChangeJson, it would be a lot of work to parallelize\ncalls and make reasonable guarantees about thread safety.\n```\n\nThat commit message is not super clear though but I am wondering if any of the past concerns are now resolved making us more confident this change will stick?",
+      "range": {
+        "startLine": 9,
+        "startChar": 273,
+        "endLine": 9,
+        "endChar": 274
+      },
+      "revId": "bbd0848a806beba42a420b356a4a165c0c53f64b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "73c99105_f13e0ba3",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-04-16T13:19:45Z",
+      "side": 1,
+      "message": "Please fix this WARNING reported by autoreview issue finding: You can use an import for `ConcurrentHashMap` to make the code cleaner.\n\nYou can use an import for `ConcurrentHashMap` to make the code cleaner.",
+      "range": {
+        "startLine": 342,
+        "startChar": 0,
+        "endLine": 342,
+        "endChar": 0
+      },
+      "revId": "bbd0848a806beba42a420b356a4a165c0c53f64b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "20600b44_603f3f1b",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-04-16T13:19:45Z",
+      "side": 1,
+      "message": "Is `CurrentUser` thread safe?\n\ngo/java-practices/concurrency#immutable\n\nNot super familiar with mutli-threading but their advice is that Immutable objects are thread safe.",
+      "range": {
+        "startLine": 363,
+        "startChar": 4,
+        "endLine": 363,
+        "endChar": 42
+      },
+      "revId": "bbd0848a806beba42a420b356a4a165c0c53f64b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

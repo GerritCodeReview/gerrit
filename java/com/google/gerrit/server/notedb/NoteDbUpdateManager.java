@@ -428,15 +428,12 @@ public class NoteDbUpdateManager implements AutoCloseable {
    * Returns true if we should allow non-fast-forwards while performing the batch ref update. Non-ff
    * updates are necessary in some specific cases:
    *
-   * <p>1. Draft ref updates are non fast-forward, since the ref always points to a single commit
-   * that has no parents.
-   *
-   * <p>2. NoteDb rewriters.
+   * <p>1. NoteDb rewriters.
    *
    * <p>Note that we don't need to explicitly allow non fast-forward updates for DELETE commands
    * since JGit forces the update implicitly in this case.
    */
   private boolean allowNonFastForwards() {
-    return !draftUpdates.isEmpty() || !rewriters.isEmpty();
+    return !rewriters.isEmpty();
   }
 }

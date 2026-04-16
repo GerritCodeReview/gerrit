@@ -908,8 +908,9 @@ reviewer list on a change.
 Note, removing reviewers with non-zero votes is generally disallowed for merged
 changes as this could remove approvals that were necessary for the submission
 and it's confusing to see a merged change which doesn't have the necessary
-approvals to fulfill the submit requirements.
-
+approvals to fulfill the submit requirements. As an exception, users with the
+link:#capability_administrateServer[Administrate Server] global capability may
+remove reviewers with non-zero votes from merged changes.
 
 [[category_review_labels]]
 === Review Labels

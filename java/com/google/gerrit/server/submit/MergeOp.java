@@ -598,7 +598,11 @@ public class MergeOp implements AutoCloseable {
         return;
       }
       try {
-        checkSubmitRequirements(cd);
+        // Bypassing heavy submit requirement evaluations during retry cycles. Submit requirements
+        // cannot inherently change within the few milliseconds separating retry attempts.
+        if (!allowMerged) {
+          checkSubmitRequirements(cd);
+        }
       } catch (ResourceConflictException e) {
         // ResourceConflictException is thrown means submit requirement is not fulfilled.
         problems.add(

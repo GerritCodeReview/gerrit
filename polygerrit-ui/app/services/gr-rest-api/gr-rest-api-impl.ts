@@ -2212,7 +2212,8 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     const options = listChangesOptionsToHex(
       ListChangesOption.CURRENT_REVISION,
       ListChangesOption.CURRENT_COMMIT,
-      ListChangesOption.SUBMITTABLE
+      ListChangesOption.SUBMITTABLE,
+      ListChangesOption.SKIP_DIFFSTAT
     );
     const params = {
       O: options,
@@ -2232,7 +2233,8 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   ): Promise<ChangeInfo[] | undefined> {
     const options = listChangesOptionsToHex(
       ListChangesOption.CURRENT_REVISION,
-      ListChangesOption.CURRENT_COMMIT
+      ListChangesOption.CURRENT_COMMIT,
+      ListChangesOption.SKIP_DIFFSTAT
     );
     const query = [
       `project:${repo}`,
@@ -2263,7 +2265,8 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       ListChangesOption.CURRENT_REVISION,
       ListChangesOption.CURRENT_COMMIT,
       ListChangesOption.DETAILED_LABELS,
-      ListChangesOption.SUBMITTABLE
+      ListChangesOption.SUBMITTABLE,
+      ListChangesOption.SKIP_DIFFSTAT
     );
     const queryTerms = [`topic:${escapeAndWrapSearchOperatorValue(topic)}`];
     if (options?.openChangesOnly) {

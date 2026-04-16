@@ -3,8 +3,7 @@
  * Copyright 2016 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '../../../elements/shared/gr-tooltip/gr-tooltip';
-import {GrTooltip} from '../../../elements/shared/gr-tooltip/gr-tooltip';
+
 import {fire} from '../../../utils/event-util';
 import {html, LitElement} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
@@ -24,12 +23,8 @@ declare global {
 
 @customElement('gr-selection-action-box')
 export class GrSelectionActionBox extends LitElement {
-  @query('#tooltip')
-  tooltip?: GrTooltip;
-
-  @state() private isSlotAssigned = false;
-
-  @query('slot') slotElement!: HTMLSlotElement;
+  @query('.menu')
+  menuElement?: HTMLElement;
 
   @property({type: Boolean})
   positionBelow = false;
@@ -43,33 +38,17 @@ export class GrSelectionActionBox extends LitElement {
    */
   @state() private invisible = true;
 
-  constructor() {
-    super();
-    // See https://crbug.com/gerrit/4767
-    this.addEventListener('mousedown', e => this.handleMouseDown(e));
-  }
 
   override render() {
-    // We create the gr-tooltip anyway even if the slot is assigned so that
-    // we reuse the logic for positioning the tooltip (in placeAbove/Below).
     return html`
-      <slot
-        name="selectionActionBox"
+      <div
+        class="menu"
         ?invisible=${this.invisible}
-        @slotchange=${this.handleSlotChange}
+        @mousedown=${this.handleMenuMouseDown}
       >
-        <gr-tooltip
-          id="tooltip"
-          text=${this.hoverCardText}
-          ?position-below=${this.positionBelow}
-        ></gr-tooltip>
-      </slot>
+        <div class="menu-item">${this.hoverCardText}</div>
+      </div>
     `;
-  }
-
-  private handleSlotChange() {
-    const assignedNodes = this.slotElement.assignedNodes({flatten: true});
-    this.isSlotAssigned = assignedNodes.length > 0;
   }
 
   /**
@@ -83,13 +62,11 @@ export class GrSelectionActionBox extends LitElement {
     return this;
   }
 
-  // TODO(b/315277651): This is very similar in purpose to gr-tooltip-content.
-  //   We should figure out a way to reuse as much of the logic as possible.
   async placeAbove(el: Text | Element | Range) {
-    if (!this.tooltip) return;
-    await this.tooltip.updateComplete;
+    if (!this.menuElement) return;
+    await this.updateComplete;
     const rect = this.getTargetBoundingRect(el);
-    const boxRect = this.tooltip.getBoundingClientRect();
+    const boxRect = this.menuElement.getBoundingClientRect();
     const parentRect = this.getParentBoundingClientRect();
     if (parentRect === null) {
       return;
@@ -103,15 +80,15 @@ export class GrSelectionActionBox extends LitElement {
   }
 
   async placeBelow(el: Text | Element | Range) {
-    if (!this.tooltip) return;
-    await this.tooltip.updateComplete;
+    if (!this.menuElement) return;
+    await this.updateComplete;
     const rect = this.getTargetBoundingRect(el);
-    const boxRect = this.tooltip.getBoundingClientRect();
+    const boxRect = this.menuElement.getBoundingClientRect();
     const parentRect = this.getParentBoundingClientRect();
     if (parentRect === null) {
       return;
     }
-    this.style.top = `${rect.top - parentRect.top + boxRect.height - 6}px`;
+    this.style.top = `${rect.top + rect.height - parentRect.top + 6}px`;
     this.style.left = `${
       rect.left - parentRect.left + (rect.width - boxRect.width) / 2
     }px`;
@@ -120,8 +97,6 @@ export class GrSelectionActionBox extends LitElement {
   }
 
   private getParentBoundingClientRect() {
-    // With native shadow DOM, the parent is the shadow root, not the gr-diff
-    // element
     if (this.parentElement) {
       return this.parentElement.getBoundingClientRect();
     }
@@ -145,16 +120,18 @@ export class GrSelectionActionBox extends LitElement {
     return rect;
   }
 
-  // visible for testing
-  handleMouseDown(e: MouseEvent) {
-    if (this.isSlotAssigned) {
-      return;
-    }
-    if (e.button !== 0) {
-      return;
-    } // 0 = main button
+  // See https://crbug.com/gerrit/4767
+  private handleMenuMouseDown(e: MouseEvent) {
+    if (e.button !== 0) return; // 0 = main button
     e.preventDefault();
     e.stopPropagation();
-    fire(this, 'create-comment-requested', {});
+
+    const target = e.target as HTMLElement;
+    if (
+      target.classList.contains('menu-item') ||
+      target.closest('.menu-item')
+    ) {
+      fire(this, 'create-comment-requested', {});
+    }
   }
 }

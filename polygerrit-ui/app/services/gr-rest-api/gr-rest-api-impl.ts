@@ -2263,7 +2263,8 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       ListChangesOption.CURRENT_REVISION,
       ListChangesOption.CURRENT_COMMIT,
       ListChangesOption.DETAILED_LABELS,
-      ListChangesOption.SUBMITTABLE
+      ListChangesOption.SUBMITTABLE,
+      ListChangesOption.SKIP_DIFFSTAT
     );
     const queryTerms = [`topic:${escapeAndWrapSearchOperatorValue(topic)}`];
     if (options?.openChangesOnly) {

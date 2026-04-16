@@ -216,6 +216,7 @@ export interface FetchRequest extends FetchRequestBase {
   // TODO(kamilm): Consider changing the default to true. It makes more sense to
   //   only skip the check if the caller wants to prosess status themselves.
   reportServerError?: boolean;
+  isHighPriority?: boolean;
 }
 
 export interface FetchOptionsInit {
@@ -328,15 +329,15 @@ export class GrRestApiHelper {
       return res;
     };
 
-    const resPromise = this.schedule(method, task, requestName).catch(
-      (err: unknown) => {
-        if (err instanceof RetryError) {
-          return err.payload;
-        } else {
-          throw err;
-        }
+    const resPromise = (
+      req.isHighPriority ? task() : this.schedule(method, task, requestName)
+    ).catch((err: unknown) => {
+      if (err instanceof RetryError) {
+        return err.payload;
+      } else {
+        throw err;
       }
-    );
+    });
 
     // Log the call after it completes.
     resPromise.then(res => this.logCall(req, startTime, res.status));

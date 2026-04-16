@@ -2368,6 +2368,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
         }),
         url,
         errFn,
+        isHighPriority: true,
       })
     ) as unknown as Promise<ReviewResult | undefined>;
   }
@@ -3083,6 +3084,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
         url: `${url}${endpoint}`,
         anonymizedUrl: `${ANONYMIZED_REVISION_BASE_URL}${anonymizedEndpoint}`,
         reportServerError: true,
+        isHighPriority: true,
       })
     );
 

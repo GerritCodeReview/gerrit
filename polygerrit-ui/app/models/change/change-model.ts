@@ -1071,7 +1071,8 @@ export class ChangeModel extends Model<ChangeState> {
         ? listChangesOptionsToHex(
             ListChangesOption.MESSAGES,
             ListChangesOption.ALL_REVISIONS,
-            ListChangesOption.REVIEWER_UPDATES
+            ListChangesOption.REVIEWER_UPDATES,
+            ListChangesOption.SKIP_DIFFSTAT
           )
         : undefined
     )) as ChangeViewChangeInfo | undefined;

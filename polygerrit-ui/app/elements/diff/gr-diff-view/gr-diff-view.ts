@@ -734,6 +734,9 @@ export class GrDiffView extends LitElement {
           justify-content: center;
           gap: var(--spacing-s);
         }
+        gr-endpoint-decorator:has([replace-content]) gr-diff-host {
+          display: none;
+        }
       `,
     ];
   }
@@ -872,24 +875,26 @@ export class GrDiffView extends LitElement {
           hidden: !!this.file?.diffs_too_expensive_to_compute,
         })}
       >
-        <gr-diff-host
-          id="diffHost"
-          .changeNum=${this.changeNum}
-          .change=${this.change}
-          .patchRange=${this.patchRange}
-          .file=${file}
-          .lineOfInterest=${this.getLineOfInterest()}
-          .path=${this.path}
-          .projectName=${this.change?.project}
-          @is-blame-loaded-changed=${this.onIsBlameLoadedChanged}
-          @comment-anchor-tap=${this.onCommentAnchorTap}
-          @line-selected=${this.onLineSelected}
-          @diff-changed=${this.onDiffChanged}
-          @edit-weblinks-changed=${this.onEditWeblinksChanged}
-          @files-weblinks-changed=${this.onFilesWeblinksChanged}
-          @render=${this.reInitCursor}
-        >
-        </gr-diff-host>
+        <gr-endpoint-decorator name="diff-content">
+          <gr-diff-host
+            id="diffHost"
+            .changeNum=${this.changeNum}
+            .change=${this.change}
+            .patchRange=${this.patchRange}
+            .file=${file}
+            .lineOfInterest=${this.getLineOfInterest()}
+            .path=${this.path}
+            .projectName=${this.change?.project}
+            @is-blame-loaded-changed=${this.onIsBlameLoadedChanged}
+            @comment-anchor-tap=${this.onCommentAnchorTap}
+            @line-selected=${this.onLineSelected}
+            @diff-changed=${this.onDiffChanged}
+            @edit-weblinks-changed=${this.onEditWeblinksChanged}
+            @files-weblinks-changed=${this.onFilesWeblinksChanged}
+            @render=${this.reInitCursor}
+          >
+          </gr-diff-host>
+        </gr-endpoint-decorator>
       </div>
       ${this.renderDialogs()}
     `;
@@ -1120,6 +1125,9 @@ export class GrDiffView extends LitElement {
   private renderRightControls() {
     const diffModeSelectorClass = !this.diff || this.diff.binary ? 'hide' : '';
     return html` <div class="rightControls">
+      <gr-endpoint-decorator
+        name="diff-header-controls"
+      ></gr-endpoint-decorator>
       ${this.renderSidebarTriggers()} ${this.renderShowEntireFileButton()}
       ${this.renderBlameButton()}
       ${when(

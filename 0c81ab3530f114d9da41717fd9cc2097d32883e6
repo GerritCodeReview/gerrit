@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c2bfc09b_748ebb84",
+        "filename": "java/com/google/gerrit/server/update/BatchUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-04-17T13:23:44Z",
+      "side": 1,
+      "message": "Please fix this WARNING reported by autoreview issue finding: This import looks unintended and seems unrelated to adding logging.\n\nThis import looks unintended and seems unrelated to adding logging.",
+      "range": {
+        "startLine": 86,
+        "startChar": 0,
+        "endLine": 86,
+        "endChar": 0
+      },
+      "revId": "0c81ab3530f114d9da41717fd9cc2097d32883e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "526072a7_f9dd0bb3",
+        "filename": "java/com/google/gerrit/server/update/BatchUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 582,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-04-17T13:23:44Z",
+      "side": 1,
+      "message": "can you please do make boolean variable for this expression? boolean expression \u003d user.isIdentifiedUser() \u0026\u0026 !serviceUserClassifier.isServiceUser(user.getAccountId());",
+      "range": {
+        "startLine": 579,
+        "startChar": 3,
+        "endLine": 582,
+        "endChar": 96
+      },
+      "revId": "0c81ab3530f114d9da41717fd9cc2097d32883e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

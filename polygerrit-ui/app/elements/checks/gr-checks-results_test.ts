@@ -187,6 +187,36 @@ suite('gr-result-row test', () => {
       )
     );
   });
+
+  test('reports AI_AGENT_SUGGESTION_CONTENT_COPIED when result is copied', async () => {
+    const reportingStub = sinon.stub(
+      getAppContext().reportingService,
+      'reportInteraction'
+    );
+    element.result = {
+      ...element.result!,
+      externalId: JSON.stringify({
+        agentId: 'test-agent',
+        conversationId: 'test-conv',
+        turnIndex: 1,
+      }),
+    } as RunResult;
+    await element.updateComplete;
+
+    const tr = queryAndAssert(element, 'tr');
+    tr.dispatchEvent(new Event('copy'));
+
+    assert.isTrue(
+      reportingStub.calledWith(
+        Interaction.AI_AGENT_SUGGESTION_CONTENT_COPIED,
+        sinon.match({
+          agentId: 'test-agent',
+          conversationId: 'test-conv',
+          turnIndex: 1,
+        })
+      )
+    );
+  });
 });
 
 suite('gr-result-expanded test', () => {

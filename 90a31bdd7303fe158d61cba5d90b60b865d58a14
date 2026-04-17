@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "40906f96_0e9b4b75",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2026-04-17T07:41:30Z",
+      "side": 1,
+      "message": "Helpful, thanks! I prepared a follow-up change: https://gerrit-review.googlesource.com/c/gerrit/+/572402",
+      "parentUuid": "5afeec94_12a41512",
+      "revId": "90a31bdd7303fe158d61cba5d90b60b865d58a14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e5946208_d0f0561e",
@@ -58,6 +76,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e7803071_df49382a",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2026-04-17T07:41:30Z",
+      "side": 1,
+      "message": "Done in followup",
+      "parentUuid": "e5946208_d0f0561e",
+      "range": {
+        "startLine": 384,
+        "startChar": 0,
+        "endLine": 384,
+        "endChar": 0
+      },
+      "revId": "90a31bdd7303fe158d61cba5d90b60b865d58a14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2e777e2a_6e45e227",
@@ -71,6 +113,30 @@
       "writtenOn": "2026-04-16T16:29:57Z",
       "side": 1,
       "message": "Consider doing a case-insensitive match here. That way, a user can enter \"cr,v\" into the preferences field without having to worry about perfectly matching the capitalization of \"CR\" and \"V\".",
+      "range": {
+        "startLine": 400,
+        "startChar": 0,
+        "endLine": 400,
+        "endChar": 0
+      },
+      "revId": "90a31bdd7303fe158d61cba5d90b60b865d58a14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3782f415_da846f1b",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 400,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2026-04-17T07:41:30Z",
+      "side": 1,
+      "message": "Done in followup",
+      "parentUuid": "2e777e2a_6e45e227",
       "range": {
         "startLine": 400,
         "startChar": 0,
@@ -118,6 +184,30 @@
           ]
         }
       ],
+      "revId": "90a31bdd7303fe158d61cba5d90b60b865d58a14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "42bfb96b_6c2e15f3",
+        "filename": "polygerrit-ui/app/elements/settings/gr-change-table-editor/gr-change-table-editor_test.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2026-04-17T07:41:30Z",
+      "side": 1,
+      "message": "This was a leftover from when this change was just a toggle on/off all labels. Removed in followup.",
+      "parentUuid": "71a483cc_52334146",
+      "range": {
+        "startLine": 140,
+        "startChar": 18,
+        "endLine": 140,
+        "endChar": 32
+      },
       "revId": "90a31bdd7303fe158d61cba5d90b60b865d58a14",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

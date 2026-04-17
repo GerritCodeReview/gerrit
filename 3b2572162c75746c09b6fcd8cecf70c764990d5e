@@ -16,6 +16,24 @@
       "message": "Thank you for follow up change!",
       "revId": "3b2572162c75746c09b6fcd8cecf70c764990d5e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b9611ef1_339ac868",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2026-04-17T09:15:06Z",
+      "side": 1,
+      "message": "I had to add release-notes, sorry, need a re-+2",
+      "parentUuid": "dc263f93_34da4ca5",
+      "revId": "3b2572162c75746c09b6fcd8cecf70c764990d5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

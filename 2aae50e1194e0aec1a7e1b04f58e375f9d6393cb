@@ -1,0 +1,68 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9a28a1fa_845a61a2",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 413,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-04-17T21:52:34Z",
+      "side": 1,
+      "message": "The `@copy` listener here only captures copying from the summary row. When the result is expanded, the AI suggestion message is rendered in a different `\u003ctr\u003e` (the `detailsRow` at line 468). To capture copying from the expanded message, you should also add `@copy\u003d${this.handleCopy}` to that `\u003ctr\u003e`.",
+      "range": {
+        "startLine": 413,
+        "startChar": 0,
+        "endLine": 413,
+        "endChar": 0
+      },
+      "revId": "2aae50e1194e0aec1a7e1b04f58e375f9d6393cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "534a2004_973b621f",
+        "filename": "polygerrit-ui/app/models/checks/checks-util.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 616,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-04-17T21:52:34Z",
+      "side": 1,
+      "message": "Not sure if this is necessary, and I think you said you were able to validate this, but worth considering...\n\nPlease fix this WARNING reported by autoreview issue finding: To fully prevent mangling of the property names in the reported interaction, you should use string literals for the keys here as well. Even if you use bracket notation to read from `parsed`, the minifier will likely rename the local variables `agentId`, `conversationId`, etc. Using shorthand notation `{ agentId }` would then result in a mangled key in the output object. \\n\\nSuggested fix:\\n```typescript\\nreturn {\\n  \u0027agentId\u0027: agentId,\\n  \u0027conversationId\u0027: conversationId,\\n  \u0027turnIndex\u0027: Number(turnIndex),\\n};\\n```\n\nTo fully prevent mangling of the property names in the reported interaction, you should use string literals for the keys here as well. Even if you use bracket notation to read from `parsed`, the minifier will likely rename the local variables `agentId`, `conversationId`, etc. Using shorthand notation `{ agentId }` would then result in a mangled key in the output object. \\n\\nSuggested fix:\\n```typescript\\nreturn {\\n  \u0027agentId\u0027: agentId,\\n  \u0027conversationId\u0027: conversationId,\\n  \u0027turnIndex\u0027: Number(turnIndex),\\n};\\n```",
+      "range": {
+        "startLine": 616,
+        "startChar": 0,
+        "endLine": 616,
+        "endChar": 0
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "0c79405c_5cf40eb9",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/models/checks/checks-util.ts",
+              "range": {
+                "startLine": 618,
+                "startChar": 0,
+                "endLine": 621,
+                "endChar": 0
+              },
+              "replacement": "      \u0027agentId\u0027: agentId,\n      \u0027conversationId\u0027: conversationId,\n      \u0027turnIndex\u0027: Number(turnIndex),\n"
+            }
+          ]
+        }
+      ],
+      "revId": "2aae50e1194e0aec1a7e1b04f58e375f9d6393cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

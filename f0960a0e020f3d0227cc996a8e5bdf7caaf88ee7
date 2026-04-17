@@ -63,6 +63,41 @@
       "message": "@milutin@google.com \n\nGood point, thanks! I fixed this and updated the path handling to avoid the brittle relative paths and work properly with Bazel’s execroot.",
       "revId": "f0960a0e020f3d0227cc996a8e5bdf7caaf88ee7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "96bbe61d_1ee453d2",
+        "filename": "BUILD",
+        "patchSetId": 61
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-04-17T11:14:30Z",
+      "side": 1,
+      "message": "rename to g_version",
+      "fixSuggestions": [
+        {
+          "fixId": "dd0fe5d9_73bcb9f9",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "BUILD",
+              "range": {
+                "startLine": 10,
+                "startChar": 0,
+                "endLine": 11,
+                "endChar": 0
+              },
+              "replacement": "    name \u003d \"g_version\",\n"
+            }
+          ]
+        }
+      ],
+      "revId": "f0960a0e020f3d0227cc996a8e5bdf7caaf88ee7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

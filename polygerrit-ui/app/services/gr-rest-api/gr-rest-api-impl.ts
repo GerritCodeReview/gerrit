@@ -2341,8 +2341,6 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   getSaveReviewChangeOptions(): string[] {
     const options = [
       'CHANGE_ACTIONS',
-      'DETAILED_LABELS',
-      'DETAILED_ACCOUNTS',
       'MESSAGES',
       'REVIEWER_UPDATES',
       'SKIP_DIFFSTAT',
@@ -2370,7 +2368,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
           method: HttpMethod.POST,
           body: review,
         }),
-        url,
+        url: url + "?trace=no-submit-requirements",
         errFn,
         isHighPriority: true,
       })

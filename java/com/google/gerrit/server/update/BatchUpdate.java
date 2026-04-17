@@ -83,6 +83,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.TreeMap;
+import javax.naming.Context;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -565,13 +566,19 @@ public class BatchUpdate implements AutoCloseable {
   @UsedAt(GOOGLE)
   private boolean indexAsync() {
     if (!gerritConfig.getBoolean("index", "indexChangesAsync", false)) {
+      logger.atFine().log(
+          "Triggering indexing synchronously because indexChangesAsync config is false");
       return false;
     }
 
     if (user.getAccessPath().equals(AccessPath.WEB_BROWSER)) {
+      logger.atFine().log("Triggering indexing asynchronously");
       return true;
     }
 
+    logger.atFine().log(
+        "Triggering indexing asynchronously: " + user.isIdentifiedUser()
+            && !serviceUserClassifier.isServiceUser(user.getAccountId()));
     return user.isIdentifiedUser() && !serviceUserClassifier.isServiceUser(user.getAccountId());
   }
 

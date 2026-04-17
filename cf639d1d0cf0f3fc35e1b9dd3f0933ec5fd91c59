@@ -22,6 +22,30 @@
       },
       "revId": "cf639d1d0cf0f3fc35e1b9dd3f0933ec5fd91c59",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d4f235d4_2cc51f52",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 16
+      },
+      "lineNbr": 996,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-04-17T23:24:07Z",
+      "side": 1,
+      "message": "That\u0027s a good point. We should probably add that in this change? (vs a follow up)",
+      "parentUuid": "66cd1ef3_c334a437",
+      "range": {
+        "startLine": 996,
+        "startChar": 50,
+        "endLine": 996,
+        "endChar": 73
+      },
+      "revId": "cf639d1d0cf0f3fc35e1b9dd3f0933ec5fd91c59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

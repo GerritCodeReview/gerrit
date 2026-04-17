@@ -217,4 +217,32 @@ suite('gr-diff-check-result tests', () => {
       reportingStub.calledWith(Interaction.AI_AGENT_SUGGESTION_TO_COMMENT)
     );
   });
+
+  test('reports AI_AGENT_SUGGESTION_CONTENT_COPIED when container is copied', async () => {
+    element.result = {
+      ...checkRun1,
+      ...checkRun1.results?.[0],
+      externalId: JSON.stringify({
+        agentId: 'test-agent',
+        conversationId: 'test-conv',
+        turnIndex: 1,
+      }),
+    } as RunResult;
+    element.isOwner = true;
+    await element.updateComplete;
+
+    const container = queryAndAssert(element, '.container');
+    container.dispatchEvent(new Event('copy'));
+
+    assert.isTrue(
+      reportingStub.calledWith(
+        Interaction.AI_AGENT_SUGGESTION_CONTENT_COPIED,
+        sinon.match({
+          agentId: 'test-agent',
+          conversationId: 'test-conv',
+          turnIndex: 1,
+        })
+      )
+    );
+  });
 });

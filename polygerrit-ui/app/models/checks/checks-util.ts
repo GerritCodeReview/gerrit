@@ -602,7 +602,10 @@ function getAiAgentEventDetails(
   if (!externalId) return;
   // Use JSON.parse. We expect agentId, conversationId, turnIndex.
   try {
-    const {agentId, conversationId, turnIndex} = JSON.parse(externalId);
+    const parsed = JSON.parse(externalId);
+    const agentId = parsed['agentId'];
+    const conversationId = parsed['conversationId'];
+    const turnIndex = parsed['turnIndex'];
     if (
       !agentId ||
       !conversationId ||
@@ -647,6 +650,21 @@ export function reportAiAgentCommentDraft(
   if (!eventDetails) return;
   reporting.reportInteraction(
     Interaction.AI_AGENT_SUGGESTION_TO_COMMENT,
+    eventDetails
+  );
+}
+
+/**
+ * Reports a "manual copy" interaction on a Code Review Agent check.
+ */
+export function reportAiAgentSuggestionCopy(
+  reporting: Reporting,
+  runResult: RunResult
+) {
+  const eventDetails = getAiAgentEventDetails(runResult);
+  if (!eventDetails) return;
+  reporting.reportInteraction(
+    Interaction.AI_AGENT_SUGGESTION_CONTENT_COPIED,
     eventDetails
   );
 }

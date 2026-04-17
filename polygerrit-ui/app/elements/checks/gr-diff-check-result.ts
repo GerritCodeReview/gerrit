@@ -15,6 +15,7 @@ import {
   iconFor,
   reportAiAgentCommentDraft,
   reportAiAgentGetAIFix,
+  reportAiAgentSuggestionCopy,
 } from '../../models/checks/checks-util';
 import {modifierPressed} from '../../utils/dom-util';
 import './gr-checks-results';
@@ -218,7 +219,7 @@ export class GrDiffCheckResult extends LitElement {
         </div>`
       : nothing;
     return html`
-      <div class="${cat} container font-normal">
+      <div class="${cat} container font-normal" @copy=${this.handleCopy}>
         <div class="header" @click=${this.toggleExpandedClick}>
           <div class="icon">
             <gr-icon icon=${icon.name} ?filled=${!!icon.filled}></gr-icon>
@@ -412,6 +413,11 @@ export class GrDiffCheckResult extends LitElement {
   private toggleExpanded() {
     if (!this.isExpandable) return;
     this.isExpanded = !this.isExpanded;
+  }
+
+  private handleCopy() {
+    if (!this.result) return;
+    reportAiAgentSuggestionCopy(this.reporting, this.result);
   }
 
   private async handleAIFix(): Promise<void> {

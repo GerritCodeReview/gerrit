@@ -303,6 +303,8 @@ suite('gr-diff-view tests', () => {
                 </span>
               </div>
               <div class="rightControls">
+                <gr-endpoint-decorator name="diff-header-controls">
+                </gr-endpoint-decorator>
                 <div class="sidebarTriggerContainer">
                   <gr-endpoint-decorator name="sidebarTrigger">
                     <gr-endpoint-param name="onTrigger"> </gr-endpoint-param>
@@ -400,7 +402,9 @@ suite('gr-diff-view tests', () => {
           </div>
           <h2 class="assistive-tech-only">Diff view</h2>
           <div class="diffContainer">
-            <gr-diff-host id="diffHost"> </gr-diff-host>
+            <gr-endpoint-decorator name="diff-content">
+              <gr-diff-host id="diffHost"> </gr-diff-host>
+            </gr-endpoint-decorator>
           </div>
           <gr-apply-fix-dialog id="applyFixDialog"> </gr-apply-fix-dialog>
           <gr-diff-preferences-dialog id="diffPreferencesDialog">

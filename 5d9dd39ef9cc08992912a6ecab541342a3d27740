@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "207e3c77_55139c75",
+        "filename": "tools/node_tools/polygerrit_app_preprocessor/BUILD",
+        "patchSetId": 65
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-04-17T11:29:18Z",
+      "side": 1,
+      "message": "Please fix this WARNING reported by autoreview issue finding: This appears to be a typo. It should be `\"//tools/node_tools:node_modules/@rollup/plugin-node-resolve\"` to match the `preprocessor-bundle` above and other similar rules (e.g. `lib/emojis/BUILD`).\n\nThis appears to be a typo. It should be `\"//tools/node_tools:node_modules/@rollup/plugin-node-resolve\"` to match the `preprocessor-bundle` above and other similar rules (e.g. `lib/emojis/BUILD`).",
+      "range": {
+        "startLine": 46,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 0
+      },
+      "revId": "5d9dd39ef9cc08992912a6ecab541342a3d27740",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "24c1f96d_cf28ea92",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 413,
+      "author": {
+        "id": 1131691
+      },
+      "writtenOn": "2026-04-17T22:08:08Z",
+      "side": 1,
+      "message": "Ah, I misread the indentation and thought this TR was all encompassing. Added it",
+      "parentUuid": "9a28a1fa_845a61a2",
+      "range": {
+        "startLine": 413,
+        "startChar": 0,
+        "endLine": 413,
+        "endChar": 0
+      },
+      "revId": "2aae50e1194e0aec1a7e1b04f58e375f9d6393cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "534a2004_973b621f",
@@ -61,6 +85,30 @@
           ]
         }
       ],
+      "revId": "2aae50e1194e0aec1a7e1b04f58e375f9d6393cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "12586ebf_d3820a21",
+        "filename": "polygerrit-ui/app/models/checks/checks-util.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 616,
+      "author": {
+        "id": 1131691
+      },
+      "writtenOn": "2026-04-17T22:08:08Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "534a2004_973b621f",
+      "range": {
+        "startLine": 616,
+        "startChar": 0,
+        "endLine": 616,
+        "endChar": 0
+      },
       "revId": "2aae50e1194e0aec1a7e1b04f58e375f9d6393cb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "6c1139d4_a864a120",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 61
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-04-17T06:08:41Z",
+      "side": 1,
+      "message": "Good point, agreed. We can revisit a full migration from yarn to pnpm later.\n\nI’ve updated this so we don’t switch fully to pnpm yet. Yarn remains the canonical workflow, and pnpm is only used internally by Bazel for now.\n\nI also updated the commit message and `polygerrit-ui/README.md` accordingly.",
+      "parentUuid": "b1b8e583_1e9424e1",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 51
+      },
+      "revId": "f0960a0e020f3d0227cc996a8e5bdf7caaf88ee7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "015fb016_600cf205",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 61

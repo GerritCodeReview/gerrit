@@ -380,25 +380,30 @@ export class GrChangeList extends LitElement {
 
   computeLabelNames(sections: ChangeListSection[]) {
     if (!sections) return [];
+
+    let allLabels: string[];
     if (this.config?.submit_requirement_dashboard_columns?.length) {
-      return this.config.submit_requirement_dashboard_columns;
-    }
-    const changes = sections.map(section => section.results).flat();
-    let labels: string[] = [];
-    if (this.config?.dashboard_show_all_labels) {
-      labels = changes.map(change => Object.keys(change.labels ?? {})).flat();
+      allLabels = this.config.submit_requirement_dashboard_columns;
     } else {
-      labels = changes
-        .map(change => getRequirements(change))
-        .flat()
-        .map(requirement => requirement.name);
+      const changes = sections.map(section => section.results).flat();
+      let labels: string[] = [];
+      if (this.config?.dashboard_show_all_labels) {
+        labels = changes.map(change => Object.keys(change.labels ?? {})).flat();
+      } else {
+        labels = changes
+          .map(change => getRequirements(change))
+          .flat()
+          .map(requirement => requirement.name);
+      }
+      allLabels = orderSubmitRequirementNames(labels.filter(unique));
     }
-    const allLabels = orderSubmitRequirementNames(labels.filter(unique));
+
     if (this.labelFilter.length === 0) return allLabels;
+    const normalizedFilter = this.labelFilter.map(f => f.toLowerCase());
     return allLabels.filter(
       l =>
-        this.labelFilter.includes(l) ||
-        this.labelFilter.includes(computeLabelShortcut(l))
+        normalizedFilter.includes(l.toLowerCase()) ||
+        normalizedFilter.includes(computeLabelShortcut(l).toLowerCase())
     );
   }
 

@@ -135,9 +135,8 @@ suite('gr-change-table-editor tests', () => {
                     class="labelsFilterInput showBlueFocusBorder"
                     id="labelsFilter"
                     placeholder="CR,V (leave empty to see all labels)"
-                    >
+                  >
                   </md-outlined-text-field>
-                  </md-checkbox>
                 </td>
               </tr>
             </tbody>

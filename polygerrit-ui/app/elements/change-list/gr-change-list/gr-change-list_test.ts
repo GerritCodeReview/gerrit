@@ -708,4 +708,30 @@ suite('gr-change-list basic tests', () => {
     await element.updateComplete;
     assert.deepEqual(element.labelFilter, []);
   });
+  test('label filter is case insensitive', () => {
+    element.labelFilter = ['code-review'];
+    element.config = createServerInfo();
+    const sections: ChangeListSection[] = [
+      {
+        results: [
+          {
+            ...createChange(),
+            _number: 0 as NumericChangeId,
+            submit_requirements: [
+              {
+                ...createSubmitRequirementResultInfo(),
+                name: 'Code-Review',
+              },
+              {
+                ...createSubmitRequirementResultInfo(),
+                name: 'Verified',
+              },
+            ],
+          },
+        ],
+      },
+    ];
+    // 'code-review' matches 'Code-Review' case-insensitively
+    assert.deepEqual(element.computeLabelNames(sections), ['Code-Review']);
+  });
 });

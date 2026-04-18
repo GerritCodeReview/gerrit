@@ -18,14 +18,6 @@ bazel_dep(name = "rules_proto", version = "7.1.0")
 bazel_dep(name = "rules_python", version = "1.9.0")
 bazel_dep(name = "rules_shell", version = "0.6.1")
 
-# TODO(davido): Remove that patch after upgrading to aspect_rules_js 3.x
-single_version_override(
-    module_name = "aspect_rules_js",
-    version = "2.9.2",
-    patches = ["//tools/bzl/patches:aspect_rules_js_pnpm_10_33_0.patch"],
-    patch_strip = 1,
-)
-
 # Libraries / toolchains.
 bazel_dep(name = "protobuf", version = "34.1")
 

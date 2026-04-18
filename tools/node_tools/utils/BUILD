@@ -6,6 +6,7 @@ ts_project(
     name = "utils",
     srcs = glob(["*.ts"]),
     tsconfig = "tsconfig.json",
+    declaration = True,
     deps = [
         "//tools/node_tools:node_modules",
     ],

@@ -60,8 +60,6 @@ npm.npm_translate_lock(
         "//:pnpm-workspace.yaml",
     ],
     pnpm_lock = "//:pnpm-lock.yaml",
-    update_pnpm_lock = True,
-    yarn_lock = "//:yarn.lock",
 )
 use_repo(npm, "npm")
 
@@ -82,8 +80,6 @@ npm.npm_translate_lock(
     ],
     no_optional = True,
     pnpm_lock = "//polygerrit-ui/app:pnpm-lock.yaml",
-    update_pnpm_lock = True,
-    yarn_lock = "//polygerrit-ui/app:yarn.lock",
 )
 use_repo(npm, "ui_npm")
 
@@ -94,8 +90,6 @@ npm.npm_translate_lock(
         "//polygerrit-ui:pnpm-workspace.yaml",
     ],
     pnpm_lock = "//polygerrit-ui:pnpm-lock.yaml",
-    update_pnpm_lock = True,
-    yarn_lock = "//polygerrit-ui:yarn.lock",
 )
 use_repo(npm, "ui_dev_npm")
 
@@ -106,8 +100,6 @@ npm.npm_translate_lock(
         "//tools/node_tools:pnpm-workspace.yaml",
     ],
     pnpm_lock = "//tools/node_tools:pnpm-lock.yaml",
-    update_pnpm_lock = True,
-    yarn_lock = "//tools/node_tools:yarn.lock",
 )
 use_repo(npm, "tools_npm")
 
@@ -118,8 +110,6 @@ npm.npm_translate_lock(
         "//plugins:pnpm-workspace.yaml",
     ],
     pnpm_lock = "//plugins:pnpm-lock.yaml",
-    update_pnpm_lock = True,
-    yarn_lock = "//plugins:yarn.lock",
 )
 use_repo(npm, "plugins_npm")
 

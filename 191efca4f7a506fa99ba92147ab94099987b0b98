@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4084b4f6_579fc546",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-04-18T19:17:46Z",
+      "side": 1,
+      "message": "That would work too. You could keep this change blocked with CRVW-2 until the backend change has been deployed, and then remove the block so this frontend change can be merged.",
+      "parentUuid": "b5e5a40c_35efe106",
+      "revId": "191efca4f7a506fa99ba92147ab94099987b0b98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "25667bd4_ec8e86d7",
@@ -48,6 +66,30 @@
       "writtenOn": "2026-04-17T08:38:20Z",
       "side": 1,
       "message": "Please fix this WARNING reported by autoreview issue finding: This JSDoc should also be updated to mention the \"Delete Comment\" capability instead of \"an admin feature\", similarly to the update made for `renderDeleteButton()`.\n\nThis JSDoc should also be updated to mention the \"Delete Comment\" capability instead of \"an admin feature\", similarly to the update made for `renderDeleteButton()`.",
+      "range": {
+        "startLine": 1755,
+        "startChar": 0,
+        "endLine": 1755,
+        "endChar": 0
+      },
+      "revId": "191efca4f7a506fa99ba92147ab94099987b0b98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6e68c18f_d459f783",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1755,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-04-18T19:17:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "25667bd4_ec8e86d7",
       "range": {
         "startLine": 1755,
         "startChar": 0,

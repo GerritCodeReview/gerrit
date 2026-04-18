@@ -21,6 +21,7 @@
     "lit-html": "3.3.2",
     "mocha": "^10.2.0",
     "pixelmatch": "^7.1.0",
+    "playwright": "1.55.0",
     "pngjs": "^7.0.0",
     "sinon": "^20.0.0",
     "source-map-support": "^0.5.21"

@@ -1,4 +1,5 @@
-onlyBuiltDependencies: []
+allowBuilds:
+  esbuild: true
 
 overrides:
   "eslint": "^9.39.1"

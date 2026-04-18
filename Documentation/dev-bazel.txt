@@ -21,7 +21,7 @@ To build Gerrit from source, you need:
 * A JDK for Java 25
 * Python 3
 * link:https://github.com/nodesource/distributions/blob/master/README.md[Node.js (including npm),role=external,window=_blank]
-* Yarn (`npm install -g yarn`)
+* pnpm (`npm install -g pnpm@12.13.0`) for frontend development and dependency updates
 * link:https://bazel.build/install[Bazel,role=external,window=_blank] -launched with
 link:https://github.com/bazelbuild/bazelisk[Bazelisk,role=external,window=_blank]
 * Maven
@@ -69,8 +69,8 @@ To execute the tests run:
   $ bazelisk test //...
 ```
 
-=== Node.js and npm packages
-See link:https://gerrit.googlesource.com/gerrit/+/master/polygerrit-ui/README.md#installing-node_js-and-npm-packages[Installing Node.js and npm packages,role=external,window=_blank].
+=== Node.js and pnpm
+See link:https://gerrit.googlesource.com/gerrit/+/master/polygerrit-ui/README.md[Installing Node.js and pnpm,role=external,window=_blank].
 
 [[build]]
 == Building on the Command Line
@@ -761,12 +761,11 @@ Start by checking that the license and file types of the bundle are acceptable:
   package=some-npm-package
   version=1.2.3
 
-  # Note - yarn must be installed before running the following commands
-  yarn global add license-checker && \
-  rm -rf /tmp/$package-$version && mkdir -p /tmp/$package-$version && \
+  # pnpm must be installed before running the following commands.
+  mkdir -p /tmp/$package-$version && \
   cd /tmp/$package-$version && \
-  yarn add $package@$version && \
-  license-checker | grep licenses: | sort -u
+  pnpm add "$package@$version" && \
+  pnpm dlx license-checker | grep licenses: | sort -u
 ----
 
 This will output a list of the different licenses used by the package and all
@@ -791,16 +790,16 @@ use the bundle.
 If everything looks good, install the package with the following command:
 [source, bash]
 ----
-# Add to ui_npm. Other packages.json can be updated in the same way
-cd $gerrit_repo/polygerrit-ui/app
-bazelisk run @yarn//:yarn add $package
+# Add to ui_npm. Other package.json files can be updated in the same way.
+cd "$gerrit_repo"
+bazelisk run @pnpm//:pnpm -- --dir "$PWD/polygerrit-ui/app" add "$package@$version"
 ----
 
 Update the `polygerrit-ui/app/node_modules_licenses/licenses.ts` file. You should add licenses
 for the package itself and for all transitive dependencies. If you forgot to add a license, the
 `Documentation:check_licenses` test will fail.
 
-After the update, commit all changes to the repository (including `yarn.lock`).
+After the update, commit all changes to the repository (including `package.json` and `pnpm-lock.yaml`).
 
 [NOTE]
 ====
@@ -823,9 +822,16 @@ update postinstall script, `Documentation:check_licenses` test will fail.)
 === Update NPM Binaries
 To update a NPM binary the same actions as for a new one must be done (check licenses,
 update `licenses.ts` file, etc...). The only difference is a command to install a package: instead
-of `bazelisk run @yarn//:yarn add $package` you should run the `bazelisk run @yarn//:yarn upgrade ...`
-command with correct arguments. You can find the list of arguments in the
-link:https://classic.yarnpkg.com/en/docs/cli/upgrade/[yarn upgrade doc,role=external,window=_blank].
+of adding the package, run `pnpm update` in the relevant workspace. For example,
+from the Gerrit repository root:
+
+[source,bash]
+----
+bazelisk run @pnpm//:pnpm -- --dir "$PWD/polygerrit-ui/app" update "$package"
+----
+
+Use `pnpm add "$package@$version"` to select a specific version. See the
+link:https://pnpm.io/cli/update[pnpm update documentation,role=external,window=_blank].
 
 
 [[RBE]]

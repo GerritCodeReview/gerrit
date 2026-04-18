@@ -12,7 +12,7 @@ This document provides a summary of the front-end development environment for th
   - **Framework**: `mocha`
   - **Assertions/Mocks**: `sinon`, `@open-wc/semantic-dom-diff`
   - **Browser Testing**: `playwright`
-- **Package Manager**: `yarn`
+- **Package Manager**: `pnpm`
 
 ## Linting
 
@@ -35,19 +35,19 @@ The following commands should be run from the project root directory.
 To check for TypeScript errors without running the full test suite, use the `compile` script (must be run from the **project root**, not `polygerrit-ui`):
 
 ```bash
-yarn compile
+pnpm compile
 ```
 
 ### Running Tests
 
-- `yarn test`: Run all tests.
-- `yarn test:screenshot`: Run visual regression tests.
-- `yarn test:screenshot-update`: Run visual regression tests and update baseline images.
+- `pnpm test`: Run all tests.
+- `pnpm test:screenshot`: Run visual regression tests.
+- `pnpm test:screenshot-update`: Run visual regression tests and update baseline images.
 
 Bazel equivalents (what CI runs; all three are tagged `manual` and must be named explicitly):
 
-- `bazelisk test //polygerrit-ui:web_test_runner`: Unit tests only — same set as `yarn test`.
-- `bazelisk test //polygerrit-ui:web_test_runner_screenshots`: Screenshot regression tests only — same set as `yarn test:screenshot`.
+- `bazelisk test //polygerrit-ui:web_test_runner`: Unit tests only — same set as `pnpm test`.
+- `bazelisk test //polygerrit-ui:web_test_runner_screenshots`: Screenshot regression tests only — same set as `pnpm test:screenshot`.
 - `bazelisk test //polygerrit-ui:web_test_runner_all`: Both buckets in one invocation.
 
 ## Running Single Tests
@@ -57,7 +57,7 @@ Running the full test suite can be slow. For a faster feedback loop during devel
 **Command:**
 
 ```bash
-yarn test:single:nowatch "**/test_file.ts"
+pnpm test:single:nowatch "**/test_file.ts"
 ```
 
 If you want to run the test in watch mode, you can use `test:single`.
@@ -65,8 +65,8 @@ If you want to run the test in watch mode, you can use `test:single`.
 **Examples:**
 
 ```bash
-yarn test:single:nowatch "**/gr-account-list_test.ts"
-yarn test:single:nowatch "**/gr-user-suggestion_test.ts"
+pnpm test:single:nowatch "**/gr-account-list_test.ts"
+pnpm test:single:nowatch "**/gr-user-suggestion_test.ts"
 ```
 
 ## Common Test Utilities

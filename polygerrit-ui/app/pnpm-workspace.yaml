@@ -1,4 +1,6 @@
 packages:
   - 'polygerrit-ui/app'
 
-onlyBuiltDependencies: []
+# Resemble.js is used in the browser; its optional Node canvas is not needed.
+allowBuilds:
+  canvas: false

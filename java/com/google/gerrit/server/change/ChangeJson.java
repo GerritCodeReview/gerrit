@@ -823,11 +823,10 @@ public class ChangeJson {
       if (experimentFeatures.isFeatureEnabled(ENABLE_AI_CHAT)) {
         try {
           out.canAiReview =
-              toBoolean(
-                  permissionBackend
-                      .user(userProvider.get())
-                      .change(cd)
-                      .test(ChangePermission.AI_REVIEW));
+              permissionBackend
+                  .user(userProvider.get())
+                  .change(cd)
+                  .test(ChangePermission.AI_REVIEW);
         } catch (PermissionBackendException e) {
           logger.atWarning().withCause(e).log(
               "Failed to check AI review permission for change %s", cd.getId());

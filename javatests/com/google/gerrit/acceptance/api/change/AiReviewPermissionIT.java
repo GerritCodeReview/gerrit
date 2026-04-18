@@ -74,7 +74,7 @@ public class AiReviewPermissionIT extends AbstractDaemonTest {
   @GerritConfig(
       name = "experiments.enabled",
       values = {"UiFeature__enable_ai_chat"})
-  public void canAiReviewNullWhenUserNotInGrantedGroup() throws Exception {
+  public void canAiReviewFalseWhenUserNotInGrantedGroup() throws Exception {
     String changeId = createChange().getChangeId();
 
     projectOperations
@@ -86,14 +86,14 @@ public class AiReviewPermissionIT extends AbstractDaemonTest {
     requestScopeOperations.setApiUser(user.id());
     ChangeInfo info = gApi.changes().id(changeId).get(CHANGE_ACTIONS);
 
-    assertThat(info.canAiReview).isNull();
+    assertThat(info.canAiReview).isFalse();
   }
 
   @Test
   @GerritConfig(
       name = "experiments.enabled",
       values = {"UiFeature__enable_ai_chat"})
-  public void canAiReviewNullWhenUserInDeniedGroup() throws Exception {
+  public void canAiReviewFalseWhenUserInDeniedGroup() throws Exception {
     String changeId = createChange().getChangeId();
 
     projectOperations
@@ -105,7 +105,7 @@ public class AiReviewPermissionIT extends AbstractDaemonTest {
     requestScopeOperations.setApiUser(user.id());
     ChangeInfo info = gApi.changes().id(changeId).get(CHANGE_ACTIONS);
 
-    assertThat(info.canAiReview).isNull();
+    assertThat(info.canAiReview).isFalse();
   }
 
   @Test
@@ -131,7 +131,7 @@ public class AiReviewPermissionIT extends AbstractDaemonTest {
   @GerritConfig(
       name = "experiments.enabled",
       values = {"UiFeature__enable_ai_chat"})
-  public void canAiReviewNullWhenUserInBlockedGroup() throws Exception {
+  public void canAiReviewFalseWhenUserInBlockedGroup() throws Exception {
     String changeId = createChange().getChangeId();
 
     projectOperations
@@ -143,7 +143,7 @@ public class AiReviewPermissionIT extends AbstractDaemonTest {
     requestScopeOperations.setApiUser(user.id());
     ChangeInfo info = gApi.changes().id(changeId).get(CHANGE_ACTIONS);
 
-    assertThat(info.canAiReview).isNull();
+    assertThat(info.canAiReview).isFalse();
   }
 
   @Test
@@ -169,7 +169,7 @@ public class AiReviewPermissionIT extends AbstractDaemonTest {
   @GerritConfig(
       name = "experiments.enabled",
       values = {"UiFeature__enable_ai_chat"})
-  public void canAiReviewNullWhenDenySuppressesAllow() throws Exception {
+  public void canAiReviewFalseWhenDenySuppressesAllow() throws Exception {
     String changeId = createChange().getChangeId();
 
     projectOperations
@@ -182,14 +182,14 @@ public class AiReviewPermissionIT extends AbstractDaemonTest {
     requestScopeOperations.setApiUser(user.id());
     ChangeInfo info = gApi.changes().id(changeId).get(CHANGE_ACTIONS);
 
-    assertThat(info.canAiReview).isNull();
+    assertThat(info.canAiReview).isFalse();
   }
 
   @Test
   @GerritConfig(
       name = "experiments.enabled",
       values = {"UiFeature__enable_ai_chat"})
-  public void canAiReviewNullWhenAllowForOtherGroupAndDenyForUserGroup() throws Exception {
+  public void canAiReviewFalseWhenAllowForOtherGroupAndDenyForUserGroup() throws Exception {
     String changeId = createChange().getChangeId();
 
     projectOperations
@@ -202,7 +202,7 @@ public class AiReviewPermissionIT extends AbstractDaemonTest {
     requestScopeOperations.setApiUser(user.id());
     ChangeInfo info = gApi.changes().id(changeId).get(CHANGE_ACTIONS);
 
-    assertThat(info.canAiReview).isNull();
+    assertThat(info.canAiReview).isFalse();
   }
 
   @Test
@@ -229,7 +229,7 @@ public class AiReviewPermissionIT extends AbstractDaemonTest {
   @GerritConfig(
       name = "experiments.enabled",
       values = {"UiFeature__enable_ai_chat"})
-  public void canAiReviewNullWhenAdminInDeniedGroup() throws Exception {
+  public void canAiReviewFalseWhenAdminInDeniedGroup() throws Exception {
     String changeId = createChange().getChangeId();
 
     projectOperations
@@ -241,14 +241,14 @@ public class AiReviewPermissionIT extends AbstractDaemonTest {
     requestScopeOperations.setApiUser(admin.id());
     ChangeInfo info = gApi.changes().id(changeId).get(CHANGE_ACTIONS);
 
-    assertThat(info.canAiReview).isNull();
+    assertThat(info.canAiReview).isFalse();
   }
 
   @Test
   @GerritConfig(
       name = "experiments.enabled",
       values = {"UiFeature__enable_ai_chat"})
-  public void canAiReviewNullWhenDenyInheritedFromAllProjects() throws Exception {
+  public void canAiReviewFalseWhenDenyInheritedFromAllProjects() throws Exception {
     String changeId = createChange().getChangeId();
 
     projectOperations
@@ -260,7 +260,7 @@ public class AiReviewPermissionIT extends AbstractDaemonTest {
     requestScopeOperations.setApiUser(user.id());
     ChangeInfo info = gApi.changes().id(changeId).get(CHANGE_ACTIONS);
 
-    assertThat(info.canAiReview).isNull();
+    assertThat(info.canAiReview).isFalse();
   }
 
   @Test

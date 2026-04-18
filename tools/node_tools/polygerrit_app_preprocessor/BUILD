@@ -1,3 +1,4 @@
+
 load("@aspect_rules_js//js:defs.bzl", "js_binary")
 load("@aspect_rules_rollup//rollup:defs.bzl", "rollup")
 load("@aspect_rules_ts//ts:defs.bzl", "ts_project")
@@ -22,6 +23,7 @@ rollup(
     ],
     config_file = "rollup.config.js",
     entry_point = "preprocessor.ts",
+    srcs = ["preprocessor.ts"],
     format = "cjs",
     node_modules = "//tools/node_tools:node_modules",
     silent = True,
@@ -38,6 +40,7 @@ rollup(
     ],
     config_file = "rollup.config.js",
     entry_point = "links-updater.ts",
+    srcs = ["links-updater.ts"],
     format = "cjs",
     node_modules = "//tools/node_tools:node_modules",
     silent = True,

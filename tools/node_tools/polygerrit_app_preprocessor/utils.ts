@@ -17,7 +17,7 @@
 
 import * as fs from "fs";
 import * as path from "path";
-import {FileUtils} from "../utils/file-utils";
+import {FileUtils} from "tools/node_tools/utils/file-utils";
 import {
   Redirect,
   isRedirectToNodeModule,

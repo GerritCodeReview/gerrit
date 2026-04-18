@@ -23,18 +23,15 @@ importers:
       '@types/node':
         specifier: ^22.15.2
         version: 22.15.18
-      '@types/parse5':
-        specifier: ^4.0.0
-        version: 4.0.1
-      '@types/parse5-html-rewriting-stream':
-        specifier: ^5.1.2
-        version: 5.1.2
       dom5:
         specifier: ^3.0.1
         version: 3.0.1
+      parse5:
+        specifier: ^7.0.0
+        version: 7.3.0
       parse5-html-rewriting-stream:
-        specifier: ^5.1.1
-        version: 5.1.1
+        specifier: ^7.0.0
+        version: 7.1.0
       rollup:
         specifier: ^4.40.0
         version: 4.40.2
@@ -230,18 +227,8 @@ packages:
   '@types/node@22.15.18':
     resolution: {integrity: sha512-v1DKRfUdyW+jJhZNEI1PYy29S2YRxMV5AOO/x/SjKmW0acCIOqmbj6Haf9eHAhsPmrhlHSxEhv/1WszcLWV4cg==}
 
-  '@types/parse5-html-rewriting-stream@5.1.2':
-    resolution: {integrity: sha512-7CHY6QlayurvYRST5xatE/ipIueph5V+EW2xU12P0CsNucuwygnuiE4foYsdQUEkhnKrTU62KmikANPnoxiGrg==}
-
-  '@types/parse5-sax-parser@7.0.0':
-    resolution: {integrity: sha512-wR3hG33tMsLOdqtcJT0XuGi1Ik3dTP+/ZWN1AckYmEagO/SWoL99GPyv21ZI/FAHOtYWB02TEV3+Y5zqkC4L+Q==}
-    deprecated: This is a stub types definition. parse5-sax-parser provides its own type definitions, so you do not need this installed.
-
   '@types/parse5@2.2.34':
     resolution: {integrity: sha512-p3qOvaRsRpFyEmaS36RtLzpdxZZnmxGuT1GMgzkTtTJVFuEw7KFjGK83MFODpJExgX1bEzy9r0NYjMC3IMfi7w==}
-
-  '@types/parse5@4.0.1':
-    resolution: {integrity: sha512-CgJIkoNLclXUUg5cEo/SybyhxgVuKGqGcw8BPBpkKWX7wGcNfDlO2Ot+5O9u5E6k3NDg6RmJzm5w5N2prDIE8Q==}
 
   '@types/resolve@1.20.2':
     resolution: {integrity: sha512-60BCwRFOZCQhDncwQdxxeOEEkbc5dIMccYLwbxsS4TUNeVECQ/pBJ0j09mrHOl/JJvpRPGwO9SvE4nR2Nb/a4Q==}
@@ -311,20 +298,14 @@ packages:
   magic-string@0.30.17:
     resolution: {integrity: sha512-sNPKHvyjVf7gyjwS4xGTaW/mCnF8wnjtifKBEhxfZ7E/S8tQ0rssrwGNn6q8JH/ohItJfSQp9mBtQYuTlH5QnA==}
 
-  parse5-html-rewriting-stream@5.1.1:
-    resolution: {integrity: sha512-rbXBeMlJ3pk3tKxLKAUaqvQTZM5KTohXmZvYEv2gU9sQC70w65BxPsh3PVVnwiVNCnNYDtNZRqCKmiMlfdG07Q==}
-
-  parse5-sax-parser@5.1.1:
-    resolution: {integrity: sha512-9HIh6zd7bF1NJe95LPCUC311CekdOi55R+HWXNCsGY6053DWaMijVKOv1oPvdvPTvFicifZyimBVJ6/qvG039Q==}
+  parse5-html-rewriting-stream@7.1.0:
+    resolution: {integrity: sha512-2ifK6Jb+ONoqOy5f+cYHsqvx1obHQdvIk13Jmt/5ezxP0U9p+fqd+R6O73KblGswyuzBYfetmsfK9ThMgnuPPg==}
 
   parse5-sax-parser@7.0.0:
     resolution: {integrity: sha512-5A+v2SNsq8T6/mG3ahcz8ZtQ0OUFTatxPbeidoMB7tkJSGDY3tdfl4MHovtLQHkEn5CGxijNWRQHhRQ6IRpXKg==}
 
   parse5@4.0.0:
     resolution: {integrity: sha512-VrZ7eOd3T1Fk4XWNXMgiGBK/z0MG48BWG2uQNU4I72fkQuKUTZpl+u9k+CxEG0twMVzSmXEEz12z5Fnw1jIQFA==}
-
-  parse5@5.1.1:
-    resolution: {integrity: sha512-ugq4DFI0Ptb+WWjAdOK16+u/nHfiIrcE+sh8kZMaM0WllQKLI9rOUq6c2b7cwPkXdzfQESqvoqK6ug7U/Yyzug==}
 
   parse5@7.3.0:
     resolution: {integrity: sha512-IInvU7fabl34qmi9gY8XOVxhYyMyuH2xUNpb2q8/Y+7552KlejkRvqvD19nMoUW/uQGGbqNpA6Tufu5FL5BZgw==}
@@ -517,19 +498,7 @@ snapshots:
     dependencies:
       undici-types: 6.21.0
 
-  '@types/parse5-html-rewriting-stream@5.1.2':
-    dependencies:
-      '@types/parse5-sax-parser': 7.0.0
-
-  '@types/parse5-sax-parser@7.0.0':
-    dependencies:
-      parse5-sax-parser: 7.0.0
-
   '@types/parse5@2.2.34':
-    dependencies:
-      '@types/node': 22.15.18
-
-  '@types/parse5@4.0.1':
     dependencies:
       '@types/node': 22.15.18
 
@@ -584,22 +553,17 @@ snapshots:
     dependencies:
       '@jridgewell/sourcemap-codec': 1.5.0
 
-  parse5-html-rewriting-stream@5.1.1:
+  parse5-html-rewriting-stream@7.1.0:
     dependencies:
-      parse5: 5.1.1
-      parse5-sax-parser: 5.1.1
-
-  parse5-sax-parser@5.1.1:
-    dependencies:
-      parse5: 5.1.1
+      entities: 6.0.0
+      parse5: 7.3.0
+      parse5-sax-parser: 7.0.0
 
   parse5-sax-parser@7.0.0:
     dependencies:
       parse5: 7.3.0
 
   parse5@4.0.0: {}
-
-  parse5@5.1.1: {}
 
   parse5@7.3.0:
     dependencies:

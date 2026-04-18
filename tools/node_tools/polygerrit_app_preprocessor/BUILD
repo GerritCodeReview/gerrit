@@ -17,6 +17,7 @@ ts_project(
 #rollup_bundle - workaround for https://github.com/bazelbuild/rules_nodejs/issues/1522
 rollup(
     name = "preprocessor-bundle",
+    srcs = ["preprocessor.ts"],
     args = [
         "--bundleConfigAsCjs=true",
     ],
@@ -33,6 +34,7 @@ rollup(
 
 rollup(
     name = "links-updater-bundle",
+    srcs = ["links-updater.ts"],
     args = [
         "--bundleConfigAsCjs=true",
     ],

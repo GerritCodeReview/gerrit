@@ -20,8 +20,8 @@ import * as parse5 from "parse5";
 import * as dom5 from "dom5";
 import * as path from "path";
 import {Node} from 'dom5';
-import {fail, unexpectedSwitchValue} from "../utils/common";
-import {readMultilineParamFile} from "../utils/command-line";
+import {fail, unexpectedSwitchValue} from "tools/node_tools/utils/common";
+import {readMultilineParamFile} from "tools/node_tools/utils/command-line";
 import {
   HtmlSrcFilePath,
   JsSrcFilePath,
@@ -29,13 +29,13 @@ import {
   JsTargetFilePath,
   FileUtils,
   FilePath
-} from "../utils/file-utils";
+} from "tools/node_tools/utils/file-utils";
 import {
   AbsoluteWebPath,
   getRelativeImport,
   NodeModuleImportPath,
   SrcWebSite
-} from "../utils/web-site-utils";
+} from "tools/node_tools/utils/web-site-utils";
 
 /**
  * Update source code by moving all scripts out of HTML files.
@@ -125,7 +125,7 @@ type JsSrcToOutputMap = Map<JsSrcFilePath, JsOutputs>;
 
 interface HtmlFileInfo {
   src: HtmlSrcFilePath;
-  ast: parse5.AST.Document;
+  ast: parse5.DefaultTreeAdapterTypes.Document;
   linksAndScripts: LinkOrScript[]
 }
 
@@ -196,9 +196,9 @@ class HtmlScriptAndLinksCollector {
     };
   };
 
-  private static getAst(file: string): parse5.AST.Document {
+  private static getAst(file: string): parse5.DefaultTreeAdapterTypes.Document {
     const html = fs.readFileSync(file, "utf-8");
-    return parse5.parse(html, {locationInfo: true});
+    return parse5.parse(html, {sourceCodeLocationInfo: true});
   }
 
 }

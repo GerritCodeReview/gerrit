@@ -16,12 +16,12 @@
  */
 
 import * as fs from "fs";
-import RewritingStream from "parse5-html-rewriting-stream";
+import {RewritingStream} from 'parse5-html-rewriting-stream';
 import * as dom5 from "dom5";
 import {HtmlFileUtils, RedirectsResolver} from "./utils";
 import {Node} from 'dom5';
 import {readMultilineParamFile} from "../utils/command-line";
-import { fail } from "../utils/common";
+import {fail} from "../utils/common";
 import {JSONRedirects} from "./redirects";
 
 /** Update links in HTML file
@@ -119,7 +119,7 @@ class HtmlFileUpdater {
 
   private updateRefAttribute(node: Node, parentHtml: string, attributeName: string) {
     const ref = dom5.getAttribute(node, attributeName);
-    if (!ref) {
+    if (ref === null) {
       fail(`Internal error - ${node} in ${parentHtml} doesn't have attribute ${attributeName}`);
     }
     const newRef = this.getResolvedPath(parentHtml, ref);

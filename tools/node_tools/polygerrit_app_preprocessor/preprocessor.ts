@@ -125,7 +125,7 @@ type JsSrcToOutputMap = Map<JsSrcFilePath, JsOutputs>;
 
 interface HtmlFileInfo {
   src: HtmlSrcFilePath;
-  ast: parse5.AST.Document;
+  ast: parse5.DefaultTreeAdapterTypes.Document;
   linksAndScripts: LinkOrScript[]
 }
 
@@ -196,9 +196,9 @@ class HtmlScriptAndLinksCollector {
     };
   };
 
-  private static getAst(file: string): parse5.AST.Document {
+  private static getAst(file: string): parse5.DefaultTreeAdapterTypes.Document {
     const html = fs.readFileSync(file, "utf-8");
-    return parse5.parse(html, {locationInfo: true});
+    return parse5.parse(html, {sourceCodeLocationInfo: true});
   }
 
 }

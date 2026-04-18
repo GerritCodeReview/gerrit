@@ -6,6 +6,7 @@
     "esModuleInterop": true,
     "strict": true,
     "moduleResolution": "node",
+    "skipLibCheck": true,
   },
   "include": ["*.ts"]
 }

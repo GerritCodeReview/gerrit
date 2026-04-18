@@ -1,0 +1,14 @@
+diff --git a/npm/private/exclude_package_contents_presets.bzl b/npm/private/exclude_package_contents_presets.bzl
+index cfacded6..3f24b451 100644
+--- a/npm/private/exclude_package_contents_presets.bzl
++++ b/npm/private/exclude_package_contents_presets.bzl
+@@ -24,9 +24,6 @@ _DEFAULT = [
+     ".documentup.json",
+     ".yarn-metadata.json",
+     ".travis.yml",
+-
+-    # misc (files)
+-    "*.md",
+ ]
+ 
+ # Yarn autoclean exclusions

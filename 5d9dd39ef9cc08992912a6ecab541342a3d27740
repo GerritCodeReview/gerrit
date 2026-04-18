@@ -22,6 +22,30 @@
       },
       "revId": "5d9dd39ef9cc08992912a6ecab541342a3d27740",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a96d476e_3de4171e",
+        "filename": "tools/node_tools/polygerrit_app_preprocessor/BUILD",
+        "patchSetId": 65
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-04-18T06:49:57Z",
+      "side": 1,
+      "message": "Good catch, thanks.\n\nThat was a typo/inconsistency on my side. I updated it to `//tools/node_tools:node_modules/@rollup/plugin-node-resolve` to match the other rule and similar usages elsewhere.",
+      "parentUuid": "207e3c77_55139c75",
+      "range": {
+        "startLine": 46,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 0
+      },
+      "revId": "5d9dd39ef9cc08992912a6ecab541342a3d27740",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

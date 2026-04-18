@@ -28,7 +28,7 @@ rules_ts_ext.deps(
 use_repo(rules_ts_ext, "npm_typescript")
 
 # The node version is read from //:.nvmrc, the cross-tool convention file
-# also honored by nvm and CI -- Bazel and the yarn dev flow share one pin.
+# also honored by nvm and CI -- Bazel and the pnpm dev flow share one pin.
 # Versions unknown to the pinned rules_nodejs release are auto-fetched and
 # recorded in MODULE.bazel.lock (rules_nodejs >= 6.7.5).
 node = use_extension("@rules_nodejs//nodejs:extensions.bzl", "node")
@@ -50,8 +50,6 @@ npm.npm_translate_lock(
         "//:pnpm-workspace.yaml",
     ],
     pnpm_lock = "//:pnpm-lock.yaml",
-    update_pnpm_lock = True,
-    yarn_lock = "//:yarn.lock",
 )
 use_repo(npm, "npm")
 
@@ -72,8 +70,6 @@ npm.npm_translate_lock(
     ],
     no_optional = True,
     pnpm_lock = "//polygerrit-ui/app:pnpm-lock.yaml",
-    update_pnpm_lock = True,
-    yarn_lock = "//polygerrit-ui/app:yarn.lock",
 )
 use_repo(npm, "ui_npm")
 npm.npm_translate_lock(
@@ -83,8 +79,6 @@ npm.npm_translate_lock(
         "//polygerrit-ui:pnpm-workspace.yaml",
     ],
     pnpm_lock = "//polygerrit-ui:pnpm-lock.yaml",
-    update_pnpm_lock = True,
-    yarn_lock = "//polygerrit-ui:yarn.lock",
 )
 use_repo(npm, "ui_dev_npm")
 npm.npm_translate_lock(
@@ -94,8 +88,6 @@ npm.npm_translate_lock(
         "//tools/node_tools:pnpm-workspace.yaml",
     ],
     pnpm_lock = "//tools/node_tools:pnpm-lock.yaml",
-    update_pnpm_lock = True,
-    yarn_lock = "//tools/node_tools:yarn.lock",
 )
 use_repo(npm, "tools_npm")
 npm.npm_translate_lock(
@@ -105,8 +97,6 @@ npm.npm_translate_lock(
         "//plugins:pnpm-workspace.yaml",
     ],
     pnpm_lock = "//plugins:pnpm-lock.yaml",
-    update_pnpm_lock = True,
-    yarn_lock = "//plugins:yarn.lock",
 )
 use_repo(npm, "plugins_npm")
 

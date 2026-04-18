@@ -52,7 +52,6 @@ js-to-ts.sh
 !/plugins/rollup.config.js
 !/plugins/tsconfig.json
 !/plugins/tsconfig-plugins-base.json
-!/plugins/yarn.lock
 !/plugins/BUILD
 !/plugins/codemirror-editor
 !/plugins/commit-message-length-validator

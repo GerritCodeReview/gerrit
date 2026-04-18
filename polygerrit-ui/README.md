@@ -27,7 +27,7 @@ Follow the instructions
 [here](https://gerrit-review.googlesource.com/Documentation/dev-bazel.html#_installation)
 to get and install Bazel. Using Bazelisk is usually the easiest option.
 
-## Installing [Node.js](https://nodejs.org/en/download/) yarn and pnpm
+## Installing [Node.js](https://nodejs.org/en/download/) and pnpm
 
 Use a recent Node.js version that is supported by the repository. If in doubt,
 use the version that is used in CI or documented in the root `package.json`.
@@ -47,58 +47,23 @@ All other platforms:
 
 or use [nvm - Node Version Manager](https://github.com/nvm-sh/nvm).
 
-Install Yarn:
-
-```sh
-npm install -g yarn
-```
-
 Install pnpm:
 
 ```sh
 npm install -g pnpm
 ```
 
-## Dependency Management (Yarn → pnpm Transition)
+## Dependency Managament
 
-- yarn.lock is authoritative
-- pnpm-lock.yaml is generated via `pnpm import`
-- Do NOT edit pnpm-lock.yaml manually
+`pnpm` package manager is autoritative, yarn support is removed.
 
-## Expected Bazel Behavior
+### Update packages
 
-First run may fail with:
-
-pnpm-lock.yaml file updated. Please run your build again.
-
-Rerun the same command.
-
-## Workflow
-
-1. Edit package.json
-2. Run: yarn install
-3. Run: bazel build gerrit
-4. If lock updated → rerun build
-
-## Why Yarn stays
-
-- gradual migration from `yarn` to `pnpm`
-- stable dependency resolution
-- avoids breaking workflows
-
-## DO NOT RUN
+Update version in `package.json` and run
 
 ```sh
 pnpm install
 ```
-
-It creates a different dependency graph.
-
-## Long-term
-
-Eventually:
-- pnpm-lock.yaml becomes canonical
-- yarn.lock removed
 
 ## Setup TypeScript support in the IDE
 

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b5099386_bfbc0a6f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4786459
+      },
+      "writtenOn": "2026-04-18T14:15:02Z",
+      "side": 1,
+      "message": "npm install -g pnpm",
+      "revId": "371b5b96acc899dca07c4f5341fa307af0e328cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

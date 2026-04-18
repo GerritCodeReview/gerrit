@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5cabf9bd_578c700a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4786459
+      },
+      "writtenOn": "2026-04-18T16:03:25Z",
+      "side": 1,
+      "message": "docker-compose up gerrit",
+      "revId": "717426556317a25d2469d84d82ed3dbd15a82572",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

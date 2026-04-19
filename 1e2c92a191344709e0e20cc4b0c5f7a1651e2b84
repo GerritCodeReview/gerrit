@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "16b946fa_2781898e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-04-19T10:45:04Z",
+      "side": 1,
+      "message": "I verified on RBE that it works as expected, both with and without passing the `--config\u003djava21` option.",
+      "revId": "1e2c92a191344709e0e20cc4b0c5f7a1651e2b84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

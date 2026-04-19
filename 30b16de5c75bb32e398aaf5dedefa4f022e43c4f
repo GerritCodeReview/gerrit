@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "be9d7228_74c0c778",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-04-19T20:12:16Z",
+      "side": 1,
+      "message": "I wasn\u0027t expecting that: the method isn\u0027t called `falseToNull` but `toBoolean`, so I would expect the result to be boolean, not a null.\n\nWhat\u0027s the rationale for that method to return `null` instead of a `false`?",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 43
+      },
+      "revId": "30b16de5c75bb32e398aaf5dedefa4f022e43c4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

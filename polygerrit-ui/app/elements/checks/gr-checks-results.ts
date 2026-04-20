@@ -50,6 +50,7 @@ import {
   otherPrimaryLinks,
   rectifyFix,
   reportAiAgentGetAIFix,
+  reportAiAgentSuggestionCopy,
   secondaryLinks,
   sortAttemptChoices,
   stringToAttemptChoice,
@@ -385,6 +386,11 @@ export class GrResultRow extends LitElement {
     );
   }
 
+  private handleCopy() {
+    if (!this.result) return;
+    reportAiAgentSuggestionCopy(this.reporting, this.result);
+  }
+
   override render() {
     if (!this.result) return '';
     if (!this.shouldRender) {
@@ -402,7 +408,10 @@ export class GrResultRow extends LitElement {
       ? html`<gr-icon small icon="ai"></gr-icon>`
       : nothing;
     return html`
-      <tr class=${classMap({container: true, collapsed: !this.isExpanded})}>
+      <tr
+        class=${classMap({container: true, collapsed: !this.isExpanded})}
+        @copy=${this.handleCopy}
+      >
         <td class="nameCol" @click=${this.toggleExpandedClick}>
           <div class="flex">
             <gr-hovercard-run .run=${this.result}></gr-hovercard-run>
@@ -456,7 +465,10 @@ export class GrResultRow extends LitElement {
           </div>
         </td>
       </tr>
-      <tr class=${classMap({detailsRow: true, collapsed: !this.isExpanded})}>
+      <tr
+        class=${classMap({detailsRow: true, collapsed: !this.isExpanded})}
+        @copy=${this.handleCopy}
+      >
         <td class="expandedCol" colspan="3">${this.renderExpanded()}</td>
       </tr>
     `;

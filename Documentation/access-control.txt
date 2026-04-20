@@ -1511,6 +1511,21 @@ This capability allows the granted group to create projects via the web UI, via
 link:rest-api-projects.html#create-project][REST] and via
 link:cmd-create-project.html[SSH].
 
+
+[[capability_deleteGroup]]
+=== Delete Group
+
+Allow deletion of internal groups. Groups are used to grant users access to
+different actions in projects. This capability allows the granted group members
+to delete Gerrit internal groups via the
+link:rest-api-groups.html#delete-group[REST API].
+
+By default this action is limited to users with the
+link:#capability_administrateServer[Administrate Server] capability.
+
+This capability is only effective when `groups.enableDeleteGroup` is enabled.
+
+
 [[capability_emailReviewers]]
 === Email Reviewers
 

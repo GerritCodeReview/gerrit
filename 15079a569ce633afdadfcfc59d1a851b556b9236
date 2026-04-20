@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "739a897d_3f113e42",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-04-20T07:29:32Z",
+      "side": 1,
+      "message": "In this minor upgrade from `rules_aspect.js` 2.9.2 to 3.0.3, we remove the `pnpm` toolchain patch that was added in the parent change.\n\nShould we squash these two changes together, or would you prefer to keep them separate?",
+      "revId": "15079a569ce633afdadfcfc59d1a851b556b9236",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

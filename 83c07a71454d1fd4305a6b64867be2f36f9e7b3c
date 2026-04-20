@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6d28da6c_b23aef6c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-04-20T23:58:33Z",
+      "side": 1,
+      "message": "Do we need this target specifically?",
+      "revId": "83c07a71454d1fd4305a6b64867be2f36f9e7b3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

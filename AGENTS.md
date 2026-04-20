@@ -4,6 +4,10 @@
 
 Gerrit is a web-based code review system for Git. Backend is Java 21, frontend is TypeScript/Lit components, built with Bazel 7.6.1.
 
+## Skills
+
+Skills to be used by AI agents are available under `.agents/skills`.
+
 ## Sub-projects
 
 - **`polygerrit-ui`**: The frontend web application. See `polygerrit-ui/AGENTS.md` for details on the frontend development environment.

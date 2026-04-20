@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "27e314ce_89ed33ef",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-04-20T15:49:35Z",
+      "side": 1,
+      "message": "This is conceptually ok for us, but defer to @milutin@google.com to ensure this doesn\u0027t break any workflows.",
+      "revId": "1a3d46ebdeecce44ef4bc279cea74a82b3fcb20d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -52,7 +52,6 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSortedMap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
@@ -138,7 +137,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
@@ -325,24 +326,29 @@ public class ChangeJson {
   }
 
   public ChangeInfo format(ChangeData cd) {
-    return format(cd, Optional.empty(), true, getPluginInfos(cd));
+    return format(cd, Optional.empty(), true, getPluginInfos(cd), userProvider.get());
   }
 
   public ChangeInfo format(RevisionResource rsrc) {
     ChangeData cd = changeDataFactory.create(rsrc.getNotes());
-    return format(cd, Optional.of(rsrc.getPatchSet().id()), true, getPluginInfos(cd));
+    return format(
+        cd, Optional.of(rsrc.getPatchSet().id()), true, getPluginInfos(cd), userProvider.get());
   }
 
   public List<List<ChangeInfo>> format(List<QueryResult<ChangeData>> in)
       throws PermissionBackendException {
     try (Timer0.Context ignored = metrics.formatQueryResultsLatency.start()) {
       accountLoader = accountLoaderFactory.create(has(DETAILED_ACCOUNTS));
+      CurrentUser user = userProvider.get();
       List<List<ChangeInfo>> res = new ArrayList<>(in.size());
-      Map<Change.Id, ChangeInfo> cache = Maps.newHashMapWithExpectedSize(in.size());
+      Map<Change.Id, ChangeInfo> cache = new ConcurrentHashMap<>(in.size());
+      List<ChangeData> allChanges =
+          in.stream().flatMap(e -> e.entities().stream()).collect(toList());
+      ensureLoaded(allChanges);
       ImmutableListMultimap<Change.Id, PluginDefinedInfo> pluginInfosByChange =
-          getPluginInfos(in.stream().flatMap(e -> e.entities().stream()).collect(toList()));
+          getPluginInfos(allChanges);
       for (QueryResult<ChangeData> r : in) {
-        List<ChangeInfo> infos = toChangeInfos(r.entities(), cache, pluginInfosByChange);
+        List<ChangeInfo> infos = toChangeInfos(r.entities(), cache, pluginInfosByChange, user);
         if (!infos.isEmpty() && r.more()) {
           infos.get(infos.size() - 1)._moreChanges = true;
         }
@@ -356,11 +362,15 @@ public class ChangeJson {
   public List<ChangeInfo> format(Collection<ChangeData> in) throws PermissionBackendException {
     accountLoader = accountLoaderFactory.create(has(DETAILED_ACCOUNTS));
     ensureLoaded(in);
-    List<ChangeInfo> out = new ArrayList<>(in.size());
+    // CurrentUser is thread-safe for reading. It is not mutated during the parallel formatting.
+    CurrentUser user = userProvider.get();
     ImmutableListMultimap<Change.Id, PluginDefinedInfo> pluginInfosByChange = getPluginInfos(in);
-    for (ChangeData cd : in) {
-      out.add(format(cd, Optional.empty(), false, pluginInfosByChange.get(cd.getId())));
-    }
+    List<ChangeInfo> out =
+        in.parallelStream()
+            .map(
+                cd ->
+                    format(cd, Optional.empty(), false, pluginInfosByChange.get(cd.getId()), user))
+            .collect(toList());
     accountLoader.fill();
     return out;
   }
@@ -380,7 +390,7 @@ public class ChangeJson {
       return checkOnly(changeDataFactory.create(project, id));
     }
     ChangeData cd = changeDataFactory.create(notes);
-    return format(cd, Optional.empty(), true, getPluginInfos(cd));
+    return format(cd, Optional.empty(), true, getPluginInfos(cd), userProvider.get());
   }
 
   private static List<LegacySubmitRequirementInfo> requirementsFor(ChangeData cd) {
@@ -483,15 +493,16 @@ public class ChangeJson {
       ChangeData cd,
       Optional<PatchSet.Id> limitToPsId,
       boolean fillAccountLoader,
-      List<PluginDefinedInfo> pluginInfosForChange) {
+      List<PluginDefinedInfo> pluginInfosForChange,
+      CurrentUser user) {
     try {
       if (fillAccountLoader) {
         accountLoader = accountLoaderFactory.create(has(DETAILED_ACCOUNTS));
-        ChangeInfo res = toChangeInfo(cd, limitToPsId, pluginInfosForChange);
+        ChangeInfo res = toChangeInfo(cd, limitToPsId, pluginInfosForChange, user);
         accountLoader.fill();
         return res;
       }
-      return toChangeInfo(cd, limitToPsId, pluginInfosForChange);
+      return toChangeInfo(cd, limitToPsId, pluginInfosForChange, user);
     } catch (PatchListNotAvailableException
         | GpgException
         | IOException
@@ -511,29 +522,38 @@ public class ChangeJson {
           TraceContext.newTimer(
               "Load change data for lazyLoad options",
               Metadata.builder().resourceCount(all.size()).build())) {
-        for (ChangeData cd : all) {
-          // Mark all ChangeDatas as coming from the index, but allow backfilling data from NoteDb
-          cd.setStorageConstraint(ChangeData.StorageConstraint.INDEX_PRIMARY_NOTEDB_SECONDARY);
-        }
-        ChangeData.ensureChangeLoaded(all);
-        if (has(ALL_REVISIONS)) {
-          ChangeData.ensureAllPatchSetsLoaded(all);
-        } else if (has(CURRENT_REVISION) || has(MESSAGES)) {
-          ChangeData.ensureCurrentPatchSetLoaded(all);
-        }
-        if (has(REVIEWED) && userProvider.get().isIdentifiedUser()) {
-          ChangeData.ensureReviewedByLoadedForOpenChanges(all);
-        }
-        if (has(STAR) && userProvider.get().isIdentifiedUser()) {
-          ChangeData.ensureChangeServerId(all);
-        }
-        ChangeData.ensureCurrentApprovalsLoaded(all);
+        boolean isIdentifiedUser = userProvider.get().isIdentifiedUser();
+        all.parallelStream()
+            .forEach(
+                cd -> {
+                  // Mark all ChangeDatas as coming from the index, but allow backfilling data from
+                  // NoteDb
+                  cd.setStorageConstraint(
+                      ChangeData.StorageConstraint.INDEX_PRIMARY_NOTEDB_SECONDARY);
+
+                  Set<ChangeData> singleCdSet = Collections.singleton(cd);
+                  ChangeData.ensureChangeLoaded(singleCdSet);
+                  if (has(ALL_REVISIONS)) {
+                    ChangeData.ensureAllPatchSetsLoaded(singleCdSet);
+                  } else if (has(CURRENT_REVISION) || has(MESSAGES)) {
+                    ChangeData.ensureCurrentPatchSetLoaded(singleCdSet);
+                  }
+                  if (has(REVIEWED) && isIdentifiedUser) {
+                    ChangeData.ensureReviewedByLoadedForOpenChanges(singleCdSet);
+                  }
+                  if (has(STAR) && isIdentifiedUser) {
+                    ChangeData.ensureChangeServerId(singleCdSet);
+                  }
+                  ChangeData.ensureCurrentApprovalsLoaded(singleCdSet);
+                });
       }
     } else {
-      for (ChangeData cd : all) {
-        // Mark all ChangeDatas as coming from the index. Disallow using NoteDb
-        cd.setStorageConstraint(ChangeData.StorageConstraint.INDEX_ONLY);
-      }
+      all.parallelStream()
+          .forEach(
+              cd -> {
+                // Mark all ChangeDatas as coming from the index. Disallow using NoteDb
+                cd.setStorageConstraint(ChangeData.StorageConstraint.INDEX_ONLY);
+              });
     }
   }
 
@@ -544,50 +564,59 @@ public class ChangeJson {
   private List<ChangeInfo> toChangeInfos(
       List<ChangeData> changes,
       Map<Change.Id, ChangeInfo> cache,
-      ImmutableListMultimap<Change.Id, PluginDefinedInfo> pluginInfosByChange) {
+      ImmutableListMultimap<Change.Id, PluginDefinedInfo> pluginInfosByChange,
+      CurrentUser user) {
     try (Timer0.Context ignored = metrics.toChangeInfosLatency.start()) {
-      List<ChangeInfo> changeInfos = new ArrayList<>(changes.size());
-      for (int i = 0; i < changes.size(); i++) {
-        // We can only cache and re-use an entity if it's not the last in the list. The last entity
-        // may later get _moreChanges set. If it was cached or re-used, that setting would propagate
-        // to the original entity yielding wrong results.
-        // This problem has two sides where 'last in the list' has to be respected:
-        // (1) Caching
-        // (2) Reusing
-        boolean isCacheable = cacheQueryResultsByChangeNum && (i != changes.size() - 1);
-        ChangeData cd = changes.get(i);
-        if (cd.hasFailedParsingFromIndex()) {
-          Optional<ChangeInfo> faultyChangeInfo = createFaultyChangeInfo(cd);
-          if (faultyChangeInfo.isPresent()) {
-            changeInfos.add(faultyChangeInfo.get());
-          }
-          continue;
-        }
-        try {
-          Change.Id cdUniqueId = cd.virtualId();
-          ChangeInfo info = cache.get(cdUniqueId);
-          if (info != null && isCacheable) {
-            changeInfos.add(info);
-            continue;
-          }
+      List<ChangeInfo> changeInfos =
+          IntStream.range(0, changes.size())
+              .parallel()
+              .mapToObj(
+                  i -> {
+                    ChangeData cd = changes.get(i);
+                    // We can only cache and re-use an entity if it's not the last in the list. The
+                    // last entity may later get _moreChanges set. If it was cached or re-used, that
+                    // setting would propagate to the original entity yielding wrong results.
+                    // This problem has two sides where 'last in the list' has to be respected:
+                    // (1) Caching
+                    // (2) Reusing
+                    boolean isCacheable = cacheQueryResultsByChangeNum && (i != changes.size() - 1);
+                    if (cd.hasFailedParsingFromIndex()) {
+                      return createFaultyChangeInfo(cd).orElse(null);
+                    }
+                    try {
+                      Change.Id cdUniqueId = cd.virtualId();
+                      if (isCacheable) {
+                        ChangeInfo info = cache.get(cdUniqueId);
+                        if (info != null) {
+                          return info;
+                        }
+                      }
 
-          // Compute and cache if possible
-          ensureLoaded(Collections.singleton(cd));
-          info = format(cd, Optional.empty(), false, pluginInfosByChange.get(cd.getId()));
-          changeInfos.add(info);
-          if (isCacheable) {
-            cache.put(cdUniqueId, info);
-          }
-        } catch (RuntimeException e) {
-          Optional<RequestCancelledException> requestCancelledException =
-              RequestCancelledException.getFromCausalChain(e);
-          if (requestCancelledException.isPresent()) {
-            throw e;
-          }
-          logger.atWarning().withCause(e).log(
-              "Omitting corrupt change %s from results", cd.getId());
-        }
-      }
+                      ChangeInfo info =
+                          format(
+                              cd,
+                              Optional.empty(),
+                              false,
+                              pluginInfosByChange.get(cd.getId()),
+                              user);
+                      if (isCacheable) {
+                        cache.put(cdUniqueId, info);
+                      }
+                      return info;
+                    } catch (RuntimeException e) {
+                      Optional<RequestCancelledException> requestCancelledException =
+                          RequestCancelledException.getFromCausalChain(e);
+                      if (requestCancelledException.isPresent()) {
+                        throw e;
+                      }
+                      logger.atWarning().withCause(e).log(
+                          "Omitting corrupt change %s from results", cd.getId());
+                      return null;
+                    }
+                  })
+              .filter(java.util.Objects::nonNull)
+              .collect(toList());
+
       if (has(STAR) && userProvider.get().isIdentifiedUser()) {
         populateStarField(changeInfos);
       }
@@ -640,18 +669,21 @@ public class ChangeJson {
   private ChangeInfo toChangeInfo(
       ChangeData cd,
       Optional<PatchSet.Id> limitToPsId,
-      List<PluginDefinedInfo> pluginInfosForChange)
+      List<PluginDefinedInfo> pluginInfosForChange,
+      CurrentUser user)
       throws PatchListNotAvailableException, GpgException, PermissionBackendException, IOException {
     try (Timer0.Context ignored = metrics.toChangeInfoLatency.start()) {
-      return toChangeInfoImpl(cd, limitToPsId, pluginInfosForChange);
+      return toChangeInfoImpl(cd, limitToPsId, pluginInfosForChange, user);
     }
   }
 
   private ChangeInfo toChangeInfoImpl(
-      ChangeData cd, Optional<PatchSet.Id> limitToPsId, List<PluginDefinedInfo> pluginInfos)
+      ChangeData cd,
+      Optional<PatchSet.Id> limitToPsId,
+      List<PluginDefinedInfo> pluginInfos,
+      CurrentUser user)
       throws PatchListNotAvailableException, GpgException, PermissionBackendException, IOException {
     ChangeInfo out = new ChangeInfo();
-    CurrentUser user = userProvider.get();
 
     if (has(CHECK)) {
       out.problems = checkerProvider.get().check(cd.notes(), fix).problems();
@@ -768,7 +800,7 @@ public class ChangeJson {
     if (has(LABELS) || has(DETAILED_LABELS)) {
       out.reviewers = reviewerMap(cd.reviewers(), cd.reviewersByEmail(), false);
       out.pendingReviewers = reviewerMap(cd.pendingReviewers(), cd.pendingReviewersByEmail(), true);
-      out.removableReviewers = removableReviewers(cd, out);
+      out.removableReviewers = removableReviewers(cd, out, user);
     }
 
     setSubmitter(cd, out);
@@ -823,11 +855,7 @@ public class ChangeJson {
       if (experimentFeatures.isFeatureEnabled(ENABLE_AI_CHAT)) {
         try {
           out.canAiReview =
-              toBoolean(
-                  permissionBackend
-                      .user(userProvider.get())
-                      .change(cd)
-                      .test(ChangePermission.AI_REVIEW));
+              toBoolean(permissionBackend.user(user).change(cd).test(ChangePermission.AI_REVIEW));
         } catch (PermissionBackendException e) {
           logger.atWarning().withCause(e).log(
               "Failed to check AI review permission for change %s", cd.getId());
@@ -970,7 +998,7 @@ public class ChangeJson {
     }
   }
 
-  private List<AccountInfo> removableReviewers(ChangeData cd, ChangeInfo out)
+  private List<AccountInfo> removableReviewers(ChangeData cd, ChangeInfo out, CurrentUser user)
       throws PermissionBackendException {
     try (TraceTimer timer =
         TraceContext.newTimer(
@@ -1005,7 +1033,7 @@ public class ChangeJson {
       // Check if the user has the permission to remove a reviewer. This means we can bypass the
       // permission checks for a specific reviewer in the loop saving potentially many permission
       // checks.
-      PermissionBackend.WithUser withUser = permissionBackend.user(userProvider.get());
+      PermissionBackend.WithUser withUser = permissionBackend.user(user);
       boolean canRemoveAnyReviewer =
           withUser.change(cd).test(ChangePermission.REMOVE_REVIEWER)
               || withUser
@@ -1029,7 +1057,7 @@ public class ChangeJson {
           if ((cd.change().isMerged() && value != 0)
               || (!canRemoveAnyReviewer
                   && !RemoveReviewerControl.canRemoveReviewerWithoutPermissionCheck(
-                      cd.change(), userProvider.get(), id, value))) {
+                      cd.change(), user, id, value))) {
             fixed.add(id);
           }
         }
@@ -1044,8 +1072,7 @@ public class ChangeJson {
         for (AccountInfo ai : ccs) {
           if (ai._accountId != null) {
             Account.Id id = Account.id(ai._accountId);
-            if (canRemoveAnyReviewer
-                || removeReviewerControl.testRemoveReviewer(cd, userProvider.get(), id, 0)) {
+            if (canRemoveAnyReviewer || removeReviewerControl.testRemoveReviewer(cd, user, id, 0)) {
               removable.add(id);
             }
           }
@@ -1066,7 +1093,7 @@ public class ChangeJson {
         for (AccountInfo info : infos) {
           if (info._accountId == null) {
             if (canRemoveAnyReviewer
-                || removeReviewerControl.testRemoveReviewer(cd, userProvider.get(), null, 0)) {
+                || removeReviewerControl.testRemoveReviewer(cd, user, null, 0)) {
               result.add(info);
             }
           }

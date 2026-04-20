@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "24b56b18_1b837380",
+        "filename": ".agents/skills/gerrit-java-dev/SKILL.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-04-20T11:17:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8873ad6b_f48fcc41",
+      "range": {
+        "startLine": 14,
+        "startChar": 51,
+        "endLine": 15,
+        "endChar": 74
+      },
+      "revId": "615f73476ddb0b41a5864cbfebaf0f3ebb254fc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bf79cd5c_9afd6466",

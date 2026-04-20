@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "04d9affd_a8661215",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2026-04-20T14:59:48Z",
+      "side": 1,
+      "message": "Updated the commit message.",
+      "parentUuid": "37c120fc_e0860fdf",
+      "range": {
+        "startLine": 9,
+        "startChar": 273,
+        "endLine": 9,
+        "endChar": 274
+      },
+      "revId": "bbd0848a806beba42a420b356a4a165c0c53f64b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "e683f1aa_39ca1a3d",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
@@ -115,6 +139,78 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "034021d5_a04cbac2",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2026-04-20T14:59:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "73c99105_f13e0ba3",
+      "range": {
+        "startLine": 342,
+        "startChar": 0,
+        "endLine": 342,
+        "endChar": 0
+      },
+      "revId": "bbd0848a806beba42a420b356a4a165c0c53f64b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "252c2257_ff597f21",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2026-04-20T14:59:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bebe25e8_36304168",
+      "range": {
+        "startLine": 342,
+        "startChar": 83,
+        "endLine": 342,
+        "endChar": 87
+      },
+      "revId": "bbd0848a806beba42a420b356a4a165c0c53f64b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bbd61960_a96e10dd",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2026-04-20T14:59:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bebe25e8_36304168",
+      "range": {
+        "startLine": 342,
+        "startChar": 83,
+        "endLine": 342,
+        "endChar": 87
+      },
+      "revId": "bbd0848a806beba42a420b356a4a165c0c53f64b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "20600b44_603f3f1b",
@@ -128,6 +224,30 @@
       "writtenOn": "2026-04-16T13:19:45Z",
       "side": 1,
       "message": "Is `CurrentUser` thread safe?\n\ngo/java-practices/concurrency#immutable\n\nNot super familiar with mutli-threading but their advice is that Immutable objects are thread safe.",
+      "range": {
+        "startLine": 363,
+        "startChar": 4,
+        "endLine": 363,
+        "endChar": 42
+      },
+      "revId": "bbd0848a806beba42a420b356a4a165c0c53f64b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e50580f7_367cdbba",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2026-04-20T14:59:48Z",
+      "side": 1,
+      "message": "Addressed in a comment.",
+      "parentUuid": "20600b44_603f3f1b",
       "range": {
         "startLine": 363,
         "startChar": 4,

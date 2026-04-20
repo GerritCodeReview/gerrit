@@ -22,6 +22,30 @@
       },
       "revId": "30b16de5c75bb32e398aaf5dedefa4f022e43c4f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1859986c_0be5f28e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2026-04-20T07:42:42Z",
+      "side": 1,
+      "message": "_I guess_ that it is meant for markers IOW either value is `true` or doesn\u0027t exist and doesn\u0027t have to be sent over to frontend but I wasn\u0027t introducing it ;)",
+      "parentUuid": "be9d7228_74c0c778",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 43
+      },
+      "revId": "30b16de5c75bb32e398aaf5dedefa4f022e43c4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

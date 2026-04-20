@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bf79cd5c_9afd6466",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-04-20T08:47:57Z",
+      "side": 1,
+      "message": "Thanks for doing this, I long felt the need for it.\nMaybe I would expect this to be more in AGENTS.md, but I can see why it was put as a skill.",
+      "revId": "615f73476ddb0b41a5864cbfebaf0f3ebb254fc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

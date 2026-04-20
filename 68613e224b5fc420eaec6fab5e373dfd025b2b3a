@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "87c7bb3f_b369c46c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-04-20T06:42:29Z",
+      "side": 1,
+      "message": "I am aware that this change might be controversial since Gerrit is a Google project and Google understandably wants to push Gemini, but I think it is still valid, since some companies that contribute to Gerrit might have different AI model subscriptions and Gerrit as an Open Source project should stay agnostic IMO. Please feel free to comment with concerns.",
+      "revId": "68613e224b5fc420eaec6fab5e373dfd025b2b3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

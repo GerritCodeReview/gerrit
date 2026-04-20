@@ -46,6 +46,30 @@
       },
       "revId": "30b16de5c75bb32e398aaf5dedefa4f022e43c4f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "47d28696_882ff730",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-04-20T19:58:35Z",
+      "side": 1,
+      "message": "Looks like it\u0027s ChangeJson expected behavior: 105396: ChangeJson: Don\u0027t set isPrivate and workInProgress if value is false | https://gerrit-review.googlesource.com/c/gerrit/+/105396\nand you can see in the rest api doc a bunch of fields that say \"not set if `false`\": https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#change-info\n\nYou can also see where toBoolean was added and how it was just adding a helper for existing behavior checking for true: https://gerrit-review.googlesource.com/c/gerrit/+/413568/1/java/com/google/gerrit/server/change/ChangeJson.java",
+      "parentUuid": "1859986c_0be5f28e",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 43
+      },
+      "revId": "30b16de5c75bb32e398aaf5dedefa4f022e43c4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

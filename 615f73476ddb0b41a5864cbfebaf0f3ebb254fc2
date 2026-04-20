@@ -57,6 +57,24 @@
       "parentUuid": "bf79cd5c_9afd6466",
       "revId": "615f73476ddb0b41a5864cbfebaf0f3ebb254fc2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d68fcdc_5b1f1a17",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-04-20T10:03:42Z",
+      "side": 1,
+      "message": "Yes, I also though about AGENTS.md, but Gerrit is quite a huge project and most of the time you are not working on all parts at once. Parsing a huge AGENTS.md file might use a lot of tokens that are not necessary. I am even thinking about specializing a bit more, e.g. have a skill for creating a REST API endpoint. Not sure how effective that would be though.",
+      "parentUuid": "850eb7a1_6ee6b433",
+      "revId": "615f73476ddb0b41a5864cbfebaf0f3ebb254fc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

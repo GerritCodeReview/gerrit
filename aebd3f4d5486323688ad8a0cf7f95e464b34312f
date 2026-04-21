@@ -63,6 +63,30 @@
       ],
       "revId": "aebd3f4d5486323688ad8a0cf7f95e464b34312f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "31b5413e_59ae819a",
+        "filename": "polygerrit-ui/app/models/checks/checks-util.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 609,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-04-21T23:00:31Z",
+      "side": 1,
+      "message": "I don\u0027t think it\u0027s necessary because the suggestion ID isn\u0027t always used.",
+      "parentUuid": "cd114c64_d3b5d722",
+      "range": {
+        "startLine": 609,
+        "startChar": 0,
+        "endLine": 609,
+        "endChar": 48
+      },
+      "revId": "aebd3f4d5486323688ad8a0cf7f95e464b34312f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -152,6 +152,30 @@
       },
       "revId": "8467ac1406d34721982fadd9e17e4a1c9b9faeca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d7d7c0ec_af46b42c",
+        "filename": "tools/nongoogle.toml",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-04-21T05:05:17Z",
+      "side": 1,
+      "message": "Done in change 575082.",
+      "parentUuid": "391754f8_a0c66eaa",
+      "range": {
+        "startLine": 31,
+        "startChar": 92,
+        "endLine": 31,
+        "endChar": 99
+      },
+      "revId": "8467ac1406d34721982fadd9e17e4a1c9b9faeca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

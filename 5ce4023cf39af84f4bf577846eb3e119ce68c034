@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d398c598_0291b7bc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-04-21T00:02:25Z",
+      "side": 1,
+      "message": "Maybe re-order so that rules_lint is introduced for gjf \u0026 buildifier first? Those a less of a replacement for existing functionality and I think reviewing this change on top of those will make the eslint-specific parts (vs initial rules_lint setup) easier to identify.",
+      "revId": "5ce4023cf39af84f4bf577846eb3e119ce68c034",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

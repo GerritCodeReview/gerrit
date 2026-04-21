@@ -128,6 +128,30 @@
       },
       "revId": "8467ac1406d34721982fadd9e17e4a1c9b9faeca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "391754f8_a0c66eaa",
+        "filename": "tools/nongoogle.toml",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-04-21T04:37:07Z",
+      "side": 1,
+      "message": "The reason I updated the google-java-format was to support Java 25. But I shouldn\u0027t do it during the migration from gjf.sh to bazel toolchain, but to do the upgrade to gjf.sh first.",
+      "parentUuid": "f37fb18f_3f6e4fa1",
+      "range": {
+        "startLine": 31,
+        "startChar": 92,
+        "endLine": 31,
+        "endChar": 99
+      },
+      "revId": "8467ac1406d34721982fadd9e17e4a1c9b9faeca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

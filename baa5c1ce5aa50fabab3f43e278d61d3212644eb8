@@ -22,6 +22,30 @@
       },
       "revId": "baa5c1ce5aa50fabab3f43e278d61d3212644eb8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d145eef3_9c560aef",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-04-21T11:31:08Z",
+      "side": 1,
+      "message": "I meant actually release 3.16. According to the ESC minutes [1]:\n\n\"Starting from Gerrit v3.16, Java 25 will become mandatory, and support for Java 21 will end.\"\n\nThis means Java 25 is the default in the 3.15.x development series, but Java 21 is still supported there for compatibility. For example, Gerrit can still be built with:\n\n```bash\n  bazel build --config\u003djava21\n```\n\nSo the breakage only shows up when running this formatter on Java 25, which is what users of Java 25 would experience today.\n\n[1]: https://gerrit-review.googlesource.com/c/homepage/+/572741/9/_posts/2026-04-01-esc-minutes.md#84",
+      "parentUuid": "639c0c26_dc352065",
+      "range": {
+        "startLine": 10,
+        "startChar": 13,
+        "endLine": 10,
+        "endChar": 19
+      },
+      "revId": "baa5c1ce5aa50fabab3f43e278d61d3212644eb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

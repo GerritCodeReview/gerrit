@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d902bac3_781bcb0b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-04-21T04:26:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "28f04752_cb9753a5",
+      "revId": "8467ac1406d34721982fadd9e17e4a1c9b9faeca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "05ae63d1_ef7e15a8",
@@ -41,6 +59,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "565ca531_87e8cde3",
+        "filename": "tools/format/BUILD.bazel",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-04-21T04:26:25Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "05ae63d1_ef7e15a8",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 6
+      },
+      "revId": "8467ac1406d34721982fadd9e17e4a1c9b9faeca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0afc2f0c_e5130c76",
@@ -54,6 +96,30 @@
       "writtenOn": "2026-04-20T23:53:47Z",
       "side": 1,
       "message": "All the [other](https://gerrit.googlesource.com/gerrit/+/refs/changes/62/572262/3/Documentation/dev-crafting-changes.txt#150) [files](https://gerrit.googlesource.com/gerrit/+/refs/changes/62/572262/3/tools/gjf.sh#168) say 1.24.0\n```suggestion\ngoogle-java-format \u003d { module \u003d \"com.google.googlejavaformat:google-java-format\", version \u003d \"1.24.0\" }\n```",
+      "range": {
+        "startLine": 31,
+        "startChar": 92,
+        "endLine": 31,
+        "endChar": 99
+      },
+      "revId": "8467ac1406d34721982fadd9e17e4a1c9b9faeca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f37fb18f_3f6e4fa1",
+        "filename": "tools/nongoogle.toml",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-04-21T04:26:25Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "0afc2f0c_e5130c76",
       "range": {
         "startLine": 31,
         "startChar": 92,

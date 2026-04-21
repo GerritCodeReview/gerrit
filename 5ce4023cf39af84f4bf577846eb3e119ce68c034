@@ -16,6 +16,24 @@
       "message": "Unless you\u0027re removing the `tools/*gjf.sh` scripts, probably don\u0027t remove this?",
       "revId": "5ce4023cf39af84f4bf577846eb3e119ce68c034",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c384780b_ea0af31e",
+        "filename": ".gitignore",
+        "patchSetId": 3
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-04-21T04:26:25Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "a67316ae_f2afdd22",
+      "revId": "5ce4023cf39af84f4bf577846eb3e119ce68c034",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

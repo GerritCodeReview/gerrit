@@ -74,7 +74,7 @@ public class AuthTokenExpiredEmailDecorator implements EmailDecorator {
   public void populateEmailContent() {
     email.addSoyEmailDataParam("email", account.preferredEmail());
     email.addSoyEmailDataParam("userNameEmail", email.getUserNameEmailFor(account.id()));
-    email.addSoyEmailDataParam("expirationDate", token.expirationDate().get().toString());
+    email.addSoyEmailDataParam("expirationDate", token.formattedExpirationDate().get());
     email.addSoyEmailDataParam("tokenId", token.id());
     if (Strings.isNullOrEmpty(authTokenSettingsUrl)) {
       authTokenSettingsUrl = email.getSettingsUrl("HTTPCredentials");

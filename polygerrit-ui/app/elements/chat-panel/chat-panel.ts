@@ -74,9 +74,9 @@ export class ChatPanel extends LitElement {
     .chat-panel-container {
       display: flex;
       flex-direction: column;
-      margin: 6px 2px 2px;
-      /* subtracting 10px for the margin-top and 6px for the border. */
-      height: calc(100% - 6px - 10px);
+      margin: 8px 8px 8px 2px;
+      flex-grow: 1;
+      min-height: 0;
       background-color: var(--background-color-primary);
       border: 1px solid var(--border-color);
       border-radius: 16px;

@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "edb59c96_92e261de",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-04-21T18:35:22Z",
+      "side": 1,
+      "message": "@emilyshaffer@google.com @ifrade@google.com is this acceptable as a global capability or does it need to be scoped to projects? i.e. on a host like gerrit-review, would Google be comfortable granting this global ability to non-Googlers, like the Gerrit Community Managers?",
+      "revId": "7ffbd56affa9760af596627360364d4319fb91d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0902ba00_807061b3",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1536,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-04-21T18:35:22Z",
+      "side": 1,
+      "message": "nit: Extra `]`\n\n```suggestion\nlink:rest-api-changes.html#delete-change-message[REST],\nlink:rest-api-changes.html#delete-comment[REST].\n```",
+      "range": {
+        "startLine": 1535,
+        "startChar": 0,
+        "endLine": 1536,
+        "endChar": 49
+      },
+      "revId": "7ffbd56affa9760af596627360364d4319fb91d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "684e48ea_09e1cb73",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/ChangeMessagesIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-04-21T18:35:22Z",
+      "side": 1,
+      "message": "nit: I think you want to rename this back to what it was. I don\u0027t see anything granting Delete Comment perms to users with Maintain Server.\n\n```suggestion\n  public void deleteCannotBeAppliedWithoutAdministrateServerCapability() throws Exception {\n```",
+      "range": {
+        "startLine": 196,
+        "startChar": 14,
+        "endLine": 196,
+        "endChar": 66
+      },
+      "revId": "7ffbd56affa9760af596627360364d4319fb91d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

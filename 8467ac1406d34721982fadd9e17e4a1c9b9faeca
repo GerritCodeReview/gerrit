@@ -176,6 +176,30 @@
       },
       "revId": "8467ac1406d34721982fadd9e17e4a1c9b9faeca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9b135bb2_d4150c38",
+        "filename": "tools/nongoogle.toml",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-04-21T19:14:58Z",
+      "side": 1,
+      "message": "Ack.",
+      "parentUuid": "d7d7c0ec_af46b42c",
+      "range": {
+        "startLine": 31,
+        "startChar": 92,
+        "endLine": 31,
+        "endChar": 99
+      },
+      "revId": "8467ac1406d34721982fadd9e17e4a1c9b9faeca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

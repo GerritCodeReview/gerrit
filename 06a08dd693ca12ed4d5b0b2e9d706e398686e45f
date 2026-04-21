@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "baacff9f_98ec2c8e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-04-21T19:14:58Z",
+      "side": 1,
+      "message": "Won\u0027t this apply fixes?",
+      "revId": "06a08dd693ca12ed4d5b0b2e9d706e398686e45f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "94f0e217_b996b16c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-04-21T19:14:58Z",
+      "side": 1,
+      "message": "Does this depend on anything else in this series? If not, it could probably get merged sooner.",
+      "revId": "06a08dd693ca12ed4d5b0b2e9d706e398686e45f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a637e827_501f0981",
+        "filename": "tools/format/BUILD.bazel",
+        "patchSetId": 5
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-04-21T19:14:58Z",
+      "side": 1,
+      "message": "This is the default already I think: https://github.com/aspect-build/rules_lint/blob/v2.5.0/format/private/formatter_binary.bzl#L92\n\n```suggestion\n)\n```",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 1
+      },
+      "revId": "06a08dd693ca12ed4d5b0b2e9d706e398686e45f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
